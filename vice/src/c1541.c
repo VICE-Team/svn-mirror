@@ -905,7 +905,7 @@ static int copy_cmd(int nargs, char **args)
         charset_petconvstring((BYTE *)src_name_petscii, 0);
 
         if (vdrive_iec_open(drives[src_unit], (BYTE *)src_name_petscii,
-                        (int)strlen(src_name_petscii), 0)) {
+                        (int)strlen(src_name_petscii), 0, NULL)) {
             fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
             if (dest_name_ascii != NULL) {
                 lib_free(dest_name_ascii);
@@ -919,7 +919,7 @@ static int copy_cmd(int nargs, char **args)
 
         if (dest_name_ascii != NULL) {
             if (vdrive_iec_open(drives[dest_unit], (BYTE *)dest_name_petscii,
-                            (int)strlen(dest_name_petscii), 1)) {
+                            (int)strlen(dest_name_petscii), 1, NULL)) {
                 fprintf(stderr, "Cannot write `%s'.\n", dest_name_petscii);
                 vdrive_iec_close(drives[src_unit], 0);
                 lib_free(dest_name_ascii);
@@ -930,7 +930,7 @@ static int copy_cmd(int nargs, char **args)
             }
         } else {
             if (vdrive_iec_open(drives[dest_unit], (BYTE *)src_name_petscii,
-                            (int)strlen(src_name_petscii), 1)) {
+                            (int)strlen(src_name_petscii), 1, NULL)) {
                 fprintf(stderr, "Cannot write `%s'.\n", src_name_petscii);
                 vdrive_iec_close(drives[src_unit], 0);
                 lib_free(src_name_ascii);
@@ -1044,7 +1044,7 @@ static int extract_cmd(int nargs, char **args)
 
     floppy = drives[dnr & 3];
 
-    if (vdrive_iec_open(floppy, (const BYTE *)"#", 1, channel)) {
+    if (vdrive_iec_open(floppy, (const BYTE *)"#", 1, channel, NULL)) {
         fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel,
                 dnr + 8);
         return FD_RDERR;
@@ -1093,7 +1093,7 @@ static int extract_cmd(int nargs, char **args)
                 charset_petconvstring((BYTE *)name, 1);
                 printf("%s\n", name);
                 unix_filename((char *)name); /* For now, convert '/' to '_'. */
-                if (vdrive_iec_open(floppy, cbm_name, len, 0)) {
+                if (vdrive_iec_open(floppy, cbm_name, len, 0, NULL)) {
                     fprintf(stderr,
                             "Cannot open `%s' on unit %d.\n", name, dnr + 8);
                     continue;
@@ -1430,7 +1430,7 @@ static int read_cmd(int nargs, char **args)
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[dnr], (BYTE *)src_name_petscii,
-        (int)strlen(src_name_petscii), 0)) {
+        (int)strlen(src_name_petscii), 0, NULL)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, dnr + 8);
         lib_free(src_name_ascii);
@@ -1753,7 +1753,7 @@ static int read_geos_cmd(int nargs, char **args)
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit], (BYTE *)src_name_petscii,
-        (int)strlen(src_name_petscii), 0)) {
+        (int)strlen(src_name_petscii), 0, NULL)) {
         fprintf(stderr,
                 "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
         lib_free(src_name_ascii);
@@ -2093,7 +2093,7 @@ static int write_geos_cmd(int nargs, char **args)
     charset_petconvstring((BYTE *)dest_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit], (BYTE *)dest_name_petscii,
-        (int)strlen(dest_name_petscii), 1)) {
+        (int)strlen(dest_name_petscii), 1, NULL)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 dest_name_ascii);
         return FD_WRTERR;
@@ -2296,7 +2296,7 @@ static int tape_cmd(int nargs, char **args)
 
             if (rec->type == 1 || rec->type == 3) {
                 if (vdrive_iec_open(drive, (BYTE *)dest_name_petscii,
-                    (int)name_len, 1)) {
+                    (int)name_len, 1, NULL)) {
                     fprintf(stderr,
                             "Cannot open `%s' for writing on drive %d.\n",
                             dest_name_ascii, drive_number + 8);
@@ -2339,7 +2339,7 @@ static int tape_cmd(int nargs, char **args)
                 dest_name_plustype = util_concat(dest_name_petscii, ",S,W",
                                                  NULL);
                 retval = vdrive_iec_open(drive, (BYTE *)dest_name_plustype, 
-                                         (int)name_len + 4, 2);
+                                         (int)name_len + 4, 2, NULL);
                 lib_free(dest_name_plustype);
 
                 if (retval) {
@@ -2395,92 +2395,23 @@ static int unit_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-/* Lynx support added by Riccardo Ferreira (storm@esoterica.pt) --
-   1998-02-07.  Various fixes by Andreas Boose.  */
-static int unlynx_cmd(int nargs, char **args)
+static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
 {
-    vdrive_t *vdrive;
-    FILE *f, *f2;
-    int dev, cnt = 0;
-    long dentries, lbsize, bsize, dirsize;
+    long lbsize, bsize;
+    char cname[20], ftype;
     BYTE val;
-    char buff[256] = {0}, cname[20] = {0}, ftype;
+    int cnt;
+    char buff[256];
+    cbmdos_cmd_parse_t cmd_parse;
 
-    if (nargs < 3)
-        dev = drive_number;
-    else {
-        if (arg_to_int(args[2], &dev) < 0)
-            return FD_BADDEV;
-        if (check_drive(dev, CHK_NUM) < 0)
-            return FD_BADDEV;
-        dev -= 8;
-    }
-
-    if (check_drive(dev, CHK_RDY) < 0)
-        return FD_NOTREADY;
-
-    if (!(f = fopen(args[1], MODE_READ))) {
-        fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
-        return FD_NOTRD;
-    }
-
-    /* Look for the 0, 0, 0 sign of the end of BASIC.  */
-    while (1) {
-        fread(&val, 1, 1, f);
-        if (val == 0)
-            cnt++;
-        else
-            cnt = 0;
-        if (cnt == 3)
-            break;
-    }
-
-    /* Bypass the 1st return in the file */
-    fgetc(f);
-
-    /* Get the directory block size */
-    cnt = 0;
-    while (1) {
-        fread(&val, 1, 1, f);
-        if (val != 13)
-            buff[cnt++] = val;
-        else
-            break;
-    }
-    buff[cnt] = 0;
-    if (util_string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
-        fprintf(stderr, "Invalid Lynx file.\n");
-        return FD_RDERR;
-    }
-
-    /* Get the number of dir entries */
-    cnt = 0;
-    while (1) {
-        fread(&val, 1, 1, f);
-        if (val != 13)
-            buff[cnt++] = val;
-        else
-            break;
-    }
-    buff[cnt] = 0;
-    if (util_string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
-        fprintf(stderr, "Invalid Lynx file.\n");
-        return FD_RDERR;
-    }
-
-            /* Open the file for reading of the chained data */
-    f2 = fopen(args[1], MODE_READ);
-    fseek(f2, (dirsize * 254), SEEK_SET);
-
-    /* Loop */
     while (dentries != 0) {
-        int filetype = CBMDOS_FT_PRG;
+        int filetype, rc;
 
         /* Read CBM filename */
         cnt = 0;
         while (1) {
             fread(&val, 1, 1, f);
-            if (val != 13)
+            if (val != 13 && cnt < 20 - 1)
                 cname[cnt++] = val;
             else
                 break;
@@ -2522,6 +2453,8 @@ static int unlynx_cmd(int nargs, char **args)
           case 'R':
             fprintf(stderr, "REL not supported.\n");
             return FD_RDERR;
+          default:
+            filetype = CBMDOS_FT_PRG;
         }
         /* Get the byte size of the last block +1 */
         cnt = 0;
@@ -2543,13 +2476,18 @@ static int unlynx_cmd(int nargs, char **args)
 
         printf("Writing file '%s' to image.\n", cname);
 
-        vdrive = drives[dev & 3];
+        cmd_parse.parsecmd = lib_stralloc(cname);
+        cmd_parse.secondary = 1;
+        cmd_parse.parselength = strlen(cname);
+        cmd_parse.readmode = CBMDOS_FAM_WRITE;
+        cmd_parse.filetype = filetype;
 
-        /* We cannot use normal vdrive_iec_open as it does not allow to
-           create invalid file names.  */
-        vdrive->buffers[1].readmode = CBMDOS_FAM_WRITE;
-        vdrive_dir_create_slot(&(vdrive->buffers[1]), cname,
-                               strlen(cname), filetype);
+        rc = vdrive_iec_open(vdrive, NULL, 0, 1, &cmd_parse);
+
+        if (rc != SERIAL_OK) {
+            fprintf(stderr, "Error writing file %s.\n", cname);
+            break;
+        }
 
         while (cnt != 0) {
             fread(&val, 1, 1, f2);
@@ -2566,10 +2504,110 @@ static int unlynx_cmd(int nargs, char **args)
             fread(buff, 1, 254 + 1 - lbsize, f2);
         dentries--;
     }
+
+    return FD_OK;
+}
+
+static int unlynx_cmd(int nargs, char **args)
+{
+    vdrive_t *vdrive;
+    FILE *f, *f2;
+    int dev, cnt;
+    long dentries, dirsize;
+    BYTE val;
+    char buff[256];
+    int rc;
+
+    if (nargs < 3)
+        dev = drive_number;
+    else {
+        if (arg_to_int(args[2], &dev) < 0)
+            return FD_BADDEV;
+        if (check_drive(dev, CHK_NUM) < 0)
+            return FD_BADDEV;
+        dev -= 8;
+    }
+
+    if (check_drive(dev, CHK_RDY) < 0)
+        return FD_NOTREADY;
+
+    vdrive = drives[dev & 3];
+
+    f = fopen(args[1], MODE_READ);
+
+    if (f == NULL) {
+        fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
+        return FD_NOTRD;
+    }
+
+    /* Look for the 0, 0, 0 sign of the end of BASIC.  */
+    cnt = 0;
+    while (1) {
+        fread(&val, 1, 1, f);
+        if (val == 0)
+            cnt++;
+        else
+            cnt = 0;
+        if (cnt == 3)
+            break;
+    }
+
+    /* Bypass the 1st return in the file */
+    fgetc(f);
+
+    /* Get the directory block size */
+    cnt = 0;
+    while (1) {
+        fread(&val, 1, 1, f);
+        if (val != 13)
+            buff[cnt++] = val;
+        else
+            break;
+    }
+
+    buff[cnt] = 0;
+
+    if (util_string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
+        fprintf(stderr, "Invalid Lynx file.\n");
+        fclose(f);
+        return FD_RDERR;
+    }
+
+    /* Get the number of dir entries */
+    cnt = 0;
+    while (1) {
+        fread(&val, 1, 1, f);
+        if (val != 13 && cnt < 256 - 1)
+            buff[cnt++] = val;
+        else
+            break;
+    }
+
+    buff[cnt] = 0;
+
+    if (util_string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
+        fprintf(stderr, "Invalid Lynx file.\n");
+        fclose(f);
+        return FD_RDERR;
+    }
+
+    /* Open the file for reading of the chained data */
+    f2 = fopen(args[1], MODE_READ);
+
+    if (f2 == NULL) {
+        fprintf(stderr, "Cannot open `%s' for reading.\n", args[1]);
+        fclose(f);
+        return FD_NOTRD;
+    }
+
+    fseek(f2, (dirsize * 254), SEEK_SET);
+
+    rc = unlynx_loop(f, f2, vdrive, dentries);
+
     fclose(f);
     fclose(f2);
 
-    return FD_OK;
+    return rc;
 }
 
 static int validate_cmd(int nargs, char **args)
@@ -2652,7 +2690,8 @@ static int write_cmd(int nargs, char **args)
         dest_len = strlen(dest_name);
     }
 
-    if (vdrive_iec_open(drives[dnr], (BYTE *)dest_name, (int)dest_len, 1)) {
+    if (vdrive_iec_open(drives[dnr], (BYTE *)dest_name, (int)dest_len, 1,
+        NULL)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 finfo->name);
         fileio_close(finfo);
@@ -2961,7 +3000,8 @@ void disable_text(void)
 }
 
 int machine_bus_device_attach(unsigned int device, const char *name,
-                              int (*getf)(vdrive_t *, BYTE *, unsigned int),
+                              int (*getf)(vdrive_t *, BYTE *, unsigned int,
+                              struct cbmdos_cmd_parse_s *),
                               int (*putf)(vdrive_t *, BYTE, unsigned int),
                               int (*openf)(vdrive_t *, const char *, int,
                               unsigned int),
