@@ -350,17 +350,17 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/TextField.h ui.h ../../../../src/arch/unix/types.h \
 	../../../../src/palette.h ../../../../src/uiapi.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
-	../../../../src/log.h ../../../../src/machine.h \
-	../../../../src/maincpu.h ../../../../src/6510core.h \
-	../../../../src/mem.h ../../../../src/snapshot.h \
-	../../../../src/alarm.h ../../../../src/clkguard.h \
-	../../../../src/mon.h ../../../../src/mos6510.h \
-	../../../../src/interrupt.h uihotkey.h uimenu.h uisettings.h \
-	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/arch/unix/mouse.h ../../../../src/drive/drive.h \
-	../../../../src/vdrive.h ../../../../src/fs_cbm.h \
-	../../../../src/serial.h ../../../../src/traps.h \
-	../../../../src/drive/drivecpu.h
+	../../../../src/drive/drive.h ../../../../src/vdrive.h \
+	../../../../src/fs_cbm.h ../../../../src/serial.h \
+	../../../../src/traps.h ../../../../src/log.h \
+	../../../../src/drive/drivecpu.h ../../../../src/alarm.h \
+	../../../../src/clkguard.h ../../../../src/mos6510.h \
+	../../../../src/mon.h ../../../../src/mem.h \
+	../../../../src/snapshot.h ../../../../src/interrupt.h \
+	../../../../src/6510core.h ../../../../src/machine.h \
+	../../../../src/maincpu.h ../../../../src/arch/unix/mouse.h \
+	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
+	../../../../src/arch/unix/vsync.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/palette.h \

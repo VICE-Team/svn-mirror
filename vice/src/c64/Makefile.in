@@ -361,28 +361,33 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/arch/msdos/types.h ../../src/vdrive.h \
+	../../src/arch/unix/types.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/log.h ../../src/snapshot.h ../../src/autostart.h \
 	c64.h c64cia.h ../../src/cia.h c64mem.h ../../src/mem.h \
-	c64tpi.h ../../src/arch/msdos/c64ui.h ../../src/cartridge.h \
+	c64tpi.h ../../src/arch/unix/xaw/c64ui.h ../../src/cartridge.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/clkguard.h ../../src/datasette.h \
 	../../src/tap.h ../../src/drive/drive.h \
 	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/arch/msdos/kbd.h ../../src/kbdbuf.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h patchrom.h psid.h \
 	../../src/resources.h reu.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/warn.h ../../src/tape.h \
 	../../src/utils.h ../../src/vicii/vicii.h \
-	../../src/raster/raster.h ../../src/arch/msdos/video.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h \
-	../../src/arch/msdos/vsync.h ../../src/arch/msdos/mouse.h
+	../../src/arch/unix/vsync.h c64acia.h c64rsuser.h \
+	../../src/rs232.h ../../src/rsuser.h ../../src/print.h \
+	../../src/prdevice.h ../../src/pruser.h \
+	../../src/arch/unix/mouse.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
@@ -392,18 +397,20 @@ c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/resources.h ../../src/machine.h ../../src/rs232.h \
 	../../src/acia.h
 c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
-	../../src/arch/msdos/types.h c64mem.h ../../src/mem.h \
+	../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/cartridge.h \
 	../../src/interrupt.h ../../src/6510core.h
 c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/msdos/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/maincpu.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h c64cia.h \
-	../../src/arch/msdos/kbd.h ../../src/keyboard.h \
-	../../src/vicii/vicii.h c64.h ../../src/raster/raster.h \
-	../../src/arch/msdos/video.h ../../src/palette.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/rsuser.h ../../src/vicii/vicii.h c64.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -412,13 +419,15 @@ c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h \
 	../../src/ciacore.c ../../src/ciatimer.h
 c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/msdos/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/maincpu.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/vicii/vicii.h \
-	c64.h ../../src/raster/raster.h ../../src/arch/msdos/video.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	c64.h ../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -427,12 +436,13 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
 	c64mem.h c64iec.h ../../src/iecdrive.h c64cia.h \
-	../../src/ciacore.c ../../src/ciatimer.h
+	../../src/pruser.h ../../src/rsuser.h ../../src/ciacore.c \
+	../../src/ciatimer.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
-	c64cia.h ../../src/arch/msdos/types.h ../../src/cia.h \
+	c64cia.h ../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/snapshot.h c64mem.h ../../src/mem.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
-	../../src/arch/msdos/types.h ../../src/cia.h \
+	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/snapshot.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/log.h \
@@ -442,8 +452,8 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/msdos/archdep.h ../../src/archapi.h c64cart.h \
-	../../src/arch/msdos/types.h c64cia.h ../../src/cia.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
+	../../src/arch/unix/types.h c64cia.h ../../src/cia.h \
 	../../src/snapshot.h c64mem.h ../../src/mem.h c64tpi.h \
 	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/datasette.h ../../src/tap.h ../../src/emuid.h \
@@ -451,21 +461,22 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/parallel.h \
 	patchrom.h reu.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/warn.h ../../src/sysfile.h ../../src/arch/msdos/ui.h \
-	../../src/arch/msdos/tuimenu.h ../../src/uiapi.h \
-	../../src/utils.h ../../src/vicii/vicii.h c64.h \
-	../../src/raster/raster.h ../../src/arch/msdos/video.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/warn.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h ../../src/vicii/vicii.h \
+	c64.h ../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h
+	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h \
+	c64acia.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/arch/unix/types.h c64.h c64cia.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/rsuser.h
 c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
-	../../src/config.h ../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
@@ -473,20 +484,20 @@ c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/maincpu.h ../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/msdos/archdep.h ../../src/archapi.h \
-	../../src/cartridge.h ../../src/arch/msdos/types.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/cartridge.h ../../src/arch/unix/types.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/utils.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/mem.h ../../src/arch/msdos/types.h \
+	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
 	../../src/snapshot.h patchrom.h ../../src/utils.h
 psid.o: psid.c ../../src/vice.h ../../src/config.h psid.h \
-	../../src/arch/msdos/types.h c64mem.h ../../src/mem.h \
+	../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/log.h ../../src/utils.h ../../src/zfile.h psiddrv.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h \
-	../../src/arch/msdos/types.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/mem.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \

@@ -308,7 +308,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 cia1571drive0.o: cia1571drive0.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/msdos/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -316,7 +316,7 @@ cia1571drive0.o: cia1571drive0.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h ciad.h \
 	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
 cia1571drive1.o: cia1571drive1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/msdos/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -324,7 +324,7 @@ cia1571drive1.o: cia1571drive1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h ciad.h \
 	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
 cia1581drive0.o: cia1581drive0.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/msdos/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -332,7 +332,7 @@ cia1581drive0.o: cia1581drive0.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h ciad.h \
 	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
 cia1581drive1.o: cia1581drive1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/msdos/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -340,41 +340,41 @@ cia1581drive1.o: cia1581drive1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h ciad.h \
 	../../src/iecdrive.h ../../src/ciacore.c ../../src/ciatimer.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/arch/msdos/types.h ../../src/vdrive.h \
+	../../src/arch/unix/types.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/log.h ../../src/snapshot.h ciad.h ../../src/cia.h \
 	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
 	drive.h drivecpu.h ../../src/alarm.h ../../src/mos6510.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
 	../../src/6510core.h fdc.h ../../src/gcr.h ../../src/iecdrive.h \
-	riotd.h ../../src/sysfile.h ../../src/arch/msdos/ui.h \
-	../../src/arch/msdos/tuimenu.h ../../src/uiapi.h \
-	../../src/utils.h viad.h ../../src/via.h wd1770.h \
-	../../src/zfile.h
+	riotd.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h viad.h ../../src/via.h \
+	wd1770.h ../../src/zfile.h
 drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h \
-	../../src/arch/msdos/types.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ciad.h ../../src/cia.h \
 	drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h drivecpu.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/resources.h \
-	../../src/arch/msdos/ui.h ../../src/arch/msdos/tuimenu.h \
-	../../src/uiapi.h viad.h ../../src/via.h riotd.h wd1770.h fdc.h \
-	drivecpucore.c ../../src/6510core.c
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/uiapi.h viad.h ../../src/via.h \
+	riotd.h wd1770.h fdc.h drivecpucore.c ../../src/6510core.c
 drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h \
-	../../src/arch/msdos/types.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ciad.h ../../src/cia.h \
 	drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h drivecpu.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/resources.h \
-	../../src/arch/msdos/ui.h ../../src/arch/msdos/tuimenu.h \
-	../../src/uiapi.h viad.h ../../src/via.h riotd.h wd1770.h fdc.h \
-	drivecpucore.c ../../src/6510core.c
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/uiapi.h viad.h ../../src/via.h \
+	riotd.h wd1770.h fdc.h drivecpucore.c ../../src/6510core.c
 fdc.o: fdc.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/msdos/types.h ../../src/log.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h ../../src/alarm.h \
 	fdc.h ../../src/snapshot.h drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	drivecpu.h ../../src/clkguard.h ../../src/mos6510.h \
@@ -382,7 +382,7 @@ fdc.o: fdc.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h
 riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/riot.h drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
@@ -391,7 +391,7 @@ riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/parallel.h ../../src/riotcore.c
 riot1drive1.o: riot1drive1.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/riot.h drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
@@ -400,7 +400,7 @@ riot1drive1.o: riot1drive1.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/parallel.h ../../src/riotcore.c
 riot2drive0.o: riot2drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/riot.h drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
@@ -409,7 +409,7 @@ riot2drive0.o: riot2drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/parallel.h ../../src/riotcore.c
 riot2drive1.o: riot2drive1.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/riot.h drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
@@ -418,7 +418,7 @@ riot2drive1.o: riot2drive1.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/parallel.h ../../src/riotcore.c
 via1drive0.o: via1drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -427,7 +427,7 @@ via1drive0.o: via1drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/parallel.h ../../src/viacore.c
 via1drive1.o: via1drive1.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -436,7 +436,7 @@ via1drive1.o: via1drive1.c ../../src/vice.h ../../src/config.h \
 	../../src/parallel.h ../../src/viacore.c
 via2drive0.o: via2drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -444,14 +444,14 @@ via2drive0.o: via2drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/mos6510.h ../../src/mon.h viad.h ../../src/viacore.c
 via2drive1.o: via2drive1.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h \
-	../../src/arch/msdos/types.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h drivecpu.h \
 	../../src/mos6510.h ../../src/mon.h viad.h ../../src/viacore.c
 wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h \
-	../../src/clkguard.h ../../src/arch/msdos/types.h drive.h \
+	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h ../../src/log.h drivecpu.h ../../src/alarm.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \

@@ -514,12 +514,12 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
          * Del, Seq, Prg, Usr (Rel not yet supported)
          */
         if (type != FT_REL) {
-	        as_if_sequential:
-	        p->mode = BUFFER_SEQUENTIAL;
-	        p->bufptr = 2;
-	        p->buffer = (BYTE *)xmalloc(256);
+            as_if_sequential:
+            p->mode = BUFFER_SEQUENTIAL;
+            p->bufptr = 2;
+            p->buffer = (BYTE *)xmalloc(256);
 
-	        status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+            status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
                                        p->buffer, track, sector,
                                        floppy->D64_Header,
                                        floppy->GCR_Header, floppy->unit);

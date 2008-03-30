@@ -292,9 +292,11 @@ distdir: $(DISTFILES)
 crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/cmdline.h \
 	../../src/resources.h crtc-cmdline-options.h
 crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/alarm.h ../../src/arch/msdos/types.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/arch/msdos/video.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -302,9 +304,11 @@ crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	crtc-mem.h crtc-draw.h
 crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/msdos/types.h crtc.h ../../src/alarm.h \
+	../../src/arch/unix/types.h crtc.h ../../src/alarm.h \
 	../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/msdos/video.h ../../src/palette.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -313,20 +317,24 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	crtc-mem.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/utils.h ../../src/arch/msdos/types.h crtc.h \
+	../../src/utils.h ../../src/arch/unix/types.h crtc.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/msdos/video.h ../../src/palette.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	crtc-mem.h crtc-resources.h ../../src/resources.h
+	crtc-mem.h crtc-resources.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
-	crtc.h ../../src/alarm.h ../../src/arch/msdos/types.h \
+	crtc.h ../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/msdos/video.h ../../src/palette.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -335,20 +343,21 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	crtc-mem.h crtc-snapshot.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
-	../../src/arch/msdos/types.h ../../src/maincpu.h \
+	../../src/arch/unix/types.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/utils.h ../../src/arch/msdos/vsync.h crtc.h \
-	../../src/raster/raster.h ../../src/arch/msdos/video.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/utils.h ../../src/arch/unix/vsync.h crtc.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h crtc-mem.h \
-	crtc-cmdline-options.h crtc-draw.h crtc-resources.h \
-	../../src/resources.h
+	crtc-cmdline-options.h crtc-draw.h crtc-resources.h
 
 info: info-recursive
 dvi: dvi-recursive

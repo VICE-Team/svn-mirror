@@ -290,26 +290,28 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 raster-cache.o: raster-cache.c ../../src/vice.h ../../src/config.h \
-	../../src/utils.h ../../src/arch/msdos/types.h raster-cache.h \
+	../../src/utils.h ../../src/arch/unix/types.h raster-cache.h \
 	raster-sprite-cache.h
 raster-changes.o: raster-changes.c ../../src/vice.h ../../src/config.h \
-	../../src/utils.h ../../src/arch/msdos/types.h raster-changes.h
+	../../src/utils.h ../../src/arch/unix/types.h raster-changes.h
 raster-modes.o: raster-modes.c ../../src/vice.h ../../src/config.h \
-	../../src/utils.h ../../src/arch/msdos/types.h raster-modes.h \
+	../../src/utils.h ../../src/arch/unix/types.h raster-modes.h \
 	raster-cache.h raster-sprite-cache.h
 raster-sprite-cache.o: raster-sprite-cache.c ../../src/vice.h \
 	../../src/config.h ../../src/utils.h \
-	../../src/arch/msdos/types.h raster-sprite-cache.h
+	../../src/arch/unix/types.h raster-sprite-cache.h
 raster-sprite-status.o: raster-sprite-status.c ../../src/vice.h \
 	../../src/config.h ../../src/utils.h \
-	../../src/arch/msdos/types.h raster-sprite-status.h \
+	../../src/arch/unix/types.h raster-sprite-status.h \
 	raster-sprite.h
 raster-sprite.o: raster-sprite.c ../../src/vice.h ../../src/config.h \
-	../../src/utils.h ../../src/arch/msdos/types.h raster-sprite.h
+	../../src/utils.h ../../src/arch/unix/types.h raster-sprite.h
 raster.o: raster.c ../../src/vice.h ../../src/config.h \
-	../../src/machine.h ../../src/arch/msdos/types.h \
-	../../src/utils.h ../../src/arch/msdos/video.h \
-	../../src/palette.h raster.h raster-cache.h \
+	../../src/machine.h ../../src/arch/unix/types.h \
+	../../src/utils.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h raster.h raster-cache.h \
 	raster-sprite-cache.h raster-changes.h raster-modes.h \
 	raster-sprite-status.h raster-sprite.h
 

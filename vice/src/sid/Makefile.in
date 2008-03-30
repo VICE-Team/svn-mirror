@@ -304,16 +304,16 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/resid/envelope.h ../../src/resid/filter.h \
 	../../src/resid/spline.h ../../src/resid/extfilt.h \
 	../../src/resid/pot.h ../../src/vice.h ../../src/config.h sid.h \
-	../../src/sound.h ../../src/arch/msdos/types.h ../../src/warn.h \
+	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
 	../../src/snapshot.h ../../src/log.h ../../src/utils.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
-	../../src/arch/msdos/types.h ../../src/warn.h \
+	../../src/arch/unix/types.h ../../src/warn.h \
 	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/mem.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/interrupt.h ../../src/utils.h resid.h \
-	../../src/arch/msdos/mouse.h ../../src/fixpoint.h wave6581.h \
+	../../src/arch/unix/mouse.h ../../src/fixpoint.h wave6581.h \
 	wave8580.h
 
 info: info-recursive
