@@ -67,6 +67,9 @@ machdesc_t machdesc;
 /* Initialize the machine's resources.  */
 int machine_init_resources(void);
 
+/* Initialize the machine's command-line options.  */
+int machine_init_cmdline_options(void);
+
 /* Initialize the machine.  */
 int machine_init(void);
 
