@@ -927,7 +927,7 @@ static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
 }
 
 
-static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
+static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                                 int sprite_xs, int sprite_xe, 
                                 raster_sprite_status_t *sprite_status,
                                 int n, int sprite_offset)

@@ -779,7 +779,7 @@ static int load_input_file(char *filename)
     fclose(infile);
     return -1;
   }
-  if (!strncmp("C64 CARTRIDGE   ",filebuffer,16))
+  if (!strncmp("C64 CARTRIDGE   ",(char *)filebuffer,16))
   {
     loadfile_is_crt=1;
     if (fread(filebuffer+0x10,1,0x30,infile)!=0x30)
