@@ -6,7 +6,7 @@ What are we going to do next (or not)
 * General improvements
 ----------------------
 
-- Write real MS-DOS documentation (any volunteers?).
+- Write real MS-DOS and Win32 documentation (any volunteers?).
 
 - Allow tape loading without the virtually pressed "Play" button,
   which can break some programs that do not like it to be pressed
@@ -17,16 +17,14 @@ What are we going to do next (or not)
 
 - Emulate the RESTORE key more accurately.
 
-- Better support for alternative ROM sets. (-> in the works)
-
 - Some more Kernal patches, for instance for changing colors and
   patching the reset routine to make it faster (maybe configurable).
 
 - Filtering video output to make it look more like an old monitor or
   a TV set. (-> done (on Unix) with palettes?)
 
-- More ports.  Any volunteers?  An OS2 port and a BEOS port are in the
-  works; if you want to help, please let us know.
+- More ports.  Any volunteers?  A BEOS port is in the works; if you
+  want to help, please let us know.
 
 * C64 improvements
 ------------------

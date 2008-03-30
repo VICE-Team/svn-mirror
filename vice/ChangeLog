@@ -1,3 +1,25 @@
+2000-06-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.20.
+
+	* vice.spec: Target is `install-strip'.
+
+	* ABOUT-NLS: Removed.
+
+	* BUGS: Updated.
+
+2000-06-16  pottendo  <pottendo@utanet.at>
+
+	* acconfig.h: Added NLS_LOCALEDIR.
+
+	* configure.in: 
+	NLS Stuff: Added AC_DEFINE for NLS_LOCALEDIR, Added missing
+	AC_DEFINEs for ENABLE_NLS and HAVE_LIBINTL_H.
+
+2000-06-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.4.19.
+
 2000-06-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.18.

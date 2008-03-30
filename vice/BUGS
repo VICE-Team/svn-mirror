@@ -1,4 +1,4 @@
-These are the most important known problems with VICE 1.4:
+These are the most important known problems with VICE 1.5:
 
 - Some basic features of the VDC are missing. In the MS-DOS port you
   have to save the configuration and restart the emulator when
@@ -13,6 +13,9 @@ These are the most important known problems with VICE 1.4:
   when you close it, this might be the cause.  In that case, recompile
   with the `--disable-textfield' option.  If it still does not work,
   please tell us.
+
+- Some DEC/Alpha machines crash due to the XAW implementation.  Compile
+  VICE with GNOME support `--enable-gnomeui' instead.
 
 - The VIC-I chip in xvic still lacks important features and is still
   under construction.
