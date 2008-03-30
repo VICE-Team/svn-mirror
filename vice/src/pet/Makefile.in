@@ -236,7 +236,7 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h \
 	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/crtc/crtc.h ../../src/alarm.h \
-	../../src/log.h ../../src/crtc/crtc-mem.h \
+	../../src/crtc/crtc-mem.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -260,10 +260,10 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/mos6510.h ../../src/aciacore.c ../../src/acia.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/snapshot.h ../../src/mos6510.h \
+	../../src/aciacore.c ../../src/acia.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/log.h ../../src/machine.h \
 	../../src/rs232.h
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h ../../src/snapshot.h
@@ -274,7 +274,7 @@ petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/crtc/crtc-mem.h \
+	../../src/alarm.h ../../src/crtc/crtc-mem.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -294,9 +294,10 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	../../src/crtc/crtc-mem.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/alarm.h ../../src/arch/unix/types.h \
+	../../src/crtc/crtc-mem.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/palette.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -322,14 +323,14 @@ petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/piacore.h ../../src/piacore.c
 petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/alarm.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/snapshot.h ../../src/mos6510.h petsound.h \
 	../../src/sound.h ../../src/warn.h ../../src/utils.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
-	../../src/crtc/crtc.h ../../src/alarm.h ../../src/log.h \
+	../../src/crtc/crtc.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/crtc/crtc-mem.h \
-	../../src/raster/raster.h ../../src/palette.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \

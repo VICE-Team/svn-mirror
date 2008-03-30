@@ -530,7 +530,7 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-alarm.o: alarm.c vice.h config.h alarm.h log.h arch/unix/types.h utils.h
+alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
 attach.o: attach.c vice.h config.h attach.h snapshot.h arch/unix/types.h \
 	diskimage.h gcr.h drive/drive.h log.h drive/fdc.h fsdevice.h \
@@ -539,8 +539,8 @@ attach.o: attach.c vice.h config.h attach.h snapshot.h arch/unix/types.h \
 	vdrive/vdrive.h vdrive/vdrive-iec.h drive/wd1770.h
 autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
 	autostart.h arch/unix/types.h attach.h snapshot.h charsets.h \
-	datasette.h tap.h fsdevice.h interrupt.h 6510core.h log.h \
-	kbdbuf.h machine.h mem.h p00.h resources.h serial.h diskimage.h \
+	datasette.h tap.h fsdevice.h interrupt.h 6510core.h kbdbuf.h \
+	log.h machine.h mem.h p00.h resources.h serial.h diskimage.h \
 	gcr.h traps.h tape.h arch/unix/ui.h arch/unix/x11/xaw/ui.h \
 	palette.h uiapi.h utils.h vdrive/vdrive.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
@@ -549,16 +549,17 @@ c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
 	vdrive/vdrive.h attach.h snapshot.h log.h vdrive/vdrive-dir.h \
 	vdrive/vdrive-iec.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h arch/unix/types.h
-ciatimer.o: ciatimer.c vice.h config.h alarm.h log.h arch/unix/types.h \
+ciatimer.o: ciatimer.c vice.h config.h alarm.h arch/unix/types.h \
 	ciatimer.h snapshot.h interrupt.h 6510core.h
 clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
 	utils.h
 cmdline.o: cmdline.c vice.h config.h cmdline.h resources.h \
 	arch/unix/types.h arch/unix/uicmdline.h utils.h
-datasette.o: datasette.c vice.h config.h alarm.h log.h arch/unix/types.h \
-	clkguard.h cmdline.h resources.h datasette.h tap.h machine.h \
-	maincpu.h 6510core.h mon.h interrupt.h snapshot.h mos6510.h \
-	arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h uiapi.h
+datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
+	clkguard.h cmdline.h resources.h datasette.h tap.h log.h \
+	machine.h maincpu.h 6510core.h mon.h interrupt.h snapshot.h \
+	mos6510.h arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h \
+	uiapi.h
 diskimage.o: diskimage.c vice.h config.h arch/unix/archdep.h archapi.h \
 	diskimage.h gcr.h arch/unix/types.h log.h utils.h \
 	vdrive/vdrive.h attach.h snapshot.h zfile.h
@@ -579,12 +580,11 @@ imagecontents.o: imagecontents.c vice.h config.h arch/unix/archdep.h \
 	vdrive/vdrive-dir.h zfile.h
 info.o: info.c
 interrupt.o: interrupt.c vice.h config.h interrupt.h 6510core.h \
-	arch/unix/types.h log.h snapshot.h
+	arch/unix/types.h snapshot.h log.h
 kbdbuf.o: kbdbuf.c vice.h config.h charsets.h arch/unix/types.h \
-	cmdline.h resources.h maincpu.h 6510core.h alarm.h log.h \
-	clkguard.h mon.h interrupt.h snapshot.h mos6510.h mem.h \
-	kbdbuf.h utils.h
-keyboard.o: keyboard.c vice.h config.h alarm.h log.h arch/unix/types.h \
+	cmdline.h resources.h maincpu.h 6510core.h alarm.h clkguard.h \
+	mon.h interrupt.h snapshot.h mos6510.h mem.h kbdbuf.h utils.h
+keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h maincpu.h 6510core.h clkguard.h mon.h interrupt.h \
 	snapshot.h mos6510.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
@@ -592,28 +592,27 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	snapshot.h arch/unix/types.h autostart.h cartridge.h charsets.h \
 	cmdline.h resources.h diskimage.h gcr.h drive/drivecpu.h \
-	alarm.h log.h clkguard.h mon.h interrupt.h 6510core.h mos6510.h \
+	alarm.h clkguard.h mon.h interrupt.h 6510core.h mos6510.h \
 	fsdevice.h arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h \
-	keyboard.h machine.h maincpu.h arch/unix/main_exit.h sysfile.h \
-	tape.h traps.h arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h \
-	uiapi.h utils.h video.h arch/unix/videoarch.h \
+	keyboard.h log.h machine.h maincpu.h arch/unix/main_exit.h \
+	sysfile.h tape.h traps.h arch/unix/ui.h arch/unix/x11/xaw/ui.h \
+	palette.h uiapi.h utils.h video.h arch/unix/videoarch.h \
 	arch/unix/x11/xaw/videoarch.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
-	alarm.h log.h clkguard.h datasette.h tap.h interrupt.h \
-	snapshot.h machine.h maincpu.h mon.h mos6510.h mem.h traps.h \
+	alarm.h clkguard.h datasette.h tap.h interrupt.h snapshot.h \
+	log.h machine.h maincpu.h mon.h mos6510.h mem.h traps.h \
 	arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h uiapi.h \
 	resources.h 6510core.c
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	snapshot.h arch/unix/types.h asm.h charsets.h diskimage.h gcr.h \
-	drive/drivecpu.h alarm.h log.h clkguard.h mon.h interrupt.h \
+	drive/drivecpu.h alarm.h clkguard.h mon.h interrupt.h \
 	6510core.h mos6510.h mem.h mon_parse.h resources.h utils.h \
-	vdrive/vdrive.h vsync.h
+	vdrive/vdrive.h log.h vsync.h
 mon_lex.o: mon_lex.c vice.h config.h mon.h interrupt.h 6510core.h \
-	arch/unix/types.h log.h snapshot.h mos6510.h mon_parse.h \
-	utils.h
+	arch/unix/types.h snapshot.h mos6510.h mon_parse.h utils.h
 mon_parse.o: mon_parse.c vice.h config.h asm.h arch/unix/types.h \
-	machine.h mon.h interrupt.h 6510core.h log.h snapshot.h \
-	mos6510.h utils.h
+	machine.h mon.h interrupt.h 6510core.h snapshot.h mos6510.h \
+	utils.h
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h \
 	attach.h snapshot.h diskimage.h gcr.h log.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
@@ -658,7 +657,7 @@ tape.o: tape.c vice.h config.h datasette.h tap.h arch/unix/types.h log.h \
 	snapshot.h mos6510.h mem.h serial.h diskimage.h gcr.h traps.h \
 	t64.h tape.h utils.h zfile.h
 traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
-	6510core.h arch/unix/types.h log.h snapshot.h maincpu.h alarm.h \
+	6510core.h arch/unix/types.h snapshot.h log.h maincpu.h alarm.h \
 	clkguard.h mon.h mos6510.h mem.h parallel.h drive/drive.h \
 	diskimage.h gcr.h traps.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \

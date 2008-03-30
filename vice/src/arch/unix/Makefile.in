@@ -342,11 +342,11 @@ uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/log.h \
-	../../../src/snapshot.h ../../../src/kbdbuf.h \
-	../../../src/maincpu.h ../../../src/alarm.h ../../../src/mon.h \
-	../../../src/mos6510.h ../../../src/sound.h ../../../src/warn.h \
-	ui.h x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
+	../../../src/6510core.h ../../../src/snapshot.h \
+	../../../src/kbdbuf.h ../../../src/log.h ../../../src/maincpu.h \
+	../../../src/alarm.h ../../../src/mon.h ../../../src/mos6510.h \
+	../../../src/sound.h ../../../src/warn.h ui.h x11/xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h \
 	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
 	../../../src/vsync.h joystick.h
 

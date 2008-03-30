@@ -309,12 +309,13 @@ distdir: $(DISTFILES)
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
 	../../../../src/interrupt.h ../../../../src/6510core.h \
-	../../../../src/arch/unix/types.h ../../../../src/log.h \
-	../../../../src/snapshot.h ../../../../src/arch/unix/joystick.h \
+	../../../../src/arch/unix/types.h ../../../../src/snapshot.h \
+	../../../../src/arch/unix/joystick.h \
 	../../../../src/arch/unix/kbd.h kbdef.h \
-	../../../../src/keyboard.h ../../../../src/machine.h \
-	../../../../src/sysfile.h ../../../../src/arch/unix/ui.h \
-	xaw/ui.h ../../../../src/palette.h ../../../../src/uiapi.h \
+	../../../../src/keyboard.h ../../../../src/log.h \
+	../../../../src/machine.h ../../../../src/sysfile.h \
+	../../../../src/arch/unix/ui.h xaw/ui.h \
+	../../../../src/palette.h ../../../../src/uiapi.h \
 	../../../../src/utils.h ../../../../src/video.h \
 	../../../../src/arch/unix/videoarch.h xaw/videoarch.h
 

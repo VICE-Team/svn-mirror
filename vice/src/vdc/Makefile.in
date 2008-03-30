@@ -238,9 +238,9 @@ distdir: $(DISTFILES)
 	done
 vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vdc.h ../../src/alarm.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	vdc.h ../../src/alarm.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -305,7 +305,7 @@ vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/snapshot.h vdc-mem.h \
 	vdc-snapshot.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/log.h ../../src/arch/unix/types.h ../../src/machine.h \
+	../../src/arch/unix/types.h ../../src/log.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/snapshot.h \
 	../../src/mos6510.h ../../src/palette.h ../../src/utils.h vdc.h \

@@ -238,8 +238,8 @@ crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
 	crtc-cmdline-options.h
 crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	crtc-mem.h ../../src/raster/raster.h ../../src/palette.h \
+	../../src/alarm.h ../../src/arch/unix/types.h crtc-mem.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -251,8 +251,8 @@ crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
 	../../src/resources.h ../../src/snapshot.h crtc-draw.h
 crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	crtc-mem.h ../../src/raster/raster.h ../../src/palette.h \
+	../../src/alarm.h ../../src/arch/unix/types.h crtc-mem.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -266,9 +266,8 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/mos6510.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
-	crtc.h ../../src/alarm.h ../../src/log.h \
-	../../src/arch/unix/types.h crtc-mem.h \
-	../../src/raster/raster.h ../../src/palette.h \
+	crtc.h ../../src/alarm.h ../../src/arch/unix/types.h crtc-mem.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -281,9 +280,8 @@ crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/snapshot.h crtc-resources.h \
 	../../src/utils.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
-	crtc.h ../../src/alarm.h ../../src/log.h \
-	../../src/arch/unix/types.h crtc-mem.h \
-	../../src/raster/raster.h ../../src/palette.h \
+	crtc.h ../../src/alarm.h ../../src/arch/unix/types.h crtc-mem.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -297,8 +295,8 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/mos6510.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	crtc-mem.h ../../src/raster/raster.h ../../src/palette.h \
+	../../src/alarm.h ../../src/arch/unix/types.h crtc-mem.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
