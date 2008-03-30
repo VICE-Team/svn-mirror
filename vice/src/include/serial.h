@@ -121,28 +121,27 @@ typedef struct serial_s
 #endif
 } serial_t;
 
-extern void serial_reset(void);
-
-extern int parallelattention(int b);
-extern int parallelsendbyte(int data);
-extern int parallelreceivebyte(BYTE *data, int fake);
-extern int initialize_serial(const trap_t *trap_list);
-extern int install_serial_traps(void);
-extern int remove_serial_traps(void);
-extern int attach_serial_device(int device, char *var, char *name,
+extern int serial_init(const trap_t *trap_list);
+extern int serial_install_traps(void);
+extern int serial_remove_traps(void);
+extern int serial_attach_device(int device, char *var, char *name,
 				int (*getf)(void *, BYTE *, int),
 				int (*putf)(void *, BYTE, int),
 				int (*openf)(void *, char *, int, int),
 				int (*closef)(void *, int),
 				void (*flushf)(void *, int));
-extern serial_t *get_serial_device(int device);
 extern int serial_select_file(int type, int number, const char *file);
-extern int remove_serial(int number);
-extern char *image_file_name(int number);
+extern int serial_remove(int number);
+extern char *serial_get_file_name(int number);
+extern serial_t *serial_get_device(int number);
+extern void serial_reset(void);
 
-extern void serialattention();
-extern void serialsendbyte();
-extern void serialreceivebyte();
-extern void trap_serial_ready( void );
+extern int parallelattention(int b);
+extern int parallelsendbyte(int data);
+extern int parallelreceivebyte(BYTE *data, int fake);
+extern void serialattention(void);
+extern void serialsendbyte(void);
+extern void serialreceivebyte(void);
+extern void trap_serial_ready(void);
 
 #endif  /* _SERIAL_H */

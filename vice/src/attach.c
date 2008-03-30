@@ -84,7 +84,7 @@ static int set_file_system_device8(resource_value_t v)
 
     file_system_device8_enabled = (int) v;
 
-    p = get_serial_device(8);
+    p = serial_get_device(8);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
 	if (floppy->ActiveFd < 0) {
@@ -105,7 +105,7 @@ static int set_file_system_device9(resource_value_t v)
 
     file_system_device9_enabled = (int) v;
 
-    p = get_serial_device(9);
+    p = serial_get_device(9);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
 	if (floppy->ActiveFd < 0) {
@@ -124,12 +124,12 @@ static int set_file_system_device10(resource_value_t v)
 
     file_system_device10_enabled = (int) v;
 
-    p = get_serial_device(10);
+    p = serial_get_device(10);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
 	if (floppy->ActiveFd < 0) {
 	    p->inuse = 0;
-	    initialize_1541(10, (file_system_device10_enabled 
+	    initialize_1541(10, (file_system_device10_enabled
                         ? DT_FS : DT_DISK) | DT_1541, NULL, NULL, floppy);
 	}
     }
@@ -143,7 +143,7 @@ static int set_file_system_device11(resource_value_t v)
 
     file_system_device11_enabled = (int) v;
 
-    p = get_serial_device(11);
+    p = serial_get_device(11);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
 	if (floppy->ActiveFd < 0) {
@@ -157,11 +157,10 @@ static int set_file_system_device11(resource_value_t v)
 
 int file_system_attach_disk(int unit, char *filename)
 {
-
     serial_t *p;
     DRIVE *floppy;
 
-    p = get_serial_device(unit);
+    p = serial_get_device(unit);
     floppy = (DRIVE *)p->info;
     if ((floppy == NULL) || ((floppy->type & DT_FS) == DT_FS)) {
 	p->inuse = 0;
@@ -178,20 +177,20 @@ int file_system_attach_disk(int unit, char *filename)
 void file_system_detach_disk(int unit)
 {
     if (unit < 0) {
-	remove_serial(8);
+	serial_remove(8);
 	set_file_system_device8((resource_value_t)
                                  file_system_device8_enabled);
-	remove_serial(9);
+	serial_remove(9);
 	set_file_system_device9((resource_value_t)
                                  file_system_device9_enabled);
-	remove_serial(10);
+	serial_remove(10);
 	set_file_system_device10((resource_value_t)
                                   file_system_device10_enabled);
-	remove_serial(11);
+	serial_remove(11);
 	set_file_system_device11((resource_value_t)
                                   file_system_device11_enabled);
     } else {
-	remove_serial(unit);
+	serial_remove(unit);
 	switch(unit) {
 	  case 8:
 	    set_file_system_device8((resource_value_t)

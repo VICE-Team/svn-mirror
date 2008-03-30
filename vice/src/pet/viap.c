@@ -48,7 +48,7 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
-/* 
+/*
  * 01apr98 a.fachat
  * New timer code. Should be cycle-exact.
  *
@@ -147,10 +147,10 @@
 #include "interrupt.h"
 
 /*#define VIA_TIMER_DEBUG */
-/*#define VIA_NEED_PB7 */	/* when PB7 is really used, set this 
+/*#define VIA_NEED_PB7 */	/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read - 
+				   when port B is read -
 				not yet implemented */
 
 /* global */
@@ -159,8 +159,8 @@ BYTE    via[16];
 
 
 
-/* 
- * local functions 
+/*
+ * local functions
  */
 
 /*
@@ -181,8 +181,8 @@ static CLOCK 		viatbi;   /* time when next timer A alarm is */
 static int 		viapb7;   /* state of PB7 for pulse output... */
 static int 		viapb7x;  /* to be xored herewith  */
 static int 		viapb7o;  /* to be ored herewith  */
-static int 		viapb7xx; 
-static int 		viapb7sx; 
+static int 		viapb7xx;
+static int 		viapb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* VIA */
@@ -261,7 +261,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef VIA_TIMER_DEBUG
     if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
-	printf("store via[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
+	printf("store via[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 		(int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
 
@@ -509,12 +509,13 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 	    j &= (joy[2] & 4) ? ~0x02 : 0xff;
 	    j &= (joy[2] & 8) ? ~0x01 : 0xff;
 	    j &= (joy[2] & 16)? ~0x0c : 0xff;
-            if (app_resources.debugFlag) {
-                printf("read port A %d\n", j);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                       (int) j, (int) via[VIA_PRB],
-                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
-            }
+
+#if 0
+            printf("read port A %d\n", j);
+            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                   (int) j, (int) via[VIA_PRB],
+                   (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
+#endif
             return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));
         }
 
@@ -533,12 +534,12 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
             j = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
             /* vertical retrace */
             j -= crtc_offscreen() ? 32:0;
-            if (0 /*pardebug*/) {
+#if 0
                 printf("read port B %d\n", j);
                 printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) j,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
-            }
+#endif
             byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
 	  if(via[VIA_ACR] & 0x80) {
@@ -637,14 +638,14 @@ int    int_viat2(long offset)
     return 0;
 }
 
-void via_prevent_clk_overflow(void)
+void via_prevent_clk_overflow(CLOCK sub)
 {
      unsigned int t;
-     t = (viatau - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (viatau - (clk + sub)) & 0xffff;
      viatau = clk + t;
-     t = (viatbu - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (viatbu - (clk + sub)) & 0xffff;
      viatbu = clk + t;
-     if(viatai) viatai -= PREVENT_CLK_OVERFLOW_SUB;
+     if(viatai) viatai -= sub;
 }
 
 

@@ -122,12 +122,13 @@ READ_PRA()
 	    j &= (joy[2] & 4) ? ~0x02 : 0xff;
 	    j &= (joy[2] & 8) ? ~0x01 : 0xff;
 	    j &= (joy[2] & 16)? ~0x0c : 0xff;
-            if (app_resources.debugFlag) {
-                printf("read port A %d\n", j);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                       (int) j, (int) via[VIA_PRB],
-                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
-            }
+
+#if 0
+            printf("read port A %d\n", j);
+            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                   (int) j, (int) via[VIA_PRB],
+                   (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
+#endif
             return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));
         }
 }
@@ -140,12 +141,12 @@ READ_PRB()
             j = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
             /* vertical retrace */
             j -= crtc_offscreen() ? 32:0;
-            if (0 /*pardebug*/) {
+#if 0
                 printf("read port B %d\n", j);
                 printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) j,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
-            }
+#endif
             byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
 }

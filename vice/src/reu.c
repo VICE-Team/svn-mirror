@@ -88,13 +88,13 @@ int    reset_reu(int size)
     return 0;
 }
 
-void	activate_reu(void)
+void activate_reu(void)
 {
     if (reuram == NULL)
 	reset_reu(0);
 }
 
-void    close_reu(void)
+void close_reu(void)
 {
     if (reuram == NULL || reu_file_name == NULL)
 	return;

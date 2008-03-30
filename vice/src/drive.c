@@ -282,14 +282,14 @@ int     initialize_1541(int dev, int type,
      */
 
     if (!(type & DT_FS)) {
-	if (attach_serial_device(dev, (char *)floppy, "1541 Disk Drive",
+	if (serial_attach_device(dev, (char *)floppy, "1541 Disk Drive",
 	    read_1541, write_1541, open_1541, close_1541, flush_1541)) {
 	    printf("could not initialize 1541 ????\n");
 	    return(-1);
 	}
     }
     else {
-	if (attach_serial_device(dev, (char *)floppy, "1541 FS Drive",
+	if (serial_attach_device(dev, (char *)floppy, "1541 FS Drive",
 	    read_fs, write_fs, open_fs, close_fs, flush_fs)) {
 	    printf("could not initialize FS 1541 ????\n");
 	    return(-1);
