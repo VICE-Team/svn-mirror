@@ -236,7 +236,6 @@ void datasette_control(int command)
 
 void datasette_set_motor(int flag)
 {
-    /*printf("MT %i\n",flag);*/
     if (current_image != NULL
         && current_image->mode != DATASETTE_CONTROL_REWIND
         && current_image->mode != DATASETTE_CONTROL_FORWARD) {
@@ -253,6 +252,7 @@ void datasette_set_motor(int flag)
         {
             alarm_unset(&datasette_alarm);
             datasette_alarm_pending = 0;
+            last_write_clk = (CLOCK)0;
         }
     }
     datasette_motor = flag;
@@ -290,7 +290,7 @@ void datasette_toggle_write_bit(int write_bit)
                     long_gap[0] = write_time & 0xff;
                     long_gap[1] = (write_time >> 8) & 0xff;
                     long_gap[2] = (write_time >> 16) & 0xff;
-                    bytes_written = fwrite(long_gap, 3, 1, current_image->fd);
+                    bytes_written = fwrite(long_gap, 1, 3, current_image->fd);
                     current_image->current_file_seek_position += bytes_written;
                     if (bytes_written < 3) {
                         datasette_control(DATASETTE_CONTROL_STOP);
