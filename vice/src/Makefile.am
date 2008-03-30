@@ -158,7 +158,6 @@ c1541_SOURCES = \
 	drive.c \
 	gcr.c \
 	mshell.c \
-	serial.c \
 	tape.c \
 	utils.c \
 	zfile.c \

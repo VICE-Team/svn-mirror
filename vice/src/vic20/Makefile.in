@@ -319,7 +319,7 @@ vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/types.h ../../src/warn.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
 	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/utils.h
+	../../src/vmachine.h ../../src/utils.h vic20sound.h
 vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
 	../../src/true1541/true1541.h ../../src/types.h \
