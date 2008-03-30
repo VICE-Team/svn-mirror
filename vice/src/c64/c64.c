@@ -48,9 +48,11 @@
 #include "utils.h"
 #include "serial.h"
 #include "mon.h"
-
-/* FIXME */
+#include "kbd.h"
+#include "vsync.h"
 #include "autostart.h"
+
+static void vsync_hook(void);
 
 /* Machine description.  */
 machdesc_t machdesc = {
@@ -250,10 +252,18 @@ int machine_init(void)
         }
     }
 
+    /* Initialize the VIC-II emulation.  */
+    vic_ii_init();
+
+    /* Initialize the keyboard.  */
+    if (kbd_init("vice.vkm") < 0)
+        return -1;
+
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
 
-    vic_ii_init();
+    /* Initialize vsync and register our hook function.  */
+    vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
 
     return 0;
 }
@@ -300,4 +310,29 @@ void machine_shutdown(void)
 int rom_trap_allowed(ADDRESS addr)
 {
     return 1; /* FIXME */
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* This hook is called at the end of every frame.  */
+static void vsync_hook(void)
+{
+    if (app_resources.true1541
+	&& app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE) {
+	true1541_cpu_execute();
+    }
+
+    true1541_update_ui_status();
+
+    /* FIXME: This will be common to all the machines someday.  */
+    autostart_advance();
+
+    if (maincpu_prevent_clk_overflow()) {
+	vic_ii_prevent_clk_overflow();
+	cia1_prevent_clk_overflow();
+	cia2_prevent_clk_overflow();
+        sid_prevent_clk_overflow();
+        vsync_prevent_clk_overflow();
+    }
+    true1541_prevent_clk_overflow();
 }

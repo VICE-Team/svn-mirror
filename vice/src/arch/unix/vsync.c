@@ -28,6 +28,8 @@
 /* This does what has to be done at the end of each screen frame (50 times per
    second on PAL machines). */
 
+#include "vice.h"
+
 #ifdef __hpux
 #define _INCLUDE_HPUX_SOURCE
 #define _INCLUDE_POSIX_SOURCE
@@ -50,32 +52,14 @@
 #endif
 
 #include "vsync.h"
-#include "vmachine.h"
 #include "ui.h"
 #include "interrupt.h"
-#include "sid.h"
 #include "video.h"
-#include "joystick.h"
-#include "autostart.h"
 #include "kbdbuf.h"
-
-#ifdef HAVE_TRUE1541
-#include "true1541.h"
-#endif
+#include "sid.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
-#endif
-
-#if defined(VIC20)
-#include "vic.h"
-#include "via.h"
-#elif defined(PET)
-#include "crtc.h"
-#include "via.h"
-#elif defined(CBM64)
-#include "vicii.h"
-#include "cia.h"
 #endif
 
 #ifndef SA_RESTART
@@ -85,6 +69,15 @@
 /* Maximum number of frames we can skip consecutively when adjusting the
    refresh rate dynamically. */
 #define MAX_SKIPPED_FRAMES	10
+
+/* Number of frames per second on the real machine.  */
+static double refresh_frequency;
+
+/* Number of clock cycles per seconds on the real machine.  */
+static long cycles_per_sec;
+
+/* Function to call at the end of every screen frame.  */
+static void (*vsync_hook)(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -126,7 +119,7 @@ static int set_timer_speed(int speed)
 {
     if (speed > 0) {
 	gettimeofday(&timer_time, NULL);
-	timer_ticks = ((100.0 / RFSH_PER_SEC)  * 1000000) / speed;
+	timer_ticks = ((100.0 / refresh_frequency) * 1000000) / speed;
 	update_elapsed_frames(-1);
 	elapsed_frames = 0;
     } else {
@@ -170,14 +163,15 @@ static int speed_eval_suspended = 1;
    emulation happens, so that we don't display bogus speed values. */
 void suspend_speed_eval(void)
 {
-#ifdef SOUND
     suspend_sound();
-#endif
     speed_eval_suspended = 1;
 }
 
-void vsync_init(void)
+void vsync_init(double hz, long cycles, void (*hook)(void))
 {
+    vsync_hook = hook;
+    refresh_frequency = hz;
+    cycles_per_sec = cycles;
     suspend_speed_eval();
     vsync_disable_timer();
 }
@@ -201,87 +195,22 @@ static void display_speed(int num_frames)
 	diff_clk = clk - speed_eval_prev_clk;
 	frame_rate = (double)num_frames / (curr_time - prev_time);
 	speed_index = ((((double)diff_clk / (curr_time - prev_time))
-			/ (double)CYCLES_PER_SEC)) * 100.0;
+			/ (double)cycles_per_sec)) * 100.0;
 	UiDisplaySpeed((float)speed_index, (float)frame_rate);
     }
     prev_time = curr_time;
     speed_eval_prev_clk = clk;
     speed_eval_suspended = 0;
-#else
+#else  /* HAVE_GETTIMEOFDAY */
+    /* Sorry, no speed evaluation.  */
     return;
-#endif
+#endif /* HAVE_GETTIMEOFDAY */
 }
 
-/* This prevents the clock counters from overflowing. */
-inline static void vsync_prevent_clk_overflow()
+void vsync_prevent_clk_overflow(void)
 {
-    if (maincpu_prevent_clk_overflow()) {
-#ifdef CBM64
-	vic_ii_prevent_clk_overflow();
-	cia1_prevent_clk_overflow();
-	cia2_prevent_clk_overflow();
-#ifdef SOUND
-	sid_prevent_clk_overflow();
-#endif
-#elif defined(VIC20)
-	vic_prevent_clk_overflow();
-	via1_prevent_clk_overflow();
-	via2_prevent_clk_overflow();
-#elif defined(PET)
-	crtc_prevent_clk_overflow();
-	via_prevent_clk_overflow();
-#elif defined(C128)
-	vic_ii_prevent_clk_overflow();
-	/* vdc_prevent_clk_overflow(); */
-	cia1_prevent_clk_overflow();
-	cia2_prevent_clk_overflow();
-#ifdef SOUND
-	sid_prevent_clk_overflow();
-#endif
-#else  /* !SOUND */
-#error
-#endif /* !SOUND */
-
-	speed_eval_prev_clk -= PREVENT_CLK_OVERFLOW_SUB;
-	/* printf("PREVENT CLK OVERFLOW!\n"); */
-    }
-
-#ifdef HAVE_TRUE1541
-    true1541_prevent_clk_overflow();
-#endif
+    speed_eval_prev_clk -= PREVENT_CLK_OVERFLOW_SUB;
 }
-
-#ifdef HAVE_TRUE1541
-/* Actually update the LED status only if the `trap idle' idling method is
-   being used, as the LED status could be incorrect otherwise. */
-static void update_drive_status(void)
-{
-    static int old_led_status = -1;
-    static int old_half_track = -1;
-    int my_led_status;
-
-    if (!app_resources.true1541) {
-	old_led_status = old_half_track = -1;
-	UiToggleDriveStatus(0);
-	return;
-    }
-
-    if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
-	my_led_status = true1541_led_status ? 1 : 0;
-    else
-	my_led_status = 0;
-
-    if (my_led_status != old_led_status) {
-        UiDisplayDriveLed(my_led_status);
-	old_led_status = my_led_status;
-    }
-
-    if (true1541_current_half_track != old_half_track) {
-	old_half_track = true1541_current_half_track;
-	UiDisplayDriveTrack((float) true1541_current_half_track / 2.0);
-    }
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -295,16 +224,7 @@ int do_vsync(int been_skipped)
     static int refresh_rate = 1;
     int skip_next_frame = 0;
 
-#ifdef HAVE_TRUE1541
-    if (app_resources.true1541
-	&& app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE) {
-	true1541_cpu_execute();
-    }
-#endif
-
-#ifdef AUTOSTART
-    autostart_advance();
-#endif
+    vsync_hook();
 
     if (been_skipped)
 	num_skipped_frames++;
@@ -335,10 +255,8 @@ int do_vsync(int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-#ifdef SOUND
 	if (app_resources.sound)
 	    flush_sound();
-#endif
     } else {
 	/* Dynamically adjusted refresh rate. */
 	update_elapsed_frames(0);
@@ -354,24 +272,16 @@ int do_vsync(int been_skipped)
 		skip_counter = elapsed_frames = 0;
 	    }
 	}
-#ifdef SOUND
 	if (app_resources.sound)
 	    flush_sound();
-#endif
     }
 
-    if (frame_counter >= RFSH_PER_SEC * 2) {
+    if (frame_counter >= refresh_frequency * 2) {
 	display_speed(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;
 	frame_counter = 0;
     } else
 	frame_counter++;
-
-    vsync_prevent_clk_overflow();
-
-#ifdef HAVE_TRUE1541
-    update_drive_status();
-#endif
 
     kbd_buf_flush();
 

@@ -26,17 +26,21 @@
  */
 
 #include "vice.h"
-
 #include "interrupt.h"
 #include "vic.h"
 #include "via.h"
 #include "vmachine.h"
 #include "machspec.h"
 #include "maincpu.h"
+#include "kbd.h"
 #include "kbdbuf.h"
 #include "drive.h"
 #include "pia.h"
 #include "crtc.h"
+#include "vsync.h"
+#include "sid.h"
+
+static void vsync_hook(void);
 
 /* Machine description.  */
 machdesc_t machdesc = {
@@ -109,10 +113,20 @@ int machine_init(void)
     /* Initialize FS-based emulation for drive #11.  */
     initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
 
+    /* Initialize the CRTC emulation.  */
+    crtc_init();
+
+    /* Initialize the keyboard.  FIXME!  */
+    if (1)
+        kbd_init("busi_uk.vkm");
+    else
+        kbd_init("graphics.vkm");
+
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, NULL);
 
-    crtc_init();
+    /* Initialize vsync and register our hook function.  */
+    vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
 
     return 0;
 }
@@ -141,3 +155,18 @@ int rom_trap_allowed(ADDRESS addr)
     return 1; /* FIXME */
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* This hook is called at the end of every frame.  */
+static void vsync_hook(void)
+{
+    /* FIXME: This will be common to all the machines someday.  */
+    /* autostart_advance(); */
+
+    if (maincpu_prevent_clk_overflow()) {
+	crtc_prevent_clk_overflow();
+	via_prevent_clk_overflow();
+        sid_prevent_clk_overflow();
+        vsync_prevent_clk_overflow();
+    }
+}

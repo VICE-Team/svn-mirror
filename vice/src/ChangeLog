@@ -1,3 +1,61 @@
+Sat Apr 25 22:00:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.13.
+
+	* sid.c (sid_prevent_clk_overflow): Compile this even if `SID' is
+	not #defined.
+
+	* configure.in: Compile `arch/unix/kbd.c' and `arch/unix/vsync.c'
+ 	only once.
+
+	* main.c (main): Do not call `vsync_init()' anymore.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c (vsync_hook): New (static).
+	(machine_init): Call `vsync_init()' and register `vsync_hook' as
+ 	the vsync hook.
+
+	* true1541.c: `true1541_rom_loaded' renamed to `rom_loaded'; all
+ 	occurrences updated.
+ 	(true1541_update_ui_status): New function, ripped from
+ 	`update_drive_status()' in `vsync.c'.
+
+	* arch/unix/vsync.c: New variables `refresh_frequency',
+ 	`vsync_hook', `cycles_per_sec'.  Do not #include "vmachine.h",
+ 	"autostart.h", "true1541.h" or other machine-specific headers
+ 	anymore.  #include "vice.h".
+	(vsync_prevent_clk_overflow): Made public.  It only subtracts
+ 	`PREVENT_CLK_OVERFLOW_SUB' from `speed_eval_prev_clk' now.
+	(vsync_init): New parameters `hz', `cycles', `hook'.  Initialize
+ 	`refresh_frequency', `cycles_per_sec' and `vsync_hook' from them.
+	(do_vsync): Do not handle true1541, clock overflow or autostart
+ 	anymore.  Only call `vsync_hook' instead.
+	(set_timer_speed, do_vsync): Use `vsync_frequency' instead of
+ 	`RFSH_PER_SEC'.
+	(display_speed): Use `cycles_per_sec' instead of `CYCLES_PER_SEC'.
+	(update_drive_status): Removed.
+
+	* arch/unix/kbd.c: `keyc_mem', `keyc_num' made static.
+
+	* pet/petmem.c (mem_load): Do not call `set40key()' or
+	`set80key()' anymore.
+
+	* arch/unix/kbd.c: Cleaned up unused parts.  Use
+ 	`xmalloc()'/`xrealloc()' instead of `malloc()'/`realloc()'.  New
+ 	variable `default_keymap_name'.
+	(kbd_init): Return type made `int'.  New parameter `keymap_name'.
+	(kbd_load_keymap): If `filename' is NULL, load the file
+ 	`default_keymap_name'.
+	(kbd_load_keymap): Do not set `app_resources.keymapFile' anymore.
+	(set80key, set40key): Removed.
+	(kbd_parse_keymap): Return type changed to `int'.
+
+	* main.c (main): Do not call `kbd_init()' anymore.
+
+Sat Apr 25 15:55:23 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* serial.c: `SET_ST', `BSOUR' and `TMP_IN' reverted to the
+ 	original C64, VIC-20 and C128 compliant values.
+
 Sat Apr 25 00:13:20 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.12.

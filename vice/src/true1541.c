@@ -78,7 +78,7 @@ int true1541_led_status;
 int true1541_current_half_track = 36;
 
 /* If nonzero, the 1541 ROM has already been loaded.  */
-static int true1541_rom_loaded = 0;
+static int rom_loaded = 0;
 
 static int init_complete = 0;
 static int byte_ready = 1;
@@ -411,7 +411,7 @@ int initialize_true1541(void)
 {
     int track;
 
-    if (true1541_rom_loaded)
+    if (rom_loaded)
 	return 1;
 
     true1541_warn = warn_init("1541", TRUE1541_NUM_WARNINGS);
@@ -440,7 +440,7 @@ int initialize_true1541(void)
     }
 
     printf("1541: ROM loaded successfully.\n");
-    true1541_rom_loaded = 1;
+    rom_loaded = 1;
 
     /* Remove the ROM check. */
     true1541_rom[0xeae4 - 0xc000] = 0xea;
@@ -974,4 +974,36 @@ void true1541_set_ntsc_sync_factor(void)
 void true1541_ack_sync_factor(void)
 {
     true1541_set_sync_factor(app_resources.true1541SyncFactor);
+}
+
+/* ------------------------------------------------------------------------- */
+
+void true1541_update_ui_status(void)
+{
+    static int old_led_status = -1;
+    static int old_half_track = -1;
+    int my_led_status;
+
+    if (!app_resources.true1541) {
+	old_led_status = old_half_track = -1;
+	UiToggleDriveStatus(0);
+	return;
+    }
+
+    /* Actually update the LED status only if the `trap idle' idling method
+       is being used, as the LED status could be incorrect otherwise. */
+   if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
+	my_led_status = true1541_led_status ? 1 : 0;
+    else
+	my_led_status = 0;
+
+    if (my_led_status != old_led_status) {
+        UiDisplayDriveLed(my_led_status);
+	old_led_status = my_led_status;
+    }
+
+    if (true1541_current_half_track != old_half_track) {
+	old_half_track = true1541_current_half_track;
+	UiDisplayDriveTrack((float) true1541_current_half_track / 2.0);
+    }
 }
