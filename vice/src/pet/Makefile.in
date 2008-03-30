@@ -244,6 +244,8 @@ libpet_a_SOURCES = \
 	petiec.h \
 	petmem.c \
 	petmem.h \
+	petmemsnapshot.c \
+	petmemsnapshot.h \
 	petpia.h \
 	petpia1.c \
 	petpia2.c \
@@ -266,9 +268,9 @@ libpet_a_LIBADD =
 am_libpet_a_OBJECTS = pet-cmdline-options.$(OBJEXT) \
 	pet-resources.$(OBJEXT) pet-snapshot.$(OBJEXT) pet.$(OBJEXT) \
 	petacia1.$(OBJEXT) petdatasette.$(OBJEXT) petdrive.$(OBJEXT) \
-	petiec.$(OBJEXT) petmem.$(OBJEXT) petpia1.$(OBJEXT) \
-	petpia2.$(OBJEXT) petrom.$(OBJEXT) petsound.$(OBJEXT) \
-	petvia.$(OBJEXT)
+	petiec.$(OBJEXT) petmem.$(OBJEXT) petmemsnapshot.$(OBJEXT) \
+	petpia1.$(OBJEXT) petpia2.$(OBJEXT) petrom.$(OBJEXT) \
+	petsound.$(OBJEXT) petvia.$(OBJEXT)
 libpet_a_OBJECTS = $(am_libpet_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -279,9 +281,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/pet-snapshot.Po ./$(DEPDIR)/pet.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petacia1.Po ./$(DEPDIR)/petdatasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petdrive.Po ./$(DEPDIR)/petiec.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petmem.Po ./$(DEPDIR)/petpia1.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petpia2.Po ./$(DEPDIR)/petrom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petsound.Po ./$(DEPDIR)/petvia.Po
+@AMDEP_TRUE@	./$(DEPDIR)/petmem.Po ./$(DEPDIR)/petmemsnapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petpia1.Po ./$(DEPDIR)/petpia2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petrom.Po ./$(DEPDIR)/petsound.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petvia.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -322,6 +325,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petdrive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petiec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petmem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petmemsnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petpia1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petpia2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petrom.Po@am__quote@

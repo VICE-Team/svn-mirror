@@ -247,6 +247,8 @@ libplus4_a_SOURCES = \
 	plus4mem.h \
 	plus4memlimit.c \
 	plus4memlimit.h \
+	plus4memsnapshot.c \
+	plus4memsnapshot.h \
 	plus4pio1.c \
 	plus4pio1.h \
 	plus4pio2.c \
@@ -296,11 +298,11 @@ am_libplus4_a_OBJECTS = plus4-cmdline-options.$(OBJEXT) \
 	plus4.$(OBJEXT) plus4acia.$(OBJEXT) plus4cpu.$(OBJEXT) \
 	plus4datasette.$(OBJEXT) plus4drive.$(OBJEXT) \
 	plus4iec.$(OBJEXT) plus4mem.$(OBJEXT) plus4memlimit.$(OBJEXT) \
-	plus4pio1.$(OBJEXT) plus4pio2.$(OBJEXT) plus4rom.$(OBJEXT) \
-	plus4tcbm.$(OBJEXT) ted-badline.$(OBJEXT) \
-	ted-cmdline-options.$(OBJEXT) ted-color.$(OBJEXT) \
-	ted-draw.$(OBJEXT) ted-fetch.$(OBJEXT) ted-irq.$(OBJEXT) \
-	ted-mem.$(OBJEXT) ted-resources.$(OBJEXT) \
+	plus4memsnapshot.$(OBJEXT) plus4pio1.$(OBJEXT) \
+	plus4pio2.$(OBJEXT) plus4rom.$(OBJEXT) plus4tcbm.$(OBJEXT) \
+	ted-badline.$(OBJEXT) ted-cmdline-options.$(OBJEXT) \
+	ted-color.$(OBJEXT) ted-draw.$(OBJEXT) ted-fetch.$(OBJEXT) \
+	ted-irq.$(OBJEXT) ted-mem.$(OBJEXT) ted-resources.$(OBJEXT) \
 	ted-snapshot.$(OBJEXT) ted-sound.$(OBJEXT) ted-timer.$(OBJEXT) \
 	ted-timing.$(OBJEXT) ted.$(OBJEXT)
 libplus4_a_OBJECTS = $(am_libplus4_a_OBJECTS)
@@ -316,6 +318,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/plus4drive.Po ./$(DEPDIR)/plus4iec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4memlimit.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4pio1.Po ./$(DEPDIR)/plus4pio2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4rom.Po ./$(DEPDIR)/plus4tcbm.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-badline.Po \
@@ -368,6 +371,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4iec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4mem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memlimit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memsnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4pio1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4pio2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4rom.Po@am__quote@
