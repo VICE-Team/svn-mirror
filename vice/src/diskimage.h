@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 
-#include "gcr.h"
 #include "types.h"
 
 #define D64_FILE_SIZE_35  174848        /* D64 image, 35 tracks */
@@ -49,13 +48,15 @@
 #define DISK_IMAGE_TYPE_D80 8050
 #define DISK_IMAGE_TYPE_D82 8250
 
-typedef struct _disk_image_t {
+struct gcr_s;
+
+typedef struct disk_image_s {
     FILE *fd;
     char *name;
     unsigned int read_only;
     unsigned int type;
     unsigned int tracks;
-    gcr_t *gcr;
+    struct gcr_s *gcr;
     BYTE *error_info;
 } disk_image_t;
 
@@ -74,8 +75,9 @@ extern int disk_image_check_sector(unsigned int format, unsigned int track,
 extern int disk_image_sector_per_track(int format, unsigned int track);
 
 extern int disk_image_read_gcr_image(disk_image_t *image);
-extern void disk_image_write_track(disk_image_t *image, unsigned int track,
-                                   int *gcr_track_size,
-                                   BYTE *gcr_speed_zone);
+extern int disk_image_write_track(disk_image_t *image, unsigned int track,
+                                  int gcr_track_size,
+                                  BYTE *gcr_speed_zone,
+                                  BYTE *gcr_track_start_ptr);
 #endif
 

@@ -991,98 +991,98 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 /*-----------------------------------------------------------------------*/
 /* Write an entire GCR track to the disk image.  */
 
-void disk_image_write_track(disk_image_t *image, unsigned int track,
-                            int *gcr_track_size, BYTE *gcr_speed_zone)
+int disk_image_write_track(disk_image_t *image, unsigned int track,
+                           int gcr_track_size, BYTE *gcr_speed_zone,
+                           BYTE *gcr_track_start_ptr)
 {
     int gap, i;
     unsigned int num_tracks;
-    BYTE len[2], *gcr_track_start_ptr;
+    BYTE len[2];
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     int offset;
-
-    gcr_track_start_ptr = image->gcr->data 
-                          + ((track - 1) * NUM_MAX_BYTES_TRACK);
 
     num_tracks = image->tracks;
 
     fseek(image->fd, 12, SEEK_SET);
     if (read_dword(image->fd, gcr_track_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image header.");
-        return;
+        return -1;
     }
 
     fseek(image->fd, 12 + num_tracks * 8, SEEK_SET);
     if (read_dword(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image header.");
-        return;
+        return -1;
     }
 
     if (gcr_track_p[(track - 1) * 2] == 0) {
         offset = fseek(image->fd, 0, SEEK_END);
         if (offset < 0) {
             log_error(disk_image_log, "Could not extend GCR disk image.");
-            return;
+            return -1;
         }
         gcr_track_p[(track - 1) * 2] = offset;
     }
 
     offset = gcr_track_p[(track - 1) * 2];
 
-    len[0] = gcr_track_size[track - 1] % 256;
-    len[1] = gcr_track_size[track - 1] / 256;
+    len[0] = gcr_track_size % 256;
+    len[1] = gcr_track_size / 256;
 
     if (fseek(image->fd, offset, SEEK_SET) < 0
         || fwrite((char *)len, 2, 1, image->fd) < 1) {
         log_error(disk_image_log, "Could not write GCR disk image.");
-        return;
+        return -1;
     }
 
     /* Clear gap between the end of the actual track and the start of
        the next track.  */
-    gap = NUM_MAX_BYTES_TRACK - gcr_track_size[track - 1];
+    gap = NUM_MAX_BYTES_TRACK - gcr_track_size;
     if (gap > 0)
-        memset(gcr_track_start_ptr + gcr_track_size[track - 1], 0, gap);
+        memset(gcr_track_start_ptr + gcr_track_size, 0, gap);
 
     if (fseek(image->fd, offset + 2, SEEK_SET) < 0
         || fwrite((char *)gcr_track_start_ptr, NUM_MAX_BYTES_TRACK,
         1, image->fd) < 1) {
         log_error(disk_image_log, "Could not write GCR disk image.");
-        return;
+        return -1;
     }
 
-    for (i = 0; (gcr_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK]
-         == gcr_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK + i])
-         && i < NUM_MAX_BYTES_TRACK; i++);
+    if (gcr_speed_zone != NULL) {
+        for (i = 0; (gcr_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK]
+            == gcr_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK + i])
+            && i < NUM_MAX_BYTES_TRACK; i++);
 
-    if (i < gcr_track_size[track - 1]) {
-        /* This will change soon.  */
-        log_error(disk_image_log,
-                  "Saving different speed zones is not supported yet.");
-        return;
-    }
+        if (i < gcr_track_size) {
+            /* This will change soon.  */
+            log_error(disk_image_log,
+                      "Saving different speed zones is not supported yet.");
+            return -1;
+        }
 
-    if (gcr_speed_p[(track - 1) * 2] >= 4) {
-        /* This will change soon.  */
-        log_error(disk_image_log,
-                  "Adding new speed zones is not supported yet.");
-        return;
-    }
+        if (gcr_speed_p[(track - 1) * 2] >= 4) {
+            /* This will change soon.  */
+            log_error(disk_image_log,
+                      "Adding new speed zones is not supported yet.");
+            return -1;
+        }
 
-    offset = 12 + num_tracks * 8 + (track - 1) * 8;
-    if (fseek(image->fd, offset, SEEK_SET) < 0
-        || write_dword(image->fd, &gcr_speed_p[(track - 1) * 2], 4) < 0) {
-        log_error(disk_image_log, "Could not write GCR disk image.");
-        return;
+        offset = 12 + num_tracks * 8 + (track - 1) * 8;
+        if (fseek(image->fd, offset, SEEK_SET) < 0
+            || write_dword(image->fd, &gcr_speed_p[(track - 1) * 2], 4) < 0) {
+            log_error(disk_image_log, "Could not write GCR disk image.");
+            return -1;
+        }
     }
 
 #if 0  /* We do not support writing different speeds yet.  */
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
-        zone_len = (gcr_track_size[track - 1] + 3) / 4;
+        zone_len = (gcr_track_size + 3) / 4;
     zone_data = gcr_speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
 
     if (gap > 0)
-        memset(zone_data + gcr_track_size[track - 1], 0, gap);
+        memset(zone_data + gcr_track_size, 0, gap);
 
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
         comp_speed[i] = (zone_data[i * 4]
@@ -1097,6 +1097,7 @@ void disk_image_write_track(disk_image_t *image, unsigned int track,
         return;
     }
 #endif
+    return 0;
 }
 
 
@@ -1142,21 +1143,47 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         }
         break;
       case DISK_IMAGE_TYPE_G64:
-        if (track > image->tracks) {
-            log_error(disk_image_log,
-                      "Track %i out of bounds.  Cannot write GCR sector",
-                      track);
-            return -1;
-        }
-        if (image->gcr == NULL) {
-            log_error(disk_image_log, "No GCR data available for writing.");
-            return -1;
-        }
-        if (gcr_write_sector(image->gcr, buf, track, sector) < 0)
-            return -1;
+        {
+            BYTE gcr_data[NUM_MAX_BYTES_TRACK];
+            BYTE *gcr_track_start_ptr, *speed_zone;
+            int gcr_track_size, gcr_current_track_size;
 
-        disk_image_write_track(image, track, image->gcr->track_size,
-                               image->gcr->speed_zone);
+            if (track > image->tracks) {
+                log_error(disk_image_log,
+                          "Track %i out of bounds.  Cannot write GCR sector",
+                          track);
+                return -1;
+            }
+            if (image->gcr == NULL) {
+                if (disk_image_read_track(image, track, gcr_data,
+                    &gcr_track_size) < 0) {
+                    log_error(disk_image_log,
+                              "Cannot read track %i from GCR image.", track);
+                    return -1;
+                }
+                gcr_track_start_ptr = gcr_data;
+                gcr_current_track_size = gcr_track_size;
+                speed_zone = NULL;
+            } else {
+                gcr_track_start_ptr = image->gcr->data
+                                      + ((track - 1) * NUM_MAX_BYTES_TRACK);
+                gcr_current_track_size = image->gcr->track_size[track - 1];
+                speed_zone = image->gcr->speed_zone;
+            }
+            if (gcr_write_sector(gcr_track_start_ptr,
+                gcr_current_track_size, buf, track, sector) < 0) {
+                log_error(disk_image_log,
+                          "Could not find track %i sector %i in disk image",
+                          track, sector);
+                return -1;
+            }
+            if (disk_image_write_track(image, track, gcr_current_track_size,
+                speed_zone, gcr_track_start_ptr) < 0) {
+                log_error(disk_image_log,
+                          "Failed writing track %i to disk image.", track);
+                return -1;
+            }
+        }
         break;
       default:
         log_error(disk_image_log, "Unknown disk image.  Cannot write sector.");
