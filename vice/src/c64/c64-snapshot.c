@@ -187,7 +187,7 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
         || snapshot_module_write_byte(m, pport.dir) < 0
         || snapshot_module_write_byte(m, export.exrom) < 0
         || snapshot_module_write_byte(m, export.game) < 0
-        || snapshot_module_write_byte_array(m, ram, C64_RAM_SIZE) < 0)
+        || snapshot_module_write_byte_array(m, mem_ram, C64_RAM_SIZE) < 0)
         goto fail;
 
     if (snapshot_module_close(m) < 0)
@@ -239,7 +239,7 @@ int c64_snapshot_read_module(snapshot_t *s)
         || snapshot_module_read_byte(m, &pport.dir) < 0
         || snapshot_module_read_byte(m, &export.exrom) < 0
         || snapshot_module_read_byte(m, &export.game) < 0
-        || snapshot_module_read_byte_array(m, ram, C64_RAM_SIZE) < 0)
+        || snapshot_module_read_byte_array(m, mem_ram, C64_RAM_SIZE) < 0)
         goto fail;
 
     pla_config_changed();

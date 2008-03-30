@@ -188,7 +188,7 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
     }
 
     if (0
-        || snapshot_module_write_byte_array(m, ram, C128_RAM_SIZE) < 0)
+        || snapshot_module_write_byte_array(m, mem_ram, C128_RAM_SIZE) < 0)
         goto fail;
 
     if (snapshot_module_close(m) < 0)
@@ -247,7 +247,7 @@ int c128_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || snapshot_module_read_byte_array(m, ram, C128_RAM_SIZE) < 0)
+        || snapshot_module_read_byte_array(m, mem_ram, C128_RAM_SIZE) < 0)
         goto fail;
 
     /* pla_config_changed(); */

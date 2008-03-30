@@ -91,12 +91,15 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
+    BYTE color_ram[0x400];
 
     /* FIXME: Dispatch all events?  */
 
     m = snapshot_module_create (s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
+
+    mem_color_ram_to_snapshot(color_ram);
 
     if (0
         /* AllowBadLines */
@@ -108,7 +111,7 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
         /* ColorBuf */
         || snapshot_module_write_byte_array(m, vic_ii.cbuf, 40) < 0
         /* ColorRam */
-        || snapshot_module_write_byte_array(m, vic_ii.color_ram, 1024) < 0
+        || snapshot_module_write_byte_array(m, color_ram, 1024) < 0
         /* IdleState */
         || snapshot_module_write_byte(m, vic_ii.idle_state) < 0
         /* LPTrigger */
@@ -124,7 +127,7 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
             vic_ii.raster.sprite_status->new_dma_msk) < 0
         /* RamBase */
         || snapshot_module_write_dword(m,
-            (DWORD)(vic_ii.ram_base_phi1 - ram)) < 0
+            (DWORD)(vic_ii.ram_base_phi1 - mem_ram)) < 0
         /* RasterCycle */
         || snapshot_module_write_byte(m, (BYTE)(VIC_II_RASTER_CYCLE(maincpu_clk))) < 0
         /* RasterLine */
@@ -191,7 +194,7 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
     if (0
         /* RamBase */
         || snapshot_module_write_dword(m,
-            (DWORD)(vic_ii.ram_base_phi2 - ram)) < 0
+            (DWORD)(vic_ii.ram_base_phi2 - mem_ram)) < 0
         /* VBank */
         || snapshot_module_write_word(m, (WORD)vic_ii.vbank_phi2) < 0
         )
@@ -232,6 +235,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
     BYTE major_version, minor_version;
     int i;
     snapshot_module_t *m;
+    BYTE color_ram[0x400];
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -258,7 +262,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
         /* ColorBuf */
         || snapshot_module_read_byte_array (m, vic_ii.cbuf, 40) < 0
         /* ColorRam */
-        || snapshot_module_read_byte_array (m, vic_ii.color_ram, 1024) < 0
+        || snapshot_module_read_byte_array (m, color_ram, 1024) < 0
         /* IdleState */
         || read_byte_into_int(m, &vic_ii.idle_state) < 0
         /* LPTrigger */
@@ -275,12 +279,14 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
         )
         goto fail;
 
+    mem_color_ram_from_snapshot(color_ram);
+
     {
         DWORD RamBase;
 
         if (snapshot_module_read_dword(m, &RamBase) < 0)
             goto fail;
-        vic_ii.ram_base_phi1 = ram + RamBase;
+        vic_ii.ram_base_phi1 = mem_ram + RamBase;
     }
 
     /* Read the current raster line and the current raster cycle.  As they
@@ -478,7 +484,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             || read_word_into_int(m, &vic_ii.vbank_phi2) < 0 /* VBank */
             )
             goto fail;
-        vic_ii.ram_base_phi2 = ram + RamBase;
+        vic_ii.ram_base_phi2 = mem_ram + RamBase;
 
         vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
     }

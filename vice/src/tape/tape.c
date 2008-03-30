@@ -177,7 +177,7 @@ void tape_find_header_trap(void)
     int err;
     BYTE *cassette_buffer;
 
-    cassette_buffer = ram + (mem_read(buffer_pointer_addr)
+    cassette_buffer = mem_ram + (mem_read(buffer_pointer_addr)
                       | (mem_read((ADDRESS)(buffer_pointer_addr + 1)) << 8));
 
     if (tape_image_dev1->name == NULL
@@ -243,7 +243,7 @@ void tape_find_header_trap_plus4(void)
     int err;
     BYTE *cassette_buffer;
 
-    cassette_buffer = ram + buffer_pointer_addr;
+    cassette_buffer = mem_ram + buffer_pointer_addr;
 
     if (tape_image_dev1->name == NULL
         || tape_image_dev1->type != TAPE_TYPE_T64) {
@@ -326,7 +326,7 @@ void tape_receive_trap(void)
             len = end - start;
 
             if (t64_read((t64_t *)tape_image_dev1->data,
-                         ram + (int)start, (int)len) == (int)len) {
+                         mem_ram + (int)start, (int)len) == (int)len) {
                 st = 0x40;      /* EOF */
             } else {
                 st = 0x10;
@@ -368,7 +368,7 @@ void tape_receive_trap_plus4(void)
     len = end - start;
 
     if (t64_read((t64_t *)tape_image_dev1->data,
-                 ram + (int) start, (int) len) == (int) len) {
+                 mem_ram + (int) start, (int)len) == (int) len) {
         st = 0x40;      /* EOF */
     } else {
         st = 0x10;
