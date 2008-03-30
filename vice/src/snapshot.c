@@ -33,6 +33,7 @@
 #include "snapshot.h"
 
 #include "utils.h"
+#include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -386,13 +387,15 @@ fail:
 snapshot_t *snapshot_open(const char *filename,
                           BYTE *major_version_return,
                           BYTE *minor_version_return,
-                          char *machine_name_return)
+                          const char *machine_name)
 {
     FILE *f;
     char magic[SNAPSHOT_MAGIC_LEN];
+    char read_name[SNAPSHOT_MACHINE_NAME_LEN];
     snapshot_t *s = NULL;
+    int machine_name_len;
 
-    f = fopen(filename, "rb");
+    f = zfopen(filename, "rb");
     if (f == NULL)
         goto fail;
 
@@ -407,9 +410,18 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
 
     /* Machine.  */
-    if (snapshot_read_byte_array(f, machine_name_return,
+    if (snapshot_read_byte_array(f, read_name,
                                  SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
+
+    /* Check machine name.  */
+    machine_name_len = strlen(machine_name);
+    if (memcmp(read_name, machine_name, machine_name_len) != 0
+        || (machine_name_len != SNAPSHOT_MODULE_NAME_LEN
+            && read_name[machine_name_len] != 0)) {
+        fprintf(stderr, "SNAPSHOT: Wrong machine type.\n");
+        goto fail;
+    }
 
     s = xmalloc(sizeof(snapshot_t));
     s->file = f;
@@ -427,10 +439,17 @@ int snapshot_close(snapshot_t *s)
 {
     int retval;
 
-    if (fclose(s->file) == EOF)
-        retval = -1;
-    else
-        retval = 0;
+    if (!s->write_mode) {
+        if (zfclose(s->file) == EOF)
+            retval = -1;
+        else
+            retval = 0;
+    } else {
+        if (fclose(s->file) == EOF)
+            retval = -1;
+        else
+            retval = 0;
+    }
 
     free(s);
     return retval;
