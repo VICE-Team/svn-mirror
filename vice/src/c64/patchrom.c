@@ -41,6 +41,7 @@
 #include "ROlib.h"
 #endif
 
+#include "log.h"
 #include "mem.h"
 #include "patchrom.h"
 
@@ -255,7 +256,7 @@ int  patch_rom(const char *str)
         if (strcasecmp(str, "sx") == 0) {
             rev = 67;
         } else {
-            fprintf(errfile, "Invalid ROM revision `%s'.\n", str);
+            log_error(LOG_DEFAULT, "Invalid ROM revision `%s'.", str);
             return -1;
         }
     } else {
@@ -265,7 +266,8 @@ int  patch_rom(const char *str)
     curr = read_rom(0xff80);
 
     if (rev == curr) {
-	fprintf(logfile, "ROM not patched: Already revision #%d\n", curr);
+	log_warning(LOG_DEFAULT, "ROM not patched: Already revision #%d.",
+                    curr);
 	return (0);
     }
 
@@ -291,26 +293,19 @@ int  patch_rom(const char *str)
       case 0:
 	break;
       default:
-	fprintf(logfile, "Cannot patch ROM to revision #%d\n", rev);
+	log_error(LOG_DEFAULT, "Cannot patch ROM to revision #%d.", rev);
 	return (-1);
     }
 
-    fprintf(logfile, "\nInstalling ROM patch for revision #%d:\n", num);
+    log_message(LOG_DEFAULT, "Installing ROM patch for revision #%d:", num);
 
     lcount = 0;
     i = 0;
     while ((bytes = patch_bytes[i++]) > 0) {
 	a = (ADDRESS)patch_bytes[i++];
 
-	fprintf(logfile, "%.4X (%d byte%s)",
-	       a & 0xFFFF, bytes, ((bytes > 1) ? "s":""));
-
-	lcount++;
-	if (lcount == 5) {
-	    lcount = 0;
-	    putchar('\n');
-	} else
-	    putchar('\t');
+	log_message(LOG_DEFAULT, "%.4X (%d byte%s)",
+                    a & 0xFFFF, bytes, ((bytes > 1) ? "s":""));
 
 	i += (bytes * rev);	/* select patch */
 	for(n = bytes; n--;)
@@ -318,8 +313,8 @@ int  patch_rom(const char *str)
 
 	i += (bytes * (PATCH_VERSIONS - rev));	/* skip patch */
     }
-    if (lcount != 0)
-	putchar('\n');
+
+    log_message(LOG_DEFAULT, "Patch installed.");
 
     return (0);
 }

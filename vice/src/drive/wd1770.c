@@ -37,6 +37,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "log.h"
 #include "wd1770.h"
 
 /*-----------------------------------------------------------------------*/
@@ -340,9 +341,9 @@ int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
                            sector_data, track, sector,
                            drive[dnr].drive_floppy->D64_Header);
     if (rc < 0) {
-        fprintf(errfile, 
-                "DRIVE#%i: Error reading T:%d S:%d from the disk image\n",
-                dnr + 8, track, sector);
+        log_error(drive[dnr].log, 
+                  "Cannot read T:%d S:%d from disk image.",
+                  track, sector);
         return 2;
     }
     base = (buffer << 8) + 0x300;
@@ -372,9 +373,9 @@ int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
                             sector_data, track, sector,
                             drive[dnr].drive_floppy->D64_Header);
     if (rc < 0) {
-        fprintf(errfile,
-                "DRIVE#%i: Could not update T:%d S:%d.\n",
-                 dnr + 8, track, sector);
+        log_error(drive[dnr].log,
+                  "Could not update T:%d S:%d on disk image.",
+                  track, sector);
         return 2;
     }
     return 0;
