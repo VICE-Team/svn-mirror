@@ -153,12 +153,6 @@ static int ycounter_reset_checked;
    modes.)  */
 static int force_black_overscan_background_color;
 
-/* C128 MMU... unluckily, this is not used yet.  This can result in on-screen
-   garbage when the VIC-II is being used.  */
-#if defined (C128)
-extern BYTE mmu[];
-#endif
-
 /* Light pen.  */
 static struct {
     int triggered;
