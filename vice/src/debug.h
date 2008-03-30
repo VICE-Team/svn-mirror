@@ -30,7 +30,7 @@
 #include "types.h"
 
 /* This enables debugging.  Attention: It makes things a bit slower.  */
-/* #define DEBUG */
+#define DEBUG
 
 typedef struct debug_s {
 #ifdef DEBUG
@@ -42,6 +42,8 @@ typedef struct debug_s {
 
 extern debug_t debug;
 
+struct interrupt_cpu_status_s;
+
 extern int debug_resources_init(void);
 extern int debug_cmdline_options_init(void);
 
@@ -50,6 +52,8 @@ extern void debug_set_machine_parameter(unsigned int cycles,
 extern void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis,
                           BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
 extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a);
+extern void debug_irq(struct interrupt_cpu_status_s *cs);
+extern void debug_nmi(struct interrupt_cpu_status_s *cs);
 extern void debug_text(const char *text);
 
 #endif

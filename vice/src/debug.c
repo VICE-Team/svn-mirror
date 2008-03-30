@@ -30,6 +30,7 @@
 
 #include "cmdline.h"
 #include "debug.h"
+#include "interrupt.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
@@ -141,6 +142,36 @@ void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a)
 void debug_text(const char *text)
 {
     log_debug(text);
+}
+
+void debug_irq(interrupt_cpu_status_t *cs)
+{
+    unsigned int i;
+    char textout[NUMOFINT * 4 + 20];
+
+    sprintf(textout, "*** IRQ");
+
+    for (i = 0; i < NUMOFINT; i++) {
+        if (cs->pending_int[i] & IK_IRQ)
+            sprintf(&textout[strlen(textout)], " %i", i);
+    }
+
+    log_debug(textout);
+}
+
+void debug_nmi(interrupt_cpu_status_t *cs)
+{
+    unsigned int i;
+    char textout[NUMOFINT * 4 + 20];
+
+    sprintf(textout, "*** NMI");
+
+    for (i = 0; i < NUMOFINT; i++) {
+        if (cs->pending_int[i] & IK_NMI)
+            sprintf(&textout[strlen(textout)], " %i", i);
+    }
+
+    log_debug(textout);
 }
 #endif
 
