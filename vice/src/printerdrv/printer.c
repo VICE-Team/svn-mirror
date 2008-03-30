@@ -48,8 +48,7 @@ int printer_resources_init(void)
         || drv_mps803_init_resources() < 0
         || drv_nl10_init_resources() < 0
         || driver_select_init_resources() < 0
-        || interface_serial_init_resources() < 0
-        || interface_userport_init_resources() < 0)
+        || machine_printer_resources_init() < 0)
         return -1;
     return 0;
 }
@@ -67,8 +66,7 @@ int printer_cmdline_options_init(void)
         || output_text_init_cmdline_options() < 0
         || output_select_init_cmdline_options() < 0
         || driver_select_init_cmdline_options() < 0
-        || interface_serial_init_cmdline_options() < 0
-        || interface_userport_init_cmdline_options() < 0)
+        || machine_printer_cmdline_options_init() < 0)
         return -1;
     return 0;
 }
@@ -98,5 +96,6 @@ void printer_shutdown(void)
     drv_mps803_shutdown();
     drv_nl10_shutdown();
     driver_select_shutdown();
-    interface_serial_shutdown();
+    machine_printer_shutdown();
 }
+

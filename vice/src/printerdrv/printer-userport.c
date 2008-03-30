@@ -1,5 +1,5 @@
 /*
- * printer-serial.c - Serial printer interface.
+ * printer-uerport.c - Userport printer interface.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -26,8 +26,19 @@
 
 #include "vice.h"
 
+#include "interface-userport.h"
 #include "printer.h"
 
+
+int printer_interface_userport_init_resources(void)
+{
+    return interface_userport_init_resources();
+}
+
+int printer_interface_userport_init_cmdline_options(void)
+{
+    return interface_userport_init_cmdline_options();
+}
 
 void printer_userport_init(void)
 {

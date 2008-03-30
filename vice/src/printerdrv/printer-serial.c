@@ -30,6 +30,16 @@
 #include "printer.h"
 
 
+int printer_interface_serial_init_resources(void)
+{
+    return interface_serial_init_resources();
+}
+
+int printer_interface_serial_init_cmdline_options(void)
+{
+    return interface_serial_init_cmdline_options();
+}
+
 void printer_serial_init(void)
 {
     interface_serial_init();
