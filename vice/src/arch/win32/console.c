@@ -570,7 +570,7 @@ static void free_window_memory( console_private_t *pcp )
     lib_free( pcp );
 }
 
-
+/*
 static void draw_character( console_private_t *pcp, char ch )
 {
     TextOut( pcp->hdc,
@@ -580,7 +580,7 @@ static void draw_character( console_private_t *pcp, char ch )
         1
         );
 }
-
+*/
 
 static void draw_current_character( console_private_t *pcp )
 {

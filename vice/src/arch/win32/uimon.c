@@ -606,12 +606,14 @@ WORD GetByte(BYTE **p, int* len)
     return *(*p)++;
 }
 
+/*
 static
 WORD GetWord(BYTE **p, int* len)
 {
     WORD   ah = GetByte(p,len) << 8;
     return ah | GetByte(p,len);
 }
+*/
 
 static
 BOOLEAN GetPlacement( BYTE **p, int* len, WINDOWPLACEMENT *pwp )
@@ -633,6 +635,7 @@ BYTE **WriteByte(BYTE **p, BYTE a)
     return p;
 }
 
+/*
 static
 BYTE **WriteWord(BYTE **p, WORD a)
 {
@@ -640,6 +643,7 @@ BYTE **WriteWord(BYTE **p, WORD a)
     WriteByte(p,(BYTE) ( a     & 0xFF));
     return p;
 }
+*/
 
 static
 BYTE **WritePlacement( BYTE **p, WINDOWPLACEMENT *pwp )

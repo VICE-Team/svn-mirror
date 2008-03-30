@@ -125,6 +125,7 @@ static char *modes[5]=
     NULL
 };
 
+/*
 static void enable_controls_for_video_settings(HWND hwnd, int type)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME),
@@ -132,6 +133,7 @@ static void enable_controls_for_video_settings(HWND hwnd, int type)
     EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_BROWSE),
                  type == IDC_SELECT_VIDEO_CUSTOM);
 }
+*/
 
 static void init_color_dialog(HWND hwnd)
 {

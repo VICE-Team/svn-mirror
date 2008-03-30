@@ -38,10 +38,6 @@
 #include "winmain.h"
 
 
-static void enable_controls_for_vicii_settings(HWND hwnd, int type)
-{
-}
-
 static uilib_localize_dialog_param vicii_dialog[] = {
     {0, IDS_VICII_CAPTION, -1},
     {IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0},
