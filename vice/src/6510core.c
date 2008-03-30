@@ -256,9 +256,9 @@
 
 #define STORE_ABS_X(addr, value, inc)                           \
   do {                                                          \
-      CLK += (inc) - 1;                                         \
+      CLK += (inc) - 2;                                         \
       LOAD((((addr) + reg_x) & 0xff) | ((addr) & 0xff00));      \
-      CLK++;                                                    \
+      CLK += 2;                                                 \
       STORE((addr) + reg_x, (value));                           \
   } while (0)
 
@@ -270,9 +270,9 @@
 
 #define STORE_ABS_Y(addr, value, inc)                           \
   do {                                                          \
-      CLK += (inc) - 1;                                         \
+      CLK += (inc) - 2;                                         \
       LOAD((((addr) + reg_y) & 0xff) | ((addr) & 0xff00));      \
-      CLK++;                                                    \
+      CLK += 2;                                                 \
       STORE((addr) + reg_y, (value));                           \
   } while (0)
 
@@ -286,7 +286,8 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* Opcodes. */
+/* Opcodes.  Notice that the VIC-II emulation requires PC to be incremented
+   before the first write access.  */
 
 #define ADC(value, clk_inc1, clk_inc2, pc_inc)                                \
   do {                                                                        \
@@ -399,9 +400,9 @@
       tmp_value = (tmp_value << 1) & 0xff;                              \
       LOCAL_SET_NZ(tmp_value);                                          \
       RMW_FLAG = 1;                                                     \
+      INC_PC(pc_inc);                                                   \
       store_func(tmp_addr, tmp_value, clk_inc2);                        \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)
 
 #define ASL_A()                                 \
@@ -556,9 +557,9 @@
       tmp = (tmp - 1) & 0xff;                                           \
       LOCAL_SET_CARRY(reg_a >= tmp);                                    \
       LOCAL_SET_NZ((reg_a - tmp));                                      \
+      INC_PC(pc_inc);                                                   \
       store_func(addr, tmp, (clk_inc2));                                \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)
 
 #define DCP_IND_Y(addr)                                         \
@@ -576,9 +577,9 @@
       tmp = (tmp - 1) & 0xff;                                   \
       LOCAL_SET_CARRY(reg_a >= tmp);                            \
       LOCAL_SET_NZ((reg_a - tmp));                              \
+      INC_PC(2);                                                \
       STORE_ABS(tmp_addr, tmp, 2);                              \
       RMW_FLAG = 0;                                             \
-      INC_PC(2);                                                \
   } while (0)
 
 #define DEC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
@@ -590,9 +591,9 @@
       tmp = (tmp - 1) & 0xff;                                           \
       LOCAL_SET_NZ(tmp);                                                \
       RMW_FLAG = 1;                                                     \
+      INC_PC(pc_inc);                                                   \
       store_func((addr), tmp, (clk_inc2));                              \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)
 
 #define DEX()                                   \
@@ -628,8 +629,8 @@
       tmp = (load_func(addr) + 1) & 0xff;                               \
       LOCAL_SET_NZ(tmp);                                                \
       RMW_FLAG = 1;                                                     \
-      store_func((addr), tmp, (clk_inc2));                              \
       INC_PC(pc_inc);                                                   \
+      store_func((addr), tmp, (clk_inc2));                              \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -660,8 +661,8 @@
       my_src = load_func(my_addr);                                      \
       my_src = (my_src + 1) & 0xff;                                     \
       SBC(my_src, 0, 0, 0);                                             \
-      store_func(my_addr, my_src, clk_inc2);                            \
       INC_PC(pc_inc);                                                   \
+      store_func(my_addr, my_src, clk_inc2);                            \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -679,8 +680,8 @@
       my_src = LOAD(my_addr);                                   \
       my_src = (my_src + 1) & 0xff;                             \
       SBC(my_src, 0, 0, 0);                                     \
-      STORE_ABS(my_addr, my_src, 2);                            \
       INC_PC(2);                                                \
+      STORE_ABS(my_addr, my_src, 2);                            \
       RMW_FLAG = 0;                                             \
   } while (0)
 
@@ -862,9 +863,9 @@
       LOCAL_SET_CARRY(tmp & 0x100);                                     \
       reg_a &= tmp;                                                     \
       LOCAL_SET_NZ(reg_a);                                              \
+      INC_PC(pc_inc);                                                   \
       store_func(addr, tmp, clk_inc2);                                  \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)
 
 #define RLA_IND_Y(addr)                                         \
@@ -882,9 +883,9 @@
       LOCAL_SET_CARRY(tmp & 0x100);                             \
       reg_a &= tmp;                                             \
       LOCAL_SET_NZ(reg_a);                                      \
+      INC_PC(2);                                                \
       STORE_ABS(tmp_addr, tmp, 2);                              \
       RMW_FLAG = 1;                                             \
-      INC_PC(2);                                                \
   } while (0)
 
 #define ROL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
@@ -897,9 +898,9 @@
       LOCAL_SET_CARRY(tmp & 0x100);                                     \
       LOCAL_SET_NZ(tmp & 0xff);                                         \
       RMW_FLAG = 1;                                                     \
+      INC_PC(pc_inc);                                                   \
       store_func(addr, tmp, clk_inc2);                                  \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)                                                           \
 
 #define ROL_A()                                 \
@@ -925,8 +926,8 @@
       LOCAL_SET_CARRY(src & 0x01);                                      \
       src >>= 1;                                                        \
       LOCAL_SET_NZ(src);                                                \
-      store_func((addr), src, (clk_inc2));                              \
       INC_PC(pc_inc);                                                   \
+      store_func((addr), src, (clk_inc2));                              \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -1110,8 +1111,8 @@
                                                                         \
       UNDOC_WARNING();                                                  \
       tmp = (addr);                                                     \
-      STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
       INC_PC(3);                                                        \
+      STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
   } while (0)
 
 #define SHA_IND_Y(addr)                                 \
@@ -1124,8 +1125,8 @@
       LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));    \
       CLK++;                                            \
       tmp += reg_y;                                     \
-      STORE(tmp, reg_a & reg_x & ((tmp >> 8) + 1));     \
       INC_PC(2);                                        \
+      STORE(tmp, reg_a & reg_x & ((tmp >> 8) + 1));     \
   } while (0)
 
 #define SHX_ABS_Y(addr)                                         \
@@ -1134,8 +1135,8 @@
                                                                 \
       UNDOC_WARNING();                                          \
       tmp = (addr);                                             \
-      STORE_ABS_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
       INC_PC(3);                                                \
+      STORE_ABS_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
   } while (0)
 
 #define SHY_ABS_X(addr)                                         \
@@ -1144,8 +1145,8 @@
                                                                 \
       UNDOC_WARNING();                                          \
       tmp = (addr);                                             \
-      STORE_ABS_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 5);  \
       INC_PC(3);                                                \
+      STORE_ABS_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 5);  \
   } while (0)
 
 #define SHS_ABS_Y(addr)                                                 \
@@ -1153,9 +1154,9 @@
       int tmp = (addr);                                                 \
                                                                         \
       UNDOC_WARNING();                                                  \
+      INC_PC(3);                                                        \
       STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
       reg_sp = reg_a & reg_x;                                           \
-      INC_PC(3);                                                        \
   } while (0)
 
 #define SLO(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
@@ -1172,9 +1173,9 @@
       tmp_value <<= 1;                                                  \
       reg_a |= tmp_value;                                               \
       LOCAL_SET_NZ(reg_a);                                              \
+      INC_PC(pc_inc);                                                   \
       store_func(tmp_addr, tmp_value, clk_inc2);                        \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)
 
 #define SLO_IND_Y(addr)                                         \
@@ -1194,9 +1195,9 @@
       tmp_value <<= 1;                                          \
       reg_a |= tmp_value;                                       \
       LOCAL_SET_NZ(reg_a);                                      \
+      INC_PC(2);                                                \
       STORE_ABS(tmp_addr, tmp_value, 2);                        \
       RMW_FLAG = 0;                                             \
-      INC_PC(2);                                                \
   } while (0)
 
 #define SRE(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
@@ -1211,9 +1212,9 @@
       tmp >>= 1;                                                        \
       reg_a ^= tmp;                                                     \
       LOCAL_SET_NZ(reg_a);                                              \
+      INC_PC(pc_inc);                                                   \
       store_func((addr), tmp, clk_inc2);                                \
       RMW_FLAG = 0;                                                     \
-      INC_PC(pc_inc);                                                   \
   } while (0)
 
 #define SRE_IND_Y(addr)                                         \
@@ -1232,9 +1233,9 @@
       tmp >>= 1;                                                \
       reg_a ^= tmp;                                             \
       LOCAL_SET_NZ(reg_a);                                      \
+      INC_PC(2);                                                \
       STORE_ABS(tmp_addr, tmp, 2);                              \
       RMW_FLAG = 0;                                             \
-      INC_PC(2);                                                \
   } while (0)
 
 #define STA(addr, clk_inc1, clk_inc2, pc_inc, store_func)       \
@@ -1243,15 +1244,15 @@
                                                                 \
       CLK += (clk_inc1);                                        \
       tmp = (addr);                                             \
-      store_func((addr), reg_a, clk_inc2);                      \
       INC_PC(pc_inc);                                           \
+      store_func((addr), reg_a, clk_inc2);                      \
   } while (0)
 
 #define STA_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
       CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_a);                \
       INC_PC(pc_inc);                           \
+      STORE_ZERO((addr), reg_a);                \
   } while (0)
 
 #define STA_IND_Y(addr)                                 \
@@ -1262,8 +1263,8 @@
       tmp = LOAD_ZERO_ADDR(addr);                       \
       LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));    \
       CLK++;                                            \
-      STORE(tmp + reg_y, reg_a);                        \
       INC_PC(2);                                        \
+      STORE(tmp + reg_y, reg_a);                        \
   } while (0)
 
 #define STX(addr, clk_inc1, clk_inc2, pc_inc)   \
@@ -1273,15 +1274,15 @@
       CLK += (clk_inc1);                        \
       tmp = (addr);                             \
       CLK += (clk_inc2);                        \
-      STORE((addr), reg_x);                     \
       INC_PC(pc_inc);                           \
+      STORE((addr), reg_x);                     \
   } while (0)
 
 #define STX_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
       CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_x);                \
       INC_PC(pc_inc);                           \
+      STORE_ZERO((addr), reg_x);                \
   } while (0)
 
 #define STY(addr, clk_inc1, clk_inc2, pc_inc)   \
@@ -1291,15 +1292,15 @@
       CLK += (clk_inc1);                        \
       tmp = (addr);                             \
       CLK += (clk_inc2);                        \
-      STORE((addr), reg_y);                     \
       INC_PC(pc_inc);                           \
+      STORE((addr), reg_y);                     \
   } while (0)
 
 #define STY_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
       CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_y);                \
       INC_PC(pc_inc);                           \
+      STORE_ZERO((addr), reg_y);                \
   } while (0)
 
 #define TAX()                                   \
