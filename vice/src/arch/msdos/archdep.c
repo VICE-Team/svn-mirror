@@ -2,7 +2,7 @@
  * archdep.c - Miscellaneous system-specific stuff.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,9 +39,8 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-#include "fcntl.h"
 #include "archdep.h"
-
+#include "fcntl.h"
 #include "log.h"
 #include "utils.h"
 #include "video.h"

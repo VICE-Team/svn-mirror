@@ -2,11 +2,11 @@
  * ciacore.c - Template file for MOS6526 (CIA) emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Patches and improvements by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@rzgw.rz.fh-hannover.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

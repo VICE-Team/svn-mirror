@@ -2,12 +2,12 @@
  * p00.c - Utility functions for P00 file support.
  *
  * Written by
- *  Ettore Perazzoli     (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on older code by
- *  Dan Fandrich         (dan@fch.wimsey.bc.ca)
- *  Jouko Valta          (jopi@stekt.oulu.fi)
- *  Martin Pottendorfer  (Martin.Pottendorfer@autalcatel.at)
+ *  Dan Fandrich <dan@fch.wimsey.bc.ca>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Martin Pottendorfer <Martin.Pottendorfer@autalcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,7 +36,6 @@
 #include <string.h>
 
 #include "p00.h"
-
 #include "types.h"
 #include "vdrive.h"
 
@@ -45,7 +44,7 @@
    typedef struct {
        BYTE Magic[8];
        char CbmName[17];
-       BYTE RecordSize;    // REL file record size
+       BYTE RecordSize;
    } X00HDR; */
 
 #define P00_HDR_MAGIC_OFFSET      0
@@ -128,3 +127,4 @@ int p00_write_header(FILE *fd, BYTE *cbmname, BYTE recsize)
 
     return fwrite(hdr, sizeof(hdr), 1, fd);
 }
+

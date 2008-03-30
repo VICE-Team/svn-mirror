@@ -2,12 +2,12 @@
  * asm.c - Assembler-related utility functions.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on older code by
- *  Vesa-Matti Puro (vmp@lut.fi)
- *  Jarkko Sonninen (sonninen@lut.fi)
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Vesa-Matti Puro <vmp@lut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,7 +32,6 @@
 #include "vice.h"
 
 #include "asm.h"
-
 #include "types.h"
 
 static int addr_mode_size[] = {
@@ -334,3 +333,4 @@ unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode)
 {
     return addr_mode_size[(unsigned int) mode];
 }
+

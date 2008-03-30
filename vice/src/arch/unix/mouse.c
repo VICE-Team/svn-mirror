@@ -2,8 +2,8 @@
  * mouse.c - Mouse handling for Unix-Systems.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Oliver Schaertel (orschaer@forwiss.uni-erlangen.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Oliver Schaertel <orschaer@forwiss.uni-erlangen.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,11 +31,10 @@
 
 #include <stdio.h>
 
-#include "mouse.h"
-
 #include "cmdline.h"
 #include "kbd.h"  /* for joystick_value[]...
                      (this is ugly and should be fixed) */
+#include "mouse.h"
 #include "log.h"
 #include "resources.h"
 #include "ui.h"

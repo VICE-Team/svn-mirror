@@ -2,8 +2,8 @@
  * video.c - X11 graphics routines.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -63,12 +63,12 @@
 #include <stdlib.h>
 #include <sys/utsname.h>
 
-#include "video.h"
 #include "kbd.h"
 #include "log.h"
-#include "resources.h"
 #include "cmdline.h"
+#include "resources.h"
 #include "utils.h"
+#include "video.h"
 
 /* Define this for additional shared memory verbosity. */
 /*  #define MITSHM_DEBUG */

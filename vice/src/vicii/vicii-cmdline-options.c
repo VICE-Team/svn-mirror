@@ -3,7 +3,7 @@
  * emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,7 @@
 #include "vice.h"
 
 #include "cmdline.h"
-
 #include "vicii.h"
-
 #include "vicii-cmdline-options.h"
 
 

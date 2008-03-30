@@ -2,8 +2,8 @@
  * vdc-draw.c - Rendering for the MOS 8563 (VDC) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Markus Brenner (markus@brenner.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Markus Brenner <markus@brenner.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

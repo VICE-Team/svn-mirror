@@ -15,7 +15,7 @@
  *
  *      Soundblaster driver: supports DMA driven sample playback.
  *
- *      Adapted for use with VICE by Ettore Perazzoli (ettore@comm2000.it).
+ *      Adapted for use with VICE by Ettore Perazzoli <ettore@comm2000.it>.
  *
  *      This file is now part of VICE, the Versatile Commodore Emulator.
  *      See README for copyright notice.

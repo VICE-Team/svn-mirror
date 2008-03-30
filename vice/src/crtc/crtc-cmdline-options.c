@@ -2,12 +2,8 @@
  * crtc-cmdline-options.c - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *
- * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,8 +25,9 @@
  *
  */
 
-#include "cmdline.h"
+#include "vice.h"
 
+#include "cmdline.h"
 #include "crtc-cmdline-options.h"
 
 
