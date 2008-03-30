@@ -68,6 +68,7 @@ extern struct lookup_tag {
 } lookup[];
 
 extern int clength[];
+extern char *modename[];
 
 /* Addressing mode (addr_mode) is used when instruction is diassembled
  * or assembled by diassembler or assembler. This is used i.e.

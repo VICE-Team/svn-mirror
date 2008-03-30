@@ -260,11 +260,9 @@ void REGPARM2 true1541_store(ADDRESS address, BYTE value)
 static unsigned long clk_conv_table[MAX_TICKS + 1];
 static unsigned long clk_mod_table[MAX_TICKS + 1];
 
-void true1541_set_sync_factor(unsigned int sync_factor)
+void true1541_cpu_set_sync_factor(unsigned int sync_factor)
 {
     unsigned long i;
-
-    app_resources.true1541SyncFactor = sync_factor;
 
     for (i = 0; i <= MAX_TICKS; i++) {
 	unsigned long tmp = i * (unsigned long)sync_factor;
@@ -356,13 +354,12 @@ void true1541_cpu_init(void)
 {
     mem_init();
     true1541_cpu_reset();
-    true1541_set_sync_factor(app_resources.true1541SyncFactor);
 }
 
 inline void true1541_cpu_wake_up(void)
 {
     /* FIXME: this value could break some programs, or be way too high for
-       others.  Maybe we should put it into the app_resources.  */
+       others.  Maybe we should put it into a user-definable resource.  */
     if (clk - last_clk > 0xffffff && true1541_clk > 934639) {
 	printf("1541: skipping cycles.\n");
 	last_clk = clk;
@@ -466,7 +463,7 @@ void true1541_cpu_execute(void)
 #define ROM_TRAP_HANDLER() \
     true1541_trap_handler()
 
-#define FORCE_INPUT mon_force_import(e_disk_space)
+#define FORCE_IMPORT() mon_force_import(e_disk_space)
 
 #define GLOBAL_REGS true1541_cpu_regs
 

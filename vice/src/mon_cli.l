@@ -8,17 +8,12 @@
 #include "mon.h"
 #include "mon_parse.h"
 
-YY_BUFFER_STATE my_state;
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
+int new_cmd = 1, quote = 0, opt_asm = 0;
 int yywrap();
-
-int new_cmd = 1, quote = 0, rol = 0;
-int opt_asm = 0;
-
-extern char *myinput;
-
 int resolve_datatype(unsigned guess_type, char *num, int *val);
+YY_BUFFER_STATE my_state;
 
 %}
 
@@ -28,17 +23,11 @@ int resolve_datatype(unsigned guess_type, char *num, int *val);
 
 %{
    if (new_cmd) {
-      if (asm_mode) {
+      if (asm_mode) 
          BEGIN ASM_MODE;
-         new_cmd = 0;
-      } else {
+      else
          BEGIN CMD;
-         new_cmd = 0;
-      }
-   }
-   if (rol) {
-      BEGIN ROL;
-      rol = 0;
+      new_cmd = 0;
    }
 %}
 
@@ -89,7 +78,6 @@ int resolve_datatype(unsigned guess_type, char *num, int *val);
 <CMD>command		{ BEGIN INITIAL; return CMD_COMMAND; }
 <CMD>x |
 <CMD>exit		{ BEGIN INITIAL; return CMD_EXIT; }
-<CMD>q |
 <CMD>quit		{ BEGIN INITIAL; return CMD_QUIT; }
 <CMD>a			{ BEGIN INITIAL; opt_asm = 1; return CMD_ASSEMBLE; }
 <CMD>d			{ BEGIN INITIAL; return CMD_DISASSEMBLE; }
@@ -98,13 +86,14 @@ int resolve_datatype(unsigned guess_type, char *num, int *val);
 <CMD>system  		{ BEGIN ROL; return CMD_SYSTEM; }
 <CMD>cd			{ BEGIN ROL; return CMD_CHDIR; }
 <CMD>@ 			{ BEGIN ROL; return CMD_DISK; }
+<CMD>load_label   	{ BEGIN FNAME; return CMD_LOAD_LABELS; }
+<CMD>save_label 	{ BEGIN FNAME; return CMD_SAVE_LABELS; }
+<CMD>add_label 		{ BEGIN INITIAL; return CMD_ADD_LABEL; }
+<CMD>del_label 		{ BEGIN INITIAL; return CMD_DEL_LABEL; }
+<CMD>label 		{ BEGIN INITIAL; return CMD_LABEL; }
 
 <CMD>\? |
 <CMD>help		{ BEGIN INITIAL; return CMD_HELP; }
-
-<ASM_MODE>[a-zA-Z]*     { yylval.str = strdup(yytext); BEGIN INITIAL; return ASM_LINE; }
-<ASM_MODE>[ \t]*
-<ASM_MODE>\n            { new_cmd = 1; return TRAIL; }
 
 <CMD>[^~@ \t\n]*		{ BEGIN INITIAL; new_cmd = 1; return BAD_CMD; }
 
@@ -130,29 +119,6 @@ if		{ return IF; }
 <STR>[0-9a-zA-Z ]+ { yylval.str = strdup(yytext); return STRING; }
 <STR>\n 	{ puts("ERROR:"); exit(-1); }
 
-0[xX][0-9a-fA-F]+ { yylval.i = strtol(yytext, NULL, 16);
-                    return H_NUMBER;
-                  }
-
-\$[0-9a-fA-F]+ { yylval.i = strtol(yytext+1, NULL, 16);
-                 return H_NUMBER;
-               }
-
-0[0-7]+ { yylval.i = strtol(yytext, NULL, 8);
-           return O_NUMBER;
-         }
-
-1[01]* { return resolve_datatype(B_NUMBER, yytext, &(yylval.i)); }
-
-[1-7][0-7]* { return resolve_datatype(O_NUMBER, yytext, &(yylval.i)); }
-
-\+[0-9]+ { yylval.i = strtol(yytext, NULL, 10); return D_NUMBER; }
-[0-9]+ { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
-
-%[01]+ { yylval.i = strtol(yytext+1, NULL, 2);
-         return B_NUMBER;
-       }
-
   /* [.*]+ { return B_DATA; } */
 
 
@@ -172,14 +138,17 @@ SP		{ yylval.i = e_SP; return REGISTER; }
 \.TP		{ yylval.i = e_text_petscii; return INPUT_SPEC; }
 \.\>		{ yylval.i = e_6502_asm; return INPUT_SPEC; }
 
-D		{ yylval.i = e_decimal; return DATA_TYPE; }
-H		{ yylval.i = e_hexadecimal; return DATA_TYPE; }
-B		{ yylval.i = e_binary; return DATA_TYPE; }
-O		{ yylval.i = e_octal; return DATA_TYPE; }
-C		{ yylval.i = e_character; return DATA_TYPE; }
-S		{ yylval.i = e_sprite; return DATA_TYPE; }
-TA		{ yylval.i = e_text_ascii; return DATA_TYPE; }
-TP		{ yylval.i = e_text_petscii; return DATA_TYPE; }
+   /* D		{ yylval.i = e_decimal; return DATA_TYPE; } */
+   /* H		{ yylval.i = e_hexadecimal; return DATA_TYPE; } */
+   /* B		{ yylval.i = e_binary; return DATA_TYPE; } */
+   /* O		{ yylval.i = e_octal; return DATA_TYPE; } */
+   /* C		{ yylval.i = e_character; return DATA_TYPE; } */
+   /* S		{ yylval.i = e_sprite; return DATA_TYPE; } */
+   /* TA		{ yylval.i = e_text_ascii; return DATA_TYPE; } */
+   /* TP		{ yylval.i = e_text_petscii; return DATA_TYPE; } */
+
+c|C { return MEM_COMP; }
+d|D { return MEM_DISK; }
 
 == 		{ yylval.i = e_EQU; return COMPARE_OP; }
 != 		{ yylval.i = e_NEQ; return COMPARE_OP; }
@@ -194,13 +163,38 @@ TP		{ yylval.i = e_text_petscii; return DATA_TYPE; }
 [ \t]*\n          { new_cmd = 1; return TRAIL; }
 
 
-<FNAME>\"[0-9a-zA-Z]+\" { yytext[yyleng-1] = '\0';
+<FNAME>\"[0-9a-zA-Z\.]+\" { yytext[yyleng-1] = '\0';
                    yylval.str = strdup(yytext+1);
                    BEGIN INITIAL; return FILENAME; }
 
 <ROL>\n          { new_cmd = 1; opt_asm = 0; return TRAIL; }
 <ROL>[^ \t\n][^\n]*          { yylval.str = strdup(yytext); return R_O_L; }
 <ROL>[ \t]*
+
+<ASM_MODE>([b-wzB-WZ][a-zA-Z]*)+|([a-zA-Z]{2,})     { yylval.str = strdup(yytext); return OPCODE; }
+<ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*            { yylval.str = strdup(yytext); return LABEL; }
+<ASM_MODE>[ \t]*
+<ASM_MODE>\n            { new_cmd = 1; return TRAIL; }
+
+<ASM_MODE>a|A           { return REG_A; }
+<ASM_MODE>x|X           { return REG_X; }
+<ASM_MODE>y|Y           { return REG_Y; }
+
+<ASM_MODE>,             { return COMMA; }
+<ASM_MODE>\(            { return L_PAREN; }
+<ASM_MODE>\)            { return R_PAREN; }
+<ASM_MODE>#             { return ARG_IMMEDIATE; }
+<ASM_MODE>:             { return INST_SEP; }
+
+<ASM_MODE,INITIAL>1[01]*                  { return resolve_datatype(B_NUMBER, yytext, &(yylval.i)); }
+<ASM_MODE,INITIAL>%[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
+<ASM_MODE,INITIAL>&[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
+<ASM_MODE,INITIAL>[1-7][0-7]*             { return resolve_datatype(O_NUMBER, yytext, &(yylval.i)); }
+<ASM_MODE,INITIAL>\+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
+<ASM_MODE,INITIAL>[0-9]+                  { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
+<ASM_MODE,INITIAL>\$[0-9a-fA-F]+          { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
+<ASM_MODE,INITIAL>(0x|0X)[0-9a-fA-F]+     { yylval.i = strtol(yytext+2, NULL, 16); return H_NUMBER; }
+<ASM_MODE,INITIAL>[0-9a-fA-F]+            { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 
 [^ \t]		{ return yytext[0]; }
 [ \t]*

@@ -49,6 +49,13 @@ typedef int bool;
 #define LO32_TO_HI32(x) (((x)&0xffffffff)<<16)
 #define HI32_TO_LO32(x) (((x)>>16)&0xffffffff)
 
+enum mon_int {
+    MI_NONE = 0,
+    MI_BREAK = 1 << 0,
+    MI_WATCH = 1 << 1,
+    MI_STEP = 1 << 2,
+};
+
 enum t_reg_id {
    e_A,
    e_X,
@@ -69,7 +76,7 @@ enum t_memory_op {
 typedef enum t_memory_op MEMORY_OP;
 
 enum t_memspace {
-   e_default_space,
+   e_default_space = 0,
    e_comp_space,
    e_disk_space,
    e_invalid_space
@@ -158,6 +165,8 @@ typedef struct t_break_list BREAK_LIST;
 extern char *memspace_string[];
 extern char *cond_op_string[];
 
+extern char *myinput;
+
 /* ------------------------------------------------------------------------- */
 
 typedef void monitor_toggle_func_t(int value);
@@ -187,6 +196,24 @@ struct monitor_interface {
 };
 typedef struct monitor_interface monitor_interface_t;
 
+#define HASH_ARRAY_SIZE 256
+
+struct symbol_entry {
+   ADDRESS addr;
+   char *name;
+   struct symbol_entry *next;
+};
+typedef struct symbol_entry symbol_entry_t;
+
+struct symbol_table {
+   symbol_entry_t *name_list;
+   symbol_entry_t *addr_hash_table[HASH_ARRAY_SIZE];
+};
+typedef struct symbol_table symbol_table_t;
+
+#define HASH_ADDR(x) ((x)%0xff)
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Global variables */
@@ -197,35 +224,26 @@ typedef struct monitor_interface monitor_interface_t;
 
 extern FILE *mon_output;
 extern int sidefx;
-extern M_ADDR dot_addr[NUM_MEMSPACES];
+extern int exit_mon;
 extern int default_datatype;
-extern int breakpoint_count;
 extern int default_readspace;
 extern int default_writespace;
-extern M_ADDR temp_addr;
-extern M_ADDR_RANGE temp_range;
-extern unsigned char data_buf[256];
-extern unsigned data_buf_len;
-extern unsigned instruction_count;
-extern bool icount_is_next;
-extern unsigned next_or_step_stop;
+extern bool asm_mode;
+extern MEMSPACE caller_space;
 extern BREAK_LIST *breakpoints[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
-extern int stop_on_start;
-extern bool asm_mode;
-extern M_ADDR asm_mode_addr;
-extern bool watch_load_occurred;
-extern bool watch_store_occurred;
-extern MEMSPACE caller_space;
+extern unsigned mon_mask[NUM_MEMSPACES];
 
 #define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
 #define any_watchpoints_store(mem) (watchpoints_store[(mem)] != NULL)
 #define any_watchpoints(mem) (watchpoints_load[(mem)] || watchpoints_store[(mem)])
 
-extern int exit_mon;
-
+#define check_breakpoints(mem, addr) check_checkpoint(mem, addr, breakpoints[mem])
+#define check_watchpoints_load(mem, addr) check_checkpoint(mem, addr, watchpoints_load[mem])
+#define check_watchpoints_store(mem, addr) check_checkpoint(mem, addr, watchpoints_store[mem])
+ 
 extern M_ADDR bad_addr;
 extern M_ADDR_RANGE bad_addr_range;
 
@@ -253,17 +271,12 @@ void free_range(M_ADDR_RANGE ar);
 
 extern unsigned check_addr_limits(unsigned val);
 extern bool is_valid_addr_range(M_ADDR_RANGE range);
-extern void print_bin(int val, char on, char off);
-extern void print_hex(int val);
-extern void print_octal(int val);
 extern void add_number_to_buffer(int number);
 extern void add_string_to_buffer(char *str);
 void monitor_init(monitor_interface_t *maincpu_interface,
                   monitor_interface_t *true1541_interface_init);
 extern void print_help(void);
 extern void start_assemble_mode(M_ADDR addr, char *asm_line);
-extern void end_assemble_mode();
-extern void assemble_line(char *line);
 extern void disassemble_lines(M_ADDR_RANGE range);
 extern void display_memory(int data_type, M_ADDR_RANGE range);
 extern void move_memory(M_ADDR_RANGE src, M_ADDR dest);
@@ -278,33 +291,31 @@ extern void instructions_next(int count);
 extern void stack_up(int count);
 extern void stack_down(int count);
 extern void block_cmd(int op, int track, int sector, M_ADDR addr);
-extern breakpoint *find_breakpoint(int brknum);
 extern void switch_breakpt(int op, int breakpt_num);
 extern void set_ignore_count(int breakpt_num, int count);
-extern void print_breakpt_info(breakpoint *bp);
 extern void print_breakpts(void);
-extern void delete_conditional(CONDITIONAL_NODE *cnode);
 extern void delete_breakpoint(int brknum);
-extern void print_conditional(CONDITIONAL_NODE *cnode);
-extern int evaluate_conditional(CONDITIONAL_NODE *cnode);
 extern void set_brkpt_condition(int brk_num, CONDITIONAL_NODE *cnode);
 extern void set_breakpt_command(int brk_num, char *cmd);
-extern bool check_breakpoints(MEMSPACE mem);
-extern bool check_watchpoints_load(MEMSPACE mem, unsigned eff_addr);
-extern bool check_watchpoints_store(MEMSPACE mem, unsigned eff_addr);
-extern bool check_stop_status(MEMSPACE mem, bool is_op_load, bool is_op_store, unsigned eff_addr);
-extern int compare_breakpoints(breakpoint *bp1, breakpoint *bp2);
-extern void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp);
-extern void remove_breakpoint_from_list(BREAK_LIST **head, breakpoint *bp);
 extern int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_store);
 extern void print_convert(int val);
+extern check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list);
 
 extern unsigned int get_reg_val(MEMSPACE mem, int reg_id);
 extern unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr);
-extern void set_reg_val(int reg_id, WORD val);
+extern void set_reg_val(int reg_id, MEMSPACE mem, WORD val);
 extern void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val);
 extern void print_registers();
 extern void jump(M_ADDR addr);
+
+extern char *symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr);
+extern int symbol_table_lookup_addr(MEMSPACE mem, char *name);
+extern void add_name_to_symbol_table(MEMSPACE mem, char *name, ADDRESS addr);
+extern void remove_name_from_symbol_table(MEMSPACE mem, char *name);
+extern void print_symbol_table(MEMSPACE mem);
+extern void free_symbol_table(MEMSPACE mem);
+extern void mon_load_symbols(char *filename, MEMSPACE mem);
+extern void mon_save_symbols(char *filename, MEMSPACE mem);
 
 extern void watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void watch_push_store_addr(ADDRESS addr, MEMSPACE mem);

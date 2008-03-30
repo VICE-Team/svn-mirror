@@ -231,14 +231,28 @@
                 JUMP(LOAD_ADDR(0xfffc));                                \
             }                                                           \
         }                                                               \
-        if (ik & (IK_BREAKPT)) {					\
-           if (any_breakpoints(e_disk_space)) {				\
+        if (ik & (IK_MONITOR)) {					\
+           if (FORCE_IMPORT())						\
+              IMPORT_REGISTERS();					\
+           if (mon_mask[e_disk_space] & (MI_BREAK)) {			\
               EXPORT_REGISTERS();					\
-              if (check_breakpoints(e_disk_space)) {			\
+              if (check_breakpoints(e_disk_space, reg_pc)) {		\
                  caller_space = e_disk_space;				\
                  mon(reg_pc);						\
                  IMPORT_REGISTERS();					\
               }								\
+           }								\
+           if (mon_mask[e_disk_space] & (MI_STEP)) {			\
+              EXPORT_REGISTERS();					\
+              caller_space = e_disk_space;				\
+              mon_helper(reg_pc);					\
+              IMPORT_REGISTERS();					\
+           }								\
+           if (mon_mask[e_disk_space] & (MI_WATCH)) {			\
+              EXPORT_REGISTERS();					\
+              caller_space = e_disk_space;				\
+              mon_helper(reg_pc);					\
+              IMPORT_REGISTERS();					\
            }								\
         }								\
     } while (0)
@@ -288,14 +302,28 @@
                 JUMP(LOAD_ADDR(0xfffc));                                \
             }                                                           \
         }                                                               \
-        if (ik & (IK_BREAKPT)) {					\
-           if (any_breakpoints(e_comp_space)) {				\
+        if (ik & (IK_MONITOR)) {					\
+           if (FORCE_IMPORT())						\
+              IMPORT_REGISTERS();					\
+           if (mon_mask[e_comp_space] & (MI_BREAK)) {			\
               EXPORT_REGISTERS();					\
-              if (check_breakpoints(e_comp_space)) {			\
+              if (check_breakpoints(e_comp_space, reg_pc)) {		\
                  caller_space = e_comp_space;				\
                  mon(reg_pc);						\
                  IMPORT_REGISTERS();					\
               }								\
+           }								\
+           if (mon_mask[e_comp_space] & (MI_STEP)) {			\
+              EXPORT_REGISTERS();					\
+              caller_space = e_comp_space;				\
+              mon_helper(reg_pc);					\
+              IMPORT_REGISTERS();					\
+           }								\
+           if (mon_mask[e_comp_space] & (MI_WATCH)) {			\
+              EXPORT_REGISTERS();					\
+              caller_space = e_comp_space;				\
+              mon_helper(reg_pc);					\
+              IMPORT_REGISTERS();					\
            }								\
         }								\
     } while (0)
@@ -1508,12 +1536,6 @@
 /* Here, the CPU is emulated. */
 
 {
-    /* This can be moved out of the loop. The reason it isn't is that
-     * IMPORT_REGISTERS needs macros defined in this file.
-     */
-    if (FORCE_INPUT)
-       IMPORT_REGISTERS();
-
     while (CLK >= next_alarm_clk(&CPU_INT_STATUS))
         serve_next_alarm(&CPU_INT_STATUS, CLK);
 

@@ -321,7 +321,7 @@ void mainloop(ADDRESS start_address)
         }								\
      } while (0)
 
-#  define FORCE_INPUT           mon_force_import(e_comp_space)
+#  define FORCE_IMPORT()           mon_force_import(e_comp_space)
 
 #  define ROM_TRAP_ALLOWED()    rom_trap_allowed(reg_pc)
 
