@@ -28,39 +28,39 @@
 
 #include "driver-select.h"
 #include "drv-ascii.h"
-#include "output-file.h"
+#include "output-select.h"
 #include "types.h"
 
 static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_open(prnr);
+    return output_select_open(prnr);
 }
 
 static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 {
-    output_file_close(prnr);
+    output_select_close(prnr);
 }
 
 static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
-    if (output_file_putc(prnr, b) < 0)
+    if (output_select_putc(prnr, b) < 0)
         return -1;
 
 #if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
     if (b == 13)
-        return output_file_putc(prnr, 10);
+        return output_select_putc(prnr, 10);
 #endif
     return 0;
 }
 
 static int drv_ascii_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
-    return output_file_getc(prnr, b);
+    return output_select_getc(prnr, b);
 }
 
 static int drv_ascii_flush(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_flush(prnr);
+    return output_select_flush(prnr);
 }
 
 int drv_ascii_init_resources(void)

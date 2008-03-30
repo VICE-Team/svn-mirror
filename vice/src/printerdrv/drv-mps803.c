@@ -33,7 +33,7 @@
 
 #include "driver-select.h"
 #include "log.h"
-#include "output-file.h"
+#include "output-select.h"
 #include "sysfile.h"
 #include "types.h"
 #include "utils.h"
@@ -128,9 +128,9 @@ static void write_line(mps_t *mps, unsigned int prnr)
 
     for (y = 0; y < 7; y++) {
         for (x = 0; x < MAX_COL; x++)
-            output_file_putc(prnr, mps->line[x][y] ? '*' : ' ');
+            output_select_putc(prnr, mps->line[x][y] ? '*' : ' ');
 
-        output_file_putc(prnr, '\n');
+        output_select_putc(prnr, '\n');
     }
 
     mps->pos=0;
@@ -315,12 +315,12 @@ static int init_charset(BYTE charset[256][7], const char *name)
 
 static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_open(prnr);
+    return output_select_open(prnr);
 }
 
 static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 {
-    output_file_close(prnr);
+    output_select_close(prnr);
 }
 
 static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, BYTE b)
@@ -331,12 +331,12 @@ static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 
 static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
-    return output_file_getc(prnr, b);
+    return output_select_getc(prnr, b);
 }
 
 static int drv_mps803_flush(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_flush(prnr);
+    return output_select_flush(prnr);
 }
 
 int drv_mps803_init_resources(void)
