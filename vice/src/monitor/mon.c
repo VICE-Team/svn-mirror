@@ -143,7 +143,6 @@ static int wait_for_return_level;
 BREAK_LIST *breakpoints[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
-static monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 MEMSPACE caller_space;
 
 const char *_mon_space_strings[] = {
@@ -156,6 +155,7 @@ static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
 static bool force_array[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
+static monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 static MON_ADDR dot_addr[NUM_MEMSPACES];
 static int breakpoint_count;
@@ -487,7 +487,7 @@ struct mon_cmds mon_cmd_array[] = {
      "[loadstore] [address [address]]",
      "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
      "for that address.  If two addresses are specified, set a watchpoint\n"
-     "for the memory locations between the two addresses.\n" 
+     "for the memory locations between the two addresses.\n"
      "`loadstore' is either `load' or `store' to specify on which operation\n"
      "the monitor breaks. If not specified, the monitor breaks on both\n"
      "operations." },
@@ -583,7 +583,7 @@ static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
    unsigned len = 0;
 
    start = addr_location(addr1);
-   end = addr_location(addr2);
+   end  = addr_location(addr2);
 
    if (start <= end) {
       len = end - start + 1;
@@ -789,7 +789,9 @@ unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id)
       case e_SP:
         return MOS6510_REGS_GET_SP(reg_ptr);
       case e_FLAGS:
-        return MOS6510_REGS_GET_FLAGS(reg_ptr);
+          return MOS6510_REGS_GET_FLAGS(reg_ptr)|
+              MOS6510_REGS_GET_SIGN(reg_ptr)|
+              MOS6510_REGS_GET_ZERO(reg_ptr)<<1;
       default:
         assert(FALSE);
     }
@@ -887,17 +889,17 @@ static void print_bin(int val, char on, char off)
    int divisor;
    char digit;
 
-   if (val > 4095)
-      divisor = 32768;
-   else if (val > 255)
-      divisor = 2048;
+   if (val > 0xfff)
+      divisor = 0x8000;
+   else if (val > 0xff)
+      divisor = 0x800;
    else
-      divisor = 128;
+      divisor = 0x80;
 
    while (divisor) {
       digit = (val & divisor) ? on : off;
       uimon_out( "%c",digit);
-      if (divisor == 256)
+      if (divisor == 0x100)
          uimon_out( " ");
       divisor /= 2;
    }
@@ -905,18 +907,12 @@ static void print_bin(int val, char on, char off)
 
 static void print_hex(int val)
 {
-   if (val > 255)
-      uimon_out( "$%04x\n", val);
-   else
-      uimon_out( "$%02x\n", val);
+    uimon_out(val>0xff ? "$%04x\n" : "$%02x\n", val);
 }
 
 static void print_octal(int val)
 {
-   if (val > 511)
-      uimon_out( "0%06o\n", val);
-   else
-      uimon_out( "0%03o\n", val);
+    uimon_out(val>0777 ? "0%06o\n" : "0%03o\n", val);
 }
 
 
@@ -1225,8 +1221,8 @@ const char *mon_disassemble_to_string(MEMSPACE memspace, ADDRESS addr,
     return mon_disassemble_to_string_ex(memspace,addr,x,p1,p2,hex_mode,NULL);
 }
 
-const char *mon_disassemble_to_string_ex(MEMSPACE memspace, 
-                                         ADDRESS addr, BYTE x, BYTE p1, BYTE p2, 
+const char *mon_disassemble_to_string_ex(MEMSPACE memspace,
+                                         ADDRESS addr, BYTE x, BYTE p1, BYTE p2,
                                          int hex_mode, unsigned *opc_size_p)
 {
     static char buff[256];
@@ -1547,10 +1543,10 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
    if (radix_type)
    {
       if (radix_type != e_hexadecimal)
-          max_width = (console_log->console_xres-12) / (radix_chars_per_byte[radix_type]+2); 
+          max_width = (console_log->console_xres-12) / (radix_chars_per_byte[radix_type]+2);
       else
-          max_width = (4*(console_log->console_xres-12)) / (4*(radix_chars_per_byte[radix_type]+2)+1); 
-      
+          max_width = (4*(console_log->console_xres-12)) / (4*(radix_chars_per_byte[radix_type]+2)+1);
+
       max_width &= ~3;
 
       display_number = max_width * ((console_log->console_yres-6)/2);
@@ -1662,19 +1658,19 @@ void mon_display_io_regs(void)
 
    /* FIXME */
    start = new_addr(e_comp_space, 0xd000);
-   end = new_addr(e_comp_space, 0xd02e);
+   end   = new_addr(e_comp_space, 0xd02e);
    mon_display_memory(e_hexadecimal, start, end);
 
    start = new_addr(e_comp_space, 0xdc00);
-   end = new_addr(e_comp_space, 0xdc0f);
+   end   = new_addr(e_comp_space, 0xdc0f);
    mon_display_memory(e_hexadecimal, start, end);
 
    start = new_addr(e_comp_space, 0xdd00);
-   end = new_addr(e_comp_space, 0xdd0f);
+   end   = new_addr(e_comp_space, 0xdd0f);
    mon_display_memory(e_hexadecimal, start, end);
 
    start = new_addr(e_comp_space, 0xd400);
-   end = new_addr(e_comp_space, 0xd41f);
+   end   = new_addr(e_comp_space, 0xd41f);
    mon_display_memory(e_hexadecimal, start, end);
 }
 
@@ -1723,14 +1719,14 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
      return;
   }
   src_mem = addr_memspace(start_addr);
-  start = addr_location(start_addr);
+  start   = addr_location(start_addr);
 
   evaluate_default_addr(&dest);
-  dst = addr_location(dest);
+  dst      = addr_location(dest);
   dest_mem = addr_memspace(dest);
 
   for (i=0; i<len; i++) {
-     byte1 = mon_get_mem_val(src_mem, ADDR_LIMIT(start+i));
+     byte1 = mon_get_mem_val(src_mem,  ADDR_LIMIT(start+i));
      byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst+i));
 
      if (byte1 != byte2)
@@ -1787,7 +1783,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
      uimon_out( "Invalid range.\n");
      return;
   }
-  mem = addr_memspace(start_addr);
+  mem   = addr_memspace(start_addr);
   start = addr_location(start_addr);
 
   buf = (BYTE *) xmalloc(sizeof(BYTE) * data_buf_len);
@@ -2052,6 +2048,9 @@ void mon_record_commands(char *filename)
                    recording_name, strerror(errno));
        return;
    }
+
+   setbuf(recording_fp, NULL);
+
    recording = TRUE;
 }
 
@@ -3207,13 +3206,13 @@ int mon_process(char *cmd)
 
         if (cmd) {
             if (recording) {
-                if (fprintf(recording_fp, "%s\n", cmd) != 1) {
+                if (fprintf(recording_fp, "%s\n", cmd) < 0) {
                    uimon_out(
                                "Error while recording commands. "
                                "Output file closed.\n");
                    fclose(recording_fp);
                    recording_fp = NULL;
-                   recording = FALSE;
+                   recording    = FALSE;
                 }
             }
 

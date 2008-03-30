@@ -1374,6 +1374,7 @@ static int set_tape_file(resource_value_t v, void *param)
 static int set_speed_limit(resource_value_t v, void *param)
 {
   CurrentSpeedLimit = (int)v;
+  sound_set_relative_speed(CurrentSpeedLimit);
 
   return 0;
 }

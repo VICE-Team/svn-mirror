@@ -100,8 +100,8 @@ int vic_raster_draw_alarm_handler (CLOCK offset)
     {
         int increase_row = 
             ((unsigned int)vic.raster.ycounter > vic.row_increase_line - 1
-            || (unsigned int)vic.raster.ycounter == vic.row_increase_line - 1
-                && !blank_this_line);
+            || ((unsigned int)vic.raster.ycounter == vic.row_increase_line - 1
+                && !blank_this_line));
 
         if (increase_row)
         {

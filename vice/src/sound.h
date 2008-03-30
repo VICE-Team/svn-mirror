@@ -89,6 +89,7 @@ extern int  sound_flush(int relative_speed);
 extern void sound_suspend(void);
 extern void sound_resume(void);
 extern void sound_close(void);
+extern void sound_set_relative_speed(int value);
 extern void sound_set_warp_mode(int value);
 extern void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
 

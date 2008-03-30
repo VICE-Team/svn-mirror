@@ -84,8 +84,6 @@ int sound_state_changed;
 
 /* Sample based or cycle based sound engine. */
 static int cycle_based;
-/* Speed in percent, tracks relative_speed from vsync.c */
-static int speed_factor;
 
 static int set_playback_enabled(resource_value_t v, void *param)
 {
@@ -218,6 +216,9 @@ int sound_init_cmdline_options(void)
 static unsigned int cycles_per_sec;
 static unsigned int cycles_per_rfsh;
 static double rfsh_per_sec;
+
+/* Speed in percent, tracks relative_speed from vsync.c */
+static int speed_percent;
 
 /* Flag: Is warp mode enabled?  */
 static int warp_mode_enabled;
@@ -364,10 +365,13 @@ static int initsid(void)
     if (param && !strcmp(param, ""))
 	param = NULL;
 
+    /* Calculate buffer size in seconds. */
     bufsize = ((buffer_size<100 || buffer_size>1000)?SOUND_SAMPLE_BUFFER_SIZE:buffer_size)/1000.0;
     speed   = (sample_rate<8000 || sample_rate>50000)?SOUND_SAMPLE_RATE:sample_rate;
 
-        /* calculate optimal fragments */
+    /* Calculate optimal fragments.
+       fragsize is rounded up to 2^i.
+       fragnr is rounded up to bufsize/fragsize. */
     fragsize = speed / ((int)rfsh_per_sec);
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
@@ -405,12 +409,9 @@ static int initsid(void)
 	    /* Cycle based sound engines must do their own filtering,
 	       and handle sample rate conversion. */
 	    if (cycle_based) {
-	        resources_get_value("Speed", (resource_value_t*)&speed_factor);
 		/* "No limit" doesn't make sense for cycle based sound engines,
 		   which have a fixed sampling rate. */
-		if (speed_factor == 0) {
-		    speed_factor = 1;
-		}
+		int speed_factor = speed_percent ? speed_percent : 100;
 	        snddata.oversampleshift = 0;
 		snddata.oversamplenr = 1;
 		snddata.psid = sound_machine_open((int)
@@ -558,11 +559,8 @@ int sound_flush(int relative_speed)
 {
     int	i, nr, space, used, fill = 0, dir = 0;
 
-    if (!playback_enabled || sound_state_changed ||
-	(cycle_based && !warp_mode_enabled && relative_speed != speed_factor))
-    {
+    if (!playback_enabled || sound_state_changed) {
         if (sdev_open) sound_close();
-	speed_factor = relative_speed;
         sound_state_changed = FALSE;
         return 0;
     }
@@ -589,10 +587,13 @@ int sound_flush(int relative_speed)
 	    return 0;
 	}
     }
+
+    /* Calculate the number of samples to flush - whole fragments. */
     nr = snddata.bufptr -
 	snddata.bufptr % (snddata.fragsize*snddata.oversamplenr);
     if (!nr)
 	return 0;
+
     /* handle oversampling */
     if (snddata.oversamplenr > 1)
     {
@@ -622,6 +623,7 @@ int sound_flush(int relative_speed)
     if (snddata.pdev->bufferstatus)
     {
 	space = snddata.pdev->bufferstatus(0);
+	/* Calculate space if bufferstatus returns used. */
 	if (!snddata.firststatus)
 	    space = snddata.bufsize - space;
 	if (space < 0 || space > snddata.bufsize)
@@ -634,7 +636,7 @@ int sound_flush(int relative_speed)
 	}
 	used = snddata.bufsize - space;
 	/* buffer empty */
-	if (used <= snddata.fragsize)
+	if (used <= snddata.fragsize*2)
 	{
 	    SWORD		*p, v;
 	    int			 j;
@@ -650,14 +652,16 @@ int sound_flush(int relative_speed)
 		}
 		prev = now;
 	    }
+	    /* Calculate unused space in buffer. */
 	    j = snddata.fragsize*snddata.fragnr - nr;
 	    if (j > snddata.bufsize / 2
-                && (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING)
+                && (!cycle_based && speed_adjustment_setting == SOUND_ADJUST_FLEXIBLE)
                 && relative_speed)
 	    {
 		j = snddata.fragsize*(snddata.fragnr/2);
 	    }
 	    j *= sizeof(*p);
+	    /* Fill up sound hardware buffer. */
 	    if (j > 0)
 	    {
 	        p = (short *)xmalloc(j);
@@ -692,18 +696,16 @@ int sound_flush(int relative_speed)
 	{
 	    /* finetune VICE timer */
 	    static int lasttime = 0;
-	    static int minspace = 0;
 	    int t = time(0);
-	    if (minspace > space - nr)
-		minspace = space - nr;
 	    if (t != lasttime)
 	    {
-		lasttime = t;
-		if (minspace <= 0)
+		/* Aim for utilization of bufsize - fragsize. */
+		int remspace = space - snddata.bufptr;
+		if (remspace <= 0)
 		    dir = -1;
-		if (minspace > snddata.fragsize)
+		if (remspace > snddata.fragsize)
 		    dir = 1;
-		minspace = snddata.bufsize;
+		lasttime = t;
 	    }
 	}
 	else
@@ -720,6 +722,8 @@ int sound_flush(int relative_speed)
             }
 	    return 0;
 	}
+
+	/* Don't block on write unless we're seriously out of sync. */
 	if (nr > space && nr < used)
 	    nr = space;
     }
@@ -898,6 +902,15 @@ void sound_store(ADDRESS addr, BYTE val)
     }
 }
 
+
+void sound_set_relative_speed(int value)
+{
+    if (value != speed_percent) {
+        sound_close();
+    }
+
+    speed_percent = value;
+}
 
 void sound_set_warp_mode(int value)
 {
