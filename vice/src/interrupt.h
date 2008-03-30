@@ -324,8 +324,8 @@ _INT_FUNC void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
     *clk_ptr += num;
     cs->last_stolen_cycles_clk = start_clk + num;
 
-    cs->irq_clk += num - 1;
-    cs->nmi_clk += num - 1;
+    cs->irq_clk += num;
+    cs->nmi_clk += num;
 }
 
 #else  /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
