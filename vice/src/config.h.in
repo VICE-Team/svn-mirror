@@ -24,6 +24,9 @@
 /* NLS datadirname. */
 #undef DATADIRNAME
 
+/* Use debugging of the zfile */
+#undef DEBUG_ZFILE
+
 /* Can we use the dos WATTCP library? */
 #undef DOS_TCP
 
@@ -38,6 +41,9 @@
 
 /* Enable support for the TextField widget. */
 #undef ENABLE_TEXTFIELD
+
+/* Enable GP2X compilation */
+#undef GP2X
 
 /* Enable emulation for digital joysticks. */
 #undef HAS_DIGITAL_JOYSTICK

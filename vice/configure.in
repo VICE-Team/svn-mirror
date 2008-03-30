@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=18
+VICE_VERSION_BUILD=19
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -36,6 +36,9 @@ AC_SUBST(VERSION_RC)
 
 AC_DEFINE(VERSION_RC,"$VERSION_RC",[Win32 Version string.])
 
+is_unix=no
+is_unix_gp2x=no
+is_unix_x11=no
 is_dos=no
 is_win32=no
 is_riscos=no
@@ -250,7 +253,27 @@ elif test x"$host_os" = "xriscos"; then
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
+elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x"; then
+
+  dnl This is used by subsequent tests.
+  ac_cv_prog_gcc=yes
+  GCC=yes
+
+  is_unix=yes
+  is_unix_gp2x=yes
+
+  CFLAGS="$CFLAGS -fomit-frame-pointer -mcpu=arm920t -msoft-float"
+
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
+  AC_DEFINE(GP2X,,[Enable GP2X compilation])
+  AM_CONDITIONAL(HAVE_RS232, false)
+  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
+
 else
+
+  is_unix=yes
+  is_unix_x11=yes
 
   if test -z "$user_cflags" ; then
 
@@ -300,12 +323,6 @@ else
     dnl (If not on GCC, just keep the defaults, which are very conservative).
 
   fi
-
-  is_dos=no
-  is_win32=no
-  is_riscos=no
-  is_os2=no
-  is_beos=no
 
   dnl This is only possible on Unix (for now).
   AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
@@ -591,6 +608,8 @@ AC_SUBST(RESID_DEP)
 
 dnl Check for typedefs, structures, and compiler characteristics.
 
+AC_CHECK_HEADERS(sys/types.h)
+
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
@@ -626,15 +645,17 @@ AC_CHECK_SIZEOF(unsigned short, 2)
 AC_CHECK_SIZEOF(unsigned int, 4)
 AC_CHECK_SIZEOF(unsigned long, 4)
 
+
 dnl Check whether gcc needs -traditional.
 
 AC_PROG_GCC_TRADITIONAL
+
 
 dnl Check for header files.
 
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
-sys/dirent.h sys/ioctl.h sys/stat.h sys/types.h \
+sys/dirent.h sys/ioctl.h sys/stat.h \
 dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h)
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
@@ -646,9 +667,10 @@ AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 ])
 AC_DECL_SYS_SIGLIST
 
+
 dnl Check for system-specific header files.
 
-if test x"$host_vendor" != "xgo32" -a x"$is_amiga" != "xyes" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32" -a x"$host_vendor" != "xmingw32"; then
+if test x"$is_unix_x11" = "xyes" ; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
                     AC_DEFINE(LINUX_JOYSTICK,,
@@ -683,12 +705,13 @@ if test x"$host_vendor" != "xgo32" -a x"$is_amiga" != "xyes" -a x"$host_vendor" 
 	fi])
 fi
 
+
 dnl Check for math library
 
 AC_CHECK_LIB(m, sqrt,,,$LIBS)
 
-dnl Check for zlib
 
+dnl Check for zlib
 
 VICE_ZLIB=
 VICE_ZLIB_DIR=
@@ -723,7 +746,7 @@ AC_SUBST(VICE_ZLIB_INCLUDES)
 
 dnl Configure unix and msdos netplay support
 
-if test x"$is_win32" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
 
   dnl Check for needed network headers
 
@@ -787,7 +810,7 @@ fi
 
 
 dnl Check for availability of IPV6
-if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
   if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
     AC_MSG_CHECKING([if IPV6 should be enabled])
     if test x"$enable_ipv6" != "xno"; then
@@ -936,7 +959,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
     AC_DEFINE(USE_ARTS,,[Enable aRts support.])
   fi
 
-  if test x"$with_alsa" != "xno"; then
+  if test x"$with_alsa" != "xno" -a x"$is_unix_gp2x" != "xyes"; then
     AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
                       SOUND_LIBS="$SOUND_LIBS -lasound";
@@ -1135,7 +1158,7 @@ dnl AC_STRUCT_TM
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 
-if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_unix_x11" = "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
     unset ac_cv_lib_readline_readline
@@ -1252,9 +1275,9 @@ AC_SUBST(VICE_LIBPNG_DEP)
 AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(VICE_LIBPNG_INCLUDES)
 
-dnl Check for X11 libraries and header files
 
-if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$enable_gnomeui" != "xyes" ; then
+dnl Check for X11 libraries and header files
+if test x"$is_unix_x11" = "xyes"; then
 
   X_LIBS=""
   AC_PATH_XTRA
@@ -1417,6 +1440,13 @@ elif [[ x"$is_beos" != "xno" ]]; then
   LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
   AC_SUBST(LDFLAGS)
 
+elif [[ x"$is_unix_gp2x" != "xno" ]]; then
+
+  dnl on GP2X we need static libs.
+
+  LDFLAGS="$LDFLAGS -static"
+  AC_SUBST(LDFLAGS)
+
 elif [[ x"$is_win32" != "xno" ]]; then
 
   dnl On Windows, we already know what we want.
@@ -1558,15 +1588,25 @@ AC_SUBST(XCBM2_WINRES)
 
 dnl Setup the system-specific object files.
 
-if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_beos" != "xyes"; then
+if test x"$is_unix" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
-  if test x"$enable_gnomeui" != "xyes" ; then
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
-  else
-    ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `pkg-config --cflags libgnomeui-2.0`"
+
+  if test x"$is_unix_x11" = "xyes" ; then
+    if test x"$enable_gnomeui" != "xyes" ; then
+      ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a"
+      ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
+    else
+      ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a"
+      ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `pkg-config --cflags libgnomeui-2.0`"
+    fi
+    AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
   fi
+
+  if test x"$is_unix_gp2x" = "xyes" ; then
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a"
+    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
+  fi
+
   AM_CONDITIONAL(UNIX_COMPILE, true)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
@@ -1574,7 +1614,6 @@ if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes"
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
   qnxcompile=no
   solariscompile=no
   case "$host_os" in
@@ -1598,12 +1637,18 @@ if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes"
     AM_CONDITIONAL(SOLARIS_COMPILE, false)
   fi
 
+  if test x"$is_unix_gp2x" = "xyes" ; then
+    AM_CONDITIONAL(UNIX_GP2X_COMPILE, true)
+  else
+    AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  fi
 
-elif [[ x"$is_win32" != "xno" ]]; then
+elif test x"$is_win32" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1612,11 +1657,12 @@ elif [[ x"$is_win32" != "xno" ]]; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
-elif [[ x"$is_amiga" != "xno" ]]; then
+elif test x"$is_amiga" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1625,7 +1671,7 @@ elif [[ x"$is_amiga" != "xno" ]]; then
   AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
-elif [[ x"$is_dos" != "xno" ]]; then
+elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
   if test $ac_cv_lib_pcap_pcap_open_live = yes; then
@@ -1634,6 +1680,7 @@ elif [[ x"$is_dos" != "xno" ]]; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1642,11 +1689,12 @@ elif [[ x"$is_dos" != "xno" ]]; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
-elif [[ x"$is_os2" != "xno" ]]; then
+elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1655,11 +1703,12 @@ elif [[ x"$is_os2" != "xno" ]]; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
-elif [[ x"$is_beos" != "xno" ]]; then
+elif test x"$is_beos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1668,11 +1717,12 @@ elif [[ x"$is_beos" != "xno" ]]; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
-else
+elif test x"$is_riscos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, true)
@@ -1681,6 +1731,8 @@ else
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
+else
+  AC_MSG_WARN([No architecture defined!])
 fi
 
 dnl Check wether we have gcc and solaris /usr/openwin stuff.
@@ -1740,6 +1792,7 @@ if false ; then
     mkdir -p arch/os2/vac++
     mkdir -p arch/riscos
     mkdir -p arch/unix
+    mkdir -p arch/unix/gp2x
     mkdir -p arch/unix/gui
     mkdir -p arch/unix/readline
     mkdir -p arch/unix/x11
@@ -1766,6 +1819,9 @@ if false ; then
     mkdir -p gfxoutputdrv
     mkdir -p iecbus
     mkdir -p imagecontents
+    mkdir -p lib
+    mkdir -p lib/lpng
+    mkdir -p lib/zlib
     mkdir -p monitor
     mkdir -p parallel
     mkdir -p pet
@@ -1824,6 +1880,7 @@ AC_OUTPUT([Makefile
            src/arch/os2/vac++/Makefile
            src/arch/riscos/Makefile
            src/arch/unix/Makefile
+           src/arch/unix/gp2x/Makefile
            src/arch/unix/gui/Makefile
            src/arch/unix/readline/Makefile
            src/arch/unix/x11/Makefile
