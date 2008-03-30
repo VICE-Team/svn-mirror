@@ -62,6 +62,7 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AR = @AR@
+ARCH_DIR = @ARCH_DIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@

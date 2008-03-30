@@ -62,6 +62,7 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AR = @AR@
+ARCH_DIR = @ARCH_DIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
@@ -111,7 +112,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 SUBDIRS = src data man doc
 
-EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h
+EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ./src/config.h
