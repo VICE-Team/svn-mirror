@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-09 20:54+0200\n"
+"POT-Creation-Date: 2005-10-10 14:47+0200\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -4136,35 +4136,40 @@ msgstr "*ReSID"
 msgid "*Catweasel MKIII"
 msgstr "*Catweasel MKIII"
 
-#: src/arch/unix/uisid.c:59
+#: src/arch/unix/uisid.c:54
+#, fuzzy
+msgid "*HardSID"
+msgstr "Hard"
+
+#: src/arch/unix/uisid.c:63
 msgid "*6581 (old)"
 msgstr "*6581 (vecchio)"
 
-#: src/arch/unix/uisid.c:61
+#: src/arch/unix/uisid.c:65
 msgid "*8580 (new)"
 msgstr "*8580 (nuovo)"
 
-#: src/arch/unix/uisid.c:63
+#: src/arch/unix/uisid.c:67
 msgid "*8580 + digi boost"
 msgstr "*8580 + digi boost"
 
-#: src/arch/unix/uisid.c:72
+#: src/arch/unix/uisid.c:76
 msgid "*Fast"
 msgstr "*Veloce"
 
-#: src/arch/unix/uisid.c:74
+#: src/arch/unix/uisid.c:78
 msgid "*Interpolating"
 msgstr "*Interpolazione"
 
-#: src/arch/unix/uisid.c:76
+#: src/arch/unix/uisid.c:80
 msgid "*Resampling"
 msgstr "*Ricampionamento"
 
-#: src/arch/unix/uisid.c:78
+#: src/arch/unix/uisid.c:82
 msgid "*Fast Resampling"
 msgstr "*Ricampionamento veloce"
 
-#: src/arch/unix/uisid.c:95
+#: src/arch/unix/uisid.c:99
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -4172,7 +4177,7 @@ msgstr ""
 "Inserire la banda passante in percentuale di quella totale\n"
 "(0 - 90, bassa è più veloce, alta è migliore)"
 
-#: src/arch/unix/uisid.c:96
+#: src/arch/unix/uisid.c:100
 msgid "Passband percentage"
 msgstr "Percentuale di banda passante"
 

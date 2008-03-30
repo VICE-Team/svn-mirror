@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-10-09 20:54+0200\n"
+"POT-Creation-Date: 2005-10-10 14:47+0200\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -4105,35 +4105,40 @@ msgstr "*ReSID"
 msgid "*Catweasel MKIII"
 msgstr "*Catweasel MKIII"
 
-#: src/arch/unix/uisid.c:59
+#: src/arch/unix/uisid.c:54
+#, fuzzy
+msgid "*HardSID"
+msgstr "Hard"
+
+#: src/arch/unix/uisid.c:63
 msgid "*6581 (old)"
 msgstr "*6581 (oud)"
 
-#: src/arch/unix/uisid.c:61
+#: src/arch/unix/uisid.c:65
 msgid "*8580 (new)"
 msgstr "*8580 (nieuw)"
 
-#: src/arch/unix/uisid.c:63
+#: src/arch/unix/uisid.c:67
 msgid "*8580 + digi boost"
 msgstr "*8500 + digi boost"
 
-#: src/arch/unix/uisid.c:72
+#: src/arch/unix/uisid.c:76
 msgid "*Fast"
 msgstr "*Snel"
 
-#: src/arch/unix/uisid.c:74
+#: src/arch/unix/uisid.c:78
 msgid "*Interpolating"
 msgstr "*Interpoleren"
 
-#: src/arch/unix/uisid.c:76
+#: src/arch/unix/uisid.c:80
 msgid "*Resampling"
 msgstr "*Resampling"
 
-#: src/arch/unix/uisid.c:78
+#: src/arch/unix/uisid.c:82
 msgid "*Fast Resampling"
 msgstr "*Snelle Resampling"
 
-#: src/arch/unix/uisid.c:95
+#: src/arch/unix/uisid.c:99
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -4141,7 +4146,7 @@ msgstr ""
 "Geef passband in percentage van de totale bandbreedte\n"
 "(0 - 90, lager is sneller, hoger is beter)"
 
-#: src/arch/unix/uisid.c:96
+#: src/arch/unix/uisid.c:100
 msgid "Passband percentage"
 msgstr "Passband percentage"
 
