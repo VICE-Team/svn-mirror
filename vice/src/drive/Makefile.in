@@ -329,13 +329,12 @@ distdir: $(DISTFILES)
 	done
 drive-cmdline-options.o: drive-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h drive.h ../../src/log.h \
-	../../src/arch/unix/types.h
+	../../src/arch/unix/types.h ../../src/machine-drive.h
 drive-resources.o: drive-resources.c ../../src/vice.h ../../src/config.h \
 	drive-resources.h drive.h ../../src/log.h \
-	../../src/arch/unix/types.h drivecpu.h drivemem.h driverom.h \
+	../../src/arch/unix/types.h drivecpu.h driverom.h \
 	../../src/iecdrive.h ../../src/machine-drive.h \
-	../../src/machine.h ../../src/resources.h ../../src/utils.h \
-	../../src/vdrive/vdrive-bam.h
+	../../src/resources.h ../../src/vdrive/vdrive-bam.h
 drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/attach.h ../../src/arch/unix/types.h \

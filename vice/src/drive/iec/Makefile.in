@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdriveiec.a
 
-libdriveiec_a_SOURCES =  	iec-resources.c 	iec-resources.h 	iec.c 	iecrom.c 	iecrom.h 	memiec.c 	memiec.h 	cia1571d.c 	cia1581d.c 	wd1770.c 	wd1770.h
+libdriveiec_a_SOURCES =  	iec-cmdline-options.c 	iec-cmdline-options.h 	iec-resources.c 	iec-resources.h 	iec.c 	iecrom.c 	iecrom.h 	memiec.c 	memiec.h 	cia1571d.c 	cia1581d.c 	wd1770.c 	wd1770.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -149,8 +149,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdriveiec_a_LIBADD = 
-libdriveiec_a_OBJECTS =  iec-resources.o iec.o iecrom.o memiec.o \
-cia1571d.o cia1581d.o wd1770.o
+libdriveiec_a_OBJECTS =  iec-cmdline-options.o iec-resources.o iec.o \
+iecrom.o memiec.o cia1571d.o cia1581d.o wd1770.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -271,6 +271,10 @@ cia1581d.o: cia1581d.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/iecdrive.h ../../../src/interrupt.h \
 	../../../src/ciacore.c ../../../src/clkguard.h \
 	../../../src/snapshot.h ../../../src/utils.h
+iec-cmdline-options.o: iec-cmdline-options.c ../../../src/vice.h \
+	../../../src/config.h ../../../src/cmdline.h \
+	../../../src/drive/drive.h ../../../src/log.h \
+	../../../src/arch/unix/types.h iec-cmdline-options.h
 iec-resources.o: iec-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/drive.h \
 	../../../src/log.h ../../../src/arch/unix/types.h \
@@ -281,8 +285,9 @@ iec.o: iec.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/ciad.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/drive/drive.h \
-	../../../src/log.h ../../../src/mos6510.h iec-resources.h \
-	../../../src/drive/iec.h iecrom.h memiec.h \
+	../../../src/log.h ../../../src/mos6510.h iec-cmdline-options.h \
+	iec-resources.h ../../../src/drive/iec.h iecrom.h memiec.h \
+	../../../src/resources.h ../../../src/utils.h \
 	../../../src/drive/viad.h wd1770.h
 iecrom.o: iecrom.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h \

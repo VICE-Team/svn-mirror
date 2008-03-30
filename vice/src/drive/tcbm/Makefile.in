@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdrivetcbm.a
 
-libdrivetcbm_a_SOURCES =  	glue1551.c 	glue1551.h 	mem1551.c 	mem1551.h 	tcbm-resources.c 	tcbm-resources.h 	tcbm.c 	tcbmrom.c 	tcbmrom.h 	tia1551.c 	tia1551.h
+libdrivetcbm_a_SOURCES =  	glue1551.c 	glue1551.h 	mem1551.c 	mem1551.h 	tcbm-cmdline-options.c 	tcbm-cmdline-options.h 	tcbm-resources.c 	tcbm-resources.h 	tcbm.c 	tcbmrom.c 	tcbmrom.h 	tia1551.c 	tia1551.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -149,8 +149,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdrivetcbm_a_LIBADD = 
-libdrivetcbm_a_OBJECTS =  glue1551.o mem1551.o tcbm-resources.o tcbm.o \
-tcbmrom.o tia1551.o
+libdrivetcbm_a_OBJECTS =  glue1551.o mem1551.o tcbm-cmdline-options.o \
+tcbm-resources.o tcbm.o tcbmrom.o tia1551.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -264,12 +264,16 @@ mem1551.o: mem1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/drive/drive.h \
 	../../../src/log.h ../../../src/mos6510.h glue1551.h mem1551.h \
 	tia1551.h
+tcbm-cmdline-options.o: tcbm-cmdline-options.c ../../../src/vice.h \
+	../../../src/config.h ../../../src/cmdline.h \
+	tcbm-cmdline-options.h
 tcbm-resources.o: tcbm-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/driverom.h \
 	../../../src/arch/unix/types.h ../../../src/resources.h \
 	tcbm-resources.h tcbmrom.h ../../../src/utils.h
 tcbm.o: tcbm.c ../../../src/vice.h ../../../src/config.h mem1551.h \
-	glue1551.h ../../../src/arch/unix/types.h tcbm-resources.h \
+	glue1551.h ../../../src/arch/unix/types.h \
+	tcbm-cmdline-options.h tcbm-resources.h \
 	../../../src/drive/tcbm.h tcbmrom.h tia1551.h
 tcbmrom.o: tcbmrom.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h \

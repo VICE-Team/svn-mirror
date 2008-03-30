@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdriveieee.a
 
-libdriveieee_a_SOURCES =  	fdc.c 	fdc.h 	ieee-resources.c 	ieee-resources.h 	ieee.c 	ieeerom.c 	ieeerom.h 	memieee.c 	memieee.h 	riot1d.c 	riot2d.c 	riotd.h
+libdriveieee_a_SOURCES =  	fdc.c 	fdc.h 	ieee-cmdline-options.c 	ieee-cmdline-options.h 	ieee-resources.c 	ieee-resources.h 	ieee.c 	ieeerom.c 	ieeerom.h 	memieee.c 	memieee.h 	riot1d.c 	riot2d.c 	riotd.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -149,8 +149,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdriveieee_a_LIBADD = 
-libdriveieee_a_OBJECTS =  fdc.o ieee-resources.o ieee.o ieeerom.o \
-memieee.o riot1d.o riot2d.o
+libdriveieee_a_OBJECTS =  fdc.o ieee-cmdline-options.o ieee-resources.o \
+ieee.o ieeerom.o memieee.o riot1d.o riot2d.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -261,6 +261,9 @@ fdc.o: fdc.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/mos6510.h fdc.h ../../../src/interrupt.h \
 	../../../src/snapshot.h
+ieee-cmdline-options.o: ieee-cmdline-options.c ../../../src/vice.h \
+	../../../src/config.h ../../../src/cmdline.h \
+	ieee-cmdline-options.h
 ieee-resources.o: ieee-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/driverom.h \
 	../../../src/arch/unix/types.h ieee-resources.h ieeerom.h \
@@ -269,9 +272,9 @@ ieee.o: ieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/mos6510.h fdc.h ieee-resources.h \
-	../../../src/drive/ieee.h ieeerom.h memieee.h riotd.h \
-	../../../src/drive/viad.h
+	../../../src/mos6510.h fdc.h ieee-cmdline-options.h \
+	ieee-resources.h ../../../src/drive/ieee.h ieeerom.h memieee.h \
+	riotd.h ../../../src/drive/viad.h
 ieeerom.o: ieeerom.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h \
 	../../../src/arch/unix/types.h ../../../src/drive/driverom.h \
