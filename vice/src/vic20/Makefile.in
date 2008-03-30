@@ -318,10 +318,11 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/mem.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/palette.h ../../src/raster/raster-modes.h \
-	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
-	vic.h ../../src/alarm.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h vic-mem.h vic20.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/resources.h ../../src/screenshot.h \
+	../../src/snapshot.h ../../src/utils.h vic.h ../../src/alarm.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	vic-mem.h vic20.h ../../src/video.h \
+	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
@@ -394,11 +395,11 @@ vic20ieeevia2.o: vic20ieeevia2.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/emuid.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
-	../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/cmdline.h ../../src/resources.h \
+	../../src/drive/drive.h ../../src/log.h ../../src/emuid.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/monitor/mon.h ../../src/snapshot.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h vic.h \
 	../../src/alarm.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vic-mem.h vic20.h \
