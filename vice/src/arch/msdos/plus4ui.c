@@ -52,8 +52,7 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_value("TEDPaletteFile",
-            (resource_value_t) param) < 0)
+        if (resources_set_string("TEDPaletteFile", (const char *)param) < 0)
             tui_error("Invalid palette file");
         ui_update_menus();
     }
@@ -70,8 +69,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                                  NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value("TEDPaletteFile", (resource_value_t *)name)
-                < 0)
+            if (resources_set_string("TEDPaletteFile", name) < 0)
                 tui_error("Invalid palette file");
             ui_update_menus();
             lib_free(name);
@@ -82,10 +80,10 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
 
 static TUI_MENU_CALLBACK(palette_menu_callback)
 {
-    char *s;
+    const char *s;
     int i;
 
-    resources_get_value("TEDPaletteFile", (void *)&s);
+    resources_get_string("TEDPaletteFile", &s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;
@@ -145,7 +143,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
                                  NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value(param, (resource_value_t)name) < 0)
+            if (resources_set_string(param, name) < 0)
                 ui_error("Could not load ROM file '%s'", name);
             lib_free(name);
         }

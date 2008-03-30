@@ -60,14 +60,14 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("MachineVideoStandard", (void *)&value);
+    resources_get_int("MachineVideoStandard", &value);
 
     if (been_activated) {
         if (value == MACHINE_SYNC_PAL)
             value = MACHINE_SYNC_NTSC;
         else
             value = MACHINE_SYNC_PAL;
-        resources_set_value("MachineVideoStandard", (resource_value_t)value);
+        resources_set_int("MachineVideoStandard", value);
     }
 
     switch (value) {
@@ -84,11 +84,11 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 {
     int value;
 
-    resources_get_value("PALMode", (void *)&value);
+    resources_get_int("PALMode", &value);
 
     if (been_activated) {
         value = (value + 1) % 3;
-        resources_set_value("PALMode", (resource_value_t)value);
+        resources_set_int("PALMode", value);
     }
 
     switch (value) {
@@ -198,8 +198,7 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_value("VICIIPaletteFile",
-           (resource_value_t)param) < 0)
+        if (resources_set_string("VICIIPaletteFile", (const char *)param) < 0)
            tui_error("Invalid palette file");
         ui_update_menus();
     }
@@ -215,8 +214,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                                  NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value("VICIIPaletteFile",
-                (resource_value_t*)name) < 0)
+            if (resources_set_string("VICIIPaletteFile", name) < 0)
                 tui_error("Invalid palette file");
             ui_update_menus();
             lib_free(name);
@@ -227,10 +225,10 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
 
 static TUI_MENU_CALLBACK(palette_menu_callback)
 {
-    char *s;
+    const char *s;
     int i;
 
-    resources_get_value("VICIIPaletteFile", (void *)&s);
+    resources_get_string("VICIIPaletteFile", &s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;
@@ -284,7 +282,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
                                  NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value(param, (resource_value_t)name) < 0)
+            if (resources_set_string(param, name) < 0)
                 ui_error("Could not load ROM file '%s'", name);
             lib_free(name);
         }

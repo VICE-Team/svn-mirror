@@ -219,7 +219,7 @@ static TUI_MENU_CALLBACK(resolution_submenu_callback)
 {
     int mode;
 
-    resources_get_value("VGAMode", (void *)&mode);
+    resources_get_int("VGAMode", &mode);
     return vga_modes[mode].description;
 }
 
@@ -229,7 +229,8 @@ static TUI_MENU_CALLBACK(refresh_rate_submenu_callback)
 {
     int v;
 
-    resources_get_value("RefreshRate", (void *)&v);
+    resources_get_int("RefreshRate", &v);
+
     if (v == 0) {
         return "Auto";
     } else {
@@ -258,7 +259,7 @@ static TUI_MENU_CALLBACK(datasette_speedtuning_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("DatasetteSpeedTuning", (void *)&value);
+    resources_get_int("DatasetteSpeedTuning", &value);
     sprintf(s, "%d",value);
     return s;
 }
@@ -268,7 +269,7 @@ static TUI_MENU_CALLBACK(datasette_zerogapdelay_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("DatasetteZeroGapDelay", (void *)&value);
+    resources_get_int("DatasetteZeroGapDelay", &value);
     sprintf(s, "%8d",value);
     return s;
 }
@@ -737,7 +738,7 @@ static TUI_MENU_CALLBACK(speed_submenu_callback)
     static char s[1024];
     int value;
 
-    resources_get_value("Speed", (void *)&value);
+    resources_get_int("Speed", &value);
     if (value) {
         sprintf(s, "%d%%", value);
         return s;
@@ -766,7 +767,7 @@ static TUI_MENU_CALLBACK(speed_callback)
                 return NULL;
         }
 
-        resources_set_value("Speed", (resource_value_t)value);
+        resources_set_int("Speed", value);
     }
     return NULL;
 }
@@ -778,7 +779,7 @@ static TUI_MENU_CALLBACK(toggle_ShowStatusbar_callback)
 {
     int value;
 
-    resources_get_value("ShowStatusbar", (void *)&value);
+    resources_get_int("ShowStatusbar", &value);
 
     if (been_activated) {
             if (value == STATUSBAR_MODE_OFF)
@@ -788,7 +789,7 @@ static TUI_MENU_CALLBACK(toggle_ShowStatusbar_callback)
         else
                 value = STATUSBAR_MODE_OFF;
 
-        resources_set_value("ShowStatusbar", (resource_value_t)value);
+        resources_set_int("ShowStatusbar", value);
     }
 
     switch (value) {

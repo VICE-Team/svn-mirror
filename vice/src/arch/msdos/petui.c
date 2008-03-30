@@ -60,8 +60,7 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_value("CrtcPaletteFile",
-            (resource_value_t) param) < 0)
+        if (resources_set_string("CrtcPaletteFile", (const char *)param) < 0)
             tui_error("Invalid palette file");
         ui_update_menus();
     }
@@ -78,8 +77,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                                  NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value("CrtcPaletteFile",
-                (resource_value_t *)name) < 0)
+            if (resources_set_string("CrtcPaletteFile", name) < 0)
                 tui_error("Invalid palette file");
             ui_update_menus();
             lib_free(name);
@@ -90,10 +88,10 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
 
 static TUI_MENU_CALLBACK(palette_menu_callback)
 {
-    char *s;
+    const char *s;
     int i;
 
-    resources_get_value("CrtcPaletteFile", (void *)&s);
+    resources_get_string("CrtcPaletteFile", &s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;
@@ -222,7 +220,8 @@ static TUI_MENU_CALLBACK(video_size_callback)
 {
     int value;
 
-    resources_get_value("VideoSize", (void *)&value);
+    resources_get_int("VideoSize", &value);
+
     switch (value) {
       case 0:
         return "Autodetect";
@@ -258,7 +257,7 @@ static TUI_MENU_CALLBACK(ram_size_callback)
     static char s[20];
     int value;
 
-    resources_get_value("RamSize", (void *)&value);
+    resources_get_int("RamSize", &value);
     sprintf(s, "%d KB", value);
     return s;
 }
@@ -297,7 +296,7 @@ static TUI_MENU_CALLBACK(iosize_callback)
 {
     int value;
 
-    resources_get_value("IOSize", (void *)&value);
+    resources_get_int("IOSize", &value);
 
     switch (value) {
       case 0x800:
@@ -333,11 +332,11 @@ static TUI_MENU_CALLBACK(set_keyboard_callback)
 {
     int value;
 
-    resources_get_value("KeymapIndex", (void *)&value);
+    resources_get_int("KeymapIndex", &value);
 
     if (been_activated) {
         value = (value == 2) ? 0 : 2;
-        resources_set_value("KeymapIndex", (resource_value_t) value);
+        resources_set_int("KeymapIndex", value);
     }
 
     switch (value) {
@@ -411,7 +410,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
                                  NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (resources_set_value(param, (resource_value_t)name) < 0)
+            if (resources_set_string(param, name) < 0)
                 ui_error("Could not load ROM file '%s'", name);
             lib_free(name);
         }

@@ -48,7 +48,7 @@ static TUI_MENU_CALLBACK(get_joystick_device_callback)
     char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
     int value;
 
-    resources_get_value(resource, (void *)&value);
+    resources_get_int(resource, &value);
     switch (value) {
       case JOYDEV_NONE:
         return "None";
@@ -71,7 +71,7 @@ static TUI_MENU_CALLBACK(get_hw_joystick_type_callback)
 {
     int value;
 
-    resources_get_value("HwJoyType", (void *)&value);
+    resources_get_int("HwJoyType", &value);
     switch (value) {
       case 0:
         return "None";
@@ -210,12 +210,12 @@ static TUI_MENU_CALLBACK(set_joy_device_callback)
     char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
 
     if (been_activated) {
-        resources_set_value(resource, (resource_value_t)((int)param & 0xff));
+        resources_set_int(resource, ((int)param & 0xff));
         ui_update_menus();
     } else {
         int value;
 
-        resources_get_value(resource, (void *)&value);
+        resources_get_int(resource, &value);
         if (value == ((int)param & 0xff))
             *become_default = 1;
     }
@@ -226,12 +226,12 @@ static TUI_MENU_CALLBACK(set_joy_device_callback)
 static TUI_MENU_CALLBACK(joy_hw_callback)
 {
     if (been_activated) {
-        resources_set_value("HwJoyType", (resource_value_t)(param));
+        resources_set_int("HwJoyType", (int)(param));
         ui_update_menus();
     } else {
         int value;
 
-        resources_get_value("HwJoyType", (void *)&value);
+        resources_get_int("HwJoyType", &value);
         if (value == ((int)param))
             *become_default = 1;
     }
@@ -244,15 +244,15 @@ static TUI_MENU_CALLBACK(swap_joysticks_callback)
     int value1, value2, tmp;
 
     if (been_activated) {
-        resources_get_value("JoyDevice1", (void *)&value1);
-        resources_get_value("JoyDevice2", (void *)&value2);
+        resources_get_int("JoyDevice1", &value1);
+        resources_get_int("JoyDevice2", &value2);
 
         tmp = value1;
         value1 = value2;
         value2 = tmp;
 
-        resources_set_value("JoyDevice1", (resource_value_t)value1);
-        resources_set_value("JoyDevice2", (resource_value_t)value2);
+        resources_set_int("JoyDevice1", value1);
+        resources_set_int("JoyDevice2", value2);
 
         ui_update_menus();
     }
@@ -357,10 +357,10 @@ static TUI_MENU_CALLBACK(keyset_callback)
 
         if (key == K_ESC)
             key = K_NONE;
-        resources_set_value(rname, (resource_value_t)key);
+        resources_set_int(rname, (int)key);
     }
 
-    resources_get_value(rname, (void *)&value);
+    resources_get_int(rname, &value);
     lib_free(rname);
     return kbd_code_to_string((kbd_code_t)value);
 }

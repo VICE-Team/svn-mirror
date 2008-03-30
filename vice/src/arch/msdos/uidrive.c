@@ -46,7 +46,7 @@ static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
     int v;
 
     rname = lib_msprintf("Drive%dExtendImagePolicy", unit);
-    resources_get_value(rname, (void *)&v);
+    resources_get_int(rname, &v);
     lib_free(rname);
 
     switch (v) {
@@ -93,9 +93,9 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
     int value;
 
     if ((int)param == 8)
-        resources_get_value("Drive8Type", (void *)&value);
+        resources_get_int("Drive8Type", &value);
     else
-        resources_get_value("Drive9Type", (void *)&value);
+        resources_get_int("Drive9Type", &value);
 
     switch (value) {
       case 0:
@@ -191,9 +191,9 @@ static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
     int value;
 
     if ((int)param == 8)
-        resources_get_value("Drive8IdleMethod", (void *)&value);
+        resources_get_int("Drive8IdleMethod", &value);
     else
-        resources_get_value("Drive9IdleMethod", (void *)&value);
+        resources_get_int("Drive9IdleMethod", &value);
 
     switch (value) {
       case DRIVE_IDLE_NO_IDLE:
