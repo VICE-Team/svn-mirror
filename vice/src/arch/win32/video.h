@@ -77,7 +77,7 @@ typedef struct _canvas {
     DWORD physical_colors[256];
     PIXEL *pixels;
     HWND hwnd;
-    frame_buffer_t      frame_buffer;
+//    frame_buffer_t      frame_buffer;
     LPDIRECTDRAWSURFACE primary_surface;
     LPDIRECTDRAWSURFACE back_surface;
     LPDIRECTDRAWSURFACE temporary_surface;

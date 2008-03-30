@@ -810,6 +810,10 @@ static int compress(const char *src, const char *dest,
 	dest_backup_name = archdep_make_backup_filename(dest);
 	if (dest_backup_name != NULL)
 	    ZDEBUG(("compress: making backup %s... ", dest_backup_name));
+#ifdef WIN32
+    if (dest_backup_name != NULL) 
+        remove_file(dest_backup_name);
+#endif
 	if (dest_backup_name != NULL && rename(dest, dest_backup_name) < 0) {
 	    ZDEBUG(("failed."));
 	    log_error(LOG_DEFAULT, "Could not make pre-compression backup.");
@@ -832,6 +836,11 @@ static int compress(const char *src, const char *dest,
 
     if (retval == -1) {
 	/* Compression failed: restore original file.  */
+#ifdef WIN32
+        if (dest_backup_name != NULL) {
+            remove_file(dest);
+        }
+#endif
 	if (dest_backup_name != NULL && rename(dest_backup_name, dest) < 0) {
 	    log_error(zlog,
                       "Could not restore backup file after failed compression.");

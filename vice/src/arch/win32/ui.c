@@ -100,6 +100,7 @@ struct {
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
     { "REU", IDM_TOGGLE_REU },
+    { "EmuID", IDM_TOGGLE_EMUID },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
 #ifdef HAVE_RESID
     { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
@@ -210,7 +211,8 @@ int ui_init_cmdline_options(void)
     {FVIRTKEY|FALT|FNOINVERT,'I',IDM_FLIP_ADD},             \
     {FVIRTKEY|FALT|FNOINVERT,'K',IDM_FLIP_REMOVE},          \
     {FVIRTKEY|FALT|FNOINVERT,'N',IDM_FLIP_NEXT},            \
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'N',IDM_FLIP_PREVIOUS},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'N',IDM_FLIP_PREVIOUS},\
+    {FVIRTKEY|FALT|FNOINVERT,'J',IDM_SWAP_JOYSTICK},
 
 static ACCEL c64_accel[] = {
     {FVIRTKEY|FALT|FNOINVERT,'F',IDM_CART_FREEZE},
@@ -243,29 +245,29 @@ int ui_init(int *argc, char **argv)
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,19);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,20);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,18);
+            ui_accelerator=CreateAcceleratorTable(c128_accel,19);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel,18);
+            ui_accelerator=CreateAcceleratorTable(vic_accel,19);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel,18);
+            ui_accelerator=CreateAcceleratorTable(pet_accel,19);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel,18);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel,19);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
             log_debug("UI: Using C64 type UI menues.");
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,19);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,20);
     }
 
     /* Register the window class.  */
@@ -1037,6 +1039,10 @@ char *dname;
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);
             break;
+        case IDM_SWAP_JOYSTICK|0x00010000:
+        case IDM_SWAP_JOYSTICK:
+            ui_joystick_swap_joystick();
+            break;
         case IDM_SOUND_SETTINGS:
             ui_sound_settings_dialog(hwnd);
             break;
@@ -1116,9 +1122,7 @@ int     window_index;
             if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
                 exposure_handler[window_index](client_rect.right - client_rect.left,
                                 client_rect.bottom - client_rect.top - status_height);
-                log_debug("Exposure: %d %d",client_rect.right - client_rect.left,client_rect.bottom - client_rect.top - status_height);
             }
-            log_debug("New Window size : %d %d",LOWORD(lparam),HIWORD(lparam));
             return 0;
         case WM_DRAWITEM:
             if (wparam==IDM_STATUS_WINDOW) {
@@ -1206,7 +1210,6 @@ int     window_index;
                 hdc=BeginPaint(window,&ps);
                 GetClientRect(window,&client_rect);
                 if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
-                    log_debug("Updating window %d : %d %d",window_index,client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
                     exposure_handler[window_index](client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
                 }
                 EndPaint(window,&ps);

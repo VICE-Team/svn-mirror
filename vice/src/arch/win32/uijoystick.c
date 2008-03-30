@@ -290,3 +290,14 @@ void ui_joystick_settings_dialog(HWND hwnd)
 {
     DialogBox(winmain_instance,(LPCTSTR)IDD_JOY_SETTINGS_DIALOG,hwnd,dialog_proc);
 }
+
+void ui_joystick_swap_joystick(void)
+{
+int device1;
+int device2;
+
+    resources_get_value("JoyDevice1",(resource_value_t *)&device1);
+    resources_get_value("JoyDevice2",(resource_value_t *)&device2);
+    resources_set_value("JoyDevice1",(resource_value_t)device2);
+    resources_set_value("JoyDevice2",(resource_value_t)device1);
+}

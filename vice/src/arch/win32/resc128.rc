@@ -112,6 +112,8 @@ BEGIN
         MENUITEM "D&ouble scan",                    IDM_TOGGLE_DOUBLESCAN
         , CHECKED
         MENUITEM SEPARATOR
+	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
+	MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
 #ifdef HAVE_RESID
         MENUITEM "Enable &resid",                   IDM_TOGGLE_SOUND_RESID
@@ -132,6 +134,7 @@ BEGIN
             MENUITEM "&NTSC",                       IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM SEPARATOR
+	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
         MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
     END
     POPUP "&Settings"

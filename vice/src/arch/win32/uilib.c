@@ -177,10 +177,8 @@ char *ui_select_file(const char *title, const char *filter, char*(*content_read_
 
     read_content_func=content_read_function;
     if (GetOpenFileName(&ofn)) {
-        log_debug("Opendialog success");
         return stralloc(name);
     } else {
-        log_debug("Opendialog failed %x",CommDlgExtendedError());
         return NULL;
     }
 }

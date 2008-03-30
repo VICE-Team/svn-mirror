@@ -323,6 +323,9 @@ int make_backup_file(const char *fname)
     if (backup_name == NULL)
 	return -1;
 
+#ifdef WIN32
+    remove_file(backup_name);
+#endif
     retval = rename(fname, backup_name);
 
     free(backup_name);
@@ -430,8 +433,10 @@ int get_line(char *buf, int bufsize, FILE *f)
     if (len > 0) {
 	char *p;
 
-	/* Remove trailing newline character.  */
-	if (*(buf + len - 1) == '\n')
+	/* Remove trailing newline characters.  */
+    /* Remove both 0x0a and 0x0d characters, this solution makes it */
+    /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */
+    while ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a))
 	    len--;
 
 	/* Remove useless spaces.  */

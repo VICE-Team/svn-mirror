@@ -549,6 +549,9 @@ static void flush_fs(void *flp, int secondary)
                             fclose(fd);
                             continue;
                         }
+#ifdef WIN32
+                        remove_file(name1p00);
+#endif
                         if (rename(name2p00, name1p00) == 0)
                             break;
                     }
@@ -566,6 +569,9 @@ static void flush_fs(void *flp, int secondary)
                 strcpy(name2, fsdevice_get_path(floppy->unit));
                 strcat(name2, FSDEV_DIR_SEP_STR);
                 strcat(name2, arg2);
+#ifdef WIN32
+                remove_file(name1);
+#endif
                 if (rename(name2, name1)) {
                     er = IPE_NOT_FOUND;
                     if (errno == EPERM)

@@ -53,7 +53,7 @@ static  LPDIRECTDRAWCLIPPER     dd_clipper;
 
 /* ------------------------------------------------------------------------ */
 
-#define DEBUG_VIDEO
+/*#define DEBUG_VIDEO*/
 
 /* Debugging stuff.  */
 #ifdef DEBUG_VIDEO
@@ -692,7 +692,7 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     if (set_physical_colors(c) < 0)
         goto error;
 
-    c->frame_buffer=NULL;
+//    c->frame_buffer=NULL;
 
     video_canvases[video_number_of_canvases++]=c;
 
@@ -841,6 +841,7 @@ int         yi;     //  upperleft y in client space
     c=canvas_find_canvas_for_hwnd(hwnd);
     if (c) {
         r=video_find_raster_for_canvas(c);
+        if (r) {
         //  Calculate upperleft point's framebuffer coords
         xs=xclient-r->viewport.x_offset+r->viewport.first_x*r->viewport.pixel_size.width+r->geometry.extra_offscreen_border;
         ys=yclient-r->viewport.y_offset+r->viewport.first_line*r->viewport.pixel_size.height;
@@ -848,10 +849,10 @@ int         yi;     //  upperleft y in client space
         xi=xclient;
         yi=yclient;
 
-        if (c->frame_buffer) {
+        if (r->frame_buffer) {
             //  Check if it's out
-            if ((xs+w<=0) || (xs>=c->frame_buffer->width) ||
-                (ys+h<=0) || (ys>=c->frame_buffer->height)) {
+            if ((xs+w<=0) || (xs>=r->frame_buffer->width) ||
+                (ys+h<=0) || (ys>=r->frame_buffer->height)) {
                 clear(hdc,xi,yi,xi+w,yi+h);
                 return;
             }
@@ -871,14 +872,14 @@ int         yi;     //  upperleft y in client space
                 xs=0;
             }
             //  Cut bottom
-            if (ys+h>c->frame_buffer->height) {
-                clear(hdc,xi,yi+c->frame_buffer->height-ys,xi+w,yi+h);
-                h=c->frame_buffer->height-ys;
+            if (ys+h>r->frame_buffer->height) {
+                clear(hdc,xi,yi+r->frame_buffer->height-ys,xi+w,yi+h);
+                h=r->frame_buffer->height-ys;
             }
             //  Cut right
-            if (xs+w>c->frame_buffer->width) {
-                clear(hdc,xi+c->frame_buffer->width-xs,yi,xi+w,yi+h);
-                w=c->frame_buffer->width-xs;
+            if (xs+w>r->frame_buffer->width) {
+                clear(hdc,xi+r->frame_buffer->width-xs,yi,xi+w,yi+h);
+                w=r->frame_buffer->width-xs;
             }
 
             //  Update remaining area from framebuffer....
@@ -886,9 +887,10 @@ int         yi;     //  upperleft y in client space
 //            xs+=r->geometry.extra_offscreen_border;
 
             if ((w>0) && (h>0)) {
-                log_debug("Trying with %d %d %d %d %d %d",xs,ys,xi,yi,w,h);
-                canvas_refresh(c, c->frame_buffer, xs, ys, xi, yi, w, h);
+//                canvas_refresh(c, c->frame_buffer, xs, ys, xi, yi, w, h);
+                canvas_refresh(c, r->frame_buffer, xs, ys, xi, yi, w, h);
             }
+        }
         }
     }
 }
@@ -940,12 +942,12 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
     DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",xs,ys,xi,yi,w,h));
 
-    for (i=0; i<video_number_of_canvases; i++) {
+/*    for (i=0; i<video_number_of_canvases; i++) {
         if (video_canvases[i]==c) {
             c->frame_buffer=f;
             break;
         }
-    }
+    }*/
 
     if (IsIconic(c->hwnd))
         return;

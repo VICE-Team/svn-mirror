@@ -110,6 +110,8 @@ BEGIN
         MENUITEM "D&ouble scan",                    IDM_TOGGLE_CRTCDOUBLESCAN
         , CHECKED
         MENUITEM SEPARATOR
+	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
+	MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
@@ -118,6 +120,8 @@ BEGIN
             MENUITEM "&PAL",                        IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC",                       IDM_SYNC_FACTOR_NTSC
         END
+	MENUITEM SEPARATOR
+	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
     END
     POPUP "&Settings"
     BEGIN

@@ -28,5 +28,6 @@
 #define _UIJOYSTICK_H_
 
 void ui_joystick_settings_dialog(HWND hwnd);
+void ui_joystick_swap_joystick(void);
 
 #endif

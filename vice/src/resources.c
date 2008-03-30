@@ -448,6 +448,9 @@ int resources_save(const char *fname)
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
+#ifdef WIN32
+    remove_file(backup_name);
+#endif
     if (rename(fname, backup_name) == 0)
 	have_old = 1;
     else
