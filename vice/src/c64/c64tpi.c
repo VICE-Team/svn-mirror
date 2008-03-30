@@ -93,7 +93,7 @@ _TPI_FUNC void store_pa(BYTE byte)
         ieee_is_dev = byte & 0x01;
         ieee_is_out = byte & 0x02;
 
-        parallel_cpu_set_bus(ieee_is_out ? oldpb : 0xff);
+        parallel_cpu_set_bus((BYTE)(ieee_is_out ? oldpb : 0xff));
 
         if (ieee_is_out) {
             parallel_cpu_set_ndac( 0 );
