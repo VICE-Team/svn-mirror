@@ -71,7 +71,16 @@ list of all the changes in the code.
 
 - The filter settings of the file selector boxes are persistent now.
 
-- Support for drag & drop.
+- Support for drag & drop (dropping an image autostarts it)
+
+- Pressing ESC in the monitor interrupts long lasting outputs
+  (e.g., "m 0 ffff")
+
+- Disassembly window of monitor now has a context menu for every every
+  disassembled line
+
+- Breakpoints can be set and unset by just clicking on the respective
+  line
 
 ** OS/2 changes
 ---------------
@@ -126,7 +135,7 @@ list of all the changes in the code.
 - Added '-h' as alias for '-?' and '-help'
 
 - Added a NLS-Howto to guide new translators. Credits to Andrea
-  Musuruane 
+  Musuruane
 
 * Changes in VICE 1.7
 =====================
@@ -193,7 +202,7 @@ list of all the changes in the code.
 
 ** OS/2 changes
 ---------------
-  
+
 - Moved zlib and png APIs to a DLL to decrease the archive size.
 
 - Removed the Emulator Dialog, use Alt-+/Alt-- to change  the speed.
@@ -224,7 +233,7 @@ list of all the changes in the code.
 
 ** BeOS changes
 ---------------
-  
+
 - Sid-player mode (use commandline x64 -vsid).
 
 ** Unix changes
@@ -255,7 +264,7 @@ list of all the changes in the code.
 
 - Added a symbol file for the built-in monitor which allows moni-
   toring of ROM sections (use 'll "c64mem.sym"' inside the monitor)
-  
+
 ** C128 changes
 ---------------
 
@@ -304,7 +313,7 @@ list of all the changes in the code.
 
 - fixed bug that crashed the emu at shutdown
 
-- many more settings dialogs (device, sound, datasette, ...) 
+- many more settings dialogs (device, sound, datasette, ...)
 
 - display for the joystick state
 
@@ -327,7 +336,7 @@ list of all the changes in the code.
 
 - added a new dialog for hardware settings (Alt-H)
 
-- sounddev "dart2" enabled. necessary for vsid-mode. It has the 
+- sounddev "dart2" enabled. necessary for vsid-mode. It has the
   possibility to adjust emulator speed from sound output.
 
 - basic sid-player support (-vsid) added
@@ -350,7 +359,7 @@ list of all the changes in the code.
 
 - added memory extension resource to drive dialog
 
-- now only valid drives are displayed for usage in the 
+- now only valid drives are displayed for usage in the
   drive dialog
 
 - switched to lpng 1.08
@@ -383,7 +392,7 @@ list of all the changes in the code.
 
 - fixed the bug in the joystick support of 1.4
 
-- fixed a bug in the monitor 
+- fixed a bug in the monitor
 
 - Vice (not x128) should now work on older DIVE DLLs, too
 
@@ -408,7 +417,7 @@ list of all the changes in the code.
 - The emulator keeps running when menus are used.
 
 - Fixed some crashs and memory leaks in the XAW file selector
-  widget. 
+  widget.
 
 ** MS-DOS changes
 -----------------
