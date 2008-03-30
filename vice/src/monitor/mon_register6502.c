@@ -134,9 +134,17 @@ static void mon_register_print(int mem)
         log_error(LOG_ERR, "Unknown memory space!");
         return;
     }
+
     regs = mon_interfaces[mem]->cpu_regs;
-    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC\n");
-    mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
+
+    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC");
+
+    if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL)
+        mon_out(" LIN CYC\n");
+    else
+        mon_out("\n");
+
+    mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
               mon_register_get_val(mem, e_PC),
               mon_register_get_val(mem, e_A),
               mon_register_get_val(mem, e_X),
@@ -152,6 +160,16 @@ static void mon_register_print(int mem)
               TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
               TEST(MOS6510_REGS_GET_ZERO(regs)),
               TEST(MOS6510_REGS_GET_CARRY(regs)));
+
+    if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
+        unsigned int line, cycle;
+
+        mon_interfaces[mem]->get_line_cycle(&line, &cycle);
+
+        mon_out(" %03i %03i\n", line, cycle);
+    } else {
+        mon_out("\n");
+    }
 }
 
 static mon_reg_list_t *mon_register_list_get6502(int mem)
@@ -214,13 +232,15 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
     }
 
     mon_reg_list[7].name = "FL";
-    mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS) | 0x20;
+    mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
+                          | 0x20;
     mon_reg_list[7].size = 8;
     mon_reg_list[7].flags = 0;
     mon_reg_list[7].next = &mon_reg_list[8];
 
     mon_reg_list[8].name = "NV-BDIZC";
-    mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_FLAGS) | 0x20;
+    mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
+                          | 0x20;
     mon_reg_list[8].size = 8;
     mon_reg_list[8].flags = 1;
     mon_reg_list[8].next = NULL;

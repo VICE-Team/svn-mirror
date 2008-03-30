@@ -225,6 +225,7 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
     maincpu_monitor_interface->toggle_watchpoints_func = mem_toggle_watchpoints;
 
     maincpu_monitor_interface->set_bank_base = NULL;
+    maincpu_monitor_interface->get_line_cycle = machine_get_line_cycle;
 
     return maincpu_monitor_interface;
 }
