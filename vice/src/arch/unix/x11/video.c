@@ -209,29 +209,31 @@ static BYTE shade_table[256];
 
 void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
                                unsigned int dither, long col,
-                               video_canvas_t *c)
+                               video_canvas_t *canvas)
 {
     *pixel_return = (BYTE)i;
 
-    switch (c->depth) {
+#ifdef HAVE_XVIDEO
+    if (use_xvideo) {
+        return;
+    }
+#endif
+
+    switch (canvas->x_image->bits_per_pixel) {
       case 8:
-        video_render_setphysicalcolor(&c->videoconfig, i,
+        video_render_setphysicalcolor(&canvas->videoconfig, i,
                                       (DWORD)(*data), 8);
-        break;
-      case 15:
-	/* Pass 15 bit color as 16 bit color to render engine. */
-        video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col), 16);
         break;
       case 16:
       case 24:
       case 32:
       default:
-        video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col),
-                                      c->depth);
+        video_render_setphysicalcolor(&canvas->videoconfig, i, (DWORD)(col),
+                                      canvas->x_image->bits_per_pixel);
 	break;
     }
 
-    if (c->depth == 1)
+    if (canvas->depth == 1)
         shade_table[i] = dither;
 }
 
@@ -241,14 +243,11 @@ static void convert_8to8n(BYTE *draw_buffer,
 			  int sx, int sy, int tx, int ty,
 			  int w, int h)
 {
-    /* Pass 15 bit color as 16 bit color to render engine. */
-    int depth = canvas->depth == 15 ? 16 : canvas->depth;
-
     video_render_main(&canvas->videoconfig, draw_buffer,
                       canvas->x_image->data,
                       w, h, sx, sy, tx, ty, draw_buffer_line_size,
-                      canvas->x_image->bytes_per_line, depth);
-
+                      canvas->x_image->bytes_per_line,
+		      canvas->x_image->bits_per_pixel);
 }
 
 #define SRCPTR(x, y) \
@@ -308,12 +307,11 @@ static void convert_8toall(BYTE *draw_buffer,
 int video_convert_func(video_canvas_t *canvas, unsigned int width,
                        unsigned int height)
 {
-    switch (canvas->depth) {
+    switch (canvas->x_image->bits_per_pixel) {
       case 1:
         _convert_func = convert_8to1_dither;
         break;
       case 8:
-      case 15:
       case 16:
       case 24:
       case 32:
@@ -504,7 +502,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
         return canvas;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_palette(canvas, (struct palette_s *) palette, pixel_return);
+    fullscreen_set_palette(canvas, palette, pixel_return);
 #endif
     return canvas;
 }

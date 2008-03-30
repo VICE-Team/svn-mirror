@@ -361,7 +361,7 @@ distdir: $(DISTFILES)
 archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h ui.h \
 	types.h ../../../src/uiapi.h x11/xaw/uiarch.h archdep.h \
 	../../../src/archapi.h ../../../src/findpath.h \
-	../../../src/log.h ../../../src/utils.h
+	../../../src/log.h ../../../src/utils.h ../../../src/machine.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/debug.h ../../../src/drive/drive.h \
 	../../../src/log.h types.h icon.h ../../../src/resources.h \
@@ -502,7 +502,8 @@ uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/romset.h uidrive.h uimenu.h x11/xaw/uimenu.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
 	x11/xaw/../x11menu.h uiperipheral.h uirs232.h uisettings.h \
-	uisound.h ../../../src/utils.h ../../../src/vsync.h
+	uisound.h ../../../src/utils.h ../../../src/vsync.h \
+	../../../src/archapi.h ../../../src/fliplist.h
 uisid.o: uisid.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
