@@ -80,6 +80,12 @@
 #endif
 
 /* ------------------------------------------------------------------------- */
+/* Which OS is using the common keyboard routines?  */
+#if !defined(__MSDOS__) && !defined(WIN32) && !defined(__riscos) && !defined(__OS2__) && !defined(__BEOS__)
+#define COMMON_KBD
+#endif
+
+/* ------------------------------------------------------------------------- */
 
 /* This code comes from GNU make:
    Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95
