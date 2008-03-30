@@ -44,6 +44,7 @@
 
 #include "utils.h"
 #include "zfile.h"
+#include "zipcode.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -408,68 +409,6 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     return tmp_name;
 }
 
-/*
- * XXX: this is copied from c1541.c. move this to some common place
- */
-static int read_zipped_sector (int zip_fd, int track, int *sector, char *buf)
-{
-  unsigned char trk, sec, len, rep, repnum, chra;
-  int i, j, count, t1, t2;
-
-  t1 = read(zip_fd, &trk, 1);
-  t2 = read(zip_fd, &sec, 1);
-
-  *sector = sec;
-
-  if ((trk & 0x3f) != track || !t1 || !t2) {
-    return 1;
-  }
-
-  if (trk & 0x80) {
-    t1 = read(zip_fd, &len, 1);
-    t2 = read(zip_fd, &rep, 1);
-    if (!t1 || !t2) {
-       return 1;
-    }
-
-    count = 0;
-
-    for (i = 0; i < len; i++) {
-      if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
-         return 1;
-      }
-
-      if (chra != rep)
-	buf[count++] = chra;
-      else {
-        t1 = read(zip_fd, &repnum, 1);
-        t2 = read(zip_fd, &chra, 1);
-        if (!t1 || !t2) {
-           return 1;
-        }
-	i += 2;
-	for (j = 0; j < repnum; j++)
-	  buf[count++] = chra;
-      }
-    }
-  }
-
-  else if (trk & 0x40) {
-    if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
-       return 1;
-    }
-
-    for (i = 0; i < 256; i++)
-      buf[i] = chra;
-  }
-
-  else if (256 != read (zip_fd, buf, 256)) {
-    return 1;
-  }
-
-  return 0;
-}
-
 /* If this file looks like a zipcode, try to extract is using c1541. We have
    to figure this out by reading the contents of the file */
 static char *try_uncompress_zipcode(const char *name, int write_mode)
@@ -487,7 +426,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     /* Read first track to see if this is zipcode */
     lseek(fd, 4, SEEK_SET);
     for (count = 1; count < 21; count++) {
-	i = read_zipped_sector(fd, 1, &sector, tmp);
+	i = zipcode_read_sector(fd, 1, &sector, tmp);
 	if (i || sector < 0 || sector > 20 || (sectors & (1 << sector))) {
 	    close(fd);
 	    return NULL;
@@ -514,7 +453,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     free(argv[1]);
     free(argv[2]);
     free(argv[3]);
-    
+
     if (exit_status) {
 	unlink(tmp_name);
 	return NULL;
@@ -618,7 +557,7 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     free(argv[1]);
     free(argv[2]);
     free(argv[3]);
-    
+
     if (exit_status) {
 	unlink(tmp_name);
 	return NULL;

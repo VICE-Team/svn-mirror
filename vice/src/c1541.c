@@ -63,6 +63,7 @@
 #include "charsets.h"
 #include "tape.h"
 #include "utils.h"
+#include "zipcode.h"
 
 #define MAXARG		16
 #define MAXVAL		0xffff
@@ -90,11 +91,11 @@ static int  check_drive ( int dev, int mode );
 static int  open_image ( int dev, char *name, int create );
 static int  create_image ( int fd, int devtyp, int tracks, int errb, char *label );
 static void usage( void );
-static int read_zipped_sector (int zip_fd, int track, int *sector, char *buf);
 
 static int  disk_attach ( void );
 static int  disk_cdd ( void );
 static int  disk_format ( void );
+static int  disk_gcrformat ( void );
 static int  disk_delete ( void );
 static int  disk_list ( void );
 static int  disk_validate ( void );
@@ -118,7 +119,9 @@ extern char sector_map[43]; /* Ugly: FIXME! */
 
 struct ms_table disk_cmds[] = {
     {"format", 1, 2, disk_format,
-    "format  [imagename] 'diskname,id'\t(create disk & format)\n"},
+    "format  [imagename] 'diskname,id'\t(create D64 disk & format)\n"},
+    {"gcrformat", 1, 2, disk_gcrformat,
+    "gcrformat  imagename ['diskname,id']\t(create GCR disk & format)\n"},
     {"delete", 1, MAXARG, disk_delete,
     "delete  files\n"},
     {"list", 0, MAXARG, disk_list,
@@ -403,6 +406,53 @@ static int  disk_cdd(void)
     return (0);
 }
 
+/*
+ * Creates a raw GCR disk image.
+ */
+
+static int  disk_gcrformat (void)
+{
+    int fd, track;
+    BYTE gcrheader[12];
+    BYTE gcrtrack[9912];
+
+    if (nargs < 2)
+	return 0;
+
+    if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) < 0) {
+	printf("could not create image %s\n", args[1]);
+	return (FD_BADIMAGE);
+    }
+
+    strcpy(gcrheader, "GCR-VICE");
+
+    gcrheader[8] = 0;
+    gcrheader[9] = 42;
+    gcrheader[10] = 7928 % 256;
+    gcrheader[11] = 7928 / 256;
+
+    if(write(fd, (char *)gcrheader, sizeof(gcrheader)) != sizeof(gcrheader)) {
+	printf("Cannot write header.\n");
+	close(fd);
+	return 0;
+    }
+
+    gcrtrack[0] = 7692 % 256;
+    gcrtrack[1] = 7692 / 256;
+    memset(&gcrtrack[2], 0, 7928);
+
+    for(track = 1; track <= 42; track++) {
+    memset(&gcrtrack[2+7928], 0, 1982);
+	if(write(fd, (char *)gcrtrack, sizeof(gcrtrack)) != sizeof(gcrtrack)) {
+	    printf("Cannot write track data.\n");
+	    close(fd);
+	    return 0;
+	}
+    }
+
+    close(fd);
+    return 0;
+}
 
 /*
  * Simulate the 1541 DOS commands
@@ -793,66 +843,6 @@ static DiskFormats  Legal_formats[] = {
   {  -1,     0, 0,    0 }
 };
 
-
-static int read_zipped_sector (int zip_fd, int track, int *sector, char *buf)
-{
-  unsigned char trk, sec, len, rep, repnum, chra;
-  int i, j, count, t1, t2;
-
-  t1 = read(zip_fd, &trk, 1);
-  t2 = read(zip_fd, &sec, 1);
-
-  *sector = sec;
-
-  if ((trk & 0x3f) != track || !t1 || !t2) {
-    return 1;
-  }
-
-  if (trk & 0x80) {
-    t1 = read(zip_fd, &len, 1);
-    t2 = read(zip_fd, &rep, 1);
-    if (!t1 || !t2) {
-       return 1;
-    }
-
-    count = 0;
-
-    for (i = 0; i < len; i++) {
-      if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
-         return 1;
-      }
-
-      if (chra != rep)
-	buf[count++] = chra;
-      else {
-        t1 = read(zip_fd, &repnum, 1);
-        t2 = read(zip_fd, &chra, 1);
-        if (!t1 || !t2) {
-           return 1;
-        }
-	i += 2;
-	for (j = 0; j < repnum; j++)
-	  buf[count++] = chra;
-      }
-    }
-  }
-
-  else if (trk & 0x40) {
-    if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
-       return 1;
-    }
-
-    for (i = 0; i < 256; i++)
-      buf[i] = chra;
-  }
-
-  else if (256 != read (zip_fd, buf, 256)) {
-    return 1;
-  }
-
-  return 0;
-}
-
 static int  disk_import_zipfile (void)
 {
     DRIVE  *floppy = DriveData[DriveNum];
@@ -934,7 +924,7 @@ static int  disk_import_zipfile (void)
 	}
 
        for (count = 0; count < sector_map[track]; count++) {
-          if ( (read_zipped_sector(fsfd, track, &sector, floppy->buffers[channel].buffer)) != 0) {
+          if ( (zipcode_read_sector(fsfd, track, &sector, floppy->buffers[channel].buffer)) != 0) {
 	      close(fsfd);
 	      return (FD_BADIMAGE);
           }

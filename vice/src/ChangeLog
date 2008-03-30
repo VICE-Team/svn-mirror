@@ -1,3 +1,127 @@
+Sun Apr 19 21:19:50 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* zfile.c (read_zipped_sector): Removed.
+	(try_uncompress_zipcode): Use `zipcode_read_sector()' instead.
+
+	* c1541.c (read_zipped_sector): Removed.
+	(disk_import_zipfile): Use `zipcode_read_sector()' instead.
+
+	* zipcode.c (zipcode_read_sector): New file, new function (ripped
+ 	from the Daniel's `read_zipped_sector()' in `c1541.c').
+	* include/zipcode.h: Prototype here.
+
+	* findpath.c (findpath): Check for read permission (instead of
+	execution permission).  Return the path to the file, instead of
+	just the directory.
+
+	* Makefile.in: Updated to compile `findpath.o'.
+
+	* include/findpath.h (findpath): New file; prototype for
+ 	`findpath()'.
+
+	* findpath.c: #include "misc.h", "vice.h".
+	 (findpath): New parameter `syspath', used instead of `PATH'.  Use
+ 	`stralloc()' instead of `strdup()'.  Declare `buf' using
+ 	`PATH_VAR'.
+
+Sun Apr 19 18:03:23 1998  Tomi Ollila  <Tomi.Ollila@tfi.net>
+
+	* findpath.c (findpath): New file, new function.
+
+Sun Apr 19 17:56:01 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/ui_xaw.c: #include <errno.h>.
+
+Fri Apr 19 17:35:21 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* c1541.c (disk_gcrformat): New function to create GCR encoded
+	disk images.
+
+	* drive.c (attach_floppy_image): Call `import_GCR_image' after
+	the check for d64 disk image failed.  Only read BAM and set disk
+	geometry if a d64 disk image is attached.
+	(import_GCR_image): New function.  Checks for a valid GCR disk
+	image and sets the drive constants.
+
+	* include/drive.h (DRIVE): New member `GCR_Header'.
+
+	* include/fs_cbm.h (hdrinfo): New member `gcr'.
+
+	* true1541.c (read_image_GCR): Renamed to `read_image_d64'.
+	(read_image_gcr): New function.  Imports the a GCR disk image and
+	converts it to the internal track layout.
+	(true1541_attach_floppy): Call `read_image_gcr' if a GCR disk image
+	is attached.
+	(GCR_data_writeback): Do not write back track data if a GCR disk
+	image is attached.  This will change soon.
+
+Sun Apr 19 01:50:50 1998  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.in: Added vice keyboard maps (*.vkm) to appropriate
+ 	definitions, to have them copied when installing.
+
+	* bin/C64/vice.vkm: New file, C64 keyboard mapping.
+
+	* bin/VIC20/vice.vkm: New file, VIC20 keyboard mapping.
+
+	* bin/PET/busi_uk.vkm: New file, UK (50 Hz) PET business keyboard
+ 	map.
+
+	* bin/PET/graphics.vkm: New file, PET graphics keyboard map.
+
+	* bin/PET/posg_de.vkm: PET graphics keyboard positional map for
+ 	german keyboards.
+
+	* arch/unix/kbd.c: New keymap handling.
+	(kbd_init): Set keyconvmap to default, if not PET.  If PET it is
+ 	done in set40key/set80key.  If given load keymapfile from the
+ 	resources.
+	(kbd_parse_keyword): New function: Parse and execute keywords in
+ 	keymap files
+	(kdb_parse_entry): New function: Parse mapping entry in string and
+ 	enter entry into the mapping table. Dynamically increase table
+ 	size if necessary.
+	(kbd_parse_keymap): New function: Open filename given and read
+ 	line by line. Give relevant lines to kbd_parse_keyword and
+ 	kbd_parse_entry.
+	(kbd_load_keymap): New function: dynmicallizes the keymap table
+	(if still static) and calls parser.
+	(kdb_dump_keymap): Dump current keymap table to file given.
+
+	* arch/unix/kbd.h: Prototypes for `kbd_load_keymap' and
+ 	`kbd_dump_keymap'.
+
+	* arch/unix/kbdef.h: Removed `shift_type' enum definition, is now
+ 	only int to be able to use "atoi" when parsing a mapping file.
+  	Changed enum entries to cpp defines.
+	Renamed `keyconvmap' to `default_keyconvmap'.  Made keyconvmap a
+ 	pointer for all models.
+	Removed `CONV_KEYS'.
+
+	* arch/unix/menu.h: New submenu `KeyboardSubmenu' for keyboard
+ 	handling.  The vice keymap filenames are defined here as
+ 	`client_data'.
+
+	* arch/unix/ui_xaw.c (UiSetKeymap): New function to set a default
+	keymap.
+	(UiLoadKeymap): New function to set load a known keymap table.
+	(UiLoadUserKeymap): New function to load a user-specified keymap
+	table.
+	(UiDumpKeymap): New function to dump the current keymap table.
+
+	* include/memutils.h: New prototype for `open_sys_file()'.
+
+	* include/resources.h: New resource `keymapFile'.
+
+	* memutils.c (open_sys_file): New function to open a file either
+	in the current directory, a given path or the emulator directory,
+	ripped from `mem_load_sys_file'.
+	(mem_load_sys_file): Just call `open_sys_file()'.
+
+	* resources.c (resources): New `KeymapFile' resource.
+	(options): `-keymapfile' option.
+	(resources_set_defaults): Set default for keymapfile resource.
+
 Fri Apr 17 14:22:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.6.
