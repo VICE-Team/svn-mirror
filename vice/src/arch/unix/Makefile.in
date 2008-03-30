@@ -86,8 +86,6 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
-HAVE_NETWORK_FALSE = @HAVE_NETWORK_FALSE@
-HAVE_NETWORK_TRUE = @HAVE_NETWORK_TRUE@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -389,7 +387,7 @@ libarch_a_SOURCES = \
 
 bin_SCRIPTS = vsid
 
-EXTRA_DIST = vsid
+EXTRA_DIST = vsid minix/minix-ar.sh
 subdir = src/arch/unix
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -747,6 +745,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/minix
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

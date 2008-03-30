@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-06 21:13+0100\n"
+"POT-Creation-Date: 2005-11-12 15:03+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -267,40 +267,40 @@ msgstr "Kan inte skriva avbildningsfil %s"
 msgid "Cannot find mapped name for %s"
 msgstr "Kan inte kopplat namn för %s"
 
-#: src/event.c:589
+#: src/event.c:586
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/event.c:608 src/event.c:902
+#: src/event.c:605 src/event.c:899
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/event.c:675 src/event.c:869
+#: src/event.c:672 src/event.c:866
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/event.c:743
+#: src/event.c:740
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/event.c:758
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:782
+#: src/event.c:779
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/event.c:812
+#: src/event.c:809
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:1193
+#: src/event.c:1190
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 

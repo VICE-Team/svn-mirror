@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.17\n"
-"POT-Creation-Date: 2005-11-06 21:13+0100\n"
+"POT-Creation-Date: 2005-11-12 15:03+0100\n"
 "PO-Revision-Date: 2005-10-09 10:04+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -277,44 +277,44 @@ msgstr "Impossible d'écrire le fichier image %s"
 msgid "Cannot find mapped name for %s"
 msgstr "Impossible de trouver le nom correspondant à %s"
 
-#: src/event.c:589
+#: src/event.c:586
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Impossible de créer le fichier de sauvegarde de départ %s."
 
-#: src/event.c:608 src/event.c:902
+#: src/event.c:605 src/event.c:899
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Erreur de lecture dans le fichier de sauvegarde de fin %s."
 
-#: src/event.c:675 src/event.c:869
+#: src/event.c:672 src/event.c:866
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Impossible de créer le fichier de sauvegarde de fin %s."
 
-#: src/event.c:743
+#: src/event.c:740
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Impossible d'ouvrir le fichier de sauvegarde de fin %s."
 
-#: src/event.c:758
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 "Impossible de trouver la section des événements dans le fichier de "
 "sauvegarde de fin."
 
-#: src/event.c:782
+#: src/event.c:779
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Erreur de lecture  du fichier de sauvegarde de départ. %s et %s ont été "
 "testés"
 
-#: src/event.c:812
+#: src/event.c:809
 msgid "Error reading start snapshot file."
 msgstr "Erreur de lecture du fichier de sauvegarde de départ."
 
-#: src/event.c:1193
+#: src/event.c:1190
 msgid "Playback recorded events"
 msgstr "Jouer les événements enregistrés"
 

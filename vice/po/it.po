@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-06 21:13+0100\n"
+"POT-Creation-Date: 2005-11-12 15:03+0100\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -274,41 +274,41 @@ msgstr "Non è possibile scrivere l'immagine %s"
 msgid "Cannot find mapped name for %s"
 msgstr ""
 
-#: src/event.c:589
+#: src/event.c:586
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Non è possibile creare il file di inizio snapshot %s."
 
-#: src/event.c:608 src/event.c:902
+#: src/event.c:605 src/event.c:899
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Errore durante la lettura del file di fine snapshot %s."
 
-#: src/event.c:675 src/event.c:869
+#: src/event.c:672 src/event.c:866
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Non è possibile creare il file di fine snapshot %s."
 
-#: src/event.c:743
+#: src/event.c:740
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Non è possibile aprire il file di fine snapshot %s."
 
-#: src/event.c:758
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr "Non è possibile trovare la sezione eventi nel file di fine snapshot."
 
-#: src/event.c:782
+#: src/event.c:779
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s"
 
-#: src/event.c:812
+#: src/event.c:809
 msgid "Error reading start snapshot file."
 msgstr "Errore durante la lettura del file di inizio snapshot."
 
-#: src/event.c:1193
+#: src/event.c:1190
 msgid "Playback recorded events"
 msgstr "Riproduzione degli eventi registrati"
 

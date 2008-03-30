@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-06 21:13+0100\n"
+"POT-Creation-Date: 2005-11-12 15:03+0100\n"
 "PO-Revision-Date: 2005-09-18 10:57+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -276,49 +276,49 @@ msgstr ""
 msgid "Cannot find mapped name for %s"
 msgstr "Nie mo¿na za³adowaæ tekstowej czcionki %s."
 
-#: src/event.c:589
+#: src/event.c:586
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:608 src/event.c:902
+#: src/event.c:605 src/event.c:899
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:675 src/event.c:869
+#: src/event.c:672 src/event.c:866
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:743
+#: src/event.c:740
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:758
+#: src/event.c:755
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:782
+#: src/event.c:779
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:812
+#: src/event.c:809
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:1193
+#: src/event.c:1190
 #, fuzzy
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"
