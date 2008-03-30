@@ -29,12 +29,13 @@
 
 #include "mon.h"
 
-extern void mon_file_load(const char *filename, MON_ADDR start_addr,
+extern void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
                           bool is_bload);
-extern void mon_file_save(const char *filename, MON_ADDR start_addr,
+extern void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
                           MON_ADDR end_addr, bool is_bsave);
 
-extern void mon_file_verify(const char *filename, MON_ADDR start_addr);
+extern void mon_file_verify(const char *filename, int device,
+                            MON_ADDR start_addr);
 
 #endif
 
