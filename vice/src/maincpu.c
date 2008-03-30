@@ -166,13 +166,6 @@ monitor_interface_t maincpu_monitor_interface = {
 
     /* Pointer to the machine's clock counter.  */
     &clk,
-#if 0
-    /* Pointer to a function that writes to memory.  */
-    mem_read,
-
-    /* Pointer to a function that reads from memory.  */
-    mem_store,
-#endif
 
     0,
     mem_bank_list,
