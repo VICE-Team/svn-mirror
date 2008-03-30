@@ -437,7 +437,6 @@ static int sound_open(void)
     int fragsize;
     int fragnr;
     double bufsize;
-    int stereo;
 
     if (suspend_time > 0 && disabletime)
         return 1;
@@ -1012,7 +1011,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 long sound_sample_position(void)
 {
     return (snddata.clkstep == 0)
-        ? 0 : (long)(SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep;
+        ? 0 : (long)((SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep);
 }
 
 int sound_read(ADDRESS addr, int chipno)

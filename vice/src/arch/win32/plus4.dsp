@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="vic20" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="plus4" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** NICHT BEARBEITEN **
+# ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=vic20 - Win32 Debug
-!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
-!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+CFG=plus4 - Win32 Debug
+!MESSAGE This is not a valid makefile. To build this project using NMAKE,
+!MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "vic20.mak".
+!MESSAGE NMAKE /f "plus4.mak".
 !MESSAGE 
-!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
-!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "vic20.mak" CFG="vic20 - Win32 Debug"
+!MESSAGE NMAKE /f "plus4.mak" CFG="plus4 - Win32 Debug"
 !MESSAGE 
-!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "vic20 - Win32 Release" (basierend auf  "Win32 (x86) Static Library")
-!MESSAGE "vic20 - Win32 Debug" (basierend auf  "Win32 (x86) Static Library")
+!MESSAGE "plus4 - Win32 Release" (basierend auf  "Win32 (x86) Static Library")
+!MESSAGE "plus4 - Win32 Debug" (basierend auf  "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=vic20 - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "vic20 - Win32 Release"
+!IF  "$(CFG)" == "plus4 - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -37,8 +37,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "libs\vic20\Release"
-# PROP Intermediate_Dir "libs\vic20\Release"
+# PROP Output_Dir "libs\plus4\Release"
+# PROP Intermediate_Dir "libs\plus4\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\raster" /I "..\..\monitor" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
@@ -51,7 +51,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "vic20 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "plus4 - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -60,8 +60,8 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "libs\vic20\Debug"
-# PROP Intermediate_Dir "libs\vic20\Debug"
+# PROP Output_Dir "libs\plus4\Debug"
+# PROP Intermediate_Dir "libs\plus4\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\raster" /I "..\..\monitor" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
@@ -78,91 +78,83 @@ LIB32=link.exe -lib
 
 # Begin Target
 
-# Name "vic20 - Win32 Release"
-# Name "vic20 - Win32 Debug"
+# Name "plus4 - Win32 Release"
+# Name "plus4 - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\vic20\vic-cmdline-options.c"
+SOURCE="..\..\plus4\plus4-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic-color.c"
+SOURCE="..\..\plus4\plus4-resources.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic-draw.c"
+SOURCE="..\..\plus4\plus4-snapshot.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic-mem.c"
+SOURCE=..\..\plus4\plus4.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic-resources.c"
+SOURCE=..\..\plus4\plus4cpu.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic-snapshot.c"
+SOURCE=..\..\plus4\plus4datasette.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic.c
+SOURCE=..\..\plus4\plus4iec.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic20-cmdline-options.c"
+SOURCE=..\..\plus4\plus4mem.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic20-resources.c"
+SOURCE=..\..\plus4\plus4memlimit.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\vic20\vic20-snapshot.c"
+SOURCE=..\..\plus4\plus4tia1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20.c
+SOURCE="..\..\plus4\ted-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20cartridge.c
+SOURCE="..\..\plus4\ted-color.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20datasette.c
+SOURCE="..\..\plus4\ted-draw.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20iec.c
+SOURCE="..\..\plus4\ted-mem.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20ieeevia1.c
+SOURCE="..\..\plus4\ted-resources.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20ieeevia2.c
+SOURCE="..\..\plus4\ted-snapshot.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20mem.c
+SOURCE="..\..\plus4\ted-sound.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20rsuser.c
+SOURCE="..\..\plus4\ted-timer.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vic20\vic20sound.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\vic20\vic20via1.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\vic20\vic20via2.c
+SOURCE=..\..\plus4\ted.c
 # End Source File
 # End Target
 # End Project

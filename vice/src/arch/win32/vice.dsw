@@ -291,13 +291,16 @@ Package=<4>
     Project_Dep_Name x128
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name xvic
+    Project_Dep_Name xcbm2
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name xpet
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name xcbm2
+    Project_Dep_Name xplus4
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xvic
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name petcat
@@ -583,6 +586,15 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name monitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
     End Project Dependency
 }}}
 

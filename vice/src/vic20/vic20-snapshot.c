@@ -32,6 +32,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <memory.h>
 
 #include "log.h"
 #include "resources.h"
@@ -39,6 +40,7 @@
 #include "types.h"
 #include "vic20-resources.h"
 #include "vic20mem.h"
+#include <string.h>
 
 
 static log_t vic20_snapshot_log = LOG_ERR;

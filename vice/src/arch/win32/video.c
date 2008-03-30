@@ -1018,6 +1018,8 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     int safex;
     int safey;
     int safey2;
+    int cut_bottomline;
+    int cut_rightline;
 
     c = canvas_find_canvas_for_hwnd(hwnd);
     if (c) {
@@ -1068,9 +1070,19 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
                  * r->viewport.pixel_size.height-r->viewport.y_offset;
 
         if (r->frame_buffer) {
+
+            cut_rightline=safex+r->viewport.width;
+            cut_bottomline=safey+r->viewport.height;
+            if (cut_rightline>r->frame_buffer->width) {
+                cut_rightline=r->frame_buffer->width;
+            }
+            if (cut_bottomline>r->frame_buffer->height) {
+                cut_bottomline=r->frame_buffer->height;
+            }
+
             //  Check if it's out
-            if ((xs + w <= safex) || (xs >= r->frame_buffer->width) ||
-                (ys + h <= safey) || (ys >= r->frame_buffer->height)) {
+            if ((xs + w <= safex) || (xs >= cut_rightline) ||
+                (ys + h <= safey) || (ys >= cut_bottomline)) {
                 clear(hdc, xi, yi, xi + w, yi + h);
                 return;
             }
@@ -1095,10 +1107,10 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
                 h = safey2 - ys;
             }
             //  Cut right
-            if (xs + w > r->frame_buffer->width) {
-                clear(hdc, xi + r->frame_buffer->width - xs, yi, xi + w,
+            if (xs + w > cut_rightline) {
+                clear(hdc, xi + cut_rightline - xs, yi, xi + w,
                       yi + h);
-                w = r->frame_buffer->width - xs;
+                w = cut_rightline - xs;
             }
 
             //  Update remaining area from framebuffer....

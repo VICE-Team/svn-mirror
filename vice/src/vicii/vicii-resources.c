@@ -37,6 +37,7 @@
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
+#include "video-color.h"
 
 #ifdef __MSDOS__
 #define DEFAULT_VideoCache_VALUE 0

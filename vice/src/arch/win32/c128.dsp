@@ -90,6 +90,10 @@ SOURCE="..\..\c128\c128-resources.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c128\c128-snapshot.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\c128.c
 # End Source File
 # Begin Source File
