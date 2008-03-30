@@ -43,6 +43,25 @@
 
 /*-----------------------------------------------------------------------*/
 
+/* WD1770 register.  */
+#define WD1770_STATUS  0
+#define WD1770_COMMAND 0
+#define WD1770_TRACK   1
+#define WD1770_SECTOR  2
+#define WD1770_DATA    3
+
+/* WD1770 status register.  */
+#define WD_STAT_NOT_READY     0x80
+#define WD_STAT_WRITE_PROTECT 0x40
+#define WD_STAT_HEAD_LOADED   0x20
+#define WD_STAT_SEEK_ERROR    0x10
+#define WD_STAT_CRC_ERROR     0x08
+#define WD_STAT_TRACK0        0x04
+#define WD_STAT_INDEX_PULSE   0x02
+#define WD_STAT_BUSY          0x01
+
+/*-----------------------------------------------------------------------*/
+
 static void wd1770_store(ADDRESS addr, BYTE byte, unsigned int dnr);
 static BYTE wd1770_read(ADDRESS addr, unsigned int dnr);
 static void wd1770_reset(int unsigned dnr);
@@ -224,29 +243,34 @@ static BYTE wd1770_read(ADDRESS addr, unsigned int dnr)
 
     switch (addr) {
       case WD1770_STATUS:
-        wd1770[dnr].reg[addr] &= 0xfc;
+        wd1770[dnr].reg[addr] &= ~(WD_STAT_BUSY | WD_STAT_INDEX_PULSE
+                                 | WD_STAT_WRITE_PROTECT);
         if (wd1770[dnr].data_buffer_index >= 0)
-            wd1770[dnr].reg[WD1770_STATUS] |= 3;
+            wd1770[dnr].reg[WD1770_STATUS] |= WD_STAT_BUSY
+                                              | WD_STAT_INDEX_PULSE;
         if (wd1770[dnr].busy_clk != (CLOCK)0) {
             if (drive_clk[dnr] - wd1770[dnr].busy_clk < 100)
-                wd1770[dnr].reg[WD1770_STATUS] |= 1;
+                wd1770[dnr].reg[WD1770_STATUS] |= WD_STAT_BUSY;
             else
                 wd1770[dnr].busy_clk = (CLOCK)0;
         }
         if (wd1770[dnr].motor_spinup_clk != (CLOCK)0
-            && (wd1770[dnr].reg[WD1770_STATUS] & 0x80)) {
-            wd1770[dnr].reg[WD1770_STATUS] &= 0xdf;
+            && (wd1770[dnr].reg[WD1770_STATUS] & WD_STAT_NOT_READY)) {
+            wd1770[dnr].reg[WD1770_STATUS] &= ~WD_STAT_HEAD_LOADED;
             if (drive_clk[dnr] - wd1770[dnr].motor_spinup_clk > 50) {
-                wd1770[dnr].reg[WD1770_STATUS] |= 0x20;
+                wd1770[dnr].reg[WD1770_STATUS] |= WD_STAT_HEAD_LOADED;
                 wd1770[dnr].motor_spinup_clk = (CLOCK)0;
             }
         }
         if (wd1770[dnr].set_drq != (CLOCK)0) {
             if (drive_clk[dnr] - wd1770[dnr].set_drq > 5000) {
-                wd1770[dnr].reg[WD1770_STATUS] |= 2;
+                wd1770[dnr].reg[WD1770_STATUS] |= WD_STAT_INDEX_PULSE;
                 wd1770[dnr].set_drq = (CLOCK)0;
             }
         }
+        if (wd1770[dnr].wp_status)
+            wd1770[dnr].reg[WD1770_STATUS] |= WD_STAT_WRITE_PROTECT;
+
         tmp = wd1770[dnr].reg[WD1770_STATUS];
         break;
       case 1:
@@ -277,6 +301,7 @@ static void wd1770_reset(unsigned int dnr)
     wd1770[dnr].set_drq = (CLOCK)0;
     wd1770[dnr].current_track = 20;
     wd1770[dnr].data_buffer_index = -1;
+    wd1770[dnr].wp_status = 0;
 
     for (i = 0; i < 4; i++)
         /* FIXME: Just a wild guess.  */
@@ -315,16 +340,18 @@ static void wd1770_command_restore(BYTE command, unsigned int dnr)
     wd1770[dnr].current_track = 0;
     wd1770_update_track_register(0x10, dnr);
     wd1770_motor_control(command, dnr);
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 static void wd1770_command_seek(BYTE command, unsigned int dnr)
 {
     wd1770[dnr].set_drq = drive_clk[dnr];
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 static void wd1770_command_step(BYTE command, unsigned int dnr)
 {
-
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 static void wd1770_command_stepin(BYTE command, unsigned int dnr)
@@ -333,6 +360,7 @@ static void wd1770_command_stepin(BYTE command, unsigned int dnr)
         wd1770[dnr].current_track++;
     wd1770_update_track_register(command, dnr);
     wd1770_motor_control(command, dnr);
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 static void wd1770_command_stepout(BYTE command, unsigned int dnr)
@@ -341,16 +369,17 @@ static void wd1770_command_stepout(BYTE command, unsigned int dnr)
         wd1770[dnr].current_track--;
     wd1770_update_track_register(command, dnr);
     wd1770_motor_control(command, dnr);
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 static void wd1770_command_readsector(BYTE command, unsigned int dnr)
 {
-
+    wd1770[dnr].wp_status = 0;
 }
 
 static void wd1770_command_writesector(BYTE command, unsigned int dnr)
 {
-
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
@@ -363,22 +392,24 @@ static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
     wd1770[dnr].data_buffer[5] = 0x0;
 
     wd1770[dnr].data_buffer_index = 5;
+    wd1770[dnr].wp_status = 0;
 }
 
 static void wd1770_command_forceint(BYTE command, unsigned int dnr)
 {
     /* Abort any command immediately.  Clear status bits.  */
     wd1770[dnr].reg[WD1770_STATUS] = 0;
+    wd1770[dnr].wp_status = 0;
 }
 
 static void wd1770_command_readtrack(BYTE command, unsigned int dnr)
 {
-
+    wd1770[dnr].wp_status = 0;
 }
 
 static void wd1770_command_writetrack(BYTE command, unsigned int dnr)
 {
-
+    wd1770[dnr].wp_status = wd1770[dnr].image->read_only;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -498,7 +529,7 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
-        log_message(wd1770_log, "Unit %d: D81 disk image attached: %s",
+        log_message(wd1770_log, "Unit %d: D81 disk image attached: %s.",
                     unit, image->name);
         break;
       default:
@@ -516,7 +547,7 @@ int wd1770_detach_image(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
-        log_message(wd1770_log, "Unit %d: D81 disk image detached: %s",
+        log_message(wd1770_log, "Unit %d: D81 disk image detached: %s.",
                     unit, image->name);
         break;
       default:
