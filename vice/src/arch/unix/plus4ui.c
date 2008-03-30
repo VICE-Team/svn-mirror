@@ -82,7 +82,32 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+
+ui_menu_entry_t ted_submenu[] = {
+    { N_("*External color set"),
+      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
+#if 0
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
+#if VIDEO_DISPLAY_DEPTH == 0
+    { "--" },
+    { N_("*Fast PAL emulation"),
+      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
+#if 0
+    { N_("*PAL emulation"),
+      (ui_callback_t)toggle_PALEmulation, NULL, NULL },
+#endif
+#endif
+#endif
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t plus4_menu[] = {
+    { N_("TED settings"),
+      NULL, NULL, ted_submenu },
     { NULL }
 };
 

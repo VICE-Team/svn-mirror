@@ -73,7 +73,7 @@
 #define TED_38COL_STOP_PIXEL            0x157
 
 #define VIC_II_MAX_SPRITE_WIDTH         48
-#define TED_NUM_COLORS               16
+#define TED_NUM_COLORS                  128
 
 
 /* Available video modes.  The number is given by TED registers.  */

@@ -79,22 +79,22 @@ static char vic_ii_color_dither[16]=
 
 static video_cbm_color_t ted_colors[TED_NUM_COLORS]=
 {
-	{ LUMN0, ANGLE_ORN, -0, "Black"       },
-	{ LUMN8, ANGLE_BRN,  0, "White"       },
-	{ LUMN2, ANGLE_RED,  1, "Red"         },
-	{ LUMN6, ANGLE_RED, -1, "Cyan"        },
-	{ LUMN3, ANGLE_GRN, -1, "Purple"      },
+    { LUMN0, ANGLE_ORN, -0, "Black"       },
+    { LUMN8, ANGLE_BRN,  0, "White"       },
+    { LUMN2, ANGLE_RED,  1, "Red"         },
+    { LUMN6, ANGLE_RED, -1, "Cyan"        },
+    { LUMN3, ANGLE_GRN, -1, "Purple"      },
     { LUMN5, ANGLE_GRN,  1, "Green"       },
-	{ LUMN1, ANGLE_BLU,  1, "Blue"        },
-	{ LUMN7, ANGLE_BLU, -1, "Yellow"      },
-	{ LUMN3, ANGLE_ORN, -1, "Orange"      },
-	{ LUMN1, ANGLE_BRN,  1, "Brown"       },
-	{ LUMN5, ANGLE_RED,  1, "Yellow-Green"},
-	{ LUMN2, ANGLE_RED, -1, "Pink"        },
-	{ LUMN4, ANGLE_GRN, -1, "Blue-Green"  },
-	{ LUMN7, ANGLE_GRN,  1, "Light Blue"  },
-	{ LUMN4, ANGLE_BLU,  1, "Dark Blue"   },
-	{ LUMN6, ANGLE_BLU, -1, "Light Green" }
+    { LUMN1, ANGLE_BLU,  1, "Blue"        },
+    { LUMN7, ANGLE_BLU, -1, "Yellow"      },
+    { LUMN3, ANGLE_ORN, -1, "Orange"      },
+    { LUMN1, ANGLE_BRN,  1, "Brown"       },
+    { LUMN5, ANGLE_RED,  1, "Yellow-Green"},
+    { LUMN2, ANGLE_RED, -1, "Pink"        },
+    { LUMN4, ANGLE_GRN, -1, "Blue-Green"  },
+    { LUMN7, ANGLE_GRN,  1, "Light Blue"  },
+    { LUMN4, ANGLE_BLU,  1, "Dark Blue"   },
+    { LUMN6, ANGLE_BLU, -1, "Light Green" }
 };
 
 static video_cbm_palette_t ted_palette=
