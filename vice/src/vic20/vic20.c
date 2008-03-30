@@ -35,6 +35,8 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
+#include "drive-resources.h"
+#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"

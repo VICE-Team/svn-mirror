@@ -41,8 +41,11 @@
 #include "cmdline.h"
 #include "crtc.h"
 #include "datasette.h"
+#include "drive-resources.h"
+#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -50,6 +53,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon.h"
 #include "resources.h"
 #include "serial.h"
 #include "sid.h"
@@ -254,6 +258,8 @@ int machine_init(void)
 
     /* Initialize the CBM-II-specific part of the UI.  */
     c610_ui_init();
+
+    iec_init();
 
     return 0;
 }

@@ -42,6 +42,8 @@
 #include "ciatimer.h"
 #include "clkguard.h"
 #include "datasette.h"
+#include "drive-resources.h"
+#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
@@ -51,6 +53,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "mon.h"
 #include "patchrom.h"
 #include "psid.h"
@@ -65,9 +68,8 @@
 #include "types.h"
 #include "utils.h"
 #include "vicii.h"
-#include "vsync.h"
-
 #include "vsidui.h"
+#include "vsync.h"
 
 #ifdef HAVE_RS232
 #include "c64acia.h"

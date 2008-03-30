@@ -36,8 +36,11 @@
 #include "cmdline.h"
 #include "crtc.h"
 #include "datasette.h"
+#include "drive-resources.h"
+#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -45,6 +48,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon.h"
 #include "pet.h"
 #include "petmem.h"
 #include "pets.h"
@@ -286,6 +290,8 @@ int machine_init(void)
 
     /* Initialize the PET-specific part of the UI.  */
     pet_ui_init();
+
+    iec_init();
 
     return 0;
 }
