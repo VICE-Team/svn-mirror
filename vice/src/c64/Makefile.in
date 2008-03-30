@@ -372,7 +372,7 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/xaw/ui.h sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/memutils.h ../../src/parallel.h \
 	tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/utils.h patchrom.h
+	../../src/utils.h patchrom.h ../../src/cartridge.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/types.h patchrom.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \

@@ -106,6 +106,7 @@ noinst_HEADERS = \
 	attach.h \
 	autostart.h \
 	c1541.h \
+	cartridge.h \
 	charsets.h \
 	cia.h \
 	cmdline.h \
@@ -155,6 +156,7 @@ base_sources = \
 	asm.c \
 	attach.c \
 	autostart.c \
+	cartridge.c \
 	charsets.c \
 	cmdline.c \
 	drive.c \
@@ -248,29 +250,29 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o warn.o \
-zfile.o zipcode.o maincpu.o
+x64_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
+cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
-x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o warn.o \
-zfile.o zipcode.o
+x128_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
+cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
-xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o warn.o \
-zfile.o zipcode.o maincpu.o
+xvic_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
+cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
-xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o warn.o \
-zfile.o zipcode.o maincpu.o
+xpet_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
+cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
@@ -483,6 +485,8 @@ autostart.o: autostart.c vice.h config.h vmachine.h mem.h types.h \
 	serial.h traps.h warn.h resources.h drive.h fs_cbm.h tape.h \
 	interrupt.h 6510core.h arch/unix/ui.h arch/unix/xaw/ui.h \
 	palette.h autostart.h utils.h kbdbuf.h
+cartridge.o: cartridge.c vice.h config.h resources.h file.h mem.h \
+	types.h utils.h cartridge.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
 cmdline.o: cmdline.c vice.h config.h utils.h cmdline.h resources.h
 drive.o: drive.c vice.h config.h serial.h types.h traps.h drive.h \
@@ -490,7 +494,7 @@ drive.o: drive.c vice.h config.h serial.h types.h traps.h drive.h \
 findpath.o: findpath.c vice.h config.h findpath.h utils.h
 fsdevice.o: fsdevice.c vice.h config.h resources.h drive.h types.h \
 	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \
-	fsdevice.h
+	cmdline.h fsdevice.h
 gcr.o: gcr.c vice.h config.h gcr.h types.h
 info.o: info.c
 kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
@@ -501,7 +505,7 @@ main.o: main.c vice.h config.h machine.h types.h maincpu.h mem.h \
 	palette.h arch/unix/vsync.h arch/unix/video.h resources.h \
 	arch/unix/kbd.h sysfile.h autostart.h findpath.h utils.h \
 	arch/unix/joystick.h attach.h drive.h fs_cbm.h cmdline.h \
-	fsdevice.h
+	fsdevice.h cartridge.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
 	6510core.h mon.h interrupt.h vmachine.h machine.h \
 	arch/unix/ui.h arch/unix/xaw/ui.h palette.h resources.h traps.h \

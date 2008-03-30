@@ -317,7 +317,8 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/attach.h ../../../../src/autostart.h \
 	../../../../src/mon.h ../../../../src/mos6510.h \
 	../../../../src/info.h ../../../../src/resources.h \
-	../../../../src/machine.h ../../../../src/utils.h
+	../../../../src/machine.h ../../../../src/utils.h \
+	../../../../src/cartridge.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h

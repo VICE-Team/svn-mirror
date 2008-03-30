@@ -1,3 +1,23 @@
+Wed Jun 10 21:53:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.35.
+
+Wed Jun 10 21:33:53 1998  Martin Pottendorfer  <Martin.Pottendorfer@aut.alcatel.at>
+
+	* configure.in: Check for `-lsocket', `-lSM' and `-lICE' if not
+ 	compiling for MS-DOS.
+
+Mon Jun  8 22:20:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* data/C128/vice.vkm: Renamed to `default.vkm'.
+
+	* data/VIC20/vice.vkm: Renamed to `default.vkm'.
+
+	* data/C64/vice.vkm: Renamed to `default.vkm'.
+
+	* data/C64/vice.vkm, data/VIC20/vice.vkm, data/C128/vice.vkm:
+ 	Fixed `backslash' to emulate non-shifted pound sign.
+
 Sun Jun  7 17:35:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.34.

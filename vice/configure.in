@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.34)
+AM_INIT_AUTOMAKE(vice, 0.14.2.35)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Try to find out which system we are on...
@@ -251,6 +251,14 @@ dnl Check for X11 libraries and header files
 
 if [[ x"$is_dos" != "xyes" ]]; then
 
+  LIBSOCKET=""
+  LIBICE=""
+  LIBSM=""
+
+  AC_CHECK_LIB(socket, gethostbyname,[ LIBSOCKET="-lsocket" ],,-lnsl)
+  AC_CHECK_LIB(ICE, IceConnectionNumber,[ LIBICE="-lICE" ],,$LIBSOCKET)
+  AC_CHECK_LIB(SM, SmFreeProperty,[ LIBSM="-lSM" ],,$LIBICE $LIBSOCKET)
+
   AC_PATH_XTRA
 
   dnl This is necessary because CPP tests use `CPPFLAGS' instead.
@@ -258,11 +266,8 @@ if [[ x"$is_dos" != "xyes" ]]; then
   dnl include paths in?  Let's hope so.
   CPPFLAGS="$CPPFLAGS $X_CFLAGS"
 
+  LIBS="$LIBSM $LIBICE $LIBSOCKET $LIBS"
   MISSING_X_LIBS=""
-
-  AC_CHECK_LIB(socket, gethostbyname,,,$X_LIBS -lnsl)
-
-  AC_CHECK_LIB(ICE, IceConnectionNumber,,,$X_LIBS)
 
   AC_CHECK_LIB(X11, XCreateWindow,,
                [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
