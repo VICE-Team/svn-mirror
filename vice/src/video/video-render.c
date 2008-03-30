@@ -321,13 +321,3 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
     }
 }
 
-void video_refresh_all(struct video_canvas_s *c)
-{
-    struct raster_s *raster;
-	
-    raster = raster_get_raster_from_canvas(c);
-	
-    if (raster != NULL)
-        raster_canvas_update_all(raster);
-}
-
