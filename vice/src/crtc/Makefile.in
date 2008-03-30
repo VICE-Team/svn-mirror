@@ -237,65 +237,36 @@ distdir: $(DISTFILES)
 crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/cmdline.h \
 	../../src/resources.h crtc-cmdline-options.h
 crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
+	crtc-mem.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	crtc-mem.h crtc-draw.h
+	crtc-draw.h
 crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	crtc.h ../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/mon.h ../../src/interrupt.h ../../src/mos6510.h \
+	crtc.h crtc-mem.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h crtc-mem.h
+	../../src/raster/raster-sprite.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/arch/unix/types.h crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	crtc-mem.h crtc-resources.h
-crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
-	crtc.h ../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	crtc-mem.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/mem.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/interrupt.h
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
-	../../src/arch/unix/types.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/utils.h ../../src/vsync.h crtc.h \
+	../../src/alarm.h ../../src/log.h crtc-mem.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
@@ -304,8 +275,40 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h crtc-mem.h \
-	crtc-cmdline-options.h crtc-draw.h crtc-resources.h
+	../../src/raster/raster-sprite.h ../../src/snapshot.h \
+	crtc-resources.h
+crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
+	crtc.h ../../src/alarm.h ../../src/log.h \
+	../../src/arch/unix/types.h crtc-mem.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/snapshot.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/mos6510.h
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
+	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
+	crtc-mem.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/snapshot.h \
+	crtc-cmdline-options.h crtc-draw.h crtc-resources.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/mem.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/mos6510.h ../../src/utils.h \
+	../../src/vsync.h
 
 info-am:
 info: info-am

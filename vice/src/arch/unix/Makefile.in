@@ -316,9 +316,9 @@ joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/cmdline.h joystick.h
 kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h types.h ../../../src/6510core.h \
-	../../../src/mem.h ../../../src/snapshot.h joystick.h kbd.h \
-	kbdef.h ../../../src/keyboard.h ../../../src/log.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/mem.h types.h ../../../src/snapshot.h joystick.h \
+	kbd.h kbdef.h ../../../src/keyboard.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/sysfile.h ui.h xaw/ui.h \
 	../../../src/palette.h ../../../src/uiapi.h \
 	../../../src/utils.h video.h
