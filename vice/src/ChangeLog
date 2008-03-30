@@ -1,3 +1,16 @@
+1999-02-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.28.
+
+	* c64/c64mem.c (pla_config_changed): Fixed processor port
+	implementation.
+
+	* c128/c128mem.c (read_ram, store_ram, read_top_shared,
+	store_top_shared): New functions.
+	(initialize_memory): Implemented memory banking.
+	(read_basic_lo, read_basic_hi, read_editor, read_hi): Only return
+	ROM values.
+
 1999-02-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.27.
@@ -9,6 +22,50 @@
 
 	* c128/c128mem.c (mem_read_snapshot_module): Only load ACIA
 	snapshot when `HAVE_RS232' is defined.
+
+1998-02-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128mem.c (mem_load_kernal): before loading the ROM, deinstall
+	all traps - serial _and_ tape - and install them afterwards.
+	* c64/c64mem.c: likewise
+	* vic20/vic20mem.c: likewise
+
+1998-02-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/C64/Makefile.am: add default.vrs
+        
+	* data/C64/default.vrs: new file
+
+	* arch/unix/Makefile.am: remove c64romset.c and c64romset.h 
+
+	* arch/unix/c64romset.c, arch/unix/c64romset.h: removed
+
+	* arch/unix/xaw/c64ui.c (RomSetMenu, radio_RomSet, romset_submenu):
+	removed
+	(c64_romset_submenu): new submenu to load single ROMs and romsets
+	(c64_ui_init): removed romset stuff.
+
+	* c64/c64.c: do not include c64romset.h
+	(machine_init_resources): do not call c64romset_init
+	* c64/c64mem.c: do not include c64romset.h
+	(default_chargen_rom_name, default_basic_rom_name, 
+	default_kernal_rom_name, romsets, number_romsets, romset_name): removed
+	(mem_load_kernal, mem_load_basic, mem_load_chargen):
+	new functions to load the single ROMs.
+	(set_chargen_rom_name, set_kernal_rom_name, set_basic_rom_name):
+	load the ROMs when the ROM name has changed.
+	(mem_get_romset_name, mem_get_romsets, mem_get_numromsets, 
+	mem_add_romset, mem_load_romset_file, mem_romset_loader,
+	mem_set_romset, isRomInRomSet): removed.
+	(c64mem_get_kernal_checksum, c64mem_get_basic_checksum):
+	new functions to get the checksums. Called by mem_load_* and
+	mem_read_rom_snapshot.
+	(mem_load): removed romset code
+	(mem_write_rom_snapshot_module): uninstall the traps before writing
+	the ROMs and install them afterwards.
+	(mem_write_rom_snapshot_module): uninstall the traps before reading
+	the ROMs and install them afterwards.
+	Also get ROM checksums. 
 
 1998-02-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
