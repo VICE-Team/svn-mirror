@@ -1,5 +1,35 @@
 2003-11-10  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.13.19.
+
+	* printerdrv/drv-nl10.c: Fixed comments, added header.
+	[drv_nl10_charset_mapping_intl, drv_nl10_charset_nlq_italic]:
+	Made const.
+
+	* printerdrv/drv-nl10.h: Added header, removed unused include.
+
+	* arch/unix/uiprinter.c: Added new printer.
+
+2003-11-10  David Hansel  <hansel@reactive-systems.com>
+
+	* printerdrv/drv-nl10.c, printerdrv/drv-nl10.h: New files.
+
+	* printerdrv/Makefile.am: Added new files.
+
+	* gfxoutputdrv/bmpdrv.c: Added support for 1 bit data.
+
+	* printerdrv/printer.c: Added hooks for NL10 printer driver.
+
+	* printerdrv/output-graphics.c (output_graphics_putc): Fixed
+	typo.
+
+2003-11-10  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/*: restructured to allow code for all emulators
+	in a single arch lib. Builds, but yet untested.
+
+2003-11-10  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.13.18.
 
 	* drive/drive.c, drive/drive.h, drive/tcbm/glue1551.c,

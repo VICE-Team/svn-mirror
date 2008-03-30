@@ -231,6 +231,8 @@ libprinterdrv_a_SOURCES = \
 	drv-ascii.h \
 	drv-mps803.c \
 	drv-mps803.h \
+	drv-nl10.c \
+	drv-nl10.h \
 	interface-serial.c \
 	interface-serial.h \
 	interface-userport.c \
@@ -253,9 +255,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 libprinterdrv_a_AR = $(AR) cru
 libprinterdrv_a_LIBADD =
 am_libprinterdrv_a_OBJECTS = driver-select.$(OBJEXT) drv-ascii.$(OBJEXT) \
-	drv-mps803.$(OBJEXT) interface-serial.$(OBJEXT) \
-	interface-userport.$(OBJEXT) output-graphics.$(OBJEXT) \
-	output-select.$(OBJEXT) output-text.$(OBJEXT) printer.$(OBJEXT)
+	drv-mps803.$(OBJEXT) drv-nl10.$(OBJEXT) \
+	interface-serial.$(OBJEXT) interface-userport.$(OBJEXT) \
+	output-graphics.$(OBJEXT) output-select.$(OBJEXT) \
+	output-text.$(OBJEXT) printer.$(OBJEXT)
 libprinterdrv_a_OBJECTS = $(am_libprinterdrv_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -263,6 +266,7 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/driver-select.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drv-ascii.Po ./$(DEPDIR)/drv-mps803.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/drv-nl10.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/interface-serial.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/interface-userport.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/output-graphics.Po \
@@ -302,6 +306,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/driver-select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drv-ascii.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drv-mps803.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drv-nl10.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interface-serial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interface-userport.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-graphics.Po@am__quote@

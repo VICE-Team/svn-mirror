@@ -230,12 +230,6 @@ INCLUDES = \
 
 noinst_LIBRARIES = \
 	libarch.a \
-	libarch64.a \
-	libarch128.a \
-	libarchcbm2.a \
-	libarchpet.a \
-	libarchplus4.a \
-	libarchvic20.a \
 	libarchdummy.a
 
 
@@ -243,6 +237,11 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
+	c128ui.c \
+	c64ui.c \
+	c64c128ui.c \
+	c64c128ui.h \
+	cbm2ui.c \
 	config.h \
 	console.c \
 	joy.c \
@@ -251,6 +250,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	mousedrv.c \
 	mousedrv.h \
+	petui.c \
+	plus4ui.c \
 	rs232.c \
 	riscosmain.c \
 	spritedrv.c \
@@ -268,48 +269,13 @@ libarch_a_SOURCES = \
 	uimsgwin.c \
 	uimsgwin.h \
 	uisharedef.h \
+	vic20ui.c \
 	video.c \
 	videoarch.h \
 	vsidarch.h \
+	vsidui.c \
 	vsync.c \
 	vsyncarch.h
-
-
-libarch64_a_SOURCES = \
-	c64ui.c \
-	c64c128ui.c \
-	c64c128ui.h \
-	vsidui.c
-
-
-libarch128_a_SOURCES = \
-	c128ui.c \
-	c64c128ui.c \
-	c64c128ui.h \
-	vsiddummy.c
-
-
-libarchcbm2_a_SOURCES = \
-	cbm2ui.c \
-	cbm2dummy.c \
-	vsiddummy.c
-
-
-libarchpet_a_SOURCES = \
-	petui.c \
-	petdummy.c \
-	vsiddummy.c
-
-
-libarchplus4_a_SOURCES = \
-	plus4ui.c \
-	vsiddummy.c \
-	cbm2dummy.c
-
-
-libarchvic20_a_SOURCES = \
-	vic20ui.c \
-	vsiddummy.c
 
 
 libarchdummy_a_SOURCES = \
@@ -328,56 +294,28 @@ LIBRARIES = $(noinst_LIBRARIES)
 libarch_a_AR = $(AR) cru
 libarch_a_LIBADD =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
-	console.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
-	mousedrv.$(OBJEXT) rs232.$(OBJEXT) riscosmain.$(OBJEXT) \
-	spritedrv.$(OBJEXT) ui.$(OBJEXT) uicmdline.$(OBJEXT) \
-	uiconfig.$(OBJEXT) uihelp.$(OBJEXT) uiimage.$(OBJEXT) \
-	uimon.$(OBJEXT) uimsgwin.$(OBJEXT) video.$(OBJEXT) \
-	vsync.$(OBJEXT)
+	c128ui.$(OBJEXT) c64ui.$(OBJEXT) c64c128ui.$(OBJEXT) \
+	cbm2ui.$(OBJEXT) console.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
+	mousedrv.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
+	rs232.$(OBJEXT) riscosmain.$(OBJEXT) spritedrv.$(OBJEXT) \
+	ui.$(OBJEXT) uicmdline.$(OBJEXT) uiconfig.$(OBJEXT) \
+	uihelp.$(OBJEXT) uiimage.$(OBJEXT) uimon.$(OBJEXT) \
+	uimsgwin.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
+	vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
-libarch128_a_AR = $(AR) cru
-libarch128_a_LIBADD =
-am_libarch128_a_OBJECTS = c128ui.$(OBJEXT) c64c128ui.$(OBJEXT) \
-	vsiddummy.$(OBJEXT)
-libarch128_a_OBJECTS = $(am_libarch128_a_OBJECTS)
-libarch64_a_AR = $(AR) cru
-libarch64_a_LIBADD =
-am_libarch64_a_OBJECTS = c64ui.$(OBJEXT) c64c128ui.$(OBJEXT) \
-	vsidui.$(OBJEXT)
-libarch64_a_OBJECTS = $(am_libarch64_a_OBJECTS)
-libarchcbm2_a_AR = $(AR) cru
-libarchcbm2_a_LIBADD =
-am_libarchcbm2_a_OBJECTS = cbm2ui.$(OBJEXT) cbm2dummy.$(OBJEXT) \
-	vsiddummy.$(OBJEXT)
-libarchcbm2_a_OBJECTS = $(am_libarchcbm2_a_OBJECTS)
 libarchdummy_a_AR = $(AR) cru
 libarchdummy_a_LIBADD =
 am_libarchdummy_a_OBJECTS = uidummy.$(OBJEXT)
 libarchdummy_a_OBJECTS = $(am_libarchdummy_a_OBJECTS)
-libarchpet_a_AR = $(AR) cru
-libarchpet_a_LIBADD =
-am_libarchpet_a_OBJECTS = petui.$(OBJEXT) petdummy.$(OBJEXT) \
-	vsiddummy.$(OBJEXT)
-libarchpet_a_OBJECTS = $(am_libarchpet_a_OBJECTS)
-libarchplus4_a_AR = $(AR) cru
-libarchplus4_a_LIBADD =
-am_libarchplus4_a_OBJECTS = plus4ui.$(OBJEXT) vsiddummy.$(OBJEXT) \
-	cbm2dummy.$(OBJEXT)
-libarchplus4_a_OBJECTS = $(am_libarchplus4_a_OBJECTS)
-libarchvic20_a_AR = $(AR) cru
-libarchvic20_a_LIBADD =
-am_libarchvic20_a_OBJECTS = vic20ui.$(OBJEXT) vsiddummy.$(OBJEXT)
-libarchvic20_a_OBJECTS = $(am_libarchvic20_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/archdep.Po ./$(DEPDIR)/blockdev.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c128ui.Po ./$(DEPDIR)/c64c128ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64ui.Po ./$(DEPDIR)/cbm2dummy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cbm2ui.Po ./$(DEPDIR)/console.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/kbd.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/petdummy.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64ui.Po ./$(DEPDIR)/cbm2ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/joy.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mousedrv.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/riscosmain.Po ./$(DEPDIR)/rs232.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/spritedrv.Po ./$(DEPDIR)/ui.Po \
@@ -385,18 +323,15 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidummy.Po ./$(DEPDIR)/uihelp.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiimage.Po ./$(DEPDIR)/uimon.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimsgwin.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsiddummy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsync.Po
+@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libarch_a_SOURCES) $(libarch128_a_SOURCES) \
-	$(libarch64_a_SOURCES) $(libarchcbm2_a_SOURCES) \
-	$(libarchdummy_a_SOURCES) $(libarchpet_a_SOURCES) \
-	$(libarchplus4_a_SOURCES) $(libarchvic20_a_SOURCES)
+DIST_SOURCES = $(libarch_a_SOURCES) $(libarchdummy_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libarch_a_SOURCES) $(libarch128_a_SOURCES) $(libarch64_a_SOURCES) $(libarchcbm2_a_SOURCES) $(libarchdummy_a_SOURCES) $(libarchpet_a_SOURCES) $(libarchplus4_a_SOURCES) $(libarchvic20_a_SOURCES)
+SOURCES = $(libarch_a_SOURCES) $(libarchdummy_a_SOURCES)
 
 all: all-am
 
@@ -414,34 +349,10 @@ libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
 	-rm -f libarch.a
 	$(libarch_a_AR) libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
 	$(RANLIB) libarch.a
-libarch128.a: $(libarch128_a_OBJECTS) $(libarch128_a_DEPENDENCIES) 
-	-rm -f libarch128.a
-	$(libarch128_a_AR) libarch128.a $(libarch128_a_OBJECTS) $(libarch128_a_LIBADD)
-	$(RANLIB) libarch128.a
-libarch64.a: $(libarch64_a_OBJECTS) $(libarch64_a_DEPENDENCIES) 
-	-rm -f libarch64.a
-	$(libarch64_a_AR) libarch64.a $(libarch64_a_OBJECTS) $(libarch64_a_LIBADD)
-	$(RANLIB) libarch64.a
-libarchcbm2.a: $(libarchcbm2_a_OBJECTS) $(libarchcbm2_a_DEPENDENCIES) 
-	-rm -f libarchcbm2.a
-	$(libarchcbm2_a_AR) libarchcbm2.a $(libarchcbm2_a_OBJECTS) $(libarchcbm2_a_LIBADD)
-	$(RANLIB) libarchcbm2.a
 libarchdummy.a: $(libarchdummy_a_OBJECTS) $(libarchdummy_a_DEPENDENCIES) 
 	-rm -f libarchdummy.a
 	$(libarchdummy_a_AR) libarchdummy.a $(libarchdummy_a_OBJECTS) $(libarchdummy_a_LIBADD)
 	$(RANLIB) libarchdummy.a
-libarchpet.a: $(libarchpet_a_OBJECTS) $(libarchpet_a_DEPENDENCIES) 
-	-rm -f libarchpet.a
-	$(libarchpet_a_AR) libarchpet.a $(libarchpet_a_OBJECTS) $(libarchpet_a_LIBADD)
-	$(RANLIB) libarchpet.a
-libarchplus4.a: $(libarchplus4_a_OBJECTS) $(libarchplus4_a_DEPENDENCIES) 
-	-rm -f libarchplus4.a
-	$(libarchplus4_a_AR) libarchplus4.a $(libarchplus4_a_OBJECTS) $(libarchplus4_a_LIBADD)
-	$(RANLIB) libarchplus4.a
-libarchvic20.a: $(libarchvic20_a_OBJECTS) $(libarchvic20_a_DEPENDENCIES) 
-	-rm -f libarchvic20.a
-	$(libarchvic20_a_AR) libarchvic20.a $(libarchvic20_a_OBJECTS) $(libarchvic20_a_LIBADD)
-	$(RANLIB) libarchvic20.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -454,13 +365,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64c128ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2dummy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petdummy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/riscosmain.Po@am__quote@
@@ -476,7 +385,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimsgwin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsiddummy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsync.Po@am__quote@
 
