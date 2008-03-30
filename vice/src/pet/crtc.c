@@ -58,6 +58,32 @@
 
 /* ------------------------------------------------------------------------- */
 
+static void crtc_init_dwg_tables(void);
+static void crtc_update_memory_ptrs(void);
+static void crtc_arrange_window(int width, int height);
+static int fill_cache(struct line_cache *l, int *xs, int *xe, int r);
+static void draw_standard_line(void);
+static void draw_reverse_line(void);
+static void draw_standard_line_2x(void);
+static void draw_reverse_line_2x(void);
+static void draw_standard_line_cached(struct line_cache *l, int xs, int xe);
+static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe);
+static void draw_standard_line_cached_2x(struct line_cache *l, int xs, int xe);
+static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe);
+
+static palette_t *palette;
+static BYTE crtc[19];
+static BYTE *chargen_ptr = NULL;
+static BYTE *screenmem = NULL;
+static ADDRESS addr_mask = 0;
+static ADDRESS scraddr = 0;
+
+PIXEL4 dwg_table_0[256], dwg_table_1[256];
+PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
+PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
+
+/* ------------------------------------------------------------------------- */
+
 /* CRTC resources.  */
 
 /* Name of palette file.  */
@@ -80,6 +106,20 @@ static int set_video_cache_enabled(resource_value_t v)
 
 static int set_palette_file_name(resource_value_t v)
 {
+    /* If called before initialization, just set the resource value.  The
+       palette file will be loaded afterwards.  */
+    if (palette == NULL) {
+        string_set(&palette_file_name, (char *) v);
+        return 0;
+    }
+
+    if (palette_load((char *) v, palette) < 0)
+        return -1;
+    canvas_set_palette(canvas, palette, pixel_table);
+
+    /* Make sure the pixel tables are recalculated properly.  */
+    video_resize();
+
     string_set(&palette_file_name, (char *) v);
     return 0;
 }
@@ -119,7 +159,7 @@ int crtc_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* VIC-II command-line options.  */
+/* CRTC command-line options.  */
 
 static cmdline_option_t cmdline_options[] = {
     { "-vcache", SET_RESOURCE, 0, NULL, NULL,
@@ -153,32 +193,7 @@ int crtc_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-
 /* ------------------------------------------------------------------------- */
-
-static void crtc_init_dwg_tables(void);
-static void crtc_update_memory_ptrs(void);
-static void crtc_arrange_window(int width, int height);
-static int fill_cache(struct line_cache *l, int *xs, int *xe, int r);
-static void draw_standard_line(void);
-static void draw_reverse_line(void);
-static void draw_standard_line_2x(void);
-static void draw_reverse_line_2x(void);
-static void draw_standard_line_cached(struct line_cache *l, int xs, int xe);
-static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe);
-static void draw_standard_line_cached_2x(struct line_cache *l, int xs, int xe);
-static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe);
-
-static palette_t *palette;
-static BYTE crtc[19];
-static BYTE *chargen_ptr = NULL;
-static BYTE *screenmem = NULL;
-static ADDRESS addr_mask = 0;
-static ADDRESS scraddr = 0;
-
-PIXEL4 dwg_table_0[256], dwg_table_1[256];
-PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
-PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
 
 #include "raster.c"
 
