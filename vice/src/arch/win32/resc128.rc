@@ -136,6 +136,8 @@ BEGIN
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
         MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
+        MENUITEM "IEEE488 Interface emulation",     IDM_IEEE488
+	MENUITEM "1351 mouse emulation",	    IDM_MOUSE
     END
     POPUP "&Settings"
     BEGIN

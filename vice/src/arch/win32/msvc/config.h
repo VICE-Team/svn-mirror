@@ -11,6 +11,8 @@
 #define X_DISPLAY_DEPTH         0
 #define HAVE_RESID              1
 #define HAS_JOYSTICK            1
+#define HAVE_MOUSE		1
+
 #define SIZEOF_UNSIGNED_INT     4
 #define SIZEOF_UNSIGNED_LONG    4
 #define SIZEOF_UNSIGNED_SHORT   2

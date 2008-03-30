@@ -132,6 +132,7 @@ BEGIN
         END
 	MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
+	MENUITEM "VIC-1112 IEEE 488 module",	    IDM_IEEE488
     END
     POPUP "&Settings"
     BEGIN

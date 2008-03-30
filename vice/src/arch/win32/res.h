@@ -1,7 +1,8 @@
-//{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by Resources.rc
-//
+
+#ifndef _RES_H
+#define _RES_H
+
+
 #define IDR_MENUC64                     101
 #define IDR_MENUC128                    102
 #define IDR_MENUVIC                     103
@@ -257,15 +258,7 @@
 #define IDM_TOGGLE_CRTCVIDEOCACHE	40183
 #define IDM_SWAP_JOYSTICK		40184
 #define IDM_TOGGLE_EMUID		40185
+#define IDM_IEEE488			40186
+#define IDM_MOUSE			40187
 
-
-// Next default values for new objects
-//
-//#ifdef APSTUDIO_INVOKED
-//#ifndef APSTUDIO_READONLY_SYMBOLS
-//#define _APS_NEXT_RESOURCE_VALUE        111
-//#define _APS_NEXT_COMMAND_VALUE         40026
-//#define _APS_NEXT_CONTROL_VALUE         1018
-//#define _APS_NEXT_SYMED_VALUE           101
-//#endif
-//#endif
+#endif

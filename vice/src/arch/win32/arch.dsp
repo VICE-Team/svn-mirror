@@ -116,6 +116,10 @@ SOURCE=.\kbd.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\mouse.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\petkbd.c
 # End Source File
 # Begin Source File

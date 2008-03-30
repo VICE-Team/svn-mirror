@@ -37,6 +37,8 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "REU", IDM_TOGGLE_REU },
+    { "IEEE488", IDM_IEEE488 },
+    { "Mouse", IDM_MOUSE },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
 #ifdef HAVE_RESID
     { "SidUseResid", IDM_TOGGLE_SOUND_RESID },

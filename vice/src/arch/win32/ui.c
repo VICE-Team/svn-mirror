@@ -49,6 +49,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mouse.h"
 #include "res.h"
 #include "resources.h"
 #include "tape.h"
@@ -1197,6 +1198,13 @@ int     window_index;
         case WM_KEYUP:
             kbd_handle_keyup(wparam, lparam);
             return 0;
+        case WM_RBUTTONDOWN:
+        case WM_RBUTTONUP:
+        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
+        case WM_MOUSEMOVE:
+            mouse_update_mouse(LOWORD(lparam),HIWORD(lparam),wparam);
+            break;
         case WM_SYSCOLORCHANGE:
             syscolorchanged = 1;
             break;

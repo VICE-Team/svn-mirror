@@ -98,5 +98,13 @@ SOURCE=..\..\c128\c128mem.c
 
 SOURCE=..\..\c128\c128mmu.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\c128\z80.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c128\z80mem.c
+# End Source File
 # End Target
 # End Project
