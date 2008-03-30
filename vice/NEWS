@@ -10,11 +10,61 @@ list of all the changes in the code.
 * Changes in VICE 1.5
 =====================
 
+** General changes
+------------------
+
+- Screenshots can be saved now.
+
+** C128 changes
+---------------
+
+- The Z80 emulation has been improved.  CP/M will boot now.
+
 ** Unix changes
 ---------------
 
+- Palette changes work better now.
+
 - Added support for gettext based national language support.
   Initial german translation for Unix based UIs is provided.
+
+- NTSC timing is correct now (100% 60fps).
+
+- The emulator keeps running when menus are used.
+
+- Fixed some crashs and memory leaks in the XAW file selector
+  widget. 
+
+** MS-DOS changes
+-----------------
+
+- Better support for compressed images.
+
+** MS-Windows changes
+---------------------
+
+- Better support for compressed images.
+
+- Output from the monitor console can be logged now.
+
+- Empty TAP images can be created now.
+
+** Drive changes
+----------------
+
+- Fixed a bug in the 1581 true drive emulation that prevented the
+  use as drive #9.
+
+- Fixed a bug in the 8050 vdrive emulaton.
+
+- Fixed a bug that caused drive #8 to be diabled if file system
+  access for drive #11 is disabled and all disks are detached.
+
+** Miscellaneous changes
+------------------------
+
+- The REU can be used with Super Snapshot 5 or Expert Cartridge.
+
 
 * Changes in VICE 1.4
 =====================
