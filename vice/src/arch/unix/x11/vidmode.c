@@ -164,6 +164,12 @@ vidmode_set_mode(resource_value_t v, void *param)
     return 0;
 }
 
+int
+vidmode_available(void)
+{
+    return vm_available;
+}
+
 void
 vidmode_create_menus(void)
 {

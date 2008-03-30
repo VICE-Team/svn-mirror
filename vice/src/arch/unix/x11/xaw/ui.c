@@ -108,10 +108,6 @@ Widget canvas, pane;
 Cursor blankCursor;
 /*static*/ int cursor_is_blank = 0;
 
-#ifdef USE_XF86_EXTENSIONS
-static ui_menu_entry_t* resolutions_submenu;
-#endif
-
 static void ui_display_drive_current_image2(void);
 
 /* ------------------------------------------------------------------------- */
@@ -538,7 +534,7 @@ int ui_init_finish(void)
                     wm_command_data,
                     wm_command_size);
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_vidmode_available();
 #endif
 #ifdef USE_XF86_VIDMODE_EXT
@@ -1019,7 +1015,7 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off();
 #endif
 
@@ -1426,7 +1422,7 @@ void ui_error(const char *format,...)
     static Widget error_dialog;
     static ui_button_t button;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off_restore();
 #endif
     va_start(ap, format);
@@ -1743,7 +1739,7 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
 void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 {
     Widget s = NULL;
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off_restore();
 #endif
 
@@ -1826,7 +1822,7 @@ void ui_popdown(Widget w)
     ui_check_mouse_cursor();
     if (--popped_up_count < 0)
         popped_up_count = 0;
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
       fullscreen_mode_on_restore();
 #endif
 

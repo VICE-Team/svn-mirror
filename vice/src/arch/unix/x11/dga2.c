@@ -64,6 +64,7 @@ void dump_fb(char *wo);
 #include "video.h"
 #include "uimenu.h"
 #include "uisettings.h"
+#include "fullscreen-common.h"
 
 typedef struct {
   int modeindex;
@@ -99,7 +100,6 @@ static int timeout;
 static int fullscreen_is_enabled_restore;
 static int EventBase, ErrorBase;
 
-int fullscreen_is_enabled;
 int request_fs_mode = 0;
 int fs_selected_videomode = -1;
 char *fs_selected_videomode_at_start;
@@ -784,7 +784,7 @@ void fullscreen_mode_exit(void)
     XFree(fs_allmodes_dga2);
 }
 
-int fullscreen_available(void)
+int dga2_available(void)
 {
     return (fs_bestmode_counter ? 1 : 0);
 }

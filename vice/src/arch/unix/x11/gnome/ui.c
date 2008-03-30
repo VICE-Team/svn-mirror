@@ -682,7 +682,7 @@ int ui_init_finish(void)
 	have_cbm_font = FALSE;
     }
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_vidmode_available();
 #endif
 
@@ -1263,7 +1263,7 @@ void ui_exit(void)
 	}
 	ui_autorepeat_on();
 	ui_restore_mouse();
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
 	fullscreen_mode_off();
 #endif
 	ui_dispatch_events();
@@ -1760,7 +1760,7 @@ static void ui_message2(const char *type, const char *msg, const char *title)
 {
     static GtkWidget* msgdlg;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off();
 #endif
     msgdlg = gnome_message_box_new(msg, type,
@@ -1794,7 +1794,7 @@ void ui_error(const char *format, ...)
     va_list ap;
     char str[1024];
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off_restore();
 #endif
 
@@ -1851,7 +1851,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (res) {
       case 2:
 	ui_restore_mouse();
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
 	fullscreen_mode_off();
 #endif
 	return UI_JAM_MONITOR;

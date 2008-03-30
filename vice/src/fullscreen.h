@@ -31,9 +31,12 @@
 #include "resources.h"
 #include "types.h"
 
+#ifdef USE_XF86_EXTENSIONS
+#include "x11/fullscreen-common.h"
+#endif
+
 struct video_frame_buffer_s;
 
-extern int fullscreen_is_enabled;
 extern int fs_selected_videomode;
 extern char *fullscreen_selected_videomode_at_start;
 extern int fullscreen_width, fullscreen_height;

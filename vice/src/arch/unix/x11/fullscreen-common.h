@@ -1,5 +1,5 @@
 /*
- * vidmode.h
+ * fullscreen-common.h
  *
  * Written by
  *  Martin Pottendorfer <pottendo@utanet.at>
@@ -24,19 +24,10 @@
  *
  */
 
-#ifndef __vidmode_h__
-#define __vidmode_h__
+#ifndef __fullscreen_common_h__
+#define __fullscreen_common_h__
 
-#include <X11/Xlib.h>
-#include "resources.h"
+extern int fullscreen_available(void);
+extern int fullscreen_is_enabled;
 
-extern int vm_selected_videomode;
-extern int vm_is_enabled;
-
-int vidmode_init(Display *display, int screen);
-int vidmode_set_bestmode(resource_value_t v, void *p);
-int vidmode_set_mode(resource_value_t v, void *p);
-int vidmode_available(void);
-void vidmode_create_menus(void);
-
-#endif /* __vidmode_h__ */
+#endif /* __fullscreen_common_h__ */

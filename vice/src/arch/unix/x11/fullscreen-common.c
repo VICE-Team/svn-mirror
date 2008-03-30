@@ -1,5 +1,5 @@
 /*
- * vidmode.h
+ * fullscreen-common.c
  *
  * Written by
  *  Martin Pottendorfer <pottendo@utanet.at>
@@ -24,19 +24,32 @@
  *
  */
 
-#ifndef __vidmode_h__
-#define __vidmode_h__
+#include "vice.h"
 
-#include <X11/Xlib.h>
-#include "resources.h"
+#ifdef USE_XF86_EXTENSIONS
 
-extern int vm_selected_videomode;
-extern int vm_is_enabled;
+#include "fullscreen-common.h"
+#ifdef USE_XF86_VIDMODE_EXT
+#include "vidmode.h"
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
-int vidmode_init(Display *display, int screen);
-int vidmode_set_bestmode(resource_value_t v, void *p);
-int vidmode_set_mode(resource_value_t v, void *p);
-int vidmode_available(void);
-void vidmode_create_menus(void);
+int fullscreen_is_enabled;
 
-#endif /* __vidmode_h__ */
+int fullscreen_available(void) 
+{
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    if (dga2_available())
+	return 1;
+#endif    
+#ifdef USE_XF86_VIDMODE_EXT
+    if (vidmode_available())
+	return 1;
+#endif    
+    return 0;
+}
+
+#endif /* USE_XF86_VIDMODE_EXT */
+

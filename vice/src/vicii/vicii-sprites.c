@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>		/* memset() */
 
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"

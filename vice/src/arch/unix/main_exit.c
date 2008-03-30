@@ -52,7 +52,7 @@ void main_exit(void)
     joystick_close();
 #endif
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_exit();
 #endif
 
