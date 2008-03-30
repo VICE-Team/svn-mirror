@@ -247,6 +247,8 @@ int machine_init(void)
 /* CBM-II-specific initialization.  */
 void machine_reset(void)
 {
+    serial_reset();
+
     reset_acia1();
     cia1_reset();
     reset_tpi1();

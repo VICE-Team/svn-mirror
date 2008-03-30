@@ -287,6 +287,8 @@ int machine_init(void)
 /* VIC20-specific reset sequence.  */
 void machine_reset(void)
 {
+    serial_reset();
+
     via1_reset();
     via2_reset();
     vic_reset();

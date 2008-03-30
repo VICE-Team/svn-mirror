@@ -311,6 +311,8 @@ int machine_init(void)
 /* C128-specific reset sequence.  */
 void machine_reset(void)
 {
+    serial_reset();
+
     cia1_reset();
     cia2_reset();
     sid_reset();

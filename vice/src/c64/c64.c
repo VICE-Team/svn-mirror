@@ -363,6 +363,7 @@ int machine_init(void)
 /* C64-specific reset sequence.  */
 void machine_reset(void)
 {
+    serial_reset();
     cia1_reset();
     cia2_reset();
     sid_reset();

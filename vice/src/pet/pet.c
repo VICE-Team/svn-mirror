@@ -285,6 +285,8 @@ int machine_init(void)
 /* PET-specific initialization.  */
 void machine_reset(void)
 {
+    serial_reset();
+
     reset_pia1();
     reset_pia2();
     via_reset();

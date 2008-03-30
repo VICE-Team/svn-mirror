@@ -42,7 +42,6 @@
 #include "mem.h"
 #include "mon.h"
 #include "resources.h"
-#include "serial.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
@@ -383,8 +382,6 @@ static void reset(void)
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
-
-    serial_reset();
 
     cpu_int_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
 
