@@ -36,7 +36,9 @@
 #include "uited.h"
 
 
+/*
 UI_MENU_DEFINE_STRING_RADIO(TEDPaletteFile)
+*/
 
 static ui_menu_entry_t palette_submenu[] = {
     { N_("Load custom"), (ui_callback_t)ui_load_palette,

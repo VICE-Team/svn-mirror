@@ -1,6 +1,59 @@
+2003-10-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.7.
+
+	* cbm2/cbm2tpi2.c: #include "lib.h".
+
+	* arch/unix/uited.c: Removed unused code.
+
+2003-10-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.h, resc64.rs, ui.c, uisnapshot.c,
+	uisnapshot.h: Implement a provisional UI for movie recording.
+
+	* sound.c (sound_open): Avoid recording and playback device
+	being identical.
+	(sound_init): Initialize the movie driver if HAVE_AVFORMAT_H.
+
+	* sounddrv/soundmovie.c, Makefile.am: New file (included).
+
+2003-10-16  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Corrected emulation of the ADSR delay bug.
+
+2003-10-12  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/kbd.c: fixed format string for joystick key
+	descriptor
+
+	* arch/riscos/ui.c: fixed display of sampling rate
+
+	* arch/riscos/video.c: adapted to new video interface
+
+2003-10-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* core/ciacore.c: Fixed wrong parameter in call to
+	lib_msprintf.
+
+	* arch/win32/uisnapshot.c: Uses new resource
+	SoundRecordDeviceName and SoundRecordDeviceArg for sound
+	recording.
+
+	* sound.c: Added new resources SoundRecordDeviceName and
+	SoundRecordDeviceArg with corresponding variables and
+	functions.
+	Renamed snddata member pdev to playdev and added recdev.
+	(sound_open): Also open the recording device if the resource
+	SoundRecordDeviceName is set.
+	(sound_close): Also close the recording device.
+	(sound_flush): Write to record device if its active. Warp
+	mode disables sound flushing only if no recording device is
+	active. With this we must avoid that clkfactor is
+	recalculated for sample based not exact sound engines.
+
 2003-10-11  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.6
+	* Version 1.13.6.
 
 	* via.h, core/viacore.c, drive/iec/via1d1541.c,
 	drive/iecieee/via2d.c, drive/ieee/via1d2031.c,
@@ -93,7 +146,7 @@
 
 2003-10-06  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.5
+	* Version 1.13.5.
 
 	* video/video-color.c, video.h, plus4/ted-color.c,
 	plus4/ted-color.h, plus4/ted.c, vic20/vic-color.c,
@@ -132,7 +185,7 @@
 
 2003-10-05  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.4
+	* Version 1.13.4.
 
 	* video/video-cmdline-options.c, vic20/vic-cmdline-options.c.
 	vicii/vicii-cmdline-options.c, plus4/ted-cmdline-options.c,
@@ -169,7 +222,7 @@
 
 2003-10-03  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.3
+	* Version 1.13.3.
 
 	* gfxoutputdrv/gfxoutput.c: Fixed define.
 
@@ -188,7 +241,7 @@
 
 2003-09-28  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.2
+	* Version 1.13.2.
 
 	* raster/raster.c, raster/raster.h: Removed palette support.
 
@@ -255,7 +308,7 @@
 
 2003-09-27  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.1
+	* Version 1.13.1.
 
 	* ChangeLog*: Renamed last changelog and reversed order of old
 	changelogs.
@@ -321,3 +374,4 @@
 	`machine_drive_shutdown()'.
 
 	* resources.c (resources_shutdown): Free machine id.
+

@@ -34,6 +34,7 @@
 #include "cbm2tpi.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "tpi.h"
