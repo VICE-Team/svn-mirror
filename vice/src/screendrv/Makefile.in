@@ -266,8 +266,10 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-bmp.o: bmp.c ../../src/vice.h ../../src/config.h ../../src/screenshot.h \
-	../../src/arch/unix/types.h ../../src/utils.h
+bmp.o: bmp.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/log.h ../../src/palette.h ../../src/arch/unix/types.h \
+	../../src/screenshot.h ../../src/utils.h
 png.o: png.c ../../src/vice.h ../../src/config.h ../../src/screenshot.h \
 	../../src/arch/unix/types.h ../../src/utils.h
 
