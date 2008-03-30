@@ -47,10 +47,12 @@ static HINSTANCE opencbm_dll = NULL;
         log_debug("GetProcAddress " #_name_ " success!"); \
     }
 
+#if 0
 static const char *CBMAPIDECL dummy_cbm_get_driver_name(int port)
 {
     return "OpenCBM";
 }
+#endif
 
 static void opencbmlib_free_library(void)
 {
@@ -75,7 +77,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
 
         GET_PROC_ADDRESS_AND_TEST(cbm_driver_open);
         GET_PROC_ADDRESS_AND_TEST(cbm_driver_close);
-#if 0
+#if 1
         GET_PROC_ADDRESS_AND_TEST(cbm_get_driver_name);
 #endif
         GET_PROC_ADDRESS_AND_TEST(cbm_listen);
@@ -88,8 +90,9 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         GET_PROC_ADDRESS_AND_TEST(cbm_untalk);
         GET_PROC_ADDRESS_AND_TEST(cbm_get_eoi);
         GET_PROC_ADDRESS_AND_TEST(cbm_reset);
-
+#if 0
         opencbmlib->p_cbm_get_driver_name = dummy_cbm_get_driver_name;
+#endif
     }
 
     return 0;
