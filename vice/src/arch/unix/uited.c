@@ -149,7 +149,7 @@ ui_menu_entry_t ted_submenu[] = {
     { NULL }
 };
 
-void uited_create_menus(void)
+void uited_menu_create(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 #ifdef USE_XF86_VIDMODE_EXT
@@ -164,7 +164,14 @@ void uited_create_menus(void)
     fullscreen_mode_callback("DGA2",
                              (void *)radio_TEDDGA2FullscreenMode);
 #endif
-    fullscreen_create_menus(ted_submenu);
+    fullscreen_menu_create(ted_submenu);
+#endif
+}
+
+void uited_menu_shutdown(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_menu_shutdown(ted_submenu);
 #endif
 }
 

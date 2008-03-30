@@ -132,7 +132,7 @@ ui_menu_entry_t crtc_submenu[] = {
     { NULL }
 };
 
-void uicrtc_create_menus(void)
+void uicrtc_menu_create(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 #ifdef USE_XF86_VIDMODE_EXT
@@ -147,7 +147,14 @@ void uicrtc_create_menus(void)
     fullscreen_mode_callback("DGA2",
                              (void *)radio_CrtcDGA2FullscreenMode);
 #endif
-    fullscreen_create_menus(crtc_submenu);
+    fullscreen_menu_create(crtc_submenu);
+#endif
+}
+
+void uicrtc_menu_shutdown(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_menu_shutdown(crtc_submenu);
 #endif
 }
 

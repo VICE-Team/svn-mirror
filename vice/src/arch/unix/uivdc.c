@@ -140,7 +140,7 @@ ui_menu_entry_t vdc_submenu[] = {
     { NULL }
 };
 
-void uivdc_create_menus(void)
+void uivdc_menu_create(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 #ifdef USE_XF86_VIDMODE_EXT
@@ -155,7 +155,14 @@ void uivdc_create_menus(void)
     fullscreen_mode_callback("DGA2",
                              (void *)radio_VDCDGA2FullscreenMode);
 #endif
-    fullscreen_create_menus(vdc_submenu);
+    fullscreen_menu_create(vdc_submenu);
+#endif
+}
+
+void uivdc_menu_shutdown(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_menu_shutdown(vdc_submenu);
 #endif
 }
 

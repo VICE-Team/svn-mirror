@@ -144,7 +144,7 @@ ui_menu_entry_t vic_submenu[] = {
     { NULL }
 };
 
-void uivic_create_menus(void)
+void uivic_menu_create(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 #ifdef USE_XF86_VIDMODE_EXT
@@ -159,7 +159,14 @@ void uivic_create_menus(void)
     fullscreen_mode_callback("DGA2",
                              (void *)radio_VICDGA2FullscreenMode);
 #endif
-    fullscreen_create_menus(vic_submenu);
+    fullscreen_menu_create(vic_submenu);
+#endif
+}
+
+void uivic_menu_shutdown(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_menu_shutdown(vic_submenu);
 #endif
 }
 

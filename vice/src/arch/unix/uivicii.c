@@ -38,6 +38,9 @@
 #include "uipalemu.h"
 
 
+extern struct ui_menu_entry_s set_video_standard_submenu[];
+
+
 UI_MENU_DEFINE_STRING_RADIO(VICIIPaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
@@ -163,7 +166,7 @@ ui_menu_entry_t vicii_submenu[] = {
     { NULL }
 };
 
-void uivicii_create_menus(void)
+void uivicii_menu_create(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 #ifdef USE_XF86_VIDMODE_EXT
@@ -178,7 +181,14 @@ void uivicii_create_menus(void)
     fullscreen_mode_callback("DGA2",
                              (void *)radio_VICIIDGA2FullscreenMode);
 #endif
-    fullscreen_create_menus(vicii_submenu);
+    fullscreen_menu_create(vicii_submenu);
+#endif
+}
+
+void uivicii_menu_shutdown(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_menu_shutdown(vicii_submenu);
 #endif
 }
 
