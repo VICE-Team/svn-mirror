@@ -34,11 +34,13 @@
 #include "videoarch.h"
 
 #include "c64mem.h"
+#include "c64cart.h"
 #include "cartridge.h"
 #include "datasette.h"
 #include "drive.h"
 #include "joystick.h"
 #include "resources.h"
+#include "uicartridge.h"
 #include "uicommands.h"
 #include "uimenu.h"
 #include "uisettings.h"
@@ -93,6 +95,7 @@ static UI_CALLBACK(attach_cartridge)
 static UI_CALLBACK(detach_cartridge)
 {
     cartridge_detach_image();
+    ui_update_menus();
 }
 
 static UI_CALLBACK(default_cartridge)
@@ -129,16 +132,13 @@ static ui_menu_entry_t datasette_control_submenu[] = {
 
 static UI_CALLBACK(control_cartridge)
 	{
-	int cardtype = CARTRIDGE_NONE;
-
 	if (!CHECK_MENUS)
 		{
 		ui_update_menus();
 		}
 	else
 		{
-		resources_get_value("CartridgeType", (resource_value_t *) &cardtype);
-		switch (cardtype)
+		switch (mem_cartridge_type)
 			{
 			case CARTRIDGE_EXPERT:
 				ui_menu_set_sensitive(w, True);
@@ -151,6 +151,11 @@ static UI_CALLBACK(control_cartridge)
 		}
 	}
 
+static UI_CALLBACK(save_cartridge)
+	{
+	ui_cartridge_dialog();
+	}
+
 UI_MENU_DEFINE_RADIO(CartridgeMode)
 
 static ui_menu_entry_t cartridge_control_submenu[] = {
@@ -160,6 +165,9 @@ static ui_menu_entry_t cartridge_control_submenu[] = {
 		(ui_callback_data_t) CARTRIDGE_MODE_OFF, NULL },
 	{ "*On", (ui_callback_t) radio_CartridgeMode,
 		(ui_callback_data_t) CARTRIDGE_MODE_ON, NULL },
+	{ "--" },
+	{ "Save cartridge image...",
+	  (ui_callback_t) save_cartridge, NULL, NULL },
 	{ NULL }
 	};
 
@@ -196,8 +204,6 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
 	{ "Enable Expert Cartridge...",
 	  (ui_callback_t) attach_cartridge, (ui_callback_data_t)
 	  CARTRIDGE_EXPERT, NULL },
-	{ "*Cartridge control",
-	  (ui_callback_t) control_cartridge, (ui_callback_data_t) 0, cartridge_control_submenu },
 	{ "--" },
     { "Set cartridge as default", (ui_callback_t)
       default_cartridge, NULL, NULL },
@@ -211,6 +217,8 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
       (ui_callback_t) detach_cartridge, NULL, NULL },
     { "Cartridge freeze",
       (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
+	{ "*Cartridge control",
+	  (ui_callback_t) control_cartridge, (ui_callback_data_t) 0, cartridge_control_submenu },
     { NULL }
 };
 

@@ -564,7 +564,7 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 static void REGPARM2 cartridge_decode_store(ADDRESS addr, BYTE value)
 {
 	/*
-	 * Change mapping according to the address decoding.
+	 * Enable cartridge first before making an access.
 	 */
 	cartridge_decode_address(addr);
 
@@ -577,7 +577,7 @@ static void REGPARM2 cartridge_decode_store(ADDRESS addr, BYTE value)
 static BYTE REGPARM1 cartridge_decode_read(ADDRESS addr)
 {
 	/*
-	 * Change mapping according to the address decoding.
+	 * Enable cartridge first before making an access.
 	 */
 	cartridge_decode_address(addr);
 
@@ -876,9 +876,9 @@ void initialize_memory(void)
 	memcpy(mem_read_tab_orig, mem_read_tab, NUM_CONFIGS*sizeof(*mem_read_tab));
 
 	/*
-	 * Change current mapping for Expert cartridge usage.
+	 * Change address decoding.
 	 */
-    if (mem_cartridge_type == CARTRIDGE_EXPERT)
+	if (mem_cartridge_type == CARTRIDGE_EXPERT)
 		{
 		/*
 		 * Mapping for ~GAME disabled
@@ -895,6 +895,9 @@ void initialize_memory(void)
 
 				/* $E000 - $FFFF */
 				mem_read_tab[j][i+0x60] = cartridge_decode_read;
+
+				/* Setup writing at $E000-$FFFF */
+				set_write_hook(j, i+0x60, cartridge_decode_store);
 				}
 			}
 
@@ -903,8 +906,18 @@ void initialize_memory(void)
 		 */
 		for (j = 16; j < NUM_CONFIGS; j++)
 			{
-			/* $0000 - $FFFF */
-			for (i = 0x00; i <= 0xff; i++)
+			/* $0000 - $7FFF */
+			for (i = 0x00; i <= 0x7f; i++)
+				{
+				/* Setup reading */
+				mem_read_tab[j][i] = cartridge_decode_read;
+
+				/* Setup writing */
+				set_write_hook(j, i, cartridge_decode_store);
+				}
+
+			/* $A000 - $FFFF */
+			for (i = 0xa0; i <= 0xff; i++)
 				{
 				/* Setup reading */
 				mem_read_tab[j][i] = cartridge_decode_read;

@@ -130,7 +130,8 @@ static UI_CALLBACK(toggle_pause)
 
 static ui_menu_entry_t reset_submenu[] = {
   { "Soft",
-    (ui_callback_t) reset, NULL, NULL },
+    (ui_callback_t) reset, NULL, NULL,
+      XK_F9, UI_HOTMOD_META },
   { "Hard",
     (ui_callback_t) powerup_reset, NULL, NULL,
     XK_F12, UI_HOTMOD_META },

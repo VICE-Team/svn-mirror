@@ -273,9 +273,9 @@ void mycia_reset(CIA_CONTEXT_PARVOID)
 
     memset(ciatodalarm, 0, sizeof(ciatodalarm));
     memset(ciatodlatch, 0, sizeof(ciatodlatch));
-    ciatodlatch[CIA_TOD_HR - CIA_TOD_TEN] = 1;
-    ciatodlatched = 1;
-    ciatodstopped = 0;
+    ciatodlatched = 0;
+    ciatodstopped = 1;
+    cia[0x0b] = 1;          /* the most common value */
     cia_todclk = myclk + ciatodticks;
     alarm_set(&cia_tod_alarm, cia_todclk);
 

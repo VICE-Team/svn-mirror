@@ -20,6 +20,7 @@ libxawui_a_SOURCES = \
 	right_arrow.xbm \
 	ui.c \
 	uiarch.h \
+	uicartridge.c \
 	uiedisk.c \
 	uihotkey.c \
 	uihotkey.h \
