@@ -941,8 +941,8 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	/* trying to open */
 	if (!(dp = opendir((char *) fsname))) {
 	    for (p = (BYTE *) fsname; *p; p++)
-		if (isupper(*p))
-		    *p = tolower(*p);
+		if (isupper((int) *p))
+		    *p = tolower((int) *p);
 	    if (!(dp = opendir((char *) fsname))) {
 		fs_error(IPE_NOT_FOUND);
 		return FLOPPY_ERROR;
@@ -1417,7 +1417,7 @@ static int fsdevice_reduce_filename_p00(char *filename, int len)
     }
 
     for (i = len - 1; i >= 0; i--) {
-	if (isalpha(filename[i]))
+	if (isalpha((int) filename[i]))
 	    if (fsdevice_eliminate_char_p00(filename, i) <= 8)
 		return 8;
     }
@@ -1448,11 +1448,11 @@ static int fsdevice_evaluate_name_p00(char *name, int length, char *filename)
 	    filename[j++] = '_';
 	    break;
 	  default:
-	    if (islower(name[i])) {
+	    if (islower((int) name[i])) {
 		filename[j++] = toupper(name[i]);
 		break;
 	    }
-	    if (isalnum(name[i])) {
+	    if (isalnum((int) name[i])) {
 		filename[j++] = name[i];
 		break;
 	    }

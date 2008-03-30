@@ -632,7 +632,7 @@ static bool check_drive_emu_level_ok(int drive_num)
    return TRUE;
 }
 
-void mon_bank(MEMSPACE mem, char *bankname) 
+void mon_bank(MEMSPACE mem, char *bankname)
 {
     /* FIXME: something goes wrong here! */
     if(((int)mem)<0 || ((int)mem)>2) {
@@ -845,7 +845,6 @@ void mon_add_number_to_buffer(int number)
 
 void mon_add_string_to_buffer(char *str)
 {
-    printf("%s(`%s')\n", __FUNCTION__, str);
    strcpy(&(data_buf[data_buf_len]), str);
    data_buf_len += strlen(str);
    data_buf[data_buf_len] = '\0';
