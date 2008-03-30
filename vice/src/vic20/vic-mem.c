@@ -58,6 +58,8 @@ vic_store(ADDRESS addr, BYTE value)
       if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)
         vic.raster.display_xstop = VIC_SCREEN_WIDTH - 1;
       VIC_DEBUG_REGISTER (("Screen X location: $%02X.", value));
+      VIC_DEBUG_REGISTER (("X Start: $%03X.", vic.raster.display_xstart));
+      VIC_DEBUG_REGISTER (("X End: $%03X.", vic.raster.display_xstop));
       return;
     case 1:                     /* $9001  Screen Y Location. */
       vic.raster.display_ystart = value * 2;
@@ -77,7 +79,7 @@ vic_store(ADDRESS addr, BYTE value)
       vic_update_memory_ptrs ();
       VIC_DEBUG_REGISTER (("Color RAM at $%04X.", vic.color_ptr - ram));
       VIC_DEBUG_REGISTER (("Columns displayed: %d.", vic.text_cols));
-      break;
+      return;
 
     case 3:                     /* $9003  Rows Displayed, Character size . */
       vic.text_lines = (value & 0x7e) >> 1;
@@ -117,7 +119,8 @@ vic_store(ADDRESS addr, BYTE value)
 
     case 14:                    /* $900E  Auxiliary Colour, Master Volume. */
       vic.auxiliary_color = value >> 4;
-      VIC_DEBUG_REGISTER (("Auxiliary color set to $%02X.", auxiliary_color));
+      VIC_DEBUG_REGISTER (("Auxiliary color set to $%02X.",
+                          vic.auxiliary_color));
       store_vic_sound (addr, value);
       return;
 
