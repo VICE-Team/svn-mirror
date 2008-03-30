@@ -184,8 +184,9 @@ static int disassemble_on_entry = 0;
 
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
-    unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode);
-    asm_opcode_info_t * (*asm_opcode_info_get)(BYTE number);
+    unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode, BYTE p0,
+                  BYTE p1);
+    asm_opcode_info_t * (*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
 };
 typedef struct monitor_cpu_type_s monitor_cpu_type_t;
 
@@ -1136,7 +1137,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
    for (i = 0; i <= 0xff; i++) {
       asm_opcode_info_t *opinfo;
 
-      opinfo = (monitor_cpu_type.asm_opcode_info_get)(i);
+      opinfo = (monitor_cpu_type.asm_opcode_info_get)(i, 0, 0);
       if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
          if (opinfo->addr_mode == operand_mode) {
             opcode = i;
@@ -1200,7 +1201,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
       return -1;
    }
 
-   len = (monitor_cpu_type.asm_addr_mode_get_size)(operand_mode);
+   len = (monitor_cpu_type.asm_addr_mode_get_size)(operand_mode, 0, 0);
 
    /* EP 98.08.23 use correct memspace for assembling.  */
    set_mem_val(mem, loc, opcode);
@@ -1241,10 +1242,10 @@ const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
 
     buffp = buff;
 
-    opinfo = (monitor_cpu_type.asm_opcode_info_get)(x);
+    opinfo = (monitor_cpu_type.asm_opcode_info_get)(x, p1, p2);
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
-    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode);
+    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode, x, p1);
 
     if (opc_size_p)
         *opc_size_p = opc_size;
@@ -1417,6 +1418,19 @@ const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
                sprintf(buffp, " ($%04X),A", ival);
            else
                sprintf(buffp, " (%5d),A", ival);
+        }
+        break;
+      case ASM_ADDR_MODE_ABSOLUTE_HL:
+        ival |= ((p2 & 0xFF) << 8);
+        if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+           sprintf(buffp, " (%s),HL", addr_name);
+        else if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival-1)) )
+           sprintf(buffp, " (%s+1),HL", addr_name);
+        else {
+           if (hex_mode)
+               sprintf(buffp, " ($%04X),HL", ival);
+           else
+               sprintf(buffp, " (%5d),HL", ival);
         }
         break;
 

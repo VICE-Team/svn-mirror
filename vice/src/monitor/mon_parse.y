@@ -468,6 +468,7 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff)
   | L_PAREN REG_HL R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_HL,0); }
   | L_PAREN REG_SP R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_SP,0); }
   | L_PAREN number R_PAREN COMMA REG_A { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,$2); }
+  | L_PAREN number R_PAREN COMMA REG_HL { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_HL,$2); }
   | { $$ = join_ints(ASM_ADDR_MODE_IMPLIED,0); }
   | REG_A { $$ = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); }
   | REG_B { $$ = join_ints(ASM_ADDR_MODE_REG_B,0); }
