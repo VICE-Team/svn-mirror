@@ -259,6 +259,9 @@ int machine_init(void)
     via1_init();
     via2_init();
  
+    ieeevia1_init();
+    ieeevia2_init();
+
     /* Load the default keymap file.  */
     if (vic20_kbd_init() < 0)
         return -1;
@@ -293,6 +296,10 @@ void machine_reset(void)
     via2_reset();
     vic_reset();
     vic_sound_reset();
+
+    ieeevia1_reset();
+    ieeevia2_reset();
+
 #ifdef HAVE_RS232
     rs232_reset();
     rsuser_reset();
@@ -365,6 +372,7 @@ long machine_get_cycles_per_second(void)
 int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
+    int ieee488;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
     if (s == NULL) {
@@ -384,6 +392,16 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
     }
 
+    resources_get_value("IEEE488", (resource_value_t*) &ieee488);
+    if (ieee488) {
+	if (ieeevia1_write_snapshot_module(s) < 0
+	    || ieeevia2_write_snapshot_module(s) < 0) {
+	    snapshot_close(s);
+	    remove_file(name);
+	    return 1;
+	}
+    }
+
     snapshot_close(s);
     return 0;
 }
@@ -392,7 +410,7 @@ int machine_read_snapshot(const char *name)
 {
     snapshot_t *s;
     BYTE minor, major;
-
+  
     s = snapshot_open(name, &major, &minor, machine_name);
     if (s == NULL)
         return -1;
@@ -412,6 +430,14 @@ int machine_read_snapshot(const char *name)
         || via2_read_snapshot_module(s) < 0
         || drive_read_snapshot_module(s) < 0)
         goto fail;
+
+    if (ieeevia1_read_snapshot_module(s) < 0
+	|| ieeevia2_read_snapshot_module(s) < 0) {
+	/* IEEE488 module not undumped */
+	resources_set_value("IEEE488", (resource_value_t) 0);
+    } else {
+	resources_set_value("IEEE488", (resource_value_t) 1);
+    }
 
     snapshot_close(s);
     return 0;

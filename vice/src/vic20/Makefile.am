@@ -40,7 +40,10 @@ libvic20_a_SOURCES = \
 	vic20sound.h \
 	vic20via.h \
 	vic20via1.c \
-	vic20via2.c
+	vic20via2.c \
+	vic20ieeevia.h \
+	vic20ieeevia1.c \
+	vic20ieeevia2.c 
 
 libvic20_a_LIBADD = $(rs232_libadd)
 

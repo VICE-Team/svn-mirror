@@ -107,6 +107,9 @@ static char *kernal_rom_name;
 /* Flag: Do we enable the Emulator ID?  */
 static int emu_id_enabled;
 
+/* Flag: Do we enable the VIC-1112 IEEE488 interface?  */
+static int ieee488_enabled;
+
 /* which ROMs are loaded - bits are VIC_BLK* */
 static int mem_rom_blocks;
 
@@ -178,9 +181,19 @@ DEFINE_SET_BLOCK_FUNC(1)
 DEFINE_SET_BLOCK_FUNC(2)
 DEFINE_SET_BLOCK_FUNC(3)
 DEFINE_SET_BLOCK_FUNC(5)
+
 static int set_emu_id_enabled(resource_value_t v)
 {
     emu_id_enabled = (int) v;
+    return 0;
+}
+
+static int set_ieee488_enabled(resource_value_t v)
+{
+    ieee488_enabled = (int) v;
+
+    ui_update_menus();
+
     return 0;
 }
 
@@ -210,6 +223,8 @@ static resource_t resources[] =
      (resource_value_t *) & ram_block_5_enabled, set_ram_block_5_enabled},
     {"EmuID", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & emu_id_enabled, set_emu_id_enabled},
+    {"IEEE488", RES_INTEGER, (resource_value_t) 0,
+     (resource_value_t *) & ieee488_enabled, set_ieee488_enabled},
     {NULL}
 };
 
@@ -355,6 +370,10 @@ static cmdline_option_t cmdline_options[] =
      NULL, "Enable emulator identification"},
     {"+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
      NULL, "Disable emulator identification"},
+    {"-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 1,
+     NULL, "Enable VIC-1112 IEEE488 interface"},
+    {"+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 0,
+     NULL, "Disable VIC-1112 IEEE488 interface"},
     {NULL}
 };
 
@@ -507,7 +526,7 @@ BYTE REGPARM1 read_via(ADDRESS addr)
 static BYTE REGPARM1 read_emuid(ADDRESS addr)
 {
     addr &= 0xff;
-    if (emu_id_enabled && addr >= 0xa0) {
+    if (addr >= 0xa0) {
 	return emulator_id[addr - 0xa0];
     }
     return 0xff;
@@ -516,11 +535,53 @@ static BYTE REGPARM1 read_emuid(ADDRESS addr)
 static void REGPARM2 store_emuid(ADDRESS addr, BYTE value)
 {
     addr &= 0xff;
-    if (emu_id_enabled && (addr == 0xff)) {
+    if (addr == 0xff) {
 	emulator_id[addr - 0xa0] ^= 0xff;
     }
     return;
 }
+
+/*-------------------------------------------------------------------*/
+
+static BYTE REGPARM1 read_io3(ADDRESS addr)
+{
+    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) 
+	return read_emuid(addr);
+    return 0xff;
+}
+
+static void REGPARM2 store_io3(ADDRESS addr, BYTE value)
+{
+    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) 
+	store_emuid(addr, value);
+    return;
+}
+
+static BYTE REGPARM1 read_io2(ADDRESS addr)
+{
+    if (ieee488_enabled) {
+	if (addr & 0x10) {
+	    return read_ieeevia2(addr);
+	} else {
+	    return read_ieeevia1(addr);
+	}
+    }
+    return 0xff;
+}
+
+static void REGPARM2 store_io2(ADDRESS addr, BYTE value)
+{
+    if (ieee488_enabled) {
+	if (addr & 0x10) {
+	    store_ieeevia2(addr, value);
+	} else {
+	    store_ieeevia1(addr, value);
+	}
+    }
+    return;
+}
+
+/*-------------------------------------------------------------------*/
 
 static BYTE REGPARM1 read_dummy(ADDRESS addr)
 {
@@ -715,21 +776,22 @@ void initialize_memory(void)
 	    read_via, store_via,
 	    NULL, 0);
 
-    /* Setup color memory at $9400-$9BFF.
+    /* Setup color memory at $9400-$97FF.
        Warning: we use a kludge here.  Instead of mapping the color memory
        separately, we map it directly in the corresponding RAM address
        space. */
-    set_mem(0x94, 0x9b,
+    set_mem(0x94, 0x97,
 	    read_ram, store_ram,
 	    ram, 0xffff);
 
-    set_mem(0x9c, 0x9e,
-	    read_dummy, store_dummy,
+    /* Setup I/O2 at the expansion port */
+    set_mem(0x98, 0x9b,
+	    read_io2, store_io2,
 	    NULL, 0);
 
-    /* Setup emulator ID at $9F** */
-    set_mem(0x9f, 0x9f,
-	    read_emuid, store_emuid,
+    /* Setup I/O3 at the expansion port (includes emulator ID) */
+    set_mem(0x9c, 0x9f,
+	    read_io3, store_io3,
 	    NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */

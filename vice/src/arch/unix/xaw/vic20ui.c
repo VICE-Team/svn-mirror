@@ -321,6 +321,8 @@ static ui_menu_entry_t joystick_settings_menu[] = {
     { NULL }
 };
 
+/*------------------------------------------------------------*/
+
 UI_MENU_DEFINE_RADIO(RsUser)
 
 static ui_menu_entry_t vic20_rs232_submenu[] = {
@@ -356,6 +358,24 @@ static ui_menu_entry_t rs232_settings_menu[] = {
       NULL, NULL, vic20_rs232_submenu },
     { NULL }
 };
+
+/*------------------------------------------------------------*/
+
+UI_MENU_DEFINE_TOGGLE(IEEE488)
+
+static ui_menu_entry_t vic20_io_submenu[] = {
+    { "*VIC-1112 IEEE 488 module",
+      (ui_callback_t) toggle_IEEE488, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_io_settings_menu[] = {
+    { "I/O settings",
+      NULL, NULL, vic20_io_submenu },
+    { NULL }
+};
+
+/*------------------------------------------------------------*/
 
 int vic20_ui_init(void)
 {
@@ -404,6 +424,9 @@ int vic20_ui_init(void)
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
                                      ui_peripheral_settings_menu,
+/*
+                                     vic20_io_settings_menu,
+*/
                                      joystick_settings_menu,
                                      rs232_settings_menu,
                                      ui_menu_separator,

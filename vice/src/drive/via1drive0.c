@@ -118,9 +118,12 @@ inline static void store_pra(BYTE byte, BYTE oldpa_value, ADDRESS addr)
                 drive_set_1571_side((byte >> 2) & 1, 0);
         } else
         if (drive[0].type == DRIVE_TYPE_2031) {
-            if(parallel_debug) 
+/*
+            if(parallel_debug) {
                 printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
-                parallel_drv0_set_bus(parieee_is_out ? byte : 0xff);
+	    }
+*/
+            parallel_drv0_set_bus(parieee_is_out ? byte : 0xff);
         } else
         if (drive[0].parallel_cable_enabled && (drive[0].type == DRIVE_TYPE_1541
             || drive[0].type == DRIVE_TYPE_1541II))
@@ -178,12 +181,14 @@ inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 	} else 
         if (drive[0].type == DRIVE_TYPE_2031) {
 	    BYTE tmp = ~byte;
+/*
             if(parallel_debug) {
 		printf("store_prb(byte=%02x, ~byte=%02x, prb=%02x, ddrb=%02x)\n",
 			byte, tmp, via1d0[VIA_PRB],via1d0[VIA_DDRB]);
 		printf("  -> is_out=%d, eoi=%d, dav=%d\n",byte & 0x10, 
 			!(byte & 0x08), !(byte & 0x40));
 	    }
+*/
             parieee_is_out = byte & 0x10;
             parallel_drv0_set_bus(parieee_is_out ? oldpa : 0xff);
 
@@ -262,10 +267,12 @@ inline static BYTE read_pra(ADDRESS addr)
             | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
     if (drive[0].type == DRIVE_TYPE_2031) {
+/*
         if (parallel_debug) {
             printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
                    parieee_is_out, parallel_bus, via1d0[VIA_DDRA]);
         }
+*/
         byte = parieee_is_out ? 0xff : parallel_bus;
         return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
@@ -296,21 +303,27 @@ inline static BYTE read_prb(void)
                if (parallel_dav) byte &= 0xbf ;
            }
            if (!parallel_atn) byte &= 0x7f;
+/*
            if (parallel_debug) {
                printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
                       parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
            }
+*/
            byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
            if (!ca2_state) {
                byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
                byte &= 0xfd /* 0xff */;  /* device-no switche */
+/*
                if (parallel_debug) {
                    printf("read with ca2_state = 0 -> byte=%02x\n", byte);
                }
+*/
            }
+/*
            if (parallel_debug) {
                printf("       -> byte=%02x\n", byte);
            }
+*/
         } else {
            byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive0_read()) ^ 0x85;
         }

@@ -82,6 +82,8 @@ enum {
     I_VIA1FL,                   /* VIA 1 */
     I_VIA2FL,                   /* VIA 2 */
     I_VIAFL,                    /* VIA (PET) */
+    I_IEEEVIA1FL,               /* IEEE488 VIC20 VIA1 */
+    I_IEEEVIA2FL,               /* IEEE488 VIC20 VIA2 */
     NUMOFINT
 };
 

@@ -724,11 +724,11 @@ static struct {
     Widget speed_label;
     struct {
         Widget track_label;
-        Widget led;
+        Widget driveled;
 	Widget current_image;
 	/* those two replace the single LED widget when SFD1001 is selected */
-        Widget led1;
-        Widget led2;
+        Widget driveled1;
+        Widget driveled2;
     } drive_widgets[NUM_DRIVES];
     int drive_mapping[NUM_DRIVES];
     int drive_nleds[NUM_DRIVES];
@@ -1351,12 +1351,12 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     for (i = 0; i < NUM_DRIVES; i++) {
         app_shells[num_app_shells - 1].drive_widgets[i].track_label
             = drive_track_label[i];
-        app_shells[num_app_shells - 1].drive_widgets[i].led
+        app_shells[num_app_shells - 1].drive_widgets[i].driveled
             = drive_led[i];
         XtUnrealizeWidget(drive_led[i]);
-        app_shells[num_app_shells - 1].drive_widgets[i].led1
+        app_shells[num_app_shells - 1].drive_widgets[i].driveled1
             = drive_led1[i];
-        app_shells[num_app_shells - 1].drive_widgets[i].led2
+        app_shells[num_app_shells - 1].drive_widgets[i].driveled2
             = drive_led2[i];
         XtUnrealizeWidget(drive_led1[i]);
         XtUnrealizeWidget(drive_led2[i]);
@@ -1857,16 +1857,16 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 		    break; 
 	    app_shells[i].drive_nleds[j] = drive_num_leds(k);
 	    if (app_shells[i].drive_nleds[j] == 1) {
-                XtRealizeWidget(app_shells[i].drive_widgets[j].led);
-                XtManageChild(app_shells[i].drive_widgets[j].led);
-                XtUnrealizeWidget(app_shells[i].drive_widgets[j].led1);
-                XtUnrealizeWidget(app_shells[i].drive_widgets[j].led2);
+                XtRealizeWidget(app_shells[i].drive_widgets[j].driveled);
+                XtManageChild(app_shells[i].drive_widgets[j].driveled);
+                XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled1);
+                XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled2);
 	    } else {
-                XtUnrealizeWidget(app_shells[i].drive_widgets[j].led);
-                XtRealizeWidget(app_shells[i].drive_widgets[j].led1);
-                XtManageChild(app_shells[i].drive_widgets[j].led1);
-                XtRealizeWidget(app_shells[i].drive_widgets[j].led2);
-                XtManageChild(app_shells[i].drive_widgets[j].led2);
+                XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled);
+                XtRealizeWidget(app_shells[i].drive_widgets[j].driveled1);
+                XtManageChild(app_shells[i].drive_widgets[j].driveled1);
+                XtRealizeWidget(app_shells[i].drive_widgets[j].driveled2);
+                XtManageChild(app_shells[i].drive_widgets[j].driveled2);
 	    }
         }
 	/* ...and hide the rest until `NUM_DRIVES' */
@@ -1875,9 +1875,9 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 	
         for (; j < NUM_DRIVES; j++) {
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].track_label);
-            XtUnrealizeWidget(app_shells[i].drive_widgets[j].led);
-            XtUnrealizeWidget(app_shells[i].drive_widgets[j].led1);
-            XtUnrealizeWidget(app_shells[i].drive_widgets[j].led2);
+            XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled);
+            XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled1);
+            XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled2);
         }
         for (j = 0; j < NUM_DRIVES; j++)
             app_shells[i].drive_mapping[j] = drive_mapping[j];
@@ -1919,15 +1919,15 @@ void ui_display_drive_led(int drive_number, int status)
 	    return;		/* bad mapping */
 	
         pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
-	w = app_shells[i].drive_widgets[n].led;
+	w = app_shells[i].drive_widgets[n].driveled;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
         pixel = (status & 1) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
-	w = app_shells[i].drive_widgets[n].led1;
+	w = app_shells[i].drive_widgets[n].driveled1;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
         pixel = (status & 2) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
-	w = app_shells[i].drive_widgets[n].led2;
+	w = app_shells[i].drive_widgets[n].driveled2;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
 }

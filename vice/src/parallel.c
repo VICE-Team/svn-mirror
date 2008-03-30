@@ -362,12 +362,20 @@ static State_t State[NSTATE] = {
 
 void parallel_set_eoi( char mask ) 
 {
+    char old = parallel_eoi;
     parallel_eoi |= mask;
+
+    if(parallel_debug && !old) 
+	log_warning(LOG_DEFAULT, "set_eoi(%02x) -> EOIlo", mask);
 }
 
 void parallel_clr_eoi( char mask ) 
 {
+    char old = parallel_eoi;
     parallel_eoi &= mask;
+
+    if(parallel_debug && old && !parallel_eoi) 
+	log_warning(LOG_DEFAULT, "clr_eoi(%02x) -> EOIhi", ~mask);
 }
 
 void parallel_set_atn( char mask ) 

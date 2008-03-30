@@ -1508,10 +1508,11 @@
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            log_debug("Drive: .%04X\t%ld\t%s.",
+            log_debug("Drive: .%04X\t%ld\t%s\tA=$%02x.",
                       reg_pc,
                       (long)drive_clk[0],
-                      mon_disassemble_to_string(reg_pc, op, lo, hi, 1));
+                      mon_disassemble_to_string(reg_pc, op, lo, hi, 1),
+		      reg_a);
         }
 #else
         if (TRACEFLG) {

@@ -260,7 +260,11 @@ BYTE parallel_cable_drive_read(int handshake)
 
 int iec_available_busses(void)
 {
-    return IEC_BUS_IEC /* | IEC_BUS_IEEE */;
+    int ieee488_enabled;
+
+    resources_get_value("IEEE488", (resource_value_t*) &ieee488_enabled);
+
+    return IEC_BUS_IEC | (ieee488_enabled ? IEC_BUS_IEEE : 0);
 }
 
 void iec_calculate_callback_index(void)
