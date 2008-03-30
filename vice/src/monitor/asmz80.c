@@ -598,3 +598,10 @@ unsigned int asm_addr_mode_get_size_z80(asm_addr_mode_t mode, BYTE p0, BYTE p1)
     return addr_mode_size[(unsigned int) mode];
 }
 
+void asmz80_init(monitor_cpu_type_t *monitor_cpu_type)
+{
+    monitor_cpu_type->cpu_type = CPU_Z80;
+    monitor_cpu_type->asm_addr_mode_get_size = asm_addr_mode_get_size_z80;
+    monitor_cpu_type->asm_opcode_info_get = asm_opcode_info_get_z80;
+}
+

@@ -335,3 +335,10 @@ unsigned int asm_addr_mode_get_size_6502(asm_addr_mode_t mode, BYTE p0, BYTE p1)
     return addr_mode_size[(unsigned int) mode];
 }
 
+void asm6502_init(monitor_cpu_type_t *monitor_cpu_type)
+{
+    monitor_cpu_type->cpu_type = CPU_6502;
+    monitor_cpu_type->asm_addr_mode_get_size = asm_addr_mode_get_size_6502;
+    monitor_cpu_type->asm_opcode_info_get = asm_opcode_info_get_6502;
+}
+
