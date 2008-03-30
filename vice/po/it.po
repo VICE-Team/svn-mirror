@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-07-20 15:28+0200\n"
+"POT-Creation-Date: 2002-07-25 22:57+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -261,8 +261,8 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:441 src/arch/unix/c64ui.c:455
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1088
-#: src/arch/unix/x11/gnome/x11ui.c:1180
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1092
+#: src/arch/unix/x11/gnome/x11ui.c:1184
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -1018,8 +1018,8 @@ msgid "Next: "
 msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:715 src/arch/unix/uicommands.c:730
-#: src/arch/unix/x11/gnome/x11ui.c:766 src/arch/unix/x11/gnome/x11ui.c:776
-#: src/arch/unix/x11/gnome/x11ui.c:1423
+#: src/arch/unix/x11/gnome/x11ui.c:770 src/arch/unix/x11/gnome/x11ui.c:780
+#: src/arch/unix/x11/gnome/x11ui.c:1427
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1172,7 +1172,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1801
+#: src/arch/unix/x11/gnome/x11ui.c:1805
 msgid "Reset"
 msgstr "Reset"
 
@@ -1712,7 +1712,7 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1227
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1231
 #: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -2216,12 +2216,12 @@ msgstr "Garanzia"
 msgid "Contributors"
 msgstr "Collaboratori"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:91 src/arch/unix/x11/xaw/x11video.c:94
+#: src/arch/unix/x11/gnome/gnomevideo.c:93 src/arch/unix/x11/xaw/x11video.c:96
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Inizializzazione riuscita utilizzando XVideo (%dx%d %.4s)."
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:112
+#: src/arch/unix/x11/gnome/gnomevideo.c:114
 msgid "Successfully initialized video."
 msgstr "Video inizializzato con successo."
 
@@ -2332,27 +2332,27 @@ msgstr "Salva i dischi attualmente selezionati"
 msgid "Save currently attached ROMs"
 msgstr "Salva le ROM attualmente selezionate"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:41
+#: src/arch/unix/x11/gnome/uipalcontrol.c:51
 msgid "Saturation"
 msgstr "Saturazione"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:42
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Contrast"
 msgstr "Contrasto"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:43
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53
 msgid "Brightness"
 msgstr "Luminosità"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:44
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:85
+#: src/arch/unix/x11/gnome/uipalcontrol.c:123
 msgid "PAL Settings"
 msgstr "Impostazioni PAL"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:122
+#: src/arch/unix/x11/gnome/uipalcontrol.c:186
 msgid "Reset PAL Settings"
 msgstr "Reset impostazioni PAL"
 
@@ -2419,108 +2419,108 @@ msgstr "Non è possibile caricare il font CBM %s."
 msgid "PAL Controls"
 msgstr "Controlli PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:752
+#: src/arch/unix/x11/gnome/x11ui.c:756
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:862
+#: src/arch/unix/x11/gnome/x11ui.c:866
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:931 src/arch/unix/x11/xaw/x11ui.c:568
+#: src/arch/unix/x11/gnome/x11ui.c:935 src/arch/unix/x11/xaw/x11ui.c:568
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1086 src/arch/unix/x11/gnome/x11ui.c:1169
+#: src/arch/unix/x11/gnome/x11ui.c:1090 src/arch/unix/x11/gnome/x11ui.c:1173
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1092
+#: src/arch/unix/x11/gnome/x11ui.c:1096
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1211 src/arch/unix/x11/xaw/x11ui.c:990
+#: src/arch/unix/x11/gnome/x11ui.c:1215 src/arch/unix/x11/xaw/x11ui.c:990
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1216 src/arch/unix/x11/xaw/x11ui.c:992
+#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:992
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1224 src/arch/unix/x11/xaw/x11ui.c:999
+#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/xaw/x11ui.c:999
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1269 src/arch/unix/x11/xaw/x11ui.c:1040
+#: src/arch/unix/x11/gnome/x11ui.c:1273 src/arch/unix/x11/xaw/x11ui.c:1040
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1289 src/arch/unix/x11/gnome/x11ui.c:1292
+#: src/arch/unix/x11/gnome/x11ui.c:1293 src/arch/unix/x11/gnome/x11ui.c:1296
 #: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1575
+#: src/arch/unix/x11/gnome/x11ui.c:1579
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1612 src/arch/unix/x11/xaw/x11ui.c:1277
+#: src/arch/unix/x11/gnome/x11ui.c:1616 src/arch/unix/x11/xaw/x11ui.c:1277
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1764
+#: src/arch/unix/x11/gnome/x11ui.c:1768
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1775
+#: src/arch/unix/x11/gnome/x11ui.c:1779
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1801
+#: src/arch/unix/x11/gnome/x11ui.c:1805
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1802
+#: src/arch/unix/x11/gnome/x11ui.c:1806
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1846 src/arch/unix/x11/xaw/x11ui.c:1552
+#: src/arch/unix/x11/gnome/x11ui.c:1850 src/arch/unix/x11/xaw/x11ui.c:1552
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1847
+#: src/arch/unix/x11/gnome/x11ui.c:1851
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1860
+#: src/arch/unix/x11/gnome/x11ui.c:1864
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1868 src/arch/unix/x11/gnome/x11ui.c:1877
+#: src/arch/unix/x11/gnome/x11ui.c:1872 src/arch/unix/x11/gnome/x11ui.c:1881
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2005 src/arch/unix/x11/gnome/x11ui.c:2010
+#: src/arch/unix/x11/gnome/x11ui.c:2009 src/arch/unix/x11/gnome/x11ui.c:2014
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2472
+#: src/arch/unix/x11/gnome/x11ui.c:2476
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2519
+#: src/arch/unix/x11/gnome/x11ui.c:2523
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2545
+#: src/arch/unix/x11/gnome/x11ui.c:2549
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -2666,16 +2666,16 @@ msgstr "Usa il rendering software"
 msgid "Request YUV FOURCC format"
 msgstr "Richiede il formato YUV FOURCC"
 
-#: src/arch/unix/x11/video.c:348
+#: src/arch/unix/x11/video.c:345
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'estensione MITSHM non è supportata su questo display."
 
-#: src/arch/unix/x11/video.c:352
+#: src/arch/unix/x11/video.c:349
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/video.c:416
+#: src/arch/unix/x11/video.c:410
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 
@@ -2788,54 +2788,54 @@ msgstr "Errore di VICE!"
 msgid "Unknown image type."
 msgstr "Tipo di immagine sconosciuto."
 
-#: src/arch/unix/x11/xaw/x11video.c:114
+#: src/arch/unix/x11/xaw/x11video.c:116
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Non è possibile allocare XImage con Xshm; ripiego sulla modalità senza "
 "estensioni MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:127
+#: src/arch/unix/x11/xaw/x11video.c:129
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Non è possibile ottenere la memoria codivisa; ripiego sulla modalità senza "
 "estensioni MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:138
+#: src/arch/unix/x11/xaw/x11video.c:140
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Non è possibile ottenere l'indirizzo della memoria condivisa; ripiego sulla "
 "modalità senza estensioni MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:153 src/arch/unix/x11/xaw/x11video.c:170
+#: src/arch/unix/x11/xaw/x11video.c:155 src/arch/unix/x11/xaw/x11video.c:172
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Non è possibile collegarsi alla memoria condivisa; ripiego sulla modalità "
 "senza estensioni MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:177
+#: src/arch/unix/x11/xaw/x11video.c:179
 msgid "MITSHM initialization succeed.\n"
 msgstr "Inizializzazione MITSHM riuscita.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:198
+#: src/arch/unix/x11/xaw/x11video.c:200
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Inzializzato con successo%s memoria condivisa."
 
-#: src/arch/unix/x11/xaw/x11video.c:199
+#: src/arch/unix/x11/xaw/x11video.c:201
 msgid ", using"
 msgstr ", con"
 
-#: src/arch/unix/x11/xaw/x11video.c:199
+#: src/arch/unix/x11/xaw/x11video.c:201
 msgid " without"
 msgstr " senza"
 
-#: src/arch/unix/x11/xaw/x11video.c:202
+#: src/arch/unix/x11/xaw/x11video.c:204
 msgid "Performance will be poor."
 msgstr "Le prestazioni saranno scarse."
 
-#: src/arch/unix/x11/xaw/x11video.c:205
+#: src/arch/unix/x11/xaw/x11video.c:207
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
 

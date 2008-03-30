@@ -1,3 +1,49 @@
+2002-07-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.62.
+
+	* vicii/vicii-draw.c (draw_std_background): Background color
+	is black in invalid display modes.
+
+2002-07-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): Hide pal
+	control widget only when PALEmulation resource is not set.
+
+2002-07-23  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window):
+	Don't allow pal_ctrl_widget to expand vertically.
+
+2002-07-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c (draw_all_sprites): n needs to be
+	signed for comparison with negative sprite.x.
+
+2002-07-22  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc):
+	Zero canvas->xv_image to facilitate checking for XVideo usage.
+
+	* arch/unix/x11/xaw/x11video.c
+	(video_arch_frame_buffer_alloc): Likewise.
+
+	* arch/unix/x11/gnome/uipalcontrol.c (pal_res_t): Added XVideo
+	attributes.
+	(upd_xv): New function to set XVideo attributes.
+	(upd_sb): Call upd_xv.
+	(pal_ctrl_reset): Simplified, call upd_xv.
+	(build_pal_ctrl_widget): Query and store XVideo attributes,
+	skip widgets for non-existent XVideo attributes.
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window): Pass
+	canvas to build_pal_ctrl_widget().
+
+	* arch/unix/x11/video.c: Check for canvas->xv_image instead of
+	canvas->videoconfig->rendermode.
+	(video_canvas_refresh): Check for console_mode and vsid_mode.
+
 2002-07-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.61.

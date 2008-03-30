@@ -128,9 +128,10 @@ static void draw_std_background(int start_pixel, int end_pixel)
                 if (bg_idx > 0)
                     background_color = vic_ii.ext_background_color[bg_idx - 1];
             }
+            if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
+                background_color = 0;
             memset(vic_ii.raster.draw_buffer_ptr + start_pixel + 8,
-                   background_color,
-                   vic_ii.raster.xsmooth_shift_right);
+                   background_color, vic_ii.raster.xsmooth_shift_right);
 
         }
         vic_ii.raster.xsmooth_shift_right = 0;

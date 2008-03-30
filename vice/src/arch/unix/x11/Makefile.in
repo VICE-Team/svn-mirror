@@ -339,24 +339,11 @@ distdir: $(DISTFILES)
 c128icon.o: c128icon.c
 c64icon.o: c64icon.c
 cbm2icon.o: cbm2icon.c
-dga1.o: dga1.c ../../../../src/vice.h ../../../../src/config.h dga1.h \
-	../../../../src/arch/unix/fullscreenarch.h \
-	../../../../src/arch/unix/kbd.h ../../../../src/log.h \
-	../../../../src/arch/unix/mouse.h \
-	../../../../src/arch/unix/types.h ../../../../src/resources.h \
-	../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
-	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
-	xaw/uiarch.h xaw/../x11menu.h \
-	../../../../src/arch/unix/uihotkey.h xaw/../xaw/uiarch.h \
-	../../../../src/utils.h ../../../../src/video.h \
-	../../../../src/viewport.h videoarch.h xaw/uiarch.h vidmode.h \
-	x11ui.h
 fullscreen.o: fullscreen.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/fullscreen.h \
 	../../../../src/arch/unix/fullscreenarch.h \
 	../../../../src/video.h ../../../../src/arch/unix/types.h \
-	../../../../src/viewport.h videoarch.h xaw/uiarch.h vidmode.h \
-	dga1.h
+	../../../../src/viewport.h videoarch.h xaw/uiarch.h
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h ../../../../src/keyboard.h \
 	../../../../src/arch/unix/types.h ../../../../src/machine.h \
@@ -387,17 +374,6 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/uicolor.h ../../../../src/utils.h \
 	../../../../src/video.h ../../../../src/viewport.h videoarch.h \
 	xaw/uiarch.h x11ui.h xaw/uiarch.h
-vidmode.o: vidmode.c ../../../../src/vice.h ../../../../src/config.h \
-	dga1.h ../../../../src/log.h \
-	../../../../src/arch/unix/fullscreenarch.h \
-	../../../../src/resources.h ../../../../src/arch/unix/types.h \
-	../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
-	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
-	xaw/uiarch.h xaw/../x11menu.h \
-	../../../../src/arch/unix/uihotkey.h xaw/../xaw/uiarch.h \
-	../../../../src/arch/unix/uisettings.h ../../../../src/utils.h \
-	videoarch.h ../../../../src/video.h ../../../../src/viewport.h \
-	xaw/uiarch.h vidmode.h x11ui.h
 x11menu.o: x11menu.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
