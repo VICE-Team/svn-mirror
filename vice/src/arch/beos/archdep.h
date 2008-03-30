@@ -54,5 +54,17 @@
 #define PRINTER_DEFAULT_DEV2 "LPT:"
 #define PRINTER_DEFAULT_DEV3 "hmm"
 
+/* Video chip scaling.  */
+#define ARCHDEP_VICII_DSIZE 1
+#define ARCHDEP_VICII_DSCAN 1
+#define ARCHDEP_VDC_DSIZE   1
+#define ARCHDEP_VDC_DSCAN   1
+#define ARCHDEP_VIC_DSIZE   1
+#define ARCHDEP_VIC_DSCAN   1
+#define ARCHDEP_CRTC_DSIZE  1
+#define ARCHDEP_CRTC_DSCAN  1
+#define ARCHDEP_TED_DSIZE   1
+#define ARCHDEP_TED_DSCAN   1
+
 #endif
 

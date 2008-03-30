@@ -60,6 +60,18 @@
 #define PRINTER_DEFAULT_DEV2 "|lpr"
 #define PRINTER_DEFAULT_DEV3 "|petlp -F PS|lpr"
 
+/* Video chip scaling.  */
+#define ARCHDEP_VICII_DSIZE 1
+#define ARCHDEP_VICII_DSCAN 1
+#define ARCHDEP_VDC_DSIZE   1
+#define ARCHDEP_VDC_DSCAN   1
+#define ARCHDEP_VIC_DSIZE   1
+#define ARCHDEP_VIC_DSCAN   1
+#define ARCHDEP_CRTC_DSIZE  1
+#define ARCHDEP_CRTC_DSCAN  1
+#define ARCHDEP_TED_DSIZE   1
+#define ARCHDEP_TED_DSCAN   1
+
 extern const char *archdep_home_path(void);
 
 #endif
