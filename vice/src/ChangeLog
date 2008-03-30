@@ -1,3 +1,218 @@
+1998-09-07  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.3.
+
+	* arch/win32/Makefile.am (libarch_a_LIBADD): Add `resc64.o' to
+	`libarch.a' using `libarch_a_LIBADD'.
+	(resc64.o): Use `$<' and `$@' instead of hardcoded values.
+
+	* Makefile.am: Removed `WIN32' conditionals.
+
+	* utils.c (spawn) [WIN32]: Return -1.
+
+1998-09-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* Makefile.am: Added Win32 specific x64_LDADD variable.  Made
+ 	win32 specific .PHONY dependency settings.
+
+	* arch/win32: New directory.
+
+	* arch/Makefile.am: Added support for Win32 compile.
+
+	* c64/cartridge.c: Removed the line including <sys/param.h>,
+	vice.h already includes it, in the correct way.
+
+	* vic20/cartridge.c: Same as above.
+
+	* mon.c (readline): Removed static declaration. Linker couldn't
+	find it.
+	(add_history): Same here.
+
+	* sound.c (sound_init): Added call to sound_init_dx_device, when
+	compiling for Win32.
+
+	* sound.h: Added prototype for sound_init_dx_device .
+
+	* sounddrv/Makefile.am: Added sounddx.x into
+ 	EXTRA_libsounddrv_a_SOURCES.
+
+	* sounddrv/sounddx.c: New file.
+
+	* utils.c: Prevented including <sys/wait.h> while compiling for
+ 	Win32.
+	(spawn): Emptied function when compiling for Win32.
+
+1998-09-07  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/win32/Makefile.am: New file.
+	* arch/win32/c64.ico: New file.
+	* arch/win32/c64kbd.c: New file.
+	* arch/win32/c64ui.c: New file.
+	* arch/win32/c64ui.h: New file.
+	* arch/win32/dirent.c: New file.
+	* arch/win32/dirent.h: New file.
+	* arch/win32/joystick.c: New file.
+	* arch/win32/joystick.h: New file.
+	* arch/win32/kbd.c: New file.
+	* arch/win32/kbd.h: New file.
+	* arch/win32/lose32.h: New file.
+	* arch/win32/print.c: New file.
+	* arch/win32/resc64.h: New file.
+	* arch/win32/resc64.r: New file.
+	* arch/win32/ui.c: New file.
+	* arch/win32/ui.h: New file.
+	* arch/win32/uiattach.c: New file.
+	* arch/win32/uiattach.h: New file.
+	* arch/win32/video.c: New file.
+	* arch/win32/video.h: New file.
+	* arch/win32/vsync.c: New file.
+	* arch/win32/vsync.h: New file.
+	* arch/win32/winmain.c: New file.
+	* arch/win32/winmain.h: New file.
+
+1998-09-07  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* cia-tmpl.c (mycia_dump): replace "clk" with "myclk"
+	(mycia_undump): ditto
+
+	* pet/pet.c: include snapshot.h
+	include rs232.h if necessary
+	(pet_dump, pet_undump): new functions to dump the PET configuration.
+
+	* pet/petmem.c: include snapshot.h
+	(petmem_dump, petmem_undump): new functions to dump PET memory
+
+	* pet/petmem.h (petmem_dump, petmem_undump): new prototypes
+
+	* via-tmpl.c: include snapshot.h
+	(myvia_dump, myvia_undump): new functions to dump the VIA state
+	* cia-tmpl.c (mycia_dump): new function to dump a CIA snapshot
+	(mycia_undump): new function to read in a snapshot
+
+	* arch/unix/xaw/uisettings.c (RsUser): changed from TOGGLE to
+	RADIO.
+	(rs232_submenu): change 9600 baud userport entry to baud rate
+	radio selection.
+
+	* c128/c128.c (vsync_hook): call rsuser_prevent_clk_overflow
+	* c64/c64.c (vsync_hook): ditto
+
+	* c64/c64cia2.def (STORE_CIAPA): add call to rsuser_set_tx_bit()
+	when writing to port A
+
+	* c64/rsuser.c (char_clk_ticks): number of clk ticks per character
+	(bit_clk_ticks): number of clk ticks per data bit
+	(set_up_enabled): compute *_clk_ticks values after baud rate,
+	assuming 1M CPU clock frequency
+	(cmdline_options): remove "+rsuser", as "-rsuser" is a radio not
+	a toggle anymore
+	(rsuser_reset): clear clk_start* values
+	(rsuser_setup): new function to setup the rs232 stuff
+	(userport_serial_write_ctrl): don't care about DTR from the
+	C64, as this stuff is buggy.
+	(userport_serial_read_ctrl): call rsuser_get_rx_bit()
+	(keepup_tx_buffer): new function; fill buf with bits from userport
+	but not for 9600 baud
+	(rsuser_set_tx_bit): new function, get a new output from the C64
+	(rsuser_get_rx_bit): new function, reads a bit from the incoming
+	rs232 data stream
+	(userport_serial_write_sr): call check_tx_buffer to send the data
+	(int_rsuser): handle clk_start_rx.
+	(rsuser_prevent_clk_overflow): new function, handles clk overflow
+
+	* c64/rsuser.h (rsuser_prevent_clk_overflow, rsuser_get_rx_bit,
+	rsuser_set_tx_bit): new prototypes
+
+1998-09-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* resid: Added reSID distribution.
+
+	* c64/sid.c (read_sid) [HAVE_MOUSE]: When reading from $D419 or
+	$D41A, use the values from `mouse_get_x()' and `mouse_get_y()'
+	without any changes.
+
+	* arch/msdos/mouse.h (mouse_get_x): Return the value shifted right
+	by 1 and ANDed with 0x7e.
+	(mouse_get_y): Return the value inverted, shifted right by 1 and
+	ANDed with 0x7e.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Allow attaching of
+	`.g64' files.
+
+1998-09-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uicommands.c (attach_disk): Changed dir mask to
+	show *.D71 and *.D81 as well.
+
+	* c1541.c: Changed `sector_map' to `sector_map_1541' and
+	`speed_map' to `speed_map_1541'.
+	* drive/drive.c: Changed likewise.
+	* vdrive.c: Changed likewise.
+
+	* drive/drive.c (read_image_d64): Added support for importing D71
+	disk images. Renamed to `drive_read_image_d64_d71'.
+	(read_image_gcr): Renamed to `drive_read_image_gcr'.
+	(drive_init, drive_set_disk_drive_type): Set disk side to `0'.
+	(drive_attach_floppy): Allow attaching of 1571 disks
+	(drive_set_half_track): Check for 1571 track limits.
+	(drive_move_head): Changed likewise.
+	(GCR_data_writeback): Added support for writing D71 disk images.
+	(drive_set_1571_side): New function.
+
+	* drive/drive.h: Added new member `side' to `drive_t'.  Changed
+	constants from `MAX_TRACKS_1541' to `MAX_TRACKS_1571'.
+
+	* drive/via1drive0.def (STORE_PRA): Call `drive_set_1571_side'
+	whenever sides are changed.
+	(READ_PRA): Added detection of track `1'.
+	* drive/via1drive1.def: Changed likewise.
+
+	* fs_cbm.h: Added `d71' and `d81' to `hdrinfo'.
+
+	* vdrive.c (attach_floppy_image): Allow attaching D71 disk images.
+	(get_std71_header): New function.
+	(check_header): Check for D71 disk images.
+	(read_disk_image_contents): Set flag `D64_Header' for any disk
+ 	image type without header.
+
+	* vdrive.h: Define D71 and D81 constants.
+
+	* arch/unix/xaw/uisettings.c (set_drive9_type_submenu): Fixed
+ 	typo.
+
+	* c64/c64iec.c: #include "ciad.h".
+	(iec_cpu_write): Added 1581 IEC bus handling.
+
+	* drive/Makefile.am: Added `wd1770.c' and `wd1770.h' to
+	`libdrive_a_SOURCES'.
+
+	* drive/cia1581drive0.def (STORE_CIAPB): Fixed 1581 IEC bus
+	handling.
+	(READ_CIAPA): Return device number.
+	* drive/cia1581drive1.def: Changed likewise.
+
+	* drive/drivecpu-tmpl.c: #include "wd1770.h".
+	(reset): Reset WD1770 too.
+	(mydrive_mem_init): Added WD1770 memory banking.
+
+	* drive/drivecpu0.def: Define mywd1770.
+	* drive/drivecpu1.def: Define mywd1771.
+
+	* drive/wd1770.c: New file to handle WD1770 disk controller.
+	* drive/wd1770.h: New file.
+
+1998-09-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128cpu.c: Updated `maincpu_monitor_interface' to support
+ 	banking.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Allow attaching of
+	`.g64' images.
+
+1998-09-06  Dag Lem  <resid@nimrod.no>
+
+	* Makefile.am: Support for included reSID distribution.
+
 1998-09-03  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.2.

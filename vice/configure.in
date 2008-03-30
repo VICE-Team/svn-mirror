@@ -6,10 +6,13 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.2)
+AM_INIT_AUTOMAKE(vice, 0.15.0.3)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
+
+is_dos=no
+is_win32=no
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -79,6 +82,17 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_PRINTER, false)
 
+elif test x"$host_os" = "xcygwin32"; then
+
+  dnl This is used by subsequent tests.
+  ac_cv_prog_gcc=yes
+  GCC=yes
+
+  is_win32=yes
+
+  AM_CONDITIONAL(HAVE_RS232, false)
+  AM_CONDITIONAL(HAVE_PRINTER, false)
+
 else
 
   if test -z "$CFLAGS" ; then
@@ -130,6 +144,7 @@ else
   fi
 
   is_dos=no
+  is_win32=no
 
   dnl This is only possible on Unix (for now).
   AC_DEFINE(HAVE_RS232)
@@ -156,43 +171,48 @@ AC_SUBST(PERL)
 
 dnl Setup reSID compilation.  We need a C++ compiler for this.
 
-if test x"$with_resid" != "xno" -a x"$with_resid" != "x"; then
+RESID_DIR=
+RESID_LIBS=
+RESID_INCLUDES=
 
+ac_cv_install_resid=no
+
+if test x"$with_resid" != "xno"; then
   AC_PROG_CXX
   AC_PROG_CXXCPP
-
-  if test x"$with_resid" != "x" -a x"$with_resid" != "xyes"; then
+  if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
+    AC_DEFINE(HAVE_RESID)
+    AC_CONFIG_SUBDIRS(src/resid)
+    RESID_DIR=resid
+    RESID_LIBS="-L\$(top_builddir)/src/resid -lresid"
+    RESID_INCLUDES="-I\$(top_builddir)/src"
+  else
     LDFLAGS="$LDFLAGS -L$with_resid/lib"
     CPPFLAGS="$CPPFLAGS -I$with_resid/include"
+    AC_LANG_CPLUSPLUS
+
+    dnl Test for libresid.a and resid/sid.h
+    AC_CHECK_LIB(resid, resid_version_string,
+      AC_CHECK_HEADER(resid/sid.h,
+        ,
+        AC_MSG_ERROR([reSID header file not found])),
+      AC_MSG_ERROR([reSID library not found]))
+
+    AC_LANG_C
+
+    AC_DEFINE(HAVE_RESID)
+    RESID_DIR=
     RESID_LIBS="-L$with_resid/lib -lresid"
     RESID_INCLUDES="-I$with_resid/include"
-  else
-    RESID_LIBS="-lresid"
-    RESID_INCLUDES=""
   fi
-
-  AC_LANG_CPLUSPLUS
-
-  dnl Test for libresid.a and resid/sid.h
-  AC_CHECK_LIB(resid, main,
-    AC_CHECK_HEADER(resid/sid.h,
-      have_resid=yes; AC_DEFINE(HAVE_RESID),
-      AC_MSG_WARN([reSID will not be supported (header file not found)])),
-    AC_MSG_WARN([reSID will not be supported (library not found)]))
-
-  AC_LANG_C
-
 fi
 
-AM_CONDITIONAL(HAVE_RESID, test x"$have_resid" = "xyes")
+AM_CONDITIONAL(HAVE_RESID, test x"$with_resid" != "xno")
 
-if test x"$have_resid" != "xyes"; then
-  RESID_LIBS=""
-  RESID_INCLUDES=""
-fi
-
+AC_SUBST(RESID_DIR)
 AC_SUBST(RESID_LIBS)
 AC_SUBST(RESID_INCLUDES)
+
 
 dnl Check for typedefs, structures, and compiler characteristics.
 
@@ -211,18 +231,16 @@ dnl Define the type sizes.
 
 if [[ x"$ac_cv_prog_cc_cross" != "xyes" ]]; then
   AC_C_BIGENDIAN
-  AC_CHECK_SIZEOF(unsigned short)
-  AC_CHECK_SIZEOF(unsigned int)
-  AC_CHECK_SIZEOF(unsigned long)
 else
   dnl if cross-compiling, we have to do this by hand
   echo "warning: assuming sizeof(unsigned short) == 2,"
   echo "                  sizeof(unsigned int) == 4,"
   echo "                  sizeof(unsigned long) == 4"
-  AC_DEFINE(SIZEOF_UNSIGNED_SHORT, 2)
-  AC_DEFINE(SIZEOF_UNSIGNED_INT, 4)
-  AC_DEFINE(SIZEOF_UNSIGNED_LONG, 4)
 fi
+
+AC_CHECK_SIZEOF(unsigned short, 2)
+AC_CHECK_SIZEOF(unsigned int, 4)
+AC_CHECK_SIZEOF(unsigned long, 4)
 
 dnl Check whether gcc needs -traditional.
 
@@ -238,7 +256,7 @@ AC_DECL_SYS_SIGLIST
 
 dnl Check for system-specific header files.
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ JOYSTICK="-DHAS_JOYSTICK -DLINUX_JOYSTICK";
 		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
@@ -286,6 +304,10 @@ else
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundsb.o"; break])
 fi
 
+if [[ x"$is_win32" = "xyes" ]] ; then
+    SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o"
+fi
+
 AC_SUBST(SOUND_DRIVERS)
 
 AC_CHECK_LIB(audio, ALseterrorhandler,,,$SOUND_LIBS)
@@ -296,7 +318,7 @@ AC_SUBST(SOUND_LIBS)
 
 dnl Check for library functions
 
-if [[ x"$is_dos" = "xno" ]] ; then
+if test x"$is_dos" = "xno" -a x"$is_win32" = "xno"; then
   AC_FUNC_MEMCMP
 fi
 AC_TYPE_SIGNAL
@@ -307,7 +329,9 @@ AC_CHECK_FUNCS(gettimeofday memmove atexit)
 AC_SUBST(LIBS)
 
 dnl if usleep is not defined, compile our own version for it (usleep.o)
-AC_REPLACE_FUNCS(usleep)
+if [[ x"$is_win32" = "xno" ]]; then
+  AC_REPLACE_FUNCS(usleep)
+fi
 
 dnl Check time.h.
 
@@ -317,7 +341,7 @@ AC_STRUCT_TM
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 
-if test x"$with_readline" != "xno" -a x"$is_dos" != "xyes" ; then
+if test x"$with_readline" != "xno" -a x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
   READLINE=""
   dnl FIXME: Some SuSE distro needs this?!  Why?
   dnl AC_CHECK_LIB(ncurses, tputs, [READLINE="-lncurses $READLINE"],,,)
@@ -332,7 +356,7 @@ AC_SUBST(READLINE)
 
 dnl Check for X11 libraries and header files
 
-if [[ x"$is_dos" != "xyes" ]]; then
+if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
 
   X_LIBS=""
 
@@ -394,25 +418,42 @@ if [[ x"$is_dos" != "xyes" ]]; then
 
   AC_CHECK_HEADERS(X11/extensions/XShm.h X11/Sunkeysym.h X11/xpm.h)
 
-else
+elif [[ x"$is_dos" != "xno" ]]; then
 
-  dnl On go32, we already know what we want.
+  dnl On MS-DOS, we already know what we want.
 
   LIBS="-lalleg $LIBMIDAS"
+  AC_SUBST(LDFLAGS)
+
+elif [[ x"$is_win32" != "xno" ]]; then
+
+  dnl On Windows, we already know what we want.
+
+  LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
   AC_SUBST(LDFLAGS)
 
 fi
 
 dnl Setup the system-specific object files.
 
-if [[ x"$is_dos" != "xyes" ]]; then
+if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
   ARCH_LIBS="\$(top_builddir)/src/arch/unix/libarch.a \$(top_builddir)/src/arch/unix/xaw/libxawui.a \$(top_builddir)/src/arch/unix/xaw/widgets/libwidgets.a"
   AM_CONDITIONAL(UNIX_COMPILE, true)
+  AM_CONDITIONAL(WIN32_COMPILE, false)
+  AM_CONDITIONAL(MSDOS_COMPILE, false)
   AC_DEFINE(HAVE_READLINE)
+elif [[ x"$is_win32" != "xno" ]]; then
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32/"
+  ARCH_LIBS="\$(top_builddir)/src/arch/win32/libarch.a"
+  AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(WIN32_COMPILE, true)
+  AM_CONDITIONAL(MSDOS_COMPILE, false)
 else
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
   ARCH_LIBS="\$(top_builddir)/src/arch/msdos/libarch.a"
+  AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
 fi
 
@@ -432,6 +473,7 @@ if false ; then
     dnl Now produce the directories & Makefiles.
 
     mkdir -p arch/msdos
+    mkdir -p arch/win32
     mkdir -p arch/unix/widgets
     mkdir -p arch/unix/readline
     mkdir -p arch/unix/xaw
@@ -458,6 +500,7 @@ AC_OUTPUT(Makefile
           src/sounddrv/Makefile \
           src/arch/Makefile \
           src/arch/msdos/Makefile \
+          src/arch/win32/Makefile \
           src/arch/unix/Makefile \
           src/arch/unix/xaw/Makefile \
           src/arch/unix/xaw/widgets/Makefile \

@@ -1,3 +1,25 @@
+1998-09-07  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.3.
+
+	* Makefile.am: Removed WIN32 conditional.
+
+	* configure.in: Setup `LIBS' for Windows.
+
+1998-09-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* Makefile.am: Separated .PHONY dependecies for Win32 compiling
+
+	* configure.in: Added support for Win32 compiling, new variable
+ 	is_win32.  Set is_dos to no at startup, was causing dos related
+ 	options to appear in generated makefiles.  Added new conditional
+ 	variable WIN32_COMPILE.  Fixed setting UNIX_COMPILE DOS_COMPILE,
+ 	they were interpreted true if not set.
+
+1998-09-06  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Support for included reSID distribution.
+
 1998-09-03  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.2.
