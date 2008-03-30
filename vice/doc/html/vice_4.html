@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 October 1998 -->
+     from ../vice.texi on 4 October 1998 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -51,8 +51,10 @@ PREFIX/lib/vice/EMU:BOOTPATH/EMU
 <P>
 Where <CODE>PREFIX</CODE> is the installation prefix (usually
 <TT>`/usr/local'</TT>), <CODE>EMU</CODE> is the name of the emulated machine
-(<CODE>C64</CODE>, <CODE>C128</CODE>, <CODE>PET</CODE> or <CODE>VIC20</CODE>) and
+(<CODE>C64</CODE>, <CODE>C128</CODE>, <CODE>PET</CODE>, <CODE>C610</CODE> or <CODE>VIC20</CODE>) and
 <CODE>BOOTPATH</CODE> is the directory where the executable resides.
+The disk drive ROMs are looked for in a directory with <CODE>EMU</CODE> set to 
+<CODE>DRIVES</CODE>.
 
 </P>
 <P>
@@ -146,7 +148,7 @@ The C128 needs the following files:
 
 <P>
 The C128, VIC20 and C64 emulators also need the following DOS ROMs for
-the hardware-level emulation of the 1541 and 1571 disk drives:
+the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 
 </P>
 
@@ -158,7 +160,27 @@ the hardware-level emulation of the 1541 and 1571 disk drives:
 
 <P> <LI>
 
-<TT>`dos15751'</TT>, the 1541 drive ROM (32 Kbytes)
+<TT>`dos1571'</TT>, the 1571 drive ROM (32 Kbytes)
+
+<P> <LI>
+
+<TT>`dos1581'</TT>, the 1581 drive ROM (32 Kbytes)
+
+</UL> </P>
+
+<P>
+In addition to those all emulators except the VIC20 can handle 
+a parallel IEEE488 interface (the C64 and C128 via <CODE>$df**</CODE> extension)
+so they also need the DOS ROM for the 2031 disk drive, basically a
+VC1541 with a parallel IEEE488 interface:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<TT>`dos2031'</TT>, the 2031 drive ROM (16 Kbytes)
 
 </UL> </P>
 
@@ -203,6 +225,12 @@ KBytes)
 <TT>`edit4.b80'</TT>, the PET8032 editor for 80 columns and
 business keyboard (2 KBytes)
 
+<P> <LI>
+
+<TT>`chargen'</TT>, the character generator ROM (2k). It has two sets
+with 128 chars each. The second (inverted) half of each set is computed from
+the first half by inverting it. This is a PET hardware feature.
+
 </UL> </P>
 
 <P>
@@ -224,6 +252,49 @@ with the <CODE>-petromBasic</CODE> option and for the editor ROM
 at $E000-$E7FF with the <CODE>-petromEditor</CODE> option.
 
 </P>
+<P>
+The CBM-II emulator again uses another setup. For those models the kernal
+used is the same for all. However, for different amounts of memory
+exist different versions of the BASIC ROMs. The 128k RAM version
+(C610, C710, B128) uses one bank of 64k for the BASIC text and
+another one for all the variables. The 256k RAM version uses 
+one bank for text, one for variables, one for arrays and one for strings.
+
+</P>
+<P>
+Also the character generator ROMs have a format different from the above.
+The other character ROMs have 8 bytes of pixel data per character.
+Those ROMs have 16 bytes per character instead. The C6x0 only uses
+the first 8 of it, but the C7x0 uses 14 lines per character and needs
+those increased ROMs. Both ROMs hold, like the PET, two character
+sets with 128 characters each. Again the second half of the full
+(256 char) character set is computed by inverting. 
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<TT>`kernal'</TT>, the KERNAL (8k)
+
+<P> <LI>
+
+<TT>`basic.128'</TT>, the CBM-II 128k BASIC (16k)
+
+<P> <LI>
+
+<TT>`basic.256'</TT>, CBM-II 256k BASIC (16k)
+
+<P> <LI>
+
+<TT>`chargen.600'</TT>, character generator ROM for the C6x0 (4k)
+
+<P> <LI>
+
+<TT>`chargen.700'</TT>, character generator ROM for the C7x0 (4k)
+
+</UL> </P>
 
 
 

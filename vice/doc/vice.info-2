@@ -17,6 +17,108 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: ROM files,  Next: Keymap files,  Prev: System files,  Up: System files
+
+ROM files
+=========
+
+   Every emulator requires its own ROM set.  For the VIC20 and the C64,
+the ROM set consists of the following files:
+
+   * `kernal',  the Kernal ROM (8 KBytes)
+
+   * `basic', the Basic ROM (8 KBytes)
+
+   * `chargen', the character generator ROM (4 Kbytes)
+
+   The C128 needs the following files:
+
+   * `kernal', the Kernal ROM (8 Kbytes)
+
+   * `basic', the Basic + Editor ROM (32 Kbytes)
+
+   * `chargen', the character generator ROM (4 Kbytes)
+
+   The C128, VIC20 and C64 emulators also need the following DOS ROMs
+for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
+
+   * `dos1541', the 1541 drive ROM (16 Kbytes)
+
+   * `dos1571', the 1571 drive ROM (32 Kbytes)
+
+   * `dos1581', the 1581 drive ROM (32 Kbytes)
+
+   In addition to those all emulators except the VIC20 can handle a
+parallel IEEE488 interface (the C64 and C128 via `$df**' extension) so
+they also need the DOS ROM for the 2031 disk drive, basically a VC1541
+with a parallel IEEE488 interface:
+
+   * `dos2031', the 2031 drive ROM (16 Kbytes)
+
+   The PET emulator uses a rather different setup: the Basic and Kernal
+ROMS are packed into a single file and only three kernal files are
+provided; one for each Basic revision.  To handle the different screen
+sizes and keyboards, different so-called "editor-ROMs" for the memory
+range $E000-$E800 are provided.  The kernal files already contain an
+editor ROM for use with 40 columns and the graphics keyboard.  The PET
+ROMs have the following names:
+
+   * `pet2001', the PET2001 Basic 1 + Kernal ROM (16 KBytes)
+
+   * `pet3032', the PET3032 Basic 2 + Kernal ROM (16 KBytes)
+
+   * `pet4032', the PET4032/8032 Basic 4 + Kernal ROM (20 KBytes)
+
+   * `edit2.b', the PET3032 editor for business keyboard (2 KBytes)
+
+   * `edit4.b40', the PET4032 editor for business keyboard (2 KBytes)
+
+   * `edit4.b80', the PET8032 editor for 80 columns and business
+     keyboard (2 KBytes)
+
+   * `chargen', the character generator ROM (2k). It has two sets with
+     128 chars each. The second (inverted) half of each set is computed
+     from the first half by inverting it. This is a PET hardware
+     feature.
+
+   The PETs also have sockets for extension ROMs for the addresses
+$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
+PET3032 only).  You can specify ROM image files for those extensions
+command line options `-petrom9', `-petromA' and `-petromB' resp.
+
+   An alternative would be to specify a long kernal ROM with the
+`-kernal' option that includes the extension ROM areas.
+
+   Also, you can specify replacements for the basic ROM at $B000-$DFFF
+with the `-petromBasic' option and for the editor ROM at $E000-$E7FF
+with the `-petromEditor' option.
+
+   The CBM-II emulator again uses another setup. For those models the
+kernal used is the same for all. However, for different amounts of
+memory exist different versions of the BASIC ROMs. The 128k RAM version
+(C610, C710, B128) uses one bank of 64k for the BASIC text and another
+one for all the variables. The 256k RAM version uses one bank for text,
+one for variables, one for arrays and one for strings.
+
+   Also the character generator ROMs have a format different from the
+above.  The other character ROMs have 8 bytes of pixel data per
+character.  Those ROMs have 16 bytes per character instead. The C6x0
+only uses the first 8 of it, but the C7x0 uses 14 lines per character
+and needs those increased ROMs. Both ROMs hold, like the PET, two
+character sets with 128 characters each. Again the second half of the
+full (256 char) character set is computed by inverting.
+
+   * `kernal', the KERNAL (8k)
+
+   * `basic.128', the CBM-II 128k BASIC (16k)
+
+   * `basic.256', CBM-II 256k BASIC (16k)
+
+   * `chargen.600', character generator ROM for the C6x0 (4k)
+
+   * `chargen.700', character generator ROM for the C7x0 (4k)
+
+
 File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
 
 Keymap files
@@ -297,11 +399,11 @@ and .P00 files can be attached as tapes.  As you can autostart a tape
 image when it is attached (*note Autostart::.), this allows you to
 autostart these particular files as well.
 
-   You can attach a disk for which you do have write permissions: when
-this happens, the 1541 emulator will emulate a write-protected disk.
-This is also useful if you want to prevent certain disk images from
-being written to; in the latter case, just remove the write permission
-for that file, e.g., by doing a `chmod a-w'.
+   You can attach a disk for which you do not have write permissions:
+when this happens, the 1541 emulator will emulate a write-protected
+disk.  This is also useful if you want to prevent certain disk images
+from being written to; in the latter case, just remove the write
+permission for that file, e.g., by doing a `chmod a-w'.
 
 * Menu:
 
@@ -434,6 +536,11 @@ sequence in that it makes sure the whole RAM is cleared.
 machine to the OS initialization sequence: in such cases, you will have
 to do a hard reset instead.
 
+   This is especially the case for the CBM-II emulators. Those machines
+examine a memory location and if they find a certain "magic" value they
+only do what you know from the C64 as `Run/Stop-Restore'.  Therefore,
+to really reset a CBM-II use hard reset.
+
 
 File: vice.info,  Node: Settings and resources,  Next: Machine-specific features,  Prev: Basics,  Up: Top
 
@@ -478,6 +585,7 @@ file or by using command-line options.
 * Sound settings::              Settings that control audio playback
 * 1541 settings::               Settings that control disk-drive emulation.
 * Peripheral settings::         Settings for emulated external devices.
+* RS232 settings::              Settings for the RS232 emulation.
 * Misc settings::               Other settings.
 
 
@@ -684,12 +792,16 @@ Video resources
      emulation window.
 
 `MITSHM'
-     Boolean specyfying whether VICE should try to use the shared memory
+     Integer specifying whether VICE should try to use the shared memory
      extensions (MITSHM) when starting up.  The shared memory
      extensions make things a lot faster but might not be available on
      your system.  You will not be able to use these extensions if you
      are sitting at an X terminal while running the emulator on a
-     remote machine across a network.
+     remote machine across a network.  Valid values are: 0 = do not use
+     MITSHM, 1 = do use MITSHM, -1 = try to autodetect availability on
+     startup (default). The last is a simple test if the emulator runs
+     across a network and if so disables MITSHM (If you have problems
+     with this test please report it).
 
 `PrivateColormap'
      Boolean specifying whether VICE should install a private colormap
@@ -731,6 +843,9 @@ Video command-line options
      Enable/disable usage of the MITSHM extensions (`MITSHM=1',
      `MITSHM=0').
 
+`-mitshmauto'
+     Enable autodetection of MITSHM availability (`MITSHM=-1')
+
 `-install'
 `+install'
      Enable/disable installation of a private colormap
@@ -771,15 +886,29 @@ Keyboard resources
 
 `KeymapIndex'
      Integer identifying which keymap is being used; `0' indicates
-     symbolic mapping, `1' positional mapping.
+     symbolic mapping, `1' positional mapping. For the PET the even
+     values represent symbolic mapping, odd positional. Then add `0'
+     for UK business keyboard or `2' for graphics keyboard.
 
 `KeymapSymFile'
      String specifying the name of the keymap file for the symbolic
-     mapping (*note Keyboard emulation::.).
+     mapping (*note Keyboard emulation::., all but PET and C610).
 
 `KeymapPosFile'
      String specifying the name of the keymap file for the positional
-     mapping (*note Keyboard emulation::.).
+     mapping (*note Keyboard emulation::., all but PET and C610).
+
+`KeymapBusinessUKSymFile'
+`KeymapBusinessUKPosFile'
+     String specifying the name of the keymap file for the symbolic and
+     positional mapping for the UK business keyboard (*note Keyboard
+     emulation::., PET and C610).
+
+`KeymapGraphicsSymFile'
+`KeymapGraphicsPosFile'
+     String specifying the name of the keymap file for the symbolic and
+     positional mapping for the graphics keyboard (*note Keyboard
+     emulation::., PET only).
 
 
 File: vice.info,  Node: Keyboard options,  Prev: Keyboard resources,  Up: Keyboard settings
@@ -797,6 +926,18 @@ Keyboard command-line options
 
 `-poskeymap NAME'
      Specify `NAME' as the positional keymap file (`KeymapPosFile').
+
+`-buksymkeymap NAME'
+`-bukposkeymap NAME'
+     Specify `NAME' as the symbolic/positional keymap file for the UK
+     business keyboard (`KeymapBusinessUKSymFile',
+     `KeymapBusinessUKPosFile', PET and C610).
+
+`-grsymkeymap NAME'
+`-grposkeymap NAME'
+     Specify `NAME' as the symbolic/positional keymap file for the
+     graphics keyboard (`KeymapGraphicsSymFile',
+     `KeymapGraphicsPosFile', PET only).
 
 
 File: vice.info,  Node: Sound settings,  Next: 1541 settings,  Prev: Keyboard settings,  Up: Settings and resources
@@ -920,7 +1061,7 @@ Sound resources
 
      These drivers will actually be present only if the VICE
      configuration script detected the corresponding devices at the
-     time of installation.
+     time of compilation.
 
 `SoundDeviceArg'
      String specifying an additional parameter for the audio driver (see
@@ -1110,7 +1251,7 @@ File: vice.info,  Node: 1541 options,  Prev: 1541 resources,  Up: 1541 settings
      Specifies the name of the DOS ROM image (`DosName').
 
 
-File: vice.info,  Node: Peripheral settings,  Next: Misc settings,  Prev: 1541 settings,  Up: Settings and resources
+File: vice.info,  Node: Peripheral settings,  Next: RS232 settings,  Prev: 1541 settings,  Up: Settings and resources
 
 Peripheral settings
 ===================
@@ -1156,6 +1297,11 @@ are accessible; each of them provides the following settings:
    * "Create P00 files on save", if enabled, creates P00 files (instead
      of raw CBM files) whenever a program creates a file.
 
+   Note that all drives except 11 (by default) conserve the CBM
+filename by saving P00 files on save. Drive 11 can (by default) be used
+to directly create Unix files. This setup is the default for the
+resources and can of course be changed here.
+
 * Menu:
 
 * File system device resources::
@@ -1172,21 +1318,22 @@ Resources for file system devices
 `FSDevice10ConvertP00'
 `FSDevice11ConvertP00'
      Booleans specifying whether on-read support for P00 files is
-     enabled on drives 8, 9, 10 and 11 respectively.
+     enabled on drives 8, 9, 10 and 11 respectively (on by default).
 
 `FSDevice8SaveP00'
 `FSDevice9SaveP00'
 `FSDevice10SaveP00'
 `FSDevice11SaveP00'
      Booleans specifying whether the drives should create P00 files
-     instead of plain CBM ones.
+     instead of plain CBM ones (on by default for drives 8-10, off for
+     11).
 
 `FSDevice8HideCBMFiles'
 `FSDevice9HideCBMFiles'
 `FSDevice10HideCBMFiles'
 `FSDevice11HideCBMFiles'
      Booleans specifying whether non-P00 files should be invisible to
-     programs running in the emulator.
+     programs running in the emulator (do not hide by default).
 
 `FSDevice8Dir'
 `FSDevice9Dir'
@@ -1208,202 +1355,4 @@ Command-line options for file system devices
      Specify the paths for the file system access on drives 8, 9, 10
      and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
      `FSDevice10Dir' and `FSDevice11Dir').
-
-
-File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
-
-Printer settings
-----------------
-
-   The VICE emulators can emulate printers connected to either the IEC
-buffer or the user port.  Emulation can be achieved by redirecting the
-printer output to a file or by piping it through an external process.
-This is defined by so-called "printer device file names"; a printer
-device file name can be either a simple path, or a command name
-preceeded by a pipe symbol `|'.
-
-   For example, printer device `filename' will cause the output to be
-appended to the file `filename', while printer device `|lpr' will cause
-the `lpr' command to be executed and be fed the printer output.
-
-   Up to three printer devices may be specified through the following
-resources:
-
-   * device 1, whose default value is `print.dump';
-
-   * device 2, whose default value is `|petlp |lpr';
-
-   * device 3, whose default value is `|lpr'.
-
-   So, basically, by default printer device 1 will simply dump printer
-output to `print.dump'; printer device 2 will print it via `petlp' (a
-not-yet-complete utility that will produce Postscript output) and
-`lpr'; printer device 2 will print it with `lpr'.
-
-* Menu:
-
-* Printer resources::
-* Printer options::
-
-
-File: vice.info,  Node: Printer resources,  Next: Printer options,  Prev: Printer settings,  Up: Printer settings
-
-Printer resources
-.................
-
-`PrDevice1'
-`PrDevice2'
-`PrDevice3'
-     Strings specifying the printer devices (*note Printer settings::.).
-
-`Printer4'
-     Boolean specifying if the IEC printer (device 4) is being emulated.
-
-`Printer4Dev'
-     Integer (ranging from 1 to 3) specifying what device the IEC
-     printer is using.
-
-`PrUser'
-     Boolean specifying if the user-port printer is being emulated.
-
-`PrUserDev'
-     Integer (ranging from 1 to 3) specifying what device the user-port
-     printer is using.
-
-
-File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
-
-Printer command-line options
-............................
-
-`-prdev1 NAME'
-`-prdev2 NAME'
-`-prdev3 NAME'
-     Specify `NAME' as printer devices 1, 2 and 3, respectively
-     (`PrDevice1', `PrDevice2' and `PrDevice3').
-
-`-printer4'
-`+printer4'
-     Enable/disable emulation of the IEC printer (`Printer4=1',
-     `Printer4=0').
-
-`-pr4dev DEV'
-     Specify device for the IEC printer (`Printer4Dev').
-
-`-pruser'
-`+pruser'
-     Enable/disable emulation of the IEC printer (`PrUser=1',
-     `PrUser=0').
-
-`-pruserdev DEV'
-     Specify device for the IEC printer (`PrUserDev').
-
-
-File: vice.info,  Node: No kernal traps,  Prev: Printer settings,  Up: Peripheral settings
-
-Disabling kernal traps
-----------------------
-
-   If you have compatibility problems, you can completely disable Kernal
-traps with the "Disable kernal traps" option.  This will of course
-disable all the features that depend on it, such as the fast 1541
-emulation (so you will have to turn true 1541 emulation on if you want
-to be able to read or write disk images) and tape support.
-
-* Menu:
-
-* No traps resources::
-* No traps options::
-
-
-File: vice.info,  Node: No traps resources,  Next: No traps options,  Prev: No kernal traps,  Up: No kernal traps
-
-Resources to control Kernal traps
-.................................
-
-`NoTraps'
-     Boolean specifying whether all the Kernal trap should be disabled.
-
-
-File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No kernal traps
-
-Command-line options to control Kernal traps
-............................................
-
-`-traps'
-`+traps'
-     Enable (`NoTraps=0') or disable (`NoTraps=1') kernal traps.
-
-
-File: vice.info,  Node: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources
-
-Miscellaneous settings
-======================
-
-   This section lists generic resources that do not fit in the other
-categories.
-
-* Menu:
-
-* Misc resources::
-* Misc options::
-
-
-File: vice.info,  Node: Misc resources,  Next: Misc options,  Prev: Misc settings,  Up: Misc settings
-
-Miscellaneous resources
------------------------
-
-`Directory'
-     String specifying the search path for system files.  It is defined
-     as a sequence of directory names, separated by colons (`:'), just
-     like the `PATH' variable in the shell.  The special string `$$'
-     stands for the default search path, which is initialized at
-     startup to the following value:
-
-          LIBDIR/EMUID:BOOTPATH/EMUID
-
-     where:
-
-        * `LIBDIR' is the VICE installation directory (usually
-          `/usr/local/lib/vice', `/usr/lib/vice' or `/opt/vice/lib');
-
-        * `EMUID' is the emulation identification string (`C64',
-          `C128', `VIC20' or `PET');
-
-        * `BOOTPATH' is the directory where the binary lies (usually
-          `/usr/local/bin', `/usr/bin' or `/opt/vice/bin').
-
-     *Note System files:: for a description of the method used to load
-     the emulator's system files.
-
-`HTMLBrowserCommand'
-     String specifying the command to run the help browser.  The help
-     browser can be any HTML browser, and every `%s' in the string is
-     replaced with the name of the toplevel file of the VICE
-     documentation.  For example, the default value `netscape %s' runs
-     Netscape Navigator.
-
-`SaveResourcesOnExit'
-     Boolean specifying whether the emulator should save changed
-     settings before exiting.  If this is enabled, the user will be
-     always prompted first, in case the settings have changed.
-
-
-File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
-
-Miscellaneous command-line options
-----------------------------------
-
-`-directory SEARCHPATH'
-     Specify the system file search path (`Directory').
-
-`-htmlbrowser COMMAND'
-     Specify the command to run the HTML browser for the on-line help
-     (`HTMLBrowserCommand').
-
-`-saveres'
-`+saveres'
-     Enable/disable automatic saving of settings on exit
-     (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
 

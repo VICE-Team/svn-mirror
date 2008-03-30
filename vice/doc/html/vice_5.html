@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 October 1998 -->
+     from ../vice.texi on 4 October 1998 -->
 
 <TITLE>VICE Manual - 5  Basic operation</TITLE>
 </HEAD>
@@ -206,7 +206,7 @@ autostart these particular files as well.
 
 </P>
 <P>
-You can attach a disk for which you do have write permissions: when this
+You can attach a disk for which you do not have write permissions: when this
 happens, the 1541 emulator will emulate a write-protected disk.  This is
 also useful if you want to prevent certain disk images from being
 written to; in the latter case, just remove the write permission for
@@ -316,7 +316,7 @@ temporary image read-only.  For this to work, the directory containing
 </P>
 <P>
 This uses the <CODE>-unlynx</CODE> and <CODE>-zcreate</CODE> options of <CODE>c1541</CODE>
-(see section <A HREF="vice_10.html#SEC139">10.1  c1541 commands and options</A>); these commands are not very
+(see section <A HREF="vice_10.html#SEC141">10.1  c1541 commands and options</A>); these commands are not very
 reliable yet, and could fail with certain kinds of Lynx and Zipcode
 images (for example, they cannot deal with <CODE>DEL</CODE> files properly).
 So please use them with caution.
@@ -383,7 +383,13 @@ to the OS initialization sequence: in such cases, you will have to do a
 hard reset instead.
 
 </P>
+<P>
+This is especially the case for the CBM-II emulators. Those machines
+examine a memory location and if they find a certain "magic" value
+they only do what you know from the C64 as <CODE>Run/Stop-Restore</CODE>.
+Therefore, to really reset a CBM-II use hard reset.
 
+</P>
 <P><HR><P>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_4.html">previous</A>, <A HREF="vice_6.html">next</A>, <A HREF="vice_15.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>

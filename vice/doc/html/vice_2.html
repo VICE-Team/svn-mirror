@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 October 1998 -->
+     from ../vice.texi on 4 October 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -25,7 +25,7 @@ file formats.
 8-bit computer is, or have questions about how these machines are used,
 how the file formats work or anything else that is not strictly
 related to VICE, you should read the appropriate FAQs <EM>first</EM>, as
-that kind of information is not available here.  See section <A HREF="vice_13.html#SEC142">13  Contact information</A> for
+that kind of information is not available here.  See section <A HREF="vice_13.html#SEC144">13  Contact information</A> for
 information about how to retrieve the FAQs.
 
 </P>
@@ -102,7 +102,7 @@ graphical effects will not work correctly.
 <P>
 Sound support is implemented, but is still at an experimental stage.  If
 you think it could be improved and know how to do so, feel
-free to contact us (see section <A HREF="vice_13.html#SEC142">13  Contact information</A>).
+free to contact us (see section <A HREF="vice_13.html#SEC144">13  Contact information</A>).
 
 </P>
 
@@ -112,7 +112,7 @@ free to contact us (see section <A HREF="vice_13.html#SEC142">13  Contact inform
 
 <P>
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
-SuperPET (MicroMainFram 9000) models, covering almost the whole series.
+SuperPET (MicroMainFrame 9000) models, covering practically the whole series.
 The hardware is pretty much the same in each and that is why one single
 program is enough to emulate all of them.  For more detailed information
 about PET hardware please refer to the <TT>`PETdoc'</TT> file.
@@ -147,7 +147,8 @@ text and 32k for variables.  See <TT>`PETdoc'</TT> for more information.
 <P>
 The SuperPET also is a PET 8032 with an expansion board. It can map
 4k at a time out of 64k into the <CODE>$9***</CODE> area. Also it has an
-ACIA 6551 for RS232 communication.
+ACIA 6551 for RS232 communication. The 6809 that is built into the
+SuperPET is not emulated, though.
 
 </P>
 <P>
@@ -155,13 +156,12 @@ The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
 is horribly broken with respect to IEEE488 (they shipped it before they
-tested it with the floppy drive, so only tape worked - which is not
-supported in this emulator) so the emulator patches the ROM to fix the
-IEEE488 routines.
+tested it with the floppy drive, so only tape worked. Therefore the emulator 
+patches the ROM to fix the IEEE488 routines.
 
 </P>
 <P>
-As well as other low-level fixes,  the 2001 patch obtains
+As well as other low-level fixes the 2001 patch obtains
 the load address for a program file from the first two
 bytes of the file.  This allows the loading of both PET2001-saved files (that
 have $0400 as their load address) and other PET files (that have $0401).
@@ -223,7 +223,7 @@ emulated as well.
 
 </P>
 <P>
-The different settings are described in see section <A HREF="vice_7.html#SEC98">7.4.1  Changing CBM-II model</A>.
+The different settings are described in see section <A HREF="vice_7.html#SEC99">7.4.1  Changing CBM-II model</A>.
 
 </P>
 
@@ -408,7 +408,7 @@ VICE supports the most popular Commodore file formats:
 </UL> </P>
 
 <P>
-An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC138">10  c1541</A>) is provided to allow transfers
+An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC140">10  c1541</A>) is provided to allow transfers
 and conversions between these formats.
 
 </P>

@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -377,7 +378,7 @@ long machine_get_cycles_per_second(void)
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
-int machine_write_snapshot(const char *name)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
 

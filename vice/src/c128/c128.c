@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "c128.h"
 
@@ -420,10 +421,9 @@ long machine_get_cycles_per_second(void)
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
-int machine_write_snapshot(const char *name)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
-    resource_value_t rval;
     int ef = 0;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
@@ -435,7 +435,7 @@ int machine_write_snapshot(const char *name)
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_disks) < 0
         || vic_ii_write_snapshot_module(s) < 0) {
         snapshot_close(s);
         unlink(name);

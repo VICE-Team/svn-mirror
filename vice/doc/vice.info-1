@@ -227,6 +227,7 @@ PET-specific commands and settings
 
 * PET model::
 * PET diagnostic pin::
+* PET commandline options::
 * PET colors::
 
 CBM-II-specific commands and settings
@@ -725,10 +726,10 @@ PET emulator features
 =====================
 
    The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
-SuperPET (MicroMainFram 9000) models, covering almost the whole series.
-The hardware is pretty much the same in each and that is why one single
-program is enough to emulate all of them.  For more detailed information
-about PET hardware please refer to the `PETdoc' file.
+SuperPET (MicroMainFrame 9000) models, covering practically the whole
+series.  The hardware is pretty much the same in each and that is why
+one single program is enough to emulate all of them.  For more detailed
+information about PET hardware please refer to the `PETdoc' file.
 
    Both the 40 column and 80 column CRTC video chips are emulated (from
 the 4032 onward), but a few of the features are not implemented yet
@@ -752,17 +753,17 @@ variables.  See `PETdoc' for more information.
 
    The SuperPET also is a PET 8032 with an expansion board. It can map
 4k at a time out of 64k into the `$9***' area. Also it has an ACIA 6551
-for RS232 communication.
+for RS232 communication. The 6809 that is built into the SuperPET is
+not emulated, though.
 
    The PET computers came with three major ROM revisions, so-called
 BASIC 1, 2 and 4, all of which are provided.  The PET 2001 uses the
 version 1, the PET 3032 uses version 2, and the others use version 4.
 The 2001 ROM is horribly broken with respect to IEEE488 (they shipped
-it before they tested it with the floppy drive, so only tape worked -
-which is not supported in this emulator) so the emulator patches the
-ROM to fix the IEEE488 routines.
+it before they tested it with the floppy drive, so only tape worked.
+Therefore the emulator patches the ROM to fix the IEEE488 routines.
 
-   As well as other low-level fixes,  the 2001 patch obtains the load
+   As well as other low-level fixes the 2001 patch obtains the load
 address for a program file from the first two bytes of the file.  This
 allows the loading of both PET2001-saved files (that have $0400 as
 their load address) and other PET files (that have $0401).  The PET2001
@@ -1134,8 +1135,10 @@ list, like the UNIX `PATH' environment variable.  The default value is
      PREFIX/lib/vice/EMU:BOOTPATH/EMU
 
    Where `PREFIX' is the installation prefix (usually `/usr/local'),
-`EMU' is the name of the emulated machine (`C64', `C128', `PET' or
-`VIC20') and `BOOTPATH' is the directory where the executable resides.
+`EMU' is the name of the emulated machine (`C64', `C128', `PET', `C610'
+or `VIC20') and `BOOTPATH' is the directory where the executable
+resides.  The disk drive ROMs are looked for in a directory with `EMU'
+set to `DRIVES'.
 
    For example, if you have the C64 emulator installed in
 
@@ -1164,67 +1167,4 @@ files::.).
 * ROM files::                   Files containing dumps of the original ROMs.
 * Keymap files::                Files describing the keyboard layout.
 * Palette files::               Files defining the machine's colors.
-
-
-File: vice.info,  Node: ROM files,  Next: Keymap files,  Prev: System files,  Up: System files
-
-ROM files
-=========
-
-   Every emulator requires its own ROM set.  For the VIC20 and the C64,
-the ROM set consists of the following files:
-
-   * `kernal',  the Kernal ROM (8 KBytes)
-
-   * `basic', the Basic ROM (8 KBytes)
-
-   * `chargen', the character generator ROM (4 Kbytes)
-
-   The C128 needs the following files:
-
-   * `kernal', the Kernal ROM (8 Kbytes)
-
-   * `basic', the Basic + Editor ROM (32 Kbytes)
-
-   * `chargen', the character generator ROM (4 Kbytes)
-
-   The C128, VIC20 and C64 emulators also need the following DOS ROMs
-for the hardware-level emulation of the 1541 and 1571 disk drives:
-
-   * `dos1541', the 1541 drive ROM (16 Kbytes)
-
-   * `dos15751', the 1541 drive ROM (32 Kbytes)
-
-   The PET emulator uses a rather different setup: the Basic and Kernal
-ROMS are packed into a single file and only three kernal files are
-provided; one for each Basic revision.  To handle the different screen
-sizes and keyboards, different so-called "editor-ROMs" for the memory
-range $E000-$E800 are provided.  The kernal files already contain an
-editor ROM for use with 40 columns and the graphics keyboard.  The PET
-ROMs have the following names:
-
-   * `pet2001', the PET2001 Basic 1 + Kernal ROM (16 KBytes)
-
-   * `pet3032', the PET3032 Basic 2 + Kernal ROM (16 KBytes)
-
-   * `pet4032', the PET4032/8032 Basic 4 + Kernal ROM (20 KBytes)
-
-   * `edit2.b', the PET3032 editor for business keyboard (2 KBytes)
-
-   * `edit4.b40', the PET4032 editor for business keyboard (2 KBytes)
-
-   * `edit4.b80', the PET8032 editor for 80 columns and business
-     keyboard (2 KBytes)
-
-   The PETs also have sockets for extension ROMs for the addresses
-$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
-PET3032 only).  You can specify ROM image files for those extensions
-command line options `-petrom9', `-petromA' and `-petromB' resp.
-
-   An alternative would be to specify a long kernal ROM with the
-`-kernal' option that includes the extension ROM areas.
-
-   Also, you can specify replacements for the basic ROM at $B000-$DFFF
-with the `-petromBasic' option and for the editor ROM at $E000-$E7FF
-with the `-petromEditor' option.
 

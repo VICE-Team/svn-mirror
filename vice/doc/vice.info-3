@@ -17,6 +17,353 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
+
+Printer settings
+----------------
+
+   The VICE emulators can emulate printers connected to either the IEC
+buffer or the user port.  Emulation can be achieved by redirecting the
+printer output to a file or by piping it through an external process.
+This is defined by so-called "printer device file names"; a printer
+device file name can be either a simple path, or a command name
+preceeded by a pipe symbol `|'.
+
+   For example, printer device `filename' will cause the output to be
+appended to the file `filename', while printer device `|lpr' will cause
+the `lpr' command to be executed and be fed the printer output. The
+printer output will not be converted but saved as printed by the
+emulated machine.
+
+   Up to three printer devices may be specified through the following
+resources:
+
+   * device 1, whose default value is `print.dump';
+
+   * device 2, whose default value is `|petlp |lpr';
+
+   * device 3, whose default value is `|lpr'.
+
+   So, basically, by default printer device 1 will simply dump printer
+output to `print.dump'; printer device 2 will print it via `petlp' (a
+not-yet-complete utility that will produce Postscript output from the
+Commodore printer code) and `lpr'; printer device 3 will print it with
+`lpr'.
+
+* Menu:
+
+* Printer resources::
+* Printer options::
+
+
+File: vice.info,  Node: Printer resources,  Next: Printer options,  Prev: Printer settings,  Up: Printer settings
+
+Printer resources
+.................
+
+`PrDevice1'
+`PrDevice2'
+`PrDevice3'
+     Strings specifying the printer devices (*note Printer settings::.).
+
+`Printer4'
+     Boolean specifying if the IEC printer (device 4) is being emulated.
+
+`Printer4Dev'
+     Integer (ranging from 0 to 2, for device 1-3) specifying what
+     printer device (*note Printer settings::.) the IEC printer is
+     using.
+
+`PrUser'
+     Boolean specifying if the user-port printer is being emulated.
+
+`PrUserDev'
+     Integer (ranging from 0 to 2, for device 1-3) specifying what
+     printer device the user-port printer is using.
+
+
+File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
+
+Printer command-line options
+............................
+
+`-prdev1 NAME'
+`-prdev2 NAME'
+`-prdev3 NAME'
+     Specify `NAME' as printer devices 1, 2 and 3, respectively
+     (`PrDevice1', `PrDevice2' and `PrDevice3').
+
+`-printer4'
+`+printer4'
+     Enable/disable emulation of the IEC printer (`Printer4=1',
+     `Printer4=0').
+
+`-pr4dev DEV'
+     Specify device for the IEC printer (`Printer4Dev').
+
+`-pruser'
+`+pruser'
+     Enable/disable emulation of the IEC printer (`PrUser=1',
+     `PrUser=0').
+
+`-pruserdev DEV'
+     Specify device for the IEC printer (`PrUserDev').
+
+
+File: vice.info,  Node: No kernal traps,  Prev: Printer settings,  Up: Peripheral settings
+
+Disabling kernal traps
+----------------------
+
+   If you have compatibility problems, you can completely disable Kernal
+traps with the "Disable kernal traps" option.  This will of course
+disable all the features that depend on it, such as the fast 1541
+emulation (so you will have to turn true 1541 emulation on if you want
+to be able to read or write disk images) and tape support.
+
+* Menu:
+
+* No traps resources::
+* No traps options::
+
+
+File: vice.info,  Node: No traps resources,  Next: No traps options,  Prev: No kernal traps,  Up: No kernal traps
+
+Resources to control Kernal traps
+.................................
+
+`NoTraps'
+     Boolean specifying whether all the Kernal trap should be disabled.
+
+
+File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No kernal traps
+
+Command-line options to control Kernal traps
+............................................
+
+`-traps'
+`+traps'
+     Enable (`NoTraps=0') or disable (`NoTraps=1') kernal traps.
+
+
+File: vice.info,  Node: RS232 settings,  Next: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources
+
+RS232 settings
+==============
+
+   The VICE emulators can emulate the RS232 device most of the machines
+have.  The C64, C128 and VIC20 emulators emulate the userport RS232
+interface at 300 and 1200 baud. The C64 and C128 can also use the 9600
+baud interface by Daniel Dallmann, using the shift registers of the two
+CIA 6526 chips. The PET can have a 6551 ACIA RS232 interface when
+running as a SuperPET, and the CBM-II has such an ACIA by default.  The
+C64 and C128 emulators can emulate an ACIA 6551 (also known as Datapump
+for example) as extension at `$de**'.
+
+   Emulation can be achieved by
+   * connecting a real UNIX serial device;
+
+   * dumping to a file;
+
+   * piping through a process.
+
+   It is possible to define up to four UNIX serial devices, and then
+decide which interface should be connected to which device.  This is
+done by so-called "rs232 device file names"; an rs232 device file name
+can be either a simple path, or a command name preceeded by a pipe
+symbol `|'. If the path specifies a special device (`/dev/ttyS0') it is
+recognized by VICE and the emulator can set the baudrate.
+
+   For example, rs232 device `filename' will cause the output to be
+written (not appended) to the file `filename', while printer device
+`|lpr' will cause the `lpr' command to be executed and be fed the rs232
+output. The rs232 output will not be converted but saved as sent by the
+emulated machine. The same holds true for the rs232 input.  If the
+command writes data to standard out it will be caught by VICE and sent
+back to the emulator. Also the data sent by the pseudo device will be
+sent back to VICE.
+
+   For example you can setup a null-modem cable between two serial ports
+of your PC, setup one port for login and use the other in VICE. Then you
+can login from your emulator via the RS232 emulation and the null-modem
+cable to your machine again.
+
+   You can not simply run a shell from VICE, as the shell will notice
+that it does not run on its own pseudo terminal and will thus buffer its
+output. You need to write some program that opens an own pseudo terminal
+and runs the shell from there (not yet finished).
+
+   Up to four RS232 devices may be specified through the following
+resources:
+
+   * device 1, whose default value is `/dev/ttyS0';
+
+   * device 2, whose default value is `/dev/ttyS1';
+
+   * device 3, whose default value is `rs232.dump';
+
+   * device 4, whose default value is `|lpr'.
+
+   For the first two devices you can change the baudrate the tty device
+is set to by specifying it on the commandline or in the menu. This
+baudrate is 9600 by default for the latter two, but can be changed only
+by resources (The baudrate is independent from the baudrate the
+emulator actually expects).
+
+* Menu:
+
+* RS232 resources::
+* RS232 options::
+
+
+File: vice.info,  Node: RS232 resources,  Next: RS232 options,  Prev: RS232 settings,  Up: RS232 settings
+
+RS232 resources
+---------------
+
+`RsDevice1'
+`RsDevice2'
+`RsDevice3'
+`RsDevice4'
+     Strings specifying the RS232 devices (*note RS232 settings::.).
+
+`RsDevice1Baud'
+`RsDevice2Baud'
+`RsDevice3Baud'
+`RsDevice4Baud'
+     Integer specifying the RS232 baudrate devices if the device file
+     points to a special device (like `/dev/ttyS0'; *note RS232
+     settings::.).
+
+`AciaDE'
+     Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
+     I/O 1, at `$de**'.
+
+`Acia1Dev'
+     Integer (ranging from 0 to 3, for device 1-4) specifying what
+     RS232 device (*note RS232 settings::.) the ACIA is using (all
+     except VIC20).
+
+`Acia1Irq'
+     Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 =
+     NMI (C64 and C128 only)
+
+`RsUser'
+     Integer specifying if the user-port printer is being emulated and
+     at which baudrate it should have for the emulator. 0 = off; > 0
+     specifies the baudrate (C64, C128 and VIC20).
+
+`RsUserDev'
+     Integer (ranging from 0 to 3, for device 1-4) specifying what
+     RS232 device the user-port printer is using (C64, C128 and VIC20).
+
+
+File: vice.info,  Node: RS232 options,  Prev: RS232 resources,  Up: RS232 settings
+
+RS232 command-line options
+--------------------------
+
+`-rsdev1 NAME'
+`-rsdev2 NAME'
+`-rsdev3 NAME'
+`-rsdev4 NAME'
+     Specify `NAME' as RS232 devices 1, 2, 3 and 4, respectively
+     (`RsDevice1', `RsDevice2' `RsDevice3' and `RsDevice4').
+
+`-rsdev1 BAUDRATE'
+`-rsdev2 BAUDRATE'
+`-rsdev3 BAUDRATE'
+`-rsdev4 BAUDRATE'
+     Specify `BAUDRATE' as baudrate for the RS232 devices if the device
+     name specifies a special device (like `/dev/ttyS0' for example,
+     *note RS232 settings::.; `RsDevice1Baud', `RsDevice2Baud'
+     `RsDevice3Baud' and `RsDevice4Baud').
+
+`-acia1dev'
+     Specify device for the ACIA (`Acia1Dev').
+
+`-rsuser BAUDRATE'
+     Enable (BAUDRATE not 0) or disable (BAUDRATE = 0) emulation of the
+     userport RS232 emulation (`RsUser'; C64, C128 and VIC20)
+
+`-rsuserdev DEV'
+     Specify device for the userport RS232 emulation (`RsUserDev'; C64,
+     C128 and VIC20).
+
+
+File: vice.info,  Node: Misc settings,  Prev: RS232 settings,  Up: Settings and resources
+
+Miscellaneous settings
+======================
+
+   This section lists generic resources that do not fit in the other
+categories.
+
+* Menu:
+
+* Misc resources::
+* Misc options::
+
+
+File: vice.info,  Node: Misc resources,  Next: Misc options,  Prev: Misc settings,  Up: Misc settings
+
+Miscellaneous resources
+-----------------------
+
+`Directory'
+     String specifying the search path for system files.  It is defined
+     as a sequence of directory names, separated by colons (`:'), just
+     like the `PATH' variable in the shell.  The special string `$$'
+     stands for the default search path, which is initialized at
+     startup to the following value:
+
+          LIBDIR/EMUID:BOOTPATH/EMUID
+
+     where:
+
+        * `LIBDIR' is the VICE installation directory (usually
+          `/usr/local/lib/vice', `/usr/lib/vice' or `/opt/vice/lib');
+
+        * `EMUID' is the emulation identification string (`C64',
+          `C128', `VIC20' or `PET');
+
+        * `BOOTPATH' is the directory where the binary lies (usually
+          `/usr/local/bin', `/usr/bin' or `/opt/vice/bin').
+
+     *Note System files:: for a description of the method used to load
+     the emulator's system files.
+
+`HTMLBrowserCommand'
+     String specifying the command to run the help browser.  The help
+     browser can be any HTML browser, and every `%s' in the string is
+     replaced with the name of the toplevel file of the VICE
+     documentation.  For example, the default value `netscape %s' runs
+     Netscape Navigator.
+
+`SaveResourcesOnExit'
+     Boolean specifying whether the emulator should save changed
+     settings before exiting.  If this is enabled, the user will be
+     always prompted first, in case the settings have changed.
+
+
+File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
+
+Miscellaneous command-line options
+----------------------------------
+
+`-directory SEARCHPATH'
+     Specify the system file search path (`Directory').
+
+`-htmlbrowser COMMAND'
+     Specify the command to run the HTML browser for the on-line help
+     (`HTMLBrowserCommand').
+
+`-saveres'
+`+saveres'
+     Enable/disable automatic saving of settings on exit
+     (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
+
+
 File: vice.info,  Node: Machine-specific features,  Next: Snapshots,  Prev: Settings and resources,  Up: Top
 
 Machine-specific features
@@ -205,7 +552,7 @@ SID command-line options
      the built-in SID filters.
 
 
-File: vice.info,  Node: C64 I/O extension settings,  Next: RS232 settings,  Prev: SID settings,  Up: C64/128-specific
+File: vice.info,  Node: C64 I/O extension settings,  Next: C64/128 system ROM settings,  Prev: SID settings,  Up: C64/128-specific
 
 C64 I/O extension settings
 --------------------------
@@ -279,108 +626,7 @@ C64 I/O extension command-line options
      identification extension.
 
 
-File: vice.info,  Node: RS232 settings,  Next: C64/128 system ROM settings,  Prev: C64 I/O extension settings,  Up: C64/128-specific
-
-RS232 settings
---------------
-
-   X64 and X128 can support RS232 in the following ways:
-
-   * by emulating Daniel Dallmann's 9600 baud userport-based RS232
-     interface;
-
-   * by emulating a 6551-based RS232 interface located at $DE00.
-
-   Each of these emulated devices can be either:
-
-   * connected a real UNIX serial device;
-
-   * dumped to a file;
-
-   * piped through a process.
-
-   It is possible to define up to two UNIX serial devices, and then
-decide which interface should be connected to which device.  Devices are
-defined through the following settings:
-
-   * "Serial 1 device..." and "Serial 2 device..." are used to specify
-     the the pathnames of the serial devices, with the file selector;
-
-   * "Serial 1 baudrate" and "Serial 2 baudrate" specify the baudrate.
-
-* Menu:
-
-* RS232 resources::
-* RS232 options::
-
-
-File: vice.info,  Node: RS232 resources,  Next: RS232 options,  Prev: RS232 settings,  Up: RS232 settings
-
-RS232 resources
-...............
-
-`RsDevice1'
-`RsDevice2'
-     Strings specifying the pathnames of the two available serial
-     devices.
-
-`RsDevice1Baud'
-`RsDevice2Baud'
-     Integers specifying the baudrates.
-
-`RsDevice3'
-     String defining the name of the file used when dumping RS232
-     output.
-
-`RsDevice4'
-     String defining the name of the process to pipe the RS232 data
-     through.
-
-`RsUser'
-     Boolean specifying whether the userport-based RS232 should be
-     emulated.
-
-`Acia1'
-     Boolean specifying whether the ACIA-based RS232 should be emulated.
-
-`RsUserDev'
-`Acia1Dev'
-     Integers specifying how the userport-based interface and the
-     ACIA-based one are emulated.  The possible values are:
-        * `0': connect to serial device number 1;
-
-        * `1': connect to serial device number 2;
-
-        * `2': dump to file;
-
-        * `3': exec an external process.
-
-
-File: vice.info,  Node: RS232 options,  Prev: RS232 resources,  Up: RS232 settings
-
-RS232 command-line options
-..........................
-
-`-acia1'
-`+acia1'
-     Enable/disable emulation of the ACIA-based RS232 interface
-     (`Acia1=1', `Acia1=0').
-
-`-acia1dev DEVICE'
-     Specify `DEVICE' as the device for the ACIA-based RS232 emulation
-     (`Acia1Dev').
-
-`-rsuser'
-`+rsuser'
-     Enable/disable emulation of the userport-based RS232 interface
-     (`RsUser=1', `RsUser=0').
-
-`-rsuserdev DEVICE'
-     Specify `DEVICE' as the device for the ACIA-based RS232 emulation
-     (`RsUserDev').
-
-
-File: vice.info,  Node: C64/128 system ROM settings,  Prev: RS232 settings,  Up: C64/128-specific
+File: vice.info,  Node: C64/128 system ROM settings,  Prev: C64 I/O extension settings,  Up: C64/128-specific
 
 C64/128 system ROM settings
 ---------------------------
@@ -672,6 +918,7 @@ and thus are not present in the other emulators.
 
 * PET model::
 * PET diagnostic pin::
+* PET commandline options::
 * PET colors::
 
 
@@ -771,7 +1018,7 @@ Available models are:
 emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
 
 
-File: vice.info,  Node: PET diagnostic pin,  Next: PET colors,  Prev: PET model,  Up: PET-specific
+File: vice.info,  Node: PET diagnostic pin,  Next: PET commandline options,  Prev: PET model,  Up: PET-specific
 
 The PET diagnostic pin
 ----------------------
@@ -781,7 +1028,38 @@ pin via the `DiagPin' resource, or the "PET userport diagnostic pin"
 item in the right-button menu.
 
 
-File: vice.info,  Node: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
+File: vice.info,  Node: PET commandline options,  Next: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
+
+PET command line options
+------------------------
+
+   These are the commandline options specific for the CBM-II models.
+
+`-model MODEL'
+     Specify the PET model you want to emulate.
+
+`-kernal NAME'
+     Specify `NAME' as the Kernal/BASIC ROM file (`KernalName').
+
+`-editor NAME'
+     Specify `NAME' as the editor ROM file (`EditorName').
+
+`-chargen NAME'
+     Specify `NAME' as the character generator ROM file (`ChargenName').
+
+`-rom9 NAME, -romA NAME, -romB NAME'
+     Specify `NAME' as the ROM image file for the respective cartridge
+     areas (`RomModule9Name', `RomModuleAName', `RomModuleBName').
+
+`-petramA, -petramB'
+     Switch on RAM mapping on addresses $9000-$9fff, $a000-$afff
+     (`Ram9', `RamA').
+
+`-superpet, +superpet'
+     Enable/Disable SuperPET I/O emulation.
+
+
+File: vice.info,  Node: PET colors,  Prev: PET commandline options,  Up: PET-specific
 
 Changing screen colors
 ----------------------
@@ -810,10 +1088,11 @@ CBM-II-specific and thus are not present in the other emulators.
 * Menu:
 
 * CBM-II model::
+* CBM-II commandline options::
 * CBM-II colors::
 
 
-File: vice.info,  Node: CBM-II model,  Next: CBM-II colors,  Prev: CBM-II-specific,  Up: CBM-II-specific
+File: vice.info,  Node: CBM-II model,  Next: CBM-II commandline options,  Prev: CBM-II-specific,  Up: CBM-II-specific
 
 Changing CBM-II model
 ---------------------
@@ -829,13 +1108,21 @@ file, command line options or right-menu items):
 `RamSize'
      Size of memory in kByte. Possible values are 128, 256, 512 and 1024
 
-`Ram1, Ram2, Ram4, Ram6'
+`Ram08, Ram1, Ram2, Ram4, Ram6, RamC'
      Expanded CBM-II models could map RAM to the expansion ROM areas at
-     $1***, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF respectively.
+     $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
+     and $c000-$cfff respectively.
 
 `Cart2Name, Cart4Name, Cart6Name'
      Specify `NAME' as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
      Expansion ROM file. This file contains an 8k ROM dump.
+
+`ModelLine'
+     The CBM-II models have two hardcoded lines at one of the I/O ports.
+     From those lines the kernal determines how it should init the CRTC
+     video chip for either 50Hz (Europe) or 60Hz (North America), and
+     either for 8 (C6x0) or 14 (C7x0) scanlines per character.  0 = CBM
+     7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
 
    Choosing a common CBM-II model is done from the right-button menu
 instead, by choosing an item from the "Model defaults" submenu.
@@ -847,6 +1134,12 @@ Available models are:
 
    * C620+ (1024k RAM, expanded)
 
+   * C710 (128k RAM)
+
+   * C720 (256k RAM)
+
+   * C720+ (1024k RAM, expanded)
+
    Notice that this will *reset the emulated machine*.
 
    It is also possible to select the CBM model at startup, with the
@@ -854,7 +1147,36 @@ Available models are:
 emulate a CBM 610 while `x610 -model C620' will emulate a CBM 620.
 
 
-File: vice.info,  Node: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
+File: vice.info,  Node: CBM-II commandline options,  Next: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
+
+CBM-II command line options
+---------------------------
+
+   These are the commandline options specific for the CBM-II models.
+
+`-kernal NAME'
+     Specify `NAME' as the Kernal ROM file (`KernalName').
+
+`-basic NAME'
+     Specify `NAME' as the Basic ROM file (`BasicName').
+
+`-chargen NAME'
+     Specify `NAME' as the character generator ROM file (`ChargenName').
+
+`-cart2 NAME, -cart4 NAME, -cart6 NAME'
+     Specify `NAME' as the ROM image file for the respective cartridge
+     areas (`Cart2Name', `Cart4Name', `Cart6Name').
+
+`-ram08, -ram1, -ram2, -ram4, -ram6, -ramC'
+     Switch on RAM mapping in bank 15 on addresses $0800-$0fff,
+     $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp (`Ram08',
+     `Ram1', `Ram2', `Ram4', `Ram6', `RamC').
+
+`-modelline'
+     Define the hardcoded model switch in the CBM-II models.
+
+
+File: vice.info,  Node: CBM-II colors,  Prev: CBM-II commandline options,  Up: CBM-II-specific
 
 Changing screen colors
 ----------------------
@@ -908,8 +1230,8 @@ selecting the `load snapshot' menu entry at any time.
      of run of such a cartridge.
 
    * The memory configuration.  The VIC20, PET and CBM-II emulators do
-     have some memory expansion info.  This is saved but not (yet??)
-     restored.
+     have some memory expansion info.  This is saved and restored when
+     the snapshot is loaded.
 
 
 File: vice.info,  Node: Snapshot format,  Prev: Snapshot usage,  Up: Snapshots
@@ -1020,8 +1342,8 @@ File: vice.info,  Node: Module formats,  Prev: Emulator modules,  Up: Snapshot f
 Module formats
 --------------
 
-   This section shows the basic module framework and the contents of
-the different types of modules.
+   This section shows the basic module framework and the contents of the
+different types of modules.
 
    The single chip modules contain the chip state, not the state of the
 emulator. We tried to make the format as implementation-independent as
@@ -1188,274 +1510,3 @@ UBYTE   ORB     Output register B
 UBYTE   DDRB    Data Direction Register B                                  
 UBYTE   CTRLB   Control Register B                                         
 UBYTE   CABSTATEBit 7 = state of CA2, Bit 6 = state of CB2                 
-
-
-File: vice.info,  Node: TPI 6525 module,  Next: SID 6581 module,  Prev: PIA 6520 module,  Up: Module formats
-
-TPI module
-..........
-
-   The TPI 6525 is a chip with three I/O ports (Tri-Port-Interface).
-One of the ports can double as an interrupt prioritizer. Therefore we
-also have to save the states of the interrupt stack etc.
-
-   Version numbers: Major 1, Minor 0.
-
-Type    Name    Description                                                
-BYTE    PRA     Port A output register                                     
-BYTE    PRB     Port B output register                                     
-BYTE    PRC     Port C output register (doubles as IRQ latch register)     
-BYTE    DDRA    Port A data direction register                             
-BYTE    DDRB    Port B data direction register                             
-BYTE    DDRC    Port C data direction register (doubles as IRQ mask        
-                register)                                                  
-BYTE    CR      Control Register                                           
-BYTE    AIR     Active interrupt register                                  
-BYTE    STACK   Interrupt stack - the interrupt bits that are not (yet)    
-                served.                                                    
-BYTE    CABSTATEState of CA/CB pins. Bit 7 = state of CA, Bit 6 = state    
-                of CB                                                      
-
-
-File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: TPI 6525 module,  Up: Module formats
-
-SID module
-..........
-
-
-File: vice.info,  Node: ACIA 6551 module,  Next: VIC-I module,  Prev: SID 6581 module,  Up: Module formats
-
-ACIA module
-...........
-
-   The ACIA 6551 is an RS232 interface chip. VICE emulates RS232
-connections via `/dev/ttyS*' (Unix) or `COM:' (DOS/WIN - not yet?).
-When saving a snapshot, those connections are of course lost.  The
-state of the ACIA however is restored if possible. I.e. if a connection
-is already open when restoring the snapshot, this connection is used
-instead. If no connection is open, a carrier/DTR drop is emulated.
-
-   Version numbers: Major 1, Minor 0.
-
-Type    Name    Description                                                
-BYTE    TDR     Transmit Data Register                                     
-BYTE    RDR     Receiver Data Register                                     
-BYTE    SR      Status Register                                            
-BYTE    CMD     Command Register                                           
-BYTE    CTRL    Ctrl Register                                              
-BYTE    INTX    0 = no data to tx; 1 = Data is being transmitted; 2 =      
-                Data is being transmitted while data in TDR waiting to be  
-                put to internal transmit register                          
-DWORD   TICKS   Clock ticks till the next TDR empty interrupt              
-
-
-File: vice.info,  Node: VIC-I module,  Next: VIC-II module,  Prev: ACIA 6551 module,  Up: Module formats
-
-VIC-I module
-............
-
-
-File: vice.info,  Node: VIC-II module,  Next: CRTC module,  Prev: VIC-I module,  Up: Module formats
-
-VIC-II module
-.............
-
-
-File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II module,  Up: Module formats
-
-CRTC module
-...........
-
-
-File: vice.info,  Node: C64 memory module,  Next: C128 memory module,  Prev: CRTC module,  Up: Module formats
-
-C64 memory module
-.................
-
-
-File: vice.info,  Node: C128 memory module,  Next: VIC20 memory module,  Prev: C64 memory module,  Up: Module formats
-
-C128 memory module
-..................
-
-
-File: vice.info,  Node: VIC20 memory module,  Next: PET memory module,  Prev: C128 memory module,  Up: Module formats
-
-VIC20 memory module
-...................
-
-   The size of the VIC20 memory module differs with each different
-memory configuration. The RAM configuration is saved in the snapshot,
-and restored when the snapshot is loaded.
-
-   Version numbers: Major 1, Minor 0
-
-Type    Name    Description                                                
-BYTE    CONFIG  Configuration register. Bits 0,1,2,3,5 reflect if the      
-                corresponding memory block is RAM (bit=1) or not (bit=0).  
-ARRAY   RAM0    1k RAM dump $0000-$03ff                                    
-ARRAY   RAM1    4k RAM dump $1000-$1fff                                    
-ARRAY   COLORRAM2k Color RAM, $9400-$9bff                                  
-ARRAY   BLK0    if CONFIG & 1 then: 3k RAM dump $0400-$0fff                
-ARRAY   BLK1    if CONFIG & 2 then: 8k RAM dump $2000-$3fff                
-ARRAY   BLK2    if CONFIG & 4 then: 8k RAM dump $4000-$5fff                
-ARRAY   BLK3    if CONFIG & 8 then: 8k RAM dump $6000-$7fff                
-ARRAY   BLK5    if CONFIG & 32 then: 8k RAM dump $a000-$bfff               
-
-
-File: vice.info,  Node: PET memory module,  Next: C610 memory module,  Prev: VIC20 memory module,  Up: Module formats
-
-PET memory module
-.................
-
-
-File: vice.info,  Node: C610 memory module,  Prev: PET memory module,  Up: Module formats
-
-C610 memory module
-..................
-
-   The size of the C610 memory module differs with each different memory
-configuration. The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.
-
-   Version numbers: Major 1, Minor 0
-
-Type    Name    Description                                                
-UBYTE   MEMSIZE Memory size in 128k blocks (1=128k, 2=256k, 4=512k,        
-                8=1024k)                                                   
-UBYTE   CONFIG  Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit  
-                2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 =  
-                $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM               
-UBYTE   HWCONFIGBit 0: 0 = CRTC, 1 = VIC-II video chip                     
-UBYTE   EXECBANKCPUs execution bank register                               
-UBYTE   INDBANK CPUs indirection bank register                             
-ARRAY   SYSRAM  2k system RAM $f0000-$f07ff                                
-ARRAY   VIDEO   2k video RAM $fd000-$fd7ff                                 
-ARRAY   RAM     RAM dump, size according to MEMSIZE                        
-ARRAY   RAM08   if memsize < 1M and CONFIG & 1 : 2k RAM $f0800-$f0fff      
-ARRAY   RAM1    if memsize < 1M and CONFIG & 2 : 4k RAM $f1000-$f1fff      
-ARRAY   RAM2    if memsize < 1M and CONFIG & 4 : 8k RAM $f2000-$f3fff      
-ARRAY   RAM4    if memsize < 1M and CONFIG & 8 : 8k RAM $f4000-$f5fff      
-ARRAY   RAM6    if memsize < 1M and CONFIG & 16 : 8k RAM $f6000-$f7fff     
-ARRAY   RAMC    if memsize < 1M and CONFIG & 32 : 4k RAM $fc000-$fcfff     
-
-   The RAM* arrays are only saved if the RAM itself is less than 1M.
-If the memory size is 1M then those areas are taken from the bank 15
-area of the normal RAM.
-
-
-File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
-
-Monitor
-*******
-
-   Every VICE emulator has a complete built-in monitor, which can be
-used to examine, disassemble and assemble machine language programs, as
-well as debug them through breakpoints.  It can be activated by using
-the "Activate monitor" command (left button menu).  Notice that you have
-to run the emulator from a terminal emulation program (such as `rxvt'
-or `xterm') in order to use the monitor.
-
-   Warning: this version of the monitor is still under construction,
-and some of the features are not fully working yet.
-
-* Menu:
-
-* Terminology::
-* Machine state commands::
-* Memory commands::
-* Assembly commands::
-* Checkpoint commands::
-* General commands::
-* Disk commands::
-* Command file commands::
-* Label commands::
-* Miscellaneous commands::
-
-
-File: vice.info,  Node: Terminology,  Next: Machine state commands,  Prev: Monitor,  Up: Monitor
-
-Terminology
-===========
-
-`address_space'
-     This refers to the range of memory locations and a set of
-     registers.  This can be the addresses available to the computer's
-     processor, the disk drive's processor or a specific memory
-     configuration of one of the mentioned processors.
-
-`register'
-     One of the following: program counter (PC), stack pointer (SP),
-     accumulator (A), X register (X), or Y register (Y).
-
-`address'
-     A specific memory location in the range $0000 to $FFFF.
-
-`address_range'
-     Two addresses.  If the second address is less than the first, the
-     range is assumed to wraparound from $FFFF to $0000.  Both
-     addresses must be in the same address space.
-
-`address_opt_range'
-     An address or an address range.
-
-`prompt'
-     The prompt has the format [x:y].  If x is -, memory reads from the
-     monitor do not have side effects.  Otherwise, x is S.  The second
-     part of the prompt, y, shows the default address space.
-
-`checkpoint'
-     The monitor has the ability to setup triggers that perform an
-     action when a specified situation occurs.  There are three types
-     of checkpoints; breakpoints, tracepoints and watchpoints.
-
-`breakpoint'
-     A breakpoint is triggered based on the program counter.  When it is
-     triggered, the monitor is entered.
-
-`tracepoint'
-     Like breakpoints, a tracepoint is triggered based on the program
-     counter.  Instead of entering the monitor, the program counter is
-     printed and execution continues.
-
-`watchpoint'
-     Watchpoints are triggered by a read and/or write to an address.
-     When a watchpoint is triggered, the monitor is entered.
-
-`<...>'
-     A data type.
-
-`*'
-     Zero or more occurrences.
-
-`[...]'
-     An optional argument.
-
-
-File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: Terminology,  Up: Monitor
-
-Machine state commands
-======================
-
-`goto <address>'
-     Change the PC to address and continue execution.
-
-`io'
-     Nothing yet.  Will display VIC/VIA/CIA/SID registers.
-
-`next [<count>]'
-     Advance to the next instruction.  Subroutines are treated as a
-     single instruction.
-
-`registers [<reg_name> = <number> [, <reg_name> = <number>]*]'
-     Assign respective registers.  With no parameters, display register
-     values.
-
-`return'
-     Continues execution  and returns to the monitor just
-     before(after?) the next RTS or RTI is executed.
-
-`step [<count>]'
-     Single step through instructions.  An optional count allows
-     stepping more than a single instruction at a time.
-

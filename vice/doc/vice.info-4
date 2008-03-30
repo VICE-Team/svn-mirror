@@ -16,6 +16,277 @@ this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
+
+
+File: vice.info,  Node: TPI 6525 module,  Next: SID 6581 module,  Prev: PIA 6520 module,  Up: Module formats
+
+TPI module
+..........
+
+   The TPI 6525 is a chip with three I/O ports (Tri-Port-Interface).
+One of the ports can double as an interrupt prioritizer. Therefore we
+also have to save the states of the interrupt stack etc.
+
+   Version numbers: Major 1, Minor 0.
+
+Type    Name    Description                                                
+BYTE    PRA     Port A output register                                     
+BYTE    PRB     Port B output register                                     
+BYTE    PRC     Port C output register (doubles as IRQ latch register)     
+BYTE    DDRA    Port A data direction register                             
+BYTE    DDRB    Port B data direction register                             
+BYTE    DDRC    Port C data direction register (doubles as IRQ mask        
+                register)                                                  
+BYTE    CR      Control Register                                           
+BYTE    AIR     Active interrupt register                                  
+BYTE    STACK   Interrupt stack - the interrupt bits that are not (yet)    
+                served.                                                    
+BYTE    CABSTATEState of CA/CB pins. Bit 7 = state of CA, Bit 6 = state    
+                of CB                                                      
+
+
+File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: TPI 6525 module,  Up: Module formats
+
+SID module
+..........
+
+
+File: vice.info,  Node: ACIA 6551 module,  Next: VIC-I module,  Prev: SID 6581 module,  Up: Module formats
+
+ACIA module
+...........
+
+   The ACIA 6551 is an RS232 interface chip. VICE emulates RS232
+connections via `/dev/ttyS*' (Unix) or `COM:' (DOS/WIN - not yet?).
+When saving a snapshot, those connections are of course lost.  The
+state of the ACIA however is restored if possible. I.e. if a connection
+is already open when restoring the snapshot, this connection is used
+instead. If no connection is open, a carrier/DTR drop is emulated.
+
+   Version numbers: Major 1, Minor 0.
+
+Type    Name    Description                                                
+BYTE    TDR     Transmit Data Register                                     
+BYTE    RDR     Receiver Data Register                                     
+BYTE    SR      Status Register                                            
+BYTE    CMD     Command Register                                           
+BYTE    CTRL    Ctrl Register                                              
+BYTE    INTX    0 = no data to tx; 1 = Data is being transmitted; 2 =      
+                Data is being transmitted while data in TDR waiting to be  
+                put to internal transmit register                          
+DWORD   TICKS   Clock ticks till the next TDR empty interrupt              
+
+
+File: vice.info,  Node: VIC-I module,  Next: VIC-II module,  Prev: ACIA 6551 module,  Up: Module formats
+
+VIC-I module
+............
+
+
+File: vice.info,  Node: VIC-II module,  Next: CRTC module,  Prev: VIC-I module,  Up: Module formats
+
+VIC-II module
+.............
+
+
+File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II module,  Up: Module formats
+
+CRTC module
+...........
+
+
+File: vice.info,  Node: C64 memory module,  Next: C128 memory module,  Prev: CRTC module,  Up: Module formats
+
+C64 memory module
+.................
+
+
+File: vice.info,  Node: C128 memory module,  Next: VIC20 memory module,  Prev: C64 memory module,  Up: Module formats
+
+C128 memory module
+..................
+
+
+File: vice.info,  Node: VIC20 memory module,  Next: PET memory module,  Prev: C128 memory module,  Up: Module formats
+
+VIC20 memory module
+...................
+
+   The size of the VIC20 memory module differs with each different
+memory configuration. The RAM configuration is saved in the snapshot,
+and restored when the snapshot is loaded.
+
+   Version numbers: Major 1, Minor 0
+
+Type    Name    Description                                                
+BYTE    CONFIG  Configuration register. Bits 0,1,2,3,5 reflect if the      
+                corresponding memory block is RAM (bit=1) or not (bit=0).  
+ARRAY   RAM0    1k RAM dump $0000-$03ff                                    
+ARRAY   RAM1    4k RAM dump $1000-$1fff                                    
+ARRAY   COLORRAM2k Color RAM, $9400-$9bff                                  
+ARRAY   BLK0    if CONFIG & 1 then: 3k RAM dump $0400-$0fff                
+ARRAY   BLK1    if CONFIG & 2 then: 8k RAM dump $2000-$3fff                
+ARRAY   BLK2    if CONFIG & 4 then: 8k RAM dump $4000-$5fff                
+ARRAY   BLK3    if CONFIG & 8 then: 8k RAM dump $6000-$7fff                
+ARRAY   BLK5    if CONFIG & 32 then: 8k RAM dump $a000-$bfff               
+
+
+File: vice.info,  Node: PET memory module,  Next: C610 memory module,  Prev: VIC20 memory module,  Up: Module formats
+
+PET memory module
+.................
+
+
+File: vice.info,  Node: C610 memory module,  Prev: PET memory module,  Up: Module formats
+
+C610 memory module
+..................
+
+   The size of the C610 memory module differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded.
+
+   Version numbers: Major 1, Minor 0
+
+Type    Name    Description                                                
+UBYTE   MEMSIZE Memory size in 128k blocks (1=128k, 2=256k, 4=512k,        
+                8=1024k)                                                   
+UBYTE   CONFIG  Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit  
+                2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 =  
+                $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM               
+UBYTE   HWCONFIGBit 0: 0 = CRTC, 1 = VIC-II video chip                     
+UBYTE   EXECBANKCPUs execution bank register                               
+UBYTE   INDBANK CPUs indirection bank register                             
+ARRAY   SYSRAM  2k system RAM $f0000-$f07ff                                
+ARRAY   VIDEO   2k video RAM $fd000-$fd7ff                                 
+ARRAY   RAM     RAM dump, size according to MEMSIZE                        
+ARRAY   RAM08   if memsize < 1M and CONFIG & 1 : 2k RAM $f0800-$f0fff      
+ARRAY   RAM1    if memsize < 1M and CONFIG & 2 : 4k RAM $f1000-$f1fff      
+ARRAY   RAM2    if memsize < 1M and CONFIG & 4 : 8k RAM $f2000-$f3fff      
+ARRAY   RAM4    if memsize < 1M and CONFIG & 8 : 8k RAM $f4000-$f5fff      
+ARRAY   RAM6    if memsize < 1M and CONFIG & 16 : 8k RAM $f6000-$f7fff     
+ARRAY   RAMC    if memsize < 1M and CONFIG & 32 : 4k RAM $fc000-$fcfff     
+
+   The RAM* arrays are only saved if the RAM itself is less than 1M.
+If the memory size is 1M then those areas are taken from the bank 15
+area of the normal RAM.
+
+
+File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
+
+Monitor
+*******
+
+   Every VICE emulator has a complete built-in monitor, which can be
+used to examine, disassemble and assemble machine language programs, as
+well as debug them through breakpoints.  It can be activated by using
+the "Activate monitor" command (left button menu).  Notice that you have
+to run the emulator from a terminal emulation program (such as `rxvt'
+or `xterm') in order to use the monitor.
+
+   Warning: this version of the monitor is still under construction,
+and some of the features are not fully working yet.
+
+* Menu:
+
+* Terminology::
+* Machine state commands::
+* Memory commands::
+* Assembly commands::
+* Checkpoint commands::
+* General commands::
+* Disk commands::
+* Command file commands::
+* Label commands::
+* Miscellaneous commands::
+
+
+File: vice.info,  Node: Terminology,  Next: Machine state commands,  Prev: Monitor,  Up: Monitor
+
+Terminology
+===========
+
+`address_space'
+     This refers to the range of memory locations and a set of
+     registers.  This can be the addresses available to the computer's
+     processor, the disk drive's processor or a specific memory
+     configuration of one of the mentioned processors.
+
+`register'
+     One of the following: program counter (PC), stack pointer (SP),
+     accumulator (A), X register (X), or Y register (Y).
+
+`address'
+     A specific memory location in the range $0000 to $FFFF.
+
+`address_range'
+     Two addresses.  If the second address is less than the first, the
+     range is assumed to wraparound from $FFFF to $0000.  Both
+     addresses must be in the same address space.
+
+`address_opt_range'
+     An address or an address range.
+
+`prompt'
+     The prompt has the format [x:y].  If x is -, memory reads from the
+     monitor do not have side effects.  Otherwise, x is S.  The second
+     part of the prompt, y, shows the default address space.
+
+`checkpoint'
+     The monitor has the ability to setup triggers that perform an
+     action when a specified situation occurs.  There are three types
+     of checkpoints; breakpoints, tracepoints and watchpoints.
+
+`breakpoint'
+     A breakpoint is triggered based on the program counter.  When it is
+     triggered, the monitor is entered.
+
+`tracepoint'
+     Like breakpoints, a tracepoint is triggered based on the program
+     counter.  Instead of entering the monitor, the program counter is
+     printed and execution continues.
+
+`watchpoint'
+     Watchpoints are triggered by a read and/or write to an address.
+     When a watchpoint is triggered, the monitor is entered.
+
+`<...>'
+     A data type.
+
+`*'
+     Zero or more occurrences.
+
+`[...]'
+     An optional argument.
+
+
+File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: Terminology,  Up: Monitor
+
+Machine state commands
+======================
+
+`goto <address>'
+     Change the PC to address and continue execution.
+
+`io'
+     Nothing yet.  Will display VIC/VIA/CIA/SID registers.
+
+`next [<count>]'
+     Advance to the next instruction.  Subroutines are treated as a
+     single instruction.
+
+`registers [<reg_name> = <number> [, <reg_name> = <number>]*]'
+     Assign respective registers.  With no parameters, display register
+     values.
+
+`return'
+     Continues execution  and returns to the monitor just
+     before(after?) the next RTS or RTI is executed.
+
+`step [<count>]'
+     Single step through instructions.  An optional count allows
+     stepping more than a single instruction at a time.
+
 
 File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machine state commands,  Up: Monitor
 
@@ -412,10 +683,10 @@ involved in the development of X64 and VICE:
      the trap-based disk drive and serial bus implementation; added
      support for multiple display depths under X11.
 
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) wrote the PET
-     emulators, the CIA and VIA emulation, the IEEE488 interface,
-     implemented the IEC serial bus in `xvic' and made tons of bug
-     fixes.
+   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) wrote the PET and
+     CBM-II emulators, the CIA and VIA emulation, the IEEE488
+     interface, implemented the IEC serial bus in `xvic' and made tons
+     of bug fixes.
 
    * Daniel Sladic (<sladic@eecg.toronto.edu>) started the work on
      hardware-level 1541 emulation and wrote the new monitor introduced
@@ -572,6 +843,10 @@ the following people:
 
    * Ferenc Veres (<lion@c64.rulez.org>)
 
+   * Ullrich von Bassewitz
+
+   * Holger Busse
+
    Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
 and Per H^akan Sundell for writing cool emulators to compete with.  :-)
@@ -656,7 +931,8 @@ project, please email one of the following people:
    * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
      drive;
 
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs;
+   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
+     CBM-II;
 
    * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
      for everything else.
@@ -779,6 +1055,7 @@ Concept Index
 
 * Menu:
 
+* +superpet:                             PET commandline options.
 * -1:                                    Command-line initialization.
 * -10:                                   Command-line initialization.
 * -11:                                   Command-line initialization.
@@ -786,15 +1063,21 @@ Concept Index
 * -8:                                    Command-line initialization.
 * -9:                                    Command-line initialization.
 * -?:                                    Command-line initialization.
-* -acia1, +acia1:                        RS232 options.
 * -acia1dev:                             RS232 options.
 * -attach:                               c1541 commands and options.
 * -autostart <1>:                        Command-line autostart.
 * -autostart:                            Command-line initialization.
-* -basic <1>:                            VIC20 system ROM options.
+* -basic <1>:                            CBM-II commandline options.
+* -basic <2>:                            VIC20 system ROM options.
 * -basic:                                C64/128 system ROM options.
 * -block:                                c1541 commands and options.
-* -chargen <1>:                          VIC20 system ROM options.
+* -buksymkeymap -bukposkeymap:           Keyboard options.
+* -cart2:                                CBM-II commandline options.
+* -cart4:                                CBM-II commandline options.
+* -cart6:                                CBM-II commandline options.
+* -chargen <1>:                          CBM-II commandline options.
+* -chargen <2>:                          PET commandline options.
+* -chargen <3>:                          VIC20 system ROM options.
 * -chargen:                              C64/128 system ROM options.
 * -checksb, +checksb:                    VIC-II options.
 * -checkss, +checkss:                    VIC-II options.
@@ -810,6 +1093,7 @@ Concept Index
 * -drivesync:                            1541 options.
 * -dscan, +dscan:                        Video options.
 * -dsize, +dsize:                        Video options.
+* -editor:                               PET commandline options.
 * -emuid, +emuid <1>:                    VIC20 memconf options.
 * -emuid, +emuid:                        C64 I/O extension options.
 * -extract:                              c1541 commands and options.
@@ -819,12 +1103,15 @@ Concept Index
 * -fs8:                                  File system device options.
 * -fs9:                                  File system device options.
 * -gcr:                                  c1541 commands and options.
+* -grsymkeymap -grposkeymap:             Keyboard options.
 * -help:                                 Command-line initialization.
 * -htmlbrowser:                          Misc options.
 * -ieee488, +ieee488:                    C64 I/O extension options.
 * -info:                                 c1541 commands and options.
 * -install, +install:                    Video options.
-* -kernal <1>:                           VIC20 system ROM options.
+* -kernal <1>:                           CBM-II commandline options.
+* -kernal <2>:                           PET commandline options.
+* -kernal <3>:                           VIC20 system ROM options.
 * -kernal:                               C64/128 system ROM options.
 * -kernalrev:                            C64/128 system ROM options.
 * -keymap:                               Keyboard options.
@@ -832,9 +1119,14 @@ Concept Index
 * -memory:                               VIC20 memconf options.
 * -mitshm, +mitshm <1>:                  Video options.
 * -mitshm, +mitshm:                      Shared memory problems.
+* -mitshmauto:                           Video options.
+* -model:                                PET commandline options.
+* -modelline:                            CBM-II commandline options.
 * -ntscdrive:                            1541 options.
 * -paldrive:                             1541 options.
 * -parallel, +parallel:                  1541 options.
+* -petramA:                              PET commandline options.
+* -petramB:                              PET commandline options.
 * -poskeymap:                            Keyboard options.
 * -pr4dev:                               Printer options.
 * -prdev1:                               Printer options.
@@ -843,10 +1135,27 @@ Concept Index
 * -printer4, +printer4:                  Printer options.
 * -pruser, +pruser:                      Printer options.
 * -pruserdev:                            Printer options.
+* -ram08:                                CBM-II commandline options.
+* -ram1:                                 CBM-II commandline options.
+* -ram2:                                 CBM-II commandline options.
+* -ram4:                                 CBM-II commandline options.
+* -ram6:                                 CBM-II commandline options.
+* -ramC:                                 CBM-II commandline options.
 * -read:                                 c1541 commands and options.
 * -refresh:                              Performance options.
 * -reu, +reu:                            C64 I/O extension options.
-* -rsuser, +rsuser:                      RS232 options.
+* -rom9:                                 PET commandline options.
+* -romA:                                 PET commandline options.
+* -romB:                                 PET commandline options.
+* -rsdev1:                               RS232 options.
+* -rsdev1baud:                           RS232 options.
+* -rsdev2:                               RS232 options.
+* -rsdev2baud:                           RS232 options.
+* -rsdev3:                               RS232 options.
+* -rsdev3baud:                           RS232 options.
+* -rsdev4:                               RS232 options.
+* -rsdev4baud:                           RS232 options.
+* -rsuser:                               RS232 options.
 * -rsuserdev:                            RS232 options.
 * -saveres, +saveres:                    Misc options.
 * -sidfilters, +sidfilters:              SID options.
@@ -858,6 +1167,7 @@ Concept Index
 * -soundrate:                            Sound options.
 * -soundsync:                            Sound options.
 * -speed:                                Performance options.
+* -superpet:                             PET commandline options.
 * -symkeymap:                            Keyboard options.
 * -tape:                                 c1541 commands and options.
 * -traps, +traps:                        No traps options.
@@ -904,13 +1214,16 @@ Concept Index
 * list:                                  c1541 commands and options.
 * Loosing control on low-end systems:    Video settings.
 * MITSHM:                                Shared memory problems.
+* ModelLine:                             CBM-II model.
 * Oversampling:                          Sound settings.
+* Ram08:                                 CBM-II model.
 * Ram1:                                  CBM-II model.
 * Ram2:                                  CBM-II model.
 * Ram4:                                  CBM-II model.
 * Ram6:                                  CBM-II model.
 * Ram9:                                  PET model.
 * RamA:                                  PET model.
+* RamC:                                  CBM-II model.
 * RamSize <1>:                           CBM-II model.
 * RamSize:                               PET model.
 * read:                                  c1541 commands and options.
@@ -939,92 +1252,4 @@ Concept Index
 * Warp speed mode:                       Performance settings.
 * write:                                 c1541 commands and options.
 * zcreate:                               c1541 commands and options.
-
-
-File: vice.info,  Node: Resource Index,  Prev: Concept Index,  Up: Top
-
-Index of Resources
-******************
-
-* Menu:
-
-* Acia1:                                 RS232 resources.
-* Acia1Dev:                              RS232 resources.
-* CheckSbColl:                           VIC-II resources.
-* CheckSsColl:                           VIC-II resources.
-* Directory:                             Misc resources.
-* DisplayDepth:                          Video resources.
-* DosName:                               1541 resources.
-* DoubleScan:                            Video resources.
-* DoubleSize:                            Video resources.
-* EmuID <1>:                             VIC20 memconf resources.
-* EmuID:                                 C64 I/O extension resources.
-* FSDevice10ConvertP00:                  File system device resources.
-* FSDevice10Dir:                         File system device resources.
-* FSDevice10HideCBMFiles:                File system device resources.
-* FSDevice10SaveP00:                     File system device resources.
-* FSDevice11ConvertP00:                  File system device resources.
-* FSDevice11Dir:                         File system device resources.
-* FSDevice11HideCBMFiles:                File system device resources.
-* FSDevice11SaveP00:                     File system device resources.
-* FSDevice8ConvertP00:                   File system device resources.
-* FSDevice8Dir:                          File system device resources.
-* FSDevice8HideCBMFiles:                 File system device resources.
-* FSDevice8SaveP00:                      File system device resources.
-* FSDevice9ConvertP00:                   File system device resources.
-* FSDevice9Dir:                          File system device resources.
-* FSDevice9HideCBMFiles:                 File system device resources.
-* FSDevice9SaveP00:                      File system device resources.
-* HTMLBrowserCommand:                    Misc resources.
-* IEEE488:                               C64 I/O extension resources.
-* KeymapIndex:                           Keyboard resources.
-* KeymapPosFile:                         Keyboard resources.
-* KeymapSymFile:                         Keyboard resources.
-* MITSHM:                                Video resources.
-* NoTraps:                               No traps resources.
-* PaletteFile:                           VIC-II resources.
-* PrDevice1:                             Printer resources.
-* PrDevice2:                             Printer resources.
-* PrDevice3:                             Printer resources.
-* Printer4:                              Printer resources.
-* Printer4Dev:                           Printer resources.
-* PrivateColormap:                       Video resources.
-* PrUser:                                Printer resources.
-* PrUserDev:                             Printer resources.
-* RAMBlock0:                             VIC20 memconf resources.
-* RAMBlock1:                             VIC20 memconf resources.
-* RAMBlock2:                             VIC20 memconf resources.
-* RAMBlock3:                             VIC20 memconf resources.
-* RAMBlock5:                             VIC20 memconf resources.
-* RefreshRate:                           Performance resources.
-* REU:                                   C64 I/O extension resources.
-* RsDevice1:                             RS232 resources.
-* RsDevice1Baud:                         RS232 resources.
-* RsDevice2:                             RS232 resources.
-* RsDevice2Baud:                         RS232 resources.
-* RsDevice3:                             RS232 resources.
-* RsDevice4:                             RS232 resources.
-* RsUser:                                RS232 resources.
-* RsUserDev:                             RS232 resources.
-* SaveResourcesOnExit:                   Misc resources.
-* SidFilters:                            SID resources.
-* SidModel:                              SID resources.
-* Sound:                                 Sound resources.
-* SoundBufferSize:                       Sound resources.
-* SoundDeviceArg:                        Sound resources.
-* SoundDeviceName:                       Sound resources.
-* SoundOversample:                       Sound resources.
-* SoundSampleRate:                       Sound resources.
-* SoundSpeedAdjustment:                  Sound resources.
-* SoundSuspendTime:                      Sound resources.
-* Speed:                                 Performance resources.
-* True1541:                              1541 resources.
-* True1541ExtendImagePolicy:             1541 resources.
-* True1541IdleMethod:                    1541 resources.
-* True1541ParallelCable:                 1541 resources.
-* True1541SyncFactor:                    1541 resources.
-* UseXSync:                              Video resources.
-* VideoCache:                            Video resources.
-* WarpMode:                              Performance resources.
-
 

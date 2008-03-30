@@ -72,7 +72,7 @@
 
 static void vsync_hook(void);
 
-const char machine_name[] = "C610";
+const char machine_name[] = "CBM-II";
 
 /* ------------------------------------------------------------------------- */
 
@@ -311,7 +311,7 @@ long machine_get_cycles_per_second(void)
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
-int machine_write_snapshot(const char *name)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
 
@@ -327,7 +327,7 @@ int machine_write_snapshot(const char *name)
         || tpi1_write_snapshot_module(s) < 0
         || tpi2_write_snapshot_module(s) < 0
         || acia1_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_roms) < 0
 	) {
         snapshot_close(s);
         unlink(name);
