@@ -1,3 +1,30 @@
+2001-12-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.40.
+
+	* arch/unix/x11/xaw/x11video.c,
+	arch/unix/x11/gnome/gnomevideo.c: Double framebuffer
+	dimensions if `VIDEO_REMOVE_2X' is defined.
+
+	* arch/unix/plus4ui.c: Added TED submenu.
+
+	* plus4/tedtypes.h: Use 128 colors.
+
+	* plus4/ted-draw.c (init_drawing_tables, _draw_std_text):
+	First provisions for 128 color support.
+
+	* plus4/ted.c (ted_fetch_matrix): Allow 128 colors.
+
+2001-12-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii.c (vic_ii_set_geometry): extra_offscreen_border
+	corrected again.
+
+2001-12-15  Dag Lem  <resid@nimrod.no>
+
+	* sound/sound.c (sid_init): Don't ask for reSID resource here.
+	(sound_flush): Make sure sid_open is called before sid_init.
+
 2001-12-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.39.
