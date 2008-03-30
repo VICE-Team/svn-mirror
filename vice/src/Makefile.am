@@ -122,6 +122,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 
 bin_PROGRAMS = x64 x128 xvic xpet
 
+
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \

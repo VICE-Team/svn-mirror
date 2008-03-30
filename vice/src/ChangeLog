@@ -1,3 +1,69 @@
+Mon Jun 15 23:55:43 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c: Replaced all occurences of mycpu_set_alarm(,0) with
+ 	mycpu_unset_alarm()...  New cmdline option to set the device
+ 	number of the acia emulation.  Renamed `MyAcia' device number
+ 	resources to `MyAciaDev'.
+
+	* arch/unix/coproc.c, arch/unix/coproc.h: New files to allow
+ 	forking of another process whose stdin/stdout is piped to
+ 	filedescriptors that are returned.  Kind of bi-directional
+ 	popen().
+
+	* arch/unix/rs232.c (rs232_open): Add coprocess handling filename
+ 	handling is symmetric, i.e. all files starting with '|' are opened
+ 	as coprocess (without the '|'), all terminals are opened as
+ 	terminals and the rest as dump file.
+	(resources): New resources for fourth device, the exec device.
+	(struct RS232): Split filedescriptor to one for reading and one
+ 	for writing. fixed all occurances.
+	(rs232_reset): Now call rs232_close() on all open files.
+	(rs232_close): Fix to unset raw mode on open tty files.
+
+	* arch/unix/xaw/c64ui.c (acia1_device_submenu,
+ 	acia2_device_submenu): renamed Acia[12] device number resources to
+ 	Acia[12]Dev.
+	(set_rs232_exec_file): New function to set the program filename
+ 	for RS232 device 4 (exec).
+	(rs232_submenu): Switched D6** and DE** entries,as DE** is acia1,
+ 	and d6** is acia2
+
+	* c64/c64.c: Call acia[12]_init_cmdline_options.
+
+	* c64/c64acia.h: Prototypes for acia[12]_init_cmdline_options.
+
+	* c64/c64mem.c: Rename acia_de and acia_d6 to acia1 and acia2
+ 	cmdline options.
+
+	* main.c: added cmdline option "-?" for help.
+
+	* c64/c64cia1.def (INCLUDES): Added `c64cia.h'.
+
+	* cia-tmpl.c: Replaced all occurances of `maincpu' with `mycpu'.
+	(int_myciata): IRQ mask condition for scheduling alarm changed.
+  	Now only scheduled when IRQ line is not already set.  Still
+ 	scheduled for SDR, cascade and PB6 output operation.
+
+	* acia-tmpl.c: Removed `DEBUG' #define.
+
+	* arch/unix/petkmap.c: Changed default of graphics positional
+ 	mapping keymap file to the already distributed `posg_de.vkm'.
+
+	* arch/unix/xaw/petui.c: Renamed PET 2001 to PET 2001-8N
+	(8k memory, graphics keyboard).
+
+	* pet/petmem.c (initialize_memory): Removed debug print.
+	(mem_load): Add checksum identification check of 2001 kernal.
+
+	* pet/pets.c (pet_table): Added pet 2001 ident flag to table
+	(pet_set_model): Transfer pet2k entry from table to current mode
+ 	struct
+	(set_kernal_rom_name): Do not set pet2k flag depending on kernal
+ 	name anymore
+
+	* pet/pets.h: Removed `keyb_gr' and `keyb_bs' keymap file name
+ 	entries from `petinfo' struct.
+
 Sun Jun 14 21:25:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* pet/crtc.c (crtc_set_screen_mode): Set `memptr_inc' according to
