@@ -35,6 +35,9 @@ struct machine_timing_s;
 struct snapshot_s;
 struct screenshot_s;
 
+extern CLOCK last_write_cycle;
+extern CLOCK first_write_cycle;
+
 extern int ted_resources_init(void);
 extern int ted_cmdline_options_init(void);
 extern struct raster_s *ted_init(void);

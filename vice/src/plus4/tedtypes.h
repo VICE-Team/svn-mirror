@@ -123,11 +123,11 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 
 /* Current char being drawn by the raster.  < 0 or >= TED_SCREEN_TEXTCOLS
    if outside the visible range.  */
-#define TED_RASTER_CHAR(cycle)      (((int)(cycle) - 17) / 2 )
+#define TED_RASTER_CHAR(cycle)      (((int)(cycle) - 15) / 2 )
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define TED_RASTER_X(cycle)         (((int)(cycle) - 9) * 4)
+#define TED_RASTER_X(cycle)         (((int)(cycle) - 7) * 4)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is

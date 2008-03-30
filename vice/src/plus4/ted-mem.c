@@ -534,11 +534,19 @@ inline static void ted15_store(BYTE value)
 
     TED_DEBUG_REGISTER(("Background #0 color register: $%02X", value));
 
-/*    if (ted.regs[0x15] == value)
-        return;*/
+    if (maincpu_rmw_flag) {
+        x_pos = TED_RASTER_X(TED_RASTER_CYCLE(first_write_cycle));
+        raster_add_int_change_background(&ted.raster, x_pos,
+                                        (int *)&ted.raster.background_color,
+                                        0x7f);
+        raster_add_int_change_background(&ted.raster, x_pos + 1,
+                                        (int *)&ted.raster.background_color,
+                                        ted.regs[0x15]);
+    }
 
-    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk));
+    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(last_write_cycle));
 
+    /* FIXME: Check whether this is true on Plus4 */
     if (!ted.force_black_overscan_background_color) {
         raster_add_int_change_background
             (&ted.raster, x_pos,
@@ -549,6 +557,9 @@ inline static void ted15_store(BYTE value)
     }
 
     raster_add_int_change_background(&ted.raster, x_pos,
+                                     (int *)&ted.raster.background_color,
+                                     0x7f);
+    raster_add_int_change_background(&ted.raster, x_pos + 1,
                                      (int *)&ted.raster.background_color,
                                      value);
     ted.regs[0x15] = value;
@@ -563,12 +574,10 @@ inline static void ted161718_store(WORD addr, BYTE value)
     TED_DEBUG_REGISTER(("Background color #%d register: $%02X",
                        addr - 0x15, value));
 
-/*    if (ted.regs[addr] == value)
-        return;*/
-
     ted.regs[addr] = value;
 
-    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk));
+    /* FIXME add sparkle effect */
+    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(last_write_cycle));
 
     raster_add_int_change_foreground(&ted.raster,
                                      char_num,
@@ -578,17 +587,34 @@ inline static void ted161718_store(WORD addr, BYTE value)
 
 inline static void ted19_store(BYTE value)
 {
+int x_pos;
+
     TED_DEBUG_REGISTER(("Border color register: $%02X", value));
 
     value &= 0x7f;
 
-/*    if (ted.regs[0x19] == value)
-        return;*/
+    if (maincpu_rmw_flag) {
+        x_pos = TED_RASTER_X(TED_RASTER_CYCLE(first_write_cycle));
+        raster_add_int_change_border(&ted.raster,
+            x_pos,
+            (int *)&ted.raster.border_color,
+            0x7f);
+        raster_add_int_change_border(&ted.raster,
+            x_pos + 1,
+            (int *)&ted.raster.border_color,
+            ted.regs[0x19]);
+    }
 
     ted.regs[0x19] = value;
 
+    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(last_write_cycle));
+
     raster_add_int_change_border(&ted.raster,
-        TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
+        x_pos,
+        (int *)&ted.raster.border_color,
+        0x7f);
+    raster_add_int_change_border(&ted.raster,
+        x_pos + 1,
         (int *)&ted.raster.border_color,
         value);
 }
@@ -827,7 +853,7 @@ inline static BYTE ted1e_read(void)
 {
     int xpos;
 
-    xpos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk) - 7);
+    xpos = ((int)TED_RASTER_CYCLE(maincpu_clk) - 16) * 4;
     if (xpos < 0)
         xpos = ted.cycles_per_line * 4 + xpos;
 

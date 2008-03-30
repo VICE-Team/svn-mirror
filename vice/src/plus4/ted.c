@@ -72,6 +72,9 @@ ted_t ted;
 static CLOCK old_maincpu_clk = 0;
 static CLOCK old_cycle = 0;
 
+CLOCK   last_write_cycle;
+CLOCK   first_write_cycle;
+
 
 static void ted_set_geometry(void);
 
@@ -197,7 +200,7 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
                                               - ted.draw_clk));
                 f = 1;
             }
-            if (maincpu_clk >= ted.fetch_clk) {
+            if (maincpu_clk > ted.fetch_clk + 1) {
                 ted_fetch_alarm_handler(0);
                 f = 1;
             }
@@ -209,8 +212,21 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
            accesses - except BRK and JSR - are the RMW ones, which store the
            old value in the first write access, and then store the new one in
            the second write access).  */
-        maincpu_clk += num_write_cycles;
-        ted_delay_clk();
+        if (num_write_cycles == 1) {
+            last_write_cycle = maincpu_clk;
+            maincpu_clk += num_write_cycles;
+            ted_delay_clk();
+        } else if (num_write_cycles == 2) {
+            first_write_cycle = maincpu_clk;
+            maincpu_clk ++;
+            ted_delay_clk();
+            last_write_cycle = maincpu_clk;
+            maincpu_clk ++;
+            ted_delay_clk();
+        } else {
+            maincpu_clk += num_write_cycles;
+            ted_delay_clk();
+        }
 
       } else {
         int f;
