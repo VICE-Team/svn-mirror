@@ -50,6 +50,7 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
+#include "ram.h"
 #include "reu.h"
 #include "sid.h"
 #include "types.h"
@@ -197,6 +198,7 @@ void mem_update_config(int config)
     if (config >= 0x80) {
         mem_color_ram_cpu = mem_color_ram;
         mem_color_ram_vicii = mem_color_ram;
+        vic_ii_set_chargen_addr_options(0x7000, 0x1000);
     } else {
         if (pport.data_read & 1)
             mem_color_ram_cpu = mem_color_ram;
@@ -206,6 +208,10 @@ void mem_update_config(int config)
             mem_color_ram_vicii = mem_color_ram;
         else
             mem_color_ram_vicii = &mem_color_ram[0x400];
+        if (pport.data_read & 4)
+            vic_ii_set_chargen_addr_options(0xffff, 0xffff);
+        else
+            vic_ii_set_chargen_addr_options(0x3000, 0x1000);
     }
 }
 
@@ -2127,12 +2133,7 @@ void mem_initialize_memory(void)
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    int i;
-
-    for (i = 0; i < 0x20000; i += 0x80) {
-        memset(mem_ram + i, 0x0, 0x40);
-        memset(mem_ram + i + 0x40, 0xff, 0x40);
-    }
+    ram_init(mem_ram, 0x20000);
 }
 
 /* ------------------------------------------------------------------------- */

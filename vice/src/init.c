@@ -46,6 +46,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "palette.h"
+#include "ram.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "sysfile.h"
@@ -92,6 +93,10 @@ int init_resources(void)
     }
     if (joystick_init_resources() < 0) {
         archdep_startup_log_error("Cannot initialize joystick-specific resources.\n");
+        return -1;
+    }
+    if (ram_resources_init() < 0) {
+        archdep_startup_log_error("Cannot initialize RAM-specific resources.\n");
         return -1;
     }
     return 0;
@@ -148,6 +153,10 @@ int init_cmdline_options(void)
     }
     if (kbd_buf_cmdline_options_init() < 0) {
         archdep_startup_log_error("Cannot initialize keyboard buffer-specific command-line options.\n");
+        return -1;
+    }
+    if (ram_cmdline_options_init() < 0) {
+        archdep_startup_log_error("Cannot initialize RAM-specific command-line options.\n");
         return -1;
     }
 

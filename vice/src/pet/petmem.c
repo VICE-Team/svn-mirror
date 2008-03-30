@@ -44,6 +44,7 @@
 #include "petpia.h"
 #include "pets.h"
 #include "petvia.h"
+#include "ram.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
@@ -744,12 +745,7 @@ void mem_initialize_memory(void)
 
 void mem_powerup(void)
 {
-    int i;
-
-    for (i = 0; i < RAM_ARRAY; i += 0x80) {
-        memset(mem_ram + i, 0, 0x40);
-        memset(mem_ram + i + 0x40, 0xff, 0x40);
-    }
+    ram_init(mem_ram, RAM_ARRAY);
 
     superpet_powerup();
 }

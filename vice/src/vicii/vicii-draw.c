@@ -44,7 +44,7 @@
 #include "viciitypes.h"
 
 
-#define GFX_MSK_LEFTBORDER_SIZE ((VIC_II_MAX_SPRITE_WIDTH  \
+#define GFX_MSK_LEFTBORDER_SIZE ((/*VIC_II_MAX_SPRITE_WIDTH*/0  \
                                 + vic_ii.screen_borderwidth) / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use

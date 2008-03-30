@@ -45,6 +45,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "ram.h"
 #include "resources.h"
 #include "sid.h"
 #include "types.h"
@@ -953,10 +954,8 @@ void mem_powerup(void)
 {
     int i;
 
-    for (i = 0; i < CBM2_RAM_SIZE; i += 0x80) {
-        memset(mem_ram + i, 0, 0x40);
-        memset(mem_ram + i + 0x40, 0xff, 0x40);
-    }
+    ram_init(mem_ram, CBM2_RAM_SIZE);
+
     for (i = 0; i < 0x800; i += 0x80) {
         memset(mem_rom + i, 0, 0x40);
         memset(mem_rom + i + 0x40, 0xff, 0x40);

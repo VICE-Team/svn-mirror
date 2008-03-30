@@ -219,6 +219,8 @@ IDI_ICON1               ICON    DISCARDABLE     "c64.ico"
 #define TBS_AUTOTICKS           0x0001
 #define TBS_BOTH                0x0008
 #define TBS_NOTICKS             0x0010
+#define ES_READONLY         0x0800L
+
 
 
 //#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
@@ -661,6 +663,28 @@ BEGIN
     COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23,120,112,CBS_DROPDOWN |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23,50,14,WS_GROUP
+END
+
+IDD_RAM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
 
 /////////////////////////////////////////////////////////////////////////////

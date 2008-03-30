@@ -139,6 +139,7 @@ BEGIN
         MENUITEM "D&atasette settings...",          IDM_DATASETTE_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
+        MENUITEM "RA&M settings...",                IDM_RAM_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD

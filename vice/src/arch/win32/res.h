@@ -270,10 +270,17 @@
 #define IDC_VIDEO_ADVANCED_SHADE		1416
 #define IDC_VIDEO_ADVANCED_MODE			1417
 
-#define IDD_PLUS4_MEMORY_DIALOG		1420
-#define IDC_SELECT_PLUS4_MEM_16		1421
-#define IDC_SELECT_PLUS4_MEM_32		1422
-#define IDC_SELECT_PLUS4_MEM_64		1423
+#define IDD_PLUS4_MEMORY_DIALOG		    1420
+#define IDC_SELECT_PLUS4_MEM_16		    1421
+#define IDC_SELECT_PLUS4_MEM_32		    1422
+#define IDC_SELECT_PLUS4_MEM_64		    1423
+
+#define IDD_RAM_SETTINGS_DIALOG         1430
+#define IDC_RAMINIT_STARTVALUE          1431
+#define IDC_RAMINIT_VALUEINVERT         1432
+#define IDC_RAMINIT_PATTERNINVERT       1433
+#define IDC_RAMINIT_PREVIEW             1434
+
 
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -401,7 +408,8 @@
 #define IDM_EFUNCTIONROM_NAME           40208
 #define IDM_TOGGLE_FASTPAL              40209
 #define IDM_VIDEO_SETTINGS              40210
-#define IDM_PLUS4_SETTINGS		40211
+#define IDM_PLUS4_SETTINGS		        40211
+#define IDM_RAM_SETTINGS		        40212
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

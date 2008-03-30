@@ -92,6 +92,7 @@ noinst_HEADERS = \
 	parallel.h \
 	piacore.h \
 	printer.h \
+	ram.h \
 	resources.h \
 	riot.h \
 	riotcore.h \
@@ -155,6 +156,7 @@ base_sources = \
 	p00.c \
 	palette.c \
 	parallel.c \
+	ram.c \
 	resources.c \
 	romset.c \
 	screenshot.c \

@@ -45,6 +45,7 @@
 #include "mem.h"
 #include "mon.h"
 #include "parallel.h"
+#include "ram.h"
 #include "reu.h"
 #include "sid.h"
 #include "utils.h"
@@ -649,12 +650,8 @@ void mem_initialize_memory(void)
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    int i;
+    ram_init(mem_ram, 0x10000);
 
-    for (i = 0; i < 0x10000; i += 0x80) {
-        memset(mem_ram + i, 0, 0x40);
-        memset(mem_ram + i + 0x40, 0xff, 0x40);
-    }
     memset(export_ram0, 0xff, C64CART_RAM_LIMIT); /* Clean cartridge ram too */
 }
 

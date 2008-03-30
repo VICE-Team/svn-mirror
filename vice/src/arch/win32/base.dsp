@@ -186,6 +186,10 @@ SOURCE="..\..\parallel.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\ram.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\resources.c"
 # End Source File
 # Begin Source File

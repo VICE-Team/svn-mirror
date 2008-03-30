@@ -42,6 +42,7 @@
 #include "plus4memlimit.h"
 #include "plus4pio1.h"
 #include "plus4pio2.h"
+#include "ram.h"
 #include "resources.h"
 #include "tcbm.h"
 #include "ted-mem.h"
@@ -844,12 +845,7 @@ void mem_initialize_memory(void)
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    int i;
-
-    for (i = 0; i < 0x10000; i += 0x80) {
-        memset(mem_ram + i, 0, 0x40);
-        memset(mem_ram + i + 0x40, 0xff, 0x40);
-    }
+    ram_init(mem_ram, 0x10000);
 
     hard_reset_flag = 1;
 }

@@ -330,7 +330,7 @@ const int vic_ii_sprites_crunch_table[64] =
 /* Each byte in this array is a bit mask representing the sprites that
    have a pixel turned on in that position.  This is used for sprite-sprite
    collision checking.  */
-static BYTE sprline[VIC_II_SCREEN_WIDTH + 2 * VIC_II_MAX_SPRITE_WIDTH];
+static BYTE sprline[VIC_II_SCREEN_WIDTH];
 
 /* Sprite tables.  */
 static DWORD sprite_doubling_table[65536];
@@ -927,6 +927,8 @@ static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
 static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr, int xs, int xe)
 {
     raster_sprite_status_t *sprite_status;
+    int sprite_offset;
+    int sprite_xs, sprite_xe;
 
     sprite_status = vic_ii.raster.sprite_status;
 
@@ -936,23 +938,33 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr, int xs, 
         for (n = 0; n < 8; n++) {
             BYTE *data_ptr = NULL;
 
+            sprite_offset = sprite_status->sprites[n].x;
+
+            sprite_xs = xs - sprite_offset;
+            sprite_xe = xe - sprite_offset;
+
+            if (sprite_xs < 0 && sprite_xe < 0)
+            {
+                sprite_xs += vic_ii.sprite_wrap_x;
+                sprite_xe += vic_ii.sprite_wrap_x;
+                sprite_offset -= vic_ii.sprite_wrap_x;
+            }
+
             if (sprite_status->dma_msk & (1 << n)
-                && sprite_status->sprites[n].x < 0x16c) {
+                && sprite_offset < 0x16c) {
                 /* display sprite data fetched in the previous line */
                 data_ptr = (BYTE *)(sprite_status->sprite_data + n);
             } else {
                 if (sprite_status->new_dma_msk & (1 << n)) {
-                    if (sprite_status->sprites[n].x >= 0x16c) {
+                    if (sprite_offset >= 0x16c) {
                         /* sprite display starts immediately without sprite data
                            fetched */
-                        /* FIXME: first sprite line should show some random
-                           data */
                         data_ptr = (BYTE *)(sprite_status->sprite_data + n);
                         if ((sprite_status->dma_msk & (1 << n)) == 0)
                             calculate_idle_sprite_data(data_ptr, n);
                     }
                 
-                    if (sprite_status->sprites[n].x > (0x176 + 16 * n)) {
+                    if (sprite_offset > (0x176 + 16 * n)) {
                         /* Sprite starts immediately with data already
                            fetched */
                         data_ptr = (BYTE *)(sprite_status->new_sprite_data + n);
@@ -960,23 +972,20 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr, int xs, 
                 }
             }
 
-            if (sprite_status->sprites[n].x < VIC_II_SCREEN_WIDTH
+            if (sprite_offset < VIC_II_SCREEN_WIDTH
                 && data_ptr != NULL) {
                 BYTE *msk_ptr, *ptr, *sptr;
                 int lshift;
-                int sprite_xs, sprite_xe;
 
                 msk_ptr = gfx_msk_ptr
-                          + ((sprite_status->sprites[n].x
-                          + VIC_II_MAX_SPRITE_WIDTH
+                          + ((sprite_offset
+                          + /*VIC_II_MAX_SPRITE_WIDTH*/
                           - vic_ii.raster.xsmooth) / 8);
-                ptr = line_ptr + sprite_status->sprites[n].x;
-                lshift = (sprite_status->sprites[n].x
+                ptr = line_ptr + sprite_offset;
+                lshift = (sprite_offset
                          - vic_ii.raster.xsmooth) & 0x7;
-                sptr = sprline + VIC_II_MAX_SPRITE_WIDTH
-                       + sprite_status->sprites[n].x;
-                sprite_xs = xs - sprite_status->sprites[n].x;
-                sprite_xe = xe - sprite_status->sprites[n].x;
+                sptr = sprline /*+ VIC_II_MAX_SPRITE_WIDTH*/
+                       + sprite_offset;
 
                 if (sprite_status->sprites[n].multicolor)
                     draw_mc_sprite(gfx_msk_ptr, data_ptr, n, msk_ptr, ptr,
@@ -1010,8 +1019,9 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 384,
                              vic_ii.cycles_per_line * 8 - 1);
 #else
-    /* this one's for special tests */
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 353, 367);
+    /* drawing all at once doesn't work: wrapping problems */
+    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 0,
+                             vic_ii.cycles_per_line * 8 - 1);
 #endif
 }
 
@@ -1052,6 +1062,9 @@ void vic_ii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
         else
             new_x -= vic_ii.sprite_wrap_x;
     }
+#else
+    if (new_x >= 0x1f8 + 8)
+        new_x = VIC_II_SCREEN_WIDTH;
 #endif
 
     if (new_x < sprite->x) {

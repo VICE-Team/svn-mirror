@@ -186,6 +186,10 @@ SOURCE=.\uiplus4mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiram.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uireu.c
 # End Source File
 # Begin Source File

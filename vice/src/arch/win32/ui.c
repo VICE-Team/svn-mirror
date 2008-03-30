@@ -65,6 +65,7 @@
 #include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
+#include "uiram.h"
 #include "uisid.h"
 #include "uisnapshot.h"
 #include "uisound.h"
@@ -1467,6 +1468,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog(hwnd);
+        break;
+      case IDM_RAM_SETTINGS:
+        ui_ram_settings_dialog(hwnd);
         break;
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog(hwnd);

@@ -57,6 +57,11 @@ static int uss_bufsize = 0;
 static int uss_fragsize = 0;
 static int uss_channels;
 
+/* For conversion from mono to stereo. */
+#define BUFSIZE 32768
+static int uss_duplicate = 0;
+static SWORD buffer[2*BUFSIZE];
+
 static int uss_bufferspace(void);
 
 static int uss_init(const char *param, int *speed,
@@ -105,14 +110,20 @@ static int uss_init(const char *param, int *speed,
 
     tmp = *channels;
     st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
-    if (st < 0)
+    if (st < 0 || tmp != *channels)
     {
-	log_message(LOG_DEFAULT, "SNDCTL_DSP_CHANNELS failed");
-	/* no stereo */
-	tmp = *channels = 1;
-	st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
-	if (st < 0) {
-	    goto fail;
+        /* Intel ICH and ICH0 only support 2 channels */
+        if (*channels == 1 && tmp == 2) {
+	    uss_duplicate = 1;
+	}
+	else {
+	    log_message(LOG_DEFAULT, "SNDCTL_DSP_CHANNELS failed");
+	    /* no stereo */
+	    tmp = *channels = 1;
+	    st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
+	    if (st < 0 || tmp != *channels) {
+	        goto fail;
+	    }
 	}
     }
     /* speed */
@@ -168,15 +179,25 @@ static int uss_write(SWORD *pbuf, size_t nr)
     int i, now;
     size_t total;
 
+    if (uss_duplicate) {
+        for (i = 0; i < nr; i++) {
+	    buffer[i*2] = pbuf[i];
+	    buffer[i*2 + 1] = pbuf[i];
+	}
+	pbuf = buffer;
+	nr *= 2;
+    }
+
     if (uss_8bit)
     {
-	/* XXX: ugly to change contents of the buffer */
 	for (i = 0; i < nr; i++)
-	    ((char *)pbuf)[i] = pbuf[i]/256 + 128;
+	    ((char *)buffer)[i] = pbuf[i]/256 + 128;
+	pbuf = buffer;
 	total = nr;
     }
     else
 	total = nr*sizeof(SWORD);
+
     for (i = 0; i < total; i += now)
     {
 	now = write(uss_fd, (char *)pbuf + i, total - i);

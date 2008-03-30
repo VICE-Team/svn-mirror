@@ -78,7 +78,6 @@
 #include "video.h"
 
 
-/* set phi1 address options */
 void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset)
 {
     vic_ii.vaddr_mask_phi1 = mask;
@@ -115,6 +114,18 @@ void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
     vic_ii.vaddr_chargen_value_phi2 = value;
 
     VIC_II_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x",
+                          mask, value));
+    vic_ii_update_memory_ptrs_external();
+}
+
+void vic_ii_set_chargen_addr_options(ADDRESS mask, ADDRESS value)
+{
+    vic_ii.vaddr_chargen_mask_phi1 = mask;
+    vic_ii.vaddr_chargen_value_phi1 = value;
+    vic_ii.vaddr_chargen_mask_phi2 = mask;
+    vic_ii.vaddr_chargen_value_phi2 = value;
+
+    VIC_II_DEBUG_REGISTER(("Set chargen addr mask=%04x, value=%04x",
                           mask, value));
     vic_ii_update_memory_ptrs_external();
 }
@@ -328,8 +339,12 @@ static void vic_ii_set_geometry(void)
                         0,
                         vic_ii.first_displayed_line,
                         vic_ii.last_displayed_line,
+#if 0
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
                         vic_ii.screen_borderwidth * 2,
+#else
+                        0,
+#endif
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
                         vic_ii.screen_borderwidth * 2);
 #ifdef __MSDOS__
@@ -374,9 +389,14 @@ static int init_raster(void)
 }
 
 /* Initialize the VIC-II emulation.  */
-raster_t *vic_ii_init(void)
+raster_t *vic_ii_init(unsigned int flag)
 {
-    vic_ii.log = log_open("VIC-II");
+    vic_ii.viciie = flag;
+
+    if (vic_ii.viciie == VICII_EXTENDED)
+        vic_ii.log = log_open("VIC-IIe");
+    else
+        vic_ii.log = log_open("VIC-II");
 
     vic_ii.raster_fetch_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
     vic_ii.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
@@ -491,8 +511,14 @@ void vic_ii_powerup(void)
     vic_ii.vaddr_mask_phi2 = 0xffff;
     vic_ii.vaddr_offset_phi1 = 0;
     vic_ii.vaddr_offset_phi2 = 0;
-    vic_ii.vaddr_chargen_mask_phi1 = 0x7000;
-    vic_ii.vaddr_chargen_mask_phi2 = 0x7000;
+
+    if (vic_ii.viciie == VICII_EXTENDED) {
+        vic_ii.vaddr_chargen_mask_phi1 = 0x3000;
+        vic_ii.vaddr_chargen_mask_phi2 = 0x3000;
+    } else {
+        vic_ii.vaddr_chargen_mask_phi1 = 0x7000;
+        vic_ii.vaddr_chargen_mask_phi2 = 0x7000;
+    }
     vic_ii.vaddr_chargen_value_phi1 = 0x1000;
     vic_ii.vaddr_chargen_value_phi2 = 0x1000;
 
@@ -514,7 +540,6 @@ void vic_ii_powerup(void)
     /* vic_ii.vbank_ptr = ram; */
     vic_ii.idle_data = 0;
     vic_ii.idle_data_location = IDLE_NONE;
-    vic_ii.viciie = 0;
     vic_ii.last_emulate_line_clk = 0;
 
     vic_ii_reset();
@@ -588,13 +613,6 @@ void vic_ii_trigger_light_pen(CLOCK mclk)
             maincpu_set_irq_clk(I_RASTER, 1, mclk);
         }
     }
-}
-
-/* Toggle support for VICIIe features like extended keyboard rows
-   and fast clock mode.  */
-void vic_ii_enable_extended_vicii(unsigned int flag)
-{
-    vic_ii.viciie = flag;
 }
 
 /* Make sure all the VIC-II alarms are removed.  This just makes it easier to
