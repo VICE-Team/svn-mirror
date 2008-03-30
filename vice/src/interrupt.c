@@ -291,7 +291,7 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 
 int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 {
-    int i;
+    unsigned int i;
     DWORD dw;
 
     for (i = 0; i < cs->num_ints; i++)
