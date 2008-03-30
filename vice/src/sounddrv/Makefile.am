@@ -14,17 +14,18 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundacorn.c \
 	soundallegro.c \
 	soundbeos.cc \
-        soundmmos2.c \
-        sounddart.c \
-        sounddx.c \
+	sounddart.c \
+	sounddx.c \
+	soundesd.c \
 	soundhpux.c \
 	soundmidas.c \
+	soundmmos2.c \
 	soundsb.c \
+	soundsid.c \
 	soundsdl.c \
 	soundsgi.c \
 	soundsun.c \
 	sounduss.c \
-	soundesd.c \
 	soundwmm.c
 
 # These sources are always built.
