@@ -68,6 +68,7 @@ static UI_CALLBACK(attach_cartridge)
         /* Do nothing special.  */
         break;
     }
+    ui_update_menus();
 }
 
 static UI_CALLBACK(detach_cartridge)

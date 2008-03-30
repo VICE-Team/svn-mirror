@@ -221,7 +221,6 @@ int cartridge_attach_image(int type, const char *filename)
             goto done;
         }
         fclose(fd);
-	ui_update_menus();
         break;
       case CARTRIDGE_CRT:
         fd = fopen(filename, MODE_READ);
