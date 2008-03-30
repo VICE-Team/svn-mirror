@@ -92,6 +92,12 @@
 /* Do we want to enable RS232 support via ACIA emulation?  */
 #undef HAVE_RS232
 
+/* Do we want to enable Printer support?  */
+#undef HAVE_PRINTER
+
+/* Do we want to enable the ReSID code support?  */
+#undef HAVE_RESID
+
 /* Package name.  */
 #define PACKAGE ""
 

@@ -1,3 +1,18 @@
+Mon Jun 22 22:15:39 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: New option `--with-resid=PATH' which compiles VICE
+ 	with support of the reSID module, which must be available at
+ 	`PATH'.  New SUBSTed variables `RESID_LIBS' and `RESID_INCLUDES'.
+  	New automake conditional `HAVE_RESID'.
+
+	* acconfig.h: New #define `HAVE_RESID'.
+
+	* configure.in: `\$' -> `$' typo fixed.
+
+Sun Jun 21 18:23:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.42.
+
 Wed Jun 17 22:07:11 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.41.

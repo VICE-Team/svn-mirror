@@ -1,4 +1,216 @@
-Sat Jun 20 23:39:53  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+Mon Jun 22 21:40:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/Makefile.am: Added `@RESID_INCLUDES@' to `INCLUDES'.
+	If the `HAVE_RESID'  conditional is true, link `libc64.a' and
+	`libc64c128.a' with `resid.o'.
+
+	* Makefile.am: Link `x64' and `x128' to `@RESID_LIBS@'.
+
+	* convio: Removed junk at the bottom.
+
+	* autostart.c (autostart_init): Fixed `_handle_true1541' ->
+ 	`handle_true1541' typo.
+
+	* arch/unix/xaw/uicommands.c (smart_attach): Use
+ 	`file_system_attach_disk()' instead of `serial_select_file()'.
+
+	* utils.c (concat): Added missing `va_end()' call.  (Thanks
+ 	Teemu!)
+
+Sun Jun 22 21:31:39 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.c (store_sid): Argh.  Forgot to store SID register
+ 	values to siddata -array.
+
+	* c64/sid.c: reSID support.  New value 2 for -sidmodel -resource
+ 	to select reSID support.  Added calls to resid_*() -functions to
+ 	proper places.
+
+	* c64/resid.cc: New file.  Interface code with reSID MOS6581 SID
+ 	emulation engine written by Dag Lem (resid@nimrod.no).
+
+	* c64/resid.h: New file.
+
+	* arch/unix/xaw/c64ui.c (sid_model_submenu): Added reSID toggle to
+ 	menus.
+
+	* arch/unix/xaw/c128ui.c (sid_model_submenu): Added reSID toggle to
+ 	menus.
+
+Mon Jun 22 17:38:16 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cia-tmpl.c (update_tai, update_tbi): New functions (defines) to
+ 	make mycia_t[ab]i catch up, such that if the a) the latch value is
+ 	changed or b) mycia_prevent_clk_overflow is called everything is
+ 	right.
+	(store_mycia): When storing values to the Timer latches or the
+ 	timer control register, call the appropriate update_t[ab]i before.
+	(prevent_clk_overflow): Call update_t[ab]i and substract value
+ 	from mycia_t[ab]i after that.
+
+Mon Jun 22 14:13:07 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cia-tmpl.c (read_mycia): When reading ICR, clean myciaint before
+ 	calling int_myciat[ab] when appropriate.  This makes those
+ 	routines schedule themselves again.
+	(int_myciata): Only reschedule when interrupt flag is not set
+ 	Also, when unsetting alarm, do not increment mycia_tai. (When ICR
+ 	was read after unsetting, but before mycia_tai, the alarm was lost
+ 	before this patch)
+	(int_myciatb): When unsetting alarm, do not increment mycia_tbi.
+
+Sun Jun 21 23:00:59 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uisettings.c (set_true1541_idle_method_submenu):
+ 	New menu entry `No Traps'.
+
+	* attach.c (file_system_attach_disk): Made 2nd arg const.
+	* attach.h Changed likewise.
+
+	* autostart.c: Include "attach.h" instead of "fsdevice.h".
+
+	* cartridge.c (cartridge_attach_image): If cartridge type is
+	`CARTRIDGE_NONE' just return.
+
+	* true1541/true1541.c: New variable `true1541_rom_idle_trap'.
+	(set_idling_method, true1541_init): Only patch firmware ROM if
+	`TRUE1541_IDLE_TRAP_IDLE' is enabled.  Updated resources.
+	(true1541_update_ui_status, true1541_vsync_hook): Changed to
+	new trap handling.
+
+	* true1541/true1541.h: Added new definition for
+	`TRUE1541_IDLE_NO_IDLE'.
+
+Sun Jun 21 19:23:53 1998 André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/c128ui.c, arch/unix/xaw/c64ui.c: outcomment
+	rs232 settings (moved to uisettings.c).
+
+	* arch/unix/xaw/uisettings.c: Added RS232 settings, now they are
+ 	the same for C128 and C64 (no D6** or D7** ACIA(2))
+
+	* arch/unix/xaw/uisettings.h: Added rs232_submenu to exported
+ 	menues list.
+
+	* c128/c128.c, c128/c128mem.c: Removed acia2 references.
+
+	* c64/c64.c, c64/c64mem.c: Removed acia2 references.
+
+	* c64/Makefile.am: Removed c64acia2.c and c64acia2.def from file
+ 	list for C64 and C128.  Removed dependency to build c64acia2.c
+
+	* c64/c64acia2.def: Removed file.
+
+	* vmachine.h: Removed A_ACIA2, fix number of alarms.
+
+Sun Jun 21 18:33:41 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/c64.c, c128/c128.c: Add rsuser calls for resources,
+ 	commandline and alarm init.
+
+	* cia-tmpl.c, c64/c64cia.h: New calls + prototypes:
+ 	`mycia_set_flag' sets the flag interrupt, `mycia_set_sdr' gives
+ 	the byte received by the shift register.
+
+	* c64/rsuser.c (int_rsuser): New function to handle receiving of
+ 	bytes from the userport.  Calls `cia2_set_flag()' and
+ 	`cia2_set_sdr()' to deliver the data.
+
+	* vmachine.h: Fix number of alarms.
+
+	* cia-tmpl.c: Fixed compiling when MYCIA_TIMER_DEBUG is set.
+  	Before this patch assumed too much about maincpu_int_status, which
+ 	broke things.  Now nothing is assumed, all handled locally.
+	(mycia_tai, my_set_tai_clk, my_unset_tai, mycia_tbi,
+ 	my_set_tbi_clk, my_unset_tbi): Defines to replace
+ 	mycpu_set_alarm_clk and mycpu_unset_alarm for timer A and B, also
+ 	setting mycia_t[ab]i that now keeps the cycle of the next
+ 	int_myciat[ab] call - except when int_myciat[ab] are skipped by
+ 	simply _not_ calling my_set_tai_clk but calling mycpu_unset_alarm.
+  	Therefore in read_mycia the check works to reschedule alarms.
+
+	* vmachine.h: Removed unused I_CIA1SP, I_CIA1TA, I_CIA1TB,
+ 	I_CIA2SP, I_CIA2TA and I_CIA2TB defines.  New defines for I_PIA1,
+ 	I_PIA2.
+
+	* arch/unix/xaw/c64ui.c: New menu RsUserDev for userport RS232
+ 	device.
+
+	* c64/Makefile.am: Added rsuser.h and rsuser.c to file list.
+
+	* c64/c64.c: Call rsuser_init_resources(),
+ 	rsuser_init_cmdline_options() and rsuser_init().
+
+	* c64/c64cia1.def (STORE_SDR): Call userport_serial_write_sr().
+
+	* c64/c64cia2.def (STORE_CIAPA, READ_CIAPA): When writing to port
+ 	PB, call userport_serial_write_ctrl(), for reading
+ 	userport_serial_read_ctrl().
+
+	* c64/rsuser.c, c64/rsuser.h: New files to handle 9600 baud
+	RS232 interface.  Calls routines from rs232.h.
+
+	* cia-tmpl.c: New defines STORE_SDR and READ_SDR fixed bug in
+ 	shift register handling. STORE_SDR is now called exactly once for
+ 	every byte transfered to the shift register.
+	(mycia_set_flag): Set myciaint CIA_IM_FLAG instead of myciaflag.
+  	also check and set interrupt if necessary!
+
+	* Makefile.am: (pruser.h, pruser.c) added to file list.
+
+	* arch/unix/xaw/uisettings.c: Added PrUserDev userport printer
+ 	support menus.
+
+	* arch/unix/xaw/vic20ui.c (print_settings_menu): New menu to link
+ 	to printer menu in uisettings.c
+
+	* c128/c128.c, c64/c64.c, vic20/vic20.c, pet/pet.c: Added
+ 	pruser.h, calling pruser_init_resources() and
+ 	pruser_init_cmdline_options().
+
+	* c64/c64cia1.def (RESET_CIA): New (empty) define.
+
+	* c64/c64cia2.def (RESET_CIA): Clear userport printer emulation.
+	(STORE_CIAPB): Set userport printer output byte.
+	(STORE_CIAPA): Set userport printer strobe (PA2).
+	(POST_CIA_FUNCS, userport_printer_set_busy): New function to
+ 	signal busy printer signal to chip.
+
+	* cia-tmpl.c (RESET_CIA): New define.
+
+	* pet/petvia.def: Call ../c64/sid.h instead of sid.h.
+	(STORE_PRA): Set userport printer data byte.
+	(STORE_PCR): Set userport printer strobe.
+	(RESET_VIA): Clear userport printer bytes.
+	(POST_VIA_FUNCS, userport_printer_set_busy): Signal busy line.
+
+	* pruser.h, pruser.c: New files to handle userport centronics
+ 	printer emulation, calling stuff from print.[ch].
+
+	* rs232.h: Add rs232_init prototype.
+
+	* vic20/vic20via2.def (STORE_PRB): set userport printer data byte
+	(STORE_PCR): Set userport printer strobe.
+	(RESET_VIA): Clear userport printer bytes.
+	(POST_VIA_FUNCS, userport_printer_set_busy): Signal busy line.
+
+	* cia-tmpl.c: Replaced all occurances of app_resources.debugFlag
+ 	by mycia_debugFlag.
+	(int_myciata): Instead of testing for maincpu.pending_int[] for
+ 	the IRQ/NMI being active (so we can skip alarms), check myciaint &
+ 	0x80...
+
+Sun Jun 21 19:18:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* pruser.c: #include <stdio.h>
+
+	* arch/unix/xaw/uicommands.c (toggle_pause): When in pause mode,
+ 	call `ui_dispatch_next_event()' instead of `ui_dispatch_events()'.
+
+	* arch/unix/xaw/uimenu.c (position_submenu_action): Lookup made a
+	bit faster by doing one loop instead of two.
+
+Sat Jun 20 23:39:53 1998 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* arch/unix/xaw/uisettings.c: Added new menu entries to toggle
 	CBM file support.

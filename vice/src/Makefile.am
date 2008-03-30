@@ -44,6 +44,9 @@ noinst_HEADERS = \
 	op.h \
 	palette.h \
 	parallel.h \
+	prdevice.h \
+	pruser.h \
+	print.h \
 	printer.h \
 	raster.h \
 	resources.h \
@@ -85,6 +88,8 @@ base_sources = \
 	mshell.c \
 	palette.c \
 	parallel.c \
+	prdevice.c \
+	pruser.c \
 	resources.c \
 	serial.c \
 	sound.c \
@@ -126,16 +131,18 @@ bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+        @X_LIBS@ @READLINE@ -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+        @X_LIBS@ @READLINE@ -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(true1541_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)

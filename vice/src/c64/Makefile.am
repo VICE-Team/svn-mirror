@@ -1,7 +1,16 @@
+if HAVE_RESID
+libc64_a_LIBADD = resid.o
+libc64c128_a_LIBADD = resid.o
+else
+libc64_a_LIBADD =
+libc64c128_a_LIBADD =
+endif
+
 SUFFIXES = .def
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/true1541
@@ -14,8 +23,6 @@ libc64_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
 	c64acia1.def \
-	c64acia2.c \
-	c64acia2.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -29,6 +36,8 @@ libc64_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
+	rsuser.c \
+	rsuser.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
@@ -45,8 +54,6 @@ libc64c128_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
 	c64acia1.def \
-	c64acia2.c \
-	c64acia2.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -56,6 +63,8 @@ libc64c128_a_SOURCES = \
 	c64iec.h \
 	patchrom.c \
 	patchrom.h \
+	rsuser.c \
+	rsuser.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
@@ -69,6 +78,8 @@ libc64c128_a_SOURCES = \
 	wave8580.h
 
 BUILT_SOURCES = c64cia1.c c64cia2.c
+EXTRA_libc64_a_SOURCES = resid.cc resid.h
+EXTRA_libc64c128_a_SOURCES = resid.cc resid.h
 
 c64dir = $(top_srcdir)/src/c64
 
@@ -94,14 +105,6 @@ c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	       	   $(top_srcdir)/src/acia-tmpl.c \
 	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
-           fi )
-
-c64acia2.c: c64acia2.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c64acia2.c'..."; \
-           if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	       	   $(top_srcdir)/src/acia-tmpl.c \
-	       	   $(c64dir)/c64acia2.def $(c64dir)/c64acia2.c; \
            fi )
 
 
