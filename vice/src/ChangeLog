@@ -1,3 +1,75 @@
+2003-11-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.33.
+
+	* machine-bus.c: New file.
+
+	* serial/serial.c, serial/serial-trap.c, serial.h,
+	machine-bus.h, c64/c64bus.c, vic20/vic20bus.c, pet/petbus.c,
+	plus4/plus4bus.c, cbm2/cbm2bus.c, vdrive/vdrive-iec.c,
+	fsdevice/fsdevice.c, printerdrv/interface-serial.c, c1541.c:
+	Moved bus independent code to separate file.
+
+	* Makefile.am, arch/win32/base.dsp: Added new files.
+
+	* serial/serial.c, fsdevice/fsdevice-write.c,
+	fsdevice/fsdevice-read.c: Removed obsolete includes.
+
+	* serial/Makefile.am: Removed vdrive include path.
+
+2003-11-26  David Hansel  <hansel@reactive-systems.com>
+
+	* arch/win32/uiperipheral.c:  Only add printer-userport page
+	if emulated actually has a userport.  Hide "Use IEC Device"
+	checkbox if emulated machine does not support IEC.  Fixed
+	some grey-out bugs.
+
+	* iecbus/iecbus.c: In function iecbus_cpu_write_conf3(),
+	only invoke drive functions and manipulate iecbus if
+	iecbus_device[unit] == IECBUS_DEVICE_TRUEDRIVE (otherwise
+	bus will lock up if TDE is off, drive "unit" is on
+	and peripheral "unit" is on).  In function 
+	calculate_callback_index(),  added devices 4-7 (otherwise
+	IEC printer emulation will not work if no other IEC devices
+	are enabled)
+	
+	* drive-resources.c: In functions drive0_resources_type() and
+	drive1_resources_type(), when calling
+	machine_bus_status_drivetype_set(), changed second parameter
+	to type!=DRIVE_TYPE_1551, since 1551 drive does not use the bus.
+	
+2003-11-25  David Hansel  <hansel@reactive-systems.com>
+
+	* arch/win32/uiattach.c, arch/win32/uiattach.h:
+	renamed to uiperipheral.c/h
+
+	* arch/win32/uiprinter.c, arch/win32/uiprinter.h:
+	deleted files. moded code into uiperipheral.c/h
+
+	* arch/win32/Makefile.am:  added/removed files
+
+	* resc64.rc, resc128.rc, resplus4.rc, rescbm2.rc, respet.rc,
+	resvic.rc: removed "Printer Settings..."
+	renamed "Device Settings..." to "Peripheral settings..."
+
+	* uidrivec64vic20.c: grey out drive settings if
+	(NOT TrueDriveEmulation) or (IECDevice)
+
+	* res.rc, res.h, uiperipheral.c:
+	Unified PRINTER4_SETTINGS_DIALOG, PRINTER5_SETTINGS_DIALOG, 
+	PRINTERUSERPORT_SETTINGS_DIALOG to PRINTER_SETTINGS_DIALOG.
+	Added "Use IEC Device" checkbox to all peripheral pages
+	(except printer-userport)
+	Fixed "Cancel" button.
+	Grey out controls if (TrueDriveEmulation OR (NOT VirtualTraps))
+	AND (NOT IECDevice).
+	Added "Output" selection box for printer settings.
+	Fixed saving of "PrinterTextDevice*" resources.
+
+	* printerdrv/output-graphics.c:  Use "Printer*TextDevice"
+	and "PrinterTextDevice*" settings to determine output
+	filename.
+
 2003-11-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.32.

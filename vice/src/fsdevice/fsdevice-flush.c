@@ -129,8 +129,8 @@ static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
     else { /* create partition: check syntax */
         int i = 0;
         *comma++ = '\0';
-        for (i=0; i<4 && *comma++; i++);
-        if (i==4 && *comma++ == ',' && *comma++ == 'c' && !*comma)
+        for (i = 0; i < 4 && *comma++; i++);
+        if (i == 4 && *comma++ == ',' && *comma++ == 'c' && !*comma)
             er = fsdevice_flush_mkdir(arg);
         else
             er = IPE_SYNTAX;

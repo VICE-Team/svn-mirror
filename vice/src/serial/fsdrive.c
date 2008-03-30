@@ -33,7 +33,6 @@
 #include "log.h"
 #include "serial.h"
 #include "types.h"
-#include "vdrive.h"
 
 
 #define SERIAL_NAMELENGTH 255

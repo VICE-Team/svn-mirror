@@ -39,11 +39,10 @@
 #include "fsdevice-write.h"
 #include "fsdevicetypes.h"
 #include "types.h"
-#include "vdrive-command.h"
 #include "vdrive.h"
 
 
-int fsdevice_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
+int fsdevice_write(struct vdrive_s *vdrive, BYTE data, unsigned int secondary)
 {
     if (secondary == 15)
         return fsdevice_flush_write_byte(vdrive, data);
