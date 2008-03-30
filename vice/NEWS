@@ -34,6 +34,8 @@ list of all the changes in the code.
 - The "Custom" joystick mapping is now compatible with the German
   keyboard layout, and possibly other non-US layouts.
 
+- Non-default screen depths should really work on X11 now.
+
 ** Miscellaneous changes
 ------------------------
 

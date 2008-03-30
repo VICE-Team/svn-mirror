@@ -1646,8 +1646,7 @@ int cia2_read_snapshot_module(snapshot_t *p)
 	byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
         oldpb = byte ^ 0xff;	/* all bits change? */
 
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
+    parallel_cable_cpu_undump(byte);
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);
 #endif

@@ -242,11 +242,7 @@ int video_init(void)
     int do_try_mitshm = 0;
     XGCValues gc_values;
 
-    root_window = RootWindow(display, screen);
-    gc_values.foreground = BlackPixel(display, screen);
-    gc_values.background = WhitePixel(display, screen);
-    _video_gc = XCreateGC(display, root_window, GCForeground | GCBackground,
-			   &gc_values);
+    _video_gc = XCreateGC(display, XtWindow(_ui_top_level), 0, &gc_values);
 
 #ifdef MITSHM
 

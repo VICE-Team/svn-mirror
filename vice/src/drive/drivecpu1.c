@@ -5,8 +5,8 @@
  * Do not edit!
  */
 /*
- * drivecpu.c - Template file of the 6502 processor in the Commodore 1541
- * floppy disk drive.
+ * drivecpu.c - Template file of the 6502 processor in the Commodore 1541,
+ * 1571 and 1581 floppy disk drive.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -57,8 +57,8 @@
 
 /* -------------------------------------------------------------------------- */
 
-/* Define this to enable tracing of 1541 instructions.  Warning: this slows
-   it down!  */
+/* Define this to enable tracing of drive CPU instructions.
+   Warning: this slows it down!  */
 #undef TRACE
 
 /* Force `TRACE' in unstable versions.  */
@@ -77,12 +77,18 @@ struct cpu_int_status drive1_int_status;
 /* Value of clk for the last time drive1_cpu_execute() was called.  */
 static CLOCK last_clk;
 
+/* Emulate drive until this clock value is reached.  */
+static CLOCK stop_clk = 0;
+
 /* Number of cycles in excess we executed last time drive1_cpu_execute()
    was called.  */
 static CLOCK last_exc_cycles;
 
 static CLOCK cycle_accum;
 static BYTE *bank_base;
+
+/* Drive CPU JAM handling.  */
+static void drive1_jam(void);
 
 /* This is non-zero each time a Read-Modify-Write instructions that accesses
    memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
@@ -127,7 +133,7 @@ monitor_interface_t drive1_monitor_interface = {
 
 /* ------------------------------------------------------------------------- */
 
-/* This defines the memory access for the 1541 CPU.  */
+/* This defines the memory access for the drive CPU.  */
 
 typedef BYTE REGPARM1 drive1_read_func_t(ADDRESS);
 typedef void REGPARM2 drive1_store_func_t(ADDRESS, BYTE);
@@ -174,7 +180,7 @@ static void REGPARM2 drive1_store_free(ADDRESS address, BYTE value)
     return;
 }
 
-/* This defines the watchpoint memory access for the 1541 CPU.  */
+/* This defines the watchpoint memory access for the drive CPU.  */
 
 static BYTE REGPARM1 drive1_read_watch(ADDRESS address)
 {
@@ -236,8 +242,8 @@ void drive1_bank_store(int bank, ADDRESS address, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-/* This table is used to approximate the sync between the main and the 1541
-   CPUs, since the two clock rates are different.  */
+/* This table is used to approximate the sync between the main and the
+   drive CPU, since the two clock rates are different.  */
 #define MAX_TICKS 0x1000
 #ifdef AVOID_STATIC_ARRAYS
 static unsigned long *clk_conv_table;
@@ -381,7 +387,7 @@ void drive1_cpu_reset(void)
 {
     int preserve_monitor;
 
-    drive_clk[1] = 0;
+    drive_clk[1] = stop_clk = 0;
     last_clk = clk;
     last_exc_cycles = 0;
 
@@ -408,7 +414,7 @@ inline void drive1_cpu_wake_up(void)
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
     if (clk - last_clk > 0xffffff && drive_clk[1] > 934639) {
-	printf("1541: skipping cycles.\n");
+	printf("DRIVE#9: skipping cycles.\n");
 	last_clk = clk;
     }
 }
@@ -464,7 +470,6 @@ inline static int drive1_trap_handler(void)
    calculates the corresponding number of clock ticks in the drive.  */
 void drive1_cpu_execute(void)
 {
-    static int old_reg_pc;
     CLOCK cycles;
 
 /* #Define the variables for the CPU registers.  In the drive, there is no
@@ -482,20 +487,12 @@ void drive1_cpu_execute(void)
 
     drive1_cpu_wake_up();
 
-    if (old_reg_pc != reg_pc) {
-	/* Update `bank_base'.  */
-	JUMP(reg_pc);
-	old_reg_pc = reg_pc;
-    }
-
     if (clk > last_clk)
         cycles = clk - last_clk;
     else
         cycles = 0;
 
     while (cycles > 0) {
-	CLOCK stop_clk;
-
 	if (cycles > MAX_TICKS) {
 	    stop_clk = (drive_clk[1] + clk_conv_table[MAX_TICKS]
 			- last_exc_cycles);
@@ -512,8 +509,9 @@ void drive1_cpu_execute(void)
 	    cycle_accum -= 0x10000;
 	    stop_clk++;
 	}
+    }
 
-	while (drive_clk[1] < stop_clk) {
+    while (drive_clk[1] < stop_clk) {
 
 #ifdef IO_AREA_WARNING
 #warning IO_AREA_WARNING
@@ -533,12 +531,7 @@ void drive1_cpu_execute(void)
 
 #define CPU_INT_STATUS drive1_int_status
 
-/* FIXME:  We should activate the monitor here.  */
-#define JAM()                                                           \
-    do {                                                                \
-        ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);       \
-        DO_INTERRUPT(IK_RESET);                                         \
-    } while (0)
+#define JAM() drive1_jam()
 
 #define ROM_TRAP_ALLOWED() 1
 
@@ -554,14 +547,26 @@ void drive1_cpu_execute(void)
 
 #include "6510core.c"
 
-	}
-
-        last_exc_cycles = drive_clk[1] - stop_clk;
     }
 
+    last_exc_cycles = drive_clk[1] - stop_clk;
     last_clk = clk;
-    old_reg_pc = reg_pc;
     drive1_cpu_sleep();
+}
+
+/* ------------------------------------------------------------------------- */
+
+void drive1_set_bank_base(void)
+{
+    JUMP(reg_pc);
+}
+
+/* Inlining this fuction makes no sense and would only bloat the code.  */
+/* FIXME: We should activate the monitor here.  */
+static void drive1_jam(void)
+{
+    ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);
+    DO_INTERRUPT(IK_RESET);
 }
 
 /* ------------------------------------------------------------------------- */
