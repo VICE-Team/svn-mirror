@@ -91,7 +91,7 @@ int cbm2rom_load_chargen(const char *rom_name)
             return -1;
         }
 
-        if (!isC500) {
+        if (!cbm2_isC500) {
             memmove(mem_chargen_rom + 4096, mem_chargen_rom + 2048, 2048);
 
             /* Inverted chargen into second half. This is a hardware feature.*/
@@ -102,7 +102,7 @@ int cbm2rom_load_chargen(const char *rom_name)
         }
     }
 
-    if (isC500) {
+    if (cbm2_isC500) {
         /* VIC-II config */
     } else {
         crtc_set_chargen_addr(mem_chargen_rom, CBM2_CHARGEN_ROM_SIZE >> 4);
@@ -282,7 +282,7 @@ int mem_load(void)
     if (cbm2rom_load_cart_6(rom_name) < 0)
         return -1;
 
-    if (isC500) {
+    if (cbm2_isC500) {
         /* VIC-II config */
     } else {
         crtc_set_screen_addr(mem_rom + 0xd000);

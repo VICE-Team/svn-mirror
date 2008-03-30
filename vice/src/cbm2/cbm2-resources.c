@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "cbm2-resources.h"
+#include "cbm2.h"
 #include "cbm2mem.h"
 #include "cbm2rom.h"
 #include "cbm2tpi.h"
@@ -73,8 +74,6 @@ int emu_id_enabled;
 
 static BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
-extern int isC500;
-
 /* ramsize starts counting at 0x10000 if less than 512. If 512 or more,
    it starts counting at 0x00000.
    CBM2MEM module requires(!) that ramsize never gets 512-64 = 448
@@ -109,7 +108,7 @@ static int set_cbm2_model_line(resource_value_t v, void *param)
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
-    if (isC500) {
+    if (cbm2_isC500) {
         /* VIC-II config */
     } else {
         crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
@@ -128,8 +127,8 @@ static int set_use_vicii(resource_value_t v, void *param)
     use_vicii = tmp;
 
     /* on boot, select video chip. FIXME: change on runtime */
-    if (isC500 < 1)
-        isC500 = use_vicii;
+    if (cbm2_isC500 < 1)
+        cbm2_isC500 = use_vicii;
 
     return 0;
 }

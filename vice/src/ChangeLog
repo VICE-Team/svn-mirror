@@ -1,3 +1,61 @@
+2002-06-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.40.
+
+	* charset.c, charset.h (charset_screencode_to_petcii): New
+	function.
+
+	* monitor/mon.c (mon_display_screen): Convert from screencode.
+
+	* monitor/mon.c, monitor/mon_parse.y, monitor/montypes.h:
+	Moved memory functions to separate file.
+
+	* monitor/mon_memory.c, monitor/mon_memory.h: New files.
+
+	* monitor/Makefile.am: Added new files.
+
+	* monitor/mon_memory.c (mon_memory_move, mon_memory_hunt):
+	Fixed memory leak.
+
+	* video.h, vicii/vicii.h, plus4/ted.h: Removed video_free().
+
+	* 6510core.c: Added hook for additional delays.
+
+	* plus4/plus4cpu.c: New file.
+
+	* plus4/Makefile.am: Added new file.
+
+	* plus4/ted.c, plus4/tedtypes.h (ted_delay_oldclk,
+	ted_delay_clk): New functions.
+	(ted_handle_pending_alarms): Update delay clock.
+	(ted_reset): Initialize clock mode.
+
+	* plus4/ted-fetch.c (do_matrix_fetch): Update old delay clock.
+
+	* plus4/ted-mem.c (ted_local_store_vbank,
+	ted_local_store_vbank_32k, ted_local_store_vbank_16k): Update
+	delay clock, removed raster skip frame hack.
+	(check_bad_line_state_change): Update old delay clock.
+	(ted13_store): Switch clock mode.
+
+	* plus4/tedtypes.h: Added `fastmode' to struct `ted_s'.
+
+	* vicii/viciitypes.h, vicii/vicii.h, vicii/vicii-mem.c,
+	vicii/vicii.c, c64/c64.c, c128/c128.c, cbm2/cbm2.c:
+	Generalized VIC-IIe feature flag.
+
+	* vicii/vicii.c, vicii/viciitypes.h (vic_ii_delay_oldclk,
+	vic_ii_delay_clk): New functions.
+	(vic_ii_handle_pending_alarms): Update delay clock.
+
+	* vicii/vicii-mem.c (vic_ii_local_store_vbank): Update delay
+	clock.
+
+	* c128/c128cpu.c: Define `CPU_DELAY_CLK'.
+
+	* cbm2/cbm2-resources.c, cbm2/cbm2-snapshot.c, cbm2/cbm2.c,
+	cbm2/cbm2.h, cbm2/cbm2mem.c, cbm2/cbm2rom.c: Renamed `isC500'.
+
 2002-06-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.39.

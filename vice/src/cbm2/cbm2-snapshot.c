@@ -96,10 +96,10 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     /* ramsize starts counting at 0x10000 if less than 512k */
     effective_ramsize = ramsize;
     effective_start = 0x10000;
-    if (isC500 && ramsize < 512) {
+    if (cbm2_isC500 && ramsize < 512) {
         effective_ramsize += 64;
     }
-    if (isC500 || ramsize >= 512) {
+    if (cbm2_isC500 || ramsize >= 512) {
         effective_start = 0;
     }
     memsize = effective_ramsize >> 7;   /* rescale from 1k to 128k */
@@ -110,7 +110,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
              | (cart4_ram ? 8 : 0)
              | (cart6_ram ? 16 : 0)
              | (cartC_ram ? 32 : 0)
-             | (isC500 ? 64 : 0);
+             | (cbm2_isC500 ? 64 : 0);
 
     snapshot_module_write_byte(m, memsize);
     snapshot_module_write_byte(m, config);
@@ -294,7 +294,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
              | (cart_2_name ? 4 : 0)
              | (cart_4_name ? 8 : 0)
              | (cart_6_name ? 16 : 0)
-             | (isC500 ? 32 : 0));
+             | (cbm2_isC500 ? 32 : 0));
 
     /* snapshot_module_write_byte(m, save_roms & 3); */
     snapshot_module_write_byte(m, config);
@@ -305,7 +305,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         /* basic */
         snapshot_module_write_byte_array(m, mem_rom + 0x8000, 0x4000);
         /* chargen */
-        if (isC500) {
+        if (cbm2_isC500) {
             snapshot_module_write_byte_array(m, mem_chargen_rom, 0x1000);
         } else {
             snapshot_module_write_byte_array(m, mem_chargen_rom, 0x0800);

@@ -227,7 +227,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
-xplus4_SOURCES = $(base_sources) $(maincpu_sources)
+xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) @X_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
@@ -298,7 +298,7 @@ clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
 fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
 kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
 resources.o romset.o screenshot.o serial.o snapshot.o sound.o sysfile.o \
-traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
+traps.o utils.o vsync.o zfile.o zipcode.o
 xcbm2_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
 fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \

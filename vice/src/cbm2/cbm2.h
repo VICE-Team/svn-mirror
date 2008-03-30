@@ -27,8 +27,6 @@
 #ifndef _CBM2_H
 #define _CBM2_H
 
-#include "types.h"
-
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
 
@@ -64,7 +62,7 @@
                                         / (double)C500_PAL_CYCLES_PER_SEC))
 
 extern int cbm2_is_c500(void);
-extern int isC500;
+extern int cbm2_isC500;
 
 #endif
 

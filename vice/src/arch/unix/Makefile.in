@@ -379,7 +379,7 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	uirs232.h uiscreenshot.h uisettings.h uisid.h uisound.h \
 	uivicii.h ../../../src/utils.h ../../../src/vsync.h
 cbm2ui.o: cbm2ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cbm2/cbm2.h types.h ../../../src/cbm2/cbm2mem.h \
+	../../../src/cbm2/cbm2.h ../../../src/cbm2/cbm2mem.h types.h \
 	../../../src/debug.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uicommands.h uicrtc.h uidatasette.h \
 	uidrive.h uijoystick2.h uiperipheral.h uirs232.h uimenu.h \

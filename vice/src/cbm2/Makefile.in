@@ -260,7 +260,7 @@ cbm2-cmdline-options.o: cbm2-cmdline-options.c ../../src/vice.h \
 	../../src/cmdline.h
 cbm2-resources.o: cbm2-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	cbm2-resources.h cbm2mem.h ../../src/arch/unix/types.h \
+	cbm2-resources.h cbm2.h cbm2mem.h ../../src/arch/unix/types.h \
 	cbm2rom.h cbm2tpi.h ../../src/crtc/crtc.h \
 	../../src/drive/drive.h ../../src/log.h ../../src/interrupt.h \
 	../../src/arch/unix/kbd.h ../../src/keyboard.h \
@@ -268,8 +268,8 @@ cbm2-resources.o: cbm2-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/sid/sid-resources.h ../../src/utils.h \
 	../../src/vsync.h
 cbm2-snapshot.o: cbm2-snapshot.c ../../src/vice.h ../../src/config.h \
-	cbm2-resources.h cbm2-snapshot.h cbm2.h \
-	../../src/arch/unix/types.h cbm2mem.h cbm2rom.h ../../src/log.h \
+	cbm2-resources.h cbm2-snapshot.h cbm2.h cbm2mem.h \
+	../../src/arch/unix/types.h cbm2rom.h ../../src/log.h \
 	../../src/mem.h ../../src/resources.h ../../src/snapshot.h
 cbm2.o: cbm2.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/asm.h ../../src/arch/unix/types.h \

@@ -178,7 +178,7 @@ void cbm2_set_tpi2pc(BYTE b) {
     int vbank = (b & 0xc0) >> 6;
     c500_vbank = vbank;
 
-    if (isC500) {
+    if (cbm2_isC500) {
         if (!c500_vicdotsel) {
             vic_ii_set_phi1_vbank(vbank);
         }
@@ -189,7 +189,7 @@ void cbm2_set_tpi2pc(BYTE b) {
 }
 
 void cbm2_set_tpi1ca(int a) {
-    if (isC500) {
+    if (cbm2_isC500) {
         c500_set_phi2_bank(a);
     } else {
         crtc_set_chargen_offset((a) ? 256 : 0);
@@ -197,7 +197,7 @@ void cbm2_set_tpi1ca(int a) {
 }
 
 void cbm2_set_tpi1cb(int a) {
-    if (isC500) {
+    if (cbm2_isC500) {
         c500_set_phi1_bank(a);
     }
 }
@@ -577,14 +577,14 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
     switch (addr & 0xf800) {
       case 0xd000:
         rom_store(addr, value);         /* video RAM mapped here... */
-        if (isC500 && (addr >= 0xd400)) {
+        if (cbm2_isC500 && (addr >= 0xd400)) {
             colorram_store(addr, value);
         }
         return;
       case 0xd800:
         switch(addr & 0xff00) {
           case 0xd800:
-            if (isC500) {
+            if (cbm2_isC500) {
                 vic_store(addr, value);
             } else {
                 crtc_store(addr, value);
@@ -631,7 +631,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
       case 0xd800:
         switch (addr & 0xff00) {
           case 0xd800:
-            if (isC500) {
+            if (cbm2_isC500) {
                 return vic_read(addr);
             } else {
                 return crtc_read(addr);
@@ -639,7 +639,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
           case 0xd900:
             return read_unused(addr);
           case 0xda00:
-            if (isC500) {
+            if (cbm2_isC500) {
                 return sid_read(addr);
             } else {
                 return 0xff;            /* 2 MHz too fast for SID */
@@ -652,7 +652,7 @@ BYTE REGPARM1 read_io(ADDRESS addr)
             return acia1_read(addr);
           case 0xde00:
             /* FIXME: VIC-II irq? */
-            /* if (isC500 && ((addr & 7) == 2)) {
+            /* if (cbm2_isC500 && ((addr & 7) == 2)) {
                    return tpi1_read(addr&7)|1; }   */
             return tpi1_read((ADDRESS)(addr & 0x07));
           case 0xdf00:
@@ -684,7 +684,7 @@ void mem_reset(void) {
     cbm2mem_set_bank_exec(15);
     cbm2mem_set_bank_ind(15);
 
-    if (isC500) {
+    if (cbm2_isC500) {
         c500_set_phi1_bank(15);
         c500_set_phi2_bank(15);
     }
@@ -746,7 +746,7 @@ void mem_initialize_memory(void)
             mem_read_limit_tab[1][i] = 0xbffd;
         } else
         if (i <0xd0) {  /* C000-CFFF */
-            if (isC500) { /* charrom */
+            if (cbm2_isC500) { /* charrom */
                 mem_read_limit_tab[1][i] = 0xcffd;
             } else {    /* open(?) */
                 mem_read_limit_tab[1][i] = 0;
@@ -774,7 +774,7 @@ void mem_initialize_memory_bank(int i)
 
     switch (i) {
       case 0:
-        if (isC500 || ramsize >= 512) {
+        if (cbm2_isC500 || ramsize >= 512) {
             for (j = 255; j >= 0; j--) {
                 _mem_read_tab[i][j] = read_ram_tab[i];
                 _mem_write_tab[i][j] = store_ram_tab[i];
@@ -873,7 +873,7 @@ void mem_initialize_memory_bank(int i)
             _mem_read_base_tab[i][j] = mem_rom + (j << 8);
         }
         for (; j < 0xd0; j++) { /* C000-CFFF */
-            if (!isC500) {
+            if (!cbm2_isC500) {
                 _mem_read_tab[i][j] = read_unused;
                 _mem_write_tab[i][j] = store_dummy;
                 _mem_read_base_tab[i][j] = NULL;
@@ -1015,7 +1015,7 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd800:
         switch (addr & 0xff00) {
           case 0xd800:
-            if (isC500) {
+            if (cbm2_isC500) {
                 return vic_peek(addr);
             } else {
                 return crtc_read(addr);
@@ -1129,7 +1129,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
 
     mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 6);
 
-    if (isC500) {
+    if (cbm2_isC500) {
         mem_ioreg_list[0].name = "VIC-II";
         mem_ioreg_list[0].start = 0xd800;
         mem_ioreg_list[0].end = 0xd82e;

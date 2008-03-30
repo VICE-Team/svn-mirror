@@ -110,7 +110,7 @@ static log_t cbm2_log = LOG_ERR;
 
 extern BYTE rom[];
 
-int isC500 = 0;
+int cbm2_isC500 = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -121,7 +121,7 @@ static int c500_snapshot_read_module(snapshot_t *p);
 
 int cbm2_is_c500 (void)
 {
-    return isC500;
+    return cbm2_isC500;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -199,7 +199,7 @@ void c500_powerline_clk_alarm_handler (CLOCK offset) {
 
     SIGNAL_VERT_BLANK_OFF
 
-    alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
+    alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
 
     SIGNAL_VERT_BLANK_ON
 
@@ -265,7 +265,7 @@ int machine_init(void)
     /* initialize print devices */
     printer_init();
 
-    if (! isC500) {
+    if (!cbm2_isC500) {
         /* Initialize the CRTC emulation.  */
         if (crtc_init() == NULL)
             return -1;
@@ -276,6 +276,7 @@ int machine_init(void)
         /* Initialize the VIC-II emulation.  */
         if (vic_ii_init() == NULL)
             return -1;
+        vic_ii_enable_extended_vicii(0);
 
         /*
         c500_set_phi1_bank(15);
@@ -341,11 +342,11 @@ void machine_specific_reset(void)
 
     sid_reset();
 
-    if (!isC500) {
+    if (!cbm2_isC500) {
         crtc_reset();
     } else {
         c500_powerline_clk = maincpu_clk + C500_POWERLINE_CYCLES_PER_IRQ;
-        alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
+        alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
         vic_ii_reset();
     }
     printer_reset();
@@ -377,7 +378,7 @@ void machine_shutdown(void)
     console_close_all();
 
     /* close the video chip(s) */
-    if (isC500) {
+    if (cbm2_isC500) {
         vic_ii_free();
     } else {
         crtc_free();
@@ -451,15 +452,15 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     }
     if (maincpu_snapshot_write_module(s) < 0
         || cbm2_snapshot_write_module(s, save_roms) < 0
-        || ((!isC500) && crtc_snapshot_write_module(s) < 0)
+        || ((!cbm2_isC500) && crtc_snapshot_write_module(s) < 0)
         || cia1_snapshot_write_module(s) < 0
         || tpi1_snapshot_write_module(s) < 0
         || tpi2_snapshot_write_module(s) < 0
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || (isC500 && vic_ii_snapshot_write_module(s) < 0)
-        || (isC500 && c500_snapshot_write_module(s) < 0)
+        || (cbm2_isC500 && vic_ii_snapshot_write_module(s) < 0)
+        || (cbm2_isC500 && c500_snapshot_write_module(s) < 0)
         ) {
         snapshot_close(s);
         util_file_remove(name);
@@ -487,14 +488,14 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
-    if (isC500) {
+    if (cbm2_isC500) {
         vic_ii_prepare_for_snapshot();
     }
 
     if (maincpu_snapshot_read_module(s) < 0
-        || ((!isC500) && crtc_snapshot_read_module(s) < 0)
-        || (isC500 && vic_ii_snapshot_read_module(s) < 0)
-        || (isC500 && c500_snapshot_read_module(s) < 0)
+        || ((!cbm2_isC500) && crtc_snapshot_read_module(s) < 0)
+        || (cbm2_isC500 && vic_ii_snapshot_read_module(s) < 0)
+        || (cbm2_isC500 && c500_snapshot_read_module(s) < 0)
         || cbm2_snapshot_read_module(s) < 0
         || cia1_snapshot_read_module(s) < 0
         || tpi1_snapshot_read_module(s) < 0
@@ -527,12 +528,11 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-    switch (wn)
-    {
-    case 0:
+    switch (wn) {
+      case 0:
         crtc_screenshot(screenshot);
         return 0;
-    case 1:
+      case 1:
         vic_ii_screenshot(screenshot);
         return 0;
     }
@@ -542,13 +542,11 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
-    if (canvas == vic_ii_get_canvas())
-    {
+    if (canvas == vic_ii_get_canvas()) {
         vic_ii_screenshot(screenshot);
         return 0;
     }
-    if (canvas == crtc_get_canvas())
-    {
+    if (canvas == crtc_get_canvas()) {
         crtc_screenshot(screenshot);
         return 0;
     }
@@ -558,13 +556,11 @@ int machine_canvas_screenshot(screenshot_t *screenshot,
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas == vic_ii_get_canvas())
-    {
+    if (canvas == vic_ii_get_canvas()) {
         vic_ii_async_refresh(refresh);
         return 0;
     }
-    if (canvas == crtc_get_canvas())
-    {
+    if (canvas == crtc_get_canvas()) {
         crtc_async_refresh(refresh);
         return 0;
     }
@@ -628,7 +624,7 @@ static int c500_snapshot_read_module(snapshot_t *p)
 
 void machine_video_refresh(void)
 {
-    if (isC500) {
+    if (cbm2_isC500) {
         vic_ii_video_refresh();
     } else {
         crtc_video_refresh();
