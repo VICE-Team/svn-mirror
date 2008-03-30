@@ -14,10 +14,10 @@ EXTRA_libserial_a_SOURCES = \
 libserial_a_SOURCES = \
 	fsdrive.c \
 	fsdrive.h \
-	iec-bus.c \
-	iec-bus.h \
 	serial-device.c \
 	serial-device.h \
+	serial-iec-bus.c \
+	serial-iec-bus.h \
 	serial-iec-lib.c \
 	serial-iec-lib.h \
 	serial-iec.c \

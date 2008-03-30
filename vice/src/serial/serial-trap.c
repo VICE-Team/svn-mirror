@@ -28,10 +28,10 @@
 
 #include <stdio.h>
 
-#include "iec-bus.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
+#include "serial-iec-bus.h"
 #include "serial-trap.h"
 #include "serial.h"
 #include "types.h"
@@ -75,9 +75,9 @@ int serial_trap_attention(void)
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f) {
-        iec_bus_unlisten(TrapDevice, TrapSecondary, serial_set_st);
+        serial_iec_bus_unlisten(TrapDevice, TrapSecondary, serial_set_st);
     } else if (b == 0x5f) {
-        iec_bus_untalk(TrapDevice, TrapSecondary, serial_set_st);
+        serial_iec_bus_untalk(TrapDevice, TrapSecondary, serial_set_st);
     } else {
         switch (b & 0xf0) {
           case 0x20:
@@ -86,15 +86,15 @@ int serial_trap_attention(void)
             break;
           case 0x60:
             TrapSecondary = b;
-            iec_bus_listentalk(TrapDevice, TrapSecondary, serial_set_st);
+            serial_iec_bus_listentalk(TrapDevice, TrapSecondary, serial_set_st);
             break;
           case 0xe0:
             TrapSecondary = b;
-            iec_bus_close(TrapDevice, TrapSecondary, serial_set_st);
+            serial_iec_bus_close(TrapDevice, TrapSecondary, serial_set_st);
             break;
           case 0xf0:
             TrapSecondary = b;
-            iec_bus_open(TrapDevice, TrapSecondary, serial_set_st);
+            serial_iec_bus_open(TrapDevice, TrapSecondary, serial_set_st);
             break;
         }
     }
@@ -124,7 +124,7 @@ int serial_trap_send(void)
 
     data = mem_read(BSOUR); /* BSOUR - character for serial bus */
 
-    iec_bus_write(TrapDevice, TrapSecondary, data, serial_set_st);
+    serial_iec_bus_write(TrapDevice, TrapSecondary, data, serial_set_st);
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
@@ -142,7 +142,7 @@ int serial_trap_receive(void)
         return 0;
     }
 
-    data = iec_bus_read(TrapDevice, TrapSecondary, serial_set_st);
+    data = serial_iec_bus_read(TrapDevice, TrapSecondary, serial_set_st);
 
     mem_store(tmp_in, data);
 
@@ -181,13 +181,13 @@ int serial_trap_ready(void)
 
 void serial_trap_init(WORD tmpin)
 {
-    iec_bus_init();
+    serial_iec_bus_init();
 
     tmp_in = tmpin;
 }
 
 void serial_traps_reset(void)
 {
-    iec_bus_reset();
+    serial_iec_bus_reset();
 }
 

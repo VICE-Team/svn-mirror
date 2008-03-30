@@ -1,3 +1,29 @@
+2003-11-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.26.
+
+	* plus4/ted-draw.c: Do not use `gfx_msk'.
+
+	* raster/raster-line-changes-sprite.c
+	(update_for_minor_changes_sprite): Changed calculation of
+	`changed_start'.
+
+	* raster/raster-line-changes.c (update_for_minor_changes):
+	Removed cruft.
+
+	* machine-printer.h, printerdrv/printer.c, c64/c64printer.c,
+	vic20/vic20printer.c, pet/petprinter.c, plus4/plus4printer.c,
+	cbm2/cbm2printer.c, printerdrv/printer-serial.c,
+	printerdrv/printer-userport.c: Use machine_* fuctions for
+	initialization.
+
+	* serial/iec-bus.c, serial/iec-bus.h: Renamed.
+
+	* serial/serial-iec.c, serial/serial-trap.c: Changed `iec_bus'
+	function names.
+
+	* serial/Makefile.am, arch/win32/serial.dsp: Updated.
+
 2003-11-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.25.
