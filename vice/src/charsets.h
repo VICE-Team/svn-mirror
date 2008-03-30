@@ -2,7 +2,7 @@
  * charsets.h - Character set conversions.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,39 +27,9 @@
 #ifndef _CHARSETS_H
 #define _CHARSETS_H
 
-#include "types.h"
-
-#define CS_CBM		0
-#define CS_USA		1
-#define CS_GER		2
-#define CS_DEN1		3
-#define CS_FRA		4
-#define CS_SWE1		5
-#define CS_ITA		6
-#define CS_SPA		7
-#define CS_DEN2		8
-#define CS_SWE2		9
-#define CS_FIN		10
-#define CS_NOR		11
-#define CS_UK		12	/* Ascii */
-#define CS_CBMDIN	13	/* CS_CBM differs DIN mode */
-
-#define NUM_LANGUAGES	14
-
-#define a2p(c) petconvstring(c,0)
-#define p2a(c) petconvstring(c,1)
-
-extern const char *ctrl1[], *ctrl2[], *cbmkeys[];
-
 extern char *petconvstring(char *c, int dir);
 extern int p_toascii(int c, int cs);
 extern int p_topetcii(int c);
-extern const char *ctrl_to_str(int clean, BYTE c);
-extern const char *cbm_to_str(BYTE c);
-extern void unix_filename(char *p);
 
-extern int set_locale(char *localename);
-extern int str_to_lang(char *name);
-
-#endif  /* _CHARSETS_H */
+#endif
 

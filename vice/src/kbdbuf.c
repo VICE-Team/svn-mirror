@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "charsets.h"
 #include "cmdline.h"
 #include "maincpu.h"
 #include "mem.h"
