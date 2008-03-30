@@ -82,6 +82,7 @@ noinst_HEADERS = \
 	vdrive.h \
 	vdrive-iec.h\
 	via.h \
+	viacore.h \
 	vice.h \
 	vmachine.h \
 	warn.h \
@@ -158,6 +159,7 @@ EXTRA_DIST = \
 	raster.c \
 	tpi-tmpl.c \
 	via-tmpl.c \
+	viacore.c \
 	$(printer_sources) \
 	$(rs232_sources)
 
