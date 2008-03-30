@@ -358,7 +358,6 @@ base_sources = \
 	attach.c \
 	autostart.c \
 	charset.c \
-	ciatimer.c \
 	clkguard.c \
 	cmdline.c \
 	cbmimage.c \
@@ -681,19 +680,19 @@ petcat_OBJECTS = $(am_petcat_OBJECTS)
 petcat_DEPENDENCIES = @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o
 petcat_LDFLAGS =
 am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
-	charset.$(OBJEXT) ciatimer.$(OBJEXT) clkguard.$(OBJEXT) \
-	cmdline.$(OBJEXT) cbmimage.$(OBJEXT) color.$(OBJEXT) \
-	datasette.$(OBJEXT) debug.$(OBJEXT) dma.$(OBJEXT) \
-	emuid.$(OBJEXT) event.$(OBJEXT) findpath.$(OBJEXT) \
-	fliplist.$(OBJEXT) gcr.$(OBJEXT) info.$(OBJEXT) init.$(OBJEXT) \
-	initcmdline.$(OBJEXT) interrupt.$(OBJEXT) ioutil.$(OBJEXT) \
-	joystick.$(OBJEXT) kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) \
-	lib.$(OBJEXT) log.$(OBJEXT) machine.$(OBJEXT) main.$(OBJEXT) \
-	p00.$(OBJEXT) palette.$(OBJEXT) parallel.$(OBJEXT) \
-	ram.$(OBJEXT) resources.$(OBJEXT) romset.$(OBJEXT) \
-	screenshot.$(OBJEXT) snapshot.$(OBJEXT) sound.$(OBJEXT) \
-	sysfile.$(OBJEXT) traps.$(OBJEXT) utils.$(OBJEXT) \
-	vsync.$(OBJEXT) zfile.$(OBJEXT) zipcode.$(OBJEXT)
+	charset.$(OBJEXT) clkguard.$(OBJEXT) cmdline.$(OBJEXT) \
+	cbmimage.$(OBJEXT) color.$(OBJEXT) datasette.$(OBJEXT) \
+	debug.$(OBJEXT) dma.$(OBJEXT) emuid.$(OBJEXT) event.$(OBJEXT) \
+	findpath.$(OBJEXT) fliplist.$(OBJEXT) gcr.$(OBJEXT) \
+	info.$(OBJEXT) init.$(OBJEXT) initcmdline.$(OBJEXT) \
+	interrupt.$(OBJEXT) ioutil.$(OBJEXT) joystick.$(OBJEXT) \
+	kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
+	machine.$(OBJEXT) main.$(OBJEXT) p00.$(OBJEXT) \
+	palette.$(OBJEXT) parallel.$(OBJEXT) ram.$(OBJEXT) \
+	resources.$(OBJEXT) romset.$(OBJEXT) screenshot.$(OBJEXT) \
+	snapshot.$(OBJEXT) sound.$(OBJEXT) sysfile.$(OBJEXT) \
+	traps.$(OBJEXT) utils.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
+	zipcode.$(OBJEXT)
 am_x128_OBJECTS = $(am__objects_1)
 x128_OBJECTS = $(am_x128_OBJECTS)
 am__objects_2 = maincpu.$(OBJEXT)
@@ -715,27 +714,26 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/alarm.Po ./$(DEPDIR)/attach.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/autostart.Po ./$(DEPDIR)/c1541.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbmimage.Po ./$(DEPDIR)/charset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ciatimer.Po ./$(DEPDIR)/clkguard.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cmdline.Po ./$(DEPDIR)/color.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/datasette.Po ./$(DEPDIR)/debug.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/dma.Po ./$(DEPDIR)/emuid.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/event.Po ./$(DEPDIR)/findpath.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/fliplist.Po ./$(DEPDIR)/gcr.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/info.Po ./$(DEPDIR)/init.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/initcmdline.Po ./$(DEPDIR)/interrupt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ioutil.Po ./$(DEPDIR)/joystick.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/kbdbuf.Po ./$(DEPDIR)/keyboard.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/lib.Po ./$(DEPDIR)/log.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/machine.Po ./$(DEPDIR)/main.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/maincpu.Po ./$(DEPDIR)/p00.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/palette.Po ./$(DEPDIR)/parallel.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petcat.Po ./$(DEPDIR)/ram.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/resources.Po ./$(DEPDIR)/romset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/screenshot.Po ./$(DEPDIR)/snapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sound.Po ./$(DEPDIR)/sysfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/traps.Po ./$(DEPDIR)/utils.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po ./$(DEPDIR)/zfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/zipcode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/clkguard.Po ./$(DEPDIR)/cmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/color.Po ./$(DEPDIR)/datasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/debug.Po ./$(DEPDIR)/dma.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/emuid.Po ./$(DEPDIR)/event.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/findpath.Po ./$(DEPDIR)/fliplist.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/gcr.Po ./$(DEPDIR)/info.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/init.Po ./$(DEPDIR)/initcmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/interrupt.Po ./$(DEPDIR)/ioutil.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/joystick.Po ./$(DEPDIR)/kbdbuf.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/keyboard.Po ./$(DEPDIR)/lib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/log.Po ./$(DEPDIR)/machine.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/maincpu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/p00.Po ./$(DEPDIR)/palette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parallel.Po ./$(DEPDIR)/petcat.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ram.Po ./$(DEPDIR)/resources.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/romset.Po ./$(DEPDIR)/screenshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/snapshot.Po ./$(DEPDIR)/sound.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sysfile.Po ./$(DEPDIR)/traps.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/utils.Po ./$(DEPDIR)/vsync.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -847,7 +845,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1541.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbmimage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/charset.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ciatimer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/clkguard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/color.Po@am__quote@

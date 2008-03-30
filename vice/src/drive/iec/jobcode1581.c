@@ -100,18 +100,28 @@ static int track_cache_read(unsigned int dnr, unsigned int track,
                             unsigned int sector, unsigned int buffer)
 {
     int rc;
-    unsigned int rsec;
+    unsigned int rsec, readsec, sideoffset = 0;
     BYTE sector_data[256], pos;
     WORD base;
 
+    if (track_cache_sector[dnr] >= 20 && sector < 20)
+        track_cache_valid[dnr] = 0;
+
+    if (track_cache_sector[dnr] < 20 && sector >= 20)
+        track_cache_valid[dnr] = 0;
+
+    if (sector >= 20)
+        sideoffset = 20;
+
     if (!track_cache_valid[dnr] || track_cache_track[dnr] != track) {
         for (rsec = 0; rsec < 20; rsec++) {
-            rc = disk_image_read_sector(wd1770[dnr].image, sector_data,
-                                        track, (sector + rsec) % 20);
+            readsec = ((sector + rsec) % 20) + sideoffset;
+            rc = disk_image_read_sector(wd1770[dnr].image, sector_data, track,
+                                        readsec);
             if (rc < 0) {
                 log_error(jobcode1581_log,
                           "Cannot read T:%d S:%d from disk image.",
-                          track, rsec);
+                          track, readsec);
                 return MISHD_DV_ER;
             }
 
@@ -124,7 +134,7 @@ static int track_cache_read(unsigned int dnr, unsigned int track,
         track_cache_sector[dnr] = sector;
     }
 
-    pos = (sector + 20 - track_cache_sector[dnr]) % 20;
+    pos = ((sector + 40 - track_cache_sector[dnr]) % 20);
     if (dnr == 0)
         drive_store(&drive0_context, (WORD)(OFFSET_SECPOS + buffer), pos);
     else

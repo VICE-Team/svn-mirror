@@ -1,3 +1,40 @@
+2003-07-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.17.
+
+	* core/ciatimer.c: Moved `ciatimer.c' here.
+
+	* Makefile.am, core/Makefile.am, arch/win32/core.dsp,
+	arch/win32/base.dsp: Updated.
+
+	* core/viacore.c, via.h (viacore_setup_context, viacore_init):
+	New functions.
+
+	* drive/iecieee/via1d.c, drive/iecieee/via2d.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petvia.c, drive/ieee/ieee.c,
+	c64/c64iec.c, c128/c128iec.c, plus4/plus4iec.c,
+	vic20/vic20iec.c: Move some code to the core.
+
+	* drive/viad.h, via.h: Moved VIA init description.
+
+	* drive/iec/jobcode1581.c (track_cache_read): Read both sides
+	of a disk.
+
+2003-07-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* interrupt.c, interrupt.h: New functions
+	interrupt_write_new_snapshot, interrupt_read_new_snapshot to
+	split the new snapshot values from the new ones. Removed
+	release from parameter list.
+
+	* maincpu.c (maincpu_snapshot_write_module,
+	maincpu_snapshot_read_module): Write/read new values via
+	interrupt_*_new_snapshot at the end of the module.
+
+	* drive/drivecpu.c (drive_cpu_snapshot_write_module,
+	drive_cpu_snapshot_read_module): Likewise.
+
 2003-07-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.16.
