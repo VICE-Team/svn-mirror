@@ -107,9 +107,6 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
 
-static store_func_ptr_t mem_write_tab_orig[NUM_VBANKS][NUM_CONFIGS][0x101];
-static read_func_ptr_t mem_read_tab_orig[NUM_CONFIGS][0x101];
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -294,34 +291,6 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
         mem_kernal_rom[addr & 0x1fff] = value;
         break;
     }
-}
-
-/* ------------------------------------------------------------------------- */
-
-static void REGPARM2 cartridge_decode_store(ADDRESS addr, BYTE value)
-{
-    /*
-     * Enable cartridge first before making an access.
-     */
-    cartridge_decode_address(addr);
-
-    /*
-     * Store data at the decoded address.
-     */
-    mem_write_tab_orig[vbank][mem_config][addr >> 8](addr, value);
-}
-
-static BYTE REGPARM1 cartridge_decode_read(ADDRESS addr)
-{
-    /*
-     * Enable cartridge first before making an access.
-     */
-    cartridge_decode_address(addr);
-
-    /*
-     * Read data from decoded address.
-     */
-    return mem_read_tab_orig[mem_config][addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -580,60 +549,59 @@ void mem_initialize_memory(void)
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
     /*
-     * Copy mapping to a separate table.
-     * This table will contain the original (unmodified) mapping.
-     */
-    memcpy(mem_write_tab_orig, mem_write_tab,
-           NUM_VBANKS * sizeof(*mem_write_tab));
-    memcpy(mem_read_tab_orig, mem_read_tab,
-           NUM_CONFIGS * sizeof(*mem_read_tab));
-
-    /*
      * Change address decoding.
      */
-    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
+    if (mem_cartridge_type == CARTRIDGE_EXPERT)
+		{
+		/* Allow writing at ROML at $8000-$9FFF.  */
+		for (j = 0; j < NUM_CONFIGS; j++)
+			{
+			if (roml_config[j])
+				{
+				for (i = 0x80; i <= 0x9f; i++)
+					{
+					set_write_hook(j, i, roml_store);
+					}
+				}
+			}
 
-        /*
-         * Mapping for ~GAME disabled
-         */
-        for (j = 0; j < 16; j++) {
-            for (i = 0x80; i <= 0x9f; i++) {
-                /* $8000 - $9FFF */
-                mem_read_tab[j][i] = cartridge_decode_read;
+		/* Allow ROML being visible independent of charen, hiram & loram */
+		for (j = 8; j < 16; j++)
+			{
+			for (i = 0x80; i <= 0x9f; i++)
+				{
+                mem_read_tab[j][i] = roml_read;
+				mem_read_limit_tab[j][i] = -1;
+				mem_read_base_tab[j][i] = NULL;
+				set_write_hook(j, i, roml_store);
+				}
+			}
 
-                /* Setup writing at $8000-$9FFF */
-                set_write_hook(j, i, cartridge_decode_store);
-
-                /* $E000 - $FFFF */
-                mem_read_tab[j][i + 0x60] = cartridge_decode_read;
-                /* Setup writing at $E000-$FFFF */
-                set_write_hook(j, i + 0x60, cartridge_decode_store);
-            }
-        }
-
-        /*
-         * Mapping for ~GAME enabled.
-         */
-        for (j = 16; j < NUM_CONFIGS; j++) {
-            /* $0000 - $7FFF */
-            for (i = 0x00; i <= 0x7f; i++) {
-                /* Setup reading */
-                mem_read_tab[j][i] = cartridge_decode_read;
-
-                /* Setup writing */
-                set_write_hook(j, i, cartridge_decode_store);
-            }
-
-            /* $A000 - $FFFF */
-            for (i = 0xa0; i <= 0xff; i++) {
-                /* Setup reading */
-                mem_read_tab[j][i] = cartridge_decode_read;
-
-                /* Setup writing */
-                set_write_hook(j, i, cartridge_decode_store);
-            }
-        }
-    }
+		/*
+		 * Copy settings from "normal" operation mode into "ultimax"
+		 * configuration.
+		 */
+		for (j = 16; j < 24; j++)
+			{
+			for (i = 0x10; i <= 0x7f; i++)
+				{
+				mem_read_tab[j][i] = mem_read_tab[j - 16][i];
+				set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+				mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
+				}
+			for (i = 0xa0; i <= 0xbf; i++)
+				{
+				mem_read_tab[j][i] = mem_read_tab[j - 16][i];
+				set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+				}
+			for (i = 0xc0; i <= 0xcf; i++)
+				{
+				mem_read_tab[j][i] = mem_read_tab[j - 16][i];
+				set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+				mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
+				}
+			}
+		}
 
     pport.data = 0x37;
     pport.dir = 0x2f;

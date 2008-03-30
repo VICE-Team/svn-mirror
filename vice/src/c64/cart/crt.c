@@ -32,6 +32,7 @@
 #include "actionreplay.h"
 #include "atomicpower.h"
 #include "archdep.h"
+#include "c64cart.h"
 #include "c64cartmem.h"
 #include "cartridge.h"
 #include "crt.h"
@@ -190,7 +191,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
 /*
  * This function writes Expert .crt images ONLY!!!
  */
-int crt_save(const char *filename)
+int crt_save_expert(const char *filename)
 {
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
@@ -302,7 +303,7 @@ int crt_save(const char *filename)
     /*
      * Write CHIP packet data.
      */
-    if (fwrite(export_ram0, sizeof(char), 0x2000, fd) != 0x2000) {
+    if (fwrite(roml_banks, sizeof(char), 0x2000, fd) != 0x2000) {
         fclose(fd);
         return -1;
     }

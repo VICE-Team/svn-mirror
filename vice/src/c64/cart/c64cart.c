@@ -83,11 +83,20 @@ static int set_cartridge_file(resource_value_t v, void *param)
 
 static int set_cartridge_mode(resource_value_t v, void *param)
 {
+    int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+
     /*
      * Set cartridge mode.
      */
     cartridge_mode = (int)v;
     cartmode = cartridge_mode;
+
+	switch (type)
+		{
+		case (CARTRIDGE_EXPERT):
+			expert_mode_changed(cartridge_mode);
+			break;
+		}
     return 0;
 }
 

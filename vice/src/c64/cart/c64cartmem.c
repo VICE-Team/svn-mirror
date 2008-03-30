@@ -443,8 +443,6 @@ void REGPARM2 ultimax_c000_cfff_store(ADDRESS addr, BYTE value)
 void REGPARM1 cartridge_decode_address(ADDRESS addr)
 {
     switch (mem_cartridge_type) {
-      case CARTRIDGE_EXPERT:
-        expert_decode_address(addr);
     }
 }
 
@@ -653,19 +651,10 @@ void cartridge_freeze(int type)
     }
 }
 
-void cartridge_ack_nmi_reset(void)
-{
-    if (mem_cartridge_type == CARTRIDGE_EXPERT)
-        expert_ack_nmi_reset();
-}
-
-/*
- * This function writes Expert .crt images ONLY!!!
- */
 int cartridge_save_image(const char *filename)
 {
     if (mem_cartridge_type == CARTRIDGE_EXPERT)
-        return crt_save(filename);
+        return crt_save_expert(filename);
 
     return -1;
 }

@@ -45,42 +45,34 @@
 /* Cartridge mode.  */
 extern int cartmode;
 
-/* Expert cart configuration flags.  */
-static BYTE ramconfig = 0xff;
+static int ack_reset = 0;
 
-/* Remember whether or not the cartridge should be activated or not. */
-static int enable_trigger = 0;
+/* De-assert ~GAME */
+/* Assert ~EXROM */
+/* Disable export_ram */
+#define	EXPERT_PRG	((0 << 0) | (0 << 1))
 
+/* De-assert ~GAME */
+/* De-assert ~EXROM */
+/* Disable export_ram */
+#define	EXPERT_OFF ((0 << 0) | (1 << 1))
+
+/* Enable ~GAME */
+/* Disable ~EXROM */
+/* Disable export_ram */
+#define	EXPERT_ON	((1 << 0) | (1 << 1))
 
 BYTE REGPARM1 expert_io1_read(ADDRESS addr)
 {
-    switch (cartmode) {
-      case CARTRIDGE_MODE_PRG:
-      case CARTRIDGE_MODE_OFF:
-        return 0;
-      case CARTRIDGE_MODE_ON:
-        /*
-         * Reset the nmi/reset trigger.
-         */
-        enable_trigger = 0;
-        return 0;
-    }
+    if (cartmode == CARTRIDGE_MODE_ON)
+		cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
     return 0;
 }
 
 void REGPARM2 expert_io1_store(ADDRESS addr, BYTE value)
 {
-    switch (cartmode) {
-      case CARTRIDGE_MODE_PRG:
-      case CARTRIDGE_MODE_OFF:
-        break;
-      case CARTRIDGE_MODE_ON:
-        /*
-         * Reset the nmi/reset trigger (= cartridge disabled).
-         */
-        enable_trigger = 0;
-        break;
-    }
+    if (cartmode == CARTRIDGE_MODE_ON)
+		cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
 }
 
 BYTE REGPARM1 expert_io2_read(ADDRESS addr)
@@ -98,70 +90,31 @@ void REGPARM2 expert_io2_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 expert_roml_read(ADDRESS addr)
 {
-    if (export_ram)
-        return export_ram0[addr & 0x1fff];
-
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+	return roml_banks[addr & 0x1fff];
 }
 
 void REGPARM2 expert_roml_store(ADDRESS addr, BYTE value)
 {
-    if (export_ram)
-        export_ram0[addr & 0x1fff] = value;
+	roml_banks[addr & 0x1fff] = value;
 }
 
 BYTE REGPARM1 expert_romh_read(ADDRESS addr)
 {
-    return export_ram0[addr & 0x1fff];
+    return roml_banks[addr & 0x1fff];
 }
 
-void REGPARM1 expert_decode_address(ADDRESS addr)
+void expert_ack_nmi(void)
 {
-    /* Default: disable ~GAME, export_ram and enable ~EXROM */
-    BYTE config = (1 << 1);
-
-    switch (cartmode) {
-      case CARTRIDGE_MODE_ON:
-        /*
-         * Mask A15-A13.
-         */
-        addr = addr & 0xe000;
-
-        if (enable_trigger &&
-            ((addr == 0x8000) || (addr = 0xe000))) {
-            config = (1 << 0);              /* Enable ~GAME */
-            config |= (1 << 1);             /* Disable ~EXROM */
-            config |= (1 << 5);             /* Enable export_ram */
-        }
-        break;
-      case CARTRIDGE_MODE_PRG:
-        /*
-         * Mask A15-A13.
-         */
-        if ((addr & 0xe000) == 0x8000) {
-            config = (1 << 0);              /* Enable ~GAME */
-            config |= (1 << 1);             /* Disable ~EXROM */
-            config |= (1 << 5);             /* Enable export_ram */
-        }
-        break;
-    }
-
-    if (ramconfig != config) {
-        cartridge_config_changed(config, config, CMODE_READ);
-        ramconfig = config;
-    }
+    if (cartmode == CARTRIDGE_MODE_ON)
+		cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
 }
 
-void expert_ack_nmi_reset(void)
+void expert_ack_reset(void)
 {
-    switch (cartmode) {
-      case CARTRIDGE_MODE_PRG:
-      case CARTRIDGE_MODE_OFF:
-        break;
-      case CARTRIDGE_MODE_ON:
-        enable_trigger = 1;
-        break;
-    }
+    if (cartmode == CARTRIDGE_MODE_ON)
+		{
+		ack_reset = 1;
+		}
 }
 
 void expert_freeze(void)
@@ -174,29 +127,34 @@ void expert_config_init(void)
      * Initialize nmi/reset trap functions.
      */
     interrupt_set_nmi_trap_func(&maincpu_int_status,
-                                cartridge_ack_nmi_reset);
+                                expert_ack_nmi);
     interrupt_set_reset_trap_func(&maincpu_int_status,
-                                  cartridge_ack_nmi_reset);
-
-    /*
-     * Set the nmi/reset trigger (= cartridge enabled).
-     */
-    enable_trigger = 1;
-    ramconfig = (1 << 1);       /* Disable ~EXROM */
-    cartridge_config_changed(ramconfig, ramconfig, CMODE_READ);
+                                  expert_ack_reset);
+	/*
+	 * Initialize cartridge mode/configuration.
+	 */
+	if (!ack_reset)
+		{
+		expert_mode_changed(cartmode);
+		}
+	else
+		{
+		/*
+		 * Do ack_reset mapping.
+		 */
+		cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
+		ack_reset = 0;
+		}
 }
 
 void expert_config_setup(BYTE *rawcart)
 {
-    memcpy(export_ram0, rawcart, 0x2000);
-    ramconfig = (1 << 1);       /* Disable ~EXROM */
-    enable_trigger = 0;
-    cartridge_config_changed(ramconfig, ramconfig, CMODE_READ);
+	/* Clear Expert RAM */
+    memcpy(roml_banks, rawcart, 0x2000);
 }
 
 int expert_bin_attach(const char *filename, BYTE *rawcart)
 {
-    memset(rawcart, 0xff, 0x2000);
     /* Set default mode */
     resources_set_value("CartridgeMode",
                         (resource_value_t)CARTRIDGE_MODE_PRG);
@@ -219,3 +177,17 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
     return 0;
 }
 
+void expert_mode_changed(int mode)
+{
+	switch(mode)
+		{
+		case(CARTRIDGE_MODE_PRG):
+			cartridge_config_changed(EXPERT_PRG, EXPERT_PRG, CMODE_READ);
+			break;
+
+		case(CARTRIDGE_MODE_OFF):
+		case(CARTRIDGE_MODE_ON):
+			cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
+			break;
+		}
+}

@@ -183,8 +183,6 @@ inline static void interrupt_set_nmi(cpu_int_status_t *cs, int int_num,
                 }
 #endif
             }
-            if (cs->nmi_trap_func)
-                cs->nmi_trap_func();
             cs->nnmi++;
             cs->pending_int[int_num] = (enum cpu_int)
                 (cs->pending_int[int_num] | IK_NMI);
@@ -230,6 +228,9 @@ inline static void interrupt_ack_nmi(cpu_int_status_t *cs)
 {
     cs->global_pending_int = (enum cpu_int)
         (cs->global_pending_int & ~IK_NMI);
+
+	if (cs->nmi_trap_func)
+		cs->nmi_trap_func();
 }
 
 /* ------------------------------------------------------------------------- */

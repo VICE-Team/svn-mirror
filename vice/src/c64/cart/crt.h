@@ -30,7 +30,7 @@
 #include "types.h"
 
 extern int crt_attach(const char *filename, BYTE *rawcart);
-extern int crt_save(const char *filename);
+extern int crt_save_expert(const char *filename);
 
 extern int crttype;
 

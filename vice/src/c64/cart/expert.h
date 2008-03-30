@@ -39,15 +39,17 @@ extern void REGPARM2 expert_io2_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 expert_roml_read(ADDRESS addr);
 extern void REGPARM2 expert_roml_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 expert_romh_read(ADDRESS addr);
-extern void REGPARM1 expert_decode_address(ADDRESS addr);
 
-extern void expert_ack_nmi_reset(void);
+extern void expert_ack_reset(void);
+extern void expert_ack_nmi(void);
 extern void expert_freeze(void);
 
 extern void expert_config_init(void);
 extern void expert_config_setup(BYTE *rawcart);
 extern int expert_bin_attach(const char *filename, BYTE *rawcart);
 extern int expert_crt_attach(FILE *fd, BYTE *rawcart);
+
+extern void expert_mode_changed(int mode);
 
 #endif
 

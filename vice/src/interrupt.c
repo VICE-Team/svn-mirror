@@ -194,15 +194,15 @@ void interrupt_ack_dma(cpu_int_status_t *cs)
 void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_RESET;
-
-        if (cs->reset_trap_func)
-                cs->reset_trap_func();
 }
 
 /* Acknowledge a RESET condition, by removing it.  */
 void interrupt_ack_reset(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_RESET;
+
+	if (cs->reset_trap_func)
+		cs->reset_trap_func();
 }
 
 /* Trigger a TRAP.  This is a special condition that can be used for
