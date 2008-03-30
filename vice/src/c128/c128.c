@@ -45,6 +45,7 @@
 #include "c128ui.h"
 #include "c64acia.h"
 #include "c64cia.h"
+#include "c64keyboard.h"
 #include "c64rsuser.h"
 #include "c64tpi.h"
 #include "cartridge.h"
@@ -416,7 +417,7 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level drive emulation.  */
-    drive_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);
+    drive_init();
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
     autostart_init((CLOCK)
@@ -444,6 +445,8 @@ int machine_init(void)
     if (c128_kbd_init() < 0)
         return -1;
 #endif
+
+    c64keyboard_init();
 
     c128_monitor_init();
 
@@ -600,6 +603,7 @@ void machine_change_timing(int timeval)
                                 machine_timing.cycles_per_rfsh);
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing);

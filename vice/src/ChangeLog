@@ -1,3 +1,72 @@
+2002-11-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.16.
+
+	* drive/driveimage.c, drive/driveimage.h, drive/drivesync.c,
+	drive/drivesync.h, c64/c64keyboard.c, c64/c64keyboard.h: New
+	files.
+
+	* drive/Makefile.am, c64/Makefile.am: Updated.
+
+	* drive/drive.c, drive/drive.h (drive_set_machine_parameter):
+	New function. (drive_set_sync_factor): Use static sync factor.
+	(drive_init): Removed PAL and NTSC specific stuff.
+	(drive_set_1571_sync_factor, drive_set_disk_drive_type): Use
+	`drive_set_sync_factor()'.
+
+	* c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, pet/pet-resources.c,
+	plus4/plus4-resources.c, cbm2/cbm2-resources.c
+	(set_sync_factor): Do not call the drive code anymore.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_change_timing): Set drive
+	machine parameter. (machine_init): `drive_init' does not take
+	any video timing parameters anymore.
+
+	* drive/drivecpu.c, drive/drivecpu.h
+	(drive_cpu_set_sync_factor): Moved to separate file.
+
+	* c64/c64.c, c128/c128.c (machine_init): Initialize machine
+	specific keyboard.
+
+	* keyboard.c, keyboard.h (keyboard_register_machine): New
+	function.
+
+2002-11-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/vicii.dsp: Added missing file.
+
+	* raster/raster-line.c (handle_blank_line): Apply all sprite
+	changes.
+	(draw_sprites_partial): New function.
+	(handle_visible_line_with_changes): Draw sprites regarding the
+	sprite changes.
+	(raster_emulate_line): Apply all sprite changes in invisible
+	lines.
+
+	* raster/raster_sprite_status.c, raster_sprite_status.h
+	(raster_sprite_status_set_draw_partial_function): New function.
+
+	* raster/raster_sprite.h: New members x_shift, x_shift_sum in
+	raster_sprite_s struct.
+
+	* raster/raster.c (raster_reset): Remove all sprite changes.
+
+	* raster/raster.h: New member sprites in raster_s.changes.
+	(raster_add_int_change_sprites): New function.
+
+	* vicii/vicii-mem.c (store_d01d), (store_sprite_color): Use
+	sprite change API for changes within the line.
+
+	* vicii/vicii-sprites.c (draw_all_sprites_partial): Use x_shift
+	for calculation of offset.
+	(vic_ii_sprites_reset_line): New function to reset x_shift,
+	sprline and collision variables.
+
+	* vicii/vicii.c (vicii_raster_draw_alarm_handler): Call
+	vic_ii_sprites_reset_line before emulating the line.
+
 2002-10-31  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.15.

@@ -566,8 +566,8 @@ distdir: $(DISTFILES)
 	done
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
 attach.o: attach.c vice.h config.h attach.h cmdline.h diskimage.h \
-	arch/unix/types.h drive/drive.h log.h drive/fdc.h fsdevice.h \
-	fliplist.h resources.h serial.h snapshot.h arch/unix/ui.h \
+	arch/unix/types.h drive/driveimage.h drive/fdc.h fsdevice.h \
+	fliplist.h log.h resources.h serial.h snapshot.h arch/unix/ui.h \
 	uiapi.h utils.h vdrive/vdrive.h vdrive/vdrive-iec.h \
 	drive/wd1770.h
 autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \

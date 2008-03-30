@@ -31,6 +31,8 @@ libc64_a_SOURCES = \
 	c64iec.h \
 	c64io.c \
 	c64io.h \
+	c64keyboard.c \
+	c64keyboard.h \
 	c64mem.c \
 	c64mem.h \
 	c64memlimit.c \
@@ -60,6 +62,8 @@ libc64c128_a_SOURCES = \
 	c64cia.h \
 	c64cia2.c \
 	c64datasette.c \
+	c64keyboard.c \
+	c64keyboard.h \
 	c64pla.c \
 	c64pla.h \
 	c64rsuser.c \
