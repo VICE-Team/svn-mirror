@@ -127,6 +127,7 @@ typedef struct cia_context_s {
     void (*pre_peek)(void);
 } cia_context_t;
 
+extern void ciacore_setup_context(struct cia_context_s *cia_context);
 extern void ciacore_reset(struct cia_context_s *cia_context);
 extern void REGPARM2 ciacore_store(struct cia_context_s *cia_context,
                                    WORD addr, BYTE data);

@@ -279,10 +279,9 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->clk_ptr = ctxptr->clk_ptr;
 
     cia->todticks = 100000;
-    cia->log = LOG_ERR;
-    cia->read_clk = 0;
-    cia->read_offset = 0;
-    cia->last_read = 0;
+
+    ciacore_setup_context(cia);
+
     cia->debugFlag = 0;
     cia->irq_line = IK_IRQ;
     sprintf(cia->myname, "CIA1581D%d", ctxptr->mynumber);

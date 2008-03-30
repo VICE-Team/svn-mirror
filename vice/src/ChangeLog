@@ -1,3 +1,32 @@
+2003-07-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.18.
+
+	* drive/iec/iec.c, drive/ieee/ieee.c, drive/iecieee/iecieee.c,
+	drive/viad.h, drive/drivetypes.h, drive/ieee/memieee.c,
+	drive/iec/memiec.c, via.h, c64/c64iec.c, c128/c128iec.c,
+	vic20/vic20iec.c, plus4/plus4iec.c, pet/petiec.c,
+	cbm2/cbm2iec.c, drive/drive.c: Separated IEC and IEEE VIA
+	code.
+
+	* drive/iec/via1d1541.c, drive/ieee/via1d2031.c: New files.
+
+	* drive/iecieee/via1d.c: Removed.
+
+	* drive/iecieee/Makefile.am, drive/iec/Makefile.am,
+	drive/ieee/Makefile.am, arch/win32/iec.dsp,
+	arch/win32/ieee.dsp, arch/win32/iecieee.dsp: Updated.
+
+	* core/ciacore.c, cia.h, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, c64/c64cia1.c, c64/c64cia2.c,
+	c128/c128cia1.c, cbm2/cbm2cia1.c (ciacore_setup_context): New
+	function.
+
+2003-07-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c: Moved test for illegal sprite area
+	from draw_sprite_partial to draw_all_sprites_partial.
+
 2003-07-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.17.

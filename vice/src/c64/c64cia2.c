@@ -314,10 +314,9 @@ void cia2_setup_context(machine_context_t *machine_context)
     cia->clk_ptr = &maincpu_clk;
 
     cia->todticks = 100000;
-    cia->log = LOG_ERR;
-    cia->read_clk = 0;
-    cia->read_offset = 0;
-    cia->last_read = 0;
+
+    ciacore_setup_context(cia);
+
     cia->debugFlag = 0;
     cia->irq_line = IK_NMI;
     sprintf(cia->myname, "CIA2");

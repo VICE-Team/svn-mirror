@@ -227,7 +227,6 @@ noinst_LIBRARIES = libdriveiecieee.a
 
 libdriveiecieee_a_SOURCES = \
 	iecieee.c \
-	via1d.c	\
 	via2d.c
 
 subdir = src/drive/iecieee
@@ -238,15 +237,13 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libdriveiecieee_a_AR = $(AR) cru
 libdriveiecieee_a_LIBADD =
-am_libdriveiecieee_a_OBJECTS = iecieee.$(OBJEXT) via1d.$(OBJEXT) \
-	via2d.$(OBJEXT)
+am_libdriveiecieee_a_OBJECTS = iecieee.$(OBJEXT) via2d.$(OBJEXT)
 libdriveiecieee_a_OBJECTS = $(am_libdriveiecieee_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/iecieee.Po ./$(DEPDIR)/via1d.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/via2d.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/iecieee.Po ./$(DEPDIR)/via2d.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -279,7 +276,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iecieee.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/via1d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/via2d.Po@am__quote@
 
 distclean-depend:

@@ -239,7 +239,8 @@ libdriveieee_a_SOURCES = \
 	memieee.h \
 	riot1d.c \
 	riot2d.c \
-	riotd.h
+	riotd.h \
+	via1d2031.c
 
 subdir = src/drive/ieee
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -251,7 +252,8 @@ libdriveieee_a_AR = $(AR) cru
 libdriveieee_a_LIBADD =
 am_libdriveieee_a_OBJECTS = fdc.$(OBJEXT) ieee-cmdline-options.$(OBJEXT) \
 	ieee-resources.$(OBJEXT) ieee.$(OBJEXT) ieeerom.$(OBJEXT) \
-	memieee.$(OBJEXT) riot1d.$(OBJEXT) riot2d.$(OBJEXT)
+	memieee.$(OBJEXT) riot1d.$(OBJEXT) riot2d.$(OBJEXT) \
+	via1d2031.$(OBJEXT)
 libdriveieee_a_OBJECTS = $(am_libdriveieee_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -261,7 +263,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ieee-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ieee-resources.Po ./$(DEPDIR)/ieee.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ieeerom.Po ./$(DEPDIR)/memieee.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/riot1d.Po ./$(DEPDIR)/riot2d.Po
+@AMDEP_TRUE@	./$(DEPDIR)/riot1d.Po ./$(DEPDIR)/riot2d.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/via1d2031.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -301,6 +304,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/memieee.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/riot1d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/riot2d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/via1d2031.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
