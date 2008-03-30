@@ -28,29 +28,31 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
-        main_exit.c \
-        main_exit.h \
-        rs232.c \
-        types.h \
-	ui.c \
-	ui.h \
-        ui_status.c \
-        ui_status.h \
-        uicmdline.c \
-        uicmdline.h \
+	main_exit.c \
+	main_exit.h \
+	petui.c \
+	petui.h \
         pm_cmdline.c \
         pm_cmdline.h \
+	rs232.c \
 	signals.h \
-        sounddrv.c \
-        sounddrv.h \
+	sounddrv.c \
+	sounddrv.h \
+	types.h \
+	ui.c \
+	ui.h \
+	ui_status.c \
+	ui_status.h \
+	uicmdline.c \
+	uicmdline.h \
 	video_gpi.c \
 	video_gpi.h \
 	video.c \
 	videoarch.h \
 	vsidui.c \
 	vsync.c \
-        vsync_old.c \
-        vsync_old.h
+	vsync_old.c \
+	vsync_old.h
 
 EXTRA_DIST = \
 	vice.def
