@@ -30,7 +30,10 @@
 
 #include <stdio.h>
 
-typedef enum resource_type { RES_INTEGER, RES_STRING } resource_type_t;
+typedef enum resource_type_s {
+     RES_INTEGER,
+     RES_STRING,
+} resource_type_t;
 
 typedef void *resource_value_t;
 
