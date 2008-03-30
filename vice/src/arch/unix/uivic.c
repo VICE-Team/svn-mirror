@@ -30,6 +30,7 @@
 
 #include "fullscreenarch.h"
 #include "machine.h"
+#include "resources.h"
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"

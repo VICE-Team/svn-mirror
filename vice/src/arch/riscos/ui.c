@@ -1664,26 +1664,73 @@ int ui_save_last_snapshot(void)
 }
 
 
+static int ui_make_screenshot(const char *name)
+{
+  struct video_canvas_s *canvas = canvas_for_handle(LastHandle);
+  if ((canvas != NULL) && (screenshot_save("Sprite", name, canvas) == 0))
+  {
+    SetFileType(name, FileType_Sprite);
+    return 0;
+  }
+  return -1;
+}
+
+
+int ui_make_last_screenshot(void)
+{
+  if (wimp_check_for_path(ViceScreenshotFile) == 0)
+    return ui_make_screenshot(ViceScreenshotFile);
+
+  return -1;
+}
+
+
+static int ui_exec_save_sbox(const char *name)
+{
+  switch (LastSubDrag)
+  {
+    case SBOX_TYPE_ROMSET:
+      if ((ROMSetName != NULL) && (romset_archive_item_save(name, ROMSetName) == 0))
+      {
+        wimp_strcpy(ROMSetItemFile, name);
+        return 0;
+      }
+      break;
+    case SBOX_TYPE_KEYBOARD:
+      if (kbd_dump_keymap(name, -1) == 0)
+      {
+        wimp_strcpy(SystemKeymapFile, name);
+        return 0;
+      }
+      break;
+    case SBOX_TYPE_SCRSHOT:
+      if (ui_make_screenshot(name) == 0)
+      {
+        wimp_strcpy(ViceScreenshotFile, name);
+        return 0;
+      }
+      break;
+    case SBOX_TYPE_FLIPLIST:
+      if (fliplist_save_list(FlipListDrive + 8, name) == 0)
+      {
+        wimp_strcpy(ViceFliplistFile, name);
+        return 0;
+      }
+      break;
+    default:
+      break;
+  }
+  return -1;
+}
+
 static int ui_check_save_sbox(const char *name)
 {
   if (wimp_check_for_path(name) == 0)
   {
-    if (LastMenu == CONF_MENU_ROMACT + 0x100)
+    if (ui_exec_save_sbox(name) == 0)
     {
-      if (romset_archive_item_save(ROMSetName, name) == 0)
-      {
-        wimp_strcpy(ROMSetItemFile, name);
-        Wimp_CreateMenu((int*)-1, 0, 0);
-      }
+      Wimp_CreateMenu((int*)-1, 0, 0);
       return 0;
-    }
-    if (LastMenu == CONF_MENU_SYSKBD + 0x100)
-    {
-      if (kbd_dump_keymap(name, -1) == 0)
-      {
-        wimp_strcpy(SystemKeymapFile, name);
-        Wimp_CreateMenu((int*)-1, 0, 0);
-      }
     }
   }
   return -1;
@@ -4189,27 +4236,6 @@ void ui_trigger_snapshot_load(void)
 }
 
 
-static int ui_make_screenshot(const char *name)
-{
-  struct video_canvas_s *canvas = canvas_for_handle(LastHandle);
-  if ((canvas != NULL) && (screenshot_save("Sprite", name, canvas) == 0))
-  {
-    SetFileType(name, FileType_Sprite);
-    return 0;
-  }
-  return -1;
-}
-
-
-int ui_make_last_screenshot(void)
-{
-  if (wimp_check_for_path(ViceScreenshotFile) == 0)
-    return ui_make_screenshot(ViceScreenshotFile);
-
-  return -1;
-}
-
-
 static int ui_load_prg_file(const char *name)
 {
   /* if shift is held down, then load only, otherwise autostart */
@@ -4556,42 +4582,7 @@ static void ui_user_msg_data_save_ack(int *b)
       break;
 
     case DRAG_TYPE_SAVEBOX:
-      status = -1;
-      switch (LastSubDrag)
-      {
-        case SBOX_TYPE_ROMSET:
-          if ((ROMSetName != NULL) && (romset_archive_item_save(name, ROMSetName) == 0))
-          {
-            wimp_strcpy(ROMSetItemFile, name);
-            status = 0;
-          }
-          break;
-        case SBOX_TYPE_KEYBOARD:
-          if (kbd_dump_keymap(name, -1) == 0)
-          {
-            wimp_strcpy(SystemKeymapFile, name);
-            status = 0;
-          }
-          break;
-        case SBOX_TYPE_SCRSHOT:
-          {
-            if (ui_make_screenshot(name) == 0)
-            {
-              wimp_strcpy(ViceScreenshotFile, name);
-              status = 0;
-            }
-          }
-          break;
-        case SBOX_TYPE_FLIPLIST:
-          if (fliplist_save_list(FlipListDrive + 8, name) == 0)
-          {
-            wimp_strcpy(ViceFliplistFile, name);
-            status = 0;
-          }
-          break;
-        default:
-          break;
-      }
+      status = ui_exec_save_sbox(name);
       if (status == 0)
       {
         SetFileType(name, b[10]);
@@ -4676,6 +4667,7 @@ static void ui_user_message(int *b)
       ui_user_msg_help_request(b);
       break;
     case Message_MenuWarning:
+      LastSubDrag = SBOX_TYPE_NONE;
       if (LastMenu == CONF_MENU_ROMACT + 0x100)
       {
         wimp_window_write_icon_text(SaveBox, Icon_Save_Path, ROMSetItemFile);

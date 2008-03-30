@@ -825,19 +825,18 @@ IRQ: %s", 677},
   {"Save snapshot", 782},
   {"%d: Track %.1f", 783},
   {"VICE Error!", 784},
-  {"Unknown image type.", 785},
   {"\
-Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.", 786},
-  {"Cannot get shared memory; falling back to non MITSHM extension mode.", 787},
+Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.", 785},
+  {"Cannot get shared memory; falling back to non MITSHM extension mode.", 786},
   {"\
-Cannot get shared memory address; falling back to non MITSHM extension mode.", 788},
-  {"Cannot attach shared memory; falling back to non MITSHM extension mode.", 789},
-  {"MITSHM initialization succeed.\n", 790},
-  {"Successfully initialized%s shared memory.", 791},
-  {", using", 792},
-  {" without", 793},
-  {"Performance will be poor.", 794},
-  {"Successfully initialized without shared memory.", 795},
+Cannot get shared memory address; falling back to non MITSHM extension mode.", 787},
+  {"Cannot attach shared memory; falling back to non MITSHM extension mode.", 788},
+  {"MITSHM initialization succeed.\n", 789},
+  {"Successfully initialized%s shared memory.", 790},
+  {", using", 791},
+  {" without", 792},
+  {"Performance will be poor.", 793},
+  {"Successfully initialized without shared memory.", 794},
 };
 
-int _msg_tbl_length = 795;
+int _msg_tbl_length = 794;

@@ -1,3 +1,55 @@
+2005-01-22  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.15.15.
+
+	* arch/unix/x11/xaw/about.c, arch/unix/x11/gnome/about.c,
+	info.c, arch/os2/dialogs/dialogs.rc, arch/beos/ui.cc,
+	arch/msdos/menudefs.c, arch/win32/res.rc: Updated.
+
+	* arch/unix/uited.c, arch/unix/uivic.c:
+	#include "resources.h".
+
+2005-01-18  Dominik Vogt  <dominik.vogt@gmx.de>
+
+	* arch/unix/x11/xaw/x11ui.c (ui_select_file):
+	removed trailing period as in other error messages
+
+	* arch/unix/x11/gnome/x11ui.c (ui_select_contents_cb):
+	fixed core dump
+	fixed ascending the path by one level each time a file dialog was
+	called
+
+2005-01-16  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/video.c (init_xv_settings): Moved
+	initialization code for XVideo settings from
+	video_canvas_create() to separate function. Also called from
+	video_canvas_resize() to ensure initialization when hardware
+	scaling is not enabled at startup.
+
+	* video/video-color.c (video_calc_ycbcrtable,
+	video_calc_palette, video_color_update_palette): Modified to
+	work with YCbCr instead of CBM palette, in order to make
+	external palettes work with PAL emulation and hardware
+	scaling.
+	(video_ycbcr_palette_create, video_ycbcr_palette_free,
+	video_convert_rgb_to_ycbcr, video_palette_to_ycbcr,
+	video_cbm_palette_to_ycbcr): New functions.
+
+	* video-render-pal.c (video_render_pal_main): Commented out
+	disable of PAL emulation for external palettes.
+
+	* video-resources.c (set_hwscale_enabled): Added call to
+	video_color_update_palette() to update palette on switch from
+	hardware to software scaling (the screen went black when
+	hardware scaling was enabled at startup and disabled by the
+	GUI).
+
+2005-01-16  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/ui.c: savebox handling consistent over drags,
+	clicks and keyboard presses for the various save modes.
+
 2004-12-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.14.

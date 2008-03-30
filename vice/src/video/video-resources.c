@@ -198,6 +198,7 @@ static int set_hwscale_enabled(resource_value_t v, void *param)
 
     if (canvas->initialized) {
         video_viewport_resize(canvas);
+        video_color_update_palette(canvas);
     }
 
     video_resources_update_ui(video_resource_chip);

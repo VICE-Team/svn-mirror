@@ -2272,8 +2272,12 @@ char *ui_select_file(const char *title,
 					path);
 	    lib_free(path);
 	} else {
+	    path = util_concat(default_dir, "/*", NULL);
 	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector), 
 					    default_dir);
+	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
+					path);
+	    lib_free(path);
 	}
     }  else {
         char *newdir = ioutil_current_dir();

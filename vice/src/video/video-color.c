@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <math.h>       /* needed for pow function */
 
+#include "lib.h"
 #include "machine.h"
 #include "palette.h"
 #include "video-canvas.h"
@@ -56,6 +57,9 @@ DWORD gamma_blu_fac[256 * 3];
 DWORD color_red[256];
 DWORD color_grn[256];
 DWORD color_blu[256];
+
+/* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
+DWORD yuv_table[128];
 
 
 void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g, DWORD b)
@@ -100,6 +104,33 @@ typedef struct video_ycbcr_color_s {
     float cb;
     float cr;
 } video_ycbcr_color_t;
+
+typedef struct video_ycbcr_palette_s {
+    unsigned int num_entries;
+    video_ycbcr_color_t *entries;
+} video_ycbcr_palette_t;
+
+static video_ycbcr_palette_t *video_ycbcr_palette_create(unsigned int num_entries)
+{
+    video_ycbcr_palette_t *p;
+
+    p = (video_ycbcr_palette_t *)lib_malloc(sizeof(video_ycbcr_palette_t));
+
+    p->num_entries = num_entries;
+    p->entries = lib_calloc(num_entries, sizeof(video_ycbcr_color_t));
+
+    return p;
+}
+
+static void video_ycbcr_palette_free(video_ycbcr_palette_t *p)
+{
+    if (p == NULL)
+        return;
+
+    lib_free(p->entries);
+    lib_free(p);
+}
+
 
 /* variables needed for generating and activating a palette */
 
@@ -207,6 +238,38 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
     dst->name   = NULL;
 }
 
+/* conversion of RGB to YCbCr */
+
+static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
+                                       video_ycbcr_color_t *dst)
+{
+    float yf, cbf, crf;
+    int y, cb, cr;
+
+    /* convert RGB to YCbCr */
+
+    yf = 0.2989f*src->red + 0.5866f*src->green + 0.1145f*src->blue;
+    cbf = src->blue - yf;
+    crf = src->red - yf;
+
+    /* convert to int and clip to 8 bit boundaries */
+
+    y  = (int)yf;
+    cb = (int)cbf;
+    cr = (int)crf;
+
+    if (y  <   0) y  =   0;
+    if (y  > 255) y  = 255;
+    if (cb <   0) cb =   0;
+    if (cb > 255) cb = 255;
+    if (cr <   0) cr =   0;
+    if (cr > 255) cr = 255;
+
+    dst->y  = (BYTE)y;
+    dst->cb = (BYTE)cb;
+    dst->cr = (BYTE)cr;
+}
+
 /* gammatable calculation */
 
 static void video_calc_gammatable(void)
@@ -242,12 +305,9 @@ static void video_calc_gammatable(void)
 
 /* ycbcr table calculation */
 
-/* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
-DWORD yuv_table[128];
-
-static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
+static void video_calc_ycbcrtable(const video_ycbcr_palette_t *p)
 {
-    video_ycbcr_color_t primary;
+    video_ycbcr_color_t *primary;
     unsigned int i, lf, hf;
     float sat;
 
@@ -255,23 +315,45 @@ static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
     hf = 256 - (lf << 1);
     sat = ((float)(video_resources.color_saturation)) * (256.0f / 1000.0f);
     for (i = 0;i < p->num_entries; i++) {
-        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
-                                   p->phase,&primary);
-        ytable[i] = (SDWORD)(primary.y * 256.0f);
+        primary = &p->entries[i];
+        ytable[i] = (SDWORD)(primary->y * 256.0f);
         ytablel[i] = ytable[i]*lf;
         ytableh[i] = ytable[i]*hf;
-        cbtable[i] = (SDWORD)(primary.cb * sat);
-        crtable[i] = (SDWORD)(primary.cr * sat);
+        cbtable[i] = (SDWORD)(primary->cb * sat);
+        crtable[i] = (SDWORD)(primary->cr * sat);
 
         /* YCbCr to YUV, scale [0, 256] to [0, 255] */
-        yuv_table[i] = ((BYTE)(primary.y * 255 / 256 + 0.5) << 16)
-            | ((BYTE)(0.493111 * primary.cb * 255 / 256 + 128.5) << 8)
-            | (BYTE)(0.877283 * primary.cr * 255 / 256 + 128.5);
+        yuv_table[i] = ((BYTE)(primary->y * 255 / 256 + 0.5) << 16)
+            | ((BYTE)(0.493111 * primary->cb * 255 / 256 + 128.5) << 8)
+            | (BYTE)(0.877283 * primary->cr * 255 / 256 + 128.5);
+    }
+}
+
+/* Convert an RGB palette to YCbCr. */
+static void video_palette_to_ycbcr(const palette_t *p,
+				   video_ycbcr_palette_t* ycbcr)
+{
+    unsigned int i;
+
+    for (i = 0;i < p->num_entries; i++) {
+        video_convert_rgb_to_ycbcr(&p->entries[i], &ycbcr->entries[i]);
+    }
+}
+
+/* Convert a CBM palette to YCbCr. */
+static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p,
+				       video_ycbcr_palette_t* ycbcr)
+{
+    unsigned int i;
+
+    for (i = 0;i < p->num_entries; i++) {
+        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
+                                   p->phase, &ycbcr->entries[i]);
     }
 }
 
 /* Calculate a RGB palette out of VIC/VIC-II/TED colors.  */
-static palette_t *video_calc_palette(const video_cbm_palette_t *p)
+static palette_t *video_calc_palette(const video_ycbcr_palette_t *p)
 {
     palette_t *prgb;
     video_ycbcr_color_t primary;
@@ -290,9 +372,7 @@ static palette_t *video_calc_palette(const video_cbm_palette_t *p)
             return NULL;
 
         for (i = 0; i <p->num_entries; i++) {
-            video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
-                                       p->phase, &primary);
-            video_convert_ycbcr_to_rgb(&primary, sat, bri, con, gam,
+            video_convert_ycbcr_to_rgb(&p->entries[i], sat, bri, con, gam,
                                        &prgb->entries[i]);
         }
     } else {
@@ -305,13 +385,11 @@ static palette_t *video_calc_palette(const video_cbm_palette_t *p)
 
         index = 0;
         for (j = 0; j < p->num_entries; j++) {
-            video_convert_cbm_to_ycbcr(&p->entries[j], p->saturation,
-                                       p->phase, &primary);
+            primary = p->entries[j];
             cb = primary.cb;
             cr = primary.cr;
             for (i = 0; i < p->num_entries; i++) {
-                video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
-                                           p->phase, &primary);
+                primary = p->entries[i];
                 primary.cb = (primary.cb + cb) * 0.5f;
                 primary.cr = (primary.cr + cr) * 0.5f;
                 video_convert_ycbcr_to_rgb(&primary, sat, bri, con, gam,
@@ -346,6 +424,7 @@ static palette_t *video_load_palette(const video_cbm_palette_t *p,
 int video_color_update_palette(struct video_canvas_s *canvas)
 {
     palette_t *palette;
+    video_ycbcr_palette_t *ycbcr;
 
     if (canvas == NULL)
         return 0;
@@ -355,11 +434,23 @@ int video_color_update_palette(struct video_canvas_s *canvas)
     if (canvas->videoconfig->external_palette) {
         palette = video_load_palette(canvas->videoconfig->cbm_palette,
                                      canvas->videoconfig->external_palette_name);
+        video_calc_gammatable();
+        ycbcr = video_ycbcr_palette_create(palette->num_entries);
+        video_palette_to_ycbcr(palette, ycbcr);
+        video_calc_ycbcrtable(ycbcr);
+        if (video_resources.delayloop_emulation) {
+            palette_free(palette);
+            palette = video_calc_palette(ycbcr);
+        }
     } else {
         video_calc_gammatable();
-        video_calc_ycbcrtable(canvas->videoconfig->cbm_palette);
-        palette = video_calc_palette(canvas->videoconfig->cbm_palette);
+        ycbcr = video_ycbcr_palette_create(canvas->videoconfig->cbm_palette->num_entries);
+        video_cbm_palette_to_ycbcr(canvas->videoconfig->cbm_palette, ycbcr);
+        video_calc_ycbcrtable(ycbcr);
+        palette = video_calc_palette(ycbcr);
     }
+
+    video_ycbcr_palette_free(ycbcr);
 
     if (palette != NULL)
         return video_canvas_palette_set(canvas, palette);

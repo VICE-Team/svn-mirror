@@ -1670,7 +1670,7 @@ char *ui_select_file(const char *title,
                 ui_show_text(fs_status.file, contents, 250, 240);
                 lib_free(contents);
             } else {
-                ui_error(_("Unknown image type."));
+                ui_error(_("Unknown image type"));
             }
         }
     } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL)

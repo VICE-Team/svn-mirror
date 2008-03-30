@@ -56,8 +56,10 @@ static void video_render_pal_main(video_render_config_t *config,
 
     delayloop = video_resources.delayloop_emulation;
 
+    /*
     if (config->external_palette)
         delayloop = 0;
+    */
 
     palmode = video_resources.pal_mode;
 

@@ -382,6 +382,39 @@ xv_settings[] = {
   { "XV_BRIGHTNESS", 0, 0, 0, &video_resources.color_brightness },
   { "XV_GAMMA",      0, 0, 0, &video_resources.color_gamma }
 };
+
+static void init_xv_settings(video_canvas_t *canvas)
+{
+    /* Find XVideo color setting limits. */
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
+        int i, j;
+        int numattr = 0;
+        Display *dpy = x11ui_get_display_ptr();
+        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port,
+                                                  &numattr);
+        for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0]));
+            i++) {
+            xv_settings[i].atom = 0;
+
+            for (j = 0; j < numattr; j++) {
+                if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
+                    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name,
+                                                      False);
+                    xv_settings[i].min = attr[j].min_value;
+                    xv_settings[i].max = attr[j].max_value;
+                    break;
+                }
+            }
+        }
+
+        if (attr) {
+            XFree(attr);
+        }
+
+        /* Apply color settings to XVideo. */
+        video_canvas_set_palette(canvas, canvas->palette);
+    }
+}
 #endif
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
@@ -431,35 +464,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     video_add_handlers(canvas);
 
 #ifdef HAVE_XVIDEO
-    /* Find XVideo color setting limits. */
-    if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        int i, j;
-        int numattr = 0;
-        Display *dpy = x11ui_get_display_ptr();
-        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port,
-                                                  &numattr);
-        for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0]));
-            i++) {
-            xv_settings[i].atom = 0;
-
-            for (j = 0; j < numattr; j++) {
-                if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
-                    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name,
-                                                      False);
-                    xv_settings[i].min = attr[j].min_value;
-                    xv_settings[i].max = attr[j].max_value;
-                    break;
-                }
-            }
-        }
-
-        if (attr) {
-            XFree(attr);
-        }
-
-        /* Apply color settings to XVideo. */
-        video_canvas_set_palette(canvas, canvas->palette);
-    }
+    init_xv_settings(canvas);
 #endif
 
     return canvas;
@@ -545,6 +550,10 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     video_canvas_redraw_size(canvas, width, height);
 
     ui_finish_canvas(canvas);
+
+#ifdef HAVE_XVIDEO
+    init_xv_settings(canvas);
+#endif
 }
 
 void enable_text(void)

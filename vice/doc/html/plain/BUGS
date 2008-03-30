@@ -37,6 +37,11 @@
   listed. Once the directory is changed within the file selector the
   filter doesn't apply anymore and directories are shown.
 
+- Files and directories beginning with a period are not shown in
+  the unix + gnome file selection dialogs. Usually, gnome apps have a
+  "Show hidden files" button in such dialogs; Vice/Gnome doesn't
+  support this so far.
+
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get
   weird X protocol errors or the file selector makes the emulator die
