@@ -497,7 +497,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             if ((s = ui_select_file("Attach disk image",
                 "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
-                if (file_system_attach_disk(8, s) < 0)
+                if (file_system_attach_disk(unit, s) < 0)
                     ui_error("Cannot attach specified file");
                 free(s);
             }

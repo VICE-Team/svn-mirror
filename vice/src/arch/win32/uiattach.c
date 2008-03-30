@@ -116,7 +116,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
                       "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
                       "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                       SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
-                      if (file_system_attach_disk(8, s) < 0)
+                      if (file_system_attach_disk(num, s) < 0)
                           ui_error("Cannot attach specified file");
                       free(s);
                   }
@@ -232,3 +232,4 @@ void ui_attach_dialog(HWND hwnd)
 
     PropertySheet(&psh);
 }
+
