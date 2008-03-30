@@ -74,6 +74,7 @@
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "uicolor.h"
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
@@ -564,7 +565,7 @@ void video_canvas_destroy(video_canvas_t *c)
 int video_canvas_set_palette(video_canvas_t *c, const palette_t *palette,
                              PIXEL *pixel_return)
 {
-    return ui_canvas_set_palette(c, c->emuwindow, palette, pixel_return);
+    return uicolor_set_palette(c, palette, pixel_return);
 }
 
 /* Change the size of the canvas. */
