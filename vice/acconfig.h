@@ -68,3 +68,6 @@
 /* Where do we want to install the executable?  */
 #undef PREFIX
 
+/* Is only one canvas supported?  */
+#undef HAS_SINGLE_CANVAS
+

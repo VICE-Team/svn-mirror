@@ -126,6 +126,9 @@
 /* Where do we want to install the executable?  */
 #undef PREFIX
 
+/* Is only one canvas supported?  */
+#undef HAS_SINGLE_CANVAS
+
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 
