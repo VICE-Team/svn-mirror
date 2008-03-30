@@ -966,7 +966,7 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0xd000 && addr <= 0xdfff) {
             return mem_chargen_rom[addr & 0x0fff];
         }
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return mem_kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
@@ -995,7 +995,7 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0xd000 && addr <= 0xdfff) {
             return mem_chargen_rom[addr & 0x0fff];
         }
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return mem_kernal64_rom[addr & 0x1fff];
         }
     }
@@ -1034,7 +1034,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0x4000 && addr <= 0xcfff) {
             return;
         }
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return;
         }
       case 1:                   /* ram */
@@ -1063,7 +1063,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0xd000 && addr <= 0xdfff) {
             return;
         }
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return;
         }
     }

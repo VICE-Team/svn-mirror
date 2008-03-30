@@ -274,7 +274,7 @@ struct ted_s {
     CLOCK last_emulate_line_clk;
 
     /* Geometry and timing parameters of the selected TED emulation.  */
-    int screen_height;
+    unsigned int screen_height;
     int first_displayed_line;
     int last_displayed_line;
 

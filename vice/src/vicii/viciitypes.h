@@ -340,7 +340,7 @@ struct vicii_s {
     CLOCK sprite_fetch_clk;
 
     /* Geometry and timing parameters of the selected VIC-II emulation.  */
-    int screen_height;
+    unsigned int screen_height;
     int first_displayed_line;
     int last_displayed_line;
 

@@ -74,27 +74,6 @@ fail:
 
 /* Helper functions.  */
 
-static int read_byte_into_int(snapshot_module_t *m, int *value_return)
-{
-  BYTE b;
-
-  if (SMR_B(m, &b) < 0)
-      return -1;
-  *value_return = (int)b;
-  return 0;
-}
-
-
-static int read_word_into_int(snapshot_module_t *m, int *value_return)
-{
-  WORD b;
-
-  if (SMR_W(m, &b) < 0)
-      return -1;
-  *value_return = (int)b;
-  return 0;
-}
-
 int vdc_snapshot_read_module(snapshot_t *s)
 {
   BYTE major_version, minor_version;

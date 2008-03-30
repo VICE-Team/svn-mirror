@@ -97,6 +97,7 @@ static UI_CALLBACK(psid_load)
        lib_free(filename);
 }
 
+#if 0
 static UI_CALLBACK(psid_tune)
 {
     int tune = *((int *)UI_MENU_CB_PARAM);
@@ -104,7 +105,7 @@ static UI_CALLBACK(psid_tune)
     vsync_suspend_speed_eval();
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
-
+#endif
 
 static ui_menu_entry_t ui_load_commands_menu[] = {
   { N_("Load PSID file..."),
@@ -128,9 +129,9 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
     { NULL }
 };
 
+/*
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
-/*
 static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
   { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
     (ui_callback_data_t)3000, NULL },
@@ -143,8 +144,8 @@ static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
   { NULL }
 };
 */
-UI_MENU_DEFINE_TOGGLE(Sound)
 /*
+UI_MENU_DEFINE_TOGGLE(Sound)
 static ui_menu_entry_t sound_settings_submenu_vsid[] = {
   { N_("*Enable sound playback"),
     (ui_callback_t)toggle_Sound, NULL, NULL },

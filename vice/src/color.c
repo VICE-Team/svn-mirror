@@ -322,6 +322,7 @@ out:
 
 /*-----------------------------------------------------------------------*/
 
+#if 0
 static void color_print_list(const char *name, color_list_t *list)
 {
     log_message(color_log, "List %s start:", name);
@@ -345,6 +346,7 @@ static void color_print_list(const char *name, color_list_t *list)
     }
     log_message(color_log, "List ends.");
 }
+#endif
 
 /*-----------------------------------------------------------------------*/
 

@@ -98,6 +98,7 @@ int z80mem_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Generic memory access.  */
+#if 0
 static void REGPARM2 z80mem_store(WORD addr, BYTE value)
 {
     _z80mem_write_tab_ptr[addr >> 8](addr, value);
@@ -107,6 +108,7 @@ static BYTE REGPARM1 z80mem_read(WORD addr)
 {
     return _z80mem_read_tab_ptr[addr >> 8](addr);
 }
+#endif
 
 BYTE REGPARM1 bios_read(WORD addr)
 {

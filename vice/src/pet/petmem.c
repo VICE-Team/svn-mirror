@@ -861,7 +861,7 @@ BYTE mem_bank_read(int bank, WORD addr)
             return read_io(addr);
         }
       case 2:                   /* rom */
-        if (addr >= 0x9000 && addr <= 0xffff) {
+        if (addr >= 0x9000) {
             return mem_rom[addr & 0x7fff];
         }
       case 1:                   /* ram */
@@ -899,7 +899,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
             return;
         }
       case 2:                   /* rom */
-        if (addr >= 0x9000 && addr <= 0xffff) {
+        if (addr >= 0x9000) {
             return;
         }
       case 1:                   /* ram */

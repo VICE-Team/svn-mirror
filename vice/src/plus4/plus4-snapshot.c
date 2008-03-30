@@ -37,7 +37,7 @@
 
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
-static const char snap_mem_module_name[] = "PLUS4MEM";
+/*static const char snap_mem_module_name[] = "PLUS4MEM";*/
 
 int plus4_snapshot_write_module(snapshot_t *s, int save_roms)
 {

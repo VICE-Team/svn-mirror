@@ -359,9 +359,9 @@ static ui_menu_entry_t rs232_settings_menu[] = {
 
 /*------------------------------------------------------------*/
 
+/*
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 
-/*
 static ui_menu_entry_t vic20_io_submenu[] = {
     { "*VIC-1112 IEEE 488 module",
       (ui_callback_t)toggle_IEEE488, NULL, NULL },

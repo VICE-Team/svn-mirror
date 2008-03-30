@@ -60,10 +60,6 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
-UI_MENU_DEFINE_TOGGLE(AttachDevice8Raw)
-UI_MENU_DEFINE_TOGGLE(AttachDevice9Raw)
-UI_MENU_DEFINE_TOGGLE(AttachDevice10Raw)
-UI_MENU_DEFINE_TOGGLE(AttachDevice11Raw)
 
 static UI_CALLBACK(set_fsdevice_directory)
 {

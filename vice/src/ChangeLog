@@ -1,3 +1,15 @@
+2003-05-18  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.11.45.
+
+	* 6510core.c, drive/drivecpu.c, raster/raster-line.c,
+	vicii/viciitypes.h, vdc/vdc-snapshot.c, c64/c64mem.c,
+	c64/psid.c, c128/c128mem.c, c128/z80mem.c, pet/petmem.c,
+	plus4/plus4-snapshot.c, plus4/plus4mem.c, plus4/tedtypes.h,
+	arch/unix/uiperipheral.c, arch/unix/vic20ui.c,
+	arch/unix/vsidui.c, color.c, findpath.c, vsync.c: Fixed some
+	warnings.
+
 2003-05-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.44.

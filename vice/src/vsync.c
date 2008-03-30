@@ -44,6 +44,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "clkguard.h"
 #include "cmdline.h"

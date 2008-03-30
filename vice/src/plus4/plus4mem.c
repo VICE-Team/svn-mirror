@@ -921,7 +921,7 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return mem_basic_rom[addr & 0x3fff];
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return mem_kernal_rom[addr & 0x3fff];
         }
         break;
@@ -929,7 +929,7 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return extromlo1[addr & 0x3fff];
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return extromhi1[addr & 0x3fff];
         }
         break;
@@ -937,7 +937,7 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return extromlo2[addr & 0x3fff];
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return extromhi2[addr & 0x3fff];
         }
         break;
@@ -945,7 +945,7 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return extromlo3[addr & 0x3fff];
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return extromhi3[addr & 0x3fff];
         }
         break;
@@ -970,7 +970,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return;
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return;
         }
         break;
@@ -978,7 +978,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return;
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return;
         }
         break;
@@ -986,7 +986,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return;
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return;
         }
         break;
@@ -994,7 +994,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return;
         }
-        if (addr >= 0xc000 && addr <= 0xffff) {
+        if (addr >= 0xc000) {
             return;
         }
         break;
