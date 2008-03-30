@@ -3666,6 +3666,21 @@ audio chip.
 
 @itemize @bullet
 
+@cindex Second SID
+@item
+``Second SID'' maps a second SID chip into the address space for stereo
+sound. This emulates e.g. the ``SID Symphony Stereo Cartridge'' from
+Dr. Evil Laboratories. The second SID can be used with software such as
+``Stereo SID Player'' by Mark Dickenson or ``The Enhanced Sidplayer'' by
+Craig Chamberlain.
+
+@cindex Second SID base address
+@item
+``Second SID base address'' sets the start address for the second SID
+chip. Software normally uses $DE00 or $DF00, since $DE00-$DEFF and
+$DF00-$DFFF can be mapped through the cartridge port of the C64. The
+default start address is $DE00.
+
 @cindex SID filters
 @item
 ``Emulate filters'' causes the built-in programmable filters of the SID
@@ -3683,6 +3698,41 @@ MOS8580 ones.
 ``Use reSID emulation'' specifies whether the more accurate (and
 resource hungry) reSID emulation is turned on or off.
 
+@cindex reSID samping method
+@item
+``reSID sampling method'' selects the method for conversion of the SID
+output signal to a sampling rate appropriate for playback by standard
+digital sound equipment. Possible settings are:
+@itemize @bullet
+@item
+``Fast'' simply clocks the SID chip at the output sampling frequency,
+picking the nearest sample. This yields acceptable sound quality, but
+sampling noise is noticeable in some cases, especially with SID combined
+waveforms. The sound emulation is still cycle exact.
+@item
+``Interpolating'' clocks the SID chip each cycle, and calculates each
+sample with linear interpolation. The sampling noise is now strongly
+attenuated by the SID external filter (as long as ``Emulate filters'' is
+selected), and the linear interpolation further improves the sound
+quality.
+@item
+``Resampling'' clocks the SID chip each cycle, and uses the
+theoretically correct method for sample generation. This delivers CD
+quality sound, but is extremely CPU intensive, and is thus most useful
+for non-interactive sound generation. Unless you have a very fast
+machine, that is.
+@end itemize
+
+@cindex reSID resampling passband
+@item ``reSID resampling passband'' specifies the percentage of the
+total bandwidth allocated to the resampling filter passband. The work
+rate of the resampling filter is inversely proportional to the remaining
+transition band percentage. This implies that e.g. with the transition
+band starting at ~ 20kHz, it is faster to generate 48kHz than 44.1kHz
+samples. For CD quality sound generation at 44.1kHz the passband
+percentage should be set to 90 (i.e. the transition band starting at
+almost 20kHz).
+
 @end itemize
 
 @menu
@@ -3694,6 +3744,14 @@ resource hungry) reSID emulation is turned on or off.
 @subsubsection SID resources
 
 @table @code
+
+@vindex SidStereo
+@item SidStereo
+Boolean selecting emulation of a second SID.
+
+@vindex SidStereoAddressStart
+@item SidStereoAddressStart
+Integer specifying the start address for the second SID.
 
 @vindex SidFilters
 @item SidFilters
@@ -3708,6 +3766,16 @@ MOS6581, @code{1}: MOS8580).
 @item SidUseResid
 Boolean specifying whether the accurate reSID emulation is being used.
 
+@vindex SidResidSampling
+@item SidResidSampling
+Integer specifying the sampling method (@code{0}: Fast, @code{1}:
+Interpolation, @code{2}: Resampling)
+
+@vindex SidResidPassband
+@item SidResidPassband
+Integer specifying the resampling filter passband in percentage of the
+total bandwidth (@code{0 - 90}).
+
 @end table
 
 
@@ -3715,6 +3783,15 @@ Boolean specifying whether the accurate reSID emulation is being used.
 @subsubsection SID command-line options
 
 @table @code
+
+@cindex -sidstereo
+@item -sidstereo
+Emulates a second SID chip for stereo sound (@code{SidStereo}).
+
+@cindex -sidstereoaddress
+@item -sidstereoaddress @code{ADDRESS}
+Specifies the start address for the second SID chip
+(@code{SidStereoAddressStart}).
 
 @cindex -sidmodel
 @item -sidmodel MODEL
@@ -3732,6 +3809,17 @@ of the built-in SID filters.
 @itemx +resid
 Enable (@code{SidFilters=1}) or disable (@code{SidFilters=0}) usage of
 the reSID emulator.
+
+@cindex -residsamp
+@item -residsamp @code{METHOD}
+Specifies the sampling method; fast (@code{SidResidSampling=0}),
+interpolating (@code{SidResidSampling=1}), or resampling
+(@code{SidResidSampling=2}).
+
+@cindex -residpass
+@item -residpass @code{PERCENTAGE}
+Specifies the resampling filter passband in percentage of the total
+bandwidth (@code{SidResidPassband=0-90}).
 
 @end table
 

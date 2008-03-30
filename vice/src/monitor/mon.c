@@ -580,10 +580,8 @@ static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr,
 
         if (petscii)
             buf[i] = charset_p_toascii(val, 0);
-        if (isprint(val))
-            buf[i] = val;
-        else
-            buf[i] = '.';
+
+        buf[i] = isprint(val) ? val : '.';
 
         addr++;
     }
@@ -1127,7 +1125,7 @@ void mon_end_recording(void)
 static void playback_commands(const char *filename)
 {
     FILE *fp;
-    char string[256], *rc;
+    char string[256];
 
     if (NULL == (fp = fopen(filename, MODE_READ_TEXT))
         && NULL == (fp = sysfile_open(filename, NULL, MODE_READ_TEXT))) {
@@ -1135,16 +1133,12 @@ static void playback_commands(const char *filename)
         return;
     }
 
-    while (1) {
-        rc = fgets(string, 255, fp);
-        if (rc != NULL) {
-            if (strcmp(string, "stop\n") == 0)
-                break;
-            string[strlen(string) - 1] = '\0';
-            parse_and_execute_line(string);
-        } else {
+    while (fgets(string, 255, fp) != NULL) {
+        if (strcmp(string, "stop\n") == 0)
             break;
-        }
+
+        string[strlen(string) - 1] = '\0';
+        parse_and_execute_line(string);
     }
 
     fclose(fp);
@@ -1275,7 +1269,9 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
         /* FIXME - prompt user */
         free_symbol_table(mem);
         return;
-    } else if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
+    }
+
+    if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
         mon_out("Symbol %s not found.\n", name);
         return;
     }
@@ -1477,13 +1473,16 @@ int mon_evaluate_conditional(cond_node_t *cnode)
 
 void mon_delete_conditional(cond_node_t *cnode)
 {
-    if (cnode) {
-        if (cnode->child1)
-            mon_delete_conditional(cnode->child1);
-        if (cnode->child2)
-            mon_delete_conditional(cnode->child2);
-        free(cnode);
-    }
+    if (!cnode)
+        return;
+
+    if (cnode->child1)
+        mon_delete_conditional(cnode->child1);
+
+    if (cnode->child2)
+        mon_delete_conditional(cnode->child2);
+
+    free(cnode);
 }
 
 
@@ -1567,48 +1566,50 @@ int mon_force_import(MEMSPACE mem)
 
 void mon_check_icount(ADDRESS a)
 {
-    if (instruction_count) {
-        if (wait_for_return_level == 0)
-           instruction_count--;
+    if (!instruction_count)
+        return;
 
-        if (skip_jsrs == TRUE) {
-            if (GET_OPCODE(caller_space) == OP_JSR)
-                wait_for_return_level++;
+    if (wait_for_return_level == 0)
+        instruction_count--;
 
-            if (GET_OPCODE(caller_space) == OP_RTS)
-                wait_for_return_level--;
+    if (skip_jsrs == TRUE) {
+        if (GET_OPCODE(caller_space) == OP_JSR)
+            wait_for_return_level++;
 
-            if (GET_OPCODE(caller_space) == OP_RTI)
-                wait_for_return_level--;
+        if (GET_OPCODE(caller_space) == OP_RTS)
+            wait_for_return_level--;
 
-            if (wait_for_return_level < 0) {
-                wait_for_return_level = 0;
+        if (GET_OPCODE(caller_space) == OP_RTI)
+            wait_for_return_level--;
 
-                /* FIXME: [SRT], 01-24-2000: this is only a workaround.
-                this occurs when the commands 'n' or  'ret' are executed
-                out of an active IRQ or NMI processing routine.
+        if (wait_for_return_level < 0) {
+            wait_for_return_level = 0;
 
-                the following command immediately stops executing when used
-                with 'n' and parameter > 1, but it's necessary because else,
-                it can occur that the monitor will not come back at all.
-                Don't know so far how this can be avoided. The only
-                solution I see is to keep track of every IRQ and NMI
-                invocation and every RTI. */
-                instruction_count = 0;
-            }
-        }
+            /* FIXME: [SRT], 01-24-2000: this is only a workaround.
+             this occurs when the commands 'n' or  'ret' are executed
+             out of an active IRQ or NMI processing routine.
 
-        if (instruction_count == 0) {
-            if (mon_mask[caller_space] & MI_STEP) {
-                mon_mask[caller_space] &= ~MI_STEP;
-                disassemble_on_entry = 1;
-            }
-            if (!mon_mask[caller_space])
-                interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
-
-            mon(a);
+             the following command immediately stops executing when used
+             with 'n' and parameter > 1, but it's necessary because else,
+             it can occur that the monitor will not come back at all.
+             Don't know so far how this can be avoided. The only
+             solution I see is to keep track of every IRQ and NMI
+             invocation and every RTI. */
+            instruction_count = 0;
         }
     }
+
+    if (instruction_count != 0)
+        return;
+
+    if (mon_mask[caller_space] & MI_STEP) {
+        mon_mask[caller_space] &= ~MI_STEP;
+        disassemble_on_entry = 1;
+    }
+    if (!mon_mask[caller_space])
+        interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
+
+    mon(a);
 }
 
 void mon_check_icount_interrupt(void)
@@ -1729,20 +1730,19 @@ int mon_process(char *cmd)
                 /* Repeat previous command */
                 free(cmd);
 
-                if (last_cmd)
-                    cmd = stralloc(last_cmd);
-                else
-                    cmd = NULL;
+                cmd = last_cmd ? stralloc(last_cmd) : NULL;
+
             } else {
                 /* Leave asm mode */
                 make_prompt(prompt);
             }
-        } else {
-            /* Nonempty line */
-#ifdef HAVE_READLINE
-            add_history(cmd);
-#endif
         }
+#ifdef HAVE_READLINE
+        else {
+            /* Nonempty line */
+            add_history(cmd);
+        }
+#endif
 
         if (cmd) {
             if (recording) {

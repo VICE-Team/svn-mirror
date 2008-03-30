@@ -122,6 +122,8 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          struct monitor_cpu_type_s **asmarray);
 extern void mon(ADDRESS a);
 
+extern void mon_abort(void);
+
 extern int mon_force_import(MEMSPACE mem);
 extern void mon_check_icount(ADDRESS a);
 extern void mon_check_icount_interrupt(void);

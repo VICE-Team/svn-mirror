@@ -156,7 +156,7 @@ static cmdline_option_t vsid_cmdline_options[] = {
       NULL, "Show a list of the available options and exit normally" },
 #if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
-      NULL, "Console mode (for playing music)" },
+      NULL, "Console mode (for music playback)" },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
@@ -289,11 +289,11 @@ static int init_cmdline_options(void)
         archdep_startup_log_error("Cannot initialize command-line options for system file locator.\n");
         return -1;
     }
-    if (ui_init_cmdline_options() < 0) {
+    if (!vsid_mode && ui_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize UI-specific command-line options.\n");
         return -1;
     }
-    if (file_system_init_cmdline_options() < 0) {
+    if (!vsid_mode && file_system_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize Attach-specific command-line options.\n");
         return -1;
     }

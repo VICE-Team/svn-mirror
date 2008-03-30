@@ -1,3 +1,20 @@
+These are the most important known problems with VICE 1.8:
+
+- The Unix/Gnome port shows a GdkERROR on some displays (seen on
+  Solaris8 mixed color depth visual) and crashes.
+  We have an incomplete workaround; Contact
+  `vice-devel@firenze.linux.it' for details.
+
+- The Linux/DGA2 code is known to be unstable, especially when
+  switching back to window mode under some circumstances.
+
+- x128 Linux/DGA2 fullscreen support is known to be broken
+
+- The Unix/Gnome port file selector filter does not take care about
+  directories which are most probably filtered out and not
+  listed. Once the directory is changed within the file selector the
+  filter doesn't apply anymore and directories are shown.
+
 These are the most important known problems with VICE 1.7:
 
 - Some basic features of the VDC are missing. In the MS-DOS port you
@@ -17,10 +34,6 @@ These are the most important known problems with VICE 1.7:
 
 - When loading a snapshot, the monitor break/watchpoints break.
   (at least in xpet)
-
-- The German translation doesn't work properly under
-  Solaris/gettext. The menus are just partially filled, other entries
-  are blanked and some are wrong.
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get

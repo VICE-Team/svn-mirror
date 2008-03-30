@@ -579,8 +579,12 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
     XSetWindowAttributes attr;
     int i;
-    if (uicolor_alloc_colors(c, palette, pixel_return) == -1)
-        return NULL;
+
+    if (!vsid_mode)
+    {
+	if (uicolor_alloc_colors(c, palette, pixel_return) == -1)
+	    return NULL;
+    }
 
     /* colormap might have changed after ui_alloc_colors, so we set it again */
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);

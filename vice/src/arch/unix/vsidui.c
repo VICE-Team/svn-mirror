@@ -52,6 +52,7 @@
 #include "videoarch.h"
 #include "vsync.h"
 #include "vsidui.h"
+#include "vsiduiunix.h"
 
 static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);
@@ -161,7 +162,11 @@ static ui_menu_entry_t ui_sound_settings_menu[] = {
   { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
+
 static ui_menu_entry_t psid_menu[] = {
+  { N_("*Override PSID settings"),
+    (ui_callback_t)toggle_PSIDKeepEnv, NULL, NULL },
   { N_("SID settings"),
     NULL, NULL, sid_submenu },
   { N_("Video standard"),
@@ -273,6 +278,8 @@ static void vsid_create_menus(void)
 
 int vsid_ui_init(void)
 {
+    ui_open_canvas_window(NULL, _("VSID: The SID Emulator"), 100, 100, 0, NULL,
+			  NULL, 0);
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
 

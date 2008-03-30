@@ -146,7 +146,9 @@ BEGIN
 #ifdef HAVE_PAL
       SUBMENU "PAL Control",           IDM_PALCONTROL,   MIS_TEXT
       BEGIN
+#ifndef HAVE_TED
         MENUITEM "Fast PAL Emulation", IDM_FAKEPAL,      MIS_TEXT
+#endif
         MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
 #ifdef HAVE_VIC_II
         MENUITEM "New Luminacees",     IDM_LUMINANCES,   MIS_TEXT

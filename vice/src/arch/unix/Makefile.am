@@ -93,7 +93,7 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsyncarch.c \
 	vsidui.c \
-	vsidui.h
+	vsiduiunix.h
 
 bin_SCRIPTS = vsid
 

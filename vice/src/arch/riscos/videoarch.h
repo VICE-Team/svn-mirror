@@ -49,7 +49,7 @@ typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
 
 struct video_canvas_s {
-  unsigned int width, height, depth;
+  unsigned int width, height;
   unsigned int scale;
   int shiftx, shifty;
   RO_Window *window;

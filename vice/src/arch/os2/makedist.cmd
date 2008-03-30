@@ -147,13 +147,13 @@ copy "doc\vice2.hlp"           Vice2
 copy doc\Vice_for_OS2.txt      Vice2\doc
 
 md Vice2\doc\readme
-copy  ..\..\..\AUTHORS         Vice2\doc\readme
-copy  ..\..\..\BUGS            Vice2\doc\readme
-copy  ..\..\..\COPYING         Vice2\doc\readme
-copy  ..\..\..\FEEDBACK        Vice2\doc\readme
-copy  ..\..\..\NEWS            Vice2\doc\readme
-copy  ..\..\..\README          Vice2\doc\readme
-copy  ..\..\..\TODO            Vice2\doc\readme
+copy  ..\..\..\AUTHORS                Vice2\doc\readme
+copy  ..\..\..\doc\html\plain\BUGS    Vice2\doc\readme
+copy  ..\..\..\doc\html\plain\COPYING Vice2\doc\readme
+copy  ..\..\..\FEEDBACK               Vice2\doc\readme
+copy  ..\..\..\doc\html\plain\NEWS    Vice2\doc\readme
+copy  ..\..\..\README                 Vice2\doc\readme
+copy  ..\..\..\doc\html\plain\TODO    Vice2\doc\readme
 
 md Vice2\doc\txt
 copy  ..\..\..\doc\Evaluation  Vice2\doc\txt\Evaluation

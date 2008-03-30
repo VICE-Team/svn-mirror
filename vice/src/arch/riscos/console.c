@@ -44,6 +44,8 @@ static FILE *mon_input, *mon_output;
 
 static int WimpCmdBlock[64];
 
+static int EscapePending;
+
 
 
 int console_init(void)
@@ -54,6 +56,8 @@ int console_init(void)
 console_t *console_open(const char *id)
 {
     console_t *console;
+
+    EscapePending = 0;
 
     mon_input = stdin; mon_output = stdout;
 
@@ -96,6 +100,13 @@ int console_close(console_t *log)
 int console_out(console_t *log, const char *format, ...)
 {
     va_list ap;
+    int status = 0;
+
+    if (EscapePending != 0)
+    {
+      EscapePending = 0;
+      status = -1;
+    }
 
     va_start(ap, format);
     if (!ui_message_window_is_open(msg_win_monitor))
@@ -118,12 +129,14 @@ int console_out(console_t *log, const char *format, ...)
         }
       }
     }
-    return 0;
+    return status;
 }
 
 char *console_in(console_t *log)
 {
     char *p;
+
+    EscapePending = 0;
 
     if (!ui_message_window_is_open(msg_win_monitor))
     {
@@ -157,6 +170,11 @@ char *console_in(console_t *log)
     }
 
     return p;
+}
+
+void console_raise_escape(void)
+{
+    EscapePending = 1;
 }
 
 int console_close_all(void)

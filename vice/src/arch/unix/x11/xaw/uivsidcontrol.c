@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 #include "ui.h"
-#include "vsidui.h"
+#include "vsiduiunix.h"
 #include "utils.h"
 
 static char *author, *copyright, *name, *vsidsync, *model, *irq;

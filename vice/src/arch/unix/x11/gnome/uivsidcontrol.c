@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 #include "ui.h"
-#include "vsidui.h"
+#include "vsiduiunix.h"
 #include "utils.h"
 
 static GtkWidget *current_line;

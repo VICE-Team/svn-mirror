@@ -48,6 +48,9 @@
 #define MSGWIN_FLAG_PENDCLOSE	4
 
 
+extern void console_raise_escape(void);
+
+
 typedef struct message_window_s {
   text_window_t *tw;
   RO_Window *win;
@@ -110,6 +113,7 @@ void msgwin_monitor_close(void)
 
 static void mon_close_request(void)
 {
+  console_raise_escape();
   MsgWindows[msg_win_monitor].Flags |= MSGWIN_FLAG_PENDCLOSE;
 }
 
@@ -577,6 +581,15 @@ int ui_message_need_null_event(void)
 int ui_message_process_event(int event, int *wimpblock)
 {
   int i, status = 0;
+
+  /* catch escape key in monitor window */
+  if ((event == WimpEvt_KeyPress) && (MsgWindows[msg_win_monitor].win != NULL) &&
+      (wimpblock[KeyPB_Window] == MsgWindows[msg_win_monitor].win->Handle) &&
+      (wimpblock[KeyPB_Key] == 0x1b))
+  {
+      console_raise_escape();
+      return 1;
+  }
 
   for (i=0; i<msg_win_NUMBER; i++)
   {

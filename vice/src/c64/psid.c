@@ -84,30 +84,20 @@ int psid_ui_set_tune(resource_value_t tune, void *param);
 
 static psid_t* psid = NULL;
 static int psid_tune = 0;
-static int default_videostandard;
-static int default_sidmodel;
+static int keepenv = 0;
 
-int psid_ui_set_default_videostandard(resource_value_t standard, void *param)
+int set_keepenv(resource_value_t val, void *param)
 {
-  default_videostandard = (int)standard;
-
-  return 0;
-}
-
-int psid_ui_set_default_sidmodel(resource_value_t model, void *param)
-{
-  default_sidmodel = (int)model;
+  keepenv = (int)val;
 
   return 0;
 }
 
 static resource_t resources[] = {
+    { "PSIDKeepEnv", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &keepenv, set_keepenv, NULL },
     { "PSIDTune", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &psid_tune, psid_ui_set_tune, NULL },
-    { "PSIDDefaultVideoStandard", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
-      (resource_value_t *) &default_videostandard, psid_ui_set_default_videostandard, NULL },
-    { "PSIDDefaultSidModel", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &default_sidmodel, psid_ui_set_default_sidmodel, NULL },
     { NULL }
 };
 
@@ -119,6 +109,12 @@ int psid_init_resources(void)
 static int cmdline_vsid_mode(const char *param, void *extra_param)
 {
     vsid_mode = 1;
+    return 0;
+}
+
+static int cmdline_keepenv(const char *param, void *extra_param)
+{
+    keepenv = 1;
     return 0;
 }
 
@@ -142,6 +138,8 @@ static cmdline_option_t cmdline_options[] =
     NULL, "Use old NTSC sync factor" },
   { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
     NULL, "SID player mode" },
+  { "-keepenv", CALL_FUNCTION, 0, cmdline_keepenv, NULL, NULL, NULL,
+    NULL, "Override PSID settings for Video standard and SID model" },
   { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
     "<number>", "Specify PSID tune <number>" },
   { NULL }
@@ -482,37 +480,43 @@ void psid_init_driver(void)
   ADDRESS reloc_addr;
   ADDRESS addr;
   int i;
-  int sync;
+  resource_value_t sync;
 
   if (!psid) {
     return;
   }
 
   /* C64 PAL/NTSC flag. */
-  switch ((psid->flags >> 2) & 0x03) {
-  case 0x01:
-    sync = DRIVE_SYNC_PAL;
-    break;
-  case 0x02:
-    sync = DRIVE_SYNC_NTSC;
-    break;
-  default:
-    sync = default_videostandard;
-    break;
+  resources_get_value("VideoStandard", &sync);
+  if (!keepenv) {
+    switch ((psid->flags >> 2) & 0x03) {
+    case 0x01:
+      sync = (resource_value_t)DRIVE_SYNC_PAL;
+      resources_set_value("VideoStandard", sync);
+      break;
+    case 0x02:
+      sync = (resource_value_t)DRIVE_SYNC_NTSC;
+      resources_set_value("VideoStandard", sync);
+      break;
+    default:
+      /* Keep settings (00 = unknown, 11 = any) */
+      break;
+    }
   }
-  resources_set_value("VideoStandard", (resource_value_t)sync);
 
   /* MOS6581/MOS8580 flag. */
-  switch ((psid->flags >> 4) & 0x03) {
-  case 0x01:
-    resources_set_value("SidModel", (resource_value_t)0);
-    break;
-  case 0x02:
-    resources_set_value("SidModel", (resource_value_t)1);
-    break;
-  default:
-    resources_set_value("SidModel", (resource_value_t)default_sidmodel);
-    break;
+  if (!keepenv) {
+    switch ((psid->flags >> 4) & 0x03) {
+    case 0x01:
+      resources_set_value("SidModel", (resource_value_t)0);
+      break;
+    case 0x02:
+      resources_set_value("SidModel", (resource_value_t)1);
+      break;
+    default:
+      /* Keep settings (00 = unknown, 11 = any) */
+      break;
+    }
   }
 
   /* Clear low memory to minimize the damage of PSIDs doing bad reads. */
@@ -555,7 +559,7 @@ void psid_init_driver(void)
   ram_store(addr++, (BYTE)((psid->speed >> 8) & 0xff));
   ram_store(addr++, (BYTE)((psid->speed >> 16) & 0xff));
   ram_store(addr++, (BYTE)(psid->speed >> 24));
-  ram_store(addr++, (BYTE)(sync == DRIVE_SYNC_PAL ? 1 : 0));
+  ram_store(addr++, (BYTE)((int)sync == DRIVE_SYNC_PAL ? 1 : 0));
 }
 
 

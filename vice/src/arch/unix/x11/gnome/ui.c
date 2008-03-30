@@ -1041,6 +1041,9 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 
     gtk_window_set_title(GTK_WINDOW(new_window),title);
 
+    if (vsid_mode)
+	return (ui_window_t) NULL;
+    
     alloc_colormap();
     if (!app_gc)
 	app_gc = gdk_gc_new(new_window->window);

@@ -1953,8 +1953,10 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
     //
     RGB2 *palette = calloc(p->num_entries, sizeof(RGB2));
 
-    log_debug("Setting %d pallette entries, ret=0x%p.", p->num_entries,
-              pixel_return);
+    /*
+     log_debug("Setting %d pallette entries, ret=0x%p.", p->num_entries,
+     pixel_return);
+     */
 
     for (i=0; i<p->num_entries; i++)
     {
