@@ -106,6 +106,10 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     return default_path;
 }
 
+const char *archdep_default_save_resource_file_name(void) {
+    return archdep_default_resource_file_name();
+}
+
 const char *archdep_default_resource_file_name(void)
 {
     static char *fname;
