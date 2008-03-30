@@ -475,9 +475,12 @@ static void write_track_gcr(int track)
     }
 
     if (gcr_track_p[(track - 1) * 2] == 0) {
-	/* This will change soon.  */
-	fprintf(stderr, "1541: Adding new tracks is not supported yet.\n");
-	return;
+	offset = lseek(true1541_floppy->ActiveFd, 0, SEEK_END);
+	if (offset < 0) {
+	    fprintf(stderr, "1541: Could not extend GCR disk image.\n");
+	    return;
+	}
+	gcr_track_p[(track - 1) * 2] = offset;
     }
 
     offset = gcr_track_p[(track - 1) * 2];
@@ -500,7 +503,7 @@ static void write_track_gcr(int track)
     if (lseek(true1541_floppy->ActiveFd, offset + 2, SEEK_SET) < 0
         || write(true1541_floppy->ActiveFd, (char *)GCR_track_start_ptr,
                  NUM_MAX_BYTES_TRACK) < 0) {
-	fprintf(stderr, "1541: Could not write GCR disk image");
+	fprintf(stderr, "1541: Could not write GCR disk image.\n");
 	return;
     }
 

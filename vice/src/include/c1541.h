@@ -1,5 +1,5 @@
 /*
- * c1541.c - Stand-alone disk image maintenance program.
+ * c1541.h - Stand-alone disk image maintenance program.
  *
  * Written by
  *  Teemu Rantanen   (tvr@cs.hut.fi)
@@ -44,6 +44,12 @@ extern int  num_blocks ( int format, int tracks );
 extern void no_a0_pads ( BYTE *ptr, int l );
 extern int  compare_filename ( char *name, char *pattern );
 
-extern DRIVE *DriveData[4];
+extern int  attach_fsdevice(int device, char *var, char *name);
+extern int  attach_serial_device(int device, char *var, char *name,
+                                 int (*getf)(void *, BYTE *, int),
+                                 int (*putf)(void *, BYTE, int),
+                                 int (*openf)(void *, char *, int, int),
+                                 int (*closef)(void *, int),
+                                 void (*flushf)(void *, int));
 
 #endif /* ndef _C1541_H */

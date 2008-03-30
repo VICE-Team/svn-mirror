@@ -1875,3 +1875,21 @@ int     main(argc, argv)
     printf("\n");
     return (0);
 }
+
+int attach_fsdevice(int device, char *var, char *name)
+{
+    DriveData[device & 3] = (DRIVE *)var;
+    return 0;
+}
+
+int attach_serial_device(int device, char *var, char *name,
+                         int (*getf)(void *, BYTE * , int),
+                         int (*putf)(void *, BYTE , int),
+                         int (*openf)(void *, char *, int , int),
+                         int (*closef)(void *, int),
+                         void (*flushf)(void *, int))
+{
+    DriveData[device & 3] = (DRIVE *)var;
+    return 0;
+}
+

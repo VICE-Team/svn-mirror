@@ -1,5 +1,5 @@
 /*
- * drive.c - Disk-drive implementation.
+ * drive.h - Disk-drive implementation.
  *
  * Written by
  *  Teemu Rantanen      (tvr@cs.hut.fi)
@@ -45,6 +45,12 @@
 
 #define UPPER(ad)		(((ad)>>8)&0xff)
 #define LOWER(ad)		((ad)&0xff)
+
+#define SET_LO_HI(p, val)                       \
+    do {                                        \
+	*((p)++) = (val) & 0xff;                \
+	*((p)++) = ((val)>>8) & 0xff;           \
+    } while (0)
 
 #define DRIVE_RAMSIZE		0x400
 #define IP_MAX_COMMAND_LEN	128	/* real 58 */
@@ -203,6 +209,48 @@ struct _DRIVE {
 
 #define IS_D64_LEN(x) ((x) == D64_FILE_SIZE_35 || (x) == D64_FILE_SIZE_35E || \
 		       (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
+/*
+ * Input Processor Error Codes
+ */
+
+#define IPE_OK                          0
+#define IPE_DELETED                     1
+#define IPE_SEL_PARTN                   2       /* 1581 */
+#define IPE_UNIMPL                      3
+
+#define IPE_WRITE_PROTECT_ON            26
+#define IPE_SYNTAX                      30
+#define IPE_INVAL                       31
+#define IPE_LONG_LINE                   32
+#define IPE_BAD_NAME                    33
+#define IPE_NO_NAME                     34
+
+#define IPE_NOT_WRITE                   60
+#define IPE_NOT_OPEN                    61
+#define IPE_NOT_FOUND                   62
+#define IPE_FILE_EXISTS                 63
+#define IPE_BAD_TYPE                    64
+#define IPE_NO_BLOCK                    65
+#define IPE_ILLEGAL_TRACK_OR_SECTOR     66
+
+#define IPE_NO_CHANNEL                  70
+#define IPE_DISK_FULL                   72
+#define IPE_DOS_VERSION                 73
+#define IPE_NOT_READY                   74
+#define IPE_BAD_PARTN                   77      /* 1581 */
+
+#define IPE_NOT_EMPTY                   80      /* dir to remove not empty */
+#define IPE_PERMISSION                  81      /* permission denied */
+
+
+/*
+ * Error messages
+ */
+
+typedef struct errortext_s {
+    int     nr;
+    char   *text;
+}     errortext_t;
 
 /* ------------------------------------------------------------------------- */
 
@@ -242,6 +290,8 @@ extern int num_blocks(int format, int tracks);
 extern void no_a0_pads(BYTE *ptr, int l);
 
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
+extern int floppy_parse_name ( char *name, int length, char *realname,
+		int *reallength, int *readmode, int *filetype, int *rl );
 
 void set_disk_geometry(DRIVE *floppy, int type);
 
