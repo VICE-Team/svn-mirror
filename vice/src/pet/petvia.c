@@ -57,9 +57,10 @@
 #include "petvia.h"
 
 #include "crtc.h"
+#include "datasette.h"
+#include "drive.h"
 #include "kbd.h"
 #include "parallel.h"
-#include "drive.h"
 #include "petsound.h"
 
 #ifdef HAVE_PRINTER
@@ -112,6 +113,8 @@ inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
     }
     parallel_cpu_set_nrfd(!(byte & 0x02));
     parallel_cpu_set_atn(!(byte & 0x04));
+    if ((byte ^ oldpb) & 0x8)
+        datasette_toggle_write_bit((~via[VIA_DDRB] | byte) & 0x8);
 }
 
 static void undump_pcr(BYTE byte)
