@@ -27,13 +27,107 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "c64ui.h"
 
-#include "ui.h"
+#include "cartridge.h"
+#include "menudefs.h"
 #include "tui.h"
 #include "tuimenu.h"
-#include "menudefs.h"
+#include "ui.h"
+#include "utils.h"
+
+/* ------------------------------------------------------------------------- */
+
+static TUI_MENU_CALLBACK(attach_cartridge_callback)
+{
+    if (been_activated) {
+        char *default_item, *directory;
+        char *name;
+        const char *s;
+        int type = (int) param;
+
+	s = cartridge_get_file_name((ADDRESS) 0);
+	fname_split(s, &directory, &default_item);
+
+        name = tui_file_selector("Attach cartridge image",
+                                 directory, "*", default_item, NULL);
+        if (name != NULL
+            && (s == NULL || strcasecmp(name, s) != 0)
+            && cartridge_attach_image(type, name) < 0)
+            tui_error("Invalid cartridge image.");
+        ui_update_menus();
+        free(name);
+    }
+
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(cartridge_callback)
+{
+    const char *s = cartridge_get_file_name((ADDRESS) 0);
+
+    if (s == NULL || *s == '\0')
+        return "(none)";
+    else
+        return s;
+}
+
+static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
+    { "Attach _CRT Image...",
+      "Attach a CRT image, autodetecting its type",
+      attach_cartridge_callback, (void *) CARTRIDGE_CRT, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Attach Generic _8KB Image...",
+      "Attach a generic 8KB cartridge dump",
+      attach_cartridge_callback, (void *) CARTRIDGE_GENERIC_8KB, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Attach Generic _16KB Image...",
+      "Attach a generic 16KB cartridge dump",
+      attach_cartridge_callback, (void *) CARTRIDGE_GENERIC_16KB, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Attach _Action Replay image...",
+      "Attach an Action Replay cartridge image",
+      attach_cartridge_callback, (void *) CARTRIDGE_ACTION_REPLAY, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t attach_cartridge_menu_items[] = {
+    { "--" },
+    { "_Cartridge:",
+      "Attach a cartridge image",
+      cartridge_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, attach_cartridge_submenu_items,
+      "Attach cartridge" },
+    { NULL }
+};
+
+static TUI_MENU_CALLBACK(detach_cartridge_callback)
+{
+    const char *s;
+
+    if (been_activated)
+        cartridge_detach_image();
+
+    s = cartridge_get_file_name((ADDRESS) 0);
+
+    if (s == NULL || *s == '\0')
+        return "(none)";
+    else
+        return s;
+}
+
+static tui_menu_item_def_t detach_cartridge_menu_items[] = {
+    { "--" },
+    { "_Cartridge:",
+      "Detach attached cartridge image",
+      detach_cartridge_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -55,42 +149,9 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_CALLBACK(toggle_REU_callback)
-{
-    int value;
-
-    if (been_activated) {
-        resources_toggle("REU", (resource_value_t *) &value);
-	/* The REU and the IEEE488 interface share the same address space, so
-	   they cannot be enabled at the same time.  */
-	if (value)
-            resources_set_value("IEEE488", (resource_value_t) 0);
-	ui_update_menus();
-    } else {
-        resources_get_value("REU", (resource_value_t *) &value);
-    }
-
-    return value ? "On" : "Off";
-}
-
+TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
-
-TUI_MENU_CALLBACK(toggle_IEEE488_callback)
-{
-    int value;
-
-    if (been_activated) {
-        resources_toggle("IEEE488", (resource_value_t *) &value);
-	/* The REU and the IEEE488 interface share the same address space, so
-	   they cannot be enabled at the same time.  */
-	if (value)
-            resources_set_value("REU", (resource_value_t) 0);
-    } else {
-        resources_get_value("IEEE488", (resource_value_t *) &value);
-    }
-
-    return value ? "On" : "Off";
-}
+TUI_MENU_DEFINE_TOGGLE(IEEE488)
 
 static tui_menu_item_def_t special_menu_items[] = {
     { "--" },
@@ -118,7 +179,7 @@ static tui_menu_item_def_t special_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_CALLBACK(toggle_SidModel_callback)
+static TUI_MENU_CALLBACK(toggle_SidModel_callback)
 {
     int value;
 
@@ -217,10 +278,16 @@ int c64_ui_init(void)
 {
     ui_create_main_menu(1, 1, 1, 2);
 
+    tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
+    tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
+
     tui_menu_add_separator(ui_video_submenu);
     add_palette_submenu(ui_video_submenu);
     tui_menu_add(ui_video_submenu, vic_ii_menu_items);
+
     tui_menu_add(ui_sound_submenu, sid_menu_items);
+
     tui_menu_add(ui_special_submenu, special_menu_items);
+
     return 0;
 }
