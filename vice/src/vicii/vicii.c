@@ -81,11 +81,7 @@
 #include "vsync.h"
 #include "videoarch.h"
 #include "video.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
 
-/* ---------------------------------------------------------------------*/
 
 /* set phi1 address options */
 void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset)
