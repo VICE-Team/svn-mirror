@@ -260,10 +260,8 @@ static int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
 
     detach_disk_image(image, floppy, unit);
 
-    if (image != NULL) {
-        free(image->name);
+    if (image != NULL)
         free(image);
-    }
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
 
@@ -289,8 +287,10 @@ static int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
         err = vdrive_attach_image(image, 11, floppy);
         break;
     }
-    if (err)
+    if (err) {
+        free(image->name);
         free(image);
+    }
     return err;
 }
 
