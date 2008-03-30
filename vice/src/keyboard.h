@@ -61,6 +61,8 @@ typedef struct keyboard_conv_s {
 
 extern keyboard_conv_t joykeys[2][10];
 
+struct snapshot_s;
+
 extern void keyboard_init(void);
 extern void keyboard_shutdown(void);
 extern void keyboard_set_keyarr(int row, int col, int value);

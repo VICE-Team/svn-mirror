@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+struct snapshot_s;
+
 extern int joystick_init(void);
 
 extern int joystick_check_set(signed long key, int joynum);
