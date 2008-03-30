@@ -409,7 +409,7 @@ static void fill_buffer(int size, int rise)
     lib_free(p);
 
     if (i)
-        sound_error("write to sound device failed.");
+        sound_error(_("write to sound device failed."));
 }
 
 
@@ -420,7 +420,7 @@ static int sid_open(void)
 
     for (c = 0; c < snddata.channels; c++) {
         if (!(snddata.psid[c] = sound_machine_open(c))) {
-            return sound_error("Cannot open SID engine");
+            return sound_error(_("Cannot open SID engine"));
         }
     }
 
@@ -455,7 +455,7 @@ static int sid_init(void)
 
     for (c = 0; c < snddata.channels; c++) {
         if (!sound_machine_init(snddata.psid[c], speed, cycles_per_sec)) {
-            return sound_error("Cannot initialize SID engine");
+            return sound_error(_("Cannot initialize SID engine"));
         }
     }
 
@@ -557,7 +557,7 @@ int sound_open(void)
             int channels_cap = snddata.channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
                 char *err;
-                err = lib_msprintf("initialization failed for device `%s'.",
+                err = lib_msprintf(_("initialization failed for device `%s'."),
                                    pdev->name);
                 sound_error(err);
                 lib_free(err);
@@ -611,7 +611,7 @@ int sound_open(void)
             }
         }
     } else {
-        char *err = lib_msprintf("device '%s' not found or not supported.",
+        char *err = lib_msprintf(_("device '%s' not found or not supported."),
                                  playname);
         sound_error(err);
         lib_free(err);
@@ -628,23 +628,23 @@ int sound_open(void)
     }
 
     if (recname && rdev == NULL)
-        ui_error("Recording device %s doesn't exist!", recname);
+        ui_error(_("Recording device %s doesn't exist!"), recname);
 
     if (rdev) {
         if (rdev == pdev) {
-            ui_error("Recording device must be different from playback device");
+            ui_error(_("Recording device must be different from playback device"));
             resources_set_value("SoundRecordDeviceName", "");
             return 0;
         }
 
         if (rdev->bufferspace != NULL) {
-            ui_error("Warning! Recording device %s seems to be a realtime device!");
+            ui_error(_("Warning! Recording device %s seems to be a realtime device!"));
         }
 
         if (rdev->init) {
             int channels_cap = snddata.channels;
             if (rdev->init(recparam, &speed, &fragsize, &fragnr, &channels_cap)) {
-                ui_error("Initialization failed for device `%s'.",
+                ui_error(_("Initialization failed for device `%s'."),
                                    rdev->name);
                 resources_set_value("SoundRecordDeviceName", "");
                 return 0;
@@ -655,7 +655,7 @@ int sound_open(void)
                 || snddata.fragnr != fragnr
                 || snddata.channels != channels_cap)
             {
-                ui_error("The recording device doesn't support current sound parameters");
+                ui_error(_("The recording device doesn't support current sound parameters"));
                 rdev->close();
                 resources_set_value("SoundRecordDeviceName", "");
             } else {
@@ -732,7 +732,7 @@ static int sound_run_sound(void)
                                                  snddata.channels,
                                                  &delta_t);
             if (delta_t) {
-                return sound_error("Sound buffer overflow (cycle based)");
+                return sound_error(_("Sound buffer overflow (cycle based)"));
             }
         }
     } else {
@@ -742,7 +742,7 @@ static int sound_run_sound(void)
         if (!nr)
             return 0;
         if (snddata.bufptr + nr > BUFSIZE) {
-            return sound_error("Sound buffer overflow.");
+            return sound_error(_("Sound buffer overflow."));
         }
         for (c = 0; c < snddata.channels; c++) {
             sound_machine_calculate_samples(snddata.psid[c],
@@ -864,7 +864,7 @@ double sound_flush(int relative_speed)
         i = snddata.playdev->flush(state);
         lib_free(state);
         if (i) {
-            sound_error("cannot flush.");
+            sound_error(_("cannot flush."));
             return 0;
         }
     }
@@ -909,7 +909,7 @@ double sound_flush(int relative_speed)
             log_warning(sound_log, "fragment problems %d %d",
                  space, snddata.bufsize);
 
-            sound_error("fragment problems.");
+            sound_error(_("fragment problems."));
             return 0;
         }
         used = snddata.bufsize - space;
@@ -974,7 +974,7 @@ double sound_flush(int relative_speed)
             if (suspend_time > 0)
                 suspendsound("running too slow");
             else {
-                sound_error("running too slow.");
+                sound_error(_("running too slow."));
             }
             return 0;
         }
@@ -986,13 +986,13 @@ double sound_flush(int relative_speed)
 
     /* Flush buffer, all channels are already mixed into it. */
     if (snddata.playdev->write(snddata.buffer, nr * snddata.channels)) {
-        sound_error("write to sounddevice failed.");
+        sound_error(_("write to sounddevice failed."));
         return 0;
     }
 
     if (snddata.recdev) {
         if (snddata.recdev->write(snddata.buffer, nr * snddata.channels)) {
-            sound_error("write to sounddevice failed.");
+            sound_error(_("write to sounddevice failed."));
             return 0;
         }
     }
@@ -1216,7 +1216,7 @@ void sound_store(WORD addr, BYTE val, int chipno)
     snddata.wclk = maincpu_clk;
 
     if (i)
-        sound_error("store to sounddevice failed.");
+        sound_error(_("store to sounddevice failed."));
 }
 
 

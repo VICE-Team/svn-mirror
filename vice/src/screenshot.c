@@ -149,7 +149,7 @@ int screenshot_save(const char *drvname, const char *filename,
         return -1;
 
     if (recording_driver == drv) {
-        ui_error("Sorry. Multiple recording is not supported.");
+        ui_error(_("Sorry. Multiple recording is not supported."));
         return -1;
     }
 

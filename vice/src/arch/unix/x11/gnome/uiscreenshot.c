@@ -105,7 +105,7 @@ static GtkWidget *build_screenshot_dialog(void)
 
     frame = gtk_frame_new(_("Image Format"));
     vbox = gtk_vbox_new(FALSE, 5);
-    hbox = gtk_hbox_new(FALSE, 5);
+    hbox = gtk_vbox_new(FALSE, 5);
     
     num_buttons = gfxoutput_num_drivers();
     if (! buttons)
@@ -116,7 +116,7 @@ static GtkWidget *build_screenshot_dialog(void)
     {
 	if (i == 0)
 	{
-	    buttons[i].w = gtk_radio_button_new_with_label(NULL, driver->name);
+	    buttons[i].w = gtk_radio_button_new_with_label(NULL, driver->displayname);
 	    
 	    gtk_toggle_button_set_active(
 		GTK_TOGGLE_BUTTON(buttons[i].w), TRUE);
@@ -125,7 +125,7 @@ static GtkWidget *build_screenshot_dialog(void)
 	    buttons[i].w = gtk_radio_button_new_with_label(
 		gtk_radio_button_group(
 		    GTK_RADIO_BUTTON(buttons[i - 1].w)),
-		driver->name);
+		driver->displayname);
 	gtk_box_pack_start(GTK_BOX(hbox), buttons[i].w, FALSE, FALSE, 0);
 	gtk_widget_show(buttons[i].w);
 	buttons[i].driver = driver->name;

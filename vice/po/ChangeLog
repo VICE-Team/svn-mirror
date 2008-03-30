@@ -1,3 +1,10 @@
+2004-01-11  pottendo  <pottendo@utanet.at>
+
+	* de.po: Updated.
+
+	* POTFILES.in: Added src/screenshot.c src/autostart.c src/sound.c
+	src/event.c
+
 2003-11-30  pottendo  <pottendo@utanet.at>
 
 	* de.po: Updated.

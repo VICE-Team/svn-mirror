@@ -177,7 +177,7 @@ static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
     if (autostart_program_name
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0)
-        ui_error("Cannot load snapshot file.");
+        ui_error(_("Cannot load snapshot file."));
     ui_update_menus();
 }
 

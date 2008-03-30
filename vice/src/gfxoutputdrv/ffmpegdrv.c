@@ -454,12 +454,12 @@ static int ffmpegdrv_init_file(void)
     (*ffmpeglib.p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
 
     if (video_st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st) < 0)) {
-        ui_error("ffmpegdrv: Cannot open video stream");
+        ui_error(_("ffmpegdrv: Cannot open video stream"));
         screenshot_stop_recording();
         return -1;
     }
     if (audio_st && (ffmpegdrv_open_audio(ffmpegdrv_oc, audio_st) < 0)) {
-        ui_error("ffmpegdrv: Cannot open audio stream");
+        ui_error(_("ffmpegdrv: Cannot open audio stream"));
         screenshot_stop_recording();
         return -1;
     }
@@ -468,7 +468,7 @@ static int ffmpegdrv_init_file(void)
         if ((*ffmpeglib.p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
                             URL_WRONLY) < 0) 
         {
-            ui_error("ffmpegdrv: Cannot open %s", ffmpegdrv_oc->filename);
+            ui_error(_("ffmpegdrv: Cannot open %s"), ffmpegdrv_oc->filename);
             screenshot_stop_recording();
             return -1;
         }
