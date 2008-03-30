@@ -74,7 +74,6 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
-#include <time.h>
 #endif
 
 #include "drive.h"
