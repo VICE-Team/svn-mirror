@@ -231,6 +231,14 @@ int util_string_set(char **str, const char *new_value)
     return 0;
 }
 
+int util_check_null_string(const char *string)
+{
+    if (string != NULL && *string != '\0')
+        return 0;
+
+    return -1;
+}
+
 /* ------------------------------------------------------------------------- */
 
 int util_string_to_long(const char *str, const char **endptr, int base,
@@ -380,7 +388,7 @@ int util_load_file(const char *name, void *dest, size_t size)
     FILE *fd;
     size_t r;
 
-    if (name == NULL) {
+    if (util_check_null_string(name)) {
         log_error(LOG_ERR, "No file name given for load_file().");
         return -1;
     }
@@ -407,6 +415,11 @@ int util_save_file(const char *name, const void *src, int size)
 {
     FILE *fd;
     size_t r;
+
+    if (util_check_null_string(name)) {
+        log_error(LOG_ERR, "No file name given for save_file().");
+        return -1;
+    }
 
     fd = fopen(name, MODE_WRITE);
 
