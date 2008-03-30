@@ -288,7 +288,7 @@ void machine_reset(void)
     reset_via();
     reset_crtc();
     petsnd_reset();
-    superpet_reset();
+    petmem_reset();
 #ifdef HAVE_PRINTER
     print_reset();
 #endif

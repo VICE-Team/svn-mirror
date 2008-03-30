@@ -1,4 +1,85 @@
-1999-02-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.26.
+
+	* drive/drive.h: Define drive active LED colors.
+
+	* drive/drive.c (drive_set_disk_drive_type): Set color of active
+	LED.  (drive_enable, set_drive0_type, set_drive1_type,
+	drive_read_snapshot_module): Update drive LED color.
+
+	* arch/unix/xaw/ui.c, arch/unix/xaw/ui.h, arch/win32/ui.c,
+	arch/win32/ui.h, arch/msdos/ui.c, arch/msdos/ui.h,
+	arch/riscos/ui.c, arch/riscos/ui.h (ui_enable_drive_status):
+	Added parameter for drive active LED color.
+
+1998-02-11  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* BUGS: remove the 8x96 video bug description - fixed
+
+	* data/PET/Makefile.am (roms, romsets): change the filenames 
+	appropriately
+	
+	* data/PET/pet*, data/PET/kernal*, data/PET/basic*, data/pet/edit*:
+	split the ROMs up into basic, kernal and editor ROMs that are loaded
+	separately.
+
+	* data/PET/*.vrs: fix ROM names, include basic ROMs.
+
+	* arch/unix/xaw/petui.c (pet_romset_submenu): fix .vrs filenames
+	add entry to load BASIC ROM.
+
+	* pet/pet.c (machine_reset): call petmem_reset instead of 
+	superpet_reset
+
+	* pet/petmem.c (mem_load_basic): new function to load BASIC ROM.
+	(petmem_patch_2001, petmem_unpatch_2001,  mem_read_patchbuf,
+	petmem_2001_buf_ef, petmem_2001_patchbuf_f1, petmem_2001_patchbuf_f3,
+	petmem_2001_patchbuf_f4, petmem_2001_patchbuf_f6): fixed/new 
+	functions for the now self-contained
+	PET Kernal 1 patch. unpatching does not need to load the ROM again
+	now. ROM area is not used for patch area anymore, instead an own
+	side-array is used, petmem_2001_buf_ef with mem_read_patchbuf
+	to access it. The petmem_2001_patchbuf_f* areas are used to 
+	save the patched ROM areas and are copied back on unpatch.
+	(set_kernal_rom_name): load kernal only when name has changed.
+	(set_basic_rom_name): new function
+	(set_pet2k_enabled): use petmem_[un]patch_2001() to patch/unpatch
+	the PET kernal 1.
+	(resources): new entry "BasicName" for BASIC ROM.
+	(cmdline_optione): new entry "-basic"
+	(superpet_reset,  petmem_reset): renamed former to latter because
+	it now resets 8x96 mapping as well.
+	(set_std_9tof): if ROM patched, use petmem_2001_buf_ef as 
+	patch area, not a ROM area that might be overwritten. 
+	(initialize_memory): save map_reg value and store it to 
+	$fff0 if not 0, thus saving the complete mapping.
+	(petmem_get_kernal_checksum, petmem_get_editor_checksum): the
+	two only functions that set the kernal/editor checksum. Both
+	are called exactly when the appropriate ROM is loaded either
+	via mem_load_* or via snapshot, before any trap/patch is installed.
+	(petmem_checksum): according to the saved checksums, install traps.
+	use separate kernal/editor checksums now.
+	(mem_load_basic): new function. 
+	(mem_load_kernal, mem_load_editor): fixed to new ROM formats.
+	(mem_load): call mem_load_basic().
+	(set_screen): call initialize_memory instead of set_vidmem.
+	(mem_read_ram_snapshot): call initialize_memory() 
+	(mem_write_rom_snapshot): do not set IO size to 256 byte when
+	Kernal 1 is loaded.
+	(mem_read_rom_snapshot): unpatch 2001 ROM when patched
+	If IO size has changed, initialize_memory.
+	Call petmem_get_kernal/editor_checksum(), patch 
+	(pet_table): add editor/basic ROM names to all entries
+	(pet_set_model_info): set Basic ROM name
+	
+	* pet/petmem.h (PET_*_CHECKSUM): remove combined kernal/editor
+	checksum and introduce separate checksums.
+	
+	* pet/pets.h (PET_*NAME): fix PET ROM names. 
+	(PetInfo, PetRes): add BASIC ROM name
+
+1999-02-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.25.
 

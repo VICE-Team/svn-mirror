@@ -34,18 +34,21 @@
 #define PET_ROM_SIZE		0x8000
 #define PET_CHARGEN_ROM_SIZE	0x2000
 
-#define	PET2001_CHECKSUM	55094
-#define	PET3032_CHECKSUM_A	31319
-#define	PET3032_CHECKSUM_B	33410
-#define	PET4032_CHECKSUM_A	1643
-#define	PET4032_CHECKSUM_B	14731
-#define	PET8032_CHECKSUM_A	8647	/* my kernel (a.fachat) */
-#define	PET8032_CHECKSUM_B	8227	/* jouko's kernel */
+#define	PET_KERNAL1_CHECKSUM	3236
+#define	PET_KERNAL2_CHECKSUM	31896
+#define	PET_KERNAL4_CHECKSUM	53017
+
+#define	PET_EDIT1G_CHECKSUM	51858
+#define	PET_EDIT2G_CHECKSUM	64959
+#define	PET_EDIT2B_CHECKSUM	1514
+#define	PET_EDIT4G40_CHECKSUM	14162
+#define	PET_EDIT4B40_CHECKSUM	27250
+#define	PET_EDIT4B80_CHECKSUM	21166
 
 extern int pet_mem_init_resources(void);
 extern int pet_mem_init_cmdline_options(void);
 
-extern void superpet_reset(void);
+extern void petmem_reset(void);
 extern int superpet_diag(void);
 
 extern int petmem_dump(FILE *fp);

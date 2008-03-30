@@ -29,18 +29,21 @@
 
 #include "types.h"
 
-#define PET_KERNAL2001NAME  "pet2001"
-#define PET_KERNAL3032NAME  "pet3032"
-#define PET_KERNAL4032NAME  "pet4032"
-#ifdef __riscos
-#define PET_EDITOR2B40NAME  "edit2/b"
-#define PET_EDITOR4B40NAME  "edit4/b40"
-#define PET_EDITOR4B80NAME  "edit4/b80"
-#else
-#define PET_EDITOR2B40NAME  "edit2.b"
-#define PET_EDITOR4B40NAME  "edit4.b40"
-#define PET_EDITOR4B80NAME  "edit4.b80"
-#endif
+#define PET_KERNAL1NAME  "kernal1"
+#define PET_KERNAL2NAME  "kernal2"
+#define PET_KERNAL4NAME  "kernal4"
+
+#define PET_BASIC1NAME  "basic1"
+#define PET_BASIC2NAME  "basic2"
+#define PET_BASIC4NAME  "basic4"
+
+#define PET_EDITOR1G40NAME  "edit1g"
+#define PET_EDITOR2G40NAME  "edit2g"
+#define PET_EDITOR2B40NAME  "edit2b"
+#define PET_EDITOR4G40NAME  "edit4g40"
+#define PET_EDITOR4B80NAME  "edit4b80"
+#define PET_EDITOR4B40NAME  "edit4b40"
+
 #define PET_COLS	80
 
 /* This struct is used to hold the default values for the different models */
@@ -59,25 +62,12 @@ typedef struct PetInfo {
 
 	/* ROM image resources */
 	const char	*chargenName;	/* Character ROM */
-	const char	*kernalName;	/* ROM to load before others */
-					/* the following override kernalName
-					   for their specific area */
-	const char	*editorName;	/* $E*** ROM image filename */
+	const char	*kernalName;	/* Kernal ROM $f*** */
+	const char	*editorName;	/* $E*** ROM image filename (2k/4k) */
+	const char	*basicName;	/* $b/c-$e*** basic ROM (8k/12k) */
 	const char	*memBname;	/* $B*** ROM image filename */
 	const char	*memAname;	/* $A*** ROM image filename */
 	const char	*mem9name;	/* $9*** ROM image filename */
-#if 0
-	/* runtime (derived) variables */
-	int		videoSize;	/* video RAM size (1k or 2k) */
-	int		map;		/* 0 = linear map, 1 = 8096 mapping */
-					/* 2 = 8296 mapping */
-	int		vmask;		/* valid CRTC address bits */
-	int		rompatch;	/* 1 = need $ef** for ROM patch */
-	int		rom_video;	/* derived from ROM */
-	ADDRESS		basic_start;	/* derived from ROM */
-	WORD		kernal_checksum;/* derived from ROM */
-	WORD		editor_checksum;/* derived from ROM */
-#endif
 } PetInfo;
 
 /* This struct holds the resources and some other runtime-derived info */
@@ -96,10 +86,9 @@ typedef struct PetRes {
 
 	/* ROM image resources */
 	char		*chargenName;	/* Character ROM */
-	char		*kernalName;	/* ROM to load before others */
-					/* the following override kernalName
-					   for their specific area */
-	char		*editorName;	/* $E*** ROM image filename */
+	char		*kernalName;	/* Kernal ROM $f*** */
+	char		*editorName;	/* $E*** ROM image filename (2k/4k) */
+	char		*basicName;	/* $b/c-$e*** basic ROM (8k/12k) */
 	char		*memBname;	/* $B*** ROM image filename */
 	char		*memAname;	/* $A*** ROM image filename */
 	char		*mem9name;	/* $9*** ROM image filename */
