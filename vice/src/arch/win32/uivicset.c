@@ -70,7 +70,6 @@ static void update_block_checkboxes(HWND hwnd)
                    block3 ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK5,
                    block5 ? BST_CHECKED : BST_UNCHECKED);
-
 }
 
 
@@ -81,7 +80,6 @@ static void update_blocks(int mem_model)
     block2 = (mem_model & BLOCK_2) ? 1 : 0;
     block3 = (mem_model & BLOCK_3) ? 1 : 0;
     block5 = (mem_model & BLOCK_5) ? 1 : 0;
-
 }
 
 
