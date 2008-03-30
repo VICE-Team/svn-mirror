@@ -16,9 +16,7 @@ libdrive_a_SOURCES = \
         drive.c \
         drive.h \
         drivecpu0.c \
-        drivecpu0.def \
         drivecpu1.c \
-        drivecpu1.def \
         drivecpu.h \
         viad.h \
         via1drive0.c \
@@ -29,27 +27,7 @@ libdrive_a_SOURCES = \
         wd1770.h
 
 EXTRA_DIST = \
-	drivecpu-tmpl.c
-
-BUILT_SOURCES = \
-	drivecpu0.c \
-	drivecpu1.c
+	drivecpucore.c
 
 drivedir = $(top_srcdir)/src/drive
-
-drivecpu0.c: drivecpu0.def drivecpu-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`drivecpu0.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(drivedir)/drivecpu-tmpl.c \
-	       $(drivedir)/drivecpu0.def $(drivedir)/drivecpu0.c; \
-           fi )
-
-drivecpu1.c: drivecpu1.def drivecpu-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`drivecpu1.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(drivedir)/drivecpu-tmpl.c \
-	       $(drivedir)/drivecpu1.def $(drivedir)/drivecpu1.c; \
-           fi )
 
