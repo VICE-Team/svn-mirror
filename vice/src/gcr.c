@@ -104,7 +104,7 @@ void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
 }
 
 void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
-	BYTE diskID1, BYTE diskID2)
+                           BYTE diskID1, BYTE diskID2)
 {
     int i;
     BYTE buf[4];
@@ -136,6 +136,7 @@ void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
 	buffer += 4;
 	ptr += 5;
     }
+
     /* FIXME: This is approximated.  */
     memset(ptr, 0x55, 6);	/* Gap before next sector.  */
     ptr += 6;
@@ -143,7 +144,8 @@ void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
 }
 
 void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
-    BYTE *GCR_track_start_ptr, int GCR_current_track_size)
+                           BYTE *GCR_track_start_ptr,
+                           int GCR_current_track_size)
 {
     BYTE *offset = ptr;
     BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;

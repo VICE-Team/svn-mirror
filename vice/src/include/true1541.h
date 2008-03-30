@@ -91,7 +91,7 @@
 
 /* Extended disk image handling.  */
 #define TRUE1541_EXTEND_NEVER		0
-#define TRUE1541_EXTEND_ASK		1	
+#define TRUE1541_EXTEND_ASK		1
 #define TRUE1541_EXTEND_ACCESS		2
 
 /* 1541 idling methods.  */
@@ -132,7 +132,7 @@ extern void true1541_disable(void);
 extern void true1541_ack_switch(void);
 extern void true1541_reset(void);
 extern int true1541_attach_floppy(DRIVE *floppy);
-extern int true1541_detach_floppy(void);
+extern int true1541_detach_floppy(DRIVE *floppy);
 extern void true1541_update_zone_bits(int zone);
 extern void true1541_update_viad2_pcr(int pcrval);
 extern void true1541_prevent_clk_overflow(void);

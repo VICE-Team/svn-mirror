@@ -107,9 +107,12 @@ typedef struct bufferinfo_s {
 } bufferinfo_t;
 
 
-/* Run-time data struct for each drive. */
+typedef struct _DRIVE DRIVE;
+typedef int (*drive_attach_func_t)(DRIVE *);
+typedef int (*drive_detach_func_t)(DRIVE *);
 
-typedef struct {
+/* Run-time data struct for each drive. */
+struct _DRIVE {
     int type;			/* Device */
 
     /* Current image file */
@@ -119,6 +122,12 @@ typedef struct {
     int ActiveFd;
     char ActiveName[256];	/* Image name */
     char ReadOnly;
+
+    /* Function to call after the image is attached.  */
+    drive_attach_func_t attach_func;
+
+    /* Function to call before the image is detached.  */
+    drive_detach_func_t detach_func;
 
     /* Disk Format Constants */
 
@@ -156,8 +165,7 @@ typedef struct {
 
     int Curr_track;
     int Curr_sector;
-} DRIVE;
-
+};
 
 /* Actually, serial-code errors ... */
 
@@ -198,7 +206,9 @@ typedef struct {
 
 /* ------------------------------------------------------------------------- */
 
-extern int initialize_1541(int dev, int type);
+extern int initialize_1541(int dev, int type,
+                           drive_attach_func_t attach_func,
+                           drive_detach_func_t detach_func);
 extern int find_devno(int dev, const char *name);
 extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
 extern void detach_floppy_image(DRIVE *floppy);
