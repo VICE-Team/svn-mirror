@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 epyxfastload_io2_read(ADDRESS addr);
+extern BYTE REGPARM1 epyxfastload_io2_read(WORD addr);
 
 extern void epyxfastload_config_init(void);
 extern void epyxfastload_config_setup(BYTE *rawcart);

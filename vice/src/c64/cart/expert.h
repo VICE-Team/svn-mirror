@@ -31,14 +31,14 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 expert_io1_read(ADDRESS addr);
-extern void REGPARM2 expert_io1_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 expert_io2_read(ADDRESS addr);
-extern void REGPARM2 expert_io2_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 expert_io1_read(WORD addr);
+extern void REGPARM2 expert_io1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 expert_io2_read(WORD addr);
+extern void REGPARM2 expert_io2_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 expert_roml_read(ADDRESS addr);
-extern void REGPARM2 expert_roml_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 expert_romh_read(ADDRESS addr);
+extern BYTE REGPARM1 expert_roml_read(WORD addr);
+extern void REGPARM2 expert_roml_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 expert_romh_read(WORD addr);
 
 extern void expert_ack_reset(void);
 extern void expert_ack_nmi(void);

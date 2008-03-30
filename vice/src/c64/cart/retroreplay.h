@@ -31,13 +31,13 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 retroreplay_io1_read(ADDRESS addr);
-extern void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 retroreplay_io2_read(ADDRESS addr);
-extern void REGPARM2 retroreplay_io2_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 retroreplay_io1_read(WORD addr);
+extern void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 retroreplay_io2_read(WORD addr);
+extern void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 retroreplay_roml_read(ADDRESS addr);
-extern void REGPARM2 retroreplay_roml_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 retroreplay_roml_read(WORD addr);
+extern void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value);
 
 extern void retroreplay_freeze(void);
 extern int retroreplay_freeze_allowed(void);

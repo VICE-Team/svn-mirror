@@ -37,7 +37,7 @@
 #include "utils.h"
 
 
-void REGPARM2 supergames_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
 {
     romh_bank = roml_bank = value & 3;
     if (value & 0x4) {

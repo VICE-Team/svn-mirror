@@ -326,7 +326,7 @@ void reu_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 reu_read(ADDRESS addr)
+BYTE REGPARM1 reu_read(WORD addr)
 {
     BYTE retval;
 
@@ -371,7 +371,7 @@ BYTE REGPARM1 reu_read(ADDRESS addr)
 }
 
 
-void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
+void REGPARM2 reu_store(WORD addr, BYTE byte)
 {
     switch (addr)
     {
@@ -431,7 +431,7 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-static void reu_dma_update_regs(ADDRESS host_addr, unsigned int reu_addr,
+static void reu_dma_update_regs(WORD host_addr, unsigned int reu_addr,
                                 int len)
 {
     if (!(reu[REU_REG_W_COMMAND] & 0x20)) {
@@ -457,7 +457,7 @@ static void reu_dma_update_regs(ADDRESS host_addr, unsigned int reu_addr,
     }
 }
 
-static void reu_dma_host_to_reu(ADDRESS host_addr, unsigned int reu_addr, 
+static void reu_dma_host_to_reu(WORD host_addr, unsigned int reu_addr, 
                                 int host_step, int reu_step, int len)
 {
     BYTE value;
@@ -487,7 +487,7 @@ static void reu_dma_host_to_reu(ADDRESS host_addr, unsigned int reu_addr,
     reu_dma_update_regs(host_addr, reu_addr, len);
 }
 
-static void reu_dma_reu_to_host(ADDRESS host_addr, unsigned int reu_addr,
+static void reu_dma_reu_to_host(WORD host_addr, unsigned int reu_addr,
                                 int host_step, int reu_step, int len)
 {
 #ifdef REU_DEBUG
@@ -513,7 +513,7 @@ static void reu_dma_reu_to_host(ADDRESS host_addr, unsigned int reu_addr,
     reu_dma_update_regs(host_addr, reu_addr, len);
 }
 
-static void reu_dma_swap(ADDRESS host_addr, unsigned int reu_addr,
+static void reu_dma_swap(WORD host_addr, unsigned int reu_addr,
                          int host_step, int reu_step, int len)
 {
     BYTE c;
@@ -539,7 +539,7 @@ static void reu_dma_swap(ADDRESS host_addr, unsigned int reu_addr,
     reu_dma_update_regs(host_addr, reu_addr, len);
 }
 
-static void reu_dma_compare(ADDRESS host_addr, unsigned int reu_addr,
+static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
                             int host_step, int reu_step, int len)
 {
 #ifdef REU_DEBUG
@@ -598,7 +598,7 @@ void reu_dma(int immed)
     static int delay = 0;
     int len;
     int reu_step, host_step;
-    ADDRESS host_addr;
+    WORD host_addr;
     unsigned int reu_addr, reu6_mask;
 
     if (!reu_enabled)
@@ -616,12 +616,14 @@ void reu_dma(int immed)
     reu6_mask = (reu_size >> 16) - 1;
 
     /* wrong address of bank register & calculations corrected  - RH */
-    host_addr = (ADDRESS)reu[REU_REG_RW_BASEADDR_LOW] 
-        | ((ADDRESS)reu[REU_REG_RW_BASEADDR_HIGH] << 8);
-    reu_addr  = ((unsigned int)reu[REU_REG_RW_RAMADDR_LOW] | ((unsigned int)reu[REU_REG_RW_RAMADDR_HIGH] << 8)
-                 | (((unsigned int)reu[REU_REG_RW_BANK] & reu6_mask) << 16));
+    host_addr = (WORD)reu[REU_REG_RW_BASEADDR_LOW] 
+                | ((WORD)reu[REU_REG_RW_BASEADDR_HIGH] << 8);
+    reu_addr = ((unsigned int)reu[REU_REG_RW_RAMADDR_LOW]
+               | ((unsigned int)reu[REU_REG_RW_RAMADDR_HIGH] << 8)
+               | (((unsigned int)reu[REU_REG_RW_BANK] & reu6_mask) << 16));
 
-    len = (int)(reu[REU_REG_RW_BLOCKLEN_LOW]) | ((int)(reu[REU_REG_RW_BLOCKLEN_HIGH]) << 8);
+    len = (int)(reu[REU_REG_RW_BLOCKLEN_LOW])
+          | ((int)(reu[REU_REG_RW_BLOCKLEN_HIGH]) << 8);
 
     if (len == 0)
         len = 0x10000;

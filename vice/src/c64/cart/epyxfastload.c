@@ -37,7 +37,7 @@
 #include "utils.h"
 
 
-BYTE REGPARM1 epyxfastload_io2_read(ADDRESS addr)
+BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
 {
     if (addr == 0xdf18)
         cartridge_config_changed(0, 0, CMODE_READ);

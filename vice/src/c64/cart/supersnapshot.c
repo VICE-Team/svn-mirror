@@ -43,17 +43,17 @@
 static BYTE ramconfig = 0xff, romconfig = 9;
 static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 
-BYTE REGPARM1 supersnapshot_v4_io1_read(ADDRESS addr)
+BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr)
 {
     return export_ram0[0x1e00 + (addr & 0xff)];
 }
 
-void REGPARM2 supersnapshot_v4_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value)
 {
     export_ram0[0x1e00 + (addr & 0xff)] = value;
 }
 
-BYTE REGPARM1 supersnapshot_v4_io2_read(ADDRESS addr)
+BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
 {
     if ((addr & 0xff) == 1)
         return ramconfig;
@@ -71,7 +71,7 @@ BYTE REGPARM1 supersnapshot_v4_io2_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 supersnapshot_v4_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 {
     if ((addr & 0xff) == 0) {
         romconfig = (value == 2) ? 1 : 9;
@@ -101,7 +101,7 @@ void REGPARM2 supersnapshot_v4_io2_store(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 supersnapshot_v5_io1_read(ADDRESS addr)
+BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
 {
     switch (roml_bank) {
       case 0:
@@ -116,7 +116,7 @@ BYTE REGPARM1 supersnapshot_v5_io1_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 supersnapshot_v5_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
 {
     if (((addr & 0xff) == 0)
         || ((addr & 0xff) == 1)) {
@@ -147,20 +147,20 @@ void REGPARM2 supersnapshot_v5_io1_store(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 supersnapshot_v5_io2_read(ADDRESS addr)
+BYTE REGPARM1 supersnapshot_v5_io2_read(WORD addr)
 {
     if (reu_enabled)
-        return reu_read((ADDRESS)(addr & 0x0f));
+        return reu_read((WORD)(addr & 0x0f));
     return vicii_read_phi1();
 }
 
-void REGPARM2 supersnapshot_v5_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 supersnapshot_v5_io2_store(WORD addr, BYTE value)
 {
     if (reu_enabled)
-        reu_store((ADDRESS)(addr & 0x0f), value);
+        reu_store((WORD)(addr & 0x0f), value);
 }
 
-BYTE REGPARM1 supersnapshot_v4_roml_read(ADDRESS addr)
+BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr)
 {
     if (export_ram)
         return export_ram0[addr & 0x1fff];
@@ -168,13 +168,13 @@ BYTE REGPARM1 supersnapshot_v4_roml_read(ADDRESS addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 supersnapshot_v4_roml_store(ADDRESS addr, BYTE value)
+void REGPARM2 supersnapshot_v4_roml_store(WORD addr, BYTE value)
 {
     if (export_ram)
         export_ram0[addr & 0x1fff] = value;
 }
 
-BYTE REGPARM1 supersnapshot_v5_roml_read(ADDRESS addr)
+BYTE REGPARM1 supersnapshot_v5_roml_read(WORD addr)
 {
     if (export_ram)
         return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
@@ -182,7 +182,7 @@ BYTE REGPARM1 supersnapshot_v5_roml_read(ADDRESS addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 supersnapshot_v5_roml_store(ADDRESS addr, BYTE value)
+void REGPARM2 supersnapshot_v5_roml_store(WORD addr, BYTE value)
 {
     if (export_ram)
         export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
@@ -205,7 +205,7 @@ void supersnapshot_v4_config_init(void)
 
 void supersnapshot_v5_config_init(void)
 {
-    cartridge_store_io1((ADDRESS)0xde00, 2);
+    cartridge_store_io1((WORD)0xde00, 2);
 }
 
 void supersnapshot_v4_config_setup(BYTE *rawcart)
@@ -227,7 +227,7 @@ void supersnapshot_v5_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cartridge_store_io1((ADDRESS)0xde00, 2);
+    cartridge_store_io1((WORD)0xde00, 2);
 }
 
 int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)

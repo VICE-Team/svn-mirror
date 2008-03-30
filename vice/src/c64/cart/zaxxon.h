@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 zaxxon_roml_read(ADDRESS addr);
+extern BYTE REGPARM1 zaxxon_roml_read(WORD addr);
 
 extern void zaxxon_config_init(void);
 extern void zaxxon_config_setup(BYTE *rawcart);

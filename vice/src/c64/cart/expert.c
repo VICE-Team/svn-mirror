@@ -62,43 +62,43 @@ static int ack_reset = 0;
 /* Disable export_ram */
 #define	EXPERT_ON	((1 << 0) | (1 << 1))
 
-BYTE REGPARM1 expert_io1_read(ADDRESS addr)
+BYTE REGPARM1 expert_io1_read(WORD addr)
 {
     if (cartmode == CARTRIDGE_MODE_ON)
-		cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
+        cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
     return 0;
 }
 
-void REGPARM2 expert_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 expert_io1_store(WORD addr, BYTE value)
 {
     if (cartmode == CARTRIDGE_MODE_ON)
-		cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
+        cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
 }
 
-BYTE REGPARM1 expert_io2_read(ADDRESS addr)
+BYTE REGPARM1 expert_io2_read(WORD addr)
 {
     if (reu_enabled)
-        return reu_read((ADDRESS)(addr & 0x0f));
+        return reu_read((WORD)(addr & 0x0f));
     return vicii_read_phi1();
 }
 
-void REGPARM2 expert_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 expert_io2_store(WORD addr, BYTE value)
 {
     if (reu_enabled)
-        reu_store((ADDRESS)(addr & 0x0f), value);
+        reu_store((WORD)(addr & 0x0f), value);
 }
 
-BYTE REGPARM1 expert_roml_read(ADDRESS addr)
+BYTE REGPARM1 expert_roml_read(WORD addr)
 {
-	return roml_banks[addr & 0x1fff];
+    return roml_banks[addr & 0x1fff];
 }
 
-void REGPARM2 expert_roml_store(ADDRESS addr, BYTE value)
+void REGPARM2 expert_roml_store(WORD addr, BYTE value)
 {
-	roml_banks[addr & 0x1fff] = value;
+    roml_banks[addr & 0x1fff] = value;
 }
 
-BYTE REGPARM1 expert_romh_read(ADDRESS addr)
+BYTE REGPARM1 expert_romh_read(WORD addr)
 {
     return roml_banks[addr & 0x1fff];
 }
@@ -106,15 +106,14 @@ BYTE REGPARM1 expert_romh_read(ADDRESS addr)
 void expert_ack_nmi(void)
 {
     if (cartmode == CARTRIDGE_MODE_ON)
-		cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
+        cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
 }
 
 void expert_ack_reset(void)
 {
-    if (cartmode == CARTRIDGE_MODE_ON)
-		{
-		ack_reset = 1;
-		}
+    if (cartmode == CARTRIDGE_MODE_ON) {
+        ack_reset = 1;
+    }
 }
 
 void expert_freeze(void)
@@ -130,21 +129,18 @@ void expert_config_init(void)
                                 expert_ack_nmi);
     interrupt_set_reset_trap_func(&maincpu_int_status,
                                   expert_ack_reset);
-	/*
-	 * Initialize cartridge mode/configuration.
-	 */
-	if (!ack_reset)
-		{
-		expert_mode_changed(cartmode);
-		}
-	else
-		{
-		/*
-		 * Do ack_reset mapping.
-		 */
-		cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
-		ack_reset = 0;
-		}
+    /*
+     * Initialize cartridge mode/configuration.
+     */
+    if (!ack_reset) {
+        expert_mode_changed(cartmode);
+    } else {
+        /*
+         * Do ack_reset mapping.
+         */
+        cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
+        ack_reset = 0;
+    }
 }
 
 void expert_config_setup(BYTE *rawcart)
@@ -179,15 +175,14 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
 
 void expert_mode_changed(int mode)
 {
-	switch(mode)
-		{
-		case(CARTRIDGE_MODE_PRG):
-			cartridge_config_changed(EXPERT_PRG, EXPERT_PRG, CMODE_READ);
-			break;
-
-		case(CARTRIDGE_MODE_OFF):
-		case(CARTRIDGE_MODE_ON):
-			cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
-			break;
-		}
+    switch(mode) {
+      case(CARTRIDGE_MODE_PRG):
+        cartridge_config_changed(EXPERT_PRG, EXPERT_PRG, CMODE_READ);
+        break;
+      case(CARTRIDGE_MODE_OFF):
+      case(CARTRIDGE_MODE_ON):
+        cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
+        break;
+    }
 }
+

@@ -37,17 +37,17 @@
 #include "vicii-phi1.h"
 
 
-BYTE REGPARM1 actionreplay_io1_read(ADDRESS addr)
+BYTE REGPARM1 actionreplay_io1_read(WORD addr)
 {
     return vicii_read_phi1();
 }
 
-void REGPARM2 actionreplay_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
 {
     cartridge_config_changed(value, value, CMODE_WRITE);
 }
 
-BYTE REGPARM1 actionreplay_io2_read(ADDRESS addr)
+BYTE REGPARM1 actionreplay_io2_read(WORD addr)
 {
     if (export_ram)
         return export_ram0[0x1f00 + (addr & 0xff)];
@@ -65,13 +65,13 @@ BYTE REGPARM1 actionreplay_io2_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 actionreplay_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
 {
     if (export_ram)
         export_ram0[0x1f00 + (addr & 0xff)] = value;
 }
 
-BYTE REGPARM1 actionreplay_roml_read(ADDRESS addr)
+BYTE REGPARM1 actionreplay_roml_read(WORD addr)
 {
     if (export_ram)
         return export_ram0[addr & 0x1fff];
@@ -79,7 +79,7 @@ BYTE REGPARM1 actionreplay_roml_read(ADDRESS addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 actionreplay_roml_store(ADDRESS addr, BYTE value)
+void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
 {
     if (export_ram)
         export_ram0[addr & 0x1fff] = value;

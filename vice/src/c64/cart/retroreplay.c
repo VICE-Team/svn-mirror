@@ -51,7 +51,7 @@ static int no_freeze;
 static unsigned int reu_mapping;
 
 
-BYTE REGPARM1 retroreplay_io1_read(ADDRESS addr)
+BYTE REGPARM1 retroreplay_io1_read(WORD addr)
 {
     switch (addr & 0xff) {
       case 0:
@@ -82,7 +82,7 @@ BYTE REGPARM1 retroreplay_io1_read(ADDRESS addr)
     }
 }
 
-void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
 {
     switch (addr & 0xff) {
       case 0:
@@ -124,11 +124,11 @@ void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 retroreplay_io2_read(ADDRESS addr)
+BYTE REGPARM1 retroreplay_io2_read(WORD addr)
 {
     if (reu_mapping) {
         if (reu_enabled)
-            return reu_read((ADDRESS)(addr & 0x0f));
+            return reu_read((WORD)(addr & 0x0f));
     } else {
         if (export_ram) {
             if (allow_bank) {
@@ -151,11 +151,11 @@ BYTE REGPARM1 retroreplay_io2_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 retroreplay_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value)
 {
     if (reu_mapping) {
         if (reu_enabled)
-            reu_store((ADDRESS)(addr & 0x0f), value);
+            reu_store((WORD)(addr & 0x0f), value);
     } else {
         if (export_ram) {
             if (allow_bank) {
@@ -180,7 +180,7 @@ void REGPARM2 retroreplay_io2_store(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 retroreplay_roml_read(ADDRESS addr)
+BYTE REGPARM1 retroreplay_roml_read(WORD addr)
 {
     if (export_ram) {
         switch (roml_bank & 3) {
@@ -198,7 +198,7 @@ BYTE REGPARM1 retroreplay_roml_read(ADDRESS addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 retroreplay_roml_store(ADDRESS addr, BYTE value)
+void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
 {
     if (export_ram) {
         switch (roml_bank & 3) {

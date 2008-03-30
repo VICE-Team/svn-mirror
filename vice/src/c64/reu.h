@@ -43,8 +43,8 @@ extern int reu_cmdline_options_init(void);
 extern void reu_reset(void);
 extern void reu_dma(int immed);
 extern void reu_shutdown(void);
-extern BYTE REGPARM1 reu_read(ADDRESS addr);
-extern void REGPARM2 reu_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 reu_read(WORD addr);
+extern void REGPARM2 reu_store(WORD addr, BYTE byte);
 extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);
 

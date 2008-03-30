@@ -140,7 +140,7 @@ int ide_seek_sector(void)
     return fseek(ide_disk,(((ide_cylinder_low | (ide_cylinder_high << 8))*ide_identify[110]+(ide_head & 0xf))*ide_identify[112]+ide_sector-1) << 9,SEEK_SET);
 }
 
-BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
+BYTE REGPARM1 ide64_io1_read(WORD addr)
 {
     int i;
 
@@ -205,7 +205,7 @@ BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 ide64_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
 {
     int i;
 /*    log_debug("IDE64 write %02x:%02x", addr, value);*/

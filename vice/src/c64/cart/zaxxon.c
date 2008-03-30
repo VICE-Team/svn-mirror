@@ -38,7 +38,7 @@
 #include "zaxxon.h"
 
 
-BYTE REGPARM1 zaxxon_roml_read(ADDRESS addr)
+BYTE REGPARM1 zaxxon_roml_read(WORD addr)
 {
     romh_bank = (addr & 0x1000) ? 1 : 0;
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];

@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-extern void REGPARM2 supergames_io2_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 supergames_io2_store(WORD addr, BYTE value);
 
 extern void supergames_config_init(void);
 extern void supergames_config_setup(BYTE *rawcart);

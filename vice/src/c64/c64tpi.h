@@ -33,9 +33,9 @@ struct snapshot_s;
 
 extern void tpi_init(void);
 extern void tpi_reset(void);
-extern void REGPARM2 tpi_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 tpi_read(ADDRESS addr);
-extern BYTE tpi_peek(ADDRESS addr);
+extern void REGPARM2 tpi_store(WORD addr, BYTE byte);
+extern BYTE REGPARM1 tpi_read(WORD addr);
+extern BYTE tpi_peek(WORD addr);
 
 extern int tpi_snapshot_write_module(struct snapshot_s *p);
 extern int tpi_snapshot_read_module(struct snapshot_s *p);

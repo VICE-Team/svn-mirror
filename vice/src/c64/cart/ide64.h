@@ -31,8 +31,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 ide64_io1_read(ADDRESS addr);
-extern void REGPARM2 ide64_io1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ide64_io1_read(WORD addr);
+extern void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
 
 extern void ide64_config_init(void);
 extern void ide64_config_setup(BYTE *rawcart);

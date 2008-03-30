@@ -118,13 +118,13 @@ static int tape_sense = 0;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_watch(ADDRESS addr)
+BYTE REGPARM1 read_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-void REGPARM2 store_watch(ADDRESS addr, BYTE value)
+void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
@@ -170,7 +170,7 @@ void mem_pla_config_changed(void)
     }
 }
 
-BYTE REGPARM1 zero_read(ADDRESS addr)
+BYTE REGPARM1 zero_read(WORD addr)
 {
     addr &= 0xff;
 
@@ -184,14 +184,14 @@ BYTE REGPARM1 zero_read(ADDRESS addr)
     return mem_ram[addr & 0xff];
 }
 
-void REGPARM2 zero_store(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(WORD addr, BYTE value)
 {
     addr &= 0xff;
 
     switch ((BYTE)addr) {
       case 0:
         if (vbank == 0) {
-            vicii_mem_vbank_store((ADDRESS)0, vicii_read_phi1());
+            vicii_mem_vbank_store((WORD)0, vicii_read_phi1());
         } else {
             mem_ram[0] = vicii_read_phi1();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -203,7 +203,7 @@ void REGPARM2 zero_store(ADDRESS addr, BYTE value)
         break;
       case 1:
         if (vbank == 0) {
-            vicii_mem_vbank_store((ADDRESS)1, vicii_read_phi1());
+            vicii_mem_vbank_store((WORD)1, vicii_read_phi1());
         } else {
             mem_ram[1] = vicii_read_phi1();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -224,32 +224,32 @@ void REGPARM2 zero_store(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 basic_read(ADDRESS addr)
+BYTE REGPARM1 basic_read(WORD addr)
 {
     return mem_basic_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 kernal_read(ADDRESS addr)
+BYTE REGPARM1 kernal_read(WORD addr)
 {
     return mem_kernal_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 chargen_read(ADDRESS addr)
+BYTE REGPARM1 chargen_read(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
 
-BYTE REGPARM1 ram_read(ADDRESS addr)
+BYTE REGPARM1 ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 ram_store(ADDRESS addr, BYTE value)
+void REGPARM2 ram_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 }
 
-void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
+void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 {
     if (vbank == 3)
         vicii_mem_vbank_3fxx_store(addr, value);
@@ -260,7 +260,7 @@ void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
         reu_dma(-1);
 }
 
-BYTE REGPARM1 rom_read(ADDRESS addr)
+BYTE REGPARM1 rom_read(WORD addr)
 {
     switch (addr & 0xf000) {
       case 0xa000:
@@ -276,7 +276,7 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 rom_store(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0xa000:
@@ -297,24 +297,24 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 
 /* Generic memory access.  */
 
-void REGPARM2 mem_store(ADDRESS addr, BYTE value)
+void REGPARM2 mem_store(WORD addr, BYTE value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read(ADDRESS addr)
+BYTE REGPARM1 mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 colorram_store(ADDRESS addr, BYTE value)
+void REGPARM2 colorram_store(WORD addr, BYTE value)
 {
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE REGPARM1 colorram_read(ADDRESS addr)
+BYTE REGPARM1 colorram_read(WORD addr)
 {
     return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
@@ -551,57 +551,47 @@ void mem_initialize_memory(void)
     /*
      * Change address decoding.
      */
-    if (mem_cartridge_type == CARTRIDGE_EXPERT)
-		{
-		/* Allow writing at ROML at $8000-$9FFF.  */
-		for (j = 0; j < NUM_CONFIGS; j++)
-			{
-			if (roml_config[j])
-				{
-				for (i = 0x80; i <= 0x9f; i++)
-					{
-					set_write_hook(j, i, roml_store);
-					}
-				}
-			}
+    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
+        /* Allow writing at ROML at $8000-$9FFF.  */
+        for (j = 0; j < NUM_CONFIGS; j++) {
+            if (roml_config[j]) {
+                for (i = 0x80; i <= 0x9f; i++) {
+                    set_write_hook(j, i, roml_store);
+                }
+            }
+        }
 
-		/* Allow ROML being visible independent of charen, hiram & loram */
-		for (j = 8; j < 16; j++)
-			{
-			for (i = 0x80; i <= 0x9f; i++)
-				{
+        /* Allow ROML being visible independent of charen, hiram & loram */
+        for (j = 8; j < 16; j++) {
+            for (i = 0x80; i <= 0x9f; i++) {
                 mem_read_tab[j][i] = roml_read;
-				mem_read_limit_tab[j][i] = -1;
-				mem_read_base_tab[j][i] = NULL;
-				set_write_hook(j, i, roml_store);
-				}
-			}
+                mem_read_limit_tab[j][i] = -1;
+                mem_read_base_tab[j][i] = NULL;
+                set_write_hook(j, i, roml_store);
+            }
+        }
 
-		/*
-		 * Copy settings from "normal" operation mode into "ultimax"
-		 * configuration.
-		 */
-		for (j = 16; j < 24; j++)
-			{
-			for (i = 0x10; i <= 0x7f; i++)
-				{
-				mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-				set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
-				mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
-				}
-			for (i = 0xa0; i <= 0xbf; i++)
-				{
-				mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-				set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
-				}
-			for (i = 0xc0; i <= 0xcf; i++)
-				{
-				mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-				set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
-				mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
-				}
-			}
-		}
+        /*
+         * Copy settings from "normal" operation mode into "ultimax"
+         * configuration.
+         */
+        for (j = 16; j < 24; j++) {
+            for (i = 0x10; i <= 0x7f; i++) {
+                mem_read_tab[j][i] = mem_read_tab[j - 16][i];
+                set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
+            }
+            for (i = 0xa0; i <= 0xbf; i++) {
+                mem_read_tab[j][i] = mem_read_tab[j - 16][i];
+                set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+            }
+            for (i = 0xc0; i <= 0xcf; i++) {
+                mem_read_tab[j][i] = mem_read_tab[j - 16][i];
+                set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
+            }
+        }
+    }
 
     pport.data = 0x37;
     pport.dir = 0x2f;
@@ -663,7 +653,7 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 /* FIXME: this part needs to be checked.  */
 
-void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
+void mem_get_basic_text(WORD *start, WORD *end)
 {
     if (start != NULL)
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
@@ -671,7 +661,7 @@ void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
         *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
 }
 
-void mem_set_basic_text(ADDRESS start, ADDRESS end)
+void mem_set_basic_text(WORD start, WORD end)
 {
     mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
     mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
@@ -681,7 +671,7 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 
 /* ------------------------------------------------------------------------- */
 
-int mem_rom_trap_allowed(ADDRESS addr)
+int mem_rom_trap_allowed(WORD addr)
 {
     if (addr >= 0xe000) {
         switch (mem_config) {
@@ -712,7 +702,7 @@ int mem_rom_trap_allowed(ADDRESS addr)
 
 /* FIXME: peek, cartridge support */
 
-static void store_bank_io(ADDRESS addr, BYTE byte)
+static void store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
       case 0xd000:
@@ -751,7 +741,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
     return;
 }
 
-static BYTE read_bank_io(ADDRESS addr)
+static BYTE read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
       case 0xd000:
@@ -781,7 +771,7 @@ static BYTE read_bank_io(ADDRESS addr)
     return 0xff;
 }
 
-static BYTE peek_bank_io(ADDRESS addr)
+static BYTE peek_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
       case 0xd000:
@@ -843,7 +833,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, ADDRESS addr)
+BYTE mem_bank_read(int bank, WORD addr)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -876,7 +866,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
     return mem_ram[addr];
 }
 
-BYTE mem_bank_peek(int bank, ADDRESS addr)
+BYTE mem_bank_peek(int bank, WORD addr)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -890,7 +880,7 @@ BYTE mem_bank_peek(int bank, ADDRESS addr)
     return mem_bank_read(bank, addr);
 }
 
-void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
+void mem_bank_write(int bank, WORD addr, BYTE byte)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -931,7 +921,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
 {
     *base = ((vicii_peek(0xd018) & 0xf0) << 6)
             | ((~cia2_peek(0xdd00) & 0x03) << 14);

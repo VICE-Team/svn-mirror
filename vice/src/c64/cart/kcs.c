@@ -37,25 +37,25 @@
 #include "utils.h"
 
 
-BYTE REGPARM1 kcs_io1_read(ADDRESS addr)
+BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-void REGPARM2 kcs_io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 {
     cartridge_config_changed(1, 1, CMODE_WRITE);
 }
 
-BYTE REGPARM1 kcs_io2_read(ADDRESS addr)
+BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
     if (addr & 0x80)
         cartridge_config_changed(0x43, 0x43, CMODE_READ);
     return export_ram0[0x1f00 + (addr & 0xff)];
 }
 
-void REGPARM2 kcs_io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 {
     if (!cart_ultimax_phi2)
         cartridge_config_changed(1, 1, CMODE_WRITE);

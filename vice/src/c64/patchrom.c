@@ -238,7 +238,7 @@ int patch_rom(const char *str)
 {
     int rev, curr, num, lcount, isnum;
     short bytes, n, i = 0;
-    ADDRESS a;
+    WORD a;
 
     if (str == NULL || *str == '\0')
         return 0;
@@ -298,7 +298,7 @@ int patch_rom(const char *str)
     lcount = 0;
     i = 0;
     while ((bytes = patch_bytes[i++]) > 0) {
-        a = (ADDRESS)patch_bytes[i++];
+        a = (WORD)patch_bytes[i++];
 
         log_message(LOG_DEFAULT, "%.4X (%d byte%s)",
                     a & 0xFFFF, bytes, ((bytes > 1) ? "s":""));

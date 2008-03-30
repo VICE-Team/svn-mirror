@@ -324,7 +324,7 @@ fail:
 /* Use CBM80 vector to start PSID driver. This is a simple method to
    transfer control to the PSID driver while running in a pure C64
    environment. */
-int psid_set_cbm80(ADDRESS vec, ADDRESS addr)
+int psid_set_cbm80(WORD vec, WORD addr)
 {
   int i;
   BYTE cbm80[] = { 0x00, 0x00, 0x00, 0x00, 0xc3, 0xc2, 0xcd, 0x38, 0x30 };
@@ -333,8 +333,8 @@ int psid_set_cbm80(ADDRESS vec, ADDRESS addr)
   cbm80[1] = vec >> 8;
 
   for (i = 0; i < sizeof(cbm80); i++) {
-    ram_store((ADDRESS)(addr + i), ram_read((ADDRESS)(0x8000 + i)));
-    ram_store((ADDRESS)(0x8000 + i), cbm80[i]);
+    ram_store((WORD)(addr + i), ram_read((WORD)(0x8000 + i)));
+    ram_store((WORD)(0x8000 + i), cbm80[i]);
   }
 
   return i;
@@ -346,8 +346,8 @@ void psid_init_tune(void)
   int start_song = psid_tune;
   resource_value_t sync, sid_model;
   int i;
-  ADDRESS reloc_addr;
-  ADDRESS addr;
+  WORD reloc_addr;
+  WORD addr;
   int speedbit;
   char* irq;
   char irq_str[20];
@@ -475,8 +475,8 @@ void psid_init_driver(void)
   BYTE *psid_reloc = psid_driver;
   int psid_size;
 
-  ADDRESS reloc_addr;
-  ADDRESS addr;
+  WORD reloc_addr;
+  WORD addr;
   int i;
   resource_value_t sync;
 
@@ -533,12 +533,12 @@ void psid_init_driver(void)
   }
 
   for (i = 0; i < psid_size; i++) {
-    ram_store((ADDRESS)(reloc_addr + i), psid_reloc[i]);
+    ram_store((WORD)(reloc_addr + i), psid_reloc[i]);
   }
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
-    ram_store((ADDRESS)(psid->load_addr + i), psid->data[i]);
+    ram_store((WORD)(psid->load_addr + i), psid->data[i]);
   }
 
   /* Skip JMP and CBM80 reset vector. */

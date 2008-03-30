@@ -47,9 +47,9 @@ extern int c64_mem_init_cmdline_options(void);
 
 extern void mem_set_vbank(int new_vbank);
 
-extern BYTE REGPARM1 ram_read(ADDRESS addr);
-extern void REGPARM2 ram_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ram_read(WORD addr);
+extern void REGPARM2 ram_store(WORD addr, BYTE value);
+extern void REGPARM2 ram_hi_store(WORD addr, BYTE value);
 
 extern char** mem_get_romsets(void);
 extern int mem_get_numromsets(void);

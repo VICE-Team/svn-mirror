@@ -98,7 +98,7 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
     machine_update_memory_ptrs();
 }
 
-BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
+BYTE REGPARM1 cartridge_read_io1(WORD addr)
 {
 #ifdef DEBUG
     log_debug("Read IO1 %02x.", addr);
@@ -137,7 +137,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
+void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
 {
 #ifdef DEBUG
     log_debug("Store IO1 %02x <- %02x.", addr, value);
@@ -213,7 +213,7 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
+BYTE REGPARM1 cartridge_read_io2(WORD addr)
 {
 #ifdef DEBUG
     log_debug("Read IO2 %02x.", addr);
@@ -236,7 +236,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_KCS_POWER:
         return kcs_io2_read(addr);
       case CARTRIDGE_IEEE488:
-        return tpi_read((ADDRESS)(addr & 0x07));
+        return tpi_read((WORD)(addr & 0x07));
       case CARTRIDGE_EPYX_FASTLOAD:
         return epyxfastload_io2_read(addr);
       case CARTRIDGE_WESTERMANN:
@@ -256,7 +256,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
+void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
 {
 #ifdef DEBUG
     log_debug("Store IO2 %02x <- %02x.", addr, value);
@@ -293,7 +293,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         supergames_io2_store(addr, value);
         break;
       case CARTRIDGE_IEEE488:
-        tpi_store((ADDRESS)(addr & 0x07), value);
+        tpi_store((WORD)(addr & 0x07), value);
         break;
       case CARTRIDGE_EXPERT:
         expert_io2_store(addr, value);
@@ -302,7 +302,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 roml_read(ADDRESS addr)
+BYTE REGPARM1 roml_read(WORD addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ZAXXON:
@@ -333,7 +333,7 @@ BYTE REGPARM1 roml_read(ADDRESS addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-BYTE REGPARM1 romh_read(ADDRESS addr)
+BYTE REGPARM1 romh_read(WORD addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ATOMIC_POWER:
@@ -349,7 +349,7 @@ BYTE REGPARM1 romh_read(ADDRESS addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-void REGPARM2 roml_store(ADDRESS addr, BYTE value)
+void REGPARM2 roml_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_SUPER_SNAPSHOT:
@@ -384,7 +384,7 @@ void REGPARM2 roml_store(ADDRESS addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr)
+BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ATOMIC_POWER:
@@ -395,7 +395,7 @@ BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr)
+BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
@@ -404,7 +404,7 @@ BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-BYTE REGPARM1 ultimax_c000_cfff_read(ADDRESS addr)
+BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
@@ -413,7 +413,7 @@ BYTE REGPARM1 ultimax_c000_cfff_read(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
+void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ATOMIC_POWER:
@@ -422,7 +422,7 @@ void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
     return;
 }
 
-void REGPARM2 ultimax_1000_7fff_store(ADDRESS addr, BYTE value)
+void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
@@ -431,7 +431,7 @@ void REGPARM2 ultimax_1000_7fff_store(ADDRESS addr, BYTE value)
     return;
 }
 
-void REGPARM2 ultimax_c000_cfff_store(ADDRESS addr, BYTE value)
+void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
@@ -440,7 +440,7 @@ void REGPARM2 ultimax_c000_cfff_store(ADDRESS addr, BYTE value)
     return;
 }
 
-void REGPARM1 cartridge_decode_address(ADDRESS addr)
+void REGPARM1 cartridge_decode_address(WORD addr)
 {
     switch (mem_cartridge_type) {
     }
@@ -501,15 +501,15 @@ void cartridge_init_config(void)
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
         cartridge_config_changed(1, 1, CMODE_READ);
-        cartridge_store_io1((ADDRESS)0xde00, 0);
+        cartridge_store_io1((WORD)0xde00, 0);
         break;
       case CARTRIDGE_GS:
         cartridge_config_changed(0, 0, CMODE_READ);
-        cartridge_store_io1((ADDRESS)0xde00, 0);
+        cartridge_store_io1((WORD)0xde00, 0);
         break;
       case CARTRIDGE_DINAMIC:
         cartridge_config_changed(0, 0, CMODE_READ);
-        cartridge_read_io1((ADDRESS)0xde00);
+        cartridge_read_io1((WORD)0xde00);
         break;
       case CARTRIDGE_IEEE488:
         cartridge_config_changed(0, 0, CMODE_READ);
@@ -520,7 +520,7 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_MAGIC_DESK:
         cartridge_config_changed(0, 0, CMODE_READ);
-        cartridge_store_io1((ADDRESS)0xde00, 0);
+        cartridge_store_io1((WORD)0xde00, 0);
         break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);

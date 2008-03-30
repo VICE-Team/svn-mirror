@@ -361,7 +361,7 @@ void cartridge_release_freeze(void)
     maincpu_set_nmi(I_FREEZE, 0);
 }
 
-const char *cartridge_get_file_name(ADDRESS addr_ignored)
+const char *cartridge_get_file_name(WORD addr_ignored)
 {
     return cartfile;
 }
