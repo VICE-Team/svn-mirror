@@ -75,6 +75,21 @@ void cbmfile_close(fileio_info_t *info)
     rawfile_destroy(info->rawfile);
 }
 
+unsigned int cbmfile_read(fileio_info_t *info, char *buf, unsigned int len)
+{
+    return rawfile_read(info->rawfile, buf, len);
+}
+
+unsigned int cbmfile_write(fileio_info_t *info, char *buf, unsigned int len)
+{
+    return rawfile_write(info->rawfile, buf, len);
+}
+
+unsigned int cbmfile_ferror(fileio_info_t *info)
+{
+    return rawfile_ferror(info->rawfile);
+}
+
 unsigned int cbmfile_rename(const char *src_name, const char *dst_name,
                             const char *path)
 {

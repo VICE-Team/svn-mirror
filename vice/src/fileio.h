@@ -68,6 +68,11 @@ extern fileio_info_t *fileio_open(const char *file_name, const char *path,
                                   unsigned int format, unsigned int command,
                                   unsigned int type);
 extern void fileio_close(fileio_info_t *info);
+extern unsigned int fileio_read(fileio_info_t *info, char *buf,
+                                unsigned int len);
+extern unsigned int fileio_write(fileio_info_t *info, char *buf,
+                                 unsigned int len);
+extern unsigned int fileio_ferror(fileio_info_t *info);
 extern unsigned int fileio_rename(const char *src_name, const char *dest_name,
                                   const char *path, unsigned int format);
 extern unsigned int fileio_scratch(const char *file_name, const char *path,

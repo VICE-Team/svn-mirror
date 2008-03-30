@@ -94,6 +94,21 @@ void rawfile_destroy(rawfile_info_t *info)
     }
 }
 
+unsigned int rawfile_read(rawfile_info_t *info, char *buf, unsigned int len)
+{
+    return (unsigned int)fread(buf, 1, len, info->fd);
+}
+
+unsigned int rawfile_write(rawfile_info_t *info, char *buf, unsigned int len)
+{
+    return (unsigned int)fwrite(buf, 1, len, info->fd);
+}
+
+unsigned int rawfile_ferror(rawfile_info_t *info)
+{
+    return (unsigned int)ferror(info->fd);
+}
+
 unsigned int rawfile_rename(const char *src_name, const char *dst_name,
                             const char *path)
 {

@@ -37,6 +37,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cbmdos.h"
 #include "fileio.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -46,20 +47,6 @@
 #include "types.h"
 #include "util.h"
 
-
-/* FIXME: Remove this. */
-/* File Types */
-#define FT_DEL          0
-#define FT_SEQ          1
-#define FT_PRG          2
-#define FT_USR          3
-#define FT_REL          4
-#define FT_CBM          5       /* 1581 partition */
-#define FT_DJJ          6       /* 1581 */
-#define FT_FAB          7       /* 1581 - Fred's format */
-#define FT_REPLACEMENT  0x20
-#define FT_LOCKED       0x40
-#define FT_CLOSED       0x80
 
 /* P00 Header structure:
 
@@ -94,19 +81,19 @@ int p00_check_name(const char *name)
 
     switch (toupper(*p)) {
       case 'D':
-        t = FT_DEL;
+        t = CBMDOS_FT_DEL;
         break;
       case 'S':
-        t = FT_SEQ;
+        t = CBMDOS_FT_SEQ;
         break;
       case 'P':
-        t = FT_PRG;
+        t = CBMDOS_FT_PRG;
         break;
       case 'U':
-        t = FT_USR;
+        t = CBMDOS_FT_USR;
         break;
       case 'R':
-        t = FT_REL;
+        t = CBMDOS_FT_REL;
         break;
     }
 
@@ -426,6 +413,21 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
 void p00_close(fileio_info_t *info)
 {
     rawfile_destroy(info->rawfile);
+}
+
+unsigned int p00_read(fileio_info_t *info, char *buf, unsigned int len)
+{
+    return rawfile_read(info->rawfile, buf, len);
+}
+
+unsigned int p00_write(fileio_info_t *info, char *buf, unsigned int len)
+{
+    return rawfile_write(info->rawfile, buf, len);
+}
+
+unsigned int p00_ferror(fileio_info_t *info)
+{
+    return rawfile_ferror(info->rawfile);
 }
 
 unsigned int p00_rename(const char *src_name, const char *dst_name,
