@@ -27,6 +27,11 @@
 
 #ifndef _VICE_H
 
+/* AIX requires this to be the first thing in the file.  */
+#if defined (_AIX) && !defined (__GNUC__)
+ #pragma alloca
+#endif
+
 /* We use <config.h> instead of "config.h" so that a compilation using
    -I. -I$srcdir will use ./config.h rather than $srcdir/config.h
    (which it would do because vice.h was found in $srcdir).  Well,
@@ -44,7 +49,7 @@
 /* Define the default system directory (where the ROMs are). */
 
 #define LIBDIR		PREFIX "/lib/vice"
-#define DOCDIR          PREFIX "/doc"
+#define DOCDIR          LIBDIR "/doc"
 
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE		22050	/* Hz */
@@ -135,6 +140,23 @@ extern unsigned int get_path_max();
 #define	GET_PATH_MAX	(get_path_max())
 #define	PATH_VAR(var)	char *var = (char *) alloca (GET_PATH_MAX)
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+/* This `alloca()' portability stuff is from GNU make too.  */
+
+#ifdef	__GNUC__
+#undef	alloca
+#define	alloca(n)	__builtin_alloca (n)
+#else	/* Not GCC.  */
+#ifdef	HAVE_ALLOCA_H
+#include <alloca.h>
+#else	/* Not HAVE_ALLOCA_H.  */
+#ifndef	_AIX
+extern char *alloca ();
+#endif	/* Not AIX.  */
+#endif	/* HAVE_ALLOCA_H.  */
+#endif	/* GCC.  */
 
 /* ------------------------------------------------------------------------- */
 
