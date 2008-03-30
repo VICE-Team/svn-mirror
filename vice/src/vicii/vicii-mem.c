@@ -282,6 +282,9 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             num_chars = (VIC_II_SCREEN_TEXTCOLS
                          - (cycle - (VIC_II_FETCH_CYCLE + 3)));
 
+            /* Take over the bus until the memory fetch is done.  */
+            maincpu_steal_cycles(clk, num_chars);
+
             if (num_chars <= VIC_II_SCREEN_TEXTCOLS) {
                 /* Matrix fetches starts immediately, but the VIC needs
                    at least 3 cycles to become the bus master.  Before
@@ -328,14 +331,6 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             /* Set the value by which `vic_ii.mem_counter' is incremented on
                this line.  */
             vic_ii.mem_counter_inc = inc;
-
-            /* Take over the bus until the memory fetch is done.  */
-#if 1
-            maincpu_steal_cycles(clk, num_chars);
-#else
-            clk = (VIC_II_LINE_START_CLK(clk) + VIC_II_FETCH_CYCLE
-                   + VIC_II_SCREEN_TEXTCOLS + 3);
-#endif
 
             /* Remember we have done a DMA.  */
             vic_ii.memory_fetch_done = 2;
