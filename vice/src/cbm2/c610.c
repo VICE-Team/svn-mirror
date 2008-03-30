@@ -39,6 +39,7 @@
 #include "ciatimer.h"
 #include "clkguard.h"
 #include "cmdline.h"
+#include "console.h"
 #include "crtc.h"
 #include "datasette.h"
 #include "drive-cmdline-options.h"
@@ -304,6 +305,8 @@ void machine_shutdown(void)
 {
     /* Detach all disks.  */
     file_system_detach_disk(-1);
+
+    console_close_all();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
@@ -440,3 +443,4 @@ int machine_autodetect_psid(const char *name)
 void machine_play_psid(int tune)
 {
 }
+

@@ -34,6 +34,7 @@
 #include "autostart.h"
 #include "clkguard.h"
 #include "cmdline.h"
+#include "console.h"
 #include "crtc.h"
 #include "datasette.h"
 #include "drive-cmdline-options.h"
@@ -330,6 +331,8 @@ void machine_shutdown(void)
 {
     /* Detach all disks.  */
     file_system_detach_disk(-1);
+
+    console_close_all();
 }
 
 /* ------------------------------------------------------------------------- */

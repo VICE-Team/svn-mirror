@@ -42,6 +42,7 @@
 #include "cartridge.h"
 #include "ciatimer.h"
 #include "clkguard.h"
+#include "console.h"
 #include "datasette.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
@@ -457,6 +458,8 @@ void machine_shutdown(void)
     if (!console_mode && psid_mode) {
         vsid_ui_exit();
     }
+
+    console_close_all();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
