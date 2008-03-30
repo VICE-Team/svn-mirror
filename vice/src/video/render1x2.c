@@ -46,7 +46,7 @@ void render_08_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src += pitchs * ys + xs;
 	trg += pitcht*yt + xt;
-        yys = ys << 1;
+    yys = (ys << 1) | (yt & 1);
 	if (width < 8)
 	{
 		wstart=width;
@@ -131,7 +131,7 @@ void render_16_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
-        yys = ys << 1;
+    yys = (ys << 1) | (yt & 1);
 	if (width < 8)
 	{
 		wstart=width;
@@ -217,7 +217,7 @@ void render_24_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt * 3);
-        yys = ys << 1;
+    yys = (ys << 1) | (yt & 1);
 	if (width < 4)
 	{
 		wstart=width;
@@ -358,7 +358,7 @@ void render_32_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
-        yys = ys << 1;
+    yys = (ys << 1) | (yt & 1);
 	if (width < 8)
 	{
 		wstart=width;
