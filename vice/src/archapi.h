@@ -24,12 +24,20 @@
  *
  */
 
+/* Do not include this header file, include `archdep.h' instead.  */
+
+#ifndef _ARCHAPI
+#define _ARCHAPI
+
+#include <stdarg.h>
+
 extern int archdep_startup(int *argc, char **argv);
 
 extern const char *archdep_program_name(void);
 extern const char *archdep_boot_path(void);
 extern const char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int archdep_path_is_relative(const char *path);
+extern int archdep_expand_path(char **return_path, const char *filename);
 
 /* Resource handling.  */
 extern const char *archdep_default_resource_file_name(void);
@@ -51,4 +59,6 @@ extern int archdep_num_text_lines(void);
 extern int archdep_num_text_columns(void);
 
 extern void archdep_setup_signals(int do_core_dumps);
+
+#endif
 

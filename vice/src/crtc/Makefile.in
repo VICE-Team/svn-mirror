@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -111,55 +111,42 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-        -I$(top_srcdir)/src \
-	-I$(top_builddir)/src
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/raster
 
-noinst_LIBRARIES = libwidgets.a
+noinst_LIBRARIES = libcrtc.a
 
-libwidgets_a_SOURCES = \
-	Canvas.c \
-	Canvas.h \
-	CanvasP.h \
-	DirMgr.c \
-	DirMgr.h \
-	Directory.c \
-	Directory.h \
-	DrawImageString.c \
-	DrawString.c \
-	FileSel.c \
-	FileSel.h \
-	FileSelP.h \
-	MultiList.c \
-	MultiList.h \
-	MultiListP.h \
-	RegExp.c \
-	RegExp.h \
-	ScrList.c \
-	ScrList.h \
-	ScrListP.h \
-	TabString.h \
-	Tablist2Tabs.c \
-	TextField.c \
-	TextField.h \
-	TextFieldP.h \
-	TextWidth.c \
-	strnchr.c
+libcrtc_a_SOURCES = \
+	crtc.c \
+	crtc.h \
+	crtc-cmdline-options.c \
+	crtc-cmdline-options.h \
+	crtc-draw.c \
+	crtc-draw.h \
+	crtc-mem.c \
+	crtc-mem.h \
+	crtc-resources.c \
+	crtc-resources.h \
+	crtc-snapshot.c \
+	crtc-snapshot.h 
+
+EXTRA_DIST =
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libwidgets_a_LIBADD = 
-libwidgets_a_OBJECTS =  Canvas.o DirMgr.o Directory.o DrawImageString.o \
-DrawString.o FileSel.o MultiList.o RegExp.o ScrList.o Tablist2Tabs.o \
-TextField.o TextWidth.o strnchr.o
+libcrtc_a_LIBADD = 
+libcrtc_a_OBJECTS =  crtc.o crtc-cmdline-options.o crtc-draw.o \
+crtc-mem.o crtc-resources.o crtc-snapshot.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -170,15 +157,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libwidgets_a_SOURCES)
-OBJECTS = $(libwidgets_a_OBJECTS)
+SOURCES = $(libcrtc_a_SOURCES)
+OBJECTS = $(libcrtc_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/xaw/widgets/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/crtc/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -213,10 +200,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libwidgets.a: $(libwidgets_a_OBJECTS) $(libwidgets_a_DEPENDENCIES)
-	-rm -f libwidgets.a
-	$(AR) cru libwidgets.a $(libwidgets_a_OBJECTS) $(libwidgets_a_LIBADD)
-	$(RANLIB) libwidgets.a
+libcrtc.a: $(libcrtc_a_OBJECTS) $(libcrtc_a_DEPENDENCIES)
+	-rm -f libcrtc.a
+	$(AR) cru libcrtc.a $(libcrtc_a_OBJECTS) $(libcrtc_a_LIBADD)
+	$(RANLIB) libcrtc.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -285,7 +272,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix/xaw/widgets
+subdir = src/crtc
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -302,25 +289,21 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-Canvas.o: Canvas.c CanvasP.h Canvas.h
-DirMgr.o: DirMgr.c ../../../../../src/config.h DirMgr.h Directory.h \
-	RegExp.h
-Directory.o: Directory.c Directory.h RegExp.h
-DrawImageString.o: DrawImageString.c TabString.h
-DrawString.o: DrawString.c TabString.h
-FileSel.o: FileSel.c ../../../../../src/config.h \
-	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
-	../../../../../src/arch/unix/archdep.h \
-	../../../../../src/vice.h ../../../../../src/archapi.h \
-	ScrListP.h ScrList.h FileSelP.h DirMgr.h Directory.h RegExp.h \
-	FileSel.h TextField.h
-MultiList.o: MultiList.c MultiListP.h MultiList.h TabString.h
-RegExp.o: RegExp.c ../../../../../src/config.h RegExp.h
-ScrList.o: ScrList.c MultiListP.h MultiList.h ScrListP.h ScrList.h
-Tablist2Tabs.o: Tablist2Tabs.c TabString.h
-TextField.o: TextField.c TextFieldP.h TextField.h
-TextWidth.o: TextWidth.c TabString.h
-strnchr.o: strnchr.c TabString.h
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
+	../../src/resources.h crtc.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/log.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/machine.h ../../src/raster/raster.h \
+	../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/utils.h \
+	../../src/alarm.h ../../src/maincpu.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/mos6510.h
 
 info: info-recursive
 dvi: dvi-recursive
