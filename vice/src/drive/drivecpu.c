@@ -47,10 +47,12 @@
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
+#include "utils.h"
 #include "viad.h"
 #include "wd1770.h"
 
@@ -75,14 +77,19 @@ static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address,
 void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 
 
-/* export these special pointers */
-monitor_interface_t *drive0_monitor_interface_ptr
-    = &drive0_context.cpu.monitor_interface;
-monitor_interface_t *drive1_monitor_interface_ptr
-    = &drive1_context.cpu.monitor_interface;
 cpu_int_status_t *drive0_int_status_ptr = &drive0_context.cpu.int_status;
 cpu_int_status_t *drive1_int_status_ptr = &drive1_context.cpu.int_status;
 
+
+monitor_interface_t *drive0_get_monitor_interface_ptr(void)
+{
+    return drive0_context.cpu.monitor_interface;
+}
+
+monitor_interface_t *drive1_get_monitor_interface_ptr(void)
+{
+    return drive1_context.cpu.monitor_interface;
+}
 
 /* non-time critical monitor functions; should be OK */
 static BYTE drive0_bank_read(int bank, ADDRESS adr)
@@ -118,6 +125,15 @@ static void drive1_toggle_watchpoints(int flag)
   drive_toggle_watchpoints(&drive1_context, flag);
 }
 
+static void drive0_set_bank_base(void)
+{
+    drive_set_bank_base(&drive0_context);
+}
+
+static void drive1_set_bank_base(void)
+{
+    drive_set_bank_base(&drive1_context);
+}
 
 void drive_cpu_setup_context(drive_context_t *drv)
 {
@@ -128,8 +144,11 @@ void drive_cpu_setup_context(drive_context_t *drv)
   drv->cpu.pageone = NULL;
   sprintf(drv->cpu.snap_module_name, "DRIVECPU%d", drv->mynumber);
   sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber+8);
-  mi = &drv->cpu.monitor_interface;
+  drv->cpu.monitor_interface
+      = (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
+  mi = drv->cpu.monitor_interface;
   mi->cpu_regs = &(drv->cpu.cpu_regs);
+  mi->z80_cpu_regs = NULL;
   mi->int_status = &(drv->cpu.int_status);
   mi->clk = &(drive_clk[drv->mynumber]);
   mi->current_bank = 0;
@@ -142,6 +161,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->mem_bank_peek = drive0_bank_peek;
     mi->mem_bank_write = drive0_bank_store;
     mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
+    mi->set_bank_base = drive0_set_bank_base;
 
     drv->cpu.monspace = e_disk8_space;
   }
@@ -151,6 +171,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->mem_bank_peek = drive1_bank_peek;
     mi->mem_bank_write = drive1_bank_store;
     mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
+    mi->set_bank_base = drive1_set_bank_base;
 
     drv->cpu.monspace = e_disk9_space;
   }
