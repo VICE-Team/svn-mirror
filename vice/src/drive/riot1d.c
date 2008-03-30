@@ -26,7 +26,7 @@
 
 struct drive_context_s;
 #define RIOT_SHARED_CODE
-#define RIOTCONTEXT	struct drive_context_s
+#define RIOTCONTEXT     struct drive_context_s
 
 #include "riotcore.h"
 
@@ -36,13 +36,13 @@ struct drive_context_s;
  * Renaming exported functions
  */
 
-#define myriot_init	riot1_init
-#define myriot_signal	riot1_signal
-#define myriot_reset	riot1_reset
-#define myriot_store	riot1_store
-#define myriot_read	riot1_read
-#define myriot_peek	riot1_peek
-#define myriot_set_flag	riot1_set_flag
+#define myriot_init     riot1_init
+#define myriot_signal   riot1_signal
+#define myriot_reset    riot1_reset
+#define myriot_store    riot1_store
+#define myriot_read     riot1_read
+#define myriot_peek     riot1_peek
+#define myriot_set_flag riot1_set_flag
 #define myriot_write_snapshot_module riot1_write_snapshot_module
 #define myriot_read_snapshot_module riot1_read_snapshot_module
 
@@ -57,9 +57,9 @@ struct drive_context_s;
 #define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
 #define mycpu_alarm_context (ctxptr->cpu.alarm_context)
 
-#define	my_set_irq(fl, clk)
+#define my_set_irq(fl, clk)
 
-#define	my_restore_irq(fl)
+#define my_restore_irq(fl)
 
 /*************************************************************************
  * I/O
@@ -77,22 +77,22 @@ struct drive_context_s;
 
 
 /* renaming formerly global symbols */
-#define riotio		(ctxptr->riot1.riot_io)
-#define oldpa		(ctxptr->riot1.old_pa)
-#define oldpb		(ctxptr->riot1.old_pb)
-#define riot_log	(ctxptr->riot1.log)
-#define riot_alarm	(ctxptr->riot1.alarm)
-#define riot_read_clk	(ctxptr->riot1.read_clk)
+#define riotio          (ctxptr->riot1.riot_io)
+#define oldpa           (ctxptr->riot1.old_pa)
+#define oldpb           (ctxptr->riot1.old_pb)
+#define riot_log        (ctxptr->riot1.log)
+#define riot_alarm      (ctxptr->riot1.alarm)
+#define riot_read_clk   (ctxptr->riot1.read_clk)
 #define riot_read_offset (ctxptr->riot1.read_offset)
-#define riot_last_read	(ctxptr->riot1.last_read)
-#define edgectrl	(ctxptr->riot1.r_edgectrl)
-#define irqfl		(ctxptr->riot1.r_irqfl)
-#define irqline		(ctxptr->riot1.r_irqline)
-#define ti_write_clk	(ctxptr->riot1.r_write_clk)
-#define ti_N		(ctxptr->riot1.r_N)
-#define ti_divider	(ctxptr->riot1.r_divider)
-#define ti_irqen	(ctxptr->riot1.r_irqen)
-#define MYRIOT_NAME	(ctxptr->riot1.myname)
+#define riot_last_read  (ctxptr->riot1.last_read)
+#define edgectrl        (ctxptr->riot1.r_edgectrl)
+#define irqfl           (ctxptr->riot1.r_irqfl)
+#define irqline         (ctxptr->riot1.r_irqline)
+#define ti_write_clk    (ctxptr->riot1.r_write_clk)
+#define ti_N            (ctxptr->riot1.r_N)
+#define ti_divider      (ctxptr->riot1.r_divider)
+#define ti_irqen        (ctxptr->riot1.r_irqen)
+#define MYRIOT_NAME     (ctxptr->riot1.myname)
 
 void riot1_setup_context(drive_context_t *ctxptr)
 {
@@ -179,7 +179,6 @@ void riot1_init(drive_context_t *ctxptr)
 {
     riot_drive_init(ctxptr, riot1_initdesc);
 }
-
 
 void riot_drive_init(drive_context_t *ctxptr, const riot_initdesc_t *riot_desc)
 {
