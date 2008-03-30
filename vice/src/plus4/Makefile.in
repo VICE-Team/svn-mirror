@@ -328,8 +328,8 @@ plus4rom.o: plus4rom.c ../../src/vice.h ../../src/config.h \
 	plus4mem.h plus4rom.h ../../src/resources.h ../../src/sysfile.h
 plus4tcbm.o: plus4tcbm.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/arch/unix/types.h \
-	../../src/drive/drivecpu.h ../../src/maincpu.h plus4tcbm.h \
-	../../src/drive/tcbm.h
+	../../src/drive/drivecpu.h ../../src/log.h ../../src/maincpu.h \
+	plus4tcbm.h ../../src/drive/tcbm.h
 ted-badline.o: ted-badline.c ../../src/vice.h ../../src/config.h \
 	../../src/dma.h ../../src/arch/unix/types.h ../../src/maincpu.h \
 	../../src/mem.h ted-badline.h ted-fetch.h tedtypes.h \
