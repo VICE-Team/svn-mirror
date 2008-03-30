@@ -1,3 +1,51 @@
+2004-10-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.7.
+
+	* arch/win32/res.rc, arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/resvic20.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/rescbm2.rc, arch/win32/ui.c, arch/win32/c64ui.c,
+	arch/win32/c128ui.c, arch/win32/vic20ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/cbm2ui.c: Added keyboard UI.
+	
+	* arch/win32/uikeyboard.c, arch/win32/uikeyboard.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/uisid.c: Small changes.
+
+	* arch/win32/uiperipheral.c (uiperipheral_dialog): Drive #8
+	page is default.
+
+	* c128/z80.c (z80_mainloop): Clear DMA during opcode counter.
+
+2004-10-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* dma.c: Include 6510core.h.
+	(dma_maincpu_steal_cycles): Trigger immediate start of IRQ
+	after DMA even for instructions with delayed interrupt.
+
+	* interrupt.c: Include 6510core.h
+	(interrupt_fixup_int_clk): Fixed calculation of
+	num_cycles_left which was wrong for INTREQ inside CPU cycles.
+	Trigger immediate start of IRQ even for instructions with
+	delayed interrupt.
+
+2004-10-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (handle_wm_command): Removed unused
+	variable.
+
+	* arch/win32/uihelp.c: Include version.h.
+
+	* datasette.c (datasette_internal_reset): Reset
+	motor_stop_clk.
+
+	* monitor/mon_parse.y: Initialize the child nodes of a new
+	conditional node.
+
 2004-10-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.6.
@@ -28,7 +76,7 @@
 	arch/win32/uifliplist.c, arch/win32/uifliplist.h,
 	arch/win32/uidatasette.c, arch/win32/uidatasette.h,
 	arch/win32/uiattach.c, arch/win32/uiattach.h,
-	arch/win32/ui.c: Move commands to separate files.
+	arch/win32/ui.c: Moved some commands to separate files.
 
 	* arch/win32/uievent.c, arch/win32/uievent.h: New files.
 

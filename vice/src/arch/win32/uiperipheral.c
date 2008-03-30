@@ -581,7 +581,6 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             break;
         }
         return FALSE;
-
       case WM_NOTIFY:
         {
             NMHDR FAR *nmhdr = (NMHDR FAR *)(lparam);
@@ -693,20 +692,20 @@ static void uiperipheral_dialog(HWND hwnd)
     }
 
     for (i = 0; i < no_of_drives; i++) {
-        psp[no_of_printers+i].dwSize = sizeof(PROPSHEETPAGE);
-        psp[no_of_printers+i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
-        psp[no_of_printers+i].hInstance = winmain_instance;
+        psp[no_of_printers + i].dwSize = sizeof(PROPSHEETPAGE);
+        psp[no_of_printers + i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+        psp[no_of_printers + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[no_of_printers+i].pszTemplate
+        psp[no_of_printers + i].pszTemplate
             = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
-        psp[no_of_printers+i].pszIcon = NULL;
+        psp[no_of_printers + i].pszIcon = NULL;
 #else
-        psp[no_of_printers+i].DUMMYUNIONNAME.pszTemplate
+        psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate
             = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
-        psp[no_of_printers+i].u2.pszIcon = NULL;
+        psp[no_of_printers + i].u2.pszIcon = NULL;
 #endif
-        psp[no_of_printers+i].lParam = 0;
-        psp[no_of_printers+i].pfnCallback = NULL;
+        psp[no_of_printers + i].lParam = 0;
+        psp[no_of_printers + i].pfnCallback = NULL;
     }
 
     if (have_printer_userport) {
@@ -737,11 +736,11 @@ static void uiperipheral_dialog(HWND hwnd)
     psh.nPages = no_of_drives + no_of_printers;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
-    psh.nStartPage = 0;
+    psh.nStartPage = i + 2;
     psh.ppsp = psp;
 #else
     psh.DUMMYUNIONNAME.pszIcon = NULL;
-    psh.u2.nStartPage = 0;
+    psh.u2.nStartPage = i + 2;
     psh.u3.ppsp = psp;
 #endif
     psh.pfnCallback = NULL;
