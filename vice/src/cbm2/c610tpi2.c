@@ -28,6 +28,7 @@
 #include "tpicore.h"
 
 #include "kbd.h"
+#include "keyboard.h"
 #include "maincpu.h"
 
 /*----------------------------------------------------------------------*/
