@@ -969,9 +969,9 @@ BYTE REGPARM1 read_sid(ADDRESS addr)
     addr = addr & 0x1f;
 #ifdef HAVE_MOUSE
     if (addr == 0x19)
-        val = (mouse_get_x() & 0x3f) << 1;
+        val = (mouse_get_x() >> 1) & 0x7e;
     else if (addr == 0x1a)
-        val = (~mouse_get_y() & 0x3f) << 1;
+        val = (~mouse_get_y() >> 1) & 0x7e;
     else
 #endif
     val = sound_read(addr);

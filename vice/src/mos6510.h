@@ -58,7 +58,7 @@ typedef struct _mos6510_regs {
 #define MOS6510_REGS_SET_A(regs, val) \
     (regs)->reg_a = (val)
 #define MOS6510_REGS_SET_X(regs, val) \
-    (regs)->reg_a = (val)
+    (regs)->reg_x = (val)
 #define MOS6510_REGS_SET_Y(regs, val) \
     (regs)->reg_y = (val)
 #define MOS6510_REGS_SET_SP(regs, val) \
@@ -88,7 +88,7 @@ typedef struct _mos6510_regs {
 #define MOS6510_REGS_GET_A(regs) \
     ((regs)->reg_a)
 #define MOS6510_REGS_GET_X(regs) \
-    ((regs)->reg_a)
+    ((regs)->reg_x)
 #define MOS6510_REGS_GET_Y(regs) \
     ((regs)->reg_y)
 #define MOS6510_REGS_GET_SP(regs) \
