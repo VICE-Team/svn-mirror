@@ -5,7 +5,8 @@ Installation notes for VICE 0.99
 
 This version of VICE can be compiled and installed both under
 Unix/X-Window and MS-DOS, and this file explains how this can be done.
-
+There is currently no documentation how to compile under Win32 and
+RiscOS.
 
 1. What you will need
 =====================

@@ -19,10 +19,10 @@
  ----------------------------------------------------------------------------
 
 
- This is version 0.99 of VICE, the multi-platform PET/VIC20/C64/C128
- emulator.  This version can be compiled both for MS-DOS and for most
- Unix system provided with the X Window System version 11, R5 or
- later.
+ This is version 0.99 of VICE, the multi-platform C64, C128, VIC20, PET
+ and CBM-II emulator.  This version can be compiled both for MSDOS,
+ Win32, RiscOS and for most Unix system provided with the X Window
+ System version 11, R5 or later.
 
  The following programs are included:
 
@@ -73,8 +73,8 @@
    - doc/serial.txt, description of the IEC serial bus used on the C64,
      VIC20 and C128;
 
-   - doc/mnemonics.txt, alphabetical list of all the G65SC802 and G65SC816
-     opcodes;
+   - doc/mnemonics.txt, alphabetical list of all the G65SC802 and
+     G65SC816 opcodes;
 
    - doc/drive_info.txt, information about the CBM disk drives;
 
@@ -87,8 +87,7 @@
 
      http://www.cs.cmu.edu/~dsladic/vice/vice.html
 
- Patches and new versions are made available quite often, so please
- stay tuned.
+ New versions are made available quite often, so please stay tuned.
 
 
  Have fun!
