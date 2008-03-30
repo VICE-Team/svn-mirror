@@ -515,8 +515,7 @@ int MAIN_PROGRAM(int argc, char **argv)
                 archdep_program_name(), machine_name);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
-    log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel,
-T. Bretz,");
+    log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel, T. Bretz,");
     log_message(LOG_DEFAULT, "A. Matthies, M. Pottendorfer, M. Brenner, S. Trikaliotis.");
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");

@@ -134,12 +134,12 @@ void drive_via_set_atn(drive_context_t *ctxptr, int state)
 {
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
         via1d_signal(ctxptr, VIA_SIG_CA1, state ? VIA_SIG_RISE : 0);
-        parallel_drivex_set_nrfd( ((!parieee_is_out) && (!(oldpb & 0x02)))
+        parallel_drivex_set_nrfd((BYTE)(((!parieee_is_out) && (!(oldpb & 0x02)))
                                || (parallel_atn && (!(oldpb & 0x01)))
-                               || ((!parallel_atn) && (oldpb & 0x01)));
-        parallel_drivex_set_ndac( ((!parieee_is_out) && (!(oldpb & 0x04)))
+                               || ((!parallel_atn) && (oldpb & 0x01))));
+        parallel_drivex_set_ndac((BYTE)(((!parieee_is_out) && (!(oldpb & 0x04)))
                                || (parallel_atn && (!(oldpb & 0x01)))
-                               || ((!parallel_atn) && (oldpb & 0x01)));
+                               || ((!parallel_atn) && (oldpb & 0x01))));
     }
 }
 
@@ -151,7 +151,7 @@ static void undump_pra(drive_context_t *ctxptr, BYTE byte)
         drive_set_1571_side((byte >> 2) & 1, ctxptr->mynumber);
     } else
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
-        parallel_drivex_set_bus(parieee_is_out ? byte : 0xff);
+        parallel_drivex_set_bus((BYTE)(parieee_is_out ? byte : 0xff));
     }
     if (ctxptr->drive_ptr->parallel_cable_enabled
         && (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
@@ -175,7 +175,7 @@ inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
                 printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
             }
 */
-            parallel_drivex_set_bus(parieee_is_out ? byte : 0xff);
+            parallel_drivex_set_bus((BYTE)(parieee_is_out ? byte : 0xff));
         } else
         if (ctxptr->drive_ptr->parallel_cable_enabled
             && (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
@@ -211,18 +211,20 @@ static void undump_prb(drive_context_t *ctxptr, BYTE byte)
     } else {
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
             parieee_is_out = byte & 0x10;
-            parallel_drivex_set_bus(parieee_is_out ? oldpa : 0xff);
+            parallel_drivex_set_bus((BYTE)(parieee_is_out ? oldpa : 0xff));
 
-            parallel_drivex_set_eoi( parieee_is_out && !(byte & 0x08) );
-            parallel_drivex_set_dav( parieee_is_out && !(byte & 0x40) );
-            parallel_drivex_set_ndac( ((!parieee_is_out) && (!(byte & 0x04)))
-                               || (parallel_atn && (!(byte & 0x01)))
-                               || ((!parallel_atn) && (byte & 0x01)));
-            parallel_drivex_set_nrfd( ((!parieee_is_out) && (!(byte & 0x02)))
-                               || (parallel_atn && (!(byte & 0x01)))
-                               || ((!parallel_atn) && (byte & 0x01)));
+            parallel_drivex_set_eoi((BYTE)(parieee_is_out && !(byte & 0x08)));
+            parallel_drivex_set_dav((BYTE)(parieee_is_out && !(byte & 0x40)));
+            parallel_drivex_set_ndac((BYTE)(((!parieee_is_out)
+                                    && (!(byte & 0x04)))
+                                    || (parallel_atn && (!(byte & 0x01)))
+                                    || ((!parallel_atn) && (byte & 0x01))));
+            parallel_drivex_set_nrfd((BYTE)(((!parieee_is_out)
+                                    && (!(byte & 0x02)))
+                                    || (parallel_atn && (!(byte & 0x01)))
+                                    || ((!parallel_atn) && (byte & 0x01))));
         } else {
-            iec_drivex_write(~byte);
+            iec_drivex_write((BYTE)(~byte));
         }
     }
 }
@@ -262,23 +264,23 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE p_oldpb,
             }
 */
             parieee_is_out = byte & 0x10;
-            parallel_drivex_set_bus(parieee_is_out ? oldpa : 0xff);
+            parallel_drivex_set_bus((BYTE)(parieee_is_out ? oldpa : 0xff));
 
             if (parieee_is_out) {
-                parallel_drivex_set_eoi( tmp & 0x08 );
-                parallel_drivex_set_dav( tmp & 0x40 );
+                parallel_drivex_set_eoi((BYTE)(tmp & 0x08));
+                parallel_drivex_set_dav((BYTE)(tmp & 0x40));
             } else {
-                parallel_drivex_set_eoi( 0 );
-                parallel_drivex_set_dav( 0 );
+                parallel_drivex_set_eoi(0);
+                parallel_drivex_set_dav(0);
             }
-            parallel_drivex_set_nrfd( ((!parieee_is_out) && (tmp & 0x02))
+            parallel_drivex_set_nrfd((BYTE)(((!parieee_is_out) && (tmp & 0x02))
                                 || (parallel_atn && (tmp & 0x01))
-                                || ((!parallel_atn) && (byte & 0x01)));
-            parallel_drivex_set_ndac( ((!parieee_is_out) && (tmp & 0x04))
+                                || ((!parallel_atn) && (byte & 0x01))));
+            parallel_drivex_set_ndac((BYTE)(((!parieee_is_out) && (tmp & 0x04))
                                 || (parallel_atn && (tmp & 0x01))
-                                || ((!parallel_atn) && (byte & 0x01)));
+                                || ((!parallel_atn) && (byte & 0x01))));
         } else {
-            iec_drivex_write(~byte);
+            iec_drivex_write((BYTE)(~byte));
         }
     }
 }
@@ -375,14 +377,19 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
            byte = 0xff;
            if (parieee_is_out) {
                /* talk enable */
-               if (parallel_nrfd) byte &= 0xfd ;
-               if (parallel_ndac) byte &= 0xfb ;
+               if (parallel_nrfd)
+                   byte &= 0xfd ;
+               if (parallel_ndac)
+                   byte &= 0xfb ;
            } else {
                /* listener */
-               if (parallel_eoi) byte &= 0xf7 ;
-               if (parallel_dav) byte &= 0xbf ;
+               if (parallel_eoi)
+                   byte &= 0xf7 ;
+               if (parallel_dav)
+                   byte &= 0xbf ;
            }
-           if (!parallel_atn) byte &= 0x7f;
+           if (!parallel_atn)
+               byte &= 0x7f;
 /*
            if (parallel_debug) {
                printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
@@ -406,7 +413,8 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
            }
 */
         } else {
-           byte = (((myvia[VIA_PRB] & 0x1a) | iec_drivex_read()) ^ 0x85) | orval;
+           byte = (((myvia[VIA_PRB] & 0x1a) | iec_drivex_read()) ^ 0x85)
+                  | orval;
         }
     }
     return byte;
