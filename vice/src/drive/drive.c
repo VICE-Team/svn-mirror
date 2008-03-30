@@ -850,7 +850,7 @@ static int drive_check_image_format(unsigned int format, int dnr)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
       case DISK_IMAGE_TYPE_X64:
         if (drive[dnr].type != DRIVE_TYPE_1541
             && drive[dnr].type != DRIVE_TYPE_1541II
@@ -908,7 +908,7 @@ int drive_attach_image(disk_image_t *image, int unit)
         log_message(drive_log, "Unit %d: D71 disk image attached: %s",
                     unit, image->name);
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         log_message(drive_log, "Unit %d: GCR disk image attached: %s",
                     unit, image->name);
         break;
@@ -923,7 +923,7 @@ int drive_attach_image(disk_image_t *image, int unit)
     drive[dnr].image = image;
     drive[dnr].image->gcr = drive[dnr].gcr;
 
-    if (drive[dnr].image->type == DISK_IMAGE_TYPE_GCR) {
+    if (drive[dnr].image->type == DISK_IMAGE_TYPE_G64) {
         if (disk_image_read_gcr_image(drive[dnr].image) < 0) {
             return -1;
         }
@@ -961,7 +961,7 @@ int drive_detach_image(disk_image_t *image, int unit)
             log_message(drive_log, "Unit %d: D71 disk image detached: %s",
                         unit, image->name);
             break;
-          case DISK_IMAGE_TYPE_GCR:
+          case DISK_IMAGE_TYPE_G64:
             log_message(drive_log, "Unit %d: D81 disk image detached: %s",
                         unit, image->name);
             break;
@@ -1327,7 +1327,7 @@ void drive_GCR_data_writeback(int dnr)
     if (!drive[dnr].GCR_dirty_track)
         return;
 
-    if (drive[dnr].image->type == DISK_IMAGE_TYPE_GCR) {
+    if (drive[dnr].image->type == DISK_IMAGE_TYPE_G64) {
         disk_image_write_track(drive[dnr].image, track,
                                drive[dnr].gcr->track_size,
                                drive[dnr].gcr->speed_zone);

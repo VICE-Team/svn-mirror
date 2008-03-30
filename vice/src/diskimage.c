@@ -438,7 +438,7 @@ static int disk_image_check_for_gcr(disk_image_t *image)
         return 0;
     }
 
-    image->type = DISK_IMAGE_TYPE_GCR;
+    image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
     log_message(disk_image_log, "GCR disk image recognised: %s%s.",
                 image->name, image->read_only ? " (read only)" : "");
@@ -614,7 +614,7 @@ int disk_image_create(const char *name, int type)
       case DISK_IMAGE_TYPE_D82:
         size = D82_FILE_SIZE;
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         break;
       default:
         log_error(disk_image_log,
@@ -677,7 +677,7 @@ int disk_image_create(const char *name, int type)
             }
         }
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         if (disk_image_create_gcr(image) < 0) {
             fclose(image->fd);
             free(image->name);
@@ -944,7 +944,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
             }
         }
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         {
             BYTE gcr_data[NUM_MAX_BYTES_TRACK], *gcr_track_start_ptr;
             int gcr_track_size, gcr_current_track_size;
@@ -1141,7 +1141,7 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
             return -1;
         }
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         if (track > image->tracks) {
             log_error(disk_image_log,
                       "Track %i out of bounds.  Cannot write GCR sector",

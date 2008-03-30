@@ -68,7 +68,7 @@ static Widget options_filling_box_left;
 /* static Widget options_filling_box_right; */
 static Widget disk_type_d64_button, disk_type_d71_button;
 static Widget disk_type_d81_button, disk_type_d80_button;
-static Widget disk_type_d82_button;
+static Widget disk_type_d82_button, disk_type_g64_button;
 static Widget disk_type_label;
 
 static Widget button_box;
@@ -101,7 +101,7 @@ static UI_CALLBACK(save_callback)
 {
     int dtypes[] = { DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D71,
                      DISK_IMAGE_TYPE_D81, DISK_IMAGE_TYPE_D80,
-                     DISK_IMAGE_TYPE_D82 };
+                     DISK_IMAGE_TYPE_D82, DISK_IMAGE_TYPE_G64 };
     String name;
     String iname;
     int type_cnt;
@@ -128,13 +128,18 @@ static UI_CALLBACK(save_callback)
 							&disk_type_flag, NULL);
                     if (disk_type_flag == False) {
 	                type_cnt ++;
+                        XtVaGetValues(disk_type_g64_button, XtNstate,
+                                                        &disk_type_flag, NULL);
+                        if (disk_type_flag == False) {
+                            type_cnt ++;
+                        }
 		    }
 		}
 	    }
 	}
     }
   
-    if (type_cnt < 0 || type_cnt > 4)
+    if (type_cnt < 0 || type_cnt > 5)
 	return;
  
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
@@ -184,7 +189,7 @@ static void build_emptydisk_dialog(void)
         ("fileNameField",
          asciiTextWidgetClass, file_name_form,
          XtNfromHoriz, file_name_label,
-         XtNwidth, 200,
+         XtNwidth, 240,
          XtNtype, XawAsciiString,
          XtNeditType, XawtextEdit,
          NULL);
@@ -193,7 +198,7 @@ static void build_emptydisk_dialog(void)
         ("fileNameField",
          textfieldWidgetClass, file_name_form,
          XtNfromHoriz, file_name_label,
-         XtNwidth, 200,
+         XtNwidth, 240,
          XtNstring, "",         /* Otherwise, it does not work correctly.  */
          NULL);
 #endif
@@ -336,7 +341,18 @@ static void build_emptydisk_dialog(void)
          XtNradioGroup, disk_type_d64_button,
          NULL);
 
-
+    disk_type_g64_button = XtVaCreateManagedWidget
+        ("ImageTypeG64Button",
+         toggleWidgetClass, options_form,
+         XtNfromHoriz, disk_type_d82_button,
+         XtNfromVert, browse_button,
+         XtNwidth, 40,
+         XtNheight, 20,
+         XtNright, XtChainRight,
+         XtNleft, XtChainRight,
+         XtNlabel, "G64",
+         XtNradioGroup, disk_type_d64_button,
+         NULL);
 
     button_box = XtVaCreateManagedWidget
         ("buttonBox",

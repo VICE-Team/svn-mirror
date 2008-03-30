@@ -54,7 +54,7 @@ static int image_type[] = {
         DISK_IMAGE_TYPE_D80,
         DISK_IMAGE_TYPE_D81,
         DISK_IMAGE_TYPE_D82,
-        DISK_IMAGE_TYPE_GCR,
+        DISK_IMAGE_TYPE_G64,
         DISK_IMAGE_TYPE_X64
 };
 
