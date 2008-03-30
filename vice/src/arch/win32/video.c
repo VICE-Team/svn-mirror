@@ -671,13 +671,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     if (canvas->videoconfig->doublesizey)
         canvas->height *= 2;
 
-    canvas->exposure_handler
-        = (canvas_redraw_t)canvas->viewport->exposure_handler;
-
     canvas->palette = palette;
     canvas->hwnd = ui_open_canvas_window(canvas->viewport->title,
                                          canvas->width, canvas->height,
-                                         (void *)canvas->viewport->exposure_handler,
                                          IsFullscreenEnabled());
 
     /*  Create the DirectDraw object */

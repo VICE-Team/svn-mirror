@@ -87,7 +87,6 @@ static char *hwnd_titles[2];
 
 /* Exposure handler.  */
 HWND window_handles[2];
-static canvas_redraw_t exposure_handler[2];
 int number_of_windows;
 int window_canvas_xsize[2];
 int window_canvas_ysize[2];
@@ -585,8 +584,7 @@ void ui_exit(void)
 
 /*  Create a Window for the emulation.  */
 HWND ui_open_canvas_window(const char *title, unsigned int width,
-                           unsigned int height, void *exp_handler,
-                           int fullscreen)
+                           unsigned int height, int fullscreen)
 {
     HWND hwnd;
 
@@ -624,7 +622,6 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
         log_debug("Window creation failed");
 
     window_handles[number_of_windows] = hwnd;
-    exposure_handler[number_of_windows] = (canvas_redraw_t)exp_handler;
     window_canvas_xsize[number_of_windows] = width;
     window_canvas_ysize[number_of_windows] = height;
     number_of_windows++;

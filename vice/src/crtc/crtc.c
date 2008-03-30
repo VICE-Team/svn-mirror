@@ -102,7 +102,6 @@ crtc_t crtc = {
 #define CRTC_CYCLES_PER_LINE() \
     crtc.regs[0]
 
-static void crtc_exposure_handler(unsigned int width, unsigned int height);
 
 /*--------------------------------------------------------------------*/
 /* size/mode handling */
@@ -344,7 +343,6 @@ raster_t *crtc_init(void)
         return NULL;
 
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void *)crtc_exposure_handler);
     resources_touch("CrtcVideoCache");
 
     if (!crtc.regs[0])
@@ -719,13 +717,6 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
      */
 
     alarm_set(crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
-}
-
-static void crtc_exposure_handler(unsigned int width, unsigned int height)
-{
-    crtc.raster.canvas->draw_buffer->canvas_width = width;
-    crtc.raster.canvas->draw_buffer->canvas_height = height;
-    video_viewport_resize(crtc.raster.canvas);
 }
 
 void crtc_shutdown(void)

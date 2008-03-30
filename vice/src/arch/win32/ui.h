@@ -93,7 +93,6 @@ extern void ui_register_res_values(const ui_res_value_list *valuelist);
 extern HWND ui_get_main_hwnd(void);
 extern HWND ui_open_canvas_window(const char *title, unsigned int width,
                                   unsigned int height,
-                                  void *exposure_handler,
                                   int fullscreen);
 extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);

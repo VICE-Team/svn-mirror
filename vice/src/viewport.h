@@ -58,9 +58,6 @@ struct viewport_s {
        window.  */
     unsigned int first_x;
 
-    /* Exposure handler.  */
-    void *exposure_handler;
-
     /* Only display canvas if this flag is set.  */
     int update_canvas;
 };

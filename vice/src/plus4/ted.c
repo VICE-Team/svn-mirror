@@ -69,7 +69,7 @@
 ted_t ted;
 
 static void ted_set_geometry(void);
-static void ted_exposure_handler(unsigned int width, unsigned int height);
+
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
@@ -212,7 +212,6 @@ static int init_raster(void)
         return -1;
 
     raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
     resources_touch("TEDVideoCache");
 
     ted_set_geometry();
@@ -366,53 +365,6 @@ void ted_powerup(void)
 }
 
 /* ---------------------------------------------------------------------*/
-
-/* Handle the exposure event.  */
-static void ted_exposure_handler(unsigned int width, unsigned int height)
-{
-    ted.raster.canvas->draw_buffer->canvas_width = width;
-    ted.raster.canvas->draw_buffer->canvas_height = height;
-    video_viewport_resize(ted.raster.canvas);
-}
-
-#if 0
-void ted_set_raster_irq(unsigned int line)
-{
-    if (line == ted.raster_irq_line && ted.raster_irq_clk != CLOCK_MAX)
-        return;
-
-    if (line < (unsigned int)ted.screen_height) {
-        unsigned int current_line = TED_RASTER_Y(maincpu_clk);
-
-        ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
-                             + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
-                             + (ted.cycles_per_line
-                             * (line - current_line)));
-
-        /* Raster interrupts on line 0 are delayed by 1 cycle.  */
-        if (line == 0)
-            ted.raster_irq_clk++;
-
-        if (line <= current_line)
-            ted.raster_irq_clk += (ted.screen_height
-                                  * ted.cycles_per_line);
-        alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
-    } else {
-        TED_DEBUG_RASTER(("TED: update_raster_irq(): "
-                         "raster compare out of range ($%04X)!", line));
-        ted.raster_irq_clk = CLOCK_MAX;
-        alarm_unset(ted.raster_irq_alarm);
-    }
-
-    TED_DEBUG_RASTER(("TED: update_raster_irq(): "
-                     "ted.raster_irq_clk = %ul, "
-                     "line = $%04X, "
-                     "ted.regs[0x0a] & 2 = %d\n",
-                     ted.raster_irq_clk, line, ted.regs[0x0a] & 2));
-
-    ted.raster_irq_line = line;
-}
-#endif
 
 /* Set the memory pointers according to the values in the registers.  */
 void ted_update_memory_ptrs(unsigned int cycle)

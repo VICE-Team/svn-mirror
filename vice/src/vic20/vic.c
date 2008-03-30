@@ -68,13 +68,6 @@ vic_t vic;
 static void vic_set_geometry(void);
 
 
-static void vic_exposure_handler(unsigned int width, unsigned int height)
-{
-    vic.raster.canvas->draw_buffer->canvas_width = width;
-    vic.raster.canvas->draw_buffer->canvas_height = height;
-    video_viewport_resize(vic.raster.canvas);
-}
-
 void vic_change_timing(void)
 {
     resource_value_t mode;
@@ -281,7 +274,6 @@ static int init_raster(void)
     update_pixel_tables(raster);
 
     raster_modes_set_idle_mode(raster->modes, VIC_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void*)vic_exposure_handler);
     resources_touch("VICVideoCache");
 
     vic_set_geometry();

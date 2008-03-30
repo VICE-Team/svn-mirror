@@ -367,11 +367,6 @@ void raster_set_geometry(raster_t *raster,
     raster->canvas->draw_buffer->canvas_height = canvas_height;
 }
 
-void raster_set_exposure_handler(raster_t *raster, void *exposure_handler)
-{
-    raster->canvas->viewport->exposure_handler = exposure_handler;
-}
-
 int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;

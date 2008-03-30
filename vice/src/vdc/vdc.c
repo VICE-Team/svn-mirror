@@ -58,7 +58,6 @@
 vdc_t vdc;
 
 static void vdc_raster_draw_alarm_handler(CLOCK offset);
-static void vdc_exposure_handler(unsigned int width, unsigned int height);
 
 static void vdc_set_geometry(void)
 {
@@ -139,7 +138,6 @@ static int init_raster(void)
         return -1;
 
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void*)vdc_exposure_handler);
     resources_touch("VDCVideoCache");
 
     vdc_set_geometry();
@@ -294,14 +292,6 @@ void vdc_powerup(void)
     vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE;
 
     vdc_reset();
-}
-
-/* Handle the exposure event. */
-static void vdc_exposure_handler(unsigned int width, unsigned int height)
-{
-    vdc.raster.canvas->draw_buffer->canvas_width = width;
-    vdc.raster.canvas->draw_buffer->canvas_height = height;
-    video_viewport_resize(vdc.raster.canvas);
 }
 
 /* Set the memory pointers according to the values in the registers. */

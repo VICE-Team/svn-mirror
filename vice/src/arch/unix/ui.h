@@ -48,8 +48,6 @@
    (e.g. filenames in fliplists) */
 #define NO_TRANS "no-trans"
 
-typedef void (*ui_exposure_handler_t)(unsigned int width,
-                                      unsigned int height);
 typedef enum {
     UI_BUTTON_NONE, UI_BUTTON_CLOSE, UI_BUTTON_OK, UI_BUTTON_CANCEL,
     UI_BUTTON_YES, UI_BUTTON_NO, UI_BUTTON_RESET, UI_BUTTON_HARDRESET,
