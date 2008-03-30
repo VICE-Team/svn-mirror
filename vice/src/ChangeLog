@@ -1,3 +1,31 @@
+1999-02-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.31.
+
+	* alarm.h, alarm.c (alarm_set): Made inline.
+
+1998-02-20  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am [noinst_HEADERS]: add ciacore.h
+	[EXTRA_DIST]: add ciacore.c
+
+	* c64/Makefile.am [libc64_a_SOURCES]: remove c64cia1.def
+	[BUILT_SOURCES, c64cia1.c]: remove build rule
+
+	* c64/c64cia1.def: removed file
+
+	* c64/c64cia1.c: basically a copy of c64cia1.def, but including
+	ciacore.c
+
+	* ciacore.h, ciacore.c: new files. Handles CIA for c64cia1 now. 
+	Other CIAs not (yet) converted. Basically a copy of cia-tmpl.c, 
+	with lots of renaming.
+
+	* 6510core.c [FETCH_OPCODE]: cast reg_pc to (int) before comparing
+	to bank_limit when compiling with WORDS_BIGENDIAN or without unaligned
+	memory access (!ALLOW_UNALIGNED_ACCESS), i.e. most RISC machines for
+	example.
+
 1999-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.30.
