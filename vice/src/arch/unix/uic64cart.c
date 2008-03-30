@@ -54,7 +54,7 @@ static UI_CALLBACK(attach_cartridge)
          * It's only emulation that should be enabled!
          */
         if (cartridge_attach_image(type, NULL) < 0)
-            ui_error(_("Invalid cartridge"));
+            ui_error(_("Cannot attach cartridge"));
         break;
 
       default:
@@ -71,7 +71,7 @@ static UI_CALLBACK(attach_cartridge)
             switch (button) {
               case UI_BUTTON_OK:
                 if (cartridge_attach_image(type, filename) < 0)
-                    ui_error(_("Invalid cartridge image"));
+                    ui_error(_("Cannot attach cartridge"));
                 if (last_dir)
                     lib_free(last_dir);
                 util_fname_split(filename, &last_dir, NULL);
