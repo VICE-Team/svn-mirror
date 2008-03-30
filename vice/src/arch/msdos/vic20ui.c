@@ -44,6 +44,18 @@
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(VideoCache)
+
+static tui_menu_item_def_t vic_menu_items[] = {
+    { "Video _Cache:",
+      "Enable screen cache (disabled when using triple buffering)",
+      toggle_VideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ADDRESS cartridge_type_to_address(int type)
 {
     /* We might use a simple AND here, but it's safer to use `switch()' as
@@ -358,6 +370,7 @@ int vic20_ui_init(void)
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+    tui_menu_add(ui_video_submenu, vic_menu_items);
 
     return 0;
 }

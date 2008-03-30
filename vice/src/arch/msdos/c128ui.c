@@ -43,10 +43,15 @@
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(VideoCache)
 TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
 static tui_menu_item_def_t vic_ii_menu_items[] = {
+    { "Video _Cache:",
+      "Enable screen cache (disabled when using triple buffering)",
+      toggle_VideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "Sprite-_Background Collisions:",
       "Emulate sprite-background collision register",
