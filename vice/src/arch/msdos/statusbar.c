@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include "log.h"
+#include "raster.h"
 #include "resources.h"
 #include "statusbar.h"
 #include "videoarch.h"
@@ -47,11 +48,18 @@ int nr_of_bitmaps = 0;
 /* to center the statusbar we need the vga-width */
 int vga_width = 0;
 
+/* for auto mode */
+int statusbar_possible = 0;
+
+
 int statusbar_enabled(void) {
     int val;
     resources_get_value("ShowStatusbar",(resource_value_t) &val);
+    if (val == STATUSBAR_MODE_AUTO)
+        val = statusbar_possible;
     return val;
 }
+
 
 int statusbar_init(void) 
 {
@@ -96,17 +104,18 @@ void statusbar_append_bitmap_to_update(BITMAP *b)
 }
 
 
-static void statusbar_to_screen(BITMAP* bitmap)
+static void statusbar_to_screen(BITMAP* bitmap, int x_offset, int x_width)
 {
     int b;
+
     if (bitmap == NULL)
         return;
 
     for (b = 0; b < nr_of_bitmaps; b++)
     {
         blit(bitmap, bitmaps_to_update[b], 0, 0,
-            (vga_width-STATUSBAR_WIDTH)/2, 0,
-            STATUSBAR_WIDTH,STATUSBAR_HEIGHT);
+            x_offset, 0,
+            x_width,STATUSBAR_HEIGHT);
     }
 }
 
@@ -119,7 +128,8 @@ void statusbar_update()
         || (status_bitmap == NULL))
         return;
 
-    statusbar_to_screen(status_bitmap);
+    statusbar_to_screen(status_bitmap, 
+        (vga_width-STATUSBAR_WIDTH)/2, STATUSBAR_WIDTH);
 }
 
 
@@ -128,7 +138,8 @@ void statusbar_disable()
     if (!video_in_gfx_mode() || (behind_status_bitmap == NULL))
         return;
 
-    statusbar_to_screen(behind_status_bitmap);
+    statusbar_to_screen(behind_status_bitmap,
+        (vga_width-STATUSBAR_WIDTH)/2, STATUSBAR_WIDTH);
     raster_mode_change();
 
 }
@@ -140,3 +151,31 @@ void statusbar_set_width(int w)
 }
 
 
+void statusbar_set_height(int h)
+{
+    /* 
+    this currently doesn't set the height in fact but decides 
+    whether the sb is visible in auto-mode
+    */
+    if (h >= STATUSBAR_HEIGHT)
+        statusbar_possible = 1;
+    else
+        statusbar_possible = 0;
+}
+
+
+void statusbar_prepare(void)
+{
+    /*
+    this clears the upper bar of screen to avoid
+    rubbish remaining at left and right of the bar
+    */
+    BITMAP *bm_clear;
+    bm_clear = create_bitmap(vga_width,STATUSBAR_HEIGHT);
+    if (bm_clear)
+    {
+        clear(bm_clear);
+        statusbar_to_screen(bm_clear,0,vga_width);
+        destroy_bitmap(bm_clear);
+    }
+}

@@ -86,17 +86,20 @@ static int set_use_leds(resource_value_t v)
 static int set_statusbar_enabled(resource_value_t v) 
 {
     statusbar_is_enabled = (int) v;
-    if (statusbar_is_enabled)
+    if (statusbar_enabled())
+    {   
+        statusbar_prepare();
         statusbar_update();
-    else
+    } else {
         statusbar_disable();
+    }
     return 0;
 }
 
 static resource_t resources[] = {
     { "UseLeds", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &use_leds, set_use_leds },
-    { "ShowStatusbar", RES_INTEGER, (resource_value_t) 0,
+    { "ShowStatusbar", RES_INTEGER, (resource_value_t) STATUSBAR_MODE_AUTO,
       (resource_value_t *) &statusbar_is_enabled, set_statusbar_enabled },
     { NULL }
 };
@@ -287,8 +290,8 @@ static void ui_draw_drive_status(int drive_bar)
 
     drive_bitmap = create_sub_bitmap(status_bitmap,180+drive_bar*70,2,60,8);
 
-    if ((drive_bar == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0)
-        || (drive_bar == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1))
+    if (((drive_bar == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0))
+        || ((drive_bar == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1)))
     {
         textprintf(drive_bitmap,font,2,0,STATUSBAR_COLOR_BLUE,"%d",drive_bar+8);
 
