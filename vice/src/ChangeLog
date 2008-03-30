@@ -1,3 +1,61 @@
+2003-11-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.24.
+
+	* drive/ieee/via1d2031.c: Removed dead IEC code.
+
+	* c64/c64cia2.c, c64/c64iec.c, c64/c64iec.h, pet/petiec.c,
+	cbm2/cbm2iec.c, drive/iec/iec.c, drive/iec/via1d1541.c,
+	drive/iec/cia1581d.c, plus4/plus4iec.c,  plus4/plus4iec.h,
+	plus4/plus4mem.c, vic20/vic20iec.c, vic20/vic20iec.h,
+	c64/c64.c, plus4/plus4.c, iecbus/iecbus.c, iecbus.h,
+	iecdrive.h: Changed code to support more drives.
+
+	* serial/iec-bus.c, serial/iec-bus.h, serial/serial-trap.c,
+	serial/serial-iec.c: Renamed iecbus* functions.
+
+	* drive/driveimage.c (drive_image_attach, drive_image_detach):
+	Allow more drives.
+
+	* drive/iec/wd1770.c (wd1770_attach_image,
+	wd1770_detach_image): Changed likewise.
+
+	* attach.c (attach_disk_image, detach_disk_image): Attach #10
+	and #11 too.
+
+	* arch/win32/uimon.c (SetMemspace): Stubs for two additional
+	drives.
+
+	* arch/win32/uiattach.c, arch/win32/uidrivec64vic20.c,
+	arch/win32/uidrivec128.c, arch/win32/uidriveplus4.c: Enabled
+	UI for drive #10 and #11.
+
+	* arch/unix/ui.h, fliplist.c: Increased number of drives.
+
+	* uiapi.h, arch/os2/ui.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/x11/gnome/x11ui.c, arch/msdos/ui.c, drive/drive.c,
+	arch/win32/ui.c, arch/riscos/ui.c, arch/riscos/ui.h,
+	arch/beos/ui.cc (ui_display_drive_track): Unified.
+
+	* video/video-viewport.c, arch/msdos/mousedrv.c,
+	arch/msdos/statusbar.c: Reordered includes to avoid warnings.
+
+	* sid/sid-snapshot.c (sid_snapshot_read_module_simple): Fixed
+	warnings.
+
+	* drive/driverom.c (drive_rom_initialize_traps): Removed dead
+	1581 traps.
+
+	* drive/drivecpu.c (drive_trap_handler): Removed old trap.
+
+	* drive/iec/iec.c: Removed 1581 jobcode calls.
+
+	* drive/iec/jobcode1581.c, drive/iec/jobcode1581.h: Removed.
+
+	* drive/iec/Makefile.am, arch/win32/iec.dsp: Updated.
+
+	* arch/win32/msvc/config.h: Define `HAVE_DIRECT_H'.
+
 2003-11-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.23.

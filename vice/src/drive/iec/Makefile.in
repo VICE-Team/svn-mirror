@@ -238,8 +238,6 @@ libdriveiec_a_SOURCES = \
 	iec.c \
 	iecrom.c \
 	iecrom.h \
-	jobcode1581.c \
-	jobcode1581.h \
 	memiec.c \
 	memiec.h \
 	via1d1541.c \
@@ -258,8 +256,7 @@ libdriveiec_a_LIBADD =
 am_libdriveiec_a_OBJECTS = cia1571d.$(OBJEXT) cia1581d.$(OBJEXT) \
 	glue1571.$(OBJEXT) iec-cmdline-options.$(OBJEXT) \
 	iec-resources.$(OBJEXT) iec.$(OBJEXT) iecrom.$(OBJEXT) \
-	jobcode1581.$(OBJEXT) memiec.$(OBJEXT) via1d1541.$(OBJEXT) \
-	wd1770.$(OBJEXT)
+	memiec.$(OBJEXT) via1d1541.$(OBJEXT) wd1770.$(OBJEXT)
 libdriveiec_a_OBJECTS = $(am_libdriveiec_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -269,9 +266,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/glue1571.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/iec-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/iec-resources.Po ./$(DEPDIR)/iec.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/iecrom.Po ./$(DEPDIR)/jobcode1581.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/memiec.Po ./$(DEPDIR)/via1d1541.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/wd1770.Po
+@AMDEP_TRUE@	./$(DEPDIR)/iecrom.Po ./$(DEPDIR)/memiec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/via1d1541.Po ./$(DEPDIR)/wd1770.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -310,7 +306,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iecrom.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jobcode1581.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/memiec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/via1d1541.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wd1770.Po@am__quote@

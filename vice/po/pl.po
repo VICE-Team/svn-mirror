@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-11-11 20:30+0100\n"
+"POT-Creation-Date: 2003-11-14 22:52+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1005,7 +1005,7 @@ msgstr "Nastêpny: "
 
 #: src/arch/unix/uicommands.c:750 src/arch/unix/uicommands.c:765
 #: src/arch/unix/x11/gnome/x11ui.c:828 src/arch/unix/x11/gnome/x11ui.c:838
-#: src/arch/unix/x11/gnome/x11ui.c:1503
+#: src/arch/unix/x11/gnome/x11ui.c:1504
 msgid "<empty>"
 msgstr "<pusty>"
 
@@ -1196,7 +1196,7 @@ msgstr "O VICE..."
 
 #: src/arch/unix/uicommands.c:1071 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1891
 msgid "Reset"
 msgstr "Reset"
 
@@ -2778,62 +2778,62 @@ msgstr "(przyspieszony)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1655
+#: src/arch/unix/x11/gnome/x11ui.c:1656
 #, c-format
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1699 src/arch/unix/x11/xaw/x11ui.c:1313
+#: src/arch/unix/x11/gnome/x11ui.c:1700 src/arch/unix/x11/xaw/x11ui.c:1314
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1853
+#: src/arch/unix/x11/gnome/x11ui.c:1854
 msgid "VICE Message"
 msgstr "Wiadomo¶æ VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1864
+#: src/arch/unix/x11/gnome/x11ui.c:1865
 msgid "VICE Error"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1891
 msgid "Hard Reset"
 msgstr "Zimny reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1892
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1935 src/arch/unix/x11/xaw/x11ui.c:1591
+#: src/arch/unix/x11/gnome/x11ui.c:1936 src/arch/unix/x11/xaw/x11ui.c:1592
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1936
+#: src/arch/unix/x11/gnome/x11ui.c:1937
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1949
+#: src/arch/unix/x11/gnome/x11ui.c:1950
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart nie mo¿liwy w jednostce 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1957 src/arch/unix/x11/gnome/x11ui.c:1966
+#: src/arch/unix/x11/gnome/x11ui.c:1958 src/arch/unix/x11/gnome/x11ui.c:1967
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2093 src/arch/unix/x11/gnome/x11ui.c:2098
+#: src/arch/unix/x11/gnome/x11ui.c:2094 src/arch/unix/x11/gnome/x11ui.c:2099
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2563
+#: src/arch/unix/x11/gnome/x11ui.c:2564
 msgid "Contents"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2610
+#: src/arch/unix/x11/gnome/x11ui.c:2611
 msgid "Attach write protected"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2636
+#: src/arch/unix/x11/gnome/x11ui.c:2637
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -3132,16 +3132,16 @@ msgstr "Zapisz obecnie za³adowany ROM"
 msgid "Save snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1178
+#: src/arch/unix/x11/xaw/x11ui.c:1179
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/x11ui.c:1476
+#: src/arch/unix/x11/xaw/x11ui.c:1477
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1659
+#: src/arch/unix/x11/xaw/x11ui.c:1660
 msgid "Unknown image type."
 msgstr "Nieznany typ obrazu."
 
