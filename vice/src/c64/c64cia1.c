@@ -32,7 +32,6 @@
 
 #include "c64.h"
 #include "c64cia.h"
-#include "clkguard.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
@@ -43,9 +42,6 @@
 #ifdef HAVE_RS232
 #include "rsuser.h"
 #endif
-
-
-#define mycia_init cia1_init
 
 
 void REGPARM2 cia1_store(WORD addr, BYTE data)
@@ -186,11 +182,6 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 #endif
 }
 
-static void clk_overflow_callback_cia1(CLOCK sub, void *data)
-{
-    ciacore_clk_overflow_callback(&(machine_context.cia1), sub, data);
-}
-
 static void int_cia1ta(CLOCK offset)
 {
     ciacore_intta(&(machine_context.cia1), offset);
@@ -206,34 +197,14 @@ static void int_cia1tod(CLOCK offset)
     ciacore_inttod(&(machine_context.cia1), offset);
 }
 
+static const cia_initdesc_t cia_initdesc[2] = {
+    { &(machine_context.cia1), int_cia1ta, int_cia1tb, int_cia1tod },
+};
+
 void cia1_init(cia_context_t *cia_context)
 {
-    char buffer[16];
-
-    cia_context->log = log_open(cia_context->myname);
-
-    cia_context->int_num = interrupt_cpu_status_int_new(maincpu_int_status,
-                                                        cia_context->myname);
-
-    sprintf(buffer, "%s_TA", cia_context->myname);
-    cia_context->ta_alarm = alarm_new(maincpu_alarm_context, buffer,
-                                      int_cia1ta);
-    sprintf(buffer, "%s_TB", cia_context->myname);
-    cia_context->tb_alarm = alarm_new(maincpu_alarm_context, buffer,
-                                      int_cia1tb);
-    sprintf(buffer, "%s_TOD", cia_context->myname);
-    cia_context->tod_alarm = alarm_new(maincpu_alarm_context, buffer,
-                                       int_cia1tod);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback_cia1,
-                           NULL);
-
-    sprintf(buffer, "%s_TA", cia_context->myname);
-    ciat_init(&(cia_context->ta), buffer, *(cia_context->clk_ptr),
-              cia_context->ta_alarm);
-    sprintf(buffer, "%s_TB", cia_context->myname);
-    ciat_init(&(cia_context->tb), buffer, *(cia_context->clk_ptr),
-              cia_context->tb_alarm);
+    ciacore_init(&cia_initdesc[0], maincpu_alarm_context, maincpu_int_status,
+                 maincpu_clk_guard);
 }
 
 void cia1_setup_context(machine_context_t *machine_context)

@@ -40,9 +40,6 @@
 #include "types.h"
 
 
-#define mycia_init      cia1581_init
-
-
 void REGPARM3 cia1581_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     ciacore_store(&(ctxptr->cia1581), addr, data);
@@ -209,16 +206,6 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
     iec_fast_drive_write(byte, cia1581p->number);
 }
 
-static void clk0_overflow_callback(CLOCK sub, void *data)
-{
-    ciacore_clk_overflow_callback(&(drive0_context.cia1581), sub, data);
-}
-
-static void clk1_overflow_callback(CLOCK sub, void *data)
-{
-    ciacore_clk_overflow_callback(&(drive1_context.cia1581), sub, data);
-}
-
 static void int_ciad0ta(CLOCK c)
 {
     ciacore_intta(&(drive0_context.cia1581), c);
@@ -250,16 +237,16 @@ static void int_ciad1tod(CLOCK c)
 }
 
 static const cia_initdesc_t cia1581_initdesc[2] = {
-    { &drive0_context.cia1581,
-      clk0_overflow_callback, int_ciad0ta, int_ciad0tb, int_ciad0tod },
-    { &drive1_context.cia1581,
-      clk1_overflow_callback, int_ciad1ta, int_ciad1tb, int_ciad1tod }
+    { &drive0_context.cia1581, int_ciad0ta, int_ciad0tb, int_ciad0tod },
+    { &drive1_context.cia1581, int_ciad1ta, int_ciad1tb, int_ciad1tod }
 };
 
 
 void cia1581_init(drive_context_t *ctxptr)
 {
-    cia_drive_init(ctxptr, cia1581_initdesc);
+    ciacore_init(&cia1581_initdesc[ctxptr->mynumber],
+                 ctxptr->cpu.alarm_context, ctxptr->cpu.int_status,
+                 ctxptr->cpu.clk_guard);
 }
 
 void cia1581_setup_context(drive_context_t *ctxptr)
@@ -285,8 +272,6 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->debugFlag = 0;
     cia->irq_line = IK_IRQ;
     sprintf(cia->myname, "CIA1581D%d", ctxptr->mynumber);
-    cia->int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status, cia->myname);
 
     cia1581p->drive_ptr = ctxptr->drive_ptr;
     cia1581p->iec_info = ctxptr->c_iec_info;

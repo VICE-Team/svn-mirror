@@ -45,11 +45,6 @@
 #include "types.h"
 
 
-#define mytpi_init tpi1_init
-#define mytpi_set_int tpi1_set_int
-#define mytpi_restore_int tpi1_restore_int
-
-
 void REGPARM3 tpi1_store(WORD addr, BYTE data)
 {
     tpicore_store(&(machine_context.tpi1), addr, data);
