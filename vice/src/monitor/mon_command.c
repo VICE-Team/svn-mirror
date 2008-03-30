@@ -38,6 +38,7 @@
 #include "uimon.h"
 #include "utils.h"
 
+
 typedef struct mon_cmds_s {
    const char *str;
    const char *abbrev;
@@ -60,16 +61,16 @@ static mon_cmds_t mon_cmd_array[] = {
 
    { "@",               "@",    CMD_DISK,               STATE_ROL,
    "<disk command>",
-     "Perform a disk command on the currently attached disk image on drive 8.  The\n"
-     "specified disk command is sent to the drive's channel #15." },
+     "Perform a disk command on the currently attached disk image on drive 8.\n"
+     "The specified disk command is sent to the drive's channel #15." },
 
    { "]",               "]",    CMD_ENTER_BIN_DATA,     STATE_INITIAL },
 
    { "a",               "a",    CMD_ASSEMBLE,           STATE_INITIAL,
      "<address> [ <instruction> [: <instruction>]* ]",
-     "Assemble instructions to the specified address.  If only one instruction\n"
-     "is specified, enter assembly mode (enter an empty line to exit assembly\n"
-     "mode)." },
+     "Assemble instructions to the specified address.  If only one\n"
+     "instruction is specified, enter assembly mode (enter an empty line to\n"
+     "exit assembly mode)." },
 
    { "add_label",       "al",   CMD_ADD_LABEL,          STATE_INITIAL,
     "<address> <label>",
@@ -83,7 +84,7 @@ static mon_cmds_t mon_cmd_array[] = {
      "bank." },
 
    { "bload",           "bl",   CMD_BLOAD,              STATE_FNAME,
-     "\"<filename>\" <address>",
+     "\"<filename>\" <device> <address>",
      "Load the specified file into memory at the specified address."},
 
    { "br",              "",     CMD_BLOCK_READ,         STATE_INITIAL,
@@ -103,7 +104,7 @@ static mon_cmds_t mon_cmd_array[] = {
    { "brmon",           "",     CMD_BRMON,              STATE_INITIAL },
 
    { "bsave",           "bs",   CMD_BSAVE,              STATE_FNAME,
-     "\"<filename>\" <address1> <address2>",
+     "\"<filename>\" <device> <address1> <address2>",
      "Save the memory from address1 to address2 to the specified file." },
 
    { "bw",              "",     CMD_BLOCK_WRITE,        STATE_INITIAL,
@@ -141,8 +142,9 @@ static mon_cmds_t mon_cmd_array[] = {
 
    { "d",               "d",    CMD_DISASSEMBLE,        STATE_INITIAL,
      "[<address> [<address>]]",
-     "Disassemble instructions.  If two addresses are specified, they are used\n"
-     "as a start and end address.  If only one is specified, it is treated as\n"     "the start address and a default number of instructions are\n"
+     "Disassemble instructions.  If two addresses are specified, they are\n"
+     "used as a start and end address.  If only one is specified, it is\n"
+     "treated as the start address and a default number of instructions are\n"
      "disassembled.  If no addresses are specified, a default number of\n"
      "instructions are disassembled from the dot address." },
 
@@ -188,8 +190,8 @@ static mon_cmds_t mon_cmd_array[] = {
    { "hunt",            "h",    CMD_HUNT,               STATE_INITIAL,
      "<address_range> <data_list>",
      "Hunt memory in the specified address range for the data in\n"
-     "<data_list>.  If the data is found, the starting address of the match is\n"
-     "displayed.  The entire range is searched for all possible matches." },
+     "<data_list>.  If the data is found, the starting address of the match\n"
+     "is displayed.  The entire range is searched for all possible matches." },
 
    { "i",               "i",    CMD_TEXT_DISPLAY,       STATE_INITIAL,
      "<address_opt_range>",
@@ -203,10 +205,11 @@ static mon_cmds_t mon_cmd_array[] = {
    { "io",              "",     CMD_IO,                 STATE_INITIAL },
 
    { "load",            "l",    CMD_LOAD,               STATE_FNAME,
-     "\"<filename>\" <address>",
+     "\"<filename>\" <device> <address>",
      "Load the specified file into memory at the specified address. Set BASIC\n"
      "pointers appropriately (not all emulators). Use (otherwise ignored)\n"
-     "two-byte load address from file if no address specified."},
+     "two-byte load address from file if no address specified.\n"
+     "If device is 0, the file is read from the file system."},
 
    { "load_labels",     "ll",   CMD_LOAD_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",
@@ -215,10 +218,10 @@ static mon_cmds_t mon_cmd_array[] = {
 
    { "m",               "m",    CMD_MEM_DISPLAY,        STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]"
-     "Display the contents of memory.  If no datatype is given, the default is\n"
-     "used.  If only one address is specified, the length of data displayed is\n"
-     "based on the datatype.  If no addresses are given, the 'dot' address is\n"
-     "used." },
+     "Display the contents of memory.  If no datatype is given, the default\n"
+     "is used.  If only one address is specified, the length of data\n"
+     "displayed is based on the datatype.  If no addresses are given, the\n"
+     "'dot' address is used." },
 
    { "mc",              "",     CMD_CHAR_DISPLAY,       STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]",
@@ -234,8 +237,8 @@ static mon_cmds_t mon_cmd_array[] = {
    { "ms",              "",     CMD_SPRITE_DISPLAY,     STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory as sprite data.  If only one address is\n"
-     "specified, only one sprite is displayed.  If no addresses are given, the\n"
-     "``dot'' address is used." },
+     "specified, only one sprite is displayed.  If no addresses are given,\n"
+     "the ``dot'' address is used." },
 
    { "next",            "n",    CMD_NEXT,               STATE_INITIAL,
      NULL,
@@ -285,8 +288,9 @@ static mon_cmds_t mon_cmd_array[] = {
 
    { "save",            "s",    CMD_SAVE,               STATE_FNAME,
      "\"<filename>\" <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file. Write\n"
-     "two-byte load address." },
+     "Save the memory from address1 to address2 to the specified file.\n"
+     "Write two-byte load address.\n"
+     "If device is 0, the file is written to the file system."},
 
    { "save_labels",     "sl",   CMD_SAVE_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",

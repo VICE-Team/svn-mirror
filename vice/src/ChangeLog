@@ -1,3 +1,33 @@
+2002-10-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.12.
+
+	* Makefile.am: Added `rs232drv.h'.
+
+	* monitor/mon_file.c (mon_file_open, mon_file_read,
+	mon_file_write, mon_file_close): New functions.
+
+	* monitor/mon_file.c, monitor/mon_file.h, monitor/mon_parse.y
+	(mon_file_load, mon_file_save): Added device support.
+
+	* monitor/mon_command.c: Updated help.
+
+2002-10-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* autostart.c: New variable autostart_wait_for_reset.
+	(reboot_for_autostart) enables autostart_wait_for_reset.
+	(autostart_advance) waits for maincpu_clk reset to disable
+	autostart_wait_for_reset and then for min_cycles.
+
+2002-10-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am: Added rs232drv.dsp.
+
+	* arch/win32/rs232drv.dsp: New file.
+
+	* arch/win32/arch.dsp, base.dsp, c64.dsp, c64c128.dsp,
+	plus4.dsp, vice.dsw: Updated.
+
 2002-10-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.11.
