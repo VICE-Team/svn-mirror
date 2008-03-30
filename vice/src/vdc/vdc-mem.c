@@ -137,9 +137,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         if (vdc.regs[1] != oldval) {
             if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
                 if (vdc.screen_text_cols != vdc.regs[1]) {
-                    vdc.force_cache_flush = 1;
-                    vdc.force_repaint = 1;
-                    vdc.screen_text_cols = vdc.regs[1];
+                    vdc.update_geometry = 1;
                 }
             }
         }
@@ -185,8 +183,10 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 7:                   /* R07  Vertical sync position */
+        if (vdc.regs[7] != oldval)
+            vdc.update_geometry = 1;
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 7 unsupported!");
+        log_message(vdc.log, "Vertical Sync Position %i.", vdc.regs[7]);
 #endif
         break;
 
@@ -233,7 +233,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
 #ifdef REG_DEBUG
-        log_message(vdc.log,"Update screen_adr: %x.", vdc.screen_adr);
+        log_message(vdc.log, "Update screen_adr: %x.", vdc.screen_adr);
 #endif
         break;
 
@@ -258,7 +258,20 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
                             & vdc.vdc_address_mask;
 #ifdef REG_DEBUG
-        log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);
+        log_message(vdc.log, "Update attribute_adr: %x.", vdc.attribute_adr);
+#endif
+        break;
+
+      case 22:                  /* R22 Character Horizontal Size Control */
+#ifdef REG_DEBUG
+        log_message(vdc.log, "REG 22 unsupported!");
+#endif
+        break;
+
+      case 23:                  /* R23 Vert. Character Pxl Spc */
+#ifdef REG_DEBUG
+        log_message(vdc.log, "Vert. Character Pxl Spc %i.",
+                    vdc.regs[23] & 0x1f);
 #endif
         break;
 
@@ -268,11 +281,11 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         else
           vdc.text_blink_frequency = 16;
 
-        if ((vdc.regs[24] & 7) != vdc.ysmooth) {
-            vdc.ysmooth = vdc.regs[24] & 7;
-            vdc.raster.ysmooth = vdc.ysmooth;
-        }
+        if ((vdc.regs[24] & 0x1f) != (oldval & 0x1f))
+            vdc.update_geometry = 1;
+
 #ifdef REG_DEBUG
+        log_message(vdc.log, "Vertical Smooth Scroll %i.", vdc.regs[24] & 0x1f);
         log_message(vdc.log, "Blink frequency: %s.",
                     (vdc.regs[24] & 0x20) ? "1/32" : "1/16");
         log_message(vdc.log, "Screen mode: %s.",
@@ -281,9 +294,6 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 25:
-        vdc.raster.video_mode = (vdc.regs[25] & 0x80)
-                                ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
-
         if ((vdc.regs[25] & 7) != vdc.xsmooth) {
 #ifdef ALLOW_UNALIGNED_ACCESS
             vdc.xsmooth = vdc.regs[25] & 7;

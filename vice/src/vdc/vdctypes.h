@@ -44,29 +44,23 @@
 
 #define VDC_DOT_CLOCK 16000000.0
 
-#define VDC_SCREEN_WIDTH              672
+#define VDC_SCREEN_WIDTH              832
 
-#define VDC_SCREEN_XPIX               640
+#define VDC_SCREEN_XPIX               800
 #define VDC_SCREEN_YPIX               200
-#define VDC_SCREEN_MAX_TEXTCOLS       80
-#define VDC_SCREEN_TEXTCOLS           80
-#define VDC_SCREEN_TEXTLINES          25
+#define VDC_SCREEN_MAX_TEXTCOLS       100
 #define VDC_SCREEN_BORDERWIDTH        8
 #define VDC_SCREEN_BORDERHEIGHT       32
-#define VDC_SCREEN_CHARHEIGHT_LARGE   16
-#define VDC_SCREEN_CHARHEIGHT_SMALL   8
 
-#define VDC_FIRST_DISPLAYED_LINE      16
-#define VDC_LAST_DISPLAYED_LINE       247
+#define VDC_FIRST_DISPLAYED_LINE      (16+16)
+#define VDC_LAST_DISPLAYED_LINE       (247+32)
 #define VDC_80COL_START_PIXEL         16
-#define VDC_80COL_STOP_PIXEL          656
 
 #define VDC_NUM_SPRITES               0
 #define VDC_NUM_COLORS                16
 
 
 /* VDC Attribute masks */
-
 #define VDC_FLASH_ATTR              0x10
 #define VDC_UNDERLINE_ATTR          0x20
 #define VDC_REVERSE_ATTR            0x40
@@ -114,6 +108,9 @@ struct vdc_s {
     unsigned int raster_ycounter_divide;
     unsigned int screen_textlines;
 
+    /* Additional left shift.  */
+    unsigned int hsync_shift;
+
     /* Number of chars per line (including blank and sync).  */
     unsigned int xchars_total;
 
@@ -136,6 +133,9 @@ struct vdc_s {
     /* Internal memory counter. */
     unsigned int mem_counter;
     unsigned int bitmap_counter;
+
+    /* Bytes per character.  */
+    unsigned int bytes_per_char;
 
     /* Value to add to `mem_counter' after the graphics has been painted.  */
     unsigned int mem_counter_inc;
@@ -191,9 +191,6 @@ struct vdc_s {
     /* 0..7 pixel x shift.  */
     int xsmooth;
 
-    /* 0..7 pixel y shift.  */
-    int ysmooth;
-
     /* VDC Revision.  */
     unsigned int revision;
 
@@ -207,8 +204,7 @@ typedef struct vdc_s vdc_t;
 
 extern vdc_t vdc;
 
-/* Private function calls, used by the other VDC modules.  FIXME:
-   Prepend names with `_'?  */
+/* Private function calls, used by the other VDC modules.  */
 extern int vdc_load_palette(const char *name);
 extern void vdc_fetch_matrix(int offs, int num);
 extern void vdc_update_memory_ptrs(unsigned int cycle);
