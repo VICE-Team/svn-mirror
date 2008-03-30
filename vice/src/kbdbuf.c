@@ -39,17 +39,6 @@
 static char queue[QUEUE_SIZE];
 static int head_idx, num_pending;
 
-/* FIXME: This should go into machine-specific description.  */
-struct {
-    int location;
-    int num_pending_location;
-    int size;
-} kernal_kbd_buf = {
-    631,
-    198,
-    10
-};
-
 int kbd_buf_feed(const char *s)
 {
     int num = strlen(s);
