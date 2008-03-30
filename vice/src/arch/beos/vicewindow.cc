@@ -203,6 +203,9 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	
 	/* the statusbar is created in Resize() */
 	statusbar = NULL;
+	
+	/* the canvas is set by video_canvas_create */
+	canvas = NULL;
 
 	/* register the window */
 	windowlist[window_count++] = this;
@@ -349,6 +352,6 @@ void ViceWindow::DirectConnected(direct_buffer_info *info)
 
 	locker->Unlock();
 
-	if (isdirty && use_direct_window)
-		video_refresh_all((struct video_canvas_s *)canvas);
+	if (isdirty && use_direct_window && canvas != NULL)
+		video_canvas_refresh_all((struct video_canvas_s *)canvas);
 }

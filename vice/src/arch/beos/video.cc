@@ -34,6 +34,7 @@
 extern "C" {
 #include "vice.h"
 #include "cmdline.h"
+#include "fullscreen.h"
 #include "log.h"
 #include "palette.h"
 #include "raster.h"

@@ -81,6 +81,7 @@ extern "C" {
 #include "vsync.h"
 #include "vicewindow.h"
 #include "video.h"
+#include "videoarch.h"
 }
 
 /* sometimes we may need pointers to the ViceWindows */
@@ -1111,6 +1112,7 @@ int ui_set_window_mode(int use_direct_window)
 {
 	int i;
 	ViceWindow *w;
+	struct video_canvas_s *c;
 	
 	for (i=0; i<window_count; i++) {
 		w = windowlist[i];
@@ -1132,7 +1134,10 @@ int ui_set_window_mode(int use_direct_window)
 			}
 			
 			w->Unlock();
-			video_refresh_all((struct video_canvas_s *)(w->canvas));
+			
+			c = (struct video_canvas_s*) (w->canvas);
+			if (c != NULL)
+				video_canvas_refresh_all(c);
 		}
 	}
 	return use_direct_window;
