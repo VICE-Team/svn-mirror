@@ -517,21 +517,107 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
     return 0;
 }
 
+/* The following stuff implements a history for the file filter.    */
+/* The filter selected by the user in the OpenFile window is        */
+/* gets the default one in the next OpenFile window                 */
+/* As the same window is used for different file types and          */
+/* filter lists some more work has to be done...                    */
+#define UI_LIB_FILTER_HISTORY_LENGTH   8
+static DWORD last_filterlist;
+static DWORD filter_history[UI_LIB_FILTER_HISTORY_LENGTH];
+static DWORD filter_history_current;
 
-char *ui_select_file(HWND hwnd, const char *title, const char *filter,
+static DWORD get_index_from_filterbit(DWORD filterbit, DWORD filterlist)
+{
+    DWORD b;
+    int j = 0;
+
+    for (b=1; b<=filterbit; b<<=1)
+    {
+        if (filterlist & b) j++;
+        if (b==filterbit)
+            break;
+    }
+
+    return j;
+}
+
+static void update_filter_history(DWORD current_filter)
+{
+    int i;
+    DWORD b;
+    for (i=0,b=1; uilib_filefilter[i].name!=NULL; i++,b<<=1)
+    {
+        if ((b & last_filterlist) 
+            && (get_index_from_filterbit(b, last_filterlist) == current_filter))
+        {
+            filter_history[filter_history_current++] = b;
+            if (filter_history_current >= UI_LIB_FILTER_HISTORY_LENGTH)
+                filter_history_current = 0;
+            break;
+        }
+    }
+}
+
+static void set_filter(char *filter, DWORD filterlist, DWORD *filterindex)
+{
+    DWORD i,j,k,l;
+    DWORD b;
+    char *s = filter;
+
+    last_filterlist = filterlist;
+
+    *filterindex = 0;
+
+    /* create the strings for the file filters */
+    for (i=0,b=1; uilib_filefilter[i].name!=NULL; i++,b<<=1)
+    {
+        if (filterlist & b)
+        {
+            j = strlen(uilib_filefilter[i].name)+1;
+            memcpy(s, uilib_filefilter[i].name, j);
+            s += j;
+
+            j = strlen(uilib_filefilter[i].pattern)+1;
+            memcpy(s, uilib_filefilter[i].pattern, j);
+            s += j;
+
+        }
+    }
+    *s = 0;
+
+    /* search for the most recent file filter */
+    for (k=1; k<=UI_LIB_FILTER_HISTORY_LENGTH && *filterindex == 0; k++)
+    {
+        l = (filter_history_current - k) 
+            % UI_LIB_FILTER_HISTORY_LENGTH;
+        if (filter_history[l] & filterlist)
+            *filterindex = get_index_from_filterbit(filter_history[l], filterlist);
+    }
+    if (*filterindex == 0)
+        *filterindex = 1;    /* not in history: choose first filter */
+
+}
+
+
+char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
                      int style, char **autostart)
 {
     char name[1024] = "";
+    char filter[UI_LIB_MAX_FILTER_LENGTH];
+    DWORD filterindex;
     OPENFILENAME ofn;
+    int result;
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = hwnd;
     ofn.hInstance = winmain_instance;
+    set_filter(filter, filterlist, &filterindex);
     ofn.lpstrFilter = filter;
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter = 0;
-    ofn.nFilterIndex = 1;
+    ofn.nFilterIndex = filterindex;
     ofn.lpstrFile = name;
     ofn.nMaxFile = sizeof(name);
     ofn.lpstrFileTitle = NULL;
@@ -566,7 +652,9 @@ char *ui_select_file(HWND hwnd, const char *title, const char *filter,
     get_filename_from_content=styles[style].get_filename_from_content;
     autostart_result=autostart;
     vsync_suspend_speed_eval();
-    if (GetOpenFileName(&ofn)) {
+    result = GetOpenFileName(&ofn);
+    update_filter_history(ofn.nFilterIndex);
+    if (result) {
         return stralloc(name);
     } else {
         return NULL;

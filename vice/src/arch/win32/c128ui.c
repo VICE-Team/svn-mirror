@@ -106,7 +106,7 @@ char    *s;
         break;
         case IDM_IFUNCTIONROM_NAME:
             SuspendFullscreenMode(hwnd);
-            s = ui_select_file(hwnd,"Function ROM image","All files (*.*)\0*.*\0",FILE_SELECTOR_DEFAULT_STYLE,NULL);
+            s = ui_select_file(hwnd,"Function ROM image",UI_LIB_FILTER_ALL,FILE_SELECTOR_DEFAULT_STYLE,NULL);
             if (s != NULL) {
                 if (resources_set_value("InternalFunctionName", (resource_value_t) s) <0) {
                     ui_error("Could not load function ROM image\n'%s'", s);
@@ -117,7 +117,7 @@ char    *s;
             break;
         case IDM_EFUNCTIONROM_NAME:
             SuspendFullscreenMode(hwnd);
-            s = ui_select_file(hwnd,"Function ROM image","All files (*.*)\0*.*\0",FILE_SELECTOR_DEFAULT_STYLE,NULL);
+            s = ui_select_file(hwnd,"Function ROM image",UI_LIB_FILTER_ALL,FILE_SELECTOR_DEFAULT_STYLE,NULL);
             if (s != NULL) {
                 if (resources_set_value("ExternalFunctionName", (resource_value_t) s) <0) {
                     ui_error("Could not load function ROM image\n'%s'", s);

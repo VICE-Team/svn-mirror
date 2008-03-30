@@ -1127,9 +1127,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 break;
             }
             if ((s = ui_select_file(hwnd,"Attach disk image",
-                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
-                "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
-                "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,
+                UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
+                FILE_SELECTOR_DISK_STYLE,
                 &autostart_filename)) != NULL) {
                 if (autostart_filename!=NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
@@ -1188,9 +1187,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
             SuspendFullscreenMode(hwnd);
             if ((s = ui_select_file(hwnd,"Attach tape image",
-                "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
-                "Zipped files (*.zip;*.gz;*.bz2;*.t6z;*.p0z;*.taz)\0*.zip;*.bz2;*.gz;*.t6z;*.p0z;*.taz\0"
-                "All files (*.*)\0*.*\0", FILE_SELECTOR_TAPE_STYLE,
+                UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
+                FILE_SELECTOR_TAPE_STYLE,
                 &autostart_filename)) != NULL) {
                 if (autostart_filename != NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
@@ -1237,10 +1235,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             char *autostart_filename = NULL;
 
             if ((s = ui_select_file(hwnd,"Autostart disk/tape image",
-                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
-                "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
-                "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.t6z;*.p0z;*.taz;*.prz)\0*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.t6z;*.p0z;*.taz;*.prz\0"
-                "All files (*.*)\0*.*\0",
+                UI_LIB_FILTER_DISK | UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
                 FILE_SELECTOR_DISK_AND_TAPE_STYLE,
                 &autostart_filename)) != NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */

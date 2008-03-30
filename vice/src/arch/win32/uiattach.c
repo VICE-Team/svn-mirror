@@ -194,9 +194,8 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                 char *s;
 
                 s = ui_select_file(hwnd,"Attach disk image",
-                "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
-                "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL);
+                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP,
+                    FILE_SELECTOR_DISK_STYLE,NULL);
 
                 if (s != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
@@ -211,9 +210,8 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                 char *s;
 
                 s = ui_select_file(hwnd,"Autostart disk image",
-                "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
-                "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL);
+                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP,
+                    FILE_SELECTOR_DISK_STYLE,NULL);
 
                 if (s != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);

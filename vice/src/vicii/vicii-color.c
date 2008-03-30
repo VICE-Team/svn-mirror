@@ -58,25 +58,71 @@ static unsigned char ColorLookup[256];	/* simple lookup table: mixed color -> pa
 static unsigned char GunData[256*9];	/* lookup table to avoid over/underflows in the 8 bit per RGB value + gamma correction   */
 static   signed int IntColData[16*3];	/* integer YUV with saturation, brightness and contrast already calculated (for pal emu) */
 
+/* new luminances */
+
+#define LUMN0	  0.0f
+#define LUMN1	 56.0f
+#define LUMN2	 74.0f
+#define LUMN3	 92.0f
+#define LUMN4	117.0f
+#define LUMN5	128.0f
+#define LUMN6	163.0f
+#define LUMN7	199.0f
+#define LUMN8	256.0f
+
+/* old luminances */
+
+#define LUMO0	  0.0f
+#define LUMO1	 56.0f
+#define LUMO2	128.0f
+#define LUMO3	191.0f
+#define LUMO4	256.0f
+
+/* color vectors */
+
+/* grey */
+#define GRYU	(  0.00f)
+#define GRYV	(  0.00f)
+
+/* red / -cyan */
+#define REDU	(-25.07f)
+#define REDV	( 43.38f)
+
+/* -green / purple  INVERTED! */
+#define GRNU	( 61.70f)
+#define GRNV	( 29.62f)
+
+/* blue / -yellow */
+#define BLUU	( 80.89f)
+#define BLUV	( -3.58f)
+
+/* orange */
+#define ORNU	(-52.69f)
+#define ORNV	( 34.68f)
+
+/* -brown */
+#define BRNU	( 72.29f)
+#define BRNV	(-20.71f)
+
 static float C64Colors[64]=
 {
-/*   new Y   old Y       U           V */
-	  0.0f,	  0.0f,	  0.00f,	  0.00f,	/* 0 */
-	256.0f,	256.0f,	  0.00f,	  0.00f,	/* 1 */
-	 74.0f,	 56.0f,	-31.05f,	 42.14f,	/* 2 */
-	163.0f,	191.0f,	 31.05f,	-42.14f,	/* 3 */
-	 92.0f,	128.0f,	 57.37f,	 32.25f,	/* 4 */
-	128.0f,	128.0f,	-57.37f,	-32.25f,	/* 5 */
-	 56.0f,	 56.0f,	 81.14f,	  0.00f,	/* 6 */
-	199.0f,	191.0f,	-81.14f,	  0.00f,	/* 7 */
-	 92.0f,	128.0f,	-57.37f,	 32.25f,	/* 8 */
-	 56.0f,	 56.0f,	-74.96f,	 17.45f,	/* 9 */
-	128.0f,	128.0f,	-31.05f,	 42.14f,	/* A */
-	 74.0f,	 56.0f,	  0.00f,	  0.00f,	/* B */
-	117.0f,	128.0f,	  0.00f,	  0.00f,	/* C */
-	199.0f,	191.0f,	-57.37f,	-32.25f,	/* D */
-	117.0f,	128.0f,	 81.14f,	  0.00f,	/* E */
-	163.0f,	191.0f,	  0.00f,	  0.00f,	/* F */
+/*new Y  old Y   U     V                       */
+  LUMN0, LUMO0, GRYU, GRYV, /* 0 : black       */
+  LUMN8, LUMO4,-GRYU,-GRYV, /* 1 : white       */
+  LUMN2, LUMO1, REDU, REDV, /* 2 : red         */
+  LUMN6, LUMO3,-REDU,-REDV, /* 3 : cyan        */
+  LUMN3, LUMO2, GRNU, GRNV, /* 4 : purple      */
+  LUMN5, LUMO2,-GRNU,-GRNV, /* 5 : green       */
+  LUMN1, LUMO1, BLUU, BLUV, /* 6 : blue        */
+  LUMN7, LUMO3,-BLUU,-BLUV, /* 7 : yellow      */
+  LUMN3, LUMO2, ORNU, ORNV, /* 8 : orange      */
+  LUMN1, LUMO1,-BRNU,-BRNV, /* 9 : brown       */
+  LUMN5, LUMO2, REDU, REDV, /* A : light red   */
+  LUMN2, LUMO1,-GRYU,-GRYV, /* B : dark grey   */
+  LUMN4, LUMO2, GRYU, GRYV, /* C : grey        */
+  LUMN7, LUMO3,-GRNU,-GRNV, /* D : light green */
+  LUMN4, LUMO2, BLUU, BLUV, /* E : light blue  */
+  LUMN6, LUMO3,-GRYU,-GRYV  /* F : light grey  */
 };
 
 /* default dithering */

@@ -54,39 +54,34 @@ static ui_cartridge_params vic20_ui_cartridges[]={
     IDM_CART_VIC20_8KB_2000,
     CARTRIDGE_VIC20_16KB_2000,
     "Attach 4/8/16KB cartridge image at $2000",
-    "8KB cartridge image files (*.*)\0*.*\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL
     },
     {
     IDM_CART_VIC20_16KB_4000,
     CARTRIDGE_VIC20_16KB_4000,
     "Attach 4/8/16KB cartridge image at $4000",
-    "cartridge image files (*.*)\0*.*\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL
     },
     {
     IDM_CART_VIC20_8KB_6000,
     CARTRIDGE_VIC20_16KB_6000,
     "Attach 4/8/16KB cartridge image at $6000",
-    "8KB cartridge image files (*.*)\0*.*\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL
     },
     {
     IDM_CART_VIC20_8KB_A000,
     CARTRIDGE_VIC20_8KB_A000,
     "Attach 8KB cartridge image at $A000",
-    "8KB cartridge image files (*.*)\0*.*\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL
     },
     {
     IDM_CART_VIC20_4KB_B000,
     CARTRIDGE_VIC20_4KB_B000,
     "Attach 4KB cartridge image at $B000",
-    "4KB cartridge image files (*.*)\0*.*\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL
     },
     {
-    0,0,NULL,NULL
+    0,0,NULL,0
     }
 };
 

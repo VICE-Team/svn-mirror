@@ -168,8 +168,8 @@ void ui_snapshot_load_dialog(HWND hwnd)
 {
     char *s;
     if ((s = ui_select_file(hwnd, "Load snapshot image",
-        "VICE snapshot files (*.vsf)\0*.vsf\0"
-        "All files (*.*)\0*.*\0", FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
+            UI_LIB_FILTER_ALL | UI_LIB_FILTER_SNAPSHOT,
+            FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
          if (machine_read_snapshot(s) < 0)
              ui_error("Cannot read snapshot image");
          free(s);

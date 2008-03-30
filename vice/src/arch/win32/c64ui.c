@@ -87,67 +87,58 @@ static ui_cartridge_params c64_ui_cartridges[]={
     IDM_CART_ATTACH_CRT,
     CARTRIDGE_CRT,
     "Attach CRT cartridge image",
-    "CRT cartridge image files (*.crt)\0*.crt\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
     },
     {
     IDM_CART_ATTACH_8KB,
     CARTRIDGE_GENERIC_8KB,
     "Attach raw 8KB cartridge image",
-    "Raw 8KB cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_16KB,
     CARTRIDGE_GENERIC_16KB,
     "Attach raw 16KB cartridge image",
-    "Raw 16KB cartrdige image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_AR,
     CARTRIDGE_ACTION_REPLAY,
     "Attach Action Replay cartridge image",
-    "Raw AR cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_AT,
     CARTRIDGE_ATOMIC_POWER,
     "Attach Atomic Power cartridge image",
-    "Raw AT cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_EPYX,
     CARTRIDGE_EPYX_FASTLOAD,
     "Attach Epyx fastload cartridge image",
-    "Raw Epxy cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_IEEE488,
     CARTRIDGE_IEEE488,
     "Attach IEEE interface cartridge image",
-    "Raw IEEE488 interface cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_SS4,
     CARTRIDGE_SUPER_SNAPSHOT,
     "Attach Super Snapshot 4 cartridge image",
-    "Raw SS4 cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
     IDM_CART_ATTACH_SS5,
     CARTRIDGE_SUPER_SNAPSHOT_V5,
     "Attach Super Snapshot 5 cartridge image",
-    "Raw SS5 cartridge image files (*.bin)\0*.bin\0"
-    "All files (*.*)\0*.*\0"
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    0,0,NULL,NULL
+    0,0,NULL,0
     }
 };
 
