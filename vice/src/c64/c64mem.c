@@ -25,10 +25,6 @@
  *
  */
 
-#ifndef CBM64
-#define CBM64                   /* for mkdep */
-#endif
-
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -368,7 +364,7 @@ static read_func_ptr_t mem_read_tab_watch[0x101];
 
 /* Processor port.  */
 static struct {
-    BYTE dir, data;
+    BYTE dir, data, data_out;
 } pport;
 
 /* Expansion port signals.  */
@@ -434,17 +430,16 @@ static inline void pla_config_changed(void)
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
 
-    /* Bit 4: tape sense.  0 = some button pressed, 1 = no buttons pressed.  */
-    if (tape_sense)
-        /* FIXME: When some button is pressed and bit #4 is output and `1'
-           is written to this bit, what do we read?  The `1' from the output
-           or the `0' from the cassette logic.  This is no CIA, so the
-           external `0' may not win!  Only a test with a real C64 can tell.  */
-        ram[1] = ((pport.data | ~pport.dir) & 0x2f)
-                 | (pport.data & pport.dir & 0xc0);
-    else
-        ram[1] = ((pport.data | ~pport.dir) & 0x3f)
-                 | (pport.data & pport.dir & 0xc0);
+    pport.data_out = (pport.data_out & ~pport.dir)
+                     | (pport.data & pport.dir);
+
+    ram[1] = ((pport.data | ~pport.dir) & (pport.data_out | 0x17));
+
+    if (!(pport.dir & 0x20))
+      ram[1] &= 0xdf;
+
+    if (tape_sense && !(pport.dir & 0x10))
+      ram[1] &= 0xef;
 
     ram[0] = pport.dir;
 
@@ -810,7 +805,7 @@ void initialize_memory(void)
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
 
-    int limit_tab[6][32] = {
+    int limit_tab[6][NUM_CONFIGS] = {
     /* 0000-7fff */
     { 0xfffd, 0xcffd, 0xcffd, 0x9ffd, 0xfffd, 0xcffd, 0xcffd, 0x9ffd,
       0xfffd, 0xcffd, 0x9ffd, 0x7ffd, 0xfffd, 0xcffd, 0x9ffd, 0x7ffd,
@@ -1037,6 +1032,7 @@ void initialize_memory(void)
 
     pport.data = 0xff;
     pport.dir = 0x0;
+    pport.data_out = 0xff;
     export.exrom = 0;
     export.game = 0;
 
