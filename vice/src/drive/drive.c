@@ -238,8 +238,8 @@ int drive_init(void)
     drive_sync_clock_frequency(drive[0].type, 0);
     drive_sync_clock_frequency(drive[1].type, 1);
 
-    rotation_init(0, 0);
-    rotation_init(0, 1);
+    rotation_init((drive[0].clock_frequency == 2) ? 1 : 0, 0);
+    rotation_init((drive[1].clock_frequency == 2) ? 1 : 0, 1);
 
     drive_cpu_init(&drive0_context, drive[0].type);
     drive_cpu_init(&drive1_context, drive[1].type);
@@ -269,26 +269,18 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 {
     switch (type) {
       case DRIVE_TYPE_1541:
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
-        break;
-      case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1551:
-        drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
-        break;
       case DRIVE_TYPE_1571:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
+      case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1581:
         drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
         break;
       case DRIVE_TYPE_2031:
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
-        break;
       case DRIVE_TYPE_2040:
       case DRIVE_TYPE_3040:
       case DRIVE_TYPE_4040:
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
-        break;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
@@ -500,7 +492,7 @@ CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr)
 void drive_set_half_track(int num, drive_t *dptr)
 {
     if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
-        || dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_2031)
+        || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_2031)
         && num > 84)
         num = 84;
     if (dptr->type == DRIVE_TYPE_1571 && num > 140)
@@ -567,20 +559,6 @@ inline BYTE drive_write_protect_sense(drive_t *dptr)
     } else {
         return dptr->read_only ? 0x0 : 0x10;
     }
-}
-
-void drive_update_viad2_pcr(int pcrval, drive_t *dptr)
-{
-    dptr->read_write_mode = pcrval & 0x20;
-    dptr->byte_ready_active = (dptr->byte_ready_active & ~0x02)
-                              | (pcrval & 0x02);
-}
-
-BYTE drive_read_viad2_prb(drive_t *dptr)
-{
-    if (dptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(dptr);
-    return rotation_sync_found(dptr) | drive_write_protect_sense(dptr);
 }
 
 /* End of time critical functions.  */

@@ -31,6 +31,7 @@
 #include "types.h"
 
 struct drive_context_s;
+struct drive_s;
 struct drivevia_context_s;
 struct snapshot_s;
 
@@ -77,6 +78,8 @@ extern void via_drive_init(struct drive_context_s *ctxptr,
 #define drive1_via_set_atn(state) drive_via_set_atn(&drive1_context, state)
 #define via1d0_signal(l, e)       via1d_signal(&drive0_context, l, e)
 #define via1d1_signal(l, e)       via1d_signal(&drive1_context, l, e)
+
+extern void viad2_update_pcr(int pcrval, struct drive_s *dptr);
 
 #endif
 
