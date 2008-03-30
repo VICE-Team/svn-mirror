@@ -49,8 +49,6 @@
 #include "vic20-snapshot.h"
 #include "vic20.h"
 #include "vic20memsnapshot.h"
-#include "vic20ieeevia.h"
-#include "vic20via.h"
 
 
 #define SNAP_MAJOR          0
@@ -76,8 +74,8 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
     if (maincpu_snapshot_write_module(s) < 0
         || vic20_snapshot_write_module(s, save_roms) < 0
         || vic_snapshot_write_module(s) < 0
-        || viacore_snapshot_write_module(&(machine_context.via1), s) < 0
-        || viacore_snapshot_write_module(&(machine_context.via2), s) < 0
+        || viacore_snapshot_write_module(machine_context.via1, s) < 0
+        || viacore_snapshot_write_module(machine_context.via2, s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0) {
@@ -88,8 +86,8 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
 
     resources_get_value("IEEE488", (void *)&ieee488);
     if (ieee488) {
-        if (viacore_snapshot_write_module(&(machine_context.ieeevia1), s) < 0
-            || viacore_snapshot_write_module(&(machine_context.ieeevia2),
+        if (viacore_snapshot_write_module(machine_context.ieeevia1, s) < 0
+            || viacore_snapshot_write_module(machine_context.ieeevia2,
             s) < 0) {
             snapshot_close(s);
             ioutil_remove(name);
@@ -121,15 +119,15 @@ int vic20_snapshot_read(const char *name, int event_mode)
     if (maincpu_snapshot_read_module(s) < 0
         || vic20_snapshot_read_module(s) < 0
         || vic_snapshot_read_module(s) < 0
-        || viacore_snapshot_read_module(&(machine_context.via1), s) < 0
-        || viacore_snapshot_read_module(&(machine_context.via2), s) < 0
+        || viacore_snapshot_read_module(machine_context.via1, s) < 0
+        || viacore_snapshot_read_module(machine_context.via2, s) < 0
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0)
         goto fail;
 
-    if (viacore_snapshot_read_module(&(machine_context.ieeevia1), s) < 0
-        || viacore_snapshot_read_module(&(machine_context.ieeevia2), s) < 0) {
+    if (viacore_snapshot_read_module(machine_context.ieeevia1, s) < 0
+        || viacore_snapshot_read_module(machine_context.ieeevia2, s) < 0) {
         /* IEEE488 module not undumped */
         resources_set_value("IEEE488", (resource_value_t)0);
     } else {

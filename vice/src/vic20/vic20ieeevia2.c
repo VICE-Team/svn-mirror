@@ -36,23 +36,24 @@
 #include "maincpu.h"
 #include "parallel.h"
 #include "types.h"
+#include "via.h"
 #include "vic20.h"
 #include "vic20ieeevia.h"
 
 
 void REGPARM2 ieeevia2_store(WORD addr, BYTE data)
 {
-    viacore_store(&(machine_context.ieeevia2), addr, data);
+    viacore_store(machine_context.ieeevia2, addr, data);
 }
 
 BYTE REGPARM1 ieeevia2_read(WORD addr)
 {
-    return viacore_read(&(machine_context.ieeevia2), addr);
+    return viacore_read(machine_context.ieeevia2, addr);
 }
 
 BYTE REGPARM1 ieeevia2_peek(WORD addr)
 {
-    return viacore_peek(&(machine_context.ieeevia2), addr);
+    return viacore_peek(machine_context.ieeevia2, addr);
 }
 
 static void set_ca2(int state)
@@ -159,20 +160,22 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 
 static void int_ieeevia2t1(CLOCK c)
 {
-    viacore_intt1(&(machine_context.ieeevia2), c);
+    viacore_intt1(machine_context.ieeevia2, c);
 }
 
 static void int_ieeevia2t2(CLOCK c)
 {
-    viacore_intt2(&(machine_context.ieeevia2), c);
+    viacore_intt2(machine_context.ieeevia2, c);
 }
 
-static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.ieeevia2), int_ieeevia2t1, int_ieeevia2t2 },
+static via_initdesc_t via_initdesc[1] = {
+    { NULL, int_ieeevia2t1, int_ieeevia2t2 },
 };
 
 void ieeevia2_init(via_context_t *via_context)
 {
+    via_initdesc[0].via_ptr = machine_context.ieeevia2;
+
     viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
                  maincpu_clk_guard);
 }
@@ -181,7 +184,8 @@ void vic20ieeevia2_setup_context(machine_context_t *machine_context)
 {
     via_context_t *via;
 
-    via = &(machine_context->ieeevia2);
+    machine_context->ieeevia2 = lib_malloc(sizeof(via_context_t));
+    via = machine_context->ieeevia2;
 
     via->context = NULL;
 

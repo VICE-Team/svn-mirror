@@ -38,6 +38,7 @@
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
+#include "via.h"
 #include "vic.h"
 #include "vic20.h"
 #include "vic20iec.h"
@@ -50,17 +51,17 @@
 
 void REGPARM2 via2_store(WORD addr, BYTE data)
 {
-    viacore_store(&(machine_context.via2), addr, data);
+    viacore_store(machine_context.via2, addr, data);
 }
 
 BYTE REGPARM1 via2_read(WORD addr)
 {
-    return viacore_read(&(machine_context.via2), addr);
+    return viacore_read(machine_context.via2, addr);
 }
 
 BYTE REGPARM1 via2_peek(WORD addr)
 {
-    return viacore_peek(&(machine_context.via2), addr);
+    return viacore_peek(machine_context.via2, addr);
 }
 
 static void set_ca2(int state)
@@ -223,26 +224,28 @@ inline static BYTE read_prb(via_context_t *via_context)
 
 void printer_interface_userport_set_busy(int b)
 {
-    viacore_signal(&(machine_context.via2),
+    viacore_signal(machine_context.via2,
                    VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
 static void int_via2t1(CLOCK c)
 {
-    viacore_intt1(&(machine_context.via2), c);
+    viacore_intt1(machine_context.via2, c);
 }
 
 static void int_via2t2(CLOCK c)
 {
-    viacore_intt2(&(machine_context.via2), c);
+    viacore_intt2(machine_context.via2, c);
 }
 
-static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.via2), int_via2t1, int_via2t2 },
+static via_initdesc_t via_initdesc[1] = {
+    { NULL, int_via2t1, int_via2t2 },
 };
 
 void via2_init(via_context_t *via_context)
 {
+    via_initdesc[0].via_ptr = machine_context.via2;
+
     viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
                  maincpu_clk_guard);
 }
@@ -251,7 +254,8 @@ void vic20via2_setup_context(machine_context_t *machine_context)
 {
     via_context_t *via;
 
-    via = &(machine_context->via2);
+    machine_context->via2 = lib_malloc(sizeof(via_context_t));
+    via = machine_context->via2;
 
     via->context = NULL;
 

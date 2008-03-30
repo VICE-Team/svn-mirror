@@ -45,17 +45,17 @@
 
 void REGPARM2 via1_store(WORD addr, BYTE data)
 {
-    viacore_store(&(machine_context.via1), addr, data);
+    viacore_store(machine_context.via1, addr, data);
 }
 
 BYTE REGPARM1 via1_read(WORD addr)
 {
-    return viacore_read(&(machine_context.via1), addr);
+    return viacore_read(machine_context.via1, addr);
 }
 
 BYTE REGPARM1 via1_peek(WORD addr)
 {
-    return viacore_peek(&(machine_context.via1), addr);
+    return viacore_peek(machine_context.via1, addr);
 }
 
 static void set_ca2(int state)
@@ -179,20 +179,22 @@ inline static BYTE read_prb(via_context_t *via_context)
 
 static void int_via1t1(CLOCK c)
 {
-    viacore_intt1(&(machine_context.via1), c);
+    viacore_intt1(machine_context.via1, c);
 }
 
 static void int_via1t2(CLOCK c)
 {
-    viacore_intt2(&(machine_context.via1), c);
+    viacore_intt2(machine_context.via1, c);
 }
 
-static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.via1), int_via1t1, int_via1t2 },
+static via_initdesc_t via_initdesc[1] = {
+    { NULL, int_via1t1, int_via1t2 },
 };
 
 void via1_init(via_context_t *via_context)
 {
+    via_initdesc[0].via_ptr = machine_context.via1;
+
     viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
                  maincpu_clk_guard);
 }
@@ -201,7 +203,8 @@ void vic20via1_setup_context(machine_context_t *machine_context)
 {
     via_context_t *via;
 
-    via = &(machine_context->via1);
+    machine_context->via1 = lib_malloc(sizeof(via_context_t));
+    via = machine_context->via1;
 
     via->context = NULL;
 

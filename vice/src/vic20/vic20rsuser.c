@@ -42,13 +42,12 @@
 #include "via.h"
 #include "vic20.h"
 #include "vic20rsuser.h"
-#include "vic20via.h"
 
 
 static void vic20_trigger_start(void)
 {
-    viacore_signal(&(machine_context.via2), VIA_SIG_CB1, VIA_SIG_FALL);
-    viacore_signal(&(machine_context.via2), VIA_SIG_CB1, VIA_SIG_RISE);
+    viacore_signal(machine_context.via2, VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(machine_context.via2, VIA_SIG_CB1, VIA_SIG_RISE);
 }
 
 void vic20_rsuser_init(void)
