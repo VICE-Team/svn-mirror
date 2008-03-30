@@ -70,7 +70,6 @@
 #include "serial.h"
 #include "types.h"
 #include "ui.h"
-#include "viad.h"
 
 
 /* Drive specific variables.  */
@@ -919,8 +918,6 @@ static void drive_setup_context_for_drive(drive_context_t *drv, int number)
     }
 
     drive_cpu_setup_context(drv);
-    drive_via1_setup_context(drv);
-    drive_via2_setup_context(drv);
     machine_drive_setup_context(drv);
 }
 

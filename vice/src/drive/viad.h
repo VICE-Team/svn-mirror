@@ -34,8 +34,8 @@ struct drive_context_s;
 struct drivevia_context_s;
 struct snapshot_s;
 
-extern void drive_via1_setup_context(struct drive_context_s *ctxptr);
-extern void drive_via2_setup_context(struct drive_context_s *ctxptr);
+extern void via1d_setup_context(struct drive_context_s *ctxptr);
+extern void via2d_setup_context(struct drive_context_s *ctxptr);
 
 extern void drive_via_set_atn(struct drive_context_s *ctxptr, int state);
 extern void via1_set_atn(struct drive_context_s *ctxptr, BYTE state);

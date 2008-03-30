@@ -26,8 +26,10 @@
 
 #include "vice.h"
 
+#include "iecieee.h"
 #include "ieee.h"
 #include "machine-drive.h"
+#include "types.h"
 
 
 int machine_drive_resources_init(void)
@@ -47,11 +49,13 @@ int machine_drive_cmdline_options_init(void)
 
 void machine_drive_init(struct drive_context_s *drv)
 {
+    iecieee_drive_init(drv);
     ieee_drive_init(drv);
 }
 
 void machine_drive_reset(struct drive_context_s *drv)
 {
+    iecieee_drive_reset(drv);
     ieee_drive_reset(drv);
 }
 
@@ -62,6 +66,7 @@ void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 
 void machine_drive_setup_context(struct drive_context_s *drv)
 {
+    iecieee_drive_setup_context(drv);
     ieee_drive_setup_context(drv);
 }
 
@@ -111,13 +116,23 @@ void machine_drive_rom_do_checksum(unsigned int dnr)
 int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
                                 struct snapshot_s *s)
 {
-    return ieee_drive_snapshot_read(ctxptr, s);
+    if (iecieee_drive_snapshot_read(ctxptr, s) < 0)
+        return -1;
+    if (ieee_drive_snapshot_read(ctxptr, s) < 0)
+        return -1;
+
+    return 0;
 }
 
 int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
                                  struct snapshot_s *s)
 {
-    return ieee_drive_snapshot_write(ctxptr, s);
+    if (iecieee_drive_snapshot_write(ctxptr, s) < 0)
+        return -1;
+    if (ieee_drive_snapshot_write(ctxptr, s) < 0)
+        return -1;
+
+    return 0;
 }
 
 int machine_drive_image_attach(struct disk_image_s *image, unsigned int unit)

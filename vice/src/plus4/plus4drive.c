@@ -27,8 +27,10 @@
 #include "vice.h"
 
 #include "iec.h"
+#include "iecieee.h"
 #include "machine-drive.h"
 #include "tcbm.h"
+#include "types.h"
 
 
 int machine_drive_resources_init(void)
@@ -51,12 +53,14 @@ int machine_drive_cmdline_options_init(void)
 void machine_drive_init(struct drive_context_s *drv)
 {
     iec_drive_init(drv);
+    iecieee_drive_init(drv);
     tcbm_drive_init(drv);
 }
 
 void machine_drive_reset(struct drive_context_s *drv)
 {
     iec_drive_reset(drv);
+    iecieee_drive_reset(drv);
     tcbm_drive_reset(drv);
 }
 
@@ -69,6 +73,7 @@ void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 void machine_drive_setup_context(struct drive_context_s *drv)
 {
     iec_drive_setup_context(drv);
+    iecieee_drive_setup_context(drv);
     tcbm_drive_setup_context(drv);
 }
 
@@ -130,6 +135,8 @@ int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
 {
     if (iec_drive_snapshot_read(ctxptr, s) < 0)
         return -1;
+    if (iecieee_drive_snapshot_read(ctxptr, s) < 0)
+        return -1;
     if (tcbm_drive_snapshot_read(ctxptr, s) < 0)
         return -1;
 
@@ -140,6 +147,8 @@ int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
                                  struct snapshot_s *s)
 {
     if (iec_drive_snapshot_write(ctxptr, s) < 0)
+        return -1;
+    if (iecieee_drive_snapshot_write(ctxptr, s) < 0)
         return -1;
     if (tcbm_drive_snapshot_write(ctxptr, s) < 0)
         return -1;

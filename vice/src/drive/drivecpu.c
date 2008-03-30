@@ -1,7 +1,5 @@
 /*
- * drivecpu.c - 6502 processor emulation of the Commodore 1541, 1541-II,
- *              1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
- *              8250 floppy disk drive.
+ * drivecpu.c - 6502 processor emulation of CBM disk drives.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -53,7 +51,6 @@
 #include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
-#include "viad.h"
 
 
 #define DRIVE_CPU
@@ -69,12 +66,12 @@ void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 interrupt_cpu_status_t *drive0_int_status_ptr;
 interrupt_cpu_status_t *drive1_int_status_ptr;
 
-monitor_interface_t *drive0_get_monitor_interface_ptr(void)
+monitor_interface_t *drive0_monitor_interface_get(void)
 {
     return drive0_context.cpu.monitor_interface;
 }
 
-monitor_interface_t *drive1_get_monitor_interface_ptr(void)
+monitor_interface_t *drive1_monitor_interface_get(void)
 {
     return drive1_context.cpu.monitor_interface;
 }
@@ -247,13 +244,11 @@ static void cpu_reset(drive_context_t *drv)
     preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
 
     log_message(drv->drive_ptr->log, "RESET.");
-    interrupt_cpu_status_init(drv->cpu.int_status, DRIVE_NUMOFINT,
-                              &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_reset(drv->cpu.int_status, DRIVE_NUMOFINT,
+                               &(drv->cpu.last_opcode_info));
 
     *(drv->clk_ptr) = 6;
     rotation_reset(drv->mynumber);
-    via1d_reset(drv);
-    via2d_reset(drv);
     machine_drive_reset(drv);
 
     if (preserve_monitor)
@@ -290,9 +285,8 @@ void drive_cpu_reset(drive_context_t *drv)
 
     preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
 
-    interrupt_cpu_status_init(drv->cpu.int_status,
-                              DRIVE_NUMOFINT,
-                              &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_reset(drv->cpu.int_status, DRIVE_NUMOFINT,
+                               &(drv->cpu.last_opcode_info));
 
     if (preserve_monitor)
         interrupt_monitor_trap_on(drv->cpu.int_status);
@@ -308,8 +302,6 @@ void drive_cpu_early_init(drive_context_t *drv)
 
     drv->cpu.alarm_context = alarm_context_new(drv->cpu.identification_string);
 
-    via1d_init(drv);
-    via2d_init(drv);
     machine_drive_init(drv);
 }
 
@@ -608,7 +600,7 @@ static void drive_jam(drive_context_t *drv)
         break;
       case JAM_MONITOR:
         caller_space = drv->cpu.monspace;
-        mon((WORD)(reg_pc));
+        monitor_startup();
         break;
       default:
         CLK++;
@@ -712,11 +704,9 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     log_message(drv->drive_ptr->log, "RESET (For undump).");
 
-    interrupt_cpu_status_init(drv->cpu.int_status, DRIVE_NUMOFINT,
-                              &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_reset(drv->cpu.int_status, DRIVE_NUMOFINT,
+                               &(drv->cpu.last_opcode_info));
 
-    via1d_reset(drv);
-    via2d_reset(drv);
     machine_drive_reset(drv);
 
     if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)

@@ -1,5 +1,6 @@
 SUBDIRS = \
 	iec \
+	iecieee \
 	ieee \
 	tcbm
 
@@ -7,7 +8,6 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/vdrive
 
 noinst_LIBRARIES = libdrive.a
@@ -34,18 +34,19 @@ libdrive_a_SOURCES = \
 	drivesync.h \
 	drivetypes.h \
 	iec.h \
+	iecieee.h \
 	ieee.h \
 	rotation.c \
 	rotation.h \
 	tcbm.h \
-	via1d.c \
-	via2d.c \
 	viad.h
 
-.PHONY: libdriveiec libdriveieee libdrivetcbm
+.PHONY: libdriveiec libdriveiecieee libdriveieee libdrivetcbm
 
 libdriveiec:
 	(cd iec; $(MAKE))
+libdriveiecieee:
+	(cd iecieee; $(MAKE))
 libdriveieee:
 	(cd ieee; $(MAKE))
 libdrivetcbm:
