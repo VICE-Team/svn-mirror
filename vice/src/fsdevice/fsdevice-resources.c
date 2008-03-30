@@ -72,7 +72,7 @@ static int set_fsdevice_hide_cbm_files(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&fsdevice_convert_p00_enabled[0],
       set_fsdevice_convert_p00, (void *)8 },

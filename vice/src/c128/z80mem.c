@@ -79,7 +79,7 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 store_func_ptr_t io_write_tab[0x101];
 read_func_ptr_t io_read_tab[0x101];
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { NULL }
 };
 

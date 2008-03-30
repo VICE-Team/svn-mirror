@@ -51,6 +51,7 @@
 #include "catweaselmkiii.h"
 #endif
 
+
 static log_t sound_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
@@ -155,7 +156,7 @@ static int set_oversampling_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "Sound", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&playback_enabled,
       set_playback_enabled, NULL },

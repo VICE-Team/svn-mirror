@@ -44,6 +44,7 @@
 #include "types.h"
 #include "utils.h"
 
+
 int romset_load(const char *filename)
 {
     FILE *fp;
@@ -109,8 +110,6 @@ int romset_dump(const char *filename, const char **resource_list)
                 filename, strerror(errno));
     return -1;
 }
-
-
 
 
 typedef struct string_link_s {
@@ -233,8 +232,7 @@ int romset_dump_archive(const char *filename)
     string_link_t *item;
     int i;
 
-    if ((fp = fopen(filename, MODE_WRITE)) == NULL)
-    {
+    if ((fp = fopen(filename, MODE_WRITE)) == NULL) {
         log_warning(LOG_DEFAULT,
                     "Could not open file '%s' for writing!", filename);
         return -1;
@@ -242,8 +240,7 @@ int romset_dump_archive(const char *filename)
 
     log_message(LOG_DEFAULT, "Saving ROM sets to file '%s'", filename);
 
-    for (i = 0; i < num_romsets; i++)
-    {
+    for (i = 0; i < num_romsets; i++) {
         item = romsets + i;
         fprintf(fp, "%s\n", item->name);
         fprintf(fp, "{\n");
@@ -263,10 +260,8 @@ int romset_save_item(const char *filename, const char *romset_name)
 {
     int i;
 
-    for (i = 0; i < num_romsets; i++)
-    {
-        if (strcmp(romsets[i].name, romset_name) == 0)
-        {
+    for (i = 0; i < num_romsets; i++) {
+        if (strcmp(romsets[i].name, romset_name) == 0) {
             string_link_t *item;
             FILE *fp;
 
@@ -405,7 +400,7 @@ int romset_create_item(const char *romset_name, const char **resource_list)
             }
             if ((len = strlen(buffer)) > 0) {
               item = (string_link_t*)xmalloc(sizeof(string_link_t));
-              item->name = (char*)xmalloc(len+1);
+              item->name = (char *)xmalloc(len + 1);
               strcpy(item->name, buffer);
               item->next = NULL;
               last->next = item;
@@ -427,10 +422,8 @@ int romset_delete_item(const char *romset_name)
     string_link_t *item;
     int i;
 
-    for (i = 0, item = romsets; i < num_romsets; i++, item++)
-    {
-        if (strcmp(romset_name, item->name) == 0)
-        {
+    for (i = 0, item = romsets; i < num_romsets; i++, item++) {
+        if (strcmp(romset_name, item->name) == 0) {
             string_link_t *last;
 
             free(item->name);
@@ -458,8 +451,7 @@ void romset_clear_archive(void)
     int i;
     string_link_t *item, *last;
 
-    for (i = 0; i < num_romsets; i++)
-    {
+    for (i = 0; i < num_romsets; i++) {
         item = romsets + i;
         free(item->name);
         item = item->next;

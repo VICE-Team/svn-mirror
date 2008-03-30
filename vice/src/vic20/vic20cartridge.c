@@ -132,7 +132,7 @@ static int set_cartridge_file_B(resource_value_t v, void *param)
     return cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, cartfileB);
 }
 
-static resource_t resources[] =
+static const resource_t resources[] =
 {
     { "CartridgeFile2000", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&cartridge_file_2,

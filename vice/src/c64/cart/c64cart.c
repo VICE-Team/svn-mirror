@@ -127,7 +127,7 @@ static int set_ide64_image_file(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
       (resource_value_t *)&ide64_image_file,
       set_ide64_image_file, NULL },

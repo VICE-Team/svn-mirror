@@ -70,7 +70,7 @@ static int set_vdc_revision(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] =
+static const resource_t resources[] =
 {
     { "VDC_PaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
       (resource_value_t *)&vdc_resources.palette_file_name,

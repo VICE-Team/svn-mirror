@@ -135,9 +135,9 @@ static int set_model_name(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static resource_t resources[] = {
-    { "Model", RES_STRING, (resource_value_t) "8032",
-      (resource_value_t *) &model_name, set_model_name, NULL },
+static const resource_t resources[] = {
+    { "Model", RES_STRING, (resource_value_t)"8032",
+      (resource_value_t *)&model_name, set_model_name, NULL },
     { NULL }
 };
 

@@ -114,7 +114,7 @@ static int set_datasette_speed_tuning(resource_value_t v, void *param)
 
 /*---------- Resources ------------------------------------------------*/
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "DatasetteResetWithCPU", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&reset_datasette_with_maincpu,
       set_reset_datasette_with_maincpu, NULL },

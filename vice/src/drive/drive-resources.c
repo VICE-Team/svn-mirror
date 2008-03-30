@@ -213,7 +213,7 @@ static int set_drive1_type(resource_value_t v, void *param)
     }
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&drive_true_emulation,
       set_drive_true_emulation, NULL },

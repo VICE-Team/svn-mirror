@@ -68,7 +68,7 @@ static int set_ppb(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "PixelsPerBit", RES_INTEGER, (resource_value_t)3,
       (resource_value_t *)&ppb, set_ppb, (void *)0 },
     { NULL }

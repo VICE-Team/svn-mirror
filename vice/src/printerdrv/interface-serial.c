@@ -93,7 +93,7 @@ static int set_printer_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "Printer4", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&printer_enabled[0], set_printer_enabled, (void *)0 },
     { "Printer5", RES_INTEGER, (resource_value_t)0,

@@ -35,6 +35,7 @@
 #include "utils.h"
 #include "types.h"
 
+
 #define INTERNAL_FUNCTION_ROM_SIZE 0x8000
 #define EXTERNAL_FUNCTION_ROM_SIZE 0x4000
 
@@ -87,7 +88,7 @@ static int set_external_function_rom_name(resource_value_t v, void *param)
     return functionrom_load_external();
 }
 
-static resource_t resources[] =
+static const resource_t resources[] =
 {
     { "InternalFunctionROM", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&internal_function_rom_enabled,

@@ -398,7 +398,7 @@ static int set_event_end_snapshot(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "EventStartSnapshot", RES_STRING, (resource_value_t)EVENT_START_SNAPSHOT,
       (resource_value_t *)&event_start_snapshot,
       set_event_start_snapshot, NULL },

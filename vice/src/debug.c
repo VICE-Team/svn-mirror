@@ -59,7 +59,7 @@ static int set_drive_traceflg(resource_value_t v, void *param)
 #endif
 
 /* Debug-related resources. */
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "DoCoreDump", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&debug.do_core_dumps,
       set_do_core_dumps, NULL },

@@ -46,7 +46,7 @@ static int set_dos_rom_name_1551(resource_value_t v, void *param)
     return tcbmrom_load_1551();
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
       (resource_value_t *)&dos_rom_name_1551,
       set_dos_rom_name_1551, NULL },

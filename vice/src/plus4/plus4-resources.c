@@ -133,7 +133,7 @@ static int set_sync_factor(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
       (resource_value_t *)&sync_factor,
       set_sync_factor, NULL },

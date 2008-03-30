@@ -94,7 +94,7 @@ static int set_warp_mode(resource_value_t v, void *param)
 }
 
 /* Vsync-related resources. */
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "Speed", RES_INTEGER, (resource_value_t)100,
       (resource_value_t *)&relative_speed, set_relative_speed, NULL },
     { "RefreshRate", RES_INTEGER, (resource_value_t)0,
@@ -276,6 +276,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     int skip_next_frame;
 
     signed long delay;
+    long frame_ticks_remainder, frame_ticks_integer, compval;
 
 #ifdef WIN32
     float refresh_cmp;
@@ -393,10 +394,14 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      *         If we are becoming faster a small deviation because of
      *         threading results in a frame rate correction suddenly.
      */
+    frame_ticks_remainder = frame_ticks % 100;
+    frame_ticks_integer = frame_ticks / 100;
+    compval = frame_ticks_integer * 3 * timer_speed
+              + frame_ticks_remainder * 3 * timer_speed / 100;
     if (skipped_redraw < MAX_SKIPPED_FRAMES
         && (warp_mode_enabled
             || (skipped_redraw < refresh_rate - 1)
-            || ((!timer_speed || delay > 3 * frame_ticks * timer_speed / 100)
+            || ((!timer_speed || delay > compval)
                 && !refresh_rate
                )
            )

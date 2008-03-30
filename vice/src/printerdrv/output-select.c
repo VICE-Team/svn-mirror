@@ -76,7 +76,7 @@ static int set_output_device(resource_value_t v, void *param)
     return -1;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "Printer4Output", RES_STRING, (resource_value_t)"text",
       (resource_value_t *)&output_device[0], set_output_device, (void *)0 },
     { "Printer5Output", RES_STRING, (resource_value_t)"text",

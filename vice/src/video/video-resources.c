@@ -141,10 +141,10 @@ static int set_pal_scanlineshade(resource_value_t v, void *param)
 static int set_pal_mode(resource_value_t v, void *param)
 {
     video_resources.pal_mode = (int)v;
-	return 0;
+    return 0;
 }
 
-static resource_t resources[] =
+static const resource_t resources[] =
 {
     { "ExternalPalette", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&video_resources.ext_palette,
@@ -155,7 +155,7 @@ static resource_t resources[] =
     { NULL }
 };
 
-static resource_t resources_pal[] =
+static const resource_t resources_pal[] =
 {
     { "ColorSaturation", RES_INTEGER, (resource_value_t)1000,
       (resource_value_t *)&video_resources.color_saturation,
@@ -193,9 +193,9 @@ int video_resources_init(int mode)
         break;
       case VIDEO_RESOURCES_PAL:
       case VIDEO_RESOURCES_PAL_NOFAKE:
-       result = resources_register(resources)
-                | resources_register(resources_pal);
-       break;
+        result = resources_register(resources)
+                 | resources_register(resources_pal);
+        break;
     }
 
     return result | video_arch_init_resources();
@@ -462,7 +462,7 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_size[0].name
             = util_concat(chipname, vname_chip_size[0], NULL);
         resources_chip_size[0].factory_value
-            = (resource_value_t)video_chip_cap->dsize_default;
+            = (const resource_value_t)video_chip_cap->dsize_default;
         resources_chip_size[0].value_ptr
             = (resource_value_t *)&(resource_chip->double_size_enabled);
         resources_chip_size[0].param = (void *)resource_chip;
@@ -494,7 +494,7 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_fullscreen[3].name
             = util_concat(chipname, vname_chip_fullscreen[3], NULL);
         resources_chip_fullscreen[3].factory_value
-            = (resource_value_t)(video_chip_cap->fullscreen.device_name[0]);
+            = (const resource_value_t)(video_chip_cap->fullscreen.device_name[0]);
         resources_chip_fullscreen[3].value_ptr
             = (resource_value_t *)&(resource_chip->fullscreen_device);
         resources_chip_fullscreen[3].param = (void *)resource_chip;

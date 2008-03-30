@@ -82,7 +82,7 @@ static int set_dos_rom_name_2031(resource_value_t v, void *param)
     return ieeerom_load_2031();
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "DosName2031", RES_STRING, (resource_value_t)"dos2031",
       (resource_value_t *)&dos_rom_name_2031,
       set_dos_rom_name_2031, NULL },

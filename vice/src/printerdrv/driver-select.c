@@ -82,7 +82,7 @@ static int set_printer_driver(resource_value_t v, void *param)
     return -1;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     {"Printer4Driver", RES_STRING, (resource_value_t)"ascii",
       (resource_value_t *)&printer_driver[0], set_printer_driver, (void *)0 },
     {"Printer5Driver", RES_STRING, (resource_value_t)"ascii",

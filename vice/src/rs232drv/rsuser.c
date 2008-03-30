@@ -126,11 +126,11 @@ static int set_up_device(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "RsUser", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &rsuser_enabled, set_up_enabled, NULL },
+      (resource_value_t *)&rsuser_enabled, set_up_enabled, NULL },
     { "RsUserDev", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &rsuser_device, set_up_device, NULL },
+      (resource_value_t *)&rsuser_device, set_up_device, NULL },
     { NULL }
 };
 

@@ -44,6 +44,7 @@
 #include "types.h"
 #include "utils.h"
 
+
 typedef struct _traplist_t {
     struct _traplist_t *next;
     const trap_t *trap;
@@ -90,7 +91,7 @@ static int set_traps_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "VirtualDevices", RES_INTEGER, (resource_value_t)1,
       (resource_value_t)&traps_enabled, set_traps_enabled, NULL },
     { NULL }

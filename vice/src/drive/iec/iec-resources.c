@@ -172,7 +172,7 @@ static int set_drive_rama(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "Drive8ParallelCable", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&(drive[0].parallel_cable_enabled),
        set_drive_parallel_cable_enabled, (void *)0 },

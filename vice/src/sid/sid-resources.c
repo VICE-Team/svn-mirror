@@ -136,7 +136,7 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
 }
 #endif
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
       (resource_value_t *)&sid_engine,
       set_sid_engine, NULL },
