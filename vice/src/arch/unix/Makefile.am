@@ -47,6 +47,7 @@ libarch_a_SOURCES = \
 	plus4ui.h \
 	rs232.c \
 	types.h \
+	ui.c \
 	ui.h \
 	uic64cart.c \
 	uic64cart.h \
