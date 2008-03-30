@@ -153,7 +153,6 @@ int load_keymap_file(const char *fname)
 
                         keyconvmap.lshift_row = row;
                         keyconvmap.lshift_col = col;
-//                        log_debug("setting LSHIFT to %i %i", row, col);
                     }
                     if (!strcmp(p, "RSHIFT"))
                     {
@@ -168,8 +167,20 @@ int load_keymap_file(const char *fname)
 
                         keyconvmap.rshift_row = row;
                         keyconvmap.rshift_col = col;
-//                        log_debug("setting RSHIFT to %i %i", row, col);
                     }
+                    if (!strcmp(p, "CLEAR"))
+                    {
+                        int i;
+                        for (i=0; i<255; i++)
+                        {
+                            keyconvmap.map[0][i].row    = -1;
+                            keyconvmap.map[1][i].column = -1;
+                        }
+                    }
+                    if (!strcmp(p, "KSCODE"))
+                        keyconvmap.symbolic = 0;  // FALSE
+                    if (!strcmp(p, "KSYM"))
+                        keyconvmap.symbolic = 1;  // TRUE
                 }
 
                 break;

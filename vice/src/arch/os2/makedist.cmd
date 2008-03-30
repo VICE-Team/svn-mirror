@@ -23,27 +23,27 @@ copy ..\..\..\data\C64\basic        Vice2\C64
 copy ..\..\..\data\C64\c64s.vpl     Vice2\C64
 copy ..\..\..\data\C64\ccs64.vpl    Vice2\C64
 copy ..\..\..\data\C64\chargen      Vice2\C64
-copy ..\..\..\data\C64\default.vkm  Vice2\C64
+copy ..\..\..\data\C64\os2.vkm      Vice2\C64
 copy ..\..\..\data\C64\default.vpl  Vice2\C64
 copy ..\..\..\data\C64\default.vrs  Vice2\C64
 copy ..\..\..\data\C64\frodo.vpl    Vice2\C64
 copy ..\..\..\data\C64\godot.vpl    Vice2\C64
 copy ..\..\..\data\C64\kernal       Vice2\C64
 copy ..\..\..\data\C64\pc64.vpl     Vice2\C64
-copy ..\..\..\data\C64\position.vkm Vice2\C64
+REM copy ..\..\..\data\C64\position.vkm Vice2\C64
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic        Vice2\C128
 copy ..\..\..\data\C128\c64s.vpl     Vice2\C128
 copy ..\..\..\data\C128\chargen      Vice2\C128
-copy ..\..\..\data\C128\default.vkm  Vice2\C128
+copy ..\..\..\data\C128\os2.vkm      Vice2\C128
 copy ..\..\..\data\C128\default.vpl  Vice2\C128
 copy ..\..\..\data\C128\default.vrs  Vice2\C128
 copy ..\..\..\data\C128\frodo.vpl    Vice2\C128
 copy ..\..\..\data\C128\godot.vpl    Vice2\C128
 copy ..\..\..\data\C128\kernal       Vice2\C128
 copy ..\..\..\data\C128\pc64.vpl     Vice2\C128
-copy ..\..\..\data\C128\position.vkm Vice2\C128
+REM copy ..\..\..\data\C128\position.vkm Vice2\C128
 copy ..\..\..\data\C128\vdc_deft.vpl Vice2\C128
 copy ..\..\..\data\C128\z80bios      Vice2\C128
 
@@ -67,7 +67,7 @@ copy ..\..\..\data\PET\graphics.vkm  Vice2\PET
 copy ..\..\..\data\PET\kernal1       Vice2\PET
 copy ..\..\..\data\PET\kernal2       Vice2\PET
 copy ..\..\..\data\PET\kernal4       Vice2\PET
-copy ..\..\..\data\PET\posg_de.vkm   Vice2\PET
+REM copy ..\..\..\data\PET\posg_de.vkm   Vice2\PET
 copy ..\..\..\data\PET\rom1g.vrs     Vice2\PET
 copy ..\..\..\data\PET\rom2b.vrs     Vice2\PET
 copy ..\..\..\data\PET\rom2g.vrs     Vice2\PET
@@ -79,11 +79,11 @@ copy ..\..\..\data\PET\white.vpl     Vice2\PET
 md Vice2\VIC20
 copy ..\..\..\data\VIC20\basic         Vice2\VIC20
 copy ..\..\..\data\VIC20\chargen       Vice2\VIC20
-copy ..\..\..\data\VIC20\default.vkm   Vice2\VIC20
+copy ..\..\..\data\VIC20\os2.vkm       Vice2\VIC20
 copy ..\..\..\data\VIC20\default.vpl   Vice2\VIC20
 copy ..\..\..\data\VIC20\default.vrs   Vice2\VIC20
 copy ..\..\..\data\VIC20\kernal        Vice2\VIC20
-copy ..\..\..\data\VIC20\position.vkm  Vice2\VIC20
+REM copy ..\..\..\data\VIC20\position.vkm  Vice2\VIC20
 
 md Vice2\CBM-II
 copy ..\..\..\data\CBM-II\amber.vpl     Vice2\CBM-II

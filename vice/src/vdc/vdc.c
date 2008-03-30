@@ -48,13 +48,9 @@
 #include "vdctypes.h"
 #include "video.h"
 
-
-
 vdc_t vdc;
 
 #define VDC_CYCLES_PER_LINE() vdc.regs[0]
-
-
 
 static void vdc_set_geometry(void)
 {
@@ -364,5 +360,11 @@ int vdc_read_snapshot_module(snapshot_t *s)
 int vdc_screenshot(screenshot_t *screenshot)
 {
     return raster_screenshot(&vdc.raster, screenshot);
+}
+
+/* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
+void vdc_free (void)
+{
+    video_frame_buffer_free (vdc.raster.frame_buffer);
 }
 

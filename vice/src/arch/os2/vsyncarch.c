@@ -113,7 +113,7 @@ void vice_exit(void)
 
     sound_close();
     machine_shutdown();
-    //    video_free();
+
 #ifdef HAS_JOYSTICK
     joystick_close();
 #endif

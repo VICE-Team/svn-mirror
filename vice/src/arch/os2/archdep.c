@@ -94,12 +94,20 @@ void PM_close(void)
 
 void PM_open(void)
 {
+    APIRET rc;
+
     habMain = WinInitialize(0);              // Initialize PM
     hmqMain = WinCreateMsgQueue(habMain, 0); // Create Msg Queue
+
+    // this hould make sure, that the system doesn't hang because
+    // vice uses 100% CPU time
+    if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, -1, 0))
+        log_debug("archdep.c: Error DosSetPriority (rc=%li)", rc);
 
     atexit(PM_close);
 }
 
+#if !defined __C1541__ && !defined __PETCAT__
 /* ------------------------------------------------------------------------ */
 void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
 {
@@ -113,8 +121,9 @@ void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
         log_message(LOG_DEFAULT, "archdep.c: DosCreateMutexSem '%s' (rc=%i)", pszName, rc);
 }
 
-
 HMTX hmtxSpawn;
+
+#endif
 
 int archdep_startup(int *argc, char **argv)
 {
@@ -128,9 +137,9 @@ int archdep_startup(int *argc, char **argv)
     atexit(restore_workdir);
 
     PM_open();
-
+#if !defined __C1541__ && !defined __PETCAT__
     archdep_create_mutex_sem(&hmtxSpawn, "Spawn", FALSE);
-
+#endif
     return 0;
 }
 
@@ -359,7 +368,7 @@ int archdep_spawn(const char *name, char **argv,
 
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
-#ifndef __C1541__
+#if !defined __C1541__ && !defined __PETCAT__
     log_message(LOG_DEFAULT, "archdep.c: Spawning \"cmd.exe %s\"", cmdline);
 #endif
 
@@ -378,8 +387,10 @@ int archdep_spawn(const char *name, char **argv,
      from the termination queue */
 
     // this prevents you from closing Vice while a child is running
+#if !defined __C1541__ && !defined __PETCAT__
     if (DosRequestMutexSem(hmtxSpawn, SEM_INDEFINITE_WAIT))
         return 0;
+#endif
 
     if(rc=DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))
         log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue (rc=%li).",rc);
@@ -400,7 +411,9 @@ int archdep_spawn(const char *name, char **argv,
         }
         DosCloseQueue(hqQueue);
     }
+#if !defined __C1541__ && !defined __PETCAT__
     DosReleaseMutexSem(hmtxSpawn);
+#endif
     free(cmdline);
     //    DosSleep(1000);
     if (rc)

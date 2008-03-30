@@ -49,6 +49,9 @@
 #include "log.h"
 #include "proc.h"
 #include "ui.h"
+#ifdef __X128__
+#include "vdc.h"      // vdc_free()
+#endif
 #include "ui_status.h"
 #include "utils.h"
 #include "machine.h"
@@ -184,53 +187,39 @@ static SETUP_BLITTER divesetup;
 static void video_close(void)
 {   // close Dive
     APIRET rc;
-    //    if (ulBuffer) { // share this with frame_buffer_free
-    //        DiveFreeImageBuffer (hDiveInst, ulBuffer);
-    //        ulBuffer=0;
-    //        log_message(LOG_DEFAULT, "video.c: Dive image buffer freed (video_close).");
-    //    }
-    free(divesetup.pVisDstRects);
+
+    video_free();
+#ifdef __X128__
+    vdc_free();
+#endif
 
     if (rc=DiveClose(hDiveInst))
-        log_message(LOG_DEFAULT, "video.c: Dive closed (rc=%li).",rc);
+        log_message(LOG_DEFAULT, "video.c: Dive closed (rc=0x%x).", rc);
+
+    free(divesetup.pVisDstRects);
 }
 
 int video_init(void) // initialize Dive
 {
     APIRET rc;
-    //    RECTL  rcl;  /* Current widow rectangle - dummy */
 
     if (rc=DiveOpen(&hDiveInst, FALSE, NULL))
     {
-        log_message(LOG_DEFAULT,"video.c: Could not open DIVE (rc=%li).",rc);
+        log_message(LOG_DEFAULT,"video.c: Could not open DIVE (rc=0x%x).",rc);
         return -1;
     }
+
+    // make sure, that the dive instance is closed at shutdown
     atexit(video_close);
+
+    // FIXME??? Do we need one sem for every canvas?
+    archdep_create_mutex_sem(&hmtx, "Video", FALSE);
 
     divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
     divesetup.fInvert           = FALSE;
     divesetup.ulDitherType      = 0;
     divesetup.fccSrcColorFormat = FOURCC_LUT8;
     divesetup.fccDstColorFormat = FOURCC_SCRN;
-    /*
-     // FIXME Do I really need this DiveSetupBlitter? My Laptop has problems here
-     divesetup.ulSrcWidth = 1;//pwinData->ulWidth;
-     divesetup.ulSrcHeight = 1;//pwinData->ulHeight;
-     divesetup.ulSrcPosX = 0;
-     divesetup.ulSrcPosY = 0;
-     divesetup.lDstPosX = 0;
-     divesetup.lDstPosY = 0;
-     divesetup.lScreenPosX = 0;
-     divesetup.lScreenPosY = 0;
-     divesetup.ulNumDstRects = 1;
-
-     rcl.xRight = 1;//pwinData->ulWidth;
-     rcl.yTop   = 1;//pwinData->ulHeight;
-     divesetup.ulDstWidth = 1;//pwinData->ulWidth;
-     divesetup.ulDstHeight = 1;//pwinData->ulHeight;
-     divesetup.pVisDstRects = &rcl;
-     DiveSetupBlitter(hDiveInst, &divesetup);
-     */
     divesetup.pVisDstRects      = xcalloc(1, DIVE_RECTLS*sizeof(RECTL));
 
     return 0;
@@ -240,22 +229,17 @@ int video_init(void) // initialize Dive
 /* Frame buffer functions.  */
 int video_frame_buffer_alloc(video_frame_buffer_t **f, UINT width, UINT height)
 {
-    static int first=TRUE;
     APIRET rc;
-    if (first)  // be shure that image_buffer is freed (BEFORE video_close)
-    {
-        atexit(video_free);
-        first=FALSE;
-    }
 
     (*f) = (video_frame_buffer_t*) xmalloc(sizeof(struct video_frame_buffer_s));
     (*f)->bitmap = (char*) xmalloc(width*height*sizeof(BYTE));
     (*f)->width  = width;
     (*f)->height = height;
-    log_message(LOG_DEFAULT,"video.c: Frame buffer allocated (%lix%li)",width,height);
+    log_message(LOG_DEFAULT,"video.c: Frame buffer allocated (%lix%li)", width, height);
+
     if (rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
                                 width, height, 0, (*f)->bitmap))
-        log_message(LOG_DEFAULT,"video.c: Could not allocate Dive image buffer (rc=%li).",rc);
+        log_message(LOG_DEFAULT,"video.c: Error DiveAllocImageBuffer (rc=0x%x).",rc);
 
     return 0;
 }
@@ -267,19 +251,21 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 
 void video_frame_buffer_free(video_frame_buffer_t *f)
 {
-    //    if (ulBuffer) {  // share this with video_close
-    ULONG rc=DiveFreeImageBuffer (hDiveInst, f->ulBuffer);
+    ULONG rc;
 
+    // This is if video_close calls video_free before a frame_buffer is allocated
+    if (!f)
+        return;
+
+    if (rc=DiveFreeImageBuffer (hDiveInst, f->ulBuffer))
+        log_message(LOG_DEFAULT,"video.c: Error DiveFreeImageBuffer (rc=0x%x).", rc);
+
+    // this must be set to zero before the next image buffer could be allocated
     f->ulBuffer = 0;
-
-    if (!rc)
-       log_message(LOG_DEFAULT,"video.c: Dive image buffer freed (frame_buffer_free).");
-    //    }
 
     // if f exist also f->bitmap must exist... see above
     free(f->bitmap);
     free(f);
-    //log_message(LOG_DEFAULT,"video.c: Frame buffer freed.");
 }
 
 /* ------------------------------------------------------------------------ */
@@ -303,7 +289,7 @@ extern HMTX hmtxKey;
 void wmCreate(void)
 {
     BYTE keyState[256];
-    DosCreateMutexSem("\\SEM32\\ViceKey", &hmtxKey, 0, TRUE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
+    log_debug("KEYSEM rc=%li",DosCreateMutexSem("\\SEM32\\ViceKey", &hmtxKey, 0, TRUE));
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
     vk_desktop.scrllock   = keyState[VK_SCRLLOCK];
     vk_desktop.capslock   = keyState[VK_CAPSLOCK];
@@ -320,6 +306,7 @@ void wmCreate(void)
 void wmDestroy(void)
 {
     BYTE keyState[256];
+
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     PM_winActive = FALSE;
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
@@ -420,7 +407,7 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_CREATE:       wmCreate();           break;
     // After 'make visible': VRNDISABLED, PAINT, VRNENABLED
     //    case WM_PAINT: wmPaint(hwnd); break;
-    case WM_CHAR:         kbd_proc(hwnd, mp1);  break;
+    case WM_CHAR:         kbd_proc(hwnd, mp1, mp2);  break;
     case WM_CLOSE:
     case WM_DESTROY:      wmDestroy();          break;
     case WM_SETSELECTION: wmSetSelection(mp1);  break;
@@ -479,8 +466,6 @@ void PM_mainloop(VOID *arg)
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
     canvas_t *c=(canvas_t *)arg;
-    int px = posx;
-    int py = posy;
 
     //    archdep_setup_signals(0); // signals are not shared between threads!
 
@@ -495,22 +480,26 @@ void PM_mainloop(VOID *arg)
                                       &flFrameFlags, szClientClass,
                                       c->title, 0L, 0, 0,
                                       &(c->hwndClient));
-    free(c->title);
 
-    WinSetWindowPos(c->hwndFrame, HWND_TOP, px, py,
+    WinSetWindowPos(c->hwndFrame, HWND_TOP, posx, posy,
                     canvas_fullwidth (c->width),
                     canvas_fullheight(c->height),
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|
-                    (px==-1&&py==-1?0:SWP_MOVE));    // Make visible, resize, top window
+                    (posx==-1&&posy==-1?0:SWP_MOVE));    // Make visible, resize, top window
     WinSetWindowPtr(c->hwndClient, QWL_USER, (VOID*)c);
 
     WinSetVisibleRegionNotify(c->hwndClient, TRUE);
     c->vrenabled = TRUE;
 
+    if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
+        log_debug("video.c: Error DosSetPriority (rc=%li)", rc);
+
+    // this makes reactions faster when main thread is hut down
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg);
 
-    log_debug("Window: Quit!");
+    log_debug("Window '%s': Quit!", c->title);
+    free(c->title);
 
     /*
      ----------------------------------------------------------
@@ -523,21 +512,22 @@ void PM_mainloop(VOID *arg)
      ----------------------------------------------------------
      Do I need another solution for x128?
      ---------------------------------------------------------- */
-#ifndef __X128__
+    // Make sure, that the emulation thread doesn't
+    // try to blit the screen anymore
+//#ifndef __X128__
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-#endif
+//#endif
 
     if (!WinDestroyMsgQueue(hmq))
-        log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");
+        log_message(LOG_DEFAULT,"video.c: Error! Destroying Msg Queue.");
     if (!WinTerminate (hab))
-        log_message(LOG_DEFAULT,"video.c: Error! PM anchor release.");
+        log_message(LOG_DEFAULT,"video.c: Error! Releasing PM anchor.");
 
-    //      free(*ptr);
     trigger_shutdown = 1;
 
-    DosSleep(1000); // wait 10 seconds
+    DosSleep(5000); // wait 5 seconds
+    log_debug("Brutal Exit!");
     exit(0);        // end VICE in all cases
-
 }
 
 /* ------------------------------------------------------------------------ */
@@ -568,14 +558,12 @@ canvas_t *canvas_create(const char *title, UINT *width,
     canvas_new->exposure_handler =  exposure_handler;
     canvas_new->vrenabled        =  FALSE;  // pbmi not yet initialized
 
-    archdep_create_mutex_sem(&hmtx, "Canvas", FALSE);
-
     _beginthread(PM_mainloop, NULL, 0x4000, canvas_new);
 
-    while (!canvas_new->vrenabled) // wait until pbmi initialized
+    while (!canvas_new->vrenabled) // wait until canvas initialized
         DosSleep(1);
 
-    log_debug("video.c: PM Window (canvas '%s') created. (%ix%i)", title, *width, *height);
+    log_debug("video.c: Canvas '%s' (%ix%i) created.", title, *width, *height);
 
     canvas_set_palette(canvas_new, palette, pixel_return);
 
@@ -619,7 +607,6 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 
     RGB2 *palette = xcalloc(1, p->num_entries*sizeof(RGB2));
 
-    //    if (!(c->pbmi_initialized)) return;
     for (i=0; i<p->num_entries; i++)
     {
         palette[i].bRed  =p->entries[i].red;
@@ -630,7 +617,7 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 
     rc=DiveSetSourcePalette(hDiveInst, 0, p->num_entries, (BYTE*)palette);
     if (rc)
-        log_message(LOG_DEFAULT,"video.c: Error setting palette (rc=%i).",rc);
+        log_message(LOG_DEFAULT,"video.c: Error DiveSetSourcePalette (rc=0x%x).",rc);
 
     free(palette);
 

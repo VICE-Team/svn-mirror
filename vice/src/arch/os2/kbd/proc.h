@@ -35,7 +35,7 @@
 #undef ADDRESS
 #define ADDRESS WORD
 
-extern void kbd_proc(HWND hwnd, MPARAM mp1);
+extern void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2);
 
 #endif
 

@@ -7,6 +7,7 @@
 #undef BYTE
 #undef ADDRESS
 #define INCL_GPIBITMAPS
+//#define INCL_DOSSEMAPHORES  // HMTX
 #include <os2.h>
 #undef ADDRESS
 #define ADDRESS WORD
@@ -38,6 +39,7 @@ typedef struct canvas_s {
     //    BOOL  init_ready;       // dont't use exposure_handler to early
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
+//    HMTX  hmtx;
     char *title;
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area

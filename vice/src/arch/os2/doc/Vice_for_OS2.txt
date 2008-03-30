@@ -45,3 +45,5 @@ Alt-W:   Write actual configuration to file
  - somebody had problems with cs4235 based soundcard 
    (using sound-dialog hangs OS/2)
  - somebody had problems with the attach-dialog and a Matrox g400
+ - x128 hangs when closing on systems with older dive.dll (older fixpacks)
+ 

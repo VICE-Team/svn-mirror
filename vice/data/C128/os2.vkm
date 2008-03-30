@@ -6,6 +6,16 @@
 //
 //  comments are starting with /
 //
+//  This is a scancode map
+
+!KSCODE
+
+//
+// Clear all entries of the vice map
+//
+
+!CLEAR
+
 //  the position of the left and right shift key on the cbm keyboard:
 //     !LSHIFT row col
 //     !RSHIFT row col
@@ -21,7 +31,7 @@
 //      code    keyboard scancode
 //      row     cbm keyboard row
 //      col     cbm keyboard column
-//      vshift  should the cbm key pressed?
+//      vshift  should the cbm key pressed? (use 0 for the shift keys itself)
 //               0 key can be shifted or not with this keysym
 //               1 left shifted        
 //               2 right shifted        
@@ -76,7 +86,7 @@
 #39: 5, 5, 0                 /*            ; -> :            */
 #40: 6, 2, 0                 /*            ' -> ;            */
 #41: 7, 1, 0                 /*            ` -> Left Arrow   */
-#42: 1, 7, 1                 /*   Left Shift -> Left Shift   */
+#42: 1, 7, 0                 /*   Left Shift -> Left Shift   */
 #43: 6, 5, 0                 /*            \ -> =            */
 #44: 1, 4, 0                 /*            Z -> Z            */
 #45: 2, 7, 0                 /*            X -> X            */

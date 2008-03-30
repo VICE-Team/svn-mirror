@@ -38,6 +38,8 @@ typedef struct _convmap
     int lshift_col;       // Location of virt shift key
     int rshift_row;       // Location of virt shift key
     int rshift_col;       // Location of virt shift key
+
+    int symbolic;         // this is true if we have a symbolic map
 } convmap;
 
 extern convmap keyconvmap;
