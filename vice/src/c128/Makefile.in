@@ -327,7 +327,7 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/c64/c64pla.h \
 	../../src/c64/c64tpi.h functionrom.h ../../src/keyboard.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/parallel.h \
+	../../src/monitor/mon.h ../../src/parallel.h ../../src/ram.h \
 	../../src/c64/reu.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \

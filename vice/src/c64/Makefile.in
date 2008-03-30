@@ -433,8 +433,8 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64-resources.h \
 	c64cart.h ../../src/arch/unix/types.h c64cia.h c64io.h c64mem.h \
 	c64memlimit.h c64pla.h cart/c64cartmem.h ../../src/cartridge.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h ../../src/parallel.h reu.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/utils.h \
+	../../src/monitor/mon.h ../../src/parallel.h ../../src/ram.h \
+	reu.h ../../src/sid/sid.h ../../src/sound.h ../../src/utils.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h
 c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h

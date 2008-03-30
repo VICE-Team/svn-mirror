@@ -1,3 +1,67 @@
+2002-09-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.6.
+
+	* vicii/vicii.c, vicii/vicii.h
+	(vic_ii_enable_extended_vicii): Removed.
+	(vic_ii_init): Take type off VIC-II.
+	(vic_ii_set_chargen_addr_options): New function.
+	(vic_ii_powerup): Set chargen mask according to VIC-II type.
+
+	* c64/c64.c, c128/c128.c, cbm2/cbm2.c (machine_init): Set type
+	of VIC-II via `vic_ii_init()'.
+
+	* c128/c128mem.c (mem_update_config): Implemented support for
+	processor port bit #2.
+
+	* c128/c128mmu.c (mmu_init): Set MMU version to zero.
+
+	* plus4/plus4mem.c (mem_powerup): Removed unused variable.
+
+	* ram.c: Fixed includes.
+
+2002-09-14  Dag Lem  <resid@nimrod.no>
+
+	* sounddrv/sounduss.c: Duplicate mono channel for stereo-only
+	hardware.
+
+2002-09-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* ram.c, ram.h, arch/win32/uiram.c, arch/win32/uiram.h: New
+	files.
+
+	* Makefile.am, arch/win32/Makefile.am,  arch/win32/base.dsp,
+	arch/win32/arch.dsp: Added new files.
+
+	* arch/win32/res.h: Added new IDs for RAM related controls.
+
+	* arch/win32/res.rc: Added dialog for RAM settings.
+
+	* arch/win32/res<machine>.rc: Added menuitem for RAM settings.
+
+	* arch/win32/ui.c: Handle menuitem for RAM settings.
+
+	* init.c (init_resources): Initializes RAM resources.
+	(init_cmdline_options): Initializes RAM commandline options.
+
+	* <machine>/<machine>mem.c (mem_powerup): Uses new function
+	ram_init.
+
+2002-09-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-draw.c: GFX_MSK_LEFTBORDER_SIZE needs no
+	offset for sprite width anymore.
+
+	* vicii/vicii-sprites.c: sprline needs no extraborder anymore.
+	(draw_all_sprites_partial) handles the sprite interval modulo
+	sprite_wrap_x now.
+	Removed VIC_II_MAX_SPRITE_WIDTH offset from msk_ptr and sptr.
+	(vic_ii_sprites_set_x_position): Sets VIC_II_SCREEN_WIDTH
+	as a flag for "invalid" values again.
+
+	* vicii/vicii.c: Sets geometry with
+	extra_offscreen_border_left = 0.
+
 2002-09-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.5.

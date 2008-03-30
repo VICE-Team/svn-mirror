@@ -387,7 +387,7 @@ vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h ../../src/resources.h \
+	../../src/monitor/mon.h ../../src/ram.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
 	vic.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \

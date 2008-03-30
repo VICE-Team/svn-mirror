@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.10.5
+VERSION=1.10.6
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }

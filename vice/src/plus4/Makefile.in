@@ -317,8 +317,8 @@ plus4mem.o: plus4mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/monitor/mon.h plus4acia.h plus4iec.h plus4mem.h \
-	plus4memlimit.h plus4pio1.h plus4pio2.h ../../src/resources.h \
-	tcbm.h ted-mem.h ../../src/utils.h
+	plus4memlimit.h plus4pio1.h plus4pio2.h ../../src/ram.h \
+	../../src/resources.h tcbm.h ted-mem.h ../../src/utils.h
 plus4memlimit.o: plus4memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 plus4pio1.o: plus4pio1.c ../../src/vice.h ../../src/config.h plus4pio1.h \
