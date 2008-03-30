@@ -90,7 +90,7 @@ extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
 
 /* Snapshots.  */
 
-extern int mem_write_snapshot_module(snapshot_t *s);
+extern int mem_write_snapshot_module(snapshot_t *s, int save_roms);
 extern int mem_read_snapshot_module(snapshot_t *s);
 
 #endif

@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "utils.h"
 #include "vsync.h"
+#include "petmem.h"
 
 #define	DEBUG
 
@@ -103,10 +104,54 @@ static struct {
     {NULL}
 };
 
+int pet_set_model_info(PetInfo *pi) 
+{
+    int kindex;
+
+    resources_set_value("RamSize",
+                       (resource_value_t) pi->ramSize);
+    resources_set_value("IOSize",
+                       (resource_value_t) pi->IOSize);
+    resources_set_value("Crtc",
+                       (resource_value_t) pi->crtc);
+    resources_set_value("VideoSize",
+                       (resource_value_t) pi->video);
+    resources_set_value("Ram9",
+                       (resource_value_t) pi->mem9);
+    resources_set_value("RamA",
+                       (resource_value_t) pi->memA);
+    resources_set_value("SuperPET",
+                       (resource_value_t) pi->superpet);
+
+    resources_get_value("KeymapIndex",
+                       (resource_value_t *) &kindex);
+    resources_set_value("KeymapIndex",
+                       (resource_value_t) ((kindex & 1) + 2 * pi->kbd_type));
+
+    resources_set_value("ChargenName",
+                       (resource_value_t) pi->chargenName);
+    resources_set_value("KernalName",
+                       (resource_value_t) pi->kernalName);
+    resources_set_value("EditorName",
+                       (resource_value_t) pi->editorName);
+    resources_set_value("RomModule9Name",
+                       (resource_value_t) pi->mem9name);
+    resources_set_value("RomModuleAName",
+                       (resource_value_t) pi->memAname);
+    resources_set_value("RomModuleBName",
+                       (resource_value_t) pi->memBname);
+    if (pi->ramSize == 96) {
+	petres.map = 1;		/* 8096 mapping */
+    } else 
+    if (pi->ramSize == 128) {
+	petres.map = 2;		/* 8296 mapping */
+    }
+    return 0;
+}
 
 int pet_set_model(const char *model_name, void *extra)
 {
-    int i, kindex = 0;
+    int i;
 
     i = 0;
     while (pet_table[i].model) {
@@ -114,39 +159,8 @@ int pet_set_model(const char *model_name, void *extra)
 #ifdef DEBUG
 	    printf("PET: setting model to PET %s\n", pet_table[i].model);
 #endif
-	    resources_set_value("RamSize",
-                                (resource_value_t) pet_table[i].info.ramSize);
-	    resources_set_value("IOSize",
-                                (resource_value_t) pet_table[i].info.IOSize);
-	    resources_set_value("Crtc",
-                                (resource_value_t) pet_table[i].info.crtc);
-	    resources_set_value("VideoSize",
-                                (resource_value_t) pet_table[i].info.video);
-	    resources_set_value("Ram9",
-                                (resource_value_t) pet_table[i].info.mem9);
-	    resources_set_value("RamA",
-                                (resource_value_t) pet_table[i].info.memA);
-	    resources_set_value("SuperPET",
-                                (resource_value_t) pet_table[i].info.superpet);
 
-	    resources_get_value("KeymapIndex",
-                                (resource_value_t *) &kindex);
-	    resources_set_value("KeymapIndex",
-                                (resource_value_t) ((kindex & 1)
-                                                    + 2 * pet_table[i].info.kbd_type));
-
-	    resources_set_value("ChargenName",
-                                (resource_value_t) pet_table[i].info.chargenName);
-	    resources_set_value("KernalName",
-                                (resource_value_t) pet_table[i].info.kernalName);
-	    resources_set_value("EditorName",
-                                (resource_value_t) pet_table[i].info.editorName);
-	    resources_set_value("RomModule9Name",
-                                (resource_value_t) pet_table[i].info.mem9name);
-	    resources_set_value("RomModuleAName",
-                                (resource_value_t) pet_table[i].info.memAname);
-	    resources_set_value("RomModuleBName",
-                                (resource_value_t) pet_table[i].info.memBname);
+	    pet_set_model_info(&pet_table[i].info);
 
 	    /* hm, does this belong to a resource? */
 	    pet.pet2k = pet_table[i].info.pet2k;
@@ -166,7 +180,7 @@ int pet_set_model(const char *model_name, void *extra)
 
 /* check PetInfo struct for consistency after change */
 
-static void check_info(PetInfo * pi)
+static void pet_check_info(PetInfo * pi)
 {
     if (pi->superpet) {
 	pi->ramSize = 128;
@@ -234,7 +248,7 @@ static int set_ramsize(resource_value_t v)
     } else if (size == 128) {
 	petres.map = 2;		/* 8296 mapping */
     }
-    check_info(&petres);
+    pet_check_info(&petres);
     initialize_memory();
 
     return 0;
@@ -250,7 +264,7 @@ static int set_video(resource_value_t v)
 	if (col == 0 || col == 40 || col == 80) {
 	    petres.video = col;
 	}
-	check_info(&petres);
+	pet_check_info(&petres);
 	initialize_memory();
 	set_screen();
     }

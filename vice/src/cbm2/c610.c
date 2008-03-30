@@ -1,8 +1,8 @@
 /*
- * vic20.c
+ * c610.c
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,27 +29,32 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "c610.h"
+
 #include "attach.h"
 #include "autostart.h"
-#include "cartridge.h"
+#include "snapshot.h"
+#include "c610acia.h"
+#include "c610cia.h"
+#include "c610mem.h"
+#include "c610tpi.h"
+#include "c610ui.h"
 #include "cmdline.h"
-#include "drive.h"
+#include "crtc.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
-#include "tapeunit.h"
+#include "sid.h"
+#include "sound.h"
 #include "traps.h"
-#include "vic.h"
-#include "vic20.h"
-#include "vic20mem.h"
-#include "vic20sound.h"
-#include "vic20ui.h"
-#include "vic20via.h"
+#include "utils.h"
+#include "via.h"
 #include "vmachine.h"
 #include "vsync.h"
+#include "drive.h"
 
 #ifdef HAVE_PRINTER
 #include "print.h"
@@ -59,166 +64,122 @@
 
 #ifdef HAVE_RS232
 #include "rs232.h"
-#include "rsuser.h"
-#include "vic20rsuser.h"
 #endif
 
 #ifdef __MSDOS__
-#include "vic20kbd.h"
+#include "c610kbd.h"
 #endif
 
 static void vsync_hook(void);
 
-const char machine_name[] = "VIC20";
+static double 	cbm2_rfsh_per_sec	= C610_PAL_RFSH_PER_SEC;
+static long   	cbm2_cycles_per_rfsh 	= C610_PAL_CYCLES_PER_RFSH;
 
-/* VIC20 Traps */
-static trap_t vic20_serial_traps[] = {
-    {
-	"SerialListen",
-	0xEE2E,
-        0xEEB2,
-	{0x20, 0xA0, 0xE4},
-	serialattention
-    },
-    {
-	"SerialSaListen",
-	0xEE40,
-        0xEEB2,
-	{0x20, 0x8D, 0xEF},
-	serialattention
-    },
-    {
-	"SerialSendByte",
-	0xEE49,
-        0xEEB2,
-	{0x78, 0x20, 0xA0},
-	serialsendbyte
-    },
-    {
-	"SerialReceiveByte",
-	0xEF19,
-        0xEEB2,
-	{0x78, 0xA9, 0x00},
-	serialreceivebyte
-    },
-    {
-	"SerialReady",
-	0xE4B2,
-        0xEEB2,
-	{0xAD, 0x1F, 0x91},
-	trap_serial_ready
-    },
-    {
-        NULL,
-        0,
-        0,
-        {0, 0, 0},
-        NULL
+const char machine_name[] = "CBM-II";
+
+/* ------------------------------------------------------------------------- */
+
+/* CBM-II resources.  */
+
+#if 0
+
+/* CBM-II model name.  */
+static char *model_name;
+
+static int set_model_name(resource_value_t v)
+{
+    char *name = (char *)v;
+
+    if (c610_set_model(name, NULL) < 0) {
+        fprintf(stderr, "Invalid CBM-II model `%s'.\n", name);
+        return -1;
     }
-};
 
-/* Tape traps.  */
-static trap_t vic20_tape_traps[] = {
-    {
-        "FindHeader",
-        0xF7B2,
-        0xF7B5,
-        {0x20, 0xC0, 0xF8},
-        findheader
-    },
-    {
-        "WriteHeader",
-        0xF83B,
-        0xF83E,
-        {0x20, 0xEA, 0xF8},
-        writeheader
-    },
-    {
-        "TapeReceive",
-        0xF90B,
-        0xFCCF,
-        {0x20, 0xFB, 0xFC},
-        tapereceive
-    },
-    {
-        NULL,
-        0,
-        0,
-        {0, 0, 0},
-        NULL
-    }
-};
+    string_set(&model_name, name);
+    return 0;
+}
 
+#endif
 
 /* ------------------------------------------------------------------------ */
 
-/* VIC20-specific resource initialization.  This is called before
-   initializing the machine itself with `machine_init()'.  */
+/* CBM-II-specific resource initialization.  This is called before initializing
+   the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (traps_init_resources()
-        || vsync_init_resources() < 0
+    if (traps_init_resources() < 0
+	|| vsync_init_resources() < 0
         || video_init_resources() < 0
-        || vic20_mem_init_resources() < 0
-        || vic_init_resources() < 0
+        || c610_mem_init_resources() < 0
+        || crtc_init_resources() < 0
         || sound_init_resources() < 0
+        || sid_init_resources() < 0
+        || drive_init_resources() < 0
+        || acia1_init_resources() < 0	/* ACIA is always there */
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
-        || rsuser_init_resources() < 0
 #endif
 #ifdef HAVE_PRINTER
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
+#ifdef __MSDOS__
         || kbd_init_resources() < 0
-        || drive_init_resources() < 0
-	|| cartridge_init_resources() <0)
+#else
+        || pet_kbd_init_resources() < 0
+#endif
+	)
         return -1;
-
     return 0;
 }
 
-/* VIC20-specific command-line option initialization.  */
+/* CBM-II-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (traps_init_cmdline_options()
-        || vsync_init_cmdline_options() < 0
+    if (traps_init_cmdline_options() < 0
+	|| vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
-        || vic20_mem_init_cmdline_options() < 0
-        || vic_init_cmdline_options() < 0
+        || c610_mem_init_cmdline_options() < 0
+        || crtc_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+        || sid_init_cmdline_options() < 0
+        || drive_init_cmdline_options() < 0
+        || acia1_init_cmdline_options() < 0
 #ifdef HAVE_RS232
         || rs232_init_cmdline_options() < 0
-        || rsuser_init_cmdline_options() < 0
 #endif
 #ifdef HAVE_PRINTER
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
 #endif
+#ifdef __MSDOS__
         || kbd_init_cmdline_options() < 0
-        || drive_init_cmdline_options() < 0
-	|| cartridge_init_cmdline_options() < 0)
+#else
+        || pet_kbd_init_cmdline_options() < 0
+#endif
+	)
         return -1;
 
     return 0;
 }
 
-/* VIC20-specific initialization.  */
+/* ------------------------------------------------------------------------- */
+
+/* CBM-II-specific initialization.  */
 int machine_init(void)
 {
+    /* Setup trap handling - must be before mem_load() */
+    traps_init();
+
     if (mem_load() < 0)
         return -1;
 
-    printf("\nInitializing Serial Bus...\n");
+    printf("\nInitializing IEEE488 bus...\n");
 
-    /* Setup trap handling.  */
-    traps_init();
-
-    /* Initialize serial traps.  If user does not want them, or if the
-       ``drive'' emulation is used, do not install them.  */
-    serial_init(vic20_serial_traps);
+    /* No traps installed on the CBM-II.  */
+    serial_init(NULL);
 
     /* Initialize drives, and attach true 1541 emulation hooks to
        drive 8 (which is the only true 1541-capable device).  */
@@ -226,88 +187,70 @@ int machine_init(void)
     file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
 
-#ifdef HAVE_RS232
-    /* Initialize RS232 handler.  */
-    rs232_init();
-    vic20_rsuser_init();
-#endif
-
 #ifdef HAVE_PRINTER
     /* initialize print devices */
     print_init();
 #endif
 
-    /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, vic20_tape_traps,
-              0x277, 0xc6);
+    /* Initialize the CRTC emulation.  */
+    crtc_init();
 
-    /* Fire up the hardware-level 1541 emulation. */
-    drive_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
-
-    /* Initialize autostart.  */
-    autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1,
-                   0xcc, 0xd1, 0xd3, 0xd5);
-
-    /* Initialize the VIC-I emulation.  */
-    vic_init();
-
-    /* Load the default keymap file.  */
-#ifndef __MSDOS__
-    if (kbd_init() < 0)
+    /* Initialize the keyboard.  */
+#ifdef __MSDOS__
+    if (c610_kbd_init() < 0)
         return -1;
 #else
-    if (vic20_kbd_init() < 0)
+    if (kbd_init() < 0)
         return -1;
 #endif
 
+    /* Fire up the hardware-level 1541 emulation.  */
+    drive_init(C610_PAL_CYCLES_PER_SEC, C610_NTSC_CYCLES_PER_SEC);
+
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface);
+    monitor_init(&maincpu_monitor_interface,  &drive0_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(VIC20_PAL_RFSH_PER_SEC, VIC20_PAL_CYCLES_PER_SEC, vsync_hook);
+    vsync_init(cbm2_rfsh_per_sec, C610_PAL_CYCLES_PER_SEC, vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_PAL_CYCLES_PER_RFSH);
+    sound_init(C610_PAL_CYCLES_PER_SEC, cbm2_cycles_per_rfsh);
 
-    /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10,
-                 VIC20_PAL_CYCLES_PER_RFSH * VIC20_PAL_RFSH_PER_SEC);
-
-    /* Initialize the VIC20-specific part of the UI.  */
-    vic20_ui_init();
+    /* Initialize the CBM-II-specific part of the UI.  */
+    c610_ui_init();
 
     return 0;
 }
 
-/* Reset.  */
+/* CBM-II-specific initialization.  */
 void machine_reset(void)
 {
     maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
-    maincpu_int_status.alarm_handler[A_VIA1T1] = int_via1t1;
-    maincpu_int_status.alarm_handler[A_VIA1T2] = int_via1t2;
-    maincpu_int_status.alarm_handler[A_VIA2T1] = int_via2t1;
-    maincpu_int_status.alarm_handler[A_VIA2T2] = int_via2t2;
-#ifdef HAVE_RS232
-    maincpu_int_status.alarm_handler[A_RSUSER] = int_rsuser;
-#endif
-    maincpu_set_alarm_clk(A_RASTERDRAW, VIC20_PAL_CYCLES_PER_LINE);
+    maincpu_int_status.alarm_handler[A_ACIA1] = int_acia1;
+    maincpu_int_status.alarm_handler[A_CIA1TA] = int_cia1ta;
+    maincpu_int_status.alarm_handler[A_CIA1TB] = int_cia1tb;
+    maincpu_int_status.alarm_handler[A_CIA1TOD] = int_cia1tod;
+    reset_acia1();
+    reset_cia1();
+    reset_tpi1();
+    reset_tpi2();
 
-    reset_via1();
-    reset_via2();
-
-    drive_reset();
-
-    sound_reset();
-
-#ifdef HAVE_RS232
-    rs232_reset();
-    rsuser_reset();
-#endif
+    reset_crtc();
+    sid_reset();
 
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
+
+#ifdef HAVE_RS232
+    rs232_reset();
+#endif
+
+    drive_reset();
+
+    set_bank_exec(15);
+    set_bank_ind(15);
 }
 
 void machine_powerup(void)
@@ -322,11 +265,10 @@ void machine_shutdown(void)
     serial_remove(-1);
 }
 
-/* Return nonzero if `addr' is in the trappable address space.  */
-int rom_trap_allowed(ADDRESS addr)
+void machine_handle_pending_alarms(int num_write_cycles)
 {
-    return 1; /* FIXME */
 }
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -339,18 +281,12 @@ static void vsync_hook(void)
 
     autostart_advance();
 
-    /* We have to make sure the number of cycles subtracted is multiple of
-       `VIC20_PAL_CYCLES_PER_RFSH' here, or the VIC emulation could go
-       nuts.  */
-    sub = maincpu_prevent_clk_overflow(VIC20_PAL_CYCLES_PER_RFSH);
+    sub = maincpu_prevent_clk_overflow(C610_PAL_CYCLES_PER_RFSH);
+
     if (sub > 0) {
-	vic_prevent_clk_overflow(sub);
-#ifdef HAVE_RS232
-        rsuser_prevent_clk_overflow(sub);
-#endif
-	via1_prevent_clk_overflow(sub);
-	via2_prevent_clk_overflow(sub);
-	sound_prevent_clk_overflow(sub);
+	crtc_prevent_clk_overflow(sub);
+	cia1_prevent_clk_overflow(sub);
+        sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
 
@@ -365,22 +301,36 @@ static void vsync_hook(void)
 #endif
 }
 
+/* Dummy - no restore key.  */
 int machine_set_restore_key(int v)
 {
-    via2_signal(VIA_SIG_CA1, v? VIA_SIG_FALL: VIA_SIG_RISE);
-    return 1;
+    return 0;	/* key not used -> lookup in keymap */
 }
 
 /* ------------------------------------------------------------------------- */
 
 long machine_get_cycles_per_second(void)
 {
-    return VIC20_PAL_CYCLES_PER_SEC;
+    return C610_PAL_CYCLES_PER_SEC;
+}
+
+/* Set the screen refresh rate, as this is variable in the CRTC */
+void machine_set_cycles_per_frame(long cpf) {
+
+    cbm2_cycles_per_rfsh = cpf;
+    cbm2_rfsh_per_sec = ((double) C610_PAL_CYCLES_PER_SEC) / ((double) cpf);
+
+    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf, 
+						cbm2_rfsh_per_sec);
+
+    vsync_init(cbm2_rfsh_per_sec, C610_PAL_CYCLES_PER_SEC, vsync_hook);
+
+    /* sound_set_cycles_per_rfsh(cbm2_cycles_per_rfsh); */
 }
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MACHINE_NAME   "VIC20"
+#define SNAP_MACHINE_NAME   "C610"
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
@@ -393,13 +343,16 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         perror(name);
         return -1;
     }
-
-    /* FIXME: Missing sound.  */
     if (maincpu_write_snapshot_module(s) < 0
         || mem_write_snapshot_module(s, save_roms) < 0
-        || vic_write_snapshot_module(s) < 0
-        || via1_write_snapshot_module(s) < 0
-        || via2_write_snapshot_module(s) < 0) {
+        || crtc_write_snapshot_module(s) < 0
+        || cia1_write_snapshot_module(s) < 0
+        || tpi1_write_snapshot_module(s) < 0
+        || tpi2_write_snapshot_module(s) < 0
+        || acia1_write_snapshot_module(s) < 0
+	|| sid_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_roms) < 0
+	) {
         snapshot_close(s);
         unlink(name);
         return -1;
@@ -415,8 +368,9 @@ int machine_read_snapshot(const char *name)
     BYTE minor, major;
 
     s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
@@ -424,15 +378,18 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
-    /* FIXME: Missing sound.  */
     if (maincpu_read_snapshot_module(s) < 0
         || mem_read_snapshot_module(s) < 0
-        || vic_read_snapshot_module(s) < 0
-        || via1_read_snapshot_module(s) < 0
-        || via2_read_snapshot_module(s) < 0)
+        || crtc_read_snapshot_module(s) < 0
+        || cia1_read_snapshot_module(s) < 0
+        || tpi1_read_snapshot_module(s) < 0
+        || tpi2_read_snapshot_module(s) < 0
+        || acia1_read_snapshot_module(s) < 0
+	|| sid_read_snapshot_module(s) < 0
+        || drive_read_snapshot_module(s) < 0
+	)
         goto fail;
 
-    snapshot_close(s);
     return 0;
 
 fail:
@@ -441,3 +398,4 @@ fail:
     maincpu_trigger_reset();
     return -1;
 }
+

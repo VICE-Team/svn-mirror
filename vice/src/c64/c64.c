@@ -438,7 +438,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
 
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s) < 0
+        || mem_write_snapshot_module(s, save_roms) < 0
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0

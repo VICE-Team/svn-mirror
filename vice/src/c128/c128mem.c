@@ -1093,13 +1093,12 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Change the current video bank.  */
+/* Change the current video bank.  Call this routine only when the vbank
+   has really changed.  */
 void mem_set_vbank(int new_vbank)
 {
-    if (new_vbank != vbank) {
-        vbank = new_vbank;
-        vic_ii_set_vbank(new_vbank);
-    }
+    vbank = new_vbank;
+    vic_ii_set_vbank(new_vbank);
 }
 
 void mem_toggle_watchpoints(int flag)
@@ -1376,7 +1375,7 @@ static char snap_module_name[] = "C128MEM";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int mem_write_snapshot_module(snapshot_t *s)
+int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
     int i;

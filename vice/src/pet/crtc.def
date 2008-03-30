@@ -39,7 +39,7 @@ MEMORY_PTRS()
     } else {
         video_mode = CRTC_REVERSE_MODE;
     }
-    if(crtc_cols == 80) {
+    if(hw_double_cols) {
 	scraddr *= 2;
     }
 

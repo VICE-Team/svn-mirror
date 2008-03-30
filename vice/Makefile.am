@@ -4,15 +4,18 @@ SUBDIRS = src data man doc
 
 EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h
 
-.PHONY: x64 x128 vic20 pet
+.PHONY: x64 x128 xvic xpet xcbm2
 x64:
-	(cd src; $(MAKE) x64)
+	(cd src; $(MAKE) x64-all)
 
 x128:
-	(cd src; $(MAKE) x128)
+	(cd src; $(MAKE) x128-all)
 
-vic20:
-	(cd src; $(MAKE) xvic)
+xvic:
+	(cd src; $(MAKE) xvic-all)
 
-pet:
-	(cd src; $(MAKE) xpet)
+xpet:
+	(cd src; $(MAKE) xpet-all)
+
+xcbm2:
+	(cd src; $(MAKE) xcbm2-all)

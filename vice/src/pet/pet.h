@@ -27,7 +27,10 @@
 #ifndef _PET_H
 #define _PET_H
 
-#define PET_PAL_CYCLES_PER_SEC	985248
+/* Except for the exact CYCLES_PER_SEC those are only reasonable defaults.
+   They get overwritten when writing to the CRTC */
+
+#define PET_PAL_CYCLES_PER_SEC	1000000
 #define PET_PAL_CYCLES_PER_LINE 71
 #define PET_PAL_SCREEN_LINES    312
 #define PET_PAL_CYCLES_PER_RFSH (PET_PAL_SCREEN_LINES \
@@ -35,12 +38,14 @@
 #define PET_PAL_RFSH_PER_SEC    (1.0 / ((double)PET_PAL_CYCLES_PER_RFSH	\
                                         / (double)PET_PAL_CYCLES_PER_SEC))
 
-#define PET_NTSC_CYCLES_PER_SEC  1022730
+#define PET_NTSC_CYCLES_PER_SEC  1000000
+/*
 #define PET_NTSC_CYCLES_PER_LINE 71
 #define PET_NTSC_SCREEN_LINES	 261
 #define PET_NTSC_CYCLES_PER_RFSH (PET_NTSC_SCREEN_LINES \
                                   * PET_NTSC_CYCLES_PER_LINE)
 #define PET_NTSC_RFSH_PER_SEC    (1.0 / ((double)PET_NTSC_CYCLES_PER_RFSH   \
                                         / (double)PET_NTSC_CYCLES_PER_SEC))
+*/
 
 #endif

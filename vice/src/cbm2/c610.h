@@ -1,8 +1,7 @@
 /*
- * petmem.h - PET memory handling.
+ * c610.h
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
  *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,32 +24,27 @@
  *
  */
 
-#ifndef _PETMEM_H
-#define _PETMEM_H
+#ifndef _C610_H
+#define _C610_H
 
-#include "types.h"
 
-#define PET_RAM_SIZE		0x8000
-#define PET_ROM_SIZE		0x8000
-#define PET_CHARGEN_ROM_SIZE	0x2000
+/* except for the exact CYCLES_PER_SEC those values are reasonable default
+   values. they get overwritten when writing to the CRTC */
 
-#define	PET2001_CHECKSUM	55094
-#define	PET3032_CHECKSUM_A	31319
-#define	PET3032_CHECKSUM_B	33410
-#define	PET4032_CHECKSUM_A	1643
-#define	PET4032_CHECKSUM_B	14731
-#define	PET8032_CHECKSUM_A	8647	/* my kernel (a.fachat) */
-#define	PET8032_CHECKSUM_B	8227	/* jouko's kernel */
+#define C610_PAL_CYCLES_PER_SEC		2000000
+#define C610_PAL_CYCLES_PER_LINE 	128
+#define C610_PAL_SCREEN_LINES    	312
+#define C610_PAL_CYCLES_PER_RFSH (C610_PAL_SCREEN_LINES \
+                                 * C610_PAL_CYCLES_PER_LINE)
+#define C610_PAL_RFSH_PER_SEC    (1.0 / ((double)C610_PAL_CYCLES_PER_RFSH    \
+                                        / (double)C610_PAL_CYCLES_PER_SEC))
 
-extern int pet_mem_init_resources(void);
-extern int pet_mem_init_cmdline_options(void);
-
-extern void superpet_reset(void);
-extern int superpet_diag(void);
-
-extern int petmem_dump(FILE *fp);
-extern int petmem_undump(FILE *fp);
-
-void set_screen(void);
+#define C610_NTSC_CYCLES_PER_SEC  	C610_PAL_CYCLES_PER_SEC
+/*
+#define C610_NTSC_CYCLES_PER_LINE 	C610_PAL_CYCLES_PER_LINE
+#define C610_NTSC_SCREEN_LINES	 	C610_PAL_SCREEN_LINES
+#define C610_NTSC_CYCLES_PER_RFSH 	C610_PAL_CYCLES_PER_RFSH
+#define C610_NTSC_RFSH_PER_SEC		C610_PAL_RFSH_PER_SEC
+*/
 
 #endif

@@ -74,6 +74,9 @@
 
 static void vsync_hook(void);
 
+static long 	pet_cycles_per_rfsh 	= PET_PAL_CYCLES_PER_RFSH;
+static double	pet_rfsh_per_sec 	= PET_PAL_RFSH_PER_SEC;
+
 const char machine_name[] = "PET";
 
 /* ------------------------------------------------------------------------- */
@@ -240,11 +243,11 @@ int machine_init(void)
     monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(PET_PAL_RFSH_PER_SEC, PET_PAL_CYCLES_PER_SEC, vsync_hook);
+    vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(PET_PAL_CYCLES_PER_SEC, PET_PAL_CYCLES_PER_RFSH);
+    sound_init(PET_PAL_CYCLES_PER_SEC, pet_cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  FIXME: Is this correct?  */
     /* moved to mem_load() because it's model specific... AF 30jun1998
@@ -331,6 +334,20 @@ long machine_get_cycles_per_second(void)
     return PET_PAL_CYCLES_PER_SEC;
 }
 
+/* Set the screen refresh rate, as this is variable in the CRTC */
+void machine_set_cycles_per_frame(long cpf) {
+
+    pet_cycles_per_rfsh = cpf;
+    pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
+
+    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf, 
+							pet_rfsh_per_sec);
+
+    vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
+
+    /* sound_set_cycles_per_rfsh(pet_cycles_per_rfsh); */
+}
+
 /* ------------------------------------------------------------------------- */
 
 #define SNAP_MACHINE_NAME   "PET"
@@ -348,7 +365,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
     }
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s) < 0
+        || mem_write_snapshot_module(s, save_roms) < 0
         || crtc_write_snapshot_module(s) < 0
         || pia1_write_snapshot_module(s) < 0
         || pia2_write_snapshot_module(s) < 0

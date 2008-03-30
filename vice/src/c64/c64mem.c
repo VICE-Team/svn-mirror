@@ -1104,14 +1104,13 @@ void mem_freeze_cartridge(int type)
 
 /* ------------------------------------------------------------------------- */
 
-/* Change the current video bank.  */
+/* Change the current video bank.  Call this routine only when the vbank
+   has really changed.  */
 void mem_set_vbank(int new_vbank)
 {
-    if (new_vbank != vbank) {
-        vbank = new_vbank;
-        _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
-        vic_ii_set_vbank(new_vbank);
-    }
+    vbank = new_vbank;
+    _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
+    vic_ii_set_vbank(new_vbank);
 }
 
 /* Set the tape sense status.  */
@@ -1398,7 +1397,7 @@ static char snap_module_name[] = "C64MEM";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int mem_write_snapshot_module(snapshot_t *s)
+int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
 

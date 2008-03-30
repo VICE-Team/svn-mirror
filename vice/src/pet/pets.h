@@ -75,5 +75,7 @@ extern int pet_set_ramsize(int v);
 extern int pet_init_resources(void);
 extern int pet_init_cmdline_options(void);
 
+int pet_set_model_info(PetInfo * pi);
+
 #endif /* _PETS_H */
 

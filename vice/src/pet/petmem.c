@@ -80,6 +80,9 @@ BYTE **_mem_read_base_tab_ptr;
 
 /* Flag: nonzero if the ROM has been loaded. */
 int rom_loaded = 0;
+static int rom_9_loaded = 0;	/* set when a cartridge is loaded */
+static int rom_A_loaded = 0;	/* set when a cartridge is loaded */
+static int rom_B_loaded = 0;	/* set when a cartridge/Basic4 is loaded */
 
 /* CRTC register pointer. */
 static BYTE crtc_ptr = 0;
@@ -871,6 +874,30 @@ void mem_powerup(void)
     superpet_powerup();
 }
 
+static void petmem_convert_chargen(BYTE *charrom) 
+{
+    int i, j;
+
+    /* Copy graphics charom to second part.  */
+    memmove(charrom + 0x800, charrom + 0x400, 0x400);
+
+    /* Inverted chargen into second half. This is a PET hardware feature.  */
+    for (i = 0; i < 1024; i++) {
+        charrom[i + 1024] = charrom[i] ^ 0xff;
+        charrom[i + 3072] = charrom[i + 2048] ^ 0xff;
+    }
+
+    /* now expand 8 byte/char to 16 byte/char charrom */
+    for (i = 511; i>=0; i--) {
+	for (j=7; j>=0; j--) {
+	    charrom[i*16+j] = charrom[i*8+j];
+	}
+	for (j=7; j>=0; j--) {
+	    charrom[i*16+8+j] = 0;
+	}
+    }
+}
+
 /* Load memory image files.  This also selects the PET model.  */
 int mem_load(void)
 {
@@ -888,39 +915,22 @@ int mem_load(void)
        the inverted 2k. Then we expand the chars to 16 bytes/char
        for the CRTC, filling the rest with zeros */
 
-    if (mem_load_sys_file(pet.chargenName, chargen_rom, 2048, 2048) < 0) {
+    if (mem_load_sys_file(pet.chargenName, chargen_rom, 0x800, 0x800) < 0) {
         fprintf(stderr, "Couldn't load character ROM.\n");
         return -1;
     }
-
-    /* Copy graphics charom to second part.  */
-    memmove(chargen_rom + 2048, chargen_rom + 1024, 1024);
 
     if (pet.pet2k) {
 
         /* If pet2001 then exchange upper and lower case letters.  */
         for (i = 8; i < (0x1b * 8); i++) {
-            j = chargen_rom[0x800 + i];
-            chargen_rom[i + 0x800] = chargen_rom[i + 0xa00];
-            chargen_rom[i + 0xa00] = j;
+            j = chargen_rom[0x400 + i];
+            chargen_rom[i + 0x400] = chargen_rom[i + 0x600];
+            chargen_rom[i + 0x600] = j;
         }
     }
 
-    /* Inverted chargen into second half. This is a PET hardware feature.  */
-    for (i = 0; i < 1024; i++) {
-        chargen_rom[i + 1024] = chargen_rom[i] ^ 0xff;
-        chargen_rom[i + 3072] = chargen_rom[i + 2048] ^ 0xff;
-    }
-
-    /* now expand 8 byte/char to 16 byte/char charrom */
-    for (i = 511; i>=0; i--) {
-	for (j=7; j>=0; j--) {
-	    chargen_rom[i*16+j] = chargen_rom[i*8+j];
-	}
-	for (j=7; j>=0; j--) {
-	    chargen_rom[i*16+8+j] = 0;
-	}
-    }
+    petmem_convert_chargen(chargen_rom);
 
     /* Init ROM with 'unused address' values.  */
     for (i = 0; i < PET_ROM_SIZE; i++) {
@@ -937,6 +947,9 @@ int mem_load(void)
             fprintf(stderr, "Couldn't load ROM `%s'.\n\n", name);
             return -1;
         }
+        if (krsize > 0x4000) {
+	    rom_B_loaded = 1;
+	}
     }
 
     /* Load extension ROMs.  */
@@ -962,28 +975,45 @@ int mem_load(void)
         }
     }
 
-    if (!IS_NULL(pet.mem9name)
-        && ((rsize = mem_load_sys_file(pet.mem9name,
-                                   rom + 0x1000, 0x1000, 0x1000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+    if (!IS_NULL(pet.mem9name)) {
+        if ((rsize = mem_load_sys_file(pet.mem9name,
+                                   rom + 0x1000, 0x0800, 0x1000)) < 0) {
+            fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
                 pet.mem9name);
-        return -1;
+            return -1;
+	}
+	if (rsize == 0x800) {
+	    memcpy(rom+0x1000, rom+0x1800, 0x800);
+	    for (i=0x800;i<0x1000;i++) *(rom + 0x1000 + i) = 0x90 | (i>>8);
+	}
+	rom_9_loaded = 1;
     }
-    if (!IS_NULL(pet.memAname)
-        && ((rsize = mem_load_sys_file(pet.memAname,
-                                   rom + 0x2000, 0x1000, 0x1000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
+    if (!IS_NULL(pet.memAname)) {
+        if ((rsize = mem_load_sys_file(pet.memAname,
+                                   rom + 0x2000, 0x0800, 0x1000)) < 0) {
+            fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
                 pet.memAname);
-        return -1;
+            return -1;
+	}
+	if (rsize == 0x800) {
+	    memcpy(rom+0x2000, rom+0x2800, 0x800);
+	    for (i=0x800;i<0x1000;i++) *(rom + 0x2000 + i) = 0xA0 | (i>>8);
+	}
+	rom_A_loaded = 1;
     }
     if (!IS_NULL(pet.memBname)) {
         if (krsize <= 0x4000) {
             if ((rsize = mem_load_sys_file(pet.memBname, rom + 0x3000,
-                                           0x1000, 0x1000)) < 0) {
+                                           0x0800, 0x1000)) < 0) {
                 fprintf(stderr, "Couldn't load ROM `%s'.\n\n",
                         pet.memBname);
                 return -1;
             }
+  	    if (rsize == 0x800) {
+	        memcpy(rom+0x3000, rom+0x3800, 0x800);
+	        for (i=0x800;i<0x1000;i++) *(rom + 0x3000 + i) = 0xB0 | (i>>8);
+    	    }
+	    rom_B_loaded = 1;
         } else {
             printf("PET: internal ROM too large for extension ROM at $b000 - "
                    "ignoring `%s'\n", pet.memBname);
@@ -1080,7 +1110,14 @@ void set_screen(void)
     printf("Setting screen width to %d columns (vmask=%04x).\n", cols, vmask);
     crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
     if(!pet.crtc) {
+	store_crtc(0,49);
+	store_crtc(1,40);
+	store_crtc(4,49);
+	store_crtc(5,0);
+	store_crtc(6,25);
 	store_crtc(9,7);
+	store_crtc(12,0x10);
+	store_crtc(13,0);
     }
 }
 
@@ -1263,16 +1300,23 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  * In this prototype we save the full ram......
  */
 
-static const char module_name[] = "PETMEM";
+static const char module_ram_name[] = "PETMEM";
 #define	PETMEM_DUMP_VER_MAJOR	0
 #define	PETMEM_DUMP_VER_MINOR	0
 
 /*
- * UBYTE 	CONFIG		0 = 40 col normal PET
- *				1 = 80 col normal PET
- * 				2 = SuperPET
- *				3 = 8096
- *				4 = 8296
+ * UBYTE 	CONFIG		Bits 0-3: 0 = 40 col PET without CRTC
+ * 				          1 = 40 col PET with CRTC
+ *				  	  2 = 80 col PET (with CRTC)
+ * 					  3 = SuperPET
+ *					  4 = 8096
+ *					  5 = 8296
+ *				Bit 6: 1= RAM at $9***
+ *				Bit 7: 1= RAM at $A***
+ *
+ * UBYTE	KEYBOARD	0 = UK business
+ *				1 = graphics
+ *
  * UBYTE	MEMSIZE		memory size of low 32k in k (4,8,16,32)
  *
  * UBYTE	CONF8X96	8x96 configuration register
@@ -1290,23 +1334,32 @@ static const char module_name[] = "PETMEM";
  *
  */
 
-int mem_write_snapshot_module(snapshot_t *p)
+static int mem_write_ram_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
-    BYTE config, memsize, conf8x96, superpet;
+    BYTE config, rconf, memsize, conf8x96, superpet;
+    int kbdindex;
 
     memsize = pet.ramSize;
     if(memsize > 32) {
 	memsize = 32;
     }
 
-    config = pet.videoSize == 0x400 ? 0 : 1;
+    if (!pet.crtc) {
+	config = 0;
+    } else {
+        config = pet.videoSize == 0x400 ? 1 : 2;
+    }
+
     if(pet.map) {
-	config = pet.map + 2;
+	config = pet.map + 3;
     } else
     if(pet.superpet) {
-	config = 2;
+	config = 3;
     }
+
+    rconf = (pet.mem9 ? 0x40 : 0)
+		| (pet.memA ? 0x80 : 0) ;
 
     conf8x96 = map_reg;
 
@@ -1316,22 +1369,26 @@ int mem_write_snapshot_module(snapshot_t *p)
 		| (spet_diag ? 8 : 0)
 		| ((spet_bank << 4) & 0xf0) ;
 
-    m = snapshot_module_create(p, module_name,
+    m = snapshot_module_create(p, module_ram_name,
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-    snapshot_module_write_byte(m, config);
+    snapshot_module_write_byte(m, config | rconf);
+
+    resources_get_value("KeymapIndex", (resource_value_t*) &kbdindex);
+    snapshot_module_write_byte(m, kbdindex >> 1);
+
     snapshot_module_write_byte(m, memsize);
     snapshot_module_write_byte(m, conf8x96);
     snapshot_module_write_byte(m, superpet);
 
-    if(config != 4) {
+    if(config != 5) {
         snapshot_module_write_byte_array(m, ram, memsize << 10);
 
 	snapshot_module_write_byte_array(m, ram + 0x8000,
-					(config == 0) ? 0x400 : 0x800);
+					(config < 2) ? 0x400 : 0x800);
 
-        if(config == 2 || config == 3) {
+        if(config == 3 || config == 4) {
             snapshot_module_write_byte_array(m, ram + 0x10000, 0x10000);
 	}
     } else {	/* 8296 */
@@ -1343,43 +1400,87 @@ int mem_write_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-int mem_read_snapshot_module(snapshot_t *p)
+static int mem_read_ram_snapshot_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config, memsize, conf8x96, superpet;
+    BYTE config, rconf, byte, memsize, conf8x96, superpet;
+    int kbdindex;
 
-    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
+    m = snapshot_module_open(p, module_ram_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
+    pet.pet2k = 0;	/* if ROM is already patched...? */
+
     snapshot_module_read_byte(m, &config);
+
+    snapshot_module_read_byte(m, &byte);
+/*printf("read snapshot: kbdindex=%d, byte=%d\n",kbdindex, byte);*/
+/*    kbdindex = (byte << 1) | (kbdindex & 1);*/
+/*    resources_set_value("KeymapIndex", (resource_value_t) kbdindex); */
+    pet.kbd_type = byte;
+
     snapshot_module_read_byte(m, &memsize);
     snapshot_module_read_byte(m, &conf8x96);
     snapshot_module_read_byte(m, &superpet);
 
-    /* TODO: warning if RAM size does not match */
+    rconf = config & 0xc0;
+    config &= 0x0f;
 
-    /* TODO: warning if config does not match */
+    pet.ramSize = memsize;
+    pet.crtc = 1;
+    pet.IOSize = 0x800;
+    pet.video = 80;
+    pet.map = 0;
+    pet.superpet = 0;
 
-    if(pet.map) {
+    switch (config) {
+    case 0:		/* 40 cols w/o CRTC */
+	pet.crtc = 0;
+	pet.video = 40;
+	break;
+    case 1:		/* 40 cols w/ CRTC */
+	pet.video = 40;
+	break;
+    case 2:		/* 80 cols (w/ CRTC) */
+	break;
+    case 3:		/* SuperPET */
+	spet_ramen = superpet & 1;
+	spet_ramwp = superpet & 2;
+	spet_ctrlwp= superpet & 4;
+	spet_diag  = superpet & 8;
+	spet_bank  = (superpet >> 4) & 0x0f;
+	pet.superpet = 1;
+	break;
+    case 4:		/* 8096 */
+	pet.ramSize = 96;
+	break;
+    case 5:		/* 8296 */
+	pet.ramSize = 128;
+	break;
+    };
+
+    pet.mem9 = (rconf & 0x40) ? 1 : 0;
+    pet.memA = (rconf & 0x80) ? 1 : 0;
+
+    pet_set_model_info(&pet);	/* set resources and config accordingly */
+    set_screen();
+
+    initialize_memory();
+
+    if(config > 3) {
+	/* map_reg is reset by initialize_memory, so we set if afterwards */
 	store_8x96(0xfff0, conf8x96);
     }
-    map_reg = conf8x96;
 
-    spet_ramen = superpet & 1;
-    spet_ramwp = superpet & 2;
-    spet_ctrlwp= superpet & 4;
-    spet_diag  = superpet & 8;
-    spet_bank  = (superpet >> 4) & 0xf;
-
-    if(config != 4) {
+    if(config != 5) {
         snapshot_module_read_byte_array(m, ram, memsize << 10);
 
 	snapshot_module_read_byte_array(m, ram + 0x8000,
-					(config == 0) ? 0x400 : 0x800);
+					(config < 2) ? 0x400 : 0x800);
 
-        if(config == 2 || config == 3) {
+        if(config == 3 || config == 4) {
             snapshot_module_read_byte_array(m, ram + 0x10000, 0x10000);
 	}
     } else {	/* 8296 */
@@ -1390,4 +1491,165 @@ int mem_read_snapshot_module(snapshot_t *p)
 
     return 0;
 }
+
+static const char module_rom_name[] = "PETROM";
+#define	PETROM_DUMP_VER_MAJOR	0
+#define	PETROM_DUMP_VER_MINOR	0
+
+/*
+ * UBYTE	FLAG		Bit 0: 1= include filenames
+ *				    1: 1= include images
+ *
+ * UBYTE 	CONFIG		Bit 0: 1= $9*** ROM included
+ *				    1: 1= $a*** ROM included
+ *				    2: 1= $b*** ROM included
+ *				    3: 1= $e900-$efff ROM included
+ *
+ *				If FLAG & 1:	(not supported at this time)
+ * STRING	KERNALNAME	filename of KERNAL ROM
+ * STRING	EDITORNAME	filename of EDITOR ROM
+ * STRING	CHARGENNAME	filename of CHARGEN ROM
+ * STRING	ROM9NAME	filename of $9*** ROM
+ * STRING	ROMANAME	filename of $A*** ROM
+ * STRING	ROMBNAME	filename of $B*** ROM
+ *
+ * 				If FLAG & 2:
+ * ARRAY	KERNAL		4k KERNAL ROM image $f000-$ffff
+ * ARRAY	EDITOR		2k EDITOR ROM image $e000-$e800
+ * ARRAY	CHARGEN		2k CHARGEN ROM image
+ * ARRAY	ROM9		4k $9*** ROM (if CONFIG & 1)
+ * ARRAY	ROMA		4k $A*** ROM (if CONFIG & 2)
+ * ARRAY	ROMB		4k $B*** ROM (if CONFIG & 4)
+ * ARRAY	ROMC		4k $C*** ROM
+ * ARRAY	ROMD		4k $D*** ROM
+ * ARRAY	ROME9		7 blocks $e900-$efff ROM (if CONFIG & 8)
+ *
+ */
+
+static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
+{
+    snapshot_module_t *m;
+    BYTE config;
+    int i;
+
+    if (!save_roms) return 0;
+
+    save_roms = 2;
+
+    m = snapshot_module_create(p, module_rom_name,
+                               PETROM_DUMP_VER_MAJOR, PETROM_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
+
+    config = (rom_9_loaded ? 1 : 0)
+		| (rom_A_loaded ? 2 : 0)
+		| (rom_B_loaded ? 4 : 0)
+		| ((pet.pet2k || pet.ramSize == 128) ? 8 : 0);
+
+    snapshot_module_write_byte(m, save_roms);
+    snapshot_module_write_byte(m, config);
+
+    if (save_roms & 2) {
+        snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
+        snapshot_module_write_byte_array(m, rom + 0x6000, 0x0800);
+
+	/* pick relevant data from chargen ROM */
+	for (i=0; i<128; i++) {
+	    snapshot_module_write_byte_array(m, chargen_rom + i * 16, 8);
+	}
+	for (i=0; i<128; i++) {
+	    snapshot_module_write_byte_array(m, chargen_rom + 0x1000 + i * 16, 8);
+	}
+
+	if (config & 1) {
+            snapshot_module_write_byte_array(m, rom + 0x1000, 0x1000);
+	}
+	if (config & 2) {
+            snapshot_module_write_byte_array(m, rom + 0x2000, 0x1000);
+	}
+	if (config & 4) {
+            snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
+	}	
+
+        snapshot_module_write_byte_array(m, rom + 0x4000, 0x2000);
+
+	if (config & 8) {
+            snapshot_module_write_byte_array(m, rom + 0x6900, 0x0700);
+	}
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+static int mem_read_rom_snapshot_module(snapshot_t *p)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    BYTE config, flag;
+
+    m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
+    if (m == NULL)
+        return 0;	/* optional */
+
+    config = (rom_9_loaded ? 1 : 0)
+		| (rom_A_loaded ? 2 : 0)
+		| (rom_B_loaded ? 4 : 0)
+		| ((pet.pet2k || pet.ramSize == 128) ? 8 : 0);
+
+    snapshot_module_read_byte(m, &flag);
+    snapshot_module_read_byte(m, &config);
+
+    rom_9_loaded = config & 1;
+    rom_A_loaded = config & 2;
+    rom_B_loaded = config & 4;
+    if (config & 8) {
+	pet.IOSize = 0x100;
+	initialize_memory();
+    }
+
+    if (flag & 2) {
+        snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
+        snapshot_module_read_byte_array(m, rom + 0x6000, 0x0800);
+
+        snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
+	petmem_convert_chargen(chargen_rom);
+
+	if (config & 1) {
+            snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
+	}
+	if (config & 2) {
+            snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
+	}
+	if (config & 4) {
+            snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
+	}	
+
+        snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
+
+	if (config & 8) {
+            snapshot_module_read_byte_array(m, rom + 0x6900, 0x0700);
+	}
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int mem_write_snapshot_module(snapshot_t *m, int save_roms) {
+    if (mem_write_ram_snapshot_module(m) < 0
+        || mem_write_rom_snapshot_module(m, save_roms) < 0 )
+        return -1;
+    return 0;
+}
+
+int mem_read_snapshot_module(snapshot_t *m) {
+    if (mem_read_ram_snapshot_module(m) < 0
+        || mem_read_rom_snapshot_module(m) < 0 )
+        return -1;
+    return 0;
+}
+
 

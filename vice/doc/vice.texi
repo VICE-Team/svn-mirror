@@ -1164,7 +1164,7 @@ The names of the available emulators are:
 @code{xvic}, the VIC20 emulator
 
 @item
-@code{x610}, the CBM-II emulator
+@code{xcbm2}, the CBM-II emulator
 
 @end itemize
 
@@ -1290,7 +1290,7 @@ PREFIX/lib/vice/EMU:BOOTPATH/EMU
 
 Where @code{PREFIX} is the installation prefix (usually
 @file{/usr/local}), @code{EMU} is the name of the emulated machine
-(@code{C64}, @code{C128}, @code{PET}, @code{C610} or @code{VIC20}) and
+(@code{C64}, @code{C128}, @code{PET}, @code{CBM-II} or @code{VIC20}) and
 @code{BOOTPATH} is the directory where the executable resides.
 The disk drive ROMs are looked for in a directory with @code{EMU} set to 
 @code{DRIVES}.
@@ -2306,19 +2306,19 @@ keyboard or @code{2} for graphics keyboard.
 @vindex KeymapSymFile
 @item KeymapSymFile
 String specifying the name of the keymap file for the symbolic mapping
-(@pxref{Keyboard emulation}, all but PET and C610).
+(@pxref{Keyboard emulation}, all but PET and CBM-II).
 
 @vindex KeymapPosFile
 @item KeymapPosFile
 String specifying the name of the keymap file for the positional mapping
-(@pxref{Keyboard emulation}, all but PET and C610).
+(@pxref{Keyboard emulation}, all but PET and CBM-II).
 
 @vindex KeymapBusinessUKSymFile KeymapBusinessUKPosFile
 @item KeymapBusinessUKSymFile
 @itemx KeymapBusinessUKPosFile
 String specifying the name of the keymap file for the symbolic 
 and positional mapping for the UK business keyboard
-(@pxref{Keyboard emulation}, PET and C610).
+(@pxref{Keyboard emulation}, PET and CBM-II).
 
 @vindex KeymapGraphicsSymFile KeymapGraphicsPosFile
 @item KeymapGraphicsSymFile
@@ -2354,7 +2354,7 @@ Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
 @itemx -bukposkeymap NAME
 Specify @file{NAME} as the symbolic/positional keymap file for the
 UK business keyboard
-(@code{KeymapBusinessUKSymFile}, @code{KeymapBusinessUKPosFile}, PET and C610).
+(@code{KeymapBusinessUKSymFile}, @code{KeymapBusinessUKPosFile}, PET and CBM-II).
 
 @cindex -grsymkeymap -grposkeymap
 @item -grsymkeymap NAME
@@ -4236,7 +4236,7 @@ thus are not present in the other emulators.
 @node CBM-II model, CBM-II commandline options, CBM-II-specific, CBM-II-specific
 @subsection Changing CBM-II model
 
-With @code{x610}, it is possible to change at runtime the
+With @code{xcbm2}, it is possible to change at runtime the
 characteristics of the emulated CBM so that it matches (or not) the ones
 of a certain CBM model, and it is also possible to select from a common
 set of CBM models so that all the features are selected accordingly.
@@ -4300,8 +4300,8 @@ C720+ (1024k RAM, expanded)
 Notice that this will @strong{reset the emulated machine}.
 
 It is also possible to select the CBM model at startup, with the
-@code{-model} command-line option: for example, @samp{x610 -model C610}
-will emulate a CBM 610 while @samp{x610 -model C620} will emulate a CBM
+@code{-model} command-line option: for example, @samp{xcbm2 -model C610}
+will emulate a CBM 610 while @samp{xcbm2 -model C620} will emulate a CBM
 620.
 
 @node CBM-II commandline options, CBM-II colors ,CBM-II model, CBM-II-specific
@@ -4430,7 +4430,7 @@ emulators snapshot files.
 * x128 modules::
 * xvic modules::
 * xpet modules::
-* x610 modules::
+* xcbm2 modules::
 @end menu
 
 @node x64 modules, x128 modules, Emulator modules, Emulator modules
@@ -4481,13 +4481,13 @@ the state the optional features are enabled, and disabled otherwise.
 @node xvic modules, xpet modules, x128 modules, Emulator modules
 @subsubsection xvic modules
 
-@node xpet modules, x610 modules, xvic modules, Emulator modules
+@node xpet modules, xcbm2 modules, xvic modules, Emulator modules
 @subsubsection xpet modules
 
-@node x610 modules, , xpet modules, Emulator modules
-@subsubsection x610 modules
+@node xcbm2 modules, , xpet modules, Emulator modules
+@subsubsection xcbm2 modules
 
-The modules in the x610 emulator are:
+The modules in the xcbm2 emulator are:
 
 @multitable @columnfractions .1 .2 .7
 @item Name
@@ -4556,7 +4556,7 @@ emulator, or even in other emulators.
 * C128 memory module::
 * VIC20 memory module::
 * PET memory module::
-* C610 memory module::
+* CBM-II memory module::
 @end menu
 
 @node Module Terminology, Module framework, Module formats, Module formats
@@ -4944,13 +4944,13 @@ Version numbers: Major 1, Minor 0
 @tab if CONFIG & 32 then: 8k RAM dump $a000-$bfff
 @end multitable
 
-@node PET memory module, C610 memory module, VIC20 memory module, Module formats
+@node PET memory module, CBM-II memory module, VIC20 memory module, Module formats
 @subsubsection PET memory module
 
-@node C610 memory module, , PET memory module, Module formats
-@subsubsection C610 memory module
+@node CBM-II memory module, , PET memory module, Module formats
+@subsubsection CBM-II memory module
 
-The size of the C610 memory module differs with each different memory
+The size of the CBM-II memory module differs with each different memory
 configuration. The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 

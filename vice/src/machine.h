@@ -59,6 +59,9 @@ int machine_set_restore_key(int);
 /* Get the number of CPU cylces per second.  This is used in various parts.  */
 long machine_get_cycles_per_second(void);
 
+/* Set the screen refresh rate, as this is variable in the CRTC */
+void machine_set_cycles_per_frame(long);
+
 /* Write a snapshot.  */
 int machine_write_snapshot(const char *name, int save_roms, int save_disks);
 

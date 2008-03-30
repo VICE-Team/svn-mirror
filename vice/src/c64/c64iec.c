@@ -298,7 +298,7 @@ int iec_available_busses(void)
 
 void iec_calculate_callback_index(void)
 {
-    iec_callback_index = drive[0].enable ? 1 : 0
-                           || drive[1].enable ? 2 : 0;
+    iec_callback_index = (drive[0].enable ? 1 : 0)
+                           | (drive[1].enable ? 2 : 0);
 }
 

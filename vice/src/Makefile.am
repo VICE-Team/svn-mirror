@@ -21,7 +21,7 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet c610 sid arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -169,16 +169,16 @@ c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
-x610_lib = $(top_builddir)/src/c610/libc610.a
+xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-bin_PROGRAMS = x64 x128 xvic xpet x610 c1541 petcat
+bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ $(READLINE)
+        @X_LIBS@ $(READLINE) @LEXLIB@
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
@@ -213,15 +213,15 @@ xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
 .PHONY: xpet-all
 xpet-all: libpet libsounddrv libarch libdrive xpet 
 
-# x610
-x610_SOURCES = $(base_sources)
-x610_LDADD = $(drive_lib) $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+# xcbm2
+xcbm2_SOURCES = $(base_sources)
+xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
 	@X_LIBS@ $(READLINE)
-x610_DEPENDENCIES = $(drive_lib) $(x610_lib) $(sounddrv_lib) \
+xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
-.PHONY: x610-all
-x610-all: libc610 libsounddrv libarch libsid libdrive x610
+.PHONY: xcbm2-all
+xcbm2-all: libcbm2 libsounddrv libarch libsid libdrive xcbm2
 
 # c1541
 c1541_SOURCES = \
@@ -248,7 +248,7 @@ petcat_SOURCES = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libc610 libdrive libsounddrv libarch libsid
+.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch libsid
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -260,8 +260,8 @@ libvic20:
 	(cd vic20 && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
-libc610:
-	(cd c610 && $(MAKE))
+libcbm2:
+	(cd cbm2 && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
 libsounddrv:

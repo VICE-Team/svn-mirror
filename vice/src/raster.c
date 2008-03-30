@@ -629,7 +629,7 @@ inline static int _fill_sprite_cache(struct line_cache *ll, int *xs, int *xe)
    top to bottom.  */
 inline static void add_line(int y, int xs, int xe)
 {
-#ifdef RASTER_DEBUG_PUTIMAGE_CALLS
+#ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
     printf("add_line(): y = %d, xs = %d, xe = %d\n", y, xs, xe);
 #endif
 
@@ -644,7 +644,7 @@ inline static void add_line(int y, int xs, int xe)
 	changed_area.ye = y;
     }
 
-#ifdef RASTER_DEBUG_PUTIMAGE_CALLS
+#ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
     printf("add_line(): current changed_area has "
 	   "ys = %d, ye = %d, xs = %d, xe = %d\n",
      changed_area.ys, changed_area.ye, changed_area.xs, changed_area.xe);
@@ -687,7 +687,12 @@ inline static void refresh_changed(void)
     h *= pixel_height;
 
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
-    printf("Refresh %d %d %d %d %d %d \n", x, y, xx, yy, w, h);
+    printf("Refresh x=%d y=%d xx=%d yy=%d w=%d h=%d scrw=%d scrh=%d\n",
+		 x, y, xx, yy, w, h, SCREEN_WIDTH, SCREEN_HEIGHT);
+    printf("        changed: xs=%d ys=%d xe=%d ye=%d\n", 
+		changed_area.xs, changed_area.ys, changed_area.xe, changed_area.ye); 
+    printf("    window: x=%d y=%d w=%d h=%d\n", 
+		window_first_x, window_first_line, window_width, window_height);
 #endif
 
     x += 2 * SCREEN_MAX_SPRITE_WIDTH;

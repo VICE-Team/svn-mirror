@@ -127,6 +127,22 @@ int snapshot_write_byte_array(FILE *f, BYTE *b, int len)
     return 0;
 }
 
+int snapshot_write_string(FILE *f, const char *s)
+{
+    int i, len;
+
+    len = s ? (strlen(s) + 1) : 0;	/* length includes nullbyte */
+
+    if (snapshot_write_word(f, len) < 0)
+	return -1;
+
+    for (i = 0; i < len; i++)
+        if (snapshot_write_byte(f, s[i]) < 0)
+            return -1;
+
+    return len + sizeof(WORD);
+}
+
 int snapshot_read_byte(FILE *f, BYTE *b_return)
 {
     int c;
@@ -168,6 +184,38 @@ int snapshot_read_byte_array(FILE *f, BYTE *b_return, int size)
         if (snapshot_read_byte(f, b_return + i) < 0)
             return -1;
 
+    return 0;
+}
+
+int snapshot_read_string(FILE *f, char **s)
+{
+    int i, len;
+    WORD w;
+    char *p=NULL;
+
+    /* first free the previous string */
+    if (*s) {
+	free(*s);
+	*s = NULL;	/* don't leave a bogus pointer */
+    }
+
+    if (snapshot_read_word(f, &w) < 0)
+	return -1;
+
+    len = (int) w;
+
+    if (len) {
+        p = xmalloc(len);
+        *s = p;
+
+        for (i = 0; i < len; i++) {
+            if (snapshot_read_byte(f, p+i) < 0) {
+		p[0] = 0;
+                return -1;
+    	    }
+        }
+	p[len-1] = 0;	/* just to be save */
+    }
     return 0;
 }
 
@@ -219,6 +267,17 @@ int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b, int len)
     return 0;
 }
 
+int snapshot_module_write_string(snapshot_module_t *m, const char *s)
+{
+    int len;
+    len = snapshot_write_string(m->file, s);
+    if (len < 0)
+        return -1;
+
+    m->size += len;
+    return 0;
+}
+
 int snapshot_module_read_byte(snapshot_module_t *m, BYTE *b_return)
 {
     if (ftell(m->file) + sizeof(BYTE) > m->offset + m->size)
@@ -250,6 +309,14 @@ int snapshot_module_read_byte_array(snapshot_module_t *m, BYTE *b_return,
         return -1;
 
     return snapshot_read_byte_array(m->file, b_return, size);
+}
+
+int snapshot_module_read_string(snapshot_module_t *m, char **charp_return)
+{
+    if (ftell(m->file) + sizeof(WORD) > m->offset + m->size)
+        return -1;
+
+    return snapshot_read_string(m->file, charp_return);
 }
 
 snapshot_module_t *snapshot_module_create(snapshot_t *s,
