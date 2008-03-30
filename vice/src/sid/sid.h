@@ -43,6 +43,7 @@ extern void REGPARM2 sid_store(WORD address, BYTE byte);
 extern void REGPARM2 sid2_store(WORD address, BYTE byte);
 extern void sid_reset(void);
 
+extern void sid_set_machine_parameter(long clock_rate);
 extern BYTE *sid_get_siddata(unsigned int channel);
 extern int sid_engine_set(int engine);
 extern void sid_state_read(unsigned int channel,

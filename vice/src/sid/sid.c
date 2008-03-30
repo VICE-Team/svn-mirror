@@ -365,3 +365,13 @@ void sid_state_write(unsigned int channel, sid_snapshot_state_t *sid_state)
     sid_engine.state_write(sound_get_psid(channel), sid_state);
 }
 
+void sid_set_machine_parameter(long clock_rate)
+{
+#ifdef HAVE_CATWEASELMKIII
+    catweaselmkiii_set_machine_parameter(clock_rate);
+#endif
+#ifdef HAVE_HARDSID
+    hardsid_set_machine_parameter(clock_rate);
+#endif
+}
+
