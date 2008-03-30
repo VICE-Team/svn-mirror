@@ -1,3 +1,9 @@
+2002-05-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.20.
+
+	* data/PET/*, data/CBM-II/*: Added msdos vkm files.
+
 2002-05-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.19.

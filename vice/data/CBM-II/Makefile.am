@@ -11,6 +11,7 @@ cbm2_DATA = \
 	chargen.600 \
 	chargen.700 \
 	default.vpl \
+	dos_buks.vkm \
 	frodo.vpl \
 	godot.vpl \
 	green.vpl \

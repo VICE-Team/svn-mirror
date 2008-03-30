@@ -21,8 +21,10 @@ roms = \
 	chargen.de
 
 keymaps = \
-        os2.vkm \
-        os2_40.vkm \
+	dos_bgrs.vkm \
+	dos_buks.vkm \
+	os2.vkm \
+	os2_40.vkm \
 	x11_bdep.vkm \
 	x11_bdes.vkm \
 	x11_bgrs.vkm \
