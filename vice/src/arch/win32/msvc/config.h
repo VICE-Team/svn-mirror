@@ -31,6 +31,7 @@
 #define HAVE_SYS_TYPES_H        1
 #define HAVE_SYS_STAT_H         1
 #define HAVE_SIGNAL_H           1
+#define HAVE_WINIOCTL_H         1
 #define HAVE_GUIDLIB            1
 #define DWORD_IS_LONG           1
 

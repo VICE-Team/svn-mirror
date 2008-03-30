@@ -116,7 +116,7 @@ void video_color_set_raster(struct raster_s *raster)
 
 /* conversion of VIC/VIC-II/TED colors to YCbCr */
 
-static void video_convert_cbm_to_ycbcr(video_cbm_color_t *src,
+static void video_convert_cbm_to_ycbcr(const video_cbm_color_t *src,
                                        float basesat, float phase,
                                        video_ycbcr_color_t *dst)
 {
@@ -249,7 +249,7 @@ static void video_calc_gammatable(void)
 /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
 DWORD yuv_table[128];
 
-static void video_calc_ycbcrtable(video_cbm_palette_t *p)
+static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
 {
     video_ycbcr_color_t primary;
     unsigned int i;
@@ -272,7 +272,7 @@ static void video_calc_ycbcrtable(video_cbm_palette_t *p)
 
 /* calculate a RGB palette out of VIC/VIC-II/TED colors */
 
-static palette_t *video_calc_palette(video_cbm_palette_t *p)
+static palette_t *video_calc_palette(const video_cbm_palette_t *p)
 {
     palette_t *prgb;
     video_ycbcr_color_t primary;
@@ -327,7 +327,8 @@ static palette_t *video_calc_palette(video_cbm_palette_t *p)
 
 /* load RGB palette */
 
-static palette_t *video_load_palette(video_cbm_palette_t *p,const char *name)
+static palette_t *video_load_palette(const video_cbm_palette_t *p,
+                                     const char *name)
 {
     palette_t *palette;
 
