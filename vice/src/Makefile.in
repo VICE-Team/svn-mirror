@@ -179,7 +179,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(serial_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(serial_lib)
 @HAVE_RAWDRIVE_TRUE@blockdev_lib = @ARCH_DIR@/blockdev.o
 @HAVE_RAWDRIVE_FALSE@blockdev_lib = 
 
@@ -248,7 +248,7 @@ c1541_SOURCES =  	c1541.c 	charset.c 	cmdline.c 	findpath.c 	gcr.c 	info.c 	iout
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
-c1541_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o 	$(blockdev_lib) 	$(vdrive_lib) 	$(imagecontents_lib) 	$(diskimage_lib) 	$(tape_lib) 	@READLINE@
+c1541_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o 	$(blockdev_lib) 	$(vdrive_lib) 	$(imagecontents_lib) 	$(diskimage_lib) 	$(tape_lib) 	$(serial_lib) 	@READLINE@
 
 
 # petcat
@@ -312,13 +312,15 @@ ioutil.o log.o p00.o resources.o utils.o zfile.o zipcode.o
 @HAVE_RAWDRIVE_FALSE@$(top_builddir)/src/vdrive/libvdrive.a \
 @HAVE_RAWDRIVE_FALSE@$(top_builddir)/src/imagecontents/libimagecontents.a \
 @HAVE_RAWDRIVE_FALSE@$(top_builddir)/src/diskimage/libdiskimage.a \
-@HAVE_RAWDRIVE_FALSE@$(top_builddir)/src/tape/libtape.a
+@HAVE_RAWDRIVE_FALSE@$(top_builddir)/src/tape/libtape.a \
+@HAVE_RAWDRIVE_FALSE@$(top_builddir)/src/serial/libserial.a
 @HAVE_RAWDRIVE_TRUE@c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o \
 @HAVE_RAWDRIVE_TRUE@@ARCH_DIR@/uicmdline.o @ARCH_DIR@/blockdev.o \
 @HAVE_RAWDRIVE_TRUE@$(top_builddir)/src/vdrive/libvdrive.a \
 @HAVE_RAWDRIVE_TRUE@$(top_builddir)/src/imagecontents/libimagecontents.a \
 @HAVE_RAWDRIVE_TRUE@$(top_builddir)/src/diskimage/libdiskimage.a \
-@HAVE_RAWDRIVE_TRUE@$(top_builddir)/src/tape/libtape.a
+@HAVE_RAWDRIVE_TRUE@$(top_builddir)/src/tape/libtape.a \
+@HAVE_RAWDRIVE_TRUE@$(top_builddir)/src/serial/libserial.a
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charset.o cmdline.o findpath.o ioutil.o log.o p00.o \
 petcat.o resources.o utils.o zfile.o zipcode.o

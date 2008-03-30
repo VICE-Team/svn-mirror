@@ -1,3 +1,33 @@
+2002-11-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.27.
+
+	* vdrive/vdrive-iec.c: Reorganized.
+
+	* serial/serial.c, serial/iec.c, serial/iec.h,
+	serial/realdevice.c, serial/realdevice.h, serial/fsdrive.c,
+	serial/fsdrive.h: Pass ST set function.
+
+	* serial/serial-trap.c, serial/serial-trap.h,
+	serial/serial-iec.c, serial/serial-iec.h,
+	serial/serial-device.c, imagecontents/diskcontents-block.c,
+	imagecontents/diskcontents-block.h,
+	imagecontents/diskcontents-iec.c,
+	imagecontents/diskcontents-iec.h: New files.
+
+	* serial/Makefile.am, imagecontents/Makefile.am: Updated.
+
+	* serial/serial.c: Moved trap specific serial functions to
+	separate file.
+
+	* imagecontents/diskcontents.c: Moved block device specific
+	contents functions to separate file.
+
+2002-11-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (window_proc): Don't call keyboard
+	handlers for SYSKEYDOWN, only for SYSKEYUP events.
+
 2002-11-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.26.

@@ -137,7 +137,7 @@ noinst_LIBRARIES = libserial.a
 EXTRA_libserial_a_SOURCES =          realdevice.c         realdevice.h
 
 
-libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iec.c 	iec.h 	serial.c
+libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iec.c 	iec.h 	serial-device.c 	serial-iec.c 	serial-iec.h 	serial-trap.c 	serial-trap.h 	serial.c
 
 @HAVE_REALDEVICE_TRUE@libserial_a_DEPENDENCIES = realdevice.o
 @HAVE_REALDEVICE_FALSE@libserial_a_DEPENDENCIES = 
@@ -155,7 +155,8 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libserial_a_OBJECTS =  fsdrive.o iec.o serial.o
+libserial_a_OBJECTS =  fsdrive.o iec.o serial-device.o serial-iec.o \
+serial-trap.o serial.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -267,12 +268,22 @@ iec.o: iec.c ../../src/vice.h ../../src/config.h fsdrive.h \
 realdevice.o: realdevice.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h realdevice.h ../../src/arch/unix/types.h \
 	../../src/serial.h ../../src/vsync.h
+serial-device.o: serial-device.c ../../src/vice.h ../../src/config.h \
+	../../src/attach.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h ../../src/serial.h \
+	../../src/vdrive/vdrive.h
+serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h \
+	serial-iec.h ../../src/arch/unix/types.h
+serial-trap.o: serial-trap.c ../../src/vice.h ../../src/config.h iec.h \
+	../../src/arch/unix/types.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/mos6510.h serial-trap.h ../../src/serial.h
 serial.o: serial.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h iec.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/mos6510.h ../../src/parallel.h \
-	../../src/printer.h realdevice.h ../../src/serial.h \
-	../../src/traps.h ../../src/utils.h ../../src/vdrive/vdrive.h
+	../../src/printer.h realdevice.h serial-trap.h \
+	../../src/serial.h ../../src/traps.h ../../src/utils.h \
+	../../src/vdrive/vdrive.h
 
 info-am:
 info: info-am
