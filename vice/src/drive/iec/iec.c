@@ -34,6 +34,7 @@
 #include "iec-resources.h"
 #include "iec.h"
 #include "iecrom.h"
+#include "jobcode1581.h"
 #include "memiec.h"
 #include "resources.h"
 #include "utils.h"
@@ -57,6 +58,7 @@ void iec_drive_init(struct drive_context_s *drv)
     cia1571_init(drv);
     cia1581_init(drv);
     wd1770d_init(drv);
+    jobcode1581_init();
 }
 
 void iec_drive_reset(struct drive_context_s *drv)
@@ -95,7 +97,7 @@ void iec_drive_vsync_hook(void)
 
 void iec_drive_handle_job_code(unsigned int dnr)
 {
-    wd1770_handle_job_code(dnr);
+    jobcode1581_handle_job_code(dnr);
 }
 
 void iec_drive_rom_load(void)

@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "clkguard.h"
 #include "diskimage.h"
 #include "drive.h"
@@ -78,7 +80,7 @@ static void wd1770_command_readtrack(BYTE command, unsigned int dnr);
 static void wd1770_command_writetrack(BYTE command, unsigned int dnr);
 
 /* wd1770 disk controller structure.  */
-static wd1770_t wd1770[2];
+wd1770_t wd1770[2];
 
 static log_t wd1770_log = LOG_ERR;
 
@@ -144,9 +146,6 @@ static void wd1770d0_init(void)
 {
     clk_guard_add_callback(drive0_context.cpu.clk_guard,
                            d0_clk_overflow_callback, NULL);
-
-    if (wd1770_log == LOG_ERR)
-        wd1770_log = log_open("WD1770");
 }
 
 static void wd1770d1_init(void)
@@ -160,6 +159,9 @@ static void wd1770d1_init(void)
 
 void wd1770d_init(drive_context_t *drv)
 {
+    if (wd1770_log == LOG_ERR)
+        wd1770_log = log_open("WD1770");
+
     if (drv->mynumber == 0)
         wd1770d0_init();
     else
@@ -421,108 +423,6 @@ static void wd1770_command_writetrack(BYTE command, unsigned int dnr)
 }
 
 /*-----------------------------------------------------------------------*/
-/* WD1770 job code emulation.  */
-
-static int wd1770_job_code_read(unsigned int dnr, unsigned int track,
-                                unsigned int sector, unsigned int buffer)
-{
-    WORD base;
-    int rc, i;
-    BYTE sector_data[256];
-
-    rc = disk_image_read_sector(wd1770[dnr].image, sector_data, track, sector);
-
-    if (rc < 0) {
-        log_error(wd1770_log,
-                  "Cannot read T:%d S:%d from disk image.",
-                  track, sector);
-        return 2;
-    }
-
-    base = (WORD)((buffer << 8) + 0x300);
-
-    for (i = 0; i < 256; i++) {
-        if (dnr == 0)
-            drive_store(&drive0_context, (WORD)(base + i), sector_data[i]);
-        else
-            drive_store(&drive1_context, (WORD)(base + i), sector_data[i]);
-    }
-    return 0;
-}
-
-static int wd1770_job_code_write(unsigned int dnr, unsigned int track,
-                                 unsigned int sector, unsigned int buffer)
-{
-    WORD base;
-    int rc, i;
-    BYTE sector_data[256];
-
-    base = (WORD)((buffer << 8) + 0x300);
-
-    for (i = 0; i < 256; i++) {
-        if (dnr == 0)
-            sector_data[i] = drive_read(&drive0_context, (WORD)(base + i));
-        else
-            sector_data[i] = drive_read(&drive1_context, (WORD)(base + i));
-    }
-
-    rc = disk_image_write_sector(wd1770[dnr].image, sector_data, track, sector);
-
-    if (rc < 0) {
-        log_error(wd1770_log,
-                  "Could not update T:%d S:%d on disk image.",
-                  track, sector);
-        return 2;
-    }
-    return 0;
-}
-
-void wd1770_handle_job_code(unsigned int dnr)
-{
-    unsigned int buffer;
-    BYTE command, track, sector;
-    BYTE rcode = 0;
-
-    for (buffer = 0; buffer <= 8; buffer++) {
-        if (dnr == 0) {
-            command = drive_read(&drive0_context, (WORD)(0x02 + buffer));
-            track = drive_read(&drive0_context, (WORD)(0x0b + (buffer << 1)));
-            sector = drive_read(&drive0_context, (WORD)(0x0c + (buffer << 1)));
-        } else {
-            command = drive_read(&drive1_context, (WORD)(0x02 + buffer));
-            track = drive_read(&drive1_context, (WORD)(0x0b + (buffer << 1)));
-            sector = drive_read(&drive1_context, (WORD)(0x0c + (buffer << 1)));
-        }
-        if (command & 0x80) {
-#ifdef WD_DEBUG
-            log_debug("WD1770 Buffer:%i Command:%x T:%i S:%i\n",
-                      buffer, command, track, sector);
-#endif
-            if (wd1770[dnr].image != NULL
-                && wd1770[dnr].image->type == DISK_IMAGE_TYPE_D81) {
-                drive[dnr].current_half_track = track * 2;
-                switch (command) {
-                  case 0x80:
-                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
-                    rcode = wd1770_job_code_read(dnr, track, sector, buffer);
-                    break;
-                  case 0x90:
-                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
-                    rcode = wd1770_job_code_write(dnr, track, sector, buffer);
-                    break;
-                  default:
-                    rcode = 0;
-                }
-            } else
-                rcode = 2;
-
-            if (dnr == 0)
-                drive_store(&drive0_context, (WORD)(2 + buffer), rcode);
-            else
-                drive_store(&drive1_context, (WORD)(2 + buffer), rcode);
-        }
-    }
-}
 
 void wd1770_vsync_hook(void)
 {
