@@ -43,23 +43,23 @@
 #define BAM_VERSION_8050        27
 #define BAM_VERSION_8250        BAM_VERSION_8050
 
-extern int vdrive_bam_allocate_chain(vdrive_t *floppy, int t, int s);
-extern int vdrive_bam_alloc_first_free_sector(vdrive_t *floppy, BYTE *bam,
+extern int vdrive_bam_allocate_chain(vdrive_t *vdrive, int t, int s);
+extern int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
                                               int *track, int *sector);
-extern int vdrive_bam_alloc_next_free_sector(vdrive_t *floppy, BYTE *bam,
+extern int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
                                              int *track, int *sector);
 extern int vdrive_bam_allocate_sector(int type, BYTE *bam, int track,
                                       int sector);
 extern void vdrive_bam_clear_all(int type, BYTE *bam);
-extern void vdrive_bam_create_empty_bam(vdrive_t *floppy, const char *name,
+extern void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name,
                                         BYTE *id);
-extern int vdrive_bam_free_block_count(vdrive_t *floppy);
+extern int vdrive_bam_free_block_count(vdrive_t *vdrive);
 extern int vdrive_bam_free_sector(int type, BYTE *bam, int track, int sector);
 extern int vdrive_bam_get_disk_id(int unit, BYTE *id);
 extern int vdrive_bam_set_disk_id(int unit, BYTE *id);
-extern int vdrive_bam_read_bam(vdrive_t *floppy);
+extern int vdrive_bam_read_bam(vdrive_t *vdrive);
 extern int vdrive_bam_reread_bam(int unit);
-extern int vdrive_bam_write_bam(vdrive_t *floppy);
+extern int vdrive_bam_write_bam(vdrive_t *vdrive);
 
 #endif
 

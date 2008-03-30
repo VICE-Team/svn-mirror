@@ -31,12 +31,12 @@
 #include "types.h"
 
 /* Generic IEC interface.  */
-extern int vdrive_open(void *floppy, const char *name, int length,
+extern int vdrive_open(void *vdrive, const char *name, int length,
                        int secondary);
-extern int vdrive_close(void *floppy, int secondary);
-extern int vdrive_read(void *floppy, BYTE *data, int secondary);
-extern int vdrive_write(void *floppy, BYTE data, int secondary);
-extern void vdrive_flush(void *floppy, int secondary);
+extern int vdrive_close(void *vdrive, int secondary);
+extern int vdrive_read(void *vdrive, BYTE *data, int secondary);
+extern int vdrive_write(void *vdrive, BYTE data, int secondary);
+extern void vdrive_flush(void *vdrive, int secondary);
 
 /* Low level access to IEC interface.  */
 extern void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
