@@ -111,6 +111,34 @@ static void display_title(int x, int y, BYTE *name, BYTE *id)
     }
 }
 
+/* FIXME: not optimized for the `n < 0' case.  */
+static int go_backward(int n,
+                       image_contents_file_list_t **first,
+                       int *first_number,
+                       image_contents_file_list_t **current,
+                       int *current_number,
+                       int height)
+{
+    int i;
+    int update;
+
+    if (*first == NULL || *current == NULL)
+        return 0;
+
+    update = 0;
+    for (i = 0; (n < 0 || i < n) && (*current)->prev != NULL; i++) {
+        *current = (*current)->prev;
+        (*current_number)--;
+        if (*current_number < *first_number) {
+            *first = (*first)->prev;
+            (*first_number)--;
+            update = 1;
+        }
+    }
+
+    return update;
+}
+
 /* FIXME: colors.  */
 char *tui_image_browser(const char *filename,
                         image_contents_t *(*contents_func)(const char *))
@@ -168,6 +196,10 @@ char *tui_image_browser(const char *filename,
         tui_display(real_x, real_y, real_width, "(Empty image)");
     }
 
+    tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
+    tui_display(0, tui_num_lines() - 1, tui_num_cols(),
+                "\030\031: Move  <Enter>: Autostart  <Backspace>: Switch charset");
+
     while (1) {
         int key;
 
@@ -195,6 +227,17 @@ char *tui_image_browser(const char *filename,
             return NULL;
         } else if (current != NULL) {
             switch (key) {
+
+                /* Backspace switches charset.  */
+              case K_BackSpace:
+                if (char_conv_table == cbm_petscii_business_to_charset)
+                    char_conv_table = cbm_petscii_graphics_to_charset;
+                else
+                    char_conv_table = cbm_petscii_business_to_charset;
+                need_update = 1;
+                break;
+
+                /* Return autostarts the selected file.  */
               case K_Return:
                 {
                     char *retval;
@@ -205,36 +248,75 @@ char *tui_image_browser(const char *filename,
                     image_contents_free(contents);
                     return retval;
                 }
+
+                /* Movement commands.  */
+
               case K_Up:
-              case K_Left:
-                if (current->prev != NULL) {
-                    current = current->prev;
+                if (contents->file_list != NULL && current_number > 0) {
                     current_number--;
+                    current = current->prev;
                     if (current_number < first_number) {
-                        first = first->prev;
                         first_number--;
+                        first = first->prev;
                         need_update = 1;
                     }
+                }
+                break;
+              case K_Home:
+                if (contents->file_list != NULL) {
+                    first_number = current_number = 0;
+                    first = current = contents->file_list;
+                    need_update = 1;
+                }
+                break;
+              case K_PageUp:
+                if (current != NULL) {
+                    int i;
+
+                    for (i = 0; i < real_height && first_number > 0; i++) {
+                        first_number--;
+                        first = first->prev;
+                        current_number--;
+                        current = current->prev;
+                    }
+                    need_update = 1;
                 }
                 break;
               case K_Down:
-              case K_Right:
-                if (current->next != NULL) {
-                    current = current->next;
+                if (contents->file_list != NULL && current->next != NULL) {
                     current_number++;
-                    if (current_number - first_number + 1 > real_height) {
-                        first = first->next;
+                    current = current->next;
+                    if (current_number - first_number >= real_height) {
                         first_number++;
+                        first = first->next;
                         need_update = 1;
                     }
                 }
+              case K_End:
+                if (contents->file_list != NULL) {
+                    while (current->next != NULL) {
+                        current_number++;
+                        current = current->next;
+                        if (current_number - first_number >= real_height) {
+                            first_number++;
+                            first = first->next;
+                            need_update = 1;
+                        }
+                    }
+                }
                 break;
-              case K_BackSpace:
-                if (char_conv_table == cbm_petscii_business_to_charset)
-                    char_conv_table = cbm_petscii_graphics_to_charset;
-                else
-                    char_conv_table = cbm_petscii_business_to_charset;
-                need_update = 1;
+              case K_PageDown:
+                if (contents->file_list != NULL) {
+                    int i;
+
+                    for (i = 0; i < real_height && current->next != NULL; i++) {
+                        current_number++;
+                        current = current->next;
+                        first_number++;
+                        first = first->next;
+                    }
+                    need_update = 1;
+                }
                 break;
             }
         }
