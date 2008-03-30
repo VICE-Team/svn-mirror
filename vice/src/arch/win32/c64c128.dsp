@@ -102,6 +102,10 @@ SOURCE=..\..\c64\c64drive.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64iec.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64keyboard.c
 # End Source File
 # Begin Source File
@@ -111,6 +115,10 @@ SOURCE=..\..\c64\c64meminit.c
 # Begin Source File
 
 SOURCE=..\..\c64\c64memrom.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64parallel.c
 # End Source File
 # Begin Source File
 

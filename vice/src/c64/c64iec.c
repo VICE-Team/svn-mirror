@@ -41,8 +41,8 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
-#include "maincpu.h"
 #include "iecdrive.h"
+#include "maincpu.h"
 #include "types.h"
 #include "via.h"
 
@@ -51,11 +51,9 @@
 static iec_info_t iec_info;
 
 static BYTE iec_old_atn = 0x10;
-static BYTE parallel_cable_cpu_value = 0xff;
-static BYTE parallel_cable_drive0_value = 0xff;
-static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
+
 
 void c64iec_init(void)
 {
@@ -278,85 +276,6 @@ iec_info_t *iec_get_drive_port(void)
     return &iec_info;
 }
 
-void parallel_cable_drive0_write(BYTE data, int handshake)
-{
-    if (handshake)
-        ciacore_set_flag(machine_context.cia2);
-    parallel_cable_drive0_value = data;
-}
-
-void parallel_cable_drive1_write(BYTE data, int handshake)
-{
-    if (handshake)
-        ciacore_set_flag(machine_context.cia2);
-    parallel_cable_drive1_value = data;
-}
-
-BYTE parallel_cable_drive_read(int handshake)
-{
-    if (handshake)
-        ciacore_set_flag(machine_context.cia2);
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
-}
-
-void parallel_cable_cpu_execute(void)
-{
-    unsigned int dnr;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable
-            && drive_context[dnr]->drive->parallel_cable_enabled)
-            drivecpu_execute(drive_context[dnr], maincpu_clk);
-    }
-}
-
-void parallel_cable_cpu_write(BYTE data)
-{
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return;
-
-    parallel_cable_cpu_execute();
-
-    parallel_cable_cpu_value = data;
-}
-
-BYTE parallel_cable_cpu_read(void)
-{
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return 0xff;
-
-    parallel_cable_cpu_execute();
-
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
-}
-
-void parallel_cable_cpu_pulse(void)
-{
-    unsigned int dnr;
-
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return;
-
-    parallel_cable_cpu_execute();
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable
-            && drive_context[dnr]->drive->parallel_cable_enabled)
-            viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1,
-                           VIA_SIG_FALL);
-    }
-}
-
-void parallel_cable_cpu_undump(BYTE data)
-{
-    parallel_cable_cpu_value = data;
-}
-
 /* This function is called from ui_update_menus() */
 int iec_available_busses(void)
 {
@@ -368,14 +287,5 @@ void iec_calculate_callback_index(void)
 {
     iec_callback_index = (drive_context[0]->drive->enable ? 1 : 0)
                          | (drive_context[1]->drive->enable ? 2 : 0);
-}
-
-void iec_fast_drive_write(BYTE data, unsigned int dnr)
-{
-/* The C64 does not use fast IEC.  */
-}
-
-void iec_fast_drive_direction(int direction, unsigned int dnr)
-{
 }
 

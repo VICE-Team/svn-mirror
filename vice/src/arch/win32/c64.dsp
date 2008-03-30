@@ -118,6 +118,10 @@ SOURCE=..\..\c64\c64drive.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64fastiec.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64iec.c
 # End Source File
 # Begin Source File
@@ -150,11 +154,7 @@ SOURCE=..\..\c64\c64memsnapshot.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\c64rom.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64tpi.c
+SOURCE=..\..\c64\c64parallel.c
 # End Source File
 # Begin Source File
 
@@ -162,7 +162,15 @@ SOURCE=..\..\c64\c64pla.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64rom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64rsuser.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File
 

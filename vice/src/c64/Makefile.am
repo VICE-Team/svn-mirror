@@ -28,6 +28,8 @@ libc64_a_SOURCES = \
 	c64cia2.c \
 	c64datasette.c \
 	c64drive.c \
+	c64fastiec.c \
+	c64fastiec.h \
 	c64iec.c \
 	c64iec.h \
 	c64io.c \
@@ -44,6 +46,8 @@ libc64_a_SOURCES = \
 	c64memrom.h \
 	c64memsnapshot.c \
 	c64memsnapshot.h \
+	c64parallel.c \
+	c64parallel.h \
 	c64pla.c \
 	c64pla.h \
 	c64rom.c \
@@ -73,12 +77,16 @@ libc64c128_a_SOURCES = \
 	c64cia2.c \
 	c64datasette.c \
 	c64drive.c \
+	c64iec.c \
+	c64iec.h \
 	c64keyboard.c \
 	c64keyboard.h \
 	c64meminit.c \
 	c64meminit.h \
 	c64memrom.c \
 	c64memrom.h \
+	c64parallel.c \
+	c64parallel.h \
 	c64pla.c \
 	c64pla.h \
 	c64rsuser.c \
