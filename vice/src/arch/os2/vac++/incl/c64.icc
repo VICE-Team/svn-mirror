@@ -11,6 +11,7 @@ source type(c)
     "c64io.c",
     "c64mem.c",
     "c64pla.c",
+    "c64rom.c",
     "c64rsuser.c",
     "c64tpi.c",
     "patchrom.c",

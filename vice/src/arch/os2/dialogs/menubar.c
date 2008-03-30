@@ -54,6 +54,7 @@
 #include "vsyncapi.h"        // vsyncarch
 #include "fliplist.h"        // flip_attach_head
 #include "cartridge.h"       // CARTRIDGE_*
+#include "resources.h"       // resource_value_t
 #include "interrupt.h"       // maincpu_trigger_trap
 #include "screenshot.h"      // screenshot_canvas_save
 #include "dlg-fileio.h"      // ViceFileDialog
@@ -81,11 +82,36 @@ static void set_pet_model(ADDRESS addr, void *model)
 }
 #endif
 
+#ifdef HAVE_VIC_II
+static const char *VIDEO_CACHE="ViciiVideoCache";
+static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SCAN="ViciiDoubleScan";
+#endif
+
+#ifdef HAVE_VIC
+static const char *VIDEO_CACHE="VicVideoCache";
+static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SCAN="VicDoubleScan";
+#endif
+
+#ifdef HAVE_TED
+static const char *VIDEO_CACHE="TedVideoCache";
+static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SCAN="TedDoubleScan";
+#endif
+
+#if defined HAVE_CRTC && !defined __XCBM__
+static const char *VIDEO_CACHE="CrtcVideoCache";
+static const char *DOUBLE_SIZE="DoubleSize";
+static const char *DOUBLE_SCAN="CrtcDoubleScan";
+#endif
+/*
 #if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __XPLUS4__
-static const char *VIDEO_CACHE="VideoCache";
+static const char *VIDEO_CACHE="ViciiVideoCache";
 #else // __XPET__ || __XCBM__
 static const char *VIDEO_CACHE="CrtcVideoCache";
 #endif
+*/
 
 extern void set_volume(int vol);
 extern int  get_volume(void);
@@ -368,7 +394,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         {
             long val1, val2;
             resources_get_value("PALEmulation", (resource_value_t*)&val1);
-            resources_get_value("PALMode",            (resource_value_t*)&val2);
+            resources_get_value("PALMode", (resource_value_t*)&val2);
             if (!val1)
             {
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
@@ -413,11 +439,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
      */
     case IDM_DSIZE:
-        maincpu_trigger_trap(toggle_async, "DoubleSize");
+        maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SIZE);
         return;
 
     case IDM_DSCAN:
-        maincpu_trigger_trap(toggle_async, "DoubleScan");
+        maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCAN);
         return;
 #endif
 #ifdef HAVE_VDC
@@ -559,17 +585,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         {
             long val;
             resources_get_value("UseVicII", (resource_value_t*) &val);
-            toggle(val?"VideoCache":"CrtcVideoCache");
+            toggle(val?VIDEO_CACHE:"CrtcVideoCache");
         }
 #else
         toggle(VIDEO_CACHE);
 #endif
         return;
-#ifdef __X128__
+#ifdef HAVE_VDC
     case IDM_VDCVCACHE:
-        toggle("VDC_VideoCache");
+        toggle("VDCVideoCache");
         return;
-#endif
+        #endif
 #ifndef __XPLUS4__
     case IDM_EMUID:
         toggle("EmuID");
@@ -1058,7 +1084,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd,  IDM_CRTCDSIZE, val2);
             WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
 
-            WinCheckRes(hwnd, IDM_VCACHE, val1?"VideoCache":"CrtcVideoCache");
+            WinCheckRes(hwnd, IDM_VCACHE, val1?VIDEO_CACHE:"CrtcVideoCache");
         }
 #else
         WinCheckRes(hwnd, IDM_VCACHE, VIDEO_CACHE);
@@ -1070,16 +1096,17 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
 #endif
 #ifdef HAVE_PAL
-        resources_get_value("DoubleSize", (resource_value_t*)&val);
+        resources_get_value(DOUBLE_SIZE, (resource_value_t*)&val);
         WinEnableMenuItem(hwnd, IDM_DSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_DSIZE, val);
-        WinCheckRes(hwnd, IDM_DSCAN, "DoubleScan");
+        WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
 #endif
 #ifdef HAVE_VDC
         resources_get_value("VDC_DoubleSize", (resource_value_t*)&val);
         WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_VDCDSIZE, val);
-        WinCheckRes(hwnd, IDM_VDCDSCAN, "VDCDoubleScan");
+        WinCheckRes(hwnd, IDM_VDCDSCAN,  "VDCDoubleScan");
+        WinCheckRes(hwnd, IDM_VDCVCACHE, "VDCVideoCache");
 #endif
 #ifdef HAVE_MOUSE
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");
@@ -1089,9 +1116,6 @@ void menu_select(HWND hwnd, USHORT item)
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
 #ifndef __XPLUS4__
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
-#endif
-#ifdef HAVE_VDC
-        WinCheckRes(hwnd, IDM_VDCVCACHE, "VDC_VideoCache");
 #endif
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());
         WinCheckRes(hwnd, IDM_MENUBAR,   "Menubar");
@@ -1308,7 +1332,7 @@ void menu_select(HWND hwnd, USHORT item)
         long val1, val2;
 
         resources_get_value("PALEmulation", (resource_value_t*)&val1);
-        resources_get_value("PALMode",            (resource_value_t*)&val2);
+        resources_get_value("PALMode", (resource_value_t*)&val2);
 
         WinCheckMenuItem(hwnd, IDM_PALOFF,   !val1);
         WinCheckMenuItem(hwnd, IDM_PALFAST,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_FAST);

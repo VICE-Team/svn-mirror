@@ -25,6 +25,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
+    incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\fsdevice"),
+    incl(searchpath, "..\\..\\..\\..\\diskimage"),
+    incl(searchpath, "..\\..\\..\\..\\imagecontents"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
@@ -74,6 +78,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/printerdrv.icc"
         include "../incl/vicii.icc"
         include "../incl/resid.icc"
+        include "../incl/tape.icc"
+        include "../incl/imagecontents.icc"
+        include "../incl/fsdevice.icc"
+        include "../incl/diskimage.icc"
     }
 }
 

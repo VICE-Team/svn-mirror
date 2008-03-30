@@ -9,5 +9,6 @@ source type (c)
     "petiec.c",
     "petpia1.c",
     "petpia2.c",
+    "petrom.c",
     "petsound.c",
     "petvia.c"

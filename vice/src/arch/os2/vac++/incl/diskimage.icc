@@ -1,0 +1,4 @@
+source type(c)
+    "createdisk.c",
+    "diskimage.c",
+    "probe.c"

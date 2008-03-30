@@ -14,13 +14,17 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\..\\sid"),
+    incl(searchpath, "..\\..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\..\\resid"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
+    incl(searchpath, "..\\..\\..\\..\\imagecontents"),
+    incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\video"),
@@ -63,5 +67,9 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/video.icc"
         include "../incl/vsid.icc"
         include "../incl/resid.icc"
+        include "../incl/tape.icc"
+        include "../incl/imagecontents.icc"
+        include "../incl/fsdevice.icc"
+        include "../incl/diskimage.icc"
     }
 }

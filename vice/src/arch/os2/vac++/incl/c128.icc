@@ -9,6 +9,7 @@ source type(c)
     "c128mem.c",
     "c128memlimit.c",
     "c128mmu.c",
+    "c128rom.c",
     "daa.c",
     "functionrom.c",
     "z80.c",

@@ -6,4 +6,5 @@ source type(c)
     "render2x2pal.c",
     "video-color.c",
     "video-render.c",
+    "video-cmdline-options.c",
     "video-resources.c"

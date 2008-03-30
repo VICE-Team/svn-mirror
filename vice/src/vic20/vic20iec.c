@@ -42,7 +42,7 @@
 
 #define NOT(x) ((x)^1)
 
-static BYTE cpu_data, cpu_clock = 1, cpu_atn = 1;
+static BYTE cpu_data, cpu_clock, cpu_atn;
 static BYTE drive_data, drive_clock, drive_atna, drive_data_modifier;
 static BYTE drive2_data, drive2_clock, drive2_atna, drive2_data_modifier;
 static BYTE bus_data, bus_clock, bus_atn;
@@ -51,6 +51,7 @@ static BYTE drive_bus_val, drive2_bus_val;
 
 void iec_init(void)
 {
+    cpu_clock = 1;
 }
 
 inline void resolve_bus_signals(void)

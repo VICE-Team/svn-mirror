@@ -1,0 +1,4 @@
+source type(c)
+    "fsdevice-cmdline-options.c",
+    "fsdevice-resources.c",
+    "fsdevice.c"

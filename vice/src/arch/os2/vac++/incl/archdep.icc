@@ -3,6 +3,7 @@ source type(h)
 source type(c)
     "ui.c",
     "kbd.c",
+    "joy.c",
     "video.c",
     "uimon.c",
     "console.c",

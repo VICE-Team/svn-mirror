@@ -26,6 +26,7 @@
 #define INCL_WININPUT
 #define INCL_WINPOINTERS
 
+#include "joy.h"
 #include "mouse.h"
 #include "cmdline.h"
 #include "joystick.h"

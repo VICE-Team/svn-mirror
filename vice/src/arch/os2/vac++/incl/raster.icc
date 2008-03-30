@@ -1,6 +1,9 @@
 source type(c)
+    "raster-resources.c",
+    "raster-cmdline-options.c",
     "raster.c",
     "raster-cache.c",
+    "raster-canvas.c",
     "raster-changes.c",
     "raster-line.c",
     "raster-modes.c",
