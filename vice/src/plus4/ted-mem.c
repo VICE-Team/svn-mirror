@@ -478,10 +478,18 @@ inline static void ted09_store(BYTE value)
 {
     if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
         ted.irq_status = 0;
+        if (clk >= ted.raster_irq_clk) {
+            ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
+            alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
+        }
     } else {
         ted.irq_status &= ~((value & 0x5e) | 0x80);
         if (ted.irq_status & ted.regs[0x0a])
             ted.irq_status |= 0x80;
+        if ((value & 1) && clk >= ted.raster_irq_clk) {
+            ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
+            alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
+        }
     }
 
     /* Update the IRQ line accordingly...

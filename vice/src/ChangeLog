@@ -1,3 +1,103 @@
+2002-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.6.
+
+	* vicii/vicii-mem.c (store_d019): Also remove pending raster
+	alarms that would be schedulded before the end of the store.
+
+	* plus4/ted-mem.c (ted09_store): Changed likewise.
+
+	* video/Makefile.am: Added new files.
+	
+2002-01-27  John Selck  <graham@cruise.de>
+
+	* arch/win32/resc64.rc: Renamed "Fast PAL" menu entry into
+	"PAL Emulation".
+
+	* arch/win32/resvic.rc: Renamed "Fast PAL" menu entry into
+	"PAL Emulation".
+ 
+	* video/video-color.c: Added global tables gamma_*[],
+	gamma_*_fac[] and color_*[].
+	Added video_render_setrawrgb() function.
+	Added video_render_initraw() function.
+	Added video_gamma() function.
+	video_convert_ycbcr_to_rgb() now uses video_gamma()
+	instead of it's own calculation routines.
+	video_calc_gammatable() now fills the gamma_*[] and
+	gamma_*_fac[] tables with the gamma corrected color
+	channels.
+ 
+	* video.h: Added prototypes for video_render_setrawrgb()
+	and video_render_initraw().
+ 
+	* arch/win32/video.c: set_physical_colors() now hands the
+	RGB color channels to the video_render_setrawrgb() function.
+ 
+	* video/render1x1pal.h: Added file.
+
+	* video/render1x1pal.c: Added file.
+
+	* video/render2x2pal.h: Added file.
+
+	* video/render2x2pal.c: Added file.
+
+	* video/video-render.c: Changed video_render_main() to call
+	pal renderers.
+ 
+	* video/video-resources.h: Removed pal_emulation variable and
+	added pal_scanlineshade and pal_mode to video_resources_t
+	definition.
+	Added defines for different pal rendermodes.
+
+	* video/video-resources.c: Removed initialisation routines for
+	pal_emulation and added init routines for pal_scanlineshade
+	and pal_mode.
+	Added resource variables "PALScanLineShade" and "PALMode".
+ 
+	* raster/raster.c: update_canvas() now enlarges the update area
+	a bit more when pal emulation is activated.
+
+2002-01-27  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/ui.c (ui_open_canvas_window): Added Ettore's
+	suggested fix for the BadMatch problem on Solaris. 
+
+	* arch/unix/x11/video.c (video_register_raster): Replaced
+	`USE_XF86_EXTENSIONS' with `USE_XF86_DGA2_EXTENSIONS'.
+	(video_canvas_refresh): Likewise.
+
+	* arch/unix/x11/gnome/ui.c: Fixed include for `vsiduiunix.h'.
+
+	* arch/unix/x11/gnome/uicolor.c (uicolor_alloc_color): Replace
+	PIXEL by BYTE.
+
+	* arch/unix/vsidui.c (vsid_ui_init): attach handlers to window;
+	this fixes the nonworking hotkeys for Xaw.
+
+2002-01-27  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/install.cmd:
+	- removed 'Evaluation'
+   
+	* arch/os2/makedist.cmd:
+	- changed to new paths
+	- added "del vice2.zip"
+   
+	* arch/os2/vac++/RESID.ICC:
+	- changed to version 0.13
+   
+	* arch/os2/video.c:
+	- removed wmvrndisabled from set_stretch_factor
+	- removed video_frame_buffer_*
+	- changed functions from using frame_buffer to draw_buffer
+   
+	* raster/raster.c, src/screenshot.h, src/video.h:
+	- added draw_buffer_height to calls of video_canvas_refresh
+	for OS/2 (needed to make 100% sure, that we don't read behind
+	the buffer, will be removed again as soon as the whole new
+	video/pal, etc stuff is working completely)
+
 2002-01-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.6.
