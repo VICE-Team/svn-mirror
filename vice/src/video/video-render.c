@@ -102,10 +102,15 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
     colortab = config->physical_colors;
 
     delayloop = video_resources.delayloop_emulation;
+
     if (video_resources.ext_palette)
         delayloop = 0;
+
     palmode = video_resources.pal_mode;
-    if (video_resources.pal_scanlineshade <= 0)
+
+    if ((rendermode == VIDEO_RENDER_PAL_1X1
+        || rendermode == VIDEO_RENDER_PAL_2X2)
+        && video_resources.pal_scanlineshade <= 0)
         doublescan = 0;
 
     switch (rendermode) {

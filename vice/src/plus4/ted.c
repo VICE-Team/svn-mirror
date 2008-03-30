@@ -66,6 +66,7 @@
 
 ted_t ted;
 
+static void ted_set_geometry(void);
 static void ted_raster_irq_alarm_handler(CLOCK offset);
 static void ted_exposure_handler(unsigned int width, unsigned int height);
 
@@ -77,7 +78,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     ted.draw_clk -= sub;
 }
 
-static void ted_change_timing(void)
+void ted_change_timing(void)
 {
     resource_value_t mode;
 
@@ -119,6 +120,11 @@ static void ted_change_timing(void)
         ted.last_dma_line = TED_PAL_LAST_DMA_LINE;
         ted.offset = TED_PAL_OFFSET;
         break;
+    }
+
+    if (ted.initialized) {
+        ted_set_geometry();
+        raster_mode_change();
     }
 }
 
@@ -310,14 +316,14 @@ struct video_canvas_s *ted_get_canvas(void)
 /* Reset the TED chip.  */
 void ted_reset(void)
 {
-    ted_change_timing();
+/*    ted_change_timing();*/
 
     ted_timer_reset();
     ted_sound_reset();
 
     raster_reset(&ted.raster);
 
-    ted_set_geometry();
+/*    ted_set_geometry();*/
 
     ted.last_emulate_line_clk = 0;
 
