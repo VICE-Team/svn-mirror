@@ -166,44 +166,48 @@ static int joystick_init_done = 0;
 
 /* ------------------------------------------------------------------------- */
 
-void handle_keyset_mapping(joystick_device_t device, int *set,
-                           kbd_code_t kcode, int pressed)
+int handle_keyset_mapping(joystick_device_t device, int *set,
+                          kbd_code_t kcode, int pressed)
 {
     if (joystick_device_1 == device || joystick_device_2 == device) {
         BYTE value = 0;
 
         if (kcode == set[KEYSET_NW])    /* North-West */
-            value |= 5;
+            value = 5;
         else if (kcode == set[KEYSET_N]) /* North */
-            value |= 1;
+            value = 1;
         else if (kcode == set[KEYSET_NE]) /* North-East */
-            value |= 9;
+            value = 9;
         else if (kcode == set[KEYSET_E]) /* East */
-            value |= 8;
+            value = 8;
         else if (kcode == set[KEYSET_SE]) /* South-East */
-            value |= 10;
+            value = 10;
         else if (kcode == set[KEYSET_S]) /* South */
-            value |= 2;
+            value = 2;
         else if (kcode == set[KEYSET_SW]) /* South-West */
-            value |= 6;
+            value = 6;
         else if (kcode == set[KEYSET_W]) /* West */
-            value |= 4;
+            value = 4;
         else if (kcode == set[KEYSET_FIRE]) /* Fire */
-            value |= 16;
+            value = 16;
+        else
+            return 0;
+
         if (pressed) {
-            /* ??? FIXME: Shouldn't it be the opposite?  */
             if (joystick_device_1 == device)
                 joy[2] |= value;
             if (joystick_device_2 == device)
                 joy[1] |= value;
         } else {
-            /* ??? FIXME: Shouldn't it be the opposite?  */
             if (joystick_device_1 == device)
                 joy[2] &= ~value;
             if (joystick_device_2 == device)
                 joy[1] &= ~value;
         }
+        return 1;
     }
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -256,7 +260,6 @@ void joystick_update(void)
             value |= 2;
         if (joy_b1 || joy_b2)
             value |= 16;
-        /* ??? FIXME: Shouldn't it be the opposite?  */
         if (joystick_device_1 == JOYDEV_HW1)
             joy[2] = value;
         if (joystick_device_2 == JOYDEV_HW1)
@@ -278,7 +281,6 @@ void joystick_update(void)
             value |= 2;
         if (joy2_b1 || joy2_b2)
             value |= 16;
-        /* ??? FIXME: Shouldn't it be the opposite?  */
         if (joystick_device_1 == JOYDEV_HW2)
             joy[2] = value;
         if (joystick_device_2 == JOYDEV_HW2)
@@ -296,48 +298,47 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
        both `5' and `2' for "down".  */
     if (joystick_device_1 == JOYDEV_NUMPAD
         || joystick_device_2 == JOYDEV_NUMPAD) {
+
         switch (kcode) {
           case K_KP7:               /* North-West */
-            value |= 5;
+            value = 5;
             break;
           case K_KP8:               /* North */
-            value |= 1;
+            value = 1;
             break;
           case K_KP9:               /* North-East */
-            value |= 9;
+            value = 9;
             break;
           case K_KP6:               /* East */
-            value |= 8;
+            value = 8;
             break;
           case K_KP3:               /* South-East */
-            value |= 10;
+            value = 10;
             break;
           case K_KP2:               /* South */
           case K_KP5:
-            value |= 2;
+            value = 2;
             break;
           case K_KP1:               /* South-West */
-            value |= 6;
+            value = 6;
             break;
           case K_KP4:               /* West */
-            value |= 4;
+            value = 4;
             break;
           case K_KP0:
           case K_RIGHTCTRL:
-            value |= 16;
+            value = 16;
             break;
           default:
-            return 0;
+            /* (make compiler happy) */
         }
 
         if (pressed) {
-            /* ??? FIXME: Shouldn't it be the opposite?  */
             if (joystick_device_1 == JOYDEV_NUMPAD)
                 joy[2] |= value;
             if (joystick_device_2 == JOYDEV_NUMPAD)
                 joy[1] |= value;
         } else {
-            /* ??? FIXME: Shouldn't it be the opposite?  */
             if (joystick_device_1 == JOYDEV_NUMPAD)
                 joy[2] &= ~value;
             if (joystick_device_2 == JOYDEV_NUMPAD)
@@ -345,10 +346,12 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         }
     }
 
-    handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed);
-    handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed);
-
-    return 1;
+    /* (Notice we have to handle all the keysets even when one key is used
+       more than once (the most intuitive behavior), so we use `|' instead of
+       `||'.)  */
+    return (value
+            | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed)
+            | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
 }
 
 /* ------------------------------------------------------------------------- */
