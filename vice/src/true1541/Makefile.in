@@ -261,6 +261,37 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+1541cpu.o: 1541cpu.c ../../src/vice.h ../../src/config.h \
+	../../src/types.h true1541.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	1541cpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/via.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/resources.h viad.h ../../src/misc.h \
+	../../src/6510core.c
+true1541.o: true1541.c ../../src/vice.h ../../src/config.h true1541.h \
+	../../src/types.h ../../src/drive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h 1541cpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/gcr.h ../../src/warn.h ../../src/resources.h \
+	../../src/cmdline.h ../../src/memutils.h viad.h ../../src/via.h \
+	../../src/cia.h ../../src/utils.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h
+viad1.o: viad1.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
+	true1541.h ../../src/types.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	1541cpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h \
+	viad.h
+viad2.o: viad2.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
+	true1541.h ../../src/types.h ../../src/drive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	1541cpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/6510core.h viad.h
 
 info: info-recursive
 dvi: dvi-recursive

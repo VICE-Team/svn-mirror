@@ -99,6 +99,7 @@ c64_DATA = \
 	frodo.vpl \
 	godot.vpl \
 	default.vkm \
+	position.vkm \
 	default.vpl \
 	dos1541 \
 	kernal

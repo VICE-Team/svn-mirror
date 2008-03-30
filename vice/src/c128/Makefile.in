@@ -263,6 +263,47 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
+	../../src/true1541/1541cpu.h ../../src/types.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/attach.h ../../src/drive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/autostart.h \
+	c128mem.h ../../src/arch/unix/xaw/c128ui.h \
+	../../src/c64/c64cia.h ../../src/cia.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/machine.h ../../src/maincpu.h \
+	../../src/c64/patchrom.h ../../src/c64/sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/c64/tpi.h ../../src/true1541/true1541.h \
+	../../src/utils.h ../../src/c64/vicii.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/resources.h ../../src/arch/unix/vsync.h
+c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
+	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
+	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/machine.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/resources.h ../../src/traps.h \
+	c128mem.h ../../src/misc.h ../../src/drive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/6510core.c
+c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/true1541/true1541.h \
+	../../src/types.h ../../src/drive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h \
+	../../src/true1541/1541cpu.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/6510core.h c128mem.h ../../src/resources.h \
+	../../src/cmdline.h ../../src/c64/c64cia.h ../../src/cia.h \
+	../../src/c64/sid.h ../../src/sound.h ../../src/warn.h \
+	../../src/memutils.h ../../src/maincpu.h ../../src/parallel.h \
+	../../src/c64/tpi.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/utils.h vdc.h ../c64/vicii.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h
+vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
+	../../src/types.h
 
 info: info-recursive
 dvi: dvi-recursive

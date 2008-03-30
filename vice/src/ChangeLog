@@ -1,3 +1,39 @@
+Wed Jun 17 00:01:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/coproc.c: #include <sys/types.h>
+
+	* arch/unix/kbd.c: Removed a few debugging messages.
+
+	* vice.h: Don't care about `HAVE_LIBXEXT' when deciding whether
+	`MITSHM' should be #defined or not.
+
+Tue Jun 16 21:51:01 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* pet/pet.c (machine_init): Pass zero as `_handle_true1541' to
+ 	`autostart_init()'.
+
+	* vic20/vic20.c, c64/c64.c, c128/c128.c (machine_init): Pass 1 as
+ 	`_handle_true1541' to `autostart_init()'.
+
+	* autostart.c (autostart_init): New parameter `_handle_true1541'.
+  	The value is stored in a flag `handle_true1541'.
+	(autostart_advance): Do not read or modify the `NoTraps' and
+ 	`True1541' resources if `handle_true1541' is zero.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Use
+ 	`file_system_attach_disk()' instead of `serial_select_file()'.
+
+	* autostart.c (autostart_disk): Use `file_system_attach_disk()'
+	instead of `serial_select_file()'.
+
+	* pet/pet.c (machine_init): Initialize autostart.
+
+	* Makefile.am: Link `x64', `x128, `xpet' and `xvic' to `@X_LIBS@'
+ 	and `@READLINE".
+
+	* petcat.c: #define `PETCATVERSION' and `PETCATLEVEL'; do not
+	#include "patchlevel.h"
+
 Mon Jun 15 23:55:43 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* acia-tmpl.c: Replaced all occurences of mycpu_set_alarm(,0) with
