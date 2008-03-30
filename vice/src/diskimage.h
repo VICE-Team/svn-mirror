@@ -80,5 +80,7 @@ extern int disk_image_write_track(disk_image_t *image, unsigned int track,
                                   int gcr_track_size,
                                   BYTE *gcr_speed_zone,
                                   BYTE *gcr_track_start_ptr);
+extern unsigned int disk_image_speed_map_1541(unsigned int track);
+extern unsigned int disk_image_speed_map_1571(unsigned int track);
 #endif
 

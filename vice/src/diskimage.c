@@ -81,6 +81,33 @@ void disk_image_init(void)
 
 
 /*-----------------------------------------------------------------------*/
+/* Disk constants.  */
+
+static unsigned int speed_map_1541[42] = {
+                           3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                           1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                           0, 0, 0 };
+
+static unsigned int speed_map_1571[70] = {
+                           3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                           1, 1, 1, 1, 0, 0, 0, 0, 0,
+                           3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                           1, 1, 1, 1, 0, 0, 0, 0, 0 };
+
+unsigned int disk_image_speed_map_1541(unsigned int track)
+{
+    return speed_map_1541[track];
+}
+
+unsigned int disk_image_speed_map_1571(unsigned int track)
+{
+    return speed_map_1571[track];
+}
+
+/*-----------------------------------------------------------------------*/
 /* Disk image probing.  */
 
 static int disk_image_check_for_d64(disk_image_t *image)
@@ -325,13 +352,9 @@ static int disk_image_check_for_x64(disk_image_t *image)
 
 int disk_image_read_gcr_image(disk_image_t *image)
 {
-    unsigned int track, zone_len, i, num_tracks;
-    size_t track_len;
-    BYTE len[2], comp_speed[NUM_MAX_BYTES_TRACK / 4];
-    BYTE *track_data, *zone_data;
+    unsigned int track, num_tracks;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    long offset;
 
     num_tracks = image->tracks;
 
@@ -348,6 +371,7 @@ int disk_image_read_gcr_image(disk_image_t *image)
     }
 
     for (track = 0; track < MAX_TRACKS_1541; track++) {
+        BYTE *track_data, *zone_data;
 
         track_data = image->gcr->data + track * NUM_MAX_BYTES_TRACK;
         zone_data = image->gcr->speed_zone + track * NUM_MAX_BYTES_TRACK;
@@ -356,6 +380,10 @@ int disk_image_read_gcr_image(disk_image_t *image)
         image->gcr->track_size[track] = 6250;
 
         if (track <= num_tracks && gcr_track_p[track * 2] != 0) {
+            BYTE len[2];
+            long offset;
+            size_t track_len;
+            unsigned int zone_len;
 
             offset = gcr_track_p[track * 2];
 
@@ -385,6 +413,8 @@ int disk_image_read_gcr_image(disk_image_t *image)
             zone_len = (track_len + 3) / 4;
 
             if (gcr_speed_p[track * 2] > 3) {
+                unsigned int i;
+                BYTE comp_speed[NUM_MAX_BYTES_TRACK / 4];
 
                 offset = gcr_speed_p[track * 2];
 
@@ -395,10 +425,10 @@ int disk_image_read_gcr_image(disk_image_t *image)
                     return -1;
                 }
                 for (i = 0; i < zone_len; i++) {
-                    zone_data[i * 4] = comp_speed[i] & 3;
-                    zone_data[i * 4 + 1] = (comp_speed[i] >> 2) & 3;
-                    zone_data[i * 4 + 2] = (comp_speed[i] >> 4) & 3;
-                    zone_data[i * 4 + 3] = (comp_speed[i] >> 6) & 3;
+                    zone_data[i * 4 + 3] = comp_speed[i] & 3;
+                    zone_data[i * 4 + 2] = (comp_speed[i] >> 2) & 3;
+                    zone_data[i * 4 + 1] = (comp_speed[i] >> 4) & 3;
+                    zone_data[i * 4 ] = (comp_speed[i] >> 6) & 3;
                 }
             } else {
                 memset(zone_data, gcr_speed_p[track * 2], NUM_MAX_BYTES_TRACK);
@@ -419,22 +449,25 @@ static int disk_image_check_for_gcr(disk_image_t *image)
         return 0;
     }
 
-    if (strncmp("GCR-1541", (char*)header,8))
+    if (strncmp("GCR-1541", (char*)header, 8))
         return 0;
 
     if (header[8] != 0) {
-        log_error(disk_image_log, "Import GCR: Wrong GCR image version.");
+        log_error(disk_image_log, "Import GCR: Unknown GCR image version %i.",
+                  (int)header[8]);
         return 0;
     }
 
     if (header[9] < NUM_TRACKS_1541 * 2 || header[9] > MAX_TRACKS_1541 * 2) {
-        log_error(disk_image_log, "Import GCR: Invalid number of tracks.");
+        log_error(disk_image_log, "Import GCR: Invalid number of tracks (%i).",
+                  (int)header[9]);
         return 0;
     }
 
     trackfield = header[10] + header[11] * 256;
     if (trackfield != 7928) {
-        log_error(disk_image_log, "Import GCR: Invalid track field number.");
+        log_error(disk_image_log, "Import GCR: Invalid track field number %i.",
+                  trackfield);
         return 0;
     }
 
@@ -445,7 +478,7 @@ static int disk_image_check_for_gcr(disk_image_t *image)
 
     if (image->gcr != NULL) {
         if (disk_image_read_gcr_image(image) < 0)
-            return -1;
+            return 0;
     }
     return 1;
 }
@@ -515,8 +548,6 @@ int disk_image_close(disk_image_t *image)
 /*-----------------------------------------------------------------------*/
 /* Create GCR disk image.  */
 
-extern int speed_map_1541[42];
-
 static int disk_image_create_gcr(disk_image_t *image)
 {
     BYTE gcr_header[12], gcr_track[7930], *gcrptr;
@@ -531,8 +562,7 @@ static int disk_image_create_gcr(disk_image_t *image)
     gcr_header[10] = 7928 % 256;
     gcr_header[11] = 7928 / 256;
 
-    if (fwrite((char *)gcr_header, sizeof(gcr_header), 1, image->fd)
-        < 1) {
+    if (fwrite((char *)gcr_header, sizeof(gcr_header), 1, image->fd) < 1) {
         log_error(disk_image_log, "Cannot write GCR header.");
         return -1;
     }
@@ -540,7 +570,7 @@ static int disk_image_create_gcr(disk_image_t *image)
     for (track = 0; track < MAX_TRACKS_1541; track++) {
         gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
         gcr_track_p[track * 2 + 1] = 0;
-        gcr_speed_p[track * 2] = speed_map_1541[track];
+        gcr_speed_p[track * 2] = disk_image_speed_map_1541(track);
         gcr_speed_p[track * 2 + 1] = 0;
     }
 
@@ -556,8 +586,8 @@ static int disk_image_create_gcr(disk_image_t *image)
         int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
         memset(&gcr_track[2], 0xff, 7928);
-        gcr_track[0] = raw_track_size[speed_map_1541[track]] % 256;
-        gcr_track[1] = raw_track_size[speed_map_1541[track]] / 256;
+        gcr_track[0] = raw_track_size[disk_image_speed_map_1541(track)] % 256;
+        gcr_track[1] = raw_track_size[disk_image_speed_map_1541(track)] / 256;
         gcrptr = &gcr_track[2];
 
         for (sector = 0;
