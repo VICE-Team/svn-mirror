@@ -38,12 +38,12 @@
 
 alarm_context_t *alarm_context_new(const char *name)
 {
-    alarm_context_t *new;
+    alarm_context_t *new_alarm_context;
 
-    new = xmalloc(sizeof(alarm_context_t));
-    alarm_context_init(new, name);
+    new_alarm_context = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
+    alarm_context_init(new_alarm_context, name);
 
-    return new;
+    return new_alarm_context;
 }
 
 void alarm_context_init(alarm_context_t *context, const char *name)
@@ -53,7 +53,7 @@ void alarm_context_init(alarm_context_t *context, const char *name)
     context->alarms = NULL;
 
     context->num_pending_alarms = 0;
-    context->next_pending_alarm_clk = (CLOCK) ~0L;
+    context->next_pending_alarm_clk = (CLOCK)~0L;
 }
 
 void alarm_context_destroy(alarm_context_t *context)
@@ -76,9 +76,8 @@ void alarm_context_destroy(alarm_context_t *context)
     free(context);
 }
 
-void alarm_context_time_warp (alarm_context_t *context,
-                              CLOCK warp_amount,
-                              int warp_direction)
+void alarm_context_time_warp(alarm_context_t *context, CLOCK warp_amount,
+                             int warp_direction)
 {
     unsigned int i;
 
@@ -100,22 +99,19 @@ void alarm_context_time_warp (alarm_context_t *context,
 
 /* ------------------------------------------------------------------------ */
 
-alarm_t *alarm_new(alarm_context_t *context,
-                   const char *name,
+alarm_t *alarm_new(alarm_context_t *context, const char *name,
                    alarm_callback_t callback)
 {
-    alarm_t *new;
+    alarm_t *new_alarm;
 
-    new = xmalloc(sizeof(alarm_t));
+    new_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
 
-    alarm_init(new, context, name, callback);
+    alarm_init(new_alarm, context, name, callback);
 
-    return new;
+    return new_alarm;
 }
 
-void alarm_init(alarm_t *alarm,
-                alarm_context_t *context,
-                const char *name,
+void alarm_init(alarm_t *alarm, alarm_context_t *context, const char *name,
                 alarm_callback_t callback)
 {
     alarm->name = stralloc(name);
@@ -163,6 +159,7 @@ void alarm_unset(alarm_t *alarm)
     int idx;
 
     idx = alarm->pending_idx;
+
     if (idx < 0)
         return;                 /* Not pending.  */
 
@@ -176,8 +173,10 @@ void alarm_unset(alarm_t *alarm)
         if (last != idx) {
             /* Let's copy the struct by hand to make sure stupid compilers
                don't do stupid things.  */
-            context->pending_alarms[idx].alarm = context->pending_alarms[last].alarm;
-            context->pending_alarms[idx].clk = context->pending_alarms[last].clk;
+            context->pending_alarms[idx].alarm
+                = context->pending_alarms[last].alarm;
+            context->pending_alarms[idx].clk
+                = context->pending_alarms[last].clk;
 
             context->pending_alarms[idx].alarm->pending_idx = idx;
         }
