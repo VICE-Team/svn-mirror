@@ -127,6 +127,8 @@ void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
 
 vic_ii_t vic_ii;
 
+static void vic_ii_set_geometry(void);
+
 /* Handle the exposure event.  */
 static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
@@ -143,7 +145,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     vic_ii.draw_clk -= sub;
 }
 
-static void vic_ii_change_timing(void)
+void vic_ii_change_timing(void)
 {
     resource_value_t mode;
 
@@ -208,6 +210,11 @@ static void vic_ii_change_timing(void)
         vic_ii.last_dma_line = VIC_II_PAL_LAST_DMA_LINE;
         vic_ii.offset = VIC_II_PAL_OFFSET;
         break;
+    }
+
+    if (vic_ii.initialized) {
+        vic_ii_set_geometry();
+        raster_mode_change();
     }
 }
 
@@ -420,13 +427,9 @@ struct video_canvas_s *vic_ii_get_canvas(void)
 /* Reset the VIC-II chip.  */
 void vic_ii_reset(void)
 {
-    vic_ii_change_timing();
-
     vic_ii_reset_registers();
 
     raster_reset(&vic_ii.raster);
-
-    vic_ii_set_geometry();
 
     vic_ii.last_emulate_line_clk = 0;
 

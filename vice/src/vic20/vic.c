@@ -63,6 +63,8 @@
 
 vic_t vic;
 
+static void vic_set_geometry(void);
+
 
 static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
@@ -99,6 +101,11 @@ void vic_change_timing(void)
         vic.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
         vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
         break;
+    }
+
+    if (vic.initialized) {
+        vic_set_geometry();
+        raster_mode_change();
     }
 }
 
@@ -340,11 +347,11 @@ struct video_canvas_s *vic_get_canvas(void)
 /* Reset the VIC-I chip. */
 void vic_reset(void)
 {
-    vic_change_timing();
+/*    vic_change_timing();*/
 
     raster_reset(&vic.raster);
 
-    vic_set_geometry();
+/*    vic_set_geometry();*/
 
     vic.last_emulate_line_clk = 0;
     vic.draw_clk = vic.cycles_per_line;

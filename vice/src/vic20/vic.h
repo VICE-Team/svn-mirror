@@ -207,6 +207,7 @@ extern void vic_screenshot(struct screenshot_s *screenshot);
 extern void vic_async_refresh(struct canvas_refresh_s *refresh);
 extern void vic_free(void);
 extern void vic_trigger_light_pen(CLOCK mclk);
+extern void vic_change_timing(void);
 
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */

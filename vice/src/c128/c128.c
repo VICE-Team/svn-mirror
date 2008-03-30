@@ -617,6 +617,7 @@ void machine_change_timing(int timeval)
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
     sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
     debug_set_machine_parameter(cycles_per_line, screen_lines);
+    vic_ii_change_timing();
 }
 
 /* ------------------------------------------------------------------------- */
