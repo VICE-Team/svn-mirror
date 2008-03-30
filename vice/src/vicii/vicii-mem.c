@@ -272,10 +272,9 @@ inline static void check_lower_upper_border(BYTE value, int line, int cycle)
     }
 }
 
-/* Here we try to emulate $D011...  */
 inline static void store_d011(BYTE value)
 {
-    int new_irq_line, cycle, line, old_allow_bad_lines;
+    int cycle, line, old_allow_bad_lines;
 
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
     line = VIC_II_RASTER_Y(maincpu_clk);
@@ -284,8 +283,7 @@ inline static void store_d011(BYTE value)
     VIC_II_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
                           "value $%02X", cycle, line, value));
 
-    new_irq_line = ((vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1));
-    vicii_irq_check_state(new_irq_line);
+    vicii_irq_check_state(value, 1);
 
     /* This is the funniest part... handle bad line tricks.  */
     old_allow_bad_lines = vic_ii.allow_bad_lines;
@@ -326,7 +324,7 @@ inline static void store_d012(BYTE value)
     VIC_II_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
                           vic_ii.raster_irq_line));
 
-    vicii_irq_check_state((vic_ii.raster_irq_line & 0x100) | value);
+    vicii_irq_check_state(value, 0);
 }
 
 inline static void store_d015(BYTE value)
@@ -536,7 +534,7 @@ inline static void store_d019(BYTE value)
 {
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
-        vic_ii.irq_status &= ~((vic_ii.last_read_d019 & 0xf) | 0x80);
+        vic_ii.irq_status &= ~((vic_ii.last_read & 0xf) | 0x80);
         if (maincpu_clk - 1 > vic_ii.raster_irq_clk
             && vic_ii.raster_irq_line < vic_ii.screen_height) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
@@ -1075,6 +1073,24 @@ inline static unsigned int read_raster_y(void)
     return raster_y;
 }
 
+inline static BYTE read_d01112(ADDRESS addr)
+{
+    unsigned int tmp;
+
+    tmp = (vic_ii.screen_height + read_raster_y() - vic_ii.offset)
+          % vic_ii.screen_height;
+
+    VIC_II_DEBUG_REGISTER(("Raster Line register %svalue = $%04X",
+                          (addr == 0x11 ? "(highest bit) " : ""), tmp));
+    if (addr == 0x11)
+        vic_ii.last_read = (vic_ii.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
+    else
+        vic_ii.last_read = tmp & 0xff;
+
+    return vic_ii.last_read;
+}
+
+
 /* Helper function for reading from $D019.  */
 inline static BYTE read_d019(void)
 {
@@ -1083,11 +1099,11 @@ inline static BYTE read_d019(void)
         /* As int_raster() is called 2 cycles later than it should be to
            emulate the 6510 internal IRQ delay, `vic_ii.irq_status' might not
            have bit 0 set as it should.  */
-        vic_ii.last_read_d019 = vic_ii.irq_status | 0xf1;
+        vic_ii.last_read = vic_ii.irq_status | 0xf1;
     else
-        vic_ii.last_read_d019 = vic_ii.irq_status | 0x70;
+        vic_ii.last_read = vic_ii.irq_status | 0x70;
 
-    return vic_ii.last_read_d019;
+    return vic_ii.last_read;
 }
 
 /* Read a value from a VIC-II register.  */
@@ -1113,9 +1129,9 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
       case 0xa:                   /* $D00a: Sprite #5 X position LSB */
       case 0xc:                   /* $D00c: Sprite #6 X position LSB */
       case 0xe:                   /* $D00e: Sprite #7 X position LSB */
-          VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X",
-                                addr >> 1, vic_ii.regs[addr]));
-          return vic_ii.regs[addr];
+        VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X",
+                              addr >> 1, vic_ii.regs[addr]));
+        return vic_ii.regs[addr];
 
       case 0x1:                   /* $D001: Sprite #0 Y position */
       case 0x3:                   /* $D003: Sprite #1 Y position */
@@ -1125,30 +1141,19 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
       case 0xb:                   /* $D00B: Sprite #5 Y position */
       case 0xd:                   /* $D00D: Sprite #6 Y position */
       case 0xf:                   /* $D00F: Sprite #7 Y position */
-          VIC_II_DEBUG_REGISTER(("Sprite #%d Y position: $%02X",
-                                addr >> 1, vic_ii.regs[addr]));
-          return (256 + vic_ii.regs[addr] - vic_ii.offset) % 256;
+        VIC_II_DEBUG_REGISTER(("Sprite #%d Y position: $%02X",
+                              addr >> 1, vic_ii.regs[addr]));
+        return (256 + vic_ii.regs[addr] - vic_ii.offset) % 256;
 
       case 0x10:                  /* $D010: Sprite X position MSB */
-          VIC_II_DEBUG_REGISTER(("Sprite X position MSB: $%02X",
-                                vic_ii.regs[addr]));
-          return vic_ii.regs[addr];
+        VIC_II_DEBUG_REGISTER(("Sprite X position MSB: $%02X",
+                              vic_ii.regs[addr]));
+        return vic_ii.regs[addr];
 
       case 0x11:                /* $D011: video mode, Y scroll, 24/25 line mode
                                    and raster MSB */
       case 0x12:                /* $D012: Raster line compare */
-        {
-            unsigned int tmp = (vic_ii.screen_height + read_raster_y()
-                               - vic_ii.offset) % vic_ii.screen_height;
-
-            VIC_II_DEBUG_REGISTER(("Raster Line register %svalue = $%04X",
-                                  (addr == 0x11 ? "(highest bit) " : ""), tmp));
-
-            if (addr == 0x11)
-                return (vic_ii.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
-            else
-                return tmp & 0xff;
-        }
+        return read_d01112(addr);
 
       case 0x13:                  /* $D013: Light Pen X */
         VIC_II_DEBUG_REGISTER(("Light pen X: %d", vic_ii.light_pen.x));
