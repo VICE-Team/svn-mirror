@@ -221,10 +221,7 @@ int machine_init(void)
        ``drive'' emulation is used, do not install them.  */
     serial_init(vic20_serial_traps);
 
-    /* Initialize drives, and attach true 1541 emulation hooks to
-       drive 8 (which is the only true 1541-capable device).  */
-    file_system_set_hooks(8, drive_attach_floppy, drive_detach_floppy);
-    file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
+    /* Initialize drives. */
     file_system_init();
 
 #ifdef HAVE_RS232
@@ -315,6 +312,7 @@ void machine_shutdown(void)
 {
     /* Detach all devices.  */
     serial_remove_file(-1);
+    file_system_detach_disk(-1);
 }
 
 /* Return nonzero if `addr' is in the trappable address space.  */
