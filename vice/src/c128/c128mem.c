@@ -36,6 +36,7 @@
 
 #include "c128-resources.h"
 #include "c128mem.h"
+#include "c128memlimit.h"
 #include "c128mmu.h"
 #include "c64cart.h"
 #include "c64cia.h"
@@ -178,7 +179,7 @@ store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
-#define NUM_CONFIGS 128
+#define NUM_CONFIGS 256
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
@@ -333,6 +334,8 @@ static void pla_config_changed(void)
     }
 
     ram[0] = pport.dir;
+
+    mmu_set_config64((~pport.dir | pport.data) & 0x7);
 }
 
 static void mem_toggle_caps_key(void)
@@ -370,6 +373,21 @@ void REGPARM2 store_kernal(ADDRESS addr, BYTE value)
 BYTE REGPARM1 read_chargen(ADDRESS addr)
 {
     return chargen_rom[addr & 0x0fff];
+}
+
+BYTE REGPARM1 basic64_read(ADDRESS addr)
+{
+    return basic64_rom[addr & 0x1fff];
+}
+
+BYTE REGPARM1 kernal64_read(ADDRESS addr)
+{
+    return kernal64_rom[addr & 0x1fff];
+}
+
+BYTE REGPARM1 chargen64_read(ADDRESS addr)
+{
+    return chargen64_rom[addr & 0xfff];
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
@@ -653,242 +671,9 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
 
 void mem_initialize_memory(void)
 {
-    int i, j, k;
+    int i, j;
 
-    int limit_tab[13][NUM_CONFIGS] = {
-    /* 0000-01ff */
-    {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* 0200-03ff */
-    { 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-      0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd, 0x03fd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* 0400-0fff */
-    { 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-      0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd, 0x0ffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* 1000-1fff */
-    { 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-      0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd, 0x1ffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* 2000-3fff */
-    { 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-      0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* 4000-7fff */
-    { 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd },
-    /* 8000-bfff */
-    { 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd,
-      0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd },
-    /* c000-cfff */
-    { 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* d000-dfff */
-    { 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
-      0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
-      0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
-      0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
-      0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
-      0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* e000-efff */
-    { 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-      0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd, 0xeffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* f000-fbff */
-    { 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-      0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd, 0xfbfd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* fc00-feff */
-    { 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-      0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd, 0xfefd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
-    /* ff00-ffff */
-    {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 } };
-
-    for (i = 0; i < NUM_CONFIGS; i++) {
-        int mstart[13] = { 0x00, 0x02, 0x04, 0x10, 0x20, 0x40, 0x80, 0xc0,
-                           0xd0, 0xe0, 0xf0, 0xfc, 0xff };
-        int mend[13]   = { 0x01, 0x03, 0x0f, 0x1f, 0x3f, 0x7f, 0xbf, 0xcf,
-                           0xdf, 0xef, 0xfb, 0xfe, 0xff};
-        for (j = 0; j < 13; j++) {
-            for (k = mstart[j]; k <= mend[j]; k++) {
-                mem_read_limit_tab[i][k] = limit_tab[j][i];
-            }
-        }
-    }
+    mem_limit_init(mem_read_limit_tab);
 
     for (i = 0; i <= 0x100; i++) {
         mem_read_tab_watch[i] = read_watch;
@@ -1885,7 +1670,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[63][i] = NULL;
     }
 
-    for (j = (NUM_CONFIGS / 2); j < NUM_CONFIGS; j++) {
+    for (j = 64; j < 128; j++) {
         for (i = 0xd0; i <= 0xd3; i++) {
             mem_read_tab[j][i] = vic_read;
             mem_write_tab[j][i] = vic_store;
@@ -2115,7 +1900,7 @@ void mem_initialize_memory(void)
         }
     }
 
-    for (j = 0; j < NUM_CONFIGS; j++) {
+    for (j = 0; j < 128; j++) {
         mem_read_tab[j][0xff] = mmu_ffxx_read;
         mem_write_tab[j][0xff] = mmu_ffxx_store;
 
@@ -2125,6 +1910,130 @@ void mem_initialize_memory(void)
         mem_read_base_tab[j][0x100] = NULL;
         mem_read_limit_tab[j][0x100] = -1;
     }
+
+
+    /* C64 mode configuration.  */
+    for (i = 128; i < 256; i++) {
+        for (j = 2; j <= 0x100; j++) {
+            mem_read_tab[i][j] = read_ram;
+            mem_write_tab[i][j] = store_ram;
+            mem_read_base_tab[i][j] = ram + (j << 8);
+        }
+    }
+
+    /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
+    for (i = 0xa0; i <= 0xbf; i++) {
+        mem_read_tab[128+3][i] = basic64_read;
+        mem_read_tab[128+7][i] = basic64_read;
+        mem_read_tab[128+11][i] = basic64_read;
+        mem_read_tab[128+15][i] = basic64_read;
+        mem_read_base_tab[128+3][i] = basic64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+7][i] = basic64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+11][i] = basic64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+15][i] = basic64_rom + ((i & 0x1f) << 8);
+    }
+
+    /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
+       3, 9, 10, 11, 25, 26, 27).  */
+    for (i = 0xd0; i <= 0xdf; i++) {
+        mem_read_tab[128+1][i] = chargen64_read;
+        mem_read_tab[128+2][i] = chargen64_read;
+        mem_read_tab[128+3][i] = chargen64_read;
+        mem_read_tab[128+9][i] = chargen64_read;
+        mem_read_tab[128+10][i] = chargen64_read;
+        mem_read_tab[128+11][i] = chargen64_read;
+        mem_read_tab[128+25][i] = chargen64_read;
+        mem_read_tab[128+26][i] = chargen64_read;
+        mem_read_tab[128+27][i] = chargen64_read;
+        mem_read_base_tab[128+1][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+2][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+3][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+9][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+10][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+11][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+25][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+26][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+27][i] = chargen64_rom + ((i & 0x0f) << 8);
+    }
+
+    /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
+    for (j = 0; j < 32; j++) {
+        /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
+        int io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
+                              1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1 };
+
+        if (io_config[j]) {
+            for (i = 0xd0; i <= 0xd3; i++) {
+                mem_read_tab[128+j][i] = vic_read;
+                mem_write_tab[128+j][i] = vic_store;
+            }
+
+                mem_read_tab[128+j][0xd4] = sid_read;
+                mem_write_tab[128+j][0xd4] = sid_store;
+                mem_read_tab[128+j][0xd5] = mmu_read;
+                mem_write_tab[128+j][0xd5] = mmu_store;
+                mem_read_tab[128+j][0xd6] = vdc_read;
+                mem_write_tab[128+j][0xd6] = vdc_store;
+                mem_read_tab[128+j][0xd7] = d7xx_read;
+                mem_write_tab[128+j][0xd7] = d7xx_store;
+
+            for (i = 0xd8; i <= 0xdb; i++) {
+                mem_read_tab[128+j][i] = colorram_read;
+                mem_write_tab[128+j][i] = colorram_store;
+            }
+
+            mem_read_tab[128+j][0xdc] = cia1_read;
+            mem_write_tab[128+j][0xdc] = cia1_store;
+            mem_read_tab[128+j][0xdd] = cia2_read;
+            mem_write_tab[128+j][0xdd] = cia2_store;
+
+            mem_read_tab[128+j][0xde] = io1_read;
+            mem_write_tab[128+j][0xde] = io1_store;
+            mem_read_tab[128+j][0xdf] = io2_read;
+            mem_write_tab[128+j][0xdf] = io2_store;
+
+            for (i = 0xd0; i <= 0xdf; i++)
+                mem_read_base_tab[128+j][i] = NULL;
+        }
+    }
+
+    /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
+       11, 14, 15, 26, 27, 30, 31).  */
+    for (i = 0xe0; i <= 0xff; i++) {
+        mem_read_tab[128+2][i] = kernal64_read;
+        mem_read_tab[128+3][i] = kernal64_read;
+        mem_read_tab[128+6][i] = kernal64_read;
+        mem_read_tab[128+7][i] = kernal64_read;
+        mem_read_tab[128+10][i] = kernal64_read;
+        mem_read_tab[128+11][i] = kernal64_read;
+        mem_read_tab[128+14][i] = kernal64_read;
+        mem_read_tab[128+15][i] = kernal64_read;
+        mem_read_tab[128+26][i] = kernal64_read;
+        mem_read_tab[128+27][i] = kernal64_read;
+        mem_read_tab[128+30][i] = kernal64_read;
+        mem_read_tab[128+31][i] = kernal64_read;
+        mem_read_base_tab[128+2][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+3][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+6][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+7][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+10][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+11][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+14][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+15][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+26][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+27][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+30][i] = kernal64_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[128+31][i] = kernal64_rom + ((i & 0x1f) << 8);
+    }
+
+    for (i = 128; i < 256; i++) {
+        mem_read_tab[i][0x100] = mem_read_tab[i][0];
+        mem_write_tab[i][0x100] = mem_write_tab[i][0];
+        mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
+        mem_read_limit_tab[i][0x100] = -1;
+    }
+
+
 
     mmu_reset();
 
