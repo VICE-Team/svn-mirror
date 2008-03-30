@@ -517,7 +517,8 @@ static void network_server_connect_trap(WORD addr, void *data)
 {
     FILE *f;
     BYTE *buf;
-    long buf_size;
+    size_t buf_size;
+    BYTE send_size4[4];
     long i;
     event_list_state_t settings_list;
 
@@ -546,8 +547,9 @@ static void network_server_connect_trap(WORD addr, void *data)
 #else
         ui_display_statustext(_("Sending snapshot to client..."), 0);
 #endif
-        network_send_buffer(network_socket, (BYTE*)&buf_size, sizeof(long));
-        i = network_send_buffer(network_socket, buf, buf_size);
+        util_int_to_le_buf4(send_size4, (int)buf_size);
+        network_send_buffer(network_socket, send_size4, 4);
+        i = network_send_buffer(network_socket, buf, (int)buf_size);
         lib_free(buf);
         if (i < 0) {
 #ifdef HAS_TRANSLATION
@@ -565,9 +567,13 @@ static void network_server_connect_trap(WORD addr, void *data)
         /* Send settings that need to be the same */
         event_register_event_list(&settings_list);
         resources_get_event_safe_list(&settings_list);
-        buf_size = network_create_event_buffer(&buf, &(settings_list));
-        network_send_buffer(network_socket, (BYTE*)&buf_size, sizeof(long));
-        network_send_buffer(network_socket, buf, buf_size);
+
+        buf_size = (size_t)network_create_event_buffer(&buf, &(settings_list));
+        util_int_to_le_buf4(send_size4, (int)buf_size);
+
+        network_send_buffer(network_socket, send_size4, 4);
+        network_send_buffer(network_socket, buf, (int)buf_size);
+
         event_clear_list(&settings_list);
         lib_free(buf);
 
@@ -588,7 +594,8 @@ static void network_server_connect_trap(WORD addr, void *data)
 static void network_client_connect_trap(WORD addr, void *data)
 {
     BYTE *buf;
-    long buf_size;
+    size_t buf_size;
+    BYTE recv_buf4[4];
     event_list_state_t *settings_list;
 
     /* Set proper settings */
@@ -596,9 +603,10 @@ static void network_client_connect_trap(WORD addr, void *data)
         ui_error("Warning! Failed to set netplay-safe settings.");
 
     /* Receive settings that need to be same as on server */
-    if (network_recv_buffer(network_socket, (BYTE*)&buf_size, sizeof(long)) < 0)
+    if (network_recv_buffer(network_socket, recv_buf4, 4) < 0)
         return;
 
+    buf_size = (size_t)util_le_buf4_to_int(recv_buf4);
     buf = lib_malloc(buf_size);
 
     if (network_recv_buffer(network_socket, buf, buf_size) < 0)
@@ -645,26 +653,26 @@ void network_event_record(unsigned int type, void *data, unsigned int size)
       case EVENT_KEYBOARD_RESTORE:
       case EVENT_KEYBOARD_DELAY:
       case EVENT_KEYBOARD_CLEAR:
-          control = NETWORK_CONTROL_KEYB;
-          break;
+        control = NETWORK_CONTROL_KEYB;
+        break;
       case EVENT_ATTACHDISK:
       case EVENT_ATTACHTAPE:
       case EVENT_DATASETTE:
-          control = NETWORK_CONTROL_DEVC;
-          break;
+        control = NETWORK_CONTROL_DEVC;
+        break;
       case EVENT_RESOURCE:
       case EVENT_RESETCPU:
-          control = NETWORK_CONTROL_RSRC;
-          break;
+        control = NETWORK_CONTROL_RSRC;
+        break;
       case EVENT_JOYSTICK_VALUE:
-          joyport = ((BYTE*)data)[0];
-          if (joyport == 1) 
-              control = NETWORK_CONTROL_JOY1;
-          if (joyport == 2) 
-              control = NETWORK_CONTROL_JOY2;
-          break;
+        joyport = ((BYTE*)data)[0];
+        if (joyport == 1) 
+            control = NETWORK_CONTROL_JOY1;
+        if (joyport == 2) 
+            control = NETWORK_CONTROL_JOY2;
+        break;
       default:
-          control = 0;
+        control = 0;
     }
 
     if (network_get_mode() == NETWORK_CLIENT)
@@ -796,7 +804,8 @@ int network_connect_client(void)
     struct hostent *server_hostent;
     FILE *f;
     BYTE *buf;
-    long buf_size;
+    BYTE recv_buf4[4];
+    size_t buf_size;
     int return_value;
 
     if (network_init() < 0)
@@ -894,9 +903,7 @@ int network_connect_client(void)
 #else
     ui_display_statustext(_("Receiving snapshot from server..."), 0);
 #endif
-    if (network_recv_buffer(network_socket, (BYTE*)&buf_size, 
-sizeof(long)) < 0)
-    {
+    if (network_recv_buffer(network_socket, recv_buf4, 4) < 0) {
         lib_free(snapshotfilename);
         closesocket(network_socket);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
@@ -906,6 +913,7 @@ sizeof(long)) < 0)
         return -1;
     }
 
+    buf_size = (size_t)util_le_buf4_to_int(recv_buf4);
     buf = lib_malloc(buf_size);
 
     if (network_recv_buffer(network_socket, buf, buf_size) < 0) {
