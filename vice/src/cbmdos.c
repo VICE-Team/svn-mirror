@@ -129,6 +129,8 @@ unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
             return 1;
         if (name1[index] != '?' && name1[index] != name2[index])
             return 0;
+        if (name1[index] == 0xa0)
+            return 1;
     }
 
     return 1;
