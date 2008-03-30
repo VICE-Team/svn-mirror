@@ -57,6 +57,9 @@
 #define CIA_CRB         15 /* Control register B */
 
 
+struct cia_context_s;
+struct snapshot_s;
+
 /* Interrupt Masks */
 #define CIA_IM_SET      0x80    /* Control Bit */
 #define CIA_IM_TA       1       /* Timer A underflow */
@@ -105,7 +108,46 @@ typedef struct cia_context_s {
 
     void *prv;
     void *context;
+
+    void (*undump_ciapa)(struct cia_context_s *, CLOCK, BYTE);
+    void (*undump_ciapb)(struct cia_context_s *, CLOCK, BYTE);
+    void (*store_ciapa)(struct cia_context_s *, CLOCK, BYTE);
+    void (*store_ciapb)(struct cia_context_s *, CLOCK, BYTE);
+    void (*store_sdr)(struct cia_context_s *, BYTE);
+    BYTE (*read_ciapa)(struct cia_context_s *);
+    BYTE (*read_ciapb)(struct cia_context_s *);
+    void (*read_ciaicr)(struct cia_context_s *);
+    void (*read_sdr)(struct cia_context_s *);
+    void (*cia_set_int_clk)(struct cia_context_s *, int, CLOCK);
+    void (*cia_restore_int)(struct cia_context_s *, int);
+    void (*do_reset_cia)(struct cia_context_s *);
+    void (*pulse_ciapc)(struct cia_context_s *, CLOCK);
+    void (*pre_store)(void);
+    void (*pre_read)(void);
+    void (*pre_peek)(void);
 } cia_context_t;
+
+extern void ciacore_reset(struct cia_context_s *cia_context);
+extern void REGPARM2 ciacore_store(struct cia_context_s *cia_context,
+                                   WORD addr, BYTE data);
+extern BYTE REGPARM1 ciacore_read(struct cia_context_s *cia_context,
+                                  WORD addr);
+extern BYTE REGPARM1 ciacore_peek(struct cia_context_s *cia_context,
+                                  WORD addr);
+
+extern void ciacore_intta(struct cia_context_s *cia_context, CLOCK offset);
+extern void ciacore_inttb(struct cia_context_s *cia_context, CLOCK offset);
+extern void ciacore_inttod(struct cia_context_s *cia_context, CLOCK offset);
+
+extern void ciacore_set_flag(struct cia_context_s *cia_context);
+extern void ciacore_set_sdr(struct cia_context_s *cia_context, BYTE data);
+
+extern void ciacore_clk_overflow_callback(struct cia_context_s *cia_context,
+                                          CLOCK sub, void *data);
+extern int ciacore_snapshot_write_module(struct cia_context_s *cia_context,
+                                         struct snapshot_s *s);
+extern int ciacore_snapshot_read_module(struct cia_context_s *cia_context,
+                                        struct snapshot_s *s);
 
 #endif
 

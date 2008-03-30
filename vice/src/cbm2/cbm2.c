@@ -338,7 +338,7 @@ void machine_specific_reset(void)
     serial_reset();
 
     acia1_reset();
-    cia1_reset(&(machine_context.cia1));
+    ciacore_reset(&(machine_context.cia1));
     tpi1_reset();
     tpi2_reset();
 

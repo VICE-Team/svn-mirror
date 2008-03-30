@@ -82,6 +82,11 @@ LIB32=link.exe -lib
 # Name "core - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\core\ciacore.c"
+# End Source File
+# End Target
+# Begin Source File
+
 SOURCE="..\..\core\viacore.c"
 # End Source File
 # End Target

@@ -139,7 +139,7 @@ void iec_cpu_write_conf1(BYTE data)
                 via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d0_set_flag();
+                    ciacore_set_flag(&(drive0_context.cia1581));
         }
     }
     if (drive[0].type != DRIVE_TYPE_2031) {
@@ -172,7 +172,7 @@ void iec_cpu_write_conf2(BYTE data)
                 via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d1_set_flag();
+                    ciacore_set_flag(&(drive1_context.cia1581));
         }
     }
     if (drive[1].type != DRIVE_TYPE_2031) {
@@ -205,14 +205,14 @@ void iec_cpu_write_conf3(BYTE data)
                 via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d0_set_flag();
+                    ciacore_set_flag(&(drive0_context.cia1581));
         }
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
                 via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d1_set_flag();
+                    ciacore_set_flag(&(drive1_context.cia1581));
         }
     }
     if (drive[0].type != DRIVE_TYPE_2031) {
@@ -270,21 +270,21 @@ iec_info_t *iec_get_drive_port(void)
 void parallel_cable_drive0_write(BYTE data, int handshake)
 {
     if (handshake)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
     parallel_cable_drive0_value = data;
 }
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
     if (handshake)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
     parallel_cable_drive1_value = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -352,16 +352,16 @@ void iec_fast_cpu_write(BYTE data)
         if (drive[0].enable) {
             drive0_cpu_execute(maincpu_clk);
             if (drive[0].type == DRIVE_TYPE_1571)
-                cia1571_set_sdr(&(drive0_context.cia1571), data);
+                ciacore_set_sdr(&(drive0_context.cia1571), data);
             if (drive[0].type == DRIVE_TYPE_1581)
-                cia1581_set_sdr(&(drive0_context.cia1581), data);
+                ciacore_set_sdr(&(drive0_context.cia1581), data);
         }
         if (drive[1].enable) {
             drive1_cpu_execute(maincpu_clk);
             if (drive[1].type == DRIVE_TYPE_1571)
-                cia1571_set_sdr(&(drive1_context.cia1571), data);
+                ciacore_set_sdr(&(drive1_context.cia1571), data);
             if (drive[1].type == DRIVE_TYPE_1581)
-                cia1581_set_sdr(&(drive1_context.cia1581), data);
+                ciacore_set_sdr(&(drive1_context.cia1581), data);
         }
     }
 }
@@ -370,7 +370,7 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
     /*log_debug("DW %02x %i", data, maincpu_clk);*/
     if (fast_drive_direction[dnr])
-        cia1_set_sdr(&(machine_context.cia1), data);
+        ciacore_set_sdr(&(machine_context.cia1), data);
 }
 
 void iec_fast_cpu_direction(int direction)

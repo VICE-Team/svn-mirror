@@ -504,8 +504,8 @@ void machine_specific_reset(void)
 {
     serial_reset();
 
-    cia1_reset(&(machine_context.cia1));
-    cia2_reset(&(machine_context.cia2));
+    ciacore_reset(&(machine_context.cia1));
+    ciacore_reset(&(machine_context.cia2));
     sid_reset();
     tpi_reset();
 
