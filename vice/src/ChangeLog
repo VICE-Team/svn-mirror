@@ -1,3 +1,58 @@
+2000-01-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.15.
+
+	* vic20/vic.c (init_raster): Fixed border shift.
+
+	* arch/win32/console.c (allocate_window_memory): Use `memset'.
+	(console_close_all): New name.  Commented out old code because
+	it has to be rewritten.
+
+	* mon.c, mon.h, mon_lex.l, mon_parse.y: Moved to own
+	subdirectory.
+
+	* monitor/Makefile.am: New file.
+
+	* drive/Makefile.am, c64/Makefile.am, c128/Makefile.am,
+	vic20/Makefile.am, pet/Makefile.am, cbm2/Makefile.am,
+	Makefile.am, arch/os2/Makefile.am, arch/riscos/Makefile.am,
+	arch/msdos/Makefile.am, arch/win32/Makefile.am: Added monitor
+	to the include path.
+
+	* maincpu.h, drive/drivecpu.h: Do not #include "mon.h".
+
+	* c64/c64mem.c, pet/petmem.c: #include "mon.h".
+
+	* vicii/vicii-mem.c, vicii/vicii-snapshot.c, c64/reu.c,
+	arch/unix/x11/xaw/ui.c: #include "interrupt.h".
+
+	* sid/sid.c: Define `TRUE' and `FALSE' if not already defined.
+
+	* arch/win32/winmain.c (WinMain): Do not shut down the console
+	here.
+
+	* arch/win32/console.c (console_close_all): New name.
+
+	* arch/msdos/console.c, arch/unix/console.c,
+	arch/riscos/console.c, arch/os2/console.c (console_close_all):
+	Stubs.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (machine_shutdown): Close console on exit.
+
+	* vic20/vic.c, vic20/vic-mem.c: Fixed debugging messages.
+
+1999-12-31  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: 2 little modifications to avoid
+	warnings.
+
+1999-12-31  Mattias Engdegård  <f91-men@nada.kth.se>
+
+	* arch/unix/x11/xaw/ui.c, arch/unix/x11/xaw/ui.h,
+	arch/unix/x11/xaw/uimenu.c: Allow the use of another visual
+	than the default when -displaydepth is used.
+
 1999-12-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.14.
@@ -93,6 +148,7 @@
 	* arch/win32/console.c: cursor-left and -right, DEL, HOME, END
 	now work; INS toggles insert-mode. Cursor does not overwrite
 	the current character and show if insert-mode or not. History
+        function added (cursor-up and -down)
 
 1999-12-28  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 
@@ -101,7 +157,6 @@
 
 	* vic/vic20sound.c: included header file "string.h" to avoid
 	warning about non-defined memset()
-	function added (cursor-up and -down)
 
 1999-12-28  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 

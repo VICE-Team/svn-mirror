@@ -30,18 +30,16 @@
 #include "vice.h"
 
 #include <stdarg.h>
-#include <windows.h>
-
-#include "console.h"
-#include "utils.h"
-
-#include "winmain.h"
-#include "res.h"
-#include "ui.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
+
+#include "console.h"
+#include "res.h"
+#include "ui.h"
+#include "utils.h"
+#include "winmain.h"
 
 
 /*
@@ -155,11 +153,6 @@ static const char *get_history_entry( TWindow *tw )
 */
 #define CALC_POS(xxx, yyy) (tw->xMax * (yyy) + (xxx))
 
-/*
-ifndef PPAINTSTRUCT
-define LPPAINTSTRUCT PPAINTSTRUCT
-endif
-*/
 static void redraw_window(TWindow *tw, LPPAINTSTRUCT pps)
 {
 	unsigned row;
@@ -307,19 +300,15 @@ static TWindow *allocate_window_memory( TWindow* tw )
 {
 	if (!tw->pchWindowBuffer)
 	{
-		char *p;
 		unsigned n;
 
 		n = tw->xMax * tw->yMax;
 
 		/* allocate buffer for window contents */
-		p                   =
 		tw->pchWindowBuffer = xmalloc(sizeof(char) * n );
 
 		/* clear the buffer with spaces */
-		for (n; n>0; n--)
-			*p++ = ' ';
-
+                memset(tw->pchWindowBuffer, ' ', n);
 	}
 
 	return tw;
@@ -499,7 +488,6 @@ int console_out(console_t *log, const char *format, ...)
 	char ch;
 	char buffer[MAX_OUTPUT_LENGTH];
 	char *pBuffer      = buffer;
-	char *pWriteBuffer = &tw->pchWindowBuffer[CALC_POS(tw->xPos,tw->yPos)];
 
     va_start(ap, format);
     vsprintf(buffer, format, ap);
@@ -1064,8 +1052,9 @@ int console_close(console_t *log)
 }
 
 
-int console_shutdown(console_t *log)
+int console_close_all(void)
 {
+/*
 	if (log)
 	{
 		console_close( log );
@@ -1073,6 +1062,7 @@ int console_shutdown(console_t *log)
 	}
 
 	UnregisterClass(CONSOLE_CLASS,winmain_instance);
-
+*/
 	return 0;
 }
+
