@@ -33,7 +33,7 @@ typedef enum resource_type {RES_INTEGER, RES_STRING} resource_type_t;
 
 typedef void *resource_value_t;
 
-typedef int resource_set_func_t(resource_value_t v);
+typedef int resource_set_func_t(resource_value_t v, void *param);
 
 /* Warning: all the pointers should point to areas that are valid throughout
    the execution.  No reallocation is performed.  */
@@ -55,6 +55,8 @@ typedef struct resource_s {
     /* Function to call to set the value.  */
     resource_set_func_t *set_func;
 
+    /* Extra parameter to pass to `set_func'.  */
+    void *param;
 } resource_t;
 
 #define RESERR_FILE_NOT_FOUND       -1

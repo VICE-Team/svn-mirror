@@ -26,10 +26,12 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "attach.h"
+#include "cmdline.h"
 #include "diskimage.h"
 #include "drive.h"
 #include "fdc.h"
@@ -55,32 +57,90 @@ static file_system_t file_system[4];
 
 static log_t attach_log = LOG_ERR;
 
-static int file_system_device_enabled[4];
+static unsigned int attach_device_readonly_enabled[4];
+static unsigned int file_system_device_enabled[4];
 
-static int set_file_system_device8(resource_value_t v);
-static int set_file_system_device9(resource_value_t v);
-static int set_file_system_device10(resource_value_t v);
-static int set_file_system_device11(resource_value_t v);
+static int set_attach_device8_readonly(resource_value_t v, void *param);
+static int set_attach_device9_readonly(resource_value_t v, void *param);
+static int set_attach_device10_readonly(resource_value_t v, void *param);
+static int set_attach_device11_readonly(resource_value_t v, void *param);
+
+static int set_file_system_device8(resource_value_t v, void *param);
+static int set_file_system_device9(resource_value_t v, void *param);
+static int set_file_system_device10(resource_value_t v, void *param);
+static int set_file_system_device11(resource_value_t v, void *param);
 
 static resource_t resources[] = {
+    { "AttachDevice8Readonly", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &attach_device_readonly_enabled[0],
+      set_attach_device8_readonly, NULL },
+    { "AttachDevice9Readonly", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &attach_device_readonly_enabled[1],
+      set_attach_device9_readonly, NULL },
+    { "AttachDevice10Readonly", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &attach_device_readonly_enabled[2],
+      set_attach_device10_readonly, NULL },
+    { "AttachDevice11Readonly", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &attach_device_readonly_enabled[3],
+      set_attach_device11_readonly, NULL },
     { "FileSystemDevice8", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[0],
-      set_file_system_device8 },
+      set_file_system_device8, NULL },
     { "FileSystemDevice9", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[1],
-      set_file_system_device9 },
+      set_file_system_device9, NULL },
     { "FileSystemDevice10", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[2],
-      set_file_system_device10 },
+      set_file_system_device10, NULL },
     { "FileSystemDevice11", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[3],
-      set_file_system_device11 },
+      set_file_system_device11, NULL },
     { NULL }
 };
 
+int file_system_init_resources(void)
+{
+    return resources_register(resources);
+}
+
 /* ------------------------------------------------------------------------- */
 
-static int file_system_set_serial_hooks(unsigned int unit, int fs)
+static cmdline_option_t cmdline_options[] = {
+    { "-attach8ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Readonly",
+      (resource_value_t) 1,
+      NULL, "Attach disk image for drive #8 read only" },
+    { "-attach8rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Readonly",
+      (resource_value_t) 0,
+      NULL, "Attach disk image for drive #8 read write (if possible)" },
+    { "-attach9ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice9Readonly",
+      (resource_value_t) 1,
+      NULL, "Attach disk image for drive #9 read only" },
+    { "-attach9rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice9Readonly",
+      (resource_value_t) 0,
+      NULL, "Attach disk image for drive #9 read write (if possible)" },
+    { "-attach10ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice10Readonly",
+      (resource_value_t) 1,
+      NULL, "Attach disk image for drive #10 read only" },
+    { "-attach10rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice10Readonly",
+      (resource_value_t) 0,
+      NULL, "Attach disk image for drive #10 read write (if possible)" },
+    { "-attach11ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Readonly",
+      (resource_value_t) 1,
+      NULL, "Attach disk image for drive #11 read only" },
+    { "-attach11rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Readonly",
+      (resource_value_t) 0,
+      NULL, "Attach disk image for drive #11 read write (if possible)" },
+    { NULL }
+};
+
+int file_system_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int file_system_set_serial_hooks(unsigned int unit, unsigned int fs)
 {
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
@@ -98,11 +158,6 @@ static int file_system_set_serial_hooks(unsigned int unit, int fs)
         }
     }
     return 0;
-}
-
-int file_system_init_resources(void)
-{
-    return resources_register(resources);
 }
 
 void file_system_init(void)
@@ -144,11 +199,41 @@ char *file_system_get_disk_name(unsigned int unit)
     return vdrive->image->name;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static int set_attach_device_readonly(resource_value_t v, unsigned int unit)
+{
+    attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
+    return 0;
+}
+
+static int set_attach_device8_readonly(resource_value_t v, void *param)
+{
+    return set_attach_device_readonly(v, 8);
+}
+
+static int set_attach_device9_readonly(resource_value_t v, void *param)
+{
+    return set_attach_device_readonly(v, 9);
+}
+
+static int set_attach_device10_readonly(resource_value_t v, void *param)
+{
+    return set_attach_device_readonly(v, 10);
+}
+
+static int set_attach_device11_readonly(resource_value_t v, void *param)
+{
+    return set_attach_device_readonly(v, 11);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static int set_file_system_device(resource_value_t v, unsigned int unit)
 {
     vdrive_t *vdrive;
 
-    file_system_device_enabled[unit - 8] = (int) v;
+    file_system_device_enabled[unit - 8] = (unsigned int) v;
 
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
     if (vdrive != NULL) {
@@ -161,22 +246,22 @@ static int set_file_system_device(resource_value_t v, unsigned int unit)
     return 0;
 }
 
-static int set_file_system_device8(resource_value_t v)
+static int set_file_system_device8(resource_value_t v, void *param)
 {
     return set_file_system_device(v, 8);
 }
 
-static int set_file_system_device9(resource_value_t v)
+static int set_file_system_device9(resource_value_t v, void *param)
 {
     return set_file_system_device(v, 9);
 }
 
-static int set_file_system_device10(resource_value_t v)
+static int set_file_system_device10(resource_value_t v, void *param)
 {
     return set_file_system_device(v, 10);
 }
 
-static int set_file_system_device11(resource_value_t v)
+static int set_file_system_device11(resource_value_t v, void *param)
 {
     return set_file_system_device(v, 11);
 }
@@ -236,6 +321,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
     new_image.name = stralloc(filename);
     new_image.gcr = NULL;
+    new_image.read_only = attach_device_readonly_enabled[unit - 8];
 
     if (disk_image_open(&new_image) < 0) {
         free(new_image.name);

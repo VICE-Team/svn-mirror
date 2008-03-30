@@ -57,7 +57,7 @@ static char *default_path;
 static char *system_path;
 static char *expanded_system_path = NULL;
 
-static int set_system_path(resource_value_t v)
+static int set_system_path(resource_value_t v, void *param)
 {
     char *tmp_path, *tmp_path_save, *p, *s, *current_dir;
 
@@ -116,7 +116,7 @@ static int set_system_path(resource_value_t v)
 
 static resource_t resources[] = {
     { "Directory", RES_STRING, (resource_value_t) "$$",
-      (resource_value_t *) &system_path, set_system_path },
+      (resource_value_t *) &system_path, set_system_path, NULL },
     { NULL },
 };
 

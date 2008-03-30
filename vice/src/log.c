@@ -47,7 +47,7 @@ static unsigned int num_allocated_logs = 0;
 
 static char *log_file_name;
 
-static int set_log_file_name(resource_value_t v)
+static int set_log_file_name(resource_value_t v, void *param)
 {
     string_set(&log_file_name, (const char *) v);
 
@@ -57,7 +57,7 @@ static int set_log_file_name(resource_value_t v)
 #ifndef __C1541__
 static resource_t resources[] = {
     { "LogFileName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &log_file_name, set_log_file_name },
+      (resource_value_t *) &log_file_name, set_log_file_name, NULL },
     { NULL }
 };
 

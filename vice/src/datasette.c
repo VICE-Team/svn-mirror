@@ -85,19 +85,19 @@ static CLOCK datasette_speed_tuning;
 
 static log_t datasette_log = LOG_ERR;
 
-static int set_reset_datasette_with_maincpu(resource_value_t v)
+static int set_reset_datasette_with_maincpu(resource_value_t v, void *param)
 {
     reset_datasette_with_maincpu = (int)v;
     return 0;
 }
 
-static int set_datasette_zero_gap_delay(resource_value_t v)
+static int set_datasette_zero_gap_delay(resource_value_t v, void *param)
 {
     datasette_zero_gap_delay = (CLOCK)v;
     return 0;
 }
 
-static int set_datasette_speed_tuning(resource_value_t v)
+static int set_datasette_speed_tuning(resource_value_t v, void *param)
 {
     datasette_speed_tuning = (CLOCK)v;
     return 0;
@@ -107,11 +107,14 @@ static int set_datasette_speed_tuning(resource_value_t v)
 */
 static resource_t resources[] = {
     { "DatasetteResetWithCPU", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &reset_datasette_with_maincpu, set_reset_datasette_with_maincpu },
+      (resource_value_t *) &reset_datasette_with_maincpu,
+      set_reset_datasette_with_maincpu, NULL },
     { "DatasetteZeroGapDelay", RES_INTEGER, (resource_value_t) 20000,
-      (resource_value_t *) &datasette_zero_gap_delay, set_datasette_zero_gap_delay },
+      (resource_value_t *) &datasette_zero_gap_delay,
+      set_datasette_zero_gap_delay, NULL },
     { "DatasetteSpeedTuning", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &datasette_speed_tuning, set_datasette_speed_tuning },
+      (resource_value_t *) &datasette_speed_tuning,
+      set_datasette_speed_tuning, NULL },
     { NULL }
 };
 

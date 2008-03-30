@@ -63,7 +63,7 @@ static log_t traps_log = LOG_ERR;
 /* Flag: Should we avoid installing traps at all?  */
 static int traps_enabled;
 
-static int set_traps_enabled(resource_value_t v)
+static int set_traps_enabled(resource_value_t v, void *param)
 {
     int new_value = (int) v;
 
@@ -92,7 +92,7 @@ static int set_traps_enabled(resource_value_t v)
 
 static resource_t resources[] = {
     { "VirtualDevices", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t) &traps_enabled, set_traps_enabled },
+      (resource_value_t) &traps_enabled, set_traps_enabled, NULL },
     { NULL }
 };
 

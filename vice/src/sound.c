@@ -80,42 +80,42 @@ static int sdev_open           = FALSE;
    the OS/2 Multithreaded environment                              */
 int sound_state_changed;
 
-static int set_playback_enabled(resource_value_t v)
+static int set_playback_enabled(resource_value_t v, void *param)
 {
     if ((int)v) vsync_disable_timer();
     playback_enabled = (int)v;
     return 0;
 }
 
-static int set_sample_rate(resource_value_t v)
+static int set_sample_rate(resource_value_t v, void *param)
 {
     sample_rate   = (int) v;
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_device_name(resource_value_t v)
+static int set_device_name(resource_value_t v, void *param)
 {
     string_set(&device_name, (char *) v);
     sound_close();
     return 0;
 }
 
-static int set_device_arg(resource_value_t v)
+static int set_device_arg(resource_value_t v, void *param)
 {
     string_set(&device_arg, (char *) v);
     sound_close();
     return 0;
 }
 
-static int set_buffer_size(resource_value_t v)
+static int set_buffer_size(resource_value_t v, void *param)
 {
     buffer_size   = (int)v;
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_suspend_time(resource_value_t v)
+static int set_suspend_time(resource_value_t v, void *param)
 {
     suspend_time = (int)v;
     if (suspend_time < 0)
@@ -124,14 +124,14 @@ static int set_suspend_time(resource_value_t v)
     return 0;
 }
 
-static int set_speed_adjustment_setting(resource_value_t v)
+static int set_speed_adjustment_setting(resource_value_t v, void *param)
 {
     speed_adjustment_setting = (int)v;
     sound_close();
     return 0;
 }
 
-static int set_oversampling_factor(resource_value_t v)
+static int set_oversampling_factor(resource_value_t v, void *param)
 {
     oversampling_factor = (int)v;
     if (oversampling_factor < 0 || oversampling_factor > 3) {
@@ -146,23 +146,31 @@ static int set_oversampling_factor(resource_value_t v)
 
 static resource_t resources[] = {
     { "Sound", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &playback_enabled, set_playback_enabled },
-    { "SoundSampleRate", RES_INTEGER,
-      (resource_value_t) SOUND_SAMPLE_RATE,
-      (resource_value_t *) &sample_rate, set_sample_rate },
+      (resource_value_t *) &playback_enabled,
+      set_playback_enabled, NULL },
+    { "SoundSampleRate", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_RATE,
+      (resource_value_t *) &sample_rate,
+      set_sample_rate, NULL },
     { "SoundDeviceName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &device_name, set_device_name },
+      (resource_value_t *) &device_name,
+      set_device_name, NULL },
     { "SoundDeviceArg", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &device_arg, set_device_arg },
-    { "SoundBufferSize", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
-      (resource_value_t *) &buffer_size, set_buffer_size },
+      (resource_value_t *) &device_arg,
+      set_device_arg, NULL },
+    { "SoundBufferSize", RES_INTEGER,
+      (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
+      (resource_value_t *) &buffer_size,
+      set_buffer_size, NULL },
     { "SoundSuspendTime", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &suspend_time, set_suspend_time },
-    { "SoundSpeedAdjustment", RES_INTEGER, (resource_value_t) SOUND_ADJUST_FLEXIBLE,
+      (resource_value_t *) &suspend_time,
+      set_suspend_time, NULL },
+    { "SoundSpeedAdjustment", RES_INTEGER,
+      (resource_value_t) SOUND_ADJUST_FLEXIBLE,
       (resource_value_t *) &speed_adjustment_setting,
-      set_speed_adjustment_setting },
+      set_speed_adjustment_setting, NULL },
     { "SoundOversample", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &oversampling_factor, set_oversampling_factor },
+      (resource_value_t *) &oversampling_factor,
+      set_oversampling_factor, NULL },
     { NULL }
 };
 

@@ -197,7 +197,7 @@ static cmdline_option_t cmdline_options[] = {
 
 static int do_core_dumps = 0;
 
-static int set_do_core_dumps(resource_value_t v)
+static int set_do_core_dumps(resource_value_t v, void *param)
 {
     do_core_dumps = (int) v;
     return 0;
@@ -205,8 +205,8 @@ static int set_do_core_dumps(resource_value_t v)
 
 static resource_t resources[] =
 {
-    {"DoCoreDump", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *) & do_core_dumps, set_do_core_dumps},
+    { "DoCoreDump", RES_INTEGER, (resource_value_t) 0,
+    (resource_value_t *)&do_core_dumps, set_do_core_dumps, NULL },
     {NULL}
 };
 
@@ -283,6 +283,10 @@ static int init_cmdline_options(void)
     }
     if (ui_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize UI-specific command-line options.\n");
+        return -1;
+    }
+    if (file_system_init_cmdline_options() < 0) {
+        archdep_startup_log_error("Cannot initialize Attach-specific command-line options.\n");
         return -1;
     }
     if (machine_init_cmdline_options() < 0) {
