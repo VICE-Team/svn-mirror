@@ -44,6 +44,7 @@
 
 #include "archdep.h"
 #include "attach.h"
+#include "cbmdos.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "fsdevice.h"
@@ -99,7 +100,7 @@ int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
         vdrive->buffers[15].buffer = (BYTE *)lib_malloc(256);
     memset(vdrive->buffers[15].buffer, 0, 256);
 
-    vdrive_command_set_error(vdrive, IPE_DOS_VERSION, 0, 0);
+    vdrive_command_set_error(vdrive, CBMDOS_IPE_DOS_VERSION, 0, 0);
     return 0;
 }
 

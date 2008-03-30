@@ -44,6 +44,7 @@
 #endif
 
 #include "archdep.h"
+#include "cbmdos.h"
 #include "charset.h"
 #include "fileio.h"
 #include "fsdevice-flush.h"
@@ -76,11 +77,11 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
 {
     int er;
 
-    er = IPE_OK;
+    er = CBMDOS_IPE_OK;
     if (ioutil_chdir(fsdevice_get_path(vdrive->unit)) || ioutil_chdir(arg)) {
-        er = IPE_NOT_FOUND;
+        er = CBMDOS_IPE_NOT_FOUND;
         if (errno == EPERM)
-            er = IPE_PERMISSION;
+            er = CBMDOS_IPE_PERMISSION;
     } else { /* get full path and save */
         arg = ioutil_current_dir();
         fsdevice_set_directory(arg, vdrive->unit);
@@ -97,22 +98,22 @@ static int fsdevice_flush_cdup(vdrive_t* vdrive)
 
 static int fsdevice_flush_reset(void)
 {
-    return IPE_DOS_VERSION;
+    return CBMDOS_IPE_DOS_VERSION;
 }
 
 static int fsdevice_flush_mkdir(char *arg)
 {
     int er;
 
-    er = IPE_OK;
+    er = CBMDOS_IPE_OK;
     if (ioutil_mkdir(arg, 0770)) {
-        er = IPE_INVAL;
+        er = CBMDOS_IPE_INVAL;
         if (errno == EEXIST)
-            er = IPE_FILE_EXISTS;
+            er = CBMDOS_IPE_FILE_EXISTS;
         if (errno == EACCES)
-            er = IPE_PERMISSION;
+            er = CBMDOS_IPE_PERMISSION;
         if (errno == ENOENT)
-            er = IPE_NOT_FOUND;
+            er = CBMDOS_IPE_NOT_FOUND;
     }
 
     return er;
@@ -124,7 +125,7 @@ static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
     int er;
 
     if (arg == NULL || *arg == '\0')
-        er = IPE_SYNTAX; /* change to root partition not implemented */
+        er = CBMDOS_IPE_SYNTAX; /* change to root partition not implemented */
     else if ((comma = strchr(arg, ',')) == NULL)
         er = fsdevice_flush_cd(vdrive, arg);
     else { /* create partition: check syntax */
@@ -134,7 +135,7 @@ static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
         if (i == 4 && *comma++ == ',' && *comma++ == 'c' && !*comma)
             er = fsdevice_flush_mkdir(arg);
         else
-            er = IPE_SYNTAX;
+            er = CBMDOS_IPE_SYNTAX;
     }
     return er;
 }
@@ -143,11 +144,11 @@ static int fsdevice_flush_remove(char *arg)
 {
     int er;
 
-    er = IPE_OK;
+    er = CBMDOS_IPE_OK;
     if (ioutil_remove(arg)) {
-        er = IPE_NOT_EMPTY;
+        er = CBMDOS_IPE_NOT_EMPTY;
         if (errno == EPERM)
-            er = IPE_PERMISSION;
+            er = CBMDOS_IPE_PERMISSION;
     }
 
     return er;
@@ -158,7 +159,7 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
     unsigned int format = 0, rc;
 
     if (realarg[0] == '\0')
-        return IPE_SYNTAX;
+        return CBMDOS_IPE_SYNTAX;
 
     if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
         format |= FILEIO_FORMAT_P00;
@@ -169,14 +170,14 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
 
     switch (rc) {
       case FILEIO_FILE_NOT_FOUND:
-        return IPE_NOT_FOUND;
+        return CBMDOS_IPE_NOT_FOUND;
       case FILEIO_FILE_PERMISSION:
-        return IPE_PERMISSION;
+        return CBMDOS_IPE_PERMISSION;
       case FILEIO_FILE_SCRATCHED:
-        return IPE_DELETED;
+        return CBMDOS_IPE_DELETED;
     }
 
-    return IPE_OK;
+    return CBMDOS_IPE_OK;
 }
 
 static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
@@ -187,13 +188,13 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
     tmp = strchr(realarg, '=');
 
     if (tmp == NULL)
-        return IPE_SYNTAX;
+        return CBMDOS_IPE_SYNTAX;
 
     if (tmp == realarg)
-        return IPE_SYNTAX;
+        return CBMDOS_IPE_SYNTAX;
 
     if (tmp[1] == '\0')
-        return IPE_SYNTAX;
+        return CBMDOS_IPE_SYNTAX;
 
     tmp[0] = '\0';
 
@@ -209,14 +210,14 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
 
     switch (rc) {
       case FILEIO_FILE_NOT_FOUND:
-        return IPE_NOT_FOUND;
+        return CBMDOS_IPE_NOT_FOUND;
       case FILEIO_FILE_EXISTS:
-        return IPE_FILE_EXISTS;
+        return CBMDOS_IPE_FILE_EXISTS;
       case FILEIO_FILE_PERMISSION:
-        return IPE_PERMISSION;
+        return CBMDOS_IPE_PERMISSION;
     }
 
-    return IPE_OK;
+    return CBMDOS_IPE_OK;
 }
 
 void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
@@ -224,7 +225,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     unsigned int dnr;
     char *cmd, *realarg, *arg;
     char cbmcmd[MAXPATHLEN];
-    int er = IPE_SYNTAX;
+    int er = CBMDOS_IPE_SYNTAX;
 
     dnr = vdrive->unit - 8;
 
@@ -295,7 +296,7 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
         fs_cmdbuf[dnr][fs_cptr[dnr]++] = data;
         rc = SERIAL_OK;
     } else {
-        fsdevice_error(vdrive, IPE_LONG_LINE);
+        fsdevice_error(vdrive, CBMDOS_IPE_LONG_LINE);
         rc = SERIAL_ERROR;
     }
 
