@@ -1,3 +1,146 @@
+2001-10-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.7.15.
+
+	* c64/cart/actionreplay.c, c64/cart/actionreplay.h,
+	c64/cart/retroreplay.c, c64/cart/retroreplay.h,
+	c64/cart/supersnapshot.c, c64/cart/supersnapshot.h,
+	c64/cart/atomicpower.c, c64/cart/atomicpower.h,
+	c64/cart/kcs.c, c64/cart/kcs.h, c64/cart/expert.c,
+	c64/cart/expert.h, c64/cart/final.c, c64/cart/final.h: New
+	files.
+
+	* c64/cart/c64cartmem.c, c64/cart/c64cartmem.h,
+	c64/cart/c64cart.c; c64/cart/crt.c: Rewritten to new cart API.
+
+	* arch/unix/c64ui.c, arch/win32/c64ui.c, arch/win32/resc64.rc,
+	arch/win32/res.h, arch/msdos/c64ui.c: Added Retro Replay.
+
+	* utils.c, utils.h: Changed some file processing functions.
+
+	* c64/reu.c, fsdevice.c, resources.c, snapshot.c, zfile.c,
+	c64/c64.c, c128/c128.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c, c64/cart/generic.c: Changed to new file util API.
+
+2001-10-21  Dag Lem  <resid@nimrod.no>
+
+	* sid/sid.c (sound_machine_open, sound_machine_init): Allow
+	reinit of opened sound engine.
+
+	* sid/sid.h (sound_engine_s): Added init function hook.
+
+	* sid/fastsid.c (fastsid_open, fastsid_init): Likewise.
+
+	* sid/resid.cc (resid_open, resid_init): Likewise.
+
+	* sid/sid-resources.c (set_sid_filters_enabled, set_sid_model,
+	set_sid_resid_sampling, set_sid_resid_passband): Set
+	sid_state_changed instead of sound_state_changed.
+
+	* sound.c (sid_state_changed): New flag.
+	(set_device_arg, set_suspend_time): Set sound_state_changed
+	instead of calling sound_close().
+	(set_speed_adjustment_setting): Don't set sound_state_changed.
+	(sound_error): Renamed from closesound.
+	(sound_close): Moved device close from closesound.
+	(suspendound): Set sound_state_changed instead of calling
+	sound_close().
+	(sid_open, sid_init, sid_close): New functions.
+	(sound_open): Renamed from initsid.
+	(sound_flush): Check sid_state_changed.
+	(sound_init): Clear sid_state_changed.
+	(set_machine_parameter, set_relative_speed): Set
+	sid_state_changed instead of sound_state_changed.
+
+	* sound.h (sid_state_changed): New flag.
+	(sound_machine_open, sound_machine_init): Allow
+	reinit of opened sound engine.
+
+	* vic20/vic20sound.c (sound_machine_open, sound_machine_init):
+	Allow reinit of opened sound engine.
+
+	* pet/petsound.c (sound_machine_open, sound_machine_init):
+	Likewise.
+
+2001-10-20  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Final reSID 0.12.
+
+	* sid/fastsid.c (fastsid_calculate_samples): Added
+	sample interleaving.
+
+	* sid/resid.cc (resid_calculate_samples): Likewise.
+
+	* sid/sid.c, sid/sid.h (sound_machine_calculate_samples):
+	ikewise.
+
+	* sound.c, sound.h: Likewise.
+
+	* pet/petsound.c (sound_machine_calculate_samples): Likewise.
+
+	* vic20/vic20sound.c (sound_machine_calculate_samples):
+	Likewise.
+
+2001-10-17 Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: vsid player responds to data_open message.
+
+	* printerdrv/drv-mps803.c: use portable extension character.
+
+2001-10-16  Dag Lem  <resid@nimrod.no>
+
+	* sid/sid-snapshot.c: Use siddata[0].
+
+	* sid/sid.c, sid/sid.h: Generalized for arbitrary number of
+	sound channels.
+
+	* sound.c, sound.h: Generalized for arbitrary number of
+	sound channels. Make "oversampling" work for more than one
+	channel.
+
+	* sounddrv/soundacorn.c (init_vidc_device, init_vidc_sync_device):
+	Replaced stereo parameter with channels parameter.
+
+	* sounddrv/soundaix.c (aix_init): Likewise.
+
+	* sounddrv/soundallegro.c (allegro_init_sound): Likewise.
+
+	* sounddrv/soundarts.c (artsdrv_init): Likewise.
+
+	* sounddrv/soundbeos.cc (beos_init): Likewise.
+
+	* sounddrv/sounddart.c (dart_init): Likewise.
+
+	* sounddrv/sounddump.c (dump_init): Likewise.
+
+	* sounddrv/sounddx.c (dx_init): Likewise.
+
+	* sounddrv/soundesd.c (esd_init): Likewise.
+
+	* sounddrv/soundfs.c (fs_init): Likewise.
+
+	* sounddrv/soundhpux.c (hpux_init): Likewise.
+
+	* sounddrv/soundmidas.c (midas_init): Likewise.
+
+	* sounddrv/soundmmos2.c (mmos2_init): Likewise.
+
+	* sounddrv/soundsb.c (sb_init): Likewise.
+
+	* sounddrv/soundsdl.c (sdl_init): Likewise.
+
+	* sounddrv/soundsgi.c (sgi_init): Likewise.
+
+	* sounddrv/soundsun.c (sun_init): Likewise.
+
+	* sounddrv/soundwav.c (wav_init): Likewise.
+
+	* sounddrv/soundwmm.c (wmm_init): Likewise.
+
+2001-10-14  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Patched up to reSID 0.12, final test.
+
 2001-10-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.14.
