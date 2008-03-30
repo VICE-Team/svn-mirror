@@ -1,4 +1,57 @@
-2001-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2001-05-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.27.
+
+	* c64/reu.c (reu_read_snapshot_module): Initialize REU.
+	(set_reu_size): More logging.
+	[cmdline_options]: Fixed `REUsize' resource name.
+
+2001-05-13  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/c128.dsp: Added c128-cmdline-options.c,
+	c128-resources.c, c12memlimit.c to project file.
+
+	* arch/win32/c64.dsp: Added c64-cmdline-options.c,
+	c64-resources.c, c64memlimit.c to project file.
+
+	* arch/win32/c64c128.dsp: Added c64cartmem.c, c64cartridge.c
+	to project file.
+
+	* arch/win32/cbm2.dsp: Added c610-cmdline-options.c,
+	c610-resources.c to project file.
+
+	* arch/win32/joystick.c (joystick_update): Added default case
+	to two switches to prevent a few warnings.
+
+	* arch/win32/msvc/config.h: Certain MSVC warnings are turned
+	off if MSVC_WARNINGS is defined.
+
+	* arch/win32/pet.dsp: Added pet-cmdline-options.c,
+	pet-resources.c to project file.
+
+	* arch/win32/statusbar.c (statusbar_handle_WMDRAWITEM): Added
+	a cast to fix a warning.
+
+	* arch/win32/uilib.c (tape_hook_proc, hook_proc): Check if
+	selection is file or directory and only update the preview box
+	when it's a file. If the current folder has been changed clear
+	the file selection field.
+
+	* arch/win32/vic20.dsp: Added vic20-cmdline-options.c,
+	vic20-resources.c to project file.
+
+	* resid/filter.cc (writeRES_FILT, writeMODE_VOL): Fixed
+	boolean casting warning.
+
+	* resid/wave.cc (writeCONTROL_REG): Fixed boolean casting
+	warnings.
+
+2001-05-13  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c, arch/riscos/uiconfig.{c,h},
+	sounddrv/soundacorn.c: added support for 16bit sound hardware.
+
+2001-05-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.26.
 

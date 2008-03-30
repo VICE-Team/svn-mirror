@@ -32,9 +32,9 @@
 
 /* actions to be done when a zfile is closed */
 typedef enum {
-	ZFILE_KEEP,	/* Nothing, keep original file (default).  */
-	ZFILE_REQUEST,	/* Request the user what to do.  */
-	ZFILE_DEL	/* Remove original file.  */
+        ZFILE_KEEP,     /* Nothing, keep original file (default).  */
+        ZFILE_REQUEST,  /* Request the user what to do.  */
+        ZFILE_DEL       /* Remove original file.  */
 } zfile_action_t;
 
 extern FILE *zfopen(const char *name, const char *mode);
