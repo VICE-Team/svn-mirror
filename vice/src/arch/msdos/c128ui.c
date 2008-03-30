@@ -91,12 +91,16 @@ static struct {
 } palette_items[] = {
     { "default", "Default", "_Default",
       "Default VICE C64 palette" },
+    { "c64s", "C64S", "C64_S",
+      "Palette from the C64S emulator by Miha Peternel" },
     { "ccs64", "CCS64", "_CCS64",
       "Palette from the CCS64 emulator by Per Hakan Sundell" },
     { "frodo", "Frodo", "_Frodo",
       "Palette from the Frodo emulator by Christian Bauer" },
     { "godot", "GoDot", "_GoDot",
       "Palette as suggested by the authors of the GoDot C64 graphics package" },
+    { "pc64", "PC64", "_PC64",
+      "Palette from the PC64 emulator by Wolfgang Lorenz" },
     { NULL }
 };
 
