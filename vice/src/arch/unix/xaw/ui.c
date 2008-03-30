@@ -120,6 +120,7 @@ static int selected_videomode_index;
 
 static ui_menu_entry_t* resolutions_submenu;
 
+static void ui_display_drive_current_image2(void);
 extern void video_setfullscreen(int v,int width, int height);
 
 #endif
@@ -202,7 +203,7 @@ static int vidmode_available(void)
         if (allmodes[i]->hdisplay <= 800 &&
 	   allmodes[i]->hdisplay >= 320 &&
 	   allmodes[i]->vdisplay <= 600  &&
-	   allmodes[i]->hdisplay >= 200) {
+	   allmodes[i]->vdisplay >= 200) {
 	      bestmodes[bestmode_counter].modeindex=i;
 	      hz = allmodes[i]->dotclock * 1000 /
 		( allmodes[i]->vtotal * allmodes[i]->htotal) ;
@@ -722,6 +723,7 @@ static struct {
     struct {
         Widget track_label;
         Widget led;
+	Widget current_image;
 	/* those two replace the single LED widget when SFD1001 is selected */
         Widget led1;
         Widget led2;
@@ -730,6 +732,7 @@ static struct {
     int drive_nleds[NUM_DRIVES];
 } app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
+static char last_attached_images[NUM_DRIVES][256];
 
 /* Pixels for updating the drive LED's state.  */
 Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
@@ -826,6 +829,8 @@ static String fallback_resources[] = {
     "*Canvas.background:                             black",
     "*driveTrack1.font:                          -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack2.font:                          -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage1.font:                   -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage2.font:                   -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.font:                         -*-helvetica-medium-r-*-*-12-*",
 
     NULL
@@ -1014,8 +1019,9 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
     Widget shell, speed_label;
-    Widget drive_track_label[2], drive_led[2];
-    Widget drive_led1[2], drive_led2[2];
+    Widget drive_track_label[NUM_DRIVES], drive_led[NUM_DRIVES];
+    Widget drive_current_image[NUM_DRIVES];
+    Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
     XSetWindowAttributes attr;
     int i;
 
@@ -1089,7 +1095,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
             ("speedStatus",
              labelWidgetClass, pane,
              XtNlabel, "",
-             XtNwidth, w1 - NUM_DRIVES * (w1 / 4),
+             XtNwidth, (w1 - NUM_DRIVES * (w1 / 4)) / 2,
              XtNfromVert, canvas,
              XtNtop, XawChainBottom,
              XtNbottom, XawChainBottom,
@@ -1104,6 +1110,23 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
         for (i = 0; i < NUM_DRIVES; i++) {
             char name[256];
 
+            sprintf(name, "driveCurrentImage%d", i + 1);
+
+            drive_current_image[i] = XtVaCreateManagedWidget
+                (name,
+                 labelWidgetClass, pane,
+                 XtNlabel, "",
+                 XtNwidth, (w1 / 2) + 13,
+                 XtNfromVert, i == 0 ? canvas : drive_current_image[i-1],
+                 XtNfromHoriz, speed_label,
+                 XtNhorizDistance, 0,
+                 XtNtop, XawChainBottom,
+                 XtNbottom, XawChainBottom,
+                 XtNleft, XawChainRight,
+                 XtNright, XawChainRight,
+                 XtNjustify, XtJustifyLeft,
+                 XtNborderWidth, 0,
+                 NULL);
             sprintf(name, "driveTrack%d", i + 1);
 
             drive_track_label[i] = XtVaCreateManagedWidget
@@ -1112,7 +1135,8 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                  XtNlabel, "",
                  XtNwidth, w1 / 4,
                  XtNfromVert, canvas,
-                 XtNfromHoriz, i == 0 ? speed_label : drive_led[i - 1],
+                 XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
+                 XtNfromHoriz, drive_current_image[i],
                  XtNhorizDistance, 0,
                  XtNtop, XawChainBottom,
                  XtNbottom, XawChainBottom,
@@ -1129,7 +1153,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                  xfwfcanvasWidgetClass, pane,
                  XtNwidth, led_width,
                  XtNheight, led_height,
-                 XtNfromVert, canvas,
+                 XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_track_label[i],
                  XtNhorizDistance, 0,
                  XtNvertDistance, (height - led_height) / 2 + 1,
@@ -1150,7 +1174,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                  xfwfcanvasWidgetClass, pane,
                  XtNwidth, led_width / 2 - 1,
                  XtNheight, led_height,
-                 XtNfromVert, canvas,
+                 XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_track_label[i],
                  XtNhorizDistance, 0,
                  XtNvertDistance, (height - led_height) / 2 + 1,
@@ -1169,7 +1193,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                  xfwfcanvasWidgetClass, pane,
                  XtNwidth, led_width / 2 - 1,
                  XtNheight, led_height,
-                 XtNfromVert, canvas,
+                 XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_led1[i],
                  XtNhorizDistance, 0,
                  XtNvertDistance, (height - led_height) / 2 + 1,
@@ -1238,6 +1262,15 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
             = drive_led2[i];
         XtUnrealizeWidget(drive_led1[i]);
         XtUnrealizeWidget(drive_led2[i]);
+	app_shells[num_app_shells - 1].drive_widgets[i].current_image
+	    = drive_current_image[i];
+	strcpy(&(last_attached_images[i][0]), "");
+	/* the `current_image' widgets are never `UnRealized'. */
+	XtRealizeWidget(app_shells[num_app_shells - 1].
+			drive_widgets[i].current_image);
+	XtManageChild(app_shells[num_app_shells - 1].
+		      drive_widgets[i].current_image);
+
     }
 
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
@@ -1621,7 +1654,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-    int i, j, num, k;
+    int i, j, num, k, true_emu;
     int drive_mapping[NUM_DRIVES];
 
     num = 0;
@@ -1629,16 +1662,28 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
     enabled_drives = enable;
     drive_active_led = drive_led_color;
 
-    memset(drive_mapping, 0, sizeof(drive_mapping));
-    for (i = NUM_DRIVES - 1, j = 1 << (NUM_DRIVES - 1); i >= 0; i--, j >>= 1) {
-        if (enabled_drives & j) {
-            num++;
-            drive_mapping[i] = NUM_DRIVES - num;
-        }
+    /* -1 should be safe, otherwise the display code in `ui_display_*'  
+       was wrong before. */
+    memset(drive_mapping, -1, sizeof(drive_mapping));
+    resources_get_value("DriveTrueEmulation", (resource_value_t *) &true_emu);
+    if (true_emu) {
+	/* num == number of drives which are active; 
+	   drive_mapping[i] stores the widget number into which the i'th drive
+	   things should be displayed */
+	for (i = 0, j = 1; i < NUM_DRIVES; i++, j <<= 1) {
+	    if (enabled_drives & j) 
+		drive_mapping[i] = num++;
+	}
+    } else {
+	for (i = 0; i < NUM_DRIVES; i++) {
+	    if (strcmp(&(last_attached_images[i][0]), "") != 0) 
+		drive_mapping[i] = num++; 
+	}
     }
-
+    
     for (i = 0; i < num_app_shells; i++) {
-        for (j = NUM_DRIVES - 1; j >= 0 && num > 0; j--, num--) {
+	/* now show `num' widgets ... */
+        for (j = 0; j < NUM_DRIVES && num && true_emu > 0; j++, num--) {
             XtRealizeWidget(app_shells[i].drive_widgets[j].track_label);
             XtManageChild(app_shells[i].drive_widgets[j].track_label);
 	   
@@ -1659,7 +1704,11 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                 XtManageChild(app_shells[i].drive_widgets[j].led2);
 	    }
         }
-        for (; j >= 0; j--) {
+	/* ...and hide the rest until `NUM_DRIVES' */
+	if (! true_emu)
+	    num = j = 0;	/* hide all label+led widgets in normal mode */
+	
+        for (; j < NUM_DRIVES; j++) {
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].track_label);
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].led);
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].led1);
@@ -1668,8 +1717,10 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
         for (j = 0; j < NUM_DRIVES; j++)
             app_shells[i].drive_mapping[j] = drive_mapping[j];
     }
+    /* now update all image names from the cached names */
+    ui_display_drive_current_image2();
 }
-
+	
 void ui_display_drive_track(int drive_number, double track_number)
 {
     int i;
@@ -1678,7 +1729,10 @@ void ui_display_drive_track(int drive_number, double track_number)
     sprintf(str, "%d: Track %.1f", drive_number + 8, (double)track_number);
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
-	Widget w = app_shells[i].drive_widgets[n].track_label;
+	Widget w;
+	if (n < 0)
+	    return;		/* bad mapping */
+	w = app_shells[i].drive_widgets[n].track_label;
 
         XtVaSetValues(w, XtNlabel, str, NULL);
     }
@@ -1694,6 +1748,9 @@ void ui_display_drive_led(int drive_number, int status)
         int n = app_shells[i].drive_mapping[drive_number];
 	Widget w;
 
+	if (n < 0)
+	    return;		/* bad mapping */
+	
         pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
 	w = app_shells[i].drive_widgets[n].led;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
@@ -1707,6 +1764,49 @@ void ui_display_drive_led(int drive_number, int status)
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
 }
+
+void ui_display_drive_current_image(int drive_number, char *image)
+{
+    static char str[256];
+    char *dir, *name;
+
+    fname_split(image, &dir, &name);
+    
+    sprintf(str, "%s", name);
+    strcpy(&(last_attached_images[drive_number][0]), str);
+
+    /* update drive mapping */
+    ui_enable_drive_status(enabled_drives, drive_active_led);
+}
+
+static void ui_display_drive_current_image2 (void) 
+{
+    int i, j;
+    
+    /* Now update all fields according to drive_mapping */
+    for (i = 0; i < num_app_shells; i++) {
+	for (j = 0; j < NUM_DRIVES; j++) {
+	    int n = app_shells[i].drive_mapping[j]; 
+	    Widget w;
+
+	    /* It is assumed that the j-1'th widget is not touched anymore.
+	       -> the drive mapping code fills the widgets up from 0 */
+
+	    /* first clear the j'th widget */
+	    w = app_shells[i].drive_widgets[j].current_image;
+	    XtVaSetValues(w, XtNlabel, "", NULL);
+	    
+	    if (n < 0) 
+		continue;	/* j'th is drive not mapped */
+	    
+	    /* now fill the j'th widget */
+	    w = app_shells[i].drive_widgets[n].current_image;
+	    XtVaSetValues(w, XtNlabel, 
+			  &(last_attached_images[j][0]), NULL);
+	}
+    }
+}
+
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
