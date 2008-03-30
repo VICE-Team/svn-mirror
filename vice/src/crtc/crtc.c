@@ -102,6 +102,8 @@ crtc_t crtc = {
 #define CRTC_CYCLES_PER_LINE() \
     crtc.regs[0]
 
+static void crtc_exposure_handler(unsigned int width, unsigned int height);
+
 /*--------------------------------------------------------------------*/
 /* size/mode handling */
 /*
@@ -367,7 +369,7 @@ raster_t *crtc_init(void)
         return NULL;
 
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
-    raster_set_exposure_handler(raster, (void*)crtc_exposure_handler);
+    raster_set_exposure_handler(raster, (void *)crtc_exposure_handler);
     raster_enable_cache(raster, crtc_resources.video_cache_enabled);
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
@@ -840,8 +842,7 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
     alarm_set(&crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
 }
 
-void crtc_exposure_handler(unsigned int width,
-                           unsigned int height)
+static void crtc_exposure_handler(unsigned int width, unsigned int height)
 {
     raster_resize_viewport(&crtc.raster, width, height);
 

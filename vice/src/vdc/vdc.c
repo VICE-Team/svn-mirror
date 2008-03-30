@@ -55,6 +55,7 @@
 vdc_t vdc;
 
 static void vdc_raster_draw_alarm_handler(CLOCK offset);
+static void vdc_exposure_handler(unsigned int width, unsigned int height);
 
 static void vdc_set_geometry(void)
 {
@@ -280,7 +281,7 @@ void vdc_powerup(void)
 }
 
 /* Handle the exposure event. */
-void vdc_exposure_handler(unsigned int width, unsigned int height)
+static void vdc_exposure_handler(unsigned int width, unsigned int height)
 {
     raster_resize_viewport(&vdc.raster, width, height);
     /* FIXME: Needed? Maybe this should be triggered by
