@@ -28,6 +28,8 @@ libvicii_a_SOURCES = \
 	vicii-snapshot.h \
 	vicii-sprites.c \
 	vicii-sprites.h \
+	vicii-timing.c \
+	vicii-timing.h \
 	vicii.c \
 	vicii.h \
 	viciitypes.h
