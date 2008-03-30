@@ -389,12 +389,12 @@ store_d011 (ADDRESS addr, BYTE value)
 
   /* This is the funniest part... handle bad line tricks.  */
 
-  if (line == VIC_II_FIRST_DMA_LINE && (value & 0x10) != 0)
+  if (line == vic_ii.first_dma_line && (value & 0x10) != 0)
     vic_ii.allow_bad_lines = 1;
 
   if (vic_ii.raster.ysmooth != (value & 7)
-      && line >= VIC_II_FIRST_DMA_LINE
-      && line <= VIC_II_LAST_DMA_LINE)
+      && line >= vic_ii.first_dma_line
+      && line <= vic_ii.last_dma_line)
     check_bad_line_state_change_for_d011 (value, cycle, line);
 
   vic_ii.raster.ysmooth = value & 0x7;
@@ -465,6 +465,9 @@ store_d012 (ADDRESS addr, BYTE value)
 {
   unsigned int line;
   unsigned int old_raster_irq_line;
+
+  /* FIXME: Not accurate as bit #8 is missing.  */
+  value = (value - vic_ii.offset) & 255;
 
   VIC_II_DEBUG_REGISTER (("\tRaster compare register: $%02X\n", value));
 
@@ -546,8 +549,8 @@ store_d015 (ADDRESS addr, BYTE value)
 	   && vic_ii.fetch_clk > clk
 	   && cycle > VIC_II_FETCH_CYCLE
 	   && cycle <= vic_ii.sprite_fetch_cycle)
-	  || vic_ii.raster.current_line < VIC_II_FIRST_DMA_LINE
-	  || vic_ii.raster.current_line > VIC_II_LAST_DMA_LINE)
+	  || vic_ii.raster.current_line < vic_ii.first_dma_line
+	  || vic_ii.raster.current_line > vic_ii.last_dma_line)
 	{
 	  CLOCK new_fetch_clk;
 
@@ -1047,7 +1050,7 @@ vic_store(ADDRESS addr, BYTE value)
     case 0xb:			/* $D00B: Sprite #5 Y position */
     case 0xd:			/* $D00D: Sprite #6 Y position */
     case 0xf:			/* $D00F: Sprite #7 Y position */
-      store_sprite_y_position (addr, value);
+      store_sprite_y_position (addr, (value + vic_ii.offset) & 255);
       break;
 
     case 0x10:			/* $D010: Sprite X position MSB */
@@ -1241,7 +1244,7 @@ vic_read (ADDRESS addr)
     case 0xf:			/* $D00F: Sprite #7 Y position */
       VIC_II_DEBUG_REGISTER (("\tSprite #%d Y position: $%02X\n",
                               addr >> 1, vic_ii.regs[addr]));
-      return vic_ii.regs[addr];
+      return (256 + vic_ii.regs[addr] - vic_ii.offset) % 256;
 
     case 0x10:			/* $D010: Sprite X position MSB */
       VIC_II_DEBUG_REGISTER (("\tSprite X position MSB: $%02X\n",
@@ -1252,7 +1255,8 @@ vic_read (ADDRESS addr)
 				   and raster MSB */
     case 0x12:			/* $D012: Raster line compare */
       {
-	unsigned int tmp = read_raster_y ();
+	unsigned int tmp = (vic_ii.screen_height + read_raster_y()
+                           - vic_ii.offset) % vic_ii.screen_height;
 
 	VIC_II_DEBUG_REGISTER (("\tRaster Line register %s value = $%04X\n",
 			      (addr == 0x11 ? "(highest bit) " : ""), tmp));
