@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.11.45
+ VERSION=1.11.46
 
 
 cat >>confdefs.h <<_ACEOF
@@ -2937,7 +2937,7 @@ _ACEOF
 _ACEOF
 
 
-elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
+elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
 
     ac_cv_c_compiler_gnu=yes
   GCC=yes
@@ -3055,7 +3055,7 @@ sed 's/^/| /' conftest.$ac_ext >&5
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 
-elif test x"$host_vendor" = "xbeos"; then
+elif test x"$host_os" = "xbeos"; then
 
     ac_cv_c_compiler_gnu=yes
   GCC=yes

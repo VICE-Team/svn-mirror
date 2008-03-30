@@ -269,6 +269,7 @@ noinst_HEADERS = \
 	blockdev.h \
 	cartridge.h \
 	catweaselmkiii.h \
+	cbmimage.h \
 	charset.h \
 	cia.h \
 	ciacore.h \
@@ -293,7 +294,6 @@ noinst_HEADERS = \
 	gcr.h \
 	gfxoutput.h \
 	iecdrive.h \
-	image.h \
 	imagecontents.h \
 	info.h \
 	init.h \
@@ -362,6 +362,7 @@ base_sources = \
 	ciatimer.c \
 	clkguard.c \
 	cmdline.c \
+	cbmimage.c \
 	color.c \
 	datasette.c \
 	debug.c \
@@ -371,7 +372,6 @@ base_sources = \
 	findpath.c \
 	fliplist.c \
 	gcr.c \
-	image.c \
 	info.c \
 	init.c \
 	initcmdline.c \
@@ -597,7 +597,7 @@ c1541_SOURCES = \
 	cmdline.c \
 	findpath.c \
 	gcr.c \
-	image.c \
+	cbmimage.c \
 	info.c \
 	ioutil.c \
 	lib.c \
@@ -654,10 +654,10 @@ bin_PROGRAMS = x64$(EXEEXT) x128$(EXEEXT) xvic$(EXEEXT) xpet$(EXEEXT) \
 PROGRAMS = $(bin_PROGRAMS)
 
 am_c1541_OBJECTS = c1541.$(OBJEXT) charset.$(OBJEXT) cmdline.$(OBJEXT) \
-	findpath.$(OBJEXT) gcr.$(OBJEXT) image.$(OBJEXT) info.$(OBJEXT) \
-	ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) p00.$(OBJEXT) \
-	resources.$(OBJEXT) utils.$(OBJEXT) zfile.$(OBJEXT) \
-	zipcode.$(OBJEXT)
+	findpath.$(OBJEXT) gcr.$(OBJEXT) cbmimage.$(OBJEXT) \
+	info.$(OBJEXT) ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
+	p00.$(OBJEXT) resources.$(OBJEXT) utils.$(OBJEXT) \
+	zfile.$(OBJEXT) zipcode.$(OBJEXT)
 c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_TRUE@c1541_DEPENDENCIES = @ARCH_DIR@/archdep.o \
 @HAVE_RAWDRIVE_TRUE@	@ARCH_DIR@/uicmdline.o \
@@ -684,10 +684,10 @@ petcat_DEPENDENCIES = @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o
 petcat_LDFLAGS =
 am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	charset.$(OBJEXT) ciatimer.$(OBJEXT) clkguard.$(OBJEXT) \
-	cmdline.$(OBJEXT) color.$(OBJEXT) datasette.$(OBJEXT) \
-	debug.$(OBJEXT) dma.$(OBJEXT) emuid.$(OBJEXT) event.$(OBJEXT) \
-	findpath.$(OBJEXT) fliplist.$(OBJEXT) gcr.$(OBJEXT) \
-	image.$(OBJEXT) info.$(OBJEXT) init.$(OBJEXT) \
+	cmdline.$(OBJEXT) cbmimage.$(OBJEXT) color.$(OBJEXT) \
+	datasette.$(OBJEXT) debug.$(OBJEXT) dma.$(OBJEXT) \
+	emuid.$(OBJEXT) event.$(OBJEXT) findpath.$(OBJEXT) \
+	fliplist.$(OBJEXT) gcr.$(OBJEXT) info.$(OBJEXT) init.$(OBJEXT) \
 	initcmdline.$(OBJEXT) interrupt.$(OBJEXT) ioutil.$(OBJEXT) \
 	joystick.$(OBJEXT) kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) \
 	lib.$(OBJEXT) log.$(OBJEXT) machine.$(OBJEXT) main.$(OBJEXT) \
@@ -716,13 +716,13 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/memcmp.Po $(DEPDIR)/usleep.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/alarm.Po ./$(DEPDIR)/attach.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/autostart.Po ./$(DEPDIR)/c1541.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/charset.Po ./$(DEPDIR)/ciatimer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/clkguard.Po ./$(DEPDIR)/cmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/color.Po ./$(DEPDIR)/datasette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/debug.Po ./$(DEPDIR)/dma.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/emuid.Po ./$(DEPDIR)/event.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/findpath.Po ./$(DEPDIR)/fliplist.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/gcr.Po ./$(DEPDIR)/image.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cbmimage.Po ./$(DEPDIR)/charset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ciatimer.Po ./$(DEPDIR)/clkguard.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cmdline.Po ./$(DEPDIR)/color.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/datasette.Po ./$(DEPDIR)/debug.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/dma.Po ./$(DEPDIR)/emuid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/event.Po ./$(DEPDIR)/findpath.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fliplist.Po ./$(DEPDIR)/gcr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/info.Po ./$(DEPDIR)/init.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/initcmdline.Po ./$(DEPDIR)/interrupt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ioutil.Po ./$(DEPDIR)/joystick.Po \
@@ -847,6 +847,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/attach.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/autostart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1541.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbmimage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/charset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ciatimer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/clkguard.Po@am__quote@
@@ -860,7 +861,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/findpath.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fliplist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gcr.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/image.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/initcmdline.Po@am__quote@

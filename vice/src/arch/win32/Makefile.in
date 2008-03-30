@@ -292,6 +292,10 @@ libarch_a_SOURCES = \
 	uidatasette.h \
 	uidrivec64c128vic20.c \
 	uidrivec64c128vic20.h \
+	uidrivepetcbm2.c \
+	uidrivepetcbm2.h \
+	uidriveplus4.c \
+	uidriveplus4.h \
 	uijoystick.c \
 	uijoystick.h \
 	uilib.c \
@@ -396,13 +400,14 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	system.$(OBJEXT) tfearch.$(OBJEXT) ui.$(OBJEXT) \
 	uiattach.$(OBJEXT) uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
-	uidrivec64c128vic20.$(OBJEXT) uijoystick.$(OBJEXT) \
-	uilib.$(OBJEXT) uimon.$(OBJEXT) uipetset.$(OBJEXT) \
-	uiplus4mem.$(OBJEXT) uiram.$(OBJEXT) uireu.$(OBJEXT) \
-	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
-	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
-	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
+	uidrivec64c128vic20.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uijoystick.$(OBJEXT) uilib.$(OBJEXT) \
+	uimon.$(OBJEXT) uipetset.$(OBJEXT) uiplus4mem.$(OBJEXT) \
+	uiram.$(OBJEXT) uireu.$(OBJEXT) uisid.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uivicii.$(OBJEXT) \
+	uivicset.$(OBJEXT) uivideo.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) \
+	winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -421,6 +426,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uiconsole.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64c128vic20.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uilib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uipetset.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po ./$(DEPDIR)/uiram.Po \
@@ -485,6 +492,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiconsole.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64c128vic20.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
