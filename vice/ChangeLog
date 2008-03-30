@@ -1,6 +1,17 @@
+2006-01-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.11.
+
+	* doc/Readme.dos, doc/vice.texi, doc/html/plain/NEWS, README,
+	vice.spec: Updated.
+
+2006-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/Readme.dos, doc/vice.texi: Update 2005 to 2006.
+
 2005-12-31  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.18.9.
+	* Version 1.18.10.
 
 2005-12-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
@@ -8,7 +19,7 @@
 
 2005-12-29  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.18.8.
+	* Version 1.18.9.
 
 	* doc/html/plain/NEWS: Updated.
 

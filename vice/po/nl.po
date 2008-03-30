@@ -1,13 +1,13 @@
 # Dutch Translation File for VICE
-# Copyright (C) 2005
+# Copyright (C) 2005-2006
 # This file is distributed under the same license as the PACKAGE package.
-# Marco van den Heuvel <blackystardust68@yahoo.com>, 2005.
+# Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2005-12-31 15:41+0100\n"
-"PO-Revision-Date: 2005-09-18 11:20+0200\n"
+"POT-Creation-Date: 2006-01-02 01:21+0100\n"
+"PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -366,7 +366,7 @@ msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
 #: src/network.c:149
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
-msgstr ""
+msgstr "Kan niet schakelen tussen IPV4/IPV6 omdate netplay actief is."
 
 #: src/network.c:367
 msgid "Testing best frame delay..."
@@ -427,11 +427,11 @@ msgstr "Momentopname van de server wordt ontvangen..."
 
 #: src/network.c:836
 msgid "Remote host disconnected."
-msgstr ""
+msgstr "Andere computer heeft de verbinding verbroken."
 
 #: src/network.c:847
 msgid "Remote host suspending..."
-msgstr ""
+msgstr "Andere computer halt de netplay..."
 
 #: src/network.c:889
 msgid "Network out of sync - disconnecting."
@@ -2916,7 +2916,7 @@ msgstr "Opname start modus"
 
 #: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
 msgid "Netplay (experimental)"
-msgstr ""
+msgstr "Netplay (experimenteel)"
 
 #: src/arch/unix/uicommands.c:489
 msgid "Snapshot commands"
@@ -4195,7 +4195,7 @@ msgstr "Kan de instellingen niet opslaan."
 
 #: src/arch/unix/uisettings.c:217
 msgid "Settings saved successfully."
-msgstr "Instellingen met succes opgeslagen"
+msgstr "Instellingen met succes opgeslagen."
 
 #: src/arch/unix/uisettings.c:234
 msgid ""
@@ -4872,7 +4872,7 @@ msgstr "Beeld Formaat"
 #: src/arch/unix/x11/gnome/uiscreenshot.c:301
 #, c-format
 msgid "FFMPEG Driver: %s"
-msgstr "FFMPEG Stuurprogramma: %s"
+msgstr "FFMPEG Driver: %s"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:323
 #, c-format
@@ -5272,40 +5272,40 @@ msgstr "Volscherm afsluiten"
 msgid "Specify X display depth (1..32)"
 msgstr "Geef een X display diepte (1..32)"
 
-#: src/arch/unix/x11/video.c:181
+#: src/arch/unix/x11/video.c:187
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Roep `XSync()' aan na het vernieuwen van het emulatie venster"
 
-#: src/arch/unix/x11/video.c:184
+#: src/arch/unix/x11/video.c:190
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Roep niet `XSync()' aan na het vernieuwen van het emulatie venster"
 
-#: src/arch/unix/x11/video.c:187
+#: src/arch/unix/x11/video.c:193
 msgid "Use shared memory"
 msgstr "Gebruik gedeeld geheugen"
 
-#: src/arch/unix/x11/video.c:190
+#: src/arch/unix/x11/video.c:196
 msgid "Never use shared memory (slower)"
 msgstr "Nooit gedeeld geheugen gebuiken (trager)"
 
-#: src/arch/unix/x11/video.c:193
+#: src/arch/unix/x11/video.c:199
 msgid "Request YUV FOURCC format"
 msgstr "Vraag YUW FOURCC formaat aan"
 
-#: src/arch/unix/x11/video.c:195
+#: src/arch/unix/x11/video.c:201
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Zet aspect ratio (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:276
+#: src/arch/unix/x11/video.c:282
 msgid "The MITSHM extension is not supported on this display."
 msgstr "De MITSHM extensie wordt niet ondersteunt door Uw monitor"
 
-#: src/arch/unix/x11/video.c:280
+#: src/arch/unix/x11/video.c:286
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM extensies versie %d.%d gevonden."
 
-#: src/arch/unix/x11/video.c:350
+#: src/arch/unix/x11/video.c:356
 msgid "Cannot release shared memory!"
 msgstr "Kan het gedeelde geheugen niet vrij geven!"
 
@@ -5339,7 +5339,7 @@ msgstr "Bladeren..."
 #: src/arch/unix/x11/xaw/uiscreenshot.c:269
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
-msgstr "Anuleer"
+msgstr "Annuleren"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:184
 msgid "Save cartridge image"
@@ -5412,14 +5412,12 @@ msgid "Save snapshot"
 msgstr "Opslaan momentopname"
 
 #: src/arch/unix/x11/xaw/x11ui.c:811
-#, fuzzy
 msgid "recording..."
-msgstr "gebeurtenis opname"
+msgstr "opname..."
 
 #: src/arch/unix/x11/xaw/x11ui.c:820
-#, fuzzy
 msgid "event recording..."
-msgstr "gebeurtenis opname"
+msgstr "gebeurtenis opname..."
 
 #: src/arch/unix/x11/xaw/x11ui.c:1253
 #, c-format

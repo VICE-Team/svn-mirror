@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-31 15:41+0100\n"
+"POT-Creation-Date: 2006-01-02 01:21+0100\n"
 "PO-Revision-Date: 2005-09-18 10:57+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -5568,40 +5568,40 @@ msgstr "Wy³±cz pe³ny ekran"
 msgid "Specify X display depth (1..32)"
 msgstr "POdaj g³êbiê ekranu Xów (1..32)"
 
-#: src/arch/unix/x11/video.c:181
+#: src/arch/unix/x11/video.c:187
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Wywo³uj `XSync()' po aktualizacji okna emulatora"
 
-#: src/arch/unix/x11/video.c:184
+#: src/arch/unix/x11/video.c:190
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Nie wywo³uj `XSync()' po aktualizacji okna emulatora"
 
-#: src/arch/unix/x11/video.c:187
+#: src/arch/unix/x11/video.c:193
 msgid "Use shared memory"
 msgstr "U¿yj pamiêci dzielonej"
 
-#: src/arch/unix/x11/video.c:190
+#: src/arch/unix/x11/video.c:196
 msgid "Never use shared memory (slower)"
 msgstr "Nigdy nie u¿ywaj pamiêci dzielonej (wolniej)"
 
-#: src/arch/unix/x11/video.c:193
+#: src/arch/unix/x11/video.c:199
 msgid "Request YUV FOURCC format"
 msgstr "¯±daj formatu YUV FOURCC"
 
-#: src/arch/unix/x11/video.c:195
+#: src/arch/unix/x11/video.c:201
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Wspó³czynnik kszta³tu obrazu (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:276
+#: src/arch/unix/x11/video.c:282
 msgid "The MITSHM extension is not supported on this display."
 msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wy¶wietlacz."
 
-#: src/arch/unix/x11/video.c:280
+#: src/arch/unix/x11/video.c:286
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rozszerzenie wersji MITSHM %d.%d zosta³o wykryte."
 
-#: src/arch/unix/x11/video.c:350
+#: src/arch/unix/x11/video.c:356
 msgid "Cannot release shared memory!"
 msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 
