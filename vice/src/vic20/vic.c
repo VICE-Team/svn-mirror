@@ -57,6 +57,9 @@
 #include "vic.h"
 #include "vic20mem.h"
 #include "vsync.h"
+#ifdef __MSDOS__
+#include "videoarch.h"
+#endif
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -255,6 +258,7 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
         }
 
         vic.raster.blank = 0;
+        vic.light_pen.triggered = 0;
     }
 
     /* Set the next draw event.  */
@@ -334,6 +338,11 @@ raster_t *vic_init(void)
     vic.color_ptr = ram;
     vic.screen_ptr = ram;
     vic.chargen_ptr = chargen_rom + 0x400;
+
+    /* FIXME: Where do these values come from? */
+    vic.light_pen.triggered = 0;
+    vic.light_pen.x = 87;
+    vic.light_pen.y = 234;
 
     /* FIXME */
     vic.char_height = 8;
@@ -541,3 +550,12 @@ void vic_video_refresh(void)
 #endif
 }
 
+/* Trigger the light pen.  */
+void vic_trigger_light_pen(CLOCK mclk)
+{
+    if (!vic.light_pen.triggered) {
+        vic.light_pen.triggered = 1;
+        vic.light_pen.x = 2 * ((mclk + 1) % vic.cycles_per_line) + 1;
+        vic.light_pen.y = VIC_RASTER_Y(mclk) / 2;
+    }
+}

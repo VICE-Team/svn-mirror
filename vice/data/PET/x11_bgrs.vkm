@@ -5,7 +5,7 @@
 # File format:
 # - comment lines start with '#'
 # - keyword lines start with '!keyword'
-# - normal line has 'keysym row column shiftflag'
+# - normal line has 'keysym/scancode row column shiftflag'
 #
 # keywords and their lines are:
 # '!CLEAR'               clear whole table
