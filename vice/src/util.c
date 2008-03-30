@@ -360,6 +360,7 @@ int util_get_line(char *buf, int bufsize, FILE *f)
     size_t len;
 
     r = fgets(buf, bufsize, f);
+
     if (r == NULL)
         return -1;
 
@@ -371,7 +372,8 @@ int util_get_line(char *buf, int bufsize, FILE *f)
         /* Remove trailing newline characters.  */
         /* Remove both 0x0a and 0x0d characters, this solution makes it */
         /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */
-        while ((len > 0) && ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a)))
+        while ((len > 0) && ((*(buf + len - 1) == 0x0d)
+            || (*(buf + len - 1) == 0x0a)))
             len--;
 
         /* Remove useless spaces.  */
