@@ -1,3 +1,20 @@
+2002-02-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.16.
+
+	* vicii/vicii-draw.c (_draw_idle): Overscan color is black if
+	hires mode is enabled (fix as suggested by AndreasM).
+	(draw_idle_std_background): New function.
+	(setup_single_size_modes): Set `draw_idle_std_background()' as
+	idle state background draw function.
+
+2002-02-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/reu.c: added the "Half-autoload-bug" (reported by
+	Wolfgang Moser) so that the FIXMEs could be removed; disabled
+	REU_DEBUG again, added symbolic names for the REU registers
+	for better readability.
+
 2002-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.15.

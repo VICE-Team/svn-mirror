@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-02-10 23:03+0100\n"
-"PO-Revision-Date: 2002-01-02 23:24+01:00\n"
+"Project-Id-Version: VICE 1.9\n"
+"POT-Creation-Date: 2002-02-11 21:05+0100\n"
+"PO-Revision-Date: 2002-02-11 21:27+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2197,13 +2197,13 @@ msgstr "Garantiebestimmungen"
 msgid "Contributors"
 msgstr "VICE Hackers"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:106
-#: src/arch/unix/x11/xaw/x11video.c:100
+#: src/arch/unix/x11/gnome/gnomevideo.c:104
+#: src/arch/unix/x11/xaw/x11video.c:99
 #, c-format
-msgid "Successfully initialized using XVideo (%s)."
-msgstr "XVideo erfolgreich initialisiert (%s)."
+msgid "Successfully initialized using XVideo (%dx%d %4s)."
+msgstr "XVideo erfolgreich initialisiert (%dx%d %4s)."
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:127
+#: src/arch/unix/x11/gnome/gnomevideo.c:125
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
@@ -2690,38 +2690,38 @@ msgstr "Deaktiviere Vollbild Modus"
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:138
+#: src/arch/unix/x11/video.c:139
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:141
+#: src/arch/unix/x11/video.c:142
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:144
+#: src/arch/unix/x11/video.c:145
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:147
+#: src/arch/unix/x11/video.c:148
 msgid "Use XVideo Extension (hardware scaling)"
 msgstr "XVideo Erweiterung nutzen (Hardware Skalierung)"
 
-#: src/arch/unix/x11/video.c:150
+#: src/arch/unix/x11/video.c:151
 msgid "Use software rendering"
 msgstr "Software Rendering benutzen"
 
-#: src/arch/unix/x11/video.c:350
+#: src/arch/unix/x11/video.c:351
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:354
+#: src/arch/unix/x11/video.c:355
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:415
+#: src/arch/unix/x11/video.c:416
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
@@ -2840,48 +2840,48 @@ msgstr "Aktuelle ROMs mitspeichern:"
 msgid "Save snapshot"
 msgstr "Snapshot Speichern"
 
-#: src/arch/unix/x11/xaw/x11video.c:116
+#: src/arch/unix/x11/xaw/x11video.c:115
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kann XImage with XShm nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:129
+#: src/arch/unix/x11/xaw/x11video.c:128
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Kann Shared Memory nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:140
+#: src/arch/unix/x11/xaw/x11video.c:139
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Kann Shared Memory Adresse nicht feststellen; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:155 src/arch/unix/x11/xaw/x11video.c:172
+#: src/arch/unix/x11/xaw/x11video.c:154 src/arch/unix/x11/xaw/x11video.c:171
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Cannot attach shared memory; falling back to non MITSHM extension mode."
 
-#: src/arch/unix/x11/xaw/x11video.c:179
+#: src/arch/unix/x11/xaw/x11video.c:178
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:200
+#: src/arch/unix/x11/xaw/x11video.c:199
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Video erfolgreich%s Shared Memory initialisiert."
 
-#: src/arch/unix/x11/xaw/x11video.c:201
+#: src/arch/unix/x11/xaw/x11video.c:200
 msgid ", using"
 msgstr ", mit"
 
-#: src/arch/unix/x11/xaw/x11video.c:201
+#: src/arch/unix/x11/xaw/x11video.c:200
 msgid " without"
 msgstr " ohne"
 
-#: src/arch/unix/x11/xaw/x11video.c:204
+#: src/arch/unix/x11/xaw/x11video.c:203
 msgid "Performance will be poor."
 msgstr "Performance wird nicht optimal sein."
 
-#: src/arch/unix/x11/xaw/x11video.c:207
+#: src/arch/unix/x11/xaw/x11video.c:206
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
 

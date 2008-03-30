@@ -58,6 +58,18 @@ static void draw_std_background(int start_pixel, int end_pixel)
                end_pixel - start_pixel + 1);
 }
 
+static void draw_idle_std_background(int start_pixel, int end_pixel)
+{
+    if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
+        vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                   0,
+                   end_pixel - start_pixel + 1);
+    else
+        vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                   vic_ii.raster.overscan_background_color,
+                   end_pixel - start_pixel + 1);
+}
+
 /* If unaligned 32-bit access is not allowed, the graphics is stored in a
    temporary aligned buffer, and later copied to the real frame buffer.  This
    is ugly, but should be hopefully faster than accessing 8 bits at a time
@@ -723,7 +735,7 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
         || vic_ii.raster.background_color != cache->color_data_1[0]
         || vic_ii.idle_data != cache->foreground_data[0]) {
         cache->color_data_1[0] = vic_ii.raster.background_color;
-        cache->foreground_data[0] = (BYTE) vic_ii.idle_data;
+        cache->foreground_data[0] = (BYTE)vic_ii.idle_data;
         *xs = 0;
         *xe = VIC_II_SCREEN_TEXTCOLS - 1;
         return 1;
@@ -746,15 +758,17 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     p = aligned_line_buffer;
 #endif
 
-    if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
-        vid_memset(p, 0,
-                   VIC_II_SCREEN_XPIX);
-	else {
+    if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode)) {
+        vid_memset(p, 0, VIC_II_SCREEN_XPIX);
+    } else {
         /* The foreground color is always black (0).  */
         unsigned int offs;
         DWORD c1, c2;
 
-        offs = vic_ii.raster.overscan_background_color << 4;
+        if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
+            offs = 0;
+        else
+            offs = vic_ii.raster.overscan_background_color << 4;
         c1 = *(hr_table + offs + (d >> 4));
         c2 = *(hr_table + offs + (d & 0xf));
 
@@ -794,7 +808,7 @@ static void draw_idle_foreground(int start_char, int end_char)
     p = (vic_ii.raster.draw_buffer_ptr +vic_ii.screen_borderwidth
         + vic_ii.raster.xsmooth);
     c = 0;
-    d = (BYTE) vic_ii.idle_data;
+    d = (BYTE)vic_ii.idle_data;
 
     for (i = start_char; i <= end_char; i++) {
         DRAW_STD_TEXT_BYTE(p + i * 8, d, c);
@@ -843,7 +857,7 @@ static void setup_single_size_modes(void)
                      get_idle,
                      draw_idle_cached,
                      draw_idle,
-                     draw_std_background,
+                     draw_idle_std_background,
                      draw_idle_foreground);
 
     raster_modes_set(vic_ii.raster.modes, VIC_II_ILLEGAL_TEXT_MODE,
