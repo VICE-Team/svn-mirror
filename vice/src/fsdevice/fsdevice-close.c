@@ -22,7 +22,6 @@
  *  (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
@@ -48,6 +47,10 @@
 
 int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
 {
+    bufinfo_t *bufinfo;
+
+    bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
+
 #ifdef __riscos
     archdep_set_drive_leds(vdrive->unit - 8, 0);
 #endif
@@ -57,27 +60,27 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
         return FLOPPY_COMMAND_OK;
     }
 
-    switch (fs_info[secondary].mode) {
+    switch (bufinfo[secondary].mode) {
       case Write:
       case Read:
       case Append:
-        if (fs_info[secondary].tape->name) {
-            tape_image_close(fs_info[secondary].tape);
+        if (bufinfo[secondary].tape->name) {
+            tape_image_close(bufinfo[secondary].tape);
         } else {
-            if (fs_info[secondary].info != NULL) {
-                fileio_close(fs_info[secondary].info);
-                fs_info[secondary].info = NULL;
+            if (bufinfo[secondary].fileio_info != NULL) {
+                fileio_close(bufinfo[secondary].fileio_info);
+                bufinfo[secondary].fileio_info = NULL;
             } else {
                 return FLOPPY_ERROR;
             }
         }
         break;
       case Directory:
-        if (fs_info[secondary].ioutil_dir == NULL)
+        if (bufinfo[secondary].ioutil_dir == NULL)
             return FLOPPY_ERROR;
 
-        ioutil_closedir(fs_info[secondary].ioutil_dir);
-        fs_info[secondary].ioutil_dir = NULL;
+        ioutil_closedir(bufinfo[secondary].ioutil_dir);
+        bufinfo[secondary].ioutil_dir = NULL;
         break;
     }
 

@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+#define FSDEVICE_BUFFER_MAX 16
+#define FSDEVICE_DEVICE_MAX 4
+
 enum fsmode {
     Write, Read, Append, Directory
 };
@@ -37,8 +40,8 @@ struct fileio_info_s;
 struct ioutil_dir_s;
 struct tape_image_s;
 
-struct fs_buffer_info_s {
-    struct fileio_info_s *info;
+struct bufinfo_s {
+    struct fileio_info_s *fileio_info;
     struct ioutil_dir_s *ioutil_dir;
     struct tape_image_s *tape;
     enum fsmode mode;
@@ -52,11 +55,21 @@ struct fs_buffer_info_s {
     BYTE buffered;  /* Buffered Byte: Added to buffer reads to remove buffering from iec code */
     int isbuffered; /* TRUE is a byte exists in the buffer above */
     int iseof;      /* TRUE if an EOF is detected on a buffered read */
-    char *fs_dirmask;
+    char *dirmask;
 };
-typedef struct fs_buffer_info_s fs_buffer_info_t;
+typedef struct bufinfo_s bufinfo_t;
 
-extern fs_buffer_info_t fs_info[];
+struct fsdevice_dev_s {
+    unsigned int eptr;
+    unsigned int elen;
+    char *errorl;
+    unsigned int cptr;
+    BYTE *cmdbuf;
+    bufinfo_t bufinfo[FSDEVICE_BUFFER_MAX];
+};
+typedef struct fsdevice_dev_s fsdevice_dev_t;
+
+extern fsdevice_dev_t fsdevice_dev[FSDEVICE_DEVICE_MAX];
 
 struct vdrive_s;
 
