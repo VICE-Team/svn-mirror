@@ -1,34 +1,38 @@
-1999-01-28 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.17.
+
+1999-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.16.
 
 	* configure.in: Added switch `--without-fullscreen'.
 
-1999-01-28 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.15.
 
-1999-01-28 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.14.
 
-1999-01-26 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.13.
 
 	* INSTALL: Included Allegro timer hack.
 
-1999-01-23 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.12.
 
-1999-01-22 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.11 and 0.16.1a.
 
 	* NEWS, BUGS, INSTALL, README, dos/Readme.dos: Updated.
 
-1999-01-21 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.10.
 
@@ -37,26 +41,26 @@
 	* configure.in (HAS_JOYSTICK): On Win32 we have joystick.
 	(LIBS): Added dinput library.
 
-1999-01-20 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.9.
 
-1999-01-19 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.8.
 
-1999-01-18 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.7.
 
 	* configure.in: Always define `HAS_JOYSTICK' on MSDOS.
 	Added rules to compile for the RISC OS target.
 
-1999-01-18 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.6.
 
-1999-01-16 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.5.
 
@@ -66,7 +70,7 @@
 	* acconfig.h: Added `HAS_JOYSTICK', `HAS_DIGITAL_JOYSTICK',
 	`LINUX_JOYSTICK' and `BSD_JOYSTICK'.
 
-1999-01-16 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.4.
 
