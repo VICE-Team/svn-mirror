@@ -43,6 +43,7 @@
 #include "mem.h"
 #include "plus4.h"
 #include "plus4mem.h"
+#include "raster-canvas.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"
@@ -229,8 +230,7 @@ static int init_raster(void)
     if (raster_realize(raster) < 0)
         return -1;
 
-    raster->display_ystart = ted.row_25_start_line;
-    raster->display_ystop = ted.row_25_stop_line;
+    raster->display_ystart = raster->display_ystop = -1;
     raster->display_xstart = TED_40COL_START_PIXEL;
     raster->display_xstop = TED_40COL_STOP_PIXEL;
 
@@ -317,8 +317,7 @@ void ted_reset(void)
     /* Remove all the IRQ sources.  */
     ted.regs[0x0a] = 0;
 
-    ted.raster.display_ystart = ted.row_25_start_line;
-    ted.raster.display_ystop = ted.row_25_stop_line;
+    ted.raster.display_ystart = ted.raster.display_ystop = -1;
 
     ted.cursor_visible = 0;
     ted.cursor_phase = 0;
@@ -365,8 +364,7 @@ void ted_powerup(void)
     ted.raster_irq_line = 0;
 
     ted.raster.blank = 1;
-    ted.raster.display_ystart = ted.row_24_start_line;
-    ted.raster.display_ystop = ted.row_24_stop_line;
+    ted.raster.display_ystart = ted.raster.display_ystop = -1;
 
     ted.raster.ysmooth = 0;
 }
@@ -606,22 +604,46 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         log_debug("Skip line %d %d",ted.tv_current_line, ted.screen_height);
     }
 
+    if (ted.ted_raster_counter == ted.last_dma_line) {
+        ted.idle_state = 1;
+    }
+
     ted.tv_current_line++;
     ted.ted_raster_counter++;
-    if (ted.ted_raster_counter == ted.screen_height) ted.ted_raster_counter = 0;
+    if (ted.ted_raster_counter == ted.screen_height) {
+        ted.memptr = 0;
+        ted.memptr_col = 0;
+        ted.mem_counter = 0;
+        ted.ted_raster_counter = 0;
+    }
     if (ted.ted_raster_counter == 512) ted.ted_raster_counter = 0;
+
+    if (ted.regs[0x06] & 8) {
+        if (ted.ted_raster_counter == ted.row_25_start_line && (!ted.raster.blank
+            || ted.raster.blank_off))
+            ted.raster.blank_enabled = 0;
+        if (ted.ted_raster_counter == ted.row_25_stop_line + 1) ted.raster.blank_enabled = 1;
+    } else {
+        if (ted.ted_raster_counter == ted.row_24_start_line && (!ted.raster.blank
+            || ted.raster.blank_off))
+            ted.raster.blank_enabled = 0;
+        if (ted.ted_raster_counter == ted.row_24_stop_line + 1) ted.raster.blank_enabled = 1;
+    }
 
     /* DO VSYNC if the raster_counter in the TED reached the VSYNC signal */
     /* Also do VSYNC if oversized screen reached a certain threashold, this will result in rolling screen just like on the real thing */
     if (((signed int)(ted.tv_current_line - ted.screen_height) > 40) || (ted.ted_raster_counter == ted.vsync_line )) {
 
+        if (ted.tv_current_line < ted.screen_height) {
+            ted.raster.current_line = 0;
+            raster_canvas_handle_end_of_frame(&ted.raster);
+        }
+
+        /*log_debug("Vsync %d %d",ted.tv_current_line, ted.ted_raster_counter);*/
+
         raster_skip_frame(&ted.raster,
                           vsync_do_vsync(ted.raster.canvas,
                                          ted.raster.skip_frame));
-        ted.memptr = 0;
-        ted.memptr_col = 0;
-        ted.mem_counter = 0;
-
         ted.tv_current_line = 0;
 
         /* FIXME increment at appropriate cycle */
@@ -639,9 +661,11 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     }
 
     if (in_visible_area) {
-        if (!ted.idle_state)
+/*        log_debug("Idle state %03x, %03x, %d",ted.ted_raster_counter, ted.idle_state, ted.raster.ycounter);*/
+        if (!ted.idle_state) {
             ted.mem_counter = (ted.mem_counter
                               + ted.mem_counter_inc) & 0x3ff;
+        }
         ted.mem_counter_inc = TED_SCREEN_TEXTCOLS;
         /* `ycounter' makes the chip go to idle state when it reaches the
            maximum value.  */
@@ -650,7 +674,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         }
         if (ted.raster.ycounter == 7) {
             ted.memptr = ted.mem_counter;
-            ted.idle_state = 1;
+/*            ted.idle_state = 1;*/
         }
         if (!ted.idle_state || ted.bad_line) {
             ted.raster.ycounter = (ted.raster.ycounter + 1) & 0x7;

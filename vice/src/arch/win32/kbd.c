@@ -59,6 +59,9 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
 {
     int kcode = (key_data >> 16) & 0xff;
 
+    if (virtual_key == 0xff)
+        return 0;
+
     /*  Translate Extended scancodes */
     if (key_data & (1 << 24)) {
         kcode = _kbd_extended_key_tab[kcode];
@@ -73,6 +76,9 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
 int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
 {
     int kcode = (key_data >> 16) & 0xff;
+
+    if (virtual_key == 0xff)
+        return 0;
 
     /*  Translate Extended scancodes */
     if (key_data & (1 << 24)) {

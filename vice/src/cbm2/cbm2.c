@@ -238,7 +238,7 @@ static void cbm2_monitor_init(void)
 
 void machine_setup_context(void)
 {
-    cia1_setup_context(&(machine_context.cia1));
+    cia1_setup_context(&machine_context);
 }
 
 /* CBM-II-specific initialization.  */

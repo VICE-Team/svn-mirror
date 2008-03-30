@@ -1,3 +1,83 @@
+2003-07-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.15.
+
+	* plus4/ted.c (ted_raster_draw_alarm_handler): Commented out
+	debug output.
+
+	* cbm2/cbm2.c (machine_setup_context): Fixed context.
+
+2003-07-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c128ui.c, c64ui.c, plus4ui.c, vic20ui.c: Added
+	menu toggle for Scale2x.
+
+	* arch/win32/res.h: New ID for Scale2x menu item.
+
+	* arch/win32/resc128.rc, res64.rc, resplus4.rc, resvic.rc:
+	Added menuitem for Scale2x.
+
+	* video/video-resources.c: Function video_resources_update_ui
+	that is prepared to change UI depending on current chip
+	resources. This doesn't work now as it needs access to
+	PALEmulation which isn't a chip resource for now.
+
+	* core/viacore.c (via_restore_int): Doesn't use set_int but
+	an independant funtion.
+
+	* drive/iecieee/via1d.c, drive/iecieee/via2d.c, pet/petvia.c,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c,
+	vic20/vic20via1.c, vic20/vic20via2.c: New functions
+	restore_int that use the interrupt*noclk variation.
+
+	* via.h: New member restore_int in via_context_s.
+
+	* interrupt.c (interrupt_set_{irq|nmi}_noclk): Don't set
+	global_pending_int, nirq, nnmi.
+	(interrupt_write_snapshot, interrupt_read_snapshot): Save and
+	load global_pending_int, nirq, nnmi to/from cpu snapshot
+	module.
+
+2003-07-10  Tibor Biczo  <crown@axelero.hu>
+
+	* plus4/ted-irq.c (ted_irq_set_raster_line): Handle cases when
+	irq line is higher then the frame height.
+
+	* plus4/ted-mem.c: Include 'interrupt.h'.
+	(check_lower_upper_border): Do not update display_ystart,
+	display_ystop in raster object.
+	(ted1c1d_store): New function, handle writes to raster counter
+	register. Update fetch and irq clocks.
+	(ted_store): Call ted1c1d_store.
+
+	* plus4/ted.c: Include 'raster-canvas.h'.
+	(init_raster, ted_reset, ted_powerup): Set display_ystart,
+	display_ystop to -1 in raster object. This disables the border
+	flip flop mechanism in the raster object. This is emulated
+	elsewhere.
+	(ted_raster_draw_alarm_handler): Idle state is set when last
+	DMA line has been emulated. Clear ted.memptr, ted.memptr_col,
+	ted.mem_counter when raster counter reach ted.screen_height.
+	Emulate border flip flop.
+	Call raster_canvas_handle_end_of_frame if frame height is
+	smaller than the raster objects height.
+	Ted idle state is not set when raster.ycounter reaches 7.
+
+	* plus4/tedtypes.h (TED_PAL_FIRST_DISPLAYED_LINE,
+	TED_PAL_LAST_DISPLAYED_LINE): Updated to reflect new vsync
+	line.
+	(TED_PAL_25ROW_START_LINE, TED_PAL_25ROW_STOP_LINE,
+	TED_PAL_24ROW_START_LINE, TED_PAL_24ROW_STOP_LINE): Moved
+	values into the TED raster counter's coordinate system.
+	(TED_PAL_VSYNC_LINE): Updated from first line of vsync to the
+	last line of vsync.
+
+2003-07-07  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/kbd.c (kbd_handle_keydown, kbd_handle_keyup):
+	Filter out messages with virtual keycode 0xff. Temporary
+	solution for some keyboards.
+
 2003-07-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.14.
