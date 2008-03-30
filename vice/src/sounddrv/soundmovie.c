@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "avformat.h"
 #include "log.h"
 #include "../gfxoutputdrv/mpegdrv.h"
 #include "sound.h"

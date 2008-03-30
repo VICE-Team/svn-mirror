@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.13\n"
-"POT-Creation-Date: 2003-10-19 22:10+0200\n"
+"POT-Creation-Date: 2003-10-26 17:01+0100\n"
 "PO-Revision-Date: 2003-09-07 19:09+0200\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -45,13 +45,13 @@ msgstr "Signal %d reçu"
 
 #: src/arch/unix/c128ui.c:60 src/arch/unix/c64ui.c:59
 #: src/arch/unix/cbm2ui.c:59 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
-#: src/arch/unix/vsidui.c:122
+#: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:62 src/arch/unix/c64ui.c:61
 #: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
-#: src/arch/unix/vsidui.c:124
+#: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -228,7 +228,7 @@ msgid "VDC settings"
 msgstr "Paramètres VDC"
 
 #: src/arch/unix/c128ui.c:345 src/arch/unix/c64ui.c:326
-#: src/arch/unix/cbm2ui.c:374 src/arch/unix/vsidui.c:172
+#: src/arch/unix/cbm2ui.c:374 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "Paramètre SID"
 
@@ -246,42 +246,42 @@ msgstr "Paramètres RS232"
 msgid "Model settings"
 msgstr "Paramètres du modèle PET"
 
-#: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
-#: src/arch/unix/cbm2ui.c:457 src/arch/unix/petui.c:381
-#: src/arch/unix/plus4ui.c:147 src/arch/unix/vic20ui.c:471
-#: src/arch/unix/vsidui.c:256
+#: src/arch/unix/c128ui.c:416 src/arch/unix/c64ui.c:393
+#: src/arch/unix/cbm2ui.c:463 src/arch/unix/petui.c:386
+#: src/arch/unix/plus4ui.c:152 src/arch/unix/vic20ui.c:476
+#: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Fichier"
 
-#: src/arch/unix/c128ui.c:429 src/arch/unix/c64ui.c:407
-#: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:398
-#: src/arch/unix/plus4ui.c:164 src/arch/unix/vic20ui.c:490
+#: src/arch/unix/c128ui.c:435 src/arch/unix/c64ui.c:412
+#: src/arch/unix/cbm2ui.c:480 src/arch/unix/petui.c:403
+#: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:495
 msgid "Snapshot"
 msgstr "Capture"
 
-#: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:414
-#: src/arch/unix/cbm2ui.c:481 src/arch/unix/petui.c:405
-#: src/arch/unix/plus4ui.c:171 src/arch/unix/vic20ui.c:497
+#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:419
+#: src/arch/unix/cbm2ui.c:487 src/arch/unix/petui.c:410
+#: src/arch/unix/plus4ui.c:176 src/arch/unix/vic20ui.c:502
 msgid "Options"
 msgstr "Options"
 
-#: src/arch/unix/c128ui.c:448 src/arch/unix/c64ui.c:426
-#: src/arch/unix/cbm2ui.c:491 src/arch/unix/petui.c:413
-#: src/arch/unix/plus4ui.c:179 src/arch/unix/vic20ui.c:503
-#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1123
+#: src/arch/unix/c128ui.c:454 src/arch/unix/c64ui.c:431
+#: src/arch/unix/cbm2ui.c:497 src/arch/unix/petui.c:418
+#: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:508
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1123
 #: src/arch/unix/x11/gnome/x11ui.c:1215
 msgid "Settings"
 msgstr "Paramètres"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:462 src/arch/unix/c64ui.c:440
-#: src/arch/unix/cbm2ui.c:505 src/arch/unix/petui.c:427
-#: src/arch/unix/plus4ui.c:193 src/arch/unix/vic20ui.c:518
+#: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:445
+#: src/arch/unix/cbm2ui.c:511 src/arch/unix/petui.c:432
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:523
 msgid "RJHelp"
 msgstr "RJAide"
 
-#: src/arch/unix/c64ui.c:63 src/arch/unix/vsidui.c:126
+#: src/arch/unix/c64ui.c:63 src/arch/unix/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*Ancien NTSC-M"
 
@@ -1242,15 +1242,15 @@ msgid "*White"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:47 src/arch/unix/uited.c:44 src/arch/unix/uivdc.c:43
-#: src/arch/unix/uivic.c:53 src/arch/unix/uivicii.c:59
+#: src/arch/unix/uivic.c:53 src/arch/unix/uivicii.c:62
 msgid "Load custom"
 msgstr "Charger les paramètres personalisés"
 
 #: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:105
 #: src/arch/unix/uited.c:100 src/arch/unix/uited.c:125
 #: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:98
-#: src/arch/unix/uivic.c:117 src/arch/unix/uivicii.c:108
-#: src/arch/unix/uivicii.c:131
+#: src/arch/unix/uivic.c:117 src/arch/unix/uivicii.c:111
+#: src/arch/unix/uivicii.c:134
 msgid "*Double size"
 msgstr "*Double taille"
 
@@ -1258,48 +1258,48 @@ msgstr "*Double taille"
 #: src/arch/unix/uited.c:102 src/arch/unix/uited.c:127
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
 #: src/arch/unix/uivic.c:100 src/arch/unix/uivic.c:119
-#: src/arch/unix/uivicii.c:110 src/arch/unix/uivicii.c:133
+#: src/arch/unix/uivicii.c:113 src/arch/unix/uivicii.c:136
 msgid "*Double scan"
 msgstr "*Double balayage"
 
 #: src/arch/unix/uicrtc.c:96 src/arch/unix/uited.c:104
 #: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:102
-#: src/arch/unix/uivicii.c:112
+#: src/arch/unix/uivicii.c:115
 msgid "*Video cache"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:99 src/arch/unix/uited.c:119
-#: src/arch/unix/uivic.c:111 src/arch/unix/uivicii.c:125
+#: src/arch/unix/uivic.c:111 src/arch/unix/uivicii.c:128
 msgid "*Scale 2x render"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:103 src/arch/unix/uited.c:123
 #: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:115
-#: src/arch/unix/uivicii.c:129
+#: src/arch/unix/uivicii.c:132
 msgid "*Enable fullscreen"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:109 src/arch/unix/uited.c:129
 #: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:121
-#: src/arch/unix/uivicii.c:135
+#: src/arch/unix/uivicii.c:138
 msgid "Fullscreen device"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:114 src/arch/unix/uited.c:134
 #: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:126
-#: src/arch/unix/uivicii.c:140
+#: src/arch/unix/uivicii.c:143
 msgid "VidMode Resolutions"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:118 src/arch/unix/uited.c:138
 #: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:130
-#: src/arch/unix/uivicii.c:144
+#: src/arch/unix/uivicii.c:147
 msgid "DGA1 Resolutions"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:122 src/arch/unix/uited.c:142
 #: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:134
-#: src/arch/unix/uivicii.c:148
+#: src/arch/unix/uivicii.c:151
 msgid "DGA2 Resolutions"
 msgstr ""
 
@@ -1309,7 +1309,7 @@ msgstr "*Couleur d'écran CRTC"
 
 #: src/arch/unix/uicrtc.c:130 src/arch/unix/uited.c:147
 #: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:142
-#: src/arch/unix/uivicii.c:161
+#: src/arch/unix/uivicii.c:164
 msgid "*Use XSync()"
 msgstr ""
 
@@ -2163,16 +2163,16 @@ msgstr ""
 msgid "Oversample"
 msgstr ""
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:165
 msgid "Sound settings"
 msgstr ""
 
-#: src/arch/unix/uited.c:107 src/arch/unix/uivicii.c:117
+#: src/arch/unix/uited.c:107 src/arch/unix/uivicii.c:120
 msgid "*External color set"
 msgstr ""
 
 #: src/arch/unix/uited.c:109 src/arch/unix/uivdc.c:138
-#: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:119
+#: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:122
 msgid "Color set"
 msgstr "Jeu de couleurs"
 
@@ -2181,13 +2181,13 @@ msgstr "Jeu de couleurs"
 msgid "*Fast PAL emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/uited.c:116 src/arch/unix/uivicii.c:122
+#: src/arch/unix/uited.c:116 src/arch/unix/uivicii.c:125
 #, fuzzy
 msgid "PAL Emulation"
 msgstr "*Utiliser l'émulation reSID"
 
 #: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
-#: src/arch/unix/uivicii.c:44
+#: src/arch/unix/uivicii.c:47
 msgid "*Default"
 msgstr "*Défaut"
 
@@ -2216,36 +2216,36 @@ msgstr ""
 msgid "PAL Emulation Settings"
 msgstr "Paramètres"
 
-#: src/arch/unix/uivic.c:139 src/arch/unix/uivicii.c:153
-#: src/arch/unix/vsidui.c:174
+#: src/arch/unix/uivic.c:139 src/arch/unix/uivicii.c:156
+#: src/arch/unix/vsidui.c:177
 msgid "Video standard"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:48
+#: src/arch/unix/uivicii.c:51
 msgid "*CCS64"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:50
+#: src/arch/unix/uivicii.c:53
 msgid "*Frodo"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:52
+#: src/arch/unix/uivicii.c:55
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:115
+#: src/arch/unix/uivicii.c:118
 msgid "*New Luminances"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:156
+#: src/arch/unix/uivicii.c:159
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:158
+#: src/arch/unix/uivicii.c:161
 msgid "*Sprite-background collisions"
 msgstr ""
 
-#: src/arch/unix/unixmain.c:51
+#: src/arch/unix/unixmain.c:50
 msgid ""
 "\n"
 "Exiting..."
@@ -2354,38 +2354,38 @@ msgstr ""
 msgid "VIC settings"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:65
+#: src/arch/unix/vsidui.c:68
 msgid "Tunes"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:75
+#: src/arch/unix/vsidui.c:78
 msgid "Load PSID file"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:83
+#: src/arch/unix/vsidui.c:86
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:110
+#: src/arch/unix/vsidui.c:113
 msgid "Load PSID file..."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:170
+#: src/arch/unix/vsidui.c:173
 #, fuzzy
 msgid "*Override PSID settings"
 msgstr "Paramètre SID"
 
-#: src/arch/unix/vsidui.c:193
+#: src/arch/unix/vsidui.c:196
 msgid "*Default Tune"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:216
+#: src/arch/unix/vsidui.c:219
 #, c-format
 msgid "*Tune %d"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:286
+#: src/arch/unix/vsidui.c:289
 msgid "VSID: The SID Emulator"
 msgstr ""
 
@@ -2762,7 +2762,7 @@ msgstr "Execution de `%s'..."
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:777
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:781
 msgid "Switch to windowmode"
 msgstr ""
 
@@ -2771,67 +2771,67 @@ msgstr ""
 msgid "Selected mode: %s"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:313
+#: src/arch/unix/x11/dga2.c:317
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:349
+#: src/arch/unix/x11/dga2.c:353
 msgid "refresh, not ready, skipping frame"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:418
+#: src/arch/unix/x11/dga2.c:422
 msgid "Successfully forked DGA"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:423
+#: src/arch/unix/x11/dga2.c:427
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:428
+#: src/arch/unix/x11/dga2.c:432
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:437
+#: src/arch/unix/x11/dga2.c:441
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:440
+#: src/arch/unix/x11/dga2.c:444
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:571
+#: src/arch/unix/x11/dga2.c:577
 #, c-format
 msgid "Switch to fullscreen%s"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:577
+#: src/arch/unix/x11/dga2.c:583
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:591
+#: src/arch/unix/x11/dga2.c:597
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:601
+#: src/arch/unix/x11/dga2.c:607
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:635
+#: src/arch/unix/x11/dga2.c:640
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:649
+#: src/arch/unix/x11/dga2.c:654
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:704
+#: src/arch/unix/x11/dga2.c:708
 #, fuzzy
 msgid "Couldn't allocate color cache"
 msgstr "Impossible de créer une image disque"

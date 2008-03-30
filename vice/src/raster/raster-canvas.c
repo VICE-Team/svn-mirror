@@ -80,7 +80,8 @@ inline static void refresh_canvas(raster_t *raster)
     xx += viewport->x_offset;
     yy += viewport->y_offset;
 
-    if ((int)(raster->canvas->draw_buffer->canvas_height) >= yy)
+    if ((int)(raster->canvas->draw_buffer->canvas_height) >= yy
+        && (int)(raster->canvas->draw_buffer->canvas_width) >= xx)
         video_canvas_refresh(raster->canvas, x, y, xx, yy,
             MIN(w, (int)(raster->canvas->draw_buffer->canvas_width - xx)),
             MIN(h, (int)(raster->canvas->draw_buffer->canvas_height - yy)));

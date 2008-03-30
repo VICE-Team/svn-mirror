@@ -1,3 +1,11 @@
+2003-10-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.11.
+
+2003-10-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* Search FFMPEG header files in ffmpeg directory.
+
 2003-10-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.10.

@@ -27,8 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <avcodec.h>
-#include <avformat.h>
+#include <ffmpeg/avformat.h>
 
 #include "archdep.h"
 #include "gfxoutput.h"

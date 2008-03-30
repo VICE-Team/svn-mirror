@@ -219,7 +219,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS = snippets vac++ kbd dialogs ui 
+SUBDIRS = snippets vac++ kbd dialogs
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \

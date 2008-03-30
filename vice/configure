@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.10
+ VERSION=1.13.11
 
 
 cat >>confdefs.h <<_ACEOF
@@ -10565,7 +10565,7 @@ if [ x"$is_beos" = "xyes" ] ; then
 fi
 
 
-for ac_header in avformat.h
+for ac_header in ffmpeg/avformat.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -12862,7 +12862,7 @@ fi
 fi
 
 
-for ac_header in avcodec.h
+for ac_header in ffmpeg/avcodec.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then

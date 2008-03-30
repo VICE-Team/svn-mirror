@@ -88,7 +88,7 @@ int gfxoutput_init(void)
 #ifdef HAVE_PNG
     gfxoutput_init_png();
 #endif
-#ifdef HAVE_AVCODEC_H
+#ifdef HAVE_FFMPEG_AVCODEC_H
     gfxoutput_init_mpeg();
 #endif
     return 0;

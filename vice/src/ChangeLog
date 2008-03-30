@@ -1,3 +1,72 @@
+2003-10-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.11.
+
+	* petcat.c, c1541.c: Initialize archdep.
+
+	* arch/win32/archdep.c (archdep_init): Set binary mode for
+	stdin and stdout.
+
+	* arch/unix/uivicii.c, arch/unix/uivic.c, arch/unix/uivdc.c,
+	arch/unix/uicrtc.c, arch/unix/uited.c, arch/unix/uivicii.h,
+	arch/unix/uivic.h, arch/unix/uivdc.h, arch/unix/uicrtc.h,
+	arch/unix/uited.h, arch/unix/c64ui.c, arch/unix/c128ui.c,
+	arch/unix/vic20ui.c, arch/unix/petui.c, arch/unix/cbm2ui.c,
+	arch/unix/plus4ui.c, arch/unix/fullscreenarch.h,
+	arch/unix/x11/fullscreen.c, arch/unix/x11/vidmode.c,
+	arch/unix/x11/vidmode.h, arch/unix/x11/dga1.c,
+	arch/unix/x11/dga1.h, arch/unix/x11/dga2.c,
+	arch/unix/x11/dga2.h, arch/unix/c64ui.h, arch/unix/c128ui.h,
+	arch/unix/vic20ui.h, arch/unix/petui.h, arch/unix/plus4ui.h,
+	arch/unix/cbm2ui.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c: Added fullscreen
+	shutdown.
+
+	* arch/*/c64ui.h, arch/*/c128ui.h, arch/*/vic20ui.h,
+	arch/*/petui.h, arch/*/plus4ui.h, arch/*/cbm2ui.h: Removed.
+
+	* arch/unix/Makefile.am, arch/win32/Makefile.am,
+	arch/msdos/Makefile.am, arch/riscos/Makefile.am,
+	arch/os2/ui/Makefile.am, arch/os2/Makefile.am,
+	arch/beos/Makefile.am, Makefile.am: Updated makefiles.
+
+	* arch/win32/c64ui.c, arch/msdos/c64ui.c, arch/riscos/c64ui.c,
+	arch/beos/c64ui.cc, arch/win32/c128ui.c, arch/msdos/c128ui.c,
+	arch/riscos/c128ui.c, arch/beos/c128ui.cc,
+	arch/win32/vic20ui.c, arch/msdos/vic20ui.c,
+	arch/riscos/vic20ui.c, arch/beos/vic20ui.cc,
+	arch/win32/petui.c, arch/msdos/petui.c, arch/riscos/petui.c,
+	arch/beos/petui.cc, arch/win32/plus4ui.c,
+	arch/msdos/plus4ui.c, arch/riscos/plus4ui.c,
+	arch/beos/plus4ui.cc, arch/win32/cbm2ui.c,
+	arch/msdos/cbm2ui.c, arch/riscos/cbm2ui.c, arch/os2/ui.c,
+	arch/beos/cbm2ui.cc (*ui_shutdown): New functions.
+
+	* arch/unix/ui.c (ui_common_shutdown): Call
+	`fullscreen_shutdown()'.
+
+	* arch/unix/unixmain.c (main_exit): Removed call to
+	`fullscreen_shutdown()'.
+
+	* drive/drivetypes.h, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, drive/iec/memiec.c, drive/ieee/fdc.c,
+	drive/iec/via1d1541.c, drive/iec/wd1770.c, drive/tcbm/tpid.c,
+	drive/iecieee/via2d.c, drive/ieee/memieee.c, drive/drive.c,
+	drive/ieee/riot1d.c, drive/ieee/riot2d.c, drive/drivecpu.c,
+	drive/ieee/via1d2031.c, drive/tcbm/glue1551.c,
+	drive/tcbm/mem1551.c, drive/drivemem.c: Dynamically allocate
+	drive struct.
+
+2003-10-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster-canvas.c (refresh_canvas): Don't refresh
+	video if update area starts behind canvas.
+
+2003-10-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* gfxoutputdrv/gfxoutput.c, mpegdrv.c,
+	sounddrv/soundmovie.c: Fixed ffmpeg includes.
+
 2003-10-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.10.
