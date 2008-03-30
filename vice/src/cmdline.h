@@ -36,7 +36,6 @@ typedef enum cmdline_option_type { SET_RESOURCE, CALL_FUNCTION }
     cmdline_option_type_t;
 
 typedef struct cmdline_option_s {
-
     /* Name of command-line option.  */
     const char *name;
 
@@ -65,8 +64,38 @@ typedef struct cmdline_option_s {
 
     /* Description string.  */
     const char *description;
-
 } cmdline_option_t;
+
+typedef struct cmdline_option_ram_s {
+    /* Name of command-line option.  */
+    char *name;
+
+    /* Behavior of this command-line option.  */
+    cmdline_option_type_t type;
+
+    /* Flag: Does this option need an argument?  */
+    int need_arg;
+
+    /* Function to call if type is `CALL_FUNCTION'.  */
+    int (*set_func)(const char *value, void *extra_param);
+
+    /* Extra parameter to pass to `set_func' if type is `CALL_FUNCTION'.  */
+    void *extra_param;
+
+    /* Resource to change if `type' is `SET_RESOURCE'.  */
+    char *resource_name;
+
+    /* Value to assign to `resource_name' if `type' is `SET_RESOURCE' and
+       `need_arg' is zero.  */
+    void *resource_value;
+
+    /* String to display after the option name in the help screen.  (Can be
+       NULL).  */
+    const char *param_name;
+
+    /* Description string.  */
+    const char *description;
+} cmdline_option_ram_t;
 
 extern int cmdline_init(void);
 extern int cmdline_register_options(const cmdline_option_t *c);

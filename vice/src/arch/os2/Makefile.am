@@ -38,7 +38,6 @@ libarch_a_SOURCES = \
 	ui.h \
 	ui_status.h \
 	uicmdline.c \
-	uicmdline.h \
 	uimon.c \
 	video.c \
 	videoarch.h \

@@ -29,10 +29,10 @@
 
 #include "cmdline.h"
 
-void ui_cmdline_show_help(int num_options, cmdline_option_t *options,
-                          void *userparam)
+void ui_cmdline_show_help(unsigned int num_options,
+                          cmdline_option_ram_t *options, void *userparam)
 {
-    int i;
+    unsigned int i;
 
     printf(_("\nAvailable command-line options:\n\n"));
     for (i = 0; i < num_options; i++) {

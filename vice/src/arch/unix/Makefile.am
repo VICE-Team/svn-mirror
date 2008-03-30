@@ -53,7 +53,6 @@ libarch_a_SOURCES = \
 	uic64cart.h \
 	uicartridge.h \
 	uicmdline.c \
-	uicmdline.h \
 	uicommands.h \
 	uicommands.c \
 	uicrtc.c \

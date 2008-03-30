@@ -38,7 +38,8 @@
 #include "dialogs.h"
 #include "lib.h"
 
-void ui_cmdline_show_help(unsigned int num_options, cmdline_option_t *opt, void *arg)
+void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *opt,
+                          void *arg)
 {
     int chars;   // maximum area could be shown
     char format[13];

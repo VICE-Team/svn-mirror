@@ -114,6 +114,7 @@ noinst_HEADERS = \
 	tpi.h \
 	traps.h \
 	uiapi.h \
+	uicmdline.h \
 	uicolor.h \
 	uimon.h \
 	usleep.h \

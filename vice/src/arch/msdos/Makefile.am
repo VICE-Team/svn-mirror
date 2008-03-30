@@ -70,7 +70,6 @@ libarch_a_SOURCES = \
 	uiattach.h \
 	uiattach.c \
 	uicmdline.c \
-	uicmdline.h \
 	uimon.c \
 	uisid.c \
 	uisid.h \
