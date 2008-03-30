@@ -1,6 +1,7 @@
 docdir = $(VICEDIR)/doc
 
 doc_DATA = \
+	Minix-Howto.txt \
 	MSDOS-Ethernet-Howto.txt \
 	MSDOS-Howto.txt \
 	NLS-Howto.txt \
@@ -8,10 +9,10 @@ doc_DATA = \
 	Readme.dos \
 	ReadmeMacOSX.txt \
 	Win32-Howto.txt \
+	cartconv.txt \
 	iec-bus.txt \
 	mon.txt \
-	Minix-Howto.txt \
-	cartconv.txt
+	openGLsync-howto.txt
 
 info_TEXINFOS = \
 	vice.texi

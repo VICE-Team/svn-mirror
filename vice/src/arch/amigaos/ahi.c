@@ -46,11 +46,7 @@
 
 #include "ahi.h"
 #include "timer.h"
-
 #include "lib.h"
-
-#define PRINTF(a...)
-#define DEBUG(a...)
 
 typedef struct audio_buffer_s {
   void *buffer;
@@ -137,8 +133,6 @@ static void ahi_task(void)
 #endif
   s32 previous_read_buffer = -1;
 
-DEBUG("task started\n");
-
   flags = 0;
   signals = 0;
   device = 1;
@@ -156,15 +150,12 @@ DEBUG("task started\n");
   }
 
   if (device == 0) {
-DEBUG("AHI open\n");
     *AHIIO2 = *AHIIO1;
     AHIIO1->ahir_Std.io_Message.mn_ReplyPort = AHIMP1;
     AHIIO2->ahir_Std.io_Message.mn_ReplyPort = AHIMP2;
     AHIIO1->ahir_Std.io_Message.mn_Node.ln_Pri = 127;
     AHIIO2->ahir_Std.io_Message.mn_Node.ln_Pri = 127;
     AHIIO = AHIIO1;
-
-PRINTF("open done\n");
 
     Signal(audio.main_task, SIGBREAKF_CTRL_D);
 
@@ -178,8 +169,6 @@ PRINTF("open done\n");
       ReleaseSemaphore(audio.semaphore);
 
       if (audio.play & used) {
-
-PRINTF("playing buffer: %d (%d)\n", audio.read_buffer, audio.audio_buffers[audio.read_buffer].size);
 
         AHIIO->ahir_Std.io_Command = CMD_WRITE;
         AHIIO->ahir_Std.io_Data    = audio.audio_buffers[audio.read_buffer].buffer;
@@ -196,12 +185,8 @@ PRINTF("playing buffer: %d (%d)\n", audio.read_buffer, audio.audio_buffers[audio
         if (link != NULL) {
           u32 sigbit = 1L << link->ahir_Std.io_Message.mn_ReplyPort->mp_SigBit;
 
-PRINTF("want: %08lx\n", sigbit);
-
           for (;;) {
             signals = Wait(SIGBREAKF_CTRL_E | SIGBREAKF_CTRL_D | sigbit);
-
-PRINTF("got %08lx\n", signals);
 
             if (signals & SIGBREAKF_CTRL_E) {
               flags |= FLAG_EXIT;
@@ -220,7 +205,6 @@ PRINTF("got %08lx\n", signals);
             /* The first iorequest has finished aswell. This means we're
              * out of sync, so force restart (make link NULL).
              */
-PRINTF("lost sync, force restart\n");
             AHIIO = NULL;
           }
 #else
@@ -259,33 +243,22 @@ PRINTF("lost sync, force restart\n");
 
         Signal(audio.main_task, SIGBREAKF_CTRL_D);
       } else {
-PRINTF("nothing to play... waiting...\n");
         signals = Wait(SIGBREAKF_CTRL_E | SIGBREAKF_CTRL_D);
-PRINTF("got %08lx\n", signals);
         if (signals & SIGBREAKF_CTRL_E) {
           flags |= FLAG_EXIT;
         }
       }
     }
   } else {
-DEBUG("AHI failed\n");
   }
-
-DEBUG("wait for last buffer\n");
 
   if (link != NULL) {
     u32 sigbit = 1L << link->ahir_Std.io_Message.mn_ReplyPort->mp_SigBit;
 
-PRINTF("want: %08lx\n", sigbit);
-
     signals = Wait(sigbit);
-
-PRINTF("got %08lx\n", signals);
 
     WaitIO((struct IORequest *)link);
   }
-
-DEBUG("close ahi\n");
 
   if (device == 0) {
     CloseDevice((struct IORequest *)AHIIO1);
@@ -305,8 +278,6 @@ DEBUG("close ahi\n");
   if (timer != NULL) {
     timer_exit(timer);
   }
-
-DEBUG("AHI closed\n");
 
   /* make sure we don't race */
   Forbid();
@@ -368,8 +339,6 @@ s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(
   audio.audio_sync = callback;
   audio.read_position = -1;
 
-DEBUG("alloc buffers\n");
-
   /* allocate buffers */
   audio.audio_buffers = lib_AllocVec(audio.frags * sizeof(audio_buffer_t), MEMF_PUBLIC | MEMF_CLEAR);
   if (audio.audio_buffers == NULL) {
@@ -383,17 +352,11 @@ DEBUG("alloc buffers\n");
     audio.audio_buffers[i].size = 0;
   }
 
-DEBUG("get self\n");
-
   /* get task pointer */
   audio.main_task = FindTask(NULL);
 
-DEBUG("remove signals\n");
-
   /* remove signals */
   SetSignal(0, SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-
-DEBUG("allocate semaphore\n");
 
   /* allocate semaphore */
   audio.semaphore = (struct SignalSemaphore *)lib_AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
@@ -402,8 +365,6 @@ DEBUG("allocate semaphore\n");
   }
   memset(audio.semaphore, 0, sizeof(struct SignalSemaphore));
   InitSemaphore(audio.semaphore);
-
-DEBUG("create task\n");
 
   /* make sure we don't race */
   Forbid();
@@ -418,23 +379,15 @@ DEBUG("create task\n");
     goto fail;
   }
 
-DEBUG("success, waiting...\n");
-
   signals = Wait(SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
   if (signals & SIGBREAKF_CTRL_E) {
-    DEBUG("failed to start audio task...\n");
-
     audio.audio_task = NULL;
     goto fail;
   }
 
-DEBUG("done! task is running!\n");
-
   return 0;
 
 fail:
-
-DEBUG("ahi open failed\n");
 
   ahi_close(); /* free any allocated resources */
 
@@ -523,21 +476,17 @@ void ahi_play_samples(void *data, s32 size, s64 time, s32 wait)
 
   while (size > 0) {
 
-PRINTF("audio_play: %d\n", size);
     for (;;) {
       ObtainSemaphore(audio.semaphore);
       used = audio.audio_buffers[audio.write_buffer].used;
       ReleaseSemaphore(audio.semaphore);
 
       if (used) {
-        PRINTF("used: %d\n", audio.write_buffer);
         Wait(SIGBREAKF_CTRL_D);
       } else {
         break;
       }
     }
-
-PRINTF("buffer free: %d\n", audio.write_buffer);
 
     ObtainSemaphore(audio.semaphore);
 
@@ -573,10 +522,8 @@ PRINTF("buffer free: %d\n", audio.write_buffer);
       }
     }
 
-PRINTF("release\n");
     ReleaseSemaphore(audio.semaphore);
 
-PRINTF("signal\n");
     Signal(audio.audio_task, SIGBREAKF_CTRL_D);
   }
 
@@ -624,11 +571,9 @@ void ahi_close(void)
   u32 signals;
 
   if (audio.audio_task != NULL) {
-DEBUG("stop server\n");
     /* stop server */
     Signal(audio.audio_task, SIGBREAKF_CTRL_E);
 
-DEBUG("wait for signal\n");
     /* wait for signal */
     do {
       signals = Wait(SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
@@ -637,13 +582,11 @@ DEBUG("wait for signal\n");
     audio.audio_task = NULL;
   }
 
-DEBUG("free semaphore\n");
   /* free semaphore */
   if (audio.semaphore != NULL) {
     lib_FreeVec(audio.semaphore);
   }
 
-DEBUG("free buffers\n");
   if (audio.audio_buffers != NULL) {
     for (i=0; i<audio.frags; i++) {
       lib_FreeVec(audio.audio_buffers[i].buffer);
@@ -651,7 +594,6 @@ DEBUG("free buffers\n");
     lib_FreeVec(audio.audio_buffers);
   }
 
-DEBUG("free timer\n");
   if (audio.timer != NULL) {
     timer_exit(audio.timer);
   }

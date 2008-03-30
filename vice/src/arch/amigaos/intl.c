@@ -4528,7 +4528,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_SELECT_ROM_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_SELECT_ROM_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_ROM_FILE_IT, ""},  /* fuzzy */
-/* nl */ {IDS_SELECT_ROM_FILE_NL, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_ROM_FILE_NL, "Selecteer ROM bestand"},
 /* pl */ {IDS_SELECT_ROM_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SELECT_ROM_FILE_SV, ""},  /* fuzzy */
 

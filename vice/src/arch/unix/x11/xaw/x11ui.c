@@ -594,6 +594,11 @@ Display *x11ui_get_display_ptr(void)
     return display;
 }
 
+Window x11ui_get_X11_window()
+{
+    return XtWindow(_ui_top_level);
+}
+
 /* Create a shell with a canvas widget in it.  */
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat)
@@ -1430,6 +1435,32 @@ void ui_dispatch_events(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_mode_update();
 #endif
+}
+
+/* Fixme: unfortunately the following function doesn't work :(
+   Don't know why! Any help is appreciated - send suggestions to
+   `pottend@utanet.at' */
+void x11ui_fullscreen(int i)
+{
+    static Atom _net_wm_state = -1;
+    static Atom _net_wm_state_fullscreen = -1;
+    XEvent xev;
+    
+    if (_net_wm_state == -1)
+    {
+	_net_wm_state = XInternAtom(display, "_NET_WM_STATE", False);
+	_net_wm_state_fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
+    }
+    memset(&xev, 0, sizeof(xev));
+    xev.xclient.type = ClientMessage;
+    xev.xclient.window = XtWindow(_ui_top_level);
+    xev.xclient.message_type = _net_wm_state;
+    xev.xclient.format = 32;
+    xev.xclient.data.l[0] = i;
+    xev.xclient.data.l[1] = _net_wm_state_fullscreen;
+  
+    XSendEvent (display, DefaultRootWindow(display), False,
+		SubstructureRedirectMask, &xev);
 }
 
 /* Resize one window. */

@@ -302,6 +302,9 @@
 /* OpenCBM header file is available. */
 #undef HAVE_OPENCBM_H
 
+/* Enable openGL synchronization */
+#undef HAVE_OPENGL_SYNC
+
 /* Define to 1 if you have the `out8' function. */
 #undef HAVE_OUT8
 
@@ -477,6 +480,9 @@
 
 /* Define to 1 if you have the <X11/xpm.h> header file. */
 #undef HAVE_X11_XPM_H
+
+/* Enable XRandR extension. */
+#undef HAVE_XRANDR
 
 /* Enable XVideo support. */
 #undef HAVE_XVIDEO

@@ -255,6 +255,7 @@ static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean exposure_callback_app(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
 					 gpointer p);
+static gboolean size_allocate(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, 
 				  gpointer data);
 static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
@@ -724,11 +725,12 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 	gtk_widget_show(pal_ctrl_widget);
     else
 	gtk_widget_hide(pal_ctrl_widget);
+
     
-    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-    gdk_window_resize(gdk_window_get_toplevel(w->window), 
-		      req.width, req.height);
-    gdk_flush();
+/*     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req); */
+/*     gdk_window_resize(gdk_window_get_toplevel(w->window),  */
+/* 		      req.width, req.height); */
+/*     gdk_flush(); */
 }
 
 static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
@@ -736,10 +738,13 @@ static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
     GtkRequisition req;
 
     gtk_widget_hide(video_ctrl_checkbox);
+/*
     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
     gdk_window_resize(gdk_window_get_toplevel(w->window), 
 		      req.width, req.height);
     gdk_flush();
+XXX
+*/
     screenshot_stop_recording();
 }
 
@@ -1061,6 +1066,21 @@ Display *x11ui_get_display_ptr(void)
     return display;
 }
 
+GdkVisual *x11ui_get_visual()
+{
+    return visual;
+}
+
+Window x11ui_get_X11_window()
+{
+    return GDK_WINDOW_XID(_ui_top_level->window);
+}
+
+int x11ui_get_screen()
+{
+    return screen;
+}
+
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* Create a shell with a canvas widget in it.  */
@@ -1089,7 +1109,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 			  GDK_EXPOSURE_MASK);
     if (!_ui_top_level)
 	_ui_top_level = new_window;
-    
+
     new_pane = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(new_window), new_pane);
     gtk_widget_show(new_pane);
@@ -1098,7 +1118,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     gtk_widget_show(topmenu);
     g_signal_connect(G_OBJECT(topmenu),"button-press-event",
 		     G_CALLBACK(update_menu_cb),NULL);
-    gtk_box_pack_start(GTK_BOX(new_pane),topmenu,TRUE,TRUE,0);
+    gtk_box_pack_start(GTK_BOX(new_pane),topmenu, FALSE, TRUE,0);
 
     gtk_widget_show(new_window);
     if (vsid_mode)
@@ -1134,6 +1154,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 			  GDK_KEY_RELEASE_MASK |
 			  GDK_FOCUS_CHANGE_MASK |
 			  GDK_POINTER_MOTION_MASK |
+			  GDK_STRUCTURE_MASK |
 			  GDK_EXPOSURE_MASK);
     gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
     gtk_widget_show(new_canvas);
@@ -1148,6 +1169,10 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     g_signal_connect(G_OBJECT(new_canvas),"enter-notify-event",
 		     G_CALLBACK(enter_window_callback),
 		     NULL);
+    g_signal_connect(G_OBJECT(new_canvas),"size-allocate",
+		     G_CALLBACK(size_allocate),
+		     (gpointer) c);
+
     if (!vsid_mode)
 	gtk_widget_set_size_request(new_canvas, width, height);
     gtk_widget_show(new_canvas);
@@ -1779,11 +1804,14 @@ void ui_display_recording(int recording_status)
 	gtk_widget_show(event_rec_checkbox);
     else
 	gtk_widget_hide(event_rec_checkbox);
-
+/*
     gtk_widget_size_request(gtk_widget_get_toplevel(event_rec_checkbox), &req);
     gdk_window_resize(gdk_window_get_toplevel(event_rec_checkbox->window), 
 		      req.width, req.height);
     gdk_flush();
+XXX
+*/
+
 
 }
 
@@ -1794,12 +1822,15 @@ void ui_display_playback(int playback_status, char *version)
 	gtk_widget_show(event_playback_checkbox);
     else
 	gtk_widget_hide(event_playback_checkbox);
- 
+/*
     gtk_widget_size_request(gtk_widget_get_toplevel(event_playback_checkbox), 
 			    &req);
     gdk_window_resize(gdk_window_get_toplevel(event_playback_checkbox->window),
 		      req.width, req.height);
     gdk_flush();
+XXX
+*/
+
 }
 
 /* Display a message in the title bar indicating that the emulation is
@@ -1838,16 +1869,43 @@ void ui_dispatch_events(void)
 #endif
 }
 
+void
+x11ui_fullscreen(int i)
+{
+    if (i)
+	gtk_window_fullscreen(GTK_WINDOW(_ui_top_level));
+    else
+	gtk_window_unfullscreen(GTK_WINDOW(_ui_top_level));
+}
+
 /* Resize one window. */
 void x11ui_resize_canvas_window(ui_window_t w, int width, int height)
 {
     GtkRequisition req;
+    int x, y;
 
-    gtk_widget_set_size_request(w, width, height);
-    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-    gdk_window_resize(gdk_window_get_toplevel(w->window), 
-		      req.width, req.height);
+/*     /\* FIXME: this is all broken! *\/ */
+/*     gtk_widget_set_size_request(w, width, height); */
+/*     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req); */
+/*     gdk_window_resize(gdk_window_get_toplevel(w->window), */
+/* 		      req.width, req.height); */
+/*     gdk_flush(); */
+    
+/*     return; */
+    
+
+    gdk_drawable_get_size(w->window, &x, &y);
+/*  printf("\n%s: w = %p, w x h - 0: %dx%d, \n", __FUNCTION__, w->window,x,y); */
+    gdk_window_resize(w->window, width, height);
+/*     printf("%s: w = %p, w x h - 1: %dx%d, \n", __FUNCTION__, w->window, width, height); */
     gdk_flush();
+    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
+//    gtk_widget_set_size_request(gtk_widget_get_toplevel(w), req.width, req.height);
+    gdk_flush();
+    
+/*     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req); */
+/*     printf("%s: w = %p, w x h - 2: %dx%d, \n", __FUNCTION__, w->window, req.width, req.height); */
+   
     return;
 }
 
@@ -2840,28 +2898,32 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e,
 				  gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
-
-    if (!canvas) {
-        return 0;
-    }
-
-    /* No resize for XVideo. */
-    if (canvas->videoconfig->hwscale
-	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
-	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
-    {
+    
+    if (canvas) 
         video_canvas_refresh_all(canvas);
-    }
-    else {
-        GtkRequisition req;
-
-        gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-        video_canvas_refresh_all(canvas);
-	/* FIXME: This makes the canvas grow uncontrolled. */
-        /* video_canvas_redraw_size(canvas, req.width, req.height); */
-    }
+    
     return 0;
 }
+
+static gboolean 
+size_allocate(GtkWidget *w, GdkEvent *e, gpointer client_data)
+{
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
+    int x, y;
+
+    if (!canvas || 
+	(canvas->videoconfig->hwscale && 
+	 (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1 || 
+	  canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)))
+	return 0;
+    
+    gdk_flush();
+    gdk_drawable_get_size(w->window, &x, &y);
+    video_canvas_redraw_size(canvas, x, y);
+    
+    return 0;
+}
+
 
 /* ------------------------------------------------------------------------- */
 

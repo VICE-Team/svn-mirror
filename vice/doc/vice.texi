@@ -58,14 +58,14 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2006 Andreas Boose
-Copyright @copyright{} 1998-2006 Dag Lem
-Copyright @copyright{} 1998-2006 Tibor Biczo
-Copyright @copyright{} 1999-2006 Andreas Dehmel
-Copyright @copyright{} 1999-2006 Andreas Matthies
-Copyright @copyright{} 1999-2006 Martin Pottendorfer
-Copyright @copyright{} 2000-2006 Spiro Trikaliotis
-Copyright @copyright{} 2005-2006 Marco van den Heuvel
+Copyright @copyright{} 1998-2007 Andreas Boose
+Copyright @copyright{} 1998-2007 Dag Lem
+Copyright @copyright{} 1998-2007 Tibor Biczo
+Copyright @copyright{} 1999-2007 Andreas Dehmel
+Copyright @copyright{} 1999-2007 Andreas Matthies
+Copyright @copyright{} 1999-2007 Martin Pottendorfer
+Copyright @copyright{} 2000-2007 Spiro Trikaliotis
+Copyright @copyright{} 2005-2007 Marco van den Heuvel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 
@@ -7726,21 +7726,21 @@ Håkan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2006 Andreas Boose
+Copyright @copyright{} 1998-2007 Andreas Boose
 @item
-Copyright @copyright{} 1998-2006 Dag Lem
+Copyright @copyright{} 1998-2007 Dag Lem
 @item
-Copyright @copyright{} 1998-2006 Tibor Biczo
+Copyright @copyright{} 1998-2007 Tibor Biczo
 @item
-Copyright @copyright{} 1999-2006 Andreas Dehmel
+Copyright @copyright{} 1999-2007 Andreas Dehmel
 @item
-Copyright @copyright{} 1999-2006 Andreas Matthies
+Copyright @copyright{} 1999-2007 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2006 Martin Pottendorfer
+Copyright @copyright{} 1999-2007 Martin Pottendorfer
 @item
-Copyright @copyright{} 2000-2006 Spiro Trikaliotis
+Copyright @copyright{} 2000-2007 Spiro Trikaliotis
 @item
-Copyright @copyright{} 2005-2006 Marco van den Heuvel
+Copyright @copyright{} 2005-2007 Marco van den Heuvel
 @item
 Copyright @copyright{} 2003-2005 David Hansel
 @item

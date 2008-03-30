@@ -60,6 +60,7 @@ libarch_a_SOURCES = \
 	memory.h \
 	mousedrv.c \
 	mousedrv.h \
+	noinlineargs.c \
 	petui.c \
 	petuires.h \
 	plus4ui.c \

@@ -636,14 +636,14 @@ BEGIN
 //    CTEXT    "Release " VERSION ,IDC_STATIC,7,31,118,8
 //#endif
     CTEXT    "Version 0.0",IDC_ABOUT_VERSION,7,31,118,8
-    LTEXT    "Copyright (c) 1998-2006 Andreas Boose",IDC_STATIC,5,50,158,8
-    LTEXT    "Copyright (c) 1998-2006 Dag Lem",IDC_STATIC,5,59,158,8
-    LTEXT    "Copyright (c) 1998-2006 Tibor Biczo",IDC_STATIC,5,68,158,8
-    LTEXT    "Copyright (c) 1999-2006 Andreas Dehmel",IDC_STATIC,5,77,158,8
-    LTEXT    "Copyright (c) 1999-2006 Andreas Matthies",IDC_STATIC,5,86,180,8
-    LTEXT    "Copyright (c) 1999-2006 Martin Pottendorfer",IDC_STATIC,5,95,180,8
-    LTEXT    "Copyright (c) 2000-2006 Spiro Trikaliotis",IDC_STATIC,5,104,180,8
-    LTEXT    "Copyright (c) 2005-2006 Marco van den Heuvel",IDC_STATIC,5,113,180,8
+    LTEXT    "Copyright (c) 1998-2007 Andreas Boose",IDC_STATIC,5,50,158,8
+    LTEXT    "Copyright (c) 1998-2007 Dag Lem",IDC_STATIC,5,59,158,8
+    LTEXT    "Copyright (c) 1998-2007 Tibor Biczo",IDC_STATIC,5,68,158,8
+    LTEXT    "Copyright (c) 1999-2007 Andreas Dehmel",IDC_STATIC,5,77,158,8
+    LTEXT    "Copyright (c) 1999-2007 Andreas Matthies",IDC_STATIC,5,86,180,8
+    LTEXT    "Copyright (c) 1999-2007 Martin Pottendorfer",IDC_STATIC,5,95,180,8
+    LTEXT    "Copyright (c) 2000-2007 Spiro Trikaliotis",IDC_STATIC,5,104,180,8
+    LTEXT    "Copyright (c) 2005-2007 Marco van den Heuvel",IDC_STATIC,5,113,180,8
     LTEXT    "Copyright (c) 1999-2005 Thomas Bretz",IDC_STATIC,5,122,180,8
     LTEXT    "Copyright (c) 2003-2005 David Hansel",IDC_STATIC,5,131,180,8
     LTEXT    "Copyright (c) 2000-2004 Markus Brenner",IDC_STATIC,5,140,180,8

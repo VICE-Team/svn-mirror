@@ -48,7 +48,10 @@ extern void x11ui_unmap_canvas_window(ui_window_t w);
 extern void x11ui_destroy_widget(ui_window_t w);
 
 extern Display *x11ui_get_display_ptr(void);
+extern Window x11ui_get_X11_window(void);
 extern int x11ui_get_display_depth(void);
+extern int x11ui_get_screen(void);
+extern void x11ui_fullscreen(int enable);
 
 #endif
 

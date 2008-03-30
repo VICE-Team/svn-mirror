@@ -42,6 +42,7 @@
 #define STR_VIDMODE "Vidmode"
 #define STR_DGA1    "DGA1"
 #define STR_DGA2    "DGA2"
+#define STR_XRANDR  "XRANDR"
 
 #ifdef USE_XF86_VIDMODE_EXT
 #include "vidmode.h"
@@ -51,6 +52,9 @@
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #include "dga2.h"
+#endif
+#ifdef HAVE_XRANDR
+#include "xrandr.h"
 #endif
 
 int fullscreen_is_enabled;
@@ -132,6 +136,10 @@ void fullscreen_mode_callback(const char *device, void *callback)
     if (strcmp(STR_DGA2, device) == 0)
         dga2_mode_callback(callback);
 #endif
+#ifdef HAVE_XRANDR
+    if (strcmp(STR_XRANDR, device) == 0)
+        xrandr_mode_callback(callback);
+#endif
 }
 
 void fullscreen_menu_create(struct ui_menu_entry_s *menu)
@@ -145,6 +153,9 @@ void fullscreen_menu_create(struct ui_menu_entry_s *menu)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_menu_create(menu);
 #endif
+#ifdef HAVE_XRANDR
+    xrandr_menu_create(menu);
+#endif
 }
 
 void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu)
@@ -157,6 +168,9 @@ void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu)
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_menu_shutdown(menu);
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    xrandr_menu_shutdown(menu);
 #endif
 }
 
@@ -173,6 +187,10 @@ int fullscreen_init(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     if (dga2_init() < 0)
         return -1;
+#endif
+#ifdef HAVE_XRANDR
+    if (xrandr_init() < 0)
+	return -1;
 #endif
     return 0;
 }
@@ -213,6 +231,11 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
         if (dga2_enable(canvas, enable) < 0)
             return -1;
 #endif
+#ifdef HAVE_XRANDR
+    if (strcmp(STR_XRANDR, canvas->fullscreenconfig->device) == 0)
+        if (xrandr_enable(canvas, enable) < 0)
+            return -1;
+#endif
     fullscreen_is_enabled = canvas->fullscreenconfig->enable = enable;
     return 0;
 }
@@ -244,6 +267,10 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     if (strcmp(STR_DGA2, device) == 0)
+        break;
+#endif
+#ifdef HAVE_XRANDR
+    if (strcmp(STR_XRANDR, device) == 0)
         break;
 #endif
         return -1;
@@ -281,6 +308,14 @@ static int fullscreen_mode_dga2(struct video_canvas_s *canvas, int mode)
 }
 #endif
 
+#ifdef HAVE_XRANDR
+static int fullscreen_mode_xrandr(struct video_canvas_s *canvas, int mode)
+{
+    xrandr_mode(canvas, mode);
+    return 0;
+}
+#endif
+
 #endif
 
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
@@ -314,5 +349,13 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_dga2;
     cap_fullscreen->device_num += 1;
 #endif
+#ifdef HAVE_XRANDR
+    cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_XRANDR;
+    cap_fullscreen->enable = fullscreen_enable;
+    cap_fullscreen->double_size = fullscreen_double_size;
+    cap_fullscreen->double_scan = fullscreen_double_scan;
+    cap_fullscreen->device = fullscreen_device;
+    cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_xrandr;
+    cap_fullscreen->device_num += 1;
+#endif
 }
-

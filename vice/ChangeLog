@@ -1,3 +1,28 @@
+2007-01-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.20.
+
+2007-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* README, doc/Readme.dos, doc/vice.texi: Changed the '2006'
+	year references to '2007'.
+
+2006-12-31  pottendo  <pottendo@utanet.at>
+
+	* doc/openGLsync-howto.txt: Updated.
+
+	* configure.in: Added check for `glXWaitVideoSyncSGI'
+
+	* configure.in: Added check for XRandR as fullscreen device. 
+
+2006-12-25  pottendo  <pottendo@utanet.at>
+
+	* doc/openGLsync-howto.txt: New file.
+
+	* configure.in: Added intermediate solution for X11 vblank sync
+	support based on openGL. Enable currently with `--enable-vblank'
+	at configure time. Autodetection is still missing.
+
 2006-12-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.19.

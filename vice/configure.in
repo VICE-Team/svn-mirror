@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=19
+VICE_VERSION_BUILD=20
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1443,6 +1443,17 @@ if test x"$is_unix_x11" = "xyes"; then
     AC_CHECK_HEADERS(X11/Sunkeysym.h X11/xpm.h)
   fi
 
+  AC_CHECK_HEADER(GL/glx.h,,,[#include <GL/gl.h>])
+  if test x"$ac_cv_header_GL_glx_h" = "xyes" ; then
+    AC_CHECK_LIB(GL, glXWaitVideoSyncSGI,
+                 [ X_LIBS="-lGL $X_LIBS";
+                   LINK_X_LIBS="-lGL $LINK_X_LIBS";
+		   SYNC="openGL_sync.o $SYNC";
+		   AC_SUBST(SYNC)
+		   AC_DEFINE(HAVE_OPENGL_SYNC,,
+		   [Enable openGL synchronization])],,$X_LIBS)
+  fi
+
   dnl Check for XFree86 header and library extensions.
   FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
@@ -1479,6 +1490,16 @@ if test x"$is_unix_x11" = "xyes"; then
                      AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
                      AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
                      [Enable XF86 DGA2 extensions.])],,$X_LIBS)
+    fi
+    AC_CHECK_HEADER(X11/extensions/Xrandr.h,,,[#include <X11/Xlib.h>])
+    if test x"$ac_cv_header_X11_extensions_Xrandr_h" = "xyes" ; then
+      AC_CHECK_LIB(Xrandr, XRRGetScreenInfo,
+                   [ X_LIBS="-lXrandr $X_LIBS";
+                     LINK_X_LIBS="-lXrandr $LINK_X_LIBS";
+                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS xrandr.o";
+                     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
+                     AC_DEFINE(HAVE_XRANDR,,
+                     [Enable XRandR extension.])],,$X_LIBS)
     fi
   fi
 

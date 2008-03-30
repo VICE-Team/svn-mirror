@@ -180,6 +180,8 @@ src/arch/unix/x11/uihotkey.c
 src/arch/unix/x11/vic20icon.c
 src/arch/unix/x11/video.c
 src/arch/unix/x11/vidmode.c
+src/arch/unix/x11/openGL_sync.c
+src/arch/unix/x11/xrandr.c
 src/arch/unix/x11/x11menu.c
 
 # Xaw 

@@ -19,6 +19,9 @@ EXTRA_libx11ui_a_SOURCES = \
 	dga1.h \
 	dga2.c \
 	dga2.h \
+	openGL_sync.c \
+	xrandr.c \
+	xrandr.h \
 	vidmode.c \
 	vidmode.h
 
@@ -45,9 +48,9 @@ libx11ui_a_SOURCES = \
 	x11menu.h \
 	x11ui.h
 
-libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
+libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@ @SYNC@
 
-libx11ui_a_LIBADD = @FULLSCREEN_DRIVERS@
+libx11ui_a_LIBADD = @FULLSCREEN_DRIVERS@ @SYNC@
 
 .PHONY: xaw gnome
 xaw:

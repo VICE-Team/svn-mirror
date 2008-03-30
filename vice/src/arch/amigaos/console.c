@@ -65,7 +65,11 @@ int console_out(console_t *log, const char *format, ...)
 
   va_start(ap, format);
 #ifndef AMIGA_MORPHOS
+#ifdef AMIGA_AROS
   VFPrintf(console_handle, format, (IPTR *)ap);
+#else
+  VFPrintf(console_handle, format, (CONST APTR)ap);
+#endif
 #else
   VNewRawDoFmt(format, fh_putchproc, (STRPTR)console_handle, ap);
 #endif

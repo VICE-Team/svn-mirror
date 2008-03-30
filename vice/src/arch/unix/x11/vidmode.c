@@ -185,10 +185,11 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 
 int vidmode_mode(struct video_canvas_s *canvas, int mode)
 {
-    if (mode < 0 || vm_available == 0)
+    if (mode < 0)
         return 0;
 
-    log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
+    if (vidmode_log != LOG_ERR)
+	log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
     canvas->fullscreenconfig->mode = mode;
 
     return 0;
