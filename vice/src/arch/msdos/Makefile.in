@@ -300,6 +300,8 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.h \
 	uiattach.c \
+	uic64_256k.c \
+	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
 	uicmdline.c \
@@ -357,13 +359,13 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
 	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
 	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
-	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uidrive.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uijoystick.$(OBJEXT) uimon.$(OBJEXT) \
-	uiperipherial.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
-	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiscreenshot.$(OBJEXT) \
-	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
-	uitfe.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsync.$(OBJEXT)
+	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
+	uidrive.$(OBJEXT) uigeoram.$(OBJEXT) uijoystick.$(OBJEXT) \
+	uimon.$(OBJEXT) uiperipherial.$(OBJEXT) uiplus60k.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
+	uiscreenshot.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uitfe.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -383,10 +385,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/tuiimagebrowser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uigeoram.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiperipherial.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic64_256k.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uidrive.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uigeoram.Po ./$(DEPDIR)/uijoystick.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipherial.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus60k.Po ./$(DEPDIR)/uiprinter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiscreenshot.Po ./$(DEPDIR)/uisid.Po \
@@ -451,6 +453,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuiview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64_256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@

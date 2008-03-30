@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-11 13:44+0100\n"
+"POT-Creation-Date: 2005-12-18 12:41+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
 #: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:239 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/c64/plus60k.c:253 src/c64/ramcart.c:228 src/c64/reu.c:250
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
 #: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
@@ -108,7 +108,7 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/drive/ieee/ieee-cmdline-options.c:57
 #: src/drive/ieee/ieee-cmdline-options.c:59
 #: src/drive/ieee/ieee-cmdline-options.c:61
-#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
+#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:121
 #: src/fsdevice/fsdevice-cmdline-options.c:82
 #: src/fsdevice/fsdevice-cmdline-options.c:84
 #: src/fsdevice/fsdevice-cmdline-options.c:86
@@ -252,60 +252,61 @@ msgstr "misslyckades skriva till ljudenheten."
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/event.c:222
+#: src/event.c:223
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kan inte skapa avbildningsfil %s"
 
-#: src/event.c:231
+#: src/event.c:232
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kan inte skriva avbildningsfil %s"
 
-#: src/event.c:243
+#: src/event.c:244
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan inte kopplat namn för %s"
 
-#: src/event.c:618
+#: src/event.c:619
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/event.c:637 src/event.c:931
+#: src/event.c:638 src/event.c:932
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/event.c:704 src/event.c:898
+#: src/event.c:705 src/event.c:899
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/event.c:772
+#: src/event.c:773
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/event.c:787
+#: src/event.c:788
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:811
+#: src/event.c:812
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/event.c:841
+#: src/event.c:842
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:1222
+#: src/event.c:1223
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
+#: src/c64/plus60k.c:147
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Resursen %s blockeras av %s."
@@ -358,6 +359,73 @@ msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
+
+#: src/network.c:280
+msgid "Testing best frame delay..."
+msgstr ""
+
+#: src/network.c:332
+#, c-format
+msgid "Using %d frames delay."
+msgstr ""
+
+#: src/network.c:355
+#, fuzzy
+msgid "Cannot load snapshot file for transfer"
+msgstr "Kan inte läsa in ögonblicksbildfil."
+
+#: src/network.c:368
+#, fuzzy
+msgid "Sending snapshot to client..."
+msgstr "Spara &ögonblicksbild..."
+
+#: src/network.c:377
+#, fuzzy
+msgid "Cannot send snapshot to client"
+msgstr "Kan inte läsa ögonblicksbildfil"
+
+#: src/network.c:393
+#, fuzzy, c-format
+msgid "Cannot create snapshot file %s"
+msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
+
+#: src/network.c:410
+#, fuzzy, c-format
+msgid "Cannot open snapshot file %s"
+msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
+
+#: src/network.c:494
+msgid "Server is waiting for a client..."
+msgstr ""
+
+#: src/network.c:525
+#, fuzzy, c-format
+msgid "Cannot resolve %s"
+msgstr "Kan inte skriva loggfil \"%s\"."
+
+#: src/network.c:546
+#, c-format
+msgid "Cannot connect to %s (no server running on port %d)."
+msgstr ""
+
+#: src/network.c:556
+#, fuzzy
+msgid "Receiving snapshot from server..."
+msgstr "Välj slutögonblicksmodul för händelsehistorik"
+
+#: src/network.c:574
+#, fuzzy
+msgid "Cannot read received snapshot file"
+msgstr "Kan inte läsa in ögonblicksbildfil."
+
+#: src/network.c:704
+#, fuzzy
+msgid "fragmented"
+msgstr "fragmentprogram."
+
+#: src/network.c:734
+msgid "Network out of sync - disconnecting."
+msgstr ""
 
 #: src/aciacore.c:142
 msgid "Specify RS232 device this ACIA should work on"
@@ -668,6 +736,11 @@ msgstr "Anslut CBM IEEE488-insticksmodulfil"
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Anslut rå 16KB-Westermann learning-insticksmodulfil"
 
+#: src/c64/cart/c64cart.c:258
+#, fuzzy
+msgid "Attach Structured Basic cartridge image"
+msgstr "Anslut &insticksmodulfil..."
+
 #: src/c64/cart/c64cart.c:261
 msgid "Enable expert cartridge"
 msgstr "Aktivera Expert Cartridge"
@@ -745,23 +818,23 @@ msgstr "<storlek i KB>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/c64/plus60k.c:235
+#: src/c64/plus60k.c:249
 msgid "Enable the +60K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:237
+#: src/c64/plus60k.c:251
 msgid "Disable the +60K RAM expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:239
+#: src/c64/plus60k.c:253
 msgid "Specify name of +60K image"
 msgstr "Ange namn på +60K-avbildning"
 
-#: src/c64/plus60k.c:241 src/sid/sid-cmdline-options.c:109
+#: src/c64/plus60k.c:255 src/sid/sid-cmdline-options.c:109
 msgid "<base address>"
 msgstr "<basadress>"
 
-#: src/c64/plus60k.c:241
+#: src/c64/plus60k.c:255
 #, fuzzy
 msgid "Base address of the +60K expansion"
 msgstr "Inaktivera +60K RAM-expansion"
@@ -1092,7 +1165,7 @@ msgstr "Ange namn på 1001/8050/8250-DOS-ROM-avbildning"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 
-#: src/fliplist.c:122
+#: src/fliplist.c:121
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
@@ -1746,59 +1819,59 @@ msgstr "<läge>"
 msgid "Select fullscreen mode"
 msgstr "Aktivera fullskärmsläge"
 
-#: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:68
+#: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:69
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
 #: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/c128ui.c:70 src/arch/unix/c64ui.c:70
+#: src/arch/unix/c128ui.c:70 src/arch/unix/c64ui.c:71
 #: src/arch/unix/cbm2ui.c:66 src/arch/unix/uited.c:55 src/arch/unix/uivic.c:44
 #: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
 #: src/arch/unix/c128ui.c:151 src/arch/unix/c128ui.c:176
-#: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:244
+#: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:245
 #: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:319
 msgid "SID engine"
 msgstr "SID-motor"
 
 #: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:180
-#: src/arch/unix/c64ui.c:222 src/arch/unix/c64ui.c:248
+#: src/arch/unix/c64ui.c:223 src/arch/unix/c64ui.c:249
 #: src/arch/unix/cbm2ui.c:297 src/arch/unix/cbm2ui.c:323
 msgid "*Second SID"
 msgstr "*Andra SID"
 
 #: src/arch/unix/c128ui.c:156 src/arch/unix/c128ui.c:182
-#: src/arch/unix/c64ui.c:224 src/arch/unix/c64ui.c:250
+#: src/arch/unix/c64ui.c:225 src/arch/unix/c64ui.c:251
 #: src/arch/unix/cbm2ui.c:299 src/arch/unix/cbm2ui.c:325
 msgid "*Second SID base address"
 msgstr "*Basadress för andra SID"
 
 #: src/arch/unix/c128ui.c:159 src/arch/unix/c128ui.c:184
-#: src/arch/unix/c64ui.c:227 src/arch/unix/c64ui.c:252
+#: src/arch/unix/c64ui.c:228 src/arch/unix/c64ui.c:253
 #: src/arch/unix/cbm2ui.c:302 src/arch/unix/cbm2ui.c:328
 msgid "*Emulate filters"
 msgstr "*Emulera filter"
 
 #: src/arch/unix/c128ui.c:161 src/arch/unix/c128ui.c:186
-#: src/arch/unix/c64ui.c:229 src/arch/unix/c64ui.c:254
+#: src/arch/unix/c64ui.c:230 src/arch/unix/c64ui.c:255
 #: src/arch/unix/cbm2ui.c:304 src/arch/unix/cbm2ui.c:330
 msgid "Chip model"
 msgstr "Kretsmodell"
 
-#: src/arch/unix/c128ui.c:165 src/arch/unix/c64ui.c:233
+#: src/arch/unix/c128ui.c:165 src/arch/unix/c64ui.c:234
 #: src/arch/unix/cbm2ui.c:308
 msgid "reSID sampling method"
 msgstr "reSID-samplingsmetod"
 
-#: src/arch/unix/c128ui.c:167 src/arch/unix/c64ui.c:235
+#: src/arch/unix/c128ui.c:167 src/arch/unix/c64ui.c:236
 #: src/arch/unix/cbm2ui.c:310
 msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
-#: src/arch/unix/c128ui.c:178 src/arch/unix/c64ui.c:246
+#: src/arch/unix/c128ui.c:178 src/arch/unix/c64ui.c:247
 #: src/arch/unix/cbm2ui.c:321 src/arch/unix/uisound.c:119
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
@@ -1836,27 +1909,27 @@ msgstr "Namn på externt funktions-ROM..."
 msgid "Function ROM"
 msgstr "Funktions-ROM"
 
-#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:267
+#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:268
 msgid "RAM Expansion Unit"
 msgstr "RAM-expansionsenhet"
 
-#: src/arch/unix/c128ui.c:240 src/arch/unix/c64ui.c:269
+#: src/arch/unix/c128ui.c:240 src/arch/unix/c64ui.c:270
 msgid "GEORAM Expansion Unit"
 msgstr "GEORAM-expansionsenhet"
 
-#: src/arch/unix/c128ui.c:242 src/arch/unix/c64ui.c:271
+#: src/arch/unix/c128ui.c:242 src/arch/unix/c64ui.c:272
 msgid "RAM Expansion Cart"
 msgstr "RAM-expansionsmodul"
 
-#: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:275
+#: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:278
 msgid "IDE64 emulation"
 msgstr "IDE64-emulering"
 
-#: src/arch/unix/c128ui.c:247 src/arch/unix/c64ui.c:278
+#: src/arch/unix/c128ui.c:247 src/arch/unix/c64ui.c:281
 msgid "Ethernet emulation"
 msgstr "Ethernetemulering"
 
-#: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:281
+#: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
 #: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
 msgid "*Emulator identification"
 msgstr "*Emulatoridentifiering"
@@ -1865,7 +1938,7 @@ msgstr "*Emulatoridentifiering"
 msgid "*IEEE488 interface emulation"
 msgstr "*Emulering av IEEE488-gränssnitt"
 
-#: src/arch/unix/c128ui.c:255 src/arch/unix/c64ui.c:284
+#: src/arch/unix/c128ui.c:255 src/arch/unix/c64ui.c:287
 msgid "*1351 Mouse Emulation"
 msgstr "*1351-musemulering"
 
@@ -1889,36 +1962,36 @@ msgstr "Läs ny hög Basic-ROM"
 msgid "Load new Chargen ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
-#: src/arch/unix/c128ui.c:283 src/arch/unix/c64ui.c:306
+#: src/arch/unix/c128ui.c:283 src/arch/unix/c64ui.c:309
 #: src/arch/unix/plus4ui.c:95 src/arch/unix/vic20ui.c:133
 msgid "Load default ROMs"
 msgstr "Läs standard-ROM"
 
-#: src/arch/unix/c128ui.c:287 src/arch/unix/c64ui.c:310
+#: src/arch/unix/c128ui.c:287 src/arch/unix/c64ui.c:313
 #: src/arch/unix/cbm2ui.c:96 src/arch/unix/petui.c:200
 #: src/arch/unix/plus4ui.c:99 src/arch/unix/vic20ui.c:136
 msgid "Load new computer ROM"
 msgstr "Läs ny dator-ROM"
 
-#: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:312
+#: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:315
 #: src/arch/unix/cbm2ui.c:98 src/arch/unix/petui.c:202
 #: src/arch/unix/plus4ui.c:101 src/arch/unix/vic20ui.c:138
 msgid "Load new drive ROM"
 msgstr "Läs ny diskettstation-ROM"
 
-#: src/arch/unix/c128ui.c:292 src/arch/unix/c64ui.c:315
+#: src/arch/unix/c128ui.c:292 src/arch/unix/c64ui.c:318
 #: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
 #: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:141
 msgid "ROM set type"
 msgstr "ROM-uppsättningstyp"
 
-#: src/arch/unix/c128ui.c:295 src/arch/unix/c64ui.c:318
+#: src/arch/unix/c128ui.c:295 src/arch/unix/c64ui.c:321
 #: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
 #: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:144
 msgid "ROM set archive"
 msgstr "ROM-uppsättningsarkiv"
 
-#: src/arch/unix/c128ui.c:297 src/arch/unix/c64ui.c:320
+#: src/arch/unix/c128ui.c:297 src/arch/unix/c64ui.c:323
 #: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
 #: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:146
 msgid "ROM set file"
@@ -1945,7 +2018,7 @@ msgstr "Maskintyp"
 msgid "ROM sets"
 msgstr "ROM-uppsättningar"
 
-#: src/arch/unix/c128ui.c:367 src/arch/unix/c64ui.c:353
+#: src/arch/unix/c128ui.c:367 src/arch/unix/c64ui.c:356
 msgid "VIC-II settings"
 msgstr "VIC-II-inställningar"
 
@@ -1953,7 +2026,7 @@ msgstr "VIC-II-inställningar"
 msgid "VDC settings"
 msgstr "VDC-inställningar"
 
-#: src/arch/unix/c128ui.c:371 src/arch/unix/c64ui.c:355
+#: src/arch/unix/c128ui.c:371 src/arch/unix/c64ui.c:358
 #: src/arch/unix/cbm2ui.c:361 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "SID-inställningar"
@@ -1962,7 +2035,7 @@ msgstr "SID-inställningar"
 msgid "Memory and I/O extensions"
 msgstr "Minnes- och I/O-utökningar"
 
-#: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:359
+#: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:362
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
 #: src/arch/unix/vic20ui.c:374
 msgid "RS232 settings"
@@ -1972,26 +2045,26 @@ msgstr "RS232-inställningar"
 msgid "Model settings"
 msgstr "Modellinställningar"
 
-#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:422
+#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
 #: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
-#: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:441
+#: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
 #: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
-#: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:448
+#: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
 #: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
 msgid "Options"
 msgstr "Alternativ"
 
-#: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:460
+#: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
@@ -2001,45 +2074,50 @@ msgstr "Inställningar"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:474
+#: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
 #: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
 msgid "RJHelp"
 msgstr "RJHjälp"
 
-#: src/arch/unix/c64ui.c:72 src/arch/unix/vsidui.c:129
+#: src/arch/unix/c64ui.c:73 src/arch/unix/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*Gammal NTSC-M"
 
-#: src/arch/unix/c64ui.c:273
+#: src/arch/unix/c64ui.c:274
 msgid "+60K RAM Expansion Hack"
 msgstr "+60K RAM-expansionshack"
 
-#: src/arch/unix/c64ui.c:293 src/arch/unix/petui.c:169
+#: src/arch/unix/c64ui.c:276
+#, fuzzy
+msgid "256K RAM Expansion Hack"
+msgstr "+60K RAM-expansionshack"
+
+#: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:169
 #: src/arch/unix/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Läs ny kernal-ROM"
 
-#: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:175
+#: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:175
 #: src/arch/unix/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Läs ny BASIC-ROM"
 
-#: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:208
+#: src/arch/unix/c64ui.c:302 src/arch/unix/petui.c:208
 msgid "Load new character ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
-#: src/arch/unix/c64ui.c:343 src/arch/unix/cbm2ui.c:384
+#: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
 #: src/arch/unix/vic20ui.c:415
 msgid "Screenshot..."
 msgstr "Skärmdump..."
 
-#: src/arch/unix/c64ui.c:351 src/arch/unix/plus4ui.c:131
+#: src/arch/unix/c64ui.c:354 src/arch/unix/plus4ui.c:131
 msgid "ROM settings"
 msgstr "ROM-inställningar"
 
-#: src/arch/unix/c64ui.c:357
+#: src/arch/unix/c64ui.c:360
 msgid "I/O extensions"
 msgstr "I/O-utökningar"
 
@@ -2557,6 +2635,32 @@ msgstr "Okänd avbildningsfiltyp"
 #: src/arch/unix/uiattach.c:325
 msgid "Smart-attach disk/tape..."
 msgstr "Smartanslut diskett/band..."
+
+#: src/arch/unix/uic64_256k.c:40
+#, fuzzy
+msgid "256K image name"
+msgstr "Avbildningsfil för IDE64"
+
+#: src/arch/unix/uic64_256k.c:41 src/arch/unix/uigeoram.c:42
+#: src/arch/unix/uiide64.c:43 src/arch/unix/uiplus60k.c:42
+#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uitfe.c:44
+msgid "Name:"
+msgstr "Namn:"
+
+#: src/arch/unix/uic64_256k.c:57
+#, fuzzy
+msgid "*Enable 256K"
+msgstr "&Aktivera +60K"
+
+#: src/arch/unix/uic64_256k.c:59
+msgid "256K base"
+msgstr ""
+
+#: src/arch/unix/uic64_256k.c:61
+#, fuzzy
+msgid "256K image name..."
+msgstr "Namn för IDE64-avbildning..."
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
 msgid "Cannot attach cartridge"
@@ -3324,12 +3428,6 @@ msgstr "Ta bort: "
 msgid "GEORAM image name"
 msgstr "Namn på GEORAM-avbildning"
 
-#: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
-#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
-#: src/arch/unix/uitfe.c:44
-msgid "Name:"
-msgstr "Namn:"
-
 #: src/arch/unix/uigeoram.c:64
 msgid "*Enable GEORAM"
 msgstr "*Aktivera GEORAM"
@@ -3638,6 +3736,26 @@ msgstr "*Aktivera virtuella enheter"
 #: src/arch/unix/uiperipheraliec.c:153 src/arch/unix/uiperipheralieee.c:143
 msgid "Peripheral settings"
 msgstr "Inställningar för kringutrustning"
+
+#: src/arch/unix/uiplus60k.c:41
+#, fuzzy
+msgid "+60K image name"
+msgstr "Avbildningsfil för IDE64"
+
+#: src/arch/unix/uiplus60k.c:54
+#, fuzzy
+msgid "*Enable +60K"
+msgstr "&Aktivera +60K"
+
+#: src/arch/unix/uiplus60k.c:56
+#, fuzzy
+msgid "+60K base address"
+msgstr "<basadress>"
+
+#: src/arch/unix/uiplus60k.c:58
+#, fuzzy
+msgid "+60K image name..."
+msgstr "Namn för IDE64-avbildning..."
 
 #: src/arch/unix/uiprinter.c:80 src/arch/unix/uiprinter.c:95
 #: src/arch/unix/uiprinter.c:107
@@ -5707,9 +5825,6 @@ msgstr "Initierade utan delat minne."
 #~ msgid "VICE console logging files (*.dbg)"
 #~ msgstr "VICE konsolloggfiler (*.dbg)"
 
-#~ msgid "Cannot write log file `%s'."
-#~ msgstr "Kan inte skriva loggfil \"%s\"."
-
 #~ msgid "Load flip list file"
 #~ msgstr "Läs vallistefil"
 
@@ -5791,9 +5906,6 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Can't write snapshot file."
 #~ msgstr "Kan inte skriva ögonblicksbildfil."
 
-#~ msgid "Cannot read snapshot image"
-#~ msgstr "Kan inte läsa ögonblicksbildfil"
-
 #~ msgid "Load %s ROM image"
 #~ msgstr "Läs %s-ROM-fil"
 
@@ -5820,9 +5932,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Save snapshot image"
 #~ msgstr "Spara ögonblicksbildfil"
-
-#~ msgid "Cannot write snapshot file `%s'."
-#~ msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
 #~ msgid "Load snapshot image"
 #~ msgstr "Läser in ögonblicksbild"
@@ -5889,9 +5998,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Select start snapshot for event history"
 #~ msgstr "Välj startögonblicksmodul för händelsehistorik"
-
-#~ msgid "Select end snapshot for event history"
-#~ msgstr "Välj slutögonblicksmodul för händelsehistorik"
 
 #~ msgid "Version %s *UNSTABLE*"
 #~ msgstr "Version %s *INSTABIL*"
@@ -6274,9 +6380,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Load snapshot &image..."
 #~ msgstr "&Läs in ögonblicksbild..."
-
-#~ msgid "Save sna&pshot image..."
-#~ msgstr "Spara &ögonblicksbild..."
 
 #~ msgid "&Load quicksnapshot image\tAlt+L"
 #~ msgstr "Läs in &snabbögonblicksbild\tAlt+L"
@@ -6967,9 +7070,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "+60K Settings"
 #~ msgstr "+60K-inställningar"
-
-#~ msgid "&Enable +60K"
-#~ msgstr "&Aktivera +60K"
 
 #~ msgid "+60K file"
 #~ msgstr "+60K-fil"

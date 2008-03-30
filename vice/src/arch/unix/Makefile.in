@@ -289,6 +289,8 @@ libarch_a_SOURCES = \
 	uiacia1.h \
 	uiattach.c \
 	uiattach.h \
+	uic64_256k.c \
+	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
 	uicartridge.h \
@@ -403,17 +405,17 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	joy_usb.$(OBJEXT) mousedrv.$(OBJEXT) opencbmlib.$(OBJEXT) \
 	petui.$(OBJEXT) plus4ui.$(OBJEXT) rs232.$(OBJEXT) \
 	signals.$(OBJEXT) tfearch.$(OBJEXT) ui.$(OBJEXT) \
-	uiacia1.$(OBJEXT) uiattach.$(OBJEXT) uic64cart.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uicommands.$(OBJEXT) uicrtc.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
-	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
-	uimon.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
-	uiperipheralieee.$(OBJEXT) uiplus60k.$(OBJEXT) \
-	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
+	uiacia1.$(OBJEXT) uiattach.$(OBJEXT) uic64_256k.$(OBJEXT) \
+	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uicommands.$(OBJEXT) \
+	uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) uidrive.$(OBJEXT) \
+	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
+	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) \
+	uilib.$(OBJEXT) uimon.$(OBJEXT) uipalemu.$(OBJEXT) \
+	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
+	uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
 	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
 	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
@@ -439,10 +441,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/signals.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiacia1.Po ./$(DEPDIR)/uiattach.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicommands.Po ./$(DEPDIR)/uicrtc.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po ./$(DEPDIR)/uidrive.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic64_256k.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uicommands.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicrtc.Po ./$(DEPDIR)/uidatasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uidrivec128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
@@ -549,6 +551,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiacia1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64_256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicommands.Po@am__quote@

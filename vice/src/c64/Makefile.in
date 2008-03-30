@@ -257,6 +257,8 @@ libc64_a_SOURCES = \
 	c64-snapshot.h \
 	c64.c \
 	c64.h \
+	c64_256k.c \
+	c64_256k.h \
 	c64acia.h \
 	c64acia1.c \
 	c64bus.c \
@@ -377,17 +379,17 @@ libc64_a_AR = $(AR) cru
 libc64_a_LIBADD =
 am_libc64_a_OBJECTS = c64-cmdline-options.$(OBJEXT) \
 	c64-resources.$(OBJEXT) c64-snapshot.$(OBJEXT) c64.$(OBJEXT) \
-	c64acia1.$(OBJEXT) c64bus.$(OBJEXT) c64cia1.$(OBJEXT) \
-	c64cia2.$(OBJEXT) c64datasette.$(OBJEXT) c64drive.$(OBJEXT) \
-	c64export.$(OBJEXT) c64fastiec.$(OBJEXT) c64iec.$(OBJEXT) \
-	c64io.$(OBJEXT) c64keyboard.$(OBJEXT) c64mem.$(OBJEXT) \
-	c64meminit.$(OBJEXT) c64memlimit.$(OBJEXT) c64memrom.$(OBJEXT) \
-	c64memsnapshot.$(OBJEXT) c64parallel.$(OBJEXT) c64pla.$(OBJEXT) \
-	c64printer.$(OBJEXT) c64rom.$(OBJEXT) c64romset.$(OBJEXT) \
-	c64rsuser.$(OBJEXT) c64tpi.$(OBJEXT) c64video.$(OBJEXT) \
-	georam.$(OBJEXT) patchrom.$(OBJEXT) plus60k.$(OBJEXT) \
-	psid.$(OBJEXT) ramcart.$(OBJEXT) reloc65.$(OBJEXT) \
-	reu.$(OBJEXT) tfe.$(OBJEXT)
+	c64_256k.$(OBJEXT) c64acia1.$(OBJEXT) c64bus.$(OBJEXT) \
+	c64cia1.$(OBJEXT) c64cia2.$(OBJEXT) c64datasette.$(OBJEXT) \
+	c64drive.$(OBJEXT) c64export.$(OBJEXT) c64fastiec.$(OBJEXT) \
+	c64iec.$(OBJEXT) c64io.$(OBJEXT) c64keyboard.$(OBJEXT) \
+	c64mem.$(OBJEXT) c64meminit.$(OBJEXT) c64memlimit.$(OBJEXT) \
+	c64memrom.$(OBJEXT) c64memsnapshot.$(OBJEXT) \
+	c64parallel.$(OBJEXT) c64pla.$(OBJEXT) c64printer.$(OBJEXT) \
+	c64rom.$(OBJEXT) c64romset.$(OBJEXT) c64rsuser.$(OBJEXT) \
+	c64tpi.$(OBJEXT) c64video.$(OBJEXT) georam.$(OBJEXT) \
+	patchrom.$(OBJEXT) plus60k.$(OBJEXT) psid.$(OBJEXT) \
+	ramcart.$(OBJEXT) reloc65.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64_a_OBJECTS = $(am_libc64_a_OBJECTS)
 libc64c128_a_AR = $(AR) cru
 libc64c128_a_LIBADD =
@@ -406,13 +408,13 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/c64-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64-resources.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64-snapshot.Po ./$(DEPDIR)/c64.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64acia1.Po ./$(DEPDIR)/c64bus.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64cia1.Po ./$(DEPDIR)/c64cia2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64datasette.Po ./$(DEPDIR)/c64drive.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64export.Po ./$(DEPDIR)/c64fastiec.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64iec.Po ./$(DEPDIR)/c64io.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64keyboard.Po ./$(DEPDIR)/c64mem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64meminit.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64_256k.Po ./$(DEPDIR)/c64acia1.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64bus.Po ./$(DEPDIR)/c64cia1.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64cia2.Po ./$(DEPDIR)/c64datasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64drive.Po ./$(DEPDIR)/c64export.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64fastiec.Po ./$(DEPDIR)/c64iec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64io.Po ./$(DEPDIR)/c64keyboard.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64mem.Po ./$(DEPDIR)/c64meminit.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64memlimit.Po ./$(DEPDIR)/c64memrom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64parallel.Po ./$(DEPDIR)/c64pla.Po \
@@ -470,6 +472,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64-snapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64_256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64acia1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64bus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64cia1.Po@am__quote@

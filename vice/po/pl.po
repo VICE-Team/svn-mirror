@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-11 13:44+0100\n"
+"POT-Creation-Date: 2005-12-18 12:41+0100\n"
 "PO-Revision-Date: 2005-09-18 10:57+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -95,7 +95,7 @@ msgstr ""
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
 #: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:239 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/c64/plus60k.c:253 src/c64/ramcart.c:228 src/c64/reu.c:250
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
 #: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
@@ -113,7 +113,7 @@ msgstr ""
 #: src/drive/ieee/ieee-cmdline-options.c:57
 #: src/drive/ieee/ieee-cmdline-options.c:59
 #: src/drive/ieee/ieee-cmdline-options.c:61
-#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
+#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:121
 #: src/fsdevice/fsdevice-cmdline-options.c:82
 #: src/fsdevice/fsdevice-cmdline-options.c:84
 #: src/fsdevice/fsdevice-cmdline-options.c:86
@@ -259,72 +259,73 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:222
+#: src/event.c:223
 #, fuzzy, c-format
 msgid "Cannot create image file %s"
 msgstr "Nie mo¿na stworzyc obrazu `%s'."
 
-#: src/event.c:231
+#: src/event.c:232
 #, fuzzy, c-format
 msgid "Cannot write image file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
 "`%s'\n"
 
-#: src/event.c:243
+#: src/event.c:244
 #, fuzzy, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Nie mo¿na za³adowaæ tekstowej czcionki %s."
 
-#: src/event.c:618
+#: src/event.c:619
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:637 src/event.c:931
+#: src/event.c:638 src/event.c:932
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:704 src/event.c:898
+#: src/event.c:705 src/event.c:899
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:772
+#: src/event.c:773
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:787
+#: src/event.c:788
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:811
+#: src/event.c:812
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:841
+#: src/event.c:842
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:1222
+#: src/event.c:1223
 #, fuzzy
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
+#: src/c64/plus60k.c:147
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr ""
@@ -376,6 +377,83 @@ msgstr ""
 #: src/debug.c:438
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
+msgstr ""
+
+#: src/network.c:280
+msgid "Testing best frame delay..."
+msgstr ""
+
+#: src/network.c:332
+#, c-format
+msgid "Using %d frames delay."
+msgstr ""
+
+#: src/network.c:355
+#, fuzzy
+msgid "Cannot load snapshot file for transfer"
+msgstr ""
+"Nie mo¿na za³adowaæ pliku zrzutu\n"
+"`%s'"
+
+#: src/network.c:368
+#, fuzzy
+msgid "Sending snapshot to client..."
+msgstr "Zapisz zrzut..."
+
+#: src/network.c:377
+#, fuzzy
+msgid "Cannot send snapshot to client"
+msgstr ""
+"Nie mo¿na za³adowaæ pliku zrzutu\n"
+"`%s'"
+
+#: src/network.c:393
+#, fuzzy, c-format
+msgid "Cannot create snapshot file %s"
+msgstr ""
+"Nie mo¿na zapisaæ pliku migawki\n"
+"`%s'\n"
+
+#: src/network.c:410
+#, fuzzy, c-format
+msgid "Cannot open snapshot file %s"
+msgstr ""
+"Nie mo¿na zapisaæ pliku migawki\n"
+"`%s'\n"
+
+#: src/network.c:494
+msgid "Server is waiting for a client..."
+msgstr ""
+
+#: src/network.c:525
+#, fuzzy, c-format
+msgid "Cannot resolve %s"
+msgstr ""
+"Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
+"`%s'\n"
+
+#: src/network.c:546
+#, c-format
+msgid "Cannot connect to %s (no server running on port %d)."
+msgstr ""
+
+#: src/network.c:556
+msgid "Receiving snapshot from server..."
+msgstr ""
+
+#: src/network.c:574
+#, fuzzy
+msgid "Cannot read received snapshot file"
+msgstr ""
+"Nie mo¿na za³adowaæ pliku zrzutu\n"
+"`%s'"
+
+#: src/network.c:704
+msgid "fragmented"
+msgstr ""
+
+#: src/network.c:734
+msgid "Network out of sync - disconnecting."
 msgstr ""
 
 #: src/aciacore.c:142
@@ -728,6 +806,11 @@ msgstr "W³ó¿ obraz kartrid¿a"
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
+#: src/c64/cart/c64cart.c:258
+#, fuzzy
+msgid "Attach Structured Basic cartridge image"
+msgstr "W³ó¿ obraz kartrid¿a"
+
 #: src/c64/cart/c64cart.c:261
 #, fuzzy
 msgid "Enable expert cartridge"
@@ -810,27 +893,27 @@ msgstr ""
 msgid "Size of the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus60k.c:235
+#: src/c64/plus60k.c:249
 #, fuzzy
 msgid "Enable the +60K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus60k.c:237
+#: src/c64/plus60k.c:251
 #, fuzzy
 msgid "Disable the +60K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/plus60k.c:239
+#: src/c64/plus60k.c:253
 #, fuzzy
 msgid "Specify name of +60K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/plus60k.c:241 src/sid/sid-cmdline-options.c:109
+#: src/c64/plus60k.c:255 src/sid/sid-cmdline-options.c:109
 #, fuzzy
 msgid "<base address>"
 msgstr "*Adres bazowy drugiego SID"
 
-#: src/c64/plus60k.c:241
+#: src/c64/plus60k.c:255
 #, fuzzy
 msgid "Base address of the +60K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
@@ -1169,7 +1252,7 @@ msgstr ""
 msgid "Specify name of 1551 DOS ROM image"
 msgstr ""
 
-#: src/fliplist.c:122
+#: src/fliplist.c:121
 #, fuzzy
 msgid "Specify name of the flip list file image"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
@@ -1898,60 +1981,60 @@ msgstr ""
 msgid "Select fullscreen mode"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:68
+#: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:69
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
 #: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/c128ui.c:70 src/arch/unix/c64ui.c:70
+#: src/arch/unix/c128ui.c:70 src/arch/unix/c64ui.c:71
 #: src/arch/unix/cbm2ui.c:66 src/arch/unix/uited.c:55 src/arch/unix/uivic.c:44
 #: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
 #: src/arch/unix/c128ui.c:151 src/arch/unix/c128ui.c:176
-#: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:244
+#: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:245
 #: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:319
 msgid "SID engine"
 msgstr "Ustawienia uk³adu SID"
 
 #: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:180
-#: src/arch/unix/c64ui.c:222 src/arch/unix/c64ui.c:248
+#: src/arch/unix/c64ui.c:223 src/arch/unix/c64ui.c:249
 #: src/arch/unix/cbm2ui.c:297 src/arch/unix/cbm2ui.c:323
 msgid "*Second SID"
 msgstr "*Drugi SID"
 
 #: src/arch/unix/c128ui.c:156 src/arch/unix/c128ui.c:182
-#: src/arch/unix/c64ui.c:224 src/arch/unix/c64ui.c:250
+#: src/arch/unix/c64ui.c:225 src/arch/unix/c64ui.c:251
 #: src/arch/unix/cbm2ui.c:299 src/arch/unix/cbm2ui.c:325
 msgid "*Second SID base address"
 msgstr "*Adres bazowy drugiego SID"
 
 #: src/arch/unix/c128ui.c:159 src/arch/unix/c128ui.c:184
-#: src/arch/unix/c64ui.c:227 src/arch/unix/c64ui.c:252
+#: src/arch/unix/c64ui.c:228 src/arch/unix/c64ui.c:253
 #: src/arch/unix/cbm2ui.c:302 src/arch/unix/cbm2ui.c:328
 msgid "*Emulate filters"
 msgstr "*Emuluj filtry"
 
 #: src/arch/unix/c128ui.c:161 src/arch/unix/c128ui.c:186
-#: src/arch/unix/c64ui.c:229 src/arch/unix/c64ui.c:254
+#: src/arch/unix/c64ui.c:230 src/arch/unix/c64ui.c:255
 #: src/arch/unix/cbm2ui.c:304 src/arch/unix/cbm2ui.c:330
 msgid "Chip model"
 msgstr "Model chipa"
 
-#: src/arch/unix/c128ui.c:165 src/arch/unix/c64ui.c:233
+#: src/arch/unix/c128ui.c:165 src/arch/unix/c64ui.c:234
 #: src/arch/unix/cbm2ui.c:308
 msgid "reSID sampling method"
 msgstr "Metoda samplowania reSID"
 
 # src/arch/unix/c64ui.c:289  
-#: src/arch/unix/c128ui.c:167 src/arch/unix/c64ui.c:235
+#: src/arch/unix/c128ui.c:167 src/arch/unix/c64ui.c:236
 #: src/arch/unix/cbm2ui.c:310
 msgid "reSID resampling passband..."
 msgstr "reSID resampling passband..."
 
-#: src/arch/unix/c128ui.c:178 src/arch/unix/c64ui.c:246
+#: src/arch/unix/c128ui.c:178 src/arch/unix/c64ui.c:247
 #: src/arch/unix/cbm2ui.c:321 src/arch/unix/uisound.c:119
 msgid "*Enable sound playback"
 msgstr "*W³±cz d¼wiêk"
@@ -1989,31 +2072,31 @@ msgstr "Nazwa zewnêtrznej funkci ROM..."
 msgid "Function ROM"
 msgstr "Funkcja ROM"
 
-#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:267
+#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:268
 msgid "RAM Expansion Unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/arch/unix/c128ui.c:240 src/arch/unix/c64ui.c:269
+#: src/arch/unix/c128ui.c:240 src/arch/unix/c64ui.c:270
 #, fuzzy
 msgid "GEORAM Expansion Unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/arch/unix/c128ui.c:242 src/arch/unix/c64ui.c:271
+#: src/arch/unix/c128ui.c:242 src/arch/unix/c64ui.c:272
 #, fuzzy
 msgid "RAM Expansion Cart"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:275
+#: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:278
 #, fuzzy
 msgid "IDE64 emulation"
 msgstr "Emulacja PAL"
 
-#: src/arch/unix/c128ui.c:247 src/arch/unix/c64ui.c:278
+#: src/arch/unix/c128ui.c:247 src/arch/unix/c64ui.c:281
 #, fuzzy
 msgid "Ethernet emulation"
 msgstr "*U¿yj emulacji reSID"
 
-#: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:281
+#: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
 #: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
 msgid "*Emulator identification"
 msgstr "*Idyntifikacja emulatora"
@@ -2022,7 +2105,7 @@ msgstr "*Idyntifikacja emulatora"
 msgid "*IEEE488 interface emulation"
 msgstr "*Emulacja interfejsu IEEE488"
 
-#: src/arch/unix/c128ui.c:255 src/arch/unix/c64ui.c:284
+#: src/arch/unix/c128ui.c:255 src/arch/unix/c64ui.c:287
 msgid "*1351 Mouse Emulation"
 msgstr "*Emulacja myszki 1351"
 
@@ -2046,39 +2129,39 @@ msgstr "Za³aduj nowy ROM Basic"
 msgid "Load new Chargen ROM"
 msgstr "Load new Chargen ROM"
 
-#: src/arch/unix/c128ui.c:283 src/arch/unix/c64ui.c:306
+#: src/arch/unix/c128ui.c:283 src/arch/unix/c64ui.c:309
 #: src/arch/unix/plus4ui.c:95 src/arch/unix/vic20ui.c:133
 msgid "Load default ROMs"
 msgstr "Za³aduj domy¶lne ROMy"
 
-#: src/arch/unix/c128ui.c:287 src/arch/unix/c64ui.c:310
+#: src/arch/unix/c128ui.c:287 src/arch/unix/c64ui.c:313
 #: src/arch/unix/cbm2ui.c:96 src/arch/unix/petui.c:200
 #: src/arch/unix/plus4ui.c:99 src/arch/unix/vic20ui.c:136
 #, fuzzy
 msgid "Load new computer ROM"
 msgstr "Za³aduj nowy znak ROM"
 
-#: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:312
+#: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:315
 #: src/arch/unix/cbm2ui.c:98 src/arch/unix/petui.c:202
 #: src/arch/unix/plus4ui.c:101 src/arch/unix/vic20ui.c:138
 msgid "Load new drive ROM"
 msgstr "Za³aduj nowy edytor ROM"
 
-#: src/arch/unix/c128ui.c:292 src/arch/unix/c64ui.c:315
+#: src/arch/unix/c128ui.c:292 src/arch/unix/c64ui.c:318
 #: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
 #: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:141
 #, fuzzy
 msgid "ROM set type"
 msgstr "Plik ustawieñ ROM:"
 
-#: src/arch/unix/c128ui.c:295 src/arch/unix/c64ui.c:318
+#: src/arch/unix/c128ui.c:295 src/arch/unix/c64ui.c:321
 #: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
 #: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:144
 #, fuzzy
 msgid "ROM set archive"
 msgstr "Plik ustawieñ ROM:"
 
-#: src/arch/unix/c128ui.c:297 src/arch/unix/c64ui.c:320
+#: src/arch/unix/c128ui.c:297 src/arch/unix/c64ui.c:323
 #: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
 #: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:146
 #, fuzzy
@@ -2106,7 +2189,7 @@ msgstr "Typ maszyny"
 msgid "ROM sets"
 msgstr "Ustawienia ROM"
 
-#: src/arch/unix/c128ui.c:367 src/arch/unix/c64ui.c:353
+#: src/arch/unix/c128ui.c:367 src/arch/unix/c64ui.c:356
 msgid "VIC-II settings"
 msgstr "Ustawienia VIC-II"
 
@@ -2114,7 +2197,7 @@ msgstr "Ustawienia VIC-II"
 msgid "VDC settings"
 msgstr "Ustawienia VDC"
 
-#: src/arch/unix/c128ui.c:371 src/arch/unix/c64ui.c:355
+#: src/arch/unix/c128ui.c:371 src/arch/unix/c64ui.c:358
 #: src/arch/unix/cbm2ui.c:361 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "Ustawienia uk³adu SID"
@@ -2123,7 +2206,7 @@ msgstr "Ustawienia uk³adu SID"
 msgid "Memory and I/O extensions"
 msgstr "Pamiêæ oraz rozszerzenia uk³adu I/O"
 
-#: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:359
+#: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:362
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
 #: src/arch/unix/vic20ui.c:374
 msgid "RS232 settings"
@@ -2133,26 +2216,26 @@ msgstr "Ustawienia RS232"
 msgid "Model settings"
 msgstr "Za³aduj ustawienia"
 
-#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:422
+#: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
 #: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Plik"
 
-#: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:441
+#: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
 #: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
 msgid "Snapshot"
 msgstr "Migawka"
 
-#: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:448
+#: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
 #: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
 msgid "Options"
 msgstr "Opcje"
 
-#: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:460
+#: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
@@ -2162,47 +2245,52 @@ msgstr "Ustawienia"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:474
+#: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
 #: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
 msgid "RJHelp"
 msgstr "RJPomoc"
 
-#: src/arch/unix/c64ui.c:72 src/arch/unix/vsidui.c:129
+#: src/arch/unix/c64ui.c:73 src/arch/unix/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*Stare NTSC-M"
 
-#: src/arch/unix/c64ui.c:273
+#: src/arch/unix/c64ui.c:274
 #, fuzzy
 msgid "+60K RAM Expansion Hack"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/arch/unix/c64ui.c:293 src/arch/unix/petui.c:169
+#: src/arch/unix/c64ui.c:276
+#, fuzzy
+msgid "256K RAM Expansion Hack"
+msgstr "Jednostka rozszerzenia RAM"
+
+#: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:169
 #: src/arch/unix/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Za³aduj nowy kernal ROM"
 
-#: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:175
+#: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:175
 #: src/arch/unix/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Za³aduj nowy BASIC ROM"
 
 # src/arch/unix/c64ui.c:470 src/arch/unix/petui.c:316 
-#: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:208
+#: src/arch/unix/c64ui.c:302 src/arch/unix/petui.c:208
 msgid "Load new character ROM"
 msgstr "Za³aduj nowy ROM z zestawem znaków"
 
-#: src/arch/unix/c64ui.c:343 src/arch/unix/cbm2ui.c:384
+#: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
 #: src/arch/unix/vic20ui.c:415
 msgid "Screenshot..."
 msgstr "Zrzut ekranu"
 
-#: src/arch/unix/c64ui.c:351 src/arch/unix/plus4ui.c:131
+#: src/arch/unix/c64ui.c:354 src/arch/unix/plus4ui.c:131
 msgid "ROM settings"
 msgstr "Ustawienia ROM"
 
-#: src/arch/unix/c64ui.c:357
+#: src/arch/unix/c64ui.c:360
 #, fuzzy
 msgid "I/O extensions"
 msgstr "Rozszerzenia I/O w $DFxx"
@@ -2727,6 +2815,32 @@ msgstr "Nieznany typ obrazu"
 #: src/arch/unix/uiattach.c:325
 msgid "Smart-attach disk/tape..."
 msgstr "Inteligentne wsadzanie dyskietki/kasety..."
+
+#: src/arch/unix/uic64_256k.c:40
+#, fuzzy
+msgid "256K image name"
+msgstr "Nazwa obrazu IDE64"
+
+#: src/arch/unix/uic64_256k.c:41 src/arch/unix/uigeoram.c:42
+#: src/arch/unix/uiide64.c:43 src/arch/unix/uiplus60k.c:42
+#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uitfe.c:44
+msgid "Name:"
+msgstr "Nazwa:"
+
+#: src/arch/unix/uic64_256k.c:57
+#, fuzzy
+msgid "*Enable 256K"
+msgstr "*W³±cz"
+
+#: src/arch/unix/uic64_256k.c:59
+msgid "256K base"
+msgstr ""
+
+#: src/arch/unix/uic64_256k.c:61
+#, fuzzy
+msgid "256K image name..."
+msgstr "Nazwa obrazu IDE64..."
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
 #, fuzzy
@@ -3517,12 +3631,6 @@ msgstr "Usuñ:"
 msgid "GEORAM image name"
 msgstr "Nazwa obrazu GEORAM"
 
-#: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
-#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
-#: src/arch/unix/uitfe.c:44
-msgid "Name:"
-msgstr "Nazwa:"
-
 #: src/arch/unix/uigeoram.c:64
 msgid "*Enable GEORAM"
 msgstr "*W³±cz GEORAM"
@@ -3844,6 +3952,26 @@ msgstr "*W³±cz wirtualne urz±dzenia"
 #: src/arch/unix/uiperipheraliec.c:153 src/arch/unix/uiperipheralieee.c:143
 msgid "Peripheral settings"
 msgstr "Ustawienia zewnêtrzne"
+
+#: src/arch/unix/uiplus60k.c:41
+#, fuzzy
+msgid "+60K image name"
+msgstr "Nazwa obrazu IDE64"
+
+#: src/arch/unix/uiplus60k.c:54
+#, fuzzy
+msgid "*Enable +60K"
+msgstr "*W³±cz"
+
+#: src/arch/unix/uiplus60k.c:56
+#, fuzzy
+msgid "+60K base address"
+msgstr "*Adres bazowy drugiego SID"
+
+#: src/arch/unix/uiplus60k.c:58
+#, fuzzy
+msgid "+60K image name..."
+msgstr "Nazwa obrazu IDE64..."
 
 #: src/arch/unix/uiprinter.c:80 src/arch/unix/uiprinter.c:95
 #: src/arch/unix/uiprinter.c:107
@@ -5846,12 +5974,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Zapisz obraz kartrid¿a w pliku"
 
 #, fuzzy
-#~ msgid "Cannot write log file `%s'."
-#~ msgstr ""
-#~ "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
-#~ "`%s'\n"
-
-#, fuzzy
 #~ msgid "Load flip list file"
 #~ msgstr "Za³aduj plik listy"
 
@@ -5951,12 +6073,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ "`%s'\n"
 
 #, fuzzy
-#~ msgid "Cannot read snapshot image"
-#~ msgstr ""
-#~ "Nie mo¿na za³adowaæ pliku zrzutu\n"
-#~ "`%s'"
-
-#, fuzzy
 #~ msgid "Load %s ROM image"
 #~ msgstr "Za³aduj plik ROM"
 
@@ -5996,12 +6112,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Save snapshot image"
 #~ msgstr "Zapisz plik"
-
-#, fuzzy
-#~ msgid "Cannot write snapshot file `%s'."
-#~ msgstr ""
-#~ "Nie mo¿na zapisaæ pliku migawki\n"
-#~ "`%s'\n"
 
 #, fuzzy
 #~ msgid "Load snapshot image"
@@ -6358,10 +6468,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Load snapshot &image..."
 #~ msgstr "Za³aduj zrzut..."
-
-#, fuzzy
-#~ msgid "Save sna&pshot image..."
-#~ msgstr "Zapisz zrzut..."
 
 #, fuzzy
 #~ msgid "&Save quicksnapshot image\tAlt+S"
@@ -7025,10 +7131,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "+60K Settings"
 #~ msgstr "Ustawienia"
-
-#, fuzzy
-#~ msgid "&Enable +60K"
-#~ msgstr "*W³±cz"
 
 #, fuzzy
 #~ msgid "RAMCART Settings"
