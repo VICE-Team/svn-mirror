@@ -403,9 +403,9 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	}
 
     cia2[addr] = byte;
-    if (app_resources.true1541ParallelCable)
+    if (true1541_parallel_cable_enabled)
 	parallel_cable_cpu_write(cia2[CIA_PRB] | ~cia2[CIA_DDRB],
-	((addr == CIA_PRB) ? 1 : 0));
+                                 ((addr == CIA_PRB) ? 1 : 0));
 	break;
 
 	/* This handles the timer latches.  The kludgy stuff is an attempt
@@ -711,9 +711,9 @@ BYTE read_cia2_(ADDRESS addr)
 
       case CIA_PRB:		/* port B */
 
-    byte = app_resources.true1541ParallelCable ?
-	parallel_cable_cpu_read() :
-	cia2[CIA_PRB] | ~cia2[CIA_DDRB];
+    byte = (true1541_parallel_cable_enabled
+            ? parallel_cable_cpu_read()
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
 
         if ((cia2[CIA_CRA] | cia2[CIA_CRB]) & 0x02) {
 	    update_cia2(rclk);
@@ -789,7 +789,7 @@ BYTE read_cia2_(ADDRESS addr)
 	    BYTE t = 0;
 
 
-    if (app_resources.true1541ParallelCable)
+    if (true1541_parallel_cable_enabled)
 	true1541_cpu_execute();
 
 	    cia2rdi = rclk;

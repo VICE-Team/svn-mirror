@@ -68,9 +68,9 @@ STORE_CIAPA()
 STORE_CIAPB()
 {
     cia2[addr] = byte;
-    if (app_resources.true1541ParallelCable)
+    if (true1541_parallel_cable_enabled)
 	parallel_cable_cpu_write(cia2[CIA_PRB] | ~cia2[CIA_DDRB],
-	((addr == CIA_PRB) ? 1 : 0));
+                                 ((addr == CIA_PRB) ? 1 : 0));
 }
 
 READ_CIAPA()
@@ -84,15 +84,15 @@ READ_CIAPA()
 
 READ_CIAPB()
 {
-    byte = app_resources.true1541ParallelCable ?
-	parallel_cable_cpu_read() :
-	cia2[CIA_PRB] | ~cia2[CIA_DDRB];
+    byte = (true1541_parallel_cable_enabled
+            ? parallel_cable_cpu_read()
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
 
 }
 
 READ_CIAICR()
 {
-    if (app_resources.true1541ParallelCable)
+    if (true1541_parallel_cable_enabled)
 	true1541_cpu_execute();
 }
 
