@@ -80,6 +80,7 @@ typedef struct screenshot_s {
 
 #define SCREENSHOT_MODE_PALETTE 0
 #define SCREENSHOT_MODE_RGB32   1
+#define SCREENSHOT_MODE_RGB24   2
 
 /* Functions called by external emulator code.  */
 extern int screenshot_init(void);

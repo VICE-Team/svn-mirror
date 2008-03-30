@@ -35,6 +35,19 @@ typedef struct ffmpegdrv_audio_in_s {
     int used;
 } ffmpegdrv_audio_in_t;
 
+typedef struct ffmpegdrv_codec_s {
+    int id;
+    const char *name;
+} ffmpegdrv_codec_t;
+
+typedef struct ffmpegdrv_format_s {
+    char *name;
+    ffmpegdrv_codec_t *audio_codecs;
+    ffmpegdrv_codec_t *video_codecs;
+} ffmpegdrv_format_t;
+
+extern ffmpegdrv_format_t ffmpegdrv_formatlist[];
+
 extern void gfxoutput_init_ffmpeg(void);
 extern void ffmpegdrv_init_audio(int speed, int channels, 
                                ffmpegdrv_audio_in_t** audio_in);

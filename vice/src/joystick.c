@@ -97,8 +97,7 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
     joystick_latch_matrix(offset);
 
-    if (!network_connected())
-        joystick_event_record(); 
+    joystick_event_record(); 
 }
 
 void joystick_event_delayed_playback(void *data)

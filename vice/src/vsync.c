@@ -56,6 +56,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "machine.h"
+#include "network.h"
 #include "resources.h"
 #include "sound.h"
 #ifdef HAS_TRANSLATION
@@ -263,6 +264,7 @@ int vsync_disable_timer(void)
    emulation happens, so that we don't display bogus speed values. */
 void vsync_suspend_speed_eval(void)
 {
+    network_suspend();
     sound_suspend();
     vsync_sync_reset();
     speed_eval_suspended = 1;

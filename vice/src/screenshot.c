@@ -101,6 +101,15 @@ static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
             data[i * 4 + 3] = 0;
         }
         break;
+      case SCREENSHOT_MODE_RGB24:
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[line_base[i
+                    * screenshot->size_width + screenshot->x_offset]];
+            data[i * 3] = screenshot->palette->entries[color].red;
+            data[i * 3 + 1] = screenshot->palette->entries[color].green;
+            data[i * 3 + 2] = screenshot->palette->entries[color].blue;
+        }
+        break;
       default:
         log_error(screenshot_log, "Invalid mode %i.", mode);
     }
@@ -209,6 +218,11 @@ void screenshot_stop_recording()
     if (recording_driver != NULL && recording_driver->close != NULL)
         recording_driver->close(NULL);
 
+    lib_free(reopen_recording_drivername);
+    lib_free(reopen_filename);
+
+    reopen_recording_drivername = NULL;
+    reopen_filename = NULL;
     recording_driver = NULL;
     recording_canvas = NULL;
 }

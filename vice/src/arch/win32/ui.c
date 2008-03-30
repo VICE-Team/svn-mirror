@@ -95,7 +95,7 @@ static TCHAR *hwnd_titles[2];
 
 /* Exposure handler.  */
 HWND window_handles[2];
-int number_of_windows;
+int number_of_windows = 0;
 int window_canvas_xsize[2];
 int window_canvas_ysize[2];
 
@@ -126,6 +126,7 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
+    { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
 #ifdef DEBUG
     { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE },
     { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE|0x00010000 },
@@ -538,6 +539,15 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
     }
 }
 
+void ui_set_alwaysontop(int alwaysontop)
+{
+    int i;
+
+    for (i = 0; i < number_of_windows; i++)
+        SetWindowPos(window_handles[i], alwaysontop ? HWND_TOPMOST : HWND_NOTOPMOST,
+                        0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+}
+
 /* Update all the menus according to the current settings.  */
 void ui_update_menus(void)
 {
@@ -759,6 +769,9 @@ static void pause_trap(WORD addr, void *data)
 
 void ui_pause_emulation(void)
 {
+    if (network_connected())
+        return;
+
     is_paused = is_paused ? 0 : 1;
     if (is_paused) {
         interrupt_maincpu_trigger_trap(pause_trap, 0);
@@ -1522,6 +1535,10 @@ static long CALLBACK window_proc(HWND window, UINT msg,
             } else
                 break;
         }
+      case WM_SYSCOMMAND:
+      case WM_NCLBUTTONDOWN:
+        vsync_suspend_speed_eval();
+        break;
     }
 
     return DefWindowProc(window, msg, wparam, lparam);

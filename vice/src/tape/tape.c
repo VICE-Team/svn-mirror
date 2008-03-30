@@ -42,6 +42,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
+#include "network.h"
 #include "t64.h"
 #include "tap.h"
 #include "tape-internal.h"
@@ -459,8 +460,21 @@ int tape_image_detach_internal(unsigned int unit)
 
 int tape_image_detach(unsigned int unit)
 {
-   if (event_playback_active())
+    char event_data[2];
+
+    if (unit != 1)
         return -1;
+
+    event_data[0] = (char)unit;
+    event_data[1] = 0;
+
+    if (event_playback_active())
+        return -1;
+
+    if (network_connected()) {
+        network_event_record(EVENT_ATTACHTAPE, (void *)event_data, 2);
+        return 0;
+    }
 
    return tape_image_detach_internal(unit);
 }
@@ -520,6 +534,11 @@ int tape_image_attach(unsigned int unit, const char *name)
 {
    if (event_playback_active())
         return -1;
+
+    if (network_connected()) {
+        network_attach_image(unit, name);
+        return 0;
+    }
 
    return tape_image_attach_internal(unit, name);
 }

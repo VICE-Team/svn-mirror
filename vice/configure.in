@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=18
-VICE_VERSION_BUILD=1
+VICE_VERSION_BUILD=2
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -682,7 +682,7 @@ dnl Configure sound drivers
 SOUND_DRIVERS=""
 GFXOUTPUT_DRIVERS=""
 
-if test x"$enable_ffmpeg" = "xyes"; then
+if test x"$enable_ffmpeg" = "xyes" -o x"$is_win32" = "xyes"; then
   AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
   SOUND_DRIVERS="$SOUND_DRIVERS soundffmpegaudio.o"
   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o"
@@ -949,7 +949,7 @@ if test x"$is_beos" != "xyes"; then
   fi
 fi
 
-dnl Check for the PNG library.
+dnl Check for the GIF or UNGIF library.
 AC_CHECK_HEADER(gif_lib.h,,)
 if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
   AC_CHECK_LIB(ungif, EGifPutLine, [ LIBS="-lungif $LIBS";
@@ -960,6 +960,14 @@ if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
                  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
                  AC_DEFINE(HAVE_GIF,,[Can we use the GIF or UNGIF library?]) ],,)
   fi
+fi
+
+dnl Check for the JPEG library.
+AC_CHECK_HEADER(jpeglib.h,,)
+if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
+  AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ LIBS="-ljpeg $LIBS";
+               GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
+               AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
 fi
 
 AC_SUBST(VICE_LIBPNG)

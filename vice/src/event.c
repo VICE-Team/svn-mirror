@@ -110,15 +110,18 @@ static char *event_snapshot_path(const char *snapshot_file)
 /* searches for a filename in the image list    */
 /* returns 0 if found                           */
 /* returns 1 and appends it if not found        */
-static int event_image_append(const char *filename, char **mapped_name)
+static int event_image_append(const char *filename, 
+                              char **mapped_name, int append)
 {
     event_image_list_t *event_image_list_ptr = event_image_list_base;
 
     while (event_image_list_ptr->next != NULL) {
         if (strcmp(filename, event_image_list_ptr->next->orig_filename) == 0) {
             if (mapped_name != NULL)
-                *mapped_name = lib_stralloc(event_image_list_ptr->next->mapped_filename);
-
+                if (append == 0)
+                    *mapped_name = lib_stralloc(event_image_list_ptr->next->mapped_filename);
+                else
+                    event_image_list_ptr->next->mapped_filename = lib_stralloc(*mapped_name);
             return 0;
         }
 
@@ -139,18 +142,15 @@ static int event_image_append(const char *filename, char **mapped_name)
 }
 
 
-void event_record_attach_image(unsigned int unit, const char *filename,
-                               unsigned int read_only)
+void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
+                                 const char *filename, unsigned int read_only)
 {
     char *event_data;
     unsigned int size;
 
-    if (record_active == 0)
-        return;
-
-    event_list->current->type = EVENT_ATTACHIMAGE;
-    event_list->current->clk = maincpu_clk;
-    event_list->current->next
+    list->current->type = EVENT_ATTACHIMAGE;
+    list->current->clk = maincpu_clk;
+    list->current->next
         = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
 
     size = strlen(filename) + 3;
@@ -160,7 +160,7 @@ void event_record_attach_image(unsigned int unit, const char *filename,
     event_data[1] = read_only;
     strcpy(&event_data[2], filename);
 
-    if (event_image_append(filename, NULL) == 1) {
+    if (event_image_append(filename, NULL, 0) == 1) {
         FILE *fd;
         size_t file_len = 0;
         
@@ -180,9 +180,18 @@ void event_record_attach_image(unsigned int unit, const char *filename,
         size += file_len;
     }
 
-    event_list->current->size = size;
-    event_list->current->data = event_data;
-    event_list->current = event_list->current->next;
+    list->current->size = size;
+    list->current->data = event_data;
+    list->current = list->current->next;
+}
+
+void event_record_attach_image(unsigned int unit, const char *filename,
+                               unsigned int read_only)
+{
+    if (record_active == 0)
+        return;
+
+    event_record_attach_in_list(event_list, unit, filename, read_only);
 }
 
 
@@ -225,9 +234,9 @@ static void event_playback_attach_image(void *data, unsigned int size)
         }
 
         fclose(fd);
-        event_image_append(orig_filename, &filename);
+        event_image_append(orig_filename, &filename, 1);
     } else {
-        if (event_image_append(orig_filename, &filename) != 0) {
+        if (event_image_append(orig_filename, &filename, 0) != 0) {
 #ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANNOT_FIND_MAPPED_NAME_S), orig_filename);
 #else
@@ -272,6 +281,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
       case EVENT_DATASETTE:
       case EVENT_ATTACHDISK:
       case EVENT_ATTACHTAPE:
+      case EVENT_ATTACHIMAGE:
       case EVENT_INITIAL:
       case EVENT_SYNC_TEST:
         event_data = lib_malloc(size);
@@ -296,7 +306,8 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 
 void event_record(unsigned int type, void *data, unsigned int size)
 {
-    event_record_in_list(event_list, type, data, size);
+    if (!network_connected())
+        event_record_in_list(event_list, type, data, size);
 }
 
 
@@ -419,6 +430,23 @@ void event_playback_event_list(event_list_state_t *list)
             case EVENT_RESETCPU:
                 machine_reset_event_playback(0, current->data);
                 break;
+            case EVENT_ATTACHDISK:
+            case EVENT_ATTACHTAPE:
+              {
+                /* in fact this is only for detaching */
+                unsigned int unit;
+
+                unit = (unsigned int)((char*)current->data)[0];
+            
+                if (unit == 1)
+                    tape_image_event_playback(1, NULL);
+                else
+                    file_system_event_playback(unit, NULL);
+                break;
+              }
+            case EVENT_ATTACHIMAGE:
+                event_playback_attach_image(current->data, current->size);
+                break;
             default:
                 log_error(event_log, "Unknow event type %i.", current->type);
         }
@@ -432,14 +460,18 @@ void event_register_event_list(event_list_state_t *list)
     list->current = list->base;
 }
 
+void event_init_image_list(void)
+{
+    event_image_list_base = 
+        (event_image_list_t *)lib_calloc(1, sizeof(event_image_list_t));
+    image_number = 0;
+}
+
 static void create_list(void)
 {
     event_list = (event_list_state_t *)lib_malloc(sizeof(event_list_state_t));
     event_register_event_list(event_list);
-
-    event_image_list_base = 
-        (event_image_list_t *)lib_calloc(1, sizeof(event_image_list_t));
-    image_number = 0;
+    event_init_image_list();
 }
 
 
@@ -457,7 +489,7 @@ static void cut_list(event_list_t *cut_base)
     }
 }
 
-static void destroy_image_list(void)
+void event_destroy_image_list(void)
 {
     event_image_list_t *d1, *d2;
  
@@ -485,7 +517,7 @@ static void destroy_list(void)
 {
     event_clear_list(event_list);
     lib_free(event_list);
-    destroy_image_list();
+    event_destroy_image_list();
 }
 
 static void warp_end_list(void)
@@ -497,7 +529,7 @@ static void warp_end_list(void)
     while (curr->type != EVENT_LIST_END) {
 
         if (curr->type == EVENT_ATTACHIMAGE)
-            event_image_append(&((char*)curr->data)[2], NULL);
+            event_image_append(&((char*)curr->data)[2], NULL, 0);
 
         curr = curr->next;
     }
@@ -623,7 +655,7 @@ static void event_record_start_trap(WORD addr, void *data)
         break;
       case EVENT_START_MODE_PLAYBACK:
         cut_list(event_list->current->next);
-        destroy_image_list();
+        event_destroy_image_list();
         event_write_version();
         record_active = 1;
         next_timestamp_clk = maincpu_clk;

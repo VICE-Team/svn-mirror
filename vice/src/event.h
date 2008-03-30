@@ -72,6 +72,8 @@ extern int event_resources_init(void);
 extern void event_shutdown(void);
 extern int event_cmdline_options_init(void);
 extern void event_register_event_list(event_list_state_t *list);
+extern void event_init_image_list(void);
+extern void event_destroy_image_list(void);
 extern void event_clear_list(event_list_state_t *list);
 extern void event_playback_event_list(event_list_state_t *list);
 
@@ -89,6 +91,10 @@ extern void event_reset_ack(void);
 extern void event_record_in_list(event_list_state_t *list, unsigned int type,
                                  void *data, unsigned int size);
 extern void event_record(unsigned int type, void *data, unsigned int size);
+extern void event_record_attach_in_list(event_list_state_t *list,
+                                        unsigned int unit,
+                                        const char *filename,
+                                        unsigned int read_only);
 extern void event_record_attach_image(unsigned int unit, const char *filename,
                                       unsigned int read_only);
 

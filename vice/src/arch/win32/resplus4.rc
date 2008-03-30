@@ -163,6 +163,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
         , CHECKED

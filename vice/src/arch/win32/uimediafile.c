@@ -33,6 +33,7 @@
 #include <tchar.h>
 #include <commdlg.h>
 
+#include "gfxoutputdrv/ffmpegdrv.h"
 #include "gfxoutput.h"
 #include "lib.h"
 #include "machine.h"
@@ -60,43 +61,171 @@ static char screendrivername[MAXSCRNDRVLEN];
 static OPENFILENAME ofn;
 static gfxoutputdrv_t *selected_driver;
 
+
+static void enable_ffmpeg_settings(HWND hwnd, int enable)
+{
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOBITRATE), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOBITRATE), enable);
+}
+
+static void update_ffmpeg_codecs(HWND hwnd)
+{
+    HWND audio_codec_combo, video_codec_combo;
+    ffmpegdrv_format_t *current_format = NULL;
+    TCHAR st_selection[MAXSCRNDRVLEN];
+    int ac, vc, i;
+
+    resources_get_value("FFMPEGAudioCodec", (void *)&ac);
+    resources_get_value("FFMPEGVideoCodec", (void *)&vc);
+    GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT,
+                   st_selection, MAXSCRNDRVLEN);
+    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++)
+        if (strcmp(ffmpegdrv_formatlist[i].name, st_selection) == 0)
+                current_format = &ffmpegdrv_formatlist[i];
+    if (current_format != NULL) {
+        audio_codec_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC);
+        SendMessage(audio_codec_combo,CB_RESETCONTENT, 0, 0);
+        if (current_format->audio_codecs != NULL) {
+            for (i = 0; current_format->audio_codecs[i].name != NULL; i++) {
+                SendMessage(audio_codec_combo,CB_ADDSTRING, 0,
+                            (LPARAM)current_format->audio_codecs[i].name);
+                if (current_format->audio_codecs[i].id == ac)
+                    SendMessage(audio_codec_combo,CB_SETCURSEL, i, 0);
+            }
+            EnableWindow(audio_codec_combo, 1);
+        } else {
+            SendMessage(audio_codec_combo,CB_ADDSTRING, 0,
+                        (LPARAM)"(default)");
+            SendMessage(audio_codec_combo,CB_SETCURSEL,0 , 0);
+            EnableWindow(audio_codec_combo, 0);
+        }
+
+        video_codec_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC);
+        SendMessage(video_codec_combo,CB_RESETCONTENT, 0, 0);
+        if (current_format->video_codecs != NULL) {
+            for (i = 0; current_format->video_codecs[i].name != NULL; i++) {
+                SendMessage(video_codec_combo,CB_ADDSTRING, 0,
+                            (LPARAM)current_format->video_codecs[i].name);
+                if (current_format->video_codecs[i].id == vc)
+                    SendMessage(video_codec_combo,CB_SETCURSEL, i, 0);
+            }
+            EnableWindow(video_codec_combo, 1);
+        } else {
+            SendMessage(video_codec_combo,CB_ADDSTRING, 0,
+                        (LPARAM)"(default)");
+            SendMessage(video_codec_combo,CB_SETCURSEL,0 , 0);
+            EnableWindow(video_codec_combo, 0);
+        }
+    }
+}
+
 static void init_mediafile_dialog(HWND hwnd)
 {
-    HWND scrndrv_combo;
+    HWND combo;
     gfxoutputdrv_t *driver;
-    int i;
-    int last_driver = 0;
-    scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER);
+    char *ffmpeg_format;
+    int i, last_driver = 0;
+    int enable_ffmpeg = 0;
+    int bitrate;
+    TCHAR st[256];
+
+    combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER);
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < gfxoutput_num_drivers(); i++) {
-        if (driver == selected_driver)
-            last_driver = i;
-        SendMessage(scrndrv_combo,CB_ADDSTRING, 0,
+        SendMessage(combo,CB_ADDSTRING, 0,
                     (LPARAM)driver->displayname);
+        if (driver == selected_driver) {
+            SendMessage(combo,CB_SETCURSEL,(WPARAM)i, 0);
+            if (strcmp(driver->name, "FFMPEG") == 0)
+                enable_ffmpeg = 1;
+        }
         driver = gfxoutput_drivers_iter_next();
     }
-    SendMessage(scrndrv_combo,CB_SETCURSEL,(WPARAM)last_driver, 0);
+
+    resources_get_value("FFMPEGFormat", (void *)&ffmpeg_format);
+    combo = GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT);
+    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
+        SendMessage(combo,CB_ADDSTRING, 0,
+                    (LPARAM)ffmpegdrv_formatlist[i].name);
+        if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
+            SendMessage(combo,CB_SETCURSEL,(WPARAM)i, 0);
+    }
+    update_ffmpeg_codecs(hwnd);
+
+    resources_get_value("FFMPEGAudioBitrate", (void *)&bitrate);
+    _stprintf(st, TEXT("%d"), bitrate);
+    SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, st);
+
+    resources_get_value("FFMPEGVideoBitrate", (void *)&bitrate);
+    _stprintf(st, TEXT("%d"), bitrate);
+    SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, st);
+
+    enable_ffmpeg_settings(hwnd, enable_ffmpeg);
 }
 
 
 static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
                                         LPARAM lparam)
 {
-    TCHAR st_screendrivername[MAXSCRNDRVLEN];
+    TCHAR st_selection[MAXSCRNDRVLEN];
+    char *ffmpeg_format;
+    int i, j;
 
     switch (uimsg) {
       case WM_INITDIALOG:
         init_mediafile_dialog(hwnd);
         break;
-      case WM_NOTIFY:
-        GetDlgItemText(hwnd,IDC_SCREENSHOT_DRIVER,
-                       st_screendrivername, MAXSCRNDRVLEN);
-        system_wcstombs(screendrivername, st_screendrivername, MAXSCRNDRVLEN);
-        selected_driver = gfxoutput_get_driver(screendrivername);
-        if (selected_driver)
-            ofn.lpstrFilter = selected_driver->default_extension;
-
-        break;
+      case WM_COMMAND:
+        switch (LOWORD(wparam)) {
+          case IDC_SCREENSHOT_DRIVER:
+            GetDlgItemText(hwnd, IDC_SCREENSHOT_DRIVER,
+                           st_selection, MAXSCRNDRVLEN);
+            system_wcstombs(screendrivername, st_selection, MAXSCRNDRVLEN);
+            enable_ffmpeg_settings(hwnd, strcmp(screendrivername, 
+                                                "FFMPEG") == 0 ? 1 : 0);
+            break;
+          case IDC_SCREENSHOT_FFMPEGFORMAT:
+            GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT,
+                       st_selection, MAXSCRNDRVLEN);
+            resources_get_value("FFMPEGFormat", (void *)&ffmpeg_format);
+            if (strcmp(st_selection, ffmpeg_format) != 0) {
+                resources_set_value("FFMPEGFormat", st_selection);
+                update_ffmpeg_codecs(hwnd);
+            }
+            break;
+          case IDC_SCREENSHOT_FFMPEGAUDIOCODEC:
+            i = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
+                        CB_GETCURSEL, 0, 0);
+            j = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
+                        CB_GETCURSEL, 0, 0);
+            resources_set_value("FFMPEGAudioCodec", (resource_value_t)
+                                ffmpegdrv_formatlist[i].audio_codecs[j].id);
+            break;            
+          case IDC_SCREENSHOT_FFMPEGVIDEOCODEC:
+            i = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
+                        CB_GETCURSEL, 0, 0);
+            j = SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
+                        CB_GETCURSEL, 0, 0);
+            resources_set_value("FFMPEGVideoCodec", (resource_value_t)
+                                ffmpegdrv_formatlist[i].video_codecs[j].id);
+            break;            
+          case IDC_SCREENSHOT_FFMPEGAUDIOBITRATE:
+            GetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
+                            st_selection, MAXSCRNDRVLEN);
+            _stscanf(st_selection, TEXT("%d"), &i);
+            resources_set_value("FFMPEGAudioBitrate", 
+                                    (resource_value_t)i);
+            break;
+          case IDC_SCREENSHOT_FFMPEGVIDEOBITRATE:
+            GetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
+                            st_selection, MAXSCRNDRVLEN);
+            _stscanf(st_selection, TEXT("%d"), &i);
+            resources_set_value("FFMPEGVideoBitrate", (resource_value_t)i);
+            break;
+        }
     }
     return 0;
 }
@@ -161,9 +290,10 @@ void ui_mediafile_save_dialog(HWND hwnd)
     }
 
     filter_len=strlen(translate_text(IDS_MEDIA_FILES_FILTER));
-    sprintf(filter,"%s0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg0",translate_text(IDS_MEDIA_FILES_FILTER));
+    sprintf(filter,"%s0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg0",
+            translate_text(IDS_MEDIA_FILES_FILTER));
     filter[filter_len]='\0';
-    filter[filter_len+26]='\0';
+    filter[filter_len+36]='\0';
     s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE),
         filter,
         hwnd,
@@ -175,7 +305,6 @@ void ui_mediafile_save_dialog(HWND hwnd)
             ui_error(translate_text(IDS_NO_DRIVER_SELECT_SUPPORT));
             return;
         }
-
         util_add_extension(&s, selected_driver->default_extension);
 
         if (screenshot_save(selected_driver->name, s,

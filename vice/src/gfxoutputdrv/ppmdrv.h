@@ -1,8 +1,8 @@
 /*
- * network.c - Connecting emulators via network.
+ * ppmdrv.h - Create a PPM file.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,28 +24,9 @@
  *
  */
 
-#ifndef _NETWORK_H
-#define _NETWORK_H
+#ifndef _PPMDRV_H
+#define _PPMDRV_H
 
-typedef enum {
-    NETWORK_IDLE,
-    NETWORK_SERVER,
-    NETWORK_SERVER_CONNECTED,
-    NETWORK_CLIENT
-} network_mode_t;
-
-extern int network_resources_init(void);
-extern int network_start_server(void);
-extern int network_connect_client(void);
-extern void network_disconnect(void);
-extern void network_suspend(void);
-extern void network_hook(void);
-extern int network_connected(void);
-extern int network_get_mode(void);
-extern void network_hook(void);
-extern void network_event_record(unsigned int type, void *data, unsigned int size);
-extern void network_attach_image(unsigned int unit, const char *filename);
-
-extern void network_shutdown(void);
+extern void gfxoutput_init_ppm(void);
 
 #endif

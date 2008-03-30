@@ -302,6 +302,7 @@ static void plus60k_init_config(void)
 
   if (plus60k_enabled)
   {
+    mem_limit_plus60k_init(mem_read_limit_tab);
     for (i = 0; i < NUM_CONFIGS; i++)
     {
       for (j = 0x10; j <= 0xff; j++)

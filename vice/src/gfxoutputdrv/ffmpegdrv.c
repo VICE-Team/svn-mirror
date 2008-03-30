@@ -43,8 +43,30 @@
 #include "translate.h"
 #endif
 #include "ui.h"
+#include "util.h"
 #include "vsync.h"
 
+static ffmpegdrv_codec_t avi_audio_codeclist[] = { 
+    { CODEC_ID_MP2, "MP2" },
+    { CODEC_ID_MP3, "MP3" },
+    { 0, NULL }
+};
+
+static ffmpegdrv_codec_t avi_video_codeclist[] = { 
+    { CODEC_ID_MPEG4, "MPEG4 (DivX)" },
+    { CODEC_ID_MPEG1VIDEO, "MPEG1" },
+    { CODEC_ID_FFV1, "FFV1 (lossless)" },
+    { 0, NULL }
+};
+
+ffmpegdrv_format_t ffmpegdrv_formatlist[] =
+{
+    { "avi", avi_audio_codeclist, avi_video_codeclist },
+    { "wav", NULL, NULL },
+    { "mp3", NULL, NULL },
+    { "mp2", NULL, NULL },
+    { NULL, NULL, NULL }
+};
 
 /* general */
 static ffmpeglib_t ffmpeglib;
@@ -73,10 +95,30 @@ static AVFrame *picture, *tmp_picture;
 static double video_pts;
 
 /* resources */
+static char *ffmpeg_format = NULL;
+static int format_index;
 static int audio_bitrate;
 static int video_bitrate;
+static int audio_codec;
+static int video_codec;
 
 static int ffmpegdrv_init_file(void);
+
+static int set_format(resource_value_t v, void *param)
+{
+    int i;
+
+    format_index = -1;
+    util_string_set(&ffmpeg_format, (const char *)v);
+    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++)
+        if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
+            format_index = i;
+
+    if (format_index < 0)
+        return -1;
+    else
+        return 0;
+}
 
 static int set_audio_bitrate(resource_value_t v, void *param)
 {
@@ -90,20 +132,42 @@ static int set_audio_bitrate(resource_value_t v, void *param)
 static int set_video_bitrate(resource_value_t v, void *param)
 {
     video_bitrate = (CLOCK)v;
-    if (video_bitrate < 100000 || audio_bitrate > 10000000)
+    if (video_bitrate < 100000 || video_bitrate > 10000000)
         video_bitrate = 800000;
 
     return 0;
 }
 
+static int set_audio_codec(resource_value_t v, void *param)
+{
+    audio_codec = (int)v;
+    return 0;
+}
+
+static int set_video_codec(resource_value_t v, void *param)
+{
+    video_codec = (int)v;
+    return 0;
+
+}
+
 /*---------- Resources ------------------------------------------------*/
 static const resource_t resources[] = {
+    { "FFMPEGFormat", RES_STRING, (resource_value_t)"avi",
+      (void *)&ffmpeg_format,
+      set_format, NULL },
     { "FFMPEGAudioBitrate", RES_INTEGER, (resource_value_t)64000,
       (void *)&audio_bitrate,
       set_audio_bitrate, NULL },
     { "FFMPEGVideoBitrate", RES_INTEGER, (resource_value_t)800000,
       (void *)&video_bitrate,
       set_video_bitrate, NULL },
+    { "FFMPEGAudioCodec", RES_INTEGER, (resource_value_t)CODEC_ID_MP3,
+      (void *)&audio_codec,
+      set_audio_codec, NULL },
+    { "FFMPEGVideoCodec", RES_INTEGER, (resource_value_t)CODEC_ID_MPEG4,
+      (void *)&video_codec,
+      set_video_codec, NULL },
     { NULL }
 };
 
@@ -467,6 +531,9 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->frame_rate = (int)(vsync_get_refresh_frequency() + 0.5);
     c->frame_rate_base = 1;
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
+    /* FFV1 isn't strict standard compliant */
+    if (c->codec_id == CODEC_ID_FFV1)
+        c->strict_std_compliance = -1;
 
     video_st = st;
     video_pts = 0;
@@ -529,7 +596,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
     video_init_done = 0;
     file_init_done = 0;
 
-    ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)(NULL, filename, NULL);
+    ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)(ffmpeg_format, NULL, NULL);
 
     if (!ffmpegdrv_fmt)
         ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)("mpeg", NULL, NULL);
@@ -539,12 +606,21 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    /* force MP3 audio stream for MPEG4 video streams */
-    if (ffmpegdrv_fmt->video_codec == CODEC_ID_MPEG4 
-        && ffmpegdrv_fmt->audio_codec == CODEC_ID_MP2 
-        && (*ffmpeglib.p_avcodec_find_encoder)(CODEC_ID_MP3) != NULL)
-    {
-        ffmpegdrv_fmt->audio_codec = CODEC_ID_MP3;
+    if (format_index >= 0) {
+
+        ffmpegdrv_format_t *format = &ffmpegdrv_formatlist[format_index];
+
+        if (format->audio_codecs !=NULL
+            && (*ffmpeglib.p_avcodec_find_encoder)(audio_codec) != NULL)
+        {
+            ffmpegdrv_fmt->audio_codec = audio_codec;
+        }
+
+        if (format->video_codecs !=NULL
+            && (*ffmpeglib.p_avcodec_find_encoder)(video_codec) != NULL)
+        {
+            ffmpegdrv_fmt->video_codec = video_codec;
+        }
     }
 
     ffmpegdrv_oc = (AVFormatContext*)lib_malloc(sizeof(AVFormatContext));
@@ -701,15 +777,16 @@ static int ffmpegdrv_write(screenshot_t *screenshot)
 static gfxoutputdrv_t ffmpeg_drv[] = {
     {
         "FFMPEG",
-        "AVI video (MPEG4/MP3)",
-        "avi",
+        "FFMPEG",
+        NULL,
         NULL,
         ffmpegdrv_close,
         ffmpegdrv_write,
         ffmpegdrv_save,
         ffmpegdrv_record
     },
-    {
+/*
+{
         "FFMPEG",
         "MPEG video (MPEG1/MP2)",
         "mpeg",
@@ -739,6 +816,7 @@ static gfxoutputdrv_t ffmpeg_drv[] = {
         ffmpegdrv_save,
         ffmpegdrv_record
     },
+*/
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -758,5 +836,6 @@ void gfxoutput_init_ffmpeg(void)
 void ffmpegdrv_shutdown(void)
 {
     ffmpeglib_close(&ffmpeglib);
+    lib_free(ffmpeg_format);
 }
 

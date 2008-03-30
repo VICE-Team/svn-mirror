@@ -117,12 +117,12 @@ void machine_trigger_reset(const unsigned int mode)
     if (event_playback_active())
         return;
 
-    if (network_connected())
+    if (network_connected()) {
         network_event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
-    else
+    } else {
         event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
-
-    machine_trigger_reset_internal(mode);
+        machine_trigger_reset_internal(mode);
+    }
 }
 
 void machine_reset_event_playback(CLOCK offset, void *data)

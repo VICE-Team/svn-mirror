@@ -16,6 +16,8 @@ EXTRA_libgfxoutputdrv_a_SOURCES = \
 	ffmpeglib.h \
 	gifdrv.c \
 	gifdrv.h \
+	jpegdrv.c \
+	jpegdrv.h \
 	pngdrv.c \
 	pngdrv.h
 
@@ -23,7 +25,13 @@ EXTRA_libgfxoutputdrv_a_SOURCES = \
 libgfxoutputdrv_a_SOURCES = \
 	bmpdrv.c \
 	bmpdrv.h \
-	gfxoutput.c
+	gfxoutput.c \
+	iffdrv.c \
+	iffdrv.h \
+	pcxdrv.c \
+	pcxdrv.h \
+	ppmdrv.c \
+	ppmdrv.h
 
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@

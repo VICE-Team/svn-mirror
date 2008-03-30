@@ -40,6 +40,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "network.h"
 #include "resources.h"
 #include "serial.h"
 #include "snapshot.h"
@@ -566,6 +567,11 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
    if (event_playback_active())
         return -1;
 
+    if (network_connected()) {
+        network_attach_image(unit, filename);
+        return 0;
+    }
+
    return file_system_attach_disk_internal(unit, filename);
 }
 
@@ -606,8 +612,18 @@ static void file_system_detach_disk_internal(int unit)
 
 void file_system_detach_disk(int unit)
 {
-   if (event_playback_active())
+    char event_data[2];
+
+    if (event_playback_active())
         return;
+
+    event_data[0] = (char)unit;
+    event_data[1] = 0;
+
+    if (network_connected()) {
+        network_event_record(EVENT_ATTACHDISK, (void *)event_data, 2);
+        return;
+    }
 
    file_system_detach_disk_internal(unit);
 }

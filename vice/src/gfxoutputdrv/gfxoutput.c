@@ -34,7 +34,21 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "log.h"
+#include "iffdrv.h"
+#include "pcxdrv.h"
+#include "ppmdrv.h"
+
+#ifdef HAVE_PNG
 #include "pngdrv.h"
+#endif
+
+#ifdef HAVE_GIF
+#include "gifdrv.h"
+#endif
+
+#ifdef HAVE_JPEG
+#include "jpegdrv.h"
+#endif
 
 #ifdef HAVE_FFMPEG
 #include "ffmpegdrv.h"
@@ -84,15 +98,19 @@ int gfxoutput_early_init(void)
     gfxoutputdrv_list->drv = NULL;
     gfxoutputdrv_list->next = NULL;
 
-#if 1
     gfxoutput_init_bmp();
-#endif
 #ifdef HAVE_GIF
     gfxoutput_init_gif();
 #endif
+    gfxoutput_init_iff();
+#ifdef HAVE_JPEG
+    gfxoutput_init_jpeg();
+#endif
+    gfxoutput_init_pcx();
 #ifdef HAVE_PNG
     gfxoutput_init_png();
 #endif
+    gfxoutput_init_ppm();
 #ifdef HAVE_FFMPEG
     gfxoutput_init_ffmpeg();
 #endif

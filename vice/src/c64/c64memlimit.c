@@ -102,3 +102,22 @@ void mem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
     }
 }
 
+void mem_limit_plus60k_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
+{
+  int i, j, k;
+
+  for (i = 0; i < NUM_CONFIGS; i++)
+  {
+    for (j = 0; j < NUM_SEGMENTS; j++)
+    {
+      for (k = mstart[j]; k <= mend[j]; k++)
+      {
+        if (k<0x10)
+          mem_read_limit_tab[i][k] = limit_tab[j][i];
+        else
+          mem_read_limit_tab[i][k] = -1;     
+      }
+    }
+    mem_read_limit_tab[i][0x100] = -1;
+  }
+}

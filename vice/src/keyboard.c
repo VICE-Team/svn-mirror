@@ -140,8 +140,7 @@ static void keyboard_latch_handler(CLOCK offset, void *data)
 
     keyboard_latch_matrix(offset);
 
-    if (!network_connected())
-        keyboard_event_record();
+    keyboard_event_record();
 }
 
 void keyboard_event_delayed_playback(void *data)

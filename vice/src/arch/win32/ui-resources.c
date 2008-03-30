@@ -56,6 +56,7 @@ struct {
     int window_ypos[2];
     char *monitor_dimensions;
     char *initialdir[UILIB_SELECTOR_STYLES_NUM];
+    int alwaysontop;
 } ui_resources;
 
 static int set_fullscreen_device(resource_value_t v, void *param)
@@ -166,6 +167,13 @@ static int set_vblank_sync(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_alwaysontop(resource_value_t v, void *param)
+{
+    ui_resources.alwaysontop = (int) v;
+    ui_set_alwaysontop(ui_resources.alwaysontop);
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
       (void *)&ui_resources.fullscreendevice, set_fullscreen_device, NULL },
@@ -211,6 +219,8 @@ static const resource_t resources[] = {
       (void *)&ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
     { "VBLANKSync", RES_INTEGER, (resource_value_t)1,
       (void *)&ui_resources.vblank_sync, set_vblank_sync, NULL },
+    { "AlwaysOnTop", RES_INTEGER, (resource_value_t)0,
+      (void *)&ui_resources.alwaysontop, set_alwaysontop, NULL },
     { NULL }
 };
 

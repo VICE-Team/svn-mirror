@@ -94,7 +94,19 @@ SOURCE=..\..\gfxoutputdrv\gfxoutput.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\gfxoutputdrv\iffdrv.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\gfxoutputdrv\pcxdrv.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\gfxoutputdrv\pngdrv.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\gfxoutputdrv\ppmdrv.c
 # End Source File
 # End Target
 # End Project

@@ -496,6 +496,14 @@ int util_dword_write(FILE *fd, DWORD *buf, size_t num)
     return 0;
 }
 
+void util_dword_to_be_buf(BYTE *buf, DWORD data)
+{
+    buf[3] = (BYTE)(data & 0xff);
+    buf[2] = (BYTE)((data >> 8) & 0xff);
+    buf[1] = (BYTE)((data >> 16) & 0xff);
+    buf[0] = (BYTE)((data >> 24) & 0xff);
+}
+
 void util_dword_to_le_buf(BYTE *buf, DWORD data)
 {
     buf[0] = (BYTE)(data & 0xff);
@@ -509,6 +517,27 @@ DWORD util_le_buf_to_dword(BYTE *buf)
     DWORD data;
 
     data = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+
+    return data;
+}
+
+void util_word_to_be_buf(BYTE *buf, WORD data)
+{
+    buf[1] = (BYTE)(data & 0xff);
+    buf[0] = (BYTE)((data >> 8) & 0xff);
+}
+
+void util_word_to_le_buf(BYTE *buf, WORD data)
+{
+    buf[0] = (BYTE)(data & 0xff);
+    buf[1] = (BYTE)((data >> 8) & 0xff);
+}
+
+WORD util_le_buf_to_word(BYTE *buf)
+{
+    WORD data;
+
+    data = buf[0] | (buf[1] << 8);
 
     return data;
 }
@@ -676,6 +705,9 @@ int strncasecmp(const char *s1, const char *s2, unsigned int n)
 void util_add_extension(char **name, const char *extension)
 {
     size_t name_len, ext_len;
+
+    if (extension == NULL || *name == NULL)
+        return;
 
     name_len = strlen(*name);
     ext_len = strlen(extension);

@@ -146,6 +146,9 @@
 /* Define to 1 if you have the <io.h> header file. */
 #undef HAVE_IO_H
 
+/* Can we use the JPEG library? */
+#undef HAVE_JPEG
+
 /* Define to 1 if you have the `avcodec' library (-lavcodec). */
 #undef HAVE_LIBAVCODEC
 
