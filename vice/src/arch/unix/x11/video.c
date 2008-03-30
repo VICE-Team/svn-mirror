@@ -232,13 +232,8 @@ static video_refresh_func_t video_fullscreen_refresh_func = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-static void (*_convert_func) (video_canvas_t *canvas,
-			      int xs, int ys, int xt, int yt,
-			      int w, int h);
-static BYTE shade_table[256];
-
-void video_convert_color_table(unsigned int i, BYTE *data, unsigned int dither,
-                               long col, video_canvas_t *canvas)
+void video_convert_color_table(unsigned int i, BYTE *data, long col,
+                               video_canvas_t *canvas)
 {
 #ifdef HAVE_XVIDEO
     if (use_xvideo && canvas->xv_image) {
@@ -259,89 +254,6 @@ void video_convert_color_table(unsigned int i, BYTE *data, unsigned int dither,
                                       canvas->x_image->bits_per_pixel);
 	break;
     }
-
-    if (canvas->depth == 1)
-        shade_table[i] = dither;
-}
-
-static void convert_8to8n(video_canvas_t *canvas,
-			  int sx, int sy, int tx, int ty,
-			  int w, int h)
-{
-    video_canvas_render(canvas, (BYTE *)canvas->x_image->data,
-                        w, h, sx, sy, tx, ty,
-                        canvas->x_image->bytes_per_line,
-                        canvas->x_image->bits_per_pixel);
-}
-
-#define SRCPTR(x, y) \
-    (canvas->draw_buffer->draw_buffer \
-    + (y) * canvas->draw_buffer->draw_buffer_width + (x))
-#define DESTPTR(i, x, y, t) \
-    ((t *)((BYTE *)(i)->x_image->data \
-    + (i)->x_image->bytes_per_line * (y)) + (x))
-
-/* Use dither on 1bit display. This is slow but who cares... */
-BYTE dither_table[4][4] = {
-    { 0, 8, 2, 10 },
-    { 12, 4, 14, 6 },
-    { 3, 11, 1, 9 },
-    { 15, 7, 13, 5 }
-};
-
-static void convert_8to1_dither(video_canvas_t *canvas,
-				int sx, int sy, int tx, int ty,
-				int w, int h)
-{
-    /* FIXME: Double size not handled. */
-    BYTE *src, *dither;
-    int x, y;
-    for (y = 0; y < h; y++) {
-        src = SRCPTR(sx, sy + y);
-        dither = dither_table[(sy + y) % 4];
-        for (x = 0; x < w; x++) {
-            /* XXX: trusts that real_pixel[0, 1] == black, white */
-            XPutPixel(canvas->x_image, tx + x, ty + y,
-                      canvas->videoconfig->physical_colors[shade_table[src[x]]
-                      > dither[(sx + x) % 4]]);
-        }
-    }
-}
-
-/* And this is inefficient... */
-static void convert_8toall(video_canvas_t *canvas,
-			   int sx, int sy, int tx, int ty,
-			   int w, int h)
-{
-    /* FIXME: Double size not handled. */
-    BYTE *src;
-    int x, y;
-    for (y = 0; y < h; y++) {
-        src = SRCPTR(sx, sy + y);
-        for (x = 0; x < w; x++)
-            XPutPixel(canvas->x_image, tx + x, ty + y,
-                      canvas->videoconfig->physical_colors[src[x]]);
-    }
-}
-
-
-int video_convert_func(video_canvas_t *canvas, unsigned int width,
-                       unsigned int height)
-{
-    switch (canvas->x_image->bits_per_pixel) {
-      case 1:
-        _convert_func = convert_8to1_dither;
-        break;
-      case 8:
-      case 16:
-      case 24:
-      case 32:
-        _convert_func = convert_8to8n;
-        break;
-      default:
-        _convert_func = convert_8toall;
-    }
-    return 0;
 }
 
 extern GC video_get_gc(void *not_used);
@@ -584,8 +496,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
 int video_canvas_set_palette(video_canvas_t *c,
                              const struct palette_s *palette)
 {
-    int res;
-    
 #ifdef HAVE_XVIDEO
     /* Apply color settings to XVideo. */
     if (use_xvideo && c->xv_image) {
@@ -593,16 +503,16 @@ int video_canvas_set_palette(video_canvas_t *c,
 
         Display *dpy = x11ui_get_display_ptr();
 
-        for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
+        for (i = 0; i < sizeof(xv_settings) / sizeof(xv_settings[0]); i++) {
             /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
             int v_min = 0, v_max = 2000;
-            int v_zero = (v_min + v_max)/2;
+            int v_zero = (v_min + v_max) / 2;
             int v_range = v_max - v_min;
 
             int xv_zero = (xv_settings[i].min + xv_settings[i].max) / 2;
             int xv_range = xv_settings[i].max - xv_settings[i].min;
 
-            int xv_val = (*xv_settings[i].value - v_zero)*xv_range / v_range
+            int xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range
                          + xv_zero;
 
             if (!xv_settings[i].atom) {
@@ -616,8 +526,7 @@ int video_canvas_set_palette(video_canvas_t *c,
 
     c->palette = palette;
 
-    res = uicolor_set_palette(c, palette);
-    return res;
+    return uicolor_set_palette(c, palette);
 }
 
 /* Change the size of the canvas. */
@@ -751,7 +660,11 @@ void video_canvas_refresh(video_canvas_t *canvas,
         exit(-1);
     }
 
-    _convert_func(canvas, xs, ys, xi, yi, w, h);
+    video_canvas_render(canvas, (BYTE *)canvas->x_image->data,
+                        w, h, xs, ys, xi, yi,
+                        canvas->x_image->bytes_per_line,
+                        canvas->x_image->bits_per_pixel);
+
 
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
