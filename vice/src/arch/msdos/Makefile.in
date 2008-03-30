@@ -95,8 +95,18 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
+X128_WINRES = @X128_WINRES@
+X64_WINRES = @X64_WINRES@
+XCBM2_WINRES = @XCBM2_WINRES@
+XPET_WINRES = @XPET_WINRES@
+XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
+x128_LDFLAGS = @x128_LDFLAGS@
+x64_LDFLAGS = @x64_LDFLAGS@
+xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
+xpet_LDFLAGS = @xpet_LDFLAGS@
+xvic_LDFLAGS = @xvic_LDFLAGS@
 
 @USE_MIDAS_SOUND_TRUE@libarch_a_LIBADD = vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_LIBADD = vicesb.o
@@ -115,6 +125,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdefs.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -127,6 +138,8 @@ libarch_a_SOURCES = \
 	c64kbd.h \
 	c64ui.c \
 	c64ui.h \
+	cbmcharsets.c \
+	cbmcharsets.h \
         grabkey.c \
         grabkey.h \
 	joystick.c \
@@ -149,6 +162,8 @@ libarch_a_SOURCES = \
 	tui.h \
 	tui_backend.c \
 	tui_backend.h \
+	tuicharset.c \
+	tuicharset.h \
 	tuiimagebrowser.c \
 	tuiimagebrowser.h \
 	tuifs.c \
@@ -168,11 +183,11 @@ libarch_a_SOURCES = \
 	video.c \
 	video.h \
 	vsync.c \
-        vsync.h
+	vsync.h
 
 EXTRA_DIST = \
-        vicesb.c \
-        vicesb.h \
+	vicesb.c \
+	vicesb.h \
 	vmidas.c \
 	vmidas.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -190,9 +205,10 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
 libarch_a_OBJECTS =  c128kbd.o c128ui.o c610ui.o c610kbd.o c64kbd.o \
-c64ui.o grabkey.o joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o \
-petui.o sidui.o tui.o tui_backend.o tuiimagebrowser.o tuifs.o tuimenu.o \
-tuiview.o ui.o uisnapshot.o vic20kbd.o vic20ui.o video.o vsync.o
+c64ui.o cbmcharsets.o grabkey.o joystick.o kbd.o log.o mouse.o \
+menudefs.o petkbd.o petui.o sidui.o tui.o tui_backend.o tuicharset.o \
+tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o uisnapshot.o \
+vic20kbd.o vic20ui.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
