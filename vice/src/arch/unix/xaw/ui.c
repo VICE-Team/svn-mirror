@@ -118,6 +118,7 @@ extern void video_setfullscreen(int v,int width, int height);
 
 Cursor blankCursor;
 static int no_cursor_blank = 0;
+static int timeout;
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -127,7 +128,6 @@ _ui_resources_t _ui_resources;
 #ifdef USE_VIDMODE_EXTENSION
 
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
-
 
 void mouse_timeout(int signo) {
   if(use_fullscreen && !no_cursor_blank) XDefineCursor(display,XtWindow(canvas), blankCursor);
@@ -174,7 +174,7 @@ void initBlankCursor() {
 				      &trash, &trash, 0, 0);
 }
 
-int vidmode_available (void)
+int vidmode_available(void)
 {
     int MajorVersion, MinorVersion;
     int EventBase, ErrorBase;
@@ -230,7 +230,26 @@ int vidmode_available (void)
     return 1;
 }
 
-
+void focus_window_again() {
+    if(!use_fullscreen) return;
+    XGrabKeyboard(display, XtWindow(canvas),
+		  1, GrabModeAsync,
+		  GrabModeAsync,  CurrentTime);
+    XGrabPointer(display, XtWindow(canvas), 1,
+		 PointerMotionMask | ButtonPressMask |
+		 ButtonReleaseMask,
+		 GrabModeAsync, GrabModeAsync,
+		 XtWindow(canvas),
+		 None, CurrentTime);
+    XtVaSetValues(XtParent(XtParent(canvas)),
+		  XtNx,          0,
+		  XtNy,          0,
+		  None);
+    XWarpPointer(display, None,
+		 XtWindow(canvas),
+		 0, 0, 0, 0, 0, 0);
+    XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
+}
 
 static int set_fullscreen(resource_value_t v)
 {
@@ -238,7 +257,7 @@ static int set_fullscreen(resource_value_t v)
     static Dimension canvas_width, canvas_height;
     static int root_x, root_y;
     static int win_x,win_y;
-    static int timeout,interval,prefer_blanking,allow_exposures;
+    static int interval,prefer_blanking,allow_exposures;
     static XF86VidModeModeLine restoremodeline;
     static int dotclock;
     static int window_doublesize;
@@ -348,6 +367,7 @@ static int set_fullscreen(resource_value_t v)
 			  LeaveWindowMask,
 			  True,
 			  (XtEventHandler) mouse_handler, NULL);
+	XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
 	ui_set_mouse_timeout();
     } else if((int) v == 2) {	
         int troot_x, troot_y;
@@ -1555,7 +1575,10 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
     Dimension form_width, form_height;
 
 #ifdef USE_VIDMODE_EXTENSION
-    if( use_fullscreen) return;
+    if( use_fullscreen) {
+      XClearWindow(display,XtWindow(canvas));
+      return;
+    }
 #endif
     /* Ok, form widgets are stupid animals; in a perfect world, I should be
        allowed to resize the canvas and let the Form do the rest.  Unluckily,
@@ -1671,6 +1694,7 @@ void ui_message(const char *format,...)
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
+
 }
 
 /* Report a message to the user, allow different buttons. */
@@ -1997,6 +2021,7 @@ void ui_popdown(Widget w)
     XtPopdown(w);
     if (--popped_up_count < 0)
 	popped_up_count = 0;
+    focus_window_again();
 }
 
 /* ------------------------------------------------------------------------- */

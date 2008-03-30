@@ -57,12 +57,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
-
-
-#undef NEWSEMANTIC
-
-#ifndef NEWSEMANTIC
-    if (strchr(cmd, '/')) /* absolute or relative path given ???*/		   /*if (cmd[0] == '/')*/ /* absolute or relative path given */
+    if (strchr(cmd, '/')) /* absolute or relative path given ???*/
     {
 	int l, state;
 	const char *ps;
@@ -117,9 +112,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	pd = buf + 1;
     }
     else
-#endif
     {
-
 	const char * path = syspath;
 	const char * s;
 	int cl = strlen(cmd) + 1;
@@ -158,28 +151,6 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	}
     }
 
-#ifdef NEWSEMANTIC
-    if(!pd) {
-        int l ;
-
-        getcwd(buf + 1, sizeof buf - 128);
-
-	l = strlen(buf + 1);
-
-        strncat(buf + 1, cmd , sizeof buf - l - 1);
-
-	for(c= buf + 1; *c !='\0'; c++)
-#ifdef __MSDOS__
-	    if(*c=='/') *c='\\';
-#else
-	    if(*c=='\\') *c='/';
-#endif
-
-	if (access(buf + 1, mode) == 0) {
-	    pd = buf + l;
-	}
-    }
-#endif
 
     if (pd)
     {

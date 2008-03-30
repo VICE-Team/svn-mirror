@@ -17,6 +17,8 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
+	c64romset.c \
+	c64romset.h \
 	coproc.h \
 	coproc.c \
 	joystick.c \

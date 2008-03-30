@@ -65,6 +65,10 @@
 #include "vsync.h"
 #include "resources.h"
 
+#if !defined __MSDOS && ! defined WIN32
+#include "c64romset.h"
+#endif
+
 #if defined __MSDOS__ || defined WIN32
 #include "c64kbd.h"
 #endif
@@ -85,6 +89,9 @@
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
+
+
+const char machine_name[] = "C64";
 
 static void vsync_hook(void);
 
@@ -193,7 +200,11 @@ int machine_init_resources(void)
 #endif
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
-	|| cartridge_init_resources() < 0)
+	|| cartridge_init_resources() < 0
+#if !defined __MSDOS && ! defined WIN32
+	|| c64romset_init(machine_name) < 0
+#endif
+        )
         return -1;
 
     return 0;
@@ -421,8 +432,6 @@ long machine_get_cycles_per_second(void)
 
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
-
-const char machine_name[] = "C64";
 
 int machine_class = VICE_MACHINE_C64;
 

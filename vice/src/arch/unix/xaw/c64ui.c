@@ -361,7 +361,7 @@ int c64_ui_init(void)
 #endif
     if(mem_get_numromsets() > 0) {
         int num_romsets;
-        mem_romset_t** romsets;
+        char** romsets;
         volatile int offset;
         char buf[50];
 
@@ -374,11 +374,11 @@ int c64_ui_init(void)
         for(num_romsets = 0, offset = 0;
             num_romsets < mem_get_numromsets() + offset; num_romsets++) {
             buf[1] = '\0';
-            strncat(buf+1,romsets[num_romsets-offset]->name,48);
+            strncat(buf+1,romsets[num_romsets-offset],48);
             romset_submenu[num_romsets].string = stralloc(buf);
             romset_submenu[num_romsets].callback = (ui_callback_t) radio_RomSet;
             romset_submenu[num_romsets].callback_data = (ui_callback_data_t) 
-              romsets[num_romsets-offset]->name;
+              romsets[num_romsets-offset];
             romset_submenu[num_romsets].sub_menu = NULL;
             romset_submenu[num_romsets].hotkey_keysym = 0;
             romset_submenu[num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
