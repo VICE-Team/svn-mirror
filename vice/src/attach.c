@@ -48,10 +48,12 @@
 #include "vdrive-iec.h"
 #include "wd1770.h"
 
+
 typedef struct {
     serial_t *serial;
     vdrive_t *vdrive;
 } file_system_t;
+
 
 static file_system_t file_system[4];
 
@@ -62,8 +64,10 @@ static unsigned int attach_device_raw_enabled[4];
 static unsigned int file_system_device_enabled[4];
 
 static int set_attach_device_readonly(resource_value_t v, void *param);
-static int set_attach_device_raw(resource_value_t v, void *param);
 static int set_file_system_device(resource_value_t v, void *param);
+
+static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
+                                       unsigned int unit);
 
 static resource_t resources[] = {
     { "AttachDevice8Readonly", RES_INTEGER, (resource_value_t)0,
@@ -78,28 +82,16 @@ static resource_t resources[] = {
     { "AttachDevice11Readonly", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *) &attach_device_readonly_enabled[3],
       set_attach_device_readonly, (void *)11 },
-    { "AttachDevice8Raw", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &attach_device_raw_enabled[0],
-      set_attach_device_raw, (void *)8 },
-    { "AttachDevice9Raw", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &attach_device_raw_enabled[1],
-      set_attach_device_raw, (void *)9 },
-    { "AttachDevice10Raw", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &attach_device_raw_enabled[2],
-      set_attach_device_raw, (void *)10 },
-    { "AttachDevice11Raw", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &attach_device_raw_enabled[3],
-      set_attach_device_raw, (void *)11 },
-    { "FileSystemDevice8", RES_INTEGER, (resource_value_t)1,
+    { "FileSystemDevice8", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
       (resource_value_t *) &file_system_device_enabled[0],
       set_file_system_device, (void *)8 },
-    { "FileSystemDevice9", RES_INTEGER, (resource_value_t)1,
+    { "FileSystemDevice9", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
       (resource_value_t *) &file_system_device_enabled[1],
       set_file_system_device, (void *)9 },
-    { "FileSystemDevice10", RES_INTEGER, (resource_value_t)1,
+    { "FileSystemDevice10", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
       (resource_value_t *) &file_system_device_enabled[2],
       set_file_system_device, (void *)10 },
-    { "FileSystemDevice11", RES_INTEGER, (resource_value_t)1,
+    { "FileSystemDevice11", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
       (resource_value_t *) &file_system_device_enabled[3],
       set_file_system_device, (void *)11 },
     { NULL }
@@ -137,30 +129,6 @@ static cmdline_option_t cmdline_options[] = {
     { "-attach11rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Readonly",
       (resource_value_t)0,
       NULL, "Attach disk image for drive #11 read write (if possible)" },
-    { "-attach8raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Raw",
-      (resource_value_t)1,
-      NULL, "Attach raw device to drive #8" },
-    { "+attach8raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Raw",
-      (resource_value_t)0,
-      NULL, "Do not attach raw device to drive #8" },
-    { "-attach9raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice9Raw",
-      (resource_value_t)1,
-      NULL, "Attach raw device to drive #9" },
-    { "+attach9raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice9Raw",
-      (resource_value_t)0,
-      NULL, "Do not attach raw device to drive #9" },
-    { "-attach10raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice10Raw",
-      (resource_value_t)1,
-      NULL, "Attach raw device to drive #10" },
-    { "+attach10raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice10Raw",
-      (resource_value_t)0,
-      NULL, "Do not attach raw device to drive #10" },
-    { "-attach11raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Raw",
-      (resource_value_t)1,
-      NULL, "Attach raw device to drive #11" },
-    { "+attach11raw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Raw",
-      (resource_value_t)0,
-      NULL, "Do not attach raw device to drive #11" },
     { NULL }
 };
 
@@ -200,7 +168,24 @@ void file_system_init(void)
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_get_device(i + 8);;
         file_system[i].vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
-        vdrive_setup_device(file_system[i].vdrive, i + 8);
+        switch (file_system_device_enabled[i]) {
+          case ATTACH_DEVICE_NONE:
+            vdrive_setup_device(file_system[i].vdrive, i + 8,
+                                VDRIVE_DEVICE_VIRT);
+            break;
+          case ATTACH_DEVICE_FS:
+            vdrive_setup_device(file_system[i].vdrive, i + 8,
+                                VDRIVE_DEVICE_FS);
+            break;
+          case ATTACH_DEVICE_REAL:
+            vdrive_setup_device(file_system[i].vdrive, i + 8,
+                                VDRIVE_DEVICE_REAL);
+            break;
+          case ATTACH_DEVICE_RAW:
+            vdrive_setup_device(file_system[i].vdrive, i + 8,
+                                VDRIVE_DEVICE_RAW);
+            break;
+        }
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
     }
 }
@@ -266,46 +251,57 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_attach_device_raw(resource_value_t v, void *param)
-{
-    unsigned int unit;
-
-    unit = (unsigned int)param;
-
-    attach_device_raw_enabled[unit - 8] = (unsigned int)v;
-
-    if (file_system_get_vdrive(unit) == NULL)
-        return 0;
-
-    if (attach_device_raw_enabled[unit - 8]) {
-        char *name;
-
-        name = xmsprintf("RAWDRIVE%i", unit - 8);
-        file_system_attach_disk(unit, name);
-        free(name);
-    } else {
-        file_system_detach_disk(unit);
-    }
-
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
 static int set_file_system_device(resource_value_t v, void *param)
 {
     vdrive_t *vdrive;
+    unsigned int unit, old_device_enabled;
 
-    file_system_device_enabled[(int)param - 8] = (unsigned int)v;
+    unit = (unsigned int)param;
+    old_device_enabled = file_system_device_enabled[unit - 8];
 
-    vdrive = (vdrive_t *)file_system_get_vdrive((unsigned int)param);
+    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+
     if (vdrive != NULL) {
-        if (vdrive->image == NULL) {
-            vdrive_setup_device(vdrive, (unsigned int)param);
-            file_system_set_serial_hooks((unsigned int)param,
-                          file_system_device_enabled[(unsigned int)param - 8]);
+        switch ((unsigned int)v) {
+          case ATTACH_DEVICE_NONE:
+            if (old_device_enabled == ATTACH_DEVICE_REAL)
+                serial_realdevice_disable();
+            if (vdrive->image == NULL) {
+                vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_VIRT);
+                file_system_set_serial_hooks(unit, 0);
+            }
+            break;
+          case ATTACH_DEVICE_FS:
+            if (old_device_enabled == ATTACH_DEVICE_REAL)
+                serial_realdevice_disable();
+            if (vdrive->image == NULL) {
+                vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_FS);
+                file_system_set_serial_hooks(unit, 1);
+            }
+            break;
+          case ATTACH_DEVICE_REAL:
+            if (serial_realdevice_enable() < 0)
+                return -1;
+            if (vdrive->image != NULL) {
+                detach_disk_image_and_free(vdrive->image, vdrive, unit);
+                ui_display_drive_current_image(unit - 8, "");
+            }
+            vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_REAL);
+            break;
+          case ATTACH_DEVICE_RAW:
+            if (old_device_enabled == ATTACH_DEVICE_REAL)
+                serial_realdevice_disable();
+            if (vdrive->image != NULL) {
+                detach_disk_image_and_free(vdrive->image, vdrive, unit);
+                ui_display_drive_current_image(unit - 8, "");
+            }
+            vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_RAW);
+            break;
         }
     }
+
+    file_system_device_enabled[unit - 8] = (unsigned int)v;
+
     return 0;
 }
 
@@ -414,7 +410,8 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
     vdrive_t *vdrive;
 
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
-    vdrive_setup_device(vdrive, unit);
+    /* FIXME: Is this clever?  */
+    vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_VIRT);
 
     if (attach_disk_image(&(vdrive->image), vdrive, filename, unit) < 0) {
         return -1;
@@ -463,8 +460,12 @@ void file_system_detach_disk_shutdown(void)
 
     for (i = 0; i <= 3; i++) {
         vdrive = file_system_get_vdrive(i + 8);
-        if (vdrive != NULL)
-            detach_disk_image_and_free(vdrive->image, vdrive, i + 8);
+        if (vdrive != NULL) {
+            if (file_system_device_enabled[i] == VDRIVE_DEVICE_REAL)
+                serial_realdevice_disable();
+            else
+                detach_disk_image_and_free(vdrive->image, vdrive, i + 8);
+        }
     }
 }
 
