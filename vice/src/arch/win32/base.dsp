@@ -118,6 +118,10 @@ SOURCE="..\..\color.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\crc32.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\datasette.c"
 # End Source File
 # Begin Source File

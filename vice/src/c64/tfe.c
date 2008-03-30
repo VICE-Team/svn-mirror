@@ -36,6 +36,7 @@
 #include "archdep.h"
 #include "c64export.h"
 #include "cmdline.h"
+#include "crc32.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -680,7 +681,7 @@ int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phas
     }
 
 	/* now check if DA passes the hash filter */
-    hashreg = (~util_crc32(buffer,6) >> 26) & 0x3F;
+    hashreg = (~crc32_buf(buffer,6) >> 26) & 0x3F;
 
     *phashed = (tfe_hash_mask[(hashreg>=32)?1:0] & (1 << (hashreg&0x1F))) ? 1 : 0;
     if (*phashed) {

@@ -74,9 +74,6 @@ extern void util_dword_to_le_buf(BYTE *buf, DWORD data);
 extern char *util_find_prev_line(const char *text, const char *pos);
 extern char *util_find_next_line(const char *pos);
 
-extern unsigned long util_crc32(const char *buffer, unsigned int len);
-extern unsigned long util_crc32_file(const char *filename);
-
 #if !defined HAVE_MEMMOVE
 void *memmove(void *target, const void *source, unsigned int length);
 #endif
@@ -97,5 +94,5 @@ int strcasecmp(const char *s1, const char *s2);
 int strncasecmp(const char *s1, const char *s2, unsigned int n);
 #endif
 
-#endif /* UTILS_H */
+#endif
 

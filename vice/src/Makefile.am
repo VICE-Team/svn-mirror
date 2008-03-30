@@ -158,6 +158,7 @@ base_sources = \
 	cbmdos.c \
 	cbmimage.c \
 	color.c \
+	crc32.c \
 	datasette.c \
 	debug.c \
 	dma.c \

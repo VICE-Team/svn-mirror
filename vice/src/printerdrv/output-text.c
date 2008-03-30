@@ -65,11 +65,14 @@ static int set_printer_device(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "PrinterTextDevice1", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV1,
+    { "PrinterTextDevice1", RES_STRING,
+      (resource_value_t)ARCHDEP_PRINTER_DEFAULT_DEV1,
       (void *)&PrinterDev[0], set_printer_device_name, (void *)0 },
-    { "PrinterTextDevice2", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV2,
+    { "PrinterTextDevice2", RES_STRING,
+      (resource_value_t)ARCHDEP_PRINTER_DEFAULT_DEV2,
       (void *)&PrinterDev[1], set_printer_device_name, (void *)1 },
-    { "PrinterTextDevice3", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV3,
+    { "PrinterTextDevice3", RES_STRING,
+      (resource_value_t)ARCHDEP_PRINTER_DEFAULT_DEV3,
       (void *)&PrinterDev[2], set_printer_device_name, (void *)2 },
     { "Printer4TextDevice", RES_INTEGER, (resource_value_t)0,
       (void *)&printer_device[0], set_printer_device, (void *)0 },
