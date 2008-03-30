@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-19 11:53+0100\n"
+"POT-Creation-Date: 2002-01-20 23:28+0100\n"
 "PO-Revision-Date: 2002-01-02 23:24+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2162,7 +2162,7 @@ msgstr "Garantiebestimmungen"
 msgid "Contributors"
 msgstr "VICE Hackers"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:131
+#: src/arch/unix/x11/gnome/gnomevideo.c:130
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
@@ -2812,48 +2812,48 @@ msgstr "Aktuelle ROMs mitspeichern:"
 msgid "Save snapshot"
 msgstr "Snapshot Speichern"
 
-#: src/arch/unix/x11/xaw/x11video.c:107
+#: src/arch/unix/x11/xaw/x11video.c:106
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kann XImage with XShm nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:118
+#: src/arch/unix/x11/xaw/x11video.c:117
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Kann Shared Memory nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:129
+#: src/arch/unix/x11/xaw/x11video.c:128
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Kann Shared Memory Adresse nicht feststellen; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:144 src/arch/unix/x11/xaw/x11video.c:161
+#: src/arch/unix/x11/xaw/x11video.c:143 src/arch/unix/x11/xaw/x11video.c:160
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Cannot attach shared memory; falling back to non MITSHM extension mode."
 
-#: src/arch/unix/x11/xaw/x11video.c:168
+#: src/arch/unix/x11/xaw/x11video.c:167
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:185
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Video erfolgreich%s Shared Memory initialisiert."
 
-#: src/arch/unix/x11/xaw/x11video.c:187
+#: src/arch/unix/x11/xaw/x11video.c:186
 msgid ", using"
 msgstr ", mit"
 
-#: src/arch/unix/x11/xaw/x11video.c:187
+#: src/arch/unix/x11/xaw/x11video.c:186
 msgid " without"
 msgstr " ohne"
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:189
 msgid "Performance will be poor."
 msgstr "Performance wird nicht optimal sein."
 
-#: src/arch/unix/x11/xaw/x11video.c:193
+#: src/arch/unix/x11/xaw/x11video.c:192
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
 
