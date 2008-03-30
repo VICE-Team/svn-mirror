@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "drive-check.h"
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -105,7 +106,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
     busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, 0, busses)) {
+    if (!drive_check_bus(type, 0, busses)) {
         if (busses & IEC_BUS_IEC) {
             type = DRIVE_TYPE_1541;
         } else
@@ -115,7 +116,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
             type = DRIVE_TYPE_NONE;
     }
 
-    if (DRIVE_IS_DUAL(type)) {
+    if (drive_check_dual(type)) {
         /* dual disk drives disable second emulated unit */
         log_warning(drive->log,
                     "Dual disk drive disables second emulated drive");
@@ -151,7 +152,8 @@ static int drive0_resources_type(resource_value_t v, void *param)
             drive->enable = 1;
             drive_enable(drive_context[0]);
             /* 1551 drive does not use the IEC bus */
-            machine_bus_status_drivetype_set(8, type!=DRIVE_TYPE_1551);
+            machine_bus_status_drivetype_set(8, drive_check_bus(type, 0,
+                                             IEC_BUS_IEC));
         }
         drive_set_disk_drive_type(type, drive_context[0]);
         drive_rom_initialize_traps(drive);
@@ -181,7 +183,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
     busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, dnr, busses)) {
+    if (!drive_check_bus(type, dnr, busses)) {
         if (busses & IEC_BUS_IEC) {
             type = DRIVE_TYPE_1541;
         } else
@@ -191,7 +193,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
             type = DRIVE_TYPE_NONE;
     }
 
-    if (drive0->enable && DRIVE_IS_DUAL(drive0->type)) {
+    if (drive0->enable && drive_check_dual(drive0->type)) {
         /* dual disk drives disable second emulated unit */
         log_warning(drive->log,
                     "Dual disk drive disables second emulated drive");
@@ -227,7 +229,8 @@ static int drive1_resources_type(resource_value_t v, void *param)
             drive->enable = 1;
             drive_enable(drive_context[dnr]);
             /* 1551 drive does not use the IEC bus */
-            machine_bus_status_drivetype_set(9, type!=DRIVE_TYPE_1551);
+            machine_bus_status_drivetype_set(dnr + 8, drive_check_bus(type,
+                                             dnr, IEC_BUS_IEC));
         }
         drive_set_disk_drive_type(type, drive_context[dnr]);
         drive_rom_initialize_traps(drive);
@@ -236,7 +239,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
       case DRIVE_TYPE_NONE:
         drive->type = type;
         drive_disable(drive_context[dnr]);
-        machine_bus_status_drivetype_set(9, 0);
+        machine_bus_status_drivetype_set(dnr + 8, 0);
         return 0;
       default:
         return -1;
