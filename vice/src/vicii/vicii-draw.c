@@ -119,7 +119,7 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
     + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr, pixel_width) \
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) \
    name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
 #else
 #define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)                 \
