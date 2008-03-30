@@ -38,7 +38,7 @@ VICODIR		= ./vic20
 PETDIR		= $(SRCDIR)/pet
 PETODIR		= ./pet
 
-READLINE        = $(READLINEODIR)/readline.a
+READLINE        = @READLINE@
 WIDGETS		= $(WIDGETODIR)/widgets.a
 
 BINDIR	        = @BINDIR@
@@ -230,7 +230,7 @@ WIDGETDIST = $(WIDGETMISC) $(WIDGETSRC) $(WIDGETHDR)
 DOCS = $(DOCDIR)/64doc.txt $(DOCDIR)/cbm_basic_tokens.txt \
         $(DOCDIR)/recomment.html $(DOCDIR)/Evaluation $(DOCDIR)/PETdoc.txt \
 	$(DOCDIR)/drive_info.txt $(DOCDIR)/serial.txt $(DOCDIR)/mnemonics.txt \
-	$(DOCDIR)/MANUAL.html
+	$(DOCDIR)/MANUAL.html $(DOCDIR)/mon.txt
 
 MANPAGES = $(MANDIR)/vice.man $(MANDIR)/c1541.man $(MANDIR)/petcat.man
 
@@ -362,7 +362,7 @@ $(COMMON_OBJS) $(TRUE1541_OBJS) $(PARALLEL_OBJS) $(C1541_OBJS) $(PETCAT_OBJS):
 
 ### `widget' and `readline' libraries
 
-$(READLINE):
+$(READLINEODIR)/readline.a:
 	cd $(READLINEODIR); $(MAKE)
 
 $(WIDGETS):
