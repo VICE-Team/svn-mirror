@@ -353,11 +353,11 @@ vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	vic20mem.h vic.h vic20.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/raster/raster.h \
-	../../src/raster/raster-cache.h \
+	vic20mem.h vic20sound.h ../../src/sound.h ../../src/warn.h \
+	vic.h vic20.h ../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -396,9 +396,9 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/log.h \
 	../../src/snapshot.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/utils.h vic-draw.h vic-mem.h vic-cmdline-options.h \
-	vic-resources.h vic-snapshot.h vic.h vic20.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/utils.h ../../src/arch/unix/vsync.h vic-draw.h \
+	vic-mem.h vic-cmdline-options.h vic-resources.h vic-snapshot.h \
+	vic.h vic20.h ../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/uiapi.h ../../src/resources.h \
 	../../src/raster/raster.h ../../src/raster/raster-cache.h \

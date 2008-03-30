@@ -1,3 +1,35 @@
+1999-05-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.26.
+
+	* raster/raster.c: Do not define `RECALC_FRAME_BUFFER' for now.
+
+1999-05-25  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: now compiles again; added optional status bar
+	in full screen mode.
+
+	* arch/riscos/ui.c: added 1001 drive, fixed pause bug.
+
+	* arch/riscos/config.h: moved configuration file to arch-module.
+
+	* drive/drive.c: changed ui_display_drive_track to
+	ui_display_drive_track_int on RISC OS (a double is totally useless
+	here anyway)
+
+	* raster/raster.[ch]: added support for mode changes which require
+	rebuilding all internal colour tables. A callback function was
+	added to raster_t which has to be initialized by the raster client
+	(vicii, crtc, ...). A list of active rasters is kept internally.
+	raster_mode_change() rebuilds everything for the new mode.
+
+	* crtc/crtc-draw.c, vicii-draw.c, vic-draw.c: register table refresh
+	function (init_drawing_tables()) to the raster module.
+
+	* vic20/vic.c: needs to include vsync.h
+
+	* vic20/vic-mem.c: needs to include vic20sound.h
+
 1999-05-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.25.
