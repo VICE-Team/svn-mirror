@@ -2,8 +2,8 @@ c610dir = $(prefix)/lib/vice/C610
 
 c610_DATA = \
 	amber.vpl \
-	basic.b128 \
-	basic.b256 \
+	basic.128 \
+	basic.256 \
 	chargen \
 	chargen_hun \
 	busi_uk.vkm \

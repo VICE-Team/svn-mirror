@@ -60,11 +60,19 @@ static int rs232_open(int device)
     return -1;
 }
 
-static void rs232_close(int fd) { }
+static void rs232_close(int fd)
+{
+}
 
-static int rs232_putc(int fd, BYTE b) { }
+static int rs232_putc(int fd, BYTE b)
+{
+    return -1;
+}
 
-static int rs232_getc(int fd, BYTE *b) { }
+static int rs232_getc(int fd, BYTE *b)
+{
+    return -1;
+}
 
 #endif
 
