@@ -70,7 +70,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
-#include "raster/raster.h"
 #include "resources.h"
 #include "uicolor.h"
 #include "uimenu.h"
@@ -929,7 +928,6 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 /* Create a shell with a canvas widget in it.  */
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat,
-                             ui_exposure_handler_t exposure_proc,
                              const struct palette_s *palette)
 {
     GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
@@ -2654,21 +2652,17 @@ UI_CALLBACK(exposure_callback)
 {
     GtkRequisition req;
     static int oldw, oldh;
-    
+
     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-    if (oldw != req.width ||
-	oldh != req.height)
-    {
-	oldw = req.width;
-	oldh = req.height;
-	gdk_window_resize(gdk_window_get_toplevel(w->window), 
-			  req.width, req.height);
+    if (oldw != req.width || oldh != req.height) {
+        oldw = req.width;
+        oldh = req.height;
+        gdk_window_resize(gdk_window_get_toplevel(w->window),
+                          req.width, req.height);
     }
     if (client_data)
-    {
-	raster_force_repaint(raster_get_raster_from_canvas(client_data));
-    }
-	    
+        video_canvas_refresh_all((struct video_canvas_s *)client_data);
+
 }
 
 /* ------------------------------------------------------------------------- */

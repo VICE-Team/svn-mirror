@@ -1,3 +1,50 @@
+2002-06-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.47.
+
+	* arch/unix/x11/xaw/x11ui.c (x11ui_open_canvas_window): Use
+	different XEvents for shell and canvas.
+	(exposure_callback_shell, exposure_callback_canvas): New
+	functions.
+
+	* arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/x11/video.c, arch/unix/vsidui.c,
+	arch/unix/x11/x11ui.h, arch/unix/x11/videoarch.h,
+	arch/riscos/videoarch.h: Removed exposure handler support.
+
+	* video.h, raster/raster.h, arch/unix/x11/videoarch.h,
+	arch/msdos/videoarch.h, arch/win32/videoarch.h,
+	arch/riscos/videoarch.h, arch/os2/videoarch.h,
+	arch/beos/videoarch.h, video/video-canvas.c,
+	raster/raster-line.c, vicii/vicii-draw.c, vic20/vic-mem.c,
+	vic20/vic.c: Added geometry to canvas struct.
+
+	* viewport.h, video/video-viewport.c: New files.
+
+	* Makefile.am, video/Makefile.am: Added new files.
+
+	* video.h, video/video-viewport.c, raster/raster-canvas.c,
+	raster/raster.c, raster/raster.h, vicii/vicii.c, vdc/vdc.c,
+	vic20/vic.c, crtc/crtc.c, plus4/ted.c: Move viewport resizing
+	code to own file.
+
+	* raster/raster.c, raster/raster.h
+	(raster_get_raster_from_canvas): Removed.
+
+	* video/video-resources.c (set_double_size_enabled,
+	set_double_scan_enabled): Use new video canvas API.
+
+2002-06-28  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/joy.c (joy_arch_init): Added dummy for joystick
+	unaware architectures (e.g. solaris).
+
+2002-06-28  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/archdep.h: enable double size for all chips
+
+	* arch/riscos/video.c: fixed bugs caused by API change
+
 2002-06-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.46.

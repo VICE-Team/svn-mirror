@@ -85,7 +85,6 @@
 #endif
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"
-#include "raster/raster.h"
 #include "video/video-resources.h"
 extern DWORD yuv_table[128];
 #endif
@@ -468,9 +467,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     }
 
     res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
-                                   new_width, new_height, 1,
-                                   (canvas_redraw_t)canvas->viewport->exposure_handler,
-                                   palette);
+                                   new_width, new_height, 1, palette);
 
     if (!_video_gc)
         _video_gc = video_get_gc(&gc_values);
@@ -575,8 +572,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {
-        raster_t *raster = raster_get_raster_from_canvas(canvas);
-
         int doublesize = canvas->videoconfig->doublesizex
 	  && canvas->videoconfig->doublesizey;
 
@@ -585,18 +580,12 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	int x, y;
 	unsigned int dest_w, dest_h, border_width, depth;
 
-	if (!raster) {
-	    log_error(video_log,
-                      "video_canvas_refresh called with raster == NULL");
-	    return;
-	}
-
 	display = x11ui_get_display_ptr();
 
 	render_yuv_image(doublesize,
 			 canvas->videoconfig->doublescan,
 			 video_resources.pal_mode,
-			 video_resources.pal_scanlineshade*1024/1000,
+			 video_resources.pal_scanlineshade * 1024 / 1000,
 			 canvas->xv_format,
 			 canvas->xv_image,
 			 canvas->draw_buffer->draw_buffer,

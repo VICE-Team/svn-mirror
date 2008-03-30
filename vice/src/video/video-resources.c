@@ -244,7 +244,7 @@ int set_double_size_enabled(resource_value_t v, void *param)
     if (video_resource_chip->double_size_enabled != (int)v
         && raster->canvas != NULL
         && raster->canvas->viewport->update_canvas > 0) {
-        raster_resize_viewport(raster);
+        video_viewport_resize(raster->canvas);
     }
 
     video_resource_chip->double_size_enabled = (int)v;
@@ -270,7 +270,8 @@ int set_double_scan_enabled(resource_value_t v, void *param)
     video_resource_chip->double_scan_enabled = (int)v;
     video_resource_chip->raster->videoconfig->doublescan = (int)v;
 
-    raster_force_repaint(video_resource_chip->raster);
+    if (video_resource_chip->raster->canvas != NULL)
+        video_canvas_refresh_all(video_resource_chip->raster->canvas);
 
     return 0;
 }

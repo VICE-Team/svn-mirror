@@ -32,6 +32,8 @@
 
 #include "raster-changes.h"
 #include "types.h"
+#include "viewport.h"
+
 
 struct palette_s;
 struct canvas_refresh_s;
@@ -50,20 +52,6 @@ struct canvas_refresh_s;
    much space anyway.  */
 #define RASTER_GFX_MSK_SIZE 0x100
 
-/* A simple convenience type for defining rectangular areas.  */
-struct raster_rectangle_s {
-    unsigned int width;
-    unsigned int height;
-};
-typedef struct raster_rectangle_s raster_rectangle_t;
-
-/* A simple convenience type for defining screen positions.  */
-struct raster_position_s {
-    unsigned int x;
-    unsigned int y;
-};
-typedef struct raster_position_s raster_position_t;
-
 /* A simple convenience type for defining a rectangular area on the screen.  */
 struct raster_area_s {
     unsigned int xs;
@@ -76,40 +64,13 @@ typedef struct raster_area_s raster_area_t;
 
 struct video_canvas_s;
 
-struct raster_geometry_s {
-    /* Total size of the screen, including borders and unused areas.
-       (SCREEN_WIDTH, SCREEN_HEIGHT)  */
-    raster_rectangle_t screen_size;
-
-    /* Size of the graphics area (i.e. excluding borders and unused areas.
-       (SCREEN_XPIX, SCREEN_YPIX)  */
-    raster_rectangle_t gfx_size;
-
-    /* Size of the text area.  (SCREEN_TEXTCOLS)  */
-    raster_rectangle_t text_size;
-
-    /* Position of the graphics area.  (SCREEN_BORDERWIDTH,
-       SCREEN_BORDERHEIGHT) */
-    raster_position_t gfx_position;
-
-    /* If nonzero, `gfx_position' is expected to be moved around when poking
-       to the chip registers.  */
-    int gfx_area_moves;
-
-    /* FIXME: Bad names.  */
-    unsigned int first_displayed_line, last_displayed_line;
-
-    unsigned int extra_offscreen_border_left;
-    unsigned int extra_offscreen_border_right;
-};
-typedef struct raster_geometry_s raster_geometry_t;
-
 struct raster_cache_s;
 struct raster_modes_s;
 struct raster_sprite_status_s;
 
 struct raster_s {
-    raster_geometry_t geometry;
+    struct viewport_s *viewport;
+    struct geometry_s *geometry;
 
     struct raster_modes_s *modes;
 
@@ -264,7 +225,6 @@ extern void raster_set_geometry(raster_t *raster,
                                 unsigned int extra_offscreen_border_right);
 extern void raster_invalidate_cache(raster_t *raster,
                                     unsigned int screen_height);
-extern void raster_resize_viewport(raster_t *raster);
 extern void raster_draw_buffer_ptr_update(raster_t *raster);
 extern int raster_realize_frame_buffer(raster_t *raster);
 extern void raster_force_repaint(raster_t *raster);
@@ -274,10 +234,11 @@ extern void raster_skip_frame(raster_t *raster, int skip);
 extern void raster_enable_cache(raster_t *raster, int enable);
 extern void raster_mode_change(void);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
-extern void raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
-extern void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref);
+extern void raster_screenshot(raster_t *raster,
+                              struct screenshot_s *screenshot);
+extern void raster_async_refresh(raster_t *raster,
+                                 struct canvas_refresh_s *ref);
 extern void raster_free(raster_t *raster);
-extern raster_t *raster_get_raster_from_canvas(struct video_canvas_s *canvas);
 extern int raster_calc_frame_buffer_width(raster_t *raster);
 
 /* Inlined functions.  These need to be *fast*.  */
@@ -303,7 +264,7 @@ inline static void raster_add_int_change_foreground(raster_t *raster,
 {
     if (char_x <= 0)
         *ptr = new_value;
-    else if (char_x < (int)raster->geometry.text_size.width) {
+    else if (char_x < (int)raster->geometry->text_size.width) {
         raster_changes_add_int(&raster->changes.foreground,
                                char_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
@@ -319,7 +280,7 @@ inline static void raster_add_ptr_change_foreground(raster_t *raster,
 {
     if (char_x <= 0)
         *ptr = new_value;
-    else if (char_x < (int)raster->geometry.text_size.width) {
+    else if (char_x < (int)raster->geometry->text_size.width) {
         raster_changes_add_ptr(&raster->changes.foreground,
                                char_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
@@ -335,7 +296,7 @@ inline static void raster_add_int_change_background(raster_t *raster,
 {
     if (raster_x <= 0)
         *ptr = new_value;
-    else if (raster_x < (int)raster->geometry.screen_size.width) {
+    else if (raster_x < (int)raster->geometry->screen_size.width) {
         raster_changes_add_int(&raster->changes.background,
                                raster_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
@@ -351,7 +312,7 @@ inline static void raster_add_ptr_change_background(raster_t *raster,
 {
     if (raster_x <= 0)
         *ptr = new_value;
-    else if (raster_x < (int)raster->geometry.screen_size.width) {
+    else if (raster_x < (int)raster->geometry->screen_size.width) {
         raster_changes_add_ptr(&raster->changes.background,
                                raster_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
@@ -367,7 +328,7 @@ inline static void raster_add_int_change_border(raster_t *raster,
 {
     if (raster_x <= 0)
         *ptr = new_value;
-    else if (raster_x < (int)raster->geometry.screen_size.width) {
+    else if (raster_x < (int)raster->geometry->screen_size.width) {
         raster_changes_add_int(&raster->changes.border,
                                raster_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
