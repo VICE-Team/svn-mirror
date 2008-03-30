@@ -144,6 +144,9 @@ struct disk_image_s;
 typedef struct drive_s {
     unsigned int mynumber;
 
+    /* Pointer to the drive clock.  */
+    CLOCK *clk;
+
     int led_status;
 
     /* Current half track on which the R/W head is positioned.  */
@@ -241,9 +244,6 @@ typedef struct drive_s {
     selected this flag gets cleared.  */
     int ask_extend_disk_image;
 
-    /* Pointer to the drive clock.  */
-    CLOCK *clk;
-
     /* Drive-specific logging goes here.  */
     signed int log;
 
@@ -282,37 +282,26 @@ extern struct drive_context_s drive1_context;
 extern int rom_loaded;
 
 extern int drive_init(void);
-extern int drive_enable(unsigned int dnr);
-extern void drive_disable(unsigned int dnr);
-extern void serial_bus_drive_write(BYTE data);
-extern BYTE serial_bus_drive_read(void);
-/*
-extern void drive0_mem_init(int type);
-extern void drive1_mem_init(int type);
-*/
+extern int drive_enable(struct drive_context_s *drv);
+extern void drive_disable(struct drive_context_s *drv);
 extern void drive_move_head(int step, unsigned int dnr);
 extern void drive_reset(void);
 extern void drive_shutdown(void);
-extern CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr);
 extern void drive_vsync_hook(void);
-extern void drive_set_1571_sync_factor(int new_sync, unsigned int dnr);
-extern void drive_set_1571_side(int side, unsigned int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(unsigned int dnr);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
-/*
-extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
-extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
-*/
 extern BYTE drive_write_protect_sense(drive_t *dptr);
-extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);
-extern int reload_rom_1541(char *name);
+extern int drive_set_disk_drive_type(unsigned int drive_type,
+                                     struct drive_context_s *drv);
+
 extern void drive_set_half_track(int num, drive_t *dptr);
 extern void drive_set_machine_parameter(long cycles_per_sec);
-extern void drive_set_disk_memory(unsigned int dnr, BYTE *id,
-                                  unsigned int track, unsigned int sector);
-extern void drive_set_last_read(unsigned int dnr, unsigned int track,
-                                unsigned int sector, BYTE *buffer);
+extern void drive_set_disk_memory(BYTE *id, unsigned int track,
+                                  unsigned int sector,
+                                  struct drive_context_s *drv);
+extern void drive_set_last_read(unsigned int track, unsigned int sector,
+                                BYTE *buffer, struct drive_context_s *drv);
 
 extern int drive_match_bus(unsigned int drive_type, unsigned int drv,
                            int bus_map);

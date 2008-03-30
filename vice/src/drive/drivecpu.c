@@ -127,7 +127,7 @@ static void drive1_set_bank_base(void)
     drive_set_bank_base(&drive1_context);
 }
 
-void drive_cpu_setup_context(drive_context_t *drv)
+void drive_cpu_setup_context(struct drive_context_s *drv)
 {
     monitor_interface_t *mi;
     drivecpu_context_t *cpu;
