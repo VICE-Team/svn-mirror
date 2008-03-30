@@ -276,8 +276,6 @@ extern CLOCK drive_clk[2];
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */
 struct drive_context_s;
-extern struct drive_context_s drive0_context;
-extern struct drive_context_s drive1_context;
 extern struct drive_context_s *drive_context[DRIVE_NUM];
 
 extern int rom_loaded;
@@ -285,7 +283,7 @@ extern int rom_loaded;
 extern int drive_init(void);
 extern int drive_enable(struct drive_context_s *drv);
 extern void drive_disable(struct drive_context_s *drv);
-extern void drive_move_head(int step, unsigned int dnr);
+extern void drive_move_head(int step, struct drive_s *drive);
 extern void drive_reset(void);
 extern void drive_shutdown(void);
 extern void drive_vsync_hook(void);

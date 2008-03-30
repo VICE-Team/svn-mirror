@@ -236,8 +236,8 @@ static void disk_eof_callback(void)
         }
         set_true_drive_emulation_mode(orig_drive_true_emulation_state);
         if (orig_drive_true_emulation_state) {
-            drive_set_disk_memory(id, track, sector, &drive0_context);
-            drive_set_last_read(track, sector, buffer, &drive0_context);
+            drive_set_disk_memory(id, track, sector, drive_context[0]);
+            drive_set_last_read(track, sector, buffer, drive_context[0]);
         }
     }
 

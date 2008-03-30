@@ -130,9 +130,9 @@ inline static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
         /* Stepper motor */
         if ((poldpb & 0x3) == ((byte + 1) & 0x3))
-            drive_move_head(-1, via2p->number);
+            drive_move_head(-1, via2p->drive);
         else if ((poldpb & 0x3) == ((byte - 1) & 0x3))
-            drive_move_head(+1, via2p->number);
+            drive_move_head(+1, via2p->drive);
     }
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
@@ -259,33 +259,32 @@ inline static BYTE read_prb(via_context_t *via_context)
 /* These callbacks and the data initializations have to be done here */
 static void int_via2d0t1(CLOCK c)
 {
-    viacore_intt1(drive0_context.via2, c);
+    viacore_intt1(drive_context[0]->via2, c);
 }
 
 static void int_via2d0t2(CLOCK c)
 {
-    viacore_intt2(drive0_context.via2, c);
+    viacore_intt2(drive_context[0]->via2, c);
 }
 
 static void int_via2d1t1(CLOCK c)
 {
-    viacore_intt1(drive1_context.via2, c);
+    viacore_intt1(drive_context[1]->via2, c);
 }
 
 static void int_via2d1t2(CLOCK c)
 {
-    viacore_intt2(drive1_context.via2, c);
+    viacore_intt2(drive_context[1]->via2, c);
 }
 
-static via_initdesc_t via_desc[2] = {
+static via_initdesc_t via_desc[DRIVE_NUM] = {
     { NULL, int_via2d0t1, int_via2d0t2 },
     { NULL, int_via2d1t1, int_via2d1t2 }
 };
 
 void via2d_init(drive_context_t *ctxptr)
 {
-    via_desc[0].via_ptr = drive0_context.via2;
-    via_desc[1].via_ptr = drive1_context.via2;
+    via_desc[ctxptr->mynumber].via_ptr = ctxptr->via2;
 
     viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu->alarm_context,
                  ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);

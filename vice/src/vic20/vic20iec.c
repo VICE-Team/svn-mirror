@@ -182,14 +182,14 @@ void iec_pa_write(BYTE data)
                 viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
                                VIA_SIG_RISE);
             else
-                ciacore_set_flag(drive0_context.cia1581);
+                ciacore_set_flag(drive_context[0]->cia1581);
         }
         if (drive1->enable) {
             if (drive1->type != DRIVE_TYPE_1581)
                 viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
                                VIA_SIG_RISE);
             else
-                ciacore_set_flag(drive1_context.cia1581);
+                ciacore_set_flag(drive_context[1]->cia1581);
         }
     }
 

@@ -82,10 +82,7 @@ static void conv_phys_to_log(unsigned int dnr, unsigned int *track,
     *track += 1;
     *sector = (*sector - 1) * 2;
 
-    if (dnr == 0)
-        sid = drive_read(&drive0_context, (WORD)(OFFSET_SIDS + buffer));
-    else
-        sid = drive_read(&drive1_context, (WORD)(OFFSET_SIDS + buffer));
+    sid = drive_read(drive_context[dnr], (WORD)(OFFSET_SIDS + buffer));
 
     if (sid > 0)
         *sector += 20;
@@ -95,24 +92,16 @@ static void sector_to_mem(unsigned int dnr, BYTE *sector_data, WORD dst_base)
 {
     unsigned int i;
 
-    for (i = 0; i < 256; i++) {
-        if (dnr == 0)
-            drive_store(&drive0_context, (WORD)(dst_base + i), sector_data[i]);
-        else
-            drive_store(&drive1_context, (WORD)(dst_base + i), sector_data[i]);
-    }
+    for (i = 0; i < 256; i++)
+        drive_store(drive_context[dnr], (WORD)(dst_base + i), sector_data[i]);
 }
 
 static void mem_to_sector(unsigned int dnr, BYTE *sector_data, WORD src_base)
 {
     unsigned int i;
 
-    for (i = 0; i < 256; i++) {
-        if (dnr == 0)
-            sector_data[i] = drive_read(&drive0_context, (WORD)(src_base + i));
-        else
-            sector_data[i] = drive_read(&drive1_context, (WORD)(src_base + i));
-    }
+    for (i = 0; i < 256; i++)
+        sector_data[i] = drive_read(drive_context[dnr], (WORD)(src_base + i));
 }
 
 #if 0
@@ -122,13 +111,8 @@ static void mem_to_mem(unsigned int dnr, WORD src_base, WORD dst_base)
     BYTE data;
 
     for (i = 0; i < 256; i++) {
-        if (dnr == 0) {
-            data = drive_read(&drive0_context, (WORD)(src_base + i));
-            drive_store(&drive0_context, (WORD)(dst_base + i), data);
-        } else {
-            data = drive_read(&drive1_context, (WORD)(src_base + i));
-            drive_store(&drive1_context, (WORD)(dst_base + i), data);
-        }
+        data = drive_read(drive_context[dnr], (WORD)(src_base + i));
+        drive_store(drive_context[dnr], (WORD)(dst_base + i), data);
     }
 }
 #endif
@@ -192,10 +176,8 @@ static int track_cache_read(unsigned int dnr, unsigned int track,
     }
 
     pos = ((sector + 40 - track_cache_sector[dnr]) % 20);
-    if (dnr == 0)
-        drive_store(&drive0_context, (WORD)(OFFSET_SECPOS + buffer), pos);
-    else
-        drive_store(&drive1_context, (WORD)(OFFSET_SECPOS + buffer), pos);
+
+    drive_store(drive_context[dnr], (WORD)(OFFSET_SECPOS + buffer), pos);
 
     return OK_DV;
 }
@@ -230,13 +212,8 @@ static int jobcode_read(unsigned int dnr, unsigned int track,
     base_trg = (WORD)((buffer << 8) + OFFSET_BUFFER);
 
     for (i = 0; i < 256; i++) {
-        if (dnr == 0) {
-            data = drive_read(&drive0_context, (WORD)(base_src + i));
-            drive_store(&drive0_context, (WORD)(base_trg + i), data);
-        } else {
-            data = drive_read(&drive1_context, (WORD)(base_src + i));
-            drive_store(&drive1_context, (WORD)(base_trg + i), data);
-        }
+        data = drive_read(drive_context[dnr], (WORD)(base_src + i));
+        drive_store(drive_context[dnr], (WORD)(base_trg + i), data);
     }
 #else
     WORD base;
@@ -246,13 +223,8 @@ static int jobcode_read(unsigned int dnr, unsigned int track,
 
     base = (WORD)((buffer << 8) + OFFSET_BUFFER);
 
-    for (i = 0; i < 256; i++) {
-        if (dnr == 0) {
-            drive_store(&drive0_context, (WORD)(base + i), sector_data[i]);
-        } else {
-            drive_store(&drive1_context, (WORD)(base + i), sector_data[i]);
-        }
-    }
+    for (i = 0; i < 256; i++)
+        drive_store(drive_context[dnr], (WORD)(base + i), sector_data[i]);
 #endif
 
     return OK_DV;

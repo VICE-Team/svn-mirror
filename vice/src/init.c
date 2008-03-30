@@ -206,8 +206,7 @@ int init_main(void)
         gfxoutput_init();
         screenshot_init();
 
-        drive_cpu_early_init(&drive0_context);
-        drive_cpu_early_init(&drive1_context);
+        drivecpu_early_init_all();
     }
 
     machine_maincpu_init();

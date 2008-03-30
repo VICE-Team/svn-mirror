@@ -140,43 +140,42 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 
 static void int_ciad0ta(CLOCK c)
 {
-    ciacore_intta(drive0_context.cia1571, c);
+    ciacore_intta(drive_context[0]->cia1571, c);
 }
 
 static void int_ciad1ta(CLOCK c)
 {
-    ciacore_intta(drive1_context.cia1571, c);
+    ciacore_intta(drive_context[1]->cia1571, c);
 }
 
 static void int_ciad0tb(CLOCK c)
 {
-    ciacore_inttb(drive0_context.cia1571, c);
+    ciacore_inttb(drive_context[0]->cia1571, c);
 }
 
 static void int_ciad1tb(CLOCK c)
 {
-    ciacore_inttb(drive1_context.cia1571, c);
+    ciacore_inttb(drive_context[1]->cia1571, c);
 }
 
 static void int_ciad0tod(CLOCK c)
 {
-    ciacore_inttod(drive0_context.cia1571, c);
+    ciacore_inttod(drive_context[0]->cia1571, c);
 }
 
 static void int_ciad1tod(CLOCK c)
 {
-    ciacore_inttod(drive1_context.cia1571, c);
+    ciacore_inttod(drive_context[1]->cia1571, c);
 }
 
-static cia_initdesc_t cia1571_initdesc[2] = {
+static cia_initdesc_t cia1571_initdesc[DRIVE_NUM] = {
     { NULL, int_ciad0ta, int_ciad0tb, int_ciad0tod },
     { NULL, int_ciad1ta, int_ciad1tb, int_ciad1tod }
 };
 
 void cia1571_init(drive_context_t *ctxptr)
 {
-    cia1571_initdesc[0].cia_ptr = drive0_context.cia1571;
-    cia1571_initdesc[1].cia_ptr = drive1_context.cia1571;
+    cia1571_initdesc[ctxptr->mynumber].cia_ptr = ctxptr->cia1571;
 
     ciacore_init(&cia1571_initdesc[ctxptr->mynumber],
                  ctxptr->cpu->alarm_context, ctxptr->cpu->int_status,

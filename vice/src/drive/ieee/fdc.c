@@ -735,11 +735,11 @@ void fdc_init(drive_context_t *drv)
 #endif
 
     if (fnum == 0) {
-        fdc[fnum].fdc_alarm = alarm_new(drive0_context.cpu->alarm_context,
+        fdc[fnum].fdc_alarm = alarm_new(drive_context[0]->cpu->alarm_context,
                                         "fdc0", int_fdc0);
     } else
     if (fnum == 1) {
-        fdc[fnum].fdc_alarm = alarm_new(drive1_context.cpu->alarm_context,
+        fdc[fnum].fdc_alarm = alarm_new(drive_context[1]->cpu->alarm_context,
                                         "fdc1", int_fdc1);
     }
 

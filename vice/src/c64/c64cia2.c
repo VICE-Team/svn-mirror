@@ -231,9 +231,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 static void read_ciaicr(cia_context_t *cia_context)
 {
     if (drive_context[0]->drive->parallel_cable_enabled)
-        drivecpu_execute(&drive0_context, maincpu_clk);
+        drivecpu_execute(drive_context[0], maincpu_clk);
     if (drive_context[1]->drive->parallel_cable_enabled)
-        drivecpu_execute(&drive1_context, maincpu_clk);
+        drivecpu_execute(drive_context[1], maincpu_clk);
 }
 
 static void read_sdr(cia_context_t *cia_context)
