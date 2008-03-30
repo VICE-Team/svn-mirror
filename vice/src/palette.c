@@ -70,10 +70,10 @@ void palette_free(palette_t *p)
 
     for (i = 0; i < p->num_entries; i++)
         if (p->entries[i].name != NULL)
-            free(p->entries[i].name);
+            lib_free(p->entries[i].name);
 
-    free(p->entries);
-    free(p);
+    lib_free(p->entries);
+    lib_free(p);
 }
 
 static int palette_set_entry(palette_t *p, unsigned int number,
@@ -219,13 +219,13 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
         util_add_extension(&tmp, "vpl");
         f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);
-        free(tmp);
+        lib_free(tmp);
         if (f == NULL)
             return -1;
     }
 
     log_message(palette_log, "Loading palette `%s'.", complete_path);
-    free(complete_path);
+    lib_free(complete_path);
 
     tmp_palette = palette_create(palette_return->num_entries, NULL);
 

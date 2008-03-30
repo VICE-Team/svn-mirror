@@ -390,7 +390,7 @@ static void keyboard_keyconvmap_alloc(void)
 
 static void keyboard_keyconvmap_free(void)
 {
-    free(keyconvmap);
+    lib_free(keyconvmap);
 }
 
 static void keyboard_keyconvmap_realloc(void)
@@ -616,7 +616,7 @@ static int keyboard_parse_keymap(const char *filename)
     fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
 
     if (fp == NULL) {
-        free(complete_path);
+        lib_free(complete_path);
         return -1;
     }
 
@@ -647,7 +647,7 @@ static int keyboard_parse_keymap(const char *filename)
     } while (!feof(fp));
     fclose(fp);
 
-    free(complete_path);
+    lib_free(complete_path);
 
     return 0;
 }

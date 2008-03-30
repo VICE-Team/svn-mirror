@@ -318,9 +318,9 @@ static int sound_error(const char *msg)
     if (console_mode || vsid_mode) {
         log_message(sound_log, msg);
     } else {
-        char *txt=xmsprintf("Sound: %s", msg);
+        char *txt = lib_msprintf("Sound: %s", msg);
         ui_error(txt);
-        free(txt);
+        lib_free(txt);
     }
 
     playback_enabled = 0;
@@ -364,7 +364,7 @@ static void fill_buffer(int size, int rise)
 
     i = snddata.pdev->write(p, size * snddata.channels);
 
-    free(p);
+    lib_free(p);
 
     if (i)
         sound_error("write to sound device failed.");
@@ -507,10 +507,11 @@ static int sound_open(void)
         if (pdev->init) {
             int channels_cap = snddata.channels;
             if (pdev->init(param, &speed, &fragsize, &fragnr, &channels_cap)) {
-                char *err = xmsprintf("initialization failed for device `%s'.",
-                                      pdev->name);
+                char *err;
+                err = lib_msprintf("initialization failed for device `%s'.",
+                                   pdev->name);
                 sound_error(err);
-                free (err);
+                lib_free(err);
                 return 1;
             }
             if (channels_cap != snddata.channels) {
@@ -565,9 +566,10 @@ static int sound_open(void)
         return 0;
     }
     {
-        char *err = xmsprintf("device '%s' not found or not supported.", name);
+        char *err = lib_msprintf("device '%s' not found or not supported.",
+                                 name);
         sound_error(err);
-        free(err);
+        lib_free(err);
         return 1;
     }
 }
@@ -757,7 +759,7 @@ double sound_flush(int relative_speed)
     if (snddata.pdev->flush) {
         char *state = sound_machine_dump_state(snddata.psid[0]);
         i = snddata.pdev->flush(state);
-        free(state);
+        lib_free(state);
         if (i) {
             sound_error("cannot flush.");
             return 0;

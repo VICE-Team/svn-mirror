@@ -96,11 +96,11 @@ void clk_guard_destroy(clk_guard_t *guard)
     while (lp != NULL) {
         clk_guard_callback_list_t *lp_next = lp->next;
 
-        free(lp);
+        lib_free(lp);
         lp = lp_next;
     }
 
-    free(guard);
+    lib_free(guard);
 }
 
 CLOCK clk_guard_clock_sub(clk_guard_t *guard)

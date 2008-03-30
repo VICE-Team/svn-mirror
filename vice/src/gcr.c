@@ -320,7 +320,7 @@ gcr_t *gcr_create_image(void)
 
 void gcr_destroy_image(gcr_t *gcr)
 {
-    free(gcr);
+    lib_free(gcr);
     return;
 }
 

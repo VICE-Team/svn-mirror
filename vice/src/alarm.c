@@ -57,7 +57,7 @@ void alarm_context_init(alarm_context_t *context, const char *name)
 
 void alarm_context_destroy(alarm_context_t *context)
 {
-    free(context->name);
+    lib_free(context->name);
 
     /* Destroy all the alarms.  */
     {
@@ -72,7 +72,7 @@ void alarm_context_destroy(alarm_context_t *context)
         }
     }
 
-    free(context);
+    lib_free(context);
 }
 
 void alarm_context_time_warp(alarm_context_t *context, CLOCK warp_amount,
@@ -150,9 +150,9 @@ void alarm_destroy(alarm_t *alarm)
     if (alarm->prev != NULL)
         alarm->prev->next = alarm->next;
 
-    free(alarm->name);
+    lib_free(alarm->name);
 
-    free(alarm);
+    lib_free(alarm);
 }
 
 void alarm_unset(alarm_t *alarm)

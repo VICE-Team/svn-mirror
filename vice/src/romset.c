@@ -177,7 +177,8 @@ int romset_load_archive(const char *filename, int autostart)
             item = anchor->next;
             while (item != NULL) {
                 last = item; item = item->next;
-                free(last->name); free(last);
+                lib_free(last->name);
+                lib_free(last);
             }
         } else {
             anchor->name = (char*)lib_malloc(length);
@@ -368,8 +369,8 @@ int romset_create_item(const char *romset_name, const char **resource_list)
         while (item != NULL) {
             last = item;
             item = item->next;
-            free(last->name);
-            free(last);
+            lib_free(last->name);
+            lib_free(last);
         }
     } else {
         anchor->name = (char *)lib_malloc(strlen(romset_name) + 1);
@@ -425,13 +426,13 @@ int romset_delete_item(const char *romset_name)
         if (strcmp(romset_name, item->name) == 0) {
             string_link_t *last;
 
-            free(item->name);
+            lib_free(item->name);
             item = item->next;
             while (item != NULL) {
                 last = item;
                 item = item->next;
-                free(last->name);
-                free(last);
+                lib_free(last->name);
+                lib_free(last);
             }
             while (i < num_romsets - 1) {
                 romsets[i] = romsets[i+1]; i++;
@@ -452,17 +453,17 @@ void romset_clear_archive(void)
 
     for (i = 0; i < num_romsets; i++) {
         item = romsets + i;
-        free(item->name);
+        lib_free(item->name);
         item = item->next;
         while (item != NULL) {
             last = item;
             item = item->next;
-            free(last->name);
-            free(last);
+            lib_free(last->name);
+            lib_free(last);
         }
     }
     if (romsets != NULL) {
-        free(romsets);
+        lib_free(romsets);
         romsets = NULL;
     }
 

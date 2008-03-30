@@ -46,26 +46,6 @@
 #include "utils.h"
 
 
-void *xmalloc(size_t size)
-{
-    return lib_malloc(size);
-}
-
-void *xcalloc(size_t nmemb, size_t size)
-{
-    return lib_calloc(nmemb, size);
-}
-
-void *xrealloc(void *p, size_t size)
-{
-    return lib_realloc(p, size);
-}
-
-char *stralloc(const char *str)
-{
-    return lib_stralloc(str);
-}
-
 /* Malloc a new string whose contents concatenate the arguments until the
    first NULL pointer (max `_CONCAT_MAX_ARGS' arguments).  */
 char *util_concat(const char *s, ...)
@@ -119,7 +99,7 @@ BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
 
         *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
                         * BUFCAT_GRANULARITY);
-        new_buf = (BYTE *)xrealloc(buf, *max_buf_size);
+        new_buf = (BYTE *)lib_realloc(buf, *max_buf_size);
         buf = new_buf;
     }
 
@@ -157,14 +137,14 @@ int util_string_set(char **str, const char *new_value)
             *str = lib_stralloc(new_value);
     } else {
         if (new_value == NULL) {
-            free(*str);
+            lib_free(*str);
             *str = NULL;
         } else {
             /* Skip copy if src and dest are already the same.  */
             if (strcmp(*str, new_value) == 0)
                 return -1;
 
-            *str = (char*)xrealloc(*str, strlen(new_value) + 1);
+            *str = (char *)lib_realloc(*str, strlen(new_value) + 1);
             strcpy(*str, new_value);
         }
     }
@@ -467,7 +447,7 @@ int util_dword_read(FILE *fd, DWORD *buf, size_t num)
     tmpbuf = lib_malloc(num);
 
     if (fread((char *)tmpbuf, num, 1, fd) < 1) {
-        free(tmpbuf);
+        lib_free(tmpbuf);
         return -1;
     }
 
@@ -475,7 +455,7 @@ int util_dword_read(FILE *fd, DWORD *buf, size_t num)
         buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
             + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
 
-    free(tmpbuf);
+    lib_free(tmpbuf);
     return 0;
 }
 
@@ -494,11 +474,11 @@ int util_dword_write(FILE *fd, DWORD *buf, size_t num)
     }
 
     if (fwrite((char *)tmpbuf, num, 1, fd) < 1) {
-        free(tmpbuf);
+        lib_free(tmpbuf);
         return -1;
     }
 
-    free(tmpbuf);
+    lib_free(tmpbuf);
     return 0;
 }
 
@@ -704,7 +684,7 @@ void util_add_extension(char **name, const char *extension)
         && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0))
         return;
 
-    *name = xrealloc(*name, name_len + ext_len + 2);
+    *name = lib_realloc(*name, name_len + ext_len + 2);
     (*name)[name_len] = FSDEV_EXT_SEP_CHR;
     memcpy(&((*name)[name_len + 1]), extension, ext_len + 1);
 }
@@ -719,307 +699,5 @@ char *util_add_extension_const(const char *filename, const char *extension)
     util_add_extension(&ext_filename, extension);
 
     return ext_filename;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* xmsprintf() is like sprintf() but lib_malloc's the buffer by itself.  */
-
-#define xmvsprintf_is_digit(c) ((c) >= '0' && (c) <= '9')
-
-static int xmvsprintf_skip_atoi(const char **s)
-{
-    int i = 0;
-
-    while (xmvsprintf_is_digit(**s))
-        i = i * 10 + *((*s)++) - '0';
-    return i;
-}
-
-#define ZEROPAD 1               /* pad with zero */
-#define SIGN    2               /* unsigned/signed long */
-#define PLUS    4               /* show plus */
-#define SPACE   8               /* space if plus */
-#define LEFT    16              /* left justified */
-#define SPECIAL 32              /* 0x */
-#define LARGE   64              /* use 'ABCDEF' instead of 'abcdef' */
-
-inline int xmvsprintf_do_div(long *n, unsigned int base)
-{
-    int __res;
-    __res = ((unsigned long) *n) % (unsigned) base;
-    *n = ((unsigned long) *n) / (unsigned) base;
-    return __res;
-}
-
-static size_t xmvsprintf_strnlen(const char * s, size_t count)
-{
-    const char *sc;
-
-    for (sc = s; count-- && *sc != '\0'; ++sc)
-        /* nothing */;
-    return sc - s;
-}
-
-static void xmvsprintf_add(char **buf, unsigned int *bufsize,
-                           unsigned int *position, char write)
-{
-    if (*position == *bufsize) {
-        *bufsize *= 2;
-        *buf = xrealloc(*buf, *bufsize);
-    }
-    (*buf)[*position] = write;
-    *position += 1;
-}
-
-static void xmvsprintf_number(char **buf, unsigned int *bufsize,
-                              unsigned int *position, long num, int base,
-                              int size, int precision, int type)
-{
-    char c, sign, tmp[66];
-    const char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-    int i;
-
-    if (type & LARGE)
-        digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (type & LEFT)
-        type &= ~ZEROPAD;
-    if (base < 2 || base > 36)
-        return;
-    c = (type & ZEROPAD) ? '0' : ' ';
-    sign = 0;
-    if (type & SIGN) {
-        if (num < 0) {
-            sign = '-';
-            num = -num;
-            size--;
-        } else if (type & PLUS) {
-            sign = '+';
-            size--;
-        } else if (type & SPACE) {
-            sign = ' ';
-            size--;
-        }
-    }
-    if (type & SPECIAL) {
-        if (base == 16)
-            size -= 2;
-        else if (base == 8)
-            size--;
-    }
-    i = 0;
-    if (num == 0)
-        tmp[i++] = '0';
-    else while (num != 0)
-        tmp[i++] = digits[xmvsprintf_do_div(&num, base)];
-    if (i > precision)
-        precision = i;
-        size -= precision;
-    if (!(type & (ZEROPAD + LEFT)))
-        while(size-->0)
-            xmvsprintf_add(buf, bufsize, position, ' ');
-    if (sign)
-        xmvsprintf_add(buf, bufsize, position, sign);
-    if (type & SPECIAL) {
-        if (base == 8)
-            xmvsprintf_add(buf, bufsize, position, '0');
-        else if (base == 16) {
-            xmvsprintf_add(buf, bufsize, position, '0');
-            xmvsprintf_add(buf, bufsize, position, digits[33]);
-        }
-    }
-    if (!(type & LEFT))
-        while (size-- > 0)
-            xmvsprintf_add(buf, bufsize, position, c);
-    while (i < precision--)
-        xmvsprintf_add(buf, bufsize, position, '0');
-    while (i-- > 0)
-        xmvsprintf_add(buf, bufsize, position, tmp[i]);
-    while (size-- > 0)
-        xmvsprintf_add(buf, bufsize, position, ' ');
-}
-
-char *xmvsprintf(const char *fmt, va_list args)
-{
-    char *buf;
-    unsigned int position, bufsize;
-
-    int len, i, base;
-    unsigned long num;
-    const char *s;
-
-    int flags;        /* flags to number() */
-    int field_width;  /* width of output field */
-    int precision;    /* min. # of digits for integers; max
-                         number of chars for from string */
-    int qualifier;    /* 'h', 'l', or 'L' for integer fields */
-
-    /* Setup the initial buffer.  */
-    buf = lib_malloc(10);
-    position = 0;
-    bufsize = 10;
-
-    for ( ; *fmt ; ++fmt) {
-        if (*fmt != '%') {
-            xmvsprintf_add(&buf, &bufsize, &position, *fmt);
-            continue;
-        }
-
-        /* process flags */
-        flags = 0;
-repeat:
-        ++fmt;  /* this also skips first '%' */
-        switch (*fmt) {
-          case '-':
-            flags |= LEFT;
-            goto repeat;
-          case '+':
-            flags |= PLUS;
-            goto repeat;
-          case ' ':
-            flags |= SPACE;
-            goto repeat;
-          case '#':
-            flags |= SPECIAL;
-            goto repeat;
-          case '0':
-            flags |= ZEROPAD;
-            goto repeat;
-        }
-
-        /* get field width */
-        field_width = -1;
-        if (xmvsprintf_is_digit(*fmt))
-            field_width = xmvsprintf_skip_atoi(&fmt);
-        else if (*fmt == '*') {
-            ++fmt;
-            /* it's the next argument */
-            field_width = va_arg(args, int);
-            if (field_width < 0) {
-                field_width = -field_width;
-                flags |= LEFT;
-            }
-        }
-
-        /* get the precision */
-        precision = -1;
-        if (*fmt == '.') {
-            ++fmt;
-            if (xmvsprintf_is_digit(*fmt))
-                precision = xmvsprintf_skip_atoi(&fmt);
-            else if (*fmt == '*') {
-                ++fmt;
-                 /* it's the next argument */
-                 precision = va_arg(args, int);
-            }
-            if (precision < 0)
-                precision = 0;
-        }
-
-        /* get the conversion qualifier */
-        qualifier = -1;
-        if (*fmt == 'h' || *fmt == 'l' || *fmt == 'L') {
-            qualifier = *fmt;
-            ++fmt;
-        }
-
-        /* default base */
-        base = 10;
-
-        switch (*fmt) {
-          case 'c':
-            if (!(flags & LEFT))
-                while (--field_width > 0)
-                    xmvsprintf_add(&buf, &bufsize, &position, ' ');
-            xmvsprintf_add(&buf, &bufsize, &position,
-                           (unsigned char) va_arg(args, int));
-            while (--field_width > 0)
-                xmvsprintf_add(&buf, &bufsize, &position, ' ');
-            continue;
-
-          case 's':
-            s = va_arg(args, char *);
-            if (!s)
-                s = "<NULL>";
-
-            len = xmvsprintf_strnlen(s, precision);
-
-            if (!(flags & LEFT))
-                while (len < field_width--)
-                    xmvsprintf_add(&buf, &bufsize, &position, ' ');
-            for (i = 0; i < len; ++i)
-                xmvsprintf_add(&buf, &bufsize, &position, *s++);
-            while (len < field_width--)
-                xmvsprintf_add(&buf, &bufsize, &position, ' ');
-            continue;
-
-          case 'p':
-            if (field_width == -1) {
-                field_width = 2*sizeof(void *);
-                flags |= ZEROPAD;
-            }
-            xmvsprintf_number(&buf, &bufsize, &position,
-                              (unsigned long) va_arg(args, void *), 16,
-                              field_width, precision, flags);
-            continue;
-
-          case '%':
-            xmvsprintf_add(&buf, &bufsize, &position, '%');
-            continue;
-
-          /* integer number formats - set up the flags and "break" */
-          case 'o':
-            base = 8;
-            break;
-          case 'X':
-            flags |= LARGE;
-          case 'x':
-            base = 16;
-            break;
-          case 'd':
-          case 'i':
-            flags |= SIGN;
-          case 'u':
-            break;
-
-          default:
-            xmvsprintf_add(&buf, &bufsize, &position, '%');
-            if (*fmt)
-                xmvsprintf_add(&buf, &bufsize, &position, *fmt);
-            else
-                --fmt;
-            continue;
-        }
-        if (qualifier == 'l')
-            num = va_arg(args, unsigned long);
-        else if (qualifier == 'h') {
-            num = (unsigned short) va_arg(args, int);
-            if (flags & SIGN)
-            num = (short) num;
-        } else if (flags & SIGN)
-            num = va_arg(args, int);
-        else
-            num = va_arg(args, unsigned int);
-        xmvsprintf_number(&buf, &bufsize, &position, num, base, field_width,
-                          precision, flags);
-    }
-    xmvsprintf_add(&buf, &bufsize, &position, '\0');
-
-    /* Trim buffer to final size.  */
-    buf = xrealloc(buf, strlen(buf) + 1);
-
-    return buf;
-}
-
-char *xmsprintf(const char *fmt, ...)
-{
-    va_list args;
-    char *buf;
-
-    va_start(args, fmt);
-    buf = xmvsprintf(fmt, args);
-    va_end(args);
-
-    return buf;
 }
 

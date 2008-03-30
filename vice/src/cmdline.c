@@ -47,7 +47,7 @@ static cmdline_option_t *options;
 int cmdline_init(void)
 {
     if (options != NULL)
-        free(options);
+        lib_free(options);
 
     num_allocated_options = 100;
     num_options = 0;
@@ -79,7 +79,7 @@ int cmdline_register_options(const cmdline_option_t *c)
 
 void cmdline_shutdown(void)
 {
-    free(options);
+    lib_free(options);
 }
 
 static cmdline_option_t *lookup(const char *name, int *is_ambiguous)
@@ -207,22 +207,22 @@ char *cmdline_options_string(void)
     cmdline_string = lib_stralloc("\n");
 
     for (i = 0; i < num_options; i++) {
-        add_to_options1 = xmsprintf("%s", options[i].name);
-        add_to_options3 = xmsprintf("\n\t%s\n", options[i].description);
+        add_to_options1 = lib_msprintf("%s", options[i].name);
+        add_to_options3 = lib_msprintf("\n\t%s\n", options[i].description);
         if (options[i].need_arg && options[i].param_name != NULL) {
-            add_to_options2 = xmsprintf(" %s", options[i].param_name);
+            add_to_options2 = lib_msprintf(" %s", options[i].param_name);
             new_cmdline_string = util_concat(cmdline_string, add_to_options1,
                                              add_to_options2, add_to_options3,
                                              NULL);
-            free(add_to_options2);
+            lib_free(add_to_options2);
         } else {
             new_cmdline_string = util_concat(cmdline_string, add_to_options1,
                                              add_to_options3, NULL);
         }
-        free(add_to_options1);
-        free(add_to_options3);
+        lib_free(add_to_options1);
+        lib_free(add_to_options3);
 
-        free(cmdline_string);
+        lib_free(cmdline_string);
         cmdline_string = new_cmdline_string;
     }
 

@@ -139,7 +139,7 @@ int log_close(log_t log)
     if (logs[(unsigned int)log] == NULL)
         return -1;
 
-    free(logs[(unsigned int)log]);
+    lib_free(logs[(unsigned int)log]);
     logs[(unsigned int)log] = NULL;
 
     return 0;
@@ -152,7 +152,7 @@ void log_close_all(void)
     for (i = 0; i < num_logs; i++)
         log_close(i);
 
-    free(logs);
+    lib_free(logs);
 }
 
 static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
@@ -162,7 +162,7 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
      */
     int rc = 0;
 
-    char *txt = xmvsprintf(fmt, ap);
+    char *txt = lib_mvsprintf(fmt, ap);
 
     char *beg = txt;
     char *end = txt + strlen(txt)+1;
@@ -184,7 +184,7 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
         beg = eol+1;
     }
 
-    free(txt);
+    lib_free(txt);
 
     return rc;
 }
@@ -206,7 +206,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
         return -1;
 
     if (logi != LOG_DEFAULT && *logs[logi] != '\0')
-        logtxt = xmsprintf("%s: %s", logs[logi], level_strings[level]);
+        logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
     else
         logtxt = lib_stralloc("");
 
@@ -219,7 +219,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
             rc = -1;
     }
 
-    free(logtxt);
+    lib_free(logtxt);
 
     return rc;
 }

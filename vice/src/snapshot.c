@@ -253,7 +253,7 @@ static int snapshot_read_string(FILE *f, char **s)
 
     /* first free the previous string */
     if (*s) {
-        free(*s);
+        lib_free(*s);
         *s = NULL;      /* don't leave a bogus pointer */
     }
 
@@ -473,7 +473,7 @@ snapshot_module_t *snapshot_module_create(snapshot_t *s,
     m->file = s->file;
     m->offset = ftell(s->file);
     if (m->offset == -1) {
-        free(m);
+        lib_free(m);
         return NULL;
     }
     m->write_mode = 1;
@@ -535,7 +535,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
 
 fail:
     fseek(s->file, s->first_module_offset, SEEK_SET);
-    free(m);
+    lib_free(m);
     return NULL;
 }
 
@@ -551,7 +551,7 @@ int snapshot_module_close(snapshot_module_t *m)
     if (fseek(m->file, m->offset + m->size, SEEK_SET) < 0)
         return -1;
 
-    free(m);
+    lib_free(m);
     return 0;
 }
 
@@ -664,7 +664,7 @@ int snapshot_close(snapshot_t *s)
             retval = 0;
     }
 
-    free(s);
+    lib_free(s);
     return retval;
 }
 

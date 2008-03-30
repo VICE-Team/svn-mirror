@@ -155,7 +155,7 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
 
 void kbd_buf_shutdown(void)
 {
-    free(kdb_buf_string);
+    lib_free(kdb_buf_string);
 }
 
 /* Return nonzero if the keyboard buffer is empty.  */

@@ -242,8 +242,8 @@ int resources_register(const resource_t *r)
 
 void resources_shutdown(void)
 {
-    free(resources);
-    free(hashTable);
+    lib_free(resources);
+    lib_free(hashTable);
 }
 
 static resource_ram_t *lookup(const char *name)
@@ -331,10 +331,10 @@ int resources_set_sprintf(const char *name, resource_value_t value, ...)
     int result;
 
     va_start(args, value);
-    resname = xmvsprintf(name, args);
+    resname = lib_mvsprintf(name, args);
 
     result = resources_set_value(resname, value);
-    free(resname);
+    lib_free(resname);
 
     return result;
 }
@@ -404,10 +404,10 @@ int resources_get_sprintf(const char *name,
     int result;
 
     va_start(args, value_return);
-    resname = xmvsprintf(name, args);
+    resname = lib_mvsprintf(name, args);
 
     result = resources_get_value(resname, value_return);
-    free(resname);
+    lib_free(resname);
 
     return result;
 }
@@ -704,7 +704,7 @@ int resources_save(const char *fname)
     out_file = fopen(fname, MODE_WRITE_TEXT);
 
     if (!out_file) {
-        free (backup_name);
+        lib_free(backup_name);
         return RESERR_CANNOT_CREATE_FILE;
     }
 
@@ -715,7 +715,7 @@ int resources_save(const char *fname)
 
         if (!in_file) {
             fclose(out_file);
-            free(backup_name);
+            lib_free(backup_name);
             return RESERR_READ_ERROR;
         }
 
@@ -769,7 +769,7 @@ int resources_save(const char *fname)
 #ifdef __riscos
     remove(backup_name);
 #endif
-    free(backup_name);
+    lib_free(backup_name);
     return 0;
 }
 

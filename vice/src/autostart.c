@@ -113,7 +113,7 @@ static int autostart_wait_for_reset;
 static void deallocate_program_name(void)
 {
     if (autostart_program_name) {
-        free(autostart_program_name);
+        lib_free(autostart_program_name);
         autostart_program_name = NULL;
     }
 }
@@ -280,7 +280,7 @@ static void advance_hastape(void)
         if (autostart_program_name) {
             tmp = util_concat("LOAD\"", autostart_program_name, "\"\r", NULL);
             kbd_buf_feed(tmp);
-            free(tmp);
+            lib_free(tmp);
         } else {
             kbd_buf_feed("LOAD\r");
         }
@@ -361,11 +361,11 @@ static void advance_hasdisk(void)
             traps = 1;
         }
         if (autostart_program_name)
-            tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
+            tmp = lib_msprintf("LOAD\"%s\",8,1\r", autostart_program_name);
         else
             tmp = lib_stralloc("LOAD\"*\",8,1\r");
         kbd_buf_feed(tmp);
-        free(tmp);
+        lib_free(tmp);
 
         if (!traps) {
             if (autostart_run_mode == AUTOSTART_MODE_RUN)
@@ -521,7 +521,7 @@ int autostart_tape(const char *file_name, const char *program_name,
                     "Attached file `%s' as a tape image.", file_name);
         if (tape_tap_attched()) {
             if (program_number > 0) {
-                free(name);
+                lib_free(name);
                 name = NULL;
                 tape_seek_to_file(tape_image_dev1, program_number);
             } else {
@@ -529,7 +529,7 @@ int autostart_tape(const char *file_name, const char *program_name,
             }
         }
         reboot_for_autostart(name, AUTOSTART_HASTAPE, runmode);
-        free(name);
+        lib_free(name);
 
         return 0;
     }
@@ -538,7 +538,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     deallocate_program_name();
 
     if (name)
-        free(name);
+        lib_free(name);
 
     return -1;
 }
@@ -557,7 +557,7 @@ static void autostart_disk_cook_name(char **name)
             ptr = lib_malloc(pos + 1);
             memcpy(ptr, *name, pos);
             ptr[pos] = '\0';
-            free(*name);
+            lib_free(*name);
             *name = ptr;
             break;
         }
@@ -588,7 +588,7 @@ int autostart_disk(const char *file_name, const char *program_name,
             log_message(autostart_log,
                         "Attached file `%s' as a disk image.", file_name);
             reboot_for_autostart(name, AUTOSTART_HASDISK, runmode);
-            free(name);
+            lib_free(name);
 
             return 0;
         }
@@ -597,7 +597,7 @@ int autostart_disk(const char *file_name, const char *program_name,
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
     if (name)
-        free(name);
+        lib_free(name);
 
     return -1;
 }
@@ -640,7 +640,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     if (archdep_path_is_relative(directory)) {
         char *tmp;
         archdep_expand_path(&tmp, directory);
-        free(directory);
+        lib_free(directory);
         directory = tmp;
 
         /* FIXME: We should actually eat `.'s and `..'s from `directory'
@@ -667,9 +667,9 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* Now it's the same as autostarting a disk image.  */
     reboot_for_autostart((char *)cbm_name, AUTOSTART_HASDISK, runmode);
 
-    free(directory);
-    free(file);
-    free(cbm_name);
+    lib_free(directory);
+    lib_free(file);
+    lib_free(cbm_name);
     fclose(f);
 
     log_message(autostart_log, "Preparing to load PRG file `%s'.",

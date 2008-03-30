@@ -54,7 +54,7 @@ static int set_system_path(resource_value_t v, void *param)
     util_string_set(&system_path, (char *)v);
 
     if (expanded_system_path != NULL) {
-        free(expanded_system_path);
+        lib_free(expanded_system_path);
     }
 
     expanded_system_path = NULL; /* will subsequently be replaced */
@@ -92,14 +92,14 @@ static int set_system_path(resource_value_t v, void *param)
                     tmp_path, NULL );
             }
         }
-        free(expanded_system_path);
+        lib_free(expanded_system_path);
         expanded_system_path = s;
 
         tmp_path = p + strlen(FINDPATH_SEPARATOR_STRING);
     } while(p != NULL);
 
-    free(current_dir);
-    free(tmp_path_save);
+    lib_free(current_dir);
+    lib_free(tmp_path_save);
 
     return 0;
 }
@@ -207,7 +207,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
         f = fopen(p, open_mode);
 
         if (f == NULL || complete_path_return == NULL) {
-            free(p);
+            lib_free(p);
             p = NULL;
         }
         if (complete_path_return != NULL)
@@ -268,11 +268,11 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         goto fail;
 
     fclose(fp);
-    free(complete_path);
+    lib_free(complete_path);
     return rsize;  /* return ok */
 
 fail:
-    free(complete_path);
+    lib_free(complete_path);
     return -1;
 }
 

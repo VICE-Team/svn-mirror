@@ -60,7 +60,7 @@ interrupt_cpu_status_t *interrupt_cpu_status_new(void)
 
 void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)
 {
-    free(cs);
+    lib_free(cs);
 }
 
 void interrupt_set_nmi_trap_func(interrupt_cpu_status_t *cs,

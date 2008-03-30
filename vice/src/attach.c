@@ -283,7 +283,7 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
 
     rc = file_system_attach_disk(unit, new_filename);
 
-    free(new_filename);
+    lib_free(new_filename);
 
     return rc;
 }
@@ -401,7 +401,7 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
     detach_disk_image(image, floppy, unit);
     
     if ((image != NULL) && (image == oldimg))
-        free(image);
+        lib_free(image);
 }
 
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
@@ -475,7 +475,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     if (err) {
         disk_image_close(image);
         disk_image_media_destroy(image);
-        free(image);
+        lib_free(image);
         *imgptr = NULL;
     }
     return err;

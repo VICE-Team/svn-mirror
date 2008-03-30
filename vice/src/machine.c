@@ -40,6 +40,7 @@
 #include "interrupt.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -70,9 +71,9 @@ unsigned int machine_jam(const char *format, ...)
 
     va_start(ap, format);
 
-    str = xmvsprintf(format, ap);
+    str = lib_mvsprintf(format, ap);
     ret = ui_jam_dialog(str);
-    free(str);
+    lib_free(str);
 
     switch (ret) {
       case UI_JAM_RESET:
@@ -161,5 +162,7 @@ void machine_shutdown(void)
     machine_maincpu_shutdown();
 
     log_close_all();
+
+    lib_debug_check();
 }
 

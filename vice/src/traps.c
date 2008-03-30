@@ -136,7 +136,7 @@ void traps_shutdown(void)
 
     while (list != NULL) {
         list_next = list->next;
-        free(list);
+        lib_free(list);
         list = list_next;
     }
 }
@@ -207,7 +207,7 @@ int traps_remove(const trap_t *trap)
     else
         traplist = p->next;
 
-    free(p);
+    lib_free(p);
 
     if (traps_enabled)
         remove_trap(trap);

@@ -68,7 +68,7 @@ static int cmdline_default(const char *param, void *extra_param)
 static int cmdline_autostart(const char *param, void *extra_param)
 {
     if (autostart_string != NULL)
-        free(autostart_string);
+        lib_free(autostart_string);
     autostart_string = lib_stralloc(param);
     autostart_mode = AUTOSTART_MODE_RUN;
     return 0;
@@ -77,7 +77,7 @@ static int cmdline_autostart(const char *param, void *extra_param)
 static int cmdline_autoload(const char *param, void *extra_param)
 {
     if (autostart_string != NULL)
-        free(autostart_string);
+        lib_free(autostart_string);
     autostart_string = lib_stralloc(param);
     autostart_mode = AUTOSTART_MODE_LOAD;
     return 0;
@@ -99,7 +99,7 @@ static int cmdline_attach(const char *param, void *extra_param)
     switch (unit) {
       case 1:
         if (startup_tape_image != NULL)
-            free(startup_tape_image);
+            lib_free(startup_tape_image);
         startup_tape_image = lib_stralloc(param);
         break;
       case 8:
@@ -107,7 +107,7 @@ static int cmdline_attach(const char *param, void *extra_param)
       case 10:
       case 11:
         if (startup_disk_images[unit - 8] != NULL)
-            free(startup_disk_images[unit - 8]);
+            lib_free(startup_disk_images[unit - 8]);
         startup_disk_images[unit - 8] = lib_stralloc(param);
         break;
       default:
@@ -222,7 +222,7 @@ int initcmdline_check_args(int argc, char **argv)
                 strcat(strcat(txt, " "), argv[j]);
             archdep_startup_log_error("Extra arguments on command-line: %s\n",
                                       txt);
-            free(txt);
+            lib_free(txt);
         }
         return -1;
     }
@@ -315,11 +315,11 @@ void initcmdline_check_attach(void)
                     name = replace_hexcodes(autostart_prg_name);
                     autostart_autodetect(autostart_file, name, 0,
                                          autostart_mode);
-                    free(name);
+                    lib_free(name);
                 } else
                     autostart_autodetect(autostart_string, NULL, 0,
                                          autostart_mode);
-                free(autostart_file);
+                lib_free(autostart_file);
             } else {
                 autostart_autodetect(autostart_string, NULL, 0,
                                      autostart_mode);

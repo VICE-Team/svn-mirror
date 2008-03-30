@@ -80,7 +80,7 @@ static void color_owner_free(owner_list_t *owner)
 
     do {
         owner_next = owner->next;
-        free(owner);
+        lib_free(owner);
         owner = owner_next;
     } while (owner != NULL);
 }
@@ -117,7 +117,7 @@ static void color_owner_remove(owner_list_t **owner, void *c)
     if ((*owner)->color_owner == c) {
         owner_list_t *next_owner;
         next_owner = (*owner)->next;
-        free(*owner);
+        lib_free(*owner);
         *owner = next_owner;
         return;
     }
@@ -128,7 +128,7 @@ static void color_owner_remove(owner_list_t **owner, void *c)
         if (owner_list->next->color_owner == c) {
             owner_list_t *next_owner;
             next_owner = owner_list->next->next;
-            free(owner_list->next);
+            lib_free(owner_list->next);
             owner_list->next = next_owner;
             break;
         }
@@ -154,7 +154,7 @@ static void color_free(color_list_t *list)
     do {
         list_next = list->next;
         color_owner_free(list->owner);
-        free(list);
+        lib_free(list);
         list = list_next;
     } while (list != NULL);
 }

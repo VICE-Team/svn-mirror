@@ -106,10 +106,10 @@ static int zinit(void)
     for (p = zfile_list; p != NULL; ) {
         struct zfile *next;
 
-        free(p->orig_name);
-        free(p->tmp_name);
+        lib_free(p->orig_name);
+        lib_free(p->tmp_name);
         next = p->next;
-        free(p);
+        lib_free(p);
         p = next;
     }
 
@@ -208,9 +208,9 @@ static char *try_uncompress_with_gzip(const char *name)
     ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
     exit_status = archdep_spawn("gzip", argv, tmp_name, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
 
     if (exit_status == 0) {
         ZDEBUG(("try_uncompress_with_gzip: OK"));
@@ -218,7 +218,7 @@ static char *try_uncompress_with_gzip(const char *name)
     } else {
         ZDEBUG(("try_uncompress_with_gzip: failed"));
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 #endif
@@ -250,9 +250,9 @@ static char *try_uncompress_with_bzip(const char *name)
     ZDEBUG(("try_uncompress_with_bzip: spawning bzip -cd %s", name));
     exit_status = archdep_spawn("bzip2", argv, tmp_name, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
 
     if (exit_status == 0) {
         ZDEBUG(("try_uncompress_with_bzip: OK"));
@@ -260,7 +260,7 @@ static char *try_uncompress_with_bzip(const char *name)
     } else {
         ZDEBUG(("try_uncompress_with_bzip: failed"));
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 }
@@ -288,8 +288,8 @@ static char *try_uncompress_with_tzx(const char *name)
     ZDEBUG(("try_uncompress_with_tzx: spawning 64tzxtap %s", name));
     exit_status = archdep_spawn("64tzxtap", argv, tmp_name, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
 
     if (exit_status == 0) {
         ZDEBUG(("try_uncompress_with_tzx: OK"));
@@ -297,7 +297,7 @@ static char *try_uncompress_with_tzx(const char *name)
     } else {
         ZDEBUG(("try_uncompress_with_tzx: failed"));
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 #endif
@@ -386,16 +386,16 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         program, listopts, name));
     exit_status = archdep_spawn(program, argv, tmp_name, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
 
     /* No luck?  */
     if (exit_status != 0) {
         ZDEBUG(("try_uncompress_archive: `%s %s' failed.", program,
             listopts));
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 
@@ -407,7 +407,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
             program, tmp_name));
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 
@@ -439,7 +439,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     ioutil_remove(tmp_name);
     if (!found) {
         ZDEBUG(("try_uncompress_archive: no valid file found."));
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 
@@ -447,7 +447,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
        write mode.  Return a null temporary file name to report this.  */
     if (write_mode) {
         ZDEBUG(("try_uncompress_archive: cannot open file in write mode."));
-        free(tmp_name);
+        lib_free(tmp_name);
         return "";
     }
 
@@ -475,21 +475,21 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         program, extractopts, name, tmp + nameoffset));
     exit_status = archdep_spawn(program, argv, tmp_name, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
-    free(argv[3]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
+    lib_free(argv[3]);
     if (is_zipcode_name(tmp + nameoffset)) {
-        free(argv[4]);
-        free(argv[5]);
-        free(argv[6]);
+        lib_free(argv[4]);
+        lib_free(argv[5]);
+        lib_free(argv[6]);
     }
 
     if (exit_status != 0) {
         ZDEBUG(("try_uncompress_archive: `%s %s' failed.",
             program, extractopts));
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 
@@ -521,10 +521,10 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     if (tmp_name == NULL)
         return NULL;
     if (strlen(tmp_name) < 3 || tmp_name[1] != '!') {
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
-    free(tmp_name);
+    lib_free(tmp_name);
 
     /* Can we read this file?  */
     fd = fopen(name, MODE_READ);
@@ -558,14 +558,14 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 
     exit_status = archdep_spawn(C1541_NAME, argv, NULL, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
-    free(argv[3]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
+    lib_free(argv[3]);
 
     if (exit_status) {
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
     /* everything ok */
@@ -649,17 +649,17 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
 
     exit_status = archdep_spawn("c1541", argv, NULL, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
-    free(argv[3]);
-    free(argv[4]);
-    free(argv[5]);
-    free(argv[6]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
+    lib_free(argv[3]);
+    lib_free(argv[4]);
+    lib_free(argv[5]);
+    lib_free(argv[6]);
 
     if (exit_status) {
         ioutil_remove(tmp_name);
-        free(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
     /* everything ok */
@@ -790,9 +790,9 @@ static int compress_with_gzip(const char *src, const char *dest)
     ZDEBUG(("compress_with_gzip: spawning gzip -c %s", src));
     exit_status = archdep_spawn("gzip", argv, dest, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
 
     if (exit_status == 0) {
         ZDEBUG(("compress_with_gzip: OK."));
@@ -819,9 +819,9 @@ static int compress_with_bzip(const char *src, const char *dest)
     ZDEBUG(("compress_with_bzip: spawning bzip -c %s", src));
     exit_status = archdep_spawn("bzip2", argv, dest, NULL);
 
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
+    lib_free(argv[0]);
+    lib_free(argv[1]);
+    lib_free(argv[2]);
 
     if (exit_status == 0) {
         ZDEBUG(("compress_with_bzip: OK."));
@@ -931,7 +931,7 @@ static int zfile_compress(const char *src, const char *dest,
     }
 
     if (dest_backup_name)
-        free(dest_backup_name);
+        lib_free(dest_backup_name);
     return retval;
 }
 
@@ -985,7 +985,7 @@ FILE *zfopen(const char *name, const char *mode)
     zfile_list_add(tmp_name, name, type, write_mode, stream, NULL);
 
     /* now we don't need the archdep_tmpnam allocation any more */
-    free(tmp_name);
+    lib_free(tmp_name);
 
     return stream;
 }
@@ -1042,13 +1042,13 @@ static int handle_close(struct zfile *ptr)
         zfile_list = ptr->next;
 
     if (ptr->orig_name)
-        free(ptr->orig_name);
+        lib_free(ptr->orig_name);
     if (ptr->tmp_name)
-        free(ptr->tmp_name);
+        lib_free(ptr->tmp_name);
     if (ptr->request_string)
-        free(ptr->request_string);
+        lib_free(ptr->request_string);
 
-    free(ptr);
+    lib_free(ptr);
 
     return 0;
 }
@@ -1095,13 +1095,13 @@ int zfile_close_action(const char *filename, zfile_action_t action,
         if (p->orig_name && !strcmp(p->orig_name, fullname)) {
             p->action = action;
             p->request_string = request_str ? lib_stralloc(request_str) : NULL;
-            free(fullname);
+            lib_free(fullname);
             return 0;
         }
         p = p->next;
     }
 
-    free(fullname);
+    lib_free(fullname);
     return -1;
 }
 

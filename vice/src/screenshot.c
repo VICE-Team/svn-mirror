@@ -113,11 +113,11 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
 
     if ((drv->save)(screenshot, filename) < 0) {
         log_error(screenshot_log, "Saving failed...");
-        free(screenshot->color_map);
+        lib_free(screenshot->color_map);
         return -1;
     }
 
-    free(screenshot->color_map);
+    lib_free(screenshot->color_map);
     return 0;
 }
 

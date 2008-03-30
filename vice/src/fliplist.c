@@ -66,7 +66,7 @@ static void show_fliplist(unsigned int unit);
 void flip_set_current(unsigned int unit, const char *filename)
 {
     if (current_image != NULL)
-        free(current_image);
+        lib_free(current_image);
     current_image = lib_stralloc(filename);
     current_drive = unit;
 }
@@ -158,8 +158,8 @@ void flip_remove(unsigned int unit, char *image)
         }
         log_message(LOG_DEFAULT, "Removing `%s' from fliplist[%d]",
                     tmp->image, unit);
-        free (tmp->image);
-        free (tmp);
+        lib_free(tmp->image);
+        lib_free(tmp);
         show_fliplist(unit);
         return;
     }
@@ -187,8 +187,8 @@ void flip_remove(unsigned int unit, char *image)
 
         it->next->prev = it->prev;
         it->prev->next = it->next;
-        free(it->image);
-        free(it);
+        lib_free(it->image);
+        lib_free(it);
         show_fliplist(unit);
     }
 }
@@ -246,8 +246,8 @@ void flip_clear_list(unsigned int unit)
         {
             struct fliplist_t *tmp = flip->next;
 
-            free(flip->image);
-            free(flip);
+            lib_free(flip->image);
+            lib_free(flip);
             flip = tmp;
         }
         while (flip != fliplist[unit - 8]);

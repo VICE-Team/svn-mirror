@@ -154,8 +154,8 @@ static void destroy_list(void)
 
     while (c1 != NULL) {
         c2 = c1->next;
-        free(c1->data);
-        free(c1);
+        lib_free(c1->data);
+        lib_free(c1);
         c1 = c2;
     }
 
