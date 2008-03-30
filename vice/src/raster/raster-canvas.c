@@ -35,28 +35,8 @@
 #include "video.h"
 #include "videoarch.h"
 
-void raster_canvas_update_all(raster_t *raster)
-{
-    viewport_t *viewport;
 
-    viewport = raster->canvas->viewport;
-
-    if (raster->canvas->draw_buffer == NULL)
-        return;
-
-    video_canvas_refresh(raster->canvas,
-                         viewport->first_x
-                                + viewport->extra_offscreen_border_left,
-                         viewport->first_line,
-                         viewport->x_offset,
-                         viewport->y_offset,
-                         MIN(raster->canvas->draw_buffer->canvas_width,
-                             viewport->screen_width),
-                         MIN(raster->canvas->draw_buffer->canvas_height,
-                             viewport->screen_height));
-}
-
-inline static void update_canvas(raster_t *raster)
+inline static void refresh_canvas(raster_t *raster)
 {
     raster_area_t *update_area;
     viewport_t *viewport;
@@ -95,7 +75,7 @@ inline static void update_canvas(raster_t *raster)
         h += yy;
         yy = 0;
     }
-    x += viewport->extra_offscreen_border_left;
+    x += raster->canvas->geometry->extra_offscreen_border_left;
 
     xx += viewport->x_offset;
     yy += viewport->y_offset;
@@ -118,8 +98,8 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
         return;
 
     if (raster->dont_cache)
-        raster_canvas_update_all(raster);
+        video_canvas_refresh_all(raster->canvas);
     else
-        update_canvas(raster);
+        refresh_canvas(raster);
 }
 
