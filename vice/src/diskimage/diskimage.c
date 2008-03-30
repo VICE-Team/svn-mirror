@@ -132,21 +132,18 @@ unsigned int disk_image_sector_per_track(unsigned int format,
             return 0;
         }
         return sector_map_d64[track];
-        break;
       case DISK_IMAGE_TYPE_D67:
         if (track >= sizeof(sector_map_d67)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
             return 0;
         }
         return sector_map_d67[track];
-        break;
       case DISK_IMAGE_TYPE_D71:
         if (track >= sizeof(sector_map_d71)) {
             log_message(disk_image_log, "Track %i exceeds sector map.", track);
             return 0;
         }
         return sector_map_d71[track];
-        break;
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
         if (track >= sizeof(sector_map_d80)) {
@@ -154,7 +151,6 @@ unsigned int disk_image_sector_per_track(unsigned int format,
             return 0;
         }
         return sector_map_d80[track];
-        break;
       default:
         log_message(disk_image_log,
                     "Unknown disk type %i.  Cannot calculate sectors per track",
