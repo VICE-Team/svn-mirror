@@ -30,7 +30,7 @@
 #include <stdio.h>
 
 #include "c64ui.h"
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "resources.h"
 #include "uipalette.h"
 #include "uimenu.h"
