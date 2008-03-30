@@ -65,27 +65,27 @@ int p00_check_name(const char *name)
     char *p;
 
     if (name == NULL || (p = strrchr(name, '.')) == NULL || strlen(++p) != 3)
-	return -1;
+        return -1;
 
     if (!isdigit((int) p[1]) || !isdigit((int) p[2]))
-	return -1;
+        return -1;
 
     switch (toupper(*p)) {
       case 'D':
-	  t = FT_DEL;
-	  break;
+          t = FT_DEL;
+          break;
       case 'S':
-	  t = FT_SEQ;
-	  break;
+          t = FT_SEQ;
+          break;
       case 'P':
-	  t = FT_PRG;
-	  break;
+          t = FT_PRG;
+          break;
       case 'U':
-	  t = FT_USR;
-	  break;
+          t = FT_USR;
+          break;
       case 'R':
-	  t = FT_REL;
-	  break;
+          t = FT_REL;
+          break;
     }
 
     return t;
@@ -97,11 +97,11 @@ int p00_read_header(FILE *fd, BYTE *cbmname_return,
     BYTE hdr[P00_HDR_LEN];
 
     if (fread((char *) &hdr, P00_HDR_LEN, 1, fd) != 1)
-	return -1;
+        return -1;
 
     if (memcmp(hdr + P00_HDR_MAGIC_OFFSET, p00_hdr_magic_string,
                P00_HDR_MAGIC_LEN) != 0)
-	return -1;
+        return -1;
 
     memcpy(cbmname_return, hdr + P00_HDR_CBMNAME_OFFSET, P00_HDR_CBMNAME_LEN);
 
@@ -123,7 +123,7 @@ int p00_write_header(FILE *fd, BYTE *cbmname, BYTE recsize)
     hdr[P00_HDR_RECORDSIZE_OFFSET] = (BYTE) recsize;
 
     if (fseek(fd, 0, SEEK_SET) != 0)
-	return -1;
+        return -1;
 
     return fwrite(hdr, sizeof(hdr), 1, fd);
 }

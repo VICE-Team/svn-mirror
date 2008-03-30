@@ -47,8 +47,9 @@
 #include "cmdline.h"
 #include "log.h"
 #include "maincpu.h"
-#include "machine.h"  // vsid_mode
+#include "machine.h"
 #include "sound.h"
+#include "types.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 
@@ -67,7 +68,7 @@ static int warp_mode_enabled;
 
 static int set_relative_speed(resource_value_t v, void *param)
 {
-    relative_speed = (int) v;
+    relative_speed = (int)v;
     sound_set_relative_speed(relative_speed);
     set_timer_speed(relative_speed);
     return 0;
@@ -75,15 +76,15 @@ static int set_relative_speed(resource_value_t v, void *param)
 
 static int set_refresh_rate(resource_value_t v, void *param)
 {
-    if ((int) v < 0)
+    if ((int)v < 0)
         return -1;
-    refresh_rate = (int) v;
+    refresh_rate = (int)v;
     return 0;
 }
 
 static int set_warp_mode(resource_value_t v, void *param)
 {
-    warp_mode_enabled = (int) v;
+    warp_mode_enabled = (int)v;
     sound_set_warp_mode(warp_mode_enabled);
     set_timer_speed(relative_speed);
     return 0;
@@ -91,12 +92,12 @@ static int set_warp_mode(resource_value_t v, void *param)
 
 /* Vsync-related resources. */
 static resource_t resources[] = {
-    { "Speed", RES_INTEGER, (resource_value_t) 100,
-      (resource_value_t *) &relative_speed, set_relative_speed, NULL },
-    { "RefreshRate", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &refresh_rate, set_refresh_rate, NULL },
-    { "WarpMode", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &warp_mode_enabled, set_warp_mode, NULL },
+    { "Speed", RES_INTEGER, (resource_value_t)100,
+      (resource_value_t *)&relative_speed, set_relative_speed, NULL },
+    { "RefreshRate", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&refresh_rate, set_refresh_rate, NULL },
+    { "WarpMode", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&warp_mode_enabled, set_warp_mode, NULL },
     { NULL }
 };
 
@@ -113,9 +114,9 @@ static cmdline_option_t cmdline_options[] = {
       "<percent>", N_("Limit emulation speed to specified value") },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
       "<value>", N_("Update every <value> frames (`0' for automatic)") },
-    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 1,
+    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
       NULL, N_("Enable warp mode") },
-    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 0,
+    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,
       NULL, N_("Disable warp mode") },
     { NULL }
 };
@@ -161,10 +162,9 @@ static int set_timer_speed(int speed)
 
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
-        frame_ticks = vsyncarch_freq/refresh_frequency*100/speed;
+        frame_ticks = vsyncarch_freq / refresh_frequency * 100 / speed;
         frame_ticks_orig = frame_ticks;
-    }
-    else {
+    } else {
         timer_speed = 0;
         frame_ticks = 0;
     }
@@ -186,10 +186,10 @@ static void display_speed(int num_frames)
     double factor = timer_speed ? (double)frame_ticks/frame_ticks_orig : 1.0;
 
     diff_clk = clk - speed_eval_prev_clk;
-    diff_sec = (double)(signed long)(now - display_start)/vsyncarch_freq/factor;
-
-    frame_rate = num_frames/diff_sec;
-    speed_index = 100.0*diff_clk/(cycles_per_sec*diff_sec);
+    diff_sec = (double)(signed long)(now - display_start) / vsyncarch_freq
+               / factor;
+    frame_rate = num_frames / diff_sec;
+    speed_index = 100.0*diff_clk / (cycles_per_sec * diff_sec);
     vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
 
     speed_eval_prev_clk = clk;
@@ -295,8 +295,7 @@ int vsync_do_vsync(int been_skipped)
     frame_counter++;
 
     if (!speed_eval_suspended &&
-	(signed long)(now - display_start) >= 2*vsyncarch_freq)
-    {
+        (signed long)(now - display_start) >= 2 * vsyncarch_freq) {
         display_speed(frame_counter - skipped_frames);
         display_start  = now;
         frame_counter  = 0;
@@ -331,12 +330,12 @@ int vsync_do_vsync(int been_skipped)
     if (sync_reset) {
         sync_reset = 0;
 
-	adjust_start = now;
-	frames_adjust = 0;
-	min_sdelay = LONG_MAX;
-	prev_sdelay = 0;
+        adjust_start = now;
+        frames_adjust = 0;
+        min_sdelay = LONG_MAX;
+        prev_sdelay = 0;
 
-	frame_ticks = frame_ticks_orig;
+        frame_ticks = frame_ticks_orig;
     }
 
     /* This is the time between the start of the next frame and now. */
@@ -373,16 +372,14 @@ int vsync_do_vsync(int been_skipped)
     if (skipped_redraw < MAX_SKIPPED_FRAMES
         && (warp_mode_enabled
             || (skipped_redraw < refresh_rate - 1)
-            || ((!timer_speed || delay > 3*frame_ticks*timer_speed/100)
+            || ((!timer_speed || delay > 3 * frame_ticks * timer_speed / 100)
                 && !refresh_rate
                )
            )
-       )
-    {
+       ) {
         skip_next_frame = 1;
         skipped_redraw++;
-    }
-    else {
+    } else {
         skip_next_frame = 0;
         skipped_redraw = 0;
     }
@@ -397,8 +394,8 @@ int vsync_do_vsync(int been_skipped)
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
         }
 #endif
-	vsync_sync_reset();
-	next_frame_start = now;
+        vsync_sync_reset();
+        next_frame_start = now;
     }
 
     /* Adjust frame output frequency to match sound speed.
@@ -407,39 +404,38 @@ int vsync_do_vsync(int been_skipped)
         frames_adjust++;
     }
 
-    if ((signed long)(now - adjust_start) >= vsyncarch_freq)
-    {
-        if (min_sdelay != LONG_MAX) { 
-	    /* Account for both relative and absolute delay. */
-	    signed long adjust = (min_sdelay - prev_sdelay + min_sdelay/2)/frames_adjust;
-	    /* Maximum adjustment step 1%. */
-	    if (labs(adjust) > frame_ticks/100) {
-	        adjust = adjust/labs(adjust)*frame_ticks/100;
-	    }
-	    frame_ticks -= adjust;
+    if ((signed long)(now - adjust_start) >= vsyncarch_freq) {
+        if (min_sdelay != LONG_MAX) {
+            /* Account for both relative and absolute delay. */
+            signed long adjust = (min_sdelay - prev_sdelay + min_sdelay / 2)
+                                 / frames_adjust;
+            /* Maximum adjustment step 1%. */
+            if (labs(adjust) > frame_ticks/100) {
+                adjust = adjust / labs(adjust) * frame_ticks / 100;
+            }
+            frame_ticks -= adjust;
 
-	    frames_adjust = 0;
-	    prev_sdelay = min_sdelay;
-	    min_sdelay = LONG_MAX;
-	}
+            frames_adjust = 0;
+            prev_sdelay = min_sdelay;
+            min_sdelay = LONG_MAX;
+        }
 
-	adjust_start = now;
-    }
-    else {
-	if (sound_delay) {
-	    /* Actual sound delay is sound delay minus vsync delay. */
-	    signed long sdelay =
-	        (signed long)(sound_delay*vsyncarch_freq) - delay;
+        adjust_start = now;
+    } else {
+        if (sound_delay) {
+            /* Actual sound delay is sound delay minus vsync delay. */
+            signed long sdelay =
+                (signed long)(sound_delay*vsyncarch_freq) - delay;
 
-	    /* Find smallest delay in this period. We don't compare
-	       absolute values since we trust negative delays more
-	       than positive delays. The reason for this is that a
-	       higher delay has a greater chance of being caused by
-	       e.g. OS scheduling. */
-	    if (sdelay < min_sdelay) {
-	        min_sdelay = sdelay;
-	    }
-	}
+            /* Find smallest delay in this period. We don't compare
+               absolute values since we trust negative delays more
+               than positive delays. The reason for this is that a
+               higher delay has a greater chance of being caused by
+               e.g. OS scheduling. */
+            if (sdelay < min_sdelay) {
+                min_sdelay = sdelay;
+            }
+        }
     }
 
     next_frame_start += frame_ticks;
@@ -450,3 +446,4 @@ int vsync_do_vsync(int been_skipped)
 }
 
 #endif
+
