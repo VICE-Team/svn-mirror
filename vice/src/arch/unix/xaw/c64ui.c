@@ -171,6 +171,7 @@ static ui_menu_entry_t sid_submenu[] = {
     { "Chip model",
       NULL, NULL, sid_model_submenu },
 #ifdef HAVE_RESID
+    { "--" },
     { "*Use reSID emulation",
       (ui_callback_t) toggle_SidUseResid, NULL, NULL },
 #endif
