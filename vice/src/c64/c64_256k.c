@@ -181,7 +181,7 @@ static int set_c64_256k_base(resource_value_t v, void *param)
     case 0xdf80:
       break;
     default:
-      log_message(c64_256k_log, "Unknown 256K base %X.", (DWORD)v);
+      log_message(c64_256k_log, "Unknown 256K base %lX.", (unsigned long)v);
       return -1;
   }
 

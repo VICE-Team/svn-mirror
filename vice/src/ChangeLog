@@ -1,3 +1,34 @@
+2005-12-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.5.
+
+	* vicii/vicii-badline.c (line_becomes_bad): If forced DMA
+	switches to display state, delay the switch by one cycle.
+
+	* plus4/ted-badline.c (ted_badline_check_state): Splitted into
+	several functions like the vicii counterpart.
+
+	* vicii/vicii-sprites.c: Added credits to sprite crunch table.
+
+	* c64/plus60k.c, c64/c64_256k.c: Fixed format warning.
+
+2005-12-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc: Fixed a dutch translation and some
+	mediafile extensions.
+
+	* arch/win32/uimediafile.c: Fixed some mediafile extensions.
+
+	* c64/c64_256k.h: Fixed a prototype.
+
+2005-12-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* tape/tap.c (tap_cbm_read_block_once): Removed short block
+	condition, size is set by the bytes read to detect short
+	headers.
+	(tap_cbm_read_header): Increased maximum size from 193 to 255
+	to detect images with longer header (which also exist).
+
 2005-12-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.4.

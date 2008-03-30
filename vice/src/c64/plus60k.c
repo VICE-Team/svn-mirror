@@ -191,8 +191,8 @@ static int set_plus60k_base(resource_value_t v, void *param)
       case 0xd100:
         break;
       default:
-        log_message(plus60k_log, "Unknown +60K base address $%X.",
-                    (DWORD)v);
+        log_message(plus60k_log, "Unknown +60K base address $%lX.",
+                    (unsigned long)v);
         return -1;
     }
 
