@@ -32,6 +32,7 @@ noinst_HEADERS = \
 	6510core.h \
 	acia.h \
 	alarm.h \
+	archapi.h \
 	asm.h \
 	attach.h \
 	autostart.h \
