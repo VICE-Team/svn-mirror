@@ -251,9 +251,11 @@ void ui_display_drive_led(int drive_number, int status)
                (void*)drive_number, (void*)status);
 }
 
-void ui_display_drive_track(int drive_number, int drive_base,
-                            double track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
+                            unsigned int half_track_number)
 {
+    double track_number = (double)half_track_number / 2.0;
+
     ui_status.lastTrack[drive_number]=track_number;
     WinSendMsg(hwndDrive, WM_TRACK,
                       (void*)drive_number, (void*)(int)(track_number*2));

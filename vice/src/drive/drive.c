@@ -655,11 +655,11 @@ static void drive_extend_disk_image(drive_t *drive)
     }
 }
 
-int drive_match_bus(unsigned int drive_type, unsigned int drv, int bus_map)
+int drive_match_bus(unsigned int drive_type, unsigned int dnr, int bus_map)
 {
-    if ( (drive_type == DRIVE_TYPE_NONE)
-      || (DRIVE_IS_IEEE(drive_type) && (bus_map & IEC_BUS_IEEE))
-      || ((!DRIVE_IS_IEEE(drive_type)) && (bus_map & IEC_BUS_IEC))
+    if ((drive_type == DRIVE_TYPE_NONE)
+        || (DRIVE_IS_IEEE(drive_type) && (bus_map & IEC_BUS_IEEE))
+        || ((!DRIVE_IS_IEEE(drive_type)) && (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
     }
@@ -701,19 +701,26 @@ void drive_update_ui_status(void)
 
             if (drive->current_half_track != drive->old_half_track) {
                 drive->old_half_track = drive->current_half_track;
-#ifdef __riscos
-                ui_display_drive_track_int(i, drive->current_half_track);
-#else
                 ui_display_drive_track(i, (i < 2
-                                       && drive_context[0]->drive->enable
-                                       && DRIVE_IS_DUAL(drive_context[0]->drive->type))
-                                       ? 0 : 8,
-                                       ((float)drive->current_half_track
-                                       / 2.0));
-#endif
+                               && drive_context[0]->drive->enable
+                               && DRIVE_IS_DUAL(drive_context[0]->drive->type))
+                               ? 0 : 8, drive->current_half_track);
             }
         }
     }
+}
+
+int drive_num_leds(unsigned int dnr)
+{
+    if (DRIVE_IS_OLDTYPE(drive_context[dnr]->drive->type)) {
+        return 2;
+    }
+
+    if ((dnr == 1) && DRIVE_IS_DUAL(drive_context[0]->drive->type)) {
+        return 2;
+    }
+
+    return 1;
 }
 
 /* This is called at every vsync.  */
@@ -736,19 +743,6 @@ void drive_vsync_hook(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-int drive_num_leds(unsigned int dnr)
-{
-    if (DRIVE_IS_OLDTYPE(drive_context[dnr]->drive->type)) {
-        return 2;
-    }
-
-    if ((dnr == 1) && DRIVE_IS_DUAL(drive_context[0]->drive->type)) {
-        return 2;
-    }
-
-    return 1;
-}
 
 static void drive_setup_context_for_drive(drive_context_t *drv,
                                           unsigned int dnr)

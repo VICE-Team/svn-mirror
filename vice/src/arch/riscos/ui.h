@@ -56,7 +56,6 @@ extern void ui_exit(void);
 extern void ui_display_speed(int percent, int framerate, int warp_flag);
 extern void ui_toggle_drive_status(int state);
 extern void ui_display_paused(int flag);
-extern void ui_display_drive_track_int(int drive_number, int track_number);
 extern void ui_display_drive_dir(int number, const char *dir_name);
 
 extern void ui_open_emu_window(RO_Window *win, int *b);

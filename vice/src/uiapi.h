@@ -56,8 +56,9 @@ extern void ui_error(const char *format,...);
 /* Drive related UI.  */
 extern void ui_enable_drive_status(ui_drive_enable_t state,
                                    int *drive_led_color);
-extern void ui_display_drive_track(int drive_number, int drive_base,
-                                   double track_number);
+extern void ui_display_drive_track(unsigned int drive_number,
+                                   unsigned int drive_base,
+                                   unsigned int half_track_number);
 extern void ui_display_drive_led(int drive_number, int status);
 extern void ui_display_drive_current_image(unsigned int drive_number,
                                            const char *image);

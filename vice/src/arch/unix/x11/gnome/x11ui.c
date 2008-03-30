@@ -1426,11 +1426,12 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
     }
 }
 
-void ui_display_drive_track(int drive_number, int drive_base,
-			    double track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
+			    unsigned int half_track_number)
 {
     int i;
     static char str[256];
+    double track_number = (double)half_track_number / 2.0;
 
     sprintf(str, "%.1f", (double)track_number);
     

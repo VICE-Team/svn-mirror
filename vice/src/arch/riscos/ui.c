@@ -2817,7 +2817,7 @@ static void ui_mouse_click_pane(int *b)
         if (TrueDriveEmulation != 0)
         {
           DisplayDriveTrack ^= 1;
-          ui_display_drive_track_int(DisplayDriveTrack, DriveTrackNumbers[DisplayDriveTrack]);
+          ui_display_drive_track(DisplayDriveTrack, 8, DriveTrackNumbers[DisplayDriveTrack]);
         }
         break;
       default:
@@ -5055,10 +5055,12 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 }
 
 
-void ui_display_drive_track_int(int drive_number, int track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
+                            unsigned int half_track_number)
 {
   RO_Icon *icon;
   int b[11];
+  int track_number = (int)half_track_number;
 
   if (drive_number >= 2) return;
 
