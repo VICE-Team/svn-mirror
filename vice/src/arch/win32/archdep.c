@@ -494,6 +494,9 @@ int archdep_file_is_blockdev(const char *name)
 
 int archdep_file_is_chardev(const char *name)
 {
+    if (strcmp(name, "/dev/cbm") == 0)
+        return 1;
+
     return 0;
 }
 
