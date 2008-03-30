@@ -1,3 +1,36 @@
+2002-02-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.11.
+
+2002-02-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* sounddrv/soundwmm.c (wmm_suspend): Write n fragments instead
+	of whole buffer at once.
+
+2002-02-01  John Selck  <graham@cruise.de>
+
+	* vicii/vicii-draw.c: Changed all RASTER_PIXEL() calls into
+	direct usage of the color.
+	Optimized _draw_mc_text(), _draw_mc_bitmap(),
+	draw_ext_text_foreground() a bit.
+
+	* vicii/vicii-sprites.c: Changed all RASTER_PIXEL() calls
+	into direct usage of the color.
+	Changed macros to not need raster pointer anymore.
+
+	* plus4/ted-draw.c: Changed all RASTER_PIXEL() calls into
+	direct usage of the color.
+	Optimized _draw_mc_text(), _draw_mc_bitmap(),
+	draw_ext_text_foreground() a bit.
+
+2002-02-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/videoarch.h: Added video_draw_buffer_callback to
+	video_canvas_s.
+
+	* arch/beos/video.cc (video_canvas_set_palette): Calls
+	video_render_setrawrgb for real PAL emulation.
+
 2002-02-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.10.
