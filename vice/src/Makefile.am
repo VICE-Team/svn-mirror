@@ -136,6 +136,7 @@ base_sources = \
 	kbdbuf.c \
 	keyboard.c \
 	log.c \
+	machine.c \
 	main.c \
 	p00.c \
 	palette.c \
