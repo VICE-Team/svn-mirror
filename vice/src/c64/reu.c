@@ -89,6 +89,7 @@ static BYTE reu_blocklen_low_shadow;
 
 /* REU image.  */
 static BYTE *reu_ram = NULL;
+static unsigned int old_reu_ram_size = 0;
 
 static log_t reu_log = LOG_ERR;
 
@@ -288,6 +289,13 @@ static int reu_activate(void)
         return 0;
 
     reu_ram = (BYTE *)lib_realloc((void *)reu_ram, (size_t)reu_size);
+
+    /* Clear newly allocated RAM.  */
+    if (reu_size > old_reu_ram_size)
+        memset(reu_ram, 0, (size_t)(reu_size - old_reu_ram_size));
+
+    old_reu_ram_size = reu_size;
+
     log_message(reu_log, "%dKB unit installed.", (int)(reu_size >> 10));
 
     if (!util_check_null_string(reu_filename)) {
@@ -326,6 +334,7 @@ static int reu_deactivate(void)
 
     lib_free(reu_ram);
     reu_ram = NULL;
+    old_reu_ram_size = 0;
 
     return 0;
 }
