@@ -39,6 +39,7 @@
 
 #define mycpu_int_status drive1_int_status
 #define mycpu_alarm_context drive1_alarm_context
+#define mycpu_clk_guard drive1_clk_guard
 
 #define reset_myvia reset_via1d1
 #define store_myvia store_via1d1

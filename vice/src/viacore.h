@@ -28,6 +28,7 @@
  */
 
 #include "alarm.h"
+#include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
 #include "resources.h"

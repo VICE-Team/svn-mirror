@@ -136,6 +136,8 @@ static int int_myviat2(long offset);
 		(a) ? MYVIA_INT : 0)
 #endif
 
+static void clk_overflow_callback(CLOCK sub, void *data);
+
 
 inline static void update_myviairq(void)
 {
@@ -200,6 +202,7 @@ void myvia_init(void)
                MYVIA_NAME "T1", int_myviat1);
     alarm_init(&myvia_t2_alarm, &mycpu_alarm_context,
                MYVIA_NAME "T2", int_myviat2);
+    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 /*
@@ -750,7 +753,7 @@ static int int_myviat2(long offset)
     return 0;
 }
 
-void myvia_prevent_clk_overflow(CLOCK sub)
+static void clk_overflow_callback(CLOCK sub, void *data)
 {
     unsigned int t;
     t = (myviatau - (myclk + sub)) & 0xffff;

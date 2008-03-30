@@ -36,6 +36,7 @@
 
 #define mycpu_int_status maincpu_int_status
 #define	mycpu_alarm_context maincpu_alarm_context
+#define mycpu_clk_guard maincpu_clk_guard
 
 #define reset_myvia reset_via
 #define store_myvia store_via
