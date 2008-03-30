@@ -145,6 +145,12 @@ static int kbd_lshiftcol;
 static int kbd_rshiftrow;
 static int kbd_rshiftcol;
 
+#define KEY_NONE   0
+#define KEY_RSHIFT 1
+#define KEY_LSHIFT 2
+
+static int vshift = KEY_NONE;
+
 keyboard_conv_t joykeys[2][10];
 
 /*-----------------------------------------------------------------------*/
@@ -194,12 +200,14 @@ void keyboard_key_pressed(signed long key)
                             virtual_shift_down++;
                         if (keyconvmap[i].shift & LEFT_SHIFT)
                             left_shift_down++;
-                        if (left_shift_down + virtual_shift_down > 0)
+                        if (left_shift_down > 0
+                            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
                             keyboard_set_keyarr(kbd_lshiftrow,
                                                 kbd_lshiftcol, 1);
                         if (keyconvmap[i].shift & RIGHT_SHIFT)
                             right_shift_down++;
-                        if (right_shift_down > 0)
+                        if (right_shift_down > 0
+                            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
                             keyboard_set_keyarr(kbd_rshiftrow,
                                                 kbd_rshiftcol, 1);
                     }
@@ -244,11 +252,13 @@ void keyboard_key_released(signed long key)
     }
 
     /* Map shift keys. */
-    if (right_shift_down > 0)
+    if (right_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
         keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
     else
         keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-    if (left_shift_down + virtual_shift_down > 0)
+    if (left_shift_down > 0
+        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
         keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
     else
         keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
@@ -293,11 +303,20 @@ static void keyboard_parse_keyword(char *buffer)
                 kbd_rshiftcol = atoi(p);
             }
         }
+    } else if (!strcmp(key, "VSHIFT")) {
+        p = strtok(NULL, " \t,");
+        if (!strcmp(p, "RSHIFT"))
+            vshift = KEY_RSHIFT;
+        else if (!strcmp(p, "LSHIFT"))
+            vshift = KEY_LSHIFT;
+        else
+            vshift = KEY_NONE;
     } else if (!strcmp(key, "CLEAR")) {
         keyc_num = 0;
         keyconvmap[0].sym = 0;
         key_ctrl_restore1 = -1;
         key_ctrl_restore2 = -1;
+        vshift = KEY_NONE;
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 10; j++) {
                 joykeys[i][j].sym = -1;

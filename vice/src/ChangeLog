@@ -1,3 +1,28 @@
+2002-05-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.21.
+
+	* keyboard.c (keyboard_key_pressed, keyboard_key_released,
+	keyboard_parse_keyword): Added support for defining the
+	virtual shift key by the vkm file.
+
+	* mos6510.h: Changed names of the members of struct
+	`mos6510_regs_s' from `reg_foo' to `foo'.
+
+	* 6510core.c (EXPORT_REGISTERS, IMPORT_REGISTERS): Likewise.
+
+	* drive/drivecpu.c (drivex_cpu_execute): Likewise.
+
+2002-05-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/arch.dsp: Renamed joystick to joy.
+
+	* arch/win32/base.dsp: Added joystick.c.
+
+	* arch/win32/uijoystick.c (set_keyset): Fixed typo.
+
+	* vic20/vic20via1.c: Removed include "vic.h".
+
 2002-05-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.20.
