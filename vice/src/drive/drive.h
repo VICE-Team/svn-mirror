@@ -57,18 +57,20 @@
 #define DRIVE_NUMOFINT 	5
 
 
-#define DRIVE_ROM1541_SIZE   0x4000
-#define DRIVE_ROM1541II_SIZE 0x4000
-#define DRIVE_ROM1571_SIZE   0x8000
-#define DRIVE_ROM1581_SIZE   0x8000
-#define DRIVE_ROM2031_SIZE   0x4000
-#define DRIVE_ROM1001_SIZE   0x4000	/* same as ROM8050 and ROM8250 !*/
-#define	DRIVE_ROM2040_SIZE   0x2000
-#define	DRIVE_ROM3040_SIZE   0x3000
-#define	DRIVE_ROM4040_SIZE   0x3000
-#define DRIVE_ROM_SIZE       0x8000
-#define DRIVE_RAM_SIZE       0x2000
-#define DRIVE_ROM1541_CHECKSUM	1988651
+#define DRIVE_ROM1541_SIZE          0x4000
+#define DRIVE_ROM1541_SIZE_EXPANDED 0x8000
+#define DRIVE_ROM1541II_SIZE        0x4000
+#define DRIVE_ROM1571_SIZE          0x8000
+#define DRIVE_ROM1581_SIZE          0x8000
+#define DRIVE_ROM2031_SIZE          0x4000
+#define DRIVE_ROM1001_SIZE          0x4000 /* same as ROM8050 and ROM8250 !*/
+#define	DRIVE_ROM2040_SIZE          0x2000
+#define	DRIVE_ROM3040_SIZE          0x3000
+#define	DRIVE_ROM4040_SIZE          0x3000
+#define DRIVE_ROM_SIZE              0x8000
+#define DRIVE_RAM_SIZE              0x2000
+
+#define DRIVE_ROM1541_CHECKSUM      1988651
 
 /* Sync factors.  */
 #define DRIVE_SYNC_PAL     -1
@@ -340,15 +342,15 @@ extern BYTE drive_rom3040[];
 extern BYTE drive_rom4040[];
 
 /* If nonzero, the ROM image has been loaded.  */
-extern int rom1541_loaded;
-extern int rom1541ii_loaded;
-extern int rom1571_loaded;
-extern int rom1581_loaded;
-extern int rom2031_loaded;
-extern int rom1001_loaded;
-extern int rom2040_loaded;
-extern int rom3040_loaded;
-extern int rom4040_loaded;
+extern unsigned int rom1541_loaded;
+extern unsigned int rom1541ii_loaded;
+extern unsigned int rom1571_loaded;
+extern unsigned int rom1581_loaded;
+extern unsigned int rom2031_loaded;
+extern unsigned int rom1001_loaded;
+extern unsigned int rom2040_loaded;
+extern unsigned int rom3040_loaded;
+extern unsigned int rom4040_loaded;
 
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
 extern int drive_enable(int dnr);
