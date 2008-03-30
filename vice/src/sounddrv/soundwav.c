@@ -66,10 +66,10 @@ static int wav_init(const char *param, int *speed,
 
 static int wav_write(SWORD *pbuf, size_t nr)
 {
+#ifdef WORDS_BIGENDIAN
     int	i;
 
     /* Swap bytes on big endian machines. */
-#ifdef WORDS_BIGENDIAN
     for (i = 0; i < nr; i++) {
       pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
     }

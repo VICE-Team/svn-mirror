@@ -1,3 +1,75 @@
+2001-04-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.18.
+
+	* machine.h, arch/unix/x11/fullscreen.c, c64/c64.c,
+	c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c
+	(video_refresh): Renamed to `machine_video_refresh()'.
+
+	* sysfile.c, maincpu.c: Removed `vsync.h' include.
+
+	* arch/unix/archdep.c, arch/msdos/archdep.c,
+	arch/win32/archdep.c, arch/beos/archdep.c, arch/win32/ui.c,
+	arch/win32/uilib.c: Use `mxvsprinf'.
+
+	* snapshot.c, sound.c, vsync.c, maincpu.c, vsync.h,
+	monitor/mon.c, c64/psid.c, pet/petmem.c, cbm2/c610mem.c,
+	arch/unix/c128ui.c, arch/unix/c610ui.c, arch/unix/c64ui.c,
+	arch/unix/petui.c, arch/unix/uicommands.c,
+	arch/unix/uisettings.c, arch/unix/vic20ui.c,
+	arch/unix/vsidui.c, arch/unix/x11/gnome/ui.c,
+	arch/unix/x11/xaw/ui.c, arch/unix/x11/xaw/uimenu.c,
+	arch/unix/x11/xaw/about.c, arch/win32/c128ui.c,
+	arch/win32/c64ui.c, arch/win32/ui.c, arch/win32/uilib.c,
+	arch/win32/uisnapshot.c, arch/msdos/kbd.c, arch/msdos/ui.c,
+	arch/msdos/vsync.c, arch/riscos/vsync.c,
+	arch/os2/unused/vsync.c, arch/os2/unused/vsync.h,
+	arch/os2/vsyncarch.c, arch/os2/dialogs/dlg-emulator.c,
+	arch/os2/dialogs/dlg-reset.c (suspend_speed_eval): Renamed to
+	`vsync_suspend_speed_eval'.
+
+	* vsync.c, vsync.h, vsyncapi.h, vicii/vicii.c, crtc/crtc.c,
+	vic20/vic.c, arch/msdos/vsync.c, arch/riscos/vsync.c,
+	arch/os2/unused/vsync.c, arch/os2/unused/vsync.h (do_vsync):
+	Renamed to `vsync_do_vsync'.
+
+	* arch/win32/c64ui.c, arch/win32/c128ui.c: Include `vsync.h'.
+
+	* arch/unix/uicommands.c: Use `resources_set_sprintf'.
+
+	* machine.c, machine.h (machine_reset): New function.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (machine_reset): Renamed to
+	`machine_specific_reset'
+
+	* machine.c, mem.h, c64/c64mem.c, c128/c128mem.c,
+	vic20/vic20mem.c, pet/pet.c, pet/petmem.c, cbm2/c610mem.c
+	(initialize_memory): Renamed to `mem_initialize_memory'.
+
+	* sounddrv/soundwav.c (wav_write): Fixed unused variable.
+
+2001-04-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui.cc: Updated the "About"-box.
+
+	* info.c: Updated contributions and contributors.
+
+	* Changed every occurence of old email address to
+	andreas.matthies@gmx.net
+
+2001-04-14  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/archdep.{c,h}: added functions archdep_closedown
+	and archdep_get_default_log_file(). The default logfile is now
+	a temporary file.
+
+	* arch/riscos/ui.c: rearranged main menu, added log window
+	entry.
+
+	* arch/riscos/uimsgwin.{c,h}: added log window for the default
+	log file.
+
 2001-04-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.17.

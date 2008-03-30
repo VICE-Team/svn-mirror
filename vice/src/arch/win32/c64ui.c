@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "uilib.h"
 #include "uivicii.h"
+#include "vsync.h"
 #include "winmain.h"
 
 ui_menu_toggle  c64_ui_menu_toggles[]={
@@ -150,14 +151,16 @@ static ui_cartridge_params c64_ui_cartridges[]={
     }
 };
 
-void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd, ui_cartridge_params *cartridges)
+void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
+                             ui_cartridge_params *cartridges)
 {
-int     i;
-char    *s;
+    int i;
+    char *s;
 
-    i=0;
-    while ((cartridges[i].wparam!=wparam) && (cartridges[i].wparam!=0)) i++;
-    if (cartridges[i].wparam==0) {
+    i = 0;
+    while ((cartridges[i].wparam!=wparam) && (cartridges[i].wparam!=0))
+        i++;
+    if (cartridges[i].wparam == 0) {
         ui_error("Bad cartridge config in UI!");
         return;
     }
@@ -172,43 +175,43 @@ char    *s;
 void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-        case IDM_CART_ATTACH_CRT:
-        case IDM_CART_ATTACH_8KB:
-        case IDM_CART_ATTACH_16KB:
-        case IDM_CART_ATTACH_AR:
-        case IDM_CART_ATTACH_AT:
-        case IDM_CART_ATTACH_EPYX:
-        case IDM_CART_ATTACH_IEEE488:
-        case IDM_CART_ATTACH_SS4:
-        case IDM_CART_ATTACH_SS5:
-            c64_ui_attach_cartridge(wparam,hwnd,c64_ui_cartridges);
-            break;
-        case IDM_CART_SET_DEFAULT:
-            cartridge_set_default();
-            break;
-        case IDM_CART_DETACH:
-            cartridge_detach_image();
-            break;
-        case IDM_CART_FREEZE|0x00010000:
-        case IDM_CART_FREEZE:
-            keyboard_clear_keymatrix();
-            cartridge_trigger_freeze();
-            break;
-        case IDM_RESID_SAMPLE_FAST:
-            resources_set_value("SidResidSampling", (resource_value_t) 0);
-            suspend_speed_eval();
-            break;
-        case IDM_RESID_SAMPLE_INTERPOLATE:
-            resources_set_value("SidResidSampling", (resource_value_t) 1);
-            suspend_speed_eval();
-            break;
-        case IDM_RESID_SAMPLE_RESAMPLE:
-            resources_set_value("SidResidSampling", (resource_value_t) 2);
-            suspend_speed_eval();
-            break;
-        case IDM_VICII_SETTINGS:
-            ui_vicii_settings_dialog(hwnd);
-            break;
+      case IDM_CART_ATTACH_CRT:
+      case IDM_CART_ATTACH_8KB:
+      case IDM_CART_ATTACH_16KB:
+      case IDM_CART_ATTACH_AR:
+      case IDM_CART_ATTACH_AT:
+      case IDM_CART_ATTACH_EPYX:
+      case IDM_CART_ATTACH_IEEE488:
+      case IDM_CART_ATTACH_SS4:
+      case IDM_CART_ATTACH_SS5:
+        c64_ui_attach_cartridge(wparam,hwnd,c64_ui_cartridges);
+        break;
+      case IDM_CART_SET_DEFAULT:
+        cartridge_set_default();
+        break;
+      case IDM_CART_DETACH:
+        cartridge_detach_image();
+        break;
+      case IDM_CART_FREEZE|0x00010000:
+      case IDM_CART_FREEZE:
+        keyboard_clear_keymatrix();
+        cartridge_trigger_freeze();
+        break;
+      case IDM_RESID_SAMPLE_FAST:
+        resources_set_value("SidResidSampling", (resource_value_t) 0);
+        vsync_suspend_speed_eval();
+        break;
+      case IDM_RESID_SAMPLE_INTERPOLATE:
+        resources_set_value("SidResidSampling", (resource_value_t) 1);
+        vsync_suspend_speed_eval();
+        break;
+      case IDM_RESID_SAMPLE_RESAMPLE:
+        resources_set_value("SidResidSampling", (resource_value_t) 2);
+        vsync_suspend_speed_eval();
+        break;
+      case IDM_VICII_SETTINGS:
+        ui_vicii_settings_dialog(hwnd);
+        break;
     }
 }
 
