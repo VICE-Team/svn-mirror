@@ -240,9 +240,9 @@ static BYTE *vdrive_bam_calculate_track(unsigned int type, BYTE *bam,
             int i;
             for (i = 1; i < 3; i++) {
                 if (track >= bam[(i * 0x100) + 4]
-                        && track < bam[(i * 0x100) + 5]) {
+                    && track < bam[(i * 0x100) + 5]) {
                     bamp = &bam[(i * 0x100) + BAM_BIT_MAP_8050
-                                + 5 * (track - bam[(i * 0x100) + 4]) ];
+                           + 5 * (track - bam[(i * 0x100) + 4])];
                     break;
                 }
             }
@@ -253,9 +253,9 @@ static BYTE *vdrive_bam_calculate_track(unsigned int type, BYTE *bam,
             int i;
             for (i = 1; i < 5; i++) {
                 if (track >= bam[(i * 0x100) + 4]
-                        && track < bam[(i * 0x100) + 5]) {
+                    && track < bam[(i * 0x100) + 5]) {
                     bamp = &bam[(i * 0x100) + BAM_BIT_MAP_8050
-                                + 5 * (track - bam[(i * 0x100) + 4]) ];
+                           + 5 * (track - bam[(i * 0x100) + 4])];
                     break;
                 }
             }
@@ -522,36 +522,36 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
         break;
       case VDRIVE_IMAGE_FORMAT_1571:
         err = disk_image_read_sector(vdrive->image, vdrive->bam,
-                                BAM_TRACK_1571, BAM_SECTOR_1571);
+                                     BAM_TRACK_1571, BAM_SECTOR_1571);
         if (err != 0)
             break;
         err = disk_image_read_sector(vdrive->image, vdrive->bam+256,
-                                 BAM_TRACK_1571+35, BAM_SECTOR_1571);
+                                     BAM_TRACK_1571+35, BAM_SECTOR_1571);
         break;
       case VDRIVE_IMAGE_FORMAT_1581:
         err = disk_image_read_sector(vdrive->image, vdrive->bam,
-                                BAM_TRACK_1581, BAM_SECTOR_1581);
+                                     BAM_TRACK_1581, BAM_SECTOR_1581);
         if (err != 0)
             break;
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 256,
-                                 BAM_TRACK_1581, BAM_SECTOR_1581 + 1);
+                                     BAM_TRACK_1581, BAM_SECTOR_1581 + 1);
         if (err != 0)
             break;
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 512,
-                                 BAM_TRACK_1581, BAM_SECTOR_1581 + 2);
+                                     BAM_TRACK_1581, BAM_SECTOR_1581 + 2);
         break;
       case VDRIVE_IMAGE_FORMAT_8050:
       case VDRIVE_IMAGE_FORMAT_8250:
         err = disk_image_read_sector(vdrive->image, vdrive->bam,
-                                 BAM_TRACK_8050, BAM_SECTOR_8050);
+                                     BAM_TRACK_8050, BAM_SECTOR_8050);
         if (err != 0)
             break;
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 256,
-                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
+                                     BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
         if (err != 0)
             break;
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 512,
-                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
+                                     BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
         if (err != 0)
             break;
 
@@ -559,11 +559,11 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
             break;
 
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 768,
-                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
+                                     BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
         if (err != 0)
             break;
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 1024,
-                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
+                                     BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
         break;
       default:
         log_error(LOG_ERR,
