@@ -142,7 +142,7 @@ void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
 void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank (addr, value);
+    vic_ii_local_store_vbank(addr, value);
 
     if (vic_ii.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
         raster_add_int_change_foreground
@@ -221,12 +221,13 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
 }
 
 inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
-                                                        int line)
+                                                        int line,
+                                                        int old_allow_bad_lines)
 {
     int was_bad_line, now_bad_line;
 
     /* Check whether bad line state has changed.  */
-    was_bad_line = (vic_ii.allow_bad_lines
+    was_bad_line = (old_allow_bad_lines
                     && (vic_ii.raster.ysmooth == (line & 7)));
     now_bad_line = (vic_ii.allow_bad_lines
                     && ((value & 7) == (line & 7)));
@@ -378,9 +379,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
 /* Here we try to emulate $D011...  */
 inline static void store_d011(ADDRESS addr, BYTE value)
 {
-    int new_irq_line;
-    int cycle;
-    int line;
+    int new_irq_line, cycle, line, old_allow_bad_lines;
 
     cycle = VIC_II_RASTER_CYCLE(clk);
     line = VIC_II_RASTER_Y(clk);
@@ -395,13 +394,16 @@ inline static void store_d011(ADDRESS addr, BYTE value)
 
     /* This is the funniest part... handle bad line tricks.  */
 
+    old_allow_bad_lines = vic_ii.allow_bad_lines;
+
     if (line == vic_ii.first_dma_line && (value & 0x10) != 0)
         vic_ii.allow_bad_lines = 1;
 
     if (vic_ii.raster.ysmooth != (value & 7)
         && line >= vic_ii.first_dma_line
         && line <= vic_ii.last_dma_line)
-        check_bad_line_state_change_for_d011(value, cycle, line);
+        check_bad_line_state_change_for_d011(value, cycle, line,
+                                             old_allow_bad_lines);
 
     vic_ii.raster.ysmooth = value & 0x7;
 

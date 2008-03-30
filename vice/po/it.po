@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-02-09 16:24+0100\n"
+"POT-Creation-Date: 2002-02-10 00:37+0100\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -2586,7 +2586,7 @@ msgstr ""
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Problemi con la DGA - schermo intero disabilitato."
 
-#: src/arch/unix/x11/dga2.c:448 src/arch/unix/x11/fullscreen.c:389
+#: src/arch/unix/x11/dga2.c:451 src/arch/unix/x11/fullscreen.c:389
 #: src/arch/unix/x11/fullscreen.c:418
 #, c-format
 msgid "Switch to fullscreen %ix%i"
@@ -2605,7 +2605,7 @@ msgstr ""
 "Estensioni DGA: ind:%p, profondità %d, dimensione del banco %d dimensione "
 "della memoria %d\n"
 
-#: src/arch/unix/x11/dga2.c:631 src/arch/unix/x11/fullscreen.c:486
+#: src/arch/unix/x11/dga2.c:635 src/arch/unix/x11/fullscreen.c:486
 msgid "Switch to windowmode"
 msgstr "Commutazione alla modalità a finestre"
 
@@ -2630,33 +2630,33 @@ msgstr "Trovata una modalità adatta allo schermo intero."
 msgid "Couldn't allocate pixel value cache."
 msgstr "Non è possibile allocare la cache coi valori dei pixel."
 
-#: src/arch/unix/x11/dga2.c:455
+#: src/arch/unix/x11/dga2.c:458
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr "Servono i privilegi di root per lo schermo intero DGA2"
 
-#: src/arch/unix/x11/dga2.c:465
+#: src/arch/unix/x11/dga2.c:468
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (SetMode) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:475
+#: src/arch/unix/x11/dga2.c:478
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (pixmap) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:509
+#: src/arch/unix/x11/dga2.c:512
 #, c-format
 msgid "Not enough video memeory pages in mode %s, disabling fullscreen."
 msgstr ""
 "Non si sono abbastanza pagine di memoria video nella modalità %s, schermo "
 "intero disabilitato."
 
-#: src/arch/unix/x11/dga2.c:521
+#: src/arch/unix/x11/dga2.c:524
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Errore durante la commutazione a schermo intero (CreateGC) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:565
+#: src/arch/unix/x11/dga2.c:568
 msgid "Couldn't allocate color cache"
 msgstr "Non è possibile allocare la cache dei colori"
 

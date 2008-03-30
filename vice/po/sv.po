@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-02-09 16:24+0100\n"
+"POT-Creation-Date: 2002-02-10 00:37+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2594,7 +2594,7 @@ msgstr ""
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Problem med DGA - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:448 src/arch/unix/x11/fullscreen.c:389
+#: src/arch/unix/x11/dga2.c:451 src/arch/unix/x11/fullscreen.c:389
 #: src/arch/unix/x11/fullscreen.c:418
 #, c-format
 msgid "Switch to fullscreen %ix%i"
@@ -2611,7 +2611,7 @@ msgstr "Fel vid växling till fullskärm %ix%i\n"
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
 
-#: src/arch/unix/x11/dga2.c:631 src/arch/unix/x11/fullscreen.c:486
+#: src/arch/unix/x11/dga2.c:635 src/arch/unix/x11/fullscreen.c:486
 msgid "Switch to windowmode"
 msgstr "Växla till fönsterläge"
 
@@ -2639,32 +2639,32 @@ msgstr "Aktivera fullskärm"
 msgid "Couldn't allocate pixel value cache."
 msgstr "Kunde inte skapa diskettavbildningsfil"
 
-#: src/arch/unix/x11/dga2.c:455
+#: src/arch/unix/x11/dga2.c:458
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:465
+#: src/arch/unix/x11/dga2.c:468
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:475
+#: src/arch/unix/x11/dga2.c:478
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:509
+#: src/arch/unix/x11/dga2.c:512
 #, fuzzy, c-format
 msgid "Not enough video memeory pages in mode %s, disabling fullscreen."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:521
+#: src/arch/unix/x11/dga2.c:524
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:565
+#: src/arch/unix/x11/dga2.c:568
 #, fuzzy
 msgid "Couldn't allocate color cache"
 msgstr "Kunde inte skapa diskettavbildningsfil"

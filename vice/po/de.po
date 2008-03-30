@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-02-09 16:24+0100\n"
+"POT-Creation-Date: 2002-02-10 00:37+0100\n"
 "PO-Revision-Date: 2002-01-02 23:24+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -755,9 +755,8 @@ msgid "*External color set"
 msgstr "*Externe Farbtabelle"
 
 #: src/arch/unix/plus4ui.c:93 src/arch/unix/uivicii.c:81
-#, fuzzy
 msgid "PAL Emulation"
-msgstr "*PAL Emulation"
+msgstr "PAL Emulation"
 
 #: src/arch/unix/plus4ui.c:99
 msgid "*Fast PAL emulation"
@@ -2005,33 +2004,31 @@ msgstr "*Sprite-Hintergrund Kollisionen"
 
 #: src/arch/unix/uipalemu.c:69
 msgid "PAL Scanline shade"
-msgstr ""
+msgstr "PAL Scanline Schatten"
 
 #: src/arch/unix/uipalemu.c:69
 msgid "Scanline Shade in percent"
-msgstr ""
+msgstr "Scanline Schatten in Prozent"
 
 #: src/arch/unix/uipalemu.c:92
-#, fuzzy
 msgid "*Activate PAL emulation"
-msgstr "*Schnelle PAL Emulation"
+msgstr "*PAL Emulation aktivieren"
 
 #: src/arch/unix/uipalemu.c:95
-#, fuzzy
 msgid "*Fake PAL Emulation"
 msgstr "*Schnelle PAL Emulation"
 
 #: src/arch/unix/uipalemu.c:97
 msgid "*Sharp PAL Emulation (Y/C Input)"
-msgstr ""
+msgstr "*Sharfe PAL Emulation (Y/C Eingang)"
 
 #: src/arch/unix/uipalemu.c:99
 msgid "*Blurry PAL Emulation (Composite Input)"
-msgstr ""
+msgstr "*Unscharfe PAL Emulation (Composite Eingang)"
 
 #: src/arch/unix/uipalemu.c:102
 msgid "PAL Scanline Shade"
-msgstr ""
+msgstr "PAL Scanline Schatten"
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:97
@@ -2123,9 +2120,8 @@ msgid "Detach cartridge image(s)"
 msgstr "Erweiterungsmodul Image(s) entfernen"
 
 #: src/arch/unix/vic20ui.c:427
-#, fuzzy
 msgid "PAL Emulation Settings"
-msgstr "PAL Einstellungen"
+msgstr "PAL Emulator Einstellungen"
 
 #: src/arch/unix/vic20ui.c:433
 msgid "VIC settings"
@@ -2153,9 +2149,8 @@ msgid "*3.00 sec"
 msgstr "*3.00 sec"
 
 #: src/arch/unix/vsidui.c:168
-#, fuzzy
 msgid "*Override PSID settings"
-msgstr "SID Einstellungen"
+msgstr "*PSID Einstellungen ignorieren"
 
 #: src/arch/unix/vsidui.c:191
 msgid "*Default Tune"
@@ -2204,9 +2199,9 @@ msgstr "VICE Hackers"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:106
 #: src/arch/unix/x11/xaw/x11video.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully initialized using XVideo (%s)."
-msgstr "Video erfolgreich initialisiert."
+msgstr "XVideo erfolgreich initialisiert (%s)."
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:127
 msgid "Successfully initialized video."
@@ -2563,7 +2558,7 @@ msgstr ""
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Probleme mit DGA - deaktiviere Vollbildmodus"
 
-#: src/arch/unix/x11/dga2.c:448 src/arch/unix/x11/fullscreen.c:389
+#: src/arch/unix/x11/dga2.c:451 src/arch/unix/x11/fullscreen.c:389
 #: src/arch/unix/x11/fullscreen.c:418
 #, c-format
 msgid "Switch to fullscreen %ix%i"
@@ -2580,7 +2575,7 @@ msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i\n"
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 
-#: src/arch/unix/x11/dga2.c:631 src/arch/unix/x11/fullscreen.c:486
+#: src/arch/unix/x11/dga2.c:635 src/arch/unix/x11/fullscreen.c:486
 msgid "Switch to windowmode"
 msgstr "Umschalten auf Fenster Modus"
 
@@ -2605,33 +2600,33 @@ msgstr "Passender Auflösung für Vollbild Modus vorhanden."
 msgid "Couldn't allocate pixel value cache."
 msgstr "Zuwenig Speicher für Pixel Cache."
 
-#: src/arch/unix/x11/dga2.c:455
+#: src/arch/unix/x11/dga2.c:458
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr "Super User Privilegien sind nötig um den Vollbild Modus zu aktivieren."
 
-#: src/arch/unix/x11/dga2.c:465
+#: src/arch/unix/x11/dga2.c:468
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/dga2.c:475
+#: src/arch/unix/x11/dga2.c:478
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/dga2.c:509
+#: src/arch/unix/x11/dga2.c:512
 #, c-format
 msgid "Not enough video memeory pages in mode %s, disabling fullscreen."
 msgstr ""
 "Nicht genügend Speicher für Vollbild Modus %s vorhanden - deaktiviere "
 "Vollbildmodus"
 
-#: src/arch/unix/x11/dga2.c:521
+#: src/arch/unix/x11/dga2.c:524
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/dga2.c:565
+#: src/arch/unix/x11/dga2.c:568
 msgid "Couldn't allocate color cache"
 msgstr "Nicht genügend Speicher für Farbcache vorhanden"
 
@@ -2710,11 +2705,11 @@ msgstr "Shared Memory nicht benutzen (langsamer)"
 
 #: src/arch/unix/x11/video.c:147
 msgid "Use XVideo Extension (hardware scaling)"
-msgstr ""
+msgstr "XVideo Erweiterung nutzen (Hardware Skalierung)"
 
 #: src/arch/unix/x11/video.c:150
 msgid "Use software rendering"
-msgstr ""
+msgstr "Software Rendering benutzen"
 
 #: src/arch/unix/x11/video.c:350
 msgid "The MITSHM extension is not supported on this display."
