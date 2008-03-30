@@ -186,6 +186,14 @@ static cmdline_option_t cmdline_options[] =
       NULL, "Enable VIC-1112 IEEE488 interface"},
     { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
       NULL, "Disable VIC-1112 IEEE488 interface"},
+#ifdef COMMON_KBD
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      "<number>", N_("Specify index of keymap file (0=symbol, 1=positional)") },
+    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+      "<name>", N_("Specify name of symbolic keymap file") },
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+      "<name>", N_("Specify name of positional keymap file") },
+#endif
     { NULL}
 };
 

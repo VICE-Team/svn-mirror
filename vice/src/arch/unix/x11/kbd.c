@@ -98,53 +98,7 @@ static int joypad_bits[10] = {
 
 /* ------------------------------------------------------------------------- */
 
-/* Resource handling.  */
-
-static int keymap_index;
-static int load_keymap_ok = 0;
-
-static int set_keymap_index(resource_value_t v, void *param)
-{
-    const char *name, *resname = keymap_res_name_list[(int) v];
-
-    if (resources_get_value(resname, (resource_value_t*) &name) < 0)
- 	return -1;
-
-    if (load_keymap_ok) { /* to reduce multiple parsing during startup */
-        if (kbd_load_keymap(name) >= 0) {
-	    keymap_index = (int) v;
-	    return 0;
-        } else {
-            log_error(LOG_DEFAULT, _("Cannot load keymap `%s'."),
-                      name ? name : _("(null)"));
-        }
-        return -1;
-    }
-    keymap_index = (int) v;
-    return 0;
-}
-
-static resource_t resources[] = {
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&keymap_index, set_keymap_index, NULL },
-    { NULL }
-};
-
-int do_kbd_init_resources(void)
-{
-    return resources_register(resources);
-}
-
-static cmdline_option_t cmdline_options[] = {
-    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      "<number>", N_("Specify index of keymap file (0=symbol, 1=positional)") },
-    { NULL },
-};
-
-int do_kbd_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
+int load_keymap_ok = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -256,7 +210,7 @@ int kbd_init(void)
 
     /* load current keymap table */
     load_keymap_ok = 1;
-    set_keymap_index((resource_value_t)keymap_index, NULL);
+    keyboard_set_keymap_index((resource_value_t)machine_keymap_index, NULL);
 
     return 0;
 }

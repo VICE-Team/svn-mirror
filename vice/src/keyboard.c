@@ -31,8 +31,12 @@
 
 #include "alarm.h"
 #include "keyboard.h"
+#include "log.h"
+#include "machine.h"
 #include "maincpu.h"
+#include "resources.h"
 #include "types.h"
+#include "utils.h"
 
 
 #define KEYBOARD_RAND() (rand() & 0x3fff)
@@ -51,6 +55,7 @@ static BYTE latch_joystick_value[3] = { 0, 0, 0 };
 static alarm_t keyboard_alarm;
 static alarm_t joystick_alarm;
 
+
 static void keyboard_latch_matrix(CLOCK offset)
 {
     alarm_unset(&keyboard_alarm);
@@ -68,13 +73,7 @@ static void joystick_latch_matrix(CLOCK offset)
     memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
 }
 
-void keyboard_init(void)
-{
-    alarm_init(&keyboard_alarm, maincpu_alarm_context,
-               "Keyboard", keyboard_latch_matrix);
-    alarm_init(&joystick_alarm, maincpu_alarm_context,
-               "Joystick", joystick_latch_matrix);
-}
+/*-----------------------------------------------------------------------*/
 
 void keyboard_set_keyarr(int row, int col, int value)
 {
@@ -88,7 +87,7 @@ void keyboard_set_keyarr(int row, int col, int value)
         latch_rev_keyarr[col] &= ~(1 << row);
     }
 
-    alarm_set(&keyboard_alarm, maincpu_clk + 1000);
+    alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
 }
 
 void keyboard_set_keyarr_and_latch(int row, int col, int value)
@@ -135,5 +134,66 @@ void joystick_set_value_and(unsigned int joyport, BYTE value)
 void joystick_clear(unsigned int joyport)
 {
     latch_joystick_value[joyport] = 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+#ifdef COMMON_KBD
+extern int load_keymap_ok;
+extern int kbd_load_keymap(const char *filename);
+
+int keyboard_set_keymap_index(resource_value_t v, void *param)
+{
+    const char *name, *resname;
+
+    resname = machine_keymap_res_name_list[(unsigned int)v];
+
+    if (resources_get_value(resname, (resource_value_t *)&name) < 0)
+        return -1;
+
+    if (load_keymap_ok) {
+        if (kbd_load_keymap(name) >= 0) {
+            machine_keymap_index = (unsigned int)v;
+            return 0;
+        } else {
+            log_error(LOG_DEFAULT, _("Cannot load keymap `%s'."),
+                      name ? name : _("(null)"));
+        }
+        return -1;
+    }
+
+    machine_keymap_index = (unsigned int)v;
+    return 0;
+}
+
+int keyboard_set_keymap_file(resource_value_t v, void *param)
+{
+    int oldindex, newindex;
+
+    newindex = (int)param;
+
+    if (newindex >= machine_num_keyboard_mappings())
+        return -1;
+
+    if (resources_get_value("KeymapIndex", (resource_value_t *)&oldindex) < 0)
+        return -1;
+
+    if (util_string_set(&machine_keymap_file_list[newindex], (const char *)v))
+        return 0;
+
+    /* reset oldindex -> reload keymap file if this keymap is active */
+    if (oldindex == newindex)
+        resources_set_value("KeymapIndex", (resource_value_t)oldindex);
+
+    return 0;
+}
+#endif
+
+void keyboard_init(void)
+{
+    alarm_init(&keyboard_alarm, maincpu_alarm_context,
+               "Keyboard", keyboard_latch_matrix);
+    alarm_init(&joystick_alarm, maincpu_alarm_context,
+               "Joystick", joystick_latch_matrix);
 }
 

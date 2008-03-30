@@ -31,14 +31,21 @@
 #include <string.h>
 
 #include "crtc.h"
+#include "drive.h"
+#include "keyboard.h"
+#include "machine.h"
 #include "pet.h"
 #include "petmem.h"
 #include "pets.h"
 #include "resources.h"
 #include "utils.h"
 
+
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;
+
+
+static int sync_factor;
 
 static int set_iosize(resource_value_t v, void *param)
 {
@@ -232,62 +239,125 @@ static int set_emu_id_enabled(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_sync_factor(resource_value_t v, void *param)
+{
+    int change_timing = 0;
+
+    if (sync_factor != (int)v)
+        change_timing = 1;
+
+    switch ((int)v) {
+      case MACHINE_SYNC_PAL:
+        sync_factor = (int) v;
+        drive_set_pal_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_PAL);
+        break;
+      case MACHINE_SYNC_NTSC:
+        sync_factor = (int)v;
+        drive_set_ntsc_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_NTSC);
+        break;
+      default:
+        if ((int)v > 0) {
+            sync_factor = (int)v;
+            drive_set_sync_factor((unsigned int)v);
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+}
+
 
 static resource_t resources[] = {
-    {"RamSize", RES_INTEGER, (resource_value_t)32,
-     (resource_value_t *)&petres.ramSize,
-     set_ramsize, NULL },
-    {"IOSize", RES_INTEGER, (resource_value_t)0x800,
-     (resource_value_t *)&petres.IOSize,
-     set_iosize, NULL },
-    {"Crtc", RES_INTEGER, (resource_value_t)1,
-     (resource_value_t *)&petres.crtc,
-     set_crtc_enabled, NULL },
-    {"VideoSize", RES_INTEGER, (resource_value_t)1,
-     (resource_value_t *)&petres.video,
-     set_video, NULL },
-    {"Ram9", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&petres.mem9,
-     set_ram_9_enabled, NULL },
-    {"RamA", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&petres.memA,
-     set_ram_a_enabled, NULL },
-    {"SuperPET", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&petres.superpet,
-     set_superpet_enabled, NULL },
-    {"Basic1", RES_INTEGER, (resource_value_t)1,
-     (resource_value_t *)&petres.pet2k,
-     set_pet2k_enabled, NULL },
-    {"Basic1Chars", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&petres.pet2kchar,
-     set_pet2kchar_enabled, NULL },
-    {"EoiBlank", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&petres.eoiblank,
-     set_eoiblank_enabled, NULL },
-    {"ChargenName", RES_STRING, (resource_value_t)"chargen",
-     (resource_value_t *)&petres.chargenName,
-     set_chargen_rom_name, NULL },
-    {"KernalName", RES_STRING, (resource_value_t)PET_KERNAL4NAME,
-     (resource_value_t *)&petres.kernalName,
-     set_kernal_rom_name, NULL },
-    {"EditorName", RES_STRING, (resource_value_t)PET_EDITOR4B80NAME,
-     (resource_value_t *)&petres.editorName,
-     set_editor_rom_name, NULL },
-    {"BasicName", RES_STRING, (resource_value_t)PET_BASIC4NAME,
-     (resource_value_t *)&petres.basicName,
-     set_basic_rom_name, NULL },
-    {"RomModule9Name", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&petres.mem9name,
-     set_rom_module_9_name, NULL },
-    {"RomModuleAName", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&petres.memAname,
-     set_rom_module_a_name, NULL },
-    {"RomModuleBName", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&petres.memBname,
-     set_rom_module_b_name, NULL },
+    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
+      (resource_value_t *)&sync_factor,
+      set_sync_factor, NULL },
+    { "RamSize", RES_INTEGER, (resource_value_t)32,
+      (resource_value_t *)&petres.ramSize,
+      set_ramsize, NULL },
+    { "IOSize", RES_INTEGER, (resource_value_t)0x800,
+      (resource_value_t *)&petres.IOSize,
+      set_iosize, NULL },
+    { "Crtc", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&petres.crtc,
+      set_crtc_enabled, NULL },
+    { "VideoSize", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&petres.video,
+      set_video, NULL },
+    { "Ram9", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&petres.mem9,
+      set_ram_9_enabled, NULL },
+    { "RamA", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&petres.memA,
+      set_ram_a_enabled, NULL },
+    { "SuperPET", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&petres.superpet,
+      set_superpet_enabled, NULL },
+    { "Basic1", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&petres.pet2k,
+      set_pet2k_enabled, NULL },
+    { "Basic1Chars", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&petres.pet2kchar,
+      set_pet2kchar_enabled, NULL },
+    { "EoiBlank", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&petres.eoiblank,
+      set_eoiblank_enabled, NULL },
+    { "ChargenName", RES_STRING, (resource_value_t)"chargen",
+      (resource_value_t *)&petres.chargenName,
+      set_chargen_rom_name, NULL },
+    { "KernalName", RES_STRING, (resource_value_t)PET_KERNAL4NAME,
+      (resource_value_t *)&petres.kernalName,
+      set_kernal_rom_name, NULL },
+    { "EditorName", RES_STRING, (resource_value_t)PET_EDITOR4B80NAME,
+      (resource_value_t *)&petres.editorName,
+      set_editor_rom_name, NULL },
+    { "BasicName", RES_STRING, (resource_value_t)PET_BASIC4NAME,
+      (resource_value_t *)&petres.basicName,
+      set_basic_rom_name, NULL },
+    { "RomModule9Name", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&petres.mem9name,
+      set_rom_module_9_name, NULL },
+    { "RomModuleAName", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&petres.memAname,
+      set_rom_module_a_name, NULL },
+    { "RomModuleBName", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&petres.memBname,
+      set_rom_module_b_name, NULL },
     { "EmuID", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&emu_id_enabled,
-     set_emu_id_enabled, NULL  },
+      (resource_value_t *)&emu_id_enabled,
+      set_emu_id_enabled, NULL },
+#ifdef COMMON_KBD
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&machine_keymap_index,
+      keyboard_set_keymap_index, NULL },
+    { "KeymapBusinessUKSymFile", RES_STRING,
+      (resource_value_t)"busi_uk.vkm",
+      (resource_value_t *)&machine_keymap_file_list[0],
+      keyboard_set_keymap_file, (void *)0 },
+    { "KeymapBusinessUKPosFile", RES_STRING,
+      (resource_value_t)"buk_pos.vkm",
+      (resource_value_t *)&machine_keymap_file_list[1],
+      keyboard_set_keymap_file, (void *)1 },
+    { "KeymapGraphicsSymFile", RES_STRING,
+      (resource_value_t)"graphics.vkm",
+      (resource_value_t *)&machine_keymap_file_list[2],
+      keyboard_set_keymap_file, (void *)2 },
+    { "KeymapGraphicsPosFile", RES_STRING,
+      (resource_value_t)"posg_de.vkm",
+      (resource_value_t *)&machine_keymap_file_list[3],
+      keyboard_set_keymap_file, (void *)3 },
+    { "KeymapBusinessDESymFile", RES_STRING,
+      (resource_value_t)"busi_de.vkm",
+      (resource_value_t *)&machine_keymap_file_list[4],
+      keyboard_set_keymap_file, (void *)4 },
+    { "KeymapBusinessDEPosFile", RES_STRING,
+      (resource_value_t)"bde_pos.vkm",
+      (resource_value_t *)&machine_keymap_file_list[5],
+      keyboard_set_keymap_file, (void *)5 },
+#endif
     { NULL }
 };
 
