@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.16\n"
-"POT-Creation-Date: 2005-07-30 17:23+0200\n"
+"POT-Creation-Date: 2005-08-21 21:17+0200\n"
 "PO-Revision-Date: 2005-01-18 21:38+0100\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -60,78 +60,78 @@ msgstr "Erreur de chargement de l'engin de son SID"
 msgid "Cannot initialize SID engine"
 msgstr "Erreur d'initialisation de l'engin de son SID"
 
-#: src/sound.c:615
+#: src/sound.c:616
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "erreur d'initialisation du périphérique `%s'."
 
-#: src/sound.c:624
+#: src/sound.c:625
 msgid "sound device lacks stereo capability"
 msgstr "le périphérique de son n'est pas stéréo"
 
-#: src/sound.c:673
+#: src/sound.c:675
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "périphérique '%s' non trouvé ou non supporté."
 
-#: src/sound.c:694
+#: src/sound.c:696
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Le périphérique d'enregistrement %s n'existe pas!"
 
-#: src/sound.c:702
+#: src/sound.c:704
 msgid "Recording device must be different from playback device"
 msgstr ""
 "Le périphérique d'enregistrement doit être différent du périphérique de "
 "lecture"
 
-#: src/sound.c:712
+#: src/sound.c:714
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 "Attention! Le périphérique d'enregistrement %s semble être un périphérique "
 "en temps réel"
 
-#: src/sound.c:722
+#: src/sound.c:725
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Échec de l'initialisation du périphérique `%s'."
 
-#: src/sound.c:737
+#: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 "Le périphérique d'enregistrement ne supporte pas les paramètres de son "
 "actuellement configurés"
 
-#: src/sound.c:818
+#: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Erreur de dépassement de limite du tampon son (basé sur les cycles)"
 
-#: src/sound.c:832
+#: src/sound.c:835
 msgid "Sound buffer overflow."
 msgstr "Erreur de dépassement de limite du tampon son."
 
-#: src/sound.c:958
+#: src/sound.c:961
 msgid "cannot flush."
 msgstr "impossible de vider."
 
-#: src/sound.c:1007
+#: src/sound.c:1010
 msgid "fragment problems."
 msgstr "problèmes de fragments."
 
-#: src/sound.c:1037
+#: src/sound.c:1040
 msgid "Buffer drained"
 msgstr "Tampon vide"
 
-#: src/sound.c:1076
+#: src/sound.c:1079
 msgid "running too slow."
 msgstr "l'exécution est trop lente."
 
-#: src/sound.c:1092 src/sound.c:1102
+#: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
 msgstr "erreur d'écriture sur le périphérique de son."
 
-#: src/sound.c:1346
+#: src/sound.c:1352
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur le périphérique de son."
 
@@ -2550,8 +2550,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
-msgid "*Catweasle MKIII"
-msgstr "*Catweasle MKIII"
+msgid "*Catweasel MKIII"
+msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
@@ -2950,19 +2950,19 @@ msgstr "Contributeurs au projet VICE"
 msgid "The VICE Team"
 msgstr "L'équipe VICE"
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
 msgid "Official VICE homepage:"
 msgstr "La page officielle de VICE:"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr "License"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:100
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr "Contributeurs"
 
@@ -3516,7 +3516,7 @@ msgstr "Impossible de relâcher la mémoire partagée!"
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr "Erreur de lecture du mode vidéo - désactivation de l'extension vidmode"
 
-#: src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
 msgstr "Information VICE"
 

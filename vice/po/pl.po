@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-07-30 17:23+0200\n"
+"POT-Creation-Date: 2005-08-21 21:17+0200\n"
 "PO-Revision-Date: 2005-01-11 23:04+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -58,73 +58,73 @@ msgstr "Ustawienia uk³adu SID"
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:615
+#: src/sound.c:616
 #, fuzzy, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:624
+#: src/sound.c:625
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:673
+#: src/sound.c:675
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:694
+#: src/sound.c:696
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:702
+#: src/sound.c:704
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:712
+#: src/sound.c:714
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:722
+#: src/sound.c:725
 #, fuzzy, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:737
+#: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:818
+#: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:832
+#: src/sound.c:835
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:958
+#: src/sound.c:961
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:1007
+#: src/sound.c:1010
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:1037
+#: src/sound.c:1040
 #, fuzzy
 msgid "Buffer drained"
 msgstr "Rozmiar buffora"
 
-#: src/sound.c:1076
+#: src/sound.c:1079
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:1092 src/sound.c:1102
+#: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1346
+#: src/sound.c:1352
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -2635,8 +2635,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
-msgid "*Catweasle MKIII"
-msgstr "*Catweasle MKIII"
+msgid "*Catweasel MKIII"
+msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
@@ -3039,19 +3039,19 @@ msgstr "Wspó³pracownicy projektu VICE"
 msgid "The VICE Team"
 msgstr "Zespó³ VICE"
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
 msgid "Official VICE homepage:"
 msgstr "Oficjalna strona VICE:"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr "Licencja"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr "Gwarancja"
 
-#: src/arch/unix/x11/gnome/about.c:100
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr "Wspó³pracownicy"
 
@@ -3614,7 +3614,7 @@ msgstr ""
 "B³±d podczas pobierania informacji o trybie video - wy³±czanie pe³nego "
 "ekranu."
 
-#: src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
 msgstr "Informacje"
 

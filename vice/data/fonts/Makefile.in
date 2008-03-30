@@ -229,11 +229,10 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 fontsdir = $(prefix)/lib/vice/fonts
 
 fonts_DATA = \
-	cbm-directory-charset.fon \
 	vice-cbm.bdf
 
 
-EXTRA_DIST = $(fonts_DATA)
+EXTRA_DIST = $(fonts_DATA) cbm-directory-charset.fon 
 subdir = data/fonts
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h

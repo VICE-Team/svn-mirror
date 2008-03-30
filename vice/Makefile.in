@@ -245,8 +245,9 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-	Makefile.in NEWS aclocal.m4 config.guess config.sub configure \
-	configure.in depcomp install-sh missing mkinstalldirs
+	Makefile.in NEWS acinclude.m4 aclocal.m4 config.guess \
+	config.sub configure configure.in depcomp install-sh missing \
+	mkinstalldirs
 DIST_SUBDIRS = $(SUBDIRS)
 all: all-recursive
 
@@ -265,7 +266,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4):  configure.in 
+$(ACLOCAL_M4):  configure.in acinclude.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 uninstall-info-am:
 

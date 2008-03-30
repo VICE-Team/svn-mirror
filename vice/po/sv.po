@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-07-30 17:23+0200\n"
+"POT-Creation-Date: 2005-08-21 21:17+0200\n"
 "PO-Revision-Date: 2005-01-15 15:45+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -54,72 +54,72 @@ msgstr "Kan inte öppna SID-motor"
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/sound.c:615
+#: src/sound.c:616
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:624
+#: src/sound.c:625
 msgid "sound device lacks stereo capability"
 msgstr "ljudenhet saknar stereofunktion"
 
-#: src/sound.c:673
+#: src/sound.c:675
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/sound.c:694
+#: src/sound.c:696
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/sound.c:702
+#: src/sound.c:704
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/sound.c:712
+#: src/sound.c:714
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/sound.c:722
+#: src/sound.c:725
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:737
+#: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/sound.c:818
+#: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/sound.c:832
+#: src/sound.c:835
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/sound.c:958
+#: src/sound.c:961
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/sound.c:1007
+#: src/sound.c:1010
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/sound.c:1037
+#: src/sound.c:1040
 msgid "Buffer drained"
 msgstr "Buffert tömd"
 
-#: src/sound.c:1076
+#: src/sound.c:1079
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/sound.c:1092 src/sound.c:1102
+#: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
 msgstr "misslyckades skriva till ljudenheten."
 
-#: src/sound.c:1346
+#: src/sound.c:1352
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
@@ -2540,8 +2540,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
-msgid "*Catweasle MKIII"
-msgstr "*Catweasle MKIII"
+msgid "*Catweasel MKIII"
+msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
@@ -2939,19 +2939,19 @@ msgstr "Bidragslämnare till VICE-projektet"
 msgid "The VICE Team"
 msgstr "VICE-teamet"
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
 msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr "Licens"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:100
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
@@ -3503,7 +3503,7 @@ msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar vidmode-utökning."
 
-#: src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
 msgstr "VICE-information"
 

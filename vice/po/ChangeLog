@@ -1,3 +1,12 @@
+2005-08-14  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* de.po, fr.po, it.po, nl.po, pl.pl, sv.po: fixed Catweasel
+	spelling
+
+2005-08-07  pottendo  <pottendo@utanet.at>
+
+	* de.po: Updated fuzzy entries.
+
 2005-07-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* nl.po: Fixed a 'fuzzy' dutch translation.

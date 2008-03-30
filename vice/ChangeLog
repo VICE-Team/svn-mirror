@@ -1,3 +1,36 @@
+2005-08-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.19.
+
+2005-08-14  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* configure.in: check for gettext in libintl
+
+2005-08-14  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* configure.in: Added checking for CoreAudio environment (Mac
+	OS X)
+
+2005-08-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* AUTHORS,  doc/Readme.dos, doc/vice.texi, man/vice.1: Added
+	myself to the member list.
+
+	* README: Added myself to the member list and updated some
+	documentation information.
+
+	* doc/html/index.html: Added myself to the member list and
+	added QNX 6.x binary package link.
+
+2005-08-07  martin  <pottendo@utanet.at>
+
+	* acinclude.m4: New file. Contains local helper macro. This should
+	fix aclocal on newer installations.
+	
+	* data/fonts/Makefile.am (EXTRA_DIST): Separated
+	cbm-directory-charset.fon from `fonts_DATA' to avoid unnecessary
+	installation warnings under Unix.
+
 2005-07-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.18.

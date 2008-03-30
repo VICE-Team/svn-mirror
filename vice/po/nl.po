@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
-"POT-Creation-Date: 2005-07-30 17:23+0200\n"
+"POT-Creation-Date: 2005-08-21 21:17+0200\n"
 "PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -54,72 +54,72 @@ msgstr "Kan de SID kern niet openen"
 msgid "Cannot initialize SID engine"
 msgstr "Kan de SID kern niet initialiseren"
 
-#: src/sound.c:615
+#: src/sound.c:616
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initialisatie voor apparaat `%s' faalt."
 
-#: src/sound.c:624
+#: src/sound.c:625
 msgid "sound device lacks stereo capability"
 msgstr "geluidsapparaat heeft geen stereo ondersteuning"
 
-#: src/sound.c:673
+#: src/sound.c:675
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "apparaat '%s' niet gevonden of wordt niet ondersteund"
 
-#: src/sound.c:694
+#: src/sound.c:696
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Opname apparaat %s bestaat niet!"
 
-#: src/sound.c:702
+#: src/sound.c:704
 msgid "Recording device must be different from playback device"
 msgstr "Opname apparaat moet anders zijn dan afspeel apparaat"
 
-#: src/sound.c:712
+#: src/sound.c:714
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Waarschuwing! Opname apparaat %s lijkt een realtime apparaat te zijn!"
 
-#: src/sound.c:722
+#: src/sound.c:725
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initialisatie faalt voor apparaat `%s'."
 
-#: src/sound.c:737
+#: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Het opname apparaat ondersteunt de huidige geluid opties niet"
 
-#: src/sound.c:818
+#: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Geluidsbuffer overstroming (cyclus gebaseerd)"
 
-#: src/sound.c:832
+#: src/sound.c:835
 msgid "Sound buffer overflow."
 msgstr "Geluidsbuffer overstroming."
 
-#: src/sound.c:958
+#: src/sound.c:961
 msgid "cannot flush."
 msgstr "kan niet spoelen."
 
-#: src/sound.c:1007
+#: src/sound.c:1010
 msgid "fragment problems."
 msgstr "fragment problemen."
 
-#: src/sound.c:1037
+#: src/sound.c:1040
 msgid "Buffer drained"
 msgstr "Buffer leeg"
 
-#: src/sound.c:1076
+#: src/sound.c:1079
 msgid "running too slow."
 msgstr "draait te langzaam."
 
-#: src/sound.c:1092 src/sound.c:1102
+#: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:1346
+#: src/sound.c:1352
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 
@@ -2524,8 +2524,8 @@ msgid "*ReSID"
 msgstr "*ReSID"
 
 #: src/arch/unix/uisid.c:50
-msgid "*Catweasle MKIII"
-msgstr "*Catweasle MKIII"
+msgid "*Catweasel MKIII"
+msgstr "*Catweasel MKIII"
 
 #: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
@@ -2923,19 +2923,19 @@ msgstr "Medewerkers aan het VICE project"
 msgid "The VICE Team"
 msgstr "Het VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
 msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr "Licensie"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:100
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr "Medewerkers"
 
@@ -3488,7 +3488,7 @@ msgstr ""
 "Fout bij het verkrijgen van de video modus informatie - vidmode extension "
 "wordt afgesloten"
 
-#: src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
 msgstr "VICE Informatie"
 
