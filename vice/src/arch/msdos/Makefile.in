@@ -112,7 +112,6 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @USE_MIDAS_SOUND_FALSE@libarch_a_LIBADD = vicesb.o
 
 INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \

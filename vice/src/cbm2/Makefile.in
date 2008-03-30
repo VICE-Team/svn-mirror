@@ -108,8 +108,6 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -134,15 +132,9 @@ libcbm2_a_SOURCES = \
 	c610mem.h \
 	c610tpi.h \
 	c610tpi1.c \
-	c610tpi1.def \
-	c610tpi2.c \
-	c610tpi2.def
-
-BUILT_SOURCES = c610tpi1.c c610tpi2.c 
+	c610tpi2.c 
 
 EXTRA_DIST = cbm2.dsp
-
-c610dir = $(top_srcdir)/src/cbm2
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -174,7 +166,7 @@ OBJECTS = $(libcbm2_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .def .o .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/cbm2/Makefile
 
@@ -369,21 +361,25 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/memutils.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h ../../src/arch/unix/vsync.h
-c610tpi1.o: c610tpi1.c ../../src/vice.h ../../src/config.h \
-	../../src/interrupt.h ../../src/types.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/log.h ../../src/tpi.h ../../src/parallel.h \
+c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
+	../../src/config.h ../../src/types.h ../../src/log.h \
+	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/mon.h c610cia.h ../../src/cia.h ../../src/maincpu.h \
-	../../src/crtc.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h
-c610tpi2.o: c610tpi2.c ../../src/vice.h ../../src/config.h \
-	../../src/interrupt.h ../../src/types.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/log.h ../../src/tpi.h ../../src/arch/unix/kbd.h
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h c610cia.h \
+	../../src/cia.h ../../src/maincpu.h ../../src/crtc.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/resources.h ../../src/tpicore.c
+c610tpi2.o: c610tpi2.c ../../src/tpicore.h ../../src/vice.h \
+	../../src/config.h ../../src/types.h ../../src/log.h \
+	../../src/snapshot.h ../../src/tpi.h ../../src/arch/unix/kbd.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/tpicore.c
 crtc.o: crtc.c ../../src/config.h ../../src/types.h ../../src/snapshot.h \
 	c610tpi.h ../../src/crtc.h ../../src/vice.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
@@ -471,22 +467,6 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-c610tpi1.c: c610tpi1.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610tpi1.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/tpi-tmpl.c \
-	           $(c610dir)/c610tpi1.def $(c610dir)/c610tpi1.c; \
-	   fi )
-
-c610tpi2.c: c610tpi2.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610tpi2.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/tpi-tmpl.c \
-	           $(c610dir)/c610tpi2.def $(c610dir)/c610tpi2.c; \
-	   fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

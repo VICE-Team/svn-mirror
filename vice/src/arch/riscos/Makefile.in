@@ -109,7 +109,6 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \

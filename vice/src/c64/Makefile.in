@@ -111,8 +111,6 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @HAVE_RS232_TRUE@acia_libadd = c64acia1.o c64rsuser.o
 @HAVE_RS232_FALSE@acia_libadd =
 
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -141,7 +139,6 @@ libc64_a_SOURCES = \
 	reu.c \
 	reu.h \
 	c64tpi.c \
-	c64tpi.def \
 	c64tpi.h
 
 libc64c128_a_SOURCES = \
@@ -151,11 +148,7 @@ libc64c128_a_SOURCES = \
 	patchrom.c \
 	patchrom.h \
 	c64tpi.c \
-	c64tpi.def \
 	c64tpi.h
-
-BUILT_SOURCES = \
-	c64tpi.c
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
@@ -173,8 +166,6 @@ EXTRA_DIST = c64.dsp c64c128.dsp
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
-
-c64dir = $(top_srcdir)/src/c64
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -210,7 +201,7 @@ OBJECTS = $(libc64_a_OBJECTS) $(libc64c128_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .def .o .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/c64/Makefile
 
@@ -420,14 +411,15 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/types.h c64.h c64cia.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/rsuser.h
-c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h \
-	../../src/interrupt.h ../../src/types.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/log.h ../../src/tpi.h ../../src/parallel.h \
+c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
+	../../src/config.h ../../src/types.h ../../src/log.h \
+	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/mon.h
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/resources.h \
 	../../src/mem.h ../../src/types.h ../../src/snapshot.h \
@@ -517,14 +509,6 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-c64tpi.c: c64tpi.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c64tpi.c'..."; \
-           if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	       	   $(top_srcdir)/src/tpi-tmpl.c \
-	       	   $(c64dir)/c64tpi.def $(c64dir)/c64tpi.c; \
-           fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

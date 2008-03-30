@@ -113,7 +113,6 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @NEED_READLINE_FALSE@SUBDIRS = xaw readline
 
 INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src

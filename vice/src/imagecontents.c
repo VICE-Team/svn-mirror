@@ -206,7 +206,7 @@ static DRIVE *open_image(const char *name)
     floppy->NumTracks = hdr.tracks;
     floppy->NumBlocks = num_blocks(floppy->ImageFormat, hdr.tracks);
     floppy->ErrFlg    = hdr.errblk;
-    floppy->D64_Header= hdr.d64 | hdr.d71 | hdr.d81;
+    floppy->D64_Header= hdr.d64 | hdr.d71 | hdr.d81 | hdr.d80 | hdr.d82;
     floppy->ReadOnly = 1;	/* Just to be sure... */
     floppy->unit = 0;
 

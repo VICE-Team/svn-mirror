@@ -108,8 +108,6 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -130,22 +128,14 @@ libpet_a_SOURCES = \
 	petmem.h \
 	petpia.h \
 	petpia1.c \
-	petpia1.def \
 	petpia2.c \
-	petpia2.def \
 	pets.h \
 	petsound.c \
 	petsound.h \
 	petvia.c \
 	petvia.h
 
-BUILT_SOURCES = \
-	petpia1.c \
-	petpia2.c
-
 EXTRA_DIST = pet.dsp
-
-petdir = $(top_srcdir)/src/pet
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -177,7 +167,7 @@ OBJECTS = $(libpet_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .def .o .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/pet/Makefile
 
@@ -360,26 +350,27 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	petmem.h petpia.h pets.h petvia.h ../../src/tape.h \
 	../../src/traps.h ../../src/utils.h ../../src/arch/unix/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h ../../src/log.h \
-	../../src/parallel.h ../../src/crtc.h \
+	../../src/types.h ../../src/piacore.h ../../src/log.h \
+	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/vmachine.h ../../src/crtc.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/arch/unix/kbd.h ../../src/drive/drive.h \
-	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
-	../../src/traps.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h pets.h \
-	petmem.h petpia.h
+	../../src/arch/unix/kbd.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/6510core.h pets.h petmem.h petpia.h \
+	../../src/maincpu.h ../../src/piacore.c
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h ../../src/log.h \
-	../../src/parallel.h ../../src/drive/drive.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
-	petpia.h
+	../../src/types.h ../../src/piacore.h ../../src/log.h \
+	../../src/snapshot.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h petpia.h \
+	../../src/maincpu.h ../../src/piacore.c
 petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
 	../../src/types.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/alarm.h \
@@ -475,22 +466,6 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-petpia1.c: petpia1.def $(top_srcdir)/src/pia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`petpia1.c'..."; \
-	   if [ -s $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/pia-tmpl.c \
-	           $(petdir)/petpia1.def $(petdir)/petpia1.c; \
-	   fi )
-
-petpia2.c: petpia2.def $(top_srcdir)/src/pia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`petpia2.c'..."; \
-	   if [ -s $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/pia-tmpl.c \
-	           $(petdir)/petpia2.def $(petdir)/petpia2.c; \
-	   fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
