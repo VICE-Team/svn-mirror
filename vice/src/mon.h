@@ -40,10 +40,12 @@
 typedef int bool;
 
 struct mon_cmds {
-   char *str;
-   char *abbrev;
+   const char *str;
+   const char *abbrev;
    int token;
    int next_state;
+   const char *param_names;
+   const char *description;
 };
 
 enum mon_int {
