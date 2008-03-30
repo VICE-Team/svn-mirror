@@ -266,7 +266,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
                   unsigned int secondary)
 {
-    char rname[MAXPATHLEN];
+    char rname[PATH_MAX];
     int status = 0, rc;
     unsigned int i;
     cbmdos_cmd_parse_t cmd_parse;

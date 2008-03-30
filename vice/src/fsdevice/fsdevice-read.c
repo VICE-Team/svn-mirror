@@ -149,7 +149,7 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
     unsigned int filelen, isdir;
     fileio_info_t *finfo = NULL;
     unsigned int format = 0;
-    char buf[MAXPATHLEN];
+    char buf[PATH_MAX];
 
     info->bufp = info->name;
 

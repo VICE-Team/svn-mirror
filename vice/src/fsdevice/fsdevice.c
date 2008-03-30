@@ -61,11 +61,11 @@ fs_buffer_info_t fs_info[16];
 
 /* this should somehow go into the fs_info struct... */
 
-static char fs_errorl[4][MAXPATHLEN];
+static char fs_errorl[4][PATH_MAX];
 static unsigned int fs_eptr[4];
 static size_t fs_elen[4];
 
-char fs_dirmask[MAXPATHLEN];
+char fs_dirmask[PATH_MAX];
 
 /* ------------------------------------------------------------------------- */
 

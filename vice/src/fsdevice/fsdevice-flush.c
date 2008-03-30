@@ -54,7 +54,7 @@
 #include "vdrive.h"
 
 
-static BYTE fs_cmdbuf[4][MAXPATHLEN];
+static BYTE fs_cmdbuf[4][PATH_MAX];
 static unsigned int fs_cptr[4] = { 0, 0, 0, 0 };
 
 
@@ -220,7 +220,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 {
     unsigned int dnr;
     char *cmd, *realarg, *arg;
-    char cbmcmd[MAXPATHLEN];
+    char cbmcmd[PATH_MAX];
     int er = CBMDOS_IPE_SYNTAX;
 
     dnr = vdrive->unit - 8;
@@ -288,7 +288,7 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
     rc = SERIAL_OK;
 
     /* FIXME: Consider the real size of the input buffer. */
-    if (fs_cptr[dnr] < MAXPATHLEN - 1) {
+    if (fs_cptr[dnr] < PATH_MAX - 1) {
         fs_cmdbuf[dnr][fs_cptr[dnr]++] = data;
         rc = SERIAL_OK;
     } else {

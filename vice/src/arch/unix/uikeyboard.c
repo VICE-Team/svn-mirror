@@ -102,12 +102,15 @@ static UI_CALLBACK(select_user_keymap)
 static UI_CALLBACK(dump_keymap)
 {
     char *wd;
-    wd = lib_malloc(MAXPATHLEN);
+    int len;
 
-    ioutil_getcwd(wd, MAXPATHLEN);
+    len = ioutil_maxpathlen();
+    wd = lib_malloc(len);
+
+    ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"),
-                        wd, MAXPATHLEN) == UI_BUTTON_OK) {
+                        wd, len) == UI_BUTTON_OK) {
         if (keyboard_keymap_dump(wd) < 0)
             ui_error(strerror(errno));
     }
