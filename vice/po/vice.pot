@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-04-21 17:24+0200\n"
+"POT-Creation-Date: 2003-04-24 21:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,12 +34,12 @@ msgstr ""
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
-#: src/arch/unix/archdep.c:249
+#: src/arch/unix/archdep.c:235
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr ""
 
-#: src/arch/unix/archdep.c:252
+#: src/arch/unix/archdep.c:238
 #, c-format
 msgid "Received signal %d."
 msgstr ""
@@ -260,8 +260,8 @@ msgstr ""
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:411
 #: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:501
-#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1112
-#: src/arch/unix/x11/gnome/x11ui.c:1204
+#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1121
+#: src/arch/unix/x11/gnome/x11ui.c:1213
 msgid "Settings"
 msgstr ""
 
@@ -872,7 +872,7 @@ msgstr ""
 msgid "Unknown image type"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:274 src/arch/unix/uisettings.c:331
+#: src/arch/unix/uicommands.c:274 src/arch/unix/uisettings.c:335
 msgid "VICE setting"
 msgstr ""
 
@@ -995,7 +995,7 @@ msgstr ""
 
 #: src/arch/unix/uicommands.c:721 src/arch/unix/uicommands.c:736
 #: src/arch/unix/x11/gnome/x11ui.c:788 src/arch/unix/x11/gnome/x11ui.c:798
-#: src/arch/unix/x11/gnome/x11ui.c:1448
+#: src/arch/unix/x11/gnome/x11ui.c:1457
 msgid "<empty>"
 msgstr ""
 
@@ -1164,7 +1164,7 @@ msgid "About VICE..."
 msgstr ""
 
 #: src/arch/unix/uicommands.c:1020 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1828
+#: src/arch/unix/x11/gnome/x11ui.c:1837
 msgid "Reset"
 msgstr ""
 
@@ -1777,7 +1777,7 @@ msgstr ""
 msgid "Enter refresh rate"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:122 src/arch/unix/uisettings.c:501
+#: src/arch/unix/uisettings.c:122 src/arch/unix/uisettings.c:505
 msgid "Refresh rate"
 msgstr ""
 
@@ -1793,130 +1793,130 @@ msgstr ""
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/x11ui.c:1251
+#: src/arch/unix/uisettings.c:223 src/arch/unix/x11/gnome/x11ui.c:1260
 #: src/arch/unix/x11/xaw/x11ui.c:1019
 msgid "Cannot save settings."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:224
+#: src/arch/unix/uisettings.c:226
 msgid "Settings saved successfully."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:239
+#: src/arch/unix/uisettings.c:243
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:241
+#: src/arch/unix/uisettings.c:245
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:245
+#: src/arch/unix/uisettings.c:249
 msgid "Settings loaded."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:286
+#: src/arch/unix/uisettings.c:290
 msgid "*Symbolic mapping"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:288
+#: src/arch/unix/uisettings.c:292
 msgid "*Positional mapping (US)"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:306
+#: src/arch/unix/uisettings.c:310
 msgid "Read Keymap File"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:331
+#: src/arch/unix/uisettings.c:335
 msgid "Write to Keymap File:"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:340
+#: src/arch/unix/uisettings.c:344
 msgid "Keyboard mapping type"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:343
+#: src/arch/unix/uisettings.c:347
 msgid "Set symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:345
+#: src/arch/unix/uisettings.c:349
 msgid "Set positional keymap file"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:348
+#: src/arch/unix/uisettings.c:352
 msgid "Dump keymap to file"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:370
+#: src/arch/unix/uisettings.c:374
 msgid "Load custom ROM set definition"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:378
+#: src/arch/unix/uisettings.c:382
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:399
+#: src/arch/unix/uisettings.c:403
 msgid "File to dump ROM set definition to"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:404
+#: src/arch/unix/uisettings.c:408
 msgid "ROM set file:"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:420
+#: src/arch/unix/uisettings.c:424
 msgid "Load ROM file"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:429
+#: src/arch/unix/uisettings.c:433
 #, c-format
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:451
+#: src/arch/unix/uisettings.c:455
 msgid "*Auto"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:474 src/arch/unix/uisettings.c:493
+#: src/arch/unix/uisettings.c:478 src/arch/unix/uisettings.c:497
 msgid "*Custom..."
 msgstr ""
 
-#: src/arch/unix/uisettings.c:490
+#: src/arch/unix/uisettings.c:494
 msgid "*No limit"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:503
+#: src/arch/unix/uisettings.c:507
 msgid "Maximum speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:505
+#: src/arch/unix/uisettings.c:509
 msgid "*Enable warp mode"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:511
+#: src/arch/unix/uisettings.c:515
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:517
+#: src/arch/unix/uisettings.c:521
 msgid "Save settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:519
+#: src/arch/unix/uisettings.c:523
 msgid "Load settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:521
+#: src/arch/unix/uisettings.c:525
 msgid "Restore default settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:523
+#: src/arch/unix/uisettings.c:527
 msgid "*Save settings on exit"
 msgstr ""
 
@@ -2519,93 +2519,93 @@ msgstr ""
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1110 src/arch/unix/x11/gnome/x11ui.c:1193
+#: src/arch/unix/x11/gnome/x11ui.c:1119 src/arch/unix/x11/gnome/x11ui.c:1202
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1116
+#: src/arch/unix/x11/gnome/x11ui.c:1125
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:1007
+#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1007
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1240 src/arch/unix/x11/xaw/x11ui.c:1009
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1009
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1248 src/arch/unix/x11/xaw/x11ui.c:1016
+#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1016
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1294 src/arch/unix/x11/xaw/x11ui.c:1058
+#: src/arch/unix/x11/gnome/x11ui.c:1303 src/arch/unix/x11/xaw/x11ui.c:1058
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1314 src/arch/unix/x11/gnome/x11ui.c:1317
+#: src/arch/unix/x11/gnome/x11ui.c:1323 src/arch/unix/x11/gnome/x11ui.c:1326
 #: src/arch/unix/x11/xaw/x11ui.c:1079 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1600
+#: src/arch/unix/x11/gnome/x11ui.c:1609
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1637 src/arch/unix/x11/xaw/x11ui.c:1295
+#: src/arch/unix/x11/gnome/x11ui.c:1646 src/arch/unix/x11/xaw/x11ui.c:1295
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1791
+#: src/arch/unix/x11/gnome/x11ui.c:1800
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1802
+#: src/arch/unix/x11/gnome/x11ui.c:1811
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1828
+#: src/arch/unix/x11/gnome/x11ui.c:1837
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1829
+#: src/arch/unix/x11/gnome/x11ui.c:1838
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1873 src/arch/unix/x11/xaw/x11ui.c:1573
+#: src/arch/unix/x11/gnome/x11ui.c:1882 src/arch/unix/x11/xaw/x11ui.c:1573
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1874
+#: src/arch/unix/x11/gnome/x11ui.c:1883
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1887
+#: src/arch/unix/x11/gnome/x11ui.c:1896
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1895 src/arch/unix/x11/gnome/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:1904 src/arch/unix/x11/gnome/x11ui.c:1913
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2031 src/arch/unix/x11/gnome/x11ui.c:2036
+#: src/arch/unix/x11/gnome/x11ui.c:2040 src/arch/unix/x11/gnome/x11ui.c:2045
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2499
+#: src/arch/unix/x11/gnome/x11ui.c:2510
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2546
+#: src/arch/unix/x11/gnome/x11ui.c:2557
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2572
+#: src/arch/unix/x11/gnome/x11ui.c:2583
 msgid "Autostart"
 msgstr ""
 

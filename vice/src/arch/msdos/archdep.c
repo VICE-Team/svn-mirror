@@ -151,13 +151,7 @@ char *archdep_default_save_resource_file_name(void)
 
 char *archdep_default_resource_file_name(void)
 {
-    static char *fname = NULL;
-
-    if (fname != NULL)
-        lib_free(fname);
-
-    fname = util_concat(archdep_boot_path(), "\\vicerc", NULL);
-    return fname;
+    return util_concat(archdep_boot_path(), "\\vicerc", NULL);
 }
 
 char *archdep_default_fliplist_file_name(void)

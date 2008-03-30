@@ -40,6 +40,9 @@
 #include "ui.h"
 #include "uihotkey.h"
 
+/*
+#define DEBUG_KBD
+*/
 
 void kbd_arch_init(void)
 {
@@ -183,6 +186,7 @@ void x11kbd_enter_leave(void)
 
 void x11kbd_focus_change(void)
 {
+    keyboard_key_clear();
     meta_count = control_count = shift_count = 0;
     return;
 }

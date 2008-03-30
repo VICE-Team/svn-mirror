@@ -159,39 +159,25 @@ char *archdep_make_backup_filename(const char *fname)
 
 char *archdep_default_resource_file_name(void)
 {
-    static char *fname = NULL;
     const char *home;
 
-    if (fname != NULL)
-        lib_free(fname);
-
     home = archdep_home_path();
-
-    fname = util_concat(home, "/.vice/vicerc", NULL);
-
-    return fname;
+    return util_concat(home, "/.vice/vicerc", NULL);
 }
 
 char *archdep_default_fliplist_file_name(void)
 {
-    static char *fname;
     const char *home;
 
-    if (fname != NULL)
-        lib_free(fname);
     home = archdep_home_path();
-    fname = util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
-    return fname;
+    return util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
 }
 
 char *archdep_default_save_resource_file_name(void)
 {
-    static char *fname = NULL;
+    char *fname;
     const char *home;
     char *viceuserdir;
-
-    if (fname != NULL)
-        lib_free(fname);
 
     home = archdep_home_path();
 

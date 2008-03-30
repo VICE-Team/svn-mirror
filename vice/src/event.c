@@ -86,6 +86,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
 
     switch (type) {
       case EVENT_KEYBOARD_MATRIX:
+      case EVENT_KEYBOARD_RESTORE:
       case EVENT_JOYSTICK_VALUE:
       case EVENT_DATASETTE:
         event_data = lib_malloc(size);
@@ -127,6 +128,9 @@ static void event_alarm_handler(CLOCK offset)
     switch (event_list_current->type) {
       case EVENT_KEYBOARD_MATRIX:
         keyboard_event_playback(offset, event_list_current->data);
+        break;
+      case EVENT_KEYBOARD_RESTORE:
+        keyboard_restore_event_playback(offset, event_list_current->data);
         break;
       case EVENT_JOYSTICK_VALUE:
         joystick_event_playback(offset, event_list_current->data);
@@ -372,7 +376,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
             || SMW_DW(m, (DWORD)curr->type) < 0
             || SMW_DW(m, (DWORD)curr->clk) < 0
             || SMW_DW(m, (DWORD)curr->size) < 0
-            || SMW_BA(m, curr->data, curr->size)) {
+            || SMW_BA(m, curr->data, curr->size) < 0) {
             snapshot_module_close(m);
             return -1;
         }

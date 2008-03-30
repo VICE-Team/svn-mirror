@@ -1041,6 +1041,9 @@ static int handle_close(struct zfile *ptr)
     else
         zfile_list = ptr->next;
 
+    if (ptr->next != NULL)
+        ptr->next->prev = ptr->prev;
+
     if (ptr->orig_name)
         lib_free(ptr->orig_name);
     if (ptr->tmp_name)

@@ -62,7 +62,7 @@ BEGIN
             MENUITEM "&Soft\tAlt+R", IDM_SOFT_RESET
         END
 #ifdef DEBUG
-		POPUP "&Debug"
+        POPUP "&Debug"
         BEGIN
             MENUITEM "&Main CPU Trace\tAlt+F", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Drive&0 CPU Trace\tAlt+G", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
@@ -121,22 +121,16 @@ BEGIN
         MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_CRTCVIDEOCACHE
-        , CHECKED
+            , CHECKED
         MENUITEM "&Double size", IDM_TOGGLE_CRTCDOUBLESIZE
-        , CHECKED
+            , CHECKED
         MENUITEM "Dou&ble scan", IDM_TOGGLE_CRTCDOUBLESCAN
-        , CHECKED
+            , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "Swap &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
-	MENUITEM SEPARATOR
+        MENUITEM "Swap &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM SEPARATOR
         MENUITEM "&Sound playback", IDM_TOGGLE_SOUND, CHECKED
-        POPUP "Sound engine"
-        BEGIN
-            MENUITEM "Fast SID",        IDM_SIDENGINE_FASTSID
-#ifdef HAVE_CATWEASELMKIII
-            MENUITEM "Catweasel MKIII", IDM_SIDENGINE_CATWEASELMKIII
-#endif
-        END
+        MENUITEM SEPARATOR
         MENUITEM "&True drive emulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
         POPUP "Drive s&ync factor"
@@ -144,8 +138,8 @@ BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC", IDM_SYNC_FACTOR_NTSC
         END
-	MENUITEM SEPARATOR
-	MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
+        MENUITEM SEPARATOR
+        MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
     END
     POPUP "S&ettings"
     BEGIN
@@ -163,8 +157,8 @@ BEGIN
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
         MENUITEM "Set de&fault settings",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-	MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-	MENUITEM "&Confirm on exit",	   IDM_TOGGLE_CONFIRM_ON_EXIT
+    MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+    MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Help"
     BEGIN

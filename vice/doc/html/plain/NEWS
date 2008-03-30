@@ -5,6 +5,17 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.12
+======================
+
+** Unix changes
+---------------
+
+- The Gnome popup dialogs now have titles again. This now can be used
+  to hook up WM actions.
+- Key events are passed to a focused Vice window even when the mouse is not
+  inside the emulator window.
+
 * Changes in VICE 1.11
 ======================
 

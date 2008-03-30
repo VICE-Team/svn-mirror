@@ -115,6 +115,11 @@ void keyboard_event_playback(CLOCK offset, void *data)
     keyboard_latch_matrix(offset);
 }
 
+void keyboard_restore_event_playback(CLOCK offset, void *data)
+{
+    machine_set_restore_key((int)(*(DWORD *)data));
+}
+    
 static void keyboard_latch_handler(CLOCK offset)
 {
     alarm_unset(keyboard_alarm);
@@ -243,6 +248,7 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
 
 void keyboard_key_pressed(signed long key)
 {
+    DWORD event_data;
     int i, latch;
 
     if (event_playback_active())
@@ -251,7 +257,11 @@ void keyboard_key_pressed(signed long key)
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
         && machine_set_restore_key(1))
+    {
+        event_data = (DWORD)1;
+        event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
         return;
+    }
 
     if (key == key_ctrl_column4080) {
         if (key_ctrl_column4080_func != NULL)
@@ -328,6 +338,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
 
 void keyboard_key_released(signed long key)
 {
+    DWORD event_data;
     int i, latch;
 
     if (event_playback_active())
@@ -336,7 +347,11 @@ void keyboard_key_released(signed long key)
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
         && machine_set_restore_key(0))
+    {
+        event_data = (DWORD)0;
+        event_record(EVENT_KEYBOARD_RESTORE, (void *)&event_data, sizeof(DWORD));
         return;
+    }
 
     if (joystick_check_clr(key, 1))
         return;

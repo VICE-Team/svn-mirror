@@ -33,11 +33,17 @@
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
+#include "sid.h"
 #include "system.h"
 #include "ui.h"
 #include "uisid.h"
 #include "winmain.h"
 
+
+static const TCHAR* ui_sid_engine[] = 
+{
+    TEXT("Fast SID"), TEXT("reSID"), TEXT("Catweasel MK3"), NULL
+};
 
 static const TCHAR* ui_sid_samplemethod[] = 
 {
@@ -56,9 +62,10 @@ static const int ui_sid_cbm2baseaddress[] =
 
 static void enable_sid_controls(HWND hwnd)
 {
-    int is_enabled;
+    int engine, is_enabled;
 
-    resources_get_value("SidUseResid", (resource_value_t *)&is_enabled);
+    resources_get_value("SidEngine", (resource_value_t *)&engine);
+    is_enabled = (engine == SID_ENGINE_RESID);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND), is_enabled);
@@ -135,10 +142,15 @@ static void init_sid_dialog(HWND hwnd)
 
     CreateAndGetSidAddress(hwnd, 0);
 
-    resources_get_value("SidUseResid",
+    resources_get_value("SidEngine",
         (resource_value_t *)&res_value);
-    CheckDlgButton(hwnd, IDC_SID_RESID, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
+    sid_hwnd=GetDlgItem(hwnd,IDC_SID_ENGINE);
+    for (res_value_loop = 0; ui_sid_engine[res_value_loop];
+        res_value_loop++) {
+        SendMessage(sid_hwnd,CB_ADDSTRING,0,
+            (LPARAM)ui_sid_engine[res_value_loop]);
+    }
+    SendMessage(sid_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
 
     resources_get_value("SidModel",
         (resource_value_t *)&res_value);
@@ -161,9 +173,8 @@ static void init_sid_dialog(HWND hwnd)
     SetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND, st);
 
     enable_sid_controls(hwnd);
-    
-    
 }
+
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
@@ -176,10 +187,10 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_COMMAND:
         command=LOWORD(wparam);
         switch (command) {
-          case IDC_SID_RESID:
-            resources_set_value("SidUseResid", (resource_value_t)
-                (IsDlgButtonChecked
-                    (hwnd,IDC_SID_RESID)==BST_CHECKED ? 1 : 0 ));
+          case IDC_SID_ENGINE:
+            resources_set_value("SidEngine", (resource_value_t)
+                SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE), 
+                    CB_GETCURSEL, 0, 0));
             enable_sid_controls(hwnd);
             break;
           case IDC_SID_STEREO:

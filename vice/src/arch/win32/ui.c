@@ -1596,7 +1596,11 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             ui_error("Cannot save settings.");
         else
             ui_message("Settings saved successfully.");
-        flip_save_list((unsigned int) -1, archdep_default_fliplist_file_name());
+	{
+	    char *fname = archdep_default_fliplist_file_name();
+	    flip_save_list((unsigned int) -1, fname);
+	    lib_free(fname);
+	}
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0) {

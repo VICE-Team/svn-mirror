@@ -245,7 +245,7 @@
 #define IDC_SID_6581                    1342
 #define IDC_SID_8580                    1343
 #define IDC_SID_STEREO                  1344
-#define IDC_SID_RESID                   1345
+#define IDC_SID_ENGINE                  1345
 #define IDC_SID_RESID_SAMPLING          1346
 #define IDC_SID_RESID_PASSBAND          1347
 #define IDC_SID_STEREOADDRESS           1348
@@ -416,8 +416,6 @@
 #define IDM_VIDEO_SETTINGS              40210
 #define IDM_PLUS4_SETTINGS              40211
 #define IDM_RAM_SETTINGS                40212
-#define IDM_SIDENGINE_FASTSID           40213
-#define IDM_SIDENGINE_CATWEASELMKIII    40214
 #define IDM_TOGGLE_TFE                  40215
 #define IDM_TOGGLE_MAINCPU_TRACE		40216
 #define IDM_TOGGLE_DRIVE0CPU_TRACE		40217

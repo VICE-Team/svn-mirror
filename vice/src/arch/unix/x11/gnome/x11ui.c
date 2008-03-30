@@ -955,6 +955,16 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     }
 
     new_window = gnome_app_new(PACKAGE, PACKAGE);
+    gtk_widget_set_events(new_window,
+			  GDK_LEAVE_NOTIFY_MASK |
+			  GDK_ENTER_NOTIFY_MASK |			  
+			  GDK_BUTTON_PRESS_MASK |
+			  GDK_BUTTON_RELEASE_MASK |
+			  GDK_KEY_PRESS_MASK |
+			  GDK_KEY_RELEASE_MASK |
+			  GDK_FOCUS_CHANGE_MASK |
+			  GDK_POINTER_MOTION_MASK |
+			  GDK_EXPOSURE_MASK);
     if (!_ui_top_level)
 	_ui_top_level = new_window;
     
@@ -1028,7 +1038,6 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     pal_ctrl_widget = build_pal_ctrl_widget(c);
     gtk_box_pack_end(GTK_BOX(new_pane), pal_ctrl_widget, FALSE, FALSE, 0);
     gtk_widget_hide(pal_ctrl_widget);
-    
     if (no_autorepeat) {
         gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
                            GTK_SIGNAL_FUNC(ui_autorepeat_off),NULL);
@@ -2377,13 +2386,13 @@ void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
     ui_dispatch_events();
+    gtk_window_set_title(GTK_WINDOW(w),title);
 
 #if 0				/* this code centers popups arount the main 
 				   emulation window,
 				   We decided to let the WM take care of
 				   placing popups */
     gtk_widget_set_parent_window(w,_ui_top_level->window);
-    gtk_window_set_title(GTK_WINDOW(w),title);
     {
 	/* Center the popup. */
       
@@ -2425,6 +2434,8 @@ void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
 #endif
     gtk_window_set_transient_for(GTK_WINDOW(w),GTK_WINDOW(_ui_top_level));
     gtk_widget_show(w);
+    gdk_window_set_decorations (w->window, GDK_DECOR_ALL | GDK_DECOR_MENU);
+    gdk_window_set_functions (w->window, GDK_FUNC_ALL | GDK_FUNC_RESIZE);
     
     ui_block_shells();
     /* If requested, wait for this widget to be popped down before

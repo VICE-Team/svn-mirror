@@ -207,12 +207,7 @@ char *archdep_default_save_resource_file_name(void)
 
 char *archdep_default_resource_file_name(void)
 {
-    static char *filename = NULL;
-
-    if (!filename)
-        filename = util_concat(archdep_boot_path(), "\\vice2.cfg", NULL);
-
-    return filename;
+    return util_concat(archdep_boot_path(), "\\vice2.cfg", NULL);
 }
 
 char *archdep_default_fliplist_file_name(void)

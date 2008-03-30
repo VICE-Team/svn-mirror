@@ -31,6 +31,7 @@
 
 #include "archdep.h"
 #include "datasette.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -70,7 +71,7 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
 {
     snapshot_module_t *m;
     FILE *ftap;
-    long pos;
+    long pos, tap_size;
     BYTE buffer[256];
     int i;
 
@@ -89,6 +90,18 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
     /* remeber current position */
     pos = ftell(ftap);
 
+    /* move to end and get size of file */
+    if (fseek(ftap, 0, SEEK_END) != 0) {
+        log_error(tape_snapshot_log, "Cannot move to end of tapfile");
+        return -1;
+    }
+
+    tap_size = ftell(ftap);
+    if (SMW_DW(m, tap_size)) {
+        fseek(ftap, pos, SEEK_SET);
+        log_error(tape_snapshot_log, "Cannot write size of tap image");
+    }
+
     /* move to beginning */
     if (fseek(ftap, 0, SEEK_SET) != 0) {
         log_error(tape_snapshot_log, "Cannot move to beginning of tapfile");
@@ -96,13 +109,15 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
     }
 
     /* read every BYTE and write to snapshot module */
-    do {
+    while (tap_size > 0) {
         i = fread(buffer, 1, 256, ftap);
         if (SMW_BA(m, buffer, i) < 0) {
-            zfclose(ftap);
+            log_error(tape_snapshot_log, "Cannot write tap image");
+            fseek(ftap, pos, SEEK_SET);
             return -1;
         }
-    } while(i == 256);
+        tap_size -= i;
+    }
 
     /* restore position */
     fseek(ftap, pos, SEEK_SET);
@@ -120,8 +135,8 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
     snapshot_module_t *m;
     char *filename;
     FILE *ftap;
-    BYTE b, buffer[256];
-    int buflen, end_of_tap = 0;
+    BYTE *buffer;
+    long tap_size;
 
     m = snapshot_module_open(s, "TAPIMAGE",
                              &major_version, &minor_version);
@@ -150,22 +165,21 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
         return -1;
     }
 
-    while (!end_of_tap) {
-        buflen = 0;
-        while (buflen < 256 && !end_of_tap) {
-            end_of_tap = SMR_B(m, &b);
-            if (!end_of_tap)
-                buffer[buflen++] = b;
-        }
+    SMR_DW(m, &tap_size);
 
-        if (fwrite(buffer, buflen, 1, ftap) != 1) {
-            log_error(tape_snapshot_log, "Could not create temporary file");
-            log_error(tape_snapshot_log, "filename=%s", filename);
-            snapshot_module_close(m);
-            fclose(ftap);
-            return -1;
-        }
+    buffer = lib_malloc(tap_size);
+
+    SMR_BA(m, buffer, tap_size);
+
+    if (fwrite(buffer, tap_size, 1, ftap) != 1) {
+        log_error(tape_snapshot_log, "Could not create temporary file");
+        log_error(tape_snapshot_log, "filename=%s", filename);
+        snapshot_module_close(m);
+        fclose(ftap);
+        return -1;
     }
+
+    lib_free(buffer);
 
     fclose(ftap);
 

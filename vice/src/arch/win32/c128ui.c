@@ -73,17 +73,8 @@ static const ui_res_possible_values CartMode128[] = {
     { -1, 0 }
 };
 
-static const ui_res_possible_values SidEngine[] = {
-    { SID_ENGINE_FASTSID, IDM_SIDENGINE_FASTSID },
-#ifdef HAVE_CATWEASELMKIII
-    { SID_ENGINE_CATWEASELMKIII, IDM_SIDENGINE_CATWEASELMKIII },
-#endif
-    { -1, 0 }
-};
-
 static const ui_res_value_list c128_ui_res_values[] = {
     { "CartridgeMode", CartMode128 },
-    { "SidEngine", SidEngine },
     { NULL, NULL }
 };
 
@@ -265,16 +256,6 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
         break;
-      case IDM_SIDENGINE_FASTSID:
-        resources_set_value("SidEngine",
-                            (resource_value_t)SID_ENGINE_FASTSID);
-        break;
-#ifdef HAVE_CATWEASELMKIII
-      case IDM_SIDENGINE_CATWEASELMKIII:
-        resources_set_value("SidEngine",
-                            (resource_value_t)SID_ENGINE_CATWEASELMKIII);
-        break;
-#endif
      }
 }
 
