@@ -88,8 +88,11 @@ extern void ui_create_emulator_menu(int *block);
 extern int  ui_open_centered_or_raise_block(RO_Window *win, int *block);
 extern void ui_setup_menu_display(const struct disp_desc_s *dd);
 extern void ui_set_menu_display_core(const struct disp_desc_s *dd, set_var_function func, int number);
+extern void ui_update_menu_disp_strshow(const struct disp_desc_s *dd, resource_value_t val);
 extern void ui_setup_config_item(struct conf_item_s *ci);
 extern void ui_update_rom_names(void);
+extern const char *ui_check_for_syspath(const char *path);
+
 
 extern RO_Screen ScreenMode;
 

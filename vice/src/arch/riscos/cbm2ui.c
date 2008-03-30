@@ -188,10 +188,39 @@ static int cbm2ui_menu_select_config(int *block, int wnum)
   return -1;
 }
 
+static int cbm2ui_key_pressed_config(int *block, int wnum, const char *data)
+{
+  if (wnum == CONF_WIN_CBM2)
+  {
+    if (block[KeyPB_Icon] == Icon_ConfCBM_CBM2CartF)
+    {
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)data);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+static int cbm2ui_usr_msg_data_load(int *block)
+{
+  if (block[5] == ConfWindows[CONF_WIN_CBM2]->Handle)
+  {
+    if (block[6] == Icon_ConfCBM_CBM2CartF)
+    {
+      const char *name = ((const char*)block) + 44;
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)name);
+      return 0;
+    }
+  }
+  return -1;
+}
+
 static void cbm2ui_init_callbacks(void)
 {
   ViceMachineCallbacks.setup_config_window = cbm2ui_setup_config_window;
   ViceMachineCallbacks.menu_select_config_main = cbm2ui_menu_select_config;
+  ViceMachineCallbacks.key_pressed_config = cbm2ui_key_pressed_config;
+  ViceMachineCallbacks.usr_msg_data_load = cbm2ui_usr_msg_data_load;
 }
 
 int cbm2ui_init(void)

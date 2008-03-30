@@ -404,6 +404,8 @@ struct ui_machine_callback_s ViceMachineCallbacks = {
   NULL,
   NULL,
   NULL,
+  NULL,
+  NULL,
   NULL
 };
 
@@ -735,9 +737,7 @@ static const char Rsrc_PrinterFile[] = "PrinterTextDevice1";
 static const char Rsrc_FullScrNorm[] = "ScreenMode";
 static const char Rsrc_FullScrPal[] = "ScreenModePAL";
 static const char Rsrc_FullScrPal2[] = "ScreenModeDouble";
-static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_CoreDump[] = "DoCoreDump";
-static const char Rsrc_Z80Bios[] = "Z80BiosName";
 static const char Rsrc_ColourSat[] = "ColorSaturation";
 static const char Rsrc_Contrast[] = "ColorContrast";
 static const char Rsrc_Brightness[] = "ColorBrightness";
@@ -982,7 +982,7 @@ static void ui_temp_resume_sound(void)
 
 
 /* If w != NULL it overrides the window information in the descriptor */
-void ui_set_icons_grey(RO_Window *w, const conf_iconid_t *desc, int state)
+void ui_set_icons_grey(RO_Window *win, const conf_iconid_t *desc, int state)
 {
   int i;
   unsigned eor;
@@ -990,7 +990,9 @@ void ui_set_icons_grey(RO_Window *w, const conf_iconid_t *desc, int state)
   eor = (state == 0) ? IFlg_Grey : 0;
   for (i=0; desc[i].win != 0xff; i++)
   {
-    wimp_window_set_icon_state((w == NULL) ? ConfWindows[desc[i].win] : w, desc[i].icon, eor, IFlg_Grey);
+    RO_Window *w = (win == NULL) ? ConfWindows[desc[i].win] : win;
+    if (w != NULL)
+      wimp_window_set_icon_state(w, desc[i].icon, eor, IFlg_Grey);
   }
 }
 
@@ -1093,28 +1095,31 @@ static void ui_set_pane_state(int state)
 
 static void ui_set_menu_disp_strshow(const disp_desc_t *dd)
 {
-  disp_strshow_t *ds;
-  char **resources;
-  resource_value_t val;
-  int greyflag;
+  if (ConfWindows[dd->id.win] != NULL)
+  {
+    disp_strshow_t *ds;
+    char **resources;
+    resource_value_t val;
+    int greyflag;
 
-  ds = ((disp_strshow_t*)(dd->resource));
-  resources = (char**)(dd + 1);
-  if (resources_get_value(resources[ds->item], (void *)&val) == 0)
-  {
-    wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
-    greyflag = 0;
+    ds = ((disp_strshow_t*)(dd->resource));
+    resources = (char**)(dd + 1);
+    if (resources_get_value(resources[ds->item], (void *)&val) == 0)
+    {
+      wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
+      greyflag = 0;
+    }
+    else
+    {
+      greyflag = IFlg_Grey;
+    }
+    wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
+    wimp_window_set_icon_state(ConfWindows[dd->id.win], ds->icon, greyflag, IFlg_Grey);
   }
-  else
-  {
-    greyflag = IFlg_Grey;
-  }
-  wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
-  wimp_window_set_icon_state(ConfWindows[dd->id.win], ds->icon, greyflag, IFlg_Grey);
 }
 
 
-static void ui_update_menu_disp_strshow(const disp_desc_t *dd, resource_value_t val)
+void ui_update_menu_disp_strshow(const disp_desc_t *dd, resource_value_t val)
 {
   disp_strshow_t *ds;
   char **resources;
@@ -1123,36 +1128,40 @@ static void ui_update_menu_disp_strshow(const disp_desc_t *dd, resource_value_t 
   resources = (char**)(dd + 1);
   if (resources_set_value(resources[ds->item], val) == 0)
   {
-    wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
+    if (ConfWindows[dd->id.win] != NULL)
+      wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
   }
 }
 
 
 static void ui_set_menu_display_text(const disp_desc_t *dd, int number, RO_MenuHead *menu)
 {
-  RO_MenuItem *item;
-  RO_Icon *icon;
-  int len;
+  if (ConfWindows[dd->id.win] != NULL)
+  {
+    RO_MenuItem *item;
+    RO_Icon *icon;
+    int len;
 
-  item = (RO_MenuItem*)(menu + 1);
-  wimp_menu_tick_exclusive(menu, number);
-  if ((icon = wimp_window_get_icon(ConfWindows[dd->id.win], dd->id.icon)) == NULL) return;
-  if ((icon->iflags & IFlg_Indir) == 0) return;
-  len = icon->dat.ind.len - 1;
-  if ((item[number].iflags & IFlg_Indir) == 0)
-  {
-    if (len > 12)
-      len = 12;
-    strncpy((char*)(icon->dat.ind.tit), item[number].dat.strg, len);
+    item = (RO_MenuItem*)(menu + 1);
+    wimp_menu_tick_exclusive(menu, number);
+    if ((icon = wimp_window_get_icon(ConfWindows[dd->id.win], dd->id.icon)) == NULL) return;
+    if ((icon->iflags & IFlg_Indir) == 0) return;
+    len = icon->dat.ind.len - 1;
+    if ((item[number].iflags & IFlg_Indir) == 0)
+    {
+      if (len > 12)
+	len = 12;
+      strncpy((char*)(icon->dat.ind.tit), item[number].dat.strg, len);
+    }
+    else
+    {
+      if (len > item[number].dat.ind.len-1)
+	len = item[number].dat.ind.len-1;
+      strncpy((char*)(icon->dat.ind.tit), item[number].dat.ind.tit, len);
+    }
+    ((char*)(icon->dat.ind.tit))[len] = 0;
+    wimp_window_redraw_icon(ConfWindows[dd->id.win], dd->id.icon);
   }
-  else
-  {
-    if (len > item[number].dat.ind.len-1)
-      len = item[number].dat.ind.len-1;
-    strncpy((char*)(icon->dat.ind.tit), item[number].dat.ind.tit, len);
-  }
-  ((char*)(icon->dat.ind.tit))[len] = 0;
-  wimp_window_redraw_icon(ConfWindows[dd->id.win], dd->id.icon);
 }
 
 
@@ -1196,50 +1205,53 @@ static void ui_setup_menu_disp_core(const disp_desc_t *dd, resource_value_t val)
 
 void ui_setup_menu_display(const disp_desc_t *dd)
 {
-  resource_value_t val;
-
-  if ((dd->flags & DISP_DESC_BITFIELD) != 0)
+  if (ConfWindows[dd->id.win] != NULL)
   {
-    unsigned int bits = 0;
-    char **values;
-    int i;
+    resource_value_t val;
 
-    values = (char**)(dd + 1);
-    for (i=0; i<dd->items; i++)
+    if ((dd->flags & DISP_DESC_BITFIELD) != 0)
+    {
+      unsigned int bits = 0;
+      char **values;
+      int i;
+
+      values = (char**)(dd + 1);
+      for (i=0; i<dd->items; i++)
+      {
+	int greyflag;
+
+	if (resources_get_value(values[i], (void *)&val) == 0)
+	{
+	  if (val != 0) bits |= (1<<i);
+	  greyflag = 0;
+	}
+	else
+	{
+	  greyflag = IFlg_Grey;
+	}
+	wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
+      }
+      wimp_menu_tick_slct(dd->menu, bits);
+    }
+    else if ((dd->flags & DISP_DESC_STRSHOW) != 0)
+    {
+      ui_setup_menu_disp_core(dd, 0);
+      ui_set_menu_disp_strshow(dd);
+    }
+    else if (dd->resource != NULL)
     {
       int greyflag;
-
-      if (resources_get_value(values[i], (void *)&val) == 0)
+      if (resources_get_value(dd->resource, (void *)&val) == 0)
       {
-        if (val != 0) bits |= (1<<i);
-        greyflag = 0;
+	ui_setup_menu_disp_core(dd, val);
+	greyflag = 0;
       }
       else
       {
-        greyflag = IFlg_Grey;
+	greyflag = IFlg_Grey;
       }
       wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
     }
-    wimp_menu_tick_slct(dd->menu, bits);
-  }
-  else if ((dd->flags & DISP_DESC_STRSHOW) != 0)
-  {
-    ui_setup_menu_disp_core(dd, 0);
-    ui_set_menu_disp_strshow(dd);
-  }
-  else if (dd->resource != NULL)
-  {
-    int greyflag;
-    if (resources_get_value(dd->resource, (void *)&val) == 0)
-    {
-      ui_setup_menu_disp_core(dd, val);
-      greyflag = 0;
-    }
-    else
-    {
-      greyflag = IFlg_Grey;
-    }
-    wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
   }
 }
 
@@ -1773,7 +1785,7 @@ static void ui_sound_set_best_sample_rate(void)
 }
 
 
-static const char *ui_check_for_syspath(const char *path)
+const char *ui_check_for_syspath(const char *path)
 {
   const char *vicepath;
   int len;
@@ -2345,28 +2357,31 @@ int ui_init_finalize(void)
 
 void ui_setup_config_item(config_item_t *ci)
 {
-  resource_value_t val;
-
-  if (resources_get_value(ci->resource, (void *)&val) != 0)
+  if (ConfWindows[ci->id.win] != NULL)
   {
-    wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, IFlg_Grey, IFlg_Grey);
-    return;
-  }
-  /* Development!
-  if (ci->icon == 0) return;*/
+    resource_value_t val;
 
-  switch(ci->ctype)
-  {
-    case CONFIG_INT:
-      wimp_window_write_icon_number(ConfWindows[ci->id.win], ci->id.icon, (int)val);
-      break;
-    case CONFIG_SELECT:
-      wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, (val == 0) ? 0 : IFlg_Slct, IFlg_Slct);
-      break;
-    case CONFIG_STRING:
-      wimp_window_write_icon_text(ConfWindows[ci->id.win], ci->id.icon, (char*)val);
-      break;
-    default: break;
+    if (resources_get_value(ci->resource, (void *)&val) != 0)
+    {
+      wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, IFlg_Grey, IFlg_Grey);
+      return;
+    }
+    /* Development!
+       if (ci->icon == 0) return;*/
+
+    switch(ci->ctype)
+    {
+      case CONFIG_INT:
+	wimp_window_write_icon_number(ConfWindows[ci->id.win], ci->id.icon, (int)val);
+	break;
+      case CONFIG_SELECT:
+	wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, (val == 0) ? 0 : IFlg_Slct, IFlg_Slct);
+	break;
+      case CONFIG_STRING:
+	wimp_window_write_icon_text(ConfWindows[ci->id.win], ci->id.icon, (char*)val);
+	break;
+      default: break;
+    }
   }
 }
 
@@ -2415,9 +2430,6 @@ static void ui_setup_config_window(int wnum)
     case CONF_WIN_SOUND:
       ui_sound_set_best_sample_rate();
       break;
-    case CONF_WIN_C128:
-      /* no menus yet, nothing to do */
-      break;
     default: break;
   }
 
@@ -2428,40 +2440,42 @@ static void ui_setup_config_window(int wnum)
 
 static void ui_open_config_window(int wnum)
 {
-  int block[WindowB_WFlags+1];
-  RO_Window *w;
-
-  vsync_suspend_speed_eval();
-
-  w = ConfWindows[wnum];
-  block[WindowB_Handle] = w->Handle;
-  Wimp_GetWindowState(block);
-  block[WindowB_Stackpos] = -1;
-  /* Already open? ==> just raise */
-  if ((block[WindowB_WFlags] & (1<<16)) == 0)
+  RO_Window *w = ConfWindows[wnum];
+  if (w != NULL)
   {
-    int dx, dy, i;
+    int block[WindowB_WFlags+1];
 
-    for (i=0; i<CONF_WIN_NUMBER; i++)
+    vsync_suspend_speed_eval();
+ 
+    block[WindowB_Handle] = w->Handle;
+    Wimp_GetWindowState(block);
+    block[WindowB_Stackpos] = -1;
+    /* Already open? ==> just raise */
+    if ((block[WindowB_WFlags] & (1<<16)) == 0)
     {
-      if (ConfWinPositions[i] == NULL)
+      int dx, dy, i;
+
+      for (i=0; i<CONF_WIN_NUMBER; i++)
       {
-        ConfWinPositions[i] = w; break;
+	if (ConfWinPositions[i] == NULL)
+	{
+	  ConfWinPositions[i] = w; break;
+	}
       }
+      /* Use the visible area stored in the template */
+      dx = w->vmaxx - w->vminx; dy = w->vmaxy - w->vminy;
+      block[WindowB_VMinX] = TitleBarOffset * i;
+      block[WindowB_VMaxY] = ScreenMode.resy - TitleBarOffset * (i + 1);
+      block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
+      block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
+      block[WindowB_ScrollX] = 0; block[WindowB_ScrollY] = 0;
+
+      ui_setup_config_window(wnum);
+
+      if (wnum == CONF_WIN_JOY) JoystickWindowOpen = 1;
     }
-    /* Use the visible area stored in the template */
-    dx = w->vmaxx - w->vminx; dy = w->vmaxy - w->vminy;
-    block[WindowB_VMinX] = TitleBarOffset * i;
-    block[WindowB_VMaxY] = ScreenMode.resy - TitleBarOffset * (i + 1);
-    block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
-    block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
-    block[WindowB_ScrollX] = 0; block[WindowB_ScrollY] = 0;
-
-    ui_setup_config_window(wnum);
-
-    if (wnum == CONF_WIN_JOY) JoystickWindowOpen = 1;
+    Wimp_OpenWindow(block);
   }
-  Wimp_OpenWindow(block);
 }
 
 
@@ -2650,19 +2664,23 @@ static void ui_close_window(int *b)
 /* Try setting a resource according to a selection box or update state if failed */
 static int ui_set_resource_select(const char *name, conf_iconid_t *id)
 {
-  int block[10];
-  int selected;
-
-  wimp_window_get_icon_state(ConfWindows[id->win], id->icon, block);
-  selected = ((block[6] & IFlg_Slct) == 0) ? 0 : 1;
-
-  if (resources_set_value(name, (resource_value_t)selected) != 0)
+  if (ConfWindows[id->win] != NULL)
   {
-    /* Revert to previous state */
-    wimp_window_set_icon_state(ConfWindows[id->win], id->icon, (selected == 0) ? IFlg_Slct : 0, IFlg_Slct);
-    selected ^= 1;
+    int block[10];
+    int selected;
+
+    wimp_window_get_icon_state(ConfWindows[id->win], id->icon, block);
+    selected = ((block[6] & IFlg_Slct) == 0) ? 0 : 1;
+
+    if (resources_set_value(name, (resource_value_t)selected) != 0)
+    {
+      /* Revert to previous state */
+      wimp_window_set_icon_state(ConfWindows[id->win], id->icon, (selected == 0) ? IFlg_Slct : 0, IFlg_Slct);
+      selected ^= 1;
+    }
+    return selected;
   }
-  return selected;
+  return 0;
 }
 
 
@@ -2897,6 +2915,7 @@ static void ui_mouse_click_ibar(int *b)
   }
 }
 
+/* Can only be called for valid config window */
 static int ui_mouse_click_config(int *b, int wnum)
 {
   RO_Window *win = ConfWindows[wnum];
@@ -3187,7 +3206,8 @@ static void ui_mouse_click(int *b)
 
     for (wnum = 0; wnum < CONF_WIN_NUMBER; wnum++)
     {
-      if ((win = ConfWindows[wnum]) == NULL) break;
+      if ((win = ConfWindows[wnum]) == NULL)
+	continue;
 
       if (b[MouseB_Window] == win->Handle)
       {
@@ -3355,8 +3375,10 @@ static void ui_user_drag_box(int *b)
 
       for (i=0; i<CONF_WIN_NUMBER; i++)
       {
-        if (ConfWindows[i] == NULL) break;
-        if (h == ConfWindows[i]->Handle) {h = 0; break;}
+        if (ConfWindows[i] != NULL)
+	{
+	  if (h == ConfWindows[i]->Handle) {h = 0; break;}
+	}
       }
 
       if ((h != 0) && (canvas_for_handle(h) == NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != ImgContWindow->Handle) && (ui_message_window_for_handle(h) == msg_win_NUMBER))
@@ -3445,9 +3467,11 @@ static void ui_key_press_config(int *b)
     char *data;
     int i=0;
 
-    if (ConfWindows[wnum] == NULL) break;
+    if (ConfWindows[wnum] == NULL)
+      continue;
 
-    if (b[KeyPB_Window] != ConfWindows[wnum]->Handle) continue;
+    if (b[KeyPB_Window] != ConfWindows[wnum]->Handle)
+      continue;
 
     if ((data = wimp_window_read_icon_text(ConfWindows[wnum], b[KeyPB_Icon])) == NULL)
       return;
@@ -3549,35 +3573,11 @@ static void ui_key_press_config(int *b)
             Wimp_ProcessKey(key); return;
         }
         break;
-      case CONF_WIN_VIC:
-        if (b[KeyPB_Icon] == Icon_ConfVIC_VICCartF)
-          ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)data);
-        else
-        {
-          Wimp_ProcessKey(key); return;
-        }
-        break;
-      case CONF_WIN_CBM2:
-        if (b[KeyPB_Icon] == Icon_ConfCBM_CBM2CartF)
-        {
-          ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)data);
-        }
-        else
-        {
-          Wimp_ProcessKey(key);
-        }
-        break;
-      case CONF_WIN_C128:
-        if (b[KeyPB_Icon] == Icon_Conf128_C128Palette)
-        {
-          resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
-        }
-        else
-        {
-          Wimp_ProcessKey(key);
-        }
-        break;
-      default: Wimp_ProcessKey(key); return;
+      default:
+	if ((ViceMachineCallbacks.key_pressed_config == NULL) ||
+	    (ViceMachineCallbacks.key_pressed_config(b, wnum, data) != 0))
+	  Wimp_ProcessKey(key);
+	return;
     }
   }
 }
@@ -3701,11 +3701,10 @@ static void ui_update_config_windows(void)
 
   for (i=0; i<CONF_WIN_NUMBER; i++)
   {
-    if (ConfWindows[i] == NULL) break;
-
-    if (wimp_window_open_status(ConfWindows[i]) != 0)
+    if (ConfWindows[i] != NULL)
     {
-      ui_setup_config_window(i);
+      if (wimp_window_open_status(ConfWindows[i]) != 0)
+	ui_setup_config_window(i);
     }
   }
 }
@@ -4480,41 +4479,6 @@ static void ui_user_msg_data_load(int *b)
           action = 1;
         }
       }
-    }
-  }
-  else if (b[5] == ConfWindows[CONF_WIN_VIC]->Handle)
-  {
-    if (b[6] == Icon_ConfVIC_VICCartF)
-    {
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)name);
-      action = 1;
-    }
-  }
-  else if (b[5] == ConfWindows[CONF_WIN_CBM2]->Handle)
-  {
-    if (b[6] == Icon_ConfCBM_CBM2CartF)
-    {
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)name);
-      action = 1;
-    }
-  }
-  else if (b[5] == ConfWindows[CONF_WIN_C128]->Handle)
-  {
-    if ((b[6] == Icon_Conf128_C128Palette) || (b[6] == Icon_Conf128_C128z80bios))
-    {
-      const char *filename, *rsrc;
-
-      if (b[6] == Icon_Conf128_C128Palette)
-        rsrc = Rsrc_VDCpalette;
-      else
-        rsrc = Rsrc_Z80Bios;
-
-      filename = ui_check_for_syspath(name);
-      if (resources_set_value(rsrc, (resource_value_t)filename) == 0)
-      {
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], b[6], filename);
-      }
-      action = 1;
     }
   }
   else if (ViceMachineCallbacks.usr_msg_data_load != NULL)

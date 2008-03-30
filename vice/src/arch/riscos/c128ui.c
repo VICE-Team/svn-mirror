@@ -39,6 +39,9 @@
 
 
 
+static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
+static const char Rsrc_Z80Bios[] = "Z80BiosName";
+
 static const char IBarIconName[] = "!vice128";
 static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";
 
@@ -90,12 +93,57 @@ static const char *c128ui_get_machine_ibar_icon(void)
   return IBarIconName;
 }
 
+static int c128ui_key_pressed_config(int *block, int wnum, const char *data)
+{
+  if (wnum == CONF_WIN_C128)
+  {
+    if (block[KeyPB_Icon] == Icon_Conf128_C128Palette)
+    {
+      resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+static int c128ui_usr_msg_data_load(int *block)
+{
+  if (block[5] == ConfWindows[CONF_WIN_C128]->Handle)
+  {
+    if ((block[6] == Icon_Conf128_C128Palette) || (block[6] == Icon_Conf128_C128z80bios))
+    {
+      const char *filename, *rsrc;
+
+      if (block[6] == Icon_Conf128_C128Palette)
+        rsrc = Rsrc_VDCpalette;
+      else
+        rsrc = Rsrc_Z80Bios;
+
+      filename = ui_check_for_syspath(((const char*)block)+44);
+      if (resources_set_value(rsrc, (resource_value_t)filename) == 0)
+      {
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], block[6], filename);
+      }
+      return 0;
+    }
+  }
+  return -1;
+}
+
+
+static void c128ui_init_callbacks(void)
+{
+  c64c128_ui_cartridge_callbacks();
+  ViceMachineCallbacks.key_pressed_config = c128ui_key_pressed_config;
+  ViceMachineCallbacks.usr_msg_data_load = c128ui_usr_msg_data_load;
+}
 
 int c128ui_init(void)
 {
   wimp_msg_desc *msg;
 
   WimpTaskName = "Vice C128";
+  c128ui_init_callbacks();
   c128ui_bind_video_cache_menu();
   msg = ui_emulator_init_prologue(c128ui_get_machine_ibar_icon());
   if (msg != NULL)

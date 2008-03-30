@@ -262,7 +262,7 @@ static int petui_menu_select_config(int *block, int wnum)
   return -1;
 }
 
-static void pet_init_callbacks(void)
+static void petui_init_callbacks(void)
 {
   ViceMachineCallbacks.setup_config_window = petui_setup_config_window;
   ViceMachineCallbacks.menu_select_config_main = petui_menu_select_config;
@@ -273,7 +273,7 @@ int petui_init(void)
   wimp_msg_desc *msg;
 
   WimpTaskName = "Vice PET";
-  pet_init_callbacks();
+  petui_init_callbacks();
   petui_bind_video_cache_menu();
   msg = ui_emulator_init_prologue(petui_get_machine_ibar_icon());
   if (msg != NULL)

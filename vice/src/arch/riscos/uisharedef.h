@@ -159,6 +159,7 @@ struct ui_machine_callback_s {
   int (*mouse_click_event)(int *);
   int (*mouse_click_ibar)(int *);
   int (*key_pressed_event)(int *);
+  int (*key_pressed_config)(int *, int, const char *);
   int (*menu_select_emuwin)(int *);
   int (*menu_select_config_pre)(int *, int);
   int (*menu_select_config_main)(int *, int);

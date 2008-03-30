@@ -135,12 +135,45 @@ static const char *vic20ui_get_machine_ibar_icon(void)
   return IBarIconName;
 }
 
+static int vic20ui_key_pressed_config(int *block, int wnum, const char *data)
+{
+  if (wnum == CONF_WIN_VIC)
+  {
+    if (block[KeyPB_Icon] == Icon_ConfVIC_VICCartF)
+    {
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)data);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+static int vic20ui_usr_msg_data_load(int *block)
+{
+  if (block[5] == ConfWindows[CONF_WIN_VIC]->Handle)
+  {
+    if (block[6] == Icon_ConfVIC_VICCartF)
+    {
+      const char *name = ((const char*)block) + 44;
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)name);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+static void vic20ui_init_callbacks(void)
+{
+  ViceMachineCallbacks.key_pressed_config = vic20ui_key_pressed_config;
+  ViceMachineCallbacks.usr_msg_data_load = vic20ui_usr_msg_data_load;
+}
 
 int vic20ui_init(void)
 {
   wimp_msg_desc *msg;
 
   WimpTaskName = "Vice VIC20";
+  vic20ui_init_callbacks();
   vic20ui_bind_video_cache_menu();
   msg = ui_emulator_init_prologue(vic20ui_get_machine_ibar_icon());
   if (msg != NULL)
