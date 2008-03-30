@@ -27,7 +27,16 @@
 #ifndef _VICII_IRQ_H
 #define _VICII_IRQ_H
 
-extern void vicii_irq_set_raster(unsigned int line);
+#include "types.h"
+
+extern void vicii_irq_sbcoll_set(void);
+extern void vicii_irq_sbcoll_clear(void);
+extern void vicii_irq_sscoll_set(void);
+extern void vicii_irq_sscoll_clear(void);
+extern void vicii_irq_lightpen_set(CLOCK mclk);
+extern void vicii_irq_lightpen_clear(CLOCK mclk);
+
+extern void vicii_irq_set_raster_line(unsigned int line);
 extern void vicii_irq_check_state(unsigned int irq_line);
 extern void vicii_irq_set_line(void);
 

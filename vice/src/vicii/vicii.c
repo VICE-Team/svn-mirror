@@ -537,12 +537,15 @@ void vicii_trigger_light_pen(CLOCK mclk)
     if (!vic_ii.light_pen.triggered) {
         vic_ii.light_pen.triggered = 1;
         vic_ii.light_pen.x = VIC_II_RASTER_X(mclk % vic_ii.cycles_per_line);
+
         if (vic_ii.light_pen.x < 0)
             vic_ii.light_pen.x = vic_ii.sprite_wrap_x + vic_ii.light_pen.x;
 
         /* FIXME: why `+2'? */
         vic_ii.light_pen.x = vic_ii.light_pen.x / 2 + 2;
         vic_ii.light_pen.y = VIC_II_RASTER_Y(mclk);
+
+        /* To be replaced by vicii_irq_lightpen_set().  */
         vic_ii.irq_status |= 0x8;
 
         if (vic_ii.regs[0x1a] & 0x8) {
@@ -986,6 +989,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
     if (vicii_resources.sprite_sprite_collisions_enabled
         && vic_ii.raster.sprite_status->sprite_sprite_collisions != 0
         && !prev_sprite_sprite_collisions) {
+        /* To be replaced by vicii_irq_sscoll_set().  */
         vic_ii.irq_status |= 0x4;
         if (vic_ii.regs[0x1a] & 0x4) {
             maincpu_set_irq(I_RASTER, 1);
@@ -996,6 +1000,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
     if (vicii_resources.sprite_background_collisions_enabled
         && vic_ii.raster.sprite_status->sprite_background_collisions
         && !prev_sprite_background_collisions) {
+        /* To be replaced by vicii_irq_sbcoll_set().  */
         vic_ii.irq_status |= 0x2;
         if (vic_ii.regs[0x1a] & 0x2) {
             maincpu_set_irq(I_RASTER, 1);

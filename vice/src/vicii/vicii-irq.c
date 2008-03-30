@@ -30,14 +30,82 @@
 #include "alarm.h"
 #include "interrupt.h"
 #include "maincpu.h"
+#include "types.h"
 #include "vicii-irq.h"
 #include "viciitypes.h"
 
 
-#define vicii_set_irq(irq, state) maincpu_set_irq(irq, state)
+inline void vicii_irq_set_line(void)
+{
+    if (vic_ii.irq_status & vic_ii.regs[0x1a]) {
+        vic_ii.irq_status |= 0x80;
+        maincpu_set_irq(I_RASTER, 1);
+    } else {
+        vic_ii.irq_status &= 0x7f;
+        maincpu_set_irq(I_RASTER, 0);
+    }
+}
 
+static inline void vicii_irq_set_line_clk(CLOCK mclk)
+{
+    if (vic_ii.irq_status & vic_ii.regs[0x1a]) {
+        vic_ii.irq_status |= 0x80;
+        maincpu_set_irq_clk(I_RASTER, 1, mclk);
+    } else {
+        vic_ii.irq_status &= 0x7f;
+        maincpu_set_irq_clk(I_RASTER, 0, mclk);
+    }
+}
 
-void vicii_irq_set_raster(unsigned int line)
+void vicii_irq_raster_set(void)
+{
+    vic_ii.irq_status |= 0x1;
+    vicii_irq_set_line();
+}
+
+void vicii_irq_raster_clear(void)
+{
+    vic_ii.irq_status &= 0xfe;
+    vicii_irq_set_line();
+}
+
+void vicii_irq_sbcoll_set(void)
+{
+    vic_ii.irq_status |= 0x2;
+    vicii_irq_set_line();
+}
+
+void vicii_irq_sbcoll_clear(void)
+{
+    vic_ii.irq_status &= 0xfd;
+    vicii_irq_set_line();
+}
+
+void vicii_irq_sscoll_set(void)
+{
+    vic_ii.irq_status |= 0x4;
+    vicii_irq_set_line();
+}
+
+void vicii_irq_sscoll_clear(void)
+{
+    vic_ii.irq_status &= 0xfb;
+    vicii_irq_set_line();
+}
+
+void vicii_irq_lightpen_set(CLOCK mclk)
+{
+    vic_ii.irq_status |= 0x8;
+    vicii_irq_set_line_clk(mclk);
+}
+
+void vicii_irq_lightpen_clear(CLOCK mclk)
+{
+    vic_ii.irq_status &= 0xf7;
+    vicii_irq_set_line_clk(mclk);
+}
+
+void vicii_irq_set_raster_line(unsigned int line)
 {
     if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
         return;
@@ -84,7 +152,7 @@ void vicii_irq_check_state(unsigned int irq_line)
     line = VIC_II_RASTER_Y(maincpu_clk);
 
     old_raster_irq_line = vic_ii.raster_irq_line;
-    vicii_irq_set_raster(irq_line);
+    vicii_irq_set_raster_line(irq_line);
 
     if (vic_ii.regs[0x1a] & 0x1) {
         int trigger_irq;
@@ -110,17 +178,10 @@ void vicii_irq_check_state(unsigned int irq_line)
             trigger_irq = 1;
 
         if (trigger_irq) {
+            /* To be replaced by vicii_irq_raster_set().  */
             vic_ii.irq_status |= 0x81;
-            vicii_set_irq(I_RASTER, 1);
+            maincpu_set_irq(I_RASTER, 1);
         }
     }
-}
-
-void vicii_irq_set_line(void)
-{
-    if (vic_ii.irq_status & 0x80)
-        vicii_set_irq(I_RASTER, 1);
-    else
-        vicii_set_irq(I_RASTER, 0);
 }
 
