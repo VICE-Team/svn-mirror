@@ -1,3 +1,9 @@
+2004-06-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.31.
+
+	* configure.in: Removed check for `sys/param.h'.
+
 2004-06-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.30.

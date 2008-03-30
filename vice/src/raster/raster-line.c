@@ -238,92 +238,7 @@ inline static void fill_background(raster_t *raster)
     }
 }
 
-static int check_for_major_changes_and_update(raster_t *raster,
-                                              unsigned int *changed_start,
-                                              unsigned int *changed_end)
-{
-    raster_cache_t *cache;
-    unsigned int video_mode;
-    int line;
-
-    video_mode = raster_line_get_real_mode(raster);
-
-    cache = &(raster->cache)[raster->current_line];
-    line = raster->current_line - raster->geometry->gfx_position.y
-           - raster->ysmooth - 1;
-
-    if (cache->is_dirty
-        || raster->dont_cache
-        || cache->n != line
-        || cache->xsmooth != raster->xsmooth
-        || cache->video_mode != video_mode
-        || cache->blank
-        || cache->ycounter != raster->ycounter
-        || cache->border_color != raster->border_color
-        || cache->display_xstart != raster->display_xstart
-        || cache->display_xstop != raster->display_xstop
-        || (cache->open_right_border && !raster->open_right_border)
-        || (cache->open_left_border && !raster->open_left_border)
-        || cache->xsmooth_color != raster->xsmooth_color
-        || cache->idle_background_color
-        != raster->idle_background_color) {
-
-        unsigned int changed_start_char, changed_end_char;
-        int r;
-
-        cache->n = line;
-        cache->xsmooth = raster->xsmooth;
-        cache->video_mode = video_mode;
-        cache->blank = 0;
-        cache->ycounter = raster->ycounter;
-        cache->border_color = raster->border_color;
-        cache->display_xstart = raster->display_xstart;
-        cache->display_xstop = raster->display_xstop;
-        cache->open_right_border = raster->open_right_border;
-        cache->open_left_border = raster->open_left_border;
-        cache->xsmooth_color = raster->xsmooth_color;
-        cache->idle_background_color = raster->idle_background_color;
-
-        /* Fill the space between the border and the graphics with the
-           background color (necessary if `xsmooth' is != 0).  */
-
-        fill_background(raster);
-
-        if (raster->sprite_status != NULL)
-            (raster->fill_sprite_cache)(raster, cache,
-                                        &changed_start_char,
-                                        &changed_end_char);
-
-        r = raster_modes_fill_cache(raster->modes,
-                                    video_mode,
-                                    cache,
-                                    &changed_start_char,
-                                    &changed_end_char, 1);
-
-        /* [ `changed_start' ; `changed_end' ] now covers the whole line, as
-           we have called fill_cache() with `1' as the last parameter (no
-           check).  */
-        raster_modes_draw_line_cached(raster->modes, video_mode,
-                                      cache,
-                                      changed_start_char,
-                                      changed_end_char);
-
-        if (raster->sprite_status != NULL)
-            (raster->draw_sprites_when_cache_enabled)(raster, cache);
-
-        *changed_start = 0;
-        *changed_end = raster->geometry->screen_size.width - 1;
-
-        raster_line_draw_borders(raster);
-
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-
-inline static void handle_visible_line_with_cache(raster_t *raster)
+static void handle_visible_line_with_cache(raster_t *raster)
 {
     int needs_update;
     unsigned int changed_start, changed_end;
@@ -333,9 +248,87 @@ inline static void handle_visible_line_with_cache(raster_t *raster)
 
     /* Check for "major" changes first.  If there is any, just write straight
        to the cache without any comparisons and redraw the whole line.  */
-    needs_update = check_for_major_changes_and_update(raster,
-                                                      &changed_start,
-                                                      &changed_end);
+    /* check_for_major_changes_and_update() is embedded here because of some
+       VAC++ bug.  */
+    {
+        unsigned int video_mode;
+        int line;
+
+        video_mode = raster_line_get_real_mode(raster);
+
+        line = raster->current_line - raster->geometry->gfx_position.y
+            - raster->ysmooth - 1;
+
+        if (cache->is_dirty
+            || raster->dont_cache
+            || cache->n != line
+            || cache->xsmooth != raster->xsmooth
+            || cache->video_mode != video_mode
+            || cache->blank
+            || cache->ycounter != raster->ycounter
+            || cache->border_color != raster->border_color
+            || cache->display_xstart != raster->display_xstart
+            || cache->display_xstop != raster->display_xstop
+            || (cache->open_right_border && !raster->open_right_border)
+            || (cache->open_left_border && !raster->open_left_border)
+            || cache->xsmooth_color != raster->xsmooth_color
+            || cache->idle_background_color
+            != raster->idle_background_color) {
+
+            unsigned int changed_start_char, changed_end_char;
+            int r;
+
+            cache->n = line;
+            cache->xsmooth = raster->xsmooth;
+            cache->video_mode = video_mode;
+            cache->blank = 0;
+            cache->ycounter = raster->ycounter;
+            cache->border_color = raster->border_color;
+            cache->display_xstart = raster->display_xstart;
+            cache->display_xstop = raster->display_xstop;
+            cache->open_right_border = raster->open_right_border;
+            cache->open_left_border = raster->open_left_border;
+            cache->xsmooth_color = raster->xsmooth_color;
+            cache->idle_background_color = raster->idle_background_color;
+
+            /* Fill the space between the border and the graphics with the
+             background color (necessary if `xsmooth' is != 0).  */
+
+            fill_background(raster);
+
+            if (raster->sprite_status != NULL)
+                (raster->fill_sprite_cache)(raster, cache,
+                                            &changed_start_char,
+                                            &changed_end_char);
+
+            r = raster_modes_fill_cache(raster->modes,
+                                        video_mode,
+                                        cache,
+                                        &changed_start_char,
+                                        &changed_end_char, 1);
+
+            /* [ `changed_start' ; `changed_end' ] now covers the whole line, as
+             we have called fill_cache() with `1' as the last parameter (no
+             check).  */
+            raster_modes_draw_line_cached(raster->modes, video_mode,
+                                          cache,
+                                          changed_start_char,
+                                          changed_end_char);
+
+            if (raster->sprite_status != NULL)
+                (raster->draw_sprites_when_cache_enabled)(raster, cache);
+
+            changed_start = 0;
+            changed_end = raster->geometry->screen_size.width - 1;
+
+            raster_line_draw_borders(raster);
+
+            needs_update = 1;
+        } else {
+            needs_update = 0;
+        }
+    }
+
     if (!needs_update) {
         /* There are no `major' changes: try to do some optimization.  */
         needs_update = update_for_minor_changes(raster,
@@ -475,9 +468,9 @@ static void handle_visible_line_with_changes(raster_t *raster)
         }
         raster_changes_apply(changes->sprites, i);
     }
-    if (xs <= (int)(geometry->screen_size.width 
+    if (xs <= (int)(geometry->screen_size.width
         + geometry->extra_offscreen_border_right) - 1)
-        draw_sprites_partial(raster, xs, geometry->screen_size.width 
+        draw_sprites_partial(raster, xs, geometry->screen_size.width
                              + geometry->extra_offscreen_border_right - 1);
 #endif
 

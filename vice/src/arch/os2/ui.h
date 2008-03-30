@@ -27,6 +27,7 @@
 #ifndef _UI_H
 #define _UI_H
 
+#include "types.h"
 #include "uiapi.h"
 
 #endif
