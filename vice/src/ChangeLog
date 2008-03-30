@@ -1,3 +1,29 @@
+2003-08-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.28.
+
+	* vicii/vicii.c (vicii_powerup, vicii_reset): If the raster
+	line counter is cleared the raster counter register also have
+	to be cleared.
+
+	* arch/win32/uivideo.c: Added new palette entry.
+
+	* arch/win32/uic128.c, arch/win32/uic128.h: New file.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Updated.
+
+	* arch/win32/c128ui.c, arch/win32/res.h,
+	arch/win32/resc128.rc: Added C128 machine settings.
+
+	* parallel/parallel.c, serial.h, serial/serial-trap.c,
+	serial/serial.c, imagecontents/diskcontents.c, c1541.c,
+	imagecontents.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c, machine.h: Do not link
+	IEC specific code to PET and CBM2 emulation.
+
+	* arch/win32/msvc/config.h: Commented out TFE support until
+	the archive can be compiled by plain MSVC again.
+
 2003-08-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.27.
