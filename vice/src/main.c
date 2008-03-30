@@ -230,12 +230,12 @@ int main(int argc, char **argv)
     }
 
 #ifdef __GO32__
-    /* Set the default file mode. */
+    /* Set the default file mode.  */
     _fmode = O_BINARY;
 #endif
 #ifdef __MSDOS__
     /* Avoid exiting to a different directory than the one we were called
-       from. */
+       from.  */
     preserve_workdir();
 #endif
 
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
     /* Initialize system file locator.  */
     sysfile_init(boot_path, machdesc.machine_name);
 
-    /* VICE boot sequence. */
+    /* VICE boot sequence.  */
     printf ("\n*** VICE Version %s ***\n", VERSION);
     printf ("Welcome to %s, the free portable Commodore %s Emulator.\n\n",
 	    progname, machdesc.machine_name);
@@ -259,12 +259,12 @@ int main(int argc, char **argv)
 	    "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
             "A. Boose, J. Valta and J. Sonninen.\n\n");
     printf ("This is free software with ABSOLUTELY NO WARRANTY.\n");
-    printf ("See the \"About VICE\" box for more info.\n\n");
+    printf ("See the \"About VICE\" command for more info.\n\n");
 
     /* Initialize the user interface.  UiInit() might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
-    if (UiInit (&argc, argv) < 0) {
+    if (ui_init(&argc, argv) < 0) {
         fprintf(stderr, "Cannot initialize the UI.\n");
 	exit (-1);
     }
@@ -354,7 +354,7 @@ int main(int argc, char **argv)
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
-    if (UiInitFinish() < 0)
+    if (ui_init_finish() < 0)
 	exit(-1);
 
     putchar('\n');
@@ -373,14 +373,14 @@ int main(int argc, char **argv)
     signal(SIGPIPE,  break64);
 
 #ifdef HAS_JOYSTICK
-    /* Initialize real joystick. */
+    /* Initialize real joystick.  */
     joyini();
 #endif
 
     if (video_init() < 0)
 	exit (-1);
 
-    /* Machine-specific initialization. */
+    /* Machine-specific initialization.  */
     if (machine_init() < 0) {
         fprintf(stderr, "Machine initialization failed.\n");
         exit(1);
@@ -467,7 +467,7 @@ static void exit64(void)
 {
     /* Disable SIGINT.  This is done to prevent the user from keeping C-C
        pressed and thus breaking the cleanup process, which might be
-       dangerous. */
+       dangerous.  */
     signal(SIGINT, SIG_IGN);
 
     printf("\nExiting...\n");

@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "vic20.h"
+#include "vic20ui.h"
 #include "interrupt.h"
 #include "vic.h"
 #include "via.h"
@@ -202,6 +203,9 @@ int machine_init(void)
     /* Initialize keyboard buffer.  */
     kbd_buf_init(631, 198, 10,
                  VIC20_PAL_CYCLES_PER_RFSH * VIC20_PAL_RFSH_PER_SEC);
+
+    /* Initialize the VIC20-specific part of the UI.  */
+    vic20_ui_init();
 
     return 0;
 }

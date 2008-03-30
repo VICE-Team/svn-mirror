@@ -4650,9 +4650,12 @@ fi
 
 
 if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+  CFLAGS="$CFLAGS -I\$(ARCHODIR)/xaw"
   ARCHDIR="\$(UNIXDIR)"
   ARCHODIR="\$(UNIXODIR)"
-  SYSPEC_OBJS="$SYSPEC_OBJS \$(ARCHODIR)/video.o \$(ARCHODIR)/xaw/xdebug.o \$(ARCHODIR)/kbd.o \$(ARCHODIR)/vsync.o \$(ARCHODIR)/xaw/ui.o"
+  SYSPEC_OBJS="$SYSPEC_OBJS \$(ARCHODIR)/video.o \$(ARCHODIR)/xaw/xdebug.o \$(ARCHODIR)/kbd.o \$(ARCHODIR)/vsync.o \$(ARCHODIR)/xaw/ui.o \$(ARCHODIR)/xaw/uicommands.o \$(ARCHODIR)/xaw/uisettings.o \$(ARCHODIR)/xaw/uimenu.o"
+  X64_SYSPEC_OBJS="\$(ARCHODIR)/xaw/c64ui.o"
+  XVIC_SYSPEC_OBJS="\$(ARCHODIR)/xaw/vic20ui.o"
   COMMON_LIBS="\$(READLINE) \$(WIDGETS)"
 else
   ARCHDIR="\$(MSDOSDIR)"
