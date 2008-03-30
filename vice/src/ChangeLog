@@ -1,10 +1,36 @@
+2004-03-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.10.
+
+	* 6510core.c: Fixed indexed indirect addressing mode.
+
+2004-03-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/unix/Makefile.am: Added tfearch.c
+
+	* arch/unix/tfearch.c: new file
+
+2004-03-08  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c, c64/tfe.h, arch/win32/tfearch.c: Added support
+	for output each and every TFE frame into the vice log,
+	allowing for using this to paste into ethereal for debugging
+	purposes.
+
+	* c64/tfe.c: Fixed a warning where &A-1 was used: Now, it is
+	&(A-1).
+
+	* c64/tfe.c: Fixed uninitialized variables in
+	tfe_should_accept().
+
 2004-03-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.9.
 
 	* arch/win32/ui.c, arch/win32/uiconsole.c,
 	arch/win32/uimediafile.c, arch/win32/uiperipheral.c,
-	arch/win32/winmain.c, arch/win32/winmain.h
+	arch/win32/winmain.c, arch/win32/winmain.h: Fixed some
+	multibyte char issues.
 
 	* monitor/monitor.c, monitor.h, monitor/mon_util.c, signals.h,
 	arch/unix/signals.c, arch/win32/signals.c,

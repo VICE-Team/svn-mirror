@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.14.9)
+AM_INIT_AUTOMAKE(vice, 1.14.10)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -31,9 +31,10 @@ AC_ARG_ENABLE(sdl, [  --with-sdl              use sdl sound system])
 AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
 AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables gnome ui support])
-AC_ARG_ENABLE(nls,[  --disable-nls        disables national language support])
-AC_ARG_ENABLE(realdevice,[  --disable-realdevice      disables access to real peripheral devices (CBM4Linux/OpenCBM)])
-AC_ARG_ENABLE(ffmpeg,[  --enable-ffmpeg        enables ffmpeg library support])
+AC_ARG_ENABLE(nls,[  --disable-nls           disables national language support])
+AC_ARG_ENABLE(realdevice,[  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
+AC_ARG_ENABLE(ffmpeg,[  --enable-ffmpeg         enables ffmpeg library support])
+AC_ARG_ENABLE(ethernet,[  --enable-ethernet       enables Tfe Final Ethernet emulation])
 
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
@@ -498,7 +499,7 @@ dnl Check for header files.
 
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h \
-sys/dirent.h sys/ioctl.h sys/param.h sys/stat.h sys/time.h sys/types.h \
+sys/dirent.h sys/ioctl.h sys/param.h sys/stat.h sys/types.h \
 dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h)
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
@@ -558,6 +559,10 @@ if test x"$enable_ffmpeg" = "xyes"; then
   AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
   SOUND_DRIVERS="$SOUND_DRIVERS soundffmpegaudio.o"
   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o"
+fi
+
+if test x"$enable_ethernet" = "xyes"; then
+  AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
 fi
 
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes"; then
@@ -662,8 +667,8 @@ fi
 
 dnl Check time.h.
 
-AC_HEADER_TIME
-AC_STRUCT_TM
+dnl AC_HEADER_TIME
+dnl AC_STRUCT_TM
 
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
