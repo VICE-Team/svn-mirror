@@ -222,14 +222,25 @@ static int setID(unsigned int dnr)
     return rc;
 }
 
-void drive_set_disk_id_memory(unsigned int dnr, BYTE *id)
+void drive_set_disk_memory(unsigned int dnr, BYTE *id, unsigned int track,
+                           unsigned int sector)
 {
     if (dnr == 0) {
         drive0_context.cpud.drive_ram[0x12] = id[0];
         drive0_context.cpud.drive_ram[0x13] = id[1];
+        drive0_context.cpud.drive_ram[0x16] = id[0];
+        drive0_context.cpud.drive_ram[0x17] = id[1];
+        drive0_context.cpud.drive_ram[0x18] = track;
+        drive0_context.cpud.drive_ram[0x19] = sector;
+        drive0_context.cpud.drive_ram[0x22] = track;
     } else {
         drive1_context.cpud.drive_ram[0x12] = id[0];
         drive1_context.cpud.drive_ram[0x13] = id[1];
+        drive1_context.cpud.drive_ram[0x16] = id[0];
+        drive1_context.cpud.drive_ram[0x17] = id[1];
+        drive1_context.cpud.drive_ram[0x18] = track;
+        drive1_context.cpud.drive_ram[0x19] = sector;
+        drive1_context.cpud.drive_ram[0x22] = track;
     }
 }
 

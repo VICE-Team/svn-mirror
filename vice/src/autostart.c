@@ -234,7 +234,7 @@ static void disk_eof_callback(void)
         }
         set_true_drive_emulation_mode(orig_drive_true_emulation_state);
         if (orig_drive_true_emulation_state) {
-            drive_set_disk_id_memory(0, id);
+            drive_set_disk_memory(0, id, track, sector);
             drive_set_last_read(0, track, sector, buffer);
         }
     }
@@ -265,141 +265,163 @@ static void disk_attention_callback(void)
     serial_set_eof_callback(disk_eof_callback);
 }
 
+/* ------------------------------------------------------------------------- */
+
+static void advance_hastape(void)
+{
+    char *tmp;
+
+    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+      case YES:
+        log_message(autostart_log, "Loading file.");
+        if (autostart_program_name) {
+            tmp = concat("LOAD\"", autostart_program_name, "\"\r", NULL);
+            kbd_buf_feed(tmp);
+            free(tmp);
+        } else {
+            kbd_buf_feed("LOAD\r");
+        }
+        if (tape_tap_attched()) {
+            autostartmode = AUTOSTART_PRESSPLAYONTAPE;
+        } else {
+            autostartmode = AUTOSTART_LOADINGTAPE;
+        }
+        deallocate_program_name();
+        break;
+      case NO:
+        autostart_disable();
+        break;
+      case NOT_YET:
+        break;
+    }
+}
+
+static void advance_pressplayontape(void)
+{
+    switch (check("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK)) {
+      case YES:
+        autostartmode = AUTOSTART_LOADINGTAPE;
+        datasette_control(DATASETTE_CONTROL_START);
+        break;
+      case NO:
+        autostart_disable();
+        break;
+      case NOT_YET:
+        break;
+    }
+}
+
+static void advance_loadingtape(void)
+{
+    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+      case YES:
+        log_message(autostart_log, "Starting program.");
+        kbd_buf_feed("RUN\r");
+        autostartmode = AUTOSTART_DONE;
+        break;
+      case NO:
+        autostart_disable();
+        break;
+      case NOT_YET:
+        break;
+    }
+}
+
+static void advance_hasdisk(void)
+{
+    char *tmp;
+    int traps;
+
+    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+      case YES:
+        if (autostart_program_name)
+            log_message(autostart_log, "Loading program '%s'",
+                        autostart_program_name);
+        else
+            log_message(autostart_log, "Loading program '*'");
+        orig_drive_true_emulation_state = get_true_drive_emulation_state();
+        if (handle_drive_true_emulation) {
+            resources_get_value("VirtualDevices",
+                                (resource_value_t *)&traps);
+            if (traps) {
+                if (orig_drive_true_emulation_state)
+                    log_message(autostart_log,
+                                "Switching true drive emulation off.");
+                set_true_drive_emulation_mode(0);
+            } else {
+                if (!orig_drive_true_emulation_state)
+                    log_message(autostart_log,
+                                "Switching true drive emulation on.");
+                set_true_drive_emulation_mode(1);
+            }
+        } else {
+            traps = 1;
+        }
+        if (autostart_program_name)
+            tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
+        else
+            tmp = stralloc("LOAD\"*\",8,1\r");
+        kbd_buf_feed(tmp);
+        free(tmp);
+
+        if (!traps) {
+            if (autostart_run_mode == AUTOSTART_MODE_RUN)
+                kbd_buf_feed("RUN\r");
+            autostartmode = AUTOSTART_DONE;
+        } else {
+            autostartmode = AUTOSTART_LOADINGDISK;
+            serial_set_attention_callback(disk_attention_callback);
+        }
+        deallocate_program_name();
+        break;
+      case NO:
+        orig_drive_true_emulation_state = get_true_drive_emulation_state();
+        autostart_disable();
+        break;
+      case NOT_YET:
+        break;
+    }
+}
+
+static void advance_hassnapshot(void)
+{
+    switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
+      case YES:
+        log_message(autostart_log, "Restoring snapshot.");
+        maincpu_trigger_trap(load_snapshot_trap, (void*)0);
+        autostartmode = AUTOSTART_DONE;
+        break;
+      case NO:
+        autostart_disable();
+        break;
+      case NOT_YET:
+        break;
+    }
+}
 
 /* Execute the actions for the current `autostartmode', advancing to the next
    mode if necessary.  */
 void autostart_advance(void)
 {
-    char *tmp;
-
     if (maincpu_clk < min_cycles || !autostart_enabled)
         return;
 
     switch (autostartmode) {
       case AUTOSTART_HASTAPE:
-        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
-          case YES:
-            log_message(autostart_log, "Loading file.");
-            if (autostart_program_name) {
-                tmp = concat("LOAD\"", autostart_program_name, "\"\r", NULL);
-                kbd_buf_feed(tmp);
-                free(tmp);
-            } else {
-                kbd_buf_feed("LOAD\r");
-            }
-            if (tape_tap_attched()) {
-                autostartmode = AUTOSTART_PRESSPLAYONTAPE;
-            } else {
-                autostartmode = AUTOSTART_LOADINGTAPE;
-            }
-            deallocate_program_name();
-            break;
-          case NO:
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
+        advance_hastape();
         break;
       case AUTOSTART_PRESSPLAYONTAPE:
-        switch (check("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK)) {
-          case YES:
-            autostartmode = AUTOSTART_LOADINGTAPE;
-            datasette_control(DATASETTE_CONTROL_START);
-            break;
-          case NO:
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
+        advance_pressplayontape();
         break;
       case AUTOSTART_LOADINGTAPE:
-        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
-          case YES:
-            log_message(autostart_log, "Starting program.");
-            kbd_buf_feed("RUN\r");
-            autostartmode = AUTOSTART_DONE;
-            break;
-          case NO:
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
+        advance_loadingtape();
         break;
       case AUTOSTART_HASDISK:
-        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
-          case YES:
-            {
-                int traps;
-
-                if (autostart_program_name)
-                    log_message(autostart_log, "Loading program '%s'",
-                                autostart_program_name);
-                else
-                    log_message(autostart_log, "Loading program '*'");
-                orig_drive_true_emulation_state
-                    = get_true_drive_emulation_state();
-                if (handle_drive_true_emulation) {
-                    resources_get_value("VirtualDevices",
-                                        (resource_value_t *)&traps);
-                    if (traps) {
-                        if (orig_drive_true_emulation_state)
-                            log_message(autostart_log,
-                                        "Switching true drive emulation off.");
-                        set_true_drive_emulation_mode(0);
-                    } else {
-                        if (!orig_drive_true_emulation_state)
-                            log_message(autostart_log,
-                                        "Switching true drive emulation on.");
-                        set_true_drive_emulation_mode(1);
-                    }
-                } else {
-                    traps = 1;
-                }
-                if (autostart_program_name)
-                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
-                else
-                    tmp = stralloc("LOAD\"*\",8,1\r");
-                kbd_buf_feed(tmp);
-                free(tmp);
-
-                if (!traps) {
-                    if (autostart_run_mode == AUTOSTART_MODE_RUN)
-                        kbd_buf_feed("RUN\r");
-                    autostartmode = AUTOSTART_DONE;
-                } else {
-                    autostartmode = AUTOSTART_LOADINGDISK;
-                    serial_set_attention_callback(disk_attention_callback);
-                }
-                deallocate_program_name();
-                break;
-            }
-          case NO:
-            orig_drive_true_emulation_state
-                = get_true_drive_emulation_state();
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
+        advance_hasdisk();
         break;
       case AUTOSTART_HASSNAPSHOT:
-        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
-          case YES:
-            log_message(autostart_log, "Restoring snapshot.");
-            maincpu_trigger_trap(load_snapshot_trap, (void*)0);
-            autostartmode = AUTOSTART_DONE;
-            break;
-          case NO:
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
+        advance_hassnapshot();
         break;
-
       default:
         return;
     }

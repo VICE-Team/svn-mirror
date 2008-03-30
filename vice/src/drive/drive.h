@@ -347,8 +347,10 @@ extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);
 extern void drive_set_sync_factor(unsigned int factor);
 extern void drive_set_ntsc_sync_factor(void);
 extern void drive_set_pal_sync_factor(void);
+extern void drive_set_disk_memory(unsigned int dnr, BYTE *id,
+                                  unsigned int track, unsigned int sector);
 extern void drive_set_last_read(unsigned int dnr, unsigned int track,
-                                unsigned int sector,  BYTE *buffer);
+                                unsigned int sector, BYTE *buffer);
 
 extern void drive0_parallel_set_atn(int);
 extern void drive1_parallel_set_atn(int);
@@ -364,7 +366,6 @@ extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 extern int drive_num_leds(unsigned int dnr);
 
 extern void drive_setup_context(void);
-extern void drive_set_disk_id_memory(unsigned int dnr, BYTE *id);
 
 #endif
 
