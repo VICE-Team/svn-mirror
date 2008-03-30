@@ -56,7 +56,6 @@ struct canvas_refresh_s
     int x;
     int y;
 };
-
 typedef struct canvas_refresh_s canvas_refresh_t;
 
 struct video_render_config_s {
@@ -66,7 +65,6 @@ struct video_render_config_s {
     int doublescan;             /* doublescan enabled?         */
     DWORD physical_colors[256];
 };
-
 typedef struct video_render_config_s video_render_config_t;
 
 extern void video_render_initconfig(video_render_config_t *config);
@@ -77,16 +75,18 @@ extern void video_render_initraw(void);
 
 /**************************************************************/
 
+struct video_canvas_s;
+
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern void video_free(void);
 
-extern struct video_canvas_s *video_canvas_create(const char *win_name,
-                                            unsigned int *width,
-                                            unsigned int *height, int mapped,
-                                            void_t exposure_handler,
-                                            const struct palette_s *palette);
-
+extern int video_canvas_create(struct video_canvas_s *canvas,
+                               const char *win_name, unsigned int *width,
+                               unsigned int *height, int mapped,
+                               void_t exposure_handler,
+                               const struct palette_s *palette);
+extern struct video_canvas_s *video_canvas_init(void);
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  BYTE *draw_buffer,
                                  unsigned int draw_buffer_line_size,
@@ -125,7 +125,8 @@ struct raster_s;
 
 extern int video_resources_init(int mode);
 extern int video_resources_chip_init(const char *chipname,
-                                     struct raster_s *raster);
+                                     struct raster_s *raster,
+                                     int double_size, int doulbe_scan);
 extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);
 

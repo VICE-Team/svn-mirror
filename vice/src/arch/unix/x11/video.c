@@ -333,8 +333,7 @@ int video_init(void)
     _video_gc = video_get_gc(&gc_values);
     display = x11ui_get_display_ptr();
 
-    if (video_log == LOG_ERR)
-        video_log = log_open("Video");
+    video_log = log_open("Video");
 
     color_init();
 
@@ -375,7 +374,7 @@ int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
 int shmmajor;          /* major number of MITSHM error codes */
 
 /* Catch XShmAttach()-failure. */
-int shmhandler(Display* display,XErrorEvent* err)
+int shmhandler(Display *display, XErrorEvent *err)
 {
     if (err->request_code == shmmajor &&
         err->minor_code == X_ShmAttach)
@@ -438,16 +437,10 @@ void video_register_raster(struct raster_s *raster)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Create a canvas.  In the X11 implementation, this is just (guess what?) a
-   window. */
-video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
-                                    unsigned int *height, int mapped,
-                                    void_t exposure_handler,
-                                    const struct palette_s *palette)
+
+video_canvas_t *video_canvas_init(void)
 {
-    int res;
     video_canvas_t *canvas;
-    XGCValues gc_values;
 
     canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
 
@@ -455,23 +448,34 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     canvas->video_draw_buffer_callback = NULL;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    canvas->video_draw_buffer_callback = 
-	xmalloc(sizeof(struct video_draw_buffer_callback_s));
-    canvas->video_draw_buffer_callback->draw_buffer_alloc = 
-	fs_draw_buffer_alloc;
-    canvas->video_draw_buffer_callback->draw_buffer_free = 
-	fs_draw_buffer_free;
-    canvas->video_draw_buffer_callback->draw_buffer_clear = 
-	fs_draw_buffer_clear;
+    canvas->video_draw_buffer_callback =
+        xmalloc(sizeof(struct video_draw_buffer_callback_s));
+    canvas->video_draw_buffer_callback->draw_buffer_alloc =
+        fs_draw_buffer_alloc;
+    canvas->video_draw_buffer_callback->draw_buffer_free =
+        fs_draw_buffer_free;
+    canvas->video_draw_buffer_callback->draw_buffer_clear =
+        fs_draw_buffer_clear;
 #endif
 
 #ifdef HAVE_XVIDEO
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 #endif
+    return canvas;
+}
+
+int video_canvas_create(video_canvas_t *canvas, const char *win_name,
+                        unsigned int *width, unsigned int *height, int mapped,
+                        void_t exposure_handler,
+                        const struct palette_s *palette)
+{
+    int res;
+    XGCValues gc_values;
+
     if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
         free(canvas);
-        return NULL;
+        return -1;
     }
 
     video_render_initconfig(&canvas->videoconfig);
@@ -484,7 +488,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
 
     if (res < 0) {
         free(canvas);
-        return (video_canvas_t *)NULL;
+        return -1;
     }
 
     canvas->width = *width;
@@ -497,12 +501,12 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     video_add_handlers(canvas);
 
     if (console_mode || vsid_mode)
-        return canvas;
+        return 0;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_palette(canvas, palette);
 #endif
-    return canvas;
+    return 0;
 }
 
 void video_canvas_destroy(video_canvas_t *c)
