@@ -1,3 +1,42 @@
+2007-04-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.3.
+
+2007-03-23  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: added --disable-bundle switch and
+	MACOSX_BUNDLE define to disable application bundle creation on
+	Macs.
+
+2007-03-22  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/Makefile.am, build/macosx/build-ffmpeglame.h: added
+	builder script for FFMPEG and Lame.
+
+	* build/macosx/build-vice-dist.sh: new presets
+
+	* arch/unix/macosx/x11-launcher.sh: fixed typo in EMU selector
+
+2007-03-22  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in, src/Makefile.am: introduced xxx_LIBS per
+	module and emu_extlibs. link executables against minimal set
+	of required libs.
+
+2007-03-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added sys/joystick.h header check, and changed
+	the preferred libdir and docdir for netbsd and freebsd.
+
+	* doc/Makefile.am, doc/html/Makefile.am: Changed the preferred
+	docdir for netbsd and freebsd.
+
+2007-03-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in: Added 'use make bindist instead
+	of make install' message for platforms that don't use 'make
+	install'.
+
 2007-03-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.2.
