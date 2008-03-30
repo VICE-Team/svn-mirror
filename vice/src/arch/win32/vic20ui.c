@@ -30,19 +30,18 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include <windowsx.h>
-
-#include "ui.h"
 
 #include "cartridge.h"
 #include "res.h"
+#include "ui.h"
 #include "uilib.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
 #include "uivicset.h"
 
-ui_menu_toggle  vic20_ui_menu_toggles[]={
+
+static const ui_menu_toggle vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
@@ -51,7 +50,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[]={
     { NULL, 0 }
 };
 
-static ui_cartridge_params vic20_ui_cartridges[]={
+static const ui_cartridge_params vic20_ui_cartridges[] = {
     {
         IDM_CART_VIC20_8KB_2000,
         CARTRIDGE_VIC20_16KB_2000,
@@ -88,7 +87,7 @@ static ui_cartridge_params vic20_ui_cartridges[]={
 };
 
 static void vic20_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
-                                      ui_cartridge_params *cartridges)
+                                      const ui_cartridge_params *cartridges)
 {
     int i;
     char *s;
@@ -96,7 +95,7 @@ static void vic20_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
     i = 0;
     while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
         i++;
-    if (cartridges[i].wparam==0) {
+    if (cartridges[i].wparam == 0) {
         ui_error("Bad cartridge config in UI!");
         return;
     }

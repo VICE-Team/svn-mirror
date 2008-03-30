@@ -29,10 +29,8 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <windows.h>
-#include <windowsx.h>
-
-#include "ui.h"
 
 #include "c64ui.h"
 #include "cartridge.h"
@@ -41,6 +39,7 @@
 #include "res.h"
 #include "resources.h"
 #include "sid.h"
+#include "ui.h"
 #include "uilib.h"
 #include "uireu.h"
 #include "uivicii.h"
@@ -49,7 +48,7 @@
 #include "winmain.h"
 
 
-ui_menu_toggle c64_ui_menu_toggles[] = {
+static const ui_menu_toggle c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
@@ -59,26 +58,28 @@ ui_menu_toggle c64_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-static ui_res_possible_values CartMode[] = {
+static const ui_res_possible_values CartMode[] = {
     { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
     { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
     { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
     { -1, 0 }
 };
 
-static ui_res_possible_values SidEngine[] = {
+static const ui_res_possible_values SidEngine[] = {
     { SID_ENGINE_FASTSID, IDM_SIDENGINE_FASTSID },
+#ifdef HAVE_CATWEASELMKIII
     { SID_ENGINE_CATWEASELMKIII, IDM_SIDENGINE_CATWEASELMKIII },
+#endif
     { -1, 0 }
 };
 
-ui_res_value_list c64_ui_res_values[] = {
+static const ui_res_value_list c64_ui_res_values[] = {
     { "CartridgeMode", CartMode },
     { "SidEngine", SidEngine },
     { NULL, NULL }
 };
 
-static ui_cartridge_params c64_ui_cartridges[] = {
+static const ui_cartridge_params c64_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_CRT,
         CARTRIDGE_CRT,
@@ -151,7 +152,7 @@ static ui_cartridge_params c64_ui_cartridges[] = {
 };
 
 static void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
-                                    ui_cartridge_params *cartridges)
+                                    const ui_cartridge_params *cartridges)
 {
     int i;
     char *s;
@@ -233,10 +234,12 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         resources_set_value("SidEngine",
                             (resource_value_t)SID_ENGINE_FASTSID);
         break;
+#ifdef HAVE_CATWEASELMKIII
       case IDM_SIDENGINE_CATWEASELMKIII:
         resources_set_value("SidEngine",
                             (resource_value_t)SID_ENGINE_CATWEASELMKIII);
         break;
+#endif
     }
 }
 

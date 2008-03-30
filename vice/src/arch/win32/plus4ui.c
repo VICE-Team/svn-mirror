@@ -30,19 +30,18 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include <windowsx.h>
-
-#include "ui.h"
-#include "uivideo.h"
 
 #include "plus4ui.h"
 #include "res.h"
 #include "resources.h"
+#include "ui.h"
 #include "uilib.h"
+#include "uivideo.h"
 #include "winmain.h"
 #include "uiplus4mem.h"
 
-ui_menu_toggle  plus4_ui_menu_toggles[] = {
+
+static const ui_menu_toggle plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -50,19 +49,19 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-ui_res_value_list plus4_ui_res_values[] = {
+static const ui_res_value_list plus4_ui_res_values[] = {
     { NULL, NULL }
 };
 
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-        case IDM_PLUS4_SETTINGS:
-            ui_plus4_memory_dialog(hwnd);
-            break;
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
-            break;
+      case IDM_PLUS4_SETTINGS:
+        ui_plus4_memory_dialog(hwnd);
+        break;
+      case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        break;
     }
 }
 

@@ -28,12 +28,18 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+
 #include "c128ui.h"
 #include "cartridge.h"
+#include "fullscrn.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "res.h"
 #include "resources.h"
+#include "sid.h"
 #include "ui.h"
 #include "uireu.h"
 #include "uivicii.h"
@@ -41,16 +47,16 @@
 #include "vsync.h"
 #include "uisnapshot.h"
 #include "uilib.h"
-#include "fullscrn.h"
 
-ui_menu_toggle  c128_ui_menu_toggles[] = {
+
+static const ui_menu_toggle c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
-    { "Mouse", IDM_MOUSE|0x00010000 },
+    { "Mouse", IDM_MOUSE | 0x00010000 },
     { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
@@ -59,19 +65,28 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-ui_res_possible_values CartMode128[] = {
+static const ui_res_possible_values CartMode128[] = {
     { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
     { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
     { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
     { -1, 0 }
 };
 
-ui_res_value_list c128_ui_res_values[] = {
+static const ui_res_possible_values SidEngine[] = {
+    { SID_ENGINE_FASTSID, IDM_SIDENGINE_FASTSID },
+#ifdef HAVE_CATWEASELMKIII
+    { SID_ENGINE_CATWEASELMKIII, IDM_SIDENGINE_CATWEASELMKIII },
+#endif
+    { -1, 0 }
+};
+
+static const ui_res_value_list c128_ui_res_values[] = {
     { "CartridgeMode", CartMode128 },
+    { "SidEngine", SidEngine },
     { NULL, NULL }
 };
 
-static ui_cartridge_params c128_ui_cartridges[] = {
+static const ui_cartridge_params c128_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_CRT,
         CARTRIDGE_CRT,
@@ -144,7 +159,7 @@ static ui_cartridge_params c128_ui_cartridges[] = {
 };
 
 static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
-                                    ui_cartridge_params *cartridges)
+                                     const ui_cartridge_params *cartridges)
 {
     int i;
     char *s;
@@ -220,36 +235,46 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
         break;
-        case IDM_IFUNCTIONROM_NAME:
-            SuspendFullscreenMode(hwnd);
-            s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
-                               FILE_SELECTOR_DEFAULT_STYLE, NULL);
-            if (s != NULL) {
-                if (resources_set_value("InternalFunctionName",
-                    (resource_value_t)s) <0) {
-                    ui_error("Could not load function ROM image\n'%s'", s);
-                }
-                free(s);
+      case IDM_IFUNCTIONROM_NAME:
+        SuspendFullscreenMode(hwnd);
+        s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
+                           FILE_SELECTOR_DEFAULT_STYLE, NULL);
+        if (s != NULL) {
+            if (resources_set_value("InternalFunctionName",
+                (resource_value_t)s) <0) {
+                ui_error("Could not load function ROM image\n'%s'", s);
             }
-            ResumeFullscreenMode(hwnd);
-            break;
-        case IDM_EFUNCTIONROM_NAME:
-            SuspendFullscreenMode(hwnd);
-            s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
-                               FILE_SELECTOR_DEFAULT_STYLE, NULL);
-            if (s != NULL) {
-                if (resources_set_value("ExternalFunctionName",
-                    (resource_value_t)s) <0) {
-                    ui_error("Could not load function ROM image\n'%s'", s);
-                }
-                free(s);
+            free(s);
+        }
+        ResumeFullscreenMode(hwnd);
+        break;
+      case IDM_EFUNCTIONROM_NAME:
+        SuspendFullscreenMode(hwnd);
+        s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
+                           FILE_SELECTOR_DEFAULT_STYLE, NULL);
+        if (s != NULL) {
+            if (resources_set_value("ExternalFunctionName",
+                (resource_value_t)s) < 0) {
+                ui_error("Could not load function ROM image\n'%s'", s);
             }
-            ResumeFullscreenMode(hwnd);
-            break;
-       case IDM_VIDEO_SETTINGS:
+            free(s);
+        }
+        ResumeFullscreenMode(hwnd);
+        break;
+      case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
         break;
-   }
+      case IDM_SIDENGINE_FASTSID:
+        resources_set_value("SidEngine",
+                            (resource_value_t)SID_ENGINE_FASTSID);
+        break;
+#ifdef HAVE_CATWEASELMKIII
+      case IDM_SIDENGINE_CATWEASELMKIII:
+        resources_set_value("SidEngine",
+                            (resource_value_t)SID_ENGINE_CATWEASELMKIII);
+        break;
+#endif
+     }
 }
 
 int c128_ui_init(void)

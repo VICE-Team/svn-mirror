@@ -62,7 +62,7 @@ typedef struct {
 
 typedef struct {
     const char *name;
-    ui_res_possible_values *vals;
+    const ui_res_possible_values *vals;
 } ui_res_value_list;
 
 extern int  ui_active;
@@ -81,9 +81,10 @@ extern void ui_display_statustext(const char *text);
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 
 typedef void (*ui_machine_specific_t) (WPARAM wparam, HWND hwnd);
+
 extern void ui_register_machine_specific(ui_machine_specific_t func);
-void ui_register_menu_toggles(ui_menu_toggle *toggles);
-void ui_register_res_values(ui_res_value_list *valuelist);
+extern void ui_register_menu_toggles(const ui_menu_toggle *toggles);
+extern void ui_register_res_values(const ui_res_value_list *valuelist);
 
 /* ------------------------------------------------------------------------ */
 

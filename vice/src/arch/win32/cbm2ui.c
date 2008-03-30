@@ -29,23 +29,34 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include <windowsx.h>
 
 #include "petui.h"
 #include "res.h"
+#include "resources.h"
+#include "sid.h"
 #include "ui.h"
 #include "uicbm2set.h"
 #include "uivideo.h"
 #include "winmain.h"
 
-ui_menu_toggle  cbm2_ui_menu_toggles[]={
+
+static const ui_menu_toggle cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
     { NULL, 0 }
 };
 
-ui_res_value_list cbm2_ui_res_values[] = {
+static const ui_res_possible_values SidEngine[] = {
+    { SID_ENGINE_FASTSID, IDM_SIDENGINE_FASTSID },
+#ifdef HAVE_CATWEASELMKIII
+    { SID_ENGINE_CATWEASELMKIII, IDM_SIDENGINE_CATWEASELMKIII },
+#endif
+    { -1, 0 }
+};
+
+static const ui_res_value_list cbm2_ui_res_values[] = {
+    { "SidEngine", SidEngine },
     { NULL, NULL }
 };
 
@@ -54,10 +65,20 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
       case IDM_CBM2_SETTINGS:
         ui_cbm2_settings_dialog(hwnd);
-		break;
+        break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_RGB);
         break;
+      case IDM_SIDENGINE_FASTSID:
+        resources_set_value("SidEngine",
+                            (resource_value_t)SID_ENGINE_FASTSID);
+        break;
+#ifdef HAVE_CATWEASELMKIII
+      case IDM_SIDENGINE_CATWEASELMKIII:
+        resources_set_value("SidEngine",
+                            (resource_value_t)SID_ENGINE_CATWEASELMKIII);
+        break;
+#endif
     }
 }
 
