@@ -136,6 +136,40 @@
 
 #endif
 
+/* Export the local version of the registers.  */
+#define EXPORT_REGISTERS()                      \
+  do {                                          \
+      GLOBAL_REGS.pc = reg_pc;                  \
+      GLOBAL_REGS.a = reg_a;                    \
+      GLOBAL_REGS.x = reg_x;                    \
+      GLOBAL_REGS.y = reg_y;                    \
+      GLOBAL_REGS.sp = reg_sp;                  \
+      GLOBAL_REGS.psp.z = LOCAL_ZERO();         \
+      GLOBAL_REGS.psp.n = LOCAL_SIGN();         \
+      GLOBAL_REGS.psp.v = LOCAL_OVERFLOW();     \
+      GLOBAL_REGS.psp.b = LOCAL_BREAK();        \
+      GLOBAL_REGS.psp.d = LOCAL_DECIMAL();      \
+      GLOBAL_REGS.psp.i = LOCAL_INTERRUPT();    \
+      GLOBAL_REGS.psp.c = LOCAL_CARRY();        \
+  } while (0)
+
+/* Import the public version of the registers.  */
+#define IMPORT_REGISTERS()                      \
+  do {                                          \
+      JUMP (GLOBAL_REGS.pc);                    \
+      reg_a = GLOBAL_REGS.a;                    \
+      reg_x = GLOBAL_REGS.x;                    \
+      reg_y = GLOBAL_REGS.y;                    \
+      reg_sp = GLOBAL_REGS.sp;                  \
+      LOCAL_SET_ZERO(GLOBAL_REGS.psp.z);        \
+      LOCAL_SET_SIGN(GLOBAL_REGS.psp.n);        \
+      LOCAL_SET_OVERFLOW(GLOBAL_REGS.psp.v);    \
+      LOCAL_SET_BREAK(GLOBAL_REGS.psp.b);       \
+      LOCAL_SET_DECIMAL(GLOBAL_REGS.psp.d);     \
+      LOCAL_SET_INTERRUPT(GLOBAL_REGS.psp.i);   \
+      LOCAL_SET_CARRY(GLOBAL_REGS.psp.c);       \
+  } while (0)
+
 /* Stack operations. */
 
 #define PUSH(val) ((PAGE_ONE)[(reg_sp--)] = (val))
