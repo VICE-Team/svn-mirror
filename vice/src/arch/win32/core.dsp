@@ -90,6 +90,10 @@ SOURCE="..\..\core\ciatimer.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\core\riotcore.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\core\viacore.c"
 # End Source File
 # End Target

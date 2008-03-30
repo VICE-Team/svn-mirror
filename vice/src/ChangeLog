@@ -1,3 +1,31 @@
+2003-07-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.20.
+
+	* c64/c64mem.c, c128/c128mem.c, cbm2/cbm2mem.c
+	(mem_initialize_memory): Set chargen address.
+
+	* vicii/vicii.c (vicii_powerup): Removed chargen address
+	settings.
+
+	* c64/cart/c64cartmem.c, c64/cart/c64cartmem.h
+	(cartridge_romhbank_set, cartridge_romlbank_set): New
+	functions.
+
+	* c64/cart/retroreplay.c, c64/cart/supergames.c,
+	c64/cart/c64cartmem.c, c64/cart/final.c, c64/cart/zaxxon.c:
+	Use new functions to set ROML or ROMH bank number.	
+
+	* drive/drivetypes.h, riot.h, drive/ieee/riotd.h, riotcore.c,
+	drive/ieee/riot1d.c, drive/ieee/riot2d.c, drive/ieee/ieee.c:
+	Use new RIOT core.
+
+	* riotcore.h: Removed.
+
+	* core/riotcore.c: Moved here.
+
+	* Makefile.am, core/Makefile.am, arch/win32/core.dsp: Updated.
+
 2003-07-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.19.
