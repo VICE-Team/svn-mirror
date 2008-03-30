@@ -65,6 +65,10 @@ static ui_menu_entry_t c610_memsize_submenu[] = {
         (ui_callback_t) radio_RamSize, (ui_callback_data_t) 128, NULL },
     { "*256 kByte",
         (ui_callback_t) radio_RamSize, (ui_callback_data_t) 256, NULL },
+    { "*512 kByte",
+        (ui_callback_t) radio_RamSize, (ui_callback_data_t) 512, NULL },
+    { "*1024 kByte",
+        (ui_callback_t) radio_RamSize, (ui_callback_data_t) 1024, NULL },
     { NULL }
 };
 
@@ -79,6 +83,8 @@ static ui_menu_entry_t model_defaults_submenu[] = {
       (ui_callback_t) ui_set_model, (ui_callback_data_t)"610", NULL },
     { "CBM 620",
       (ui_callback_t) ui_set_model, (ui_callback_data_t)"620", NULL },
+    { "CBM 620+ (1M)",
+      (ui_callback_t) ui_set_model, (ui_callback_data_t)"620+", NULL },
     { NULL }
 };
 
@@ -108,12 +114,26 @@ static ui_menu_entry_t c610_keybd_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(Ram1)
+UI_MENU_DEFINE_TOGGLE(Ram2)
+UI_MENU_DEFINE_TOGGLE(Ram4)
+UI_MENU_DEFINE_TOGGLE(Ram6)
+
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",
       NULL, NULL, model_defaults_submenu },
     { "--" },
     { "Memory size",
       NULL, NULL, c610_memsize_submenu },
+    { "--" },
+    { "*Bank 15 $1*** RAM",
+      (ui_callback_t) toggle_Ram1, NULL, NULL },
+    { "*Bank 15 $2000-$3FFF RAM",
+      (ui_callback_t) toggle_Ram2, NULL, NULL },
+    { "*Bank 15 $4000-$5FFF RAM",
+      (ui_callback_t) toggle_Ram4, NULL, NULL },
+    { "*Bank 15 $6000-$7FFF RAM",
+      (ui_callback_t) toggle_Ram6, NULL, NULL },
     { "--" },
     { "Keyboard type",
       NULL, NULL, c610_keybd_submenu },
@@ -205,7 +225,7 @@ int c610_ui_init(void)
                                      NULL));
 
     ui_update_menus();
-    ui_toggle_drive_status(0);
+    /* ui_toggle_drive_status(0); */
 
     return 0;
 }

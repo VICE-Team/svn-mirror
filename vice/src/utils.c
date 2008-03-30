@@ -657,6 +657,19 @@ int atexit(void (*function)(void))
 
 #endif /* !defined HAVE_ATEXIT */
 
+
+#if !defined HAVE_STRERROR
+
+char *strerror(int errnum)
+{
+    static char buffer[100];
+
+    sprintf(buffer, "Error %d", errnum);
+    return buffer;
+}
+
+#endif /* !defined HAVE_STRERROR */
+
 /* ------------------------------------------------------------------------- */
 
 int read_dword(int fd, DWORD *buf, int num)

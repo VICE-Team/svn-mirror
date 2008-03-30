@@ -416,7 +416,7 @@ CLOCK drive0_cpu_prevent_clk_overflow(CLOCK sub)
 	via1d0_prevent_clk_overflow(sub);
 	via2d0_prevent_clk_overflow(sub);
 	cia1571d0_prevent_clk_overflow(sub);
-    cia1581d0_prevent_clk_overflow(sub);
+	cia1581d0_prevent_clk_overflow(sub);
 	wd1770d0_prevent_clk_overflow(sub);
     }
 

@@ -791,7 +791,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 
 #endif
 
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -1367,6 +1367,15 @@ int cia1581d1_write_snapshot_module(FILE * p)
     snapshot_module_write_byte(m, cia1581d1todalarm[2]);
     snapshot_module_write_byte(m, cia1581d1todalarm[3]);
 
+    if(cia1581d1rdi) {
+	if((drive_clk[1] - cia1581d1rdi) > 120) { 
+	    byte = 0;
+	} else {
+	    byte = drive_clk[1] + 128 - cia1581d1rdi;
+	}
+    } else {
+	byte = 0;
+    }
     byte = cia1581d1rdi ? drive_clk[1] - cia1581d1rdi : 0;
     if (byte > 128 || byte < -16)
         byte = 0;
@@ -1409,60 +1418,22 @@ int cia1581d1_read_snapshot_module(FILE * p)
 
     /* Argh.  This is ugly.  */
     {
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRA;
-        oldpa = byte ^ 0xff;
+        snapshot_module_read_byte(m, &cia1581d1[CIA_PRA]);
+        snapshot_module_read_byte(m, &cia1581d1[CIA_PRB]);
+        snapshot_module_read_byte(m, &cia1581d1[CIA_DDRA]);
+        snapshot_module_read_byte(m, &cia1581d1[CIA_DDRB]);
 
-    drive[1].led_status = byte & 0x40;
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRB;
-        oldpa = byte ^ 0xff;
-
-    if (byte != oldpb) {
-        if (iec_info != NULL) {
-            iec_info->drive2_data = ~byte;
-            iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
-                | ((iec_info->drive2_data << 6)
-                & ((iec_info->drive2_data | iec_info->cpu_bus) << 3) & 0x80));
-            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive2_bus
-                & iec_info->drive_bus;
-            iec_info->drive2_port = iec_info->drive_port = (((iec_info->cpu_port >> 4) & 0x4)
-                | (iec_info->cpu_port >> 7)
-                | ((iec_info->cpu_bus << 3) & 0x80));
-        } else {
-            iec_drive_write(~byte);
-        }
-    }
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
-        oldpa = byte ^ 0xff;
+	byte = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];
+        oldpa = byte ^ 0xff;	/* all bits change? */
 
     drive[1].led_status = byte & 0x40;
         oldpa = byte;
 
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
-        oldpa = byte ^ 0xff;
-
-    if (byte != oldpb) {
-        if (iec_info != NULL) {
-            iec_info->drive2_data = ~byte;
-            iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
-                | ((iec_info->drive2_data << 6)
-                & ((iec_info->drive2_data | iec_info->cpu_bus) << 3) & 0x80));
-            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive2_bus
-                & iec_info->drive_bus;
-            iec_info->drive2_port = iec_info->drive_port = (((iec_info->cpu_port >> 4) & 0x4)
-                | (iec_info->cpu_port >> 7)
-                | ((iec_info->cpu_bus << 3) & 0x80));
-        } else {
-            iec_drive_write(~byte);
-        }
-    }
+	byte = cia1581d1[CIA_PRB] | ~cia1581d1[CIA_DDRB];
+        oldpa = byte ^ 0xff;	/* all bits change? */
+        /* FIXME!!!! */
         oldpa = byte;
     }
 
@@ -1509,7 +1480,7 @@ int cia1581d1_read_snapshot_module(FILE * p)
 
     snapshot_module_read_byte(m, &byte);
     if(byte) {
-	cia1581d1rdi = drive_clk[1] + byte;
+	cia1581d1rdi = drive_clk[1] + 128 - byte;
     }
 
     snapshot_module_read_byte(m, &byte);

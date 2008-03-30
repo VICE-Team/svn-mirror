@@ -777,7 +777,7 @@ BYTE read_cia1571d1_(ADDRESS addr)
 
 #endif
 
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -1350,6 +1350,15 @@ int cia1571d1_write_snapshot_module(FILE * p)
     snapshot_module_write_byte(m, cia1571d1todalarm[2]);
     snapshot_module_write_byte(m, cia1571d1todalarm[3]);
 
+    if(cia1571d1rdi) {
+	if((drive_clk[1] - cia1571d1rdi) > 120) { 
+	    byte = 0;
+	} else {
+	    byte = drive_clk[1] + 128 - cia1571d1rdi;
+	}
+    } else {
+	byte = 0;
+    }
     byte = cia1571d1rdi ? drive_clk[1] - cia1571d1rdi : 0;
     if (byte > 128 || byte < -16)
         byte = 0;
@@ -1392,32 +1401,21 @@ int cia1571d1_read_snapshot_module(FILE * p)
 
     /* Argh.  This is ugly.  */
     {
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRA;
-        oldpa = byte ^ 0xff;
+        snapshot_module_read_byte(m, &cia1571d1[CIA_PRA]);
+        snapshot_module_read_byte(m, &cia1571d1[CIA_PRB]);
+        snapshot_module_read_byte(m, &cia1571d1[CIA_DDRA]);
+        snapshot_module_read_byte(m, &cia1571d1[CIA_DDRB]);
 
-
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRB;
-        oldpa = byte ^ 0xff;
-
-
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
-        oldpa = byte ^ 0xff;
-
-
+	byte = cia1571d1[CIA_PRA] | ~cia1571d1[CIA_DDRA];
+        oldpa = byte ^ 0xff;	/* all bits change? */
+        
         oldpa = byte;
 
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
-        oldpa = byte ^ 0xff;
-
-
+	byte = cia1571d1[CIA_PRB] | ~cia1571d1[CIA_DDRB];
+        oldpa = byte ^ 0xff;	/* all bits change? */
+        
         oldpa = byte;
     }
 
@@ -1464,7 +1462,7 @@ int cia1571d1_read_snapshot_module(FILE * p)
 
     snapshot_module_read_byte(m, &byte);
     if(byte) {
-	cia1571d1rdi = drive_clk[1] + byte;
+	cia1571d1rdi = drive_clk[1] + 128 - byte;
     }
 
     snapshot_module_read_byte(m, &byte);

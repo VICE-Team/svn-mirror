@@ -246,7 +246,7 @@ void cia1_set_ieee_dir(int isout)
 {
     cia1_ieee_is_output = isout;
     if(isout) {
-	par_set_bus(0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]));
+	par_set_bus(~oldpa);
     } else {
 	par_set_bus(0);
     }
@@ -476,10 +476,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 	cia1[addr] = byte;
 	byte = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
 
-	cia1[addr] = byte;
-	par_set_bus( cia1_ieee_is_output
-		? (0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]))
-		: 0 );
+	par_set_bus( cia1_ieee_is_output ? byte : 0 );
 	oldpa = byte;
 	break;
 
@@ -801,7 +798,7 @@ BYTE read_cia1_(ADDRESS addr)
 
 #endif
 
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -815,7 +812,7 @@ BYTE read_cia1_(ADDRESS addr)
 
       case CIA_PRA:		/* port A */
 
-    byte = (par_bus & ~cia1[CIA_DDRA]) | (cia1[CIA_DDRA] & cia1[CIA_PRA]);
+    byte = par_bus;
     if(pardebug) printf("read: par_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
 		par_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
 	byte = (byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]);
@@ -1372,6 +1369,15 @@ int cia1_write_snapshot_module(FILE * p)
     snapshot_module_write_byte(m, cia1todalarm[2]);
     snapshot_module_write_byte(m, cia1todalarm[3]);
 
+    if(cia1rdi) {
+	if((clk - cia1rdi) > 120) { 
+	    byte = 0;
+	} else {
+	    byte = clk + 128 - cia1rdi;
+	}
+    } else {
+	byte = 0;
+    }
     byte = cia1rdi ? clk - cia1rdi : 0;
     if (byte > 128 || byte < -16)
         byte = 0;
@@ -1414,46 +1420,22 @@ int cia1_read_snapshot_module(FILE * p)
 
     /* Argh.  This is ugly.  */
     {
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRA;
-        oldpa = byte ^ 0xff;
+        snapshot_module_read_byte(m, &cia1[CIA_PRA]);
+        snapshot_module_read_byte(m, &cia1[CIA_PRB]);
+        snapshot_module_read_byte(m, &cia1[CIA_DDRA]);
+        snapshot_module_read_byte(m, &cia1[CIA_DDRB]);
 
-	cia1[addr] = byte;
-	par_set_bus( cia1_ieee_is_output
-		? (0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]))
-		: 0 );
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRB;
-        oldpa = byte ^ 0xff;
-
-#ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
-    userport_printer_write_strobe(0);
-    userport_printer_write_strobe(1);
-#endif
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
-        oldpa = byte ^ 0xff;
+	byte = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
+        oldpa = byte ^ 0xff;	/* all bits change? */
 
-	cia1[addr] = byte;
-	par_set_bus( cia1_ieee_is_output
-		? (0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]))
-		: 0 );
+	par_set_bus( cia1_ieee_is_output ? byte : 0 );
         oldpa = byte;
 
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
-        oldpa = byte ^ 0xff;
+	byte = cia1[CIA_PRB] | ~cia1[CIA_DDRB];
+        oldpa = byte ^ 0xff;	/* all bits change? */
 
-#ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
-    userport_printer_write_strobe(0);
-    userport_printer_write_strobe(1);
-#endif
         oldpa = byte;
     }
 
@@ -1499,7 +1481,7 @@ int cia1_read_snapshot_module(FILE * p)
 
     snapshot_module_read_byte(m, &byte);
     if(byte) {
-	cia1rdi = clk + byte;
+	cia1rdi = clk + 128 - byte;
     }
 
     snapshot_module_read_byte(m, &byte);

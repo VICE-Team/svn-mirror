@@ -86,8 +86,9 @@ static UI_CALLBACK(set_KeyboardType)
     resources_get_value("KeymapIndex", (resource_value_t) &current_value);
     if(!call_data) {
 	if((current_value & ~1) != new_value) {
-	    resources_set_value("KeymapIndex", (resource_value_t)
-		(current_value & 1) + new_value);
+	    resources_set_value("KeymapIndex",
+                                (resource_value_t) ((current_value & 1)
+                                                    + new_value));
 	    ui_update_menus();
 	}
     } else {
@@ -309,7 +310,7 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "--" },
     { "*SuperPET I/O enable (disables 8x96)",
       (ui_callback_t) toggle_SuperPET, NULL, NULL },
-    { "SuperPET ACIA", 
+    { "SuperPET ACIA",
       NULL, NULL, pet_rs232_submenu },
     { "--" },
     { "*$9*** as RAM (8296 only)",
@@ -384,7 +385,7 @@ int pet_ui_init(void)
                                      NULL));
 
     ui_update_menus();
-    ui_toggle_drive_status(0);
+    /* ui_toggle_drive_status(0); */
 
     return 0;
 }

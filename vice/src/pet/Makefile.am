@@ -10,6 +10,7 @@ noinst_LIBRARIES = libpet.a
 libpet_a_SOURCES = \
 	crtc.c \
 	crtc.def \
+	crtc.h \
 	pet.c \
 	pet.h \
 	petacia.h \

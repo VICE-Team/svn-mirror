@@ -25,6 +25,8 @@
  *
  */
 
+#define MY_WINDOW_TITLE            "VICE: CBM-II emulator"
+
 INCLUDES()
 {
 #include "c610tpi.h"

@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.15.0.7
+VERSION=0.15.0.8
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -4358,7 +4358,7 @@ EOF
 
 fi
 
-for ac_func in gettimeofday memmove atexit
+for ac_func in gettimeofday memmove atexit strerror
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:4365: checking for $ac_func" >&5

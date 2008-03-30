@@ -105,7 +105,7 @@ static int ramsize;
 static int set_ramsize(resource_value_t v)
 {
     int rs = (int) v;
-    if(rs==128 || rs==256) {
+    if(rs==128 || rs==256 || rs==512 || rs==1024) {
 	ramsize = rs;
 	initialize_memory();
         return 0;
@@ -139,7 +139,10 @@ static char *basic_rom_name = NULL;
 static char *cart_2_name = NULL;
 static char *cart_4_name = NULL;
 static char *cart_6_name = NULL;
-
+static int cart1_ram = 0;
+static int cart2_ram = 0;
+static int cart4_ram = 0;
+static int cart6_ram = 0;
 
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
@@ -223,6 +226,33 @@ static int set_cart6_rom_name(resource_value_t v)
     return 0;
 }
 
+static int set_cart1_ram(resource_value_t v)
+{
+    cart1_ram = (int) v;
+    initialize_memory();
+    return 0;
+}
+
+static int set_cart2_ram(resource_value_t v)
+{
+    cart2_ram = (int) v;
+    initialize_memory();
+    return 0;
+}
+
+static int set_cart4_ram(resource_value_t v)
+{
+    cart4_ram = (int) v;
+    initialize_memory();
+    return 0;
+}
+
+static int set_cart6_ram(resource_value_t v)
+{
+    cart6_ram = (int) v;
+    initialize_memory();
+    return 0;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -241,6 +271,16 @@ static resource_t resources[] = {
      (resource_value_t *) &cart_4_name, set_cart4_rom_name },
     { "Cart6Name", RES_STRING, (resource_value_t) NULL,
      (resource_value_t *) &cart_6_name, set_cart6_rom_name },
+
+    { "Ram1", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &cart1_ram, set_cart1_ram },
+    { "Ram2", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &cart2_ram, set_cart2_ram },
+    { "Ram4", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &cart4_ram, set_cart4_ram },
+    { "Ram6", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &cart6_ram, set_cart6_ram },
+
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
     { NULL }
@@ -254,18 +294,40 @@ int c610_mem_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, cbm2_set_model, NULL, NULL, NULL,
      "<modelnumber>", "Specify CBM-II model to emulate" },
+    { "-ramsize", SET_RESOURCE, 1, NULL, NULL, "RamSize", NULL,
+     "<ramsize>", "Specify size of RAM (128/256/512/1024 kByte)" },
+
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },
     { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
       "<name>", "Specify name of BASIC ROM image" },
     { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
       "<name>", "Specify name of character generator ROM image" },
+
     { "-cart2", SET_RESOURCE, 1, NULL, NULL, "Cart2Name", NULL,
       "<name>", "Specify name of cartridge ROM image for $2000" },
     { "-cart4", SET_RESOURCE, 1, NULL, NULL, "Cart4Name", NULL,
       "<name>", "Specify name of cartridge ROM image for $4000" },
     { "-cart6", SET_RESOURCE, 1, NULL, NULL, "Cart2Name", NULL,
       "<name>", "Specify name of cartridge ROM image for $6000" },
+
+    { "-ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 1, 
+      NULL, "Enable RAM mapping in $1000-$1FFF" },
+    { "+ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 0, 
+      NULL, "Disable RAM mapping in $1000-$1FFF" },
+    { "-ram2", SET_RESOURCE, 0, NULL, NULL, "Ram2", (resource_value_t) 1, 
+      NULL, "Enable RAM mapping in $2000-$3FFF" },
+    { "+ram2", SET_RESOURCE, 0, NULL, NULL, "Ram2", (resource_value_t) 0, 
+      NULL, "Disable RAM mapping in $2000-$3FFF" },
+    { "-ram4", SET_RESOURCE, 0, NULL, NULL, "Ram4", (resource_value_t) 1, 
+      NULL, "Enable RAM mapping in $4000-$5FFF" },
+    { "+ram4", SET_RESOURCE, 0, NULL, NULL, "Ram4", (resource_value_t) 0, 
+      NULL, "Disable RAM mapping in $4000-$5FFF" },
+    { "-ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 1, 
+      NULL, "Enable RAM mapping in $6000-$7FFF" },
+    { "+ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 0, 
+      NULL, "Disable RAM mapping in $6000-$7FFF" },
+
     { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
       NULL, "Enable emulator identification" },
     { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
@@ -287,6 +349,7 @@ static struct {
     } modtab[] = {
     { "610",  128,  "basic.b128"  },
     { "620",  256,  "basic.b256"  },
+    { "620+", 1024, "basic.b256"  },
     { NULL }
 };
 
@@ -307,21 +370,25 @@ int cbm2_set_model(const char *model, void *extra)
 /* ------------------------------------------------------------------------- */
 
 void set_bank_exec(int val) {
+    int i;
     val &= 0x0f;
     if(val != bank_exec) {
-/* printf("set_bank_exec(%d)\n",val); */
+ /* printf("set_bank_exec(%d)\n",val); */
     	bank_exec = val;
     	_mem_read_tab_ptr      = _mem_read_tab[bank_exec];
     	_mem_write_tab_ptr     = _mem_write_tab[bank_exec];
     	_mem_read_base_tab_ptr = _mem_read_base_tab[bank_exec];
     	/* set all register mirror locations */
-    	ram[0] = ram[0x10000] = ram[0x20000] = ram[0x30000] = rom[0] = val;
+	for(i=0;i<16;i++) {
+	    ram[i<<16] = val;
+	}
     	page_zero = _mem_read_base_tab_ptr[0];
     	page_one = _mem_read_base_tab_ptr[1];
     }
 }
 
 void set_bank_ind(int val) {
+    int i;
     val &= 0x0f;
     if(val != bank_ind) {
 /* printf("set_bank_ind(%d)\n",val); */
@@ -330,7 +397,9 @@ void set_bank_ind(int val) {
     	_mem_write_ind_tab_ptr     = _mem_write_tab[bank_ind];
     	_mem_read_ind_base_tab_ptr = _mem_read_base_tab[bank_ind];
     	/* set all register mirror locations */
-    	ram[1] = ram[0x10001] = ram[0x20001] = ram[0x30001] = rom[1] = val;
+	for(i=0;i<16;i++) {
+	    ram[(i<<16) + 1] = val;
+	}
     }
 }
 
@@ -344,120 +413,137 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
     _mem_write_tab_ptr[0](addr&0xff,value);
 }
 
-void REGPARM2 store_zero0(ADDRESS addr, BYTE value)
-{
-    if(addr==0) set_bank_exec(value); else
-    if(addr==1) set_bank_ind(value);
+#define	STORE_ZERO(bank) 						\
+    void REGPARM2 store_zero_##bank(ADDRESS addr, BYTE value)		\
+    {									\
+        addr &= 0xff;							\
+									\
+        if(addr==0) set_bank_exec(value); else				\
+        if(addr==1) set_bank_ind(value);				\
+									\
+        ram[(0x##bank << 16) | addr] = value;				\
+    }
 
-    addr &= 0xff;
-    ram[addr] = value;
-}
 
-void REGPARM2 store_zero1(ADDRESS addr, BYTE value)
-{
-    if(addr==0) set_bank_exec(value); else
-    if(addr==1) set_bank_ind(value);
+#define	READ_ZERO(bank)							\
+    BYTE REGPARM1 read_zero_##bank(ADDRESS addr)			\
+    {									\
+        return ram[(0x##bank << 16) | (addr & 0xff)];			\
+    }
 
-    addr &= 0xff;
-    ram[0x10000+addr] = value;
-}
+#define	READ_RAM(bank)							\
+    BYTE REGPARM1 read_ram_##bank(ADDRESS addr)				\
+    {									\
+        return ram[(0x##bank << 16) | addr];				\
+    }
 
-void REGPARM2 store_zero2(ADDRESS addr, BYTE value)
-{
-    if(addr==0) set_bank_exec(value); else
-    if(addr==1) set_bank_ind(value);
+#define	STORE_RAM(bank)							\
+    void REGPARM2 store_ram_##bank(ADDRESS addr, BYTE byte)		\
+    {									\
+        ram[(0x##bank << 16) | addr] = byte;				\
+    }
 
-    addr &= 0xff;
-    ram[0x20000+addr] = value;
-}
+STORE_ZERO(0)
+STORE_ZERO(1)
+STORE_ZERO(2)
+STORE_ZERO(3)
+STORE_ZERO(4)
+STORE_ZERO(5)
+STORE_ZERO(6)
+STORE_ZERO(7)
+STORE_ZERO(8)
+STORE_ZERO(9)
+STORE_ZERO(A)
+STORE_ZERO(B)
+STORE_ZERO(C)
+STORE_ZERO(D)
+STORE_ZERO(E)
+STORE_ZERO(F)
 
-void REGPARM2 store_zero3(ADDRESS addr, BYTE value)
-{
-    if(addr==0) set_bank_exec(value); else
-    if(addr==1) set_bank_ind(value);
+READ_ZERO(0)
+READ_ZERO(1)
+READ_ZERO(2)
+READ_ZERO(3)
+READ_ZERO(4)
+READ_ZERO(5)
+READ_ZERO(6)
+READ_ZERO(7)
+READ_ZERO(8)
+READ_ZERO(9)
+READ_ZERO(A)
+READ_ZERO(B)
+READ_ZERO(C)
+READ_ZERO(D)
+READ_ZERO(E)
+READ_ZERO(F)
 
-    addr &= 0xff;
-    ram[0x30000+addr] = value;
-}
+STORE_RAM(0)
+STORE_RAM(1)
+STORE_RAM(2)
+STORE_RAM(3)
+STORE_RAM(4)
+STORE_RAM(5)
+STORE_RAM(6)
+STORE_RAM(7)
+STORE_RAM(8)
+STORE_RAM(9)
+STORE_RAM(A)
+STORE_RAM(B)
+STORE_RAM(C)
+STORE_RAM(D)
+STORE_RAM(E)
+STORE_RAM(F)
 
-void REGPARM2 store_zeroF(ADDRESS addr, BYTE value)
-{
-    if(addr==0) set_bank_exec(value); else
-    if(addr==1) set_bank_ind(value);
+READ_RAM(0)
+READ_RAM(1)
+READ_RAM(2)
+READ_RAM(3)
+READ_RAM(4)
+READ_RAM(5)
+READ_RAM(6)
+READ_RAM(7)
+READ_RAM(8)
+READ_RAM(9)
+READ_RAM(A)
+READ_RAM(B)
+READ_RAM(C)
+READ_RAM(D)
+READ_RAM(E)
+READ_RAM(F)
 
-    addr &= 0xff;
-    rom[addr] = value;
-}
+static void REGPARM2 (*store_zero_tab[16])(ADDRESS addr, BYTE value) = {
+	store_zero_0, store_zero_1, store_zero_2, store_zero_3, 
+	store_zero_4, store_zero_5, store_zero_6, store_zero_7,
+	store_zero_8, store_zero_9, store_zero_A, store_zero_B, 
+	store_zero_C, store_zero_D, store_zero_E, store_zero_F
+};
+
+static void REGPARM2 (*store_ram_tab[16])(ADDRESS addr, BYTE value) = {
+	store_ram_0, store_ram_1, store_ram_2, store_ram_3, 
+	store_ram_4, store_ram_5, store_ram_6, store_ram_7,
+	store_ram_8, store_ram_9, store_ram_A, store_ram_B, 
+	store_ram_C, store_ram_D, store_ram_E, store_ram_F
+};
+
+static BYTE REGPARM1 (*read_ram_tab[16])(ADDRESS addr) = {
+	read_ram_0, read_ram_1, read_ram_2, read_ram_3, 
+	read_ram_4, read_ram_5, read_ram_6, read_ram_7,
+	read_ram_8, read_ram_9, read_ram_A, read_ram_B, 
+	read_ram_C, read_ram_D, read_ram_E, read_ram_F
+};
+
+static BYTE REGPARM1 (*read_zero_tab[16])(ADDRESS addr) = {
+	read_zero_0, read_zero_1, read_zero_2, read_zero_3, 
+	read_zero_4, read_zero_5, read_zero_6, read_zero_7,
+	read_zero_8, read_zero_9, read_zero_A, read_zero_B, 
+	read_zero_C, read_zero_D, read_zero_E, read_zero_F
+};
+
 
 void REGPARM2 store_zeroX(ADDRESS addr, BYTE value)
 {
     if(addr==0) set_bank_exec(value); else
     if(addr==1) set_bank_ind(value);
-}
-
-BYTE REGPARM1 read_zero0(ADDRESS addr)
-{
-    return ram[addr & 0xff];
-}
-
-BYTE REGPARM1 read_zero1(ADDRESS addr)
-{
-    return ram[0x10000 + (addr & 0xff)];
-}
-
-BYTE REGPARM1 read_zero2(ADDRESS addr)
-{
-    return ram[0x20000 + (addr & 0xff)];
-}
-
-BYTE REGPARM1 read_zero3(ADDRESS addr)
-{
-    return ram[0x30000 + (addr & 0xff)];
-}
-
-BYTE REGPARM1 read_zeroF(ADDRESS addr)
-{
-    return rom[addr & 0xff];
-}
-
-BYTE REGPARM1 read_ram0(ADDRESS addr)
-{
-    return ram[addr];
-}
-
-void REGPARM2 store_ram0(ADDRESS addr, BYTE value)
-{
-    ram[addr] = value;
-}
-
-BYTE REGPARM1 read_ram1(ADDRESS addr)
-{
-    return ram[0x10000+addr];
-}
-
-void REGPARM2 store_ram1(ADDRESS addr, BYTE value)
-{
-    ram[0x10000+addr] = value;
-}
-
-BYTE REGPARM1 read_ram2(ADDRESS addr)
-{
-    return ram[0x20000+addr];
-}
-
-void REGPARM2 store_ram2(ADDRESS addr, BYTE value)
-{
-    ram[0x20000+addr] = value;
-}
-
-BYTE REGPARM1 read_ram3(ADDRESS addr)
-{
-    return ram[0x30000+addr];
-}
-
-void REGPARM2 store_ram3(ADDRESS addr, BYTE value)
-{
-    ram[0x30000+addr] = value;
 }
 
 BYTE REGPARM1 read_rom(ADDRESS addr)
@@ -634,49 +720,41 @@ void initialize_memory(void)
     for (i=0;i<16;i++) {		/* 16 banks possible */
 	switch (i) {
 	case 1:
-	    for (j=255;j>=0;j--) {
-		_mem_read_tab[i][j] = read_ram0;
-		_mem_write_tab[i][j] = store_ram0;
-		_mem_read_base_tab[i][j] = ram + (j << 8);
-	    }
-	    _mem_write_tab[i][0] = store_zero0;
-	    _mem_read_tab[i][0] = read_zero0;
-	    break;
 	case 2:
 	    for (j=255;j>=0;j--) {
-		_mem_read_tab[i][j] = read_ram1;
-		_mem_write_tab[i][j] = store_ram1;
-		_mem_read_base_tab[i][j] = ram + 0x10000 + (j << 8);
+		_mem_read_tab[i][j] = read_ram_tab[i];
+		_mem_write_tab[i][j] = store_ram_tab[i];
+		_mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
 	    }
-	    _mem_write_tab[i][0] = store_zero1;
-	    _mem_read_tab[i][0] = read_zero1;
+	    _mem_write_tab[i][0] = store_zero_tab[i];
+	    _mem_read_tab[i][0] = read_zero_tab[i];
 	    break;
 	case 3:
-	    if(ramsize >= 256) {
-	        for (j=255;j>=0;j--) {
-	    	    _mem_read_tab[i][j] = read_ram2;
-		    _mem_write_tab[i][j] = store_ram2;
-		    _mem_read_base_tab[i][j] = ram + 0x20000 + (j << 8);
-	        }
-	        _mem_write_tab[i][0] = store_zero2;
-	        _mem_read_tab[i][0] = read_zero2;
-	        break;
-	    }
 	case 4:
 	    if(ramsize >= 256) {
 	        for (j=255;j>=0;j--) {
-		    _mem_read_tab[i][j] = read_ram3;
-		    _mem_write_tab[i][j] = store_ram3;
-		    _mem_read_base_tab[i][j] = ram + 0x30000 + (j << 8);
+	    	    _mem_read_tab[i][j] = read_ram_tab[i];
+		    _mem_write_tab[i][j] = store_ram_tab[i];
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
 	        }
-	        _mem_write_tab[i][0] = store_zero3;
-	        _mem_read_tab[i][0] = read_zero3;
+	        _mem_write_tab[i][0] = store_zero_tab[i];
+	        _mem_read_tab[i][0] = read_zero_tab[i];
 	        break;
 	    }
 	case 0:
 	case 5:
 	case 6:
 	case 7:
+	    if(ramsize >= 512) {
+	        for (j=255;j>=0;j--) {
+	    	    _mem_read_tab[i][j] = read_ram_tab[i];
+		    _mem_write_tab[i][j] = store_ram_tab[i];
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	        _mem_write_tab[i][0] = store_zero_tab[i];
+	        _mem_read_tab[i][0] = read_zero_tab[i];
+	        break;
+	    }
 	case 8:
 	case 9:
 	case 10:
@@ -684,6 +762,17 @@ void initialize_memory(void)
 	case 12:
 	case 13:
 	case 14:
+	    if(ramsize >= 1024) {
+	        for (j=255;j>=0;j--) {
+	    	    _mem_read_tab[i][j] = read_ram_tab[i];
+		    _mem_write_tab[i][j] = store_ram_tab[i];
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	        _mem_write_tab[i][0] = store_zero_tab[i];
+	        _mem_read_tab[i][0] = read_zero_tab[i];
+	        break;
+	    }
+	    /* fallback for ramsize < some_value */
 	    for (j=255;j>=0;j--) {
 		_mem_read_tab[i][j] = read_unused;
 		_mem_write_tab[i][j] = store_dummy;
@@ -693,9 +782,9 @@ void initialize_memory(void)
 	    break;
 	case 15:
 	    for (j=0;j<0x10;j++) {
-		_mem_read_tab[i][j] = read_rom;
-		_mem_write_tab[i][j] = store_rom;
-		_mem_read_base_tab[i][j] = rom + (j << 8);
+		_mem_read_tab[i][j] = read_ram_F;
+		_mem_write_tab[i][j] = store_ram_F;
+		_mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
 	    }
 	    for (;j<0xc0;j++) {
 		_mem_read_tab[i][j] = read_rom;
@@ -712,8 +801,39 @@ void initialize_memory(void)
 		_mem_write_tab[i][j] = store_dummy;
 		_mem_read_base_tab[i][j] = rom + (j << 8);
 	    }
-	    _mem_write_tab[i][0] = store_zeroF;
-	    _mem_read_tab[i][0] = read_zeroF;
+
+	    if(cart1_ram) {
+	        for (j=0x10;j<0x20;j++) {
+		    _mem_read_tab[i][j] = read_ram_F;
+		    _mem_write_tab[i][j] = store_ram_F;
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	    }
+	    if(cart2_ram) {
+	        for (j=0x20;j<0x40;j++) {
+		    _mem_read_tab[i][j] = read_ram_F;
+		    _mem_write_tab[i][j] = store_ram_F;
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	    }
+	    if(cart4_ram) {
+	        for (j=0x40;j<0x60;j++) {
+		    _mem_read_tab[i][j] = read_ram_F;
+		    _mem_write_tab[i][j] = store_ram_F;
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	    }
+	    if(cart6_ram) {
+	        for (j=0x60;j<0x80;j++) {
+		    _mem_read_tab[i][j] = read_ram_F;
+		    _mem_write_tab[i][j] = store_ram_F;
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	    }
+
+	    _mem_write_tab[i][0] = store_zero_F;
+	    _mem_read_tab[i][0] = read_zero_F;
+	    _mem_read_base_tab[i][0] = ram + 0xf0000;
 	    break;
 	}
 	_mem_read_tab[i][0x100] = _mem_read_tab[i][0];
@@ -756,7 +876,7 @@ void mem_powerup(void)
     set_bank_ind(15);
 }
 
-/* Load memory image files.  This also selects the PET model.  */
+/* Load memory image files. */
 int mem_load(void)
 {
     WORD sum;                   /* ROM checksum */
@@ -849,21 +969,6 @@ int mem_load(void)
 
     printf("CBM-II: Loaded ROM, checksum is %d ($%04X).\n", sum, sum);
 
-#if 0
-    if (sum == PET8032_CHECKSUM_A || sum == PET8032_CHECKSUM_B) {
-        printf("Identified PET 8032 ROM by checksum.\n");
-        pet.screen_width = 80;
-        kbd_buf_init(0x26f, 0x9e, 10,
-                     PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
-        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0xa7, 0xc4, 0xc6, -80);
-        tape_init(214, 150, 157, 144, 0xe455, 251, 201, pet4_tape_traps,
-                  0x26f, 0x9e);
-    } else {
-        printf("Unknown PET ROM.\n");
-    }
-#endif
-
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
 
     rom_loaded = 1;
@@ -952,11 +1057,14 @@ static BYTE peek_bank_io(ADDRESS addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram0", "ram1", "ram2", "ram3", "romio", NULL
+    "default", "cpu", "ram0", "ram1", "ram2", "ram3", 
+	"ram4", "ram5", "ram6", "ram7", "ram8", "ram9",
+	"ramA", "ramB", "ramC", "ramD", "ramE", "ramF",
+	"romio", NULL
 };
 
 static int banknums[] = {
-    -1, -1, 0, 1, 2, 3, 15
+    17, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 };
 
 const char **mem_bank_list(void)
@@ -980,26 +1088,22 @@ int mem_bank_from_name(const char *name)
 BYTE mem_bank_read(int bank, ADDRESS addr)
 {
     switch (bank) {
-      case -1:                  /* current */
-          return mem_read(addr);
-      case 0:
-	  return read_ram0(addr);
-      case 1:
-	  return read_ram1(addr);
-      case 2:
-	  return read_ram2(addr);
-      case 3:
-	  return read_ram3(addr);
-      case 15:                   /* romio */
+      case 17:                  /* current */
+	  return mem_read(addr);
+      case 16:                   /* romio */
 	  if(addr>=0xc000 && addr <0xe000) return read_io(addr);
-	  return read_rom(addr);
+	  return _mem_read_tab[15][addr >> 8](addr);
+      default:
+	  if(bank >=0 && bank <15) {
+	      return read_ram_tab[bank](addr);
+	  }
     }
     return read_unused(addr);
 }
 
 BYTE mem_bank_peek(int bank, ADDRESS addr)
 {
-    if(bank==15) {
+    if(bank==16) {
         if (addr >= 0xC000 && addr < 0xE000) {
             return peek_bank_io(addr);
         }
@@ -1010,28 +1114,23 @@ BYTE mem_bank_peek(int bank, ADDRESS addr)
 void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 {
     switch (bank) {
-      case -1:                   /* current */
+      case 17:                   /* current */
         mem_store(addr, byte);
         return;
-      case 0:                   /* ram */
-	store_ram0(addr, byte);
-	return;
-      case 1:
-	store_ram1(addr, byte);
-	return;
-      case 2:
-	store_ram2(addr, byte);
-	return;
-      case 3:
-	store_ram3(addr, byte);
-	return;
-      case 15:
+      case 16:
 	if(addr >= 0xc000 && addr <=0xdfff) {
 	    store_io(addr, byte);
 	    return;
 	}
-	if(addr <= 0x0fff) {
-	    store_rom(addr, byte);
+	_mem_write_tab[15][addr >> 8](addr, byte);
+	return;
+      default:
+	if(bank >=0 && bank < 16) {
+	    if (addr & 0xff00) {
+	        store_ram_tab[bank](addr, byte);
+	    } else {
+	        store_zero_tab[bank](addr, byte);
+	    }
 	    return;
 	}
     }

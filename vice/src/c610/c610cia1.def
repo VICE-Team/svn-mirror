@@ -60,7 +60,7 @@ void cia1_set_ieee_dir(int isout)
 {
     cia1_ieee_is_output = isout;
     if(isout) {
-	par_set_bus(0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]));
+	par_set_bus(~oldpa);
     } else {
 	par_set_bus(0);
     }
@@ -80,16 +80,21 @@ RESET_CIA()
 
 STORE_CIAPA()
 {
-	cia1[addr] = byte;
-	par_set_bus( cia1_ieee_is_output
-		? (0xff & ((~cia1[CIA_PRA]) | ~cia1[CIA_DDRA]))
-		: 0 );
+	par_set_bus( cia1_ieee_is_output ? byte : 0 );
+}
+
+UNDUMP_CIAPA()
+{
+	par_set_bus( cia1_ieee_is_output ? byte : 0 );
 }
 
 STORE_SDR()
 {
 }
 
+UNDUMP_CIAPB()
+{
+}
 
 STORE_CIAPB()
 {
@@ -102,7 +107,7 @@ STORE_CIAPB()
 
 READ_CIAPA()
 {
-    byte = (par_bus & ~cia1[CIA_DDRA]) | (cia1[CIA_DDRA] & cia1[CIA_PRA]);
+    byte = par_bus;
     if(pardebug) printf("read: par_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
 		par_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
 }

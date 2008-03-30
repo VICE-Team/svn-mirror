@@ -189,7 +189,7 @@ void store_tpi1 ( ADDRESS addr, BYTE byte ) {
 
 	{
 	    BYTE tmp = ~byte;
-	    cia1_set_ieee_dir(tmp & 2);
+	    cia1_set_ieee_dir(byte & 2);
 	    if (byte & 2) {
 		par_set_ndac(0);
 		par_set_nrfd(0);

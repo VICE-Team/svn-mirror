@@ -65,8 +65,6 @@ BYTE ram[RAM_ARRAY];      /* 128K to make things easier. Real size is 4-128K. */
 BYTE rom[PET_ROM_SIZE];
 BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
 
-BYTE *page_zero = ram;
-
 int ram_size = RAM_ARRAY;       /* FIXME? */
 
 /* Memory read and write tables. */
@@ -96,9 +94,104 @@ static int bankCoffset = 0;
 /* prototype */
 void set_screen(void);
 
-static trap_t pet4_tape_traps[];
-static trap_t pet3_tape_traps[];
-static trap_t pet2_tape_traps[];
+/* ------------------------------------------------------------------------- */
+
+/* Tape traps.  */
+static trap_t pet4_tape_traps[] =
+{
+    {
+        "FindHeader",
+        0xF5E8,
+        0xF5EB,
+        {0x20, 0x9A, 0xF8},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xF66B,
+        0xF66E,
+        {0x20, 0xD5, 0xF8},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xF8E0,
+        0xFCC0,
+        {0x20, 0xE0, 0xFC},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
+static trap_t pet3_tape_traps[] =
+{
+    {
+        "FindHeader",
+        0xF5A9,
+        0xF5AC,
+        {0x20, 0x55, 0xF8},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xF62C,
+        0xF62F,
+        {0x20, 0x90, 0xF8},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xF89B,
+        0xFC7B,
+        {0x20, 0x9B, 0xFC},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
+static trap_t pet2_tape_traps[] =
+{
+    {
+        "FindHeader",
+        0xF5B2,
+        0xF5B5,
+        {0x20, 0x7F, 0xF8},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xF63D,
+        0xF640,
+        {0x20, 0xC4, 0xF8},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xF8A5,
+        0xFCFB,
+        {0x20, 0x1B, 0xFD},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -1004,102 +1097,6 @@ int mem_rom_trap_allowed(ADDRESS addr)
     return (addr >= 0xf000) && !(map_reg & 0x80);
 }
 
-/* Tape traps.  */
-static trap_t pet4_tape_traps[] =
-{
-    {
-        "FindHeader",
-        0xF5E8,
-        0xF5EB,
-        {0x20, 0x9A, 0xF8},
-        findheader
-    },
-    {
-        "WriteHeader",
-        0xF66B,
-        0xF66E,
-        {0x20, 0xD5, 0xF8},
-        writeheader
-    },
-    {
-        "TapeReceive",
-        0xF8E0,
-        0xFCC0,
-        {0x20, 0xE0, 0xFC},
-        tapereceive
-    },
-    {
-        NULL,
-        0,
-        0,
-        {0, 0, 0},
-        NULL
-    }
-};
-
-static trap_t pet3_tape_traps[] =
-{
-    {
-        "FindHeader",
-        0xF5A9,
-        0xF5AC,
-        {0x20, 0x55, 0xF8},
-        findheader
-    },
-    {
-        "WriteHeader",
-        0xF62C,
-        0xF62F,
-        {0x20, 0x90, 0xF8},
-        writeheader
-    },
-    {
-        "TapeReceive",
-        0xF89B,
-        0xFC7B,
-        {0x20, 0x9B, 0xFC},
-        tapereceive
-    },
-    {
-        NULL,
-        0,
-        0,
-        {0, 0, 0},
-        NULL
-    }
-};
-
-static trap_t pet2_tape_traps[] =
-{
-    {
-        "FindHeader",
-        0xF5B2,
-        0xF5B5,
-        {0x20, 0x7F, 0xF8},
-        findheader
-    },
-    {
-        "WriteHeader",
-        0xF63D,
-        0xF640,
-        {0x20, 0xC4, 0xF8},
-        writeheader
-    },
-    {
-        "TapeReceive",
-        0xF8A5,
-        0xFCFB,
-        {0x20, 0x1B, 0xFD},
-        tapereceive
-    },
-    {
-        NULL,
-        0,
-        0,
-        {0, 0, 0},
-        NULL
-    }
-};
 
 /* ------------------------------------------------------------------------- */
 

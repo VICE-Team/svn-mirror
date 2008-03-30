@@ -762,7 +762,7 @@ BYTE read_mycia_(ADDRESS addr)
 
 #endif
 
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -1330,6 +1330,15 @@ int mycia_write_snapshot_module(FILE * p)
     snapshot_module_write_byte(m, myciatodalarm[2]);
     snapshot_module_write_byte(m, myciatodalarm[3]);
 
+    if(myciardi) {
+	if((myclk - myciardi) > 120) { 
+	    byte = 0;
+	} else {
+	    byte = myclk + 128 - myciardi;
+	}
+    } else {
+	byte = 0;
+    }
     byte = myciardi ? myclk - myciardi : 0;
     if (byte > 128 || byte < -16)
         byte = 0;
@@ -1372,28 +1381,21 @@ int mycia_read_snapshot_module(FILE * p)
 
     /* Argh.  This is ugly.  */
     {
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRA;
-        oldpa = byte ^ 0xff;
-        STORE_CIAPA
-        oldpa = byte;
+        snapshot_module_read_byte(m, &mycia[CIA_PRA]);
+        snapshot_module_read_byte(m, &mycia[CIA_PRB]);
+        snapshot_module_read_byte(m, &mycia[CIA_DDRA]);
+        snapshot_module_read_byte(m, &mycia[CIA_DDRB]);
 
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRB;
-        oldpa = byte ^ 0xff;
-        STORE_CIAPB
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
-        oldpa = byte ^ 0xff;
-        STORE_CIAPA
+	byte = mycia[CIA_PRA] | ~mycia[CIA_DDRA];
+        oldpa = byte ^ 0xff;	/* all bits change? */
+        UNDUMP_CIAPA
         oldpa = byte;
 
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
-        oldpa = byte ^ 0xff;
-        STORE_CIAPB
+	byte = mycia[CIA_PRB] | ~mycia[CIA_DDRB];
+        oldpa = byte ^ 0xff;	/* all bits change? */
+        UNDUMP_CIAPB
         oldpa = byte;
     }
 
@@ -1439,7 +1441,7 @@ int mycia_read_snapshot_module(FILE * p)
 
     snapshot_module_read_byte(m, &byte);
     if(byte) {
-	myciardi = myclk + byte;
+	myciardi = myclk + 128 - byte;
     }
 
     snapshot_module_read_byte(m, &byte);

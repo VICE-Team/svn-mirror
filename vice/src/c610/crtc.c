@@ -35,13 +35,11 @@
  *
  */
 
-#ifndef PET
-#define PET
-#endif
-
 /* FIXME: lots of stuff depends on 8 scanlines/char! */
 
 #define _CRTC_C
+
+#define CRTC_WINDOW_TITLE            "VICE: CBM-II emulator"
 
 #include "vice.h"
 

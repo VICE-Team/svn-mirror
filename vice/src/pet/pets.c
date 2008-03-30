@@ -169,7 +169,7 @@ int pet_set_model(const char *model_name, void *extra)
 static void check_info(PetInfo * pi)
 {
     if (pi->superpet) {
-	pi->ramSize == 128;
+	pi->ramSize = 128;
 	pi->map = 0;
     }
 

@@ -40,7 +40,6 @@ noinst_HEADERS = \
 	cia.h \
 	cmdline.h \
 	config.h.in \
-	crtc.h \
 	emuid.h \
 	file.h \
 	findpath.h \
