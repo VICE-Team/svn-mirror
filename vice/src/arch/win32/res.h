@@ -222,6 +222,7 @@
 #define IDM_SYNC_FACTOR_NTSC            40141
 #define IDM_JOY_SETTINGS                40142
 #define IDM_SOUND_SETTINGS              40143
+#define IDM_STATUS_WINDOW               40144
 
 // Next default values for new objects
 //

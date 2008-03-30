@@ -56,6 +56,10 @@
 /* Main window.  */
 static HWND main_hwnd;
 
+static HWND status_hwnd;
+
+static int status_height;
+
 /* Main canvas.  */
 static char *main_hwnd_title;
 
@@ -167,6 +171,8 @@ int ui_init(int *argc, char **argv)
 {
     WNDCLASS window_class;
     WORD menu;
+    RECT    rect;
+
 
     switch (machine_class) {
       case VICE_MACHINE_C64:
@@ -212,7 +218,7 @@ int ui_init(int *argc, char **argv)
        in the future.  */
     main_hwnd = CreateWindow(APPLICATION_CLASS,
                              "No title", /* (for now) */
-                             WS_OVERLAPPEDWINDOW,
+                             WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
@@ -221,6 +227,11 @@ int ui_init(int *argc, char **argv)
                              NULL,
                              winmain_instance,
                              NULL);
+
+    InitCommonControls();
+    status_hwnd=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",main_hwnd,IDM_STATUS_WINDOW);
+    GetClientRect(status_hwnd,&rect);
+    status_height=rect.bottom-rect.top;
 
     if (!main_hwnd)
         return -1;
@@ -275,8 +286,8 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
     ClientToScreen(w, (LPPOINT) &wrect);
     ClientToScreen(w, ((LPPOINT) &wrect) + 1);
     wrect.right = wrect.left + width;
-    wrect.bottom = wrect.top + height;
-    AdjustWindowRect(&wrect, WS_OVERLAPPEDWINDOW, TRUE);
+    wrect.bottom = wrect.top + height + status_height;
+    AdjustWindowRect(&wrect, WS_OVERLAPPED|WS_BORDER|WS_DLGFRAME, TRUE);
     MoveWindow(w,
                wrect.left,
                wrect.top,
@@ -375,23 +386,64 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     SetWindowText(main_hwnd, buf);
 }
 
-void ui_enable_drive_status(ui_drive_enable_t enable)
+static ui_drive_enable_t    status_enabled;
+static int                  status_led[2];
+static int                  status_map[2];
+static double               status_track[2];
+static int                  status_unit[2];
+
+static void SetStatusWindowParts(void)
 {
+int     number_of_parts;
+RECT    rect;
+int     posx[3];
+int     width;
+int     i;
+
+    number_of_parts=0;
+    if (status_enabled&UI_DRIVE_ENABLE_0) {
+        status_map[0]=number_of_parts;
+        status_unit[number_of_parts]=8;
+        number_of_parts++;
+    }
+    if (status_enabled&UI_DRIVE_ENABLE_1) {
+        status_map[1]=number_of_parts;
+        status_unit[number_of_parts]=9;
+        number_of_parts++;
+    }
+    GetWindowRect(status_hwnd,&rect);
+    width=rect.right-rect.left;
+    for (i=number_of_parts; i>=0; i--) {
+        posx[i]=width;
+        width-=110;
+    }
+    SendMessage(status_hwnd,SB_SETPARTS,number_of_parts+1,(LPARAM)posx);
+    if (number_of_parts==2) {
+        SendMessage(status_hwnd,SB_SETTEXT,2|SBT_OWNERDRAW,0);
+    }
+    if (number_of_parts==1) {
+        SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+    }
 }
 
-/* Toggle displaying of the drive status.  */
-void ui_toggle_drive_status(int state)
+void ui_enable_drive_status(ui_drive_enable_t enable)
 {
+    status_enabled=enable;
+    SetStatusWindowParts();
 }
 
 /* Toggle displaying of the drive track.  */
 void ui_display_drive_track(int drivenum, double track_number)
 {
+    status_track[status_map[drivenum]]=track_number;
+    SendMessage(status_hwnd,SB_SETTEXT,(status_map[drivenum]+1)|SBT_OWNERDRAW,0);
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
+    status_led[status_map[drivenum]]=status;
+    SendMessage(status_hwnd,SB_SETTEXT,(status_map[drivenum]+1)|SBT_OWNERDRAW,0);
 }
 
 /* Toggle displaying of paused state.  */
@@ -682,7 +734,32 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
+RECT    led;
+char    text[256];
+
     switch (msg) {
+        case WM_SIZE:
+            SendMessage(status_hwnd,msg,wparam,lparam);
+            SetStatusWindowParts();
+            return 0;
+        case WM_DRAWITEM:
+            if (wparam==IDM_STATUS_WINDOW) {
+                led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
+                led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
+                led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
+                led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
+                sprintf(text,"%d: Track: %.1f",status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1],status_track[((DRAWITEMSTRUCT*)lparam)->itemID-1]);
+                SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+                SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
+                DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
+
+                led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
+                led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
+                led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
+                led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
+                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,CreateSolidBrush(status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? 0xff00 : 0x00));
+            }
+            return 0;
       case WM_COMMAND:
         handle_wm_command(wparam, lparam);
         return 0;
@@ -742,7 +819,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
                    only have one window.  Moreover, should we handle things
                    differently if in full screen mode?  */
                 exposure_handler(client_rect.right - client_rect.left,
-                                 client_rect.bottom - client_rect.top);
+                                 client_rect.bottom - client_rect.top - status_height);
                 return 0;
             } else
                 break;

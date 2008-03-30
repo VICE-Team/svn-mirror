@@ -38,7 +38,6 @@ static int ui_sound_freq[]={
 };
 
 static int ui_sound_buffer[]={
-    50,
     100,
     150,
     200,
@@ -82,7 +81,6 @@ int     res_value;
     SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
 
     snd_hwnd=GetDlgItem(hwnd,IDC_SOUND_BUFFER);
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"50 msec");
     SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"100 msec");
     SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"150 msec");
     SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"200 msec");
@@ -91,27 +89,24 @@ int     res_value;
     SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"350 msec");
     resources_get_value("SoundBufferSize",(resource_value_t *)&res_value);
     switch (res_value) {
-        case 50:
+        case 100:
             res_value=0;
             break;
-        case 100:
+        case 150:
             res_value=1;
             break;
-        case 150:
+        case 200:
             res_value=2;
             break;
-        case 200:
+        case 250:
             res_value=3;
             break;
-        case 250:
-            res_value=4;
-            break;
         case 300:
-            res_value=5;
+            res_value=4;
             break;
         case 350:
         default:
-            res_value=6;
+            res_value=5;
             break;
     }
     SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
