@@ -1300,7 +1300,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
 BYTE mem_bank_peek(int bank, ADDRESS addr)
 {
     if (bank == 16) {
-        if (addr >= 0xC000 && addr < 0xE000) {
+        if (addr >= 0xc000 && addr < 0xe000) {
             return peek_bank_io(addr);
         }
     }
@@ -1331,6 +1331,52 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         }
     }
     store_dummy(addr, byte);
+}
+
+mem_ioreg_list_t *mem_ioreg_list_get(void)
+{
+    mem_ioreg_list_t *mem_ioreg_list;
+
+    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 6);
+
+    if (isC500) {
+        mem_ioreg_list[0].name = "VIC-II";
+        mem_ioreg_list[0].start = 0xd800;
+        mem_ioreg_list[0].end = 0xd82e;
+        mem_ioreg_list[0].next = &mem_ioreg_list[1];
+    } else {
+        mem_ioreg_list[0].name = "CRTC";
+        mem_ioreg_list[0].start = 0xd800;
+        mem_ioreg_list[0].end = 0xd80f;
+        mem_ioreg_list[0].next = &mem_ioreg_list[1];
+    }
+
+    mem_ioreg_list[1].name = "SID";
+    mem_ioreg_list[1].start = 0xda00;
+    mem_ioreg_list[1].end = 0xda1f;
+    mem_ioreg_list[1].next = &mem_ioreg_list[2];
+
+    mem_ioreg_list[2].name = "CIA1";
+    mem_ioreg_list[2].start = 0xdc00;
+    mem_ioreg_list[2].end = 0xdc0f;
+    mem_ioreg_list[2].next = &mem_ioreg_list[3];
+
+    mem_ioreg_list[3].name = "ACIA1";
+    mem_ioreg_list[3].start = 0xdd00;
+    mem_ioreg_list[3].end = 0xdd03;
+    mem_ioreg_list[3].next = &mem_ioreg_list[4];
+
+    mem_ioreg_list[4].name = "TPI1";
+    mem_ioreg_list[4].start = 0xde00;
+    mem_ioreg_list[4].end = 0xde07;
+    mem_ioreg_list[4].next = &mem_ioreg_list[5];
+
+    mem_ioreg_list[5].name = "TPI2";
+    mem_ioreg_list[5].start = 0xdf00;
+    mem_ioreg_list[5].end = 0xdf07;
+    mem_ioreg_list[5].next = NULL;
+
+    return mem_ioreg_list;
 }
 
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
