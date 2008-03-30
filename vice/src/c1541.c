@@ -59,6 +59,7 @@
 #include "mshell.h"
 #include "serial.h"
 #include "drive.h"
+#include "gcr.h"
 #include "file.h"
 #include "charsets.h"
 #include "tape.h"

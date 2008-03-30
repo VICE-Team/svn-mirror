@@ -31,7 +31,6 @@
 /* TODO:
 	- more accurate emulation of disk rotation.
 	- different speeds within one track.
-	- support for more than 35 tracks.
 	- support for .d64 images with attached error code.
 	- support for GCR encoded image files.
 	- check for byte ready *within* `BVC', `BVS' and `PHP'.
@@ -49,6 +48,7 @@
 #include <string.h>
 
 #include "true1541.h"
+#include "gcr.h"
 #include "interrupt.h"
 #include "vmachine.h"
 #include "serial.h"
@@ -152,129 +152,7 @@ static void true1541_extend_disk_image(void);
 
 /* ------------------------------------------------------------------------- */
 
-/* GCR handling. */
-
-static BYTE GCR_conv_data[16] = { 0x0a, 0x0b, 0x12, 0x13,
-				  0x0e, 0x0f, 0x16, 0x17,
-				  0x09, 0x19, 0x1a, 0x1b,
-				  0x0d, 0x1d, 0x1e, 0x15 };
-
-static BYTE From_GCR_conv_data[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
-				       0, 8, 0, 1, 0,12, 4, 5,
-				       0, 0, 2, 3, 0,15, 6, 7,
-				       0, 9,10,11, 0,13,14, 0 };
-
-static void convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
-{
-    *ptr = GCR_conv_data[(*buffer) >> 4] << 3;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f] >> 2;
-    ptr++;
-
-    *ptr = GCR_conv_data[(*buffer) & 0x0f] << 6;
-    buffer++;
-    *ptr |= GCR_conv_data[(*buffer) >> 4] << 1;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f] >> 4;
-    ptr++;
-
-    *ptr = GCR_conv_data[(*buffer) & 0x0f] << 4;
-    buffer++;
-    *ptr |= GCR_conv_data[(*buffer) >> 4] >> 1;
-    ptr++;
-
-    *ptr = GCR_conv_data[(*buffer) >> 4] << 7;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f] << 2;
-    buffer++;
-    *ptr |= GCR_conv_data[(*buffer) >> 4] >> 3;
-    ptr++;
-
-    *ptr = GCR_conv_data[(*buffer) >> 4] << 5;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f];
-}
-
-static void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
-{
-    BYTE gcr_bytes[8];
-    int i;
-
-    gcr_bytes[0] =  (*buffer) >> 3;
-    gcr_bytes[1] =  ((*buffer) & 0x07) << 2;
-    buffer++;
-    gcr_bytes[1] |= (*buffer) >> 6;
-    gcr_bytes[2] =  ((*buffer) & 0x3e) >> 1;
-    gcr_bytes[3] =  ((*buffer) & 0x01) << 4;
-    buffer++;
-    gcr_bytes[3] |= ((*buffer) & 0xf0) >> 4;
-    gcr_bytes[4] =  ((*buffer) & 0x0f) << 1;
-    buffer++;
-    gcr_bytes[4] |= (*buffer) >> 7;
-    gcr_bytes[5] =  ((*buffer) & 0x7c) >> 2;
-    gcr_bytes[6] =  ((*buffer) & 0x03) << 3;
-    buffer++;
-    gcr_bytes[6] |= ((*buffer) & 0xe0) >> 5;
-    gcr_bytes[7] = (*buffer) & 0x1f;
-
-    for (i = 0; i < 4; i++, ptr++) {
-        *ptr = From_GCR_conv_data[gcr_bytes[2 * i]] << 4;
-        *ptr |= From_GCR_conv_data[gcr_bytes[2 * i + 1]];
-    }
-}
-
-static void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track,
-				  int sector)
-{
-    int i;
-    BYTE buf[4];
-
-    memset(ptr, 0xff, 5);	/* Sync */
-    ptr += 5;
-
-    buf[0] = 0x08;		/* Header identifier */
-    buf[1] = sector ^ track ^ diskID2 ^ diskID1;
-    buf[2] = sector;
-    buf[3] = track;
-    convert_4bytes_to_GCR(buf, ptr);
-    ptr += 5;
-
-    buf[0] = diskID2;
-    buf[1] = diskID1;
-    buf[2] = buf[3] = 0x0f;
-    convert_4bytes_to_GCR(buf, ptr);
-    ptr += 5;
-
-    memset(ptr, 0x55, 9);	/* Header Gap */
-    ptr += 9;
-
-    memset(ptr, 0xff, 5);	/* Sync */
-    ptr += 5;
-
-    for (i = 0; i < 65; i++) {
-	convert_4bytes_to_GCR(buffer, ptr);
-	buffer += 4;
-	ptr += 5;
-    }
-    /* FIXME: This is approximated.  */
-    memset(ptr, 0x55, 6);	/* Gap before next sector.  */
-    ptr += 6;
-
-}
-
-static void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr)
-{
-    BYTE *offset = ptr;
-    BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;
-    char GCR_header[5];
-    int i, j;
-
-    for (i = 0; i < 65; i++) {
-	for (j = 0; j < 5; j++) {
-	    GCR_header[j] = *(offset++);
-	    if (offset >= GCR_track_end)
-		offset = GCR_track_start_ptr;
-	}
-	convert_GCR_to_4bytes(GCR_header, buffer);
-	buffer += 4;
-    }
-}
+/* Disk image handling. */
 
 static void read_image_d64(void)
 {
@@ -319,7 +197,7 @@ static void read_image_d64(void)
 		for (i = 2; i < 257; i++)
 		    chksum ^= buffer[i];
 		buffer[257] = chksum;
-		convert_sector_to_GCR(buffer, ptr, track, sector);
+		convert_sector_to_GCR(buffer, ptr, track, sector, diskID1, diskID2);
 	    }
 	}
     }
@@ -1001,7 +879,8 @@ static void GCR_data_writeback(void)
 		track, sector);
 	    else {
 
-		convert_GCR_to_sector(buffer, offset);
+		convert_GCR_to_sector(buffer, offset, GCR_track_start_ptr,
+		    GCR_current_track_size);
 		if (buffer[0] != 0x7)
 		    fprintf(stderr,
 			"1541: Could not find data block id of T:%d S:%d.\n",
