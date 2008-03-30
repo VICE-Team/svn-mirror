@@ -1,3 +1,41 @@
+2007-09-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.2.
+
+2007-08-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* 6510core.c: Cosmetic fixes.
+
+	* vic20/vic20mem.c: Added unconnected c-bus floating byte
+	support.
+
+2007-08-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64.c, c64/c64.h, c64/c64mem.c, c64/c64mem.h,
+	c64/c64pla.h: Added $01 unused bits drop off support.
+
+2007-08-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/sco_sol/convertprototype.c: Updated.
+
+2007-08-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii-mem.c (d017_store): The cycles after the memory fetch
+	are all "smaller" than cycle 15 so handle them the same way.
+	This fixes Tsunami nose bug.
+
+	* vicii-sprites.c (vicii_sprites_set_x_position): Rewritten
+	to make Krestage 3 and +H2K (and some test progs) happy.
+
+2007-08-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-mem.c (check_lower_upper_border): Display is
+	enabled if we switch to 25 row mode on its first line and
+	DEN bit is enabled (even if it is cleared in the same cycle).
+	(d011_store): Setting DEN bit on the first cycle of a new line
+	isn't handled in vicii_raster_draw_alarm_handler so
+	allow_bad_lines needs to be set here.
+
 2007-08-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.1.

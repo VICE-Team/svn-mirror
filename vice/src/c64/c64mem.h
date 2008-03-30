@@ -76,5 +76,7 @@ extern BYTE REGPARM1 mem_read_without_ultimax(WORD addr);
 extern void REGPARM2 store_bank_io(WORD addr, BYTE byte);
 extern BYTE REGPARM1 read_bank_io(WORD addr);
 
+extern void c64_mem_init(void);
+
 #endif
 

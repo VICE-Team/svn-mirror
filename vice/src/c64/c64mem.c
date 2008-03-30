@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "alarm.h"
+#include "c64.h"
 #include "c64-resources.h"
 #include "c64_256k.h"
 #include "c64cart.h"
@@ -43,6 +45,7 @@
 #include "c64pla.h"
 #include "cart/c64cartmem.h"
 #include "cartridge.h"
+#include "clkguard.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -139,6 +142,36 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 /* ------------------------------------------------------------------------- */
 
+static void c64_mem_alarm_handler(CLOCK offset, void *data)
+{
+    pport.data_set = 0;
+}
+
+static void clk_overflow_callback(CLOCK sub, void *unused_data)
+{
+    if (pport.data_set)
+    {
+        pport.data_set++;
+        if (pport.data_set==3)
+        {
+            pport.data_set = 0;
+        }
+    }
+    pport.data_set_clk -= sub;
+}
+
+static void check_data_set_alarm(void)
+{
+    if (pport.data_set_clk < maincpu_clk)
+        pport.data_set = 0;
+}
+
+void c64_mem_init(void)
+{
+    pport.data_set = 0;
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
+}
+
 void mem_pla_config_changed(void)
 {
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
@@ -174,7 +207,12 @@ BYTE REGPARM1 zero_read(WORD addr)
       case 0:
         return pport.dir_read;
       case 1:
-        return pport.data_read;
+        if (pport.data_set)
+            check_data_set_alarm();
+
+        if (pport.data_set)
+            return pport.data_read;
+        return (pport.data_read & 0x3f);
     }
 
     if (c64_256k_enabled)
@@ -225,6 +263,8 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
             mem_ram[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
         }
+        pport.data_set = 1;
+        pport.data_set_clk = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
         if (pport.data != value) {
             pport.data = value;
             mem_pla_config_changed();

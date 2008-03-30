@@ -53,6 +53,10 @@
 #define C64_NTSCOLD_RFSH_PER_SEC  (1.0 / ((double)C64_NTSCOLD_CYCLES_PER_RFSH \
                                         / (double)C64_NTSCOLD_CYCLES_PER_SEC))
 
+/* $01 bits 7 and 8 fall-off cycles (1->0), for now set to 10 msec, tests
+   need to be done on real c64 to find the real value */
+#define C64_CPU_DATA_PORT_FALL_OFF_CYCLES 10000
+
 struct cia_context_s;
 struct printer_context_s;
 struct tpi_context_s;

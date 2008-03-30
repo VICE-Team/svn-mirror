@@ -39,11 +39,19 @@ static void convertprototype(unsigned char *readbuffer, int filesize)
       counter++;
     }
     printf("%c",readbuffer[counter]);
-    printf("%c",readbuffer[counter+1]);
-    printf("%c",readbuffer[counter+2]);
+    if (readbuffer[counter+1]=='0')
+    {
+      printf("%c",readbuffer[counter+2]);
+      printf("%c",readbuffer[counter+3]);
+    }
+    else
+    {
+      printf("%c",readbuffer[counter+1]);
+      printf("%c",readbuffer[counter+2]);
+    }
     printf("%c",readbuffer[counter+3]);
     counter+=4;
-    printf(" bin bin\n");
+    printf(" root bin\n");
     while (readbuffer[counter] != '\n')
       counter++;
     counter++;

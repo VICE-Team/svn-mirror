@@ -406,7 +406,7 @@
 
 #define STORE_ABS_Y(addr, value, inc)                       \
   do {                                                      \
-      CLK_ADD(CLK,(inc)-2);                                  \
+      CLK_ADD(CLK,(inc)-2);                                 \
       LOAD((((addr) + reg_y) & 0xff) | ((addr) & 0xff00));  \
       CLK_ADD(CLK,2);                                       \
       STORE((addr) + reg_y, (value));                       \
@@ -1103,7 +1103,7 @@
       CLK_ADD(CLK,2);                                                 \
       my_tmp_addr = LOAD_ZERO_ADDR(addr);                             \
       LOAD((my_tmp_addr & 0xff00) | ((my_tmp_addr + reg_y) & 0xff));  \
-      CLK_ADD(CLK,1);                                                          \
+      CLK_ADD(CLK,1);                                                 \
       my_tmp_addr += reg_y;                                           \
       src = LOAD(my_tmp_addr);                                        \
       RMW_FLAG = 1;                                                   \

@@ -40,6 +40,14 @@ struct pport_s {
 
     /* State of processor port pins.  */
     BYTE data_out;
+
+    /* cycle that should invalidate the unused bits of the data port. */
+    CLOCK data_set_clk;
+
+    /* indicates if the unused bits of the data port are still
+       valid or should be read as 0, 1 = unused bits valid,
+       0 = unused bits should be 0 */
+    BYTE data_set;
 };
 typedef struct pport_s pport_t;
 

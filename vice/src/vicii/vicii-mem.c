@@ -249,6 +249,15 @@ inline static void check_lower_upper_border(const BYTE value,
                        blanking.  */
                     vicii.raster.blank_enabled = 0;
                 }
+
+                if (line == vicii.raster.display_ystart && cycle > 0
+                    && vicii.raster.blank == 0) {
+                    /* A 24 -> 25 switch somewhere on the first line of
+                       the 25-row mode is enough to disable screen
+                       blanking even if blank bit is switched on in the
+                       same cycle (and set later in d011_store) */
+                    vicii.raster.blank_enabled = 0;
+                }
             }
             VICII_DEBUG_REGISTER(("25 line mode enabled"));
         } else {
@@ -289,6 +298,9 @@ inline static void d011_store(BYTE value)
 
     /* This is the funniest part... handle bad line tricks.  */
     old_allow_bad_lines = vicii.allow_bad_lines;
+
+    if (line == vicii.first_dma_line && cycle == 0)
+        vicii.allow_bad_lines = (value & 0x10) ? 1 : 0;
 
     if (VICII_RASTER_Y(maincpu_clk - 1) == vicii.first_dma_line
         && (value & 0x10) != 0)
@@ -510,7 +522,7 @@ inline static void d017_store(const BYTE value)
             if (cycle == 15)
                 sprite->memptr_inc
                     = vicii_sprites_crunch_table[sprite->memptr];
-            else if (cycle < 15)
+            else if (cycle < 15 || cycle >= vicii.sprite_fetch_cycle)
                 sprite->memptr_inc = 3;
             sprite->exp_flag = 1;
         }

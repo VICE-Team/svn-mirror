@@ -1143,17 +1143,32 @@ void vicii_sprites_init(void)
 
 /* Set the X coordinate of the `num'th sprite to `new_x'; the current
    vicii.raster X position is `raster_x'.  */
-/* FIXME: This is a beast and most probably not cycle exact */
 void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 {
     raster_sprite_t *sprite;
     int x_offset;
+    int last_pos;
+    int next_pos;
+    int change_pos;
 
     sprite = vicii.raster.sprite_status->sprites + num;
 
     x_offset = vicii.screen_leftborderwidth - 24;
 
     new_x += x_offset;
+
+    /* transfer coordinates to a new timeline starting with memory fetch to
+       make calculation easier */
+    next_pos = (new_x - SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
+                    + vicii.sprite_wrap_x) % vicii.sprite_wrap_x;
+    last_pos = (sprite->x - SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
+                    + 2 * vicii.sprite_wrap_x) % vicii.sprite_wrap_x;
+    change_pos = (raster_x + x_offset - SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
+                    + 2 * vicii.sprite_wrap_x) % vicii.sprite_wrap_x;
+
+    /* disabled display is at the very end even on the transfered timeline */
+    if (sprite->x == vicii.sprite_wrap_x)
+        last_pos = vicii.sprite_wrap_x;
 
     if (new_x >= vicii.sprite_wrap_x + VICII_RASTER_X(0)) {
         /* Sprites in the $1F8 - $1FF range are not visible at all and never
@@ -1164,31 +1179,36 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
             new_x -= vicii.sprite_wrap_x;
     }
 
-    if (new_x < sprite->x) {
-        if (raster_x + x_offset <= new_x
-            && sprite->x < (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num))
+    if (next_pos < last_pos) {
+        if (change_pos <= next_pos)
         {
+            /* use new_pos immediately */
             sprite->x = new_x;
         } else {
-            if (raster_x + x_offset < sprite->x)
+            if (change_pos <= last_pos) {
+                /* too early to start at last_pos and too late to start
+                   at next_pos; disable display on this line */
                 sprite->x = vicii.sprite_wrap_x;
+            } else {
+                /* display already started on last_pos, change on next fetch */
+                raster_changes_sprites_add_int(&vicii.raster,
+                    SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num),
+                    &sprite->x, new_x);
+            }
         }
-        raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     } else {
-        /* new_x >= sprite->x */
-        if (new_x >= (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
-            && sprite->x < (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num))
+        /* next_pos >= last_pos */
+        if (change_pos <= last_pos)
         {
-            raster_changes_sprites_add_int(&vicii.raster,
-                                            raster_x, &sprite->x, new_x);
-        }
-        if (raster_x + x_offset < sprite->x
-            && sprite->x < (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num))
-        {
+            /* display not started yet, use next_pos */
             sprite->x = new_x;
+        } else {
+            /* display already started on last_pos, change on next fetch */
+            raster_changes_sprites_add_int(&vicii.raster,
+                    SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num), &sprite->x, new_x);
         }
-        raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     }
+    raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
 }
 
 void vicii_sprites_reset_xshift(void)

@@ -44,6 +44,7 @@
 #include "c64fastiec.h"
 #include "c64iec.h"
 #include "c64keyboard.h"
+#include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rsuser.h"
 #include "c64tpi.h"
@@ -430,6 +431,8 @@ int machine_specific_init(void)
 
     if (vicii_init(VICII_STANDARD) == NULL && !console_mode && !vsid_mode)
         return -1;
+
+    c64_mem_init();
 
     cia1_init(machine_context.cia1);
     cia2_init(machine_context.cia2);
