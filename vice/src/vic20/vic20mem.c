@@ -473,7 +473,6 @@ static void set_mem(int start_page, int end_page,
 
 int vic20_mem_enable_ram_block(int num)
 {
-    printf(__FUNCTION__ ": Enabling RAM block %d\n", num);
     if (num == 0) {
 	set_mem(0x04, 0x0f,
 		read_ram, store_ram,
@@ -595,7 +594,7 @@ void initialize_memory(void)
         _mem_read_tab_watch[i] = read_watch;
         _mem_write_tab_watch[i] = store_watch;
     }
-       
+
     mem_toggle_watchpoints(0);
 }
 

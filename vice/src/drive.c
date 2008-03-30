@@ -303,7 +303,6 @@ int     open_1541(void *flp, char *name, int length, int secondary)
     int     track, sector;
     BYTE   *slot;		/* Current directory entry */
 
-
     if ( (!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL )  /* EP */
 	return SERIAL_NO_DEVICE;	/* Routine was called incorrectly. */
 
@@ -317,22 +316,17 @@ int     open_1541(void *flp, char *name, int length, int secondary)
 
    if (floppy->ActiveFd < 0
        && p->mode != BUFFER_COMMAND_CHANNEL
+       && secondary != 15
        && *name != '#') {
-       if (!*(floppy->ActiveName) ||
-	   (floppy->ActiveFd = zopen(name, O_RDWR, 0)) < 0) {
-	   if (secondary != 15) {
-	     printf("No disk. Status $%02X\n", SERIAL_NO_DEVICE);
-	     return SERIAL_NO_DEVICE;
-	   }
-       }
+       floppy_error(&floppy->buffers[15], IPE_NOT_READY, 18, 0);
+       printf("Drive not ready.\n");
+       return SERIAL_ERROR;
    }
-
 
 #ifdef DEBUG_DRIVE
     printf("OPEN 1541: FD = %d - Name '%s' (%d) on ch %d\n",
 	   floppy->ActiveFd, name, length, secondary);
 #endif
-
 
     /*
      * If channel is command channel, name will be used as write. Return only
