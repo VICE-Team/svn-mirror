@@ -37,7 +37,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <memory.h>
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -69,11 +68,11 @@ static char *cartfileB;
 
 static int set_cartridge_file_2(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
 
     if (cartridge_file_2 != NULL && name != NULL
-	&& strcmp(name, cartridge_file_2) == 0)
-	return 0;
+        && strcmp(name, cartridge_file_2) == 0)
+        return 0;
 
     util_string_set(&cartridge_file_2, name);
     util_string_set(&cartfile2, name);
@@ -82,11 +81,11 @@ static int set_cartridge_file_2(resource_value_t v, void *param)
 
 static int set_cartridge_file_4(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
 
     if (cartridge_file_4 != NULL && name != NULL
-	&& strcmp(name, cartridge_file_4) == 0)
-	return 0;
+        && strcmp(name, cartridge_file_4) == 0)
+        return 0;
 
     util_string_set(&cartridge_file_4, name);
     util_string_set(&cartfile4, name);
@@ -95,11 +94,11 @@ static int set_cartridge_file_4(resource_value_t v, void *param)
 
 static int set_cartridge_file_6(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
 
     if (cartridge_file_6 != NULL && name != NULL
-	&& strcmp(name, cartridge_file_6) == 0)
-	return 0;
+        && strcmp(name, cartridge_file_6) == 0)
+        return 0;
 
     util_string_set(&cartridge_file_6, name);
     util_string_set(&cartfile6, name);
@@ -108,11 +107,11 @@ static int set_cartridge_file_6(resource_value_t v, void *param)
 
 static int set_cartridge_file_A(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
 
     if (cartridge_file_A != NULL && name != NULL
-	&& strcmp(name, cartridge_file_A) == 0)
-	return 0;
+        && strcmp(name, cartridge_file_A) == 0)
+        return 0;
 
     util_string_set(&cartridge_file_A, name);
     util_string_set(&cartfileA, name);
@@ -121,11 +120,11 @@ static int set_cartridge_file_A(resource_value_t v, void *param)
 
 static int set_cartridge_file_B(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
 
     if (cartridge_file_B != NULL && name != NULL
-	&& strcmp(name, cartridge_file_B) == 0)
-	return 0;
+        && strcmp(name, cartridge_file_B) == 0)
+        return 0;
 
     util_string_set(&cartridge_file_B, name);
     util_string_set(&cartfileB, name);
@@ -134,20 +133,20 @@ static int set_cartridge_file_B(resource_value_t v, void *param)
 
 static resource_t resources[] =
 {
-    {"CartridgeFile2000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_2,
+    {"CartridgeFile2000", RES_STRING, (resource_value_t)"",
+     (resource_value_t *)&cartridge_file_2,
      set_cartridge_file_2, NULL },
-    {"CartridgeFile4000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_4,
+    {"CartridgeFile4000", RES_STRING, (resource_value_t)"",
+     (resource_value_t *)&cartridge_file_4,
      set_cartridge_file_4, NULL },
-    {"CartridgeFile6000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_6,
+    {"CartridgeFile6000", RES_STRING, (resource_value_t)"",
+     (resource_value_t *)&cartridge_file_6,
      set_cartridge_file_6, NULL },
-    {"CartridgeFileA000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_A,
+    {"CartridgeFileA000", RES_STRING, (resource_value_t)"",
+     (resource_value_t *)&cartridge_file_A,
      set_cartridge_file_A, NULL },
-    {"CartridgeFileB000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_B,
+    {"CartridgeFileB000", RES_STRING, (resource_value_t)"",
+     (resource_value_t *)&cartridge_file_B,
      set_cartridge_file_B, NULL },
     {NULL}
 };
@@ -214,14 +213,14 @@ int cartridge_attach_image(int type, const char *filename)
 
     /* Attaching no cartridge always works.  */
     if (type == CARTRIDGE_NONE || filename==NULL || *filename == '\0')
-	return 0;
+        return 0;
 
     log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.",
                 type, filename);
 
     fd = zfopen(filename, MODE_READ);
     if (!fd)
-	return -1;
+        return -1;
 
     addr = fgetc(fd);
     addr = (addr & 0xff) | ((fgetc(fd) << 8) & 0xff00);
@@ -238,15 +237,15 @@ int cartridge_attach_image(int type, const char *filename)
         type2 = CARTRIDGE_VIC20_16KB_4000;
     }
     if (type2 == CARTRIDGE_VIC20_DETECT) {
-	/* rewind to the beginning of the file (no load address) */
-	fseek(fd, 0, SEEK_SET);
+        /* rewind to the beginning of the file (no load address) */
+        fseek(fd, 0, SEEK_SET);
     }
     if (type == CARTRIDGE_VIC20_DETECT) {
-	type = type2;
+        type = type2;
     }
 
     memset(rawcart, 0xff, 0x4000);
-
+ 
     switch (type) {
       case CARTRIDGE_VIC20_16KB_4000:
         if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
@@ -337,28 +336,28 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_file_2((resource_value_t) cartfile2, NULL);
-    set_cartridge_file_4((resource_value_t) cartfile4, NULL);
-    set_cartridge_file_6((resource_value_t) cartfile6, NULL);
-    set_cartridge_file_A((resource_value_t) cartfileA, NULL);
-    set_cartridge_file_B((resource_value_t) cartfileB, NULL);
+    set_cartridge_file_2((resource_value_t)cartfile2, NULL);
+    set_cartridge_file_4((resource_value_t)cartfile4, NULL);
+    set_cartridge_file_6((resource_value_t)cartfile6, NULL);
+    set_cartridge_file_A((resource_value_t)cartfileA, NULL);
+    set_cartridge_file_B((resource_value_t)cartfileB, NULL);
 }
 
 const char *cartridge_get_file_name(ADDRESS addr)
 {
     switch (addr) {
       case 0x2000:
-	  return cartfile2;
+        return cartfile2;
       case 0x4000:
-	  return cartfile4;
+        return cartfile4;
       case 0x6000:
-	  return cartfile6;
+        return cartfile6;
       case 0xa000:
-	  return cartfileA;
+        return cartfileA;
       case 0xb000:
-	  return cartfileB;
+        return cartfileB;
       default:
-	  return NULL;
+        return NULL;
     }
 }
 

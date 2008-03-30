@@ -31,10 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef __riscos
-#include <memory.h>
-#endif
-
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -62,7 +58,7 @@ static alarm_t cartridge_alarm;
 
 static int set_cartridge_type(resource_value_t v, void *param)
 {
-    cartridge_type = (int) v;
+    cartridge_type = (int)v;
     carttype = cartridge_type;
 
     return cartridge_attach_image(carttype, cartfile);
@@ -70,7 +66,7 @@ static int set_cartridge_type(resource_value_t v, void *param)
 
 static int set_cartridge_file(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
 
     if (cartridge_file != NULL && name != NULL
         && strcmp(name, cartridge_file) == 0)
@@ -86,20 +82,20 @@ static int set_cartridge_mode(resource_value_t v, void *param)
     /*
      * Set cartridge mode.
      */
-    cartridge_mode = (int) v;
+    cartridge_mode = (int)v;
     cartmode = cartridge_mode;
     return 0;
 }
 
 static resource_t resources[] = {
-    { "CartridgeType", RES_INTEGER, (resource_value_t) CARTRIDGE_NONE,
-      (resource_value_t *) &cartridge_type,
+    { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
+      (resource_value_t *)&cartridge_type,
       set_cartridge_type, NULL },
-    { "CartridgeFile", RES_STRING, (resource_value_t) "",
-      (resource_value_t *) &cartridge_file,
+    { "CartridgeFile", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&cartridge_file,
       set_cartridge_file, NULL },
-    { "CartridgeMode", RES_INTEGER, (resource_value_t) CARTRIDGE_MODE_OFF,
-      (resource_value_t *) &cartridge_mode,
+    { "CartridgeMode", RES_INTEGER, (resource_value_t)CARTRIDGE_MODE_OFF,
+      (resource_value_t *)&cartridge_mode,
       set_cartridge_mode, NULL },
     { NULL }
 };
@@ -166,16 +162,15 @@ int cartridge_attach_image(int type, const char *filename)
     BYTE header[0x40], chipheader[0x10];
     int i;
 
-	/* The expert cartridge does not have a filename.
-	 * It should only be enabled without loading an image.
-	 */
-	if (type != CARTRIDGE_EXPERT)
-		{
-		/* Attaching no cartridge always works. */
-		if (type == CARTRIDGE_NONE || *filename == '\0')
-			return 0;
-		}
-	
+    /* The expert cartridge does not have a filename.
+     * It should only be enabled without loading an image.
+     */
+    if (type != CARTRIDGE_EXPERT) {
+        /* Attaching no cartridge always works. */
+        if (type == CARTRIDGE_NONE || *filename == '\0')
+            return 0;
+    }
+
     /* allocate temporary array */
     rawcart = xmalloc(0x88000);
 
@@ -242,14 +237,15 @@ int cartridge_attach_image(int type, const char *filename)
         }
         fclose(fd);
         break;
-    case CARTRIDGE_EXPERT:
+      case CARTRIDGE_EXPERT:
         /* Clear initial RAM */
         memset(rawcart, 0xff, 0x2000);
         /* Set default mode */
-        resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_PRG);
+        resources_set_value("CartridgeMode",
+                            (resource_value_t)CARTRIDGE_MODE_PRG);
         break;
       case CARTRIDGE_IEEE488:
-	/* FIXME: ROM removed? */
+        /* FIXME: ROM removed? */
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
@@ -334,8 +330,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-					fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {                                        fclose(fd);
                     goto done;
                 }
             }
@@ -370,8 +365,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
-					fclose(fd);
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                                        fclose(fd);
                     goto done;
                 }
             }
@@ -391,7 +385,7 @@ int cartridge_attach_image(int type, const char *filename)
                     goto done;
                 }
                 if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-					fclose(fd);
+                    fclose(fd);
                     goto done;
                 }
             }
@@ -425,14 +419,14 @@ int cartridge_attach_image(int type, const char *filename)
                     goto done;
                 }
                 if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
-					fclose(fd);
+                    fclose(fd);
                     goto done;
                 }
             }
             break;
           case CARTRIDGE_EPYX_FASTLOAD:
           case CARTRIDGE_REX:
-		  case CARTRIDGE_EXPERT:
+                  case CARTRIDGE_EXPERT:
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);
                 goto done;
@@ -441,9 +435,10 @@ int cartridge_attach_image(int type, const char *filename)
                 fclose(fd);
                 goto done;
             }
-			if (crttype == CARTRIDGE_EXPERT) {
-				resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_ON);
-			}
+            if (crttype == CARTRIDGE_EXPERT) {
+                resources_set_value("CartridgeMode",
+                                    (resource_value_t)CARTRIDGE_MODE_ON);
+            }
             break;
           case CARTRIDGE_ZAXXON:
             /* first CHIP header holds $8000-$a000 data */
@@ -504,10 +499,10 @@ int cartridge_attach_image(int type, const char *filename)
 void cartridge_detach_image(void)
 {
     if (carttype != CARTRIDGE_NONE) {
-	cartridge_detach((carttype == CARTRIDGE_CRT) ? crttype : carttype);
-	carttype = CARTRIDGE_NONE;
-	crttype = CARTRIDGE_NONE;
-	cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
+        cartridge_detach((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+        carttype = CARTRIDGE_NONE;
+        crttype = CARTRIDGE_NONE;
+        cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
         if (cartfile != NULL)
             free(cartfile), cartfile = NULL;
     }
@@ -548,7 +543,7 @@ void cartridge_trigger_freeze(void)
 
     maincpu_set_nmi(I_FREEZE, IK_NMI);
 
-    alarm_set(&cartridge_alarm, clk + 3);    
+    alarm_set(&cartridge_alarm, clk + 3);
 }
 
 void cartridge_release_freeze(void)

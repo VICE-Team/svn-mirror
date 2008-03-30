@@ -48,16 +48,16 @@ struct drive_context_s;
  * Renaming exported functions
  */
 
-#define mycia_init	cia1571_init
-#define mycia_reset	cia1571_reset
-#define mycia_store	cia1571_store
-#define mycia_read	cia1571_read
-#define mycia_peek	cia1571_peek
-#define mycia_set_flag	cia1571_set_flag
-#define mycia_set_sdr	cia1571_sdr
+#define mycia_init      cia1571_init
+#define mycia_reset     cia1571_reset
+#define mycia_store     cia1571_store
+#define mycia_read      cia1571_read
+#define mycia_peek      cia1571_peek
+#define mycia_set_flag  cia1571_set_flag
+#define mycia_set_sdr   cia1571_sdr
 #define mycia_write_snapshot_module cia1571_write_snapshot_module
 #define mycia_read_snapshot_module cia1571_read_snapshot_module
-#define MYCIA_NAME	(ctxptr->cia1571.myname)
+#define MYCIA_NAME      (ctxptr->cia1571.myname)
 
 /*************************************************************************
  * CPU binding
@@ -65,39 +65,39 @@ struct drive_context_s;
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk		(*(ctxptr->clk_ptr))
-#define mycpu_clk_guard	(ctxptr->cpu.clk_guard)
-#define mycpu_rmw_flag	(ctxptr->cpu.rmw_flag)
+#define myclk           (*(ctxptr->clk_ptr))
+#define mycpu_clk_guard (ctxptr->cpu.clk_guard)
+#define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
 #define mycpu_alarm_context (ctxptr->cpu.alarm_context)
 
 /* Renaming formerly global variables */
-#define ciata		(ctxptr->cia1571.ta)
-#define ciatb		(ctxptr->cia1571.tb)
-#define cia_read_clk	(ctxptr->cia1571.read_clk)
-#define cia_read_offset	(ctxptr->cia1571.read_offset)
-#define cia_last_read	(ctxptr->cia1571.last_read)
-#define mycia_debugFlag	(ctxptr->cia1571.debugFlag)
-#define ciaier		(ctxptr->cia1571.c_cia[CIA_ICR])
-#define cia_ta_alarm	(ctxptr->cia1571.ta_alarm)
-#define cia_tb_alarm	(ctxptr->cia1571.tb_alarm)
-#define cia_tod_alarm	(ctxptr->cia1571.tod_alarm)
-#define ciaint		(ctxptr->cia1571.irqflags)
-#define ciardi		(ctxptr->cia1571.rdi)
-#define cia_tat		(ctxptr->cia1571.tat)
-#define cia_tbt		(ctxptr->cia1571.tbt)
-#define cia_todclk	(ctxptr->cia1571.todclk)
-#define ciasr_bits	(ctxptr->cia1571.sr_bits)
-#define cia_shifter	(ctxptr->cia1571.shifter)
-#define cia_sdr_valid	(ctxptr->cia1571.sdr_valid)
-#define oldpa		(ctxptr->cia1571.old_pa)
-#define oldpb		(ctxptr->cia1571.old_pb)
-#define ciatodalarm	(ctxptr->cia1571.todalarm)
-#define ciatodlatch	(ctxptr->cia1571.todlatch)
-#define ciatodstopped	(ctxptr->cia1571.todstopped)
-#define ciatodlatched	(ctxptr->cia1571.todlatched)
-#define ciatodticks	(ctxptr->cia1571.todticks)
-#define cia_log		(ctxptr->cia1571.log)
-#define cia		(ctxptr->cia1571.c_cia)
+#define ciata           (ctxptr->cia1571.ta)
+#define ciatb           (ctxptr->cia1571.tb)
+#define cia_read_clk    (ctxptr->cia1571.read_clk)
+#define cia_read_offset (ctxptr->cia1571.read_offset)
+#define cia_last_read   (ctxptr->cia1571.last_read)
+#define mycia_debugFlag (ctxptr->cia1571.debugFlag)
+#define ciaier          (ctxptr->cia1571.c_cia[CIA_ICR])
+#define cia_ta_alarm    (ctxptr->cia1571.ta_alarm)
+#define cia_tb_alarm    (ctxptr->cia1571.tb_alarm)
+#define cia_tod_alarm   (ctxptr->cia1571.tod_alarm)
+#define ciaint          (ctxptr->cia1571.irqflags)
+#define ciardi          (ctxptr->cia1571.rdi)
+#define cia_tat         (ctxptr->cia1571.tat)
+#define cia_tbt         (ctxptr->cia1571.tbt)
+#define cia_todclk      (ctxptr->cia1571.todclk)
+#define ciasr_bits      (ctxptr->cia1571.sr_bits)
+#define cia_shifter     (ctxptr->cia1571.shifter)
+#define cia_sdr_valid   (ctxptr->cia1571.sdr_valid)
+#define oldpa           (ctxptr->cia1571.old_pa)
+#define oldpb           (ctxptr->cia1571.old_pb)
+#define ciatodalarm     (ctxptr->cia1571.todalarm)
+#define ciatodlatch     (ctxptr->cia1571.todlatch)
+#define ciatodstopped   (ctxptr->cia1571.todstopped)
+#define ciatodlatched   (ctxptr->cia1571.todlatched)
+#define ciatodticks     (ctxptr->cia1571.todticks)
+#define cia_log         (ctxptr->cia1571.log)
+#define cia             (ctxptr->cia1571.c_cia)
 
 
 #define cia_set_int_clk(value,clk) \
@@ -107,17 +107,16 @@ struct drive_context_s;
         interrupt_set_irq_noclk(&(ctxptr->cpu.int_status),(I_CIA1FL),(value))
 
 
-
 void cia1571_setup_context(drive_context_t *ctxptr)
 {
-  ctxptr->cia1571.todticks = 100000;
-  ctxptr->cia1571.log = LOG_ERR;
-  ctxptr->cia1571.read_clk = 0;
-  ctxptr->cia1571.read_offset = 0;
-  ctxptr->cia1571.last_read = 0;
-  ctxptr->cia1571.debugFlag = 0;
-  ctxptr->cia1571.irq_line = IK_IRQ;
-  sprintf(ctxptr->cia1571.myname, "CIA1571D%d", ctxptr->mynumber);
+    ctxptr->cia1571.todticks = 100000;
+    ctxptr->cia1571.log = LOG_ERR;
+    ctxptr->cia1571.read_clk = 0;
+    ctxptr->cia1571.read_offset = 0;
+    ctxptr->cia1571.last_read = 0;
+    ctxptr->cia1571.debugFlag = 0;
+    ctxptr->cia1571.irq_line = IK_IRQ;
+    sprintf(ctxptr->cia1571.myname, "CIA1571D%d", ctxptr->mynumber);
 }
 
 
