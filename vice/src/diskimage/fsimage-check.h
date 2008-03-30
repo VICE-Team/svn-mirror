@@ -27,7 +27,9 @@
 #ifndef _FSIMAGE_CHECK_H
 #define _FSIMAGE_CHECK_H
 
-extern int fsimage_check_sector(unsigned int format, unsigned int track,
+struct disk_image_s;
+
+extern int fsimage_check_sector(struct disk_image_s *image, unsigned int track,
                                 unsigned int sector);
 
 #endif

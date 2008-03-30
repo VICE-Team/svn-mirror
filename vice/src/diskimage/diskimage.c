@@ -157,7 +157,7 @@ int disk_image_check_sector(disk_image_t *image, unsigned int track,
                             unsigned int sector)
 {
     if (image->device == DISK_IMAGE_DEVICE_FS)
-        return fsimage_check_sector(image->type, track, sector);
+        return fsimage_check_sector(image, track, sector);
 
     return 0;
 }
