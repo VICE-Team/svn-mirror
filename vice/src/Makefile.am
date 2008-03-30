@@ -20,16 +20,17 @@ ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
 	@RESID_DIR@ \
-	arch \
-	c128 \
-	c64 \
-	cbm2 \
-	drive \
-	pet \
-	sid \
 	sounddrv \
+	drive \
+	raster \
+	vicii \
+	sid \
+	c64 \
+	c128 \
 	vic20 \
-	vicii
+	pet \
+	cbm2 \
+	arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -211,10 +212,10 @@ EXTRA_PROGRAMS =
 
 # x64
 x64_libs =  \
-        @X64_WINRES@ \
-        $(c64_lib) \
+	@X64_WINRES@ \
+	$(c64_lib) \
 	$(drive_lib) \
-        $(sid_lib) \
+	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
@@ -234,15 +235,16 @@ x64-all: \
 	libsid \
 	libsounddrv \
 	libvicii \
-        x64
+	libarch \
+	x64
 
 # x128
 x128_libs =  \
-        @X128_WINRES@ \
-        $(c128_lib) \
+	@X128_WINRES@ \
+	$(c128_lib) \
 	$(c64c128_lib) \
 	$(drive_lib) \
-        $(sid_lib) \
+	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
@@ -259,8 +261,8 @@ x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid \
 
 # xvic
 xvic_libs =  \
-        @XVIC_WINRES@ \
-        $(vic20_lib) \
+	@XVIC_WINRES@ \
+	$(vic20_lib) \
 	$(drive_lib) \
 	$(sounddrv_lib) \
 	$(raster_lib) \
@@ -277,7 +279,8 @@ xvic-all: \
 	libraster \
 	libsounddrv \
 	libvic20 \
-        xvic
+	libarch \
+    xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
