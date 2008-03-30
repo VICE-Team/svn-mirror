@@ -128,7 +128,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
            sprintf(buffp, " %s", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                ival - 1)))
+                (ADDRESS)(ival - 1))))
                 sprintf(buffp, " %s+1", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
@@ -190,7 +190,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
            sprintf(buffp, " (%s),A", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                ival - 1)))
+                (ADDRESS)(ival - 1))))
                 sprintf(buffp, " (%s+1),A", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),A" : " (%5d),A"), ival);
@@ -203,7 +203,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
            sprintf(buffp, " (%s),HL", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                ival - 1)))
+                (ADDRESS)(ival - 1))))
                 sprintf(buffp, " (%s+1),HL", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),HL" : " (%5d),HL"), ival);
@@ -229,7 +229,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
             sprintf(buffp, " (%s),IY", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                ival - 1)))
+                (ADDRESS)(ival - 1))))
                 sprintf(buffp, " (%s+1),IY", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),IY" : " (%5d),IY"), ival);
@@ -341,7 +341,7 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
 {
     BYTE op, p1, p2, p3;
     MEMSPACE mem;
-    unsigned loc;
+    ADDRESS loc;
     int hex_mode = 1;
     char *label;
     const char *dis_inst;
@@ -351,9 +351,9 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     loc = addr_location(addr);
 
     op = mon_get_mem_val(mem, loc);
-    p1 = mon_get_mem_val(mem, loc + 1);
-    p2 = mon_get_mem_val(mem, loc + 2);
-    p3 = mon_get_mem_val(mem, loc + 3);
+    p1 = mon_get_mem_val(mem, (ADDRESS)(loc + 1));
+    p2 = mon_get_mem_val(mem, (ADDRESS)(loc + 2));
+    p3 = mon_get_mem_val(mem, (ADDRESS)(loc + 3));
 
     /* Print the label for this location - if we have one */
     label = mon_symbol_table_lookup_name(mem, loc);
@@ -361,7 +361,7 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
         uimon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
 
     dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
-                                           &opc_size);
+                                            &opc_size);
 
     /* Print the disassembled instruction */
     uimon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);

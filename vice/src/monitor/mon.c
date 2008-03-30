@@ -577,7 +577,7 @@ static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr,
         val = mon_get_mem_val(mem, addr);
 
         if (petscii)
-            buf[i] = charset_p_toascii((int)val, 0);
+            buf[i] = charset_p_toascii(val, 0);
         if (isprint(val))
             buf[i] = val;
         else
@@ -680,7 +680,8 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, unsigned int x,
         for (i = 0; i < y; i++) {
             uimon_out(">%s:%04x ", mon_memspace_string[mem], addr);
             for(j = 0; j < (x / 8); j++) {
-                print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr + j)), '.', '*');
+                print_bin(mon_get_mem_val(mem, (ADDRESS)(ADDR_LIMIT(addr + j))),
+                                          '.', '*');
                 cnt++;
             }
            uimon_out("\n");
@@ -733,8 +734,10 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
         for (i = 0, real_width = 0; i < max_width; i++) {
             switch(radix_type) {
               case 0: /* special case == petscii text */
-                uimon_out("%c", charset_p_toascii(mon_get_mem_val(mem,
-                                                  ADDR_LIMIT(addr + i)), 1));
+                uimon_out("%c",
+                          charset_p_toascii(mon_get_mem_val(mem,
+                                            (ADDRESS)(ADDR_LIMIT(addr + i))),
+                                            1));
                 real_width++;
                 cnt++;
                 break;
