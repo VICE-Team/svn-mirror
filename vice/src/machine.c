@@ -112,6 +112,8 @@ static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
 
 void machine_maincpu_init(void)
 {
+    maincpu_monitor_interface = (monitor_interface_t *)lib_malloc(
+                                sizeof(monitor_interface_t));
 }
 
 void machine_early_init(void)
@@ -131,6 +133,8 @@ static void machine_maincpu_shutdown(void)
         alarm_context_destroy(maincpu_alarm_context);
     if (maincpu_clk_guard != NULL)
         clk_guard_destroy(maincpu_clk_guard);
+
+    lib_free(maincpu_monitor_interface);
 }
 
 void machine_shutdown(void)
