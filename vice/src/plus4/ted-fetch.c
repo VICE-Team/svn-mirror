@@ -104,8 +104,8 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.memory_fetch_done = 2;
 
             maincpu_steal_cycles(ted.fetch_clk,
-                                 TED_SCREEN_TEXTCOLS + 3 - sub, 0);
-
+                                 (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
+            ted_delay_oldclk((TED_SCREEN_TEXTCOLS + 3) * 2 - sub);
             ted.bad_line = 1;
             return 1;
         }
@@ -125,7 +125,8 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.memory_fetch_done = 2;
 */
             maincpu_steal_cycles(ted.fetch_clk,
-                                 TED_SCREEN_TEXTCOLS + 3 - sub, 0);
+                                 (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
+            ted_delay_oldclk((TED_SCREEN_TEXTCOLS + 3) * 2 - sub);
 
 /*            ted.bad_line = 1;*/
             return 1;
@@ -199,7 +200,7 @@ void ted_raster_fetch_alarm_handler(CLOCK offset)
                 last_opcode_first_write_clk = maincpu_clk
                                               - maincpu_num_write_cycles();
             } else {
-                last_opcode_first_write_clk = (CLOCK) 0;
+                last_opcode_first_write_clk = (CLOCK)0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;
             }
             break;
