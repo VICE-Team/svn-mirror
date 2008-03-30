@@ -48,19 +48,19 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { "Kernal", "KernalName",
+    { TEXT("Kernal"), "KernalName",
       IDC_PETROM_KERNAL_FILE, IDC_PETROM_KERNAL_BROWSE },
-    { "Basic", "BasicName",
+    { TEXT("Basic"), "BasicName",
       IDC_PETROM_BASIC_FILE, IDC_PETROM_BASIC_BROWSE },
-    { "Character", "ChargenName",
+    { TEXT("Character"), "ChargenName",
       IDC_PETROM_CHARGEN_FILE, IDC_PETROM_CHARGEN_BROWSE },
-    { "Editor", "EditorName",
+    { TEXT("Editor"), "EditorName",
       IDC_PETROM_EDITOR_FILE, IDC_PETROM_EDITOR_BROWSE },
-    { "ROM9", "RomModule9Name",
+    { TEXT("ROM9"), "RomModule9Name",
       IDC_PETROM_ROM9_FILE, IDC_PETROM_ROM9_BROWSE },
-    { "ROMA", "RomModuleAName",
+    { TEXT("ROMA"), "RomModuleAName",
       IDC_PETROM_ROMA_FILE, IDC_PETROM_ROMA_BROWSE },
-    { "ROMB", "RomModuleBName",
+    { TEXT("ROMB"), "RomModuleBName",
       IDC_PETROM_ROMB_FILE, IDC_PETROM_ROMB_BROWSE },
     { NULL, NULL, 0, 0 }
 };

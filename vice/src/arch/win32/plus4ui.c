@@ -54,13 +54,13 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { "Kernal", "KernalName",
+    { TEXT("Kernal"), "KernalName",
       IDC_PLUS4ROM_KERNAL_FILE, IDC_PLUS4ROM_KERNAL_BROWSE },
-    { "Basic", "BasicName",
+    { TEXT("Basic"), "BasicName",
       IDC_PLUS4ROM_BASIC_FILE, IDC_PLUS4ROM_BASIC_BROWSE },
-    { "3 plus 1 LO", "3plus1loName",
+    { TEXT("3 plus 1 LO"), "3plus1loName",
       IDC_PLUS4ROM_3P1LO_FILE, IDC_PLUS4ROM_3P1LO_BROWSE },
-    { "3 plus 1 HI", "3plus1hiName",
+    { TEXT("3 plus 1 HI"), "3plus1hiName",
       IDC_PLUS4ROM_3P1HI_FILE, IDC_PLUS4ROM_3P1HI_BROWSE },
     { NULL, NULL, 0, 0 }
 };

@@ -27,8 +27,10 @@
 #ifndef _UIROM_H
 #define _UIROM_H
 
+#include <tchar.h>
+
 struct uirom_settings_s {
-    const char *realname;
+    const TCHAR *realname;
     const char *resname;
     unsigned int idc_filename;
     unsigned int idc_browse;

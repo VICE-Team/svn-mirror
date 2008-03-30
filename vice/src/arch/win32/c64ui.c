@@ -59,11 +59,11 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { "Kernal", "KernalName",
+    { TEXT("Kernal"), "KernalName",
       IDC_C64ROM_KERNAL_FILE, IDC_C64ROM_KERNAL_BROWSE },
-    { "Basic", "BasicName",
+    { TEXT("Basic"), "BasicName",
       IDC_C64ROM_BASIC_FILE, IDC_C64ROM_BASIC_BROWSE },
-    { "Character", "ChargenName",
+    { TEXT("Character"), "ChargenName",
       IDC_C64ROM_CHARGEN_FILE, IDC_C64ROM_CHARGEN_BROWSE },
     { NULL, NULL, 0, 0 }
 };

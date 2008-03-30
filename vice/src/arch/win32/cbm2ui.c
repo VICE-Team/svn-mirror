@@ -50,19 +50,19 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { "Kernal", "KernalName",
+    { TEXT("Kernal"), "KernalName",
       IDC_CBM2ROM_KERNAL_FILE, IDC_CBM2ROM_KERNAL_BROWSE },
-    { "Basic", "BasicName",
+    { TEXT("Basic"), "BasicName",
       IDC_CBM2ROM_BASIC_FILE, IDC_CBM2ROM_BASIC_BROWSE },
-    { "Character", "ChargenName",
+    { TEXT("Character"), "ChargenName",
       IDC_CBM2ROM_CHARGEN_FILE, IDC_CBM2ROM_CHARGEN_BROWSE },
-    { "Cart 1", "Cart1Name",
+    { TEXT("Cart 1"), "Cart1Name",
       IDC_CBM2ROM_CART1_FILE, IDC_CBM2ROM_CART1_BROWSE },
-    { "Cart 2", "Cart2Name",
+    { TEXT("Cart 2"), "Cart2Name",
       IDC_CBM2ROM_CART2_FILE, IDC_CBM2ROM_CART2_BROWSE },
-    { "Cart 4", "Cart4Name",
+    { TEXT("Cart 4"), "Cart4Name",
       IDC_CBM2ROM_CART4_FILE, IDC_CBM2ROM_CART4_BROWSE },
-    { "Cart 6", "Cart6Name",
+    { TEXT("Cart 6"), "Cart6Name",
       IDC_CBM2ROM_CART6_FILE, IDC_CBM2ROM_CART6_BROWSE },
     { NULL, NULL, 0, 0 }
 };
