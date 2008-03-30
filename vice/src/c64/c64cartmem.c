@@ -331,6 +331,8 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         cartridge_config_changed(1);
         return roml_banks[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_KCS_POWER:
+        if (addr & 0x80)
+            cartridge_config_changed(0x43);
         return export_ram0[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_IEEE488:
         return tpi_read((ADDRESS)(addr & 0x07));
@@ -370,6 +372,8 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_KCS_POWER:
+        if (!ultimax)
+            cartridge_config_changed(1);
         export_ram0[0x1f00 + (addr & 0xff)] = value;
         break;
       case CARTRIDGE_WARPSPEED:
