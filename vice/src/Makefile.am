@@ -64,7 +64,6 @@ noinst_HEADERS = \
 	mon.h \
 	mon_parse.h \
 	mos6510.h \
-	mshell.h \
 	palette.h \
 	parallel.h \
 	print.h \
@@ -111,7 +110,6 @@ base_sources = \
 	mon.c \
 	mon_lex.l \
 	mon_parse.y \
-	mshell.c \
 	palette.c \
 	parallel.c \
 	resources.c \
@@ -248,7 +246,6 @@ c1541_SOURCES = \
 	vdrive-iec.c \
 	gcr.c \
 	log.c \
-	mshell.c \
 	tape.c \
 	utils.c \
 	zfile.c \
