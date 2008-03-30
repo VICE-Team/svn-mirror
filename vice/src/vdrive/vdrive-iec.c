@@ -40,7 +40,7 @@
 
 #include "vice.h"
 
-#define DEBUG_DRIVE
+/* #define DEBUG_DRIVE */
 
 #include <string.h>
 
