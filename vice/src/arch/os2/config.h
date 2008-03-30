@@ -6,24 +6,6 @@
 
 #define OS2 /* Operating System is OS/2 */
 
-#ifdef __IBMC__
- #define inline _Inline  // This means only a possible inline. See doku.
- #define getcwd _getcwd
- #define R_OK   4
- #define W_OK   2
- typedef int pid_t;
- #ifndef __EXTENDED__
- typedef long off_t;
- #endif
- #define STDOUT_FILENO (0xFFFF & fileno(stdout))
- #define STDERR_FILENO (0xFFFF & fileno(stderr))
- #define _O_BINARY O_BINARY
- #define _O_TRUNC  O_TRUNC
- #define _O_WRONLY O_WRONLY
- #define _O_CREAT  O_CREAT
- #define _P_WAIT   P_WAIT
-#endif
-
 //#define _POSIX_SOURCE // vac++
 // INCLUDE <os2.h> ???????  with all INCLS befor?
 
@@ -31,7 +13,6 @@
 /* #undef C_ALLOCA */
 
 #ifdef __EMX__
-  #define vfork fork          /* Define vfork as fork if vfork does not work.  */
   #define HAVE_ALLOCA      1  /* Define if you have alloca, as a function or macro.  */
   #define HAVE_ALLOCA_H    1  /* Define if you have <alloca.h> and it should be used (not on Ultrix).  */
   #define HAVE_DIRENT_H    1  /* Define if you have the <dirent.h> header file.  */
@@ -113,8 +94,8 @@
 #undef VICE2VERSION
 #endif
   
-#define VERSION      "1.1.24"
-#define VICE2VERSION "1.1.24"
+#define VERSION      "1.2"
+#define VICE2VERSION "1.2"
 
 
 #define UNSTABLE                  /* Define if this version is unstable.              */

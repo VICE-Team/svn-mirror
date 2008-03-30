@@ -1,3 +1,66 @@
+1999-11-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.
+
+	* arch/unix/x11/video.c: Provide prototype for `video_get_gc'
+	and `video_add_handlers'.
+
+	* arch/os2/Makefile.am, arch/os2/kbd/Makefile.am,
+	arch/os2/vac++/Makefile.am: Fixed Makefiles.
+
+	* arch/win32/msvc/config.h, arch/os2/config.h: Updated
+	version.
+
+	* arch/win32/print.c, arch/msdos/print.c:
+	#include "cmdline.h".
+
+1999-11-23  Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* configure.in: define HAVE_PRINTER for msdos and windows
+
+	* vice.texi: fix some documentation bugs:
+	Add .d71, .d80, .d81, .d82 disk types to Supported file types
+	Add IEEE488 cartridge to C64 cartridges; remove IEEE488 from
+	I/O extension description
+	Add bankname description (in terminology section) and bank,
+	device and sidefx descriptions to monitor docs
+	remove "create" from c1541 docs
+	Add filetypes to "format" section in c1541 docs
+
+	* arch/msdos/Makefile.am: add print.c
+
+	* arch/msdos/print.c: new file - basically copied file from 
+	RiscOS, which is C standard code. Only renamed "parallel:" to
+	"LPT:"
+
+	* arch/win32/print.c: file the same as for msdos
+
+	* arch/win32/ui.c: add .d80 and .d82 files to list of filename 
+	extensions
+
+	* c1541.c: fix format help description
+
+	* mon.c: fix "device" help description
+
+1999-11-23  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h type declarations -> arch/os2/types.h
+
+	* added: arch/os2/kbd/kbd-c128.c, arch/os2/kbd/kbd-pet.c,
+	arch/os2/kbd/kbd-c64.c
+
+	* arch/os2/c64kbd.c deleted
+
+	* added makefiles (*.icc) for Visual Age C++ 4.0 in
+	arch/os2/vac++
+
+	* added arch/os2/c128ui.c (dummy)
+
+	* added arch/os2/rs232.c  (dummy)
+
+	* arch/os2/kbd.c: added restore-key support
+
+
 1999-11-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.33.
