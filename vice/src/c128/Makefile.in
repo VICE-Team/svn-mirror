@@ -304,66 +304,63 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
-	../../src/attach.h ../../src/arch/unix/types.h \
-	../../src/snapshot.h ../../src/autostart.h c128mem.h c128mmu.h \
-	../../src/arch/unix/xaw/c128ui.h ../../src/c64/c64cia.h \
+c128.o: c128.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128.h ../../src/attach.h \
+	../../src/arch/win32/types.h ../../src/snapshot.h \
+	../../src/autostart.h c128mem.h c128mmu.h \
+	../../src/arch/win32/c128ui.h ../../src/c64/c64cia.h \
 	../../src/cia.h ../../src/c64/c64rsuser.h ../../src/clkguard.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/mem.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/arch/win32/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h \
 	../../src/c64/patchrom.h ../../src/c64/reu.h ../../src/serial.h \
 	../../src/traps.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tape.h ../../src/c64/c64tpi.h \
 	../../src/utils.h ../../src/vicii/vicii.h ../../src/c64/c64.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster.h ../../src/arch/win32/video.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h \
 	../../src/vdc/vdc.h ../../src/vdc/vdc-mem.h \
-	../../src/arch/unix/vsync.h ../../src/ciatimer.h \
-	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
-	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
-	../../src/arch/unix/mouse.h
+	../../src/arch/win32/vsync.h ../../src/ciatimer.h
 c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
-	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h ../../src/maincpu.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/c64/c64cia.h \
+	../../src/config.h ../../src/arch/win32/lose32.h \
+	../../src/cia.h ../../src/arch/win32/types.h ../../src/log.h \
+	../../src/resources.h ../../src/snapshot.h ../../src/alarm.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/c64/c64cia.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
-	../../src/iecdrive.h ../../src/keyboard.h ../../src/rsuser.h \
+	../../src/drive/drivecpu.h ../../src/arch/win32/kbd.h \
+	../../src/iecdrive.h ../../src/keyboard.h \
 	../../src/vicii/vicii.h ../../src/c64/c64.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/raster/raster-cache.h \
+	../../src/raster/raster.h ../../src/arch/win32/video.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/vicii/vicii-mem.h \
 	../../src/ciacore.c ../../src/ciatimer.h
-c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h ../maincpu.c \
+c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/mem.h \
+	../../src/arch/win32/types.h ../../src/snapshot.h ../maincpu.c \
 	../vice.h ../maincpu.h ../config.h ../6510core.h ../mem.h \
 	../alarm.h ../log.h ../clkguard.h ../mon.h ../mos6510.h \
 	../interrupt.h ../snapshot.h ../datasette.h ../tap.h \
-	../machine.h ../traps.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/uiapi.h ../6510core.c
+	../machine.h ../traps.h ../../src/arch/win32/ui.h \
+	../../src/uiapi.h ../../src/arch/win32/video.h \
+	../../src/palette.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
-	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
-	../../src/cia.h ../../src/snapshot.h ../../src/c64/c64iec.h \
+	../../src/arch/win32/lose32.h ../../src/c64/c64cia.h \
+	../../src/arch/win32/types.h ../../src/cia.h \
+	../../src/snapshot.h ../../src/c64/c64iec.h \
 	../../src/iecdrive.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
@@ -371,8 +368,9 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/maincpu.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
-c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
+c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128mem.h \
+	../../src/arch/win32/types.h c128mmu.h ../../src/c64/c64cart.h \
 	../../src/c64/c64cia.h ../../src/cia.h ../../src/snapshot.h \
 	../../src/c64/c64tpi.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/emuid.h ../../src/maincpu.h \
@@ -384,24 +382,24 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/rs232.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/sysfile.h ../../src/utils.h \
 	../../src/vdc/vdc.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/raster/raster-cache.h \
+	../../src/arch/win32/video.h ../../src/palette.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/vdc/vdc-mem.h \
+	../../src/arch/win32/ui.h ../../src/uiapi.h \
 	../../src/vicii/vicii.h ../../src/c64/c64.h \
-	../../src/vicii/vicii-mem.h ../../src/c64/c64acia.h
-c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
+	../../src/vicii/vicii-mem.h
+c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128mem.h \
+	../../src/arch/win32/types.h c128mmu.h ../../src/c64/c64mem.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/arch/unix/kbd.h ../../src/log.h \
-	../../src/vdc/vdc.h ../../src/alarm.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/raster/raster-cache.h \
+	../../src/resources.h ../../src/arch/win32/kbd.h \
+	../../src/log.h ../../src/vdc/vdc.h ../../src/alarm.h \
+	../../src/raster/raster.h ../../src/arch/win32/video.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
