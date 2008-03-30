@@ -258,7 +258,7 @@ static char *create_image_selector(const char *title)
 static TUI_MENU_CALLBACK(create_disk_image_name_callback)
 {
     if (been_activated) {
-        PATH_VAR(new_file_name);
+        char new_file_name[MAXPATHLEN];
 
         if (file_name == NULL)
             memset(new_file_name, 0, GET_PATH_MAX);

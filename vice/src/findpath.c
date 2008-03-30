@@ -60,8 +60,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 {
     char * pd = NULL;
     char *c;
-
-    PATH_VAR(buf);
+    char buf[MAXPATHLEN];
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
@@ -71,7 +70,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
-            if (getcwd(buf + 1, sizeof buf - 128) == (int)NULL)
+            if (getcwd(buf + 1, sizeof(buf) - 128) == (int)NULL)
                 goto fail;
 
             l = strlen(buf + 1);
@@ -181,40 +180,5 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     return NULL;
 }
 
-
-#ifdef _TEST_FINDPATH
-
-void tstpath(char * string)
-{
-    char * s;
-    printf("*** Testing %s: ", string);
-
-    s = findpath(string, getenv("PATH"));
-
-    if (s) { puts(s); free(s); }
-    else puts("path not found");
-}
-
-void main(int argc, char ** argv)
-{
-
-    if (argc > 1)
-    {
-	tstpath(argv[1]);
-    }
-    else
-    {
-	tstpath("/foo/bar");
-	tstpath("../bar");
-	tstpath("foo/bar");
-	tstpath(".////foo/bar");
-	tstpath("../../../../../");
-	tstpath("../../../..//./foo/../bar");
-	tstpath("bar");
-	tstpath("gzip");
-	tstpath("perl");
-    }
-    exit(0);
-}
-#endif
 #endif /* __riscos */
+

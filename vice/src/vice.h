@@ -111,12 +111,10 @@
    to be available!  */
 #ifdef	PATH_MAX
 #define	GET_PATH_MAX	PATH_MAX
-#define	PATH_VAR(var)	char var[PATH_MAX]
 #else
 #define	NEED_GET_PATH_MAX
 extern unsigned int get_path_max();
 #define	GET_PATH_MAX	(get_path_max())
-#define	PATH_VAR(var)	char *var = (char *)alloca(GET_PATH_MAX)
 #endif
 
 /* ------------------------------------------------------------------------- */
