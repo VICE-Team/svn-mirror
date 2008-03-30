@@ -32,7 +32,9 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "maincpu.h"
 
@@ -273,14 +275,43 @@ monitor_interface_t maincpu_monitor_interface = {
 
 
 
-#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
-#endif
 
 #  define EVALUATE_INTERVAL	10000000L
 
+#ifdef WIN32
+#undef BYTE
+#undef WORD
+#undef DWORD
+#include <mmsystem.h>
+#endif
+
 inline static void evaluate_speed(unsigned long clk)
 {
+#ifdef WIN32
+    static unsigned long old_clk;
+    static unsigned long next_clk = EVALUATE_INTERVAL;
+    static DWORD old_time;
+
+    if (clk>next_clk) {
+        DWORD current_time;
+        DWORD diff_time;
+        float diff_sec;
+
+        current_time=timeGetTime();
+        diff_time=current_time-old_time;
+        diff_sec=diff_time/1000.0;
+	if (old_clk)
+	    printf ("%ld cycles in %f seconds: %f%% speed\n",
+		    clk - old_clk, diff_sec,
+		    100.0 * (((double)(clk - old_clk)
+			      / diff_sec) / 1108405.0));
+	old_clk = clk;
+	next_clk = old_clk + EVALUATE_INTERVAL;
+	old_time = current_time;
+    }
+#else
+#ifdef HAVE_GETTIMEOFDAY
     static unsigned long old_clk;
     static unsigned long next_clk = EVALUATE_INTERVAL;
     static double old_time;
@@ -302,6 +333,11 @@ inline static void evaluate_speed(unsigned long clk)
 	next_clk = old_clk + EVALUATE_INTERVAL;
 	old_time = current_time;
     }
+#else
+    /* Sorry can't evaluate performance */
+    return;
+#endif
+#endif
 }
 
 
@@ -492,6 +528,10 @@ int maincpu_read_snapshot_module(snapshot_t *s)
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
     if (m == NULL)
         return -1;
+
+    /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
+       wrong number of cycles.  */
+    rmw_flag = -1;
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0

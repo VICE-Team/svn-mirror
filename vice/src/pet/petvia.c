@@ -458,7 +458,8 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	    	VIA_SET_CA2( ca2_state )
 	    }
 	}
-        update_viairq();
+	if (viaier & (VIA_IM_CA1 | VIA_IM_CA2))
+            update_viairq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         via[VIA_PRA_NHS] = byte;
@@ -486,7 +487,8 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
                 VIA_SET_CB2( cb2_state )
             }
         }
-        update_viairq();
+	if (viaier & (VIA_IM_CB1 | VIA_IM_CB2))
+            update_viairq();
 
       case VIA_DDRB:
 	via[addr] = byte;
@@ -768,10 +770,12 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 
     addr &= 0xf;
 
-    if (viatai && (viatai <= clk))
-	int_viat1(clk - viatai);
-    if (viatbi && (viatbi <= clk))
-	int_viat2(clk - viatbi);
+    if (addr >= VIA_T1CL && addr <= VIA_IER) { 
+        if (viatai && (viatai <= clk))
+	    int_viat1(clk - viatai);
+        if (viatbi && (viatbi <= clk))
+	    int_viat2(clk - viatbi);
+    }
 
     switch (addr) {
 
@@ -788,7 +792,8 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
                 VIA_SET_CA2( ca2_state )
             }
         }
-        update_viairq();
+        if (viaier & (VIA_IM_CA1 | VIA_IM_CA2)) 
+	    update_viairq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         /* WARNING: this pin reads the voltage of the output pins, not
@@ -858,7 +863,8 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
         viaifr &= ~VIA_IM_CB1;
         if ((via[VIA_PCR] & 0xa0) != 0x20)
             viaifr &= ~VIA_IM_CB2;
-        update_viairq();
+        if (viaier & (VIA_IM_CB1 | VIA_IM_CB2)) 
+	    update_viairq();
 
         /* WARNING: this pin reads the ORA for output pins, not
            the voltage on the pins as the other port. */
@@ -1179,7 +1185,7 @@ printf("     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
 
     snapshot_module_write_word(m, viatal);
     snapshot_module_write_word(m, viata());
-    snapshot_module_write_byte(m, viatbl);
+    snapshot_module_write_byte(m, via[VIA_T2LL]);
     snapshot_module_write_word(m, viatb());
 
     snapshot_module_write_byte(m, (viatai ? 0x80 : 0)
@@ -1256,12 +1262,13 @@ int via_read_snapshot_module(snapshot_t * p)
 
     snapshot_module_read_word(m, &word);
     viatal = word;
+    via[VIA_T1LL] = viatal & 0xff;
+    via[VIA_T1LH] = (viatal >> 8) & 0xff;
     snapshot_module_read_word(m, &word);
     viatau = rclk + word + 2 /* 3 */ + TAUOFFSET;
     viatai = rclk + word + 1;
 
-    snapshot_module_read_byte(m, &byte);
-    viatbl = byte;
+    snapshot_module_read_byte(m, &via[VIA_T2LL]);
     snapshot_module_read_word(m, &word);
     viatbu = rclk + word + 2 /* 3 */;
     viatbi = rclk + word + 1;
@@ -1279,19 +1286,8 @@ int via_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &via[VIA_SR]);
-    {
-	addr = via[VIA_SR];
-	byte = via[addr];
-
-	store_petsnd_sample(byte);
-    }
     snapshot_module_read_byte(m, &via[VIA_ACR]);
     snapshot_module_read_byte(m, &via[VIA_PCR]);
-    {
-	addr = via[VIA_PCR];
-	byte = via[addr];
-	
-    }
 
     snapshot_module_read_byte(m, &byte);
     viaifr = byte;
@@ -1310,6 +1306,26 @@ int via_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    /*  also restores the ca2_state/cb2_state effects if necessary;
+       i.e. calls VIA_SET_C*2( c*2_state ) if necessary */
+    {
+	addr = VIA_PCR;
+	byte = via[addr];
+	
+    }
+    {
+	addr = VIA_SR;
+	byte = via[addr];
+
+	store_petsnd_sample(byte);
+    }
+    {
+	addr = VIA_ACR;
+	byte = via[addr];
+
+	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+    }
 
     snapshot_module_read_byte(m, &via_ila);
     snapshot_module_read_byte(m, &via_ilb);

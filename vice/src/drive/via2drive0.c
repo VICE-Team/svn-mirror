@@ -324,13 +324,19 @@ void via2d0_signal(int line, int edge)
 	    if (IS_PA_INPUT_LATCH()) {
 		BYTE byte;
 
-    {
-        byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
-            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
-        if (drive[0].type == DRIVE_TYPE_1571)
-            if (drive[0].byte_ready)
-                drive[0].byte_ready = 0;
+    if (drive[0].attach_clk != (CLOCK)0) {
+        if (drive_clk[0] - drive[0].attach_clk < DRIVE_ATTACH_DELAY)
+            drive[0].GCR_read = 0;
+        drive[0].attach_clk = (CLOCK)0;
+    } else {
+        if (drive[0].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[0]);
     }
+    byte = ((drive[0].GCR_read & ~via2d0[VIA_DDRA])
+        | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
+    if (drive[0].type == DRIVE_TYPE_1571)
+        if (drive[0].byte_ready)
+            drive[0].byte_ready = 0;
 		via2d0_ila = byte;
 	    }
 #endif
@@ -355,7 +361,7 @@ void via2d0_signal(int line, int edge)
 	    if (IS_PB_INPUT_LATCH()) {
 		BYTE byte;
 
-	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[0]) & ~via2d0[VIA_DDRB])
 			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 		via2d0_ilb = byte;
 	    }
@@ -399,7 +405,8 @@ void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte)
 	    	VIA_SET_CA2( ca2_state )
 	    }
 	}
-        update_via2d0irq();
+	if (via2d0ier & (VIA_IM_CA1 | VIA_IM_CA2))
+            update_via2d0irq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         via2d0[VIA_PRA_NHS] = byte;
@@ -408,7 +415,9 @@ void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte)
 	via2d0[addr] = byte;
 	byte = via2d0[VIA_PRA] | ~via2d0[VIA_DDRA];
 
-     drive_write_gcr(byte, 0);
+    if (drive[0].byte_ready_active == 0x06)
+        drive_rotate_disk(&drive[0]);
+    drive[0].GCR_write_value = byte;
 	oldpa = byte;
         break;
 
@@ -425,28 +434,26 @@ void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte)
                 VIA_SET_CB2( cb2_state )
             }
         }
-        update_via2d0irq();
+	if (via2d0ier & (VIA_IM_CB1 | VIA_IM_CB2))
+            update_via2d0irq();
 
       case VIA_DDRB:
 	via2d0[addr] = byte;
 	byte = via2d0[VIA_PRB] | ~via2d0[VIA_DDRB];
 
-	{
-	  drive[0].led_status = byte & 8;
-
-	  if (((oldpb ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
-	  {
-	    if ((oldpb & 0x3) == ((byte + 1) & 0x3))
-              drive_move_head(-1, 0);
-            else if ((oldpb & 0x3) == ((byte - 1) & 0x3))
-              drive_move_head(+1, 0);
-	  }
-	  if ((oldpb ^ byte) & 0x60)     /* Zone bits */
-	      drive_update_zone_bits((byte >> 5) & 0x3, 0);
-
-	  if ((oldpb ^ byte) & 0x04)     /* Motor on/off */
-	      drive_motor_control(byte & 0x04, 0);
-	}
+    drive[0].led_status = byte & 8;
+    if (((oldpb ^ byte) & 0x3) && (byte & 0x4)) {
+        /* Stepper motor */
+        if ((oldpb & 0x3) == ((byte + 1) & 0x3))
+            drive_move_head(-1, 0);
+        else if ((oldpb & 0x3) == ((byte - 1) & 0x3))
+            drive_move_head(+1, 0);
+    }
+    if ((oldpb ^ byte) & 0x60)     /* Zone bits */
+        drive[0].rotation_table_ptr = drive[0].rotation_table[(byte >> 5) & 0x3];
+    if ((oldpb ^ byte) & 0x04)     /* Motor on/off */
+        drive[0].byte_ready_active = (drive[0].byte_ready_active & ~0x04)
+                                     | (byte & 0x04);
 	oldpb = byte;
         break;
 
@@ -563,19 +570,25 @@ void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte)
 	/* switch on port A latching - FIXME: is this ok? */
 	if ( (!(via2d0[addr] & 1)) && (byte & 1)) {
 
-    {
-        byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
-            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
-        if (drive[0].type == DRIVE_TYPE_1571)
-            if (drive[0].byte_ready)
-                drive[0].byte_ready = 0;
+    if (drive[0].attach_clk != (CLOCK)0) {
+        if (drive_clk[0] - drive[0].attach_clk < DRIVE_ATTACH_DELAY)
+            drive[0].GCR_read = 0;
+        drive[0].attach_clk = (CLOCK)0;
+    } else {
+        if (drive[0].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[0]);
     }
+    byte = ((drive[0].GCR_read & ~via2d0[VIA_DDRA])
+        | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
+    if (drive[0].type == DRIVE_TYPE_1571)
+        if (drive[0].byte_ready)
+            drive[0].byte_ready = 0;
 	    via2d0_ila = byte;
 	}
 	/* switch on port B latching - FIXME: is this ok? */
 	if ( (!(via2d0[addr] & 2)) && (byte & 2)) {
 
-	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[0]) & ~via2d0[VIA_DDRB])
 			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 	    via2d0_ilb = byte;
 	}
@@ -639,10 +652,10 @@ void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte)
         /* insert_your_favourite_drive_function_here(tmp);
         bit 5 is the write output to the analog circuitry:
         0 = writing, 0x20 = reading */
-        drive_update_viad2_pcr(tmp, 0);
+        drive_update_viad2_pcr(tmp, &drive[0]);
         if ((byte & 0x20) != (via2d0[addr] & 0x20)) {
             if (drive[0].byte_ready_active == 0x06)
-                drive_rotate_disk(0);
+                drive_rotate_disk(&drive[0]);
             drive[0].finish_byte = 1;
         }
         byte = tmp;
@@ -679,10 +692,12 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
 
     addr &= 0xf;
 
-    if (via2d0tai && (via2d0tai <= drive_clk[0]))
-	int_via2d0t1(drive_clk[0] - via2d0tai);
-    if (via2d0tbi && (via2d0tbi <= drive_clk[0]))
-	int_via2d0t2(drive_clk[0] - via2d0tbi);
+    if (addr >= VIA_T1CL && addr <= VIA_IER) { 
+        if (via2d0tai && (via2d0tai <= drive_clk[0]))
+	    int_via2d0t1(drive_clk[0] - via2d0tai);
+        if (via2d0tbi && (via2d0tbi <= drive_clk[0]))
+	    int_via2d0t2(drive_clk[0] - via2d0tbi);
+    }
 
     switch (addr) {
 
@@ -699,7 +714,8 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
                 VIA_SET_CA2( ca2_state )
             }
         }
-        update_via2d0irq();
+        if (via2d0ier & (VIA_IM_CA1 | VIA_IM_CA2)) 
+	    update_via2d0irq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         /* WARNING: this pin reads the voltage of the output pins, not
@@ -710,23 +726,35 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
 	    byte = via2d0_ila;
 	} else {
 
-    {
-        byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
-            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
-        if (drive[0].type == DRIVE_TYPE_1571)
-            if (drive[0].byte_ready)
-                drive[0].byte_ready = 0;
+    if (drive[0].attach_clk != (CLOCK)0) {
+        if (drive_clk[0] - drive[0].attach_clk < DRIVE_ATTACH_DELAY)
+            drive[0].GCR_read = 0;
+        drive[0].attach_clk = (CLOCK)0;
+    } else {
+        if (drive[0].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[0]);
     }
+    byte = ((drive[0].GCR_read & ~via2d0[VIA_DDRA])
+        | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
+    if (drive[0].type == DRIVE_TYPE_1571)
+        if (drive[0].byte_ready)
+            drive[0].byte_ready = 0;
 	}
 #else
 
-    {
-        byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
-            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
-        if (drive[0].type == DRIVE_TYPE_1571)
-            if (drive[0].byte_ready)
-                drive[0].byte_ready = 0;
+    if (drive[0].attach_clk != (CLOCK)0) {
+        if (drive_clk[0] - drive[0].attach_clk < DRIVE_ATTACH_DELAY)
+            drive[0].GCR_read = 0;
+        drive[0].attach_clk = (CLOCK)0;
+    } else {
+        if (drive[0].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[0]);
     }
+    byte = ((drive[0].GCR_read & ~via2d0[VIA_DDRA])
+        | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
+    if (drive[0].type == DRIVE_TYPE_1571)
+        if (drive[0].byte_ready)
+            drive[0].byte_ready = 0;
 #endif
 	via2d0_ila = byte;
 	return byte;
@@ -735,7 +763,8 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
         via2d0ifr &= ~VIA_IM_CB1;
         if ((via2d0[VIA_PCR] & 0xa0) != 0x20)
             via2d0ifr &= ~VIA_IM_CB2;
-        update_via2d0irq();
+        if (via2d0ier & (VIA_IM_CB1 | VIA_IM_CB2)) 
+	    update_via2d0irq();
 
         /* WARNING: this pin reads the ORA for output pins, not
            the voltage on the pins as the other port. */
@@ -744,12 +773,12 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
 	    byte = via2d0_ilb;
 	} else {
 
-	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[0]) & ~via2d0[VIA_DDRB])
 			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 	}
 #else
 
-	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[0]) & ~via2d0[VIA_DDRB])
 			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 #endif
 	via2d0_ilb = byte;
@@ -823,12 +852,12 @@ BYTE REGPARM1 peek_via2d0(ADDRESS addr)
 	        byte = via2d0_ilb;
 	    } else {
 
-	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[0]) & ~via2d0[VIA_DDRB])
 			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 	    }
 #else
 
-	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+	byte = (drive_read_viad2_prb(&drive[0]) & ~via2d0[VIA_DDRB])
 			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
 #endif
             byte = (byte & ~via2d0[VIA_DDRB]) | (via2d0[VIA_PRB] & via2d0[VIA_DDRB]);
@@ -976,7 +1005,7 @@ printf("     : ta=%d, tb=%d\n",via2d0ta() & 0xffff, via2d0tb() & 0xffff);
 
     snapshot_module_write_word(m, via2d0tal);
     snapshot_module_write_word(m, via2d0ta());
-    snapshot_module_write_byte(m, via2d0tbl);
+    snapshot_module_write_byte(m, via2d0[VIA_T2LL]);
     snapshot_module_write_word(m, via2d0tb());
 
     snapshot_module_write_byte(m, (via2d0tai ? 0x80 : 0)
@@ -1045,19 +1074,21 @@ int via2d0_read_snapshot_module(snapshot_t * p)
 	byte = via2d0[VIA_PRB] | ~via2d0[VIA_DDRB];
 
     drive[0].led_status = byte & 8;
-    drive_update_zone_bits((byte >> 5) & 0x3, 0);
-    drive_motor_control(byte & 0x04, 0);
+    drive[0].rotation_table_ptr = drive[0].rotation_table[(byte >> 5) & 0x3];
+    drive[0].byte_ready_active = (drive[0].byte_ready_active & ~0x04)
+                                 | (byte & 0x04);
 	oldpb = byte;
     }
 
     snapshot_module_read_word(m, &word);
     via2d0tal = word;
+    via2d0[VIA_T1LL] = via2d0tal & 0xff;
+    via2d0[VIA_T1LH] = (via2d0tal >> 8) & 0xff;
     snapshot_module_read_word(m, &word);
     via2d0tau = rclk + word + 2 /* 3 */ + TAUOFFSET;
     via2d0tai = rclk + word + 1;
 
-    snapshot_module_read_byte(m, &byte);
-    via2d0tbl = byte;
+    snapshot_module_read_byte(m, &via2d0[VIA_T2LL]);
     snapshot_module_read_word(m, &word);
     via2d0tbu = rclk + word + 2 /* 3 */;
     via2d0tbi = rclk + word + 1;
@@ -1075,19 +1106,8 @@ int via2d0_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &via2d0[VIA_SR]);
-    {
-	addr = via2d0[VIA_SR];
-	byte = via2d0[addr];
-	
-    }
     snapshot_module_read_byte(m, &via2d0[VIA_ACR]);
     snapshot_module_read_byte(m, &via2d0[VIA_PCR]);
-    {
-	addr = via2d0[VIA_PCR];
-	byte = via2d0[addr];
-
-    drive_update_viad2_pcr(byte, 0);
-    }
 
     snapshot_module_read_byte(m, &byte);
     via2d0ifr = byte;
@@ -1106,6 +1126,25 @@ int via2d0_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    /* UNDUMP_PCR also restores the ca2_state/cb2_state effects if necessary;
+       i.e. calls VIA_SET_C*2( c*2_state ) if necessary */
+    {
+	addr = VIA_PCR;
+	byte = via2d0[addr];
+
+    drive_update_viad2_pcr(byte, &drive[0]);
+    }
+    {
+	addr = VIA_SR;
+	byte = via2d0[addr];
+	
+    }
+    {
+	addr = VIA_ACR;
+	byte = via2d0[addr];
+	
+    }
 
     snapshot_module_read_byte(m, &via2d0_ila);
     snapshot_module_read_byte(m, &via2d0_ilb);
