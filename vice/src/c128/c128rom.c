@@ -438,7 +438,7 @@ int c128rom_load_kernal64(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load C64 kernal ROM.  */
         if (sysfile_load(rom_name,
-            kernal64_rom, C128_KERNAL64_ROM_SIZE,
+            mem_kernal64_rom, C128_KERNAL64_ROM_SIZE,
             C128_KERNAL64_ROM_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load C64 kernal ROM `%s'.",
                       rom_name);
@@ -456,7 +456,7 @@ int c128rom_load_basic64(const char *rom_name)
     if (!util_check_null_string(rom_name)) {
         /* Load basic ROM.  */
         if (sysfile_load(rom_name,
-            basic64_rom, C128_BASIC64_ROM_SIZE,
+            mem_basic64_rom, C128_BASIC64_ROM_SIZE,
             C128_BASIC64_ROM_SIZE) < 0) {
             log_error(c128rom_log, "Couldn't load C64 basic ROM `%s'.",
                       rom_name);

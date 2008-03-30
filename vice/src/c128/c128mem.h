@@ -61,6 +61,7 @@ extern int c128_mem_init_resources(void);
 extern int c128_mem_init_cmdline_options(void);
 
 extern void mem_update_config(int config);
+extern void mem_set_machine_type(unsigned type);
 extern void mem_set_ram_config(BYTE value);
 extern void mem_set_ram_bank(BYTE value);
 
@@ -88,8 +89,8 @@ extern BYTE *ram_bank;
 extern BYTE mem_basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
 extern BYTE mem_kernal_rom[C128_KERNAL_ROM_SIZE];
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
-extern BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
-extern BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
+extern BYTE mem_basic64_rom[C128_BASIC64_ROM_SIZE];
+extern BYTE mem_kernal64_rom[C128_KERNAL64_ROM_SIZE];
 
 #endif
 

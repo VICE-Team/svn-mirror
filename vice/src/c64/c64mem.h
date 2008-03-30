@@ -29,6 +29,7 @@
 #define _C64MEM_H
 
 #include "types.h"
+#include "mem.h"
 
 #define C64_RAM_SIZE                    0x10000
 #define C64_KERNAL_ROM_SIZE             0x2000
@@ -51,6 +52,9 @@ extern BYTE REGPARM1 ram_read(WORD addr);
 extern void REGPARM2 ram_store(WORD addr, BYTE value);
 extern void REGPARM2 ram_hi_store(WORD addr, BYTE value);
 
+extern BYTE REGPARM1 kernal64_read(WORD addr);
+extern BYTE REGPARM1 basic64_read(WORD addr);
+
 extern char** mem_get_romsets(void);
 extern int mem_get_numromsets(void);
 extern char* mem_get_romset_name(void);
@@ -62,9 +66,13 @@ extern void mem_pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
 extern void mem_set_exrom(int active);
 
-extern BYTE mem_basic_rom[C64_BASIC_ROM_SIZE];
-extern BYTE mem_kernal_rom[C64_KERNAL_ROM_SIZE];
+extern BYTE mem_basic64_rom[C64_BASIC_ROM_SIZE];
+extern BYTE mem_kernal64_rom[C64_KERNAL_ROM_SIZE];
 extern BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
-#endif /* _C64MEM_H */
+extern void mem_read_tab_set(unsigned int base, unsigned int index,
+                             read_func_ptr_t read_func);
+extern void mem_read_base_set(unsigned int base, unsigned int index,
+                              BYTE *mem_ptr);
+#endif
 

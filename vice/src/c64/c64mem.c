@@ -36,6 +36,7 @@
 #include "c64cia.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "c64meminit.h"
 #include "c64memlimit.h"
 #include "c64pla.h"
 #include "cart/c64cartmem.h"
@@ -78,8 +79,8 @@ const char *mem_romset_resources_list[] = {
 
 /* The C64 memory.  */
 BYTE mem_ram[C64_RAM_SIZE];
-BYTE mem_basic_rom[C64_BASIC_ROM_SIZE];
-BYTE mem_kernal_rom[C64_KERNAL_ROM_SIZE];
+BYTE mem_basic64_rom[C64_BASIC_ROM_SIZE];
+BYTE mem_kernal64_rom[C64_KERNAL_ROM_SIZE];
 BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
@@ -224,14 +225,14 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 basic_read(WORD addr)
+BYTE REGPARM1 basic64_read(WORD addr)
 {
-    return mem_basic_rom[addr & 0x1fff];
+    return mem_basic64_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 kernal_read(WORD addr)
+BYTE REGPARM1 kernal64_read(WORD addr)
 {
-    return mem_kernal_rom[addr & 0x1fff];
+    return mem_kernal64_rom[addr & 0x1fff];
 }
 
 BYTE REGPARM1 chargen_read(WORD addr)
@@ -265,12 +266,12 @@ BYTE REGPARM1 rom_read(WORD addr)
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        return basic_read(addr);
+        return basic64_read(addr);
       case 0xd000:
         return chargen_read(addr);
       case 0xe000:
       case 0xf000:
-        return kernal_read(addr);
+        return kernal64_read(addr);
     }
 
     return 0;
@@ -281,14 +282,14 @@ void REGPARM2 rom_store(WORD addr, BYTE value)
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        mem_basic_rom[addr & 0x1fff] = value;
+        mem_basic64_rom[addr & 0x1fff] = value;
         break;
       case 0xd000:
         mem_chargen_rom[addr & 0x0fff] = value;
         break;
       case 0xe000:
       case 0xf000:
-        mem_kernal_rom[addr & 0x1fff] = value;
+        mem_kernal64_rom[addr & 0x1fff] = value;
         break;
     }
 }
@@ -328,6 +329,17 @@ static void set_write_hook(int config, int page, store_func_t *f)
     for (i = 0; i < NUM_VBANKS; i++) {
         mem_write_tab[i][config][page] = f;
     }
+}
+
+void mem_read_tab_set(unsigned int base, unsigned int index,
+                      read_func_ptr_t read_func)
+{
+    mem_read_tab[base][index] = read_func;
+}
+
+void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
+{
+    mem_read_base_tab[base][index] = mem_ptr;
 }
 
 void mem_initialize_memory(void)
@@ -397,18 +409,6 @@ void mem_initialize_memory(void)
         set_write_hook(i, 0xff, ram_hi_store);
     }
 
-    /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
-    for (i = 0xa0; i <= 0xbf; i++) {
-        mem_read_tab[3][i] = basic_read;
-        mem_read_tab[7][i] = basic_read;
-        mem_read_tab[11][i] = basic_read;
-        mem_read_tab[15][i] = basic_read;
-        mem_read_base_tab[3][i] = mem_basic_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[7][i] = mem_basic_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[11][i] = mem_basic_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[15][i] = mem_basic_rom + ((i & 0x1f) << 8);
-    }
-
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
        3, 9, 10, 11, 25, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
@@ -467,34 +467,7 @@ void mem_initialize_memory(void)
         }
     }
 
-    /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
-       11, 14, 15, 26, 27, 30, 31).  */
-    for (i = 0xe0; i <= 0xff; i++) {
-        mem_read_tab[2][i] = kernal_read;
-        mem_read_tab[3][i] = kernal_read;
-        mem_read_tab[6][i] = kernal_read;
-        mem_read_tab[7][i] = kernal_read;
-        mem_read_tab[10][i] = kernal_read;
-        mem_read_tab[11][i] = kernal_read;
-        mem_read_tab[14][i] = kernal_read;
-        mem_read_tab[15][i] = kernal_read;
-        mem_read_tab[26][i] = kernal_read;
-        mem_read_tab[27][i] = kernal_read;
-        mem_read_tab[30][i] = kernal_read;
-        mem_read_tab[31][i] = kernal_read;
-        mem_read_base_tab[2][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[3][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[6][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[7][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[10][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[11][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[14][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[15][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[26][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[27][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[30][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[31][i] = mem_kernal_rom + ((i & 0x1f) << 8);
-    }
+    c64meminit(0);
 
     /* Setup ROML at $8000-$9FFF.  */
     for (j = 0; j < NUM_CONFIGS; j++) {
@@ -852,13 +825,13 @@ BYTE mem_bank_read(int bank, WORD addr)
         }
       case 2:                   /* rom */
         if (addr >= 0xa000 && addr <= 0xbfff) {
-            return mem_basic_rom[addr & 0x1fff];
+            return mem_basic64_rom[addr & 0x1fff];
         }
         if (addr >= 0xd000 && addr <= 0xdfff) {
             return mem_chargen_rom[addr & 0x0fff];
         }
         if (addr >= 0xe000 && addr <= 0xffff) {
-            return mem_kernal_rom[addr & 0x1fff];
+            return mem_kernal64_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
         break;

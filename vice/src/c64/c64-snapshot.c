@@ -69,8 +69,8 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    if (SMW_BA(m, mem_kernal_rom, C64_KERNAL_ROM_SIZE) < 0
-        || SMW_BA(m, mem_basic_rom, C64_BASIC_ROM_SIZE) < 0
+    if (SMW_BA(m, mem_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
+        || SMW_BA(m, mem_basic64_rom, C64_BASIC_ROM_SIZE) < 0
         || SMW_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
@@ -129,8 +129,8 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    if (SMR_BA(m, mem_kernal_rom, C64_KERNAL_ROM_SIZE) < 0
-        || SMR_BA(m, mem_basic_rom, C64_BASIC_ROM_SIZE) < 0
+    if (SMR_BA(m, mem_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
+        || SMR_BA(m, mem_basic64_rom, C64_BASIC_ROM_SIZE) < 0
         || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
