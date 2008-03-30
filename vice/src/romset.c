@@ -100,7 +100,7 @@ int romset_resources_init(void)
     return resources_register(resources);
 }
 
-int romset_load(const char *filename)
+int romset_file_load(const char *filename)
 {
     FILE *fp;
     int retval, line_num;
@@ -111,7 +111,7 @@ int romset_load(const char *filename)
         return -1;
     }
 
-    fp = sysfile_open(filename, NULL, MODE_READ);
+    fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
 
     if (!fp) {
         log_warning(romset_log, "Could not open file '%s' for reading (%s)!",
@@ -144,7 +144,7 @@ int romset_load(const char *filename)
     return err;
 }
 
-int romset_save(const char *filename, const char **resource_list)
+int romset_file_save(const char *filename, const char **resource_list)
 {
     FILE *fp;
     char *newname;
@@ -152,7 +152,7 @@ int romset_save(const char *filename, const char **resource_list)
 
     newname = util_add_extension_const(filename, "vrs");
 
-    fp = fopen(newname, MODE_WRITE);
+    fp = fopen(newname, MODE_WRITE_TEXT);
 
     if (fp == NULL) {
         log_warning(romset_log, "Could not open file '%s' for writing (%s)!",
@@ -224,7 +224,6 @@ static int array_size = 0;
 static string_link_t *romsets = NULL;
 
 
-
 #define READ_ROM_LINE \
     if ((bptr = fgets(buffer, 256, fp)) != NULL) \
     {                                            \
@@ -232,14 +231,14 @@ static string_link_t *romsets = NULL;
         while ((*b == ' ') || (*b == '\t')) b++; \
     }
 
-int romset_load_archive(const char *filename, int autostart)
+int romset_archive_load(const char *filename, int autostart)
 {
     FILE *fp;
     int line_num;
     char buffer[256];
     string_link_t *autoset = NULL;
 
-    if ((fp = fopen(filename, MODE_READ)) == NULL) {
+    if ((fp = fopen(filename, MODE_READ_TEXT)) == NULL) {
         log_warning(romset_log,
                     "Could not open file '%s' for reading!", filename);
         return -1;
@@ -249,7 +248,7 @@ int romset_load_archive(const char *filename, int autostart)
 
     line_num = 0;
     while (!feof(fp)) {
-        char *b=NULL, *bptr;
+        char *b = NULL, *bptr;
         string_link_t *anchor, *item, *last;
         size_t length;
         int entry;
@@ -260,7 +259,7 @@ int romset_load_archive(const char *filename, int autostart)
         if ((*b == '\n') || (*b == '#'))
             continue;
         length = strlen(b);
-        for (entry=0, item = romsets; entry < num_romsets; entry++, item++) {
+        for (entry = 0, item = romsets; entry < num_romsets; entry++, item++) {
             if (strncmp(item->name, b, length - 1) == 0)
                 break;
         }
@@ -310,7 +309,7 @@ int romset_load_archive(const char *filename, int autostart)
             item = (string_link_t *)lib_malloc(sizeof(string_link_t));
             item->name = (char *)lib_malloc(length);
             strncpy(item->name, b, length - 1);
-            item->name[length-1] = '\0';
+            item->name[length - 1] = '\0';
             item->next = NULL;
             last->next = item;
             last = item;
@@ -322,19 +321,19 @@ int romset_load_archive(const char *filename, int autostart)
     fclose(fp);
 
     if (autoset != 0)
-        romset_select_item(autoset->name);
+        romset_archive_item_select(autoset->name);
 
     return 0;
 }
 
 
-int romset_dump_archive(const char *filename)
+int romset_archive_save(const char *filename)
 {
     FILE *fp;
     string_link_t *item;
     int i;
 
-    if ((fp = fopen(filename, MODE_WRITE)) == NULL) {
+    if ((fp = fopen(filename, MODE_WRITE_TEXT)) == NULL) {
         log_warning(romset_log,
                     "Could not open file '%s' for writing!", filename);
         return -1;
@@ -347,7 +346,8 @@ int romset_dump_archive(const char *filename)
         fprintf(fp, "%s\n", item->name);
         fprintf(fp, "{\n");
         while (item->next != NULL) {
-            item = item->next; fprintf(fp, "\t%s\n", item->name);
+            item = item->next;
+            fprintf(fp, "\t%s\n", item->name);
         }
         fprintf(fp, "}\n");
     }
@@ -358,7 +358,7 @@ int romset_dump_archive(const char *filename)
 }
 
 
-int romset_save_item(const char *filename, const char *romset_name)
+int romset_archive_item_save(const char *filename, const char *romset_name)
 {
     int i;
 
@@ -367,7 +367,7 @@ int romset_save_item(const char *filename, const char *romset_name)
             string_link_t *item;
             FILE *fp;
 
-            if ((fp = fopen(filename, MODE_WRITE)) == NULL) {
+            if ((fp = fopen(filename, MODE_WRITE_TEXT)) == NULL) {
                 log_warning(romset_log,
                             "Could not open file '%s' for writing", filename);
                 return -1;
@@ -389,7 +389,7 @@ int romset_save_item(const char *filename, const char *romset_name)
 }
 
 
-int romset_select_item(const char *romset_name)
+int romset_archive_item_select(const char *romset_name)
 {
     int i;
     string_link_t *item;
@@ -404,8 +404,10 @@ int romset_select_item(const char *romset_name)
                 b = buffer;
                 d = item->name;
                 while (*d != '\0') {
-                    if (*d == '=') break;
-                    else *b++ = *d++;
+                    if (*d == '=')
+                        break;
+                    else
+                        *b++ = *d++;
                 }
                 *b++ = '\0';
                 if (*d == '=') {
@@ -444,7 +446,8 @@ int romset_select_item(const char *romset_name)
 }
 
 
-int romset_create_item(const char *romset_name, const char **resource_list)
+int romset_archive_item_create(const char *romset_name,
+                               const char **resource_list)
 {
     int entry;
     string_link_t *anchor, *item, *last;
@@ -496,7 +499,8 @@ int romset_create_item(const char *romset_name, const char **resource_list)
               case RES_STRING:
                 sprintf(buffer, "%s=\"%s\"", *res, (char*)val);
                 break;
-              default: buffer[0] = '\0';
+              default:
+                buffer[0] = '\0';
             }
             if ((len = strlen(buffer)) > 0) {
               item = (string_link_t *)lib_malloc(sizeof(string_link_t));
@@ -517,7 +521,7 @@ int romset_create_item(const char *romset_name, const char **resource_list)
 }
 
 
-int romset_delete_item(const char *romset_name)
+int romset_archive_item_delete(const char *romset_name)
 {
     string_link_t *item;
     int i;
@@ -535,7 +539,7 @@ int romset_delete_item(const char *romset_name)
                 lib_free(last);
             }
             while (i < num_romsets - 1) {
-                romsets[i] = romsets[i+1]; i++;
+                romsets[i] = romsets[i + 1]; i++;
             }
             num_romsets--;
 
@@ -546,7 +550,7 @@ int romset_delete_item(const char *romset_name)
 }
 
 
-void romset_clear_archive(void)
+void romset_archive_clear(void)
 {
     int i;
     string_link_t *item, *last;
@@ -571,13 +575,13 @@ void romset_clear_archive(void)
     array_size = 0;
 }
 
-int romset_get_number(void)
+int romset_archive_get_number(void)
 {
     return num_romsets;
 }
 
 
-char *romset_get_item(int number)
+char *romset_archive_get_item(int number)
 {
     if ((number < 0) || (number >= num_romsets))
         return NULL;
