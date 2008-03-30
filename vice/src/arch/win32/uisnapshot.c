@@ -46,7 +46,6 @@
 #include "uilib.h"
 #include "winmain.h"
 #include "util.h"
-#include "videoarch.h"
 #include "vsync.h"
 
 
