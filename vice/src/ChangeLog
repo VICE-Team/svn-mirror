@@ -1,3 +1,103 @@
+2002-02-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.13.
+
+	* video/render2x2pal.c: `line_yuv_0' and `line_yuv_1' are
+	externals.
+
+2002-02-09  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/video.c:
+	make use of ne machine_canvas_async_refresh
+
+	* machine.h, c128/c128.c, c64/c64.c, cbm2/c610.c,
+	plus4/plus4.c, vic20/vic20.c
+	- implementation of machine_canvas_async_refresh
+	- changed calls to *_screenshot to void
+
+	* crtc/crtc.[h,c], pet/pet.[h,c], plus4/ted.[c,h],
+	vdc/vdc.[h,c], vic20/vic.[h,c], vicii/vicii.[h,c]:
+	- new implementation of *_async_refresh
+
+	* raster/raster.[h,c]:
+	- new implementation of raster_async_refresh
+
+	* screenshot.h:
+	- removed bufh from screenshot_t
+
+	* video.h:
+	- new implementation of struct canvas_refresh_s
+
+2002-02-09  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* plus4/plus4pio1.c: Added variable for tape sense.
+	(pio1_store) takes care of the actual tape sense.
+	(pio1_set_tape_sense) stores sense in the new variable.
+
+2002-02-08  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Catch all
+	raster offscreen errors.
+
+2002-02-07  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* video.h: changed signature of video_draw_buffer_callback
+	functions
+
+	* raster/raster.h: added frame buffer pitch
+
+	* raster/raster.c: adapted to changed
+	video_draw_buffer_callback signature
+
+	* arch/riscos/ui.c: exported plot code to video.c
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: migrated to
+	new video_draw_buffer_callback signature, next step in move to
+	new video render interface.
+
+2002-02-07  Tibor Biczo  <crown@axelero.hu>
+
+	* plus4/plus4pio1.c (pio1_store): Bit 2 is only input, don't
+	store written value.
+
+	* plus4/ted-timer.c (ted_t1, ted_t2, ted_t3): Update current
+	value on overflow.
+
+2002-02-07  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/renderxv.c: Added YUV 4:1:1 rendering for Y/C
+	and Composite emulation.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Catch more
+	raster offscreen errors.
+
+2002-02-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/videoarch.h: Removed video_draw_buffer_callback.
+
+	* arch/win32/drive.dsp, plus4.dsp: Added new files.
+
+	* vdc/vdc.c (vdc_update_geometry): vdc.last_displayed_line
+	bounded with screen_height. This fixes NTSC crash in x128.
+
+2002-02-07  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/menubar.[h,c,rc], src/arch/os2/kbd/proc.c:
+	- included accelerator keys Alt-2 and Alt-v
+
+	* arch/os2/vac++/incl/plus4.icc:
+	- corrected
+
+	* arch/os2/video.c:
+	- corrected some wrong output
+
+	* raster/raster.c:
+	- simplified some algorithm
+
+	* vdc/vdc.c:
+	- changed in a way that it (setup, init, changes, etc) 
+	behaves like the other chips
+
 2002-02-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.12.
@@ -51,6 +151,34 @@
 	* vic20/vic-draw.c: Changed all RASTER_PIXEL() calls into
 	direct usage of the color. There are still RASTER_PIXEL()
 	calls used in vic.h.
+
+2002-02-06  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Display YUV FOURCC.
+
+	* arch/unix/x11/renderxv.c: Added YUV 4:2:2 rendering for Y/C
+	and Composite emulation.
+
+	* arch/unix/x11/renderxv.h: Added pal_mode parameter to
+	interface.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Pass pal_mode
+	to Xv interface.
+
+	* arch/unix/x11/videoarch.h: Added xv_render to
+	video_canvas_s.
+
+	* arch/unix/x11/xaw/x11video.c
+	(video_arch_frame_buffer_alloc): Display YUV FOURCC.
+
+2002-02-04  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c,
+	arch/riscos/ui.c: started migration to new video interface.
+
+	* raster/raster.c: recalculation of frame buffer no longer
+	needed.
 
 2002-02-04  pottendo  <pottendo@utanet.at>
 
