@@ -34,7 +34,7 @@
 #include "types.h"
 
 
-#define LIB_DEBUG
+/*#define LIB_DEBUG*/
 
 
 #ifdef LIB_DEBUG
