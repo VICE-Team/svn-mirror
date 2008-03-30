@@ -47,6 +47,7 @@
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"

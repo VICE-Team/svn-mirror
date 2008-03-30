@@ -468,7 +468,8 @@ void _ui_menu_radio_helper(Widget w,
                                 (resource_value_t) client_data);
             ui_update_menus();
 	    if (psid_mode) {
-	        sprintf(buf, "resource %s %d\n", resource_name, client_data);
+	        sprintf(buf, "resource %s %d\n", resource_name,
+                        (int)client_data);
 		ui_proc_write_msg(buf);
 	    }
         }

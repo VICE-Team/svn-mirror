@@ -37,6 +37,7 @@
 #if 1 /* def CIAT_NEED_LOG */
 
 #include <stdarg.h>
+#include <stdio.h>
 #include <string.h>
 
 static int ciat_logfl = 0;
