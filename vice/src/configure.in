@@ -22,7 +22,8 @@ AC_ARG_ENABLE(8bpp,[  --enable-8bpp           enable 8-bit only display depth su
 AC_ARG_ENABLE(16bpp,[  --enable-16bpp          enable 16-bit only display depth support])
 AC_ARG_ENABLE(24bpp,[  --enable-24bpp          enable 24-bit only display depth support])
 AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
-AC_ARG_ENABLE(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
+AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
+AC_ARG_WITH(readline, [ --without-readline       do not try to use the system's readline library])
 
 if test "$enable_autobpp" = "yes"; then
   AC_DEFINE(X_DISPLAY_DEPTH, 0)
@@ -238,6 +239,18 @@ dnl Check time.h.
 AC_HEADER_TIME
 AC_STRUCT_TM
 
+dnl Check whether we have GNU readline.  If not, use our replacement.
+dnl The user can force us to use the replacement with `--without-readline'.
+
+if test "$with_readline" != "no" ; then
+  AC_CHECK_LIB(readline, readline,
+               [ READLINE="" LIBS="-lreadline $LIBS"],
+               [ READLINE="\$(READLINEODIR)/readline.a" ],,)
+else
+  READLINE="\$(READLINEODIR)/readline.a"
+fi
+AC_SUBST(READLINE)
+
 dnl Check for X11 libraries and header files
 
 if test "$host_vendor" != "go32" -a "$host_vendor" != "msdos"; then
@@ -256,6 +269,8 @@ if test "$host_vendor" != "go32" -a "$host_vendor" != "msdos"; then
   MISSING_X_LIBS=""
 
   AC_CHECK_LIB(socket, gethostbyname,,,$X_LIBS -lnsl)
+
+  AC_CHECK_LIB(ICE, IceConnectionNumber,,,$X_LIBS)
 
   AC_CHECK_LIB(X11, XCreateWindow,,
                [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
