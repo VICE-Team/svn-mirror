@@ -31,10 +31,7 @@
 #ifndef _C64IEC_H
 #define _C64IEC_H
 
-#include "types.h"
-
 extern void c64iec_init(void);
-extern void iec_cpu_undump(BYTE data);
 
 #endif
 

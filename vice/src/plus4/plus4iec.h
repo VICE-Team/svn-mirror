@@ -27,10 +27,7 @@
 #ifndef _PLUS4IEC_H
 #define _PLUS4IEC_H
 
-#include "types.h"
-
 extern void plus4iec_init(void);
-extern void iec_cpu_undump(BYTE data);
 
 #endif
 

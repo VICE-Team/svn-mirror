@@ -149,7 +149,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #endif
     vbank = (byte ^ 3) & 3;
     mem_set_vbank(vbank);
-    iec_cpu_undump((BYTE)(byte ^ 0xff));
+    iecbus_cpu_undump((BYTE)(byte ^ 0xff));
 }
 
 

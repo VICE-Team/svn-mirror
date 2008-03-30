@@ -63,7 +63,7 @@ void iecbus_init(void)
     iecbus.drv_port = 0x85;
 }
 
-void iec_cpu_undump(BYTE data)
+void iecbus_cpu_undump(BYTE data)
 {
     iec_update_cpu_bus(data);
     iec_old_atn = iecbus.cpu_bus & 0x10;

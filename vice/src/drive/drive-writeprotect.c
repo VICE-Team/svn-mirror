@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "drive-writeprotect.h"
 #include "drive.h"
 #include "types.h"
 

@@ -56,6 +56,7 @@ extern iecbus_t iecbus;
 extern iecbus_t *iecbus_drive_port(void);
 
 extern void iecbus_init(void);
+extern void iecbus_cpu_undump(BYTE data);
 extern void iecbus_status_set(unsigned int type, unsigned int unit,
                               unsigned int enable);
 

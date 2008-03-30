@@ -1,5 +1,38 @@
 2004-03-21  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.14.14.
+
+	* arch/unix/uitfe.c, arch/unix/uitfe.h, arch/unix/uilib.c,
+	arch/unix/uilib.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c: Added TFE menu.
+
+	* c64/tfe.c, arch/unix/archdep.h, arch/win32/archdep.h,
+	arch/msdos/archdep.h, arch/riscos/archdep.h,
+	arch/os2/archdep.h, arch/beos/archdep.h: Added Ethernet
+	default device.
+
+	* arch/unix/uireu.c, arch/unix/uiide64.c, arch/unix/uirs232.c,
+	arch/unix/uiperipheral.c, arch/unix/uiprinter.c: Use uilib.
+
+	* drive/ieee/fdc.c, drive/drive-writeprotect.c, iecbus.h,
+	iecbus/iecbus.c, c64/c64cia2.c, c64/c64iec.h,
+	plus4/plus4iec.h, c64/reloc65.c: Removed warinings.
+
+2004-03-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: Don't activat tfe if tfe_init() has not yet been
+	called.
+
+	* c64/tfearch.c: As it is done in tfe.c know, don't test if
+	tfe_arch_init() has been called before activating.
+	tfe_arch_enumadapter() and tfe_arch_enumadapter_open() and
+	tfe_arch_enumadapter_close() now do something usefull
+
+2004-03-21  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.14.13.
 
 	* drive/drive.c, drive/drive.h (drive_current_track_size_set):
