@@ -160,6 +160,7 @@ static int pngdrv_save(screenshot_t *screenshot, const char *filename)
 static gfxoutputdrv_t png_drv =
 {
     "PNG",
+    "PNG screenshot",
     "png",
     pngdrv_open,
     pngdrv_close,

@@ -147,10 +147,8 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
                               cmd_parse_t *cmd_parse, char *rname)
 {
     char *comma;
-    FILE *fd;
     char fsname2[MAXPATHLEN];
     tape_image_t *tape;
-
     unsigned int format = 0;
     fileio_info_t *finfo;
 
@@ -184,9 +182,6 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
             || fs_info[secondary].mode == Append) {
             fsdevice_error(vdrive, IPE_BAD_NAME);
             return FLOPPY_ERROR;
-        } else {
-            fsdevice_compare_file_name(vdrive, fsname2, cmd_parse->parsecmd,
-                                       secondary);
         }
     }
 
@@ -227,7 +222,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for read mode access.  */
     tape = &(fs_info[secondary].tape);
-    tape->name = lib_stralloc(cmd_parse->parsecmd);
+    tape->name = lib_stralloc(rname);
     tape->read_only = 1;
     if (tape_image_open(tape) < 0) {
         lib_free(tape->name);

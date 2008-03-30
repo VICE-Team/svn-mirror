@@ -37,7 +37,7 @@ static HINSTANCE avcodec_dll = NULL;
 static HINSTANCE avformat_dll = NULL;
 
 
-static void ffmpeglib_free_library(void)
+static void ffmpeglib_free_library(ffmpeglib_t *lib)
 {
     if (avcodec_dll) {
         if (!FreeLibrary(avcodec_dll)) {
@@ -46,15 +46,15 @@ static void ffmpeglib_free_library(void)
     }
     avcodec_dll = NULL;
 
-    p_avcodec_open = NULL;
-    p_avcodec_close = NULL;
-    p_avcodec_find_encoder = NULL;
-    p_avcodec_encode_audio = NULL;
-    p_avcodec_encode_video = NULL;
-    p_avpicture_fill = NULL;
-    p_avpicture_get_size = NULL;
-    p_img_convert = NULL;
-    p___av_freep = NULL;
+    lib->p_avcodec_open = NULL;
+    lib->p_avcodec_close = NULL;
+    lib->p_avcodec_find_encoder = NULL;
+    lib->p_avcodec_encode_audio = NULL;
+    lib->p_avcodec_encode_video = NULL;
+    lib->p_avpicture_fill = NULL;
+    lib->p_avpicture_get_size = NULL;
+    lib->p_img_convert = NULL;
+    lib->p___av_freep = NULL;
 
     if (avformat_dll) {
         if (!FreeLibrary(avformat_dll)) {
@@ -63,39 +63,39 @@ static void ffmpeglib_free_library(void)
     }
     avformat_dll = NULL;
 
-    p_av_register_all = NULL;
-    p_av_new_stream = NULL;
-    p_av_set_parameters = NULL;
-    p_av_write_header = NULL;
-    p_av_write_frame = NULL;
-    p_av_write_trailer = NULL;
-    p_url_fopen = NULL;
-    p_url_fclose = NULL;
-    p_dump_format = NULL;
-    p_guess_format = NULL;
+    lib->p_av_register_all = NULL;
+    lib->p_av_new_stream = NULL;
+    lib->p_av_set_parameters = NULL;
+    lib->p_av_write_header = NULL;
+    lib->p_av_write_frame = NULL;
+    lib->p_av_write_trailer = NULL;
+    lib->p_url_fopen = NULL;
+    lib->p_url_fclose = NULL;
+    lib->p_dump_format = NULL;
+    lib->p_guess_format = NULL;
 
 }
 
 /* macro for getting functionpointers from avcodec */
 #define GET_PROC_ADDRESS_AND_TEST_AVCODEC( _name_ ) \
-    p_##_name_ = (_name_##_t) GetProcAddress(avcodec_dll, #_name_ ); \
-    if (!p_##_name_ ) { \
+    lib->p_##_name_ = (_name_##_t) GetProcAddress(avcodec_dll, #_name_ ); \
+    if (!lib->p_##_name_ ) { \
         log_debug("GetProcAddress " #_name_ " failed!"); \
-        ffmpeglib_free_library(); \
+        ffmpeglib_free_library(lib); \
         return -1; \
     } 
 
 /* macro for getting functionpointers from avformat */
 #define GET_PROC_ADDRESS_AND_TEST_AVFORMAT( _name_ ) \
-    p_##_name_ = (_name_##_t) GetProcAddress(avformat_dll, #_name_ ); \
-    if (!p_##_name_ ) { \
+    lib->p_##_name_ = (_name_##_t) GetProcAddress(avformat_dll, #_name_ ); \
+    if (!lib->p_##_name_ ) { \
         log_debug("GetProcAddress " #_name_ " failed!"); \
-        ffmpeglib_free_library(); \
+        ffmpeglib_free_library(lib); \
         return -1; \
     } 
 
 
-static int ffmpeglib_load_library(void)
+static int ffmpeglib_load_library(ffmpeglib_t *lib)
 {
     if (!avcodec_dll) {
         avcodec_dll = LoadLibrary("avcodec.dll");
@@ -140,15 +140,15 @@ static int ffmpeglib_load_library(void)
 }
 
 
-int ffmpeglib_open(void)
+int ffmpeglib_open(ffmpeglib_t *lib)
 {
-    return ffmpeglib_load_library();
+    return ffmpeglib_load_library(lib);
 }
 
 
-void ffmpeglib_close(void)
+void ffmpeglib_close(ffmpeglib_t *lib)
 {
-    ffmpeglib_free_library();
+    ffmpeglib_free_library(lib);
 }
 
 

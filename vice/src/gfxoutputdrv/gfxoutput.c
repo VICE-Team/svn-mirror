@@ -93,8 +93,7 @@ int gfxoutput_init(void)
     gfxoutput_init_png();
 #endif
 #ifdef HAVE_FFMPEG
-    if (ffmpeglib_open() >= 0)
-        gfxoutput_init_ffmpeg();
+    gfxoutput_init_ffmpeg();
 #endif
     return 0;
 }
@@ -112,7 +111,7 @@ void gfxoutput_shutdown(void)
     }
 
 #ifdef HAVE_FFMPEG
-    ffmpeglib_close();
+    ffmpegdrv_shutdown();
 #endif
 }
 
@@ -145,7 +144,8 @@ gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname)
     gfxoutputdrv_list_t *current = gfxoutputdrv_list;
 
     while (current->next != NULL) {
-       if (strcmp(drvname, current->drv->name) == 0)
+       if (strcmp(drvname, current->drv->name) == 0
+           || strcmp(drvname, current->drv->displayname) == 0)
            break;
        current = current->next;
     }

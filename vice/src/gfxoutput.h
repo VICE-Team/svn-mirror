@@ -31,6 +31,7 @@ struct screenshot_s;
 
 typedef struct gfxoutputdrv_s {
     const char *name;
+    const char *displayname;
     const char *default_extension;
     int (*open)(struct screenshot_s *, const char *);
     int (*close)(struct screenshot_s *);

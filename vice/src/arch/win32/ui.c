@@ -68,6 +68,7 @@
 #include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
+#include "uimediafile.h"
 #include "uiram.h"
 #include "uisnapshot.h"
 #include "uisound.h"

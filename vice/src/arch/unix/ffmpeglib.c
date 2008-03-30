@@ -33,13 +33,13 @@
 
 
 #define GET_PROC_ADDRESS_AND_TEST_AVCODEC(_name_) \
-    p_##_name_ = _name_;
+    lib->p_##_name_ = _name_;
 
 #define GET_PROC_ADDRESS_AND_TEST_AVFORMAT(_name_) \
-    p_##_name_ = _name_;
+    lib->p_##_name_ = _name_;
 
 
-int ffmpeglib_open(void)
+int ffmpeglib_open(ffmpeglib_t *lib)
 {
     GET_PROC_ADDRESS_AND_TEST_AVCODEC(avcodec_open);
     GET_PROC_ADDRESS_AND_TEST_AVCODEC(avcodec_close);
@@ -65,7 +65,7 @@ int ffmpeglib_open(void)
     return 0;
 }
 
-void ffmpeglib_close(void)
+void ffmpeglib_close(ffmpeglib_t *lib)
 {
 }
 

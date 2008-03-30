@@ -1,5 +1,5 @@
 /*
- * ffmpegdrv.h - Movie driver using FFMPEG library and screenshot API.
+ * uimediafile.h - Implementation of the mediafile save dialog.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,23 +24,9 @@
  *
  */
 
-#ifndef _FFMPEGDRV_H
-#define _FFMPEGDRV_H
+#ifndef _UIMEDIAFILE_H
+#define _UIMEDIAFILE_H
 
-#include "screenshot.h"
-
-typedef struct ffmpegdrv_audio_in_s {
-    SWORD *buffer;
-    int buffersamples;
-    int used;
-} ffmpegdrv_audio_in_t;
-
-extern void gfxoutput_init_ffmpeg(void);
-extern void ffmpegdrv_init_audio(int speed, int channels, 
-                               ffmpegdrv_audio_in_t** audio_in);
-extern void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in);
-extern int  ffmpegdrv_resources_init(void);
-extern int ffmpegdrv_cmdline_options_init(void);
-extern void ffmpegdrv_shutdown(void);
+void ui_mediafile_save_dialog(HWND hwnd);
 
 #endif

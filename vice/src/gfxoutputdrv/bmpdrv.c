@@ -304,6 +304,7 @@ static int bmpdrv_save(screenshot_t *screenshot, const char *filename)
 static gfxoutputdrv_t bmp_drv =
 {
     "BMP",
+    "BMP screenshot",
     "bmp",
     bmpdrv_open,
     bmpdrv_close,

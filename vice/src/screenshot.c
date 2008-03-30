@@ -38,6 +38,7 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
+#include "uiapi.h"
 #include "video.h"
 
 
@@ -146,6 +147,11 @@ int screenshot_save(const char *drvname, const char *filename,
 
     if ((drv = gfxoutput_get_driver(drvname)) == NULL)
         return -1;
+
+    if (recording_driver == drv) {
+        ui_error("Sorry. Multiple recording is not supported.");
+        return -1;
+    }
 
     if (machine_screenshot(&screenshot, canvas) < 0) {
         log_error(screenshot_log, "Retrieving screen geometry failed.");

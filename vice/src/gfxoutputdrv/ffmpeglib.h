@@ -50,16 +50,6 @@ typedef int (*avpicture_get_size_t) (int, int, int);
 typedef int (*img_convert_t) (AVPicture*, int, AVPicture*, int, int, int);
 typedef void (*__av_freep_t) (void**);
 
-extern avcodec_open_t               p_avcodec_open;
-extern avcodec_close_t              p_avcodec_close;
-extern avcodec_find_encoder_t       p_avcodec_find_encoder;
-extern avcodec_encode_audio_t       p_avcodec_encode_audio;
-extern avcodec_encode_video_t       p_avcodec_encode_video;
-extern avpicture_fill_t             p_avpicture_fill;
-extern avpicture_get_size_t         p_avpicture_get_size;
-extern img_convert_t                p_img_convert;
-extern __av_freep_t                 p___av_freep;
-
 /* avformat fucntions */
 typedef void (*av_register_all_t) (void);
 typedef AVStream* (*av_new_stream_t) (AVFormatContext*, int);
@@ -72,18 +62,33 @@ typedef int (*url_fclose_t) (ByteIOContext*);
 typedef void (*dump_format_t) (AVFormatContext *, int, const char*, int);
 typedef AVOutputFormat* (*guess_format_t) (const char*, const char*, const char*);
 
-extern av_register_all_t            p_av_register_all;
-extern av_new_stream_t              p_av_new_stream;
-extern av_set_parameters_t          p_av_set_parameters;
-extern av_write_header_t            p_av_write_header;
-extern av_write_frame_t             p_av_write_frame;
-extern av_write_trailer_t           p_av_write_trailer;
-extern url_fopen_t                  p_url_fopen;
-extern url_fclose_t                 p_url_fclose;
-extern dump_format_t                p_dump_format;
-extern guess_format_t               p_guess_format;
+struct ffmpeglib_s {
+    avcodec_open_t              p_avcodec_open;
+    avcodec_close_t             p_avcodec_close;
+    avcodec_find_encoder_t      p_avcodec_find_encoder;
+    avcodec_encode_audio_t      p_avcodec_encode_audio;
+    avcodec_encode_video_t      p_avcodec_encode_video;
+    avpicture_fill_t            p_avpicture_fill;
+    avpicture_get_size_t        p_avpicture_get_size;
+    img_convert_t               p_img_convert;
+    __av_freep_t                p___av_freep;
 
-extern int ffmpeglib_open(void);
-extern void ffmpeglib_close(void);
+    av_register_all_t           p_av_register_all;
+    av_new_stream_t             p_av_new_stream;
+    av_set_parameters_t         p_av_set_parameters;
+    av_write_header_t           p_av_write_header;
+    av_write_frame_t            p_av_write_frame;
+    av_write_trailer_t          p_av_write_trailer;
+    url_fopen_t                 p_url_fopen;
+    url_fclose_t                p_url_fclose;
+    dump_format_t               p_dump_format;
+    guess_format_t              p_guess_format;
+};
+
+typedef struct ffmpeglib_s ffmpeglib_t;
+
+
+extern int ffmpeglib_open(ffmpeglib_t *lib);
+extern void ffmpeglib_close(ffmpeglib_t *lib);
 
 #endif

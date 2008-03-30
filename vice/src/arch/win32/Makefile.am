@@ -87,6 +87,8 @@ libarch_a_SOURCES = \
 	uijoystick.h \
 	uilib.c \
 	uilib.h \
+	uimediafile.c \
+	uimediafile.h \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \

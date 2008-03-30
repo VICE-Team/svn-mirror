@@ -24,6 +24,7 @@
 #define HAVE_COMMCTRL_H         1
 #define HAVE_SHLOBJ_H           1
 #define HAVE_DIRECT_H           1
+#define HAVE_DIRENT_H           1
 #define HAVE_ERRNO_H            1
 #define HAVE_IO_H               1
 #define HAVE_SYS_TYPES_H        1

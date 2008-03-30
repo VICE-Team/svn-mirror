@@ -42,29 +42,8 @@
 #include "ui.h"
 
 
-/* function pointers for dynamic library loading */
-avcodec_open_t              p_avcodec_open;
-avcodec_close_t             p_avcodec_close;
-avcodec_find_encoder_t      p_avcodec_find_encoder;
-avcodec_encode_audio_t      p_avcodec_encode_audio;
-avcodec_encode_video_t      p_avcodec_encode_video;
-avpicture_fill_t            p_avpicture_fill;
-avpicture_get_size_t        p_avpicture_get_size;
-img_convert_t               p_img_convert;
-__av_freep_t                p___av_freep;
-
-av_register_all_t           p_av_register_all;
-av_new_stream_t             p_av_new_stream;
-av_set_parameters_t         p_av_set_parameters;
-av_write_header_t           p_av_write_header;
-av_write_frame_t            p_av_write_frame;
-av_write_trailer_t          p_av_write_trailer;
-url_fopen_t                 p_url_fopen;
-url_fclose_t                p_url_fclose;
-dump_format_t               p_dump_format;
-guess_format_t              p_guess_format;
-
 /* general */
+static ffmpeglib_t ffmpeglib;
 static AVFormatContext *ffmpegdrv_oc;
 static AVOutputFormat *ffmpegdrv_fmt;
 static int file_init_done;
@@ -166,14 +145,14 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     c = &st->codec;
 
     /* find the audio encoder */
-    codec = (*p_avcodec_find_encoder)(c->codec_id);
+    codec = (*ffmpeglib.p_avcodec_find_encoder)(c->codec_id);
     if (!codec) {
         log_debug("ffmpegdrv: audio codec not found");
         return -1;
     }
 
     /* open it */
-    if ((*p_avcodec_open)(c, codec) < 0) {
+    if ((*ffmpeglib.p_avcodec_open)(c, codec) < 0) {
         log_debug("ffmpegdrv: could not open audio codec");
         return -1;
     }
@@ -213,7 +192,7 @@ static void ffmpegdrv_close_audio(void)
         return;
 
     if (audio_is_open)
-        (*p_avcodec_close)(&audio_st->codec);
+        (*ffmpeglib.p_avcodec_close)(&audio_st->codec);
 
     audio_is_open = 0;
     lib_free(ffmpegdrv_audio_in.buffer);
@@ -245,7 +224,7 @@ void ffmpegdrv_init_audio(int speed, int channels,
     (*audio_in)->buffersamples = 0; /* not allocated yet */
     (*audio_in)->used = 0;
 
-    st = (*p_av_new_stream)(ffmpegdrv_oc, 1);
+    st = (*ffmpeglib.p_av_new_stream)(ffmpegdrv_oc, 1);
     if (!st) {
         log_debug("ffmpegdrv: Could not alloc audio stream\n");
         return;
@@ -273,11 +252,11 @@ void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in)
     int out_size;
     
     if (audio_st) {
-        out_size = (*p_avcodec_encode_audio)(&audio_st->codec, audio_outbuf,
-                                         audio_outbuf_size, audio_in->buffer);
+        out_size = (*ffmpeglib.p_avcodec_encode_audio)(&audio_st->codec, 
+                        audio_outbuf, audio_outbuf_size, audio_in->buffer);
         /* FIXME: Some sync needed ?? */
     
-        if ((*p_av_write_frame)(ffmpegdrv_oc, audio_st->index, 
+        if ((*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, audio_st->index, 
                        audio_outbuf, out_size) != 0)
             log_debug("ffmpegdrv_encode_audio: Error while writing audio frame");
 
@@ -331,14 +310,14 @@ static AVFrame* ffmpegdrv_alloc_picture(int pix_fmt, int width, int height)
     picture = (AVFrame*)lib_malloc(sizeof(AVFrame));
     memset(picture, 0, sizeof(AVFrame));
 
-    size = (*p_avpicture_get_size)(pix_fmt, width, height);
+    size = (*ffmpeglib.p_avpicture_get_size)(pix_fmt, width, height);
     picture_buf = (unsigned char *)lib_malloc(size);
     memset(picture_buf, 0, size);
     if (!picture_buf) {
         lib_free(picture);
         return NULL;
     }
-    (*p_avpicture_fill)((AVPicture *)picture, picture_buf, 
+    (*ffmpeglib.p_avpicture_fill)((AVPicture *)picture, picture_buf, 
                    pix_fmt, width, height);
 
     return picture;
@@ -353,14 +332,14 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
     c = &st->codec;
 
     /* find the video encoder */
-    codec = (*p_avcodec_find_encoder)(c->codec_id);
+    codec = (*ffmpeglib.p_avcodec_find_encoder)(c->codec_id);
     if (!codec) {
         log_debug("ffmpegdrv: video codec not found");
         return -1;
     }
 
     /* open the codec */
-    if ((*p_avcodec_open)(c, codec) < 0) {
+    if ((*ffmpeglib.p_avcodec_open)(c, codec) < 0) {
         log_debug("ffmpegdrv: could not open video codec");
         return -1;
     }
@@ -403,7 +382,7 @@ static void ffmpegdrv_close_video(void)
         return;
 
     if (video_is_open)
-        (*p_avcodec_close)(&video_st->codec);
+        (*ffmpeglib.p_avcodec_close)(&video_st->codec);
 
     video_is_open = 0;
     if (video_outbuf != NULL)
@@ -434,7 +413,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
      if (ffmpegdrv_fmt->video_codec == CODEC_ID_NONE)
         return;
 
-    st = (*p_av_new_stream)(ffmpegdrv_oc, 0);
+    st = (*ffmpeglib.p_av_new_stream)(ffmpegdrv_oc, 0);
     if (!st) {
         log_debug("ffmpegdrv: Could not alloc video stream\n");
         return;
@@ -467,12 +446,12 @@ static int ffmpegdrv_init_file(void)
     if (!video_init_done || !audio_init_done)
         return 0;
 
-    if ((*p_av_set_parameters)(ffmpegdrv_oc, NULL) < 0) {
+    if ((*ffmpeglib.p_av_set_parameters)(ffmpegdrv_oc, NULL) < 0) {
         log_debug("ffmpegdrv: Invalid output format parameters");
             return -1;
     }
 
-    (*p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
+    (*ffmpeglib.p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
 
     if (video_st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st) < 0)) {
         ui_error("ffmpegdrv: Cannot open video stream");
@@ -486,7 +465,7 @@ static int ffmpegdrv_init_file(void)
     }
 
     if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
-        if ((*p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename, 
+        if ((*ffmpeglib.p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
                             URL_WRONLY) < 0) 
         {
             ui_error("ffmpegdrv: Cannot open %s", ffmpegdrv_oc->filename);
@@ -496,7 +475,7 @@ static int ffmpegdrv_init_file(void)
 
     }
 
-    (*p_av_write_header)(ffmpegdrv_oc);
+    (*ffmpeglib.p_av_write_header)(ffmpegdrv_oc);
 
     log_debug("ffmpegdrv: Initialized file successfully");
 
@@ -515,19 +494,20 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
     video_init_done = 0;
     file_init_done = 0;
 
-    ffmpegdrv_fmt = (*p_guess_format)(NULL, filename, NULL);
+    ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)(NULL, filename, NULL);
 
     if (!ffmpegdrv_fmt)
-        ffmpegdrv_fmt = (*p_guess_format)("mpeg", NULL, NULL);
+        ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)("mpeg", NULL, NULL);
 
     if (!ffmpegdrv_fmt) {
         log_debug("ffmpegdrv: Cannot find suitable output format");
         return -1;
     }
 
-    /* force MP3 audio stream if possible */
-    if (ffmpegdrv_fmt->audio_codec == CODEC_ID_MP2
-        && (*p_avcodec_find_encoder)(CODEC_ID_MP3) != NULL)
+    /* force MP3 audio stream for MPEG4 video streams */
+    if (ffmpegdrv_fmt->video_codec == CODEC_ID_MPEG4 
+        && ffmpegdrv_fmt->audio_codec == CODEC_ID_MP2 
+        && (*ffmpeglib.p_avcodec_find_encoder)(CODEC_ID_MP3) != NULL)
     {
         ffmpegdrv_fmt->audio_codec = CODEC_ID_MP3;
     }
@@ -564,16 +544,16 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
 
     /* write the trailer, if any */
     if (file_init_done) {
-        (*p_av_write_trailer)(ffmpegdrv_oc);
+        (*ffmpeglib.p_av_write_trailer)(ffmpegdrv_oc);
         if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
             /* close the output file */
-            (*p_url_fclose)(&ffmpegdrv_oc->pb);
+            (*ffmpeglib.p_url_fclose)(&ffmpegdrv_oc->pb);
         }
     }
     
     /* free the streams */
     for(i = 0; i < ffmpegdrv_oc->nb_streams; i++) {
-        (*p___av_freep)((void**)&ffmpegdrv_oc->streams[i]);
+        (*ffmpeglib.p___av_freep)((void**)&ffmpegdrv_oc->streams[i]);
     }
 
 
@@ -611,7 +591,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 
     if (c->pix_fmt != PIX_FMT_RGB24) {
         ffmpegdrv_fill_rgb_image(screenshot, tmp_picture);
-        (*p_img_convert)((AVPicture *)picture, c->pix_fmt,
+        (*ffmpeglib.p_img_convert)((AVPicture *)picture, c->pix_fmt,
                     (AVPicture *)tmp_picture, PIX_FMT_RGB24,
                     c->width, c->height);
     } else {
@@ -621,17 +601,17 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
     if (ffmpegdrv_oc->oformat->flags & AVFMT_RAWPICTURE) {
         /* raw video case. The API will change slightly in the near
            futur for that */
-        ret = (*p_av_write_frame)(ffmpegdrv_oc, video_st->index, 
+        ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, video_st->index,
                        (unsigned char *)picture, sizeof(AVPicture));
     } else {
         /* encode the image */
-        out_size = (*p_avcodec_encode_video)(c, video_outbuf, 
+        out_size = (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, 
                                                 video_outbuf_size, picture);
         /* if zero size, it means the image was buffered */
         if (out_size != 0) {
             /* write the compressed frame in the media file */
             /* XXX: in case of B frames, the pts is not yet valid */
-            ret = (*p_av_write_frame)(ffmpegdrv_oc, video_st->index,
+            ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, video_st->index,
                                         video_outbuf, out_size);
         } else {
             ret = 0;
@@ -655,20 +635,65 @@ static int ffmpegdrv_write(screenshot_t *screenshot)
 }
 
 
-static gfxoutputdrv_t ffmpeg_drv =
-{
-    "FFMPEG",
-    "avi",
-    NULL,
-    ffmpegdrv_close,
-    ffmpegdrv_write,
-    ffmpegdrv_save,
-    ffmpegdrv_record
+static gfxoutputdrv_t ffmpeg_drv[] = {
+    {
+        "FFMPEG",
+        "AVI video (MPEG4/MP3)",
+        "avi",
+        NULL,
+        ffmpegdrv_close,
+        ffmpegdrv_write,
+        ffmpegdrv_save,
+        ffmpegdrv_record
+    },
+    {
+        "FFMPEG",
+        "MPEG video (MPEG1/MP2)",
+        "mpeg",
+        NULL,
+        ffmpegdrv_close,
+        ffmpegdrv_write,
+        ffmpegdrv_save,
+        ffmpegdrv_record
+    },
+    {
+        "FFMPEG",
+        "MP3 audio",
+        "mp3",
+        NULL,
+        ffmpegdrv_close,
+        ffmpegdrv_write,
+        ffmpegdrv_save,
+        ffmpegdrv_record
+    },
+    {
+        "FFMPEG",
+        "WAV audio",
+        "wav",
+        NULL,
+        ffmpegdrv_close,
+        ffmpegdrv_write,
+        ffmpegdrv_save,
+        ffmpegdrv_record
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
 void gfxoutput_init_ffmpeg(void)
 {
-    gfxoutput_register(&ffmpeg_drv);
-    (*p_av_register_all)();
+    int i = 0;
+
+    if (ffmpeglib_open(&ffmpeglib) < 0)
+        return;
+
+    while (ffmpeg_drv[i].name != NULL)
+        gfxoutput_register(&ffmpeg_drv[i++]);
+
+    (*ffmpeglib.p_av_register_all)();
+}
+
+void ffmpegdrv_shutdown(void)
+{
+    ffmpeglib_close(&ffmpeglib);
 }
 

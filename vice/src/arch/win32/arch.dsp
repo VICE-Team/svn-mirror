@@ -206,6 +206,10 @@ SOURCE=.\uilib.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uimediafile.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uimon.c
 # End Source File
 # Begin Source File

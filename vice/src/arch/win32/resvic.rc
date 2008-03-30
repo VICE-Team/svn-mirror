@@ -101,7 +101,7 @@ BEGIN
             MENUITEM "Start with &reset",       IDM_EVENT_RECORDMODE_RESET
         END
         MENUITEM SEPARATOR
-        MENUITEM "Save media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Options"
     BEGIN
