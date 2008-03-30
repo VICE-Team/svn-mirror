@@ -48,7 +48,7 @@ typedef struct mon_cmds_s {
    const char *description;
 } mon_cmds_t;
 
-static mon_cmds_t mon_cmd_array[] = {
+static const mon_cmds_t mon_cmd_array[] = {
    { "",                "",     BAD_CMD,                STATE_INITIAL },
 
    { "~",               "~",    CONVERT_OP,             STATE_INITIAL,
@@ -399,7 +399,7 @@ int mon_command_get_next_state(int mon_index)
 void mon_command_print_help(const char *cmd)
 {
     if (cmd == NULL) {
-        mon_cmds_t *c;
+        const mon_cmds_t *c;
         int column = 0;
 
         /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
@@ -438,7 +438,7 @@ void mon_command_print_help(const char *cmd)
         else if (mon_cmd_array[cmd_num].description == NULL)
             mon_out("No help available for `%s'\n", cmd);
         else {
-            mon_cmds_t *c;
+            const mon_cmds_t *c;
 
             c = &mon_cmd_array[cmd_num];
 

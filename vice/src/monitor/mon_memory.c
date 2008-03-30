@@ -185,12 +185,12 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     lib_free(buf);
 }
 
-static int radix_chars_per_byte[] = { 2, /* default = hex */
-                                      2, /* hexadecimal */
-                                      3, /* decimal */
-                                      3, /* octal */
-                                      8, /* binary */
-                                      };
+static const int radix_chars_per_byte[] = { 2, /* default = hex */
+                                            2, /* hexadecimal */
+                                            3, /* decimal */
+                                            3, /* octal */
+                                            8, /* binary */
+                                          };
 
 
 static void memory_to_string(char *buf, MEMSPACE mem, WORD addr,

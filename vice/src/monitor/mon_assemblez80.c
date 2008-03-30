@@ -45,7 +45,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     bool found = FALSE;
     MEMSPACE mem;
     WORD loc;
-    BYTE prefix[5] = { 0x00, 0xcb, 0xdd, 0xed, 0xfd };
+    BYTE const prefix[5] = { 0x00, 0xcb, 0xdd, 0xed, 0xfd };
 
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
@@ -53,7 +53,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     for (j = 0; j < 5; j++) {
         i = 0;
         do {
-            asm_opcode_info_t *opinfo = NULL;
+            const asm_opcode_info_t *opinfo = NULL;
 
             switch (prefix[j]) {
               case 0x00:

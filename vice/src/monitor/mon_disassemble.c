@@ -57,7 +57,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
     int addr_mode;
     unsigned opc_size;
     WORD ival;
-    asm_opcode_info_t *opinfo;
+    const asm_opcode_info_t *opinfo;
 
     ival = (WORD)(p1 & 0xff);
 

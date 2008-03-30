@@ -38,7 +38,7 @@
 #include "montypes.h"
 #include "types.h"
 
-static int addr_mode_size[] = {
+static const int addr_mode_size[] = {
     1, /* ASM_ADDR_MODE_IMPLIED */
     1, /* ASM_ADDR_MODE_ACCUMULATOR */
     2, /* ASM_ADDR_MODE_IMMEDIATE */
@@ -54,7 +54,7 @@ static int addr_mode_size[] = {
     2  /* ASM_ADDR_MODE_RELATIVE */
 };
 
-static asm_opcode_info_t opcode_list[] = {
+static const asm_opcode_info_t opcode_list[] = {
     /* 00 */ { "BRK",   ASM_ADDR_MODE_IMPLIED },
     /* 01 */ { "ORA",   ASM_ADDR_MODE_INDIRECT_X },
     /* 02 */ { "JAM",   ASM_ADDR_MODE_IMPLIED },
@@ -328,13 +328,13 @@ static asm_opcode_info_t opcode_list[] = {
     /* ff */ { "ISB",   ASM_ADDR_MODE_ABSOLUTE_X }
 };
 
-static asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
+static const asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
 {
     return opcode_list + (unsigned int)p0;
 }
 
-static unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
-                                           BYTE p1)
+static const unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
+                                                 BYTE p1)
 {
     return addr_mode_size[mode];
 }

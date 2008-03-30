@@ -32,7 +32,7 @@
 #include "montypes.h"
 #include "types.h"
 
-static int addr_mode_size[] = {
+static const int addr_mode_size[] = {
     1, /* ASM_ADDR_MODE_IMPLIED */
     1, /* ASM_ADDR_MODE_ACCUMULATOR */
     2, /* ASM_ADDR_MODE_IMMEDIATE */
@@ -77,7 +77,7 @@ static int addr_mode_size[] = {
     1  /* ASM_ADDR_MODE_REG_IND_SP */
 };
 
-static asm_opcode_info_t opcode_list[] = {
+static const asm_opcode_info_t opcode_list[] = {
     /* 00 */ { "NOP",        ASM_ADDR_MODE_IMPLIED },
     /* 01 */ { "LD BC,",     ASM_ADDR_MODE_IMMEDIATE_16 },
     /* 02 */ { "LD (BC),A",  ASM_ADDR_MODE_IMPLIED },
@@ -336,7 +336,7 @@ static asm_opcode_info_t opcode_list[] = {
     /* ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }
 };
 
-static asm_opcode_info_t opcode_list_cb[] = {
+static const asm_opcode_info_t opcode_list_cb[] = {
     /* 00 */ { "RLC",        ASM_ADDR_MODE_REG_B },
     /* 01 */ { "RLC",        ASM_ADDR_MODE_REG_C },
     /* 02 */ { "RLC",        ASM_ADDR_MODE_REG_D },
@@ -595,7 +595,7 @@ static asm_opcode_info_t opcode_list_cb[] = {
     /* ff */ { "SET 7,",     ASM_ADDR_MODE_ACCUMULATOR }
 };
 
-static asm_opcode_info_t opcode_list_dd[] = {
+static const asm_opcode_info_t opcode_list_dd[] = {
     /* 00 */ { "NOP",        ASM_ADDR_MODE_IMPLIED },
     /* 01 */ { "LD BC,",     ASM_ADDR_MODE_IMMEDIATE_16 },
     /* 02 */ { "LD (BC),A",  ASM_ADDR_MODE_IMPLIED },
@@ -854,7 +854,7 @@ static asm_opcode_info_t opcode_list_dd[] = {
     /* ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }
 };
 
-static asm_opcode_info_t opcode_list_ed[] = {
+static const asm_opcode_info_t opcode_list_ed[] = {
     /* 00 */ { "",           ASM_ADDR_MODE_IMPLIED },
     /* 01 */ { "",           ASM_ADDR_MODE_IMPLIED },
     /* 02 */ { "",           ASM_ADDR_MODE_IMPLIED },
@@ -1113,7 +1113,7 @@ static asm_opcode_info_t opcode_list_ed[] = {
     /* ff */ { "",           ASM_ADDR_MODE_IMPLIED }
 };
 
-static asm_opcode_info_t opcode_list_fd[] = {
+static const asm_opcode_info_t opcode_list_fd[] = {
     /* 00 */ { "NOP",        ASM_ADDR_MODE_IMPLIED },
     /* 01 */ { "LD BC,",     ASM_ADDR_MODE_IMMEDIATE_16 },
     /* 02 */ { "LD (BC),A",  ASM_ADDR_MODE_IMPLIED },
@@ -1372,7 +1372,7 @@ static asm_opcode_info_t opcode_list_fd[] = {
     /* ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }
 };
 
-static asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
+static const asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
 {
     if (p0 == 0xcb)
         return opcode_list_cb + (unsigned int)p1;
@@ -1385,8 +1385,8 @@ static asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
     return opcode_list + (unsigned int)p0;
 }
 
-static unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
-                                           BYTE p1)
+static const unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
+                                                 BYTE p1)
 {
     if (p0 == 0xcb)
         return addr_mode_size[mode] + 1;

@@ -50,7 +50,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     loc = addr_location(asm_mode_addr);
 
     do {
-        asm_opcode_info_t *opinfo;
+        const asm_opcode_info_t *opinfo;
 
         opinfo = (monitor_cpu_type.asm_opcode_info_get)(i, 0, 0);
         if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
