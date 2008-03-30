@@ -98,10 +98,6 @@ SOURCE="..\..\charset.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\ciatimer.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\cbmimage.c"
 # End Source File
 # Begin Source File

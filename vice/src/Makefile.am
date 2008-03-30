@@ -137,7 +137,6 @@ base_sources = \
 	attach.c \
 	autostart.c \
 	charset.c \
-	ciatimer.c \
 	clkguard.c \
 	cmdline.c \
 	cbmimage.c \
