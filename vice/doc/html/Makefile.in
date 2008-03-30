@@ -155,6 +155,8 @@ UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
 UNIX_GP2X_COMPILE_TRUE = @UNIX_GP2X_COMPILE_TRUE@
+UNIX_MACOSX_COMPILE_FALSE = @UNIX_MACOSX_COMPILE_FALSE@
+UNIX_MACOSX_COMPILE_TRUE = @UNIX_MACOSX_COMPILE_TRUE@
 UNIX_QNX_COMPILE_FALSE = @UNIX_QNX_COMPILE_FALSE@
 UNIX_QNX_COMPILE_TRUE = @UNIX_QNX_COMPILE_TRUE@
 UNIX_SOLARIS_COMPILE_FALSE = @UNIX_SOLARIS_COMPILE_FALSE@
@@ -244,6 +246,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 docdir = $(VICEDIR)/doc
 
 doc_DATA = \
+	amigaos.html \
 	images/new.gif \
 	images/vice-logo.jpg \
 	index.html \
@@ -257,6 +260,7 @@ doc_DATA = \
 	plain/cbm_basic_tokens.txt \
 	plain/drive_info.txt \
 	plain/serial.txt \
+	solaris.html \
 	vice_1.html \
 	vice_2.html \
 	vice_3.html \

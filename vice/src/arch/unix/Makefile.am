@@ -60,6 +60,9 @@ bin_SCRIPTS = vsid
 
 EXTRA_DIST = \
 	joy_mac.c \
+	macosx/Info.plist \
+	macosx/VICE.icns \
+	macosx/make-bindist.sh \
 	minix/minix-ar.sh \
 	qnx/make-bindist.sh \
 	solaris/make-bindist.sh \

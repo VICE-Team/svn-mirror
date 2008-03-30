@@ -157,6 +157,8 @@ UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
 UNIX_GP2X_COMPILE_TRUE = @UNIX_GP2X_COMPILE_TRUE@
+UNIX_MACOSX_COMPILE_FALSE = @UNIX_MACOSX_COMPILE_FALSE@
+UNIX_MACOSX_COMPILE_TRUE = @UNIX_MACOSX_COMPILE_TRUE@
 UNIX_QNX_COMPILE_FALSE = @UNIX_QNX_COMPILE_FALSE@
 UNIX_QNX_COMPILE_TRUE = @UNIX_QNX_COMPILE_TRUE@
 UNIX_SOLARIS_COMPILE_FALSE = @UNIX_SOLARIS_COMPILE_FALSE@
@@ -300,6 +302,9 @@ bin_SCRIPTS = vsid
 
 EXTRA_DIST = \
 	joy_mac.c \
+	macosx/Info.plist \
+	macosx/VICE.icns \
+	macosx/make-bindist.sh \
 	minix/minix-ar.sh \
 	qnx/make-bindist.sh \
 	solaris/make-bindist.sh \
@@ -561,7 +566,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/minix $(distdir)/qnx $(distdir)/solaris
+	$(mkinstalldirs) $(distdir)/macosx $(distdir)/minix $(distdir)/qnx $(distdir)/solaris
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
