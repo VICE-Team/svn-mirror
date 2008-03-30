@@ -58,7 +58,10 @@ static log_t tfe_log = LOG_ERR;
 /* status which received packages to accept 
    This is used in tfe_should_accept().
 */
-static BYTE tfe_ia_mac[6];
+static BYTE  tfe_ia_mac[6];
+
+/* remember the value of the hash mask */
+static DWORD tfe_hash_mask[2];
 
 static int  tfe_recv_broadcast   = 0; /* broadcast */
 static int  tfe_recv_mac         = 0; /* individual address (IA) */
@@ -251,7 +254,7 @@ static WORD tfe_packetpage_ptr = 0;
 /*    more variables needed                                                  */
 
 static WORD txcollect_buffer = TFE_PP_ADDR_TX_FRAMELOC;
-static WORD rx_buffer        = TFE_PP_ADDR_RX_FRAMELOC;
+/* @SRT static WORD rx_buffer        = TFE_PP_ADDR_RX_FRAMELOC; */
 
 
 
@@ -483,6 +486,15 @@ TFE_PP_ADDR_MAC_ADDR        0x0158 * # RW - 4.6., p. 71 - 5.3., p. 86 *
 */
 
 
+/* This is a helper for tfe_should_accept(), since that one 
+   needs a CRC32 value 
+*/
+DWORD crc32(const char *buffer, unsigned int len) 
+{
+    // @@@@@@@@@@@@@@SRT TODO
+    return 0;
+}
+
 /*
  This is a helper for tfe_receive() to determine if the received frame should be accepted
  according to the settings.
@@ -493,6 +505,8 @@ TFE_PP_ADDR_MAC_ADDR        0x0158 * # RW - 4.6., p. 71 - 5.3., p. 86 *
 int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index, 
                       int *pcorrect_mac, int *pbroadcast) 
 {
+	int hashreg; /* Hash Register (for hash computation) */
+
     assert(length>=6); /* we need at least 6 octets since the DA has this length */
 
     /* first of all, delete any status */
@@ -524,10 +538,12 @@ int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index,
         return (tfe_recv_broadcast || tfe_recv_promiscuous) ? 1 : 0;
     }
 
-    /* @@@SRT TODO: check for hash filter */
-    if (0) {
-        *phashed = 1;
-        *phash_index = 0; /* @@@SRT TODO */
+	/* now check if DA passes the hash filter */
+    hashreg = (crc32(buffer,6) >> 26) & 0x3F;
+
+    *phashed = (tfe_hash_mask[(hashreg>=32)?1:0] & (1 << (hashreg&0x1F))) ? 1 : 0;
+    if (*phashed) {
+        *phash_index = hashreg;
         return (tfe_recv_hashfilter || tfe_recv_promiscuous) ? 1 : 0;
     }
        
@@ -718,7 +734,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
                            tfe_recv_multicast,
                            tfe_recv_correct,
                            tfe_recv_promiscuous,
-                           tfe_recv_hashfilter
+						   tfe_recv_hashfilter
                          );
         break;
 
@@ -779,6 +795,21 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
         }
         break;
 
+    case TFE_PP_ADDR_LOG_ADDR_FILTER:
+    case TFE_PP_ADDR_LOG_ADDR_FILTER+2:
+    case TFE_PP_ADDR_LOG_ADDR_FILTER+4:
+    case TFE_PP_ADDR_LOG_ADDR_FILTER+6:
+		{
+			unsigned int pos = 8 * (ppaddress - TFE_PP_ADDR_LOG_ADDR_FILTER + oddaddress);
+			DWORD *p = (pos < 32) ? &tfe_hash_mask[0] : &tfe_hash_mask[1];
+
+			*p &= ~(0xFF << pos); /* clear out relevant bits */
+			*p |= GET_PP_8(ppaddress+oddaddress) << pos;
+
+			tfe_arch_set_hashfilter(tfe_hash_mask);
+		}
+		break;
+
     case TFE_PP_ADDR_MAC_ADDR:
     case TFE_PP_ADDR_MAC_ADDR+2:
     case TFE_PP_ADDR_MAC_ADDR+4:
@@ -786,6 +817,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
         tfe_ia_mac[ppaddress-TFE_PP_ADDR_MAC_ADDR+oddaddress] = 
             GET_PP_8(ppaddress+oddaddress);
         tfe_arch_set_mac(tfe_ia_mac);
+		break;
     }
 }
 
@@ -839,7 +871,6 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
     assert( tfe );
     assert( tfe_packetpage );
 
-	assert( ioaddress >= 0);
 	assert( ioaddress < 0x10);
 
     switch (ioaddress) {
@@ -921,7 +952,6 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
     assert( tfe );
     assert( tfe_packetpage );
 
-	assert( ioaddress >= 0);
 	assert( ioaddress < 0x10);
 
     switch (ioaddress)

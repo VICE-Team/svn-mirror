@@ -117,7 +117,7 @@ checkbox. In your translation just leave the '*' in the beginning:
 #: src/arch/unix/c128ui.c:78 src/arch/unix/uicrtc.c:58
 #: src/arch/unix/uisettings.c:1195 src/arch/unix/uisettings.c:1215
 msgid "*Double size"
-msgstr "*Doppelte GröÂße"
+msgstr "*Doppelte Größe"
 
 C format strings must be saved within the translation otherwhise
 the program might fail.

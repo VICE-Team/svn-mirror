@@ -40,17 +40,18 @@ extern void tfe_arch_pre_reset(void);
 extern void tfe_arch_post_reset(void);
 extern void tfe_arch_activate(void);
 extern void tfe_arch_deactivate(void);
-extern void tfe_arch_set_mac(BYTE mac[6]);
+extern void tfe_arch_set_mac(const BYTE mac[6]);
+extern void tfe_arch_set_hashfilter(const DWORD hash_mask[2]);
 
 /* extern void tfe_arch_receive_remove_committed_frame(void); */
 
 extern
-void tfe_arch_recv_ctl( bBroadcast,   /* broadcast */
-                        bIA,          /* individual address (IA) */
-                        bMulticast,   /* multicast if address passes the hash filter */
-                        bCorrect,     /* accept correct frames */
-                        bPromiscuous, /* promiscuous mode */
-                        bIAHash       /* accept if IA passes the hash filter */
+void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
+                        int bIA,          /* individual address (IA) */
+                        int bMulticast,   /* multicast if address passes the hash filter */
+                        int bCorrect,     /* accept correct frames */
+                        int bPromiscuous, /* promiscuous mode */
+                        int bIAHash       /* accept if IA passes the hash filter */
                       );
 
 extern

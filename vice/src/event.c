@@ -92,6 +92,8 @@ void event_record(unsigned int type, void *data, unsigned int size)
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
         break;
+      case EVENT_LIST_END:
+        break;
       default:
         log_error(event_log, "Unknow event type %i.", type);
         return;
@@ -138,16 +140,16 @@ static void event_alarm_handler(CLOCK offset)
       case EVENT_DATASETTE:
         datasette_event_playback(offset, event_list_current->data);
         break;
+      case EVENT_LIST_END:
+        event_playback_stop();
+        break;
       default:
         log_error(event_log, "Unknow event type %i.", event_list_current->type);
     }
 
-    event_list_current = event_list_current->next;
-
-    if (event_list_current->next != NULL) {
+    if (event_list_current->type != EVENT_LIST_END) {
+        event_list_current = event_list_current->next;
         set_next_alarm();
-    } else {
-        event_playback_stop();
     }
 }
 
@@ -221,6 +223,8 @@ int event_record_stop(void)
     if (record_active == 0)
         return -1;
 
+    event_record(EVENT_LIST_END, NULL, 0);
+
     interrupt_maincpu_trigger_trap(event_record_stop_trap, (void *)0);
 
     ui_display_recording(0);
@@ -260,8 +264,7 @@ static void event_playback_start_trap(WORD addr, void *data)
 
     playback_active = 1;
 
-    if (event_list_current->next != NULL)
-        alarm_set(event_alarm, event_list_current->clk);
+    alarm_set(event_alarm, event_list_current->clk);
 }
 
 
@@ -334,9 +337,6 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
             return -1;
         }
 
-        if (curr->type == EVENT_LIST_END)
-            break;
-
         if (SMR_DW(m, &(curr->clk)) < 0) {
             snapshot_module_close(m);
             return -1;
@@ -354,6 +354,9 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 return -1;
             }
         }
+
+        if (curr->type == EVENT_LIST_END)
+            break;
 
         curr->next = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
         curr = curr->next;
@@ -389,11 +392,6 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
             return -1;
         }
         curr = curr->next;
-    }
-
-    if (SMW_DW(m, (DWORD)EVENT_LIST_END) < 0) {
-        snapshot_module_close(m);
-        return -1;
     }
 
     if (snapshot_module_close(m) < 0)

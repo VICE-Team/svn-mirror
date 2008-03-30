@@ -1,3 +1,24 @@
+2003-06-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.50.
+
+2003-06-02  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: Removed some warnings.
+
+2003-06-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c (event_record): Handle even EVENT_LIST_END.
+	(event_alarm_handler): Call event_playback_stop for an
+	EVENT_LIST_END event. This event indicates the end of the
+	event list.
+	(event_record_stop): Record an EVENT_LIST_END event.
+	(event_playback_start_trap): Always set event alarm.
+	(event_snapshot_read_module): Load the snapshot event to the
+	list.
+	(event_snapshot_write_module): Don't write the EVENT_LIST_END
+	explicitely as it is part of the event list.
+
 2003-06-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.49.

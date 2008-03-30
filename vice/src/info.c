@@ -542,7 +542,7 @@ const char info_contrib_text[] =
 "  Andrea Musuruane <musuruan@bmm.it> provided the italian\n"
 "  translation for the Unix ports\n" 
 "\n"
-"  Flooder <flooder@poczta.onet.pl> provided the polish\n"
+"  Flooder <flooder@gower.pl> provided the polish\n"
 "  translation for the Unix ports\n" 
 "\n"
 "  Michael Klein <nip@c64.org> contributed the ESD sound driver,\n"

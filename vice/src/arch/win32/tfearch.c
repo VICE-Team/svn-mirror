@@ -85,13 +85,22 @@ void tfe_arch_deactivate( void )
 #endif
 }
 
-void tfe_arch_set_mac( BYTE mac[6] )
+void tfe_arch_set_mac( const BYTE mac[6] )
 {
 #ifdef TFE_DEBUG_ARCH
     log_message( tfe_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.",
         mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] );
 #endif
 }
+
+void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
+{
+#ifdef TFE_DEBUG_ARCH
+    log_message( tfe_arch_log, "New hash filter set: %08X:%08X.",
+        hash_mask[1], hash_mask[0]);
+#endif
+}
+
 
 /*
 void tfe_arch_receive_remove_committed_frame(void)
@@ -102,12 +111,12 @@ void tfe_arch_receive_remove_committed_frame(void)
 }
 */
 
-void tfe_arch_recv_ctl( bBroadcast,   /* broadcast */
-                        bIA,          /* individual address (IA) */
-                        bMulticast,   /* multicast if address passes the hash filter */
-                        bCorrect,     /* accept correct frames */
-                        bPromiscuous, /* promiscuous mode */
-                        bIAHash       /* accept if IA passes the hash filter */
+void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
+                        int bIA,          /* individual address (IA) */
+                        int bMulticast,   /* multicast if address passes the hash filter */
+                        int bCorrect,     /* accept correct frames */
+                        int bPromiscuous, /* promiscuous mode */
+                        int bIAHash       /* accept if IA passes the hash filter */
                       )
 {
 #ifdef TFE_DEBUG_ARCH
