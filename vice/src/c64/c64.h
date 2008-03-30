@@ -28,6 +28,8 @@
 #ifndef _C64_H
 #define _C64_H
 
+#include "cia.h"
+
 #define C64_PAL_CYCLES_PER_SEC  985248
 #define C64_PAL_CYCLES_PER_LINE 63
 #define C64_PAL_SCREEN_LINES    312
@@ -52,6 +54,13 @@
                                     * C64_NTSCOLD_CYCLES_PER_LINE)
 #define C64_NTSCOLD_RFSH_PER_SEC  (1.0 / ((double)C64_NTSCOLD_CYCLES_PER_RFSH \
                                         / (double)C64_NTSCOLD_CYCLES_PER_SEC))
+
+typedef struct machine_context_s {
+    cia_context_t cia1;
+    cia_context_t cia2;
+} machine_context_t;
+
+extern machine_context_t machine_context;
 
 #endif
 
