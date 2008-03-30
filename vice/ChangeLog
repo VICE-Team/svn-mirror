@@ -1,3 +1,12 @@
+2003-01-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.40.
+
+2003-01-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: Moved test for executable extension below
+	the test for external programs.
+
 2003-01-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.39.
