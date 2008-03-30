@@ -48,7 +48,8 @@ static cmdline_option_t cmdline_options_chip[] =
     { NULL }
 };
 
-int raster_cmdline_options_chip_init(const char *chipname)
+int raster_cmdline_options_chip_init(const char *chipname,
+                                     struct video_chip_cap_s *video_chip_cap)
 {
     unsigned int i;
 
@@ -60,6 +61,6 @@ int raster_cmdline_options_chip_init(const char *chipname)
     }
 
     return cmdline_register_options(cmdline_options_chip)
-        | video_cmdline_options_chip_init(chipname);
+        | video_cmdline_options_chip_init(chipname, video_chip_cap);
 }
 

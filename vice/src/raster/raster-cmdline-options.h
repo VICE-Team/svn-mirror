@@ -28,7 +28,11 @@
 #ifndef _RASTER_CMDLINE_OPTIONS_H
 #define _RASTER_CMDLINE_OPTIONS_H
 
-extern int raster_cmdline_options_chip_init(const char *chipname);
+struct video_chip_cap_s;
+
+extern int raster_cmdline_options_chip_init(const char *chipname,
+                                            struct video_chip_cap_s
+                                            *video_chip_cap);
 
 #endif
 
