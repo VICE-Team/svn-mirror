@@ -38,6 +38,9 @@
 
 #ifdef USE_XF86_EXTENSIONS
 
+#define STR_VIDMODE "Vidmode"
+#define STR_DGA2    "DGA2"
+
 #ifdef USE_XF86_VIDMODE_EXT
 #include "vidmode.h"
 #endif
@@ -103,11 +106,11 @@ void fullscreen_set_mouse_timeout(void)
 void fullscreen_mode_callback(const char *device, void *callback)
 {
 #ifdef USE_XF86_VIDMODE_EXT
-    if (strcmp("Vidmode", device) == 0)
+    if (strcmp(STR_VIDMODE, device) == 0)
         vidmode_mode_callback(callback);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    if (strcmp("DGA2", device) == 0)
+    if (strcmp(STR_DGA2, device) == 0)
         dga2_mode_callback(callback);
 #endif
 }
@@ -138,58 +141,53 @@ int fullscreen_init(void)
 
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
-#if 0
-    /* Duh, once this will vanish.  */
-    if (canvas == NULL || canvas->fullscreenconfig == NULL
-        || canvas->fullscreenconfig->device == NULL)
+    if (canvas->fullscreenconfig->device == NULL)
         return 0;
-#endif
+
 #ifdef USE_XF86_VIDMODE_EXT
-    if (1 || strcmp("Vidmode", canvas->fullscreenconfig->device) == 0)
+    if (strcmp(STR_VIDMODE, canvas->fullscreenconfig->device) == 0)
         if (vidmode_enable(canvas, enable) < 0)
             return -1;
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    if (1 || strcmp("DGA2", canvas->fullscreenconfig->device) == 0)
+    if (strcmp(STR_DGA2, canvas->fullscreenconfig->device) == 0)
         if (dga2_enable(canvas, enable) < 0)
             return -1;
 #endif
+    canvas->fullscreenconfig->enable = enable;
     return 0;
 }
 
 static int fullscreen_double_size(struct video_canvas_s *canvas,
                                   int double_size)
 {
+    canvas->fullscreenconfig->double_size = double_size;
     return 0;
 }
 
 static int fullscreen_double_scan(struct video_canvas_s *canvas,
                                   int double_scan)
 {
+    canvas->fullscreenconfig->double_scan = double_scan;
     return 0;
 }
 
 static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 {
-#if 0
-    /* Duh, once this will vanish.  */
-    if (canvas == NULL || canvas->fullscreenconfig == NULL)
-        return 0;
-#endif
     while (1) {
 #ifdef USE_XF86_VIDMODE_EXT
-    if (strcmp("Vidmode", device) == 0)
+    if (strcmp(STR_VIDMODE, device) == 0)
         break;
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    if (strcmp("DGA2", device) == 0)
+    if (strcmp(STR_DGA2, device) == 0)
         break;
 #endif
         return -1;
     }
-#if 0
+
     canvas->fullscreenconfig->device = device;
-#endif
+
     return 0;
 }
 
@@ -216,7 +214,7 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     cap_fullscreen->device_num = 0;
 
 #ifdef USE_XF86_VIDMODE_EXT
-    cap_fullscreen->device_name[cap_fullscreen->device_num] = "Vidmode";
+    cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_VIDMODE;
     cap_fullscreen->enable = fullscreen_enable;
     cap_fullscreen->double_size = fullscreen_double_size;
     cap_fullscreen->double_scan = fullscreen_double_scan;
@@ -225,7 +223,7 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     cap_fullscreen->device_num += 1;
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    cap_fullscreen->device_name[cap_fullscreen->device_num] = "DGA2";
+    cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_DGA2;
     cap_fullscreen->enable = fullscreen_enable;
     cap_fullscreen->double_size = fullscreen_double_size;
     cap_fullscreen->double_scan = fullscreen_double_scan;

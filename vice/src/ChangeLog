@@ -1,3 +1,53 @@
+2002-07-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.52.
+
+	* arch/unix/x11/videoarch.h, arch/win32/videoarch.h,
+	arch/msdos/videoarch.h, arch/riscos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h: Added member
+	`initialized' and `struct palette_s' to struct canvas.
+
+	* video/video-viewport.c (video_viewport_resize): Only resize
+	canvas is initialized.
+
+	* raster/raster.c (raster_init): Set canvas to state
+	`initialized' after all members have been set.
+	Removed redundant canvas checks.
+
+	* raster/raster.h: Removed videoconfig hack.
+
+	* arch/unix/x11/video.c (video_arch_canvas_init): Set color
+	depth in canvas struct in `video_canvas_create()' as the
+	actual color depth is not known in this stage.
+
+	* video/video-canvas.c, video.h (video_canvas_init): Allocate
+	videoconfig too.
+
+	* raster/raster-resources.c (raster_resources_chip_init): Call
+	`video_canvas_init()' from here.
+
+	* video/video-resources.c, video/video-canvas.c,
+	video/video-render.c: Removed `raster.h' dependency.
+
+	* arch/unix/x11/fullscreen.c: Use `fullscreenconfig'.
+
+	* arch/unix/fullscreenarch.h: Added fullscreen config
+	resources to `struct fullscreenconfig_s'.
+
+	* arch/unix/x11/video.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/x11/gnome/x11ui.c, arch/unix/x11/x11ui.h,
+	arch/unix/vsidui.c, uicolor.h, arch/unix/x11/gnome/uicolor.c,
+	arch/unix/x11/xaw/uicolor.c: Do not pass around palette.
+
+2002-07-01  Markus Brenner  <markus@brenner.de>
+
+	* drive/drive.c (drive_set_half_track): Fixed int arithmetics
+
+2002-07-01  Andreas Dehmel  <zarquon@t-online.de>
+
+	* vice.h, arch/riscos/video.c: adapted RISC OS port to new
+	video_canvas_render() interface.
+
 2002-07-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.51.

@@ -42,7 +42,6 @@
 #include "mem.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "palette.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"

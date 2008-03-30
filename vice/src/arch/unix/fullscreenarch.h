@@ -28,7 +28,11 @@
 #define _FULLSCREENARCH_H
 
 struct fullscreenconfig_s {
+    int enable;
     const char *device;
+    int double_size;
+    int double_scan;
+    int mode;
 };
 typedef struct fullscreenconfig_s fullscreenconfig_t;
 

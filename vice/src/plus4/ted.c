@@ -39,7 +39,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "palette.h"
 #include "plus4.h"
 #include "plus4mem.h"
 #include "raster-line.h"
