@@ -229,6 +229,15 @@ struct ted_s {
     /* Flag: is the current line a `bad' line? */
     int bad_line;
 
+    /* Is the cursor visible?  */
+    int cursor_visible;
+
+    /* Cursor interval counter.  */
+    int cursor_phase;
+
+    /* Cursor position.  */
+    int crsrpos;
+
     /* Flag: Check for raster.ycounter reset already done on this line?
        (cycle 13) */
     int ycounter_reset_checked;
