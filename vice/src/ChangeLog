@@ -1,3 +1,28 @@
+2005-10-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.
+
+	* debug.h: Fixed comment.
+
+2005-10-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Updated with the latest french and italian
+	translations.
+
+2005-10-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdrivec64vic20.rc, arch/win32/resgeoram.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resvic20.rc: Partially updated with the latest
+	french and italian translations.
+
+2005-10-02  pottendo  <pottendo@utanet.at>
+
+	* info.c: Minor update.
+
 2005-10-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.21.

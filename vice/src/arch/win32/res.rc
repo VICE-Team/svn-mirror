@@ -172,44 +172,44 @@ IDR_MENUMONITOR_FR MENU DISCARDABLE
 BEGIN
     POPUP "&Fichier"
     BEGIN
-        MENUITEM "&Open", IDM_MON_OPEN
-        MENUITEM "&Sauvegarde", IDM_MON_SAVE
-        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM "&Ouvrir", IDM_MON_OPEN
+        MENUITEM "&Enregistrer", IDM_MON_SAVE
+        MENUITEM "&Imprimer", IDM_MON_PRINT
         MENUITEM SEPARATOR
         MENUITEM "&Quitter\tAlt+F4", IDM_EXIT
     END
-    POPUP "&Debug"
+    POPUP "&Débug"
     BEGIN
-        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM "&Arrêter débug", IDM_MON_STOP_DEBUG
+        MENUITEM "Arrêter l'e&xécution", IDM_MON_STOP_EXEC
         MENUITEM SEPARATOR
-        MENUITEM "Step &into", IDM_MON_STEP_INTO
-        MENUITEM "Step &over", IDM_MON_STEP_OVER
-        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
-        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM "Tracer à l'&intérieur", IDM_MON_STEP_INTO
+        MENUITEM "Tracer par de&ssus", IDM_MON_STEP_OVER
+        MENUITEM "Sauter jusqu'à &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Aller au &curseur", IDM_MON_GOTO_CURSOR
         MENUITEM SEPARATOR
-        MENUITEM "&Evaluate", IDM_MON_EVAL
+        MENUITEM "Éval&uer", IDM_MON_EVAL
     END
-    POPUP "&View"
+    POPUP "&Affichage"
     BEGIN
-        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM "Instruction courante", IDM_MON_CURRENT
         MENUITEM SEPARATOR
-        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
-        MENUITEM "&Register window", IDM_MON_WND_REG
-        MENUITEM "&Memory window", IDM_MON_WND_MEM
-        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
-        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM "Fenêtre d'É&valuation", IDM_MON_WND_EVAL
+        MENUITEM "Fenêtre des &Registres", IDM_MON_WND_REG
+        MENUITEM "Fenêtre &mémoire", IDM_MON_WND_MEM
+        MENUITEM "Fenêtre &Désassemblage", IDM_MON_WND_DIS
+        MENUITEM "Fenêtre &Console", IDM_MON_WND_CONSOLE
         MENUITEM SEPARATOR
         MENUITEM "&Ordinateur", IDM_MON_COMPUTER
-        MENUITEM "Lecteur &8", IDM_MON_DRIVE8
-        MENUITEM "Lecteur &9", IDM_MON_DRIVE9
+        MENUITEM "Lecteur #&8", IDM_MON_DRIVE8
+        MENUITEM "Lecteur #&9", IDM_MON_DRIVE9
     END
-    POPUP "F&enêtre"
+    POPUP "&Fenêtre"
     BEGIN
         MENUITEM "&Cascade", IDM_MON_CASCADE
-        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
-        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
-        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+        MENUITEM "Fractionner &verticallement", IDM_MON_TILE_VERT
+        MENUITEM "Fractionner &horizontalement", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arranger les îcones", IDM_MON_ARRANGE_ICONS
     END
 END
 
@@ -220,44 +220,44 @@ IDR_MENUMONITOR_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Aprire", IDM_MON_OPEN
+        MENUITEM "&Apri", IDM_MON_OPEN
         MENUITEM "&Salva", IDM_MON_SAVE
-        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM "&Stampa", IDM_MON_PRINT
         MENUITEM SEPARATOR
-        MENUITEM "Es&ci\tAlt+F4", IDM_EXIT
+        MENUITEM "E&sci\tAlt+F4", IDM_EXIT
     END
     POPUP "&Debug"
     BEGIN
-        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
-        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM "&Interrompi Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Interrompi E&secuzione", IDM_MON_STOP_EXEC
         MENUITEM SEPARATOR
-        MENUITEM "Step &into", IDM_MON_STEP_INTO
-        MENUITEM "Step &over", IDM_MON_STEP_OVER
-        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
-        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM "Esegui &istruzione", IDM_MON_STEP_INTO
+        MENUITEM "Esegui &routine", IDM_MON_STEP_OVER
+        MENUITEM "Esegui fino al &ritorno", IDM_MON_SKIP_RETURN
+        MENUITEM "Vai al &cursore", IDM_MON_GOTO_CURSOR
         MENUITEM SEPARATOR
-        MENUITEM "&Evaluate", IDM_MON_EVAL
+        MENUITEM "&Valutazione", IDM_MON_EVAL
     END
-    POPUP "&View"
+    POPUP "&Vista"
     BEGIN
-        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM "Istruzione &corrente", IDM_MON_CURRENT
         MENUITEM SEPARATOR
-        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
-        MENUITEM "&Register window", IDM_MON_WND_REG
-        MENUITEM "&Memory window", IDM_MON_WND_MEM
-        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
-        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM "&Finestra di valutazione", IDM_MON_WND_EVAL
+        MENUITEM "Finestra dei &registri", IDM_MON_WND_REG
+        MENUITEM "Finestra di &memoria", IDM_MON_WND_MEM
+        MENUITEM "Finestra di &disassemblaggio", IDM_MON_WND_DIS
+        MENUITEM "Finestra della &console", IDM_MON_WND_CONSOLE
         MENUITEM SEPARATOR
         MENUITEM "&Computer", IDM_MON_COMPUTER
         MENUITEM "Drive &8", IDM_MON_DRIVE8
         MENUITEM "Drive &9", IDM_MON_DRIVE9
     END
-    POPUP "Fi&nestre"
+    POPUP "&Finestra"
     BEGIN
-        MENUITEM "&Cascade", IDM_MON_CASCADE
-        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
-        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
-        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+        MENUITEM "A &cascata", IDM_MON_CASCADE
+        MENUITEM "Affianca &verticalmente", IDM_MON_TILE_VERT
+        MENUITEM "Affianca &orizzontalmente", IDM_MON_TILE_HORIZ
+        MENUITEM "&Disponi icone", IDM_MON_ARRANGE_ICONS
     END
 END
 

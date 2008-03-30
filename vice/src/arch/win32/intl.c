@@ -33,6 +33,7 @@
 #include <ctype.h>
 #include <windows.h>
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "intl.h"
 #include "lib.h"
@@ -175,8 +176,8 @@ static int intl_table[][countof(language_table)] = {
 /* resdrivec64vic20.rc */
 /* en */ {IDD_DRIVE_SETTINGS_DIALOG_C64VIC20,
 /* de */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_DE,    /* size */
-/* fr */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_FR,    /* fuzzy, size */
-/* it */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_IT,    /* fuzzy, size */
+/* fr */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_FR,    /* size */
+/* it */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_IT,    /* size */
 /* nl */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_NL,
 /* pl */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_PL,    /* fuzzy, size */
 /* sv */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_SV},   /* size */
@@ -193,8 +194,8 @@ static int intl_table[][countof(language_table)] = {
 /* resgeoram.rc */
 /* en */ {IDD_GEORAM_SETTINGS_DIALOG,
 /* de */  IDD_GEORAM_SETTINGS_DIALOG_DE,    /* size */
-/* fr */  IDD_GEORAM_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_GEORAM_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* fr */  IDD_GEORAM_SETTINGS_DIALOG_FR,    /* size */
+/* it */  IDD_GEORAM_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_GEORAM_SETTINGS_DIALOG_NL,
 /* pl */  IDD_GEORAM_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_GEORAM_SETTINGS_DIALOG_SV},   /* size */
@@ -672,8 +673,8 @@ static int intl_table[][countof(language_table)] = {
 /* res.rc */
 /* en */ {IDR_MENUMONITOR,
 /* de */  IDR_MENUMONITOR_DE,
-/* fr */  IDR_MENUMONITOR_FR,    /* fuzzy */
-/* it */  IDR_MENUMONITOR_IT,    /* fuzzy */
+/* fr */  IDR_MENUMONITOR_FR,
+/* it */  IDR_MENUMONITOR_IT,
 /* nl */  IDR_MENUMONITOR_NL,
 /* pl */  IDR_MENUMONITOR_PL,    /* fuzzy */
 /* sv */  IDR_MENUMONITOR_SV},
@@ -681,7 +682,7 @@ static int intl_table[][countof(language_table)] = {
 /* resc128.rc */
 /* en */ {IDR_MENUC128,
 /* de */  IDR_MENUC128_DE,
-/* fr */  IDR_MENUC128_FR,    /* fuzzy */
+/* fr */  IDR_MENUC128_FR,
 /* it */  IDR_MENUC128_IT,    /* fuzzy */
 /* nl */  IDR_MENUC128_NL,
 /* pl */  IDR_MENUC128_PL,    /* fuzzy */
@@ -690,7 +691,7 @@ static int intl_table[][countof(language_table)] = {
 /* resc64.rc */
 /* en */ {IDR_MENUC64,
 /* de */  IDR_MENUC64_DE,
-/* fr */  IDR_MENUC64_FR,    /* fuzzy */
+/* fr */  IDR_MENUC64_FR,
 /* it */  IDR_MENUC64_IT,    /* fuzzy */
 /* nl */  IDR_MENUC64_NL,
 /* pl */  IDR_MENUC64_PL,    /* fuzzy */
@@ -699,7 +700,7 @@ static int intl_table[][countof(language_table)] = {
 /* rescbm2.rc */
 /* en */ {IDR_MENUCBM2,
 /* de */  IDR_MENUCBM2_DE,
-/* fr */  IDR_MENUCBM2_FR,    /* fuzzy */
+/* fr */  IDR_MENUCBM2_FR,
 /* it */  IDR_MENUCBM2_IT,    /* fuzzy */
 /* nl */  IDR_MENUCBM2_NL,
 /* pl */  IDR_MENUCBM2_PL,    /* fuzzy */
@@ -708,7 +709,7 @@ static int intl_table[][countof(language_table)] = {
 /* respet.rc */
 /* en */ {IDR_MENUPET,
 /* de */  IDR_MENUPET_DE,
-/* fr */  IDR_MENUPET_FR,    /* fuzzy */
+/* fr */  IDR_MENUPET_FR,
 /* it */  IDR_MENUPET_IT,    /* fuzzy */
 /* nl */  IDR_MENUPET_NL,
 /* pl */  IDR_MENUPET_PL,    /* fuzzy */
@@ -717,7 +718,7 @@ static int intl_table[][countof(language_table)] = {
 /* resplus4.rc */
 /* en */ {IDR_MENUPLUS4,
 /* de */  IDR_MENUPLUS4_DE,
-/* fr */  IDR_MENUPLUS4_FR,    /* fuzzy */
+/* fr */  IDR_MENUPLUS4_FR,
 /* it */  IDR_MENUPLUS4_IT,    /* fuzzy */
 /* nl */  IDR_MENUPLUS4_NL,
 /* pl */  IDR_MENUPLUS4_PL,    /* fuzzy */
@@ -726,7 +727,7 @@ static int intl_table[][countof(language_table)] = {
 /* resvic20.rc */
 /* en */ {IDR_MENUVIC,
 /* de */  IDR_MENUVIC_DE,
-/* fr */  IDR_MENUVIC_FR,    /* fuzzy */
+/* fr */  IDR_MENUVIC_FR,
 /* it */  IDR_MENUVIC_IT,    /* fuzzy */
 /* nl */  IDR_MENUVIC_NL,
 /* pl */  IDR_MENUVIC_PL,    /* fuzzy */
@@ -2122,8 +2123,8 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* resgeoram.rc */
 /* en */ {IDS_SELECT_FILE_GEORAM,
 /* de */  IDS_SELECT_FILE_GEORAM_DE,
-/* fr */  IDS_SELECT_FILE_GEORAM_FR,    /* fuzzy */
-/* it */  IDS_SELECT_FILE_GEORAM_IT,    /* fuzzy */
+/* fr */  IDS_SELECT_FILE_GEORAM_FR,
+/* it */  IDS_SELECT_FILE_GEORAM_IT,
 /* nl */  IDS_SELECT_FILE_GEORAM_NL,
 /* pl */  IDS_SELECT_FILE_GEORAM_PL,    /* fuzzy */
 /* sv */  IDS_SELECT_FILE_GEORAM_SV},
@@ -2517,18 +2518,23 @@ char temp_buffer[4098 * sizeof(TCHAR)];
             }
         }
     }*/
+  archdep_workaround_nop("a");
     ZeroMemory(intl_text_table2, sizeof(intl_text_table2));
     ZeroMemory(text_cache, sizeof(text_cache));
   for (i = 0; i < countof(language_table); i++)
   {
+    archdep_workaround_nop("a");
     for (j = 0; j < countof(intl_translate_text_table); j++)
     {
+      archdep_workaround_nop("a");
       if (LoadString(winmain_instance, intl_translate_text_table[j][i], temp_buffer, 4097)==0)
       {
+        archdep_workaround_nop("a");
         intl_text_table[j][i]=NULL;
       }
       else
       {
+        archdep_workaround_nop("a");
         intl_text_table[j][i]=strdup(temp_buffer);
       }
     }

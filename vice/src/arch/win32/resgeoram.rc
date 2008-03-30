@@ -66,7 +66,7 @@ BEGIN
                     IDC_STATIC,9,24,50,8
     COMBOBOX        IDC_GEORAM_SIZE,65,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "GEORAM image",
+    LTEXT           "Fichier GEORAM",
                     IDC_STATIC,9,44,46,8
     PUSHBUTTON      "&Parcourir...",IDC_GEORAM_BROWSE,55,42,50,14, 0
     EDITTEXT        IDC_GEORAM_FILE, 9,58,160,12,WS_TABSTOP
@@ -80,16 +80,16 @@ END
 
 IDD_GEORAM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del GEORAM"
+CAPTION "Impostazioni della GEORAM"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Attiva GEORAM",IDC_GEORAM_ENABLE,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Dimensione",
+    LTEXT           "Dimensione GEORAM",
                     IDC_STATIC,9,24,50,8
     COMBOBOX        IDC_GEORAM_SIZE,65,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "GEORAM file",
+    LTEXT           "File della GEORAM",
                     IDC_STATIC,9,44,46,8
     PUSHBUTTON      "&Sfoglia...",IDC_GEORAM_BROWSE,55,42,50,14, 0
     EDITTEXT        IDC_GEORAM_FILE, 9,58,160,12,WS_TABSTOP
@@ -191,7 +191,7 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_SELECT_FILE_GEORAM_FR   "Select file for GEORAM"
+  IDS_SELECT_FILE_GEORAM_FR   "Sélectionner le fichier GEORAM"
 END
 
 
@@ -199,7 +199,7 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_SELECT_FILE_GEORAM_IT   "Select file for GEORAM"
+  IDS_SELECT_FILE_GEORAM_IT   "Seleziona il file per la GEORAM"
 END
 
 

@@ -72,8 +72,8 @@ BEGIN
   IDS_NMI              "NMI"
   IDS_ACIA_CAPTION     "Paramètres ACIA"
   IDS_ACIA_ENABLE      "&Activer ACIA"
-  IDS_ACIA_DEVICE      "périphérique ACIA"
-  IDS_ACIA_LOCATION    "ACIA adresse"
+  IDS_ACIA_DEVICE      "Périphérique ACIA"
+  IDS_ACIA_LOCATION    "Emplacement ACIA"
   IDS_ACIA_INTERRUPT   "Interruption ACIA"
 END
 
@@ -85,10 +85,10 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_IRQ              "IRQ"
   IDS_NMI              "NMI"
-  IDS_ACIA_CAPTION     "Impostazioni del ACIA"
-  IDS_ACIA_ENABLE      "&Attiva la ACIA"
-  IDS_ACIA_DEVICE      "il device ACIA"
-  IDS_ACIA_LOCATION    "Indirizzo ACIA"
+  IDS_ACIA_CAPTION     "Impostazioni ACIA"
+  IDS_ACIA_ENABLE      "&Attiva ACIA"
+  IDS_ACIA_DEVICE      "Dispositivo ACIA"
+  IDS_ACIA_LOCATION    "Posizione dell'ACIA"
   IDS_ACIA_INTERRUPT   "Interrupt dell'ACIA"
 END
 

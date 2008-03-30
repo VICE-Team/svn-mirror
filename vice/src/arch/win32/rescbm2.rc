@@ -443,57 +443,55 @@ IDR_MENUCBM2_FR MENU DISCARDABLE
 BEGIN
     POPUP "&Fichier"
     BEGIN
-        MENUITEM "&Démarrage automatique disk/tape image...", IDM_AUTOSTART
+        MENUITEM "Démarrage &automatique d'une image datassette...", IDM_AUTOSTART
         MENUITEM SEPARATOR
         POPUP "Insérer une image de &disque"
         BEGIN
-            MENUITEM "Lecteur &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Lecteur &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Lecteur 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Lecteur &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Lecteur #&8\tAlt+8",  IDM_ATTACH_8
+            MENUITEM "Lecteur #&9\tAlt+9",  IDM_ATTACH_9
+            MENUITEM "Lecteur #1&0\tAlt+0", IDM_ATTACH_10
+            MENUITEM "Lecteur #&11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "R&etirer une image de disque"
+        POPUP "&Retirer une image de disque"
         BEGIN
-            MENUITEM "Lecteur &8",  IDM_DETACH_8
-            MENUITEM "Lecteur &9",  IDM_DETACH_9
-            MENUITEM "Lecteur 1&0", IDM_DETACH_10
-            MENUITEM "Lecteur &11", IDM_DETACH_11
+            MENUITEM "Lecteur #&8",  IDM_DETACH_8
+            MENUITEM "Lecteur #&9",  IDM_DETACH_9
+            MENUITEM "Lecteur #1&0", IDM_DETACH_10
+            MENUITEM "Lecteur #&11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&Tous\tAlt+A",      IDM_DETACH_ALL
+            MENUITEM "&Tout\tAlt+A",      IDM_DETACH_ALL
         END
         POPUP "&Groupement de disques"
         BEGIN
-            MENUITEM "&Ajouter l'image de disque courante au groupement\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "&Retirer l'image de disque courante au groupement\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "I&nsérer le prochain disque du groupement\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Insérer le disque &précédent du groupement\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Ajouter l'image de disque courante\tAlt+I",     IDM_FLIP_ADD
+            MENUITEM "&Retirer l'image de disque courante\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "Insérer la &prochaine image\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Insérer l'image p&récédente\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Charger un groupement de disques", IDM_FLIP_LOAD
-            MENUITEM "Enregi&strer le groupement de disques actuel", IDM_FLIP_SAVE
+            MENUITEM "&Enregistrer le groupement de disques", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Insérer une image de da&tassette...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Retirer une image datassette",           IDM_DETACH_TAPE
-#if 1
+        MENUITEM "Insérer une image &datassette...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Reti&rer une image datassette",           IDM_DETACH_TAPE
         POPUP "Contrô&le datassette"
         BEGIN
-            MENUITEM "Arrê&t",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Jouer",         IDM_DATASETTE_CONTROL_START
-            MENUITEM "En a&vant",       IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Arrêt",          IDM_DATASETTE_CONTROL_STOP
+            MENUITEM "&Démarrer",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "En &avant",       IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "En a&rrière",        IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Enre&gistrer",        IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "Réinitialis&er",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Réinitialiser C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Réinialiser le c&ompteur", IDM_DATASETTE_RESET_COUNTER
         END
-#endif
         MENUITEM SEPARATOR
         MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE
         , CHECKED
-        MENUITEM "&Moniteur\tAlt+M", IDM_MONITOR
+        MENUITEM "&Tracer\tAlt+M", IDM_MONITOR
         POPUP "&Réinitialiser"
         BEGIN
-            MENUITEM "à &froid\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "à &chaud\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Physiquement\tCtrl+Alt+R", IDM_RESET_HARD
+            MENUITEM "&Logiciellement\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Lecteur #&8",         IDM_RESET_DRIVE8
             MENUITEM "Lecteur #&9",         IDM_RESET_DRIVE9
@@ -506,45 +504,45 @@ BEGIN
             POPUP "M&ode"
             BEGIN
                 MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
-                MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&Petit", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Historique", IDM_DEBUG_MODE_HISTORY
+                MENUITEM "H&istorique automatique", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Tracer CPU &Principal\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Tracer CPU Drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Tracer CPU Drive&1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
         MENUITEM "&Quitter\tAlt+X", IDM_EXIT
     END
-    POPUP "Sau&vegarde"
+    POPUP "&Sauvegarde"
     BEGIN
-        MENUITEM "Chargement du f&ichier de sauvegarde...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Sauve&garder...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "Chargement du fichier de sauvegarde &rapide\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Enregistrement du fichier de &sauvegarde rapide\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "C&harger une sauvegarde....",          IDM_SNAPSHOT_LOAD
+        MENUITEM "E&nregistrer une sauvegarde...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "&Charger la sauvegarde rapide\tAlt+L", IDM_LOADQUICK
+        MENUITEM "&Enregistrer la sauvegarde rapide\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Démarrer/Arrêter les événements d'en&registrement",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Démarrer/Arrêter lect&ure d'événements",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Lever le signet d'enregistrement\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Retourner au signet d'enregistrement\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Démarrer/Arrêter l'historique de l'enre&gistrement",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Démarrer/Arrêter l'historique de la &lecture",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Lever le Signet d'enregistrement\tAlt+G",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Retourner au Signet d'enregistrement\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Mode de départ d'enregistrement"
         BEGIN
-            MENUITEM "Enregistrer une nouvelle &sauvegarde",      IDM_EVENT_START_MODE_SAVE
+            MENUITEM "&Enregistrer une nouvelle sauvegarde",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Charger une sauvegarde", IDM_EVENT_START_MODE_LOAD
             MENUITEM "&Réinitialiser au démarrage",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Écraser le '&playback' actuel",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "É&craser la lecture actuelle",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Sélectionnez le répertoire des captures",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Enregistrer/Arrêter fichier média...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Options"
     BEGIN
         POPUP "Taux de &rafraîchissement"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
+            MENUITEM "&Automatique",   IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",    IDM_REFRESH_RATE_1
             MENUITEM "1/&2",    IDM_REFRESH_RATE_2
             MENUITEM "1/&3",    IDM_REFRESH_RATE_3
@@ -560,7 +558,7 @@ BEGIN
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
-        POPUP "Vitesse &maximale"
+        POPUP "Vitesse &Maximale"
         BEGIN
             MENUITEM "&200%",     IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%",     IDM_MAXIMUM_SPEED_100
@@ -569,26 +567,26 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Aucune &limite", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Personnalisées",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Personnalisé",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "le mode &Turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Mode turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Plein écran\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Périphérique plein écran\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
         MENUITEM "&Cache vidéo", IDM_TOGGLE_CRTCVIDEOCACHE
             , CHECKED
-        MENUITEM "&Double pixels", IDM_TOGGLE_CRTCDOUBLESIZE
+        MENUITEM "&Taille double", IDM_TOGGLE_CRTCDOUBLESIZE
             , CHECKED
-        MENUITEM "Dou&bler les lignes", IDM_TOGGLE_CRTCDOUBLESCAN
+        MENUITEM "Dou&ble scan", IDM_TOGGLE_CRTCDOUBLESCAN
             , CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Échanger les &joysticks de ports\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Interchanger les joysticks\tAlt+J", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
-        MENUITEM "&Son", IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "Lecture &audio", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Émula&tion réelle de lecteur", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
-        POPUP "Drive s&ync factor"
+        MENUITEM "Activer l'émulation &réelle des lecteurs", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "Activer les périphériques &virtuels", IDM_TOGGLE_VIRTUAL_DEVICES
+        POPUP "Facteur de s&ynchro du lecteur"
         BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC", IDM_SYNC_FACTOR_NTSC
@@ -596,54 +594,54 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Identification de l'émulateur", IDM_TOGGLE_EMUID
     END
-    POPUP "Paramètr&es"
+    POPUP "&Paramètres"
     BEGIN
-        MENUITEM "Paramètres &Video...",     IDM_VIDEO_SETTINGS
-        MENUITEM "Paramètres &CBM2...",      IDM_CBM2_SETTINGS
-        MENUITEM "&Paramètres des périphériques...",IDM_DEVICEMANAGER
-        MENUITEM "Paramètres &des lecteurs...",     IDM_DRIVE_SETTINGS
-        MENUITEM "Paramètres des D&atasette...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Paramètres vidéo...",     IDM_VIDEO_SETTINGS
+        MENUITEM "Paramètres CBM2...",      IDM_CBM2_SETTINGS
+        MENUITEM "Paramètres des périphériques...",IDM_DEVICEMANAGER
+        MENUITEM "Paramètres des lecteurs...",     IDM_DRIVE_SETTINGS
+        MENUITEM "Paramètres du datassette...", IDM_DATASETTE_SETTINGS
         MENUITEM "Paramètres VIC-II...",    IDM_VICII_SETTINGS
-        MENUITEM "Paramètres des &joysticks...",  IDM_JOY_SETTINGS
-        MENUITEM "Paramètres du &clavier...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Paramètres de s&on...",     IDM_SOUND_SETTINGS
-        MENUITEM "Paramètres S&ID...",       IDM_SID_SETTINGS
-        MENUITEM "Paramètres &ROM...",       IDM_ROM_SETTINGS
-        MENUITEM "Paramètres de la R&AM...",       IDM_RAM_SETTINGS
+        MENUITEM "Paramètres des joysticks...",  IDM_JOY_SETTINGS
+        MENUITEM "Paramètres du clavier...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Paramètres son...",     IDM_SOUND_SETTINGS
+        MENUITEM "Paramètres SID...",       IDM_SID_SETTINGS
+        MENUITEM "Paramètres ROM...",       IDM_ROM_SETTINGS
+        MENUITEM "Paramètres de la RAM...",       IDM_RAM_SETTINGS
         MENUITEM "Paramètres RS&232...",     IDM_RS232_SETTINGS
-        POPUP "Paramètres &cartouche"
+        POPUP "Paramètres E/S &cartouche"
         BEGIN
             MENUITEM "Paramètres &ACIA...",  IDM_ACIA_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "Enregi&strer les paramètres", IDM_SETTINGS_SAVE
-        MENUITEM "Charger &les paramètres",   IDM_SETTINGS_LOAD
+        MENUITEM "&Enregistrer les paramètres courants", IDM_SETTINGS_SAVE
+        MENUITEM "&Charger les paramètres",   IDM_SETTINGS_LOAD
         MENUITEM "Rétablir les paramètres par dé&faut",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-        MENUITEM "Enre&gistrer les paramètres à la sortie", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "Enregistrer les pa&ramètres à la sortie", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "&Confirmation à la sortie",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Langage"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Anglais", IDM_LANG_EN
+        MENUITEM "&Allemand", IDM_LANG_DE
+        MENUITEM "&Français", IDM_LANG_FR
+        MENUITEM "&Italien", IDM_LANG_IT
+        MENUITEM "&Hollandais", IDM_LANG_NL
+        MENUITEM "&Polonais", IDM_LANG_PL
+        MENUITEM "&Suédois", IDM_LANG_SV
     END
     POPUP "&Aide"
     BEGIN
 //        MENUITEM "H&elp", IDM_HELP
 //        MENUITEM SEPARATOR
-        MENUITEM "&À propos de VICE...", IDM_ABOUT
+        MENUITEM "À &Propos...", IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "&Options de ligne de commande", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Contributeurs au projet VICE", IDM_CONTRIBUTORS
+        MENUITEM "&Contributeurs", IDM_CONTRIBUTORS
         MENUITEM "&License",      IDM_LICENSE
-        MENUITEM "Au&cune garantie",  IDM_WARRANTY
+        MENUITEM "Aucune &garantie!",  IDM_WARRANTY
     END
 END
 
