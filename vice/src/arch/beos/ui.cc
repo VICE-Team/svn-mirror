@@ -80,6 +80,7 @@ extern "C" {
 #include "ui_sound.h"
 #include "ui_vicii.h"
 #include "ui_video.h"
+#include "uicmdline.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -629,7 +630,7 @@ void ui_dispatch_events(void)
                      info_warranty_text);
         		break;
 			case MENU_CMDLINE:
-				ui_cmdline_show_options();
+				ui_cmdline_show_options(NULL);
 				break;
 			case B_KEY_DOWN:
 			case B_UNMAPPED_KEY_DOWN:
@@ -809,7 +810,7 @@ void ui_show_text(
 
 
 /* display all the commandline options */
-void ui_cmdline_show_options()
+void ui_cmdline_show_options(void *param)
 {
     char *options;
 

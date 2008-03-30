@@ -59,7 +59,7 @@
 
 typedef struct resource_ram_s {
     /* Resource name.  */
-    const char *name;
+    char *name;
 
     /* Type of resource.  */
     resource_type_t type;
@@ -222,7 +222,8 @@ int resources_register(const resource_t *r)
                                     * sizeof(resource_ram_t));
             dp = resources + num_resources;
         }
-        dp->name = sp->name;
+
+        dp->name = lib_stralloc(sp->name);
         dp->type = sp->type;
         dp->factory_value = sp->factory_value;
         dp->value_ptr = sp->value_ptr;
@@ -240,8 +241,18 @@ int resources_register(const resource_t *r)
     return 0;
 }
 
+static void resources_free(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < num_resources; i++)
+        lib_free((resources + i)->name);
+}
+
 void resources_shutdown(void)
 {
+    resources_free();
+
     lib_free(resources);
     lib_free(hashTable);
     lib_free(machine_id);

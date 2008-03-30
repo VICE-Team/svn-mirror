@@ -35,10 +35,10 @@
 
 
 /* This does not work as stdout is directed to null.  */
-void ui_cmdline_show_help(int num_options, cmdline_option_t *options,
-                          void *userparam)
+void ui_cmdline_show_help(unsigned int num_options,
+                          cmdline_option_ram_t *options, void *userparam)
 {
-    int i;
+    unsigned int i;
 
     printf("\nAvailable command-line options:\n\n");
     for (i = 0; i < num_options; i++) {
@@ -50,12 +50,12 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *options,
     putchar('\n');
 }
 
-void ui_cmdline_show_options(HWND hwnd)
+void ui_cmdline_show_options(void *param)
 {
     char *options;
 
     options = cmdline_options_string();
-    ui_show_text(hwnd, "Command line options",
+    ui_show_text((HWND)param, "Command line options",
                  "Which command line options are available?", options);
     lib_free(options);
 }
