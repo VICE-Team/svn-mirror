@@ -191,6 +191,19 @@ static void destroy_list(void)
     event_list_current = NULL;
 }
 
+static void warp_end_list(void)
+{
+    event_list_t *curr;
+
+    curr = event_list_base;
+
+    while (curr->type != EVENT_LIST_END)
+        curr = curr->next;
+
+    memset(curr, 0, sizeof(event_list_t));
+    event_list_current = curr;
+}
+
 /*-----------------------------------------------------------------------*/
 
 static void event_initial_write(void)
@@ -231,6 +244,14 @@ static void event_record_start_trap(WORD addr, void *data)
         create_list();
         record_active = 1;
         event_initial_write();
+        break;
+      case EVENT_START_MODE_FILE_LOAD:
+        if (machine_read_snapshot(event_end_snapshot, 1) < 0) {
+            ui_error("Error reading start snapshot file.");
+            return;
+        }
+        warp_end_list();
+        record_active = 1;
         break;
       case EVENT_START_MODE_RESET:
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
