@@ -40,6 +40,7 @@
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
+#include "c64memlimit.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -80,44 +81,6 @@ const char *mem_romset_resources_list[] = {
     "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
-
-/* ------------------------------------------------------------------------- */
-
-/* C64 memory-related command-line options.  */
-/* FIXME: Maybe the `-kernal', `-basic' and `-chargen' options should not
-   really affect resources.  */
-
-static cmdline_option_t cmdline_options[] =
-{
-    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
-      "<name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
-      "<name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
-      "<name>", "Specify name of character generator ROM image" },
-    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t) 1,
-      NULL, "Enable the 512K RAM expansion unit" },
-    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t) 0,
-      NULL, "Disable the 512K RAM expansion unit" },
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
-      NULL, "Enable emulator identification" },
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
-      NULL, "Disable emulator identification" },
-    { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
-      "<revision>", "Patch the Kernal ROM to the specified <revision>" },
-#ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 1,
-      NULL, "Enable the $DE** ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
-      NULL, "Disable the $DE** ACIA RS232 interface emulation" },
-#endif
-    { NULL }
-};
-
-int c64_mem_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -466,37 +429,7 @@ void mem_initialize_memory(void)
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
 
-    int limit_tab[6][NUM_CONFIGS] = {
-    /* 0000-7fff */
-    { 0xfffd, 0xcffd, 0xcffd, 0x9ffd, 0xfffd, 0xcffd, 0xcffd, 0x9ffd,
-      0xfffd, 0xcffd, 0x9ffd, 0x7ffd, 0xfffd, 0xcffd, 0x9ffd, 0x7ffd,
-      0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd,
-      0xfffd, 0xcffd, 0x9ffd, 0x7ffd, 0xfffd, 0xcffd, 0x9ffd, 0x7ffd },
-    /* 8000-9fff */
-    { 0xfffd, 0xcffd, 0xcffd, 0x9ffd, 0xfffd, 0xcffd, 0xcffd, 0x9ffd,
-      0xfffd, 0xcffd, 0x9ffd,     -1, 0xfffd, 0xcffd, 0x9ffd,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xfffd, 0xcffd, 0x9ffd,     -1, 0xfffd, 0xcffd, 0x9ffd,     -1 },
-    /* a000-bfff */
-    { 0xfffd, 0xcffd, 0xcffd, 0xbffd, 0xfffd, 0xcffd, 0xcffd, 0xbffd,
-      0xfffd, 0xcffd,     -1,     -1, 0xfffd, 0xcffd,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xfffd, 0xcffd,     -1,     -1, 0xfffd, 0xcffd,     -1,     -1 },
-    /* c000-cfff */
-    { 0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd,
-      0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd,
-      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
-      0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd },
-    /* d000-dfff */
-    { 0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1,
-      0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1 },
-    /* e000-ffff */
-    { 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-      0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-      0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd } };
+    mem_limit_init(mem_read_limit_tab);
 
 /*
     if (c64_mem_log == LOG_ERR)
@@ -679,16 +612,6 @@ void mem_initialize_memory(void)
         }
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
         mem_read_limit_tab[i][0x100] = 0;
-    }
-
-    for (i = 0; i < NUM_CONFIGS; i++) {
-        int mstart[6] = { 0x00, 0x80, 0xa0, 0xc0, 0xd0, 0xe0 };
-        int mend[6]   = { 0x7f, 0x9f, 0xbf, 0xcf, 0xdf, 0xff };
-        for (j = 0; j < 6; j++) {
-            for (k = mstart[j]; k <= mend[j]; k++) {
-                mem_read_limit_tab[i][k] = limit_tab[j][i];
-            }
-        }
     }
 
     _mem_read_tab_ptr = mem_read_tab[7];

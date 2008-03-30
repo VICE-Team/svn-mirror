@@ -1,3 +1,46 @@
+2001-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.25.
+
+	* drive/cia1581d.c (read_ciapb): Added support for read only
+	status bit.
+
+	* drive/wd1770.c, drive/wd1770.h: Added support for read only
+	status bit.
+
+	* c128/c128memlimit.c: Added c64 mode address limits.
+
+	* traps.c, traps.h c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/petmem.c: Added support for multiple ROM sets.
+
+	* traps.c, fsdevice.c, c1541.c, c64/c64cartridge.c,
+	vic20/vic20cartridge.c: Do not include <memory.h>.
+
+	* c128/c128mem.c, c128/c128mem.h (basic64_read, basic64_store,
+	kernal64_read, kernal64_store, chargen64_read,
+	chargen64_store, rom64_read, rom64_store): New functions.
+
+	* c64/c64-cmdline-options.c, c64/c64-cmdline-options.h,
+	c128/c128-cmdline-options.c, c128/c128-cmdline-options.h,
+	vic20/vic20-cmdline-options.c, vic20/vic20-cmdline-options.h,
+	pet/pet-cmdline-options.c, pet/pet-cmdline-options.h,
+	cbm2/c610-cmdline-options.c, cbm2/c610-cmdline-options.h,
+	c64/c64memlimit.c, c64memlimit.h: New files.
+
+	* c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c.
+	pet/petmem.c, cbm2/c610mem.c: Moved command line options code
+	to separate files.
+
+	* c64/c64mem.c (mem_initialize_memory): Separated memory
+	limits code.
+
+        * c64/Makefile.am, c128/Makefile.am, vic20/Makefile.am,
+        pet/Makefile.am, cbm2/Makefile.am: Added new files.
+
+	* drive/fdc.c: #include <stdio.h>.
+
+	* pet/pets.h, pet/petmem.c, pet/petmem.h: Renamed PET structs.
+
 2001-05-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.24.
