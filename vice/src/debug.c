@@ -290,7 +290,7 @@ void debug_nmi(interrupt_cpu_status_t *cs, CLOCK iclk)
 
 void debug_dma(const char *txt, CLOCK dclk, int num)
 {
-    log_debug("*** DMA %s %10i  %02i", txt, dclk, num);
+    log_debug("*** DMA %s %10ld  %02i", txt, (long)dclk, num);
 }
 
 /*------------------------------------------------------------------------*/

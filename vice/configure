@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.26
+ VERSION=1.14.27
 
 
 cat >>confdefs.h <<_ACEOF
@@ -2975,8 +2975,13 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RS232
+_ACEOF
 
-if false; then
+
+
+if true; then
   HAVE_RS232_TRUE=
   HAVE_RS232_FALSE='#'
 else
@@ -15443,7 +15448,7 @@ elif [ x"$is_beos" != "xno" ]; then
 elif [ x"$is_win32" != "xno" ]; then
 
 
-  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32"
+  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32 -lwsock32"
 
   echo "$as_me:$LINENO: checking for GUID_SysMouse in -ldxguid" >&5
 echo $ECHO_N "checking for GUID_SysMouse in -ldxguid... $ECHO_C" >&6

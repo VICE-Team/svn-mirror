@@ -250,7 +250,7 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
 #if 1
     {
         unsigned int i;
-        log_debug("INTREQ %i", cpu_clk);
+        log_debug("INTREQ %ld", (long)cpu_clk);
         for (i = 0; i < cs->num_dma_per_opcode; i++)
             log_debug("%iCYLEFT %i", i, cs->num_cycles_left[i]);
     }
