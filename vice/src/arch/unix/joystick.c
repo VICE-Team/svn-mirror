@@ -8,6 +8,9 @@
  * Patches by
  *  Daniel Sladic    (sladic@eecg.toronto.edu)
  *
+ * NetBSD support by
+ *  Krister Walfridsson (cato@df.lth.se)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -32,7 +35,16 @@
 
 #ifdef HAS_JOYSTICK
 
+#ifdef LINUX_JOYSTICK
 #include <linux/joystick.h>
+#elif defined(BSD_JOYSTICK)
+#include <machine/joystick.h>
+#define JS_DATA_TYPE joystick
+#define JS_RETURN    sizeof(struct joystick)
+#elif
+#error Unknown Joystick
+#endif
+
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -89,7 +101,11 @@ void joyini(void)
   for(i=0;i<2;i++) {
     
     char* dev;
+#ifdef LINUX_JOYSTICK
     dev=(i==0)?"/dev/js0":"/dev/js1";
+#elif defined(BSD_JOYSTICK)
+    dev=(i==0)?"/dev/joy0":"/dev/joy1";
+#endif
     
     ajoyfd[i]=open(dev,O_RDONLY);
     if (ajoyfd[i] < 0) {
@@ -132,6 +148,7 @@ void joyini(void)
     }
   }
     
+#ifdef HAS_DIGITAL_JOYSTICK
   /* open device files for digital joystick */
   for(i=0;i<2;i++) {
     char* dev;
@@ -142,6 +159,7 @@ void joyini(void)
       fprintf(stderr, "Warning: couldn't open the joystick device %s!\n",dev);
     }
   }
+#endif
 }
 
 void joyclose(void)
@@ -195,7 +213,11 @@ void joystick(void)
 	  else joy[i] &= ~4;
 	  if (js.x>joyxmax[ajoyport]) joy[i] |= 8;
 	  else joy[i] &= ~8;
+#ifdef LINUX_JOYSTICK
 	  if(js.buttons) joy[i] |= 16;
+#elif defined(BSD_JOYSTICK)
+	  if(js.b1 || js.b2) joy[i] |= 16;
+#endif
 	  else joy[i] &= ~16;
 	}
       }

@@ -59,7 +59,7 @@ exec_prefix	= @exec_prefix@
 ARCH		= @host@
 
 LDFLAGS         = @X_LIBS@ @LDFLAGS@
-DEFS 	        = @DEFS@ @LINUXJOYSTICK@ -DPREFIX=\"@prefix@\"
+DEFS 	        = @DEFS@ @JOYSTICK@ -DPREFIX=\"@prefix@\"
 MKDEP 	        = @MKDEP@
 CFLAGS          = @X_CFLAGS@ @CFLAGS@
 INCLUDES	= -I$(SRCDIR) -I./include -I$(ARCHDIR) -I$(INCLUDEDIR)
@@ -72,6 +72,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA	= @INSTALL_DATA@
 INSTALL_BINS_TO = @bindir@
 
+RM		= rm
 
 ### Installation settings
 
@@ -369,7 +370,7 @@ x64:	$(BINDIR)/x64
 
 $(BINDIR)/x64: $(C64_DEPS)
 	$(CC) $(LDFLAGS) -o $@ $(C64_DEPS) $(LIBS) -lm
-#	rm -f ./x64; $(LN_S) $(BINDIR)/x64 ./x64
+#	$(RM) -f ./x64; $(LN_S) $(BINDIR)/x64 ./x64
 
 $(C64_OBJS):
 	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
@@ -391,7 +392,7 @@ xvic:	$(BINDIR)/xvic
 
 $(BINDIR)/xvic: $(VIC_DEPS)
 	$(CC) $(LDFLAGS) -o $@ $(VIC_DEPS) $(LIBS) -lm
-#	rm -f ./xvic; $(LN_S) $(BINDIR)/xvic ./xvic
+#	$(RM) -f ./xvic; $(LN_S) $(BINDIR)/xvic ./xvic
 
 $(VIC20_OBJS):
 	$(CC) -DVIC20 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:_VIC20.o=.c)
@@ -413,7 +414,7 @@ xpet: $(BINDIR)/xpet
 
 $(BINDIR)/xpet: $(PET_DEPS)
 	$(CC) $(LDFLAGS) -o $@ $(PET_DEPS) $(LIBS) -lm
-#	rm -rf ./xpet; $(LN_S) $(BINDIR)/xpet ./xpet
+#	$(RM) -rf ./xpet; $(LN_S) $(BINDIR)/xpet ./xpet
 
 $(PET_OBJS):
 	$(CC) -DPET $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:_PET.o=.c)
@@ -444,14 +445,14 @@ c1541: $(BINDIR)/c1541
 
 $(BINDIR)/c1541: $(C1541_DEPS)
 	$(CC) $(LDFLAGS) -o $@ $(C1541_DEPS)
-#	rm -f ./c1541; 	$(LN_S) $(BINDIR)/c1541 ./c1541
+#	$(RM) -f ./c1541; 	$(LN_S) $(BINDIR)/c1541 ./c1541
 
 .PHONY: petcat
 petcat: $(BINDIR)/petcat
 
 $(BINDIR)/petcat: $(PETCAT_DEPS)
 	$(CC) $(LDFLAGS) -o $@ $(PETCAT_DEPS)
-#	rm -f ./petcat; $(LN_S) $(BINDIR)/petcat ./petcat
+#	$(RM) -f ./petcat; $(LN_S) $(BINDIR)/petcat ./petcat
 
 stddrive.o: $(SRCDIR)/drive.c
 	$(CC) -c $(CFLAGS) $(DEFS) $(INCLUDES) -DSTANDALONE_1541 -o stddrive.o $(SRCDIR)/drive.c
@@ -594,21 +595,21 @@ uninstall: VERSION
 clean:
 	(cd $(READLINEODIR); $(MAKE) clean)
 	(cd $(WIDGETODIR); $(MAKE) clean)
-	rm -f *~ *.bak TAGS *.o
-	(cd $(UNIXODIR); rm -f *~ *.bak TAGS *.o)
-	(cd $(MSDOSODIR); rm -f *~ *.bak TAGS *.o)
-	(cd $(C64ODIR); rm -f *~ *.bak TAGS *.o)
-	(cd $(PETODIR); rm -f *~ *.bak TAGS *.o)
-	(cd $(VICODIR); rm -f *~ *.bak TAGS *.o)
-	rm -f $(TARGET)
+	$(RM) -f *~ *.bak TAGS *.o
+	(cd $(UNIXODIR); $(RM) -f *~ *.bak TAGS *.o)
+	(cd $(MSDOSODIR); $(RM) -f *~ *.bak TAGS *.o)
+	(cd $(C64ODIR); $(RM) -f *~ *.bak TAGS *.o)
+	(cd $(PETODIR); $(RM) -f *~ *.bak TAGS *.o)
+	(cd $(VICODIR); $(RM) -f *~ *.bak TAGS *.o)
+	$(RM) -f $(TARGET)
 
 .PHONY: mrproper
 mrproper: clean
 	(cd $(WIDGETODIR); $(MAKE) mrproper)
 	(cd $(READLINEODIR); $(MAKE) mrproper)
-	rm -f config.cache config.log config.status Makefile Makefile.old \
+	$(RM) -f config.cache config.log config.status Makefile Makefile.old \
 	      include/autoconf.h VERSION
-	rm -f c1541 petcat x64 xpet xvic
+	$(RM) -f c1541 petcat x64 xpet xvic
 
 configure: configure.in
 	autoconf
@@ -656,7 +657,7 @@ dist: catpages VERSION configure $(C64ROMS) $(VIC20ROMS) $(PETROMS)
 	   ln $(PETROMS) $$DISTNAME/bin/$(PETROMDIR);	  	\
 	   tar cfh $(TOPDIR)/$$DISTNAME.tar $$DISTNAME;	  	\
 	   gzip -9 $(TOPDIR)/$$DISTNAME.tar;		  	\
-	   rm -rf $$DISTNAME )
+	   $(RM) -rf $$DISTNAME )
 
 .PHONY: depend
 depend: $(VICESRC)
