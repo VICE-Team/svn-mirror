@@ -636,6 +636,9 @@ int serial_attach_device(int device, char *var, char *name,
 
     p->inuse = 1;
     p->info = var;		/* run-time data storage */
+
+    if (p->name != NULL)
+        free(p->name);
     p->name = stralloc(name);
 
     for (i = 0; i < 16; i++) {
