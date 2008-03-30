@@ -299,6 +299,9 @@ char            *possible_trojan_path;
             OutputDebugString(TEXT("BOOT path NT4 without PSAPI"));
             if (GetModuleFileName(NULL, st_temp, MAX_PATH)) {
                 system_wcstombs(temp, st_temp, MAX_PATH);
+                if (!verify_exe(temp)) {
+                    possible_trojan_path = lib_stralloc(temp);
+                }
                 util_fname_split(temp, &boot_path, NULL);
             } else {
                 OutputDebugString(TEXT("Module file name could not be obtained"));

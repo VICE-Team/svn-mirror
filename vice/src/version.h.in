@@ -31,6 +31,10 @@
 #define VERSION "@VERSION@"
 #endif
 
+#ifndef VERSION_RC_NUMBER
+#define VERSION_RC_NUMBER @VERSION_RC@
+#endif
+
 #ifndef PACKAGE
 #define PACKAGE "@PACKAGE@"
 #endif
