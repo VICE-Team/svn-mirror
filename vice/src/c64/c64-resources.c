@@ -77,33 +77,33 @@ int emu_id_enabled;
 int acia_de_enabled;
 #endif
 
-static int set_chargen_rom_name(resource_value_t v, void *param)
+static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_rom_name, (const char *)v))
+    if (util_string_set(&chargen_rom_name, val))
         return 0;
 
     return c64rom_load_chargen(chargen_rom_name);
 }
 
-static int set_kernal_rom_name(resource_value_t v, void *param)
+static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, (const char *)v))
+    if (util_string_set(&kernal_rom_name, val))
         return 0;
 
     return c64rom_load_kernal(kernal_rom_name);
 }
 
-static int set_basic_rom_name(resource_value_t v, void *param)
+static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, (const char *)v))
+    if (util_string_set(&basic_rom_name, val))
         return 0;
 
     return c64rom_load_basic(basic_rom_name);
 }
 
-static int set_emu_id_enabled(resource_value_t v, void *param)
+static int set_emu_id_enabled(int val, void *param)
 {
-    if (!(int)v) {
+    if (!val) {
         emu_id_enabled = 0;
         return 0;
     } else {
@@ -113,42 +113,42 @@ static int set_emu_id_enabled(resource_value_t v, void *param)
 }
 
 /* FIXME: Should patch the ROM on-the-fly.  */
-static int set_kernal_revision(resource_value_t v, void *param)
+static int set_kernal_revision(const char *val, void *param)
 {
-    util_string_set(&kernal_revision, (const char *)v);
+    util_string_set(&kernal_revision, val);
     return 0;
 }
 
 #ifdef HAVE_RS232
 
-static int set_acia_de_enabled(resource_value_t v, void *param)
+static int set_acia_de_enabled(int val, void *param)
 {
-    acia_de_enabled = (int)v;
+    acia_de_enabled = val;
     return 0;
 }
 
 #endif
 
-static int set_sync_factor(resource_value_t v, void *param)
+static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != (int)v)
+    if (sync_factor != val)
         change_timing = 1;
 
-    switch ((int)v) {
+    switch (val) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
       case MACHINE_SYNC_NTSCOLD:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSCOLD);
         break;
@@ -159,11 +159,11 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
@@ -214,7 +214,7 @@ static const resource_int_t resources_int[] = {
 #endif
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
-      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+      &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },

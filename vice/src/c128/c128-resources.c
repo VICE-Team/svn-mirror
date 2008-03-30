@@ -120,9 +120,9 @@ int acia_d7_enabled;
 #endif
 
 
-static int set_machine_type(resource_value_t v, void *param)
+static int set_machine_type(int val, void *param)
 {
-    unsigned int type = (unsigned int)v;
+    unsigned int type = (unsigned int)val;
 
     if (type != C128_MACHINE_INT && type != C128_MACHINE_FINNISH
         && type != C128_MACHINE_FRENCH && type != C128_MACHINE_GERMAN
@@ -143,9 +143,9 @@ static int set_machine_type(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_chargen_int_rom_name(resource_value_t v, void *param)
+static int set_chargen_int_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_int_rom_name, (const char *)v))
+    if (util_string_set(&chargen_int_rom_name, val))
         return 0;
 
     if (c128rom_load_chargen_int(chargen_int_rom_name) < 0)
@@ -157,9 +157,9 @@ static int set_chargen_int_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_chargen_de_rom_name(resource_value_t v, void *param)
+static int set_chargen_de_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_de_rom_name, (const char *)v))
+    if (util_string_set(&chargen_de_rom_name, val))
         return 0;
 
     if (c128rom_load_chargen_de(chargen_de_rom_name) < 0)
@@ -171,9 +171,9 @@ static int set_chargen_de_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_chargen_fr_rom_name(resource_value_t v, void *param)
+static int set_chargen_fr_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_fr_rom_name, (const char *)v))
+    if (util_string_set(&chargen_fr_rom_name, val))
         return 0;
 
     if (c128rom_load_chargen_fr(chargen_fr_rom_name) < 0)
@@ -185,9 +185,9 @@ static int set_chargen_fr_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_chargen_se_rom_name(resource_value_t v, void *param)
+static int set_chargen_se_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_se_rom_name, (const char *)v))
+    if (util_string_set(&chargen_se_rom_name, val))
         return 0;
 
     if (c128rom_load_chargen_se(chargen_se_rom_name) < 0)
@@ -199,9 +199,9 @@ static int set_chargen_se_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_int_rom_name(resource_value_t v, void *param)
+static int set_kernal_int_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_int_rom_name, (const char *)v))
+    if (util_string_set(&kernal_int_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_int(kernal_int_rom_name) < 0)
@@ -213,9 +213,9 @@ static int set_kernal_int_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_de_rom_name(resource_value_t v, void *param)
+static int set_kernal_de_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_de_rom_name, (const char *)v))
+    if (util_string_set(&kernal_de_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_de(kernal_de_rom_name) < 0)
@@ -227,9 +227,9 @@ static int set_kernal_de_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_fi_rom_name(resource_value_t v, void *param)
+static int set_kernal_fi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_fi_rom_name, (const char *)v))
+    if (util_string_set(&kernal_fi_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_fi(kernal_fi_rom_name) < 0)
@@ -241,9 +241,9 @@ static int set_kernal_fi_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_fr_rom_name(resource_value_t v, void *param)
+static int set_kernal_fr_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_fr_rom_name, (const char *)v))
+    if (util_string_set(&kernal_fr_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_fr(kernal_fr_rom_name) < 0)
@@ -255,9 +255,9 @@ static int set_kernal_fr_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_it_rom_name(resource_value_t v, void *param)
+static int set_kernal_it_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_it_rom_name, (const char *)v))
+    if (util_string_set(&kernal_it_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_it(kernal_it_rom_name) < 0)
@@ -269,9 +269,9 @@ static int set_kernal_it_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_no_rom_name(resource_value_t v, void *param)
+static int set_kernal_no_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_no_rom_name, (const char *)v))
+    if (util_string_set(&kernal_no_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_no(kernal_no_rom_name) < 0)
@@ -283,9 +283,9 @@ static int set_kernal_no_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_kernal_se_rom_name(resource_value_t v, void *param)
+static int set_kernal_se_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_se_rom_name, (const char *)v))
+    if (util_string_set(&kernal_se_rom_name, val))
         return 0;
 
     if (c128rom_load_kernal_se(kernal_se_rom_name) < 0)
@@ -297,41 +297,41 @@ static int set_kernal_se_rom_name(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_basiclo_rom_name(resource_value_t v, void *param)
+static int set_basiclo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basiclo_rom_name, (const char *)v))
+    if (util_string_set(&basiclo_rom_name, val))
         return 0;
 
     return c128rom_load_basiclo(basiclo_rom_name);
 }
 
-static int set_basichi_rom_name(resource_value_t v, void *param)
+static int set_basichi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basichi_rom_name, (const char *)v))
+    if (util_string_set(&basichi_rom_name, val))
         return 0;
 
     return c128rom_load_basichi(basichi_rom_name);
 }
 
-static int set_kernal64_rom_name(resource_value_t v, void *param)
+static int set_kernal64_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal64_rom_name, (const char *)v))
+    if (util_string_set(&kernal64_rom_name, val))
         return 0;
 
     return c128rom_load_kernal64(kernal64_rom_name);
 }
 
-static int set_basic64_rom_name(resource_value_t v, void *param)
+static int set_basic64_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic64_rom_name, (const char *)v))
+    if (util_string_set(&basic64_rom_name, val))
         return 0;
 
     return c128rom_load_basic64(basic64_rom_name);
 }
 
-static int set_emu_id_enabled(resource_value_t v, void *param)
+static int set_emu_id_enabled(int val, void *param)
 {
-    if (!(int)v) {
+    if (!val) {
         emu_id_enabled = 0;
         return 0;
     } else {
@@ -340,9 +340,9 @@ static int set_emu_id_enabled(resource_value_t v, void *param)
     }
 }
 
-static int set_ieee488_enabled(resource_value_t v, void *param)
+static int set_ieee488_enabled(int val, void *param)
 {
-    if (!(int)v) {
+    if (!val) {
         ieee488_enabled = 0;
         return 0;
     } else {
@@ -363,35 +363,35 @@ static int set_ieee488_enabled(resource_value_t v, void *param)
 
 #ifdef HAVE_RS232
 #if 0
-static int set_acia_d7_enabled(resource_value_t v, void *param)
+static int set_acia_d7_enabled(int val, void *param)
 {
-    acia_d7_enabled = (int)v;
+    acia_d7_enabled = val;
     return 0;
 }
 #endif
 
-static int set_acia_de_enabled(resource_value_t v, void *param)
+static int set_acia_de_enabled(int val, void *param)
 {
-    acia_de_enabled = (int)v;
+    acia_de_enabled = val;
     return 0;
 }
 #endif
 
-static int set_sync_factor(resource_value_t v, void *param)
+static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != (int)v)
+    if (sync_factor != val)
         change_timing = 1;
 
-    switch ((int)v) {
+    switch (val) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
@@ -402,11 +402,11 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
@@ -498,7 +498,7 @@ static const resource_int_t resources_int[] =
 #endif
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C128_SYM, RES_EVENT_NO, NULL,
-      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+      &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },

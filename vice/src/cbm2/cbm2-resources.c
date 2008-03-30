@@ -93,10 +93,8 @@ static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
 int ramsize;
 
-static int set_ramsize(resource_value_t v, void *param)
+static int set_ramsize(int rs, void *param)
 {
-    int rs = (int)v;
-
     if (rs!=64 && rs!=128 && rs!=256 && rs!=512 && rs!=1024)
         return -1;
 
@@ -104,15 +102,16 @@ static int set_ramsize(resource_value_t v, void *param)
     vsync_suspend_speed_eval();
     mem_initialize_memory();
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+
     return 0;
 }
 
-static int set_cbm2_model_line(resource_value_t v, void *param)
+static int set_cbm2_model_line(int val, void *param)
 {
-    int tmp = (int)v;
+    int tmp = val;
 
     if (tmp >= 0 && tmp < 3)
-        cbm2_model_line = (int)v;
+        cbm2_model_line = val;
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
@@ -125,9 +124,9 @@ static int set_cbm2_model_line(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_use_vicii(resource_value_t v, void *param)
+static int set_use_vicii(int val, void *param)
 {
-    int tmp = (int)v;
+    int tmp = val;
 
     if (tmp < 0 || tmp > 1)
         return -1;
@@ -141,126 +140,126 @@ static int set_use_vicii(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_chargen_rom_name(resource_value_t v, void *param)
+static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_name, (const char *)v))
+    if (util_string_set(&chargen_name, val))
         return 0;
 
     return cbm2rom_load_chargen(chargen_name);
 }
 
-static int set_kernal_rom_name(resource_value_t v, void *param)
+static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, (const char *)v))
+    if (util_string_set(&kernal_rom_name, val))
         return 0;
 
     return cbm2rom_load_kernal(kernal_rom_name);
 }
 
-static int set_basic_rom_name(resource_value_t v, void *param)
+static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, (const char *)v))
+    if (util_string_set(&basic_rom_name, val))
         return 0;
 
     return cbm2rom_load_basic(basic_rom_name);
 }
 
-static int set_cart1_rom_name(resource_value_t v, void *param)
+static int set_cart1_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_1_name, (const char *)v))
+    if (util_string_set(&cart_1_name, val))
         return 0;
 
     return cbm2rom_load_cart_1(cart_1_name);
 }
 
-static int set_cart2_rom_name(resource_value_t v, void *param)
+static int set_cart2_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_2_name, (const char *)v))
+    if (util_string_set(&cart_2_name, val))
         return 0;
 
     return cbm2rom_load_cart_2(cart_2_name);
 }
 
-static int set_cart4_rom_name(resource_value_t v, void *param)
+static int set_cart4_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_4_name, (const char *)v))
+    if (util_string_set(&cart_4_name, val))
         return 0;
 
     return cbm2rom_load_cart_4(cart_4_name);
 }
 
-static int set_cart6_rom_name(resource_value_t v, void *param)
+static int set_cart6_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_6_name, (const char *)v))
+    if (util_string_set(&cart_6_name, val))
         return 0;
 
     return cbm2rom_load_cart_6(cart_6_name);
     /* only does something after mem_load() */
 }
 
-static int set_cart08_ram(resource_value_t v, void *param)
+static int set_cart08_ram(int val, void *param)
 {
-    cart08_ram = (int)v;
+    cart08_ram = val;
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_cart1_ram(resource_value_t v, void *param)
+static int set_cart1_ram(int val, void *param)
 {
-    cart1_ram = (int)v;
+    cart1_ram = val;
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_cart2_ram(resource_value_t v, void *param)
+static int set_cart2_ram(int val, void *param)
 {
-    cart2_ram = (int)v;
+    cart2_ram = val;
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_cart4_ram(resource_value_t v, void *param)
+static int set_cart4_ram(int val, void *param)
 {
-    cart4_ram = (int)v;
+    cart4_ram = val;
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_cart6_ram(resource_value_t v, void *param)
+static int set_cart6_ram(int val, void *param)
 {
-    cart6_ram = (int)v;
+    cart6_ram = val;
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_cartC_ram(resource_value_t v, void *param)
+static int set_cartC_ram(int val, void *param)
 {
-    cartC_ram = (int)v;
+    cartC_ram = val;
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_emu_id_enabled(resource_value_t v, void *param)
+static int set_emu_id_enabled(int val, void *param)
 {
-    emu_id_enabled = (int)v;
+    emu_id_enabled = val;
     return 0;
 }
 
-static int set_sync_factor(resource_value_t v, void *param)
+static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != (int)v)
+    if (sync_factor != val)
         change_timing = 1;
 
-    switch ((int)v) {
+    switch (val) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int) v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
@@ -270,11 +269,11 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
@@ -350,7 +349,7 @@ static const resource_int_t resources_int[] = {
       &emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
-      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+      &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     { "SidStereoAddressStart", 0xda20, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },

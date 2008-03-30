@@ -72,7 +72,7 @@
 #endif
 
 
-unsigned int machine_keymap_index;
+int machine_keymap_index;
 
 
 unsigned int machine_jam(const char *format, ...)

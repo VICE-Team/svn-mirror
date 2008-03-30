@@ -75,103 +75,106 @@ static char *c2hi_rom_name = NULL;
 /* Size of RAM installed in kbytes */
 static int ram_size_plus4 = 64;
 
-static int set_kernal_rom_name(resource_value_t v, void *param)
+static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, (const char *)v))
+    if (util_string_set(&kernal_rom_name, val))
         return 0;
 
     return plus4rom_load_kernal(kernal_rom_name);
 }
 
-static int set_basic_rom_name(resource_value_t v, void *param)
+static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, (const char *)v))
+    if (util_string_set(&basic_rom_name, val))
         return 0;
 
     return plus4rom_load_basic(basic_rom_name);
 }
 
-static int set_func_lo_rom_name(resource_value_t v, void *param)
+static int set_func_lo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&func_lo_rom_name, (const char *)v))
+    if (util_string_set(&func_lo_rom_name, val))
         return 0;
 
     return plus4rom_load_3plus1lo(func_lo_rom_name);
 }
 
-static int set_func_hi_rom_name(resource_value_t v, void *param)
+static int set_func_hi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&func_hi_rom_name, (const char *)v))
+    if (util_string_set(&func_hi_rom_name, val))
         return 0;
 
     return plus4rom_load_3plus1hi(func_hi_rom_name);
 }
 
-static int set_c1lo_rom_name(resource_value_t v, void *param)
+static int set_c1lo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c1lo_rom_name, (const char *)v))
+    if (util_string_set(&c1lo_rom_name, val))
         return 0;
 
     return plus4cart_load_c1lo(c1lo_rom_name);
 }
 
-static int set_c1hi_rom_name(resource_value_t v, void *param)
+static int set_c1hi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c1hi_rom_name, (const char *)v))
+    if (util_string_set(&c1hi_rom_name, val))
         return 0;
 
     return plus4cart_load_c1hi(c1hi_rom_name);
 }
 
-static int set_c2lo_rom_name(resource_value_t v, void *param)
+static int set_c2lo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c2lo_rom_name, (const char *)v))
+    if (util_string_set(&c2lo_rom_name, val))
         return 0;
 
     return plus4cart_load_c2lo(c2lo_rom_name);
 }
 
-static int set_c2hi_rom_name(resource_value_t v, void *param)
+static int set_c2hi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c2hi_rom_name, (const char *)v))
+    if (util_string_set(&c2hi_rom_name, val))
         return 0;
 
     return plus4cart_load_c2hi(c2hi_rom_name);
 }
 
-static int set_ram_size_plus4(resource_value_t v, void *param)
+static int set_ram_size_plus4(int rs, void *param)
 {
-    int rs = (int)v;
-
-    if ((rs != 64) && (rs != 32) && (rs != 16) && (rs != 256) && (rs != 1024) && (rs != 4096)) {
+    if ((rs != 64) && (rs != 32) && (rs != 16) && (rs != 256) && (rs != 1024)
+        && (rs != 4096)) {
         return -1;
     }
+
     ram_size_plus4 = rs;
+
     if (ram_size_plus4 < 256) {
         resources_set_value("H256K", (resource_value_t)0);
         resources_set_value("CS256K", (resource_value_t)0);
     }
+
     vsync_suspend_speed_eval();
     mem_initialize_memory();
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+
     return 0;
 }
 
-static int set_sync_factor(resource_value_t v, void *param)
+static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != (int)v)
+    if (sync_factor != val)
         change_timing = 1;
 
-    switch ((int)v) {
+    switch (val) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
@@ -181,11 +184,11 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
@@ -233,7 +236,7 @@ static const resource_int_t resources_int[] = {
       &ram_size_plus4, set_ram_size_plus4, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_PLUS4_DEFAULT, RES_EVENT_NO, NULL,
-      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+      &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     { NULL }
 };

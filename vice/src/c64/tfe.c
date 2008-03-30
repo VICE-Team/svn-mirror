@@ -1369,20 +1369,17 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 /*    resources support functions                                            */
-static
-int set_tfe_disabled(resource_value_t v, void *param)
+static int set_tfe_disabled(int val, void *param)
 {
     /* dummy function since we don't want "disabled" to be stored on disk */
     return 0;
 }
 
-static
-int set_tfe_rr_net(resource_value_t v, void *param)
+static int set_tfe_rr_net(int val, void *param)
 {
-	if (!tfe_cannot_use) {
-
-        if (!(int)v) {
-		    /* TFE should not be used as rr net */
+    if (!tfe_cannot_use) {
+        if (!val) {
+            /* TFE should not be used as rr net */
             if (tfe_as_rr_net) {
                 tfe_as_rr_net = 0;
             }
@@ -1396,20 +1393,19 @@ int set_tfe_rr_net(resource_value_t v, void *param)
             /* virtually reset the LAN chip */
             if (tfe) {
                 tfe_reset();
-	    }
+            }
             return 0;
         }
 
     }
+
     return 0;
 }
 
-static
-int set_tfe_enabled(resource_value_t v, void *param)
+static int set_tfe_enabled(int val, void *param)
 {
     if (!tfe_cannot_use) {
-
-        if (!(int)v) {
+        if (!val) {
             /* TFE should be deactived */
             if (tfe_enabled) {
                 tfe_enabled = 0;
@@ -1418,7 +1414,7 @@ int set_tfe_enabled(resource_value_t v, void *param)
                 }
             }
             return 0;
-        } else { 
+        } else {
             if (!tfe_enabled) {
                 tfe_enabled = 1;
                 if (tfe_activate() < 0) {
@@ -1434,11 +1430,8 @@ int set_tfe_enabled(resource_value_t v, void *param)
 }
 
 
-static 
-int set_tfe_interface(resource_value_t v, void *param)
+static int set_tfe_interface(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (tfe_interface != NULL && name != NULL
         && strcmp(name, tfe_interface) == 0)
         return 0;

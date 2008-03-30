@@ -81,42 +81,40 @@ int ram_block_5_enabled;
 
 /* ------------------------------------------------------------------------- */
 
-static int set_chargen_rom_name(resource_value_t v, void *param)
+static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_rom_name, (const char *)v))
+    if (util_string_set(&chargen_rom_name, val))
         return 0;
 
     return vic20rom_load_chargen(chargen_rom_name);
 }
 
-static int set_kernal_rom_name(resource_value_t v, void *param)
+static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, (const char *)v))
+    if (util_string_set(&kernal_rom_name, val))
         return 0;
 
     return vic20rom_load_kernal(kernal_rom_name);
 }
 
-static int set_basic_rom_name(resource_value_t v, void *param)
+static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, (const char *)v))
+    if (util_string_set(&basic_rom_name, val))
         return 0;
 
     return vic20rom_load_basic(basic_rom_name);
 }
 
 /* Ugly hack...  */
-#define DEFINE_SET_BLOCK_FUNC(num)                                            \
-    static int set_ram_block_##num##_enabled(resource_value_t v, void *param) \
-    {                                                                         \
-        int value = (int)v;                                                   \
-                                                                              \
-        ram_block_##num##_enabled = value;                                    \
-        if (value) {                                                          \
-            mem_rom_blocks &= (VIC_ROM_BLK##num##A | VIC_ROM_BLK##num##B);    \
-            return vic20_mem_enable_ram_block(num);                           \
-        } else                                                                \
-            return vic20_mem_disable_ram_block(num);                          \
+#define DEFINE_SET_BLOCK_FUNC(num)                                          \
+    static int set_ram_block_##num##_enabled(int value, void *param)        \
+    {                                                                       \
+        ram_block_##num##_enabled = value;                                  \
+        if (value) {                                                        \
+            mem_rom_blocks &= (VIC_ROM_BLK##num##A | VIC_ROM_BLK##num##B);  \
+            return vic20_mem_enable_ram_block(num);                         \
+        } else                                                              \
+            return vic20_mem_disable_ram_block(num);                        \
     }
 
 DEFINE_SET_BLOCK_FUNC(0)
@@ -125,15 +123,15 @@ DEFINE_SET_BLOCK_FUNC(2)
 DEFINE_SET_BLOCK_FUNC(3)
 DEFINE_SET_BLOCK_FUNC(5)
 
-static int set_emu_id_enabled(resource_value_t v, void *param)
+static int set_emu_id_enabled(int val, void *param)
 {
-    emu_id_enabled = (int)v;
+    emu_id_enabled = val;
     return 0;
 }
 
-static int set_ieee488_enabled(resource_value_t v, void *param)
+static int set_ieee488_enabled(int val, void *param)
 {
-    ieee488_enabled = (int)v;
+    ieee488_enabled = val;
 
     ui_update_menus();
 
@@ -148,21 +146,21 @@ void mem_toggle_emu_id(int flag)
 }
 #endif
 
-static int set_sync_factor(resource_value_t v, void *param)
+static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != (int)v)
+    if (sync_factor != val)
         change_timing = 1;
 
-    switch ((int)v) {
+    switch (val) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int) v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
@@ -172,11 +170,11 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
@@ -224,7 +222,7 @@ static const resource_int_t resources_int[] =
       &ieee488_enabled, set_ieee488_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_VIC20_DEFAULT, RES_EVENT_NO, NULL,
-      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+      &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     {NULL}
 };

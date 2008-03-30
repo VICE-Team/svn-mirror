@@ -60,47 +60,54 @@ static int romset_firmware[7];
 
 static int sync_factor;
 
-static int set_iosize(resource_value_t v, void *param)
+static int set_iosize(int val, void *param)
 {
-    petres.IOSize = (int)v;
+    petres.IOSize = val;
 
     mem_initialize_memory();
+
     return 0;
 }
 
-static int set_crtc_enabled(resource_value_t v, void *param)
+static int set_crtc_enabled(int val, void *param)
 {
-    petres.crtc = (int)v;
+    petres.crtc = val;
+
     return 0;
 }
 
-static int set_superpet_enabled(resource_value_t v, void *param)
+static int set_superpet_enabled(int val, void *param)
 {
-    if ((unsigned int) v < 2)
-        petres.superpet = (unsigned int)v;
+    if (val < 2)
+        petres.superpet = (unsigned int)val;
+
     mem_initialize_memory();
+
     return 0;
 }
 
-static int set_ram_9_enabled(resource_value_t v, void *param)
+static int set_ram_9_enabled(int val, void *param)
 {
-    if ((unsigned int) v < 2)
-        petres.mem9 = (unsigned int)v;
+    if (val < 2)
+        petres.mem9 = (unsigned int)val;
+
     mem_initialize_memory();
+
     return 0;
 }
 
-static int set_ram_a_enabled(resource_value_t v, void *param)
+static int set_ram_a_enabled(int val, void *param)
 {
-    if ((unsigned int) v < 2)
-        petres.memA = (unsigned int)v;
+    if (val < 2)
+        petres.memA = (unsigned int)val;
+
     mem_initialize_memory();
+
     return 0;
 }
 
-static int set_ramsize(resource_value_t v, void *param)
+static int set_ramsize(int size, void *param)
 {
-    int size = (int) v;
     int i;
     const int sizes[] = { 4, 8, 16, 32, 96, 128 };
 
@@ -129,10 +136,8 @@ static int set_ramsize(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_video(resource_value_t v, void *param)
+static int set_video(int col, void *param)
 {
-    int col = (int)v;
-
     if (col != petres.video) {
         if (col == 0 || col == 40 || col == 80) {
 
@@ -143,65 +148,66 @@ static int set_video(resource_value_t v, void *param)
             pet_crtc_set_screen();
         }
     }
+
     return 0;
 }
 
 /* ROM filenames */
 
-static int set_chargen_rom_name(resource_value_t v, void *param)
+static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.chargenName, (const char *)v))
+    if (util_string_set(&petres.chargenName, val))
         return 0;
 
     return petrom_load_chargen();
 }
 
-static int set_kernal_rom_name(resource_value_t v, void *param)
+static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.kernalName, (const char *)v))
+    if (util_string_set(&petres.kernalName, val))
         return 0;
 
     return petrom_load_kernal();
 }
 
-static int set_basic_rom_name(resource_value_t v, void *param)
+static int set_basic_rom_name(const char *val, void *param)
 {
 /*  do we want to reload the basic even with the same name - romB can
     overload the basic ROM image and we can restore it only here ?
 */
-    if (util_string_set(&petres.basicName, (const char *)v))
+    if (util_string_set(&petres.basicName, val))
         return 0;
 
     return petrom_load_basic();
 }
 
-static int set_editor_rom_name(resource_value_t v, void *param)
+static int set_editor_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.editorName, (const char *)v))
+    if (util_string_set(&petres.editorName, val))
         return 0;
 
     return petrom_load_editor();
 }
 
-static int set_rom_module_9_name(resource_value_t v, void *param)
+static int set_rom_module_9_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.mem9name, (const char *)v))
+    if (util_string_set(&petres.mem9name, val))
         return 0;
 
     return petrom_load_rom9();
 }
 
-static int set_rom_module_a_name(resource_value_t v, void *param)
+static int set_rom_module_a_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.memAname, (const char *)v))
+    if (util_string_set(&petres.memAname, val))
         return 0;
 
     return petrom_load_romA();
 }
 
-static int set_rom_module_b_name(resource_value_t v, void *param)
+static int set_rom_module_b_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.memBname, (const char *)v))
+    if (util_string_set(&petres.memBname, val))
         return 0;
 
     return petrom_load_romB();
@@ -209,9 +215,9 @@ static int set_rom_module_b_name(resource_value_t v, void *param)
 
 /* Enable/disable patching the PET 2001 chargen ROM/kernal ROM */
 
-static int set_pet2k_enabled(resource_value_t v, void *param)
+static int set_pet2k_enabled(int val, void *param)
 {
-    int i = (((int)v) ? 1 : 0);
+    int i = ((val) ? 1 : 0);
 
     if (i != petres.pet2k) {
         if (petres.pet2k)
@@ -225,9 +231,9 @@ static int set_pet2k_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_pet2kchar_enabled(resource_value_t v, void *param)
+static int set_pet2kchar_enabled(int val, void *param)
 {
-    int i = (((int)v) ? 1 : 0);
+    int i = ((val) ? 1 : 0);
 
     if (i != petres.pet2kchar) {
         petres.pet2kchar = i;
@@ -238,9 +244,9 @@ static int set_pet2kchar_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_eoiblank_enabled(resource_value_t v, void *param)
+static int set_eoiblank_enabled(int val, void *param)
 {
-    int i = (((int)v) ? 1 : 0);
+    int i = ((val) ? 1 : 0);
 
     petres.eoiblank = i;
 
@@ -251,27 +257,27 @@ static int set_eoiblank_enabled(resource_value_t v, void *param)
 
 /* Enable/disable the Emulator ID.  */
 
-static int set_emu_id_enabled(resource_value_t v, void *param)
+static int set_emu_id_enabled(int val, void *param)
 {
-    emu_id_enabled = (int)v;
+    emu_id_enabled = val;
     return 0;
 }
 
-static int set_sync_factor(resource_value_t v, void *param)
+static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != (int)v)
+    if (sync_factor != val)
         change_timing = 1;
 
-    switch ((int)v) {
+    switch (val) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int) v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
-        sync_factor = (int)v;
+        sync_factor = val;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
@@ -281,11 +287,11 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
@@ -363,7 +369,7 @@ static const resource_int_t resources_int[] = {
       &emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_PET_BUKS, RES_EVENT_NO, NULL,
-      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+      &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
     { NULL }
 };

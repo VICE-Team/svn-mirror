@@ -1,3 +1,61 @@
+2006-09-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.3.
+
+	* resources.c, resources.h (resources_register): Removed.
+
+	* aciacore.c, attach.c, datasette.c, debug.c, event.c,
+	fliplist.c, log.c, mouse.c, network.c, ram.c, romset.c,
+	sound.c, sysfile.c, translate.c, traps.c, vsync.c,
+	c64/cart/c64cart.c, c64/cart/ide64.c, c64/plus60k.c,
+	c64/reu.c, c64/tfe.c, c64/ramcart.c, c64/plus256k.c,
+	c64/georam.c, c64/psid.c, c64/c64-resources.c, c64/c64_256k.c,
+	c128/functionrom.c, c128/c128-resources.c, c128/z80mem.c,
+	c128/c128mmu.c, vic20/vic20cartridge.c,
+	vic20/vic20-resources.c, pet/pet.c, pet/pet-resources.c,
+	pet/petpia1.c, pet/petreu.c, plus4/plus4memhannes256k.c,
+	plus4/plus4-resources.c, plus4/plus4memcsory256k.c,
+	cbm2/cbm2-resources.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c, arch/os2/ui.c, arch/os2/mousedrv.c,
+	arch/os2/kbd.c, arch/os2/joy.c, arch/os2/rs232.c,
+	arch/os2/unused/video_gpi.c, arch/os2/unused/vsync.c,
+	arch/os2/video.c, arch/beos/kbd.c, arch/beos/ui.cc,
+	arch/beos/joy.cc, arch/beos/video.cc,
+	arch/unix/x11/ui-resources.c, arch/unix/x11/video.c,
+	arch/unix/joy.c, arch/unix/rs232.c, arch/unix/macosx/joy.c,
+	arch/msdos/joy.c, arch/msdos/video.c, arch/msdos/vsync.c,
+	arch/win32/joy.c, arch/win32/ui-resources.c,
+	arch/win32/video.c, arch/riscos/ui.c, arch/riscos/kbd.c,
+	arch/riscos/joy.c, arch/riscos/rs232.c, arch/riscos/video.c,
+	arch/riscos/vsync.c, arch/amigaos/joyai.c,
+	arch/amigaos/joyll.c, arch/amigaos/joy.c,
+	arch/amigaos/uiapi.c, drive/iec/iec-resources.c,
+	drive/ieee/ieee-resources.c, drive/tcbm/tcbm-resources.c,
+	drive/iec128dcr/iec128dcr-resources.c,
+	drive/drive-resources.c, sid/sid-resources.c,
+	vdc/vdc-resources.c, diskimage/rawimage.c,
+	vicii/vicii-resources.c, video/video-resources.c,
+	video/video-resources-pal.c, rs232drv/rsuser.c,
+	rs232drv/rs232drv.c, raster/raster-resources.c,
+	serial/serial-iec-device.c, fsdevice/fsdevice-resources.c,
+	printerdrv/interface-serial.c,
+	printerdrv/interface-userport.c, printerdrv/driver-select.c,
+	printerdrv/output-text.c, printerdrv/output-select.c,
+	printerdrv/output-graphics.c, gfxoutputdrv/ffmpegdrv.c,
+	arch/unix/x11/dga2.c, sid/sid-resources.h, keyboard.c,
+	keyboard.h: Changed resource set functions to new register
+	API.
+
+	* machine.c, machine.h, keyboard.c, c64/c64-resources.c,
+	c128/c128-resources.c, vic20/vic20-resources.c,
+	pet/pet-resources.c, plus4/plus4-resources.c,
+	cbm2/cbm2-resources.c: `machine_keymap_index' is int.
+
+2006-09-09  pottendo  <pottendo@utanet.at>
+
+	* fsdevice/fsdevice-resources.c: (resource_string) added
+	`NULL'. 
+
 2006-09-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.2.

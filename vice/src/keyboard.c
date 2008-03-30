@@ -928,18 +928,18 @@ int keyboard_keymap_dump(const char *filename)
 
 /*-----------------------------------------------------------------------*/
 
-int keyboard_set_keymap_index(resource_value_t v, void *param)
+int keyboard_set_keymap_index(int val, void *param)
 {
     const char *name, *resname;
 
-    resname = machine_keymap_res_name_list[(unsigned int)v];
+    resname = machine_keymap_res_name_list[val];
 
     if (resources_get_value(resname, (void *)&name) < 0)
         return -1;
 
     if (load_keymap_ok) {
         if (keyboard_keymap_load(name) >= 0) {
-            machine_keymap_index = (unsigned int)v;
+            machine_keymap_index = val;
             return 0;
         } else {
             log_error(keyboard_log, _("Cannot load keymap `%s'."),
@@ -948,11 +948,11 @@ int keyboard_set_keymap_index(resource_value_t v, void *param)
         return -1;
     }
 
-    machine_keymap_index = (unsigned int)v;
+    machine_keymap_index = val;
     return 0;
 }
 
-int keyboard_set_keymap_file(resource_value_t v, void *param)
+int keyboard_set_keymap_file(const char *val, void *param)
 {
     unsigned int oldindex, newindex;
 
@@ -964,7 +964,7 @@ int keyboard_set_keymap_file(resource_value_t v, void *param)
     if (resources_get_value("KeymapIndex", (void *)&oldindex) < 0)
         return -1;
 
-    if (util_string_set(&machine_keymap_file_list[newindex], (const char *)v))
+    if (util_string_set(&machine_keymap_file_list[newindex], val))
         return 0;
 
     /* reset oldindex -> reload keymap file if this keymap is active */
@@ -1008,7 +1008,7 @@ void keyboard_init(void)
     kbd_arch_init();
 
     load_keymap_ok = 1;
-    keyboard_set_keymap_index((resource_value_t)machine_keymap_index, NULL);
+    keyboard_set_keymap_index(machine_keymap_index, NULL);
 #endif
 }
 
