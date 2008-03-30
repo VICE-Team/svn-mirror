@@ -245,7 +245,7 @@ static char *try_uncompress_with_bzip(const char *name)
     int l = strlen(name);
     int exit_status;
     char *argv[4];
-log_debug("L1: %s",name);
+
     /* Check whether the name sounds like a bzipped file by checking the
        extension.  MSDOS and UNIX variants of bzip v2 use the extension
        '.bz2'.  bzip v1 is obsolete.  */
@@ -260,14 +260,13 @@ log_debug("L1: %s",name);
 
     ZDEBUG(("try_uncompress_with_bzip: spawning bzip -cd %s", name));
     exit_status = archdep_spawn("bzip2", argv, &tmp_name, NULL);
-log_debug("L2: %i",exit_status);
+
     lib_free(argv[0]);
     lib_free(argv[1]);
     lib_free(argv[2]);
 
     if (exit_status == 0) {
         ZDEBUG(("try_uncompress_with_bzip: OK"));
-log_debug("L3: %s",tmp_name);
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_bzip: failed"));
