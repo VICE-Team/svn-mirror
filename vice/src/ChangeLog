@@ -1,5 +1,29 @@
 1999-02-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.32.
+
+	* arch/unix/xaw/uicommands.c (ui_tape_commands_menu): Added
+	datasette control menu.
+
+	* tape.c (tape_attach_image, tape_detach_image): Try to attach TAP
+	tape images too.
+
+	* tap.c, tap.h: New files.
+
+	* datasette.c, datasette.h: New files.
+
+	* c64/c64.c (machine_init): Initialize datasette.
+
+	* c64/c64datasette.c: New file.
+
+	* c64/c64mem (pla_config_changed): Report change of datasette
+	motor status.
+
+	* vic20/vic20datasette.c, pet/petdatasette.c,
+	cbm2/c610datasette.c: New files.
+
+1999-02-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.31.
 
 	* alarm.h, alarm.c (alarm_set): Made inline.

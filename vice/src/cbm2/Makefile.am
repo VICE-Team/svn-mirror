@@ -19,6 +19,7 @@ libcbm2_a_SOURCES = \
 	c610cia1.c \
 	c610cia1.def \
 	c610cpu.c \
+	c610datasette.c \
 	c610iec.c \
 	c610mem.c \
 	c610mem.h \

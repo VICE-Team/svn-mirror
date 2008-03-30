@@ -129,6 +129,7 @@ libcbm2_a_SOURCES = \
 	c610cia1.c \
 	c610cia1.def \
 	c610cpu.c \
+	c610datasette.c \
 	c610iec.c \
 	c610mem.c \
 	c610mem.h \
@@ -155,7 +156,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libcbm2_a_LIBADD = 
 libcbm2_a_OBJECTS =  crtc.o c610.o c610acia1.o c610cia1.o c610cpu.o \
-c610iec.o c610mem.o c610tpi1.o c610tpi2.o
+c610datasette.o c610iec.o c610mem.o c610tpi1.o c610tpi2.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -341,6 +342,8 @@ c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
 	../resources.h ../traps.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h ../vdrive.h \
 	../fs_cbm.h ../serial.h ../6510core.c
+c610datasette.o: c610datasette.c ../../src/vice.h ../../src/config.h \
+	../../src/datasette.h ../../src/tap.h ../../src/types.h
 c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/drive/drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \

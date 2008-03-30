@@ -130,6 +130,7 @@ libc64_a_SOURCES = \
 	c64cia1.c \
 	c64cia2.c \
 	c64cia2.def \
+	c64datasette.c \
 	c64iec.c \
 	c64iec.h \
 	c64mem.c \
@@ -152,6 +153,7 @@ libc64c128_a_SOURCES = \
 	c64cia.h \
 	c64cia2.c \
 	c64cia2.def \
+	c64datasette.c \
 	patchrom.c \
 	patchrom.h \
 	sprcrunch.h \
@@ -197,11 +199,12 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64iec.o c64mem.o \
-cartridge.o patchrom.o reu.o c64tpi.o vicii.o
+libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64datasette.o c64iec.o \
+c64mem.o cartridge.o patchrom.o reu.o c64tpi.o vicii.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64c128_a_OBJECTS =  c64cia2.o patchrom.o c64tpi.o vicii.o
+libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o \
+vicii.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -355,9 +358,10 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/log.h ../../src/snapshot.h ../../src/autostart.h \
 	c64.h c64cia.h ../../src/cia.h c64mem.h ../../src/mem.h \
 	c64tpi.h ../../src/arch/unix/xaw/c64ui.h ../../src/cartridge.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
+	../../src/drive/drivecpu.h ../../src/alarm.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/maincpu.h patchrom.h reu.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/warn.h ../../src/tape.h \
@@ -396,6 +400,9 @@ c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h ../../src/cia.h \
 	../../src/traps.h ../../src/drive/drivecpu.h c64mem.h c64iec.h \
 	../../src/iecdrive.h c64cia.h ../../src/pruser.h \
 	../../src/rsuser.h
+c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
+	c64cia.h ../../src/types.h ../../src/cia.h ../../src/snapshot.h \
+	../../src/datasette.h ../../src/tap.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/drive/ciad.h ../../src/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/drive/viad.h \
@@ -407,7 +414,8 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h c64cia.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/memutils.h ../../src/types.h \
-	../../src/arch/unix/archdep.h ../../src/file.h ../../src/log.h \
+	../../src/arch/unix/archdep.h ../../src/datasette.h \
+	../../src/tap.h ../../src/file.h ../../src/log.h \
 	../../src/resources.h ../../src/sysfile.h ../../src/utils.h \
 	c64cart.h c64cia.h ../../src/cia.h ../../src/snapshot.h \
 	c64mem.h ../../src/mem.h c64tpi.h ../../src/cartridge.h \

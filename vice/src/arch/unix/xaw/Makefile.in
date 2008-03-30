@@ -357,6 +357,7 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
 	../../../../src/traps.h ../../../../src/log.h \
 	../../../../src/snapshot.h ../../../../src/autostart.h \
+	../../../../src/datasette.h ../../../../src/tap.h \
 	../../../../src/imagecontents.h ../../../../src/info.h \
 	../../../../src/interrupt.h ../../../../src/vmachine.h \
 	../../../../src/6510core.h ../../../../src/mem.h \

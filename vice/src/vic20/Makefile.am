@@ -20,6 +20,7 @@ libvic20_a_SOURCES = \
 	vic.h \
 	vic20.c \
 	vic20.h \
+	vic20datasette.c \
 	vic20iec.c \
 	vic20iec.h \
 	vic20mem.c \
