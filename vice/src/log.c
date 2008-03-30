@@ -53,7 +53,7 @@ static int set_log_file_name(resource_value_t v)
 }
 
 static resource_t resources[] = {
-    { "LogFile", RES_STRING, (resource_value_t) NULL,
+    { "LogFileName", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &log_file_name, set_log_file_name },
     { NULL }
 };
@@ -65,7 +65,7 @@ int log_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-logfile", SET_RESOURCE, 1, NULL, NULL,
-      "LogFile", NULL, "<name>", "Specify log file name" },
+      "LogFileName", NULL, "<name>", "Specify log file name" },
     { NULL }
 };
 
@@ -90,7 +90,7 @@ int log_init(void)
     if (logs != NULL)
         return -1;
 
-    if (log_file_name == NULL) {
+    if (log_file_name == NULL || *log_file_name == 0) {
         log_file = archdep_open_default_log_file();
     } else {
         if (strcmp(log_file_name, "-") == 0)
