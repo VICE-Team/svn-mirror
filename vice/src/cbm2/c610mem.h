@@ -29,9 +29,9 @@
 
 #include "types.h"
 
-#define C610_RAM_SIZE		0x100000	/* maximum 1M */
-#define C610_ROM_SIZE		0x10000		/* complete bank 15 */
-#define C610_CHARGEN_ROM_SIZE	0x2000
+#define C610_RAM_SIZE           0x100000        /* maximum 1M */
+#define C610_ROM_SIZE           0x10000         /* complete bank 15 */
+#define C610_CHARGEN_ROM_SIZE   0x2000
 
 #define CBM2_CHARGEN500 "chargen" FSDEV_EXT_SEP_STR "500"
 #define CBM2_CHARGEN600 "chargen" FSDEV_EXT_SEP_STR "600"

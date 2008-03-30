@@ -1,4 +1,4 @@
-/* -*- C -*-
+/*
  *
  * c610cia1.c - Definitions for the MOS6526 (CIA) chip in the CBM-II
  *
@@ -67,15 +67,15 @@
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk 		clk
+#define myclk           clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define	mycpu_rmw_flag	rmw_flag
+#define mycpu_rmw_flag  rmw_flag
 
 #define cia_set_int_clk(value,clk) \
-		tpi1_set_int(2,(value))
+                tpi1_set_int(2,(value))
 
 #define cia_restore_int(value) \
-		tpi1_restore_int(2,(value))
+                tpi1_restore_int(2,(value))
 
 #define mycpu_alarm_context maincpu_alarm_context
 
@@ -83,11 +83,11 @@
  * I/O
  */
 
-#define	cycles_per_sec		     machine_get_cycles_per_second()
+#define cycles_per_sec               machine_get_cycles_per_second()
 
-#define	PRE_STORE_CIA
-#define	PRE_READ_CIA
-#define	PRE_PEEK_CIA
+#define PRE_STORE_CIA
+#define PRE_READ_CIA
+#define PRE_PEEK_CIA
 
 
 static int cia1_ieee_is_output;
@@ -96,9 +96,9 @@ void cia1_set_ieee_dir(int isout)
 {
     cia1_ieee_is_output = isout;
     if(isout) {
-	parallel_cpu_set_bus(oldpa);
+        parallel_cpu_set_bus(oldpa);
     } else {
-	parallel_cpu_set_bus(0xff);
+        parallel_cpu_set_bus(0xff);
     }
 }
 
@@ -109,23 +109,32 @@ static inline void do_reset_cia(void)
     pruser_write_data(0xff);
 }
 
-static inline void pulse_ciapc(CLOCK rclk) { }
+static inline void pulse_ciapc(CLOCK rclk)
+{
+
+}
 
 static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
-	/* FIXME: PA0 and PA1 are used as selector for the 
-	   Paddle 1/2 selection for the A/D converter. */
- 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0xff );
+    /* FIXME: PA0 and PA1 are used as selector for the
+       Paddle 1/2 selection for the A/D converter. */
+    parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
 }
 
 static inline void undump_ciapa(CLOCK rclk, BYTE byte)
 {
- 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0xff );
+    parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
 }
 
-static inline void store_sdr(BYTE byte) {}
+static inline void store_sdr(BYTE byte)
+{
 
-static inline void undump_ciapb(CLOCK rclk, BYTE b) {}
+}
+
+static inline void undump_ciapb(CLOCK rclk, BYTE b)
+{
+
+}
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
@@ -147,14 +156,14 @@ static inline BYTE read_ciapa(void)
     /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
        can pull down inputs pa6 and pa7 resp. */
     byte = parallel_bus;
-    if(parallel_debug) {
+    if (parallel_debug) {
         log_message(LOG_DEFAULT,
                     "read: parallel_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
                     parallel_bus, cia[CIA_PRA], cia[CIA_DDRA], byte);
     }
     byte = ((byte & ~cia[CIA_DDRA]) | (cia[CIA_PRA] & cia[CIA_DDRA]))
-		& ~( ((joystick_value[1] & 0x10) ? 0x40 : 0) 
-		| ((joystick_value[2] & 0x10) ? 0x80 : 0) );
+           & ~( ((joystick_value[1] & 0x10) ? 0x40 : 0)
+           | ((joystick_value[2] & 0x10) ? 0x80 : 0) );
     return byte;
 }
 
@@ -164,7 +173,8 @@ static inline BYTE read_ciapb(void)
     BYTE byte;
 
     byte = ((0xff & ~cia[CIA_DDRB]) | (cia[CIA_PRB] & cia[CIA_DDRB]))
-		& ~( (joystick_value[1] & 0x0f) | ((joystick_value[2] & 0x0f) << 4) );
+           & ~( (joystick_value[1] & 0x0f)
+           | ((joystick_value[2] & 0x0f) << 4));
     return byte;
 }
 
@@ -174,7 +184,7 @@ static inline void read_ciaicr(void) {}
 
 void pruser_set_busy(int flank)
 {
-    if(!flank) {
+    if (!flank) {
         cia1_set_flag();
     }
 }

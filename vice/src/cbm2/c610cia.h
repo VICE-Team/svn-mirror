@@ -1,4 +1,3 @@
-
 /*
  * c610cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
@@ -46,5 +45,5 @@ extern int cia1_read_snapshot_module(struct snapshot_s *p);
 
 extern void cia1_set_ieee_dir(int);
 
-#endif	/* _C610_CIA_H */
+#endif  /* _C610_CIA_H */
 

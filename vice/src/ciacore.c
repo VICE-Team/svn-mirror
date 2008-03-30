@@ -1143,7 +1143,7 @@ int mycia_write_snapshot_module(CIA_CONTEXT_PARAM snapshot_t *p)
     }
     snapshot_module_write_byte(m, (BYTE)(byte));
 
-    snapshot_module_write_byte(m, ((BYTE)(ciatodlatched ? 1 : 0)
+    snapshot_module_write_byte(m, (BYTE)((ciatodlatched ? 1 : 0)
                                    | (ciatodstopped ? 2 : 0)));
     snapshot_module_write_byte(m, ciatodlatch[0]);
     snapshot_module_write_byte(m, ciatodlatch[1]);
