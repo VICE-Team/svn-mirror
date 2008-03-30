@@ -41,6 +41,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "maincpu.h"
+#include "ui.h"
 #include "types.h"
 
 
@@ -64,6 +65,7 @@ static alarm_t *joystick_alarm = NULL;
 static void joystick_latch_matrix(CLOCK offset)
 {
     memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+    ui_display_joyport(joystick_value);
 }
 
 /*-----------------------------------------------------------------------*/

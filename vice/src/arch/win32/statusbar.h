@@ -39,6 +39,7 @@ void statusbar_set_tape_status(int tape_status);
 void statusbar_display_tape_motor_status(int motor);
 void statusbar_display_tape_control_status(int control);
 void statusbar_display_tape_counter(int counter);
+void statusbar_display_joyport(BYTE *ui_joystick_status);
 void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_index);
 void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam);
 

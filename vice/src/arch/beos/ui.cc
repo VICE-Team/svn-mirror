@@ -1081,7 +1081,7 @@ void ui_display_playback(int playback_status)
 {
 }
 
-static BYTE ui_joystick_status[2] = { 255, 255 };
+static BYTE ui_joystick_status[3] = { 255, 255, 255 };
 
 static void ui_display_joyport(int port_num)
 {
@@ -1111,33 +1111,23 @@ void ui_enable_joyport(void)
 			windowlist[i]->Unlock();
     	}
     }
-	ui_joystick_status[0]=ui_joystick_status[1]=0;
-	ui_display_joyport(0);
+	ui_joystick_status[1]=ui_joystick_status[2]=0;
 	ui_display_joyport(1);
+	ui_display_joyport(2);
 }
 
-void ui_display_joyport_abs(int port_num, BYTE status)
-{
-	if (ui_joystick_status[port_num] != status) {
-		ui_joystick_status[port_num] = status;
-		ui_display_joyport(port_num);
-	}
-}
 
-void ui_display_joyport_or(int port_num, BYTE status)
+void ui_display_joyport(BYTE *joyport)
 {
-	if ((ui_joystick_status[port_num]|status) != ui_joystick_status[port_num] ) {
-		ui_joystick_status[port_num] |= status;
-		ui_display_joyport(port_num);
-	}
-}
+    int i;
 
-void ui_display_joyport_and(int port_num, BYTE status)
-{
-	if ((ui_joystick_status[port_num]&status) != ui_joystick_status[port_num] ) {
-		ui_joystick_status[port_num] &= status;
-		ui_display_joyport(port_num);
-	}
+    for (i =1; i <= 2; i++) {
+	    if (ui_joystick_status[i] != joyport[i])
+        {
+            ui_joystick_status[i] = joyport[i];
+		    ui_display_joyport(i);
+        }
+    }
 }
 
 void ui_statusbar_update()

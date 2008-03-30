@@ -301,6 +301,10 @@ void ui_display_playback(int playback_status)
 {
 }
 
+void ui_display_joyport(BYTE *joyport)
+{
+}
+
 /* --------------------------- Dialog Windows --------------------------- */
 
 void ui_error(const char *format,...)

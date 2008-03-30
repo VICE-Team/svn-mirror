@@ -81,5 +81,8 @@ extern void ui_update_menus(void);
 extern void ui_display_playback(int playback_status);
 extern void ui_display_recording(int recording_status);
 
+/* joystick UI */
+extern void ui_display_joyport(BYTE *joyport);
+
 #endif
 

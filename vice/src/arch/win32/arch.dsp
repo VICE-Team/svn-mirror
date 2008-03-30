@@ -174,6 +174,10 @@ SOURCE=.\uic64cart.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uicart.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uicbm2set.c
 # End Source File
 # Begin Source File
@@ -287,6 +291,10 @@ SOURCE=.\uivicset.c
 # Begin Source File
 
 SOURCE=.\uivideo.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\ui-resources.c
 # End Source File
 # Begin Source File
 

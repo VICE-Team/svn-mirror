@@ -73,3 +73,7 @@ void ui_common_shutdown(void)
     uifliplist_shutdown();
 }
 
+void ui_display_joyport(BYTE *joyport)
+{
+}
+

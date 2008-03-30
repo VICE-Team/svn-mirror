@@ -242,7 +242,7 @@ void ViceStatusbar::DisplayJoyport(int port_num, int status)
 	BRect frame, led_template, led;
 	
 	frame = BRect(45, 20, 79, 39);
-	frame.OffsetBy(port_num*70, 0);
+	frame.OffsetBy((port_num-1)*70, 0);
 	led_template = frame;
 	led_template.right = led_template.left+2;
 	led_template.bottom = led_template.top+2;

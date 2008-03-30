@@ -73,6 +73,8 @@ libarch_a_SOURCES = \
 	uic128.h \
 	uic64cart.c \
 	uic64cart.h \
+	uicart.c \
+	uicart.h \
 	uicbm2set.c \
 	uicbm2set.h \
 	uicmdline.c \
@@ -100,7 +102,7 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \
-        uiplus4cart.c \
+    uiplus4cart.c \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
@@ -126,6 +128,7 @@ libarch_a_SOURCES = \
 	uivicset.c \
 	uivideo.c \
 	uivideo.h \
+	ui-resources.c \
 	vic20ui.c \
 	video.c \
 	videoarch.h \

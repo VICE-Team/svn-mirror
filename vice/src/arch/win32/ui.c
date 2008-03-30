@@ -39,7 +39,6 @@
 #include "attach.h"
 #include "autostart.h"
 #include "archdep.h"
-#include "cmdline.h"
 #include "datasette.h"
 #include "debug.h"
 #include "drive.h"
@@ -86,9 +85,6 @@
 #include "printer.h"
 
 
-//static HWND status_hwnd[2];
-
-//int status_height;
 
 static TCHAR *hwnd_titles[2];
 
@@ -186,229 +182,6 @@ static const ui_res_value_list_t value_list[] = {
     { "EventStartMode", RecordingOptions, 0 },
     { NULL, NULL, 0 }
 };
-
-/* ------------------------------------------------------------------------ */
-
-/* UI-related resources.  */
-
-struct {
-    int fullscreendevice;
-    int fullscreenbitdepth;
-    int fullscreenwidth;
-    int fullscreenheight;
-    int fullscreenrefreshrate;
-    int fullscreenenabled;
-    int save_resources_on_exit;
-    int confirm_on_exit;
-    int single_cpu;
-    int vblank_sync;
-    int window_xpos[2];
-    int window_ypos[2];
-    char *monitor_dimensions;
-    char *initialdir[NUM_OF_FILE_SELECTOR_STYLES];
-} ui_resources;
-
-static int set_fullscreen_device(resource_value_t v, void *param)
-{
-    ui_resources.fullscreendevice = (int)v;
-    return 0;
-}
-
-static int set_fullscreen_bitdepth(resource_value_t v, void *param)
-{
-    ui_resources.fullscreenbitdepth = (int)v;
-    return 0;
-}
-
-static int set_fullscreen_width(resource_value_t v, void *param)
-{
-    ui_resources.fullscreenwidth = (int)v;
-    return 0;
-}
-
-static int set_fullscreen_height(resource_value_t v, void *param)
-{
-    ui_resources.fullscreenheight = (int)v;
-    return 0;
-}
-
-static int set_fullscreen_refreshrate(resource_value_t v, void *param)
-{
-    ui_resources.fullscreenrefreshrate = (int)v;
-    return 0;
-}
-
-static int set_fullscreen_enabled(resource_value_t v, void *param)
-{
-    ui_resources.fullscreenenabled = (int)v;
-    return 0;
-}
-
-static int set_save_resources_on_exit(resource_value_t v, void *param)
-{
-    ui_resources.save_resources_on_exit = (int)v;
-    return 0;
-}
-
-static int set_confirm_on_exit(resource_value_t v, void *param)
-{
-    ui_resources.confirm_on_exit = (int)v;
-    return 0;
-}
-
-static int set_single_cpu(resource_value_t v, void *param)
-{
-    DWORD process_affinity;
-    DWORD system_affinity;
-
-    ui_resources.single_cpu = (int)v;
-    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
-        //  Check if multi CPU system or not
-        if ((system_affinity & (system_affinity - 1))) {
-            if (ui_resources.single_cpu == 1) {
-                //  Set it to first CPU
-                SetThreadAffinityMask(GetCurrentThread(),system_affinity ^ (system_affinity & (system_affinity - 1)));
-            } else {
-                //  Set it to all CPU
-                SetThreadAffinityMask(GetCurrentThread(),system_affinity);
-            }
-        }
-    }
-    return 0;
-}
-
-static int set_monitor_dimensions(resource_value_t v, void *param)
-{
-    const char *name = (const char *)v;
-    if (ui_resources.monitor_dimensions != NULL && name != NULL)
-        if (strcmp(name, ui_resources.monitor_dimensions) == 0)
-            return 0;
-    util_string_set(&ui_resources.monitor_dimensions, name ? name : "");
-    return 0;
-}
-
-static int set_initial_dir(resource_value_t v, void *param)
-{
-    const char *name = (const char *)v;
-    int index = (int)param;
-    if (ui_resources.initialdir[index] != NULL && name != NULL)
-        if (strcmp(name, ui_resources.initialdir[index]) == 0)
-            return 0;
-    util_string_set(&ui_resources.initialdir[index], name ? name : "");
-    return 0;
-}
-
-static int set_window_xpos(resource_value_t v, void *param)
-{
-    ui_resources.window_xpos[(int) param] = (int) v;
-    return 0;
-}
-
-static int set_window_ypos(resource_value_t v, void *param)
-{
-    ui_resources.window_ypos[(int) param] = (int) v;
-    return 0;
-}
-
-static int set_vblank_sync(resource_value_t v, void *param)
-{
-    ui_resources.vblank_sync = (int) v;
-    return 0;
-}
-
-static const resource_t resources[] = {
-    { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
-      (void *)&ui_resources.fullscreendevice, set_fullscreen_device, NULL },
-    { "FullscreenBitdepth", RES_INTEGER, (resource_value_t)8,
-      (void *)&ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
-    { "FullscreenWidth", RES_INTEGER, (resource_value_t)640,
-      (void *)&ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
-    { "FullscreenHeight", RES_INTEGER, (resource_value_t)480,
-      (void *)&ui_resources.fullscreenheight, set_fullscreen_height, NULL },
-    { "FullscreenRefreshRate", RES_INTEGER, (resource_value_t)0,
-      (void *)&ui_resources.fullscreenrefreshrate,
-      set_fullscreen_refreshrate, NULL },
-    { "FullscreenEnabled", RES_INTEGER, (resource_value_t)0,
-      (void *)&ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
-    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
-      (void *)&ui_resources.save_resources_on_exit,
-      set_save_resources_on_exit, NULL },
-    { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
-      (void *)&ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { "MonitorDimensions", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
-    { "InitialDefaultDir", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.initialdir[0], set_initial_dir, (void *)0 },
-    { "InitialTapeDir", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.initialdir[1], set_initial_dir, (void *)1 },
-    { "InitialDiskDir", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.initialdir[2], set_initial_dir, (void *)2 },
-    { "InitialAutostartDir", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.initialdir[3], set_initial_dir, (void *)3 },
-    { "InitialCartDir", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.initialdir[4], set_initial_dir, (void *)4 },
-    { "InitialSnapshotDir", RES_STRING, (resource_value_t)"",
-      (void *)&ui_resources.initialdir[5], set_initial_dir, (void *)5 },
-    { "SingleCPU", RES_INTEGER, (resource_value_t)0,
-      (void *)&ui_resources.single_cpu, set_single_cpu, NULL },
-    { "Window0Xpos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (void *)&ui_resources.window_xpos[0], set_window_xpos, (void *)0 },
-    { "Window0Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (void *)&ui_resources.window_ypos[0], set_window_ypos, (void *)0 },
-    { "Window1Xpos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (void *)&ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
-    { "Window1Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (void *)&ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
-    { "VBLANKSync", RES_INTEGER, (resource_value_t)1,
-      (void *)&ui_resources.vblank_sync, set_vblank_sync, NULL },
-    { NULL }
-};
-
-int ui_resources_init(void)
-{
-    return resources_register(resources);
-}
-
-void ui_resources_shutdown(void)
-{
-}
-
-int ui_vblank_sync_enabled()
-{
-    return ui_resources.vblank_sync;
-}
-
-/* ------------------------------------------------------------------------ */
-
-/* UI-related command-line options.  */
-
-static const cmdline_option_t cmdline_options[] = {
-    { "-saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t)1,
-      NULL, "Save settings (resources) on exit" },
-    { "+saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t)0,
-      NULL, "Never save settings (resources) on exit" },
-    { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t)0,
-      NULL, "Confirm quiting VICE" },
-    { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t)1,
-      NULL, "Never confirm quiting VICE" },
-    { "-singlecpu", SET_RESOURCE, 0, NULL, NULL,
-      "SingleCPU", (resource_value_t)0,
-      NULL, "Use all CPU on SMP systems" },
-    { "+singlecpu", SET_RESOURCE, 0, NULL, NULL,
-      "SingleCPU", (resource_value_t)1,
-      NULL, "Use only first CPU on SMP systems" },
-    { NULL }
-};
-
-
-int ui_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
 
 /* ------------------------------------------------------------------------ */
 #ifdef DEBUG
@@ -586,11 +359,6 @@ int ui_init(int *argc, char **argv)
     number_of_windows=0;
 
     statusbar_create_brushes();
-/*    led_green = CreateSolidBrush(0xff00);
-    led_red = CreateSolidBrush(0xff);
-    led_black = CreateSolidBrush(0x00);
-    tape_motor_on_brush = CreateSolidBrush(0xffff);
-    tape_motor_off_brush = CreateSolidBrush(0x808080);*/
 
     return 0;
 }
@@ -626,37 +394,26 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
                            unsigned int height, int fullscreen)
 {
     HWND hwnd;
+    int xpos, ypos;
+
+    resources_get_sprintf("Window%dXpos", &xpos, number_of_windows);
+    resources_get_sprintf("Window%dYpos", &ypos, number_of_windows);
 
     hwnd_titles[number_of_windows] = system_mbstowcs_alloc(title);
-/*    if (fullscreen) {
-        hwnd = CreateWindow(APPLICATION_CLASS,
-                            hwnd_titles[number_of_windows],
-                            WS_VISIBLE|WS_POPUP,
-                            0,
-                            0,
-                            width,
-                            height,
-                            NULL,
-                            NULL,
-                            winmain_instance,
-                            NULL);
-        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN),
-                     GetSystemMetrics(SM_CYSCREEN), SWP_NOCOPYBITS);
-    } else */{
-        hwnd = CreateWindow(APPLICATION_CLASS,
+    hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
                             WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
                             | WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX
                             | WS_MAXIMIZEBOX,
-                            ui_resources.window_xpos[number_of_windows],
-                            ui_resources.window_ypos[number_of_windows],
+                            xpos,
+                            ypos,
                             CW_USEDEFAULT,
                             CW_USEDEFAULT,
                             NULL,
                             NULL,
                             winmain_instance,
                             NULL);
-    }
+
     if (hwnd == NULL)
         log_debug("Window creation failed");
 
@@ -667,9 +424,6 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
     if (!fullscreen) {
         statusbar_create(hwnd);
-//        status_hwnd[number_of_windows] = CreateStatusWindow(WS_CHILD | WS_VISIBLE, "", hwnd, IDM_STATUS_WINDOW);
-//        GetClientRect(status_hwnd[number_of_windows], &rect);
-//        status_height = rect.bottom-rect.top;
     }
 
     ui_resize_canvas_window(hwnd, width, height);
@@ -943,6 +697,8 @@ static int ui_emulation_is_paused(void)
 
 /* ------------------------------------------------------------------------- */
 /* Dispay the current emulation speed.  */
+static int statustext_display_time = 0;
+
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     char *buf, *title;
@@ -963,16 +719,24 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 
         lib_free(buf);
     }
-
+    
+    if (statustext_display_time > 0) {
+        statustext_display_time--;
+        if (statustext_display_time == 0)
+            ui_display_statustext("");
+    }
 }
 
 
 void ui_display_statustext(const char *text)
 {
     statusbar_setstatustext(text);
+    statustext_display_time = 5;
 }
 
 
+/* ------------------------------------------------------------------------- */
+/* Dispay the drive status.  */
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     statusbar_enable_drive_status(enable,drive_led_color);
@@ -1016,7 +780,9 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
     lib_free(text);
 }
 
-/* tape-status on*/
+
+/* ------------------------------------------------------------------------- */
+/* Dispay the tape status.  */
 void ui_set_tape_status(int tape_status)
 {
     statusbar_set_tape_status(tape_status);
@@ -1055,6 +821,8 @@ void ui_display_tape_current_image(const char *image)
     lib_free(text);
 }
 
+/* ------------------------------------------------------------------------- */
+/* Dispay the recording/playback status.  */
 void ui_display_recording(int recording_status)
 {
     if (recording_status)
@@ -1072,6 +840,23 @@ void ui_display_playback(int playback_status)
 }
 
 
+/* ------------------------------------------------------------------------- */
+/* Dispay the joystick status.  */
+static BYTE ui_joyport[3] = { 0, 0, 0 };
+
+void ui_display_joyport(BYTE *joyport)
+{
+	if (ui_joyport[1] != joyport[1] || ui_joyport[2] != joyport[2])
+    {
+        ui_joyport[1] = joyport[1];
+        ui_joyport[2] = joyport[2];
+
+        statusbar_display_joyport(ui_joyport);
+    }
+}
+
+
+/* ------------------------------------------------------------------------- */
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {
@@ -1281,7 +1066,7 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
 
 static void disk_attach_dialog_proc(WPARAM wparam, HWND hwnd)
 {
-    char *s;
+    TCHAR *st_name;
     int unit = 8;
     int autostart_index = -1;
 
@@ -1300,57 +1085,72 @@ static void disk_attach_dialog_proc(WPARAM wparam, HWND hwnd)
         unit = 11;
         break;
     }
-    if ((s = ui_select_file(hwnd, "Attach disk image",
-        UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
-        FILE_SELECTOR_DISK_STYLE, &autostart_index)) != NULL) {
+    if ((st_name = uilib_select_file_autostart(hwnd, TEXT("Attach disk image"),
+        UILIB_FILTER_DISK | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
+        UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK,
+        &autostart_index)) != NULL) {
+        char *name;
+
+        name = system_wcstombs_alloc(st_name);
         if (autostart_index >= 0) {
-            if (autostart_autodetect(s, NULL, autostart_index,
+            if (autostart_autodetect(name, NULL, autostart_index,
                 AUTOSTART_MODE_RUN) < 0)
                 ui_error("Cannot autostart specified file.");
         } else {
-            if (file_system_attach_disk(unit, s) < 0)
+            if (file_system_attach_disk(unit, name) < 0)
                 ui_error("Cannot attach specified file");
         }
-        lib_free(s);
+        system_wcstombs_free(name);
+        lib_free(st_name);
     }
     ResumeFullscreenModeKeep(hwnd);
 }
 
 static void tape_attach_dialog_proc(HWND hwnd)
 {
-    char *s;
+    TCHAR *st_name;
     int autostart_index = -1;
 
     SuspendFullscreenModeKeep(hwnd);
-    if ((s = ui_select_file(hwnd, "Attach tape image",
-        UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
-        FILE_SELECTOR_TAPE_STYLE, &autostart_index)) != NULL) {
+    if ((st_name = uilib_select_file_autostart(hwnd, TEXT("Attach tape image"),
+        UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
+        UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
+        &autostart_index)) != NULL) {
+        char *name;
+
+        name = system_wcstombs_alloc(st_name);
         if (autostart_index >= 0) {
-            if (autostart_autodetect(s, NULL, autostart_index,
+            if (autostart_autodetect(name, NULL, autostart_index,
                 AUTOSTART_MODE_RUN) < 0)
                 ui_error("Cannot autostart specified file.");
         } else {
-            if (tape_image_attach(1, s) < 0)
+            if (tape_image_attach(1, name) < 0)
                 ui_error("Cannot attach specified file");
         }
-        lib_free(s);
+        system_wcstombs_free(name);
+        lib_free(st_name);
     }
     ResumeFullscreenModeKeep(hwnd);
 }
 
 static void autostart_attach_dialog_proc(HWND hwnd)
 {
-    char *s;
+    TCHAR *st_name;
     int autostart_index = 0;
 
-    if ((s = ui_select_file(hwnd, "Autostart disk/tape image",
-        UI_LIB_FILTER_DISK | UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP
-        | UI_LIB_FILTER_ALL, FILE_SELECTOR_DISK_AND_TAPE_STYLE,
-        &autostart_index)) != NULL) {
-        if (autostart_autodetect(s, NULL, autostart_index,
+    if ((st_name = uilib_select_file_autostart(hwnd,
+        TEXT("Autostart disk/tape image"),
+        UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP
+        | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
+        UILIB_SELECTOR_STYLE_DISK_AND_TAPE, &autostart_index)) != NULL) {
+        char *name;
+
+        name = system_wcstombs_alloc(st_name);
+        if (autostart_autodetect(name, NULL, autostart_index,
             AUTOSTART_MODE_RUN) < 0)
             ui_error("Cannot autostart specified file.");
-        lib_free(s);
+        system_wcstombs_free(name);
+        lib_free(st_name);
     }
 }
 
@@ -1651,9 +1451,10 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_message("Default settings restored.");
         break;
       case IDM_EVENT_DIRECTORY:
-        ui_select_file(hwnd, "Select directory for event history", 
-                        UI_LIB_FILTER_ALL | UI_LIB_FILTER_SNAPSHOT,
-                        DIR_SELECTOR_EVENT_STYLE, NULL);
+        uilib_select_file(hwnd, TEXT("Select directory for event history"), 
+                          UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
+                          UILIB_SELECTOR_TYPE_DIR_EXIST,
+                          UILIB_SELECTOR_STYLE_EVENT);
         break;
       case IDM_EVENT_TOGGLE_RECORD:
         {
@@ -1744,26 +1545,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 }
 
 
-static void clear(HDC hdc, int x1, int y1, int x2, int y2)
-{
-    static HBRUSH back_color;
-    RECT clear_rect;
-
-    if (back_color == NULL)
-        back_color = CreateSolidBrush(0);
-
-    clear_rect.left = x1;
-    clear_rect.top = y1;
-    clear_rect.right = x2;
-    clear_rect.bottom = y2;
-    FillRect(hdc,&clear_rect, back_color);
-}
-
-
 int ui_active = FALSE;
 HWND ui_active_window;
-
-
 
 /* Window procedure.  All messages are handled here.  */
 static long CALLBACK dummywindowproc(HWND window, UINT msg,
@@ -1878,12 +1661,15 @@ static long CALLBACK window_proc(HWND window, UINT msg,
           if (window_index<number_of_windows) {
               WINDOWPLACEMENT place;
               RECT  rect;
+
               place.length = sizeof(WINDOWPLACEMENT);
               GetWindowPlacement(window, &place);
               GetWindowRect(window, &rect);
               if (place.showCmd == SW_SHOWNORMAL) {
-                  ui_resources.window_xpos[window_index] = rect.left;
-                  ui_resources.window_ypos[window_index] = rect.top;
+                  resources_set_sprintf("Window%dXpos", 
+                                        (resource_value_t)rect.left, window_index);
+                  resources_set_sprintf("Window%dYpos", 
+                                        (resource_value_t)rect.top, window_index);
               }
           }
           break;
@@ -1922,10 +1708,14 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_CLOSE:
         {
             int quit = 1;
+            int confirm_on_exit, save_on_exit;
+
+            resources_get_value("ConfirmOnExit", &confirm_on_exit);
+            resources_get_value("SaveResourcesOnExit", &save_on_exit);
 
             SuspendFullscreenModeKeep(window);
             vsync_suspend_speed_eval();
-            if (ui_resources.confirm_on_exit)
+            if (confirm_on_exit)
             {
 //              log_debug("Asking exit confirmation");
                 if (MessageBox(window,
@@ -1941,7 +1731,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
 
             if (quit) {
 	            SuspendFullscreenMode(window);
-               if (ui_resources.save_resources_on_exit) {
+               if (save_on_exit) {
                    if (resources_save(NULL)<0) {
                        ui_error("Cannot save settings.");
                    }

@@ -332,7 +332,6 @@ void joystick_update(void)
 			if (buttons & (1 << axes_nr[dev_index]*2) || buttons & (1 << axes_nr[dev_index]*2+1) )
 				value |= 16;
 			joystick_set_value_absolute(dev_index+1, value);
-			ui_display_joyport_abs(dev_index, value);
 		}
 	}
 }
@@ -367,20 +366,16 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
         if (pressed) {
             if (joystick_device[0] == device) {
                 joystick_set_value_or(1, value);
-				ui_display_joyport_or(0, value);
 			}
             if (joystick_device[1] == device) {
                 joystick_set_value_or(2, value);
-				ui_display_joyport_or(1, value);
 			}
         } else {
             if (joystick_device[0] == device) {
                 joystick_set_value_and(1, ~value);
-				ui_display_joyport_and(0, ~value);
 			}
             if (joystick_device[1] == device) {
                 joystick_set_value_and(2, ~value);
-				ui_display_joyport_and(1, ~value);
 			}
         }
         return 1;
@@ -435,20 +430,16 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         if (pressed) {
             if (joystick_device[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(1, value);
-				ui_display_joyport_or(0, value);
 			}
             if (joystick_device[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(2, value);
-				ui_display_joyport_or(1, value);
 			}
         } else {
             if (joystick_device[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(1, ~value);
-				ui_display_joyport_and(0, ~value);
 			}
             if (joystick_device[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(2, ~value);
-				ui_display_joyport_and(1, ~value);
 			}
         }
     }

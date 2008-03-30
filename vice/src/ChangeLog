@@ -1,3 +1,56 @@
+2004-03-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.15.
+
+	* c64/tfe.c: #include "util.h".
+
+	* arch/win32/uilib.c, arch/win32/uilib.h, arch/win32/ui.c,
+	arch/win32/uivideo.c, arch/win32/vic20ui.c,
+	arch/win32/uic64cart.c, arch/win32/uiplus4cart.c,
+	arch/win32/uirom.c, arch/win32/uiperipheral.c,
+	arch/win32/uisnapshot.c, arch/win32/uifliplist.c,
+	arch/win32/uirom.h, arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/vic20ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/cbm2ui.c, arch/win32/uireu.c,
+	arch/win32/ui-resources.c: Reorganized file selector API.
+
+	* arch/win32/uicart.c, arch/win32/uicart.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* uicmdline.h: Fixed warning.
+
+2004-03-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui.cc, arch/msdos/ui.c, arch/os2/ui.c,
+	arch/riscos/ui.c, arch/unix/ui.c, arch/win32/ui.c: Added
+	dummies or implementations for ui_display_joyport.
+
+	* arch/beos/joy.cc, arch/beos/ui.h: Removed arch dependent
+	joystick display.
+
+	* arch/beos/statusbar.cc: Adapted to common joystick display.
+
+	* arch/win32/Makefile.am, arch.dsp: Added new file.
+
+	* arch/win32/statusbar.c: Rearranged statusbar to display all
+	four drives and the joystick status.
+
+	* arch/win32/statusbar.h: Added prototype for
+	statusbar_display_joyport.
+
+	* arch/win32/ui-resources.c: New file.
+
+	* arch/win32/ui.c: Moeved resource and cmdline stuff to
+	seperate file. Removed unused code.
+	(ui_display_speed, ui_display_statustext): Clear status text
+	after 5 seconds.
+
+	* joystick.c(joystick_latch_matrix): Call ui_display_joyport.
+
+	* uiapi.h: New prototype ui_display_joyport.
+
 2004-03-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.14.

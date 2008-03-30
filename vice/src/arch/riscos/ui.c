@@ -5155,6 +5155,10 @@ void ui_display_playback(int playback_status)
 {
 }
 
+void ui_display_joyport(BYTE *joyport)
+{
+}
+
 
 void ui_display_paused(int flag)
 {

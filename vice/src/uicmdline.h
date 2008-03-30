@@ -28,7 +28,7 @@
 #ifndef _UICMDLINE_H
 #define _UICMDLINE_H
 
-struct cmdline_option_s;
+struct cmdline_option_ram_s;
 
 extern void ui_cmdline_show_help(unsigned int num_options,
                                  struct cmdline_option_ram_s *options,

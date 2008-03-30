@@ -30,20 +30,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
-#include <commdlg.h>
 #include <tchar.h>
 
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
 #include "ui.h"
+#include "uilib.h"
 #include "uireu.h"
 #include "winmain.h"
 
-/* Mingw & pre VC 6 headers doesn't have this definition */
-#ifndef OFN_ENABLESIZING
-#define OFN_ENABLESIZING    0x00800000
-#endif
 
 #define NUM_OF_REU_SIZE 8
 static const int ui_reu_size[NUM_OF_REU_SIZE] = {
@@ -131,35 +128,16 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         switch (command) {
           case IDC_REU_BROWSE:
             {
-                TCHAR name[1024] = TEXT("");
-                OPENFILENAME ofn;
+                TCHAR *st_name;
 
-                memset(&ofn, 0, sizeof(ofn));
-                ofn.lStructSize = sizeof(ofn);
-                ofn.hwndOwner = hwnd;
-                ofn.hInstance = winmain_instance;
-                ofn.lpstrFilter = TEXT("All files (*.*)\0*.*\0");
-                ofn.lpstrCustomFilter = NULL;
-                ofn.nMaxCustFilter = 0;
-                ofn.nFilterIndex = 1;
-                ofn.lpstrFile = name;
-                ofn.nMaxFile = sizeof(name);
-                ofn.lpstrFileTitle = NULL;
-                ofn.nMaxFileTitle = 0;
-                ofn.lpstrInitialDir = NULL;
-                ofn.lpstrTitle = TEXT("Select File for REU");
-                ofn.Flags = (OFN_EXPLORER
-                    | OFN_HIDEREADONLY
-                    | OFN_NOTESTFILECREATE
-                    | OFN_FILEMUSTEXIST
-                    | OFN_SHAREAWARE
-                    | OFN_ENABLESIZING);
-                ofn.nFileOffset = 0;
-                ofn.nFileExtension = 0;
-                ofn.lpstrDefExt = NULL;
-
-                if (GetSaveFileName(&ofn))
-                    SetDlgItemText(hwnd, IDC_REU_FILE, name);
+                st_name = uilib_select_file(hwnd, TEXT("Select File for REU"),
+                                            UILIB_FILTER_ALL,
+                                            UILIB_SELECTOR_TYPE_FILE_SAVE,
+                                            UILIB_SELECTOR_STYLE_DEFAULT);
+                if (st_name != NULL) {
+                    SetDlgItemText(hwnd, IDC_REU_FILE, st_name);
+                    lib_free(st_name);
+                }
             }
             break;
           case IDC_REU_ENABLE:
