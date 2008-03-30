@@ -1882,7 +1882,7 @@ int attach_fsdevice(int device, char *var, char *name)
     return 0;
 }
 
-int attach_serial_device(int device, char *var, char *name,
+int serial_attach_device(int device, char *var, char *name,
                          int (*getf)(void *, BYTE * , int),
                          int (*putf)(void *, BYTE , int),
                          int (*openf)(void *, char *, int , int),

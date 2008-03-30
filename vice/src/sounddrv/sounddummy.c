@@ -24,16 +24,21 @@
  *
  */
 
+#include <stdio.h>
+
 #include "vice.h"
 #include "sound.h"
 
-#include <stdio.h>
+static int dummy_write(warn_t *w, SWORD *pbuf, int nr)
+{
+    return 0;
+}
 
 static sound_device_t dummy_device =
 {
     "dummy",
     NULL,
-    NULL,
+    dummy_write,
     NULL,
     NULL,
     NULL,

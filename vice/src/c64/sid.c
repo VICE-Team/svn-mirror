@@ -99,10 +99,7 @@ int sid_init_cmdline_options(void)
 static warn_t *pwarn;
 
 /* argh */
-static sound_t *psid;
-
-/* sid running? */
-static int hassid = 0;
+static BYTE siddata[32];
 
 /* use wavetables (sampled waveforms) */
 #define WAVETABLES
@@ -460,8 +457,7 @@ static void trigger_adsr(voice_t *pv)
     }
 }
 
-#ifdef DEBUG
-static void print_voice(FILE *fd, voice_t *pv)
+static void print_voice(char *buf, voice_t *pv)
 {
     char *m = "ADSRI";
 #ifdef WAVETABLES
@@ -469,7 +465,8 @@ static void print_voice(FILE *fd, voice_t *pv)
 #else
     char *w = "TPSTN-R5";
 #endif
-    fprintf(fd, "#SID: V%d: e=%5.1f%%(%c) w=%6.1fHz(%c) f=%5.1f%% p=%5.1f%%\n",
+    sprintf(buf,
+	    "#SID: V%d: e=%5.1f%%(%c) w=%6.1fHz(%c) f=%5.1f%% p=%5.1f%%\n",
 	    pv->nr,
 	    (double)pv->adsr*100.0 / (((DWORD)1 << 31) - 1), m[pv->adsrm],
 	    (double)pv->fs / (pv->s->speed1*16),
@@ -487,14 +484,15 @@ static void print_voice(FILE *fd, voice_t *pv)
 	);
 }
 
-static void print_sid(FILE *fd, sound_t *psid)
+char *sound_machine_dump_state(sound_t *psid)
 {
     int			i;
-    fprintf(fd, "#SID: clk=%d v=%d s3=%d\n", clk, psid->vol, psid->has3);
+    char		buf[1024];
+    sprintf(buf, "#SID: clk=%d v=%d s3=%d\n", clk, psid->vol, psid->has3);
     for (i = 0; i < 3; i++)
-	print_voice(fd, &psid->v[i]);
+	print_voice(buf + strlen(buf), &psid->v[i]);
+    return stralloc(buf);
 }
-#endif
 
 /* update SID structure */
 inline static void setup_sid(sound_t *psid)
@@ -844,7 +842,9 @@ static void init_filter(sound_t *psid, int freq)
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
     DWORD		 i;
-
+    sound_t		*psid;
+    
+    psid = xmalloc(sizeof(*psid));
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
@@ -900,37 +900,43 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     }
     for (i = 0; i < 9; i++)
 	sidreadclocks[i] = 13;
-    hassid = 1;
+    for (i = 0; i < 32; i++)
+	sound_machine_store(psid, i, siddata[i]);
     return psid;
 }
 
 void sound_machine_close(sound_t *psid)
 {
-    hassid = 0;
+    free(psid);
 }
 
 
 /* read register value from sid */
 BYTE REGPARM1 read_sid(ADDRESS addr)
 {
-    BYTE		ret;
-    WORD		ffix;
-    register WORD	rvstore;
-    register CLOCK	tmp;
-
-    sound_run_sound();
-    addr &= 0x1f;
-    /* XXX: this is not correct, but what can we do without a running sid? */
-    if (!hassid)
+    int				val;
+    addr = addr & 0x1f;
+    val = sound_read(addr);
+    if (val < 0)
     {
 	if (addr == 0x19 || addr == 0x1a)
 	    return 0xff;
 	warn(pwarn, 5, "program reading sid-registers (no sound)");
 	if (addr == 0x1b || addr == 0x1c)
 	    return rand();
-	/* return siddata.sid.d[addr]; */
+	/* return siddata[addr]; */
 	return 0;
     }
+    return val;
+}
+
+BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+{
+    BYTE		ret;
+    WORD		ffix;
+    register WORD	rvstore;
+    register CLOCK	tmp;
+
     switch (addr)
     {
     case 0x19:
@@ -980,9 +986,12 @@ BYTE REGPARM1 read_sid(ADDRESS addr)
 /* write register value to sid */
 void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
 {
-    int				i;
     addr &= 0x1f;
-    i = sound_run_sound();
+    sound_store(addr, byte);
+}
+
+void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
+{
     switch (addr)
     {
     case 4:
@@ -1018,18 +1027,15 @@ void sid_reset(void)
     for (i = 0; i < 64; i++)
 	store_sid(i, 0);
     warn_reset(pwarn);
-    sound_run_sound();
-    sid_prevent_clk_overflow(clk);
     sound_prevent_clk_overflow(clk);
 }
 
 void sound_machine_init(void)
 {
     pwarn = warn_init("SID", 128);
-    psid = xmalloc(sizeof(*psid));
 }
 
-void sid_prevent_clk_overflow(CLOCK sub)
+void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
     psid->laststoreclk -= sub;
 }

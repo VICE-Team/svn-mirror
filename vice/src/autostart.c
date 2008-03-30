@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "drive.h"
 #include "tape.h"
+#include "fsdevice.h"
 #include "interrupt.h"
 #include "ui.h"
 

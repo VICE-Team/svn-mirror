@@ -322,7 +322,6 @@ static void vsync_hook(void)
 	cia1_prevent_clk_overflow(sub);
 	cia2_prevent_clk_overflow(sub);
         sound_prevent_clk_overflow(sub);
-        sid_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
 

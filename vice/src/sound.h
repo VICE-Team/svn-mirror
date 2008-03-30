@@ -53,7 +53,7 @@ typedef struct
     int				(*dump)(warn_t *w, ADDRESS addr, BYTE byte,
 					CLOCK clks);
     /* flush-routine to be called every frame */
-    int				(*flush)(warn_t *s);
+    int				(*flush)(warn_t *s, char *state);
     /* return number of samples unplayed in the kernel buffer at the moment */
     int				(*bufferstatus)(warn_t *s, int first);
     /* close and cleanup device */
@@ -96,7 +96,8 @@ extern int  sound_init_test_device(void);	/* XXX: missing */
 extern int  sound_register_device(sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
-extern int  sound_run_sound(void);
+extern int  sound_read(ADDRESS addr);
+extern void sound_store(ADDRESS addr, BYTE val);
 extern double sound_sample_position(void);
 
 /* functions and structs implemented by each machine */
@@ -105,5 +106,9 @@ typedef struct sound_s sound_t;
 extern sound_t *sound_machine_open(int speed, int cycles_per_sec);
 extern void sound_machine_close(sound_t *psid);
 extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr);
+extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
+extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
+extern char *sound_machine_dump_state(sound_t *psid);
+extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 
 #endif /* !defined (_SOUND_H) */

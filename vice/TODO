@@ -14,9 +14,6 @@ release:
 
 - check the SID drivers (the Sun one does not work anymore!);
 
-- make c1541 compile again (it does not compile because of missing
-  references now, and I am not sure how to solve this).
-
 
 What are we going to do next
 ============================

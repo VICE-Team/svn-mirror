@@ -42,6 +42,11 @@ static int dump_init(warn_t *w, char *param, int *speed,
     return 0;
 }
 
+static int dump_write(warn_t *w, SWORD *pbuf, int nr)
+{
+    return 0;
+}
+
 static int dump_dump(warn_t *w, ADDRESS addr, BYTE byte, CLOCK clks)
 {
     int				i;
@@ -51,9 +56,12 @@ static int dump_dump(warn_t *w, ADDRESS addr, BYTE byte, CLOCK clks)
     return 0;
 }
 
-static int dump_flush(warn_t *w)
+static int dump_flush(warn_t *w, char *state)
 {
     int				i;
+    i = fprintf(dump_fd, "%s", state);
+    if (i < 0)
+	return 1;
     i = fflush(dump_fd);
     return i;
 }
@@ -68,7 +76,7 @@ static sound_device_t dump_device =
 {
     "dump",
     dump_init,
-    NULL,
+    dump_write,
     dump_dump,
     dump_flush,
     NULL,

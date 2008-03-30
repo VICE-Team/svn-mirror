@@ -45,7 +45,7 @@ extern void no_a0_pads ( BYTE *ptr, int l );
 extern int  compare_filename ( char *name, char *pattern );
 
 extern int  attach_fsdevice(int device, char *var, char *name);
-extern int  attach_serial_device(int device, char *var, char *name,
+extern int  serial_attach_device(int device, char *var, char *name,
                                  int (*getf)(void *, BYTE *, int),
                                  int (*putf)(void *, BYTE, int),
                                  int (*openf)(void *, char *, int, int),

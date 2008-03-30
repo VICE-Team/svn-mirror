@@ -392,7 +392,7 @@ static int initsid(void)
 }
 
 /* run sid */
-int sound_run_sound(void)
+static int sound_run_sound(void)
 {
     int				nr, i;
     /* XXX: implement the exact ... */
@@ -436,7 +436,9 @@ int sound_flush(int relative_speed)
     sound_resume();
     if (snddata.pdev->flush)
     {
-	i = snddata.pdev->flush(snddata.pwarndev);
+	char *state = sound_machine_dump_state(snddata.psid);
+	i = snddata.pdev->flush(snddata.pwarndev, state);
+	free(state);
 	if (i)
 	{
 	    closesound("Audio: cannot flush.");
@@ -656,9 +658,35 @@ void sound_prevent_clk_overflow(CLOCK sub)
 {
     snddata.fclk -= sub;
     snddata.wclk -= sub;
+    if (snddata.psid)
+	sound_machine_prevent_clk_overflow(snddata.psid, sub);
 }
 
 double sound_sample_position(void)
 {
     return (clk - snddata.fclk) / snddata.clkstep;
+}
+
+int sound_read(ADDRESS addr)
+{
+    if (sound_run_sound())
+	return -1;
+    return sound_machine_read(snddata.psid, addr);
+}
+
+void sound_store(ADDRESS addr, BYTE val)
+{
+    int				 i;
+    if (sound_run_sound() == 0)
+    {
+	sound_machine_store(snddata.psid, addr, val);
+	if (snddata.pdev->dump)
+	{
+	    i = snddata.pdev->dump(snddata.pwarndev, addr, val,
+				   clk - snddata.wclk);
+	    snddata.wclk = clk;
+	    if (i)
+		closesound("Audio: store to sounddevice failed.");
+	}
+    }
 }

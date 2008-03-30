@@ -31,11 +31,13 @@
 #include "maincpu.h"
 #include "utils.h"
 
+#include "vic20sound.h"
+
 /* warnings */
 static warn_t *pwarn;
 
 /* argh */
-static sound_t *psid;
+static BYTE siddata[16];
 
 /* ADSR state */
 #define ATTACK 0
@@ -332,7 +334,9 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
     DWORD		 i;
+    sound_t		*psid;
 
+    psid = xmalloc(sizeof(*psid));
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
@@ -358,19 +362,20 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 	noiseMSB[i] = (((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
  		       |((i<<(5-(16-16)))&0x20));
     }
+    for (i = 0; i < 16; i++)
+	sound_machine_store(psid, i, siddata[i]);
     return psid;
 }
 
 void sound_machine_close(sound_t *psid)
 {
+    free(psid);
 }
 
 /* write register value to sid */
-static void store_sid(ADDRESS addr, BYTE byte)
+static void store_sid(sound_t *psid, ADDRESS addr, BYTE byte)
 {
     int				i;
-    addr &= 0x1f;
-    i = sound_run_sound();
     switch (addr)
     {
     case 4:
@@ -391,6 +396,9 @@ static void store_sid(ADDRESS addr, BYTE byte)
     case 14: case 15: case 16: case 17: case 19: case 20:
 	psid->v[2].update = 1;
 	break;
+    case 57: case 58: case 59: case 60: case 61: case 62: case 63:
+	psid->v[3].update = 1;
+	break;
     default:
 	psid->update = 1;
     }
@@ -400,17 +408,15 @@ static void store_sid(ADDRESS addr, BYTE byte)
 void sound_reset(void)
 {
     int				i;
-    for (i = 0; i < 64; i++)
-	store_sid(i, 0);
+    for (i = 0; i < 16; i++)
+	store_sound(i, 0);
     warn_reset(pwarn);
-    sound_run_sound();
     sound_prevent_clk_overflow(clk);
 }
 
 void sound_machine_init(void)
 {
     pwarn = warn_init("SOUNDVIC20", 128);
-    psid = xmalloc(sizeof(*psid));
 }
 
 
@@ -421,18 +427,21 @@ void sound_machine_init(void)
 
 void store_sound(ADDRESS addr, BYTE value)
 {
+    addr &= 0x0f;
+    siddata[addr] = value;
+    sound_store(addr, value);
+}
+
+void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
+{
     DWORD			freq;
     int				sbase, wval, shift, div;
-    addr &= 0x0f;
-    if (psid)
-    {
-	char			*t = "                ";
-	warn(pwarn, 8,
-	     "Sound support for VIC20 is at _very_ experimental stage.\n"
-	     "%sIf you think this doesn't sound right, please wait\n"
-	     "%sfor the next snapshot or help me get this right.\n"
-	     "%s                          // tvr", t, t, t);
-    }
+    char			*t = "                ";
+    warn(pwarn, 8,
+	 "Sound support for VIC20 is at _very_ experimental stage.\n"
+	 "%sIf you think this doesn't sound right, please wait\n"
+	 "%sfor the next snapshot or help me get this right.\n"
+	 "%s                          // tvr", t, t, t);
     switch (addr)
     {
     case 10:
@@ -448,22 +457,37 @@ void store_sound(ADDRESS addr, BYTE value)
 	    wval = 0x80;
 	    shift = 0;
 	}
-	store_sid(sbase + 2, 0x00);
-	store_sid(sbase + 3, 0x08);
-	store_sid(sbase + 5, 0x00);
-	store_sid(sbase + 6, 0xf0);
-	store_sid(sbase + 4, wval+(value>>7));
+	store_sid(psid, sbase + 2, 0x00);
+	store_sid(psid, sbase + 3, 0x08);
+	store_sid(psid, sbase + 5, 0x00);
+	store_sid(psid, sbase + 6, 0xf0);
+	store_sid(psid, sbase + 4, wval+(value>>7));
 	div = 255 - value;
 	/* XXX: ? */
 	if (!div)
 	    div = 128;
 	freq = VIC20FREQBASE*(1 << shift)/div;
-	store_sid(sbase + 0, freq & 0xff);
-	store_sid(sbase + 1, (freq / 256) & 0xff);
+	store_sid(psid, sbase + 0, freq & 0xff);
+	store_sid(psid, sbase + 1, (freq / 256) & 0xff);
 	break;
     case 14:
 	/* volume */
-	store_sid(0x18, value & 0x0f);
+	store_sid(psid, 0x18, value & 0x0f);
 	break;
     }
+}
+
+void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+{
+}
+
+BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+{
+    abort();
+    return 0;
+}
+
+char *sound_machine_dump_state(sound_t *psid)
+{
+    return stralloc("");
 }

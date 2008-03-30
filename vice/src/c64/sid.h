@@ -32,8 +32,6 @@
 extern int sid_init_resources(void);
 extern int sid_init_cmdline_options(void);
 
-extern void sid_prevent_clk_overflow(CLOCK sub);
-
 extern void REGPARM2 store_sid(ADDRESS address, BYTE byte);
 extern BYTE REGPARM1 read_sid(ADDRESS address);
 

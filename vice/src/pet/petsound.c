@@ -24,6 +24,8 @@
  *
  */
 
+#include <stdio.h>
+
 #include "vice.h"
 
 #include <math.h>
@@ -46,7 +48,7 @@ struct sound_s
 };
 
 static warn_t *pwarn;
-static sound_t *psid;
+static BYTE snddata[4];
 
 /* XXX: this is not correct */
 static WORD pet_makesample(double s, double e, BYTE sample)
@@ -98,51 +100,89 @@ void sound_machine_init(void)
 
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
+    sound_t			*psid;
+    int				 i;
+
     psid = xmalloc(sizeof(*psid));
-    if (!psid)
-	return NULL;
     psid->speed = speed;
     psid->cycles_per_sec = cycles_per_sec;
     if (!psid->t)
 	psid->t = 32;
     psid->b = 0.0;
     psid->bs = (double)psid->cycles_per_sec/(psid->t*psid->speed);
+    for (i = 0; i < 4; i++)
+	sound_machine_store(psid, i, snddata[i]);
     return psid;
 }
 
 void sound_machine_close(sound_t *psid)
 {
     free(psid);
-    psid = NULL;
 }
 
 void store_petsnd_onoff(int value)
 {
-    int				i;
-    i = sound_run_sound();
-    psid->on = value;
+    snddata[0] = value;
+    sound_store(0, snddata[0]);
 }
 
 void store_petsnd_rate(CLOCK t)
 {
-    int				i;
-    i = sound_run_sound();
-    psid->t = t;
-    psid->bs = (double)psid->cycles_per_sec/(psid->t*psid->speed);
+    snddata[2] = t & 0xff;
+    snddata[3] = (t >> 8) & 0xff;
+    sound_store(2, snddata[2]);
+    sound_store(3, snddata[3]);
 }
 
 void store_petsnd_sample(BYTE sample)
 {
-    int				i;
-    i = sound_run_sound();
-    psid->sample = sample;
-    while (psid->b >= 1.0)
-	psid->b -= 1.0;
+    snddata[1] = sample;
+    sound_store(1, snddata[1]);
+}
+
+void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val)
+{
+    switch (addr)
+    {
+    case 0:
+	psid->on = val;
+	break;
+    case 1:
+	psid->sample = val;
+	while (psid->b >= 1.0)
+	    psid->b -= 1.0;
+	break;
+    case 2:
+	psid->t = val;
+	break;
+    case 3:
+	psid->t = (psid->t & 0xff) | (val << 8);
+	psid->bs = (double)psid->cycles_per_sec/(psid->t*psid->speed);
+	break;
+    default:
+	abort();
+    }
 }
 
 void petsnd_reset(void)
 {
-    sound_run_sound();
     store_petsnd_onoff(0);
     sound_prevent_clk_overflow(clk);
+}
+
+BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+{
+    abort();
+    return 0;
+}
+
+void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+{
+}
+
+char *sound_machine_dump_state(sound_t *psid)
+{
+    char		buf[256];
+    sprintf(buf, "on=%d sample=%d rate=%d\n", psid->on, psid->sample, psid->t);
+    return stralloc(buf);
 }
