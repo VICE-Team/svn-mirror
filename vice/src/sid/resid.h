@@ -30,18 +30,19 @@
 #include "sound.h"
 #include "types.h"
 
-sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
-				  int filters_enabled, BYTE *sidstate,
-				  int model, CLOCK clk);
-void resid_sound_machine_close(sound_t *psid);
-BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk);
-void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
-			       CLOCK clk);
-int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr);
-void resid_sound_machine_init(void);
-void resid_sound_machine_reset(sound_t *psid, CLOCK clk);
-void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
-char *resid_sound_machine_dump_state(sound_t *psid);
+extern sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
+                                         int filters_enabled, BYTE *sidstate,
+                                         int model, CLOCK clk);
+extern void resid_sound_machine_close(sound_t *psid);
+extern BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk);
+extern void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
+                                      CLOCK clk);
+extern int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
+                                                 int nr);
+extern void resid_sound_machine_init(void);
+extern void resid_sound_machine_reset(sound_t *psid, CLOCK clk);
+extern void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
+extern char *resid_sound_machine_dump_state(sound_t *psid);
 
 #endif
 

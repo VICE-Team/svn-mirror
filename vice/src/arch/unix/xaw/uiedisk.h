@@ -2,7 +2,7 @@
  * uiedisk.h - Snapshot dialog for the Xaw widget set.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,7 @@
 #ifndef UIEDISK_H
 #define UIEDISK_H
 
-int ui_empty_disk_dialog(char *);
+extern int ui_empty_disk_dialog(char *);
 
 #endif
+

@@ -2,7 +2,7 @@
  * vic-cmdline-options.h - Command-line options for the VIC-I emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,7 @@
 #ifndef _VIC_CMDLINE_OPTIONS_H
 #define _VIC_CMDLINE_OPTIONS_H
 
-int vic_cmdline_options_init (void);
+extern int vic_cmdline_options_init (void);
 
 #endif
+

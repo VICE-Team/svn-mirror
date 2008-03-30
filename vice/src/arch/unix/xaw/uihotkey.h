@@ -2,7 +2,7 @@
  * uihotkeys.h - Implementation of UI hotkeys.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,11 +39,12 @@ typedef enum {
     UI_HOTMOD_SHIFT = 1 << 3
 } ui_hotkey_modifier_t;
 
-int ui_hotkey_init(void);
-void ui_hotkey_event_handler(Widget w, XtPointer closure,
-                             XEvent *xevent, Boolean *continue_to_dispatch);
-void ui_hotkey_register(ui_hotkey_modifier_t modifier,
-                        KeySym keysym, ui_callback_t callback,
-                        ui_callback_data_t client_data);
-
+extern int ui_hotkey_init(void);
+extern void ui_hotkey_event_handler(Widget w, XtPointer closure,
+                                    XEvent *xevent,
+                                    Boolean *continue_to_dispatch);
+extern void ui_hotkey_register(ui_hotkey_modifier_t modifier,
+                               KeySym keysym, ui_callback_t callback,
+                               ui_callback_data_t client_data);
 #endif
+

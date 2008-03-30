@@ -2,7 +2,7 @@
  * raster.h - Raster-based video chip emulation helper.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,15 +27,14 @@
 #ifndef _RASTER_H
 #define _RASTER_H
 
-#include "video.h"
-#include "palette.h"
+#include <string.h>
 
+#include "palette.h"
 #include "raster-cache.h"
 #include "raster-changes.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
-
-#include <string.h>
+#include "video.h"
 
 /* We assume that, if already #defined, the provided `MAX' and `MIN' actually
    work.  */
@@ -268,42 +267,42 @@ typedef struct _raster raster_t;
 
 
 
-void raster_init (raster_t *raster, unsigned int num_modes,
-                  unsigned int num_sprites);
-raster_t *raster_new (unsigned int num_modes, unsigned int num_sprites);
-void raster_reset (raster_t *raster);
-int raster_realize (raster_t *raster);
-void raster_set_exposure_handler (raster_t *raster,
-                                  canvas_redraw_t exposure_handler);
-void raster_set_table_refresh_handler (raster_t *raster,
-                                  void (*handler)(void));
-void raster_set_geometry (raster_t *raster,
-                          unsigned int screen_width,
-                          unsigned int screen_height,
-                          unsigned int gfx_width,
-                          unsigned int gfx_height,
-                          unsigned int text_width,
-                          unsigned int text_height,
-                          unsigned int gfx_position_x,
-                          unsigned int gfx_position_y,
-                          int gfx_area_moves,
-                          unsigned int first_displayed_line,
-                          unsigned int last_displayed_line,
-                          unsigned int extra_offscreen_border);
-void raster_resize_viewport (raster_t *raster,
-                             unsigned int width, unsigned int height);
-void raster_set_pixel_size (raster_t *raster, unsigned int width,
-                            unsigned int height);
-void raster_emulate_line (raster_t *raster);
-void raster_force_repaint (raster_t *raster);
-void raster_set_palette (raster_t *raster, palette_t *palette);
-void raster_set_title (raster_t *raster, const char *title);
-void raster_skip_frame (raster_t *raster, int skip);
-void raster_enable_cache (raster_t *raster, int enable);
-void raster_enable_double_scan (raster_t *raster, int enable);
-void raster_mode_change(void);
-void raster_handle_end_of_frame(raster_t *raster);
-void raster_set_canvas_refresh(raster_t *raster, int enable);
+extern void raster_init (raster_t *raster, unsigned int num_modes,
+                         unsigned int num_sprites);
+extern raster_t *raster_new (unsigned int num_modes, unsigned int num_sprites);
+extern void raster_reset (raster_t *raster);
+extern int raster_realize (raster_t *raster);
+extern void raster_set_exposure_handler (raster_t *raster,
+                                         canvas_redraw_t exposure_handler);
+extern void raster_set_table_refresh_handler (raster_t *raster,
+                                              void (*handler)(void));
+extern void raster_set_geometry (raster_t *raster,
+                                 unsigned int screen_width,
+                                 unsigned int screen_height,
+                                 unsigned int gfx_width,
+                                 unsigned int gfx_height,
+                                 unsigned int text_width,
+                                 unsigned int text_height,
+                                 unsigned int gfx_position_x,
+                                 unsigned int gfx_position_y,
+                                 int gfx_area_moves,
+                                 unsigned int first_displayed_line,
+                                 unsigned int last_displayed_line,
+                                 unsigned int extra_offscreen_border);
+extern void raster_resize_viewport (raster_t *raster,
+                                    unsigned int width, unsigned int height);
+extern void raster_set_pixel_size (raster_t *raster, unsigned int width,
+                                   unsigned int height);
+extern void raster_emulate_line (raster_t *raster);
+extern void raster_force_repaint (raster_t *raster);
+extern void raster_set_palette (raster_t *raster, palette_t *palette);
+extern void raster_set_title (raster_t *raster, const char *title);
+extern void raster_skip_frame (raster_t *raster, int skip);
+extern void raster_enable_cache (raster_t *raster, int enable);
+extern void raster_enable_double_scan (raster_t *raster, int enable);
+extern void raster_mode_change(void);
+extern void raster_handle_end_of_frame(raster_t *raster);
+extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 
 
 

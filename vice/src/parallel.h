@@ -44,7 +44,7 @@
 extern int parallel_debug;
 
 /* to switch on/off IEEE488 filesystem engine */
-void parallel_bus_enable(int enable);
+extern void parallel_bus_enable(int enable);
 
 /* state of the bus lines -> "if(parallel_eoi) { eoi is active }" */
 extern char parallel_eoi;
@@ -62,20 +62,20 @@ extern BYTE parallel_bus;	/* data lines */
 #define	PARALLEL_DRV1	0x08
   
 /* methods to set handshake lines active for the devices */
-extern void parallel_set_eoi( char mask);
-extern void parallel_set_ndac( char mask);
-extern void parallel_set_nrfd( char mask);
-extern void parallel_set_dav( char mask);
-extern void parallel_set_atn( char mask);
-extern void parallel_restore_set_atn( char mask);
+extern void parallel_set_eoi(char mask);
+extern void parallel_set_ndac(char mask);
+extern void parallel_set_nrfd(char mask);
+extern void parallel_set_dav(char mask);
+extern void parallel_set_atn(char mask);
+extern void parallel_restore_set_atn(char mask);
 
 /* methods to set handshake lines inactive for the devices */
-extern void parallel_clr_eoi( char mask);
-extern void parallel_clr_ndac( char mask);
-extern void parallel_clr_nrfd( char mask);
-extern void parallel_clr_dav( char mask);
-extern void parallel_clr_atn( char mask);
-extern void parallel_restore_clr_atn( char mask);
+extern void parallel_clr_eoi(char mask);
+extern void parallel_clr_ndac(char mask);
+extern void parallel_clr_nrfd(char mask);
+extern void parallel_clr_dav(char mask);
+extern void parallel_clr_atn(char mask);
+extern void parallel_restore_clr_atn(char mask);
 
 
 /* methods to set output lines for the computer */
@@ -116,7 +116,7 @@ PARALLEL_SET_LINE(dav,emu,EMU)
 PARALLEL_SET_LINE(nrfd,emu,EMU)
 PARALLEL_SET_LINE(ndac,emu,EMU)
 
-void parallel_emu_set_bus( BYTE);
+extern void parallel_emu_set_bus(BYTE);
 
 /* CPU functions */
 /* The *CPU* macros advance the drive CPU to the current clock. This 
@@ -130,7 +130,7 @@ PARALLEL_SET_LINE(ndac,cpu,CPU)
 PARALLEL_CPU_SET_LINE(atn,cpu,CPU)
 PARALLEL_RESTORE_LINE(atn,cpu,CPU)
 
-void parallel_cpu_set_bus( BYTE);
+extern void parallel_cpu_set_bus(BYTE);
 
 /* Drive 0 functions */
 PARALLEL_SET_LINE(eoi,drv0,DRV0)
@@ -138,7 +138,7 @@ PARALLEL_SET_LINE(dav,drv0,DRV0)
 PARALLEL_SET_LINE(nrfd,drv0,DRV0)
 PARALLEL_SET_LINE(ndac,drv0,DRV0)
 
-void parallel_drv0_set_bus( BYTE);
+extern void parallel_drv0_set_bus(BYTE);
 
 /* Drive 1 functions */
 PARALLEL_SET_LINE(eoi,drv1,DRV1)
@@ -146,7 +146,7 @@ PARALLEL_SET_LINE(dav,drv1,DRV1)
 PARALLEL_SET_LINE(nrfd,drv1,DRV1)
 PARALLEL_SET_LINE(ndac,drv1,DRV1)
 
-void parallel_drv1_set_bus( BYTE);
+extern void parallel_drv1_set_bus(BYTE);
 
 #endif
 

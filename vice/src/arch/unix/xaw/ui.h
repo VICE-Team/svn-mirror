@@ -3,7 +3,7 @@
  * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,6 +32,7 @@
 #include <X11/StringDefs.h>
 
 #include "vice.h"
+
 #include "types.h"
 #include "palette.h"
 #include "uiapi.h"
@@ -84,8 +85,8 @@ extern int screen;
 extern Visual *visual;
 extern int depth;
 
-void ui_proc_write_msg(char* msg);
-int ui_proc_read_msg(char* msg, size_t size);
+extern void ui_proc_write_msg(char* msg);
+extern int ui_proc_read_msg(char* msg, size_t size);
 
 /* ------------------------------------------------------------------------- */
 #ifdef USE_VIDMODE_EXTENSION
@@ -96,50 +97,60 @@ typedef struct {
 #endif
 /* ------------------------------------------------------------------------- */
 
-void ui_set_left_menu(Widget w);
-void ui_set_right_menu(Widget w);
-void ui_set_drive8_menu(Widget w);
-void ui_set_drive9_menu(Widget w);
-void ui_set_application_icon(Pixmap icon_pixmap);
-ui_window_t ui_open_canvas_window(const char *title, int width, int height, int no_autorepeat, ui_exposure_handler_t exposure_proc, const palette_t *p, PIXEL pixel_return[]);
-void ui_resize_canvas_window(ui_window_t w, int height, int width);
-void ui_map_canvas_window(ui_window_t w);
-void ui_unmap_canvas_window(ui_window_t w);
-Window ui_canvas_get_drawable(ui_window_t w);
-int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
-                          PIXEL *pixel_return);
-void ui_display_speed(float percent, float framerate, int warp_flag);
-void ui_display_drive_current_image(int drive_number, const char *image);
-void ui_display_paused(int flag);
-void ui_dispatch_next_event(void);
-void ui_dispatch_events(void);
-void ui_exit(void);
-void ui_message(const char *format,...);
-void ui_show_text(const char *title, const char *text, int width, int height);
-char *ui_select_file(const char *title, char *(*read_contents_func)(const char *), int allow_autostart, const char *default_dir, const char *default_pattern, ui_button_t *button_return);
-ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
-ui_button_t ui_ask_confirmation(const char *title, const char *text);
-void ui_autorepeat_on(void);
-void ui_autorepeat_off(void);
-Widget ui_create_transient_shell(Widget parent, const char *name);
-void ui_popdown(Widget w);
-void ui_popup(Widget w, const char *title, Boolean wait_popdown);
-void ui_pause_emulation(int flag);
-int ui_emulation_is_paused(void);
-void ui_create_dynamic_menues(void);
-void ui_check_mouse_cursor(void);
-void ui_update_flip_menus(int from_unit, int to_unit);
+extern void ui_set_left_menu(Widget w);
+extern void ui_set_right_menu(Widget w);
+extern void ui_set_drive8_menu(Widget w);
+extern void ui_set_drive9_menu(Widget w);
+extern void ui_set_application_icon(Pixmap icon_pixmap);
+extern ui_window_t ui_open_canvas_window(const char *title, int width,
+                                         int height, int no_autorepeat,
+                                         ui_exposure_handler_t exposure_proc,
+                                         const palette_t *p,
+                                         PIXEL pixel_return[]);
+extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
+extern void ui_map_canvas_window(ui_window_t w);
+extern void ui_unmap_canvas_window(ui_window_t w);
+extern Window ui_canvas_get_drawable(ui_window_t w);
+extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
+                                 PIXEL *pixel_return);
+extern void ui_display_speed(float percent, float framerate, int warp_flag);
+extern void ui_display_drive_current_image(int drive_number, const char *image);
+extern void ui_display_paused(int flag);
+extern void ui_dispatch_next_event(void);
+extern void ui_dispatch_events(void);
+extern void ui_exit(void);
+extern void ui_message(const char *format,...);
+extern void ui_show_text(const char *title, const char *text, int width,
+                         int height);
+extern char *ui_select_file(const char *title,
+                            char *(*read_contents_func)(const char *),
+                            int allow_autostart, const char *default_dir,
+                            const char *default_pattern,
+                            ui_button_t *button_return);
+extern ui_button_t ui_input_string(const char *title, const char *prompt,
+                                   char *buf, unsigned int buflen);
+extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
+extern void ui_autorepeat_on(void);
+extern void ui_autorepeat_off(void);
+extern Widget ui_create_transient_shell(Widget parent, const char *name);
+extern void ui_popdown(Widget w);
+extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
+extern void ui_pause_emulation(int flag);
+extern int ui_emulation_is_paused(void);
+extern void ui_create_dynamic_menues(void);
+extern void ui_check_mouse_cursor(void);
+extern void ui_update_flip_menus(int from_unit, int to_unit);
 
 #ifdef USE_VIDMODE_EXTENSION
-int ui_set_windowmode(void);
-int ui_set_fullscreenmode(void);
-void ui_set_fullscreenmode_init(void);
-void ui_set_mouse_timeout(void);
-int ui_is_fullscreen_available(void);
+extern int ui_set_windowmode(void);
+extern int ui_set_fullscreenmode(void);
+extern void ui_set_fullscreenmode_init(void);
+extern void ui_set_mouse_timeout(void);
+extern int ui_is_fullscreen_available(void);
 #endif
 
-int ui_proc_create(void);
-int ui_proc_wait(void);
+extern int ui_proc_create(void);
+extern int ui_proc_wait(void);
 
 #endif /* !defined (_UI_XAW_H) */
 

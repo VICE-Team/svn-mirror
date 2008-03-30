@@ -2,7 +2,7 @@
  * pets.h - PET version handling.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -115,7 +115,7 @@ extern int pet_set_ramsize(int v);
 extern int pet_init_resources(void);
 extern int pet_init_cmdline_options(void);
 
-int pet_set_model_info(PetInfo * pi);
+extern int pet_set_model_info(PetInfo * pi);
 
 extern int pet_init_ok;
 

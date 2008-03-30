@@ -2,7 +2,7 @@
  * zipcode.h - Support for zipcode files in VICE.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf);
+extern int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf);
 
 #endif /* _ZIPCODE_H */
 

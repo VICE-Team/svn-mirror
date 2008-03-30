@@ -1,9 +1,9 @@
 /*
- * autostart.c - Automatic image loading and starting
+ * autostart.c - Automatic image loading and starting.
  *
  * Written by
- *  Teemu Rantanen      <tvr@cs.hut.fi>
- *  Ettore Perazzoli	<ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,17 +30,17 @@
 
 #include "types.h"
 
-int autostart_init(CLOCK _min_cycles, int _handle_true1541,
-                   int _blnsw, int _pnt, int _pntr, int _lnmx);
-
-void autostart_disable(void);
-void autostart_advance(void);
-int autostart_tape(const char *file_name, const char *program_name);
-int autostart_disk(const char *file_name, const char *program_name);
-int autostart_autodetect(const char *file_name, const char *program_name);
-int autostart_device(int num);
-int autostart_prg(const char *file_name);
-void autostart_reset(void);
+extern int autostart_init(CLOCK _min_cycles, int _handle_true1541,
+                          int _blnsw, int _pnt, int _pntr, int _lnmx);
+extern void autostart_disable(void);
+extern void autostart_advance(void);
+extern int autostart_tape(const char *file_name, const char *program_name);
+extern int autostart_disk(const char *file_name, const char *program_name);
+extern int autostart_autodetect(const char *file_name,
+                                const char *program_name);
+extern int autostart_device(int num);
+extern int autostart_prg(const char *file_name);
+extern void autostart_reset(void);
 
 #endif /* !_AUTOSTART_H */
 

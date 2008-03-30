@@ -2,7 +2,7 @@
  * uisnapshot.h - Snapshot dialog for the Xaw widget set.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,7 @@
 #ifndef UISNAPSHOT_H
 #define UISNAPSHOT_H
 
-void ui_snapshot_dialog(void);
+extern void ui_snapshot_dialog(void);
 
 #endif
+
