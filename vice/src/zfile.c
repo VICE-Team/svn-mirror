@@ -850,7 +850,7 @@ static int compress_with_bzip(const char *src, const char *dest)
 
 /* Compress `src' into `dest' using algorithm `type'.  */
 static int zfile_compress(const char *src, const char *dest,
-            enum compression_type type)
+                          enum compression_type type)
 {
     char *dest_backup_name;
     int retval;

@@ -192,15 +192,15 @@ int realdevice_enable(void)
     if (!realdevice_enabled) {
         if ((*opencbmlib.p_cbm_driver_open)(&realdevice_fd, 0) < 0) {
             log_message(realdevice_log,
-                        "Cannot open s, realdevice not available"/* ,
-                        (*opencbmlib.p_cbm_get_driver_name)(0)*/);
+                        "Cannot open %s, realdevice not available!",
+                        (*opencbmlib.p_cbm_get_driver_name)(0));
             return -1;
         }
 
         realdevice_enabled = 1;
 
-        log_message(realdevice_log, "s opened"/*,
-                    (*opencbmlib.p_cbm_get_driver_name)(0)*/);
+        log_message(realdevice_log, "%s opened.",
+                    (*opencbmlib.p_cbm_get_driver_name)(0));
     }
 
     return 0;
@@ -213,8 +213,8 @@ void realdevice_disable(void)
 
         realdevice_enabled = 0;
 
-        log_message(realdevice_log, "s closed"/*,
-                    (*opencbmlib.p_cbm_get_driver_name)(0)*/);
+        log_message(realdevice_log, "%s closed.",
+                    (*opencbmlib.p_cbm_get_driver_name)(0));
     }
 
     opencbmlib_close();
