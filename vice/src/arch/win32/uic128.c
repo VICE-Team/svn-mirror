@@ -90,7 +90,7 @@ static void init_machine_dialog(HWND hwnd)
     int res_value;
     int res_value_loop;
 
-    resources_get_value("MachineType", (void *)&res_value);
+    resources_get_int("MachineType", &res_value);
     machine_hwnd = GetDlgItem(hwnd, IDC_C128_MACHINE_TYPE);
     for (res_value_loop = 0; ui_machine[res_value_loop];
         res_value_loop++) {
@@ -108,21 +108,21 @@ static void init_functionrom_dialog(HWND hwnd)
     const char *romfile;
     TCHAR *st_romfile;
 
-    resources_get_value("InternalFunctionROM", (void *)&res_value);
+    resources_get_int("InternalFunctionROM", &res_value);
     CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_INTERNAL, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("InternalFunctionName", (void *)&romfile);
+    resources_get_string("InternalFunctionName", &romfile);
     st_romfile = system_mbstowcs_alloc(romfile);
     SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
                    st_romfile != NULL ? st_romfile : TEXT(""));
     system_mbstowcs_free(st_romfile);
 
-    resources_get_value("ExternalFunctionROM", (void *)&res_value);
+    resources_get_int("ExternalFunctionROM", &res_value);
     CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
  
-    resources_get_value("ExternalFunctionName", (void *)&romfile);
+    resources_get_string("ExternalFunctionName", &romfile);
     st_romfile = system_mbstowcs_alloc(romfile);
     SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
                    st_romfile != NULL ? st_romfile : TEXT(""));
@@ -133,9 +133,8 @@ static void init_functionrom_dialog(HWND hwnd)
 
 static void end_machine_dialog(HWND hwnd)
 {
-    resources_set_value("MachineType", (resource_value_t)
-                        SendMessage(GetDlgItem(hwnd, IDC_C128_MACHINE_TYPE),
-                        CB_GETCURSEL, 0, 0));
+    resources_set_int("MachineType", (int)SendMessage(GetDlgItem(hwnd,
+                      IDC_C128_MACHINE_TYPE), CB_GETCURSEL, 0, 0));
 }
 
 static BOOL CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -166,23 +165,20 @@ static void end_functionrom_dialog(HWND hwnd)
     char name[MAX_PATH];
     TCHAR st_name[MAX_PATH];
 
-    resources_set_value("InternalFunctionROM", (resource_value_t)
-                        (IsDlgButtonChecked(hwnd,
-                        IDC_C128_FUNCTIONROM_INTERNAL)
-                        == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("InternalFunctionROM", (IsDlgButtonChecked(hwnd,
+                      IDC_C128_FUNCTIONROM_INTERNAL) == BST_CHECKED ? 1 : 0 ));
     GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
                    st_name, MAX_PATH);
     system_wcstombs(name, st_name, MAX_PATH);
-    resources_set_value("InternalFunctionName", (resource_value_t)name);
+    resources_set_string("InternalFunctionName", name);
 
-    resources_set_value("ExternalFunctionROM", (resource_value_t)
-                        (IsDlgButtonChecked(hwnd,
+    resources_set_int("ExternalFunctionROM", (IsDlgButtonChecked(hwnd,
                         IDC_C128_FUNCTIONROM_EXTERNAL)
                         == BST_CHECKED ? 1 : 0 ));
     GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
                    st_name, MAX_PATH);
     system_wcstombs(name, st_name, MAX_PATH);
-    resources_set_value("ExternalFunctionName", (resource_value_t)name);
+    resources_set_string("ExternalFunctionName", name);
 }
 
 static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,

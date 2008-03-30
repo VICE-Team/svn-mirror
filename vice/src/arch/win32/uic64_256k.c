@@ -95,7 +95,7 @@ static void init_c64_256k_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, c64_256k_leftgroup);
     uilib_move_group(hwnd, c64_256k_rightgroup, xsize + 30);
 
-    resources_get_value("C64_256K", (void *)&res_value);
+    resources_get_int("C64_256K", &res_value);
     CheckDlgButton(hwnd, IDC_C64_256K_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
@@ -106,7 +106,7 @@ static void init_c64_256k_dialog(HWND hwnd)
         _stprintf(st, "$%X", ui_c64_256k_base[res_value_loop]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
-    resources_get_value("C64_256Kbase", (void *)&res_value);
+    resources_get_int("C64_256Kbase", &res_value);
     active_value = 0;
     for (res_value_loop = 0; res_value_loop < NUM_OF_C64_256K_BASE;
         res_value_loop++) {
@@ -115,7 +115,7 @@ static void init_c64_256k_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    resources_get_value("C64_256Kfilename", (void *)&c64_256kfile);
+    resources_get_string("C64_256Kfilename", &c64_256kfile);
     st_c64_256kfile = system_mbstowcs_alloc(c64_256kfile);
     SetDlgItemText(hwnd, IDC_C64_256K_FILE,
                    c64_256kfile != NULL ? st_c64_256kfile : TEXT(""));
@@ -129,18 +129,16 @@ static void end_c64_256k_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_value("C64_256K", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_C64_256K_ENABLE) == BST_CHECKED ?
-                        1 : 0 ));
+    resources_set_int("C64_256K", (IsDlgButtonChecked(hwnd,
+                      IDC_C64_256K_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_value("C64_256Kbase",(resource_value_t)
-                        ui_c64_256k_base[SendMessage(GetDlgItem(
-                        hwnd, IDC_C64_256K_BASE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("C64_256Kbase",
+                      ui_c64_256k_base[SendMessage(GetDlgItem(
+                      hwnd, IDC_C64_256K_BASE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_C64_256K_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("C64_256Kfilename", (resource_value_t)s);
+    resources_set_string("C64_256Kfilename", s);
 }
 
 static void browse_c64_256k_file(HWND hwnd)

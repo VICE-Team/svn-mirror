@@ -95,14 +95,14 @@ static void enable_acia_controls(HWND hwnd)
 
 static void init_acia_dialog(HWND hwnd)
 {
-HWND temp_hwnd;
-int res_value;
-unsigned int i;
-RECT rect;
-RECT child_rect;
-int min_width;
-int xpos;
-int xsize, ysize;
+    HWND temp_hwnd;
+    int res_value;
+    unsigned int i;
+    RECT rect;
+    RECT child_rect;
+    int min_width;
+    int xpos;
+    int xsize, ysize;
 
     SetWindowText(hwnd, intl_translate_text_new(IDS_ACIA_CAPTION));
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
@@ -200,14 +200,14 @@ int xsize, ysize;
     MoveWindow(hwnd, rect.left, rect.top, min_width + 20, rect.bottom - rect.top, TRUE);
 
     if (support_enable != 0) {
-        resources_get_value("Acia1Enable", (void *)&res_value);
+        resources_get_int("Acia1Enable", &res_value);
         CheckDlgButton(hwnd, IDC_ACIA_ENABLE,
                        res_value ? BST_CHECKED : BST_UNCHECKED);
     } else {
         CheckDlgButton(hwnd, IDC_ACIA_ENABLE, BST_CHECKED);
     }
 
-    resources_get_value("Acia1Dev", (void *)&res_value);
+    resources_get_int("Acia1Dev", &res_value);
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
     for (i = 0; i < MAXRS232; i++) {
         TCHAR st[20];
@@ -219,7 +219,7 @@ int xsize, ysize;
     if (support_interrupt != 0) {
         int res_value_loop;
 
-        resources_get_value("Acia1Irq", (void *)&res_value);
+        resources_get_int("Acia1Irq", &res_value);
         temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
         for (res_value_loop = 0; interrupt_names[res_value_loop];
             res_value_loop++) {
@@ -232,7 +232,7 @@ int xsize, ysize;
     if (support_mode != 0) {
         int res_value_loop;
 
-        resources_get_value("Acia1Mode", (void *)&res_value);
+        resources_get_int("Acia1Mode", &res_value);
         temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_MODE);
         for (res_value_loop = 0; mode_names[res_value_loop];
             res_value_loop++) {
@@ -248,25 +248,21 @@ int xsize, ysize;
 static void end_acia_dialog(HWND hwnd)
 {
     if (support_enable != 0) {
-        resources_set_value("Acia1Enable", (resource_value_t)
-                            (IsDlgButtonChecked
-                            (hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
+        resources_set_int("Acia1Enable", (IsDlgButtonChecked
+                          (hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
     }
 
-    resources_set_value("Acia1Dev",(resource_value_t)
-                        SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE),
-                        CB_GETCURSEL, 0, 0));
+    resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd,
+                      IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
 
     if (support_interrupt != 0) {
-        resources_set_value("Acia1Irq",(resource_value_t)
-                            SendMessage(GetDlgItem(hwnd,
-                            IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
+        resources_set_int("Acia1Irq", (int)SendMessage(GetDlgItem(hwnd,
+                          IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
     }
 
     if (support_mode != 0) {
-        resources_set_value("Acia1Mode",(resource_value_t)
-                            SendMessage(GetDlgItem(hwnd,
-                            IDC_ACIA_MODE), CB_GETCURSEL, 0, 0));
+        resources_set_int("Acia1Mode",(int)SendMessage(GetDlgItem(hwnd,
+                          IDC_ACIA_MODE), CB_GETCURSEL, 0, 0));
     }
 }
 
