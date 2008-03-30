@@ -57,26 +57,26 @@ static void init_dialog(HWND hwnd)
 {
     int n, res;
 
-    resources_get_value("Ram08", (resource_value_t *)&n);
+    resources_get_value("Ram08", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM08, 
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram1", (resource_value_t *)&n);
+    resources_get_value("Ram1", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM1,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram2", (resource_value_t *)&n);
+    resources_get_value("Ram2", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM2,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram4", (resource_value_t *)&n);
+    resources_get_value("Ram4", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM4,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram6", (resource_value_t *)&n);
+    resources_get_value("Ram6", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM6,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("RamC", (resource_value_t *)&n);
+    resources_get_value("RamC", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAMC,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("RamSize", (resource_value_t *)&res);
+    resources_get_value("RamSize", (void *)&res);
     switch (res) {
       case 128:
         n = IDC_SELECT_CBMII_MEM_128;
@@ -94,7 +94,7 @@ static void init_dialog(HWND hwnd)
     CheckRadioButton(hwnd, IDC_SELECT_CBMII_MEM_128, IDC_SELECT_CBMII_MEM_1024,
                      n);
 
-    resources_get_value("ModelLine", (resource_value_t *) &res);
+    resources_get_value("ModelLine", (void *)&res);
     switch (res) {
       case 0:
         n = IDC_SELECT_CBMII_HW0;
@@ -164,43 +164,43 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
             case IDC_TOGGLE_CBMII_RAM08:
               {
                   int n;
-                  resources_get_value("Ram08", (resource_value_t *) &n);
-                  resources_set_value("Ram08", (resource_value_t) !n);
+                  resources_get_value("Ram08", (void *)&n);
+                  resources_set_value("Ram08", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_CBMII_RAM1:
               {
                   int n;
-                  resources_get_value("Ram1", (resource_value_t *) &n);
-                  resources_set_value("Ram1", (resource_value_t) !n);
+                  resources_get_value("Ram1", (void *)&n);
+                  resources_set_value("Ram1", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_CBMII_RAM2:
               {
                   int n;
-                  resources_get_value("Ram2", (resource_value_t *) &n);
-                  resources_set_value("Ram2", (resource_value_t) !n);
+                  resources_get_value("Ram2", (void *)&n);
+                  resources_set_value("Ram2", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_CBMII_RAM4:
               {
                   int n;
-                  resources_get_value("Ram4", (resource_value_t *) &n);
-                  resources_set_value("Ram4", (resource_value_t) !n);
+                  resources_get_value("Ram4", (void *)&n);
+                  resources_set_value("Ram4", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_CBMII_RAM6:
               {
                   int n;
-                  resources_get_value("Ram6", (resource_value_t *) &n);
-                  resources_set_value("Ram6", (resource_value_t) !n);
+                  resources_get_value("Ram6", (void *)&n);
+                  resources_set_value("Ram6", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_CBMII_RAMC:
               {
                   int n;
-                  resources_get_value("RamC", (resource_value_t *) &n);
-                  resources_set_value("RamC", (resource_value_t) !n);
+                  resources_get_value("RamC", (void *)&n);
+                  resources_set_value("RamC", (resource_value_t)!n);
                   break;
               }
           }

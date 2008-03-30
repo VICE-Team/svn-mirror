@@ -44,7 +44,7 @@ static void init_dialog(HWND hwnd)
 {
     int n, res;
 
-    resources_get_value("RamSize", (resource_value_t *)&res);
+    resources_get_value("RamSize", (void *)&res);
     switch (res) {
       case 16:
         n = IDC_SELECT_PLUS4_MEM_16;

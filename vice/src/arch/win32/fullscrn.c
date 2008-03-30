@@ -229,7 +229,7 @@ GUID *GetGUIDForActualDevice()
     int device;
     DirectDrawDeviceList *search_device;
 
-    resources_get_value("FullscreenDevice", (resource_value_t *)&device);
+    resources_get_value("FullscreenDevice", (void *)&device);
     search_device = devices;
     while (search_device != NULL) {
         if (device == 0) {
@@ -617,16 +617,13 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
         EndDialog(hwnd,0);
         return TRUE;
       case WM_INITDIALOG:
-        resources_get_value("FullscreenDevice",
-                            (resource_value_t *)&fullscreen_device);
+        resources_get_value("FullscreenDevice", (void *)&fullscreen_device);
         resources_get_value("FullscreenBitdepth",
-                            (resource_value_t *)&fullscreen_bitdepth);
-        resources_get_value("FullscreenWidth",
-                            (resource_value_t *)&fullscreen_width);
-        resources_get_value("FullscreenHeight",
-                            (resource_value_t *)&fullscreen_height);
+                            (void *)&fullscreen_bitdepth);
+        resources_get_value("FullscreenWidth", (void *)&fullscreen_width);
+        resources_get_value("FullscreenHeight", (void *)&fullscreen_height);
         resources_get_value("FullscreenRefreshRate",
-                            (resource_value_t *)&fullscreen_refreshrate);
+                            (void *)&fullscreen_refreshrate);
         init_fullscreen_dialog(hwnd);
         return TRUE;
     }
@@ -642,18 +639,17 @@ int IsFullscreenEnabled(void)
 {
     int b;
 
-    resources_get_value("FullscreenEnabled", (resource_value_t *)&b);
+    resources_get_value("FullscreenEnabled", (void *)&b);
     return b;
 }
 
 void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
                               int *refreshrate)
 {
-    resources_get_value("FullscreenBitdepth", (resource_value_t *)bitdepth);
-    resources_get_value("FullscreenWidth", (resource_value_t *)width);
-    resources_get_value("FullscreenHeight", (resource_value_t *)height);
-    resources_get_value("FullscreenRefreshRate",
-                        (resource_value_t *)refreshrate);
+    resources_get_value("FullscreenBitdepth", (void *)bitdepth);
+    resources_get_value("FullscreenWidth", (void *)width);
+    resources_get_value("FullscreenHeight", (void *)height);
+    resources_get_value("FullscreenRefreshRate", (void *)refreshrate);
 }
 
 
