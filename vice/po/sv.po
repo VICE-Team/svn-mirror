@@ -6,17 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
 "POT-Creation-Date: 2000-12-02 18:44+0100\n"
-"PO-Revision-Date: 2000-08-13 23:39+0200\n"
+"PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
-"Language-Team: svenska <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/print.c:78 src/print.c:80 src/print.c:82
-#, fuzzy
 msgid "Specify name of printer device or dump file"
-msgstr "Ange fil för utskriftsdump (print.dump)"
+msgstr "Ange namn på utskriftsenhet eller dumpfil"
 
 #: src/arch/unix/uicommands.c:96
 #, c-format
@@ -581,23 +579,20 @@ msgstr "Minnesinställningar"
 #: src/arch/unix/c128ui.c:472 src/arch/unix/c610ui.c:490
 #: src/arch/unix/c64ui.c:604 src/arch/unix/petui.c:517
 #: src/arch/unix/vic20ui.c:466 src/arch/unix/vsidui.c:245
-#, fuzzy
 msgid "File"
-msgstr "*Flexibel"
+msgstr "Arkiv"
 
 #: src/arch/unix/c128ui.c:486 src/arch/unix/c610ui.c:507
 #: src/arch/unix/c64ui.c:623 src/arch/unix/petui.c:534
 #: src/arch/unix/vic20ui.c:485
-#, fuzzy
 msgid "Snapshot"
-msgstr "Spara ögonblicksbild"
+msgstr "Ögonblicksbild"
 
 #: src/arch/unix/c128ui.c:492 src/arch/unix/c610ui.c:513
 #: src/arch/unix/c64ui.c:629 src/arch/unix/petui.c:540
 #: src/arch/unix/vic20ui.c:491
-#, fuzzy
 msgid "Options"
-msgstr "Alternativ för diskett"
+msgstr "Alternativ"
 
 #: src/arch/unix/c128ui.c:510 src/arch/unix/c610ui.c:525
 #: src/arch/unix/c64ui.c:647 src/arch/unix/petui.c:552
@@ -611,9 +606,8 @@ msgstr "Inställningar"
 #: src/arch/unix/c128ui.c:524 src/arch/unix/c610ui.c:541
 #: src/arch/unix/c64ui.c:661 src/arch/unix/petui.c:568
 #: src/arch/unix/vic20ui.c:517
-#, fuzzy
 msgid "RJHelp"
-msgstr "Hjälp"
+msgstr "RJHjälp"
 
 #: src/arch/unix/c610ui.c:51
 msgid "*Default (Green)"
@@ -2151,7 +2145,7 @@ msgstr "Innehåll"
 
 #: src/arch/unix/x11/gnome/ui.c:2512
 msgid "Attach write protected"
-msgstr ""
+msgstr "Anslut skrivskyddat"
 
 #: src/arch/unix/x11/gnome/ui.c:2538
 msgid "Autostart"

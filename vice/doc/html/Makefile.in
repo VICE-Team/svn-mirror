@@ -91,6 +91,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 NLS_LOCALEDIR = @NLS_LOCALEDIR@
 PACKAGE = @PACKAGE@
+PERL = @PERL@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -120,6 +121,7 @@ XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 artsc_config = @artsc_config@
 cxx = @cxx@
+sdl_config = @sdl_config@
 x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
@@ -256,7 +258,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(srcdir); \
-         $(PERL) texi2html -number -split_chapter ../vice.texi)
+         $(PERL) ./texi2html -number -split_chapter ../vice.texi)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

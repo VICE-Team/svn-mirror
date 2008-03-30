@@ -93,6 +93,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 NLS_LOCALEDIR = @NLS_LOCALEDIR@
 PACKAGE = @PACKAGE@
+PERL = @PERL@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -122,6 +123,7 @@ XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 artsc_config = @artsc_config@
 cxx = @cxx@
+sdl_config = @sdl_config@
 
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 @HAVE_RS232_TRUE@rs232_ldadd = rsuser.o
@@ -640,9 +642,9 @@ serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
 snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h snapshot.h arch/unix/types.h utils.h vsync.h zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	resources.h log.h machine.h maincpu.h 6510core.h sound.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
-	vsync.h
+	resources.h fixpoint.h log.h machine.h maincpu.h 6510core.h \
+	sound.h arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
+	utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \
 	arch/unix/types.h utils.h
