@@ -95,50 +95,15 @@ static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd,
 
 void ui_snapshot_save_dialog(HWND hwnd)
 {
-#if 0
-    /* FIXME: Of course this is not the right window.  */
-    PROPSHEETPAGE psp[1];
-    PROPSHEETHEADER psh;
-    int i;
-
-    for (i = 0; i < 1; i++) {
-        psp[i].dwSize = sizeof(PROPSHEETPAGE);
-        psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
-        psp[i].hInstance = winmain_instance;
-        psp[i].u1.pszTemplate = MAKEINTRESOURCE(IDD_SNAPSHOT_SAVE_DIALOG);
-        psp[i].u2.pszIcon = NULL;
-        psp[i].lParam = 0;
-        psp[i].pfnCallback = NULL;
-    }
-
-    psp[0].pfnDlgProc = ui_snapshot_save_dialog_proc;
-    psp[0].pszTitle = ":-)";
-
-    psh.dwSize = sizeof(PROPSHEETHEADER);
-    psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
-    psh.hwndParent = hwnd;
-    psh.hInstance = winmain_instance;
-    psh.u1.pszIcon = NULL;
-    psh.pszCaption = "Save snapshot image";
-    psh.nPages = 1;
-    psh.u2.nStartPage = 0;
-    psh.u3.ppsp = psp;
-    psh.pfnCallback = NULL;
-
-    PropertySheet(&psh);
-#endif
-    DLGPROC lpfnDlg;
-
-    lpfnDlg = MakeProcInstance(ui_snapshot_save_dialog_proc, winmain_instance);
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SNAPSHOT_SAVE_DIALOG), hwnd, lpfnDlg);
-    FreeProcInstance(lpfnDlg);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_SNAPSHOT_SAVE_DIALOG, hwnd,
+              ui_snapshot_save_dialog_proc);
 }
 
 void ui_snapshot_load_dialog(HWND hwnd)
 {
     char *s;
     if ((s = ui_select_file("Load snapshot image",
-        "VICE snapshot files (*.vsf)\0*.vsf)\0"
+        "VICE snapshot files (*.vsf)\0*.vsf\0"
         "All files (*.*)\0*.*\0", hwnd)) != NULL) {
          if (machine_read_snapshot(s) < 0)
              ui_error("Cannot read snapshot image");

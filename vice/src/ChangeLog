@@ -1,3 +1,55 @@
+1999-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.16.
+
+	* 6510core.c (FETCH_OPCODE): Added missing cast.
+
+	* arch/win32/ui.c (save_snapshot_trap, load_snapshot_trap,
+	mon_trap): New functions.
+	(handle_wm_command): Use traps to load and save snapshots and to
+	call the monitor.
+
+	* arch/win32/uisnapshot.c (ui_snapshot_load_dialog): Fixed
+	extension name.
+
+	* res.r (IDD_SNAPSHOT_SAVE_DIALOG): Added name.
+
+1998-01-29  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cbm2/c610cpu.def (JUMP,FETCH_OPCODE,p0,p1,p2,opcode_t,PRE_CPU_LOOP): 
+	add handling of bank_limit if INSTRUCTION_FETCH_HACK is defined.
+
+	* cbm2/c610mem.c (mem_read_limit_tab, mem_read_limit_tab_ptr): 
+	new variables to hold the bank_limit values.
+	(set_bank_exec, initialize_memory): handle bank_limit tables
+
+	* crtc-tmpl.c (crtc_init): do not set the screen width to 
+	40 columns - makes screen width flicker in xcbm2
+	Now works.
+
+	* pet/petmem.c (set_std_9tof,store_8x96,set_vidmem,initialize_memory):
+	set -1 in mem_read_limit_tab for non-bank_base access.
+
+	* vic20/vic20mem.c (set_mem): handle mem_read_limit_tab
+	(initialize_memory): remove bogus -1 fill of mem_read_limit_tab.
+
+1999-01-29  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.h (IDM_MONITOR): Added identifier for Monitor
+	  menu item.
+
+	* arch/win32/resc128.r arch/win32/resc64.r arch/win32/rescbm2.r
+	  arch/win32/respet.r arch/win32/resvic.r: Included monitor
+	  into menu.
+
+	* arch/win32/ui.c: Include maincpu.h.
+	  (handle_wm_command): Handle monitor menu item.
+
+	* mon.c: Include windows.h when compiling for Win32.
+	  (readline): Flush mon_output, otherwise the screen
+	  will not be updated correctly on Win32.
+	  (mon): Added console window opening and closing code.
+
 1999-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.15.
