@@ -1,4 +1,3 @@
-
 /*
  * c128cpu.c - Emulation of the main 6510 processor.
  *
@@ -52,16 +51,19 @@
 /* ------------------------------------------------------------------------- */
 
 /* C128 needs external reg_pc */
-#  define	NEED_REG_PC
+#define NEED_REG_PC
+
+/* Put Z80 registers into monitor sturct.  */
+#define HAVE_Z80_REGS
 
 /* ------------------------------------------------------------------------- */
 
 extern read_func_ptr_t _mem_read_tab[];
 extern store_func_ptr_t _mem_write_tab[];
 
-#  define	PAGE_ZERO	page_zero
+#define PAGE_ZERO page_zero
 
-#  define	PAGE_ONE	page_one
+#define PAGE_ONE page_one
 
 #define LOAD_ZERO(addr) \
     page_zero[(addr) & 0xff]

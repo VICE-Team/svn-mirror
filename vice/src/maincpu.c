@@ -38,6 +38,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mos6510.h"
 #include "snapshot.h"
@@ -272,6 +273,12 @@ monitor_interface_t maincpu_monitor_interface = {
     /* Pointer to the registers of the CPU.  */
     &maincpu_regs,
 
+#ifdef HAVE_Z80_REGS
+    &z80_regs,
+#else
+    NULL,
+#endif
+
     /* Pointer to the alarm/interrupt status.  */
     &maincpu_int_status,
 
@@ -286,7 +293,9 @@ monitor_interface_t maincpu_monitor_interface = {
     mem_bank_write,
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
-    mem_toggle_watchpoints
+    mem_toggle_watchpoints,
+
+    NULL
 };
 
 /* ------------------------------------------------------------------------- */
