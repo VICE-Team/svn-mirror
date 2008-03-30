@@ -185,7 +185,7 @@ BMenuBar *menu_create(int machine_class) {
 		submenu->AddItem(new BMenuItem("Double Scan",
 			new BMessage(MENU_TOGGLE_VDC_DOUBLESCAN)));
 		submenu->AddSeparatorItem();
-		submenu->AddItem(new BMenuItem("64KB",
+		submenu->AddItem(new BMenuItem("64KB video memory",
 			new BMessage(MENU_TOGGLE_VDC_64KB)));
 	}
 			
@@ -244,7 +244,7 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_TOGGLE_EMUID)));
 		menu->AddItem(new BMenuItem("REU emulation",
 			new BMessage(MENU_TOGGLE_REU)));
-		menu->AddItem(new BMenuItem("1351 mouse (not yet)",
+		menu->AddItem(new BMenuItem("1351 mouse",
 			new BMessage(MENU_TOGGLE_MOUSE)));
 			
 	}
@@ -283,6 +283,11 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_SETTINGS_SAVE)));
 	menu->AddItem(new BMenuItem("Default Settings", 
 		new BMessage(MENU_SETTINGS_DEFAULT)));
+	menu->AddSeparatorItem();
+	menu->AddItem(new BMenuItem("Save settings on exit", 
+		new BMessage(MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT)));
+	menu->AddItem(new BMenuItem("Confirm on exit", 
+		new BMessage(MENU_TOGGLE_CONFIRM_ON_EXIT)));
 	menubar->AddItem(menu);
 	
 	/* create the HELP menu */

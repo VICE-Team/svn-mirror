@@ -54,6 +54,7 @@ libarch_a_SOURCES = \
 	video.c \
 	videoarch.h \
 	vsidui.c \
+	vsiddummy.c \
 	vsync.c \
 	vsyncarch.h
 

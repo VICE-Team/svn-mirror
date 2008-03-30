@@ -1,3 +1,51 @@
+2000-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.12.
+
+	* sounddrv/Makefile.am: Include `soundarts.c'.
+
+2000-09-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* beos/constants.h: new IDs for "save/confirm on exit" mimic
+
+	* beos/joystick.cc: (joystick_update) uses common functions
+	instead of directly setting the value
+
+	* beos/main_exit.c: (main_exit) is empty now; instead of this
+	the new function main_exit_early is used for cleanup in the
+	destructor of the ViceApp class; this should finally fix the
+	problem with crashes at shutdown
+
+	* beos/mouse.cc: new file (instead of mouse.c) that implements
+	the 1351 emulation
+
+	* beos/mouse.h: minor changes
+
+	* beos/ui.cc: the mimic for resource saving at exit and
+	confirmation for exit is now implemented as in the windows port;
+	removed dialogs that reported loading/saving/resetting settings
+
+	* beos/vicemenu.cc: minor changes
+
+	* beos/vicewindow.cc: window class extended for mouse button
+	handling
+
+2000-09-18  Markus Brenner  <markus@brenner.de>
+
+	* cartridge.h: removed OCEAN_HUGE cartridge type
+
+	* c64/c64cartmem.c: OCEAN carts may access ROM at $a000
+
+	* c64/c64cartridge.c: unified OCEAN/OCEAN_HUGE CRT types
+
+2000-09-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	arch/riscos/Makefile.am, arch/riscos/vsiddummy.c: new file
+	vsiddummy, contains stubs for non-C64 targets.
+
+	arch/riscos/ui.{c,h}, arch/riscos/archdep.c,
+	arch/riscos/uidummy.c, arch/riscos/vsidui.c: added vsid GUI.
+
 2000-09-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.11.

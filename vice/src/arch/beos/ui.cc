@@ -56,6 +56,7 @@ extern "C" {
 #include "log.h"
 #include "machine.h"
 #include "main.h"
+#include "main_exit.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
@@ -91,6 +92,8 @@ ui_menu_toggle  toggle_list[] = {
     { "EmuID", MENU_TOGGLE_EMUID },
     { "WarpMode", MENU_TOGGLE_WARP_MODE },
     { "VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES },
+    { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
+    { "ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT },
     { NULL, 0 }
 };
 
@@ -159,6 +162,8 @@ void ui_register_machine_specific(ui_machine_specific_t func)
 /* UI-related resources.  */
 
 static int joystickdisplay;
+static int save_resources_on_exit;
+static int confirm_on_exit;
 
 static int set_joystickdisplay(resource_value_t v, void *param)
 {
@@ -167,10 +172,28 @@ static int set_joystickdisplay(resource_value_t v, void *param)
 	return 0;
 }
 
+static int set_save_resources_on_exit(resource_value_t v, void *param)
+{
+    save_resources_on_exit=(int) v;
+    return 0;
+}
+
+static int set_confirm_on_exit(resource_value_t v, void *param)
+{
+    confirm_on_exit=(int) v;
+    return 0;
+}
+
 
 static resource_t resources[] = {
     { "JoystickDisplay", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &joystickdisplay, set_joystickdisplay, NULL },
+    {"SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
+     (resource_value_t *)&save_resources_on_exit,
+     set_save_resources_on_exit, NULL },
+    {"ConfirmOnExit",RES_INTEGER, (resource_value_t)1,
+     (resource_value_t *)&confirm_on_exit,
+     set_confirm_on_exit, NULL },
     { NULL }
 };
 
@@ -345,15 +368,25 @@ void ui_dispatch_events(void)
 
 		switch (message_queue[i].what) {
 			case MENU_EXIT_REQUESTED:
-			{	int32 button;
-				BAlert *alert = new BAlert("Quit BeVICE", 
+			{	int32 button = 0;
+				BAlert *alert;
+				if (confirm_on_exit) {
+					alert = new BAlert("Quit BeVICE", 
 					"Do you really want to exit BeVICE??",
 					"Yes","No", NULL, B_WIDTH_AS_USUAL, B_INFO_ALERT);
-				suspend_speed_eval();
-				button = alert->Go();
-				if (button == 0)
-				{ 	/* send message to quit the application */
+					suspend_speed_eval();
+					button = alert->Go();
+				}
+				if (button == 0) {
+					if (save_resources_on_exit) {
+				        if (resources_save(NULL) < 0) {
+	    			        ui_error("Cannot save settings.");
+    	    			}
+    	    		}
+						
+					/* send message to quit the application */
 					/* and exit the emulation thread        */
+					main_exit_early();
 					BMessenger messenger(APP_SIGNATURE);
 					BMessage message(WINDOW_CLOSED);
 					messenger.SendMessage(&message, be_app);
@@ -540,27 +573,22 @@ void ui_dispatch_events(void)
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {
 	            	ui_error("Cannot load settings.");
-    	    	} else {
-        	    	ui_message("Settings loaded successfully.");
-        		}
+    	    	}
         		ui_update_menus();
 				break;
 			case MENU_SETTINGS_SAVE:
 		        if (resources_save(NULL) < 0) {
 	    	        ui_error("Cannot save settings.");
-    	    	} else {
-        	    	ui_message("Settings saved successfully.");
-        		}
+    	    	}
 				break;
 			case MENU_SETTINGS_DEFAULT:
 	        	resources_set_defaults();
-	        	ui_message("Default settings restored.");
 				ui_update_menus();
 				break;
 			case MENU_ABOUT:
 				char *abouttext;
 				abouttext = concat(
-					"BeVICE Version ", VERSION," (alpha release)\n",
+					"BeVICE Version ", VERSION,"\n",
 					"(c) 1996-1999 Ettore Perazzoli\n",
 					"(c) 1997-2000 Daniel Sladic\n",
 					"(c) 1998-2000 Andreas Boose\n",

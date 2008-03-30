@@ -98,6 +98,7 @@ static void ui_poll_epilogue(void);
 static void ui_temp_suspend_sound(void);
 static void ui_temp_resume_sound(void);
 static void ui_issue_reset(int doreset);
+static int  ui_open_centered_or_raise_block(RO_Window *win, int *block);
 
 
 
@@ -530,6 +531,7 @@ RO_Window *ImgContWindow;
 RO_Window *MessageWindow;
 RO_Window *CreateDiscWindow;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
+RO_Window *VSidWindow = NULL;
 
 #define TitleBarOffset	40
 RO_Window *ConfWinPositions[CONF_WIN_NUMBER];
@@ -2104,7 +2106,7 @@ int ui_init(int *argc, char *argv[])
 
   switch (machine_class)
   {
-    case VICE_MACHINE_C64: iname = "!vice64"; break;
+    case VICE_MACHINE_C64: iname = ((vsid_mode) ? "!vicevsid" : "!vice64"); break;
     case VICE_MACHINE_C128: iname = "!vice128"; break;
     case VICE_MACHINE_PET: iname = "!vicepet"; break;
     case VICE_MACHINE_VIC20: iname = "!vicevic"; break;
@@ -2157,6 +2159,9 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("ImageCont", &ImgContWindow, msg);
     ui_load_template("MsgWindow", &MessageWindow, msg);
     ui_load_template("CreateDisc", &CreateDiscWindow, msg);
+
+    if (vsid_mode)
+      ui_load_template("VSidWindow", &VSidWindow, msg);
 
     Wimp_CloseTemplate();
   }
@@ -2305,6 +2310,21 @@ int ui_init_finish(void)
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Freeze, 1);
   }
 
+  if (vsid_mode)
+  {
+    RO_MenuHead *men;
+
+    men = (RO_MenuHead*)&MenuEmuWindow;
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Fliplist, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Snapshot, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Screenshot, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_Pane, 1);
+    wimp_menu_set_grey_item(men, Menu_EmuWin_TrueDrvEmu, 1);
+
+    men = (RO_MenuHead*)&MenuIconBar;
+    wimp_menu_set_grey_item(men, Menu_IBar_FullScreen, 1);
+  }
+
   ui_set_pane_state(ShowEmuPane);
 
   memset(SnapshotMessage, 0, 256);
@@ -2357,7 +2377,9 @@ int ui_init_finish(void)
 int ui_init_finalize(void)
 {
   /* register platform-specific drivers */
-  screenshot_init_sprite();
+  if (!vsid_mode)
+    screenshot_init_sprite();
+
   return sound_init_vidc_device();
 }
 
@@ -2491,6 +2513,9 @@ void ui_open_emu_window(RO_Window *win, int *b)
   int *block;
   int dx, dy, x;
 
+  if (vsid_mode)
+    return;
+
   if (b == NULL)
   {
     int dx, dy;
@@ -2533,6 +2558,13 @@ void ui_open_emu_window(RO_Window *win, int *b)
     block[WindowB_Stackpos] = EmuPane->Handle;
   }
 
+  Wimp_OpenWindow(block);
+}
+
+
+void ui_open_vsid_window(int *block)
+{
+  ui_open_centered_or_raise_block(VSidWindow, block);
   Wimp_OpenWindow(block);
 }
 
@@ -2901,6 +2933,19 @@ static void ui_mouse_click(int *b)
       }
     }
   }
+  else if ((vsid_mode) && (b[MouseB_Window] == VSidWindow->Handle))
+  {
+    if (b[MouseB_Buttons] == 2)
+    {
+      Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
+      LastHandle = VSidWindow->Handle;
+      LastMenu = Menu_Emulator;
+    }
+    else
+    {
+      vsid_ui_mouse_click(b);
+    }
+  }
   else
   {
     canvas_t *canvas;
@@ -2935,28 +2980,36 @@ static void ui_mouse_click(int *b)
     }
     else if (b[MouseB_Buttons] == 4)
     {
-      RO_Window *win;
       int block[WindowB_WFlags+1];
-      int gainCaret = 0;
 
-      win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
-      if (ui_open_centered_or_raise_block(win, block) == 0)
-        gainCaret = 1;
-      ui_open_emu_window(win, block);
-      if (gainCaret != 0)
+      if (vsid_mode)
       {
-        Wimp_GetCaretPosition(&LastCaret);
-        Wimp_SetCaretPosition(win->Handle, -1, -100, 100, -1, -1);
+        ui_open_vsid_window(block);
       }
-
-      /* reverse autopause? */
-      if ((AutoPauseEmu != 0) && (WasAutoPaused != 0))
+      else
       {
-        WasAutoPaused = 0;
-        if (EmuPaused != 0)
+        RO_Window *win;
+        int gainCaret = 0;
+
+        win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
+        if (ui_open_centered_or_raise_block(win, block) == 0)
+          gainCaret = 1;
+        ui_open_emu_window(win, block);
+        if (gainCaret != 0)
         {
-          EmuPaused = 0;
-          ui_display_paused(EmuPaused);
+          Wimp_GetCaretPosition(&LastCaret);
+          Wimp_SetCaretPosition(win->Handle, -1, -100, 100, -1, -1);
+        }
+
+        /* reverse autopause? */
+        if ((AutoPauseEmu != 0) && (WasAutoPaused != 0))
+        {
+          WasAutoPaused = 0;
+          if (EmuPaused != 0)
+          {
+            EmuPaused = 0;
+            ui_display_paused(EmuPaused);
+          }
         }
       }
     }
@@ -3548,6 +3601,10 @@ static void ui_key_press(int *b)
         ui_check_save_snapshot(fn);
     }
   }
+  else if (b[KeyPB_Window] == VSidWindow->Handle)
+  {
+    vsid_ui_key_press(b);
+  }
   if (b[KeyPB_Window] == ConfWindows[CONF_WIN_JOY]->Handle)
   {
     int mpos[MouseB_Icon+1];
@@ -3815,7 +3872,7 @@ static void ui_menu_selection(int *b)
           break;
         case Menu_IBar_FullScreen:
           {
-            if (video_full_screen_on(SpriteArea) != 0)
+            if ((!vsid_mode) && (video_full_screen_on(SpriteArea) != 0))
             {
               _kernel_oserror err;
 
@@ -4454,6 +4511,11 @@ static void ui_user_message(int *b)
           action = 1;
         }
       }
+      else if (b[5] == VSidWindow->Handle)
+      {
+        if (vsid_ui_load_file(name) == 0)
+          action = 1;
+      }
       if (action != 0)
       {
         b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
@@ -4862,6 +4924,10 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 
 void ui_exit(void)
 {
+  /* for some reason VSID won't shut down properly */
+  if (vsid_mode)
+    sound_close();
+
   machine_shutdown();
   sound_close();
   ui_image_contents_exit();
@@ -4985,6 +5051,7 @@ void ui_display_tape_counter(int counter)
 
 void ui_display_tape_current_image(const char *image)
 {
+  wimp_window_write_icon_text(ConfWindows[CONF_WIN_TAPE], Icon_Conf_TapeFile, image);
 }
 
 

@@ -51,7 +51,6 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_SUPER_SNAPSHOT_V5 -12
 #define CARTRIDGE_IEEE488           -11
 #define CARTRIDGE_ULTIMAX           -6
-#define CARTRIDGE_OCEAN_HUGE        -5
 #define CARTRIDGE_SUPER_SNAPSHOT    -4
 #define CARTRIDGE_GENERIC_8KB       -3
 #define CARTRIDGE_GENERIC_16KB      -2

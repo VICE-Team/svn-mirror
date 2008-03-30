@@ -1,5 +1,8 @@
 /*
- * main_exit.h - VICE shutdown.
+ * vsiddummy.c - Dummy sidplayer stubs for non-C64 targets
+ *
+ * Written by
+ *  Andreas Dehmel (dehmel@forwiss.tu-muenchen)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,11 +24,17 @@
  *
  */
 
-#ifndef _MAIN_EXIT_H
-#define _MAIN_EXIT_H
+int vsid_ui_load_file(const char *file)
+{
+  return 0;
+}
 
-void main_exit(void);
-void main_exit_early(void);
+int vsid_ui_mouse_click(int *block)
+{
+  return 0;
+}
 
-#endif
-
+int vsid_ui_key_press(int *block)
+{
+  return 0;
+}

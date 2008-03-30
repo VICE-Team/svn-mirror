@@ -735,6 +735,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     clk_guard_add_callback(&maincpu_clk_guard, prevent_clk_overflow_callback,
                            NULL);
 
+#if defined(USE_ARTS)
+    sound_init_arts_device();
+#endif                           
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H)
     sound_init_uss_device();
 #endif

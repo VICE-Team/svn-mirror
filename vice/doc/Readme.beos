@@ -37,7 +37,6 @@ please remind the following, if you discover problems:
 
 BUGS (only the known;)
 -------------------------------------
-- Application sometimes crashes at exit.
 - Sometimes the application loses the keyboard focus; no keystrokes are
   accepted inside the emu, so the emulator has to be restarted.
 - I discovered several sound problems on my slower machine (P100) with
@@ -47,8 +46,8 @@ BUGS (only the known;)
 
 TODO
 ----------
-- Allmost all user interfaces for the settings are missing; no machine
-  specific setting except some for C64; use commandline options or
+- Some user interfaces for the settings are missing; many machine
+  specific setting are missing; use commandline options or
   edit the vice.ini.
 - Fullsrceen mode is needed.
 - Preview for disk/t64 images is missing.

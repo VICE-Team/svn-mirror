@@ -393,8 +393,6 @@ int cartridge_attach_image(int type, const char *filename)
 					fclose(fd);
                     goto done;
                 }
-                if ((crttype == CARTRIDGE_OCEAN) && (chipheader[0xb] >= 32))
-                    crttype = CARTRIDGE_OCEAN_HUGE;
             }
             break;
           case CARTRIDGE_FUNPLAY:

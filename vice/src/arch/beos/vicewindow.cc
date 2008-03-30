@@ -42,6 +42,7 @@ extern "C" {
 #include "kbd.h"
 #include "log.h"
 #include "main.h"
+#include "mouse.h"
 #include "keyboard.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -120,11 +121,13 @@ void ViceWindow::Update_Menus(
 }
 
 
-/* the view for the emulators bitmap, we need a special Draw() */
+/* the view for the emulators bitmap */
 class ViceView : public BView {
 	public:
 		ViceView(BRect rect);
 		virtual void Draw(BRect rect);
+		virtual void MouseDown(BPoint point);
+		virtual void MouseUp(BPoint point);
 };
 
 ViceView::ViceView(BRect rect) 
@@ -142,18 +145,41 @@ void ViceView::Draw(BRect rect) {
 	}
 }
 
+/* some hooks for the 1351 mouse emulation */
+void ViceView::MouseDown(BPoint point) {
+	BMessage *msg;
+	int32 buttons;
+	
+	if (!_mouse_enabled)
+		return;
+	
+	msg = Window()->CurrentMessage();
+	msg->FindInt32("buttons", &buttons);
+	if (buttons & B_PRIMARY_MOUSE_BUTTON)
+		joystick_set_value_or(1,16);
+}
+
+void ViceView::MouseUp(BPoint point) {
+	
+	if (!_mouse_enabled)
+		return;
+	
+	joystick_set_value_and(1,239);
+}
+
 ViceWindow::ViceWindow(BRect frame, char const *title) 
 		: BWindow(frame, title,
 		B_TITLED_WINDOW,
-		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) {
+		B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS) {
 
 	BMenu *menu, *submenu;
 	BMenuItem *item;
 	BRect r;
 
-	/* create the menubar */
+	/* create the menubar; key events reserved for the emu */
 	menubar = menu_create(machine_class);
 	AddChild(menubar);
+	SetKeyMenuBar(NULL);
 
 	/* create the File Panel */
 	filepanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
@@ -203,10 +229,11 @@ bool ViceWindow::QuitRequested() {
 	return false;
 }
 
+
 void ViceWindow::MessageReceived(BMessage *message) {
 	/* FIXME: sometimes the menubar holds the focus so we have to delete it */ 
 	if (CurrentFocus()) {
-		menubar->MakeFocus(false);
+		CurrentFocus()->MakeFocus(false);
 	}
 		
 	ui_add_event(message);

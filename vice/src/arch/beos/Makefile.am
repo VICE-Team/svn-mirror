@@ -41,7 +41,7 @@ libarch_a_SOURCES = \
 	main.h \
 	main_exit.c \
 	main_exit.h \
-	mouse.c \
+	mouse.cc \
 	mouse.h \
 	petkbd.c \
 	petui.cc \

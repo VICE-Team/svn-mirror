@@ -10,6 +10,21 @@ list of all the changes in the code.
 * Changes in VICE 1.6
 =====================
 
+** BeOS changes
+---------------
+
+- new video engine; about 20% faster now
+
+- improved support for hardware joysticks
+
+- added 1351 mouse emulation
+
+- fixed bug that crashed the emu at shutdown
+
+- many more settings dialogs (device, sound, datasette, ...) 
+
+- display for the joystick state
+
 ** OS/2 changes
 ---------------
 

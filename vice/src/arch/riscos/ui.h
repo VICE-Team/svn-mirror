@@ -65,6 +65,13 @@ extern void ui_set_sound_volume(void);
 
 extern int  ui_flip_iterate_and_attach(int dir);
 
+extern void ui_open_vsid_window(int *block);
+
+/* Additional VSid interface */
+extern int  vsid_ui_load_file(const char *file);
+extern int  vsid_ui_mouse_click(int *block);
+extern int  vsid_ui_key_press(int *block);
+
 
 
 extern RO_Screen ScreenMode;
@@ -73,6 +80,7 @@ extern RO_Window *EmuWindow;
 extern RO_Window *EmuPane;
 extern RO_Window *ImgContWindow;
 extern RO_Window *MessageWindow;
+extern RO_Window *VSidWindow;
 extern RO_Caret LastCaret;
 
 extern int EmuZoom;

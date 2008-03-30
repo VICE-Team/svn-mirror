@@ -45,14 +45,16 @@ inline static BYTE mouse_get_x(void)
 {
     if (!_mouse_enabled)
         return 0xff;
-    return (BYTE) (_mouse_x >> 1) & 0x7e;
+	mouse_update_mouse();
+    return (BYTE) _mouse_x;
 }
 
 inline static BYTE mouse_get_y(void)
 {
     if (!_mouse_enabled)
         return 0xff;
-    return (BYTE) (~_mouse_y >> 1) & 0x7e;
+    mouse_update_mouse();
+    return (BYTE) ~_mouse_y;
 }
 
 #endif

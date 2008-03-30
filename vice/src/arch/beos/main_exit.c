@@ -35,6 +35,11 @@
 
 void main_exit(void)
 {
+	/* main_exit is executed too late. we have to use main_exit_early */
+}
+
+void main_exit_early(void)
+{
     /* Disable SIGINT.  This is done to prevent the user from keeping C-c
        pressed and thus breaking the cleanup process, which might be
        dangerous.  */
@@ -49,7 +54,6 @@ void main_exit(void)
 #ifdef HAS_JOYSTICK
     joystick_close();
 #endif
-    log_message(LOG_DEFAULT, "finished.");
 
     putchar ('\n');
 }

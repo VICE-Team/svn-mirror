@@ -82,9 +82,12 @@ char *archdep_make_backup_filename(const char *fname)
 const char *archdep_default_resource_file_name(void)
 {
   char *name;
-  char *basename;
+  const char *basename;
 
-  basename = (machine_name == NULL) ? "DRIVES" : (char*)machine_name;
+  if (vsid_mode)
+    basename = "VSID";
+  else
+    basename = (machine_name == NULL) ? "DRIVES" : machine_name;
 
   if ((name = (char*)xmalloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
      sprintf(name, "Vice:%s.vicerc", basename);

@@ -262,30 +262,16 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         }
         break;
       case CARTRIDGE_OCEAN:
-      case CARTRIDGE_OCEAN_HUGE:
       case CARTRIDGE_FUNPLAY:
         switch (mem_cartridge_type) {
           case CARTRIDGE_OCEAN:
-            romh_bank = roml_bank = value & 0x0f;
-            break;
-          case CARTRIDGE_OCEAN_HUGE:
-            roml_bank = value & 0x3f;
+            romh_bank = roml_bank = value & 0x3f;
             break;
           case CARTRIDGE_FUNPLAY:
             romh_bank = roml_bank = ((value >> 2) | (value & 1)) & 15;
             break;
         }
-        if (value & 0x80) {
-            export.game = (value >> 4) & 1;
-            export.exrom = 1;
-        } else {
-            export.game = export.exrom = 1;
-        }
-        if (mem_cartridge_type == CARTRIDGE_OCEAN_HUGE)
-        {
-            export.game = 0;
-            export.exrom = 1;
-        }
+        export.game = export.exrom = 1;
         pla_config_changed();
         ultimax = 0;
         break;
@@ -465,6 +451,9 @@ BYTE REGPARM1 read_romh(ADDRESS addr)
 	 */
     if ((mem_cartridge_type == CARTRIDGE_EXPERT) || export_ram_at_a000)
         return export_ram0[addr & 0x1fff];
+    else if (mem_cartridge_type == CARTRIDGE_OCEAN)
+        /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
+        return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
@@ -525,7 +514,6 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
-      case CARTRIDGE_OCEAN_HUGE:
         cartridge_config_changed(1);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
@@ -616,7 +604,6 @@ void cartridge_attach(int type, BYTE *rawcart)
         cartridge_store_io1((ADDRESS)0xde00, 2);
         break;
       case CARTRIDGE_OCEAN:
-      case CARTRIDGE_OCEAN_HUGE:
       case CARTRIDGE_FUNPLAY:
       case CARTRIDGE_GS:
         memcpy(roml_banks, rawcart, 0x2000 * 64);

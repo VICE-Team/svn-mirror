@@ -270,7 +270,7 @@ void joystick_update(void)
 				if (buttons & (1 << axes_nr[dev_index]*2) || buttons & (1 << axes_nr[dev_index]*2+1) )
 					value |= 16;
 
-				joystick_value[dev_index+1]=value;
+				joystick_set_value_absolute(dev_index+1, value);
 				ui_display_joyport_abs(dev_index, value);
 			}
 		}
