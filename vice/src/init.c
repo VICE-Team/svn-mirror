@@ -251,6 +251,7 @@ int init_main(void)
     }
 
     keyboard_init();
+    fsdevice_init();
 
     if (!vsid_mode) {
         joystick_init();

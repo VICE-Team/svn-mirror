@@ -231,6 +231,8 @@ void machine_shutdown(void)
 
     sysfile_shutdown();
 
+    fsdevice_shutdown();
+
     log_close_all();
 
     event_shutdown();
