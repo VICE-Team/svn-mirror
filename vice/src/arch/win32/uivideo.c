@@ -49,8 +49,8 @@
 #include "winmain.h"
 
 
-static char *palette_file=NULL;
-static char *palette_file2=NULL;
+static char *palette_file = NULL;
+static char *palette_file2 = NULL;
 static int  res_extpalette;
 
 static char *vicii_palettes[]=
@@ -101,19 +101,24 @@ typedef struct {
     char *page_title;
 } Chip_Parameters;
 
-static Chip_Parameters  chip_param_table[] =
+static Chip_Parameters chip_param_table[] =
 {
-    {vicii_palettes, "VICIIPaletteFile", "VICIIExternalPalette", UI_VIDEO_PAL, "VICII Palette"},
-    {vic_palettes, "VICPaletteFile", "VICExternalPalette", UI_VIDEO_PAL, "VIC Palette"},
-    {crtc_palettes, "CRTCPaletteFile", NULL, UI_VIDEO_RGB, "CRTC Palette"},
-    {vdc_palettes, "VDCPaletteFile", NULL, UI_VIDEO_RGB, "VDC Palette"},
-    {ted_palettes, "TEDPaletteFile", "TEDExternalPalette", UI_VIDEO_PAL, "TED Palette"},
+    { vicii_palettes, "VICIIPaletteFile", "VICIIExternalPalette",
+      UI_VIDEO_PAL, "VICII Palette"},
+    { vic_palettes, "VICPaletteFile", "VICExternalPalette",
+      UI_VIDEO_PAL, "VIC Palette"},
+    { crtc_palettes, "CRTCPaletteFile", NULL,
+      UI_VIDEO_RGB, "CRTC Palette"},
+    { vdc_palettes, "VDCPaletteFile", NULL,
+      UI_VIDEO_RGB, "VDC Palette"},
+    { ted_palettes, "TEDPaletteFile", "TEDExternalPalette",
+      UI_VIDEO_PAL, "TED Palette"},
 };
 
 static char *modes[5]=
 {
     "Fast PAL",
-	"PAL Emulation",
+    "PAL Emulation",
     NULL
 };
 
@@ -195,14 +200,19 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
                        ? BST_CHECKED : BST_UNCHECKED);
         res_extpalette = n;
     } else {
+        res_extpalette = 0;
         EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE), FALSE);
     }
+
+    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_BROWSE), res_extpalette);
+    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME), res_extpalette);
 
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
     SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
     n = 0 ;
     while (chip_type->palette_names[n] != NULL) {
-        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)chip_type->palette_names[n]);
+        SendMessage(filename_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)chip_type->palette_names[n]);
         n++;
     }
     resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
@@ -222,7 +232,8 @@ static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
     SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
     n = 0 ;
     while (chip_type->palette_names[n] != NULL) {
-        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)chip_type->palette_names[n]);
+        SendMessage(filename_hwnd, CB_ADDSTRING, 0,
+                    (LPARAM)chip_type->palette_names[n]);
         n++;
     }
     resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
@@ -337,6 +348,10 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
         switch (type) {
           case IDC_TOGGLE_VIDEO_EXTPALETTE:
             res_extpalette = !res_extpalette;
+            EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_BROWSE),
+                         res_extpalette);
+            EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME),
+                         res_extpalette);
             break;
           case IDC_VIDEO_COLORS_GAM:
             break;
@@ -391,7 +406,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                 return TRUE;
             }
             lib_free(palette_file2);
-            palette_file2=NULL;
+            palette_file2 = NULL;
             SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
         }
