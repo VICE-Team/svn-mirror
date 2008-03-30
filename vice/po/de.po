@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-02-24 17:41+0100\n"
+"POT-Creation-Date: 2002-02-26 21:07+0100\n"
 "PO-Revision-Date: 2002-02-11 21:27+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1699,7 +1699,7 @@ msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
 #: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/ui.c:1282
-#: src/arch/unix/x11/xaw/ui.c:1060
+#: src/arch/unix/x11/xaw/ui.c:1065
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
@@ -2199,8 +2199,8 @@ msgstr "VICE Hackers"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:104
 #: src/arch/unix/x11/xaw/x11video.c:99
-#, c-format
-msgid "Successfully initialized using XVideo (%dx%d %4s)."
+#, fuzzy, c-format
+msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "XVideo erfolgreich initialisiert (%dx%d %4s)."
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:125
@@ -2272,24 +2272,24 @@ msgstr "Kommandos"
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/ui.c:1266 src/arch/unix/x11/xaw/ui.c:1044
+#: src/arch/unix/x11/gnome/ui.c:1266 src/arch/unix/x11/xaw/ui.c:1049
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1268 src/arch/unix/x11/xaw/ui.c:1050
+#: src/arch/unix/x11/gnome/ui.c:1268 src/arch/unix/x11/xaw/ui.c:1055
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1278 src/arch/unix/x11/xaw/ui.c:1057
+#: src/arch/unix/x11/gnome/ui.c:1278 src/arch/unix/x11/xaw/ui.c:1062
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/ui.c:1325 src/arch/unix/x11/xaw/ui.c:1094
+#: src/arch/unix/x11/gnome/ui.c:1325 src/arch/unix/x11/xaw/ui.c:1099
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
 #: src/arch/unix/x11/gnome/ui.c:1345 src/arch/unix/x11/gnome/ui.c:1348
-#: src/arch/unix/x11/xaw/ui.c:1115 src/arch/unix/x11/xaw/ui.c:1121
+#: src/arch/unix/x11/xaw/ui.c:1120 src/arch/unix/x11/xaw/ui.c:1126
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -2300,7 +2300,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1676 src/arch/unix/x11/xaw/ui.c:1331
+#: src/arch/unix/x11/gnome/ui.c:1676 src/arch/unix/x11/xaw/ui.c:1336
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
@@ -2321,7 +2321,7 @@ msgstr "Harter Reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1899 src/arch/unix/x11/xaw/ui.c:1571
+#: src/arch/unix/x11/gnome/ui.c:1899 src/arch/unix/x11/xaw/ui.c:1576
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
@@ -2733,16 +2733,16 @@ msgstr "Kann Shared Memory nicht freigeben!"
 msgid "VICE Information"
 msgstr "VICE Information"
 
-#: src/arch/unix/x11/xaw/ui.c:1204
+#: src/arch/unix/x11/xaw/ui.c:1209
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1459
+#: src/arch/unix/x11/xaw/ui.c:1464
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
-#: src/arch/unix/x11/xaw/ui.c:1639
+#: src/arch/unix/x11/xaw/ui.c:1644
 msgid "Unknown image type."
 msgstr "Unbekannter Image Typ."
 

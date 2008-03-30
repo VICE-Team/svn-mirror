@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-02-24 17:41+0100\n"
+"POT-Creation-Date: 2002-02-26 21:07+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -1728,7 +1728,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/uisettings.c:221 src/arch/unix/x11/gnome/ui.c:1282
-#: src/arch/unix/x11/xaw/ui.c:1060
+#: src/arch/unix/x11/xaw/ui.c:1065
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
@@ -2238,7 +2238,7 @@ msgstr "Bidragslämnare"
 #: src/arch/unix/x11/gnome/gnomevideo.c:104
 #: src/arch/unix/x11/xaw/x11video.c:99
 #, fuzzy, c-format
-msgid "Successfully initialized using XVideo (%dx%d %4s)."
+msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Grafiken har initierats."
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:125
@@ -2310,24 +2310,24 @@ msgstr "Kommandon"
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/ui.c:1266 src/arch/unix/x11/xaw/ui.c:1044
+#: src/arch/unix/x11/gnome/ui.c:1266 src/arch/unix/x11/xaw/ui.c:1049
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1268 src/arch/unix/x11/xaw/ui.c:1050
+#: src/arch/unix/x11/gnome/ui.c:1268 src/arch/unix/x11/xaw/ui.c:1055
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/ui.c:1278 src/arch/unix/x11/xaw/ui.c:1057
+#: src/arch/unix/x11/gnome/ui.c:1278 src/arch/unix/x11/xaw/ui.c:1062
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/ui.c:1325 src/arch/unix/x11/xaw/ui.c:1094
+#: src/arch/unix/x11/gnome/ui.c:1325 src/arch/unix/x11/xaw/ui.c:1099
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
 #: src/arch/unix/x11/gnome/ui.c:1345 src/arch/unix/x11/gnome/ui.c:1348
-#: src/arch/unix/x11/xaw/ui.c:1115 src/arch/unix/x11/xaw/ui.c:1121
+#: src/arch/unix/x11/xaw/ui.c:1120 src/arch/unix/x11/xaw/ui.c:1126
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -2338,7 +2338,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1676 src/arch/unix/x11/xaw/ui.c:1331
+#: src/arch/unix/x11/gnome/ui.c:1676 src/arch/unix/x11/xaw/ui.c:1336
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
@@ -2359,7 +2359,7 @@ msgstr "Hård nollställning"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1899 src/arch/unix/x11/xaw/ui.c:1571
+#: src/arch/unix/x11/gnome/ui.c:1899 src/arch/unix/x11/xaw/ui.c:1576
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
@@ -2772,16 +2772,16 @@ msgstr "Kan inte släppa delat minne!"
 msgid "VICE Information"
 msgstr "VICE-information"
 
-#: src/arch/unix/x11/xaw/ui.c:1204
+#: src/arch/unix/x11/xaw/ui.c:1209
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1459
+#: src/arch/unix/x11/xaw/ui.c:1464
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/ui.c:1639
+#: src/arch/unix/x11/xaw/ui.c:1644
 msgid "Unknown image type."
 msgstr "Okänd avbildningsfiltyp."
 
