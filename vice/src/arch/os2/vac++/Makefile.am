@@ -1,5 +1,3 @@
-# Makefile.am for the OS2 version of `libarch.a'.
-
 EXTRA_DIST = \
 	X64.ICC \
         X128.ICC \
@@ -7,6 +5,7 @@ EXTRA_DIST = \
         Xpet.ICC \
         Xvic.ICC \
         C1541.ICC \
+        PETcat.ICC \
         RESID.ICC \
         VICE_INF.ICC \
         incl/archdep.icc \

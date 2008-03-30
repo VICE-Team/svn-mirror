@@ -271,11 +271,11 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/monitor/mon.h ../../src/mos6510.h fdc.h \
 	../../src/gcr.h ../../src/iecdrive.h ../../src/parallel.h \
-	../../src/maincpu.h ../../src/resources.h riotd.h \
-	../../src/serial.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
-	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/utils.h ../../src/vdrive/vdrive-bam.h \
-	../../src/vdrive/vdrive.h viad.h wd1770.h
+	../../src/resources.h riotd.h ../../src/serial.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
+	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h viad.h \
+	wd1770.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/arch/unix/types.h \
 	../../src/alarm.h ciad.h drive.h ../../src/log.h drivecpu.h \
@@ -306,7 +306,7 @@ riot1d.o: riot1d.c ../../src/riotcore.h ../../src/vice.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/snapshot.h \
 	../../src/clkguard.h ../../src/monitor/mon.h \
 	../../src/mos6510.h ../../src/iecdrive.h ../../src/parallel.h \
-	../../src/maincpu.h riotd.h ../../src/riotcore.c
+	riotd.h ../../src/riotcore.c
 riot2d.o: riot2d.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/riot.h \
@@ -314,14 +314,14 @@ riot2d.o: riot2d.c ../../src/riotcore.h ../../src/vice.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/snapshot.h \
 	../../src/clkguard.h ../../src/monitor/mon.h \
 	../../src/mos6510.h ../../src/iecdrive.h ../../src/parallel.h \
-	../../src/maincpu.h riotd.h ../../src/riotcore.c
+	riotd.h ../../src/riotcore.c
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h ../../src/via.h \
 	drive.h ../../src/log.h ../../src/arch/unix/types.h drivecpu.h \
 	drivetypes.h ../../src/alarm.h ../../src/ciatimer.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/monitor/mon.h \
 	../../src/mos6510.h ../../src/iecdrive.h ../../src/parallel.h \
-	../../src/maincpu.h viad.h ../../src/viacore.c
+	viad.h ../../src/viacore.c
 via2d.o: via2d.c ../../src/vice.h ../../src/config.h ../../src/via.h \
 	drive.h ../../src/log.h ../../src/arch/unix/types.h \
 	drivetypes.h ../../src/alarm.h ../../src/ciatimer.h \

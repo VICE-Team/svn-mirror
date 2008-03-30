@@ -10,6 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# Makefile.am for the OS2 version of `libui.a'.
+
 
 SHELL = @SHELL@
 
@@ -38,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -108,28 +110,24 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/vdc 	-I$(top_srcdir)/src/monitor
+noinst_LIBRARIES = libui.a
 
-
-noinst_LIBRARIES = libc128.a
-
-libc128_a_SOURCES =  	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128mem.c 	c128mem.h 	c128mmu.c 	c128mmu.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
+libui_a_SOURCES =          c128ui.c         c128ui.h 	c64ui.c 	c64ui.h         c610ui.c         c610ui.h         vic20ui.c         vic20ui.h 	petui.c 	petui.h 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libc128_a_LIBADD = 
-libc128_a_OBJECTS =  c128.o c128cia1.o c128cpu.o c128iec.o c128mem.o \
-c128mmu.o z80.o z80mem.o
+libui_a_LIBADD = 
+libui_a_OBJECTS =  c128ui.o c64ui.o c610ui.o vic20ui.o petui.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -141,14 +139,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libc128_a_SOURCES)
-OBJECTS = $(libc128_a_OBJECTS)
+SOURCES = $(libui_a_SOURCES)
+OBJECTS = $(libui_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/c128/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/ui/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -183,10 +181,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libc128.a: $(libc128_a_OBJECTS) $(libc128_a_DEPENDENCIES)
-	-rm -f libc128.a
-	$(AR) cru libc128.a $(libc128_a_OBJECTS) $(libc128_a_LIBADD)
-	$(RANLIB) libc128.a
+libui.a: $(libui_a_OBJECTS) $(libui_a_DEPENDENCIES)
+	-rm -f libui.a
+	$(AR) cru libui.a $(libui_a_OBJECTS) $(libui_a_LIBADD)
+	$(RANLIB) libui.a
 
 tags: TAGS
 
@@ -219,7 +217,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/c128
+subdir = src/arch/os2/ui
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -232,83 +230,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/autostart.h ../../src/arch/unix/types.h c128.h \
-	c128mem.h c128mmu.h ../../src/arch/unix/c128ui.h \
-	../../src/c64/c64cia.h ../../src/c64/c64rsuser.h \
-	../../src/c64/c64tpi.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/snapshot.h ../../src/clkguard.h ../../src/console.h \
-	../../src/datasette.h ../../src/drive/drive-cmdline-options.h \
-	../../src/drive/drive-resources.h \
-	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/c64/patchrom.h \
-	../../src/c64/reu.h ../../src/serial.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h ../../src/vicii/vicii.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/vdc/vdc.h \
-	../../src/vsync.h z80.h z80mem.h ../../src/mem.h \
-	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
-	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
-	../../src/arch/unix/mouse.h
-c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/interrupt.h \
-	../../src/c64/c64cia.h ../../src/drive/drive.h \
-	../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/vicii/vicii.h ../../src/rsuser.h ../../src/ciacore.c \
-	../../src/clkguard.h ../../src/ciatimer.h ../../src/snapshot.h
-c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
-	../../src/arch/unix/types.h z80.h ../maincpu.c ../vice.h \
-	../6510core.h ../alarm.h ../clkguard.h ../datasette.h \
-	../interrupt.h ../log.h ../machine.h ../maincpu.h ../mem.h \
-	../../src/monitor/mon.h ../mos6510.h ../snapshot.h ../traps.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../resources.h \
-	../6510core.c
-c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
-	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
-	../../src/c64/c64iec.h ../../src/drive/ciad.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/resources.h \
-	../../src/drive/viad.h ../../src/via.h
-c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
-	../../src/c64/c64cia.h ../../src/c64/c64tpi.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/emuid.h \
-	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/parallel.h ../../src/c64/reu.h ../../src/rs232.h \
-	../../src/sid/sid.h ../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
-	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
-	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h \
-	../../src/mem.h ../../src/c64/c64acia.h
-c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
-	../../src/mem.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/keyboard.h \
-	../../src/log.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
-	z80.h z80mem.h
-z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
-	../../src/monitor/mon.h z80.h z80mem.h ../../src/mem.h
-z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/log.h \
-	../../src/mem.h ../../src/sid/sid.h ../../src/sysfile.h \
-	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
-	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h
 
 info-am:
 info: info-am

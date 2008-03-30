@@ -323,13 +323,13 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/serial.h ../../src/sound.h ../../src/tape.h \
-	../../src/traps.h ../../src/utils.h ../../src/via.h vic.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
+	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/monitor/mon.h ../../src/serial.h ../../src/sound.h \
+	../../src/tape.h ../../src/traps.h ../../src/utils.h \
+	../../src/via.h vic.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/video.h \
+	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
@@ -391,10 +391,11 @@ vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/viacore.h \
-	../../src/alarm.h ../../src/via.h vic20iec.h vic20via.h \
-	../../src/pruser.h ../../src/rsuser.h ../../src/viacore.c \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
+	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/viacore.h ../../src/alarm.h ../../src/via.h \
+	vic20iec.h vic20via.h ../../src/pruser.h ../../src/rsuser.h \
+	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
+	../../src/snapshot.h
 
 info-am:
 info: info-am

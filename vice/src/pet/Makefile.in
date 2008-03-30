@@ -241,14 +241,14 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h pet.h petmem.h pets.h petsound.h \
-	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
-	../../src/serial.h ../../src/snapshot.h ../../src/sound.h \
-	../../src/traps.h ../../src/utils.h ../../src/via.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
+	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/monitor/mon.h pet.h petmem.h pets.h \
+	petsound.h ../../src/arch/unix/petui.h petvia.h petacia.h \
+	petpia.h ../../src/serial.h ../../src/snapshot.h \
+	../../src/sound.h ../../src/traps.h ../../src/utils.h \
+	../../src/via.h ../../src/video.h \
+	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
@@ -299,10 +299,11 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/parallel.h \
-	petsound.h petvia.h ../../src/viacore.h ../../src/alarm.h \
-	../../src/via.h ../../src/pruser.h ../../src/viacore.c \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
+	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/parallel.h petsound.h petvia.h ../../src/viacore.h \
+	../../src/alarm.h ../../src/via.h ../../src/pruser.h \
+	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
+	../../src/snapshot.h
 
 info-am:
 info: info-am

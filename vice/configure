@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.2.21
+VERSION=1.2.22
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7420,10 +7420,10 @@ trap 'rm -fr `echo "Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile
            src/arch/os2/dialogs/Makefile
-           src/arch/os2/icons/Makefile
            src/arch/os2/kbd/Makefile
            src/arch/os2/pm/Makefile
            src/arch/os2/snippets/Makefile
+           src/arch/os2/ui/Makefile
            src/arch/os2/vac++/Makefile
            src/arch/riscos/Makefile
            src/arch/unix/Makefile
@@ -7628,10 +7628,10 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile
            src/arch/os2/dialogs/Makefile
-           src/arch/os2/icons/Makefile
            src/arch/os2/kbd/Makefile
            src/arch/os2/pm/Makefile
            src/arch/os2/snippets/Makefile
+           src/arch/os2/ui/Makefile
            src/arch/os2/vac++/Makefile
            src/arch/riscos/Makefile
            src/arch/unix/Makefile

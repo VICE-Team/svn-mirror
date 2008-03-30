@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = pm snippets vac++ kbd dialogs icons
+SUBDIRS = pm snippets vac++ kbd dialogs ui
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -14,27 +14,15 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-        c128ui.c \
-        c128ui.h \
-	c64ui.c \
-	c64ui.h \
-        c610ui.c \
-        c610ui.h \
-        vic20ui.c \
-        vic20ui.h \
 	config.h \
 	console.c \
-	dialogs.h \
-	dialogs.c \
-	dialogs.rc \
 	joystick.c \
 	joystick.h \
 	kbd.c \
 	kbd.h \
 	main_exit.c \
 	main_exit.h \
-	petui.c \
-	petui.h \
+        makedist.cmd \
         pm_cmdline.c \
         pm_cmdline.h \
 	rs232.c \
@@ -61,7 +49,18 @@ EXTRA_DIST = \
         unused/video_gpi.h \
         unused/video_gpi.c \
         unused/vsync.c \
-        unused/vsync.h
+        unused/vsync.h \
+        icons/folder.pal \
+        icons/folder1.ico \
+        icons/folder2.ico \
+        icons/x64.ico \
+        icons/xpet.ico \
+        icons/x128.ico \
+        icons/xcbm2.ico \
+        icons/c1541.ico \
+        texi2ipf/readme \
+        texi2ipf/texi2ipf.exe \
+        texi2ipf/texi2ipf.INF
 
 .PHONY: pm
 :pm

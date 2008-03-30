@@ -365,7 +365,7 @@ console.o: console.c ../../../src/vice.h ../../../src/config.h \
 coproc.o: coproc.c coproc.h ../../../src/log.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h joystick.h \
-	kbd.h types.h ../../../src/log.h
+	../../../src/keyboard.h types.h ../../../src/log.h
 kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/resources.h ../../../src/cmdline.h \
 	../../../src/utils.h kbd.h
@@ -375,9 +375,9 @@ main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	videoarch.h x11/xaw/videoarch.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
-	mouse.h ../../../src/log.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h
+	../../../src/cmdline.h ../../../src/resources.h \
+	../../../src/keyboard.h types.h mouse.h ../../../src/log.h ui.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/utils.h ../../../src/resources.h \
 	../../../src/cmdline.h kbd.h
@@ -406,8 +406,8 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/maincpu.h ../../../src/mem.h \
 	../../../src/monitor/mon.h ../../../src/mos6510.h \
 	../../../src/resources.h ../../../src/sound.h \
-	../../../src/tape.h uicommands.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
+	../../../src/tape.h uicommands.h uimenu.h x11/xaw/uimenu.h ui.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/uihotkey.h \
 	uisettings.h uiedisk.h uisnapshot.h ../../../src/utils.h \
 	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \

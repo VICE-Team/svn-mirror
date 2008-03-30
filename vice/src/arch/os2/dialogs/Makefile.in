@@ -115,7 +115,7 @@ INCLUDES =          @ARCH_INCLUDES@
 
 noinst_LIBRARIES = libdialogs.a
 
-libdialogs_a_SOURCES =  	dlg-sound.c 	dlg-drive.c 	dlg-monitor.c 	dlg-emulator.c 	dlg-joystick.c 	dlg-contents.c 	dlg-datasette.c
+libdialogs_a_SOURCES =          c1541.rc         dialogs.c         dialogs.h         dialogs.rc 	dlg-sound.c 	dlg-drive.c 	dlg-monitor.c 	dlg-emulator.c 	dlg-joystick.c 	dlg-contents.c 	dlg-datasette.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
@@ -130,7 +130,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdialogs_a_LIBADD = 
-libdialogs_a_OBJECTS =  dlg-sound.o dlg-drive.o dlg-monitor.o \
+libdialogs_a_OBJECTS =  dialogs.o dlg-sound.o dlg-drive.o dlg-monitor.o \
 dlg-emulator.o dlg-joystick.o dlg-contents.o dlg-datasette.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
