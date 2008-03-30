@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "driverom.h"
 #include "ieee-resources.h"
 #include "ieeerom.h"
 #include "lib.h"

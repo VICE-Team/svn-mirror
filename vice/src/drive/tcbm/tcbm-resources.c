@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "driverom.h"
 #include "lib.h"
 #include "resources.h"
 #include "tcbm-resources.h"
