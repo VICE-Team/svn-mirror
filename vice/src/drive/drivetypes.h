@@ -253,7 +253,8 @@ typedef struct drive_context_s {
 
     drivecpu_context_t cpu;
     drivefunc_context_t func;
-    via_context_t via1;
+    via_context_t via1d1541;
+    via_context_t via1d2031;
     via_context_t via2;
     cia_context_t cia1571;
     cia_context_t cia1581;
