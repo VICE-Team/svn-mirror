@@ -37,6 +37,9 @@ libvic20_a_SOURCES = \
 	vic20drive.c \
 	vic20iec.c \
 	vic20iec.h \
+	vic20ieeevia.h \
+	vic20ieeevia1.c \
+	vic20ieeevia2.c \
 	vic20mem.c \
 	vic20mem.h \
 	vic20memsnapshot.c \
@@ -51,6 +54,4 @@ libvic20_a_SOURCES = \
 	vic20via.h \
 	vic20via1.c \
 	vic20via2.c \
-	vic20ieeevia.h \
-	vic20ieeevia1.c \
-	vic20ieeevia2.c 
+	vic20video.c
