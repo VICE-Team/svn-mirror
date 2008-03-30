@@ -51,6 +51,7 @@
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
+#include "video.h"
 
 /*--------------------------------------------------------------------*/
 
