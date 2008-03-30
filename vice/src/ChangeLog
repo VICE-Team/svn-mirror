@@ -1,3 +1,38 @@
+2001-07-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.43.
+
+	* arch/win32/ui.c (handle_wm_command): Removed `prg' from tape
+	selector.
+
+2001-06-26  Dag Lem  <resid@nimrod.no>
+
+	* sound.c (initsid): Check buffer space before initial filling
+	of buffer.
+
+	* vsync.c (vsync_do_vsync): Reset next_frame_start after "too
+	slow" detection.
+
+	* arch/beos/vsyncarch.c (vsyncarch_presync): Moved code from
+	vsyncarch_postsync.
+	* arch/unix/vsyncarch.c (vsyncarch_presync): Likewise.
+	* arch/win32/vsyncarch.c (vsyncarch_presync): Likewise.
+
+2001-06-26  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/videoarch.h: Added missing macro to hide
+	fullscreen for architectures which are not DGA2 aware.
+
+2001-06-24  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/ui.c (ui_dispatch_events): Update fullscreen
+	state. 
+	(ui_popdown): Restore fullscreen in case it's been enabled.
+	(ui_popup): Switch to window mode in case of fullscreen.
+
+	* arch/unix/x11/fullscreen.c: (all): Cleanup of on/off
+	interface. Still not well integrated in GTK.
+
 2001-06-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.42.

@@ -1129,8 +1129,8 @@ int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
-char *fname;
-char *dname;
+    char *fname;
+    char *dname;
 
     /* Handle machine specific commands first.  */
     if (ui_machine_specific)
@@ -1146,12 +1146,12 @@ char *dname;
         break;
       case IDM_ABOUT:
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd,
-                  (DLGPROC) about_dialog_proc);
+                  (DLGPROC)about_dialog_proc);
         break;
       case IDM_HELP:
-        fname=concat(archdep_boot_path(),"\\DOC\\vice_toc.html",NULL);
-        dname=concat(archdep_boot_path(),"\\DOC",NULL);
-        ShellExecute(hwnd,"open",fname,NULL,dname,0);
+        fname = concat(archdep_boot_path(),"\\DOC\\vice_toc.html",NULL);
+        dname = concat(archdep_boot_path(),"\\DOC",NULL);
+        ShellExecute(hwnd, "open", fname, NULL, dname, 0);
         free(fname);
         free(dname);
         break;
@@ -1179,12 +1179,12 @@ char *dname;
       case IDM_ATTACH_10:
       case IDM_ATTACH_11:
         {
-            char    *s;
-            int     unit = 8;
-            char    *autostart_filename=NULL;
+            char *s;
+            int unit = 8;
+            char *autostart_filename = NULL;
 
             SuspendFullscreenMode(hwnd);
-            switch (wparam&0xffff) {
+            switch (wparam & 0xffff) {
               case IDM_ATTACH_8:
                 unit = 8;
                 break;
@@ -1255,16 +1255,16 @@ char *dname;
       case IDM_ATTACH_TAPE|0x00010000:
       case IDM_ATTACH_TAPE:
         {
-            char    *s;
-            char    *autostart_filename=NULL;
+            char *s;
+            char *autostart_filename = NULL;
 
             SuspendFullscreenMode(hwnd);
             if ((s = ui_select_file(hwnd,"Attach tape image",
-                "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
-                "Zipped files (*.zip;*.gz;*.bz2;*.t6z;*.p0z;*.taz;*.prz)\0*.zip;*.bz2;*.gz;*.t6z;*.p0z;*.taz;*.prz\0"
+                "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
+                "Zipped files (*.zip;*.gz;*.bz2;*.t6z;*.p0z;*.taz)\0*.zip;*.bz2;*.gz;*.t6z;*.p0z;*.taz\0"
                 "All files (*.*)\0*.*\0", FILE_SELECTOR_TAPE_STYLE,
                 &autostart_filename)) != NULL) {
-                if (autostart_filename!=NULL) {
+                if (autostart_filename != NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
                     if (autostart_autodetect(s, autostart_filename, 0,
                         AUTOSTART_MODE_RUN) < 0)
@@ -1305,8 +1305,8 @@ char *dname;
         break;
       case IDM_AUTOSTART:
         {
-            char    *s;
-            char    *autostart_filename=NULL;
+            char *s;
+            char *autostart_filename = NULL;
 
             if ((s = ui_select_file(hwnd,"Autostart disk/tape image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
@@ -1319,7 +1319,8 @@ char *dname;
                 if (autostart_autodetect(s, autostart_filename, 0,
                     AUTOSTART_MODE_RUN) < 0)
                     ui_error("Cannot autostart specified file.");
-                if (autostart_filename!=NULL) free(autostart_filename);
+                if (autostart_filename != NULL)
+                    free(autostart_filename);
                 free(s);
             }
         }
@@ -1339,18 +1340,18 @@ char *dname;
       case IDM_SAVEQUICK|0x00010000:
       case IDM_SAVEQUICK:
         scan_files();
-        maincpu_trigger_trap(save_quicksnapshot_trap, (void*) 0);
+        maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
         break;
       case IDM_LOADQUICK|0x00010000:
       case IDM_LOADQUICK:
         scan_files();
         if (snapcounter>0) {
-            maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
+            maincpu_trigger_trap(load_quicksnapshot_trap, (void *)0);
         }
         break;
       case IDM_SCREENSHOT|0x00010000:
       case IDM_SCREENSHOT:
-          SuspendFullscreenMode(hwnd);
+        SuspendFullscreenMode(hwnd);
         ui_screenshot_save_dialog(hwnd);
         ResumeFullscreenMode(hwnd);
         break;
@@ -1374,10 +1375,10 @@ char *dname;
         keyboard_clear_keymatrix();
         if (ui_messagebox(
                        "Do you really want to reset the emulated machine?",
-                       ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
+                       ((wparam & 0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),
                        MB_YESNO | MB_ICONQUESTION) == IDYES) {
-            if ((wparam&0xffff) == IDM_HARD_RESET) {
+            if ((wparam & 0xffff) == IDM_HARD_RESET) {
                 machine_powerup();
             } else {
                 maincpu_trigger_reset();
@@ -1386,61 +1387,61 @@ char *dname;
         vsync_suspend_speed_eval();
         break;
       case IDM_REFRESH_RATE_AUTO:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t)0);
         break;
       case IDM_REFRESH_RATE_1:
-        resources_set_value("RefreshRate", (resource_value_t) 1);
+        resources_set_value("RefreshRate", (resource_value_t)1);
         break;
       case IDM_REFRESH_RATE_2:
-        resources_set_value("RefreshRate", (resource_value_t) 2);
+        resources_set_value("RefreshRate", (resource_value_t)2);
         break;
       case IDM_REFRESH_RATE_3:
-        resources_set_value("RefreshRate", (resource_value_t) 3);
+        resources_set_value("RefreshRate", (resource_value_t)3);
         break;
       case IDM_REFRESH_RATE_4:
-        resources_set_value("RefreshRate", (resource_value_t) 4);
+        resources_set_value("RefreshRate", (resource_value_t)4);
         break;
       case IDM_REFRESH_RATE_5:
-        resources_set_value("RefreshRate", (resource_value_t) 5);
+        resources_set_value("RefreshRate", (resource_value_t)5);
         break;
       case IDM_REFRESH_RATE_6:
-        resources_set_value("RefreshRate", (resource_value_t) 6);
+        resources_set_value("RefreshRate", (resource_value_t)6);
         break;
       case IDM_REFRESH_RATE_7:
-        resources_set_value("RefreshRate", (resource_value_t) 7);
+        resources_set_value("RefreshRate", (resource_value_t)7);
         break;
       case IDM_REFRESH_RATE_8:
-        resources_set_value("RefreshRate", (resource_value_t) 8);
+        resources_set_value("RefreshRate", (resource_value_t)8);
         break;
       case IDM_REFRESH_RATE_9:
-        resources_set_value("RefreshRate", (resource_value_t) 9);
+        resources_set_value("RefreshRate", (resource_value_t)9);
         break;
       case IDM_REFRESH_RATE_10:
-        resources_set_value("RefreshRate", (resource_value_t) 10);
+        resources_set_value("RefreshRate", (resource_value_t)10);
         break;
       case IDM_MAXIMUM_SPEED_200:
-        resources_set_value("Speed", (resource_value_t) 200);
+        resources_set_value("Speed", (resource_value_t)200);
         break;
       case IDM_MAXIMUM_SPEED_100:
-        resources_set_value("Speed", (resource_value_t) 100);
+        resources_set_value("Speed", (resource_value_t)100);
         break;
       case IDM_MAXIMUM_SPEED_50:
-        resources_set_value("Speed", (resource_value_t) 50);
+        resources_set_value("Speed", (resource_value_t)50);
         break;
       case IDM_MAXIMUM_SPEED_20:
-        resources_set_value("Speed", (resource_value_t) 20);
+        resources_set_value("Speed", (resource_value_t)20);
         break;
       case IDM_MAXIMUM_SPEED_10:
-        resources_set_value("Speed", (resource_value_t) 10);
+        resources_set_value("Speed", (resource_value_t)10);
         break;
       case IDM_MAXIMUM_SPEED_NO_LIMIT:
-        resources_set_value("Speed", (resource_value_t) 0);
+        resources_set_value("Speed", (resource_value_t)0);
         break;
       case IDM_SIDTYPE_6581:
-        resources_set_value("SidModel", (resource_value_t) 0);
+        resources_set_value("SidModel", (resource_value_t)0);
         break;
       case IDM_SIDTYPE_8580:
-        resources_set_value("SidModel", (resource_value_t) 1);
+        resources_set_value("SidModel", (resource_value_t)1);
         break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(hwnd);
@@ -1467,15 +1468,15 @@ char *dname;
         break;
       case IDM_SYNC_FACTOR_PAL:
         resources_set_value("VideoStandard",
-                            (resource_value_t) DRIVE_SYNC_PAL);
+                            (resource_value_t)DRIVE_SYNC_PAL);
         break;
       case IDM_SYNC_FACTOR_NTSC:
         resources_set_value("VideoStandard",
-                            (resource_value_t) DRIVE_SYNC_NTSC);
+                            (resource_value_t)DRIVE_SYNC_NTSC);
         break;
       case IDM_SYNC_FACTOR_NTSCOLD:
         resources_set_value("VideoStandard",
-                            (resource_value_t) DRIVE_SYNC_NTSCOLD);
+                            (resource_value_t)DRIVE_SYNC_NTSCOLD);
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
