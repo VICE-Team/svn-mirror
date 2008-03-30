@@ -79,6 +79,10 @@ int init_resources(void)
         init_resource_fail("system file locator");
         return -1;
     }
+    if (romset_resources_init() < 0) {
+        init_resource_fail("romset");
+        return -1;
+    }
     if (ui_resources_init() < 0) {
         init_resource_fail("UI");
         return -1;

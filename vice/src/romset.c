@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -48,6 +49,32 @@
 
 static log_t romset_log = LOG_DEFAULT;
 
+static int romset_source_file;
+
+static int set_romset_source_file(resource_value_t v, void *param)
+{
+    int source;
+
+    source = (int)v;
+
+    if (source < 0 || source > 1)
+        return -1;
+
+    romset_source_file = source;
+
+    return 0;
+}
+
+static const resource_t resources[] = {
+    { "RomsetSourceFile", RES_INTEGER, (resource_value_t)1,
+      (void *)&romset_source_file, set_romset_source_file, NULL },
+    { NULL }
+};
+
+int romset_resources_init(void)
+{
+    return resources_register(resources);
+}
 
 int romset_load(const char *filename)
 {
@@ -90,7 +117,6 @@ int romset_load(const char *filename)
 
     fclose(fp);
 
-    /* mem_load(); setting the resources is now enought */
     return err;
 }
 
@@ -357,7 +383,6 @@ int romset_select_item(const char *romset_name)
                     }
                 }
             }
-            /*mem_load();*/
             return 0;
         }
     }
