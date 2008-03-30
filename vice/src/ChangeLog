@@ -1,3 +1,80 @@
+2007-08-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.13.
+
+2007-08-04  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uijoystickkeys.c: fix deprecated use of
+	`gtk_signal_connect'.
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window): Use
+	new_window->window for gtk_window_resize().
+	(all): fixed several warnings about unused variables - mostly
+	due to the size-allocation fix.
+
+	* arch/unix/x11/video.c (video_arch_resources_init): Register
+	openGL_syn resources early.
+
+	* arch/unix/x11/dga2.c (dga2_init_internal): turn off DGA2 if
+	no suitable mode is found.
+
+	* arch/unix/gui/uivdc.c (ALL): added XRANDR fullscreen
+	device. Fixes several memory corruption related bugs in x128.
+
+	* arch/unix/x11/openGL_sync.c (set_openGL_sync): Handle case
+	where openGL_sync is set from vicerc.
+	(openGL_sync_init): Initialize only once and not for every
+	canvas.
+	(openGL_register_resources): New function.
+
+	* arch/unix/x11/xrandr.c (xrandr_menu_shutdown): Avoid double
+	free'ing in case of e.g. VDC and reused menu. Shutdown early
+	to restore screen when emu exited with active
+	XRANDR/fullscreen mode.
+	(xrandr_menu_create): Reuse menu for second menu (e.g. VDC).
+	Fixed allocation for xrandr resolution menu.
+
+	* arch/unix/x11/xaw/x11ui.c (x11ui_fullscreen): Check resource
+	`40/80ColumnKey' to determine which shell to maximize.
+	Currently this is hardwired: 0 -> VDC, 1 -> VICII.
+	fix fullscreen WM message. Credits to Kim Taylor.
+
+	* video.h (FULLSCREEN_MAXDEV): Set to 4 (vidmode, DGA1, DGA2,
+	XRandR) - might fix the AMD64/XRandR issue.
+
+2007-08-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c (statusbar_create_brushes): Fixed
+	col init for correct last green brush.
+
+2007-08-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh, arch/beos/make-bindist.sh,
+	arch/msdos/make-bindist.sh, arch/riscos/make-bindist.sh,
+	arch/unix/qnx/make-bindist.sh,
+	arch/unix/solaris/make-bindist.sh,
+	arch/win32/make-bindist.sh: Fixed.
+
+2007-08-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* 6510core.c: If DEBUG is defined remember the CPU clock
+	before FETCH_OPCODE and use this clock in the debug output.
+
+2007-07-29  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/cocoa/view/joystickview.m,
+	arch/unix/macosx/cocoa/view/keypressview.m: bug fixes
+
+2007-07-29  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* arch/unix/x11/gnome/x11ui.c: do not handle signal
+	size-allocate, as sometimes it is triggered with wrong params
+
+2007-07-27  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/cocoa/ui.m: made compatible to Mac OS X
+	10.3
+
 2007-07-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.12.
