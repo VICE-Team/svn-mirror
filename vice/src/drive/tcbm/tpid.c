@@ -39,24 +39,25 @@
 #include "types.h"
 
 
-#define mytpi_init tpid_init
-#define mytpi_set_int tpid_set_int
-#define mytpi_restore_int tpid_restore_int
+typedef struct drivetpi_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+} drivetpi_context_t;
 
 
 void REGPARM3 tpid_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    tpicore_store(&(ctxptr->tpid), addr, data);
+    tpicore_store(ctxptr->tpid, addr, data);
 }
 
 BYTE REGPARM2 tpid_read(drive_context_t *ctxptr, WORD addr)
 {
-    return tpicore_read(&(ctxptr->tpid), addr);
+    return tpicore_read(ctxptr->tpid, addr);
 }
 
 BYTE REGPARM2 tpid_peek(drive_context_t *ctxptr, WORD addr)
 {
-    return tpicore_peek(&(ctxptr->tpid), addr);
+    return tpicore_peek(ctxptr->tpid, addr);
 }
 
 static void set_int(unsigned int int_num, int value)
@@ -200,7 +201,7 @@ void tpid_init(drive_context_t *ctxptr)
 {
     tpi_context_t *tpi_context;
 
-    tpi_context = &(ctxptr->tpid);
+    tpi_context = ctxptr->tpid;
 
     tpi_context->log = log_open(tpi_context->myname);
 }
@@ -208,42 +209,42 @@ void tpid_init(drive_context_t *ctxptr)
 void tpid_setup_context(drive_context_t *ctxptr)
 {
     drivetpi_context_t *tpip;
-    tpi_context_t *tpi_context;
+    tpi_context_t *tpi;
 
-    tpi_context = &(ctxptr->tpid);
+    ctxptr->tpid = lib_malloc(sizeof(tpi_context_t));
+    tpi = ctxptr->tpid;
 
-    tpi_context->prv = lib_malloc(sizeof(drivetpi_context_t));
-    tpip = (drivetpi_context_t *)(tpi_context->prv);
+    tpi->prv = lib_malloc(sizeof(drivetpi_context_t));
+    tpip = (drivetpi_context_t *)(tpi->prv);
     tpip->number = ctxptr->mynumber;
 
-    tpi_context->context = (void *)ctxptr;
+    tpi->context = (void *)ctxptr;
 
-    tpi_context->rmw_flag = &(ctxptr->cpu.rmw_flag);
-    tpi_context->clk_ptr = ctxptr->clk_ptr;
+    tpi->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    tpi->clk_ptr = ctxptr->clk_ptr;
 
-    tpi_context->myname = lib_msprintf("Drive%dTPI", ctxptr->mynumber);
+    tpi->myname = lib_msprintf("Drive%dTPI", ctxptr->mynumber);
 
-    tpicore_setup_context(tpi_context);
+    tpicore_setup_context(tpi);
 
-    tpi_context->tpi_int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
-                                       tpi_context->myname);
-    tpi_context->irq_line = IK_IRQ;
+    tpi->tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                                    tpi->myname);
+    tpi->irq_line = IK_IRQ;
     tpip->drive_ptr = ctxptr->drive_ptr;
 
-    tpi_context->store_pa = store_pa;
-    tpi_context->store_pb = store_pb;
-    tpi_context->store_pc = store_pc;
-    tpi_context->read_pa = read_pa;
-    tpi_context->read_pb = read_pb;
-    tpi_context->read_pc = read_pc;
-    tpi_context->undump_pa = undump_pa;
-    tpi_context->undump_pb = undump_pb;
-    tpi_context->undump_pc = undump_pc;
-    tpi_context->reset = reset;
-    tpi_context->set_ca = set_ca;
-    tpi_context->set_cb = set_cb;
-    tpi_context->set_int = set_int;
-    tpi_context->restore_int = restore_int;
+    tpi->store_pa = store_pa;
+    tpi->store_pb = store_pb;
+    tpi->store_pc = store_pc;
+    tpi->read_pa = read_pa;
+    tpi->read_pb = read_pb;
+    tpi->read_pc = read_pc;
+    tpi->undump_pa = undump_pa;
+    tpi->undump_pb = undump_pb;
+    tpi->undump_pc = undump_pc;
+    tpi->reset = reset;
+    tpi->set_ca = set_ca;
+    tpi->set_cb = set_cb;
+    tpi->set_int = set_int;
+    tpi->restore_int = restore_int;
 }
 

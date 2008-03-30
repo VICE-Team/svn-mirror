@@ -40,14 +40,22 @@
 #include "types.h"
 
 
+typedef struct driveriot2_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+    int r_atn_active;     /* init to 0 */
+    unsigned int int_num;
+} driveriot2_context_t;
+
+
 void REGPARM3 riot2_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    riotcore_store(&(ctxptr->riot2), addr, data);
+    riotcore_store(ctxptr->riot2, addr, data);
 }
 
 BYTE REGPARM2 riot2_read(drive_context_t *ctxptr, WORD addr)
 {
-    return riotcore_read(&(ctxptr->riot2), addr);
+    return riotcore_read(ctxptr->riot2, addr);
 }
 
 static void set_irq(riot_context_t *riot_context, int fl, CLOCK clk)
@@ -116,7 +124,7 @@ void drive_riot_set_atn(riot_context_t *riot_context, int state)
             riotcore_signal(riot_context, RIOT_SIG_PA7, RIOT_SIG_RISE);
         }
         riot2p->r_atn_active = state;
-        riot1_set_pardata(&(drive_context->riot1));
+        riot1_set_pardata(drive_context->riot1);
         set_handshake(riot_context, riot_context->old_pa);
     }
 }
@@ -240,21 +248,25 @@ static BYTE read_prb(riot_context_t *riot_context)
 
 static void int_riot2d0(CLOCK c)
 {
-    riotcore_int_riot(&(drive0_context.riot2), c);
+    riotcore_int_riot(drive0_context.riot2, c);
 }
 
 static void int_riot2d1(CLOCK c)
 {
-    riotcore_int_riot(&(drive1_context.riot2), c);
+    riotcore_int_riot(drive1_context.riot2, c);
 }
 
-static const riot_initdesc_t riot2_initdesc[] = {
-    { &drive0_context.riot2, int_riot2d0 },
-    { &drive1_context.riot2, int_riot2d1 }
+static riot_initdesc_t riot2_initdesc[2] = {
+    { NULL, int_riot2d0 },
+    { NULL, int_riot2d1 }
 };
 
 void riot2_init(drive_context_t *ctxptr)
 {
+    riot2_initdesc[0].riot_ptr = drive0_context.riot2;
+    riot2_initdesc[1].riot_ptr = drive1_context.riot2;
+
+
     riotcore_init(riot2_initdesc, ctxptr->cpu.alarm_context,
                   ctxptr->cpu.clk_guard, ctxptr->mynumber);
 }
@@ -264,7 +276,8 @@ void riot2_setup_context(drive_context_t *ctxptr)
     riot_context_t *riot;
     driveriot2_context_t *riot2p;
 
-    riot = &(ctxptr->riot2);
+    ctxptr->riot2 = lib_malloc(sizeof(riot_context_t));
+    riot = ctxptr->riot2;
 
     riot->prv = lib_malloc(sizeof(driveriot2_context_t));
     riot2p = (driveriot2_context_t *)(riot->prv);
@@ -282,7 +295,7 @@ void riot2_setup_context(drive_context_t *ctxptr)
     riot2p->drive_ptr = ctxptr->drive_ptr;
     riot2p->r_atn_active = 0;
     riot2p->int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
-                                                   ctxptr->riot2.myname);
+                                                   ctxptr->riot2->myname);
     riot->undump_pra = undump_pra;
     riot->undump_prb = undump_prb;
     riot->store_pra = store_pra;

@@ -1,5 +1,5 @@
 /*
- * drivetypes.h - drive-specific types like the drive context structure.
+ * drivetypes.h - Drive-specific types like the drive context structure.
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
@@ -28,13 +28,9 @@
 #ifndef _DRIVETYPES_H
 #define _DRIVETYPES_H
 
-#include "cia.h"
 #include "drive.h"
 #include "mos6510.h"
-#include "riot.h"
-#include "tpi.h"
 #include "types.h"
-#include "via.h"
 
 /*
  *  The philosophy behind this approach is that only the drive module knows
@@ -46,7 +42,6 @@
 
 struct drive_context_s;         /* forward declaration */
 struct monitor_interface_s;
-struct via_context_s;
 
 /* This defines the memory access for the drive CPU.  */
 typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, WORD);
@@ -150,51 +145,14 @@ typedef struct drivefunc_context_s {
 } drivefunc_context_t;
 
 
-/*  Additional data required for VIA1.  */
-typedef struct drivevia1_context_s {
-    unsigned int number;
-    struct drive_s *drive_ptr;
-    int parallel_id;
-    int v_parieee_is_out;         /* init to 1 */
-    struct iec_info_s *v_iec_info;
-} drivevia1_context_t;
-
-/*  Additional data required for VIA2.  */
-typedef struct drivevia2_context_s {
-    unsigned int number;
-    struct drive_s *drive_ptr;
-} drivevia2_context_t;
-
-/*  Additional data required for CIA1571.  */
-typedef struct drivecia1571_context_s {
-    unsigned int number;
-    struct drive_s *drive_ptr;
-} drivecia1571_context_t;
-
-/*  Additional data required for CIA1581.  */
-typedef struct drivecia1581_context_s {
-    unsigned int number;
-    struct drive_s *drive_ptr;
-    struct iec_info_s *iec_info;
-} drivecia1581_context_t;
-
-/*  Additional data for RIOT2.  */
-typedef struct driveriot2_context_s {
-    unsigned int number;
-    struct drive_s *drive_ptr;
-    int r_atn_active;     /* init to 0 */
-    unsigned int int_num;
-} driveriot2_context_t;
-
-/*  Additional data for TPI.  */
-typedef struct drivetpi_context_s {
-    unsigned int number;
-    struct drive_s *drive_ptr;
-} drivetpi_context_t;
-
 /*
  * The context for an entire drive.
  */
+
+struct cia_context_s;
+struct riot_context_s;
+struct tpi_context_s;
+struct via_context_s;
 
 typedef struct drive_context_s {
 
@@ -204,16 +162,15 @@ typedef struct drive_context_s {
 
     drivecpu_context_t cpu;
     drivefunc_context_t func;
-    via_context_t via1d1541;
-    via_context_t via1d2031;
-    via_context_t via2;
-    cia_context_t cia1571;
-    cia_context_t cia1581;
+    struct via_context_s *via1d1541;
+    struct via_context_s *via1d2031;
+    struct via_context_s *via2;
+    struct cia_context_s *cia1571;
+    struct cia_context_s *cia1581;
     struct iec_info_s *c_iec_info;        /* for CIA1581 */
-    riot_context_t riot1;
-    riot_context_t riot2;
-    /*driveriot2_context_t riot2p;*/
-    tpi_context_t tpid;
+    struct riot_context_s *riot1;
+    struct riot_context_s *riot2;
+    struct tpi_context_s *tpid;
     drivecpud_context_t cpud;
 
 } drive_context_t;

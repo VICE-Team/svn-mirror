@@ -41,6 +41,12 @@
 #include "viad.h"
 
 
+typedef struct drivevia2_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+} drivevia2_context_t;
+
+
 static void set_ca2(int state)
 {
 }
@@ -73,17 +79,17 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 
 void REGPARM3 via2d_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    viacore_store(&(ctxptr->via2), addr, data);
+    viacore_store(ctxptr->via2, addr, data);
 }
 
 BYTE REGPARM2 via2d_read(drive_context_t *ctxptr, WORD addr)
 {
-    return viacore_read(&(ctxptr->via2), addr);
+    return viacore_read(ctxptr->via2, addr);
 }
 
 BYTE REGPARM2 via2d_peek(drive_context_t *ctxptr, WORD addr)
 {
-    return viacore_peek(&(ctxptr->via2), addr);
+    return viacore_peek(ctxptr->via2, addr);
 }
 
 void viad2_update_pcr(int pcrval, drive_t *dptr)
@@ -253,31 +259,34 @@ inline static BYTE read_prb(via_context_t *via_context)
 /* These callbacks and the data initializations have to be done here */
 static void int_via2d0t1(CLOCK c)
 {
-    viacore_intt1(&(drive0_context.via2), c);
+    viacore_intt1(drive0_context.via2, c);
 }
 
 static void int_via2d0t2(CLOCK c)
 {
-    viacore_intt2(&(drive0_context.via2), c);
+    viacore_intt2(drive0_context.via2, c);
 }
 
 static void int_via2d1t1(CLOCK c)
 {
-    viacore_intt1(&(drive1_context.via2), c);
+    viacore_intt1(drive1_context.via2, c);
 }
 
 static void int_via2d1t2(CLOCK c)
 {
-    viacore_intt2(&(drive1_context.via2), c);
+    viacore_intt2(drive1_context.via2, c);
 }
 
-static const via_initdesc_t via_desc[2] = {
-    { &drive0_context.via2, int_via2d0t1, int_via2d0t2 },
-    { &drive1_context.via2, int_via2d1t1, int_via2d1t2 }
+static via_initdesc_t via_desc[2] = {
+    { NULL, int_via2d0t1, int_via2d0t2 },
+    { NULL, int_via2d1t1, int_via2d1t2 }
 };
 
 void via2d_init(drive_context_t *ctxptr)
 {
+    via_desc[0].via_ptr = drive0_context.via2;
+    via_desc[1].via_ptr = drive1_context.via2;
+
     viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu.alarm_context,
                  ctxptr->cpu.int_status, ctxptr->cpu.clk_guard);
 }
@@ -287,7 +296,8 @@ void via2d_setup_context(drive_context_t *ctxptr)
     drivevia2_context_t *via2p;
     via_context_t *via;
 
-    via = &(ctxptr->via2);
+    ctxptr->via2 = lib_malloc(sizeof(via_context_t));
+    via = ctxptr->via2;
 
     via->prv = lib_malloc(sizeof(drivevia2_context_t));
 

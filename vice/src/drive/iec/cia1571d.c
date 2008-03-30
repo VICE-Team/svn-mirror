@@ -39,19 +39,25 @@
 #include "types.h"
 
 
+typedef struct drivecia1571_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+} drivecia1571_context_t;
+
+
 void REGPARM3 cia1571_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    ciacore_store(&(ctxptr->cia1571), addr, data);
+    ciacore_store(ctxptr->cia1571, addr, data);
 }
 
 BYTE REGPARM2 cia1571_read(drive_context_t *ctxptr, WORD addr)
 {
-    return ciacore_read(&(ctxptr->cia1571), addr);
+    return ciacore_read(ctxptr->cia1571, addr);
 }
 
 BYTE REGPARM2 cia1571_peek(drive_context_t *ctxptr, WORD addr)
 {
-    return ciacore_peek(&(ctxptr->cia1571), addr);
+    return ciacore_peek(ctxptr->cia1571, addr);
 }
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
@@ -134,41 +140,44 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 
 static void int_ciad0ta(CLOCK c)
 {
-    ciacore_intta(&(drive0_context.cia1571), c);
+    ciacore_intta(drive0_context.cia1571, c);
 }
 
 static void int_ciad1ta(CLOCK c)
 {
-    ciacore_intta(&(drive1_context.cia1571), c);
+    ciacore_intta(drive1_context.cia1571, c);
 }
 
 static void int_ciad0tb(CLOCK c)
 {
-    ciacore_inttb(&(drive0_context.cia1571), c);
+    ciacore_inttb(drive0_context.cia1571, c);
 }
 
 static void int_ciad1tb(CLOCK c)
 {
-    ciacore_inttb(&(drive1_context.cia1571), c);
+    ciacore_inttb(drive1_context.cia1571, c);
 }
 
 static void int_ciad0tod(CLOCK c)
 {
-    ciacore_inttod((&drive0_context.cia1571), c);
+    ciacore_inttod(drive0_context.cia1571, c);
 }
 
 static void int_ciad1tod(CLOCK c)
 {
-    ciacore_inttod(&(drive1_context.cia1571), c);
+    ciacore_inttod(drive1_context.cia1571, c);
 }
 
-static const cia_initdesc_t cia1571_initdesc[2] = {
-    { &drive0_context.cia1571, int_ciad0ta, int_ciad0tb, int_ciad0tod },
-    { &drive1_context.cia1571, int_ciad1ta, int_ciad1tb, int_ciad1tod }
+static cia_initdesc_t cia1571_initdesc[2] = {
+    { NULL, int_ciad0ta, int_ciad0tb, int_ciad0tod },
+    { NULL, int_ciad1ta, int_ciad1tb, int_ciad1tod }
 };
 
 void cia1571_init(drive_context_t *ctxptr)
 {
+    cia1571_initdesc[0].cia_ptr = drive0_context.cia1571;
+    cia1571_initdesc[1].cia_ptr = drive1_context.cia1571;
+
     ciacore_init(&cia1571_initdesc[ctxptr->mynumber],
                  ctxptr->cpu.alarm_context, ctxptr->cpu.int_status,
                  ctxptr->cpu.clk_guard);
@@ -179,7 +188,8 @@ void cia1571_setup_context(drive_context_t *ctxptr)
     drivecia1571_context_t *cia1571p;
     cia_context_t *cia;
 
-    cia = &(ctxptr->cia1571);
+    ctxptr->cia1571 = lib_malloc(sizeof(cia_context_t));
+    cia = ctxptr->cia1571;
 
     cia->prv = lib_malloc(sizeof(drivecia1571_context_t));
     cia1571p = (drivecia1571_context_t *)(cia->prv);

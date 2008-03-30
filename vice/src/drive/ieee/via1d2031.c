@@ -41,25 +41,34 @@
 #include "rotation.h"
 #include "types.h"
 #include "via.h"
+#include "via1d2031.h"
 #include "viad.h"
 
 
 #define parieee_is_out  (via1p->v_parieee_is_out)
 
+typedef struct drivevia1_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+    int parallel_id;
+    int v_parieee_is_out;         /* init to 1 */
+    struct iec_info_s *v_iec_info;
+} drivevia1_context_t;
+
 
 void REGPARM3 via1d2031_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    viacore_store(&(ctxptr->via1d2031), addr, data);
+    viacore_store(ctxptr->via1d2031, addr, data);
 }
 
 BYTE REGPARM2 via1d2031_read(drive_context_t *ctxptr, WORD addr)
 {
-    return viacore_read(&(ctxptr->via1d2031), addr);
+    return viacore_read(ctxptr->via1d2031, addr);
 }
 
 BYTE REGPARM2 via1d2031_peek(drive_context_t *ctxptr, WORD addr)
 {
-    return viacore_peek(&(ctxptr->via1d2031), addr);
+    return viacore_peek(ctxptr->via1d2031, addr);
 }
 
 static void set_ca2(int state)
@@ -307,31 +316,34 @@ inline static BYTE read_prb(via_context_t *via_context)
 /* These callbacks and the data initializations have to be done here */
 static void int_via1d0t1(CLOCK c)
 {
-    viacore_intt1(&(drive0_context.via1d2031), c);
+    viacore_intt1(drive0_context.via1d2031, c);
 }
 
 static void int_via1d0t2(CLOCK c)
 {
-    viacore_intt2(&(drive0_context.via1d2031), c);
+    viacore_intt2(drive0_context.via1d2031, c);
 }
 
 static void int_via1d1t1(CLOCK c)
 {
-    viacore_intt1(&(drive1_context.via1d2031), c);
+    viacore_intt1(drive1_context.via1d2031, c);
 }
 
 static void int_via1d1t2(CLOCK c)
 {
-    viacore_intt2(&(drive1_context.via1d2031), c);
+    viacore_intt2(drive1_context.via1d2031, c);
 }
 
-static const via_initdesc_t via_desc[2] = {
-    { &drive0_context.via1d2031, int_via1d0t1, int_via1d0t2 },
-    { &drive1_context.via1d2031, int_via1d1t1, int_via1d1t2 }
+static via_initdesc_t via_desc[2] = {
+    { NULL, int_via1d0t1, int_via1d0t2 },
+    { NULL, int_via1d1t1, int_via1d1t2 }
 };
 
 void via1d2031_init(drive_context_t *ctxptr)
 {
+    via_desc[0].via_ptr = drive0_context.via1d2031;
+    via_desc[1].via_ptr = drive1_context.via1d2031;
+
     viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu.alarm_context,
                  ctxptr->cpu.int_status, ctxptr->cpu.clk_guard);
 }
@@ -341,7 +353,8 @@ void via1d2031_setup_context(drive_context_t *ctxptr)
     drivevia1_context_t *via1p;
     via_context_t *via;
 
-    via = &(ctxptr->via1d2031);
+    ctxptr->via1d2031 = lib_malloc(sizeof(via_context_t));
+    via = ctxptr->via1d2031;
 
     via->prv = lib_malloc(sizeof(drivevia1_context_t));
     via1p = (drivevia1_context_t *)(via->prv);
