@@ -3002,7 +3002,7 @@ int import_GCR_image(BYTE *header, hdrinfo *hdr)
 {
     int trackfield;
 
-    if (strncmp("GCR-VICE",header,8))
+    if (strncmp("GCR-1541",header,8))
 	return 0;
 
     if (header[8] != 0) {
@@ -3010,18 +3010,19 @@ int import_GCR_image(BYTE *header, hdrinfo *hdr)
 	return 0;
     }
 
-    if ((header[9] < 35) || (header[9] > 44)) {
+    if ((header[9] < (NUM_TRACKS_1541 * 2)) 
+			|| (header[9] > (MAX_TRACKS_1541 * 2))) {
 	printf("Import GCR: invalid number of tracks.\n");
 	return 0;
     }
 
     trackfield = header[10] + header[11] * 256;
-    if ((trackfield < 6000) || (trackfield > 9000)) {
+    if (trackfield != 7928) {
 	printf("Import GCR: invalid track field number.\n");
 	return 0;
     }
 
-    hdr->tracks = header[9];
+    hdr->tracks = header[9] / 2;
     hdr->format = 1541;
     hdr->gcr = 1;
     hdr->v_major = HEADER_VERSION_MAJOR;

@@ -1,4 +1,64 @@
+Fri May  1 22:17:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.16.
+
+	* main.c (main): Removed local variable `start_addr'.  Call
+ 	`mainloop(0)'.
+
+	* vic20/vic20.c (vsync_hook): Call `autostart_advance()'.
+
+	* autostart.c: New implementation, using the kernal variables in
+	page zero to check for BASIC messages.
+	(check): Changed return value: `YES', `NO', `NOT_YET'.
+	(autostart_advance): Updated accordingly.
+
+	* kbdbuf.c (kbd_buf_is_empty): New function.
+
+Tue Apr 28 22:21:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* include/autostart.h: `AUTOSTART_*' macros removed.
+	* autostart.c: Moved here, and turned into an `enum'.
+
+	* c64.c, vic20/vic20.c (machine_init): Call `autostart_init()'.
+
+	* kbdbuf.c (kbd_buf_flush): Use `mem_store()' and `mem_read()'
+	instead of accessing `ram' directly.
+
+	* vic20/vic20.c, c64/c64.c (machine_init): Call `kbd_buf_init()'.
+
+	* kbdbuf.c: Moved parameters from former `struct kernal_kbd_buf'
+ 	into separate variables.
+	(kbd_buf_init): New parameters `location', `plocation',
+ 	`buffer_size'.
+
+	* include/kbdbuf.h, c64/c64.c, vic20/vic20.c: Removed `struct
+ 	kernal_kbd_buf'.
+
+	* sysfile.c (sysfile_init): `EMULATOR' replaced with `emu_id'.
+
+	* c64/autostart.c: Moved to `autostart.c'.
+	* Makefile.in: Compile it once for every emulator.
+
+	* vic20/vic20iec.c (iec_drive_read, iec_drive_write): Do not check
+	whether the 1541 is turned on anymore.
+
+	* vic20/vic.c: Implemented new-style resource handling.
+
+	* vic20/vic20mem.c: Implemented new-style resource handling.
+	(vic_mem_enable_ram_block): New.
+	(vic_mem_disable_ram_block): New.
+	(initialize_memory): Always activate all the memory.
+
+	* vic20/vic20.c (machine_init): Do not call
+ 	`install_serial_traps'.
+
+	* configure.in: Compile `arch/unix/ui_xaw.c' only once.
+
+	* Makefile.in: Compile `resources.c' only once.
+
 Tue Apr 28 20:57:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.15.
 
 	* mon.c (mon): Corrected `suspend_speed_eval()' calls.
 

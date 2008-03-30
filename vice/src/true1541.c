@@ -133,6 +133,7 @@ static int set_idling_method(resource_value_t v)
 
 static int set_sync_factor(resource_value_t v)
 {
+    printf(__FUNCTION__ "(%d)\n", (int) v);
     switch ((int) v) {
       case TRUE1541_SYNC_PAL:
         sync_factor = (int) v;
@@ -329,57 +330,86 @@ static void read_image_d64(void)
 
 static int read_image_gcr(void)
 {
-    int track, track_len, zone_len, i;
+    int track, track_len, zone_len, i, NumTracks;
     BYTE len[2], comp_speed[NUM_MAX_BYTES_TRACK / 4];
     BYTE *track_data, *zone_data;
+    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
+    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     off_t offset;
 
-    for (track = 1; track <= true1541_floppy->NumTracks; track++) {
+    NumTracks = true1541_floppy->NumTracks;
 
-	offset = (track - 1) * 9912 + 12;
-	track_data = GCR_data + (track - 1) * NUM_MAX_BYTES_TRACK;
+    lseek(true1541_floppy->ActiveFd, 12, SEEK_SET);
+    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_track_p, NumTracks * 8)
+		< NumTracks * 8) {
+	fprintf(stderr, "Could not read GCR disk image.\n");
+	return 0;
+    }
 
+    lseek(true1541_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
+    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_speed_p, NumTracks * 8)
+		< NumTracks * 8) {
+	fprintf(stderr, "Could not read GCR disk image.\n");
+	return 0;
+    }
+
+    for (track = 0; track < MAX_TRACKS_1541; track++) {
+
+	track_data = GCR_data + track * NUM_MAX_BYTES_TRACK;
+	zone_data = GCR_speed_zone + track * NUM_MAX_BYTES_TRACK;
 	memset(track_data, 0xff, NUM_MAX_BYTES_TRACK);
+	memset(zone_data, 0x00, NUM_MAX_BYTES_TRACK / 4);
+	GCR_track_size[track] = 6250;
 
-	lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
-	if (read(true1541_floppy->ActiveFd, (char *)len, 2) < 2) {
-	    fprintf(stderr, "Could not read GCR disk image.\n");
-	    return 0;
-	}
+	if (track <= NumTracks && gcr_track_p[track * 2] != 0) {
 
-	track_len = len[0] + len[1] * 256;
+	    offset = gcr_track_p[track * 2];
 
-	if (track_len < 5000 || track_len > 7928) {
-	    fprintf(stderr, "1541: Track field length %i is not supported.\n",
-		track_len);
-	    return 0;
-	}
+	    lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
+	    if (read(true1541_floppy->ActiveFd, (char *)len, 2) < 2) {
+		fprintf(stderr, "Could not read GCR disk image.\n");
+		return 0;
+	    }
 
-	GCR_track_size[track - 1] = track_len;
+	    track_len = len[0] + len[1] * 256;
 
-	lseek(true1541_floppy->ActiveFd, offset + 2, SEEK_SET);
-	if (read(true1541_floppy->ActiveFd, (char *)track_data, track_len)
-           < track_len) {
-	    fprintf(stderr, "Could not read GCR disk image.\n");
-	    return 0;
-	}
+	    if (track_len < 5000 || track_len > 7928) {
+		fprintf(stderr, "1541: Track field length %i is not 
+			supported.\n", track_len);
+		return 0;
+	    }
 
-	offset = (track - 1) * 9912 + 12 + 2 + NUM_MAX_BYTES_TRACK;
-	zone_len = (track_len + 3) / 4;
-	zone_data = GCR_speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
+	    GCR_track_size[track] = track_len;
 
-	lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
-	if (read(true1541_floppy->ActiveFd, (char *)comp_speed, zone_len)
-            < zone_len) {
-	    fprintf(stderr, "Could not read GCR disk image.\n");
-	    return 0;
-	}
+	    lseek(true1541_floppy->ActiveFd, offset + 2, SEEK_SET);
+	    if (read(true1541_floppy->ActiveFd, (char *)track_data, track_len)
+			< track_len) {
+		fprintf(stderr, "Could not read GCR disk image.\n");
+		return 0;
+	    }
 
-	for (i = 0; i < zone_len; i++) {
-	    zone_data[i * 4] = comp_speed[i] & 3;
-	    zone_data[i * 4 + 1] = (comp_speed[i] >> 2) & 3;
-	    zone_data[i * 4 + 2] = (comp_speed[i] >> 4) & 3;
-	    zone_data[i * 4 + 3] = (comp_speed[i] >> 6) & 3;
+	    zone_len = (track_len + 3) / 4;
+
+	    if (gcr_speed_p[track * 2] > 3) {
+
+		offset = gcr_speed_p[track * 2];
+
+		lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
+		if (read(true1541_floppy->ActiveFd, (char *)comp_speed,
+			zone_len) < zone_len) {
+		    fprintf(stderr, "Could not read GCR disk image.\n");
+		    return 0;
+		}
+
+		for (i = 0; i < zone_len; i++) {
+		    zone_data[i * 4] = comp_speed[i] & 3;
+		    zone_data[i * 4 + 1] = (comp_speed[i] >> 2) & 3;
+		    zone_data[i * 4 + 2] = (comp_speed[i] >> 4) & 3;
+		    zone_data[i * 4 + 3] = (comp_speed[i] >> 6) & 3;
+		}
+	    } else {
+		memset(zone_data, gcr_speed_p[track * 2], NUM_MAX_BYTES_TRACK);
+	    }
 	}
     }
     return 1;
@@ -387,12 +417,35 @@ static int read_image_gcr(void)
 
 static void write_track_gcr(int track)
 {
-    int gap, zone_len, i;
-    BYTE len[2], comp_speed[NUM_MAX_BYTES_TRACK / 4];
-    BYTE *zone_data;
+    int gap, i, NumTracks;
+    BYTE len[2];
+    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
+    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     off_t offset;
 
-    offset = (track - 1) * 9912 + 12;
+    NumTracks = true1541_floppy->NumTracks;
+
+    lseek(true1541_floppy->ActiveFd, 12, SEEK_SET);
+    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_track_p, NumTracks * 8)
+			< NumTracks * 8) {
+	fprintf(stderr, "Could not read GCR disk image header.\n");
+	return;
+    }
+
+    lseek(true1541_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
+    if (read(true1541_floppy->ActiveFd, (DWORD *)gcr_speed_p, NumTracks * 8)
+			< NumTracks * 8) {
+	fprintf(stderr, "Could not read GCR disk image header.\n");
+	return;
+    }
+
+    if (gcr_track_p[(track - 1) * 2] == 0) {
+	/* This will change soon.  */
+	fprintf(stderr, "Adding new tracks is not supported yet.\n");
+	return;
+    }
+
+    offset = gcr_track_p[(track - 1) * 2];
 
     len[0] = GCR_track_size[track - 1] % 256;
     len[1] = GCR_track_size[track - 1] / 256;
@@ -416,7 +469,32 @@ static void write_track_gcr(int track)
 	return;
     }
 
-    offset = (track - 1) * 9912 + 12 + 2 + NUM_MAX_BYTES_TRACK;
+    for (i = 0; (GCR_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK] 
+	    != GCR_speed_zone[(track - 1) * NUM_MAX_BYTES_TRACK + i])
+	    && i < NUM_MAX_BYTES_TRACK; i++);
+
+    if (i < GCR_track_size[track - 1]) {
+	/* This will change soon.  */
+	fprintf(stderr, "Saving different speed zones is not supported yet.\n");
+	return;
+    }
+
+    if (gcr_speed_p[(track - 1) * 2] >= 4) {
+	/* This will change soon.  */
+	fprintf(stderr, "Adding new speed zones is not supported yet.\n");
+	return;
+    }
+
+    offset = 12 + NumTracks * 8 + (track - 1) * 8;
+
+    if (lseek(true1541_floppy->ActiveFd, offset, SEEK_SET) < 0
+        || write(true1541_floppy->ActiveFd,
+           (DWORD *)gcr_speed_p[(track - 1) * 2], NUM_MAX_BYTES_TRACK) < 0) {
+    fprintf(stderr, "Could not write GCR disk image");
+    return;
+    }
+
+#ifdef 0  /* We do not support writing different speeds yet.  */
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
     zone_len = (GCR_track_size[track - 1] + 3) / 4;
     zone_data = GCR_speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
@@ -436,7 +514,7 @@ static void write_track_gcr(int track)
         fprintf(stderr, "Could not write GCR disk image");
         return;
     }
-
+#endif
 }
 
 static int setID(void)

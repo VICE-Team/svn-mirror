@@ -431,7 +431,7 @@ static int  disk_gcrformat (void)
     strcpy(gcr_header, "GCR-1541");
 
     gcr_header[8] = 0;
-    gcr_header[9] = MAX_TRACKS_1541;
+    gcr_header[9] = MAX_TRACKS_1541 * 2;
     gcr_header[10] = 7928 % 256;
     gcr_header[11] = 7928 / 256;
 
