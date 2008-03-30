@@ -1886,7 +1886,8 @@ static int write_cmd(int nargs, char **args)
 
     if (vdrive_open(drives[unit],
                     dest_name_petscii, strlen(dest_name_petscii), 1)) {
-	fprintf(stderr, "Cannot open `%s' for writing on image.\n", dest_name_ascii);
+        fprintf(stderr, "Cannot open `%s' for writing on image.\n",
+                dest_name_ascii);
 	return FD_WRTERR;
     }
 
