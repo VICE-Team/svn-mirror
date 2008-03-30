@@ -26,7 +26,7 @@
  */
 
 #include "vice.h"
-#include "config.h"
+
 #include "types.h"
 #include "mem.h"
 

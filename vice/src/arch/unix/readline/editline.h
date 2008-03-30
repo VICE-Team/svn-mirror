@@ -5,9 +5,7 @@
 */
 
 /* include the autoconf-created header file [EP] */
-#if	defined(HAVE_CONFIG_H)
-#include "config.h"
-#endif
+#include "vice.h"
 
 #include <stdio.h>
 #if	defined(HAVE_STDLIB)

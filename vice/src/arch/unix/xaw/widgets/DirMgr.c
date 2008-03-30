@@ -30,7 +30,7 @@
  *               Perazzoli <ettore@comm2000.it>, search for [EP])
  */
 
-#include "config.h"
+#include "vice.h"
 
 #include <stdlib.h>		/* [EP] 05/04/97 */
 

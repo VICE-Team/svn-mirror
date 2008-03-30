@@ -27,7 +27,7 @@
 
 #define VICE
 
-#include "config.h"		/* [EP] 04/07/97 */
+#include "vice.h"
 #include "utils.h"		/* [AF] 26jun98 */
 #include "archdep.h"		/* [AF] 19may99 */
 

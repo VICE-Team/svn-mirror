@@ -24,19 +24,20 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <string.h>
 
-#include "config.h"
-#include "types.h"
+#include "log.h"
 #include "mem.h"
 #include "resources.h"
-#include "sysfile.h"
-#include "log.h"
-#include "utils.h"
 #include "romset.h"
+#include "sysfile.h"
+#include "types.h"
+#include "utils.h"
 
 int romset_load(const char *filename) {
     FILE *fp;

@@ -27,7 +27,7 @@
 #ifndef _MAINCPU_H
 #define _MAINCPU_H
 
-#include "config.h"
+#include "vice.h"
 
 #include "6510core.h"
 #include "alarm.h"

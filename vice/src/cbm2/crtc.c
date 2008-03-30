@@ -29,7 +29,8 @@
 
 #define MY_WINDOW_TITLE            "VICE: CBM-II emulator"
 
-#include "config.h"
+#include "vice.h"
+
 #include "types.h"
 #include "snapshot.h"
 #include "c610tpi.h"
