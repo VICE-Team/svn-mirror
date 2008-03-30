@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -42,8 +43,8 @@
 /* Screen constants.  */
 
 #define VIC_II_PAL_SCREEN_HEIGHT        312
-#define VIC_II_NTSC_SCREEN_HEIGHT	262
-#define VIC_II_NTSCOLD_SCREEN_HEIGHT	263
+#define VIC_II_NTSC_SCREEN_HEIGHT	263
+#define VIC_II_NTSCOLD_SCREEN_HEIGHT	262
 
 #if 0
 #define VIC_II_SCREEN_WIDTH		411
@@ -53,7 +54,10 @@
 #define VIC_II_SCREEN_WIDTH		384
 #endif
 
-/* FIXME: Provide NTSC versions.  */
+#define VIC_II_PAL_OFFSET                       0
+#define VIC_II_NTSC_OFFSET                      16
+#define VIC_II_NTSCOLD_OFFSET                   16
+
 
 #define VIC_II_SCREEN_XPIX			320
 #define VIC_II_SCREEN_YPIX			200
@@ -74,19 +78,19 @@
 #define VIC_II_PAL_24ROW_START_LINE		0x37
 #define VIC_II_PAL_24ROW_STOP_LINE		0xf7
 
-#define VIC_II_NTSC_FIRST_DISPLAYED_LINE	0x2a
-#define VIC_II_NTSC_LAST_DISPLAYED_LINE		0x104
-#define VIC_II_NTSC_25ROW_START_LINE		0x33
-#define VIC_II_NTSC_25ROW_STOP_LINE		0xfb
-#define VIC_II_NTSC_24ROW_START_LINE		0x37
-#define VIC_II_NTSC_24ROW_STOP_LINE		0xf7
+#define VIC_II_NTSC_FIRST_DISPLAYED_LINE	(0x28 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_LAST_DISPLAYED_LINE		0x102
+#define VIC_II_NTSC_25ROW_START_LINE		(0x33 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_25ROW_STOP_LINE		(0xfb - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_24ROW_START_LINE		(0x37 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_24ROW_STOP_LINE		(0xf7 - VIC_II_NTSC_OFFSET)
 
-#define VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE	0x2a
-#define VIC_II_NTSCOLD_LAST_DISPLAYED_LINE	0x104
-#define VIC_II_NTSCOLD_25ROW_START_LINE		0x33
-#define VIC_II_NTSCOLD_25ROW_STOP_LINE		0xfb
-#define VIC_II_NTSCOLD_24ROW_START_LINE		0x37
-#define VIC_II_NTSCOLD_24ROW_STOP_LINE		0xf7
+#define VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE	(0x28 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_LAST_DISPLAYED_LINE	0x102
+#define VIC_II_NTSCOLD_25ROW_START_LINE		(0x33 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_25ROW_STOP_LINE		(0xfb - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_24ROW_START_LINE		(0x37 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_24ROW_STOP_LINE		(0xf7 - VIC_II_NTSCOLD_OFFSET)
 
 #define VIC_II_40COL_START_PIXEL		0x20
 #define VIC_II_40COL_STOP_PIXEL			0x160
@@ -192,8 +196,12 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 #define VIC_II_NEXT_LINE(line)      (((line) + 1) % vic_ii.screen_height)
 
 /* Bad line range.  */
-#define VIC_II_FIRST_DMA_LINE       0x30
-#define VIC_II_LAST_DMA_LINE        0xf7
+#define VIC_II_PAL_FIRST_DMA_LINE      0x30
+#define VIC_II_PAL_LAST_DMA_LINE       0xf7
+#define VIC_II_NTSC_FIRST_DMA_LINE     (0x30 - VIC_II_NTSC_OFFSET)
+#define VIC_II_NTSC_LAST_DMA_LINE      0xf7
+#define VIC_II_NTSCOLD_FIRST_DMA_LINE  (0x30 - VIC_II_NTSCOLD_OFFSET)
+#define VIC_II_NTSCOLD_LAST_DMA_LINE   0xf7
 
 
 
@@ -362,6 +370,11 @@ struct _vic_ii
     int draw_cycle;
     int sprite_fetch_cycle;
     int sprite_wrap_x;
+    int first_dma_line;
+    int last_dma_line;
+
+    /* Number of lines the whole screen is shifted up.  */
+    int offset;
   };
 typedef struct _vic_ii vic_ii_t;
 
