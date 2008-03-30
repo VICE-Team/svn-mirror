@@ -61,6 +61,7 @@
 #include "diskimage.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "mem.h"
 #include "mon.h"
 #include "mon_parse.h"
 #include "resources.h"
