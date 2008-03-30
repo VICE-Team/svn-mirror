@@ -43,6 +43,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "clkguard.h"
 #include "cmdline.h"
 #include "log.h"
@@ -190,7 +192,7 @@ static void display_speed(int num_frames)
     diff_sec = (double)(signed long)(now - display_start) / vsyncarch_freq
                / factor;
     frame_rate = num_frames / diff_sec;
-    speed_index = 100.0*diff_clk / (cycles_per_sec * diff_sec);
+    speed_index = 100.0 * diff_clk / (cycles_per_sec * diff_sec);
     vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
 
     speed_eval_prev_clk = maincpu_clk;
@@ -276,8 +278,8 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     signed long delay;
 
 #ifdef WIN32
-	float refresh_cmp;
-	int refresh_div;
+    float refresh_cmp;
+    int refresh_div;
 #endif
 
     /*
@@ -370,12 +372,11 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      *
      * We could optimize by sleeping only if a frame is to be output.
      */
-    if (!warp_mode_enabled && timer_speed && delay < 0)
-    {
+    if (!warp_mode_enabled && timer_speed && delay < 0) {
         vsyncarch_sleep(-delay);
     }
 #ifdef WIN32
-	vsyncarch_prepare_vbl();
+    vsyncarch_prepare_vbl();
 #endif
     /*
      * Check whether we should skip the next frame or not.

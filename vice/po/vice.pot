@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-10-27 00:12+0200\n"
+"POT-Creation-Date: 2002-10-27 22:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: src/vsync.c:115
+#: src/vsync.c:117
 msgid "Limit emulation speed to specified value"
 msgstr ""
 
-#: src/vsync.c:117
+#: src/vsync.c:119
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr ""
 
-#: src/vsync.c:119
+#: src/vsync.c:121
 msgid "Enable warp mode"
 msgstr ""
 
-#: src/vsync.c:121
+#: src/vsync.c:123
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:420
+#: src/vsync.c:421
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
