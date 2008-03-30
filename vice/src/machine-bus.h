@@ -29,6 +29,7 @@
 
 #include "types.h"
 
+struct cbmdos_cmd_parse_s;
 struct vdrive_s;
 
 extern void machine_bus_init(void);
@@ -58,7 +59,8 @@ extern int machine_bus_device_attach(unsigned int unit, const char *name,
                                     int (*putf)(struct vdrive_s *, BYTE,
                                     unsigned int),
                                     int (*openf)(struct vdrive_s *,
-                                    const BYTE *, unsigned int, unsigned int),
+                                    const BYTE *, unsigned int, unsigned int,
+                                    struct cbmdos_cmd_parse_s *),
                                     int (*closef)(struct vdrive_s *,
                                     unsigned int),
                                     void (*flushf)(struct vdrive_s *,

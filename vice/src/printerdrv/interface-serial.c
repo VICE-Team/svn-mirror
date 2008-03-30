@@ -211,7 +211,8 @@ static void flush_pr(unsigned int prnr, unsigned int secondary)
 /* ------------------------------------------------------------------------- */
 
 static int open_pr4(struct vdrive_s *var, const BYTE *name, unsigned int length,
-                    unsigned int secondary)
+                    unsigned int secondary,
+                    struct cbmdos_cmd_parse_s *cmd_parse_ext)
 {
     return open_pr(0, name, length, secondary);
 }
@@ -237,7 +238,8 @@ static void flush_pr4(struct vdrive_s *var, unsigned int secondary)
 }
 
 static int open_pr5(struct vdrive_s *var, const BYTE *name, unsigned int length,
-                    unsigned int secondary)
+                    unsigned int secondary,
+                    struct cbmdos_cmd_parse_s *cmd_parse_ext)
 {
     return open_pr(1, name, length, secondary);
 }

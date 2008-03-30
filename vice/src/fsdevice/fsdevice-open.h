@@ -29,10 +29,12 @@
 
 #include "types.h"
 
+struct cbmdos_cmd_parse_s;
 struct vdrive_s;
 
 extern int fsdevice_open(struct vdrive_s *vdrive, const BYTE *name,
-                         unsigned int length, unsigned int secondary);
+                         unsigned int length, unsigned int secondary,
+                         struct cbmdos_cmd_parse_s *cmd_parse_ext);
 
 #endif
 

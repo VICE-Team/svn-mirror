@@ -269,7 +269,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 }
 
 int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
-                  unsigned int secondary)
+                  unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
 {
     char *rname;
     int status = 0, rc;
