@@ -71,6 +71,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "palette.h"
+#include "resources.h"
 #include "snapshot.h"
 #include "utils.h"
 #include "vsync.h"
@@ -101,7 +102,7 @@ clk_overflow_callback (CLOCK sub, void *unused_data)
 void vic_ii_change_timing(void)
 {
     resource_value_t mode;
-    resources_get_value("DriveSyncFactor", &mode);
+    resources_get_value("VideoStandard", &mode);
     switch ((int)mode) {
       case -2:
         vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
@@ -151,11 +152,35 @@ void vic_ii_change_timing(void)
     }
 }
 
+static void vic_ii_set_geometry(void)
+{
+  unsigned int width, height;
+
+  width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
+  height = vic_ii.last_displayed_line - vic_ii.first_displayed_line;
+  if (vic_ii_resources.double_size_enabled)
+    {
+      width *= 2;
+      height *= 2;
+      raster_set_pixel_size (&vic_ii.raster, 2, 2);
+    }
+
+  raster_set_geometry (&vic_ii.raster,
+                       VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
+                       VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
+                       VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
+                       vic_ii.screen_borderwidth, vic_ii.screen_borderheight,
+                       FALSE,
+                       vic_ii.first_displayed_line,
+                       vic_ii.last_displayed_line,
+                       2 * VIC_II_MAX_SPRITE_WIDTH);
+  raster_resize_viewport (&vic_ii.raster, width, height);
+}
+
 static void 
 init_raster (void)
 {
   raster_t *raster;
-  unsigned int width, height;
   char *title;
 
   raster = &vic_ii.raster;
@@ -167,25 +192,7 @@ init_raster (void)
   raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
   raster_set_canvas_refresh(raster, 1);
 
-  width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
-  height = vic_ii.last_displayed_line - vic_ii.first_displayed_line;
-  if (vic_ii_resources.double_size_enabled)
-    {
-      width *= 2;
-      height *= 2;
-      raster_set_pixel_size (raster, 2, 2);
-    }
-
-  raster_set_geometry (raster,
-                       VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
-                       VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
-                       VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
-                       vic_ii.screen_borderwidth, vic_ii.screen_borderheight,
-                       FALSE,
-                       vic_ii.first_displayed_line,
-                       vic_ii.last_displayed_line,
-                       2 * VIC_II_MAX_SPRITE_WIDTH);
-  raster_resize_viewport (raster, width, height);
+  vic_ii_set_geometry();
 
   if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0)
     log_error (vic_ii.log, "Cannot load palette.");
@@ -395,6 +402,10 @@ vic_ii_init (void)
 void 
 vic_ii_reset (void)
 {
+  vic_ii_change_timing();
+
+  vic_ii_set_geometry();
+
   raster_reset (&vic_ii.raster);
 
   vic_ii.last_emulate_line_clk = 0;

@@ -39,8 +39,7 @@
 
 #include <allegro.h>
 
-#include "vsync.h"
-
+#include "clkguard.h"
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
@@ -48,9 +47,11 @@
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
+#include "vsync.h"
 
 #ifdef USE_MIDAS_SOUND
 #include "vmidas.h"
@@ -293,9 +294,9 @@ double vsync_get_avg_speed_index(void)
 /* ------------------------------------------------------------------------- */
 
 /* This prevents the clock counters from overflowing.  */
-void vsync_prevent_clk_overflow(CLOCK sub)
+static void clk_overflow_callback(CLOCK amount, void *data)
 {
-    speed_eval_prev_clk -= sub;
+    speed_eval_prev_clk -= amount;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -379,7 +380,13 @@ int do_vsync(int been_skipped)
 
 /* -------------------------------------------------------------------------- */
 
-void vsync_init(double hertz, long cycles, void (*hook)(void))
+void vsync_set_machine_parameter(double refresh_rate, long cycles)
+{
+    refresh_frequency = refresh_rate;
+    cycles_per_sec = cycles;
+}
+
+void vsync_init(void (*hook)(void))
 {
     LOCK_VARIABLE(elapsed_frames);
     LOCK_FUNCTION(my_timer_callback);
@@ -392,10 +399,10 @@ void vsync_init(double hertz, long cycles, void (*hook)(void))
 #endif /* !USE_MIDAS_SOUND */
 
     vsync_hook = hook;
-    refresh_frequency = hertz;
-    cycles_per_sec = cycles;
     suspend_speed_eval();
     vsync_disable_timer();
+
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 int vsync_disable_timer(void)

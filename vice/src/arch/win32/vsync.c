@@ -30,16 +30,17 @@
 #include <stdio.h>
 #include <windows.h>
 
-#include "vsync.h"
-
+#include "clkguard.h"
 #include "cmdline.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "kbdbuf.h"
+#include "maincpu.h"
+#include "mouse.h"
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
-#include "joystick.h"
-#include "mouse.h"
+#include "vsync.h"
 
 #include <mmsystem.h>
 
@@ -175,18 +176,27 @@ static int timer_interval;
 
 static DWORD    last_time;
 
-int vsync_init(double hertz, long cycles, void (*hook)(void))
+static void clk_overflow_callback(CLOCK amount, void *data)
+{
+    speed_eval_clk_start -= amount;
+}
+
+void vsync_set_machine_parameter(double refresh_rate, long cycles)
+{
+    refresh_frequency = refresh_rate;
+    cycles_per_sec = cycles;
+}
+
+void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
-    refresh_frequency = hertz;
-    cycles_per_sec = cycles;
     suspend_speed_eval();
     vsync_disable_timer();
 
     /* This makes sure we evaluate speed correctly the first time.  */
     speed_eval_suspended = 1;
 
-    return 0;
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 int do_vsync(int been_skipped)
@@ -321,17 +331,14 @@ int do_vsync(int been_skipped)
     return skip_next_frame;
 }
 
-void vsync_prevent_clk_overflow(CLOCK sub)
-{
-    speed_eval_clk_start-=sub;
-}
-
 void suspend_speed_eval(void)
 {
     speed_eval_suspended = 1;
 }
 
-void vsync_disable_timer(void)
+int vsync_disable_timer(void)
 {
     timer_speed=0;
+    return 0;
 }
+

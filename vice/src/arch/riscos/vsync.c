@@ -29,6 +29,7 @@
 #include "config.h"
 #include "types.h"
 #include "vsync.h"
+#include "vsyncarch.h"
 #include "resources.h"
 #include "video.h"
 #include "sound.h"
@@ -36,6 +37,7 @@
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "joystick.h"
+#include "maincpu.h"
 
 
 
@@ -106,11 +108,15 @@ int vsync_init_cmdline_options(void)
 }
 
 
-void vsync_init(double hz, long cycles, void (*hook)(void))
+void vsync_set_machine_parameter(double refresh_rate, long cycles)
+{
+    refresh_frequency = refresh_rate;
+    cycles_per_sec = cycles;
+}
+
+void vsync_init(void (*hook)(void))
 {
   vsync_hook = hook;
-  refresh_frequency = hz;
-  cycles_per_sec = cycles;
 }
 
 
@@ -194,7 +200,3 @@ int vsync_disable_timer(void)
   return 0;
 }
 
-
-void vsync_prevent_clk_overflow(CLOCK sub)
-{
-}

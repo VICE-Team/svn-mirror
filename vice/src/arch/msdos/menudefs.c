@@ -354,14 +354,14 @@ static TUI_MENU_CALLBACK(toggle_DriveSyncFactor_callback)
 {
     int value;
 
-    resources_get_value("DriveSyncFactor", (resource_value_t *) &value);
+    resources_get_value("VideoStandard", (resource_value_t *) &value);
 
     if (been_activated) {
 	if (value == DRIVE_SYNC_PAL)
 	    value = DRIVE_SYNC_NTSC;
 	else
 	    value = DRIVE_SYNC_PAL;
-        resources_set_value("DriveSyncFactor", (resource_value_t) value);
+        resources_set_value("VideoStandard", (resource_value_t) value);
     }
 
     switch (value) {

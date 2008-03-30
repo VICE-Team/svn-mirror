@@ -28,7 +28,10 @@
 
 /* This does what has to be done at the end of each screen frame (50 times per
    second on PAL machines). */
+#define INCL_DOSPROFILE
 #define INCL_DOSPROCESS
+#define INCL_DOSSEMAPHORES
+
 #include "vice.h"
 
 #include <sys/time.h>
@@ -37,22 +40,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <limits.h>
-
 #ifdef __IBMC__
 #include <sys/timeb.h>
 #endif
 
-#include "vsync.h"
-#include "ui.h"
-#include "interrupt.h"
-#include "log.h"
-#include "kbdbuf.h"
-#include "sound.h"
-#include "resources.h"
-#include "cmdline.h"
-#include "kbd.h"
 #include "archdep.h"
+#include "clkguard.h"
+#include "cmdline.h"
+#include "interrupt.h"
+#include "kbd.h"
+#include "kbdbuf.h"
+#include "log.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "sound.h"
+#include "ui.h"
+#include "ui_status.h"
+#include "vsync.h"
 
 #include "usleep.h"
 
@@ -163,22 +167,18 @@ static int timer_disabled = 1;
 static int timer_speed    = 0;
 static int timer_patch    = 0;
 
-#ifdef __IBMC__
-  #define SEC    time
-  #define subSEC millitm
-  #define gettime(now) _ftime(now)  // DosTmrQueryTime
-  typedef struct timeb _time;
-  const int MICRONS = 1000; //960;
-#else
-  #define SEC    tv_sec
-  #define subSEC tv_usec
-  #define gettime(now) gettimeofday(now, NULL)
-  typedef struct timeval _time;
-  const int MICRONS = 1000000;
-#endif
+typedef ULONG _time;
+static  ULONG ulTmrFreq;  // Hertz (almost 1.2MHz at my PC)
 
-static int timer_ticks;
-_time      timer_time;
+ULONG gettime()
+{
+    QWORD qwTmrTime; // now
+    DosTmrQueryTime(&qwTmrTime);
+    return qwTmrTime.ulLo;
+}
+
+static _time timer_ticks;
+static _time timer_time;
 
 static void update_elapsed_frames(int want)
 {
@@ -190,22 +190,14 @@ static void update_elapsed_frames(int want)
         timer_patch--;
         elapsed_frames++;
     }
-    gettime(&now);
-    while (now.SEC > timer_time.SEC ||
-           (now.SEC == timer_time.SEC &&
-            now.subSEC > timer_time.subSEC)) {
+    now=gettime();
+    while (now>timer_time) {
         if (pending) pending--;
         else {
             if (timer_patch < 0) timer_patch++;
             else elapsed_frames++;
         }
-        timer_time.subSEC += timer_ticks;
-        timer_time.SEC    += (int)(timer_time.subSEC/MICRONS);
-        timer_time.subSEC %= MICRONS;
-        /*	while (timer_time.tv_usec >= 1000000) {
-         timer_time.tv_usec -= 1000000;
-         timer_time.tv_sec++;
-         }*/
+        timer_time += timer_ticks;
     }
     if (want == 1 && !pending) {
         if (timer_patch < 0) timer_patch++;
@@ -217,8 +209,8 @@ static void update_elapsed_frames(int want)
 static int set_timer_speed(int speed)
 {
     if (speed > 0) {
-        gettime(&timer_time);
-        timer_ticks = ((100*MICRONS)/(refresh_frequency*speed))/**1000000*/;///speed;
+        timer_time=gettime();
+        timer_ticks = ((100*ulTmrFreq)/(refresh_frequency*speed));
         update_elapsed_frames(-1);
         elapsed_frames = 0;
     }
@@ -268,43 +260,48 @@ void suspend_speed_eval(void)
     speed_eval_suspended = 1;
 }
 
-void vsync_init(double hertz, long cycles, void (*hook)(void))
+static void clk_overflow_callback(CLOCK amount, void *data)
 {
-    vsync_hook        = hook;
-    refresh_frequency = hertz;
-    cycles_per_sec    = cycles;
+    speed_eval_prev_clk -= amount;
+}
+
+void vsync_set_machine_parameter(double refresh_rate, long cycles)
+{
+    refresh_frequency = refresh_rate;
+    cycles_per_sec = cycles;
+}
+
+void vsync_init(void (*hook)(void))
+{
+    vsync_hook = hook;
 
     suspend_speed_eval();
     vsync_disable_timer();
+    DosTmrQueryFreq(&ulTmrFreq);
+
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 static CLOCK speed_eval_prev_clk;
 
 static void display_speed(int num_frames)
 {
-    static long vice_secs=0;
-    static double prev_time;
-    double curr_time;
-    _time tv;
-    gettime(&tv);
-    curr_time = (double)tv.SEC + (double)tv.subSEC/MICRONS; // casting ???
+    static _time vice_secs=0;
+    static _time prev_time;
     if (!speed_eval_suspended) {
+        _time curr_time= gettime();
         float diff_clk    = clk - speed_eval_prev_clk;
-        float time_diff   = curr_time - prev_time;
+        float time_diff   = (double)(curr_time - prev_time)/ulTmrFreq;
 	float speed_index = diff_clk/(time_diff*cycles_per_sec);
 	float frame_rate  = num_frames/time_diff;
 
         ui_display_speed(speed_index*100, frame_rate, vice_secs++);
-    }
 
-    prev_time            = curr_time;
+        prev_time            = curr_time;
+    }
+    else prev_time=gettime();
     speed_eval_prev_clk  = clk;
     speed_eval_suspended = 0;
-}
-
-void vsync_prevent_clk_overflow(CLOCK sub)
-{
-    speed_eval_prev_clk -= sub;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -375,9 +372,8 @@ int do_vsync(int been_skipped)
         display_speed(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;
 	frame_counter = 0;
-    } else
-        frame_counter++;
-
+    }
+    else frame_counter++;
 
     kbd_buf_flush();
 

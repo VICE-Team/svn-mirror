@@ -308,7 +308,9 @@ int machine_init(void)
                  &drive1_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(C128_PAL_RFSH_PER_SEC, C128_PAL_CYCLES_PER_SEC, vsync_hook);
+    vsync_set_machine_parameter(C128_PAL_RFSH_PER_SEC,
+                                C128_PAL_CYCLES_PER_SEC);
+    vsync_init(vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -420,7 +422,25 @@ long machine_get_cycles_per_second(void)
 
 void machine_change_timing(int timeval)
 {
+    double rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
+    long cycles_per_second = C128_PAL_CYCLES_PER_SEC;
 
+    maincpu_trigger_reset();
+
+    switch (timeval) {
+      case DRIVE_SYNC_PAL:
+        rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
+        cycles_per_second = C128_PAL_CYCLES_PER_SEC;
+        break;
+      case DRIVE_SYNC_NTSC:
+        rfsh_per_sec = C128_NTSC_RFSH_PER_SEC;
+        cycles_per_second = C128_NTSC_CYCLES_PER_SEC;
+        break;
+      default:
+        log_error(c128_log, "Unknown machine timing.");
+    }
+
+    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_second);
 }
 
 /* ------------------------------------------------------------------------- */

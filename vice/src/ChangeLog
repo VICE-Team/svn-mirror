@@ -1,3 +1,43 @@
+1999-10-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.12.
+
+	* vicii/vicii.c (vic_ii_set_geometry): New function.
+	#include "resource.h".
+
+	* vsync.h: New file.
+
+	* arch/unix/vsync.h, arch/msdos/vsync.h, arch/win32/vsync.h,
+	arch/riscos/vsync.h, arch/os2/vsync.h: Removed.
+
+	* arch/unix/vsync.c, arch/msdos/vsync.c, arch/win32/vsync.c,
+	arch/riscos/vsync.c, arch/os2/vsync.c: Use new overflow code.
+	(vsync_set_machine_parameter): New function.
+	#include "maincpu.h".
+
+	* arch/riscos/vsyncarch.h, arch/riscos/joystick.c,
+	arch/riscos/kbd.c: Special riscos vsync stuff.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (machine_init): Set vsync machine parameter.
+
+	* pet/pet.c, cbm2/c610.c (machine_set_cycles_per_frame): Call
+	`vsync_set_machine_parameter' instead of reinitializing vsync.
+
+	* pet/petacia1.c, pet/petacia.h, c64/c64acia1.c,
+	c64/c64acia.h, cbm2/c610acia1.c, cbm2/c610acia.h: Removed
+	obsolete clock overflow code.
+
+	* arch/unix/xaw/uisettings.c, arch/unix/xaw/c64ui.c,
+	arch/unix/xaw/c128ui.c, arch/riscos/ui.c: Moved video standard
+	settings to machine specific UI.
+
+	* arch/win32/ui.c, arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/msdos/menudefs.c: New video
+	standard settings.
+
+	* c128/c128.c (machine_change_timing): Implemented.
+
 1999-09-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.11.
