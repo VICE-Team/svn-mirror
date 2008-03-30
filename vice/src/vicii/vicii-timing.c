@@ -78,6 +78,7 @@ void vicii_timing_set(machine_timing_t *machine_timing)
         vicii.offset = VICII_NTSC_OFFSET;
         break;
       case MACHINE_SYNC_NTSCOLD:
+        vicii.screen_height = VICII_NTSCOLD_SCREEN_HEIGHT;
         vicii.first_displayed_line = VICII_NTSCOLD_FIRST_DISPLAYED_LINE;
         vicii.last_displayed_line = VICII_NTSCOLD_LAST_DISPLAYED_LINE;
         vicii.row_25_start_line = VICII_NTSCOLD_25ROW_START_LINE;

@@ -163,7 +163,8 @@ int drive_check_extend_policy(unsigned int drive_type)
 int drive_check_idle_method(unsigned int drive_type)
 {
     if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II))
+        (drive_type == DRIVE_TYPE_1541II) ||
+        (drive_type == DRIVE_TYPE_1551))
         return 1;
     return 0;
 }
@@ -175,4 +176,3 @@ int drive_check_parallel_cable(unsigned int drive_type)
         return 1;
     return 0;
 }
-

@@ -63,14 +63,15 @@ int drive_rom_load_images(void)
 
 void drive_rom_initialize_traps(drive_t *drive)
 {
-    if (drive->type == DRIVE_TYPE_1541) {
+    if ((drive->type == DRIVE_TYPE_1541) ||
+        (drive->type == DRIVE_TYPE_1541II)) {
         /* Save the ROM check.  */
         drive->rom_checksum[0] = drive->rom[0xeae4 - 0x8000];
         drive->rom_checksum[1] = drive->rom[0xeae5 - 0x8000];
         drive->rom_checksum[2] = drive->rom[0xeae8 - 0x8000];
         drive->rom_checksum[3] = drive->rom[0xeae9 - 0x8000];
         /* Save the idle trap.  */
-        drive->rom_idle_trap = drive->rom[0xec9b - 0x8000];
+        drive->rom_idle_trap[0] = drive->rom[0xec9b - 0x8000];
 
         if (drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             drive->rom[0xeae4 - 0x8000] = 0xea;
@@ -78,6 +79,26 @@ void drive_rom_initialize_traps(drive_t *drive)
             drive->rom[0xeae8 - 0x8000] = 0xea;
             drive->rom[0xeae9 - 0x8000] = 0xea;
             drive->rom[0xec9b - 0x8000] = 0x00;
+        }
+    }
+
+    if (drive->type == DRIVE_TYPE_1551) {
+        /* Save the ROM check. */
+        drive->rom_checksum[0] = drive->rom[0xe9f4 - 0x8000];
+        drive->rom_checksum[1] = drive->rom[0xe9f5 - 0x8000];
+        /* Save the idle trap changes. */
+        drive->rom_idle_trap[0] = drive->rom[0xeabf - 0x8000];
+        drive->rom_idle_trap[1] = drive->rom[0xeac0 - 0x8000];
+        drive->rom_idle_trap[2] = drive->rom[0xead0 - 0x8000];
+        drive->rom_idle_trap[3] = drive->rom[0xead9 - 0x8000];
+
+        if (drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            drive->rom[0xe9f4 - 0x8000] = 0xea;
+            drive->rom[0xe9f5 - 0x8000] = 0xea;
+            drive->rom[0xeabf - 0x8000] = 0xea;
+            drive->rom[0xeac0 - 0x8000] = 0xea;
+            drive->rom[0xead0 - 0x8000] = 0x08;
+            drive->rom[0xead9 - 0x8000] = 0x00;
         }
     }
 

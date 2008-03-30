@@ -348,8 +348,23 @@ void drivecpu_prevent_clk_overflow_all(CLOCK sub)
 inline static DWORD drive_trap_handler(drive_context_t *drv)
 {
     if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xec9b) {
-        /* Idle loop */
+        /* Idle loop 1541 drive*/
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xebff);
+        if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            CLOCK next_clk;
+
+            next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
+
+            if (next_clk > drv->cpu->stop_clk)
+                next_clk = drv->cpu->stop_clk;
+
+            *(drv->clk_ptr) = next_clk;
+        }
+        return 0;
+    }
+    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xead9) {
+        /* Idle loop for 1551 drive*/
+        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xeabd);
         if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 

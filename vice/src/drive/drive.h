@@ -135,7 +135,7 @@ typedef struct drive_s {
     int idling_method;
 
     /* Original ROM code is saved here.  */
-    BYTE rom_idle_trap;
+    BYTE rom_idle_trap[4];
 
     /* Original ROM code of the checksum routine is saved here.  */
     BYTE rom_checksum[4];
