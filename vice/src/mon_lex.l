@@ -48,7 +48,7 @@ YY_BUFFER_STATE my_state;
 
 %}
 
-%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN
+%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN BNAME
 
 %%
 
@@ -75,6 +75,9 @@ YY_BUFFER_STATE my_state;
                                    break;
                                 case STATE_FNAME:
                                    BEGIN (FNAME);
+                                   break;
+                                case STATE_BNAME:
+                                   BEGIN (BNAME);
                                    break;
                                 case STATE_ROL:
                                    BEGIN (ROL);
@@ -152,6 +155,8 @@ d:              { return MEM_DISK; }
 <FNAME>\".+\" { yytext[yyleng-1] = '\0';
                 yylval.str = stralloc(yytext+1);
                 BEGIN (INITIAL); return FILENAME; }
+
+<BNAME>[_a-zA-Z0-9]*      { yylval.str = stralloc(yytext); return BANKNAME; }
 
 <ROL>[^ \t\n][^\n]*          { yylval.str = stralloc(yytext); return R_O_L; }
 

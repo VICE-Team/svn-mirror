@@ -1,0 +1,41 @@
+/* -*- C -*-
+ *
+ * drivecpu0.def - Definitions of the 6502 processor in the Commodore 1541
+ * floppy disk drive 0 (device #8).
+ *
+ * Written by
+ *   Ettore Perazzoli (ettore@comm2000.it)
+ *   Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#define mydrive drive0
+#define myvia1 via1d0
+#define myvia2 via2d0
+#define mycia1571 cia1571d0
+#define mycia1581 cia1581d0
+#define mynumber 0
+#define MYVIA1 VIA1D0
+#define MYVIA2 VIA2D0
+#define MYCIA1571 CIA1571D0
+#define MYCIA1581 CIA1581D0
+#define MYIDENTIFICATION DRIVE#8
+

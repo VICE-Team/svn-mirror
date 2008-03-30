@@ -90,7 +90,7 @@ extern int cur_len, last_len;
 %token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
-%token<str> STRING FILENAME R_O_L OPCODE LABEL
+%token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME
 %token<reg> REGISTER
 %left<cond_op> COMPARE_OP
 %token<rt> RADIX_TYPE INPUT_SPEC
@@ -103,7 +103,7 @@ extern int cur_len, last_len;
 %type<i> register_mod opt_count command_list top_level value
 %type<i> asm_operand_mode assembly_instruction end_cmd register
 %type<i> assembly_instr_list post_assemble opt_memspace
-%type<str> rest_of_line data_list data_element filename
+%type<str> rest_of_line data_list data_element filename opt_bankname
 
 %type<i> symbol_table_rules asm_rules memory_rules checkpoint_rules
 %type<i> checkpoint_control_rules monitor_state_rules
@@ -143,7 +143,7 @@ command: machine_state_rules
        | BAD_CMD { return ERR_BAD_CMD; }
        ;
 
-machine_state_rules: CMD_BANK end_cmd { fprintf(mon_output, "Bank command not done yet.\n"); }
+machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd { mon_bank($2,$3); }
                    | CMD_GOTO address end_cmd { mon_jump($2); }
                    | CMD_IO end_cmd { fprintf(mon_output, "Display IO registers\n"); }
                    | CMD_RETURN end_cmd { mon_instruction_return(); }
@@ -264,6 +264,10 @@ data_entry_rules: CMD_ENTER_DATA address data_list end_cmd { mon_fill_memory($2,
 
 rest_of_line: R_O_L { $$ = $1; }
             ;
+
+opt_bankname: BANKNAME
+	| { $$ = NULL; }
+	;
 
 filename: FILENAME
         | error { return ERR_EXPECT_FILENAME; }

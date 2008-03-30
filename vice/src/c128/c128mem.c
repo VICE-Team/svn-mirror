@@ -1146,7 +1146,7 @@ int mem_rom_trap_allowed(ADDRESS addr)
 
 static void store_bank_io(ADDRESS addr, BYTE byte)
 {
-    switch (addr &= 0xff00) {
+    switch (addr & 0xff00) {
       case 0xd000:
       case 0xd100:
       case 0xd200:
@@ -1189,7 +1189,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
 
 static BYTE read_bank_io(ADDRESS addr)
 {
-    switch (addr &= 0xff00) {
+    switch (addr & 0xff00) {
       case 0xd000:
       case 0xd100:
       case 0xd200:
@@ -1222,7 +1222,7 @@ static BYTE read_bank_io(ADDRESS addr)
 
 static BYTE peek_bank_io(ADDRESS addr)
 {
-    switch (addr &= 0xff00) {
+    switch (addr & 0xff00) {
       case 0xd000:
       case 0xd100:
       case 0xd200:

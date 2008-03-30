@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/drivecpu1.c
- * This file is generated from drivecpu-tmpl.c and ../../src/drive/drivecpu1.def,
+ * ../../../src/drive/drivecpu1.c
+ * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu1.def,
  * Do not edit!
  */
 /*
@@ -55,7 +55,7 @@
 
 /* Define this to enable tracing of 1541 instructions.  Warning: this slows
    it down!  */
-#define TRACE
+#undef TRACE
 
 /* Force `TRACE' in unstable versions.  */
 #if 0 && defined UNSTABLE && !defined TRACE
@@ -98,12 +98,20 @@ monitor_interface_t drive1_monitor_interface = {
 
     /* Pointer to the machine's clock counter.  */
     &drive_clk[1],
-
+#if 0
     /* Pointer to a function that writes to memory.  */
     drive1_read,
 
     /* Pointer to a function that reads from memory.  */
     drive1_store,
+#endif
+
+    0,
+    NULL,
+    NULL,
+    drive1_bank_read,
+    drive1_bank_peek,
+    drive1_bank_store,
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
     drive1_toggle_watchpoints
@@ -134,13 +142,14 @@ static drive1_store_func_t *store_func_nowatch[0x41];
 
 static BYTE REGPARM1 drive1_read_ram(ADDRESS address)
 {
+    /* FIXME: This breaks the 1541 RAM mirror!  */
     return drive1_ram[address & 0x1fff];
 }
 
 static void REGPARM2 drive1_store_ram(ADDRESS address, BYTE value)
 {
-    /* FIXME: Needs to be `0x1fff' for 1581.  */
-    drive1_ram[address & 0x7ff] = value;
+    /* FIXME: This breaks the 1541 RAM mirror!  */
+    drive1_ram[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM1 drive1_read_rom(ADDRESS address)
@@ -196,6 +205,24 @@ BYTE REGPARM1 drive1_read(ADDRESS address)
 }
 
 void REGPARM2 drive1_store(ADDRESS address, BYTE value)
+{
+    store_func[address >> 10](address, value);
+}
+
+/* This is the external interface for banked memory access.  */
+
+BYTE drive1_bank_read(int bank, ADDRESS address)
+{
+    return read_func[address >> 10](address);
+}
+
+/* FIXME: use peek in IO area */
+BYTE drive1_bank_peek(int bank, ADDRESS address)
+{
+    return read_func[address >> 10](address);
+}
+
+void drive1_bank_store(int bank, ADDRESS address, BYTE value)
 {
     store_func[address >> 10](address, value);
 }

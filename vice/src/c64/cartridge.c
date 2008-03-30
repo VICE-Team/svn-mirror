@@ -135,6 +135,16 @@ int cartridge_attach_image(int type, const char *filename)
 	}
 	fclose(fd);
 	break;
+      case CARTRIDGE_SUPER_SNAPSHOT:
+	fd = fopen(filename, READ);
+	if (!fd)
+	    return -1;
+	if (fread(rawcart, 0x8000, 1, fd) < 1) {
+	    fclose(fd);
+	    return -1;
+	}
+	fclose(fd);
+	break;
       case CARTRIDGE_CRT:
 	fd = fopen(filename, READ);
 	if (!fd)
@@ -236,7 +246,8 @@ void cartridge_trigger_freeze(void)
 {
     if (crttype != CARTRIDGE_ACTION_REPLAY
         && carttype != CARTRIDGE_ACTION_REPLAY
-        && crttype != CARTRIDGE_KCS_POWER)
+        && crttype != CARTRIDGE_KCS_POWER
+        && carttype != CARTRIDGE_SUPER_SNAPSHOT)
 	return;
     mem_freeze_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);
     maincpu_set_nmi(I_FREEZE, IK_NMI);

@@ -210,7 +210,11 @@ struct mon_cmds mon_cmd_array[] = {
      "Map a given address to a label.  This label can be used when entering\n"
      "assembly code and is shown during disassembly." },
 
-   { "bank",		"",	CMD_BANK,		STATE_INITIAL },
+   { "bank",		"",	CMD_BANK,		STATE_BNAME,
+     "[<memspace>] [bankname]",
+     "If bankname is not given, print the possible banks for the memspace.\n"
+     "If bankname is given set the current bank in the memspace to the given\n"
+     "bank." },
 
    { "br", 		"", 	CMD_BLOCK_READ, 	STATE_INITIAL,
      "<track> <sector> [<address>]",
@@ -628,18 +632,53 @@ static bool check_drive_emu_level_ok(int drive_num)
    return TRUE;
 }
 
+void mon_bank(MEMSPACE mem, char *bankname) 
+{
+    /* FIXME: something goes wrong here! */
+    if(((int)mem)<0 || ((int)mem)>2) {
+	fprintf(mon_output, "Boom! invalid memspace %d from parser!\n", mem);
+    }
+    mem=1;
+
+    if(!mon_interfaces[mem]->mem_bank_list) {
+	fprintf(mon_output, "Banks not available in this memspace\n");
+	return;
+    }
+
+    if(bankname==NULL) {
+	const char **bnp = mon_interfaces[mem]->mem_bank_list();
+	fprintf(mon_output, "Available banks (some may be equivalent to others):\n");
+	while(*bnp) {
+	    fprintf(mon_output, "%s\t",*bnp);
+	    bnp++;
+	}
+	fprintf(mon_output, "\n");
+    } else {
+	int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
+	if(newbank < 0) {
+	    fprintf(mon_output, "Unknown bank name `%s'\n", bankname);
+	    return;
+	}
+	mon_interfaces[mem]->current_bank = newbank;
+    }
+}
+
 static unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
 {
+   int bank = mon_interfaces[mem]->current_bank;
+
    if (mem == e_disk_space) {
        if (!check_drive_emu_level_ok(8))
            return 0;
    }
 
-   return mon_interfaces[mem]->read_func(mem_addr);
+   return mon_interfaces[mem]->mem_bank_read(bank, mem_addr);
 }
 
 static void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 {
+   int bank = mon_interfaces[mem]->current_bank;
+
    if (mem == e_comp_space) {
    } else if (mem == e_disk_space) {
        if (!check_drive_emu_level_ok(8))
@@ -647,7 +686,7 @@ static void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
    } else
        assert(FALSE);
 
-   mon_interfaces[mem]->store_func(mem_addr, val);
+   mon_interfaces[mem]->mem_bank_write(bank,mem_addr, val);
 }
 
 unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id)

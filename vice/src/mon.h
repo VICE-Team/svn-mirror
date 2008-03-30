@@ -158,11 +158,20 @@ struct monitor_interface {
     /* Pointer to the machine's clock counter.  */
     CLOCK *clk;
 
+#if 0
     /* Pointer to a function that writes to memory.  */
     read_func_t *read_func;
 
     /* Pointer to a function that reads from memory.  */
     store_func_t *store_func;
+#endif
+
+    int current_bank;
+    const char **(*mem_bank_list)(void);
+    int (*mem_bank_from_name)(const char *name);
+    BYTE (*mem_bank_read)(int bank, ADDRESS addr);
+    BYTE (*mem_bank_peek)(int bank, ADDRESS addr);
+    void (*mem_bank_write)(int bank, ADDRESS addr, BYTE byte);
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
     monitor_toggle_func_t *toggle_watchpoints_func;
@@ -189,6 +198,7 @@ typedef struct monitor_interface monitor_interface_t;
 #define STATE_FNAME    1
 #define STATE_REG_ASGN 2
 #define STATE_ROL      3
+#define STATE_BNAME    4
 
 #define FIRST_SPACE e_comp_space
 #define LAST_SPACE e_disk_space
@@ -271,6 +281,7 @@ extern void mon_print_convert(int val);
 extern void mon_change_dir(char *path);
 extern void mon_execute_disk_command(char *cmd);
 extern void mon_print_help(char *cmd);
+extern void mon_bank(MEMSPACE mem, char *bank);
 
 extern unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id);
 extern void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val);

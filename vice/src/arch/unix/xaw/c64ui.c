@@ -94,6 +94,9 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Attach Action Replay image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
+    { "Attach Super Snapshot 4 image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_SUPER_SNAPSHOT, NULL },
     { "--" },
     { "Set cartridge as default", (ui_callback_t)
       default_cartridge, NULL, NULL },

@@ -54,6 +54,10 @@ extern void REGPARM2 drive0_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 drive0_read(ADDRESS addr);
 extern void drive0_toggle_watchpoints(int flag);
 
+extern BYTE drive0_bank_read(int bank, ADDRESS addr);
+extern BYTE drive0_bank_peek(int bank, ADDRESS addr);
+extern void drive0_bank_store(int bank, ADDRESS addr, BYTE val);
+
 extern void drive0_cpu_execute(void);
 
 /* drive1, device #9.  */
@@ -76,6 +80,10 @@ extern void drive1_cpu_set_sync_factor(unsigned int factor);
 extern void REGPARM2 drive1_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 drive1_read(ADDRESS addr);
 extern void drive1_toggle_watchpoints(int flag);
+
+extern BYTE drive1_bank_read(int bank, ADDRESS addr);
+extern BYTE drive1_bank_peek(int bank, ADDRESS addr);
+extern void drive1_bank_store(int bank, ADDRESS addr, BYTE val);
 
 extern void drive1_cpu_execute(void);
 

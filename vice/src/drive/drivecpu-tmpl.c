@@ -1,9 +1,3 @@
-
-/*
- * ../../../src/drive/drivecpu0.c
- * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu0.def,
- * Do not edit!
- */
 /*
  * drivecpu.c - Template file of the 6502 processor in the Commodore 1541
  * floppy disk drive.
@@ -64,57 +58,57 @@
 
 #ifdef TRACE
 /* Flag: do we trace instructions while they are executed?  */
-int drive0_traceflg;
+int mydrive_traceflg;
 #endif
 
 /* Interrupt/alarm status.  */
-struct cpu_int_status drive0_int_status;
+struct cpu_int_status mydrive_int_status;
 
-/* Value of clk for the last time drive0_cpu_execute() was called.  */
+/* Value of clk for the last time mydrive_cpu_execute() was called.  */
 static CLOCK last_clk;
 
-/* Number of cycles in excess we executed last time drive0_cpu_execute()
+/* Number of cycles in excess we executed last time mydrive_cpu_execute()
    was called.  */
 static CLOCK last_exc_cycles;
 
 /* This is non-zero each time a Read-Modify-Write instructions that accesses
    memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
-int drive0_rmw_flag = 0;
+int mydrive_rmw_flag = 0;
 
 /* Information about the last executed opcode.  */
-opcode_info_t drive0_last_opcode_info;
+opcode_info_t mydrive_last_opcode_info;
 
 /* Public copy of the registers.  */
-mos6510_regs_t drive0_cpu_regs;
+mos6510_regs_t mydrive_cpu_regs;
 
 /* Monitor interface.  */
-monitor_interface_t drive0_monitor_interface = {
+monitor_interface_t mydrive_monitor_interface = {
 
     /* Pointer to the registers of the CPU.  */
-    &drive0_cpu_regs,
+    &mydrive_cpu_regs,
 
     /* Pointer to the alarm/interrupt status.  */
-    &drive0_int_status,
+    &mydrive_int_status,
 
     /* Pointer to the machine's clock counter.  */
-    &drive_clk[0],
+    &drive_clk[mynumber],
 #if 0
     /* Pointer to a function that writes to memory.  */
-    drive0_read,
+    mydrive_read,
 
     /* Pointer to a function that reads from memory.  */
-    drive0_store,
+    mydrive_store,
 #endif
 
     0,
     NULL,
     NULL,
-    drive0_bank_read,
-    drive0_bank_peek,
-    drive0_bank_store,
+    mydrive_bank_read,
+    mydrive_bank_peek,
+    mydrive_bank_store,
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
-    drive0_toggle_watchpoints
+    mydrive_toggle_watchpoints
 
 };
 
@@ -122,60 +116,60 @@ monitor_interface_t drive0_monitor_interface = {
 
 /* This defines the memory access for the 1541 CPU.  */
 
-typedef BYTE REGPARM1 drive0_read_func_t(ADDRESS);
-typedef void REGPARM2 drive0_store_func_t(ADDRESS, BYTE);
+typedef BYTE REGPARM1 mydrive_read_func_t(ADDRESS);
+typedef void REGPARM2 mydrive_store_func_t(ADDRESS, BYTE);
 
-static drive0_read_func_t *read_func[0x41];
-static drive0_store_func_t *store_func[0x41];
-static drive0_read_func_t *read_func_watch[0x41];
-static drive0_store_func_t *store_func_watch[0x41];
-static drive0_read_func_t *read_func_nowatch[0x41];
-static drive0_store_func_t *store_func_nowatch[0x41];
+static mydrive_read_func_t *read_func[0x41];
+static mydrive_store_func_t *store_func[0x41];
+static mydrive_read_func_t *read_func_watch[0x41];
+static mydrive_store_func_t *store_func_watch[0x41];
+static mydrive_read_func_t *read_func_nowatch[0x41];
+static mydrive_store_func_t *store_func_nowatch[0x41];
 
 #define LOAD(a)		  (read_func[(a) >> 10]((ADDRESS)(a)))
-#define LOAD_ZERO(a)	  (drive0_ram[(a) & 0xff])
+#define LOAD_ZERO(a)	  (mydrive_ram[(a) & 0xff])
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
 #define STORE(a, b)	  (store_func[(a) >> 10]((ADDRESS)(a), (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drive0_ram[(a) & 0xff] = (b))
+#define STORE_ZERO(a, b)  (mydrive_ram[(a) & 0xff] = (b))
 
 
-static BYTE REGPARM1 drive0_read_ram(ADDRESS address)
+static BYTE REGPARM1 mydrive_read_ram(ADDRESS address)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
-    return drive0_ram[address & 0x1fff];
+    return mydrive_ram[address & 0x1fff];
 }
 
-static void REGPARM2 drive0_store_ram(ADDRESS address, BYTE value)
+static void REGPARM2 mydrive_store_ram(ADDRESS address, BYTE value)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
-    drive0_ram[address & 0x1fff] = value;
+    mydrive_ram[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM1 drive0_read_rom(ADDRESS address)
+static BYTE REGPARM1 mydrive_read_rom(ADDRESS address)
 {
-    return drive[0].rom[address & 0x7fff];
+    return drive[mynumber].rom[address & 0x7fff];
 }
 
-static BYTE REGPARM1 drive0_read_free(ADDRESS address)
+static BYTE REGPARM1 mydrive_read_free(ADDRESS address)
 {
     return address >> 8;
 }
 
-static void REGPARM2 drive0_store_free(ADDRESS address, BYTE value)
+static void REGPARM2 mydrive_store_free(ADDRESS address, BYTE value)
 {
     return;
 }
 
 /* This defines the watchpoint memory access for the 1541 CPU.  */
 
-static BYTE REGPARM1 drive0_read_watch(ADDRESS address)
+static BYTE REGPARM1 mydrive_read_watch(ADDRESS address)
 {
     mon_watch_push_load_addr(address, e_disk_space);
     return read_func_nowatch[address>>10](address);
 }
 
-static void REGPARM2 drive0_store_watch(ADDRESS address, BYTE value)
+static void REGPARM2 mydrive_store_watch(ADDRESS address, BYTE value)
 {
     mon_watch_push_store_addr(address, e_disk_space);
     store_func_nowatch[address>>10](address, value);
@@ -185,44 +179,44 @@ static void REGPARM2 drive0_store_watch(ADDRESS address, BYTE value)
   do {						\
       reg_pc = (addr);				\
       if (reg_pc < 0x2000) {			\
-	  bank_base = drive0_ram;		\
+	  bank_base = mydrive_ram;		\
       } else if (reg_pc >= 0x8000)		\
-	  bank_base = drive[0].rom - 0x8000;	\
+	  bank_base = drive[mynumber].rom - 0x8000;	\
       else					\
 	  bank_base = NULL;			\
   } while (0)
 
-#define pagezero	(drive0_ram)
-#define pageone		(drive0_ram + 0x100)
+#define pagezero	(mydrive_ram)
+#define pageone		(mydrive_ram + 0x100)
 
 /* ------------------------------------------------------------------------- */
 
 /* This is the external interface for memory access.  */
 
-BYTE REGPARM1 drive0_read(ADDRESS address)
+BYTE REGPARM1 mydrive_read(ADDRESS address)
 {
     return read_func[address >> 10](address);
 }
 
-void REGPARM2 drive0_store(ADDRESS address, BYTE value)
+void REGPARM2 mydrive_store(ADDRESS address, BYTE value)
 {
     store_func[address >> 10](address, value);
 }
 
 /* This is the external interface for banked memory access.  */
 
-BYTE drive0_bank_read(int bank, ADDRESS address)
+BYTE mydrive_bank_read(int bank, ADDRESS address)
 {
     return read_func[address >> 10](address);
 }
 
 /* FIXME: use peek in IO area */
-BYTE drive0_bank_peek(int bank, ADDRESS address)
+BYTE mydrive_bank_peek(int bank, ADDRESS address)
 {
     return read_func[address >> 10](address);
 }
 
-void drive0_bank_store(int bank, ADDRESS address, BYTE value)
+void mydrive_bank_store(int bank, ADDRESS address, BYTE value)
 {
     store_func[address >> 10](address, value);
 }
@@ -235,7 +229,7 @@ void drive0_bank_store(int bank, ADDRESS address, BYTE value)
 static unsigned long clk_conv_table[MAX_TICKS + 1];
 static unsigned long clk_mod_table[MAX_TICKS + 1];
 
-void drive0_cpu_set_sync_factor(unsigned int sync_factor)
+void mydrive_cpu_set_sync_factor(unsigned int sync_factor)
 {
     unsigned long i;
 
@@ -253,146 +247,146 @@ static void reset(void)
 {
     int preserve_monitor;
 
-    preserve_monitor = drive0_int_status.global_pending_int & IK_MONITOR;
+    preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
-    printf("DRIVE#8: RESET\n");
-    cpu_int_status_init(&drive0_int_status, DRIVE_NUMOFALRM,
-			DRIVE_NUMOFINT, &drive0_last_opcode_info);
-    drive0_int_status.alarm_handler[A_VIA1D0T1] = int_via1d0t1;
-    drive0_int_status.alarm_handler[A_VIA1D0T2] = int_via1d0t2;
-    drive0_int_status.alarm_handler[A_VIA2D0T1] = int_via2d0t1;
-    drive0_int_status.alarm_handler[A_VIA2D0T2] = int_via2d0t2;
-    drive0_int_status.alarm_handler[A_CIA1571D0TOD] = int_cia1571d0tod;
-    drive0_int_status.alarm_handler[A_CIA1571D0TA] = int_cia1571d0ta;
-    drive0_int_status.alarm_handler[A_CIA1571D0TB] = int_cia1571d0tb;
-    drive0_int_status.alarm_handler[A_CIA1581D0TOD] = int_cia1581d0tod;
-    drive0_int_status.alarm_handler[A_CIA1581D0TA] = int_cia1581d0ta;
-    drive0_int_status.alarm_handler[A_CIA1581D0TB] = int_cia1581d0tb;
+    printf("MYIDENTIFICATION: RESET\n");
+    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFALRM,
+			DRIVE_NUMOFINT, &mydrive_last_opcode_info);
+    mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
+    mydrive_int_status.alarm_handler[A_MYVIA1T2] = int_myvia1t2;
+    mydrive_int_status.alarm_handler[A_MYVIA2T1] = int_myvia2t1;
+    mydrive_int_status.alarm_handler[A_MYVIA2T2] = int_myvia2t2;
+    mydrive_int_status.alarm_handler[A_MYCIA1571TOD] = int_mycia1571tod;
+    mydrive_int_status.alarm_handler[A_MYCIA1571TA] = int_mycia1571ta;
+    mydrive_int_status.alarm_handler[A_MYCIA1571TB] = int_mycia1571tb;
+    mydrive_int_status.alarm_handler[A_MYCIA1581TOD] = int_mycia1581tod;
+    mydrive_int_status.alarm_handler[A_MYCIA1581TA] = int_mycia1581ta;
+    mydrive_int_status.alarm_handler[A_MYCIA1581TB] = int_mycia1581tb;
 
-    drive_clk[0] = 6;
-    reset_via1d0();
-    reset_via2d0();
-    reset_cia1571d0();
-    reset_cia1581d0();
+    drive_clk[mynumber] = 6;
+    reset_myvia1();
+    reset_myvia2();
+    reset_mycia1571();
+    reset_mycia1581();
     if (preserve_monitor)
-	monitor_trap_on(&drive0_int_status);
+	monitor_trap_on(&mydrive_int_status);
 }
 
-static void drive0_mem_init(int type)
+static void mydrive_mem_init(int type)
 {
     int i;
 
     for (i = 0; i < 0x41; i++) {
-	read_func_watch[i] = drive0_read_watch;
-	store_func_watch[i] = drive0_store_watch;
-	read_func_nowatch[i] = drive0_read_free;
-	store_func_nowatch[i] = drive0_store_free;
+	read_func_watch[i] = mydrive_read_watch;
+	store_func_watch[i] = mydrive_store_watch;
+	read_func_nowatch[i] = mydrive_read_free;
+	store_func_nowatch[i] = mydrive_store_free;
     }
 
     /* Setup firmware ROM.  */
     if (type == DRIVE_TYPE_1541)
         for (i = 0x30; i < 0x40; i++)
-            read_func_nowatch[i] = drive0_read_rom;
+            read_func_nowatch[i] = mydrive_read_rom;
 
     if (type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
         for (i = 0x20; i < 0x40; i++)
-            read_func_nowatch[i] = drive0_read_rom;
+            read_func_nowatch[i] = mydrive_read_rom;
 
     /* Setup drive RAM.  */
-    read_func_nowatch[0x0] = read_func_nowatch[0x1] = drive0_read_ram;
-    store_func_nowatch[0x0] = store_func_nowatch[0x1] = drive0_store_ram;
-    read_func_nowatch[0x40] = drive0_read_ram;
-    store_func_nowatch[0x40] = drive0_store_ram;
+    read_func_nowatch[0x0] = read_func_nowatch[0x1] = mydrive_read_ram;
+    store_func_nowatch[0x0] = store_func_nowatch[0x1] = mydrive_store_ram;
+    read_func_nowatch[0x40] = mydrive_read_ram;
+    store_func_nowatch[0x40] = mydrive_store_ram;
 
     if (type == DRIVE_TYPE_1581)
         for (i = 0x0; i < 0x8; i++) {
-            read_func_nowatch[i] = drive0_read_ram;
-            store_func_nowatch[i] = drive0_store_ram;
+            read_func_nowatch[i] = mydrive_read_ram;
+            store_func_nowatch[i] = mydrive_store_ram;
         }
 
     /* Setup 1541 and 1571 VIAs.  */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571) {
-        read_func_nowatch[0x6] = read_via1d0;
-        store_func_nowatch[0x6] = store_via1d0;
-        read_func_nowatch[0x7] = read_via2d0;
-        store_func_nowatch[0x7] = store_via2d0;
+        read_func_nowatch[0x6] = read_myvia1;
+        store_func_nowatch[0x6] = store_myvia1;
+        read_func_nowatch[0x7] = read_myvia2;
+        store_func_nowatch[0x7] = store_myvia2;
     }
 
     /* Setup 1571 CIA.  */
     if (type == DRIVE_TYPE_1571) {
-        read_func_nowatch[0x10] = read_cia1571d0;
-        store_func_nowatch[0x10] = store_cia1571d0;
+        read_func_nowatch[0x10] = read_mycia1571;
+        store_func_nowatch[0x10] = store_mycia1571;
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
-        read_func_nowatch[0x10] = read_cia1581d0;
-        store_func_nowatch[0x10] = store_cia1581d0;
+        read_func_nowatch[0x10] = read_mycia1581;
+        store_func_nowatch[0x10] = store_mycia1581;
     }
 
-    memcpy(read_func, read_func_nowatch, sizeof(drive0_read_func_t *) * 0x41);
-    memcpy(store_func, store_func_nowatch, sizeof(drive0_store_func_t *) * 0x41);
+    memcpy(read_func, read_func_nowatch, sizeof(mydrive_read_func_t *) * 0x41);
+    memcpy(store_func, store_func_nowatch, sizeof(mydrive_store_func_t *) * 0x41);
 }
 
-void drive0_toggle_watchpoints(int flag)
+void mydrive_toggle_watchpoints(int flag)
 {
     if (flag) {
         memcpy(read_func, read_func_watch,
-               sizeof(drive0_read_func_t *) * 0x41);
+               sizeof(mydrive_read_func_t *) * 0x41);
         memcpy(store_func, store_func_watch,
-               sizeof(drive0_store_func_t *) * 0x41);
+               sizeof(mydrive_store_func_t *) * 0x41);
     } else {
         memcpy(read_func, read_func_nowatch,
-               sizeof(drive0_read_func_t *) * 0x41);
+               sizeof(mydrive_read_func_t *) * 0x41);
         memcpy(store_func, store_func_nowatch,
-               sizeof(drive0_store_func_t *) * 0x41);
+               sizeof(mydrive_store_func_t *) * 0x41);
     }
 }
 
-void drive0_cpu_reset(void)
+void mydrive_cpu_reset(void)
 {
     int preserve_monitor;
 
-    drive_clk[0] = 0;
+    drive_clk[mynumber] = 0;
     last_clk = 0;
     last_exc_cycles = 0;
 
-    preserve_monitor = drive0_int_status.global_pending_int & IK_MONITOR;
+    preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
-    cpu_int_status_init(&drive0_int_status,
+    cpu_int_status_init(&mydrive_int_status,
 			DRIVE_NUMOFALRM, DRIVE_NUMOFINT,
-			&drive0_last_opcode_info);
+			&mydrive_last_opcode_info);
 
     if (preserve_monitor)
-	monitor_trap_on(&drive0_int_status);
+	monitor_trap_on(&mydrive_int_status);
 
-    drive0_trigger_reset();
+    mydrive_trigger_reset();
 }
 
-void drive0_cpu_init(int type)
+void mydrive_cpu_init(int type)
 {
-    drive0_mem_init(type);
-    drive0_cpu_reset();
+    mydrive_mem_init(type);
+    mydrive_cpu_reset();
 }
 
-inline void drive0_cpu_wake_up(void)
+inline void mydrive_cpu_wake_up(void)
 {
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
-    if (clk - last_clk > 0xffffff && drive_clk[0] > 934639) {
+    if (clk - last_clk > 0xffffff && drive_clk[mynumber] > 934639) {
 	printf("1541: skipping cycles.\n");
 	last_clk = clk;
     }
 }
 
-inline void drive0_cpu_sleep(void)
+inline void mydrive_cpu_sleep(void)
 {
     /* Currently does nothing.  But we might need this hook some day.  */
 }
 
 /* Make sure the 1541 clock counters never overflow; return nonzero if they
    have been decremented to prevent overflow.  */
-CLOCK drive0_cpu_prevent_clk_overflow(CLOCK sub)
+CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
 {
     CLOCK our_sub;
 
@@ -403,12 +397,12 @@ CLOCK drive0_cpu_prevent_clk_overflow(CLOCK sub)
        going to overflow.  The `baseval' is 1 because we don't need the
        number of cycles subtracted to be multiple of a particular value
        (unlike the main CPU).  */
-    our_sub = prevent_clk_overflow(&drive0_int_status, &drive_clk[0], 1);
+    our_sub = prevent_clk_overflow(&mydrive_int_status, &drive_clk[mynumber], 1);
     if (our_sub > 0) {
-	via1d0_prevent_clk_overflow(sub);
-	via2d0_prevent_clk_overflow(sub);
-	cia1571d0_prevent_clk_overflow(sub);
-	cia1581d0_prevent_clk_overflow(sub);
+	myvia1_prevent_clk_overflow(sub);
+	myvia2_prevent_clk_overflow(sub);
+	mycia1571_prevent_clk_overflow(sub);
+	mycia1581_prevent_clk_overflow(sub);
     }
 
     /* Let the caller know what we have done.  */
@@ -419,7 +413,7 @@ CLOCK drive0_cpu_prevent_clk_overflow(CLOCK sub)
 
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
-void drive0_cpu_execute(void)
+void mydrive_cpu_execute(void)
 {
     static BYTE *bank_base;
     static CLOCK cycle_accum;
@@ -430,16 +424,16 @@ void drive0_cpu_execute(void)
    exporting/importing and we just use global variables.  This also makes it
    possible to let the monitor access the CPU status without too much
    headache.   */
-#define reg_a   drive0_cpu_regs.reg_a
-#define reg_x   drive0_cpu_regs.reg_x
-#define reg_y   drive0_cpu_regs.reg_y
-#define reg_pc  drive0_cpu_regs.reg_pc
-#define reg_sp  drive0_cpu_regs.reg_sp
-#define reg_p   drive0_cpu_regs.reg_p
-#define flag_z  drive0_cpu_regs.flag_z
-#define flag_n  drive0_cpu_regs.flag_n
+#define reg_a   mydrive_cpu_regs.reg_a
+#define reg_x   mydrive_cpu_regs.reg_x
+#define reg_y   mydrive_cpu_regs.reg_y
+#define reg_pc  mydrive_cpu_regs.reg_pc
+#define reg_sp  mydrive_cpu_regs.reg_sp
+#define reg_p   mydrive_cpu_regs.reg_p
+#define flag_z  mydrive_cpu_regs.flag_z
+#define flag_n  mydrive_cpu_regs.flag_n
 
-    drive0_cpu_wake_up();
+    mydrive_cpu_wake_up();
 
     if (old_reg_pc != reg_pc) {
 	/* Update `bank_base'.  */
@@ -453,12 +447,12 @@ void drive0_cpu_execute(void)
 	CLOCK stop_clk;
 
 	if (cycles > MAX_TICKS) {
-	    stop_clk = (drive_clk[0] + clk_conv_table[MAX_TICKS]
+	    stop_clk = (drive_clk[mynumber] + clk_conv_table[MAX_TICKS]
 			- last_exc_cycles);
 	    cycle_accum += clk_mod_table[MAX_TICKS];
 	    cycles -= MAX_TICKS;
 	} else {
-	    stop_clk = (drive_clk[0] + clk_conv_table[cycles]
+	    stop_clk = (drive_clk[mynumber] + clk_conv_table[cycles]
 			- last_exc_cycles);
 	    cycle_accum += clk_mod_table[cycles];
 	    cycles = 0;
@@ -469,7 +463,7 @@ void drive0_cpu_execute(void)
 	    stop_clk++;
 	}
 
-	while (drive_clk[0] < stop_clk) {
+	while (drive_clk[mynumber] < stop_clk) {
 
 #ifdef IO_AREA_WARNING
 #warning IO_AREA_WARNING
@@ -481,13 +475,13 @@ void drive0_cpu_execute(void)
 
 /* Include the 6502/6510 CPU emulation core.  */
 
-#define CLK drive_clk[0]
-#define RMW_FLAG drive0_rmw_flag
-#define PAGE_ONE (drive0_ram + 0x100)
-#define LAST_OPCODE_INFO (drive0_last_opcode_info)
-#define TRACEFLG drive0_traceflg
+#define CLK drive_clk[mynumber]
+#define RMW_FLAG mydrive_rmw_flag
+#define PAGE_ONE (mydrive_ram + 0x100)
+#define LAST_OPCODE_INFO (mydrive_last_opcode_info)
+#define TRACEFLG mydrive_traceflg
 
-#define CPU_INT_STATUS drive0_int_status
+#define CPU_INT_STATUS mydrive_int_status
 
 /* FIXME:  We should activate the monitor here.  */
 #define JAM()                                                           \
@@ -499,22 +493,22 @@ void drive0_cpu_execute(void)
 #define ROM_TRAP_ALLOWED() 1
 
 #define ROM_TRAP_HANDLER() \
-    drive0_trap_handler()
+    mydrive_trap_handler()
 
 #define CALLER e_disk_space
 
-#define _drive_set_byte_ready(value) drive_set_byte_ready(value, 0)
+#define _drive_set_byte_ready(value) drive_set_byte_ready(value, mynumber)
 
-#define _drive_byte_ready() drive_byte_ready(0)
+#define _drive_byte_ready() drive_byte_ready(mynumber)
 
 #include "6510core.c"
 
 	}
 
-        last_exc_cycles = drive_clk[0] - stop_clk;
+        last_exc_cycles = drive_clk[mynumber] - stop_clk;
     }
 
     last_clk = clk;
     old_reg_pc = reg_pc;
-    drive0_cpu_sleep();
+    mydrive_cpu_sleep();
 }
