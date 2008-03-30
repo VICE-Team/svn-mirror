@@ -246,7 +246,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
-    if (key == XK_Page_Up) {	/* Restore */
+    if (key == XK_Page_Up || key == XK_Prior) {	/* Restore */
 	int retfl = 0;
 	if (report->type == KeyPress) {
 	    retfl = machine_set_restore_key(1);
