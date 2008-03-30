@@ -407,7 +407,8 @@ raster_t *crtc_init(void)
     raster_set_title (raster, title);
     free(title);
 
-    raster_realize (raster);
+    if (raster_realize(raster) < 0)
+        return NULL;
 
     crtc_update_chargen_rel();
     crtc_update_disp_char();
@@ -476,8 +477,7 @@ int crtc_load_palette (const char *name)
       return -1;
     }
 
-  raster_set_palette (&crtc.raster, palette);
-  return 0;
+  return raster_set_palette (&crtc.raster, palette);
 }
 
 

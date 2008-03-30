@@ -113,7 +113,8 @@ static int init_raster(void)
     raster_set_title(raster, title);
     free(title);
 
-    raster_realize(raster);
+    if (raster_realize(raster) < 0)
+        return -1;
 
     raster->border_color = 0;
 

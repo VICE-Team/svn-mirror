@@ -234,7 +234,8 @@ static int init_raster (void)
     raster_set_title (raster, title);
     free (title);
 
-    raster_realize (raster);
+    if (raster_realize(raster) < 0)
+        return -1;
 
     raster->display_ystart = vic_ii.row_25_start_line;
     raster->display_ystop = vic_ii.row_25_stop_line;
@@ -1380,8 +1381,7 @@ int vic_ii_load_palette (const char *name)
       return -1;
     }
 
-  raster_set_palette (&vic_ii.raster, palette);
-  return 0;
+  return raster_set_palette (&vic_ii.raster, palette);
 }
 
 /* Set proper functions and constants for the current video settings.  */

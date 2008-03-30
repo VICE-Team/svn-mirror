@@ -1661,15 +1661,16 @@ void raster_force_repaint (raster_t *raster)
                                 RASTER_PIXEL (raster, 0));
 }
 
-void raster_set_palette (raster_t *raster,
+int raster_set_palette (raster_t *raster,
                     palette_t *palette)
 {
 
   if (raster->viewport.canvas != NULL)
     {
-      canvas_set_palette (raster->viewport.canvas,
+      if (canvas_set_palette (raster->viewport.canvas,
                           palette,
-                          raster->pixel_table.sing);
+                          raster->pixel_table.sing) < 0)
+          return -1;
       update_pixel_tables (raster);
     }
 
@@ -1682,6 +1683,8 @@ void raster_set_palette (raster_t *raster,
     raster->refresh_tables();
 
   raster_force_repaint (raster);
+
+  return 0;
 }
 
 void raster_set_title (raster_t *raster,

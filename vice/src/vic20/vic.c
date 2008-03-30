@@ -152,7 +152,8 @@ static int init_raster(void)
     raster_set_title (raster, title);
     free(title);
 
-    raster_realize (raster);
+    if (raster_realize(raster) < 0)
+        return -1;
 
     raster->display_ystart = VIC_FIRST_DISPLAYED_LINE;
     raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
@@ -232,8 +233,7 @@ int vic_load_palette (const char *name)
       return -1;
     }
 
-  raster_set_palette (&vic.raster, palette);
-  return 0;
+  return raster_set_palette (&vic.raster, palette);
 }
 
 /* This hook is called whenever the screen parameters (eg. window size) are
