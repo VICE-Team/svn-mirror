@@ -272,6 +272,9 @@ struct vic_ii_s {
     /* Extended background colors (1, 2 and 3).  */
     int ext_background_color[3];
 
+    /* Current video mode.  */
+    int video_mode;
+
     /* Flag: are we in idle state? */
     int idle_state;
 

@@ -919,14 +919,27 @@ inline static void store_ext_background(ADDRESS addr, BYTE value)
     if (vic_ii.regs[addr] == value)
         return;
 
+    vic_ii.regs[addr] = value;
+
     char_num = VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(maincpu_clk));
 
+    if (vic_ii.video_mode == VIC_II_EXTENDED_TEXT_MODE) {
+        raster_add_int_change_background
+            (&vic_ii.raster,
+            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
+            &vic_ii.raster.overscan_background_color,
+            vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
+        raster_add_int_change_background
+            (&vic_ii.raster,
+            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
+            &vic_ii.raster.xsmooth_color,
+            vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
+    }
+
     raster_add_int_change_foreground(&vic_ii.raster,
-                                     char_num,
+                                     char_num - 1,
                                      &vic_ii.ext_background_color[addr - 0x22],
                                      value);
-
-    vic_ii.regs[addr] = value;
 }
 
 inline static void store_d025(ADDRESS addr, BYTE value)

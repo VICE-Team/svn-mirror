@@ -532,6 +532,7 @@ raster_t *vic_ii_init(void)
 
     vic_ii_powerup();
 
+    vic_ii.video_mode = -1;
     vic_ii_update_video_mode(0);
     vic_ii_update_memory_ptrs(0);
 
@@ -1003,13 +1004,12 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
    the VIC-II chip.  */
 void vic_ii_update_video_mode(unsigned int cycle)
 {
-    static int old_video_mode = -1;
     int new_video_mode;
 
     new_video_mode = ((vic_ii.regs[0x11] & 0x60)
                      | (vic_ii.regs[0x16] & 0x10)) >> 4;
 
-    if (new_video_mode != old_video_mode) {
+    if (new_video_mode != vic_ii.video_mode) {
         switch (new_video_mode) {
           case VIC_II_ILLEGAL_TEXT_MODE:
           case VIC_II_ILLEGAL_BITMAP_MODE_1:
@@ -1073,7 +1073,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
             pos = VIC_II_RASTER_CHAR(cycle);
 
             /* Multicolor changes are propagated one cycle faster. */
-            if (((new_video_mode & 1) ^ (old_video_mode & 1))
+            if (((new_video_mode & 1) ^ (vic_ii.video_mode & 1))
                 && cycle > 0)
                 pos--;
 
@@ -1093,7 +1093,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
             }
         }
 
-        old_video_mode = new_video_mode;
+        vic_ii.video_mode = new_video_mode;
     }
 
 #ifdef VIC_II_VMODE_DEBUG
