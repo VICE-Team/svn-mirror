@@ -39,6 +39,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "res.h"
 #include "resources.h"
@@ -456,6 +457,20 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     return UI_BUTTON_NONE;
 }
 
+static void mon_trap(ADDRESS addr, void *unused_data)
+{
+    mon(addr);
+}
+
+static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+    ui_snapshot_save_dialog(main_hwnd);
+}
+
+static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+    ui_snapshot_load_dialog(main_hwnd);
+}
 
 /* ------------------------------------------------------------------------ */
 
@@ -613,11 +628,21 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         }
         break;
       case IDM_SNAPSHOT_LOAD:
-        ui_snapshot_load_dialog(main_hwnd);
+        if (1 /* !ui_emulation_is_paused()*/ )
+            maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+        else
+            load_snapshot_trap(0, 0);
+        /* ui_snapshot_load_dialog(main_hwnd);*/
         break;
       case IDM_SNAPSHOT_SAVE:
-        ui_snapshot_save_dialog(main_hwnd);
+        maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
         break;
+      case IDM_MONITOR:
+          if (1 /* !ui_emulation_is_paused()*/ )
+              maincpu_trigger_trap(mon_trap, (void *) 0);
+          else
+              mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
+              break;
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         if (MessageBox(main_hwnd, "Do you really want to reset the emulated machine?",
