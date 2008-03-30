@@ -33,27 +33,30 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "sysfile.h"
 #include "types.h"
 #include "utils.h"
 
+
 static log_t palette_log = LOG_ERR;
+
 
 palette_t *palette_create(unsigned int num_entries, const char *entry_names[])
 {
     palette_t *p;
     unsigned int i;
 
-    p = (palette_t *)xmalloc(sizeof(palette_t));
+    p = (palette_t *)lib_malloc(sizeof(palette_t));
 
     p->num_entries = num_entries;
-    p->entries = xcalloc(num_entries, sizeof(palette_entry_t));
+    p->entries = lib_calloc(num_entries, sizeof(palette_entry_t));
 
     if (entry_names != NULL)
         for (i = 0; i < num_entries; i++)
-            p->entries[i].name = stralloc(entry_names[i]);
+            p->entries[i].name = lib_stralloc(entry_names[i]);
 
     return p;
 }
@@ -212,7 +215,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
     if (f == NULL) {
         /* Try to add the extension.  */
-        char *tmp = stralloc(file_name);
+        char *tmp = lib_stralloc(file_name);
 
         util_add_extension(&tmp, "vpl");
         f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);

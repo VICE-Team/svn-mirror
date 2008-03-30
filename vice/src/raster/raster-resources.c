@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "raster.h"
 #include "resources.h"
 #include "types.h"
@@ -78,7 +79,8 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
     raster_resource_chip_t *raster_resource_chip;
 
     raster_resource_chip
-        = (raster_resource_chip_t *)xcalloc(1, sizeof(raster_resource_chip_t));
+        = (raster_resource_chip_t *)lib_calloc(
+        1, sizeof(raster_resource_chip_t));
 
     raster_resource_chip->raster = raster;
 

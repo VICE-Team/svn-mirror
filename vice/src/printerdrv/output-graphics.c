@@ -33,13 +33,13 @@
 #include "log.h"
 #include "cmdline.h"
 #include "gfxoutput.h"
+#include "lib.h"
 #include "output-select.h"
 #include "output-graphics.h"
 #include "output.h"
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "utils.h"
 #include "types.h"
 
 
@@ -144,7 +144,7 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].screenshot.palette = output_parameter->palette;
 
     free(output_gfx[prnr].line);
-    output_gfx[prnr].line = (BYTE *)xmalloc(output_parameter->maxcol);
+    output_gfx[prnr].line = (BYTE *)lib_malloc(output_parameter->maxcol);
     memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE, output_parameter->maxcol);
 
     output_gfx[prnr].line_pos = 0;

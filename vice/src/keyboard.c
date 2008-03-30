@@ -42,6 +42,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -381,7 +382,7 @@ static void keyboard_keyconvmap_alloc(void)
 {
 #define KEYCONVMAP_SIZE_MIN 150
 
-    keyconvmap = xmalloc(KEYCONVMAP_SIZE_MIN * sizeof(keyboard_conv_t));
+    keyconvmap = lib_malloc(KEYCONVMAP_SIZE_MIN * sizeof(keyboard_conv_t));
     keyc_num = 0;
     keyc_mem = KEYCONVMAP_SIZE_MIN - 1;
     keyconvmap[0].sym = 0;
@@ -395,8 +396,8 @@ static void keyboard_keyconvmap_free(void)
 static void keyboard_keyconvmap_realloc(void)
 {
     keyc_mem += keyc_mem / 2;
-    keyconvmap = (keyboard_conv_t *)xrealloc(keyconvmap, (keyc_mem + 1)
-                                             * sizeof(keyboard_conv_t));
+    keyconvmap = (keyboard_conv_t *)lib_realloc(keyconvmap, (keyc_mem + 1)
+                                                * sizeof(keyboard_conv_t));
 }
 
 /*-----------------------------------------------------------------------*/

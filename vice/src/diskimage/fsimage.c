@@ -34,9 +34,9 @@
 #include "fsimage-gcr.h"
 #include "fsimage-probe.h"
 #include "fsimage.h"
+#include "lib.h"
 #include "log.h"
 #include "types.h"
-#include "utils.h"
 #include "x64.h"
 #include "zfile.h"
 
@@ -77,7 +77,7 @@ void fsimage_media_create(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)xcalloc(1, sizeof(fsimage_t));
+    fsimage = (fsimage_t *)lib_calloc(1, sizeof(fsimage_t));
 
     image->media = (void *)fsimage;
 }

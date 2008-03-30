@@ -33,6 +33,7 @@
 #include "diskimage.h"
 #include "fsimage-gcr.h"
 #include "fsimage.h"
+#include "lib.h"
 #include "log.h"
 #include "types.h"
 #include "utils.h"
@@ -125,7 +126,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D64;
     image->tracks = checkimage_tracks;
     if (checkimage_errorinfo) {
-        image->error_info = (BYTE *)xcalloc(1, MAX_BLOCKS_1541);
+        image->error_info = (BYTE *)lib_calloc(1, MAX_BLOCKS_1541);
         if (fseek(fsimage->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0)
             return 0;
         if (fread(image->error_info, 1, checkimage_blocks, fsimage->fd)

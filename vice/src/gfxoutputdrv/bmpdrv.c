@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "gfxoutput.h"
 #include "palette.h"
@@ -120,7 +121,7 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     if (fwrite(binfo, sizeof(binfo), 1, screenshot->gfxoutputdrv_data->fd) < 1)
         return -1;
 
-    bcolor = (BYTE *)xmalloc(screenshot->palette->num_entries * 4);
+    bcolor = (BYTE *)lib_malloc(screenshot->palette->num_entries * 4);
 
     for (i = 0; i < screenshot->palette->num_entries; i++) {
         bcolor[i * 4] = screenshot->palette->entries[i].blue;
@@ -148,7 +149,7 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    sdata = (gfxoutputdrv_data_t *)xmalloc(sizeof(gfxoutputdrv_data_t));
+    sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
 
     screenshot->gfxoutputdrv_data = sdata;
 
@@ -184,13 +185,13 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    sdata->data = (BYTE *)xmalloc(screenshot->width);
+    sdata->data = (BYTE *)lib_malloc(screenshot->width);
     if (sdata->bpp == 4) {
-        sdata->bmp_data = (BYTE *)xmalloc(screenshot->height
-                                          * screenshot->width / 2);
+        sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                             * screenshot->width / 2);
     } else {
-        sdata->bmp_data = (BYTE *)xmalloc(screenshot->height
-                                          * screenshot->width);
+        sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                             * screenshot->width);
     }
 
     return 0;

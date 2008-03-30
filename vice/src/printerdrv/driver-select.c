@@ -32,6 +32,7 @@
 #include "cmdline.h"
 #include "driver-select.h"
 #include "drv-ascii.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
@@ -129,7 +130,7 @@ void driver_select_register(driver_select_t *driver_select)
     while (prev != NULL && prev->next != NULL)
         prev = prev->next;
 
-    list = (driver_select_list_t *)xmalloc(sizeof(driver_select_list_t));
+    list = (driver_select_list_t *)lib_malloc(sizeof(driver_select_list_t));
     memcpy(&(list->driver_select), driver_select, sizeof(driver_select_t));
     list->next = NULL;
 

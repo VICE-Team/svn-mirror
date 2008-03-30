@@ -178,6 +178,10 @@ SOURCE="..\..\keyboard.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\lib.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\log.c"
 # End Source File
 # Begin Source File

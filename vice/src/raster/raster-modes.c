@@ -29,8 +29,8 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "raster-modes.h"
-#include "utils.h"
 
 
 void raster_modes_init(raster_modes_t *modes, unsigned int num_modes)
@@ -39,7 +39,7 @@ void raster_modes_init(raster_modes_t *modes, unsigned int num_modes)
 
     modes->num_modes = num_modes;
     modes->idle_mode = 0;
-    modes->modes = xmalloc(sizeof(*modes->modes) * num_modes);
+    modes->modes = lib_malloc(sizeof(*modes->modes) * num_modes);
 
     for (i = 0; i < num_modes; i++) {
         raster_modes_def_t *mode;
@@ -58,7 +58,7 @@ raster_modes_t *raster_modes_new(unsigned int num_modes)
 {
     raster_modes_t *new_mode;
 
-    new_mode = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
+    new_mode = (raster_modes_t *)lib_malloc(sizeof(raster_modes_t));
 
     raster_modes_init(new_mode, num_modes);
 

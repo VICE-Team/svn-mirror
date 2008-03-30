@@ -36,6 +36,7 @@
 #include "fsimage-create.h"
 #include "fsimage.h"
 #include "gcr.h"
+#include "lib.h"
 #include "log.h"
 #include "types.h"
 #include "utils.h"
@@ -162,14 +163,14 @@ int fsimage_create(const char *name, unsigned int type)
         return -1;
     }
 
-    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
+    image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
+    fsimage = (fsimage_t *)lib_malloc(sizeof(fsimage_t));
 
 
     image->media = fsimage;
     image->device = DISK_IMAGE_DEVICE_FS;
 
-    fsimage->name = stralloc(name);
+    fsimage->name = lib_stralloc(name);
     fsimage->fd = fopen(name, MODE_WRITE);
 
     if (fsimage->fd == NULL) {

@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "datasette.h"
+#include "lib.h"
 #include "tap.h"
 #include "tape.h"
 #include "types.h"
@@ -80,7 +81,7 @@ static tap_t *tap_new(void)
 {
     tap_t *tap;
 
-    tap = xcalloc(1, sizeof(tap_t));
+    tap = lib_calloc(1, sizeof(tap_t));
 
     tap->file_name = NULL;
     tap->counter = 0;
@@ -131,8 +132,8 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
         return NULL;
     }
 
-    new->file_name = stralloc(name);
-    new->tap_file_record = xcalloc(1, sizeof(tape_file_record_t));
+    new->file_name = lib_stralloc(name);
+    new->tap_file_record = calloc(1, sizeof(tape_file_record_t));
 
     return new;
 }

@@ -35,6 +35,7 @@
 #include "charset.h"
 #include "diskcontents.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "tapecontents.h"
 #include "types.h"
 #include "utils.h"
@@ -46,7 +47,7 @@ image_contents_t *image_contents_new(void)
 {
     image_contents_t *newimg;
 
-    newimg = xcalloc(1, sizeof(image_contents_t));
+    newimg = lib_calloc(1, sizeof(image_contents_t));
 
     newimg->blocks_free = -1;
     newimg->file_list = NULL;
@@ -83,7 +84,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
     image_contents_screencode_t *image_contents_screencode, *screencode_ptr;
     image_contents_file_list_t *p;
 
-    image_contents_screencode = (image_contents_screencode_t *)xmalloc
+    image_contents_screencode = (image_contents_screencode_t *)lib_malloc
                                 (sizeof(image_contents_screencode_t));
 
     screencode_ptr = image_contents_screencode;
@@ -102,7 +103,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
 #ifndef __OS2__
     if (contents->file_list == NULL) {
         charset_petcii_to_screencode_line((BYTE *)"(eMPTY IMAGE.)", &buf, &len);
-        screencode_ptr->next = (image_contents_screencode_t *)xmalloc
+        screencode_ptr->next = (image_contents_screencode_t *)lib_malloc
                                (sizeof(image_contents_screencode_t));
         screencode_ptr = screencode_ptr->next;
 
@@ -130,7 +131,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
         memcpy(&rawline[7 + IMAGE_CONTENTS_FILE_NAME_LEN + 2], p->type, 5);
         charset_petcii_to_screencode_line(rawline, &buf, &len);
 
-        screencode_ptr->next = (image_contents_screencode_t *)xmalloc
+        screencode_ptr->next = (image_contents_screencode_t *)lib_malloc
                                (sizeof(image_contents_screencode_t));
         screencode_ptr = screencode_ptr->next;
 
@@ -143,7 +144,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
         sprintf((char *)rawline, "%d BLOCKS FREE.", contents->blocks_free);
         charset_petcii_to_screencode_line(rawline, &buf, &len);
 
-        screencode_ptr->next = (image_contents_screencode_t *)xmalloc
+        screencode_ptr->next = (image_contents_screencode_t *)lib_malloc
                                (sizeof(image_contents_screencode_t));
         screencode_ptr = screencode_ptr->next;
 
@@ -171,7 +172,7 @@ char *image_contents_to_string(image_contents_t *contents,
     util_bufcat(buf, &buf_size, &max_buf_size, ((BYTE *)s), (n))
 
     max_buf_size = 4096;
-    buf = (BYTE *)xmalloc(max_buf_size);
+    buf = (BYTE *)lib_malloc(max_buf_size);
     buf_size = 0;
 
     buf = BUFCAT("0 \"", 3);

@@ -34,8 +34,8 @@
 #include "diskcontents-iec.h"
 #include "diskcontents.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "serial.h"
-#include "utils.h"
 
 
 image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
@@ -82,7 +82,7 @@ char *diskcontents_filename_by_number(const char *filename, unsigned int unit,
             file_index--;
         }
         if (current != NULL) {
-            s = stralloc((char *)(current->name));
+            s = lib_stralloc((char *)(current->name));
         }
     }
 

@@ -33,6 +33,7 @@
 
 #include "archdep.h"
 #include "cmdline.h"
+#include "lib.h"
 #include "resources.h"
 #include "types.h"
 #include "uicmdline.h"
@@ -50,7 +51,7 @@ int cmdline_init(void)
 
     num_allocated_options = 100;
     num_options = 0;
-    options = (cmdline_option_t *)xmalloc(sizeof(cmdline_option_t)
+    options = (cmdline_option_t *)lib_malloc(sizeof(cmdline_option_t)
               * num_allocated_options);
 
     return 0;
@@ -64,7 +65,7 @@ int cmdline_register_options(const cmdline_option_t *c)
     for (; c->name != NULL; c++, p++) {
         if (num_allocated_options <= num_options) {
             num_allocated_options *= 2;
-            options = (cmdline_option_t *)xrealloc(options,
+            options = (cmdline_option_t *)lib_realloc(options,
                       (sizeof(cmdline_option_t) * num_allocated_options));
             p = options + num_options;
         }
@@ -203,7 +204,7 @@ char *cmdline_options_string(void)
     char *cmdline_string, *new_cmdline_string;
     char *add_to_options1, *add_to_options2, *add_to_options3;
 
-    cmdline_string = stralloc("\n");
+    cmdline_string = lib_stralloc("\n");
 
     for (i = 0; i < num_options; i++) {
         add_to_options1 = xmsprintf("%s", options[i].name);

@@ -32,9 +32,9 @@
 #include "ciad.h"
 #include "drivemem.h"
 #include "drivetypes.h"
+#include "lib.h"
 #include "memiec.h"
 #include "types.h"
-#include "utils.h"
 #include "wd1770.h"
 
 
@@ -132,7 +132,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram2_enabled) {
             if (drv->drive_ptr->drive_ram_expand2 != NULL)
                 free(drv->drive_ptr->drive_ram_expand2);
-            drv->drive_ptr->drive_ram_expand2 = xcalloc(1, 0x2000);
+            drv->drive_ptr->drive_ram_expand2 = lib_calloc(1, 0x2000);
             for (i = 0x20; i < 0x40; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram2;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram2;
@@ -141,7 +141,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram4_enabled) {
             if (drv->drive_ptr->drive_ram_expand4 != NULL)
                 free(drv->drive_ptr->drive_ram_expand4);
-            drv->drive_ptr->drive_ram_expand4 = xcalloc(1, 0x2000);
+            drv->drive_ptr->drive_ram_expand4 = lib_calloc(1, 0x2000);
             for (i = 0x40; i < 0x60; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram4;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram4;
@@ -150,7 +150,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram6_enabled) {
             if (drv->drive_ptr->drive_ram_expand6 != NULL)
                 free(drv->drive_ptr->drive_ram_expand6);
-            drv->drive_ptr->drive_ram_expand6 = xcalloc(1, 0x2000);
+            drv->drive_ptr->drive_ram_expand6 = lib_calloc(1, 0x2000);
             for (i = 0x60; i < 0x80; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram6;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram6;
@@ -159,7 +159,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram8_enabled) {
             if (drv->drive_ptr->drive_ram_expand8 != NULL)
                 free(drv->drive_ptr->drive_ram_expand8);
-            drv->drive_ptr->drive_ram_expand8 = xcalloc(1, 0x2000);
+            drv->drive_ptr->drive_ram_expand8 = lib_calloc(1, 0x2000);
             for (i = 0x80; i < 0xa0; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram8;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram8;
@@ -168,7 +168,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         if (drv->drive_ptr->drive_rama_enabled) {
             if (drv->drive_ptr->drive_ram_expanda != NULL)
                 free(drv->drive_ptr->drive_ram_expanda);
-            drv->drive_ptr->drive_ram_expanda = xcalloc(1, 0x2000);
+            drv->drive_ptr->drive_ram_expanda = lib_calloc(1, 0x2000);
             for (i = 0xa0; i < 0xc0; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_rama;
                 drv->cpud.store_func_nowatch[i] = drive_store_rama;

@@ -37,8 +37,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "sound.h"
-#include "utils.h"
 
 #include "sounddrv.h"
 
@@ -332,7 +332,7 @@ static int dart_init(const char *param, int *speed,
      The pBufList field contains a pointer to an array of MCI_MIX_BUFFER
      structures where the allocated information is to be returned.*/
 
-    buffers = xcalloc(*fragnr, sizeof(MCI_MIX_BUFFER));
+    buffers = lib_calloc(*fragnr, sizeof(MCI_MIX_BUFFER));
 
     BufferParms.pBufList     = buffers;
     BufferParms.ulNumBuffers = *fragnr;

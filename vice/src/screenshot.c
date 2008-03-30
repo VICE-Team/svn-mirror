@@ -31,11 +31,11 @@
 #include <string.h>
 
 #include "gfxoutput.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "palette.h"
 #include "screenshot.h"
-#include "utils.h"
 #include "video.h"
 
 
@@ -104,7 +104,7 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
                        - screenshot->first_displayed_line;
     screenshot->y_offset = screenshot->first_displayed_line;
 
-    screenshot->color_map = (BYTE *)xcalloc(1, 256);
+    screenshot->color_map = (BYTE *)lib_calloc(1, 256);
 
     for (i = 0; i < screenshot->palette->num_entries; i++)
         screenshot->color_map[i] = i;

@@ -38,6 +38,7 @@
 #include "interrupt.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -83,7 +84,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
     switch (type) {
       case EVENT_KEYBOARD_MATRIX:
       case EVENT_JOYSTICK_VALUE:
-        event_data = xmalloc(size);
+        event_data = lib_malloc(size);
         memcpy(event_data, data, size);
         break;
       default:
@@ -96,7 +97,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
     event_list_current->size = size;
     event_list_current->data = event_data;
     event_list_current->next
-        = (event_list_t *)xcalloc(1, sizeof(event_list_t));
+        = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
     event_list_current = event_list_current->next;
 }
 
@@ -141,7 +142,7 @@ static void event_alarm_handler(CLOCK offset)
 
 static void create_list(void)
 {
-    event_list_base = (event_list_t *)xcalloc(1, sizeof(event_list_t));
+    event_list_base = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
     event_list_current = event_list_base;
 }
 
@@ -326,14 +327,14 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
         }
 
         if (curr->size > 0) {
-            curr->data = xmalloc(curr->size);
+            curr->data = lib_malloc(curr->size);
             if (SMR_BA(m, curr->data, curr->size) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
         }
 
-        curr->next = (event_list_t *)xcalloc(1, sizeof(event_list_t));
+        curr->next = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
         curr = curr->next;
     }
 

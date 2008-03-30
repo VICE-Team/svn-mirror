@@ -59,6 +59,7 @@
 #include "info.h"
 #include "imagecontents.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "p00.h"
 #include "serial.h"
@@ -362,9 +363,9 @@ static int split_args(const char *line, int *nargs, char **args)
 
                       len = d - tmp;
                       if (args[*nargs] != NULL)
-                          args[*nargs] = xrealloc(args[*nargs], len + 1);
+                          args[*nargs] = lib_realloc(args[*nargs], len + 1);
                       else
-                          args[*nargs] = xmalloc(len + 1);
+                          args[*nargs] = lib_malloc(len + 1);
                       memcpy(args[*nargs], tmp, len);
                       args[*nargs][len] = 0;
                       begin_of_arg = 1;
@@ -602,7 +603,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 {
     disk_image_t *image;
 
-    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
 
     if (archdep_file_is_blockdev(name)) {
         image->device = DISK_IMAGE_DEVICE_RAW;
@@ -625,7 +626,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     image->gcr = gcr_create_image();
     image->read_only = 0;
 
-    disk_image_name_set(image, stralloc(name));
+    disk_image_name_set(image, lib_stralloc(name));
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
@@ -905,8 +906,8 @@ static int copy_cmd(int nargs, char **args)
                     "The destination must be a drive if multiple sources are specified.\n");
             return FD_OK;           /* FIXME */
         }
-        dest_name_ascii = stralloc(args[nargs - 1]);
-        dest_name_petscii = stralloc(dest_name_ascii);
+        dest_name_ascii = lib_stralloc(args[nargs - 1]);
+        dest_name_petscii = lib_stralloc(dest_name_ascii);
         charset_petconvstring((BYTE *)dest_name_petscii, 0);
         dest_unit = drive_number;
     } else {
@@ -916,8 +917,8 @@ static int copy_cmd(int nargs, char **args)
                         "The destination must be a drive if multiple sources are specified.\n");
                 return FD_OK;           /* FIXME */
             }
-            dest_name_ascii = stralloc(p);
-            dest_name_petscii = stralloc(dest_name_ascii);
+            dest_name_ascii = lib_stralloc(p);
+            dest_name_petscii = lib_stralloc(dest_name_ascii);
             charset_petconvstring((BYTE *)dest_name_petscii, 0);
         } else {
             dest_name_ascii = dest_name_petscii = NULL;
@@ -939,12 +940,12 @@ static int copy_cmd(int nargs, char **args)
         p = extract_unit_from_file_name(args[i], &src_unit);
 
         if (p == NULL) {
-            src_name_ascii = stralloc(args[i]);
+            src_name_ascii = lib_stralloc(args[i]);
             src_unit = drive_number;
         } else {
             if (check_drive(src_unit, CHK_RDY) < 0)
                 return FD_NOTREADY;
-            src_name_ascii = stralloc(p);
+            src_name_ascii = lib_stralloc(p);
         }
 
         if (!is_valid_cbm_file_name(src_name_ascii)) {
@@ -953,7 +954,7 @@ static int copy_cmd(int nargs, char **args)
             continue;
         }
 
-        src_name_petscii = stralloc(src_name_ascii);
+        src_name_petscii = lib_stralloc(src_name_ascii);
         charset_petconvstring((BYTE *)src_name_petscii, 0);
 
         if (vdrive_iec_open(drives[src_unit], src_name_petscii,
@@ -1442,9 +1443,9 @@ static int read_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     if (p == NULL)
-        src_name_ascii = stralloc(args[1]);
+        src_name_ascii = lib_stralloc(args[1]);
     else
-        src_name_ascii = stralloc(p);
+        src_name_ascii = lib_stralloc(p);
 
     if (!is_valid_cbm_file_name(src_name_ascii)) {
         fprintf(stderr, "`%s' is not a valid CBM DOS file name.\n",
@@ -1453,7 +1454,7 @@ static int read_cmd(int nargs, char **args)
         return FD_OK;               /* FIXME */
     }
 
-    src_name_petscii = stralloc(src_name_ascii);
+    src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit],
@@ -1466,7 +1467,7 @@ static int read_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.  Slot must be defined by
        vdrive_iec_open().  */
-    actual_name = xmalloc(17);  /* FIXME: Should be a #define.  */
+    actual_name = lib_malloc(17);  /* FIXME: Should be a #define.  */
     memcpy(actual_name, drives[unit]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
     actual_name[16] = 0;
 
@@ -1760,9 +1761,9 @@ static int read_geos_cmd(int nargs, char **args)
         return FD_NOTREADY;
 
     if (p == NULL)
-        src_name_ascii = stralloc(args[1]);
+        src_name_ascii = lib_stralloc(args[1]);
     else
-        src_name_ascii = stralloc(p);
+        src_name_ascii = lib_stralloc(p);
 
     if (!is_valid_cbm_file_name(src_name_ascii)) {
         fprintf(stderr,
@@ -1771,7 +1772,7 @@ static int read_geos_cmd(int nargs, char **args)
         return FD_OK;               /* FIXME */
     }
 
-    src_name_petscii = stralloc(src_name_ascii);
+    src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit], src_name_petscii,
@@ -1784,7 +1785,7 @@ static int read_geos_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.
        Slot must be defined by vdrive_iec_open().  */
-    actual_name = xmalloc(17);  /* FIXME: Should be a #define.  */
+    actual_name = lib_malloc(17);  /* FIXME: Should be a #define.  */
     memcpy(actual_name, drives[unit]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
     actual_name[16] = 0;
 
@@ -2106,9 +2107,9 @@ static int write_geos_cmd(int nargs, char **args)
      */
 
     slashp = strrchr(args[1], '/');
-    if (slashp == NULL) dest_name_ascii = stralloc(args[1]);
-    else dest_name_ascii = stralloc(slashp + 1);
-    dest_name_petscii = stralloc(dest_name_ascii);
+    if (slashp == NULL) dest_name_ascii = lib_stralloc(args[1]);
+    else dest_name_ascii = lib_stralloc(slashp + 1);
+    dest_name_petscii = lib_stralloc(dest_name_ascii);
     charset_petconvstring((BYTE *)dest_name_petscii, 0);
 
     if (vdrive_iec_open(drives[unit], dest_name_petscii,
@@ -2179,17 +2180,17 @@ static int rename_cmd(int nargs, char **args)
     p = extract_unit_from_file_name(args[1], &src_unit);
     if (p == NULL) {
         src_unit = drive_number;
-        src_name = stralloc(args[1]);
+        src_name = lib_stralloc(args[1]);
     } else {
-        src_name = stralloc(p);
+        src_name = lib_stralloc(p);
     }
 
     p = extract_unit_from_file_name(args[2], &dest_unit);
     if (p == NULL) {
         dest_unit = drive_number;
-        dest_name = stralloc(args[2]);
+        dest_name = lib_stralloc(args[2]);
     } else {
-        dest_name = stralloc(p);
+        dest_name = lib_stralloc(p);
     }
 
     if (dest_unit != src_unit) {
@@ -2285,10 +2286,10 @@ static int tape_cmd(int nargs, char **args)
                 || rec->name[name_len - 1] == 0x20))
                 name_len--;
 
-            dest_name_petscii = xcalloc(1, name_len + 1);
+            dest_name_petscii = lib_calloc(1, name_len + 1);
             memcpy(dest_name_petscii, rec->name, name_len);
 
-            dest_name_ascii = xcalloc(1, name_len + 1);
+            dest_name_ascii = lib_calloc(1, name_len + 1);
             memcpy(dest_name_ascii, dest_name_petscii, name_len);
             charset_petconvstring((BYTE *)dest_name_ascii, 1);
 
@@ -2324,7 +2325,7 @@ static int tape_cmd(int nargs, char **args)
 
             file_size = rec->end_addr - rec->start_addr;
 
-            buf = xcalloc((size_t)file_size, 1);
+            buf = lib_calloc((size_t)file_size, 1);
 
             retval = tape_read(tape_image, buf, file_size);
 
@@ -2588,10 +2589,10 @@ static int write_cmd(int nargs, char **args)
         p = extract_unit_from_file_name(args[2], &unit);
         if (p == NULL) {
             unit = drive_number;
-            dest_name_ascii = stralloc(args[2]);
+            dest_name_ascii = lib_stralloc(args[2]);
         } else {
             if (*p != 0)
-                dest_name_ascii = stralloc(args[2]);
+                dest_name_ascii = lib_stralloc(args[2]);
             else
                 dest_name_ascii = NULL;
         }
@@ -2620,8 +2621,8 @@ static int write_cmd(int nargs, char **args)
         /* FIXME: We should create files according to the P00 file type.  */
         if (p00_check_name(args[1]) >= 0
             && p00_read_header(f, (BYTE *)realname, &reclen) >= 0) {
-            dest_name_petscii = stralloc(realname);
-            dest_name_ascii = stralloc(dest_name_petscii);
+            dest_name_petscii = lib_stralloc(realname);
+            dest_name_ascii = lib_stralloc(dest_name_petscii);
             charset_petconvstring((BYTE *)dest_name_ascii, 1);
         } else {
             char *slashp;
@@ -2629,14 +2630,14 @@ static int write_cmd(int nargs, char **args)
             rewind(f);          /* There is no P00 header.  */
             slashp = strrchr(args[1], '/');
             if (slashp == NULL)
-                dest_name_ascii = stralloc(args[1]);
+                dest_name_ascii = lib_stralloc(args[1]);
             else
-                dest_name_ascii = stralloc(slashp + 1);
-            dest_name_petscii = stralloc(dest_name_ascii);
+                dest_name_ascii = lib_stralloc(slashp + 1);
+            dest_name_petscii = lib_stralloc(dest_name_ascii);
             charset_petconvstring((BYTE *)dest_name_petscii, 0);
         }
     } else {
-        dest_name_petscii = stralloc(dest_name_ascii);
+        dest_name_petscii = lib_stralloc(dest_name_ascii);
         charset_petconvstring((BYTE *)dest_name_petscii, 0);
     }
 
@@ -2781,7 +2782,7 @@ static int raw_cmd(int nargs, char **args)
 
     /* Write to the command channel.  */
     if (nargs >= 2) {
-        char *command = stralloc(args[1]);
+        char *command = lib_stralloc(args[1]);
 
         charset_petconvstring((BYTE *)command, 0);
         vdrive_command_execute(floppy, (BYTE *)command, strlen(command));
@@ -2815,8 +2816,8 @@ int main(int argc, char **argv)
         args[i] = NULL;
     nargs = 0;
 
-    drives[0] = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
-    drives[1] = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
+    drives[0] = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
+    drives[1] = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
 
     retval = 0;
 

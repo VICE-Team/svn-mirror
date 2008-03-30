@@ -41,72 +41,29 @@
 #endif
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "utils.h"
 
-/* ------------------------------------------------------------------------- */
-/* Like malloc, but abort if not enough memory is available.  */
+
 void *xmalloc(size_t size)
 {
-    void *p = malloc(size);
-#ifndef __OS2__
-    if (p == NULL && size > 0) {
-        log_error(LOG_DEFAULT,
-                  "xmalloc - virtual memory exhausted: "
-                  "cannot allocate %lu bytes.", (unsigned long)size);
-        exit(-1);
-    }
-#endif
-    return p;
+    return lib_malloc(size);
 }
 
-/* Like calloc, but abort if not enough memory is available.  */
 void *xcalloc(size_t nmemb, size_t size)
 {
-    void *p = calloc(nmemb, size);
-#ifndef __OS2__
-    if (p == NULL && (size * nmemb) > 0) {
-        log_error(LOG_DEFAULT,
-                  "xcalloc - virtual memory exhausted: cannot allocate %lux%lu bytes.",
-                  (unsigned long)nmemb,(unsigned long)size);
-        exit(-1);
-    }
-#endif
-    return p;
+    return lib_calloc(nmemb, size);
 }
 
-/* Like realloc, but abort if not enough memory is available.  */
 void *xrealloc(void *p, size_t size)
 {
-    void *new_p = realloc(p, size);
-#ifndef __OS2__
-    if (new_p == NULL) {
-        log_error(LOG_DEFAULT,
-                  "xrealloc - virtual memory exhausted: cannot allocate %lu bytes.",
-                  (unsigned long)size);
-        exit(-1);
-    }
-#endif
-    return new_p;
+    return lib_realloc(p, size);
 }
 
-/* Malloc enough space for `str', copy `str' into it and return its
-   address.  */
 char *stralloc(const char *str)
 {
-    size_t length;
-    char *p;
-
-    if (str == NULL) {
-        log_error(LOG_DEFAULT, "stralloc() called with NULL pointer.");
-        exit(-1);
-    }
-
-    length = strlen(str) + 1;
-    p = (char *)xmalloc(length);
-
-    memcpy(p, str, length);
-    return p;
+    return lib_stralloc(str);
 }
 
 /* Malloc a new string whose contents concatenate the arguments until the
@@ -132,7 +89,7 @@ char *util_concat(const char *s, ...)
     }
     num_args = i;
 
-    newp = (char *)xmalloc(tot_len + 1);
+    newp = (char *)lib_malloc(tot_len + 1);
 
     memcpy(newp, s, arg_len[0]);
     ptr = newp + arg_len[0];
@@ -197,7 +154,7 @@ int util_string_set(char **str, const char *new_value)
 {
     if (*str == NULL) {
         if (new_value != NULL)
-            *str = stralloc(new_value);
+            *str = lib_stralloc(new_value);
     } else {
         if (new_value == NULL) {
             free(*str);
@@ -304,7 +261,7 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 
     total_size = s_len - (string_len - replacement_len) * num_occurrences + 1;
 
-    result = (char *) xmalloc(total_size);
+    result = (char *)lib_malloc(total_size);
 
     sp = s;
     dp = result;
@@ -484,18 +441,18 @@ void util_fname_split(const char *path, char **directory_return,
         if (directory_return != NULL)
             *directory_return = NULL;
         if (name_return != NULL)
-            *name_return = stralloc(path);
+            *name_return = lib_stralloc(path);
         return;
     }
 
     if (directory_return != NULL) {
-        *directory_return = (char*)xmalloc((size_t)(p - path + 1));
+        *directory_return = (char *)lib_malloc((size_t)(p - path + 1));
         memcpy(*directory_return, path, p - path);
         (*directory_return)[p - path] = '\0';
     }
 
     if (name_return != NULL)
-        *name_return = stralloc(p + 1);
+        *name_return = lib_stralloc(p + 1);
 
     return;
 }
@@ -507,7 +464,7 @@ int util_dword_read(FILE *fd, DWORD *buf, size_t num)
     int i;
     BYTE *tmpbuf;
 
-    tmpbuf = xmalloc(num);
+    tmpbuf = lib_malloc(num);
 
     if (fread((char *)tmpbuf, num, 1, fd) < 1) {
         free(tmpbuf);
@@ -527,7 +484,7 @@ int util_dword_write(FILE *fd, DWORD *buf, size_t num)
     int i;
     BYTE *tmpbuf;
 
-    tmpbuf = xmalloc(num);
+    tmpbuf = lib_malloc(num);
 
     for (i = 0; i < ((int)(num) / 4); i++) {
         tmpbuf[i * 4] = (BYTE)(buf[i] & 0xff);
@@ -757,7 +714,7 @@ char *util_add_extension_const(const char *filename, const char *extension)
 {
     char *ext_filename;
 
-    ext_filename = stralloc(filename);
+    ext_filename = lib_stralloc(filename);
 
     util_add_extension(&ext_filename, extension);
 
@@ -766,7 +723,7 @@ char *util_add_extension_const(const char *filename, const char *extension)
 
 /* ------------------------------------------------------------------------- */
 
-/* xmsprintf() is like sprintf() but xmalloc's the buffer by itself.  */
+/* xmsprintf() is like sprintf() but lib_malloc's the buffer by itself.  */
 
 #define xmvsprintf_is_digit(c) ((c) >= '0' && (c) <= '9')
 
@@ -898,7 +855,7 @@ char *xmvsprintf(const char *fmt, va_list args)
     int qualifier;    /* 'h', 'l', or 'L' for integer fields */
 
     /* Setup the initial buffer.  */
-    buf = xmalloc(10);
+    buf = lib_malloc(10);
     position = 0;
     bufsize = 10;
 

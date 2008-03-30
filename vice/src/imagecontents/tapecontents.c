@@ -32,8 +32,8 @@
 #include <string.h>
 
 #include "imagecontents.h"
+#include "lib.h"
 #include "tape.h"
-#include "utils.h"
 
 
 static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)
@@ -52,7 +52,7 @@ static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)
         if (rec->type) {
             image_contents_file_list_t *new_list;
 
-            new_list = (image_contents_file_list_t *)xmalloc(
+            new_list = (image_contents_file_list_t *)lib_malloc(
                        sizeof(image_contents_file_list_t));
             memcpy(new_list->name, rec->name, 16);
             new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
@@ -121,7 +121,7 @@ char *tapecontents_filename_by_number(const char *filename, unsigned int unit,
             file_index--;
         }
         if (current != NULL) {
-            s = stralloc((char *)(current->name));
+            s = lib_stralloc((char *)(current->name));
         }
     }
 

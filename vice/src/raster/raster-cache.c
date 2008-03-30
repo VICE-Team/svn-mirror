@@ -29,8 +29,9 @@
 
 #include <string.h>
 
+#include "lib.h"
 #include "raster-cache.h"
-#include "utils.h"
+
 
 void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites)
 {
@@ -40,7 +41,7 @@ void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites)
         for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
             raster_sprite_cache_init(&(cache->sprites[i]));
 
-        cache->gfx_msk = xcalloc(1, RASTER_CACHE_GFX_MSK_SIZE);
+        cache->gfx_msk = lib_calloc(1, RASTER_CACHE_GFX_MSK_SIZE);
     }
 
     memset(cache->background_data, 0, RASTER_CACHE_MAX_TEXTCOLS);

@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "attach.h"
 #include "fliplist.h"
+#include "lib.h"
 #include "log.h"
 #include "utils.h"
 
@@ -66,7 +67,7 @@ void flip_set_current(unsigned int unit, const char *filename)
 {
     if (current_image != NULL)
         free(current_image);
-    current_image = stralloc(filename);
+    current_image = lib_stralloc(filename);
     current_drive = unit;
 }
 
@@ -110,8 +111,8 @@ void flip_add_image (unsigned int unit)
     if (strcmp(current_image, "") == 0)
         return;
 
-    n = (struct fliplist_t *) xmalloc(sizeof (struct fliplist_t));
-    n->image = stralloc(current_image);
+    n = (struct fliplist_t *)lib_malloc(sizeof(struct fliplist_t));
+    n->image = lib_stralloc(current_image);
     unit = n->unit = current_drive;
 
     log_message(LOG_DEFAULT, "Adding `%s' to fliplist[%d]", n->image, unit);
@@ -354,8 +355,8 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
 		unit = 8;
 	    }
 	    
-            tmp = (struct fliplist_t*)xmalloc(sizeof(struct fliplist_t));
-            tmp->image = stralloc(buffer);
+            tmp = (struct fliplist_t*)lib_malloc(sizeof(struct fliplist_t));
+            tmp->image = lib_stralloc(buffer);
             tmp->unit = unit;
 
             if (fliplist[unit - 8] == NULL)

@@ -60,6 +60,7 @@
 #include "gcr.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "machine.h"
@@ -69,7 +70,6 @@
 #include "serial.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "viad.h"
 
 
@@ -866,7 +866,7 @@ int reload_rom_1541(char *name) {
     if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
         dos_rom_name_1541 = default_dos_rom_name_1541;
     } else {
-        dos_rom_name_1541 = stralloc(romsetnamebuffer);
+        dos_rom_name_1541 = lib_stralloc(romsetnamebuffer);
     }
 
     drive_load_rom_images();

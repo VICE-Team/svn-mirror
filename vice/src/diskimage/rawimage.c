@@ -32,6 +32,7 @@
 #include "archdep.h"
 #include "blockdev.h"
 #include "diskimage.h"
+#include "lib.h"
 #include "log.h"
 #include "rawimage.h"
 #include "resources.h"
@@ -64,7 +65,7 @@ char *rawimage_name_get(disk_image_t *image)
 
 void rawimage_driver_name_set(disk_image_t *image)
 {
-    rawimage_name_set(image, stralloc(raw_drive_driver));
+    rawimage_name_set(image, lib_stralloc(raw_drive_driver));
 }
 
 /*-----------------------------------------------------------------------*/
@@ -73,7 +74,7 @@ void rawimage_media_create(disk_image_t *image)
 {
     rawimage_t *rawimage;
 
-    rawimage = (rawimage_t *)xcalloc(1, sizeof(rawimage_t));
+    rawimage = (rawimage_t *)lib_calloc(1, sizeof(rawimage_t));
 
     image->media = (void *)rawimage;
 }

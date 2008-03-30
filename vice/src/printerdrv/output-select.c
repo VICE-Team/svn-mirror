@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "output-select.h"
 #include "resources.h"
 #include "types.h"
@@ -124,7 +125,7 @@ void output_select_register(output_select_t *output_select)
     while (prev != NULL && prev->next != NULL)
         prev = prev->next;
 
-    list = (output_select_list_t *)xmalloc(sizeof(output_select_list_t));
+    list = (output_select_list_t *)lib_malloc(sizeof(output_select_list_t));
     memcpy(&(list->output_select), output_select, sizeof(output_select_t));
     list->next = NULL;
 

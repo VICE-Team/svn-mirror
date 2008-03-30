@@ -53,6 +53,7 @@
 #include "attach.h"
 #include "drive.h"
 #include "iecbus.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -64,7 +65,6 @@
 #include "serial.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive.h"
 
 
@@ -429,7 +429,7 @@ int serial_attach_device(unsigned int unit, const char *name,
     if (p->name != NULL)
         free(p->name);
 
-    p->name = stralloc(name);
+    p->name = lib_stralloc(name);
 
     for (i = 0; i < 16; i++) {
         p->nextok[i] = 0;

@@ -37,7 +37,7 @@
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
-#include "utils.h"
+#include "lib.h"
 
 
 /*
@@ -184,7 +184,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         *pd = '\0';
 #endif
 
-        return stralloc(buf + 1);
+        return lib_stralloc(buf + 1);
     }
  fail:
     return NULL;

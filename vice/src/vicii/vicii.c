@@ -51,6 +51,7 @@
 #include "clkguard.h"
 #include "dma.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -357,8 +358,8 @@ raster_t *vicii_init(unsigned int flag)
 
     vic_ii.num_idle_3fff = 0;
     vic_ii.num_idle_3fff_old = 0;
-    vic_ii.idle_3fff = (idle_3fff_t *)xmalloc(sizeof(idle_3fff_t) * 64);
-    vic_ii.idle_3fff_old = (idle_3fff_t *)xmalloc(sizeof(idle_3fff_t) * 64);
+    vic_ii.idle_3fff = (idle_3fff_t *)lib_malloc(sizeof(idle_3fff_t) * 64);
+    vic_ii.idle_3fff_old = (idle_3fff_t *)lib_malloc(sizeof(idle_3fff_t) * 64);
 
     vic_ii.buf_offset = 0;
 

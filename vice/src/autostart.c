@@ -44,6 +44,7 @@
 #include "imagecontents.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
@@ -362,7 +363,7 @@ static void advance_hasdisk(void)
         if (autostart_program_name)
             tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
         else
-            tmp = stralloc("LOAD\"*\",8,1\r");
+            tmp = lib_stralloc("LOAD\"*\",8,1\r");
         kbd_buf_feed(tmp);
         free(tmp);
 
@@ -460,7 +461,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_ignore_reset = 1;
     deallocate_program_name();
     if (program_name)
-        autostart_program_name = (BYTE *)stralloc(program_name);
+        autostart_program_name = (BYTE *)lib_stralloc(program_name);
     maincpu_trigger_reset();
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
@@ -490,7 +491,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
 
-    /*autostart_program_name = (BYTE *)stralloc(file_name);
+    /*autostart_program_name = (BYTE *)lib_stralloc(file_name);
     interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*)0);*/
     /* use for snapshot */
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT, AUTOSTART_MODE_RUN);
@@ -513,7 +514,7 @@ int autostart_tape(const char *file_name, const char *program_name,
         name = image_contents_filename_by_number(IMAGE_CONTENTS_TAPE,
                                                  file_name, 0, program_number);
     else
-        name = stralloc(program_name ? program_name : "");
+        name = lib_stralloc(program_name ? program_name : "");
 
     if (!(tape_image_attach(1, file_name) < 0)) {
         log_message(autostart_log,
@@ -553,7 +554,7 @@ static void autostart_disk_cook_name(char **name)
         if (((unsigned char)((*name)[pos])) == 0xa0) {
             char *ptr;
 
-            ptr = xmalloc(pos + 1);
+            ptr = lib_malloc(pos + 1);
             memcpy(ptr, *name, pos);
             ptr[pos] = '\0';
             free(*name);
@@ -579,7 +580,7 @@ int autostart_disk(const char *file_name, const char *program_name,
         name = image_contents_filename_by_number(IMAGE_CONTENTS_DISK,
                                                  file_name, 0, program_number);
     else
-        name = stralloc(program_name ? program_name : "*");
+        name = lib_stralloc(program_name ? program_name : "*");
 
     if (name) {
         autostart_disk_cook_name(&name);
@@ -649,10 +650,10 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* Prepare the CBM file name.  */
     if (p00_type != FT_PRG) {
         /* Then it must be a raw file.  */
-        cbm_name = (BYTE *)stralloc(file);
+        cbm_name = (BYTE *)lib_stralloc(file);
         charset_petconvstring(cbm_name, 0);
     } else {
-        cbm_name = (BYTE *)stralloc(p00_header_file_name);
+        cbm_name = (BYTE *)lib_stralloc(p00_header_file_name);
     }
 
     /* Setup FS-based drive emulation.  */

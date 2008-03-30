@@ -32,9 +32,9 @@
 
 #include "bmpdrv.h"
 #include "gfxoutput.h"
+#include "lib.h"
 #include "pngdrv.h"
 #include "log.h"
-#include "utils.h"
 
 
 struct gfxoutputdrv_list_s {
@@ -77,7 +77,7 @@ int gfxoutput_init(void)
 
     /* Initialize graphics output driver list.  */
     gfxoutputdrv_list
-        = (gfxoutputdrv_list_t *)xmalloc(sizeof(gfxoutputdrv_list_t));
+        = (gfxoutputdrv_list_t *)lib_malloc(sizeof(gfxoutputdrv_list_t));
     gfxoutputdrv_list->drv = NULL;
     gfxoutputdrv_list->next = NULL;
 
@@ -104,7 +104,8 @@ int gfxoutput_register(gfxoutputdrv_t *drv)
 
     /* Fill in entry.  */
     current->drv = drv;
-    current->next = (gfxoutputdrv_list_t *)xmalloc(sizeof(gfxoutputdrv_list_t));
+    current->next = (gfxoutputdrv_list_t *)lib_malloc(
+                    sizeof(gfxoutputdrv_list_t));
     current->next->drv = NULL;
     current->next->next = NULL;
 

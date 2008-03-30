@@ -33,6 +33,7 @@
 
 #include "archdep.h"
 #include "cmdline.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "utils.h"
@@ -125,10 +126,10 @@ log_t log_open(const char *id)
     }
     if (i == num_logs) {
         new_log = num_logs++;
-        logs = (char **)xrealloc(logs, sizeof(*logs) * num_logs);
+        logs = (char **)lib_realloc(logs, sizeof(*logs) * num_logs);
     }
 
-    logs[new_log] = stralloc(id);
+    logs[new_log] = lib_stralloc(id);
 
     return new_log;
 }
@@ -207,7 +208,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     if (logi != LOG_DEFAULT && *logs[logi] != '\0')
         logtxt = xmsprintf("%s: %s", logs[logi], level_strings[level]);
     else
-        logtxt = stralloc("");
+        logtxt = lib_stralloc("");
 
     if (log_file == NULL) {
         rc = log_archdep(logtxt, format, ap);

@@ -38,6 +38,7 @@
 #include "charset.h"
 #include "cmdline.h"
 #include "initcmdline.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
@@ -68,7 +69,7 @@ static int cmdline_autostart(const char *param, void *extra_param)
 {
     if (autostart_string != NULL)
         free(autostart_string);
-    autostart_string = stralloc(param);
+    autostart_string = lib_stralloc(param);
     autostart_mode = AUTOSTART_MODE_RUN;
     return 0;
 }
@@ -77,7 +78,7 @@ static int cmdline_autoload(const char *param, void *extra_param)
 {
     if (autostart_string != NULL)
         free(autostart_string);
-    autostart_string = stralloc(param);
+    autostart_string = lib_stralloc(param);
     autostart_mode = AUTOSTART_MODE_LOAD;
     return 0;
 }
@@ -99,7 +100,7 @@ static int cmdline_attach(const char *param, void *extra_param)
       case 1:
         if (startup_tape_image != NULL)
             free(startup_tape_image);
-        startup_tape_image = stralloc(param);
+        startup_tape_image = lib_stralloc(param);
         break;
       case 8:
       case 9:
@@ -107,7 +108,7 @@ static int cmdline_attach(const char *param, void *extra_param)
       case 11:
         if (startup_disk_images[unit - 8] != NULL)
             free(startup_disk_images[unit - 8]);
-        startup_disk_images[unit - 8] = stralloc(param);
+        startup_disk_images[unit - 8] = lib_stralloc(param);
         break;
       default:
         archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n",
@@ -205,7 +206,7 @@ int initcmdline_check_args(int argc, char **argv)
 
     /* The last orphan option is the same as `-autostart'.  */
     if (argc >= 1 && autostart_string == NULL) {
-        autostart_string = stralloc(argv[1]);
+        autostart_string = lib_stralloc(argv[1]);
         argc--, argv++;
     }
 
@@ -216,7 +217,7 @@ int initcmdline_check_args(int argc, char **argv)
             len += strlen(argv[j]);
 
         {
-            char *txt = xcalloc(1, len + argc + 1);
+            char *txt = lib_calloc(1, len + argc + 1);
             for (j = 1; j < argc; j++)
                 strcat(strcat(txt, " "), argv[j]);
             archdep_startup_log_error("Extra arguments on command-line: %s\n",
@@ -259,7 +260,7 @@ static char *replace_hexcodes(char *s)
     char *new_s;
 
     len = strlen(s);
-    new_s = (char*)xmalloc(len + 1);
+    new_s = (char*)lib_malloc(len + 1);
 
     p = s;
     dest_len = 0;
@@ -303,7 +304,7 @@ void initcmdline_check_attach(void)
                 char *autostart_prg_name;
                 char *autostart_file;
 
-                autostart_file = stralloc(autostart_string);
+                autostart_file = lib_stralloc(autostart_string);
                 autostart_prg_name = strrchr(autostart_file, ':');
                 *autostart_prg_name++ = '\0';
                 /* Does the image exist?  */

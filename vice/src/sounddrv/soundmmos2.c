@@ -38,8 +38,8 @@
 #include <stdlib.h>
 
 #include "sound.h"
+#include "lib.h"
 #include "log.h"
-#include "utils.h"
 
 #include "sounddrv.h"
 
@@ -133,7 +133,7 @@ static int mmos2_init(const char *param, int *speed,
 //    log_message(mlog, "soundmmos2.c: bufsize %1.4f s", bufsize);
     log_message(mlog, "fragsize %i byte", *fragsize);
     log_message(mlog, "fragnumbers %i", frag_numbers);
-    dataBuf=(short*)xcalloc(*fragsize*frag_numbers*sizeof(SWORD), 2);
+    dataBuf=(short*)lib_calloc(*fragsize*frag_numbers*sizeof(SWORD), 2);
     Playlist[0].ulOperandOne   = (ULONG)dataBuf;
     Playlist[0].ulOperandTwo   = *fragsize*frag_numbers*sizeof(SWORD);
     Playlist[0].ulOperandThree = 0;

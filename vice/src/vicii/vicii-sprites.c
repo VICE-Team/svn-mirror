@@ -31,11 +31,11 @@
 #include <stdlib.h>
 #include <string.h>		/* memset() */
 
+#include "lib.h"
 #include "raster-cache.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
-#include "utils.h"
 #include "vicii-sprites.h"
 #include "viciitypes.h"
 
@@ -1116,7 +1116,7 @@ void vic_ii_sprites_reset_sprline(void)
 
 void vicii_sprites_init_sprline(void)
 {
-    sprline = xrealloc(sprline, vic_ii.sprite_wrap_x);
+    sprline = lib_realloc(sprline, vic_ii.sprite_wrap_x);
 }
 
 void vicii_sprites_shutdown(void)

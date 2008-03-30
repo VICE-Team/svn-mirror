@@ -27,8 +27,8 @@
 
 #include "vice.h"
 
+#include "lib.h"
 #include "raster-sprite-cache.h"
-#include "utils.h"
 
 
 void raster_sprite_cache_init(raster_sprite_cache_t *sc)
@@ -46,7 +46,8 @@ raster_sprite_cache_t *raster_sprite_cache_new(void)
 {
     raster_sprite_cache_t *new_cache;
 
-    new_cache = (raster_sprite_cache_t *)xmalloc(sizeof(raster_sprite_cache_t));
+    new_cache = (raster_sprite_cache_t *)lib_malloc(
+                sizeof(raster_sprite_cache_t));
     raster_sprite_cache_init(new_cache);
 
     return new_cache;

@@ -29,10 +29,11 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
-#include "utils.h"
+
 
 void raster_sprite_status_init(raster_sprite_status_t *s,
                                unsigned int num_sprites)
@@ -53,9 +54,9 @@ void raster_sprite_status_init(raster_sprite_status_t *s,
     s->mc_sprite_color_2 = 0;
 
     if (num_sprites > 0) {
-        s->sprites = xmalloc(sizeof(*s->sprites) * num_sprites);
-        s->sprite_data_1 = xmalloc(sizeof(DWORD) * num_sprites);
-        s->sprite_data_2 = xmalloc(sizeof(DWORD) * num_sprites);
+        s->sprites = lib_malloc(sizeof(*s->sprites) * num_sprites);
+        s->sprite_data_1 = lib_malloc(sizeof(DWORD) * num_sprites);
+        s->sprite_data_2 = lib_malloc(sizeof(DWORD) * num_sprites);
     } else {
         s->sprites = NULL;
         s->sprite_data_1 = NULL;
@@ -74,7 +75,7 @@ raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites)
     raster_sprite_status_t *new_status;
 
     new_status
-        = (raster_sprite_status_t *)xmalloc(sizeof(raster_sprite_status_t));
+        = (raster_sprite_status_t *)lib_malloc(sizeof(raster_sprite_status_t));
     raster_sprite_status_init(new_status, num_sprites);
 
     return new_status;

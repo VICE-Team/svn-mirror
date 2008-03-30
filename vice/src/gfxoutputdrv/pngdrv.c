@@ -33,9 +33,11 @@
 
 #include "archdep.h"
 #include "gfxoutput.h"
+#include "lib.h"
 #include "screenshot.h"
 #include "types.h"
 #include "utils.h"
+
 
 typedef struct gfxoutputdrv_data_s {
     FILE *fd;
@@ -52,7 +54,7 @@ int pngdrv_open(screenshot_t *screenshot, const char *filename)
 {
     gfxoutputdrv_data_t *sdata;
 
-    sdata = (gfxoutputdrv_data_t *)xmalloc(sizeof(gfxoutputdrv_data_t));
+    sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
 
     screenshot->gfxoutputdrv_data = sdata;
 
@@ -90,7 +92,7 @@ int pngdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    sdata->data = (BYTE *)xmalloc(screenshot->width * 4);
+    sdata->data = (BYTE *)lib_malloc(screenshot->width * 4);
 
     png_init_io(sdata->png_ptr, sdata->fd);
     png_set_compression_level(sdata->png_ptr, Z_BEST_COMPRESSION);

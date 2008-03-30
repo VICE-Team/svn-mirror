@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "datasette.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -48,7 +49,6 @@
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 
 
 /* #define DEBUG_TAPE */
@@ -125,7 +125,7 @@ int tape_init(tape_init_t *init)
     tape_internal_init();
     tape_image_init();
 
-    tape_image_dev1 = (tape_image_t *)xcalloc(1, sizeof(tape_image_t));
+    tape_image_dev1 = (tape_image_t *)lib_calloc(1, sizeof(tape_image_t));
 
     tap_init(init);
 
@@ -458,7 +458,7 @@ int tape_image_attach(unsigned int unit, const char *name)
     if (!name || !*name)
         return -1;
 
-    tape_image.name = stralloc(name);
+    tape_image.name = lib_stralloc(name);
     tape_image.read_only = 0;
 
     if (tape_image_open(&tape_image) < 0) {

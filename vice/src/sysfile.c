@@ -34,12 +34,12 @@
 #include "cmdline.h"
 #include "findpath.h"
 #include "ioutil.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 /* Resources.  */
 
@@ -124,7 +124,7 @@ static const cmdline_option_t cmdline_options[] = {
 int sysfile_init(const char *emu_id)
 {
 
-    default_path = stralloc(archdep_default_sysfile_pathlist(emu_id));
+    default_path = lib_stralloc(archdep_default_sysfile_pathlist(emu_id));
 
     return 0;
 }
@@ -168,7 +168,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
     }
     if (*p != '\0') {
         if (complete_path_return != NULL)
-            *complete_path_return = stralloc(name);
+            *complete_path_return = lib_stralloc(name);
         return fopen(name, open_mode);
     }
 
@@ -193,7 +193,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
         return NULL;
     } else {
         if (complete_path_return != NULL)
-            *complete_path_return = stralloc(buffer);
+            *complete_path_return = lib_stralloc(buffer);
         return f;
     }
 #else

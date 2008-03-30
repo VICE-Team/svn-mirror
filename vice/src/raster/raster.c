@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "palette.h"
@@ -42,7 +43,6 @@
 #include "raster.h"
 #include "screenshot.h"
 #include "types.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -63,7 +63,7 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas,
         return canvas->video_draw_buffer_callback->draw_buffer_alloc(canvas,
             &canvas->draw_buffer->draw_buffer, fb_width, fb_height, fb_pitch);
 
-    canvas->draw_buffer->draw_buffer = (BYTE *)xmalloc(fb_width * fb_height);
+    canvas->draw_buffer->draw_buffer = (BYTE *)lib_malloc(fb_width * fb_height);
     *fb_pitch = fb_width;
     return 0;
 }
@@ -124,8 +124,8 @@ static int raster_realize_frame_buffer(raster_t *raster)
                                  fb_pitch);
     }
 
-    raster->fake_draw_buffer_line = xrealloc(raster->fake_draw_buffer_line,
-                                             fb_width);
+    raster->fake_draw_buffer_line = lib_realloc(raster->fake_draw_buffer_line,
+                                                fb_width);
 
     return 0;
 }
@@ -203,11 +203,11 @@ int raster_init(raster_t *raster,
 {
     raster->intialized = 0;
 
-    raster->modes = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
+    raster->modes = (raster_modes_t *)lib_malloc(sizeof(raster_modes_t));
     raster_modes_init(raster->modes, num_modes);
 
     raster->sprite_status = (raster_sprite_status_t *)
-                            xmalloc(sizeof(raster_sprite_status_t));
+                            lib_malloc(sizeof(raster_sprite_status_t));
     raster_sprite_status_init(raster->sprite_status, num_sprites);
 
     raster_reset(raster);
@@ -282,7 +282,7 @@ raster_t *raster_new(unsigned int num_modes,
 {
     raster_t *new;
 
-    new = xmalloc(sizeof(raster_t));
+    new = lib_malloc(sizeof(raster_t));
     raster_init(new, num_modes, num_sprites);
 
     return new;
@@ -326,8 +326,8 @@ void raster_set_geometry(raster_t *raster,
     geometry = raster->geometry;
     if (screen_height != geometry->screen_size.height
         || raster->cache == NULL) {
-        raster->cache = xrealloc(raster->cache,
-                                 sizeof(*raster->cache) * screen_height);
+        raster->cache = lib_realloc(raster->cache,
+                                    sizeof(*raster->cache) * screen_height);
         raster_invalidate_cache(raster, screen_height);
     }
 
@@ -374,7 +374,7 @@ int raster_realize(raster_t *raster)
 
     video_canvas_refresh_all(raster->canvas);
 
-    rlist = (raster_list_t *)xmalloc(sizeof(raster_list_t));
+    rlist = (raster_list_t *)lib_malloc(sizeof(raster_list_t));
     rlist->raster = raster;
     rlist->next = NULL;
     if (ActiveRasters == NULL) {
@@ -419,7 +419,7 @@ void raster_set_title(raster_t *raster, const char *title)
     viewport = raster->canvas->viewport;
 
     free(viewport->title);
-    viewport->title = stralloc(title);
+    viewport->title = lib_stralloc(title);
 
 #if 0                           /* FIXME: Not yet in the canvas API.  */
     if (raster->canvas != NULL)
