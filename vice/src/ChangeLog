@@ -1,3 +1,163 @@
+1998-09-27  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.14.
+
+	* drive/viad.h: Added some missing `int's to VIA snapshot function
+ 	prototypes.
+
+1998-09-27  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* drive/drive.c (drive_read_snapshot_modules,
+	drive_write_snapshot_modules): move read/write of CPU state
+	_before_ the VIA restore (because of clk value).
+
+	* via-tmpl.c (myvia_write_snapshot_module): write extra byte
+	if timers are running for an interrupt or not.
+	(via_restore_int): move #ifdef define to top of file.
+	(myvia_read_snapshot_module): use "myclk" instead of "clk" for
+	initializing the rclk value...
+	Unset the timers before reading the module
+	fix timer constants (that were off by one)
+	setup timers for interrupt when the extra byte in the snapshot
+	says so, otherwise not.
+	Use via_restore_int and not a #if construct
+
+	* vic20/vic20mem.c (mem_read_snapshot_module,
+	mem_write_snapshot_module): Add dump of colorram.
+
+1998-09-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c128/c128iec.c (iec_cpu_undump): New function.
+
+	* c64/c64iec.c (iec_info): Made static again.
+
+	* c64/c64mem.c (store_io2, mem_attach_cartridge): Added Final
+	Cartridge banking.  (initialize_memory): Added Final Cartridge
+	banking and added a missing `break'.
+
+	* c64/cartridge.c (cartridge_attach_image): Added support for
+	Final Cartridge III.  Not activated yet.
+
+	* cartridge.h: Define `CARTRIDGE_FINAL_III'.
+
+	* drive/drive.c (set_drive0_type, set_drive1_type): Only enable
+	drive when true drive emulation is enabled.
+	(cmdline_options): Updated command line options.
+	(drive_write_snapshot_module): Save pointer to the rotation table.
+	(drive_read_snapshot_module): Recalculate `GCR_track_start_ptr'.
+
+	* drive/via1drive0.def (UNDUMP_PRB): Undump IEC bus values.
+	* drive/via1drive1.def (UNDUMP_PRB): Likewise
+
+	* vic20/vic20iec.c: #include "ciad.h".
+	(iec_pa_read, iec_pa_write): Added support for two drives.
+
+1998-09-27  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* c610mem.c (mem_load): change load of charrom to keep original
+	16 bytes/char mapping
+
+	* c610/crtc.h (BYTES_PER_CHAR): set to 16 for new character ROM
+	mapping
+
+	* crtc-tmpl.c (screen_charheight): new variable to contain the
+	number of screen rasterlines per character. For now always set
+	to 8.  In several places removed the assumption of 8 lines/char
+	and use screen_charheight.
+	(crtc_set_char, crtc_update_memory_ptrs): double the computed
+	chargen_rel value as it is for 8 bytes/char in the charom.
+	(DRAW): here and in other macros, make them slightly faster by
+	checking "faster" cursor conditions first.
+	Do not assume 8 lines/char.
+	(crtc_read_snapshot_module, crtc_write_snapshot_module):
+	Save cursor state and restore it.
+
+	* pet/crtc.h (BYTES_PER_CHAR): set to 16 bytes/char in the charom
+
+	* pet/petmem.c (mem_load): expand 8 bytes/char charom to
+	16 bytes/char for crtc code
+	(set_screen): set the number of screen lines per character
+	to 8 when we disable the crtc.
+	(mem_read_snapshot_module): handle module name correctly.
+	(had not yet been changed to new snapshot_module_open semantics...)
+
+	* pet/petmem.h (PET_CHARGEN_ROM_SIZE): double the size
+	of the character ROM, as we now have 16 bytes/char
+
+	* acia-tmpl.c (acia_ticks): new variable instead of define. holds
+	the number of clk ticks for one char.
+	(acia_baud_table): list of baud rates for the ACIA chip.
+	(reset_myacia, myacia_read_snapshot_module, store_myacia):
+	use machine_get_cycles_per_sec() to compute right interrupt rate
+	from baud rate
+	(alarm_active): new variable, keeps track if an alarm is scheduled.
+	is used in myacia_read/write_snapshot_modules().
+	(myacia_read_snapshot_module): open/close rs232 device depending
+ 	on value read.
+
+	* arch/unix/video.c (do_try_mitshm, try_mitshm): current behaviour
+	is to change the resource try_mitshm depending if we are on the
+	same machine or not. When you save the settings, this is saved
+	and bugs out when it is saved with MITSHM, but runs on a machine
+	without. This fixes that.
+
+	* c128/c128.c, c64/c64.c, pet/pet.c, vic20/vic20.c, c610/c610.c
+	(machine_get_cycles_per_second): new functions to return
+	the number of cycles per second.
+
+	* c610/c610cia1.def (cia1_restore_int): new define to comply to
+	new cia-tmpl.c handling. replaces set_int_noclk redefine.
+
+	* c610/c610mem.c (mem_read_snapshot_module, mem_write_snapshot_module):
+	fix memory block addresses and memory size computation...
+
+	* c64/c64rsuser.c, vic20/vic20rsuser.c (c64_rsuser_init,
+	vic_rsuser_init): call machine_get_cycles_per_second for it
+
+	* cia-tmpl.c (mycia_set_int_clk, mycia_restore_int): new handling.
+	if they are not defined, define them to set_int() and
+	set_int_noclk(). Currently mycia_set_int_clk is redefined in
+	most .def files to maincpu_set_int_clk, and this is defined
+	in interrupt.h. This is ugly and should go away when we have
+	decided whether putting those things into the .def file
+	themselves (either as static inline or #define functions)
+	(my_set_int,my_set_tai_clk,my_unset_tai,my_set_tbi_clk,
+	my_unset_tbi,update_tai,update_tbi): new inline functions,
+	translated from cpp #defines.
+	(my_set_int): semantic has changed. we don't need I_MYCIAFL,
+	because it is known to the function itself.
+	(reset_mycia): compute myciatodticks from CYCLES_PER_SEC
+	to give accurate time. CYCLES_PER_SEC, if not defined, is
+	set to 1000000. In c610/c610cia1.c CYCLES_PER_SEC is defined
+	as machine_get_cycles_per_second(). This should actualy be
+	done in the C64/c128 as well....
+
+	* crtc-tmpl.c (hw_double_cols): new flag, if the hardware doubles
+	the number of columns stored in the CRTC registers.
+	(store_crtc): Do not check for crtc_cols==80 but for
+	hw_double_cols. Do not limit number of characters per
+	line (memptr_inc).
+	(crtc_set_screen_mode): ignore NULL pointer as screen parameter.
+	Also set hw_double_cols from bit 1 in hwflags (bit 0 is crsr_enable)
+	(fill_cache): check that crtc_cols >= memptr_inc when
+	computing the number of emptry columns.
+	(crtc_read_snapshot_module, crtc_write_snapshot_module):
+	remove wrting of screenmem address relative to ram, as it does
+	not work...  Instead of crsr_enable save crsr_enable and
+	hw_double_cols.
+	(crtc_read_snapshot_module): call SIGNAL_VERT_BLANK_OFF
+
+	* machine.h (machine_get_cycles_per_second): new prototype
+
+	* pet/petmem.c (set_screen): if cols==80 then set hw_double_cols
+	flag when calling crtc_set_screen_mode.
+
+	* tpi-tmpl.c (mytpi_set_int): invert the interrupt before processing
+	it - IRQ lines are low active, but we are calld with state != 0
+	for an active IRQ here....
+	(mytpi_read_snapshot_module): fix type that called TPI_SET_CA
+	twice.
+
 1998-09-25  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.13.
@@ -1054,8 +1214,6 @@
 	* data/C64/default.vkm: ditto
 
 	* data/PET/busi_uk.vkm: ditto
-
-	* doc/vice.texi: change custom joystick mapping description
 
 	* Makefile.am (printer_ldadd, rs232_printer_ldadd): change
 	printer_ldadd to rs232_printer_ldadd, add check for HAVE_RS232

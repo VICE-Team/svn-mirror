@@ -37,12 +37,14 @@
 
 #include "vice.h"
 
+#include "machine.h"
 #include "c64.h"
 #include "c64cia.h"
 #include "rsuser.h"
 
 void c64_rsuser_init(void)
 {
-    return rsuser_init(C64_PAL_CYCLES_PER_SEC, cia2_set_flag, cia2_set_sdr);
+    return rsuser_init(machine_get_cycles_per_second(), 
+					cia2_set_flag, cia2_set_sdr);
 }
 

@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "drive.h"
 #include "viad.h"
+#include "ciad.h"
 
 #define NOT(x) ((x)^1)
 
@@ -93,11 +94,13 @@ BYTE iec_drive_read(void)
 BYTE iec_pa_read(void)
 
 {
-    if (!drive[0].enable)
+    if (!drive[0].enable && !drive[1].enable)
 	return 0;
 
-    drive0_cpu_execute();
-/*  drive1_cpu_execute(); */
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
 
     cpu_bus_val = (bus_data << 1) | (bus_clock << 0) | (bus_atn << 7);
 
@@ -108,17 +111,41 @@ void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!drive[0].enable)
+    if (!drive[0].enable && !drive[1].enable)
 	return;
 
-    drive0_cpu_execute();
-/*  drive1_cpu_execute(); */
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
 
-    if ((cpu_atn == 0) && (data & 128))
-	via1d0_set_atn(1);
+    /* Signal ATN interrupt to the drives.  */
+    if ((cpu_atn == 0) && (data & 128)) {
+        if (drive[0].enable) {
+            if (drive[0].type != DRIVE_TYPE_1581)
+                via1d0_signal(VIA_SIG_CA1, VIA_SIG_RISE);
+            else
+                cia1581d0_set_flag();
+        }
+        if (drive[1].enable) {
+            if (drive[1].type != DRIVE_TYPE_1581)
+                via1d1_signal(VIA_SIG_CA1, VIA_SIG_RISE);
+            else
+                cia1581d1_set_flag();
+        }
+    }
 
-    if (!(data & 128))
-	via1d0_set_atn(0);
+    /* Release ATN signal.  */
+    if (!(data & 128)) {
+        if (drive[0].enable) {
+            if (drive[0].type != DRIVE_TYPE_1581)
+                via1d0_signal(VIA_SIG_CA1, 0);
+        }
+        if (drive[1].enable) {
+            if (drive[1].type != DRIVE_TYPE_1581)
+                via1d1_signal(VIA_SIG_CA1, 0);
+        }
+    }
 
     cpu_atn = ((data & 128) >> 7);
     drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
@@ -139,11 +166,13 @@ void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!drive[0].enable)
+    if (!drive[0].enable && !drive[1].enable)
 	return;
 
-    drive0_cpu_execute();
-/*  drive1_cpu_execute(); */
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
 
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);

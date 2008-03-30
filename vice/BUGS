@@ -25,3 +25,9 @@ These are the most important known problems with VICE 0.15.0:
   use the function keys, press the (real) shift key manually (e.g. F2
   = Shift + F1, F4 = Shift + F3 and so on); this also works with other
   keys.
+
+- The C610 emulator, when the execution bank is set to an open memory
+  area, sets the zeropage and stack access to unmapped, but actually
+  existing memory. This is a bug but cannot be avoided with the current
+  CPU code architecture.
+

@@ -142,6 +142,13 @@ static BYTE oldpb;		/* the actual output on PB (input = high) */
 /* timer values do not depend on a certain value here, but PB7 does... */
 #define	TAUOFFSET	(-1)
 
+
+#ifndef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
+#define	via_restore_int(a)  set_int_noclk(&mycpu_int_status, I_MYVIAFL, \
+		(a) ? MYVIA_INT : 0)
+#endif
+
+
 inline static void update_myviairq(void)
 {
 #if 0	/* DEBUG */
@@ -712,7 +719,12 @@ int myvia_write_snapshot_module(snapshot_t * p)
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-
+/*
+printf("myvia: write: myclk=%d, tai=%d, tau=%d\n"
+       "     : tbi=%d, tbu=%d\n",
+		myclk, myviatai, myviatau, myviatbi, myviatbu);
+printf("     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
+*/
     snapshot_module_write_byte(m, myvia[VIA_PRA]);
     snapshot_module_write_byte(m, myvia[VIA_DDRA]);
     snapshot_module_write_byte(m, myvia[VIA_PRB]);
@@ -722,6 +734,9 @@ int myvia_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_word(m, myviata());
     snapshot_module_write_byte(m, myviatbl);
     snapshot_module_write_word(m, myviatb());
+
+    snapshot_module_write_byte(m, (myviatai ? 0x80 : 0)
+					| (myviatbi ? 0x40 : 0) );
 
     snapshot_module_write_byte(m, myvia[VIA_SR]);
     snapshot_module_write_byte(m, myvia[VIA_ACR]);
@@ -745,7 +760,7 @@ int myvia_read_snapshot_module(snapshot_t * p)
     BYTE byte;
     WORD word;
     ADDRESS addr;
-    CLOCK rclk = clk;
+    CLOCK rclk = myclk;
     snapshot_module_t *m;
 
     m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
@@ -753,9 +768,17 @@ int myvia_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
+        fprintf(stderr,
+                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
         return -1;
     }
+
+    mycpu_unset_alarm(A_MYVIAT1);
+    mycpu_unset_alarm(A_MYVIAT2);
+    myviatai = 0;
+    myviatbi = 0;
 
     snapshot_module_read_byte(m, &myvia[VIA_PRA]);
     snapshot_module_read_byte(m, &myvia[VIA_DDRA]);
@@ -776,16 +799,26 @@ int myvia_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_word(m, &word);
     myviatal = word;
     snapshot_module_read_word(m, &word);
-    myviatau = rclk + word + 1 /* 3 */ + TAUOFFSET;
-    myviatai = rclk + word /* + 2 */;
-    mycpu_set_alarm_clk(A_MYVIAT1, myviatai);
+    myviatau = rclk + word + 2 /* 3 */ + TAUOFFSET;
+    myviatai = rclk + word + 1;
 
     snapshot_module_read_byte(m, &byte);
     myviatbl = byte;
     snapshot_module_read_word(m, &word);
-    myviatbu = rclk + word + 1 /* 3 */;
-    myviatbi = rclk + word /* + 2 */;
-    mycpu_set_alarm_clk(A_MYVIAT2, myviatbi);
+    myviatbu = rclk + word + 2 /* 3 */;
+    myviatbi = rclk + word + 1;
+
+    snapshot_module_read_byte(m, &byte);
+    if (byte & 0x80) {
+    	mycpu_set_alarm_clk(A_MYVIAT1, myviatai);
+    } else {
+	myviatai = 0;
+    }
+    if (byte & 0x40) {
+    	mycpu_set_alarm_clk(A_MYVIAT2, myviatbi);
+    } else {
+	myviatbi = 0;
+    }
 
     snapshot_module_read_byte(m, &myvia[VIA_SR]);
     {
@@ -806,20 +839,20 @@ int myvia_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);
     myviaier = byte;
 
-    /* update_myviairq(); */
-#ifdef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
-    via_restore_int(I_MYVIAFL, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
-#else
-    set_int_noclk(&mycpu_int_status, I_MYVIAFL,
-			(myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
-#endif
-						/* FIXME! */
+    via_restore_int(myviaifr & myviaier & 0x7f);
+
+    /* FIXME! */
     snapshot_module_read_byte(m, &byte);
     myviapb7 = byte ? 1 : 0;
     myviapb7x = 0;
     myviapb7o = 0;
     snapshot_module_read_byte(m, &byte);	/* SRHBITS */
-
+/*
+printf("myvia: read: myclk=%d, tai=%d, tau=%d\n"
+       "     : tbi=%d, tbu=%d\n",
+		myclk, myviatai, myviatau, myviatbi, myviatbu);
+printf("     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
+*/
     return snapshot_module_close(m);
 }
 

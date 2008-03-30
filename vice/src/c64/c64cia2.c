@@ -106,6 +106,7 @@
 #include "rsuser.h"
 #endif
 
+#define	CIA2_USE_INLINE 1
 
 #undef CIA2_TIMER_DEBUG
 #undef CIA2_IO_DEBUG
@@ -118,29 +119,183 @@
 #define	CIAT_RUNNING	1
 #define	CIAT_COUNTTA	2
 
+/*
+ * Local variable and prototypes - moved here because they're used by
+ * the inline functions 
+ */
+
+static void my_set_tbi_clk(CLOCK clk);
+static void my_unset_tbi(void);
+static void my_set_tai_clk(CLOCK clk);
+static void my_unset_tai(void);
+
+#define	cia2ier	cia2[CIA_ICR]
+
+static int cia2int;		/* Interrupt Flag register for cia 1 */
+static CLOCK cia2rdi;		/* real clock = clk-offset */
+
+static CLOCK cia2_tau;		/* when is the next underflow? */
+static CLOCK cia2_tai;		/* when is the next int_* scheduled? */
+static unsigned int cia2_tal;	/* latch value */
+static unsigned int cia2_tac;	/* counter value */
+static unsigned int cia2_tat;	/* timer A toggle bit */
+static unsigned int cia2_tap;	/* timer A port bit */
+static int cia2_tas;		/* timer state (CIAT_*) */
+
+static CLOCK cia2_tbu;		/* when is the next underflow? */
+static CLOCK cia2_tbi;		/* when is the next int_* scheduled? */
+static unsigned int cia2_tbl;	/* latch value */
+static unsigned int cia2_tbc;	/* counter value */
+static unsigned int cia2_tbt;	/* timer B toggle bit */
+static unsigned int cia2_tbp;	/* timer B port bit */
+static int cia2_tbs;		/* timer state (CIAT_*) */
+
+static int cia2sr_bits;	/* number of bits still to send * 2 */
+
+static BYTE oldpa;              /* the actual output on PA (input = high) */
+static BYTE oldpb;              /* the actual output on PB (input = high) */
+
+static BYTE cia2todalarm[4];
+static BYTE cia2todlatch[4];
+static char cia2todstopped;
+static char cia2todlatched;
+static int cia2todticks = 100000;	/* approx. a 1/10 sec. */
+
+static BYTE cia2flag = 0;
+
+/* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
+#ifndef CYCLES_PER_SEC
+#define	CYCLES_PER_SEC 	1000000
+#endif
+
+/* The next two defines are the standard use of the chips. However,
+   they can be overriden by a define from the .def file. That's where
+   these defs should actually go in the first place. This here is not
+   the best solution, but at the moment it's better than editing 9+
+   .def files only to find it's slower... However, putting them in the
+   .def files would allow making those functions static inline, which
+   should be better. But is it as fast? */
+
+/* Fallback for "normal" use of the chip. In real operation the interrupt
+   number can be replaced with the known constant I_CIA2FL (see 
+   cia2_restore_int() below. */
+#ifndef maincpu_set_nmi_clk
+#define	maincpu_set_nmi_clk(value,num,clk)					\
+		set_int(&maincpu_int_status,(num),(value),(clk))
+#endif
+
+/* Fallback for "normal" use of the chip. */
+#ifndef cia2_restore_int
+#define	cia2_restore_int(value)					\
+		set_int_noclk(&maincpu_int_status,(I_CIA2FL),(value))
+#endif
+
+/* The following is an attempt in rewriting the interrupt defines into 
+   static inline functions. This should not hurt, but I still kept the
+   define below, to be able to compare speeds. 
+   The semantics of the call has changed, the interrupt number is
+   not needed anymore (because it's known to my_set_int(). Actually
+   one could also remove IK_NMI as it is also know... */
+
+#if CIA2_USE_INLINE
+
+/* new semantics and as inline function, value can be replaced by 0/1 */
+static inline void my_set_int(int value, CLOCK rclk)
+{
 #ifdef CIA2_TIMER_DEBUG
-#define	my_set_int(int_num, value, rclk)				\
+    if(cia2_debugFlag) {
+        printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",
+           rclk,(int_num),(value));
+    }
+#endif
+    if ((value)) {
+        cia2int |= 0x80;
+        maincpu_set_nmi_clk((I_CIA2FL), (IK_NMI), (rclk));
+    } else {
+        maincpu_set_nmi_clk((I_CIA2FL), 0, (rclk));
+    }
+}
+
+#else /* CIA2_USE_INLINE */
+
+/* new semantics but as define, but value can be _not_ replaced by 0/1 */
+#ifdef CIA2_TIMER_DEBUG
+#define	my_set_int(value, rclk)						\
     do {								\
-        if (cia2_debugFlag)					\
+        if (cia2_debugFlag)						\
 	    printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
-		   rclk,(int_num),(value));			\
-	maincpu_set_nmi_clk((int_num), (value), (rclk));			\
+		   rclk,(int_num),(value));				\
+	maincpu_set_nmi_clk((I_CIA2FL), (value), (rclk));		\
 	if ((value))							\
 	    cia2int |= 0x80;						\
     } while(0)
-#else
-#define	my_set_int(int_num, value, rclk)				 \
+#else /* CIA2_TIMER_DEBUG */
+#define	my_set_int(value, rclk)						 \
     do {								 \
-        maincpu_set_nmi_clk((int_num), (value), (rclk));			 \
+        maincpu_set_nmi_clk((I_CIA2FL), (value), (rclk));		 \
 	if ((value))							 \
 	    cia2int |= 0x80;						 \
     } while(0)
-#endif
+#endif /* CIA2_TIMER_DEBUG */
+
+#endif /* CIA2_USE_INLINE */
 
 /*
  * scheduling int_cia2t[ab] calls -
  * warning: int_cia2ta uses maincpu_* stuff!
  */
+
+#if CIA2_USE_INLINE
+
+static inline void my_set_tai_clk(CLOCK clk) 
+{
+    cia2_tai = clk;
+    maincpu_set_alarm_clk(A_CIA2TA, clk);
+}
+
+static inline void my_unset_tai(void) 
+{
+    cia2_tai = -1;							\
+    maincpu_unset_alarm(A_CIA2TA);					\
+}
+
+static inline void my_set_tbi_clk(CLOCK clk) 
+{
+    cia2_tbi = clk;
+    maincpu_set_alarm_clk(A_CIA2TB, clk);
+}
+
+static inline void my_unset_tbi(void)
+{
+    cia2_tbi = -1;
+    maincpu_unset_alarm(A_CIA2TB);
+}
+
+/*
+ * Those routines setup the cia2t[ab]i clocks to a value above
+ * rclk and schedule the next int_cia2t[ab] alarm
+ */
+static inline void update_tai(CLOCK rclk)
+{
+    if(cia2_tai < rclk) {
+        int t = cia2int;
+        cia2int = 0;
+        int_cia2ta(rclk - cia2_tai);
+        cia2int |= t;
+    }
+}
+
+static inline void update_tbi(CLOCK rclk)
+{
+    if(cia2_tbi < rclk) {
+        int t = cia2int;
+        cia2int = 0;
+        int_cia2tb(rclk - cia2_tbi);
+        cia2int |= t;
+    }
+}
+
+#else /* CIA2_USE_INLINE */
 
 #define	my_set_tai_clk(clk) 						\
     do {								\
@@ -190,6 +345,8 @@
 	}								\
     } while(0)
 
+#endif /* CIA2_USE_INLINE */
+
 /* global */
 
 static BYTE cia2[16];
@@ -204,44 +361,6 @@ int cia2_debugFlag = 0;
 static int update_cia2(CLOCK rclk);
 static void check_cia2todalarm(CLOCK rclk);
 
-/*
- * Local variables
- */
-
-#define	cia2ier	cia2[CIA_ICR]
-static int cia2int;		/* Interrupt Flag register for cia 1 */
-
-static CLOCK cia2rdi;		/* real clock = clk-offset */
-
-static CLOCK cia2_tau;		/* when is the next underflow? */
-static CLOCK cia2_tai;		/* when is the next int_* scheduled? */
-static unsigned int cia2_tal;	/* latch value */
-static unsigned int cia2_tac;	/* counter value */
-static unsigned int cia2_tat;	/* timer A toggle bit */
-static unsigned int cia2_tap;	/* timer A port bit */
-static int cia2_tas;		/* timer state (CIAT_*) */
-
-static CLOCK cia2_tbu;		/* when is the next underflow? */
-static CLOCK cia2_tbi;		/* when is the next int_* scheduled? */
-static unsigned int cia2_tbl;	/* latch value */
-static unsigned int cia2_tbc;	/* counter value */
-static unsigned int cia2_tbt;	/* timer B toggle bit */
-static unsigned int cia2_tbp;	/* timer B port bit */
-static int cia2_tbs;		/* timer state (CIAT_*) */
-
-static int cia2sr_bits;	/* number of bits still to send * 2 */
-
-static BYTE oldpa;              /* the actual output on PA (input = high) */
-static BYTE oldpb;              /* the actual output on PB (input = high) */
-
-static BYTE cia2todalarm[4];
-static BYTE cia2todlatch[4];
-static char cia2todstopped;
-static char cia2todlatched;
-static int cia2todticks = 100000;	/* approx. a 1/10 sec. */
-
-static BYTE cia2flag = 0;
-
 
 /* ------------------------------------------------------------------------- */
 /* CIA2 */
@@ -254,7 +373,7 @@ inline static void check_cia2todalarm(CLOCK rclk)
     if (!memcmp(cia2todalarm, cia2 + CIA_TOD_TEN, sizeof(cia2todalarm))) {
 	cia2int |= CIA_IM_TOD;
 	if (cia2[CIA_ICR] & CIA_IM_TOD) {
-            my_set_int(I_CIA2FL, IK_NMI, clk);
+            my_set_int(IK_NMI, clk);
 	}
     }
 }
@@ -381,7 +500,7 @@ static int update_cia2(CLOCK rclk)
 	if (rclk != cia2rdi) {
 	    if (cia2ier & cia2int & 0x7f) {
 		/* sets bit 7 */
-		my_set_int(I_CIA2FL, IK_NMI, rclk);
+		my_set_int(IK_NMI, rclk);
 	    }
 	} else {
 	    if (added_int_clk == cia2rdi) {
@@ -394,7 +513,7 @@ static int update_cia2(CLOCK rclk)
 	    } else {
 		if (cia2ier & cia2int & 0x7f) {
 		    /* sets bit 7 */
-		    my_set_int(I_CIA2FL, IK_NMI, rclk);
+		    my_set_int(IK_NMI, rclk);
 		}
 	    }
 	}
@@ -413,6 +532,8 @@ static int update_cia2(CLOCK rclk)
 void reset_cia2(void)
 {
     int i;
+
+    cia2todticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
     for (i = 0; i < 16; i++)
 	cia2[i] = 0;
@@ -437,7 +558,7 @@ void reset_cia2(void)
     maincpu_set_alarm(A_CIA2TOD, cia2todticks);
 
     cia2int = 0;
-    my_set_int(I_CIA2FL, 0, clk);
+    my_set_int(0, clk);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -654,7 +775,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 		   cia2ier & cia2int & 0x7f, cia2int);
 #endif
 	if (cia2ier & cia2int & 0x7f) {
-	    my_set_int(I_CIA2FL, IK_NMI, rclk);
+	    my_set_int(IK_NMI, rclk);
 	}
 	if (cia2ier & (CIA_IM_TA + CIA_IM_TB)) {
 	    if ((cia2ier & CIA_IM_TA) && cia2_tau) {
@@ -968,7 +1089,7 @@ BYTE read_cia2_(ADDRESS addr)
 
 	    cia2flag = 0;
 	    cia2int = 0;
-	    my_set_int(I_CIA2FL, 0, rclk);
+	    my_set_int(0, rclk);
 
 	    return (t);
 	}
@@ -1057,7 +1178,7 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
 /*
 	    cia2flag = 0;
 	    cia2int = 0;
-	    my_set_int(I_CIA2FL, 0, rclk);
+	    my_set_int(0, rclk);
 */
 	    return (t);
 	}
@@ -1146,7 +1267,7 @@ int int_cia2ta(long offset)
     if ((IK_NMI == IK_NMI && cia2rdi != rclk - 1)
         || (IK_NMI == IK_IRQ && cia2rdi < rclk - 1)) {
         if ((cia2int | CIA_IM_TA) & cia2ier & 0x7f) {
-            my_set_int(I_CIA2FL, IK_NMI, rclk);
+            my_set_int(IK_NMI, rclk);
         }
     }
 
@@ -1223,7 +1344,7 @@ int int_cia2tb(long offset)
     if ((IK_NMI == IK_NMI && cia2rdi != rclk - 1)
         || (IK_NMI == IK_IRQ && cia2rdi < rclk - 1)) {
         if ((cia2int | CIA_IM_TB) & cia2ier & 0x7f) {
-            my_set_int(I_CIA2FL, IK_NMI, rclk);
+            my_set_int(IK_NMI, rclk);
         }
     }
 
@@ -1236,7 +1357,7 @@ void cia2_set_flag(void)
 {
     cia2int |= CIA_IM_FLG;
     if (cia2[CIA_ICR] & CIA_IM_FLG) {
-        my_set_int(I_CIA2FL, IK_NMI, clk);
+        my_set_int(IK_NMI, clk);
     }
 }
 
@@ -1245,7 +1366,7 @@ void cia2_set_sdr(BYTE data)
     cia2[CIA_SDR] = data;
     cia2int |= CIA_IM_SDR;
     if (cia2[CIA_ICR] & CIA_IM_SDR) {
-        my_set_int(I_CIA2FL, IK_NMI, clk);
+        my_set_int(IK_NMI, clk);
     }
 }
 
@@ -1615,9 +1736,9 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2
 #endif
 
     if (cia2[CIA_ICR] & 0x80) {
-        set_int_noclk(&maincpu_int_status, I_CIA2FL, IK_NMI);
+        cia2_restore_int(IK_NMI);
     } else {
-        set_int_noclk(&maincpu_int_status, I_CIA2FL, 0);
+        cia2_restore_int(0);
     }
 
     if (snapshot_module_close(m) < 0)

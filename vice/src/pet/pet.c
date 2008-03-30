@@ -382,6 +382,13 @@ int pet_undump(FILE *p)
 
 /* ------------------------------------------------------------------------- */
 
+long machine_get_cycles_per_second(void)
+{
+    return PET_PAL_CYCLES_PER_SEC;
+}
+
+/* ------------------------------------------------------------------------- */
+
 #define SNAP_MACHINE_NAME   "PET"
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0

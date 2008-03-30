@@ -37,7 +37,8 @@
 #include "drive.h"
 #include "c64cia.h"
 
-iec_info_t iec_info; /* FIXME: Make static again */
+/* Status of the IEC bus signals.  */
+static iec_info_t iec_info; 
 
 static BYTE iec_old_atn = 0x10;
 

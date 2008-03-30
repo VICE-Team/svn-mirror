@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/drivecpu0.c
- * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu0.def,
+ * ../../src/drive/drivecpu0.c
+ * This file is generated from ../../src/drive/drivecpu-tmpl.c and ../../src/drive/drivecpu0.def,
  * Do not edit!
  */
 /*

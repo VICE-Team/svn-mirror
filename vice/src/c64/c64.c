@@ -410,6 +410,13 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
+long machine_get_cycles_per_second(void) 
+{
+    return C64_PAL_CYCLES_PER_SEC;
+}
+
+/* ------------------------------------------------------------------------- */
+
 #define SNAP_MACHINE_NAME   "C64"
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0

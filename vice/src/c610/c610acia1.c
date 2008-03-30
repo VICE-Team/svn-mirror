@@ -23,6 +23,7 @@
 #include "vice.h"
 #include "types.h"
 #include "vmachine.h"
+#include "machine.h"
 #include "interrupt.h"
 #include "snapshot.h"
 #include "rs232.h"
@@ -40,15 +41,7 @@
 
 #undef	DEBUG
 
-/*
- * FIXME: ACIA_TICKS should vary according to
- *  - rs232 baud rate and
- *  - CPU clock frequency.
- * Where do we get the latter?
- */
-
-#define	ACIA_TICKS	21111
-
+static int acia_ticks = 21111;	/* number of clock ticks per char */
 static int fd = -1;
 static int intx = 0;	/* indicates that a transmit is currently ongoing */
 static int irq = 0;
@@ -57,6 +50,7 @@ static BYTE ctrl;
 static BYTE rxdata;	/* data that has been received last */
 static BYTE txdata;	/* data prepared to send */
 static BYTE status;
+static int alarm_active = 0;	/* if alarm is set or not */
 
 /******************************************************************/
 
@@ -138,6 +132,14 @@ int acia1_init_cmdline_options(void) {
 
 /******************************************************************/
 
+/* note: the first value is bogus. It should be 16*external clock. */
+static double acia_baud_table[16] = {
+	10, 50, 75, 109.92, 134.58, 150, 300, 600, 1200, 1800,
+	2400, 3600, 4800, 7200, 9600, 19200
+};
+
+/******************************************************************/
+
 void reset_acia1(void) {
 
 #ifdef DEBUG
@@ -146,6 +148,10 @@ void reset_acia1(void) {
 
 	cmd = 0;
 	ctrl = 0;
+
+        acia_ticks = machine_get_cycles_per_second() 
+				/ acia_baud_table[ctrl & 0xf];
+
 	status = 0x10;
 	intx = 0;
 
@@ -153,6 +159,8 @@ void reset_acia1(void) {
 	fd = -1;
 
 	maincpu_unset_alarm(A_ACIA1);
+	alarm_active = 0;
+
 	maincpu_set_int(I_ACIA1, 0);
 	irq = 0;
 }
@@ -201,8 +209,12 @@ int acia1_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, cmd);
     snapshot_module_write_byte(m, ctrl);
     snapshot_module_write_byte(m, intx);
-    snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_ACIA1]
+    if(alarm_active) {
+        snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_ACIA1]
                                     - clk));
+    } else {
+        snapshot_module_write_dword(m, 0);
+    }
 
     snapshot_module_close(m);
 
@@ -217,6 +229,8 @@ int acia1_read_snapshot_module(snapshot_t * p)
     snapshot_module_t *m;
 
     maincpu_unset_alarm(A_ACIA1);   /* just in case we don't find module */
+    alarm_active = 0;
+
     set_int_noclk(&maincpu_int_status, I_ACIA1, 0);
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
@@ -242,13 +256,29 @@ int acia1_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &cmd);
+    if((cmd & 1) && (fd<0)) {
+        fd = rs232_open(acia1_device);
+    } else
+        if(fd>=0 && !(cmd&1)) {
+        rs232_close(fd);
+        fd = -1;
+    }
+
     snapshot_module_read_byte(m, &ctrl);
+    acia_ticks = machine_get_cycles_per_second() 
+                                / acia_baud_table[ctrl & 0xf];
 
     snapshot_module_read_byte(m, &byte);
     intx = byte;
 
     snapshot_module_read_dword(m, &dword);
-    maincpu_set_alarm(A_ACIA1, dword);
+    if (dword) {
+        maincpu_set_alarm(A_ACIA1, dword);
+        alarm_active = 1;
+    } else {
+        maincpu_unset_alarm(A_ACIA1);
+        alarm_active = 0;
+    }
 
     if (snapshot_module_close(m) < 0)
         return -1;
@@ -269,6 +299,7 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		if(cmd&1) {
 		  if(!intx) {
 		    maincpu_set_alarm(A_ACIA1, 1);
+                    alarm_active = 1;
 		    intx = 2;
 		  } else
 		  if(intx==1) {
@@ -286,20 +317,24 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		maincpu_set_int(I_ACIA1, 0);
 		irq = 0;
 		maincpu_unset_alarm(A_ACIA1);
+                alarm_active = 0;
 		break;
 	case ACIA_CTRL:
 		ctrl = b;
-		/* TODO: use baudrate for int_acia rate */
+                acia_ticks = machine_get_cycles_per_second() 
+                                / acia_baud_table[ctrl & 0xf];
 		break;
 	case ACIA_CMD:
 		cmd = b;
 		if((cmd & 1) && (fd<0)) {
 		  fd = rs232_open(acia1_device);
-		  maincpu_set_alarm(A_ACIA1, ACIA_TICKS);
+		  maincpu_set_alarm(A_ACIA1, acia_ticks);
+                  alarm_active = 1;
 		} else
 		if(fd>=0 && !(cmd&1)) {
 		  rs232_close(fd);
 		  maincpu_unset_alarm(A_ACIA1);
+                  alarm_active = 0;
 		  fd = -1;
 		}
 		break;
@@ -378,7 +413,8 @@ int int_acia1(long offset) {
 	maincpu_set_int(I_ACIA1, acia1_irq);
 	irq = 1;
 
-	maincpu_set_alarm(A_ACIA1, ACIA_TICKS);
+	maincpu_set_alarm(A_ACIA1, acia_ticks);
+        alarm_active = 1;
 
 	return 0;
 }

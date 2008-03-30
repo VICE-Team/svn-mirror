@@ -134,8 +134,10 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
         drive[0].type = (int) v;
+        if (drive_true_emulation) {
         drive[0].enable = 1;
         drive_enable(0);
+        }
         drive_set_disk_drive_type((int) v, 0);
         return 0;
       case DRIVE_TYPE_NONE:
@@ -154,8 +156,10 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
         drive[1].type = (int) v;
+        if (drive_true_emulation) {
         drive[1].enable = 1;
         drive_enable(1);
+        }
         drive_set_disk_drive_type((int) v, 1);
         return 0;
       case DRIVE_TYPE_NONE:
@@ -313,10 +317,16 @@ int drive_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static cmdline_option_t cmdline_options[] = {
-    { "-drive8", SET_RESOURCE, 0, NULL, NULL, "Drive8", (resource_value_t) 1,
-      NULL, "Enable hardware-level emulation of drive #8" },
-    { "+drive8", SET_RESOURCE, 0, NULL, NULL, "Drive8", (resource_value_t) 0,
-      NULL, "Disable hardware-level emulation of drive #8" },
+    { "-truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
+      (resource_value_t) 1,
+      NULL, "Enable hardware-level emulation of disk drives" },
+    { "+truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
+      (resource_value_t) 0,
+      NULL, "Disable hardware-level emulation of disk drives" },
+    { "-drive8type", SET_RESOURCE, DRIVE_TYPE_1541, NULL, NULL, "Drive8Type",
+      NULL, "<type>", "Set drive type (0: no drive)" },
+    { "-drive9type", SET_RESOURCE, DRIVE_TYPE_NONE, NULL, NULL, "Drive9Type",
+      NULL, "<type>", "Set drive type (0: no drive)" },
     { "-parallel", SET_RESOURCE, 0, NULL, NULL, "DriveParallelCable",
       (resource_value_t) 1,
       NULL, "Enable SpeedDOS-compatible parallel cable" },
@@ -1226,6 +1236,7 @@ void drive_rotate_disk(int dnr)
 			       % drive[dnr].GCR_current_track_size);
 	    drive[dnr].bits_moved %= 8;
 	    drive[dnr].GCR_read = drive[dnr].GCR_track_start_ptr[drive[dnr].GCR_head_offset];
+/*printf("RD: %x\t%i\t%i\n",drive[dnr].GCR_read,drive[dnr].GCR_head_offset,drive_clk[0]);*/
 	}
 
     /* The byte ready line is only set when no sync is found.  */
@@ -1671,10 +1682,15 @@ int drive_write_snapshot_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
+    DWORD rotation_table_ptr[2];
 
     /* Save changes to disk before taking a snapshot.  */
     GCR_data_writeback(0);
     GCR_data_writeback(1);
+
+    for (i = 0; i < 2; i++)
+        rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
+            - drive[i].rotation_table[0]);
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
@@ -1702,7 +1718,7 @@ int drive_write_snapshot_module(snapshot_t *s)
             || snapshot_module_write_byte(m, (BYTE) drive[i].read_write_mode) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].rom_idle_trap) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].rotation_last_clk) < 0
-            || snapshot_module_write_dword(m, (DWORD) (drive[i].rotation_table_ptr - drive[i].rotation_table[0])) < 0
+            || snapshot_module_write_dword(m, (DWORD) (rotation_table_ptr)) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].type) < 0
         ) {
             if (m != NULL)
@@ -1714,6 +1730,8 @@ int drive_write_snapshot_module(snapshot_t *s)
         return -1;
 
     if (drive[0].enable) {
+        if (drive0_cpu_write_snapshot_module(s) < 0)
+            return -1;
         if (drive[0].type == DRIVE_TYPE_1541) {
             if (via1d0_write_snapshot_module(s) < 0
                 || via2d0_write_snapshot_module(s) < 0)
@@ -1729,10 +1747,10 @@ int drive_write_snapshot_module(snapshot_t *s)
             if (cia1581d0_write_snapshot_module(s) < 0)
                 return -1;
         }
-        if (drive0_cpu_write_snapshot_module(s) < 0)
-            return -1;
     }    
     if (drive[1].enable) {
+        if (drive1_cpu_write_snapshot_module(s) < 0)
+            return -1;
         if (drive[1].type == DRIVE_TYPE_1541) {
             if (via1d1_write_snapshot_module(s) < 0
                 || via2d1_write_snapshot_module(s) < 0)
@@ -1748,8 +1766,6 @@ int drive_write_snapshot_module(snapshot_t *s)
             if (cia1581d1_write_snapshot_module(s) < 0)
                 return -1;
         }
-        if (drive1_cpu_write_snapshot_module(s) < 0)
-            return -1;
     }
     return 0;
 }
@@ -1839,6 +1855,9 @@ int drive_read_snapshot_module(snapshot_t *s)
     for (i = 0; i < 2; i++) {
         drive[i].rotation_table_ptr = drive[i].rotation_table[0]
             + rotation_table_ptr[i];
+        drive[i].GCR_track_start_ptr = (drive[i].GCR_data
+                           + ((drive[i].current_half_track / 2 - 1)
+                              * NUM_MAX_BYTES_TRACK));
         if (drive[i].type != DRIVE_TYPE_1571) {
             if (drive[i].type == DRIVE_TYPE_1581)
                 drive_set_1571_sync_factor(1, i);
@@ -1850,6 +1869,8 @@ int drive_read_snapshot_module(snapshot_t *s)
     }
 
     if (drive[0].enable) {
+        if (drive0_cpu_read_snapshot_module(s) < 0)
+            return -1;
         if (drive[0].type == DRIVE_TYPE_1541) {
             if (via1d0_read_snapshot_module(s) < 0
                 || via2d0_read_snapshot_module(s) < 0)
@@ -1865,10 +1886,10 @@ int drive_read_snapshot_module(snapshot_t *s)
             if (cia1581d0_read_snapshot_module(s) < 0)
                 return -1;
         }
-        if (drive0_cpu_read_snapshot_module(s) < 0)
-            return -1;
     }
     if (drive[1].enable) {
+        if (drive1_cpu_read_snapshot_module(s) < 0)
+            return -1;
         if (drive[1].type == DRIVE_TYPE_1541) {
             if (via1d1_read_snapshot_module(s) < 0
                 || via2d1_read_snapshot_module(s) < 0)
@@ -1884,8 +1905,6 @@ int drive_read_snapshot_module(snapshot_t *s)
             if (cia1581d1_read_snapshot_module(s) < 0)
                 return -1;
         }
-        if (drive1_cpu_read_snapshot_module(s) < 0)
-            return -1;
     }
 
     drive[0].old_half_track = 36;

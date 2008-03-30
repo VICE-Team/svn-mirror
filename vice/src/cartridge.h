@@ -50,6 +50,7 @@ extern const char *cartridge_get_file_name(ADDRESS addr);
 #define CARTRIDGE_CRT			0
 #define CARTRIDGE_ACTION_REPLAY		1
 #define CARTRIDGE_KCS_POWER		2
+#define CARTRIDGE_FINAL_III		3
 #define CARTRIDGE_SIMONS_BASIC		4
 
 /* VIC20: &1 -> 0=4k, 1=8k */

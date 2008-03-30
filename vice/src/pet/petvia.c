@@ -158,6 +158,13 @@ static BYTE oldpb;		/* the actual output on PB (input = high) */
 /* timer values do not depend on a certain value here, but PB7 does... */
 #define	TAUOFFSET	(-1)
 
+
+#ifndef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
+#define	via_restore_int(a)  set_int_noclk(&maincpu_int_status, I_VIAFL, \
+		(a) ? IK_IRQ : 0)
+#endif
+
+
 inline static void update_viairq(void)
 {
 #if 0	/* DEBUG */
@@ -815,7 +822,12 @@ int via_write_snapshot_module(snapshot_t * p)
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-
+/*
+printf("via: write: clk=%d, tai=%d, tau=%d\n"
+       "     : tbi=%d, tbu=%d\n",
+		clk, viatai, viatau, viatbi, viatbu);
+printf("     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
+*/
     snapshot_module_write_byte(m, via[VIA_PRA]);
     snapshot_module_write_byte(m, via[VIA_DDRA]);
     snapshot_module_write_byte(m, via[VIA_PRB]);
@@ -825,6 +837,9 @@ int via_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_word(m, viata());
     snapshot_module_write_byte(m, viatbl);
     snapshot_module_write_word(m, viatb());
+
+    snapshot_module_write_byte(m, (viatai ? 0x80 : 0)
+					| (viatbi ? 0x40 : 0) );
 
     snapshot_module_write_byte(m, via[VIA_SR]);
     snapshot_module_write_byte(m, via[VIA_ACR]);
@@ -856,9 +871,17 @@ int via_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
+        fprintf(stderr,
+                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
         return -1;
     }
+
+    maincpu_unset_alarm(A_VIAT1);
+    maincpu_unset_alarm(A_VIAT2);
+    viatai = 0;
+    viatbi = 0;
 
     snapshot_module_read_byte(m, &via[VIA_PRA]);
     snapshot_module_read_byte(m, &via[VIA_DDRA]);
@@ -884,16 +907,26 @@ int via_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_word(m, &word);
     viatal = word;
     snapshot_module_read_word(m, &word);
-    viatau = rclk + word + 1 /* 3 */ + TAUOFFSET;
-    viatai = rclk + word /* + 2 */;
-    maincpu_set_alarm_clk(A_VIAT1, viatai);
+    viatau = rclk + word + 2 /* 3 */ + TAUOFFSET;
+    viatai = rclk + word + 1;
 
     snapshot_module_read_byte(m, &byte);
     viatbl = byte;
     snapshot_module_read_word(m, &word);
-    viatbu = rclk + word + 1 /* 3 */;
-    viatbi = rclk + word /* + 2 */;
-    maincpu_set_alarm_clk(A_VIAT2, viatbi);
+    viatbu = rclk + word + 2 /* 3 */;
+    viatbi = rclk + word + 1;
+
+    snapshot_module_read_byte(m, &byte);
+    if (byte & 0x80) {
+    	maincpu_set_alarm_clk(A_VIAT1, viatai);
+    } else {
+	viatai = 0;
+    }
+    if (byte & 0x40) {
+    	maincpu_set_alarm_clk(A_VIAT2, viatbi);
+    } else {
+	viatbi = 0;
+    }
 
     snapshot_module_read_byte(m, &via[VIA_SR]);
     {
@@ -926,20 +959,20 @@ int via_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);
     viaier = byte;
 
-    /* update_viairq(); */
-#ifdef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
-    via_restore_int(I_VIAFL, (viaifr & viaier & 0x7f) ? IK_IRQ : 0);
-#else
-    set_int_noclk(&maincpu_int_status, I_VIAFL,
-			(viaifr & viaier & 0x7f) ? IK_IRQ : 0);
-#endif
-						/* FIXME! */
+    via_restore_int(viaifr & viaier & 0x7f);
+
+    /* FIXME! */
     snapshot_module_read_byte(m, &byte);
     viapb7 = byte ? 1 : 0;
     viapb7x = 0;
     viapb7o = 0;
     snapshot_module_read_byte(m, &byte);	/* SRHBITS */
-
+/*
+printf("via: read: clk=%d, tai=%d, tau=%d\n"
+       "     : tbi=%d, tbu=%d\n",
+		clk, viatai, viatau, viatbi, viatbu);
+printf("     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
+*/
     return snapshot_module_close(m);
 }
 

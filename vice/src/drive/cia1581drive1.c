@@ -96,6 +96,7 @@
 #include "iecdrive.h"
 #include "ciad.h"
 
+#define	CIA1581D1_USE_INLINE 1
 
 #undef CIA1581D1_TIMER_DEBUG
 #undef CIA1581D1_IO_DEBUG
@@ -108,29 +109,183 @@
 #define	CIAT_RUNNING	1
 #define	CIAT_COUNTTA	2
 
+/*
+ * Local variable and prototypes - moved here because they're used by
+ * the inline functions 
+ */
+
+static void my_set_tbi_clk(CLOCK clk);
+static void my_unset_tbi(void);
+static void my_set_tai_clk(CLOCK clk);
+static void my_unset_tai(void);
+
+#define	cia1581d1ier	cia1581d1[CIA_ICR]
+
+static int cia1581d1int;		/* Interrupt Flag register for cia 1 */
+static CLOCK cia1581d1rdi;		/* real clock = clk-offset */
+
+static CLOCK cia1581d1_tau;		/* when is the next underflow? */
+static CLOCK cia1581d1_tai;		/* when is the next int_* scheduled? */
+static unsigned int cia1581d1_tal;	/* latch value */
+static unsigned int cia1581d1_tac;	/* counter value */
+static unsigned int cia1581d1_tat;	/* timer A toggle bit */
+static unsigned int cia1581d1_tap;	/* timer A port bit */
+static int cia1581d1_tas;		/* timer state (CIAT_*) */
+
+static CLOCK cia1581d1_tbu;		/* when is the next underflow? */
+static CLOCK cia1581d1_tbi;		/* when is the next int_* scheduled? */
+static unsigned int cia1581d1_tbl;	/* latch value */
+static unsigned int cia1581d1_tbc;	/* counter value */
+static unsigned int cia1581d1_tbt;	/* timer B toggle bit */
+static unsigned int cia1581d1_tbp;	/* timer B port bit */
+static int cia1581d1_tbs;		/* timer state (CIAT_*) */
+
+static int cia1581d1sr_bits;	/* number of bits still to send * 2 */
+
+static BYTE oldpa;              /* the actual output on PA (input = high) */
+static BYTE oldpb;              /* the actual output on PB (input = high) */
+
+static BYTE cia1581d1todalarm[4];
+static BYTE cia1581d1todlatch[4];
+static char cia1581d1todstopped;
+static char cia1581d1todlatched;
+static int cia1581d1todticks = 100000;	/* approx. a 1/10 sec. */
+
+static BYTE cia1581d1flag = 0;
+
+/* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
+#ifndef CYCLES_PER_SEC
+#define	CYCLES_PER_SEC 	1000000
+#endif
+
+/* The next two defines are the standard use of the chips. However,
+   they can be overriden by a define from the .def file. That's where
+   these defs should actually go in the first place. This here is not
+   the best solution, but at the moment it's better than editing 9+
+   .def files only to find it's slower... However, putting them in the
+   .def files would allow making those functions static inline, which
+   should be better. But is it as fast? */
+
+/* Fallback for "normal" use of the chip. In real operation the interrupt
+   number can be replaced with the known constant I_CIA1581D1FL (see 
+   cia1581d1_restore_int() below. */
+#ifndef drive1_set_irq_clk
+#define	drive1_set_irq_clk(value,num,clk)					\
+		set_int(&drive1_int_status,(num),(value),(clk))
+#endif
+
+/* Fallback for "normal" use of the chip. */
+#ifndef cia1581d1_restore_int
+#define	cia1581d1_restore_int(value)					\
+		set_int_noclk(&drive1_int_status,(I_CIA1581D1FL),(value))
+#endif
+
+/* The following is an attempt in rewriting the interrupt defines into 
+   static inline functions. This should not hurt, but I still kept the
+   define below, to be able to compare speeds. 
+   The semantics of the call has changed, the interrupt number is
+   not needed anymore (because it's known to my_set_int(). Actually
+   one could also remove IK_IRQ as it is also know... */
+
+#if CIA1581D1_USE_INLINE
+
+/* new semantics and as inline function, value can be replaced by 0/1 */
+static inline void my_set_int(int value, CLOCK rclk)
+{
 #ifdef CIA1581D1_TIMER_DEBUG
-#define	my_set_int(int_num, value, rclk)				\
+    if(cia1581d1_debugFlag) {
+        printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",
+           rclk,(int_num),(value));
+    }
+#endif
+    if ((value)) {
+        cia1581d1int |= 0x80;
+        drive1_set_irq_clk((I_CIA1581D1FL), (IK_IRQ), (rclk));
+    } else {
+        drive1_set_irq_clk((I_CIA1581D1FL), 0, (rclk));
+    }
+}
+
+#else /* CIA1581D1_USE_INLINE */
+
+/* new semantics but as define, but value can be _not_ replaced by 0/1 */
+#ifdef CIA1581D1_TIMER_DEBUG
+#define	my_set_int(value, rclk)						\
     do {								\
-        if (cia1581d1_debugFlag)					\
+        if (cia1581d1_debugFlag)						\
 	    printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
-		   rclk,(int_num),(value));			\
-	drive1_set_irq_clk((int_num), (value), (rclk));			\
+		   rclk,(int_num),(value));				\
+	drive1_set_irq_clk((I_CIA1581D1FL), (value), (rclk));		\
 	if ((value))							\
 	    cia1581d1int |= 0x80;						\
     } while(0)
-#else
-#define	my_set_int(int_num, value, rclk)				 \
+#else /* CIA1581D1_TIMER_DEBUG */
+#define	my_set_int(value, rclk)						 \
     do {								 \
-        drive1_set_irq_clk((int_num), (value), (rclk));			 \
+        drive1_set_irq_clk((I_CIA1581D1FL), (value), (rclk));		 \
 	if ((value))							 \
 	    cia1581d1int |= 0x80;						 \
     } while(0)
-#endif
+#endif /* CIA1581D1_TIMER_DEBUG */
+
+#endif /* CIA1581D1_USE_INLINE */
 
 /*
  * scheduling int_cia1581d1t[ab] calls -
  * warning: int_cia1581d1ta uses drive1_* stuff!
  */
+
+#if CIA1581D1_USE_INLINE
+
+static inline void my_set_tai_clk(CLOCK clk) 
+{
+    cia1581d1_tai = clk;
+    drive1_set_alarm_clk(A_CIA1581D1TA, clk);
+}
+
+static inline void my_unset_tai(void) 
+{
+    cia1581d1_tai = -1;							\
+    drive1_unset_alarm(A_CIA1581D1TA);					\
+}
+
+static inline void my_set_tbi_clk(CLOCK clk) 
+{
+    cia1581d1_tbi = clk;
+    drive1_set_alarm_clk(A_CIA1581D1TB, clk);
+}
+
+static inline void my_unset_tbi(void)
+{
+    cia1581d1_tbi = -1;
+    drive1_unset_alarm(A_CIA1581D1TB);
+}
+
+/*
+ * Those routines setup the cia1581d1t[ab]i clocks to a value above
+ * rclk and schedule the next int_cia1581d1t[ab] alarm
+ */
+static inline void update_tai(CLOCK rclk)
+{
+    if(cia1581d1_tai < rclk) {
+        int t = cia1581d1int;
+        cia1581d1int = 0;
+        int_cia1581d1ta(rclk - cia1581d1_tai);
+        cia1581d1int |= t;
+    }
+}
+
+static inline void update_tbi(CLOCK rclk)
+{
+    if(cia1581d1_tbi < rclk) {
+        int t = cia1581d1int;
+        cia1581d1int = 0;
+        int_cia1581d1tb(rclk - cia1581d1_tbi);
+        cia1581d1int |= t;
+    }
+}
+
+#else /* CIA1581D1_USE_INLINE */
 
 #define	my_set_tai_clk(clk) 						\
     do {								\
@@ -180,6 +335,8 @@
 	}								\
     } while(0)
 
+#endif /* CIA1581D1_USE_INLINE */
+
 /* global */
 
 static BYTE cia1581d1[16];
@@ -194,44 +351,6 @@ int cia1581d1_debugFlag = 0;
 static int update_cia1581d1(CLOCK rclk);
 static void check_cia1581d1todalarm(CLOCK rclk);
 
-/*
- * Local variables
- */
-
-#define	cia1581d1ier	cia1581d1[CIA_ICR]
-static int cia1581d1int;		/* Interrupt Flag register for cia 1 */
-
-static CLOCK cia1581d1rdi;		/* real clock = clk-offset */
-
-static CLOCK cia1581d1_tau;		/* when is the next underflow? */
-static CLOCK cia1581d1_tai;		/* when is the next int_* scheduled? */
-static unsigned int cia1581d1_tal;	/* latch value */
-static unsigned int cia1581d1_tac;	/* counter value */
-static unsigned int cia1581d1_tat;	/* timer A toggle bit */
-static unsigned int cia1581d1_tap;	/* timer A port bit */
-static int cia1581d1_tas;		/* timer state (CIAT_*) */
-
-static CLOCK cia1581d1_tbu;		/* when is the next underflow? */
-static CLOCK cia1581d1_tbi;		/* when is the next int_* scheduled? */
-static unsigned int cia1581d1_tbl;	/* latch value */
-static unsigned int cia1581d1_tbc;	/* counter value */
-static unsigned int cia1581d1_tbt;	/* timer B toggle bit */
-static unsigned int cia1581d1_tbp;	/* timer B port bit */
-static int cia1581d1_tbs;		/* timer state (CIAT_*) */
-
-static int cia1581d1sr_bits;	/* number of bits still to send * 2 */
-
-static BYTE oldpa;              /* the actual output on PA (input = high) */
-static BYTE oldpb;              /* the actual output on PB (input = high) */
-
-static BYTE cia1581d1todalarm[4];
-static BYTE cia1581d1todlatch[4];
-static char cia1581d1todstopped;
-static char cia1581d1todlatched;
-static int cia1581d1todticks = 100000;	/* approx. a 1/10 sec. */
-
-static BYTE cia1581d1flag = 0;
-
 
 /* ------------------------------------------------------------------------- */
 /* CIA1581D1 */
@@ -244,7 +363,7 @@ inline static void check_cia1581d1todalarm(CLOCK rclk)
     if (!memcmp(cia1581d1todalarm, cia1581d1 + CIA_TOD_TEN, sizeof(cia1581d1todalarm))) {
 	cia1581d1int |= CIA_IM_TOD;
 	if (cia1581d1[CIA_ICR] & CIA_IM_TOD) {
-            my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
+            my_set_int(IK_IRQ, drive_clk[1]);
 	}
     }
 }
@@ -372,7 +491,7 @@ static int update_cia1581d1(CLOCK rclk)
 	if (rclk != cia1581d1rdi) {
 	    if (cia1581d1ier & cia1581d1int & 0x7f) {
 		/* sets bit 7 */
-		my_set_int(I_CIA1581D1FL, IK_IRQ, rclk);
+		my_set_int(IK_IRQ, rclk);
 	    }
 	} else {
 	    if (added_int_clk == cia1581d1rdi) {
@@ -385,7 +504,7 @@ static int update_cia1581d1(CLOCK rclk)
 	    } else {
 		if (cia1581d1ier & cia1581d1int & 0x7f) {
 		    /* sets bit 7 */
-		    my_set_int(I_CIA1581D1FL, IK_IRQ, rclk);
+		    my_set_int(IK_IRQ, rclk);
 		}
 	    }
 	}
@@ -404,6 +523,8 @@ static int update_cia1581d1(CLOCK rclk)
 void reset_cia1581d1(void)
 {
     int i;
+
+    cia1581d1todticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
     for (i = 0; i < 16; i++)
 	cia1581d1[i] = 0;
@@ -428,7 +549,7 @@ void reset_cia1581d1(void)
     drive1_set_alarm(A_CIA1581D1TOD, cia1581d1todticks);
 
     cia1581d1int = 0;
-    my_set_int(I_CIA1581D1FL, 0, drive_clk[1]);
+    my_set_int(0, drive_clk[1]);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -629,7 +750,7 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
 		   cia1581d1ier & cia1581d1int & 0x7f, cia1581d1int);
 #endif
 	if (cia1581d1ier & cia1581d1int & 0x7f) {
-	    my_set_int(I_CIA1581D1FL, IK_IRQ, rclk);
+	    my_set_int(IK_IRQ, rclk);
 	}
 	if (cia1581d1ier & (CIA_IM_TA + CIA_IM_TB)) {
 	    if ((cia1581d1ier & CIA_IM_TA) && cia1581d1_tau) {
@@ -924,7 +1045,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 
 	    cia1581d1flag = 0;
 	    cia1581d1int = 0;
-	    my_set_int(I_CIA1581D1FL, 0, rclk);
+	    my_set_int(0, rclk);
 
 	    return (t);
 	}
@@ -1009,7 +1130,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 /*
 	    cia1581d1flag = 0;
 	    cia1581d1int = 0;
-	    my_set_int(I_CIA1581D1FL, 0, rclk);
+	    my_set_int(0, rclk);
 */
 	    return (t);
 	}
@@ -1099,7 +1220,7 @@ int int_cia1581d1ta(long offset)
     if ((IK_IRQ == IK_NMI && cia1581d1rdi != rclk - 1)
         || (IK_IRQ == IK_IRQ && cia1581d1rdi < rclk - 1)) {
         if ((cia1581d1int | CIA_IM_TA) & cia1581d1ier & 0x7f) {
-            my_set_int(I_CIA1581D1FL, IK_IRQ, rclk);
+            my_set_int(IK_IRQ, rclk);
         }
     }
 
@@ -1176,7 +1297,7 @@ int int_cia1581d1tb(long offset)
     if ((IK_IRQ == IK_NMI && cia1581d1rdi != rclk - 1)
         || (IK_IRQ == IK_IRQ && cia1581d1rdi < rclk - 1)) {
         if ((cia1581d1int | CIA_IM_TB) & cia1581d1ier & 0x7f) {
-            my_set_int(I_CIA1581D1FL, IK_IRQ, rclk);
+            my_set_int(IK_IRQ, rclk);
         }
     }
 
@@ -1189,7 +1310,7 @@ void cia1581d1_set_flag(void)
 {
     cia1581d1int |= CIA_IM_FLG;
     if (cia1581d1[CIA_ICR] & CIA_IM_FLG) {
-        my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
+        my_set_int(IK_IRQ, drive_clk[1]);
     }
 }
 
@@ -1198,7 +1319,7 @@ void cia1581d1_set_sdr(BYTE data)
     cia1581d1[CIA_SDR] = data;
     cia1581d1int |= CIA_IM_SDR;
     if (cia1581d1[CIA_ICR] & CIA_IM_SDR) {
-        my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
+        my_set_int(IK_IRQ, drive_clk[1]);
     }
 }
 
@@ -1554,9 +1675,9 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d1_tbi, cia1581d1_tbu, cia1
 #endif
 
     if (cia1581d1[CIA_ICR] & 0x80) {
-        set_int_noclk(&drive1_int_status, I_CIA1581D1FL, IK_IRQ);
+        cia1581d1_restore_int(IK_IRQ);
     } else {
-        set_int_noclk(&drive1_int_status, I_CIA1581D1FL, 0);
+        cia1581d1_restore_int(0);
     }
 
     if (snapshot_module_close(m) < 0)

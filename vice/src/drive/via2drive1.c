@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/via2drive1.c
- * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via2drive1.def,
+ * ../../../src/drive/via2drive1.c
+ * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via2drive1.def,
  * Do not edit!
  */
 /*
@@ -149,6 +149,13 @@ static BYTE oldpb;		/* the actual output on PB (input = high) */
 
 /* timer values do not depend on a certain value here, but PB7 does... */
 #define	TAUOFFSET	(-1)
+
+
+#ifndef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
+#define	via_restore_int(a)  set_int_noclk(&drive1_int_status, I_VIA2D1FL, \
+		(a) ? IK_IRQ : 0)
+#endif
+
 
 inline static void update_via2d1irq(void)
 {
@@ -768,7 +775,12 @@ int via2d1_write_snapshot_module(snapshot_t * p)
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-
+/*
+printf("via2d1: write: drive_clk[1]=%d, tai=%d, tau=%d\n"
+       "     : tbi=%d, tbu=%d\n",
+		drive_clk[1], via2d1tai, via2d1tau, via2d1tbi, via2d1tbu);
+printf("     : ta=%d, tb=%d\n",via2d1ta() & 0xffff, via2d1tb() & 0xffff);
+*/
     snapshot_module_write_byte(m, via2d1[VIA_PRA]);
     snapshot_module_write_byte(m, via2d1[VIA_DDRA]);
     snapshot_module_write_byte(m, via2d1[VIA_PRB]);
@@ -778,6 +790,9 @@ int via2d1_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_word(m, via2d1ta());
     snapshot_module_write_byte(m, via2d1tbl);
     snapshot_module_write_word(m, via2d1tb());
+
+    snapshot_module_write_byte(m, (via2d1tai ? 0x80 : 0)
+					| (via2d1tbi ? 0x40 : 0) );
 
     snapshot_module_write_byte(m, via2d1[VIA_SR]);
     snapshot_module_write_byte(m, via2d1[VIA_ACR]);
@@ -801,7 +816,7 @@ int via2d1_read_snapshot_module(snapshot_t * p)
     BYTE byte;
     WORD word;
     ADDRESS addr;
-    CLOCK rclk = clk;
+    CLOCK rclk = drive_clk[1];
     snapshot_module_t *m;
 
     m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
@@ -809,9 +824,17 @@ int via2d1_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
+        fprintf(stderr,
+                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
         return -1;
     }
+
+    drive1_unset_alarm(A_VIA2D1T1);
+    drive1_unset_alarm(A_VIA2D1T2);
+    via2d1tai = 0;
+    via2d1tbi = 0;
 
     snapshot_module_read_byte(m, &via2d1[VIA_PRA]);
     snapshot_module_read_byte(m, &via2d1[VIA_DDRA]);
@@ -836,16 +859,26 @@ int via2d1_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_word(m, &word);
     via2d1tal = word;
     snapshot_module_read_word(m, &word);
-    via2d1tau = rclk + word + 1 /* 3 */ + TAUOFFSET;
-    via2d1tai = rclk + word /* + 2 */;
-    drive1_set_alarm_clk(A_VIA2D1T1, via2d1tai);
+    via2d1tau = rclk + word + 2 /* 3 */ + TAUOFFSET;
+    via2d1tai = rclk + word + 1;
 
     snapshot_module_read_byte(m, &byte);
     via2d1tbl = byte;
     snapshot_module_read_word(m, &word);
-    via2d1tbu = rclk + word + 1 /* 3 */;
-    via2d1tbi = rclk + word /* + 2 */;
-    drive1_set_alarm_clk(A_VIA2D1T2, via2d1tbi);
+    via2d1tbu = rclk + word + 2 /* 3 */;
+    via2d1tbi = rclk + word + 1;
+
+    snapshot_module_read_byte(m, &byte);
+    if (byte & 0x80) {
+    	drive1_set_alarm_clk(A_VIA2D1T1, via2d1tai);
+    } else {
+	via2d1tai = 0;
+    }
+    if (byte & 0x40) {
+    	drive1_set_alarm_clk(A_VIA2D1T2, via2d1tbi);
+    } else {
+	via2d1tbi = 0;
+    }
 
     snapshot_module_read_byte(m, &via2d1[VIA_SR]);
     {
@@ -884,20 +917,20 @@ int via2d1_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);
     via2d1ier = byte;
 
-    /* update_via2d1irq(); */
-#ifdef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
-    via_restore_int(I_VIA2D1FL, (via2d1ifr & via2d1ier & 0x7f) ? IK_IRQ : 0);
-#else
-    set_int_noclk(&drive1_int_status, I_VIA2D1FL,
-			(via2d1ifr & via2d1ier & 0x7f) ? IK_IRQ : 0);
-#endif
-						/* FIXME! */
+    via_restore_int(via2d1ifr & via2d1ier & 0x7f);
+
+    /* FIXME! */
     snapshot_module_read_byte(m, &byte);
     via2d1pb7 = byte ? 1 : 0;
     via2d1pb7x = 0;
     via2d1pb7o = 0;
     snapshot_module_read_byte(m, &byte);	/* SRHBITS */
-
+/*
+printf("via2d1: read: drive_clk[1]=%d, tai=%d, tau=%d\n"
+       "     : tbi=%d, tbu=%d\n",
+		drive_clk[1], via2d1tai, via2d1tau, via2d1tbi, via2d1tbu);
+printf("     : ta=%d, tb=%d\n",via2d1ta() & 0xffff, via2d1tb() & 0xffff);
+*/
     return snapshot_module_close(m);
 }
 

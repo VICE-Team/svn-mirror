@@ -408,6 +408,13 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
+long machine_get_cycles_per_second(void)
+{
+    return C128_PAL_CYCLES_PER_SEC;
+}
+
+/* ------------------------------------------------------------------------- */
+
 int machine_write_snapshot(const char *name)
 {
     return 0;

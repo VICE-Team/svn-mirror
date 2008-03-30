@@ -875,7 +875,7 @@ void mem_powerup(void)
 int mem_load(void)
 {
     WORD sum;                   /* ROM checksum */
-    int i;
+    int i,j;
     int rsize, krsize;
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
@@ -884,7 +884,9 @@ int mem_load(void)
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_init(0, 0, 0, 0, 0, 0, 0, NULL, 0, 0);
 
-    /* Load chargen ROM - we load 2k, and generate the inverted 2k.  */
+    /* Load chargen ROM - we load 2k with 8 bytes/char, and generate 
+       the inverted 2k. Then we expand the chars to 16 bytes/char
+       for the CRTC, filling the rest with zeros */
 
     if (mem_load_sys_file(pet.chargenName, chargen_rom, 2048, 2048) < 0) {
         fprintf(stderr, "Couldn't load character ROM.\n");
@@ -895,7 +897,6 @@ int mem_load(void)
     memmove(chargen_rom + 2048, chargen_rom + 1024, 1024);
 
     if (pet.pet2k) {
-        int j;
 
         /* If pet2001 then exchange upper and lower case letters.  */
         for (i = 8; i < (0x1b * 8); i++) {
@@ -909,6 +910,16 @@ int mem_load(void)
     for (i = 0; i < 1024; i++) {
         chargen_rom[i + 1024] = chargen_rom[i] ^ 0xff;
         chargen_rom[i + 3072] = chargen_rom[i + 2048] ^ 0xff;
+    }
+
+    /* now expand 8 byte/char to 16 byte/char charrom */
+    for (i = 511; i>=0; i--) {
+	for (j=7; j>=0; j--) {
+	    chargen_rom[i*16+j] = chargen_rom[i*8+j];
+	}
+	for (j=7; j>=0; j--) {
+	    chargen_rom[i*16+8+j] = 0;
+	}
     }
 
     /* Init ROM with 'unused address' values.  */
@@ -1067,7 +1078,10 @@ void set_screen(void)
     }
 
     printf("Setting screen width to %d columns (vmask=%04x).\n", cols, vmask);
-    crtc_set_screen_mode(ram + 0x8000, vmask, cols, 0);
+    crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
+    if(!pet.crtc) {
+	store_crtc(9,7);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1248,6 +1262,8 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  * is the 1/2k video RAM as "VRAM".
  * In this prototype we save the full ram......
  */
+
+static const char module_name[] = "PETMEM";
 #define	PETMEM_DUMP_VER_MAJOR	0
 #define	PETMEM_DUMP_VER_MINOR	0
 
@@ -1300,7 +1316,7 @@ int mem_write_snapshot_module(snapshot_t *p)
 		| (spet_diag ? 8 : 0)
 		| ((spet_bank << 4) & 0xf0) ;
 
-    m = snapshot_module_create(p, "PETMEM",
+    m = snapshot_module_create(p, module_name,
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -1329,15 +1345,12 @@ int mem_write_snapshot_module(snapshot_t *p)
 
 int mem_read_snapshot_module(snapshot_t *p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config, memsize, conf8x96, superpet;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
-        return -1;
-    if (strcmp(name, "PETMEM") || vmajor != PETMEM_DUMP_VER_MAJOR)
         return -1;
 
     snapshot_module_read_byte(m, &config);

@@ -44,7 +44,8 @@ INCLUDES()
 #include "c610tpi.h"
 
 #define cia1_set_int_clk(a,b,c)      tpi1_set_int(2,(b))
-#define	set_int_noclk(a,b,c)	     tpi1_restore_int(2,(c))
+#define	cia1_restore_int(c)	     tpi1_restore_int(2,(c))
+#define	cycles_per_sec		     machine_get_cycles_per_second()
 }
 
 #define	PRE_STORE_CIA

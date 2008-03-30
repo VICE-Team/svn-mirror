@@ -470,6 +470,12 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 	    romconfig = 6;
 	cartridge_config_changed(romconfig);
     }
+    if (mem_cartridge_type == CARTRIDGE_FINAL_III) {
+        if ((addr & 0xff) == 0xff)  {
+            romh_bank = roml_bank = ~(value) & 3;
+            printf("BANK: %x\n",value);
+        }
+    }
     if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 1) {
 	if(((ramconfig - 1) & 0xff) == value) {
 	    ramconfig = value;
@@ -550,6 +556,8 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
 	    cartridge_config_changed(0);
 	    return roml_banks[0x1e00 + (addr & 0xff)];
 	}
+        if (mem_cartridge_type == CARTRIDGE_FINAL_III)
+            return roml_banks[0x1e00 + (addr & 0xff)];
 	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
 	    cartridge_config_changed(0);
 	if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
@@ -867,9 +875,11 @@ void initialize_memory(void)
       case CARTRIDGE_GENERIC_8KB:
 	cartridge_config_changed(0);
 	break;
+      case CARTRIDGE_FINAL_III:
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
 	cartridge_config_changed(1);
+	break;
       case CARTRIDGE_SUPER_SNAPSHOT:
 	cartridge_config_changed(9);
 	break;
@@ -991,6 +1001,17 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
 	cartridge_config_changed(0);
 	break;
+      case CARTRIDGE_FINAL_III:
+        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
+        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
+        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
+        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
+        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
+        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
+        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
+        cartridge_config_changed(1);
+        break;
       case CARTRIDGE_SUPER_SNAPSHOT:
 	memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
 	memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
@@ -1390,15 +1411,16 @@ int mem_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     /* REU module.  */
-    if (reu_read_snapshot_module(s) < 0)
+    if (reu_read_snapshot_module(s) < 0) {
         reu_enabled = 0;
-    else
+    } else {
         reu_enabled = 1;
+    }
 
     /* IEEE488 module.  */
-    if (tpi_read_snapshot_module(s) < 0)
+    if (tpi_read_snapshot_module(s) < 0) {
         ieee488_enabled = 0;
-    else {
+    } else {
         /* FIXME: Why do we need to do so???  */
         reset_tpi();
         ieee488_enabled = 1;
@@ -1406,9 +1428,9 @@ int mem_read_snapshot_module(snapshot_t *s)
 
 #ifdef HAVE_RS232
     /* ACIA module.  */
-    if (acia1_read_snapshot_module(s) < 0)
+    if (acia1_read_snapshot_module(s) < 0) {
         acia_de_enabled = 0;
-    else {
+    } else {
         /* FIXME: Why do we need to do so???  */
         reset_acia1();          /* Clear interrupts.  */
         acia_de_enabled = 1;

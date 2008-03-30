@@ -940,6 +940,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  *
  * ARRAY	RAM0		1k RAM $0000-$03ff
  * ARRAY	RAM1		4k RAM $1000-$1fff
+ * ARRAY	COLORRAM	2k Video RAM
  * ARRAY	BLK0		3k RAM $0400-$0fff (if blk 0 RAM enabled)
  * ARRAY	BLK1		8k RAM $2000-$3fff (if blk 1 RAM enabled)
  * ARRAY	BLK2		8k RAM $4000-$5fff (if blk 2 RAM enabled)
@@ -970,6 +971,7 @@ int mem_write_snapshot_module(snapshot_t *p)
 
     snapshot_module_write_byte_array(m, ram, 0x0400);
     snapshot_module_write_byte_array(m, ram + 0x1000, 0x1000);
+    snapshot_module_write_byte_array(m, ram + 0x9400, 0x0800);
 
     if (config & 1) {
         snapshot_module_write_byte_array(m, ram + 0x0400, 0x0c00);
@@ -1008,6 +1010,7 @@ int mem_read_snapshot_module(snapshot_t *p)
 
     snapshot_module_read_byte_array(m, ram, 0x0400);
     snapshot_module_read_byte_array(m, ram + 0x1000, 0x1000);
+    snapshot_module_read_byte_array(m, ram + 0x9400, 0x0800);
 
     set_ram_block_0_enabled((resource_value_t)(config & 1));
     if (config & 1) {

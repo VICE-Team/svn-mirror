@@ -87,6 +87,7 @@
 
 INCLUDES
 
+#define	MYCIA_USE_INLINE 1
 
 #undef MYCIA_TIMER_DEBUG
 #undef MYCIA_IO_DEBUG
@@ -99,29 +100,183 @@ INCLUDES
 #define	CIAT_RUNNING	1
 #define	CIAT_COUNTTA	2
 
+/*
+ * Local variable and prototypes - moved here because they're used by
+ * the inline functions 
+ */
+
+static void my_set_tbi_clk(CLOCK clk);
+static void my_unset_tbi(void);
+static void my_set_tai_clk(CLOCK clk);
+static void my_unset_tai(void);
+
+#define	myciaier	mycia[CIA_ICR]
+
+static int myciaint;		/* Interrupt Flag register for cia 1 */
+static CLOCK myciardi;		/* real clock = clk-offset */
+
+static CLOCK mycia_tau;		/* when is the next underflow? */
+static CLOCK mycia_tai;		/* when is the next int_* scheduled? */
+static unsigned int mycia_tal;	/* latch value */
+static unsigned int mycia_tac;	/* counter value */
+static unsigned int mycia_tat;	/* timer A toggle bit */
+static unsigned int mycia_tap;	/* timer A port bit */
+static int mycia_tas;		/* timer state (CIAT_*) */
+
+static CLOCK mycia_tbu;		/* when is the next underflow? */
+static CLOCK mycia_tbi;		/* when is the next int_* scheduled? */
+static unsigned int mycia_tbl;	/* latch value */
+static unsigned int mycia_tbc;	/* counter value */
+static unsigned int mycia_tbt;	/* timer B toggle bit */
+static unsigned int mycia_tbp;	/* timer B port bit */
+static int mycia_tbs;		/* timer state (CIAT_*) */
+
+static int myciasr_bits;	/* number of bits still to send * 2 */
+
+static BYTE oldpa;              /* the actual output on PA (input = high) */
+static BYTE oldpb;              /* the actual output on PB (input = high) */
+
+static BYTE myciatodalarm[4];
+static BYTE myciatodlatch[4];
+static char myciatodstopped;
+static char myciatodlatched;
+static int myciatodticks = 100000;	/* approx. a 1/10 sec. */
+
+static BYTE myciaflag = 0;
+
+/* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
+#ifndef CYCLES_PER_SEC
+#define	CYCLES_PER_SEC 	1000000
+#endif
+
+/* The next two defines are the standard use of the chips. However,
+   they can be overriden by a define from the .def file. That's where
+   these defs should actually go in the first place. This here is not
+   the best solution, but at the moment it's better than editing 9+
+   .def files only to find it's slower... However, putting them in the
+   .def files would allow making those functions static inline, which
+   should be better. But is it as fast? */
+
+/* Fallback for "normal" use of the chip. In real operation the interrupt
+   number can be replaced with the known constant I_MYCIAFL (see 
+   mycia_restore_int() below. */
+#ifndef mycia_set_int_clk
+#define	mycia_set_int_clk(value,num,clk)					\
+		set_int(&mycpu_int_status,(num),(value),(clk))
+#endif
+
+/* Fallback for "normal" use of the chip. */
+#ifndef mycia_restore_int
+#define	mycia_restore_int(value)					\
+		set_int_noclk(&mycpu_int_status,(I_MYCIAFL),(value))
+#endif
+
+/* The following is an attempt in rewriting the interrupt defines into 
+   static inline functions. This should not hurt, but I still kept the
+   define below, to be able to compare speeds. 
+   The semantics of the call has changed, the interrupt number is
+   not needed anymore (because it's known to my_set_int(). Actually
+   one could also remove MYCIA_INT as it is also know... */
+
+#if MYCIA_USE_INLINE
+
+/* new semantics and as inline function, value can be replaced by 0/1 */
+static inline void my_set_int(int value, CLOCK rclk)
+{
 #ifdef MYCIA_TIMER_DEBUG
-#define	my_set_int(int_num, value, rclk)				\
+    if(mycia_debugFlag) {
+        printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",
+           rclk,(int_num),(value));
+    }
+#endif
+    if ((value)) {
+        myciaint |= 0x80;
+        mycia_set_int_clk((I_MYCIAFL), (MYCIA_INT), (rclk));
+    } else {
+        mycia_set_int_clk((I_MYCIAFL), 0, (rclk));
+    }
+}
+
+#else /* MYCIA_USE_INLINE */
+
+/* new semantics but as define, but value can be _not_ replaced by 0/1 */
+#ifdef MYCIA_TIMER_DEBUG
+#define	my_set_int(value, rclk)						\
     do {								\
-        if (mycia_debugFlag)					\
+        if (mycia_debugFlag)						\
 	    printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
-		   rclk,(int_num),(value));			\
-	mycia_set_int_clk((int_num), (value), (rclk));			\
+		   rclk,(int_num),(value));				\
+	mycia_set_int_clk((I_MYCIAFL), (value), (rclk));		\
 	if ((value))							\
 	    myciaint |= 0x80;						\
     } while(0)
-#else
-#define	my_set_int(int_num, value, rclk)				 \
+#else /* MYCIA_TIMER_DEBUG */
+#define	my_set_int(value, rclk)						 \
     do {								 \
-        mycia_set_int_clk((int_num), (value), (rclk));			 \
+        mycia_set_int_clk((I_MYCIAFL), (value), (rclk));		 \
 	if ((value))							 \
 	    myciaint |= 0x80;						 \
     } while(0)
-#endif
+#endif /* MYCIA_TIMER_DEBUG */
+
+#endif /* MYCIA_USE_INLINE */
 
 /*
  * scheduling int_myciat[ab] calls -
  * warning: int_myciata uses mycpu_* stuff!
  */
+
+#if MYCIA_USE_INLINE
+
+static inline void my_set_tai_clk(CLOCK clk) 
+{
+    mycia_tai = clk;
+    mycpu_set_alarm_clk(A_MYCIATA, clk);
+}
+
+static inline void my_unset_tai(void) 
+{
+    mycia_tai = -1;							\
+    mycpu_unset_alarm(A_MYCIATA);					\
+}
+
+static inline void my_set_tbi_clk(CLOCK clk) 
+{
+    mycia_tbi = clk;
+    mycpu_set_alarm_clk(A_MYCIATB, clk);
+}
+
+static inline void my_unset_tbi(void)
+{
+    mycia_tbi = -1;
+    mycpu_unset_alarm(A_MYCIATB);
+}
+
+/*
+ * Those routines setup the myciat[ab]i clocks to a value above
+ * rclk and schedule the next int_myciat[ab] alarm
+ */
+static inline void update_tai(CLOCK rclk)
+{
+    if(mycia_tai < rclk) {
+        int t = myciaint;
+        myciaint = 0;
+        int_myciata(rclk - mycia_tai);
+        myciaint |= t;
+    }
+}
+
+static inline void update_tbi(CLOCK rclk)
+{
+    if(mycia_tbi < rclk) {
+        int t = myciaint;
+        myciaint = 0;
+        int_myciatb(rclk - mycia_tbi);
+        myciaint |= t;
+    }
+}
+
+#else /* MYCIA_USE_INLINE */
 
 #define	my_set_tai_clk(clk) 						\
     do {								\
@@ -171,6 +326,8 @@ INCLUDES
 	}								\
     } while(0)
 
+#endif /* MYCIA_USE_INLINE */
+
 /* global */
 
 static BYTE mycia[16];
@@ -185,44 +342,6 @@ int mycia_debugFlag = 0;
 static int update_mycia(CLOCK rclk);
 static void check_myciatodalarm(CLOCK rclk);
 
-/*
- * Local variables
- */
-
-#define	myciaier	mycia[CIA_ICR]
-static int myciaint;		/* Interrupt Flag register for cia 1 */
-
-static CLOCK myciardi;		/* real clock = clk-offset */
-
-static CLOCK mycia_tau;		/* when is the next underflow? */
-static CLOCK mycia_tai;		/* when is the next int_* scheduled? */
-static unsigned int mycia_tal;	/* latch value */
-static unsigned int mycia_tac;	/* counter value */
-static unsigned int mycia_tat;	/* timer A toggle bit */
-static unsigned int mycia_tap;	/* timer A port bit */
-static int mycia_tas;		/* timer state (CIAT_*) */
-
-static CLOCK mycia_tbu;		/* when is the next underflow? */
-static CLOCK mycia_tbi;		/* when is the next int_* scheduled? */
-static unsigned int mycia_tbl;	/* latch value */
-static unsigned int mycia_tbc;	/* counter value */
-static unsigned int mycia_tbt;	/* timer B toggle bit */
-static unsigned int mycia_tbp;	/* timer B port bit */
-static int mycia_tbs;		/* timer state (CIAT_*) */
-
-static int myciasr_bits;	/* number of bits still to send * 2 */
-
-static BYTE oldpa;              /* the actual output on PA (input = high) */
-static BYTE oldpb;              /* the actual output on PB (input = high) */
-
-static BYTE myciatodalarm[4];
-static BYTE myciatodlatch[4];
-static char myciatodstopped;
-static char myciatodlatched;
-static int myciatodticks = 100000;	/* approx. a 1/10 sec. */
-
-static BYTE myciaflag = 0;
-
 
 /* ------------------------------------------------------------------------- */
 /* MYCIA */
@@ -234,7 +353,7 @@ inline static void check_myciatodalarm(CLOCK rclk)
     if (!memcmp(myciatodalarm, mycia + CIA_TOD_TEN, sizeof(myciatodalarm))) {
 	myciaint |= CIA_IM_TOD;
 	if (mycia[CIA_ICR] & CIA_IM_TOD) {
-            my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
+            my_set_int(MYCIA_INT, myclk);
 	}
     }
 }
@@ -361,7 +480,7 @@ static int update_mycia(CLOCK rclk)
 	if (rclk != myciardi) {
 	    if (myciaier & myciaint & 0x7f) {
 		/* sets bit 7 */
-		my_set_int(I_MYCIAFL, MYCIA_INT, rclk);
+		my_set_int(MYCIA_INT, rclk);
 	    }
 	} else {
 	    if (added_int_clk == myciardi) {
@@ -374,7 +493,7 @@ static int update_mycia(CLOCK rclk)
 	    } else {
 		if (myciaier & myciaint & 0x7f) {
 		    /* sets bit 7 */
-		    my_set_int(I_MYCIAFL, MYCIA_INT, rclk);
+		    my_set_int(MYCIA_INT, rclk);
 		}
 	    }
 	}
@@ -393,6 +512,8 @@ static int update_mycia(CLOCK rclk)
 void reset_mycia(void)
 {
     int i;
+
+    myciatodticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
     for (i = 0; i < 16; i++)
 	mycia[i] = 0;
@@ -417,7 +538,7 @@ void reset_mycia(void)
     mycpu_set_alarm(A_MYCIATOD, myciatodticks);
 
     myciaint = 0;
-    my_set_int(I_MYCIAFL, 0, myclk);
+    my_set_int(0, myclk);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -600,7 +721,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		   myciaier & myciaint & 0x7f, myciaint);
 #endif
 	if (myciaier & myciaint & 0x7f) {
-	    my_set_int(I_MYCIAFL, MYCIA_INT, rclk);
+	    my_set_int(MYCIA_INT, rclk);
 	}
 	if (myciaier & (CIA_IM_TA + CIA_IM_TB)) {
 	    if ((myciaier & CIA_IM_TA) && mycia_tau) {
@@ -889,7 +1010,7 @@ BYTE read_mycia_(ADDRESS addr)
 
 	    myciaflag = 0;
 	    myciaint = 0;
-	    my_set_int(I_MYCIAFL, 0, rclk);
+	    my_set_int(0, rclk);
 
 	    return (t);
 	}
@@ -973,7 +1094,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 /*
 	    myciaflag = 0;
 	    myciaint = 0;
-	    my_set_int(I_MYCIAFL, 0, rclk);
+	    my_set_int(0, rclk);
 */
 	    return (t);
 	}
@@ -1062,7 +1183,7 @@ int int_myciata(long offset)
     if ((MYCIA_INT == IK_NMI && myciardi != rclk - 1)
         || (MYCIA_INT == IK_IRQ && myciardi < rclk - 1)) {
         if ((myciaint | CIA_IM_TA) & myciaier & 0x7f) {
-            my_set_int(I_MYCIAFL, MYCIA_INT, rclk);
+            my_set_int(MYCIA_INT, rclk);
         }
     }
 
@@ -1139,7 +1260,7 @@ int int_myciatb(long offset)
     if ((MYCIA_INT == IK_NMI && myciardi != rclk - 1)
         || (MYCIA_INT == IK_IRQ && myciardi < rclk - 1)) {
         if ((myciaint | CIA_IM_TB) & myciaier & 0x7f) {
-            my_set_int(I_MYCIAFL, MYCIA_INT, rclk);
+            my_set_int(MYCIA_INT, rclk);
         }
     }
 
@@ -1152,7 +1273,7 @@ void mycia_set_flag(void)
 {
     myciaint |= CIA_IM_FLG;
     if (mycia[CIA_ICR] & CIA_IM_FLG) {
-        my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
+        my_set_int(MYCIA_INT, myclk);
     }
 }
 
@@ -1161,7 +1282,7 @@ void mycia_set_sdr(BYTE data)
     mycia[CIA_SDR] = data;
     myciaint |= CIA_IM_SDR;
     if (mycia[CIA_ICR] & CIA_IM_SDR) {
-        my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
+        my_set_int(MYCIA_INT, myclk);
     }
 }
 
@@ -1515,9 +1636,9 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, m
 #endif
 
     if (mycia[CIA_ICR] & 0x80) {
-        set_int_noclk(&mycpu_int_status, I_MYCIAFL, MYCIA_INT);
+        mycia_restore_int(MYCIA_INT);
     } else {
-        set_int_noclk(&mycpu_int_status, I_MYCIAFL, 0);
+        mycia_restore_int(0);
     }
 
     if (snapshot_module_close(m) < 0)

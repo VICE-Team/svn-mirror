@@ -103,6 +103,9 @@ static int crtc_cols = 40;
 #define SCREEN_FIRST_DISPLAYED_LINE	CRTC_SCREEN_FIRST_DISPLAYED_LINE
 #define SCREEN_LAST_DISPLAYED_LINE      CRTC_SCREEN_LAST_DISPLAYED_LINE
 #define SCREEN_IDLE_MODE		CRTC_IDLE_MODE
+
+#define BYTES_PER_CHAR                  16
+
 #endif
 
 extern int crtc_init_resources(void);

@@ -239,6 +239,7 @@ static void convert_8toall(frame_buffer_t *p, int sx, int sy, int w, int h)
 
 int video_init(void)
 {
+    int do_try_mitshm = 0;
     XGCValues gc_values;
 
     root_window = RootWindow(display, screen);
@@ -249,26 +250,34 @@ int video_init(void)
 
 #ifdef MITSHM
 
+    /* if < 0 then no initialization, neither 0 (don't use) or 1 (use) */
     if(try_mitshm < 0) {
-	/* check wether we are on the same machine or not */
+	/* check wether we are on the same machine or not. Because if
+	   we are not, we do not even try to use MITSHM. */
 	char *p,*dname = stralloc(XDisplayName(NULL));
         struct utsname uts;
 
-	try_mitshm = 0; /* no MIT shm */
+	do_try_mitshm = 0; /* no MIT shm */
         uname(&uts);
         if((p=strchr(dname,':'))) p[0]=0;
         if(!strlen(dname)
                 || !strcmp(dname,"localhost")
                 || !strcmp(dname,uts.nodename)
           ) {
-	  try_mitshm = 1; /* use MIT shm */
+	  do_try_mitshm = 1; /* use MIT shm */
         }
 	free(dname);
+    } else {
+	do_try_mitshm = try_mitshm;
     }
 
-    if (!try_mitshm)
+    if (!do_try_mitshm)
 	use_mitshm = 0;
     else {
+	/* This checks if the server has MITSHM extensions available
+	   If try_mitshm is true and we are on a different machine, this
+	   bugs out, though. Therefore a good "same machine" detection is
+	   important. */
 	int major_version, minor_version, pixmap_flag, dummy;
 
 	/* Check whether we can use the Shared Memory Extension. */

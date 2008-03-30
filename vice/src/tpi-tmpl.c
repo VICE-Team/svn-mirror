@@ -274,15 +274,20 @@ BYTE peek_mytpi (ADDRESS addr) {
 
 
 /* Port C can be setup as interrupt input - this collects connected IRQ states
- * and sets IRQ if necessary */
+ * and sets IRQ if necessary 
+ * Beware: An IRQ line is active low, but for active irqs we here get
+ * a state parameter != 0 */
 void mytpi_set_int(int bit, int state)
 {
     if(bit>=5) return;
 
     bit = pow2[bit];
 
+    state = !state;
+
     /* check low-high transition */
     if(state && !(irq_previous & bit)) {
+        /* on those two lines the transition can be selected. */
 	if((bit & 0x18) && ((bit>>1) & tpi[TPI_CREG])) {
 	    set_latch_bit(bit);
 	    if((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
@@ -298,6 +303,7 @@ void mytpi_set_int(int bit, int state)
     } else
     /* check high-low transition */
     if((!state) && (irq_previous & bit)) {
+        /* on those two lines the transition can be selected. */
 	if((bit & 0x18) && !((bit>>1) & tpi[TPI_CREG])) {
 	    set_latch_bit(bit);
 	    if((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
@@ -309,6 +315,7 @@ void mytpi_set_int(int bit, int state)
 		TPI_SET_CB(1);
 	    }
 	}
+        /* those three always trigger at high-low */
 	if(bit & 0x07) {
 	    set_latch_bit(bit);
 	}
@@ -438,7 +445,7 @@ int mytpi_read_snapshot_module(snapshot_t *p)
     }
 
     TPI_SET_CA( ca_state );
-    TPI_SET_CA( cb_state );
+    TPI_SET_CB( cb_state );
 
     mycpu_restore_int(I_MYTPI, irq_active ? MYIRQ : 0); 
 

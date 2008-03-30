@@ -208,6 +208,24 @@ int cartridge_attach_image(int type, const char *filename)
 	    }
 	    fclose(fd);
 	    break;
+/* FIXME: Enable this when Final Cartridge is fully supported in `c64/c64mem.c'.
+          case 3:
+            for (i = 0; i <= 3; i++) {
+                if (fread(chipheader, 0x10, 1, fd) < 1) {
+                    fclose(fd);
+                    return -1;
+                }
+                if (chipheader[0xb] > 3) {
+                    fclose(fd);
+                    return -1;
+                }
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
+                    return -1;
+                }
+            }
+            fclose(fd);
+            break;
+*/
 	  default:
 	    fclose(fd);
 	    return -1;

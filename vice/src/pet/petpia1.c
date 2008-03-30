@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.15.0.11+/src/pet/petpia1.c
- * This file is generated from ../../../vice-0.15.0.11+/src/pia-tmpl.c and ../../../vice-0.15.0.11+/src/pet/petpia1.def,
+ * ../../../vice-0.15.0.12/src/pet/petpia1.c
+ * This file is generated from ../../../vice-0.15.0.12/src/pia-tmpl.c and ../../../vice-0.15.0.12/src/pet/petpia1.def,
  * Do not edit!
  */
 /*

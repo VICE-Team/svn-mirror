@@ -94,6 +94,7 @@ static int chargen_rel = 0;
 static BYTE *screenmem = NULL;
 static ADDRESS addr_mask = 0;
 static ADDRESS scraddr = 0;
+static int hw_double_cols = 0;
 
 static int crsr_enable;
 static int crsrpos;
@@ -104,6 +105,8 @@ static int crsrstart;   /* 1st cursor scan line */
 static int crsrend;     /* last cursor scan line */
 static int crsrstate;   /* 0 = off, 1 = on, toggled by int_* */
 static int crsrcnt;
+
+static int screen_charheight = 8;
 
 PIXEL4 dwg_table_0[256], dwg_table_1[256];
 PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
@@ -409,10 +412,10 @@ static void crsr_set_dirty(void)
 {
     int i, j;
 
-    i = (crsrrel / memptr_inc) * 8 + crsrstart;
+    i = (crsrrel / memptr_inc) * screen_charheight + crsrstart;
     i += SCREEN_BORDERHEIGHT + ysmooth;
 
-    j = (crsrrel / memptr_inc) * 8 + crsrend;
+    j = (crsrrel / memptr_inc) * screen_charheight + crsrend;
     j += SCREEN_BORDERHEIGHT + ysmooth;
 
     while (i<=j) {
@@ -433,10 +436,9 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
       case 0:			/* R00  Horizontal total (characters + 1) */
       case 1:			/* R01  Horizontal characters displayed */
         memptr_inc = crtc[1];
-        if (crtc_cols == 80)
+        if (hw_double_cols) {
             memptr_inc *= 2;
-        if (memptr_inc > crtc_cols)
-            memptr_inc = crtc_cols;
+        }
 	break;
 
       case 2:			/* R02  Horizontal Sync Position */
@@ -461,11 +463,18 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 	break;
 
       case 9:			/* R09  Rasters between two display lines */
-	/* FIXME */
+#if 0
+#ifndef __MSDOS__
+	screen_charheight = crtc[9]+1;
+#else
+	screen_charheight = 8;
+#endif
+printf("set screen_charheight to %d\n",screen_charheight);
+#endif
 	break;
 
       case 10:			/* R10  Cursor (not implemented on the PET) */
-        crsrstart = min(7, value & 0x1f);
+        crsrstart = value & 0x1f;
         value = ((value >> 5) & 0x03) ^ 0x01;
         if(crsr_enable && (crsrmode != value)) {
           /* printf("crtc: write R10 new cursormode = %d\n",value); */
@@ -478,7 +487,7 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 
       case 11:			/* R11  Cursor (not implemented on the PET) */
 	crsr_set_dirty();
-        crsrend = min(7, value & 0x1f);
+        crsrend = value & 0x1f;
 	crsr_set_dirty();
 	break;
 
@@ -574,7 +583,8 @@ BYTE read_colorram(ADDRESS addr)
 void crtc_set_char(int crom)
 {
     chargen_rel = (chargen_rel & ~0x800) | (crom ? 0x800 : 0);
-    chargen_ptr = chargen_rom + chargen_rel;
+    /* chargen_rel is computed for 8bytes/char, but charom is 16bytes/char */
+    chargen_ptr = chargen_rom + (chargen_rel << 1);
 }
 
 void reset_crtc(void)
@@ -609,7 +619,7 @@ int crtc_offscreen(void)
     return rasterline >= CRTC_SCREEN_YPIX;
 }
 
-void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwcursor)
+void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
 {
     int w;
 
@@ -621,8 +631,12 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwcursor)
     memptr_inc = crtc_cols = num_cols;
 
     addr_mask = vmask;
-    screenmem = screen;
-    crsr_enable = hwcursor;
+
+    if (screen) {
+        screenmem = screen;
+    }
+    crsr_enable = hwflags & 1;
+    hw_double_cols = hwflags & 2;
 
     display_xstart = SCREEN_BORDERWIDTH;
     display_xstop = SCREEN_BORDERWIDTH + SCREEN_XPIX;
@@ -669,7 +683,8 @@ static void crtc_update_memory_ptrs(void)
     }
     chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
 
-    chargen_ptr = chargen_rom + chargen_rel;
+    /* chargen_rel is computed for 8bytes/char, but charom is 16bytes/char */
+    chargen_ptr = chargen_rom + (chargen_rel << 1);
 
     scraddr &= addr_mask;
 }
@@ -709,7 +724,7 @@ static int fill_cache(struct line_cache *l, int *xs, int *xe, int r)
     retval = _fill_cache_text(l->fgdata, screenmem + memptr, chargen_ptr,
                               memptr_inc, ycounter, xs, xe, r);
 
-    n = crtc_cols - memptr_inc;
+    n = (crtc_cols >= memptr_inc) ? crtc_cols - memptr_inc : 0;
 
     /* All the characters beyond the `memptr_inc'th one are blank.  */
     if (n > 0) {
@@ -732,14 +747,14 @@ static int fill_cache(struct line_cache *l, int *xs, int *xe, int r)
         PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH;               \
         register int i, d;                                              \
                                                                         \
-        if(crsrmode)							\
+        if(crsrmode 							\
+		&& crsrstate						\
+		&& ycounter >= crsrstart				\
+		&& ycounter <= crsrend )				\
         for (i = 0; i < memptr_inc; i++, p += 8) {			\
             d = GET_CHAR_DATA(chargen_ptr, (screenmem + memptr)[i], 	\
 				ycounter);				\
-            if(crsrstate						\
-                    && (memptr+i)==crsrrel				\
-                    && ycounter >= crsrstart				\
-                    && ycounter <=crsrend)				\
+            if( (memptr+i)==crsrrel )					\
                 d ^= 0xff;						\
             if ((reverse_flag))                                         \
                 d ^= 0xff;                                              \
@@ -781,14 +796,14 @@ static void draw_reverse_line(void)
                     + SCREEN_BORDERWIDTH * pixel_width);                \
         register int i, d;                                              \
                                                                         \
-        if(crsrmode)							\
+        if(crsrmode							\
+		&& crsrstate						\
+		&& ycounter >= crsrstart				\
+		&& ycounter <= crsrend )				\
         for (i = 0; i < memptr_inc; i++, p += 16) {			\
             d = GET_CHAR_DATA(chargen_ptr, (screenmem + memptr)[i], 	\
 			ycounter);					\
-            if(crsrstate						\
-                    && (memptr+i)==crsrrel				\
-                    && ycounter >= crsrstart				\
-                    && ycounter <= crsrend)				\
+            if( (memptr+i)==crsrrel )					\
                 d ^= 0xff;						\
             if ((reverse_flag))                                         \
                 d ^= 0xff;                                              \
@@ -834,16 +849,20 @@ static void draw_reverse_line_2x(void)
     do {                                                                \
         PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;    \
         register int i;                                                 \
-        register int mempos = ((l->n+1)/8 )*memptr_inc;			\
-	register int ypos = (l->n+1) & 7;				\
+        register int mempos = ((l->n+1)/screen_charheight )*memptr_inc;	\
+	register int ypos = (l->n+1) % screen_charheight;		\
 									\
         for (i = (xs); i <= (xe); i++, p += 8) {                        \
             BYTE d = (l)->fgdata[i];                                    \
             if ((reverse_flag))                                         \
                 d = ~d;                                                 \
                                                                         \
-            if(crsrmode && mempos+i==crsrrel && crsrstate		\
-                    && ypos >= crsrstart && ypos <=crsrend) {		\
+            if(crsrmode 						\
+		&& crsrstate						\
+                && ypos >= crsrstart 					\
+		&& ypos <=crsrend					\
+		&& mempos+i==crsrrel 					\
+		) {							\
                 d = ~d;                                                 \
             } 								\
             *((PIXEL4 *) p) = dwg_table_0[d];				\
@@ -866,16 +885,21 @@ static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe)
         PIXEL *p = (frame_buffer_ptr                            \
                     + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));     \
         register int i;                                         \
-        register int mempos = ((l->n+1)/8 )*memptr_inc;         \
-        register int ypos = (l->n+1) & 7;                       \
+        register int mempos = ((l->n+1)/screen_charheight )	\
+					*memptr_inc;         	\
+        register int ypos = (l->n+1) % screen_charheight;       \
                                                                 \
         for (i = (xs); i <= (xe); i++, p += 16) {               \
             BYTE d = (l)->fgdata[i];                            \
             if ((reverse_flag))                                 \
                 d = ~d;                                         \
 								\
-            if(crsrmode && mempos+i==crsrrel && crsrstate       \
-                    && ypos >= crsrstart && ypos <=crsrend) {   \
+            if(crsrmode 					\
+		&& crsrstate  					\
+                && ypos >= crsrstart 				\
+		&& ypos <=crsrend				\
+		&& mempos+i==crsrrel 				\
+		) { 						\
                 d = ~d;                                         \
             }						        \
             *((PIXEL4 *) p) = dwg_table2x_0[d];                 \
@@ -922,33 +946,39 @@ static char snap_module_name[] = "CRTC";
 
 int crtc_write_snapshot_module(snapshot_t *s)
 {
-    int i;
+    int i, ef = 0;
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
 
-    if (snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0
-        || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0)
-        goto fail;
-
-    if (snapshot_module_write_word(m, (WORD) (screenmem - ram)) < 0
+    if (ef 
+	|| snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0
+        || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0
         || snapshot_module_write_word(m, (WORD) addr_mask) < 0
         || snapshot_module_write_byte(m, (BYTE) crtc_cols) < 0
-        || snapshot_module_write_byte(m, (BYTE) crsr_enable) < 0)
-        goto fail;
+        || snapshot_module_write_byte(m, (BYTE) 
+		((crsr_enable ? 1 : 0) | (hw_double_cols ? 2 : 0))) < 0
+	) {
+	ef = -1;
+    }
 
-    for (i = 0; i < 20; i++)
-        if (snapshot_module_write_byte(m, crtc[i]) < 0)
-            goto fail;
+    for (i = 0; (!ef) && (i < 20); i++)
+        ef = snapshot_module_write_byte(m, crtc[i]);
 
-    return snapshot_module_close(m);
+    if (ef 
+	|| snapshot_module_write_byte(m, crsrcnt + (crsrstate ? 0x80 : 0)) < 0
+	) {
+	ef = -1;
+    }
 
-fail:
-    if (m != NULL)
+    if(ef) {
         snapshot_module_close(m);
-    return -1;
+    } else {
+    	ef = snapshot_module_close(m);
+    }
+    return ef;
 }
 
 int crtc_read_snapshot_module(snapshot_t *s)
@@ -957,8 +987,8 @@ int crtc_read_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
     WORD w;
     BYTE b;
-    WORD vmask, screen;
-    BYTE num_cols, hwcursor;
+    WORD vmask;
+    BYTE num_cols, hwflags;
     BYTE major, minor;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
@@ -987,22 +1017,31 @@ int crtc_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    if (snapshot_module_read_word(m, &screen) < 0
+    if ( 0 
         || snapshot_module_read_word(m, &vmask) < 0
         || snapshot_module_read_byte(m, &num_cols) < 0
-        || snapshot_module_read_byte(m, &hwcursor))
+        || snapshot_module_read_byte(m, &hwflags))
         goto fail;
-    crtc_set_screen_mode(ram + (int) screen, vmask, num_cols, hwcursor);
+
+    crtc_set_screen_mode(NULL, vmask, num_cols, hwflags);
+    crtc_update_memory_ptrs();
 
     for (i = 0; i < 20; i++) {
         if (snapshot_module_read_byte(m, &b) < 0)
             goto fail;
 
-        /* XXX: This assumes that there are no side effects.  */
+        /* XXX: This assumes that there are no side effects. 
+	   Well, there are, but the cursor state is restored later */
         store_crtc(i, b);
     }
 
+    if ( snapshot_module_read_byte(m, &b) < 0 ) goto fail;
+    crsrcnt = b & 0x3f;
+    crsrstate = (b & 0x80) ? 1 : 0;
+
     maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE - RASTER_CYCLE);
+
+    tpi1_set_int(0, 1);
 
     force_repaint();
     return snapshot_module_close(m);

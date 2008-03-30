@@ -4334,6 +4334,9 @@ Version numbers: Major 1, Minor 0.
 @tab T2C
 @tab Timer 2 counter value
 @item BYTE
+@tab RUNFL
+@tab bit 7: timer 1 will generate IRQ on underflow; bit 6: timer 2 will generate IRQ on underflow
+@item BYTE
 @tab SR
 @tab Shift register value
 @item BYTE
@@ -4517,6 +4520,9 @@ Version numbers: Major 1, Minor 0
 @item ARRAY
 @tab RAM1
 @tab 4k RAM dump $1000-$1fff
+@item ARRAY
+@tab COLORRAM
+@tab 2k Color RAM, $9400-$9bff
 @item ARRAY
 @tab BLK0
 @tab if CONFIG & 1 then: 3k RAM dump $0400-$0fff

@@ -53,6 +53,9 @@ void machine_shutdown(void);
    been used.  */
 int machine_set_restore_key(int);
 
+/* Get the number of CPU cylces per second.  This is used in various parts.  */
+long machine_get_cycles_per_second(void);
+
 /* Write a snapshot.  */
 int machine_write_snapshot(const char *name);
 

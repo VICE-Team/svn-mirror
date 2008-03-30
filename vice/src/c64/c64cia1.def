@@ -35,8 +35,8 @@
 #define MYCIA CIA1
 
 
-#define	cia1_set_int_clk		maincpu_set_irq_clk
-#define	CIA1_INT			IK_IRQ
+#define	cia1_set_int_clk	maincpu_set_irq_clk
+#define	CIA1_INT		IK_IRQ
 
 /* #define CIA1_TIMER_DEBUG */
 

@@ -409,7 +409,7 @@ void set_bank_exec(int val) {
     int i;
     val &= 0x0f;
     if(val != bank_exec) {
- /* printf("set_bank_exec(%d)\n",val); */
+/* printf("set_bank_exec(%d)\n",val); */
     	bank_exec = val;
     	_mem_read_tab_ptr      = _mem_read_tab[bank_exec];
     	_mem_write_tab_ptr     = _mem_write_tab[bank_exec];
@@ -420,6 +420,11 @@ void set_bank_exec(int val) {
 	}
     	page_zero = _mem_read_base_tab_ptr[0];
     	page_one = _mem_read_base_tab_ptr[1];
+
+	/* This sets the pointers to otherwise non-mapped memory, to
+	   avoid that the CPU code uses illegal memory and segfaults. */
+	if(!page_zero) page_zero = ram + 0xf0000;
+	if(!page_one) page_one = ram + 0xf0100; 
     }
 }
 
@@ -939,16 +944,18 @@ int mem_load(void)
     tape_init(0, 0, 0, 0, 0, 0, 0, NULL, 0, 0);
 
     /* Load chargen ROM
-     * we load 4k or 8k of 16-byte-per-char Charrom. For now we shorten
-     * it to 8 byte-per-char, then generate the inverted chars */
+     * we load 4k of 16-byte-per-char Charrom. 
+     * Then we generate the inverted chars */
 
     memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
-    if ((krsize=mem_load_sys_file(chargen_name, chargen_rom, 4096, 8192)) < 0) {
+    if ((krsize=mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096)) < 0) {
         fprintf(stderr, "Couldn't load character ROM.\n");
         return -1;
     }
 
+    memmove(chargen_rom+2048, chargen_rom+4096, 2048);
+#if 0
     if(krsize < 8192) {
 	memmove(chargen_rom, chargen_rom + 8192-krsize, krsize);
 	memset(chargen_rom + krsize, 0, 8192-krsize);
@@ -962,13 +969,11 @@ int mem_load(void)
 	    }
 	}
     }
-
+#endif
     /* Inverted chargen into second half. This is a hardware feature.  */
-    for (i = 0; i < 1024; i++) {
-        chargen_rom[i + 1024] = chargen_rom[i] ^ 0xff;
-        chargen_rom[i + 3072] = chargen_rom[i + 2048] ^ 0xff;
-        chargen_rom[i + 5120] = chargen_rom[i + 4096] ^ 0xff;
-        chargen_rom[i + 7168] = chargen_rom[i + 6144] ^ 0xff;
+    for (i = 0; i < 2048; i++) {
+        chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
+        chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
     }
 
     /* Init Disk/Cartridge ROM with 'unused address' values.  */
@@ -1232,7 +1237,7 @@ int mem_write_snapshot_module(snapshot_t *p)
     if (m == NULL)
         return -1;
 
-    memsize = ramsize >> 17;
+    memsize = ramsize >> 7;	/* rescale from 1k to 128k */
 
     config = (cart08_ram ? 1 : 0)
 		| (cart1_ram ? 2 : 0)
@@ -1248,10 +1253,14 @@ int mem_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, bank_exec);
     snapshot_module_write_byte(m, bank_ind);
 
-    snapshot_module_write_byte_array(m, ram, 0x0800);
-    snapshot_module_write_byte_array(m, rom + 0xfd000, 0x0800);
+    snapshot_module_write_byte_array(m, ram + 0xf0000, 0x0800);
+    snapshot_module_write_byte_array(m, rom + 0xd000, 0x0800);
 
-    snapshot_module_write_byte_array(m, ram, memsize << 17);
+    if(memsize < 4) {
+        snapshot_module_write_byte_array(m, ram + 0x10000, memsize << 17);
+    } else {
+        snapshot_module_write_byte_array(m, ram, memsize << 17);
+    }
 
     if(memsize < 4) {	/* if 1M memory, bank 15 is included */
 	if(config & 1) {
@@ -1302,8 +1311,8 @@ int mem_read_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &byte);
     set_bank_ind(byte);
 
-    snapshot_module_read_byte_array(m, ram, 0x0800);
-    snapshot_module_read_byte_array(m, rom + 0xfd000, 0x0800);
+    snapshot_module_read_byte_array(m, ram + 0xf0000, 0x0800);
+    snapshot_module_read_byte_array(m, rom + 0xd000, 0x0800);
 
     ramsize = memsize << 17;
 
@@ -1314,7 +1323,11 @@ int mem_read_snapshot_module(snapshot_t *p)
     cart6_ram = config & 16;
     cartC_ram = config & 32;
 
-    snapshot_module_read_byte_array(m, ram, memsize << 17);
+    if(memsize < 4) {
+        snapshot_module_read_byte_array(m, ram + 0x10000, memsize << 17);
+    } else {
+        snapshot_module_read_byte_array(m, ram, memsize << 17);
+    }
 
     if(memsize < 4) {	/* if 1M memory, bank 15 is included */
 	if(config & 1) {
