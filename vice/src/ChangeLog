@@ -1,3 +1,44 @@
+2002-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.11.
+
+	* autostart.c (disk_eof_callback): Do not generate output if
+	`AUTOSTART_NONE' is active.  (autostart_reset): do not eof
+	callback if `AUTOSTART_DONE' is active.
+
+	* keyboard.c: Use new macro `KEYBOARD_RAND()'.
+
+	* video/video-render.c: Include stdio.h instead of stdlib.h.
+
+2002-05-06  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/install.cmd:
+	- changed URL for vice_toc.html
+
+	* arch/os2/makedist.cmd:
+	- added 3plus1hi, 3plus1lo and dos1551
+
+	* arch/os2/vac++/incl/mainsrc.icc:
+	- added debug.c, init.c and initcmdline.c
+
+	* arch/os2/vac++/incl/raster.icc:
+	- added raster-line.c
+
+	* arch/os2/vac++/RESID.ICC:
+	- updated version number
+
+	* arch/os2/video.c:
+	- removed setting vide_draw_buffer_callback
+
+	* plus4/plus4-resources.c:
+	- renamed ram_size to ram_size_plus4
+
+	* raster/raster-line.c:
+	- added comment
+
+	* vsyncapi.h:
+	- added forwar declaration for canvas_s
+
 2002-05-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.10.

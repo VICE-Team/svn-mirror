@@ -2,7 +2,6 @@
  * keyboard.c - Common keyboard emulation.
  *
  * Written by
- *  
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -27,11 +26,16 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "alarm.h"
 #include "keyboard.h"
 #include "maincpu.h"
+#include "types.h"
+
+
+#define KEYBOARD_RAND() (rand() & 0x3fff)
 
 /* Keyboard array.  */
 int keyarr[KBD_ROWS];
@@ -113,22 +117,23 @@ void keyboard_clear_keymatrix(void)
 void joystick_set_value_absolute(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] = value;
-    alarm_set(&joystick_alarm, clk + 1000);
+    alarm_set(&joystick_alarm, clk + KEYBOARD_RAND());
 }
 
 void joystick_set_value_or(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] |= value;
-    alarm_set(&joystick_alarm, clk + 1000);
+    alarm_set(&joystick_alarm, clk + KEYBOARD_RAND());
 }
 
 void joystick_set_value_and(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] &= value;
-    alarm_set(&joystick_alarm, clk + 1000);
+    alarm_set(&joystick_alarm, clk + KEYBOARD_RAND());
 }
 
 void joystick_clear(unsigned int joyport)
 {
     latch_joystick_value[joyport] = 0;
 }
+

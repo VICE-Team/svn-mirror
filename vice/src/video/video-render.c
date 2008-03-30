@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include <stdlib.h>		/* definition of NULL needed */
+#include <stdio.h>
 
 #include "raster-canvas.h"
 #include "raster.h"

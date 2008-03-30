@@ -856,8 +856,7 @@ void raster_line_emulate(raster_t *raster)
     if (raster->current_line == raster->display_ystop)
         raster->blank_enabled = 1;
 
-    if (1 /*!raster->skip_frame*/
-        && raster->current_line >= raster->geometry.first_displayed_line
+    if (raster->current_line >= raster->geometry.first_displayed_line
         && raster->current_line <= raster->geometry.last_displayed_line
         && raster->current_line >= viewport->first_line
         && raster->current_line <= viewport->last_line) {
@@ -876,8 +875,7 @@ void raster_line_emulate(raster_t *raster)
 
     }
 
-    if (1 /*!raster->skip_frame*/)
-        update_sprite_collisions(raster);
+    update_sprite_collisions(raster);
 
     if (raster->changes.have_on_this_line) {
         raster_changes_apply_all(&raster->changes.background);
