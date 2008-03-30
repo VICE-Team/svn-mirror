@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,11 +34,11 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "kbdbuf.h"
+#include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "kbdbuf.h"
 #include "types.h"
-#include "utils.h"
 
 
 /* Maximum number of characters we can queue.  */
@@ -68,39 +69,53 @@ static int num_pending;
 /* Flag if we are initialized already.  */
 static int kbd_buf_enabled = 0;
 
-/* String to feed into the keyboard buffer on startup.  */
-static char *kdb_buf_startup_string = NULL;
+/* String to feed into the keyboard buffer.  */
+static char *kdb_buf_string = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
+static void kdb_buf_parse_string(const char *string)
 {
     unsigned int i, j;
     size_t len;
 
-    len = strlen(param);
+    len = strlen(string);
 
     if (len > QUEUE_SIZE)
         len = QUEUE_SIZE;
 
-    kdb_buf_startup_string = xcalloc(1, len + 1);
+    kdb_buf_string = lib_realloc(kdb_buf_string, len + 1);
+    memset(kdb_buf_string, 0, len + 1);
 
     for (i = 0, j = 0; i < len; i++) {
-        if (param[i] == '\\' && i < (len - 2) && isxdigit(param[i + 1])
-            && isxdigit(param[i + 2])) {
+        if (string[i] == '\\' && i < (len - 2) && isxdigit(string[i + 1])
+            && isxdigit(string[i + 2])) {
             char hexvalue[3];
 
-            hexvalue[0] = param[i + 1];
-            hexvalue[1] = param[i + 2];
+            hexvalue[0] = string[i + 1];
+            hexvalue[1] = string[i + 2];
             hexvalue[2] = '\0';
-            kdb_buf_startup_string[j] = (char)strtol(hexvalue, NULL, 16);
+            kdb_buf_string[j] = (char)strtol(hexvalue, NULL, 16);
             j++;
             i += 2;
         } else {
-            kdb_buf_startup_string[j] = param[i];
+            kdb_buf_string[j] = string[i];
             j++;
         }
     }
+}
+
+int kdb_buf_feed_string(const char *string)
+{
+    kdb_buf_parse_string(string);
+
+    return kbd_buf_feed(kdb_buf_string);
+}
+
+static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
+{
+    kdb_buf_parse_string(param);
+
     return 0;
 }
 
@@ -132,12 +147,15 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
         kbd_buf_enabled = 0;
     }
 
-    if (kdb_buf_startup_string != NULL) {
-        kbd_buf_feed(kdb_buf_startup_string);
-        free(kdb_buf_startup_string);
-    }
+    if (kdb_buf_string != NULL)
+        kbd_buf_feed(kdb_buf_string);
 
     return 0;
+}
+
+void kbd_buf_shutdown(void)
+{
+    free(kdb_buf_string);
 }
 
 /* Return nonzero if the keyboard buffer is empty.  */
@@ -147,18 +165,17 @@ int kbd_buf_is_empty(void)
 }
 
 /* Feed `s' into the queue.  */
-int kbd_buf_feed(const char *s)
+int kbd_buf_feed(const char *string)
 {
-    int num = strlen(s);
+    const int num = strlen(string);
     int i, p;
 
     if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled)
         return -1;
 
     for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
-         i < num;
-         p = (p + 1) % QUEUE_SIZE, i++) {
-        queue[p] = s[i];
+        i < num; p = (p + 1) % QUEUE_SIZE, i++) {
+        queue[p] = string[i];
     }
 
     num_pending += num;
