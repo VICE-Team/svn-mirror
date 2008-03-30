@@ -92,6 +92,11 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
+X128_WINRES = @X128_WINRES@
+X64_WINRES = @X64_WINRES@
+XCBM2_WINRES = @XCBM2_WINRES@
+XPET_WINRES = @XPET_WINRES@
+XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
 
@@ -266,41 +271,48 @@ bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ $(READLINE) @LEXLIB@
+        @X_LIBS@ $(READLINE) @LEXLIB@ @X64_WINRES@
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
 	@RESID_LIBS@ $(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) @X128_WINRES@
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
 	@LIBOBJS@ @ARCH_LIBS@
+x128_LDFLAGS = @x128_LDFLAGS@ 
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) \
+        @XVIC_WINRES@
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
 xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd)\
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) \
+        @XPET_WINRES@
 xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xcbm2
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-	@X_LIBS@ $(READLINE)
+	@X_LIBS@ $(READLINE) @XCBM2_WINRES@
 xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
+xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
 # c1541
 c1541_SOURCES = \
@@ -341,31 +353,26 @@ findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
-x64_LDFLAGS = 
 x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
-x128_LDFLAGS = 
 xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
-xvic_LDFLAGS = 
 xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
-xpet_LDFLAGS = 
 xcbm2_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
-xcbm2_LDFLAGS = 
 c1541_OBJECTS =  c1541.o charsets.o vdrive.o gcr.o mshell.o tape.o \
 utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES = 

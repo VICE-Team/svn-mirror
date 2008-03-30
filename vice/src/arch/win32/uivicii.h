@@ -1,8 +1,8 @@
 /*
- * uiattach.h - Implementation of the device manager dialog box.
+ * uivicii.h - Implementation of VIC-II settings dialog box.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,11 @@
  *
  */
 
-#ifndef _UIATTACH_H
-#define _UIATTACH_H
+#ifndef _UIVICII_H
+#define _UIVICII_H
 
 #include <windows.h>
 
-void ui_attach_dialog(HWND hwnd);
+void ui_vicii_settings_dialog(HWND hwnd);
 
 #endif

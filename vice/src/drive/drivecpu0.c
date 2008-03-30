@@ -568,8 +568,27 @@ void drive0_set_bank_base(void)
 /* FIXME: We should activate the monitor here.  */
 static void drive0_jam(void)
 {
-    ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);
-    DO_INTERRUPT(IK_RESET);
+    int tmp;
+    tmp = ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);
+    switch (tmp) {
+      case UI_JAM_RESET:
+        reg_pc = 0xeaa0;
+        drive0_set_bank_base();
+        maincpu_trigger_reset();
+        break;
+      case UI_JAM_HARD_RESET:
+        reg_pc = 0xeaa0;
+        drive0_set_bank_base();
+        mem_powerup();
+        maincpu_trigger_reset();
+        break;
+      case UI_JAM_MONITOR:
+        caller_space = e_disk8_space;
+        mon(reg_pc);
+        break;
+      default:
+        CLK++;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

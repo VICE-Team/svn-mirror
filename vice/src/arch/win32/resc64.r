@@ -1,7 +1,7 @@
 //Microsoft Developer Studio generated resource script.
 //
 #include "resc64.h"
-#include "../../config.h"
+#include "config.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -163,7 +163,7 @@ BEGIN
             MENUITEM "&Custom",                     IDM_MAXIMUM_SPEED_CUSTOM
 #endif
         END
-        MENUITEM "&Warp Mode",                      IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp mode",                      IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
@@ -180,13 +180,14 @@ BEGIN
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
     END
     POPUP "&Settings"
     BEGIN
-        MENUITEM "&True Drive Emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Drive Settings...",              IDM_DRIVE_SETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "Device &manager...",              IDM_DEVICEMANAGER
+        MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
+        MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
+        MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -268,7 +269,7 @@ BEGIN
             MENUITEM "&Custom",                     IDM_MAXIMUM_SPEED_CUSTOM
 #endif
         END
-        MENUITEM "&Warp Mode",                      IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp mode",                      IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
@@ -285,13 +286,14 @@ BEGIN
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
     END
     POPUP "&Settings"
     BEGIN
-        MENUITEM "&True Drive Emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "D&rive Settings...",              IDM_DRIVE_SETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "Device &manager...",              IDM_DEVICEMANAGER
+        MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
+        MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
+        MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -382,7 +384,7 @@ BEGIN
             MENUITEM "&Custom",                     IDM_MAXIMUM_SPEED_CUSTOM
 #endif
         END
-        MENUITEM "&Warp Mode",                      IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp mode",                      IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
@@ -395,13 +397,13 @@ BEGIN
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&true drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
     END
     POPUP "&Settings"
     BEGIN
-        MENUITEM "&True Drive Emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "D&rive Settings...",              IDM_DRIVE_SETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "Device &manager...",              IDM_DEVICEMANAGER
+        MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
+        MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -483,7 +485,7 @@ BEGIN
             MENUITEM "&Custom",                     IDM_MAXIMUM_SPEED_CUSTOM
 #endif
         END
-        MENUITEM "&Warp Mode",                      IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp mode",                      IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
@@ -496,13 +498,13 @@ BEGIN
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
     END
     POPUP "&Settings"
     BEGIN
-        MENUITEM "&True Drive Emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "D&rive Settings...",              IDM_DRIVE_SETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "Device &manager...",              IDM_DEVICEMANAGER
+        MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
+        MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -584,7 +586,7 @@ BEGIN
             MENUITEM "&Custom",                     IDM_MAXIMUM_SPEED_CUSTOM
 #endif
         END
-        MENUITEM "&Warp Mode",                      IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp mode",                      IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE
@@ -597,13 +599,13 @@ BEGIN
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
     END
     POPUP "&Settings"
     BEGIN
-        MENUITEM "&True Drive Emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "D&rive Settings...",              IDM_DRIVE_SETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "Device &manager...",              IDM_DEVICEMANAGER
+        MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
+        MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
@@ -698,11 +700,11 @@ BEGIN
                     85,90,80,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
-IDD_SNAPSHOT_SAVE_DIALOG DIALOG DISCARDABLE  0, 0, 220, 95 
+IDD_SNAPSHOT_SAVE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 108
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    COMBOBOX        IDC_SNAPSHOT_SAVE_IMAGE,5,15,210,12,CBS_DROPDOWN |
+    COMBOBOX        IDC_SNAPSHOT_SAVE_IMAGE,5,15,170,12,CBS_DROPDOWN |
                     CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
     GROUPBOX        "&Options",IDC_STATIC,5,35,150,45
     AUTOCHECKBOX    "Save currently attached &disks images",
@@ -711,6 +713,42 @@ BEGIN
     AUTOCHECKBOX    "Save currently loaded &ROM images",
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     15,65,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 70,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDC_CANCEL, 125,90,50,14, WS_TABSTOP
+
+END
+
+IDD_VICII_PALETTE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "&Default",IDC_SELECT_VICII_DEFAULT,15,10,35,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Custom",IDC_SELECT_VICII_CUSTOM,15,25,35,10,
+                            BS_AUTORADIOBUTTON
+    COMBOBOX        IDC_VICII_CUSTOM_NAME,80,25,120,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Browse...",IDC_VICII_CUSTOM_BROWSE,80,43,50,14,WS_GROUP
+    AUTORADIOBUTTON "&C64S",IDC_SELECT_VICII_C64S,15,40,35,10,
+                            BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "CC&S64",IDC_SELECT_VICII_CCS64,15,55,35,10,
+                            BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&Frodo",IDC_SELECT_VICII_FRODO,15,70,35,10,
+                            BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&Godot",IDC_SELECT_VICII_GODOT,15,85,35,10,
+                            BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&PC64",IDC_SELECT_VICII_PC64,15,100,35,10,
+                            BS_AUTORADIOBUTTON
+END
+
+IDD_VICII_SPRITES_DIALOG DIALOG DISCARDABLE  0, 0, 180, 117
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Sprite-&sprite collisions", IDC_TOGGLE_VICII_SSC,
+                    15,10,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Sprite-&background collisions", IDC_TOGGLE_VICII_SBC,
+                    15,25,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 /////////////////////////////////////////////////////////////////////////////

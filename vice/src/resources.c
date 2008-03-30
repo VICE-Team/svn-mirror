@@ -44,6 +44,7 @@
 #include <dir.h>
 #endif
 
+#include "archdefs.h"
 #include "resources.h"
 #include "utils.h"
 #include "ui.h"
@@ -55,13 +56,6 @@
 static int num_resources, num_allocated_resources;
 static resource_t *resources;
 static const char *machine_id;
-
-/* FIXME: I don't like this to be here.  */
-#if defined(__MSDOS__) || defined (WIN32)
-#define RESOURCE_FILE_NAME	"VICERC"
-#else
-#define RESOURCE_FILE_NAME	".vicerc"
-#endif
 
 /* ------------------------------------------------------------------------- */
 

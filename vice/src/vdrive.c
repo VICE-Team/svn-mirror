@@ -221,10 +221,10 @@ errortext_t floppy_error_messages[] =
 /* ------------------------------------------------------------------------- */
 
 
-int     initialize_1541(int dev, int type,
-                        drive_attach_func_t attach_func,
-                        drive_detach_func_t detach_func,
-                        DRIVE *oldinfo)
+int initialize_1541(int dev, int type,
+                    drive_attach_func_t attach_func,
+                    drive_detach_func_t detach_func,
+                    DRIVE *oldinfo)
 {
     DRIVE  *floppy;
     int     i;
@@ -232,19 +232,17 @@ int     initialize_1541(int dev, int type,
     floppy = oldinfo;
 
     /* Create instances of the disk drive.  */
-    if (!floppy) {
-	floppy = (DRIVE *)malloc(sizeof(DRIVE));
-	assert(floppy);
-    }
+    if (!floppy)
+        floppy = (DRIVE *)xmalloc(sizeof(DRIVE));
 
-    memset (floppy, 0, sizeof(DRIVE));  /* init all pointers */
+    memset(floppy, 0, sizeof(DRIVE));  /* init all pointers */
 
     floppy->type     = type;
     floppy->ActiveFd = ILLEGAL_FILE_DESC;
     floppy->unit     = dev;
 
     for (i = 0; i < 15; i++)
-	floppy->buffers[i].mode = BUFFER_NOT_IN_USE;
+        floppy->buffers[i].mode = BUFFER_NOT_IN_USE;
 
     floppy->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
     floppy->buffers[15].buffer = (BYTE *) malloc(256);
@@ -257,21 +255,22 @@ int     initialize_1541(int dev, int type,
      */
 
     if (!(type & DT_FS)) {
-	if (serial_attach_device(dev, (char *)floppy, "1541 Disk Drive",
-	    read_1541, write_1541, open_1541, close_1541, flush_1541)) {
-	    fprintf(logfile, "could not initialize 1541 ????\n");
-	    return(-1);
-	}
+        if (serial_attach_device(dev, (char *)floppy, "1541 Disk Drive",
+            read_1541, write_1541, open_1541, close_1541, flush_1541)) {
+            fprintf(logfile, "VDRIVE#%i: Could not initialize virtual drive"
+                    "emulation.\n", floppy->unit);
+            return(-1);
+        }
     } else {
-	if (attach_fsdevice(dev, (char *)floppy, "1541 FS Drive")) {
-	    fprintf(logfile, "could not initialize FS 1541 ????\n");
-	    return(-1);
-	}
+        if (attach_fsdevice(dev, (char *)floppy, "1541 FS Drive")) {
+            fprintf(logfile, "VDRIVE#%i: Could not initialize FS 1541.\n",
+                    floppy->unit);
+            return(-1);
+        }
     }
 
     floppy->attach_func = attach_func;
     floppy->detach_func = detach_func;
-
     floppy_error(&floppy->buffers[15], IPE_DOS_VERSION, 0, 0);
     return 0;
 }
@@ -1522,21 +1521,28 @@ int  floppy_free_block_count (DRIVE *floppy)
  * valid.
  */
 
-static int  floppy_create_directory (DRIVE *floppy, char *name,
-				     int length, int filetype, int secondary,
-				     BYTE *outputptr)
+static int floppy_create_directory(DRIVE *floppy, char *name,
+                                   int length, int filetype, int secondary,
+                                   BYTE *outputptr)
 {
-    BYTE   *l, *p;
-    BYTE   *origptr = outputptr;
-    int     blocks;
-    int     addr, i;
+    BYTE *l, *p;
+    BYTE *origptr = outputptr;
+    int blocks, addr, i;
 
     if (length) {
-	if (*name == '$') { ++name; --length; }
-	if (*name == ':') { ++name; --length; }
+        if (*name == '$') { 
+            ++name; 
+            --length;
+        }
+        if (*name == ':') { 
+            ++name; 
+            --length;
+        }
     }
-    if (!*name || length < 1) { name = "*\0"; length = 1; }
-
+    if (!*name || length < 1) {
+        name = "*\0";
+        length = 1;
+    }
 
     /*
      * Start Address, Line Link and Line number 0
@@ -1553,12 +1559,13 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
     *l++ = (BYTE) 0x12;		/* Reverse on */
 
     *l++ = '"';
-    memcpy(l, &floppy->bam[BAM_DISK_NAME], 16);
+
+    memcpy(l, &floppy->bam[floppy->bam_name], 16);
     no_a0_pads(l, 16);
     l += 16;
     *l++ = '"';
     *l++ = ' ';
-    memcpy(l, &floppy->bam[BAM_DISK_ID], 5);
+    memcpy(l, &floppy->bam[floppy->bam_id], 5);
     no_a0_pads(l, 5);
     l += 5;
 
@@ -1584,86 +1591,82 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
     set_find_first_slot(floppy, name, length, filetype);
 
     while ((p = find_next_slot(floppy))) {
-	BYTE *tl;
+        BYTE *tl;
 
-	/* Check whether the directory exceeds the malloced memory.  We make
+        /* Check whether the directory exceeds the malloced memory.  We make
            sure there is enough space for two lines because we also have to
            add the final ``...BLOCKS FREE'' line.  */
-	if ((l - origptr) >= DIR_MAXBUF - 64) {
-	    fprintf(errfile, "Directory too long: giving up.\n");
-	    return -1;
-	}
+        if ((l - origptr) >= DIR_MAXBUF - 64) {
+            fprintf(errfile, "Directory too long: giving up.\n");
+            return -1;
+        }
 
-	if (p[SLOT_TYPE_OFFSET]) {
+        if (p[SLOT_TYPE_OFFSET]) {
 
             tl = l;
+            l += 2;
 
-	    l += 2;
+            /*
+             * Length and spaces
+             */
 
-	    /*
-	     * Length and spaces
-	     */
+            blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
+            SET_LO_HI(l, blocks);
 
-	    blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
-	    SET_LO_HI(l, blocks);
+            if (blocks < 10)
+                *l++ = ' ';
+            if (blocks < 100)
+                *l++ = ' ';
+            /*
+             * Filename
+             */
 
-	    if (blocks < 10)
-		*l++ = ' ';
-	    if (blocks < 100)
-		*l++ = ' ';
+            *l++ = ' ';
+            *l++ = '"';
 
-	    /*
-	     * Filename
-	     */
+            memcpy(l, &p[SLOT_NAME_OFFSET], 16);
 
-	    *l++ = ' ';
-	    *l++ = '"';
+            for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0);)
+                i++;
 
-	    memcpy(l, &p[SLOT_NAME_OFFSET], 16);
+            no_a0_pads(l, 16);
 
-	    for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0);)
-		i++;
+            l[16] = ' ';
+            l[i] = '"';
+            l += 17;
 
-	    no_a0_pads(l, 16);
+            /*
+             * Type + End
+             * There are 3 spaces or < and 2 spaces after the filetype.
+             * Well, not exactly - the whole directory entry is 32 byte long
+             * (including nullbyte).
+             * Depending on the file size, there are more or less spaces
+             */
 
-	    l[16] = ' ';
-	    l[i] = '"';
-	    l += 17;
+            sprintf ((char *)l, "%c%s%c%c",
+                    (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
+                    slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
+                    (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '),
+                    0);
+            l += 5;
+            i = l - tl;
 
-	    /*
-	     * Type + End
-	     * There are 3 spaces or < and 2 spaces after the filetype.
-	     * Well, not exactly - the whole directory entry is 32 byte long
-	     * (including nullbyte).
-	     * Depending on the file size, there are more or less spaces
-	     */
+            while (i < 31) {
+                *l++ = ' ';
+                i++;
+            }
 
-	    sprintf ((char *)l, "%c%s%c%c",
-		     (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
-		     slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
-		     (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '),
-		     0);
-	    l += 5;
+            *l++ = '\0';
 
-	    i = l - tl;
+            /*
+             * New address
+             */
 
-	    while (i < 31) {
-		*l++ = ' ';
-		i++;
-	    }
-
-	    *l++ = '\0';
-
-	    /*
-	     * New address
-	     */
-	    addr += l - outputptr;
-
-	    outputptr[0] = 1;	/* addr & 0xff; */
-	    outputptr[1] = 1;	/* (addr >> 8) & 0xff; */
-
-	    outputptr = l;
-	}
+            addr += l - outputptr;
+            outputptr[0] = 1;	/* addr & 0xff; */
+            outputptr[1] = 1;	/* (addr >> 8) & 0xff; */
+            outputptr = l;
+        }
     }
 
     blocks = floppy_free_block_count(floppy);
@@ -1916,7 +1919,7 @@ int  do_validate(DRIVE *floppy)
 
     /* XXX  -- advanced drives ... */
 
-    status = allocate_chain(floppy, DSK_BAM_TRACK, DSK_BAM_SECTOR);
+    status = allocate_chain(floppy, BAM_TRACK_1541, BAM_SECTOR_1541);
     if (status != IPE_OK) {
 	memcpy(floppy->bam, oldbam, 256);
 	return status;
@@ -1962,29 +1965,29 @@ int  do_validate(DRIVE *floppy)
 }
 
 
-static int  do_format(DRIVE *floppy, char *name, BYTE *id, BYTE *minus)
+static int do_format(DRIVE *floppy, char *name, BYTE *id, BYTE *minus)
 {
     BYTE    tmp[256];
     int     status;
     BYTE    null = 0;
 
     if (!name)
-	return IPE_SYNTAX;
+        return IPE_SYNTAX;
 
     if (floppy->ReadOnly)
-	return IPE_WRITE_PROTECT_ON;
+        return IPE_WRITE_PROTECT_ON;
 
     /*
      * If id, skip comma
      */
 
     if (id)
-	*id++ = 0;
+        *id++ = 0;
     else
-	id = &null;
+        id = &null;
 
     if (floppy->ErrFlg)
-	set_error_data(floppy, 5);	/* clear and write error data */
+        set_error_data(floppy, 5);	/* clear and write error data */
 
     /*
      * Make the first dir-entry
@@ -1992,27 +1995,27 @@ static int  do_format(DRIVE *floppy, char *name, BYTE *id, BYTE *minus)
     memset(tmp, 0, 256);
     tmp[1] = 255;
     floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-		       tmp, floppy->Dir_Track, floppy->Dir_Sector,
-			floppy->D64_Header);
+                       tmp, floppy->Dir_Track, floppy->Dir_Sector,
+                       floppy->D64_Header);
 
     /*
      * Create Disk Format of type '2A'
      */
     memset(floppy->bam, 0, 256);
-    floppy->bam[0] = DSK_DIR_TRACK;
-    floppy->bam[1] = DSK_DIR_SECTOR;
+    floppy->bam[0] = DIR_TRACK_1541;
+    floppy->bam[1] = DIR_SECTOR_1541;
     floppy->bam[2] = 65;
 
-    memset(floppy->bam + BAM_DISK_NAME, 0xa0, 27);
-    mystrncpy(floppy->bam + BAM_DISK_NAME, (BYTE *)name + 1, 16);
-    mystrncpy(floppy->bam + BAM_DISK_ID, id, 2);
+    memset(floppy->bam + floppy->bam_name, 0xa0, 27);
+    mystrncpy(floppy->bam + floppy->bam_name, (BYTE *)name + 1, 16);
+    mystrncpy(floppy->bam + floppy->bam_id, id, 2);
     floppy->bam[BAM_VERSION] = 50;
     floppy->bam[BAM_VERSION + 1] = 65;
 
     /* Write BAM so that Initialise during Validate will work -Olaf Seibert */
     floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-		       floppy->bam,  DSK_BAM_TRACK, DSK_BAM_SECTOR,
-			floppy->D64_Header);
+                       floppy->bam,  BAM_TRACK_1541, BAM_SECTOR_1541,
+                       floppy->D64_Header);
 
     /*
      * Validate is called to clear the BAM.
@@ -2221,21 +2224,21 @@ static off_t offset_from_track_and_sector(int format, int track,
  * Read one block
  */
 
-int  floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
-		       int sector, int d64)
+int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
+                      int sector, int d64)
 {
-    off_t   offset;
+    off_t offset;
 
     offset = offset_from_track_and_sector(format, track, sector, d64);
 
     if (offset < 0)
-	return -1;
+        return -1;
 
     lseek(fd, offset, SEEK_SET);
 
     if (read(fd, (char *)buf, 256) < 256) {
-	fprintf (errfile, "Floppy image file read failed.\n");
-	return(-2);
+        fprintf (errfile, "Floppy image file read failed.\n");
+        return(-2);
     }
     return 0;
 }
@@ -2373,8 +2376,8 @@ static BYTE *find_next_slot(DRIVE *floppy)
 
 #ifdef DEBUG_DRIVE
     fprintf(logfile, "find next slot for '%s' of type %d. slot: %d\n",
-	   (floppy->find_name ? floppy->find_name : "<noname>"),
-	   floppy->find_type, floppy->SlotNumber);
+            (floppy->find_name ? floppy->find_name : "<noname>"),
+            floppy->find_type, floppy->SlotNumber);
 #endif
 
     /*
@@ -2436,9 +2439,9 @@ static BYTE *find_next_slot(DRIVE *floppy)
         printf(logfile, "create a new entry.\n");
 #endif
 
-	for (s = 1; s < sector_map_1541[DSK_DIR_TRACK]; s++) {
-	    if (allocate_sector(floppy->bam, DSK_DIR_TRACK, s)) {
-		floppy->Dir_buffer[0] = DSK_DIR_TRACK;
+	for (s = 1; s < sector_map_1541[DIR_TRACK_1541]; s++) {
+	    if (allocate_sector(floppy->bam, DIR_TRACK_1541, s)) {
+		floppy->Dir_buffer[0] = DIR_TRACK_1541;
 		floppy->Dir_buffer[1] = s;
 		floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
 				   floppy->Dir_buffer,
@@ -2448,7 +2451,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 
 #ifdef DEBUG_DRIVE
 		fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
-		       DSK_DIR_TRACK, s,
+		       DIR_TRACK_1541, s,
 		       floppy->Curr_track,
 		       floppy->Curr_sector);
 #endif
@@ -2558,13 +2561,13 @@ static void remove_slot(DRIVE *floppy, BYTE *slot)
 /* XXX warning XXX
  * These BAM functions ignore formats other than 1541 because
  * in their current form they could not possibly support the
- * 1571/8050/8250/etc: DSK_DIR_TRACK is different, they have multiple
+ * 1571/8050/8250/etc: DIR_TRACK_1541 is different, they have multiple
  * BAM sectors, 8250 allocation strategy is different, etc.
  */
 
 /* How many tracks there can be at one side of the directory track */
 
-#define DSK_HALF_MAX_TRACKS	MAX(DSK_DIR_TRACK-1, MAX_TRACKS_1541-DSK_DIR_TRACK)
+#define DSK_HALF_MAX_TRACKS	MAX(DIR_TRACK_1541-1, MAX_TRACKS_1541-DIR_TRACK_1541)
 
 /*
  * This algorithm is used to select a free first sector
@@ -2575,7 +2578,7 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
     int     d;
 
     for (d = 1; d <= DSK_HALF_MAX_TRACKS; d++) {
-	t = DSK_DIR_TRACK - d;
+	t = DIR_TRACK_1541 - d;
 #ifdef DEBUG_DRIVE
 	fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
 #endif
@@ -2591,7 +2594,7 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
 		return 0;
 	    }
 	}
-	t = DSK_DIR_TRACK + d;
+	t = DIR_TRACK_1541 + d;
 #ifdef DEBUG_DRIVE
 	fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
 #endif
@@ -2624,17 +2627,17 @@ static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
     int     dir;
     int     diskhalf;
 
-    if (*track < DSK_DIR_TRACK) {
+    if (*track < DIR_TRACK_1541) {
 	dir = -1;
-	d = DSK_DIR_TRACK - *track;
+	d = DIR_TRACK_1541 - *track;
     } else {
 	dir = 1;
-	d = *track - DSK_DIR_TRACK;
+	d = *track - DIR_TRACK_1541;
     }
 
     for (diskhalf = 0; diskhalf < 2; diskhalf++) {
 	for (; d <= DSK_HALF_MAX_TRACKS; d++) {
-	    t = DSK_DIR_TRACK + dir * d;
+	    t = DIR_TRACK_1541 + dir * d;
 #ifdef DEBUG_DRIVE
 	    fprintf(logfile, "alloc_next_free_sector on track %d?\n", t);
 #endif
@@ -2700,18 +2703,45 @@ int  free_sector(BYTE *bam, int track, int sector)
  */
 
 
-static int  floppy_read_bam (DRIVE *floppy)
+static int floppy_read_bam(DRIVE *floppy)
 {
-  return floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-			   floppy->bam, DSK_BAM_TRACK, DSK_BAM_SECTOR,
-			   floppy->D64_Header);
+    int err = 0;
+
+    switch(floppy->ImageFormat) {
+      case 1541:
+        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                floppy->bam, BAM_TRACK_1541,
+                                BAM_SECTOR_1541, floppy->D64_Header);
+        break;
+      case 1571:
+        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                floppy->bam, BAM_TRACK_1571,
+                                BAM_SECTOR_1571, floppy->D64_Header);
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                floppy->bam+256, BAM_TRACK_1571+35,
+                                BAM_SECTOR_1571, floppy->D64_Header);
+        break;
+      case 1581:
+        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                floppy->bam, BAM_TRACK_1581,
+                                BAM_SECTOR_1581, floppy->D64_Header);
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                floppy->bam+256, BAM_TRACK_1581,
+                                BAM_SECTOR_1581+1, floppy->D64_Header);
+        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                                floppy->bam+512, BAM_TRACK_1581,
+                                BAM_SECTOR_1581+2, floppy->D64_Header);
+      default:
+        err = -1;
+    }
+    return err;
 }
 
 
-static int  floppy_write_bam (DRIVE *floppy)
+static int floppy_write_bam(DRIVE *floppy)
 {
   return floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-			    floppy->bam, DSK_BAM_TRACK, DSK_BAM_SECTOR,
+			    floppy->bam, BAM_TRACK_1541, BAM_SECTOR_1541,
 			    floppy->D64_Header);
 }
 
@@ -2722,90 +2752,88 @@ static int  floppy_write_bam (DRIVE *floppy)
  * Functions to attach the disk image files.
  */
 
-
-void    detach_floppy_image(DRIVE *floppy)
+void detach_floppy_image(DRIVE *floppy)
 {
     floppy_close_all_channels(floppy);
 
     if (floppy->ActiveFd != ILLEGAL_FILE_DESC) {
-	fprintf(logfile, "Detaching disk image %s\n", floppy->ActiveName);
-	if (floppy->detach_func != NULL)
-	    floppy->detach_func(floppy);
-	zclose(floppy->ActiveFd);
-	floppy->ActiveFd = ILLEGAL_FILE_DESC;
-	floppy->ActiveName[0] = 0;		/* Name is used as flag */
+        fprintf(logfile, "VDRIVE#%i: Detaching disk image %s\n",
+                floppy->unit, floppy->ActiveName);
+        if (floppy->detach_func != NULL)
+            floppy->detach_func(floppy);
+        zclose(floppy->ActiveFd);
+        floppy->ActiveFd = ILLEGAL_FILE_DESC;
+        floppy->ActiveName[0] = 0; /* Name is used as flag */
     }
 }
 
-
-int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
+int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 {
-    int DType = -1;
+    int DType;
     file_desc_t fd;
     hdrinfo hdr;
 
 
-    if ( !(floppy -> type & DT_DISK)) {
-	fprintf(logfile, "Incompatible emulator mode: FS 1541 Drive.\n");
-	return (-1);
+    if (!(floppy->type & DT_DISK)) {
+        fprintf(logfile, "VDRIVE#%i: Incompatible emulator mode: "
+                "FS 1541 Drive.\n", floppy->unit);
+        return (-1);
     }
 
     if (!name) {
-	printf("No name, detaching floppyimage\n");
-	return (-1);
+        printf("VDRIVE#%i: No name, cannot attach floppyimage\n", floppy->unit);
+        return (-1);
     }
 
     fd = zopen(name, O_RDWR, 0);
 
     /* If we cannot open the image read/write, try to open it read only. */
     if (fd == ILLEGAL_FILE_DESC) {
-	fd = zopen(name, O_RDONLY, 0);
-	floppy->ReadOnly = 1;
+        fd = zopen(name, O_RDONLY, 0);
+        floppy->ReadOnly = 1;
     } else {
-	floppy->ReadOnly = 0;
+        floppy->ReadOnly = 0;
     }
 
     if (fd != ILLEGAL_FILE_DESC) {
-	if (check_header(fd, &hdr)) {
-	    fprintf(logfile, "File '%s' was not recognized as a disk image\n", name);
-	    zclose(fd);
-	    return (-2);
-	}
-	if (hdr.v_major > HEADER_VERSION_MAJOR
-	    || (hdr.v_major == HEADER_VERSION_MAJOR
-		&& hdr.v_minor > HEADER_VERSION_MINOR)) {
-	    fprintf(logfile, "Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d)\n",
-		   name, hdr.v_major, hdr.v_minor,
-		   HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
+        if (check_header(fd, &hdr)) {
+            fprintf(logfile, "VDRIVE#%i: File '%s' was not recognized as a "
+                    "disk image\n", floppy->unit, name);
+            zclose(fd);
+            return (-2);
+        }
+        if (hdr.v_major > HEADER_VERSION_MAJOR
+            || (hdr.v_major == HEADER_VERSION_MAJOR
+            && hdr.v_minor > HEADER_VERSION_MINOR)) {
+            fprintf(logfile, "VDRIVE#%i: Disk image file %s (V %d.%02d) "
+                    "version higher than emulator (V %d.%02d)\n",
+                    floppy->unit, name, hdr.v_major, hdr.v_minor,
+                    HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
+            zclose(fd);
+            return (-2);
+        }
 
-	    zclose(fd);
-	    return (-2);
-	}
 
+        /*
+         * Check that the disk format on the image is compatible.
+         */
 
-	/*
-	 * Check that the disk format on the image is compatible.
-	 */
-
-	DType = get_diskformat (hdr.devtype);
-	if (DType < 0 || DType != get_diskformat (hdr.devtype)) {
-
-	    fprintf(errfile, "\nError: Disk drive type mismatch.\n");
-
-	    /*
-	     * mode defines what to do if the attached disk image is
-	     * altered or incompatible
-	     */
-
-	    return (-2);
-	}
+        DType = get_diskformat(hdr.devtype);
+        if (DType < 0) {
+            fprintf(errfile, "VDRIVE#%i: Error: Disk drive type mismatch.\n",
+                    floppy->unit);
+            /*
+             * mode defines what to do if the attached disk image is
+             * altered or incompatible
+             */
+             return (-2);
+        }
 
         detach_floppy_image(floppy);
 
         floppy->ImageFormat = DType;
         floppy->ActiveFd = fd;
         strcpy(floppy->ActiveName, name);
-        /* floppy->changed  = 0; */
 
         floppy->NumTracks  = hdr.tracks;
         floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
@@ -2821,12 +2849,12 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
             if (hdr.errblk)
                 set_error_data(floppy, 3);      /* clear or read error data */
 
-            floppy_read_bam (floppy);
+            floppy_read_bam(floppy);
         }
 
         if (floppy->attach_func != NULL) {
             if (floppy->attach_func(floppy) < 0) {
-                fprintf(errfile, "DRIVE#%i: Wrong disk type.\n", floppy->unit);
+                fprintf(errfile, "VDRIVE#%i: Wrong disk type.\n", floppy->unit);
                 zclose(floppy->ActiveFd);
                 floppy->ActiveFd = -1;
                 floppy->ActiveName[0] = 0;
@@ -2835,31 +2863,30 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
         }
 
         if (hdr.d64)
-            fprintf (logfile, "D64 disk image attached: %s%s\n", name,
-                    floppy->ReadOnly ? " (read only)" : "");
+            fprintf(logfile, "VDRIVE#%i: D64 disk image attached: %s%s\n",
+                    floppy->unit, name, floppy->ReadOnly ? " (read only)" : "");
         if (hdr.d71)
-            fprintf (logfile, "D71 disk image attached: %s%s\n", name,
-                    floppy->ReadOnly ? " (read only)" : "");
+            fprintf(logfile, "VDRIVE#%i: D71 disk image attached: %s%s\n",
+                    floppy->unit, name, floppy->ReadOnly ? " (read only)" : "");
         if (hdr.d81)
-            fprintf (logfile, "D81 disk image attached: %s%s\n", name,
-                    floppy->ReadOnly ? " (read only)" : "");
+            fprintf(logfile, "VDRIVE#%i: D81 disk image attached: %s%s\n",
+                    floppy->unit, name, floppy->ReadOnly ? " (read only)" : "");
         if (hdr.gcr)
-            fprintf (logfile, "GCR disk image attached: %s%s\n", name,
-                    floppy->ReadOnly ? " (read only)" : "");
+            fprintf(logfile, "VDRIVE#%i: GCR disk image attached: %s%s\n",
+                    floppy->unit, name, floppy->ReadOnly ? " (read only)" : "");
 
         if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.gcr))
-            fprintf (logfile, "VICE disk image version %d.%02d attached (CBM%d format%s):\n%s\n",
-                    hdr.v_major, hdr.v_minor, DType,
-                    floppy->ReadOnly ? ", read only" : "",
-                    name);
-
+            fprintf(logfile, "VDRIVE#%i: VICE disk image version %d.%02d "
+                    "attached (CBM%d format%s):\n%s\n",
+                    floppy->unit, hdr.v_major, hdr.v_minor, DType,
+                    floppy->ReadOnly ? ", read only" : "", name);
     } else {
-        fprintf(errfile, "Couldn't open file %s\n",name);
+        fprintf(errfile, "VDRIVE#%i: Couldn't open file %s\n", 
+                floppy->unit, name);
         return -1;
     }
     return 0;
 }
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -2869,9 +2896,9 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 
 int get_std64_header(file_desc_t fd, BYTE *header)
 {
-    int devtype = DEFAULT_DEVICE_TYPE;
+    int devtype = DT_1541;
     int tracks = NUM_TRACKS_1541;
-    int blk = NUM_BLOCKS_1541-1;
+    int blk = NUM_BLOCKS_1541 - 1;
     int len, errblk;
     char block[256];
 
@@ -2879,7 +2906,7 @@ int get_std64_header(file_desc_t fd, BYTE *header)
 
     /* Check values */
 
-    if (check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
+    if (check_track_sector(get_diskformat(devtype), tracks, 1) < 0)
         exit (-1);
 
     header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
@@ -3056,11 +3083,11 @@ int get_std81_header(file_desc_t fd, BYTE *header)
 
 int check_header(file_desc_t fd, hdrinfo *hdr)
 {
-    BYTE    header[HEADER_LENGTH];
+    BYTE header[HEADER_LENGTH];
 
     lseek (fd, (off_t) 0, SEEK_SET);
     if (read(fd, (BYTE *)header, sizeof (header)) != sizeof (header)) {
-        fprintf(errfile, "\nCannot read image header\n");
+        fprintf(errfile, "VDRIVE: Cannot read image header\n");
         return FD_RDERR;
     }
 
@@ -3076,13 +3103,13 @@ int check_header(file_desc_t fd, hdrinfo *hdr)
         header[HEADER_MAGIC_OFFSET + 2] != HEADER_MAGIC_3 ||
         header[HEADER_MAGIC_OFFSET + 3] != HEADER_MAGIC_4) {
 
-        size_t imageSize;
+        size_t image_size;
 #ifdef __riscos
         size_t current;
 
         current = ftell(fd);
         fseek(fd, 0, SEEK_END);
-        imageSize = ftell(fd);
+        image_size = ftell(fd);
         fseek(fd, current, SEEK_SET);
 #else
         struct stat s;
@@ -3091,18 +3118,18 @@ int check_header(file_desc_t fd, hdrinfo *hdr)
             perror ("stat");
             return FD_BADIMAGE;
         } else {
-            imageSize = s.st_size;
+            image_size = s.st_size;
         }
 #endif
-        if (IS_D64_LEN(s.st_size)) {
+        if (IS_D64_LEN(image_size)) {
             if (get_std64_header(fd, header))
                 return FD_BADIMAGE;
             hdr->d64 = 1;
-        } else if (IS_D71_LEN(s.st_size)) {
+        } else if (IS_D71_LEN(image_size)) {
             if (get_std71_header(fd, header))
                 return FD_BADIMAGE;
             hdr->d71 = 1;
-        } else if (IS_D81_LEN(s.st_size)) {
+        } else if (IS_D81_LEN(image_size)) {
             if (get_std81_header(fd, header))
                 return FD_BADIMAGE;
             hdr->d81 = 1;
@@ -3114,19 +3141,19 @@ int check_header(file_desc_t fd, hdrinfo *hdr)
         } 
     }
 
-    hdr-> v_major = header[HEADER_VERSION_OFFSET + 0];
-    hdr-> v_minor = header[HEADER_VERSION_OFFSET + 1];
+    hdr->v_major = header[HEADER_VERSION_OFFSET + 0];
+    hdr->v_minor = header[HEADER_VERSION_OFFSET + 1];
 
   /* Disk type flags: Device Type, Max Tracks, Side, and Error Flag. */
 
-    hdr-> devtype = header[HEADER_FLAGS_OFFSET];
-    hdr-> tracks  = header[HEADER_FLAGS_OFFSET + 1];
-    hdr-> sides   = (header[HEADER_FLAGS_OFFSET + 2] ? 2 : 1);
-    hdr-> errblk  = header[HEADER_FLAGS_OFFSET + 3];
-    hdr-> format  = (get_diskformat(hdr-> devtype)) == 1581 ? 'D' : 'A';
+    hdr->devtype = header[HEADER_FLAGS_OFFSET];
+    hdr->tracks  = header[HEADER_FLAGS_OFFSET + 1];
+    hdr->sides   = (header[HEADER_FLAGS_OFFSET + 2] ? 2 : 1);
+    hdr->errblk  = header[HEADER_FLAGS_OFFSET + 3];
+    hdr->format  = (get_diskformat(hdr-> devtype)) == 1581 ? 'D' : 'A';
 
-    if (hdr-> tracks == 0)
-        hdr-> tracks = 35;
+    if (hdr->tracks == 0)
+        hdr->tracks = 35;
 
 
     if (check_track_sector(get_diskformat(hdr-> devtype), hdr-> tracks, 1) < 0)
@@ -3177,10 +3204,9 @@ int import_GCR_image(BYTE *header, hdrinfo *hdr)
  * This routine is from fvcbm by Dan Fandrich.
  */
 
-int  get_diskformat (int devtype)
+int get_diskformat(int devtype)
 {
-    int     DiskType = -1;
-
+    int DiskType = -1;
 
     /*
      * Get the group of compatible disk formats.
@@ -3188,32 +3214,31 @@ int  get_diskformat (int devtype)
 
     switch (devtype & DT_MASK) {
       case DT_2031:
-	/*case DT_4031:*/
       case DT_2040:
-	/*case DT_3040:*/
-      case DT_2041:
       case DT_4040:
       case DT_1540:
       case DT_1541:
       case DT_1542:
       case DT_1551:
-      case DT_1570:	DiskType = 1541; break;
-
+      case DT_1570:
+        DiskType = 1541;
+        break;
       case DT_1571:
-      case DT_1572:	DiskType = 1571; break;
-
-      case DT_1581:	DiskType = 1581; break;
-
-
-      case DT_8050:	DiskType = 8050; break;
-
+      case DT_1572:
+        DiskType = 1571;
+        break;
+      case DT_1581:
+        DiskType = 1581;
+        break;
+      case DT_8050:
+        DiskType = 8050;
+        break;
       case DT_8060:
-      case DT_8061:	break;
-
+      case DT_8061:
       case DT_SFD1001:
-      case DT_8250:	DiskType = 8250; break;
-
-      /*case DT_8280:*/
+      case DT_8250:
+        DiskType = 8250;
+        break;
     }
 
     return (DiskType);
@@ -3290,16 +3315,31 @@ void no_a0_pads(BYTE *ptr, int l)
 
 void set_disk_geometry(DRIVE *floppy, int type)
 {
-    if (get_diskformat(type) == 1581) {
-	floppy->Bam_Track  = 38;
-	floppy->Bam_Sector = 1;
-	floppy->Dir_Track  = 38;
-	floppy->Dir_Sector = 3;
-    } else {
-	floppy->Bam_Track  = 18;
-	floppy->Bam_Sector = 0;
-	floppy->Dir_Track  = 18;
-	floppy->Dir_Sector = 1;
+    switch (type) {
+      case 1541:
+        floppy->Bam_Track  = BAM_TRACK_1541;
+        floppy->Bam_Sector = BAM_SECTOR_1541;
+        floppy->bam_name   = BAM_NAME_1541;
+        floppy->bam_id     = BAM_ID_1541;
+        floppy->Dir_Track  = DIR_TRACK_1541;
+        floppy->Dir_Sector = DIR_SECTOR_1541;
+        break;
+      case 1571:
+        floppy->Bam_Track  = BAM_TRACK_1571;
+        floppy->Bam_Sector = BAM_SECTOR_1571;
+        floppy->bam_name   = BAM_NAME_1571;
+        floppy->bam_id     = BAM_ID_1571;
+        floppy->Dir_Track  = DIR_TRACK_1571;
+        floppy->Dir_Sector = DIR_SECTOR_1571;
+        break;
+      case 1581:
+        floppy->Bam_Track  = BAM_TRACK_1581;
+        floppy->Bam_Sector = BAM_SECTOR_1581;
+        floppy->bam_name   = BAM_NAME_1581;
+        floppy->bam_id     = BAM_ID_1581;
+        floppy->Dir_Track  = DIR_TRACK_1581;
+        floppy->Dir_Sector = DIR_SECTOR_1581;
+        break;
     }
 }
 

@@ -45,9 +45,6 @@
 #include "types.h"
 #include "fs_cbm.h"
 
-#define UPPER(ad)		(((ad)>>8)&0xff)
-#define LOWER(ad)		((ad)&0xff)
-
 #define SET_LO_HI(p, val)                       \
     do {                                        \
 	*((p)++) = (val) & 0xff;                \
@@ -118,8 +115,11 @@ struct _DRIVE {
 
     int D64_Header;		/* flag if file has header! */
     int GCR_Header;		/* flag if file is GCR image.  */
+
     int Bam_Track;
     int Bam_Sector;
+    int bam_name;       /* Offset from start of BAM to disk name.  */
+    int bam_id;         /* Offset from start of BAM to disk name.  */
     int Dir_Track;
     int Dir_Sector;
 
@@ -135,7 +135,7 @@ struct _DRIVE {
 
     BYTE *dosrom;
     BYTE *dosram;
-    BYTE bam[256];
+    BYTE bam[3*256];    /* The 1581 uses 3 sectors as BAM.  */
     bufferinfo_t buffers[16];
 
 

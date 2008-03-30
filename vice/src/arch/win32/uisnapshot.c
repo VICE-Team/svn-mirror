@@ -62,6 +62,20 @@ static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd,
         return TRUE;
       case WM_COMMAND:
         switch (LOWORD(wparam)) {
+          case IDOK:
+            if (image[0] != '\0') {
+                if (machine_write_snapshot(image, save_roms, save_disks) < 0) {
+                    ui_error("Cannot write snapshot file.");
+                    break;
+                }
+                EndDialog(hwnd, IDOK);
+                return TRUE;
+            }
+            ui_error("No file name specified.");
+            break;
+          case IDC_CANCEL:
+            EndDialog(hwnd, IDC_CANCEL);
+            return TRUE;
           case IDC_SNAPSHOT_SAVE_IMAGE:
             GetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, (LPSTR)image, 100);
             break;
@@ -75,14 +89,13 @@ static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd,
             return FALSE;
         }
         return TRUE;
-      case WM_CLOSE:
-        printf("Hurz!\n");
     }
     return FALSE;
 }
 
 void ui_snapshot_save_dialog(HWND hwnd)
 {
+#if 0
     /* FIXME: Of course this is not the right window.  */
     PROPSHEETPAGE psp[1];
     PROPSHEETHEADER psh;
@@ -113,6 +126,12 @@ void ui_snapshot_save_dialog(HWND hwnd)
     psh.pfnCallback = NULL;
 
     PropertySheet(&psh);
+#endif
+    DLGPROC lpfnDlg;
+
+    lpfnDlg = MakeProcInstance(ui_snapshot_save_dialog_proc, winmain_instance);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SNAPSHOT_SAVE_DIALOG), hwnd, lpfnDlg);
+    FreeProcInstance(lpfnDlg);
 }
 
 void ui_snapshot_load_dialog(HWND hwnd)

@@ -281,7 +281,7 @@ void ui_message(const char *format,...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        MessageBox(main_hwnd, tmp, "VICE Information", MB_OK | MB_ICONSTOP);
+        MessageBox(main_hwnd, tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -474,7 +474,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
                 "C64 tape image files (*.t64;*.p00)\0*.t64;*.p00)\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (serial_select_file(DT_TAPE, 1, s) < 0)
-                    ui_error("Cannot attach specified file");
+                    ui_error("Cannot attach specified file.");
                 free(s);
             }
         }
@@ -575,9 +575,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0)
-            ui_error("Cannot save settings.");
+            ui_error("Cannot load settings.");
         else
-            ui_message("Settings saved successfully.");
+            ui_message("Settings loaded successfully.");
         break;
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();

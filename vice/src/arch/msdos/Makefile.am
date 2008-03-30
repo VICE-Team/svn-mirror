@@ -20,6 +20,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdefs.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -32,6 +33,8 @@ libarch_a_SOURCES = \
 	c64kbd.h \
 	c64ui.c \
 	c64ui.h \
+	cbmcharsets.c \
+	cbmcharsets.h \
         grabkey.c \
         grabkey.h \
 	joystick.c \
@@ -54,6 +57,8 @@ libarch_a_SOURCES = \
 	tui.h \
 	tui_backend.c \
 	tui_backend.h \
+	tuicharset.c \
+	tuicharset.h \
 	tuiimagebrowser.c \
 	tuiimagebrowser.h \
 	tuifs.c \
@@ -73,10 +78,10 @@ libarch_a_SOURCES = \
 	video.c \
 	video.h \
 	vsync.c \
-        vsync.h
+	vsync.h
 
 EXTRA_DIST = \
-        vicesb.c \
-        vicesb.h \
+	vicesb.c \
+	vicesb.h \
 	vmidas.c \
 	vmidas.h

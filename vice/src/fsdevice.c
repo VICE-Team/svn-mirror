@@ -61,6 +61,7 @@
 #include <errno.h>
 #endif
 
+#include "archdefs.h"
 #include "resources.h"
 #include "vdrive.h"
 #include "file.h"
@@ -69,21 +70,6 @@
 #include "utils.h"
 #include "cmdline.h"
 #include "fsdevice.h"
-
-#ifdef __riscos
-#define FSDEVICE_DEFAULT_DIR   "@"
-#define FSDEV_DIR_SEP_STR      "."
-#define FSDEV_DIR_SEP_CHR      '.'
-#define FSDEV_EXT_SEP_STR      "/"
-#define FSDEV_EXT_SEP_CHR      '/'
-#else
-#define FSDEVICE_DEFAULT_DIR   "."
-#define FSDEV_DIR_SEP_STR      "/"
-#define FSDEV_DIR_SEP_CHR      '/'
-#define FSDEV_EXT_SEP_STR      "."
-#define FSDEV_EXT_SEP_CHR      '.'
-#endif
-
 
 enum fsmode {
     Write, Read, Append, Directory

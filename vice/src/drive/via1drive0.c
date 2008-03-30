@@ -357,6 +357,8 @@ void via1d0_signal(int line, int edge)
 
     if (drive[0].type == DRIVE_TYPE_1571) {
         BYTE tmp;
+        if (drive[0].byte_ready_active == 0x6)
+            drive_rotate_disk(&drive[0]);
         tmp = (drive[0].byte_ready ? 0 : 0x80)
             | (drive[0].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d0[VIA_DDRA])
@@ -693,6 +695,8 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
 
     if (drive[0].type == DRIVE_TYPE_1571) {
         BYTE tmp;
+        if (drive[0].byte_ready_active == 0x6)
+            drive_rotate_disk(&drive[0]);
         tmp = (drive[0].byte_ready ? 0 : 0x80)
             | (drive[0].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d0[VIA_DDRA])
@@ -878,6 +882,8 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
 
     if (drive[0].type == DRIVE_TYPE_1571) {
         BYTE tmp;
+        if (drive[0].byte_ready_active == 0x6)
+            drive_rotate_disk(&drive[0]);
         tmp = (drive[0].byte_ready ? 0 : 0x80)
             | (drive[0].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d0[VIA_DDRA])
@@ -906,6 +912,8 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
 
     if (drive[0].type == DRIVE_TYPE_1571) {
         BYTE tmp;
+        if (drive[0].byte_ready_active == 0x6)
+            drive_rotate_disk(&drive[0]);
         tmp = (drive[0].byte_ready ? 0 : 0x80)
             | (drive[0].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d0[VIA_DDRA])

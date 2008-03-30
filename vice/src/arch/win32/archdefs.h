@@ -1,8 +1,8 @@
 /*
- * uiattach.h - Implementation of the device manager dialog box.
+ * archdefs.h - Architecture dependant defines.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,18 @@
  *
  */
 
-#ifndef _UIATTACH_H
-#define _UIATTACH_H
+#ifndef _ARCHDEFS_H
+#define _ARCHDEFS_H
 
-#include <windows.h>
+/* Name of the resource file.  */
+#define RESOURCE_FILE_NAME "vice.ini"
 
-void ui_attach_dialog(HWND hwnd);
+/* Filesystem dependant operators.  */
+#define FSDEVICE_DEFAULT_DIR   "."
+#define FSDEV_DIR_SEP_STR      "/"
+#define FSDEV_DIR_SEP_CHR      '/'
+#define FSDEV_EXT_SEP_STR      "."
+#define FSDEV_EXT_SEP_CHR      '.'
 
 #endif
+

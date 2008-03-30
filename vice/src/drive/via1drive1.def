@@ -222,6 +222,8 @@ READ_PRA()
 {
     if (drive[1].type == DRIVE_TYPE_1571) {
         BYTE tmp;
+        if (drive[1].byte_ready_active == 0x6)
+            drive_rotate_disk(&drive[1]);
         tmp = (drive[1].byte_ready ? 0 : 0x80)
             | (drive[1].current_half_track == 2 ? 0 : 1);
         return (tmp & ~via1d1[VIA_DDRA])

@@ -2,6 +2,7 @@
  * c64ui.c - C64-specific user interface.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -36,6 +37,7 @@
 #include "cartridge.h"
 #include "resc64.h"
 #include "uilib.h"
+#include "uivicii.h"
 #include "winmain.h"
 
 void c64_ui_specific(WPARAM wparam, HWND hwnd)
@@ -110,6 +112,8 @@ void c64_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_DETACH:
         cartridge_detach_image();
         break;
+      case IDM_VICII_SETTINGS:
+        ui_vicii_settings_dialog(hwnd);
     }
 }
 

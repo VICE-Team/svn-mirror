@@ -2,6 +2,7 @@
  * c128ui.c - C128-specific user interface.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -27,8 +28,22 @@
 #include "vice.h"
 
 #include "c128ui.h"
+#include "resc64.h"
+#include "ui.h"
+#include "uivicii.h"
+
+void c128_ui_specific(WPARAM wparam, HWND hwnd)
+{
+    switch (wparam) {
+      case IDM_VICII_SETTINGS:
+        ui_vicii_settings_dialog(hwnd);
+        break;
+    }
+}
 
 int c128_ui_init(void)
 {
+    ui_register_machine_specific(c128_ui_specific);
     return 0;
 }
+

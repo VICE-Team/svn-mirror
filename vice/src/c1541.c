@@ -548,20 +548,20 @@ static int  disk_gcrformat (void)
 	    if (track == 17 && sector == 0) {
 		BYTE *rdat = &rawdata[1];
 		int s, t;
-		memset(rdat + BAM_DISK_NAME, 0xa0, 27);
-		rdat[0] = DSK_DIR_TRACK;
-		rdat[1] = DSK_DIR_SECTOR;
+		memset(rdat + BAM_NAME_1541, 0xa0, 27);
+		rdat[0] = DIR_TRACK_1541;
+		rdat[1] = DIR_SECTOR_1541;
 		rdat[2] = 65;
 		rdat[BAM_VERSION] = 50;
 		rdat[BAM_VERSION + 1] = 65;
-		memcpy(rdat + BAM_DISK_NAME, (BYTE *)name, 16);
-		rdat[BAM_DISK_ID] = id[0];
-		rdat[BAM_DISK_ID + 1] = id[1];
+		memcpy(rdat + BAM_NAME_1541, (BYTE *)name, 16);
+		rdat[BAM_ID_1541] = id[0];
+		rdat[BAM_ID_1541 + 1] = id[1];
 		for (t = 1; t <= 35; t++)
 		    for (s = 0; s < sector_map_1541[t]; s++)
 			free_sector(rdat, t, s);
-		allocate_sector(rdat, DSK_BAM_TRACK, 0);
-		allocate_sector(rdat, DSK_BAM_TRACK, 1);
+		allocate_sector(rdat, BAM_TRACK_1541, 0);
+		allocate_sector(rdat, BAM_TRACK_1541, 1);
 	    }
 	    rawdata[0] = 7;
 	    chksum = rawdata[1];
@@ -1089,7 +1089,7 @@ static int  disk_import_zipfile (void)
 
           sprintf((char *)str, "B-W:%d 0 %d %d", channel, track, sector);
           if (ip_execute(floppy, (BYTE *)str, strlen((char *)str)) != 0) {
-	      track = DSK_DIR_TRACK;
+	      track = DIR_TRACK_1541;
 	      sector= 0;
 	      close(fsfd);
 	      return (FD_RDERR);
@@ -1345,7 +1345,7 @@ static int  disk_copy_tape (void)
 
 static int  disk_sectordump(void)
 {
-    static int  drive = 8, track = DSK_DIR_TRACK, sector = DSK_DIR_SECTOR;
+    static int drive = 8, track = DIR_TRACK_1541, sector = DIR_SECTOR_1541;
     DRIVE *floppy;
     BYTE  *buf, str[20];
     int    err, cnt;
@@ -1381,7 +1381,7 @@ static int  disk_sectordump(void)
 
     if (check_track_sector(floppy->ImageFormat, track, sector) < 0) {
 	sector = 0;
-	track = DSK_DIR_TRACK;
+	track = DIR_TRACK_1541;
 	return FD_BAD_TS;
     }
 
@@ -1394,7 +1394,7 @@ static int  disk_sectordump(void)
     }
     sprintf((char *)str, "B-R:%d 0 %d %d", channel, track, sector);
     if (ip_execute(floppy, (BYTE *)str, strlen((char *)str)) != 0) {
-	track = DSK_DIR_TRACK;
+	track = DIR_TRACK_1541;
 	sector= 0;
 	return (FD_RDERR);
     }
@@ -1424,7 +1424,7 @@ static int  disk_sectordump(void)
     else if (check_track_sector(floppy->ImageFormat, track, ++sector) < 0) {
 	sector = 0;
 	if (++track > floppy->NumTracks)
-	    track = DSK_DIR_TRACK;
+	    track = DIR_TRACK_1541;
     }
 
     close_1541(floppy, channel);
@@ -1464,7 +1464,7 @@ typedef struct {
 
 static int  disk_extract(void)
 {
-    int  drive = 8, track = DSK_DIR_TRACK, sector = DSK_DIR_SECTOR;
+    int  drive = 8, track = DIR_TRACK_1541, sector = DIR_SECTOR_1541;
     DRIVE *floppy;
     BYTE  *buf, str[20];
     int    err;

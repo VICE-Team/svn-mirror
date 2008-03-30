@@ -44,6 +44,20 @@
 #define IDC_SNAPSHOT_SAVE_IMAGE         1071
 #define IDC_TOGGLE_SNAPSHOT_SAVE_DISKS  1072
 #define IDC_TOGGLE_SNAPSHOT_SAVE_ROMS   1073
+#define IDC_CANCEL                      1074
+#define IDD_VICII_PALETTE_DIALOG        1080
+#define IDC_SELECT_VICII_DEFAULT        1081
+#define IDC_SELECT_VICII_CUSTOM         1082
+#define IDC_SELECT_VICII_C64S           1083
+#define IDC_SELECT_VICII_CCS64          1084
+#define IDC_SELECT_VICII_FRODO          1085
+#define IDC_SELECT_VICII_GODOT          1086
+#define IDC_SELECT_VICII_PC64           1087
+#define IDC_VICII_CUSTOM_NAME           1090
+#define IDC_VICII_CUSTOM_BROWSE         1091
+#define IDD_VICII_SPRITES_DIALOG        1092
+#define IDC_TOGGLE_VICII_SSC            1093
+#define IDC_TOGGLE_VICII_SBC            1094
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -107,6 +121,7 @@
 #define IDM_MAXIMUM_SPEED_NO_LIMIT      40125
 #define IDM_MAXIMUM_SPEED_CUSTOM        40126
 #define IDM_TOGGLE_WARP_MODE            40129
+#define IDM_VICII_SETTINGS              40130
 
 // Next default values for new objects
 //

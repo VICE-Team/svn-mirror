@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.15.0.28
+VERSION=0.15.0.29
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6316,10 +6316,35 @@ elif [ x"$is_dos" != "xno" ]; then
 elif [ x"$is_win32" != "xno" ]; then
 
   
-  LIBS="\$(top_builddir)/src/arch/win32/resc64.o -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
+  LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
+
+  x64_LDFLAGS="-mwindows"
+  x128_LDFLAGS="-mwindows"
+  xvic_LDFLAGS="-mwindows"
+  xpet_LDFLAGS="-mwindows"
+  xcbm2_LDFLAGS="-mwindows"
+
+  X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  X128_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  XPET_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  XCBM2_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+
   
 
 fi
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
@@ -6668,6 +6693,16 @@ s%@X_CFLAGS@%$X_CFLAGS%g
 s%@X_PRE_LIBS@%$X_PRE_LIBS%g
 s%@X_LIBS@%$X_LIBS%g
 s%@X_EXTRA_LIBS@%$X_EXTRA_LIBS%g
+s%@x64_LDFLAGS@%$x64_LDFLAGS%g
+s%@x128_LDFLAGS@%$x128_LDFLAGS%g
+s%@xvic_LDFLAGS@%$xvic_LDFLAGS%g
+s%@xpet_LDFLAGS@%$xpet_LDFLAGS%g
+s%@xcbm2_LDFLAGS@%$xcbm2_LDFLAGS%g
+s%@X64_WINRES@%$X64_WINRES%g
+s%@X128_WINRES@%$X128_WINRES%g
+s%@XVIC_WINRES@%$XVIC_WINRES%g
+s%@XPET_WINRES@%$XPET_WINRES%g
+s%@XCBM2_WINRES@%$XCBM2_WINRES%g
 s%@UNIX_COMPILE_TRUE@%$UNIX_COMPILE_TRUE%g
 s%@UNIX_COMPILE_FALSE@%$UNIX_COMPILE_FALSE%g
 s%@WIN32_COMPILE_TRUE@%$WIN32_COMPILE_TRUE%g

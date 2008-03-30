@@ -75,8 +75,6 @@
 #define BAM_FIRST_SECTOR		1
 #define BAM_FORMAT_TYPE			2
 #define BAM_BIT_MAP			4
-#define BAM_DISK_NAME			144
-#define BAM_DISK_ID			162
 #define BAM_VERSION			165
 #define BAM_EXT_BIT_MAP			192
 
@@ -140,42 +138,54 @@ struct FormatData {
 
 #define DEFAULT_DEVICE_TYPE	DT_1541
 
-#define NUM_TRACKS_1541		35
-#define NUM_BLOCKS_1541		683	/* 664 free */
-#define EXT_TRACKS_1541 	40
-#define EXT_BLOCKS_1541 	768
-#define MAX_TRACKS_1541		42
-#define MAX_BLOCKS_1541		802
+#define NUM_TRACKS_1541        35
+#define NUM_BLOCKS_1541	       683	/* 664 free */
+#define EXT_TRACKS_1541        40
+#define EXT_BLOCKS_1541        768
+#define MAX_TRACKS_1541	       42
+#define MAX_BLOCKS_1541	       802
+#define DIR_TRACK_1541         18
+#define DIR_SECTOR_1541        1
+#define BAM_TRACK_1541         18
+#define BAM_SECTOR_1541        0
+#define BAM_NAME_1541          144
+#define BAM_ID_1541            162
 
-#define NUM_TRACKS_1571		70
-#define NUM_BLOCKS_1571		1366	/* 1328 free */
-#define MAX_TRACKS_1571		70
-#define MAX_BLOCKS_1571		1366
+#define NUM_TRACKS_1571	       70
+#define NUM_BLOCKS_1571	       1366	/* 1328 free */
+#define MAX_TRACKS_1571	       70
+#define MAX_BLOCKS_1571	       1366
+#define DIR_TRACK_1571         18
+#define DIR_SECTOR_1571        1
+#define BAM_TRACK_1571         18
+#define BAM_SECTOR_1571        0
+#define BAM_NAME_1571          144
+#define BAM_ID_1571            162
 
-#define NUM_TRACKS_1581		80
-#define NUM_SECTORS_1581	40	/* Logical sectors */
-#define NUM_BLOCKS_1581		3200	/* 3120 free */
-#define MAX_TRACKS_1581		80
-#define MAX_BLOCKS_1581		3200
+#define NUM_TRACKS_1581	       80
+#define NUM_SECTORS_1581       40	/* Logical sectors */
+#define NUM_BLOCKS_1581	       3200	/* 3120 free */
+#define MAX_TRACKS_1581	       80
+#define MAX_BLOCKS_1581	       3200
+#define DIR_TRACK_1581         40
+#define DIR_SECTOR_1581        3
+#define BAM_TRACK_1581         40
+#define BAM_SECTOR_1581        0
+#define BAM_NAME_1581          4
+#define BAM_ID_1581            22
 
-#define NUM_TRACKS_8050		77
-#define NUM_BLOCKS_8050		2088	/* 2052 free */
-#define MAX_TRACKS_8050		77
-#define MAX_BLOCKS_8050		2088
+#define NUM_TRACKS_8050	       77
+#define NUM_BLOCKS_8050	       2088	/* 2052 free */
+#define MAX_TRACKS_8050	       77
+#define MAX_BLOCKS_8050	       2088
 
-#define NUM_TRACKS_8250		144
-#define NUM_BLOCKS_8250		4166	/* 4133 free */
-#define MAX_TRACKS_8250		144
-#define MAX_BLOCKS_8250		4166
+#define NUM_TRACKS_8250	       144
+#define NUM_BLOCKS_8250	       4166	/* 4133 free */
+#define MAX_TRACKS_8250	       144
+#define MAX_BLOCKS_8250	       4166
 
-#define MAX_TRACKS_ANY		MAX_TRACKS_8250
-#define MAX_BLOCKS_ANY		MAX_BLOCKS_8250
-
-#define DSK_DIR_TRACK		18	/* these are not valid for 8{0,2}50 */
-#define DSK_DIR_SECTOR		1
-#define DSK_BAM_TRACK		18
-#define DSK_BAM_SECTOR		0	/* 8{0,2}50 have {2,4} bam sectors */
-
+#define MAX_TRACKS_ANY         MAX_TRACKS_8250
+#define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
 
 typedef struct {
     int  v_major;

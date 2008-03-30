@@ -16,6 +16,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdefs.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -52,6 +53,8 @@ libarch_a_SOURCES = \
 	uilib.h \
 	uisnapshot.h \
 	uisnapshot.c \
+	uivicii.h \
+	uivicii.c \
 	vic20kbd.c \
 	vic20kbd.h \
 	vic20ui.c \
@@ -70,4 +73,5 @@ EXTRA_DIST = \
         c64.ico
 
 resc64.o : resc64.r resc64.h
-	windres -i $< -o $@
+	windres -i $< -o $@ --include-dir $(top_srcdir)/src/arch/win32 \
+ 		--include-dir $(top_srcdir)/src

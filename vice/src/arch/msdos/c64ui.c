@@ -93,6 +93,10 @@ static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
       "Attach an Action Replay cartridge image",
       attach_cartridge_callback, (void *) CARTRIDGE_ACTION_REPLAY, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Attach _Super Snapshot 4 image...",
+      "Attach an Super Snapshot 4 cartridge image",
+      attach_cartridge_callback, (void *) CARTRIDGE_SUPER_SNAPSHOT, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
