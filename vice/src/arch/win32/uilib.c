@@ -46,6 +46,7 @@
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "util.h"
@@ -123,7 +124,7 @@ static ui_file_selector_style_type styles[NUM_OF_FILE_SELECTOR_STYLES + 1] = {
       NULL, 0, NULL }
 };
 
-static char *ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
+static TCHAR *ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
 
 
 static char *read_disk_image_contents(const char *name)
@@ -185,7 +186,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), "&Attach");
+        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), TEXT("&Attach"));
 
         if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -306,16 +307,17 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
     HWND image_type_list;
     char *contents;
     char filename[256];
+    TCHAR st_filename[256];
     int counter;
     int msg_type;
     int append_extension = 0;
-    int is_it_standard_extension=0;
+    int is_it_standard_extension = 0;
     char *extension;
     int index;
     LV_FINDINFO find;
     LV_ITEM item;
 
-    preview = GetDlgItem(hwnd,IDC_PREVIEW);
+    preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
         SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), "&Attach");
@@ -329,27 +331,29 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
         /* Try to use the cbm font */
         if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, "cbm-directory-charset/ck!");
+                               0, 0, "cbm-directory-charset/ck!");
         else
             /*  maybe there's a better font-definition (FIXME) */
             /*  I think it's OK now (Tibor) */
             hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
-                DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
+                               DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
 
         if (hfont) {
             SendDlgItemMessage(hwnd, IDC_PREVIEW, WM_SETFONT,
                 (WPARAM)hfont, MAKELPARAM(TRUE, 0));
         }
-        SetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, "vice");
-        SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, "1a");
+        SetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, TEXT("vice"));
+        SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, TEXT("1a"));
         break;
       case WM_NOTIFY:
         if (((OFNOTIFY*)lparam)->hdr.code == CDN_SELCHANGE) {
             SendMessage(preview, LB_RESETCONTENT, 0, 0);
             if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
-                CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                     if (!(GetFileAttributes(filename)&FILE_ATTRIBUTE_DIRECTORY)) {
+                CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                     if (!(GetFileAttributes(st_filename)
+                         & FILE_ATTRIBUTE_DIRECTORY)) {
                          if (read_content_func != NULL) {
+                             system_wcstombs(filename, st_filename, 256);
                              contents = read_content_func(filename);
                              create_content_list(contents, preview);
                          }
@@ -365,16 +369,16 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
         switch (msg_type) {
           case IDC_BLANK_IMAGE:
             if (SendMessage(GetParent(hwnd),
-                CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
+                CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
                 ui_error("Please enter a filename.");
                 return -1;
             }
-            if (strchr(filename,'.') == NULL) {
+            if (_tcschr(st_filename, '.') == NULL) {
                 append_extension = 1;
                 is_it_standard_extension = 1;
             } else {
                 /*  Find last dot in name */
-                extension = strrchr(filename, '.');
+                extension = _tcsrchr(st_filename, '.');
                 /*  Skip dot */
                 extension++;
                 /*  Figure out if it's a standard extension */
@@ -387,7 +391,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 }
             }
             if (SendMessage(GetParent(hwnd),
-                CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
                 char disk_name[32];
                 char disk_id[3];
                 char *format_name;
@@ -395,10 +399,11 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 counter = SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE),
                                                  CB_GETCURSEL, 0, 0);
                 if (append_extension) {
-                    strcat(filename,".");
-                    strcat(filename,image_type_name[counter]);
+                    _tcscat(st_filename, TEXT("."));
+                    _tcscat(st_filename, image_type_name[counter]);
                 }
-                if (util_file_exists(filename)) {
+                system_wcstombs(filename, st_filename, 256);
+                if (util_file_exists(st_filename)) {
                     int ret;
                     ret = ui_messagebox(TEXT("Overwrite existing image?"),
                                         TEXT("VICE question"),
@@ -409,7 +414,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 GetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, disk_name, 17);
                 GetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, disk_id, 3);
                 format_name = lib_msprintf("%s,%s", disk_name, disk_id);
-                if (vdrive_internal_create_format_disk_image(filename,
+                if (vdrive_internal_create_format_disk_image(st_filename,
                     format_name, image_type[counter]) < 0) {
                     ui_error("Cannot create image");
                     lib_free(format_name);
@@ -440,13 +445,13 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
 
                 /*  Now find filename in ListView & select it */
                 SendMessage(GetParent(hwnd), CDM_GETSPEC, 256,
-                            (LPARAM)filename);
+                            (LPARAM)st_filename);
                 if (append_extension) {
-                    strcat(filename, ".");
-                    strcat(filename, image_type_name[counter]);
+                    _tcscat(st_filename, TEXT("."));
+                    _tcscat(st_filename, image_type_name[counter]);
                 }
                 find.flags = LVFI_STRING;
-                find.psz = filename;
+                find.psz = st_filename;
                 index = SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),
                         0x461), 1), LVM_FINDITEM, -1, (LPARAM)&find);
                 item.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
@@ -461,7 +466,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
             if (autostart_result != NULL) {
                 index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
                 if (SendMessage(GetParent(hwnd),
-                    CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                    CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
                     *autostart_result = index;
                     SendMessage(GetParent(hwnd), WM_COMMAND,
                                 MAKELONG(IDOK,BN_CLICKED),
@@ -574,22 +579,24 @@ static int CALLBACK EnumFontProc(
 char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
                      int style, int *autostart)
 {
-    char name[1024] = "";
+    TCHAR st_name[1024] = TEXT("");
+    char name[1024];
     char *initialdir;
     char filter[UI_LIB_MAX_FILTER_LENGTH];
     DWORD filterindex;
     OPENFILENAME ofn;
     int result;
+    char *ret = NULL;
 
     if (styles[style].initialdir_resource != NULL)
         resources_get_value(styles[style].initialdir_resource,
             (void *)&initialdir);
 
     if (ui_file_selector_initialfile[style] != NULL)
-        strcpy(name, ui_file_selector_initialfile[style]);
+        _tcscpy(st_name, ui_file_selector_initialfile[style]);
 
     if (style == DIR_SELECTOR_EVENT_STYLE)
-        strcpy(name, "FilenameNotUsed");
+        _tcscpy(st_name, TEXT("FilenameNotUsed"));
 
     if (fontfile == NULL) {
         fontfile = util_concat(archdep_boot_path(), 
@@ -611,8 +618,8 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter = 0;
     ofn.nFilterIndex = filterindex;
-    ofn.lpstrFile = name;
-    ofn.nMaxFile = sizeof(name);
+    ofn.lpstrFile = st_name;
+    ofn.nMaxFile = sizeof(st_name);
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = initialdir;
@@ -648,15 +655,19 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     result = GetOpenFileName(&ofn);
     update_filter_history(ofn.nFilterIndex);
     if (result) {
+        char *tmp;
+
         if (ui_file_selector_initialfile[style] != NULL)
             lib_free(ui_file_selector_initialfile[style]);
-        util_fname_split(name, &initialdir, 
-            &ui_file_selector_initialfile[style]);
+        system_wcstombs(name, st_name, 1024);
+        util_fname_split(name, &initialdir, &tmp);
+        ui_file_selector_initialfile[style] = system_mbstowcs_alloc(tmp);
+        lib_free(tmp);
         resources_set_value(styles[style].initialdir_resource, initialdir);
-        return lib_stralloc(name);
-    } else {
-        return NULL;
+        ret = system_wcstombs_alloc(st_name);
     }
+
+    return ret;
 }
 
 

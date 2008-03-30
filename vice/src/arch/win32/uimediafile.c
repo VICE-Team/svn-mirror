@@ -101,7 +101,7 @@ static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
 }
 
 
-static char *ui_save_mediafile(const char *title, const char *filter, 
+static char *ui_save_mediafile(const char *title, const TCHAR *filter, 
                        HWND hwnd, int dialog_template)
 {
     TCHAR name[1024] = TEXT("");
@@ -158,7 +158,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
     }
 
     s = ui_save_mediafile("Save media image",
-        "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0",
+        TEXT("Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0"),
         hwnd,
         IDD_MEDIAFILE_DIALOG);
 
