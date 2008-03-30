@@ -62,9 +62,6 @@ extern void mem_pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
 extern void mem_set_exrom(int active);
 
-extern BYTE mem_basic64_rom[C64_BASIC_ROM_SIZE];
-extern BYTE mem_kernal64_rom[C64_KERNAL_ROM_SIZE];
-extern BYTE mem_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
 extern BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 extern void mem_set_write_hook(int config, int page, store_func_t *f);

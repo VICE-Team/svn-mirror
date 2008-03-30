@@ -33,6 +33,7 @@
 #include "c64-resources.h"
 #include "c64cart.h"
 #include "c64mem.h"
+#include "c64memrom.h"
 #include "c64memsnapshot.h"
 #include "c64pla.h"
 #include "c64rom.h"
@@ -74,8 +75,8 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)0);
 
-    if (SMW_BA(m, mem_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
-        || SMW_BA(m, mem_basic64_rom, C64_BASIC_ROM_SIZE) < 0
+    if (SMW_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
+        || SMW_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
         || SMW_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
@@ -134,8 +135,8 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)0);
 
-    if (SMR_BA(m, mem_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
-        || SMR_BA(m, mem_basic64_rom, C64_BASIC_ROM_SIZE) < 0
+    if (SMR_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
+        || SMR_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
         || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
         goto fail;
 
@@ -151,7 +152,8 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
-    memcpy(mem_kernal64_trap_rom, mem_kernal64_rom, C64_KERNAL_ROM_SIZE);
+    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
+           C64_KERNAL_ROM_SIZE);
     c64rom_get_kernal_checksum();
     c64rom_get_basic_checksum();
     /* enable traps again when necessary */

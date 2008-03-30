@@ -55,9 +55,9 @@ int c64rom_get_kernal_checksum(void)
 
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
-        sum += mem_kernal64_rom[i];
+        sum += c64memrom_kernal64_rom[i];
 
-    id = rom64_read(0xff80);
+    id = c64memrom_rom64_read(0xff80);
 
     log_message(c64rom_log, "Kernal rev #%d.", id);
 
@@ -104,13 +104,14 @@ int c64rom_load_kernal(const char *rom_name)
 
     /* Load Kernal ROM.  */
     if (sysfile_load(rom_name,
-        mem_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
+        c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
         log_error(c64rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
         resources_set_value("VirtualDevices", (resource_value_t)trapfl);
         return -1;
     }
-    memcpy(mem_kernal64_trap_rom, mem_kernal64_rom, C64_KERNAL_ROM_SIZE);
+    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
+           C64_KERNAL_ROM_SIZE);
     c64rom_get_kernal_checksum();
 
     resources_set_value("VirtualDevices", (resource_value_t)trapfl);
@@ -126,7 +127,7 @@ int c64rom_get_basic_checksum(void)
     /* Check Basic ROM.  */
 
     for (i = 0, sum = 0; i < C64_BASIC_ROM_SIZE; i++)
-        sum += mem_basic64_rom[i];
+        sum += c64memrom_basic64_rom[i];
 
     if (sum != C64_BASIC_CHECKSUM)
         log_warning(c64rom_log,
@@ -143,7 +144,7 @@ int c64rom_load_basic(const char *rom_name)
 
     /* Load Basic ROM.  */
     if (sysfile_load(rom_name,
-        mem_basic64_rom, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE) < 0) {
+        c64memrom_basic64_rom, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE) < 0) {
         log_error(c64rom_log,
                   "Couldn't load basic ROM `%s'.",
                   rom_name);

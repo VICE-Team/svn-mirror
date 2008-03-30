@@ -31,24 +31,29 @@
 #include "types.h"
 
 
-BYTE REGPARM1 basic64_read(WORD addr)
+BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE];
+BYTE c64memrom_kernal64_rom[C64_KERNAL_ROM_SIZE];
+BYTE c64memrom_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
+
+
+BYTE REGPARM1 c64memrom_kernal64_read(WORD addr)
 {
-    return mem_basic64_rom[addr & 0x1fff];
+    return c64memrom_kernal64_rom[addr & 0x1fff];
 }
 
-static void REGPARM2 basic64_store(WORD addr, BYTE value)
+static void REGPARM2 c64memrom_kernal64_store(WORD addr, BYTE value)
 {
-    mem_basic64_rom[addr & 0x1fff] = value;
+    c64memrom_kernal64_rom[addr & 0x1fff] = value;
 }
 
-BYTE REGPARM1 kernal64_read(WORD addr)
+BYTE REGPARM1 c64memrom_basic64_read(WORD addr)
 {
-    return mem_kernal64_rom[addr & 0x1fff];
+    return c64memrom_basic64_rom[addr & 0x1fff];
 }
 
-static void REGPARM2 kernal64_store(WORD addr, BYTE value)
+static void REGPARM2 c64memrom_basic64_store(WORD addr, BYTE value)
 {
-    mem_kernal64_rom[addr & 0x1fff] = value;
+    c64memrom_basic64_rom[addr & 0x1fff] = value;
 }
 
 BYTE REGPARM1 c64memrom_trap_read(WORD addr)
@@ -56,7 +61,7 @@ BYTE REGPARM1 c64memrom_trap_read(WORD addr)
     switch (addr & 0xf000) {
       case 0xe000:
       case 0xf000:
-        return mem_kernal64_trap_rom[addr & 0x1fff];
+        return c64memrom_kernal64_trap_rom[addr & 0x1fff];
     }
 
     return 0;
@@ -67,40 +72,40 @@ void REGPARM2 c64memrom_trap_store(WORD addr, BYTE value)
     switch (addr & 0xf000) {
       case 0xe000:
       case 0xf000:
-        mem_kernal64_trap_rom[addr & 0x1fff] = value;
+        c64memrom_kernal64_trap_rom[addr & 0x1fff] = value;
         break;
     }
 }
 
-BYTE REGPARM1 rom64_read(WORD addr)
+BYTE REGPARM1 c64memrom_rom64_read(WORD addr)
 {
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        return basic64_read(addr);
+        return c64memrom_basic64_read(addr);
       case 0xd000:
         return chargen_read(addr);
       case 0xe000:
       case 0xf000:
-        return kernal64_read(addr);
+        return c64memrom_kernal64_read(addr);
     }
 
     return 0;
 }
 
-void REGPARM2 rom64_store(WORD addr, BYTE value)
+void REGPARM2 c64memrom_rom64_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        basic64_store(addr, value);
+        c64memrom_basic64_store(addr, value);
         break;
       case 0xd000:
         chargen_store(addr, value);
         break;
       case 0xe000:
       case 0xf000:
-        kernal64_store(addr, value);
+        c64memrom_kernal64_store(addr, value);
         break;
     }
 }
