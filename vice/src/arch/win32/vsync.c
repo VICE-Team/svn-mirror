@@ -173,9 +173,9 @@ static CLOCK speed_eval_clk_start;
 /* Speed of the timer callback; 0 = no callback.  */
 static int timer_speed = 0;
 
-static int timer_interval;
+static DWORD timer_interval;
 
-static DWORD    last_time;
+static DWORD last_time;
 
 static void clk_overflow_callback(CLOCK amount, void *data)
 {
@@ -203,8 +203,8 @@ void vsync_init(void (*hook)(void))
 int do_vsync(int been_skipped)
 {
     int skip_next_frame = 0;    /* 0 means "never skip".  */
-    DWORD   now_time;
-    DWORD   diff_time;
+    DWORD now_time;
+    DWORD diff_time;
 
     /* Call the hooks that need to be executed at every vertical retrace.  */
     vsync_hook();
@@ -231,7 +231,7 @@ int do_vsync(int been_skipped)
         if (timer_speed != 0) {
             now_time=timeGetTime();
             diff_time=now_time-last_time;
-            while (diff_time<timer_interval*(skip_counter+1)) {
+            while (diff_time < timer_interval * (skip_counter + 1)) {
                 now_time=timeGetTime();
                 diff_time=now_time-last_time;
             }
@@ -321,7 +321,8 @@ int do_vsync(int been_skipped)
 
     if (timer_speed!=relative_speed) {
         if (relative_speed!=0) {
-            timer_interval=(int)(((100.0/(double)relative_speed)/refresh_frequency)*1000.0+.5);
+            timer_interval = (DWORD)(((100.0/(double)relative_speed)
+                             / refresh_frequency)*1000.0+.5);
             DEBUG(("Setting up timer -- interval = %d msec.", interval));
         }
         timer_speed = relative_speed;
