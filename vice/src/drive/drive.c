@@ -48,7 +48,6 @@
 #endif
 
 #include "attach.h"
-#include "ciad.h"
 #include "clkguard.h"
 #include "diskconstants.h"
 #include "diskimage.h"
@@ -63,10 +62,10 @@
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "machine.h"
 #include "parallel.h"
 #include "resources.h"
-#include "riotd.h"
 #include "serial.h"
 #include "types.h"
 #include "ui.h"
@@ -74,7 +73,6 @@
 #include "viad.h"
 #include "wd1770.h"
 
-/* ------------------------------------------------------------------------- */
 
 /* Drive specific variables.  */
 drive_t drive[2];
@@ -1052,18 +1050,6 @@ int reload_rom_1541(char *name) {
 }
 */
 
-void drive0_parallel_set_atn(int state)
-{
-    drive0_via_set_atn(state);
-    drive0_riot_set_atn(state);
-}
-
-void drive1_parallel_set_atn(int state)
-{
-    drive1_via_set_atn(state);
-    drive1_riot_set_atn(state);
-}
-
 int drive_num_leds(unsigned int dnr)
 {
     if (DRIVE_IS_OLDTYPE(drive[dnr].type)) {
@@ -1108,10 +1094,7 @@ static void drive_setup_context_for_drive(drive_context_t *drv, int number)
     drive_cpu_setup_context(drv);
     drive_via1_setup_context(drv);
     drive_via2_setup_context(drv);
-    cia1571_setup_context(drv);
-    cia1581_setup_context(drv);
-    riot1_setup_context(drv);
-    riot2_setup_context(drv);
+    machine_drive_setup_context(drv);
 }
 
 void drive_setup_context(void)

@@ -37,7 +37,6 @@
 
 #include "6510core.h"
 #include "alarm.h"
-#include "ciad.h"
 #include "clkguard.h"
 #include "debug.h"
 #include "drive.h"
@@ -51,7 +50,6 @@
 #include "mem.h"
 #include "mon.h"
 #include "mos6510.h"
-#include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -259,11 +257,7 @@ static void cpu_reset(drive_context_t *drv)
     *(drv->clk_ptr) = 6;
     via1d_reset(drv);
     via2d_reset(drv);
-    cia1571_reset(drv);
-    cia1581_reset(drv);
     wd1770d_reset(drv);
-    riot1_reset(drv);
-    riot2_reset(drv);
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
     machine_drive_reset(drv);
 
@@ -320,11 +314,7 @@ void drive_cpu_early_init(drive_context_t *drv)
 
     via1d_init(drv);
     via2d_init(drv);
-    cia1571_init(drv);
-    cia1581_init(drv);
     wd1770d_init(drv);
-    riot1_init(drv);
-    riot2_init(drv);
     /* FIXME: hack, because 0x4000 is only ok for 1001/8050/8250.
        fdc.c:fdc_do_job() adds an offset for 2040/3040/4040 by itself :-(
        Why donlly get a table for that...! */
@@ -733,11 +723,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     via1d_reset(drv);
     via2d_reset(drv);
-    cia1571_reset(drv);
-    cia1581_reset(drv);
     wd1770d_reset(drv);
-    riot1_reset(drv);
-    riot2_reset(drv);
     machine_drive_reset(drv);
 
     if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)

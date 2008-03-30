@@ -32,7 +32,6 @@
 
 #include "archdep.h"
 #include "attach.h"
-#include "ciad.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "drive.h"
@@ -43,8 +42,8 @@
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "resources.h"
-#include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -191,22 +190,9 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
                     || via2d_snapshot_write_module(ctxptr, s) < 0)
                     return -1;
             }
-            if (drive[i].type == DRIVE_TYPE_1571) {
-                if (via1d_snapshot_write_module(ctxptr, s) < 0
-                    || via2d_snapshot_write_module(ctxptr, s) < 0
-                    || cia1571_snapshot_write_module(ctxptr, s) < 0)
-                    return -1;
-            }
-            if (drive[i].type == DRIVE_TYPE_1581) {
-                if (cia1581_snapshot_write_module(ctxptr, s) < 0)
-                    return -1;
-            }
-            if (DRIVE_IS_OLDTYPE(drive[i].type)) {
-                if (riot1_snapshot_write_module(ctxptr, s) < 0
-                    || riot2_snapshot_write_module(ctxptr, s) < 0
-                    || fdc_snapshot_write_module(s, i) < 0)
-                    return -1;
-            }
+
+            if (machine_drive_snapshot_write(ctxptr, s) < 0)
+                return -1;
         }
     }
 
@@ -433,22 +419,9 @@ int drive_snapshot_read_module(snapshot_t *s)
                     || via2d_snapshot_read_module(ctxptr, s) < 0)
                     return -1;
             }
-            if (drive[i].type == DRIVE_TYPE_1571) {
-                if (via1d_snapshot_read_module(ctxptr, s) < 0
-                    || via2d_snapshot_read_module(ctxptr, s) < 0
-                    || cia1571_snapshot_read_module(ctxptr, s) < 0)
-                    return -1;
-            }
-            if (drive[i].type == DRIVE_TYPE_1581) {
-                if (cia1581_snapshot_read_module(ctxptr, s) < 0)
-                    return -1;
-            }
-            if (DRIVE_IS_OLDTYPE(drive[i].type)) {
-                if (riot1_snapshot_read_module(ctxptr, s) < 0
-                    || riot2_snapshot_read_module(ctxptr, s) < 0
-                    || fdc_snapshot_read_module(s, i) < 0)
-                    return -1;
-            }
+
+            if (machine_drive_snapshot_read(ctxptr, s) < 0)
+                return 1;
         }
     }
 
