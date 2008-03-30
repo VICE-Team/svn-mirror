@@ -27,12 +27,17 @@
 #ifndef _VICE_JOYSTICK_H
 #define _VICE_JOYSTICK_H
 
-/* Flag: is joystick present? */
-extern int joystick_available;
+typedef enum {
+    JOYDEV_NONE,
+    JOYDEV_HW1,
+    JOYDEV_HW2,
+    JOYDEV_NUMPAD
+} joystick_device_t;
 
 extern void joystick_init(void);
 extern int joystick_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern void joystick_update(void);
+extern void joystick_handle_key(void);
 
 #endif
