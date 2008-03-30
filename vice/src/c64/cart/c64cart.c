@@ -60,7 +60,7 @@ static int c64cartridge_reset;
 int c64cart_type = CARTRIDGE_NONE;
 int cartmode = CARTRIDGE_MODE_OFF;
 int cartres = 0;
-static char *cartfile;
+static char *cartfile = NULL;
 
 static alarm_t *cartridge_alarm = NULL;
 
@@ -166,6 +166,7 @@ int cartridge_resources_init(void)
 void cartridge_resources_shutdown(void)
 {
     lib_free(cartridge_file);
+    lib_free(cartfile);
     lib_free(ide64_image_file);
 }
 
