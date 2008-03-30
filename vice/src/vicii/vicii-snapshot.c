@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "alarm.h"
 #include "interrupt.h"
 #include "mem.h"
@@ -360,8 +362,8 @@ int vicii_snapshot_read_module(snapshot_t *s)
 
     /* FIXME: Recalculate alarms and derived values.  */
 
-    vicii_irq_set_raster(vic_ii.regs[0x12]
-                         | ((vic_ii.regs[0x11] & 0x80) << 1));
+    vicii_irq_set_raster_line(vic_ii.regs[0x12]
+                              | ((vic_ii.regs[0x11] & 0x80) << 1));
 
     /* compatibility with older versions */
     vic_ii.ram_base_phi2 = vic_ii.ram_base_phi1;
