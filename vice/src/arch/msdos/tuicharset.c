@@ -33,6 +33,7 @@
 
 #include "cbmcharsets.h"
 
+#include "log.h"
 #include "tuicharset.h"
 
 static int charset_initialized = 0;
@@ -54,9 +55,9 @@ int tui_charset_init(void)
         cbm_charset_mem[i].segment
             = __dpmi_allocate_dos_memory(256, &cbm_charset_mem[i].selector);
         if (cbm_charset_mem[i].segment < 0) {
-            fprintf(errfile,
-                    "Cannot allocate 256 paragraphs of DOS memory for the "
-                    "CBM charset #%d.\n", i + 1);
+            log_error(LOG_DEFAULT,
+                      "Cannot allocate 256 paragraphs of DOS memory for the "
+                      "CBM charset #%d.", i + 1);
             return -1;
         }
     }
@@ -66,7 +67,7 @@ int tui_charset_init(void)
 
     charset_initialized = 1;
 
-    fprintf(logfile, "Prepared custom CBM character sets.\n");
+    log_message(LOG_DEFAULT, "Prepared custom CBM character sets.");
 
     return 0;
 }
@@ -90,7 +91,7 @@ int tui_charset_set(tui_charset_t which)
 
     switch (which) {
       case TUI_CHARSET_DEFAULT:
-        fprintf(errfile, "Default charset not available.\n");
+        log_debug("Default charset not available.");
         return -1;
       case TUI_CHARSET_CBM_1:
         load_charset(cbm_charset_mem[0].segment);
@@ -99,7 +100,7 @@ int tui_charset_set(tui_charset_t which)
         load_charset(cbm_charset_mem[1].segment);
         return 0;
       default:
-        fprintf(errfile, "Unknown character set %d\n", which);
+        log_debug("Unknown character set %d.", which);
         return -1;
     }
 }

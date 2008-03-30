@@ -41,6 +41,7 @@
 #include "cmdline.h"
 #include "interrupt.h"
 #include "joystick.h"
+#include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
@@ -90,17 +91,6 @@ static int num_keyconvmaps;
 
 /* Function for triggering cartridge (e.g. AR) freezing.  */
 static void (*freeze_function)(void);
-
-#ifdef DEBUG_KBD
-#define DEBUG(x)					\
-    do {						\
-        printf("%s, %d: ", __FUNCTION__, __LINE__);	\
-        printf x;					\
-        putchar('\n');					\
-    } while (0)
-#else
-#define DEBUG(x)
-#endif
 
 BYTE _kbd_extended_key_tab[256] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -214,10 +204,7 @@ void kbd_flush_commands(void)
     if (num_queued_commands == 0)
 	return;
 
-    DEBUG(("%d command(s) in queue", num_queued_commands));
-
     for (i = 0; i < num_queued_commands; i++) {
-	DEBUG(("Executing command #%d: %d", i, command_queue[i]));
 	switch (command_queue[i].type) {
 	  case KCMD_HARD_RESET:
             suspend_speed_eval();
@@ -251,13 +238,11 @@ void kbd_flush_commands(void)
             break;
 
 	  default:
-	    fprintf(stderr, "Warning: Unknown keyboard command %d\n",
-		    (int)command_queue[i].type);
+	    log_error(LOG_DEFAULT, "Unknown keyboard command %d.",
+                      (int)command_queue[i].type);
 	}
     }
     num_queued_commands = 0;
-
-    DEBUG(("Successful"));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -456,31 +441,24 @@ void kbd_install(void)
     int r;
     static _go32_dpmi_seginfo my_kbd_handler_seginfo;
 
-    DEBUG(("Allocating IRET wrapper for custom keyboard handler"));
     my_kbd_handler_seginfo.pm_offset = (int) my_kbd_interrupt_handler;
     my_kbd_handler_seginfo.pm_selector = _go32_my_cs();
     r = _go32_dpmi_allocate_iret_wrapper(&my_kbd_handler_seginfo);
     if (r) {
-	fprintf(stderr,
-	   "Cannot allocate IRET wrapper for the keyboard interrupt.\n");
+        log_error(LOG_DEFAULT, "Cannot allocate IRET wrapper for the keyboard interrupt.");
 	exit(-1);
     }
-    DEBUG(("Installing custom keyboard handler in interrupt 9"));
     r = _go32_dpmi_set_protected_mode_interrupt_vector(9, &my_kbd_handler_seginfo);
     if (r) {
-	fprintf(stderr, "Cannot install the keyboard interrupt handler.\n");
+	log_error(LOG_DEFAULT, "Cannot install the keyboard interrupt handler.");
 	exit(-1);
     }
-
-    DEBUG(("Initializing keyboard data"));
 
     /* Initialize the keyboard matrix.  */
     memset(keyarr, 0, sizeof(keyarr));
     memset(rev_keyarr, 0, sizeof(rev_keyarr));
     /* Reset modifier status.  */
     memset(&modifiers, 0, sizeof(modifiers));
-
-    DEBUG(("Successful"));
 }
 
 /* Restore the standard keyboard interrupt.  */
@@ -488,18 +466,13 @@ void kbd_uninstall(void)
 {
     int r;
 
-    DEBUG(("Restoring standard keyboard interrupt vector"));
-
     r = _go32_dpmi_set_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
     if (r)
-	fprintf(stderr, "Aaargh! Couldn't restore the standard kbd interrupt vector!\n");
-    else
-	DEBUG(("Successful"));
+	log_error(LOG_DEFAULT, "Aaargh! Couldn't restore the standard kbd interrupt vector!");
 }
 
 static void kbd_exit(void)
 {
-    DEBUG(("Calling `kbd_uninstall()'"));
     kbd_uninstall();
 }
 
@@ -509,15 +482,12 @@ int kbd_init(int num, ...)
     if (num > MAX_CONVMAPS)
         return -1;
 
-    DEBUG(("Getting standard int 9 seginfo"));
     _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
     atexit(kbd_exit);
 
-    DEBUG(("Locking custom keyboard handler code"));
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
     _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
-    DEBUG(("Installing keymaps"));
     {
         va_list p;
         int i;
@@ -557,8 +527,6 @@ int kbd_init(int num, ...)
     keyconv_base = &keyconvmaps[keymap_index >> 1];
 
     kbd_install();
-
-    DEBUG(("Successful\n"));
 
     return 0;
 }
