@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.8
+VERSION=1.1.9
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6937,6 +6937,33 @@ else
   echo "$ac_t""no" 1>&6
 fi
 
+
+  echo $ac_n "checking whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers""... $ac_c" 1>&6
+echo "configure:6943: checking whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers" >&5
+  cat > conftest.$ac_ext <<EOF
+#line 6945 "configure"
+#include "confdefs.h"
+#include <windows.h>
+extern DWORD test;
+unsigned long test; 
+int main() {
+
+; return 0; }
+EOF
+if { (eval echo configure:6954: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+   cat >> confdefs.h <<\EOF
+#define DWORD_IS_LONG 1
+EOF
+
+                   echo "$ac_t""unsigned long" 1>&6 
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  echo "$ac_t""unsigned int" 1>&6
+fi
+rm -f conftest*
 
   x64_LDFLAGS="-mwindows"
   x128_LDFLAGS="-mwindows"

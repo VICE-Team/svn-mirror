@@ -1,3 +1,80 @@
+1999-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.9.
+
+	* c128/z80.c: Removed debugging stuff.
+
+	* utils.c (subst): Added missing `const'.
+
+	* cartridge.h, c64/cartridge.c, c64/c64cartmem.c: Added
+	support for Westermann learning carts.
+
+1999-09-25  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/arch.dsp: Added uicmdline.c.
+
+	* arch/win32/*.dsp: Converted to MSVC6 format by MSVC6. (No idea if it
+	still work with MSVC5. To check...) 
+
+	* arch/win32/joystick.c (joystick_init): Call mouse_set_format.
+
+	* arch/win32/mouse.c (mouse_data): New struct for receiving data
+	from mouse device.
+	(mouse_objects) (mouse_data_format): New structs for defining
+	the format of incoming mouse data.
+	(mouse_set_format): New function, sets up the data format for
+	the mouse.
+	(mouse_update_mouse): Update data receival.
+
+	* arch/win32/mouse.h (mouse_set_format): New prototype.
+
+	* arch/win32/msvc/config.h: Define DWORD_IS_LONG.
+
+	* arch/win32/types.h: Use DWORD_IS_LONG when defining DWORD.
+
+	* c128/z80mem.c: Turn off optimizations around function
+	z80mem_initialize when compiling with MSVC.
+
+	* sounddrv/sounddx.c: Include <windows.h> <mmsystem.h> only
+	when compiling with GCC2.95 or above.
+	(dx_init): Expanded DSBCAPS_CTRLDEFAULT, as DX7 doesn't has this
+	define.
+
+	* sysfile.c: Don't include <unistd.h> twice! Include it only when
+	HAVE_UNISTD_H is defined.
+
+1999-09-17  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* uiapi.h: Added prototypes for tape-ui:
+	  (ui_set_tape_status), (ui_display_tape_motor_status),
+	  (ui_display_tape_control_status), (ui_display_tape_counter)
+
+	* win32/ui.c:
+	  New variables for brushes (tape_motor_on_brush, tape_motor_off_brush)
+	  (ui_init): initialize the brushes
+	  New variables (tape_enabled, tape_motor, tape_counter, tape_control)
+	  (ui_set_tape_status): new function
+	  (ui_display_tape_motor_status): new function
+	  (ui_display_tape_control_status): new function
+	  (ui_display_tape_counter): new function
+	  (SetStatusWindowParts): Added StatusWindow-part for tape-ui
+	  (window_proc): added message-handler for tape-part of StatusWindow
+
+	* msdos/ui.c, unix/xaw/ui.c, os2/archdep.c, riscos/ui.c:
+	  dummy-definitions for tape-uiapi
+
+	* datasette.c:
+	  New function (datasette_update_ui_counter) 
+	  (datasette_read_bit): now updates the ui-counter;
+	  call (datasette_control) when tape reaches begin or end;
+	  make the tape 10 times faster in REWIND and FORWARD-mode to reach
+	  the speed of a real datasette
+	  (datasette_set_tape_image): updates the ui
+	  (datasette_reset): updates the ui-counter
+	  (datasette_control): updates the ui-control
+	  (datasette_set_motor): updates the ui-motor
+	  (datasette_toggle_write_bit): updates the ui-counter
+
 1999-09-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.8.

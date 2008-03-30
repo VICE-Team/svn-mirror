@@ -558,7 +558,8 @@ cmdline.o: cmdline.c vice.h config.h arch/unix/uicmdline.h cmdline.h \
 	resources.h arch/unix/types.h utils.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
 	clkguard.h datasette.h tap.h maincpu.h 6510core.h mem.h \
-	snapshot.h mon.h mos6510.h interrupt.h
+	snapshot.h mon.h mos6510.h interrupt.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h uiapi.h
 diskimage.o: diskimage.c vice.h config.h arch/unix/archdep.h archapi.h \
 	diskimage.h gcr.h arch/unix/types.h log.h utils.h \
 	vdrive/vdrive.h attach.h snapshot.h zfile.h
