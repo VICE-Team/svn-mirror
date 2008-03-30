@@ -238,6 +238,8 @@ libserial_a_SOURCES = \
 	serial-device.h \
 	serial-iec-bus.c \
 	serial-iec-bus.h \
+	serial-iec-device.c \
+	serial-iec-device.h \
 	serial-iec-lib.c \
 	serial-iec-lib.h \
 	serial-iec.c \
@@ -261,9 +263,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libserial_a_AR = $(AR) cru
 am_libserial_a_OBJECTS = fsdrive.$(OBJEXT) serial-device.$(OBJEXT) \
-	serial-iec-bus.$(OBJEXT) serial-iec-lib.$(OBJEXT) \
-	serial-iec.$(OBJEXT) serial-realdevice.$(OBJEXT) \
-	serial-trap.$(OBJEXT) serial.$(OBJEXT)
+	serial-iec-bus.$(OBJEXT) serial-iec-device.$(OBJEXT) \
+	serial-iec-lib.$(OBJEXT) serial-iec.$(OBJEXT) \
+	serial-realdevice.$(OBJEXT) serial-trap.$(OBJEXT) \
+	serial.$(OBJEXT)
 libserial_a_OBJECTS = $(am_libserial_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -272,6 +275,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/fsdrive.Po ./$(DEPDIR)/realdevice.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/serial-device.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/serial-iec-bus.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/serial-iec-device.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/serial-iec-lib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/serial-iec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/serial-realdevice.Po \
@@ -311,6 +315,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/realdevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-device.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-iec-bus.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-iec-device.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-iec-lib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-iec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-realdevice.Po@am__quote@

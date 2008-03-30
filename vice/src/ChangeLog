@@ -1,3 +1,41 @@
+2003-11-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.27.
+
+	* serial/serial-iec-device.c, serial/serial-iec-device.h: New
+	files.
+
+	* serial.h, serial/serial-trap.c: Initialize IEC device.
+
+	* serial/Makefile.am, arch/win32/serial.dsp: Added new file.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, plus4/plus4.c:
+	Initialize resources and command line options.
+
+	* drive/drive-resources.c, drive/drive-snapshot.c, traps.c:
+	Report resource status.
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_bus_status_truedrive_set,
+	machine_bus_status_drivetype_set,
+	machine_bus_status_virtualdevices_set): New functions.
+
+	* iecbus/iecbus.c (iecbus_status_set,
+	calculate_callback_index): New functions.
+
+	* iecbus/iecbus.c, iecbus.h, pet/petiec.c, cbm2/cbm2iec.c,
+	drive/drive.c, drive/drive-snapshot.c,
+	drive/drive-resources.c (iecbus_calculate_callback_index):
+	Removed.
+
+	* c64/c64cia2.c, c64/c64iec.c, c64/c64iec.h, c64/c64.c,
+	c128/c128.c, plus4/plus4iec.c, plus4/plus4iec.h,
+	plus4/plus4mem.c: Changed IEC interface to use `iecbus_*'
+	routines.
+
+	* arch/unix/uidrivec64vic20.c, arch/unix/uidrivec128.c,
+	arch/unix/uidriveplus4.c: Added IEC device UI.
+
 2003-11-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.26.
