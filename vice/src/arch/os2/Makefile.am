@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = pm snippets
+SUBDIRS = pm snippets vac++ kbd
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -13,7 +13,8 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	c64kbd.c \
+        c128ui.c \
+        c128ui.h \
 	c64ui.c \
 	c64ui.h \
         config.h \
