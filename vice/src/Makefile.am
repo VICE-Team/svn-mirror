@@ -74,7 +74,6 @@ base_sources = \
 	info.c \
 	kbdbuf.c \
 	main.c \
-	maincpu.c \
 	memutils.c \
 	misc.c \
 	mon.c \
@@ -95,6 +94,9 @@ base_sources = \
 	zfile.c \
 	zipcode.c
 
+maincpu_sources = \
+	maincpu.c
+
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -109,6 +111,7 @@ BUILT_SOURCES = mon_parse.h mon_parse.c
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 true1541_lib = $(top_builddir)/src/true1541/libtrue1541.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
+c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
@@ -116,7 +119,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 bin_PROGRAMS = x64 x128 xvic xpet
 
 # x64
-x64_SOURCES = $(base_sources)
+x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
@@ -125,20 +128,20 @@ x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 # x128
 # Notice that this works by overriding some symbols from the C64 library.
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-x128_DEPENDENCIES = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
+	$(true1541_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xvic
-xvic_SOURCES = $(base_sources)
+xvic_SOURCES = $(base_sources) $(maincpu_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xpet
-xpet_SOURCES = $(base_sources)
+xpet_SOURCES = $(base_sources) $(maincpu_sources)
 xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
 xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
@@ -149,7 +152,9 @@ xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
 
 .PHONY: libc64 libc128 libvic20 libpet libtrue1541 libsounddrv
 libc64:
-	(cd c64 && $(MAKE))
+	(cd c64 && $(MAKE) libc64.a)
+libc64c128:
+	(cd c64 && $(MAKE) libc64c128.a)
 libc128:
 	(cd c128 && $(MAKE))
 libvic20:

@@ -6,7 +6,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/true1541
 
-noinst_LIBRARIES = libc64.a
+noinst_LIBRARIES = libc64.a libc64c128.a
 
 libc64_a_SOURCES = \
 	c64.c \
@@ -24,6 +24,28 @@ libc64_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
+	sid.c \
+	sid.h \
+	sprcrunch.h \
+	sprcycles.h \
+	sprites.h \
+	tpi.c \
+	tpi.h \
+	vicii.c \
+	vicii.h \
+	wave6581.h \
+	wave8580.h
+
+libc64c128_a_SOURCES = \
+	c64cia.h \
+	c64cia1.c \
+	c64cia1.def \
+	c64cia2.c \
+	c64cia2.def \
+	c64iec.c \
+	c64iec.h \
+	patchrom.c \
+	patchrom.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
