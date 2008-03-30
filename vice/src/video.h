@@ -46,6 +46,17 @@ struct video_frame_buffer_s;
 #define VIDEO_RENDER_RGB_1X2	3
 #define VIDEO_RENDER_RGB_2X2	4
 
+typedef struct video_render_config_s {
+    int rendermode;             /* what renderers are allowed? */
+    int doublescan;             /* doublescan enabled?         */
+    DWORD physical_colors[256];
+} video_render_config_t;
+
+extern void video_render_initconfig(video_render_config_t *config);
+extern void video_render_setphysicalcolor(video_render_config_t *config, int index, DWORD color, int depth);
+
+/**************************************************************/
+
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern void video_free(void);
@@ -111,9 +122,9 @@ extern void video_color_set_palette(video_cbm_palette_t *palette);
 extern int video_color_update_palette(void);
 extern void video_color_set_raster(struct raster_s *raster);
 
-extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
+extern void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg, int width,
                               int height, int xs, int ys, int xt, int yt,
-                              int pitchs, int pitcht, int depth, int rendermode);
+                              int pitchs, int pitcht, int depth);
 extern int video_render_get_fake_pal_state(void);
 
 #endif
