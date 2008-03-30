@@ -1,5 +1,13 @@
+# -*-text-*-
+#
+# Vice/Gnome
+#
+# maintained by Martin.Pottendorfer@alcatel.at
+#
 # This is a list for me to gather already identified problems. It's not 
-# systematic and probably not complete!
+# systematic and probably not complete! 
+# If you find something missing, let me know...
+#
 
 Missing features
 - Internationalization
@@ -7,15 +15,24 @@ Missing features
 - Session Management
 
 Known Bugs (help is appreciated !):
-- x128 gives a GTK warning because topmenu is reused.
+- x128 gives a GTK warning because topmenu is reused. However this seems not
+  to be a problem.
 - Gnome commandline is ignored.
-- Get font from X Resource database for textwindows
-- Setting the color palette twice leads to GTK/X error assertion (Help needed!)
-  doesn't happen on my 16bit Xserver@home; problem maybe with 8bit color depth?
+- Get font from X Resource database for textwindows/CBM font preview windows.
+- Setting the color palette twice leads to GTK/X error assertion
+  on 8bit colordepth Xservers. Help is appreciated.
+  Xservers with colordepth >=16bit don't show the problem. 
+- Memory corruption has been observed in late 1.2.xx snapshots (never
+  released to the public). Unfortunately those problems aren't
+  reproducable now (vice-1.3.3), so if you have access to a memcheck
+  tool (purify, etc.), have time and nothing else to do, you could
+  give it a try! Feedback here is welcome!
 
-Things, which will change:
+Things, which will change (don't ask when!):
+- Tape status widget (.TAP vs .t64) handling is lousy.
 - Monitor GUI
-- VIC20 Cartridge attach Heuristic for image pairs
+- VIC20 Cartridge attach heuristic for image pairs
+- More standard Gnome'ish toplevel menus.
 
 Postponed
 - Fullscreen support

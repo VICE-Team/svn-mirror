@@ -560,14 +560,9 @@ void datasette_set_motor(int flag)
             datasette_alarm_pending = 0;
             last_write_clk = (CLOCK)0;
         }
+        ui_display_tape_motor_status(flag);
     }
     datasette_motor = flag;
-
-    if (console_mode || psid_mode) {
-        return;
-    }
-
-    ui_display_tape_motor_status(flag);
 }
 
 void datasette_toggle_write_bit(int write_bit)

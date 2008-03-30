@@ -38,11 +38,16 @@ RiscOS.
 
       - Various i486/Pentium/Pentium Pro PCs running Linux 2.0.x and
         XFree86 3.2/3.3, with both libc 5 and glibc 2;
+	Further support for October Gnome and newer Versions should work.
 
       - Some HP9000 (712, 715, 735, 800) machines running HP-UX 9.x
         and 10.x;
 
-      - SUN SPARC 5, 10 and Ultra running Solaris 2.3, 2.4 or 2.5
+      - SUN SPARC 5, 10 and Ultra running Solaris 2.3, 2.4, 2.5, 2.5.1
+        and 2.7.
+	Further support for October Gnome and newer Versions should
+        work. Gnome Libraries prior to October Gnome are known to be
+        broken with Vice.
         (using gcc);
 
       - SUN SPARC 10 running SunOS 4.1 with both X11R4 and X11R5
@@ -205,6 +210,14 @@ RiscOS.
         Compile with a reSID engine located at `PATH'.  This is useful
         in case you want to compile VICE with another version of the
         reSID engine.
+
+      --enable-gnomeui
+
+        Compile Vice supporting the Gnome libraries. The location of
+        the Gnome/Gtk+ libraries are not detected automatically,
+        therefore `gnome-config' has to be found in the configuring
+        users path. Refer `to src/arch/unix/x11/gnome/TODO' for a list
+        of known problems/limitations.
 
     (to obtain a complete list of the available options with a
     description, use `./configure --help')
