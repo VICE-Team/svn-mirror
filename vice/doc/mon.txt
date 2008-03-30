@@ -176,6 +176,13 @@ SYNTAX: displaytype data_type
 FUNCTION: This command sets the default data displaytype.
 
 
+COMMAND: Go down a stackframe.
+ABBREVIATIONS: none
+SYNTAX: down [<count>]
+
+FUNCTION: Nothing yet. Is this really useful?
+
+
 COMMAND: Dump/undump machine state.
 ABBREVIATIONS: none
 SYNTAX: dump/undump
@@ -232,6 +239,32 @@ a given number of crossings. If no count is given, the
 default value is 1.
 
 
+COMMAND: Display IO registers.
+ABBREVIATIONS: none
+SYNTAX: io
+
+FUNCTION: Nothing yet. Will display VIC/VIA/CIA/SID registers.
+
+
+COMMAND: Load file.
+ABBREVIATIONS: l
+SYNTAX: load "<filename>" <address>
+
+FUNCTION: Load the specified file into memory at the 
+specified address. 
+ TODO: Allow no address? Load file from .d64, not FS.
+
+
+COMMAND: Load labels.
+ABBREVIATIONS: ll
+SYNTAX: load_labels [<memspace>] "<filename>"
+
+FUNCTION: Load a file containing a mapping of labels to
+addresses. If no memory space is specified, the default
+readspace is used.
+ TODO: Include memspace in file format.
+
+
 COMMAND: display memory contents
 ABBREVIATIONS: none
 SYNTAX: m [data_type] [address_opt_range]
@@ -249,6 +282,58 @@ SYNTAX: transfer address_range address
 
 FUNCTION: Move memory from the source specified by the address range to
 the destination specified by the address. The regions may overlap.
+
+
+COMMAND: Goto next instruction.
+ABBREVIATIONS: n
+SYNTAX: next [<count>]
+
+FUNCTION: Advance to the next instruction. Subroutines are treated as
+a single instruction.
+
+
+COMMAND: Playback commands from file.
+ABBREVIATIONS: pb
+SYNTAX: playback "<filename>"
+
+FUNCTION: Monitor commands from the specified file are read and
+executed. This command stops at the end of file or when a STOP
+command is read.
+
+
+COMMAND: Print expression.
+ABBREVIATIONS: p
+SYNTAX: print <expression>
+
+FUNCTION: The specified expression is evaluated and the result
+is output.
+
+
+COMMAND: Quit.
+ABBREVIATIONS:
+SYNTAX: quit
+
+FUNCTION: Exit VICE.
+ TODO: prompt user.
+
+
+COMMAND: Set/examine default readspace.
+ABBREVIATIONS: rs
+SYNTAX: readspace [<memspace>]
+
+FUNCTION: If given an argument, this command sets the
+default readspace. Otherwise the current readspace is
+printed.
+
+
+COMMAND: Record commands
+ABBREVIATIONS: rec
+SYNTAX: record "<filename>"
+
+FUNCTION: After this command, all commands entered are
+written to the specified file until the STOP command is
+entered.
+ TODO: Don't enter bad commands.
 
 
 COMMAND: registers
@@ -280,6 +365,55 @@ If the argument is 'toggle' then the current mode is switched.
 No argument displays the current state.
 
 
+COMMAND: Save file.
+ABBREVIATIONS: none
+SYNTAX: save "<filename>" <address1> <address2>
+
+FUNCTION: Save the memory from address1 to address2 to
+the specified file.
+ TODO: Save to .d64 instead of FS.
+
+
+COMMAND: Save labels.
+ABBREVIATIONS: sl
+SYNTAX: save_labels [<memspace>] "<filename>"
+
+FUNCTION: Save labels to a file. If no memory space is
+specified, all of the labels are saved.
+ TODO: Support memspace in file format.
+
+
+COMMAND: Show labels.
+ABBREVIATIONS: shl
+SYNTAX: show_labels [<memspace>]
+
+FUNCTION: Display current label mappings. If no memory
+space is specified, show all labels.
+
+
+COMMAND: Step through instructions.
+ABBREVIATIONS: s
+SYNTAX: step [<count>]
+
+FUNCTION: Single step through instructions. An optional
+count allows stepping more than a single instruction at a
+time.
+
+
+COMMAND: Stop recording commands.
+ABBREVIATIONS: none
+SYNTAX: stop
+
+FUNCTION: Stop recording commands. See RECORD.
+
+
+COMMAND: Execute system command.
+ABBREVIATIONS: sys
+SYNTAX: system <system command>
+
+FUNCTION: Nothing yet.
+
+
 COMMAND: set or list tracepoints
 ABBREVIATIONS: none
 SYNTAX: trace [address [address]]
@@ -290,6 +424,20 @@ differs from a breakpoint by not stopping execution but
 simply printing the PC, giving the user an execution trace.
 The second optional address can be used to specify the
 end of an range of addresses to be traced.
+
+
+COMMAND: Go up a stack frame.
+ABBREVIATIONS: none
+SYNTAX: up
+
+FUNCTION: Nothing yet. Is this really useful?
+
+
+COMMAND: Verify a file.
+ABBREVIATIONS: v
+SYNTAX: v "<filename>" <address>
+
+FUNCTION: Nothing yet. Is this really needed?
 
 
 COMMAND: set or list watchpoints
@@ -303,15 +451,18 @@ an address or range of addresses. If no addresses are given,
 a list of all the checkpoints is printed.
 
 
----------------
+COMMAND: Set/examine default writespace.
+ABBREVIATIONS: ws
+SYNTAX: writespace [<memspace>]
 
- There are some more undocumented commands. See mon_cmd_array[] in mon.c.
+FUNCTION: If given an argument, this command sets the
+default writespace. Otherwise the current writespace is
+printed.
 
-----------------
 
-COMMAND:
-ABBREVIATIONS:
-SYNTAX:
+COMMAND: Convert number base.
+ABBREVIATIONS: none
+SYNTAX: ~ <number>
 
-FUNCTION:
-
+FUNCTION: This displays the specified number in decimal, hex, octal 
+and binary.

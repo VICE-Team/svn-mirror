@@ -42,6 +42,7 @@ palette_t *palette_create(int num_entries, const char *entry_names[])
 
     p->num_entries = num_entries;
     p->entries = xmalloc(sizeof(palette_entry_t) * num_entries);
+    memset(p->entries, 0, sizeof(palette_entry_t) * num_entries);
 
     if (entry_names != NULL)
         for (i = 0; i < num_entries; i++)
@@ -58,7 +59,8 @@ void palette_free(palette_t *p)
         return;
 
     for (i = 0; i < p->num_entries; i++)
-        free(p->entries[i].name);
+        if (p->entries[i].name != NULL)
+	    free(p->entries[i].name);
 
     free(p->entries);
     free(p);

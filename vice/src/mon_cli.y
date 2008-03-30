@@ -192,7 +192,6 @@ cmd_file_rules: CMD_RECORD FILENAME end_cmd { record_commands($2); }
               ;
 
 rest_of_line: R_O_L { $$ = $1; }
-            | { $$ = NULL; }
             ;
 
 opt_mem_op: MEM_OP { $$ = $1; }

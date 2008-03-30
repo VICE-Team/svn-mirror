@@ -600,7 +600,8 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 	if (ieee488_enabled)
 	    store_tpi(addr & 0x07, value);
     }
-
+    if (action_replay_enabled && export_ram)
+	export_ram0[0x1f00 + (addr & 0xff)] = value;
     return;
 }
 
@@ -618,8 +619,19 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 	if (ieee488_enabled)
 	    return read_tpi(addr & 0x07);
 	if (action_replay_enabled) {
-	    return roml_banks[(roml_bank >> 13) + 0x1f00 + (addr & 0xff)];
-        }
+	    if (export_ram)
+		return export_ram0[0x1f00 + (addr & 0xff)];
+	    switch (roml_bank) {
+	      case 0:
+		return roml_banks[addr & 0x1fff];
+	      case 1:
+		return roml_banks[(addr & 0x1fff) + 0x2000];
+	      case 2:
+		return roml_banks[(addr & 0x1fff) + 0x4000];
+	      case 3:
+		return roml_banks[(addr & 0x1fff) + 0x6000];
+	    }
+	}
     }
     return rand();
 }
@@ -681,8 +693,8 @@ BYTE REGPARM1 read_roml(ADDRESS addr)
        return export_ram0[addr & 0x1fff];
     switch (roml_bank) {
       case 0:
-	printf("Read ROM bank 0 at %x byte %x\n",
-               addr, roml_banks[addr & 0x1fff]);
+/*	printf("Read ROM bank 0 at %x byte %x\n",
+               addr, roml_banks[addr & 0x1fff]);*/
 	return roml_banks[addr & 0x1fff];
       case 1:
 	return roml_banks[(addr & 0x1fff) + 0x2000];
@@ -752,7 +764,16 @@ void initialize_memory(void)
     /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
     int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
                             1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 };
-
+    /* ROMH is enabled at memory configs 10, 11, 14, 15, 26, 27, 30, 31 
+       and Ultimax.  */
+    int romh_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1 };
+    /* ROMH is mapped to $A000-$BFFF at memory configs 10, 11, 14, 15, 26,
+       27, 30, 31.  If Ultimax is enabled it is mapped to $E000-$FFFF.  */
+    int romh_mapping[32] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                             0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
+                             0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
     /* Default is RAM. */
     for (i = 0; i < NUM_CONFIGS; i++) {
 	set_write_hook(i, 0, store_zero, store_zero_watch);
@@ -927,14 +948,23 @@ void initialize_memory(void)
 	if (roml_config[j]) {
 	    for (i = 0x80; i <= 0x9f; i++) {
 		mem_read_tab[j][i] = read_roml;
-                /* FIXME: This is wrong.  */
-		mem_read_base_tab[j][i] = roml_banks + ((i & 0x3f) << 8);
+		mem_read_base_tab[j][i] = NULL;
 	    }
 	}
     }
     for (j = 16; j < 24; j++)
 	for (i = 0x80; i <= 0x9f; i++)
 	    set_write_hook(j, i, store_roml, store_roml_watch);
+
+    /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */
+    for (j = 0; j < NUM_CONFIGS; j++) {
+	if (romh_config[j]) {
+	    for (i = romh_mapping[j]; i <= (romh_mapping[j] + 0x1f); i++) {
+		mem_read_tab[j][i] = read_romh;
+		mem_read_base_tab[j][i] = NULL;
+	    }
+	}
+    }
 
     for (i = 0; i < NUM_CONFIGS; i++) {
 	mem_read_tab[i][0x100] = mem_read_tab[i][0];
@@ -1058,6 +1088,7 @@ int setup_action_replay(void)
 	fprintf(stderr, "Could not load Action Replay ROM image.\n");
 	return -1;
     }
+    memcpy(romh_banks, roml_banks, 0x8000);
     return 0;
 }
 
