@@ -551,6 +551,13 @@
 
 #define IDD_ROMSET_ENTER_NAME_DIALOG    1940
 #define IDC_ROMSET_ENTER_NAME           1941
+
+#define IDD_ACIA_SETTINGS_DIALOG        1950
+#define IDC_ACIA_ENABLE                 1951
+#define IDC_ACIA_DEVICE                 1952
+#define IDC_ACIA_LOCATION               1953
+#define IDC_ACIA_INTERRUPT              1954
+
  
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -718,6 +725,7 @@
 #define IDM_FORMFEED_PRINTERUSERPORT    40225
 #define IDM_ROM_SETTINGS                40226
 #define IDM_IDE64_SETTINGS              40227
+#define IDM_ACIA_SETTINGS               40228
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001
