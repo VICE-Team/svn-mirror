@@ -1,3 +1,26 @@
+1999-11-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.29.
+
+	* c128/z80.c: Added LD (BC) A, LD (DE) A, EXAFAF, HALT,
+	AND (HL), XOR (HL), XOR #, EXX, OUT A, IN A opcodes.
+
+	* vdc/vdc-draw.c, vdc/vdc.c: Replaced `% 2' by `& 1'.
+	Only skip odd lines if double scan is off.
+
+	* arch/unix/x11/xaw/c128ui.c: Added menu entries for VDC
+	double size and double scan.
+
+	* fsdevice.c: Use `vdrive_t' instead of `void' pointer.
+
+	* charsets.c: Removed silly $7E<->$FF conversion rule.
+	Removed some old and unused cruft.
+
+	* petcat.c: Moved conversion tables here.
+
+	* c64/c64mem.c, c128/c128mem.c, vic20/vic20,
+	vic20/vic-snapshot.c: Fixed includes.
+
 1999-11-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.28.
