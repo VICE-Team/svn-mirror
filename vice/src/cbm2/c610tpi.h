@@ -34,6 +34,7 @@ extern BYTE read_tpi1(ADDRESS addr);
 extern BYTE peek_tpi1(ADDRESS addr);
 extern void tpi1_set_int(int bit, int state);
 extern void tpi1_restore_int(int bit, int state);
+extern void tpi1_set_tape_sense(int v);
 extern int tpi1_write_snapshot_module(snapshot_t *p);
 extern int tpi1_read_snapshot_module(snapshot_t *p);
 

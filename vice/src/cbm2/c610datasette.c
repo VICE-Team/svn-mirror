@@ -26,11 +26,16 @@
 
 #include "vice.h"
 
-#include "datasette.h"
+#include "c610cia.h"
+#include "c610tpi.h"
 
 void datasette_trigger_flux_change(void)
 {
-
+    cia1_set_flag();
 }
 
+void datasette_set_tape_sense(int sense)
+{
+    tpi1_set_tape_sense(sense);
+}
 
