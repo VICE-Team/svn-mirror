@@ -131,7 +131,8 @@ get_std_text(raster_cache_t *cache,
     *xs = 0;
     *xe = VDC_SCREEN_TEXTCOLS;
 
-    r = raster_cache_data_fill_attr_text(cache->foreground_data,
+    if (vdc.regs[25] & 0x40) {
+        r = raster_cache_data_fill_attr_text(cache->foreground_data,
                                     vdc.ram+vdc.screen_adr+vdc.mem_counter,
                                     vdc.ram+vdc.attribute_adr+vdc.mem_counter,
                                     vdc.ram+vdc.chargen_adr,
@@ -142,13 +143,31 @@ get_std_text(raster_cache_t *cache,
                                     xs, xe,
                                     rr,
                                     vdc.text_blink_visible);
-
-    r |= raster_cache_data_fill(cache->color_data_1,
-                                vdc.ram+vdc.attribute_adr+vdc.mem_counter,
-                                VDC_SCREEN_TEXTCOLS,
-                                1,
-                                xs, xe,
-                                rr);
+        r |= raster_cache_data_fill(cache->color_data_1,
+                                    vdc.ram+vdc.attribute_adr+vdc.mem_counter,
+                                    VDC_SCREEN_TEXTCOLS,
+                                    1,
+                                    xs, xe,
+                                    rr);
+    } else {
+        r = raster_cache_data_fill_attr_text_const(cache->foreground_data,
+                                    vdc.ram+vdc.screen_adr+vdc.mem_counter,
+                                    vdc.regs[26] & 15,
+                                    vdc.ram+vdc.chargen_adr,
+                                    16,
+                                    VDC_SCREEN_TEXTCOLS,
+                                    (vdc.raster.ycounter
+                                    / vdc.raster_ycounter_divide),
+                                    xs, xe,
+                                    rr,
+                                    vdc.text_blink_visible);
+        r |= raster_cache_data_fill_const(cache->color_data_1,
+                                    vdc.regs[26] >> 4,
+                                    VDC_SCREEN_TEXTCOLS,
+                                    1,
+                                    xs, xe,
+                                    rr);
+    }
 
     if (vdc.cursor_visible) {
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
