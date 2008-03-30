@@ -1314,7 +1314,6 @@ int symbol_table_lookup_addr(MEMSPACE mem, char *name)
 
    sym_ptr = monitor_labels[mem].name_list;
    while (sym_ptr) {
-      printf("CMP: %s %s\n",sym_ptr->name, name);
       if (strcmp(sym_ptr->name, name) == 0)
          return sym_ptr->addr;
       sym_ptr = sym_ptr->next;
@@ -2035,7 +2034,7 @@ void watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
       return;
 
    watch_store_occurred = TRUE;
-   watch_store_array[watch_load_count[mem]][mem] = addr;
+   watch_store_array[watch_store_count[mem]][mem] = addr;
    watch_store_count[mem]++;
 }
 
@@ -2062,7 +2061,7 @@ bool watchpoints_check_stores(MEMSPACE mem)
    count = watch_store_count[mem];
    watch_store_count[mem] = 0;
 
-   while (watch_store_count[mem]) {
+   while (count) {
       count--;
       if (check_watchpoints_store(mem, watch_store_array[count][mem]))
          trap = TRUE;

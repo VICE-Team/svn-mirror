@@ -165,8 +165,13 @@ KP_9 -1 9
 #
 # Joystick 2
 #
-KP_Divide -2 4
-KP_Subtract -2 6
-KP_Multiply -2 8
-KP_Add -2 2
-KP_Enter -2 0
+q -2 7
+w -2 8
+e -2 9
+a -2 4
+s -2 5
+d -2 6
+z -2 1
+x -2 2
+c -2 3
+space -2 0

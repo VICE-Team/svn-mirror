@@ -90,7 +90,13 @@ static unsigned int fs_cptr = 0;
 static char fs_dirmask[MAXPATHLEN];
 
 static FILE *fs_find_pc64_name(void *flp, char *name, int length);
-static void fs_test_pc64_name(char *rname);
+static void fs_test_pc64_name(void *flp, char *rname);
+static int fsdevice_compare_pc64_name(char *name, char *p00name);
+static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname);
+static int fsdevice_create_file_p00(void *flp, char *name, int length,
+                                     char *fsname);
+static int fsdevice_reduce_filename_p00(char *filename, int len);
+static int fsdevice_eliminate_char_p00(char *filename, int pos);
 
 /* FIXME: ugly.  */
 extern errortext_t floppy_error_messages;
@@ -98,6 +104,7 @@ extern errortext_t floppy_error_messages;
 /* ------------------------------------------------------------------------- */
 
 static int fsdevice_convert_p00_enabled[4];
+static int fsdevice_save_p00_enabled[4];
 static char *fsdevice_8_dir;
 static char *fsdevice_9_dir;
 static char *fsdevice_10_dir;
@@ -175,6 +182,30 @@ static int set_fsdevice_11_dir(resource_value_t v)
     return 0;
 }
 
+static int set_fsdevice_8_save_p00(resource_value_t v)
+{
+    fsdevice_save_p00_enabled[0] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_9_save_p00(resource_value_t v)
+{
+    fsdevice_save_p00_enabled[1] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_10_save_p00(resource_value_t v)
+{
+    fsdevice_save_p00_enabled[2] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_11_save_p00(resource_value_t v)
+{
+    fsdevice_save_p00_enabled[3] = (int) v;
+    return 0;
+}
+
 static resource_t resources[] = {
     { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &fsdevice_convert_p00_enabled[0],
@@ -196,6 +227,18 @@ static resource_t resources[] = {
       (resource_value_t *) &fsdevice_10_dir, set_fsdevice_10_dir },
     { "FSDevice11Dir", RES_STRING, (resource_value_t) "/",
       (resource_value_t *) &fsdevice_11_dir, set_fsdevice_11_dir },
+    { "FSDevice8SaveP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_save_p00_enabled[0],
+      set_fsdevice_8_save_p00 },
+    { "FSDevice9SaveP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_save_p00_enabled[1],
+      set_fsdevice_9_save_p00 },
+    { "FSDevice10SaveP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_save_p00_enabled[2],
+      set_fsdevice_10_save_p00 },
+    { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_save_p00_enabled[3],
+      set_fsdevice_11_save_p00 },
     { NULL }
 };
 
@@ -469,7 +512,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 #endif
 		      strcpy(rname, dirp->d_name);
 		      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
-			  fs_test_pc64_name(rname);
+			  fs_test_pc64_name(flp, rname);
 		      if (!*fs_dirmask)
 			  break;
 		      l = strlen(fs_dirmask);
@@ -668,7 +711,8 @@ int open_fs(void *flp, char *name, int length, int secondary)
 			  &filetype, &rl) != SERIAL_OK)
 	return SERIAL_ERROR;
 
-    petconvstring(fsname, 1);	/* CBM name to FSname */
+    if (fsdevice_save_p00_enabled[(floppy->unit) - 8] == 0)
+	petconvstring(fsname, 1);	/* CBM name to FSname */
 
     /* avoid append */
     if (readmode != FAM_READ && readmode != FAM_WRITE) {
@@ -771,20 +815,42 @@ int open_fs(void *flp, char *name, int length, int secondary)
 
 	fs_info[secondary].mode = (secondary == 1 ? Write : Read);
 
-
-	/* Wildcards FIXME: support them here */
-
-	if (strchr(fsname, '*') || strchr(fsname, '?')) {
-	    if (fs_info[secondary].mode == Write) {
-		fs_error(IPE_BAD_NAME);
-		return FLOPPY_ERROR;
-	    }
-	}
-
 	strcpy(fsname2, fsname);
 	strcpy(fsname, fsdevice_get_path(floppy->unit));
 	strcat(fsname, fsname2);
-	fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
+
+	if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
+	    if (fs_info[secondary].mode == Write) {
+		fs_error(IPE_BAD_NAME);
+		return FLOPPY_ERROR;
+	    } else {
+		fsdevice_compare_file_name(flp, fsname2, fsname);
+	    }
+	}
+
+	if (fs_info[secondary].mode == Write) {
+	    fd = fopen(fsname, READ);
+	    if (fd > 0) {
+		fclose(fd);
+		fs_error(IPE_FILE_EXISTS);
+		return FLOPPY_ERROR;
+	    }
+	    if (fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
+		fd = fs_find_pc64_name(flp, name, length);
+		if (fd > 0) {
+		    fclose(fd);
+		    fs_error(IPE_FILE_EXISTS);
+		    return FLOPPY_ERROR;
+		}
+	    }
+	    if (fsdevice_save_p00_enabled[(floppy->unit) - 8])
+		if (fsdevice_create_file_p00(flp, name, length, fsname) > 0) {
+		    fs_error(IPE_FILE_EXISTS);
+		    return FLOPPY_ERROR;
+		}
+	}
+
+	fd = fopen(fsname, fs_info[secondary].mode ? READ : "a+");
 
 	if (!fd) {		/* lets test some variants... */
 	    int l = strlen(fsname);
@@ -851,14 +917,18 @@ int close_fs(void *flp, int secondary)
     return FLOPPY_COMMAND_OK;
 }
 
-void fs_test_pc64_name(char *rname)
+void fs_test_pc64_name(void *flp, char *rname)
 {
+    DRIVE *floppy = (DRIVE *)flp;
     char p00id[8];
     char p00name[17];
+    char pathname[MAXPATHLEN];
     FILE *fd;
 
     if (is_pc64name(rname) >= 0) {
-	fd = fopen(rname, "r");
+	strcpy(pathname, fsdevice_get_path(floppy->unit));
+	strcat(pathname, rname);
+	fd = fopen(pathname, "r");
 	if (!fd)
 	    return;
 
@@ -890,19 +960,21 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length)
     struct dirent *dirp;
     char *p;
     DIR *dp;
-    char p00id[8];
-    char p00name[17];
-    char p00dummy[2];
+    char p00id[8], p00name[17], p00dummy[2];
     FILE *fd;
+    char pathname[MAXPATHLEN];
 
     name[length] = '\0';
+
     dp = opendir(fsdevice_get_path(floppy->unit));
     do {
 	dirp = readdir(dp);
 	if (dirp != NULL) {
-	    p = dirp->d_name;
+	    strcpy(pathname, fsdevice_get_path(floppy->unit));
+	    strcat(pathname, dirp->d_name);
+	    p = pathname;
 	    if (is_pc64name(p) >= 0) {
-		fd = fopen(p, "r");
+		fd = fopen(p, READ);
 		if (!fd)
 		    continue;
 		fread((char *) p00id, 8, 1, fd);
@@ -918,7 +990,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length)
 			continue;
 		    }
 		    p00name[16] = '\0';
-		    if (strcmp(name, p00name) == 0) {
+		    if (fsdevice_compare_pc64_name(name, p00name) > 0) {
 			fread((char *) p00dummy, 2, 1, fd);
 			if (ferror(fd)) {
 			    fclose(fd);
@@ -934,4 +1006,157 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length)
     while (dirp != NULL);
     closedir(dp);
     return NULL;
+}
+
+static int fsdevice_compare_pc64_name(char *name, char *p00name)
+{
+    int i, len;
+
+    len = strlen(name);
+    if (len == 0)
+	return 0;
+
+    for (i = 0; i < len; i++) {
+	if (name[i] == '*')
+	    return 1;
+	if (name[i] != '?' && name[i] != p00name[i])
+	    return 0;
+    }
+    return 1;
+}
+
+static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname)
+{
+    DRIVE *floppy = (DRIVE *)flp;
+    struct dirent *dirp;
+    DIR *dp;
+
+    dp = opendir(fsdevice_get_path(floppy->unit));
+    do {
+	dirp = readdir(dp);
+	if (dirp != NULL) {
+	    if (fsdevice_compare_pc64_name(fsname2, dirp->d_name) > 0) {
+		strcpy(fsname, fsdevice_get_path(floppy->unit));
+		strcat(fsname, dirp->d_name);
+		closedir(dp);
+		return;
+	    }
+	}
+    }
+    while (dirp != NULL);
+    closedir(dp);
+    return;
+}
+
+static int fsdevice_create_file_p00(void *flp, char *name, int length,
+                                     char *fsname)
+{
+    DRIVE *floppy = (DRIVE *)flp;
+    char filename[17], realname[16];
+    int i, j, len;
+    FILE *fd;
+
+    memset(filename, 0, 17);
+    if (length > 16)
+	length = 16;
+    memset(realname, 0, 16);
+    strncpy(realname, name, length);
+
+    for (i = 0, j = 0; i < length; i++) {
+	switch (name[i]) {
+	  case ' ':
+	  case '-':
+	    filename[j++] = '_';
+	    break;
+	  default:
+	    if (islower(name[i])) {
+		filename[j++] = toupper(name[i]);
+		break;
+	    }
+	    if (isalnum(name[i])) {
+		filename[j++] = name[i];
+		break;
+	    }
+	}
+    }
+
+    if (j == 0) {
+	strcpy(filename, "_");
+	j++;
+    }
+
+    len = (j > 8) ? fsdevice_reduce_filename_p00(filename, j) : j;
+    strcpy(fsname, fsdevice_get_path(floppy->unit));
+    strncat(fsname, filename, len);
+    strcat(fsname, ".P00");
+
+    for (i = 1; i < 100; i++) {
+	fd = fopen(fsname, READ);
+	if (!fd)
+	    break;
+    fclose(fd);
+	sprintf(&fsname[strlen(fsname) - 2], "%02i", i);
+    }
+
+    if (i >= 100)
+	return 1;
+
+    fd = fopen(fsname, WRITE);
+    if (!fd)
+	return 1;
+
+    if (fwrite("C64File", 8, 1, fd) < 1) {
+	fclose(fd);
+	return 1;
+    }
+    if (fwrite(realname, 16, 1, fd) < 1) {
+	fclose(fd);
+	return 1;
+    }
+    if (fwrite("\0\0", 2, 1, fd) < 1) {
+	fclose(fd);
+	return 1;
+    }
+    fclose(fd);
+    return 0;
+}
+
+static int fsdevice_reduce_filename_p00(char *filename, int len)
+{
+    int i, j;
+
+    for (i = len - 1; i >= 0; i--) {
+	if (filename[i] == '_')
+	    if (fsdevice_eliminate_char_p00(filename, i) <= 8)
+		return 8;
+	}
+
+    for (i = 0; i < len; i++) {
+	if (strchr("AEIOU", filename[i]) != NULL)
+	    break;
+    }
+
+    for (j = len - 1; j >= i; j--) {
+	if (strchr("AEIOU", filename[j]) != NULL)
+	    if (fsdevice_eliminate_char_p00(filename, j) <= 8)
+		return 8;
+    }
+
+    for (i = len - 1; i >= 0; i--) {
+	if (isalpha(filename[i]))
+	    if (fsdevice_eliminate_char_p00(filename, i) <= 8)
+		return 8;
+    }
+
+    for (i = len - 1; i >= 0; i--)
+	if (fsdevice_eliminate_char_p00(filename, i) <= 8)
+	    return 8;
+
+    return 1;
+}
+
+static int fsdevice_eliminate_char_p00(char *filename, int pos)
+{
+    memcpy(&filename[pos], &filename[pos+1], 16 - pos);
+    return strlen(filename);
 }

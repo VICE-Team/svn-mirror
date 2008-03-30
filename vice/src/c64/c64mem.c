@@ -979,9 +979,14 @@ void initialize_memory(void)
 
     pport.data = 0xff;
     pport.dir = 0x0;
+    export.exrom = 0;
+    export.game = 0;
 
     /* Setup initial memory configuration. */
     pla_config_changed();
+
+    if(action_replay_enabled > 0)
+	action_config_changed(0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1128,7 +1133,6 @@ void mem_toggle_emu_id(int flag)
 
 static void action_config_changed(BYTE mode)
 {
-    printf("Action Bank: %i\n", mode);
     export.game = mode & 1;
     export.exrom = ((mode >> 1) & 1) ^ 1;
     roml_bank = (mode >> 3) & 3;

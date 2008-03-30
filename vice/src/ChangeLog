@@ -1,3 +1,48 @@
+Fri May 22 00:52:42 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* data/C64/vice.vkm, data/C128/vice.vkm: Setup custom key joystick.
+
+	* arch/unix/joystick.c (joyport1select, joyport2select): Support
+	custom key joysticks.
+
+	* arch/unix/kbd.c: Added functions `kbd_add_custom_joykeys' and
+ 	`kbd_remove_custom_joykeys'.  Added arrays `custom_joykeys' and
+ 	`custom_joykeys_backup'.
+	(kbd_event_handler): Handle custom key joysticks.
+	(kbd_parse_entry): Store custom key entries and make backups of
+ 	keys that they replace.
+
+	* arch/unix/kbd.h: Added functions `kbd_add_custom_joykeys' and
+ 	`kbd_remove_custom_joykeys'.
+
+	* uisettings.h (UiSetJoystickDevice1, UiSetJoystickDevice2): Removed.
+	(UiSwapJoystickPorts, UiSetNumpadJoystickPort): Removed.
+	(ui_joystick_settings_menu): Removed.
+
+	* mon.c (symbol_table_lookup_addr): Removed debugging output.
+	(watch_push_store_addr): `watch_load_count' ->
+ 	`watch_store_count'.
+	(watchpoints_check_loads): While loop test changed to `count'.
+
+Fri May 22 00:17:16 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uisettings.c: Added new menu entries to toggle
+	P00 save support.
+
+	* c64/c64iec.c: Changed to include `c64cia.h'.
+	New variable `iec_fast_1541' to save the IEC status when true1541
+	emulation is disabled.  (iec_cpu_write, iec_cpu_read): Changed to
+	return the correct IEC status.
+
+	* c64/c64mem.c (initialize_memory): Initialize Action Replay
+	if enabled.
+
+	* fsdevice.c: Added new functions `fsdevice_create_file_p00',
+	`fsdevice_reduce_filename_p00' and `fsdevice_eliminate_char_p00'.
+	Added P00 save support switches to resources.  (open_fs): Do not
+	convert CBM file names and call `fsdevice_create_file_p00' if P00
+	save support is enabled.
+
 Wed May 20 19:20:21 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.29.

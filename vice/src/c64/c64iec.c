@@ -34,13 +34,16 @@
 #include "types.h"
 #include "iecdrive.h"
 #include "true1541.h"
-#include "cia.h"
+#include "c64cia.h"
 
 /* FIXME: ugly name `drive_data'.  */
 static BYTE drive_bus, drive_data, cpu_bus;
 
 /* This is the IEC line status as seen by the CIA and VIA ports.  */
 static BYTE drive_port, cpu_port;
+
+/* This is the IEC line status when true1541 emulation is off.  */
+static BYTE iec_fast_1541;
 
 static BYTE parallel_cable_cpu_value = 0xff;
 static BYTE parallel_cable_drive_value = 0xff;
@@ -72,8 +75,10 @@ BYTE iec_drive_read(void)
 
 void iec_cpu_write(BYTE data)
 {
-    if (!true1541_enabled)
-        return;
+    if (!true1541_enabled) {
+	iec_fast_1541 = data;
+	return;
+    }
 
     true1541_cpu_execute();
 
@@ -95,7 +100,7 @@ void iec_cpu_write(BYTE data)
 BYTE iec_cpu_read(void)
 {
     if (!true1541_enabled)
-	return 0;
+	return ((iec_fast_1541 & 0x30) << 2);
 
     true1541_cpu_execute();
     return cpu_port;

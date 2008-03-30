@@ -62,6 +62,8 @@ int rev_keyarr[KBD_COLS];
 /* Joystick status */
 
 BYTE joy[3] = { 0, 0, 0 };
+static int custom_joykeys[10];
+static keyconv custom_joykeys_backup[10];
 
 /* Shift status */
 static short kbd_lshiftrow = 0;
@@ -168,6 +170,24 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                                    sizeof(joy2pad_status));
                         }
                     }
+                    if ((row == -2) && (joystick_port_map[0] == JOYDEV_CUSTOM_KEYS)) {
+                        if (joypad_bits[column]) {
+                            joy[1] |= joypad_bits[column];
+                            joy1pad_status[column]=1;
+                        } else {
+                            joy[1] = 0;
+                            memset(joy1pad_status, 0, sizeof(joy1pad_status));
+                        }
+                    } else if ((row == -2) && (joystick_port_map[1] == JOYDEV_CUSTOM_KEYS)) {
+                        if (joypad_bits[column]) {
+                            joy[2] |= joypad_bits[column];
+                            joy2pad_status[column]=1;
+                        } else {
+                            joy[2] = 0;
+                            memset(joy2pad_status, 0,
+                                   sizeof(joy2pad_status));
+                        }
+                    }
                     break;
 		}
 		if (row >= 0) {
@@ -223,6 +243,13 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                         joy[1] &= joyreleaseval(column, joy1pad_status);
                         joy1pad_status[column] = 0;
                     } else if ((row == -1) && (joystick_port_map[1] == JOYDEV_NUMPAD)) {
+                        joy[2] &= joyreleaseval(column, joy2pad_status);
+                        joy2pad_status[column] = 0;
+                    }
+                    if ((row == -2) && (joystick_port_map[0] == JOYDEV_CUSTOM_KEYS)) {
+                        joy[1] &= joyreleaseval(column, joy1pad_status);
+                        joy1pad_status[column] = 0;
+                    } else if ((row == -2) && (joystick_port_map[1] == JOYDEV_CUSTOM_KEYS)) {
                         joy[2] &= joyreleaseval(column, joy2pad_status);
                         joy2pad_status[column] = 0;
                     }
@@ -366,15 +393,22 @@ static void kbd_parse_entry(char *buffer)
                     if (row>=0 || (row>=-2 && col>=0 && col<10)) {
                         for(i=0;keyconvmap[i].sym;i++) {
                             if (sym == keyconvmap[i].sym) {
-                                keyconvmap[i].row = row;
-                                keyconvmap[i].column = col;
-                                keyconvmap[i].shift = shift;
-                                break;
+                                if (row >= -1) {
+                                    keyconvmap[i].row = row;
+                                    keyconvmap[i].column = col;
+                                    keyconvmap[i].shift = shift;
+                                    break;
+                                } else {
+                                    custom_joykeys[col] = i;
+                                    custom_joykeys_backup[col].row = keyconvmap[i].row;
+                                    custom_joykeys_backup[col].column = keyconvmap[i].column;
+                                    custom_joykeys_backup[col].shift = keyconvmap[i].shift;
+                                }
                             }
                         }
 
                         /* not in table -> add */
-                        if (i>=keyc_num) {
+                        if (i>=keyc_num && row != -2) {
                             /* table too small -> realloc */
                             if (keyc_num>=keyc_mem) {
                                 i = keyc_mem * 1.5;
@@ -525,3 +559,27 @@ int kbd_dump_keymap(const char *filename)
     return 0;
 }
 
+void kbd_add_custom_joykeys(void)
+{
+   int i,j;
+
+   for (i=0;i<10;i++) {
+       j = custom_joykeys[i];
+
+       keyconvmap[j].row = -2;
+       keyconvmap[j].column = i;
+   }
+}
+
+void kbd_remove_custom_joykeys(void)
+{
+   int i,j;
+
+   for (i=0;i<10;i++) {
+       j = custom_joykeys[i];
+
+       keyconvmap[j].row = custom_joykeys_backup[i].row;
+       keyconvmap[j].column = custom_joykeys_backup[i].column;
+       keyconvmap[j].shift = custom_joykeys_backup[i].shift;
+   }
+}

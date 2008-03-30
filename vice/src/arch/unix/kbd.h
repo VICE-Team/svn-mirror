@@ -54,4 +54,6 @@ extern void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 extern int kbd_load_keymap(const char *filename);
 extern int kbd_dump_keymap(const char *filename);
 
+extern void kbd_add_custom_joykeys(void);
+extern void kbd_remove_custom_joykeys(void);
 #endif

@@ -263,69 +263,6 @@ static UI_CALLBACK(UiDumpKeymap)
 }
 #endif
 
-#ifdef HAS_JOYSTICK
-
-static UI_CALLBACK(UiSetJoystickDevice1)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.joyDevice1 = (int) client_data;
-	ui_update_menus();
-    } else
-	ui_menu_set_tick(w, app_resources.joyDevice1 == (int) client_data);
-    joyport1select(app_resources.joyDevice1);
-}
-
-static UI_CALLBACK(UiSetJoystickDevice2)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.joyDevice2 = (int) client_data;
-	ui_update_menus();
-    } else
-	ui_menu_set_tick(w, app_resources.joyDevice2 == (int) client_data);
-    joyport2select(app_resources.joyDevice2);
-}
-
-static UI_CALLBACK(UiSwapJoystickPorts)
-{
-    int tmp;
-
-    if (w != NULL)
-	suspend_speed_eval();
-    tmp = app_resources.joyDevice1;
-    app_resources.joyDevice1 = app_resources.joyDevice2;
-    app_resources.joyDevice2 = tmp;
-    ui_update_menus();
-}
-
-#else  /* !HAS_JOYSTICK */
-
-static UI_CALLBACK(UiSetNumpadJoystickPort)
-{
-#if 0
-    suspend_speed_eval();
-    if (!call_data) {
-	if (app_resources.joyPort != (int)client_data) {
-	    app_resources.joyPort = (int)client_data;
-	    ui_update_menus();
-	}
-    } else
-	ui_set_tick(w, app_resources.joyPort == (int) client_data);
-#endif
-}
-
-static UI_CALLBACK(UiSwapJoystickPorts)
-{
-#if 0
-    suspend_speed_eval();
-    app_resources.joyPort = 3 - app_resources.joyPort;
-    printf("Numpad joystick now in port #%d.\n", app_resources.joyPort);
-    ui_update_menus();
-#endif
-}
-
-#endif /* HAS_JOYSTICK */
 
 /* ------------------------------------------------------------------------- */
 
@@ -391,6 +328,10 @@ UI_MENU_DEFINE_TOGGLE(FSDevice8ConvertP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice9ConvertP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice10ConvertP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice11ConvertP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice8SaveP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice9SaveP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice10SaveP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice11SaveP00)
 
 static UI_CALLBACK(UiSetFSDeviceDirectory)
 {
@@ -476,52 +417,6 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
       (ui_callback_t) set_custom_maximum_speed, NULL, NULL },
     { NULL }
 };
-
-#ifndef HAS_JOYSTICK
-
-static ui_menu_entry_t set_numpad_joystick_port_submenu[] = {
-    { NULL }
-};
-
-#else  /* HAS_JOYSTICK */
-
-static ui_menu_entry_t set_joystick_device_1_submenu[] = {
-    { "*None",
-      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) 0, NULL },
-    { "*Analog Joystick 0",
-      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) 1, NULL },
-    { "*Analog Joystick 1",
-      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) 2, NULL },
-#ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
-      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) 3, NULL },
-    { "*Digital Joystick 1",
-      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) 4, NULL },
-#endif
-    { "*Numpad",
-      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) 5, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_joystick_device_2_submenu[] = {
-    { "*None",
-      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) 0, NULL },
-    { "*Analog Joystick 0",
-      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) 1, NULL },
-    { "*Analog Joystick 1",
-      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) 2, NULL },
-#ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
-      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) 3, NULL },
-    { "*Digital Joystick 1",
-      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) 4, NULL },
-#endif
-    { "*Numpad",
-      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) 5, NULL },
-    { NULL }
-};
-
-#endif /* HAS_JOYSTICK */
 
 static ui_menu_entry_t set_true1541_extend_image_policy_submenu[] = {
     { "*Never extend", (ui_callback_t) radio_True1541ExtendImagePolicy,
@@ -638,7 +533,7 @@ static ui_menu_entry_t set_file_system_device_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_file_system_device_directory_submenu[] = {
+static ui_menu_entry_t set_fsdevice_directory_submenu[] = {
     { "Device #8", (ui_callback_t) UiSetFSDeviceDirectory,
       (ui_callback_data_t) 8, NULL },
     { "Device #9", (ui_callback_t) UiSetFSDeviceDirectory,
@@ -650,7 +545,7 @@ static ui_menu_entry_t set_file_system_device_directory_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_file_system_device_p00_support_submenu[] = {
+static ui_menu_entry_t set_fsdevice_p00_convert_submenu[] = {
     { "*Device #8", (ui_callback_t) toggle_FSDevice8ConvertP00, NULL, NULL },
     { "*Device #9", (ui_callback_t) toggle_FSDevice9ConvertP00, NULL, NULL },
     { "*Device #10", (ui_callback_t) toggle_FSDevice10ConvertP00, NULL, NULL },
@@ -658,41 +553,27 @@ static ui_menu_entry_t set_file_system_device_p00_support_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_fsdevice_p00_save_submenu[] = {
+    { "*Device #8", (ui_callback_t) toggle_FSDevice8SaveP00, NULL, NULL },
+    { "*Device #9", (ui_callback_t) toggle_FSDevice9SaveP00, NULL, NULL },
+    { "*Device #10", (ui_callback_t) toggle_FSDevice10SaveP00, NULL, NULL },
+    { "*Device #11", (ui_callback_t) toggle_FSDevice11SaveP00, NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t serial_settings_submenu[] = {
     { "File system access", NULL, NULL,
       set_file_system_device_submenu },
     { "File system directories", NULL, NULL,
-      set_file_system_device_directory_submenu },
+      set_fsdevice_directory_submenu },
     { "Convert P00 file names", NULL, NULL,
-      set_file_system_device_p00_support_submenu },
+      set_fsdevice_p00_convert_submenu },
+    { "Create P00 files on save", NULL, NULL,
+      set_fsdevice_p00_save_submenu },
     { "--" },
     { "*Disable serial traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
     { NULL }
 };
-
-#if 0
-static ui_menu_entry_t joystick_settings_submenu[] = {
-#ifndef HAS_JOYSTICK
-    { "*Enable Numpad Joystick",
-      (ui_callback_t) UiToggleNumpadJoystick, NULL, NULL },
-    { "--" },
-    { "*Numpad joystick in port 1",
-      (ui_callback_t) UiSetNumpadJoystickPort, (ui_callback_data_t) 1, NULL },
-    { "*Numpad joystick in port 2",
-      (ui_callback_t) UiSetNumpadJoystickPort, (ui_callback_data_t) 2, NULL },
-#else
-    { "Joystick device in port 1",
-      NULL, NULL, set_joystick_device_1_submenu },
-    { "Joystick device in port 2",
-      NULL, NULL, set_joystick_device_2_submenu },
-#endif /* HAS_JOYSTICK */
-    { "--" },
-    { "Swap joystick ports",
-      (ui_callback_t) UiSwapJoystickPorts, NULL, NULL },
-    { NULL }
-};
-
-#endif
 
 static ui_menu_entry_t true1541_settings_submenu[] = {
     { "*Enable true 1541 emulation",
@@ -733,14 +614,6 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
       (ui_callback_t) toggle_WarpMode, NULL, NULL },
     { NULL }
 };
-
-#if 0
-ui_menu_entry_t ui_joystick_settings_menu[] = {
-    { "Joystick settings",
-      NULL, NULL, joystick_settings_submenu },
-    { NULL }
-};
-#endif
 
 ui_menu_entry_t ui_video_settings_menu[] = {
     { "Video settings",
