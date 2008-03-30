@@ -55,6 +55,7 @@ typedef struct disk_image_s {
     FILE *fd;
     char *name;
     unsigned int read_only;
+    unsigned int raw;
     unsigned int type;
     unsigned int tracks;
     struct gcr_s *gcr;
