@@ -86,23 +86,11 @@ SOURCE=.\archdep.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\c128kbd.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\c128ui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\c610kbd.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\c610ui.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\c64kbd.c
+SOURCE=.\cbm2ui.c
 # End Source File
 # Begin Source File
 
@@ -138,15 +126,7 @@ SOURCE=.\mouse.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\petkbd.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\petui.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\plus4kbd.c
 # End Source File
 # Begin Source File
 
@@ -231,10 +211,6 @@ SOURCE=.\uivicset.c
 # Begin Source File
 
 SOURCE=.\uivideo.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\vic20kbd.c
 # End Source File
 # Begin Source File
 

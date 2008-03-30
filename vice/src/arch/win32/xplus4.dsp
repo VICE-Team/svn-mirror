@@ -93,6 +93,10 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\maincpu.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\resplus4.rc
 # End Source File
 # End Target

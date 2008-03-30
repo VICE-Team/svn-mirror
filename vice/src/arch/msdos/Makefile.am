@@ -26,8 +26,8 @@ libarch_a_SOURCES = \
 	archdep.h \
 	c128ui.c \
 	c128ui.h \
-	c610ui.c \
-	c610ui.h \
+	cbm2ui.c \
+	cbm2ui.h \
 	c64ui.c \
 	c64ui.h \
 	cbmcharsets.c \

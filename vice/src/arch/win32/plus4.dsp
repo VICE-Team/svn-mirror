@@ -98,10 +98,6 @@ SOURCE=..\..\plus4\plus4.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\plus4\plus4cpu.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\plus4\plus4datasette.c
 # End Source File
 # Begin Source File

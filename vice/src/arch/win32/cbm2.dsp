@@ -82,55 +82,55 @@ LIB32=link.exe -lib
 # Name "cbm2 - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\cbm2\c610-cmdline-options.c"
+SOURCE="..\..\cbm2\cbm2-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\cbm2\c610-resources.c"
+SOURCE="..\..\cbm2\cbm2-resources.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\cbm2\c610-snapshot.c"
+SOURCE="..\..\cbm2\cbm2-snapshot.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610.c
+SOURCE=..\..\cbm2\cbm2.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610acia1.c
+SOURCE=..\..\cbm2\cbm2acia1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610cia1.c
+SOURCE=..\..\cbm2\cbm2cia1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610cpu.c
+SOURCE=..\..\cbm2\cbm2cpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610datasette.c
+SOURCE=..\..\cbm2\cbm2datasette.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610iec.c
+SOURCE=..\..\cbm2\cbm2iec.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610mem.c
+SOURCE=..\..\cbm2\cbm2mem.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610rom.c
+SOURCE=..\..\cbm2\cbm2rom.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610tpi1.c
+SOURCE=..\..\cbm2\cbm2tpi1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cbm2\c610tpi2.c
+SOURCE=..\..\cbm2\cbm2tpi2.c
 # End Source File
 # End Target
 # End Project

@@ -22,13 +22,10 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	c128kbd.c \
 	c128ui.c \
 	c128ui.h \
-	c610kbd.c \
-	c610ui.c \
-	c610ui.h \
-	c64kbd.c \
+	cbm2ui.c \
+	cbm2ui.h \
 	c64ui.c \
 	c64ui.h \
 	console.c \
@@ -45,10 +42,8 @@ libarch_a_SOURCES = \
 	main_exit.h \
 	mouse.c \
 	mouse.h \
-	petkbd.c \
 	petui.c \
 	petui.h \
-	plus4kbd.c \
 	plus4ui.c \
 	plus4ui.h \
 	res.h \
@@ -98,7 +93,6 @@ libarch_a_SOURCES = \
 	uivicset.c \
 	uivideo.c \
 	uivideo.h \
-	vic20kbd.c \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
