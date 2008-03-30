@@ -56,32 +56,32 @@ int joystick_port_map[2];
 
 static int joyport1select(resource_value_t v, void *param)
 {
-    joystick_port_map[0] = (int) v;
+    joystick_port_map[0] = (int)v;
     return 0;
 }
 
 static int joyport2select(resource_value_t v, void *param)
 {
-    joystick_port_map[1] = (int) v;
+    joystick_port_map[1] = (int)v;
     return 0;
 }
 
 static resource_t resources[] = {
-    { "JoyDevice1", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) & joystick_port_map[0], joyport1select, NULL },
-    { "JoyDevice2", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) & joystick_port_map[1], joyport2select, NULL },
+    { "JoyDevice1", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&joystick_port_map[0], joyport1select, NULL },
+    { "JoyDevice2", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&joystick_port_map[1], joyport2select, NULL },
     { NULL },
 };
 
 /* Command-line options.  */
 
 static cmdline_option_t cmdline_options[] = {
-    {"-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
-     "<0-6>", N_("Set device for joystick port 1")},
-    {"-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
-     "<0-6>", N_("Set device for joystick port 2")},
-    {NULL},
+    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
+      "<0-6>", N_("Set device for joystick port 1") },
+    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+      "<0-6>", N_("Set device for joystick port 2") },
+    { NULL },
 };
 
 int joystick_init_resources(void)
@@ -121,8 +121,8 @@ int     use_old_api=1;
 #error Unknown Joystick
 #endif
 
-static int ajoyfd[2] = {-1, -1};
-static int djoyfd[2] = {-1, -1};
+static int ajoyfd[2] = { -1, -1 };
+static int djoyfd[2] = { -1, -1 };
 
 #define JOYCALLOOPS 100
 #define JOYSENSITIVITY 5
