@@ -256,7 +256,6 @@ static UI_CALLBACK(set_default_resources)
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
@@ -492,32 +491,6 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { "--" },
     { N_("*Custom..."),
       (ui_callback_t)set_custom_maximum_speed, NULL, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-ui_menu_entry_t video_settings_submenu[] = {
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t ui_video_settings_menu[] = {
-    { N_("VIC-II Video settings"),
-      NULL, NULL, video_settings_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t ui_vic_video_settings_menu[] = {
-    { N_("VIC Video settings"),
-      NULL, NULL, video_settings_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t ui_ted_video_settings_menu[] = {
-    { N_("TED Video settings"),
-      NULL, NULL, video_settings_submenu },
     { NULL }
 };
 

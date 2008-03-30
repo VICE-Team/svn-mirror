@@ -386,7 +386,6 @@ int c64_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_video_settings_menu,
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
@@ -442,7 +441,6 @@ int c64_ui_init(void)
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",
-				  ui_video_settings_menu,
                                   ui_keyboard_settings_menu,
                                   ui_sound_settings_menu,
                                   ui_drive_settings_menu,
@@ -464,7 +462,6 @@ int c64_ui_init(void)
     ui_set_speedmenu(ui_menu_create("SpeedMenu",
                                     ui_performance_settings_menu,
                                     ui_menu_separator,
-                                    video_settings_submenu,
                                     ui_menu_separator,
                                     NULL));
     ui_set_tape_menu(ui_menu_create("TapeMenu",

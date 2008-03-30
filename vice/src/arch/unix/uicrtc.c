@@ -93,6 +93,7 @@ ui_menu_entry_t crtc_submenu[] = {
       (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
     { N_("*Video cache"),
       (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
+    { "--" },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #ifdef USE_XF86_EXTENSIONS

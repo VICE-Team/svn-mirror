@@ -62,6 +62,7 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(VDC64KB)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
@@ -102,6 +103,9 @@ ui_menu_entry_t vdc_submenu[] = {
       (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL },
     { N_("*Video cache"),
       (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
+    { "--" },
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),

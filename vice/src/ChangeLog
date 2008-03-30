@@ -1,3 +1,36 @@
+2002-10-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.14.
+
+	* vicii/vicii-irq.h, vicii/vicii-irq.c
+	(vicii_irq_set_line_clk, vicii_irq_raster_set,
+	vicii_irq_raster_clear, vicii_irq_sbcoll_set,
+	vicii_irq_sbcoll_clear, vicii_irq_sscoll_set,
+	vicii_irq_sscoll_clear, vicii_irq_lightpen_set,
+	vicii_irq_lightpen_clear): New functions.
+
+	* vicii/vicii-mem.c (vicii_read): Use new IRQ functions.
+
+	* utils.c, utils.h, tape/tap.c, diskimage/diskimage.c,
+	diskimage/createdisk.c (read_dword, write_dword): Renamed.
+
+	maincpu.c: Fixed includes.
+	(clk_overflow_callback, maincpu_init): Removed.
+
+	* machine.c, machine.h (machine_reset): Log reset message
+	here. (machine_maincpu_clk_overflow_callback,
+	machine_maincpu_init): New functions.
+
+	* init.c (init_main): Call `machine_maincpu_init()'.
+
+	* main.c (main_program): Moved reset message here.
+
+	* arch/unix/uisettings.c, arch/unix/uisettings.h,
+	arch/unix/c128ui.c, arch/unix/c64ui.c, arch/unix/cbm2ui.c,
+	arch/unix/plus4ui.c, arch/unix/uivicii.c, arch/unix/uivic.c,
+	arch/unix/uivdc.c, arch/unix/uicrtc.c, arch/unix/uited.c:
+	Moved XSync UI to the video chip UI.
+
 2002-10-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.13.

@@ -59,6 +59,7 @@ static ui_menu_entry_t palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(VICFullscreenDevice)
@@ -98,6 +99,9 @@ ui_menu_entry_t vic_submenu[] = {
       (ui_callback_t)toggle_VICDoubleScan, NULL, NULL },
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICVideoCache, NULL, NULL },
+    { "--" },
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),

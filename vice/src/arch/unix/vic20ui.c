@@ -178,12 +178,13 @@ static ui_menu_entry_t memory_settings_submenu[] = {
     { NULL }
 };
 
+#if 0
 static ui_menu_entry_t memory_settings_menu[] = {
     { N_("Memory expansions"),
       NULL, NULL, memory_settings_submenu },
     { NULL }
 };
-
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -435,7 +436,6 @@ int vic20_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_vic_video_settings_menu,
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
@@ -494,7 +494,6 @@ int vic20_ui_init(void)
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",
-                                  ui_vic_video_settings_menu,
                                   ui_keyboard_settings_menu,
                                   ui_sound_settings_menu,
                                   ui_drive_settings_menu,

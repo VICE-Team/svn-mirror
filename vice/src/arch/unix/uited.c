@@ -49,6 +49,7 @@ ui_menu_entry_t set_video_standard_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
@@ -89,6 +90,9 @@ ui_menu_entry_t ted_submenu[] = {
       (ui_callback_t)toggle_TEDDoubleScan, NULL, NULL },
     { N_("*Video cache"),
       (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
+    { "--" },
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
