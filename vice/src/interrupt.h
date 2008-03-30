@@ -162,8 +162,8 @@ extern void interrupt_log_wrong_nnmi(void);
 #if defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C
 
 /* Set the IRQ line state.  */
-_INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
-		       CLOCK clk)
+_INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
+		                 CLOCK clk)
 {
     if (value) {		/* Trigger the IRQ.  */
 	if (!(cs->pending_int[int_num] & IK_IRQ)) {
@@ -194,8 +194,8 @@ _INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
 }
 
 /* Set the NMI line state.  */
-_INT_FUNC void set_nmi(cpu_int_status_t *cs, int int_num, int value,
-		       CLOCK clk)
+_INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
+		                 CLOCK clk)
 {
     if (value) {		/* Trigger the NMI.  */
 	if (!(cs->pending_int[int_num] & IK_NMI)) {
@@ -227,30 +227,31 @@ _INT_FUNC void set_nmi(cpu_int_status_t *cs, int int_num, int value,
     }
 }
 
-_INT_FUNC void trigger_dma(cpu_int_status_t *cs, CLOCK clk)
+_INT_FUNC void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK clk)
 {
     cs->global_pending_int |= IK_DMA;
 }
 
-_INT_FUNC void ack_dma(cpu_int_status_t *cs)
+_INT_FUNC void interrupt_ack_dma(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_DMA;
 }
 
-/* Change the interrupt line state: this can be used to change both NMI and IRQ
-   lines.  It is slower than `set_nmi()' and `set_irq()', but is left for
-   backward compatibility (it works like the old `setirq()').  */
-_INT_FUNC void set_int(cpu_int_status_t *cs, int int_num,
-		       enum cpu_int value, CLOCK clk)
+/* Change the interrupt line state: this can be used to change both NMI
+   and IRQ lines.  It is slower than `interrupt_set_nmi()' and
+   `interrupt_set_irq()', but is left for backward compatibility (it works
+   like the old `setirq()').  */
+_INT_FUNC void interrupt_set_int(cpu_int_status_t *cs, int int_num,
+		                 enum cpu_int value, CLOCK clk)
 {
-    set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
-    set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
+    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
+    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
 }
 
 /* ------------------------------------------------------------------------- */
 
 /* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
-_INT_FUNC enum cpu_int check_pending_interrupt(cpu_int_status_t *cs)
+_INT_FUNC enum cpu_int interrupt_check_pending_interrupt(cpu_int_status_t *cs)
 {
     return cs->global_pending_int;
 }
@@ -258,7 +259,7 @@ _INT_FUNC enum cpu_int check_pending_interrupt(cpu_int_status_t *cs)
 /* Return nonzero if a pending NMI should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the NMI line.  */
-_INT_FUNC int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
+_INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
@@ -276,7 +277,7 @@ _INT_FUNC int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
 /* Return nonzero if a pending IRQ should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the IRQ line.  */
-_INT_FUNC int check_irq_delay(cpu_int_status_t *cs, CLOCK clk)
+_INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK clk)
 {
     CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
 
@@ -295,15 +296,15 @@ _INT_FUNC int check_irq_delay(cpu_int_status_t *cs, CLOCK clk)
 
 /* This function must be called by the CPU emulator when a pending NMI
    request is served.  */
-_INT_FUNC void ack_nmi(cpu_int_status_t *cs)
+_INT_FUNC void interrupt_ack_nmi(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_NMI;
 }
 
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
-_INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
-			    CLOCK *clk_ptr, int num)
+_INT_FUNC void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
+			              CLOCK *clk_ptr, int num)
 {
     if (num == 0)
 	return;
@@ -324,21 +325,21 @@ _INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 
 /* We don't want inline definitions: just provide the prototypes.  */
 
-extern void set_irq(cpu_int_status_t *cs, int int_num, int value,
-		    CLOCK clk);
-extern void set_nmi(cpu_int_status_t *cs, int int_num, int value,
-		    CLOCK clk);
-extern void set_dma(cpu_int_status_t *cs, int int_num, int value,
-                    CLOCK clk);
-extern void set_int(cpu_int_status_t *cs, int int_num,
-		    enum cpu_int value, CLOCK clk);
-extern int check_pending_interrupt(cpu_int_status_t *cs);
-extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
-			 CLOCK *clk_ptr, int num);
-extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
-extern int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
-extern void ack_nmi(cpu_int_status_t *cs);
-extern void ack_dma(cpu_int_status_t *cs);
+extern void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
+                              CLOCK clk);
+extern void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
+                              CLOCK clk);
+extern void interrupt_set_dma(cpu_int_status_t *cs, int int_num, int value,
+                              CLOCK clk);
+extern void interrupt_set_int(cpu_int_status_t *cs, int int_num,
+		              enum cpu_int value, CLOCK clk);
+extern int interrupt_check_pending_interrupt(cpu_int_status_t *cs);
+extern void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
+                                   CLOCK *clk_ptr, int num);
+extern int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
+extern int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
+extern void interrupt_ack_nmi(cpu_int_status_t *cs);
+extern void interrupt_ack_dma(cpu_int_status_t *cs);
 
 #endif /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
 
@@ -346,32 +347,35 @@ extern void ack_dma(cpu_int_status_t *cs);
 
 /* Extern functions.  These are defined in `interrupt.c'.  */
 
-extern void trigger_reset(cpu_int_status_t *cs, CLOCK clk);
-extern void ack_reset(cpu_int_status_t *cs);
-extern void trigger_trap(cpu_int_status_t *cs,
-                         void (*trap_func)(ADDRESS, void *data),
-                         void *data, CLOCK clk);
-extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
+extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK clk);
+extern void interrupt_ack_reset(cpu_int_status_t *cs);
+extern void interrupt_trigger_trap(cpu_int_status_t *cs,
+                                   void (*trap_func)(ADDRESS, void *data),
+                                   void *data, CLOCK clk);
+extern void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 
-extern void monitor_trap_on(cpu_int_status_t *cs);
-extern void monitor_trap_off(cpu_int_status_t *cs);
+extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
+extern void interrupt_monitor_trap_off(cpu_int_status_t *cs);
 
-extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
-				opcode_info_t *last_opcode_info_ptr);
-extern void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
-                                     int warp_direction);
+extern void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
+                                      opcode_info_t *last_opcode_info_ptr);
+extern void interrupt_cpu_status_time_warp(cpu_int_status_t *cs,
+                                           CLOCK warp_amount,
+                                           int warp_direction);
 
 extern int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m);
 extern int interrupt_write_snapshot(cpu_int_status_t *cs,
                                     snapshot_module_t *m);
 
-extern void set_irq_noclk(cpu_int_status_t *cs, int int_num, int value);
-extern void set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value);
-extern void set_int_noclk(cpu_int_status_t *cs, int int_num,
+extern void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num,
+                                    int value);
+extern void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num,
+                                    int value);
+extern void interrupt_set_int_noclk(cpu_int_status_t *cs, int int_num,
                           enum cpu_int value);
-extern int get_irq(cpu_int_status_t *cs, int int_num);
-extern int get_nmi(cpu_int_status_t *cs, int int_num);
-extern enum cpu_int get_int(cpu_int_status_t *cs, int int_num);
+extern int interrupt_get_irq(cpu_int_status_t *cs, int int_num);
+extern int interrupt_get_nmi(cpu_int_status_t *cs, int int_num);
+extern enum cpu_int interrupt_get_int(cpu_int_status_t *cs, int int_num);
 
 /* ------------------------------------------------------------------------- */
 
@@ -385,59 +389,62 @@ extern CLOCK drive_clk[2];
 /* For convenience...  */
 
 #define maincpu_set_irq(int_num, value)	\
-    set_irq(&maincpu_int_status, (int_num), (value), clk)
+    interrupt_set_irq(&maincpu_int_status, (int_num), (value), clk)
 #define maincpu_set_irq_clk(int_num, value, clk) \
-    set_irq(&maincpu_int_status, (int_num), (value), (clk))
+    interrupt_set_irq(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_nmi(int_num, value) \
-    set_nmi(&maincpu_int_status, (int_num), (value), clk)
+    interrupt_set_nmi(&maincpu_int_status, (int_num), (value), clk)
 #define maincpu_set_nmi_clk(int_num, value, clk) \
-    set_nmi(&maincpu_int_status, (int_num), (value), (clk))
+    interrupt_set_nmi(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_int(int_num, value) \
-    set_int(&maincpu_int_status, (int_num), (value), clk)
+    interrupt_set_int(&maincpu_int_status, (int_num), (value), clk)
 #define maincpu_set_int_clk(int_num, value, clk) \
-    set_int(&maincpu_int_status, (int_num), (value), (clk))
+    interrupt_set_int(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_int_noclk(int_num, value) \
-    set_int_noclk(&maincpu_int_status, (int_num), (value))
+    interrupt_set_int_noclk(&maincpu_int_status, (int_num), (value))
 #define maincpu_trigger_reset() \
-    trigger_reset(&maincpu_int_status, clk)
+    interrupt_trigger_reset(&maincpu_int_status, clk)
 #define maincpu_trigger_dma() \
-    trigger_dma(&maincpu_int_status, clk)
+    interrupt_trigger_dma(&maincpu_int_status, clk)
 #define maincpu_trigger_trap(trap_func, data) \
-    trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
+    interrupt_trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
 #define maincpu_steal_cycles(start_clk, num) \
-    steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
+    interrupt_steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
 
 #define drive0_set_irq(int_num, value) \
-    set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
+    interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
 #define drive1_set_irq(int_num, value)    \
-    set_irq(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
+    interrupt_set_irq(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
 #define drive0_set_irq_clk(int_num, value, clk) \
-    set_irq(drive0_int_status_ptr, (int_num), (value), (clk))
+    interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), (clk))
 #define drive1_set_irq_clk(int_num, value, clk) \
-    set_irq(drive1_int_status_ptr, (int_num), (value), (clk))
+    interrupt_set_irq(drive1_int_status_ptr, (int_num), (value), (clk))
 #define drive0_set_nmi(int_num, value) \
-    set_nmi(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
+    interrupt_set_nmi(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
 #define drive1_set_nmi(int_num, value) \
-    set_nmi(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
+    interrupt_set_nmi(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
 #define drive0_set_nmi_clk(int_num, value, clk) \
-    set_nmi(drive0_int_status_ptr, (int_num), (value), (clk))
+    interrupt_set_nmi(drive0_int_status_ptr, (int_num), (value), (clk))
 #define drive1_set_nmi_clk(int_num, value, clk) \
-    set_nmi(drive1_int_status_ptr, (int_num), (value), (clk))
+    interrupt_set_nmi(drive1_int_status_ptr, (int_num), (value), (clk))
 #define drive0_set_int(int_num, value) \
-    set_int(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
+    interrupt_set_int(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
 #define drive1_set_int(int_num, value) \
-    set_int(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
+    interrupt_set_int(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
 #define drive0_set_int_clk(int_num, value, clk) \
-    set_int_clk(drive0_int_status_ptr, (int_num), (value), (clk))
+    interrupt_set_int_clk(drive0_int_status_ptr, (int_num), (value), (clk))
 #define drive1_set_int_clk(int_num, value, clk) \
-    set_int_clk(drive1_int_status_ptr, (int_num), (value), (clk))
+    interrupt_set_int_clk(drive1_int_status_ptr, (int_num), (value), (clk))
 #define drive0_trigger_reset() \
-    trigger_reset(drive0_int_status_ptr, drive_clk[0] + 1)
+    interrupt_trigger_reset(drive0_int_status_ptr, drive_clk[0] + 1)
 #define drive1_trigger_reset() \
-    trigger_reset(drive1_int_status_ptr, drive_clk[1] + 1)
+    interrupt_trigger_reset(drive1_int_status_ptr, drive_clk[1] + 1)
 #define drive0_trigger_trap(trap_func, data) \
-    trigger_trap(drive0_int_status_ptr, (trap_func), (data), drive_clk[0] + 1)
+    interrupt_trigger_trap(drive0_int_status_ptr, (trap_func), (data), \
+                           drive_clk[0] + 1)
 #define drive1_trigger_trap(trap_func, data) \
-    trigger_trap(drive1_int_status_ptr, (trap_func), (data), drive_clk[1] + 1)
+    interrupt_trigger_trap(drive1_int_status_ptr, (trap_func), (data), \
+                           drive_clk[1] + 1)
 
-#endif /* !_INTERRUPT_H */
+#endif
+

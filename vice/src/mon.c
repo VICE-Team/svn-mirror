@@ -2116,7 +2116,7 @@ void mon_instructions_step(int count)
    exit_mon = 1;
 
    mon_mask[caller_space] |= MI_STEP;
-   monitor_trap_on(mon_interfaces[caller_space]->int_status);
+   interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_instructions_next(int count)
@@ -2130,7 +2130,7 @@ void mon_instructions_next(int count)
    exit_mon = 1;
 
    mon_mask[caller_space] |= MI_STEP;
-   monitor_trap_on(mon_interfaces[caller_space]->int_status);
+   interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_instruction_return(void)
@@ -2140,7 +2140,7 @@ void mon_instruction_return(void)
    exit_mon = 1;
 
    mon_mask[caller_space] |= MI_STEP;
-   monitor_trap_on(mon_interfaces[caller_space]->int_status);
+   interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_stack_up(int count)
@@ -2505,7 +2505,7 @@ void mon_delete_checkpoint(int brknum)
             mon_mask[mem] &= ~MI_BREAK;
 
             if (!mon_mask[mem])
-               monitor_trap_off(mon_interfaces[mem]->int_status);
+               interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
          }
       } else {
          if ( bp->watch_load )
@@ -2518,7 +2518,7 @@ void mon_delete_checkpoint(int brknum)
             mon_interfaces[mem]->toggle_watchpoints_func(0);
 
             if (!mon_mask[mem])
-               monitor_trap_off(mon_interfaces[mem]->int_status);
+               interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
          }
       }
    }
@@ -2717,7 +2717,7 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bo
    if (!is_load && !is_store) {
       if (!any_breakpoints(mem)) {
          mon_mask[mem] |= MI_BREAK;
-         monitor_trap_on(mon_interfaces[mem]->int_status);
+         interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
       }
 
       add_to_checkpoint_list(&(breakpoints[mem]), new_bp);
@@ -2725,7 +2725,7 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bo
       if (!any_watchpoints(mem)) {
          mon_mask[mem] |= MI_WATCH;
          mon_interfaces[mem]->toggle_watchpoints_func(1);
-         monitor_trap_on(mon_interfaces[mem]->int_status);
+         interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
       }
 
       if (is_load)
@@ -2839,7 +2839,7 @@ void mon_check_icount(ADDRESS a)
               disassemble_instr(new_addr(caller_space, a));
            }
            if (!mon_mask[caller_space])
-              monitor_trap_off(mon_interfaces[caller_space]->int_status);
+              interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
 
            mon(a);
         }

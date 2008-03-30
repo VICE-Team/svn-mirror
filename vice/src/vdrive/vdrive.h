@@ -27,7 +27,6 @@
 #ifndef _VDRIVE_H
 #define _VDRIVE_H
 
-#include "attach.h"
 #include "diskimage.h"
 #include "types.h"
 

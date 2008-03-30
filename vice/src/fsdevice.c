@@ -68,6 +68,7 @@
 #endif
 
 #include "archdep.h"
+#include "attach.h"
 #include "charsets.h"
 #include "cmdline.h"
 #include "fsdevice.h"

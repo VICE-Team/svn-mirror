@@ -40,8 +40,8 @@
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
-void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
-                         opcode_info_t *last_opcode_info_ptr)
+void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
+                               opcode_info_t *last_opcode_info_ptr)
 {
     memset(cs, 0, sizeof(cpu_int_status_t));
     cs->num_ints = num_ints;
@@ -52,8 +52,8 @@ void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
 }
 
 /* Move all the CLOCK time references forward/backward.  */
-void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
-                              int warp_direction)
+void interrupt_cpu_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
+                                    int warp_direction)
 {
     if (warp_direction == 0)
         return;
@@ -83,7 +83,7 @@ void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
 
 void interrupt_log_wrong_nirq(void)
 {
-    log_error(LOG_DEFAULT, "set_irq(): wrong nirq!");
+    log_error(LOG_DEFAULT, "interrupt_set_irq(): wrong nirq!");
 }
 
 void interrupt_log_wrong_nnmi(void)
@@ -99,7 +99,7 @@ void interrupt_log_wrong_nnmi(void)
    information; the global timing status is stored in the CPU module (see
    `interrupt_write_snapshot()' and `interrupt_read_snapshot()'). */
 
-void set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
+void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
 {
     if (value) {
 	if (!(cs->pending_int[int_num] & IK_IRQ)) {
@@ -118,7 +118,7 @@ void set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
     }
 }
 
-void set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
+void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
 {
     if (value) {
 	if (!(cs->pending_int[int_num] & IK_NMI)) {
@@ -139,18 +139,19 @@ void set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
     }
 }
 
-void set_int_noclk(cpu_int_status_t *cs, int int_num, enum cpu_int value)
+void interrupt_set_int_noclk(cpu_int_status_t *cs, int int_num,
+                             enum cpu_int value)
 {
-    set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
-    set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
+    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
+    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
 }
 
-int get_irq(cpu_int_status_t *cs, int int_num)
+int interrupt_get_irq(cpu_int_status_t *cs, int int_num)
 {
     return cs->pending_int[int_num] & IK_IRQ;
 }
 
-int get_nmi(cpu_int_status_t *cs, int int_num)
+int interrupt_get_nmi(cpu_int_status_t *cs, int int_num)
 {
     return cs->pending_int[int_num] & IK_NMI;
 }
@@ -163,13 +164,13 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 /* ------------------------------------------------------------------------- */
 
 /* Trigger a RESET.  This resets the machine.  */
-void trigger_reset(cpu_int_status_t *cs, CLOCK clk)
+void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK clk)
 {
     cs->global_pending_int |= IK_RESET;
 }
 
 /* Acknowledge a RESET condition, by removing it.  */
-void ack_reset(cpu_int_status_t *cs)
+void interrupt_ack_reset(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_RESET;
 }
@@ -177,8 +178,8 @@ void ack_reset(cpu_int_status_t *cs)
 /* Trigger a TRAP.  This is a special condition that can be used for
    debugging.  `trap_func' will be called with PC as the argument when this
    condition is detected.  */
-void trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS, void *data),
-                  void *data, CLOCK clk)
+void interrupt_trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS,
+                  void *data), void *data, CLOCK clk)
 {
     cs->global_pending_int |= IK_TRAP;
     cs->trap_func = trap_func;
@@ -186,18 +187,18 @@ void trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS, void *data),
 }
 
 /* Dispatch the TRAP condition.  */
-void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
+void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
 {
     cs->global_pending_int &= ~IK_TRAP;
     cs->trap_func(((ADDRESS)reg_pc), cs->trap_data);
 }
 
-void monitor_trap_on(cpu_int_status_t *cs)
+void interrupt_monitor_trap_on(cpu_int_status_t *cs)
 {
     cs->global_pending_int |= IK_MONITOR;
 }
 
-void monitor_trap_off(cpu_int_status_t *cs)
+void interrupt_monitor_trap_off(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_MONITOR;
 }

@@ -1036,11 +1036,11 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     switch (drive_num) {
       case 0:
         alarm_context_time_warp(&drive0_context.cpu.alarm_context, sub, -1);
-        cpu_int_status_time_warp(&drive0_context.cpu.int_status, sub, -1);
+        interrupt_cpu_status_time_warp(&drive0_context.cpu.int_status, sub, -1);
         break;
       case 1:
         alarm_context_time_warp(&drive1_context.cpu.alarm_context, sub, -1);
-        cpu_int_status_time_warp(&drive1_context.cpu.int_status, sub, -1);
+        interrupt_cpu_status_time_warp(&drive1_context.cpu.int_status, sub, -1);
         break;
       default:
         log_error(drive_log,

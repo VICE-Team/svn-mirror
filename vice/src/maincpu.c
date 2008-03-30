@@ -373,7 +373,7 @@ inline static void evaluate_speed(unsigned long clk)
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
     alarm_context_time_warp(&maincpu_alarm_context, sub, -1);
-    cpu_int_status_time_warp(&maincpu_int_status, sub, -1);
+    interrupt_cpu_status_time_warp(&maincpu_int_status, sub, -1);
 }
 
 void maincpu_init(void)
@@ -395,10 +395,10 @@ static void cpu_reset(void)
 
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
-    cpu_int_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
+    interrupt_cpu_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
 
     if (preserve_monitor)
-        monitor_trap_on(&maincpu_int_status);
+        interrupt_monitor_trap_on(&maincpu_int_status);
 
     clk = 6;			/* # of clock cycles needed for RESET.  */
 

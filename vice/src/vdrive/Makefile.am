@@ -1,8 +1,7 @@
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libvdrive.a
 
@@ -15,5 +14,8 @@ libvdrive_a_SOURCES = \
 	vdrive-dir.h \
 	vdrive-iec.c \
 	vdrive-iec.h \
+	vdrive-snapshot.c \
+	vdrive-snapshot.h \
 	vdrive.c \
 	vdrive.h
+
