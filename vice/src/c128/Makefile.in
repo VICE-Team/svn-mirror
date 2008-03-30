@@ -339,10 +339,11 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
-	../../src/cmdline.h functionrom.h ../../src/interrupt.h \
-	../../src/keyboard.h ../../src/log.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/resources.h ../../src/c64/reu.h \
-	../../src/vdc/vdc.h ../../src/vicii/vicii.h z80.h z80mem.h
+	../../src/cmdline.h functionrom.h ../../src/iecdrive.h \
+	../../src/interrupt.h ../../src/keyboard.h ../../src/log.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/resources.h \
+	../../src/c64/reu.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
+	z80.h z80mem.h
 c128rom.o: c128rom.c ../../src/vice.h ../../src/config.h c128.h \
 	c128mem.h ../../src/arch/unix/types.h c128rom.h ../../src/mem.h \
 	../../src/log.h ../../src/resources.h ../../src/sysfile.h \

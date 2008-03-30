@@ -293,8 +293,9 @@ sid-resources.o: sid-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/resources.h sid-resources.h sid.h \
 	../../src/arch/unix/types.h ../../src/sound.h
 sid-snapshot.o: sid-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h sid-snapshot.h ../../src/arch/unix/types.h \
-	sid.h ../../src/sound.h ../../src/snapshot.h
+	../../src/log.h ../../src/resources.h sid-snapshot.h \
+	../../src/arch/unix/types.h sid.h ../../src/sound.h \
+	../../src/snapshot.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h fastsid.h \
 	../../src/arch/unix/types.h sid.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/resources.h sid-resources.h \
