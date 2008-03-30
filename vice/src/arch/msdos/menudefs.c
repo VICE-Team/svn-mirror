@@ -1786,7 +1786,9 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
     ui_info_submenu = tui_menu_create("Info", 1);
     tui_menu_add(ui_info_submenu, info_submenu);
     tui_menu_add_submenu(ui_main_menu, "VICE _Info...",
-			 "VICE is Free Software distributed under the GNU General Public License!",
+			 "VICE is Free Software distributed under"
+             " the GNU General Public License!",
 			 ui_info_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
 }
+
