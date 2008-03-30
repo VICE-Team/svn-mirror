@@ -1521,7 +1521,7 @@
                    sprint_disassembled(reg_pc, op, lo, hi, 1));
         }
 #else
-        if (TRACEFLG)
+        if (TRACEFLG) {
             BYTE op = p0;
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
