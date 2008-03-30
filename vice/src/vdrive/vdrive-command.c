@@ -175,7 +175,7 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
             if (vdrive_parse_name(name, length, realname, &reallength,
                                   &readmode, &filetype, NULL) != SERIAL_OK) {
                 status = IPE_NO_NAME;
-            } else if (vdrive->read_only) {
+            } else if (vdrive->image->read_only) {
                 status = IPE_WRITE_PROTECT_ON;
             } else {
 #ifdef DEBUG_DRIVE
@@ -362,7 +362,7 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
                 return IPE_NO_CHANNEL;
 
             if (command == 'W') {
-                if (vdrive->read_only)
+                if (vdrive->image->read_only)
                     return IPE_WRITE_PROTECT_ON;
                 if (disk_image_write_sector(vdrive->image,
                                             vdrive->buffers[channel].buffer,
@@ -554,7 +554,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
         &src_readmode, &src_filetype, &src_rl) == FLOPPY_ERROR)
         return IPE_SYNTAX;
 
-    if (vdrive->read_only)
+    if (vdrive->image->read_only)
         return IPE_WRITE_PROTECT_ON;
 
     /* Check if the destination name is already in use.  */
@@ -611,7 +611,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     status = vdrive_command_initialize(vdrive);
     if (status != IPE_OK)
         return status;
-    if (vdrive->read_only)
+    if (vdrive->image->read_only)
         return IPE_WRITE_PROTECT_ON;
     /* FIXME: size of BAM define */
     memcpy(oldbam, vdrive->bam, 5 * 256);
@@ -684,7 +684,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     if (!disk_name)
         return IPE_SYNTAX;
 
-    if (vdrive->read_only)
+    if (vdrive->image->read_only)
         return IPE_WRITE_PROTECT_ON;
 
     if (vdrive->image->fd == NULL)

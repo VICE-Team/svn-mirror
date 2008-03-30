@@ -165,7 +165,6 @@ typedef struct vdrive_s {
     /* Current image file */
     unsigned int mode;         /* Read/Write */
     unsigned int image_format; /* 1541/71/81 */
-    BYTE read_only;
     unsigned int unit;
 
     unsigned int Bam_Track;
