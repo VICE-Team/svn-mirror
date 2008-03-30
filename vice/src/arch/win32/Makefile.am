@@ -109,6 +109,8 @@ libarch_a_SOURCES = \
 	uiide64.h \
 	uijoystick.c \
 	uijoystick.h \
+	uikeyboard.c \
+	uikeyboard.h \
 	uilib.c \
 	uilib.h \
 	uimediafile.c \

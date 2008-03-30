@@ -242,6 +242,10 @@ SOURCE=.\uiide64.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uikeyboard.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uijoystick.c
 # End Source File
 # Begin Source File
