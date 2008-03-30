@@ -43,7 +43,7 @@
 #include "uilib.h"
 
 
-void ui_attach_disk_dialog(WPARAM wparam, HWND hwnd)
+static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
 {
     TCHAR *st_name;
     int unit = 8;
@@ -85,7 +85,7 @@ void ui_attach_disk_dialog(WPARAM wparam, HWND hwnd)
     ResumeFullscreenModeKeep(hwnd);
 }
 
-void ui_attach_tape_dialog(HWND hwnd)
+static void uiattach_tape_dialog(HWND hwnd)
 {
     TCHAR *st_name;
     int autostart_index = -1;
@@ -112,7 +112,7 @@ void ui_attach_tape_dialog(HWND hwnd)
     ResumeFullscreenModeKeep(hwnd);
 }
 
-void ui_attach_autostart_dialog(HWND hwnd)
+static void uiattach_autostart_dialog(HWND hwnd)
 {
     TCHAR *st_name;
     int autostart_index = 0;
@@ -130,6 +130,51 @@ void ui_attach_autostart_dialog(HWND hwnd)
             ui_error("Cannot autostart specified file.");
         system_wcstombs_free(name);
         lib_free(st_name);
+    }
+}
+
+void uiattach_command(HWND hwnd, WPARAM wparam)
+{
+    switch (wparam) {
+      case IDM_ATTACH_8 | 0x00010000:
+      case IDM_ATTACH_9 | 0x00010000:
+      case IDM_ATTACH_10 | 0x00010000:
+      case IDM_ATTACH_11 | 0x00010000:
+      case IDM_ATTACH_8:
+      case IDM_ATTACH_9:
+      case IDM_ATTACH_10:
+      case IDM_ATTACH_11:
+        uiattach_disk_dialog(hwnd, wparam);
+        break;
+      case IDM_DETACH_8:
+        file_system_detach_disk(8);
+        break;
+      case IDM_DETACH_9:
+        file_system_detach_disk(9);
+        break;
+      case IDM_DETACH_10:
+        file_system_detach_disk(10);
+        break;
+      case IDM_DETACH_11:
+        file_system_detach_disk(11);
+        break;
+      case IDM_DETACH_ALL | 0x00010000:
+      case IDM_DETACH_ALL:
+        file_system_detach_disk(8);
+        file_system_detach_disk(9);
+        file_system_detach_disk(10);
+        file_system_detach_disk(11);
+        break;
+      case IDM_ATTACH_TAPE | 0x00010000:
+      case IDM_ATTACH_TAPE:
+        uiattach_tape_dialog(hwnd);
+        break;
+      case IDM_DETACH_TAPE:
+        tape_image_detach(1);
+        break;
+      case IDM_AUTOSTART:
+        uiattach_autostart_dialog(hwnd);
+        break;
     }
 }
 
