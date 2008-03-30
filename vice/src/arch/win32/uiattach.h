@@ -1,8 +1,7 @@
 /*
- * uiattach.h - Implementation of the device manager dialog box.
+ * uiattach.h - Implementation of the disk/tape attach dialog box.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -28,9 +27,9 @@
 #ifndef _UIATTACH_H
 #define _UIATTACH_H
 
-#include <windows.h>
-
-void ui_attach_dialog(HWND hwnd);
+extern void ui_attach_disk_dialog(WPARAM wparam, HWND hwnd);
+extern void ui_attach_tape_dialog(HWND hwnd);
+extern void ui_attach_autostart_dialog(HWND hwnd);
 
 #endif
 
