@@ -1,3 +1,17 @@
+2001-04-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.17.
+
+	* data/C128/default.vpl, data/C64/default.vpl: Restored old
+	palette files.
+
+2001-04-08  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* data/C128/default.vpl, data/C64/default.vpl:
+	changed to be more accurate (old one renamed to vice.vpl)
+   
+	* data/C128/vice.vpl, data/C64/vice.vpl: added
+
 2001-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.16.
