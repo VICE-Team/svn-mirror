@@ -50,6 +50,7 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	res.h \
 	res.rc \
+	resacia.rc \
 	resc128.rc \
 	resc64.rc \
 	rescbm2.rc \
@@ -73,6 +74,8 @@ libarch_a_SOURCES = \
 	ui-resources.c \
 	ui.c \
 	ui.h \
+	uiacia.c \
+	uiacia.h \
 	uic128.c \
 	uic128.h \
 	uic64cart.c \
@@ -208,19 +211,19 @@ EXTRA_DIST = \
         montb.bmp \
         c64.ico 
 
-resc128.o : resc128.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc
+resc128.o : resc128.rc res.rc res.h resacia.rc ressid.rc resvicii.rc resreu.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc resdrivec64vic20.rc
+resc64.o : resc64.rc res.rc res.h resacia.rc ressid.rc resvicii.rc resreu.rc reside64.rc resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.rc res.rc res.h ressid.rc resdrivepetcbm2.rc
+rescbm2.o : rescbm2.rc res.rc res.h resacia.rc ressid.rc resdrivepetcbm2.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.rc res.rc res.h resdrivepetcbm2.rc
+respet.o : respet.rc res.rc res.h resacia.rc resdrivepetcbm2.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resplus4.o : resplus4.rc res.rc res.h
+resplus4.o : resplus4.rc res.rc res.h resacia.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 resvic20.o : resvic20.rc res.rc res.h resdrivec64vic20.rc

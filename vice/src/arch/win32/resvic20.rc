@@ -1,5 +1,6 @@
 // VIC20 specific resources.
 //
+
 #include "debug.h"
 #include "res.rc"
 #include "resdrivec64vic20.rc"
