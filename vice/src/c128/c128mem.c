@@ -289,22 +289,22 @@ static void mem_toggle_caps_key(void)
 
 /* External memory access functions.  */
 
-BYTE REGPARM1 read_basic(ADDRESS addr)
+BYTE REGPARM1 basic_read(ADDRESS addr)
 {
     return basic_rom[addr - 0x4000];
 }
 
-void REGPARM2 store_basic(ADDRESS addr, BYTE value)
+void REGPARM2 basic_store(ADDRESS addr, BYTE value)
 {
     basic_rom[addr - 0x4000] = value;
 }
 
-BYTE REGPARM1 read_kernal(ADDRESS addr)
+BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
     return kernal_rom[addr & 0x1fff];
 }
 
-void REGPARM2 store_kernal(ADDRESS addr, BYTE value)
+void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
 {
     kernal_rom[addr & 0x1fff] = value;
 }
@@ -348,7 +348,7 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xf000) {
       case 0x0000:
-        return read_bios(addr);
+        return bios_read(addr);
       case 0x4000:
       case 0x5000:
       case 0x6000:
@@ -357,10 +357,10 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
       case 0x9000:
       case 0xa000:
       case 0xb000:
-        return read_basic(addr);
+        return basic_read(addr);
       case 0xe000:
       case 0xf000:
-        return read_kernal(addr);
+        return kernal_read(addr);
     }
 
     return 0;
@@ -370,7 +370,7 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0x0000:
-        store_bios(addr, value);
+        bios_store(addr, value);
         break;
       case 0x4000:
       case 0x5000:
@@ -380,11 +380,11 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
       case 0x9000:
       case 0xa000:
       case 0xb000:
-        store_basic(addr, value);
+        basic_store(addr, value);
         break;
       case 0xe000:
       case 0xf000:
-        store_kernal(addr, value);
+        kernal_store(addr, value);
         break;
     }
 }
@@ -507,58 +507,58 @@ static void REGPARM2 store_one(ADDRESS addr, BYTE value)
 
 /* $0200 - $3FFF: RAM (normal or shared).  */
 
-BYTE REGPARM1 read_lo(ADDRESS addr)
+BYTE REGPARM1 lo_read(ADDRESS addr)
 {
     return READ_BOTTOM_SHARED(addr);
 }
 
-void REGPARM2 store_lo(ADDRESS addr, BYTE value)
+void REGPARM2 lo_store(ADDRESS addr, BYTE value)
 {
     STORE_BOTTOM_SHARED(addr, value);
 }
 
-static BYTE REGPARM1 read_ram(ADDRESS addr)
+static BYTE REGPARM1 ram_read(ADDRESS addr)
 {
     return ram_bank[addr];
 }
 
-static void REGPARM2 store_ram(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
 
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
-static BYTE REGPARM1 read_basic_lo(ADDRESS addr)
+static BYTE REGPARM1 basic_lo_read(ADDRESS addr)
 {
     return basic_rom[addr - 0x4000];
 }
 
-static void REGPARM2 store_basic_lo(ADDRESS addr, BYTE value)
+static void REGPARM2 basic_lo_store(ADDRESS addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
 
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
-static BYTE REGPARM1 read_basic_hi(ADDRESS addr)
+static BYTE REGPARM1 basic_hi_read(ADDRESS addr)
 {
     return basic_rom[addr - 0x4000];
 }
 
-static void REGPARM2 store_basic_hi(ADDRESS addr, BYTE value)
+static void REGPARM2 basic_hi_store(ADDRESS addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
 
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
-static BYTE REGPARM1 read_editor(ADDRESS addr)
+static BYTE REGPARM1 editor_read(ADDRESS addr)
 {
     return basic_rom[addr - 0x4000];
 }
 
-static void REGPARM2 store_editor(ADDRESS addr, BYTE value)
+static void REGPARM2 editor_store(ADDRESS addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
 }
@@ -581,22 +581,22 @@ void REGPARM2 d7xx_store(ADDRESS addr, BYTE value)
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
-static BYTE REGPARM1 read_hi(ADDRESS addr)
+static BYTE REGPARM1 hi_read(ADDRESS addr)
 {
     return kernal_rom[addr & 0x1fff];
 }
 
-static void REGPARM2 store_hi(ADDRESS addr, BYTE value)
+static void REGPARM2 hi_store(ADDRESS addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
-BYTE REGPARM1 read_top_shared(ADDRESS addr)
+BYTE REGPARM1 top_shared_read(ADDRESS addr)
 {
     return READ_TOP_SHARED(addr);
 }
 
-void REGPARM2 store_top_shared(ADDRESS addr, BYTE value)
+void REGPARM2 top_shared_store(ADDRESS addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
 }
@@ -682,134 +682,134 @@ void mem_initialize_memory(void)
 
     for (j = 0; j < 128; j += 64) {
         for (i = 0x02; i <= 0x3f; i++) {
-            mem_read_tab[0+j][i] = read_ram;
-            mem_read_tab[1+j][i] = read_ram;
-            mem_read_tab[2+j][i] = read_ram;
-            mem_read_tab[3+j][i] = read_ram;
-            mem_read_tab[4+j][i] = read_ram;
-            mem_read_tab[5+j][i] = read_ram;
-            mem_read_tab[6+j][i] = read_ram;
-            mem_read_tab[7+j][i] = read_ram;
-            mem_read_tab[8+j][i] = read_ram;
-            mem_read_tab[9+j][i] = read_ram;
-            mem_read_tab[10+j][i] = read_ram;
-            mem_read_tab[11+j][i] = read_ram;
-            mem_read_tab[12+j][i] = read_ram;
-            mem_read_tab[13+j][i] = read_ram;
-            mem_read_tab[14+j][i] = read_ram;
-            mem_read_tab[15+j][i] = read_ram;
-            mem_read_tab[16+j][i] = read_ram;
-            mem_read_tab[17+j][i] = read_ram;
-            mem_read_tab[18+j][i] = read_ram;
-            mem_read_tab[19+j][i] = read_ram;
-            mem_read_tab[20+j][i] = read_ram;
-            mem_read_tab[21+j][i] = read_ram;
-            mem_read_tab[22+j][i] = read_ram;
-            mem_read_tab[23+j][i] = read_ram;
-            mem_read_tab[24+j][i] = read_ram;
-            mem_read_tab[25+j][i] = read_ram;
-            mem_read_tab[26+j][i] = read_ram;
-            mem_read_tab[27+j][i] = read_ram;
-            mem_read_tab[28+j][i] = read_ram;
-            mem_read_tab[29+j][i] = read_ram;
-            mem_read_tab[30+j][i] = read_ram;
-            mem_read_tab[31+j][i] = read_ram;
-            mem_read_tab[32+j][i] = read_lo;
-            mem_read_tab[33+j][i] = read_lo;
-            mem_read_tab[34+j][i] = read_lo;
-            mem_read_tab[35+j][i] = read_lo;
-            mem_read_tab[36+j][i] = read_lo;
-            mem_read_tab[37+j][i] = read_lo;
-            mem_read_tab[38+j][i] = read_lo;
-            mem_read_tab[39+j][i] = read_lo;
-            mem_read_tab[40+j][i] = read_lo;
-            mem_read_tab[41+j][i] = read_lo;
-            mem_read_tab[42+j][i] = read_lo;
-            mem_read_tab[43+j][i] = read_lo;
-            mem_read_tab[44+j][i] = read_lo;
-            mem_read_tab[45+j][i] = read_lo;
-            mem_read_tab[46+j][i] = read_lo;
-            mem_read_tab[47+j][i] = read_lo;
-            mem_read_tab[48+j][i] = read_lo;
-            mem_read_tab[49+j][i] = read_lo;
-            mem_read_tab[50+j][i] = read_lo;
-            mem_read_tab[51+j][i] = read_lo;
-            mem_read_tab[52+j][i] = read_lo;
-            mem_read_tab[53+j][i] = read_lo;
-            mem_read_tab[54+j][i] = read_lo;
-            mem_read_tab[55+j][i] = read_lo;
-            mem_read_tab[56+j][i] = read_lo;
-            mem_read_tab[57+j][i] = read_lo;
-            mem_read_tab[58+j][i] = read_lo;
-            mem_read_tab[59+j][i] = read_lo;
-            mem_read_tab[60+j][i] = read_lo;
-            mem_read_tab[61+j][i] = read_lo;
-            mem_read_tab[62+j][i] = read_lo;
-            mem_read_tab[63+j][i] = read_lo;
-            mem_write_tab[0+j][i] = store_ram;
-            mem_write_tab[1+j][i] = store_ram;
-            mem_write_tab[2+j][i] = store_ram;
-            mem_write_tab[3+j][i] = store_ram;
-            mem_write_tab[4+j][i] = store_ram;
-            mem_write_tab[5+j][i] = store_ram;
-            mem_write_tab[6+j][i] = store_ram;
-            mem_write_tab[7+j][i] = store_ram;
-            mem_write_tab[8+j][i] = store_ram;
-            mem_write_tab[9+j][i] = store_ram;
-            mem_write_tab[10+j][i] = store_ram;
-            mem_write_tab[11+j][i] = store_ram;
-            mem_write_tab[12+j][i] = store_ram;
-            mem_write_tab[13+j][i] = store_ram;
-            mem_write_tab[14+j][i] = store_ram;
-            mem_write_tab[15+j][i] = store_ram;
-            mem_write_tab[16+j][i] = store_ram;
-            mem_write_tab[17+j][i] = store_ram;
-            mem_write_tab[18+j][i] = store_ram;
-            mem_write_tab[19+j][i] = store_ram;
-            mem_write_tab[20+j][i] = store_ram;
-            mem_write_tab[21+j][i] = store_ram;
-            mem_write_tab[22+j][i] = store_ram;
-            mem_write_tab[23+j][i] = store_ram;
-            mem_write_tab[24+j][i] = store_ram;
-            mem_write_tab[25+j][i] = store_ram;
-            mem_write_tab[26+j][i] = store_ram;
-            mem_write_tab[27+j][i] = store_ram;
-            mem_write_tab[28+j][i] = store_ram;
-            mem_write_tab[29+j][i] = store_ram;
-            mem_write_tab[30+j][i] = store_ram;
-            mem_write_tab[31+j][i] = store_ram;
-            mem_write_tab[32+j][i] = store_lo;
-            mem_write_tab[33+j][i] = store_lo;
-            mem_write_tab[34+j][i] = store_lo;
-            mem_write_tab[35+j][i] = store_lo;
-            mem_write_tab[36+j][i] = store_lo;
-            mem_write_tab[37+j][i] = store_lo;
-            mem_write_tab[38+j][i] = store_lo;
-            mem_write_tab[39+j][i] = store_lo;
-            mem_write_tab[40+j][i] = store_lo;
-            mem_write_tab[41+j][i] = store_lo;
-            mem_write_tab[42+j][i] = store_lo;
-            mem_write_tab[43+j][i] = store_lo;
-            mem_write_tab[44+j][i] = store_lo;
-            mem_write_tab[45+j][i] = store_lo;
-            mem_write_tab[46+j][i] = store_lo;
-            mem_write_tab[47+j][i] = store_lo;
-            mem_write_tab[48+j][i] = store_lo;
-            mem_write_tab[49+j][i] = store_lo;
-            mem_write_tab[50+j][i] = store_lo;
-            mem_write_tab[51+j][i] = store_lo;
-            mem_write_tab[52+j][i] = store_lo;
-            mem_write_tab[53+j][i] = store_lo;
-            mem_write_tab[54+j][i] = store_lo;
-            mem_write_tab[55+j][i] = store_lo;
-            mem_write_tab[56+j][i] = store_lo;
-            mem_write_tab[57+j][i] = store_lo;
-            mem_write_tab[58+j][i] = store_lo;
-            mem_write_tab[59+j][i] = store_lo;
-            mem_write_tab[60+j][i] = store_lo;
-            mem_write_tab[61+j][i] = store_lo;
-            mem_write_tab[62+j][i] = store_lo;
-            mem_write_tab[63+j][i] = store_lo;
+            mem_read_tab[0+j][i] = ram_read;
+            mem_read_tab[1+j][i] = ram_read;
+            mem_read_tab[2+j][i] = ram_read;
+            mem_read_tab[3+j][i] = ram_read;
+            mem_read_tab[4+j][i] = ram_read;
+            mem_read_tab[5+j][i] = ram_read;
+            mem_read_tab[6+j][i] = ram_read;
+            mem_read_tab[7+j][i] = ram_read;
+            mem_read_tab[8+j][i] = ram_read;
+            mem_read_tab[9+j][i] = ram_read;
+            mem_read_tab[10+j][i] = ram_read;
+            mem_read_tab[11+j][i] = ram_read;
+            mem_read_tab[12+j][i] = ram_read;
+            mem_read_tab[13+j][i] = ram_read;
+            mem_read_tab[14+j][i] = ram_read;
+            mem_read_tab[15+j][i] = ram_read;
+            mem_read_tab[16+j][i] = ram_read;
+            mem_read_tab[17+j][i] = ram_read;
+            mem_read_tab[18+j][i] = ram_read;
+            mem_read_tab[19+j][i] = ram_read;
+            mem_read_tab[20+j][i] = ram_read;
+            mem_read_tab[21+j][i] = ram_read;
+            mem_read_tab[22+j][i] = ram_read;
+            mem_read_tab[23+j][i] = ram_read;
+            mem_read_tab[24+j][i] = ram_read;
+            mem_read_tab[25+j][i] = ram_read;
+            mem_read_tab[26+j][i] = ram_read;
+            mem_read_tab[27+j][i] = ram_read;
+            mem_read_tab[28+j][i] = ram_read;
+            mem_read_tab[29+j][i] = ram_read;
+            mem_read_tab[30+j][i] = ram_read;
+            mem_read_tab[31+j][i] = ram_read;
+            mem_read_tab[32+j][i] = lo_read;
+            mem_read_tab[33+j][i] = lo_read;
+            mem_read_tab[34+j][i] = lo_read;
+            mem_read_tab[35+j][i] = lo_read;
+            mem_read_tab[36+j][i] = lo_read;
+            mem_read_tab[37+j][i] = lo_read;
+            mem_read_tab[38+j][i] = lo_read;
+            mem_read_tab[39+j][i] = lo_read;
+            mem_read_tab[40+j][i] = lo_read;
+            mem_read_tab[41+j][i] = lo_read;
+            mem_read_tab[42+j][i] = lo_read;
+            mem_read_tab[43+j][i] = lo_read;
+            mem_read_tab[44+j][i] = lo_read;
+            mem_read_tab[45+j][i] = lo_read;
+            mem_read_tab[46+j][i] = lo_read;
+            mem_read_tab[47+j][i] = lo_read;
+            mem_read_tab[48+j][i] = lo_read;
+            mem_read_tab[49+j][i] = lo_read;
+            mem_read_tab[50+j][i] = lo_read;
+            mem_read_tab[51+j][i] = lo_read;
+            mem_read_tab[52+j][i] = lo_read;
+            mem_read_tab[53+j][i] = lo_read;
+            mem_read_tab[54+j][i] = lo_read;
+            mem_read_tab[55+j][i] = lo_read;
+            mem_read_tab[56+j][i] = lo_read;
+            mem_read_tab[57+j][i] = lo_read;
+            mem_read_tab[58+j][i] = lo_read;
+            mem_read_tab[59+j][i] = lo_read;
+            mem_read_tab[60+j][i] = lo_read;
+            mem_read_tab[61+j][i] = lo_read;
+            mem_read_tab[62+j][i] = lo_read;
+            mem_read_tab[63+j][i] = lo_read;
+            mem_write_tab[0+j][i] = ram_store;
+            mem_write_tab[1+j][i] = ram_store;
+            mem_write_tab[2+j][i] = ram_store;
+            mem_write_tab[3+j][i] = ram_store;
+            mem_write_tab[4+j][i] = ram_store;
+            mem_write_tab[5+j][i] = ram_store;
+            mem_write_tab[6+j][i] = ram_store;
+            mem_write_tab[7+j][i] = ram_store;
+            mem_write_tab[8+j][i] = ram_store;
+            mem_write_tab[9+j][i] = ram_store;
+            mem_write_tab[10+j][i] = ram_store;
+            mem_write_tab[11+j][i] = ram_store;
+            mem_write_tab[12+j][i] = ram_store;
+            mem_write_tab[13+j][i] = ram_store;
+            mem_write_tab[14+j][i] = ram_store;
+            mem_write_tab[15+j][i] = ram_store;
+            mem_write_tab[16+j][i] = ram_store;
+            mem_write_tab[17+j][i] = ram_store;
+            mem_write_tab[18+j][i] = ram_store;
+            mem_write_tab[19+j][i] = ram_store;
+            mem_write_tab[20+j][i] = ram_store;
+            mem_write_tab[21+j][i] = ram_store;
+            mem_write_tab[22+j][i] = ram_store;
+            mem_write_tab[23+j][i] = ram_store;
+            mem_write_tab[24+j][i] = ram_store;
+            mem_write_tab[25+j][i] = ram_store;
+            mem_write_tab[26+j][i] = ram_store;
+            mem_write_tab[27+j][i] = ram_store;
+            mem_write_tab[28+j][i] = ram_store;
+            mem_write_tab[29+j][i] = ram_store;
+            mem_write_tab[30+j][i] = ram_store;
+            mem_write_tab[31+j][i] = ram_store;
+            mem_write_tab[32+j][i] = lo_store;
+            mem_write_tab[33+j][i] = lo_store;
+            mem_write_tab[34+j][i] = lo_store;
+            mem_write_tab[35+j][i] = lo_store;
+            mem_write_tab[36+j][i] = lo_store;
+            mem_write_tab[37+j][i] = lo_store;
+            mem_write_tab[38+j][i] = lo_store;
+            mem_write_tab[39+j][i] = lo_store;
+            mem_write_tab[40+j][i] = lo_store;
+            mem_write_tab[41+j][i] = lo_store;
+            mem_write_tab[42+j][i] = lo_store;
+            mem_write_tab[43+j][i] = lo_store;
+            mem_write_tab[44+j][i] = lo_store;
+            mem_write_tab[45+j][i] = lo_store;
+            mem_write_tab[46+j][i] = lo_store;
+            mem_write_tab[47+j][i] = lo_store;
+            mem_write_tab[48+j][i] = lo_store;
+            mem_write_tab[49+j][i] = lo_store;
+            mem_write_tab[50+j][i] = lo_store;
+            mem_write_tab[51+j][i] = lo_store;
+            mem_write_tab[52+j][i] = lo_store;
+            mem_write_tab[53+j][i] = lo_store;
+            mem_write_tab[54+j][i] = lo_store;
+            mem_write_tab[55+j][i] = lo_store;
+            mem_write_tab[56+j][i] = lo_store;
+            mem_write_tab[57+j][i] = lo_store;
+            mem_write_tab[58+j][i] = lo_store;
+            mem_write_tab[59+j][i] = lo_store;
+            mem_write_tab[60+j][i] = lo_store;
+            mem_write_tab[61+j][i] = lo_store;
+            mem_write_tab[62+j][i] = lo_store;
+            mem_write_tab[63+j][i] = lo_store;
             mem_read_base_tab[0+j][i] = ram + (i << 8);
             mem_read_base_tab[1+j][i] = ram + (i << 8);
             mem_read_base_tab[2+j][i] = ram + (i << 8);
@@ -877,134 +877,134 @@ void mem_initialize_memory(void)
         }
 
         for (i = 0x40; i <= 0x7f; i++) {
-            mem_read_tab[0+j][i] = read_ram;
-            mem_read_tab[1+j][i] = read_basic_lo;
-            mem_read_tab[2+j][i] = read_ram;
-            mem_read_tab[3+j][i] = read_basic_lo;
-            mem_read_tab[4+j][i] = read_ram;
-            mem_read_tab[5+j][i] = read_basic_lo;
-            mem_read_tab[6+j][i] = read_ram;
-            mem_read_tab[7+j][i] = read_basic_lo;
-            mem_read_tab[8+j][i] = read_ram;
-            mem_read_tab[9+j][i] = read_basic_lo;
-            mem_read_tab[10+j][i] = read_ram;
-            mem_read_tab[11+j][i] = read_basic_lo;
-            mem_read_tab[12+j][i] = read_ram;
-            mem_read_tab[13+j][i] = read_basic_lo;
-            mem_read_tab[14+j][i] = read_ram;
-            mem_read_tab[15+j][i] = read_basic_lo;
-            mem_read_tab[16+j][i] = read_ram;
-            mem_read_tab[17+j][i] = read_basic_lo;
-            mem_read_tab[18+j][i] = read_ram;
-            mem_read_tab[19+j][i] = read_basic_lo;
-            mem_read_tab[20+j][i] = read_ram;
-            mem_read_tab[21+j][i] = read_basic_lo;
-            mem_read_tab[22+j][i] = read_ram;
-            mem_read_tab[23+j][i] = read_basic_lo;
-            mem_read_tab[24+j][i] = read_ram;
-            mem_read_tab[25+j][i] = read_basic_lo;
-            mem_read_tab[26+j][i] = read_ram;
-            mem_read_tab[27+j][i] = read_basic_lo;
-            mem_read_tab[28+j][i] = read_ram;
-            mem_read_tab[29+j][i] = read_basic_lo;
-            mem_read_tab[30+j][i] = read_ram;
-            mem_read_tab[31+j][i] = read_basic_lo;
-            mem_read_tab[32+j][i] = read_ram;
-            mem_read_tab[33+j][i] = read_basic_lo;
-            mem_read_tab[34+j][i] = read_ram;
-            mem_read_tab[35+j][i] = read_basic_lo;
-            mem_read_tab[36+j][i] = read_ram;
-            mem_read_tab[37+j][i] = read_basic_lo;
-            mem_read_tab[38+j][i] = read_ram;
-            mem_read_tab[39+j][i] = read_basic_lo;
-            mem_read_tab[40+j][i] = read_ram;
-            mem_read_tab[41+j][i] = read_basic_lo;
-            mem_read_tab[42+j][i] = read_ram;
-            mem_read_tab[43+j][i] = read_basic_lo;
-            mem_read_tab[44+j][i] = read_ram;
-            mem_read_tab[45+j][i] = read_basic_lo;
-            mem_read_tab[46+j][i] = read_ram;
-            mem_read_tab[47+j][i] = read_basic_lo;
-            mem_read_tab[48+j][i] = read_ram;
-            mem_read_tab[49+j][i] = read_basic_lo;
-            mem_read_tab[50+j][i] = read_ram;
-            mem_read_tab[51+j][i] = read_basic_lo;
-            mem_read_tab[52+j][i] = read_ram;
-            mem_read_tab[53+j][i] = read_basic_lo;
-            mem_read_tab[54+j][i] = read_ram;
-            mem_read_tab[55+j][i] = read_basic_lo;
-            mem_read_tab[56+j][i] = read_ram;
-            mem_read_tab[57+j][i] = read_basic_lo;
-            mem_read_tab[58+j][i] = read_ram;
-            mem_read_tab[59+j][i] = read_basic_lo;
-            mem_read_tab[60+j][i] = read_ram;
-            mem_read_tab[61+j][i] = read_basic_lo;
-            mem_read_tab[62+j][i] = read_ram;
-            mem_read_tab[63+j][i] = read_basic_lo;
-            mem_write_tab[0+j][i] = store_ram;
-            mem_write_tab[1+j][i] = store_basic_lo;
-            mem_write_tab[2+j][i] = store_ram;
-            mem_write_tab[3+j][i] = store_basic_lo;
-            mem_write_tab[4+j][i] = store_ram;
-            mem_write_tab[5+j][i] = store_basic_lo;
-            mem_write_tab[6+j][i] = store_ram;
-            mem_write_tab[7+j][i] = store_basic_lo;
-            mem_write_tab[8+j][i] = store_ram;
-            mem_write_tab[9+j][i] = store_basic_lo;
-            mem_write_tab[10+j][i] = store_ram;
-            mem_write_tab[11+j][i] = store_basic_lo;
-            mem_write_tab[12+j][i] = store_ram;
-            mem_write_tab[13+j][i] = store_basic_lo;
-            mem_write_tab[14+j][i] = store_ram;
-            mem_write_tab[15+j][i] = store_basic_lo;
-            mem_write_tab[16+j][i] = store_ram;
-            mem_write_tab[17+j][i] = store_basic_lo;
-            mem_write_tab[18+j][i] = store_ram;
-            mem_write_tab[19+j][i] = store_basic_lo;
-            mem_write_tab[20+j][i] = store_ram;
-            mem_write_tab[21+j][i] = store_basic_lo;
-            mem_write_tab[22+j][i] = store_ram;
-            mem_write_tab[23+j][i] = store_basic_lo;
-            mem_write_tab[24+j][i] = store_ram;
-            mem_write_tab[25+j][i] = store_basic_lo;
-            mem_write_tab[26+j][i] = store_ram;
-            mem_write_tab[27+j][i] = store_basic_lo;
-            mem_write_tab[28+j][i] = store_ram;
-            mem_write_tab[29+j][i] = store_basic_lo;
-            mem_write_tab[30+j][i] = store_ram;
-            mem_write_tab[31+j][i] = store_basic_lo;
-            mem_write_tab[32+j][i] = store_ram;
-            mem_write_tab[33+j][i] = store_basic_lo;
-            mem_write_tab[34+j][i] = store_ram;
-            mem_write_tab[35+j][i] = store_basic_lo;
-            mem_write_tab[36+j][i] = store_ram;
-            mem_write_tab[37+j][i] = store_basic_lo;
-            mem_write_tab[38+j][i] = store_ram;
-            mem_write_tab[39+j][i] = store_basic_lo;
-            mem_write_tab[40+j][i] = store_ram;
-            mem_write_tab[41+j][i] = store_basic_lo;
-            mem_write_tab[42+j][i] = store_ram;
-            mem_write_tab[43+j][i] = store_basic_lo;
-            mem_write_tab[44+j][i] = store_ram;
-            mem_write_tab[45+j][i] = store_basic_lo;
-            mem_write_tab[46+j][i] = store_ram;
-            mem_write_tab[47+j][i] = store_basic_lo;
-            mem_write_tab[48+j][i] = store_ram;
-            mem_write_tab[49+j][i] = store_basic_lo;
-            mem_write_tab[50+j][i] = store_ram;
-            mem_write_tab[51+j][i] = store_basic_lo;
-            mem_write_tab[52+j][i] = store_ram;
-            mem_write_tab[53+j][i] = store_basic_lo;
-            mem_write_tab[54+j][i] = store_ram;
-            mem_write_tab[55+j][i] = store_basic_lo;
-            mem_write_tab[56+j][i] = store_ram;
-            mem_write_tab[57+j][i] = store_basic_lo;
-            mem_write_tab[58+j][i] = store_ram;
-            mem_write_tab[59+j][i] = store_basic_lo;
-            mem_write_tab[60+j][i] = store_ram;
-            mem_write_tab[61+j][i] = store_basic_lo;
-            mem_write_tab[62+j][i] = store_ram;
-            mem_write_tab[63+j][i] = store_basic_lo;
+            mem_read_tab[0+j][i] = ram_read;
+            mem_read_tab[1+j][i] = basic_lo_read;
+            mem_read_tab[2+j][i] = ram_read;
+            mem_read_tab[3+j][i] = basic_lo_read;
+            mem_read_tab[4+j][i] = ram_read;
+            mem_read_tab[5+j][i] = basic_lo_read;
+            mem_read_tab[6+j][i] = ram_read;
+            mem_read_tab[7+j][i] = basic_lo_read;
+            mem_read_tab[8+j][i] = ram_read;
+            mem_read_tab[9+j][i] = basic_lo_read;
+            mem_read_tab[10+j][i] = ram_read;
+            mem_read_tab[11+j][i] = basic_lo_read;
+            mem_read_tab[12+j][i] = ram_read;
+            mem_read_tab[13+j][i] = basic_lo_read;
+            mem_read_tab[14+j][i] = ram_read;
+            mem_read_tab[15+j][i] = basic_lo_read;
+            mem_read_tab[16+j][i] = ram_read;
+            mem_read_tab[17+j][i] = basic_lo_read;
+            mem_read_tab[18+j][i] = ram_read;
+            mem_read_tab[19+j][i] = basic_lo_read;
+            mem_read_tab[20+j][i] = ram_read;
+            mem_read_tab[21+j][i] = basic_lo_read;
+            mem_read_tab[22+j][i] = ram_read;
+            mem_read_tab[23+j][i] = basic_lo_read;
+            mem_read_tab[24+j][i] = ram_read;
+            mem_read_tab[25+j][i] = basic_lo_read;
+            mem_read_tab[26+j][i] = ram_read;
+            mem_read_tab[27+j][i] = basic_lo_read;
+            mem_read_tab[28+j][i] = ram_read;
+            mem_read_tab[29+j][i] = basic_lo_read;
+            mem_read_tab[30+j][i] = ram_read;
+            mem_read_tab[31+j][i] = basic_lo_read;
+            mem_read_tab[32+j][i] = ram_read;
+            mem_read_tab[33+j][i] = basic_lo_read;
+            mem_read_tab[34+j][i] = ram_read;
+            mem_read_tab[35+j][i] = basic_lo_read;
+            mem_read_tab[36+j][i] = ram_read;
+            mem_read_tab[37+j][i] = basic_lo_read;
+            mem_read_tab[38+j][i] = ram_read;
+            mem_read_tab[39+j][i] = basic_lo_read;
+            mem_read_tab[40+j][i] = ram_read;
+            mem_read_tab[41+j][i] = basic_lo_read;
+            mem_read_tab[42+j][i] = ram_read;
+            mem_read_tab[43+j][i] = basic_lo_read;
+            mem_read_tab[44+j][i] = ram_read;
+            mem_read_tab[45+j][i] = basic_lo_read;
+            mem_read_tab[46+j][i] = ram_read;
+            mem_read_tab[47+j][i] = basic_lo_read;
+            mem_read_tab[48+j][i] = ram_read;
+            mem_read_tab[49+j][i] = basic_lo_read;
+            mem_read_tab[50+j][i] = ram_read;
+            mem_read_tab[51+j][i] = basic_lo_read;
+            mem_read_tab[52+j][i] = ram_read;
+            mem_read_tab[53+j][i] = basic_lo_read;
+            mem_read_tab[54+j][i] = ram_read;
+            mem_read_tab[55+j][i] = basic_lo_read;
+            mem_read_tab[56+j][i] = ram_read;
+            mem_read_tab[57+j][i] = basic_lo_read;
+            mem_read_tab[58+j][i] = ram_read;
+            mem_read_tab[59+j][i] = basic_lo_read;
+            mem_read_tab[60+j][i] = ram_read;
+            mem_read_tab[61+j][i] = basic_lo_read;
+            mem_read_tab[62+j][i] = ram_read;
+            mem_read_tab[63+j][i] = basic_lo_read;
+            mem_write_tab[0+j][i] = ram_store;
+            mem_write_tab[1+j][i] = basic_lo_store;
+            mem_write_tab[2+j][i] = ram_store;
+            mem_write_tab[3+j][i] = basic_lo_store;
+            mem_write_tab[4+j][i] = ram_store;
+            mem_write_tab[5+j][i] = basic_lo_store;
+            mem_write_tab[6+j][i] = ram_store;
+            mem_write_tab[7+j][i] = basic_lo_store;
+            mem_write_tab[8+j][i] = ram_store;
+            mem_write_tab[9+j][i] = basic_lo_store;
+            mem_write_tab[10+j][i] = ram_store;
+            mem_write_tab[11+j][i] = basic_lo_store;
+            mem_write_tab[12+j][i] = ram_store;
+            mem_write_tab[13+j][i] = basic_lo_store;
+            mem_write_tab[14+j][i] = ram_store;
+            mem_write_tab[15+j][i] = basic_lo_store;
+            mem_write_tab[16+j][i] = ram_store;
+            mem_write_tab[17+j][i] = basic_lo_store;
+            mem_write_tab[18+j][i] = ram_store;
+            mem_write_tab[19+j][i] = basic_lo_store;
+            mem_write_tab[20+j][i] = ram_store;
+            mem_write_tab[21+j][i] = basic_lo_store;
+            mem_write_tab[22+j][i] = ram_store;
+            mem_write_tab[23+j][i] = basic_lo_store;
+            mem_write_tab[24+j][i] = ram_store;
+            mem_write_tab[25+j][i] = basic_lo_store;
+            mem_write_tab[26+j][i] = ram_store;
+            mem_write_tab[27+j][i] = basic_lo_store;
+            mem_write_tab[28+j][i] = ram_store;
+            mem_write_tab[29+j][i] = basic_lo_store;
+            mem_write_tab[30+j][i] = ram_store;
+            mem_write_tab[31+j][i] = basic_lo_store;
+            mem_write_tab[32+j][i] = ram_store;
+            mem_write_tab[33+j][i] = basic_lo_store;
+            mem_write_tab[34+j][i] = ram_store;
+            mem_write_tab[35+j][i] = basic_lo_store;
+            mem_write_tab[36+j][i] = ram_store;
+            mem_write_tab[37+j][i] = basic_lo_store;
+            mem_write_tab[38+j][i] = ram_store;
+            mem_write_tab[39+j][i] = basic_lo_store;
+            mem_write_tab[40+j][i] = ram_store;
+            mem_write_tab[41+j][i] = basic_lo_store;
+            mem_write_tab[42+j][i] = ram_store;
+            mem_write_tab[43+j][i] = basic_lo_store;
+            mem_write_tab[44+j][i] = ram_store;
+            mem_write_tab[45+j][i] = basic_lo_store;
+            mem_write_tab[46+j][i] = ram_store;
+            mem_write_tab[47+j][i] = basic_lo_store;
+            mem_write_tab[48+j][i] = ram_store;
+            mem_write_tab[49+j][i] = basic_lo_store;
+            mem_write_tab[50+j][i] = ram_store;
+            mem_write_tab[51+j][i] = basic_lo_store;
+            mem_write_tab[52+j][i] = ram_store;
+            mem_write_tab[53+j][i] = basic_lo_store;
+            mem_write_tab[54+j][i] = ram_store;
+            mem_write_tab[55+j][i] = basic_lo_store;
+            mem_write_tab[56+j][i] = ram_store;
+            mem_write_tab[57+j][i] = basic_lo_store;
+            mem_write_tab[58+j][i] = ram_store;
+            mem_write_tab[59+j][i] = basic_lo_store;
+            mem_write_tab[60+j][i] = ram_store;
+            mem_write_tab[61+j][i] = basic_lo_store;
+            mem_write_tab[62+j][i] = ram_store;
+            mem_write_tab[63+j][i] = basic_lo_store;
             mem_read_base_tab[0+j][i] = ram + (i << 8);
             mem_read_base_tab[1+j][i] = basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[2+j][i] = ram + (i << 8);
@@ -1072,134 +1072,134 @@ void mem_initialize_memory(void)
         }
 
         for (i = 0x80; i <= 0xbf; i++) {
-            mem_read_tab[0+j][i] = read_basic_hi;
-            mem_read_tab[1+j][i] = read_basic_hi;
+            mem_read_tab[0+j][i] = basic_hi_read;
+            mem_read_tab[1+j][i] = basic_hi_read;
             mem_read_tab[2+j][i] = internal_function_rom_read;
             mem_read_tab[3+j][i] = internal_function_rom_read;
             mem_read_tab[4+j][i] = external_function_rom_read;
             mem_read_tab[5+j][i] = external_function_rom_read;
-            mem_read_tab[6+j][i] = read_ram;
-            mem_read_tab[7+j][i] = read_ram;
-            mem_read_tab[8+j][i] = read_basic_hi;
-            mem_read_tab[9+j][i] = read_basic_hi;
+            mem_read_tab[6+j][i] = ram_read;
+            mem_read_tab[7+j][i] = ram_read;
+            mem_read_tab[8+j][i] = basic_hi_read;
+            mem_read_tab[9+j][i] = basic_hi_read;
             mem_read_tab[10+j][i] = internal_function_rom_read;
             mem_read_tab[11+j][i] = internal_function_rom_read;
             mem_read_tab[12+j][i] = external_function_rom_read;
             mem_read_tab[13+j][i] = external_function_rom_read;
-            mem_read_tab[14+j][i] = read_ram;
-            mem_read_tab[15+j][i] = read_ram;
-            mem_read_tab[16+j][i] = read_basic_hi;
-            mem_read_tab[17+j][i] = read_basic_hi;
+            mem_read_tab[14+j][i] = ram_read;
+            mem_read_tab[15+j][i] = ram_read;
+            mem_read_tab[16+j][i] = basic_hi_read;
+            mem_read_tab[17+j][i] = basic_hi_read;
             mem_read_tab[18+j][i] = internal_function_rom_read;
             mem_read_tab[19+j][i] = internal_function_rom_read;
             mem_read_tab[20+j][i] = external_function_rom_read;
             mem_read_tab[21+j][i] = external_function_rom_read;
-            mem_read_tab[22+j][i] = read_ram;
-            mem_read_tab[23+j][i] = read_ram;
-            mem_read_tab[24+j][i] = read_basic_hi;
-            mem_read_tab[25+j][i] = read_basic_hi;
+            mem_read_tab[22+j][i] = ram_read;
+            mem_read_tab[23+j][i] = ram_read;
+            mem_read_tab[24+j][i] = basic_hi_read;
+            mem_read_tab[25+j][i] = basic_hi_read;
             mem_read_tab[26+j][i] = internal_function_rom_read;
             mem_read_tab[27+j][i] = internal_function_rom_read;
             mem_read_tab[28+j][i] = external_function_rom_read;
             mem_read_tab[29+j][i] = external_function_rom_read;
-            mem_read_tab[30+j][i] = read_ram;
-            mem_read_tab[31+j][i] = read_ram;
-            mem_read_tab[32+j][i] = read_basic_hi;
-            mem_read_tab[33+j][i] = read_basic_hi;
+            mem_read_tab[30+j][i] = ram_read;
+            mem_read_tab[31+j][i] = ram_read;
+            mem_read_tab[32+j][i] = basic_hi_read;
+            mem_read_tab[33+j][i] = basic_hi_read;
             mem_read_tab[34+j][i] = internal_function_rom_read;
             mem_read_tab[35+j][i] = internal_function_rom_read;
             mem_read_tab[36+j][i] = external_function_rom_read;
             mem_read_tab[37+j][i] = external_function_rom_read;
-            mem_read_tab[38+j][i] = read_ram;
-            mem_read_tab[39+j][i] = read_ram;
-            mem_read_tab[40+j][i] = read_basic_hi;
-            mem_read_tab[41+j][i] = read_basic_hi;
+            mem_read_tab[38+j][i] = ram_read;
+            mem_read_tab[39+j][i] = ram_read;
+            mem_read_tab[40+j][i] = basic_hi_read;
+            mem_read_tab[41+j][i] = basic_hi_read;
             mem_read_tab[42+j][i] = internal_function_rom_read;
             mem_read_tab[43+j][i] = internal_function_rom_read;
             mem_read_tab[44+j][i] = external_function_rom_read;
             mem_read_tab[45+j][i] = external_function_rom_read;
-            mem_read_tab[46+j][i] = read_ram;
-            mem_read_tab[47+j][i] = read_ram;
-            mem_read_tab[48+j][i] = read_basic_hi;
-            mem_read_tab[49+j][i] = read_basic_hi;
+            mem_read_tab[46+j][i] = ram_read;
+            mem_read_tab[47+j][i] = ram_read;
+            mem_read_tab[48+j][i] = basic_hi_read;
+            mem_read_tab[49+j][i] = basic_hi_read;
             mem_read_tab[50+j][i] = internal_function_rom_read;
             mem_read_tab[51+j][i] = internal_function_rom_read;
             mem_read_tab[52+j][i] = external_function_rom_read;
             mem_read_tab[53+j][i] = external_function_rom_read;
-            mem_read_tab[54+j][i] = read_ram;
-            mem_read_tab[55+j][i] = read_ram;
-            mem_read_tab[56+j][i] = read_basic_hi;
-            mem_read_tab[57+j][i] = read_basic_hi;
+            mem_read_tab[54+j][i] = ram_read;
+            mem_read_tab[55+j][i] = ram_read;
+            mem_read_tab[56+j][i] = basic_hi_read;
+            mem_read_tab[57+j][i] = basic_hi_read;
             mem_read_tab[58+j][i] = internal_function_rom_read;
             mem_read_tab[59+j][i] = internal_function_rom_read;
             mem_read_tab[60+j][i] = external_function_rom_read;
             mem_read_tab[61+j][i] = external_function_rom_read;
-            mem_read_tab[62+j][i] = read_ram;
-            mem_read_tab[63+j][i] = read_ram;
-            mem_write_tab[0+j][i] = store_basic_hi;
-            mem_write_tab[1+j][i] = store_basic_hi;
-            mem_write_tab[2+j][i] = store_ram;
-            mem_write_tab[3+j][i] = store_ram;
-            mem_write_tab[4+j][i] = store_ram;
-            mem_write_tab[5+j][i] = store_ram;
-            mem_write_tab[6+j][i] = store_ram;
-            mem_write_tab[7+j][i] = store_ram;
-            mem_write_tab[8+j][i] = store_basic_hi;
-            mem_write_tab[9+j][i] = store_basic_hi;
-            mem_write_tab[10+j][i] = store_ram;
-            mem_write_tab[11+j][i] = store_ram;
-            mem_write_tab[12+j][i] = store_ram;
-            mem_write_tab[13+j][i] = store_ram;
-            mem_write_tab[14+j][i] = store_ram;
-            mem_write_tab[15+j][i] = store_ram;
-            mem_write_tab[16+j][i] = store_basic_hi;
-            mem_write_tab[17+j][i] = store_basic_hi;
-            mem_write_tab[18+j][i] = store_ram;
-            mem_write_tab[19+j][i] = store_ram;
-            mem_write_tab[20+j][i] = store_ram;
-            mem_write_tab[21+j][i] = store_ram;
-            mem_write_tab[22+j][i] = store_ram;
-            mem_write_tab[23+j][i] = store_ram;
-            mem_write_tab[24+j][i] = store_basic_hi;
-            mem_write_tab[25+j][i] = store_basic_hi;
-            mem_write_tab[26+j][i] = store_ram;
-            mem_write_tab[27+j][i] = store_ram;
-            mem_write_tab[28+j][i] = store_ram;
-            mem_write_tab[29+j][i] = store_ram;
-            mem_write_tab[30+j][i] = store_ram;
-            mem_write_tab[31+j][i] = store_ram;
-            mem_write_tab[32+j][i] = store_basic_hi;
-            mem_write_tab[33+j][i] = store_basic_hi;
-            mem_write_tab[34+j][i] = store_ram;
-            mem_write_tab[35+j][i] = store_ram;
-            mem_write_tab[36+j][i] = store_ram;
-            mem_write_tab[37+j][i] = store_ram;
-            mem_write_tab[38+j][i] = store_ram;
-            mem_write_tab[39+j][i] = store_ram;
-            mem_write_tab[40+j][i] = store_basic_hi;
-            mem_write_tab[41+j][i] = store_basic_hi;
-            mem_write_tab[42+j][i] = store_ram;
-            mem_write_tab[43+j][i] = store_ram;
-            mem_write_tab[44+j][i] = store_ram;
-            mem_write_tab[45+j][i] = store_ram;
-            mem_write_tab[46+j][i] = store_ram;
-            mem_write_tab[47+j][i] = store_ram;
-            mem_write_tab[48+j][i] = store_basic_hi;
-            mem_write_tab[49+j][i] = store_basic_hi;
-            mem_write_tab[50+j][i] = store_ram;
-            mem_write_tab[51+j][i] = store_ram;
-            mem_write_tab[52+j][i] = store_ram;
-            mem_write_tab[53+j][i] = store_ram;
-            mem_write_tab[54+j][i] = store_ram;
-            mem_write_tab[55+j][i] = store_ram;
-            mem_write_tab[56+j][i] = store_basic_hi;
-            mem_write_tab[57+j][i] = store_basic_hi;
-            mem_write_tab[58+j][i] = store_ram;
-            mem_write_tab[59+j][i] = store_ram;
-            mem_write_tab[60+j][i] = store_ram;
-            mem_write_tab[61+j][i] = store_ram;
-            mem_write_tab[62+j][i] = store_ram;
-            mem_write_tab[63+j][i] = store_ram;
+            mem_read_tab[62+j][i] = ram_read;
+            mem_read_tab[63+j][i] = ram_read;
+            mem_write_tab[0+j][i] = basic_hi_store;
+            mem_write_tab[1+j][i] = basic_hi_store;
+            mem_write_tab[2+j][i] = ram_store;
+            mem_write_tab[3+j][i] = ram_store;
+            mem_write_tab[4+j][i] = ram_store;
+            mem_write_tab[5+j][i] = ram_store;
+            mem_write_tab[6+j][i] = ram_store;
+            mem_write_tab[7+j][i] = ram_store;
+            mem_write_tab[8+j][i] = basic_hi_store;
+            mem_write_tab[9+j][i] = basic_hi_store;
+            mem_write_tab[10+j][i] = ram_store;
+            mem_write_tab[11+j][i] = ram_store;
+            mem_write_tab[12+j][i] = ram_store;
+            mem_write_tab[13+j][i] = ram_store;
+            mem_write_tab[14+j][i] = ram_store;
+            mem_write_tab[15+j][i] = ram_store;
+            mem_write_tab[16+j][i] = basic_hi_store;
+            mem_write_tab[17+j][i] = basic_hi_store;
+            mem_write_tab[18+j][i] = ram_store;
+            mem_write_tab[19+j][i] = ram_store;
+            mem_write_tab[20+j][i] = ram_store;
+            mem_write_tab[21+j][i] = ram_store;
+            mem_write_tab[22+j][i] = ram_store;
+            mem_write_tab[23+j][i] = ram_store;
+            mem_write_tab[24+j][i] = basic_hi_store;
+            mem_write_tab[25+j][i] = basic_hi_store;
+            mem_write_tab[26+j][i] = ram_store;
+            mem_write_tab[27+j][i] = ram_store;
+            mem_write_tab[28+j][i] = ram_store;
+            mem_write_tab[29+j][i] = ram_store;
+            mem_write_tab[30+j][i] = ram_store;
+            mem_write_tab[31+j][i] = ram_store;
+            mem_write_tab[32+j][i] = basic_hi_store;
+            mem_write_tab[33+j][i] = basic_hi_store;
+            mem_write_tab[34+j][i] = ram_store;
+            mem_write_tab[35+j][i] = ram_store;
+            mem_write_tab[36+j][i] = ram_store;
+            mem_write_tab[37+j][i] = ram_store;
+            mem_write_tab[38+j][i] = ram_store;
+            mem_write_tab[39+j][i] = ram_store;
+            mem_write_tab[40+j][i] = basic_hi_store;
+            mem_write_tab[41+j][i] = basic_hi_store;
+            mem_write_tab[42+j][i] = ram_store;
+            mem_write_tab[43+j][i] = ram_store;
+            mem_write_tab[44+j][i] = ram_store;
+            mem_write_tab[45+j][i] = ram_store;
+            mem_write_tab[46+j][i] = ram_store;
+            mem_write_tab[47+j][i] = ram_store;
+            mem_write_tab[48+j][i] = basic_hi_store;
+            mem_write_tab[49+j][i] = basic_hi_store;
+            mem_write_tab[50+j][i] = ram_store;
+            mem_write_tab[51+j][i] = ram_store;
+            mem_write_tab[52+j][i] = ram_store;
+            mem_write_tab[53+j][i] = ram_store;
+            mem_write_tab[54+j][i] = ram_store;
+            mem_write_tab[55+j][i] = ram_store;
+            mem_write_tab[56+j][i] = basic_hi_store;
+            mem_write_tab[57+j][i] = basic_hi_store;
+            mem_write_tab[58+j][i] = ram_store;
+            mem_write_tab[59+j][i] = ram_store;
+            mem_write_tab[60+j][i] = ram_store;
+            mem_write_tab[61+j][i] = ram_store;
+            mem_write_tab[62+j][i] = ram_store;
+            mem_write_tab[63+j][i] = ram_store;
             mem_read_base_tab[0+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[1+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[2+j][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -1267,14 +1267,14 @@ void mem_initialize_memory(void)
         }
 
         for (i = 0xc0; i <= 0xcf; i++) {
-            mem_read_tab[0+j][i] = read_editor;
-            mem_read_tab[1+j][i] = read_editor;
-            mem_read_tab[2+j][i] = read_editor;
-            mem_read_tab[3+j][i] = read_editor;
-            mem_read_tab[4+j][i] = read_editor;
-            mem_read_tab[5+j][i] = read_editor;
-            mem_read_tab[6+j][i] = read_editor;
-            mem_read_tab[7+j][i] = read_editor;
+            mem_read_tab[0+j][i] = editor_read;
+            mem_read_tab[1+j][i] = editor_read;
+            mem_read_tab[2+j][i] = editor_read;
+            mem_read_tab[3+j][i] = editor_read;
+            mem_read_tab[4+j][i] = editor_read;
+            mem_read_tab[5+j][i] = editor_read;
+            mem_read_tab[6+j][i] = editor_read;
+            mem_read_tab[7+j][i] = editor_read;
             mem_read_tab[8+j][i] = internal_function_rom_read;
             mem_read_tab[9+j][i] = internal_function_rom_read;
             mem_read_tab[10+j][i] = internal_function_rom_read;
@@ -1283,30 +1283,30 @@ void mem_initialize_memory(void)
             mem_read_tab[13+j][i] = internal_function_rom_read;
             mem_read_tab[14+j][i] = internal_function_rom_read;
             mem_read_tab[15+j][i] = internal_function_rom_read;
-            mem_read_tab[16+j][i] = read_ram;
-            mem_read_tab[17+j][i] = read_ram;
-            mem_read_tab[18+j][i] = read_ram;
-            mem_read_tab[19+j][i] = read_ram;
-            mem_read_tab[20+j][i] = read_ram;
-            mem_read_tab[21+j][i] = read_ram;
-            mem_read_tab[22+j][i] = read_ram;
-            mem_read_tab[23+j][i] = read_ram;
-            mem_read_tab[24+j][i] = read_ram;
-            mem_read_tab[25+j][i] = read_ram;
-            mem_read_tab[26+j][i] = read_ram;
-            mem_read_tab[27+j][i] = read_ram;
-            mem_read_tab[28+j][i] = read_ram;
-            mem_read_tab[29+j][i] = read_ram;
-            mem_read_tab[30+j][i] = read_ram;
-            mem_read_tab[31+j][i] = read_ram;
-            mem_read_tab[32+j][i] = read_editor;
-            mem_read_tab[33+j][i] = read_editor;
-            mem_read_tab[34+j][i] = read_editor;
-            mem_read_tab[35+j][i] = read_editor;
-            mem_read_tab[36+j][i] = read_editor;
-            mem_read_tab[37+j][i] = read_editor;
-            mem_read_tab[38+j][i] = read_editor;
-            mem_read_tab[39+j][i] = read_editor;
+            mem_read_tab[16+j][i] = ram_read;
+            mem_read_tab[17+j][i] = ram_read;
+            mem_read_tab[18+j][i] = ram_read;
+            mem_read_tab[19+j][i] = ram_read;
+            mem_read_tab[20+j][i] = ram_read;
+            mem_read_tab[21+j][i] = ram_read;
+            mem_read_tab[22+j][i] = ram_read;
+            mem_read_tab[23+j][i] = ram_read;
+            mem_read_tab[24+j][i] = ram_read;
+            mem_read_tab[25+j][i] = ram_read;
+            mem_read_tab[26+j][i] = ram_read;
+            mem_read_tab[27+j][i] = ram_read;
+            mem_read_tab[28+j][i] = ram_read;
+            mem_read_tab[29+j][i] = ram_read;
+            mem_read_tab[30+j][i] = ram_read;
+            mem_read_tab[31+j][i] = ram_read;
+            mem_read_tab[32+j][i] = editor_read;
+            mem_read_tab[33+j][i] = editor_read;
+            mem_read_tab[34+j][i] = editor_read;
+            mem_read_tab[35+j][i] = editor_read;
+            mem_read_tab[36+j][i] = editor_read;
+            mem_read_tab[37+j][i] = editor_read;
+            mem_read_tab[38+j][i] = editor_read;
+            mem_read_tab[39+j][i] = editor_read;
             mem_read_tab[40+j][i] = internal_function_rom_read;
             mem_read_tab[41+j][i] = internal_function_rom_read;
             mem_read_tab[42+j][i] = internal_function_rom_read;
@@ -1315,86 +1315,86 @@ void mem_initialize_memory(void)
             mem_read_tab[45+j][i] = internal_function_rom_read;
             mem_read_tab[46+j][i] = internal_function_rom_read;
             mem_read_tab[47+j][i] = internal_function_rom_read;
-            mem_read_tab[48+j][i] = read_top_shared;
-            mem_read_tab[49+j][i] = read_top_shared;
-            mem_read_tab[50+j][i] = read_top_shared;
-            mem_read_tab[51+j][i] = read_top_shared;
-            mem_read_tab[52+j][i] = read_top_shared;
-            mem_read_tab[53+j][i] = read_top_shared;
-            mem_read_tab[54+j][i] = read_top_shared;
-            mem_read_tab[55+j][i] = read_top_shared;
-            mem_read_tab[56+j][i] = read_top_shared;
-            mem_read_tab[57+j][i] = read_top_shared;
-            mem_read_tab[58+j][i] = read_top_shared;
-            mem_read_tab[59+j][i] = read_top_shared;
-            mem_read_tab[60+j][i] = read_top_shared;
-            mem_read_tab[61+j][i] = read_top_shared;
-            mem_read_tab[62+j][i] = read_top_shared;
-            mem_read_tab[63+j][i] = read_top_shared;
-            mem_write_tab[0+j][i] = store_editor;
-            mem_write_tab[1+j][i] = store_editor;
-            mem_write_tab[2+j][i] = store_editor;
-            mem_write_tab[3+j][i] = store_editor;
-            mem_write_tab[4+j][i] = store_editor;
-            mem_write_tab[5+j][i] = store_editor;
-            mem_write_tab[6+j][i] = store_editor;
-            mem_write_tab[7+j][i] = store_editor;
-            mem_write_tab[8+j][i] = store_ram;
-            mem_write_tab[9+j][i] = store_ram;
-            mem_write_tab[10+j][i] = store_ram;
-            mem_write_tab[11+j][i] = store_ram;
-            mem_write_tab[12+j][i] = store_ram;
-            mem_write_tab[13+j][i] = store_ram;
-            mem_write_tab[14+j][i] = store_ram;
-            mem_write_tab[15+j][i] = store_ram;
-            mem_write_tab[16+j][i] = store_ram;
-            mem_write_tab[17+j][i] = store_ram;
-            mem_write_tab[18+j][i] = store_ram;
-            mem_write_tab[19+j][i] = store_ram;
-            mem_write_tab[20+j][i] = store_ram;
-            mem_write_tab[21+j][i] = store_ram;
-            mem_write_tab[22+j][i] = store_ram;
-            mem_write_tab[23+j][i] = store_ram;
-            mem_write_tab[24+j][i] = store_ram;
-            mem_write_tab[25+j][i] = store_ram;
-            mem_write_tab[26+j][i] = store_ram;
-            mem_write_tab[27+j][i] = store_ram;
-            mem_write_tab[28+j][i] = store_ram;
-            mem_write_tab[29+j][i] = store_ram;
-            mem_write_tab[30+j][i] = store_ram;
-            mem_write_tab[31+j][i] = store_ram;
-            mem_write_tab[32+j][i] = store_editor;
-            mem_write_tab[33+j][i] = store_editor;
-            mem_write_tab[34+j][i] = store_editor;
-            mem_write_tab[35+j][i] = store_editor;
-            mem_write_tab[36+j][i] = store_editor;
-            mem_write_tab[37+j][i] = store_editor;
-            mem_write_tab[38+j][i] = store_editor;
-            mem_write_tab[39+j][i] = store_editor;
-            mem_write_tab[40+j][i] = store_top_shared;
-            mem_write_tab[41+j][i] = store_top_shared;
-            mem_write_tab[42+j][i] = store_top_shared;
-            mem_write_tab[43+j][i] = store_top_shared;
-            mem_write_tab[44+j][i] = store_top_shared;
-            mem_write_tab[45+j][i] = store_top_shared;
-            mem_write_tab[46+j][i] = store_top_shared;
-            mem_write_tab[47+j][i] = store_top_shared;
-            mem_write_tab[48+j][i] = store_top_shared;
-            mem_write_tab[49+j][i] = store_top_shared;
-            mem_write_tab[50+j][i] = store_top_shared;
-            mem_write_tab[51+j][i] = store_top_shared;
-            mem_write_tab[52+j][i] = store_top_shared;
-            mem_write_tab[53+j][i] = store_top_shared;
-            mem_write_tab[54+j][i] = store_top_shared;
-            mem_write_tab[55+j][i] = store_top_shared;
-            mem_write_tab[56+j][i] = store_top_shared;
-            mem_write_tab[57+j][i] = store_top_shared;
-            mem_write_tab[58+j][i] = store_top_shared;
-            mem_write_tab[59+j][i] = store_top_shared;
-            mem_write_tab[60+j][i] = store_top_shared;
-            mem_write_tab[61+j][i] = store_top_shared;
-            mem_write_tab[62+j][i] = store_top_shared;
-            mem_write_tab[63+j][i] = store_top_shared;
+            mem_read_tab[48+j][i] = top_shared_read;
+            mem_read_tab[49+j][i] = top_shared_read;
+            mem_read_tab[50+j][i] = top_shared_read;
+            mem_read_tab[51+j][i] = top_shared_read;
+            mem_read_tab[52+j][i] = top_shared_read;
+            mem_read_tab[53+j][i] = top_shared_read;
+            mem_read_tab[54+j][i] = top_shared_read;
+            mem_read_tab[55+j][i] = top_shared_read;
+            mem_read_tab[56+j][i] = top_shared_read;
+            mem_read_tab[57+j][i] = top_shared_read;
+            mem_read_tab[58+j][i] = top_shared_read;
+            mem_read_tab[59+j][i] = top_shared_read;
+            mem_read_tab[60+j][i] = top_shared_read;
+            mem_read_tab[61+j][i] = top_shared_read;
+            mem_read_tab[62+j][i] = top_shared_read;
+            mem_read_tab[63+j][i] = top_shared_read;
+            mem_write_tab[0+j][i] = editor_store;
+            mem_write_tab[1+j][i] = editor_store;
+            mem_write_tab[2+j][i] = editor_store;
+            mem_write_tab[3+j][i] = editor_store;
+            mem_write_tab[4+j][i] = editor_store;
+            mem_write_tab[5+j][i] = editor_store;
+            mem_write_tab[6+j][i] = editor_store;
+            mem_write_tab[7+j][i] = editor_store;
+            mem_write_tab[8+j][i] = ram_store;
+            mem_write_tab[9+j][i] = ram_store;
+            mem_write_tab[10+j][i] = ram_store;
+            mem_write_tab[11+j][i] = ram_store;
+            mem_write_tab[12+j][i] = ram_store;
+            mem_write_tab[13+j][i] = ram_store;
+            mem_write_tab[14+j][i] = ram_store;
+            mem_write_tab[15+j][i] = ram_store;
+            mem_write_tab[16+j][i] = ram_store;
+            mem_write_tab[17+j][i] = ram_store;
+            mem_write_tab[18+j][i] = ram_store;
+            mem_write_tab[19+j][i] = ram_store;
+            mem_write_tab[20+j][i] = ram_store;
+            mem_write_tab[21+j][i] = ram_store;
+            mem_write_tab[22+j][i] = ram_store;
+            mem_write_tab[23+j][i] = ram_store;
+            mem_write_tab[24+j][i] = ram_store;
+            mem_write_tab[25+j][i] = ram_store;
+            mem_write_tab[26+j][i] = ram_store;
+            mem_write_tab[27+j][i] = ram_store;
+            mem_write_tab[28+j][i] = ram_store;
+            mem_write_tab[29+j][i] = ram_store;
+            mem_write_tab[30+j][i] = ram_store;
+            mem_write_tab[31+j][i] = ram_store;
+            mem_write_tab[32+j][i] = editor_store;
+            mem_write_tab[33+j][i] = editor_store;
+            mem_write_tab[34+j][i] = editor_store;
+            mem_write_tab[35+j][i] = editor_store;
+            mem_write_tab[36+j][i] = editor_store;
+            mem_write_tab[37+j][i] = editor_store;
+            mem_write_tab[38+j][i] = editor_store;
+            mem_write_tab[39+j][i] = editor_store;
+            mem_write_tab[40+j][i] = top_shared_store;
+            mem_write_tab[41+j][i] = top_shared_store;
+            mem_write_tab[42+j][i] = top_shared_store;
+            mem_write_tab[43+j][i] = top_shared_store;
+            mem_write_tab[44+j][i] = top_shared_store;
+            mem_write_tab[45+j][i] = top_shared_store;
+            mem_write_tab[46+j][i] = top_shared_store;
+            mem_write_tab[47+j][i] = top_shared_store;
+            mem_write_tab[48+j][i] = top_shared_store;
+            mem_write_tab[49+j][i] = top_shared_store;
+            mem_write_tab[50+j][i] = top_shared_store;
+            mem_write_tab[51+j][i] = top_shared_store;
+            mem_write_tab[52+j][i] = top_shared_store;
+            mem_write_tab[53+j][i] = top_shared_store;
+            mem_write_tab[54+j][i] = top_shared_store;
+            mem_write_tab[55+j][i] = top_shared_store;
+            mem_write_tab[56+j][i] = top_shared_store;
+            mem_write_tab[57+j][i] = top_shared_store;
+            mem_write_tab[58+j][i] = top_shared_store;
+            mem_write_tab[59+j][i] = top_shared_store;
+            mem_write_tab[60+j][i] = top_shared_store;
+            mem_write_tab[61+j][i] = top_shared_store;
+            mem_write_tab[62+j][i] = top_shared_store;
+            mem_write_tab[63+j][i] = top_shared_store;
             mem_read_base_tab[0+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
             mem_read_base_tab[1+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
             mem_read_base_tab[2+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
@@ -1479,22 +1479,22 @@ void mem_initialize_memory(void)
         mem_read_tab[13][i] = internal_function_rom_read;
         mem_read_tab[14][i] = internal_function_rom_read;
         mem_read_tab[15][i] = internal_function_rom_read;
-        mem_read_tab[16][i] = read_ram;
-        mem_read_tab[17][i] = read_ram;
-        mem_read_tab[18][i] = read_ram;
-        mem_read_tab[19][i] = read_ram;
-        mem_read_tab[20][i] = read_ram;
-        mem_read_tab[21][i] = read_ram;
-        mem_read_tab[22][i] = read_ram;
-        mem_read_tab[23][i] = read_ram;
-        mem_read_tab[24][i] = read_ram;
-        mem_read_tab[25][i] = read_ram;
-        mem_read_tab[26][i] = read_ram;
-        mem_read_tab[27][i] = read_ram;
-        mem_read_tab[28][i] = read_ram;
-        mem_read_tab[29][i] = read_ram;
-        mem_read_tab[30][i] = read_ram;
-        mem_read_tab[31][i] = read_ram;
+        mem_read_tab[16][i] = ram_read;
+        mem_read_tab[17][i] = ram_read;
+        mem_read_tab[18][i] = ram_read;
+        mem_read_tab[19][i] = ram_read;
+        mem_read_tab[20][i] = ram_read;
+        mem_read_tab[21][i] = ram_read;
+        mem_read_tab[22][i] = ram_read;
+        mem_read_tab[23][i] = ram_read;
+        mem_read_tab[24][i] = ram_read;
+        mem_read_tab[25][i] = ram_read;
+        mem_read_tab[26][i] = ram_read;
+        mem_read_tab[27][i] = ram_read;
+        mem_read_tab[28][i] = ram_read;
+        mem_read_tab[29][i] = ram_read;
+        mem_read_tab[30][i] = ram_read;
+        mem_read_tab[31][i] = ram_read;
         mem_read_tab[32][i] = read_chargen;
         mem_read_tab[33][i] = read_chargen;
         mem_read_tab[34][i] = read_chargen;
@@ -1511,86 +1511,86 @@ void mem_initialize_memory(void)
         mem_read_tab[45][i] = internal_function_rom_read;
         mem_read_tab[46][i] = internal_function_rom_read;
         mem_read_tab[47][i] = internal_function_rom_read;
-        mem_read_tab[48][i] = read_top_shared;
-        mem_read_tab[49][i] = read_top_shared;
-        mem_read_tab[50][i] = read_top_shared;
-        mem_read_tab[51][i] = read_top_shared;
-        mem_read_tab[52][i] = read_top_shared;
-        mem_read_tab[53][i] = read_top_shared;
-        mem_read_tab[54][i] = read_top_shared;
-        mem_read_tab[55][i] = read_top_shared;
-        mem_read_tab[56][i] = read_top_shared;
-        mem_read_tab[57][i] = read_top_shared;
-        mem_read_tab[58][i] = read_top_shared;
-        mem_read_tab[59][i] = read_top_shared;
-        mem_read_tab[60][i] = read_top_shared;
-        mem_read_tab[61][i] = read_top_shared;
-        mem_read_tab[62][i] = read_top_shared;
-        mem_read_tab[63][i] = read_top_shared;
-        mem_write_tab[0][i] = store_hi;
-        mem_write_tab[1][i] = store_hi;
-        mem_write_tab[2][i] = store_hi;
-        mem_write_tab[3][i] = store_hi;
-        mem_write_tab[4][i] = store_hi;
-        mem_write_tab[5][i] = store_hi;
-        mem_write_tab[6][i] = store_hi;
-        mem_write_tab[7][i] = store_hi;
-        mem_write_tab[8][i] = store_ram;
-        mem_write_tab[9][i] = store_ram;
-        mem_write_tab[10][i] = store_ram;
-        mem_write_tab[11][i] = store_ram;
-        mem_write_tab[12][i] = store_ram;
-        mem_write_tab[13][i] = store_ram;
-        mem_write_tab[14][i] = store_ram;
-        mem_write_tab[15][i] = store_ram;
-        mem_write_tab[16][i] = store_ram;
-        mem_write_tab[17][i] = store_ram;
-        mem_write_tab[18][i] = store_ram;
-        mem_write_tab[19][i] = store_ram;
-        mem_write_tab[20][i] = store_ram;
-        mem_write_tab[21][i] = store_ram;
-        mem_write_tab[22][i] = store_ram;
-        mem_write_tab[23][i] = store_ram;
-        mem_write_tab[24][i] = store_ram;
-        mem_write_tab[25][i] = store_ram;
-        mem_write_tab[26][i] = store_ram;
-        mem_write_tab[27][i] = store_ram;
-        mem_write_tab[28][i] = store_ram;
-        mem_write_tab[29][i] = store_ram;
-        mem_write_tab[30][i] = store_ram;
-        mem_write_tab[31][i] = store_ram;
-        mem_write_tab[32][i] = store_hi;
-        mem_write_tab[33][i] = store_hi;
-        mem_write_tab[34][i] = store_hi;
-        mem_write_tab[35][i] = store_hi;
-        mem_write_tab[36][i] = store_hi;
-        mem_write_tab[37][i] = store_hi;
-        mem_write_tab[38][i] = store_hi;
-        mem_write_tab[39][i] = store_hi;
-        mem_write_tab[40][i] = store_top_shared;
-        mem_write_tab[41][i] = store_top_shared;
-        mem_write_tab[42][i] = store_top_shared;
-        mem_write_tab[43][i] = store_top_shared;
-        mem_write_tab[44][i] = store_top_shared;
-        mem_write_tab[45][i] = store_top_shared;
-        mem_write_tab[46][i] = store_top_shared;
-        mem_write_tab[47][i] = store_top_shared;
-        mem_write_tab[48][i] = store_top_shared;
-        mem_write_tab[49][i] = store_top_shared;
-        mem_write_tab[50][i] = store_top_shared;
-        mem_write_tab[51][i] = store_top_shared;
-        mem_write_tab[52][i] = store_top_shared;
-        mem_write_tab[53][i] = store_top_shared;
-        mem_write_tab[54][i] = store_top_shared;
-        mem_write_tab[55][i] = store_top_shared;
-        mem_write_tab[56][i] = store_top_shared;
-        mem_write_tab[57][i] = store_top_shared;
-        mem_write_tab[58][i] = store_top_shared;
-        mem_write_tab[59][i] = store_top_shared;
-        mem_write_tab[60][i] = store_top_shared;
-        mem_write_tab[61][i] = store_top_shared;
-        mem_write_tab[62][i] = store_top_shared;
-        mem_write_tab[63][i] = store_top_shared;
+        mem_read_tab[48][i] = top_shared_read;
+        mem_read_tab[49][i] = top_shared_read;
+        mem_read_tab[50][i] = top_shared_read;
+        mem_read_tab[51][i] = top_shared_read;
+        mem_read_tab[52][i] = top_shared_read;
+        mem_read_tab[53][i] = top_shared_read;
+        mem_read_tab[54][i] = top_shared_read;
+        mem_read_tab[55][i] = top_shared_read;
+        mem_read_tab[56][i] = top_shared_read;
+        mem_read_tab[57][i] = top_shared_read;
+        mem_read_tab[58][i] = top_shared_read;
+        mem_read_tab[59][i] = top_shared_read;
+        mem_read_tab[60][i] = top_shared_read;
+        mem_read_tab[61][i] = top_shared_read;
+        mem_read_tab[62][i] = top_shared_read;
+        mem_read_tab[63][i] = top_shared_read;
+        mem_write_tab[0][i] = hi_store;
+        mem_write_tab[1][i] = hi_store;
+        mem_write_tab[2][i] = hi_store;
+        mem_write_tab[3][i] = hi_store;
+        mem_write_tab[4][i] = hi_store;
+        mem_write_tab[5][i] = hi_store;
+        mem_write_tab[6][i] = hi_store;
+        mem_write_tab[7][i] = hi_store;
+        mem_write_tab[8][i] = ram_store;
+        mem_write_tab[9][i] = ram_store;
+        mem_write_tab[10][i] = ram_store;
+        mem_write_tab[11][i] = ram_store;
+        mem_write_tab[12][i] = ram_store;
+        mem_write_tab[13][i] = ram_store;
+        mem_write_tab[14][i] = ram_store;
+        mem_write_tab[15][i] = ram_store;
+        mem_write_tab[16][i] = ram_store;
+        mem_write_tab[17][i] = ram_store;
+        mem_write_tab[18][i] = ram_store;
+        mem_write_tab[19][i] = ram_store;
+        mem_write_tab[20][i] = ram_store;
+        mem_write_tab[21][i] = ram_store;
+        mem_write_tab[22][i] = ram_store;
+        mem_write_tab[23][i] = ram_store;
+        mem_write_tab[24][i] = ram_store;
+        mem_write_tab[25][i] = ram_store;
+        mem_write_tab[26][i] = ram_store;
+        mem_write_tab[27][i] = ram_store;
+        mem_write_tab[28][i] = ram_store;
+        mem_write_tab[29][i] = ram_store;
+        mem_write_tab[30][i] = ram_store;
+        mem_write_tab[31][i] = ram_store;
+        mem_write_tab[32][i] = hi_store;
+        mem_write_tab[33][i] = hi_store;
+        mem_write_tab[34][i] = hi_store;
+        mem_write_tab[35][i] = hi_store;
+        mem_write_tab[36][i] = hi_store;
+        mem_write_tab[37][i] = hi_store;
+        mem_write_tab[38][i] = hi_store;
+        mem_write_tab[39][i] = hi_store;
+        mem_write_tab[40][i] = top_shared_store;
+        mem_write_tab[41][i] = top_shared_store;
+        mem_write_tab[42][i] = top_shared_store;
+        mem_write_tab[43][i] = top_shared_store;
+        mem_write_tab[44][i] = top_shared_store;
+        mem_write_tab[45][i] = top_shared_store;
+        mem_write_tab[46][i] = top_shared_store;
+        mem_write_tab[47][i] = top_shared_store;
+        mem_write_tab[48][i] = top_shared_store;
+        mem_write_tab[49][i] = top_shared_store;
+        mem_write_tab[50][i] = top_shared_store;
+        mem_write_tab[51][i] = top_shared_store;
+        mem_write_tab[52][i] = top_shared_store;
+        mem_write_tab[53][i] = top_shared_store;
+        mem_write_tab[54][i] = top_shared_store;
+        mem_write_tab[55][i] = top_shared_store;
+        mem_write_tab[56][i] = top_shared_store;
+        mem_write_tab[57][i] = top_shared_store;
+        mem_write_tab[58][i] = top_shared_store;
+        mem_write_tab[59][i] = top_shared_store;
+        mem_write_tab[60][i] = top_shared_store;
+        mem_write_tab[61][i] = top_shared_store;
+        mem_write_tab[62][i] = top_shared_store;
+        mem_write_tab[63][i] = top_shared_store;
         mem_read_base_tab[0][i] = chargen_rom + ((i & 0xf) << 8);
         mem_read_base_tab[1][i] = chargen_rom + ((i & 0xf) << 8);
         mem_read_base_tab[2][i] = chargen_rom + ((i & 0xf) << 8);
@@ -1692,14 +1692,14 @@ void mem_initialize_memory(void)
 
     for (j = 0; j < 128; j += 64) {
         for (i = 0xe0; i <= 0xfe; i++) {
-            mem_read_tab[0+j][i] = read_hi;
-            mem_read_tab[1+j][i] = read_hi;
-            mem_read_tab[2+j][i] = read_hi;
-            mem_read_tab[3+j][i] = read_hi;
-            mem_read_tab[4+j][i] = read_hi;
-            mem_read_tab[5+j][i] = read_hi;
-            mem_read_tab[6+j][i] = read_hi;
-            mem_read_tab[7+j][i] = read_hi;
+            mem_read_tab[0+j][i] = hi_read;
+            mem_read_tab[1+j][i] = hi_read;
+            mem_read_tab[2+j][i] = hi_read;
+            mem_read_tab[3+j][i] = hi_read;
+            mem_read_tab[4+j][i] = hi_read;
+            mem_read_tab[5+j][i] = hi_read;
+            mem_read_tab[6+j][i] = hi_read;
+            mem_read_tab[7+j][i] = hi_read;
             mem_read_tab[8+j][i] = internal_function_rom_read;
             mem_read_tab[9+j][i] = internal_function_rom_read;
             mem_read_tab[10+j][i] = internal_function_rom_read;
@@ -1708,30 +1708,30 @@ void mem_initialize_memory(void)
             mem_read_tab[13+j][i] = internal_function_rom_read;
             mem_read_tab[14+j][i] = internal_function_rom_read;
             mem_read_tab[15+j][i] = internal_function_rom_read;
-            mem_read_tab[16+j][i] = read_ram;
-            mem_read_tab[17+j][i] = read_ram;
-            mem_read_tab[18+j][i] = read_ram;
-            mem_read_tab[19+j][i] = read_ram;
-            mem_read_tab[20+j][i] = read_ram;
-            mem_read_tab[21+j][i] = read_ram;
-            mem_read_tab[22+j][i] = read_ram;
-            mem_read_tab[23+j][i] = read_ram;
-            mem_read_tab[24+j][i] = read_ram;
-            mem_read_tab[25+j][i] = read_ram;
-            mem_read_tab[26+j][i] = read_ram;
-            mem_read_tab[27+j][i] = read_ram;
-            mem_read_tab[28+j][i] = read_ram;
-            mem_read_tab[29+j][i] = read_ram;
-            mem_read_tab[30+j][i] = read_ram;
-            mem_read_tab[31+j][i] = read_ram;
-            mem_read_tab[32+j][i] = read_hi;
-            mem_read_tab[33+j][i] = read_hi;
-            mem_read_tab[34+j][i] = read_hi;
-            mem_read_tab[35+j][i] = read_hi;
-            mem_read_tab[36+j][i] = read_hi;
-            mem_read_tab[37+j][i] = read_hi;
-            mem_read_tab[38+j][i] = read_hi;
-            mem_read_tab[39+j][i] = read_hi;
+            mem_read_tab[16+j][i] = ram_read;
+            mem_read_tab[17+j][i] = ram_read;
+            mem_read_tab[18+j][i] = ram_read;
+            mem_read_tab[19+j][i] = ram_read;
+            mem_read_tab[20+j][i] = ram_read;
+            mem_read_tab[21+j][i] = ram_read;
+            mem_read_tab[22+j][i] = ram_read;
+            mem_read_tab[23+j][i] = ram_read;
+            mem_read_tab[24+j][i] = ram_read;
+            mem_read_tab[25+j][i] = ram_read;
+            mem_read_tab[26+j][i] = ram_read;
+            mem_read_tab[27+j][i] = ram_read;
+            mem_read_tab[28+j][i] = ram_read;
+            mem_read_tab[29+j][i] = ram_read;
+            mem_read_tab[30+j][i] = ram_read;
+            mem_read_tab[31+j][i] = ram_read;
+            mem_read_tab[32+j][i] = hi_read;
+            mem_read_tab[33+j][i] = hi_read;
+            mem_read_tab[34+j][i] = hi_read;
+            mem_read_tab[35+j][i] = hi_read;
+            mem_read_tab[36+j][i] = hi_read;
+            mem_read_tab[37+j][i] = hi_read;
+            mem_read_tab[38+j][i] = hi_read;
+            mem_read_tab[39+j][i] = hi_read;
             mem_read_tab[40+j][i] = internal_function_rom_read;
             mem_read_tab[41+j][i] = internal_function_rom_read;
             mem_read_tab[42+j][i] = internal_function_rom_read;
@@ -1740,86 +1740,86 @@ void mem_initialize_memory(void)
             mem_read_tab[45+j][i] = internal_function_rom_read;
             mem_read_tab[46+j][i] = internal_function_rom_read;
             mem_read_tab[47+j][i] = internal_function_rom_read;
-            mem_read_tab[48+j][i] = read_top_shared;
-            mem_read_tab[49+j][i] = read_top_shared;
-            mem_read_tab[50+j][i] = read_top_shared;
-            mem_read_tab[51+j][i] = read_top_shared;
-            mem_read_tab[52+j][i] = read_top_shared;
-            mem_read_tab[53+j][i] = read_top_shared;
-            mem_read_tab[54+j][i] = read_top_shared;
-            mem_read_tab[55+j][i] = read_top_shared;
-            mem_read_tab[56+j][i] = read_top_shared;
-            mem_read_tab[57+j][i] = read_top_shared;
-            mem_read_tab[58+j][i] = read_top_shared;
-            mem_read_tab[59+j][i] = read_top_shared;
-            mem_read_tab[60+j][i] = read_top_shared;
-            mem_read_tab[61+j][i] = read_top_shared;
-            mem_read_tab[62+j][i] = read_top_shared;
-            mem_read_tab[63+j][i] = read_top_shared;
-            mem_write_tab[0+j][i] = store_hi;
-            mem_write_tab[1+j][i] = store_hi;
-            mem_write_tab[2+j][i] = store_hi;
-            mem_write_tab[3+j][i] = store_hi;
-            mem_write_tab[4+j][i] = store_hi;
-            mem_write_tab[5+j][i] = store_hi;
-            mem_write_tab[6+j][i] = store_hi;
-            mem_write_tab[7+j][i] = store_hi;
-            mem_write_tab[8+j][i] = store_ram;
-            mem_write_tab[9+j][i] = store_ram;
-            mem_write_tab[10+j][i] = store_ram;
-            mem_write_tab[11+j][i] = store_ram;
-            mem_write_tab[12+j][i] = store_ram;
-            mem_write_tab[13+j][i] = store_ram;
-            mem_write_tab[14+j][i] = store_ram;
-            mem_write_tab[15+j][i] = store_ram;
-            mem_write_tab[16+j][i] = store_ram;
-            mem_write_tab[17+j][i] = store_ram;
-            mem_write_tab[18+j][i] = store_ram;
-            mem_write_tab[19+j][i] = store_ram;
-            mem_write_tab[20+j][i] = store_ram;
-            mem_write_tab[21+j][i] = store_ram;
-            mem_write_tab[22+j][i] = store_ram;
-            mem_write_tab[23+j][i] = store_ram;
-            mem_write_tab[24+j][i] = store_ram;
-            mem_write_tab[25+j][i] = store_ram;
-            mem_write_tab[26+j][i] = store_ram;
-            mem_write_tab[27+j][i] = store_ram;
-            mem_write_tab[28+j][i] = store_ram;
-            mem_write_tab[29+j][i] = store_ram;
-            mem_write_tab[30+j][i] = store_ram;
-            mem_write_tab[31+j][i] = store_ram;
-            mem_write_tab[32+j][i] = store_hi;
-            mem_write_tab[33+j][i] = store_hi;
-            mem_write_tab[34+j][i] = store_hi;
-            mem_write_tab[35+j][i] = store_hi;
-            mem_write_tab[36+j][i] = store_hi;
-            mem_write_tab[37+j][i] = store_hi;
-            mem_write_tab[38+j][i] = store_hi;
-            mem_write_tab[39+j][i] = store_hi;
-            mem_write_tab[40+j][i] = store_top_shared;
-            mem_write_tab[41+j][i] = store_top_shared;
-            mem_write_tab[42+j][i] = store_top_shared;
-            mem_write_tab[43+j][i] = store_top_shared;
-            mem_write_tab[44+j][i] = store_top_shared;
-            mem_write_tab[45+j][i] = store_top_shared;
-            mem_write_tab[46+j][i] = store_top_shared;
-            mem_write_tab[47+j][i] = store_top_shared;
-            mem_write_tab[48+j][i] = store_top_shared;
-            mem_write_tab[49+j][i] = store_top_shared;
-            mem_write_tab[50+j][i] = store_top_shared;
-            mem_write_tab[51+j][i] = store_top_shared;
-            mem_write_tab[52+j][i] = store_top_shared;
-            mem_write_tab[53+j][i] = store_top_shared;
-            mem_write_tab[54+j][i] = store_top_shared;
-            mem_write_tab[55+j][i] = store_top_shared;
-            mem_write_tab[56+j][i] = store_top_shared;
-            mem_write_tab[57+j][i] = store_top_shared;
-            mem_write_tab[58+j][i] = store_top_shared;
-            mem_write_tab[59+j][i] = store_top_shared;
-            mem_write_tab[60+j][i] = store_top_shared;
-            mem_write_tab[61+j][i] = store_top_shared;
-            mem_write_tab[62+j][i] = store_top_shared;
-            mem_write_tab[63+j][i] = store_top_shared;
+            mem_read_tab[48+j][i] = top_shared_read;
+            mem_read_tab[49+j][i] = top_shared_read;
+            mem_read_tab[50+j][i] = top_shared_read;
+            mem_read_tab[51+j][i] = top_shared_read;
+            mem_read_tab[52+j][i] = top_shared_read;
+            mem_read_tab[53+j][i] = top_shared_read;
+            mem_read_tab[54+j][i] = top_shared_read;
+            mem_read_tab[55+j][i] = top_shared_read;
+            mem_read_tab[56+j][i] = top_shared_read;
+            mem_read_tab[57+j][i] = top_shared_read;
+            mem_read_tab[58+j][i] = top_shared_read;
+            mem_read_tab[59+j][i] = top_shared_read;
+            mem_read_tab[60+j][i] = top_shared_read;
+            mem_read_tab[61+j][i] = top_shared_read;
+            mem_read_tab[62+j][i] = top_shared_read;
+            mem_read_tab[63+j][i] = top_shared_read;
+            mem_write_tab[0+j][i] = hi_store;
+            mem_write_tab[1+j][i] = hi_store;
+            mem_write_tab[2+j][i] = hi_store;
+            mem_write_tab[3+j][i] = hi_store;
+            mem_write_tab[4+j][i] = hi_store;
+            mem_write_tab[5+j][i] = hi_store;
+            mem_write_tab[6+j][i] = hi_store;
+            mem_write_tab[7+j][i] = hi_store;
+            mem_write_tab[8+j][i] = ram_store;
+            mem_write_tab[9+j][i] = ram_store;
+            mem_write_tab[10+j][i] = ram_store;
+            mem_write_tab[11+j][i] = ram_store;
+            mem_write_tab[12+j][i] = ram_store;
+            mem_write_tab[13+j][i] = ram_store;
+            mem_write_tab[14+j][i] = ram_store;
+            mem_write_tab[15+j][i] = ram_store;
+            mem_write_tab[16+j][i] = ram_store;
+            mem_write_tab[17+j][i] = ram_store;
+            mem_write_tab[18+j][i] = ram_store;
+            mem_write_tab[19+j][i] = ram_store;
+            mem_write_tab[20+j][i] = ram_store;
+            mem_write_tab[21+j][i] = ram_store;
+            mem_write_tab[22+j][i] = ram_store;
+            mem_write_tab[23+j][i] = ram_store;
+            mem_write_tab[24+j][i] = ram_store;
+            mem_write_tab[25+j][i] = ram_store;
+            mem_write_tab[26+j][i] = ram_store;
+            mem_write_tab[27+j][i] = ram_store;
+            mem_write_tab[28+j][i] = ram_store;
+            mem_write_tab[29+j][i] = ram_store;
+            mem_write_tab[30+j][i] = ram_store;
+            mem_write_tab[31+j][i] = ram_store;
+            mem_write_tab[32+j][i] = hi_store;
+            mem_write_tab[33+j][i] = hi_store;
+            mem_write_tab[34+j][i] = hi_store;
+            mem_write_tab[35+j][i] = hi_store;
+            mem_write_tab[36+j][i] = hi_store;
+            mem_write_tab[37+j][i] = hi_store;
+            mem_write_tab[38+j][i] = hi_store;
+            mem_write_tab[39+j][i] = hi_store;
+            mem_write_tab[40+j][i] = top_shared_store;
+            mem_write_tab[41+j][i] = top_shared_store;
+            mem_write_tab[42+j][i] = top_shared_store;
+            mem_write_tab[43+j][i] = top_shared_store;
+            mem_write_tab[44+j][i] = top_shared_store;
+            mem_write_tab[45+j][i] = top_shared_store;
+            mem_write_tab[46+j][i] = top_shared_store;
+            mem_write_tab[47+j][i] = top_shared_store;
+            mem_write_tab[48+j][i] = top_shared_store;
+            mem_write_tab[49+j][i] = top_shared_store;
+            mem_write_tab[50+j][i] = top_shared_store;
+            mem_write_tab[51+j][i] = top_shared_store;
+            mem_write_tab[52+j][i] = top_shared_store;
+            mem_write_tab[53+j][i] = top_shared_store;
+            mem_write_tab[54+j][i] = top_shared_store;
+            mem_write_tab[55+j][i] = top_shared_store;
+            mem_write_tab[56+j][i] = top_shared_store;
+            mem_write_tab[57+j][i] = top_shared_store;
+            mem_write_tab[58+j][i] = top_shared_store;
+            mem_write_tab[59+j][i] = top_shared_store;
+            mem_write_tab[60+j][i] = top_shared_store;
+            mem_write_tab[61+j][i] = top_shared_store;
+            mem_write_tab[62+j][i] = top_shared_store;
+            mem_write_tab[63+j][i] = top_shared_store;
             mem_read_base_tab[0+j][i] = kernal_rom + ((i & 0x1f) << 8);
             mem_read_base_tab[1+j][i] = kernal_rom + ((i & 0x1f) << 8);
             mem_read_base_tab[2+j][i] = kernal_rom + ((i & 0x1f) << 8);
@@ -1901,8 +1901,8 @@ void mem_initialize_memory(void)
     /* C64 mode configuration.  */
     for (i = 128; i < 256; i++) {
         for (j = 2; j <= 0x100; j++) {
-            mem_read_tab[i][j] = read_ram;
-            mem_write_tab[i][j] = store_ram;
+            mem_read_tab[i][j] = ram_read;
+            mem_write_tab[i][j] = ram_store;
             mem_read_base_tab[i][j] = ram + (j << 8);
         }
     }
@@ -2507,7 +2507,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         }
       case 2:                   /* rom */
         if (addr <= 0x0fff) {
-            return read_bios(addr);
+            return bios_read(addr);
         }
         if (addr >= 0x4000 && addr <= 0xcfff) {
             return basic_rom[addr - 0x4000];

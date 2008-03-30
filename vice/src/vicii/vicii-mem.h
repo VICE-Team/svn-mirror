@@ -34,9 +34,9 @@ BYTE REGPARM1 vic_read(ADDRESS addr);
 BYTE REGPARM1 vic_peek(ADDRESS addr);
 BYTE REGPARM1 colorram_read(ADDRESS addr);
 void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
-void REGPARM2 store_vbank (ADDRESS addr, BYTE value);
-void REGPARM2 store_vbank_39xx (ADDRESS addr, BYTE value);
-void REGPARM2 store_vbank_3fxx (ADDRESS addr, BYTE value);
+void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value);
+void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value);
+void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value);
 
 #endif
 

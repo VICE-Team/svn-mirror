@@ -270,7 +270,7 @@ void REGPARM2 ram_store(ADDRESS addr, BYTE value)
     ram[addr] = value;
 }
 
-void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
+void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
 {
     ram[addr] = value;
 
@@ -361,27 +361,27 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 
 static void REGPARM2 cartridge_decode_store(ADDRESS addr, BYTE value)
 {
-        /*
-         * Enable cartridge first before making an access.
-         */
-        cartridge_decode_address(addr);
+    /*
+     * Enable cartridge first before making an access.
+     */
+    cartridge_decode_address(addr);
 
-        /*
-         * Store data at the decoded address.
-         */
-        mem_write_tab_orig[vbank][mem_config][addr >> 8](addr, value);
+    /*
+     * Store data at the decoded address.
+     */
+    mem_write_tab_orig[vbank][mem_config][addr >> 8](addr, value);
 }
 
 static BYTE REGPARM1 cartridge_decode_read(ADDRESS addr)
 {
-        /*
-         * Enable cartridge first before making an access.
-         */
-        cartridge_decode_address(addr);
+    /*
+     * Enable cartridge first before making an access.
+     */
+    cartridge_decode_address(addr);
 
-        /*
-         * Read data from decoded address.
-         */
+    /*
+     * Read data from decoded address.
+     */
     return mem_read_tab_orig[mem_config][addr >> 8](addr);
 }
 
@@ -453,13 +453,13 @@ void mem_initialize_memory(void)
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
                       case 0x39:
-                        mem_write_tab[k][i][j] = store_vbank_39xx;
+                        mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
                         break;
                       case 0x3f:
-                        mem_write_tab[k][i][j] = store_vbank_3fxx;
+                        mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
                         break;
                       default:
-                        mem_write_tab[k][i][j] = store_vbank;
+                        mem_write_tab[k][i][j] = vicii_mem_vbank_store;
                     }
                 } else {
                     mem_write_tab[k][i][j] = ram_store;
@@ -473,7 +473,7 @@ void mem_initialize_memory(void)
            should.  Anyway, the $FFxx addresses are not so likely to contain
            sprites or other stuff that really needs the special handling, and
            it's much easier this way.  */
-        set_write_hook(i, 0xff, store_ram_hi);
+        set_write_hook(i, 0xff, ram_hi_store);
     }
 
     /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
@@ -579,17 +579,17 @@ void mem_initialize_memory(void)
     for (j = 0; j < NUM_CONFIGS; j++) {
         if (roml_config[j]) {
             for (i = 0x80; i <= 0x9f; i++) {
-                mem_read_tab[j][i] = read_roml;
+                mem_read_tab[j][i] = roml_read;
                 mem_read_base_tab[j][i] = NULL;
             }
         }
     }
     for (j = 16; j < 24; j++) {
         for (i = 0x80; i <= 0x9f; i++)
-            set_write_hook(j, i, store_roml);
+            set_write_hook(j, i, roml_store);
         for (i = 0xa0; i <= 0xbf; i++) {
-            mem_read_tab[j][i] = read_ultimax_a000_bfff;
-            set_write_hook(j, i, store_ultimax_a000_bfff);
+            mem_read_tab[j][i] = ultimax_a000_bfff_read;
+            set_write_hook(j, i, ultimax_a000_bfff_store);
         }
     }
 
@@ -597,7 +597,7 @@ void mem_initialize_memory(void)
     for (j = 0; j < NUM_CONFIGS; j++) {
         if (romh_config[j]) {
             for (i = romh_mapping[j]; i <= (romh_mapping[j] + 0x1f); i++) {
-                mem_read_tab[j][i] = read_romh;
+                mem_read_tab[j][i] = romh_read;
                 mem_read_base_tab[j][i] = NULL;
             }
         }
@@ -621,66 +621,61 @@ void mem_initialize_memory(void)
     export.exrom = 0;
     export.game = 0;
 
-        /*
-         * Copy mapping to a separate table.
-         * This table will contain the original (unmodified) mapping.
-         */
-        memcpy(mem_write_tab_orig, mem_write_tab,
-               NUM_VBANKS*sizeof(*mem_write_tab));
-        memcpy(mem_read_tab_orig, mem_read_tab,
-               NUM_CONFIGS*sizeof(*mem_read_tab));
+    /*
+     * Copy mapping to a separate table.
+     * This table will contain the original (unmodified) mapping.
+     */
+    memcpy(mem_write_tab_orig, mem_write_tab,
+           NUM_VBANKS*sizeof(*mem_write_tab));
+    memcpy(mem_read_tab_orig, mem_read_tab,
+           NUM_CONFIGS*sizeof(*mem_read_tab));
+
+    /*
+     * Change address decoding.
+     */
+    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
 
         /*
-         * Change address decoding.
+         * Mapping for ~GAME disabled
          */
-        if (mem_cartridge_type == CARTRIDGE_EXPERT)
-                {
-                /*
-                 * Mapping for ~GAME disabled
-                 */
-                for (j = 0; j < 16; j++)
-                        {
-                        for (i = 0x80; i <= 0x9f; i++)
-                                {
-                                /* $8000 - $9FFF */
-                                mem_read_tab[j][i] = cartridge_decode_read;
+        for (j = 0; j < 16; j++) {
+            for (i = 0x80; i <= 0x9f; i++) {
+                /* $8000 - $9FFF */
+                mem_read_tab[j][i] = cartridge_decode_read;
 
-                                /* Setup writing at $8000-$9FFF */
-                                set_write_hook(j, i, cartridge_decode_store);
+                /* Setup writing at $8000-$9FFF */
+                set_write_hook(j, i, cartridge_decode_store);
 
-                                /* $E000 - $FFFF */
-                                mem_read_tab[j][i+0x60] = cartridge_decode_read;
-                                /* Setup writing at $E000-$FFFF */
-                        set_write_hook(j, i+0x60, cartridge_decode_store);
-                                }
-                        }
+                /* $E000 - $FFFF */
+                mem_read_tab[j][i+0x60] = cartridge_decode_read;
+                /* Setup writing at $E000-$FFFF */
+                set_write_hook(j, i+0x60, cartridge_decode_store);
+            }
+        }
 
-                /*
-                 * Mapping for ~GAME enabled.
-                 */
-                for (j = 16; j < NUM_CONFIGS; j++)
-                        {
-                        /* $0000 - $7FFF */
-                        for (i = 0x00; i <= 0x7f; i++)
-                                {
-                                /* Setup reading */
-                                mem_read_tab[j][i] = cartridge_decode_read;
+        /*
+         * Mapping for ~GAME enabled.
+         */
+        for (j = 16; j < NUM_CONFIGS; j++) {
+            /* $0000 - $7FFF */
+            for (i = 0x00; i <= 0x7f; i++) {
+                /* Setup reading */
+                mem_read_tab[j][i] = cartridge_decode_read;
 
-                                /* Setup writing */
-                                set_write_hook(j, i, cartridge_decode_store);
-                                }
+                /* Setup writing */
+                set_write_hook(j, i, cartridge_decode_store);
+            }
 
-                        /* $A000 - $FFFF */
-                        for (i = 0xa0; i <= 0xff; i++)
-                                {
-                                /* Setup reading */
-                                mem_read_tab[j][i] = cartridge_decode_read;
+            /* $A000 - $FFFF */
+            for (i = 0xa0; i <= 0xff; i++) {
+                /* Setup reading */
+                mem_read_tab[j][i] = cartridge_decode_read;
 
-                                /* Setup writing */
-                                set_write_hook(j, i, cartridge_decode_store);
-                                }
-                        }
-                }
+                /* Setup writing */
+                set_write_hook(j, i, cartridge_decode_store);
+            }
+        }
+    }
 
     /* Setup initial memory configuration.  */
     pla_config_changed();
