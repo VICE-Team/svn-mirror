@@ -10,6 +10,32 @@ list of all the changes in the code.
 * Changes in VICE 0.16.0
 ========================
 
+** C64 changes
+---------------
+
+- A couple of bugs in the emulation of 6510 CPU core, VIC-II and REU
+  have been fixed.
+
+- Final Cartridge, Ocean Cartridge, Super Snapshot 4 and 16KB CRT
+  image support has been added.
+
+- Display modes in Ultimax mode have been corrected.
+
+** C128 changes
+---------------
+
+- Some memory banking bugs have been fixed (C128 GEOS works).
+
+** VIC20 changes
+----------------
+
+- RS232 interface has been added.
+
+** CBM-II changes
+-----------------
+
+- A new Commodore 610 (aka CBM-II) emulator has been added.
+
 ** Drive changes
 ----------------
 
@@ -19,10 +45,14 @@ list of all the changes in the code.
 
 - Moved drive ROM images into a separate directory.
 
+- Emulation of drives has been sped up consuming less host CPU power.
+
 ** SID changes
 --------------
 
 - Dag Lem's enhanched reSID engine is now part of VICE.
+
+- A bug in the random number generator has been fixed.
 
 ** Unix changes
 ---------------
@@ -32,25 +62,9 @@ list of all the changes in the code.
 
 - Non-default screen depths should really work on X11 now.
 
-** Miscellaneous changes
-------------------------
+- Generation of core dumps can be controlled from command line.
 
-- It is now possible to save the emulator's state into a file, and
-  load it back at any time.
-
-- Final Cartridge and Ocean Cartridge image support has been added.
-
-- Display modes in Ultimax mode have been corrected.
-
-** C128 changes
----------------
-
-- Some memory banking bugs have been fixed (C128 GEOS works).
-
-** CBM-II changes
------------------
-
-- A new Commodore 610 (aka CBM-II) emulator has been added.
+- Smart attaching lynx and zipcode images works correctly now.
 
 ** MS-DOS changes
 -----------------
@@ -72,6 +86,20 @@ list of all the changes in the code.
 - You can create D71 and D81 disk images now.
 
 - Lynx and zipcode support has been improved.
+
+** Miscellaneous changes
+------------------------
+
+- It is now possible to save the emulator's state into a file, and
+  load it back at any time.
+
+- A new logging system has been added.
+
+- The Monitor now handles zero page watch points triggered by memory
+  wrap-around too.
+
+- Two new palette entries have been added.
+
 
 * Changes in VICE 0.15.0
 ========================
