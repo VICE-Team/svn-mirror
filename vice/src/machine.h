@@ -28,6 +28,8 @@
 #ifndef _MACHINE_H
 #define _MACHINE_H
 
+#include "types.h"
+
 /* The following stuff must be defined once per every emulated CBM machine.  */
 
 /* Name of the machine.  */
@@ -152,6 +154,16 @@ extern unsigned int machine_keymap_index;
 extern const char *machine_keymap_res_name_list[];
 extern char *machine_keymap_file_list[];
 extern unsigned int machine_num_keyboard_mappings(void);
+
+struct image_contents_s;
+extern struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
+
+extern int machine_bus_lib_directory(unsigned int unit, const char *pattern,
+                                     BYTE **buf);
+extern int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
+                                       unsigned int sector, BYTE *buf);
+extern int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
+                                        unsigned int sector, BYTE *buf);
 
 #endif
 

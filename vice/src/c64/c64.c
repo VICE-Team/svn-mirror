@@ -56,6 +56,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
+#include "imagecontents.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -357,8 +358,10 @@ int machine_init(void)
         traps_init();
 
         /* Initialize serial traps.  */
-        if (serial_init(c64_serial_traps, 0xa4) < 0)
+        if (serial_init(c64_serial_traps) < 0)
             return -1;
+
+        serial_trap_init(0xa4);
 
         /* Initialize drives. */
         file_system_init();
@@ -459,7 +462,7 @@ int machine_init(void)
 /* C64-specific reset sequence.  */
 void machine_specific_reset(void)
 {
-    serial_reset();
+    serial_traps_reset();
 
     ciacore_reset(&(machine_context.cia1));
     ciacore_reset(&(machine_context.cia2));
@@ -708,5 +711,28 @@ unsigned int machine_num_keyboard_mappings(void)
 void machine_traps_enable(int enable)
 {
     parallel_bus_enable(enable);
+}
+
+struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
+{
+    return diskcontents_iec_read(unit);
+}
+
+int machine_bus_lib_directory(unsigned int unit, const char *pattern,
+                              BYTE **buf)
+{
+    return serial_iec_lib_directory(unit, pattern, buf);
+}
+
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
+                                unsigned int sector, BYTE *buf)
+{
+    return serial_iec_lib_read_sector(unit, track, sector, buf);
+}
+
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
+                                 unsigned int sector, BYTE *buf)
+{
+    return serial_iec_lib_write_sector(unit, track, sector, buf);
 }
 

@@ -259,7 +259,7 @@ int machine_init(void)
         return -1;
 
     /* No traps installed on the CBM-II.  */
-    if (serial_init(NULL, 0xa4) < 0)
+    if (serial_init(NULL) < 0)
         return -1;
 
     /* Initialize drives. */
@@ -339,8 +339,6 @@ int machine_init(void)
 /* CBM-II-specific initialization.  */
 void machine_specific_reset(void)
 {
-    serial_reset();
-
     acia1_reset();
     ciacore_reset(&(machine_context.cia1));
     tpicore_reset(&(machine_context.tpi1));
@@ -599,5 +597,28 @@ unsigned int machine_num_keyboard_mappings(void)
 void machine_traps_enable(int enable)
 {
     parallel_bus_enable(enable);
+}
+
+struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
+{
+    return NULL;
+}
+
+int machine_bus_lib_directory(unsigned int unit, const char *pattern,
+                              BYTE **buf)
+{
+    return -1;
+}
+
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
+                                unsigned int sector, BYTE *buf)
+{
+    return -1;
+}
+
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
+                                 unsigned int sector, BYTE *buf)
+{
+    return -1;
 }
 

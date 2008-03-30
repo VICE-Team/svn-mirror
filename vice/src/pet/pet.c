@@ -269,7 +269,7 @@ int machine_init(void)
     log_message(pet_log, "Initializing IEEE488 bus...");
 
     /* No traps installed on the PET.  */
-    if (serial_init(NULL, 0xa4) < 0)
+    if (serial_init(NULL) < 0)
         return -1;
 
     /* Initialize drives. */
@@ -338,8 +338,6 @@ int machine_init(void)
 /* PET-specific initialization.  */
 void machine_specific_reset(void)
 {
-    serial_reset();
-
     pia1_reset();
     pia2_reset();
     viacore_reset(&(machine_context.via));
@@ -567,5 +565,28 @@ unsigned int machine_num_keyboard_mappings(void)
 void machine_traps_enable(int enable)
 {
     parallel_bus_enable(enable);
+}
+
+struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
+{
+    return NULL;
+}
+
+int machine_bus_lib_directory(unsigned int unit, const char *pattern,
+                              BYTE **buf)
+{
+    return -1;
+}
+
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
+                                unsigned int sector, BYTE *buf)
+{
+    return -1;
+}
+
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
+                                 unsigned int sector, BYTE *buf)
+{
+    return -1;
 }
 

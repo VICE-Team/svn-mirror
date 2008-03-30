@@ -28,8 +28,8 @@
 
 #include "diskimage.h"
 #include "log.h"
+#include "machine.h"
 #include "realimage.h"
-#include "serial.h"
 #include "types.h"
 
 
@@ -63,7 +63,7 @@ int realimage_close(disk_image_t *image)
 int realimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                           unsigned int sector)
 {
-    return serial_iec_lib_read_sector(8, track, sector, buf);
+    return machine_bus_lib_read_sector(8, track, sector, buf);
 }
 
 int realimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
