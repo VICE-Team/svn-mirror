@@ -34,7 +34,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "datasette.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -46,9 +45,7 @@
 #include "tapeimage.h"
 #include "traps.h"
 #include "types.h"
-#include "uiapi.h"
 #include "utils.h"
-#include "zfile.h"
 
 /* #define DEBUG_TAPE */
 
@@ -83,6 +80,9 @@ static const trap_t *tape_traps;
 /* Logging goes here.  */
 static log_t tape_log = LOG_ERR;
 
+/* The tape image for device 1. */
+tape_image_t *tape_image_dev1;
+
 /* ------------------------------------------------------------------------- */
 
 static inline void set_st(BYTE b)
@@ -97,8 +97,8 @@ void tape_traps_install(void)
     const trap_t *p;
 
     if (tape_traps != NULL) {
-    for (p = tape_traps; p->func != NULL; p++)
-        traps_add(p);
+        for (p = tape_traps; p->func != NULL; p++)
+            traps_add(p);
     }
 }
 
@@ -129,6 +129,8 @@ int tape_init(int _buffer_pointer_addr,
 
     tape_image_init();
 
+    tape_image_dev1 = (tape_image_t *)xcalloc(1, sizeof(tape_image_t));
+
     /* Set addresses of tape routine variables.  */
     st_addr = (ADDRESS)_st_addr;
     buffer_pointer_addr = (ADDRESS)_buffer_pointer_addr;
@@ -156,7 +158,8 @@ int tape_deinstall(void)
     if (!tape_is_initialized)
         return -1;
 
-    if (attached_t64_tape != NULL)
+    if (tape_image_dev1->name != NULL &&
+        tape_image_dev1->type == TAPE_TYPE_T64)
         tape_image_detach(1);
 
     tape_traps_deinstall();
@@ -184,19 +187,24 @@ void tape_find_header_trap(void)
     cassette_buffer = ram + (mem_read(buffer_pointer_addr)
                       | (mem_read((ADDRESS)(buffer_pointer_addr + 1)) << 8));
 
-    if (attached_t64_tape == NULL) {
+    if (tape_image_dev1->name == NULL
+        || tape_image_dev1->type != TAPE_TYPE_T64) {
         err = 1;
     } else {
-        t64_file_record_t *rec = NULL;
+        t64_t *t64;
+        t64_file_record_t *rec;
+
+        t64 = (t64_t *)tape_image_dev1->data;
+        rec = NULL;
 
         err = 0;
         do {
-            if (t64_seek_to_next_file(attached_t64_tape, 1) < 0) {
+            if (t64_seek_to_next_file(t64, 1) < 0) {
                 err = 1;
                 break;
             }
 
-            rec = t64_get_current_file_record(attached_t64_tape);
+            rec = t64_get_current_file_record(t64);
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
@@ -244,19 +252,24 @@ void tape_find_header_trap_plus4(void)
 
     cassette_buffer = ram + buffer_pointer_addr;
 
-    if (attached_t64_tape == NULL) {
+    if (tape_image_dev1->name == NULL
+        || tape_image_dev1->type != TAPE_TYPE_T64) {
         err = 1;
     } else {
-        t64_file_record_t *rec = NULL;
+        t64_t *t64;
+        t64_file_record_t *rec;
+
+        t64 = (t64_t *)tape_image_dev1->data;
+        rec = NULL;
 
         err = 0;
         do {
-            if (t64_seek_to_next_file(attached_t64_tape, 1) < 0) {
+            if (t64_seek_to_next_file(t64, 1) < 0) {
                 err = 1;
                 break;
             }
 
-            rec = t64_get_current_file_record(attached_t64_tape);
+            rec = t64_get_current_file_record(t64);
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
@@ -319,7 +332,7 @@ void tape_receive_trap(void)
             /* Read block.  */
             len = end - start;
 
-            if (t64_read(attached_t64_tape,
+            if (t64_read((t64_t *)tape_image_dev1->data,
                          ram + (int)start, (int)len) == (int)len) {
                 st = 0x40;      /* EOF */
             } else {
@@ -361,7 +374,7 @@ void tape_receive_trap_plus4(void)
     /* Read block.  */
     len = end - start;
 
-    if (t64_read(attached_t64_tape,
+    if (t64_read((t64_t *)tape_image_dev1->data,
                  ram + (int) start, (int) len) == (int) len) {
         st = 0x40;      /* EOF */
     } else {
@@ -379,11 +392,86 @@ void tape_receive_trap_plus4(void)
 
 const char *tape_get_file_name(void)
 {
-    if (attached_t64_tape)
-        return attached_t64_tape->file_name;
-    if (attached_tap_tape)
-        return attached_tap_tape->file_name;
-    return NULL;
+    return tape_image_dev1->name;
+}
+
+int tape_tap_attched(void)
+{
+    if (tape_image_dev1->name != NULL
+        && tape_image_dev1->type == TAPE_TYPE_TAP)
+        return 1;
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+void tape_get_header(tape_image_t *tape_image, BYTE *name)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        t64_get_header((t64_t *)tape_image->data, name);
+        break;
+      case TAPE_TYPE_TAP:
+        tap_get_header((tap_t *)tape_image->data, name);
+        break;
+    }
+}
+
+tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
+{
+    static tape_file_record_t rec;
+
+    memset(rec.name, 0, 17);
+
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        {
+            t64_file_record_t *t64_rec;
+
+            t64_rec = t64_get_current_file_record((t64_t *)tape_image->data);
+            memcpy(rec.name, t64_rec->cbm_name, 16);
+            rec.type = (t64_rec->entry_type == T64_FILE_RECORD_FREE) ? 0 : 1;
+            rec.start_addr = t64_rec->start_addr;
+            rec.end_addr = t64_rec->end_addr;
+            break;
+        }
+      case TAPE_TYPE_TAP:
+        {
+            tape_file_record_t *tape_rec;
+
+            tape_rec = tap_get_current_file_record((tap_t *)tape_image->data);
+            memcpy(rec.name, tape_rec->name, 16);
+            rec.type = 1;
+            rec.start_addr = tape_rec->start_addr;
+            rec.end_addr = tape_rec->end_addr;
+            break;
+        }
+    }
+    return &rec;
+}
+
+int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        return t64_seek_to_next_file((t64_t *)tape_image->data, allow_rewind);
+      case TAPE_TYPE_TAP:
+        return tap_seek_to_next_file((tap_t *)tape_image->data, allow_rewind);
+    }
+    return -1;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int tape_internal_close_tape_image(tape_image_t *tape_image)
+{
+    if (tape_image_close(tape_image) < 0)
+        return -1;
+
+    free(tape_image);
+
+    return 0;
 }
 
 tape_image_t *tape_internal_open_tape_image(const char *name,
@@ -394,20 +482,13 @@ tape_image_t *tape_internal_open_tape_image(const char *name,
     image = (tape_image_t *)xmalloc(sizeof(tape_image_t));
     image->name = stralloc(name);
     image->read_only = read_only;
-#if 0
-    if (disk_image_open(image) < 0) {
+
+    if (tape_image_open(image) < 0) {
         free(image->name);
-        log_error(LOG_ERR, "Cannot open file `%s'", name);
+        log_error(tape_log, "Cannot open file `%s'", name);
         return NULL;
     }
 
-    vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
-
-    vdrive_setup_device(vdrive, 100);
-    vdrive->image = image;
-    vdrive_attach_image(image, 100, vdrive);
-    return vdrive;
-#endif
-    return NULL;
+    return image;
 }
 
