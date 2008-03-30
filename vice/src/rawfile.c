@@ -1,5 +1,5 @@
 /*
- * version.h
+ * rawfile.c - Raw file handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,15 +24,39 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.13.37"
-#endif
+#include <stdio.h>
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+#include "lib.h"
+#include "log.h"
+#include "rawfile.h"
+#include "util.h"
 
-#endif
+
+rawfile_info_t *rawfile_info(const char *file_name)
+{
+    rawfile_info_t *info;
+
+    if (util_file_exists(file_name) == 0) {
+        log_error(LOG_DEFAULT, "Cannot open `%s'.", file_name);
+        return NULL;
+    }
+
+    info = (rawfile_info_t *)lib_malloc(sizeof(rawfile_info_t));
+
+    util_fname_split(file_name, &(info->path), &(info->name));
+    info->readonly = 0;
+
+    return info;
+}
+
+void rawfile_destroy(rawfile_info_t *info)
+{
+    if (info != NULL) {
+        lib_free(info->name);
+        lib_free(info->path);
+        lib_free(info);
+    }
+}
+

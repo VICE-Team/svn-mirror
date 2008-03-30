@@ -20,7 +20,7 @@ VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../../..
+top_builddir = ../..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
@@ -216,274 +216,61 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-
-SUFFIXES = .rc
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-	@ARCH_INCLUDES@/msvc/wpcap \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/monitor \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c128 \
-	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/plus4 \
-	-I$(top_srcdir)/src/cbm2 \
-	-I$(top_srcdir)/src/raster \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libfileio.a
 
-libarch_a_SOURCES = \
-	archdep.c \
-	archdep.h \
-	blockdev.c \
-	c128ui.c \
-	c64ui.c \
-	catweaselmkiii.c \
-	cbm2ui.c \
-	console.c \
-	dirent.c \
-	dirent.h \
-	ffmpeglib.c \
-	fullscrn.c \
-	fullscrn.h \
-	hardsid.c \
-	joy.c \
-	joy.h \
-	kbd.c \
-	kbd.h \
-	lose32.h \
-	mousedrv.c \
-	mousedrv.h \
-	petui.c \
-	plus4ui.c \
-	res.h \
-	res.rc \
-	resc128.rc \
-	resc64.rc \
-	rescbm2.rc \
-	respet.rc \
-	resplus4.rc \
-	resreu.rc \
-	ressid.rc \
-	restfe.rc \
-	resvic.rc \
-	resvicii.rc \
-	statusbar.c \
-	statusbar.h \
-	system.c \
-	system.h \
-	tfearch.c \
-	types.h \
-	ui.c \
-	ui.h \
-	uiperipheral.c \
-	uiperipheral.h \
-	uic128.c \
-	uic128.h \
-	uicbm2set.c \
-	uicbm2set.h \
-	uicmdline.c \
-	uiconsole.c \
-	uidatasette.c \
-	uidatasette.h \
-	uidrivec64vic20.c \
-	uidrivec64vic20.h \
-	uidrivec128.c \
-	uidrivec128.h \
-	uidrivepetcbm2.c \
-	uidrivepetcbm2.h \
-	uidriveplus4.c \
-	uidriveplus4.h \
-	uijoystick.c \
-	uijoystick.h \
-	uilib.c \
-	uilib.h \
-	uimon.c \
-	uipetset.c \
-	uipetset.h \
-	uiplus4mem.c \
-	uiplus4mem.h \
-	uiram.c \
-	uiram.h \
-	uireu.c \
-	uireu.h \
-	uisid.c \
-	uisid.h \
-	uisnapshot.h \
-	uisnapshot.c \
-	uisound.c \
-	uisound.h \
-	uispeed.c \
-	uispeed.h \
-	uitfe.c \
-	uitfe.h \
-	uivicii.h \
-	uivicii.c \
-	uivicset.h \
-	uivicset.c \
-	uivideo.c \
-	uivideo.h \
-	vic20ui.c \
-	video.c \
-	videoarch.h \
-	vsidui.c \
-	vsyncarch.c \
-	winhack.h \
-	winmain.c \
-	winmain.h
+libfileio_a_SOURCES = \
+	cbmfile.c \
+	cbmfile.h \
+	fileio.c \
+	p00.c
 
-
-libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
-
-
-EXTRA_DIST = \
-	msvc/config.h \
-	msvc/wpcap/bittypes.h \
-	msvc/wpcap/ip6_misc.h \
-	msvc/wpcap/pcap-stdinc.h \
-	msvc/wpcap/pcap.h \
-	msvc/wpcap/net/bpf.h \
-	arch.dsp \
-	base.dsp \
-	c128.dsp \
-	c1541.dsp \
-	c64.dsp \
-	c64c128.dsp \
-	c64cart.dsp \
-	cbm2.dsp \
-	core.dsp \
-	crtc.dsp \
-	diskimage.dsp \
-	drive.dsp \
-	iec.dsp \
-	iecbus.dsp \
-	iecieee.dsp \
-	ieee.dsp \
-	fileio.dsp \
-	fsdevice.dsp \
-	gfxoutputdrv.dsp \
-	imagecontents.dsp \
-	monitor.dsp \
-	parallel.dsp \
-	pet.dsp \
-	petcat.dsp \
-	plus4.dsp \
-	printerdrv.dsp \
-	raster.dsp \
-	resid.dsp \
-	rs232drv.dsp \
-	serial.dsp \
-	sid.dsp \
-	sounddrv.dsp \
-	tape.dsp \
-	tcbm.dsp \
-	vdc.dsp \
-	vdrive.dsp \
-	vic20.dsp \
-	vice.dsp \
-	vicii.dsp \
-	video.dsp \
-	x128.dsp \
-	x64.dsp \
-	xcbm2.dsp \
-	xpet.dsp \
-	xplus4.dsp \
-	xvic.dsp \
-	vice.dsw \
-        montb.bmp \
-        c64.ico 
-
-subdir = src/arch/win32
+subdir = src/fileio
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-libarch_a_AR = $(AR) cru
-libarch_a_LIBADD =
-am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
-	c128ui.$(OBJEXT) c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) \
-	cbm2ui.$(OBJEXT) console.$(OBJEXT) dirent.$(OBJEXT) \
-	ffmpeglib.$(OBJEXT) fullscrn.$(OBJEXT) hardsid.$(OBJEXT) \
-	joy.$(OBJEXT) kbd.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
-	plus4ui.$(OBJEXT) statusbar.$(OBJEXT) system.$(OBJEXT) \
-	tfearch.$(OBJEXT) ui.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uic128.$(OBJEXT) uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) \
-	uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidrivec128.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uijoystick.$(OBJEXT) uilib.$(OBJEXT) uimon.$(OBJEXT) \
-	uipetset.$(OBJEXT) uiplus4mem.$(OBJEXT) uiram.$(OBJEXT) \
-	uireu.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uisound.$(OBJEXT) uispeed.$(OBJEXT) uitfe.$(OBJEXT) \
-	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
-	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
-libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
+libfileio_a_AR = $(AR) cru
+libfileio_a_LIBADD =
+am_libfileio_a_OBJECTS = cbmfile.$(OBJEXT) fileio.$(OBJEXT) \
+	p00.$(OBJEXT)
+libfileio_a_OBJECTS = $(am_libfileio_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/archdep.Po ./$(DEPDIR)/blockdev.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c128ui.Po ./$(DEPDIR)/c64ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/catweaselmkiii.Po ./$(DEPDIR)/cbm2ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/dirent.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ffmpeglib.Po ./$(DEPDIR)/fullscrn.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/hardsid.Po ./$(DEPDIR)/joy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mousedrv.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/system.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic128.Po ./$(DEPDIR)/uicbm2set.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uiconsole.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uilib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipheral.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus4mem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiram.Po ./$(DEPDIR)/uireu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uispeed.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uitfe.Po ./$(DEPDIR)/uivicii.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivicset.Po ./$(DEPDIR)/uivideo.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/winmain.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/cbmfile.Po ./$(DEPDIR)/fileio.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/p00.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libarch_a_SOURCES)
+DIST_SOURCES = $(libfileio_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libarch_a_SOURCES)
+SOURCES = $(libfileio_a_SOURCES)
 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .rc .c .o .obj
+.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/arch/win32/Makefile
+	  $(AUTOMAKE) --gnu  src/fileio/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES) 
-	-rm -f libarch.a
-	$(libarch_a_AR) libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
+libfileio.a: $(libfileio_a_OBJECTS) $(libfileio_a_DEPENDENCIES) 
+	-rm -f libfileio.a
+	$(libfileio_a_AR) libfileio.a $(libfileio_a_OBJECTS) $(libfileio_a_LIBADD)
+	$(RANLIB) libfileio.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -491,56 +278,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/archdep.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/blockdev.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/catweaselmkiii.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dirent.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ffmpeglib.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fullscrn.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hardsid.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/system.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tfearch.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic128.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicbm2set.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiconsole.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetset.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4mem.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiram.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uispeed.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uitfe.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicii.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicset.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivideo.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsyncarch.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/winmain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbmfile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileio.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p00.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -623,11 +363,10 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../../..
+top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/msvc $(distdir)/msvc/wpcap $(distdir)/msvc/wpcap/net
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -740,25 +479,6 @@ uninstall-am: uninstall-info-am
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-info-am
 
-
-resc128.o : resc128.rc res.rc res.h ressid.rc resvicii.rc resreu.rc
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.rc res.rc res.h ressid.rc
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-resplus4.o : resplus4.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
-resvic.o : resvic.rc res.rc res.h
-	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

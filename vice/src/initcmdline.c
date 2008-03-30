@@ -46,11 +46,18 @@
 #include "util.h"
 
 
-static char *autostart_string;
+static char *autostart_string = NULL;
 static char *startup_disk_images[4];
 static char *startup_tape_image;
 static unsigned int autostart_mode;
 
+
+static void cmdline_free_autostart_string(void)
+{
+    if (autostart_string != NULL)
+        lib_free(autostart_string);
+    autostart_string = NULL;
+}
 
 static int cmdline_help(const char *param, void *extra_param)
 {
@@ -67,8 +74,7 @@ static int cmdline_default(const char *param, void *extra_param)
 
 static int cmdline_autostart(const char *param, void *extra_param)
 {
-    if (autostart_string != NULL)
-        lib_free(autostart_string);
+    cmdline_free_autostart_string();
     autostart_string = lib_stralloc(param);
     autostart_mode = AUTOSTART_MODE_RUN;
     return 0;
@@ -76,8 +82,7 @@ static int cmdline_autostart(const char *param, void *extra_param)
 
 static int cmdline_autoload(const char *param, void *extra_param)
 {
-    if (autostart_string != NULL)
-        lib_free(autostart_string);
+    cmdline_free_autostart_string();
     autostart_string = lib_stralloc(param);
     autostart_mode = AUTOSTART_MODE_LOAD;
     return 0;
@@ -186,7 +191,7 @@ int initcmdline_check_psid(void)
     /* Check for PSID here since we don't want to allow autodetection
        in autostart.c. */
     if (vsid_mode) {
-        if (autostart_string
+        if (autostart_string != NULL
             && machine_autodetect_psid(autostart_string) == -1) {
             log_error(LOG_DEFAULT, "`%s' is not a valid PSID file.",
                       autostart_string);
@@ -345,5 +350,7 @@ void initcmdline_check_attach(void)
                       startup_tape_image);
 
     }
+
+    cmdline_free_autostart_string();
 }
 

@@ -1,3 +1,31 @@
+2003-12-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.37.
+
+	* fileio.h, fileio/Makefile.am, fileio/fileio.c, fileio/p00.c,
+	fileio/cbmfile.c, fileio/cbmfile.h, rawfile.c, rawfile.h,
+	arch/win32/fileio.dsp: New files.
+
+	* Makefile.am, arch/win32/base.dsp, arch/win32/c1541.dsp,
+	arch/win32/petcat.dsp, arch/win32/vice.dsw,
+	arch/win32/Makefile.am: Updated.
+
+	* p00.h: Added new function.
+
+	* p00.c: Moved to `fileio' directory.
+
+	* autostart.c, autostart.h (autostart_prg): Use new fileio
+	API.  (autostart_shutdown): New function.
+
+	* machine.c (machine_shutdown): Call `autostart_shutdown()'
+	and `zfile_shutdown()'.
+
+	* zfile.c, zfile.h (zfile_list_destroy, zfile_shutdown): New
+	functions.
+
+	* initcmdline.c (cmdline_free_autostart_string): New function.
+	(initcmdline_check_attach): Free autostart string.
+
 2003-12-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.36.
