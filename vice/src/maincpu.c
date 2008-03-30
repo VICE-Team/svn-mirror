@@ -316,7 +316,7 @@ void mainloop(ADDRESS start_address)
             break;                                                      \
           case UI_JAM_MONITOR:                                          \
             caller_space = e_comp_space;                                \
-            mon(maincpu_regs.pc);                                       \
+            mon(reg_pc);                                                \
             IMPORT_REGISTERS();                                         \
             break;                                                      \
           default:                                                      \

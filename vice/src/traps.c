@@ -207,14 +207,16 @@ int traps_remove(const trap_t *t)
 int traps_handler(void)
 {
     traplist_t *p = traplist;
+    unsigned int pc = MOS6510_REGS_GET_PC(&maincpu_regs);
+
     DEBUG(("TRAPS: Checking for trap at PC=$%04X, p=%p.\n", maincpu_regs.pc,p));
 
     while (p) {
         DEBUG(("TRAPS: check Address %04X\n", p->trap->address));
-	if (p->trap->address == maincpu_regs.pc) {
+	if (p->trap->address == pc) {
             DEBUG(("TRAPS: Found %s\n", p->trap->name));
 	    (*p->trap->func)();
-            maincpu_regs.pc = p->trap->resume_address;
+            MOS6510_REGS_SET_PC(&maincpu_regs, p->trap->resume_address);
             return 0;
 	}
 	p = p->next;
