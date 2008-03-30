@@ -1,3 +1,29 @@
+2000-10-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.16.
+
+	* arch/unix/x11/xaw/widgets/Directory.c: #include "vice.h".
+
+2000-10-14  Dirk Schnorpfeil  <D.Schnorpfeil@web.de>
+
+	* c1541.c: Added commands to read/write GEOS formatted disks.
+
+2000-10-12  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/unix/x11/gnome/dummies.c,
+	arch/unix/x11/gnome/gnomevideo.c: __FUNCTION__ is not defined
+	in SUNWspro compilers.
+
+	* arch/unix/x11/gnome/about.c: SUNWspro doesn't allow function
+	calls in initializers ( _(...) ).
+
+2000-10-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vsync.c: new include log.h; frame_start now global;
+	(display_speed) checks if emulation loses time (like Dag did
+	it in the unix version): delay doesn't exceed 1 second now and
+	warning is written to the log
+
 2000-10-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.15.

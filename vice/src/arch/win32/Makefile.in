@@ -410,6 +410,14 @@ video.o: video.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/video.h videoarch.h ../../../src/utils.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/drive/drive.h ../../../src/log.h types.h
+vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h ../../../src/vsync.h ../../../src/kbdbuf.h types.h \
+	../../../src/machine.h ui.h ../../../src/uiapi.h \
+	../../../src/video.h videoarch.h mouse.h joystick.h kbd.h \
+	../../../src/vsyncarch.h
+winmain.o: winmain.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/utils.h types.h winmain.h ../../../src/console.h \
+	../../../src/monitor/mon.h
 
 info-am:
 info: info-am

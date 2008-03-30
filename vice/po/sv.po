@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-10-01 21:21+0200\n"
+"POT-Creation-Date: 2000-10-14 19:25+0200\n"
 "PO-Revision-Date: 2000-08-13 23:39+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: svenska <sv@li.org>\n"
@@ -1728,57 +1728,6 @@ msgstr ""
 "Ange fil för positionsriktig tangentbordsemulering för tyskt "
 "\"business\"-tangentbord"
 
-#: src/arch/unix/print.c:99
-msgid "Specify name of printer dump file (print.dump)"
-msgstr "Ange fil för utskriftsdump (print.dump)"
-
-#: src/arch/unix/print.c:101
-msgid "Specify command for printer 1 (|petlp |lpr)"
-msgstr "Ange kommando för skrivare 1 (|petlp |lpr)"
-
-#: src/arch/unix/print.c:103
-msgid "Specify command for printer 2 (|lpr)"
-msgstr "Ange kommando för skrivare 2 (|lpr)"
-
-#: src/arch/unix/print.c:161 src/arch/unix/rs232.c:270
-msgid "No more devices available."
-msgstr "Inga fler enheter tillgängliga."
-
-#: src/arch/unix/print.c:166
-#, c-format
-msgid "print_open(device=%d)."
-msgstr "print_open(enhet=%d)."
-
-#: src/arch/unix/print.c:200 src/arch/unix/rs232.c:317
-#, c-format
-msgid "Attempt to close invalid fd %d."
-msgstr "Försökte stänga ogiltigt filhandtag %d."
-
-#: src/arch/unix/print.c:204 src/arch/unix/rs232.c:321
-#, c-format
-msgid "Attempt to close non-open fd %d."
-msgstr "Försökte stänga ej öppet filhandtag %d."
-
-#: src/arch/unix/print.c:219
-#, c-format
-msgid "Trying to write to invalid fd %d."
-msgstr "Försökte skriva till ogiltigt filhandtag %d."
-
-#: src/arch/unix/print.c:223
-#, c-format
-msgid "Trying to write to non-open fd %d."
-msgstr "Försökta skriva till ej öppet filhandtag %d."
-
-#: src/arch/unix/print.c:235
-#, c-format
-msgid "Trying to flush invalid fd %d."
-msgstr "Försökte tömma ogiltigt filhandtag %d."
-
-#: src/arch/unix/print.c:239
-#, c-format
-msgid "Trying to flush non-open fd %d."
-msgstr "Försökte tömma ej öppet filhandtag %d."
-
 #: src/arch/unix/rs232.c:126
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr "Ange namn på första RS232-enheten (/dev/ttyS0)"
@@ -1811,6 +1760,10 @@ msgstr "Ange kommando som sänder/tar emot data, inled med \"|\" (|lpr)"
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Ange baudhastighet för fjärde RS232-enheten"
 
+#: src/arch/unix/rs232.c:270
+msgid "No more devices available."
+msgstr "Inga fler enheter tillgängliga."
+
 #: src/arch/unix/rs232.c:275
 #, c-format
 msgid "rs232_open(device=%d)."
@@ -1820,6 +1773,16 @@ msgstr "rs232_open(enhet=%d)."
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Kan inte öppna fil \"%s\": %s"
+
+#: src/arch/unix/rs232.c:317
+#, c-format
+msgid "Attempt to close invalid fd %d."
+msgstr "Försökte stänga ogiltigt filhandtag %d."
+
+#: src/arch/unix/rs232.c:321
+#, c-format
+msgid "Attempt to close non-open fd %d."
+msgstr "Försökte stänga ej öppet filhandtag %d."
 
 #: src/arch/unix/rs232.c:341
 #, c-format
@@ -2015,23 +1978,23 @@ msgstr "Ingen garanti!"
 msgid "Contributors to the VICE project"
 msgstr "Bidragslämnare till VICE-projektet"
 
-#: src/arch/unix/x11/gnome/about.c:57
+#: src/arch/unix/x11/gnome/about.c:58
 msgid "The VICE Team"
 msgstr "VICE-teamet"
 
-#: src/arch/unix/x11/gnome/about.c:72 src/arch/unix/x11/xaw/about.c:150
+#: src/arch/unix/x11/gnome/about.c:77 src/arch/unix/x11/xaw/about.c:150
 msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
-#: src/arch/unix/x11/gnome/about.c:82
+#: src/arch/unix/x11/gnome/about.c:90
 msgid "License"
 msgstr "Licens"
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:96
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:102
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
@@ -2588,3 +2551,27 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#~ msgid "Specify name of printer dump file (print.dump)"
+#~ msgstr "Ange fil för utskriftsdump (print.dump)"
+
+#~ msgid "Specify command for printer 1 (|petlp |lpr)"
+#~ msgstr "Ange kommando för skrivare 1 (|petlp |lpr)"
+
+#~ msgid "Specify command for printer 2 (|lpr)"
+#~ msgstr "Ange kommando för skrivare 2 (|lpr)"
+
+#~ msgid "print_open(device=%d)."
+#~ msgstr "print_open(enhet=%d)."
+
+#~ msgid "Trying to write to invalid fd %d."
+#~ msgstr "Försökte skriva till ogiltigt filhandtag %d."
+
+#~ msgid "Trying to write to non-open fd %d."
+#~ msgstr "Försökta skriva till ej öppet filhandtag %d."
+
+#~ msgid "Trying to flush invalid fd %d."
+#~ msgstr "Försökte tömma ogiltigt filhandtag %d."
+
+#~ msgid "Trying to flush non-open fd %d."
+#~ msgstr "Försökte tömma ej öppet filhandtag %d."
