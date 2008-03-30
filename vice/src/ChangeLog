@@ -1,3 +1,57 @@
+2002-01-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.59.
+
+	* vdc/vdc.c (vdc_set_geometry): Restored old geometry
+	calculation.
+
+2002-01-11  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/uijoystick2.c, arch/unix/x11/gnome/ui.c,
+	arch/unix/x11/xaw/ui.c: Removed vsid code commented out with
+	#if 0.
+
+	* c64/psid.c (PSIDDefaultVideoStandard, PSIDDefaultSidModel):
+	New resources.
+	(psid_init_tune, psid_init_driver): Support revised PSID v2 NG
+	flags.
+
+	* sound.c (fill_buffer): Provide both attenuation and gain.
+	(sound_open, sound_flush): Fill buffer: repeat last sample.
+	(sound_suspend): Fill buffer: attenuate to zero.
+	(sound_resume): Fill buffer: gain to last sample.
+
+2002-01-08  Tibor Biczo <crown@axelero.hu>
+
+	* plus4/plus4.c (plus4_tape_traps): Added plus4 tape traps.
+	(machine_init): Init tape with correct addresses.
+
+	* sound.c (sound_suspend): Call fill_buffer to attenuate last
+	sample if the driver needs it.
+
+	* sound.h (sound_device_t): New structure tag called
+	need_attenuation.
+	It is set if the driver needs attenuation/gain on suspend.
+
+	* sounddrv/soundacorn.c, sounddrv/soundaix.c,
+	sounddrv/soundallegro.c, sounddrv/soundarts.c,
+	sounddrv/soundbeos.cc, sounddrv/sounddart.c,
+	sounddrv/sounddummy.c, sounddrv/sounddump.c,
+	sounddrv/sounddx.c, sounddrv/soundesd.c, sounddrv/soundfs.c,
+	sounddrv/soundhpux.c, sounddrv/soundmidas.c,
+	sounddrv/soundmmos2.c, sounddrv/soundsb.c,
+	sounddrv/soundsdl.c, sounddrv/soundsgi.c,
+	sounddrv/soundspeed.c, sounddrv/soundsun.c,
+	sounddrv/sounduss.c, sounddrv/soundwav.c, sounddrv/soundwmm.c:
+	Set need_attenuation flag appropriately.
+
+	* tape.c (tape_find_header_trap_plus4,
+	tape_receive_trap_plus4): New functions, implementing plus4
+	specific tape traps.
+
+	* tape.h (tape_find_header_trap_plus4,
+	tape_receive_trap_plus4): New prototypes.
+
 2002-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.58.
