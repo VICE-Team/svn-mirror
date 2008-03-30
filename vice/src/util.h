@@ -67,6 +67,8 @@ extern char *util_subst(const char *s, const char *string,
 extern int util_string_set(char **str, const char *new_value);
 extern int util_check_null_string(const char *string);
 
+extern int util_check_filename_access(const char *filename);
+
 extern int util_dword_read(FILE *fd, DWORD *buf, size_t num);
 extern int util_dword_write(FILE *fd, DWORD *buf, size_t num);
 

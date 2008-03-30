@@ -41,7 +41,9 @@ static int ui_sound_freq[] = {
     8000,
     11025,
     22050,
-    44100
+    44100,
+    48000,
+    96000
 };
 
 static int ui_sound_buffer[] = {
@@ -70,6 +72,8 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("11025 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("22050 Hz"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("44100 Hz"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("48000 Hz"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("96000 Hz"));
     resources_get_int("SoundSampleRate", &res_value);
     switch (res_value) {
       case 8000:
@@ -80,6 +84,12 @@ static void init_sound_dialog(HWND hwnd)
         break;
       case 22050:
         res_value = 2;
+        break;
+      case 48000:
+        res_value = 4;
+        break;
+      case 96000:
+        res_value = 5;
         break;
       case 44100:
       default:

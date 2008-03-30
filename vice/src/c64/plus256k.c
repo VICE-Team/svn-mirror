@@ -110,6 +110,11 @@ static int set_plus256k_filename(const char *name, void *param)
        && strcmp(name, plus256k_filename) == 0)
        return 0;
 
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0)
+            return -1;
+    }
+
     if (plus256k_enabled) {
         plus256k_deactivate();
         util_string_set(&plus256k_filename, name);

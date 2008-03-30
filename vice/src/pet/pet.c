@@ -74,6 +74,9 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "screenshot.h"
+#include "sidcart.h"
+#include "sidcart-cmdline-options.h"
+#include "sidcart-resources.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"
@@ -166,6 +169,7 @@ int machine_resources_init(void)
         || pia1_init_resources() < 0
         || crtc_resources_init() < 0
         || sound_resources_init() < 0
+        || sidcart_resources_init() < 0
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || acia1_resources_init() < 0
@@ -207,6 +211,7 @@ int machine_cmdline_options_init(void)
         || crtc_cmdline_options_init() < 0
         || pia1_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
+        || sidcart_cmdline_options_init() < 0
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || acia1_cmdline_options_init() < 0
@@ -236,6 +241,10 @@ static void pet_crtc_signal(unsigned int signal) {
 }
 
 /* ------------------------------------------------------------------------- */
+
+void machine_handle_pending_alarms(int num_write_cycles)
+{
+}
 
 static void pet_monitor_init(void)
 {
@@ -355,6 +364,7 @@ void machine_specific_reset(void)
     acia1_reset();
     crtc_reset();
     petsound_reset();
+    sidcart_reset();
     petmem_reset();
     rs232drv_reset();
     printer_reset();

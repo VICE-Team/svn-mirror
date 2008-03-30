@@ -168,6 +168,11 @@ static int set_ramcart_filename(const char *name, void *param)
         && strcmp(name, ramcart_filename) == 0)
         return 0;
 
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0)
+            return -1;
+    }
+
     if (ramcart_enabled) {
         ramcart_deactivate();
         util_string_set(&ramcart_filename, name);

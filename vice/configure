@@ -1349,7 +1349,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=16
+VICE_VERSION_BUILD=17
 
 
 
@@ -22569,7 +22569,79 @@ fi
 
     LIBS="${LIBS} `pkg-config --libs gtk+-2.0`"
 
-        echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
+        echo "$as_me:$LINENO: checking for XCreateWindow in -lX11" >&5
+echo $ECHO_N "checking for XCreateWindow in -lX11... $ECHO_C" >&6
+if test "${ac_cv_lib_X11_XCreateWindow+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lX11 $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char XCreateWindow ();
+int
+main ()
+{
+XCreateWindow ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_X11_XCreateWindow=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_X11_XCreateWindow=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_X11_XCreateWindow" >&5
+echo "${ECHO_T}$ac_cv_lib_X11_XCreateWindow" >&6
+if test $ac_cv_lib_X11_XCreateWindow = yes; then
+   X_LIBS="-lX11 $X_LIBS";
+                    LINK_X_LIBS="-lX11 $LINK_X_LIBS"
+else
+   MISSING_X_LIBS="$MISSING_X_LIBS X11"
+fi
+
+
+    echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
 echo $ECHO_N "checking for XvQueryExtension in -lXv... $ECHO_C" >&6
 if test "${ac_cv_lib_Xv_XvQueryExtension+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -22644,9 +22716,9 @@ _ACEOF
 fi
 
 
-    echo "$as_me:$LINENO: checking for XShmQueryExtension in -lXext" >&5
-echo $ECHO_N "checking for XShmQueryExtension in -lXext... $ECHO_C" >&6
-if test "${ac_cv_lib_Xext_XShmQueryExtension+set}" = set; then
+    echo "$as_me:$LINENO: checking for XShmAttach in -lXext" >&5
+echo $ECHO_N "checking for XShmAttach in -lXext... $ECHO_C" >&6
+if test "${ac_cv_lib_Xext_XShmAttach+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -22664,11 +22736,11 @@ extern "C"
 #endif
 /* We use char because int might match the return type of a gcc2
    builtin and then its argument prototype would still apply.  */
-char XShmQueryExtension ();
+char XShmAttach ();
 int
 main ()
 {
-XShmQueryExtension ();
+XShmAttach ();
   ;
   return 0;
 }
@@ -22695,20 +22767,22 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_cv_lib_Xext_XShmQueryExtension=yes
+  ac_cv_lib_Xext_XShmAttach=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_cv_lib_Xext_XShmQueryExtension=no
+ac_cv_lib_Xext_XShmAttach=no
 fi
 rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmQueryExtension" >&5
-echo "${ECHO_T}$ac_cv_lib_Xext_XShmQueryExtension" >&6
-if test $ac_cv_lib_Xext_XShmQueryExtension = yes; then
+echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmAttach" >&5
+echo "${ECHO_T}$ac_cv_lib_Xext_XShmAttach" >&6
+if test $ac_cv_lib_Xext_XShmAttach = yes; then
+   X_LIBS="-lXext $X_LIBS";
+                   LINK_X_LIBS="-lXext $LINK_X_LIBS";
 
 cat >>confdefs.h <<\_ACEOF
 #define USE_MITSHM
@@ -25909,6 +25983,7 @@ if false ; then
     mkdir -p rs232drv
     mkdir -p serial
     mkdir -p sid
+    mkdir -p sidcart
     mkdir -p sounddrv
     mkdir -p tape
     mkdir -p vdc
@@ -25931,7 +26006,7 @@ if false ; then
 
 fi
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ac_config_files="$ac_config_files Makefile build/Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/amigaos/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/gp2x/Makefile src/arch/unix/gui/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/unix/macosx/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec/c64exp/Makefile src/drive/iec/plus4exp/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ac_config_files="$ac_config_files Makefile build/Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/amigaos/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/gp2x/Makefile src/arch/unix/gui/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/unix/macosx/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec/c64exp/Makefile src/drive/iec/plus4exp/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sidcart/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -27363,6 +27438,7 @@ do
   "src/rs232drv/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/rs232drv/Makefile" ;;
   "src/serial/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/serial/Makefile" ;;
   "src/sid/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/sid/Makefile" ;;
+  "src/sidcart/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/sidcart/Makefile" ;;
   "src/sounddrv/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/sounddrv/Makefile" ;;
   "src/tape/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/tape/Makefile" ;;
   "src/vdc/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/vdc/Makefile" ;;

@@ -46,6 +46,7 @@
 #include "petvia.h"
 #include "ram.h"
 #include "resources.h"
+#include "sidcart.h"
 #include "types.h"
 #include "vsync.h"
 
@@ -183,8 +184,19 @@ static BYTE REGPARM1 read_unused(WORD addr)
 {
     if (petreu_enabled && addr>=0x8800 && addr<0x8900)
       return read_petreu_reg(addr);
+
     if (petreu_enabled && addr>=0x8900 && addr<0x8a00)
       return read_petreu_ram(addr);
+
+    if (petreu_enabled && addr>=0x8a00 && addr<0x8b00)
+      return read_petreu2_reg(addr);
+
+    if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<=0xe91f)
+      return sidcart_read(addr);
+
+    if (sidcart_enabled && sidcart_address==0 && addr>=0x8f00 && addr<=0x8f1f)
+      return sidcart_read(addr);
+
     return (addr >> 8) & 0xff;
 }
 
@@ -400,8 +412,19 @@ static void REGPARM2 store_dummy(WORD addr, BYTE value)
 {
     if (petreu_enabled && addr>=0x8800 && addr<0x8900)
       store_petreu_reg(addr,value);
+
     if (petreu_enabled && addr>=0x8900 && addr<0x8a00)
       store_petreu_ram(addr,value);
+
+    if (petreu_enabled && addr>=0x8a00 && addr<0x8b00)
+      store_petreu2_reg(addr,value);
+
+    if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<0xe91f)
+      sidcart_store(addr,value);
+
+    if (sidcart_enabled && sidcart_address==0 && addr>=0x8f00 && addr<0x8f1f)
+      sidcart_store(addr,value);
+
     return;
 }
 

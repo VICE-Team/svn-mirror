@@ -45,6 +45,12 @@ UI_CALLBACK(set_petreu_image_name)
 static ui_menu_entry_t petreu_size_submenu[] = {
     { "*128KB", (ui_callback_t)radio_PETREUsize,
       (ui_callback_data_t)128, NULL },
+    { "*512KB", (ui_callback_t)radio_PETREUsize,
+      (ui_callback_data_t)512, NULL },
+    { "*1024KB", (ui_callback_t)radio_PETREUsize,
+      (ui_callback_data_t)1024, NULL },
+    { "*2048KB", (ui_callback_t)radio_PETREUsize,
+      (ui_callback_data_t)2048, NULL },
     { NULL }
 };
 

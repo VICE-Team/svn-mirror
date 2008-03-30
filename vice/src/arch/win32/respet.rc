@@ -188,6 +188,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA settings...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU settings...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
@@ -398,6 +399,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA Einstellungen...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU Einstellungen...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Einstellungen &speichern", IDM_SETTINGS_SAVE
@@ -606,6 +608,7 @@ BEGIN
         BEGIN
             MENUITEM "Paramètres &ACIA...",  IDM_ACIA_SETTINGS
             MENUITEM "Paramètres PET &REU...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Enregistrer les paramètres courants", IDM_SETTINGS_SAVE
@@ -815,6 +818,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA beállításai...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU beállításai...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Jelenlegi beállítások &mentése", IDM_SETTINGS_SAVE
@@ -1024,6 +1028,7 @@ BEGIN
         BEGIN
             MENUITEM "Impostazioni dell'&ACIA...",  IDM_ACIA_SETTINGS
             MENUITEM "Impostazioni del PET &REU...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
@@ -1232,6 +1237,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA instellingen...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU instellingen...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart instellingen...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Huidige instellingen op&slaan", IDM_SETTINGS_SAVE
@@ -1441,6 +1447,7 @@ BEGIN
         BEGIN
             MENUITEM "Ustawienia &ACIA...",  IDM_ACIA_SETTINGS
             MENUITEM "Ustawienia PET &REU...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Zapi&sz ustawienia", IDM_SETTINGS_SAVE
@@ -1650,6 +1657,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA-inställningar...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU-inställningar...",      IDM_PETREU_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Spara nuvarande inställningar", IDM_SETTINGS_SAVE

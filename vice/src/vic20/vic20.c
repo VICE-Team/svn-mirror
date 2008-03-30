@@ -57,6 +57,9 @@
 #include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
+#include "sidcart.h"
+#include "sidcart-cmdline-options.h"
+#include "sidcart-resources.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"
@@ -220,6 +223,7 @@ int machine_resources_init(void)
         || vic20_resources_init() < 0
         || vic_resources_init() < 0
         || sound_resources_init() < 0
+        || sidcart_resources_init() < 0
         || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
         || serial_resources_init() < 0
@@ -256,6 +260,7 @@ int machine_cmdline_options_init(void)
         || vic20_cmdline_options_init() < 0
         || vic_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
+        || sidcart_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
         || serial_cmdline_options_init() < 0
@@ -302,6 +307,10 @@ void machine_setup_context(void)
     vic20ieeevia1_setup_context(&machine_context);
     vic20ieeevia2_setup_context(&machine_context);
     machine_printer_setup_context(&machine_context);
+}
+
+void machine_handle_pending_alarms(int num_write_cycles)
+{
 }
 
 /* VIC20-specific initialization.  */
@@ -394,6 +403,7 @@ void machine_specific_reset(void)
     viacore_reset(machine_context.via2);
     vic_reset();
     vic_sound_reset();
+    sidcart_reset();
 
     viacore_reset(machine_context.ieeevia1);
     viacore_reset(machine_context.ieeevia2);
@@ -496,6 +506,7 @@ void machine_change_timing(int timeval)
                                 machine_timing.cycles_per_sec);
     sound_set_machine_parameter(machine_timing.cycles_per_sec,
                                 machine_timing.cycles_per_rfsh);
+    sidcart_set_machine_parameter(machine_timing.cycles_per_sec);
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);

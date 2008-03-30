@@ -40,6 +40,7 @@
 #include "uipetreu.h"
 #include "uipetset.h"
 #include "uirom.h"
+#include "uisidcart.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -128,6 +129,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_PETREU_SETTINGS:
         ui_petreu_settings_dialog(hwnd);
+        break;
+      case IDM_SIDCART_SETTINGS:
+        ui_sidcart_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, translate_res(IDD_PETROM_SETTINGS_DIALOG),

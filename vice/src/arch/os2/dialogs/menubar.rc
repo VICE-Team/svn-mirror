@@ -382,6 +382,9 @@ BEGIN
       SUBMENU  "PET REU Memory ~Size",        IDM_PETREUSIZE,   MIS_TEXT
       BEGIN
         MENUITEM "~128kB",                IDM_PETREU128,    MIS_TEXT
+        MENUITEM "~512kB",                IDM_PETREU512,    MIS_TEXT
+        MENUITEM "1~024kB",                IDM_PETREU1024,    MIS_TEXT
+        MENUITEM "~2048kB",                IDM_PETREU2048,    MIS_TEXT
       END
 #endif
 #if defined __X64__ || defined __X128__

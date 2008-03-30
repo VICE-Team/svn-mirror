@@ -755,6 +755,17 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_NETWORK_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_NETWORK_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
+/* ressidcart.rc */
+/* en */ {IDD_SIDCART_SETTINGS_DIALOG,
+/* de */  IDD_SIDCART_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_SIDCART_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_SIDCART_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_SIDCART_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_SIDCART_SETTINGS_DIALOG_NL,    /* size */
+/* pl */  IDD_SIDCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_SIDCART_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+
+
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
 
 /* res.rc */

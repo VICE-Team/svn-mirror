@@ -51,6 +51,7 @@
 #include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
+#include "uisidcart.h"
 #include "uisound.h"
 #include "vsync.h"
 
@@ -64,7 +65,6 @@ UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_RADIO(IOSize)
 UI_MENU_DEFINE_TOGGLE(Basic1)
 UI_MENU_DEFINE_TOGGLE(Basic1Chars)
-
 
 static UI_CALLBACK(petui_set_model)
 {
@@ -89,6 +89,45 @@ static UI_CALLBACK(set_KeyboardType)
 }
 
 /* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_TOGGLE(SidCart)
+UI_MENU_DEFINE_TOGGLE(SidFilters)
+
+UI_MENU_DEFINE_RADIO(SidAddress)
+
+static ui_menu_entry_t sidcart_address_submenu[] = {
+    { "*$8F00",
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0, NULL },
+    { "*$E900",
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(SidClock)
+
+static ui_menu_entry_t sidcart_clock_submenu[] = {
+    { "*C64", (ui_callback_t)radio_SidClock,
+      (ui_callback_data_t)0, NULL },
+    { "*PET", (ui_callback_t)radio_SidClock,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t sidcart_submenu[] = {
+    { N_("*Enable SID cart"),
+      (ui_callback_t)toggle_SidCart, NULL, NULL },
+    { N_("SID engine"),
+      NULL, NULL, sidcart_engine_submenu },
+    { N_("Chip model"),
+      NULL, NULL, sidcart_model_submenu },
+    { N_("*Emulate filters"),
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+    { N_("SID address"),
+      NULL, NULL, sidcart_address_submenu },
+    { N_("SID clock"),
+      NULL, NULL, sidcart_clock_submenu },
+    { NULL }
+};
 
 static ui_menu_entry_t pet_memsize_submenu[] = {
     { N_("*4 kByte"),
@@ -182,6 +221,8 @@ UI_MENU_DEFINE_TOGGLE(EmuID)
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("PET RAM and Expansion Unit"),
       NULL, NULL, petreu_submenu },
+    { N_("SID cartridge"),
+      NULL, NULL, sidcart_submenu },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }

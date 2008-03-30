@@ -46,6 +46,9 @@ ui_menu_toggle  pet_ui_menu_toggles[]={
 
 ui_res_possible_values PETREUSize[] = {
         {128, MENU_PETREU_SIZE_128},
+        {512, MENU_PETREU_SIZE_512},
+        {1024, MENU_PETREU_SIZE_1024},
+        {2048, MENU_PETREU_SIZE_2048},
         {-1, 0}
 };
 

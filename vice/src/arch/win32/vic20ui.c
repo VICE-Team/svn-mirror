@@ -42,6 +42,7 @@
 #include "uilib.h"
 #include "uirom.h"
 #include "uirs232user.h"
+#include "uisidcart.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
@@ -176,6 +177,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VIC_SETTINGS:
         ui_vic_settings_dialog(hwnd);
+        break;
+      case IDM_SIDCART_SETTINGS:
+        ui_sidcart_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG,

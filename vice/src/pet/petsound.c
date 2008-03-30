@@ -33,11 +33,15 @@
 
 #include "lib.h"
 #include "petsound.h"
+#include "sidcart.h"
 #include "sound.h"
 #include "types.h"
 
+char *native_primary_sid_address="$8F00";
+char *native_secondary_sid_address="$E900";
+char *native_sid_clock="PET";
 
-struct sound_s
+struct pet_sound_s
 {
     int on;
     CLOCK t;
@@ -51,6 +55,7 @@ struct sound_s
 };
 
 static BYTE snddata[4];
+static struct pet_sound_s snd;
 
 /* XXX: this is not correct */
 static WORD pet_makesample(double s, double e, BYTE sample)
@@ -78,38 +83,34 @@ static WORD pet_makesample(double s, double e, BYTE sample)
     return ((WORD)(v * 4095.0 / (e - s)));
 }
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
     WORD v = 0;
 
-    for (i = 0; i < nr; i++) {
-        if (psid->on)
-            v = pet_makesample(psid->b, psid->b + psid->bs, psid->sample);
-        pbuf[i * interleave] = v;
-        psid->b += psid->bs;
-        while (psid->b >= 8.0)
-            psid->b -= 8.0;
+    for (i = 0; i < nr; i++)
+    {
+        if (snd.on)
+            v = pet_makesample(snd.b, snd.b + snd.bs, snd.sample);
+        pbuf[i * interleave] += v;
+        snd.b += snd.bs;
+        while (snd.b >= 8.0)
+            snd.b -= 8.0;
     }
     return 0;
 }
 
-sound_t *sound_machine_open(int chipno)
-{
-    return (sound_t*)lib_calloc(1, sizeof(sound_t));
-}
-
-int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+int native_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     WORD i;
 
-    psid->speed = speed;
-    psid->cycles_per_sec = cycles_per_sec;
-    if (!psid->t)
-        psid->t = 32;
-    psid->b = 0.0;
-    psid->bs = (double)psid->cycles_per_sec / (psid->t * psid->speed);
+    snd.speed = speed;
+    snd.cycles_per_sec = cycles_per_sec;
+    if (!snd.t)
+        snd.t = 32;
+    snd.b = 0.0;
+    snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
 
     snddata[0] = 0;
     snddata[1] = 0;
@@ -117,53 +118,48 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     snddata[3] = 0;
 
     for (i = 0; i < 4; i++)
-        sound_machine_store(psid, i, snddata[i]);
+        native_sound_machine_store(psid, i, snddata[i]);
 
     return 1;
-}
-
-void sound_machine_close(sound_t *psid)
-{
-    lib_free(psid);
 }
 
 void petsound_store_onoff(int value)
 {
     snddata[0] = value;
-    sound_store(0, snddata[0], 0);
+    sound_store(0x20, snddata[0], 0);
 }
 
 void petsound_store_rate(CLOCK t)
 {
     snddata[2] = (BYTE)(t & 0xff);
     snddata[3] = (BYTE)((t >> 8) & 0xff);
-    sound_store(2, snddata[2], 0);
-    sound_store(3, snddata[3], 0);
+    sound_store(0x22, snddata[2], 0);
+    sound_store(0x23, snddata[3], 0);
 }
 
 void petsound_store_sample(BYTE sample)
 {
     snddata[1] = sample;
-    sound_store(1, snddata[1], 0);
+    sound_store(0x21, snddata[1], 0);
 }
 
-void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+void native_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch (addr) {
       case 0:
-        psid->on = val;
+        snd.on = val;
         break;
       case 1:
-        psid->sample = val;
-        while (psid->b >= 1.0)
-            psid->b -= 1.0;
+        snd.sample = val;
+        while (snd.b >= 1.0)
+            snd.b -= 1.0;
         break;
       case 2:
-        psid->t = val;
+        snd.t = val;
         break;
       case 3:
-        psid->t = (psid->t & 0xff) | (val << 8);
-        psid->bs = (double)psid->cycles_per_sec / (psid->t * psid->speed);
+        snd.t = (snd.t & 0xff) | (val << 8);
+        snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
         break;
       default:
         abort();
@@ -176,38 +172,8 @@ void petsound_reset(void)
     petsound_store_onoff(0);
 }
 
-BYTE sound_machine_read(sound_t *psid, WORD addr)
+BYTE native_sound_machine_read(sound_t *psid, WORD addr)
 {
-    abort();
-    return 0;
-}
-
-void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
-}
-
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-}
-
-char *sound_machine_dump_state(sound_t *psid)
-{
-    return lib_msprintf("on=%d sample=%d rate=%d\n",
-                        psid->on, psid->sample, psid->t);
-}
-
-int sound_machine_cycle_based(void)
-{
-    return 0;
-}
-
-int sound_machine_channels(void)
-{
-    return 1;
-}
-
-void sound_machine_enable(int enable)
-{
-
+  return 0;
 }
 

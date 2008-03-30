@@ -206,6 +206,7 @@ BEGIN
         POPUP "&Cartridge/IO settings"
         BEGIN
             MENUITEM "RS&232 userport settings...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
@@ -434,6 +435,7 @@ BEGIN
         POPUP "&Erweiterungsmodul Einstellungen"
         BEGIN
             MENUITEM "RS&232 Userport Einstellungen...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Einstellungen &speichern", IDM_SETTINGS_SAVE
@@ -660,6 +662,7 @@ BEGIN
         POPUP "Paramètres E/S &cartouche"
         BEGIN
             MENUITEM "Paramètres RS&232 userport...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Enregistrer les paramètres courants", IDM_SETTINGS_SAVE
@@ -887,6 +890,7 @@ BEGIN
         POPUP "&Cartridge/IO beállításai"
         BEGIN
             MENUITEM "RS&232 userport beállításai...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Jelenlegi beállítások &mentése", IDM_SETTINGS_SAVE
@@ -1114,6 +1118,7 @@ BEGIN
         POPUP "Impostazioni della &cartuccia/IO"
         BEGIN
             MENUITEM "Impostazioni della RS&232 su userport...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
@@ -1340,6 +1345,7 @@ BEGIN
         POPUP "&Cartridge/IO instellingen"
         BEGIN
             MENUITEM "RS&232 userport instellingen...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart instellingen...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Huidige instellingen op&slaan", IDM_SETTINGS_SAVE
@@ -1567,6 +1573,7 @@ BEGIN
         POPUP "Ustawienia kart&rid¿a"
         BEGIN
             MENUITEM "Ustawienia RS&232 userport...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Zapi&sz ustawienia", IDM_SETTINGS_SAVE
@@ -1794,6 +1801,7 @@ BEGIN
         POPUP "&Modul/IO-inställningar"
         BEGIN
             MENUITEM "RS&232-användarportinställningar...", IDM_RS232USER_SETTINGS
+            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Spara nuvarande inställningar", IDM_SETTINGS_SAVE

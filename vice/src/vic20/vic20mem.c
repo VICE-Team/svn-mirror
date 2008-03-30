@@ -43,6 +43,7 @@
 #include "monitor.h"
 #include "ram.h"
 #include "resources.h"
+#include "sidcart.h"
 #include "types.h"
 #include "ui.h"
 #include "vic-mem.h"
@@ -177,20 +178,33 @@ static void REGPARM2 store_emuid(WORD addr, BYTE value)
 
 static BYTE REGPARM1 io3_read(WORD addr)
 {
+    if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f)
+        return sidcart_read(addr);
+
     if (emu_id_enabled && (addr & 0xff00) == 0x9f00)
         return read_emuid(addr);
+
     return 0xff;
 }
 
 static void REGPARM2 io3_store(WORD addr, BYTE value)
 {
+    if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
+        sidcart_store(addr,value);
+        return;
+    }
+
     if (emu_id_enabled && (addr & 0xff00) == 0x9f00)
         store_emuid(addr, value);
+
     return;
 }
 
 static BYTE REGPARM1 io2_read(WORD addr)
 {
+    if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f)
+        return sidcart_read(addr);
+
     if (ieee488_enabled) {
         if (addr & 0x10) {
             return ieeevia2_read(addr);
@@ -203,6 +217,11 @@ static BYTE REGPARM1 io2_read(WORD addr)
 
 static void REGPARM2 io2_store(WORD addr, BYTE value)
 {
+    if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f) {
+        sidcart_store(addr,value);
+        return;
+    }
+
     if (ieee488_enabled) {
         if (addr & 0x10) {
             ieeevia2_store(addr, value);

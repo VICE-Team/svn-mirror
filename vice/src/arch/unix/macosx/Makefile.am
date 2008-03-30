@@ -22,4 +22,5 @@ libarchmacosx_a_SOURCES = \
 EXTRA_DIST = \
 	VICE.icns \
 	Info.plist \
-	make-bindist.sh
+	make-bindist.sh \
+	x11-launcher.sh

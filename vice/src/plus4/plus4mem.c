@@ -47,6 +47,7 @@
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
+#include "sidcart.h"
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -383,6 +384,9 @@ static BYTE REGPARM1 fdxx_read(WORD addr)
     if (addr >= 0xfd30 && addr <= 0xfd3f)
         return pio2_read(addr);
 
+    if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5f)
+        return sidcart_read(addr);
+
     return 0;
 }
 
@@ -410,6 +414,10 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
         pio2_store(addr, value);
         return;
     }
+    if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5f) {
+        sidcart_store(addr, value);
+        return;
+    }
     if (addr >= 0xfdd0 && addr <= 0xfddf) {
         mem_config_rom_set((addr & 0xf) << 1);
         return;
@@ -418,19 +426,20 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
 
 static BYTE REGPARM1 fexx_read(WORD addr)
 {
-#if 1
     if (addr >= 0xfec0 && addr <= 0xfedf)
         return plus4tcbm2_read(addr);
 
     if (addr >= 0xfee0 && addr <= 0xfeff)
         return plus4tcbm1_read(addr);
-#endif
+
+    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f)
+        return sidcart_read(addr);
+
     return 0;
 }
 
 static void REGPARM2 fexx_store(WORD addr, BYTE value)
 {
-#if 1
     if (addr >= 0xfec0 && addr <= 0xfedf) {
         plus4tcbm2_store(addr, value);
         return;
@@ -439,7 +448,10 @@ static void REGPARM2 fexx_store(WORD addr, BYTE value)
         plus4tcbm1_store(addr, value);
         return;
     }
-#endif
+    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
+        sidcart_store(addr, value);
+        return;
+    }
 }
 
 static BYTE REGPARM1 ram_ffxx_read(WORD addr)

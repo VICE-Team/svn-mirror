@@ -58,6 +58,7 @@
 
 /* PET REU registers */
 static BYTE petreu[16];
+static BYTE petreu2[16];
 
 static BYTE petreu_bank;
 
@@ -109,8 +110,6 @@ static int set_petreu_enabled(int val, void *param)
     }
 }
 
-/* for now this function is used for only 128kb, but future
-   use will be for the 512kb/1mb/2mb versions. */
 static int set_petreu_size(int val, void *param)
 {
     if (val == petreu_size_kb)
@@ -118,6 +117,9 @@ static int set_petreu_size(int val, void *param)
 
     switch (val) {
       case 128:
+      case 512:
+      case 1024:
+      case 2048:
         break;
       default:
         log_message(petreu_log, "Unknown PET REU size %d.", val);
@@ -142,6 +144,11 @@ static int set_petreu_filename(const char *name, void *param)
     if (petreu_filename != NULL && name != NULL
         && strcmp(name, petreu_filename) == 0)
         return 0;
+
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0)
+            return -1;
+    }
 
     if (petreu_enabled) {
         petreu_deactivate();
@@ -226,6 +233,7 @@ void petreu_init(void)
 void petreu_reset(void)
 {
     memset(petreu, 0, sizeof(petreu));
+    memset(petreu2, 0, sizeof(petreu2));
     petreu_bank = 0;
 }
 
@@ -306,6 +314,18 @@ BYTE REGPARM1 read_petreu_reg(WORD addr)
     return retval;
 }
 
+BYTE REGPARM1 read_petreu2_reg(WORD addr)
+{
+    BYTE retval;
+
+    if (petreu_size_kb!=128)
+        retval = petreu2[addr & 0xf];
+    else
+        retval = (addr >> 8) & 0xff;
+
+    return retval;
+}
+
 /* When direction bits are set to input, the corrosponding
    bits of the latches go high */
 static BYTE getrealvalue(BYTE reg, BYTE dir)
@@ -318,7 +338,7 @@ static BYTE getrealvalue(BYTE reg, BYTE dir)
   return retval;
 }
 
-BYTE REGPARM1 read_petreu_ram(WORD addr)
+static BYTE get_petreu_ram(WORD addr)
 {
     BYTE retval;
     BYTE real_register_b_value;
@@ -343,6 +363,46 @@ BYTE REGPARM1 read_petreu_ram(WORD addr)
     return retval;
 }
 
+static BYTE get_petreu2_ram(WORD addr)
+{
+    BYTE retval;
+    BYTE real_register_b_value;
+    BYTE real_register_a_value;
+    BYTE real_bank_value;
+
+    if (petreu[PETREU_DIRECTION_B] != 0xff)
+        real_register_b_value = getrealvalue(petreu[PETREU_REGISTER_B],
+                                             petreu[PETREU_DIRECTION_B]);
+    else
+        real_register_b_value = petreu[PETREU_REGISTER_B];
+
+    if (petreu[PETREU_DIRECTION_A] != 0xff)
+        real_register_a_value = getrealvalue(petreu[PETREU_REGISTER_A],
+                                             petreu[PETREU_DIRECTION_A]);
+    else
+        real_register_a_value = petreu[PETREU_REGISTER_A];
+
+    if (petreu2[PETREU_DIRECTION_A] != 0xff)
+        real_bank_value = getrealvalue(petreu2[PETREU_REGISTER_A],
+                                             petreu2[PETREU_DIRECTION_A]);
+    else
+        real_bank_value = petreu2[PETREU_REGISTER_A];
+
+    real_bank_value=(real_bank_value&((petreu_size_kb>>4)-1));
+
+    retval = petreu_ram[(real_bank_value << 16) + (real_register_b_value << 8) + real_register_a_value];
+
+    return retval;
+}
+
+BYTE REGPARM1 read_petreu_ram(WORD addr)
+{
+  if (petreu_size_kb==128)
+    return get_petreu_ram(addr);
+  else
+    return get_petreu2_ram(addr);
+}
+
 void REGPARM2 store_petreu_reg(WORD addr, BYTE byte)
 {
     petreu[addr & 0xf] = byte;
@@ -354,7 +414,12 @@ void REGPARM2 store_petreu_reg(WORD addr, BYTE byte)
         petreu_bank++;
 }
 
-void REGPARM2 store_petreu_ram(WORD addr, BYTE byte)
+void REGPARM2 store_petreu2_reg(WORD addr, BYTE byte)
+{
+    petreu2[addr & 0xf] = byte;
+}
+
+static void put_petreu_ram(WORD addr, BYTE byte)
 {
     BYTE real_register_b_value;
     BYTE real_register_a_value;
@@ -376,3 +441,39 @@ void REGPARM2 store_petreu_ram(WORD addr, BYTE byte)
         + real_register_a_value] = byte;
 }
 
+static void put_petreu2_ram(WORD addr, BYTE byte)
+{
+    BYTE real_register_b_value;
+    BYTE real_register_a_value;
+    BYTE real_bank_value;
+
+    if (petreu[PETREU_DIRECTION_B] != 0xff)
+        real_register_b_value = getrealvalue(petreu[PETREU_REGISTER_B],
+                                             petreu[PETREU_DIRECTION_B]);
+    else
+        real_register_b_value = petreu[PETREU_REGISTER_B];
+
+    if (petreu[PETREU_DIRECTION_A] != 0xff)
+        real_register_a_value = getrealvalue(petreu[PETREU_REGISTER_A],
+                                             petreu[PETREU_DIRECTION_A]);
+    else
+        real_register_a_value = petreu[PETREU_REGISTER_A];
+
+    if (petreu2[PETREU_DIRECTION_A] != 0xff)
+        real_bank_value = getrealvalue(petreu2[PETREU_REGISTER_A],
+                                             petreu2[PETREU_DIRECTION_A]);
+    else
+        real_bank_value = petreu2[PETREU_REGISTER_A];
+
+    real_bank_value=(real_bank_value&((petreu_size_kb>>4)-1));
+
+    petreu_ram[(real_bank_value << 16) + (real_register_b_value << 8) + real_register_a_value] = byte;
+}
+
+void REGPARM2 store_petreu_ram(WORD addr, BYTE byte)
+{
+  if (petreu_size_kb==128)
+    put_petreu_ram(addr,byte);
+  else
+    put_petreu2_ram(addr,byte);
+}

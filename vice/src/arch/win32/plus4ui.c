@@ -42,6 +42,7 @@
 #include "uiplus4cart.h"
 #include "uiplus4mem.h"
 #include "uirom.h"
+#include "uisidcart.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -134,6 +135,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
+        break;
+      case IDM_SIDCART_SETTINGS:
+        ui_sidcart_settings_dialog(hwnd);
         break;
       case IDM_KEYBOARD_SETTINGS:
         uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

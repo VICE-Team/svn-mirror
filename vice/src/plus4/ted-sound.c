@@ -33,28 +33,35 @@
 
 #include "lib.h"
 #include "maincpu.h"
+#include "sidcart.h"
 #include "sound.h"
 #include "ted-sound.h"
 
 
-static BYTE siddata[5];
+static BYTE plus4_sound_data[5];
 
-/* Needed data for one voice.  */
-typedef struct voice_s
-{
-    /* Collect number of cycles elapsed  */
-    DWORD accu;
-    /* Toggle sign and reload accu if accu reached 0 */
-    DWORD reload;
-    /* Sign of the square wave  */
-    SWORD sign;
-    BYTE output_enabled;
-} voice_t;
+char *native_primary_sid_address="$FD40";
+char *native_secondary_sid_address="$FE80";
+char *native_sid_clock="PLUS4";
 
-struct sound_s
+struct plus4_sound_s
 {
-    /* Number of voices  */
-    voice_t voice[2];
+    /* Voice 0 collect number of cycles elapsed */
+    DWORD voice0_accu;
+    /* Voice 0 toggle sign and reload accu if accu reached 0 */
+    DWORD voice0_reload;
+    /* Voice 0 sign of the square wave */
+    SWORD voice0_sign;
+    BYTE voice0_output_enabled;
+
+    /* Voice 1 collect number of cycles elapsed */
+    DWORD voice1_accu;
+    /* Voice 1 toggle sign and reload accu if accu reached 0 */
+    DWORD voice1_reload;
+    /* Voice 1 sign of the square wave */
+    SWORD voice1_sign;
+    BYTE voice1_output_enabled;
+
     /* Volume multiplier  */
     SWORD volume;
     /* 8 cycles units per sample  */
@@ -70,254 +77,216 @@ struct sound_s
     BYTE noise_shift_register;
 };
 
+static struct plus4_sound_s snd;
+
 /* FIXME: Find proper volume multiplier.  */
 static const SWORD volume_tab[16] = {
     0x0000, 0x0800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800,
     0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff };
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
     int j;
     SWORD volume;
 
-    if (psid->digital) {
+    if (snd.digital) {
         for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = (SDWORD)(psid->volume *
-                                   (psid->voice[0].output_enabled
-                                   + psid->voice[1].output_enabled));
+            pbuf[i * interleave] += (SDWORD)(snd.volume *
+                                   (snd.voice0_output_enabled
+                                   + snd.voice1_output_enabled));
         }
     } else {
         for (i = 0; i < nr; i++) {
-            psid->sample_position_remainder += psid->sample_length_remainder;
-            if (psid->sample_position_remainder >= psid->speed) {
-                psid->sample_position_remainder -= psid->speed;
-                psid->sample_position_integer++;
+            snd.sample_position_remainder += snd.sample_length_remainder;
+            if (snd.sample_position_remainder >= snd.speed) {
+                snd.sample_position_remainder -= snd.speed;
+                snd.sample_position_integer++;
             }
-            psid->sample_position_integer += psid->sample_length_integer;
-            if (psid->sample_position_integer >= 8) {
+            snd.sample_position_integer += snd.sample_length_integer;
+            if (snd.sample_position_integer >= 8) {
                 /* Advance state engine */
-                DWORD ticks = psid->sample_position_integer >> 3;
-                if (psid->voice[0].accu <= ticks) {
-                    DWORD delay = ticks - psid->voice[0].accu;
-                    psid->voice[0].sign ^= 1;
-                    psid->voice[0].accu = 1023 - psid->voice[0].reload;
-                    if (psid->voice[0].accu == 0) psid->voice[0].accu = 1024;
-                    if (delay >= psid->voice[0].accu) {
-                        psid->voice[0].sign = ((delay / psid->voice[0].accu)
-                                              & 1) ? psid->voice[0].sign ^ 1
-                                              : psid->voice[0].sign;
-                        psid->voice[0].accu = psid->voice[0].accu
-                                              - (delay % psid->voice[0].accu);
+                DWORD ticks = snd.sample_position_integer >> 3;
+                if (snd.voice0_accu <= ticks) {
+                    DWORD delay = ticks - snd.voice0_accu;
+                    snd.voice0_sign ^= 1;
+                    snd.voice0_accu = 1023 - snd.voice0_reload;
+                    if (snd.voice0_accu == 0) snd.voice0_accu = 1024;
+                    if (delay >= snd.voice0_accu) {
+                        snd.voice0_sign = ((delay / snd.voice0_accu)
+                                              & 1) ? snd.voice0_sign ^ 1
+                                              : snd.voice0_sign;
+                        snd.voice0_accu = snd.voice0_accu
+                                              - (delay % snd.voice0_accu);
                     } else {
-                        psid->voice[0].accu -= delay; 
+                        snd.voice0_accu -= delay; 
                     }
                 } else {
-                    psid->voice[0].accu -= ticks;
+                    snd.voice0_accu -= ticks;
                 }
 
-                if (psid->voice[1].accu <= ticks) {
-                    DWORD delay = ticks - psid->voice[1].accu;
-                    psid->voice[1].sign ^= 1;
-                    psid->noise_shift_register
-                        = (psid->noise_shift_register << 1) +
-                        ( 1 ^ ((psid->noise_shift_register >> 7) & 1) ^
-                        ((psid->noise_shift_register >> 5) & 1) ^
-                        ((psid->noise_shift_register >> 4) & 1) ^
-                        ((psid->noise_shift_register >> 1) & 1));
-                    psid->voice[1].accu = 1023 - psid->voice[1].reload;
-                    if (psid->voice[1].accu == 0) psid->voice[1].accu = 1024;
-                    if (delay >= psid->voice[1].accu) {
-                        psid->voice[1].sign = ((delay / psid->voice[1].accu)
-                                              & 1) ? psid->voice[1].sign ^ 1
-                                              : psid->voice[1].sign;
-                        for (j = 0; j < (int)(delay / psid->voice[1].accu);
+                if (snd.voice1_accu <= ticks) {
+                    DWORD delay = ticks - snd.voice1_accu;
+                    snd.voice1_sign ^= 1;
+                    snd.noise_shift_register
+                        = (snd.noise_shift_register << 1) +
+                        ( 1 ^ ((snd.noise_shift_register >> 7) & 1) ^
+                        ((snd.noise_shift_register >> 5) & 1) ^
+                        ((snd.noise_shift_register >> 4) & 1) ^
+                        ((snd.noise_shift_register >> 1) & 1));
+                    snd.voice1_accu = 1023 - snd.voice1_reload;
+                    if (snd.voice1_accu == 0) snd.voice1_accu = 1024;
+                    if (delay >= snd.voice1_accu) {
+                        snd.voice1_sign = ((delay / snd.voice1_accu)
+                                              & 1) ? snd.voice1_sign ^ 1
+                                              : snd.voice1_sign;
+                        for (j = 0; j < (int)(delay / snd.voice1_accu);
                             j++) {
-                            psid->noise_shift_register
-                                = (psid->noise_shift_register << 1) +
-                                ( 1 ^ ((psid->noise_shift_register >> 7) & 1) ^
-                                ((psid->noise_shift_register >> 5) & 1) ^
-                                ((psid->noise_shift_register >> 4) & 1) ^
-                                ((psid->noise_shift_register >> 1) & 1));
+                            snd.noise_shift_register
+                                = (snd.noise_shift_register << 1) +
+                                ( 1 ^ ((snd.noise_shift_register >> 7) & 1) ^
+                                ((snd.noise_shift_register >> 5) & 1) ^
+                                ((snd.noise_shift_register >> 4) & 1) ^
+                                ((snd.noise_shift_register >> 1) & 1));
                         }
-                        psid->voice[1].accu = psid->voice[1].accu
-                                              - (delay % psid->voice[1].accu);
+                        snd.voice1_accu = snd.voice1_accu
+                                              - (delay % snd.voice1_accu);
                     } else {
-                        psid->voice[1].accu -= delay; 
+                        snd.voice1_accu -= delay; 
                     }
                 } else {
-                    psid->voice[1].accu -= ticks;
+                    snd.voice1_accu -= ticks;
                 }
 
             }
-            psid->sample_position_integer = psid->sample_position_integer & 7;
+            snd.sample_position_integer = snd.sample_position_integer & 7;
 
             volume = 0;
 
-            if (psid->voice[0].output_enabled && psid->voice[0].sign)
-                volume += psid->volume;
-            if (psid->voice[1].output_enabled
-                && !psid->noise && psid->voice[1].sign)
-                volume += psid->volume;
-            if (psid->voice[1].output_enabled && psid->noise
-                && (!(psid->noise_shift_register & 1)))
-                volume += psid->volume;
+            if (snd.voice0_output_enabled && snd.voice0_sign)
+                volume += snd.volume;
+            if (snd.voice1_output_enabled
+                && !snd.noise && snd.voice1_sign)
+                volume += snd.volume;
+            if (snd.voice1_output_enabled && snd.noise
+                && (!(snd.noise_shift_register & 1)))
+                volume += snd.volume;
 
-            pbuf[i * interleave] = volume;
+            pbuf[i * interleave] += volume;
         }
     }
     return 0;
 }
 
-sound_t *sound_machine_open(int chipno)
-{
-    return (sound_t *)lib_calloc(1, sizeof(sound_t));
-}
-
-int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+int native_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
 BYTE val;
 
-    psid->speed = speed;
-    psid->sample_length_integer = cycles_per_sec / speed;
-    psid->sample_length_remainder = cycles_per_sec % speed;
-    psid->sample_position_integer = 0;
-    psid->sample_position_remainder = 0;
+    snd.speed = speed;
+    snd.sample_length_integer = cycles_per_sec / speed;
+    snd.sample_length_remainder = cycles_per_sec % speed;
+    snd.sample_position_integer = 0;
+    snd.sample_position_remainder = 0;
 
-    psid->voice[0].reload = (siddata[0] | (siddata[4] << 8));
-    psid->voice[1].reload = (siddata[1] | (siddata[2] << 8));
-    val = siddata[3];
-    psid->volume = volume_tab[val & 0x0f];
-    psid->voice[0].output_enabled = (val & 0x10) ? 1 : 0;
-    psid->voice[1].output_enabled = (val & 0x60) ? 1 : 0;
-    psid->noise = ((val & 0x60) == 0x40) ? 1 : 0;
-    psid->digital = val & 0x80;
-    if (psid->digital) {
-        psid->voice[0].sign = 1;
-        psid->voice[0].accu = 0;
-        psid->voice[1].sign = 1;
-        psid->voice[1].accu = 0;
-        psid->noise_shift_register = 0;
+    snd.voice0_reload = (plus4_sound_data[0] | (plus4_sound_data[4] << 8));
+    snd.voice1_reload = (plus4_sound_data[1] | (plus4_sound_data[2] << 8));
+    val = plus4_sound_data[3];
+    snd.volume = volume_tab[val & 0x0f];
+    snd.voice0_output_enabled = (val & 0x10) ? 1 : 0;
+    snd.voice1_output_enabled = (val & 0x60) ? 1 : 0;
+    snd.noise = ((val & 0x60) == 0x40) ? 1 : 0;
+    snd.digital = val & 0x80;
+    if (snd.digital) {
+        snd.voice0_sign = 1;
+        snd.voice0_accu = 0;
+        snd.voice1_sign = 1;
+        snd.voice1_accu = 0;
+        snd.noise_shift_register = 0;
     }
 
     return 1;
 }
 
-void sound_machine_close(sound_t *psid)
-{
-    lib_free(psid);
-}
-
-void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+void native_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch(addr) {
       case 0x0e:
-        siddata[0] = val;
-        psid->voice[0].reload = (siddata[0] | (siddata[4] << 8));
+        plus4_sound_data[0] = val;
+        snd.voice0_reload = (plus4_sound_data[0] | (plus4_sound_data[4] << 8));
         break;
       case 0x0f:
-        siddata[1] = val;
-        psid->voice[1].reload = (siddata[1] | (siddata[2] << 8));
+        plus4_sound_data[1] = val;
+        snd.voice1_reload = (plus4_sound_data[1] | (plus4_sound_data[2] << 8));
         break;
       case 0x10:
-        siddata[2] = val & 3;
-        psid->voice[1].reload = (siddata[1] | (siddata[2] << 8));
+        plus4_sound_data[2] = val & 3;
+        snd.voice1_reload = (plus4_sound_data[1] | (plus4_sound_data[2] << 8));
         break;
       case 0x11:
-        psid->volume = volume_tab[val & 0x0f];
-        psid->voice[0].output_enabled = (val & 0x10) ? 1 : 0;
-        psid->voice[1].output_enabled = (val & 0x60) ? 1 : 0;
-        psid->noise = ((val & 0x60) == 0x40) ? 1 : 0;
-        psid->digital = val & 0x80;
-        if (psid->digital) {
-            psid->voice[0].sign = 1;
-            psid->voice[0].accu = 0;
-            psid->voice[1].sign = 1;
-            psid->voice[1].accu = 0;
-            psid->noise_shift_register = 0;
+        snd.volume = volume_tab[val & 0x0f];
+        snd.voice0_output_enabled = (val & 0x10) ? 1 : 0;
+        snd.voice1_output_enabled = (val & 0x60) ? 1 : 0;
+        snd.noise = ((val & 0x60) == 0x40) ? 1 : 0;
+        snd.digital = val & 0x80;
+        if (snd.digital) {
+            snd.voice0_sign = 1;
+            snd.voice0_accu = 0;
+            snd.voice1_sign = 1;
+            snd.voice1_accu = 0;
+            snd.noise_shift_register = 0;
         }
-        siddata[3] = val;
+        plus4_sound_data[3] = val;
         break;
       case 0x12:
-        siddata[4] = val & 3;
-        psid->voice[0].reload = (siddata[0] | (siddata[4] << 8));
+        plus4_sound_data[4] = val & 3;
+        snd.voice0_reload = (plus4_sound_data[0] | (plus4_sound_data[4] << 8));
         break;
     }
 }
 
-BYTE sound_machine_read(sound_t *psid, WORD addr)
+BYTE native_sound_machine_read(sound_t *psid, WORD addr)
 {
     switch(addr) {
       case 0x0e:
-        return siddata[0];
+        return plus4_sound_data[0];
       case 0x0f:
-        return siddata[1];
+        return plus4_sound_data[1];
       case 0x10:
-        return siddata[2] | 0xc0;
+        return plus4_sound_data[2] | 0xc0;
       case 0x11:
-        return siddata[3];
+        return plus4_sound_data[3];
       case 0x12:
-        return siddata[4];
+        return plus4_sound_data[4];
     }
 
     return 0;
 }
 
-void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
-}
-
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+void ted_sound_reset(void)
 {
     WORD i;
 
-    psid->noise_shift_register = 0;
+    snd.noise_shift_register = 0;
     for (i = 0x0e; i <= 0x12; i++)
-        sound_machine_store(psid, i, 0);
-}
-
-char *sound_machine_dump_state(sound_t *psid)
-{
-    return lib_msprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->volume);
-}
-
-int sound_machine_cycle_based(void)
-{
-    return 0;
-}
-
-int sound_machine_channels(void)
-{
-    return 1;
-}
-
-void sound_machine_enable(int enable)
-{
-
+        ted_sound_store(i, 0);
 }
 
 /* ---------------------------------------------------------------------*/
 
 void REGPARM2 ted_sound_store(WORD addr, BYTE value)
 {
-    sound_store(addr, value, 0);
-}
-
-void ted_sound_reset(void)
-{
-    sound_reset();
+    sound_store((WORD)(addr+0x20), value, 0);
 }
 
 BYTE REGPARM1 ted_sound_read(WORD addr)
 {
     BYTE value;
 
-    value = sound_read(addr, 0);
+    value = sound_read((WORD)(addr+0x20), 0);
 
     if (addr == 0x12)
         value &= 3;
 
     return value;
 }
-

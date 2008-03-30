@@ -29,6 +29,9 @@
 #include "version.h"
 #include "res.h"
 #include "rescommon.h"
+#ifdef MSVC_RC
+#include "msvc_ver.h"
+#endif
 
 #pragma code_page(28591)
 
@@ -64,6 +67,10 @@ END
 
 #ifndef MSVC_RC
 1 RT_MANIFEST "vice.manifest"
+#else
+#if MSVC_VER < 1400
+1 RT_MANIFEST "vice.manifest"
+#endif
 #endif
 
 

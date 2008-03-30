@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=16
+VICE_VERSION_BUILD=17
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1345,13 +1345,20 @@ if test x"$is_unix_x11" = "xyes"; then
     LIBS="${LIBS} `pkg-config --libs gtk+-2.0`"
 
     dnl Check for XFree86 header and library extensions.
+    AC_CHECK_LIB(X11, XCreateWindow,
+                  [ X_LIBS="-lX11 $X_LIBS";
+                    LINK_X_LIBS="-lX11 $LINK_X_LIBS"],
+                  [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
+
     AC_CHECK_LIB(Xv, XvQueryExtension,
                  [ X_LIBS="-lXv $X_LIBS";
                    LINK_X_LIBS="-lXv $LINK_X_LIBS";
                    AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
 
-    AC_CHECK_LIB(Xext, XShmQueryExtension,
-                 [ AC_DEFINE(USE_MITSHM,,[Enable MITSHM extensions.]) ],,$X_LIBS)
+    AC_CHECK_LIB(Xext, XShmAttach,
+                 [ X_LIBS="-lXext $X_LIBS";
+                   LINK_X_LIBS="-lXext $LINK_X_LIBS";
+                   AC_DEFINE(USE_MITSHM,,[Enable MITSHM extensions.]) ],,$X_LIBS)
   else
     dnl instead of assuming that libsocket needs libnsl, we
     dnl will check the existance of libnsl first.
@@ -1884,6 +1891,7 @@ if false ; then
     mkdir -p rs232drv
     mkdir -p serial
     mkdir -p sid
+    mkdir -p sidcart
     mkdir -p sounddrv
     mkdir -p tape
     mkdir -p vdc
@@ -1975,6 +1983,7 @@ AC_OUTPUT([Makefile
            src/rs232drv/Makefile
            src/serial/Makefile
            src/sid/Makefile
+           src/sidcart/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
            src/vdc/Makefile

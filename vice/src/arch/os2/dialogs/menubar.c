@@ -598,6 +598,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PETREU128:
         resources_set_int("PETREUSize", 128);
         return;
+    case IDM_PETREU512:
+        resources_set_int("PETREUSize", 512);
+        return;
+    case IDM_PETREU1024:
+        resources_set_int("PETREUSize", 1024);
+        return;
+    case IDM_PETREU2048:
+        resources_set_int("PETREUSize", 2048);
+        return;
 #endif
 #ifdef HAVE_MOUSE
     case IDM_MOUSE:
@@ -1309,6 +1318,9 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_PETREUSIZE:
         resources_get_int("PETREUSize", &val);
         WinCheckMenuItem(hwnd, IDM_PETREU128,   val==128);
+        WinCheckMenuItem(hwnd, IDM_PETREU512,   val==512);
+        WinCheckMenuItem(hwnd, IDM_PETREU1024,   val==1024);
+        WinCheckMenuItem(hwnd, IDM_PETREU2048,   val==2048);
         return;
 #endif
 

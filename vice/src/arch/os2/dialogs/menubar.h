@@ -153,6 +153,9 @@
 #define IDM_PETREU       0x19b
 #define IDM_PETREUSIZE   0x19c
 #define IDM_PETREU128    0x19d
+#define IDM_PETREU512    0x19e
+#define IDM_PETREU1024   0x19f
+#define IDM_PETREU2048   0x1a0
 
 #define IDM_TFE          0x158
 

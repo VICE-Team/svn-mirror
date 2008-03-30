@@ -206,6 +206,9 @@ const uint32 MENU_C64_256K_BASE_DF00				= 'M461';
 const uint32 MENU_C64_256K_BASE_DF80				= 'M462';
 
 const uint32 MENU_PETREU_SIZE_128					= 'M463';
+const uint32 MENU_PETREU_SIZE_512					= 'M464';
+const uint32 MENU_PETREU_SIZE_1024					= 'M465';
+const uint32 MENU_PETREU_SIZE_2048					= 'M466';
 
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';

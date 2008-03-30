@@ -483,6 +483,12 @@ BMenuBar *menu_create(int machine_class) {
 			submenu->SetRadioMode(true);
 			submenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_PETREU_SIZE_128)));
+			submenu->AddItem(new BMenuItem("512 kB",
+				new BMessage(MENU_PETREU_SIZE_512)));
+			submenu->AddItem(new BMenuItem("1024 kB",
+				new BMessage(MENU_PETREU_SIZE_1024)));
+			submenu->AddItem(new BMenuItem("2048 kB",
+				new BMessage(MENU_PETREU_SIZE_2048)));
 		}
 		if (machine_class == VICE_MACHINE_VIC20) {
 			menu->AddItem(new BMenuItem("VIC20 ...", 

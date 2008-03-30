@@ -51,6 +51,12 @@ static TUI_MENU_CALLBACK(petreu_size_submenu_callback)
 static tui_menu_item_def_t petreu_size_submenu[] = {
     { "_128KB", NULL, radio_PETREUsize_callback,
       (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_512KB", NULL, radio_PETREUsize_callback,
+      (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "1_024KB", NULL, radio_PETREUsize_callback,
+      (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_2048KB", NULL, radio_PETREUsize_callback,
+      (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 

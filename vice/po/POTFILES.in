@@ -63,6 +63,7 @@ src/rs232drv/rs232drv.c
 src/rs232drv/rsuser.c
 src/serial/serial-iec-device.c
 src/sid/sid-cmdline-options.c
+src/sidcart/sidcart-cmdline-options.c
 src/sysfile.c
 src/traps.c
 src/vdc/vdc-cmdline-options.c
@@ -137,6 +138,7 @@ src/arch/unix/gui/uirs232petplus4cbm2.c
 src/arch/unix/gui/uirs232user.c
 src/arch/unix/gui/uisettings.c
 src/arch/unix/gui/uisid.c
+src/arch/unix/gui/uisidcart.c
 src/arch/unix/gui/uisound.c
 src/arch/unix/gui/uited.c
 src/arch/unix/gui/uitfe.c
@@ -216,6 +218,7 @@ src/arch/win32/resramcart.rc.po.c
 src/arch/win32/resreu.rc.po.c
 src/arch/win32/resrs232user.rc.po.c
 src/arch/win32/ressid.rc.po.c
+src/arch/win32/ressidcart.rc.po.c
 src/arch/win32/restfe.rc.po.c
 src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c

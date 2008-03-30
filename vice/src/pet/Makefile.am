@@ -4,6 +4,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/crtc \
 	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/sidcart \
 	-I$(top_srcdir)/src/tape
 
 noinst_LIBRARIES = libpet.a
@@ -44,4 +45,3 @@ libpet_a_SOURCES = \
 	petvia.c \
 	petvia.h \
 	petvideo.c
-

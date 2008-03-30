@@ -50,11 +50,17 @@ static const int ui_petreu_enable_values[] = {
 
 static char *ui_petreu_size[] = {
   "128K",
+  "512K",
+  "1024K",
+  "2048K",
   NULL
 };
 
 static const int ui_petreu_size_values[] = {
   128,
+  512,
+  1024,
+  2048,
   -1
 };
 

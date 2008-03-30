@@ -321,6 +321,11 @@ static int set_mmc64_bios_filename(const char *name, void *param)
   if (mmc64_bios_filename != NULL && name != NULL && strcmp(name, mmc64_bios_filename) == 0)
     return 0;
 
+  if (name != NULL && *name != '\0') {
+      if (util_check_filename_access(name) < 0)
+          return -1;
+  }
+
   if (mmc64_enabled)
   {
     mmc64_deactivate();
@@ -340,6 +345,11 @@ static int set_mmc64_image_filename(const char *name, void *param)
 {
   if (mmc64_image_filename != NULL && name != NULL && strcmp(name, mmc64_image_filename) == 0)
     return 0;
+
+  if (name != NULL && *name != '\0') {
+      if (util_check_filename_access(name) < 0)
+          return -1;
+  }
 
   if (mmc64_enabled)
   {

@@ -55,7 +55,7 @@ static void mc6821_write_pra(BYTE byte, unsigned int dnr)
 
 static void mc6821_write_ddra(BYTE byte, unsigned int dnr)
 {
-    parallel_cable_drive_write((~byte) | mc6821[dnr].pra, PARALLEL_WRITE, dnr);
+    parallel_cable_drive_write((BYTE)((~byte) | mc6821[dnr].pra), PARALLEL_WRITE, dnr);
 
     mc6821[dnr].ddra = byte;
 }

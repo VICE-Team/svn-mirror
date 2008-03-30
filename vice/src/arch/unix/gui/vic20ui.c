@@ -52,6 +52,7 @@
 #include "uirs232user.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
+#include "uisidcart.h"
 #include "uisound.h"
 #include "uivic.h"
 #include "util.h"
@@ -111,6 +112,45 @@ static UI_CALLBACK(set_common_memory_configuration)
     ui_menu_update_all();
     vsync_suspend_speed_eval();
 }
+
+UI_MENU_DEFINE_TOGGLE(SidCart)
+UI_MENU_DEFINE_TOGGLE(SidFilters)
+
+UI_MENU_DEFINE_RADIO(SidAddress)
+
+static ui_menu_entry_t sidcart_address_submenu[] = {
+    { "*$9800",
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0, NULL },
+    { "*$9C00",
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(SidClock)
+
+static ui_menu_entry_t sidcart_clock_submenu[] = {
+    { "*C64", (ui_callback_t)radio_SidClock,
+      (ui_callback_data_t)0, NULL },
+    { "*VIC20", (ui_callback_t)radio_SidClock,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t sidcart_submenu[] = {
+    { N_("*Enable SID cart"),
+      (ui_callback_t)toggle_SidCart, NULL, NULL },
+    { N_("SID engine"),
+      NULL, NULL, sidcart_engine_submenu },
+    { N_("Chip model"),
+      NULL, NULL, sidcart_model_submenu },
+    { N_("*Emulate filters"),
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+    { N_("SID address"),
+      NULL, NULL, sidcart_address_submenu },
+    { N_("SID clock"),
+      NULL, NULL, sidcart_clock_submenu },
+    { NULL }
+};
 
 static ui_menu_entry_t vic20ui_main_romset_submenu[] = {
     { N_("Load new Kernal ROM"),
@@ -427,6 +467,8 @@ static ui_menu_entry_t vic20_menu[] = {
       NULL, NULL, vic_submenu },
     { N_("Memory expansions"),
       NULL, NULL, memory_settings_submenu },
+    { N_("SID cartridge settings"),
+      NULL, NULL, sidcart_submenu },
     { NULL }
 };
 

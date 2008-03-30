@@ -572,8 +572,6 @@ static void keyboard_keyword_vshift(void)
 
 static void keyboard_keyword_clear(void)
 {
-    int i, j;
-
     keyc_num = 0;
 #ifdef AMIGA_SUPPORT
     keyconvmap[0].sym = -1;
@@ -803,7 +801,7 @@ static int keyboard_keymap_load(const char *filename)
 int keyboard_keymap_dump(const char *filename)
 {
     FILE *fp;
-    int i, j;
+    int i;
 
     if (filename == NULL)
         return -1;
@@ -969,10 +967,6 @@ void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 
 void keyboard_init(void)
 {
-#ifdef COMMON_KBD
-    int i, j;
-#endif
-
     keyboard_log = log_open("Keyboard");
 
     keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",

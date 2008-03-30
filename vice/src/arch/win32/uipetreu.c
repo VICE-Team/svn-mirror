@@ -42,9 +42,9 @@
 #include "intl.h"
 
 
-#define NUM_OF_PETREU_SIZE 1
+#define NUM_OF_PETREU_SIZE 4
 static const int ui_petreu_size[NUM_OF_PETREU_SIZE] = {
-    128
+    128, 512, 1024, 2048
 };
 
 static void enable_petreu_controls(HWND hwnd)

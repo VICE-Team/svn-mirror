@@ -178,6 +178,11 @@ static int set_reu_filename(const char *name, void *param)
         && strcmp(name, reu_filename) == 0)
         return 0;
 
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0)
+            return -1;
+    }
+
     if (reu_enabled) {
         reu_deactivate();
         util_string_set(&reu_filename, name);

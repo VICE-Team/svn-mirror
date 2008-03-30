@@ -63,6 +63,9 @@
 #include "rs232drv.h"
 #include "screenshot.h"
 #include "serial.h"
+#include "sidcart.h"
+#include "sidcart-cmdline-options.h"
+#include "sidcart-resources.h"
 #include "sound.h"
 #include "tape.h"
 #include "ted-cmdline-options.h"
@@ -239,6 +242,7 @@ int machine_resources_init(void)
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
         || sound_resources_init() < 0
+        || sidcart_resources_init() < 0
         || acia_resources_init() < 0
         || rs232drv_resources_init() < 0
         || serial_resources_init() < 0
@@ -274,6 +278,7 @@ int machine_cmdline_options_init(void)
         || plus4_cmdline_options_init() < 0
         || ted_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
+        || sidcart_cmdline_options_init() < 0
         || acia_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || serial_cmdline_options_init() < 0
@@ -354,6 +359,10 @@ int machine_specific_init(void)
     autostart_init((CLOCK)(2 * PLUS4_PAL_RFSH_PER_SEC
                    * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
 
+    /* Initialize sound.  Notice that this does not really open the audio
+       device yet.  */
+    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
+
     if (ted_init() == NULL)
         return -1;
 
@@ -370,10 +379,6 @@ int machine_specific_init(void)
     vsync_init(machine_vsync_hook);
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
                                 machine_timing.cycles_per_sec);
-
-    /* Initialize sound.  Notice that this does not really open the audio
-       device yet.  */
-    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec
@@ -406,6 +411,8 @@ void machine_specific_reset(void)
     plus4tcbm2_reset();
 
     ted_reset();
+
+    sidcart_reset();
 
     cs256k_reset();
     h256k_reset();

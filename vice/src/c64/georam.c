@@ -140,6 +140,11 @@ static int set_georam_filename(const char *name, void *param)
         && strcmp(name, georam_filename) == 0)
         return 0;
 
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0)
+            return -1;
+    }
+
     if (georam_enabled) {
         georam_deactivate();
         util_string_set(&georam_filename, name);

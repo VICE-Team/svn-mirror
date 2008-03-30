@@ -11,6 +11,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/sidcart \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarchgui.a
@@ -121,6 +122,8 @@ libarchgui_a_SOURCES = \
 	uisettings.h \
 	uisid.c \
 	uisid.h \
+	uisidcart.c \
+	uisidcart.h \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \

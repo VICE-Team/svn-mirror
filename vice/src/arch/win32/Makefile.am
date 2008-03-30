@@ -23,7 +23,9 @@ INCLUDES = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/raster \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/sidcart \
+	-I$(top_srcdir)/src/gfxoutputdrv
 
 noinst_LIBRARIES = libarch.a
 
@@ -42,6 +44,7 @@ libarch_a_SOURCES = \
 	ffmpeglib.c \
 	fullscrn.c \
 	fullscrn.h \
+	gifdrv.c \
 	hardsid.c \
 	intl.c \
 	intl.h \
@@ -79,6 +82,7 @@ libarch_a_SOURCES = \
 	resreu.rc \
 	resrs232user.rc \
 	ressid.rc \
+	ressidcart.rc \
 	restfe.rc \
 	resvic20.rc \
 	resvicii.rc \
@@ -172,6 +176,8 @@ libarch_a_SOURCES = \
 	uirs232user.h \
 	uisid.c \
 	uisid.h \
+	uisidcart.c \
+	uisidcart.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uisound.c \
@@ -224,6 +230,7 @@ EXTRA_DIST = \
 	drive.dsp \
 	fileio.dsp \
 	fsdevice.dsp \
+        genmsvcver.dsp \
 	gentranslate.dsp \
 	genwinres.dsp \
 	genwinres.sh \
@@ -251,6 +258,7 @@ EXTRA_DIST = \
 	rs232drv.dsp \
 	serial.dsp \
 	sid.dsp \
+	sidcart.dsp \
 	sounddrv.dsp \
 	tape.dsp \
 	tcbm.dsp \
@@ -332,9 +340,10 @@ rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	rm -f rescbm2.res rescbm2cat.rc
 
 respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc
+	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc
+	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
+	$(srcdir)/ressidcart.rc
 	$(WRC) -i respetcat.rc -o respet.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -343,9 +352,11 @@ respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	rm -f respet.res respetcat.rc
 
 resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
-	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc
+	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
+	$(srcdir)/ressidcart.rc
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc
+	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
+	$(srcdir)/ressidcart.rc
 	$(WRC) -i resplus4cat.rc -o resplus4.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -354,9 +365,11 @@ resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	rm -f resplus4.res resplus4cat.rc
 
 resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
-	$(srcdir)/resrs232user.rc $(srcdir)/resdrivec64vic20.rc
+	$(srcdir)/resrs232user.rc $(srcdir)/resdrivec64vic20.rc \
+	$(srcdir)/ressidcart.rc
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
-	$(srcdir)/resdrivec64vic20.rc $(srcdir)/resrs232user.rc
+	$(srcdir)/resdrivec64vic20.rc $(srcdir)/resrs232user.rc \
+	$(srcdir)/ressidcart.rc
 	$(WRC) -i resvic20cat.rc -o resvic20.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \

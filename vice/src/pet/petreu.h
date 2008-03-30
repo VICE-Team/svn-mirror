@@ -38,8 +38,10 @@ extern void petreu_init(void);
 extern void petreu_reset(void);
 extern void petreu_shutdown(void);
 extern BYTE REGPARM1 read_petreu_reg(WORD addr);
+extern BYTE REGPARM1 read_petreu2_reg(WORD addr);
 extern BYTE REGPARM1 read_petreu_ram(WORD addr);
 extern void REGPARM2 store_petreu_reg(WORD addr, BYTE byte);
+extern void REGPARM2 store_petreu2_reg(WORD addr, BYTE byte);
 extern void REGPARM2 store_petreu_ram(WORD addr, BYTE byte);
 
 #endif
