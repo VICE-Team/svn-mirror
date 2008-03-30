@@ -121,20 +121,20 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "SidFilters", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &sid_filters_enabled,
+    { "SidFilters", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&sid_filters_enabled,
       set_sid_filters_enabled, NULL },
-    { "SidModel", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &sid_model,
+    { "SidModel", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&sid_model,
       set_sid_model, NULL },
-    { "SidUseResid", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &sid_useresid,
+    { "SidUseResid", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&sid_useresid,
       set_sid_useresid, NULL },
-    { "SidResidSampling", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &sid_resid_sampling,
+    { "SidResidSampling", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&sid_resid_sampling,
       set_sid_resid_sampling, NULL },
-    { "SidResidPassband", RES_INTEGER, (resource_value_t) 90,
-      (resource_value_t *) &sid_resid_passband,
+    { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
+      (resource_value_t *)&sid_resid_passband,
       set_sid_resid_passband, NULL },
     { NULL }
 };
@@ -150,18 +150,24 @@ int sid_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
       "<model>", "Specify SID model (1: 8580, 0: 6581)" },
-    { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 1,
+    { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
+      (resource_value_t) 1,
       NULL, "Emulate SID filters" },
-    { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 0,
+    { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
+      (resource_value_t)0,
       NULL, "Do not emulate SID filters" },
 #ifdef HAVE_RESID
-    { "-resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid", (resource_value_t) 1,
+    { "-resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid",
+      (resource_value_t)1,
       NULL, "Use reSID emulation" },
-    { "+resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid", (resource_value_t) 0,
+    { "+resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid",
+      (resource_value_t)0,
       NULL, "Use fast SID emulation" },
-    { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling", (resource_value_t) 0,
+    { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
+      (resource_value_t)0,
       NULL, "reSID sampling method (0: fast, 1: interpolating, 2: resampling)" },
-    { "-residpass <percent>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband", (resource_value_t) 90,
+    { "-residpass <percent>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
+      (resource_value_t)90,
       NULL, "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
 #endif
     { NULL }
@@ -201,8 +207,14 @@ static BYTE siddata[32];
 #endif
 
 /* noise magic */
-#define NSHIFT(v, n) (((v)<<(n))|((((v)>>(23-(n)))^(v>>(18-(n))))&((1<<(n))-1)))
-#define NVALUE(v) (noiseLSB[v&0xff]|noiseMID[(v>>8)&0xff]|noiseMSB[(v>>16)&0xff])
+#define NSHIFT(v, n) \
+    (((v) << (n))    \
+    | ((((v) >> (23 - (n))) ^ (v >> (18 - (n)))) & ((1 << (n)) - 1)))
+
+#define NVALUE(v)                                   \
+    (noiseLSB[v & 0xff] | noiseMID[(v >> 8) & 0xff] \
+    | noiseMSB[(v >> 16) & 0xff])
+
 #define NSEED 0x7ffff8
 
 #ifdef WAVETABLES
@@ -376,7 +388,8 @@ inline static void dofilter(voice_t *pVoice)
                 REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
                           REAL_MULT(pVoice->filtRef, filterResDy),
                           filterDy );
-            pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtRef-pVoice->filtLow/4));
+            pVoice->filtIO = (signed char)
+                             (REAL_TO_INT(pVoice->filtRef-pVoice->filtLow / 4));
         }
         else
             if ( filterType == 0x40 )
@@ -407,11 +420,21 @@ inline static void dofilter(voice_t *pVoice)
                 sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
                 pVoice->filtRef += REAL_MULT( sample2, filterDy );
 
-                pVoice->filtIO = filterType==0x10 ? (signed char)(REAL_TO_INT(pVoice->filtLow)) :
-                    (filterType==0x30  ? (signed char)(REAL_TO_INT(pVoice->filtLow)) :
-                     (filterType==0x50 ? (signed char)(REAL_TO_INT(sample) - (tmp >> 1)):
-                      (filterType==0x60 ? (signed char)tmp:
-                       (filterType==0x70 ? (signed char)(REAL_TO_INT(sample) - (tmp >> 1)):0))));
+                pVoice->filtIO = filterType == 0x10
+                                 ? (signed char)
+                                 (REAL_TO_INT(pVoice->filtLow)) :
+                                 (filterType == 0x30
+                                 ? (signed char)
+                                 (REAL_TO_INT(pVoice->filtLow)) :
+                                 (filterType == 0x50
+                                 ? (signed char)
+                                 (REAL_TO_INT(sample) - (tmp >> 1)):
+                                 (filterType == 0x60
+                                 ? (signed char)
+                                 tmp :
+                                 (filterType == 0x70
+                                 ? (signed char)
+                                 (REAL_TO_INT(sample) - (tmp >> 1)) : 0))));
             }
     }
     else /* filterType == 0x00 */
@@ -575,7 +598,7 @@ inline static void setup_sid(sound_t *psid)
     if (!psid->update)
 	return;
     psid->vol = psid->d[0x18] & 0x0f;
-    psid->has3 = ((psid->d[0x18]&0x80)&&!(psid->d[0x17]&0x04)) ? 0 : 1;
+    psid->has3 = ((psid->d[0x18] & 0x80) && !(psid->d[0x17] & 0x04)) ? 0 : 1;
     if (psid->emulatefilter)
     {
 	psid->v[0].filter = psid->d[0x17] & 0x01 ? 1 : 0;
@@ -592,12 +615,13 @@ inline static void setup_sid(sound_t *psid)
 	    psid->v[2].filtLow = 0;
 	    psid->v[2].filtRef = 0;
 	}
-	filterValue = 0x7ff&((psid->d[0x15]&7)|((WORD)psid->d[0x16])<<3);
+	filterValue = 0x7ff & ((psid->d[0x15] & 7)
+                      | ((WORD)psid->d[0x16]) << 3);
 	if (filterType == 0x20)
 	    filterDy = bandPassParam[filterValue];
 	else
 	    filterDy = lowPassParam[filterValue];
-	filterResDy = filterResTable[psid->d[0x17]>>4]-filterDy;
+	filterResDy = filterResTable[psid->d[0x17] >> 4] - filterDy;
         if (filterResDy < REAL_VALUE(1.0))
             filterResDy = REAL_VALUE(1.0);
     }
@@ -620,10 +644,10 @@ inline static void setup_voice(voice_t *pv)
     pv->sustain = pv->d[6] / 0x10;
     pv->release = pv->d[6] & 0x0f;
 #ifndef WAVETABLES
-    pv->pw = (pv->d[2] + (pv->d[3]&0x0f)*0x100) * 0x100100;
+    pv->pw = (pv->d[2] + (pv->d[3] & 0x0f) * 0x100) * 0x100100;
 #endif
     pv->sync = pv->d[4] & 0x02 ? 1 : 0;
-    pv->fs = pv->s->speed1 * (pv->d[0] + pv->d[1]*0x100);
+    pv->fs = pv->s->speed1 * (pv->d[0] + pv->d[1] * 0x100);
 #ifdef WAVETABLES
     if (pv->d[4] & 0x08)
     {
@@ -657,23 +681,24 @@ inline static void setup_voice(voice_t *pv)
 	if (pv->d[4] & 0x08)
 	    pv->wt = &wavetable40[4096];
 	else
-	    pv->wt = &wavetable40[4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
+	    pv->wt = &wavetable40[4096 - (pv->d[2]
+                     + (pv->d[3] & 0x0f) * 0x100)];
 	break;
     case 5:
 	pv->wt = &wavetable50[pv->wtpf = 4096 - (pv->d[2]
-                                         + (pv->d[3]&0x0f)*0x100)];
+                                         + (pv->d[3] & 0x0f) * 0x100)];
 	pv->wtpf <<= 20;
 	if (pv->d[4] & 0x04)
 	    pv->wtr[1] = 0x7fff;
 	break;
     case 6:
 	pv->wt = &wavetable60[pv->wtpf = 4096 - (pv->d[2]
-                                         + (pv->d[3]&0x0f)*0x100)];
+                                         + (pv->d[3] & 0x0f) * 0x100)];
 	pv->wtpf <<= 20;
 	break;
     case 7:
 	pv->wt = &wavetable70[pv->wtpf = 4096 - (pv->d[2]
-                                         + (pv->d[3]&0x0f)*0x100)];
+                                         + (pv->d[3] & 0x0f) * 0x100)];
 	pv->wtpf <<= 20;
 	if (pv->d[4] & 0x04 && pv->s->newsid)
 	    pv->wtr[1] = 0x7fff;
@@ -833,18 +858,18 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 	/* sample */
 	if (psid->emulatefilter)
 	{
-	    v0->filtIO = ampMod1x8[(o0>>22)];
+	    v0->filtIO = ampMod1x8[(o0 >> 22)];
 	    dofilter(v0);
-	    o0 = ((DWORD)(v0->filtIO)+0x80)<<(7+15);
-	    v1->filtIO = ampMod1x8[(o1>>22)];
+	    o0 = ((DWORD)(v0->filtIO) + 0x80) << (7 + 15);
+	    v1->filtIO = ampMod1x8[(o1 >> 22)];
 	    dofilter(v1);
-	    o1 = ((DWORD)(v1->filtIO)+0x80)<<(7+15);
-	    v2->filtIO = ampMod1x8[(o2>>22)];
+	    o1 = ((DWORD)(v1->filtIO) + 0x80) << (7 + 15);
+	    v2->filtIO = ampMod1x8[(o2 >> 22)];
 	    dofilter(v2);
-	    o2 = ((DWORD)(v2->filtIO)+0x80)<<(7+15);
+	    o2 = ((DWORD)(v2->filtIO) + 0x80) << (7 + 15);
 	}
 
-        pbuf[i] = ((SDWORD)((o0+o1+o2)>>20)-0x600)*psid->vol;
+        pbuf[i] = ((SDWORD)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol;
     }
     return nr;
 }
@@ -857,7 +882,7 @@ static void init_filter(sound_t *psid, int freq)
     long int si;
 
     float yMax = 1.0;
-    float yMin = 0.01;
+    float yMin = (float)0.01;
     float resDyMax = 1.0;
     float resDyMin = 2.0;
     float resDy = resDyMin;
@@ -866,7 +891,7 @@ static void init_filter(sound_t *psid, int freq)
 
     float filterFs = 400.0;
     float filterFm = 60.0;
-    float filterFt = 0.05;
+    float filterFt = (float)0.05;
 
     float filterAmpl = 1.0;
 
@@ -880,7 +905,8 @@ static void init_filter(sound_t *psid, int freq)
     {
         float h;
 
-        h = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
+        h = (((exp(rk / 2048 * log(filterFs)) / filterFm) + filterFt)
+            * filterRefFreq) / freq;
         if ( h < yMin )
             h = yMin;
         if ( h > yMax )
@@ -894,14 +920,14 @@ static void init_filter(sound_t *psid, int freq)
     yTmp = yMin;
     for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
     {
-        bandPassParam[uk] = REAL_VALUE((yTmp*filterRefFreq) / freq);
+        bandPassParam[uk] = REAL_VALUE((yTmp * filterRefFreq) / freq);
 	yTmp += yAdd;
     }
 
     for ( uk = 0; uk < 16; uk++ )
     {
 	filterResTable[uk] = REAL_VALUE(resDy);
-	resDy -= (( resDyMin - resDyMax ) / 15 );
+	resDy -= ((resDyMin - resDyMax ) / 15);
     }
     filterResTable[0] = REAL_VALUE(resDyMin);
     filterResTable[15] = REAL_VALUE(resDyMax);
@@ -912,7 +938,7 @@ static void init_filter(sound_t *psid, int freq)
     else
 	filterAmpl = 1.0;
     for ( uk = 0, si = 0; si < 256; si++, uk++ )
-	ampMod1x8[uk] = (signed char)((si-0x80)*filterAmpl);
+	ampMod1x8[uk] = (signed char)((si - 0x80) * filterAmpl);
 }
 
 /* SID initialization routine */
@@ -935,8 +961,8 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
-	psid->adrs[i] = 500*8*psid->speed1/adrtable[i];
-	psid->sz[i] = 0x8888888*i;
+	psid->adrs[i] = 500 * 8 * psid->speed1/adrtable[i];
+	psid->sz[i] = 0x8888888 * i;
     }
     psid->update = 1;
     psid->emulatefilter = sid_filters_enabled;
@@ -944,8 +970,8 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     setup_sid(psid);
     for (i = 0; i < 3; i++)
     {
-	psid->v[i].vprev = &psid->v[(i+2)%3];
-	psid->v[i].vnext = &psid->v[(i+1)%3];
+	psid->v[i].vprev = &psid->v[(i + 2)%3];
+	psid->v[i].vnext = &psid->v[(i + 1)%3];
 	psid->v[i].nr = i;
 	psid->v[i].d = psid->d + i*7;
 	psid->v[i].s = psid;
@@ -980,11 +1006,13 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 #endif
     for (i = 0; i < NOISETABLESIZE; i++)
     {
-        noiseLSB[i] = (BYTE)((((i>>(7-2))&0x04) | ((i>>(4-1))&0x02)
-                      | ((i>>(2-0))&0x01)));
-        noiseMID[i] = (BYTE)((((i>>(13-8-4))&0x10) | ((i<<(3-(11-8)))&0x08)));
-        noiseMSB[i] = (BYTE)((((i<<(7-(22-16)))&0x80) | ((i<<(6-(20-16)))&0x40)
-                      | ((i<<(5-(16-16)))&0x20)));
+        noiseLSB[i] = (BYTE)((((i >> (7 - 2)) & 0x04) | ((i >> (4 - 1)) & 0x02)
+                      | ((i >> (2 - 0)) & 0x01)));
+        noiseMID[i] = (BYTE)((((i >> (13 - 8 - 4)) & 0x10)
+                      | ((i << (3 - (11 - 8))) & 0x08)));
+        noiseMSB[i] = (BYTE)((((i << (7 - (22 - 16))) & 0x80)
+                      | ((i << (6 - (20 - 16))) & 0x40)
+                      | ((i << (5 - (16 - 16))) & 0x20)));
     }
     for (i = 0; i < 9; i++)
         sidreadclocks[i] = 13;
@@ -1058,7 +1086,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 	break;
     case 0x1b:
 	/* osc3 / random */
-	ffix = (WORD)(sound_sample_position()*psid->v[2].fs);
+	ffix = (WORD)(sound_sample_position() * psid->v[2].fs);
 	rvstore = psid->v[2].rv;
 	if (
 #ifdef WAVETABLES
@@ -1132,25 +1160,30 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 #endif
     switch (addr)
     {
-    case 4:
+      case 4:
 	if ((psid->d[addr] ^ byte) & 1)
 	    psid->v[0].gateflip = 1;
-    case 0: case 1: case 2: case 3: case 5: case 6:
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 5:
+      case 6:
 	psid->v[0].update = 1;
 	break;
-    case 11:
+      case 11:
 	if ((psid->d[addr] ^ byte) & 1)
 	    psid->v[1].gateflip = 1;
-    case 7: case 8: case 9: case 10: case 12: case 13:
+      case 7: case 8: case 9: case 10: case 12: case 13:
 	psid->v[1].update = 1;
 	break;
-    case 18:
+      case 18:
 	if ((psid->d[addr] ^ byte) & 1)
 	    psid->v[2].gateflip = 1;
-    case 14: case 15: case 16: case 17: case 19: case 20:
+      case 14: case 15: case 16: case 17: case 19: case 20:
 	psid->v[2].update = 1;
 	break;
-    default:
+      default:
 	psid->update = 1;
     }
     psid->d[addr] = byte;
@@ -1245,3 +1278,4 @@ int sid_read_snapshot_module(snapshot_t *s)
 
     return snapshot_module_close(m);
 }
+
