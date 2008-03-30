@@ -214,7 +214,6 @@ int serial_cmdline_options_init(void)
 
 void serial_trap_init(WORD tmpin)
 {
-    serial_iec_bus_init();
     serial_iec_device_init();
 
     tmp_in = tmpin;

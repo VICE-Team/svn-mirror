@@ -325,6 +325,7 @@ int machine_specific_init(void)
         return -1;
 
     serial_trap_init(0xa8);
+    serial_iec_bus_init();
 
     /* Initialize drives. */
     file_system_init();

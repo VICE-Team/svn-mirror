@@ -2801,6 +2801,8 @@ int main(int argc, char **argv)
        appear on stdout.  */
     log_init_with_fd(stdout);
 
+    serial_iec_bus_init();
+
     for (i = 0; i < MAXARG; i++)
         args[i] = NULL;
     nargs = 0;
