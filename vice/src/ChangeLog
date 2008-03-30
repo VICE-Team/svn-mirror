@@ -1,3 +1,52 @@
+2000-06-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.22.
+
+	* vicii/vicii.c, vicii/vicii.h, vdc/vdc.c, vdc/vdc.h,
+	vic20/vic.c, vic20/vic.h, crtc/crtc.c, crtc/crtc.h: Changed
+	`*_get_raster' to return canvas pointer.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/cbm2.c: Do not inlcude "raster.h".
+	(machine_canvas_screenshot): Use `*_get_canvas'.
+
+2000-06-23  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsync.c: Warn if the hardware cannot keep up with
+	the vsync frequency.
+
+2000-06-22  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* crtc/crtc.{c,h}, vdc/vdc.{c,h}, vic20/vic.{c,h},
+	vicii/vicii.{c,h}: Added new function
+	<video-chip>_get_raster() to retrieve the raster associated
+	with the chip.
+
+	* machine.h, c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	vic20/vic20.c: alternative screenshot function that selects
+	the window via the canvas: machine_canvas_screenshot().
+
+	* screenshot.c: support making screenshots by canvas.
+
+	* uiapi.h, main.c: new function ui_init_finalize(), called
+	after all other modules have been initialized.
+
+	* screenshot.c, sound.c, arch/riscos/ui.c: moved
+	initialization of RISC OS specific drivers to arch module
+	(ui_init_finalize()).
+
+2000-06-21  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsync.c: Total rewrite to improve frame rate
+	calculation and display.
+	
+	* arch/unix/vsidui.c: Added calls to suspend_speed_eval.
+	* arch/unix/uicommands.c: Likewise.
+	* arch/unix/x11/gnome/ui.c: Likewise.
+	* arch/unix/x11/x11/ui.c: Likewise.
+
+	* sound.c (closesound): Update menus in vsid mode.
+
 2000-06-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.21.
