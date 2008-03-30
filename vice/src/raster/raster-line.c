@@ -182,7 +182,7 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
     raster_sprite_cache_t *sprite_cache;
     raster_sprite_status_t *sprite_status;
     unsigned int xs_return, xe_return;
-    unsigned int sxe, sxs, sxe1, sxs1;
+    int sxe, sxs, sxe1, sxs1;
     int rr, r, msk;
     unsigned int i;
     unsigned int num_sprites;
@@ -267,22 +267,37 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
             }
 
             if (r) {
-                xs_return = MIN(xs_return, sxs);
-                xe_return = MAX(xe_return, sxe);
+                unsigned int cxs = 0, cxe = 0;
+
+                if (sxs > 0)
+                    cxs = (unsigned int)sxs;
+                if (sxe > 0)
+                    cxe = (unsigned int)sxe;
+
+                xs_return = MIN(xs_return, cxs);
+                xe_return = MAX(xe_return, cxe);
                 rr = 1;
             }
         } else {
             if (sprite_cache->visible) {
+                unsigned int cxs = 0, cxe = 0;
+
                 sprite_cache->visible = 0;
                 sxe = sprite_cache->x + (sprite_cache->x_expanded ? 24 : 48);
-                xs_return = MIN((int)xs_return, sprite_cache->x);
-                xe_return = MAX(xe_return, sxe);
+
+                if (sprite_cache->x > 0)
+                    cxs = sprite_cache->x;
+                if (sxe > 0)
+                    cxe = sxe;
+
+                xs_return = MIN(xs_return, cxs);
+                xe_return = MAX(xe_return, cxe);
                 rr = 1;
             }
         }
     }
 
-    if ((int)xe_return >= (int)raster->geometry->screen_size.width)
+    if (xe_return >= raster->geometry->screen_size.width)
         *xe = raster->geometry->screen_size.width - 1;
     else
         *xe = xe_return;
