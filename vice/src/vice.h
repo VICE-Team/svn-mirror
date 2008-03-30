@@ -52,11 +52,20 @@
 #define DOCDIR          LIBDIR "/doc"
 
 /* Sound defaults.  */
-#define SOUND_SAMPLE_RATE		22050	/* Hz */
-#ifndef __MSDOS__
-#define SOUND_SAMPLE_BUFFER_SIZE	350	/* ms */
+#ifdef __MSDOS__
+# ifdef USE_MIDAS_SOUND
+#  define SOUND_SAMPLE_RATE 22050	/* Hz */
+# else
+#  define SOUND_SAMPLE_RATE 22727
+# endif
 #else
-#define SOUND_SAMPLE_BUFFER_SIZE	100
+# define SOUND_SAMPLE_RATE 22050
+#endif
+
+#ifndef __MSDOS__
+# define SOUND_SAMPLE_BUFFER_SIZE	350	/* ms */
+#else
+# define SOUND_SAMPLE_BUFFER_SIZE	100
 #endif
 
 /* For now, we always handle PAL.  */
@@ -88,6 +97,10 @@
 
 #if defined __MSDOS__ || (defined HAVE_JOYSTICK_H && defined __linux__)
 #define JOYSTICK
+#endif
+
+#if defined __MSDOS__
+#define HAVE_MOUSE
 #endif
 
 #if defined HAVE_LIBXPM && defined HAVE_X11_XPM_H

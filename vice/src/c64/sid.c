@@ -43,6 +43,10 @@
 static int useresid;
 #endif
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
@@ -943,10 +947,16 @@ BYTE REGPARM1 read_sid(ADDRESS addr)
 {
     int				val;
     addr = addr & 0x1f;
+#ifdef HAVE_MOUSE
+    if (addr == 0x19)
+        return (mouse_get_x() & 0x3f) << 1;
+    else if (addr == 0x1a)
+        return (~mouse_get_y() & 0x3f) << 1;
+#endif
     val = sound_read(addr);
     if (val < 0)
     {
-	if (addr == 0x19 || addr == 0x1a)
+        if (addr == 0x19 || addr == 0x1a)
 	    return 0xff;
 	warn(pwarn, 5, "program reading sid-registers (no sound)");
 	if (addr == 0x1b || addr == 0x1c)
