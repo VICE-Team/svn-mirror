@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "utils.h"
 #include "winmain.h"
@@ -42,17 +43,17 @@ int winmain_cmd_show;
 #ifdef _MSC_VER
 char **ParseCommandLine(int *argc)
 {
-char    *cmd_line;
-int     _argc;
-int     i;
-int     scanmode;
-char    **_argv;
-int     startpos;
+    char *cmd_line;
+    int _argc;
+    unsigned int i;
+    int scanmode;
+    char **_argv;
+    int startpos;
 
     cmd_line=GetCommandLine();
     _argc=0;
     scanmode=2;
-    for (i=0; i<=strlen(cmd_line); i++) {
+    for (i = 0; i <= strlen(cmd_line); i++) {
         switch(scanmode) {
             case 0:
                 /*  Search for end of argument */
@@ -87,7 +88,7 @@ int     startpos;
     _argc=0;
     _argv=xmalloc(_argc*sizeof(char*));
     scanmode=2;
-    for (i=0; i<=strlen(cmd_line); i++) {
+    for (i = 0; i <= strlen(cmd_line); i++) {
         switch(scanmode) {
             case 0:
                 /*  Search for end of argument */
