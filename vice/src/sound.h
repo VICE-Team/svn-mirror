@@ -41,35 +41,39 @@
 # define SOUND_SAMPLE_BUFFER_SIZE       100
 #endif
 
+/* I need this to serialize close_sound and enablesound/initsid in
+   the OS/2 Multithreaded environment                              */
+extern int sound_state_changed;
+
 /* device structure */
 typedef struct
 {
     /* name of the device */
-    const char			 *name;
+    const char *name;
     /* init -routine to be called at device initialization. Should use
        suggested values if possible or return new values if they cannot be
        used */
-    int				(*init)(warn_t *w,
-                                        const char *param,
-                                        int *speed,
-					int *fragsize, int *fragnr,
-					double bufsize);
+    int	(*init)(warn_t *w,
+        const char *param,
+        int *speed,
+        int *fragsize, int *fragnr,
+        double bufsize);
     /* send number of bytes to the soundcard. it is assumed to block if kernel
        buffer is full */
-    int				(*write)(warn_t *w, SWORD *pbuf, size_t nr);
+    int	(*write)(warn_t *w, SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
-    int				(*dump)(warn_t *w, ADDRESS addr, BYTE byte,
+    int (*dump)(warn_t *w, ADDRESS addr, BYTE byte,
 					CLOCK clks);
     /* flush-routine to be called every frame */
-    int				(*flush)(warn_t *s, char *state);
+    int (*flush)(warn_t *s, char *state);
     /* return number of samples unplayed in the kernel buffer at the moment */
-    int				(*bufferstatus)(warn_t *s, int first);
+    int (*bufferstatus)(warn_t *s, int first);
     /* close and cleanup device */
-    void			(*close)(warn_t *w);
+    void (*close)(warn_t *w);
     /* suspend device */
-    int				(*suspend)(warn_t *s);
+    int (*suspend)(warn_t *s);
     /* resume device */
-    int				(*resume)(warn_t *s);
+    int (*resume)(warn_t *s);
 } sound_device_t;
 
 /* Sound adjustment types.  */
@@ -91,32 +95,32 @@ extern int  sound_init_cmdline_options(void);
 
 
 /* device initialization prototypes */
-extern int  sound_init_aix_device(void);
-extern int  sound_init_allegro_device(void);
-extern int  sound_init_sb_device(void);
-extern int  sound_init_dummy_device(void);
-extern int  sound_init_dump_device(void);
-extern int  sound_init_fs_device(void);
-extern int  sound_init_wav_device(void);
-extern int  sound_init_hpux_device(void);
-extern int  sound_init_midas_device(void);
-extern int  sound_init_sdl_device(void);
-extern int  sound_init_sgi_device(void);
-extern int  sound_init_speed_device(void);
-extern int  sound_init_sun_device(void);
-extern int  sound_init_test_device(void);	/* XXX: missing */
-extern int  sound_init_uss_device(void);
-extern int  sound_init_dx_device(void);
-extern int  sound_init_ce_device(void);
-extern int  sound_init_vidc_device(void);
-extern int  sound_init_mmos2_device(void);
-extern int  sound_init_dart_device(void);
+extern int sound_init_aix_device(void);
+extern int sound_init_allegro_device(void);
+extern int sound_init_sb_device(void);
+extern int sound_init_dummy_device(void);
+extern int sound_init_dump_device(void);
+extern int sound_init_fs_device(void);
+extern int sound_init_wav_device(void);
+extern int sound_init_hpux_device(void);
+extern int sound_init_midas_device(void);
+extern int sound_init_sdl_device(void);
+extern int sound_init_sgi_device(void);
+extern int sound_init_speed_device(void);
+extern int sound_init_sun_device(void);
+extern int sound_init_test_device(void); /* XXX: missing */
+extern int sound_init_uss_device(void);
+extern int sound_init_dx_device(void);
+extern int sound_init_ce_device(void);
+extern int sound_init_vidc_device(void);
+extern int sound_init_mmos2_device(void);
+extern int sound_init_dart_device(void);
 
 /* internal function for sound device registration */
-extern int  sound_register_device(sound_device_t *pdevice);
+extern int sound_register_device(sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
-extern int  sound_read(ADDRESS addr);
+extern int sound_read(ADDRESS addr);
 extern void sound_store(ADDRESS addr, BYTE val);
 extern double sound_sample_position(void);
 

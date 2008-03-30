@@ -62,19 +62,25 @@ static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
 static int oversampling_factor;       /* app_resources.soundOversample */
 
+/* I need this to serialize close_sound and enablesound/initsid in
+   the OS/2 Multithreaded environment                              */
+static int sdev_open           = FALSE;
+
+/* I need this to serialize close_sound and enablesound/initsid in
+   the OS/2 Multithreaded environment                              */
+int sound_state_changed;
+
 static int set_playback_enabled(resource_value_t v)
 {
+    if ((int)v) vsync_disable_timer();
     playback_enabled = (int)v;
-    if (playback_enabled)
-        vsync_disable_timer();
-    sound_close();
     return 0;
 }
 
 static int set_sample_rate(resource_value_t v)
 {
-    sample_rate = (int) v;
-    sound_close();
+    sample_rate   = (int) v;
+    sound_state_changed = TRUE;
     return 0;
 }
 
@@ -94,8 +100,8 @@ static int set_device_arg(resource_value_t v)
 
 static int set_buffer_size(resource_value_t v)
 {
-    buffer_size = (int)v;
-    sound_close();
+    buffer_size   = (int)v;
+    sound_state_changed = TRUE;
     return 0;
 }
 
@@ -124,7 +130,7 @@ static int set_oversampling_factor(resource_value_t v)
                     oversampling_factor);
         oversampling_factor = 3;
     }
-    sound_close();
+    sound_state_changed = TRUE;
     return 0;
 }
 
@@ -240,7 +246,7 @@ static snddata_t snddata;
 /* device registration code */
 static sound_device_t *sound_devices[32];
 
-int  sound_register_device(sound_device_t *pdevice)
+int sound_register_device(sound_device_t *pdevice)
 {
     int					i;
     for (i = 0; sound_devices[i]; i++);
@@ -257,7 +263,7 @@ static int closesound(const char *msg)
 	log_message(LOG_DEFAULT, "SOUND: Closing device `%s'", snddata.pdev->name);
 	if (snddata.pdev->close)
 	    snddata.pdev->close(snddata.pwarndev);
-	snddata.pdev = NULL;
+        snddata.pdev = NULL;
     }
     if (snddata.pwarndev)
     {
@@ -272,13 +278,13 @@ static int closesound(const char *msg)
     if (msg)
     {
         suspend_speed_eval();
-	if (strcmp(msg, ""))
+	if (msg[0])
 	{
 	    if (console_mode || psid_mode)
 	        log_message(LOG_DEFAULT, "SOUND: %s", msg);
 	    else
 	        ui_error(msg);
-	    playback_enabled = 0;
+            playback_enabled = 0;
 	    if (!console_mode && !psid_mode)
 	        ui_update_menus();
 	}
@@ -300,7 +306,7 @@ static void suspendsound(const char *reason)
 
 static void enablesound(void)
 {
-    int		now, diff;
+    int	now, diff;
     if (!disabletime)
         return;
     now = time(0);
@@ -385,8 +391,10 @@ static int initsid(void)
 	    snddata.psid = sound_machine_open((int)
                                               (speed * snddata.oversamplenr),
 					      cycles_per_sec);
-	    if (!snddata.psid)
-		return closesound("Audio: Cannot initialize sound module");
+            if (!snddata.psid)
+            {
+                return closesound("Audio: Cannot initialize sound module");
+            }
 	    if (pdev->bufferstatus)
 		snddata.firststatus = pdev->bufferstatus(snddata.pwarndev, 1);
 	    snddata.clkstep = (double)cycles_per_sec / speed;
@@ -419,14 +427,15 @@ static int sound_run_sound(void)
     int	nr, i;
     /* XXX: implement the exact ... */
     if (!playback_enabled)
-	return 1;
+        return 1;
     if (suspend_time > 0 && disabletime)
         return 1;
     if (!snddata.pdev)
     {
-	i = initsid();
-	if (i)
-	    return i;
+        i = initsid();
+        if (i)
+            return i;
+        sdev_open = TRUE;
     }
 #ifdef __riscos
     /* RISC OS vidc device uses a different approach... */
@@ -436,8 +445,9 @@ static int sound_run_sound(void)
     nr = (int)((clk - snddata.fclk) / snddata.clkstep);
     if (!nr)
 	return 0;
-    if (snddata.bufptr + nr > BUFSIZE)
-	return closesound("Audio: sound buffer overflow.");
+    if (snddata.bufptr + nr > BUFSIZE){
+        return closesound("Audio: sound buffer overflow.");
+    }
     sound_machine_calculate_samples(snddata.psid,
 				    snddata.buffer + snddata.bufptr,
 				    nr);
@@ -476,10 +486,13 @@ void sound_synthesize(SWORD *buffer, int length)
    to match real running speed of program */
 int sound_flush(int relative_speed)
 {
-    int			i, nr, space, used, fill = 0, dir = 0;
+    int	i, nr, space, used, fill = 0, dir = 0;
 
-    if (!playback_enabled)
+    if (!playback_enabled || sound_state_changed)
+    {
+        if (sdev_open) sound_close();
         return 0;
+    }
 
     if (suspend_time > 0)
         enablesound();
@@ -536,7 +549,8 @@ int sound_flush(int relative_speed)
 	{
 	    warn(snddata.pwarn, -1, "fragment problems %d %d %d",
 		 space, used, snddata.firststatus);
-	    closesound("Audio: fragment problems.");
+
+            closesound("Audio: fragment problems.");
 	    return 0;
 	}
 	/* buffer empty */
@@ -620,7 +634,9 @@ int sound_flush(int relative_speed)
             if (suspend_time > 0)
 	        suspendsound("running too slow");
 	    else
-	        closesound("Audio: running too slow.");
+            {
+                closesound("Audio: running too slow.");
+            }
 	    return 0;
 	}
 	if (nr > space && nr < used)
@@ -647,13 +663,15 @@ int sound_flush(int relative_speed)
 void sound_close(void)
 {
     closesound(NULL);
+    sdev_open     = FALSE;
+    sound_state_changed = FALSE;
 }
 
 /* suspend sid (eg. before pause) */
 void sound_suspend(void)
 {
-    int				 i;
-    SWORD			*p, v;
+    int	i;
+    SWORD *p, v;
     if (snddata.pdev)
     {
 	if (snddata.pdev->write && snddata.issuspended == 0)
@@ -682,7 +700,7 @@ void sound_suspend(void)
 /* resume sid */
 void sound_resume(void)
 {
-    int				i;
+    int	i;
     if (snddata.pdev)
     {
 	if (snddata.pdev->resume && snddata.issuspended == 1)
@@ -699,10 +717,12 @@ void sound_resume(void)
 /* initialize sid at program start -time */
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
-    cycles_per_sec = clock_rate;
+    sound_state_changed = FALSE;
+    
+    cycles_per_sec  = clock_rate;
     cycles_per_rfsh = ticks_per_frame;
-    rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
-    snddata.pwarn = warn_init("SOUND", 128);
+    rfsh_per_sec    = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
+    snddata.pwarn   = warn_init("SOUND", 128);
 
     sound_machine_init();
 
@@ -767,8 +787,8 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 double sound_sample_position(void)
 {
-    return (snddata.clkstep == 0)
-               ? 0.0 : (clk - snddata.fclk) / snddata.clkstep;
+    return (snddata.clkstep == 0) ?
+            0.0 : (clk - snddata.fclk) / snddata.clkstep;
 }
 
 int sound_read(ADDRESS addr)
@@ -780,7 +800,7 @@ int sound_read(ADDRESS addr)
 
 void sound_store(ADDRESS addr, BYTE val)
 {
-    int				 i;
+    int	i;
     if (sound_run_sound() == 0)
     {
 	sound_machine_store(snddata.psid, addr, val);
@@ -789,8 +809,9 @@ void sound_store(ADDRESS addr, BYTE val)
 	    i = snddata.pdev->dump(snddata.pwarndev, addr, val,
 				   clk - snddata.wclk);
 	    snddata.wclk = clk;
-	    if (i)
-		closesound("Audio: store to sounddevice failed.");
+            if (i){
+                closesound("Audio: store to sounddevice failed.");
+            }
 	}
     }
 }
