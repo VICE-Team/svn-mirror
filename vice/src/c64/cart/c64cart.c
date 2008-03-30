@@ -291,12 +291,12 @@ void cartridge_trigger_freeze(void)
       case CARTRIDGE_ATOMIC_POWER:
       case CARTRIDGE_FINAL_I:
         maincpu_set_nmi(I_FREEZE, IK_NMI);
-        alarm_set(&cartridge_alarm, clk + 3);
+        alarm_set(&cartridge_alarm, maincpu_clk + 3);
         break;
       case CARTRIDGE_RETRO_REPLAY:
         if (retroreplay_freeze_allowed()) {
             maincpu_set_nmi(I_FREEZE, IK_NMI);
-            alarm_set(&cartridge_alarm, clk + 3);
+            alarm_set(&cartridge_alarm, maincpu_clk + 3);
         }
         break;
     }

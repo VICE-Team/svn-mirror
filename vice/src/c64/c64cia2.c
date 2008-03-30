@@ -76,9 +76,9 @@
 
 #define MYCIA_INT       IK_NMI
 
-#define myclk           clk
+#define myclk           maincpu_clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define mycpu_rmw_flag  rmw_flag
+#define mycpu_rmw_flag  maincpu_rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 interrupt_set_nmi(&maincpu_int_status,(I_CIA2FL),(value),(clk))
@@ -200,9 +200,9 @@ static inline BYTE read_ciapa(void)
         return ((cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) |
             (iec_info->iec_fast_1541 & 0x30) << 2;
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
     return byte;
@@ -228,9 +228,9 @@ static inline BYTE read_ciapb(void)
 static inline void read_ciaicr(void)
 {
     if (drive[0].parallel_cable_enabled)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].parallel_cable_enabled)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 }
 
 static inline void store_sdr(BYTE byte) {}

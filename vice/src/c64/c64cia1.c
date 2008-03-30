@@ -70,9 +70,9 @@
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk           clk
+#define myclk           maincpu_clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define mycpu_rmw_flag  rmw_flag
+#define mycpu_rmw_flag  maincpu_rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 interrupt_set_irq(&maincpu_int_status,(I_CIA1FL),(value),(clk))

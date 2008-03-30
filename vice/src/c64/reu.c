@@ -468,7 +468,7 @@ static void reu_dma_host_to_reu(ADDRESS host_addr, unsigned int reu_addr,
 #endif
 
     for (; len--; reu_addr += reu_step) {
-        clk++;
+        maincpu_clk++;
         machine_handle_pending_alarms(0);
         value = mem_read(host_addr);
 
@@ -502,7 +502,7 @@ static void reu_dma_reu_to_host(ADDRESS host_addr, unsigned int reu_addr,
                     "Transferring byte: %x from ext $%05X to main $%04X.",
                     reu_ram[reu_addr % reu_size], reu_addr, host_addr);
 #endif
-        clk++;
+        maincpu_clk++;
         mem_store(host_addr, reu_ram[reu_addr % reu_size]);
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
@@ -525,11 +525,11 @@ static void reu_dma_swap(ADDRESS host_addr, unsigned int reu_addr,
 
     for (; len--; reu_addr += reu_step ) {
         c = reu_ram[reu_addr % reu_size];
-        clk++;
+        maincpu_clk++;
         machine_handle_pending_alarms(0);
         reu_ram[reu_addr % reu_size] = mem_read(host_addr);
         mem_store(host_addr, c);
-        clk++;
+        maincpu_clk++;
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
     }
@@ -551,7 +551,7 @@ static void reu_dma_compare(ADDRESS host_addr, unsigned int reu_addr,
     reu[REU_REG_R_STATUS] &= ~0x60;
 
     while (len--) {
-        clk++;
+        maincpu_clk++;
         machine_handle_pending_alarms(0);
         if (reu_ram[reu_addr % reu_size] != mem_read(host_addr)) {
             host_addr = (host_addr + host_step) & 0xffff;

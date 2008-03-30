@@ -1514,7 +1514,7 @@
 
             log_debug(".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X.",
                       reg_pc, op, lo, hi,
-                      (long)clk,
+                      (long)maincpu_clk,
                       mon_disassemble_to_string(e_comp_space, reg_pc, op, lo,
                                                 hi, 0, 1),
                       reg_a, reg_x, reg_y);

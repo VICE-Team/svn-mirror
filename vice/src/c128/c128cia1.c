@@ -72,9 +72,9 @@
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk           clk
+#define myclk           maincpu_clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define mycpu_rmw_flag  rmw_flag
+#define mycpu_rmw_flag  maincpu_rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 interrupt_set_irq(&maincpu_int_status,(I_CIA1FL),(value),(clk))
@@ -200,9 +200,9 @@ static inline BYTE read_ciapb(void)
 static inline void read_ciaicr(void)
 {
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 }
 
 #include "ciacore.c"

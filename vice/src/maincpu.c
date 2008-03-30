@@ -204,13 +204,13 @@ alarm_context_t *maincpu_alarm_context;
 clk_guard_t maincpu_clk_guard;
 
 /* Global clock counter.  */
-CLOCK clk = 0L;
+CLOCK maincpu_clk = 0L;
 
 /* This is flag is set to 1 each time a Read-Modify-Write instructions that
-   accesses memory is executed.  We can emulate the RMW bug of the 6510 this
-   way.  VERY important notice: Always assign 1 for true, 0 for false!  Some
-   functions depend on this to do some optimization.  */
-int rmw_flag = 0;
+   accesses memory is executed.  We can emulate the RMW behaviour of the 6510
+   this way.  VERY important notice: Always assign 1 for true, 0 for false!
+   Some functions depend on this to do some optimization.  */
+int maincpu_rmw_flag = 0;
 
 /* Information about the last executed opcode.  This is used to know the
    number of write cycles in the last executed opcode and to delay interrupts
@@ -263,7 +263,7 @@ monitor_interface_t maincpu_monitor_interface = {
     &maincpu_int_status,
 
     /* Pointer to the machine's clock counter.  */
-    &clk,
+    &maincpu_clk,
 
     0,
     mem_bank_list,
@@ -294,7 +294,7 @@ void maincpu_init(void)
 
     alarm_context_init(maincpu_alarm_context, "MainCPU");
 
-    clk_guard_init(&maincpu_clk_guard, &clk, CLOCK_MAX - 0x100000);
+    clk_guard_init(&maincpu_clk_guard, &maincpu_clk, CLOCK_MAX - 0x100000);
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
@@ -312,7 +312,7 @@ static void cpu_reset(void)
     if (preserve_monitor)
         interrupt_monitor_trap_on(&maincpu_int_status);
 
-    clk = 6;                    /* # of clock cycles needed for RESET.  */
+    maincpu_clk = 6; /* # of clock cycles needed for RESET.  */
 
     /* Do machine-specific initialization.  */
     machine_reset();
@@ -356,8 +356,8 @@ void maincpu_mainloop(void)
 
     while (1) {
 
-#define CLK clk
-#define RMW_FLAG rmw_flag
+#define CLK maincpu_clk
+#define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
 #define TRACEFLG debug.maincpu_traceflg
 
@@ -428,7 +428,7 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         return -1;
 
     if (0
-        || snapshot_module_write_dword(m, clk) < 0
+        || snapshot_module_write_dword(m, maincpu_clk) < 0
         || snapshot_module_write_byte(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
         || snapshot_module_write_byte(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
         || snapshot_module_write_byte(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
@@ -463,11 +463,11 @@ int maincpu_snapshot_read_module(snapshot_t *s)
 
     /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
        wrong number of cycles.  */
-    rmw_flag = -1;
+    maincpu_rmw_flag = -1;
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
-        || snapshot_module_read_dword(m, &clk) < 0
+        || snapshot_module_read_dword(m, &maincpu_clk) < 0
         || snapshot_module_read_byte(m, &a) < 0
         || snapshot_module_read_byte(m, &x) < 0
         || snapshot_module_read_byte(m, &y) < 0

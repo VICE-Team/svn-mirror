@@ -140,7 +140,7 @@ inline static int z80mem_read_limit(int addr)
 #define p12 ((opcode >> 8) & 0xffff)
 #define p23 ((opcode >> 16) & 0xffff)
 
-#define CLK clk
+#define CLK maincpu_clk
 
 #define INC_PC(value)   (z80_reg_pc += (value))
 
