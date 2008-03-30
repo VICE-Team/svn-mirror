@@ -1,3 +1,85 @@
+2000-09-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.11.
+
+	* arch/unix/vsidui.c: #include "drive.h".
+
+2000-09-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* beos/Makefile.am: new files ui_vicii.cc,ui_vicii.h
+
+	* beos/main.cc: removed obsolete KillThread function
+
+	* beos/ui.cc: (ui_dispatch_events) handles VIC-II menu item
+
+	* beos/ui_vicii.cc/h: new files implement the settings dialog
+
+	* beos/vicemenu.cc: new items for VDC settings, minor
+	corrections
+
+	* beos/videoarch.h: now canvas tripple buffering
+
+	* beos/vsidui.c,msdos/vsidui.c,win32/vsidui.c: new includes
+	to fit with the new vsid-api-dummies
+
+	* msdos/video.c,os2/video.c,unix/x11/video.c: new dummies
+	(canvas_destroy)
+
+	* beos/main_exit.c,msdos/main_exit.c,os2/video.c,riscos/ui.c,
+	unix/main_exit.c,win32/main_exit.c: removed/disabled call of
+	(video_free)
+
+	* c128/c128.c,c64/c64.c,cbm2/c610.c,pet/pet.c,vic20/vic20.c:
+	(machine_shutdown) calls the <video_chip>_free() for the
+	machine's video-chip(s)
+
+	* crtc/crtc.c,vdc/vdc.c,vic20/vic.c,vicii/vicii.c:
+	new (VDC: modified) functions (<chip>_free) that for now
+	only free the raster by calling (raster_free)
+
+	* raster/raster.c: new function (raster_free) that frees
+	framebuffer, canvas and some other allocated objects
+
+	* win32/joystick.c (joystick_update) uses the joystick latch
+	functions instead of directly writing to the joystick_value
+
+2000-08-29  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/beos/vsidui.c: new vsid_ui_functions added,
+	vsid_set_tune removed
+ 
+	* arch/msdos/vsidui.c: new vsid_ui_functions added,
+	vsid_set_tune removed
+ 
+	* arch/os2/dialogs/dialogs.h: vsid dialog enhanced
+ 
+	* arch/os2/dialogs/dlg-vsid.c: enhanced
+ 
+	* arch/os2/vac++/ctools/biosdump.icc: added
+
+	* arch/os2/vac++/ctools/cformat.icc: added
+ 
+	* arch/os2/vac++/ctools/ctools.icc: added
+ 
+	* arch/os2/vac++/ctools/d64dump.icc: added
+ 
+	* arch/os2/vsidui.c: new vsid_ui functions added,
+	vsid_set_tune removed
+ 
+	* arch/riscos/vsidui.c: new vsid_ui functions added,
+	vsid_set_tune removed
+ 
+	* arch/unix/vsidui.c: new ui functions added, vsid_set_tune
+	removed
+ 
+	* arch/win32/vsidui.c: new ui functions added, vsid_set_tune
+	removed
+
+	* c64/psid.c: introduced new ui callback functions,
+	psid_set_tune and vsid_set_tune merged
+                  
+	* vsidui.h: new ui functions added, vsid_set_tune removed
+
 2000-08-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.10.

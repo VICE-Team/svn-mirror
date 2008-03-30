@@ -458,11 +458,11 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	../../../src/attach.h ../../../src/c64/c64mem.h \
 	../../../src/mem.h c64ui.h uimenu.h x11/xaw/uimenu.h \
 	x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
-	x11/xaw/../xaw/uihotkey.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/c64/psid.h \
-	../../../src/resources.h uicommands.h uisettings.h \
-	../../../src/utils.h ../../../src/vsync.h
+	x11/xaw/../xaw/uihotkey.h ../../../src/drive/drive.h \
+	../../../src/log.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/machine.h \
+	../../../src/c64/psid.h ../../../src/resources.h uicommands.h \
+	uisettings.h ../../../src/utils.h ../../../src/vsync.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \
