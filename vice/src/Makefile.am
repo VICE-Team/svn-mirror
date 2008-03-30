@@ -38,6 +38,7 @@ noinst_HEADERS = \
 	autostart.h \
 	cartridge.h \
 	charsets.h \
+	clkguard.h \
 	cia.h \
 	ciacore.h \
 	ciatimer.h \
@@ -100,6 +101,7 @@ base_sources = \
 	attach.c \
 	autostart.c \
 	charsets.c \
+	clkguard.c \
 	ciatimer.c \
 	cmdline.c \
 	datasette.c \
