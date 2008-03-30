@@ -1,3 +1,11 @@
+2002-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.32.
+
+2002-04-01  pottendo  <pottendo@utanet.at>
+
+	* vice.spec: Use wildcard to pack message catalogs.
+
 2002-04-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.31.
