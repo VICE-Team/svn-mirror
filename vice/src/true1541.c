@@ -165,6 +165,9 @@ static int byte_ready_active;
 /* Tick when the disk image was attached.  */
 static CLOCK attach_clk = (CLOCK)0;
 
+/* Tick when the disk image was detached.  */
+static CLOCK detach_clk = (CLOCK)0;
+
 /* Warnings.  */
 enum true1541_warnings { WARN_GCRWRITE };
 #define TRUE1541_NUM_WARNINGS (WARN_GCRWRITE + 1)
@@ -575,6 +578,7 @@ int true1541_detach_floppy(void)
 {
     if (true1541_floppy != NULL) {
 	GCR_data_writeback();
+	detach_clk = true1541_clk;
 	true1541_floppy = NULL;
 	memset(GCR_data, 0, sizeof(GCR_data));
     }
@@ -712,15 +716,17 @@ void true1541_rotate_disk(int mode_change)
 
 /* ------------------------------------------------------------------------- */
 
-/* This prevents the CLOCK counters (currently only `rotation_last_clk')
-   from overflowing.  */
+/* This prevents the CLOCK counters `rotation_last_clk', `attach_clk'
+   and `detach_clk' from overflowing.  */
 void true1541_prevent_clk_overflow(void)
 {
     if (true1541_cpu_prevent_clk_overflow()) {
 	true1541_rotate_disk(0);
 	rotation_last_clk -= PREVENT_CLK_OVERFLOW_SUB;
-        if (attach_clk > (CLOCK) 0)
-            attach_clk -= PREVENT_CLK_OVERFLOW_SUB;
+	if (attach_clk > (CLOCK) 0)
+	    attach_clk -= PREVENT_CLK_OVERFLOW_SUB;
+	if (detach_clk > (CLOCK) 0)
+	    detach_clk -= PREVENT_CLK_OVERFLOW_SUB;
     }
 }
 
@@ -857,6 +863,15 @@ void true1541_write_gcr(BYTE val)
 /* Return the write protect sense status. */
 int true1541_write_protect_sense(void)
 {
+    /* Toggle the write protection bit if the disk was detached.  */
+    if (detach_clk != (CLOCK)0) {
+	if (true1541_clk - detach_clk < TRUE1541_DETACH_DELAY)
+	    return 0;
+	detach_clk = (CLOCK)0;
+    }
+    if ((attach_clk != (CLOCK)0) &&
+	(true1541_clk - attach_clk < TRUE1541_ATTACH_DELAY))
+	return 0;
     if (true1541_floppy == NULL) {
 	/* No disk in drive, write protection is on. */
 	return 1;
@@ -874,8 +889,6 @@ static void GCR_data_writeback(void)
 {
     int rc, track, sector;
     BYTE buffer[260], *offset;
-
-    if (!GCR_dirty_track)
 
     track = true1541_current_half_track / 2;
 
