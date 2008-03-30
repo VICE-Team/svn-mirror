@@ -29,7 +29,7 @@
 
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
 				  int filters_enabled, BYTE *sidstate,
-				  CLOCK clk);
+				  int model, CLOCK clk);
 void resid_sound_machine_close(sound_t *psid);
 BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk);
 void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,

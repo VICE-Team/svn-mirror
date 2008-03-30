@@ -150,21 +150,23 @@ static ui_menu_entry_t sid_model_submenu[] = {
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 0, NULL },
     { "*8580 (new)",
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
-#ifdef HAVE_RESID
-    { "--" },
-    { "*6581 (old) with reSID",
-      (ui_callback_t) radio_SidModel, (ui_callback_data_t) 2, NULL },
-#endif
     { NULL }
 };
 
 UI_MENU_DEFINE_TOGGLE(SidFilters)
+#ifdef HAVE_RESID
+UI_MENU_DEFINE_TOGGLE(SidUseResid)
+#endif
 
 static ui_menu_entry_t sid_submenu[] = {
     { "*Emulate filters",
       (ui_callback_t) toggle_SidFilters, NULL, NULL },
     { "Chip model",
       NULL, NULL, sid_model_submenu },
+#ifdef HAVE_RESID
+    { "*Use reSID emulation",
+      (ui_callback_t) toggle_SidUseResid, NULL, NULL },
+#endif
     { NULL },
 };
 

@@ -54,20 +54,29 @@ static warn_t *pwarn;
 
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
 				  int filters_enabled, BYTE *siddata,
-				  CLOCK clk)
+				  int model, CLOCK clk)
 {
     sound_t			*psid;
     int				 i;
 
     psid = new sound_t;
-    psid->sid.bypass_filter(!filters_enabled);
+    psid->sid.enable_filter(filters_enabled);
     psid->clk = 0.0;
     psid->sidclk = 0;
     psid->clkstep = (double)cycles_per_sec / speed;
-    for (i = 0x00; i <= 0x18; i++) {
-      psid->sid.write(i, siddata[i]);
+    if (model == 0)
+    {
+	psid->sid.set_chip_model(MOS6581);
+	warn(pwarn, -1, "using reSID MOS6581 emulation");
     }
-    warn(pwarn, -1, "using reSID MOS6581 emulation");
+    else
+    {
+	psid->sid.set_chip_model(MOS8580);
+	warn(pwarn, -1, "using reSID MOS8580 emulation");
+    }
+    for (i = 0x00; i <= 0x18; i++) {
+	psid->sid.write(i, siddata[i]);
+    }
     return psid;
 }
 
