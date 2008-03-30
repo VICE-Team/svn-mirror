@@ -174,9 +174,9 @@ int datasette_cmdline_options_init(void)
 
 /* constants to make the counter-calculation a little faster */
 /* see datasette.h for the complete formular                 */
-const double ds_c1 = DS_V_PLAY / DS_D/PI;
-const double ds_c2 = (DS_R * DS_R) / (DS_D * DS_D);
-const double ds_c3 = DS_R / DS_D;
+static const double ds_c1 = DS_V_PLAY / DS_D/PI;
+static const double ds_c2 = (DS_R * DS_R) / (DS_D * DS_D);
+static const double ds_c3 = DS_R / DS_D;
 
 static void datasette_internal_reset(void);
 
