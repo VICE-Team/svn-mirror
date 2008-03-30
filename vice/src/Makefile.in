@@ -139,7 +139,7 @@ printer_sources =  	prdevice.c 	prdevice.h 	pruser.c 	pruser.h
 rs232_sources =  	rsuser.c 	rsuser.h
 
 
-EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	aciacore.c 	ciacore.c 	convio 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(printer_sources) 	$(rs232_sources)
+EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(printer_sources) 	$(rs232_sources)
 
 
 BUILT_SOURCES = mon_parse.h mon_parse.c 

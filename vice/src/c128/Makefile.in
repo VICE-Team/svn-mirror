@@ -356,8 +356,8 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/snapshot.h ../../src/log.h \
-	../../src/mon.h ../../src/mos6510.h z80.h z80mem.h \
-	../../src/mem.h
+	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h z80.h z80mem.h ../../src/mem.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
 	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \

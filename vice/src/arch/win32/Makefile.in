@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610kbd.c 	c610ui.c 	c610ui.h 	c64kbd.c 	c64ui.c 	c64ui.h 	dirent.c 	dirent.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	lose32.h 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkbd.c 	petui.c 	petui.h 	print.c 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resvic.rc 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uipetset.c 	uipetset.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c 	winhack.h 	winmain.c 	winmain.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610kbd.c 	c610ui.c 	c610ui.h 	c64kbd.c 	c64ui.c 	c64ui.h 	dirent.c 	dirent.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	lose32.h 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkbd.c 	petui.c 	petui.h 	print.c 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resvic.rc 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uipetset.c 	uipetset.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	uivicset.h 	uivicset.c 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c 	winhack.h 	winmain.c 	winmain.h
 
 
 libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resvic.o
@@ -140,7 +140,8 @@ libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
 c64kbd.o c64ui.o dirent.o joystick.o kbd.o main_exit.o mouse.o petkbd.o \
 petui.o print.o ui.o uiattach.o uicbm2set.o uicmdline.o uidatasette.o \
 uidrive.o uijoystick.o uilib.o uipetset.o uisnapshot.o uisound.o \
-uivicii.o vic20kbd.o vic20ui.o video.o vsidui.o vsync.o winmain.o
+uivicii.o uivicset.o vic20kbd.o vic20ui.o video.o vsidui.o vsync.o \
+winmain.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -361,12 +362,17 @@ uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	res.h ../../../src/resources.h ui.h ../../../src/uiapi.h \
 	../../../src/video.h types.h videoarch.h ../../../src/palette.h \
 	uilib.h ../../../src/utils.h winmain.h
+uivicset.o: uivicset.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h res.h ../../../src/resources.h ui.h \
+	../../../src/uiapi.h ../../../src/video.h types.h videoarch.h \
+	../../../src/palette.h uilib.h uivicset.h ../../../src/utils.h \
+	winmain.h
 vic20kbd.o: vic20kbd.c ../../../src/vice.h ../../../src/config.h \
 	lose32.h kbd.h types.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	ui.h ../../../src/uiapi.h ../../../src/video.h types.h \
 	videoarch.h ../../../src/palette.h ../../../src/cartridge.h \
-	res.h uilib.h vic20ui.h winmain.h
+	res.h uilib.h vic20ui.h winmain.h uivicset.h
 video.o: video.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/log.h ../../../src/raster/raster.h \
