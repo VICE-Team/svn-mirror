@@ -71,6 +71,9 @@ typedef struct resource_s {
 #define RESERR_FILE_INVALID         -2
 #define RESERR_READ_ERROR           -3
 #define RESERR_CANNOT_CREATE_FILE   -4
+#define RESERR_CANNOT_REMOVE_BACKUP -5
+#define RESERR_WRITE_PROTECTED      -6
+#define RESERR_CANNOT_RENAME_FILE   -7
 
 /* ------------------------------------------------------------------------- */
 
