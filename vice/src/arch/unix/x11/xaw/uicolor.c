@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <X11/Xlib.h>
 
+#include "color.h"
 #include "log.h"
 #include "palette.h"
 #include "types.h"
@@ -144,6 +145,8 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
 
+    color_alloc_colors(c, palette, pixel_return);
+
     failed = do_alloc_colors(palette, pixel_return, 1);
     if (failed) {
 	if (colormap == DefaultColormap(display, screen)) {
@@ -170,6 +173,8 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
 	PIXEL  *xpixel = xmalloc(sizeof(PIXEL) * palette->num_entries);
 	unsigned long *ypixel = xmalloc(sizeof(unsigned long)
                                         * n_allocated_pixels);
+
+        color_alloc_colors(c, palette, pixel_return);
 
 #if X_DISPLAY_DEPTH == 0
         video_convert_save_pixel();
