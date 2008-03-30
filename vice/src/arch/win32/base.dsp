@@ -158,6 +158,10 @@ SOURCE="..\..\interrupt.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\joystick.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\kbdbuf.c"
 # End Source File
 # Begin Source File

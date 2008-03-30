@@ -157,7 +157,7 @@ static void init_keyset_dialog(HWND hwnd)
 
 static void set_keyset(void)
 {
-    if (current_keyset_indexi == 0) {
+    if (current_keyset_index == 0) {
         resources_set_value("KeySet1NorthWest",
                             (resource_value_t)keyset[KEYSET_NW]);
         resources_set_value("KeySet1North",

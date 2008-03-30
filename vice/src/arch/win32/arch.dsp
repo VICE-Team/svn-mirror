@@ -122,7 +122,7 @@ SOURCE=.\fullscreen.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\joystick.c
+SOURCE=.\joy.c
 # End Source File
 # Begin Source File
 
