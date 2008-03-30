@@ -72,6 +72,8 @@ keymap_desc ViceKeymap = {
 /* Special keycodes that have to be processed seperately: */
 #define IntKey_ShiftL	3
 #define IntKey_ShiftR	6
+#define IntKey_CtrlL	4
+#define IntKey_CtrlR	7
 #define IntKey_CapsLock	64
 #define IntKey_CrsrL	25
 #define IntKey_CrsrR	121
@@ -86,7 +88,7 @@ keymap_desc ViceKeymap = {
 #define IntKey_F9	119
 #define IntKey_F10	30
 #define IntKey_F12	29
-
+#define IntKey_Print	32
 #define IntKey_PageUp	63
 #define IntKey_PageDown	78
 #define IntKey_NumSlash	74
@@ -334,6 +336,7 @@ void kbd_poll(void)
   int shr, shc;
   keymap_t *keymap;
   int shiftPressed = 0;
+  int ctrlPressed = 0;
 
   /* Don't do anything if we don't have the input focus */
   if (EmuWindowHasInputFocus == 0) return;
@@ -382,6 +385,7 @@ void kbd_poll(void)
       if ((code = ScanKeys(scan)) != 0xff)
       {
         if ((code == IntKey_ShiftL) || (code == IntKey_ShiftR)) shiftPressed = 1;
+        if ((code == IntKey_CtrlL) || (code == IntKey_CtrlR)) ctrlPressed = 1;
 
         new_keys[(code>>3)] |= (1<<(code&7));
         row = code;
@@ -465,19 +469,33 @@ void kbd_poll(void)
               maincpu_trigger_reset();
               break;
             case IntKey_F9:
-              if (FullScreenMode != 0)
+              if (ctrlPressed == 0)
               {
-                FullScreenStatLine = FullScreenStatLine ^ 1;
-                if (FullScreenStatLine == 0)
-                  video_full_screen_refresh();
-                else
-                  video_full_screen_init_status();
+                if (FullScreenMode != 0)
+                {
+                  FullScreenStatLine = FullScreenStatLine ^ 1;
+                  if (FullScreenStatLine == 0)
+                    video_full_screen_refresh();
+                  else
+                    video_full_screen_init_status();
+                }
+              }
+              else
+              {
+                ui_save_last_snapshot();
               }
               break;
             case IntKey_F10:
-              if (FullScreenMode != 0)
+              if (ctrlPressed == 0)
               {
-                canvas_next_active(0);
+                if (FullScreenMode != 0)
+                {
+                  canvas_next_active(0);
+                }
+              }
+              else
+              {
+                ui_trigger_snapshot_load();
               }
               break;
             case IntKey_F12:
@@ -499,7 +517,11 @@ void kbd_poll(void)
             case IntKey_PageDown:
               ui_flip_iterate_and_attach(-1);
               break;
-            default: break;
+            case IntKey_Print:
+              ui_make_last_screenshot();
+              break;
+            default:
+              break;
           }
         }
       }

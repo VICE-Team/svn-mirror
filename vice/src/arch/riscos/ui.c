@@ -134,6 +134,7 @@ static const char PRGFileExtension[] = "prg";
 #define FileType_Data		0xffd
 #define FileType_Sprite		0xff9
 #define FileType_C64File	0x064
+#define FileType_D64Image	0x164
 
 
 /* Start scanning for internal keynumbers from here */
@@ -1906,7 +1907,8 @@ static int ui_new_drive_image(int number, const char *name, int scankeys)
   vsync_suspend_speed_eval();
 
   type = ReadCatalogueInfo(name, aux);
-  if (type == 2)
+  /* directories or image files that aren't D64 images are attached as dirs */
+  if ((type == 2) || ((type == 3) && (((aux[0]>>8) & 0xfff) != FileType_D64Image)))
   {
     if (!scankeys || (ScanKeys(IntKey_Shift) == 0xff))
     {
@@ -2107,6 +2109,8 @@ static void ui_save_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
 static int ui_check_save_snapshot(const char *name)
 {
+  /*log_message(LOG_DEFAULT, "Save snapshot %s", name);*/
+
   if (wimp_check_for_path(name) == 0)
   {
     wimp_strcpy(((char*)SnapshotMessage)+44, name);
@@ -2115,6 +2119,12 @@ static int ui_check_save_snapshot(const char *name)
   }
   return -1;
 }
+
+int ui_save_last_snapshot(void)
+{
+  return ui_check_save_snapshot(((char*)SnapshotMessage)+44);
+}
+
 
 static int ui_check_save_sbox(const char *name)
 {
@@ -4109,16 +4119,25 @@ static void ui_key_press(int *b)
   {
     switch (key)
     {
-      case 0x189:
+      case 0x189:	/* F9 */
         ShowEmuPane ^= 1;
         ui_set_pane_state(ShowEmuPane);
         break;
-      case 0x1ca:
+      case 0x1ca:	/* F10 */
         canvas_next_active(1);
         break;
-      case 0x18b:
+      case 0x18b:	/* Copy */
         EmuPaused ^= 1;
         ui_display_paused(EmuPaused);
+        break;
+      case 0x180:	/* Print */
+        ui_make_last_screenshot();
+        break;
+      case 0x1a9:	/* ^F9 */
+        ui_save_last_snapshot();
+        break;
+      case 0x1ea:	/* ^F10 */
+        ui_trigger_snapshot_load();
         break;
       case 0x1cc: /* pass on any variations of F12 */
       case 0x1dc:
@@ -4674,6 +4693,8 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
   /* See true drive emulation */
   ui_temp_suspend_sound();
 
+  /*log_message(LOG_DEFAULT, "Load snapshot %s", ((char*)SnapshotMessage)+44);*/
+
   status = machine_read_snapshot(((char*)SnapshotMessage)+44);
 
   /* In this case the scrap removal had to be delayed */
@@ -4694,6 +4715,7 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
     {
       ui_display_sound_enable((int)val);
     }
+    wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, ((char*)SnapshotMessage)+44);
   }
   else
   {
@@ -4705,6 +4727,34 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
   }
 
   ui_temp_resume_sound();
+}
+
+
+void ui_trigger_snapshot_load(void)
+{
+  maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
+  SnapshotPending = 1;
+}
+
+
+static int ui_make_screenshot(const char *name)
+{
+  struct canvas_s *canvas = canvas_for_handle(LastHandle);
+  if ((canvas != NULL) && (screenshot_canvas_save("Sprite", name, canvas) == 0))
+  {
+    SetFileType(name, FileType_Sprite);
+    return 0;
+  }
+  return -1;
+}
+
+
+int ui_make_last_screenshot(void)
+{
+  if (wimp_check_for_path(ViceScreenshotFile) == 0)
+    return ui_make_screenshot(ViceScreenshotFile);
+
+  return -1;
 }
 
 
@@ -4852,8 +4902,8 @@ static void ui_user_msg_data_load(int *b)
     else if (b[10] == FileType_Data)	/* Snapshot? */
     {
       wimp_strcpy(((char*)SnapshotMessage)+44, name);
-      maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
-      action = 1; SnapshotPending = 1;
+      ui_trigger_snapshot_load();
+      action = 1;
     }
   }
   else if (b[5] == EmuPane->Handle)
@@ -5062,6 +5112,7 @@ static void ui_user_msg_data_save(int *b)
   }
 }
 
+
 static void ui_user_msg_data_save_ack(int *b)
 {
   char *name = ((char*)b) + 44;
@@ -5079,6 +5130,7 @@ static void ui_user_msg_data_save_ack(int *b)
       if (ui_make_snapshot(name) == 0)
       {
         wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, name);
+        wimp_strcpy(((char*)SnapshotMessage)+44, name);
         b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
         Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
       }
@@ -5104,8 +5156,7 @@ static void ui_user_msg_data_save_ack(int *b)
           break;
         case SBOX_TYPE_SCRSHOT:
           {
-            struct canvas_s *canvas = canvas_for_handle(LastHandle);
-            if (screenshot_canvas_save("Sprite", name, canvas) == 0)
+            if (ui_make_screenshot(name) == 0)
             {
               wimp_strcpy(ViceScreenshotFile, name);
               status = 0;

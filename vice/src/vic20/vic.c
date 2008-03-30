@@ -139,6 +139,10 @@ static void vic_set_geometry(void)
 
     raster_resize_viewport (&vic.raster, width, height);
 
+#ifdef __MSDOS__
+  video_ack_vga_mode();
+#endif
+
 }
 
 

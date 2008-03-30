@@ -52,6 +52,8 @@ BEGIN
         END
 #endif
         MENUITEM SEPARATOR
+        MENUITEM "&Pause\tCtrl+Alt+P",              IDM_PAUSE
+        , CHECKED
         MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
         BEGIN

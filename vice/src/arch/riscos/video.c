@@ -667,6 +667,10 @@ int video_full_screen_off(void)
   SingleTasking = oldSingleTask;
   FullScreenMode = 0;
 
+  /* Flush keyboard and mouse buffer */
+  OS_FlushBuffer(0);
+  OS_FlushBuffer(9);
+
   return 0;
 }
 

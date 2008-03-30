@@ -68,6 +68,9 @@ extern int  ui_flip_iterate_and_attach(int dir);
 
 extern void ui_open_vsid_window(int *block);
 
+extern int  ui_make_last_screenshot(void);
+extern int  ui_save_last_snapshot(void);
+extern void ui_trigger_snapshot_load(void);
 
 
 extern RO_Screen ScreenMode;

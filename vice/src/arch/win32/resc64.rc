@@ -68,6 +68,8 @@ BEGIN
         MENUITEM "Detach cartridge &image",         IDM_CART_DETACH
         MENUITEM "Cartridge free&ze\tAlt+Z",        IDM_CART_FREEZE
         MENUITEM SEPARATOR
+        MENUITEM "&Pause\tCtrl+Alt+P",              IDM_PAUSE
+        , CHECKED
         MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
         BEGIN
@@ -164,7 +166,6 @@ BEGIN
         END
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
-        MENUITEM "RE&U emulation",                  IDM_TOGGLE_REU
 	MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
     END
     POPUP "S&ettings"
@@ -175,7 +176,8 @@ BEGIN
         MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
-	MENUITEM "F&ullscreen settings...",	    IDM_FULLSCREEN_SETTINGS
+    	MENUITEM "F&ullscreen settings...",	        IDM_FULLSCREEN_SETTINGS
+        MENUITEM "R&EU settings...",                IDM_REU_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD

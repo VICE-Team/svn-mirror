@@ -194,6 +194,10 @@ SOURCE=.\uipetset.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uireu.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uisnapshot.c
 # End Source File
 # Begin Source File

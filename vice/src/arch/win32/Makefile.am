@@ -41,7 +41,7 @@ libarch_a_SOURCES = \
 	kbd.h \
 	lose32.h \
 	main_exit.c \
-        main_exit.h \
+    main_exit.h \
 	mouse.c \
 	mouse.h \
 	petkbd.c \
@@ -77,6 +77,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \
+    uireu.c \
+    uireu.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uisound.c \

@@ -31,6 +31,7 @@
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
+#include "uireu.h"
 #include "uivicii.h"
 #include "vsync.h"
 
@@ -38,7 +39,6 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "REU", IDM_TOGGLE_REU },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
     { "Mouse", IDM_MOUSE|0x00010000 },
@@ -92,6 +92,9 @@ void c128_ui_specific(WPARAM wparam, HWND hwnd)
          break;
       case IDM_VICII_SETTINGS:
         ui_vicii_settings_dialog(hwnd);
+        break;
+      case IDM_REU_SETTINGS:
+        ui_reu_settings_dialog(hwnd);
         break;
     }
 }

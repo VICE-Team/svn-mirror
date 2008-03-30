@@ -41,6 +41,7 @@
 #include "res.h"
 #include "resources.h"
 #include "uilib.h"
+#include "uireu.h"
 #include "uivicii.h"
 #include "vsync.h"
 #include "winmain.h"
@@ -49,7 +50,6 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "REU", IDM_TOGGLE_REU },
     { "Mouse", IDM_MOUSE },
     { "Mouse", IDM_MOUSE|0x00010000 },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
@@ -211,6 +211,9 @@ void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VICII_SETTINGS:
         ui_vicii_settings_dialog(hwnd);
+        break;
+      case IDM_REU_SETTINGS:
+        ui_reu_settings_dialog(hwnd);
         break;
     }
 }

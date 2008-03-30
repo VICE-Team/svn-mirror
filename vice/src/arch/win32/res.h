@@ -241,9 +241,16 @@
 #define IDC_FULLSCREEN_BITDEPTH         1323
 #define IDC_FULLSCREEN_REFRESHRATE      1324
 
+#define IDD_REU_SETTINGS_DIALOG         1330
+#define IDC_REU_ENABLE                  1331
+#define IDC_REU_SIZE                    1332
+#define IDC_REU_FILE                    1333
+#define IDC_REU_BROWSE                  1334
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
+#define IDM_PAUSE                       40003
 #define IDM_AUTOSTART                   40004
 #define IDM_HARD_RESET                  40005
 #define IDM_SOFT_RESET                  40006
@@ -339,7 +346,7 @@
 #define IDM_FLIP_REMOVE                 40171
 #define IDM_FLIP_NEXT                   40172
 #define IDM_FLIP_PREVIOUS               40173
-#define IDM_TOGGLE_REU                  40180
+#define IDM_REU_SETTINGS                40180
 #define IDM_TOGGLE_CRTCDOUBLESIZE       40181
 #define IDM_TOGGLE_CRTCDOUBLESCAN       40182
 #define IDM_TOGGLE_CRTCVIDEOCACHE       40183

@@ -311,7 +311,8 @@ int ui_init_cmdline_options(void)
     {FVIRTKEY|FALT|FNOINVERT,'C',IDM_SCREENSHOT},\
     {FVIRTKEY|FALT|FNOINVERT,'U',IDM_SOUNDSHOT},\
     {FVIRTKEY|FALT|FNOINVERT,'D',IDM_TOGGLE_FULLSCREEN},\
-    {FVIRTKEY|FALT|FNOINVERT,0x0d,IDM_TOGGLE_FULLSCREEN}
+    {FVIRTKEY|FALT|FNOINVERT,0x0d,IDM_TOGGLE_FULLSCREEN},\
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'P',IDM_PAUSE}
 
 static ACCEL c64_accel[] = {
     {FVIRTKEY|FALT|FNOINVERT,'Z',IDM_CART_FREEZE},
@@ -353,23 +354,23 @@ WORD        menu;
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel, 25);
+            ui_accelerator=CreateAcceleratorTable(c64_accel, 26);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel, 24);
+            ui_accelerator=CreateAcceleratorTable(c128_accel, 25);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel, 23);
+            ui_accelerator=CreateAcceleratorTable(vic_accel, 24);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel, 23);
+            ui_accelerator=CreateAcceleratorTable(pet_accel, 24);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel, 23);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel, 24);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
@@ -642,6 +643,7 @@ static void update_menus(HWND hwnd)
             }
         }
     }
+    CheckMenuItem(menu, IDM_PAUSE, ui_emulation_is_paused() ? MF_CHECKED : MF_UNCHECKED);
 
 }
 
@@ -723,7 +725,35 @@ int ui_extend_image_dialog(void)
 }
 
 /* ------------------------------------------------------------------------- */
+static int is_paused = 0;
 
+static void pause_trap(ADDRESS addr, void *data)
+{
+    ui_display_paused(1);
+    vsync_suspend_speed_eval();
+    while (is_paused)
+    {
+        Sleep(10);
+        ui_dispatch_next_event();
+    }
+}
+
+void ui_pause_emulation(void)
+{
+    is_paused = is_paused ? 0 : 1;
+    if (is_paused) {
+        maincpu_trigger_trap(pause_trap, 0);
+    } else {
+        ui_display_paused(0);
+    }
+}
+
+int ui_emulation_is_paused(void)
+{
+    return is_paused;
+}
+
+/* ------------------------------------------------------------------------- */
 /* Dispay the current emulation speed.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
@@ -740,84 +770,17 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 
 }
-/*
-static ui_drive_enable_t    status_enabled;
-static int                  status_led[2];
-static int                  status_map[2];          //  Translate from window index -> drive index
-static int                  status_partindex[2];    //  Translate from drive index -> window index
-static double               status_track[2];
-static int                 *drive_active_led;
 
-static int                  tape_enabled = 0;
-static int                  tape_motor;
-static int                  tape_counter;
-static int                  tape_control;
 
-static char                 emu_status_text[1024];
-
-static void SetStatusWindowParts(HWND hwnd)
-{
-int     number_of_parts;
-int     enabled_drives;
-RECT    rect;
-int     posx[4];
-int     width;
-int     i;
-
-    number_of_parts=0;
-    enabled_drives=0;
-
-    if (tape_enabled)
-        number_of_parts++;
-
-    if (status_enabled&UI_DRIVE_ENABLE_0) {
-        status_map[enabled_drives++]=0;
-        status_partindex[0]=number_of_parts++;
-    }
-    if (status_enabled&UI_DRIVE_ENABLE_1) {
-        status_map[enabled_drives++]=1;
-        status_partindex[1]=number_of_parts++;
-    }
-    GetWindowRect(hwnd,&rect);
-    width=rect.right-rect.left;
-    for (i=number_of_parts; i>=0; i--) {
-        posx[i]=width;
-        width-=110;
-    }
-    SendMessage(hwnd,SB_SETPARTS,number_of_parts+1,(LPARAM)posx);
-    if (number_of_parts==3) {
-        SendMessage(hwnd,SB_SETTEXT,3|SBT_OWNERDRAW,0);
-    }
-    if (number_of_parts==2) {
-        SendMessage(hwnd,SB_SETTEXT,2|SBT_OWNERDRAW,0);
-    }
-    if (number_of_parts==1) {
-        SendMessage(hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
-    }
-}
-*/
 void ui_display_statustext(const char *text)
 {
-//int i;
-
     statusbar_setstatustext(text);
-/*    strcpy(emu_status_text,text);
-    for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i],SB_SETTEXT,0|SBT_OWNERDRAW,0);
-    }*/
 }
 
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-//int i;
-
     statusbar_enable_drive_status(enable,drive_led_color);
-/*    status_enabled = enable;
-    drive_active_led = drive_led_color;
-    for (i=0; i<number_of_windows; i++) {
-        SetStatusWindowParts(status_hwnd[i]);
-    }*/
 }
 
 /* Toggle displaying of the drive track.  */
@@ -825,29 +788,13 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
 void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
-//int i;
-
     statusbar_display_drive_track(drivenum,drive_base,track_number);
-
-/*    status_track[drivenum]=track_number;
-    for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i], SB_SETTEXT,
-                    (status_partindex[drivenum] + 1) | SBT_OWNERDRAW, 0);
-    }*/
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
-//int i;
-
     statusbar_display_drive_led(drivenum,status);
-
-/*    status_led[drivenum]=status;
-    for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i], SB_SETTEXT,
-                    (status_partindex[drivenum] + 1) | SBT_OWNERDRAW, 0);
-    }*/
 }
 
 /* display current image */
@@ -859,52 +806,22 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 /* tape-status on*/
 void ui_set_tape_status(int tape_status)
 {
-//int i;
-
     statusbar_set_tape_status(tape_status);
-
-/*    tape_enabled = tape_status;
-    for (i=0; i<number_of_windows; i++) {
-        SetStatusWindowParts(status_hwnd[i]);
-    }*/
 }
 
 void ui_display_tape_motor_status(int motor)
 {   
-//int i;
-
     statusbar_display_tape_motor_status(motor);
-
-/*    tape_motor = motor;
-    for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
-    }*/
 }
 
 void ui_display_tape_control_status(int control)
 {
-//int i;
-
     statusbar_display_tape_control_status(control);
-
-/*    tape_control = control;
-    for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
-    }*/
 }
 
 extern void ui_display_tape_counter(int counter)
 {
-//int i;
-
     statusbar_display_tape_counter(counter);
-
-/*    if (counter!=tape_counter) {
-        tape_counter = counter;
-        for (i=0; i<number_of_windows; i++) {
-            SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
-        }
-    }*/
 }
 
 /* display the attched tape image */
@@ -915,6 +832,15 @@ void ui_display_tape_current_image(const char *image)
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {
+    int index;
+    char *buf;
+
+    for (index = 0; index < number_of_windows; index++) {
+        buf = xmsprintf("%s (%s)", hwnd_titles[index],
+            flag ? "paused" : "resumed");
+        SetWindowText(window_handles[index], buf);
+
+    }
 }
 
 ui_button_t ui_ask_confirmation(const char *title, const char *text)
@@ -1327,7 +1253,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SNAPSHOT_LOAD|0x00010000:
       case IDM_SNAPSHOT_LOAD:
-        if (1 /* !ui_emulation_is_paused()*/ )
+        if (!ui_emulation_is_paused())
             maincpu_trigger_trap(load_snapshot_trap, hwnd);
         else
             load_snapshot_trap(0, 0);
@@ -1361,12 +1287,20 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_soundshot_save_dialog(hwnd);
         ResumeFullscreenMode(hwnd);
         break;
+      case IDM_PAUSE:
+      case IDM_PAUSE|0x00010000:
+        ui_pause_emulation();
+        break;
       case IDM_MONITOR|0x00010000:
       case IDM_MONITOR:
-        if (1 /* !ui_emulation_is_paused()*/ )
+        if (!ui_emulation_is_paused())
             maincpu_trigger_trap(mon_trap, (void *) 0);
         else
+            /* 
+            FIXME: Following is copied from UNIX but doesn't run well
             mon_trap((ADDRESS)MOS6510_REGS_GET_PC(&maincpu_regs), 0);
+            */
+            ;
         break;
       case IDM_HARD_RESET+0x00010000:
       case IDM_SOFT_RESET+0x00010000:

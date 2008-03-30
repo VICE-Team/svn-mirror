@@ -50,6 +50,8 @@ BEGIN
             MENUITEM "Reset C&ounter",            IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
+        MENUITEM "&Pause\tCtrl+Alt+P",              IDM_PAUSE
+        , CHECKED
         MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
         BEGIN

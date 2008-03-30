@@ -60,6 +60,8 @@ BEGIN
         END
         MENUITEM "Detach c&artridge image",         IDM_CART_DETACH
         MENUITEM SEPARATOR
+        MENUITEM "&Pause\tCtrl+Alt+P",              IDM_PAUSE
+        , CHECKED
         MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
         BEGIN

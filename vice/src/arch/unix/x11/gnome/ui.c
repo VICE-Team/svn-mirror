@@ -549,6 +549,7 @@ static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
         GdkEventButton *bevent = (GdkEventButton*) event;
 	if (bevent->button == 1)
 	{
+	    ui_menu_update_all_GTK();
 	    if (tape_menu)
 		gtk_menu_popup(GTK_MENU(tape_menu),NULL,NULL,NULL,NULL,
 			       bevent->button, bevent->time);

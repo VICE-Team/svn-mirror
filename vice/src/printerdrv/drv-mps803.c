@@ -295,7 +295,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     print_cbm_char(mps, c);
 }
 
-static int init_charset(BYTE charset[][], const char *name)
+static int init_charset(BYTE *charset, const char *name)
 {
     BYTE romimage[MPS803_ROM_SIZE];
 
@@ -358,6 +358,6 @@ void drv_mps803_init(void)
 {
     drv803_log = log_open("MPS803");
 
-    init_charset(charset, "mps803");
+    init_charset((BYTE*)charset, "mps803");
 }
 
