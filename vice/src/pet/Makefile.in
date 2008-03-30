@@ -276,6 +276,55 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
+	../../src/types.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/raster.h ../../src/vmachine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h pia.h ../../src/cmdline.h \
+	../../src/utils.h ../../src/raster.c \
+	../../src/arch/unix/vsync.h
+pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
+	../../src/machine.h ../../src/types.h ../../src/attach.h \
+	../../src/drive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/autostart.h ../../src/cmdline.h \
+	../../src/resources.h crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
+	petmem.h pets.h petsound.h ../../src/arch/unix/xaw/petui.h \
+	petvia.h pia.h ../../src/sound.h ../../src/warn.h \
+	../../src/utils.h ../../src/via.h ../../src/arch/unix/vsync.h
+petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
+	../../src/memutils.h pia.h petvia.h crtc.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/resources.h ../../src/arch/unix/kbd.h \
+	../../src/cmdline.h pets.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
+	petmem.h ../../src/utils.h
+pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/resources.h \
+	pets.h
+petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/utils.h
+petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
+	../../src/parallel.h ../../src/types.h petsound.h \
+	../../src/arch/unix/kbd.h crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h
+pia.o: pia.c ../../src/vice.h ../../src/config.h ../../src/types.h pia.h \
+	../../src/vmachine.h ../../src/parallel.h \
+	../../src/arch/unix/kbd.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h pets.h \
+	../../src/resources.h ../../src/cmdline.h
 
 info: info-recursive
 dvi: dvi-recursive

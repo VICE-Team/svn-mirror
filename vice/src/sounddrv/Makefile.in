@@ -104,6 +104,7 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundaix.c \
 	soundhpux.c \
 	soundmidas.c \
+	soundsdl.c \
 	soundsgi.c \
 	soundsun.c \
 	sounduss.c
@@ -279,6 +280,16 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h
+sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h
+soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h
+soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h
+sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h
 
 info: info-recursive
 dvi: dvi-recursive

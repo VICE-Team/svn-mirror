@@ -1,3 +1,108 @@
+Thu Jun  4 00:51:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.33.
+
+	* c128/c128.c (machine_init): Call `c128_ui_init()', not
+ 	`c64_ui_init()'.
+
+	* true1541/1541cpu.c: Never #define `TRACE'.
+
+	* c128/c128mem.c (mem_load): Removed BASIC patch.
+
+	* c64/vicii.c (vic_ii_init): Adapt the VIC-II window title to the
+	the running emulator, using `machine_name'.
+
+	* c64/vicii.h: Removed `VIC_II_WINDOW_TITLE' #define.
+
+	* arch/unix/xaw/c128icon.xpm: New file.
+
+	* arch/unix/xaw/c128ui.c, arch/unix/xaw/c128ui.h: New files.
+
+	* drive.c (open_1541): Do not report an error if opening the
+	command channel or a memory buffer with no image attached.
+	(do_block_command): If block commands `R' or `W' fail, report a
+	`IPE_NOT_READY' error.
+
+	* c64/vicii.c (reset_vic_ii): Set the IRQ line number to 0 and
+	prepare the corresponding alarm.  Set $D01A to zero.
+
+	* c128/c128.c (machine_reset): Call `initialize_memory()'.
+
+	* c128/c128mem.c: New C128-specific memory access scheme
+ 	implemented.
+
+	* c128/c128cpu.c: #define `PAGE_ONE' to `page_one'.
+
+Wed Jun  3 19:18:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Makefile.am: Link `x128' to `c64/libc64c128.a'.
+
+	* c64/Makefile.am: New `libc64c128.a' library.
+
+Tue Jun  2 01:52:39 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* mon.c: Added new commands to mon_cmd_array[]. Changed the
+ 	default number of displayed numbers to 80.  Fixed range checking.
+  	Added functions check_positive_range(), and get_range_info().
+  	Fixed goto command.  Change 0x to $ for diehard 64 fans.  Lots of
+ 	fixes in mon_display_data() and mon_display_memory().  First try
+ 	at handling 0-ffff wrap.  Support for > command.
+
+	* mon.h: Change mon_display_data() prototype.
+
+	* mon_lex.l: Fix error reporting for 'a' command.  Remove
+ 	requirement of a space after @, >, and ~ commands.
+
+	* mon_parse.y: Handle addresses > $ffff.  Add >, mc, ms, and i
+ 	commands.  Change check_addr_limits() to CHECK_ADDR().
+
+Tue Jun  2 00:22:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128.c (machine_init_cmdline_options): Initialize
+ 	sound-specific command-line options.
+	(machine_init_resources): Initialize sound-specific resources.
+
+	* 6510core.c (BRANCH): Increment PC at the end of the opcode only.
+	(STA_ZERO, STX_ZERO, STY_ZERO): Store before incrementing PC.
+	(STA, STX, STY): Use `tmp' instead of `addr' when storing.
+
+	* c128/vdc.c: `vdc' made static.
+
+	* tapeunit.c (SET_ST, findheader): Use `mem_store()' instead of
+ 	`STORE()'.
+	(SET_ST): Use `mem_read()' instead of `LOAD()'.
+	(findheader): Use `mem_read()' instead of `LOAD_ZERO()' or
+ 	`LOAD()'..
+
+	* misc.c (sprint_ophex, sprint_opcode, eff_address): Use
+ 	`mem_load()' instead of `LOAD()'.
+	(eff_address): Use `mem_read()' instead of `LOAD_ZERO_ADDR()'.
+
+	* c128/vdc.c (store_vdc): Use `mem_read()' instead of `LOAD()'.
+
+	* c64/reu.c (reu_dma): Use `mem_read()' instead of `LOAD()' and
+ 	`mem_store()' instead of `STORE()'.
+
+	* serial.c (serialattention, serialsendbyte): Use `mem_read()'
+	instead of `LOAD()'.
+	(serialreceivebyte): Use `mem_store()' instead of `STORE()'.
+
+	* arch/unix/xaw/ui.h: Don't try to #include "xdebug.h" anymore.
+
+	* sounddrv/soundsdl.c: Put back in.
+
+	* maincpu.c: #define `_MAINCPU_C' before #including anything.
+
+	* mem.h: Do not define the memory access macro unless `_MAINCPU_C'
+ 	is #defined.
+
+	* c128/c128cpu.c, c128/c128cpu.h: New files.
+
+	* 6510core.c (STA): use `tmp' instead of using `addr' again.
+	(DCP, DEC, INC, LSR, RLA, ROL, SRE): Store the address into a
+ 	temporary variable instead of evaluating it more than once.
+	(JSR): Type of `tmp_addr' changed to `unsigned int'.
+
 Mon Jun  1 21:46:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.32.
@@ -1634,7 +1739,7 @@ Wed Apr 22 11:19:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* c64/c64iec.h, vic20/vic20iec.h: New files.
 
-Wed Apr 22 10:11:05 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+Wed Apr 22 10:11:05 1998 André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/kbdef.h (shift_type): Changed SHIFT defines to enum
  	again.  Outcommented default and both PET keyconvmaps.
@@ -1658,7 +1763,7 @@ Wed Apr 22 10:11:05 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
 	(kbd_load_keymap): Now sets the `app_resources.keymapFile'
  	appropriately each time a new keymap is loaded.
 
-Wed Apr 22 01:59:04 MEST 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+Wed Apr 22 01:59:04 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/kbd.c (handle_joy_emu): Removed.
 	(kbd_event_handler): Check if row less than zero, if so than
@@ -2005,7 +2110,7 @@ Fri Apr 19 17:35:21 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 	(GCR_data_writeback): Do not write back track data if a GCR disk
 	image is attached.  This will change soon.
 
-Sun Apr 19 01:50:50 1998  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+Sun Apr 19 01:50:50 1998  André Fachat <a.fachat@physik.tu-chemnitz.de>
 
 	* Makefile.in: Added vice keyboard maps (*.vkm) to appropriate
  	definitions, to have them copied when installing.
@@ -2096,7 +2201,7 @@ Fri Apr 17 00:14:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* sid.c: `#ifdef NetBSD' -> `#ifdef __NetBSD__'.
 
-Wed Apr 15 11:48:45 MEST 1998 Andre Fachat (a.fachat@physik.tu-chemnitz.de)
+Wed Apr 15 11:48:45 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* viad1.def, viad2.def: READ_PRB does not immediately return, but
  	only sets the variable "byte"
@@ -2136,7 +2241,7 @@ Tue Apr 14 19:40:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.4.
 
-Tue Apr 14 23:48:47 1998  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+Tue Apr 14 23:48:47 1998  André Fachat <a.fachat@physik.tu-chemnitz.de>
 
 	* via*.def: Introduced "myrmwf" definitions for either `rmwf_flag'
  	of `true1541_rmw_flag'.
@@ -2811,7 +2916,7 @@ Fri Mar 20 17:03:00 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
   	Print error messages whenever non-standard GCR data cannot be
  	written back to the disk image.
 
-Tue Mar 17 12:44:55 MET 1998  Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+Tue Mar 17 12:44:55 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/kbd.c: Changed some joystick-related `#ifdef PET's to
  	include PET joystick emulation.

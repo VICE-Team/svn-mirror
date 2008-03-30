@@ -121,6 +121,7 @@ int machine_init_resources(void)
         || video_init_resources() < 0
         || c128_mem_init_resources() < 0
         || vic_ii_init_resources() < 0
+        || sound_init_resources() < 0
         || sid_init_resources() < 0
         || true1541_init_resources() < 0)
         return -1;
@@ -136,6 +137,7 @@ int machine_init_cmdline_options(void)
         || video_init_cmdline_options() < 0
         || c128_mem_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
+        || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
         return -1;
@@ -199,7 +201,7 @@ int machine_init(void)
     kbd_buf_init(631, 198, 10, C128_PAL_CYCLES_PER_RFSH * C128_PAL_RFSH_PER_SEC);
 
     /* Initialize the C128-specific part of the UI.  */
-    c64_ui_init();
+    c128_ui_init();
     return 0;
 }
 
@@ -215,6 +217,8 @@ void machine_reset(void)
     maincpu_int_status.alarm_handler[A_CIA2TOD] = int_cia2tod;
     maincpu_int_status.alarm_handler[A_CIA2TA] = int_cia2ta;
     maincpu_int_status.alarm_handler[A_CIA2TB] = int_cia2tb;
+
+    initialize_memory();
 
     reset_cia1();
     reset_cia2();

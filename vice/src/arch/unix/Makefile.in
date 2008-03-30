@@ -270,6 +270,24 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/types.h kbd.h ../../../src/resources.h \
+	../../../src/cmdline.h joystick.h
+kbd.o: kbd.c ../../../src/vmachine.h video.h ../../../src/vice.h \
+	../../../src/config.h ../../../src/palette.h \
+	../../../src/types.h ui.h xaw/ui.h ../../../src/resources.h \
+	../../../src/memutils.h kbd.h kbdef.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/mem.h \
+	../../../src/sysfile.h ../../../src/utils.h joystick.h
+video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
+	../../../src/palette.h ../../../src/types.h ui.h xaw/ui.h \
+	../../../src/resources.h kbd.h ../../../src/cmdline.h
+vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h vsync.h \
+	../../../src/types.h ui.h xaw/ui.h ../../../src/palette.h \
+	../../../src/interrupt.h ../../../src/vmachine.h \
+	../../../src/6510core.h ../../../src/mem.h video.h \
+	../../../src/resources.h ../../../src/kbdbuf.h \
+	../../../src/sound.h ../../../src/warn.h ../../../src/cmdline.h
 
 info: info-recursive
 dvi: dvi-recursive

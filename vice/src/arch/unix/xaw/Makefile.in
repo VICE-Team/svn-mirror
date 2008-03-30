@@ -105,6 +105,9 @@ INCLUDES = \
 noinst_LIBRARIES = libxawui.a
 
 libxawui_a_SOURCES = \
+	c128icon.xpm \
+	c128ui.c \
+	c128ui.h \
 	c64icon.xpm \
 	c64ui.c \
 	c64ui.h \
@@ -139,8 +142,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  c64ui.o petui.o ui.o uicommands.o uihotkey.o \
-uimenu.o uisettings.o vic20ui.o
+libxawui_a_OBJECTS =  c128ui.o c64ui.o petui.o ui.o uicommands.o \
+uihotkey.o uimenu.o uisettings.o vic20ui.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -283,17 +286,29 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+c128ui.o: c128ui.c ../../../../src/vice.h ../../../../src/config.h \
+	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
+	uihotkey.h ../../../../src/resources.h uicommands.h \
+	uisettings.h ../../../../src/arch/unix/joystick.h c128icon.xpm
+c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
+	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
+	uihotkey.h ../../../../src/resources.h uicommands.h \
+	uisettings.h ../../../../src/arch/unix/joystick.h c64icon.xpm
+petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h petui.h \
+	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
+	uihotkey.h ../../../../src/resources.h uicommands.h \
+	uisettings.h ../../../../src/arch/unix/joystick.h c64icon.xpm
 ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
 	widgets/DirMgr.h widgets/Directory.h widgets/TextField.h ui.h \
-	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uimenu.h uihotkey.h ../../../../src/machine.h \
+	../../../../src/types.h ../../../../src/palette.h uimenu.h \
+	uihotkey.h ../../../../src/machine.h \
 	../../../../src/resources.h ../../../../src/cmdline.h \
 	../../../../src/utils.h ../../../../src/arch/unix/vsync.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
-	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uimenu.h uihotkey.h ../../../../src/interrupt.h \
+	../../../../src/types.h ../../../../src/palette.h uimenu.h \
+	uihotkey.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
 	../../../../src/mem.h ../../../../src/arch/unix/vsync.h \
 	../../../../src/drive.h ../../../../src/fs_cbm.h \
@@ -304,16 +319,16 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/info.h ../../../../src/resources.h \
 	../../../../src/machine.h ../../../../src/utils.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
-	uihotkey.h ui.h ../../../../src/types.h xdebug.h \
+	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h
 uimenu.o: uimenu.c ../../../../src/vice.h ../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm uimenu.h ui.h \
-	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uihotkey.h ../../../../src/arch/unix/vsync.h
+	../../../../src/types.h ../../../../src/palette.h uihotkey.h \
+	../../../../src/arch/unix/vsync.h
 uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/config.h uisettings.h ui.h \
-	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uimenu.h uihotkey.h ../../../../src/resources.h \
+	../../../../src/types.h ../../../../src/palette.h uimenu.h \
+	uihotkey.h ../../../../src/resources.h \
 	../../../../src/arch/unix/vsync.h \
 	../../../../src/true1541/true1541.h ../../../../src/drive.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
@@ -322,6 +337,10 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/mem.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
 	../../../../src/fsdevice.h
+vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
+	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
+	uihotkey.h ../../../../src/resources.h uicommands.h \
+	uisettings.h ../../../../src/arch/unix/joystick.h vic20icon.xpm
 
 info: info-recursive
 dvi: dvi-recursive
