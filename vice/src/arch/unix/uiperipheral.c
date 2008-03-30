@@ -59,6 +59,10 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
+UI_MENU_DEFINE_TOGGLE(IECDevice8)
+UI_MENU_DEFINE_TOGGLE(IECDevice9)
+UI_MENU_DEFINE_TOGGLE(IECDevice10)
+UI_MENU_DEFINE_TOGGLE(IECDevice11)
 
 static UI_CALLBACK(set_fsdevice_directory)
 {
@@ -110,6 +114,8 @@ static ui_menu_entry_t set_device8_type_submenu[] = {
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { N_("Device type"), NULL, NULL, set_device8_type_submenu },
     { "--" },
+    { N_("*Enable IEC device"),
+      (ui_callback_t)toggle_IECDevice8, NULL, NULL },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice8Readonly, NULL, NULL },
     { "--" },
@@ -141,6 +147,8 @@ static ui_menu_entry_t set_device9_type_submenu[] = {
 static ui_menu_entry_t fsdevice_drive9_submenu[] = {
     { N_("Device type"), NULL, NULL, set_device9_type_submenu },
     { "--" },
+    { N_("*Enable IEC device"),
+      (ui_callback_t)toggle_IECDevice9, NULL, NULL },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice9Readonly, NULL, NULL },
     { "--" },
@@ -172,6 +180,8 @@ static ui_menu_entry_t set_device10_type_submenu[] = {
 static ui_menu_entry_t fsdevice_drive10_submenu[] = {
     { N_("Device type"), NULL, NULL, set_device10_type_submenu },
     { "--" },
+    { N_("*Enable IEC device"),
+      (ui_callback_t)toggle_IECDevice10, NULL, NULL },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice10Readonly, NULL, NULL },
     { "--" },
@@ -203,6 +213,8 @@ static ui_menu_entry_t set_device11_type_submenu[] = {
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { N_("Device type"), NULL, NULL, set_device11_type_submenu },
     { "--" },
+    { N_("*Enable IEC device"),
+      (ui_callback_t)toggle_IECDevice11, NULL, NULL },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice11Readonly, NULL, NULL },
     { "--" },

@@ -40,10 +40,6 @@ UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
 UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 UI_MENU_DEFINE_TOGGLE(Drive10ParallelCable)
 UI_MENU_DEFINE_TOGGLE(Drive11ParallelCable)
-UI_MENU_DEFINE_TOGGLE(IECDevice8)
-UI_MENU_DEFINE_TOGGLE(IECDevice9)
-UI_MENU_DEFINE_TOGGLE(IECDevice10)
-UI_MENU_DEFINE_TOGGLE(IECDevice11)
 
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
@@ -126,8 +122,6 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, set_drive0_type_submenu },
-    { N_("*Drive #8 enable IEC device"),
-      (ui_callback_t)toggle_IECDevice8, NULL, NULL },
     { N_("Drive #8 RAM expansion"),
       NULL, NULL, set_drive0_expansion_submenu },
     { N_("*Drive #8 enable parallel cable"),
@@ -139,8 +133,6 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #9 model"),
       NULL, NULL, set_drive1_type_submenu },
-    { N_("*Drive #9 enable IEC device"),
-      (ui_callback_t)toggle_IECDevice9, NULL, NULL },
     { N_("Drive #9 RAM expansion"),
       NULL, NULL, set_drive1_expansion_submenu },
     { N_("*Drive #9 enable parallel cable"),
@@ -152,8 +144,6 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #10 model"),
       NULL, NULL, set_drive2_type_submenu },
-    { N_("*Drive #10 enable IEC device"),
-      (ui_callback_t)toggle_IECDevice10, NULL, NULL },
     { N_("Drive #10 RAM expansion"),
       NULL, NULL, set_drive2_expansion_submenu },
     { N_("*Drive #10 enable parallel cable"),
@@ -165,8 +155,6 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #11 model"),
       NULL, NULL, set_drive3_type_submenu },
-    { N_("*Drive #11 enable IEC device"),
-      (ui_callback_t)toggle_IECDevice11, NULL, NULL },
     { N_("Drive #11 RAM expansion"),
       NULL, NULL, set_drive3_expansion_submenu },
     { N_("*Drive #11 enable parallel cable"),

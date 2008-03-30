@@ -202,6 +202,8 @@ static ui_menu_entry_t set_printer5_type_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(PrinterUserport)
+UI_MENU_DEFINE_TOGGLE(IECDevice4)
+UI_MENU_DEFINE_TOGGLE(IECDevice5)
 
 static UI_CALLBACK(flush_printer)
 {
@@ -211,6 +213,8 @@ static UI_CALLBACK(flush_printer)
 ui_menu_entry_t printer_settings_menu[] = {
     { N_("*IEC printer #4 emulation"),
       NULL, NULL, set_printer4_type_submenu },
+    { N_("*IEC printer #4 enable IEC device"),
+      (ui_callback_t)toggle_IECDevice4, NULL, NULL },
     { N_("IEC printer #4 driver"),
       NULL, NULL, pr4_driver_submenu },
     { N_("IEC printer #4 text output device"),
@@ -220,6 +224,8 @@ ui_menu_entry_t printer_settings_menu[] = {
     { "--" },
     { N_("*IEC printer #5 emulation"),
       NULL, NULL, set_printer5_type_submenu },
+    { N_("*IEC printer #5 enable IEC device"),
+      (ui_callback_t)toggle_IECDevice5, NULL, NULL },
     { N_("IEC printer #5 driver"),
       NULL, NULL, pr5_driver_submenu },
     { N_("IEC printer #5 text output device"),
