@@ -37,5 +37,7 @@ extern UI_CALLBACK(ui_set_romset);
 extern UI_CALLBACK(ui_load_rom_file);
 extern UI_CALLBACK(ui_unload_rom_file);
 
+extern void uiromset_menu_init(void);
+
 #endif
 

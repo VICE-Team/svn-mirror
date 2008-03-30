@@ -428,6 +428,8 @@ int ui_init(int *argc, char **argv)
     wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
     XtAppAddActions(app_context, actions, XtNumber(actions));
 
+    ui_common_init();
+
     ui_hotkey_init();
 
     enabled_drives = UI_DRIVE_ENABLE_NONE;

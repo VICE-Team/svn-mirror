@@ -408,8 +408,10 @@ int ui_init(int *argc, char **argv)
 {
     display = GDK_DISPLAY();
 
-    screen =  XDefaultScreen(display);
+    screen = XDefaultScreen(display);
     atexit(ui_autorepeat_on);
+
+    ui_common_init();
 
     ui_hotkey_init();
 
