@@ -30,7 +30,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "machine.h"
 #include "raster-cache.h"
 #include "raster-canvas.h"
 #include "raster-line.h"
@@ -38,7 +37,6 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"
-#include "videoarch.h"
 
 
 inline static unsigned int get_real_mode(raster_t *raster)
@@ -89,9 +87,6 @@ inline static void update_sprite_collisions(raster_t *raster)
 {
     BYTE *fake_draw_buffer_ptr;
 
-    if (console_mode || vsid_mode)
-        return;
-
     if (raster->sprite_status->draw_function == NULL)
         return;
 
@@ -104,9 +99,6 @@ inline static void update_sprite_collisions(raster_t *raster)
 
 inline static void handle_blank_line(raster_t *raster)
 {
-    if (console_mode || vsid_mode)
-        return;
-
     /* Changes... Should/could be handled better.  */
     if (raster->changes.have_on_this_line) {
         raster_changes_t *border_changes;
@@ -141,22 +133,25 @@ inline static void handle_blank_line(raster_t *raster)
 
         add_line_to_area(&raster->update_area, raster->current_line,
                          0, raster->geometry->screen_size.width - 1);
-    } else if (CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
-        || raster->dont_cache
-        || raster->cache[raster->current_line].is_dirty
-        || (raster->border_color
-            != raster->cache[raster->current_line].border_color)
-        || !raster->cache[raster->current_line].blank) {
+    } else {
+        if (raster->dont_cache
+            || raster->cache[raster->current_line].is_dirty
+            || raster->border_color
+            != raster->cache[raster->current_line].border_color
+            || !raster->cache[raster->current_line].blank) {
 
-        /* Even when the actual caching is disabled, redraw blank lines only
-           if it is really necessary to do so.  */
-        raster->cache[raster->current_line].border_color = raster->border_color;        raster->cache[raster->current_line].blank = 1;
-        raster->cache[raster->current_line].is_dirty = 0;
+            /* Even when the actual caching is disabled, redraw blank lines
+               only if it is really necessary to do so.  */
+            raster->cache[raster->current_line].border_color
+                = raster->border_color;
+            raster->cache[raster->current_line].blank = 1;
+            raster->cache[raster->current_line].is_dirty = 0;
 
-        draw_blank(raster, 0, raster->geometry->screen_size.width - 1);
-        add_line_to_area(&raster->update_area,
-                         raster->current_line,
-                         0, raster->geometry->screen_size.width - 1);
+            draw_blank(raster, 0, raster->geometry->screen_size.width - 1);
+            add_line_to_area(&raster->update_area,
+                             raster->current_line,
+                             0, raster->geometry->screen_size.width - 1);
+        }
     }
 
     update_sprite_collisions(raster);
@@ -273,15 +268,15 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
                 xe_return = MAX(xe_return, sxe);
                 rr = 1;
             }
-
-        } else if (sprite_cache->visible) {
-            sprite_cache->visible = 0;
-            sxe = sprite_cache->x + (sprite_cache->x_expanded ? 24 : 48);
-            xs_return = MIN(xs_return, sprite_cache->x);
-            xe_return = MAX(xe_return, sxe);
-            rr = 1;
+        } else {
+            if (sprite_cache->visible) {
+                sprite_cache->visible = 0;
+                sxe = sprite_cache->x + (sprite_cache->x_expanded ? 24 : 48);
+                xs_return = MIN(xs_return, sprite_cache->x);
+                xe_return = MAX(xe_return, sxe);
+                rr = 1;
+            }
         }
-
     }
 
     if (xe_return >= (int)raster->geometry->screen_size.width)
@@ -310,6 +305,13 @@ inline static void draw_borders(raster_t *raster)
         draw_blank(raster,
                    raster->display_xstop,
                    raster->geometry->screen_size.width - 1);
+}
+
+inline static void fill_xsmooth_region(raster_t *raster)
+{
+    if (raster->xsmooth != 0)
+        memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
+               raster->xsmooth_color, raster->xsmooth);
 }
 
 inline static int update_for_minor_changes_with_sprites(raster_t *raster,
@@ -353,9 +355,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 
         /* Fill the space between the border and the graphics with the
            background color (necessary if xsmooth is > 0).  */
-        if (raster->xsmooth != 0)
-            memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
-                   raster->xsmooth_color, raster->xsmooth);
+        fill_xsmooth_region(raster);
 
         if (raster->sprite_status->num_sprites > 0) {
             /* FIXME: Could be optimized better.  */
@@ -442,14 +442,11 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 
         /* Convert from character to pixel coordinates.  FIXME: Hardcoded
            `8'.  */
-        *changed_start = raster->geometry->gfx_position.x
-                          + raster->xsmooth
-                          + 8 * changed_start_char;
+        *changed_start = raster->geometry->gfx_position.x + raster->xsmooth
+                         + 8 * changed_start_char;
 
-        *changed_end = raster->geometry->gfx_position.x
-                        + raster->xsmooth
-                        + 8 * (changed_end_char + 1)
-                        - 1;
+        *changed_end = raster->geometry->gfx_position.x + raster->xsmooth
+                       + 8 * (changed_end_char + 1) - 1;
     }
 
     /* FIXME: Why always doing so?  */
@@ -474,14 +471,7 @@ inline static int update_for_minor_changes(raster_t *raster,
 
 inline static void fill_background(raster_t *raster)
 {
-    if (raster->xsmooth != 0) {
-        if (raster->draw_idle_state)
-            memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
-                   raster->overscan_background_color, raster->xsmooth);
-        else
-            memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
-                   raster->xsmooth_color, raster->xsmooth);
-    }
+    fill_xsmooth_region(raster);
 
     if (raster->open_left_border) {
         if (raster->draw_idle_state)
@@ -527,10 +517,8 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
     video_mode = get_real_mode(raster);
 
     cache = &(raster->cache)[raster->current_line];
-    line = (raster->current_line
-            - raster->geometry->gfx_position.y
-            - raster->ysmooth
-            - 1);
+    line = raster->current_line - raster->geometry->gfx_position.y
+           - raster->ysmooth - 1;
 
     if (cache->is_dirty
         || raster->dont_cache
@@ -545,8 +533,8 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         || (cache->open_right_border && !raster->open_right_border)
         || (cache->open_left_border && !raster->open_left_border)
         || cache->xsmooth_color != raster->xsmooth_color
-        || (cache->overscan_background_color
-        != raster->overscan_background_color)) {
+        || cache->overscan_background_color
+        != raster->overscan_background_color) {
 
         int changed_start_char, changed_end_char;
         int r;
@@ -647,19 +635,17 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
 
     cache = &raster->cache[raster->current_line];
 
-    if (CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
-        || raster->dont_cache
+    if (raster->dont_cache
         || raster->sprite_status->dma_msk != 0
         || cache->is_dirty
         || cache->blank
         || cache->border_color != raster->border_color
     /* FIXME: Done differently in another place.  */
-        || (cache->open_right_border != raster->open_right_border)
-        || (cache->open_left_border != raster->open_left_border)
-        || (cache->overscan_background_color
+        || cache->open_right_border != raster->open_right_border
+        || cache->open_left_border != raster->open_left_border
+        || cache->overscan_background_color
         != raster->overscan_background_color
-        || cache->xsmooth_color != raster->xsmooth_color)
-    ) {
+        || cache->xsmooth_color != raster->xsmooth_color) {
         cache->blank = 0;
         cache->is_dirty = 0;
         cache->border_color = raster->border_color;
@@ -795,26 +781,23 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 
 inline static void handle_visible_line(raster_t *raster)
 {
-    if (console_mode || vsid_mode)
-        return;
-
-    if (raster->changes.have_on_this_line)
+    if (raster->changes.have_on_this_line) {
         handle_visible_line_with_changes(raster);
-    else if (!CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
-        && raster->cache_enabled
-        && !raster->open_left_border
-        && !raster->open_right_border)       /* FIXME: shortcut! */
-        handle_visible_line_with_cache(raster);
-    else
-        handle_visible_line_without_cache(raster);
+    } else {
+        if (raster->cache_enabled
+            && !raster->open_left_border
+            && !raster->open_right_border)       /* FIXME: shortcut! */
+            handle_visible_line_with_cache(raster);
+        else
+            handle_visible_line_without_cache(raster);
+    }
+
+    if (raster->draw_idle_state)
+        raster->xsmooth_color = raster->overscan_background_color;
 }
 
 void raster_line_emulate(raster_t *raster)
 {
-    viewport_t *viewport;
-
-    viewport = raster->canvas->viewport;
-
     raster_draw_buffer_ptr_update(raster);
 
     /* Emulate the vertical blank flip-flops.  (Well, sort of.)  */
@@ -825,18 +808,16 @@ void raster_line_emulate(raster_t *raster)
         raster->blank_enabled = 1;
 
     if (raster->current_line >= raster->geometry->first_displayed_line
-        && raster->current_line <= raster->geometry->last_displayed_line
-        && raster->current_line >= viewport->first_line
-        && raster->current_line <= viewport->last_line) {
-
+        && raster->current_line <= raster->geometry->last_displayed_line) {
         if ((raster->blank_this_line || raster->blank_enabled)
             && !raster->open_left_border)
             handle_blank_line(raster);
         else
             handle_visible_line(raster);
 
-        if (++raster->num_cached_lines == (viewport->last_line
-                                           - viewport->first_line)) {
+        if (++raster->num_cached_lines == (1
+            + raster->geometry->last_displayed_line
+            - raster->geometry->first_displayed_line)) {
             raster->dont_cache = 0;
             raster->num_cached_lines = 0;
         }
