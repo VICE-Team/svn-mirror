@@ -277,7 +277,7 @@ static int reu_activate(void)
         return 0;
 
     reu_ram = (BYTE *)xrealloc((void *)reu_ram, (size_t)reu_size);
-    log_message(reu_log, "%dKB unit installed.", reu_size >> 10);
+    log_message(reu_log, "%dKB unit installed.", (int)(reu_size >> 10));
 
     if (!util_check_null_string(reu_filename)) {
         if (util_file_load(reu_filename, reu_ram, (size_t)reu_size,
