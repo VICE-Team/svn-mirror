@@ -1,6 +1,38 @@
+2002-08-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.70.
+
+2002-08-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/video.c (video_canvas_refresh): Downscale the
+	destination parameters if doublesize is eneabled. Corrected
+	debug instruction.
+
+2002-08-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/dga2.c: #include "fullscreenarch.h"
+
+2002-08-22  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/vic20ui.c (vic20_ui_init): Reworked settings menu.
+
+	* arch/unix/plus4ui.c (plus4_ui_init): Reworked settings
+	menu. Added `ui_settings_settings_menu' to right-click popup
+	menu.
+
+	* arch/unix/petui.c (pet_ui_init): Reworked settings menu.
+
+	* arch/unix/cbm2ui.c (cbm2_ui_init): Reworked settings menu.
+
+	* arch/unix/c64ui.c: Removed bogus `c64_settings_menu'.
+	(c64_ui_init): Reworked settings menu.
+
+	* arch/unix/c128ui.c: Removed bogus `c128_settings_menu'.
+	(c128_ui_init): Reworked settings menu.
+
 2002-08-17  Andreas Boose  <viceteam@t-online.de>
 
-        * Version 1.9.68.
+        * Version 1.9.69.
 
 	* drive/drive.c (drive_set_half_track): Reverted to old
 	inaccurate calculation of the GCR track offset for now.
@@ -532,8 +564,10 @@
 	* arch/beos/video.cc (video_canvas_refresh): Removed odd/even
 	hack.
 
-	* arch/win32/Makefile.am,arch.dsp,fullscreen.h,fullscreen.c,
-	c128ui.c,ui.c,uilib.c,uimon.c,uivideo.c: Renamed fullscreen.*
+	* arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/fullscreen.h, arch/win32/fullscreen.c,
+	arch/win32/c128ui.c, arch/win32/ui.c, arch/win32/uilib.c,
+	arch/win32/uimon.c, arch/win32/uivideo.c: Renamed fullscreen.*
 	to fullscrn.* to avoid conflict with common code.
 
 	* arch/win32/video.c (real_refresh): Added hack to call
@@ -662,8 +696,8 @@
 
 	* raster/raster.c (raster_init): Removed fullscreen hack.
 
-	* video.h, video/video-resources.c: Added doulbe size and
-	doulbe scan fullscreen resources.
+	* video.h, video/video-resources.c: Added double size and
+	double scan fullscreen resources.
 
 	* crtc/crtc.c (crtc_set_screen_options): Only resize viewport
 	if canvas is present.
@@ -1887,7 +1921,7 @@
 	vic20/vic20via2.c, pet/petmem.c, pet/petpia1.c, pet/petvia.c,
 	cbm2/c610cia1.c, cbm2/c610mem.c, cbm2/c610tpi2.c,
 	arch/unix/x11/gnome/ui.c, arch/unix/x11/gnome/gnomekbd.c,
-	arch/unix/x11/xaw/x11kbd.c: Do not include #include "kbd.h".
+	arch/unix/x11/xaw/x11kbd.c: Do not #include "kbd.h".
 
 	* arch/unix/x11/kbdef.h, arch/unix/x11/x11kbd.c,
 	arch/unix/x11/x11kbd.h: Removed.
