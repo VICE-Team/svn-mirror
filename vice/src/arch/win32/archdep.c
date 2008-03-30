@@ -3,6 +3,7 @@
  *
  * Written by
  *  Tibor Biczo <crown@mail.matav.hu>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,11 +27,14 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <windows.h>
+
+#include "ui.h"
 
 #ifdef HAVE_DIR_H
 #include <dir.h>
@@ -242,10 +246,11 @@ int archdep_spawn(const char *name, char **argv,
        descriptors.  */
     if (stdout_redir != NULL) {
         old_stdout = _dup(STDOUT_FILENO);
-        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT, _S_IWRITE | _S_IREAD);
+        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
+                           _S_IWRITE | _S_IREAD);
         if (new_stdout == -1) {
             log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                        stdout_redir, strerror(errno));
+                      stdout_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -253,7 +258,8 @@ int archdep_spawn(const char *name, char **argv,
     }
     if (stderr_redir != NULL) {
         old_stderr = _dup(STDERR_FILENO);
-        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT, _S_IWRITE | _S_IREAD);
+        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
+                           _S_IWRITE | _S_IREAD);
         if (new_stderr == -1) {
             log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
                         stderr_redir, strerror(errno));
@@ -293,5 +299,16 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     /*  Win32 version   */
     *return_path = stralloc(orig_name);
     return 0;
+}
+
+void archdep_startup_log_error(const char *format, ...)
+{
+        char tmp[1024];
+        va_list args;
+
+        va_start(args, format);
+        vsprintf(tmp, format, args);
+        va_end(args);
+        ui_error_string(tmp);
 }
 

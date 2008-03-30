@@ -191,7 +191,7 @@ int ui_init_cmdline_options(void)
     {FVIRTKEY|FALT|FNOINVERT,'J',IDM_SWAP_JOYSTICK},
 
 static ACCEL c64_accel[] = {
-    {FVIRTKEY|FALT|FNOINVERT,'F',IDM_CART_FREEZE},
+    {FVIRTKEY|FALT|FNOINVERT,'Z',IDM_CART_FREEZE},
     UI_COMMON_HOTKEYS
 };
 
@@ -488,27 +488,34 @@ void ui_register_machine_specific(ui_machine_specific_t func)
 /* ------------------------------------------------------------------------- */
 
 /* Report an error to the user (`printf()' style).  */
-void ui_error(const char *format,...)
+void ui_error(const char *format, ...)
 {
-        char tmp[1024];
-        va_list args;
+    char tmp[1024];
+    va_list args;
 
-        va_start(args, format);
-        vsprintf(tmp, format, args);
-        va_end(args);
-        MessageBox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+    va_start(args, format);
+    vsprintf(tmp, format, args);
+    va_end(args);
+    MessageBox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+}
+
+/* Report an error to the user (one string).  */
+void ui_error_string(const char *text)
+{
+    MessageBox(window_handles[0], text, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report a message to the user (`printf()' style).  */
 void ui_message(const char *format,...)
 {
-        char tmp[1024];
-        va_list args;
+    char tmp[1024];
+    va_list args;
 
-        va_start(args, format);
-        vsprintf(tmp, format, args);
-        va_end(args);
-        MessageBox(window_handles[0], tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
+    va_start(args, format);
+    vsprintf(tmp, format, args);
+    va_end(args);
+    MessageBox(window_handles[0], tmp, "VICE Information",
+               MB_OK | MB_ICONASTERISK);
 }
 
 /* Handle the "CPU JAM" case.  */
