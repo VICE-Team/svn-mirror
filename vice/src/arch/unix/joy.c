@@ -105,7 +105,7 @@ int joystick_init_cmdline_options(void)
 #ifdef LINUX_JOYSTICK
 #include <linux/joystick.h>
 
-// Compile time New 1.1.xx API presence check
+/* Compile time New 1.1.xx API presence check */
 #ifdef JS_VERSION
 #include <sys/ioctl.h>
 #include <errno.h>
@@ -451,21 +451,21 @@ void new_joystick(void)
 	{
             switch (e.type & ~JS_EVENT_INIT) {
             case JS_EVENT_BUTTON:
-                joystick_set_value_and(i, ~16); // reset fire bit
+                joystick_set_value_and(i, ~16); /* reset fire bit */
                 if (e.value)
 		    joystick_set_value_or(i, 16);
 		break;
 
 	    case JS_EVENT_AXIS:
                 if (e.number == 0) {
-		    joystick_set_value_and(i, 19); // reset 2 bit
+		    joystick_set_value_and(i, 19); /* reset 2 bit */
 		    if (e.value > 16384)
 		        joystick_set_value_or(i, 8);
 		    else if (e.value < -16384)
 		        joystick_set_value_or(i, 4);
 		}
 		if (e.number == 1) {
-		    joystick_set_value_and(i, 28); // reset 2 bit
+		    joystick_set_value_and(i, 28); /* reset 2 bit */
 		    if (e.value > 16384)
 		        joystick_set_value_or(i, 2);
 		    else if (e.value < -16384)
