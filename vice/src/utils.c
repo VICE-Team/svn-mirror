@@ -383,10 +383,12 @@ size_t util_file_length(FILE *fd)
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
-int util_load_file(const char *name, void *dest, size_t size)
+int util_file_load(const char *name, BYTE *dest, size_t size,
+                   unsigned int load_flag)
 {
     FILE *fd;
-    size_t r;
+    size_t r, length;
+    BYTE tmpbuf[2];
 
     if (util_check_null_string(name)) {
         log_error(LOG_ERR, "No file name given for load_file().");
@@ -398,7 +400,18 @@ int util_load_file(const char *name, void *dest, size_t size)
     if (fd == NULL)
         return -1;
 
-    r = fread((char *)dest, size, 1, fd);
+    if (load_flag & UTIL_FILE_LOAD_SKIP_ADDRESS) {
+        length = util_file_length(fd);
+        if (length & 2) {
+            r = fread((void *)tmpbuf, 2, 1, fd);
+            if (r < 1) {
+                fclose(fd);
+                return -1;
+            }
+        }
+    }
+
+    r = fread((void *)dest, size, 1, fd);
 
     fclose(fd);
 
@@ -411,7 +424,7 @@ int util_load_file(const char *name, void *dest, size_t size)
 /* Write the first `size' bytes of `src' into a newly created file `name'.
    If `name' already exists, it is replaced by the new one.  Returns 0 on
    success, -1 on failure.  */
-int util_save_file(const char *name, const void *src, int size)
+int util_file_save(const char *name, BYTE *src, int size)
 {
     FILE *fd;
     size_t r;
@@ -436,7 +449,7 @@ int util_save_file(const char *name, const void *src, int size)
     return 0;
 }
 
-int util_remove_file(const char *name)
+int util_file_remove(const char *name)
 {
     return unlink(name);
 }
