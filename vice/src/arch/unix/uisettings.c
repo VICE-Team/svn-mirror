@@ -39,10 +39,11 @@
 #include "fullscreen.h"
 #include "kbd.h"
 #include "mem.h"
-#include "prdevice.h"
+#include "printer.h"
 #include "resources.h"
 #include "romset.h"
 #include "sound.h"
+#include "uimenu.h"
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
@@ -1122,7 +1123,7 @@ UI_MENU_DEFINE_TOGGLE(PrUser)
 
 static UI_CALLBACK(flush_printer4)
 {
-    prdevice_close_printer(4);
+    printer_interface_serial_close(4);
 }
 
 static ui_menu_entry_t printer_settings_menu[] = {

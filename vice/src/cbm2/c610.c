@@ -59,9 +59,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
-#include "prdevice.h"
-#include "print.h"
-#include "pruser.h"
+#include "printer.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "serial.h"
@@ -131,9 +129,7 @@ int machine_init_resources(void)
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
 #endif
-        || print_init_resources() < 0
-        || prdevice_init_resources() < 0
-        || pruser_init_resources() < 0
+        || printer_init_resources() < 0
         || pet_kbd_init_resources() < 0
         )
         return -1;
@@ -157,9 +153,7 @@ int machine_init_cmdline_options(void)
 #ifdef HAVE_RS232
         || rs232_init_cmdline_options() < 0
 #endif
-        || print_init_cmdline_options() < 0
-        || prdevice_init_cmdline_options() < 0
-        || pruser_init_cmdline_options() < 0
+        || printer_init_cmdline_options() < 0
         || pet_kbd_init_cmdline_options() < 0
         )
         return -1;
@@ -251,7 +245,7 @@ int machine_init(void)
 #endif
 
     /* initialize print devices */
-    print_init();
+    printer_init();
 
     if (! isC500) {
         /* Initialize the CRTC emulation.  */
@@ -270,8 +264,8 @@ int machine_init(void)
         c500_set_phi2_bank(15);
         */
 
-        alarm_init (&c500_powerline_clk_alarm, &maincpu_alarm_context,
-                "C500PowerlineClk", c500_powerline_clk_alarm_handler);
+        alarm_init(&c500_powerline_clk_alarm, maincpu_alarm_context,
+                   "C500PowerlineClk", c500_powerline_clk_alarm_handler);
         clk_guard_add_callback(&maincpu_clk_guard,
                                 c500_powerline_clk_overflow_callback, NULL);
 
@@ -334,7 +328,7 @@ void machine_specific_reset(void)
         alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
         vic_ii_reset();
     }
-    print_reset();
+    printer_reset();
 
 #ifdef HAVE_RS232
     rs232_reset();

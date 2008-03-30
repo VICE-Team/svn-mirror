@@ -57,7 +57,7 @@
 #include "mem.h"
 #include "mos6510.h"
 #include "parallel.h"
-#include "prdevice.h"
+#include "printer.h"
 #include "serial.h"
 #include "traps.h"
 #include "types.h"
@@ -604,7 +604,7 @@ int serial_init(const trap_t *trap_list)
         p->flushf = (void (*)(vdrive_t *, unsigned int)) NULL;
     }
 
-    prdevice_late_init();
+    printer_interface_serial_late_init();
 
     return 0;
 }

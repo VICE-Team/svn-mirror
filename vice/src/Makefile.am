@@ -79,9 +79,7 @@ noinst_HEADERS = \
 	palette.h \
 	parallel.h \
 	piacore.h \
-	prdevice.h \
-	print.h \
-	pruser.h \
+	printer.h \
 	resources.h \
 	riot.h \
 	riotcore.h \
@@ -144,9 +142,6 @@ base_sources = \
 	palette.c \
 	parallel.c \
 	resources.c \
-	prdevice.c \
-	print.c \
-	pruser.c \
 	romset.c \
 	screenshot.c \
 	serial.c \

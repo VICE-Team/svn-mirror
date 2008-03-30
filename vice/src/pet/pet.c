@@ -63,9 +63,7 @@
 #include "petvia.h"
 #include "petacia.h"
 #include "petpia.h"
-#include "prdevice.h"
-#include "print.h"
-#include "pruser.h"
+#include "printer.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "serial.h"
@@ -156,9 +154,7 @@ int machine_init_resources(void)
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
 #endif
-        || print_init_resources() < 0
-        || prdevice_init_resources() < 0
-        || pruser_init_resources() < 0
+        || printer_init_resources() < 0
         || pet_kbd_init_resources() < 0
         )
         return -1;
@@ -187,9 +183,7 @@ int machine_init_cmdline_options(void)
 #ifdef HAVE_RS232
         || rs232_init_cmdline_options() < 0
 #endif
-        || print_init_cmdline_options() < 0
-        || prdevice_init_cmdline_options() < 0
-        || pruser_init_cmdline_options() < 0
+        || printer_init_cmdline_options() < 0
         || pet_kbd_init_cmdline_options() < 0
         )
         return -1;
@@ -256,7 +250,7 @@ int machine_init(void)
 #endif
 
     /* initialize print devices */
-    print_init();
+    printer_init();
 
     /* Initialize autostart.  FIXME: We could probably use smaller values.  */
     /* moved to mem_load() as it is kernal-dependant AF 30jun1998
@@ -323,7 +317,7 @@ void machine_specific_reset(void)
 #ifdef HAVE_RS232
     rs232_reset();
 #endif
-    print_reset();
+    printer_reset();
     autostart_reset();
     drive_reset();
     datasette_reset();
