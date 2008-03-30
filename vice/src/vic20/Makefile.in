@@ -411,7 +411,7 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/6510core.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/serial.h \
 	../../src/traps.h ../../src/tape.h ../../src/utils.h vic.h \

@@ -28,7 +28,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#ifndef __riscos
 #include <sys/types.h>
+#endif
 
 #include "archdep.h"
 #include "diskimage.h"

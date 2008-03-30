@@ -312,7 +312,7 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/6510core.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h \
 	../../src/c64/patchrom.h ../../src/c64/reu.h ../../src/serial.h \

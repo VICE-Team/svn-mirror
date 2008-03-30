@@ -1,3 +1,18 @@
+1999-08-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.0.62.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c (machine_init):
+	Initialize IEC bus.
+
+	* iecdrive.h, c64/c64iec.c, c128/c128iec.c, vic20/vic20iec.c
+	(iec_init): New function.
+
+	* vic20/vic20iec.c (iec_calculate_data_modifier,
+	iec_calculate_data_modifier2): New functions.
+
+	* diskimage.c: Exclude `sys/types.h' for RISC/OS.
+
 1999-08-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.61.
@@ -41,7 +56,7 @@
 	  (canvas_update): New function, updates screen from framebuffer.
 	  (canvas_refresh): Stores framebuffer for canvas.
 
-	* arch/win32/video.h (canvas_t): Addded framebuffer pointer to struct.
+	* arch/win32/video.h (canvas_t): Added framebuffer pointer to struct.
 	  (canvas_update): Added prototype.
 
 	* crtc/crtc.c (crtc_resize): Call raster_set_pixel_size before
