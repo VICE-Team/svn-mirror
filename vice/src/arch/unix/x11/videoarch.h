@@ -103,13 +103,6 @@ struct video_canvas_s {
 };
 typedef struct video_canvas_s video_canvas_t;
 
-/* Double buffering might be available with DGA */
-#ifdef USE_XF86_DGA2_EXTENSIONS
-#define CANVAS_USES_TRIPLE_BUFFERING(c) fullscreen_is_enabled
-#else
-#define CANVAS_USES_TRIPLE_BUFFERING(c) 0
-#endif
-
 extern GC _video_gc;
 extern int _video_use_xsync;
 
