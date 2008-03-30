@@ -86,18 +86,17 @@ struct _alarm_context {
 
 /* ------------------------------------------------------------------------ */
 
-alarm_context_t *alarm_context_new(const char *name);
-void alarm_context_init(alarm_context_t *context, const char *name);
-void alarm_context_destroy(alarm_context_t *context);
-void alarm_context_time_warp (alarm_context_t *context, CLOCK warp_amount,
-                              int warp_direction);
-
-alarm_t *alarm_new(alarm_context_t *context, const char *name,
-                   alarm_callback_t callback);
-void alarm_init(alarm_t *alarm, alarm_context_t *context, const char *name,
-                alarm_callback_t callback);
-void alarm_destroy(alarm_t *alarm);
-void alarm_unset(alarm_t *alarm);
+extern alarm_context_t *alarm_context_new(const char *name);
+extern void alarm_context_init(alarm_context_t *context, const char *name);
+extern void alarm_context_destroy(alarm_context_t *context);
+extern void alarm_context_time_warp(alarm_context_t *context, CLOCK warp_amount,
+                                    int warp_direction);
+extern alarm_t *alarm_new(alarm_context_t *context, const char *name,
+                          alarm_callback_t callback);
+extern void alarm_init(alarm_t *alarm, alarm_context_t *context,
+                       const char *name, alarm_callback_t callback);
+extern void alarm_destroy(alarm_t *alarm);
+extern void alarm_unset(alarm_t *alarm);
 
 /* ------------------------------------------------------------------------- */
 
