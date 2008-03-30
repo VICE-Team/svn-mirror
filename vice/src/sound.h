@@ -167,6 +167,9 @@ extern int sound_machine_cycle_based(void);
 extern int sound_machine_channels(void);
 extern void sound_machine_enable(int enable);
 
+extern unsigned int sound_device_num(void);
+extern const char *sound_device_name(unsigned int num);
+
 #ifdef __riscos
 extern int SoundPollEvery;
 extern int SoundMachineReady;
