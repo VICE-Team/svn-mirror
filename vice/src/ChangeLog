@@ -1,5 +1,41 @@
 1999-06-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.32.
+
+	* drive/fdc.c, drive/fdc.h: Adapted to new attach mechanism.
+
+	* attach.c (attach_disk_image, detach_disk_image): Attach disk for
+	the FDC emulation here.
+	(file_system_get_disk_name): New function.
+
+	* drive/drive.c, drive/drive.h (drive_attach_image,
+	drive_detach_image): Struct `DRIVE' is not needed anymore.
+
+	* vdrive/vdrive-bam.h, vdrive/vdrive-bam.c
+	(vdrive_bam_get_disk_id, vdrive_bam_set_disk_id): Do not use
+	struct `DRIVE'.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h, vdrive/vdrive-bam.h,
+	vdrive/vdrive-bam.c, vdrive/vdrive-dir.h, vdrive/vdrive-dir.c,
+	vdrive/vdrive-iec.c, attach.c, fsdevice.c, imagecontents.c, mon.c,
+	c1541.c: Use `vdrive_t' instead of `DRIVE'.
+
+	* serial.c (serial_get_file_name): Removed.
+
+	* arch/win32/uiattach.c (init_dialog): Use
+	`file_system_get_disk_name' instead of `serial_get_file_name'.
+	* arch/msdos/menudefs.c: Changed likewise.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h (vdrive_setup_device): New
+	function replacing `initialize_1541'.
+	(floppy_read_block, floppy_write_block): Removed.
+
+	* vdrive/vdrive-bam.c, vdrive/vdrive-dir.c, vdrive/vdrive-iec.c,
+	vdrive/vdrive.c, attach.c, imagecontents.c, mon.c: Do not use
+	`ActiveFd', `floppy_read_block' and `floppy_write_block' anymore.
+
+1999-06-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.31.
 
 	* diskimage.c (disk_image_close): New function.

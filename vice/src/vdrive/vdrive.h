@@ -27,10 +27,8 @@
 #ifndef _VDRIVE_H
 #define _VDRIVE_H
 
-#include <stdio.h>
-
 #include "attach.h"
-#include "serial.h"
+#include "diskimage.h"
 #include "types.h"
 #include "log.h"
 
@@ -211,18 +209,17 @@ typedef struct bufferinfo_s {
 } bufferinfo_t;
 
 
-typedef struct _DRIVE DRIVE;
-
 /* Run-time data struct for each drive. */
-struct _DRIVE {
+typedef struct {
+    disk_image_t *image;
+
+    char ActiveName[256];
     int type;			/* Device */
 
     /* Current image file */
 
     int mode;			/* Read/Write */
     int ImageFormat;		/* 1541/71/81 */
-    FILE *ActiveFd;
-    char ActiveName[256];	/* Image name */
     char ReadOnly;
     int unit;
 
@@ -266,7 +263,7 @@ struct _DRIVE {
 
     int Curr_track;
     int Curr_sector;
-};
+} vdrive_t;
 
 /* Actually, serial-code errors ... */
 
@@ -344,35 +341,30 @@ typedef struct errortext_s {
 
 extern log_t vdrive_log;
 
-/* This mess will be cleaned up.  */
-extern int initialize_1541(int dev, int type, DRIVE *oldinfo);
+extern int vdrive_setup_device(vdrive_t *vdrive, int unit, int type);
 
-extern int vdrive_attach_image(disk_image_t *image, int unit, DRIVE *floppy);
-extern void vdrive_detach_image(disk_image_t *image, int unit, DRIVE *floppy);
+extern int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *floppy);
+extern void vdrive_detach_image(disk_image_t *image, int unit,
+                                vdrive_t *floppy);
 
 extern int vdrive_check_track_sector(int format, int track, int sector);
-extern int floppy_read_block(FILE *fd, int format, BYTE *buf, int track,
-			                 int sector, int d64, int g64, int unit);
-extern int floppy_write_block(FILE *fd, int format, BYTE *buf, int track,
-			                  int sector, int d64, int g64, int unit);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
-extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
+extern char *floppy_read_directory(vdrive_t *floppy, const char *pattern);
 extern int floppy_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,
                              int *filetype, int *rl );
-extern void floppy_close_all_channels(DRIVE *);
-extern void set_disk_geometry(DRIVE *floppy, int type);
-extern int compare_filename(char *name, char *pattern);
+extern void floppy_close_all_channels(vdrive_t *floppy);
+extern void set_disk_geometry(vdrive_t *floppy, int type);
 
 extern int vdrive_calculate_disk_half(int type);
 extern int vdrive_get_max_sectors(int type, int track);
 
 /* Drive command related functions.  */
-extern int  vdrive_command_execute(DRIVE *floppy, BYTE *buf, int length);
+extern int  vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length);
 extern void vdrive_command_set_error(bufferinfo_t *p, int code,
                                      int track, int sector);
-extern int  vdrive_command_validate(DRIVE *floppy);
+extern int  vdrive_command_validate(vdrive_t *floppy);
 
 #endif				/* _VDRIVE_H */
 
