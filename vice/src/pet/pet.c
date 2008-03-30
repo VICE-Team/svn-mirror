@@ -120,10 +120,8 @@ static machine_timing_t machine_timing;
 /* PET model name.  */
 static char *model_name = NULL;
 
-static int set_model_name(resource_value_t v, void *param)
+static int set_model_name(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (pet_set_model(name, NULL) < 0) {
         log_error(pet_log, "Invalid PET model `%s'.", name);
         return -1;

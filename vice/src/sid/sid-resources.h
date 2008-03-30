@@ -28,7 +28,7 @@
 #define _SID_RESOURCES_H
 
 extern int sid_resources_init(void);
-extern int sid_set_sid_stereo_address(void *v, void *param);
+extern int sid_set_sid_stereo_address(int val, void *param);
 
 extern int sid_stereo;
 extern int checking_sid_stereo;

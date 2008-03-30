@@ -67,9 +67,9 @@ static log_t mmu_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-static int set_column4080_key(resource_value_t v, void *param)
+static int set_column4080_key(int val, void *param)
 {
-    mmu_column4080_key = (int)v;
+    mmu_column4080_key = val;
 
 #ifdef HAS_SINGLE_CANVAS
     vdc_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
@@ -306,7 +306,7 @@ void mmu_init(void)
 {
     mmu_log = log_open("MMU");
 
-    set_column4080_key((resource_value_t)mmu_column4080_key, NULL);
+    set_column4080_key(mmu_column4080_key, NULL);
 
     mmu[5] = 0;
     mmu[11] = C128_RAM_SIZE >> 12; /* # of 64k banks */
