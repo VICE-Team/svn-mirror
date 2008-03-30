@@ -22,6 +22,8 @@ libc64_a_SOURCES = \
 	c64-cmdline-options.h \
 	c64-resources.c \
 	c64-resources.h \
+	c64-snapshot.c \
+	c64-snapshot.h \
 	c64.c \
 	c64.h \
 	c64cart.h \
@@ -37,6 +39,8 @@ libc64_a_SOURCES = \
 	c64mem.h \
 	c64memlimit.c \
 	c64memlimit.h \
+	c64pla.c \
+	c64pla.h \
 	patchrom.c \
 	patchrom.h \
 	reu.c \
@@ -54,10 +58,12 @@ libc64c128_a_SOURCES = \
 	c64cia.h \
 	c64cia2.c \
 	c64datasette.c \
-	patchrom.c \
-	patchrom.h \
+	c64pla.c \
+	c64pla.h \
 	c64tpi.c \
 	c64tpi.h \
+	patchrom.c \
+	patchrom.h \
 	reu.c \
 	reu.h
 
