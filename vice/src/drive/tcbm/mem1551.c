@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "drivemem.h"
 #include "drivetypes.h"
 #include "glue1551.h"
 #include "mem1551.h"
@@ -60,17 +61,23 @@ static void REGPARM3 drive_store_1551zero(drive_context_t *drv, ADDRESS address,
     drv->cpud.drive_ram[address & 0xff] = value;
 }
 
-void mem1551_init(struct drive_context_s *drv)
+void mem1551_init(struct drive_context_s *drv, unsigned int type)
 {
     unsigned int i;
 
-    drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
-    drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
+    if (type == DRIVE_TYPE_1551)
+        for (i = 0xc0; i < 0x100; i++)
+            drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
-    /* Setup 1551 TIA.  */
-    for (i = 0x40; i < 0x7f; i++) {
-        drv->cpud.read_func_nowatch[i] = tia1551_read;
-        drv->cpud.store_func_nowatch[i] = tia1551_store;
+    if (type == DRIVE_TYPE_1551) {
+        drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
+        drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
+
+        /* Setup 1551 TIA.  */
+        for (i = 0x40; i < 0x7f; i++) {
+            drv->cpud.read_func_nowatch[i] = tia1551_read;
+            drv->cpud.store_func_nowatch[i] = tia1551_store;
+        }
     }
 }
 

@@ -27,12 +27,19 @@
 #ifndef _DRIVEMEM_H
 #define _DRIVEMEM_H
 
+#include "types.h"
+
+struct drive_context_s;
+
 extern void drive_mem_init(struct drive_context_s *drv, unsigned int type);
 
 struct mem_ioreg_list_s;
 
 extern struct mem_ioreg_list_s *drive0_ioreg_list_get(void);
 extern struct mem_ioreg_list_s *drive1_ioreg_list_get(void);
+
+extern BYTE REGPARM2 drive_read_rom(struct drive_context_s *drv,
+                                    ADDRESS address);
 
 #endif
 
