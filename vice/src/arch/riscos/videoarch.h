@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#include "palette.h"
 #include "types.h"
 #include "ui.h"
 #include "video.h"
@@ -60,11 +59,13 @@ struct video_frame_buffer_s {
 typedef struct video_frame_buffer_s video_frame_buffer_t;
 
 struct video_canvas_s;
+struct palette_s;
 
 /* currently active redraw function */
 typedef void video_redraw_core_func(struct video_canvas_s *canvas, struct video_redraw_desc_s *vrd);
 
 struct video_canvas_s {
+  unsigned int initialized;
   char *name;
   unsigned int width, height;
   unsigned int scale;
@@ -81,6 +82,7 @@ struct video_canvas_s {
   struct viewport_s *viewport;
   struct geometry_s *geometry;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
+  const struct palette_s *palette;
 };
 
 typedef struct video_canvas_s video_canvas_t;

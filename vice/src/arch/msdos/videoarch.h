@@ -41,13 +41,16 @@
 typedef void (*canvas_redraw_t)();
 
 struct video_draw_buffer_callback_s;
+struct palette_s;
 
 struct video_canvas_s {
+    unsigned int initialized;
     unsigned int width, height, depth, bytes_per_line;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
+    const struct palette_s *palette;
     RGB colors[NUM_AVAILABLE_COLORS];
     canvas_redraw_t exposure_handler;
 
@@ -64,9 +67,6 @@ struct video_canvas_s {
 
     /* Currently invisible page.  */
     int back_page;
-
-    /* remember palette for change of color depth */
-    palette_t *palette;
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
