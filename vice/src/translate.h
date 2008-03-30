@@ -3534,4 +3534,13 @@ extern int translate_res(int en_resource);
 #define IDCLS_RESID_GAIN_PERCENTAGE_SV          0x1197a
 #endif
 
+/* c64/cart/c64cart.c */
+#define IDCLS_ATTACH_RAW_STB_CART               0x1197b
+#define IDCLS_ATTACH_RAW_STB_CART_DE            0x1197c
+#define IDCLS_ATTACH_RAW_STB_CART_FR            0x1197d
+#define IDCLS_ATTACH_RAW_STB_CART_IT            0x1197e
+#define IDCLS_ATTACH_RAW_STB_CART_NL            0x1197f
+#define IDCLS_ATTACH_RAW_STB_CART_PL            0x11980
+#define IDCLS_ATTACH_RAW_STB_CART_SV            0x11981
+
 #endif
