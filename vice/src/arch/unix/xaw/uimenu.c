@@ -218,7 +218,7 @@ static char *make_menu_label(ui_menu_entry_t *e)
         return e->string;
 
     *tmp = '\0';
-    if (e->hotkey_modifier & UI_HOTMOD_CTRL)
+    if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
         strcat(tmp, "C-");
     if (e->hotkey_modifier & UI_HOTMOD_META)
         strcat(tmp, "M-");
