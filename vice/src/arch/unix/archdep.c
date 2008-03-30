@@ -353,6 +353,6 @@ int archdep_file_is_gzip(const char *name)
 
 int archdep_file_set_gzip(const char *name)
 {
-  return 0;
+    return 0;
 }
 
