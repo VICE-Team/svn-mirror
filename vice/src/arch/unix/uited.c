@@ -36,6 +36,14 @@
 #include "uited.h"
 
 
+UI_MENU_DEFINE_STRING_RADIO(TEDPaletteFile)
+
+static ui_menu_entry_t palette_submenu[] = {
+    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"TEDPaletteFile", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 ui_menu_entry_t set_video_standard_submenu[] = {
@@ -49,7 +57,7 @@ ui_menu_entry_t set_video_standard_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
-UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
@@ -95,11 +103,9 @@ ui_menu_entry_t ted_submenu[] = {
       (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
     { "--" },
     { N_("*External color set"),
-      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
-#if 0
+      (ui_callback_t)toggle_TEDExternalPalette, NULL, NULL },
     { N_("Color set"),
       NULL, NULL, palette_submenu },
-#endif
     { "--" },
 #if 0
     { N_("*Fast PAL emulation"),
