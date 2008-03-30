@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "actionreplay3.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
 #include "alarm.h"
@@ -185,6 +186,10 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY_CART },
+    /* Dummy! */
+    { "-cartar3", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART },
     { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART },
@@ -238,6 +243,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
       N_("<name>"), N_("Attach raw 32KB Action Replay cartridge image") },
+    { "-cartar3", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ACTION_REPLAY3, NULL, NULL,
+      N_("<name>"), N_("Attach raw 16KB Action Replay III cartridge image") },
     { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
       N_("<name>"), N_("Attach raw 64KB Retro Replay cartridge image") },
@@ -315,12 +323,16 @@ int cartridge_attach_image(int type, const char *filename)
         if (generic_16kb_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
+      case CARTRIDGE_ACTION_REPLAY3:
+        if (actionreplay3_bin_attach(filename, rawcart) < 0)
+            goto done;
+        break;
       case CARTRIDGE_ACTION_REPLAY:
-        if (atomicpower_bin_attach(filename, rawcart) < 0)
+        if (actionreplay_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       case CARTRIDGE_ATOMIC_POWER:
-        if (actionreplay_bin_attach(filename, rawcart) < 0)
+        if (atomicpower_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       case CARTRIDGE_RETRO_REPLAY:
@@ -418,6 +430,7 @@ void cartridge_trigger_freeze(void)
     int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 
     switch (type) {
+      case CARTRIDGE_ACTION_REPLAY3:
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_FINAL_III:

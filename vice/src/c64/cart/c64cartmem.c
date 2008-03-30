@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "actionreplay3.h"
 #include "actionreplay.h"
 #include "atomicpower.h"
 #include "c64cart.h"
@@ -88,7 +89,12 @@ unsigned int cart_ultimax_phi2 = 0;
 /* Type of the cartridge attached.  */
 int mem_cartridge_type = CARTRIDGE_NONE;
 
-
+/*
+  mode & 3 = 0 : roml
+  mode & 3 = 1 : roml & romh
+  mode & 3 = 2 : ram
+  mode & 3 = 3 : ultimax
+*/
 void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
                               unsigned int wflag)
 {
@@ -106,7 +112,8 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
     if (mode_phi2 & 0x40)
         cartridge_release_freeze();
     cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~mode_phi1 >> 2) & 1);
+    cart_ultimax_phi2 = export.game & (export.exrom ^ 1)
+                        & ((~mode_phi1 >> 2) & 1);
     machine_update_memory_ptrs();
 }
 
@@ -116,6 +123,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
     log_debug("Read IO1 %02x.", addr);
 #endif
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY3:
+        return actionreplay3_io1_read(addr);
       case CARTRIDGE_ACTION_REPLAY:
         return actionreplay_io1_read(addr);
       case CARTRIDGE_ATOMIC_POWER:
@@ -167,6 +176,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
 #endif
 
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY3:
+        actionreplay3_io1_store(addr, value);
+        break;
       case CARTRIDGE_ACTION_REPLAY:
         actionreplay_io1_store(addr, value);
         break;
@@ -262,10 +274,12 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
     log_debug("Read IO2 %02x.", addr);
 #endif
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY3:
+        return actionreplay3_io2_read(addr);
       case CARTRIDGE_ACTION_REPLAY:
-        return atomicpower_io2_read(addr);
-      case CARTRIDGE_ATOMIC_POWER:
         return actionreplay_io2_read(addr);
+      case CARTRIDGE_ATOMIC_POWER:
+        return atomicpower_io2_read(addr);
       case CARTRIDGE_RETRO_REPLAY:
         return retroreplay_io2_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT:
@@ -311,10 +325,10 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
 #endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
-        atomicpower_io2_store(addr, value);
+        actionreplay_io2_store(addr, value);
         break;
       case CARTRIDGE_ATOMIC_POWER:
-        actionreplay_io2_store(addr, value);
+        atomicpower_io2_store(addr, value);
         break;
       case CARTRIDGE_RETRO_REPLAY:
         retroreplay_io2_store(addr, value);
@@ -352,9 +366,8 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
 BYTE REGPARM1 roml_read(WORD addr)
 {
     if (ramcart_enabled)
-    {
-      return ramcart_roml_read(addr);
-    }
+        return ramcart_roml_read(addr);
+
     switch (mem_cartridge_type) {
       case CARTRIDGE_ZAXXON:
         return zaxxon_roml_read(addr);
@@ -388,11 +401,11 @@ BYTE REGPARM1 roml_read(WORD addr)
 
 void REGPARM2 roml_store(WORD addr, BYTE value)
 {
-    if (ramcart_enabled)
-    {
-      ramcart_roml_store(addr,value);
-      return;
+    if (ramcart_enabled) {
+        ramcart_roml_store(addr,value);
+        return;
     }
+
     switch (mem_cartridge_type) {
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_roml_store(addr, value);
@@ -551,6 +564,9 @@ void REGPARM1 cartridge_decode_address(WORD addr)
 void cartridge_init_config(void)
 {
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY3:
+        actionreplay3_config_init();
+        break;
       case CARTRIDGE_ACTION_REPLAY:
         actionreplay_config_init();
         break;
@@ -659,6 +675,9 @@ void cartridge_init_config(void)
 void cartridge_reset(void)
 {
     switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY3:
+        actionreplay3_reset();
+        break;
       case CARTRIDGE_ACTION_REPLAY:
         actionreplay_reset();
         break;
@@ -695,6 +714,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_FINAL_I:
         final_v1_config_setup(rawcart);
+        break;
+      case CARTRIDGE_ACTION_REPLAY3:
+        actionreplay3_config_setup(rawcart);
         break;
       case CARTRIDGE_ACTION_REPLAY:
         actionreplay_config_setup(rawcart);
@@ -788,6 +810,9 @@ void cartridge_detach(int type)
     int cartridge_reset;
 
     switch (type) {
+      case CARTRIDGE_ACTION_REPLAY3:
+        actionreplay3_detach();
+        break;
       case CARTRIDGE_ACTION_REPLAY:
         actionreplay_detach();
         break;
@@ -901,6 +926,9 @@ void cartridge_freeze(int type)
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
         supersnapshot_v5_freeze();
         break;
+      case CARTRIDGE_ACTION_REPLAY3:
+        actionreplay3_freeze();
+        break;
       case CARTRIDGE_ACTION_REPLAY:
         actionreplay_freeze();
         break;
@@ -939,3 +967,4 @@ void cartridge_romlbank_set(unsigned int bank)
 {
     roml_bank = (int)bank;
 }
+
