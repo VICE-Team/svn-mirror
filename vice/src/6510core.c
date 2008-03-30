@@ -55,12 +55,12 @@
 
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
-#if defined(__1541__) && defined(TRUE1541_ROTATE)
+#if defined __1541__
 #define LOCAL_SET_OVERFLOW(val)			\
-    do {						\
+    do {					\
         if (!(val)) true1541_set_byte_ready(0);	\
-        ((val) ? (reg_p |= P_OVERFLOW)			\
-         : (reg_p &= ~P_OVERFLOW));			\
+        ((val) ? (reg_p |= P_OVERFLOW)		\
+         : (reg_p &= ~P_OVERFLOW));		\
     } while (0)
 #else
 #define LOCAL_SET_OVERFLOW(val)  ((val) ? (reg_p |= P_OVERFLOW)    \
@@ -1562,14 +1562,8 @@
 
         case 0x08:                      /* PHP */
 #ifdef __1541__
-#ifdef TRUE1541_ROTATE
             if (true1541_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
-#else
-            if ((read_viaD2(VIA_PCR) & 0x0e) == 0x0e) {
-                LOCAL_SET_OVERFLOW(1);
-            }
-#endif
 #endif
             PHP();
             break;
@@ -1862,14 +1856,9 @@
 #ifndef __1541__
             BRANCH(!LOCAL_OVERFLOW(), p1);
 #else
-#ifdef TRUE1541_ROTATE
             if (true1541_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
             BRANCH(!LOCAL_OVERFLOW(), p1);
-#else
-            BRANCH(((read_viaD2(VIA_PCR) & 0x0e) == 0x0e)
-                    ? 0 : !LOCAL_OVERFLOW(), p1);
-#endif
 #endif
             break;
 
@@ -2003,14 +1992,9 @@
 #ifndef __1541__
             BRANCH(LOCAL_OVERFLOW(), p1);
 #else
-#ifdef TRUE1541_ROTATE
             if (true1541_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
             BRANCH(LOCAL_OVERFLOW(), p1);
-#else
-            BRANCH(((read_viaD2(VIA_PCR) & 0x0e) == 0x0e)
-                    ? 1 : LOCAL_OVERFLOW(), p1);
-#endif
 #endif
             break;
 

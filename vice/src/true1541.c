@@ -340,14 +340,14 @@ static int read_image_gcr(void)
 	memset(track_data, 0xff, NUM_MAX_BYTES_TRACK);
 
 	lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
-	if(read(true1541_floppy->ActiveFd, (char *)len, 2) < 2) {
+	if (read(true1541_floppy->ActiveFd, (char *)len, 2) < 2) {
 	    fprintf(stderr, "Could not read GCR disk image.\n");
 	    return 0;
 	}
 
 	track_len = len[0] + len[1] * 256;
 
-	if((track_len < 5000) || (track_len > 7928)) {
+	if (track_len < 5000 || track_len > 7928) {
 	    fprintf(stderr, "1541: Track field length %i is not supported.\n",
 		track_len);
 	    return 0;
@@ -356,8 +356,8 @@ static int read_image_gcr(void)
 	GCR_track_size[track - 1] = track_len;
 
 	lseek(true1541_floppy->ActiveFd, offset + 2, SEEK_SET);
-	if(read(true1541_floppy->ActiveFd, (char *)track_data, track_len) < 
-	  track_len) {
+	if (read(true1541_floppy->ActiveFd, (char *)track_data, track_len)
+           < track_len) {
 	    fprintf(stderr, "Could not read GCR disk image.\n");
 	    return 0;
 	}
@@ -367,8 +367,8 @@ static int read_image_gcr(void)
 	zone_data = GCR_speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
 
 	lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
-	if(read(true1541_floppy->ActiveFd, (char *)comp_speed, zone_len) <
-	  zone_len) {
+	if (read(true1541_floppy->ActiveFd, (char *)comp_speed, zone_len)
+            < zone_len) {
 	    fprintf(stderr, "Could not read GCR disk image.\n");
 	    return 0;
 	}
@@ -396,7 +396,7 @@ static void write_track_gcr(int track)
     len[1] = GCR_track_size[track - 1] / 256;
 
     if (lseek(true1541_floppy->ActiveFd, offset, SEEK_SET) < 0
-      || write(true1541_floppy->ActiveFd, (char *)len, 2) < 0) {
+        || write(true1541_floppy->ActiveFd, (char *)len, 2) < 0) {
 	fprintf(stderr, "Could not write GCR disk image");
 	return;
     }
@@ -408,8 +408,8 @@ static void write_track_gcr(int track)
 	memset(GCR_track_start_ptr + GCR_track_size[track - 1], 0, gap);
 
     if (lseek(true1541_floppy->ActiveFd, offset + 2, SEEK_SET) < 0
-      || write(true1541_floppy->ActiveFd, (char *)GCR_track_start_ptr, 
-      NUM_MAX_BYTES_TRACK) < 0) {
+        || write(true1541_floppy->ActiveFd, (char *)GCR_track_start_ptr,
+                 NUM_MAX_BYTES_TRACK) < 0) {
 	fprintf(stderr, "Could not write GCR disk image");
 	return;
     }
@@ -423,16 +423,16 @@ static void write_track_gcr(int track)
 	memset(zone_data + GCR_track_size[track - 1], 0, gap);
 
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
-	comp_speed[i] = zone_data[i * 4] |
-	    (zone_data[i * 4 + 1] << 2) |
-	    (zone_data[i * 4 + 2] << 4) |
-	    (zone_data[i * 4 + 3] << 6);
+	comp_speed[i] = (zone_data[i * 4]
+                         | (zone_data[i * 4 + 1] << 2)
+                         | (zone_data[i * 4 + 2] << 4)
+                         | (zone_data[i * 4 + 3] << 6));
 
     if (lseek(true1541_floppy->ActiveFd, offset, SEEK_SET) < 0
-      || write(true1541_floppy->ActiveFd, (char *)comp_speed, 
-      NUM_MAX_BYTES_TRACK / 4) < 0) {
-    fprintf(stderr, "Could not write GCR disk image");
-    return;
+        || write(true1541_floppy->ActiveFd, (char *)comp_speed,
+                 NUM_MAX_BYTES_TRACK / 4) < 0) {
+        fprintf(stderr, "Could not write GCR disk image");
+        return;
     }
 
 }
@@ -466,17 +466,14 @@ static BYTE *GCR_find_sector_header(int track, int sector)
     char GCR_header[5], header_data[4];
     int i, sync_count = 0, wrap_over = 0;
 
-    while ((offset < GCR_track_end) && !wrap_over)
-    {
-	while (*offset != 0xff)
-	{
+    while ((offset < GCR_track_end) && !wrap_over) {
+	while (*offset != 0xff)	{
 	    offset++;
 	    if (offset >= GCR_track_end)
 		return NULL;
 	}
 
-	while (*offset == 0xff)
-	{
+	while (*offset == 0xff)	{
 	    offset++;
 	    if (offset == GCR_track_end) {
 		offset = GCR_track_start_ptr;
@@ -487,8 +484,7 @@ static BYTE *GCR_find_sector_header(int track, int sector)
 		return NULL;
 	}
 
-	for (i=0; i < 5; i++)
-	{
+	for (i=0; i < 5; i++) {
 	    GCR_header[i] = *(offset++);
 	    if (offset >= GCR_track_end) {
 		offset = GCR_track_start_ptr;
@@ -512,19 +508,16 @@ static BYTE *GCR_find_sector_data(BYTE *offset)
     BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;
     int header = 0;
 
-    while (*offset != 0xff)
-    {
+    while (*offset != 0xff) {
 	offset++;
 	if (offset >= GCR_track_end)
 	    offset = GCR_track_start_ptr;
 	header++;
 	if (header >= 500)
 	    return NULL;
-
     }
 
-    while (*offset == 0xff)
-    {
+    while (*offset == 0xff) {
 	offset++;
 	if (offset == GCR_track_end)
 	    offset = GCR_track_start_ptr;
@@ -780,12 +773,14 @@ void true1541_rotate_disk(int mode_change)
 		GCR_dirty_track = 1;
 		if (bits_moved >= 8) {
 		    GCR_track_start_ptr[GCR_head_offset] = GCR_write_value;
-		    GCR_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
+		    GCR_head_offset = ((GCR_head_offset + 1) %
+                                       GCR_current_track_size);
 		    bits_moved -= 8;
 		}
 	    } else {		/* read */
 		if (bits_moved >= 8) {
-		    GCR_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
+		    GCR_head_offset = ((GCR_head_offset + 1) %
+                                       GCR_current_track_size);
 		    bits_moved -= 8;
 		    GCR_read = GCR_track_start_ptr[GCR_head_offset];
 		}
@@ -799,7 +794,8 @@ void true1541_rotate_disk(int mode_change)
 	    GCR_dirty_track = 1;
 	    while (bits_moved >= 8) {
 		GCR_track_start_ptr[GCR_head_offset] = GCR_write_value;
-		GCR_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
+		GCR_head_offset = ((GCR_head_offset + 1)
+                                   % GCR_current_track_size);
 		bits_moved -= 8;
 	    }
 	} else {		/* read */
@@ -841,8 +837,8 @@ BYTE true1541_read_disk_byte(void)
         attach_clk = (CLOCK)0;
     }
 
-    val = GCR_track_start_ptr[GCR_head_offset];
-    GCR_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
+    true1541_rotate_disk(0);
+    val = GCR_read;
     
     return val;
 }
@@ -894,7 +890,8 @@ void true1541_set_half_track(int num)
 			   + ((true1541_current_half_track / 2 - 1)
 			      * NUM_MAX_BYTES_TRACK));
 
-    GCR_current_track_size = GCR_track_size[true1541_current_half_track / 2 - 1];
+    GCR_current_track_size = GCR_track_size[true1541_current_half_track / 2
+                                            - 1];
     GCR_head_offset = 0;
 }
 
