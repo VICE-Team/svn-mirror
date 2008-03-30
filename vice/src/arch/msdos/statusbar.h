@@ -56,6 +56,8 @@ enum {
     STATUSBAR_MODE_AUTO
 };
 
+struct video_frame_buffer_s;
+
 extern void statusbar_update(void);
 extern void statusbar_disable(void);
 extern int statusbar_init(void);
