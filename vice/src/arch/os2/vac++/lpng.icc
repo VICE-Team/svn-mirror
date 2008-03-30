@@ -7,8 +7,8 @@ option ProjectOptions =
    opt(tune, "pentium"),
    opt(inline, "yes"),
    opt(autoinline, "yes"),
-   incl(searchpath, "..\\zlib"),
-   incl(searchpath, "..\\lpng")
+   incl(searchpath, "..\\..\\..\\lib\\zlib"),
+   incl(searchpath, "..\\..\\..\\lib\\lpng")
 {
    target "png.lib"
    {

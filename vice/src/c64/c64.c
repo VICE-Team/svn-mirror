@@ -69,6 +69,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "network.h"
 #include "parallel.h"
 #include "patchrom.h"
 #include "plus60k.h"
@@ -250,7 +251,7 @@ int machine_resources_init(void)
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
-	|| vicii_resources_init() < 0
+        || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
         || acia1_resources_init() < 0
@@ -597,6 +598,10 @@ static void machine_vsync_hook(void)
         clk_guard_prevent_overflow(maincpu_clk_guard);
         return;
     }
+
+#ifdef HAVE_NETWORK
+    network_hook();
+#endif
 
     drive_vsync_hook();
 

@@ -46,6 +46,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "network.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
@@ -69,6 +70,7 @@ static log_t keyboard_log = LOG_DEFAULT;
 
 static keyboard_machine_func_t keyboard_machine_func = NULL;
 
+static CLOCK keyboard_delay;
 
 static void keyboard_latch_matrix(CLOCK offset)
 {
@@ -128,9 +130,17 @@ static void keyboard_latch_handler(CLOCK offset, void *data)
 
     keyboard_latch_matrix(offset);
 
-    keyboard_event_record();
+#ifdef HAVE_NETWORK
+    if (!network_connected())
+#endif
+        keyboard_event_record();
 }
 
+void keyboard_event_delayed_playback(void *data)
+{
+    memcpy(latch_keyarr, data, sizeof(latch_keyarr));
+    alarm_set(keyboard_alarm, maincpu_clk + keyboard_delay);
+}
 /*-----------------------------------------------------------------------*/
 
 void keyboard_set_keyarr(int row, int col, int value)
@@ -139,14 +149,6 @@ void keyboard_set_keyarr(int row, int col, int value)
         return;
 
     alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
-}
-
-void keyboard_set_keyarr_and_latch(int row, int col, int value)
-{
-    if (keyboard_set_latch_keyarr(row, col, value) < 0)
-        return;
-
-    keyboard_latch_matrix(0);
 }
 
 void keyboard_clear_keymatrix(void)
@@ -162,6 +164,10 @@ void keyboard_register_machine(keyboard_machine_func_t func)
     keyboard_machine_func = func;
 }
 
+void keyboard_register_delay(unsigned int delay)
+{
+    keyboard_delay = delay;
+}
 /*-----------------------------------------------------------------------*/
 
 #ifdef COMMON_KBD
@@ -301,7 +307,19 @@ void keyboard_key_pressed(signed long key)
 
     if (latch) {
         keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
-        alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+#ifdef HAVE_NETWORK
+        if (network_connected()) {
+            CLOCK keyboard_delay = KEYBOARD_RAND();
+            network_event_record(EVENT_KEYBOARD_DELAY,
+                    (void *)&keyboard_delay, sizeof(keyboard_delay));
+            network_event_record(EVENT_KEYBOARD_MATRIX, 
+                    (void *)latch_keyarr, sizeof(latch_keyarr));
+        }
+        else
+#endif
+        {
+            alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+        }
     }
 }
 
@@ -380,8 +398,19 @@ void keyboard_key_released(signed long key)
     }
 
     if (latch) {
-        /*keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 0);*/
-        alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+#ifdef HAVE_NETWORK
+        if (network_connected()) {
+            CLOCK keyboard_delay = KEYBOARD_RAND();
+            network_event_record(EVENT_KEYBOARD_DELAY,
+                        (void *)&keyboard_delay, sizeof(keyboard_delay));
+            network_event_record(EVENT_KEYBOARD_MATRIX, 
+                        (void *)latch_keyarr, sizeof(latch_keyarr));
+        }
+        else
+#endif
+        {
+            alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+        }
     }
 }
 

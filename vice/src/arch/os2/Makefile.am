@@ -13,26 +13,26 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-        blockdev.c \
+	blockdev.c \
 	config.h \
 	console.c \
-        fullscr.c \
-        fullscr.h \
-        fullscros2.h \
-        gradd.h \
+	fullscr.c \
+	fullscr.h \
+	fullscros2.h \
+	gradd.h \
 	joy.c \
 	joy.h \
 	kbd.c \
 	kbd.h \
-        makedist.cmd \
-        mousedrv.c \
-        mousedrv.h \
+	makedist.cmd \
+	mousedrv.c \
+	mousedrv.h \
 	os2main.c \
 	rs232.c \
 	signals.c \
 	sounddrv.c \
 	sounddrv.h \
-        tfearch.c \
+	tfearch.c \
 	types.h \
 	ui.c \
 	ui.h \
@@ -103,49 +103,4 @@ EXTRA_DIST = \
 	fonts/vice-cbm.cmd \
 	fonts/vice2.asm \
 	fonts/vice2.def \
-	fonts/vice2.rc \
-	lpng/LICENSE \
-	lpng/png.c \
-	lpng/png.h \
-	lpng/pngconf.h \
-	lpng/pngerror.c \
-	lpng/pngget.c \
-	lpng/pngmem.c \
-	lpng/pngpread.c \
-	lpng/pngread.c \
-	lpng/pngrio.c \
-	lpng/pngrtran.c \
-	lpng/pngrutil.c \
-	lpng/pngset.c \
-	lpng/pngtrans.c \
-	lpng/pngwio.c \
-	lpng/pngwrite.c \
-	lpng/pngwtran.c \
-	lpng/pngwutil.c \
-	zlib/README \
-	zlib/adler32.c \
-	zlib/compress.c \
-	zlib/crc32.c \
-	zlib/deflate.c \
-	zlib/deflate.h \
-	zlib/gzio.c \
-	zlib/infblock.c \
-	zlib/infblock.h \
-	zlib/infcodes.c \
-	zlib/infcodes.h \
-	zlib/inffast.c \
-	zlib/inffast.h \
-	zlib/inffixed.h \
-	zlib/inflate.c \
-	zlib/inftrees.c \
-	zlib/inftrees.h \
-	zlib/infutil.c \
-	zlib/infutil.h \
-	zlib/maketree.c \
-	zlib/trees.c \
-	zlib/trees.h \
-	zlib/uncompr.c \
-	zlib/zconf.h \
-	zlib/zlib.h \
-	zlib/zutil.c \
-	zlib/zutil.h
+	fonts/vice2.rc

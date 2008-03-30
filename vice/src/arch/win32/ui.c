@@ -55,6 +55,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "mousedrv.h"
+#include "network.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -844,7 +845,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
         text = lib_msprintf(translate_text(IDS_DETACHED_DEVICE_S), 
                            itoa(drivenum + 8, device_str, 10));
     } else {
-       	util_fname_split(image, &directory_name, &image_name);
+        util_fname_split(image, &directory_name, &image_name);
         text = lib_msprintf(translate_text(IDS_ATTACHED_S_TO_DEVICE_S), image_name,
             itoa(drivenum+8, device_str, 10));
         lib_free(image_name);
@@ -886,7 +887,7 @@ void ui_display_tape_current_image(const char *image)
     if (image == NULL || image[0] == 0) {
         text = lib_stralloc(translate_text(IDS_DETACHED_TAPE));
     } else {
-       	util_fname_split(image, &directory_name, &image_name);
+        util_fname_split(image, &directory_name, &image_name);
         text = lib_msprintf(translate_text(IDS_ATTACHED_TAPE_S), image_name);
         lib_free(image_name);
         lib_free(directory_name);
@@ -1246,6 +1247,16 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_EVENT_RESETMILESTONE:
       case IDM_EVENT_RESETMILESTONE | 0x00010000:
         uievent_command(hwnd, wparam);
+        break;
+      case IDM_NETWORK_SERVER:
+#ifdef HAVE_NETWORK
+        network_start_server();
+#endif
+        break;
+      case IDM_NETWORK_CLIENT:
+#ifdef HAVE_NETWORK
+        network_connect_client();
+#endif
         break;
       case IDM_RS232_SETTINGS:
         ui_rs232_settings_dialog(hwnd);

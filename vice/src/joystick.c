@@ -41,6 +41,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "maincpu.h"
+#include "network.h"
 #include "snapshot.h"
 #include "ui.h"
 #include "types.h"
@@ -62,6 +63,7 @@ static const BYTE joystick_opposite_direction[] =
 
 static alarm_t *joystick_alarm = NULL;
 
+static CLOCK joystick_delay;
 
 static void joystick_latch_matrix(CLOCK offset)
 {
@@ -91,10 +93,39 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
     joystick_latch_matrix(offset);
 
-    joystick_event_record(); 
+#ifdef HAVE_NETWORK
+    if (!network_connected())
+#endif
+        joystick_event_record(); 
 }
 
+void joystick_event_delayed_playback(void *data)
+{
+    memcpy(latch_joystick_value, data, sizeof(latch_joystick_value));
+    alarm_set(joystick_alarm, maincpu_clk + joystick_delay);
+}
+
+void joystick_register_delay(unsigned int delay)
+{
+    joystick_delay = delay;
+}
 /*-----------------------------------------------------------------------*/
+static void joystick_process_latch(void)
+{
+#ifdef HAVE_NETWORK
+    if (network_connected()) {
+        CLOCK joystick_delay = JOYSTICK_RAND();
+        network_event_record(EVENT_JOYSTICK_DELAY,
+                (void *)&joystick_delay, sizeof(joystick_delay));
+        network_event_record(EVENT_JOYSTICK_VALUE, 
+                (void *)latch_joystick_value, sizeof(latch_joystick_value));
+    } 
+    else
+#endif
+    {
+        alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
+    }
+}
 
 void joystick_set_value_absolute(unsigned int joyport, BYTE value)
 {
@@ -102,7 +133,7 @@ void joystick_set_value_absolute(unsigned int joyport, BYTE value)
         return;
 
     latch_joystick_value[joyport] = value;
-    alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
+    joystick_process_latch();
 }
 
 BYTE joystick_get_value_absolute(unsigned int joyport)
@@ -117,7 +148,7 @@ void joystick_set_value_or(unsigned int joyport, BYTE value)
 
     latch_joystick_value[joyport] |= value;
     latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
-    alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
+    joystick_process_latch();
 }
 
 void joystick_set_value_and(unsigned int joyport, BYTE value)
@@ -126,7 +157,7 @@ void joystick_set_value_and(unsigned int joyport, BYTE value)
         return;
 
     latch_joystick_value[joyport] &= value;
-    alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
+    joystick_process_latch();
 }
 
 void joystick_clear(unsigned int joyport)

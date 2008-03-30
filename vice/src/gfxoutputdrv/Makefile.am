@@ -2,6 +2,8 @@
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@VICE_LIBPNG_INCLUDES@ \
+	@VICE_ZLIB_INCLUDES@ \
         -I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 

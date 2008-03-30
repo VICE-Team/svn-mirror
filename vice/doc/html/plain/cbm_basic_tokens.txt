@@ -21,7 +21,7 @@ PETCAT version 2.11 PL 1					16 Oct 2005
 	Basic 2.0 with Xbasic
 	Basic 2.0 with Drago basic 2.2
 	Basic 2.0 with REU-basic
-        Basic 2.0 with Basic Lightning
+	Basic 2.0 with Basic Lightning
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 3.5

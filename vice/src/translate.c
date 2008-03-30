@@ -3689,7 +3689,16 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_PLUS60K_NAME_IT, "Specifica il nome dell'immagine +60K"},
 /* nl */ {IDCLS_SPECIFY_PLUS60K_NAME_NL, "Geef de naam van het +60K bestand"},
 /* pl */ {IDCLS_SPECIFY_PLUS60K_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på +60K-avbildning"}
+/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på +60K-avbildning"},
+
+/* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_STB_CART_FR, "Insérer une cartouche Structured Basic"},
+/* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
+/* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand"},
+/* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Structured Basic-insticksmodulfil"}
 
 };
 
@@ -7183,13 +7192,13 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_SPECIFY_PLUS60K_NAME_SV},
 
 /* c64/cart/c64cart.c */
-/* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
-/* fr */ {IDCLS_ATTACH_RAW_STB_CART_FR, "Insérer une cartouche Structured Basic"},
-/* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
-/* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand"},
-/* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Structured Basic-insticksmodulfil"}
+/* en */ {IDCLS_ATTACH_RAW_STB_CART,
+/* de */  IDCLS_ATTACH_RAW_STB_CART_DE,
+/* fr */  IDCLS_ATTACH_RAW_STB_CART_FR,
+/* it */  IDCLS_ATTACH_RAW_STB_CART_IT,
+/* nl */  IDCLS_ATTACH_RAW_STB_CART_NL,
+/* pl */  IDCLS_ATTACH_RAW_STB_CART_PL,
+/* sv */  IDCLS_ATTACH_RAW_STB_CART_SV},
 
 };
 

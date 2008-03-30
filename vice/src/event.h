@@ -27,6 +27,8 @@
 #ifndef _EVENT_H
 #define _EVENT_H
 
+#include "types.h"
+
 #define EVENT_LIST_END          0
 #define EVENT_KEYBOARD_MATRIX   1
 #define EVENT_KEYBOARD_RESTORE  2
@@ -39,11 +41,29 @@
 #define EVENT_TIMESTAMP         9
 #define EVENT_ATTACHIMAGE       10
 #define EVENT_OVERFLOW          11
+#define EVENT_KEYBOARD_DELAY    12
+#define EVENT_JOYSTICK_DELAY    13
+#define EVENT_SYNC_TEST         14
 
 #define EVENT_START_MODE_FILE_SAVE 0
 #define EVENT_START_MODE_FILE_LOAD 1
 #define EVENT_START_MODE_RESET     2
 #define EVENT_START_MODE_PLAYBACK  3
+
+struct event_list_s {
+    unsigned int type;
+    CLOCK clk;
+    unsigned int size;
+    void *data;
+    struct event_list_s *next;
+};
+typedef struct event_list_s event_list_t;
+
+struct event_list_state_s {
+    event_list_t *base;
+    event_list_t *current;
+};
+typedef struct event_list_state_s event_list_state_t;
 
 struct snapshot_s;
 
@@ -51,6 +71,9 @@ extern void event_init(void);
 extern int event_resources_init(void);
 extern void event_shutdown(void);
 extern int event_cmdline_options_init(void);
+extern void event_register_event_list(event_list_state_t *list);
+extern void event_clear_list(event_list_state_t *list);
+extern void event_playback_event_list(event_list_state_t *list);
 
 extern int event_record_start(void);
 extern int event_record_stop(void);
@@ -63,6 +86,8 @@ extern int event_record_reset_milestone(void);
 
 extern void event_reset_ack(void);
 
+extern void event_record_in_list(event_list_state_t *list, unsigned int type,
+                                 void *data, unsigned int size);
 extern void event_record(unsigned int type, void *data, unsigned int size);
 extern void event_record_attach_image(unsigned int unit, const char *filename,
                                       unsigned int read_only);

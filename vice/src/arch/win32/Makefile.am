@@ -220,6 +220,7 @@ EXTRA_DIST = \
 	pet.dsp \
 	petcat.dsp \
 	plus4.dsp \
+	png.dsp \
 	printerdrv.dsp \
 	raster.dsp \
 	resid.dsp \
@@ -245,6 +246,7 @@ EXTRA_DIST = \
 	xpet.dsp \
 	xplus4.dsp \
 	xvic.dsp \
+	zlib.dsp \
 	vice.dsw \
         vice.manifest \
         montb.bmp \

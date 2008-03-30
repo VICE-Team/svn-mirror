@@ -8,6 +8,8 @@
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
 #define HAVE_RESID              1
+#define HAVE_PNG                1
+#define HAVE_ZLIB               1
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1
 #define HAVE_CATWEASELMKIII     1
@@ -42,6 +44,7 @@
 #define HAVE_OPENCBM            1
 #define HAVE_CRTDBG             1
 #define HAS_TRANSLATION         1
+#define HAVE_NETWORK            1
 
 #define __i386__                1
 

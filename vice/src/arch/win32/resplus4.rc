@@ -2653,12 +2653,12 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_DE    "Funktions ROM (low) Erweiterungsmodule einlegen"
-  IDS_ATTACH_FUNCTION_HIGH_CART_DE   "Funktions ROM (high) Erweiterungsmodule einlegen"
-  IDS_ATTACH_CART1_LOW_DE            "Cartridge1 (low) Erweiterungsmodule einlegen"
-  IDS_ATTACH_CART1_HIGH_DE           "Cartridge1 (high) Erweiterungsmodule einlegen"
-  IDS_ATTACH_CART2_LOW_DE            "Cartridge2 (low) Erweiterungsmodule einlegen"
-  IDS_ATTACH_CART2_HIGH_DE           "Cartridge2 (high) Erweiterungsmodule einlegen"
+  IDS_ATTACH_FUNCTION_LOW_CART_DE    "Funktions ROM (low) Erweiterungsmodul einlegen"
+  IDS_ATTACH_FUNCTION_HIGH_CART_DE   "Funktions ROM (high) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART1_LOW_DE            "Cartridge1 (low) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART1_HIGH_DE           "Cartridge1 (high) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART2_LOW_DE            "Cartridge2 (low) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART2_HIGH_DE           "Cartridge2 (high) Erweiterungsmodul einlegen"
 END
 
 

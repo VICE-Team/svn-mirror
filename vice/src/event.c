@@ -46,6 +46,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "network.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -63,15 +64,6 @@
 #define EVENT_MILESTONE_SNAPSHOT "milestone" FSDEV_EXT_SEP_STR "vsf"
 
 
-struct event_list_s {
-    unsigned int type;
-    CLOCK clk;
-    unsigned int size;
-    void *data;
-    struct event_list_s *next;
-};
-typedef struct event_list_s event_list_t;
-
 struct event_image_list_s {
     char *orig_filename;
     char *mapped_filename;
@@ -79,7 +71,7 @@ struct event_image_list_s {
 };
 typedef struct event_image_list_s event_image_list_t;
 
-static event_list_t *event_list_base = NULL, *event_list_current;
+static event_list_state_t *event_list = NULL;
 static event_image_list_t *event_image_list_base = NULL;
 static int image_number;
 
@@ -156,9 +148,9 @@ void event_record_attach_image(unsigned int unit, const char *filename,
     if (record_active == 0)
         return;
 
-    event_list_current->type = EVENT_ATTACHIMAGE;
-    event_list_current->clk = maincpu_clk;
-    event_list_current->next
+    event_list->current->type = EVENT_ATTACHIMAGE;
+    event_list->current->clk = maincpu_clk;
+    event_list->current->next
         = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
 
     size = strlen(filename) + 3;
@@ -188,9 +180,9 @@ void event_record_attach_image(unsigned int unit, const char *filename,
         size += file_len;
     }
 
-    event_list_current->size = size;
-    event_list_current->data = event_data;
-    event_list_current = event_list_current->next;
+    event_list->current->size = size;
+    event_list->current->data = event_data;
+    event_list->current = event_list->current->next;
 }
 
 
@@ -260,12 +252,16 @@ error:
 }
 
 
-void event_record(unsigned int type, void *data, unsigned int size)
+void event_record_in_list(event_list_state_t *list, unsigned int type,
+                          void *data, unsigned int size)
 {
     void *event_data = NULL;
 
     if (record_active == 0)
-        return;
+#ifdef HAVE_NETWORK
+        if (!network_connected())
+#endif
+            return;
 
     /*log_debug("EVENT RECORD %i CLK %i", type, maincpu_clk);*/
 
@@ -274,11 +270,13 @@ void event_record(unsigned int type, void *data, unsigned int size)
         next_timestamp_clk -= maincpu_clk;
       case EVENT_KEYBOARD_MATRIX:
       case EVENT_KEYBOARD_RESTORE:
+      case EVENT_KEYBOARD_DELAY:
       case EVENT_JOYSTICK_VALUE:
       case EVENT_DATASETTE:
       case EVENT_ATTACHDISK:
       case EVENT_ATTACHTAPE:
       case EVENT_INITIAL:
+      case EVENT_SYNC_TEST:
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
         break;
@@ -290,20 +288,26 @@ void event_record(unsigned int type, void *data, unsigned int size)
         return;
     }
 
-    event_list_current->type = type;
-    event_list_current->clk = maincpu_clk;
-    event_list_current->size = size;
-    event_list_current->data = event_data;
-    event_list_current->next
+    list->current->type = type;
+    list->current->clk = maincpu_clk;
+    list->current->size = size;
+    list->current->data = event_data;
+    list->current->next
         = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
-    event_list_current = event_list_current->next;
+    list->current = list->current->next;
 }
+
+void event_record(unsigned int type, void *data, unsigned int size)
+{
+    event_record_in_list(event_list, type, data, size);
+}
+
 
 static void next_alarm_set(void)
 {
     CLOCK new_value;
 
-    new_value = event_list_current->clk;
+    new_value = event_list->current->clk;
 
     if (maincpu_clk > CLKGUARD_SUB_MIN
         && new_value < maincpu_clk - CLKGUARD_SUB_MIN)
@@ -314,7 +318,7 @@ static void next_alarm_set(void)
 
 static void next_current_list(void)
 {
-    event_list_current = event_list_current->next;
+    event_list->current = event_list->current->next;
 }
 
 static void event_alarm_handler(CLOCK offset, void *data)
@@ -333,22 +337,22 @@ static void event_alarm_handler(CLOCK offset, void *data)
     /*log_debug("EVENT PLAYBACK %i CLK %i", event_list_current->type,
               event_list_current->clk);*/
 
-    switch (event_list_current->type) {
+    switch (event_list->current->type) {
       case EVENT_KEYBOARD_MATRIX:
-        keyboard_event_playback(offset, event_list_current->data);
+        keyboard_event_playback(offset, event_list->current->data);
         break;
       case EVENT_KEYBOARD_RESTORE:
-        keyboard_restore_event_playback(offset, event_list_current->data);
+        keyboard_restore_event_playback(offset, event_list->current->data);
         break;
       case EVENT_JOYSTICK_VALUE:
-        joystick_event_playback(offset, event_list_current->data);
+        joystick_event_playback(offset, event_list->current->data);
         break;
       case EVENT_DATASETTE:
-        datasette_event_playback(offset, event_list_current->data);
+        datasette_event_playback(offset, event_list->current->data);
         break;
       case EVENT_ATTACHIMAGE:
-        event_playback_attach_image(event_list_current->data,
-                                    event_list_current->size);
+        event_playback_attach_image(event_list->current->data,
+                                    event_list->current->size);
         break;
       case EVENT_ATTACHDISK:
       case EVENT_ATTACHTAPE:
@@ -357,8 +361,8 @@ static void event_alarm_handler(CLOCK offset, void *data)
             unsigned int unit;
             const char *filename;
 
-            unit = (unsigned int)((char*)event_list_current->data)[0];
-            filename = &((char*)event_list_current->data)[1];
+            unit = (unsigned int)((char*)event_list->current->data)[0];
+            filename = &((char*)event_list->current->data)[1];
             
             if (unit == 1)
                 tape_image_event_playback(unit, filename);
@@ -367,7 +371,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
         }
         break;
       case EVENT_RESETCPU:
-        machine_reset_event_playback(offset, event_list_current->data);
+        machine_reset_event_playback(offset, event_list->current->data);
         break;
       case EVENT_TIMESTAMP:
         ui_display_event_time(current_timestamp++, playback_time);
@@ -378,22 +382,60 @@ static void event_alarm_handler(CLOCK offset, void *data)
       case EVENT_OVERFLOW:
         break;
       default:
-        log_error(event_log, "Unknow event type %i.", event_list_current->type);
+        log_error(event_log, "Unknow event type %i.", event_list->current->type);
     }
 
-    if (event_list_current->type != EVENT_LIST_END
-        && event_list_current->type != EVENT_RESETCPU) {
+    if (event_list->current->type != EVENT_LIST_END
+        && event_list->current->type != EVENT_RESETCPU) {
         next_current_list();
         next_alarm_set();
     }
 }
 
 /*-----------------------------------------------------------------------*/
+void event_playback_event_list(event_list_state_t *list)
+{
+    event_list_t *current = list->base;
+
+    while (current->type != EVENT_LIST_END) {
+        switch (current->type) {
+            case EVENT_SYNC_TEST:
+                break;
+            case EVENT_KEYBOARD_DELAY:
+                keyboard_register_delay(*(unsigned int*)current->data);
+                break;
+            case EVENT_KEYBOARD_MATRIX:
+                keyboard_event_delayed_playback(current->data);
+                break;
+            case EVENT_KEYBOARD_RESTORE:
+                /* FIXME: TODO */
+                break;
+            case EVENT_JOYSTICK_DELAY:
+                joystick_register_delay(*(unsigned int*)current->data);
+                break;
+            case EVENT_JOYSTICK_VALUE:
+                joystick_event_delayed_playback(current->data);
+                break;
+            case EVENT_RESETCPU:
+                machine_reset_event_playback(0, current->data);
+                break;
+            default:
+                log_error(event_log, "Unknow event type %i.", current->type);
+        }
+        current = current->next;
+    }
+}
+
+void event_register_event_list(event_list_state_t *list)
+{
+    list->base = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
+    list->current = list->base;
+}
 
 static void create_list(void)
 {
-    event_list_base = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
-    event_list_current = event_list_base;
+    event_list = (event_list_state_t *)lib_malloc(sizeof(event_list_state_t));
+    event_register_event_list(event_list);
 
     event_image_list_base = 
         (event_image_list_t *)lib_calloc(1, sizeof(event_image_list_t));
@@ -433,20 +475,24 @@ static void destroy_image_list(void)
     event_image_list_base = NULL;
 }
 
+void event_clear_list(event_list_state_t *list)
+{
+    if (list != NULL && list->base != NULL)
+        cut_list(list->base);
+}
+
 static void destroy_list(void)
 {
-    cut_list(event_list_base);
+    event_clear_list(event_list);
+    lib_free(event_list);
     destroy_image_list();
-
-    event_list_base = NULL;
-    event_list_current = NULL;
 }
 
 static void warp_end_list(void)
 {
     event_list_t *curr;
 
-    curr = event_list_base;
+    curr = event_list->base;
 
     while (curr->type != EVENT_LIST_END) {
 
@@ -457,7 +503,7 @@ static void warp_end_list(void)
     }
 
     memset(curr, 0, sizeof(event_list_t));
-    event_list_current = curr;
+    event_list->current = curr;
 }
 /*-----------------------------------------------------------------------*/
 /* writes or replaces version string in the initial event                */
@@ -467,36 +513,36 @@ static void event_write_version(void)
     BYTE *data;
     unsigned int ver_idx;
 
-    if (event_list_base->type != EVENT_INITIAL) {
+    if (event_list->base->type != EVENT_INITIAL) {
         /* EVENT_INITIAL is missing (bug in 1.14.xx); fix it */
         event_list_t *new_event;
 
         new_event = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
-        new_event->clk = event_list_base->clk;
+        new_event->clk = event_list->base->clk;
         new_event->size = strlen(event_start_snapshot) + 2;
         new_event->type = EVENT_INITIAL;
         data = lib_malloc(new_event->size);
         data[0] = EVENT_START_MODE_FILE_SAVE;
         strcpy((char *)&data[1], event_start_snapshot);
         new_event->data = data;
-        new_event->next = event_list_base;
-        event_list_base = new_event;
+        new_event->next = event_list->base;
+        event_list->base = new_event;
     }
 
-    data = event_list_base->data;
+    data = event_list->base->data;
 
     ver_idx = 1;
     if (data[0] == EVENT_START_MODE_FILE_SAVE)
         ver_idx += strlen((char *)&data[1]) + 1;
 
-    event_list_base->size = ver_idx + strlen(VERSION) + 1;
-    new_data = lib_malloc(event_list_base->size);
+    event_list->base->size = ver_idx + strlen(VERSION) + 1;
+    new_data = lib_malloc(event_list->base->size);
 
     memcpy(new_data, data, ver_idx);
 
     strcpy((char *)&new_data[ver_idx], VERSION);
 
-    event_list_base->data = new_data;
+    event_list->base->data = new_data;
     lib_free(data);
 }
 
@@ -576,7 +622,7 @@ static void event_record_start_trap(WORD addr, void *data)
         current_timestamp = 0;
         break;
       case EVENT_START_MODE_PLAYBACK:
-        cut_list(event_list_current->next);
+        cut_list(event_list->current->next);
         destroy_image_list();
         event_write_version();
         record_active = 1;
@@ -657,13 +703,16 @@ static unsigned int playback_reset_ack = 0;
 
 void event_reset_ack(void)
 {
+    if (event_list == NULL)
+        return;
+
     if (playback_reset_ack) {
         playback_reset_ack = 0;
         next_alarm_set();
     }
 
-    if (event_list_current 
-        && event_list_current->type == EVENT_RESETCPU)
+    if (event_list->current 
+        && event_list->current->type == EVENT_RESETCPU)
     {
         next_current_list();
         next_alarm_set();
@@ -711,10 +760,10 @@ static void event_playback_start_trap(WORD addr, void *data)
 
     snapshot_close(s);
 
-    event_list_current = event_list_base;
+    event_list->current = event_list->base;
 
-    if (event_list_current->type == EVENT_INITIAL) {
-        BYTE *data = (BYTE *)(event_list_current->data);
+    if (event_list->current->type == EVENT_INITIAL) {
+        BYTE *data = (BYTE *)(event_list->current->data);
         switch (data[0]) {
           case EVENT_START_MODE_FILE_SAVE:
             /*log_debug("READING %s", (char *)(&data[1]));*/
@@ -735,7 +784,7 @@ static void event_playback_start_trap(WORD addr, void *data)
                 return;
             }
 
-            if (event_list_current->size > strlen(&data[1]) + 2)
+            if (event_list->current->size > strlen(&data[1]) + 2)
                 strncpy(event_version, (char *)(&data[strlen(&data[1]) + 2]), 15);
 
             next_current_list();
@@ -744,7 +793,7 @@ static void event_playback_start_trap(WORD addr, void *data)
           case EVENT_START_MODE_RESET:
             /*log_debug("RESET MODE!");*/
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-            if (event_list_current->size > 1)
+            if (event_list->current->size > 1)
                 strncpy(event_version, (char *)(&data[1]), 15);
             next_current_list();
             /* Alarm will be set if reset is ack'ed.  */
@@ -877,6 +926,15 @@ int event_record_reset_milestone(void)
     return 0;
 }
 
+int event_network_start(void)
+{
+    return 0;
+}
+
+int event_network_stop(void)
+{
+    return 0;
+}
 /*-----------------------------------------------------------------------*/
 
 int event_record_active(void)
@@ -910,7 +968,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
     destroy_list();
     create_list();
 
-    curr = event_list_base;
+    curr = event_list->base;
     num_of_timestamps = 0;
     playback_time = 0;
     next_timestamp_clk = CLOCK_MAX;
@@ -1012,7 +1070,7 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
     if (m == NULL)
         return -1;
 
-    curr = event_list_base;
+    curr = event_list->base;
 
     while (curr != NULL) {
         if (curr->type != EVENT_TIMESTAMP

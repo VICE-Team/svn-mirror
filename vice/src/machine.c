@@ -53,6 +53,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "network.h"
 #include "printer.h"
 #include "resources.h"
 #include "romset.h"
@@ -116,7 +117,12 @@ void machine_trigger_reset(const unsigned int mode)
     if (event_playback_active())
         return;
 
-    event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
+#ifdef HAVE_NETWORK
+    if (network_connected())
+        network_event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
+    else
+#endif
+        event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
 
     machine_trigger_reset_internal(mode);
 }

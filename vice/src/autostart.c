@@ -465,7 +465,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     mem_powerup();
     autostart_ignore_reset = 1;
     deallocate_program_name();
-    if (program_name)
+    if (program_name && program_name[0])
         autostart_program_name = (BYTE *)lib_stralloc(program_name);
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     /* The autostartmode must be set AFTER the shutdown to make the autostart

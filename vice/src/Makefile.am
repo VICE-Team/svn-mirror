@@ -6,6 +6,8 @@ ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
 	@RESID_DIR@ \
+	@VICE_LIBPNG_DIR@ \
+	@VICE_ZLIB_DIR@ \
 	sounddrv \
 	drive \
 	vdrive \
@@ -38,6 +40,7 @@ SUBDIRS = \
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@VICE_ZLIB_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -106,6 +109,7 @@ noinst_HEADERS = \
 	monitor.h \
 	mos6510.h \
 	mouse.h \
+	network.h \
 	opencbmlib.h \
 	palette.h \
 	parallel.h \
@@ -184,6 +188,7 @@ base_sources = \
 	machine.c \
 	main.c \
 	mouse.c \
+	network.c \
 	palette.c \
 	ram.c \
 	rawfile.c \
@@ -253,7 +258,7 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
@@ -611,7 +616,8 @@ c1541_LDADD = \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
-	@READLINE@
+	@READLINE@ \
+	@VICE_ZLIB@
 
 # petcat
 petcat_SOURCES = \
@@ -629,7 +635,8 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	$(fileio_lib) 
+	$(fileio_lib) \
+	@VICE_ZLIB@
 
 # Special targets to build libraries in subdirectories.
 
@@ -637,6 +644,7 @@ petcat_LDADD = \
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc libvideo
 	libserial libparallel libcore libiecbus libfileio @RESID_DEP@
+	@VICE_LIBPNG_DEP@ @VICE_ZLIB_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -686,6 +694,8 @@ libpet:
 	(cd pet && $(MAKE))
 libplus4:
 	(cd plus4 && $(MAKE))
+libpng:
+	(cd lib/lpng && $(MAKE))
 libprinterdrv:
 	(cd printerdrv && $(MAKE))
 librs232drv:
@@ -712,4 +722,5 @@ libvicii:
 	(cd vicii && $(MAKE))
 libvideo:
 	(cd video && $(MAKE))
-
+libz:
+	(cd lib/zlib && $(MAKE))

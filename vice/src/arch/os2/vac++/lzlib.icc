@@ -8,7 +8,7 @@ option ProjectOptions =
    opt(inline, "yes"),
    opt(autoinline, "yes"), 
    info(cnd, "no"),
-   incl(searchpath, "..\\zlib")
+   incl(searchpath, "..\\..\\..\\lib\\zlib")
 {
    target "zlib.lib"
    {
@@ -17,13 +17,10 @@ option ProjectOptions =
       source "crc32.c"
       source "deflate.c"
       source "gzio.c"
-      source "infblock.c"
-      source "infcodes.c"
+      source "infback.c"
       source "inffast.c"
       source "inflate.c"
       source "inftrees.c"
-      source "infutil.c"
-      source "maketree.c"
       source "trees.c"
       source "uncompr.c"
       source "zutil.c"
