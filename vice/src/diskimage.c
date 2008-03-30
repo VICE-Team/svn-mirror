@@ -49,6 +49,7 @@ static log_t disk_image_log = LOG_ERR;
 #define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
 
 /*-----------------------------------------------------------------------*/
+/* Initialization.  */
 
 void disk_image_init(void)
 {
@@ -56,7 +57,9 @@ void disk_image_init(void)
         disk_image_log = log_open("Disk Access");
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* Disk image probing.  */
 
 static int disk_image_check_for_d64(disk_image_t *image)
 {
@@ -261,7 +264,9 @@ static int disk_image_check_for_d82(disk_image_t *image)
     return 1;
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* GCR disk image probing and intial GCR buffer setup.  */
 
 int disk_image_read_gcr_image(disk_image_t *image)
 {
@@ -389,6 +394,10 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     return 1;
 }
 
+
+/*-----------------------------------------------------------------------*/
+/* Open a disk image.  */
+
 int disk_image_open(disk_image_t *image)
 {
     image->fd = zfopen(image->name, MODE_READ_WRITE);
@@ -421,7 +430,9 @@ int disk_image_open(disk_image_t *image)
     return -1;
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* Close a disk image.  */
 
 int disk_image_close(disk_image_t *image)
 {
@@ -434,7 +445,74 @@ int disk_image_close(disk_image_t *image)
     return 0;
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* Create a disk image.  */
+
+int disk_image_create(const char *name, int type)
+{
+    disk_image_t *image;
+    long size = 0;
+    char block[256];
+    int i;
+
+    switch(type) {
+      case DISK_IMAGE_TYPE_D64:
+        size = D64_FILE_SIZE_35;
+        break;
+      case DISK_IMAGE_TYPE_D71:
+        size = D71_FILE_SIZE;
+        break;
+      case DISK_IMAGE_TYPE_D81:
+        size = D81_FILE_SIZE;
+        break;
+      case DISK_IMAGE_TYPE_D80:
+        size = D80_FILE_SIZE;
+        break;
+      case DISK_IMAGE_TYPE_D82:
+        size = D82_FILE_SIZE;
+        break;
+      case DISK_IMAGE_TYPE_GCR:
+        log_error(disk_image_log, "GCR is not supported!");
+        return -1;
+      default:
+        log_error(disk_image_log,
+                  "Wrong image type.  Cannot create disk image.");
+        return -1;
+    }
+
+    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image->name = stralloc(name);
+
+    image->fd = fopen(image->name, MODE_WRITE);
+
+    if (image->fd == NULL) {
+        log_error(disk_image_log, "Cannot create disk image `%s'.",
+                  image->name);
+        return -1;
+    }
+
+    memset(block, 0, 256);
+
+    for (i = 0; i < (size / 256); i++) {
+        if (fwrite(block, 256, 1, image->fd) < 1) {
+            log_error(disk_image_log, "Cannot seek to end of disk image `%s'.",
+                      image->name);
+            fclose(image->fd);
+            free(image->name);
+            free(image);
+            return -1;
+        }
+    }
+
+    fclose(image->fd);
+    free(image->name);
+    free(image);
+    return 0;
+}
+
+/*-----------------------------------------------------------------------*/
+/* Check for track out of bounds.  */
 
 static char sector_map_d64[43] =
 {
@@ -492,8 +570,6 @@ int disk_image_sector_per_track(int format, int track)
     }
     return -1;
 }
-
-/*-----------------------------------------------------------------------*/
 
 int disk_image_check_sector(int format, int track, int sector)
 {
@@ -555,7 +631,10 @@ int disk_image_check_sector(int format, int track, int sector)
     }
     return sectors;
 }
+
+
 /*-----------------------------------------------------------------------*/
+/* Read an entire GCR track from the disk image.  */
 
 int disk_image_read_track(disk_image_t *image, int track, BYTE *gcr_data,
                     int *gcr_track_size)
@@ -604,7 +683,9 @@ int disk_image_read_track(disk_image_t *image, int track, BYTE *gcr_data,
     return 0;
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* Read an sector from the disk image.  */
 
 int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
                            int sector)
@@ -683,7 +764,9 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
     return 0;
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* Write an entire GCR track to the disk image.  */
 
 void disk_image_write_track(disk_image_t *image, int track,
                             int *gcr_track_size, BYTE *gcr_speed_zone)
@@ -792,7 +875,9 @@ void disk_image_write_track(disk_image_t *image, int track,
 #endif
 }
 
+
 /*-----------------------------------------------------------------------*/
+/* Write a sector to the disk image.  */
 
 int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
                             int sector)

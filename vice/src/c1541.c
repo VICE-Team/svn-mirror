@@ -114,8 +114,6 @@ static int drive_number = 0;
 
 static int check_drive(int dev, int mode);
 static int open_image(int dev, char *name, int create, int disktype);
-static int create_image(FILE *fd, int devtyp, int errb, char *label,
-                        int disktype);
 static int raw_cmd(int nargs, char **args); /* @ */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
@@ -624,70 +622,6 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
     }
 }
 
-/* Create a new floppy image.  */
-static int create_image(FILE *fd, int devtype, int errb,
-                        char *label, int disktype)
-{
-#if 0
-XXX
-    BYTE header[HEADER_LENGTH];
-    BYTE block[256];
-    int blks;
-    int i;
-
-    memset(header, 0, sizeof(header));
-    memset(block, 0, sizeof(block));
-
-    /* Check values */
-    if (vdrive_check_track_sector(get_diskformat(devtype), tracks, 1) < 0)
-        exit(-1);
-
-    blks = num_blocks(get_diskformat(devtype), tracks);
-
-    if (disktype == DISK_IMAGE_TYPE_X64) {
-	header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-	header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-	header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-	header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
-	header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-	header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
-	header[HEADER_FLAGS_OFFSET + 0] = devtype;
-	header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-	if (label)
-	    strncpy((char *) header + HEADER_LABEL_OFFSET, label,
-		    HEADER_LABEL_LEN);
-
-	header[HEADER_LABEL_OFFSET + HEADER_LABEL_LEN] = 0;	/* terminator */
-
-	printf("Writing header.\n");
-	if (fwrite((char *) header, sizeof(header), 1, fd) < 1) {
-	    fprintf(stderr, "Cannot write header.\n");
-            return -1;
-	}
-    }
-
-    printf("Creating blocks...\n");
-    for (i = 0; i < blks; i++) {
-	if (fwrite((char *) block, sizeof(block), 1, fd) < 1) {
-	    fprintf(stderr, "Cannot write block %d.\n", i);
-            return -1;
-	}
-    }
-
-#if 0
-    if (errb) {
-	printf("Creating error data...\n");
-	if (set_error_data(floppy, 5) < 0) {	/* clear and write */
-	    fprintf(stderr, "Cannot write error data block.\n");
-	    exit(1);
-	}
-    }
-#endif
-#endif
-    return 0;
-}
-
 static int set_label(FILE *fd, const char *label)
 {
 #if 0
@@ -734,20 +668,14 @@ static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
    header.  */
 static int open_image(int dev, char *name, int create, int disktype)
 {
-    FILE *fd;
-    int cdev = DISK_IMAGE_TYPE_D64;
-
     if (dev < 0 || dev > MAXDRIVE)
         return -1;
 
     if (create) {
-        if ((fd = fopen(name, MODE_READ_WRITE)) == NULL) {
-            fprintf(stderr, "Cannot create image `%s': %s.\n", name, strerror(errno));
+        if (disk_image_create(name, disktype) < 0)
             return -1;
-        }
-        create_image(fd, cdev, 0, NULL, disktype);
-        fclose(fd);
     }
+
     if (open_disk_image(drives[dev], name, dev + 8) < 0)
         return -1;
     return 0;
@@ -755,17 +683,17 @@ static int open_image(int dev, char *name, int create, int disktype)
 
 static int check_drive(int dev, int flags)
 {
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     dev &= 7;
     if (dev < 0 || dev > 3)
         return FD_BADDEV;
 
-    floppy = drives[dev & 3];
+    vdrive = drives[dev & 3];
 
-    if (!floppy || (flags != CHK_NUM && floppy->image == NULL)) {
+    if (flags != CHK_NUM && vdrive->image == NULL)
         return FD_NOTREADY;
-    }
+
     return FD_OK;
 }
 
@@ -1453,11 +1381,8 @@ static int help_cmd(int nargs, char **args)
 
 static int info_cmd(int nargs, char **args)
 {
-#if 0
-XXX
-    vdrive_t *floppy;
-    hdrinfo hdr;
-    int err;
+    vdrive_t *vdrive;
+    const char *format_name;
     int unit;
 
     if (nargs == 2) {
@@ -1471,21 +1396,37 @@ XXX
     }
 
     if (check_drive(unit, CHK_RDY) < 0)
-	return FD_NOTREADY;
+        return FD_NOTREADY;
 
-    floppy = drives[drive_number];
-    if ((err = check_header(floppy->ActiveFd, &hdr)) < 0)
-	return err;
+    vdrive = drives[drive_number];
 
-    printf("Description: %s\n",
-           (*hdr.description ? hdr.description : "None."));
-    printf("Drive Type : %d.\n", floppy->ImageFormat);	/* Compatible drive */
-    printf("Disk Format: %c.\n", hdr.format);
-    printf("Sides\t   : %d.\n", hdr.sides);
-    printf("Tracks\t   : %d.\n", hdr.tracks);
-    printf((hdr.errblk ? "Error Block present.\n" : "No Error Block.\n"));
-    printf("Write protect: %s.\n", hdr.wprot ? "On" : "Off");
-#endif
+	switch(vdrive->image_format) {
+      case VDRIVE_IMAGE_FORMAT_1541:
+        format_name = "1541";
+        break;
+      case VDRIVE_IMAGE_FORMAT_1571:
+        format_name = "1571";
+        break;
+      case VDRIVE_IMAGE_FORMAT_1581:
+        format_name = "1581";
+        break;
+      case VDRIVE_IMAGE_FORMAT_8050:
+        format_name = "8050";
+        break;
+      case VDRIVE_IMAGE_FORMAT_8250:
+        format_name = "8250";
+        break;
+      default:
+        return FD_NOTREADY;
+    }
+
+    printf("Description: %s\n", "None.");
+    printf("Disk Format: %s.\n", format_name);
+/*printf("Sides\t   : %d.\n", hdr.sides);*/
+    printf("Tracks\t   : %d.\n", vdrive->image->tracks);
+    printf((0 ? "Error Block present.\n" : "No Error Block.\n"));
+    printf("Write protect: %s.\n", vdrive->image->read_only ? "On" : "Off");
+
     return FD_OK;
 }
 

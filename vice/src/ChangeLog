@@ -1,8 +1,57 @@
+1999-07-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.41.
+
+	* c1541.c (check_drive, info_cmd): Changed to new disk image
+	access.
+	(create_image): Removed.
+	(open_image): Use `disk_image_create'.
+
+	* diskimage.c (disk_image_create): New function.
+
+	* arch/unix/joystick.c (old_joystick): Use correct joystick
+	number.
+
+	* vicii/vicii-draw.c (init_drawing_tables): Removed unused
+	variables.
+
+1999-07-02  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/xaw/Makefile.am: Added vsidui.h.
+
+	* arch/unix/xaw/ui.c: Replaced pthread with fork().
+	* arch/unix/xaw/ui.h: Likewise.
+	* arch/unix/xaw/vsidui.c: Likewise.
+
+	* arch/unix/xaw/vsidui.h: New file.
+
+	* c64/c64.c: Includes vsidui.h
+
+	* raster/raster.c: More checks for console and psid mode.
+
+	* sound.c (closesound): No GUI if console or psid mode is active.
+
+1999-07-01  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* crtc/crtc-draw.c (DRAW): use xoffset for smooth-scrolling
+
+	* crtc/crtc.c (crtc_reset_screen_ptr): set correct values
+	for display_xstop, display_ystop
+	(crtc_raster_draw_alarm_handler) the charline counter is 7 bit only,
+	mask the bits. Also set rl_start.
+
 1999-06-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.40.
 
 	* arch/unix/xaw/ui.c: Define `_MIT_POSIX_THREADS'.
+
+	* diskimage.c (disk_image_read_track): New function.
+	(disk_image_read_sector): Use new track read function.
+
+	* gcr.c, gcr.h (gcr_read_sector): Rewritten to be more universal.
+
+	* imagecontents.c (open_disk_image): Do not alocate GCR buffer.
 
 1999-06-28  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
@@ -114,11 +163,11 @@
 	* vdrive/vdrive.h, vdrive/vdrive-iec.c, vdrive/vdrive.c: Changed
 	`ReadOnly' to `read_only'.
 
-1998-06-13  Markus Brenner  <brenner@biochem.mpg.de>
+1999-06-13  Markus Brenner  <brenner@biochem.mpg.de>
 
 	* vdc/*: Moved VDC implementation here.
 
-1998-06-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-06-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* cbm2/c610mem.c (crtc_ptr): removed
 	(store_io, read_io): do not use saved crtc register index
@@ -658,7 +707,7 @@
 	* raster/raster.c: Skip frame buffer access in console and psid
 	mode
 
-1998-05-24  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-24  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* cbm2/c610.c (cbm2_crtc_signal): new callback function for
 	CRTC vertical retrace signal change
@@ -681,7 +730,7 @@
 	(crtc_set_retrace_callback): new prototype
 	(crtc_t): added retrace_callback, retrace_type components
 
-1998-05-23  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-23  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/xaw/petui.c (CrtcPaletteFile): renamed from PaletteFile
 	(ui_menu_entry_t palette_submenu): use CrtcPaletteFile
@@ -809,7 +858,7 @@
 
 	* vdrive.c (set_disk_geometry): Added missing break.
 
-1998-05-21  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-21  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* Makefile.am: remove $(rs232_printer_ldadd) from xpet and xcbm2
 	library list - they are already in $(common_libs)
@@ -875,7 +924,7 @@
 
 	* arch/unix/xaw/widgets/FileSel.c: #include "archdep.h".
 
-1998-05-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/archdep.c (archdep_home_path): check return values
 	of getpwuid(). Make function non-static.
@@ -887,7 +936,7 @@
 	* archapi.h: protect with #ifdef _ARCHAPI_H, include <stdarg.h>
 	(archdep_home_path): new prototype
 
-1998-05-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/drive.h (A_*): remove bogus alarm definitions
 	(I_*): remove bogus interrupt definitions
@@ -908,7 +957,7 @@
 
 	* crtc.h, crtccore.c: removed
 
-1998-05-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/msdos/archdep.c (archdep_expand_path): new function to 
 	return a malloc´d string containing the full absolute path of 
@@ -987,7 +1036,7 @@
 	* Makefile.am: Added `raster' to `SUBDIRS'.
 	Added `libarch' to targets `x64-all' and `x128-all'.
 
-1998-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/drive.c: include <errno.h>
 	(drive_write_gcrimage_snapshot_module, 
@@ -1016,7 +1065,7 @@
 
 	* arch/win32/c64.dsp: Added psid.c.
 
-1998-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* prdevice.c (prdevice_late_init): new function to attach the printer
 	_after_ serial_init(), because serial_init() removes an attached
@@ -1027,7 +1076,7 @@
 	* serial.c (serial_init): call prdevice_late_init() after initializing.
 	Clear the serialdevices[].inuse flag.
 
-1998-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/xaw/ui.c (app_shells): add two widgets for half-width
 	LEDs.
@@ -1286,7 +1335,7 @@
 
 	* mon_lex.l (free_buffer): Fixed prototype.
 
-1998-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* c64/c64tpi.c (undump_pa): use parallel_cpu_restore_atn()
 	because we don´t send ATN IRQs to the chips on restore.
@@ -1329,7 +1378,7 @@
 
 	* main.c (machine_init): Initialize REU.
 
-1998-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* xaw/uisettings.c (radio_Drive8Type, radio_Drive9Type): add drive
 	parameter to drive_match_bus()
@@ -1357,7 +1406,7 @@
 	for LED status
 	* drive/via2drive1.c: likewise
 
-1998-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/drive.c (set_drive_true_emulation): reread the BAM 
 	when we disable true drive emulation.
@@ -1374,7 +1423,7 @@
 	* vdrive.h (vdrive_bam_get_disk_id, vdrive_bam_set_disk_id): new 
 	prototypes
 
-1998-05-14  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-14  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* ciacore.c (mycia_init): give the TOD alarm a unique name.
 
@@ -1384,7 +1433,7 @@
 
 	* arch/win32/resvic.rc: Updated cartridge attach menu entries.
 
-1998-05-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/drivecpucore.c (mydrive_cpu_early_init): give ROM
 	address to fdc code (is later needed to check whether we
@@ -1436,7 +1485,7 @@
 
 	* arch/unix/archdep.c (archdep_home_path): Made static.
 
-1998-05-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/fdc.c (fdc_int): return "no sync" instead of "drive not
 	ready" for the missing second drive
@@ -1446,12 +1495,12 @@
 	parallel_set_ndac, parallel_clr_ndac): print debug info also when
 	the emulator is disabled.
 
-1998-05-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* vdrive.c (vdrive_command_format): fix some typos to make 8250 
 	disk format work.
 
-1998-05-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* doc/vice.texi (VIC20 Cartridges): add $4000 carts and 
 	explanation of 16k carts
@@ -1497,7 +1546,7 @@
 	handle $4000 and $5000 ROMs too. Format is completely compatible,
 	but minor version is increased for diagnostics
 
-1998-05-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/archdep.c: include errno.h
 
@@ -1630,7 +1679,7 @@
 	  absolute. Don't insert '/' on the beginning of the path when
 	  compiling for DOS, WIN32 os OS2.
 
-1998-05-04  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-04  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* parallel.c (parallel_bus): invert meaning of bus lines
 	If IEEE bus is disabled, set to 0xff, not 0
@@ -1683,14 +1732,14 @@
 
 	* maincpu.c (reset): Reset datasette.
 
-1998-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/fdc.c (int_fdc): handle job codes (return "no SYNC")
 	and head step.
 
 	* drive/riot1drive0.c (store_pb): disable bus when ATN is active.
 
-1998-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/drive.h: remove bogus I_* and alarm definitions
 
@@ -1728,7 +1777,7 @@
 
 	* riotcore.h: include riot.h
 
-1998-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/Makefile.am: remove fdc0.c, fdc1.c, fdccore.c, add fdc.c
 
@@ -1807,7 +1856,7 @@
 
 	* arch/unix/xaw/widgets/TextField.c: Added some prototypes.
 
-1998-05-01  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-05-01  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* cia.h (byte2bcd, bcd2byte): fix macros
 
@@ -1852,7 +1901,7 @@
 	riotcore.c, drive/drivecpu0.c, drive/drivecpu1.c, c64/c64.c,
 	c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c: Likewise.
 
-1998-04-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* doc/vice.texi: add some explanation to the drive emulation
 	cmdline options -parallel8/9 fixed
@@ -1866,7 +1915,7 @@
 	* drive/drive.c (cmdline_options): add -drive8extend and -drive9extend
 	options
 
-1998-04-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* drive/Makefile.am: add fdc.h, fdc0.c, fdc1.c, fdccore.h, and
 	fdccore.c
@@ -1884,7 +1933,7 @@
 	drive/fdccore.h: new files to handle FDC emulation
 	for the two drives.
 
-1998-04-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/xaw/Makefile.am: add uiedisk.h, uiedisk.c
 
@@ -1900,7 +1949,7 @@
 	* arch/unix/xaw/uisnapshot.c (browse_callback, cancel_callback,
 	save_callback): make static
 
-1998-04-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* c64/c64mem.c (mem_romset_resources): fix list (add 1541ii, 1001)
 	* c128/c128mem.c: likewise
@@ -1908,7 +1957,7 @@
 	* pet/petmem.c: likewise
 	* cbm2/c610mem.c: likewise
 
-1998-04-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* data/DRIVES/Makefile.am: add dos1001
 
@@ -1961,7 +2010,7 @@
 
 	* drive/riotd.h: new file with RIOT1/2 definitions for drive 0/1
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* Makefile.am: add riot.h, riotcore.h and riotcore.c
 
@@ -2049,7 +2098,7 @@
 	* arch/msdos/menudefs.c (attach_disk_callback): Likewise.
 	* arch/win32/ui.c (handle_wm_command): Likewise.
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* Makefile.am: add piacore.c, piacore.h, remove pia-tmpl.c
 
@@ -2065,7 +2114,7 @@
 
 	* piacore.c, piacore.h: new files made out of pia-tmpl.c
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* Makefile.am: add tpicore.c, tpicore.h, remove tpi-tmpl.c
 
@@ -2082,7 +2131,7 @@
 
 	* tpicore.c, tpicore.h: new files made out of tpi-tmpl.c
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* Makefile.am: remove bogus tpi-tmpl.c, add tpicore.c and tpicore.h
 
@@ -2113,7 +2162,7 @@
 	Save value read in via_last_read variable.
 	(clk_overflow_callback): handle via_read_clk
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* c128/c128.c, c64/c64.c (machine_init): add call to tpi_init()
 
@@ -2139,7 +2188,7 @@
 
 	* tpicore.c (mytpi_init): new function, move log here from reset
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* c64/c64tpi.c: include maincpu.h
 	(mycpu_rmw_flag, myclk): new defines
@@ -2156,7 +2205,7 @@
 	(store_mytpi): handle RMW cycles
 	(read_mytpi): save value read in tpi_last_read
 
-1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+1999-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* c1541.c (Legal_formats): fix number of blocks for 8050.
 	(command_list): add description of 8050/8250 disks

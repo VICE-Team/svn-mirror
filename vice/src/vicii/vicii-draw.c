@@ -1627,8 +1627,6 @@ init_drawing_tables (void)
 {
   DWORD i;
   unsigned int f, b;
-  WORD wmsk;
-  DWORD lmsk;
   char tmptable[4] = { 0, 4, 5, 3 };
 
 #ifdef AVOID_STATIC_ARRAYS
