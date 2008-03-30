@@ -119,6 +119,7 @@ noinst_HEADERS = \
 	viacore.h \
 	vice.h \
 	video.h \
+	viewport.h \
 	vsidui.h \
 	vsync.h \
 	vsyncapi.h \
