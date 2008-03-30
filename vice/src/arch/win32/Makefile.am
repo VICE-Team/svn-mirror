@@ -36,6 +36,7 @@ libarch_a_SOURCES = \
 	dirent.h \
 	fullscrn.c \
 	fullscrn.h \
+	hardsid.c \
 	joy.c \
 	joy.h \
 	kbd.c \

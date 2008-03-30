@@ -42,7 +42,14 @@
 
 static const TCHAR* ui_sid_engine[] = 
 {
-    TEXT("Fast SID"), TEXT("reSID"), TEXT("Catweasel MK3"), NULL
+    TEXT("Fast SID"), TEXT("reSID"),
+#ifdef HAVE_CATWEASELMKIII
+    TEXT("Catweasel MK3"),
+#endif
+#ifdef HAVE_HARDSID
+    TEXT("HardSID"),
+#endif
+    NULL
 };
 
 static const TCHAR* ui_sid_samplemethod[] = 
