@@ -83,6 +83,7 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
         = (raster_resource_chip_t *)lib_calloc(
         1, sizeof(raster_resource_chip_t));
 
+    raster->raster_resource_chip = raster_resource_chip;
     raster_resource_chip->raster = raster;
 
     for (i = 0; rname_chip[i] != NULL; i++) {
@@ -94,7 +95,22 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
 
     raster->canvas = video_canvas_init();
 
-    return resources_register(resources_chip)
-        | video_resources_chip_init(chipname, &raster->canvas, video_chip_cap);
+    if (resources_register(resources_chip) < 0)
+        return -1;
+
+    for (i = 0; rname_chip[i] != NULL; i++)
+        lib_free((char *)(resources_chip[i].name));
+
+    if (video_resources_chip_init(chipname, &raster->canvas, video_chip_cap)
+        < 0)
+        return -1;
+
+    return 0;
+}
+
+void raster_resources_chip_shutdown(raster_t *raster)
+{
+    video_resources_chip_shutdown(raster->canvas);
+    lib_free(raster->raster_resource_chip);
 }
 

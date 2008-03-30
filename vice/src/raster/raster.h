@@ -65,6 +65,7 @@ struct video_canvas_s;
 
 struct raster_cache_s;
 struct raster_modes_s;
+struct raster_resource_chip_s;
 struct raster_sprite_status_s;
 
 struct raster_s {
@@ -86,6 +87,9 @@ struct raster_s {
 
     /* Output canvas.  */
     struct video_canvas_s *canvas;
+
+    /* Resources */
+    struct raster_resource_chip_s *raster_resource_chip;
 
     /* Pointer to the draw buffer.  */
     BYTE *draw_buffer_ptr;

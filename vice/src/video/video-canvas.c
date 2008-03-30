@@ -70,6 +70,7 @@ void video_canvas_shutdown(video_canvas_t *canvas)
         video_viewport_title_free(canvas->viewport);
         lib_free(canvas->viewport);
         lib_free(canvas->geometry);
+        lib_free(canvas);
     }
 }
 
