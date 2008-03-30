@@ -39,7 +39,7 @@
 
 #undef	CIAT_TIMER_DEBUG
 
-#define	INLINE inline
+#define	INLINE inline 
 
 
 typedef struct ciat_state_t {
@@ -135,12 +135,12 @@ static void INLINE ciat_tostack(ciat_t *state, ciat_state_t *timer)
     timer->nextz = timer->running ? timer->clk + timer->cnt : CLOCK_MAX;
 
 #ifdef CIAT_TIMER_DEBUG
-    printf("ciat_tostack(%s, t->clk=%d, st0->clk=%d\n", 
-			state->name, timer->clk, state->st[0].clk); 
+    printf("ciat_tostack(%s, t->clk=%d, st0->clk=%d, nst=%d\n", 
+			state->name, timer->clk, state->st[0].clk, state->nst); 
     printf("             running=%d, t->cnt=%d, -> t->nextz=%d\n", 
 			timer->running, timer->cnt, timer->nextz); 
-    printf("             alarmclk=%d\n", 
-			state->alarmclk); 
+    printf("             alarmclk=%d, t->latch=%d\n", 
+			state->alarmclk, timer->latch); 
 #endif
 
     for (i=0;i<state->nst;i++) {
@@ -270,6 +270,10 @@ static WORD INLINE ciat_read_timer(ciat_t *state, CLOCK cclk)
     } else {
 	current = state->st[0].cnt;
     }
+#ifdef CIAT_TIMER_DEBUG
+    printf("ciat_read_timer(cclk=%d) -> %s=%d\n",cclk, state->name, 
+           (current == 0) ? state->st[0].latch : current);
+#endif
     return (current == 0) ? state->st[0].latch : current;
 }
 
@@ -303,9 +307,6 @@ static void INLINE ciat_set_latchlo(ciat_t *state, CLOCK cclk, BYTE byte)
     for (i=0; i<state->nst; i++) {
 	if (state->st[i].clk <= cclk) {
 	    state->st[i].latch = (state->st[i].latch & 0xff00) | byte;
-	    if (! state->st[i].running) {
-	        state->st[i].cnt = (state->st[i].latch & 0xff00) | byte;
-	    }
 	}
     }
 }
@@ -317,16 +318,28 @@ static void INLINE ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
     ciat_state_t timer;
     WORD current = ciat_read_timer(state, cclk+1);
 
+#ifdef CIAT_TIMER_DEBUG
+    printf("set_ctrl %s: cclk=%d, byte=%02x, CRA=%02x, CRB=%02x, int=%02x\n",
+	state->name, cclk, byte, cia[CIA_CRA], cia[CIA_CRB], ciaint);
+#endif
+ 
     /* FIXME: */
-    state->st[0].oneshot = byte & 8;
+    if ( (byte ^ state->st[0].oneshot) & 8) {
+        timer = state->st[0];
+        timer.oneshot = byte & 8;
+	timer.clk = cclk + 1;
+	ciat_tostack(state, &timer);
+    }
 
     switch (byte & 0x11) {
       case 0x00:
 	if (state->st[0].running) {
+            current = ciat_read_timer(state, cclk+2);
 	    timer = state->st[0];
 	    timer.clk = cclk + 2;
 	    timer.cnt = current;
 	    timer.running = 0;
+	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
 	}
 	break;
@@ -336,6 +349,7 @@ static void INLINE ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
 	    timer.clk = cclk + 2;
 	    timer.cnt = current;
 	    timer.running = 1;
+	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
 	}
 	break;
@@ -345,9 +359,16 @@ static void INLINE ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
 	    timer.clk = cclk + 2;
 	    timer.cnt = timer.latch;
 	    timer.running = 0;
+	    timer.oneshot = byte & 8;
+	    ciat_tostack(state, &timer);
+	} else {
+	    timer = state->st[0];
+	    timer.clk = cclk + 2;
+	    timer.cnt = timer.latch;
+	    timer.running = 0;
+	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
 	}
-/* FIXME: else */
 	break;	
       case 0x11:
 	if (!state->st[0].running) {
@@ -355,11 +376,20 @@ static void INLINE ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
 	    timer.clk = cclk + 2;
 	    timer.cnt = timer.latch;
 	    timer.running = 1;
+	    timer.oneshot = byte & 8;
+	    ciat_tostack(state, &timer);
+	    timer.clk ++;
+	    ciat_tostack(state, &timer);
+	} else {
+	    timer = state->st[0];
+	    timer.clk = cclk + 2;
+	    timer.cnt = timer.latch;
+	    timer.running = 1;
+	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
 	    timer.clk ++;
 	    ciat_tostack(state, &timer);
 	}
-/* FIXME: else */
 	break;
     }
 

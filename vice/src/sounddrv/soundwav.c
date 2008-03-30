@@ -41,9 +41,11 @@ static int wav_init(warn_t *w, const char *param, int *speed,
 		   int *fragsize, int *fragnr, double bufsize)
 {
     /* RIFF/WAV header. */
-    char header[45] =
+    BYTE header[45] =
       "RIFFxxxxWAVEfmt \020\0\0\0\001\0\001\0xxxxxxxx\002\0\020\0dataxxxx";
-    char rate[5];
+    DWORD samples_per_sec = *speed;
+    DWORD bytes_per_sec = *speed*2;
+    int i;
 
     if (!param)
 	param = "vicesnd.wav";
@@ -51,17 +53,16 @@ static int wav_init(warn_t *w, const char *param, int *speed,
     if (!wav_fd)
 	return 1;
 
+    /* Reset number of samples. */
     samples = 0;
 
-    /* Sampling rate. */
-    sprintf(rate, "%c%c%c%c",
-	    *speed, *speed >> 8, *speed >> 16, *speed >> 24);
-    memcpy(header + 24, rate, 4);
-
-    /* Bytes per second. */
-    sprintf(rate, "%c%c%c%c",
-	    *speed*2, *speed*2 >> 8, *speed*2 >> 16, *speed*2 >> 24);
-    memcpy(header + 28, rate, 4);
+    /* Sampling rate and bytes per second stored as little endian numbers. */
+    for (i = 0; i < 4; i++) {
+      header[24 + i] = samples_per_sec & 0xff;
+      header[28 + i] = bytes_per_sec & 0xff;
+      samples_per_sec >>= 8;
+      bytes_per_sec >>= 8;
+    }
 
     if (fwrite(header, 1, 44, wav_fd) != 44)
 	return 1;
@@ -99,22 +100,25 @@ static int wav_write(warn_t *w, SWORD *pbuf, int nr)
 
 static void wav_close(warn_t *w)
 {
-    char len[5];
-    int bytes;
+    BYTE rlen[4];
+    BYTE dlen[4];
+    DWORD rifflen = samples*2 + 36;
+    DWORD datalen = samples*2;
+    int i;
 
-    /* RIFF header. */
-    bytes = samples*2 + 36;
-    sprintf(len, "%c%c%c%c",
-	    bytes, bytes >> 8, bytes >> 16, bytes >> 24);
+    /* RIFF length and WAVE data length stored as little endian numbers. */
+    for (i = 0; i < 4; i++) {
+      rlen[i] = rifflen & 0xff;
+      dlen[i] = datalen & 0xff;
+      rifflen >>= 8;
+      datalen >>= 8;
+    }
+
     fseek(wav_fd, 4, SEEK_SET);
-    fwrite(len, 1, 4, wav_fd);
+    fwrite(rlen, 1, 4, wav_fd);
 
-    /* WAVE data chunk. */
-    bytes = samples*2;
-    sprintf(len, "%c%c%c%c",
-	    bytes, bytes >> 8, bytes >> 16, bytes >> 24);
     fseek(wav_fd, 32, SEEK_CUR);
-    fwrite(len, 1, 4, wav_fd);
+    fwrite(dlen, 1, 4, wav_fd);
 
     fclose(wav_fd);
     wav_fd = NULL;
