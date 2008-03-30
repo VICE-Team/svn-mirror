@@ -1,5 +1,5 @@
 
-  VICE  1.5 							July 2000
+  VICE  1.6 							December 2000
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.5 of VICE, the multi-platform C64, C128, VIC20, PET
+ This is version 1.6 of VICE, the multi-platform C64, C128, VIC20, PET
  and CBM-II emulator.  This version can be compiled for MSDOS, Win32,
  RiscOS, OS/2, BeOS and for most Unix system provided with the X Window
  System version 11, R5 or later.

@@ -10,6 +10,40 @@ list of all the changes in the code.
 * Changes in VICE 1.6
 =====================
 
+** C64 changes
+--------------
+
+- Fixed REU snapshot bug.
+
+- Added Warpspeed and Dinamic cartridge support.
+
+- Fixed a bug in NTSC sprite timing.
+
+** C128 changes
+---------------
+
+- The Z80 emulation is almost complete now.
+
+** Drive changes
+----------------
+
+- The drive emulation can also read error information from a 40 track
+  D64 image now.
+
+- Fixed a bug in vdrive BAM allocation.
+
+** Unix changes
+---------------
+
+- ESD and aRts sound support has been added.
+
+** MS-Windows changes
+---------------------
+
+- Fullscreen support (experimental).
+
+- Fixed bug in the drive dialog, now parallel drives can be selected.
+
 ** BeOS changes
 ---------------
 
@@ -28,6 +62,8 @@ list of all the changes in the code.
 ** OS/2 changes
 ---------------
 
+- added the missing datasette control to the datasette dialog (Alt-C)
+
 - added a new dialog for hardware settings (Alt-H)
 
 - sounddev "dart2" enabled. necessary for vsid-mode. It has the 
@@ -37,7 +73,7 @@ list of all the changes in the code.
 
 - basic snapshot support added (emulator dialog, ALt-N).
 
-- x128: 40/80 col key is now mapped to F11
+- x128: 40/80 col key is now mapped to F11, too
 
 - x128: palette of VDC window is now set correctly
 
@@ -58,7 +94,14 @@ list of all the changes in the code.
 
 - switched to lpng 1.08
 
+- changed some output spin fields to text fields (eg. emulator speed)
+
 - now all keys are available if not pressed together with ALT
+
+** C1541 changes
+----------------
+
+- Commands to read/write GEOS formatted disks have been added.
 
 
 * Changes in VICE 1.5
