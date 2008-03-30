@@ -88,6 +88,8 @@ static PIXEL4 _aligned_line_buffer[TED_SCREEN_XPIX / 2 + 1];
 static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 #endif
 
+/* FIXME: Kludge which will stay until this defines are cleaned up.  */
+static raster_cache_t *rcache;
 
 #ifndef VIDEO_REMOVE_2X
 
@@ -132,6 +134,68 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 
 #endif /* VIDEO_REMOVE_2X */
 
+/*-----------------------------------------------------------------------*/
+
+inline static BYTE get_char_data(BYTE c, int l, BYTE *char_mem,
+                                 int bytes_per_char, int curpos, int index)
+{
+    BYTE data;
+
+    data = char_mem[((c) * bytes_per_char) + (l)];
+
+    if (curpos == index)
+        data ^= 0xff;
+
+    return data;
+}
+
+inline static int cache_data_fill_text(BYTE *dest,
+                                       const BYTE *src,
+                                       BYTE *char_mem,
+                                       int bytes_per_char,
+                                       int length,
+                                       int l,
+                                       int *xs, int *xe,
+                                       int no_check,
+                                       int curpos)
+{
+    if (no_check) {
+        int i;
+
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src++)
+            dest[i] = get_char_data(src[0], l, char_mem, bytes_per_char,
+                                    curpos, i);
+        return 1;
+    } else {
+        BYTE b;
+        int i;
+
+        for (i = 0;
+            i < length && dest[i] == get_char_data(src[0], l, char_mem,
+            bytes_per_char, curpos, i);
+            i++, src++)
+            /* do nothing */ ;
+
+        if (i < length) {
+            *xs = *xe = i;
+
+            for (; i < length; i++, src++)
+                if (dest[i] != (b = get_char_data(src[0], l, char_mem,
+                    bytes_per_char, curpos, i))) {
+                    dest[i] = b;
+                    *xe = i;
+            }
+
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+/*-----------------------------------------------------------------------*/
 
 /* FIXME: in the cache, we store the foreground bitmap values for the
    characters, but we do not use them when drawing and this is slow!  */
@@ -140,7 +204,7 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 
 static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
-    int r;
+    int r, cursor_pos = -1;
 
     if (ted.raster.background_color != cache->background_data[0]
         || cache->chargen_ptr != ted.chargen_ptr) {
@@ -149,14 +213,21 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
         rr = 1;
     }
 
-    r = raster_cache_data_fill_text(cache->foreground_data,
-                                    ted.vbuf,
-                                    ted.chargen_ptr,
-                                    8,   /* FIXME */
-                                    TED_SCREEN_TEXTCOLS,
-                                    ted.raster.ycounter,
-                                    xs, xe,
-                                    rr);
+    if (ted.cursor_visible) {
+        int crsrpos = ted.crsrpos - ted.memptr;
+        if (crsrpos >= 0 && crsrpos < TED_SCREEN_TEXTCOLS)
+            cursor_pos = crsrpos;
+    }
+
+    r = cache_data_fill_text(cache->foreground_data,
+                             ted.vbuf,
+                             ted.chargen_ptr,
+                             8,   /* FIXME */
+                             TED_SCREEN_TEXTCOLS,
+                             ted.raster.ycounter,
+                             xs, xe,
+                             rr,
+                             cursor_pos);
 
     r |= raster_cache_data_fill(cache->color_data_1,
                                 ted.cbuf,
@@ -187,17 +258,6 @@ inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-static void draw_std_text_cached(raster_cache_t *cache,
-                                 int xs,
-                                 int xe)
-{
-#ifndef VIDEO_REMOVE_2X
-    ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk, 1);
-#else /* VIDEO_REMOVE_2X */
-    ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk);
-#endif
-}
-
 static void draw_std_text(void)
 {
 #ifndef VIDEO_REMOVE_2X
@@ -207,6 +267,39 @@ static void draw_std_text(void)
     ALIGN_DRAW_FUNC(_draw_std_text, 0,
                     TED_SCREEN_TEXTCOLS - 1, ted.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
+}
+
+inline static void _draw_std_text_cached(PIXEL *p, int xs, int xe,
+                                         BYTE *gfx_msk_ptr)
+{
+    PIXEL4 *table_ptr;
+    BYTE *char_ptr;
+    unsigned int i;
+
+    table_ptr = hr_table + (ted.raster.background_color << 4);
+    char_ptr = ted.chargen_ptr + ted.raster.ycounter;
+
+    for (i = xs; i <= xe; i++) {
+        PIXEL4 *ptr = table_ptr + (rcache->color_data_1[i] << 11);
+        int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+                = rcache->foreground_data[i]);
+
+        *((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
+        *((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+    }
+}
+
+static void draw_std_text_cached(raster_cache_t *cache,
+                                 int xs,
+                                 int xe)
+{
+#ifndef VIDEO_REMOVE_2X
+    rcache = cache;
+    ALIGN_DRAW_FUNC(_draw_std_text_cached, xs, xe, cache->gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    rcache = cache;
+    ALIGN_DRAW_FUNC(_draw_std_text_cached, xs, xe, cache->gfx_msk);
+#endif
 }
 
 #ifndef VIDEO_REMOVE_2X
@@ -233,16 +326,40 @@ inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
     }
 }
 
-static void draw_std_text_cached_2x(raster_cache_t *cache, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_std_text_2x, xs, xe, cache->gfx_msk, 2);
-}
-
 static void draw_std_text_2x(void)
 {
     ALIGN_DRAW_FUNC(_draw_std_text_2x, 0, TED_SCREEN_TEXTCOLS - 1,
                     ted.raster.gfx_msk, 2);
 }
+
+inline static void _draw_std_text_cached_2x(PIXEL *p, int xs, int xe,
+                                            BYTE *gfx_msk_ptr)
+{
+    PIXEL4 *table_ptr;
+    BYTE *char_ptr;
+    unsigned int i;
+
+    table_ptr = hr_table_2x + (ted.raster.background_color << 5);
+    char_ptr = ted.chargen_ptr + ted.raster.ycounter;
+
+    for (i = xs; i <= xe; i++) {
+        PIXEL4 *ptr = table_ptr + (rcache->color_data_1[i] << 12);
+        int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+                = rcache->foreground_data[i]);
+
+        *((PIXEL4 *) p + i * 4) = *(ptr + (d >> 4));
+        *((PIXEL4 *) p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
+        *((PIXEL4 *) p + i * 4 + 2) = *(ptr + (d & 0xf));
+        *((PIXEL4 *) p + i * 4 + 3) = *(ptr + 0x10 + (d & 0xf));
+    }
+}
+
+static void draw_std_text_cached_2x(raster_cache_t *cache, int xs, int xe)
+{
+    rcache = cache;
+    ALIGN_DRAW_FUNC(_draw_std_text_cached_2x, xs, xe, cache->gfx_msk, 2);
+}
+
 
 #endif /* VIC_II_NEED_2X */
 #endif /* VIDEO_REMOVE_2X */
@@ -324,13 +441,12 @@ static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
                                        1,
                                        xs, xe,
                                        rr);
-    r |= raster_cache_data_fill_nibbles(cache->color_data_2,
-                                        cache->color_data_3,
-                                        ted.cbuf,
-                                        TED_SCREEN_TEXTCOLS,
-                                        1,
-                                        xs, xe,
-                                        rr);
+    r |= raster_cache_data_fill(cache->color_data_2,
+                                ted.cbuf,
+                                TED_SCREEN_TEXTCOLS,
+                                1,
+                                xs, xe,
+                                rr);
     r |= raster_cache_data_fill(cache->foreground_data,
                                 (ted.bitmap_ptr + ted.memptr * 8
                                 + ted.raster.ycounter),
@@ -465,7 +581,7 @@ draw_hires_bitmap_foreground_2x(int start_char, int end_char)
 
 static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
-    int r = 0;
+    int r;
 
     if (ted.raster.background_color != cache->background_data[0]
         || cache->color_data_1[0] != ted.ext_background_color[0]
