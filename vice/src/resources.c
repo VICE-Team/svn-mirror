@@ -201,37 +201,6 @@ static char *make_backup_file_name(const char *fname)
 
 #endif /* __MSDOS__ */
 
-/* Input one line from the file descriptor `f'.  */
-static int get_line(char *buf, int bufsize, FILE *f)
-{
-    char *r;
-    int len;
-
-    r = fgets(buf, bufsize, f);
-    if (r == NULL)
-	return -1;
-
-    len = strlen(buf);
-
-    if (len > 0) {
-	char *p;
-
-	/* Remove trailing newline character.  */
-	if (*(buf + len - 1) == '\n')
-	    len--;
-
-	/* Remove useless spaces.  */
-	while (*(buf + len - 1) == ' ')
-	    len--;
-	for (p = buf; *p == ' '; p++, len--)
-	    ;
-	memmove(buf, p, len + 1);
-	*(buf + len) = '\0';
-    }
-
-    return len;
-}
-
 /* Check whether `buf' is the emulator ID for the machine we are emulating.  */
 static int check_emu_id(const char *buf)
 {
