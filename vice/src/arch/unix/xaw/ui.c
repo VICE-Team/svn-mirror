@@ -791,7 +791,6 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
     }
 
     if (releasefl && failed && n_allocated_pixels) {
-/*        if (colormap != DefaultColormap(display, screen)) */
         XFreeColors(display, colormap, allocated_pixels, n_allocated_pixels, 0);
 	n_allocated_pixels = 0;
     }
@@ -892,7 +891,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	    /* restore list of previously allocated X pixel values */
 	    n_allocated_pixels = nallocp;
 	    memcpy(allocated_pixels, ypixel, sizeof(unsigned long)*nallocp);
-	     
+
 #if X_DISPLAY_DEPTH == 0
 	    memcpy(real_pixel, my_real_pixel, sizeof(my_real_pixel));
 	    memcpy(real_pixel1, my_real_pixel1, sizeof(my_real_pixel1));
@@ -901,7 +900,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
 #endif
 	    fprintf(stderr,"Could not alloc enough colors.\n"
-			"Color change will take effect after restart!\n"); 
+			"Color change will take effect after restart!\n");
 	} else {					/* successful */
 	    /* copy the new return values to the real return values */
 	    memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);
@@ -1227,7 +1226,7 @@ char *ui_select_file(const char *title,
     XfwfFileSelectorStatusStruct fs_status;
     char *curdir, *newdir;
 
-#ifndef __alpha
+#if 1 /* (ndef __alpha)  XXX: The Alpha problem should be gone now.  */
     /* We always rebuild the file selector from scratch (which is slow),
        because there seems to be a bug in the XfwfScrolledList that causes
        the file and directory listing to disappear randomly.  I hope this
@@ -1243,16 +1242,16 @@ char *ui_select_file(const char *title,
 #endif
 
     XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
-    XtVaSetValues(file_selector, XtNshowContentsButton,  
+    XtVaSetValues(file_selector, XtNshowContentsButton,
 					read_contents_func ? 1 : 0,  NULL);
 
-    XtVaSetValues(file_selector, XtNpattern, 
-		default_pattern ? default_pattern : "*", NULL);
+    XtVaSetValues(file_selector, XtNpattern,
+                  default_pattern ? default_pattern : "*", NULL);
 
     curdir = get_current_dir();
     newdir = stralloc(default_dir ? default_dir : curdir);
     XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
-		    		newdir);
+                                    newdir);
     free(newdir);
     chdir(curdir);
     free(curdir);

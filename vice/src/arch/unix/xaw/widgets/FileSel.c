@@ -496,7 +496,7 @@ Widget gcurrent,grequest,gnew;
 	{
 /*printf("new pattern: %s, (old=%s)\n",FSPattern(new), FSPattern(current));*/
 /* interestingly the old value is here copied to the _new_ one! why?
-		FSPattern(new) = StrCopy(FSPattern(current)); 
+		FSPattern(new) = StrCopy(FSPattern(current));
  * replaced this with the following line, using the new value AF 23jun98 */
 		FSPattern(new) = StrCopy(FSPattern(new));
 		Chdir(new);
@@ -1169,7 +1169,7 @@ XtPointer call_data;
 	cur_dir_text = FSNthWidget(fsw,FS_I_CUR_DIR_TEXT);
 	XtGetValues(cur_dir_text,args,1);
 
-#if defined(VICE) && defined(HAVE_REGEXP_H)
+#if defined VICE && (defined HAVE_REGEXP_H || defined HAVE_REGEX_H)
 	/* added separation of path and pattern */
 	/* path is allocated once, while FSPattern is handled dynamically...*/
 	fname_split(path, &fpath, &fpattern);
@@ -1611,7 +1611,7 @@ XfwfFileSelectorWidget fsw;
 	    sprintf (tmpstr, "%s", FSCurrentDirectory(fsw) );
 	  }
 
-#if defined(VICE) && defined(HAVE_REGEXP_H)
+#if defined VICE && (defined HAVE_REGEXP_H || defined HAVE_REGEX_H)
 	/* AF 26jun98 - add pattern to be able to edit it */
 	if((!strlen(tmpstr)) || tmpstr[strlen(tmpstr)-1]!='/') {
 	  strcat(tmpstr, "/");
