@@ -599,7 +599,6 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
         cartridge_config_changed(romconfig);
     }
     if (mem_cartridge_type == CARTRIDGE_SUPER_GAMES) {
-printf("VAL %x\n",value);
         romh_bank = roml_bank = value & 3;
         if (value & 0x4) {
             export.game = 0;
