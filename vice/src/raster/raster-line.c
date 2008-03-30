@@ -459,10 +459,11 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 
         /* Fill the space between the border and the graphics with the
            background color (necessary if xsmooth is > 0).  */
-        vid_memset(raster->draw_buffer_ptr
-                   + raster->geometry.gfx_position.x,
-                   raster->xsmooth_color,
-                   raster->xsmooth);
+        if (raster->xsmooth != 0)
+            vid_memset(raster->draw_buffer_ptr
+                       + raster->geometry.gfx_position.x,
+                       raster->xsmooth_color,
+                       raster->xsmooth);
 
         if (raster->sprite_status->num_sprites > 0) {
             /* FIXME: Could be optimized better.  */
@@ -734,10 +735,11 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
     /* If screen is scrolled to the right, we need to fill with the
        background color the blank part on the left.  */
 
-    vid_memset((raster->draw_buffer_ptr
-               + geometry->gfx_position.x),
-               raster->xsmooth_color,
-               raster->xsmooth);
+    if (raster->xsmooth != 0)
+        vid_memset((raster->draw_buffer_ptr
+                   + geometry->gfx_position.x),
+                   raster->xsmooth_color,
+                   raster->xsmooth);
 
     if (raster->open_left_border)
         vid_memset(raster->draw_buffer_ptr,
