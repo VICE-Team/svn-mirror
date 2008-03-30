@@ -40,10 +40,6 @@
 #include "types.h"
 #include "vdrive.h"
 
-#if !defined SEEK_SET /* then you are broken.  */
-#define SEEK_SET 0
-#endif
-
 /* P00 Header structure:
 
    typedef struct {

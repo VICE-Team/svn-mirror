@@ -42,11 +42,11 @@
 #include "mem.h"
 #include "mon.h"
 #include "resources.h"
+#include "serial.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
-#include "vdrive.h"
 
 /* ------------------------------------------------------------------------- */
 

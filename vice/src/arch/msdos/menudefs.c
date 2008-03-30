@@ -50,13 +50,8 @@
 #include "ui.h"
 #include "uisnapshot.h"
 
-/* FIXME: Argh!!  Megakludge!  <dir.h> #defines `DRIVE', which we need in
-   "vdrive.h".  */
-#undef DRIVE
-
 #include "attach.h"
 #include "autostart.h"
-#include "vdrive.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "info.h"

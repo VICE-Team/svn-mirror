@@ -50,6 +50,7 @@
 #include "fsdevice.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
+#include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "p00.h"

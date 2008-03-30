@@ -57,7 +57,6 @@
 #include "uiedisk.h"
 #include "uisnapshot.h"
 #include "utils.h"
-#include "vdrive.h"
 #include "vsync.h"
 #include "fliplist.h"
 
