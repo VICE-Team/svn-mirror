@@ -1,3 +1,41 @@
+2003-02-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.5.
+
+	* sid/resid.cc (resid_state_read, resid_state_write): New
+	functions.
+
+	* sid/sid-snapshot.h: Added `sid_snapshot_state_t'.
+
+	* sid/sid.h, sid/resid.cc, sid/fastsid.c: Added snapshot
+	read/write functions hooks.
+
+	* sound.c, sound.h (sound_get_psid): New function.
+
+	* sid/sid.c, sid/sid.h (sid_state_read, sid_state_write): New
+	functions.
+
+2003-01-30  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/drive.dsp: Added missing file.
+
+	* maincpu.h: Changed type of last_opcode_info as it was done
+	in maincpu.c before.
+
+	* vicii/vicii-fetch.c (handle_check_sprite_dma): Reset sprline
+	if (new) sprite mask is set.
+
+	* vicii/vicii-sprites.c (SPRITE_PIXEL): Explicit cast removes
+	MSVC warnings.
+	(vic_ii_sprites_reset_line): Renamed to
+	vic_ii_sprites_reset_xshift, removed resetting of sprline.
+	(vic_ii_sprites_reset_sprline): New function.
+
+	* vicii/vicii-sprites.h: Changed prototypes.
+
+	* vicii/vicii.c (vicii_raster_draw_alarm_handler): Changed
+	function call.
+
 2003-01-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.4.
