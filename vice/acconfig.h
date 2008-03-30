@@ -68,9 +68,6 @@
 /* Is a BSD compatible joystick support avaiable?  */
 #undef BSD_JOYSTICK
 
-/* Define if this version is unstable.  */
-#define UNSTABLE
-
 /* Where do we want to install the executable?  */
 #undef PREFIX
 
