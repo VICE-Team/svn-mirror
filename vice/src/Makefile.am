@@ -65,6 +65,7 @@ noinst_HEADERS = \
 	color.h \
 	config.h.in \
 	console.h \
+	crc32.h \
 	datasette.h \
 	debug.h \
 	diskconstants.h \
