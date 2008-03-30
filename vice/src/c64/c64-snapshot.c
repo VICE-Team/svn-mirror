@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c64-resources.h"
 #include "c64-snapshot.h"
@@ -146,6 +147,7 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
+    memcpy(mem_kernal64_trap_rom, mem_kernal64_rom, C64_KERNAL_ROM_SIZE);
     c64rom_get_kernal_checksum();
     c64rom_get_basic_checksum();
     /* enable traps again when necessary */
