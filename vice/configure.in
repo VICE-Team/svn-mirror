@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.14.37)
+AM_INIT_AUTOMAKE(vice, 1.14.38)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -535,8 +535,24 @@ if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os"
                     AC_DEFINE(BSD_JOYSTICK,,
                               [Enable support for BSD style joysticks.])
                     JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
-  AC_SUBST(JOY_OBJS)
 
+  dnl NetBSD/FreeBSD USB joystick support
+  usbhid_header=no
+  AC_CHECK_LIB(usbhid, hid_get_report_desc,
+  	[AC_CHECK_HEADER(usbhid.h,
+	    [AC_DEFINE(HAVE_USBHID_H,1,
+		[Define to 1 if you have the <usbhid.h> header file.])
+	     usb_header=yes],
+ 	     [AC_CHECK_HEADER(libusbhid.h,
+	    	[AC_DEFINE(HAVE_LIBUSBHID_H,1,
+		 [Define to 1 if you have the <libusbhid.h> header file.])],
+	        usbhid_header=no)])
+	if test x"$usb_header" = "xyes" ; then
+	    AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
+	    LIBS="$LIBS -lusbhid"
+	fi])
+
+  AC_SUBST(JOY_OBJS)
 fi
 
 dnl Check for math library
@@ -1000,6 +1016,8 @@ if test x"$enable_realdevice" != x"no"; then
                              [Support for OpenCBM (former CBM4Linux).]) ],,)  
     AM_CONDITIONAL(HAVE_REALDEVICE,
                    test x"$ac_cv_lib_opencbm_cbm_get_eoi" = "xyes")
+  else
+    AM_CONDITIONAL(HAVE_REALDEVICE, false)
   fi
 fi
 

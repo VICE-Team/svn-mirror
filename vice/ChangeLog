@@ -1,3 +1,15 @@
+2004-08-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.38.
+
+2004-07-26  Dieter Baron  <dillo@danbala.ifoer.tuwien.ac.at>
+
+	* configure.in: Added BSD USB joystick support.
+
+2004-07-24  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Fix to build without opencbm.
+
 2004-07-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.37.

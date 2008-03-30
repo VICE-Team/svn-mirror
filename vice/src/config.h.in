@@ -30,6 +30,9 @@
 /* Do we have UnlockResource()? */
 #undef HAS_UNLOCKRESOURCE
 
+/* Enable emulation for USB joysticks. */
+#undef HAS_USB_JOYSTICK
+
 /* Define to 1 if you have the <allegro.h> header file. */
 #undef HAVE_ALLEGRO_H
 
@@ -133,6 +136,9 @@
 
 /* Define to 1 if you have the `UMSobj' library (-lUMSobj). */
 #undef HAVE_LIBUMSOBJ
+
+/* Define to 1 if you have the <libusbhid.h> header file. */
+#undef HAVE_LIBUSBHID_H
 
 /* Is libXpm available? */
 #undef HAVE_LIBXPM
@@ -258,6 +264,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the <usbhid.h> header file. */
+#undef HAVE_USBHID_H
 
 /* Define to 1 if you have the `usleep' function. */
 #undef HAVE_USLEEP

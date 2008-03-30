@@ -140,14 +140,15 @@ void vic_raster_draw_alarm_handler(CLOCK offset, void *data)
     static int possible_mem_offset;
     int blank_this_line;
 
-    /* check if first visible line is reached */
-    if (vic.area == 0 && vic.raster.current_line >= vic.raster.display_ystart)
-        vic.area = 1;
-
     /* remember if this line stays blank */
     blank_this_line = vic.raster.blank_this_line;
-    if (blank_this_line)
-        vic.raster.display_ystop++;
+
+    /* check if first visible line is reached */
+    if (vic.area == 0 && !blank_this_line
+        && vic.raster.current_line >= vic.raster.display_ystart)
+    {
+        vic.area = 1;
+    }
 
     /* check if row step is pending */
     if (vic.row_increase_line == (unsigned int)vic.raster.ycounter
@@ -186,16 +187,18 @@ void vic_raster_draw_alarm_handler(CLOCK offset, void *data)
                                    * VIC_PIXEL_WIDTH);
 
     /* increment ycounter and set offset for memptr */
-    if (vic.area == 1 && !blank_this_line) {
+    if (vic.area == 1) {
         vic.raster.ycounter++;
 
         if (vic.row_offset != 0
             || (unsigned int)vic.raster.ycounter == vic.row_increase_line) {
-            /* this only happens if char_height changes between 8 and 16
-               within line 7 */
             pending_mem_offset = 
                 (vic.row_offset > 0 ? vic.row_offset : possible_mem_offset);
             vic.row_offset = 0;
+
+            if (blank_this_line) {
+                possible_mem_offset = 0;
+            }
         }
 
         if (vic.raster.current_line >= vic.raster.display_ystop)

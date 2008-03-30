@@ -321,6 +321,14 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
       (ui_callback_t)set_joystick_device,
       (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
 #endif
+#ifdef HAS_USB_JOYSTICK
+    { N_("*USB Joystick 0"),
+      (ui_callback_t)set_joystick_device,
+      (ui_callback_data_t)JOYDEV_USB_0, NULL },
+    { N_("*USB Joystick 1"),
+      (ui_callback_t)set_joystick_device,
+      (ui_callback_data_t)JOYDEV_USB_1, NULL },
+#endif
 #endif
     { NULL }
 };

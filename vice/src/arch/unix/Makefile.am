@@ -36,6 +36,7 @@ libarch_a_SOURCES = \
 	icon.h \
 	joy.c \
 	joy.h \
+	joy_usb.c \
 	kbd.h \
 	mousedrv.c \
 	mousedrv.h \
