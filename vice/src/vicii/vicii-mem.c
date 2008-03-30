@@ -169,7 +169,7 @@ inline static void store_sprite_x_position_lsb(ADDRESS addr, BYTE value)
 
     new_x = (value | (vic_ii.regs[0x10] & (1 << n) ? 0x100 : 0));
     vic_ii_sprites_set_x_position(n, new_x,
-                                  VIC_II_RASTER_X (VIC_II_RASTER_CYCLE (clk)));
+                                  VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)));
 }
 
 inline static void store_sprite_y_position(ADDRESS addr, BYTE value)
@@ -207,7 +207,7 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
     if (value == vic_ii.regs[addr])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk));
+    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk));
 
     vic_ii.regs[addr] = value;
 
@@ -446,7 +446,7 @@ inline static void store_d012(ADDRESS addr, BYTE value)
     /* FIXME: Not accurate as bit #8 is missing.  */
     value = (value - vic_ii.offset) & 255;
 
-    VIC_II_DEBUG_REGISTER (("\tRaster compare register: $%02X\n", value));
+    VIC_II_DEBUG_REGISTER(("\tRaster compare register: $%02X\n", value));
 
     if (value == vic_ii.regs[addr])
         return;
@@ -467,8 +467,8 @@ inline static void store_d012(ADDRESS addr, BYTE value)
         trigger_irq = 0;
 
         if (rmw_flag) {
-            if (VIC_II_RASTER_CYCLE (clk) == 0) {
-                unsigned int previous_line = VIC_II_PREVIOUS_LINE (line);
+            if (VIC_II_RASTER_CYCLE(clk) == 0) {
+                unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
 
                 if (previous_line != old_raster_irq_line
                     && ((old_raster_irq_line & 0x100)
@@ -486,7 +486,7 @@ inline static void store_d012(ADDRESS addr, BYTE value)
 
         if (trigger_irq) {
             vic_ii.irq_status |= 0x81;
-            vic_ii_set_irq (I_RASTER, 1);
+            vic_ii_set_irq(I_RASTER, 1);
         }
     }
 }
@@ -663,7 +663,7 @@ inline static void store_d018(ADDRESS addr, BYTE value)
         return;
 
     vic_ii.regs[addr] = value;
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
 }
 
 inline static void store_d019(ADDRESS addr, BYTE value)
@@ -714,7 +714,7 @@ inline static void store_d01b(ADDRESS addr, BYTE value)
     if (value == vic_ii.regs[addr])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk));
+    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk));
 
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         raster_sprite_t *sprite;
@@ -744,7 +744,7 @@ inline static void store_d01c(ADDRESS addr, BYTE value)
     if (value == vic_ii.regs[addr])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk));
+    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk));
 
     vic_ii.regs[addr] = value;
 
@@ -772,7 +772,7 @@ inline static void store_d01d(ADDRESS addr, BYTE value)
     if (value == vic_ii.regs[addr])
         return;
 
-    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk));
+    raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk));
 
     /* FIXME: how is this handled in the middle of one line?  */
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
@@ -803,7 +803,7 @@ inline static void store_d020(ADDRESS addr, BYTE value)
     if (vic_ii.regs[addr] != value) {
         vic_ii.regs[addr] = value;
         raster_add_int_change_border(&vic_ii.raster,
-                                     VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk)),
+                                     VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
                                      &vic_ii.raster.border_color,
                                      value);
     }
@@ -824,11 +824,11 @@ inline static void store_d021(ADDRESS addr, BYTE value)
     if (!vic_ii.force_black_overscan_background_color)
         raster_add_int_change_background
             (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk)),
+            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
             &vic_ii.raster.overscan_background_color,
             value);
 
-    x_pos = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE (clk));
+    x_pos = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk));
     raster_add_int_change_background(&vic_ii.raster,
                                      x_pos,
                                      &vic_ii.raster.background_color,
@@ -849,7 +849,7 @@ inline static void store_ext_background(ADDRESS addr, BYTE value)
     if (vic_ii.regs[addr] == value)
         return;
 
-    char_num = VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE (clk));
+    char_num = VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk));
 
     raster_add_int_change_foreground(&vic_ii.raster,
                                      char_num,
@@ -924,7 +924,7 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
 
     sprite = vic_ii.raster.sprite_status->sprites + n;
 
-    if (sprite->x < VIC_II_RASTER_X (VIC_II_RASTER_CYCLE (clk)))
+    if (sprite->x < VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)))
         raster_add_int_change_next_line(&vic_ii.raster,
                                         (int *)&sprite->color,
                                         (int)value);
@@ -974,8 +974,8 @@ void REGPARM2 vic_store(ADDRESS addr, BYTE value)
     VIC_II_DEBUG_REGISTER(("VIC: WRITE $D0%02X at cycle %d of "
                           "current_line $%04X\n",
                           addr,
-                          VIC_II_RASTER_CYCLE (clk),
-                          VIC_II_RASTER_Y (clk)));
+                          VIC_II_RASTER_CYCLE(clk),
+                          VIC_II_RASTER_Y(clk)));
 
     switch (addr) {
       case 0x0:                   /* $D000: Sprite #0 X position LSB */
@@ -1127,7 +1127,7 @@ inline static unsigned int read_raster_y(void)
 {
     int raster_y;
 
-    raster_y = VIC_II_RASTER_Y (clk);
+    raster_y = VIC_II_RASTER_Y(clk);
 
     /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
        cycles long.  As a result, the counter is incremented one
@@ -1141,7 +1141,7 @@ inline static unsigned int read_raster_y(void)
 /* Helper function for reading from $D019.  */
 inline static BYTE read_d019(void)
 {
-    if (VIC_II_RASTER_Y (clk) == vic_ii.raster_irq_line
+    if (VIC_II_RASTER_Y(clk) == vic_ii.raster_irq_line
         && (vic_ii.regs[0x1a] & 0x1))
         /* As int_raster() is called 2 cycles later than it should be to
            emulate the 6510 internal IRQ delay, `vic_ii.irq_status' might not
@@ -1162,8 +1162,8 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
     VIC_II_DEBUG_REGISTER(("VIC: READ $D0%02X at cycle %d "
                           "of current_line $%04X:\n",
                           addr,
-                          VIC_II_RASTER_CYCLE (clk),
-                          VIC_II_RASTER_Y (clk)));
+                          VIC_II_RASTER_CYCLE(clk),
+                          VIC_II_RASTER_Y(clk)));
 
     /* Note: we use hardcoded values instead of `unused_bits_in_registers[]'
        here because this is a little bit faster.  */
