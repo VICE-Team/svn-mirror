@@ -35,6 +35,8 @@ libplus4_a_SOURCES = \
 	plus4pio1.h \
 	plus4pio2.c \
 	plus4pio2.h \
+	tcbm.c \
+	tcbm.h \
 	ted-cmdline-options.c \
 	ted-cmdline-options.h \
 	ted-color.c \
