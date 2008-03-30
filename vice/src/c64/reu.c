@@ -1,11 +1,9 @@
 /*
- * reu.h - REU 1750 emulation.
+ * reu.c - REU 1750 emulation.
  *
  * Written by
  *  Jouko Valta (jopi@stekt.oulu.fi)
  *  Richard Hable (K3027E7@edvz.uni-linz.ac.at)
- *
- * Fixes by
  *  Ettore Perazzoli (ettore@comm2000.it) [EP]
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -39,7 +37,7 @@
 #include "mem.h"
 #include "utils.h"
 
-#define REU_DEBUG
+/* #define REU_DEBUG */
 
 #define REUSIZE 512
 
@@ -60,6 +58,7 @@ static char   *reu_file_name;
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: This does not really handle different sizes.  */
 int    reset_reu(int size)
 {
     int i;
@@ -119,8 +118,11 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
       case 0x0:
 	/* fixed by [EP], 04-16-97. */
 	retval = (reu[0] & 0x60) | (((ReuSize >> 10) >= 256) ? 0x10 : 0x00);
-	reu[0] &= ~0xe0;	/* Bits 7-5 are cleared when register is
-				   read. */
+
+        /* Bits 7-5 are cleared when register is read, and pending IRQs are
+           removed. */
+	reu[0] &= ~0xe0;
+        maincpu_set_irq(I_REU, 0);
 	break;
 
       case 0x6:
@@ -210,9 +212,6 @@ void    reu_dma(int immed)
 
     /* clk += len; */
 
-    printf("REU DMA: host_addr $%05X\treu_addr $%05X\thost_step %d\treu_step %d\n",
-           host_addr, reu_addr, host_step, reu_step);
-
     switch (reu[1] & 0x03) {
       case 0: /* C64 -> REU */
 #ifdef REU_DEBUG
@@ -260,6 +259,13 @@ void    reu_dma(int immed)
 	while (len--) {
 	    if (reuram[reu_addr % ReuSize] != mem_read(host_addr & 0xffff)) {
 		reu[0] |= 0x20; /* FAULT */
+
+                /* Bit 7: interrupt enable
+                   Bit 5: interrupt on verify error */
+                if (reu[9] & 0xa0) {
+                    reu[0] |= 0x80;
+                    maincpu_set_irq(I_REU, 1);
+                }
 		break;
 	    }
 	    host_addr += host_step; reu_addr += reu_step;
@@ -298,19 +304,22 @@ void    reu_dma(int immed)
 
     /* Bit 7: interrupt enable.  */
     /* Bit 6: interrupt on end of block */
-    if ((reu[9] & 0xc0) == 0xc0)
+    if ((reu[9] & 0xc0) == 0xc0) {
         reu[0] |= 0x80;
+        maincpu_set_irq(I_REU, 1);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
 
-static char snap_module_name[] = "REU1750";
+static char snap_module_name[] = "REU1764";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
 int reu_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
+    int enabled;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
@@ -330,28 +339,41 @@ int reu_write_snapshot_module(snapshot_t *s)
 int reu_read_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
-    char module_name[SNAPSHOT_MODULE_NAME_LEN];
     snapshot_module_t *m;
     DWORD size;
 
-    m = snapshot_module_open(s, module_name, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
     if (m == NULL)
         return -1;
 
-    if (strcmp(module_name, snap_module_name) != 0)
+    if (major_version != SNAP_MAJOR) {
+        fprintf(stderr, "REU: Major version %d not valid; should be %d.\n",
+                major_version, SNAP_MAJOR);
         goto fail;
+    }
 
     /* Read RAM size.  */
     if (snapshot_module_read_dword(m, &size) < 0)
         goto fail;
+
     if (size > REUSIZE) {
         fprintf(stderr, "REU: Size %d in snapshot not supported.\n", size);
         goto fail;
     }
 
+    /* FIXME: We cannot really support sizes different from `REUSIZE'.  */
+
+    reset_reu(ReuSize);
+
     if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
-        || snapshot_module_read_byte_array(m, reuram, size) < 0)
+        || snapshot_module_read_byte_array(m, reuram, ReuSize) < 0)
         goto fail;
+
+    if (reu[0] & 0x80)
+        set_irq_noclk(&maincpu_int_status, I_REU, 1);
+    else
+        set_irq_noclk(&maincpu_int_status, I_REU, 0);
 
     snapshot_module_close(m);
     return 0;
