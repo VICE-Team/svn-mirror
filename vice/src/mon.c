@@ -27,6 +27,8 @@
  *
  */
 
+/* FIXME: Remove MS-DOS specific cruft.  */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -35,6 +37,14 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <assert.h>
+
+#ifdef __MSDOS__
+#include <conio.h>
+#include <fcntl.h>
+#include <io.h>
+#include "log.h"
+#include "video.h"
+#endif
 
 #include "asm.h"
 #include "mon.h"
@@ -2481,75 +2491,90 @@ void mon(ADDRESS a)
 {
    char prompt[40];
 
-#ifdef __MSDOS
-   mon_output = fopen("CON", "wt");
-   mon_input = fopen("CON", "rt");
-   setbuf(mon_output, NULL);    /* No buffering */
+#ifdef __MSDOS__
+    int old_input_mode, old_output_mode;
+
+    enable_text();
+    clrscr();
+    _set_screen_lines(43);
+    _setcursortype(_SOLIDCURSOR);
+
+    old_input_mode = setmode(STDIN_FILENO, O_TEXT);
+    old_output_mode = setmode(STDOUT_FILENO, O_TEXT);
+
+    mon_output = fopen("CON", "wt");
+    mon_input = fopen("CON", "rt");
+    setbuf(mon_output, NULL);    /* No buffering */
 #else
-   mon_output = stdout;
-   mon_input = stdin;
+    mon_output = stdout;
+    mon_input = stdin;
 #endif
 
-   inside_monitor = TRUE;
-   suspend_speed_eval();
+    inside_monitor = TRUE;
+    suspend_speed_eval();
 
-   dot_addr[caller_space] = new_addr(caller_space, a);
+    dot_addr[caller_space] = new_addr(caller_space, a);
 
-   fprintf(mon_output, "\n** Monitor\n");
-   fflush(mon_output);
+    fprintf(mon_output, "\n** Monitor\n");
+    fflush(mon_output);
 
-   do {
-      make_prompt(prompt);
+    do {
+        make_prompt(prompt);
 
-      if (asm_mode) {
-         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
-      }
+        if (asm_mode) {
+            sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
+        }
 
-      myinput = readline(prompt);
-      if (myinput) {
-         if (!myinput[0]) {
-            if (!asm_mode) {
-               /* Repeat previous command */
-               free(myinput);
+        myinput = readline(prompt);
+        if (myinput) {
+            if (!myinput[0]) {
+                if (!asm_mode) {
+                    /* Repeat previous command */
+                    free(myinput);
 
-               if (last_cmd)
-                  myinput = stralloc(last_cmd);
-               else
-                  myinput = NULL;
+                    if (last_cmd)
+                        myinput = stralloc(last_cmd);
+                    else
+                        myinput = NULL;
+                } else {
+                    /* Leave asm mode */
+                    make_prompt(prompt);
+                }
             } else {
-               /* Leave asm mode */
-               make_prompt(prompt);
+                /* Nonempty line */
+                add_history(myinput);
             }
-         } else {
-             /* Nonempty line */
-             add_history(myinput);
-         }
 
-         if (myinput) {
-             if (recording)
-                fprintf(recording_fp, "%s\n", myinput);
+            if (myinput) {
+                if (recording)
+                    fprintf(recording_fp, "%s\n", myinput);
 
-             parse_and_execute_line(myinput);
+                parse_and_execute_line(myinput);
 
-             if (playback)
-                playback_commands(playback_name);
-         }
-      }
-      if (last_cmd)
-          free(last_cmd);
+                if (playback)
+                    playback_commands(playback_name);
+            }
+        }
+        if (last_cmd)
+            free(last_cmd);
 
-      last_cmd = myinput;
-   } while (!exit_mon);
-   inside_monitor = FALSE;
-   suspend_speed_eval();
+        last_cmd = myinput;
+    } while (!exit_mon);
+    inside_monitor = FALSE;
+    suspend_speed_eval();
 
-   exit_mon--;
+    exit_mon--;
 
-   if (exit_mon)
-       exit(0);
+    if (exit_mon)
+        exit(0);
 
 #ifdef __MSDOS__
-   fclose(mon_input);
-   fclose(mon_output);
+    setmode(STDIN_FILENO, old_input_mode);
+    setmode(STDIN_FILENO, old_output_mode);
+
+    disable_text();
+
+    fclose(mon_input);
+    fclose(mon_output);
 #endif
 }

@@ -542,10 +542,10 @@ distdir: $(DISTFILES)
 asm.o: asm.c vice.h config.h asm.h types.h misc.h mshell.h
 attach.o: attach.c vice.h config.h resources.h drive.h types.h fs_cbm.h \
 	serial.h traps.h attach.h
-autostart.o: autostart.c vice.h config.h vmachine.h mem.h types.h \
-	serial.h traps.h warn.h resources.h drive.h fs_cbm.h tape.h \
-	attach.h interrupt.h 6510core.h arch/unix/ui.h \
-	arch/unix/xaw/ui.h palette.h autostart.h utils.h kbdbuf.h
+autostart.o: autostart.c vice.h config.h autostart.h types.h attach.h \
+	drive.h fs_cbm.h serial.h traps.h interrupt.h vmachine.h \
+	6510core.h mem.h kbdbuf.h resources.h tape.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h warn.h
 c1541.o: c1541.c vice.h config.h c1541.h drive.h types.h fs_cbm.h \
 	serial.h traps.h mshell.h gcr.h file.h charsets.h tape.h \
 	utils.h zipcode.h
