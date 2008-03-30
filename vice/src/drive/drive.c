@@ -47,6 +47,7 @@
 #include <io.h>
 #endif
 
+#include "alarm.h"
 #include "attach.h"
 #include "clkguard.h"
 #include "diskconstants.h"

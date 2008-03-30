@@ -29,8 +29,8 @@
 #ifndef _CIA_H
 #define _CIA_H
 
-#include "ciatimer.h"
 #include "types.h"
+
 
 #define byte2bcd(byte)  (((((byte) / 10) << 4) + ((byte) % 10)) & 0xff)
 #define bcd2byte(bcd)   (((10*(((bcd) & 0xf0) >> 4)) + ((bcd) & 0xf)) & 0xff)
@@ -59,6 +59,7 @@
 
 struct alarm_context_s;
 struct cia_context_s;
+struct ciat_s;
 struct clk_guard_s;
 struct interrupt_cpu_status_s;
 struct snapshot_s;
@@ -70,7 +71,6 @@ struct snapshot_s;
 #define CIA_IM_TOD      4       /* TOD Clock Alarm */
 #define CIA_IM_SDR      8       /* Shift Register completion */
 #define CIA_IM_FLG      16      /* Handshake */
-
 
 typedef struct cia_context_s {
     BYTE c_cia[16];
@@ -95,8 +95,8 @@ typedef struct cia_context_s {
     int todticks;                 /* init to 100000 */
     signed int log;               /* init to LOG_ERR */
 
-    ciat_t ta;
-    ciat_t tb;
+    struct ciat_s *ta;
+    struct ciat_s *tb;
     CLOCK read_clk;               /* init to 0 */
     int read_offset;              /* init to 0 */
     BYTE last_read;               /* init to 0 */

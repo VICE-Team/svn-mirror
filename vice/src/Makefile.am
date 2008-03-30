@@ -55,7 +55,6 @@ noinst_HEADERS = \
 	charset.h \
 	cia.h \
 	clkguard.h \
-	ciatimer.h \
 	cmdline.h \
 	color.h \
 	config.h.in \

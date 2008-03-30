@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "alarm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "cbm2-cmdline-options.h"
@@ -40,7 +41,6 @@
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
 #include "cbm2ui.h"
-#include "ciatimer.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "crtc.h"
@@ -298,7 +298,6 @@ int machine_init(void)
         machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
     }
 
-    ciat_init_table();
     cia1_init(&(machine_context.cia1));
     acia1_init();
     tpi1_init(&(machine_context.tpi1));

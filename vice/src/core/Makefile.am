@@ -8,6 +8,7 @@ noinst_LIBRARIES = libcore.a
 libcore_a_SOURCES = \
 	ciacore.c \
 	ciatimer.c \
+	ciatimer.h \
 	riotcore.c \
 	tpicore.c \
 	viacore.c
