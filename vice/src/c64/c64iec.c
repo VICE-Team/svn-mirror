@@ -135,7 +135,8 @@ void iec_cpu_write_conf1(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_2031) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
+                               iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
                     ciacore_set_flag(&(drive0_context.cia1581));
@@ -168,7 +169,8 @@ void iec_cpu_write_conf2(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
+                               iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
                     ciacore_set_flag(&(drive1_context.cia1581));
@@ -201,14 +203,16 @@ void iec_cpu_write_conf3(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_2031) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
+                               iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
                     ciacore_set_flag(&(drive0_context.cia1581));
         }
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
+                               iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
                     ciacore_set_flag(&(drive1_context.cia1581));
@@ -324,8 +328,8 @@ void parallel_cable_cpu_pulse(void)
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
 
-    via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(&(drive0_context.via1), VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(&(drive1_context.via1), VIA_SIG_CB1, VIA_SIG_FALL);
 }
 
 void parallel_cable_cpu_undump(BYTE data)

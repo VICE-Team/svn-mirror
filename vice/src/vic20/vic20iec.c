@@ -176,13 +176,15 @@ void iec_pa_write(BYTE data)
     if ((cpu_atn == 0) && (data & 128)) {
         if (drive[0].enable) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                via1d0_signal(VIA_SIG_CA1, VIA_SIG_RISE);
+                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
+                               VIA_SIG_RISE);
             else
                 ciacore_set_flag(&(drive0_context.cia1581));
         }
         if (drive[1].enable) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                via1d1_signal(VIA_SIG_CA1, VIA_SIG_RISE);
+                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
+                               VIA_SIG_RISE);
             else
                 ciacore_set_flag(&(drive1_context.cia1581));
         }
@@ -192,11 +194,11 @@ void iec_pa_write(BYTE data)
     if (!(data & 128)) {
         if (drive[0].enable) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                via1d0_signal(VIA_SIG_CA1, 0);
+                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1, 0);
         }
         if (drive[1].enable) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                via1d1_signal(VIA_SIG_CA1, 0);
+                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1, 0);
         }
     }
 
