@@ -80,6 +80,7 @@
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "uicolor.h"
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"
@@ -98,8 +99,10 @@ int have_truecolor;
 /*static*/ int screen;
 static int depth = X_DISPLAY_DEPTH;
 
+#if 0
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
+#endif
 
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
@@ -229,7 +232,7 @@ static Atom wm_delete_window;
 Widget _ui_top_level = NULL;
 
 /* Our colormap. */
-static Colormap colormap;
+/*static*/ Colormap colormap;
 
 /* Application icon.  */
 static Pixmap icon_pixmap;
@@ -272,7 +275,6 @@ Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
 /* ------------------------------------------------------------------------- */
 
 static int alloc_colormap(void);
-static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);
 static Widget build_file_selector(Widget parent, ui_button_t *button_return);
 static Widget build_error_dialog(Widget parent, ui_button_t *button_return,
                                  const String message);
@@ -565,7 +567,8 @@ Display *ui_get_display_ptr(void)
 }
 
 /* Create a shell with a canvas widget in it.  */
-ui_window_t ui_open_canvas_window(const char *title, int width, int height,
+ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
+                                  int width, int height,
                                   int no_autorepeat,
                                   ui_exposure_handler_t exposure_proc,
                                   const palette_t *palette,
@@ -579,7 +582,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     XSetWindowAttributes attr;
     int i;
 
-    if (alloc_colors(palette, pixel_return) == -1)
+    if (uicolor_alloc_colors(c, palette, pixel_return) == -1)
 	return NULL;
 
     /* colormap might have changed after ui_alloc_colors, so we set it again */
@@ -1084,179 +1087,7 @@ static int alloc_colormap(void)
     return 0;
 }
 
-/* Allocate colors in the colormap. */
-static int do_alloc_colors(const palette_t *palette, PIXEL *pixel_return,
-                           int releasefl)
-{
-    int i, failed;
-    XColor color;
-    XImage *im;
-    PIXEL *data = (PIXEL *)xmalloc(4);
-
-    /* This is a kludge to map pixels to zimage values. Is there a better
-       way to do this? //tvr */
-    im = XCreateImage(display, visual, depth,
-		      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
-    if (!im) {
-        log_error(ui_log, "XCreateImage failed.");
-        return -1;
-    }
-
-    n_allocated_pixels = 0;
-
-    for (i = 0, failed = 0; i < palette->num_entries; i++) {
-        color.flags = DoRed | DoGreen | DoBlue;
-        color.red = palette->entries[i].red << 8;
-        color.green = palette->entries[i].green << 8;
-        color.blue = palette->entries[i].blue << 8;
-
-        if (!XAllocColor(display, colormap, &color)) {
-            failed = 1;
-            log_error(ui_log, "Cannot allocate color \"#%04X%04X%04X\".",
-                      color.red, color.green, color.blue);
-        } else {
-            allocated_pixels[n_allocated_pixels++] = color.pixel;
-	}
-        XPutPixel(im, 0, 0, color.pixel);
-#if X_DISPLAY_DEPTH == 0
-        video_convert_color_table(i, pixel_return, data, im, palette,
-                                  (long)color.pixel, depth);
-#else
-        pixel_return[i] = *data;
-#endif
-    }
-
-    if (releasefl && failed && n_allocated_pixels) {
-        XFreeColors(display, colormap, allocated_pixels, n_allocated_pixels, 0);
-	n_allocated_pixels = 0;
-    }
-
-    XDestroyImage(im);
-
-    if (!failed) {
-        XColor screen, exact;
-
-        if (!XAllocNamedColor(display, colormap, "black", &screen, &exact))
-            failed = 1;
-        else {
-            drive_led_off_pixel = screen.pixel;
-            allocated_pixels[n_allocated_pixels++] = screen.pixel;
-        }
-
-        if (!failed) {
-            if (!XAllocNamedColor(display, colormap, "red", &screen, &exact))
-                failed = 1;
-            else {
-                drive_led_on_red_pixel = screen.pixel;
-                allocated_pixels[n_allocated_pixels++] = screen.pixel;
-            }
-            if (!failed) {
-                if (!XAllocNamedColor(display, colormap, "green", &screen, &exact))
-                    failed = 1;
-                else {
-                    drive_led_on_green_pixel = screen.pixel;
-                    allocated_pixels[n_allocated_pixels++] = screen.pixel;
-                }
-            }
-        }
-
-    }
-
-    return failed;
-}
-
-/* In here we try to allocate the given colors. This function is called from
- * 'ui_open_canvas_window()'.  The calling function sets the colormap
- * resource of the toplevel window.  If there is not enough place in the
- * colormap for all color entries, we allocate a new one.  If we someday open
- * two canvas windows, and the colormap fills up during the second one, we
- * might run into trouble, although I am not sure.  (setting the Toplevel
- * colormap will not change the colormap of already opened children)
- *
- * 20jan1998 A.Fachat */
-static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
-{
-    int failed;
-
-    failed = do_alloc_colors(palette, pixel_return, 1);
-    if (failed) {
-	if (colormap == DefaultColormap(display, screen)) {
-            log_warning(ui_log, "Automagically using a private colormap.");
-	    colormap = XCreateColormap(display, RootWindow(display, screen),
-				       visual, AllocNone);
-	    XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
-	    failed = do_alloc_colors(palette, pixel_return, 0);
-	}
-    }
-    return failed ? -1 : 0;
-}
-
-/* Change the colormap of window `w' on the fly.  This only works for
-   TrueColor visuals.  Otherwise, it would be too messy to re-allocate the
-   new colormap.  */
-int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
-                          PIXEL *pixel_return)
-{
-    if (!have_truecolor) {
-	int nallocp;
-	PIXEL  *xpixel = xmalloc(sizeof(PIXEL) * palette->num_entries);
-	unsigned long *ypixel = xmalloc(sizeof(unsigned long)
-                                        * n_allocated_pixels);
-
-#if X_DISPLAY_DEPTH == 0
-        video_convert_save_pixel();
-#endif
-
-	/* save the list of already allocated X pixel values */
-	nallocp = n_allocated_pixels;
-	memcpy(ypixel, allocated_pixels, sizeof(unsigned long) * nallocp);
-	n_allocated_pixels = 0;
-
-	if (do_alloc_colors(palette, xpixel, 1)) { /* failed */
-
-	    /* restore list of previously allocated X pixel values */
-	    n_allocated_pixels = nallocp;
-	    memcpy(allocated_pixels, ypixel, sizeof(unsigned long) * nallocp);
-
-#if X_DISPLAY_DEPTH == 0
-            video_convert_restore_pixel();
-#endif
-	    log_error(ui_log, "Cannot allocate enough colors.");
-	} else {					/* successful */
-#if 0
-            unsigned int i;
-#endif
-
-	    /* copy the new return values to the real return values */
-	    memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);
-
-	    /* free the previously allocated pixel values */
-#if 0
-            if (nallocp > 0) {
-                for (i = 0; i < nallocp; i++) {
-                    unsigned int j, color_exists;
-
-                    color_exists = 0;
-                    for (j = 0; j < n_allocated_pixels; j++) {
-                        if (ypixel[i] == allocated_pixels[j]) {
-                            color_exists |= 1;
-                        }
-                    }
-                    if (color_exists == 0)
-                        XFreeColors(display, colormap, &(ypixel[i]), 1, 0);
-                }
-            }
-#else
-            XFreeColors(display, colormap, ypixel, nallocp, 0);
-#endif
-	}
-	free(xpixel);
-
-        return 0;
-    }
-
-    return alloc_colors(palette, pixel_return);
-}
+/* ------------------------------------------------------------------------- */
 
 /* Show the speed index to the user.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
