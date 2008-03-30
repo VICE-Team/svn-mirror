@@ -68,7 +68,6 @@ int rev_keyarr[KBD_COLS];
 
 BYTE joy[3] = { 0, 0, 0 };
 
-static int use_keypad   [2] = { 0, 0 };	   /* [0] = numpad, [1] = custom */
 static int joykey_devs  [2] = { JOYDEV_NUMPAD, JOYDEV_CUSTOM_KEYS };
 static keyconv joykeys  [2][10];
 static int joypad_status[2][10];
@@ -90,8 +89,8 @@ static int left_shift_down, right_shift_down, virtual_shift_down;
 
 
 /* ------------------------------------------------------------------------- */
-/* resource handling.
- */
+
+/* Resource handling.  */
 
 static int keymap_index;
 static int load_keymap_ok = 0;
@@ -184,14 +183,18 @@ int joyreleaseval(int column, int *status)
 
 static int check_set_joykeys(KeySym key, int joynum)
 {
-    int column, joyport = 1;
+    int column, joyport;
 
     if (joystick_port_map[0] == joynum)
         joyport = 1;
-    if (joystick_port_map[1] == joynum)
+    else if (joystick_port_map[1] == joynum)
         joyport = 2;
+    else
+        return 0;
 
-    for (column=0;column<10;column++) {
+    joynum--;
+
+    for (column = 0; column < 10; column++) {
         if (key == joykeys[joynum][column].sym) {
             if (joypad_bits[column]) {
                 joy[joyport] |= joypad_bits[column];
@@ -212,14 +215,18 @@ static int check_set_joykeys(KeySym key, int joynum)
 
 static int check_clr_joykeys(KeySym key, int joynum)
 {
-    int column, joyport = 1;
+    int column, joyport;
 
     if (joystick_port_map[0] == joynum)
         joyport = 1;
-    if (joystick_port_map[1] == joynum)
+    else if (joystick_port_map[1] == joynum)
         joyport = 2;
+    else
+        return 0;
 
-    for (column=0;column<10;column++) {
+    joynum--;
+
+    for (column = 0; column < 10; column++) {
         if (key == joykeys[joynum][column].sym) {
             joy[joyport] &= joyreleaseval(column, joypad_status[joynum]);
             joypad_status[joynum][column] = 0;
@@ -257,11 +264,6 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
         printf("KeyPress %s\n", XKeysymToString(key));
 #endif
 
-	if (use_keypad[0] && check_set_joykeys(key, 0))
-            break;
-	if (use_keypad[1] && check_set_joykeys(key, 1))
-            break;
-
         if (key == XK_Meta_R
             || key == XK_Meta_L
 #ifdef ALT_AS_META
@@ -275,6 +277,11 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
             meta_count++;
 
         if (meta_count != 0)
+            break;
+
+	if (check_set_joykeys(key, 1))
+            break;
+	if (check_set_joykeys(key, 2))
             break;
 
         for (i = 0; keyconvmap[i].sym != 0; ++i) {
@@ -346,9 +353,9 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
         if (meta_count != 0)
             break;
 
-	if (use_keypad[0] && check_clr_joykeys(key, 0))
+	if (check_clr_joykeys(key, 1))
             break;
-	if (use_keypad[1] && check_clr_joykeys(key, 1))
+	if (check_clr_joykeys(key, 2))
             break;
 
         for (i = 0; keyconvmap[i].sym != 0; i++) {
@@ -412,11 +419,9 @@ int kbd_init(void)
 {
     int i,j;
 
-    for (i=0;i<2;i++) {
-        for (j=0;j<10;j++) {
+    for (i = 0; i < 2; i++)
+        for (j = 0; j < 10; j++)
             joykeys[i][j].sym = NoSymbol;
-        }
-    }
 
     /* load current keymap table */
     load_keymap_ok = 1;
@@ -689,18 +694,3 @@ int kbd_dump_keymap(const char *filename)
     return 0;
 }
 
-void kbd_flag_joykeys(int joydev, int flag)
-{
-    int i;
-
-    for (i = 0; i < 2; i++) {
-        if (joykey_devs[i] == joydev) {
-#ifdef DEBUG_JOY
-	    printf("flag joydev %d, flag=%d -> joynum = %d\n",
-			joydev, flag, i);
-#endif
-            use_keypad[i] = flag;
-            break;
-        }
-    }
-}

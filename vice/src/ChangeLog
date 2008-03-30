@@ -1,5 +1,43 @@
 Fri Aug 21 13:52:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* arch/unix/kbd.c (kbd_event_handler): Call `check_clr_joykeys()'
+	and `check_set_joykeys()' with the correct `joynum' parameter.
+	(check_clr_joykeys, check_set_joykeys): If neither of
+	`joystick_port_map[0]' and `joystick_port_map[1]' is equal to
+	`joynum', return 0.  Use the correct table.
+
+	* arch/unix/joystick.c (joyport1select, joyport2select): Do not
+ 	call `kbd_flag_joykeys()'.
+
+	* arch/unix/kbd.c: Removed `use_keypad[]'.
+	(kbd_flag_joykeys): Removed.
+
+	* arch/unix/joystick.c (joystick): Removed unnecessary operations
+	on `joy[1]'.
+
+	* arch/msdos/joystick.c (joystick_handle_key): Inverted `joy[1]'
+	and `joy[2]'.
+
+	* arch/msdos/mouse.c (my_mouse_callback): Replaced `joy[2]' with
+ 	`joy[1]'.
+
+	* c64/c64cia1.def (READ_CIAPB, READ_CIAPA): Inverted `joy[1]' and
+ 	`joy[2]'.
+
+	* arch/unix/joystick.c (joystick): Inverted ports.
+
+	* main.c (MAIN_PROGRAM) [!JOYSTICK]: Initialize joystick
+	command-line options anyway.
+
+	* arch/unix/vsync.c (do_vsync) [HAS_JOYSTICK]: Call `joystick()'.
+
+	* arch/unix/Makefile.am: Add `@JOYSTICK@' to `INCLUDES'.
+	* arch/unix/xaw/Makefile.am: Likewise.
+	* Makefile.am: Likewise.
+
+	* arch/unix/xaw/uimenu.c (make_menu_label): Updated
+	`UI_HOTMOD_CTRL' -> `UI_HOTMOD_CONTROL'.
+
 	* arch/unix/kbd.c (kbd_event_handler): Restore moded to
  	`XK_PageUp'.
 
