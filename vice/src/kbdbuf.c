@@ -56,7 +56,7 @@ static int buffer_size;
 static CLOCK kernal_init_cycles;
 
 /* Characters in the queue.  */
-static char queue[QUEUE_SIZE];
+static BYTE queue[QUEUE_SIZE];
 
 /* Next element in `queue' we must push into the kernal's queue.  */
 static int head_idx;
@@ -66,6 +66,8 @@ static int num_pending;
 
 /* Flag if we are initialized already.  */
 static int kbd_buf_enabled = 0;
+
+/* ------------------------------------------------------------------------- */
 
 /* ------------------------------------------------------------------------- */
 
@@ -87,8 +89,14 @@ int kbd_buf_init(int location, int plocation, int size,
     return 0;
 }
 
-/* Feed `s' into the queue.  `s' is in ASCII code.  */
-int kbd_buf_feed(const char *s)
+/* Return nonzero if the keyboard buffer is empty.  */
+int kbd_buf_is_empty(void)
+{
+    return mem_read(num_pending_location) == 0;
+}
+
+/* Feed `s' into the queue.  */
+int kbd_buf_feed(const BYTE *s)
 {
     int num = strlen(s);
     int i, p;
@@ -98,8 +106,10 @@ int kbd_buf_feed(const char *s)
 
     for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
          i < num;
-         p = (p + 1) % QUEUE_SIZE, i++)
-	queue[p] = s[i];
+         p = (p + 1) % QUEUE_SIZE, i++) {
+        queue[p] = s[i];
+    }
+
     num_pending += num;
 
     /* XXX: We waste time this way, as we copy into the queue and then into
@@ -109,14 +119,7 @@ int kbd_buf_feed(const char *s)
     return 0;
 }
 
-/* Return nonzero if the keyboard buffer is empty.  */
-int kbd_buf_is_empty(void)
-{
-    return mem_read(num_pending_location) == 0;
-}
-
-/* Flush pending characters into the kernal's queue if possible.  Characters
-   are automatically converted into PETSCII.  */
+/* Flush pending characters into the kernal's queue if possible.  */
 void kbd_buf_flush(void)
 {
     int i, n;
@@ -129,9 +132,8 @@ void kbd_buf_flush(void)
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
-	mem_store(buffer_location + i, p_topetcii(queue[head_idx]));
+	mem_store(buffer_location + i, queue[head_idx]);
 
     mem_store(num_pending_location, n);
     num_pending -= n;
 }
-

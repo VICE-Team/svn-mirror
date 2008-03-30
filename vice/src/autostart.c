@@ -79,8 +79,8 @@ static warn_t *pwarn = NULL;
    image?  */
 static int orig_true1541_state = 0;
 
-/* Program name to load. NULL if default */
-static char *autostart_program_name = NULL;
+/* PETSCII name of the program to load. NULL if default */
+static BYTE *autostart_program_name = NULL;
 
 /* Minimum number of cycles before we feed BASIC with commands.  */
 static CLOCK min_cycles;
@@ -145,11 +145,9 @@ static int get_true1541_state(void)
 
 static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-    if (autostart_program_name 
-		&& machine_read_snapshot(autostart_program_name) < 0) {
-        ui_error("Cannot load snapshot file\n`%s'", autostart_program_name
-		? autostart_program_name : "<null>");
-    }
+    if (autostart_program_name
+        && machine_read_snapshot(autostart_program_name) < 0)
+        ui_error("Cannot load snapshot file\n");
     ui_update_menus();
 }
 
@@ -213,7 +211,7 @@ static void disk_eof_callback(void)
    returning.  */
 static void disk_attention_callback(void)
 {
-    kbd_buf_feed("run\r");
+    kbd_buf_feed("RUN\r");
 
     serial_set_attention_callback(NULL);
 
@@ -238,12 +236,12 @@ void autostart_advance(void)
           case YES:
             warn(pwarn, -1, "loading tape");
             if (autostart_program_name) {
-                tmp = concat("load\"", autostart_program_name,
+                tmp = concat("LOAD\"", autostart_program_name,
                              "\"\r", NULL);
                 kbd_buf_feed(tmp);
                 free(tmp);
             } else
-                kbd_buf_feed("load\r");
+                kbd_buf_feed("LOAD\r");
             autostartmode = AUTOSTART_LOADINGTAPE;
             deallocate_program_name();
             break;
@@ -258,7 +256,7 @@ void autostart_advance(void)
         switch (check("READY.")) {
           case YES:
             warn(pwarn, -1, "starting program");
-            kbd_buf_feed("run\r");
+            kbd_buf_feed("RUN\r");
             autostartmode = AUTOSTART_DONE;
             break;
           case NO:
@@ -295,15 +293,15 @@ void autostart_advance(void)
 
                 if (autostart_program_name) {
                     tmp = malloc(strlen(autostart_program_name) + 20);
-                    sprintf(tmp, "load\"%s\",8,1\r",
+                    sprintf(tmp, "LOAD\"%s\",8,1\r",
                             autostart_program_name);
                     kbd_buf_feed(tmp);
                     free(tmp);
                 } else
-                    kbd_buf_feed("load\"*\",8,1\r");
+                    kbd_buf_feed("LOAD\"*\",8,1\r");
 
                 if (no_traps) {
-                    kbd_buf_feed("run\r");
+                    kbd_buf_feed("RUN\r");
                     autostartmode = AUTOSTART_DONE;
                 } else {
                     autostartmode = AUTOSTART_LOADINGDISK;
@@ -365,8 +363,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 
     deallocate_program_name();	/* not needed at all */
 
-    if ( !(snap = snapshot_open(file_name, &vmajor, &vminor, 
-					machine_name)) ) {
+    if (!(snap = snapshot_open(file_name, &vmajor, &vminor, machine_name)) ) {
 	warn(pwarn, -1, "cannot attach file '%s' (as a snapshot)", file_name);
 	autostartmode = AUTOSTART_ERROR;
 	return -1;
