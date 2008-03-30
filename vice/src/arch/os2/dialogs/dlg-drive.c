@@ -197,7 +197,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 break;
             case CB_READONLY:
                 {
-                    char *name;
+                    const char *name;
                     toggle_drive_res("AttachDevice%dReadonly", drive);
 
                     name = file_system_get_disk_name(drive+8);

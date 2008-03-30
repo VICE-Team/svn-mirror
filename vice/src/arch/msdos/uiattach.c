@@ -183,14 +183,14 @@ tui_menu_item_def_t ui_attach_menu_def[] = {
 
 static TUI_MENU_CALLBACK(attach_disk_callback)
 {
-    char *s;
+    const char *s;
 
     if (been_activated) {
         char *default_item, *directory;
         char *name, *file;
         unsigned int file_number = 0;
 
-        s = (char *)file_system_get_disk_name((unsigned int)param);
+        s = file_system_get_disk_name((unsigned int)param);
         util_fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach a disk image", directory,
@@ -219,7 +219,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
             free(name);
     }
 
-    s = (char *)file_system_get_disk_name((unsigned int)param);
+    s = file_system_get_disk_name((unsigned int)param);
     if (s == NULL || *s == '\0')
         return "(none)";
     else

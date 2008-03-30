@@ -138,14 +138,14 @@ static int file_system_set_serial_hooks(unsigned int unit, unsigned int fs)
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
             log_error(attach_log,
-                      "Could not initialize vdrive emulation for device #%i",
+                      "Could not initialize vdrive emulation for device #%i.",
                       unit);
             return -1;
         }
     } else {
         if (fsdevice_attach(unit, "FS Drive")) {
             log_error(attach_log,
-                      "Could not initialize FS drive for device #%i",
+                      "Could not initialize FS drive for device #%i.",
                       unit);
             return -1;
         }
@@ -155,7 +155,7 @@ static int file_system_set_serial_hooks(unsigned int unit, unsigned int fs)
 
 void file_system_init(void)
 {
-    int i;
+    unsigned int i;
 
     if (attach_log == LOG_ERR)
         attach_log = log_open("Attach");
@@ -179,7 +179,7 @@ void *file_system_get_vdrive(unsigned int unit)
     return (void *)(file_system[unit - 8].vdrive);
 }
 
-char *file_system_get_disk_name(unsigned int unit)
+const char *file_system_get_disk_name(unsigned int unit)
 {
     vdrive_t *vdrive;
     vdrive = file_system_get_vdrive(unit);
@@ -196,8 +196,36 @@ char *file_system_get_disk_name(unsigned int unit)
 
 static int set_attach_device_readonly(resource_value_t v, void *param)
 {
-    attach_device_readonly_enabled[(int)param - 8] = (unsigned int)v;
-    return 0;
+    unsigned int unit;
+    const char *old_filename;
+    char *new_filename;
+    int rc;
+
+    unit = (unsigned int)param;
+
+    /* Do nothing if resource is unchanged.  */
+    if (attach_device_readonly_enabled[unit - 8] == ((unsigned int)v))
+        return 0;
+
+    old_filename = file_system_get_disk_name(unit);
+
+    /* If no disk is attached, just changed the resource.  */
+    if (old_filename == NULL) {
+        attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
+        return 0;
+    }
+
+    /* Old filename will go away after the image is detached.  */
+    new_filename = stralloc(old_filename);
+
+    file_system_detach_disk(unit);
+    attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
+
+    rc = file_system_attach_disk(unit, new_filename);
+
+    free(new_filename);
+
+    return rc;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -206,7 +234,7 @@ static int set_file_system_device(resource_value_t v, void *param)
 {
     vdrive_t *vdrive;
 
-    file_system_device_enabled[(int)param - 8] = (unsigned int) v;
+    file_system_device_enabled[(int)param - 8] = (unsigned int)v;
 
     vdrive = (vdrive_t *)file_system_get_vdrive((unsigned int)param);
     if (vdrive != NULL) {
@@ -312,7 +340,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     if (err) {
         free(image->name);
         free(image);
-	*imgptr = NULL;
+        *imgptr = NULL;
     }
     return err;
 }

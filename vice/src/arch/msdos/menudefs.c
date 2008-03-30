@@ -94,7 +94,7 @@ tui_menu_t ui_video_submenu;
 
 static TUI_MENU_CALLBACK(attach_tape_callback)
 {
-    char *s;
+    const char *s;
 
     if (been_activated) {
         char *directory, *default_item;
@@ -104,7 +104,8 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	util_fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
-				 "*.t64;*.tap;*.t6z;*.taz;*.zip;*.gz;*.lzh", default_item,
+				 "*.t64;*.tap;*.t6z;*.taz;*.zip;*.gz;*.lzh",
+                                 default_item,
 				 image_contents_read_tape, &file, NULL);
 
         if (file != NULL) {
@@ -150,14 +151,14 @@ static TUI_MENU_CALLBACK(autostart_callback)
 
 static TUI_MENU_CALLBACK(detach_disk_callback)
 {
-    char *s;
+    const char *s;
 
     if (been_activated) {
 	file_system_detach_disk((int)param);
 	ui_update_menus();
     }
 
-    s = (char *)file_system_get_disk_name((unsigned int)param);
+    s = file_system_get_disk_name((unsigned int)param);
     if (s == NULL || *s == '\0')
 	return "(none)";
     else
@@ -166,7 +167,7 @@ static TUI_MENU_CALLBACK(detach_disk_callback)
 
 static TUI_MENU_CALLBACK(detach_tape_callback)
 {
-    char *s;
+    const char *s;
 
     if (been_activated) {
 	tape_detach_image();
