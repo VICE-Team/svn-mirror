@@ -67,9 +67,10 @@ libarch_a_SOURCES = \
 	rescommon.h \
 	resdigimax.rc \
 	resdrivec128.rc \
-	resdrivec64vic20.rc \
+	resdrivec64.rc \
 	resdrivepetcbm2.rc \
 	resdriveplus4.rc \
+	resdrivevic20.rc \
 	resgeoram.rc \
 	reside64.rc \
 	resmmc64.rc \
@@ -116,14 +117,16 @@ libarch_a_SOURCES = \
 	uidatasette.h \
 	uidigimax.c \
 	uidigimax.h \
-	uidrivec64vic20.c \
-	uidrivec64vic20.h \
+	uidrivec64.c \
+	uidrivec64.h \
 	uidrivec128.c \
 	uidrivec128.h \
 	uidrivepetcbm2.c \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uidrivevic20.c \
+	uidrivevic20.h \
 	uievent.c \
 	uievent.h \
 	uifliplist.c \
@@ -313,15 +316,15 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
-	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc \
-	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
+	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
+	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc \
+	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc \
-	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc $(srcdir)/resrs232user.rc \
-	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resdigimax.rc \
-	$(srcdir)/restfe.rc
+	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
+	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
+	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \
@@ -342,10 +345,11 @@ rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	rm -f rescbm2.res rescbm2cat.rc
 
 respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc
-	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
+	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
 	$(srcdir)/ressidcart.rc
+	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
+	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
+	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc
 	$(WRC) -i respetcat.rc -o respet.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -367,10 +371,10 @@ resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	rm -f resplus4.res resplus4cat.rc
 
 resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
-	$(srcdir)/resrs232user.rc $(srcdir)/resdrivec64vic20.rc \
+	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
 	$(srcdir)/ressidcart.rc
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
-	$(srcdir)/resdrivec64vic20.rc $(srcdir)/resrs232user.rc \
+	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc
 	$(WRC) -i resvic20cat.rc -o resvic20.res \
 	--include-dir $(top_builddir)/src \

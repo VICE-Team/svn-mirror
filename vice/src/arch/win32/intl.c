@@ -185,15 +185,15 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_C128KBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_C128KBD_MAPPING_SETTINGS_DIALOG_SV},   /* size */
 
-/* resdrivec64vic20.rc */
-/* en */ {IDD_DRIVE_SETTINGS_DIALOG_C64VIC20,
-/* de */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_DE,    /* size */
-/* fr */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_FR,    /* size */
-/* hu */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_HU,    /* size */
-/* it */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_IT,    /* size */
-/* nl */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_NL,
-/* pl */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_PL,    /* fuzzy, size */
-/* sv */  IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_SV},   /* size */
+/* resdrivec64.rc */
+/* en */ {IDD_DRIVE_SETTINGS_DIALOG_C64,
+/* de */  IDD_DRIVE_SETTINGS_DIALOG_C64_DE,    /* size */
+/* fr */  IDD_DRIVE_SETTINGS_DIALOG_C64_FR,    /* size */
+/* hu */  IDD_DRIVE_SETTINGS_DIALOG_C64_HU,    /* size */
+/* it */  IDD_DRIVE_SETTINGS_DIALOG_C64_IT,    /* size */
+/* nl */  IDD_DRIVE_SETTINGS_DIALOG_C64_NL,
+/* pl */  IDD_DRIVE_SETTINGS_DIALOG_C64_PL,    /* fuzzy, size */
+/* sv */  IDD_DRIVE_SETTINGS_DIALOG_C64_SV},   /* size */
 
 /* resdrivepetcbm2.rc */
 /* en */ {IDD_DRIVE_SETTINGS_DIALOG_PETCBM2,
@@ -204,6 +204,16 @@ static int intl_table[][countof(language_table)] = {
 /* nl */  IDD_DRIVE_SETTINGS_DIALOG_PETCBM2_NL,
 /* pl */  IDD_DRIVE_SETTINGS_DIALOG_PETCBM2_PL,    /* fuzzy, size */
 /* sv */  IDD_DRIVE_SETTINGS_DIALOG_PETCBM2_SV},   /* size */
+
+/* resdrivevic20.rc */
+/* en */ {IDD_DRIVE_SETTINGS_DIALOG_VIC20,
+/* de */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_DE,    /* size */
+/* fr */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_FR,    /* size */
+/* hu */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_HU,    /* size */
+/* it */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_IT,    /* size */
+/* nl */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_NL,
+/* pl */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_PL,    /* fuzzy, size */
+/* sv */  IDD_DRIVE_SETTINGS_DIALOG_VIC20_SV},   /* size */
 
 /* resgeoram.rc */
 /* en */ {IDD_GEORAM_SETTINGS_DIALOG,
