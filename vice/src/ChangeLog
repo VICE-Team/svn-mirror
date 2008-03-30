@@ -1,3 +1,30 @@
+2001-11-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.29.
+
+	* vicii/vicii-draw.c, plus5/ted.c (ALIGN_DRAW_FUNC): Fixed
+	typo.  (_draw_idle): Fixed unaligned vid_memcpy call.
+
+	* vicii/Makefile.am: Do not add `video' to include path.
+
+	* video.h: Define `video_color_set_raster' here.
+
+2001-11-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.cc (video_frame_buffer_alloc): Allocates
+	RGB32 BBitmap and seperate buffer.
+	(video_frame_buffer_free): Frees both buffer and BBitmap.
+	(canvas_create): Sets depth to 32.
+	(video_canvas_set_palette): pixel_return[] becomes id(x).
+	physical_colors are set.
+	(video_canvas_set_palette): Calls video_render_main before
+	drawing the BBitmap to the screen.
+
+	* arch/beos/videoarch.h: New members depth and physical_colors
+	in video_canvas_s
+
+	* vice.h: Defines VIDEO_REMOVE_2X for BeOS.
+
 2001-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.28.
