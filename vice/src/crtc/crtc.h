@@ -118,6 +118,7 @@ struct _crtc
     int prev_rl_len;
     int prev_screen_rel;
 
+    /* internal state */
     int hjitter;	/* horizontal jitter when sync phase is changed */
     int xoffset;	/* pixel-offset of current rasterline */
     int screen_xoffset;	/* pixel-offset of current rasterline */
@@ -136,6 +137,12 @@ struct _crtc
     int current_charline; /* state of the current character line counter */
 
     int blank;		/* external blank (only honored if hw_blank set) */
+
+    /* frame */
+
+    CLOCK frame_start;	/* when did the last frame start */
+			/* last frame length */
+    long cycles_per_frame;
 
     /*---------------------------------------------------------------*/
 

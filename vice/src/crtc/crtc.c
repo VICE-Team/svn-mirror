@@ -324,6 +324,14 @@ void crtc_set_retrace_type(int type)
     crtc.retrace_type = type;
 }
 
+/*--------------------------------------------------------------------*/
+
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+     crtc.frame_start -= sub;
+
+     crtc.rl_start -= sub;
+}
 
 /*--------------------------------------------------------------------*/
 
@@ -336,6 +344,8 @@ canvas_t crtc_init (void)
 
   alarm_init (&crtc.raster_draw_alarm, &maincpu_alarm_context,
               "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
+
+  clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
   raster = &crtc.raster;
 
@@ -408,6 +418,9 @@ void crtc_reset (void)
     crtc.prev_rl_visible = crtc.rl_visible;
     crtc.prev_rl_sync = crtc.rl_sync;
     crtc.prev_rl_len = crtc.rl_len;
+
+    crtc.rl_start = clk;
+    crtc.frame_start = clk;
 
     crtc_reset_screen_ptr();
 
@@ -619,6 +632,8 @@ int crtc_raster_draw_alarm_handler (long offset)
 	/* FIXME: charheight */
 	if (crtc.current_charline >= crtc.regs[4] + 1) {
 	    if ((crtc.raster.ycounter + 1) >= crtc.regs[5]) {
+		long cycles;
+
 	        /* Do vsync stuff.  */
 		/* printf("new screen at clk=%d\n",rclk); */
 	        crtc_reset_screen_ptr();
@@ -628,8 +643,6 @@ int crtc_raster_draw_alarm_handler (long offset)
 
 		/* expected number of rasterlines for next frame */
 		crtc.framelines = crtc.current_line;
-			/* (crtc.regs[4] + 1) * (crtc.regs[9] + 1)
-				  + crtc.regs[5]; */
 		crtc.current_line = 0;
 
 		/* hardware cursor handling */
@@ -640,6 +653,14 @@ int crtc_raster_draw_alarm_handler (long offset)
 	    		crtc.crsrstate ^= 1;
 		    }
     		}
+
+		/* cycles per frame, for speed adjustments */
+		cycles = rclk - crtc.frame_start;
+		if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
+		    machine_set_cycles_per_frame(cycles);
+		    crtc.cycles_per_frame = cycles;
+		}
+		crtc.frame_start = rclk;
 
 	    } else {
 	        crtc.raster.ycounter ++;

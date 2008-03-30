@@ -1238,8 +1238,8 @@ static int mem_load_kernal(void)
     if(!rom_loaded) return 0;
 
     /* disable traps before loading the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     if(!IS_NULL(kernal_rom_name)) {
         /* Load Kernal ROM.  */
@@ -1248,14 +1248,14 @@ static int mem_load_kernal(void)
             C128_KERNAL_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", 
 			  kernal_rom_name);
-	    resources_set_value("NoTraps", (resource_value_t) trapfl);
+	    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
             return -1;
 	}
     }
 
     mem_kernal_checksum();
 
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     return 0;
 }
@@ -1656,8 +1656,8 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     if (0
         || snapshot_module_write_byte_array(m, kernal_rom, 
@@ -1681,7 +1681,7 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
     */
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     if (snapshot_module_close(m) < 0)
         goto fail;
@@ -1690,7 +1690,7 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
 
  fail:
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     if (m != NULL)
         snapshot_module_close(m);
@@ -1712,8 +1712,8 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
         return 0;
 
     /* disable traps before loading the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
         log_error(c128_mem_log,
@@ -1742,7 +1742,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     mem_kernal_checksum();
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     /* to get all the checkmarks right */
     ui_update_menus();
@@ -1752,7 +1752,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
  fail:
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     if (m != NULL)
         snapshot_module_close(m);
@@ -1878,3 +1878,11 @@ fail:
         snapshot_module_close(m);
     return -1;
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* FIXME: is called from c64tpi.c to enable/disable C64 IEEE488 ROM module */
+void mem_set_exrom(int active)
+{
+}
+

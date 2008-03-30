@@ -62,5 +62,6 @@ extern int mem_add_romset(char *name);
 
 extern void pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
+extern void mem_set_exrom(int active);
 
 #endif /* _C64MEM_H */

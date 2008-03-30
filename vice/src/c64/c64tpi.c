@@ -30,6 +30,7 @@
 #include "drive.h"
 #include "tpi.h"
 #include "maincpu.h"
+#include "c64mem.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */
@@ -150,6 +151,8 @@ _TPI_FUNC void undump_pb(BYTE byte)
 
 _TPI_FUNC void store_pc(BYTE byte)
 {
+    /* 1 = active */
+    mem_set_exrom((byte & 8) ? 0 : 1);
 }
 
 _TPI_FUNC void undump_pc(BYTE byte)

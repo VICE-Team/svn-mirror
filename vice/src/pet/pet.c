@@ -356,8 +356,12 @@ long machine_get_cycles_per_second(void)
 /* Set the screen refresh rate, as this is variable in the CRTC */
 void machine_set_cycles_per_frame(long cpf) {
 
+
     pet_cycles_per_rfsh = cpf;
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
+
+    log_message(pet_log, "cycles per frame set to %ld, refresh to %f",
+		cpf, pet_rfsh_per_sec);
 
     vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
 

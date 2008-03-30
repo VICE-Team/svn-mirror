@@ -52,7 +52,7 @@
 static int cartridge_type;
 static char *cartridge_file;
 
-static int carttype = CARTRIDGE_NONE;
+int carttype = CARTRIDGE_NONE;
 static int crttype = 0;
 static char *cartfile;
 
@@ -120,6 +120,11 @@ static int attach_ss(const char *param, void *extra_param)
     return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, param);
 }
 
+static int attach_ieee488(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_IEEE488, param);
+}
+
 static cmdline_option_t cmdline_options[] =
 {
     {"-cartcrt", CALL_FUNCTION, 1, attach_crt, NULL, NULL, NULL,
@@ -134,6 +139,8 @@ static cmdline_option_t cmdline_options[] =
      "<name>", "Attach raw 32KB Atomic Power cartridge image"},
     {"-cartss4", CALL_FUNCTION, 1, attach_ss, NULL, NULL, NULL,
      "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
+    {"-cartieee488", CALL_FUNCTION, 1, attach_ieee488, NULL, NULL, NULL,
+     "<name>", "Attach CBM IEEE488 cartridge image"},
     {NULL}
 };
 
@@ -205,6 +212,7 @@ int cartridge_attach_image(int type, const char *filename)
         fclose(fd);
         break;
       case CARTRIDGE_IEEE488:
+	/* FIXME: ROM removed? */
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
@@ -213,6 +221,7 @@ int cartridge_attach_image(int type, const char *filename)
             goto done;
         }
         fclose(fd);
+	ui_update_menus();
         break;
       case CARTRIDGE_CRT:
         fd = fopen(filename, MODE_READ);

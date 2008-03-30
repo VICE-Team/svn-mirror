@@ -43,7 +43,7 @@
 #include "alarm.h"
 #include "interrupt.h"
 
-/* #define	CIAT_DEBUG */
+#define	CIAT_DEBUG
 /* #undef	NO_INLINE */
 /* #define CIAT_NEED_LOG */
 
@@ -257,6 +257,9 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
     int n, m;
     ciat_tstate_t t = state->state;
 
+/*printf("%s update: cclk=%d, state=%d, cnt=%d, latch=%d\n",
+		state->name, cclk, t, state->cnt, state->latch);*/
+
 #if 0
     if (cclk > clk && cclk - clk > 0x10000) {
         printf("ciat_update(%s: myclk=%d, cclk=%d)\n", state->name, clk, cclk);
@@ -319,6 +322,20 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
 						&& (!(t & CIAT_ONESHOT)))) ) {
 	    /* warp stopped */
 	    state->clk = cclk;
+	} else
+	if ( (t == (CIAT_COUNT | CIAT_OUT | CIAT_LOAD | CIAT_PHI2IN 
+			| CIAT_COUNT2 | CIAT_CR_START)) 
+		&& (state->cnt == 1)
+		&& (state->latch == 1) ) {
+	    /* when latch=1 and cnt=1 this warps up to clk */
+	    m = (cclk - state->clk) & ~1; 
+	    if (m) {
+	        state->clk += m;
+	        n += (m >> 1);
+	    } else {
+		t = ciat_table[t];
+	        state->clk ++;
+	    }
 	} else {
 	    /* inc */
 	    if (state->cnt && (t & CIAT_COUNT3)) {

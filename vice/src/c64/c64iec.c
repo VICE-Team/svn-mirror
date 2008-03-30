@@ -38,6 +38,7 @@
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "cartridge.h"
 #include "viad.h"
 
 /* Status of the IEC bus signals.  */
@@ -323,13 +324,19 @@ void parallel_cable_cpu_undump(BYTE data)
     parallel_cable_cpu_value = data;
 }
 
+/* This function is called from ui_update_menus() */
 int iec_available_busses(void) 
 {
+/*
     int pariec;
 
     resources_get_value("IEEE488", (resource_value_t*) & pariec);
 
     return IEC_BUS_IEC | (pariec ? IEC_BUS_IEEE : 0);
+*/
+    extern int carttype;
+
+    return IEC_BUS_IEC | ((carttype == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
 }
 
 void iec_calculate_callback_index(void)
