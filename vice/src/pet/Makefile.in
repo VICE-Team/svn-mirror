@@ -310,7 +310,7 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/tapeunit.h ../../src/tape.h ../../src/traps.h pets.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
 	../../src/mem.h ../../src/maincpu.h ../../src/mos6510.h \
-	../../src/mon.h petmem.h ../../src/utils.h
+	../../src/mon.h petmem.h ../../src/emuid.h ../../src/utils.h
 pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/interrupt.h ../../src/types.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \

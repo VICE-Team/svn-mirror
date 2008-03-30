@@ -29,12 +29,9 @@
 
 /* This is just a quick hack!  */
 
-/*
-   TODO:
+/* TODO:
    - cartridge support;
-   - correct video bank emulation;
-   - maybe C64 mode?
-*/
+   - maybe C64 mode?  */
 
 #include "vice.h"
 
@@ -50,11 +47,12 @@
 #include "memutils.h"
 #include "maincpu.h"
 #include "parallel.h"
-#include "tpi.h"
+#include "c64tpi.h"
 #include "tapeunit.h"
 #include "mon.h"
 #include "utils.h"
 #include "vdc.h"
+#include "emuid.h"
 #include "rs232.h"
 #include "../c64/vicii.h"
 
@@ -150,30 +148,30 @@ static int set_basic_rom_name(resource_value_t v)
 
 static int set_emu_id_enabled(resource_value_t v)
 {
-    if (!(int)v) {
-	emu_id_enabled = 0;
-	return 0;
+    if (!(int) v) {
+        emu_id_enabled = 0;
+        return 0;
     } else if (!action_replay_enabled) {
-	emu_id_enabled = 1;
-	return 0;
+        emu_id_enabled = 1;
+        return 0;
     } else {
-	/* Other extensions share the same address space, so they cannot be
-	enabled at the same time.  */
-	return -1;
+        /* Other extensions share the same address space, so they cannot be
+           enabled at the same time.  */
+        return -1;
     }
 }
 
 static int set_ieee488_enabled(resource_value_t v)
 {
-    if (!(int)v) {
+    if (!(int) v) {
         ieee488_enabled = 0;
         return 0;
     } else if (!reu_enabled && !action_replay_enabled) {
         ieee488_enabled = 1;
         return 0;
     } else {
-	/* The REU and the IEEE488 interface share the same address space, so
-	   they cannot be enabled at the same time.  */
+        /* The REU and the IEEE488 interface share the same address space, so
+           they cannot be enabled at the same time.  */
         return -1;
     }
 }
@@ -181,15 +179,15 @@ static int set_ieee488_enabled(resource_value_t v)
 /* FIXME: Should initialize the REU when turned on.  */
 static int set_reu_enabled(resource_value_t v)
 {
-    if (!(int)v) {
+    if (!(int) v) {
         reu_enabled = 0;
         return 0;
     } else if (!ieee488_enabled && !action_replay_enabled) {
         reu_enabled = 1;
         return 0;
     } else {
-	/* The REU and the IEEE488 interface share the same address space, so
-	   they cannot be enabled at the same time.  */
+        /* The REU and the IEEE488 interface share the same address space, so
+           they cannot be enabled at the same time.  */
         return -1;
     }
 }
@@ -208,24 +206,25 @@ static int set_acia_de_enabled(resource_value_t v)
 }
 #endif
 
-static resource_t resources[] = {
+static resource_t resources[] =
+{
     { "ChargenName", RES_STRING, (resource_value_t) "chargen",
-      (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
+     (resource_value_t *) & chargen_rom_name, set_chargen_rom_name },
     { "KernalName", RES_STRING, (resource_value_t) "kernal",
-      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
+     (resource_value_t *) & kernal_rom_name, set_kernal_rom_name },
     { "BasicName", RES_STRING, (resource_value_t) "basic",
-      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
+     (resource_value_t *) & basic_rom_name, set_basic_rom_name },
     { "REU", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &reu_enabled, set_reu_enabled },
+     (resource_value_t *) & reu_enabled, set_reu_enabled },
     { "IEEE488", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &ieee488_enabled, set_ieee488_enabled },
+     (resource_value_t *) & ieee488_enabled, set_ieee488_enabled },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
+     (resource_value_t *) & emu_id_enabled, set_emu_id_enabled },
 #ifdef HAVE_RS232
     { "AciaDE", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &acia_de_enabled, set_acia_de_enabled },
+     (resource_value_t *) & acia_de_enabled, set_acia_de_enabled },
     { "AciaD7", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &acia_d7_enabled, set_acia_d7_enabled },
+     (resource_value_t *) & acia_d7_enabled, set_acia_d7_enabled },
 #endif
     { NULL }
 };
@@ -283,7 +282,7 @@ int c128_mem_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible video banks (16K each).  */
-#define NUM_VBANKS	4
+#define NUM_VBANKS      4
 
 /* The C128 memory.  */
 BYTE ram[C128_RAM_SIZE];
@@ -326,6 +325,8 @@ read_func_ptr_t _mem_read_tab[0x101];
 store_func_ptr_t *_mem_write_tab_ptr = _mem_write_tab;
 read_func_ptr_t *_mem_read_tab_ptr = _mem_read_tab;
 
+/* Fake BIOS initialization.  This is required because the real C128 is
+   normally booted by the Z80, which we currently don't emulate at all.  */
 static BYTE biostab[] = {
     0x78, 0xa9, 0x3e, 0x8d, 0x00, 0xff, 0xa9, 0xb0, 0x8d, 0x05,
     0xd5, 0xea, 0x58, 0x60, 0x00, 0x00, 0xf3, 0x3e, 0x3e, 0x32,
@@ -346,11 +347,11 @@ inline BYTE REGPARM1 read_mmu(ADDRESS addr)
 
     if (addr < 0xb) {
         if (addr == 5) {
-	    /* 0x80 = 40/80 key released.  */
+            /* 0x80 = 40/80 key released.  */
             return mmu[5] | 0x80;
         } else {
             return mmu[addr];
-	}
+        }
     } else {
         return 0xf;
     }
@@ -371,7 +372,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 basic_lo_in = !(value & 0x2);
                 basic_hi_in = !(value & 0xc);
                 kernal_in = chargen_in = editor_in = !(value & 0x30);
-                ram_bank = ram + (((long) value & 0x40) << 10); /* (only 128K) */
+                /* (We handle only 128K here.)  */
+                ram_bank = ram + (((long) value & 0x40) << 10);
                 DEBUG(("MMU: Store CR = $%02x\n", value));
                 DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
             }
@@ -471,7 +473,7 @@ BYTE REGPARM1 read_rom(ADDRESS addr)
     switch (addr & 0xf000) {
       case 0xe000:
       case 0xf000:
-	return read_kernal(addr);
+        return read_kernal(addr);
       case 0x4000:
       case 0x5000:
       case 0x6000:
@@ -480,7 +482,7 @@ BYTE REGPARM1 read_rom(ADDRESS addr)
       case 0x9000:
       case 0xa000:
       case 0xb000:
-	return read_basic(addr);
+        return read_basic(addr);
     }
 
     return 0;
@@ -491,7 +493,7 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
     switch (addr & 0xf000) {
       case 0xe000:
       case 0xf000:
-	store_kernal(addr, value);
+        store_kernal(addr, value);
         break;
       case 0x4000:
       case 0x5000:
@@ -501,7 +503,7 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
       case 0x9000:
       case 0xa000:
       case 0xb000:
-	store_basic(addr, value);
+        store_basic(addr, value);
         break;
     }
 }
@@ -525,13 +527,13 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 /* The MMU can basically do the following:
 
    - select one of the two (four) memory banks as the standard
-     (non-shared) memory;
+   (non-shared) memory;
 
    - turn ROM and I/O on and off;
 
    - enable/disable top/bottom shared RAM (from 1K to 16K, so bottom
-     shared RAM cannot go beyond $3FFF and top shared RAM cannot go
-     under $C000);
+   shared RAM cannot go beyond $3FFF and top shared RAM cannot go
+   under $C000);
 
    - move pages 0 and 1 to any physical address.  */
 
@@ -707,12 +709,12 @@ static void REGPARM2 store_d6xx(ADDRESS addr, BYTE value)
 static BYTE REGPARM1 read_d7xx(ADDRESS addr)
 {
     if (io_in) {
-#if 0 /*def HAVE_RS232*/
-	if(acia_d7_enabled) 
+#if 0                           /*def HAVE_RS232 */
+        if (acia_d7_enabled)
             return read_acia2(addr);
-	else
+        else
 #endif
-	    return 0xff;
+            return 0xff;
     } else if (chargen_in)
         return chargen_rom[addr];
     else
@@ -722,10 +724,10 @@ static BYTE REGPARM1 read_d7xx(ADDRESS addr)
 static void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
 {
     if (io_in) {
-#if 0 /*def HAVE_RS232*/
-	if(acia_d7_enabled) {
+#if 0                           /*def HAVE_RS232 */
+        if (acia_d7_enabled) {
             store_acia2(addr, value);
-	}
+        }
 #endif
     } else
         STORE_TOP_SHARED(addr, value);
@@ -840,14 +842,14 @@ static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
 }
 
 /* ------------------------------------------------------------------------- */
-/* those are approximate copies from the c64 versions.... 
- * they leave out the cartridge support 
+/* those are approximate copies from the c64 versions....
+ * they leave out the cartridge support
  */
 
 void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 {
-    if(!io_in) {
-	STORE_TOP_SHARED(addr, value);
+    if (!io_in) {
+        STORE_TOP_SHARED(addr, value);
     } else {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
@@ -859,14 +861,13 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_io1(ADDRESS addr)
 {
-    if(io_in) {
+    if (io_in) {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
             return read_acia1(addr & 0x03);
 #endif
-        return 0xff; 	/* rand(); - C64 has rand(), which is correct? */
-    } else 
-    if (chargen_in)
+        return 0xff;            /* rand(); - C64 has rand(), which is correct? */
+    } else if (chargen_in)
         return chargen_rom[addr - 0xd000];
     else
         return READ_TOP_SHARED(addr);
@@ -874,8 +875,8 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
 
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
-    if(!io_in) {
-	STORE_TOP_SHARED(addr, value);
+    if (!io_in) {
+        STORE_TOP_SHARED(addr, value);
     } else {
         if (ieee488_enabled) {
             store_tpi(addr & 0x07, value);
@@ -886,21 +887,18 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_io2(ADDRESS addr)
 {
-    if(io_in) {
-#if 0
+    if (io_in) {
         if (emu_id_enabled && addr >= 0xdfa0) {
             addr &= 0xff;
             if (addr == 0xff)
                 emulator_id[addr - 0xa0] ^= 0xff;
             return emulator_id[addr - 0xa0];
         }
-#endif
         if (ieee488_enabled) {
             return read_tpi(addr & 0x07);
-	}
-        return 0xff; 	/* rand(); - C64 has rand(), which is correct? */
-    } else 
-    if (chargen_in)
+        }
+        return 0xff;  /* rand(); - C64 has rand(), which is correct? */
+    } else if (chargen_in)
         return chargen_rom[addr - 0xd000];
     else
         return READ_TOP_SHARED(addr);
@@ -949,8 +947,8 @@ void initialize_memory(void)
     _mem_read_tab[0xd6] = read_d6xx;
     _mem_write_tab[0xd6] = store_d6xx;
 
-    _mem_read_tab[0xd7] = read_d7xx;	/* read_empty_io; */
-    _mem_write_tab[0xd7] = store_d7xx;	/* store_empty_io; */
+    _mem_read_tab[0xd7] = read_d7xx;    /* read_empty_io; */
+    _mem_write_tab[0xd7] = store_d7xx;  /* store_empty_io; */
 
     _mem_read_tab[0xd8] = _mem_read_tab[0xd9] = read_d8xx;
     _mem_read_tab[0xda] = _mem_read_tab[0xdb] = read_d8xx;
@@ -1002,8 +1000,8 @@ void mem_powerup(void)
 #endif
 
     for (i = 0; i < 0x20000; i += 0x80) {
-	memset(ram + i, 0, 0x40);
-	memset(ram + i + 0x40, 0xff, 0x40);
+        memset(ram + i, 0, 0x40);
+        memset(ram + i + 0x40, 0xff, 0x40);
     }
 }
 
@@ -1011,8 +1009,8 @@ void mem_powerup(void)
    `memory.c'.  */
 int mem_load(void)
 {
-    WORD sum;			/* ROM checksum */
-    int	id;			/* ROM identification number */
+    WORD sum;                   /* ROM checksum */
+    int id;                     /* ROM identification number */
     int i;
 
     mem_powerup();
@@ -1024,16 +1022,15 @@ int mem_load(void)
 
     /* Load Kernal ROM.  */
     if (mem_load_sys_file(kernal_rom_name,
-			  kernal_rom, C128_KERNAL_ROM_SIZE,
-			  C128_KERNAL_ROM_SIZE) < 0) {
-	fprintf(stderr,"Couldn't load kernal ROM `%s'.\n",
+                          kernal_rom, C128_KERNAL_ROM_SIZE,
+                          C128_KERNAL_ROM_SIZE) < 0) {
+        fprintf(stderr, "Couldn't load kernal ROM `%s'.\n",
                 kernal_rom_name);
-	return -1;
+        return -1;
     }
-
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++)
-	sum += kernal_rom[i];
+        sum += kernal_rom[i];
 
     id = read_rom(0xff80);
 
@@ -1042,26 +1039,25 @@ int mem_load(void)
         && sum != C128_KERNAL_CHECKSUM_R01
         && sum != C128_KERNAL_CHECKSUM_R01SWE
         && sum != C128_KERNAL_CHECKSUM_R01GER)
-        fprintf (stderr, "Warning: Kernal image may be corrupted. Sum: %d\n",
-		 sum);
+        fprintf(stderr, "Warning: Kernal image may be corrupted. Sum: %d\n",
+                sum);
 
     /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
-			  basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
-			  C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load basic ROM `%s'.\n",
+                   basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
+                       C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
+        fprintf(stderr, "Couldn't load basic ROM `%s'.\n",
                 basic_rom_name);
-	return -1;
+        return -1;
     }
-
     /* Check Basic ROM.  */
     for (i = 0, sum = 0; i < C128_BASIC_ROM_SIZE; i++)
-	sum += basic_rom[i];
+        sum += basic_rom[i];
 
     if (sum != C128_BASIC_CHECKSUM_85 && sum != C128_BASIC_CHECKSUM_86)
-	fprintf(stderr,
+        fprintf(stderr,
                 "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
-		basic_rom_name, sum, sum);
+                basic_rom_name, sum, sum);
 
     /* Check Editor ROM.  */
     for (i = C128_BASIC_ROM_SIZE, sum = 0;
@@ -1073,23 +1069,21 @@ int mem_load(void)
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
         && sum != C128_EDITOR_CHECKSUM_R01GER) {
-        fprintf (stderr, "Warning: EDITOR image may be corrupted. Sum: %d\n",
-		 sum);
-        fprintf (stderr, "Check your Basic ROM\n");
+        fprintf(stderr, "Warning: EDITOR image may be corrupted. Sum: %d\n",
+                sum);
+        fprintf(stderr, "Check your Basic ROM\n");
     }
-
     /* Load chargen ROM.  */
     if (mem_load_sys_file(chargen_rom_name,
-			  chargen_rom, C128_CHARGEN_ROM_SIZE,
-			  C128_CHARGEN_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load character ROM `%s'.\n",
+                          chargen_rom, C128_CHARGEN_ROM_SIZE,
+                          C128_CHARGEN_ROM_SIZE) < 0) {
+        fprintf(stderr, "Couldn't load character ROM `%s'.\n",
                 chargen_rom_name);
-	return -1;
+        return -1;
     }
-
     /* Fake BIOS initialization.  This is needed because the real C128 is
        initialized by the Z80, which we currently do not implement.  */
-    memcpy (ram + 0xffd0, biostab, sizeof(biostab));
+    memcpy(ram + 0xffd0, biostab, sizeof(biostab));
 
     rom_loaded = 1;
     return 0;
@@ -1099,7 +1093,7 @@ int mem_load(void)
 
 /* FIXME: Add C128 specific cartridge support here.  */
 
-void mem_attach_cartridge(int type, BYTE *rawcart)
+void mem_attach_cartridge(int type, BYTE * rawcart)
 {
     return;
 }
@@ -1153,22 +1147,20 @@ void mem_toggle_emu_id(int flag)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: this part is wrong.  */
-
-void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
+void mem_get_basic_text(ADDRESS * start, ADDRESS * end)
 {
     if (start != NULL)
-	*start = ram[0x2b] | (ram[0x2c] << 8);
+        *start = ram[0x2b] | (ram[0x2c] << 8);
     if (end != NULL)
-	*end = ram[0x2d] | (ram[0x2e] << 8);
+        *end = ram[0x1210] | (ram[0x1211] << 8);
 }
 
 void mem_set_basic_text(ADDRESS start, ADDRESS end)
 {
     ram[0x2b] = ram[0xac] = start & 0xff;
     ram[0x2c] = ram[0xad] = start >> 8;
-    ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
-    ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+    ram[0x1210] = end & 0xff;
+    ram[0x1211] = end >> 8;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1176,4 +1168,214 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 int mem_rom_trap_allowed(ADDRESS addr)
 {
     return 1;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Banked memory access functions for the monitor */
+
+/* FIXME: peek, cartridge support */
+
+static void store_bank_io(ADDRESS addr, BYTE byte)
+{
+    switch (addr &= 0xff00) {
+      case 0xd000:
+      case 0xd100:
+      case 0xd200:
+      case 0xd300:
+        store_d0xx(addr, byte);
+        break;
+      case 0xd400:
+        store_d4xx(addr, byte);
+        break;
+      case 0xd500:
+        store_d5xx(addr, byte);
+        break;
+      case 0xd600:
+        store_d6xx(addr, byte);
+        break;
+      case 0xd700:
+        store_d7xx(addr, byte);
+        break;
+      case 0xd800:
+      case 0xd900:
+      case 0xda00:
+      case 0xdb00:
+        store_colorram(addr, byte);
+        break;
+      case 0xdc00:
+        store_cia1(addr, byte);
+        break;
+      case 0xdd00:
+        store_cia2(addr, byte);
+        break;
+      case 0xde00:
+        store_io1(addr, byte);
+        break;
+      case 0xdf00:
+        store_io2(addr, byte);
+        break;
+    }
+    return;
+}
+
+static BYTE read_bank_io(ADDRESS addr)
+{
+    switch (addr &= 0xff00) {
+      case 0xd000:
+      case 0xd100:
+      case 0xd200:
+      case 0xd300:
+        return read_d0xx(addr);
+      case 0xd400:
+        return read_d4xx(addr);
+      case 0xd500:
+        return read_d5xx(addr);
+      case 0xd600:
+        return read_d6xx(addr);
+      case 0xd700:
+        return read_d7xx(addr);
+      case 0xd800:
+      case 0xd900:
+      case 0xda00:
+      case 0xdb00:
+        return read_colorram(addr);
+      case 0xdc00:
+        return read_cia1(addr);
+      case 0xdd00:
+        return read_cia2(addr);
+      case 0xde00:
+        return read_io1(addr);
+      case 0xdf00:
+        return read_io2(addr);
+    }
+    return 0xff;
+}
+
+static BYTE peek_bank_io(ADDRESS addr)
+{
+    switch (addr &= 0xff00) {
+      case 0xd000:
+      case 0xd100:
+      case 0xd200:
+      case 0xd300:
+        return read_d0xx(addr); /* FIXME */
+      case 0xd400:
+        return read_d4xx(addr); /* FIXME */
+      case 0xd500:
+        return read_d5xx(addr); /* FIXME */
+      case 0xd600:
+        return read_d6xx(addr); /* FIXME */
+      case 0xd700:
+        return read_d7xx(addr); /* FIXME */
+      case 0xd800:
+      case 0xd900:
+      case 0xda00:
+      case 0xdb00:
+        return read_colorram(addr);
+      case 0xdc00:
+        return peek_cia1(addr);
+      case 0xdd00:
+        return peek_cia2(addr);
+      case 0xde00:
+        return read_io1(addr);  /* FIXME */
+      case 0xdf00:
+        return read_io2(addr);  /* FIXME */
+    }
+    return 0xff;
+}
+
+/* Exported banked memory access functions for the monitor.  */
+
+static const char *banknames[] = {
+    "default", "cpu", "ram", "rom", "io", "ram1", NULL
+};
+
+static int banknums[] = {
+    1, 0, 1, 2, 3, 4
+};
+
+const char **mem_bank_list(void)
+{
+    return banknames;
+}
+
+int mem_bank_from_name(const char *name)
+{
+    int i = 0;
+
+    while (banknames[i]) {
+        if (!strcmp(name, banknames[i])) {
+            return banknums[i];
+        }
+        i++;
+    }
+    return -1;
+}
+
+BYTE mem_bank_read(int bank, ADDRESS addr)
+{
+    switch (bank) {
+      case 0:                   /* current */
+        return mem_read(addr);
+        break;
+      case 4:                   /* ram1 */
+        return ram[addr + 0x10000];
+      case 3:                   /* io */
+        if (addr >= 0xd000 && addr < 0xe000) {
+            return read_bank_io(addr);
+        }
+      case 2:                   /* rom */
+        if (addr >= 0x4000 && addr <= 0xCFFF) {
+            return basic_rom[addr - 0x4000];
+        }
+        if (addr >= 0xD000 && addr <= 0xDFFF) {
+            return chargen_rom[addr & 0x0fff];
+        }
+        if (addr >= 0xE000 && addr <= 0xFFFF) {
+            return kernal_rom[addr & 0x1fff];
+        }
+      case 1:                   /* ram */
+    }
+    return ram[addr];
+}
+
+BYTE mem_bank_peek(int bank, ADDRESS addr)
+{
+    switch (bank) {
+      case 0:                   /* current */
+        return mem_read(addr);  /* FIXME */
+        break;
+      case 3:                   /* io */
+        if (addr >= 0xd000 && addr < 0xe000) {
+            return peek_bank_io(addr);
+        }
+    }
+    return mem_bank_read(bank, addr);
+}
+
+void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
+{
+    switch (bank) {
+      case 0:                   /* current */
+        mem_store(addr, byte);
+        return;
+      case 4:                   /* ram1 */
+        ram[addr + 0x10000] = byte;
+        return;
+      case 3:                   /* io */
+        if (addr >= 0xd000 && addr < 0xe000) {
+            store_bank_io(addr, byte);
+            return;
+        }
+      case 2:                   /* rom */
+        if (addr >= 0x4000 && addr <= 0xCFFF) {
+            return;
+        }
+        if (addr >= 0xE000 && addr <= 0xffff) {
+            return;
+        }
+      case 1:                   /* ram */
+    }
+    ram[addr] = byte;
 }

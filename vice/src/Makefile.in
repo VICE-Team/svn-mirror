@@ -545,11 +545,12 @@ c1541.o: c1541.c vice.h config.h c1541.h drive.h types.h fs_cbm.h \
 cartridge.o: cartridge.c vice.h config.h resources.h file.h mem.h \
 	types.h vmachine.h interrupt.h 6510core.h utils.h cartridge.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
-cmdline.o: cmdline.c vice.h config.h utils.h cmdline.h resources.h
+cmdline.o: cmdline.c vice.h config.h utils.h types.h cmdline.h \
+	resources.h
 drive.o: drive.c vice.h config.h serial.h types.h traps.h drive.h \
 	fs_cbm.h file.h zfile.h utils.h charsets.h fsdevice.h
 emuid.o: emuid.c vice.h config.h types.h
-findpath.o: findpath.c vice.h config.h findpath.h utils.h
+findpath.o: findpath.c vice.h config.h findpath.h utils.h types.h
 fsdevice.o: fsdevice.c vice.h config.h resources.h drive.h types.h \
 	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \
 	cmdline.h fsdevice.h
@@ -591,8 +592,8 @@ prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h drive.h \
 	prdevice.h print.h
 pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
 	cmdline.h
-resources.o: resources.c vice.h config.h resources.h utils.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h types.h palette.h
+resources.o: resources.c vice.h config.h resources.h utils.h types.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h
 serial.o: serial.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
 	6510core.h mon.h interrupt.h vmachine.h serial.h traps.h \
 	parallel.h utils.h drive.h fs_cbm.h tape.h tapeunit.h
@@ -601,7 +602,7 @@ sound.o: sound.c vice.h config.h sound.h types.h warn.h cmdline.h \
 	palette.h maincpu.h mem.h mos6510.h 6510core.h mon.h \
 	interrupt.h vmachine.h utils.h
 sysfile.o: sysfile.c vice.h config.h resources.h cmdline.h findpath.h \
-	sysfile.h utils.h
+	sysfile.h utils.h types.h
 tape.o: tape.c vice.h config.h drive.h types.h fs_cbm.h serial.h traps.h \
 	tape.h zfile.h utils.h charsets.h
 tapeunit.o: tapeunit.c vice.h config.h tapeunit.h tape.h types.h traps.h \
@@ -611,9 +612,9 @@ tapeunit.o: tapeunit.c vice.h config.h tapeunit.h tape.h types.h traps.h \
 traps.o: traps.c vice.h config.h traps.h types.h maincpu.h mem.h \
 	mos6510.h 6510core.h mon.h interrupt.h vmachine.h resources.h \
 	cmdline.h utils.h
-utils.o: utils.c vice.h config.h utils.h
-warn.o: warn.c vice.h config.h warn.h utils.h
-zfile.o: zfile.c vice.h config.h utils.h zfile.h zipcode.h
+utils.o: utils.c vice.h config.h utils.h types.h
+warn.o: warn.c vice.h config.h warn.h utils.h types.h
+zfile.o: zfile.c vice.h config.h utils.h types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h
 
 info: info-recursive

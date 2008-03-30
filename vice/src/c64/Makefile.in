@@ -356,7 +356,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/kbdbuf.h sid.h \
-	../../src/sound.h ../../src/warn.h reu.h ../../src/tpi.h \
+	../../src/sound.h ../../src/warn.h reu.h c64tpi.h \
 	../../src/true1541/true1541.h ../../src/drive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/true1541/1541cpu.h ../../src/tapeunit.h \
@@ -409,7 +409,7 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/memutils.h ../../src/parallel.h \
-	../../src/tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
+	c64tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
 	../../src/emuid.h ../../src/utils.h patchrom.h \
 	../../src/cartridge.h c64acia.h
 c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
