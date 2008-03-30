@@ -62,12 +62,12 @@ BYTE REGPARM1 cia1_peek(WORD addr)
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
 {
-    tpi1_set_int(2, value);
+    tpi1_set_int(&(machine_context.tpi1), 2, value);
 }
 
 static void cia_restore_int(cia_context_t *cia_context, int value)
 {
-    tpi1_restore_int(2, value);
+    tpi1_restore_int(&(machine_context.tpi1), 2, value);
 }
 
 /*************************************************************************
