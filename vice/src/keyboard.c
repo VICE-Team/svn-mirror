@@ -370,15 +370,17 @@ void keyboard_key_released(signed long key)
                                              keyconvmap[i].column,
                                              keyconvmap[i].shift)) {
                 latch = 1;
+                keyboard_set_latch_keyarr(keyconvmap[i].row,
+                                          keyconvmap[i].column, 0);
                 if (!(keyconvmap[i].shift & ALLOW_OTHER)
-                    || (right_shift_down + left_shift_down) == 0)
+                    /*|| (right_shift_down + left_shift_down) == 0*/)
                     break;
             }
         }
     }
 
     if (latch) {
-        keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 0);
+        /*keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 0);*/
         alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
     }
 }
@@ -718,11 +720,13 @@ int keyboard_keymap_dump(const char *filename)
             "# '!UNDEF keysym'        remove keysym from table\n"
             "#\n"
             "# Shiftflag can have the values:\n"
-            "# 0      key is not shifted for this keysym\n"
-            "# 1      key is shifted for this keysym\n"
+            "# 0      key is not shifted for this keysym/scancode\n"
+            "# 1      key is shifted for this keysym/scancode\n"
             "# 2      left shift\n"
             "# 4      right shift\n"
-            "# 8      key can be shifted or not with this keysym\n"
+            "# 8      key can be shifted or not with this keysym/scancode\n"
+            "# 16     deshift key for this keysym/scancode\n"
+            "# 32     another definition for this keysym/scancode follows\n"
             "#\n"
             "# Negative row values:\n"
             "# 'keysym -1 n' joystick #1, direction n\n"
