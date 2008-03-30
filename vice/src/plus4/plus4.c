@@ -252,7 +252,7 @@ int machine_init(void)
 
     /* Initialize autostart.  */
     autostart_init((CLOCK)(3 * rfsh_per_sec * cycles_per_rfsh),
-                   1, 0xcc, 0xd1, 0xd3, 0xd5);
+                   0, 0, 0xc8, 0xca, -40);
 
     if (!ted_init())
         return -1;
@@ -271,7 +271,7 @@ int machine_init(void)
     sound_init(cycles_per_sec, cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10,
+    kbd_buf_init(1319, 239, 8,
                  (CLOCK)(rfsh_per_sec * cycles_per_rfsh));
 
     plus4_ui_init();
