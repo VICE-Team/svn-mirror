@@ -345,10 +345,10 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/machine.h ../../../../src/maincpu.h \
 	../../../../src/6510core.h ../../../../src/mem.h \
 	../../../../src/snapshot.h ../../../../src/alarm.h \
-	../../../../src/mon.h ../../../../src/mos6510.h \
-	../../../../src/interrupt.h ../../../../src/vmachine.h \
-	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h \
+	../../../../src/clkguard.h ../../../../src/mon.h \
+	../../../../src/mos6510.h ../../../../src/interrupt.h \
+	../../../../src/vmachine.h uihotkey.h uimenu.h uisettings.h \
+	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
 	../../../../src/arch/unix/mouse.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
@@ -363,11 +363,12 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/interrupt.h ../../../../src/vmachine.h \
 	../../../../src/6510core.h ../../../../src/mem.h \
 	../../../../src/machine.h ../../../../src/maincpu.h \
-	../../../../src/alarm.h ../../../../src/mon.h \
-	../../../../src/mos6510.h ../../../../src/resources.h \
-	../../../../src/sound.h ../../../../src/warn.h \
-	../../../../src/tape.h uisnapshot.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
+	../../../../src/alarm.h ../../../../src/clkguard.h \
+	../../../../src/mon.h ../../../../src/mos6510.h \
+	../../../../src/resources.h ../../../../src/sound.h \
+	../../../../src/warn.h ../../../../src/tape.h uisnapshot.h \
+	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
+	../../../../src/fliplist.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h

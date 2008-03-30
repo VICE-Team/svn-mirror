@@ -309,17 +309,19 @@ crtc.o: crtc.c ../../src/config.h ../../src/types.h ../../src/snapshot.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
 	../../src/mem.h ../../src/log.h ../../src/machine.h \
 	../../src/raster.h ../../src/utils.h ../../src/alarm.h \
-	../../src/maincpu.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/raster.c ../../src/arch/unix/vsync.h
+	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/raster.c \
+	../../src/arch/unix/vsync.h
 pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/attach.h ../../src/types.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/log.h ../../src/snapshot.h ../../src/autostart.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/crtc.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	../../src/mem.h ../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/alarm.h \
 	../../src/mon.h ../../src/mos6510.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/xaw/petui.h petvia.h petacia.h petpia.h \
@@ -330,10 +332,10 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/types.h \
 	../../src/snapshot.h ../../src/alarm.h ../../src/log.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/aciacore.c ../../src/vice.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \
-	../../src/rs232.h ../../src/acia.h
+	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/aciacore.c \
+	../../src/vice.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/machine.h ../../src/rs232.h ../../src/acia.h
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/tap.h ../../src/types.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h ../../src/types.h \
@@ -351,10 +353,10 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/log.h ../../src/maincpu.h \
-	../../src/alarm.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/memutils.h pet.h petacia.h petmem.h petpia.h pets.h \
-	petvia.h ../../src/tape.h ../../src/traps.h ../../src/utils.h \
-	../../src/arch/unix/vsync.h
+	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/memutils.h pet.h petacia.h \
+	petmem.h petpia.h pets.h petvia.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/arch/unix/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
@@ -377,21 +379,22 @@ petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
 	../../src/types.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/alarm.h \
-	../../src/log.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/sound.h \
-	../../src/warn.h ../../src/utils.h
+	../../src/log.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/sound.h ../../src/warn.h ../../src/utils.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h ../../src/types.h \
 	../../src/log.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/resources.h ../../src/via.h ../../src/maincpu.h \
-	../../src/mon.h ../../src/mos6510.h petvia.h ../../src/crtc.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/arch/unix/kbd.h ../../src/parallel.h \
-	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
-	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
-	petsound.h ../../src/pruser.h ../../src/viacore.c
+	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
+	petvia.h ../../src/crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/arch/unix/kbd.h \
+	../../src/parallel.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h petsound.h ../../src/pruser.h \
+	../../src/viacore.c
 
 info: info-recursive
 dvi: dvi-recursive

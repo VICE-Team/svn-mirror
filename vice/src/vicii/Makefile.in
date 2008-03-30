@@ -283,8 +283,8 @@ distdir: $(DISTFILES)
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
 	../../src/types.h ../../src/snapshot.h ../../src/alarm.h \
-	../../src/log.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/interrupt.h ../../src/vmachine.h \
+	../../src/log.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/c64/c64.h \

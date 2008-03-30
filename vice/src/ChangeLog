@@ -1,3 +1,148 @@
+1999-03-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.47.
+
+	* vicii/vicii.c: #include "c64.h".
+	(vic_ii_init): Use C64_PAL_CYCLES_PER_RFSH
+
+	* Makefile.am: Added `clkguard.h' and `clkguard.c'.
+
+1998-03-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciatimer.h (ciat_t): add lastz, the clock of the last underflow.
+	(ciat_update): set value of lastz
+	(ciat_read_timer, ciat_read_cnt, ciat_do_read_timer): split first
+	function into two, ciat_do_read_timer that returns either the 
+	real counter value (called from cia_read_cnt) or the value after
+	a possible load (called from cia_read_timer).
+	(ciat_set_latchlo): take effect even when load has happened 
+	one cycle before.
+	(ciat_set_ctrl): when stopping timer, handle oneshot.
+	When starting the timer while underflow occurs, restart timer
+	When force loading+start a timer, handle underflow at this
+	cycle
+	
+1998-03-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciacore.c: all occurances of ciat_set_alarm: add clk parameter
+	(cia_strobe_ta, cia_strobe_tb): new functions to be 
+	called as a callback when an unexpected underflow happens...
+	(is this a hack or a feature?)
+	(mycia_init): add strobe functions to ciat_init call.
+	(read_mycia): If a read is called with the same clock cycle
+	as before, update (increase) internal counter to handle opcode 
+	fetch. If new clock is higher, reset the internal counter
+	(mycia_prevent_clk_overflow): handle cia_read_clk
+	
+	* ciatimer.h (cia_state_t): remove latch value
+	(ciat_t): add latch value, and strobe function. Fix all occurances
+	add last_ack clock value that is set in ciat_ack_alarm
+	(ciat_update): process only if last update was strictly earlier
+	(ciat_prevent_clk_overflow): handle last_ack
+	(ciat_read_timer): when nextz is increased by latch+1 in ack_alarm,
+	remove the add and do not return module latch value - if latch is
+	changed while timer running this otherwise breaks!
+	(ciat_set_ctrl): when force load and start the timer, a pulse
+	might leak through to PB6/7 toggle or Timer B count TA???
+	(ciat_ack_alarm): set last_ack clock
+
+1999-03-25  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uicommands.c: Moved fliplist commands to a
+	separate submenu.
+
+	* drive/drivecpucore.c (mydrive_cpu_init): Use
+	`IDENTIFICATION_STRING' instead of bogus `"MYIDENTIFICATION"'.
+
+	* drive/drivecpu0.c (IDENTIFICATION_STRING): New #define,
+	replacing old bogus `MYIDENTIFICATION'.
+	* drive/drivecpu1.c (IDENTIFICATION_STRING): Likewise.
+
+	* drive/drivecpucore.c (mydrive_cpu_prevent_clk_overflow):
+	Temporarily `#if 0'ed out.
+
+	* c64/vicii.c (vic_ii_prevent_clk_overflow): Removed.
+	(clk_overflow_callback): New function (does the same thing as the
+	previous one, but has `clk_guard_callback_t' parameters).
+	(vic_ii_init): Setup `clk_overflow_callback()' as a clk overflow
+	callback for the main CPU and setup the clk base to
+	`CYCLES_PER_RFSH'.
+
+	* c64/c64.c (vsync_hook): Prevent overflow via the maincpu clk
+	guard.  #include "clkguard.h".
+	* c128/c128.c (vsync_hook): Likewise.
+	* vic20/vic20.c (vsync_hook): Likewise.
+	* pet/pet.c (vsync_hook): Likewise.
+	* cbm2/c610.c (vsync_hook): Likewise.
+
+	* interrupt.c (prevent_clk_overflow): Removed.
+
+	* interrupt.h (maincpu_prevent_clk_overflow): Removed.
+
+	* maincpu.c: New variable `maincpu_clk_guard'.
+	(maincpu_init): Initialize it.
+
+1999-03-24  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* clkguard.c (clk_guard_new): New function.
+	(clk_guard_init): New function.
+	(clk_guard_set_clk_base): New function.
+	(clk_guard_get_clk_base): New function.
+	(clk_guard_add_callback): New function.
+	(clk_guard_destroy): New function.
+	(clk_guard_prevent_overflow): New function.
+
+	* clkoverflow.c: New file.
+
+	* clkoverflow.h: New file.
+
+	* alarm.c (alarm_context_time_warp): New function.
+
+1998-03-24  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciacore.c (my_set_int): do not automatically set ICR bit 7
+	when activating the int line
+	(check_ciatodalarm): set int line when TOD interrupt
+	(cia_do_set_int): set int line with checking of read_icr
+	(store_mycia): when writing to ICR, use cia_do_set_int
+	(read_mycia): set ciardi _before_ updating timers
+	(int_ciata, int_ciatb): use cia_do_set_int.
+
+	* ciatimer.h (ciat_update): when in single step mode,
+	check nextz and return an underflow when necessary.
+	(ciat_is_running): check whether ciat_ack_alarm just 
+	disabled the timer and return 0 if so.
+	(ciat_single_step): delay underflow one cycle by issuing
+	and alarm via nextz
+
+1998-03-24  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciatimer.h (CIAT_STACKLEN): make state stack length configurable
+	(ciat_state_t, ciat_t, ciat_init, ciat_reset, ciat_update, 
+	ciat_single_step, ciat_set_ctrl): change oneshot handling.
+	(ciat_update): if called "before" a previous call, log it.
+	remove handling of whether this is an underflow clock or not.
+	(ciat_is_underflow_clk): new function
+	(ciat_is_running): new function
+
+	* ciacore.c (_CIA_FUNC): defined either as "static" or "static inline"
+	(cia_update_ta, cia_do_update_ta): split former function into those	
+	two. The first one handles issued alarms, the second the real 
+	update. Always cia_update_ta is called, except probably in 
+	int_ciata/int_ciatb.
+	(cia_update_tb, cia_do_update_tb): likewise
+	(cia_do_step_tb): similar to cia_do_update_tb, only call single
+	stepping instead of update.
+	(read_mycia, store_mycia): use ciat_is_underflow_clk() instead 
+	of cia_tap/cia_tbp
+	(store_mycia): when writing CRB and enabling couting TA, then 
+	also update and set alarm on timer A
+	(read_mycia): when reading CRA/CRB use ciat_is_running() to determine
+	start/stop bit.
+	(int_ciata, int_ciatb): change call to ciat_update the same way
+	as cia_do_update_t*.
+	When calling my_set_int, add 1 to the clock.
+
 1999-03-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.46.
