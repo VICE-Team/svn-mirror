@@ -34,6 +34,7 @@
 #include "vice.h"
 #include "types.h"
 #include "palette.h"
+#include "uiapi.h"
 
 /* If this is #defined, `Alt' is handled the same as `Meta'.  On
    systems which have Meta, it's better to use Meta instead of Alt as
@@ -56,10 +57,6 @@ typedef enum {
     UI_BUTTON_YES, UI_BUTTON_NO, UI_BUTTON_RESET, UI_BUTTON_HARDRESET,
     UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
 } ui_button_t;
-
-typedef enum {
-    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
-} ui_jam_action_t;
 
 typedef XtCallbackProc ui_callback_t;
 typedef XtPointer ui_callback_data_t;
@@ -93,22 +90,6 @@ typedef struct {
 #endif
 /* ------------------------------------------------------------------------- */
 
-/* This is used by `ui_enable_drive_status()'.  */
-typedef enum {
-    UI_DRIVE_ENABLE_NONE = 0,
-    UI_DRIVE_ENABLE_0 = 1 << 0,
-    UI_DRIVE_ENABLE_1 = 1 << 1,
-    UI_DRIVE_ENABLE_2 = 1 << 2,
-    UI_DRIVE_ENABLE_3 = 1 << 3
-} ui_drive_enable_t;
-
-/* ------------------------------------------------------------------------- */
-
-int ui_init_resources(void);
-int ui_init_cmdline_options(void);
-
-int ui_init(int *argc, char **argv);
-int ui_init_finish(void);
 void ui_set_left_menu(Widget w);
 void ui_set_right_menu(Widget w);
 void ui_set_application_icon(Pixmap icon_pixmap);
@@ -120,16 +101,10 @@ Window ui_canvas_get_drawable(ui_window_t w);
 int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
-void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
-void ui_display_drive_track(int drive_number, double track_number);
-void ui_display_drive_led(int drive_number, int status);
-void ui_display_drive_current_image(int drive_number, char *image);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
 void ui_dispatch_events(void);
-void ui_error(const char *format,...);
 void ui_exit(void);
-ui_jam_action_t ui_jam_dialog(const char *format,...);
 void ui_message(const char *format,...);
 void ui_show_text(const char *title, const char *text, int width, int height);
 char *ui_select_file(const char *title, char *(*read_contents_func)(const char *), int allow_autostart, const char *default_dir, const char *default_pattern, ui_button_t *button_return);
@@ -137,8 +112,6 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, un
 ui_button_t ui_ask_confirmation(const char *title, const char *text);
 void ui_autorepeat_on(void);
 void ui_autorepeat_off(void);
-void ui_update_menus(void);
-int ui_extend_image_dialog(void);
 Widget ui_create_transient_shell(Widget parent, const char *name);
 void ui_popdown(Widget w);
 void ui_popup(Widget w, const char *title, Boolean wait_popdown);
@@ -156,3 +129,4 @@ int ui_is_fullscreen_available(void);
 #endif
 
 #endif /* !defined (_UI_XAW_H) */
+

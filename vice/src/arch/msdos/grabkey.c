@@ -101,10 +101,9 @@ static void my_kbd_interrupt_handler(void)
     outportb(0x20, 0x20);
 }
 
+/* FIXME: This routine is not used.
 static void my_kbd_interrupt_handler_end() { }
 
-/* FIXME: This routine is not used.  */
-/*
 static void lock_stuff(void)
 {
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);

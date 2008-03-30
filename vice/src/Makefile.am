@@ -100,6 +100,7 @@ noinst_HEADERS = \
 	tpi.h \
 	tpicore.h \
 	traps.h \
+	uiapi.h \
 	usleep.h \
 	utils.h \
 	vdrive.h \

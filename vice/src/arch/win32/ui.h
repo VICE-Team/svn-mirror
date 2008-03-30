@@ -24,9 +24,10 @@
  *
  */
 
-#ifndef _UI_H
-#define _UI_H
+#ifndef _UI_WIN32_H
+#define _UI_WIN32_H
 
+#include "uiapi.h"
 #include "video.h"
 
 typedef enum {
@@ -35,42 +36,13 @@ typedef enum {
     UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
 } ui_button_t;
 
-typedef enum {
-    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
-} ui_jam_action_t;
-
 /* ------------------------------------------------------------------------- */
 
-/* This is used by `ui_enable_drive_status()'.  */
-typedef enum {
-    UI_DRIVE_ENABLE_NONE = 0,
-    UI_DRIVE_ENABLE_0 = 1 << 0,
-    UI_DRIVE_ENABLE_1 = 1 << 1,
-    UI_DRIVE_ENABLE_2 = 1 << 2,
-    UI_DRIVE_ENABLE_3 = 1 << 3
-} ui_drive_enable_t;
-
-/* ------------------------------------------------------------------------- */
-
-extern int ui_init_resources(void);
-extern int ui_init_cmdline_options(void);
-extern int ui_init(int *argc, char **argv);
-extern int ui_init_finish(void);
 extern void ui_exit(void);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
-extern void ui_enable_drive_status(ui_drive_enable_t enable,
-                                   int *drive_led_color);
-extern void ui_display_drive_track(int drivenum, double track_number);
-extern void ui_display_drive_led(int drivenum, int status);
-extern void ui_display_drive_current_image(int drive_number, char *image);
 extern void ui_display_paused(int flag);
 extern void ui_dispatch_next_event(void);
 extern void ui_dispatch_events(void);
-extern void ui_update_menus(void);
-
-extern void ui_error(const char *format,...);
-extern int ui_extend_image_dialog();
-extern ui_jam_action_t ui_jam_dialog(const char *format,...);
 
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 
@@ -89,3 +61,4 @@ extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);
 
 #endif
+
