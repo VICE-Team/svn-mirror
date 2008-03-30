@@ -369,6 +369,9 @@ static void check_cia2todalarm(CLOCK rclk);
 
 
     static iec_info_t *iec_info;
+    iec_cpu_write_callback_t iec_cpu_write_callback[4] = { 
+        iec_cpu_write_conf0, iec_cpu_write_conf1,
+        iec_cpu_write_conf2, iec_cpu_write_conf3 };
 
 inline static void check_cia2todalarm(CLOCK rclk)
 {
@@ -603,18 +606,19 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	byte = cia2[CIA_PRA] | ~cia2[CIA_DDRA];
 
     if (oldpa != byte) {
-	 BYTE tmp;
+        BYTE tmp;
 
 #ifdef HAVE_RS232
-	 if(rsuser_enabled && ((oldpa^byte)&0x04)) {
-             rsuser_set_tx_bit(byte & 4);
-	 }
+        if(rsuser_enabled && ((oldpa^byte)&0x04)) {
+            rsuser_set_tx_bit(byte & 4);
+        }
 #endif
-	 tmp = ~byte;
-	 mem_set_vbank(tmp & 3);
-	 iec_cpu_write(tmp);
+        tmp = ~byte;
+        mem_set_vbank(tmp & 3);
+        /*iec_cpu_write(tmp);*/
+        iec_cpu_write_callback[iec_callback_index](tmp);
 #ifdef HAVE_PRINTER
-	 pruser_write_strobe(tmp & 0x04);
+        pruser_write_strobe(tmp & 0x04);
 #endif
     }
 	oldpa = byte;
@@ -638,9 +642,8 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	    }
 	}
 
-    if (drive_parallel_cable_enabled) {
-	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-    }
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);
 #endif
@@ -977,13 +980,13 @@ BYTE read_cia2_(ADDRESS addr)
 	   expected due to excessive load. */
 
 #ifdef HAVE_RS232
-    byte = (drive_parallel_cable_enabled
+    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
             ? parallel_cable_cpu_read()
             : (rsuser_enabled
 		? rsuser_read_ctrl()
 		: 0xff ));
 #else
-    byte = (drive_parallel_cable_enabled
+    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
             ? parallel_cable_cpu_read()
             : 0xff );
 #endif
@@ -1061,10 +1064,10 @@ BYTE read_cia2_(ADDRESS addr)
 	    BYTE t = 0;
 
 
-    if (drive_parallel_cable_enabled) {
-	drive0_cpu_execute();
-	drive1_cpu_execute();
-    }
+    if (drive[0].parallel_cable_enabled)
+        drive0_cpu_execute();
+    if (drive[1].parallel_cable_enabled)
+        drive1_cpu_execute();
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
 		printf("CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
@@ -1149,10 +1152,10 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
 	    BYTE t = 0;
 
 
-    if (drive_parallel_cable_enabled) {
-	drive0_cpu_execute();
-	drive1_cpu_execute();
-    }
+    if (drive[0].parallel_cable_enabled)
+        drive0_cpu_execute();
+    if (drive[1].parallel_cable_enabled)
+        drive1_cpu_execute();
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
 		printf("CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
@@ -1633,9 +1636,8 @@ int cia2_read_snapshot_module(snapshot_t *p)
 	byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
         oldpb = byte ^ 0xff;	/* all bits change? */
 
-    if (drive_parallel_cable_enabled) {
-	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-    }
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);
 #endif

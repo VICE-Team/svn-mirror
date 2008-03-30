@@ -41,9 +41,10 @@
 static iec_info_t iec_info; 
 
 static BYTE iec_old_atn = 0x10;
-
 static BYTE parallel_cable_cpu_value = 0xff;
 static BYTE parallel_cable_drive_value = 0xff;
+
+int iec_callback_index = 0;
 
 inline static void update_ports(void)
 {
@@ -87,68 +88,132 @@ BYTE iec_drive1_read(void)
 /* The C64 has all bus lines in one I/O byte in a CIA.  If this byte is read
    or modified, these routines are called.  */
 
-void iec_cpu_write(BYTE data)
+/* No drive is enabled.  */
+void iec_cpu_write_conf0(BYTE data)
 {
-    if (!drive[0].enable && !drive[1].enable) {
 	iec_info.iec_fast_1541 = data;
-	return;
-    }
+}
 
-    if (drive[0].enable)
-	drive0_cpu_execute();
-    if (drive[1].enable)
-	drive1_cpu_execute();
+/* Only the first drive is enabled.  */
+void iec_cpu_write_conf1(BYTE data)
+{
+    drive0_cpu_execute();
 
     iec_info.cpu_bus = (((data << 2) & 0x80)
                         | ((data << 2) & 0x40)
                         | ((data << 1) & 0x10));
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
-	iec_old_atn = iec_info.cpu_bus & 0x10;
-	if (drive[0].enable) {
-	    if (drive[0].type != DRIVE_TYPE_2031) {
-	        if (drive[0].type != DRIVE_TYPE_1581)
-		    via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
-	        else
-		    if (!iec_old_atn)
-		        cia1581d0_set_flag();
-	    }
-	}
-	if (drive[1].enable) {
-	    if (drive[1].type != DRIVE_TYPE_2031) {
-	        if (drive[1].type != DRIVE_TYPE_1581)
-		    via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
-	        else
-		    if (!iec_old_atn)
-		        cia1581d1_set_flag();
-	    }
-	}
+        iec_old_atn = iec_info.cpu_bus & 0x10;
+        if (drive[0].type != DRIVE_TYPE_2031) {
+            if (drive[0].type != DRIVE_TYPE_1581)
+                via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+            else
+                if (!iec_old_atn)
+                    cia1581d0_set_flag();
+        }
     }
-    if (drive[0].enable && drive[0].type != DRIVE_TYPE_2031) {
-	if (drive[0].type != DRIVE_TYPE_1581)
-	    iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+    if (drive[0].type != DRIVE_TYPE_2031) {
+        if (drive[0].type != DRIVE_TYPE_1581)
+            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                           | ((iec_info.drive_data << 6)
                           & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
                           & 0x80));
-	else
-        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+        else
+            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                           | ((iec_info.drive_data << 6)
                           & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
                           & 0x80));
 
-	}
-    if (drive[1].enable && drive[1].type != DRIVE_TYPE_2031) {
-	if (drive[1].type != DRIVE_TYPE_1581)
-	    iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+    }
+    update_ports();
+}
+
+/* Only the second drive is enabled.  */
+void iec_cpu_write_conf2(BYTE data)
+{
+    drive1_cpu_execute();
+
+    iec_info.cpu_bus = (((data << 2) & 0x80)
+                        | ((data << 2) & 0x40)
+                        | ((data << 1) & 0x10));
+
+    if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
+        iec_old_atn = iec_info.cpu_bus & 0x10;
+        if (drive[1].type != DRIVE_TYPE_2031) {
+            if (drive[1].type != DRIVE_TYPE_1581)
+                via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+            else
+                if (!iec_old_atn)
+                    cia1581d1_set_flag();
+        }
+    }
+    if (drive[1].type != DRIVE_TYPE_2031) {
+        if (drive[1].type != DRIVE_TYPE_1581)
+            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
                           | ((iec_info.drive2_data << 6)
                           & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
                           & 0x80));
-	else
-        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+        else
+            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
                           | ((iec_info.drive2_data << 6)
                           & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
                           & 0x80));
-	}
+    }
+    update_ports();
+}
+
+/* Both drive are enabled.  */
+void iec_cpu_write_conf3(BYTE data)
+{
+    drive0_cpu_execute();
+    drive1_cpu_execute();
+
+    iec_info.cpu_bus = (((data << 2) & 0x80)
+                        | ((data << 2) & 0x40)
+                        | ((data << 1) & 0x10));
+
+    if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
+        iec_old_atn = iec_info.cpu_bus & 0x10;
+        if (drive[0].type != DRIVE_TYPE_2031) {
+            if (drive[0].type != DRIVE_TYPE_1581)
+                via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+            else
+                if (!iec_old_atn)
+                    cia1581d0_set_flag();
+        }
+        if (drive[1].type != DRIVE_TYPE_2031) {
+            if (drive[1].type != DRIVE_TYPE_1581)
+                via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+            else
+                if (!iec_old_atn)
+                    cia1581d1_set_flag();
+        }
+    }
+    if (drive[0].type != DRIVE_TYPE_2031) {
+        if (drive[0].type != DRIVE_TYPE_1581)
+            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                          | ((iec_info.drive_data << 6)
+                          & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
+                          & 0x80));
+        else
+            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                          | ((iec_info.drive_data << 6)
+                          & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
+                          & 0x80));
+    }
+    if (drive[1].type != DRIVE_TYPE_2031) {
+        if (drive[1].type != DRIVE_TYPE_1581)
+            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                          | ((iec_info.drive2_data << 6)
+                          & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
+                          & 0x80));
+        else
+            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                          | ((iec_info.drive2_data << 6)
+                          & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
+                          & 0x80));
+    }
     update_ports();
 }
 
@@ -229,5 +294,11 @@ BYTE parallel_cable_cpu_read(void)
 int iec_available_busses(void) 
 {
     return IEC_BUS_IEC | IEC_BUS_IEEE;
+}
+
+void iec_calculate_callback_index(void)
+{
+    iec_callback_index = drive[0].enable ? 1 : 0
+                           || drive[1].enable ? 2 : 0;
 }
 

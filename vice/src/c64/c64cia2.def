@@ -67,6 +67,9 @@ INCLUDES()
 PRE_CIA_FUNCS()
 {
     static iec_info_t *iec_info;
+    iec_cpu_write_callback_t iec_cpu_write_callback[4] = { 
+        iec_cpu_write_conf0, iec_cpu_write_conf1,
+        iec_cpu_write_conf2, iec_cpu_write_conf3 };
 }
 
 RESET_CIA()
@@ -100,18 +103,19 @@ PRE_PEEK_CIA()
 STORE_CIAPA()
 {
     if (oldpa != byte) {
-	 BYTE tmp;
+        BYTE tmp;
 
 #ifdef HAVE_RS232
-	 if(rsuser_enabled && ((oldpa^byte)&0x04)) {
-             rsuser_set_tx_bit(byte & 4);
-	 }
+        if(rsuser_enabled && ((oldpa^byte)&0x04)) {
+            rsuser_set_tx_bit(byte & 4);
+        }
 #endif
-	 tmp = ~byte;
-	 mem_set_vbank(tmp & 3);
-	 iec_cpu_write(tmp);
+        tmp = ~byte;
+        mem_set_vbank(tmp & 3);
+        /*iec_cpu_write(tmp);*/
+        iec_cpu_write_callback[iec_callback_index](tmp);
 #ifdef HAVE_PRINTER
-	 pruser_write_strobe(tmp & 0x04);
+        pruser_write_strobe(tmp & 0x04);
 #endif
     }
 }
@@ -130,9 +134,8 @@ UNDUMP_CIAPA()
 
 STORE_CIAPB()
 {
-    if (drive_parallel_cable_enabled) {
-	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-    }
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);
 #endif
@@ -144,9 +147,8 @@ STORE_CIAPB()
 /* FIXME! */
 UNDUMP_CIAPB()
 {
-    if (drive_parallel_cable_enabled) {
-	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-    }
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);
 #endif
@@ -170,13 +172,13 @@ READ_CIAPA()
 READ_CIAPB()
 {
 #ifdef HAVE_RS232
-    byte = (drive_parallel_cable_enabled
+    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
             ? parallel_cable_cpu_read()
             : (rsuser_enabled
 		? rsuser_read_ctrl()
 		: 0xff ));
 #else
-    byte = (drive_parallel_cable_enabled
+    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
             ? parallel_cable_cpu_read()
             : 0xff );
 #endif
@@ -185,10 +187,10 @@ READ_CIAPB()
 
 READ_CIAICR()
 {
-    if (drive_parallel_cable_enabled) {
-	drive0_cpu_execute();
-	drive1_cpu_execute();
-    }
+    if (drive[0].parallel_cable_enabled)
+        drive0_cpu_execute();
+    if (drive[1].parallel_cable_enabled)
+        drive1_cpu_execute();
 }
 
 POST_CIA_FUNCS()

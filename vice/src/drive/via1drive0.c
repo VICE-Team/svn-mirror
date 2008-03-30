@@ -374,7 +374,7 @@ void via1d0_signal(int line, int edge)
         byte = parieee_is_out ? 0xff : ~parallel_bus;
         return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
-    byte = (drive_parallel_cable_enabled
+    byte = (drive[0].parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
@@ -505,7 +505,7 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
 		printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
 	    parallel_drv0_set_bus(parieee_is_out ? byte : 0);
 	} else
-        if (drive_parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
+        if (drive[0].parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
             parallel_cable_drive_write(byte,
                                         (((addr == VIA_PRA)
                                         && ((via1d0[VIA_PCR] & 0xe) == 0xa))
@@ -708,7 +708,7 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
         byte = parieee_is_out ? 0xff : ~parallel_bus;
         return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
-    byte = (drive_parallel_cable_enabled
+    byte = (drive[0].parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
@@ -890,7 +890,7 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
         byte = parieee_is_out ? 0xff : ~parallel_bus;
         return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
-    byte = (drive_parallel_cable_enabled
+    byte = (drive[0].parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
@@ -918,7 +918,7 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
         byte = parieee_is_out ? 0xff : ~parallel_bus;
         return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
-    byte = (drive_parallel_cable_enabled
+    byte = (drive[0].parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)

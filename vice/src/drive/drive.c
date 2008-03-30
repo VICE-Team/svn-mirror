@@ -78,20 +78,14 @@ static int drive_set_disk_drive_type(int drive_type, int dnr);
 static void drive_set_sync_factor(unsigned int factor);
 static void drive_set_ntsc_sync_factor(void);
 static void drive_set_pal_sync_factor(void);
+static int set_drive0_idling_method(resource_value_t v);
+static int set_drive1_idling_method(resource_value_t v);
 
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
 
 /* Pointer to the IEC bus structure.  */
 static iec_info_t *iec_info;
-
-/* Flag: Do we emulate a SpeedDOS-compatible parallel cable?  */
-/* FIXME: This will be moved to struct drive_t soon.  */
-int drive_parallel_cable_enabled;
-
-/* What extension policy?  (See `DRIVE_EXTEND_*' in `drive.h'.)  */
-/* FIXME: This will be moved to struct drive_t soon.  */
-static int extend_image_policy;
 
 /* What sync factor between the CPU and the drive?  If equal to
    `DRIVE_SYNC_PAL', the same as PAL machines.  If equal to
@@ -118,10 +112,12 @@ static int set_drive_true_emulation(resource_value_t v)
         if (drive[0].type != DRIVE_TYPE_NONE) {
             drive[0].enable = 1;
             drive_enable(0);
+            iec_calculate_callback_index();
         }
         if (drive[1].type != DRIVE_TYPE_NONE) {
             drive[1].enable = 1;
             drive_enable(1);
+            iec_calculate_callback_index();
         }
     } else {
             drive_disable(0);
@@ -155,8 +151,10 @@ static int set_drive0_type(resource_value_t v)
         if (drive_true_emulation) {
             drive[0].enable = 1;
             drive_enable(0);
+            iec_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, 0);
+        set_drive0_idling_method((resource_value_t) drive[0].idling_method);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[0].type = type;
@@ -192,8 +190,10 @@ static int set_drive1_type(resource_value_t v)
         if (drive_true_emulation) {
             drive[1].enable = 1;
             drive_enable(1);
+            iec_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, 1);
+        set_drive1_idling_method((resource_value_t) drive[1].idling_method);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[1].type = type;
@@ -204,19 +204,38 @@ static int set_drive1_type(resource_value_t v)
     }
 }
 
-static int set_drive_parallel_cable_enabled(resource_value_t v)
+static int set_drive0_parallel_cable_enabled(resource_value_t v)
 {
-    drive_parallel_cable_enabled = (int) v;
+    drive[0].parallel_cable_enabled = (int) v;
     return 0;
 }
 
-static int set_extend_image_policy(resource_value_t v)
+static int set_drive1_parallel_cable_enabled(resource_value_t v)
+{
+    drive[1].parallel_cable_enabled = (int) v;
+    return 0;
+}
+
+static int set_drive0_extend_image_policy(resource_value_t v)
 {
     switch ((int) v) {
       case DRIVE_EXTEND_NEVER:
       case DRIVE_EXTEND_ASK:
       case DRIVE_EXTEND_ACCESS:
-        extend_image_policy = (int) v;
+        drive[0].extend_image_policy = (int) v;
+        return 0;
+      default:
+        return -1;
+    }
+}
+
+static int set_drive1_extend_image_policy(resource_value_t v)
+{
+    switch ((int) v) {
+      case DRIVE_EXTEND_NEVER:
+      case DRIVE_EXTEND_ASK:
+      case DRIVE_EXTEND_ACCESS:
+        drive[1].extend_image_policy = (int) v;
         return 0;
       default:
         return -1;
@@ -360,10 +379,18 @@ static resource_t resources[] = {
       (resource_value_t *) &(drive[0].type), set_drive0_type },
     { "Drive9Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_NONE,
       (resource_value_t *) &(drive[1].type), set_drive1_type },
-    { "DriveParallelCable", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &drive_parallel_cable_enabled, set_drive_parallel_cable_enabled },
-    { "DriveExtendImagePolicy", RES_INTEGER, (resource_value_t) DRIVE_EXTEND_NEVER,
-      (resource_value_t *) &extend_image_policy, set_extend_image_policy },
+    { "Drive8ParallelCable", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &(drive[0].parallel_cable_enabled),
+       set_drive0_parallel_cable_enabled },
+    { "Drive9ParallelCable", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &(drive[1].parallel_cable_enabled),
+       set_drive1_parallel_cable_enabled },
+    { "Drive8ExtendImagePolicy", RES_INTEGER,
+      (resource_value_t) DRIVE_EXTEND_NEVER, (resource_value_t *)
+      &(drive[0].extend_image_policy), set_drive0_extend_image_policy },
+    { "Drive9ExtendImagePolicy", RES_INTEGER,
+      (resource_value_t) DRIVE_EXTEND_NEVER, (resource_value_t *)
+      &(drive[1].extend_image_policy), set_drive1_extend_image_policy },
     { "Drive8IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
       (resource_value_t *) &(drive[0].idling_method), set_drive0_idling_method },
     { "Drive9IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
@@ -399,10 +426,16 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "<type>", "Set drive type (0: no drive)" },
     { "-drive9type", SET_RESOURCE, DRIVE_TYPE_NONE, NULL, NULL, "Drive9Type",
       NULL, "<type>", "Set drive type (0: no drive)" },
-    { "-parallel", SET_RESOURCE, 0, NULL, NULL, "DriveParallelCable",
+    { "-parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
       (resource_value_t) 1,
       NULL, "Enable SpeedDOS-compatible parallel cable" },
-    { "+parallel", SET_RESOURCE, 0, NULL, NULL, "DriveParallelCable",
+    { "+parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
+      (resource_value_t) 0,
+      NULL, "Disable SpeedDOS-compatible parallel cable" },
+    { "-parallel9", SET_RESOURCE, 0, NULL, NULL, "Drive9ParallelCable",
+      (resource_value_t) 1,
+      NULL, "Enable SpeedDOS-compatible parallel cable" },
+    { "+parallel9", SET_RESOURCE, 0, NULL, NULL, "Drive9ParallelCable",
       (resource_value_t) 0,
       NULL, "Disable SpeedDOS-compatible parallel cable" },
     { "-drive8idle", SET_RESOURCE, 2, NULL, NULL, "Drive8IdleMethod",
@@ -481,10 +514,6 @@ static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
 
 /* Number of bytes per track size.  */
 static int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
-
-/* If the user does not want to extend the disk image and `ask mode' is
-   selected this flag gets cleared.  */
-static int ask_extend_disk_image;
 
 /* Clock speed of the PAL and NTSC versions of the connected computer.  */
 static CLOCK pal_cycles_per_sec;
@@ -1164,6 +1193,7 @@ static void drive_disable(int dnr)
     /* This must come first, because this might be called before the true
        drive initialization.  */
     drive[dnr].enable = 0;
+    iec_calculate_callback_index();
 
     if (rom_loaded && !drive_true_emulation)
 	serial_install_traps();
@@ -1226,7 +1256,7 @@ int drive_attach_floppy(DRIVE *floppy)
     drive[dnr].read_only = drive[dnr].drive_floppy->ReadOnly;
     drive[dnr].have_new_disk = 1;
     drive[dnr].attach_clk = drive_clk[dnr];
-    ask_extend_disk_image = 1;
+    drive[dnr].ask_extend_disk_image = 1;
 
     if (drive[dnr].drive_floppy->GCR_Header != 0) {
         if (!drive_read_image_gcr(dnr))
@@ -1527,15 +1557,15 @@ static void GCR_data_writeback(int dnr)
             return;
         max_sector = sector_map_1541[track];
         if (track > drive[dnr].drive_floppy->NumTracks) {
-            switch (extend_image_policy) {
+            switch (drive[dnr].extend_image_policy) {
               case DRIVE_EXTEND_NEVER:
-                ask_extend_disk_image = 1;
+                drive[dnr].ask_extend_disk_image = 1;
                 return;
               case DRIVE_EXTEND_ASK:
-                if (ask_extend_disk_image == 1) {
+                if (drive[dnr].ask_extend_disk_image == 1) {
                     extend = ui_extend_image_dialog();
                     if (extend == 0) {
-                        ask_extend_disk_image = 0;
+                        drive[dnr].ask_extend_disk_image = 0;
                         return;
                     } else {
                         drive_extend_disk_image(dnr);
@@ -1545,7 +1575,7 @@ static void GCR_data_writeback(int dnr)
                 }
                 break;
               case DRIVE_EXTEND_ACCESS:
-                ask_extend_disk_image = 1;
+                drive[dnr].ask_extend_disk_image = 1;
                 drive_extend_disk_image(dnr);
                 break;
             }

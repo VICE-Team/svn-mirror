@@ -85,9 +85,12 @@ static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe);
 static void draw_standard_line_cached_2x(struct line_cache *l, int xs, int xe);
 static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe);
 
-/* Define the position of the raster beam precisely. */
+/* Define the position of the raster beam precisely.  */
+#if 0
+/* This cannot be used as the screen height can change.  */
 #define RASTER_Y    	((int)(clk / CYCLES_PER_LINE) % SCREEN_HEIGHT)
 #define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
+#endif
 
 static palette_t *palette;
 static BYTE crtc[19];
@@ -465,14 +468,10 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 	break;
 
       case 9:			/* R09  Rasters between two display lines */
-#if 1
-#ifndef __MSDOS__
-	screen_charheight = crtc[9]+1;
-#else
-	screen_charheight = 8;
-#endif
+	screen_charheight = crtc[9] + 1;
+        /* FIXME?  */
         printf("set screen_charheight to %d\n",screen_charheight);
-#endif
+        video_resize();
 	break;
 
       case 10:			/* R10  Cursor (not implemented on the PET) */
@@ -959,9 +958,11 @@ int crtc_write_snapshot_module(snapshot_t *s)
     if (m == NULL)
         return -1;
 
-    if (ef 
+    if (ef
+#if 0
 	|| snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0
         || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0
+#endif
         || snapshot_module_write_word(m, (WORD) addr_mask) < 0
         || snapshot_module_write_byte(m, (BYTE) crtc_cols) < 0
         || snapshot_module_write_byte(m, (BYTE) 
@@ -1007,6 +1008,7 @@ int crtc_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
+#if 0
     if (snapshot_module_read_byte(m, &b) < 0)
         goto fail;
     if (b != RASTER_CYCLE) {
@@ -1022,6 +1024,7 @@ int crtc_read_snapshot_module(snapshot_t *s)
                 (int) b, RASTER_Y);
         goto fail;
     }
+#endif
 
     if ( 0 
         || snapshot_module_read_word(m, &vmask) < 0
@@ -1045,7 +1048,7 @@ int crtc_read_snapshot_module(snapshot_t *s)
     crsrcnt = b & 0x3f;
     crsrstate = (b & 0x80) ? 1 : 0;
 
-    maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE - RASTER_CYCLE);
+    maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE /* - RASTER_CYCLE*/);
 
     signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
 

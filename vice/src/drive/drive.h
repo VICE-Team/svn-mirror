@@ -282,11 +282,20 @@ typedef struct drive_s {
     /* is this disk read only?  */
     int read_only;
 
+    /* What extension policy?  */
+    int extend_image_policy;
+
+    /* Flag: Do we emulate a SpeedDOS-compatible parallel cable?  */
+    int parallel_cable_enabled;
+
+    /* If the user does not want to extend the disk image and `ask mode' is
+    selected this flag gets cleared.  */
+    int ask_extend_disk_image;
+
 } drive_t;
 
 extern drive_t drive[2];
 
-extern int drive_parallel_cable_enabled;
 extern int drive_init_resources(void);
 extern int drive_init_cmdline_options(void);
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);

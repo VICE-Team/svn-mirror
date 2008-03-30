@@ -536,7 +536,8 @@ ui_menu_entry_t rs232_submenu[] = {
 /* Drive emulation support items.  */
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-UI_MENU_DEFINE_TOGGLE(DriveParallelCable)
+UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
+UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 
 static UI_CALLBACK(set_custom_drive_sync_factor)
 {
@@ -575,7 +576,8 @@ static UI_CALLBACK(set_custom_drive_sync_factor)
     }
 }
 
-UI_MENU_DEFINE_RADIO(DriveExtendImagePolicy)
+UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
+UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(DriveSyncFactor)
 UI_MENU_DEFINE_RADIO(Drive8IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive9IdleMethod)
@@ -740,7 +742,7 @@ static UI_CALLBACK(radio_Drive9Type)
     } 
 }
 
-static ui_menu_entry_t set_drive8_type_submenu[] = {
+static ui_menu_entry_t set_drive0_type_submenu[] = {
     { "*None", (ui_callback_t) radio_Drive8Type,
       (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t) radio_Drive8Type,
@@ -754,7 +756,7 @@ static ui_menu_entry_t set_drive8_type_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive9_type_submenu[] = {
+static ui_menu_entry_t set_drive1_type_submenu[] = {
     { "*None", (ui_callback_t) radio_Drive9Type,
       (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t) radio_Drive9Type,
@@ -768,12 +770,22 @@ static ui_menu_entry_t set_drive9_type_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive_extend_image_policy_submenu[] = {
-    { "*Never extend", (ui_callback_t) radio_DriveExtendImagePolicy,
+static ui_menu_entry_t set_drive0_extend_image_policy_submenu[] = {
+    { "*Never extend", (ui_callback_t) radio_Drive8ExtendImagePolicy,
       (ui_callback_data_t) DRIVE_EXTEND_NEVER, NULL },
-    { "*Ask on extend", (ui_callback_t) radio_DriveExtendImagePolicy,
+    { "*Ask on extend", (ui_callback_t) radio_Drive8ExtendImagePolicy,
       (ui_callback_data_t) DRIVE_EXTEND_ASK, NULL },
-    { "*Extend on access", (ui_callback_t) radio_DriveExtendImagePolicy,
+    { "*Extend on access", (ui_callback_t) radio_Drive8ExtendImagePolicy,
+      (ui_callback_data_t) DRIVE_EXTEND_ACCESS, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive1_extend_image_policy_submenu[] = {
+    { "*Never extend", (ui_callback_t) radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t) DRIVE_EXTEND_NEVER, NULL },
+    { "*Ask on extend", (ui_callback_t) radio_Drive9ExtendImagePolicy,
+      (ui_callback_data_t) DRIVE_EXTEND_ASK, NULL },
+    { "*Extend on access", (ui_callback_t) radio_Drive9ExtendImagePolicy,
       (ui_callback_data_t) DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
@@ -788,7 +800,7 @@ static ui_menu_entry_t set_drive_sync_factor_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive8_idle_method_submenu[] = {
+static ui_menu_entry_t set_drive0_idle_method_submenu[] = {
     { "*No traps", (ui_callback_t) radio_Drive8IdleMethod,
       (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
     { "*Skip cycles", (ui_callback_t) radio_Drive8IdleMethod,
@@ -798,7 +810,7 @@ static ui_menu_entry_t set_drive8_idle_method_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive9_idle_method_submenu[] = {
+static ui_menu_entry_t set_drive1_idle_method_submenu[] = {
     { "*No traps", (ui_callback_t) radio_Drive9IdleMethod,
       (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
     { "*Skip cycles", (ui_callback_t) radio_Drive9IdleMethod,
@@ -1078,21 +1090,25 @@ static ui_menu_entry_t drive_settings_submenu[] = {
       (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
     { "--" },
     { "Drive #8 floppy disk type",
-      NULL, NULL, set_drive8_type_submenu },
+      NULL, NULL, set_drive0_type_submenu },
+    { "*Drive #8 enable parallel cable",
+      (ui_callback_t) toggle_Drive8ParallelCable, NULL, NULL },
+    { "Drive #8 40-track image support",
+      NULL, NULL, set_drive0_extend_image_policy_submenu },
     { "Drive #8 idle method",
-      NULL, NULL, set_drive8_idle_method_submenu },
+      NULL, NULL, set_drive0_idle_method_submenu },
     { "--" },
     { "Drive #9 floppy disk type",
-      NULL, NULL, set_drive9_type_submenu },
+      NULL, NULL, set_drive1_type_submenu },
+    { "*Drive #9 enable parallel cable",
+      (ui_callback_t) toggle_Drive9ParallelCable, NULL, NULL },
+    { "Drive #9 40-track image support",
+      NULL, NULL, set_drive1_extend_image_policy_submenu },
     { "Drive #9 idle method",
-      NULL, NULL, set_drive9_idle_method_submenu },
+      NULL, NULL, set_drive1_idle_method_submenu },
     { "--" },
-    { "40-track image support",
-      NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive sync factor",
       NULL, NULL, set_drive_sync_factor_submenu },
-    { "*Enable parallel cable",
-      (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
     { NULL }
 };
 
@@ -1102,23 +1118,23 @@ static ui_menu_entry_t par_drive_settings_submenu[] = {
       (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
     { "--" },
     { "Drive #8 floppy disk type",
-      NULL, NULL, set_drive8_type_submenu },
+      NULL, NULL, set_drive0_type_submenu },
+    { "Drive #8 40-track image support",
+      NULL, NULL, set_drive0_extend_image_policy_submenu },
 #if 0
     { "Drive #8 idle method",
-      NULL, NULL, set_drive8_idle_method_submenu },
+      NULL, NULL, set_drive0_idle_method_submenu },
 #endif
     { "--" },
     { "Drive #9 floppy disk type",
-      NULL, NULL, set_drive9_type_submenu },
+      NULL, NULL, set_drive1_type_submenu },
     { "Drive #9 40-track image support",
-      NULL, NULL, set_drive_extend_image_policy_submenu },
+      NULL, NULL, set_drive1_extend_image_policy_submenu },
 #if 0
     { "Drive #9 idle method",
-      NULL, NULL, set_drive9_idle_method_submenu },
+      NULL, NULL, set_drive1_idle_method_submenu },
 #endif
     { "--" },
-    { "40-track image support",
-      NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive sync factor",
       NULL, NULL, set_drive_sync_factor_submenu },
     { NULL }

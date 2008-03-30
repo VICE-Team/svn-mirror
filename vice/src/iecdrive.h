@@ -62,5 +62,6 @@ extern iec_info_t *iec_get_drive_port(void);
 #define	IEC_BUS_IEEE	0x02	/* parallel IEEE bus */
 
 extern int iec_available_busses(void);
+extern void iec_calculate_callback_index(void);
 
 #endif
