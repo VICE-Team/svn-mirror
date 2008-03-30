@@ -734,7 +734,7 @@ inline static void setup_voice(voice_t *pv)
     case DECAY:
     case SUSTAIN:
 	if (pv->d[4] & 0x01)
-	    set_adsr(pv, pv->gateflip ? ATTACK : pv->adsrm);
+	    set_adsr(pv, (BYTE)(pv->gateflip ? ATTACK : pv->adsrm));
 	else
 	    set_adsr(pv, RELEASE);
 	break;
@@ -960,8 +960,8 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     psid->newsid = sid_model == 1;
     for (i = 0; i < 4096; i++)
     {
-	wavetable10[i] = i < 2048 ? i << 4 : 0xffff - (i << 4);
-	wavetable20[i] = i << 3;
+	wavetable10[i] = (WORD)(i < 2048 ? i << 4 : 0xffff - (i << 4));
+	wavetable20[i] = (WORD)(i << 3);
 	wavetable30[i] = waveform30_8580[i] << 7;
 	wavetable40[i + 4096] = 0x7fff;
 	if (psid->newsid)
@@ -980,13 +980,14 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 #endif
     for (i = 0; i < NOISETABLESIZE; i++)
     {
-	noiseLSB[i] = (((i>>(7-2))&0x04)|((i>>(4-1))&0x02)|((i>>(2-0))&0x01));
-	noiseMID[i] = (((i>>(13-8-4))&0x10)|((i<<(3-(11-8)))&0x08));
-	noiseMSB[i] = (((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
- 		       |((i<<(5-(16-16)))&0x20));
+        noiseLSB[i] = (BYTE)((((i>>(7-2))&0x04) | ((i>>(4-1))&0x02)
+                      | ((i>>(2-0))&0x01)));
+        noiseMID[i] = (BYTE)((((i>>(13-8-4))&0x10) | ((i<<(3-(11-8)))&0x08)));
+        noiseMSB[i] = (BYTE)((((i<<(7-(22-16)))&0x80) | ((i<<(6-(20-16)))&0x40)
+                      | ((i<<(5-(16-16)))&0x20)));
     }
     for (i = 0; i < 9; i++)
-	sidreadclocks[i] = 13;
+        sidreadclocks[i] = 13;
     return psid;
 }
 
@@ -1070,12 +1071,12 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 	    psid->v[2].rv = NSHIFT(psid->v[2].rv, 16);
 	}
 	psid->v[2].f += ffix;
-	ret = doosc(&psid->v[2]) >> 7;
+	ret = (BYTE)(doosc(&psid->v[2]) >> 7);
 	psid->v[2].f -= ffix;
 	psid->v[2].rv = rvstore;
 	break;
     case 0x1c:
-	ret = psid->v[2].adsr >> 23;
+	ret = (BYTE)(psid->v[2].adsr >> 23);
 	break;
     default:
 	while ((tmp = psid->laststorebit) &&
@@ -1160,13 +1161,13 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 
 void sid_reset(void)
 {
-    int				i;
+    ADDRESS i;
 
     sound_reset();
 
     memset(siddata, 0, 32);
     for (i = 0; i < 32; i++)
-	sound_store(i, 0);
+        sound_store(i, 0);
 }
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
