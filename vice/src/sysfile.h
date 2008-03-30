@@ -31,7 +31,7 @@
 #include <stdio.h>
 #endif
 
-int sysfile_init(const char *boot_path, const char *emu_id);
+int sysfile_init(const char *emu_id);
 int sysfile_init_resources(void);
 int sysfile_init_cmdline_options(void);
 FILE *sysfile_open(const char *name, char **complete_path_return);
