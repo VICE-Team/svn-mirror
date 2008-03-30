@@ -259,13 +259,21 @@ Special keys
 
 The following keys perform special actions on *all emulators*:
 
-    Esc           enter the emulation menu
+    Esc           Enter the emulation menu
 
-    Alt-F12       soft reset
+    Alt-F1        Attach next disk image from flip list
 
-    Alt-Ctrl-F12  hard reset (wipes out RAM)
+    Alt-F2        Attach previous disk image from flip list
 
-    ScrollLock    toggle warp mode (it makes the emulator run as fast as
+    Alt-F3        Add current disk image to flip list
+
+    Alt-F4        Remove current disk image from flip list
+
+    Alt-F12       Soft reset
+
+    Alt-Ctrl-F12  Hard reset (wipes out RAM)
+
+    ScrollLock    Toggle warp mode (it makes the emulator run as fast as
                   possible and turns sound off)
 
     Alt-Pause     Freeze (emulates the Action Replay freeze button

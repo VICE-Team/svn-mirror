@@ -55,6 +55,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "vdrive.h"
+#include "fliplist.h"
 #include "fsdevice.h"
 #include "info.h"
 #include "machine.h"
@@ -69,6 +70,7 @@ tui_menu_t ui_attach_submenu;
 tui_menu_t ui_detach_submenu;
 tui_menu_t ui_datasette_submenu;
 tui_menu_t ui_drive_submenu;
+tui_menu_t ui_flip_submenu;
 tui_menu_t ui_info_submenu;
 tui_menu_t ui_joystick_settings_submenu;
 tui_menu_t ui_main_menu;
@@ -211,6 +213,34 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
 	return "(none)";
     else
 	return s;
+}
+
+static TUI_MENU_CALLBACK(flip_add_callback)
+{
+    if (been_activated)
+        flip_add_image();
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(flip_remove_callback)
+{
+    if (been_activated)
+        flip_remove(-1, NULL);
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(flip_next_callback)
+{
+    if (been_activated)
+        flip_attach_head(1);
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(flip_previous_callback)
+{
+    if (been_activated)
+        flip_attach_head(0);
+    return NULL;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1477,10 +1507,31 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 		      "Attach disk image for disk drive #11",
 		      attach_disk_callback, (void *)11, 30,
 		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_attach_submenu, "Autostart _Drive 8",
+    tui_menu_add_item(ui_attach_submenu, "Autostart _Drive #8",
 		      "Reset the emulator and run the first program in the disk in drive 8",
 		      autostart_callback, (void *)8, 0,
 		      TUI_MENU_BEH_RESUME);
+    ui_flip_submenu = tui_menu_create("Fliplist for drive #8", 1);
+    tui_menu_add_submenu(ui_attach_submenu, "_Fliplist for Drive #8...",
+                         "Select, add or remove disk images from the flip list",
+                         ui_flip_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_flip_submenu,"_Add current image",
+              "Add current disk image to flip list (ALT-F3)",
+              flip_add_callback, NULL, 0,
+              TUI_MENU_BEH_CLOSE);
+    tui_menu_add_item(ui_flip_submenu,"_Remove current image",
+              "Remove current disk image from flip list (ALT-F4)",
+              flip_remove_callback, NULL, 0,
+              TUI_MENU_BEH_CLOSE);
+    tui_menu_add_item(ui_flip_submenu,"Attach _next image",
+              "Attach next disk image from flip list (ALT-F1)",
+              flip_next_callback, NULL, 0,
+              TUI_MENU_BEH_RESUME);
+    tui_menu_add_item(ui_flip_submenu,"Attach _previous image",
+              "Attach previous disk image from flip list (ALT-F2)",
+              flip_previous_callback, NULL, 0,
+              TUI_MENU_BEH_RESUME);
 
     if (has_tape) {
 	tui_menu_add_separator(ui_attach_submenu);
