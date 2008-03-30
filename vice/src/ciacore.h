@@ -67,9 +67,9 @@ static inline BYTE read_ciapb(void);
  * the inline functions 
  */
 
-static int int_ciata(long offset);
-static int int_ciatb(long offset);
-static int int_ciatod(long offset);
+static int int_ciata(CLOCK offset);
+static int int_ciatb(CLOCK offset);
+static int int_ciatod(CLOCK offset);
 
 #define	ciaier	cia[CIA_ICR]
 
