@@ -477,7 +477,8 @@ inline static void update_sprite_collisions (raster_t *raster)
     return;
 
   fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
-                           + raster->geometry.extra_offscreen_border / 2);
+                           + raster->geometry.extra_offscreen_border / 2
+                           * raster->viewport.pixel_size.width);
   raster->sprite_status->draw_function (fake_frame_buffer_ptr,
                                        raster->zero_gfx_msk);
 }
@@ -1552,7 +1553,7 @@ void raster_emulate_line (raster_t *raster)
   /* Emulate the vertical blank flip-flops.  (Well, sort of.)  */
   if (raster->current_line == raster->display_ystart && !raster->blank)
     raster->blank_enabled = 0;
-  else if (raster->current_line == raster->display_ystop)
+  if (raster->current_line == raster->display_ystop)
     raster->blank_enabled = 1;
 
   if (raster->current_line >= raster->geometry.first_displayed_line
