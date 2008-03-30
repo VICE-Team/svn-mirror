@@ -720,7 +720,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 
     status_bar = gtk_hbox_new(FALSE, 0);
 
-    gtk_container_add(GTK_CONTAINER(pane),status_bar);
+    gtk_box_pack_end(GTK_BOX(pane),status_bar,FALSE,FALSE,0);
     gtk_widget_show(status_bar);
 
     event_box = gtk_event_box_new();
@@ -992,7 +992,7 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 			  GDK_FOCUS_CHANGE_MASK |
 			  GDK_POINTER_MOTION_MASK |
 			  GDK_EXPOSURE_MASK);
-    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,FALSE,FALSE,0);
+    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
     gtk_widget_show(new_canvas);
 
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",

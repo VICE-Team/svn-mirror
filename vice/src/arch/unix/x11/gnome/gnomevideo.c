@@ -38,6 +38,9 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "utils.h"
+#ifdef HAVE_XVIDEO
+#include "renderxv.h"
+#endif
 
 static log_t gnomevideo_log = LOG_ERR;
 
@@ -68,12 +71,14 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     int sizeofpixel = sizeof(BYTE);
     GdkImageType typ;
 
-    /* FIXME!!! */
-    width *= 2;
-    height *= 2;
+    if (!use_xvideo) {
+        /* FIXME!!! */
+        width *= 2;
+	height *= 2;
 
-    /* Round up to 32-bit boundary. */
-    width = (width + 3) & ~0x3;
+	/* Round up to 32-bit boundary. */
+	width = (width + 3) & ~0x3;
+    }
 
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
@@ -82,6 +87,26 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     if (canvas->depth > 16)
 	sizeofpixel *= 2;
 
+#ifdef HAVE_XVIDEO
+    if (use_xvideo) {
+        Display *display = ui_get_display_ptr();
+        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+
+	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format,
+			   &canvas->xv_render)) {
+	  return -1;
+	}
+
+	if (!(canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo))) {
+	  return -1;
+	}
+
+	log_message(gnomevideo_log,
+		    _("Successfully initialized using X Video."));
+
+	return 0;
+    }
+#endif
     typ = GDK_IMAGE_FASTEST;
     canvas->gdk_image = gdk_image_new(typ, visual, width, height);
     canvas->x_image = GDK_IMAGE_XIMAGE(canvas->gdk_image);
@@ -129,6 +154,10 @@ void video_canvas_unmap(video_canvas_t *s)
 void ui_finish_canvas(video_canvas_t *c)
 {
     int depth;
+
+    if (use_xvideo) {
+        return;
+    }
 
     depth = ui_get_display_depth();
 

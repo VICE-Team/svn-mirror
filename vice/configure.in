@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.8.7)
+AM_INIT_AUTOMAKE(vice, 1.8.8)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -832,6 +832,15 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
   AC_DEFINE(HAVE_MOUSE)
 
   dnl Check for XFree86 header and library extensions.
+
+  AC_CHECK_LIB(Xv, XvQueryExtension,
+               [ X_LIBS="-lXv $X_LIBS";
+                 LINK_X_LIBS="-lXv $LINK_X_LIBS";
+                 AC_DEFINE(HAVE_XVIDEO) ],,$X_LIBS)
+
+  AC_CHECK_LIB(Xext, XShmQueryExtension,
+               [ AC_DEFINE(USE_MITSHM) ],,$X_LIBS)
+
   FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
     dnl FIXME: vidmode extension not maintained and probably broken

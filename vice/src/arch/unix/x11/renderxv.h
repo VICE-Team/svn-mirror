@@ -24,6 +24,9 @@
  *
  */
 
+#ifndef _RENDERXV_H
+#define _RENDERXV_H
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XShm.h>
@@ -32,7 +35,21 @@
 #include <X11/extensions/Xv.h>
 #include <X11/extensions/Xvlib.h>
 
-int find_yuv_port(Display* display, XvPortID* port, int* format);
+typedef void (*xv_render_function_t)(XvImage* image,
+				     unsigned char* src,
+				     int src_pitch,
+				     unsigned int* src_color,
+				     int src_x, int src_y,
+				     unsigned int src_w, unsigned int src_h,
+				     int dest_x, int dest_y);
+
+typedef struct {
+  char* format;
+  xv_render_function_t render_function;
+} xv_render_t;
+
+int find_yuv_port(Display* display, XvPortID* port, int* format,
+		  xv_render_t* render);
 
 XvImage* create_yuv_image(Display* display, XvPortID port, int format,
 			  int width, int height, XShmSegmentInfo* shminfo);
@@ -40,17 +57,11 @@ XvImage* create_yuv_image(Display* display, XvPortID port, int format,
 void destroy_yuv_image(Display* display, XvImage* image,
 		       XShmSegmentInfo* shminfo);
 
-void render_yuv_image(XvImage* image,
-		      unsigned char* src,
-		      int src_pitch,
-		      unsigned int* src_color,
-		      int src_x, int src_y,
-		      unsigned int src_w, unsigned int src_h,
-		      int dest_x, int dest_y);
-
 void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc,
 		       XvImage* image,
 		       XShmSegmentInfo* shminfo,
 		       int src_x, int src_y,
 		       unsigned int src_w, unsigned int src_h,
 		       unsigned int dest_w, unsigned int dest_h);
+
+#endif /* _RENDERXV_H */

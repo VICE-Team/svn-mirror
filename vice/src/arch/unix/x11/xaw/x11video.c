@@ -40,7 +40,7 @@
 #include "videoarch.h"
 #include "video.h"
 #ifdef HAVE_XVIDEO
-#include "renderXv.h"
+#include "renderxv.h"
 #endif
 
 static log_t x11video_log = LOG_ERR;
@@ -87,7 +87,8 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     if (use_xvideo) {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
-	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
+	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format,
+			   &canvas->xv_render)) {
 	  return -1;
 	}
 

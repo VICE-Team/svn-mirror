@@ -425,7 +425,7 @@ static int dx_suspend(void)
         return 0;
 
     for (c = 0; c < num_of_channels; c++) {
-        for (i = 0; i < stream_buffer_size; i++) 
+        for (i = 0; i < stream_buffer_size/num_of_channels; i++) 
             p[i * num_of_channels + c] = last_buffered_sample[c];
     }
 

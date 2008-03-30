@@ -90,7 +90,6 @@
 
 #define IDM_DSIZE        0x131
 #define IDM_DSCAN        0x132
-#define IDM_FAKEPAL      0x133
 
 #define IDM_CRTCDSIZE    0x134
 #define IDM_CRTCDSCAN    0x135
@@ -329,8 +328,13 @@
 #define IDM_CARTRIDGEDET 0x50e
 
 #define IDM_PALCONTROL   0x510
-#define IDM_INTERNALPAL  0x511
-#define IDM_LUMINANCES   0x512
+#define IDM_PALEMU       0x511
+#define IDM_PALOFF       0x512
+#define IDM_PALFAST      0x513
+#define IDM_PALSHARP     0x514
+#define IDM_PALBLUR      0x515
+#define IDM_INTERNALPAL  0x516
+#define IDM_LUMINANCES   0x517
 
 #define IDM_PRINTER      0x6ff
 

@@ -24,11 +24,11 @@
  *
  */
 
-#define INCL_WINHELP       // WinQueryHelpInstance
-#define INCL_WINMENUS      // WinCheckMenuItem
-#define INCL_WINDIALOGS    // WinMessageBox
-#define INCL_WINWINDOWMGR  // QWL_USER
-#include "videoarch.h"     // video_canvas_*
+#define INCL_WINHELP         // WinQueryHelpInstance
+#define INCL_WINMENUS        // WinCheckMenuItem
+#define INCL_WINDIALOGS      // WinMessageBox
+#define INCL_WINWINDOWMGR    // QWL_USER
+#include "videoarch.h"       // video_canvas_*
 #include "dialogs.h"
 #include "menubar.h"
 #include "dlg-color.h"
@@ -39,25 +39,26 @@
 
 #include "snippets\\pmwin2.h"
 
-#include <string.h>      // strcmp
+#include <string.h>          // strcmp
 
 #include "log.h"
 
-#include "mon.h"         // mon
-#include "tape.h"        // tape_detach_image
-#include "drive.h"       // DRIVE_SYNC_*
-#include "utils.h"       // xmsprintf
-#include "sound.h"       // SOUND_ADJUST_*
-#include "attach.h"      // file_system_detach_disk
-#include "archdep.h"     // archdep_boot_path
-#include "machine.h"     // machine_read/write_snapshot
-#include "cmdline.h"     // cmdline_show_help, include resources.h
-#include "vsyncapi.h"    // vsyncarch
-#include "fliplist.h"    // flip_attach_head
-#include "cartridge.h"   // CARTRIDGE_*
-#include "interrupt.h"   // maincpu_trigger_trap
-#include "screenshot.h"  // screenshot_canvas_save
-#include "dlg-fileio.h"  // ViceFileDialog
+#include "mon.h"             // mon
+#include "tape.h"            // tape_detach_image
+#include "drive.h"           // DRIVE_SYNC_*
+#include "utils.h"           // xmsprintf
+#include "sound.h"           // SOUND_ADJUST_*
+#include "attach.h"          // file_system_detach_disk
+#include "archdep.h"         // archdep_boot_path
+#include "machine.h"         // machine_read/write_snapshot
+#include "cmdline.h"         // cmdline_show_help, include resources.h
+#include "vsyncapi.h"        // vsyncarch
+#include "fliplist.h"        // flip_attach_head
+#include "cartridge.h"       // CARTRIDGE_*
+#include "interrupt.h"       // maincpu_trigger_trap
+#include "screenshot.h"      // screenshot_canvas_save
+#include "dlg-fileio.h"      // ViceFileDialog
+#include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 
 // --------------------------------------------------------------------------
 
@@ -363,10 +364,26 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("NewLuminances");
         return;
 #endif
+    case IDM_PALOFF:
+        resources_set_value("DelayLoopEmulation", (resource_value_t*)0);
+        return;
+    case IDM_PALFAST:
+        resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
+        resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+        return;
+    case IDM_PALSHARP:
+        resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
+        resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+        return;
+    case IDM_PALBLUR:
+        resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
+        resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+        return;
+        /*
     case IDM_FAKEPAL:
         toggle("DelayLoopEmulation");
         return;
-
+     */
     case IDM_DSIZE:
         maincpu_trigger_trap(toggle_async, "DoubleSize");
         return;
@@ -1247,18 +1264,29 @@ void menu_select(HWND hwnd, USHORT item)
 
             resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
             resources_get_value("ExternalPalette",    (resource_value_t*)&val2);
-
-            WinEnableMenuItem(hwnd, IDM_FAKEPAL,     !val2);
+            WinEnableMenuItem(hwnd, IDM_PALEMU,      !val2);
             WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
-            WinEnableMenuItem(hwnd, IDM_LUMINANCES, val1 || !val2);
-
-            WinCheckMenuItem(hwnd,  IDM_FAKEPAL,      val1);
+            WinEnableMenuItem(hwnd, IDM_LUMINANCES,  !val2 || val1);
             WinCheckMenuItem(hwnd,  IDM_INTERNALPAL, !val2);
 #ifndef HAVE_TED
             WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
 #endif
         }
         return;
+
+    case IDM_PALEMU:
+    {
+        long val1, val2;
+
+        resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
+        resources_get_value("PALMode",            (resource_value_t*)&val2);
+
+        WinCheckMenuItem(hwnd, IDM_PALOFF,   !val1);
+        WinCheckMenuItem(hwnd, IDM_PALFAST,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_FAST);
+        WinCheckMenuItem(hwnd, IDM_PALSHARP, val1 && val2==VIDEO_RESOURCE_PAL_MODE_SHARP);
+        WinCheckMenuItem(hwnd, IDM_PALBLUR,  val1 && val2==VIDEO_RESOURCE_PAL_MODE_BLUR);
+    }
+    return;
 #endif
 
 #ifdef HAVE_VDC

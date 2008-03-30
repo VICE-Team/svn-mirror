@@ -24,8 +24,8 @@
  *
  */
 
-/* Some of the Xv code is loosely based on testxv.c (by André Werthmann)
-   and VideoLAN. */
+/* The Xv probing and allocation code is loosely based on testxv.c
+   (by André Werthmann) and VideoLAN. */
 
 #include "vice.h"
 
@@ -36,9 +36,59 @@
 #include <stdio.h>
 #include <string.h>
 
-int find_yuv_port(Display* display, XvPortID* port, int* format)
+void render_UYVY(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y);
+
+void render_YUY2(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y);
+
+void render_YVYU(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y);
+
+void render_YV12(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y);
+
+void render_I420(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y);
+
+xv_render_t render_list[] = {
+  { "UYVY", render_UYVY },
+  { "YUY2", render_YUY2 },
+  { "YVYU", render_YVYU },
+  { "YV12", render_YV12 },
+  { "I420", render_I420 },
+  { "IYUV", render_I420 }, /* IYUV is a duplicate of I420. */
+};
+
+int find_yuv_port(Display* display, XvPortID* port, int* format,
+		  xv_render_t* render)
 {
-  int i, j;
+  int i, j, k;
 
   /* XvQueryExtension */
   unsigned int version, release, request_base, event_base, error_base;
@@ -84,7 +134,7 @@ int find_yuv_port(Display* display, XvPortID* port, int* format)
     return 0;
   }
 
-  /* Find YV12 capable adaptor. */
+  /* Find YUV capable adaptor. */
   for (i = 0; i < num_adaptors; i++) {
     if (!(adaptor_info[i].type & XvInputMask
 	  && adaptor_info[i].type & XvImageMask))
@@ -95,24 +145,26 @@ int find_yuv_port(Display* display, XvPortID* port, int* format)
     format_list = XvListImageFormats(display, adaptor_info[i].base_id,
 				     &num_formats);
 
-    for (j = 0; j < num_formats; j++) {
-      if (strcmp(format_list[j].guid, "YV12") != 0) {
-	continue;
-      }
-
-      for (port_id = adaptor_info[i].base_id;
-	   port_id < adaptor_info[i].base_id + adaptor_info[i].num_ports;
-	   port_id++)
-      {
-	if (XvGrabPort(display, port_id, CurrentTime) != Success) {
+    for (j = 0; j < sizeof(render_list)/sizeof(*render_list); j++) {
+      for (k = 0; k < num_formats; k++) {
+	if (strcmp(format_list[k].guid, render_list[j].format) != 0) {
 	  continue;
 	}
-	*port = port_id;
-	*format = format_list[j].id;
-	XFree(format_list);
-	XvFreeAdaptorInfo(adaptor_info);
-	printf("Got port %ld, format 0x%x\n", *port, *format);
-	return 1;
+
+	for (port_id = adaptor_info[i].base_id;
+	     port_id < adaptor_info[i].base_id + adaptor_info[i].num_ports;
+	     port_id++)
+	  {
+	    if (XvGrabPort(display, port_id, CurrentTime) != Success) {
+	      continue;
+	    }
+	    *port = port_id;
+	    *format = format_list[k].id;
+	    *render = render_list[j];
+	    XFree(format_list);
+	    XvFreeAdaptorInfo(adaptor_info);
+	    return 1;
+	  }
       }
     }
 
@@ -120,7 +172,7 @@ int find_yuv_port(Display* display, XvPortID* port, int* format)
   }
 
   XvFreeAdaptorInfo(adaptor_info);
-  printf("No Xv YV12 adaptor/port available.\n");
+  printf("No suitable Xv YUV adaptor/port available.\n");
   return 0;
 }
 
@@ -169,7 +221,6 @@ XvImage* create_yuv_image(Display* display, XvPortID port, int format,
     /* Mark the segment to be automatically removed when the last
        attachment is broken (i.e. on shmdt or process exit). */
     shmctl(shminfo->shmid, IPC_RMID, 0);
-    printf("XvImage created (shared)\n");
   }
   else {
     if (!(image = XvCreateImage(display, port, format, NULL, width, height))) {
@@ -177,7 +228,6 @@ XvImage* create_yuv_image(Display* display, XvPortID port, int format,
       return NULL;
     }
     image->data = malloc(image->data_size);
-    printf("XvImage created\n");
   }
 
   return image;
@@ -194,71 +244,6 @@ void destroy_yuv_image(Display* display, XvImage* image,
   }
   else {
     XFree(image);
-  }
-}
-
-
-void render_yuv_image(XvImage* image,
-		      unsigned char* src,
-		      int src_pitch,
-		      unsigned int* src_color,
-		      int src_x, int src_y,
-		      unsigned int src_w, unsigned int src_h,
-		      int dest_x, int dest_y)
-{
-  int x, y;
-  unsigned int YUV;
-  char* Yptr = image->data + image->offsets[0];
-  char* Vptr = image->data + image->offsets[1];
-  char* Uptr = image->data + image->offsets[2];
-  int Ypitch = image->pitches[0];
-  int Vpitch = image->pitches[1];
-  int Upitch = image->pitches[2];
-
-  /* Normalize to 2x2 blocks. */
-  if (dest_x & 1) {
-    dest_x--;
-    src_x--;
-    src_w++;
-  }
-  if (dest_y & 1) {
-    dest_y--;
-    src_y--;
-    src_h++;
-  }
-  if (src_w & 1) {
-    src_w++;
-  }
-  if (src_h & 1) {
-    src_h++;
-  }
-
-  /* Add start offsets. */
-  Yptr += Ypitch*dest_y + dest_x;
-  Vptr += Vpitch*dest_y/2 + dest_x/2;
-  Uptr += Upitch*dest_y/2 + dest_x/2;
-  src += src_pitch*src_y + src_x;
-
-  /* Render 2x2 YV12 blocks. */
-  for (y = 0; y < src_h; y += 2) {
-    for (x = 0; x < src_w; x += 2) {
-      YUV = src_color[*src++];
-      *Yptr++ = YUV >> 16;
-      *Vptr++ = YUV & 0xff;
-      *Uptr++ = (YUV >> 8) & 0xff;
-      YUV = src_color[*src++];
-      *Yptr++ = YUV >> 16;
-    }
-    Yptr += Ypitch - src_w;
-    Vptr += Vpitch - src_w/2;
-    Uptr += Upitch - src_w/2;
-    src += src_pitch - src_w;
-    for (x = 0; x < src_w; x++) {
-      YUV = src_color[*src++];
-      *Yptr++ = YUV >> 16;
-    }
-    Yptr += Ypitch - src_w;
-    src += src_pitch - src_w;
   }
 }
 
@@ -294,6 +279,199 @@ void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc,
 	       src_x, src_y, src_w, src_h,
 	       dest_x, dest_y, dest_w, dest_h);
   }
+}
+
+
+/* Render packed YUV 4:2:2 formats. */
+void render_4_2_2(XvImage* image,
+		  int shift_y0, int shift_u, int shift_v, int shift_y1,
+		  unsigned char* src,
+		  int src_pitch,
+		  unsigned int* src_color,
+		  int src_x, int src_y,
+		  unsigned int src_w, unsigned int src_h,
+		  int dest_x, int dest_y)
+{
+  int x, y;
+  unsigned int YUV0, YUV1;
+  unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
+  int dest_pitch = image->pitches[0]/4;
+
+  /* Normalize to 2x1 blocks. */
+  if (dest_x & 1) {
+    dest_x--;
+    src_x--;
+    src_w++;
+  }
+  if (src_w & 1) {
+    src_w++;
+  }
+
+  /* Add start offsets. */
+  dest += dest_pitch*dest_y + dest_x/2;
+  src += src_pitch*src_y + src_x;
+
+  /* Render 2x1 blocks, YUV 4:2:2 */
+  for (y = 0; y < src_h; y++) {
+    for (x = 0; x < src_w; x += 2) {
+      YUV0 = src_color[*src++];
+      YUV1 = src_color[*src++];
+      *dest++ =
+	((YUV0 >> 16) << shift_y0)
+	| (((YUV0 >> 8) & 0xff) << shift_u)
+	| ((YUV0 & 0xff) << shift_v)
+	| ((YUV1 >> 16) << shift_y1);
+    }
+    dest += dest_pitch - src_w/2;
+    src += src_pitch - src_w;
+  }
+}
+
+
+/* Render planar YUV 4:1:1 formats. */
+void render_4_1_1(XvImage* image,
+		  int plane_y, int plane_u, int plane_v,
+		  unsigned char* src,
+		  int src_pitch,
+		  unsigned int* src_color,
+		  int src_x, int src_y,
+		  unsigned int src_w, unsigned int src_h,
+		  int dest_x, int dest_y)
+{
+  int x, y;
+  unsigned int YUV;
+  unsigned char* Yptr = image->data + image->offsets[plane_y];
+  unsigned char* Uptr = image->data + image->offsets[plane_u];
+  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  int Ypitch = image->pitches[plane_y];
+  int Upitch = image->pitches[plane_u];
+  int Vpitch = image->pitches[plane_v];
+
+  /* Normalize to 2x2 blocks. */
+  if (dest_x & 1) {
+    dest_x--;
+    src_x--;
+    src_w++;
+  }
+  if (dest_y & 1) {
+    dest_y--;
+    src_y--;
+    src_h++;
+  }
+  if (src_w & 1) {
+    src_w++;
+  }
+  if (src_h & 1) {
+    src_h++;
+  }
+
+  /* Add start offsets. */
+  Yptr += Ypitch*dest_y + dest_x;
+  Uptr += Upitch*dest_y/2 + dest_x/2;
+  Vptr += Vpitch*dest_y/2 + dest_x/2;
+  src += src_pitch*src_y + src_x;
+
+  /* Render 2x2 blocks, YUV 4:1:1 */
+  for (y = 0; y < src_h; y += 2) {
+    for (x = 0; x < src_w; x += 2) {
+      YUV = src_color[*src++];
+      *Yptr++ = YUV >> 16;
+      *Uptr++ = (YUV >> 8) & 0xff;
+      *Vptr++ = YUV & 0xff;
+      YUV = src_color[*src++];
+      *Yptr++ = YUV >> 16;
+    }
+    Yptr += Ypitch - src_w;
+    Uptr += Upitch - src_w/2;
+    Vptr += Vpitch - src_w/2;
+    src += src_pitch - src_w;
+    for (x = 0; x < src_w; x++) {
+      YUV = src_color[*src++];
+      *Yptr++ = YUV >> 16;
+    }
+    Yptr += Ypitch - src_w;
+    src += src_pitch - src_w;
+  }
+}
+
+
+void render_UYVY(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y)
+{
+#ifdef WORDS_BIGENDIAN
+  render_4_2_2(image, 16, 24, 8, 0, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+#else
+  render_4_2_2(image, 8, 0, 16, 24, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+#endif
+}
+
+
+void render_YUY2(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y)
+{
+#ifdef WORDS_BIGENDIAN
+  render_4_2_2(image, 24, 16, 0, 8, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+#else
+  render_4_2_2(image, 0, 8, 24, 16, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+#endif
+}
+
+
+void render_YVYU(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y)
+{
+#ifdef WORDS_BIGENDIAN
+  render_4_2_2(image, 24, 0, 16, 8, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+#else
+  render_4_2_2(image, 0, 24, 8, 16, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+#endif
+}
+
+
+void render_YV12(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y)
+{
+  render_4_1_1(image, 0, 2, 1, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+}
+
+
+void render_I420(XvImage* image,
+		 unsigned char* src,
+		 int src_pitch,
+		 unsigned int* src_color,
+		 int src_x, int src_y,
+		 unsigned int src_w, unsigned int src_h,
+		 int dest_x, int dest_y)
+{
+  render_4_1_1(image, 0, 1, 2, src, src_pitch, src_color,
+	       src_x, src_y, src_w, src_h, dest_x, dest_y);
 }
 
 #endif /* HAVE_XVIDEO */

@@ -120,10 +120,10 @@ char *stralloc(const char *str)
         exit(-1);
     }
 
-    length = strlen(str);
-    p = (char *)xmalloc(length + 1);
+    length = strlen(str) + 1;
+    p = (char *)xmalloc(length);
 
-    memcpy(p, str, length + 1);
+    memcpy(p, str, length);
     return p;
 }
 

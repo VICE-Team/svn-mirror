@@ -50,6 +50,5 @@ void main_exit(void)
     joystick_close();
 #endif
 
-    putchar ('\n');
 }
 
