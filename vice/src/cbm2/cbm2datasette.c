@@ -27,14 +27,14 @@
 #include "vice.h"
 
 #include "cbm2.h"
-#include "cbm2cia.h"
 #include "cbm2tpi.h"
+#include "cia.h"
 #include "datasette.h"
 
 
 void datasette_trigger_flux_change(unsigned int on)
 {
-    ciacore_set_flag(&(machine_context.cia1));
+    ciacore_set_flag(machine_context.cia1);
 }
 
 void datasette_set_tape_sense(int sense)
