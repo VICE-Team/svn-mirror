@@ -1,5 +1,5 @@
 /*
- * tuifs.c - A simple text-based file selector.
+ * tuifs.h - A simple text-based file selector.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -30,8 +30,11 @@
 struct image_contents_s;
 
 extern char *tui_file_selector(const char *title, const char *directory,
-			       const char *pattern, const char *default_item,
-			       struct image_contents_s *(*contents_func)(const char*),
+                               const char *pattern, const char *default_item,
+                               unsigned int type,
+                               struct image_contents_s *(*contents_func)(
+                               unsigned int, const char *, unsigned int),
+                               unsigned int unit,
                                char **browse_file_return,
                                unsigned int *browse_file_number_return);
 
