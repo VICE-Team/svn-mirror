@@ -30,7 +30,9 @@
 
 #include "cmdline.h"
 #include "debug.h"
+#include "log.h"
 #include "resources.h"
+#include "types.h"
 
 
 debug_t debug;
@@ -108,4 +110,26 @@ int debug_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
+
+static unsigned int cycles_per_line;
+static unsigned int screen_lines;
+
+void debug_set_machine_parameter(unsigned int cycles, unsigned int lines)
+{
+    cycles_per_line = cycles;
+    screen_lines = lines;
+}
+
+#ifdef DEBUG
+#define RLINE(clk)  ((unsigned int)((clk) / cycles_per_line % screen_lines))
+#define RCYCLE(clk) ((unsigned int)((clk) % cycles_per_line))
+
+void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
+                   BYTE reg_x, BYTE reg_y, BYTE reg_sp)
+{
+    log_debug(".%04X %03i %03i %10ld  %-20s A=$%02X X=$%02X Y=$%02X SP=$%02X",
+              reg_pc, RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+              reg_a, reg_x, reg_y, reg_sp);
+}
+#endif
 
