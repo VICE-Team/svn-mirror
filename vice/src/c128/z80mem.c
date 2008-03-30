@@ -47,8 +47,9 @@
 #include "vicii.h"
 #include "z80mem.h"
 
+
 /* Z80 boot BIOS.  */
-static BYTE z80bios_rom[0x1000];
+BYTE z80bios_rom[0x1000];
 
 /* Name of the character ROM.  */
 static char *z80bios_rom_name = NULL;
@@ -78,38 +79,7 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 store_func_ptr_t io_write_tab[0x101];
 read_func_ptr_t io_read_tab[0x101];
 
-static int z80_rom_loaded = 0;
-
-#define IS_NULL(s)  (s == NULL || *s == '\0')
-
-static int z80mem_load_bios(void)
-{
-    if (!z80_rom_loaded)
-        return 0;
-
-    if (!IS_NULL(z80bios_rom_name)) {
-        if (sysfile_load(z80bios_rom_name,
-            z80bios_rom, 4096, 4096) < 0) {
-            log_error(z80mem_log, "Couldn't load Z80 BIOS ROM `%s'.",
-                  z80bios_rom_name);
-            return -1;
-        }
-    }
-    return 0;
-}
-
-static int set_z80bios_rom_name(resource_value_t v, void *param)
-{
-    if (util_string_set(&z80bios_rom_name, (const char *)v))
-        return 0;
-
-    return z80mem_load_bios();
-}
-
 static resource_t resources[] = {
-    { "Z80BiosName", RES_STRING, (resource_value_t)"z80bios",
-      (resource_value_t *)&z80bios_rom_name,
-      set_z80bios_rom_name, NULL },
     { NULL }
 };
 
@@ -120,8 +90,6 @@ int z80mem_resources_init(void)
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-z80bios", SET_RESOURCE, 1, NULL, NULL, "Z80BiosName", NULL,
-      "<name>", "Specify name of Z80 BIOS ROM image" },
     { NULL }
 };
 
@@ -469,11 +437,6 @@ int z80mem_load(void)
         z80mem_log = log_open("Z80MEM");
 
     z80mem_initialize();
-
-    z80_rom_loaded = 1;
-
-    if (z80mem_load_bios() < 0)
-        return -1;
 
     return 0;
 }
