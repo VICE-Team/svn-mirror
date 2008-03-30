@@ -154,7 +154,7 @@ int cmdline_parse(int *argc, char **argv)
                 if (p->need_arg)
                     fprintf(stderr,
                             "Argument `%s' not valid for option `%s'.\n",
-                            argv[1], p->name);
+                            argv[i + 1], p->name);
                 else
                     fprintf(stderr,
                             "Option `%s' not valid.\n", p->name);

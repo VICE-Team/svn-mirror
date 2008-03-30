@@ -1564,6 +1564,8 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
 
 	if (p[SLOT_TYPE_OFFSET]) {
 
+            tl = l;
+
 	    l += 2;
 
 	    /*
@@ -1572,8 +1574,6 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
 
 	    blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
 	    SET_LO_HI(l, blocks);
-
-	    tl = l;
 
 	    if (blocks < 10)
 		*l++ = ' ';
