@@ -215,13 +215,13 @@ static UI_CALLBACK(set_joystick_device_1)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice1", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        ui_update_menus();
     } else {
-        resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        resources_get_value("JoyDevice1", (resource_value_t *)&tmp);
+        ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }
 
@@ -229,13 +229,13 @@ static UI_CALLBACK(set_joystick_device_2)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice2", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        ui_update_menus();
     } else {
-        resources_get_value("JoyDevice2", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        resources_get_value("JoyDevice2", (resource_value_t *)&tmp);
+        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
     }
 }
 
@@ -244,11 +244,11 @@ static UI_CALLBACK(swap_joystick_ports)
     int tmp1, tmp2;
 
     if (w != NULL)
-	suspend_speed_eval();
-    resources_get_value("JoyDevice1", (resource_value_t *) &tmp1);
-    resources_get_value("JoyDevice2", (resource_value_t *) &tmp2);
-    resources_set_value("JoyDevice1", (resource_value_t) tmp2);
-    resources_set_value("JoyDevice2", (resource_value_t) tmp1);
+        vsync_suspend_speed_eval();
+    resources_get_value("JoyDevice1", (resource_value_t *)&tmp1);
+    resources_get_value("JoyDevice2", (resource_value_t *)&tmp2);
+    resources_set_value("JoyDevice1", (resource_value_t)tmp2);
+    resources_set_value("JoyDevice2", (resource_value_t)tmp1);
     ui_update_menus();
 }
 
@@ -404,13 +404,13 @@ static UI_CALLBACK(save_screenshot)
     char filename[1024];
     int wid = (int) UI_MENU_CB_PARAM;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
     if (ui_screenshot_dialog(filename, wid) < 0) 
-	return;
+        return;
 }
 
 static ui_menu_entry_t screenshot_submenu[] = {
@@ -575,3 +575,4 @@ int c128_ui_init(void)
 
     return 0;
 }
+
