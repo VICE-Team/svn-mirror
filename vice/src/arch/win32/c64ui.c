@@ -45,6 +45,7 @@
 #include "uiide64.h"
 #include "uikeyboard.h"
 #include "uimmc64.h"
+#include "uimouse.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
@@ -197,6 +198,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_KEYBOARD_SETTINGS:
         uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+        break;
+      case IDM_MOUSE_SETTINGS:
+        ui_mouse_settings_dialog(hwnd);
         break;
     }
 }

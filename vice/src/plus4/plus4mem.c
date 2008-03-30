@@ -33,7 +33,13 @@
 #include "datasette.h"
 #include "iecbus.h"
 #include "maincpu.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "monitor.h"
 #include "plus4acia.h"
 #include "plus4iec.h"

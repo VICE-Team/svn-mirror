@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "lib.h"
 #include "machine.h"
@@ -237,7 +238,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
             } 
 	    else 
 	    {            /* no submenu */
-	        if (accel && list[i].hotkey_keysym != (KeySym) 0
+	        if (accel && list[i].hotkey_keysym != KEYSYM_NONE
 		    && list[i].callback != NULL && new_item != NULL)
                     add_accelerator(new_item,
                                accel, list[i].hotkey_keysym,

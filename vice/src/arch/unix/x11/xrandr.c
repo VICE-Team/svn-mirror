@@ -32,6 +32,8 @@
 
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
+#include <string.h>
+
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"

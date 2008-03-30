@@ -46,7 +46,13 @@
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_memory.h"
@@ -663,7 +669,7 @@ void mon_display_io_regs(void)
         mon_out("%s:\n", mem_ioreg_list_base[n].name);
         start = new_addr(default_memspace, mem_ioreg_list_base[n].start);
         end = new_addr(default_memspace, mem_ioreg_list_base[n].end);
-        mon_memory_display(e_hexadecimal, start, end);
+        mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
 
         if (mem_ioreg_list_base[n].next == 0)
             break;

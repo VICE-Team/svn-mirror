@@ -55,9 +55,6 @@ int joystick_port_map[2];
 #endif
 /* ------------------------------------------------------------------------ */
 
-/* device resource  */
-static joystick_device_t joystick_device[2];
-
 /* flag for display state of joysticks in statusbar */
 static int joystickdisplay;
 
@@ -97,7 +94,7 @@ static void joystick_close_device(int dev_index)
 {
 	int device_num;
 	int used_by;
-	joystick_device_t joy_dev = joystick_device[dev_index];
+	int joy_dev = joystick_port_map[dev_index];
 	
 	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
 		/* it's a hardware-stick; close the device if necessary */
@@ -118,7 +115,7 @@ static void joystick_close_device(int dev_index)
 static void joystick_open_device(int dev_index)
 {
 	int used_by;
-	joystick_device_t joy_dev = joystick_device[dev_index];
+	int joy_dev = joystick_port_map[dev_index];
 
 	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
 		/* is the needed device already open? */
@@ -155,7 +152,7 @@ static int set_joystick_device(int val, void *param)
 	if (joystick_initialized)
 		joystick_close_device((int) param);
 
-    joystick_device[(int) param] = (joystick_device_t)val;
+    joystick_port_map[(int) param] = (joystick_device_t)val;
 	
 	if (joystick_initialized)
 		joystick_open_device((int) param);
@@ -166,9 +163,9 @@ static int set_joystick_device(int val, void *param)
 
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_device[0], set_joystick_device, (void *) 0 },
+      (int *)&joystick_port_map[0], set_joystick_device, (void *) 0 },
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_device[1], set_joystick_device, (void *) 1 },
+      (int *)&joystick_port_map[1], set_joystick_device, (void *) 1 },
     { NULL }
 };
 
@@ -232,11 +229,6 @@ int joy_arch_init(void)
 	joystick_open_device(0);
 	joystick_open_device(1);
 
-#ifdef COMMON_KBD
-    joystick_port_map[0] = 1;
-    joystick_port_map[1] = 2;
-#endif
-
 	return 0;
 }
 
@@ -263,7 +255,7 @@ void joystick_update(void)
 	
     for (dev_index = 0; dev_index < 2; dev_index++) {
     	value = 0;
-    	joy_dev = joystick_device[dev_index];
+    	joy_dev = joystick_port_map[dev_index];
  
      	if (joy_dev >= NUM_OF_SOFTDEVICES 
      		&& joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {	
@@ -324,17 +316,17 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
             return 0;
 
         if (pressed) {
-            if (joystick_device[0] == device) {
+            if (joystick_port_map[0] == device) {
                 joystick_set_value_or(1, value);
 			}
-            if (joystick_device[1] == device) {
+            if (joystick_port_map[1] == device) {
                 joystick_set_value_or(2, value);
 			}
         } else {
-            if (joystick_device[0] == device) {
+            if (joystick_port_map[0] == device) {
                 joystick_set_value_and(1, ~value);
 			}
-            if (joystick_device[1] == device) {
+            if (joystick_port_map[1] == device) {
                 joystick_set_value_and(2, ~value);
 			}
         }
@@ -349,8 +341,8 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (joystick_device[0] == JOYDEV_NUMPAD
-        || joystick_device[1] == JOYDEV_NUMPAD) {
+    if (joystick_port_map[0] == JOYDEV_NUMPAD
+        || joystick_port_map[1] == JOYDEV_NUMPAD) {
 
         switch (kcode) {
           case K_KP7:               /* North-West */
@@ -388,17 +380,17 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         }
 
         if (pressed) {
-            if (joystick_device[0] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(1, value);
 			}
-            if (joystick_device[1] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(2, value);
 			}
         } else {
-            if (joystick_device[0] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(1, ~value);
 			}
-            if (joystick_device[1] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(2, ~value);
 			}
         }
@@ -411,4 +403,3 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
             | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed)
             | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
 }
-

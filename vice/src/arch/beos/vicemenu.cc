@@ -400,10 +400,24 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddSeparatorItem();
 			menu->AddItem(new BMenuItem("Emulator ID",
 				new BMessage(MENU_TOGGLE_EMUID)));
-			menu->AddItem(new BMenuItem("1351 mouse",
+			menu->AddItem(new BMenuItem("Grab mouse events",
 				new BMessage(MENU_TOGGLE_MOUSE)));
+			menu->AddItem(submenu = new BMenu("Mouse Options"));
+			submenu->AddItem(extsubmenu = new BMenu("Mouse Type"));
+				extsubmenu->SetRadioMode(true);
+				extsubmenu->AddItem(new BMenuItem("1351",
+					new BMessage(MENU_MOUSE_TYPE_1351)));
+				extsubmenu->AddItem(new BMenuItem("NEOS",
+					new BMessage(MENU_MOUSE_TYPE_NEOS)));
+				extsubmenu->AddItem(new BMenuItem("AMIGA",
+					new BMessage(MENU_MOUSE_TYPE_AMIGA)));
+			submenu->AddItem(extsubmenu = new BMenu("Mouse Port"));
+				extsubmenu->SetRadioMode(true);
+				extsubmenu->AddItem(new BMenuItem("Joy1",
+					new BMessage(MENU_MOUSE_PORT_JOY1)));
+				extsubmenu->AddItem(new BMenuItem("Joy2",
+					new BMessage(MENU_MOUSE_PORT_JOY2)));
 			menu->AddSeparatorItem();
-
 			menu->AddItem(submenu = new BMenu("Expansion Carts"));
 			uppermenu = menu;
 			menu = submenu;

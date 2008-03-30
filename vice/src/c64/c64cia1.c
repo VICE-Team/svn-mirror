@@ -45,6 +45,9 @@
 #include "rsuser.h"
 #endif
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
 
 void REGPARM2 cia1_store(WORD addr, BYTE data)
 {
@@ -113,6 +116,11 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
         if ((keyarr[i] & 0x10) && (!(b & m)))
             vicii_trigger_light_pen(maincpu_clk);
     }
+
+#ifdef HAVE_MOUSE
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2))
+        neos_mouse_store(b);
+#endif
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
@@ -125,11 +133,15 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     /* Falling edge triggers light pen.  */
     if ((byte ^ 0x10) & cia_context->old_pb & 0x10)
         vicii_trigger_light_pen(rclk);
+
+#ifdef HAVE_MOUSE
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1))
+        neos_mouse_store(byte);
+#endif
 }
 
 static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-
 }
 
 static BYTE read_ciapa(cia_context_t *cia_context)
@@ -146,6 +158,13 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     byte = (val & (cia_context->c_cia[CIA_PRA]
            | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
+
+#ifdef HAVE_MOUSE
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2))
+        byte &= neos_mouse_read();
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 2))
+        byte &= amiga_mouse_read();
+#endif
 
     return byte;
 }
@@ -164,6 +183,13 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     byte = (val & (cia_context->c_cia[CIA_PRB]
            | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
+
+#ifdef HAVE_MOUSE
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1))
+        byte &= neos_mouse_read();
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 1))
+        byte &= amiga_mouse_read();
+#endif
 
     return byte;
 }

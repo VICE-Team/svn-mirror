@@ -453,8 +453,6 @@ int ui_init(int *argc, char **argv)
 
     ui_common_init();
 
-    ui_hotkey_init();
-
     enabled_drives = UI_DRIVE_ENABLE_NONE;
 
     finish_prepare_wm_command();
@@ -465,8 +463,6 @@ int ui_init(int *argc, char **argv)
 void ui_shutdown(void)
 {
     int i;
-
-    ui_hotkey_shutdown();
 
     for (i = 0; i < num_app_shells; i++)
         lib_free(app_shells[i].title);
@@ -606,8 +602,8 @@ Window x11ui_get_X11_window()
 }
 
 /* Create a shell with a canvas widget in it.  */
-int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
-                             int width, int height, int no_autorepeat)
+int ui_open_canvas_window(video_canvas_t *c, const char *title,
+			  int width, int height, int no_autorepeat)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
     Widget shell, speed_label, statustext_label;
@@ -844,6 +840,17 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     /* Attach the icon pixmap, if already defined.  */
     if (icon_pixmap)
         XtVaSetValues(shell, XtNiconPixmap, icon_pixmap, NULL);
+
+    XtAddEventHandler(canvas,
+                      (EnterWindowMask | LeaveWindowMask | KeyReleaseMask
+                      | KeyPressMask), True,
+                      (XtEventHandler)kbd_event_handler, NULL);
+
+    /* FIXME: ...REALLY ugly... */
+    XtAddEventHandler(XtParent(canvas),
+                      (EnterWindowMask | LeaveWindowMask
+                      | KeyReleaseMask | KeyPressMask), True,
+                      (XtEventHandler)kbd_event_handler, NULL);
 
     if (no_autorepeat) {
         XtAddEventHandler(canvas, EnterWindowMask, False,
@@ -1444,9 +1451,6 @@ void ui_dispatch_events(void)
 
     while (XtAppPending(app_context))
         ui_dispatch_next_event();
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    dga2_mode_update();
-#endif
 }
 
 void x11ui_fullscreen(int i)

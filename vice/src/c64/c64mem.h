@@ -29,7 +29,12 @@
 #define _C64MEM_H
 
 #include "types.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
 
 #define C64_RAM_SIZE                    0x10000
 #define C64_KERNAL_ROM_SIZE             0x2000

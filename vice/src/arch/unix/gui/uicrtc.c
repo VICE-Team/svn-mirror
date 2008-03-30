@@ -62,28 +62,16 @@ UI_MENU_DEFINE_TOGGLE(CrtcFullscreenDoubleScan)
 #ifdef USE_XF86_VIDMODE_EXT
 UI_MENU_DEFINE_RADIO(CrtcVidmodeFullscreenMode);
 #endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-UI_MENU_DEFINE_RADIO(CrtcDGA1FullscreenMode);
 #endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-UI_MENU_DEFINE_RADIO(CrtcDGA2FullscreenMode);
-#endif
-#endif
+#ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
+#endif
 
 #ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_CrtcFullscreenDevice,
       (ui_callback_data_t)"Vidmode", NULL },
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    { "*DGA1", (ui_callback_t)radio_CrtcFullscreenDevice,
-      (ui_callback_data_t)"DGA1", NULL },
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { "*DGA2", (ui_callback_t)radio_CrtcFullscreenDevice,
-      (ui_callback_data_t)"DGA2", NULL },
 #endif
     { NULL }
 };
@@ -102,34 +90,28 @@ ui_menu_entry_t crtc_submenu[] = {
 #ifdef USE_XF86_EXTENSIONS
     { "--" },
     { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_CrtcFullscreen, NULL, NULL, XK_f, UI_HOTMOD_META },
+      (ui_callback_t)toggle_CrtcFullscreen, NULL, NULL, KEYSYM_f, UI_HOTMOD_META },
     { N_("*Double size"),
       (ui_callback_t)toggle_CrtcFullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_CrtcFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode', 'DGA1' and 'DGA2' must remain in the beginning
+    /* Translators: 'VidMode' must remain in the beginning
        of the translation e.g. German: "VidMode Auflösungen" */
 #ifdef USE_XF86_VIDMODE_EXT
     { N_("VidMode Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    { N_("DGA1 Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { N_("DGA2 Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
 #endif
 #endif
     { "--" },
     { N_("*CRTC Screen color"),
       NULL, NULL, crtc_palette_submenu },
     { "--" },
+#ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
+#endif
     { NULL }
 };
 
@@ -139,14 +121,6 @@ void uicrtc_menu_create(void)
 #ifdef USE_XF86_VIDMODE_EXT
     fullscreen_mode_callback("Vidmode",
                              (void *)radio_CrtcVidmodeFullscreenMode);
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    fullscreen_mode_callback("DGA1",
-                             (void *)radio_CrtcDGA1FullscreenMode);
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_callback("DGA2",
-                             (void *)radio_CrtcDGA2FullscreenMode);
 #endif
     fullscreen_menu_create(crtc_submenu);
 #endif

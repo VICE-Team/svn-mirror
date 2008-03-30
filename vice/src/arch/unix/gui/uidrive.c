@@ -52,9 +52,9 @@ UI_CALLBACK(uidrive_extend_policy_control)
                                   (int)UI_MENU_CB_PARAM + 8);
 
         if (drive_check_extend_policy(type))
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         else
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
     }
 }
 
@@ -111,9 +111,9 @@ UI_CALLBACK(radio_Drive8Type)
     } else {
         ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
         if (drive_check_type((int)UI_MENU_CB_PARAM, 0)) {
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         } else {
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         }
     }
 }
@@ -131,9 +131,9 @@ UI_CALLBACK(radio_Drive9Type)
     } else {
         ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
         if (drive_check_type((int)UI_MENU_CB_PARAM, 1)) {
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         } else {
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         }
     }
 }
@@ -151,9 +151,9 @@ UI_CALLBACK(radio_Drive10Type)
     } else {
         ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
         if (drive_check_type((int)UI_MENU_CB_PARAM, 2)) {
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         } else {
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         }
     }
 }
@@ -171,9 +171,9 @@ UI_CALLBACK(radio_Drive11Type)
     } else {
         ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
         if (drive_check_type((int)UI_MENU_CB_PARAM, 3)) {
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         } else {
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         }
     }
 }

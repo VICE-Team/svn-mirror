@@ -327,6 +327,10 @@ SOURCE=.\uimon.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uimouse.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uinetwork.c
 # End Source File
 # Begin Source File

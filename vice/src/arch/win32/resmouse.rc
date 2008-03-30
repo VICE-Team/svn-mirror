@@ -1,0 +1,172 @@
+// MOUSE specific resources.
+//
+
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
+// original and default ENGLISH version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+
+// GERMAN version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_MOUSE_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// ITALIAN version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Muis soort",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Muis poort",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_MOUSE_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_MOUSE_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mouse type",
+                    IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
+    COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mouse port",
+                    IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
+    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+

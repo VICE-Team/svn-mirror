@@ -79,7 +79,7 @@ static PetWindow *petwindow = NULL;
 
 PetWindow::PetWindow() 
 	: BWindow(BRect(50,50,420,400),"PET settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BView *background;
@@ -307,6 +307,8 @@ void PetWindow::MessageReceived(BMessage *msg) {
 
 
 void ui_pet() {
+	thread_id petthread;
+	status_t exit_value;
 	
 	if (petwindow != NULL)
 		return;
@@ -314,6 +316,8 @@ void ui_pet() {
 	petwindow = new PetWindow;
 
 	vsync_suspend_speed_eval();
-	while (petwindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	petthread=petwindow->Thread();
+	wait_for_thread(petthread, &exit_value);
+}

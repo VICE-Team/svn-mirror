@@ -29,7 +29,13 @@
 
 #include "clkguard.h"
 #include "maincpu.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "vicii.h"
 #include "z80.h"
 

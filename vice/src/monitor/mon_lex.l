@@ -5,6 +5,7 @@
  * Written by
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Thomas Giesel <skoe@directbox.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,6 +46,7 @@
 
 
 #define YY_ALWAYS_INTERACTIVE 1
+#define YY_NO_UNISTD_H
 
 #undef min
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -57,6 +59,8 @@ YY_BUFFER_STATE my_state;
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
 
 %}
+
+HDIGIT  [0-9a-fA-F]
 
 %x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN BNAME CTYPE
 
@@ -76,41 +80,66 @@ YY_BUFFER_STATE my_state;
    }
 %}
 
-<CMD>([^ \t\n]+) { push_back = 0;
-                   if ( (temp = mon_command_lookup_index(yytext, &push_back)) < 0) {
-                      return BAD_CMD;
-                   } else {
-                      if (push_back)
-                         yyless(push_back);
-
-                      switch(mon_command_get_next_state(temp)) {
-                         case STATE_INITIAL:
-                            BEGIN (INITIAL);
-                            break;
-                         case STATE_FNAME:
-                            BEGIN (FNAME);
-                            break;
-                         case STATE_BNAME:
-                            BEGIN (BNAME);
-                            break;
-                         case STATE_CTYPE:
-                            BEGIN (CTYPE);
-                            break;
-                         case STATE_ROL:
-                            BEGIN (ROL);
-                            break;
-                         case STATE_REG_ASGN:
-                            BEGIN (REG_ASGN);
-                            break;
-                         default:
-                            assert(0);
-                      }
-                      yylval.i = mon_command_get_token(temp);
-                      if (yylval.i == CMD_ASSEMBLE)
-                         opt_asm = 1;
-                      return yylval.i;
-                   }
-                 } 
+<CMD>{
+        ~               { BEGIN(INITIAL);       return CONVERT_OP; }
+        >               { BEGIN(INITIAL);       return CMD_ENTER_DATA; }
+        @               { BEGIN(ROL);           return CMD_DISK; }
+        a               { opt_asm = 1; BEGIN(INITIAL); return CMD_ASSEMBLE; }
+        add_label|al    { BEGIN(INITIAL);       return CMD_ADD_LABEL; }
+        bank            { BEGIN(BNAME);         return CMD_BANK; }
+        bload|bl        { BEGIN(FNAME);         return CMD_BLOAD; }
+        block_read|br   { BEGIN(INITIAL);       return CMD_BLOCK_READ; }
+        break           { BEGIN(INITIAL);       return CMD_BREAK; }
+        bsave|bs        { BEGIN(FNAME);         return CMD_BSAVE; }
+        block_write|bw  { BEGIN(INITIAL);       return CMD_BLOCK_WRITE; }
+        cd              { BEGIN(ROL);           return CMD_CHDIR; }
+        command         { BEGIN(INITIAL);       return CMD_COMMAND; }
+        compare|c       { BEGIN(INITIAL);       return CMD_COMPARE; }
+        condition|cond  { BEGIN(INITIAL);       return CMD_CONDITION; }
+        cpu             { BEGIN(CTYPE);         return CMD_CPU; }
+        disass|d        { BEGIN(INITIAL);       return CMD_DISASSEMBLE; }
+        delete|del      { BEGIN(INITIAL);       return CMD_DELETE; }
+        delete_label|dl { BEGIN(INITIAL);       return CMD_DEL_LABEL; }
+        device|dev      { BEGIN(INITIAL);       return CMD_DEVICE; }
+        disable         { BEGIN(INITIAL);       return CMD_CHECKPT_OFF; }
+        dump            { BEGIN(FNAME);         return CMD_DUMP; }
+        enable          { BEGIN(INITIAL);       return CMD_CHECKPT_ON; }
+        exit|x          { BEGIN(INITIAL);       return CMD_EXIT; }
+        fill|f          { BEGIN(INITIAL);       return CMD_FILL; }
+        goto|g          { BEGIN(INITIAL);       return CMD_GOTO; }
+        help|"?"        { BEGIN(ROL);           return CMD_HELP; }
+        hunt|h          { BEGIN(INITIAL);       return CMD_HUNT; }
+        i               { BEGIN(INITIAL);       return CMD_TEXT_DISPLAY; }
+        ii              { BEGIN(INITIAL);       return CMD_SCREENCODE_DISPLAY; }
+        ignore          { BEGIN(INITIAL);       return CMD_IGNORE; }
+        io              { BEGIN(INITIAL);       return CMD_IO; }
+        keybuf          { BEGIN(ROL);           return CMD_KEYBUF; }
+        load|l          { BEGIN(FNAME);         return CMD_LOAD; }
+        load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
+        mem|m           { BEGIN(INITIAL);       return CMD_MEM_DISPLAY; }
+        memchar|mc      { BEGIN(INITIAL);       return CMD_CHAR_DISPLAY; }
+        move|t          { BEGIN(INITIAL);       return CMD_MOVE; }
+        memsprite|ms    { BEGIN(INITIAL);       return CMD_SPRITE_DISPLAY; }
+        next|n          { BEGIN(INITIAL);       return CMD_NEXT; }
+        playback|pb     { BEGIN(FNAME);         return CMD_PLAYBACK; }
+        print|p         { BEGIN(INITIAL);       return CMD_PRINT; }
+        quit            { BEGIN(INITIAL);       return CMD_QUIT; }
+        radix|rad       { BEGIN(INITIAL);       return CMD_RADIX; }
+        record|rec      { BEGIN(FNAME);         return CMD_RECORD; }
+        registers|r     { BEGIN(REG_ASGN);      return CMD_REGISTERS; }
+        return|ret      { BEGIN(INITIAL);       return CMD_RETURN; }
+        save|s          { BEGIN(FNAME);         return CMD_SAVE; }
+        save_labels|sl  { BEGIN(FNAME);         return CMD_SAVE_LABELS; }
+        screen|sc       { BEGIN(INITIAL);       return CMD_SCREEN; }
+        show_labels|shl { BEGIN(INITIAL);       return CMD_SHOW_LABELS; }
+        sidefx|sfx      { BEGIN(INITIAL);       return CMD_SIDEFX; }
+        step|z          { BEGIN(INITIAL);       return CMD_STEP; }
+        stop            { BEGIN(INITIAL);       return CMD_STOP; }
+        trace|tr        { BEGIN(INITIAL);       return CMD_TRACE; }
+        until|un        { BEGIN(INITIAL);       return CMD_UNTIL; }
+        undump          { BEGIN(INITIAL);       return CMD_UNDUMP; }
+        watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
+}
 
 ;		{ new_cmd = 1; return CMD_SEP; }
 
@@ -147,10 +176,10 @@ if		{ BEGIN (COND_MODE); return IF; }
  /* \.S		{ yylval.i = e_sprite; return INPUT_SPEC; } */
  /* \.C		{ yylval.i = e_character; return INPUT_SPEC; } */
 
-D		{ yylval.i = e_decimal; return RADIX_TYPE; }
-H		{ yylval.i = e_hexadecimal; return RADIX_TYPE; }
-B		{ yylval.i = e_binary; return RADIX_TYPE; }
-O		{ yylval.i = e_octal; return RADIX_TYPE; }
+D|d		{ yylval.i = e_decimal; return RADIX_TYPE; }
+H|h		{ yylval.i = e_hexadecimal; return RADIX_TYPE; }
+B|b		{ yylval.i = e_binary; return RADIX_TYPE; }
+O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
  /* C		{ yylval.i = e_character; return RADIX_TYPE; } */
  /* S		{ yylval.i = e_sprite; return RADIX_TYPE; } */
  /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
@@ -182,11 +211,11 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ROL>[^ \t\n][^\n]*          { yylval.str = lib_stralloc(yytext); return R_O_L; }
 
 <REG_ASGN>{
-	A 		{ yylval.i = e_A; return REGISTER; }
-	X 		{ yylval.i = e_X; return REGISTER; }
-	Y 		{ yylval.i = e_Y; return REGISTER; }
-	PC 		{ yylval.i = e_PC; return REGISTER; }
-	SP		{ yylval.i = e_SP; return REGISTER; }
+	A|a 		{ yylval.i = e_A; return REGISTER; }
+	X|x 		{ yylval.i = e_X; return REGISTER; }
+	Y|y 		{ yylval.i = e_Y; return REGISTER; }
+	[Pp][Cc]	{ yylval.i = e_PC; return REGISTER; }
+	[Ss][Pp]	{ yylval.i = e_SP; return REGISTER; }
 	=		{ BEGIN (COND_MODE); return EQUALS; }
 }
 
@@ -252,22 +281,24 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>x|X           { return REG_X; }
 <ASM_MODE>y|Y           { return REG_Y; }
 
-<ASM_MODE>,             { return COMMA; }
 <ASM_MODE>\(            { dont_match_reg_a = 1; return L_PAREN; }
 <ASM_MODE>\)            { dont_match_reg_a = 0; return R_PAREN; }
 <ASM_MODE>#             { dont_match_reg_a = 1; return ARG_IMMEDIATE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
 
 <ASM_MODE,INITIAL,COND_MODE>{
+	{HDIGIT}{8}             { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }
 	1[01]*                  { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
 	%[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
 	&[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
 	[0-7]*                  { yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
 	\+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
 	[0-9]+                  { yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
-	\$[0-9a-fA-F]+          { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
-	[0-9a-fA-F]+            { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
+	\${HDIGIT}+             { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
+	{HDIGIT}+               { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }
+
+<*>,     { return COMMA; }
 
 <*>[^ \t]		{ return yytext[0]; }
 

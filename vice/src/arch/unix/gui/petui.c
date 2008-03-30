@@ -201,7 +201,7 @@ static ui_menu_entry_t model_defaults_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(ChargenName)
+UI_MENU_DEFINE_STRING_RADIO(ChargenName)
 
 static ui_menu_entry_t petui_main_romset_submenu[] = {
     { N_("Load new kernal ROM"),

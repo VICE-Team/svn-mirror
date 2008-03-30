@@ -36,7 +36,13 @@
 #include "drivetypes.h"
 #include "log.h"
 #include "machine-drive.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "monitor.h"
 #include "types.h"
 

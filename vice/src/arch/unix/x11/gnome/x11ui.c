@@ -37,6 +37,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <signal.h>
 #include <ctype.h>
@@ -44,20 +45,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <gdk/gdkx.h>
 #include <pango/pango.h>
 #ifdef ENABLE_NLS
 #include <locale.h>
 #endif
 
-#include <X11/Xlib.h>
-#include <X11/Intrinsic.h>
-#include <X11/Shell.h>
-
-#include <X11/keysym.h>
-
-#ifdef HAVE_X11_SUNKEYSYM_H
-#include <X11/Sunkeysym.h>
+#ifdef HAVE_HWSCALE
+#include <gtk/gtkgl.h>
+#include <gdk/gdkgl.h>
+#include <GL/gl.h>
 #endif
 
 #include "ui.h"
@@ -88,29 +84,26 @@
 #include "video.h"
 #include "videoarch.h"
 #include "vsiduiunix.h"
-#include "x11ui.h"
 #include "screenshot.h"
 #include "event.h"
 #include "uifliplist.h"
 
-
 /* FIXME: We want these to be static.  */
-GdkVisual *visual;
-static int have_truecolor;
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
 char *last_attached_tape;
 static char *last_menus[NUM_DRIVES];
 static GtkWidget *last_drive_menus[NUM_DRIVES];
 
+#ifdef USE_XF86_EXTENSIONS
+#include <gdk/gdkx.h>
+#include "x11ui.h"
 static Display *display;
 int screen;
 static int depth;
+#endif
 
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
-
-static GtkTooltips *tape_tooltip;
-static GtkTooltips *drive_tooltips[NUM_DRIVES];
 
 static int tape_motor_status = -1;
 static int tape_control_status = -1;
@@ -173,7 +166,7 @@ static GtkWidget *left_menu, *right_menu;
 
 /* Toplevel widget. */
 GtkWidget * _ui_top_level;
-GdkGC *app_gc;
+static GdkGC *app_gc;
 
 /* Our colormap. */
 GdkColormap *colormap;
@@ -215,7 +208,7 @@ typedef struct
 
 #define MAX_APP_SHELLS 10
 typedef struct {
-    String title;
+    gchar *title;
     GtkWidget *shell;
     GtkWidget *canvas;
     GtkWidget *topmenu;
@@ -230,10 +223,10 @@ static app_shell_type app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
-GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel, 
-*drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
-GdkColor *drive_led_on_red_pixels[16];
-GdkColor *drive_led_on_green_pixels[16];
+GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel, 
+drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
+GdkColor drive_led_on_red_pixels[16];
+GdkColor drive_led_on_green_pixels[16];
 
 
 /* If != 0, we should save the settings. */
@@ -241,7 +234,6 @@ GdkColor *drive_led_on_green_pixels[16];
 
 /* ------------------------------------------------------------------------- */
 
-static int alloc_colormap(void);
 /*static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);*/
 static GtkWidget* build_file_selector(const char *title,
 				      GtkWidget **attach_write_protect,
@@ -249,12 +241,16 @@ static GtkWidget* build_file_selector(const char *title,
 				      int show_preview,
 				      const char *pat,
 				      const char *default_dir);
-static GtkWidget* build_show_text(const String text, int width, int height);
+static GtkWidget* build_show_text(const gchar *text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
-static gboolean exposure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer p);
-static gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
+static gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer p);
+static gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer p);
+static gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, 
 					 gpointer p);
+static gboolean map_callback(GtkWidget *widget,
+                                                        GdkEvent  *event,
+                                                        gpointer   user_data);
 static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, 
 				  gpointer data);
 static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
@@ -367,7 +363,7 @@ void ui_check_mouse_cursor()
 	cursor_is_blank = 1;
 	gdk_keyboard_grab(_ui_top_level->window,
 			  1,
-			  CurrentTime);
+			  GDK_CURRENT_TIME);
 	gdk_pointer_grab(_ui_top_level->window,
 			 1,
 			 GDK_POINTER_MOTION_MASK |
@@ -376,12 +372,12 @@ void ui_check_mouse_cursor()
 /*			 _ui_top_level->window,*/
 			 app_shells[0].canvas->window,
 			 blankCursor,
-			 CurrentTime);
+			 GDK_CURRENT_TIME);
     }
     else if (cursor_is_blank) {
 	/*        XUndefineCursor(display,XtWindow(canvas));*/
-        gdk_keyboard_ungrab(CurrentTime);
-        gdk_pointer_ungrab(CurrentTime);
+        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+        gdk_pointer_ungrab(GDK_CURRENT_TIME);
     }
 }
 
@@ -392,8 +388,8 @@ void ui_restore_mouse() {
 #endif
     if(_mouse_enabled && cursor_is_blank) {
 	/*        XUndefineCursor(display,XtWindow(canvas));*/
-        gdk_keyboard_ungrab(CurrentTime);
-        gdk_pointer_ungrab(CurrentTime);
+        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+        gdk_pointer_ungrab(GDK_CURRENT_TIME);
 	cursor_is_blank = 0; 
     }
 }
@@ -401,6 +397,7 @@ void ui_restore_mouse() {
 void initBlankCursor() {
     blankCursor = gdk_cursor_new(GDK_MOUSE);
 }
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -422,6 +419,9 @@ void archdep_ui_init(int argc, char *argv[])
     fake_argv[0] = argv[0];
     fake_argv[1] = NULL;
     gtk_init(&fake_argc, &fake_args);
+#ifdef HAVE_HWSCALE
+    gtk_gl_init(&fake_argc, &fake_args);
+#endif
 
     /* set X11 fontpath */
     if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
@@ -438,14 +438,15 @@ void archdep_ui_init(int argc, char *argv[])
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {
+#ifdef USE_XF86_EXTENSIONS
     display = GDK_DISPLAY();
+    depth = gdk_visual_get_system()->depth;
+    screen = gdk_screen_get_number(gdk_screen_get_default());
+#endif
 
-    screen = XDefaultScreen(display);
     atexit(ui_autorepeat_on);
 
     ui_common_init();
-
-    ui_hotkey_init();
 
     enabled_drives = UI_DRIVE_ENABLE_NONE;
 
@@ -454,8 +455,6 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
-    ui_hotkey_shutdown();
-
     ui_common_shutdown();
 }
 
@@ -618,43 +617,8 @@ static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
 {
-    static namedvisual_t classes[] = {
-	{ "PseudoColor", GDK_VISUAL_PSEUDO_COLOR },
-	{ "TrueColor", GDK_VISUAL_TRUE_COLOR },
-	{ "StaticGray", GDK_VISUAL_GRAYSCALE },
-	{ NULL }
-    };
-
     ui_log = log_open("X11");
 
-    resources_get_int("DisplayDepth", &depth);
-
-    if (depth != 0) {
-	int i;
-
-	for (i = 0; classes[i].name != NULL ; i++) {
-	    if ((visual = gdk_visual_get_best_with_both(depth,
-							classes[i].class)))
-		break;
-	}
-	if (!classes[i].name) {
-	    log_error(ui_log,
-                      _("This display does not support suitable %dbit visuals."),
-                      depth);
-            log_error(ui_log,
-                      _("Please select a bit depth supported by your display."));
-	    return -1;
-	} else {
-	    log_message(ui_log, _("Found %dbit/%s visual."),
-                        depth, classes[i].name);
-            have_truecolor = (classes[i].class == GDK_VISUAL_TRUE_COLOR);
-        }
-    } else {
-	/* Autodetect. */
-	visual = gdk_visual_get_system();
-	have_truecolor = (visual->type == GDK_VISUAL_TRUE_COLOR);
-	depth=visual->depth;
-	log_message(ui_log, _("Found %dbit visual."), depth);
 	
 #if 0
         int j, done;
@@ -681,7 +645,6 @@ int ui_init_finish(void)
 	    return -1;
 	}
 #endif
-    }
 
     text_font_desc = pango_font_description_from_string(textfontname);
     if (!text_font_desc)
@@ -746,13 +709,12 @@ static void statusbar_setstatustext(const char *t)
 	gtk_label_set_text(app_shells[i].statustext, t);
 }
 
-void ui_create_status_bar(GtkWidget *pane, int width, int height)
+void ui_create_status_bar(GtkWidget *pane)
 {
     /* Create the status bar on the bottom.  */
     GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp;
     int i;
     app_shell_type *as;
-    GtkTooltips *video_tooltip;
 
     status_bar = gtk_hbox_new(FALSE, 0);
 
@@ -803,11 +765,17 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
 
-    if ((resources_get_int("PALEmulation", &i) != -1) && (i > 0))
-	gtk_widget_show(pal_ctrl_checkbox);
-    else	
-	gtk_widget_hide(pal_ctrl_checkbox);
-    
+    /* FIXME: temporary solution, gnome/gtk people need to fix this */
+    if (machine_class != VICE_MACHINE_PET)
+    {
+        if ((resources_get_int("PALEmulation", &i) != -1) && (i > 0))
+            gtk_widget_show(pal_ctrl_checkbox);
+        else
+            gtk_widget_hide(pal_ctrl_checkbox);
+    }
+    else
+        gtk_widget_hide(pal_ctrl_checkbox);
+
     /* Video Control checkbox */
     video_ctrl_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
@@ -824,9 +792,8 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_widget_show(vcb);
     gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
-    video_tooltip = gtk_tooltips_new();
-    gtk_tooltips_set_tip(GTK_TOOLTIPS(video_tooltip), vcb,
-			 _("click to stop recording"), NULL);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb),  _("click to stop recording"));
+    
     /* Event record control checkbox */
     event_rec_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(event_rec_checkbox), GTK_SHADOW_IN);
@@ -843,9 +810,8 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_widget_show(vcb);
     gtk_box_pack_start(GTK_BOX(status_bar), event_rec_checkbox, 
 		       FALSE, FALSE, 0);
-    video_tooltip = gtk_tooltips_new();
-    gtk_tooltips_set_tip(GTK_TOOLTIPS(video_tooltip), vcb,
-			 _("click to stop recording"), NULL);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
+    
     /* Event playback control checkbox */
     event_playback_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(event_playback_checkbox),
@@ -863,9 +829,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_widget_show(vcb);
     gtk_box_pack_start(GTK_BOX(status_bar), event_playback_checkbox, 
 		       FALSE, FALSE, 0);
-    video_tooltip = gtk_tooltips_new();
-    gtk_tooltips_set_tip(GTK_TOOLTIPS(video_tooltip), vcb,
-			 _("click to stop playback"), NULL);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop playback"));
     
     /* drive stuff */
     drive_box = gtk_hbox_new(FALSE, 0);
@@ -888,10 +852,15 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			  frame);
 	gtk_widget_show(frame);
 
+#if 0
 	drive_tooltips[i] = gtk_tooltips_new();
 	gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]),
 			     as->drive_status[i].box->parent->parent,
 			     _("<empty>"), NULL);
+#else
+	gtk_widget_set_tooltip_text(
+	    GTK_WIDGET(as->drive_status[i].box->parent->parent), _("<empty>"));
+#endif
 
 	/* Label */
 	as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
@@ -917,7 +886,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	/* Single Led */
 	as->drive_status[i].led_pixmap = 
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, 
-			   depth);
+			   -1);
 	as->drive_status[i].led = 
 	    gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
 	gtk_widget_set_size_request(as->drive_status[i].led, 
@@ -930,7 +899,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	/* Led1 for double Led drive */
 	as->drive_status[i].led1_pixmap = 
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH/2, LED_HEIGHT, 
-			   depth);
+			   -1);
 	as->drive_status[i].led1 = 
 	    gtk_image_new_from_pixmap(as->drive_status[i].led1_pixmap, NULL);
 	gtk_widget_set_size_request(as->drive_status[i].led1, LED_WIDTH/2, 
@@ -943,7 +912,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	/* Led2 for double Led drive */
 	as->drive_status[i].led2_pixmap = 
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH/2, LED_HEIGHT, 
-			   depth);
+			   -1);
 	as->drive_status[i].led2 = 
 	    gtk_image_new_from_pixmap(as->drive_status[i].led2_pixmap, NULL);
 	gtk_widget_set_size_request(as->drive_status[i].led2, LED_WIDTH/2, 
@@ -983,10 +952,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_container_add(GTK_CONTAINER(as->tape_status.event_box), frame);
     gtk_widget_show(frame);
 
-    tape_tooltip = gtk_tooltips_new();
-    gtk_tooltips_set_tip(GTK_TOOLTIPS(tape_tooltip),
-			 as->tape_status.box->parent->parent, 
-			 "", NULL);
+    gtk_widget_set_tooltip_text(
+	GTK_WIDGET(as->tape_status.box->parent->parent), "");
+    
     /* Tape Label */
     as->tape_status.label = gtk_label_new(_("Tape 000"));
     gtk_container_add(GTK_CONTAINER(as->tape_status.box),
@@ -996,7 +964,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 
     /* Tape control */
     as->tape_status.control_pixmap = 
-	gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, depth);
+	gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, -1);
     as->tape_status.control = 
 	gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
     gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, 
@@ -1038,6 +1006,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			   gdk_cursor_new (GDK_HAND1)); 
 }
 
+#ifdef USE_XF86_EXTENSIONS
 int x11ui_get_display_depth(void)
 {
     return depth;
@@ -1046,11 +1015,6 @@ int x11ui_get_display_depth(void)
 Display *x11ui_get_display_ptr(void)
 {
     return display;
-}
-
-GdkVisual *x11ui_get_visual()
-{
-    return visual;
 }
 
 Window x11ui_get_X11_window()
@@ -1062,12 +1026,13 @@ int x11ui_get_screen()
 {
     return screen;
 }
+#endif
 
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* Create a shell with a canvas widget in it.  */
-int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
-                             int width, int height, int no_autorepeat)
+int ui_open_canvas_window(video_canvas_t *c, const char *title,
+			  int w, int h, int no_autorepeat)
 {
     GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
     GtkAccelGroup* accel;
@@ -1111,10 +1076,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 	GtkRcStyle *rc_style;
 	GdkColor color;
 
-	alloc_colormap();
-        gtk_widget_push_colormap (colormap);
 	new_canvas = gtk_drawing_area_new();
-        gtk_widget_pop_colormap ();
 
 	/* Go through the motions to change the background to black.
 	   GTK+ 2.0 simplifies this with gtk_widget_modify_bg. */
@@ -1126,6 +1088,19 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
         /* FIXME: Old gtk libraries do stupid things if this is
 	   unreferenced.  */
 	/* gtk_rc_style_unref(rc_style); */
+#ifdef HAVE_HWSCALE
+        GdkGLConfig *gl_config = gdk_gl_config_new_by_mode (GDK_GL_MODE_RGB | GDK_GL_MODE_DOUBLE);
+
+        if (gl_config == NULL) 
+            g_critical ("Failed to setup a double-buffered RGB visual");
+
+        if (! gtk_widget_set_gl_capability (GTK_WIDGET (new_canvas), 
+                                        gl_config,
+                                        NULL,
+                                        TRUE,
+                                        GDK_GL_RGBA_TYPE))
+            g_critical ("Failed to add gl capability");
+#endif
     }
     
     gtk_widget_set_events(new_canvas,
@@ -1143,9 +1118,12 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
     gtk_widget_show(new_canvas);
 
-    /* XVideo must be refreshed when the application window is moved. */
+    /*Â XVideo must be refreshed when the application window is moved. */
     g_signal_connect(G_OBJECT(new_window), "configure-event",
-		     G_CALLBACK(exposure_callback_app),
+		     G_CALLBACK(configure_callback_app),
+		     (void*) c);
+    g_signal_connect(G_OBJECT(new_canvas), "configure-event",
+		     G_CALLBACK(configure_callback_canvas),
 		     (void*) c);
     g_signal_connect(G_OBJECT(new_canvas),"expose-event",
 		     G_CALLBACK(exposure_callback_canvas),
@@ -1153,22 +1131,21 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     g_signal_connect(G_OBJECT(new_canvas),"enter-notify-event",
 		     G_CALLBACK(enter_window_callback),
 		     NULL);
+    g_signal_connect(G_OBJECT(new_canvas),"map-event",
+		     G_CALLBACK(map_callback),
+		     NULL);
 
-    if (!vsid_mode)
-    {
-	x11ui_resize_canvas_window(new_canvas, width, height, c->videoconfig->hwscale);
-    }
     
     if (c->videoconfig->hwscale && !vsid_mode) {
         gint window_width, window_height;
         resources_get_int("WindowWidth", &window_width);
         resources_get_int("WindowHeight", &window_height);
-        gtk_window_resize(GTK_WINDOW(new_window->window), window_width, 
+        gtk_window_resize(GTK_WINDOW(new_window), window_width, 
 			  window_height);
     }
     gtk_widget_show(new_canvas);
 
-    ui_create_status_bar(new_pane, width, height);
+    ui_create_status_bar(new_pane);
     pal_ctrl_widget = build_pal_ctrl_widget(c);
     gtk_box_pack_end(GTK_BOX(new_pane), pal_ctrl_widget, FALSE, FALSE, 0);
     gtk_widget_hide(pal_ctrl_widget);
@@ -1229,18 +1206,18 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 	ui_display_drive_led(i, 1000, 1000);
 
     ui_style_red = gtk_style_new();
-    ui_style_red->fg[GTK_STATE_NORMAL] = *drive_led_on_red_pixel;
-    ui_style_red->fg[GTK_STATE_ACTIVE] = *drive_led_on_red_pixel;
-    ui_style_red->fg[GTK_STATE_SELECTED] = *drive_led_on_red_pixel;
-    ui_style_red->fg[GTK_STATE_PRELIGHT] = *drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_NORMAL] = drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_ACTIVE] = drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_SELECTED] = drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_PRELIGHT] = drive_led_on_red_pixel;
     gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
     gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
 
     ui_style_green = gtk_style_new();
-    ui_style_green->fg[GTK_STATE_NORMAL] = *drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_ACTIVE] = *drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_SELECTED] = *drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_PRELIGHT] = *drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
     gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
 
     initBlankCursor();
@@ -1255,6 +1232,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(ui_menu_entry_t *menu)
 {
+    if (left_menu != NULL)
+        gtk_widget_destroy(left_menu);
     left_menu = gtk_menu_new();
     ui_menu_create(left_menu, NULL, "LeftMenu", menu);
 }
@@ -1262,6 +1241,8 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
 /* Attach `w' as the right menu of all the current open windows.  */
 void ui_set_right_menu(ui_menu_entry_t *menu)
 {
+    if (right_menu != NULL)
+        gtk_widget_destroy(right_menu);
     right_menu = gtk_menu_new();
     ui_menu_create(right_menu, NULL, "RightMenu", menu);
 }
@@ -1416,32 +1397,6 @@ void ui_exit(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Set the colormap variable.  The user must tell us whether he wants the
-   default one or not using the `privateColormap' resource.  */
-static int alloc_colormap(void)
-{
-    int use_private_colormap;
-
-    if (colormap)
-	return 0;
-
-    resources_get_int("PrivateColormap", &use_private_colormap);
-
-    if (!use_private_colormap
-	&& depth == DefaultDepth(display, screen)
-        && !have_truecolor) {
-        colormap = gdk_colormap_get_system();
-    } else {
-        log_message(ui_log, _("Using private colormap."));
-	colormap = gdk_colormap_new(visual, AllocNone);
-    }
-
-    gdk_drawable_set_colormap(_ui_top_level->window, colormap);
-
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
 
 /* Show the speed index to the user.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
@@ -1560,28 +1515,28 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
 	drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
 
 	color = status ? (drive_active_led[drive_number] 
-			  ? drive_led_on_green_pixels[ci1] 
-			  : drive_led_on_red_pixels[ci1]) 
-	    : drive_led_off_pixel;
-	gdk_gc_set_foreground(app_gc, color);
+			  ? &drive_led_on_green_pixels[ci1] 
+			  : &drive_led_on_red_pixels[ci1]) 
+	    : &drive_led_off_pixel;
+	gdk_gc_set_rgb_fg_color(app_gc, color);
 	gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 
 			   0, LED_WIDTH, LED_HEIGHT);
 	gtk_widget_queue_draw(ds->led);
 
 	color = (status & 1) ? (drive_active_led[drive_number] 
-				? drive_led_on_green_pixels[ci1] 
-				: drive_led_on_red_pixels[ci1]) 
-	    : drive_led_off_pixel;
-	gdk_gc_set_foreground(app_gc, color);
+				? &drive_led_on_green_pixels[ci1] 
+				: &drive_led_on_red_pixels[ci1]) 
+	    : &drive_led_off_pixel;
+	gdk_gc_set_rgb_fg_color(app_gc, color);
 	gdk_draw_rectangle(ds->led1_pixmap, app_gc, TRUE, 0, 
 			   0, LED_WIDTH/2, LED_HEIGHT);
 	gtk_widget_queue_draw(ds->led1);
 
 	color = (status & 2) ? (drive_active_led[drive_number] 
-				? drive_led_on_green_pixels[ci2] 
-				: drive_led_on_red_pixels[ci2]) 
-	    : drive_led_off_pixel;
-	gdk_gc_set_foreground(app_gc, color);
+				? &drive_led_on_green_pixels[ci2] 
+				: &drive_led_on_red_pixels[ci2]) 
+	    : &drive_led_off_pixel;
+	gdk_gc_set_rgb_fg_color(app_gc, color);
 	gdk_draw_rectangle(ds->led2_pixmap, app_gc, TRUE, 0, 
 			   0, LED_WIDTH/2, LED_HEIGHT);
 	gtk_widget_queue_draw(ds->led2);
@@ -1617,10 +1572,8 @@ void ui_display_drive_current_image(unsigned int drive_number,
 				     drive_status[drive_number].image), 
 			   name);
 #endif
-	gtk_tooltips_set_tip(
-	    GTK_TOOLTIPS(drive_tooltips[drive_number]),
-	    app_shells[i].drive_status[drive_number].box->parent->parent, 
-	    name, NULL);
+	gtk_widget_set_tooltip_text(
+	    GTK_WIDGET(app_shells[i].drive_status[drive_number].box->parent->parent), name);
 	
     }
     if (name)
@@ -1693,10 +1646,10 @@ void ui_display_tape_control_status(int control)
     else
 	tape_control_status = control;
 
-    color = tape_motor_status ? motor_running_pixel : drive_led_off_pixel;
+    color = tape_motor_status ? &motor_running_pixel : &drive_led_off_pixel;
     
     /* Set background color depending on motor status */
-    gdk_gc_set_foreground(app_gc, color);
+    gdk_gc_set_rgb_fg_color(app_gc, color);
     for (i = 0; i < num_app_shells; i++)
     {
 	tape_status_widget *ts = &app_shells[i].tape_status;
@@ -1720,7 +1673,7 @@ void ui_display_tape_control_status(int control)
 	p = rew;
 	break;
     case DATASETTE_CONTROL_RECORD:
-	gdk_gc_set_foreground(app_gc, drive_led_on_red_pixel);
+	gdk_gc_set_rgb_fg_color(app_gc, &drive_led_on_red_pixel);
 	for (i = 0; i < num_app_shells; i++)
 	{
 	    tape_status_widget *ts = &app_shells[i].tape_status;
@@ -1738,8 +1691,8 @@ void ui_display_tape_control_status(int control)
 	break;
     }
     
-    color = tape_control_pixel;
-    gdk_gc_set_foreground(app_gc, color);
+    color = &tape_control_pixel;
+    gdk_gc_set_rgb_fg_color(app_gc, color);
     for (i = 0; i < num_app_shells; i++)
     {
 	tape_status_widget *ts = &app_shells[i].tape_status;
@@ -1775,9 +1728,9 @@ void ui_display_tape_current_image(const char *image)
 
     for (i = 0; i < num_app_shells; i++)
     {
-	gtk_tooltips_set_tip(GTK_TOOLTIPS(tape_tooltip),
-			     app_shells[i].tape_status.box->parent->parent, 
-			     name, NULL);
+	gtk_widget_set_tooltip_text(
+	    GTK_WIDGET(app_shells[i].tape_status.box->parent->parent), name);
+	
     }
     if (name)
 	lib_free(name);
@@ -1828,12 +1781,6 @@ void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
 	ui_dispatch_next_event();
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    {
-	void dga2_mode_update(void);
-	dga2_mode_update();
-    }
-#endif
 }
 
 void
@@ -1846,7 +1793,8 @@ x11ui_fullscreen(int i)
 }
 
 /* Resize one window. */
-void x11ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
+void 
+ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
 {
     gtk_window_set_resizable(GTK_WINDOW(gtk_widget_get_toplevel(w)), (gboolean)hwscale);
 
@@ -1960,7 +1908,7 @@ DEFINE_BUTTON_CALLBACK(UI_BUTTON_OK)
 				    msg,
 				    NULL);
     
-    ui_popup(msgdlg, title, False);
+    ui_popup(msgdlg, title, FALSE);
     gtk_dialog_run(GTK_DIALOG(msgdlg));
     ui_unblock_shells();	/* ui_popdown can't be used in message_boxes */
     gtk_widget_destroy(msgdlg);
@@ -2035,7 +1983,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     gtk_widget_show(message);
     gtk_dialog_set_default_response(GTK_DIALOG(jam_dialog), 0);
 
-    ui_popup(jam_dialog, "VICE", False);
+    ui_popup(jam_dialog, "VICE", FALSE);
     res = gtk_dialog_run(GTK_DIALOG(jam_dialog));
     ui_popdown(jam_dialog);
     if (jam_dialog)
@@ -2340,7 +2288,6 @@ char *ui_select_file(const char *title,
 
     current_image_contents_func = read_contents_func;
     res = gtk_dialog_run(GTK_DIALOG(file_selector));
-    x11kbd_enter_leave();	/* reset meta_count if called via hotkey */
     switch (res)
     {
     case GTK_RESPONSE_ACCEPT:
@@ -2423,7 +2370,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
 
     gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
     /*    XtSetKeyboardFocus(input_dialog, input_dialog_field);*/
-    ui_popup(input_dialog, title, False);
+    ui_popup(input_dialog, title, FALSE);
     res = gtk_dialog_run(GTK_DIALOG(input_dialog));
     ui_popdown(input_dialog);
 
@@ -2447,12 +2394,12 @@ void ui_show_text(const char *title, const char *text, int width, int height)
     GtkWidget *show_text;
 
     vsync_suspend_speed_eval();
-    show_text = build_show_text((String)text, width, height);
+    show_text = build_show_text((const gchar*)text, width, height);
     g_signal_connect(G_OBJECT(show_text),
 		     "destroy",
 		     G_CALLBACK(gtk_widget_destroyed),
 		     &show_text);
-    ui_popup(show_text, title, False);
+    ui_popup(show_text, title, FALSE);
     gtk_dialog_run(GTK_DIALOG(show_text));
     ui_popdown(show_text);
     
@@ -2478,7 +2425,7 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     
     gtk_label_set_text(GTK_LABEL(confirm_dialog_message),text);
 
-    ui_popup(confirm_dialog, title, False);
+    ui_popup(confirm_dialog, title, FALSE);
     res = gtk_dialog_run(GTK_DIALOG(confirm_dialog));
     ui_popdown(confirm_dialog);
     
@@ -2503,7 +2450,7 @@ ui_change_dir(const char *title, const char *prompt, char *buf,
 				     GTK_STOCK_OPEN, 
 				     GTK_RESPONSE_ACCEPT,
 				     NULL);
-    ui_popup(fc, title, False);
+    ui_popup(fc, title, FALSE);
     res = gtk_dialog_run(GTK_DIALOG(fc));
     ui_popdown(fc);
 
@@ -2543,7 +2490,7 @@ void ui_unblock_shells(void)
 }
 
 /* Pop up a popup shell and center it to the last visited AppShell */
-void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
+void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
 {
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_suspend(1);
@@ -2759,7 +2706,7 @@ static GtkWidget *build_file_selector(const char *title,
     return fileselect;
 }
 
-static GtkWidget* build_show_text(const String text, int width, int height)
+static GtkWidget* build_show_text(const gchar *text, int width, int height)
 {
     GtkWidget *show_text, *textw, *scrollw;
     GtkTextBuffer *tb;
@@ -2833,29 +2780,102 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     return 0;
 }
 
-gboolean exposure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
+gboolean map_callback(GtkWidget *w,
+                      GdkEvent  *event,
+                      gpointer   user_data)
 {
-    video_canvas_t *canvas = (video_canvas_t *)client_data;
+#ifdef HAVE_HWSCALE
+    video_canvas_t *canvas = (video_canvas_t *)user_data;
+    
+    if (canvas) {
+        GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
+        GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
 
+        gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
+
+        glGenTextures(1, &canvas->screen_texture);
+
+        gdk_gl_drawable_gl_end (gl_drawable);
+    }
+#endif
+
+    return FALSE;
+}
+
+gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
+{
     resources_set_int("WindowWidth", e->width);
     resources_set_int("Windowheight", e->height);
-    /* XVideo must be refreshed when the shell window is moved. */
-    if (canvas && canvas->videoconfig->hwscale
-	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
-	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
-    {
-        video_canvas_refresh_all(canvas);
-    }
     return 0;
 }
 
-gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
+gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
+{
+#ifdef HAVE_HWSCALE
+    GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
+    GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
+
+    gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
+
+    glViewport(0, 0, e->width, e->height);
+
+    gdk_gl_drawable_gl_end (gl_drawable);
+#endif
+
+    return 0;
+}
+
+gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, 
 				  gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
     
-    if (canvas) 
-        video_canvas_refresh_all(canvas);
+    if (canvas) {
+#ifdef HAVE_HWSCALE
+        if (canvas->videoconfig->hwscale) {
+            GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
+            GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
+
+            gboolean xxx = gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
+
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            glEnable (GL_TEXTURE_RECTANGLE_ARB);
+            glBindTexture (GL_TEXTURE_RECTANGLE_ARB, canvas->screen_texture);
+
+            glTexParameteri (GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri (GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexImage2D  (GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB, 
+                canvas->gdk_image_size.width, canvas->gdk_image_size.height,
+                0, GL_RGB, GL_UNSIGNED_BYTE, canvas->gdk_image);
+
+            glBegin (GL_QUADS);
+
+            glTexCoord2f(0.0f, 0.0f);              /* Lower Right Of Texture */
+            glVertex2f(-1.0f, 1.0f);
+
+            glTexCoord2f(0.0f, canvas->gdk_image_size.height);              /* Upper Right Of Texture */
+            glVertex2f(-1.0f, -1.0f);
+
+            glTexCoord2f(canvas->gdk_image_size.width, canvas->gdk_image_size.height);              /* Upper Left Of Texture */
+            glVertex2f(1.0f, -1.0f);
+
+            glTexCoord2f(canvas->gdk_image_size.width, 0.0f);              /* Lower Left Of Texture */
+            glVertex2f(1.0f, 1.0f);
+
+            glEnd ();
+
+            gdk_gl_drawable_swap_buffers (gl_drawable);
+            gdk_gl_drawable_gl_end (gl_drawable);
+        }
+        else
+#endif
+        {
+            gdk_draw_rgb_image(w->window, app_gc,
+                e->area.x, e->area.y, e->area.width, e->area.height, GDK_RGB_DITHER_NONE,
+                canvas->gdk_image+canvas->gdk_image_size.width*3*e->area.y+3*e->area.x, canvas->gdk_image_size.width*3);
+        }
+    }
     
     return 0;
 }

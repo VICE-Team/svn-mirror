@@ -42,6 +42,7 @@
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
 #include "mui/uimmc64.h"
+#include "mui/uimouse.h"
 #include "mui/uiplus256k.h"
 #include "mui/uiplus60k.h"
 #include "mui/uiramcart.h"
@@ -128,6 +129,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
+      case IDM_MOUSE_SETTINGS:
+        ui_mouse_settings_dialog();
+        break;
     }
 
     return 0;
@@ -149,4 +153,3 @@ int c64ui_init(void)
 void c64ui_shutdown(void)
 {
 }
-

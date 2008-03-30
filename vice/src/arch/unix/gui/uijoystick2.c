@@ -192,13 +192,13 @@ ui_menu_entry_t joystick_settings_submenu[] = {
     { "--" },
 #endif
     { N_("Swap joystick ports"),
-      (ui_callback_t)swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
+      (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t joystick_options_submenu[] = {
     { N_("Swap joystick ports"),
-      (ui_callback_t)swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
+      (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { NULL }
 };
 

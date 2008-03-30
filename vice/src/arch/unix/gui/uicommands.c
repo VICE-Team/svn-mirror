@@ -264,9 +264,9 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
         log_debug(_("Quickloading file %s."), (char *)data);
         filename = (char *)data;
     } else {
-        filename = ui_select_file(_("Load snapshot"), NULL, 0, False,
+        filename = ui_select_file(_("Load snapshot"), NULL, 0, 0,
                                   load_snapshot_last_dir,
-                                  "*.vsf", &button, False, NULL);
+                                  "*.vsf", &button, 0, NULL);
         if (button != UI_BUTTON_OK) {
             if (filename)
                 lib_free(filename);
@@ -401,8 +401,8 @@ static void sound_record_start(char *format, char *extension)
     vsync_suspend_speed_eval();
 
     resources_set_string("SoundRecordDeviceName", "");
-    s = ui_select_file(_("Record sound to file"), NULL, 0, False, NULL,
-                              extension, &button, False, NULL);
+    s = ui_select_file(_("Record sound to file"), NULL, 0, 0, NULL,
+                              extension, &button, 0, NULL);
     if (button == UI_BUTTON_OK && s != NULL)
     {
         util_add_extension(&s, format);
@@ -446,10 +446,10 @@ static UI_CALLBACK(sound_record_mp3)
 static ui_menu_entry_t reset_submenu[] = {
     { N_("Soft"),
       (ui_callback_t)reset, NULL, NULL,
-      XK_F9, UI_HOTMOD_META },
+      KEYSYM_F9, UI_HOTMOD_META },
     { N_("Hard"),
       (ui_callback_t)powerup_reset, NULL, NULL,
-      XK_F12, UI_HOTMOD_META },
+      KEYSYM_F12, UI_HOTMOD_META },
     { "--" },
     { N_("Unit #8"),
       (ui_callback_t)drive_reset, (ui_callback_data_t)0, NULL },
@@ -485,17 +485,17 @@ static ui_menu_entry_t set_event_start_mode_submenu[] = {
 ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Load snapshot..."),
       (ui_callback_t)load_snapshot, NULL, NULL,
-      XK_l, UI_HOTMOD_META },
+      KEYSYM_l, UI_HOTMOD_META },
     { N_("Save snapshot..."),
       (ui_callback_t)save_snapshot, NULL, NULL,
-      XK_s, UI_HOTMOD_META },
+      KEYSYM_s, UI_HOTMOD_META },
     { "--" },
     { N_("Quickload snapshot"),
       (ui_callback_t)load_quicksnap, NULL, NULL,
-      XK_F10, UI_HOTMOD_META },
+      KEYSYM_F10, UI_HOTMOD_META },
     { N_("Quicksave snapshot"),
       (ui_callback_t)save_quicksnap, NULL, NULL,
-      XK_F11, UI_HOTMOD_META },
+      KEYSYM_F11, UI_HOTMOD_META },
     { "--" },
     { N_("Select history directory"),
       (ui_callback_t)events_select_dir, NULL, NULL },
@@ -508,9 +508,9 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Stop playing back events"),
       (ui_callback_t)playback_events_stop, NULL, NULL },
     { N_("Set recording milestone"),
-      (ui_callback_t)events_set_ms, NULL, NULL, XK_e, UI_HOTMOD_META },
+      (ui_callback_t)events_set_ms, NULL, NULL, KEYSYM_e, UI_HOTMOD_META },
     { N_("Return to milestone"),
-      (ui_callback_t)events_return_ms, NULL, NULL, XK_u, UI_HOTMOD_META },
+      (ui_callback_t)events_return_ms, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
     { "--" },
     { N_("Recording start mode"),
       NULL, NULL, set_event_start_mode_submenu },
@@ -549,7 +549,7 @@ ui_menu_entry_t ui_sound_record_commands_menu[] = {
 ui_menu_entry_t ui_tool_commands_menu[] = {
     { N_("Activate monitor"),
       (ui_callback_t)activate_monitor, NULL, NULL,
-      XK_h, UI_HOTMOD_META },
+      KEYSYM_h, UI_HOTMOD_META },
     { N_("Run C1541"),
       (ui_callback_t)run_c1541, NULL, NULL },
     { NULL }
@@ -570,14 +570,14 @@ ui_menu_entry_t ui_run_commands_menu[] = {
       NULL, NULL, reset_submenu },
     { N_("*Pause"),
       (ui_callback_t)toggle_pause, NULL, NULL,
-      XK_p, UI_HOTMOD_META },
+      KEYSYM_p, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
     { N_("Exit emulator"),
       (ui_callback_t)do_exit, NULL, NULL,
-      XK_q, UI_HOTMOD_META },
+      KEYSYM_q, UI_HOTMOD_META },
     { NULL }
 };
 

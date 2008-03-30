@@ -136,6 +136,8 @@ libarch_a_SOURCES = \
 	mui/uijoystickll.h \
 	mui/uimmc64.c \
 	mui/uimmc64.h \
+	mui/uimouse.c \
+	mui/uimouse.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
 	mui/uipetreu.c \

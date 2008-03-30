@@ -55,9 +55,9 @@ static UI_CALLBACK(parallel_cable_control)
                                   (int)UI_MENU_CB_PARAM + 8);
 
         if (drive_check_parallel_cable(type))
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         else
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
     }
 }
 

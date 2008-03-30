@@ -4,6 +4,9 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *
+ * NEOS and Amiga mouse support by
+ *  H.Nuotio <hannu.nuotio@pp.inet.fi>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -40,6 +43,15 @@ extern BYTE mouse_get_x(void);
 extern BYTE mouse_get_y(void);
 
 extern int _mouse_enabled;
+extern int mouse_type;
+extern int mouse_port;
+
+extern void neos_mouse_store(BYTE val);
+extern BYTE neos_mouse_read(void);
+extern BYTE amiga_mouse_read(void);
+
+#define MOUSE_TYPE_1351   0
+#define MOUSE_TYPE_NEOS   1
+#define MOUSE_TYPE_AMIGA  2
 
 #endif
-

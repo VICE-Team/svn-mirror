@@ -74,7 +74,7 @@ static Cbm2Window *cbm2window = NULL;
 
 Cbm2Window::Cbm2Window() 
 	: BWindow(BRect(50,50,340,355),"CBM2 settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BView *background;
@@ -210,6 +210,8 @@ void Cbm2Window::MessageReceived(BMessage *msg) {
 
 
 void ui_cbm2() {
+	thread_id cbm2thread;
+	status_t exit_valie;
 	
 	if (cbm2window != NULL)
 		return;
@@ -217,6 +219,8 @@ void ui_cbm2() {
 	cbm2window = new Cbm2Window;
 
 	vsync_suspend_speed_eval();
-	while (cbm2window); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	cbm2thread = cbm2window->Thread();
+	wait_for_thread(cbm2thread, &exit_value);
+}

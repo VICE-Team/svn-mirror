@@ -35,7 +35,13 @@
 #include "dma.h"
 #include "log.h"
 #include "maincpu.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"

@@ -139,7 +139,7 @@ void CreateAndGetAddressList(BListView *addresslistview, int mode)
 
 SidWindow::SidWindow() 
 	: BWindow(BRect(250,50,500,250),"Sid settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BMessage *msg;
@@ -295,6 +295,8 @@ void SidWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_sid() {
+	thread_id sidthread;
+	status_t exit_value;
 	
 	if (sidwindow != NULL)
 		return;
@@ -302,6 +304,8 @@ void ui_sid() {
 	sidwindow = new SidWindow;
 
 	vsync_suspend_speed_eval();
-	while (sidwindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	sidthread=sidwindow->Thread();
+	wait_for_thread(sidthread, &exit_value);
+}

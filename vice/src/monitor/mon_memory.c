@@ -216,13 +216,16 @@ static void set_addr_location(MON_ADDR *a, unsigned l)
     *a = HI16(*a) | LO16(l);
 }
 
-void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
+void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, mon_display_format_t format)
 {
-    unsigned int i, cnt = 0, len, max_width, real_width;
+    unsigned int i, v, cnt = 0, len, max_width, real_width;
     WORD addr = 0;
     char printables[50];
+    char prefix;
     MEMSPACE mem;
     WORD display_number;
+
+    prefix = (format == DF_PETSCII) ? '>' : '*';
 
     if (radix_type) {
         if (radix_type != e_hexadecimal)
@@ -246,20 +249,25 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
     addr = addr_location(start_addr);
 
     while (cnt < len) {
-        mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
+        mon_out("%c%s:%04x ", prefix, mon_memspace_string[mem], addr);
         for (i = 0, real_width = 0; i < max_width; i++) {
+
+            v = mon_get_mem_val(mem, (WORD)ADDR_LIMIT(addr + i));
+
             switch(radix_type) {
               case 0: /* special case == petscii text */
-                mon_out("%c", charset_p_toascii(mon_get_mem_val(mem,
-                        (WORD)(ADDR_LIMIT(addr + i))), 1));
+                if (format == DF_PETSCII)
+                    mon_out("%c", charset_p_toascii(v, 1));
+                else
+                    mon_out("%c", charset_p_toascii(
+                            charset_screencode_to_petcii(v), 1));
                 real_width++;
                 cnt++;
                 break;
               case e_decimal:
                 memset(printables, 0, 50);
                 if (cnt < len) {
-                    mon_out("%3d ", mon_get_mem_val(mem,
-                            (WORD)ADDR_LIMIT(addr + i)));
+                    mon_out("%3d ", v);
                     real_width++;
                     cnt++;
                 } else
@@ -270,8 +278,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                 if(!(cnt % 4))
                     mon_out(" ");
                 if (cnt < len) {
-                    mon_out("%02x ", mon_get_mem_val(mem,
-                            (WORD)ADDR_LIMIT(addr + i)));
+                    mon_out("%02x ", v);
                     real_width++;
                 } else
                     mon_out("   ");
@@ -280,8 +287,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
               case e_octal:
                 memset(printables, 0, 50);
                 if (cnt < len) {
-                    mon_out("%03o ", mon_get_mem_val(mem,
-                            (WORD)ADDR_LIMIT(addr + i)));
+                    mon_out("%03o ", v);
                     real_width++;
                     cnt++;
                 } else
@@ -290,8 +296,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
               case e_binary:
                 memset(printables, 0, 50);
                 if (cnt < len) {
-                    mon_print_bin(mon_get_mem_val(mem,
-                                  (WORD)ADDR_LIMIT(addr + i)), '1', '0');
+                    mon_print_bin(v, '1', '0');
                     mon_out(" ");
                     real_width++;
                     cnt++;

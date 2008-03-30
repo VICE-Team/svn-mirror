@@ -51,8 +51,6 @@
 #include "vsync.h"
 #include "vsidui.h"
 #include "vsiduiunix.h"
-#include "x11/x11ui.h"
-
 
 extern struct ui_menu_entry_s sid_submenu[];
 
@@ -75,8 +73,8 @@ static UI_CALLBACK(psid_load)
     char *filename;
     ui_button_t button;
 
-    filename = ui_select_file(_("Load PSID file"), NULL, 0, False, NULL,
-                              "*.[psPS]*", &button, False, NULL);
+    filename = ui_select_file(_("Load PSID file"), NULL, 0, 0, NULL,
+                              "*.[psPS]*", &button, 0, NULL);
 
     vsync_suspend_speed_eval();
 
@@ -112,7 +110,7 @@ static UI_CALLBACK(psid_tune)
 static ui_menu_entry_t ui_load_commands_menu[] = {
   { N_("Load PSID file..."),
     (ui_callback_t)psid_load, NULL, NULL,
-    XK_l, UI_HOTMOD_META },
+    KEYSYM_l, UI_HOTMOD_META },
   { NULL }
 };
 
@@ -203,6 +201,7 @@ static ui_menu_entry_t vsidui_right_menu[] = {
   { NULL }
 };
 
+#ifdef USE_GNOMEUI
 static ui_menu_entry_t vsidui_file_menu[] = {
   { "",
     NULL, NULL, ui_load_commands_menu },
@@ -234,6 +233,7 @@ static ui_menu_entry_t vsidui_top_menu[] = {
     NULL, NULL, vsidui_settings_menu },
   { NULL }
 };
+#endif	/* USE_GNOMEUI */
 
 /* ------------------------------------------------------------------------- */
 
@@ -242,7 +242,6 @@ extern int num_checkmark_menu_items;
 static void vsid_create_menus(void)
 {
     static ui_menu_entry_t tune_menu[256];
-    static ui_window_t wl = NULL, wr = NULL;
     static int tunes = 0;
     int default_tune;
     int i;
@@ -267,7 +266,7 @@ static void vsid_create_menus(void)
         tune_menu[i].callback_data =
             (ui_callback_data_t) i;
         tune_menu[i].sub_menu = NULL;
-        tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
+        tune_menu[i].hotkey_keysym = i < 10 ? KEYSYM_0 + i : 0;
         tune_menu[i].hotkey_modifier =
             (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
         lib_free(buf);
@@ -282,13 +281,6 @@ static void vsid_create_menus(void)
     ui_tune_menu[0].sub_menu = tune_menu;
 
     num_checkmark_menu_items = 0;
-
-    if (wl) {
-        x11ui_destroy_widget(wl);
-    }
-    if (wr) {
-        x11ui_destroy_widget(wr);
-    }
 
     ui_set_left_menu(vsidui_left_menu);
 
@@ -306,13 +298,11 @@ int vsid_ui_init(void)
     int res;
     video_canvas_t canvas;
 
-    res = x11ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 
-                                   100, 0);
+    res = ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 
+				100, 0);
     if (res < 0)
         return -1;
     
-    video_add_handlers(&canvas);
-
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
 

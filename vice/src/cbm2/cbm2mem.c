@@ -42,7 +42,13 @@
 #include "emuid.h"
 #include "kbdbuf.h"
 #include "machine.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "monitor.h"
 #include "ram.h"
 #include "resources.h"

@@ -159,7 +159,7 @@ static DeviceWindow *devicewindow = NULL;
 
 DeviceWindow::DeviceWindow() 
 	: BWindow(BRect(50,50,400,270),"Device settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BRect frame, r;
@@ -301,6 +301,8 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_device() {
+	thread_id devicethread;
+	status_t exit_value;
 	
 	if (devicewindow != NULL)
 		return;
@@ -308,6 +310,8 @@ void ui_device() {
 	devicewindow = new DeviceWindow;
 
 	vsync_suspend_speed_eval();
-	while (devicewindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	devicethread = devicewindow->Thread();
+	wait_for_thread(devicethread, &exit_value);
+}

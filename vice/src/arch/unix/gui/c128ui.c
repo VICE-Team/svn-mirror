@@ -207,8 +207,8 @@ UI_CALLBACK(set_function_rom_name)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Function ROM image"), NULL, 0, False,
-                              last_dir, "*", &button, False, NULL);
+    filename = ui_select_file(_("Function ROM image"), NULL, 0, 0,
+                              last_dir, "*", &button, 0, NULL);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
         if (resources_set_string(resname, filename) < 0)
@@ -256,7 +256,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("*IEEE488 interface emulation"),
       (ui_callback_t)toggle_IEEE488, NULL, NULL },
 #ifdef HAVE_MOUSE
-    { N_("*1351 Mouse Emulation"),
+    { N_("*Mouse Emulation"),
       NULL, NULL, mouse_submenu },
 #endif
     { NULL }

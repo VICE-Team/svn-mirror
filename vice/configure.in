@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=6
+VICE_VERSION_BUILD=7
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -199,7 +199,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(AMIGA_AROS,,[Should we enable AROS support.])
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    if test x"$host_cpu" != "xpowerpc" -a x"$host_cpu" != "xppc" -a x"$host_cpu" != "xx86_64" -a x"$host_cpu" != "xamd64"; then
+      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    fi
     is_amigaos4=no
     is_amiga_aros=yes
   fi
@@ -350,7 +352,6 @@ darwin*)
   AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-  AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
   if test "x$enable_bundle" != "xno" ; then
@@ -435,7 +436,6 @@ dnl All other UN*X systems
   AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-  AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 
   AC_CHECK_HEADER(linux/hardsid.h,
       [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.]) ],)
@@ -862,6 +862,7 @@ fi
 AC_SUBST(JOY_LIBS)
 
 dnl Check for math library
+AC_CHECK_HEADERS(math.h)
 AC_CHECK_LIB(m, sqrt,,,$LIBS)
 
 
@@ -1513,26 +1514,16 @@ if test x"$is_unix_x11" = "xyes"; then
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
+  have_xvideo=""
+
   if [[ x"${enable_gnomeui}" = "xyes" ]] ; then
 
-    LINK_X_LIBS="`pkg-config --libs gtk+-2.0`"
-
-    dnl Check for XFree86 header and library extensions.
-    AC_CHECK_LIB(X11, XCreateWindow,
-                  [ X_LIBS="-lX11 $X_LIBS";
-                    LINK_X_LIBS="-lX11 $LINK_X_LIBS"],
-                  [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
-
-    AC_CHECK_LIB(Xv, XvQueryExtension,
-                 [ X_LIBS="-lXv $X_LIBS";
-                   LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                   AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
-
-    AC_CHECK_LIB(Xext, XShmAttach,
-                 [ X_LIBS="-lXext $X_LIBS";
-                   LINK_X_LIBS="-lXext $LINK_X_LIBS";
-                   AC_DEFINE(USE_MITSHM,,[Enable MITSHM extensions.]) ],,$X_LIBS)
+    PKG_CHECK_MODULES(GTK, [gtk+-2.0], ,AC_ERROR([No GTK+ development environment found]))
+    PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0], AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]))
+    X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS"
+    LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS"
   else
+    AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
     dnl instead of assuming that libsocket needs libnsl, we
     dnl will check the existance of libnsl first.
 
@@ -1569,7 +1560,12 @@ if test x"$is_unix_x11" = "xyes"; then
     AC_CHECK_LIB(Xv, XvQueryExtension,
                  [ X_LIBS="-lXv $X_LIBS";
                    LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                   AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
+                   have_xvideo="yes" ],,$X_LIBS)
+
+    if test x"$have_xvideo"="xyes" ; then
+       AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.])
+       AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+    fi
 
     AC_CHECK_LIB(Xt, XtToolkitInitialize,
                  [ X_LIBS="-lXt $X_LIBS";
@@ -1625,6 +1621,7 @@ if test x"$is_unix_x11" = "xyes"; then
                  [ X_LIBS="-lGL $X_LIBS";
                    LINK_X_LIBS="-lGL $LINK_X_LIBS";
 		   VICE_SYNC="openGL_sync.o $VICE_SYNC";
+                   AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
 		   AC_DEFINE(HAVE_OPENGL_SYNC,,
 		   [Enable openGL synchronization])],,$X_LIBS)
   fi
@@ -1643,29 +1640,6 @@ if test x"$is_unix_x11" = "xyes"; then
                                [Enable XF86 VidMode extensions.])
                      AC_DEFINE(USE_XF86_EXTENSIONS,,
                                [Enable XF86 extensions.])],,$X_LIBS)
-      if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
-        if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
-          AC_CHECK_LIB(Xxf86dga, XF86DGAQueryExtension,
-                       [ X_LIBS="-lXxf86dga $X_LIBS";
-                         LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-                         FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-                         AC_DEFINE(USE_XF86_EXTENSIONS,,
-                                   [Enable XF86 extensions.])
-                         AC_DEFINE(USE_XF86_DGA1_EXTENSIONS,,
-                                   [Enable XF86 DGA1 extensions.])],,$X_LIBS)
-        fi
-      fi
-    fi
-    AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
-    if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
-      AC_CHECK_LIB(Xxf86dga, XDGAQueryExtension,
-                   [ X_LIBS="-lXxf86dga $X_LIBS";
-                     LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-                     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
-                     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
-                     [Enable XF86 DGA2 extensions.])],,$X_LIBS)
     fi
     AC_CHECK_HEADER(X11/extensions/Xrandr.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_Xrandr_h" = "xyes" ; then
@@ -1810,8 +1784,8 @@ if test x"$is_unix" = "xyes"; then
       ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a"
       ARCH_INCLUDES="-I$ARCH_SRC_DIR"
     else
-      ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a"
-      ARCH_INCLUDES="-I$ARCH_SRC_DIR `pkg-config --cflags gtk+-2.0`"
+      ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR $GTK_CFLAGS $GTKGL_CFLAGS"
     fi
     
     AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])

@@ -36,11 +36,5 @@ typedef enum {
     UI_HOTMOD_SHIFT = 1 << 3
 } ui_hotkey_modifier_t;
 
-extern int ui_hotkey_init(void);
-extern void ui_hotkey_shutdown(void);
-extern int ui_dispatch_hotkeys(int key);
-extern void ui_hotkey_register(ui_hotkey_modifier_t modifier,
-                               signed long keysym, void *callback,
-                               void *client_data);
 #endif
 

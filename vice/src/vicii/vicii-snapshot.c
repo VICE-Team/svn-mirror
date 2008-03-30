@@ -33,7 +33,13 @@
 #include "alarm.h"
 #include "interrupt.h"
 #include "log.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "snapshot.h"

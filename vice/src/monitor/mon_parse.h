@@ -1,7 +1,7 @@
-/* A Bison parser, made from mon_parse.y, by GNU bison 1.75.  */
+/* A Bison parser, made by GNU Bison 2.1.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,16 +15,13 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 /* As a special exception, when this file is copied by Bison into a
    Bison output file, you may use that output file without restriction.
    This special exception was added by the Free Software Foundation
    in version 1.24 of Bison.  */
-
-#ifndef BISON_MON_PARSE_H
-# define BISON_MON_PARSE_H
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -38,10 +35,10 @@
      B_NUMBER = 261,
      CONVERT_OP = 262,
      B_DATA = 263,
-     D_NUMBER_GUESS = 264,
-     O_NUMBER_GUESS = 265,
-     B_NUMBER_GUESS = 266,
-     TRAIL = 267,
+     H_RANGE_GUESS = 264,
+     D_NUMBER_GUESS = 265,
+     O_NUMBER_GUESS = 266,
+     B_NUMBER_GUESS = 267,
      BAD_CMD = 268,
      MEM_OP = 269,
      IF = 270,
@@ -50,98 +47,98 @@
      MEM_DISK9 = 273,
      MEM_DISK10 = 274,
      MEM_DISK11 = 275,
-     CMD_SEP = 276,
-     REG_ASGN_SEP = 277,
-     EQUALS = 278,
-     CMD_SIDEFX = 279,
-     CMD_RETURN = 280,
-     CMD_BLOCK_READ = 281,
-     CMD_BLOCK_WRITE = 282,
-     CMD_UP = 283,
-     CMD_DOWN = 284,
-     CMD_LOAD = 285,
-     CMD_SAVE = 286,
-     CMD_VERIFY = 287,
-     CMD_IGNORE = 288,
-     CMD_HUNT = 289,
-     CMD_FILL = 290,
-     CMD_MOVE = 291,
-     CMD_GOTO = 292,
-     CMD_REGISTERS = 293,
-     CMD_READSPACE = 294,
-     CMD_WRITESPACE = 295,
-     CMD_RADIX = 296,
-     CMD_MEM_DISPLAY = 297,
-     CMD_BREAK = 298,
-     CMD_TRACE = 299,
-     CMD_IO = 300,
-     CMD_BRMON = 301,
-     CMD_COMPARE = 302,
-     CMD_DUMP = 303,
-     CMD_UNDUMP = 304,
-     CMD_EXIT = 305,
-     CMD_DELETE = 306,
-     CMD_CONDITION = 307,
-     CMD_COMMAND = 308,
-     CMD_ASSEMBLE = 309,
-     CMD_DISASSEMBLE = 310,
-     CMD_NEXT = 311,
-     CMD_STEP = 312,
-     CMD_PRINT = 313,
-     CMD_DEVICE = 314,
-     CMD_HELP = 315,
-     CMD_WATCH = 316,
-     CMD_DISK = 317,
-     CMD_SYSTEM = 318,
-     CMD_QUIT = 319,
-     CMD_CHDIR = 320,
-     CMD_BANK = 321,
-     CMD_LOAD_LABELS = 322,
-     CMD_SAVE_LABELS = 323,
-     CMD_ADD_LABEL = 324,
-     CMD_DEL_LABEL = 325,
-     CMD_SHOW_LABELS = 326,
-     CMD_RECORD = 327,
-     CMD_STOP = 328,
-     CMD_PLAYBACK = 329,
-     CMD_CHAR_DISPLAY = 330,
-     CMD_SPRITE_DISPLAY = 331,
-     CMD_TEXT_DISPLAY = 332,
-     CMD_ENTER_DATA = 333,
-     CMD_ENTER_BIN_DATA = 334,
-     CMD_KEYBUF = 335,
-     CMD_BLOAD = 336,
-     CMD_BSAVE = 337,
-     CMD_SCREEN = 338,
-     CMD_UNTIL = 339,
-     CMD_CPU = 340,
-     L_PAREN = 341,
-     R_PAREN = 342,
-     ARG_IMMEDIATE = 343,
-     REG_A = 344,
-     REG_X = 345,
-     REG_Y = 346,
-     COMMA = 347,
-     INST_SEP = 348,
-     REG_B = 349,
-     REG_C = 350,
-     REG_D = 351,
-     REG_E = 352,
-     REG_H = 353,
-     REG_L = 354,
-     REG_AF = 355,
-     REG_BC = 356,
-     REG_DE = 357,
-     REG_HL = 358,
-     REG_IX = 359,
-     REG_IY = 360,
-     REG_SP = 361,
-     REG_IXH = 362,
-     REG_IXL = 363,
-     REG_IYH = 364,
-     REG_IYL = 365,
-     CPUTYPE_6502 = 366,
-     CPUTYPE_Z80 = 367,
+     REG_ASGN_SEP = 276,
+     EQUALS = 277,
+     TRAIL = 278,
+     CMD_SEP = 279,
+     CMD_SIDEFX = 280,
+     CMD_RETURN = 281,
+     CMD_BLOCK_READ = 282,
+     CMD_BLOCK_WRITE = 283,
+     CMD_UP = 284,
+     CMD_DOWN = 285,
+     CMD_LOAD = 286,
+     CMD_SAVE = 287,
+     CMD_VERIFY = 288,
+     CMD_IGNORE = 289,
+     CMD_HUNT = 290,
+     CMD_FILL = 291,
+     CMD_MOVE = 292,
+     CMD_GOTO = 293,
+     CMD_REGISTERS = 294,
+     CMD_READSPACE = 295,
+     CMD_WRITESPACE = 296,
+     CMD_RADIX = 297,
+     CMD_MEM_DISPLAY = 298,
+     CMD_BREAK = 299,
+     CMD_TRACE = 300,
+     CMD_IO = 301,
+     CMD_BRMON = 302,
+     CMD_COMPARE = 303,
+     CMD_DUMP = 304,
+     CMD_UNDUMP = 305,
+     CMD_EXIT = 306,
+     CMD_DELETE = 307,
+     CMD_CONDITION = 308,
+     CMD_COMMAND = 309,
+     CMD_ASSEMBLE = 310,
+     CMD_DISASSEMBLE = 311,
+     CMD_NEXT = 312,
+     CMD_STEP = 313,
+     CMD_PRINT = 314,
+     CMD_DEVICE = 315,
+     CMD_HELP = 316,
+     CMD_WATCH = 317,
+     CMD_DISK = 318,
+     CMD_SYSTEM = 319,
+     CMD_QUIT = 320,
+     CMD_CHDIR = 321,
+     CMD_BANK = 322,
+     CMD_LOAD_LABELS = 323,
+     CMD_SAVE_LABELS = 324,
+     CMD_ADD_LABEL = 325,
+     CMD_DEL_LABEL = 326,
+     CMD_SHOW_LABELS = 327,
+     CMD_RECORD = 328,
+     CMD_STOP = 329,
+     CMD_PLAYBACK = 330,
+     CMD_CHAR_DISPLAY = 331,
+     CMD_SPRITE_DISPLAY = 332,
+     CMD_TEXT_DISPLAY = 333,
+     CMD_SCREENCODE_DISPLAY = 334,
+     CMD_ENTER_DATA = 335,
+     CMD_ENTER_BIN_DATA = 336,
+     CMD_KEYBUF = 337,
+     CMD_BLOAD = 338,
+     CMD_BSAVE = 339,
+     CMD_SCREEN = 340,
+     CMD_UNTIL = 341,
+     CMD_CPU = 342,
+     L_PAREN = 343,
+     R_PAREN = 344,
+     ARG_IMMEDIATE = 345,
+     REG_A = 346,
+     REG_X = 347,
+     REG_Y = 348,
+     COMMA = 349,
+     INST_SEP = 350,
+     REG_B = 351,
+     REG_C = 352,
+     REG_D = 353,
+     REG_E = 354,
+     REG_H = 355,
+     REG_L = 356,
+     REG_AF = 357,
+     REG_BC = 358,
+     REG_DE = 359,
+     REG_HL = 360,
+     REG_IX = 361,
+     REG_IY = 362,
+     REG_SP = 363,
+     REG_IXH = 364,
+     REG_IXL = 365,
+     REG_IYH = 366,
+     REG_IYL = 367,
      STRING = 368,
      FILENAME = 369,
      R_O_L = 370,
@@ -158,16 +155,17 @@
      TOGGLE = 381
    };
 #endif
+/* Tokens.  */
 #define H_NUMBER 258
 #define D_NUMBER 259
 #define O_NUMBER 260
 #define B_NUMBER 261
 #define CONVERT_OP 262
 #define B_DATA 263
-#define D_NUMBER_GUESS 264
-#define O_NUMBER_GUESS 265
-#define B_NUMBER_GUESS 266
-#define TRAIL 267
+#define H_RANGE_GUESS 264
+#define D_NUMBER_GUESS 265
+#define O_NUMBER_GUESS 266
+#define B_NUMBER_GUESS 267
 #define BAD_CMD 268
 #define MEM_OP 269
 #define IF 270
@@ -176,98 +174,98 @@
 #define MEM_DISK9 273
 #define MEM_DISK10 274
 #define MEM_DISK11 275
-#define CMD_SEP 276
-#define REG_ASGN_SEP 277
-#define EQUALS 278
-#define CMD_SIDEFX 279
-#define CMD_RETURN 280
-#define CMD_BLOCK_READ 281
-#define CMD_BLOCK_WRITE 282
-#define CMD_UP 283
-#define CMD_DOWN 284
-#define CMD_LOAD 285
-#define CMD_SAVE 286
-#define CMD_VERIFY 287
-#define CMD_IGNORE 288
-#define CMD_HUNT 289
-#define CMD_FILL 290
-#define CMD_MOVE 291
-#define CMD_GOTO 292
-#define CMD_REGISTERS 293
-#define CMD_READSPACE 294
-#define CMD_WRITESPACE 295
-#define CMD_RADIX 296
-#define CMD_MEM_DISPLAY 297
-#define CMD_BREAK 298
-#define CMD_TRACE 299
-#define CMD_IO 300
-#define CMD_BRMON 301
-#define CMD_COMPARE 302
-#define CMD_DUMP 303
-#define CMD_UNDUMP 304
-#define CMD_EXIT 305
-#define CMD_DELETE 306
-#define CMD_CONDITION 307
-#define CMD_COMMAND 308
-#define CMD_ASSEMBLE 309
-#define CMD_DISASSEMBLE 310
-#define CMD_NEXT 311
-#define CMD_STEP 312
-#define CMD_PRINT 313
-#define CMD_DEVICE 314
-#define CMD_HELP 315
-#define CMD_WATCH 316
-#define CMD_DISK 317
-#define CMD_SYSTEM 318
-#define CMD_QUIT 319
-#define CMD_CHDIR 320
-#define CMD_BANK 321
-#define CMD_LOAD_LABELS 322
-#define CMD_SAVE_LABELS 323
-#define CMD_ADD_LABEL 324
-#define CMD_DEL_LABEL 325
-#define CMD_SHOW_LABELS 326
-#define CMD_RECORD 327
-#define CMD_STOP 328
-#define CMD_PLAYBACK 329
-#define CMD_CHAR_DISPLAY 330
-#define CMD_SPRITE_DISPLAY 331
-#define CMD_TEXT_DISPLAY 332
-#define CMD_ENTER_DATA 333
-#define CMD_ENTER_BIN_DATA 334
-#define CMD_KEYBUF 335
-#define CMD_BLOAD 336
-#define CMD_BSAVE 337
-#define CMD_SCREEN 338
-#define CMD_UNTIL 339
-#define CMD_CPU 340
-#define L_PAREN 341
-#define R_PAREN 342
-#define ARG_IMMEDIATE 343
-#define REG_A 344
-#define REG_X 345
-#define REG_Y 346
-#define COMMA 347
-#define INST_SEP 348
-#define REG_B 349
-#define REG_C 350
-#define REG_D 351
-#define REG_E 352
-#define REG_H 353
-#define REG_L 354
-#define REG_AF 355
-#define REG_BC 356
-#define REG_DE 357
-#define REG_HL 358
-#define REG_IX 359
-#define REG_IY 360
-#define REG_SP 361
-#define REG_IXH 362
-#define REG_IXL 363
-#define REG_IYH 364
-#define REG_IYL 365
-#define CPUTYPE_6502 366
-#define CPUTYPE_Z80 367
+#define REG_ASGN_SEP 276
+#define EQUALS 277
+#define TRAIL 278
+#define CMD_SEP 279
+#define CMD_SIDEFX 280
+#define CMD_RETURN 281
+#define CMD_BLOCK_READ 282
+#define CMD_BLOCK_WRITE 283
+#define CMD_UP 284
+#define CMD_DOWN 285
+#define CMD_LOAD 286
+#define CMD_SAVE 287
+#define CMD_VERIFY 288
+#define CMD_IGNORE 289
+#define CMD_HUNT 290
+#define CMD_FILL 291
+#define CMD_MOVE 292
+#define CMD_GOTO 293
+#define CMD_REGISTERS 294
+#define CMD_READSPACE 295
+#define CMD_WRITESPACE 296
+#define CMD_RADIX 297
+#define CMD_MEM_DISPLAY 298
+#define CMD_BREAK 299
+#define CMD_TRACE 300
+#define CMD_IO 301
+#define CMD_BRMON 302
+#define CMD_COMPARE 303
+#define CMD_DUMP 304
+#define CMD_UNDUMP 305
+#define CMD_EXIT 306
+#define CMD_DELETE 307
+#define CMD_CONDITION 308
+#define CMD_COMMAND 309
+#define CMD_ASSEMBLE 310
+#define CMD_DISASSEMBLE 311
+#define CMD_NEXT 312
+#define CMD_STEP 313
+#define CMD_PRINT 314
+#define CMD_DEVICE 315
+#define CMD_HELP 316
+#define CMD_WATCH 317
+#define CMD_DISK 318
+#define CMD_SYSTEM 319
+#define CMD_QUIT 320
+#define CMD_CHDIR 321
+#define CMD_BANK 322
+#define CMD_LOAD_LABELS 323
+#define CMD_SAVE_LABELS 324
+#define CMD_ADD_LABEL 325
+#define CMD_DEL_LABEL 326
+#define CMD_SHOW_LABELS 327
+#define CMD_RECORD 328
+#define CMD_STOP 329
+#define CMD_PLAYBACK 330
+#define CMD_CHAR_DISPLAY 331
+#define CMD_SPRITE_DISPLAY 332
+#define CMD_TEXT_DISPLAY 333
+#define CMD_SCREENCODE_DISPLAY 334
+#define CMD_ENTER_DATA 335
+#define CMD_ENTER_BIN_DATA 336
+#define CMD_KEYBUF 337
+#define CMD_BLOAD 338
+#define CMD_BSAVE 339
+#define CMD_SCREEN 340
+#define CMD_UNTIL 341
+#define CMD_CPU 342
+#define L_PAREN 343
+#define R_PAREN 344
+#define ARG_IMMEDIATE 345
+#define REG_A 346
+#define REG_X 347
+#define REG_Y 348
+#define COMMA 349
+#define INST_SEP 350
+#define REG_B 351
+#define REG_C 352
+#define REG_D 353
+#define REG_E 354
+#define REG_H 355
+#define REG_L 356
+#define REG_AF 357
+#define REG_BC 358
+#define REG_DE 359
+#define REG_HL 360
+#define REG_IX 361
+#define REG_IY 362
+#define REG_SP 363
+#define REG_IXH 364
+#define REG_IXL 365
+#define REG_IYH 366
+#define REG_IYL 367
 #define STRING 368
 #define FILENAME 369
 #define R_O_L 370
@@ -286,10 +284,11 @@
 
 
 
-#ifndef YYSTYPE
-#line 110 "mon_parse.y"
-typedef union {
+#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
+#line 116 "mon_parse.y"
+typedef union YYSTYPE {
     MON_ADDR a;
+    MON_ADDR range[2];
     int i;
     REG_ID reg;
     CONDITIONAL cond_op;
@@ -297,14 +296,15 @@ typedef union {
     RADIXTYPE rt;
     ACTION action;
     char *str;
-} yystype;
-/* Line 1281 of /usr/share/bison/yacc.c.  */
-#line 303 "y.tab.h"
-# define YYSTYPE yystype
+} YYSTYPE;
+/* Line 1447 of yacc.c.  */
+#line 302 "mon_parse.h"
+# define yystype YYSTYPE /* obsolescent; will be withdrawn */
+# define YYSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 extern YYSTYPE yylval;
 
 
-#endif /* not BISON_MON_PARSE_H */
 

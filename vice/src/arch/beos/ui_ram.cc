@@ -60,7 +60,7 @@ static RamWindow *ramwindow = NULL;
 
 RamWindow::RamWindow() 
 	: BWindow(BRect(50,50,170,310),"RAM Init",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BView *background;
@@ -177,6 +177,8 @@ void RamWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_ram() {
+	thread_id ramthread;
+	status_t exit_value;
 	
 	if (ramwindow != NULL)
 		return;
@@ -184,6 +186,8 @@ void ui_ram() {
 	ramwindow = new RamWindow;
 
 	vsync_suspend_speed_eval();
-	while (ramwindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	ramthread=ramwindow->Thread();
+	wait_for_thread(ramthread, &exit_value);
+}

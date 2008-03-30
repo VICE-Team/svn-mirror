@@ -37,7 +37,13 @@
 #include "keyboard.h"
 #include "log.h"
 #include "maincpu.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "plus4mem.h"
 #include "plus4pio2.h"
 #include "ted-badline.h"

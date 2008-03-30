@@ -785,6 +785,15 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_SOUND_RECORD_SETTINGS_DIALOG_SV},   /* size */
 
+/* resmouse.rc */
+/* en */ {IDD_MOUSE_SETTINGS_DIALOG,
+/* de */  IDD_MOUSE_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_MOUSE_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_MOUSE_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_MOUSE_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_MOUSE_SETTINGS_DIALOG_NL,
+/* pl */  IDD_MOUSE_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_MOUSE_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
 

@@ -169,22 +169,16 @@ src/arch/unix/x11/gnome/x11ui.c
 src/arch/unix/x11/c128icon.c
 src/arch/unix/x11/c64icon.c
 src/arch/unix/x11/cbm2icon.c
-src/arch/unix/x11/dga1.c
-src/arch/unix/x11/dga2.c
 src/arch/unix/x11/fullscreen.c
-src/arch/unix/x11/kbd.c
 src/arch/unix/x11/peticon.c
 src/arch/unix/x11/plus4icon.c
 src/arch/unix/x11/renderxv.c
 src/arch/unix/x11/ui-cmdline-options.c
 src/arch/unix/x11/ui-resources.c
-src/arch/unix/x11/uihotkey.c
 src/arch/unix/x11/vic20icon.c
-src/arch/unix/x11/video.c
 src/arch/unix/x11/vidmode.c
 src/arch/unix/x11/openGL_sync.c
 src/arch/unix/x11/xrandr.c
-src/arch/unix/x11/x11menu.c
 
 # Xaw 
 src/arch/unix/x11/xaw/about.c
@@ -214,6 +208,7 @@ src/arch/win32/resdrivevic20.rc.po.c
 src/arch/win32/resgeoram.rc.po.c
 src/arch/win32/reside64.rc.po.c
 src/arch/win32/resmmc64.rc.po.c
+src/arch/win32/resmouse.rc.po.c
 src/arch/win32/respet.rc.po.c
 src/arch/win32/respetreu.rc.po.c
 src/arch/win32/resplus256k.rc.po.c

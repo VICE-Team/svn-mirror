@@ -27,10 +27,6 @@
 #ifndef _MON_COMMAND_H
 #define _MON_COMMAND_H
 
-extern int mon_command_lookup_index(const char *str, int *push_back);
-extern int mon_command_get_token(int mon_index);
-extern int mon_command_get_next_state(int mon_index);
-
 extern void mon_command_print_help(const char *cmd);
 
 #endif

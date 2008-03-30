@@ -1,3 +1,11 @@
+2007-12-28  pottendo  <pottendo@utanet.at>
+
+	* POTFILES.in: removed dga1.c, dga2.c
+
+2007-12-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added new files.
+
 2007-11-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* nl.po: Updated.

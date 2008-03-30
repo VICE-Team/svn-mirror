@@ -62,7 +62,7 @@ static DatasetteWindow *datasettewindow = NULL;
 
 DatasetteWindow::DatasetteWindow() 
 	: BWindow(BRect(50,50,350,250),"Datasette settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BView *background;
@@ -164,6 +164,8 @@ void DatasetteWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_datasette() {
+	thread_id datasettethread;
+	status_t exit_value;
 	
 	if (datasettewindow != NULL)
 		return;
@@ -171,6 +173,8 @@ void ui_datasette() {
 	datasettewindow = new DatasetteWindow;
 
 	vsync_suspend_speed_eval();
-	while (datasettewindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	datasettethread = datasettewindow->Thread();
+	wait_for_thread(datasettethread, &exit_value);
+}

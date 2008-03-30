@@ -61,7 +61,7 @@ static ViciiWindow *viciiwindow = NULL;
 
 ViciiWindow::ViciiWindow() 
 	: BWindow(BRect(50,50,210,155),"VIC-II settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BMessage *msg;
@@ -139,6 +139,8 @@ void ViciiWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_vicii() {
+	thread_id viciithread;
+	status_t exit_value;
 	
 	if (viciiwindow != NULL)
 		return;
@@ -146,6 +148,8 @@ void ui_vicii() {
 	viciiwindow = new ViciiWindow;
 
 	vsync_suspend_speed_eval();
-	while (viciiwindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	viciithread=viciiwindow->Thread();
+	wait_for_thread(viciithread, &exit_value);
+}

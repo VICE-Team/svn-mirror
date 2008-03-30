@@ -36,6 +36,25 @@
 #include "keyboard.h"
 #include "machine.h"
 
+void kbd_arch_init(void)
+{
+}
+
+signed long kbd_arch_keyname_to_keynum(char *keyname)
+{
+    guint sym = gdk_keyval_from_name(keyname);
+
+    if (sym == GDK_VoidSymbol)
+        return -1;
+
+    return (signed long)sym;
+}
+
+const char *kbd_arch_keynum_to_keyname(signed long keynum)
+{
+    return gdk_keyval_name((guint)keynum);
+}
+
 
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {

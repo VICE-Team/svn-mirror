@@ -1206,5 +1206,9 @@ void network_hook(void)
 void network_shutdown(void)
 {
 }
-#endif
 
+int network_get_mode(void)
+{
+    return NETWORK_IDLE;
+}
+#endif

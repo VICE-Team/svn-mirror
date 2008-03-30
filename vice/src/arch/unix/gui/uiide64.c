@@ -55,9 +55,9 @@ static UI_CALLBACK(set_cylinders)
         resources_get_int("IDE64AutodetectSize", &autosize);
 
         if (autosize)
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         else
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
     } else {
         char *msg_string;
         ui_button_t button;
@@ -94,9 +94,9 @@ static UI_CALLBACK(set_heads)
         resources_get_int("IDE64AutodetectSize", &autosize);
 
         if (autosize)
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         else
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
     } else {
         char *msg_string;
         ui_button_t button;
@@ -133,9 +133,9 @@ static UI_CALLBACK(set_sectors)
         resources_get_int("IDE64AutodetectSize", &autosize);
 
         if (autosize)
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
         else
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
     } else {
         char *msg_string;
         ui_button_t button;

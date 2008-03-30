@@ -91,9 +91,9 @@ UI_CALLBACK(uidriveiec_expansion_control)
                                   (int)UI_MENU_CB_PARAM + 8);
 
         if (drive_check_expansion(type))
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         else
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
     }
 }
 
@@ -108,9 +108,9 @@ UI_CALLBACK(uidriveiec_idle_method_control)
                                   (int)UI_MENU_CB_PARAM + 8);
 
         if (drive_check_idle_method(type))
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         else
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
     }
 }
 

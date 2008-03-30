@@ -53,9 +53,9 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
         ui_menu_set_tick(w, delayloopemulation);
 
         if (video_standard == MACHINE_SYNC_PAL)
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         else
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
     }
 }
 

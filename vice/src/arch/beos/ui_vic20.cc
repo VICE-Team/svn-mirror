@@ -100,7 +100,7 @@ static Vic20Window *vic20window = NULL;
 
 Vic20Window::Vic20Window() 
 	: BWindow(BRect(50,50,350,250),"VIC20 settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BView *background;
@@ -240,6 +240,8 @@ void Vic20Window::UpdateBlocks(int config_nr)
 
 
 void ui_vic20() {
+	thread_id vic20thread;
+	status_t exit_value;
 	
 	if (vic20window != NULL)
 		return;
@@ -247,6 +249,8 @@ void ui_vic20() {
 	vic20window = new Vic20Window;
 
 	vsync_suspend_speed_eval();
-	while (vic20window); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	vic20thread=vic20window->Thread();
+	wait_for_thread(vic20thread, &exit_value);
+}

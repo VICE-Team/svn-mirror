@@ -86,9 +86,9 @@ static UI_CALLBACK(load_save_fliplist)
     vsync_suspend_speed_eval();
     title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"),
                         NULL);
-    filename = ui_select_file(title, NULL, 0, False,
+    filename = ui_select_file(title, NULL, 0, 0,
                               load_save_fliplist_last_dir, "*.vfl",
-                              &button, True, NULL);
+                              &button, 1, NULL);
     lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
@@ -116,16 +116,16 @@ static UI_CALLBACK(load_save_fliplist)
 ui_menu_entry_t fliplist_submenu[] = {
     { N_("Add current image (Unit 8)"),
       (ui_callback_t)add2fliplist, (ui_callback_data_t)0, NULL,
-      XK_i, UI_HOTMOD_META },
+      KEYSYM_i, UI_HOTMOD_META },
     { N_("Remove current image (Unit 8)"),
       (ui_callback_t)remove_from_fliplist, (ui_callback_data_t)0, NULL,
-      XK_k, UI_HOTMOD_META },
+      KEYSYM_k, UI_HOTMOD_META },
     { N_("Attach next image (Unit 8)"),
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)1, NULL,
-      XK_n, UI_HOTMOD_META },
+      KEYSYM_n, UI_HOTMOD_META },
     { N_("Attach previous image (Unit 8)"),
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)0, NULL,
-      XK_N, UI_HOTMOD_META },
+      KEYSYM_N, UI_HOTMOD_META },
     { N_("Load fliplist file"),
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL },
     { N_("Save fliplist file"),

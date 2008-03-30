@@ -46,6 +46,7 @@
 #include "uimmc64.h"
 #include "uireu.h"
 #include "uigeoram.h"
+#include "uimouse.h"
 #include "uiramcart.h"
 #include "uirom.h"
 #include "uirs232user.h"
@@ -233,6 +234,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_KEYBOARD_SETTINGS:
         uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+        break;
+      case IDM_MOUSE_SETTINGS:
+        ui_mouse_settings_dialog(hwnd);
         break;
     }
 }

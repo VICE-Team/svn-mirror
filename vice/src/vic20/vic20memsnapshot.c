@@ -39,7 +39,13 @@
 #endif
 
 #include "log.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"

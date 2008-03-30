@@ -77,9 +77,9 @@ static UI_CALLBACK(set_refresh_rate)
             if (speed == 0) {
                 /* Cannot enable the `automatic' setting if a speed limit is
                    not specified. */
-                ui_menu_set_sensitive(w, False);
+                ui_menu_set_sensitive(w, 0);
             } else {
-                ui_menu_set_sensitive(w, True);
+                ui_menu_set_sensitive(w, 1);
             }
         }
     }
@@ -313,7 +313,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
     { N_("Maximum speed"),
       NULL, NULL, set_maximum_speed_submenu },
     { N_("*Enable warp mode"),
-      (ui_callback_t)toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_META },
+      (ui_callback_t)toggle_WarpMode, NULL, NULL, KEYSYM_w, UI_HOTMOD_META },
     { NULL }
 };
 

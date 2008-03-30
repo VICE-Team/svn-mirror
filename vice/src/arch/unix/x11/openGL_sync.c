@@ -34,6 +34,8 @@
 #include <stdio.h>
 #include <GL/glx.h> 
 #include <GL/gl.h> 
+#include <string.h>
+
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"

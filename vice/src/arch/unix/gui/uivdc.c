@@ -60,7 +60,9 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+#ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
+#endif
 UI_MENU_DEFINE_TOGGLE(VDC64KB)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
@@ -70,12 +72,6 @@ UI_MENU_DEFINE_TOGGLE(VDCFullscreenDoubleScan)
 #ifdef USE_XF86_VIDMODE_EXT
 UI_MENU_DEFINE_RADIO(VDCVidmodeFullscreenMode);
 #endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-UI_MENU_DEFINE_RADIO(VDCDGA1FullscreenMode);
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-UI_MENU_DEFINE_RADIO(VDCDGA2FullscreenMode);
-#endif
 #ifdef HAVE_XRANDR
 UI_MENU_DEFINE_RADIO(VDCXRANDRFullscreenMode)
 #endif
@@ -84,14 +80,6 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_VDCFullscreenDevice,
       (ui_callback_data_t)"Vidmode", NULL },
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    { "*DGA1", (ui_callback_t)radio_VDCFullscreenDevice,
-      (ui_callback_data_t)"DGA1", NULL },
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { "*DGA2", (ui_callback_t)radio_VDCFullscreenDevice,
-      (ui_callback_data_t)"DGA2", NULL },
 #endif
 #ifdef HAVE_XRANDR
     { "*XRandR", (ui_callback_t)radio_VDCFullscreenDevice,
@@ -109,30 +97,24 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { "--" },
+#ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
+#endif
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_VDCFullscreen, NULL, NULL, XK_f, UI_HOTMOD_META },
+      (ui_callback_t)toggle_VDCFullscreen, NULL, NULL, KEYSYM_f, UI_HOTMOD_META },
     { N_("*Double size"),
       (ui_callback_t)toggle_VDCFullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_VDCFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode', 'DGA1' and 'DGA2' must remain in the beginning
+    /* Translators: 'VidMode' must remain in the beginning
        of the translation e.g. German: "VidMode Auflösungen" */
 #ifdef USE_XF86_VIDMODE_EXT
     { N_("VidMode Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    { N_("DGA1 Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { N_("DGA2 Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
 #endif
 #ifdef HAVE_XRANDR
@@ -159,14 +141,6 @@ void uivdc_menu_create(void)
 #ifdef USE_XF86_VIDMODE_EXT
     fullscreen_mode_callback("Vidmode",
                              (void *)radio_VDCVidmodeFullscreenMode);
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    fullscreen_mode_callback("DGA1",
-                             (void *)radio_VDCDGA1FullscreenMode);
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_callback("DGA2",
-                             (void *)radio_VDCDGA2FullscreenMode);
 #endif
 #ifdef HAVE_XRANDR
     fullscreen_mode_callback("XRANDR",

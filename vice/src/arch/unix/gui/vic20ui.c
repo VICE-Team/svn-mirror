@@ -258,8 +258,8 @@ static UI_CALLBACK(attach_cartridge)
 
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Attach cartridge image"),
-                              NULL, 0, False, last_dir, "*.prg", &button,
-                              False, NULL);
+                              NULL, 0, 0, last_dir, "*.prg", &button,
+                              0, NULL);
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
@@ -291,7 +291,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart-attach cartridge image..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
-      XK_c, UI_HOTMOD_META },
+      KEYSYM_c, UI_HOTMOD_META },
     { "--" },
     { N_("Attach 4/8/16KB image at $2000..."),
       (ui_callback_t)attach_cartridge,

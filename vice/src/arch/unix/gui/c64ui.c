@@ -292,7 +292,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
 #ifdef HAVE_MOUSE
-    { N_("*1351 Mouse Emulation"),
+    { N_("*Mouse Emulation"),
       NULL, NULL, mouse_submenu },
 #endif
     { NULL }

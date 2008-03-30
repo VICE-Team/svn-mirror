@@ -279,6 +279,13 @@ const uint32 MENU_VICII_BORDERS_NORMAL				= 'M096';
 const uint32 MENU_VICII_BORDERS_FULL				= 'M097';
 const uint32 MENU_VICII_BORDERS_DEBUG				= 'M098';
 
+const uint32 MENU_MOUSE_TYPE_1351				= 'M153';
+const uint32 MENU_MOUSE_TYPE_NEOS				= 'M154';
+const uint32 MENU_MOUSE_TYPE_AMIGA				= 'M155';
+
+const uint32 MENU_MOUSE_PORT_JOY1				= 'M156';
+const uint32 MENU_MOUSE_PORT_JOY2				= 'M157';
+
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';
 const uint32 MENU_LICENSE						= 'M904';

@@ -30,7 +30,13 @@
 
 #include "dma.h"
 #include "maincpu.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "ted-badline.h"
 #include "ted-fetch.h"
 #include "tedtypes.h"

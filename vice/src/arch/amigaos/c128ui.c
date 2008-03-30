@@ -42,6 +42,7 @@
 #include "mui/uidrivec128.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
+#include "mui/uimouse.h"
 #include "mui/uiramcart.h"
 #include "mui/uireu.h"
 #include "mui/uiromc128settings.h"
@@ -123,6 +124,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
+      case IDM_MOUSE_SETTINGS:
+        ui_mouse_settings_dialog();
+        break;
     }
 
     return 0;
@@ -142,4 +146,3 @@ int c128ui_init(void)
 void c128ui_shutdown(void)
 {
 }
-

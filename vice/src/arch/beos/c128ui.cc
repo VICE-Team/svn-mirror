@@ -135,12 +135,27 @@ ui_res_possible_values c128viciiBorders[] = {
         {-1, 0}
 };
 
+ui_res_possible_values c128mousetypes[] = {
+        {0, MENU_MOUSE_TYPE_1351},
+        {1, MENU_MOUSE_TYPE_NEOS},
+        {2, MENU_MOUSE_TYPE_AMIGA},
+        {-1, 0}
+};
+
+ui_res_possible_values c128mouseports[] = {
+        {1, MENU_MOUSE_PORT_JOY1},
+        {2, MENU_MOUSE_PORT_JOY2},
+        {-1, 0}
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     {"REUsize", c128ReuSize},
     {"GeoRAMsize", c128GeoRAMSize},
     {"RAMCARTsize", c128RamCartSize},
     {"DIGIMAXbase", c128DigimaxBase},
     {"VICIIBorderMode", c128viciiBorders},
+    {"Mousetype", c128mousetypes},
+    {"Mouseport", c128mouseports},
     {NULL,NULL}
 };
 
@@ -180,4 +195,3 @@ void c128ui_shutdown(void)
 }
 
 }
-

@@ -61,7 +61,7 @@ UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
-#ifdef HAVE_XVIDEO
+#ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 #endif
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
@@ -73,28 +73,16 @@ UI_MENU_DEFINE_TOGGLE(TEDFullscreenDoubleScan)
 #ifdef USE_XF86_VIDMODE_EXT
 UI_MENU_DEFINE_RADIO(TEDVidmodeFullscreenMode);
 #endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-UI_MENU_DEFINE_RADIO(TEDDGA1FullscreenMode);
 #endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-UI_MENU_DEFINE_RADIO(TEDDGA2FullscreenMode);
-#endif
-#endif
+#ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
+#endif
 
 #ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_TEDFullscreenDevice,
       (ui_callback_data_t)"Vidmode", NULL },
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    { "*DGA1", (ui_callback_t)radio_TEDFullscreenDevice,
-      (ui_callback_data_t)"DGA1", NULL },
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { "*DGA2", (ui_callback_t)radio_TEDFullscreenDevice,
-      (ui_callback_data_t)"DGA2", NULL },
 #endif
     { NULL }
 };
@@ -110,9 +98,9 @@ static UI_CALLBACK(color_set)
         resources_get_int("TEDExternalPalette", &val);
 
         if (val)
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
         else
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
     }
 }
 
@@ -133,7 +121,7 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("*Fast PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
 #endif
-#ifdef HAVE_XVIDEO
+#ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_TEDHwScale, NULL, NULL },
 #endif
@@ -145,34 +133,28 @@ ui_menu_entry_t ted_submenu[] = {
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_TEDFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+      (ui_callback_t)toggle_TEDFullscreen, NULL, NULL, KEYSYM_d, UI_HOTMOD_META },
     { N_("*Double size"),
       (ui_callback_t)toggle_TEDFullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_TEDFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode', 'DGA1' and 'DGA2' must remain in the beginning
+    /* Translators: 'VidMode' must remain in the beginning
        of the translation e.g. German: "VidMode Auflösungen" */
 #ifdef USE_XF86_VIDMODE_EXT
     { N_("VidMode Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    { N_("DGA1 Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    { N_("DGA2 Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
 #endif
     { "--" },
 #endif
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
     { "--" },
+#ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
+#endif
     { NULL }
 };
 
@@ -182,14 +164,6 @@ void uited_menu_create(void)
 #ifdef USE_XF86_VIDMODE_EXT
     fullscreen_mode_callback("Vidmode",
                              (void *)radio_TEDVidmodeFullscreenMode);
-#endif
-#ifdef USE_XF86_DGA1_EXTENSIONS
-    fullscreen_mode_callback("DGA1",
-                             (void *)radio_TEDDGA1FullscreenMode);
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_callback("DGA2",
-                             (void *)radio_TEDDGA2FullscreenMode);
 #endif
     fullscreen_menu_create(ted_submenu);
 #endif

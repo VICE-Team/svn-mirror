@@ -36,9 +36,6 @@
 #include "x11/xaw/uiarch.h"
 #endif
 
-extern int x11ui_open_canvas_window(struct video_canvas_s *c,
-                                    const char *title, int width,
-                                    int height, int no_autorepeat);
 extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width, int hwscale);
 extern void x11ui_move_canvas_window(ui_window_t w, int x, int y);
 extern void x11ui_canvas_position(ui_window_t w, int *x, int *y);
@@ -47,11 +44,14 @@ extern void x11ui_map_canvas_window(ui_window_t w);
 extern void x11ui_unmap_canvas_window(ui_window_t w);
 extern void x11ui_destroy_widget(ui_window_t w);
 
-extern Display *x11ui_get_display_ptr(void);
-extern Window x11ui_get_X11_window(void);
 extern int x11ui_get_display_depth(void);
 extern int x11ui_get_screen(void);
 extern void x11ui_fullscreen(int enable);
+
+#ifdef USE_XF86_EXTENSIONS
+Display *x11ui_get_display_ptr(void);
+Window x11ui_get_X11_window(void);
+#endif
 
 #endif
 

@@ -27,11 +27,11 @@
 
 #include <stdio.h>
 
+#include "machine.h"
 #include "ui.h"
 #include "video.h"
 #include "resources.h"
 #include "videoarch.h"
-#include "x11ui.h"
 
 static GtkWidget *fake_palemu, *true_palemu;
 static video_canvas_t *cached_canvas;
@@ -60,7 +60,10 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
     pal_res_t *p = (pal_res_t *) data;
 
     v  = (int) v / p->scale;
-    resources_set_int(p->res, v);
+
+    /* FIXME: temporary solution, gnome/gtk people need to fix this situation */
+    if (machine_class != VICE_MACHINE_PET)
+        resources_set_int(p->res, v);
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
@@ -69,9 +72,18 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
     {
-        resources_get_default_value(ctrls[i].res, (void *)&tmp);
+        /* FIXME: temporary solution, gnome/gtk people need to fix this
+           situation */
+        if (machine_class != VICE_MACHINE_PET)
+            resources_get_default_value(ctrls[i].res, (void *)&tmp);
+
 	tmp = tmp * ctrls[i].scale;
-	resources_set_int(ctrls[i].res, tmp);
+
+        /* FIXME: temporary solution, gnome/gtk people need to fix this
+           situation */
+        if (machine_class != VICE_MACHINE_PET)
+            resources_set_int(ctrls[i].res, tmp);
+
 	if (ctrls[i].adj) {
 	    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj),
 				     (gfloat) tmp);
@@ -81,7 +93,9 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 
 static void upd_palmode (GtkWidget *w, gpointer data)
 {
-    resources_set_int("PALMode", (int)data);
+    /* FIXME: temporary solution, gnome/gtk people need to fix this situation */
+    if (machine_class != VICE_MACHINE_PET)
+        resources_set_int("PALMode", (int)data);
 
     if (data == (gpointer) 0)
     {
@@ -130,7 +144,11 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	
 	ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
 	
- 	resources_get_int(ctrls[i].res, &v);
+        /* FIXME: temporary solution, gnome/gtk people need to fix this
+           situation */
+        if (machine_class != VICE_MACHINE_PET)
+            resources_get_int(ctrls[i].res, &v);
+
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), 
 				 (gfloat) (v * ctrls[i].scale));
 	sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
@@ -170,7 +188,11 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
     gtk_widget_show(true_palemu);
 
-    resources_get_int("PALMode", &v);
+    /* FIXME: temporary solution, gnome/gtk people need to fix this
+       situation */
+    if (machine_class != VICE_MACHINE_PET)
+        resources_get_int("PALMode", &v);
+
     if (v == 0)
     {
 	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);

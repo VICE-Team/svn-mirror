@@ -35,7 +35,13 @@
 #include "emuid.h"
 #include "log.h"
 #include "machine.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "monitor.h"
 #include "pet.h"
 #include "petacia.h"

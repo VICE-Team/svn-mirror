@@ -15,10 +15,6 @@ INCLUDES = \
 noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
-	dga1.c \
-	dga1.h \
-	dga2.c \
-	dga2.h \
 	openGL_sync.c \
 	xrandr.c \
 	xrandr.h \
@@ -30,7 +26,6 @@ libx11ui_a_SOURCES = \
 	c64icon.c \
 	cbm2icon.c \
 	fullscreen.c \
-	kbd.c \
 	peticon.c \
 	plus4icon.c \
 	qnxipc.h \
@@ -40,11 +35,7 @@ libx11ui_a_SOURCES = \
 	renderxv.h \
 	ui-cmdline-options.c \
 	ui-resources.c \
-	uihotkey.c \
 	vic20icon.c \
-	video.c \
-	videoarch.h \
-	x11menu.c \
 	x11menu.h \
 	x11ui.h
 

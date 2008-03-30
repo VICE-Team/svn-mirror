@@ -72,7 +72,7 @@ ICON    IDM_VICE2 "..\\..\\icons\\xcbm2.ico"
 
 #ifdef __X128__
 #ifdef WATCOM_COMPILE
-ICON    IDM_VICE2 "..\\icons\x128.ico"
+ICON    IDM_VICE2 "..\\icons\\x128.ico"
 #else
 ICON    IDM_VICE2 "..\\..\\icons\\x128.ico"
 #endif
@@ -80,7 +80,7 @@ ICON    IDM_VICE2 "..\\..\\icons\\x128.ico"
 
 #ifdef __XVIC__
 #ifdef WATCOM_COMPILE
-ICON    IDM_VICE2 "..\\icons\xvic.ico"
+ICON    IDM_VICE2 "..\\icons\\xvic.ico"
 #else
 ICON    IDM_VICE2 "..\\..\\icons\\xvic.ico"
 #endif

@@ -33,8 +33,18 @@
 #include "uimenu.h"
 #include "uimouse.h"
 
-
 UI_MENU_DEFINE_RADIO(Mouseport)
+UI_MENU_DEFINE_RADIO(Mousetype)
+
+static ui_menu_entry_t mousetype_submenu[] = {
+    { "*1351", (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)0, NULL },
+    { "*NEOS", (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)1, NULL },
+    { "*AMIGA", (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)2, NULL },
+    { NULL }
+};
 
 static ui_menu_entry_t mouseport_submenu[] = {
     { "*Port 1", (ui_callback_t)radio_Mouseport,
@@ -48,7 +58,9 @@ UI_MENU_DEFINE_TOGGLE(Mouse)
 
 ui_menu_entry_t mouse_submenu[] = {
     { N_("*Enable mouse"),
-      (ui_callback_t)toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
+      (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
+    { N_("Mouse type"),
+      NULL, NULL, mousetype_submenu },
     { N_("Mouse port"),
       NULL, NULL, mouseport_submenu },
     { NULL }

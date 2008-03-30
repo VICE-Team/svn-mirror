@@ -34,7 +34,13 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "plus4mem.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"

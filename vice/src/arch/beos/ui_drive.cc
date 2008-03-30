@@ -301,7 +301,7 @@ static DriveWindow *drivewindow = NULL;
 
 DriveWindow::DriveWindow() 
 	: BWindow(BRect(50,50,400,435),"Drive settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BRect r;
@@ -378,6 +378,8 @@ void DriveWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_drive() {
+	thread_id drivethread;
+	status_t exit_value;
 	
 	if (drivewindow != NULL)
 		return;
@@ -385,6 +387,8 @@ void ui_drive() {
 	drivewindow = new DriveWindow;
 
 	vsync_suspend_speed_eval();
-	while (drivewindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	drivethread = drivewindow->Thread();
+	wait_for_thread(drivethread, &exit_value);
+}

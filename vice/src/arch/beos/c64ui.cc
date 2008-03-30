@@ -160,6 +160,19 @@ ui_res_possible_values c64viciiBorders[] = {
         {-1, 0}
 };
 
+ui_res_possible_values c64mousetypes[] = {
+        {0, MENU_MOUSE_TYPE_1351},
+        {1, MENU_MOUSE_TYPE_NEOS},
+        {2, MENU_MOUSE_TYPE_AMIGA},
+        {-1, 0}
+};
+
+ui_res_possible_values c64mouseports[] = {
+        {1, MENU_MOUSE_PORT_JOY1},
+        {2, MENU_MOUSE_PORT_JOY2},
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
@@ -169,6 +182,8 @@ ui_res_value_list c64_ui_res_values[] = {
     {"DIGIMAXbase", DigimaxBase},
     {"MMC64_revision", MMC64Revision},
     {"VICIIBorderMode", c64viciiBorders},
+    {"Mousetype", c64mousetypes},
+    {"Mouseport", c64mouseports},
     {NULL,NULL}
 };
 

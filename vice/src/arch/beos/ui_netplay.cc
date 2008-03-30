@@ -55,7 +55,7 @@ static NetplayWindow *netplaywindow = NULL;
 
 NetplayWindow::NetplayWindow() 
 	: BWindow(BRect(50,50,200,150),"Netplay settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	int port;
@@ -118,6 +118,8 @@ void NetplayWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_netplay() {
+	thread_id netplaythread;
+	status_t exit_value;
 	
 	if (netplaywindow != NULL)
 		return;
@@ -125,6 +127,8 @@ void ui_netplay() {
 	netplaywindow = new NetplayWindow;
 
 	vsync_suspend_speed_eval();
-	while (netplaywindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	netplaythread=netplaywindow->Thread();
+	wait_for_thread(netplaythread, &exit_value);
+}

@@ -90,7 +90,7 @@ static SoundWindow *soundwindow = NULL;
 
 SoundWindow::SoundWindow() 
 	: BWindow(BRect(50,50,450,190),"Sound settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BView *background;
@@ -230,6 +230,8 @@ void SoundWindow::MessageReceived(BMessage *msg) {
 }
 
 void ui_sound() {
+	thread_id soundthread;
+	status_t exit_value;
 	
 	if (soundwindow != NULL)
 		return;
@@ -237,6 +239,8 @@ void ui_sound() {
 	soundwindow = new SoundWindow;
 
 	vsync_suspend_speed_eval();
-	while (soundwindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	soundthread=soundwindow->Thread();
+	wait_for_thread(soundthread, &exit_value);
+}

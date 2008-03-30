@@ -213,7 +213,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
-        MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "S&ettings"
     BEGIN
@@ -224,6 +224,7 @@ BEGIN
         MENUITEM "VIC-II settings...",     IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS
         MENUITEM "&Keyboard settings...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
@@ -477,7 +478,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identifikation", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Schnittstellen-Emulation",    IDM_IEEE488
-        MENUITEM "&1351 Mausemulation\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "&Einstellungen"
     BEGIN
@@ -488,6 +489,7 @@ BEGIN
         MENUITEM "VIC-II Einstellungen...",     IDM_VICII_SETTINGS
         MENUITEM "&Joystick Einstellungen...",  IDM_JOY_SETTINGS
         MENUITEM "&Tastatur Einstellungen...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "S&ound Einstellungen...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID Einstellungen...",       IDM_SID_SETTINGS
         MENUITEM "&ROM Einstellungen...",       IDM_ROM_SETTINGS
@@ -739,7 +741,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Identification de l'émulateur", IDM_TOGGLE_EMUID
         MENUITEM "Interface d'émulation &IEEE488",    IDM_IEEE488
-    MENUITEM "Émulation de la &souris 1351\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "&Paramètres"
     BEGIN
@@ -750,6 +752,7 @@ BEGIN
         MENUITEM "Paramètres VIC-II...",     IDM_VICII_SETTINGS
         MENUITEM "Paramètres des joysticks...",  IDM_JOY_SETTINGS
         MENUITEM "Paramètres du clavier...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "Paramètres son...",     IDM_SOUND_SETTINGS
         MENUITEM "Paramètres SID...",       IDM_SID_SETTINGS
         MENUITEM "Paramètres ROM...",       IDM_ROM_SETTINGS
@@ -1002,7 +1005,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulátor &azonosító", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 interfész emuláció",    IDM_IEEE488
-        MENUITEM "&1351 egér emuláció\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "B&eállítások"
     BEGIN
@@ -1013,6 +1016,7 @@ BEGIN
         MENUITEM "VIC-II beállításai...",     IDM_VICII_SETTINGS
         MENUITEM "B&otkormány beállításai...",  IDM_JOY_SETTINGS
         MENUITEM "&Billentyûzet beállításai...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "Hang beállítások...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID beállításai...",       IDM_SID_SETTINGS
         MENUITEM "&ROM-ok beállításai...",       IDM_ROM_SETTINGS
@@ -1265,7 +1269,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Identificazione dell'emulatore", IDM_TOGGLE_EMUID
         MENUITEM "Emulazione dell'interfaccia IEEE&488",    IDM_IEEE488
-    MENUITEM "Emulazione del mouse &1351\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "I&mpostazioni"
     BEGIN
@@ -1276,6 +1280,7 @@ BEGIN
         MENUITEM "Impostazioni VIC-II...",     IDM_VICII_SETTINGS
         MENUITEM "Impostazioni &joystick...",  IDM_JOY_SETTINGS
         MENUITEM "Impostazioni &tastiera...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "Impostazioni a&udio...",     IDM_SOUND_SETTINGS
         MENUITEM "Impostazioni S&ID...",       IDM_SID_SETTINGS
         MENUITEM "Impostazioni &ROM...",       IDM_ROM_SETTINGS
@@ -1527,7 +1532,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identificatie", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Interface emulatie",    IDM_IEEE488
-    MENUITEM "&1351 muis emulatie\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Pak mouse gebeurtenissen\tAlt+Q",    IDM_MOUSE
     END
     POPUP "Inst&ellingen"
     BEGIN
@@ -1538,6 +1543,7 @@ BEGIN
         MENUITEM "VIC-II-instellingen...",     IDM_VICII_SETTINGS
         MENUITEM "&Joystick-instellingen...",  IDM_JOY_SETTINGS
         MENUITEM "&Toetsenbordinstellingen...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "M&uis instellingen...",     IDM_MOUSE_SETTINGS
         MENUITEM "G&eluidsinstellingen...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID-instellingen...",       IDM_SID_SETTINGS
         MENUITEM "&ROM-instellingen...",       IDM_ROM_SETTINGS
@@ -1790,7 +1796,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Idyntifikacja emulatora", IDM_TOGGLE_EMUID
         MENUITEM "Emulacja interfejsu IEEE&488",    IDM_IEEE488
-    MENUITEM "Emulacja myszki &1351\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "Ustawi&enia"
     BEGIN
@@ -1801,6 +1807,7 @@ BEGIN
         MENUITEM "Ustawienia VIC-II...",     IDM_VICII_SETTINGS
         MENUITEM "Ustawienia &joystcka...",  IDM_JOY_SETTINGS
         MENUITEM "Ustawienia &klawiatury...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "Usta&wienia d¼wiêku...",     IDM_SOUND_SETTINGS
         MENUITEM "Ustawienia uk³adu S&ID...",       IDM_SID_SETTINGS
         MENUITEM "Ustawienia &ROM...",       IDM_ROM_SETTINGS
@@ -2052,7 +2059,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator&identifiering", IDM_TOGGLE_EMUID
         MENUITEM "Emulering av IEEE&488-gränssnitt",    IDM_IEEE488
-    MENUITEM "&1351-musemulering\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
     END
     POPUP "&Inställningar"
     BEGIN
@@ -2063,6 +2070,7 @@ BEGIN
         MENUITEM "VIC-II-inställningar...",     IDM_VICII_SETTINGS
         MENUITEM "Inställningar för &styrspak...",  IDM_JOY_SETTINGS
         MENUITEM "&Tangentbordsinställningar...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
         MENUITEM "L&judinställningar...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID-inställningar...",       IDM_SID_SETTINGS
         MENUITEM "&ROM-inställningar...",       IDM_ROM_SETTINGS

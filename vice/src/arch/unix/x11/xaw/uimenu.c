@@ -143,6 +143,71 @@ static UI_CALLBACK(submenu_popdown_callback)
         XtPopdown((Widget)client_data);
 }
 
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+    ui_hotkey_modifier_t modifier;
+    ui_keysym_t keysym;
+    ui_callback_t callback;
+    ui_callback_data_t client_data;
+} registered_hotkey_t;
+
+static registered_hotkey_t *registered_hotkeys = NULL;
+static int num_registered_hotkeys;
+static int num_allocated_hotkeys;
+
+
+/* ------------------------------------------------------------------------- */
+
+static void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym,
+                        void *callback, void *client_data)
+{
+    registered_hotkey_t *p;
+
+    if (registered_hotkeys == 0) {
+        num_allocated_hotkeys = 32;
+        registered_hotkeys = lib_malloc(num_allocated_hotkeys
+                                        * sizeof(registered_hotkey_t));
+        num_registered_hotkeys = 0;
+    } else if (num_registered_hotkeys == num_allocated_hotkeys) {
+        num_allocated_hotkeys *= 2;
+        registered_hotkeys = lib_realloc(registered_hotkeys,
+                                         (num_allocated_hotkeys
+                                         * sizeof(registered_hotkey_t)));
+    }
+
+    p = registered_hotkeys + num_registered_hotkeys;
+
+    p->modifier = modifier;
+    p->keysym = (ui_keysym_t)keysym;
+    p->callback = (ui_callback_t)callback;
+    p->client_data = (ui_callback_data_t)client_data;
+
+    num_registered_hotkeys++;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int ui_dispatch_hotkeys(int key)
+{
+    int i, ret = 0;
+    registered_hotkey_t *p = registered_hotkeys;
+
+    /* XXX: Notice that we don't actually check the hotkey modifiers
+       here.  */
+    for (i = 0; i < num_registered_hotkeys; i++, p++) {
+	if (p->keysym == key) {
+	    ((void *(*)(void *, void *, void *))
+	     p->callback)(NULL, p->client_data, NULL);
+	    ret = 1;
+	    break;
+	}
+    }
+    return ret;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Yes, this sucks.  Sorry.  */
 static void position_submenu_action(Widget w, XEvent *event,
                                     String *params, Cardinal *num_params)
@@ -225,7 +290,7 @@ static char *make_menu_label(ui_menu_entry_t *e)
     else
         trans = lib_stralloc(_(e->string));
 
-    if (e->hotkey_keysym == (ui_keysym_t)0)
+    if (e->hotkey_keysym == KEYSYM_NONE)
         return trans;
 
     if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
@@ -277,6 +342,11 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
 
     XtAppAddActions(app_context, actions, XtNumber(actions));
     XawSimpleMenuAddGlobalActions(app_context);
+
+    if (registered_hotkeys != NULL) {
+        lib_free(registered_hotkeys);
+        num_registered_hotkeys = num_allocated_hotkeys = 0;
+    }
 
     return 0;
 }
@@ -518,6 +588,7 @@ void _ui_menu_string_radio_helper(Widget w,
 
 void uimenu_shutdown(void)
 {
+    lib_free(registered_hotkeys);
     lib_free(checkmark_menu_items);
 }
 

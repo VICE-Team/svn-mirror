@@ -191,6 +191,9 @@
 /* Define to 1 if you have the `htons' function. */
 #undef HAVE_HTONS
 
+/* Enable arbitrary window scaling */
+#undef HAVE_HWSCALE
+
 /* Define to 1 if you have the <hw/inout.h> header file. */
 #undef HAVE_HW_INOUT_H
 
@@ -274,6 +277,9 @@
 
 /* Define to 1 if you have the <machine/sysarch.h> header file. */
 #undef HAVE_MACHINE_SYSARCH_H
+
+/* Define to 1 if you have the <math.h> header file. */
+#undef HAVE_MATH_H
 
 /* Define to 1 if you have the `memmove' function. */
 #undef HAVE_MEMMOVE
@@ -624,12 +630,6 @@
 
 /* Enable sdl sound support. */
 #undef USE_SDL_AUDIO
-
-/* Enable XF86 DGA1 extensions. */
-#undef USE_XF86_DGA1_EXTENSIONS
-
-/* Enable XF86 DGA2 extensions. */
-#undef USE_XF86_DGA2_EXTENSIONS
 
 /* Enable XF86 extensions. */
 #undef USE_XF86_EXTENSIONS

@@ -28,103 +28,131 @@
 
 #include "vice.h"
 
-#include <gdk/gdkx.h>
 #include <string.h>
+#include <stdlib.h>
 
+#include "fullscreenarch.h"
 #include "log.h"
 #include "types.h"
 #include "videoarch.h"
 #include "video.h"
+#include "machine.h"
+#include "lib.h"
 
 #include "ui.h"
 #include "uiarch.h"
-#include "x11ui.h"
-#ifdef HAVE_XVIDEO
-#include "renderxv.h"
+#include "uicolor.h"
+#ifdef HAVE_OPENGL_SYNC
+#include "openGL_sync.h"
 #endif
 
 static log_t gnomevideo_log = LOG_ERR;
 
-void video_init_arch(void)
+int video_arch_resources_init(void)
+{
+#ifdef HAVE_OPENGL_SYNC
+    openGL_register_resources();
+#endif
+    return 0;
+}
+
+void video_arch_resources_shutdown(void)
+{
+}
+
+int video_init(void)
 {
     if (gnomevideo_log == LOG_ERR)
         gnomevideo_log = log_open("GnomeVideo");
-}
-extern GtkWidget *canvas;
-extern GdkGC *app_gc;
-
-inline void GDK_PUTIMAGE(Display *d, GdkWindow *drawable, GdkGC *gc,
-			 GdkImage *image, int src_x, int src_y,
-			 int dest_x, int dest_y,
-			 unsigned int width, unsigned int height, int b,
-			 void *dummy, video_canvas_t *c)
-{
-  gdk_draw_image(drawable, gc, c->gdk_image, src_x, src_y,
-		 dest_x, dest_y, width, height);
-
-  gdk_flush();
-}
-
-int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
-                                  unsigned int height)
-{
-    GdkImageType typ;
-
-#ifdef HAVE_XVIDEO
-    canvas->xv_image = NULL;
-
-    if (canvas->videoconfig->hwscale
-	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
-	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
-    {
-        Display *display = x11ui_get_display_ptr();
-        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
-	
-	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
-	  return -1;
-	}
-
-	if (!(canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo))) {
-	  return -1;
-	}
-
-	/* Copy data for architecture independent rendering. */
-	canvas->yuv_image.width = canvas->xv_image->width;
-	canvas->yuv_image.height = canvas->xv_image->height;
-	canvas->yuv_image.data_size = canvas->xv_image->data_size;
-	canvas->yuv_image.num_planes = canvas->xv_image->num_planes;
-	canvas->yuv_image.pitches = canvas->xv_image->pitches;
-	canvas->yuv_image.offsets = canvas->xv_image->offsets;
-	canvas->yuv_image.data = canvas->xv_image->data;
-
-	log_message(gnomevideo_log,
-		    _("Successfully initialized using XVideo (%dx%d %.4s)."),
-		    width, height, canvas->xv_format.label);
-
-	return 0;
-    }
-#endif
-    typ = GDK_IMAGE_FASTEST;
-    canvas->gdk_image = gdk_image_new(typ, visual, width, height);
-    canvas->x_image = GDK_IMAGE_XIMAGE(canvas->gdk_image);
-    if (!canvas->x_image)
-	return -1;
-
-    video_refresh_func((void (*)(void))GDK_PUTIMAGE);
-
-    log_message(gnomevideo_log,
-                _("Successfully initialized video."));
 
     return 0;
 }
 
-GC video_get_gc(void *not_used)
+void video_shutdown(void)
 {
-    return (GC)app_gc;
 }
 
-void video_add_handlers(video_canvas_t *canvas) 
+int video_init_cmdline_options(void)
 {
+    return 0;
+}
+
+void video_arch_canvas_init(struct video_canvas_s *canvas)
+{
+    canvas->video_draw_buffer_callback = NULL;
+
+#ifdef USE_XF86_EXTENSIONS
+    canvas->fullscreenconfig
+        = (fullscreenconfig_t *)lib_calloc(1, sizeof(fullscreenconfig_t));
+    fullscreen_init_alloc_hooks(canvas);
+#endif
+}
+
+
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
+                                    unsigned int *height, int mapped)
+{
+    int res;
+
+    canvas->gdk_image = NULL;
+
+    res = ui_open_canvas_window(canvas, canvas->viewport->title,
+				*width, *height, 1);
+    if (res < 0) {
+        return NULL;
+    }
+
+#ifdef HAVE_OPENGL_SYNC
+    openGL_sync_init();
+#endif
+
+    return canvas;
+}
+
+void video_canvas_destroy(video_canvas_t *canvas)
+{
+#ifdef USE_XF86_EXTENSIONS
+    if (canvas != NULL) {
+        fullscreen_shutdown_alloc_hooks(canvas);
+        lib_free(canvas->fullscreenconfig);
+    }
+#endif
+
+    lib_free(canvas->gdk_image);
+
+    video_canvas_shutdown(canvas);
+}
+
+
+int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
+{
+    c->palette = palette;
+
+    return uicolor_set_palette(c, palette);
+}
+
+/* Change the size of the canvas. */
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
+                         unsigned int height)
+{
+    if (console_mode || vsid_mode)
+        return;
+
+    if (canvas->videoconfig->doublesizex)
+        width *= 2;
+
+    if (canvas->videoconfig->doublesizey)
+        height *= 2;
+
+    lib_free(canvas->gdk_image);
+    canvas->gdk_image = lib_malloc(3*width*height);
+
+    ui_resize_canvas_window(canvas->emuwindow, width, height, 
+			    canvas->videoconfig->hwscale);
+    canvas->gdk_image_size.width = width;
+    canvas->gdk_image_size.height = height;
+
+    video_canvas_redraw_size(canvas, width, height);
 }
 
 /* Make the canvas visible. */
@@ -139,8 +167,56 @@ void video_canvas_unmap(video_canvas_t *s)
     fprintf(stderr, "**Function `canvas_unmap' not implemented.\n");
 }
 
-void ui_finish_canvas(video_canvas_t *c)
+/* Refresh a canvas.  */
+void video_canvas_refresh(video_canvas_t *canvas,
+                          unsigned int xs, unsigned int ys,
+                          unsigned int xi, unsigned int yi,
+                          unsigned int w, unsigned int h)
 {
-    c->drawable = c->emuwindow->window;
-}
+#if 0
+    log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h,
+              canvas->draw_buffer->draw_buffer_width);
+#endif
 
+    if (console_mode || vsid_mode)
+        return;
+
+    if (canvas->videoconfig->doublesizex) {
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (canvas->videoconfig->doublesizey) {
+        yi *= 2;
+        h *= 2;
+    }
+
+#ifdef USE_XF86_EXTENSIONS
+    if (canvas->video_fullscreen_refresh_func) {
+        canvas->video_fullscreen_refresh_func(canvas, xs, ys, xi, yi, w, h);
+        return;
+    }
+#endif
+
+    if (xi + w > canvas->gdk_image_size.width || yi + h > canvas->gdk_image_size.height) {
+        log_debug("Attempt to draw outside canvas!\n"
+                  "XI%i YI%i W%i H%i CW%i CH%i\n",
+                  xi, yi, w, h, canvas->gdk_image_size.width, canvas->gdk_image_size.height);
+        exit(-1);
+    }
+
+    video_canvas_render(canvas, canvas->gdk_image,
+                        w, h, xs, ys, xi, yi,
+                        canvas->gdk_image_size.width*3,
+                        24);
+
+
+#ifdef HAVE_OPENGL_SYNC
+    openGL_sync_with_raster();
+#endif
+    /* Schedule redraw of the rendered area. */
+    {
+        GdkRectangle rect = {xi, yi, w, h};
+        gdk_window_invalidate_rect (canvas->emuwindow->window, &rect, FALSE);
+    }
+}

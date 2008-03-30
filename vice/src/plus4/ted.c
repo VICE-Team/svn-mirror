@@ -39,7 +39,13 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "plus4.h"
 #include "plus4mem.h"
 #include "raster-canvas.h"

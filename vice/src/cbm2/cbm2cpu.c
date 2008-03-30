@@ -27,7 +27,12 @@
 
 #include "vice.h"
 
+#ifdef WATCOM_COMPILE
+#include "../mem.h"
+#else
 #include "mem.h"
+#endif
+
 #include "types.h"
 
 /* MACHINE_STUFF should define/undef

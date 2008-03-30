@@ -4423,24 +4423,24 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_LOG_FILE_NAME_SV, "Ange namn på loggfil"},
 
 /* mouse.c */
-/* en */ {IDCLS_ENABLE_1351_MOUSE,    "Enable emulation of the 1351 proportional mouse"},
-/* de */ {IDCLS_ENABLE_1351_MOUSE_DE, "Emulation der 1351 Proportional Mouse aktivieren"},
-/* fr */ {IDCLS_ENABLE_1351_MOUSE_FR, "Activer l'émulation de la souris 1351"},
-/* hu */ {IDCLS_ENABLE_1351_MOUSE_HU, "1351-es proporcionális egér emulálásának engedélyezése"},
-/* it */ {IDCLS_ENABLE_1351_MOUSE_IT, "Attiva l'emulazione del mouse 1351"},
-/* nl */ {IDCLS_ENABLE_1351_MOUSE_NL, "Activeer emulatie van de proportionele muis 1351"},
-/* pl */ {IDCLS_ENABLE_1351_MOUSE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_1351_MOUSE_SV, "Aktivera emulering av proportionell mus 1351"},
+/* en */ {IDCLS_ENABLE_MOUSE_GRAB,    "Enable mouse grab"},
+/* de */ {IDCLS_ENABLE_MOUSE_GRAB_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_MOUSE_GRAB_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_MOUSE_GRAB_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_MOUSE_GRAB_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_MOUSE_GRAB_NL, "Gebruiken van de muis inschakelen"},
+/* pl */ {IDCLS_ENABLE_MOUSE_GRAB_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_MOUSE_GRAB_SV, ""},  /* fuzzy */
 
 /* mouse.c */
-/* en */ {IDCLS_DISABLE_1351_MOUSE,    "Disable emulation of the 1351 proportional mouse"},
-/* de */ {IDCLS_DISABLE_1351_MOUSE_DE, "Emulation der 1351 Proportional Mouse deaktivieren"},
-/* fr */ {IDCLS_DISABLE_1351_MOUSE_FR, "Désactiver l'émulation de la souris 1351"},
-/* hu */ {IDCLS_DISABLE_1351_MOUSE_HU, "1351-es proporcionális egér emulálásának tiltása"},
-/* it */ {IDCLS_DISABLE_1351_MOUSE_IT, "Disattiva l'emulazione del mouse 1351"},
-/* nl */ {IDCLS_DISABLE_1351_MOUSE_NL, "Emulatie van de proportionele muis 1351 uitschakelen"},
-/* pl */ {IDCLS_DISABLE_1351_MOUSE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_1351_MOUSE_SV, "Inaktivera emulering av proportionell mus 1351"},
+/* en */ {IDCLS_DISABLE_MOUSE_GRAB,    "Disable mouse grab"},
+/* de */ {IDCLS_DISABLE_MOUSE_GRAB_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_MOUSE_GRAB_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_MOUSE_GRAB_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_MOUSE_GRAB_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_MOUSE_GRAB_NL, "Gebruiken van de muis uitschakelen"},
+/* pl */ {IDCLS_DISABLE_MOUSE_GRAB_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_MOUSE_GRAB_SV, ""},  /* fuzzy */
 
 /* mouse.c */
 /* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    "Select the joystick port the mouse is attached to"},
@@ -4451,6 +4451,16 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystickpoort waar de muis aan gekoppelt is"},
 /* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, "Ange vilken spelport musen är ansluten till"},
+
+/* mouse.c */
+/* en */ {IDCLS_SELECT_MOUSE_TYPE,    "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"},
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga)"},
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
 
 /* ram.c */
 /* en */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,    "Set the value for the very first RAM address after powerup"},

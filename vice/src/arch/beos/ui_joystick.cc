@@ -139,7 +139,7 @@ JoyView::JoyView(BRect r, int joyport)
 /* definition for JoystickWindow */
 JoystickWindow::JoystickWindow() 
 	: BWindow(BRect(50,50,400,230+hardware_joystick_count*20),"Joystick settings",
-		B_TITLED_WINDOW, 
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BRect r;
@@ -206,11 +206,9 @@ void JoystickWindow::MessageReceived(BMessage *msg) {
 			break;
 		case JOYMESSAGE_KEYSET1:
 			keysetwindow = new KeysetWindow(1);
-			while (keysetwindow);
 			break;
 		case JOYMESSAGE_KEYSET2:
 			keysetwindow = new KeysetWindow(2);
-			while (keysetwindow);
 			break;
 		case JOYMESSAGE_DISPLAY:
 		   	resources_toggle("JoystickDisplay", NULL);
@@ -267,8 +265,8 @@ static char *keyset_instruction_last =
 static int keyset[9];
 
 KeysetWindow::KeysetWindow(int set_nr) 
-	: BWindow(BRect(410,50,410,50),"",
-		B_TITLED_WINDOW, 
+	: BWindow(BRect(105,75,105,75),"",
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BRect r;
@@ -378,6 +376,8 @@ void KeysetWindow::MessageReceived(BMessage *msg) {
 
 /* the interface to the ui */
 void ui_joystick() {
+	thread_id joythread;
+	status_t exit_value;
 	
 	if (joywindow != NULL)
 		return;
@@ -385,6 +385,8 @@ void ui_joystick() {
 	joywindow = new JoystickWindow;
 
 	vsync_suspend_speed_eval();
-	while (joywindow); /* wait until window closed */
-}
 
+	/* wait until window closed */
+	joythread = joywindow->Thread();
+	wait_for_thread(joythread, &exit_value);
+}

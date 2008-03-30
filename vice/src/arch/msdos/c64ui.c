@@ -147,9 +147,62 @@ static tui_menu_item_def_t vicii_menu_items[] = {
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
 
+static TUI_MENU_CALLBACK(toggle_MouseType_callback)
+{
+    int value;
+
+    resources_get_int("Mousetype", &value);
+
+    if (been_activated) {
+        value = (value + 1) % 3;
+        resources_set_int("Mousetype", value);
+    }
+
+    switch (value) {
+      case 0:
+        return "1351";
+      case 1:
+        return "NEOS";
+      case 2:
+        return "AMIGA";
+      default:
+        return "unknown";
+    }
+}
+
+static TUI_MENU_CALLBACK(toggle_MousePort_callback)
+{
+    int value;
+
+    resources_get_int("Mouseport", &value);
+    value--;
+
+    if (been_activated) {
+        value = (value + 1) % 2;
+        resources_set_int("Mouseport", value+1);
+    }
+
+    switch (value) {
+      case 0:
+        return "Joy1";
+      case 1:
+        return "Joy2";
+      default:
+        return "unknown";
+    }
+}
+
 static tui_menu_item_def_t ioextenstions_menu_items[] = {
-    { "1351 _Mouse Emulation:",
-      "Emulate a C1351 proportional mouse connected to joystick port #1",
+    { "Mouse Type:",
+      "Change Mouse Type",
+      toggle_MouseType_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Mouse Port:",
+      "Change Mouse Port",
+      toggle_MousePort_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Grab mouse events:",
+      "Emulate a mouse",
       toggle_Mouse_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Emulator Identification:",

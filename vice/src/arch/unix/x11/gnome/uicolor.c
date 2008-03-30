@@ -35,8 +35,6 @@
 #include <locale.h>
 #endif
 
-#include <X11/Xlib.h>
-
 #include "color.h"
 #include "lib.h"
 #include "log.h"
@@ -49,213 +47,98 @@
 
 
 extern int screen;
-extern GdkColormap *colormap;
-extern GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
-    *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
-extern GdkColor *drive_led_on_red_pixels[16];
-extern GdkColor *drive_led_on_green_pixels[16];
+extern GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel,
+drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
+extern GdkColor drive_led_on_red_pixels[16];
+extern GdkColor drive_led_on_green_pixels[16];
 
-#define NUM_ENTRIES (5 + 32)
-
-static int uicolor_alloc_system_colors(void)
-{
-    palette_t *p = (palette_t *)lib_malloc(sizeof(palette_t));
-    unsigned long color_return[NUM_ENTRIES];
-    int i;
-
-    p->num_entries = NUM_ENTRIES;
-    p->entries = lib_malloc(sizeof(palette_entry_t) * NUM_ENTRIES);
-    memset(p->entries, 0, sizeof(palette_entry_t) * NUM_ENTRIES);
-
-    p->entries[0].red = 0;
-    p->entries[0].green = 0;
-    p->entries[0].blue = 0;
-
-    p->entries[1].red = 0xff;
-    p->entries[1].green = 0;
-    p->entries[1].blue = 0;
-
-    p->entries[2].red = 0;
-    p->entries[2].green = 0xff;
-    p->entries[2].blue = 0;
-
-    p->entries[3].red = 0xff;
-    p->entries[3].green = 0xff;
-    p->entries[3].blue = 0x7f;
-
-    p->entries[4].red = 0xaf;
-    p->entries[4].green = 0xaf;
-    p->entries[4].blue = 0xaf;
-
-    /* different colors intensities for drive leds */
-    for (i = 0; i < 16; i++)
-    {
-	p->entries[5+i].red = 16*i + 15;
-	p->entries[5+i].green = 0;
-	p->entries[5+i].blue = 0;
-    }
-    for (i = 0; i < 16; i++)
-    {
-	p->entries[5+16+i].red = 0;
-	p->entries[5+16+i].green =  16*i + 15;
-	p->entries[5+16+i].blue = 0;
-    }
-    
-    color_alloc_colors(NULL, p, color_return);
-
-    drive_led_off_pixel = (GdkColor *)color_return[0];
-    drive_led_on_red_pixel = (GdkColor *)color_return[1];
-    drive_led_on_green_pixel = (GdkColor *)color_return[2];
-    motor_running_pixel = (GdkColor *)color_return[3];
-    tape_control_pixel = (GdkColor *)color_return[4];
-    for (i = 0; i < 16; i++)
-    {
-	drive_led_on_red_pixels[i] = (GdkColor *)color_return[5+i];
-	drive_led_on_green_pixels[i] = (GdkColor *)color_return[5+16+i];
-    }
-
-    lib_free(p->entries);
-    lib_free(p);
-
-    return 0;
-}
+static void uicolor_init_video_colors();
 
 /*-----------------------------------------------------------------------*/
 
 int uicolor_alloc_colors(video_canvas_t *c)
 {
-    if (uicolor_alloc_system_colors() < 0
-        || color_alloc_colors(c, c->palette, NULL) < 0) {
-/*
-        if (colormap == DefaultColormap(display, screen)) {
-            log_warning(LOG_DEFAULT,
-                        "Automatically using a private colormap.");
-            colormap = XCreateColormap(display, RootWindow(display, screen),
-                                       visual, AllocNone);
-            XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
-            return color_alloc_colors(c, c->palette, NULL);
-        }
-*/
+    int i;
+
+    drive_led_off_pixel.red = 0;
+    drive_led_off_pixel.green = 0;
+    drive_led_off_pixel.blue = 0;
+
+    drive_led_on_red_pixel.red = 0xff00;
+    drive_led_on_red_pixel.green = 0;
+    drive_led_on_red_pixel.blue = 0;
+
+    drive_led_on_green_pixel.red = 0;
+    drive_led_on_green_pixel.green = 0xff00;
+    drive_led_on_green_pixel.blue = 0;
+
+    motor_running_pixel.red = 0xff00;
+    motor_running_pixel.green = 0xff00;
+    motor_running_pixel.blue = 0x7f00;
+
+    tape_control_pixel.red = 0xaf00;
+    tape_control_pixel.green = 0xaf00;
+    tape_control_pixel.blue = 0xaf00;
+
+    /* different colors intensities for drive leds */
+    for (i = 0; i < 16; i++)
+    {
+	drive_led_on_red_pixels[i].red = 0x1000*i + 0xf00;
+	drive_led_on_red_pixels[i].green = 0;
+	drive_led_on_red_pixels[i].blue = 0;
+
+	drive_led_on_green_pixels[i].red = 0;
+	drive_led_on_green_pixels[i].green =  0x1000*i + 0xf00;
+	drive_led_on_green_pixels[i].blue = 0;
     }
-    return 0;
+    
+    return uicolor_set_palette(c, c->palette);
 }
 
 int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 {
-/*
-    if (uicolor_alloc_system_colors() < 0);
-        return -1;
-*/
-    return color_alloc_colors(c, palette, NULL);
-}
+    int i;
 
-/*-----------------------------------------------------------------------*/
+    uicolor_init_video_colors();
 
-int uicolor_alloc_color(unsigned int red, unsigned int green,
-                        unsigned int blue, unsigned long *color_pixel,
-                        BYTE *pixel_return)
-{
-    GdkColor *color;
-    XImage *im;
-    BYTE *data = (BYTE *)malloc(4);
-    Display *display = x11ui_get_display_ptr();
-
-    color = (GdkColor *)lib_malloc(sizeof(GdkColor));
-
-    /* This is a kludge to map pixels to zimage values. Is there a better
-       way to do this? //tvr */
-    im = XCreateImage(display, GDK_VISUAL_XVISUAL(visual),
-                      x11ui_get_display_depth(),
-                      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
-    if (!im) {
-        log_error(LOG_DEFAULT, _("XCreateImage failed."));
-        free(data);
-        return -1;
+    for (i = 0; i < palette->num_entries; i++) {
+        palette_entry_t color = palette->entries[i];
+        DWORD color_pixel;
+	
+	unsigned char *col = (unsigned char *)&color_pixel;
+	col[0] = color.red  ;
+	col[1] = color.green;
+	col[2] = color.blue ;
+	video_render_setphysicalcolor(((video_canvas_t*)c)->videoconfig, i,
+				      color_pixel, 24);
     }
-
-    color->red =  red << 8;
-    color->green =  green << 8;
-    color->blue = blue << 8;
-
-    if (!gdk_colormap_alloc_color(colormap, color, TRUE, TRUE)) {
-        log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-                  color->red, color->green, color->blue);
-        XDestroyImage(im);
-        return -1;
-    }
-    XPutPixel(im, 0, 0, color->pixel);
-
-    *pixel_return = *data;
-    *color_pixel = (unsigned long)color /*color.pixel*/;
-
-    XDestroyImage(im);
-
     return 0;
 }
 
-void uicolor_free_color(unsigned int red, unsigned int green,
-                        unsigned int blue, unsigned long color_pixel)
-{
-    GdkColor *color;
-
-    color = (GdkColor *)color_pixel;
-
-    gdk_colormap_free_colors(colormap, color, 1);
-/*
-    if (color_pixel != 0)
-        lib_free((unsigned char *)color_pixel);
-*/
-}
-
-void uicolor_convert_color_table(unsigned int colnr, BYTE *data,
-                                 long color_pixel, void *c)
-{
-    if (c == NULL)
-        return;
-
-    video_convert_color_table(colnr, data,
-                              (long)(((GdkColor *)(color_pixel))->pixel),
-                              (video_canvas_t *)c);
-}
-
-void uicolor_init_video_colors()
+static void uicolor_init_video_colors()
 {
     short i;
-    GdkColor colorr, colorg, colorb;
+    DWORD pixelr, pixelg, pixelb;
     
     for (i = 0; i < 256; i++)
     {
-	colorr.red =  i << 8;
-	colorr.green =  0;
-	colorr.blue = 0;
-	
-	colorg.red =  0;
-	colorg.green =  i << 8;
-	colorg.blue = 0;
-	
-	colorb.red =  0;
-	colorb.green =  0;
-	colorb.blue = i << 8;
-	
-	if (!gdk_colormap_alloc_color(colormap, &colorr, TRUE, TRUE)) 
-	{
-	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-		      colorr.red, colorr.green, colorr.blue);
-	}
-	if (!gdk_colormap_alloc_color(colormap, &colorg, TRUE, TRUE)) 
-	{
-	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-		      colorg.red, colorg.green, colorg.blue);
-	}
-	if (!gdk_colormap_alloc_color(colormap, &colorb, TRUE, TRUE)) 
-	{
-	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-		      colorb.red, colorb.green, colorb.blue);
-	}
+	unsigned char* pixelrbyte = (unsigned char*)&pixelr;
+	unsigned char* pixelgbyte = (unsigned char*)&pixelg;
+	unsigned char* pixelbbyte = (unsigned char*)&pixelb;
+	pixelrbyte[0] = i;
+	pixelrbyte[1] = 0;
+	pixelrbyte[2] = 0;
+	pixelgbyte[0] = 0;
+	pixelgbyte[1] = i;
+	pixelgbyte[2] = 0;
+	pixelbbyte[0] = 0;
+	pixelbbyte[1] = 0;
+	pixelbbyte[2] = i;
+       
 	video_render_setrawrgb(i, 
-			       (DWORD) colorr.pixel, 
-			       (DWORD) colorg.pixel, 
-			       (DWORD) colorb.pixel);
+			       pixelr,
+			       pixelg,
+			       pixelb);
     }
     
     video_render_initraw();

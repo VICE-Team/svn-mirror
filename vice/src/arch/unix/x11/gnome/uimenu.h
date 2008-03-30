@@ -93,9 +93,9 @@ static UI_CALLBACK(toggle_##name)                   \
     resources_get_int(#res, &val);                  \
                                                     \
     if (comp(val))                                  \
-        ui_menu_set_sensitive(w, True);             \
+        ui_menu_set_sensitive(w, TRUE);             \
     else                                            \
-        ui_menu_set_sensitive(w, False);            \
+        ui_menu_set_sensitive(w, FALSE);            \
                                                     \
     _ui_menu_toggle_helper(w, event_data, #name);   \
 }

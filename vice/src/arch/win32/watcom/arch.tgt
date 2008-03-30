@@ -18,9 +18,9 @@ n_2sn
 1
 4
 MCommand
-1077
-copy /b ..\resc128.rc + ..\res.rc + ..\resacia.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdrivec128.rc + ..\resdigimax.rc + ..\restfe.rc ..\resc128cat.rc /b
-copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resplus256k.rc + ..\resplus60k.rc + ..\resc64_256k.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\restfe.rc ..\resc64cat.rc /b
+1111
+copy /b ..\resc128.rc + ..\res.rc + ..\resacia.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdrivec128.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\restfe.rc ..\resc128cat.rc /b
+copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resplus256k.rc + ..\resplus60k.rc + ..\resc64_256k.rc + ..\resmmc64.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\restfe.rc ..\resc64cat.rc /b
 copy /b ..\rescbm2.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\ressid.rc + ..\resvicii.rc ..\rescbm2cat.rc /b
 copy /b ..\respet.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\respetreu.rc + ..\ressidcart.rc ..\respetcat.rc  /b
 copy /b ..\resplus4.rc + ..\res.rc + ..\resacia.rc + ..\resdriveplus4.rc + ..\ressidcart.rc ..\resplus4cat.rc /b
@@ -49,7 +49,7 @@ WVList
 0
 10
 WPickList
-84
+85
 11
 MItem
 3
@@ -1058,8 +1058,8 @@ WVList
 0
 235
 MItem
-14
-..\uinetwork.c
+12
+..\uimouse.c
 236
 WString
 4
@@ -1076,8 +1076,8 @@ WVList
 0
 239
 MItem
-17
-..\uiperipheral.c
+14
+..\uinetwork.c
 240
 WString
 4
@@ -1094,8 +1094,8 @@ WVList
 0
 243
 MItem
-13
-..\uipetreu.c
+17
+..\uiperipheral.c
 244
 WString
 4
@@ -1113,7 +1113,7 @@ WVList
 247
 MItem
 13
-..\uipetset.c
+..\uipetreu.c
 248
 WString
 4
@@ -1130,8 +1130,8 @@ WVList
 0
 251
 MItem
-15
-..\uiplus256k.c
+13
+..\uipetset.c
 252
 WString
 4
@@ -1148,8 +1148,8 @@ WVList
 0
 255
 MItem
-16
-..\uiplus4cart.c
+15
+..\uiplus256k.c
 256
 WString
 4
@@ -1166,8 +1166,8 @@ WVList
 0
 259
 MItem
-15
-..\uiplus4mem.c
+16
+..\uiplus4cart.c
 260
 WString
 4
@@ -1184,8 +1184,8 @@ WVList
 0
 263
 MItem
-14
-..\uiplus60k.c
+15
+..\uiplus4mem.c
 264
 WString
 4
@@ -1202,8 +1202,8 @@ WVList
 0
 267
 MItem
-20
-..\uiquicksnapshot.c
+14
+..\uiplus60k.c
 268
 WString
 4
@@ -1220,8 +1220,8 @@ WVList
 0
 271
 MItem
-10
-..\uiram.c
+20
+..\uiquicksnapshot.c
 272
 WString
 4
@@ -1238,8 +1238,8 @@ WVList
 0
 275
 MItem
-14
-..\uiramcart.c
+10
+..\uiram.c
 276
 WString
 4
@@ -1256,8 +1256,8 @@ WVList
 0
 279
 MItem
-10
-..\uireu.c
+14
+..\uiramcart.c
 280
 WString
 4
@@ -1275,7 +1275,7 @@ WVList
 283
 MItem
 10
-..\uirom.c
+..\uireu.c
 284
 WString
 4
@@ -1292,8 +1292,8 @@ WVList
 0
 287
 MItem
-12
-..\uirs232.c
+10
+..\uirom.c
 288
 WString
 4
@@ -1310,8 +1310,8 @@ WVList
 0
 291
 MItem
-16
-..\uirs232user.c
+12
+..\uirs232.c
 292
 WString
 4
@@ -1328,8 +1328,8 @@ WVList
 0
 295
 MItem
-10
-..\uisid.c
+16
+..\uirs232user.c
 296
 WString
 4
@@ -1346,8 +1346,8 @@ WVList
 0
 299
 MItem
-14
-..\uisidcart.c
+10
+..\uisid.c
 300
 WString
 4
@@ -1364,8 +1364,8 @@ WVList
 0
 303
 MItem
-15
-..\uisnapshot.c
+14
+..\uisidcart.c
 304
 WString
 4
@@ -1382,8 +1382,8 @@ WVList
 0
 307
 MItem
-12
-..\uisound.c
+15
+..\uisnapshot.c
 308
 WString
 4
@@ -1401,7 +1401,7 @@ WVList
 311
 MItem
 12
-..\uispeed.c
+..\uisound.c
 312
 WString
 4
@@ -1418,8 +1418,8 @@ WVList
 0
 315
 MItem
-10
-..\uitfe.c
+12
+..\uispeed.c
 316
 WString
 4
@@ -1436,8 +1436,8 @@ WVList
 0
 319
 MItem
-12
-..\uivicii.c
+10
+..\uitfe.c
 320
 WString
 4
@@ -1454,8 +1454,8 @@ WVList
 0
 323
 MItem
-13
-..\uivicset.c
+12
+..\uivicii.c
 324
 WString
 4
@@ -1472,8 +1472,8 @@ WVList
 0
 327
 MItem
-12
-..\uivideo.c
+13
+..\uivicset.c
 328
 WString
 4
@@ -1491,7 +1491,7 @@ WVList
 331
 MItem
 12
-..\vic20ui.c
+..\uivideo.c
 332
 WString
 4
@@ -1508,8 +1508,8 @@ WVList
 0
 335
 MItem
-10
-..\video.c
+12
+..\vic20ui.c
 336
 WString
 4
@@ -1526,8 +1526,8 @@ WVList
 0
 339
 MItem
-11
-..\vsidui.c
+10
+..\video.c
 340
 WString
 4
@@ -1544,8 +1544,8 @@ WVList
 0
 343
 MItem
-14
-..\vsyncarch.c
+11
+..\vsidui.c
 344
 WString
 4
@@ -1562,8 +1562,8 @@ WVList
 0
 347
 MItem
-12
-..\winmain.c
+14
+..\vsyncarch.c
 348
 WString
 4
@@ -1572,6 +1572,24 @@ COBJ
 WVList
 0
 350
+WVList
+0
+11
+1
+1
+0
+351
+MItem
+12
+..\winmain.c
+352
+WString
+4
+COBJ
+353
+WVList
+0
+354
 WVList
 0
 11

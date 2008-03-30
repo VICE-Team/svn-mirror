@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -74,8 +75,8 @@ UI_CALLBACK(attach_disk)
     vsync_suspend_speed_eval();
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents, unit,
-                              unit == 8 ? True : False, attach_disk_last_dir,
-                              "*.[gdxGDX]*", &button, True, &attach_wp);
+                              unit == 8 ? 1 : 0, attach_disk_last_dir,
+                              "*.[gdxGDX]*", &button, 1, &attach_wp);
 
     lib_free(title);
     if (attach_wp) {
@@ -111,16 +112,16 @@ UI_CALLBACK(attach_disk)
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { N_("Unit #8..."),
       (ui_callback_t)attach_disk, (ui_callback_data_t)8, NULL,
-      XK_8, UI_HOTMOD_META },
+      KEYSYM_8, UI_HOTMOD_META },
     { N_("Unit #9..."),
       (ui_callback_t)attach_disk, (ui_callback_data_t)9, NULL,
-      XK_9, UI_HOTMOD_META },
+      KEYSYM_9, UI_HOTMOD_META },
     { N_("Unit #10..."),
       (ui_callback_t)attach_disk, (ui_callback_data_t)10, NULL,
-      XK_0, UI_HOTMOD_META },
+      KEYSYM_0, UI_HOTMOD_META },
     { N_("Unit #11..."),
       (ui_callback_t)attach_disk, (ui_callback_data_t)11, NULL,
-      XK_1, UI_HOTMOD_META },
+      KEYSYM_1, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -211,8 +212,8 @@ static UI_CALLBACK(attach_tape)
 
     filename = ui_select_file(_("Attach a tape image"),
                               read_tape_image_contents, 0,
-                              True, attach_tape_last_dir, "*.[tT]*",
-                              &button, True, NULL);
+                              1, attach_tape_last_dir, "*.[tT]*",
+                              &button, 1, NULL);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -246,7 +247,7 @@ static UI_CALLBACK(detach_tape)
 ui_menu_entry_t uiattach_tape_menu[] = {
     { N_("Attach a tape image..."),
       (ui_callback_t)attach_tape, NULL, NULL,
-      XK_t, UI_HOTMOD_META},
+      KEYSYM_t, UI_HOTMOD_META},
     { N_("Detach tape image"),
       (ui_callback_t)detach_tape, NULL, NULL },
     { NULL }
@@ -285,7 +286,7 @@ static UI_CALLBACK(smart_attach)
     }
     filename = ui_select_file(_("Smart-attach a file"),
                               read_disk_or_tape_image_contents, 0,
-                              True, dir, NULL, &button, True, NULL);
+                              1, dir, NULL, &button, 1, NULL);
     if (do_free_dir)
         lib_free(dir);
 
@@ -323,7 +324,7 @@ static UI_CALLBACK(smart_attach)
 ui_menu_entry_t uiattach_smart_attach_menu[] = {
     { N_("Smart-attach disk/tape..."),
       (ui_callback_t)smart_attach, NULL, NULL,
-      XK_a, UI_HOTMOD_META },
+      KEYSYM_a, UI_HOTMOD_META },
     { NULL }
 };
 

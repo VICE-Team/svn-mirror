@@ -64,9 +64,9 @@ static UI_CALLBACK(attach_cartridge)
             static char *last_dir;
 
             filename = ui_select_file(_("Attach cartridge image"),
-                                      NULL, 0, False, last_dir,
+                                      NULL, 0, 0, last_dir,
                                       "*.[cCbB][rRiI][tTnN]",
-                                      &button, False, NULL);
+                                      &button, 0, NULL);
 
             switch (button) {
               case UI_BUTTON_OK:
@@ -110,10 +110,10 @@ static UI_CALLBACK(control_cartridge)
     } else {
         switch (mem_cartridge_type) {
           case CARTRIDGE_EXPERT:
-            ui_menu_set_sensitive(w, True);
+            ui_menu_set_sensitive(w, 1);
             break;
           default:
-            ui_menu_set_sensitive(w, False);
+            ui_menu_set_sensitive(w, 0);
             break;
         }
     }
@@ -196,7 +196,7 @@ ui_menu_entry_t ui_c64cart_commands_menu[] = {
     { N_("Detach cartridge image"),
       (ui_callback_t)detach_cartridge, NULL, NULL },
     { N_("Cartridge freeze"),
-      (ui_callback_t)freeze_cartridge, NULL, NULL, XK_z, UI_HOTMOD_META },
+      (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
     { N_("*Cartridge control"),
       (ui_callback_t)control_cartridge,
       (ui_callback_data_t)0, cartridge_control_submenu },
