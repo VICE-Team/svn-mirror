@@ -1,3 +1,19 @@
+2001-02-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.7.
+
+2001-02-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: BeOS and MSDOS use the recognized libs which
+	is needed for zlib support
+
+2001-02-18  Andre Fachat  <a.fachat@gmx.net>
+
+	* BUGS, NEWS: updates
+
+	* doc/vice.texi: updated info concerning D67 support/2040
+	emulation
+
 2001-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.6.
@@ -11,8 +27,9 @@
 	* /data/CBM-II/busi_uk.vkm: move RUN/STOP from escape to left 
 	ctrl, add ESC key emulation on escape
 
-	* data/CBM-II/c64s.vpl, data/CBM-II/ccs64.vpl, data/CBM-II/frodo.vpl,
-	data/CBM-II/godot.vpl, data/CBM-II/pc64.vpl: new files
+	* data/CBM-II/c64s.vpl, data/CBM-II/ccs64.vpl,
+	data/CBM-II/frodo.vpl, data/CBM-II/godot.vpl,
+	data/CBM-II/pc64.vpl: new files
 
 2001-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
