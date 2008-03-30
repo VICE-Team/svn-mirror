@@ -227,7 +227,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(gfxoutputdrv_lib) 	$(printerdrv_lib) 	$(raster_lib) 	$(video_lib) 	$(monitor_lib) 	$(diskimage_lib) 	$(fsdevice_lib) 	$(tape_lib) 	$(imagecontents_lib) 	$(common_libs)
 
 
-xplus4_SOURCES = $(base_sources)
+xplus4_SOURCES = $(base_sources) $(maincpu_sources)
 xplus4_LDADD = $(xplus4_libs) @X_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
@@ -298,7 +298,7 @@ clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
 fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
 kbdbuf.o keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
 resources.o romset.o screenshot.o serial.o snapshot.o sound.o sysfile.o \
-traps.o utils.o vsync.o zfile.o zipcode.o
+traps.o utils.o vsync.o zfile.o zipcode.o maincpu.o
 xcbm2_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o debug.o emuid.o findpath.o \
 fliplist.o gcr.o info.o init.o initcmdline.o interrupt.o joystick.o \
@@ -594,7 +594,7 @@ color.o: color.c vice.h config.h log.h palette.h arch/unix/types.h \
 	uicolor.h utils.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
 	autostart.h clkguard.h cmdline.h datasette.h log.h machine.h \
-	maincpu.h 6510core.h resources.h tap.h arch/unix/ui.h uiapi.h \
+	maincpu.h resources.h tap.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h
 debug.o: debug.c vice.h config.h cmdline.h debug.h resources.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
@@ -608,9 +608,9 @@ init.o: init.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	cmdline.h console.h debug.h diskimage.h arch/unix/types.h \
 	drive/drive.h log.h drive/drivecpu.h fsdevice.h gfxoutput.h \
 	initcmdline.h arch/unix/joy.h joystick.h kbdbuf.h keyboard.h \
-	machine.h maincpu.h 6510core.h palette.h resources.h \
-	screenshot.h sysfile.h arch/unix/ui.h uiapi.h \
-	arch/unix/x11/xaw/uiarch.h vdrive/vdrive.h
+	machine.h maincpu.h palette.h resources.h screenshot.h \
+	sysfile.h arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
+	vdrive/vdrive.h
 initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	archapi.h attach.h autostart.h arch/unix/types.h charset.h \
 	cmdline.h initcmdline.h log.h machine.h resources.h tape.h \
@@ -618,14 +618,13 @@ initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 interrupt.o: interrupt.c vice.h config.h interrupt.h 6510core.h \
 	arch/unix/types.h log.h snapshot.h
 joystick.o: joystick.c vice.h config.h alarm.h arch/unix/types.h \
-	keyboard.h arch/unix/joy.h joystick.h maincpu.h 6510core.h
-kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h maincpu.h 6510core.h \
-	arch/unix/types.h mem.h kbdbuf.h utils.h
+	keyboard.h arch/unix/joy.h joystick.h maincpu.h
+kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h maincpu.h arch/unix/types.h \
+	mem.h kbdbuf.h utils.h
 keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	arch/unix/archdep.h archapi.h joystick.h arch/unix/kbd.h \
 	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h keyboard.h \
-	log.h machine.h maincpu.h 6510core.h resources.h sysfile.h \
-	utils.h
+	log.h machine.h maincpu.h resources.h sysfile.h utils.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	log.h resources.h utils.h arch/unix/types.h
 machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
@@ -645,8 +644,8 @@ p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h
 parallel.o: parallel.c vice.h config.h cmdline.h drive/drive.h log.h \
-	arch/unix/types.h drive/drivecpu.h maincpu.h 6510core.h \
-	parallel.h resources.h serial.h
+	arch/unix/types.h drive/drivecpu.h maincpu.h parallel.h \
+	resources.h serial.h
 petcat.o: petcat.c vice.h config.h charset.h arch/unix/types.h p00.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h resources.h utils.h arch/unix/types.h
@@ -658,14 +657,14 @@ rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 screenshot.o: screenshot.c vice.h config.h gfxoutput.h log.h machine.h \
 	palette.h arch/unix/types.h screenshot.h utils.h video.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
-	arch/unix/types.h maincpu.h 6510core.h mem.h mos6510.h \
-	parallel.h printer.h serial.h traps.h utils.h vdrive/vdrive.h
+	arch/unix/types.h maincpu.h mem.h mos6510.h parallel.h \
+	printer.h serial.h traps.h utils.h vdrive/vdrive.h
 snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h snapshot.h arch/unix/types.h utils.h vsync.h zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	fixpoint.h log.h machine.h maincpu.h 6510core.h resources.h \
-	sound.h arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
-	utils.h vsync.h
+	fixpoint.h log.h machine.h maincpu.h resources.h sound.h \
+	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
+	vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h findpath.h log.h resources.h sysfile.h \
 	arch/unix/types.h utils.h
@@ -675,11 +674,10 @@ traps.o: traps.c vice.h config.h cmdline.h interrupt.h 6510core.h \
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	log.h maincpu.h 6510core.h machine.h resources.h sound.h \
-	vsync.h vsyncapi.h arch/unix/videoarch.h \
-	arch/unix/x11/xaw/videoarch.h arch/unix/ui.h uiapi.h \
-	arch/unix/x11/xaw/uiarch.h arch/unix/x11/xaw/../videoarch.h \
-	fullscreen.h video.h
+	log.h maincpu.h machine.h resources.h sound.h vsync.h \
+	vsyncapi.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
+	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
+	arch/unix/x11/xaw/../videoarch.h fullscreen.h video.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h

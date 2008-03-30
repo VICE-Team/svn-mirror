@@ -275,7 +275,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 fastsid.o: fastsid.c ../../src/vice.h ../../src/config.h ../../src/log.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/machine.h ../../src/maincpu.h \
 	../../src/arch/unix/types.h ../../src/resources.h sid.h \
 	../../src/sound.h ../../src/snapshot.h ../../src/utils.h \
 	../../src/fixpoint.h wave6581.h wave8580.h
@@ -297,9 +297,8 @@ sid-snapshot.o: sid-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h fastsid.h \
 	../../src/arch/unix/types.h sid.h ../../src/sound.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/resources.h sid-resources.h \
-	../../src/arch/unix/mouse.h resid.h
+	../../src/machine.h ../../src/maincpu.h ../../src/resources.h \
+	sid-resources.h ../../src/arch/unix/mouse.h resid.h
 
 info-am:
 info: info-am

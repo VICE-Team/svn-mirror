@@ -139,7 +139,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
-libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64-snapshot.c 	c64-snapshot.h 	c64.c 	c64.h 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	c64pla.c 	c64pla.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c
+libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64-snapshot.c 	c64-snapshot.h 	c64.c 	c64.h 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64mem.c 	c64mem.h 	c64memlimit.c 	c64memlimit.h 	c64pla.c 	c64pla.h 	c64rom.c 	c64rom.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c
 
 
 libc64c128_a_SOURCES =  	c64cart.h 	c64cia.h 	c64cia2.c 	c64datasette.c 	c64pla.c 	c64pla.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h
@@ -175,7 +175,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64_a_OBJECTS =  c64-cmdline-options.o c64-resources.o c64-snapshot.o \
 c64.o c64cia1.o c64cia2.o c64datasette.o c64iec.o c64io.o c64mem.o \
-c64memlimit.o c64pla.o patchrom.o reu.o c64tpi.o psid.o reloc65.o
+c64memlimit.o c64pla.o c64rom.o patchrom.o reu.o c64tpi.o psid.o \
+reloc65.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o c64pla.o c64tpi.o \
@@ -360,7 +361,7 @@ distdir: $(DISTFILES)
 c64-cmdline-options.o: c64-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c64-resources.o: c64-resources.c ../../src/vice.h ../../src/config.h \
-	c64cart.h ../../src/arch/unix/types.h c64mem.h \
+	c64cart.h ../../src/arch/unix/types.h c64rom.h \
 	../../src/cartridge.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/kbd.h ../../src/arch/unix/ui.h \
 	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
@@ -368,8 +369,8 @@ c64-resources.o: c64-resources.c ../../src/vice.h ../../src/config.h \
 	reu.h ../../src/sid/sid-resources.h ../../src/utils.h
 c64-snapshot.o: c64-snapshot.c ../../src/vice.h ../../src/config.h \
 	c64-resources.h c64-snapshot.h c64cart.h \
-	../../src/arch/unix/types.h c64mem.h c64pla.h ../../src/log.h \
-	../../src/mem.h ../../src/resources.h reu.h \
+	../../src/arch/unix/types.h c64mem.h c64pla.h c64rom.h \
+	../../src/log.h ../../src/mem.h ../../src/resources.h reu.h \
 	../../src/snapshot.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h c64acia.h
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
@@ -395,10 +396,10 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/vicii/vicii.h ../../src/video.h ../../src/vsidui.h \
 	../../src/vsync.h c64acia.h c64rsuser.h ../../src/rs232.h \
 	../../src/rsuser.h ../../src/arch/unix/mouse.h
-c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
-	../../src/aciacore.c ../../src/acia.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/cmdline.h ../../src/interrupt.h \
+c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
+	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
+	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/log.h ../../src/machine.h ../../src/resources.h \
 	../../src/rs232.h ../../src/snapshot.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
@@ -423,36 +424,36 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/arch/unix/types.h c64iec.h ../../src/cartridge.h \
 	../../src/drive/ciad.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/iecdrive.h ../../src/via.h \
-	../../src/drive/viad.h
+	../../src/iecdrive.h ../../src/via.h ../../src/drive/viad.h
 c64io.o: c64io.c ../../src/vice.h ../../src/config.h c64-resources.h \
 	c64acia.h ../../src/arch/unix/types.h c64cart.h c64io.h \
 	../../src/cartridge.h ../../src/emuid.h reu.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/vicii/vicii-phi1.h
-c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64-snapshot.h \
-	c64-resources.h c64cart.h ../../src/arch/unix/types.h c64cia.h \
-	c64io.h c64mem.h c64memlimit.h c64pla.h cart/c64cartmem.h \
-	../../src/cartridge.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/monitor/mon.h ../../src/parallel.h \
-	patchrom.h ../../src/resources.h reu.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/sysfile.h ../../src/utils.h \
+c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64-resources.h \
+	c64cart.h ../../src/arch/unix/types.h c64cia.h c64io.h c64mem.h \
+	c64memlimit.h c64pla.h cart/c64cartmem.h ../../src/cartridge.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/monitor/mon.h ../../src/parallel.h reu.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/utils.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h
-c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h \
-	../../src/mem.h ../../src/arch/unix/types.h
+c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h
 c64pla.o: c64pla.c ../../src/vice.h ../../src/config.h c64pla.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \
 	../../src/mem.h
+c64rom.o: c64rom.c ../../src/vice.h ../../src/config.h c64-resources.h \
+	c64mem.h ../../src/arch/unix/types.h c64rom.h ../../src/log.h \
+	../../src/mem.h patchrom.h ../../src/resources.h \
+	../../src/sysfile.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
 	c64cia.h ../../src/arch/unix/types.h ../../src/machine.h \
 	../../src/rsuser.h
 c64tpi.o: c64tpi.c c64mem.h ../../src/arch/unix/types.h ../../src/vice.h \
 	../../src/config.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/parallel.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/tpi.h \
-	../../src/tpicore.h ../../src/tpicore.c ../../src/snapshot.h
+	../../src/maincpu.h ../../src/tpi.h ../../src/tpicore.h \
+	../../src/tpicore.c ../../src/snapshot.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
 	patchrom.h ../../src/utils.h

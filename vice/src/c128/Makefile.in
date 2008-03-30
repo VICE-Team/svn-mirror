@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc128.a
 
-libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128-snapshot.c 	c128-snapshot.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128io.c 	c128io.h 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
+libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128-snapshot.c 	c128-snapshot.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128io.c 	c128io.h 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	c128rom.c 	c128rom.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -152,7 +152,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libc128_a_LIBADD = 
 libc128_a_OBJECTS =  c128-cmdline-options.o c128-resources.o \
 c128-snapshot.o c128.o c128cia1.o c128cpu.o c128iec.o c128io.o \
-c128mem.o c128memlimit.o c128mmu.o daa.o functionrom.o z80.o z80mem.o
+c128mem.o c128memlimit.o c128mmu.o c128rom.o daa.o functionrom.o z80.o \
+z80mem.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -258,15 +259,15 @@ distdir: $(DISTFILES)
 c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
-	c128mem.h ../../src/arch/unix/types.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/arch/unix/kbd.h \
+	c128rom.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/keyboard.h \
 	../../src/machine.h ../../src/resources.h ../../src/c64/reu.h \
 	../../src/sid/sid-resources.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
-	c128mmu.h ../../src/c64/c64tpi.h ../../src/log.h \
+	c128mmu.h c128rom.h ../../src/c64/c64tpi.h ../../src/log.h \
 	../../src/mem.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/c64/c64acia.h
@@ -315,8 +316,7 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64iec.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/drive/viad.h \
-	../../src/via.h
+	../../src/maincpu.h ../../src/drive/viad.h ../../src/via.h
 c128io.o: c128io.c ../../src/vice.h ../../src/config.h c128-resources.h \
 	c128io.h ../../src/arch/unix/types.h ../../src/c64/c64acia.h \
 	../../src/c64/c64cart.h ../../src/c64/c64tpi.h \
@@ -327,21 +327,17 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128io.h ../../src/arch/unix/types.h c128mem.h \
 	c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
 	../../src/c64/c64cia.h ../../src/c64/c64pla.h \
-	../../src/c64/c64tpi.h ../../src/cmdline.h functionrom.h \
-	../../src/keyboard.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/6510core.h \
+	../../src/c64/c64tpi.h functionrom.h ../../src/keyboard.h \
+	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h ../../src/parallel.h \
-	../../src/resources.h ../../src/c64/reu.h ../../src/rs232.h \
-	../../src/sid/sid.h ../../src/sound.h \
-	../../src/sid/sid-resources.h ../../src/snapshot.h \
-	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/c64/reu.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
 	../../src/c64/c64acia.h
-c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h \
-	../../src/mem.h ../../src/arch/unix/types.h
+c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
 	../../src/cmdline.h functionrom.h ../../src/interrupt.h \
@@ -349,6 +345,9 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/resources.h \
 	../../src/c64/reu.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
 	z80.h z80mem.h
+c128rom.o: c128rom.c ../../src/vice.h ../../src/config.h c128mem.h \
+	../../src/arch/unix/types.h c128rom.h ../../src/mem.h \
+	../../src/log.h ../../src/resources.h ../../src/sysfile.h
 daa.o: daa.c ../../src/arch/unix/types.h ../../src/vice.h \
 	../../src/config.h
 functionrom.o: functionrom.c ../../src/vice.h ../../src/config.h \

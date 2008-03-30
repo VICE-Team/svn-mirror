@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libplus4.a
 
-libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h 	plus4cpu.c 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	tcbm.c 	tcbm.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
+libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	tcbm.c 	tcbm.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
 
 
 EXTRA_libplus4_a_SOURCES =          plus4acia.h         plus4acia.c
@@ -159,8 +159,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libplus4_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libplus4_a_DEPENDENCIES =  plus4acia.o
 libplus4_a_OBJECTS =  plus4-cmdline-options.o plus4-resources.o \
-plus4-snapshot.o plus4.o plus4cpu.o plus4datasette.o plus4iec.o \
-plus4mem.o plus4memlimit.o plus4pio1.o plus4pio2.o tcbm.o \
+plus4-snapshot.o plus4.o plus4datasette.o plus4iec.o plus4mem.o \
+plus4memlimit.o plus4pio1.o plus4pio2.o plus4rom.o tcbm.o \
 ted-cmdline-options.o ted-color.o ted-draw.o ted-mem.o ted-resources.o \
 ted-snapshot.o ted-sound.o ted-timer.o ted.o
 CFLAGS = @CFLAGS@
@@ -272,7 +272,7 @@ plus4-resources.o: plus4-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/keyboard.h \
-	../../src/machine.h plus4mem.h ../../src/mem.h \
+	../../src/machine.h ../../src/mem.h plus4mem.h plus4rom.h \
 	../../src/resources.h ../../src/utils.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/vsync.h
 plus4-snapshot.o: plus4-snapshot.c ../../src/vice.h ../../src/config.h \
@@ -289,17 +289,17 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h plus4-cmdline-options.h \
 	plus4-resources.h plus4-snapshot.h plus4.h plus4acia.h \
-	plus4mem.h ../../src/mem.h ../../src/arch/unix/plus4ui.h \
-	../../src/printer.h ../../src/screenshot.h ../../src/serial.h \
-	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
-	ted-cmdline-options.h ted-resources.h tedtypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	ted.h ../../src/traps.h ../../src/utils.h ../../src/video.h \
+	plus4mem.h ../../src/arch/unix/plus4ui.h ../../src/printer.h \
+	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
+	../../src/sound.h ../../src/tape.h ted-cmdline-options.h \
+	ted-resources.h tedtypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ted.h ../../src/traps.h \
+	../../src/mem.h ../../src/utils.h ../../src/video.h \
 	../../src/vsync.h
-plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
-	../../src/aciacore.c ../../src/acia.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/cmdline.h ../../src/interrupt.h \
+plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
+	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
+	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/log.h ../../src/machine.h ../../src/resources.h \
 	../../src/rs232.h ../../src/snapshot.h
 plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h ../maincpu.c \
@@ -308,32 +308,33 @@ plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h ../maincpu.c \
 	../maincpu.h ../mem.h ../../src/monitor/mon.h ../mos6510.h \
 	../snapshot.h ../traps.h ../utils.h ../6510core.c
 plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h \
-	plus4mem.h ../../src/mem.h ../../src/arch/unix/types.h
+	plus4mem.h ../../src/arch/unix/types.h
 plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/iecdrive.h plus4iec.h \
-	../../src/via.h ../../src/drive/viad.h
+	../../src/iecdrive.h plus4iec.h ../../src/via.h \
+	../../src/drive/viad.h
 plus4mem.o: plus4mem.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/iecdrive.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/iecdrive.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/monitor/mon.h plus4acia.h plus4iec.h plus4mem.h \
-	../../src/mem.h plus4memlimit.h plus4pio1.h plus4pio2.h \
-	../../src/resources.h ../../src/sysfile.h tcbm.h ted-mem.h \
-	../../src/utils.h
+	plus4memlimit.h plus4pio1.h plus4pio2.h ../../src/resources.h \
+	tcbm.h ted-mem.h ../../src/utils.h
 plus4memlimit.o: plus4memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 plus4pio1.o: plus4pio1.c ../../src/vice.h ../../src/config.h plus4pio1.h \
 	../../src/arch/unix/types.h
 plus4pio2.o: plus4pio2.c ../../src/vice.h ../../src/config.h plus4pio2.h \
 	../../src/arch/unix/types.h
+plus4rom.o: plus4rom.c ../../src/vice.h ../../src/config.h \
+	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
+	plus4mem.h plus4rom.h ../../src/resources.h ../../src/sysfile.h
 tcbm.o: tcbm.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/maincpu.h ../../src/6510core.h tcbm.h \
-	../../src/drive/tia1551.h
+	../../src/maincpu.h tcbm.h ../../src/drive/tia1551.h
 ted-cmdline-options.o: ted-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ted-cmdline-options.h \
 	ted.h ../../src/arch/unix/types.h tedtypes.h ../../src/log.h \
@@ -352,7 +353,7 @@ ted-draw.o: ted-draw.c ../../src/vice.h ../../src/config.h \
 ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/keyboard.h \
-	../../src/maincpu.h plus4mem.h ../../src/mem.h plus4pio2.h \
+	../../src/maincpu.h ../../src/mem.h plus4mem.h plus4pio2.h \
 	ted-resources.h tedtypes.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	ted-mem.h ted-sound.h ted-timer.h ted.h
@@ -369,14 +370,12 @@ ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	ted-snapshot.h ted.h tedtypes.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h
 ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/sound.h ted-sound.h \
-	../../src/utils.h
+	../../src/maincpu.h ../../src/arch/unix/types.h \
+	../../src/sound.h ted-sound.h ../../src/utils.h
 ted-timer.o: ted-timer.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/maincpu.h ../../src/6510core.h ted-timer.h tedtypes.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h
+	../../src/maincpu.h ted-timer.h tedtypes.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h
 ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \

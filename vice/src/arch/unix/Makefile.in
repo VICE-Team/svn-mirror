@@ -428,10 +428,9 @@ uicmdline.o: uicmdline.c ../../../src/vice.h ../../../src/config.h \
 uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	archdep.h ../../../src/archapi.h ../../../src/attach.h \
 	../../../src/autostart.h types.h ../../../src/fliplist.h \
-	../../../src/imagecontents.h ../../../src/info.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/log.h ../../../src/machine.h \
-	../../../src/maincpu.h ../../../src/mem.h \
+	../../../src/imagecontents.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/log.h \
+	../../../src/machine.h ../../../src/maincpu.h \
 	../../../src/monitor/mon.h ../../../src/mos6510.h \
 	../../../src/resources.h ../../../src/sound.h \
 	../../../src/tape.h uicommands.h uiedisk.h uimenu.h \
