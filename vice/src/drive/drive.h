@@ -210,6 +210,9 @@ typedef struct drive_s {
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
 
+    /* mc6821_enabled?  */
+    int drive_mc6821_enabled;
+
     /* Drive ROM starts here.  */
     WORD rom_start;
 
