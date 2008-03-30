@@ -28,6 +28,7 @@
 
 #include "interrupt.h"
 #include "ui.h"
+#include "uicommands.h"
 #include "types.h"
 #include "vsync.h"
 
@@ -56,5 +57,10 @@ void ui_pause_emulation(int flag)
 int ui_emulation_is_paused(void)
 {
     return is_paused;
+}
+
+void ui_common_shutdown(void)
+{
+    uicommands_shutdown();
 }
 

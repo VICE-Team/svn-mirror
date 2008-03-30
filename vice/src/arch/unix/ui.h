@@ -97,5 +97,7 @@ extern void ui_destroy_drive9_menu(void);
 
 extern void ui_update_pal_ctrls(int v);
 
+extern void ui_common_shutdown(void);
+
 #endif
 

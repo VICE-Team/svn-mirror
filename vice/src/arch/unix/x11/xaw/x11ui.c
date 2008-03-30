@@ -442,6 +442,8 @@ void ui_shutdown(void)
 
     lib_free(wm_command_data);
     lib_free(filesel_dir);
+
+    ui_common_shutdown();
 }
 
 typedef struct {

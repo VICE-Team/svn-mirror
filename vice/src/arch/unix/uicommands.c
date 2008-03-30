@@ -83,18 +83,19 @@ static char *read_disk_image_contents(const char *name, unsigned int unit)
 #endif
 }
 
+static char *attach_disk_last_dir = NULL;
+
 static UI_CALLBACK(attach_disk)
 {
     int unit = (int)UI_MENU_CB_PARAM;
     char *filename, *title;
     ui_button_t button;
-    static char *last_dir;
     int attach_wp = 0;
 
     vsync_suspend_speed_eval();
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents, unit,
-                              unit == 8 ? True : False, last_dir,
+                              unit == 8 ? True : False, attach_disk_last_dir,
                               "*.[gdxGDX]*", &button, True, &attach_wp);
 
     lib_free(title);
@@ -108,17 +109,17 @@ static UI_CALLBACK(attach_disk)
       case UI_BUTTON_OK:
         if (file_system_attach_disk(unit, filename) < 0)
             ui_error(_("Invalid Disk Image"));
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (attach_disk_last_dir)
+            lib_free(attach_disk_last_dir);
+        util_fname_split(filename, &attach_disk_last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
         if (autostart_disk(filename, NULL, selection_from_image,
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Disk Image or Filename"));
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (attach_disk_last_dir)
+            lib_free(attach_disk_last_dir);
+        util_fname_split(filename, &attach_disk_last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -168,33 +169,35 @@ static char *read_tape_image_contents(const char *name, unsigned int unit)
 #endif
 }
 
+static char *attach_tape_last_dir = NULL;
+
 static UI_CALLBACK(attach_tape)
 {
     char *filename;
     ui_button_t button;
-    static char *last_dir;
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Attach a tape image"),
                               read_tape_image_contents, 0,
-                              True, last_dir, "*.[tT]*", &button, True, NULL);
+                              True, attach_tape_last_dir, "*.[tT]*",
+                              &button, True, NULL);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (tape_image_attach(1, filename) < 0)
             ui_error(_("Invalid Tape Image"));
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (attach_tape_last_dir)
+            lib_free(attach_tape_last_dir);
+        util_fname_split(filename, &attach_tape_last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
         if (autostart_tape(filename, NULL, selection_from_image,
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Tape Image"));
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (attach_tape_last_dir)
+            lib_free(attach_tape_last_dir);
+        util_fname_split(filename, &attach_tape_last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -222,17 +225,19 @@ static char *read_disk_or_tape_image_contents(const char *fname,
     return read_tape_image_contents(fname, unit);
 }
 
+static char *smart_attach_last_dir = NULL;
+
 static UI_CALLBACK(smart_attach)
 {
     char *filename;
     ui_button_t button;
-    static char *last_dir;
 
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Smart-attach a file"),
                               read_disk_or_tape_image_contents, 0,
-                              True, last_dir, NULL, &button, True, NULL);
+                              True, smart_attach_last_dir, NULL, &button,
+                              True, NULL);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -240,17 +245,17 @@ static UI_CALLBACK(smart_attach)
             && tape_image_attach(1, filename) < 0) {
             ui_error(_("Unknown image type"));
         }
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (smart_attach_last_dir)
+            lib_free(smart_attach_last_dir);
+        util_fname_split(filename, &smart_attach_last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
         if (autostart_autodetect(filename, NULL, selection_from_image,
             AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Unknown image type"));
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (smart_attach_last_dir)
+            lib_free(smart_attach_last_dir);
+        util_fname_split(filename, &smart_attach_last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -436,11 +441,12 @@ static UI_CALLBACK(toggle_pause)
 
 /* Snapshot commands.  */
 
+static char *load_snapshot_last_dir = NULL;
+
 static void load_snapshot_trap(WORD unused_addr, void *data)
 {
     ui_button_t button;
     char *filename;
-    static char *last_dir;
 
     vsync_suspend_speed_eval();
 
@@ -448,17 +454,18 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
         log_debug(_("Quickloading file %s."), (char *)data);
         filename = (char *)data;
     } else {
-        filename = ui_select_file(_("Load snapshot"), NULL, 0, False, last_dir,
-                              "*.vsf", &button, False, NULL);
+        filename = ui_select_file(_("Load snapshot"), NULL, 0, False,
+                                  load_snapshot_last_dir,
+                                  "*.vsf", &button, False, NULL);
         if (button != UI_BUTTON_OK) {
             if (filename)
                 lib_free(filename);
             return;
         }
     }
-    if (last_dir)
-        lib_free(last_dir);
-    util_fname_split(filename, &last_dir, NULL);
+    if (load_snapshot_last_dir)
+        lib_free(load_snapshot_last_dir);
+    util_fname_split(filename, &load_snapshot_last_dir, NULL);
 
     if (machine_read_snapshot(filename, 0) < 0)
         ui_error(_("Cannot load snapshot file\n`%s'"), filename);
@@ -623,17 +630,19 @@ static UI_CALLBACK(remove_from_fliplist2)
                          ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
 }
 
+static char *load_save_fliplist_last_dir = NULL;
+
 static UI_CALLBACK(load_save_fliplist)
 {
     char *filename, *title;
     int what = (int)UI_MENU_CB_PARAM;
     ui_button_t button;
-    static char *last_dir;
 
     vsync_suspend_speed_eval();
     title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"),
                         NULL);
-    filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vfl",
+    filename = ui_select_file(title, NULL, 0, False,
+                              load_save_fliplist_last_dir, "*.vfl",
                               &button, True, NULL);
     lib_free(title);
     switch (button) {
@@ -649,9 +658,9 @@ static UI_CALLBACK(load_save_fliplist)
             else
                 ui_error(_("Error writing `%s'."), filename);
         }
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
+        if (load_save_fliplist_last_dir)
+            lib_free(load_save_fliplist_last_dir);
+        util_fname_split(filename, &load_save_fliplist_last_dir, NULL);
         break;
       default:
         break;
@@ -1072,4 +1081,13 @@ ui_menu_entry_t ui_exit_commands_menu[] = {
       XK_q, UI_HOTMOD_META },
     { NULL }
 };
+
+void uicommands_shutdown(void)
+{
+    lib_free(attach_disk_last_dir);
+    lib_free(attach_tape_last_dir);
+    lib_free(smart_attach_last_dir);
+    lib_free(load_snapshot_last_dir);
+    lib_free(load_save_fliplist_last_dir);
+}
 

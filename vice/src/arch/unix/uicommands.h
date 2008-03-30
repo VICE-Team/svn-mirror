@@ -28,6 +28,8 @@
 #ifndef _UI_COMMANDS_H
 #define _UI_COMMANDS_H
 
+extern void uicommands_shutdown(void);
+
 extern struct ui_menu_entry_s ui_directory_commands_menu[];
 extern struct ui_menu_entry_s ui_disk_commands_menu[];
 extern struct ui_menu_entry_s ui_exit_commands_menu[];

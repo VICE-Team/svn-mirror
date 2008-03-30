@@ -408,6 +408,8 @@ int ui_init(int *argc, char **argv)
 void ui_shutdown(void)
 {
     ui_hotkey_shutdown();
+
+    ui_common_shutdown();
 }
 
 typedef struct {
