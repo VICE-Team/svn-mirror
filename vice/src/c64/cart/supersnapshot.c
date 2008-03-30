@@ -35,7 +35,7 @@
 #include "reu.h"
 #include "supersnapshot.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vicii-phi1.h"
 
 

@@ -34,7 +34,7 @@
 #include "retroreplay.h"
 #include "reu.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vicii-phi1.h"
 
 
