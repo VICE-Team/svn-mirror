@@ -125,6 +125,7 @@ static UI_CALLBACK(save_callback)
       type_cnt ++;
       XtVaGetValues(disk_type_d67_button, XtNstate, &disk_type_flag, NULL);
       if (disk_type_flag == False) {
+	type_cnt ++;
         XtVaGetValues(disk_type_d71_button, XtNstate, &disk_type_flag, NULL);
         if (disk_type_flag == False) {
 	    type_cnt ++;
@@ -317,6 +318,7 @@ static void build_emptydisk_dialog(void)
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
          XtNlabel, "D67",
+         XtNradioGroup, disk_type_d64_button,
          NULL);
 
     disk_type_d71_button = XtVaCreateManagedWidget

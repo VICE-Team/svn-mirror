@@ -389,6 +389,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
         && vdrive->image_format != VDRIVE_IMAGE_FORMAT_8250) {
         vdrive->bam[0] = vdrive->Dir_Track;
         vdrive->bam[1] = vdrive->Dir_Sector;
+	/* position 2 will be overwritten later for 2040 */
         vdrive->bam[2] = (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581)
                          ? 68 : 65;
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571)
@@ -402,8 +403,9 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
 
     switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_2040:
-        vdrive->bam[BAM_VERSION_1541] = 49;	/* "1" */
-        vdrive->bam[BAM_VERSION_1541 + 1] = 32;	/* " " (?) */
+        vdrive->bam[0x02] = 0x01;
+        vdrive->bam[0xa4] = 0x20;
+        vdrive->bam[0xa5] = 0x20;
 	break;
       case VDRIVE_IMAGE_FORMAT_1541:
       case VDRIVE_IMAGE_FORMAT_1571:

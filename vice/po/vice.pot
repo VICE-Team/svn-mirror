@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-03-18 22:40+0100\n"
+"POT-Creation-Date: 2001-03-25 23:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 msgid "Specify name of printer device or dump file"
 msgstr ""
 
-#: src/vsync.c:111
+#: src/vsync.c:112
 msgid "Limit emulation speed to specified value"
 msgstr ""
 
-#: src/vsync.c:113
+#: src/vsync.c:114
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr ""
 
-#: src/vsync.c:115
+#: src/vsync.c:116
 msgid "Enable warp mode"
 msgstr ""
 
-#: src/vsync.c:117
+#: src/vsync.c:118
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:184
+#: src/vsync.c:184 src/vsync.c:362
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
@@ -2223,7 +2223,7 @@ msgstr ""
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiedisk.c:57 src/arch/unix/x11/xaw/uiedisk.c:419
+#: src/arch/unix/x11/gnome/uiedisk.c:57 src/arch/unix/x11/xaw/uiedisk.c:421
 msgid "Create empty disk"
 msgstr ""
 
@@ -2468,25 +2468,25 @@ msgstr ""
 msgid "Save cartridge image file"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:125 src/arch/unix/x11/xaw/uiedisk.c:201
+#: src/arch/unix/x11/xaw/uicartridge.c:125 src/arch/unix/x11/xaw/uiedisk.c:202
 #: src/arch/unix/x11/xaw/uiscreenshot.c:158
 #: src/arch/unix/x11/xaw/uisnapshot.c:140
 msgid "File name:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:152 src/arch/unix/x11/xaw/uiedisk.c:230
+#: src/arch/unix/x11/xaw/uicartridge.c:152 src/arch/unix/x11/xaw/uiedisk.c:231
 #: src/arch/unix/x11/xaw/uiscreenshot.c:187
 #: src/arch/unix/x11/xaw/uisnapshot.c:167
 msgid "Browse..."
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:164 src/arch/unix/x11/xaw/uiedisk.c:395
+#: src/arch/unix/x11/xaw/uicartridge.c:164 src/arch/unix/x11/xaw/uiedisk.c:397
 #: src/arch/unix/x11/xaw/uiscreenshot.c:250
 #: src/arch/unix/x11/xaw/uisnapshot.c:282
 msgid "Save"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:171 src/arch/unix/x11/xaw/uiedisk.c:402
+#: src/arch/unix/x11/xaw/uicartridge.c:171 src/arch/unix/x11/xaw/uiedisk.c:404
 #: src/arch/unix/x11/xaw/uiscreenshot.c:257
 #: src/arch/unix/x11/xaw/uisnapshot.c:289
 msgid "Cancel"
@@ -2508,15 +2508,15 @@ msgstr ""
 msgid "Save emptydisk file"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiedisk.c:166
+#: src/arch/unix/x11/xaw/uiedisk.c:167
 msgid "Couldn't create disk image"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiedisk.c:248
+#: src/arch/unix/x11/xaw/uiedisk.c:249
 msgid "Disk name:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiedisk.c:295
+#: src/arch/unix/x11/xaw/uiedisk.c:296
 msgid "Disk format:"
 msgstr ""
 
