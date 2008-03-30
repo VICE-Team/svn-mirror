@@ -239,7 +239,7 @@ void myvia_init(VIA_CONTEXT_PARVOID)
 
     myvia_t1_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T1",
                                int_myviat1);
-    myvia_t1_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T2",
+    myvia_t2_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T2",
                                int_myviat2);
 
     clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
