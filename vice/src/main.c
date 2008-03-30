@@ -34,22 +34,12 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
+#include <string.h>
 #include <ctype.h>
 #endif
 
-#ifdef __hpux
-#define _INCLUDE_XOPEN_SOURCE
-#define _XPG2
-#include <limits.h>
-#undef  _INCLUDE_XOPEN_SOURCE
-#undef  _XPG2
-#else
-#include <limits.h>
-#endif
-
-#ifdef OS2
-#include <string.h>
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
 #endif
 
 #ifdef __riscos

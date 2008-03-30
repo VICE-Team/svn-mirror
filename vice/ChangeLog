@@ -1,3 +1,10 @@
+1999-09-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.10.
+
+	* configure.in: Check for `errno.h', `io.h', `sys/types.h' and
+	`signal.h'.  Do not check for `sys/files.h'.
+
 1999-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.9.

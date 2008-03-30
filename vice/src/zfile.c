@@ -33,22 +33,24 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
-#ifdef __IBMC__
-#include <io.h>
-#endif
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef __riscos
 #include "ROlib.h"
 #endif
-#include <limits.h>
 #include <string.h>
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
 #include <stdarg.h>
 #include <ctype.h>
+#endif
+
+#ifdef HAVE_ERRNO_H
 #include <errno.h>
+#endif
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

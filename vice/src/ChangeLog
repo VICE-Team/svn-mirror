@@ -1,3 +1,78 @@
+1999-09-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.10.
+
+	* vdrive/vdrive.c, vic20/vic20sound.c, pet/petsound.c,
+	imagecontents.c, arch/win32/archdep.c, c128/z80.c: #include
+	<stdlib.h>.
+
+	* mon.h, c64/cartridge.c, vic20/cartridge.c: Do not #include
+	<assert.h>.
+
+	* ciacore.h, drive/riot1drive0.c, drive/riot1drive1.c,
+	drive/riot2drive0.c, drive/riot2drive1.c, drive/via1drive0.c:
+	Do not #include <time.h>.
+
+	* autostart.c, c1541.c, fsdevice.c, imagecontents.c, mon.c,
+	romset.c, utils.c, zfile.c, arch/win32/archdep.c: #include
+	<errno.h> if present.
+
+	* c64/c64mem.c, c64/cartridge.c, vic20/cartridge.c: Do not
+	#include <errno.h>.
+
+	* findpath.c, snapshot.c, utils.c, zfile.c, drive/drive.c,
+	arch/win32/dirent.c, arch/win32/lose32.h: #include <io.h> if
+	present.
+
+	* diskimage.c, fsdevice.c, sysfile.c, utils.c, c1541.c,
+	sounddrv/soundsun.c, sounddrv/sounduss.c, c64/c64mem.c,
+	c64/cartridge.c, vic20/cartridge.c: #include <sys/types.h> if
+	present.
+
+	* c64/c64mem.c, c64/cartridge.c, vic20/cartridge.c: Do not
+	#include <sys/stat.h>.
+
+	* sounddrv/soundsun.c, sounddrv/sounduss.c, fsdevice.c,
+	sysfile.c, c1541.c, arch/win32/archdep.c: #include
+	<sys/stat.h> if present.
+
+	* fsdevice.c, gcr.c, utils.c, c1541.c, sounddrv/soundhpux.c,
+	sounddrv/soundsun.c, sounddrv/sounduss.c,
+	arch/win32/archdep.c: #include <fcntl.h> if present.
+
+	arch/win32/archdep.c, mon.c, main.c: #include <signal.h> if
+	present.
+
+	* c64/cartridge.c, vic20/cartridge.c: Do not #include
+	<fcntl.h>.
+
+	* main.c, zfile.c, c1541.c, arch/win32/types.h: Do not
+	#include <limits.h>.
+
+	* arch/os2/config.h: Has `errno.h', `io.h', `sys/types.h',
+	`sys/stat.h' and `signal.h'.
+	* arch/win32/msvc/config.h: Changed likewise.
+
+	* vice.h: CE does not need defining `alloca'.
+
+	* arch/win32/kbd.c: Removed `key_ctrl_column4080'.
+	Renamed `DEBUG' to `KBD_DEBUG'.
+
+	* vic20/vic20mem.c: #include "ui.h".
+
+	* arch/win32/archdep.c (archdep_default_sysfile_pathlist):
+	Commented out unused code.
+
+1999-09-26  Daniel Sladic  <dsladic@cs.cmu.edu>
+
+	* mon.c: Fix enabling/disabling of checkpoints.
+	(search_checkpoint_list) Fix typo for ranges.
+
+	* mon.h: Fix enabling/disabling of checkpoints and sfx.
+
+	* mon_parse.y: Fix enabling/disabling of checkpoints.
+	Correctly treat breakpoint numbers as decimal.
+
 1999-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.9.

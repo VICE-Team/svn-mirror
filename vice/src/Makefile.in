@@ -531,6 +531,8 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
+archdep.o: arch/win32/archdep.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h utils.h arch/win32/types.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
 attach.o: attach.c vice.h config.h attach.h arch/unix/types.h snapshot.h \
 	diskimage.h gcr.h drive/drive.h drive/drivecpu.h alarm.h log.h \
@@ -538,8 +540,8 @@ attach.o: attach.c vice.h config.h attach.h arch/unix/types.h snapshot.h \
 	drive/fdc.h fsdevice.h fliplist.h resources.h serial.h traps.h \
 	arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h utils.h \
 	vdrive/vdrive.h vdrive/vdrive-iec.h drive/wd1770.h
-autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
-	arch/unix/archdep.h archapi.h attach.h snapshot.h charsets.h \
+autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
+	autostart.h arch/unix/types.h attach.h snapshot.h charsets.h \
 	datasette.h tap.h fsdevice.h interrupt.h 6510core.h mem.h \
 	kbdbuf.h log.h machine.h p00.h resources.h serial.h diskimage.h \
 	gcr.h traps.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h \
@@ -573,9 +575,9 @@ fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h p00.h serial.h diskimage.h gcr.h traps.h utils.h \
 	vdrive/vdrive.h attach.h snapshot.h
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
-imagecontents.o: imagecontents.c vice.h config.h imagecontents.h \
-	arch/unix/types.h arch/unix/archdep.h archapi.h charsets.h \
-	diskimage.h gcr.h log.h serial.h traps.h t64.h utils.h \
+imagecontents.o: imagecontents.c vice.h config.h arch/unix/archdep.h \
+	archapi.h charsets.h arch/unix/types.h diskimage.h gcr.h \
+	imagecontents.h log.h serial.h traps.h t64.h utils.h \
 	vdrive/vdrive-bam.h vdrive/vdrive.h attach.h snapshot.h \
 	vdrive/vdrive-dir.h zfile.h
 info.o: info.c

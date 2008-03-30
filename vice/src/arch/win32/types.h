@@ -30,7 +30,7 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
-#include <limits.h>
+#include "vice.h"
 
 #define BYTE unsigned char
 

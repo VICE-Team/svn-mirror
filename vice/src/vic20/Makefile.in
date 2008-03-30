@@ -393,10 +393,10 @@ vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/resources.h ../../src/emuid.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/sysfile.h ../../src/utils.h vic.h \
-	vic20.h ../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/mos6510.h ../../src/sysfile.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/raster/raster.h \
+	../../src/palette.h ../../src/uiapi.h ../../src/utils.h vic.h \
+	vic20.h ../../src/arch/unix/video.h ../../src/raster/raster.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
