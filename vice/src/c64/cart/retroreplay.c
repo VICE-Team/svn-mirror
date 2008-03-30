@@ -76,25 +76,7 @@ BYTE REGPARM1 retroreplay_io1_read(ADDRESS addr)
                     return export_ram0[0x1e00 + (addr & 0xff)];
                 }
             }
-
-            switch (roml_bank) {
-              case 0:
-                return roml_banks[addr & 0x1fff];
-              case 1:
-                return roml_banks[(addr & 0x1fff) + 0x2000];
-              case 2:
-                return roml_banks[(addr & 0x1fff) + 0x4000];
-              case 3:
-                return roml_banks[(addr & 0x1fff) + 0x6000];
-              case 4:
-                return roml_banks[(addr & 0x1fff) + 0x8000];
-              case 5:
-                return roml_banks[(addr & 0x1fff) + 0xa000];
-              case 6:
-                return roml_banks[(addr & 0x1fff) + 0xc000];
-              case 7:
-                return roml_banks[(addr & 0x1fff) + 0xe000];
-            }
+            return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
         }
         return 0;
     }
@@ -104,7 +86,7 @@ void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xff) {
       case 0:
-        cartridge_config_changed(value, value, CMODE_WRITE);
+        cartridge_config_changed(value & 0xfc, value, CMODE_WRITE);
         romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
         break;
       case 1:
@@ -164,25 +146,7 @@ BYTE REGPARM1 retroreplay_io2_read(ADDRESS addr)
                 return export_ram0[0x1f00 + (addr & 0xff)];
             }
         }
-
-        switch (roml_bank) {
-          case 0:
-            return roml_banks[addr & 0x1fff];
-          case 1:
-            return roml_banks[(addr & 0x1fff) + 0x2000];
-          case 2:
-            return roml_banks[(addr & 0x1fff) + 0x4000];
-          case 3:
-            return roml_banks[(addr & 0x1fff) + 0x6000];
-          case 4:
-            return roml_banks[(addr & 0x1fff) + 0x8000];
-          case 5:
-            return roml_banks[(addr & 0x1fff) + 0xa000];
-          case 6:
-            return roml_banks[(addr & 0x1fff) + 0xc000];
-          case 7:
-            return roml_banks[(addr & 0x1fff) + 0xe000];
-        }
+        return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
     }
     return 0;
 }
@@ -219,19 +183,15 @@ void REGPARM2 retroreplay_io2_store(ADDRESS addr, BYTE value)
 BYTE REGPARM1 retroreplay_roml_read(ADDRESS addr)
 {
     if (export_ram) {
-        if (1) {
-            switch (roml_bank & 3) {
-              case 0:
-                return export_ram0[addr & 0x1fff];
-              case 1:
-                return export_ram0[(addr & 0x1fff) + 0x2000];
-              case 2:
-                return export_ram0[(addr & 0x1fff) + 0x4000];
-              case 3:
-                return export_ram0[(addr & 0x1fff) + 0x6000];
-            }
-        } else {
+        switch (roml_bank & 3) {
+          case 0:
             return export_ram0[addr & 0x1fff];
+          case 1:
+            return export_ram0[(addr & 0x1fff) + 0x2000];
+          case 2:
+            return export_ram0[(addr & 0x1fff) + 0x4000];
+          case 3:
+            return export_ram0[(addr & 0x1fff) + 0x6000];
         }
     }
 
@@ -241,23 +201,19 @@ BYTE REGPARM1 retroreplay_roml_read(ADDRESS addr)
 void REGPARM2 retroreplay_roml_store(ADDRESS addr, BYTE value)
 {
     if (export_ram) {
-        if (1) {
-            switch (roml_bank & 3) {
-              case 0:
-                export_ram0[addr & 0x1fff] = value;
-                break;
-              case 1:
-                export_ram0[(addr & 0x1fff) + 0x2000] = value;
-                break;
-              case 2:
-                export_ram0[(addr & 0x1fff) + 0x4000] = value;
-                break;
-              case 3:
-                export_ram0[(addr & 0x1fff) + 0x6000] = value;
-                break;
-            }
-        } else {
+        switch (roml_bank & 3) {
+          case 0:
             export_ram0[addr & 0x1fff] = value;
+            break;
+          case 1:
+            export_ram0[(addr & 0x1fff) + 0x2000] = value;
+            break;
+          case 2:
+            export_ram0[(addr & 0x1fff) + 0x4000] = value;
+            break;
+          case 3:
+            export_ram0[(addr & 0x1fff) + 0x6000] = value;
+            break;
         }
     }
 }
