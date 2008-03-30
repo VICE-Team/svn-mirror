@@ -44,6 +44,8 @@ UI_MENU_DEFINE_TOGGLE_COND(Drive8RAM8000, Drive8Type,
                            drive_check_expansion8000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive8RAMA000, Drive8Type,
                            drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8ProfDOS, Drive8Type,
+                           drive_check_profdos)
 UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM2000, Drive9Type,
                            drive_check_expansion2000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM4000, Drive9Type,
@@ -54,6 +56,8 @@ UI_MENU_DEFINE_TOGGLE_COND(Drive9RAM8000, Drive9Type,
                            drive_check_expansion8000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive9RAMA000, Drive9Type,
                            drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9ProfDOS, Drive9Type,
+                           drive_check_profdos)
 UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM2000, Drive10Type,
                            drive_check_expansion2000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM4000, Drive10Type,
@@ -64,6 +68,8 @@ UI_MENU_DEFINE_TOGGLE_COND(Drive10RAM8000, Drive10Type,
                            drive_check_expansion8000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive10RAMA000, Drive10Type,
                            drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10ProfDOS, Drive10Type,
+                           drive_check_profdos)
 UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM2000, Drive11Type,
                            drive_check_expansion2000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM4000, Drive11Type,
@@ -74,6 +80,8 @@ UI_MENU_DEFINE_TOGGLE_COND(Drive11RAM8000, Drive11Type,
                            drive_check_expansion8000)
 UI_MENU_DEFINE_TOGGLE_COND(Drive11RAMA000, Drive11Type,
                            drive_check_expansionA000)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11ProfDOS, Drive11Type,
+                           drive_check_profdos)
 UI_MENU_DEFINE_RADIO(Drive8IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive9IdleMethod)
 UI_MENU_DEFINE_RADIO(Drive10IdleMethod)
@@ -125,6 +133,9 @@ ui_menu_entry_t set_drive0_expansion_submenu[] = {
       (ui_callback_t)toggle_Drive8RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
       (ui_callback_t)toggle_Drive8RAMA000, NULL, NULL },
+    { "--" },
+    { N_("*Professional DOS expansion"),
+      (ui_callback_t)toggle_Drive8ProfDOS, NULL, NULL },
     { NULL }
 };
 
@@ -139,6 +150,9 @@ ui_menu_entry_t set_drive1_expansion_submenu[] = {
       (ui_callback_t)toggle_Drive9RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
       (ui_callback_t)toggle_Drive9RAMA000, NULL, NULL },
+    { "--" },
+    { N_("*Professional DOS expansion"),
+      (ui_callback_t)toggle_Drive9ProfDOS, NULL, NULL },
     { NULL }
 };
 
@@ -153,6 +167,9 @@ ui_menu_entry_t set_drive2_expansion_submenu[] = {
       (ui_callback_t)toggle_Drive10RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
       (ui_callback_t)toggle_Drive10RAMA000, NULL, NULL },
+    { "--" },
+    { N_("*Professional DOS expansion"),
+      (ui_callback_t)toggle_Drive10ProfDOS, NULL, NULL },
     { NULL }
 };
 
@@ -167,6 +184,9 @@ ui_menu_entry_t set_drive3_expansion_submenu[] = {
       (ui_callback_t)toggle_Drive11RAM8000, NULL, NULL },
     { N_("*$A000-$BFFF RAM expansion"),
       (ui_callback_t)toggle_Drive11RAMA000, NULL, NULL },
+    { "--" },
+    { N_("*Professional DOS expansion"),
+      (ui_callback_t)toggle_Drive11ProfDOS, NULL, NULL },
     { NULL }
 };
 
