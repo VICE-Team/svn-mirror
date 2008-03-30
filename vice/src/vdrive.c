@@ -60,7 +60,6 @@
 #endif
 
 #include "charsets.h"
-#include "file.h"
 #include "fsdevice.h"
 #include "log.h"
 #include "serial.h"

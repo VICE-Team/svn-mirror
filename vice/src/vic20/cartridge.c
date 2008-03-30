@@ -46,9 +46,9 @@
 #include <assert.h>
 #include <errno.h>
 
+#include "archdep.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "file.h"
 #include "interrupt.h"
 #include "log.h"
 #include "mem.h"
@@ -192,7 +192,7 @@ int cartridge_attach_image(int type, const char *filename)
     log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.",
                 type, filename);
 
-    fd = zfopen(filename, READ);
+    fd = zfopen(filename, MODE_READ);
     if (!fd)
 	return -1;
 

@@ -41,8 +41,8 @@
 #include <errno.h>
 #endif
 
+#include "archdep.h"
 #include "resources.h"
-#include "file.h"
 #include "mem.h"
 #include "vmachine.h"
 #include "interrupt.h"
@@ -112,7 +112,7 @@ int cartridge_attach_image(int type, const char *filename)
 
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
-	fd = fopen(filename, READ);
+	fd = fopen(filename, MODE_READ);
 	if (!fd)
 	    goto done;
 	if (fread(rawcart, 0x2000, 1, fd) < 1) {
@@ -122,7 +122,7 @@ int cartridge_attach_image(int type, const char *filename)
 	fclose(fd);
 	break;
       case CARTRIDGE_GENERIC_16KB:
-	fd = fopen(filename, READ);
+	fd = fopen(filename, MODE_READ);
 	if (!fd)
 	    goto done;
 	if (fread(rawcart, 0x4000, 1, fd) < 1) {
@@ -132,7 +132,7 @@ int cartridge_attach_image(int type, const char *filename)
 	fclose(fd);
 	break;
       case CARTRIDGE_ACTION_REPLAY:
-	fd = fopen(filename, READ);
+	fd = fopen(filename, MODE_READ);
 	if (!fd)
 	    goto done;
 	if (fread(rawcart, 0x8000, 1, fd) < 1) {
@@ -142,7 +142,7 @@ int cartridge_attach_image(int type, const char *filename)
 	fclose(fd);
 	break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-	fd = fopen(filename, READ);
+	fd = fopen(filename, MODE_READ);
 	if (!fd)
 	    goto done;
 	if (fread(rawcart, 0x8000, 1, fd) < 1) {
@@ -152,7 +152,7 @@ int cartridge_attach_image(int type, const char *filename)
 	fclose(fd);
 	break;
       case CARTRIDGE_CRT:
-        fd = fopen(filename, READ);
+        fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
         if (fread(header, 0x40, 1, fd) < 1) {

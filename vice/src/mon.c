@@ -61,11 +61,11 @@
 #include <windows.h>
 #endif
 
+#include "archdep.h"
 #include "asm.h"
 #include "mon.h"
 #include "charsets.h"
 #include "drivecpu.h"
-#include "file.h"
 #include "interrupt.h"
 #include "resources.h"
 #include "vsync.h"
@@ -1636,7 +1636,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
     int     ch = 0;
     MEMSPACE mem;
 
-    if (NULL == (fp = fopen(filename, READ))) {
+    if (NULL == (fp = fopen(filename, MODE_READ))) {
         perror(filename);
         fprintf(mon_output, "Loading failed.\n");
         return;
@@ -1712,7 +1712,7 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
         return;
     }
 
-    if (NULL == (fp = fopen(filename, WRITE))) {
+    if (NULL == (fp = fopen(filename, MODE_WRITE))) {
         fprintf(mon_output, "Saving for `%s' failed: %s.\n",
                 filename, strerror(errno));
     } else {
@@ -1761,7 +1761,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     bool found = FALSE;
     int rc, line_num = 2;
 
-    if (NULL == (fp = fopen(filename, READ))) {
+    if (NULL == (fp = fopen(filename, MODE_READ))) {
 	fprintf(mon_output, "Loading for `%s' failed: %s.\n",
                 filename, strerror(errno));
 	return;
@@ -1808,7 +1808,7 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
     FILE   *fp;
     symbol_entry_t *sym_ptr;
 
-    if (NULL == (fp = fopen(filename, WRITE))) {
+    if (NULL == (fp = fopen(filename, MODE_WRITE))) {
 	fprintf(mon_output, "Saving for `%s' failed: %s.\n",
                 filename, strerror(errno));
 	return;
@@ -1844,7 +1844,7 @@ void mon_record_commands(char *filename)
 
    recording_name = filename;
 
-   if (NULL == (recording_fp = fopen(recording_name, WRITE))) {
+   if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
        fprintf(mon_output, "Cannot create `%s': %s.\n",
                recording_name, strerror(errno));
        return;
@@ -1869,7 +1869,7 @@ static void playback_commands(char *filename)
    FILE *fp;
    char string[256], *rc;
 
-   if (NULL == (fp = fopen(filename, READ))) {
+   if (NULL == (fp = fopen(filename, MODE_READ))) {
        fprintf(mon_output, "Playback for `%s' failed: %s.\n",
                filename, strerror(errno));
        return;

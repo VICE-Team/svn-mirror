@@ -62,7 +62,6 @@
 #include "archdep.h"
 #include "charsets.h"
 #include "cmdline.h"
-#include "file.h"
 #include "log.h"
 #include "p00.h"
 #include "resources.h"
@@ -559,7 +558,7 @@ void flush_fs(void *flp, int secondary)
 			strncat(name1p00, &p00type, 1);
 			sprintf(p00count, "%02i", i);
 			strncat(name1p00, p00count, 2);
-			fd = fopen(name1p00, READ);
+			fd = fopen(name1p00, MODE_READ);
 			if (fd) {
 			    fclose(fd);
 			    continue;
@@ -1014,7 +1013,7 @@ int open_fs(void *flp, const char *name, int length, int secondary)
 
 	/* Open file for write mode access.  */
 	if (fs_info[secondary].mode == Write) {
-	    fd = fopen(fsname, READ);
+	    fd = fopen(fsname, MODE_READ);
 	    if (fd != NULL) {
 		fclose(fd);
 		fs_error(IPE_FILE_EXISTS);
@@ -1040,7 +1039,7 @@ int open_fs(void *flp, const char *name, int length, int secondary)
 		    return FLOPPY_COMMAND_OK;
 		}
 	    } else {
-		fd = fopen(fsname, WRITE);
+		fd = fopen(fsname, MODE_WRITE);
 		fs_info[secondary].fd = fd;
 		fs_error(IPE_OK);
 		return FLOPPY_COMMAND_OK;
@@ -1049,7 +1048,7 @@ int open_fs(void *flp, const char *name, int length, int secondary)
 
 	/* Open file for append mode access.  */
 	if (fs_info[secondary].mode == Append) {
-	    fd = fopen(fsname, READ);
+	    fd = fopen(fsname, MODE_READ);
 	    if (!fd) {
 		if (!fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
 		    fs_error(IPE_NOT_FOUND);
@@ -1083,7 +1082,7 @@ int open_fs(void *flp, const char *name, int length, int secondary)
 	}
 
 	/* Open file for read mode access.  */
- 	fd = fopen(fsname, READ);
+ 	fd = fopen(fsname, MODE_READ);
 	if (!fd) {
 	    if (!fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
 		fs_error(IPE_NOT_FOUND);
@@ -1165,7 +1164,7 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
         strcpy(pathname, fsdevice_get_path(floppy->unit));
         strcat(pathname, FSDEV_DIR_SEP_STR);
         strcat(pathname, rname);
-        fd = fopen(pathname, READ);
+        fd = fopen(pathname, MODE_READ);
         if (!fd)
             return;
 
@@ -1212,7 +1211,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 	    strcat(pname, dirp->d_name);
 	    p = pname;
 	    if (p00_check_name(p) >= 0) {
-		fd = fopen(p, READ);
+		fd = fopen(p, MODE_READ);
 		if (!fd)
 		    continue;
 		fread((char *) p00id, 8, 1, fd);
@@ -1331,7 +1330,7 @@ static int fsdevice_create_file_p00(void *flp, char *name, int length,
     strcat(fsname, "00");
 
     for (i = 1; i < 100; i++) {
-	fd = fopen(fsname, READ);
+	fd = fopen(fsname, MODE_READ);
 	if (!fd)
 	    break;
 	fclose(fd);
@@ -1341,7 +1340,7 @@ static int fsdevice_create_file_p00(void *flp, char *name, int length,
     if (i >= 100)
 	return 1;
 
-    fd = fopen(fsname, WRITE);
+    fd = fopen(fsname, MODE_WRITE);
     if (!fd)
 	return 1;
 

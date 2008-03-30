@@ -38,7 +38,6 @@
 #include "resources.h"
 #include "cmdline.h"
 #include "vdrive.h"
-#include "file.h"
 #include "charsets.h"
 #include "utils.h"
 #include "prdevice.h"
