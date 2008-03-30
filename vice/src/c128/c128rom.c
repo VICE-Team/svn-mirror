@@ -445,6 +445,7 @@ int c128rom_load_kernal64(const char *rom_name)
             return -1;
         }
     }
+    memcpy(mem_kernal64_trap_rom, mem_kernal64_rom, C128_KERNAL64_ROM_SIZE);
     return 0;
 }
 
