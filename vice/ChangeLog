@@ -1,3 +1,15 @@
+Sun Jun 14 18:54:52 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.37.
+
+	* configure.in: AC_DEFINE `HAVE_RS232' when compiling on Unix.
+
+	* acconfig.h: New symbol `HAVE_RS232'.
+
+Fri Jun 12 18:51:16 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.36.
+
 Wed Jun 10 21:53:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.35.

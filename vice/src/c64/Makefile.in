@@ -103,6 +103,11 @@ noinst_LIBRARIES = libc64.a libc64c128.a
 libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def\
+	c64acia2.c \
+	c64acia2.def\
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -129,6 +134,11 @@ libc64_a_SOURCES = \
 	wave8580.h
 
 libc64c128_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def \
+	c64acia2.c \
+	c64acia2.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -166,11 +176,11 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libc64_a_LIBADD = 
-libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64iec.o c64mem.o \
-patchrom.o reu.o sid.o tpi.o vicii.o
+libc64_a_OBJECTS =  c64.o c64acia1.o c64acia2.o c64cia1.o c64cia2.o \
+c64iec.o c64mem.o patchrom.o reu.o sid.o tpi.o vicii.o
 libc64c128_a_LIBADD = 
-libc64c128_a_OBJECTS =  c64cia1.o c64cia2.o c64iec.o patchrom.o sid.o \
-tpi.o vicii.o
+libc64c128_a_OBJECTS =  c64acia1.o c64acia2.o c64cia1.o c64cia2.o \
+c64iec.o patchrom.o sid.o tpi.o vicii.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -332,7 +342,16 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/true1541/1541cpu.h ../../src/tapeunit.h \
 	../../src/tape.h patchrom.h ../../src/utils.h \
 	../../src/arch/unix/kbd.h ../../src/arch/unix/vsync.h c64mem.h \
-	../../src/attach.h ../../src/autostart.h
+	../../src/attach.h ../../src/autostart.h ../../src/rs232.h \
+	c64acia.h
+c64acia1.o: c64acia1.c ../../src/resources.h ../../src/vice.h \
+	../../src/config.h ../../src/types.h ../../src/vmachine.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/rs232.h ../../src/acia.h
+c64acia2.o: c64acia2.c ../../src/resources.h ../../src/vice.h \
+	../../src/config.h ../../src/types.h ../../src/vmachine.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/rs232.h ../../src/acia.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/cia.h ../../src/types.h vicii.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
@@ -372,7 +391,7 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/xaw/ui.h sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/memutils.h ../../src/parallel.h \
 	tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/utils.h patchrom.h ../../src/cartridge.h
+	../../src/utils.h patchrom.h ../../src/cartridge.h c64acia.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/types.h patchrom.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
@@ -488,6 +507,22 @@ c64cia2.c: c64cia2.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	       	   $(top_srcdir)/src/cia-tmpl.c \
 	       	   $(c64dir)/c64cia2.def $(c64dir)/c64cia2.c; \
+           fi )
+
+c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c64acia1.c'..."; \
+           if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/acia-tmpl.c \
+	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
+           fi )
+
+c64acia2.c: c64acia2.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c64acia2.c'..."; \
+           if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/acia-tmpl.c \
+	       	   $(c64dir)/c64acia2.def $(c64dir)/c64acia2.c; \
            fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
