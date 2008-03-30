@@ -29,7 +29,7 @@
 #ifndef _MON_DISASSEMBLE_H
 #define _MON_DISASSEMBLE_H
 
-#include "mon.h"
+#include "montypes.h"
 #include "types.h"
 
 extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x,

@@ -31,7 +31,7 @@
 #include <string.h>
 
 #include "asm.h"
-#include "mon.h"
+#include "montypes.h"
 #include "types.h"
 #include "uimon.h"
 

@@ -30,8 +30,8 @@
 #include <string.h>
 
 #include "log.h"
-#include "mon.h"
 #include "mon_register.h"
+#include "montypes.h"
 #include "uimon.h"
 #include "utils.h"
 #include "z80regs.h"
@@ -172,7 +172,7 @@ static void mon_register_print(int mem)
               mon_register_get_val(mem, e_HL2));
 }
 
-static mon_reg_list_t *mon_register_list_get(int mem)
+static mon_reg_list_t *mon_register_list_getz80(int mem)
 {
     mon_reg_list_t *mon_reg_list;
 
@@ -265,7 +265,7 @@ static mon_reg_list_t *mon_register_list_get(int mem)
     return mon_reg_list;
 }
 
-static void mon_register_list_set(mon_reg_list_t *reg_list, int mem)
+static void mon_register_list_setz80(mon_reg_list_t *reg_list, int mem)
 {
     do {
         if (!strcmp(reg_list->name, "PC"))
@@ -306,7 +306,7 @@ void mon_registerz80_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
     monitor_cpu_type->mon_register_set_val = mon_register_set_val;
     monitor_cpu_type->mon_register_print = mon_register_print;
-    monitor_cpu_type->mon_register_list_get = mon_register_list_get;
-    monitor_cpu_type->mon_register_list_set = mon_register_list_set;
+    monitor_cpu_type->mon_register_list_get = mon_register_list_getz80;
+    monitor_cpu_type->mon_register_list_set = mon_register_list_setz80;
 }
 

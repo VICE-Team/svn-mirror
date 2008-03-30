@@ -29,8 +29,8 @@
 #include "vice.h"
 
 #include "log.h"
-#include "mon.h"
 #include "mon_register.h"
+#include "montypes.h"
 #include "mos6510.h"
 #include "uimon.h"
 #include "utils.h"
@@ -130,14 +130,15 @@ static void mon_register_print(int mem)
         return;
     }
     regs = mon_interfaces[mem]->cpu_regs;
-    uimon_out("  ADDR AC XR YR SP 01 NV-BDIZC\n");
-    uimon_out(".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
+    uimon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC\n");
+    uimon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
               mon_register_get_val(mem, e_PC),
               mon_register_get_val(mem, e_A),
               mon_register_get_val(mem, e_X),
               mon_register_get_val(mem, e_Y),
               mon_register_get_val(mem, e_SP),
-              mon_register_get_val(mem, 1),
+              mon_get_mem_val(mem, 0),
+              mon_get_mem_val(mem, 1),
               TEST(MOS6510_REGS_GET_SIGN(regs)),
               TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
               '1',
@@ -148,11 +149,11 @@ static void mon_register_print(int mem)
               TEST(MOS6510_REGS_GET_CARRY(regs)));
 }
 
-static mon_reg_list_t *mon_register_list_get(int mem)
+static mon_reg_list_t *mon_register_list_get6502(int mem)
 {
     mon_reg_list_t *mon_reg_list;
 
-    mon_reg_list = (mon_reg_list_t *)xmalloc(sizeof(mon_reg_list_t) * 8);
+    mon_reg_list = (mon_reg_list_t *)xmalloc(sizeof(mon_reg_list_t) * 9);
 
     mon_reg_list[0].name = "PC";
     mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);
@@ -180,14 +181,17 @@ static mon_reg_list_t *mon_register_list_get(int mem)
 
     mon_reg_list[4].name = "SP";
     mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
-    mon_reg_list[4].size = 16;
+    mon_reg_list[4].size = 8;
     mon_reg_list[4].flags = 0;
-    mon_reg_list[4].next = &mon_reg_list[5];
+    /* mon_reg_list[4].next = &mon_reg_list[5];
+       this is depandant upon the following distinction! */
 
     /* FIXME: This is not elegant. The destinction between 6502/6510
        should not be done by the memory space.  This will change once
        we have completely separated 6502, 6509, 6510 and Z80. */
     if (mem == e_comp_space) {
+        mon_reg_list[4].next = &mon_reg_list[5];
+
         mon_reg_list[5].name = "00";
         mon_reg_list[5].val = (unsigned int)mon_get_mem_val(mem, 0);
         mon_reg_list[5].size = 8;
@@ -200,23 +204,26 @@ static mon_reg_list_t *mon_register_list_get(int mem)
         mon_reg_list[6].flags = 0;
         mon_reg_list[6].next = &mon_reg_list[7];
 
-        mon_reg_list[7].name = "NV-BDIZC";
-        mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
-        mon_reg_list[7].size = 8;
-        mon_reg_list[7].flags = 1;
-        mon_reg_list[7].next = NULL;
     } else {
-        mon_reg_list[5].name = "NV-BDIZC";
-        mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
-        mon_reg_list[5].size = 8;
-        mon_reg_list[5].flags = 1;
-        mon_reg_list[5].next = NULL;
+        mon_reg_list[4].next = &mon_reg_list[7];
     }
+
+    mon_reg_list[7].name = "FL";
+    mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS) | 0x20;
+    mon_reg_list[7].size = 8;
+    mon_reg_list[7].flags = 0;
+    mon_reg_list[7].next = &mon_reg_list[8];
+
+    mon_reg_list[8].name = "NV-BDIZC";
+    mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_FLAGS) | 0x20;
+    mon_reg_list[8].size = 8;
+    mon_reg_list[8].flags = 1;
+    mon_reg_list[8].next = NULL;
 
     return mon_reg_list;
 }
 
-static void mon_register_list_set(mon_reg_list_t *reg_list, int mem)
+static void mon_register_list_set6502(mon_reg_list_t *reg_list, int mem)
 {
     do {
         if (!strcmp(reg_list->name, "PC"))
@@ -245,7 +252,7 @@ void mon_register6502_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
     monitor_cpu_type->mon_register_set_val = mon_register_set_val;
     monitor_cpu_type->mon_register_print = mon_register_print;
-    monitor_cpu_type->mon_register_list_get = mon_register_list_get;
-    monitor_cpu_type->mon_register_list_set = mon_register_list_set;
+    monitor_cpu_type->mon_register_list_get = mon_register_list_get6502;
+    monitor_cpu_type->mon_register_list_set = mon_register_list_set6502;
 }
 

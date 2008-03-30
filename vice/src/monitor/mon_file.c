@@ -32,7 +32,7 @@
 
 #include "archdep.h"
 #include "mem.h"
-#include "mon.h"
+#include "montypes.h"
 #include "uimon.h"
 
 #define ADDR_LIMIT(x) (LO16(x))

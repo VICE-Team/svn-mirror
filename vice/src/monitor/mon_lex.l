@@ -37,9 +37,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mon.h"
 #include "mon_command.h"
-#include "mon_parse.h"
+#include "montypes.h"
+#include "mon_parse.h" /* FIXME ! */
 #include "utils.h"
 #include "types.h"
 

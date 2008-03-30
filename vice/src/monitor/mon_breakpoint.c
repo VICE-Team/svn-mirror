@@ -34,8 +34,8 @@
 
 #include "interrupt.h"
 #include "log.h"
-#include "mon.h"
 #include "mon_disassemble.h"
+#include "montypes.h"
 #include "uimon.h"
 #include "utils.h"
 

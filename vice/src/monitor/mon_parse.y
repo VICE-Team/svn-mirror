@@ -54,12 +54,12 @@ extern char *alloca ();
 #include "console.h"
 #include "uimon.h"
 #include "machine.h"
-#include "mon.h"
 #include "mon_breakpoint.h"
 #include "mon_command.h"
 #include "mon_disassemble.h"
 #include "mon_drive.h"
 #include "mon_file.h"
+#include "montypes.h"
 #include "types.h"
 #include "utils.h"
 
