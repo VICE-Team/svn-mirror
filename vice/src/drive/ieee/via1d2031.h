@@ -1,5 +1,5 @@
 /*
- * viad.h - Drive VIA definitions.
+ * via1d2031.h - Drive 2031 VIA definitions.
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
@@ -25,24 +25,23 @@
  *
  */
 
-#ifndef _VIAD_H
-#define _VIAD_H
+#ifndef _VIA1D2031_H
+#define _VIA1D2031_H
 
 #include "types.h"
 
 struct drive_context_s;
-struct drive_s;
 struct via_context_s;
 
-extern void via2d_setup_context(struct drive_context_s *ctxptr);
+extern void via1d2031_setup_context(struct drive_context_s *ctxptr);
 
-extern void via2d_init(struct drive_context_s *ctxptr);
-extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
-                                 BYTE byte);
-extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, WORD addr);
-extern BYTE REGPARM2 via2d_peek(struct drive_context_s *ctxptr, WORD addr);
+extern void via1d2031_init(struct drive_context_s *ctxptr);
+extern void REGPARM3 via1d2031_store(struct drive_context_s *ctxptr, WORD addr,
+                                     BYTE byte);
+extern BYTE REGPARM2 via1d2031_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE REGPARM2 via1d2031_peek(struct drive_context_s *ctxptr, WORD addr);
 
-extern void viad2_update_pcr(int pcrval, struct drive_s *dptr);
+extern void via1d2031_set_atn(struct via_context_s *via_context, int state);
 
 #endif
 

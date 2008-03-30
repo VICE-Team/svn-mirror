@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "memiec.h"
 #include "types.h"
+#include "via1d1541.h"
 #include "viad.h"
 #include "wd1770.h"
 

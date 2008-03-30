@@ -32,6 +32,7 @@
 #include "memieee.h"
 #include "riotd.h"
 #include "types.h"
+#include "via1d2031.h"
 #include "viad.h"
 
 
