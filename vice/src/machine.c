@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "alarm.h"
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
@@ -39,6 +40,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "event.h"
+#include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "interrupt.h"
@@ -59,7 +61,6 @@
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "video.h"
 #include "vsync.h"
 
@@ -172,6 +173,7 @@ void machine_shutdown(void)
     printer_shutdown();
     gfxoutput_shutdown();
 
+    flip_shutdown();
     file_system_shutdown();
 
     tape_shutdown();
@@ -210,6 +212,8 @@ void machine_shutdown(void)
     sysfile_resources_shutdown();
     ui_resources_shutdown();
     log_resources_shutdown();
+
+    archdep_shutdown();
 
     lib_debug_check();
 }

@@ -31,6 +31,7 @@
 #define FLIP_PREV 0
 
 
+extern void flip_shutdown(void);
 extern void flip_set_current(unsigned int unit, const char *image);
 extern void flip_add_image(unsigned int unit);
 extern void flip_remove(unsigned int unit, char *image);
