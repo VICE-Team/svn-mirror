@@ -36,6 +36,12 @@ int machine_drive_resources_init(void)
     return iec_drive_resources_init() | tcbm_drive_resources_init();
 }
 
+void machine_drive_resources_shutdown(void)
+{
+    iec_drive_resources_shutdown();
+    tcbm_drive_resources_shutdown();
+}
+
 int machine_drive_cmdline_options_init(void)
 {
     return iec_drive_cmdline_options_init()

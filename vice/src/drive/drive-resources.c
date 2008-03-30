@@ -231,3 +231,8 @@ int drive_resources_init(void)
     return machine_drive_resources_init() | resources_register(resources);
 }
 
+void drive_resources_shutdown(void)
+{
+    machine_drive_resources_shutdown();
+}
+

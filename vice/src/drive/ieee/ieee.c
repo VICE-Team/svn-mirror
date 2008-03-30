@@ -42,6 +42,11 @@ int ieee_drive_resources_init(void)
     return ieee_resources_init();
 }
 
+void ieee_drive_resources_shutdown(void)
+{
+    ieee_resources_shutdown();
+}
+
 int ieee_drive_cmdline_options_init(void)
 {
     return ieee_cmdline_options_init();

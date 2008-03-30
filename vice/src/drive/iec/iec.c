@@ -47,6 +47,11 @@ int iec_drive_resources_init(void)
     return iec_resources_init();
 }
 
+void iec_drive_resources_shutdown(void)
+{
+    iec_resources_shutdown();
+}
+
 int iec_drive_cmdline_options_init(void)
 {
     return iec_cmdline_options_init();

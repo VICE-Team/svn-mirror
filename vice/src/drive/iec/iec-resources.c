@@ -33,6 +33,7 @@
 #include "driverom.h"
 #include "iec-resources.h"
 #include "iecrom.h"
+#include "lib.h"
 #include "resources.h"
 #include "utils.h"
 
@@ -241,5 +242,13 @@ static const resource_t resources[] = {
 int iec_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void iec_resources_shutdown(void)
+{
+    lib_free(dos_rom_name_1541);
+    lib_free(dos_rom_name_1541ii);
+    lib_free(dos_rom_name_1571);
+    lib_free(dos_rom_name_1581);
 }
 

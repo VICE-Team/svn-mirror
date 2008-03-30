@@ -172,6 +172,8 @@ void machine_shutdown(void)
 
     sysfile_shutdown();
 
+    machine_resources_shutdown();
+
     log_close_all();
 
     lib_debug_check();

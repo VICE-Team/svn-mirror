@@ -28,6 +28,7 @@
 #define _IEEE_RESOURCES_H
 
 extern int ieee_resources_init(void);
+extern void ieee_resources_shutdown(void);
 
 #endif
 

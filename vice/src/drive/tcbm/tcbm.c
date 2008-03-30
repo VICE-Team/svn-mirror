@@ -40,6 +40,11 @@ int tcbm_drive_resources_init(void)
     return tcbm_resources_init();
 }
 
+void tcbm_drive_resources_shutdown(void)
+{
+    tcbm_resources_shutdown();
+}
+
 int tcbm_drive_cmdline_options_init(void)
 {
     return tcbm_cmdline_options_init();

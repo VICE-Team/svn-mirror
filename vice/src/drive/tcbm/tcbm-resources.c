@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "driverom.h"
+#include "lib.h"
 #include "resources.h"
 #include "tcbm-resources.h"
 #include "tcbmrom.h"
@@ -56,5 +57,10 @@ static const resource_t resources[] = {
 int tcbm_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void tcbm_resources_shutdown(void)
+{
+    lib_free(dos_rom_name_1551);
 }
 

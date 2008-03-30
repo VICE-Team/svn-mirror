@@ -31,6 +31,7 @@
 #include "driverom.h"
 #include "ieee-resources.h"
 #include "ieeerom.h"
+#include "lib.h"
 #include "resources.h"
 #include "utils.h"
 
@@ -104,5 +105,14 @@ static const resource_t resources[] = {
 int ieee_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void ieee_resources_shutdown(void)
+{
+    lib_free(dos_rom_name_2031);
+    lib_free(dos_rom_name_1001);
+    lib_free(dos_rom_name_2040);
+    lib_free(dos_rom_name_3040);
+    lib_free(dos_rom_name_4040);
 }
 

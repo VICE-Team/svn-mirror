@@ -28,6 +28,7 @@
 #define _TCBM_RESOURCES_H
 
 extern int tcbm_resources_init(void);
+extern void tcbm_resources_shutdown(void);
 
 #endif
 
