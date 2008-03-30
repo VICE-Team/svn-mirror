@@ -269,7 +269,8 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/autostart.h ../../src/clkguard.h \
 	../../src/console.h ../../src/datasette.h \
 	../../src/drive/drive-cmdline-options.h \
-	../../src/drive/drive-resources.h ../../src/drive/drive.h \
+	../../src/drive/drive-resources.h \
+	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
