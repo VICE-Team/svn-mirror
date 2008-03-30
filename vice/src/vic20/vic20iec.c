@@ -2,8 +2,9 @@
  * vic20.c - IEC bus handling for the VIC20.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,15 +46,19 @@ static BYTE bus_data, bus_clock, bus_atn;
 static BYTE cpu_bus_val;
 static BYTE drive_bus_val, drive2_bus_val;
 
+void iec_init(void)
+{
+}
+
 inline void resolve_bus_signals(void)
 {
     bus_atn = NOT(cpu_atn);
-    bus_clock = NOT(cpu_clock) & (drive[0].enable ? NOT(drive_clock) : 0xff)
-                               & (drive[1].enable ? NOT(drive2_clock) : 0xff);
+    bus_clock = NOT(cpu_clock) & (drive[0].enable ? NOT(drive_clock) : 0x01)
+                               & (drive[1].enable ? NOT(drive2_clock) : 0x01);
     bus_data = (drive[0].enable
-                     ? NOT(drive_data) & NOT(drive_data_modifier) : 0xff)
+                     ? NOT(drive_data) & NOT(drive_data_modifier) : 0x01)
                  & (drive[1].enable 
-                     ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0xff)
+                     ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0x01)
                  & NOT(cpu_data);
 #if BUS_DBG
     fprintf(logfile, "SB: [%ld]  data:%d clock:%d atn:%d\n",
@@ -71,6 +76,22 @@ void iec_update_ports_embedded(void)
     iec_update_ports();
 }
 
+static void iec_calculate_data_modifier(void)
+{
+    if (drive[0].type != DRIVE_TYPE_1581)
+        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    else
+        drive_data_modifier = (cpu_atn & drive_atna);
+}
+
+static void iec_calculate_data_modifier2(void)
+{
+    if (drive[1].type != DRIVE_TYPE_1581)
+        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
+    else
+        drive2_data_modifier = (cpu_atn & drive2_atna);
+}
+
 void iec_drive0_write(BYTE data)
 {
     static int last_write = 0;
@@ -79,11 +100,7 @@ void iec_drive0_write(BYTE data)
     drive_data = ((data & 2) >> 1);
     drive_clock = ((data & 8) >> 3);
     drive_atna = ((data & 16) >> 4);
-    if (drive[0].type != DRIVE_TYPE_1581)
-        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-    else
-        drive_data_modifier = (NOT(cpu_atn) & NOT(drive_atna));
-
+    iec_calculate_data_modifier();
     resolve_bus_signals();
     last_write = data & 26;
 }
@@ -96,11 +113,7 @@ void iec_drive1_write(BYTE data)
     drive2_data = ((data & 2) >> 1);
     drive2_clock = ((data & 8) >> 3);
     drive2_atna = ((data & 16) >> 4);
-    if (drive[1].type != DRIVE_TYPE_1581)
-        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
-    else
-        drive2_data_modifier = (NOT(cpu_atn) & NOT(drive2_atna));
-
+    iec_calculate_data_modifier2();
     resolve_bus_signals();
     last_write = data & 26;
 }
@@ -141,7 +154,7 @@ BYTE iec_pa_read(void)
     if (drive[1].enable)
         drive1_cpu_execute(clk);
 
-    cpu_bus_val = (bus_data << 1) | (bus_clock << 0) | (bus_atn << 7);
+    cpu_bus_val = (bus_data << 1) | bus_clock | (bus_atn << 7);
 
     return cpu_bus_val;
 }
@@ -187,15 +200,9 @@ void iec_pa_write(BYTE data)
     }
 
     cpu_atn = ((data & 128) >> 7);
-    if (drive[0].type != DRIVE_TYPE_1581)
-        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-    else
-        drive_data_modifier = (NOT(cpu_atn) & NOT(drive_atna));
 
-    if (drive[1].type != DRIVE_TYPE_1581)
-        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
-    else
-        drive2_data_modifier = (NOT(cpu_atn) & NOT(drive2_atna));
+    iec_calculate_data_modifier();
+    iec_calculate_data_modifier2();
 
     resolve_bus_signals();
     last_write = data & 128;
@@ -222,14 +229,8 @@ void iec_pcr_write(BYTE data)
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);
 
-    if (drive[0].type != DRIVE_TYPE_1581)
-        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-    else
-        drive_data_modifier = (NOT(cpu_atn) & NOT(drive_atna));
-    if (drive[1].type != DRIVE_TYPE_1581)
-        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
-    else
-        drive2_data_modifier = (NOT(cpu_atn) & NOT(drive2_atna));
+    iec_calculate_data_modifier();
+    iec_calculate_data_modifier2();
 
     resolve_bus_signals();
     last_write = data & 34;

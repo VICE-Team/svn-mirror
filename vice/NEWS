@@ -42,6 +42,8 @@ list of all the changes in the code.
 
 - New datasette emulation.
 
+- True 1581 emulation works now.
+
 ** PET changes
 --------------
 
