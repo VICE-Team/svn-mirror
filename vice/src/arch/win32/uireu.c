@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <string.h>
 #include <windows.h>
 
 #include "res.h"

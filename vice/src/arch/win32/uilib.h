@@ -33,10 +33,10 @@
 
 /*  Parameter structure for ui_attach_cartridge */
 typedef struct {
-    WPARAM  wparam;
-    int     type;
-    char    *title;
-    DWORD   filter;
+    WPARAM wparam;
+    int type;
+    char *title;
+    DWORD filter;
 } ui_cartridge_params;
 
 char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist, int style, char **autostart);
@@ -66,25 +66,10 @@ extern void ui_show_text(HWND hParent, const char *szCaption,
 #define UI_LIB_FILTER_CRT                   64
 #define UI_LIB_FILTER_BIN                   128
 
-static struct { char *name; char *pattern; } uilib_filefilter[] = {
-    { "All files (*.*)", "*.*" },
-    { "VICE palette files (*.vpl)", "*.vpl" },
-    { "VICE snapshot files (*.vsf)", "*.vsf" },
-    { "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)", 
-        "*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64" },
-    { "Tape image files (*.t64;*.p00;*.tap;*.prg)", 
-        "*.t64;*.p00;*.tap;*.prg" },
-    { "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
-        "*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z" },
-    { "CRT cartridge image files (*.crt)", "*.crt" },
-    { "Raw cartridge image files (*.bin)", "*.bin" },
-    { NULL, NULL }
-};
-
 #define UI_LIB_MAX_FILTER_LENGTH        1024
 
 
-extern int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType );
+extern int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 
 #endif
 

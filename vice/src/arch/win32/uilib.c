@@ -56,6 +56,21 @@ static char *(*read_content_func)(const char *);
 static char **autostart_result;
 static char *(*get_filename_from_content)(char *, int);
 
+static struct { char *name; char *pattern; } uilib_filefilter[] = {
+    { "All files (*.*)", "*.*" },
+    { "VICE palette files (*.vpl)", "*.vpl" },
+    { "VICE snapshot files (*.vsf)", "*.vsf" },
+    { "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
+        "*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64" },
+    { "Tape image files (*.t64;*.p00;*.tap;*.prg)",
+        "*.t64;*.p00;*.tap;*.prg" },
+    { "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
+        "*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z" },
+    { "CRT cartridge image files (*.crt)", "*.crt" },
+    { "Raw cartridge image files (*.bin)", "*.bin" },
+    { NULL, NULL }
+};
+
 typedef struct {
     char*           (*content_read_function)(const char *);
     char*           (*get_filename_from_content)(char *, int);
