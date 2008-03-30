@@ -85,6 +85,11 @@
 #define COMMON_KBD
 #endif
 
+/* Which OS is using those ugly scale source coordinates.  */
+#if defined(__MSDOS__) || defined(WIN32) || defined(__riscos) || defined(__OS2__) || defined(__BEOS__)
+#define VIDEO_SCALE_SOURCE
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* This code comes from GNU make:
@@ -147,5 +152,5 @@ extern unsigned int get_path_max();
 #    define N_(String) (String)
 #endif /* ENABLE_NLS */
 
-#endif  /* _VICE_H */
+#endif 
 
