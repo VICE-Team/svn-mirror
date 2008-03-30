@@ -441,6 +441,8 @@ void mem_initialize_memory(void)
         }
     }
 
+    vicii_set_chargen_addr_options(0x7000, 0x1000);
+
     c64pla_pport_reset();
     export.exrom = 0;
     export.game = 0;

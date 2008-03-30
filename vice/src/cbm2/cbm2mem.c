@@ -769,6 +769,8 @@ void mem_initialize_memory(void)
         _mem_write_tab_watch[i] = store_watch;
         _mem_write_ind_tab_watch[i] = store_ind_watch;
     }
+
+    vicii_set_chargen_addr_options(0x7000, 0x1000);
 }
 
 void mem_initialize_memory_bank(int i)

@@ -691,6 +691,8 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
     }
 
+    vicii_set_chargen_addr_options(0xffff, 0xffff);
+
     mmu_reset();
 
     keyboard_register_caps_key(mem_toggle_caps_key);
