@@ -27,14 +27,16 @@
 #ifndef _IMAGE_CONTENTS_H
 #define _IMAGE_CONTENTS_H
 
+#include "types.h"
+
 #define IMAGE_CONTENTS_NAME_LEN       16
 #define IMAGE_CONTENTS_ID_LEN         5
 #define IMAGE_CONTENTS_FILE_NAME_LEN  16
 #define IMAGE_CONTENTS_TYPE_LEN       5
 
 struct _image_contents_file_list {
-    char name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
-    char type[IMAGE_CONTENTS_TYPE_LEN + 1];
+    BYTE name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
+    BYTE type[IMAGE_CONTENTS_TYPE_LEN + 1];
 
     unsigned int size;
 
@@ -43,8 +45,8 @@ struct _image_contents_file_list {
 typedef struct _image_contents_file_list image_contents_file_list_t;
 
 struct _contents {
-    char name[IMAGE_CONTENTS_NAME_LEN + 1];
-    char id[IMAGE_CONTENTS_ID_LEN + 1];
+    BYTE name[IMAGE_CONTENTS_NAME_LEN + 1];
+    BYTE id[IMAGE_CONTENTS_ID_LEN + 1];
     int blocks_free;   /* -1: no free space.  */
     image_contents_file_list_t *file_list;
 };
