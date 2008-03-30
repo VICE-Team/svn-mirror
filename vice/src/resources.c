@@ -266,7 +266,7 @@ int resources_init(const char *machine)
        pointers into the array because the array may be reallocated. */
     hashTable = (int *)xmalloc((1 << logHashSize) * sizeof(int));
 
-    for (i = 0; i < (1 << logHashSize); i++)
+    for (i = 0; i < (unsigned int)(1 << logHashSize); i++)
         hashTable[i] = -1;
 
     return 0;

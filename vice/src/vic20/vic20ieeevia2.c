@@ -59,8 +59,8 @@
 #include "types.h"
 #include "viacore.h"
 
-#define VIA_SET_CA2(a)  parallel_cpu_set_atn(((a)?0:1));
-#define VIA_SET_CB2(a)  parallel_cpu_set_eoi(((a)?0:1));
+#define VIA_SET_CA2(a)  parallel_cpu_set_atn((char)((a) ? 0 : 1));
+#define VIA_SET_CB2(a)  parallel_cpu_set_eoi((BYTE)((a) ? 0 : 1));
 
 /* #define VIA1_TIMER_DEBUG */
 
