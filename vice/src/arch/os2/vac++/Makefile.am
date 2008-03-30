@@ -26,6 +26,8 @@ EXTRA_DIST = \
         incl/drive.icc \
         incl/fsdevice.icc \
         incl/gfxoutputdrv.icc \
+        incl/iec.icc \
+        incl/iecieee.icc \
         incl/ieee.icc \
         incl/imagecontents.icc \
         incl/kbd.icc \
