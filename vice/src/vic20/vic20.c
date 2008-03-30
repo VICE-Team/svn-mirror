@@ -64,6 +64,7 @@
 #include "utils.h"
 #include "via.h"
 #include "vic.h"
+#include "vic20-resources.h"
 #include "vic20.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
@@ -168,7 +169,7 @@ int machine_init_resources(void)
     if (traps_init_resources()
         || vsync_init_resources() < 0
         || video_init_resources() < 0
-        || vic20_mem_init_resources() < 0
+        || vic20_init_resources() < 0
         || vic_init_resources() < 0
         || sound_init_resources() < 0
 #ifdef HAVE_RS232

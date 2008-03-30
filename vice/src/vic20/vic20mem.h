@@ -41,6 +41,18 @@
 #define VIC20_BASIC_CHECKSUM		33073
 #define VIC20_KERNAL_CHECKSUM		38203
 
+#define VIC_ROM_BLK1A   1
+#define VIC_ROM_BLK1B   2
+#define VIC_ROM_BLK2A   4
+#define VIC_ROM_BLK2B   8
+#define VIC_ROM_BLK3A   16
+#define VIC_ROM_BLK3B   32
+#define VIC_ROM_BLK5A   64
+#define VIC_ROM_BLK5B   128
+
+#define VIC_ROM_BLK0A   0
+#define VIC_ROM_BLK0B   0
+
 extern BYTE ram[VIC20_RAM_SIZE];
 extern BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 extern BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
@@ -55,6 +67,10 @@ extern int vic20_mem_enable_ram_block(int num);
 
 extern void mem_attach_cartridge(int type, BYTE *rawcart);
 extern void mem_detach_cartridge(int type);
+
+extern int mem_load_kernal(const char *rom_name);
+extern int mem_load_basic(const char *rom_name);
+extern int mem_load_chargen(const char *rom_name);
 
 #endif
 
