@@ -1,3 +1,44 @@
+2002-12-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.29.
+
+	* drive/drive.h, drive/drive.c, drive/drive-snapshot.c,
+	drive/drivecpu.c, drive/via1d.c, drive/via2d.c, 6510core.c:
+	Fixed byte ready handling.
+
+2002-11-24  Nathan Huizinga  <nathan.huizinga@chess.nl>
+
+	* interrupt.c: Moved reset_trap_func() call from
+	interrupt_trigger_reset to interrupt_ack_reset function.
+
+	* interrupt.h: Moved nmi_trap_func() call from
+	interrupt_set_nmi to interrupt_ack_nmi function.
+
+	* c64/c64mem.c: Rewritten address decoding for expert
+	cartridge emulation. Removed unused cartridge_decode_store and
+	cartridge_decode_read functions. Removed additional copy of
+	the memory read/write tables which are no longer needed.
+
+	* c64/cart/c64cart.c: Added function call expert_mode_changed
+	to set_cartridge_mode function.
+
+	* c64/cart/c64cartmem.c: Removed function call
+	expert_decode_address from cartridge_decode_address function.
+	No longer needed. Removed function cartridge_ack_nmi_reset.
+	Renamed function call crt_save into crt_save_expert in
+	cartridge_save_image function.
+
+	* c64/cart/crt.c, c64/cart/crt.h: Renamed function crt_save
+	into crt_save_expert. Expert ram image is now stored in
+	roml_banks array, so this array is also saved in the .crt
+	file.
+
+	* c64/cart/expert.c c64/cart/expert.h:
+	Expert ram image is now stored in roml_banks array.
+	Removed expert_decode_address function. Split
+	expert_ack_nmi_reset into expert_ack_nmi and expert_ack_reset
+	functions. Added expert_mode_changed function.
+
 2002-11-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.28.
