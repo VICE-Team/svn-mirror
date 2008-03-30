@@ -1,3 +1,66 @@
+2000-08-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.8.
+
+	* c64/reu.c (reu_read_snapshot_module): Fixed snapshot bug.
+
+	* autostart.c (autostart_advance): Fixed compiler warnings.
+
+	* utils.c, fsdevice.c, resources.c: Remove destination file
+	before renaming files.
+
+	* findpath.c (findpath): Do not use `PATH_VAR'.
+
+	* arch/msdos/uiattach.c (create_disk_image_name_callback):
+	Changed likewise.
+
+	* arch/msdos/uisnapshot.c (file_name_callback): Likewise.
+
+	* vice.h: Removed `PATH_VAR' definition.
+
+	* utils.c, utils.h (xadd_extension): New function.
+
+	* arch/unix/x11/xaw/uisnapshot.c, arch/unix/x11/xaw/uiedisk.c,
+	arch/win32/uisnapshot.c, arch/win32/uiconsole.c: Use
+	`xadd_extension' to add extensions.
+
+	* arch/win32/ui.c, arch/win32/ui.h (ui_ensure_extension):
+	Removed port specific filename extension code.
+
+	* screenshot/bmp.c, screenshot/png.c: Removed `.' from
+	filename extension.
+
+	* arch/win32/uiattach.c: Use `resources_get_sprintf'.
+
+	* arch/win32/uiconsole.c: Use `MAXPATHLEN' instead of random
+	numbers.
+
+	* arch/win32/joystick.c, arch/win32/uidrive.c: Use new
+	resource extra parameter.
+
+	* arch/win32/uilib.c, arch/win32/uilib.h (ui_set_res_num):
+	Removed.
+
+2000-08-13  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* fsdevice.c: Changed "case 8...11" statement to list of cases,
+	since MSVC does not recognize this form (and AFAIK it is not
+	standard C).
+
+	* arch/win32/console.c: Now handles full-screen mode
+
+	* arch/win32/ui.c, src/arch/win32/resXXX.rc: added menu toggle
+	to allow quiting VICE w/o confirmation.
+
+	* arch/win32/ui.c, src/arch/win32/uilib.c: added
+	ui_messagebox() as replacement for MessageBox(). It handles
+	the fullscreen mode. Changed all usages of MessageBox to this
+	new function, except when handling WM_CLOSE, which handles it
+	a bit differently.
+
+	* arch/win32/ui.c: JAM dialog box now appears and allows to
+	choose whether to start the debugger or not.
+
 2000-08-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.7.
