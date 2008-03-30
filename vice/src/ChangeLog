@@ -1,3 +1,25 @@
+2002-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.57.
+
+	* plus4/ted.c (ted_raster_draw_alarm_handler): Update the
+	color video memory pointer one line before the matrix video
+	pointer.  (ted_fetch_color): Use `memptr_col'.
+
+	* plus4/tedtypes.h: Added new memberi `memptr_col' to `ted_t'.
+
+	* arch/win32/uimon.c (ExecuteDisassemblyPopup): Commented out
+	`TPM_TOPALIGN' as it is not provided by mingw32 headers.
+	Should not hurt as it would be defined `0x0000L' anyway.
+
+	* vicii/vicii.c (vic_ii_resize): Call
+	`raster_enable_double_size()' only if `VIC_II_NEED_2X' is
+	defined.
+
+	* plus4/ted.c (ted_resize): Fixed likewise.
+
+	* datasette.c: Separated some functions.
+
 2002-01-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.56.

@@ -38,13 +38,13 @@ Delete 0 0 8
 Down 5 0 8
 Escape 7 7 8
 F1 0 4 8
-F2 0 4 1
-F3 0 5 8
-F4 0 5 1
-F5 0 6 8
+F2 0 5 8
+F3 0 6 8
+F4 0 4 1
+F5 0 5 1
 F6 0 6 1
-F7 0 3 8
-F8 0 3 1
+F7 0 3 1
+F8 0 3 8
 Home 7 1 8
 Insert 0 0 16
 KP_F1 0 4 8
@@ -56,7 +56,7 @@ Return 0 1 8
 Right 6 3 8
 Shift_L 1 7 2
 #Shift_R 6 4 4
-Shift_L 1 7 2
+Shift_R 1 7 2
 Up 5 3 8
 
 ampersand 2 3 1
@@ -64,7 +64,7 @@ apostrophe 3 0 1
 asciicircum 6 6 0
 asciitilde 6 6 0
 asterisk 6 1 0
-at 5 6 0
+at 0 7 0
 backslash 6 0 0
 bar 6 0 8
 bracketleft 5 5 1
@@ -77,13 +77,13 @@ exclam 7 0 1
 grave 6 6 0
 greater 5 4 1
 less 5 7 1
-minus 5 3 0
+minus 5 6 0
 numbersign 1 0 1
 parenleft 3 3 1
 parenright 4 0 1
 percent 2 0 1
 period 5 4 0
-plus 5 0 0
+plus 6 6 0
 question 6 7 1
 quotedbl 7 3 1
 semicolon 6 2 0
