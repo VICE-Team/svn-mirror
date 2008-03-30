@@ -48,7 +48,6 @@
 #include "resources.h"
 #include "sid.h"
 #include "types.h"
-#include "utils.h"
 #include "vsync.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"

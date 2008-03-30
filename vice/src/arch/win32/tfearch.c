@@ -43,7 +43,6 @@
 #include "tfe.h"
 #include "tfearch.h"
 #include "uitfe.h"
-#include "utils.h"
 
 typedef pcap_t	*(*pcap_open_live_t)(const char *, int, int, int, char *);
 typedef int (*pcap_dispatch_t)(pcap_t *, int, pcap_handler, u_char *);

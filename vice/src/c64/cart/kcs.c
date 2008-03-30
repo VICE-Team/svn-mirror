@@ -34,7 +34,6 @@
 #include "c64cartmem.h"
 #include "kcs.h"
 #include "types.h"
-#include "utils.h"
 
 
 BYTE REGPARM1 kcs_io1_read(WORD addr)

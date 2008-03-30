@@ -31,7 +31,6 @@
 
 #include "sound.h"
 #include "types.h"
-#include "utils.h"
 #include "archdep.h"
 
 static FILE *wav_fd = NULL;

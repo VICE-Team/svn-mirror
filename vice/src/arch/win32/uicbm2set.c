@@ -44,7 +44,6 @@
 #include "ui.h"
 #include "uicbm2set.h"
 #include "uilib.h"
-#include "utils.h"
 #include "winmain.h"
 
 /*

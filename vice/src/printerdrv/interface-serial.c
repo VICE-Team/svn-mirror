@@ -40,7 +40,6 @@
 #include "resources.h"
 #include "serial.h"
 #include "types.h"
-#include "utils.h"
 
 
 static int interface_serial_attach(unsigned int prnr);

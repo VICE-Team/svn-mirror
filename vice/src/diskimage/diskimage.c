@@ -40,7 +40,6 @@
 #include "rawimage.h"
 #include "realimage.h"
 #include "types.h"
-#include "utils.h"
 
 
 static log_t disk_image_log = LOG_DEFAULT;

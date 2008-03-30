@@ -37,7 +37,6 @@
 #include "monitor.h"
 #include "types.h"
 #include "uimon.h"
-#include "utils.h"
 
 
 int mon_out(const char *format, ...)

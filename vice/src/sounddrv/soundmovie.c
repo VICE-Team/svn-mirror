@@ -32,7 +32,6 @@
 #include "log.h"
 #include "sound.h"
 #include "types.h"
-#include "utils.h"
 #include "archdep.h"
 
 static AVFormatContext *oc;

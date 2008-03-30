@@ -30,7 +30,6 @@
 
 #include "sound.h"
 #include "types.h"
-#include "utils.h"
 
 static FILE *dump_fd = NULL;
 

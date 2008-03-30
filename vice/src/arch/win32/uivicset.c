@@ -34,7 +34,6 @@
 #include "ui.h"
 #include "uilib.h"
 #include "uivicset.h"
-#include "utils.h"
 #include "winmain.h"
 
 

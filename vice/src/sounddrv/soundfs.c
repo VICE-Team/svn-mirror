@@ -29,7 +29,6 @@
 #include <stdio.h>
 
 #include "sound.h"
-#include "utils.h"
 #include "archdep.h"
 
 static FILE *fs_fd = NULL;

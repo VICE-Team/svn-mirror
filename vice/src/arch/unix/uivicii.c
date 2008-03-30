@@ -35,7 +35,6 @@
 #include "uipalette.h"
 #include "uimenu.h"
 #include "uivicii.h"
-#include "utils.h"
 #include "uipalemu.h"
 
 

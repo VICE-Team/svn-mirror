@@ -48,7 +48,6 @@
 #include "ram.h"
 #include "reu.h"
 #include "sid.h"
-#include "utils.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"

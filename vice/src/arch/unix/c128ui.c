@@ -51,7 +51,6 @@
 #include "uisound.h"
 #include "uivdc.h"
 #include "uivicii.h"
-#include "utils.h"
 #include "vsync.h"
 
 

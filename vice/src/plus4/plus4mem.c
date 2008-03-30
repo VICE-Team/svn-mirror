@@ -49,7 +49,6 @@
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
-#include "utils.h"
 
 static int hard_reset_flag=0;
 

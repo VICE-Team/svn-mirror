@@ -34,7 +34,6 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "types.h"
-#include "utils.h"
 #include "zaxxon.h"
 
 

@@ -47,7 +47,6 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uisound.h"
-#include "utils.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "vsidui.h"

@@ -29,7 +29,6 @@
 #include "iecbus.h"
 #include "serial-iec.h"
 #include "types.h"
-#include "utils.h"
 
 
 static int serial_iec_st = 0;

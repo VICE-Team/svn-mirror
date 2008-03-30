@@ -34,7 +34,6 @@
 #include "c64cartmem.h"
 #include "epyxfastload.h"
 #include "types.h"
-#include "utils.h"
 
 
 BYTE REGPARM1 epyxfastload_io2_read(WORD addr)

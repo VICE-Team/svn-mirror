@@ -38,7 +38,6 @@
 
 #include "ui.h"
 #include "uiarch.h"
-#include "utils.h"
 #include "x11ui.h"
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"

@@ -35,7 +35,6 @@
 #include "resources.h"
 #include "uimenu.h"
 #include "uiprinter.h"
-#include "utils.h"
 #include "vsync.h"
 
 

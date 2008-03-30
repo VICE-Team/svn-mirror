@@ -44,7 +44,6 @@
 #include "ui.h"
 #include "uilib.h"
 #include "uipetset.h"
-#include "utils.h"
 #include "winmain.h"
 
 static void enable_controls_for_pet_settings(HWND hwnd, int type)

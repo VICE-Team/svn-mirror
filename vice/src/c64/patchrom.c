@@ -39,7 +39,6 @@
 #include "c64memrom.h"
 #include "patchrom.h"
 #include "types.h"
-#include "utils.h"
 
 
 /*

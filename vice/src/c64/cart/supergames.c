@@ -35,7 +35,6 @@
 #include "c64mem.h"
 #include "supergames.h"
 #include "types.h"
-#include "utils.h"
 
 
 void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
