@@ -39,7 +39,7 @@
 #include "uicrtc.h"
 #include "uidatasette.h"
 #include "uidrive.h"
-#include "uidriveieee.h"
+#include "uidrivepetcbm2.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
@@ -357,7 +357,7 @@ int pet_ui_init(void)
                                      ui_menu_separator,
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
-                                     ui_par_drive_settings_menu,
+                                     ui_drivepetcbm2_settings_menu,
                                      ui_peripheral_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
@@ -411,7 +411,7 @@ int pet_ui_init(void)
                    ui_menu_create("Settings",
 				  ui_keyboard_settings_menu,
 				  ui_sound_settings_menu,
-				  ui_par_drive_settings_menu,
+				  ui_drivepetcbm2_settings_menu,
 				  ui_peripheral_settings_menu,
 				  joystick_settings_menu,
                                   ui_menu_separator,
