@@ -26,12 +26,16 @@
 
 #include "vice.h"
 
+#include <dir.h>
+#include <fcntl.h>
+#include <io.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <dir.h>
 
 #include "menudefs.h"
 
+#include "joystick.h"
+#include "log.h"
 #include "tui.h"
 #include "tuiview.h"
 #include "ui.h"
@@ -54,18 +58,19 @@
 
 /* ------------------------------------------------------------------------- */
 
-tui_menu_t ui_main_menu;
 tui_menu_t ui_attach_submenu;
 tui_menu_t ui_detach_submenu;
-tui_menu_t ui_video_submenu;
 tui_menu_t ui_drive_submenu;
+tui_menu_t ui_info_submenu;
+tui_menu_t ui_joystick_settings_submenu;
+tui_menu_t ui_main_menu;
+tui_menu_t ui_quit_submenu;
+tui_menu_t ui_reset_submenu;
 tui_menu_t ui_sound_buffer_size_submenu;
 tui_menu_t ui_sound_sample_rate_submenu;
 tui_menu_t ui_sound_submenu;
 tui_menu_t ui_special_submenu;
-tui_menu_t ui_reset_submenu;
-tui_menu_t ui_quit_submenu;
-tui_menu_t ui_info_submenu;
+tui_menu_t ui_video_submenu;
 
 /* ------------------------------------------------------------------------ */
 
@@ -175,6 +180,7 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
 
 /* ------------------------------------------------------------------------ */
 
+#if 0
 static TUI_MENU_CALLBACK(change_workdir_callback)
 {
     char s[256];
@@ -197,6 +203,7 @@ static TUI_MENU_CALLBACK(change_workdir_callback)
 
     return NULL;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -228,6 +235,8 @@ static TUI_MENU_CALLBACK(refresh_rate_submenu_callback)
 TUI_MENU_DEFINE_RADIO(RefreshRate)
 
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
+
+TUI_MENU_DEFINE_TOGGLE(TripleBuffering)
 
 /* ------------------------------------------------------------------------- */
 
@@ -375,6 +384,21 @@ static TUI_MENU_CALLBACK(sound_buffer_size_submenu_callback)
     return s;
 }
 
+TUI_MENU_DEFINE_RADIO(SoundOversample)
+
+static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
+{
+    static char s[40];
+    int value;
+
+    resources_get_value("SoundOversample", (resource_value_t *) &value);
+    if (value != 0) {
+        sprintf(s, "%dx", value);
+        return s;
+    } else
+        return "None";
+}
+
 static tui_menu_item_def_t sample_rate_submenu[] = {
     { "8000 Hz",
       "Set sampling rate to 8000 Hz",
@@ -400,7 +424,7 @@ static tui_menu_item_def_t sound_buffer_size_submenu[] = {
       "Set sound buffer size to 50 msec",
       radio_SoundBufferSize_callback, (void *) 50, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "75 msec",
+    { "100 msec",
       "Set sound buffer size to 100 msec",
       radio_SoundBufferSize_callback, (void *) 100, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
@@ -427,6 +451,26 @@ static tui_menu_item_def_t sound_buffer_size_submenu[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t sound_oversample_submenu[] = {
+    { "_None",
+      "Disable oversampling",
+      radio_SoundOversample_callback, (void *) 0, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_1x",
+      "Enable 1x oversampling",
+      radio_SoundOversample_callback, (void *) 1, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_2x",
+      "Enable 2x oversampling",
+      radio_SoundOversample_callback, (void *) 2, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_3x",
+      "Enable 3x oversampling",
+      radio_SoundOversample_callback, (void *) 3, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t sound_submenu[] = {
     { "Sound _Playback:",
       "Enable sound output",
@@ -440,30 +484,144 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Specify playback latency",
       sound_buffer_size_submenu_callback, NULL, 10,
       TUI_MENU_BEH_CONTINUE, sound_buffer_size_submenu, "Latency" },
+    { "_Oversampling Factor:",
+      "Specify amount of oversampling on sound output",
+      sound_oversample_submenu_callback, NULL, 4,
+      TUI_MENU_BEH_CONTINUE, sound_oversample_submenu, "Oversample" },
     { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
 
-static TUI_MENU_CALLBACK(toggle_joystick_callback)
+/* Joystick settings.  */
+
+static TUI_MENU_CALLBACK(get_joystick_device_callback)
 {
-#if 0
-    if (been_activated) {
-	if (app_resources.joyPort == (int)param)
-	    app_resources.joyPort = (int)param == 1 ? 2 : 1;
-	else
-	    app_resources.joyPort = (int)param;
-	ui_update_menus();
+    int port = (int) param;
+    char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
+    int value;
+
+    resources_get_value(resource, (resource_value_t *) &value);
+    switch (value) {
+      case JOYDEV_NONE:
+        return "None";
+      case JOYDEV_NUMPAD:
+        return "Numpad + Right Ctrl";
+      case JOYDEV_HW1:
+        return "Joystick #1";
+      case JOYDEV_HW2:
+        return "Joystick #2";
     }
 
-    if (app_resources.joyPort == (int)param) {
-	return "Numpad + RightCtrl";
+    return "Unknown";
+}
+
+static TUI_MENU_CALLBACK(set_joy_device_callback)
+{
+    int port = (int) param >> 8;
+    char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
+
+    if (been_activated) {
+        resources_set_value(resource, (resource_value_t) ((int) param & 0xff));
+        ui_update_menus();
     } else {
-	return joystick_available ? "Joystick" : "None";
+        int value;
+
+        resources_get_value(resource, (resource_value_t *) &value);
+        if (value == ((int) param & 0xff))
+            *become_default = 1;
     }
-#endif
+
     return NULL;
 }
+
+static TUI_MENU_CALLBACK(swap_joysticks_callback)
+{
+    int value1, value2, tmp;
+
+    if (been_activated) {
+        resources_get_value("JoyDevice1", (resource_value_t *) &value1);
+        resources_get_value("JoyDevice2", (resource_value_t *) &value2);
+
+        tmp = value1;
+        value1 = value2;
+        value2 = tmp;
+
+        resources_set_value("JoyDevice1", (resource_value_t) value1);
+        resources_set_value("JoyDevice2", (resource_value_t) value2);
+
+        ui_update_menus();
+    }
+
+    return NULL;
+}
+
+static tui_menu_item_def_t joy_device_1_submenu[] = {
+    { "N_one",
+      "No joystick device attached",
+      set_joy_device_callback, (void *) (0x100 | JOYDEV_NONE), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Numpad + Right Ctrl",
+      "Use numeric keypad for movement and right Ctrl for fire",
+      set_joy_device_callback, (void *) (0x100 | JOYDEV_NUMPAD), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Joystick #_1",
+      "Use real joystick #1",
+      set_joy_device_callback, (void *) (0x100 | JOYDEV_HW1), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Joystick #_2",
+      "Use real joystick #2",
+      set_joy_device_callback, (void *) (0x100 | JOYDEV_HW2), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t joy_device_2_submenu[] = {
+    { "N_one",
+      "No joystick device attached",
+      set_joy_device_callback, (void *) (0x200 | JOYDEV_NONE), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Numpad + Right Ctrl",
+      "Use numeric keypad for movement and right Ctrl for fire",
+      set_joy_device_callback, (void *) (0x200 | JOYDEV_NUMPAD), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Joystick #_1",
+      "Use real joystick #1",
+      set_joy_device_callback, (void *) (0x200 | JOYDEV_HW1), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Joystick #_2",
+      "Use real joystick #2",
+      set_joy_device_callback, (void *) (0x200 | JOYDEV_HW2), 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t single_joystick_submenu[] = {
+    { "Joystick _Device:",
+      "Specify device for joystick emulation.",
+      get_joystick_device_callback, (void *) 1, 19,
+      TUI_MENU_BEH_CONTINUE, joy_device_1_submenu, "Joystick" },
+    { NULL }
+};
+
+static tui_menu_item_def_t double_joystick_submenu[] = {
+    { "_Swap",
+      "Swap joystick ports",
+      swap_joysticks_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Port #_1:",
+      "Specify device for emulation of joystick in port #1",
+      get_joystick_device_callback, (void *) 1, 19,
+      TUI_MENU_BEH_CONTINUE, joy_device_1_submenu, "Joystick #1" },
+    { "Port #_2:",
+      "Specify device for emulation of joystick in port #2",
+      get_joystick_device_callback, (void *) 2, 19,
+      TUI_MENU_BEH_CONTINUE, joy_device_2_submenu, "Joystick #2" },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
 
 static TUI_MENU_CALLBACK(save_settings_callback)
 {
@@ -505,19 +663,16 @@ static TUI_MENU_CALLBACK(quit_callback)
 	_setcursortype(_NORMALCURSOR);
 	normvideo();
 	clrscr();
+        log_disable();
 #ifdef HAVE_TRUE1541
         true1541_detach_floppy();
 #endif
-	/* disable_log(); FIXME */
 #ifdef UNSTABLE
 	printf("VICE version %s (unstable).\n", VERSION);
 #else
 	printf("VICE version %s.\n", VERSION);
 #endif
 	printf("\nOfficial VICE homepage: http://www.tu-chemnitz.de/~fachat/vice/vice.html\n\n");
-#if 0
-	printf("Report problems, bugs and suggestions to ettore@comm2000.it\n\n");
-#endif
 	exit(0);
     }
 
@@ -540,11 +695,9 @@ static tui_menu_item_def_t quit_submenu[] = {
 
 static void mon_trap(ADDRESS addr)
 {
-    /* FIXME */
-#if 0
     int old_mode;
 
-    disable_log();
+    log_disable();
     enable_text();
     clrscr();
     _set_screen_lines(43);
@@ -554,9 +707,8 @@ static void mon_trap(ADDRESS addr)
     mon(addr);
 
     setmode(STDIN_FILENO, old_mode);
-    enable_log(0);
+    log_enable(0);
     disable_text();
-#endif
 }
 
 static TUI_MENU_CALLBACK(monitor_callback)
@@ -756,8 +908,12 @@ static void create_ui_video_submenu(void)
 			 refresh_rate_submenu,
 			 refresh_rate_submenu_callback, NULL, 4);
     tui_menu_add_item(ui_video_submenu, "Video _Cache:",
-		      "Enable screen cache",
+		      "Enable screen cache (disabled when using triple buffering)",
 		      toggle_VideoCache_callback, NULL, 3,
+		      TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_video_submenu, "_Triple Buffering:",
+		      "Enable triple buffering for smoother animations (when available)",
+		      toggle_TripleBuffering_callback, NULL, 3,
 		      TUI_MENU_BEH_CONTINUE);
 }
 
@@ -846,19 +1002,19 @@ tui_menu_item_def_t fsdevice_submenu[] = {
     { "Drive _8...",
       "Settings for drive #8",
       NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice8_submenu, "" },
+      TUI_MENU_BEH_CONTINUE, fsdevice8_submenu, "Drive 8 directory access" },
     { "Drive _9...",
       "Settings for drive #9",
       NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice9_submenu, "" },
+      TUI_MENU_BEH_CONTINUE, fsdevice9_submenu, "Drive 9 directory access" },
     { "Drive 1_0...",
       "Settings for drive #10",
       NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "" },
+      TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "Drive 10 directory access" },
     { "Drive 1_1...",
       "Settings for drive #11",
       NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "" },
+      TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "Drive 11 directory access" },
     { NULL }
 };
 
@@ -896,7 +1052,8 @@ static TUI_MENU_CALLBACK(speed_callback)
 		    value = 1000;
 		else if (value < 0)
 		    value = 0;
-	    }
+	    } else
+                return NULL;
 	} else {
 	    value = (int)param;
 	}
@@ -968,7 +1125,8 @@ static void create_special_submenu(int has_serial_traps)
 
 /* ------------------------------------------------------------------------- */
 
-void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
+void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
+                         int num_joysticks)
 {
     /* Main menu. */
     ui_main_menu = tui_menu_create(NULL, 1);
@@ -1059,12 +1217,14 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
 			     TUI_MENU_BEH_CONTINUE);
     }
 
+#if 0
     tui_menu_add_item(ui_main_menu, "_Change Working Directory...",
 		      "Change the current working directory",
 		      change_workdir_callback, NULL, 0,
 		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_separator(ui_main_menu);
+#endif
 
+    tui_menu_add_separator(ui_main_menu);
 
     create_ui_video_submenu();
     tui_menu_add_submenu(ui_main_menu, "_Video Settings...",
@@ -1087,6 +1247,20 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
 			 "Sampling rate, sound output, soundcard settings",
 			 ui_sound_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
+
+    if (num_joysticks > 0) {
+        ui_joystick_settings_submenu = tui_menu_create("Joystick Settings", 1);
+        tui_menu_add_submenu(ui_main_menu, "_Joystick Settings...",
+                             "Joystick settings",
+                             ui_joystick_settings_submenu, NULL, 0,
+                             TUI_MENU_BEH_CONTINUE);
+        if (num_joysticks == 2)
+            tui_menu_add(ui_joystick_settings_submenu,
+                         double_joystick_submenu);
+        else                    /* Just one joystick.  */
+            tui_menu_add(ui_joystick_settings_submenu,
+                         single_joystick_submenu);
+    }
 
     create_special_submenu(has_serial_traps);
 
