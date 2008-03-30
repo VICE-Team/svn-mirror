@@ -28,6 +28,11 @@
 #ifndef _ATTACH_H
 #define _ATTACH_H
 
+#define ATTACH_DEVICE_NONE 0
+#define ATTACH_DEVICE_FS   1
+#define ATTACH_DEVICE_REAL 2
+#define ATTACH_DEVICE_RAW  3
+
 extern void file_system_init(void);
 extern int file_system_resources_init(void);
 extern int file_system_cmdline_options_init(void);
