@@ -40,6 +40,7 @@
 #include "keyboard.h"
 #include "res.h"
 #include "resources.h"
+#include "sid.h"
 #include "uilib.h"
 #include "uireu.h"
 #include "uivicii.h"
@@ -47,7 +48,8 @@
 #include "vsync.h"
 #include "winmain.h"
 
-ui_menu_toggle  c64_ui_menu_toggles[] = {
+
+ui_menu_toggle c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
@@ -57,15 +59,22 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-ui_res_possible_values CartMode[] = {
+static ui_res_possible_values CartMode[] = {
     { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
     { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
     { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
     { -1, 0 }
 };
 
+static ui_res_possible_values SidEngine[] = {
+    { SID_ENGINE_FASTSID, IDM_SIDENGINE_FASTSID },
+    { SID_ENGINE_CATWEASELMKIII, IDM_SIDENGINE_CATWEASELMKIII },
+    { -1, 0 }
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     { "CartridgeMode", CartMode },
+    { "SidEngine", SidEngine },
     { NULL, NULL }
 };
 
@@ -154,12 +163,15 @@ static void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
     }
 
     i = 0;
+
     while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
         i++;
+
     if (cartridges[i].wparam == 0) {
         ui_error("Bad cartridge config in UI!");
         return;
     }
+
     if ((s = ui_select_file(hwnd, cartridges[i].title,
         cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
         if (cartridge_attach_image(cartridges[i].type, s) < 0)
@@ -187,15 +199,15 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_CART_MODE_OFF:
         resources_set_value("CartridgeMode",
-            (resource_value_t)CARTRIDGE_MODE_OFF);
+                            (resource_value_t)CARTRIDGE_MODE_OFF);
         break;
       case IDM_CART_MODE_PRG:
         resources_set_value("CartridgeMode",
-            (resource_value_t)CARTRIDGE_MODE_PRG);
+                            (resource_value_t)CARTRIDGE_MODE_PRG);
         break;
       case IDM_CART_MODE_ON:
         resources_set_value("CartridgeMode",
-            (resource_value_t)CARTRIDGE_MODE_ON);
+                            (resource_value_t)CARTRIDGE_MODE_ON);
         break;
       case IDM_CART_SET_DEFAULT:
         cartridge_set_default();
@@ -216,6 +228,14 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        break;
+      case IDM_SIDENGINE_FASTSID:
+        resources_set_value("SidEngine",
+                            (resource_value_t)SID_ENGINE_FASTSID);
+        break;
+      case IDM_SIDENGINE_CATWEASELMKIII:
+        resources_set_value("SidEngine",
+                            (resource_value_t)SID_ENGINE_CATWEASELMKIII);
         break;
     }
 }

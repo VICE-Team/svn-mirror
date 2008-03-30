@@ -102,7 +102,7 @@ int ui_emulation_is_paused(void);
 
 
 /* List of resources that can be switched on and off from the menus.  */
-ui_menu_toggle  toggle_list[] = {
+static ui_menu_toggle toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -117,7 +117,7 @@ ui_menu_toggle  toggle_list[] = {
 
 /*  List of resources which can have multiple mutual exclusive menu entries. */
 
-ui_res_possible_values RefreshRateValues[] = {
+static ui_res_possible_values RefreshRateValues[] = {
     { 0, IDM_REFRESH_RATE_AUTO },
     { 1, IDM_REFRESH_RATE_1 },
     { 2, IDM_REFRESH_RATE_2 },
@@ -132,7 +132,7 @@ ui_res_possible_values RefreshRateValues[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values SpeedValues[] = {
+static ui_res_possible_values SpeedValues[] = {
     { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
     { 10, IDM_MAXIMUM_SPEED_10 },
     { 20, IDM_MAXIMUM_SPEED_20 },
@@ -142,14 +142,14 @@ ui_res_possible_values SpeedValues[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values SyncFactor[] = {
+static ui_res_possible_values SyncFactor[] = {
     { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
     { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
     { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
     { -1, 0 }
 };
 
-ui_res_value_list value_list[] = {
+static ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
     { "MachineVideoStandard", SyncFactor },
@@ -1817,7 +1817,7 @@ int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
     int ret;
     HWND hWnd = NULL;
     
-    if (number_of_windows==1) {
+    if (number_of_windows == 1) {
         /* we only have one window, so use that one */
         hWnd = window_handles[0];
     } else {
@@ -1840,7 +1840,7 @@ int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
 
     ret = MessageBox(hWnd, lpText, lpCaption, uType);
 
-    if (hWnd!=NULL) {
+    if (hWnd != NULL) {
         ResumeFullscreenModeKeep(hWnd);
     }
 
