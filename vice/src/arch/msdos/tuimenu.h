@@ -81,9 +81,12 @@ void tui_menu_update(tui_menu_t menu);
     {                                                                        \
         int value, r;                                                        \
                                                                              \
-        if (been_activated)                                                  \
+        if (been_activated) {                                                \
             r = resources_toggle(#resource, (resource_value_t *) &value);    \
-        else                                                                 \
+            if (r < 0)                                                       \
+                r = resources_get_value(#resource,                           \
+                                        (resource_value_t *) &value);        \
+        } else                                                               \
             r = resources_get_value(#resource, (resource_value_t *) &value); \
                                                                              \
         if (r < 0)                                                           \
