@@ -37,7 +37,7 @@
 #include "wd1770.h"
 
 
-/* #define JOBCODE1581_DEBUG */
+/*#define JOBCODE1581_DEBUG*/
 
 #define READ_DV    0x80
 #define RESET_DV   0x82
@@ -55,6 +55,10 @@
 #define WRTPR_DV_ER    0x08
 #define NODSKPRS_DV_ER 0x0f
 
+#define OFFSET_SECPOS 0x9f
+#define OFFSET_BUFFER 0x300
+#define OFFSET_TCACHE 0xc00
+
 static unsigned int track_cache_track[2];
 static unsigned int track_cache_sector[2];
 static unsigned int track_cache_valid[2];
@@ -62,39 +66,70 @@ static unsigned int track_cache_valid[2];
 static log_t jobcode1581_log = LOG_DEFAULT;
 
 
-static int track_cache_read(unsigned int dnr, unsigned int track,
-                            unsigned int sector)
+static void sector_to_mem(unsigned int dnr, BYTE *sector_data, WORD dst_base)
 {
-    WORD base;
+    unsigned int i;
+
+    for (i = 0; i < 256; i++) {
+        if (dnr == 0)
+            drive_store(&drive0_context, (WORD)(dst_base + i), sector_data[i]);
+        else
+            drive_store(&drive1_context, (WORD)(dst_base + i), sector_data[i]);
+    }
+}
+
+#if 0
+static void mem_to_mem(unsigned int dnr, WORD src_base, WORD dst_base)
+{
+    unsigned int i;
+    BYTE data;
+
+    for (i = 0; i < 256; i++) {
+        if (dnr == 0) {
+            data = drive_read(&drive0_context, (WORD)(src_base + i));
+            drive_store(&drive0_context, (WORD)(dst_base + i), data);
+        } else {
+            data = drive_read(&drive1_context, (WORD)(src_base + i));
+            drive_store(&drive1_context, (WORD)(dst_base + i), data);
+        }
+    }
+}
+#endif
+
+static int track_cache_read(unsigned int dnr, unsigned int track,
+                            unsigned int sector, unsigned int buffer)
+{
     int rc;
-    unsigned int i, rsec;
-    BYTE sector_data[256];
+    unsigned int rsec;
+    BYTE sector_data[256], pos;
+    WORD base;
 
     if (!track_cache_valid[dnr] || track_cache_track[dnr] != track) {
         for (rsec = 0; rsec < 20; rsec++) {
             rc = disk_image_read_sector(wd1770[dnr].image, sector_data,
-                                        track, (rsec + sector) % 20);
+                                        track, (sector + rsec) % 20);
             if (rc < 0) {
                 log_error(jobcode1581_log,
                           "Cannot read T:%d S:%d from disk image.",
                           track, rsec);
                 return MISHD_DV_ER;
             }
-            base = (WORD)((rsec << 8) + 0xc00);
-            for (i = 0; i < 256; i++) {
-                if (dnr == 0)
-                    drive_store(&drive0_context, (WORD)(base + i),
-                                sector_data[i]);
-                else
-                    drive_store(&drive1_context, (WORD)(base + i),
-                                sector_data[i]);
-            }
+
+            base = (WORD)((rsec << 8) + OFFSET_TCACHE);
+            sector_to_mem(dnr, sector_data, base);
         }
 
         track_cache_valid[dnr] = 1;
         track_cache_track[dnr] = track;
         track_cache_sector[dnr] = sector;
     }
+
+    pos = (sector + 20 - track_cache_sector[dnr]) % 20;
+    if (dnr == 0)
+        drive_store(&drive0_context, (WORD)(OFFSET_SECPOS + buffer), pos);
+    else
+        drive_store(&drive1_context, (WORD)(OFFSET_SECPOS + buffer), pos);
+
 
     return OK_DV;
 }
@@ -198,9 +233,9 @@ static int jobcode_trkwrt(unsigned int dnr)
 }
 
 static int jobcode_tread(unsigned int dnr, unsigned int track,
-                         unsigned int sector)
+                         unsigned int sector, unsigned int buffer)
 {
-    return track_cache_read(dnr, track, sector);
+    return track_cache_read(dnr, track, sector, buffer);
 }
 
 static int jobcode_seekhd(unsigned int dnr)
@@ -275,7 +310,7 @@ void jobcode1581_handle_job_code(unsigned int dnr)
                     break;
                   case TREAD_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
-                    rcode = jobcode_tread(dnr, track, sector);
+                    rcode = jobcode_tread(dnr, track, sector, buffer);
                     break;
                   case SEEKHD_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
