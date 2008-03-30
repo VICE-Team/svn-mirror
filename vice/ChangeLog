@@ -1,10 +1,14 @@
+2005-04-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.6.
+
 2005-04-12  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.5
+	* Version 1.16.5.
 
 2005-04-09  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.4
+	* Version 1.16.4.
 
 	* doc/Makefile.am: Added `MSDOS-Ethernet-Howto.txt'.
 
@@ -14,11 +18,11 @@
 
 2005-03-28  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.3
+	* Version 1.16.3.
 
 2005-03-12  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.2
+	* Version 1.16.2.
 
 2005-03-09  Dag Lem  <resid@nimrod.no>
 
