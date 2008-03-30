@@ -28,7 +28,7 @@
 #include <ctype.h>
 
 #include "kbd.h"
-#include "vsync.h"
+#include "vsyncarch.h"
 #include "ROlib.h"
 #include "joystick.h"
 #include "keyboard.h"

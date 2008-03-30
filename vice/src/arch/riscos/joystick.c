@@ -30,7 +30,7 @@
 #include "config.h"
 #include "types.h"
 #include "resources.h"
-#include "vsync.h"
+#include "vsyncarch.h"
 
 
 

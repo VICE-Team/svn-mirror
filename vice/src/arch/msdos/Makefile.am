@@ -73,8 +73,7 @@ libarch_a_SOURCES = \
 	vic20ui.h \
 	video.c \
 	video.h \
-	vsync.c \
-	vsync.h
+	vsync.c
 
 EXTRA_DIST = \
 	vicesb.c \

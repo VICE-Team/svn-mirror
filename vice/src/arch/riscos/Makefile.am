@@ -50,7 +50,7 @@ libarch_a_SOURCES = \
 	vsidui.c \
 	vsidui.h \
 	vsync.c \
-	vsync.h
+	vsyncarch.h
 
 EXTRA_DIST = \
 	ReadMeRO
