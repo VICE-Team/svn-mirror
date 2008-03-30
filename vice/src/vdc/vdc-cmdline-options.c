@@ -28,63 +28,61 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cmdline.h"
 #include "vdc-cmdline-options.h"
 #include "vdc.h"
 
-
 
 /* VDC command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
 {
   { "-VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_VideoCache", (resource_value_t) 1,
+    "VDC_VideoCache", (resource_value_t)1,
     NULL, "Enable the video cache"},
   { "+VDC_vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_VideoCache", (resource_value_t) 0,
+    "VDC_VideoCache", (resource_value_t)0,
     NULL, "Disable the video cache"},
   { "-VDC_palette", SET_RESOURCE, 1, NULL, NULL,
     "VDC_PaletteFile", NULL,
     "<name>", "Specify palette file name"},
   { "-16KB", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_64KB", (resource_value_t) 0,
+    "VDC_64KB", (resource_value_t)0,
     NULL, "Set the VDC memory size to 16KB"},
   { "-64KB", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_64KB", (resource_value_t) 1,
+    "VDC_64KB", (resource_value_t)1,
     NULL, "Set the VDC memory size to 64KB"},
   { NULL }
 };
 
-
 
 /* VDC double-size-specific command-line options.  */
 
 static cmdline_option_t cmdline_options_2x[] =
 {
   { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleSize", (resource_value_t) 1,
+    "VDC_DoubleSize", (resource_value_t)1,
     NULL, "Enable double size"},
   { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleSize", (resource_value_t) 0,
+    "VDC_DoubleSize", (resource_value_t)0,
     NULL, "Disable double size"},
   { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleScan", (resource_value_t) 1,
+    "VDC_DoubleScan", (resource_value_t)1,
     NULL, "Enable double scan"},
   { "+VDC_dscan", SET_RESOURCE, 0, NULL, NULL,
-    "VDC_DoubleScan", (resource_value_t) 0,
+    "VDC_DoubleScan", (resource_value_t)0,
     NULL, "Disable double scan"},
   { NULL }
 };
 
-
 
-int 
-vdc_cmdline_options_init (void)
+int vdc_cmdline_options_init(void)
 {
-  if (cmdline_register_options (cmdline_options_2x) < 0)
-      return -1;
+    if (cmdline_register_options(cmdline_options_2x) < 0)
+        return -1;
 
-  return cmdline_register_options (cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 

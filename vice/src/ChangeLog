@@ -1,3 +1,39 @@
+2001-10-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.11.
+
+	* vdc/vdc-mem.c (vdc_store): Added support for register #0,
+	#4, #5 and #9.  (vdc_read): Return VDC revision 2.
+
+	* vdc/vdc.c (vdc_set_geometry): Fixed height calculation.
+	(vdc_set_next_alarm, vdc_update_geometry,
+	vdc_calculate_xsync): New functions.
+	(vdc_reset): Setup some more variables.
+	(vdc_raster_draw_alarm_handler): Handle geometry resizing
+	requests. Properly calculate the next line draw alarm.
+	(vdc_resize): Commented out old height constants.
+
+	* vdc/vdctypes.h: Added new variables and defines.
+
+	* vdc/vdc-resources.c: Disabled double size for now.
+
+2001-10-04 Andreas Matthies <andreas.matthies@gmx.net> 
+
+	* arch/win32/uilib.h: new array uilib_filefilter[] of all 
+	known file filters; corresponding IDs UI_LIB_FILTER_* 
+	changed type of filter in the struct ui_cartridge_params 
+
+	* arch/win32/uilib.c: (get_index_from_filterbit), 
+	(update_filter_history), (set_filter): New functions. 
+	(ui_select_file) gets bitfield of filters to use instead of 
+	the filterstring; uses new functions to build the filterlist, 
+	store the last selected filter and choose the best default 
+	filter. 
+
+	* arch/win32/c128ui.c, c64ui.c, ui.c, uiattach.c,
+	uisnapshot.c, vic20ui.c: (ui_select_file) is called with
+	bitfield of filters, same with ui_cartridge_params structs.
+
 2001-10-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.10.

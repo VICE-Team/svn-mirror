@@ -49,7 +49,7 @@ vdc_resources_t vdc_resources;
 
 static int set_video_cache_enabled (resource_value_t v, void *param)
 {
-    vdc_resources.video_cache_enabled = (int) v;
+    vdc_resources.video_cache_enabled = (int)v;
     if (vdc.initialized)
         raster_enable_cache(&vdc.raster,
             vdc_resources.video_cache_enabled);
@@ -68,7 +68,7 @@ static int set_palette_file_name (resource_value_t v, void *param)
 
 static int set_64kb_expansion(resource_value_t v, void *param)
 {
-    vdc_resources.vdc_64kb_expansion = (int) v;
+    vdc_resources.vdc_64kb_expansion = (int)v;
     vdc.vdc_address_mask = vdc_resources.vdc_64kb_expansion
                            ? 0xffff : 0x3fff;
     return 0;
@@ -92,7 +92,7 @@ static resource_t resources[] =
 
 static int set_double_size_enabled (resource_value_t v, void *param)
 {
-    vdc_resources.double_size_enabled = (int)v;
+    vdc_resources.double_size_enabled = 0/*(int)v*/;
 
     vdc.force_resize = 1;
     vdc.force_repaint = 1;
@@ -111,11 +111,11 @@ static int set_double_scan_enabled (resource_value_t v, void *param)
 
 static resource_t resources_2x[] =
 {
-    { "VDC_DoubleSize", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &vdc_resources.double_size_enabled,
+    { "VDC_DoubleSize", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&vdc_resources.double_size_enabled,
       set_double_size_enabled, NULL },
-    { "VDC_DoubleScan", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &vdc_resources.double_scan_enabled,
+    { "VDC_DoubleScan", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&vdc_resources.double_scan_enabled,
       set_double_scan_enabled, NULL },
     { NULL }
 };
@@ -123,9 +123,9 @@ static resource_t resources_2x[] =
 
 int vdc_resources_init (void)
 {
-    if (resources_register (resources_2x) < 0)
+    if (resources_register(resources_2x) < 0)
         return -1;
 
-    return resources_register (resources);
+    return resources_register(resources);
 }
 
