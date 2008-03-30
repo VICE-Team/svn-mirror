@@ -33,6 +33,7 @@
 extern struct ui_menu_entry_s ui_performance_settings_menu[];
 extern struct ui_menu_entry_s ui_video_settings_menu[];
 extern struct ui_menu_entry_s ui_vic_video_settings_menu[];
+extern struct ui_menu_entry_s ui_ted_video_settings_menu[];
 extern struct ui_menu_entry_s video_settings_submenu[];
 extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];
 extern struct ui_menu_entry_s ui_fullscreen_settings_submenu[];

@@ -521,10 +521,6 @@ ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VideoCache)
 UI_MENU_DEFINE_TOGGLE(DoubleSize)
 UI_MENU_DEFINE_TOGGLE(DoubleScan)
-#if VIDEO_DISPLAY_DEPTH == 0
-UI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)
-UI_MENU_DEFINE_TOGGLE(PALEmulation)
-#endif
 
 ui_menu_entry_t video_settings_submenu[] = {
     { N_("*Video cache"),
@@ -533,12 +529,6 @@ ui_menu_entry_t video_settings_submenu[] = {
       (ui_callback_t)toggle_DoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_DoubleScan, NULL, NULL },
-#if VIDEO_DISPLAY_DEPTH == 0
-    { N_("*Fast PAL emulation"),
-      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-    { N_("*PAL emulation"),
-      (ui_callback_t)toggle_PALEmulation, NULL, NULL },
-#endif
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
@@ -552,6 +542,12 @@ ui_menu_entry_t ui_video_settings_menu[] = {
 
 ui_menu_entry_t ui_vic_video_settings_menu[] = {
     { N_("VIC Video settings"),
+      NULL, NULL, video_settings_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t ui_ted_video_settings_menu[] = {
+    { N_("TED Video settings"),
       NULL, NULL, video_settings_submenu },
     { NULL }
 };
