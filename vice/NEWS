@@ -22,6 +22,10 @@ list of all the changes in the code.
 
 - Fixed AIX audio header problem.
 
+- The emulator does not crash with "X Error of failed request:
+  BadColor (invalid Colormap parameter)" anymore when a bad or old
+  `.vicerc' file is present.
+
 ** MS-DOS changes
 -----------------
 
