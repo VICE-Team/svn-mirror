@@ -1316,7 +1316,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=21
+VICE_VERSION_BUILD=22
 
 
 
@@ -12830,7 +12830,7 @@ fi
 fi
 
 
-if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
+if test x"$is_unix" = "xyes"; then
   if test x"$enable_ffmpeg" = "xyes" ; then
 
 echo "$as_me:$LINENO: checking for avcodec_init in -lavcodec" >&5
@@ -15079,7 +15079,9 @@ fi
 
 done
 
+fi
 
+if test x"$is_amiga" = "xyes"; then
 
 for ac_header in devices/ahi.h
 do
@@ -15221,7 +15223,6 @@ _ACEOF
 fi
 
 done
-
 
 fi
 
@@ -15946,7 +15947,7 @@ fi
 
 
 
-if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
+if test x"$is_unix" = "xyes" -a x"is_unix_gp2x" != "xyes"; then
 
   if test x"$enable_parsid" = "xyes"; then
 
@@ -17013,7 +17014,7 @@ _ACEOF
   fi
 fi
 
-if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a -x"$is_riscos" = "xno"; then
+if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a x"$is_riscos" = "xno"; then
   echo "$as_me:$LINENO: checking for working memcmp" >&5
 echo $ECHO_N "checking for working memcmp... $ECHO_C" >&6
 if test "${ac_cv_func_memcmp_working+set}" = set; then

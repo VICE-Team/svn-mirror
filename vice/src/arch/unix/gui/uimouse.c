@@ -1,5 +1,5 @@
 /*
- * version.h
+ * uimouse.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,19 +24,35 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.19.22"
+#ifdef HAVE_MOUSE
+
+#include <stdio.h>
+
+#include "uimenu.h"
+#include "uimouse.h"
+
+
+UI_MENU_DEFINE_RADIO(Mouseport)
+
+static ui_menu_entry_t mouseport_submenu[] = {
+    { "*Port 1", (ui_callback_t)radio_Mouseport,
+      (ui_callback_data_t)1, NULL },
+    { "*Port 2", (ui_callback_t)radio_Mouseport,
+      (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(Mouse)
+
+ui_menu_entry_t mouse_submenu[] = {
+    { N_("*Enable mouse"),
+      (ui_callback_t)toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
+    { N_("Mouse port"),
+      NULL, NULL, mouseport_submenu },
+    { NULL }
+};
+
 #endif
 
-#ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 1,19,22,0
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
-
-#endif

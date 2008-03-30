@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
-"POT-Creation-Date: 2006-07-04 16:28+0200\n"
+"POT-Creation-Date: 2006-07-06 01:03+0200\n"
 "PO-Revision-Date: 2006-07-01 14:57+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -2051,68 +2051,68 @@ msgstr ""
 "\n"
 "Avslutar..."
 
-#: src/arch/unix/gui/c128ui.c:68 src/arch/unix/gui/c64ui.c:70
+#: src/arch/unix/gui/c128ui.c:69 src/arch/unix/gui/c64ui.c:71
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:53
 #: src/arch/unix/gui/uivic.c:42 src/arch/unix/gui/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/gui/c128ui.c:70 src/arch/unix/gui/c64ui.c:72
+#: src/arch/unix/gui/c128ui.c:71 src/arch/unix/gui/c64ui.c:73
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:55
 #: src/arch/unix/gui/uivic.c:44 src/arch/unix/gui/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/unix/gui/c128ui.c:151 src/arch/unix/gui/c128ui.c:176
-#: src/arch/unix/gui/c64ui.c:221 src/arch/unix/gui/c64ui.c:246
+#: src/arch/unix/gui/c128ui.c:152 src/arch/unix/gui/c128ui.c:177
+#: src/arch/unix/gui/c64ui.c:222 src/arch/unix/gui/c64ui.c:247
 #: src/arch/unix/gui/cbm2ui.c:294 src/arch/unix/gui/cbm2ui.c:319
 msgid "SID engine"
 msgstr "SID-motor"
 
-#: src/arch/unix/gui/c128ui.c:154 src/arch/unix/gui/c128ui.c:180
-#: src/arch/unix/gui/c64ui.c:224 src/arch/unix/gui/c64ui.c:250
+#: src/arch/unix/gui/c128ui.c:155 src/arch/unix/gui/c128ui.c:181
+#: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:251
 #: src/arch/unix/gui/cbm2ui.c:297 src/arch/unix/gui/cbm2ui.c:323
 msgid "*Second SID"
 msgstr "*Andra SID"
 
-#: src/arch/unix/gui/c128ui.c:156 src/arch/unix/gui/c128ui.c:182
-#: src/arch/unix/gui/c64ui.c:226 src/arch/unix/gui/c64ui.c:252
+#: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
+#: src/arch/unix/gui/c64ui.c:227 src/arch/unix/gui/c64ui.c:253
 #: src/arch/unix/gui/cbm2ui.c:299 src/arch/unix/gui/cbm2ui.c:325
 msgid "*Second SID base address"
 msgstr "*Basadress för andra SID"
 
-#: src/arch/unix/gui/c128ui.c:159 src/arch/unix/gui/c128ui.c:184
-#: src/arch/unix/gui/c64ui.c:229 src/arch/unix/gui/c64ui.c:254
+#: src/arch/unix/gui/c128ui.c:160 src/arch/unix/gui/c128ui.c:185
+#: src/arch/unix/gui/c64ui.c:230 src/arch/unix/gui/c64ui.c:255
 #: src/arch/unix/gui/cbm2ui.c:302 src/arch/unix/gui/cbm2ui.c:328
 msgid "*Emulate filters"
 msgstr "*Emulera filter"
 
-#: src/arch/unix/gui/c128ui.c:161 src/arch/unix/gui/c128ui.c:186
-#: src/arch/unix/gui/c64ui.c:231 src/arch/unix/gui/c64ui.c:256
+#: src/arch/unix/gui/c128ui.c:162 src/arch/unix/gui/c128ui.c:187
+#: src/arch/unix/gui/c64ui.c:232 src/arch/unix/gui/c64ui.c:257
 #: src/arch/unix/gui/cbm2ui.c:304 src/arch/unix/gui/cbm2ui.c:330
 msgid "Chip model"
 msgstr "Kretsmodell"
 
-#: src/arch/unix/gui/c128ui.c:165 src/arch/unix/gui/c64ui.c:235
+#: src/arch/unix/gui/c128ui.c:166 src/arch/unix/gui/c64ui.c:236
 #: src/arch/unix/gui/cbm2ui.c:308
 msgid "reSID sampling method"
 msgstr "reSID-samplingsmetod"
 
-#: src/arch/unix/gui/c128ui.c:167 src/arch/unix/gui/c64ui.c:237
+#: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:238
 #: src/arch/unix/gui/cbm2ui.c:310
 msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
-#: src/arch/unix/gui/c128ui.c:178 src/arch/unix/gui/c64ui.c:248
+#: src/arch/unix/gui/c128ui.c:179 src/arch/unix/gui/c64ui.c:249
 #: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:119
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
-#: src/arch/unix/gui/c128ui.c:210
+#: src/arch/unix/gui/c128ui.c:208
 msgid "Function ROM image"
 msgstr "Avbildning av funktions-ROM"
 
-#: src/arch/unix/gui/c128ui.c:215
+#: src/arch/unix/gui/c128ui.c:213
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
@@ -2121,182 +2121,182 @@ msgstr ""
 "Kunde inte läsa in avbildning av funktions-ROM\n"
 "\"%s\""
 
-#: src/arch/unix/gui/c128ui.c:220
+#: src/arch/unix/gui/c128ui.c:218
 msgid "*Enable internal Function ROM"
 msgstr "*Aktivera internt funktions-ROM"
 
-#: src/arch/unix/gui/c128ui.c:222
+#: src/arch/unix/gui/c128ui.c:220
 msgid "Internal Function ROM name..."
 msgstr "Namn på internt funktions-ROM..."
 
-#: src/arch/unix/gui/c128ui.c:226
+#: src/arch/unix/gui/c128ui.c:224
 msgid "*Enable external Function ROM"
 msgstr "*Aktivera externt funktions-ROM"
 
-#: src/arch/unix/gui/c128ui.c:228
+#: src/arch/unix/gui/c128ui.c:226
 msgid "External Function ROM name..."
 msgstr "Namn på externt funktions-ROM..."
 
-#: src/arch/unix/gui/c128ui.c:235
+#: src/arch/unix/gui/c128ui.c:233
 msgid "Function ROM"
 msgstr "Funktions-ROM"
 
-#: src/arch/unix/gui/c128ui.c:238 src/arch/unix/gui/c64ui.c:269
+#: src/arch/unix/gui/c128ui.c:236 src/arch/unix/gui/c64ui.c:267
 msgid "RAM Expansion Unit"
 msgstr "RAM-expansionsenhet"
 
-#: src/arch/unix/gui/c128ui.c:240 src/arch/unix/gui/c64ui.c:271
+#: src/arch/unix/gui/c128ui.c:238 src/arch/unix/gui/c64ui.c:269
 msgid "GEORAM Expansion Unit"
 msgstr "GEORAM-expansionsenhet"
 
-#: src/arch/unix/gui/c128ui.c:242 src/arch/unix/gui/c64ui.c:273
+#: src/arch/unix/gui/c128ui.c:240 src/arch/unix/gui/c64ui.c:271
 msgid "RAM Expansion Cart"
 msgstr "RAM-expansionsmodul"
 
-#: src/arch/unix/gui/c128ui.c:244 src/arch/unix/gui/c64ui.c:281
+#: src/arch/unix/gui/c128ui.c:242 src/arch/unix/gui/c64ui.c:279
 msgid "IDE64 emulation"
 msgstr "IDE64-emulering"
 
-#: src/arch/unix/gui/c128ui.c:247 src/arch/unix/gui/c64ui.c:284
+#: src/arch/unix/gui/c128ui.c:245 src/arch/unix/gui/c64ui.c:282
 msgid "Ethernet emulation"
 msgstr "Ethernetemulering"
 
-#: src/arch/unix/gui/c128ui.c:250 src/arch/unix/gui/c64ui.c:287
+#: src/arch/unix/gui/c128ui.c:248 src/arch/unix/gui/c64ui.c:285
 #: src/arch/unix/gui/petui.c:187 src/arch/unix/gui/vic20ui.c:201
 msgid "*Emulator identification"
 msgstr "*Emulatoridentifiering"
 
-#: src/arch/unix/gui/c128ui.c:252
+#: src/arch/unix/gui/c128ui.c:250
 msgid "*IEEE488 interface emulation"
 msgstr "*Emulering av IEEE488-gränssnitt"
 
-#: src/arch/unix/gui/c128ui.c:255 src/arch/unix/gui/c64ui.c:290
+#: src/arch/unix/gui/c128ui.c:253 src/arch/unix/gui/c64ui.c:288
 msgid "*1351 Mouse Emulation"
 msgstr "*1351-musemulering"
 
-#: src/arch/unix/gui/c128ui.c:264
+#: src/arch/unix/gui/c128ui.c:262
 msgid "Load new Int. Kernal ROM"
 msgstr "Läs ny Int. Kernal-ROM"
 
-#: src/arch/unix/gui/c128ui.c:267
+#: src/arch/unix/gui/c128ui.c:265
 msgid "Load new German Kernal ROM"
 msgstr "Läs ny tysk Kernal-ROM"
 
-#: src/arch/unix/gui/c128ui.c:270
+#: src/arch/unix/gui/c128ui.c:268
 msgid "Load new Basic Lo ROM"
 msgstr "Läs ny låg Basic-ROM"
 
-#: src/arch/unix/gui/c128ui.c:273
+#: src/arch/unix/gui/c128ui.c:271
 msgid "Load new Basic Hi ROM"
 msgstr "Läs ny hög Basic-ROM"
 
-#: src/arch/unix/gui/c128ui.c:276
+#: src/arch/unix/gui/c128ui.c:274
 msgid "Load new Chargen ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
-#: src/arch/unix/gui/c128ui.c:283 src/arch/unix/gui/c64ui.c:312
+#: src/arch/unix/gui/c128ui.c:281 src/arch/unix/gui/c64ui.c:310
 #: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:133
 msgid "Load default ROMs"
 msgstr "Läs standard-ROM"
 
-#: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:316
+#: src/arch/unix/gui/c128ui.c:285 src/arch/unix/gui/c64ui.c:314
 #: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:211
 #: src/arch/unix/gui/plus4ui.c:99 src/arch/unix/gui/vic20ui.c:136
 msgid "Load new computer ROM"
 msgstr "Läs ny dator-ROM"
 
-#: src/arch/unix/gui/c128ui.c:289 src/arch/unix/gui/c64ui.c:318
+#: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:316
 #: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:213
 #: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:138
 msgid "Load new drive ROM"
 msgstr "Läs ny diskettstation-ROM"
 
-#: src/arch/unix/gui/c128ui.c:292 src/arch/unix/gui/c64ui.c:321
+#: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:319
 #: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:216
 #: src/arch/unix/gui/plus4ui.c:104 src/arch/unix/gui/vic20ui.c:141
 msgid "ROM set type"
 msgstr "ROM-uppsättningstyp"
 
-#: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:324
+#: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:322
 #: src/arch/unix/gui/cbm2ui.c:132 src/arch/unix/gui/petui.c:250
 #: src/arch/unix/gui/plus4ui.c:107 src/arch/unix/gui/vic20ui.c:144
 msgid "ROM set archive"
 msgstr "ROM-uppsättningsarkiv"
 
-#: src/arch/unix/gui/c128ui.c:297 src/arch/unix/gui/c64ui.c:326
+#: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:324
 #: src/arch/unix/gui/cbm2ui.c:134 src/arch/unix/gui/petui.c:252
 #: src/arch/unix/gui/plus4ui.c:109 src/arch/unix/gui/vic20ui.c:146
 msgid "ROM set file"
 msgstr "ROM-uppsättningsfil"
 
-#: src/arch/unix/gui/c128ui.c:320
+#: src/arch/unix/gui/c128ui.c:318
 msgid "VIC II Save media file"
 msgstr "VIC II sparad mediafil"
 
-#: src/arch/unix/gui/c128ui.c:322
+#: src/arch/unix/gui/c128ui.c:320
 msgid "VDC Save media file"
 msgstr "VDC sparad mediafil"
 
-#: src/arch/unix/gui/c128ui.c:328
+#: src/arch/unix/gui/c128ui.c:326
 msgid "Screenshots..."
 msgstr "Skärmdump..."
 
-#: src/arch/unix/gui/c128ui.c:357
+#: src/arch/unix/gui/c128ui.c:355
 msgid "Machine type"
 msgstr "Maskintyp"
 
-#: src/arch/unix/gui/c128ui.c:359 src/arch/unix/gui/cbm2ui.c:240
+#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/cbm2ui.c:240
 #: src/arch/unix/gui/petui.c:263 src/arch/unix/gui/vic20ui.c:187
 msgid "ROM sets"
 msgstr "ROM-uppsättningar"
 
-#: src/arch/unix/gui/c128ui.c:367 src/arch/unix/gui/c64ui.c:359
+#: src/arch/unix/gui/c128ui.c:365 src/arch/unix/gui/c64ui.c:357
 msgid "VIC-II settings"
 msgstr "VIC-II-inställningar"
 
-#: src/arch/unix/gui/c128ui.c:369
+#: src/arch/unix/gui/c128ui.c:367
 msgid "VDC settings"
 msgstr "VDC-inställningar"
 
-#: src/arch/unix/gui/c128ui.c:371 src/arch/unix/gui/c64ui.c:361
+#: src/arch/unix/gui/c128ui.c:369 src/arch/unix/gui/c64ui.c:359
 #: src/arch/unix/gui/cbm2ui.c:361 src/arch/unix/gui/vsidui.c:175
 msgid "SID settings"
 msgstr "SID-inställningar"
 
-#: src/arch/unix/gui/c128ui.c:373
+#: src/arch/unix/gui/c128ui.c:371
 msgid "Memory and I/O extensions"
 msgstr "Minnes- och I/O-utökningar"
 
-#: src/arch/unix/gui/c128ui.c:375 src/arch/unix/gui/c64ui.c:365
+#: src/arch/unix/gui/c128ui.c:373 src/arch/unix/gui/c64ui.c:363
 #: src/arch/unix/gui/cbm2ui.c:354 src/arch/unix/gui/plus4ui.c:147
 #: src/arch/unix/gui/vic20ui.c:380
 msgid "RS232 settings"
 msgstr "RS232-inställningar"
 
-#: src/arch/unix/gui/c128ui.c:377
+#: src/arch/unix/gui/c128ui.c:375
 msgid "Model settings"
 msgstr "Modellinställningar"
 
-#: src/arch/unix/gui/c128ui.c:442 src/arch/unix/gui/c64ui.c:428
+#: src/arch/unix/gui/c128ui.c:440 src/arch/unix/gui/c64ui.c:426
 #: src/arch/unix/gui/cbm2ui.c:450 src/arch/unix/gui/petui.c:388
 #: src/arch/unix/gui/plus4ui.c:208 src/arch/unix/gui/vic20ui.c:501
 #: src/arch/unix/gui/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
-#: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64ui.c:447
+#: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c64ui.c:445
 #: src/arch/unix/gui/cbm2ui.c:467 src/arch/unix/gui/petui.c:405
 #: src/arch/unix/gui/plus4ui.c:225 src/arch/unix/gui/vic20ui.c:520
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
-#: src/arch/unix/gui/c128ui.c:468 src/arch/unix/gui/c64ui.c:454
+#: src/arch/unix/gui/c128ui.c:466 src/arch/unix/gui/c64ui.c:452
 #: src/arch/unix/gui/cbm2ui.c:474 src/arch/unix/gui/petui.c:412
 #: src/arch/unix/gui/plus4ui.c:232 src/arch/unix/gui/vic20ui.c:527
 msgid "Options"
 msgstr "Alternativ"
 
-#: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
+#: src/arch/unix/gui/c128ui.c:478 src/arch/unix/gui/c64ui.c:464
 #: src/arch/unix/gui/cbm2ui.c:484 src/arch/unix/gui/petui.c:422
 #: src/arch/unix/gui/plus4ui.c:240 src/arch/unix/gui/vic20ui.c:533
 #: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
@@ -2306,53 +2306,53 @@ msgstr "Inställningar"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64ui.c:480
+#: src/arch/unix/gui/c128ui.c:492 src/arch/unix/gui/c64ui.c:478
 #: src/arch/unix/gui/cbm2ui.c:498 src/arch/unix/gui/petui.c:436
 #: src/arch/unix/gui/plus4ui.c:254 src/arch/unix/gui/vic20ui.c:548
 msgid "RJHelp"
 msgstr "RJHjälp"
 
-#: src/arch/unix/gui/c64ui.c:74 src/arch/unix/gui/vsidui.c:129
+#: src/arch/unix/gui/c64ui.c:75 src/arch/unix/gui/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*Gammal NTSC-M"
 
-#: src/arch/unix/gui/c64ui.c:275
+#: src/arch/unix/gui/c64ui.c:273
 msgid "PLUS60K RAM Expansion"
 msgstr "PLUS60K RAM-expansion"
 
-#: src/arch/unix/gui/c64ui.c:277
+#: src/arch/unix/gui/c64ui.c:275
 msgid "PLUS256K RAM Expansion"
 msgstr "PLUS256K RAM-expansion"
 
-#: src/arch/unix/gui/c64ui.c:279
+#: src/arch/unix/gui/c64ui.c:277
 msgid "256K RAM Expansion"
 msgstr "256K RAM-expansion"
 
-#: src/arch/unix/gui/c64ui.c:299 src/arch/unix/gui/petui.c:170
+#: src/arch/unix/gui/c64ui.c:297 src/arch/unix/gui/petui.c:170
 #: src/arch/unix/gui/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Läs ny kernal-ROM"
 
-#: src/arch/unix/gui/c64ui.c:302 src/arch/unix/gui/petui.c:176
+#: src/arch/unix/gui/c64ui.c:300 src/arch/unix/gui/petui.c:176
 #: src/arch/unix/gui/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Läs ny BASIC-ROM"
 
-#: src/arch/unix/gui/c64ui.c:305 src/arch/unix/gui/petui.c:219
+#: src/arch/unix/gui/c64ui.c:303 src/arch/unix/gui/petui.c:219
 msgid "Load new character ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
-#: src/arch/unix/gui/c64ui.c:349 src/arch/unix/gui/cbm2ui.c:384
+#: src/arch/unix/gui/c64ui.c:347 src/arch/unix/gui/cbm2ui.c:384
 #: src/arch/unix/gui/petui.c:322 src/arch/unix/gui/plus4ui.c:71
 #: src/arch/unix/gui/vic20ui.c:421
 msgid "Save media file"
 msgstr "Spara mediafil"
 
-#: src/arch/unix/gui/c64ui.c:357 src/arch/unix/gui/plus4ui.c:141
+#: src/arch/unix/gui/c64ui.c:355 src/arch/unix/gui/plus4ui.c:141
 msgid "ROM settings"
 msgstr "ROM-inställningar"
 
-#: src/arch/unix/gui/c64ui.c:363 src/arch/unix/gui/petui.c:296
+#: src/arch/unix/gui/c64ui.c:361 src/arch/unix/gui/petui.c:296
 msgid "I/O extensions"
 msgstr "I/O-utökningar"
 
@@ -3718,6 +3718,16 @@ msgstr "Spara tangentbordsemulering till fil"
 #: src/arch/unix/gui/uikeyboard.c:135
 msgid "Keyboard settings"
 msgstr "Tangentbordsinställningar"
+
+#: src/arch/unix/gui/uimouse.c:50
+#, fuzzy
+msgid "*Enable mouse"
+msgstr "*Aktivera warpläge"
+
+#: src/arch/unix/gui/uimouse.c:52
+#, fuzzy
+msgid "Mouse port"
+msgstr "Ange port"
 
 #: src/arch/unix/gui/uinetplay.c:68
 msgid "Enter port"
