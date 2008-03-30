@@ -562,12 +562,12 @@ static void REGPARM2 store_one(ADDRESS addr, BYTE value)
 
 /* $0200 - $3FFF: RAM (normal or shared).  */
 
-static BYTE REGPARM1 read_lo(ADDRESS addr)
+BYTE REGPARM1 read_lo(ADDRESS addr)
 {
     return READ_BOTTOM_SHARED(addr);
 }
 
-static void REGPARM2 store_lo(ADDRESS addr, BYTE value)
+void REGPARM2 store_lo(ADDRESS addr, BYTE value)
 {
     STORE_BOTTOM_SHARED(addr, value);
 }
@@ -1187,7 +1187,7 @@ void mem_powerup(void)
     int i;
 
     for (i = 0; i < 0x20000; i += 0x80) {
-        memset(ram + i, 0, 0x40);
+        memset(ram + i, 0x0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
     }
 }
