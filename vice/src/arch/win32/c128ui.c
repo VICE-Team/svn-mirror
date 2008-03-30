@@ -32,7 +32,7 @@
 #include "ui.h"
 #include "uivicii.h"
 
-ui_menu_toggle  c128_ui_menu_toggles[]={
+ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -43,6 +43,9 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
 #ifdef HAVE_RESID
     { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
 #endif
+    { "VDC_DoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
+    { "VDC_DoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
+    { "VDC_64KB", IDM_TOGGLE_VDC_64KB },
     { NULL, 0 }
 };
 

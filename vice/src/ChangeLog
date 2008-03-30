@@ -1,3 +1,62 @@
+1999-11-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.1.31.
+
+	* c64/c64.h, c128/c128.h: Corrected NTSC constants.
+
+	* arch/unix/vsync.c (vsync_set_machine_parameter): Call
+	`set_timer_speed'.
+
+	* arch/win32/res.h, arch/win32/resc128.rc,
+	arch/win32/c128ui.c: Added menu entries of VDC 64KB memory,
+	VDC double size and VDC double scan.
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler): Do not
+	hardcode the start of display DMA.
+	(vic_ii_reset): Also reset display y counter.
+
+	* vicii/vicii.c, vicii/vicii.h, vicii-mem.c: Added some more
+	coonstants for NTSC mode.
+
+1999-11-18  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+ 
+	* arch/unix/x11/xaw/x11kbd.c, arch/unix/x11/xaw/x11video.c:
+	New files. Implementation of Xaw specific video code.
+ 
+	* arch/unix/x11/xaw/Makefile.am: Removed `video.c', Added
+	`x11video.c', `x11kbd.c'.
+ 
+	* arch/unix/x11/videoarch.h: Moved from xaw/videoarch.h.
+ 
+	* arch/unix/x11/video.c: Moved from xaw/video.c again.
+	Replaced xaw specifics with `video_XXX()' functions which are
+	resolved by the specific ui.
+ 	
+	* arch/unix/x11/kbd.c, arch/unix/x11/kbdef.h:
+	Changed a few static variables to globals. This are used by the
+	uidepended `kbd_event_handler'. The extern declaration of those
+	variables has been introduced to `kbdef.h'.
+ 	
+	* arch/unix/x11/gnome/dummies.c: Updated dummy function list.
+
+	* arch/unix/x11/gnome/*
+	dummies.h, gnomekbd.c, gnomevideo.c:
+	New files.
+ 
+	* arch/unix/x11/gnome/*: 
+	Makfile.am, checkmark.xbm, right_arrow.xbm, ui.c, ui.h,
+	uihotkey.c, uihotkey.h, uimenu.c, uimenu.h, uisettings.c,
+	uisettings.h
+	Imported files from O. Schaertel's GTK+port.
+ 
+	* arch/unix/videoarch.h: Fixed to use `USE_GNOMEUI'.
+ 
+1999-11-18  Andreas Matthies <andreas.matthies@arcormail.de>
+ 
+	* datasette.c: changed casts in (datasette_update_ui_counter)
+	and (datasette_reset_counter) to start the counter at 000 
+	even with gcc
+
 1999-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.30.
