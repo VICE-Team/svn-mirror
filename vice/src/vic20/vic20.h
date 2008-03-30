@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +28,8 @@
 #ifndef _VIC20_H
 #define _VIC20_H
 
+#include "via.h"
+
 #define VIC20_PAL_CYCLES_PER_SEC        1108405
 #define VIC20_PAL_CYCLES_PER_LINE       71
 #define VIC20_PAL_SCREEN_LINES          312
@@ -35,9 +38,9 @@
 #define VIC20_PAL_CYCLE_OFFSET          0
  
 #define VIC20_PAL_CYCLES_PER_RFSH (VIC20_PAL_SCREEN_LINES \
-                                 * VIC20_PAL_CYCLES_PER_LINE)
+                                  * VIC20_PAL_CYCLES_PER_LINE)
 #define VIC20_PAL_RFSH_PER_SEC    (1.0 / ((double)VIC20_PAL_CYCLES_PER_RFSH  \
-                                        / (double)VIC20_PAL_CYCLES_PER_SEC))
+                                  / (double)VIC20_PAL_CYCLES_PER_SEC))
 
 #define VIC20_NTSC_CYCLES_PER_SEC       1022727
 #define VIC20_NTSC_CYCLES_PER_LINE      65
@@ -47,9 +50,18 @@
 #define VIC20_NTSC_CYCLE_OFFSET         37
 
 #define VIC20_NTSC_CYCLES_PER_RFSH (VIC20_NTSC_SCREEN_LINES \
-                                  * VIC20_NTSC_CYCLES_PER_LINE)
+                                   * VIC20_NTSC_CYCLES_PER_LINE)
 #define VIC20_NTSC_RFSH_PER_SEC    (1.0 / ((double)VIC20_NTSC_CYCLES_PER_RFSH \
-                                        / (double)VIC20_NTSC_CYCLES_PER_SEC))
+                                   / (double)VIC20_NTSC_CYCLES_PER_SEC))
+
+typedef struct machine_context_s {
+    via_context_t via1;
+    via_context_t via2;
+    via_context_t ieeevia1;
+    via_context_t ieeevia2;
+} machine_context_t;
+
+extern machine_context_t machine_context;
 
 #endif
 

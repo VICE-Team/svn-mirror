@@ -76,6 +76,8 @@
 #include "vsync.h"
 
 
+machine_context_t machine_context;
+
 #define NUM_KEYBOARD_MAPPINGS 2
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -275,6 +277,14 @@ static void vic20_monitor_init(void)
                  drive1_monitor_interface_get(), asmarray);
 }
 
+void machine_setup_context(void)
+{
+    vic20via1_setup_context(&machine_context);
+    vic20via2_setup_context(&machine_context);
+    vic20ieeevia1_setup_context(&machine_context);
+    vic20ieeevia2_setup_context(&machine_context);
+}
+
 /* VIC20-specific initialization.  */
 int machine_init(void)
 {
@@ -322,11 +332,11 @@ int machine_init(void)
     /* needed for VC1571/1581 emulation */
     ciat_init_table();
 
-    via1_init();
-    via2_init();
+    via1_init(&(machine_context.via1));
+    via2_init(&(machine_context.via2));
 
-    ieeevia1_init();
-    ieeevia2_init();
+    ieeevia1_init(&(machine_context.ieeevia1));
+    ieeevia2_init(&(machine_context.ieeevia2));
 
 #ifndef COMMON_KBD
     /* Load the default keymap file.  */
@@ -364,13 +374,13 @@ void machine_specific_reset(void)
 {
     serial_reset();
 
-    via1_reset();
-    via2_reset();
+    via1_reset(&(machine_context.via1));
+    via2_reset(&(machine_context.via2));
     vic_reset();
     vic_sound_reset();
 
-    ieeevia1_reset();
-    ieeevia2_reset();
+    ieeevia1_reset(&(machine_context.ieeevia1));
+    ieeevia2_reset(&(machine_context.ieeevia2));
 
     rs232drv_reset();
     rsuser_reset();
@@ -418,7 +428,8 @@ static void machine_vsync_hook(void)
 
 int machine_set_restore_key(int v)
 {
-    via2_signal(VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
+    via2_signal(&(machine_context.via2),
+                VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
     return 1;
 }
 
