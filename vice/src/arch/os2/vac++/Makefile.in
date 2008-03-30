@@ -10,6 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# Makefile.am for the OS2 version of `libarch.a'.
+
 
 SHELL = @SHELL@
 
@@ -38,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -107,42 +109,29 @@ x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-@USE_MIDAS_SOUND_TRUE@libarch_a_LIBADD = vmidas.o
-@USE_MIDAS_SOUND_FALSE@libarch_a_LIBADD = vicesb.o
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet
+INCLUDES = 
 
+noinst_LIBRARIES = libvac.a
 
-noinst_LIBRARIES = libarch.a
+libvac_a_SOURCES = 
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c610kbd.c 	c64kbd.c 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	grabkey.c 	grabkey.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h         main_exit.c         main_exit.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petkbd.c 	petui.c 	petui.h 	print.c 	sidui.c 	sidui.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h         uicmdline.c         uicmdline.h 	uisnapshot.c 	uisnapshot.h 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c
-
-
-EXTRA_DIST =  	vicesb.c 	vicesb.h 	vmidas.c 	vmidas.h
+EXTRA_DIST =  	X64.ICC         X128.ICC         C1541.ICC         RESID.ICC         VICE_INF.ICC
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../src/config.h
+CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-@USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
-@USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
-libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610ui.o c610kbd.o \
-c64kbd.o c64ui.o cbmcharsets.o grabkey.o joystick.o kbd.o main_exit.o \
-mouse.o menudefs.o petkbd.o petui.o print.o sidui.o tui.o tui_backend.o \
-tuicharset.o tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o \
-uicmdline.o uisnapshot.o vic20kbd.o vic20ui.o video.o vsidui.o vsync.o
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+libvac_a_LIBADD = 
+libvac_a_OBJECTS = 
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -150,14 +139,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libarch_a_SOURCES)
-OBJECTS = $(libarch_a_OBJECTS)
+SOURCES = $(libvac_a_SOURCES)
+OBJECTS = $(libvac_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/msdos/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/vac++/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -192,43 +181,17 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
-	-rm -f libarch.a
-	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
-
+libvac.a: $(libvac_a_OBJECTS) $(libvac_a_DEPENDENCIES)
+	-rm -f libvac.a
+	$(AR) cru libvac.a $(libvac_a_OBJECTS) $(libvac_a_LIBADD)
+	$(RANLIB) libvac.a
 tags: TAGS
+TAGS:
 
-ID: $(HEADERS) $(SOURCES) $(LISP)
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
-	       END { for (i in files) print i; }'`; \
-	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $$unique $(LISP)
-
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
-	tags=; \
-	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
-	       END { for (i in files) print i; }'`; \
-	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
-
-mostlyclean-tags:
-
-clean-tags:
-
-distclean-tags:
-	-rm -f TAGS ID
-
-maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/msdos
+subdir = src/arch/os2/vac++
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -241,7 +204,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-
 info-am:
 info: info-am
 dvi-am:
@@ -278,23 +240,23 @@ distclean-generic:
 
 maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
+clean-am:  clean-noinstLIBRARIES clean-compile clean-generic \
 		mostlyclean-am
 
 clean: clean-am
 
 distclean-am:  distclean-noinstLIBRARIES distclean-compile \
-		distclean-tags distclean-generic clean-am
+		distclean-generic clean-am
 
 distclean: distclean-am
 
 maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+		maintainer-clean-compile maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -303,8 +265,7 @@ maintainer-clean: maintainer-clean-am
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+maintainer-clean-compile tags distdir info-am info dvi-am dvi check \
 check-am installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
