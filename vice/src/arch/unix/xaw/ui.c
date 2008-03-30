@@ -1641,7 +1641,8 @@ static Widget build_confirm_dialog(Widget parent,
     tmp1 = XtVaCreateManagedWidget("messageForm", formWidgetClass,
 				   confirm_dialog, NULL);
     *confirm_dialog_message = XtVaCreateManagedWidget
-	("message", labelWidgetClass, tmp1, XtNresize, False,
+	("message", labelWidgetClass, tmp1,
+         /* XtNresize, False, */
 	 XtNjustify, XtJustifyCenter, NULL);
     tmp1 = XtVaCreateManagedWidget
 	("buttonBox", boxWidgetClass, confirm_dialog,
