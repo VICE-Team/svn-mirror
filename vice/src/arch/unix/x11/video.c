@@ -569,6 +569,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 {
     Display *display;
     /*printf("XS%i YS%i XI%i YI%i W%i H%i\n",xs, ys, xi, yi, w, h);*/
+
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
@@ -645,3 +646,4 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
+
