@@ -1,5 +1,5 @@
 /*
- * vsidui.c - Implementation of the C64-specific part of the UI.
+ * vsidui.c - Implementation of the VSID UI.
  *
  * Written by
  *  Dag Lem <resid@nimrod.no>
@@ -38,5 +38,10 @@ int vsid_ui_init(void)
 int vsid_ui_exit(void)
 {
     return 0;
+}
+
+void vsid_set_tune(char *msg)
+{
+
 }
 

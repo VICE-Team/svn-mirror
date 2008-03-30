@@ -31,9 +31,13 @@ int vsid_ui_init(void)
   return 0;
 }
 
-
 int vsid_ui_exit(void)
 {
   return 0;
+}
+
+void vsid_set_tune(char *msg)
+{
+
 }
 
