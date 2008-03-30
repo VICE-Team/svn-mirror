@@ -684,22 +684,25 @@ void mon_display_screen(void)
 
 void mon_display_io_regs(void)
 {
-    mem_ioreg_list_t *mem_ioreg_list, *mem_ioreg_list_base;
+    mem_ioreg_list_t *mem_ioreg_list_base;
+    unsigned int n;
     MON_ADDR start,end;
 
     mem_ioreg_list_base
         = mon_interfaces[default_memspace]->mem_ioreg_list_get();
+    n = 0;
 
-    mem_ioreg_list = mem_ioreg_list_base;
-
-    do {
-        mon_out("%s:\n", mem_ioreg_list->name);
-        start = new_addr(default_memspace, mem_ioreg_list->start);
-        end = new_addr(default_memspace, mem_ioreg_list->end);
+    while (1) {
+        mon_out("%s:\n", mem_ioreg_list_base[n].name);
+        start = new_addr(default_memspace, mem_ioreg_list_base[n].start);
+        end = new_addr(default_memspace, mem_ioreg_list_base[n].end);
         mon_memory_display(e_hexadecimal, start, end);
 
-        mem_ioreg_list = mem_ioreg_list->next;
-    } while (mem_ioreg_list != NULL);
+        if (mem_ioreg_list_base[n].next == 0)
+            break;
+
+        n++;
+    }
 
     lib_free(mem_ioreg_list_base);
 }
@@ -707,28 +710,28 @@ void mon_display_io_regs(void)
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
                         WORD start, WORD end)
 {
-    mem_ioreg_list_t *base, *curr;
+    mem_ioreg_list_t *base;
     unsigned int n;
 
     base = *list;
-    curr = *list;
     n = 0;
 
-    while (curr != NULL) {
+    while (base != NULL) {
         n++;
-        curr = curr->next;
+        if (base[n - 1].next == 0)
+            break;
     }
 
     base = (mem_ioreg_list_t *)lib_realloc(base, sizeof(mem_ioreg_list_t)
            * (n + 1));
 
     if (n > 0)
-        base[n - 1].next = &base[n];
+        base[n - 1].next = 1;
 
     base[n].name = name;
     base[n].start = start;
     base[n].end = end;
-    base[n].next = NULL;
+    base[n].next = 0;
 
     *list = base;
 }
