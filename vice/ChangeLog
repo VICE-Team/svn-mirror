@@ -1,3 +1,16 @@
+Thu Jun 25 11:24:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Version 0.14.2.44.
+
+Tue Jun 23 17:17:38 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* configure.in: Changed reSID configuration to search for
+	installed files. Fixed libmos6581.h -typo too.
+
+Tue Jun 23 00:05:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.43.
+
 Mon Jun 22 22:15:39 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* configure.in: New option `--with-resid=PATH' which compiles VICE

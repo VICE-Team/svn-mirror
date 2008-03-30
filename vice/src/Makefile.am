@@ -135,6 +135,8 @@ x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
         @X_LIBS@ @READLINE@ -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+.PHONY: x64-all
+x64-all: libc64 libsounddrv libtrue1541 libarch x64
 
 # x128
 x128_SOURCES = $(base_sources)
@@ -143,6 +145,8 @@ x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
         @X_LIBS@ @READLINE@ -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+.PHONY: x128-all
+x128-all: libc64c128 libsounddrv libtrue1541 libarch x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -150,6 +154,8 @@ xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+.PHONY: xvic-all
+xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -157,6 +163,8 @@ xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
 xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+.PHONY: xpet-all
+xpet-all: libpet libsounddrv libarch xpet
 
 # c1541
 c1541_SOURCES = \
@@ -184,6 +192,7 @@ petcat_SOURCES = \
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libtrue1541 libsounddrv
+
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
 libc64c128:
@@ -200,3 +209,4 @@ libsounddrv:
 	(cd sounddrv && $(MAKE))
 libarch:
 	(cd arch && $(MAKE))
+

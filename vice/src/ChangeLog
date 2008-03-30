@@ -1,8 +1,91 @@
+Thu Jun 25 10:37:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Makefile.am (x64-all, x128-all, xvic-all, xpet-all): New
+ 	targets.
+
+	* arch/unix/xaw/uicommands.c: Moved "Freeze" command to top-level
+ 	menu.
+
+	* mos6510.h (MOS6510_GET_P): Always set the `S_UNUSED' bit to 1.
+
+	* resources.c (resources_get_value): Cast `resource_value_t'
+ 	properly, according to the resource type.
+
+	* arch/unix/xaw/vic20ui.c (set_common_memory_configuration): Added
+	missing `break' statement in case `MEM_NONE'.
+
+Wed 24 Jun 00:23:53 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uicommands.c: Added new callback
+ 	`freeze_cartridge'.
+
+	* arch/unix/xaw/uisettings.c: Reordered menu entries in
+	`serial_settings_submenu'.
+
+	* c64/c64mem.c (mem_freeze_cartridge): New function.
+	(cartridge_config_changed): Call `cartridge_release_freeze'.
+
+	* cartridge.c: #include "vmachine.h" and "interrupt.h".
+	(set_cartridge_type): Do not try to attach cartridge if no name
+	is given.
+	(cartridge_trigger_freeze, cartridge_release_freeze): New
+	functions.
+
+	* cartridge.h: Added `cartridge_trigger_freeze' and
+	`cartridge_release_freeze' prototypes.
+
+	* vmachine.h: Defined `I_FREEZE'.
+
+	* mem.h: Added `mem_freeze_cartridge' prototype.
+
+	* pet/petmem.c, c128/c128mem.c, vic20/vic20mem.c: Added stubs
+	for cartridge freeze support.
+
+Tue Jun 23 00:07:35 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uimenu.h (UI_MENU_DEFINE_STRING_RADIO): Changed
+	type of `current_value' to `resource_value_t'.
+
+Tue Jun 23 17:20:17 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.c (struct sound_s): Changed register array to 32 bytes.
+  	Earlier value 64 was because of VIC20 sound support that is no
+ 	longer here.
+	(sound_machine_open): Memzero the allocated structure.  Also set
+ 	register values directly without sound_machine_store().
+
+	* resources.c (resources_get_values, resources_toggle,
+ 	write_resource_item): Alpha (64bit) fixes.
+
+Tue Jun 23 15:12:50 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/ui.c, arch/unix/xaw/ui.h (ui_select_file):
+	Added two parameters to set default path (directory to open)
+	and default pattern (like "*.vkm").
+	- if directory is NULL, behaviour is like usual. It's mainly used
+	  when /dev/ttyS* is selected for RS232;
+	- pattern is disabled because we cannot change it interactively
+	  at the moment.
+	If read_contents_func is NULL, then the contents button is
+	disabled.
+
+	* arch/unix/xaw/uicommands.c, arch/unix/xaw/uisettings.c:
+	Add default path and pattern parameter to ui_select_file calls
+	where appropriate.
+
+	* arch/unix/xaw/widgets/DirMgr.c (DirectoryMgrRefresh): Don't use
+ 	pattern function if entry is directory -> still possible to change
+ 	path.
+
+	* arch/unix/xaw/widgets/FileSel.c (SetValues): Don't set the old
+ 	value to the widget when changing the pattern.  Use the new one
+ 	instead.
+
 Mon Jun 22 21:40:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* c64/Makefile.am: Added `@RESID_INCLUDES@' to `INCLUDES'.
-	If the `HAVE_RESID'  conditional is true, link `libc64.a' and
-	`libc64c128.a' with `resid.o'.
+	* c64/Makefile.am: Added `@RESID_INCLUDES@' to `INCLUDES'.  If the
+ 	`HAVE_RESID' conditional is true, link `libc64.a' and
+ 	`libc64c128.a' with `resid.o'.
 
 	* Makefile.am: Link `x64' and `x128' to `@RESID_LIBS@'.
 

@@ -539,7 +539,7 @@ c1541.o: c1541.c vice.h config.h c1541.h drive.h types.h fs_cbm.h \
 	serial.h traps.h mshell.h gcr.h file.h charsets.h tape.h \
 	utils.h zipcode.h
 cartridge.o: cartridge.c vice.h config.h resources.h file.h mem.h \
-	types.h utils.h cartridge.h
+	types.h vmachine.h interrupt.h 6510core.h utils.h cartridge.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
 cmdline.o: cmdline.c vice.h config.h utils.h cmdline.h resources.h
 drive.o: drive.c vice.h config.h serial.h types.h traps.h drive.h \
@@ -697,10 +697,19 @@ install-exec install-data install uninstall all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+.PHONY: x64-all
+x64-all: libc64 libsounddrv libtrue1541 libarch x64
+.PHONY: x128-all
+x128-all: libc64c128 libsounddrv libtrue1541 libarch x128
+.PHONY: xvic-all
+xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
+.PHONY: xpet-all
+xpet-all: libpet libsounddrv libarch xpet
 
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libtrue1541 libsounddrv
+
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
 libc64c128:
