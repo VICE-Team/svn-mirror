@@ -1,3 +1,43 @@
+2002-11-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.20.
+
+	* Makefile.am, realdrive.c, realdrive.h, c64/c64.c,
+	drive/drive-resources.c, arch/unix/uiperipheral.c: Removed 
+	realdrive code.
+
+	* serial/Makefile.am, serial/fsdrive.c, serial/fsdrive.h,
+	serial/iec.c, serial/iec.h, serial/serial.c,
+	serial/realdevice.c, serial/realdevice.h: New files.
+
+	* serial.c: Moved to separate subdirectory.
+
+	* serial.h: Moved some definitions here.
+
+	* c64/c64.c, c64/c64iec.c, c128/c128.c, c128/c128iec.c,
+	vic20/vic20.c, vic20/vic20iec.c, pet/pet.c, pet/petiec.c,
+	plus4/plus4.c, plus4/plus4iec.c, cbm2/cbm2.c, cbm2/cbm2iec.c,
+	c64/c64iec.h, vic20/vic20iec.h, plus4/plus4iec.h, iecdrive.h
+	(iec_init): Changed names.
+
+	* c128/c128iec.h, pet/petiec.h, cbm2/cbm2iec.h: New files.
+
+	* c128/Makefile.am, pet/Makefile.am, cbm2/Makefile.am:
+	Updated.
+
+	* attach.c, attach.h: Unified virtual drive, file system
+	device, real device and raw drive selection.
+	(file_system_detach_disk_shutdown): Disable real device.
+
+	* arch/unix/uiperipheral.c: Added radio menu entry for device
+	type.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h (vdrive_setup_device): Take
+	device type.
+
+	* c1541.c (open_disk_image): Fixed call to
+	`vdrive_setup_device()'.
+
 2002-11-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.19.

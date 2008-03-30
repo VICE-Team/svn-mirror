@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc128.a
 
-libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128-snapshot.c 	c128-snapshot.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128io.c 	c128io.h 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	c128rom.c 	c128rom.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
+libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128-snapshot.c 	c128-snapshot.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128iec.h 	c128io.c 	c128io.h 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	c128rom.c 	c128rom.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -272,8 +272,8 @@ c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/asm.h ../../src/arch/unix/types.h \
 	../../src/attach.h ../../src/autostart.h c128-cmdline-options.h \
-	c128-resources.h c128-snapshot.h c128.h c128mem.h c128mmu.h \
-	../../src/arch/unix/c128ui.h ../../src/c64/c64acia.h \
+	c128-resources.h c128-snapshot.h c128.h c128iec.h c128mem.h \
+	c128mmu.h ../../src/arch/unix/c128ui.h ../../src/c64/c64acia.h \
 	../../src/c64/c64cia.h ../../src/c64/c64keyboard.h \
 	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
 	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
@@ -310,7 +310,7 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../interrupt.h ../machine.h ../maincpu.h ../mem.h \
 	../../src/monitor/mon.h ../mos6510.h ../snapshot.h ../traps.h \
 	../6510core.c
-c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
+c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h c128iec.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/c64/c64iec.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/log.h \

@@ -32,7 +32,7 @@ ac_help="$ac_help
 ac_help="$ac_help
   --disable-nls        disables national language support"
 ac_help="$ac_help
-  --enable-realdrive      enables access to real peripheral devices (CBM4Linux)"
+  --disable-realdevice      disables access to real peripheral devices (CBM4Linux/OpenCBM)"
 ac_help="$ac_help
   --with-x                use the X Window System"
 
@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.10.19
+VERSION=1.10.20
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -903,9 +903,9 @@ if test "${enable_nls+set}" = set; then
   :
 fi
 
-# Check whether --enable-realdrive or --disable-realdrive was given.
-if test "${enable_realdrive+set}" = set; then
-  enableval="$enable_realdrive"
+# Check whether --enable-realdevice or --disable-realdevice was given.
+if test "${enable_realdevice+set}" = set; then
+  enableval="$enable_realdevice"
   :
 fi
 
@@ -7534,7 +7534,7 @@ fi
 
 fi
 
-if test x"$enable_realdrive" = x"yes"; then
+if test x"$enable_realdevice" != x"no"; then
   ac_safe=`echo "opencbm.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for opencbm.h""... $ac_c" 1>&6
 echo "configure:7541: checking for opencbm.h" >&5
@@ -7563,61 +7563,22 @@ rm -f conftest*
 fi
 if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
   echo "$ac_t""yes" 1>&6
-  C4LLIB="opencbm"; cat >> confdefs.h <<\EOF
-#define HAVE_OPENCBM 1
-EOF
-
+  :
 else
   echo "$ac_t""no" 1>&6
-ac_safe=`echo "cbm4linux.h" | sed 'y%./+-%__p_%'`
-echo $ac_n "checking for cbm4linux.h""... $ac_c" 1>&6
-echo "configure:7575: checking for cbm4linux.h" >&5
-if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  cat > conftest.$ac_ext <<EOF
-#line 7580 "configure"
-#include "confdefs.h"
-#include <cbm4linux.h>
-EOF
-ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:7585: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
-ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
-if test -z "$ac_err"; then
-  rm -rf conftest*
-  eval "ac_cv_header_$ac_safe=yes"
-else
-  echo "$ac_err" >&5
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  eval "ac_cv_header_$ac_safe=no"
-fi
-rm -f conftest*
-fi
-if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
-  echo "$ac_t""yes" 1>&6
-  C4LLIB=cbm4linux; cat >> confdefs.h <<\EOF
-#define HAVE_CBM4LINUX 1
-EOF
-
-else
-  echo "$ac_t""no" 1>&6
-{ echo "configure: error: cbm4linux header file not found" 1>&2; exit 1; }
 fi
 
-fi
-
-  echo $ac_n "checking for cbm_get_eoi in -l$C4LLIB""... $ac_c" 1>&6
-echo "configure:7613: checking for cbm_get_eoi in -l$C4LLIB" >&5
-ac_lib_var=`echo $C4LLIB'_'cbm_get_eoi | sed 'y%./+-%__p_%'`
+  if test x"$ac_cv_header_opencbm_h" = "xyes" ; then
+    echo $ac_n "checking for cbm_get_eoi in -lopencbm""... $ac_c" 1>&6
+echo "configure:7574: checking for cbm_get_eoi in -lopencbm" >&5
+ac_lib_var=`echo opencbm'_'cbm_get_eoi | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="-l$C4LLIB  $LIBS"
+LIBS="-lopencbm  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 7621 "configure"
+#line 7582 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -7628,7 +7589,7 @@ int main() {
 cbm_get_eoi()
 ; return 0; }
 EOF
-if { (eval echo configure:7632: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:7593: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -7643,21 +7604,25 @@ LIBS="$ac_save_LIBS"
 fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
-  LIBS="$LIBS -l$C4LLIB"
-else
-  echo "$ac_t""no" 1>&6
-{ echo "configure: error: cbm4linux >=0.2.3 library not found" 1>&2; exit 1; }
-fi
+   LIBS="$LIBS -lopencbm";
+                   cat >> confdefs.h <<\EOF
+#define HAVE_OPENCBM 1
+EOF
 
-  
+                   
 
 if true; then
-  HAVE_REALDRIVE_TRUE=
-  HAVE_REALDRIVE_FALSE='#'
+  HAVE_REALDEVICE_TRUE=
+  HAVE_REALDEVICE_FALSE='#'
 else
-  HAVE_REALDRIVE_TRUE='#'
-  HAVE_REALDRIVE_FALSE=
+  HAVE_REALDEVICE_TRUE='#'
+  HAVE_REALDEVICE_FALSE=
+fi 
+else
+  echo "$ac_t""no" 1>&6
 fi
+
+  fi
 fi
 
 
@@ -8110,6 +8075,7 @@ if false ; then
     mkdir -p raster
     mkdir -p resid
     mkdir -p rs232drv
+    mkdir -p serial
     mkdir -p sid
     mkdir -p sounddrv
     mkdir -p tape
@@ -8282,6 +8248,7 @@ trap 'rm -fr `echo "Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/rs232drv/Makefile
+           src/serial/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
@@ -8403,8 +8370,8 @@ s%@X_LIBS@%$X_LIBS%g
 s%@X_EXTRA_LIBS@%$X_EXTRA_LIBS%g
 s%@FULLSCREEN_DRIVERS@%$FULLSCREEN_DRIVERS%g
 s%@WINDRES@%$WINDRES%g
-s%@HAVE_REALDRIVE_TRUE@%$HAVE_REALDRIVE_TRUE%g
-s%@HAVE_REALDRIVE_FALSE@%$HAVE_REALDRIVE_FALSE%g
+s%@HAVE_REALDEVICE_TRUE@%$HAVE_REALDEVICE_TRUE%g
+s%@HAVE_REALDEVICE_FALSE@%$HAVE_REALDEVICE_FALSE%g
 s%@x64_LDFLAGS@%$x64_LDFLAGS%g
 s%@x128_LDFLAGS@%$x128_LDFLAGS%g
 s%@xvic_LDFLAGS@%$xvic_LDFLAGS%g
@@ -8529,6 +8496,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
            src/rs232drv/Makefile
+           src/serial/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile

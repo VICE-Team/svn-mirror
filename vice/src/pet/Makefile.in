@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libpet.a
 
-libpet_a_SOURCES =  	pet-cmdline-options.c 	pet-cmdline-options.h 	pet-resources.c 	pet-resources.h 	pet-snapshot.c 	pet-snapshot.h 	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petiec.c 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	petrom.c 	petrom.h 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
+libpet_a_SOURCES =  	pet-cmdline-options.c 	pet-cmdline-options.h 	pet-resources.c 	pet-resources.h 	pet-snapshot.c 	pet-snapshot.h 	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petiec.c 	petiec.h 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	petrom.c 	petrom.h 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -280,13 +280,13 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/monitor/mon.h pet-cmdline-options.h \
-	pet-resources.h pet-snapshot.h pet.h petmem.h pets.h petsound.h \
-	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
-	../../src/printer.h ../../src/resources.h ../../src/rs232drv.h \
-	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h ../../src/via.h ../../src/video.h \
-	../../src/viewport.h ../../src/vsync.h
+	pet-resources.h pet-snapshot.h pet.h petiec.h petmem.h pets.h \
+	petsound.h ../../src/arch/unix/petui.h petvia.h petacia.h \
+	petpia.h ../../src/printer.h ../../src/resources.h \
+	../../src/rs232drv.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/via.h \
+	../../src/video.h ../../src/viewport.h ../../src/vsync.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
@@ -297,7 +297,7 @@ petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/iecdrive.h
+	../../src/arch/unix/types.h ../../src/iecdrive.h petiec.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
