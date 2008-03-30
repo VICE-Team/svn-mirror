@@ -105,7 +105,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 
 	name = tui_file_selector("Attach a tape image", directory,
 				 "*.t64;*.tap;*.t6z;*.taz;*.zip;*.gz;*.lzh", default_item,
-				 image_contents_read_tape, &file);
+				 image_contents_read_tape, &file, NULL);
 
         if (file != NULL) {
             if (autostart_tape(name, file, 0) < 0)
@@ -246,11 +246,12 @@ TUI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
 static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
 {
     int unit = (int) param;
-    char rname[256];
+    char *rname;
     int v;
 
-    sprintf(rname, "Drive%dExtendImagePolicy", unit);
+    rname = xmsprintf("Drive%dExtendImagePolicy", unit);
     resources_get_value(rname, (resource_value_t *) &v);
+    free(rname);
 
     switch (v) {
       case DRIVE_EXTEND_NEVER:
@@ -486,7 +487,7 @@ TUI_MENU_DEFINE_RADIO(DatasetteZeroGapDelay)
 static TUI_MENU_CALLBACK(datasette_speedtuning_submenu_callback)
 {
     int value;
-    static char s[5];
+    static char s[100];
 
     resources_get_value("DatasetteSpeedTuning", (resource_value_t *) &value);
     sprintf(s,"%d",value);
@@ -496,7 +497,7 @@ static TUI_MENU_CALLBACK(datasette_speedtuning_submenu_callback)
 static TUI_MENU_CALLBACK(datasette_zerogapdelay_submenu_callback)
 {
     int value;
-    static char s[5];
+    static char s[100];
 
     resources_get_value("DatasetteZeroGapDelay", (resource_value_t *) &value);
     sprintf(s,"%8d",value);
@@ -902,26 +903,28 @@ static TUI_MENU_CALLBACK(keyset_callback)
 {
     int direction, number;
     int value;
-    char s[256];
+    char *rname;
 
     number = (int) param >> 8;
     direction = (int) param & 0xff;
-    sprintf(s, "KeySet%d%s", number, joystick_direction_to_string(direction));
+    rname = xmsprintf("KeySet%d%s", number,
+                      joystick_direction_to_string(direction));
 
     if (been_activated) {
         kbd_code_t key;
         int width = 60, height = 5;
         int x = CENTER_X(width), y = CENTER_Y(height);
         tui_area_t backing_store = NULL;
-        char msg[80];
+        char *msg;
 
-        sprintf(msg, "Press key for %s%s (Esc for none)...",
-                direction == KEYSET_FIRE ? "" : "direction ",
-                joystick_direction_to_string(direction));
+        msg = xmsprintf("Press key for %s%s (Esc for none)...",
+                        direction == KEYSET_FIRE ? "" : "direction ",
+                        joystick_direction_to_string(direction));
         tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK,
                            NULL, &backing_store);
         tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
         tui_display(CENTER_X(strlen(msg)), y + 2, 0, msg);
+        free(msg);
 
         /* Do not allow Alt as we need it for hotkeys.  */
         do
@@ -933,10 +936,11 @@ static TUI_MENU_CALLBACK(keyset_callback)
 
         if (key == K_ESC)
             key = K_NONE;
-        resources_set_value(s, (resource_value_t) key);
+        resources_set_value(rname, (resource_value_t) key);
     }
 
-    resources_get_value(s, (resource_value_t *) &value);
+    resources_get_value(rname, (resource_value_t *) &value);
+    free(rname);
     return kbd_code_to_string((kbd_code_t) value);
 }
 
@@ -1046,7 +1050,7 @@ static TUI_MENU_CALLBACK(load_romset_callback)
         char *name;
 
         name = tui_file_selector("Load custom ROM set definition",
-                                 NULL, "*.vrs", NULL, NULL, NULL);
+                                 NULL, "*.vrs", NULL, NULL, NULL, NULL);
 
         if (name != NULL) {
             if (romset_load(name) < 0)
@@ -1306,62 +1310,61 @@ static tui_menu_item_def_t info_submenu[] = {
 static void create_ui_video_submenu(void)
 {
     static tui_menu_t refresh_rate_submenu, vga_mode_submenu;
+    int i;
 
     refresh_rate_submenu = tui_menu_create("Refresh", 1);
-    {
-	int i;
-	char label[256], desc[256];
 
-	for (i = 1; i <= 10; i++) {
-	    if (i != 10)
-		sprintf(label, "1/_%d", i);
-	    else
-		strcpy(label, "1/1_0");
-	    if (i == 1)
-		sprintf(desc, "Set refresh rate to 1/%d (update every frame)",
-			i);
-	    else
-		sprintf(desc,
-			"Set refresh rate to 1/%d (update once every %d frames)",
-			i, i);
-	    tui_menu_add_item(refresh_rate_submenu, label, desc,
-			      radio_RefreshRate_callback, (void *)i, 0,
-			      TUI_MENU_BEH_CLOSE);
-	}
-	tui_menu_add_separator(refresh_rate_submenu);
-	tui_menu_add_item(refresh_rate_submenu, "_Automatic",
-			  "Let the emulator select an appropriate refresh rate automagically",
-			  radio_RefreshRate_callback, NULL, 0,
-			  TUI_MENU_BEH_CLOSE);
+    for (i = 1; i <= 10; i++) {
+        char *label, *desc;
+        if (i != 10)
+            label = xmsprintf("1/_%d", i);
+        else
+            label = stralloc("1/1_0");
+        if (i == 1)
+            desc = xmsprintf("Set refresh rate to 1/%d (update every frame)",
+                             i);
+        else
+            desc = xmsprintf("Set refresh rate to 1/%d (update once every %d frames)",
+                             i, i);
+        tui_menu_add_item(refresh_rate_submenu, label, desc,
+                          radio_RefreshRate_callback, (void *)i, 0,
+                          TUI_MENU_BEH_CLOSE);
+        free(label);
+        free(desc);
     }
 
+    tui_menu_add_separator(refresh_rate_submenu);
+                           tui_menu_add_item(refresh_rate_submenu, "_Automatic",
+                           "Let the emulator select an appropriate refresh rate automagically",
+                           radio_RefreshRate_callback, NULL, 0,
+                           TUI_MENU_BEH_CLOSE);
+
     vga_mode_submenu = tui_menu_create("VGA Resolution", 1);
-    {
-	int i;
 
-	for (i = 0; i < NUM_VGA_MODES; i++) {
-	    char s1[256], s2[256];
+    for (i = 0; i < NUM_VGA_MODES; i++) {
+        char *s1, *s2;
 
-	    /* FIXME: hotkeys work only for less than 11 elements. */
-	    sprintf(s1, "Mode _%d: %s", i, vga_modes[i].description);
-	    sprintf(s2, "Set VGA resolution to %s", vga_modes[i].description);
-	    tui_menu_add_item(vga_mode_submenu, s1, s2,
-			      radio_VGAMode_callback, (void *)i, 0,
-			      TUI_MENU_BEH_CLOSE);
-	}
+        /* FIXME: hotkeys work only for less than 11 elements. */
+        s1 = xmsprintf("Mode _%d: %s", i, vga_modes[i].description);
+        s2 = xmsprintf("Set VGA resolution to %s", vga_modes[i].description);
+        tui_menu_add_item(vga_mode_submenu, s1, s2,
+                          radio_VGAMode_callback, (void *)i, 0,
+                          TUI_MENU_BEH_CLOSE);
+        free(s1);
+        free(s2);
     }
 
     ui_video_submenu = tui_menu_create("Video Settings", 1);
 
     tui_menu_add_submenu(ui_video_submenu,"_VGA Resolution:",
-			 "Choose screen resolution for video emulation",
-			 vga_mode_submenu,
-			 resolution_submenu_callback, NULL, 8);
+                         "Choose screen resolution for video emulation",
+                         vga_mode_submenu,
+                         resolution_submenu_callback, NULL, 8);
 
     tui_menu_add_submenu(ui_video_submenu, "_Refresh Rate:",
-			 "Choose frequency of screen refresh",
-			 refresh_rate_submenu,
-			 refresh_rate_submenu_callback, NULL, 4);
+                         "Choose frequency of screen refresh",
+                         refresh_rate_submenu,
+                         refresh_rate_submenu_callback, NULL, 4);
 
 #ifndef USE_MIDAS_SOUND
     tui_menu_add_item(ui_video_submenu, "_Triple Buffering:",
@@ -1397,27 +1400,28 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
 {
     int unit = (int) param;
     char *v;
-    char rname[256];
+    char *rname;
 
-    sprintf(rname, "FSDevice%dDir", unit);
+    rname = xmsprintf("FSDevice%dDir", unit);
 
     if (been_activated) {
-	char *path;
-	int len = 255;
+        char *path;
+        int len = 255;
 
-	resources_get_value(rname, (resource_value_t *) &v);
-	if (len < strlen(v) * 2)
-	    len = strlen(v) * 2;
-	path = alloca(len + 1);
-	strcpy(path, v);
-	if (tui_input_string("Insert path",
-			     "Path:", path, len) != -1) {
-	    remove_spaces(path);
-	    fsdevice_set_directory(path, unit);
-	}
+        resources_get_value(rname, (resource_value_t *) &v);
+        if (len < strlen(v) * 2)
+            len = strlen(v) * 2;
+        path = alloca(len + 1);
+        strcpy(path, v);
+        if (tui_input_string("Insert path",
+                             "Path:", path, len) != -1) {
+            remove_spaces(path);
+            fsdevice_set_directory(path, unit);
+        }
     }
 
     resources_get_value(rname, (resource_value_t *) &v);
+    free(rname);
     return v;
 }
 
@@ -1557,28 +1561,30 @@ static void create_special_submenu(int has_serial_traps)
 
     /* Speed limit submenu.  */
     {
-	int i;
-	int speed[4] = { 100, 50, 20, 10 };
-	char s1[256], s2[256];
+        int i;
+        int speed[4] = { 100, 50, 20, 10 };
+        char *s1, *s2;
 
-	speed_submenu = tui_menu_create("Speed Limit", 1);
-	for (i = 0; i < 4; i++) {
-	    if (speed[i] == 100)
-	        sprintf(s1, "Limit speed to the one of the real %s",
-			machine_name);
-	    else
-	        sprintf(s1, "Limit speed to %d%% of the real %s",
-			speed[i], machine_name);
-	    sprintf(s2, "_%d%%", speed[i]);
-	    tui_menu_add_item(speed_submenu, s2, s1,
-			      speed_callback, (void *)speed[i], 5,
-			      TUI_MENU_BEH_CLOSE);
-	}
-	tui_menu_add_item(speed_submenu, "_No Limit",
-			  "Run the emulator as fast as possible",
-			  speed_callback, (void *)0, 5,
-			  TUI_MENU_BEH_CLOSE);
-	tui_menu_add_separator(speed_submenu);
+        speed_submenu = tui_menu_create("Speed Limit", 1);
+        for (i = 0; i < 4; i++) {
+            if (speed[i] == 100)
+                s1 = xmsprintf("Limit speed to the one of the real %s",
+                               machine_name);
+            else
+                s1 = xmsprintf("Limit speed to %d%% of the real %s",
+                               speed[i], machine_name);
+            s2 = xmsprintf("_%d%%", speed[i]);
+            tui_menu_add_item(speed_submenu, s2, s1,
+                              speed_callback, (void *)speed[i], 5,
+                              TUI_MENU_BEH_CLOSE);
+            free(s1);
+            free(s2);
+        }
+        tui_menu_add_item(speed_submenu, "_No Limit",
+                          "Run the emulator as fast as possible",
+                          speed_callback, (void *)0, 5,
+                          TUI_MENU_BEH_CLOSE);
+        tui_menu_add_separator(speed_submenu);
         tui_menu_add_item(speed_submenu, "_Custom...",
                           "Specify a custom relative speed value",
                           speed_callback, (void *)-1, 5,
