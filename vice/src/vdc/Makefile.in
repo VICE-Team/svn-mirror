@@ -269,6 +269,7 @@ vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h
 vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/raster/raster-resources.h ../../src/resources.h \
 	../../src/utils.h ../../src/arch/unix/types.h vdc-resources.h \
 	vdc.h vdctypes.h ../../src/log.h ../../src/raster/raster.h \

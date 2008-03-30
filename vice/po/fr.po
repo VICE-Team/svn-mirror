@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-06-20 18:57+0200\n"
+"POT-Creation-Date: 2002-06-22 19:02+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -77,21 +77,22 @@ msgstr ""
 msgid "*Revison 2"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:99 src/arch/unix/plus4ui.c:90
-#: src/arch/unix/uicrtc.c:56 src/arch/unix/uivicii.c:70
-#: src/arch/unix/vic20ui.c:422
-msgid "*Video cache"
-msgstr ""
-
-#: src/arch/unix/c128ui.c:101 src/arch/unix/uicrtc.c:58
-#: src/arch/unix/uisettings.c:540 src/arch/unix/uisettings.c:559
+#: src/arch/unix/c128ui.c:99 src/arch/unix/uicrtc.c:56
+#: src/arch/unix/uisettings.c:540 src/arch/unix/uisettings.c:558
 msgid "*Double size"
 msgstr "*Double taille"
 
-#: src/arch/unix/c128ui.c:103 src/arch/unix/uicrtc.c:60
-#: src/arch/unix/uisettings.c:542 src/arch/unix/uisettings.c:561
+#: src/arch/unix/c128ui.c:101 src/arch/unix/plus4ui.c:91
+#: src/arch/unix/uicrtc.c:58 src/arch/unix/uisettings.c:542
+#: src/arch/unix/uivicii.c:71 src/arch/unix/vic20ui.c:423
 msgid "*Double scan"
 msgstr "*Double balayage"
+
+#: src/arch/unix/c128ui.c:103 src/arch/unix/plus4ui.c:93
+#: src/arch/unix/uicrtc.c:60 src/arch/unix/uivicii.c:73
+#: src/arch/unix/vic20ui.c:425
+msgid "*Video cache"
+msgstr ""
 
 #: src/arch/unix/c128ui.c:106
 msgid "*64KB display memory"
@@ -101,8 +102,8 @@ msgstr ""
 msgid "Revision"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:111 src/arch/unix/plus4ui.c:99
-#: src/arch/unix/uivicii.c:85 src/arch/unix/vic20ui.c:428
+#: src/arch/unix/c128ui.c:111 src/arch/unix/plus4ui.c:102
+#: src/arch/unix/uivicii.c:88 src/arch/unix/vic20ui.c:431
 msgid "Color set"
 msgstr "Jeu de couleurs"
 
@@ -294,26 +295,26 @@ msgstr "Paramètres Mémoire"
 
 #: src/arch/unix/c128ui.c:450 src/arch/unix/c64ui.c:415
 #: src/arch/unix/cbm2ui.c:458 src/arch/unix/petui.c:385
-#: src/arch/unix/plus4ui.c:188 src/arch/unix/vic20ui.c:505
+#: src/arch/unix/plus4ui.c:191 src/arch/unix/vic20ui.c:508
 #: src/arch/unix/vsidui.c:255
 msgid "File"
 msgstr "Fichier"
 
 #: src/arch/unix/c128ui.c:469 src/arch/unix/c64ui.c:434
 #: src/arch/unix/cbm2ui.c:475 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:205 src/arch/unix/vic20ui.c:524
+#: src/arch/unix/plus4ui.c:208 src/arch/unix/vic20ui.c:527
 msgid "Snapshot"
 msgstr "Capture"
 
 #: src/arch/unix/c128ui.c:475 src/arch/unix/c64ui.c:440
 #: src/arch/unix/cbm2ui.c:481 src/arch/unix/petui.c:408
-#: src/arch/unix/plus4ui.c:211 src/arch/unix/vic20ui.c:530
+#: src/arch/unix/plus4ui.c:214 src/arch/unix/vic20ui.c:533
 msgid "Options"
 msgstr "Options"
 
 #: src/arch/unix/c128ui.c:491 src/arch/unix/c64ui.c:456
 #: src/arch/unix/cbm2ui.c:495 src/arch/unix/petui.c:420
-#: src/arch/unix/plus4ui.c:223 src/arch/unix/vic20ui.c:540
+#: src/arch/unix/plus4ui.c:226 src/arch/unix/vic20ui.c:543
 #: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1107
 #: src/arch/unix/x11/gnome/x11ui.c:1199
 msgid "Settings"
@@ -323,7 +324,7 @@ msgstr "Paramètres"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:505 src/arch/unix/c64ui.c:470
 #: src/arch/unix/cbm2ui.c:512 src/arch/unix/petui.c:436
-#: src/arch/unix/plus4ui.c:236 src/arch/unix/vic20ui.c:557
+#: src/arch/unix/plus4ui.c:239 src/arch/unix/vic20ui.c:560
 msgid "RJHelp"
 msgstr "RJAide"
 
@@ -718,43 +719,43 @@ msgstr "Paramètres du modèle PET"
 msgid "*PET userport diagnostic pin"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:93 src/arch/unix/uivicii.c:83
+#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:86
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:88
+#: src/arch/unix/plus4ui.c:99 src/arch/unix/uivicii.c:91
 #, fuzzy
 msgid "PAL Emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/plus4ui.c:102
+#: src/arch/unix/plus4ui.c:105
 #, fuzzy
 msgid "*Fast PAL emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/plus4ui.c:105
+#: src/arch/unix/plus4ui.c:108
 #, fuzzy
 msgid "*PAL emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/plus4ui.c:117
+#: src/arch/unix/plus4ui.c:120
 msgid "*16KB"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:119
+#: src/arch/unix/plus4ui.c:122
 msgid "*32KB"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:121
+#: src/arch/unix/plus4ui.c:124
 msgid "*64KB"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:129
+#: src/arch/unix/plus4ui.c:132
 #, fuzzy
 msgid "RAM settings"
 msgstr "Paramètres de la ROM"
 
-#: src/arch/unix/plus4ui.c:131
+#: src/arch/unix/plus4ui.c:134
 #, fuzzy
 msgid "TED settings"
 msgstr "Paramètres VDC"
@@ -1272,7 +1273,7 @@ msgstr ""
 msgid "*White"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:563
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:560
 msgid "*Use XSync()"
 msgstr ""
 
@@ -1750,7 +1751,7 @@ msgstr ""
 msgid "Enter refresh rate"
 msgstr "Entrer le taux de rafraîschissement"
 
-#: src/arch/unix/uisettings.c:128 src/arch/unix/uisettings.c:589
+#: src/arch/unix/uisettings.c:128 src/arch/unix/uisettings.c:586
 msgid "Refresh rate"
 msgstr "Taux de rafraîschissement"
 
@@ -1889,48 +1890,48 @@ msgstr ""
 msgid "VidMode Resolutions"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:569
+#: src/arch/unix/uisettings.c:566
 msgid "VIC-II Video settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:575
+#: src/arch/unix/uisettings.c:572
 msgid "VIC Video settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:581
+#: src/arch/unix/uisettings.c:578
 #, fuzzy
 msgid "TED Video settings"
 msgstr "Paramètres du modèle PET"
 
-#: src/arch/unix/uisettings.c:591
+#: src/arch/unix/uisettings.c:588
 msgid "Maximum speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:593
+#: src/arch/unix/uisettings.c:590
 msgid "*Enable warp mode"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:608
+#: src/arch/unix/uisettings.c:605
 msgid "*Fullscreen settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:616
+#: src/arch/unix/uisettings.c:613
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:622
+#: src/arch/unix/uisettings.c:619
 msgid "Save settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:624
+#: src/arch/unix/uisettings.c:621
 msgid "Load settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:626
+#: src/arch/unix/uisettings.c:623
 msgid "Restore default settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:628
+#: src/arch/unix/uisettings.c:625
 msgid "*Save settings on exit"
 msgstr ""
 
@@ -2071,20 +2072,20 @@ msgstr ""
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:73 src/arch/unix/vic20ui.c:425
+#: src/arch/unix/uivicii.c:76 src/arch/unix/vic20ui.c:428
 #: src/arch/unix/vsidui.c:173
 msgid "Video standard"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:76
+#: src/arch/unix/uivicii.c:79
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:78
+#: src/arch/unix/uivicii.c:81
 msgid "*Sprite-background collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:81
+#: src/arch/unix/uivicii.c:84
 msgid "*New Luminances"
 msgstr ""
 
@@ -2175,7 +2176,7 @@ msgstr ""
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:184 src/arch/unix/vic20ui.c:439
+#: src/arch/unix/vic20ui.c:184 src/arch/unix/vic20ui.c:442
 msgid "Memory expansions"
 msgstr ""
 
@@ -2207,12 +2208,12 @@ msgstr ""
 msgid "Detach cartridge image(s)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:431
+#: src/arch/unix/vic20ui.c:434
 #, fuzzy
 msgid "PAL Emulation Settings"
 msgstr "Paramètres"
 
-#: src/arch/unix/vic20ui.c:437
+#: src/arch/unix/vic20ui.c:440
 msgid "VIC settings"
 msgstr ""
 
@@ -2768,16 +2769,16 @@ msgstr ""
 msgid "Request YUV FOURCC format"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:354
+#: src/arch/unix/x11/video.c:353
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:358
+#: src/arch/unix/x11/video.c:357
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:419
+#: src/arch/unix/x11/video.c:418
 msgid "Cannot release shared memory!"
 msgstr ""
 

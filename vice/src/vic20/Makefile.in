@@ -295,11 +295,11 @@ vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	vic-mem.h vic20.h ../../src/video.h vic-snapshot.h
 vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/clkguard.h \
-	../../src/log.h ../../src/mem.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/palette.h \
-	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/unix/types.h ../../src/arch/unix/archdep.h \
+	../../src/archapi.h ../../src/clkguard.h ../../src/log.h \
+	../../src/mem.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/palette.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
 	vic-cmdline-options.h vic-draw.h vic-mem.h vic-resources.h \

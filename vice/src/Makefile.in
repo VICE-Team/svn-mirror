@@ -647,8 +647,8 @@ resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	mem.h arch/unix/types.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
-	cmdline.h interrupt.h 6510core.h log.h maincpu.h resources.h \
-	rs232.h rsuser.h
+	cmdline.h interrupt.h log.h maincpu.h resources.h rs232.h \
+	rsuser.h
 screenshot.o: screenshot.c vice.h config.h gfxoutput.h log.h machine.h \
 	palette.h arch/unix/types.h screenshot.h utils.h video.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
