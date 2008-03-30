@@ -72,6 +72,7 @@ struct video_resource_chip_s {
     int fullscreen_mode[FULLSCREEN_MAXDEV];
     int external_palette_enabled;
     char *external_palette_name;
+    int double_buffer_enabled;
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
 
@@ -416,6 +417,29 @@ static resource_int_t resources_chip_palette_int[] =
     { NULL }
 };
 
+static int set_double_buffer_enabled(int val, void *param)
+{
+    video_resource_chip_t *video_resource_chip;
+    video_canvas_t *canvas;
+
+    video_resource_chip = (video_resource_chip_t *)param;
+    canvas = *(video_resource_chip->canvas);
+
+    video_resource_chip->double_buffer_enabled = val;
+    canvas->videoconfig->double_buffer = val;
+
+    return 0;
+}
+
+static const char *vname_chip_double_buffer[] = { "DoubleBuffer", NULL };
+
+static resource_int_t resources_chip_double_buffer[] =
+{
+    { NULL, 0, RES_EVENT_NO, NULL,
+      NULL, set_double_buffer_enabled, NULL },
+    { NULL }
+};
+
 int video_resources_chip_init(const char *chipname,
                               struct video_canvas_s **canvas,
                               video_chip_cap_t *video_chip_cap)
@@ -581,6 +605,18 @@ int video_resources_chip_init(const char *chipname,
     lib_free((char *)(resources_chip_palette_string[0].name));
     if (video_chip_cap->internal_palette_allowed != 0)
         lib_free((char *)(resources_chip_palette_int[0].name));
+
+    if (video_chip_cap->double_buffering_allowed != 0) {
+        resources_chip_double_buffer[0].name
+            = util_concat(chipname, vname_chip_double_buffer[0], NULL);
+        resources_chip_double_buffer[0].value_ptr
+            = &(resource_chip->double_buffer_enabled);
+        resources_chip_double_buffer[0].param = (void *)resource_chip;
+        if (resources_register_int(resources_chip_double_buffer) < 0)
+            return -1;
+
+        lib_free((char *)(resources_chip_double_buffer[0].name));
+    }
 
     return 0;
 }

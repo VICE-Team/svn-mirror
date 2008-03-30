@@ -101,6 +101,7 @@ struct video_chip_cap_s {
     unsigned int scale2x_allowed;
     unsigned int internal_palette_allowed;
     unsigned int palemulation_allowed;
+    unsigned int double_buffering_allowed;
     const char *external_palette_name;
     cap_render_t single_mode;
     cap_render_t double_mode;
@@ -133,6 +134,7 @@ struct video_render_config_s {
     int scale2x;                   /* Scale2x enabled?  */
     unsigned int external_palette; /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
+    int double_buffer;             /* Double buffering enabled? */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
 };

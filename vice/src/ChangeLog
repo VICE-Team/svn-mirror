@@ -1,3 +1,34 @@
+2007-04-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.4.
+
+	* video.h, arch/unix/archdep.h, arch/win32/archdep.h,
+	arch/msdos/archdep.h, arch/riscos/archdep.h,
+	arch/os2/archdep.h, arch/beos/archdep.h
+	vicii/vicii-resources.c, vdc/vdc-resources.c,
+	crtc/crtc-resources.c, vic20/vic-resources.c,
+	plus4/ted-resources.c, video/video-resources.c: Added double
+	buffering resource. Currently not used.
+
+2007-04-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.txt,
+	arch/amigaos/mui/uivicii.c, arch/beos/c128ui.cc,
+	arch/beos/c64ui.cc, arch/beos/constants.h,
+	arch/beos/vicemenu.cc: Added vicii border UI elements.
+
+	* arch/win32/intl.c, arch/win32/resvicii.rc,
+	translate.c: Updated.
+
+2007-04-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* 6510core.c, arch/os2/vac++/incl/vicii.icc,
+	arch/win32/vicii.dsp, c128/c128cpu.c, vicii/Makefile.am,
+	vicii/vicii-badline.c, vicii/vicii-clock-stretch.c,
+	vicii/vicii-fetch.c, vicii/vicii-mem.c, vicii/vicii.c,
+	vicii/viciitypes.h, vicii.h: Started the c128 2mhz mode
+	support.
+
 2007-04-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.3.
