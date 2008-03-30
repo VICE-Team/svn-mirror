@@ -54,7 +54,7 @@ static void draw_std_background(unsigned int start_pixel,
                                 unsigned int end_pixel)
 {
     memset(vdc.raster.draw_buffer_ptr + start_pixel,
-           vdc.raster.overscan_background_color,
+           vdc.raster.idle_background_color,
            end_pixel - start_pixel + 1);
 }
 */

@@ -118,8 +118,8 @@ struct raster_s {
     unsigned int border_color;
     unsigned int background_color;
 
-    /* Color of the overscan area.  */
-    int overscan_background_color;
+    /* Color of the idle background.  */
+    int idle_background_color;
 
     /* Color of the xsmooth area.  */
     int xsmooth_color;

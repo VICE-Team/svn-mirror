@@ -403,10 +403,10 @@ int vicii_snapshot_read_module(snapshot_t *s)
     vicii.raster.blank = !(vicii.regs[0x11] & 0x10);
 
     if (VICII_IS_ILLEGAL_MODE(vicii.raster.video_mode)) {
-        vicii.raster.overscan_background_color = 0;
+        vicii.raster.idle_background_color = 0;
         vicii.force_black_overscan_background_color = 1;
     } else {
-        vicii.raster.overscan_background_color
+        vicii.raster.idle_background_color
             = vicii.raster.background_color;
         vicii.force_black_overscan_background_color = 0;
     }

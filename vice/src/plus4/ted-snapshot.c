@@ -310,10 +310,10 @@ int ted_snapshot_read_module(snapshot_t *s)
     ted.raster.blank = !(ted.regs[0x11] & 0x10);
 
     if (TED_IS_ILLEGAL_MODE (ted.raster.video_mode)) {
-        ted.raster.overscan_background_color = 0;
+        ted.raster.idle_background_color = 0;
         ted.force_black_overscan_background_color = 1;
     } else {
-        ted.raster.overscan_background_color
+        ted.raster.idle_background_color
             = ted.raster.background_color;
         ted.force_black_overscan_background_color = 0;
     }

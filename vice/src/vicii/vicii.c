@@ -744,7 +744,7 @@ void vicii_update_video_mode(unsigned int cycle)
             /* Force the overscan color to black.  */
             raster_add_int_change_background
                 (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.overscan_background_color, 0);
+                &vicii.raster.idle_background_color, 0);
             raster_add_int_change_background
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
@@ -755,7 +755,7 @@ void vicii_update_video_mode(unsigned int cycle)
           case VICII_HIRES_BITMAP_MODE:
             raster_add_int_change_background
                 (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.overscan_background_color, 0);
+                &vicii.raster.idle_background_color, 0);
             raster_add_int_change_background
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
@@ -767,8 +767,8 @@ void vicii_update_video_mode(unsigned int cycle)
           case VICII_EXTENDED_TEXT_MODE:
             raster_add_int_change_background
                 (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.overscan_background_color,
-                vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
+                &vicii.raster.idle_background_color,
+                vicii.regs[0x21]);
             raster_add_int_change_background
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
@@ -782,7 +782,7 @@ void vicii_update_video_mode(unsigned int cycle)
                color register.  */
             raster_add_int_change_background
                 (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.overscan_background_color,
+                &vicii.raster.idle_background_color,
                 vicii.regs[0x21]);
             raster_add_int_change_background
                 (&vicii.raster,

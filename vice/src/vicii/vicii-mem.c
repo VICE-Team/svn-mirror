@@ -720,7 +720,7 @@ inline static void d021_store(BYTE value)
     if (!vicii.force_black_overscan_background_color) {
         raster_add_int_change_background
             (&vicii.raster, x_pos,
-            &vicii.raster.overscan_background_color, value);
+            &vicii.raster.idle_background_color, value);
         raster_add_int_change_background
             (&vicii.raster, x_pos,
             &vicii.raster.xsmooth_color, value);
@@ -749,11 +749,6 @@ inline static void ext_background_store(WORD addr, BYTE value)
     char_num = VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk));
 
     if (vicii.video_mode == VICII_EXTENDED_TEXT_MODE) {
-        raster_add_int_change_background
-            (&vicii.raster,
-            VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
-            &vicii.raster.overscan_background_color,
-            vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
         raster_add_int_change_background
             (&vicii.raster,
             VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),

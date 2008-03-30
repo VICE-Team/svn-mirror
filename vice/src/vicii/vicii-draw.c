@@ -149,7 +149,7 @@ static void draw_idle_std_background(unsigned int start_pixel,
                                      unsigned int end_pixel)
 {
     memset(vicii.raster.draw_buffer_ptr + start_pixel,
-           vicii.raster.overscan_background_color,
+           vicii.raster.idle_background_color,
            end_pixel - start_pixel + 1);
 }
 
@@ -1205,11 +1205,11 @@ static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
     if (rr
         || cache->foreground_data[0] != vicii.idle_data
         || cache->color_data_1[0] != vicii.raster.background_color
-        || cache->color_data_1[1] != vicii.raster.overscan_background_color
+        || cache->color_data_1[1] != vicii.raster.idle_background_color
         || cache->color_data_1[2] != vicii.raster.video_mode) {
         cache->foreground_data[0] = (BYTE)vicii.idle_data;
         cache->color_data_1[0] = vicii.raster.background_color;
-        cache->color_data_1[1] = vicii.raster.overscan_background_color;
+        cache->color_data_1[1] = vicii.raster.idle_background_color;
         cache->color_data_1[2] = vicii.raster.video_mode;
         *xs = 0;
         *xe = VICII_SCREEN_TEXTCOLS - 1;
@@ -1235,7 +1235,7 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
         unsigned int offs;
         DWORD c1, c2;
 
-        offs = vicii.raster.overscan_background_color << 4;
+        offs = vicii.raster.idle_background_color << 4;
         c1 = *(hr_table + offs + (d >> 4));
         c2 = *(hr_table + offs + (d & 0xf));
 

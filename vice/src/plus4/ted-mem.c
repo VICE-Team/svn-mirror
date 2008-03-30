@@ -541,7 +541,7 @@ inline static void ted15_store(BYTE value)
     if (!ted.force_black_overscan_background_color) {
         raster_add_int_change_background
             (&ted.raster, x_pos,
-            &ted.raster.overscan_background_color, value);
+            &ted.raster.idle_background_color, value);
         raster_add_int_change_background
             (&ted.raster, x_pos,
             &ted.raster.xsmooth_color, value);

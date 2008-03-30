@@ -198,7 +198,7 @@ inline static void fill_background(raster_t *raster)
 
     if (raster->open_left_border) {
         if (raster->draw_idle_state)
-            memset(raster->draw_buffer_ptr, raster->overscan_background_color,
+            memset(raster->draw_buffer_ptr, raster->idle_background_color,
                    (raster->geometry->gfx_position.x + raster->xsmooth));
         else
             memset(raster->draw_buffer_ptr, raster->xsmooth_color,
@@ -211,7 +211,7 @@ inline static void fill_background(raster_t *raster)
                    raster->geometry->gfx_position.x
                    + raster->geometry->gfx_size.width
                    + raster->xsmooth,
-                   raster->overscan_background_color,
+                   raster->idle_background_color,
                    raster->geometry->screen_size.width
                    - raster->geometry->gfx_position.x
                    - raster->geometry->gfx_size.width
@@ -256,8 +256,8 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         || (cache->open_right_border && !raster->open_right_border)
         || (cache->open_left_border && !raster->open_left_border)
         || cache->xsmooth_color != raster->xsmooth_color
-        || cache->overscan_background_color
-        != raster->overscan_background_color) {
+        || cache->idle_background_color
+        != raster->idle_background_color) {
 
         unsigned int changed_start_char, changed_end_char;
         int r;
@@ -273,7 +273,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         cache->open_right_border = raster->open_right_border;
         cache->open_left_border = raster->open_left_border;
         cache->xsmooth_color = raster->xsmooth_color;
-        cache->overscan_background_color = raster->overscan_background_color;
+        cache->idle_background_color = raster->idle_background_color;
 
         /* Fill the space between the border and the graphics with the
            background color (necessary if `xsmooth' is != 0).  */
@@ -370,8 +370,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
     /* FIXME: Done differently in another place.  */
         || cache->open_right_border != raster->open_right_border
         || cache->open_left_border != raster->open_left_border
-        || cache->overscan_background_color
-        != raster->overscan_background_color
+        || cache->idle_background_color != raster->idle_background_color
         || cache->xsmooth_color != raster->xsmooth_color) {
         cache->blank = 0;
         cache->is_dirty = 0;
@@ -379,7 +378,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
         cache->open_right_border = raster->open_right_border;
         cache->open_left_border = raster->open_left_border;
         cache->xsmooth_color = raster->xsmooth_color;
-        cache->overscan_background_color = raster->overscan_background_color;
+        cache->idle_background_color = raster->idle_background_color;
 
         add_line_to_area(&raster->update_area, raster->current_line,
                          0, raster->geometry->screen_size.width - 1);
@@ -549,7 +548,7 @@ inline static void handle_visible_line(raster_t *raster)
     }
 
     if (raster->draw_idle_state)
-        raster->xsmooth_color = raster->overscan_background_color;
+        raster->xsmooth_color = raster->idle_background_color;
 }
 
 void raster_line_emulate(raster_t *raster)

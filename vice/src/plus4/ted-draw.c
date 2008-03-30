@@ -56,7 +56,7 @@ static void draw_std_background(unsigned int start_pixel,
                                 unsigned int end_pixel)
 {
     memset(ted.raster.draw_buffer_ptr + start_pixel,
-           ted.raster.overscan_background_color,
+           ted.raster.idle_background_color,
            end_pixel - start_pixel + 1);
 }
 
@@ -421,7 +421,7 @@ static void draw_hires_bitmap(void)
                     ted.raster.gfx_msk);
 
     /* Overscan color in HIRES is determined by last char of previous line */
-    ted.raster.overscan_background_color = 
+    ted.raster.idle_background_color = 
         ted.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0x7f;
 }
 
@@ -432,7 +432,7 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, unsigned int xs,
 
     /* Overscan color in HIRES is determined by last char of previous line */
     if (xe == TED_SCREEN_TEXTCOLS - 1)
-        ted.raster.overscan_background_color = 
+        ted.raster.idle_background_color = 
             ted.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0x7f;
 }
 
@@ -886,7 +886,7 @@ inline static void _draw_idle(unsigned int xs, unsigned int xe,
         unsigned int offs;
         DWORD c1, c2;
 
-        offs = ted.raster.overscan_background_color << 4;
+        offs = ted.raster.idle_background_color << 4;
         c1 = *(hr_table + offs + (d >> 4));
         c2 = *(hr_table + offs + (d & 0xf));
 

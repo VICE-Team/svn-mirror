@@ -51,7 +51,7 @@ struct raster_cache_s {
        border and the start of the graphics, when the X smooth scroll
        register is > 0.  */
     BYTE xsmooth_color;
-    BYTE overscan_background_color;
+    BYTE idle_background_color;
 
     /* X smooth scroll offset.  */
     int xsmooth;

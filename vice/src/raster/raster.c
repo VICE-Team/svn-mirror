@@ -223,7 +223,7 @@ int raster_init(raster_t *raster,
 
     raster->border_color = 0;
     raster->background_color = 0;
-    raster->overscan_background_color = 0;
+    raster->idle_background_color = 0;
     raster->xsmooth_color = 0;
 
     memset(raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);

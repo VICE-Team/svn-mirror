@@ -499,7 +499,7 @@ void ted_update_video_mode(unsigned int cycle)
             /* Force the overscan color to black.  */
             raster_add_int_change_background
                 (&ted.raster, TED_RASTER_X(cycle),
-                &ted.raster.overscan_background_color,
+                &ted.raster.idle_background_color,
                 0);
             raster_add_int_change_background
                 (&ted.raster, TED_RASTER_X(cycle),
@@ -509,10 +509,10 @@ void ted_update_video_mode(unsigned int cycle)
         } else {
             /* The overscan background color is given by the background color
                register.  */
-            if (ted.raster.overscan_background_color != ted.regs[0x15]) {
+            if (ted.raster.idle_background_color != ted.regs[0x15]) {
                 raster_add_int_change_background
                     (&ted.raster, TED_RASTER_X(cycle),
-                    &ted.raster.overscan_background_color,
+                    &ted.raster.idle_background_color,
                     ted.regs[0x15]);
                 raster_add_int_change_background
                     (&ted.raster, TED_RASTER_X(cycle),
