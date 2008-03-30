@@ -53,7 +53,7 @@ static char *device_name;             /* app_resources.soundDeviceName */
 static char *device_arg;              /* app_resources.soundDeviceArg */
 static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
-static int speed_adjustment_enabled;  /* app_resources.soundSpeedAdjustment */
+static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
 static int oversampling_factor;       /* app_resources.soundOversample */
 
 static int set_playback_enabled(resource_value_t v)
@@ -102,9 +102,9 @@ static int set_suspend_time(resource_value_t v)
     return 0;
 }
 
-static int set_speed_adjustment_enabled(resource_value_t v)
+static int set_speed_adjustment_setting(resource_value_t v)
 {
-    speed_adjustment_enabled = (int)v;
+    speed_adjustment_setting = (int)v;
     sound_close();
     return 0;
 }
@@ -135,9 +135,9 @@ static resource_t resources[] = {
       (resource_value_t *) &buffer_size, set_buffer_size },
     { "SoundSuspendTime", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &suspend_time, set_suspend_time },
-    { "SoundSpeedAdjustment", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &speed_adjustment_enabled,
-      set_speed_adjustment_enabled },
+    { "SoundSpeedAdjustment", RES_INTEGER, (resource_value_t) SOUND_ADJUST_FLEXIBLE,
+      (resource_value_t *) &speed_adjustment_setting,
+      set_speed_adjustment_setting },
     { "SoundOversample", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &oversampling_factor, set_oversampling_factor },
     { NULL }
@@ -164,6 +164,9 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify sound driver" },
     { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
       "<args>", "Specify initialization parameters for sound driver" },
+    { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
+      "<sync>",
+      "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
     { NULL }
 };
 
@@ -425,7 +428,7 @@ static int sound_run_sound(void)
    to match real running speed of program */
 int sound_flush(int relative_speed)
 {
-    int			i, nr, space, used, fill = 0;
+    int			i, nr, space, used, fill = 0, dir = 0;
 
     if (!playback_enabled || warp_mode_enabled)
         return 0;
@@ -500,8 +503,9 @@ int sound_flush(int relative_speed)
 		prev = now;
 	    }
 	    j = snddata.fragsize*snddata.fragnr - nr;
-	    if (j > snddata.bufsize / 2 && !speed_adjustment_enabled &&
-		relative_speed)
+	    if (j > snddata.bufsize / 2
+                && speed_adjustment_setting != SOUND_ADJUST_ADJUSTING
+                && relative_speed)
 	    {
 		j = snddata.fragsize*(snddata.fragnr/2);
 	    }
@@ -524,7 +528,8 @@ int sound_flush(int relative_speed)
 	    }
 	    fill = j;
 	}
-	if (!speed_adjustment_enabled && relative_speed > 0)
+	if (speed_adjustment_setting != SOUND_ADJUST_ADJUSTING
+            && relative_speed > 0)
 	    snddata.clkfactor = relative_speed / 100.0;
 	else
 	{
@@ -535,7 +540,29 @@ int sound_flush(int relative_speed)
 	}
 	snddata.prevused = used;
 	snddata.prevfill = fill;
-	snddata.clkfactor *= 0.9 + (used+nr)*0.12/snddata.bufsize;
+	if (speed_adjustment_setting == SOUND_ADJUST_EXACT)
+	{
+	    /* finetune VICE timer */
+	    static int lasttime = 0;
+	    static int minspace = 0;
+	    int t = time(0);
+	    if (minspace > space - nr)
+		minspace = space - nr;
+	    if (t != lasttime)
+	    {
+		lasttime = t;
+		if (minspace <= 0)
+		    dir = -1;
+		if (minspace > snddata.fragsize)
+		    dir = 1;
+#if 0
+		printf("sync %d %d %f\n", dir, minspace, snddata.clkfactor);
+#endif
+		minspace = snddata.bufsize;
+	    }
+	}
+	else if (speed_adjustment_setting == SOUND_ADJUST_ADJUSTING)
+	    snddata.clkfactor *= 0.9 + (used+nr)*0.12/snddata.bufsize;
 	snddata.clkstep = snddata.origclkstep * snddata.clkfactor;
 	if (cycles_per_rfsh / snddata.clkstep >= snddata.bufsize)
 	{
@@ -561,7 +588,7 @@ int sound_flush(int relative_speed)
 	for (i = 0; i < snddata.bufptr; i++)
 	    snddata.buffer[i] = snddata.buffer[i + nr];
     }
-    return 0;
+    return dir;
 }
 
 /* close sid */

@@ -111,12 +111,7 @@ static enum {
     addr = screen_addr - line_length;
     for (i = 0; s[i] != '\0'; i++) {
 	if (mem_read((ADDRESS) (addr + i)) != s[i] % 64) {
-	    if (mem_read((ADDRESS) (addr + i)) != (BYTE) 32
-/* what was this test for?
-   && mem_read((ADDRESS)(addr + i)) != (BYTE) 0
-   && mem_read((ADDRESS)(addr + i)) != (BYTE) 255
- */
-		)
+	    if (mem_read((ADDRESS) (addr + i)) != (BYTE) 32)
 		return NO;
 	    return NOT_YET;
 	}
@@ -139,6 +134,8 @@ static int get_true1541_state(void)
 
     return value;
 }
+
+/* ------------------------------------------------------------------------- */
 
 /* Initialize autostart.  */
 int autostart_init(CLOCK _min_cycles, int _handle_true1541,
@@ -173,6 +170,26 @@ void autostart_disable(void)
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
     warn(pwarn, -1, "disabling autostart");
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* This function is called by the `serialreceivebyte()' trap as soon as EOF
+   is reached.  */
+static void disk_eof_callback(void)
+{
+    if (handle_true1541) {
+        if (orig_true1541_state)
+            warn(pwarn, -1, "switching true 1541 on and starting program");
+        else
+            warn(pwarn, -1, "starting program");
+        set_true1541_mode(orig_true1541_state);
+    }
+
+    kbd_buf_feed("run\r");
+    autostartmode = AUTOSTART_DONE;
+
+    serial_set_eof_callback(NULL);
 }
 
 /* Execute the actions for the current `autostartmode', advancing to the next
@@ -252,28 +269,9 @@ void autostart_advance(void)
                     kbd_buf_feed("load\"*\",8,1\r");
                 autostartmode = AUTOSTART_LOADINGDISK;
                 deallocate_program_name();
+                serial_set_eof_callback(disk_eof_callback);
                 break;
             }
-          case NO:
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
-        break;
-      case AUTOSTART_LOADINGDISK:
-        switch (check("READY.")) {
-          case YES:
-            if (handle_true1541) {
-                if (orig_true1541_state)
-                    warn(pwarn, -1, "switching true 1541 on and starting program");
-                else
-                    warn(pwarn, -1, "starting program");
-                set_true1541_mode(orig_true1541_state);
-            }
-            kbd_buf_feed("run\r");
-            autostartmode = AUTOSTART_DONE;
-            break;
           case NO:
             autostart_disable();
             break;

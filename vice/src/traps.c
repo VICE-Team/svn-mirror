@@ -55,8 +55,6 @@ typedef struct _traplist_t {
 
 static traplist_t *traplist;
 
-static traplist_t *tmp_traplist;
-
 static int install_trap(const trap_t *t);
 static int remove_trap(const trap_t *t);
 
@@ -216,9 +214,14 @@ int traps_handler(void)
     while (p) {
         DEBUG(("TRAPS: check Address %04X\n", p->trap->address));
 	if (p->trap->address == pc) {
+            /* This allows the trap function to remove traps.  */
+            ADDRESS resume_address = p->trap->resume_address;
+
             DEBUG(("TRAPS: Found %s\n", p->trap->name));
 	    (*p->trap->func)();
-            MOS6510_REGS_SET_PC(&maincpu_regs, p->trap->resume_address);
+            /* XXX ALERT!  `p' might not be valid anymore here, because
+               `p->trap->func()' might have removed all the traps.  */
+            MOS6510_REGS_SET_PC(&maincpu_regs, resume_address);
             return 0;
 	}
 	p = p->next;

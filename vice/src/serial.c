@@ -62,7 +62,7 @@
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
 #define SET_ST(b)		mem_store(0x90, (mem_read(0x90) | b))
-#define BSOUR			0x95    /* Buffered Character for IEEE Bus */
+#define BSOUR			0x95	/* Buffered Character for IEEE Bus */
 #define TMP_IN			0xA4
 
 /* Initialized serial devices.  */
@@ -72,7 +72,7 @@ static serial_t serialdevices[MAXDEVICES];
 /* Store name here for serial-open.  */
 #define SERIAL_NAMELENGTH 255
 
-static BYTE SerialBuffer[SERIAL_NAMELENGTH +1];
+static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 static int SerialPtr;
 
 /* On which channel did listen happen to?  */
@@ -85,6 +85,10 @@ static int traps_installed = 0;
 /* Pointer to list of traps we are using.  */
 static const trap_t *serial_traps;
 
+/* Function to call when EOF happens in `serialreceivebyte()'.  This is just
+   a kludge for the autostart code (see `autostart.c'.  */
+static void (*eof_callback_func)(void);
+
 /* ------------------------------------------------------------------------- */
 
 /* Call this if device is not attached: -128 == device not present.  */
@@ -94,15 +98,15 @@ static int fn()
 }
 
 /* Handle Serial Bus Commands under Attention.  */
-static int  serialcommand()
+static int serialcommand()
 {
     serial_t *p;
-    int     channel;
-    int     i, st = 0;
+    int channel;
+    int i, st = 0;
 
 #ifdef DEBUG_SERIAL
     printf("***SerialCommand %02x %02x %02x  BUF(%d) '%s'\n\n",
-	   TrapDevice, TrapSecondary, ram[BSOUR],  SerialPtr, SerialBuffer);
+           TrapDevice, TrapSecondary, ram[BSOUR], SerialPtr, SerialBuffer);
 #endif
 
     /*
@@ -112,59 +116,58 @@ static int  serialcommand()
     channel = TrapSecondary & 0x0f;
 
     /* if command on a channel, reset output buffer... */
-    if((TrapSecondary & 0xf0)!=0x60) {
-	p -> nextok[channel] = 0;
+    if ((TrapSecondary & 0xf0) != 0x60) {
+	p->nextok[channel] = 0;
     }
-
     switch (TrapSecondary & 0xf0) {
-	/*
-	 * Open Channel
-	 */
+        /*
+         * Open Channel
+         */
       case 0x60:
-	if (!p -> isopen[channel]) {
-	    p -> isopen[channel] = 1;
-	    st = (*(p ->openf))(p ->info, NULL, 0, channel);
-	    for (i = 0; i < SerialPtr; i++)
-		(*(p -> putf))(p -> info, SerialBuffer[i], channel);
-	    SerialPtr = 0;
-	}
-	if (p -> flushf)
-	    (*(p -> flushf))(p -> info, channel);
-	break;
+        if (!p->isopen[channel]) {
+            p->isopen[channel] = 1;
+            st = (*(p->openf)) (p->info, NULL, 0, channel);
+            for (i = 0; i < SerialPtr; i++)
+                (*(p->putf)) (p->info, SerialBuffer[i], channel);
+            SerialPtr = 0;
+        }
+        if (p->flushf)
+            (*(p->flushf)) (p->info, channel);
+        break;
 
-	/*
-	 * Close File
-	 */
+        /*
+         * Close File
+         */
       case 0xE0:
-	p -> isopen[channel] = 0;
-	st = (*(p -> closef))(p -> info, channel);
-	break;
+        p->isopen[channel] = 0;
+        st = (*(p->closef)) (p->info, channel);
+        break;
 
-	/*
-	 * Open File
-	 */
+        /*
+         * Open File
+         */
       case 0xF0:
-	if (!p -> isopen[channel]) {
-	    p -> isopen[channel] = 1;
-	    SerialBuffer[SerialPtr] = 0;
-	    st = (*(p -> openf))(p -> info, (char *)SerialBuffer, SerialPtr,
-				 channel);
-	    SerialPtr = 0;
+        if (!p->isopen[channel]) {
+            p->isopen[channel] = 1;
+            SerialBuffer[SerialPtr] = 0;
+            st = (*(p->openf)) (p->info, (char *) SerialBuffer, SerialPtr,
+                                channel);
+            SerialPtr = 0;
 
-	    if (st) {
-		p -> isopen[channel] = 0;
-		(*(p -> closef))(p -> info, channel);
+            if (st) {
+                p->isopen[channel] = 0;
+                (*(p->closef)) (p->info, channel);
 
-		fprintf(stderr, "Serial: Cannot open file. Status $%02x\n",
+                fprintf(stderr, "Serial: Cannot open file. Status $%02x\n",
                         st);
-	    }
-	}
-	if (p -> flushf)
-	    (*(p -> flushf))(p -> info, channel);
-	break;
+            }
+        }
+        if (p->flushf)
+            (*(p->flushf)) (p->info, channel);
+        break;
 
       default:
-	printf("Unknown command %02X\n\n", TrapSecondary & 0xff);
+        printf("Unknown command %02X\n\n", TrapSecondary & 0xff);
     }
 
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
@@ -178,46 +181,45 @@ static int  serialcommand()
    Secondary Address to Serial Bus under Attention.  */
 void serialattention(void)
 {
-    int     b;
-    int     st;
+    int b;
+    int st;
 
     /*
      * Which Secondary Address ?
      */
-    b = mem_read(BSOUR);		/* BSOUR - character for serial bus */
+    b = mem_read(BSOUR);	/* BSOUR - character for serial bus */
 
 #ifdef DEBUG_SERIAL
     printf("SerialSaListen(%02x)\n", b);
 #endif
 
     /* do a flush if unlisten for close and command channel */
-    if (b == 0x3f
-	    && (((TrapSecondary & 0xf0) == 0xf0)
-		|| ((TrapSecondary & 0x0f) == 0x0f))) {
+    if (b == 0x3f && (((TrapSecondary & 0xf0) == 0xf0)
+		      || ((TrapSecondary & 0x0f) == 0x0f))) {
 	st = serialcommand();
 	SET_ST(st);
-    }
-    else switch (b & 0xf0) {
-      case 0x20:
-      case 0x40:
-	TrapDevice = b;
-	break;
+    } else
+	switch (b & 0xf0) {
+	  case 0x20:
+	  case 0x40:
+            TrapDevice = b;
+            break;
 
-      case 0x60:
-      case 0xe0:
-	TrapSecondary = b;
-	st = serialcommand();
-	SET_ST(st);
-	break;
+	  case 0x60:
+	  case 0xe0:
+            TrapSecondary = b;
+            st = serialcommand();
+            SET_ST(st);
+            break;
 
-      case 0xf0:	/* Open File needs the filename first */
-	TrapSecondary = b;
-	serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
+	  case 0xf0:		/* Open File needs the filename first */
+            TrapSecondary = b;
+            serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
 #ifdef DEBUG_SERIAL
-	printf("close output.\n");
+            printf("close output.\n");
 #endif
-	break;
-    }
+            break;
+	}
 
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
 	SET_ST(0x80);
@@ -229,18 +231,18 @@ void serialattention(void)
 /* Send one byte on the serial bus.  */
 void serialsendbyte(void)
 {
-    int     data, st;
+    int data, st;
     serial_t *p;
 
     /*
      * Get data to send from address 0x95
      */
-    data = mem_read(BSOUR);		/* BSOUR - character for serial bus */
+    data = mem_read(BSOUR);	/* BSOUR - character for serial bus */
 
     p = &serialdevices[TrapDevice & 0x0f];
 
-    if (p -> inuse) {
-	if (!p -> isopen[TrapSecondary & 0x0f]) {
+    if (p->inuse) {
+	if (!p->isopen[TrapSecondary & 0x0f]) {
 
 #ifdef DEBUG_SERIAL
 	    printf("SerialSendByte[%2d] = %02x\n", SerialPtr, data);
@@ -254,11 +256,10 @@ void serialsendbyte(void)
 	    printf("SerialSendByte(%02x)\n", data);
 #endif
 	    /* Send to device */
-	    st = (*(p -> putf))(p -> info, data, TrapSecondary & 0x0f);
+	    st = (*(p->putf)) (p->info, data, TrapSecondary & 0x0f);
 	    SET_ST(st);
 	}
-    }
-    else {	/* Not present */
+    } else {			/* Not present */
 	SET_ST(0x83);
     }
 
@@ -269,34 +270,39 @@ void serialsendbyte(void)
 /* Receive one byte from the serial bus.  */
 void serialreceivebyte(void)
 {
-    int     st = 0, secadr = TrapSecondary & 0x0f;
-    BYTE    data;
+    int st = 0, secadr = TrapSecondary & 0x0f;
+    BYTE data;
     serial_t *p;
 
     p = &serialdevices[TrapDevice & 0x0f];
 
     /* get next byte if necessary */
-    if(! (p -> nextok[secadr]) ) {
-      st = (*(p -> getf))(p -> info, &(p -> nextbyte[secadr]), secadr);
-    }
+    if (!(p->nextok[secadr]))
+	st = (*(p->getf)) (p->info, &(p->nextbyte[secadr]), secadr);
+
     /* move byte from buffer to output */
-    data = p -> nextbyte[secadr];
-    p -> nextok[secadr] = 0;
+    data = p->nextbyte[secadr];
+    p->nextok[secadr] = 0;
     /* fill buffer again */
-    if(!st) {
-      st = (*(p -> getf))(p -> info, &(p -> nextbyte[secadr]), secadr);
-      if(!st) p -> nextok[secadr] = 1;
+    if (!st) {
+	st = (*(p->getf)) (p->info, &(p->nextbyte[secadr]), secadr);
+	if (!st)
+	    p->nextok[secadr] = 1;
     }
 
 #ifdef DEBUG_SERIAL
     printf("SerialReceiveByte(%02x '%c', st=%02x)\n",
-           data, isprint(data)?data:' ', st);
+	   data, isprint(data) ? data : ' ', st);
 #endif
 
     /* Set up serial success / data.  */
     if (st)
-        SET_ST(st);
+	SET_ST(st);
     mem_store(TMP_IN, data);
+
+    /* If at EOF, call specified callback function.  */
+    if ((st & 0x40) && eof_callback_func != NULL)
+        eof_callback_func();
 
     /* Set registers like the Kernal routine does.  */
     MOS6510_REGS_SET_A(&maincpu_regs, data);
@@ -321,16 +327,16 @@ void trap_serial_ready(void)
 /* ------------------------------------------------------------------------- */
 
 /* These routines work for IEEE488 emulation on both C64 and PET.  */
-static int  parallelcommand(void)
+static int parallelcommand(void)
 {
     serial_t *p;
-    BYTE    b;
-    int     channel;
-    int     i, st = 0;
+    BYTE b;
+    int channel;
+    int i, st = 0;
 
 #ifdef DEBUG_SERIAL
     printf("***ParallelCommand %02x %02x %02x  BUF(%d) '%s'\n\n",
-	   TrapDevice, TrapSecondary, ram[BSOUR],  SerialPtr, SerialBuffer);
+	 TrapDevice, TrapSecondary, ram[BSOUR], SerialPtr, SerialBuffer);
 #endif
 
     /* which device ? */
@@ -338,106 +344,104 @@ static int  parallelcommand(void)
     channel = TrapSecondary & 0x0f;
 
     /* if command on a channel, reset output buffer... */
-    if((TrapSecondary & 0xf0)!=0x60) {
-	p -> nextok[channel] = 0;
-	p -> lastok[channel] = 0;
+    if ((TrapSecondary & 0xf0) != 0x60) {
+	p->nextok[channel] = 0;
+	p->lastok[channel] = 0;
     }
-
     switch (TrapSecondary & 0xf0) {
       case 0x60:
-	/* Open Channel */
-	if (!p -> isopen[channel]) {
-	    p -> isopen[channel] = 1;
-	    st = (*(p ->openf))(p ->info, NULL, 0, channel);
-	    for (i = 0; i < SerialPtr; i++)
-		(*(p -> putf))(p -> info, SerialBuffer[i], channel);
-	    SerialPtr = 0;
-	}
-	if (p -> flushf)
-	    (*(p -> flushf))(p -> info, channel);
+	  /* Open Channel */
+	  if (!p->isopen[channel]) {
+	      p->isopen[channel] = 1;
+	      st = (*(p->openf)) (p->info, NULL, 0, channel);
+	      for (i = 0; i < SerialPtr; i++)
+		  (*(p->putf)) (p->info, SerialBuffer[i], channel);
+	      SerialPtr = 0;
+	  }
+	  if (p->flushf)
+	      (*(p->flushf)) (p->info, channel);
 
-	if((!st) && ((TrapDevice&0xf0) == 0x40) ) {
-	    st = parallelreceivebyte(&b, 1) & 0xbf; /* any error, except eof */
-	}
-
-	break;
+	  if ((!st) && ((TrapDevice & 0xf0) == 0x40)) {
+	      st = parallelreceivebyte(&b, 1) & 0xbf;	/* any error, except eof */
+	  }
+	  break;
 
       case 0xE0:
-	/* Close File */
-	p -> isopen[channel] = 0;
-	st = (*(p -> closef))(p -> info, channel);
-	break;
+	  /* Close File */
+	  p->isopen[channel] = 0;
+	  st = (*(p->closef)) (p->info, channel);
+	  break;
 
       case 0xF0:
-	/* Open File */
-	if (!p -> isopen[channel]) {
-	    p -> isopen[channel] = 1;
-	    SerialBuffer[SerialPtr] = 0;
-	    st = (*(p -> openf))(p -> info, (char *)SerialBuffer, SerialPtr,
-				 channel);
-	    SerialPtr = 0;
+	  /* Open File */
+	  if (!p->isopen[channel]) {
+	      p->isopen[channel] = 1;
+	      SerialBuffer[SerialPtr] = 0;
+	      st = (*(p->openf)) (p->info, (char *) SerialBuffer, SerialPtr,
+				  channel);
+	      SerialPtr = 0;
 
-	    if (st) {
-		p -> isopen[channel] = 0;
-		(*(p -> closef))(p -> info, channel);
-		fprintf(stderr, "Serial: Cannot open file. Status $%02x\n",
-                        st);
-	    }
-	}
-	if (p -> flushf)
-	    (*(p -> flushf))(p -> info, channel);
-	break;
+	      if (st) {
+		  p->isopen[channel] = 0;
+		  (*(p->closef)) (p->info, channel);
+		  fprintf(stderr, "Serial: Cannot open file. Status $%02x\n",
+			  st);
+	      }
+	  }
+	  if (p->flushf)
+	      (*(p->flushf)) (p->info, channel);
+	  break;
 
       default:
-	printf("Unknown command %02X\n\n", TrapSecondary & 0xff);
+	  printf("Unknown command %02X\n\n", TrapSecondary & 0xff);
     }
     return (st);
 }
 
 int parallelattention(int b)
 {
-    int     st=0;
+    int st = 0;
 
     if (pardebug)
 	printf("ParallelAttention(%02x)\n", b);
 
     if (b == 0x3f
-        && (((TrapSecondary & 0xf0) == 0xf0)
-            || ((TrapSecondary & 0x0f) == 0x0f))) {
+	&& (((TrapSecondary & 0xf0) == 0xf0)
+	    || ((TrapSecondary & 0x0f) == 0x0f))) {
 	st = parallelcommand();
-    }
-    else switch (b & 0xf0) {
-      case 0x20:
-      case 0x40:
-	TrapDevice = b;
-	break;
+    } else
+	switch (b & 0xf0) {
+	  case 0x20:
+	  case 0x40:
+	      TrapDevice = b;
+	      break;
 
-      case 0x60:
-      case 0xe0:
-	TrapSecondary = b;
-	st |= parallelcommand();
-	break;
+	  case 0x60:
+	  case 0xe0:
+	      TrapSecondary = b;
+	      st |= parallelcommand();
+	      break;
 
-      case 0xf0:	/* Open File needs the filename first */
-	TrapSecondary = b;
-	serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
-	if (pardebug) printf("close output.\n");
-	break;
-    }
+	  case 0xf0:		/* Open File needs the filename first */
+	      TrapSecondary = b;
+	      serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
+	      if (pardebug)
+		  printf("close output.\n");
+	      break;
+	}
 
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
 	st |= 0x80;
 
-    if ((b==0x3f) || (b==0x5f) ) {
+    if ((b == 0x3f) || (b == 0x5f)) {
 	TrapDevice = 0;
 	TrapSecondary = 0;
     }
-
     if (pardebug)
-        printf("ParallelAttention(%02x)->TrapDevice=%02x, st=%04x\n",
-               b, TrapDevice, st+(TrapDevice<<8));
+	printf("ParallelAttention(%02x)->TrapDevice=%02x, st=%04x\n",
+	       b, TrapDevice, st + (TrapDevice << 8));
 
-    st |= TrapDevice<<8;
+    st |= TrapDevice << 8;
     return st;
 }
 
@@ -448,8 +452,8 @@ int parallelsendbyte(int data)
 
     p = &serialdevices[TrapDevice & 0x0f];
 
-    if (p -> inuse) {
-	if (!p -> isopen[TrapSecondary & 0x0f]) {
+    if (p->inuse) {
+	if (!p->isopen[TrapSecondary & 0x0f]) {
 
 	    if (pardebug)
 		printf("SerialSendByte[%2d] = %02x\n", SerialPtr, data);
@@ -458,70 +462,69 @@ int parallelsendbyte(int data)
 		SerialBuffer[SerialPtr++] = data;
 	} else {
 	    /* Send to device */
-	    st = (*(p -> putf))(p -> info, data, TrapSecondary & 0x0f);
+	    st = (*(p->putf)) (p->info, data, TrapSecondary & 0x0f);
 	}
-    } else {	/* Not present */
+    } else {			/* Not present */
 	st = 0x83;
     }
 
-    return st + (TrapDevice<<8);
+    return st + (TrapDevice << 8);
 }
 
-int parallelreceivebyte(BYTE *data, int fake)
+int parallelreceivebyte(BYTE * data, int fake)
 {
-    int     st = 0, secadr = TrapSecondary & 0x0f;
+    int st = 0, secadr = TrapSecondary & 0x0f;
     serial_t *p;
 
     p = &serialdevices[TrapDevice & 0x0f];
 
     /* first fill up buffers */
     if (!p->lastok[secadr]) {
-        p->lastok[secadr] = p->nextok[secadr];
-        p->lastbyte[secadr] = p->nextbyte[secadr];
-        p->lastst[secadr] = p->nextst[secadr];
-        p->nextok[secadr] = 0;
-        if (!p->lastok[secadr]) {
-            p->lastst[secadr] =
-		(*(p -> getf))(p -> info, &(p -> lastbyte[secadr]), secadr);
-            p->lastok[secadr] = 1;
-        }
+	p->lastok[secadr] = p->nextok[secadr];
+	p->lastbyte[secadr] = p->nextbyte[secadr];
+	p->lastst[secadr] = p->nextst[secadr];
+	p->nextok[secadr] = 0;
+	if (!p->lastok[secadr]) {
+	    p->lastst[secadr] =
+		(*(p->getf)) (p->info, &(p->lastbyte[secadr]), secadr);
+	    p->lastok[secadr] = 1;
+	}
     }
     if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
-        p->nextst[secadr] =
-            (*(p -> getf))(p -> info, &(p -> nextbyte[secadr]), secadr);
-        p->nextok[secadr] = 1;
+	p->nextst[secadr] =
+	    (*(p->getf)) (p->info, &(p->nextbyte[secadr]), secadr);
+	p->nextok[secadr] = 1;
     }
-
     *data = p->lastbyte[secadr];
     if (!fake)
-        p->lastok[secadr] = 0;
+	p->lastok[secadr] = 0;
     st = p->nextok[secadr] ? p->nextst[secadr] :
-        ( p->lastok[secadr] ? p->lastst[secadr] : 2);
-    st += TrapDevice<<8;
+	(p->lastok[secadr] ? p->lastst[secadr] : 2);
+    st += TrapDevice << 8;
 
     if (pardebug)
-        printf("receive: sa=%02x lastb = %02x,  ok=%s, st=%04x, nextb = %02x, "
-               "ok=%s, st=%04x\n", secadr,
-               p->lastbyte[secadr], p->lastok[secadr]?"ok":"no",
-               p->lastst[secadr],
-               p->nextbyte[secadr], p->nextok[secadr]?"ok":"no",
-               p->nextst[secadr]);
+	printf("receive: sa=%02x lastb = %02x,  ok=%s, st=%04x, nextb = %02x, "
+	       "ok=%s, st=%04x\n", secadr,
+	       p->lastbyte[secadr], p->lastok[secadr] ? "ok" : "no",
+	       p->lastst[secadr],
+	       p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
+	       p->nextst[secadr]);
 
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr])
-        p->nextok[secadr] = 0;
+	p->nextok[secadr] = 0;
 
     if (pardebug)
-        printf("faked = %d, return data =%02x ('%c'), st = %04x\n",
-               fake, *data, isprint(*data)?*data:'_', st);
+	printf("faked = %d, return data =%02x ('%c'), st = %04x\n",
+	       fake, *data, isprint(*data) ? *data : '_', st);
 
     return st;
 }
 
 /* ------------------------------------------------------------------------- */
 
-int serial_init(const trap_t *trap_list)
+int serial_init(const trap_t * trap_list)
 {
-    int     i;
+    int i;
 
     /* Remove installed traps, if any.  */
     serial_remove_traps();
@@ -538,11 +541,11 @@ int serial_init(const trap_t *trap_list)
 
 	p = &serialdevices[i];
 
-	p -> getf   = (int (*)(void *, BYTE *, int))fn;
-	p -> putf   = (int (*)(void *, BYTE, int))fn;
-	p -> openf  = (int (*)(void *, char *, int , int))fn;
-	p -> closef = (int (*)(void *, int))fn;
-	p -> flushf = (void (*)(void *, int))NULL;
+	p->getf = (int (*)(void *, BYTE *, int)) fn;
+	p->putf = (int (*)(void *, BYTE, int)) fn;
+	p->openf = (int (*)(void *, char *, int, int)) fn;
+	p->closef = (int (*)(void *, int)) fn;
+	p->flushf = (void (*)(void *, int)) NULL;
     }
 
     return 0;
@@ -551,10 +554,10 @@ int serial_init(const trap_t *trap_list)
 int serial_install_traps(void)
 {
     if (!traps_installed && serial_traps != NULL) {
-        const trap_t *p;
+	const trap_t *p;
 
-        for (p = serial_traps; p->func != NULL; p++)
-            traps_add(p);
+	for (p = serial_traps; p->func != NULL; p++)
+	    traps_add(p);
 	traps_installed = 1;
     }
     return 0;
@@ -564,10 +567,10 @@ int serial_install_traps(void)
 int serial_remove_traps(void)
 {
     if (traps_installed && serial_traps != NULL) {
-        const trap_t *p;
+	const trap_t *p;
 
-        for (p = serial_traps; p->func != NULL; p++)
-            traps_remove(p);
+	for (p = serial_traps; p->func != NULL; p++)
+	    traps_remove(p);
 	traps_installed = 0;
     }
     return 0;
@@ -575,11 +578,11 @@ int serial_remove_traps(void)
 
 
 int serial_attach_device(int device, char *var, char *name,
-                         int (*getf)(void *, BYTE * , int),
-                         int (*putf)(void *, BYTE , int),
-                         int (*openf)(void *, char *, int , int),
-                         int (*closef)(void *, int),
-                         void (*flushf)(void *, int))
+			 int (*getf) (void *, BYTE *, int),
+			 int (*putf) (void *, BYTE, int),
+			 int (*openf) (void *, char *, int, int),
+			 int (*closef) (void *, int),
+			 void (*flushf) (void *, int))
 {
     serial_t *p;
     int i;
@@ -589,22 +592,22 @@ int serial_attach_device(int device, char *var, char *name,
 
     p = &serialdevices[device];
 
-    if (p -> inuse) {
+    if (p->inuse) {
 	printf("warning. serial device %d (%s) in use\n", device, name);
 	return 1;
     }
-    p -> getf  = getf;
-    p -> putf  = putf;
-    p -> openf = openf;
-    p -> closef = closef;
-    p -> flushf = flushf;
+    p->getf = getf;
+    p->putf = putf;
+    p->openf = openf;
+    p->closef = closef;
+    p->flushf = flushf;
 
-    p -> inuse = 1;
-    p -> info  = var; /* run-time data storage */
-    p -> name  = stralloc(name);
+    p->inuse = 1;
+    p->info = var;		/* run-time data storage */
+    p->name = stralloc(name);
 
-    for(i = 0; i < 16; i++) {
-	p -> nextok[i] = 0;
+    for (i = 0; i < 16; i++) {
+	p->nextok[i] = 0;
     }
     return 0;
 }
@@ -617,7 +620,7 @@ int serial_select_file(int type, int number, const char *file)
 {
     serial_t *p;
 
-    if (number < 0 && ( (number = find_devno(-1, file)) < 0) && type ) {
+    if (number < 0 && ((number = find_devno(-1, file)) < 0) && type) {
 	if (type & DT_TAPE)
 	    number = 1;
 #ifdef PRINTER
@@ -628,10 +631,9 @@ int serial_select_file(int type, int number, const char *file)
 	    number = 8;
     }
     if (number < 0 || number >= MAXDEVICES) {
-	fprintf (stderr, "\nIllegal device number %d.\n", number);
+	fprintf(stderr, "\nIllegal device number %d.\n", number);
 	return -1;
     }
-
     p = &serialdevices[number];
 
     /* WARNING: In older versions of this code, we initialized the devices
@@ -639,31 +641,30 @@ int serial_select_file(int type, int number, const char *file)
        the devices must have been explicitly initialized before we get here.
        EP 98-04-24.  */
     if (!p || !(p->inuse)) {
-	fprintf(stderr, "No device for #%d\n",number);
-        return -1;
+	fprintf(stderr, "No device for #%d\n", number);
+	return -1;
     }
-
     /* should be based on p -> info.type */
 
     switch (number) {
 
       case 1:
-	return (tape_attach_image((TAPE *)p -> info, file, 0));
+	  return (tape_attach_image((TAPE *) p->info, file, 0));
 
 #ifdef PRINTER
       case 4:
       case 5:
-        return attach_printout ((PRINTER *)p -> info, file, 0);
+	  return attach_printout((PRINTER *) p->info, file, 0);
 #endif
 
       case 8:
       case 9:
       case 10:
       case 11:
-        return attach_floppy_image((DRIVE *)(p->info), file, 0);
+	  return attach_floppy_image((DRIVE *) (p->info), file, 0);
 
       default:
-        return -1;
+	  return -1;
     }
 
     return 0;
@@ -674,7 +675,7 @@ int serial_select_file(int type, int number, const char *file)
 int serial_remove(int number)
 {
     serial_t *p;
-    int  i;
+    int i;
 
     if (number < 0) {
 	for (i = 0; i < MAXDEVICES; i++) {
@@ -683,9 +684,8 @@ int serial_remove(int number)
 
 	    if (p && p->inuse) {
 		if (number == -2) {	/* QUERY mode */
-		    printf("    Unit #%d: %s.\n", i, p -> name); /* add file */
-		}
-		else {
+		    printf("    Unit #%d: %s.\n", i, p->name);	/* add file */
+		} else {
 #if (defined(DEBUG) || defined(DEBUG_SERIAL))
 		    printf("remove unit #%d.\n", i);
 #endif
@@ -693,42 +693,41 @@ int serial_remove(int number)
 		}
 	    }
 	}
-    }		/* number < 0 */
+    }
+    /* number < 0 */
     else {
 	if (number < 0 || number >= MAXDEVICES) {
-	    fprintf (stderr, "\nIllegal device number %d.\n", number);
+	    fprintf(stderr, "\nIllegal device number %d.\n", number);
 	    return -1;
 	}
-
 	p = &serialdevices[number];
 
 	if (!p || !(p->inuse)) {
 	    printf("I'm not here.  ;)\n");
-	}
-	else
-	    switch (number) {  /* should be based on actual type ... */
+	} else
+	    switch (number) {	/* should be based on actual type ... */
 	      case 1:
-		tape_detach_image((TAPE *)p -> info);
-		break;
+		  tape_detach_image((TAPE *) p->info);
+		  break;
 #ifdef PRINTER
 	      case 4:
 	      case 5:
-		detach_printout((PRINTER *)p -> info);
-		break;
+		  detach_printout((PRINTER *) p->info);
+		  break;
 #endif
 	      case 8:
 	      case 9:
 	      case 10:
 	      case 11:
-		detach_floppy_image((DRIVE *)p -> info);
-		break;
+		  detach_floppy_image((DRIVE *) p->info);
+		  break;
 
 	      default:
-		printf ("Orphan device #%d\n", number);
-		return -1;
+		  printf("Orphan device #%d\n", number);
+		  return -1;
 	    }
 
-    } /* else */
+    }				/* else */
 
     return (0);
 }
@@ -748,28 +747,28 @@ char *serial_get_file_name(int number)
 
     switch (number) {
       case 1:
-	p = ((TAPE *)serialdevices[number].info)->ActiveName;
-	if (*p != 0)
-	    return p;
-	else
-	    return NULL;
+	  p = ((TAPE *) serialdevices[number].info)->ActiveName;
+	  if (*p != 0)
+	      return p;
+	  else
+	      return NULL;
       case 8:
       case 9:
       case 10:
-	p = ((DRIVE *)serialdevices[number].info)->ActiveName;
-	if (*p != 0)
-	    return p;
-	else
-	    return NULL;
+	  p = ((DRIVE *) serialdevices[number].info)->ActiveName;
+	  if (*p != 0)
+	      return p;
+	  else
+	      return NULL;
       default:
-	return NULL;
+	  return NULL;
     }
 }
 
 /* Close all files.  */
 void serial_reset(void)
 {
-    int i,j;
+    int i, j;
     serial_t *p;
 
     for (i = 0; i < MAXDEVICES; i++) {
@@ -778,9 +777,18 @@ void serial_reset(void)
 	    for (j = 0; j < 16; j++) {
 		if (p->isopen[j]) {
 		    p->isopen[j] = 0;
-		    (*(p->closef))(p->info, j);
+		    (*(p->closef)) (p->info, j);
 		}
 	    }
 	}
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Specify a function to call when EOF happens in `serialreceivebyte()'.
+   This is just a kludge for the autostart code (see `autostart.c'.  */
+void serial_set_eof_callback(void (*func)(void))
+{
+    eof_callback_func = func;
 }
