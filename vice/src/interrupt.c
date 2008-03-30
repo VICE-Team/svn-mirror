@@ -52,15 +52,18 @@ void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
 void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
 {
     unsigned int num_ints, *pending_int, *last_opcode_info_ptr;
+    char **int_name;
 
     num_ints = cs->num_ints;
     pending_int = cs->pending_int;
+    int_name = cs->int_name;
     last_opcode_info_ptr = cs->last_opcode_info_ptr;
     if (num_ints > 0)
         memset(pending_int, 0, num_ints * sizeof(*(cs->pending_int)));
     memset(cs, 0, sizeof(interrupt_cpu_status_t));
     cs->num_ints = num_ints;
     cs->pending_int = pending_int;
+    cs->int_name = int_name;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
 
     cs->num_last_stolen_cycles = 0;
@@ -74,13 +77,15 @@ unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
                                           const char *name)
 {
     cs->num_ints += 1;
+
     cs->pending_int = (unsigned int *)lib_realloc(cs->pending_int, cs->num_ints
                                                   * sizeof(*(cs->pending_int)));
     cs->pending_int[cs->num_ints - 1] = 0;
-#if 0
+
     cs->int_name = (char **)lib_realloc(cs->int_name, cs->num_ints
-                                        * sizeof(*(cs->int_name)));
-#endif
+                                        * /*sizeof(*(cs->int_name))*/ 4);
+    cs->int_name[cs->num_ints - 1] = lib_stralloc(name);
+
     return cs->num_ints - 1;
 }
 
@@ -92,8 +97,16 @@ interrupt_cpu_status_t *interrupt_cpu_status_new(void)
 
 void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)
 {
-    if (cs != NULL)
+    if (cs != NULL) {
+        unsigned int num;
+
+        for (num = 0; num < cs->num_ints; num++)
+            lib_free(cs->int_name[num]);
+
+        lib_free(cs->int_name);
         lib_free(cs->pending_int);
+    }
+
     lib_free(cs);
 }
 
