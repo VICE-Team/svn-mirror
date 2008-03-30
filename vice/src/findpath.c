@@ -40,6 +40,7 @@
 #include "findpath.h"
 #include "utils.h"
 
+
 /*
  * This function is checked to be robust with all path 3 types possible
  * (cmd has relative, absolute or no path component)
@@ -50,12 +51,18 @@
 char * findpath(const char *cmd, const char *syspath, int mode)
 {
     char * pd = NULL;
+    char *c;
+
     PATH_VAR(buf);
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
-    if (strchr(cmd, '/')) /* absolute or relative path given ???*/
-    /*if (cmd[0] == '/')*/ /* absolute or relative path given */
+
+
+#undef NEWSEMANTIC
+
+#ifndef NEWSEMANTIC
+    if (strchr(cmd, '/')) /* absolute or relative path given ???*/		   /*if (cmd[0] == '/')*/ /* absolute or relative path given */
     {
 	int l, state;
 	const char *ps;
@@ -103,16 +110,20 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 		break;
 	    }
 	    *pd++ = *ps++;
+
 	}
 
         *pd = '\0';
+	pd = buf + 1;
     }
     else
+#endif
     {
+
 	const char * path = syspath;
 	const char * s;
 	int cl = strlen(cmd) + 1;
-	
+
 	for (s = path; s; path = s + 1)
 	{
 	    char * p;
@@ -133,6 +144,12 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
 	    memcpy(p, cmd, cl);
 
+	    for(c= buf + 1; *c !='\0'; c++)
+#ifdef __MSDOS__
+	        if(*c=='/') *c='\\';
+#else
+	        if(*c=='\\') *c='/';
+#endif
 	    if (access(buf + 1, mode) == 0)
 	    {
 		pd = p /* + cl*/ ;
@@ -140,6 +157,29 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	    }
 	}
     }
+
+#ifdef NEWSEMANTIC
+    if(!pd) {
+        int l ;
+
+        getcwd(buf + 1, sizeof buf - 128);
+
+	l = strlen(buf + 1);
+
+        strncat(buf + 1, cmd , sizeof buf - l - 1);
+
+	for(c= buf + 1; *c !='\0'; c++)
+#ifdef __MSDOS__
+	    if(*c=='/') *c='\\';
+#else
+	    if(*c=='\\') *c='/';
+#endif
+
+	if (access(buf + 1, mode) == 0) {
+	    pd = buf + l;
+	}
+    }
+#endif
 
     if (pd)
     {
@@ -154,7 +194,6 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
 	return stralloc(buf + 1);
     }
-
  fail:
     return NULL;
 }
