@@ -168,9 +168,6 @@
 /* Define if you have the <machine/soundcard.h> header file.  */
 #undef HAVE_MACHINE_SOUNDCARD_H
 
-/* Define if you have the <midasdll.h> header file.  */
-#undef HAVE_MIDASDLL_H
-
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
 

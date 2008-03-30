@@ -179,6 +179,8 @@ static unsigned int cycles_per_sec;
 static unsigned int cycles_per_rfsh;
 static double rfsh_per_sec;
 
+/* Flag: Is warp mode enabled?  */
+static int warp_mode_enabled;
 
 #define BUFSIZE 32768
 typedef struct
@@ -396,7 +398,7 @@ static int sound_run_sound(void)
 {
     int				nr, i;
     /* XXX: implement the exact ... */
-    if (!playback_enabled)
+    if (!playback_enabled || warp_mode_enabled)
 	return 1;
     if (suspend_time > 0 && disabletime)
         return 1;
@@ -425,7 +427,7 @@ int sound_flush(int relative_speed)
 {
     int			i, nr, space, used, fill = 0;
 
-    if (!playback_enabled)
+    if (!playback_enabled || warp_mode_enabled)
         return 0;
 
     if (suspend_time > 0)
@@ -643,7 +645,8 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef USE_MIDAS_SOUND
     sound_init_midas_device();
 #else
-    sound_init_allegro_device();
+    /* sound_init_allegro_device(); */
+    sound_init_sb_device();
 #endif
 #endif
 #if defined(HAVE_SDL_AUDIO_H) && defined(HAVE_SDL_SLEEP_H)
@@ -693,4 +696,10 @@ void sound_store(ADDRESS addr, BYTE val)
 		closesound("Audio: store to sounddevice failed.");
 	}
     }
+}
+
+void sound_set_warp_mode(int value)
+{
+    warp_mode_enabled = value;
+    sound_close();
 }

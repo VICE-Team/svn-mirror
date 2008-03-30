@@ -70,6 +70,7 @@ extern int  sound_flush(int relative_speed);
 extern void sound_suspend(void);
 extern void sound_resume(void);
 extern void sound_close(void);
+extern void souund_set_warp_mode(int value);
 
 extern int  sound_init_resources(void);
 extern int  sound_init_cmdline_options(void);
@@ -80,6 +81,7 @@ extern void sound_prevent_clk_overflow(CLOCK sub);
 /* device initialization prototypes */
 extern int  sound_init_aix_device(void);
 extern int  sound_init_allegro_device(void);
+extern int  sound_init_sb_device(void);
 extern int  sound_init_dummy_device(void);
 extern int  sound_init_dump_device(void);
 extern int  sound_init_fs_device(void);

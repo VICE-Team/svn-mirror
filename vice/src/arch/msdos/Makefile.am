@@ -54,6 +54,8 @@ libarch_a_SOURCES = \
 	vic20kbd.h \
 	vic20ui.c \
 	vic20ui.h \
+        vicesb.c \
+        vicesb.h \
 	video.c \
 	video.h \
 	vmidas.c \
