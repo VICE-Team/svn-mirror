@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-05-08 22:10+0200\n"
+"POT-Creation-Date: 2005-05-15 22:50+0200\n"
 "PO-Revision-Date: 2005-01-15 15:45+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -34,163 +34,149 @@ msgstr "Deaktivera warpläge"
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
-#: src/screenshot.c:156
+#: src/screenshot.c:162
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Endast en inspelning kan göras åt gången."
 
-#: src/autostart.c:180
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr "Kan inte ladda ögonblicksbildfil."
 
-#: src/sound.c:420
+#: src/sound.c:426
 msgid "write to sound device failed."
 msgstr "misslyckades att skriva till ljudenhet."
 
-#: src/sound.c:431
+#: src/sound.c:441
 msgid "Cannot open SID engine"
 msgstr "Kan inte öppna SID-motor"
 
-#: src/sound.c:466
+#: src/sound.c:480
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/sound.c:568
+#: src/sound.c:586
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:576
+#: src/sound.c:595
 msgid "sound device lacks stereo capability"
 msgstr "ljudenhet saknar stereofunktion"
 
-#: src/sound.c:622
+#: src/sound.c:644
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/sound.c:639
+#: src/sound.c:665
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/sound.c:643
+#: src/sound.c:673
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/sound.c:649
+#: src/sound.c:683
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/sound.c:655
+#: src/sound.c:693
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:666
+#: src/sound.c:708
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/sound.c:743
+#: src/sound.c:789
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/sound.c:753
+#: src/sound.c:803
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/sound.c:875
+#: src/sound.c:929
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/sound.c:920
+#: src/sound.c:978
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/sound.c:949
+#: src/sound.c:1008
 msgid "Buffer drained"
 msgstr "Buffert tömd"
 
-#: src/sound.c:985
+#: src/sound.c:1047
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/sound.c:997 src/sound.c:1003
+#: src/sound.c:1063 src/sound.c:1073
 msgid "write to sounddevice failed."
 msgstr "misslyckades skriva till ljudenheten."
 
-#: src/sound.c:1232
+#: src/sound.c:1306
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/event.c:215
+#: src/event.c:221
 #, fuzzy, c-format
 msgid "Cannot create image file %s"
 msgstr "Kan inte skapa avbildningsfil \"%s\"."
 
-#: src/event.c:220
+#: src/event.c:230
 #, fuzzy, c-format
 msgid "Cannot write image file %s"
 msgstr ""
 "Kan inte skriva insticksmodulfil\n"
 "\"%s\"\n"
 
-#: src/event.c:228
+#: src/event.c:242
 #, fuzzy, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/event.c:522
+#: src/event.c:540
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/event.c:537 src/event.c:800
+#: src/event.c:559 src/event.c:850
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/event.c:600 src/event.c:771
+#: src/event.c:626 src/event.c:817
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/event.c:661
+#: src/event.c:691
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/event.c:672
+#: src/event.c:706
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:692
+#: src/event.c:730
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/event.c:718
+#: src/event.c:760
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
+#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
-msgid "Resource IO1 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:54 src/c64/c64export.c:58
-#, c-format
-msgid "Resource IO2 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:64
-#, c-format
-msgid "Resource ROML blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:70
-#, c-format
-msgid "Resource ROMH blocked by %s."
+msgid "Resource %s blocked by %s."
 msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67

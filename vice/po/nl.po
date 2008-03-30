@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
-"POT-Creation-Date: 2005-05-08 22:10+0200\n"
+"POT-Creation-Date: 2005-05-15 22:50+0200\n"
 "PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -34,163 +34,149 @@ msgstr "Warp modus afsluiten"
 msgid "Your machine is too slow for current settings!"
 msgstr "Uw machine is te traag voor de huidige instellingen!"
 
-#: src/screenshot.c:156
+#: src/screenshot.c:162
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 
-#: src/autostart.c:180
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopname bestand niet laden."
 
-#: src/sound.c:420
+#: src/sound.c:426
 msgid "write to sound device failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:431
+#: src/sound.c:441
 msgid "Cannot open SID engine"
 msgstr "Kan de SID kern niet openen"
 
-#: src/sound.c:466
+#: src/sound.c:480
 msgid "Cannot initialize SID engine"
 msgstr "Kan de SID kern niet initialiseren"
 
-#: src/sound.c:568
+#: src/sound.c:586
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initialisatie voor apparaat `%s' faalt."
 
-#: src/sound.c:576
+#: src/sound.c:595
 msgid "sound device lacks stereo capability"
 msgstr "geluidsapparaat heeft geen stereo ondersteuning"
 
-#: src/sound.c:622
+#: src/sound.c:644
 #, c-format
 msgid "device '%s' not found or not supported."
-msgstr "apparaat `%s' niet gevonden of wordt niet ondersteund"
+msgstr "apparaat '%s' niet gevonden of wordt niet ondersteund"
 
-#: src/sound.c:639
+#: src/sound.c:665
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Opname apparaat %s bestaat niet!"
 
-#: src/sound.c:643
+#: src/sound.c:673
 msgid "Recording device must be different from playback device"
-msgstr "Opname apparaat moet anders zijn dan her afspeel apparaat"
+msgstr "Opname apparaat moet anders zijn dan afspeel apparaat"
 
-#: src/sound.c:649
+#: src/sound.c:683
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Waarschuwing! Opname apparaat %s lijkt een realtime apparaat te zijn!"
 
-#: src/sound.c:655
+#: src/sound.c:693
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initialisatie faalt voor apparaat `%s'."
 
-#: src/sound.c:666
+#: src/sound.c:708
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Het opname apparaat ondersteunt de huidige geluid opties niet"
 
-#: src/sound.c:743
+#: src/sound.c:789
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Geluidsbuffer overstroming (cyclus gebaseerd)"
 
-#: src/sound.c:753
+#: src/sound.c:803
 msgid "Sound buffer overflow."
 msgstr "Geluidsbuffer overstroming."
 
-#: src/sound.c:875
+#: src/sound.c:929
 msgid "cannot flush."
 msgstr "kan niet spoelen."
 
-#: src/sound.c:920
+#: src/sound.c:978
 msgid "fragment problems."
 msgstr "fragment problemen."
 
-#: src/sound.c:949
+#: src/sound.c:1008
 msgid "Buffer drained"
 msgstr "Buffer leeg"
 
-#: src/sound.c:985
+#: src/sound.c:1047
 msgid "running too slow."
 msgstr "draait te langzaam."
 
-#: src/sound.c:997 src/sound.c:1003
+#: src/sound.c:1063 src/sound.c:1073
 msgid "write to sounddevice failed."
-msgstr "schrijf actie naar geluidsapparaat lukt niet."
+msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:1232
+#: src/sound.c:1306
 msgid "store to sounddevice failed."
-msgstr "opslag naar geluidsapparaat lukt niet."
+msgstr "opslag naar geluidsapparaat faalt."
 
-#: src/event.c:215
+#: src/event.c:221
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Kan bestand `%s' niet maken."
 
-#: src/event.c:220
-#, fuzzy, c-format
+#: src/event.c:230
+#, c-format
 msgid "Cannot write image file %s"
 msgstr "Kan niet schrijven naar bestand %s"
 
-#: src/event.c:228
+#: src/event.c:242
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan vertaalde naam voor %s niet vinden"
 
-#: src/event.c:522
+#: src/event.c:540
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kon het start momentopname bestand %s niet maken."
 
-#: src/event.c:537 src/event.c:800
+#: src/event.c:559 src/event.c:850
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fout bij het lezen van het eind van het momentopname bestand %s."
 
-#: src/event.c:600 src/event.c:771
+#: src/event.c:626 src/event.c:817
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet maken."
 
-#: src/event.c:661
+#: src/event.c:691
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet openen."
 
-#: src/event.c:672
+#: src/event.c:706
 msgid "Could not find event section in end snapshot file."
 msgstr "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden."
 
-#: src/event.c:692
+#: src/event.c:730
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fout bij het lezen van het start momentopname bestand. Heb %s en %s "
 "geprobeerd"
 
-#: src/event.c:718
+#: src/event.c:760
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
 
-#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
+#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
-msgid "Resource IO1 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:54 src/c64/c64export.c:58
-#, c-format
-msgid "Resource IO2 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:64
-#, c-format
-msgid "Resource ROML blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:70
-#, c-format
-msgid "Resource ROMH blocked by %s."
+msgid "Resource %s blocked by %s."
 msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
@@ -1849,24 +1835,20 @@ msgid "*Analog Joystick 1"
 msgstr "*Analoge Joystick 1"
 
 #: src/arch/unix/uijoystick2.c:94 src/arch/unix/uijoystick2.c:143
-#, fuzzy
 msgid "*Analog Joystick 2"
-msgstr "*Analoge Joystick 1"
+msgstr "*Analoge Joystick 2"
 
 #: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:146
-#, fuzzy
 msgid "*Analog Joystick 3"
-msgstr "*Analoge Joystick 1"
+msgstr "*Analoge Joystick 3"
 
 #: src/arch/unix/uijoystick2.c:100 src/arch/unix/uijoystick2.c:149
-#, fuzzy
 msgid "*Analog Joystick 4"
-msgstr "*Analoge Joystick 1"
+msgstr "*Analoge Joystick 4"
 
 #: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:152
-#, fuzzy
 msgid "*Analog Joystick 5"
-msgstr "*Analoge Joystick 1"
+msgstr "*Analoge Joystick 5"
 
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
 #: src/arch/unix/vic20ui.c:318

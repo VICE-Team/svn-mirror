@@ -58,6 +58,7 @@
 #include "main.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "version.h"
@@ -135,9 +136,9 @@ int main_program(int argc, char **argv)
         return -1;
     }
 
-#ifdef WIN32
-   /* set the default windows language */
-    intl_windows_language_init();
+#ifdef HAS_TRANSLATION
+   /* set the default arch language */
+    translate_arch_language_init();
 #endif
 
     /* Load the user's default configuration file.  */

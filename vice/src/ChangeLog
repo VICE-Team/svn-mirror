@@ -1,3 +1,121 @@
+2005-05-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.11.
+
+	* translate.c, main.c: Added missing includes.
+
+	* translate.c (translate_resources_shutdown): Removed unused
+	variable.
+
+2005-05-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/cbm2ui.c, arch/win32/ffmpeglib.c,
+	arch/win32/fullscrn.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/statusbar.c,
+	arch/win32/ui.c, arch/win32/uiacia.c,
+	arch/win32/uiattach.c, arch/win32/uic128.c,
+	arch/win32/uic64cart.c, arch/win32/uicart.c,
+	arch/win32/uicbm2set.c, arch/win32/uiconsole.c,
+	arch/win32/uidatasette.c, arch/win32/uidrivec128.c,
+	arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uidriveplus4.c, arch/win32/uievent.c,
+	arch/win32/uifliplist.c, arch/win32/uigeoram.c,
+	arch/win32/uihelp.c, arch/win32/uiide64.c,
+	arch/win32/uijoystick.c, arch/win32/uikeyboard.c,
+	arch/win32/uilib.c, arch/win32/uimediafile.c,
+	arch/win32/uimon.c, arch/win32/uiperipheral.c,
+	arch/win32/uipetset.c, arch/win32/uiplus4cart.c,
+	arch/win32/uiplus4mem.c, arch/win32/uiquicksnapshot.c,
+	arch/win32/uiram.c, arch/win32/uiramcart.c,
+	arch/win32/uireu.c, arch/win32/uirom.c,
+	arch/win32/uirs232.c, arch/win32/uirs232user.c,
+	arch/win32/uisid.c, arch/win32/uisnapshot.c,
+	arch/win32/uisound.c, arch/win32/uispeed.c,
+	arch/win32/uitfe.c, arch/win32/uivicii.c,
+	arch/win32/uivicset.c, arch/win32/uivideo.c,
+	arch/win32/vic20ui.c, : Changed functions to use translate.c
+	calls instead of intl.c calls.
+
+	* arch/win32/intl.c, arch/win32/intl.h: Added codepage
+	conversion and changed function names.
+
+	* translate.c, translate.h: Added codepage table,
+	translate_res() call and init/cleanup of codepage conversion.
+
+	* arch/win32/res.rc, arch/win32/resacia.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/restfe.rc,
+	arch/win32/resvic20.rc, arch/win32/resvicii.rc: Added
+	italian used codepage (28605 / ISO-8859-15).
+
+2005-05-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/win32/base.dsp: Added translate.c for
+	the new internationalization scheme.
+
+	* arch/win32/msvc/config.h: Added HAS_TRANSLATION define.
+
+	* arch/win32/intl.c, arch/win32/intl.h: Changed/moved
+	functions to where they only have the arch dependant elements.
+
+	* arch/win32/ui-resources.c, main.c: Changed the intl.c calls
+	to translate.c calls.
+
+	* autostart.c, c64/c64export.c, debug.c,
+	event.c, screenshot.c, sound.c: Added common
+	internationalization.
+
+	* translate.c, translate.h: The new (common)
+	internationalization scheme.
+
+2005-05-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c, arch/win32/uimon.c:
+	[cosmetical] replaced tab-stops with spaces
+
+2005-05-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: added multiline input support;
+	corrected a reentrance problem because ui_dispatch_events()
+	was called in console_in(), resulting in wrong outputs; cursor
+	is now stopped while outputting, which fixes an output problem
+	because wrong parts were overwritten with the old value under
+	the cursor.
+
+	* arch/win32/uimon.c: ask the MDI windows for their minimum
+	size when resizing.
+
+2005-05-09  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/intl.h,
+	arch/win32/res.h, arch/win32/res.rc,
+	arch/win32/statusbar.c, arch/win32/uigeoram.c,
+	arch/win32/uijoystick.c, arch/win32/uiramcart.c,
+	arch/win32/uireu.c: Added some more formerly untranslated
+	text, and added pre-translation of the main window caption.
+
+	* arch/win32/ui.c, arch/win32/uiacia.c,
+	arch/win32/uiattach.c, arch/win32/uic128.c,
+	arch/win32/uicbm2set.c, arch/win32/uidrivec128.c,
+	arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uidriveplus4.c, arch/win32/uievent.c,
+	arch/win32/uifliplist.c, arch/win32/uiide64.c,
+	arch/win32/uikeyboard.c, arch/win32/uilib.c,
+	arch/win32/uiperipheral.c, arch/win32/uipetset.c,
+	arch/win32/uirom.c, arch/win32/uirs232user.c,
+	arch/win32/uisid.c, arch/win32/uisound.c,
+	arch/win32/uivideo.c: Got rid of some unneeded TEXT()
+	elements.
+
+	* arch/win32/uiconsole.c, arch/win32/uimediafile.c,
+	arch/win32/uisnapshot.c: Fixed filter strings.
+
 2005-05-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.10.

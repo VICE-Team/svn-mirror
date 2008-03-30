@@ -356,6 +356,7 @@ noinst_HEADERS = \
 	tap.h \
 	tape.h \
 	tpi.h \
+	translate.h \
 	traps.h \
 	uiapi.h \
 	uicmdline.h \
@@ -420,6 +421,7 @@ base_sources = \
 	snapshot.c \
 	sound.c \
 	sysfile.c \
+	translate.c \
 	traps.c \
 	util.c \
 	vsync.c \
@@ -767,8 +769,9 @@ am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	mouse.$(OBJEXT) palette.$(OBJEXT) ram.$(OBJEXT) \
 	rawfile.$(OBJEXT) resources.$(OBJEXT) romset.$(OBJEXT) \
 	screenshot.$(OBJEXT) snapshot.$(OBJEXT) sound.$(OBJEXT) \
-	sysfile.$(OBJEXT) traps.$(OBJEXT) util.$(OBJEXT) \
-	vsync.$(OBJEXT) zfile.$(OBJEXT) zipcode.$(OBJEXT)
+	sysfile.$(OBJEXT) translate.$(OBJEXT) traps.$(OBJEXT) \
+	util.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
+	zipcode.$(OBJEXT)
 am_x128_OBJECTS = $(am__objects_1)
 x128_OBJECTS = $(am_x128_OBJECTS)
 am__objects_2 = maincpu.$(OBJEXT)
@@ -809,9 +812,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/resources.Po ./$(DEPDIR)/romset.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/screenshot.Po ./$(DEPDIR)/snapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sound.Po ./$(DEPDIR)/sysfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/traps.Po ./$(DEPDIR)/util.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po ./$(DEPDIR)/zfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/zipcode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/translate.Po ./$(DEPDIR)/traps.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/util.Po ./$(DEPDIR)/vsync.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -961,6 +964,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sysfile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/translate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/traps.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsync.Po@am__quote@

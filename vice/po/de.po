@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-05-08 22:10+0200\n"
+"POT-Creation-Date: 2005-05-15 22:50+0200\n"
 "PO-Revision-Date: 2005-05-12 21:34+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -34,164 +34,150 @@ msgstr "*Warp Mode Deaktivieren"
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
-#: src/screenshot.c:156
+#: src/screenshot.c:162
 msgid "Sorry. Multiple recording is not supported."
 msgstr ""
 "Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich."
 
-#: src/autostart.c:180
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr "Kann Snapshot Datei nicht laden."
 
-#: src/sound.c:420
+#: src/sound.c:426
 msgid "write to sound device failed."
 msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 
-#: src/sound.c:431
+#: src/sound.c:441
 msgid "Cannot open SID engine"
 msgstr "Kann SID Engine nicht öffnen"
 
-#: src/sound.c:466
+#: src/sound.c:480
 msgid "Cannot initialize SID engine"
 msgstr "Kann SID Engine nicht initialisieren"
 
-#: src/sound.c:568
+#: src/sound.c:586
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."
 
-#: src/sound.c:576
+#: src/sound.c:595
 msgid "sound device lacks stereo capability"
 msgstr "Sound Gerät unterstützt keine Stereo Ausgabe"
 
-#: src/sound.c:622
+#: src/sound.c:644
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "Gerät '%s' konnte nicht gefunden werden oder ist nicht unterstützt."
 
-#: src/sound.c:639
+#: src/sound.c:665
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Aufnahme Gerät %s existiert nicht!"
 
-#: src/sound.c:643
+#: src/sound.c:673
 msgid "Recording device must be different from playback device"
 msgstr "Aufnahme Gerät muß unteschiedlich vom Abspielgerät sein"
 
-#: src/sound.c:649
+#: src/sound.c:683
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Warnung! Aufnahme Gerät %s scheint ein Echtzeitgerät zu sein!"
 
-#: src/sound.c:655
+#: src/sound.c:693
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initialisierung von Gerät `%s' fehlgeschlagen."
 
-#: src/sound.c:666
+#: src/sound.c:708
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Aufnahmegerät unterstütz derzeitige Soundeinstellungen nicht"
 
-#: src/sound.c:743
+#: src/sound.c:789
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Sound Puffer Überlauf (Zyklus basiert)"
 
-#: src/sound.c:753
+#: src/sound.c:803
 msgid "Sound buffer overflow."
-msgstr "Sound Puffer Überlauf"
+msgstr "Sound Puffer Überlauf."
 
-#: src/sound.c:875
+#: src/sound.c:929
 msgid "cannot flush."
 msgstr "Entleerung nicht möglich."
 
-#: src/sound.c:920
+#: src/sound.c:978
 msgid "fragment problems."
 msgstr "Fragmentierungsproblem."
 
-#: src/sound.c:949
+#: src/sound.c:1008
 msgid "Buffer drained"
 msgstr "Puffer geleert"
 
-#: src/sound.c:985
+#: src/sound.c:1047
 msgid "running too slow."
 msgstr "Ablauf zu langsam."
 
-#: src/sound.c:997 src/sound.c:1003
+#: src/sound.c:1063 src/sound.c:1073
 msgid "write to sounddevice failed."
 msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
 
-#: src/sound.c:1232
+#: src/sound.c:1306
 msgid "store to sounddevice failed."
 msgstr "Speichern auf Sound Gerät ist fehlgeschlagen."
 
-#: src/event.c:215
+#: src/event.c:221
 #, fuzzy, c-format
 msgid "Cannot create image file %s"
 msgstr "Kann Image `%s' nicht erzeugen."
 
-#: src/event.c:220
+#: src/event.c:230
 #, fuzzy, c-format
 msgid "Cannot write image file %s"
 msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
 
-#: src/event.c:228
+#: src/event.c:242
 #, fuzzy, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/event.c:522
+#: src/event.c:540
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kann Start Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:537 src/event.c:800
+#: src/event.c:559 src/event.c:850
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
 
-#: src/event.c:600 src/event.c:771
+#: src/event.c:626 src/event.c:817
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:661
+#: src/event.c:691
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht öffnen: %s"
 
-#: src/event.c:672
+#: src/event.c:706
 msgid "Could not find event section in end snapshot file."
 msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 
-#: src/event.c:692
+#: src/event.c:730
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %"
 "s."
 
-#: src/event.c:718
+#: src/event.c:760
 msgid "Error reading start snapshot file."
 msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
-#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
+#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
-msgid "Resource IO1 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:54 src/c64/c64export.c:58
-#, c-format
-msgid "Resource IO2 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:64
-#, c-format
-msgid "Resource ROML blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:70
-#, c-format
-msgid "Resource ROMH blocked by %s."
+msgid "Resource %s blocked by %s."
 msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
