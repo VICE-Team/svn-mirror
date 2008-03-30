@@ -83,7 +83,7 @@ set_double_scan_enabled (resource_value_t v)
 
 static resource_t resources[] =
 {
-  { "PaletteFile", RES_STRING, (resource_value_t) "default",
+  { "CrtcPaletteFile", RES_STRING, (resource_value_t) "default",
     (resource_value_t *) &crtc_resources.palette_file_name,
     set_palette_file_name },
 #ifdef CRTC_NEED_2X
@@ -96,7 +96,7 @@ static resource_t resources[] =
     (resource_value_t *) &crtc_resources.double_scan_enabled,
     set_double_scan_enabled },
 #endif
-  { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+  { "VideoCache", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.video_cache_enabled,
     set_video_cache_enabled },
   { NULL }

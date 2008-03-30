@@ -496,7 +496,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     joystick_init();
 #endif
 
-    if (video_init() < 0)
+    if (!console_mode && video_init() < 0)
         return -1;
 
     drive0_cpu_early_init();
@@ -568,7 +568,8 @@ int MAIN_PROGRAM(int argc, char **argv)
     maincpu_trigger_reset();
 
 #ifdef USE_VIDMODE_EXTENSION
-    ui_set_fullscreenmode_init();
+    if (!console_mode)
+        ui_set_fullscreenmode_init();
 #endif
 
     mainloop(0);

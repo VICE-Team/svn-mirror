@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "machine.h"
 #include "utils.h"
 #include "video.h"
 
@@ -267,6 +268,10 @@ update_sprite_collisions (raster_t *raster)
 {
   PIXEL *fake_frame_buffer_ptr;
 
+  if (console_mode || psid_mode) {
+    return;
+  }
+
   if (raster->sprite_status.draw_function == NULL)
     return;
 
@@ -323,6 +328,10 @@ inline static void
 handle_blank_line (raster_t *raster)
 {
   unsigned int pixel_width;
+
+  if (console_mode || psid_mode) {
+    return;
+  }
 
   pixel_width = raster->viewport.pixel_size.width;
 
@@ -962,6 +971,10 @@ handle_visible_line_with_changes (raster_t *raster)
 inline static void
 handle_visible_line (raster_t *raster)
 {
+  if (console_mode || psid_mode) {
+    return;
+  }
+
   if (raster->changes.have_on_this_line)
     handle_visible_line_with_changes (raster);
   else if (!CANVAS_USES_TRIPLE_BUFFERING (raster->viewport.canvas)
@@ -1384,7 +1397,8 @@ raster_force_repaint (raster_t *raster)
   raster->dont_cache = 1;
   raster->num_cached_lines = 0;
 
-  frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
+  if (!console_mode && !psid_mode)
+      frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
 }
 
 void

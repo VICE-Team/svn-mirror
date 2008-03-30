@@ -46,15 +46,15 @@
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
+UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
-    { "*Default (Green)",
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
-    { "*Amber",
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "amber", NULL },
-    { "*White",
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "white", NULL },
+    { "*Default (Green)", (ui_callback_t) radio_CrtcPaletteFile, 
+	(ui_callback_data_t) "default", NULL },
+    { "*Amber", (ui_callback_t) radio_CrtcPaletteFile, 
+	(ui_callback_data_t) "amber", NULL },
+    { "*White", (ui_callback_t) radio_CrtcPaletteFile, 
+	(ui_callback_data_t) "white", NULL },
     { "--" },
     { "Load custom",
       (ui_callback_t) ui_load_palette, NULL, NULL },

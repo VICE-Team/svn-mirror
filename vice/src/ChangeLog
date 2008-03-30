@@ -1,3 +1,90 @@
+1999-05-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.22.
+
+	* fsdevice (fs_find_pc64_name): Added missing `closedir'.
+	(fsdevice_compare_wildcards): Check the whole P00 name.
+
+	* zfile.c: Updated known extensions.  Added `pkunzip' to the list
+	of valid archives (experimental for now).
+
+1999-05-24  Dag Lem  <resid@nimrod.no>
+
+	* c64/c64.c (machine_init): Don't check return value from
+	vic_ii_init in console and psid mode
+
+	* main.c (main): Skip UI calls in console mode
+
+	* raster/raster.c: Skip frame buffer access in console and psid
+	mode
+
+1998-05-24  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cbm2/c610.c (cbm2_crtc_signal): new callback function for
+	CRTC vertical retrace signal change
+	(machine_init): call crtc_set_retrace_callback()
+
+	* pet/pet.c (pet_crtc_signal): new callback for retrace signal
+	(machine_init): call crtc_set_retrace_callback()
+
+	* crtc/crtc-draw.c (DRAW): use start and end screen columns
+	Use offset 2 for characters in PIXEL4 coordinates
+
+	* crtc/crtc.c (crtc_set_retrace_callback): new function
+	(crtc_raster_draw_alarm_handler): handle ycounter and 
+	update screen_rel. Also call retrace callback function when
+	appropriate
+	(crtc_offscreen): check rasterline and give more appropriate 
+	values
+
+	* crtc/crtc.h (machine_crtc_retrace_signal_t): new type
+	(crtc_set_retrace_callback): new prototype
+	(crtc_t): added retrace_callback, retrace_type components
+
+1998-05-23  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/petui.c (CrtcPaletteFile): renamed from PaletteFile
+	(ui_menu_entry_t palette_submenu): use CrtcPaletteFile
+
+	* cbm2/c610mem.c (mem_load_chargen): call crtc_set_chargen_addr
+	(mem_load): use new crtc interface
+	* pet/petmem.c: likewise
+
+	* crtc/crtc-draw.c (dwg_table_0,  dwg_table_1, dwg_table2x_0,
+	dwg_table2x_1, dwg_table2x_2, dwg_table2x_3): new tables
+	(init_drawing_tables): init the dwg_tables.
+	(draw_standard_background): copied from vicii-draw.c
+	(draw_standard_background_2x): copied from vicii-draw.c
+	(DRAW): new function, made from old DRAW define 
+	(draw_standard_line, draw_reverse_line): new functions
+	(setup_single_size_modes): setup non-caching mode
+
+	* crtc/crtc-resources.c (resources): rename "PaletteFile"
+	to "CrtcPaletteFile". Set video cache off by default
+
+	* crtc/crtc.c (CRTC_SCREEN_ADDR, CRTC_SCREEN_WIDTH,
+	CRTC_SCREEN_HEIGHT, CRTC_SCREEN_TEXTCOLS, CRTC_SCREEN_TEXTLINES,
+	CRTC_SCREEN_XPIX, CRTC_SCREEN_YPIX, CRTC_FIRST_DISPLAYED_LINE,
+	CRTC_LAST_DISPLAYED_LINE, CRTC_CYCLES_PER_LINE): new defines
+	(crtc_reset_screen_ptr, crtc_update_chargen_rel, 
+	crtc_update_memptr_inc, crtc_update_screen, crtc_set_screen_addr,
+	crtc_set_chargen_offset, crtc_set_chargen_addr,
+	crtc_set_screen_options, crtc_set_hw_options): new functions
+	(crtc_init): do some sanity checks
+	(crtc_reset): call crtc_reset_screen_ptr()
+	(crtc_set_screen_mode): removed
+	(crtc_raster_draw_alarm_handler): call crtc_reset_screen_ptr()
+	on vsync
+	(crtc_set_char); removed
+
+	* crtc/crtc.h (crtc_t): new elements
+	(CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT):
+	new defines
+	(crtc_set_screen_addr, crtc_set_chargen_offset,
+	crtc_set_chargen_addr,  crtc_set_screen_options, 
+	crtc_set_hw_options): new prototypes
+	(crtc_set_screen_mode): removed prototype
+
 1999-05-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.21.

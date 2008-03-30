@@ -164,6 +164,20 @@ int machine_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+#define SIGNAL_VERT_BLANK_OFF   tpi1_set_int(0, 1);
+
+#define SIGNAL_VERT_BLANK_ON    tpi1_set_int(0, 0);
+
+static void cbm2_crtc_signal(unsigned int signal) {
+    if (signal) {
+	SIGNAL_VERT_BLANK_ON
+    } else {
+	SIGNAL_VERT_BLANK_OFF
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* CBM-II-specific initialization.  */
 int machine_init(void)
 {
@@ -200,6 +214,7 @@ int machine_init(void)
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
+    crtc_set_retrace_callback(cbm2_crtc_signal, 0);
 
     ciat_init_table();
     cia1_init();

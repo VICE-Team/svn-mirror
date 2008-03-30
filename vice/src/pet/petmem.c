@@ -1442,6 +1442,8 @@ static int mem_load_chargen(void)
 
     petmem_convert_chargen(chargen_rom);
 
+    crtc_set_chargen_addr(chargen_rom, 512);
+
     return 0;
 }
 
@@ -1718,7 +1720,12 @@ void set_screen(void)
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)", 
 		vmask, cols, petres.crtc);
 */
+/*
     crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
+*/
+    crtc_set_screen_options(cols, 25 * 10);
+    crtc_set_screen_addr(ram + 0x8000);
+    crtc_set_hw_options( (cols==80) ? 2 : 0, vmask, 0x800, 512, 0x1000);
 
     /* No CRTC -> assume 40 columns */
     if(!petres.crtc) {

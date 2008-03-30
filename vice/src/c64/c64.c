@@ -247,8 +247,11 @@ int machine_init(void)
 	psid_init_driver();
 
 	/* Initialize the VIC-II emulation.  */
+	/*
 	if (vic_ii_init() == NULL)
 	    return -1;
+	*/
+	vic_ii_init();
 	vic_ii_enable_extended_keyboard_rows(0);
 	cia1_enable_extended_keyboard_rows(0);
 
@@ -317,7 +320,7 @@ int machine_init(void)
                    0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-II emulation.  */
-    if (vic_ii_init() == NULL)
+    if (vic_ii_init() == NULL && !console_mode)
         return -1;
     vic_ii_enable_extended_keyboard_rows(0);
     cia1_enable_extended_keyboard_rows(0);

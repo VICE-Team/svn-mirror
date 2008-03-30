@@ -41,16 +41,6 @@
 #include "crtc-mem.h"
 
 
-
-/* Border around the crtc screen in the window.  We do not have border
-   effects, so keep it small.  */
-#define CRTC_SCREEN_BORDER 12
-
-/* FIXME  */
-#define CRTC_CYCLES_PER_LINE 63
-
-#define CRTC_NUM_COLORS 2
-
 
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
@@ -71,12 +61,51 @@ typedef enum _crtc_video_mode crtc_video_mode_t;
 
 #define CRTC_IDLE_MODE CRTC_STANDARD_MODE
 
+#define	CRTC_NUM_COLORS	2
+
 
+
+typedef void (*machine_crtc_retrace_signal_t)(unsigned int);
 
 struct _crtc
   {
     /* Flag: Are we initialized?  */
     int initialized;
+
+    /*---------------------------------------------------------------*/
+
+    /* window size computed by crtc_set_screen_options() */
+    int screen_width;
+    int screen_height;
+
+    /* hardware options as given to crtc_set_hw_options() */
+    int hw_cursor;
+    int hw_double_cols;
+    int vaddr_mask;
+    int vaddr_charswitch;
+    int vaddr_charoffset;
+    int vaddr_revswitch;
+
+    /* screen and charset memory options (almost) as given to 
+       crtc_set_chargen_addr() and crtc_set_screen_addr() */
+    BYTE *screen_base;
+    BYTE *chargen_base;
+    int chargen_mask;
+    int chargen_offset;
+
+    /* those values are derived */
+    int chargen_rel;	/* currently used charset rel. to chargen_base */
+    int screen_rel;	/* current screen line rel. to screen_base */
+
+    int memptr_inc;	/* the number of displayed chars/line */
+
+    /* this is the function to be called when the retrace signal
+       changes. type&1=0: old PET, type&1=1: CRTC-PET. Also used
+       by crtc_offscreen() */
+    machine_crtc_retrace_signal_t retrace_callback;
+    int retrace_type;
+
+    /*---------------------------------------------------------------*/
 
     /* All the CRTC logging goes here.  */
     log_t log;
@@ -88,7 +117,7 @@ struct _crtc
     int regs[64];
 
     /* Internal memory counter.  */
-    int mem_counter;
+/*    int mem_counter; */
 
     /* Alarm to update a raster line.  */
     alarm_t raster_draw_alarm;
@@ -96,6 +125,9 @@ struct _crtc
 typedef struct _crtc crtc_t;
 
 extern crtc_t crtc;
+
+#define CRTC_SCREEN_BORDERWIDTH  25
+#define CRTC_SCREEN_BORDERHEIGHT 25
 
 
 
@@ -108,9 +140,20 @@ int crtc_init_cmdline_options (void);
 int crtc_write_snapshot_module(snapshot_t *s);
 int crtc_read_snapshot_module(snapshot_t *s);
 
-void crtc_set_char(int crom);
-int crtc_offscreen(void);
+void crtc_set_screen_addr(BYTE *screen);
+void crtc_set_chargen_offset(int offset);
+void crtc_set_chargen_addr(BYTE *chargen, int cmask);
+void crtc_set_screen_options(int num_cols, int rasterlines);
+void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
+                                                                int vrevmask);
+void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback, 
+								int type);
 void crtc_screen_enable(int);
+
+int crtc_offscreen(void);
+
+/* FIXME: when interface has settled */
+#define	crtc_set_char(a)	crtc_set_chargen_offset((a)?256:0)
 
 
 
@@ -120,7 +163,6 @@ void crtc_screen_enable(int);
 int crtc_load_palette (const char *name);
 void crtc_resize (void);
 void crtc_exposure_handler (unsigned int width, unsigned int height);
-void crtc_set_screen_mode (BYTE *base, int vmask, int cols, int hwcrsr);
 int crtc_raster_draw_alarm_handler (long offset);
 
 #endif                          /* _CRTC_H */

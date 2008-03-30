@@ -1109,6 +1109,9 @@ static int mem_load_chargen(void)
             chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
         }
     }
+
+    crtc_set_chargen_addr(chargen_rom, C610_CHARGEN_ROM_SIZE >> 4);
+
     return 0;
 }
 
@@ -1268,8 +1271,13 @@ int mem_load(void)
 
     if( mem_load_cart_6() < 0)
 	return -1;
-
+/*
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
+*/
+    /* FIXME: 6x0 have 25*8, 7x0 have 25*14 */
+    crtc_set_screen_options(80, 25 * 10);
+    crtc_set_screen_addr(rom + 0xd000);
+    crtc_set_hw_options( 1, 0x7ff, 0x800, 512, 0x1000);
 
     return 0;
 }

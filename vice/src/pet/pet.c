@@ -192,6 +192,20 @@ int machine_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+#define SIGNAL_VERT_BLANK_OFF   signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
+
+#define SIGNAL_VERT_BLANK_ON    signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
+
+static void pet_crtc_signal(unsigned int signal) {
+    if (signal) {
+	SIGNAL_VERT_BLANK_ON
+    } else {
+	SIGNAL_VERT_BLANK_OFF
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* PET-specific initialization.  */
 int machine_init(void)
 {
@@ -235,6 +249,7 @@ int machine_init(void)
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
+    crtc_set_retrace_callback(pet_crtc_signal, 0);
 
     via_init();
     pia1_init();
