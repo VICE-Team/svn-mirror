@@ -53,7 +53,7 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 			 GdkImage *image, int src_x, int src_y,
 			 int dest_x, int dest_y,
 			 unsigned int width, unsigned int height, int b,
-			 video_frame_buffer_t *fb, canvas_t c)
+			 video_frame_buffer_t *fb, canvas_t *c)
 {
   gdk_draw_image(drawable, gc, fb->gdk_image, src_x, src_y,
 		 dest_x, dest_y, width, height);
@@ -134,18 +134,18 @@ void video_add_handlers(ui_window_t w)
 }
 
 /* Make the canvas visible. */
-void canvas_map(canvas_t s)
+void canvas_map(canvas_t *s)
 {
     fprintf(stderr, "**Function `%s' not implemented.\n", __FUNCTION__);
 }
 
 /* Make the canvas not visible. */
-void canvas_unmap(canvas_t s)
+void canvas_unmap(canvas_t *s)
 {
     fprintf(stderr, "**Function `%s' not implemented.\n", __FUNCTION__);
 }
 
-void ui_finish_canvas(canvas_t c)
+void ui_finish_canvas(canvas_t *c)
 {
     int depth;
 
