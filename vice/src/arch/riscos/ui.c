@@ -338,6 +338,9 @@ static char **DriveFiles[] = {
 /* Logging */
 static log_t roui_log = LOG_ERR;
 
+/* Message descriptor during startup phase */
+static wimp_msg_desc *uiMessageDesc = NULL;
+
 static int ShowEmuPane = 1;
 static char *ROMSetName = NULL;
 static char *ROMSetArchiveFile = NULL;
@@ -1749,7 +1752,7 @@ void ui_create_emulator_menu(int *b)
 {
   Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
   LastHandle = b[MouseB_Window];
-  LastMenu = Menu_Emulator;  
+  LastMenu = Menu_Emulator;
 }
 
 
@@ -2048,7 +2051,7 @@ static void ui_init_windows(void)
 
     /* must create log window, but may close it right afterwards! */
     ui_open_log_window();
-  
+
     initialized = 1;
   }
 }
@@ -2057,10 +2060,10 @@ static void ui_init_windows(void)
 /* Shared by all uis for installing the icon bar icon */
 int ui_init(int *argc, char *argv[])
 {
-  int i;
-
-  for (i=0; i<CONF_WIN_NUMBER; i++)
-    ConfWindows[i] = NULL;
+  int block[4];
+  char *msgpool;
+  wimp_msg_desc *msg;
+  int x;
 
   PollMask = 0x01000830;	/* save/restore FP regs */
   LastMenu = 0; LastClick = 0; LastDrag = 0; LastSubDrag = 0; MenuType = 0; DragType = 0;
@@ -2078,15 +2081,7 @@ int ui_init(int *argc, char *argv[])
   }
   archdep_set_leds_callback = ui_set_drive_leds;
 
-  return 0;
-}
-
-wimp_msg_desc *ui_emulator_init_prologue(const char *iname)
-{
-  int block[4];
-  int x, y, mode;
-  char *msgpool;
-  wimp_msg_desc *msg;
+  TaskHandle = Wimp_Initialise(310, TASK_WORD, archdep_rsrc_machine_name, (int*)WimpMessages);
 
   if ((msg = wimp_message_init(MessagesFile)) == NULL)
   {
@@ -2127,28 +2122,6 @@ wimp_msg_desc *ui_emulator_init_prologue(const char *iname)
     exit(-1);
   }
 
-  TaskHandle = Wimp_Initialise(310, TASK_WORD, WimpTaskName, (int*)WimpMessages);
-  strncpy(MenuIconBar.head.title, WimpTaskName, 12);
-  strncpy(MenuEmuWindow.head.title, WimpTaskName, 12);
-
-  if ((iname != NULL) && (Wimp_SpriteInfo(iname, &x, &y, &mode) == NULL))
-  {
-    strncpy((char*)(&IBarIcon.dat), iname, 12);
-    IBarIcon.maxx = x << OS_ReadModeVariable(mode, 4);
-    IBarIcon.maxy = y << OS_ReadModeVariable(mode, 5);
-  }
-  else
-  {
-    _kernel_oserror err;
-
-    err.errnum = Error_IconSprite;
-    sprintf(err.errmess, SymbolStrings[Symbol_ErrIcon], (iname == NULL) ? "" : iname);
-    /*Wimp_ReportError(&err, 1, WimpTaskName);*/
-    strncpy((char*)(&IBarIcon.dat), "file_fff", 12);
-  }
-
-  wimp_icon_create(0, &IBarIcon);
-
   for (x=0; x<CONF_WIN_NUMBER; x++)
   {
     ConfWindows[x] = NULL; ConfWinPositions[x] = NULL;
@@ -2185,7 +2158,37 @@ wimp_msg_desc *ui_emulator_init_prologue(const char *iname)
     exit(-1);
   }
 
-  return msg;
+  uiMessageDesc = msg;
+
+  return 0;
+}
+
+wimp_msg_desc *ui_emulator_init_prologue(const char *iname)
+{
+  int x, y, mode;
+
+  strncpy(MenuIconBar.head.title, WimpTaskName, 12);
+  strncpy(MenuEmuWindow.head.title, WimpTaskName, 12);
+
+  if ((iname != NULL) && (Wimp_SpriteInfo(iname, &x, &y, &mode) == NULL))
+  {
+    strncpy((char*)(&IBarIcon.dat), iname, 12);
+    IBarIcon.maxx = x << OS_ReadModeVariable(mode, 4);
+    IBarIcon.maxy = y << OS_ReadModeVariable(mode, 5);
+  }
+  else
+  {
+    _kernel_oserror err;
+
+    err.errnum = Error_IconSprite;
+    sprintf(err.errmess, SymbolStrings[Symbol_ErrIcon], (iname == NULL) ? "" : iname);
+    /*Wimp_ReportError(&err, 1, WimpTaskName);*/
+    strncpy((char*)(&IBarIcon.dat), "file_fff", 12);
+  }
+
+  wimp_icon_create(0, &IBarIcon);
+
+  return uiMessageDesc;
 }
 
 int ui_emulator_init_epilogue(wimp_msg_desc *msg)
@@ -2264,6 +2267,7 @@ int ui_emulator_init_epilogue(wimp_msg_desc *msg)
   ui_translate_help_messages(msg);
 
   wimp_message_delete(msg);
+  uiMessageDesc = NULL;
 
   ui_message_init();
 
@@ -2280,8 +2284,6 @@ void ui_shutdown(void)
 int ui_init_finish(void)
 {
   resource_value_t val;
-
-  ui_init_windows();
 
   CMOS_DragType = ReadDragType();
 
@@ -2446,7 +2448,7 @@ static void ui_open_config_window(int wnum)
     int block[WindowB_WFlags+1];
 
     vsync_suspend_speed_eval();
- 
+
     block[WindowB_Handle] = w->Handle;
     Wimp_GetWindowState(block);
     block[WindowB_Stackpos] = -1;

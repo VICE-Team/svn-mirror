@@ -220,69 +220,36 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/vdrive
+	-I$(top_srcdir)/src/drive
 
 
-noinst_LIBRARIES = libserial.a
+noinst_LIBRARIES = libiecbus.a
 
-EXTRA_libserial_a_SOURCES = \
-        realdevice.c \
-        realdevice.h
+libiecbus_a_SOURCES = \
+	iecbus.c
 
-
-libserial_a_SOURCES = \
-	fsdrive.c \
-	fsdrive.h \
-	iec-bus.c \
-	iec-bus.h \
-	serial-device.c \
-	serial-device.h \
-	serial-iec-lib.c \
-	serial-iec-lib.h \
-	serial-iec.c \
-	serial-iec.h \
-	serial-realdevice.c \
-	serial-realdevice.h \
-	serial-trap.c \
-	serial-trap.h \
-	serial.c
-
-
-@HAVE_REALDEVICE_TRUE@libserial_a_DEPENDENCIES = realdevice.o
-@HAVE_REALDEVICE_FALSE@libserial_a_DEPENDENCIES = 
-@HAVE_REALDEVICE_TRUE@libserial_a_LIBADD = realdevice.o
-@HAVE_REALDEVICE_FALSE@libserial_a_LIBADD = 
-subdir = src/serial
+subdir = src/iecbus
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-libserial_a_AR = $(AR) cru
-am_libserial_a_OBJECTS = fsdrive.$(OBJEXT) iec-bus.$(OBJEXT) \
-	serial-device.$(OBJEXT) serial-iec-lib.$(OBJEXT) \
-	serial-iec.$(OBJEXT) serial-realdevice.$(OBJEXT) \
-	serial-trap.$(OBJEXT) serial.$(OBJEXT)
-libserial_a_OBJECTS = $(am_libserial_a_OBJECTS)
+libiecbus_a_AR = $(AR) cru
+libiecbus_a_LIBADD =
+am_libiecbus_a_OBJECTS = iecbus.$(OBJEXT)
+libiecbus_a_OBJECTS = $(am_libiecbus_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/fsdrive.Po ./$(DEPDIR)/iec-bus.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/realdevice.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/serial-device.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/serial-iec-lib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/serial-iec.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/serial-realdevice.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/serial-trap.Po ./$(DEPDIR)/serial.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/iecbus.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libserial_a_SOURCES) $(EXTRA_libserial_a_SOURCES)
+DIST_SOURCES = $(libiecbus_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libserial_a_SOURCES) $(EXTRA_libserial_a_SOURCES)
+SOURCES = $(libiecbus_a_SOURCES)
 
 all: all-am
 
@@ -290,16 +257,16 @@ all: all-am
 .SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/serial/Makefile
+	  $(AUTOMAKE) --gnu  src/iecbus/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libserial.a: $(libserial_a_OBJECTS) $(libserial_a_DEPENDENCIES) 
-	-rm -f libserial.a
-	$(libserial_a_AR) libserial.a $(libserial_a_OBJECTS) $(libserial_a_LIBADD)
-	$(RANLIB) libserial.a
+libiecbus.a: $(libiecbus_a_OBJECTS) $(libiecbus_a_DEPENDENCIES) 
+	-rm -f libiecbus.a
+	$(libiecbus_a_AR) libiecbus.a $(libiecbus_a_OBJECTS) $(libiecbus_a_LIBADD)
+	$(RANLIB) libiecbus.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -307,15 +274,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fsdrive.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec-bus.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/realdevice.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-device.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-iec-lib.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-iec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-realdevice.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial-trap.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/serial.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iecbus.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

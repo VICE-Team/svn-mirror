@@ -118,7 +118,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
     event_list_current = event_list_current->next;
 }
 
-static void next_alarm_set()
+static void next_alarm_set(void)
 {
     CLOCK new_value;
 

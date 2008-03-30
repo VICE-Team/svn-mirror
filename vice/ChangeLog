@@ -1,3 +1,10 @@
+2003-11-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.23.
+
+	* configure.in: Added check for `direct.h'. Removed check for
+	`sgtty.h' and `strings.h'.
+
 2003-11-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.22.

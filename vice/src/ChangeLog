@@ -1,3 +1,48 @@
+2003-11-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.23.
+
+	* iecbus/iecbus.c, iecbus/Makefile.am, arch/win32/iecbus.dsp:
+	New files.
+
+	* Makefile.am, arch/win32/Makefile.am, arch/win32/vice.dsw:
+	Added new files.
+
+	* c64/c64iec.c, plus4/plus4iec.c, vic20/vic20iec.c,
+	pet/petiec.c, cbm2/cbm2iec.c, c64/c64cia2.c, c64/c64iec.h,
+	plus4/plus4iec.h, plus4/plus4mem.c: Moved common IEC code to
+	separate file.
+
+	* iecdrive.h, drive/drive.c, drive/drive-snapshot.c,
+	drive/drive-resources.c: Updated IEC interface.
+
+	* serial/iecbus.c, serial/iecbus.h: Renamed.
+
+	* serial/Makefile.am, arch/win32/serial.dsp: Updated.
+
+	* serial/serial-trap.c, serial/serial-iec.c: Fixed includes.
+
+	* arch/os2/config.h: Removed obsolete `HAVE_SGTTY_H' define.
+
+	* resources.c: Do not include `strings.h'.
+
+	* arch/win32/lose32.h, arch/win32/archdep.c: Moved includes
+	and definitions to source file.
+
+	* gfxoutputdrv/ffmpeglib.h: Undefine `inline' for MSVC.
+
+	* vicii/vicii-snapshot.c, plus4/ted-snapshot.c, vdc/vdc.c,
+	crtc/crtc.c, raster/raster.h, arch/win32/hardsid.c: Fixed
+	warnings.
+
+	* ioutil.c, arch/win32/archdep.c: #include <direct.h>.
+
+	* event.c (next_alarm_set): Fixed prototype.
+
+2003-11-13  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/ui.c: fixed startup sequence
+
 2003-11-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.22.
