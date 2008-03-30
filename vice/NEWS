@@ -11,11 +11,74 @@ list of all the changes in the code.
 * Changes in VICE 1.??
 ======================
 
+** General changes
+------------------
+
+- Autostarting TAP tape images has been improved.
+
+- The datasette emulation supports saving to TAP images now.
+
+- A command line option feeding the keyboard buffer on startup has
+  been added.
+
+** C128 changes
+---------------
+
+- 80 column screen is emulated now.
+
+- Fixed an IO banking bug.
+
+** VIC20 changes
+----------------
+
+- New datasette emulation.
+
+** PET changes
+--------------
+
+- New datasette emulation.
+
+** CBM-II changes
+-----------------
+
+- New datasette emulation.
+
+** Drive changes
+----------------
+
+- New 8050, 8250 and SFD1001 emulation using D80 and D82 disk images.
+
+- The virtual drive emulation, image contents lister and monitor block
+  commands fully support G64 disk images.
+
+** C1541 changes
+----------------
+
+- G64 disk image format is fully supported now.
+
+** Unix changes
+---------------
+
+- A dialog for creating empty disk images has been added.
+
+- The name of currently attached disk images is displayed now.
+
+- The disk image flip list can be maintained by a separate menu by
+  clicking on the status bar.
+
+
+** MS-Windows changes
+---------------------
+
+- The RESTORE key is present now (PAGE UP).
+
 ** Miscellaneous changes
 ------------------------
 
 - The `$xx' feature for specifying hexcodes on the command-line now
   works correctly.
+
+- Some P00 wildcard bug has been fixed.
 
 
 * Changes in VICE 1.0a
