@@ -103,7 +103,7 @@ struct _DRIVE {
 
     int mode;			/* Read/Write */
     int ImageFormat;		/* 1541/71/81 */
-    file_desc_t ActiveFd;
+    FILE *ActiveFd;
     char ActiveName[256];	/* Image name */
     char ReadOnly;
     int unit;
@@ -264,11 +264,11 @@ extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
 extern void detach_floppy_image(DRIVE *floppy);
 extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int floppy_free_block_count(DRIVE *floppy);
-extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
-			     int sector, int d64, int g64, int unit);
-extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
-			      int sector, int d64, int g64, int unit);
-extern int check_header(file_desc_t fd, hdrinfo *hdr);
+extern int floppy_read_block(FILE *fd, int format, BYTE *buf, int track,
+			                 int sector, int d64, int g64, int unit);
+extern int floppy_write_block(FILE *fd, int format, BYTE *buf, int track,
+			                  int sector, int d64, int g64, int unit);
+extern int check_header(FILE *fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
