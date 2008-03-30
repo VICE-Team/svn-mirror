@@ -394,19 +394,19 @@ static int set_pal_emu_double(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
   {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
-    (resource_value_t *)&ScreenModeNormString, set_screen_mode_norm, NULL },
+    (void *)&ScreenModeNormString, set_screen_mode_norm, NULL },
   {"ScreenModePAL", RES_STRING, (resource_value_t)"28:640,480,5",
-    (resource_value_t *)&ScreenModePALString, set_screen_mode_pal, NULL },
+    (void *)&ScreenModePALString, set_screen_mode_pal, NULL },
   {"ScreenModeDouble", RES_STRING, (resource_value_t)"31:800,600,5",
-    (resource_value_t *)&ScreenModeDoubleString, set_screen_mode_double, NULL },
+    (void *)&ScreenModeDoubleString, set_screen_mode_double, NULL },
   {"ScreenSetPalette", RES_INTEGER, (resource_value_t) 1,
-    (resource_value_t *)&ScreenSetPalette, set_screen_palette, NULL },
+    (void *)&ScreenSetPalette, set_screen_palette, NULL },
   {"UseBPlot", RES_INTEGER, (resource_value_t) 1,
-    (resource_value_t *)&UseBPlotModule, set_bplot_status, NULL },
+    (void *)&UseBPlotModule, set_bplot_status, NULL },
   {"PALEmuDepth", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *)&PALEmuDepth, set_pal_emu_depth, NULL },
+    (void *)&PALEmuDepth, set_pal_emu_depth, NULL },
   {"PALEmuDouble", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *)&PALEmuDouble, set_pal_emu_double, NULL },
+    (void *)&PALEmuDouble, set_pal_emu_double, NULL },
   {NULL}
 };
 
