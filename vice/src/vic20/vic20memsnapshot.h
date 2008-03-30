@@ -1,5 +1,5 @@
 /*
- * vic20-snapshot.h - VIC20 snapshot handling.
+ * vic20memsnapshot.h - VIC20 memory snapshot handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,12 +24,13 @@
  *
  */
 
-#ifndef _VIC20_SNAPSHOT_H
-#define _VIC20_SNAPSHOT_H
+#ifndef _VIC20MEMSNAPSHOT_H
+#define _VIC20MEMSNAPSHOT_H
 
-extern int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
-                                int event_mode);
-extern int vic20_snapshot_read(const char *name, int event_mode);
+struct snapshot_s;
+
+extern int vic20_snapshot_write_module(struct snapshot_s *s, int save_roms);
+extern int vic20_snapshot_read_module(struct snapshot_s *s);
  
 #endif
 
