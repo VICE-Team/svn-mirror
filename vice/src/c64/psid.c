@@ -468,7 +468,7 @@ void psid_init_driver(void)
     BYTE psid_driver[] = {
 #include "psiddrv.h"
     };
-    BYTE *psid_reloc = psid_driver;
+    char *psid_reloc = (char *)psid_driver;
     int psid_size;
 
     WORD reloc_addr;

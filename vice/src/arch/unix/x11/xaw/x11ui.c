@@ -250,7 +250,9 @@ static struct {
     int drive_mapping[NUM_DRIVES];
     int drive_nleds[NUM_DRIVES];
 } app_shells[MAX_APP_SHELLS];
-/*static*/ int num_app_shells = 0;
+
+static int num_app_shells = 0;
+
 char last_attached_images[NUM_DRIVES][256];
 
 /* Pixels for updating the drive LED's state.  */
@@ -431,7 +433,7 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
-    unsigned int i;
+    int i;
 
     ui_hotkey_shutdown();
 
@@ -1829,12 +1831,13 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
             /* FIXME: Is it really OK to cast to `signed short'?  */
             if ((signed short)my_x < 0)
                 my_x = 0;
-            else if ((signed short)my_x + my_width > root_width)
+            else if ((unsigned int)((signed short)my_x + my_width) > root_width)
                 my_x = root_width - my_width;
 
             if ((signed short)my_y < 0)
                 my_y = 0;
-            else if ((signed short)my_y + my_height > root_height)
+            else if ((unsigned int)((signed short)my_y + my_height)
+                > root_height)
                 my_y = root_height - my_height;
         } else {
             /* We don't have an AppWindow to refer to: center to the root
