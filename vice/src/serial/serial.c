@@ -474,21 +474,3 @@ void serial_set_attention_callback(void (*func)(void))
     attention_callback_func = func;
 }
 
-/* ------------------------------------------------------------------------- */
-
-int serial_realdevice_enable(void)
-{
-#if HAVE_OPENCBM
-    return realdevice_enable();
-#else
-    return -1;
-#endif
-}
-
-void serial_realdevice_disable(void)
-{
-#if HAVE_OPENCBM
-    realdevice_disable();
-#endif
-}
-

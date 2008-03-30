@@ -32,6 +32,7 @@
 
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "fsimage-check.h"
 #include "fsimage-create.h"
 #include "fsimage-gcr.h"
 #include "fsimage.h"
@@ -42,7 +43,7 @@
 #include "utils.h"
 
 
-static log_t disk_image_log = LOG_ERR;
+static log_t disk_image_log = LOG_DEFAULT;
 
 
 /*-----------------------------------------------------------------------*/
@@ -156,80 +157,21 @@ unsigned int disk_image_sector_per_track(unsigned int format,
         break;
       default:
         log_message(disk_image_log,
-                    "Unknown disk type %i.  Cannot calculate sectors per track",                    format);
+                    "Unknown disk type %i.  Cannot calculate sectors per track",
+                    format);
     }
     return 0;
 }
 
-int disk_image_check_sector(unsigned int format, unsigned int track,
+/*-----------------------------------------------------------------------*/
+
+int disk_image_check_sector(disk_image_t *image, unsigned int track,
                             unsigned int sector)
 {
-    unsigned int sectors = 0, i;
+    if (image->device == DISK_IMAGE_DEVICE_FS)
+        return fsimage_check_sector(image->type, track, sector);
 
-    if (track < 1 || sector < 0)
-        return -1;
-
-    switch (format) {
-      case DISK_IMAGE_TYPE_D64:
-      case DISK_IMAGE_TYPE_X64:
-        if (track > MAX_TRACKS_1541 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D67:
-        if (track > MAX_TRACKS_2040 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D71:
-        if (track > MAX_TRACKS_1571)
-            return -1;
-        if (track > NUM_TRACKS_1541) {          /* The second side */
-            track -= NUM_TRACKS_1541;
-            sectors = NUM_BLOCKS_1541;
-        }
-        if (sector >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D81:
-        if (track > MAX_TRACKS_1581 || sector >=  NUM_SECTORS_1581)
-            return -1;
-        sectors = (track - 1) * NUM_SECTORS_1581 + sector;
-        break;
-      case DISK_IMAGE_TYPE_D80:
-        if (track > MAX_TRACKS_8050 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D82:
-        if (track > MAX_TRACKS_8250)
-            return -1;
-        if (track > NUM_TRACKS_8050) {          /* The second side */
-            track -= NUM_TRACKS_8050;
-            sectors = NUM_BLOCKS_8050;
-        }
-        if (sector >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
-        sectors += sector;
-        break;
-      default:
-        return -1;
-    }
-    return (int)(sectors);
+    return 0;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -240,11 +182,11 @@ void disk_image_attach_log(disk_image_t *image, signed int lognum,
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
         log_message(lognum, "Unit %d: %s disk image attached: %s.",
-                    unit, type, ((fsimage_t *)(image->media))->name);
+                    unit, type, fsimage_name_get(image));
         break;
       case DISK_IMAGE_DEVICE_RAW:
         log_message(lognum, "Unit %d: %s disk attached (drive: %s).",
-                    unit, type, ((rawimage_t *)(image->media))->name);
+                    unit, type, rawimage_name_get(image));
         break;
     }
 }
@@ -255,11 +197,11 @@ void disk_image_detach_log(disk_image_t *image, signed int lognum,
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
         log_message(lognum, "Unit %d: %s disk image detached: %s.",
-                    unit, type, ((fsimage_t *)(image->media))->name);
+                    unit, type, fsimage_name_get(image));
         break;
       case DISK_IMAGE_DEVICE_RAW:
         log_message(lognum, "Unit %d: %s disk detached (drive: %s).",
-                    unit, type, ((rawimage_t *)(image->media))->name);
+                    unit, type, rawimage_name_get(image));
         break;
     }
 }
@@ -280,9 +222,41 @@ void *disk_image_fsimage_fd_get(disk_image_t *image)
     return fsimage_fd_get(image);
 }
 
-int disk_image_create(const char *name, unsigned int type)
+int disk_image_fsimage_create(const char *name, unsigned int type)
 {
     return fsimage_create(name, type);
+}
+
+/*-----------------------------------------------------------------------*/
+
+void disk_image_rawimage_name_set(disk_image_t *image, char *name)
+{
+#ifdef HAVE_RAWDRIVE
+    rawimage_name_set(image, name);
+#endif
+}
+
+void disk_image_rawimage_driver_name_set(disk_image_t *image)
+{
+#ifdef HAVE_RAWDRIVE
+    rawimage_driver_name_set(image);
+#endif
+}
+
+/*-----------------------------------------------------------------------*/
+
+void disk_image_name_set(disk_image_t *image, char *name)
+{
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        fsimage_name_set(image, name);
+        break;
+#ifdef HAVE_RAWDRIVE
+      case DISK_IMAGE_DEVICE_RAW:
+        rawimage_name_set(image, name);
+        break;
+#endif
+    }
 }
 
 /*-----------------------------------------------------------------------*/

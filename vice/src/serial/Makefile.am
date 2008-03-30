@@ -18,8 +18,12 @@ libserial_a_SOURCES = \
 	iec.h \
 	serial-device.c \
 	serial-device.h \
+	serial-iec-lib.c \
+	serial-iec-lib.h \
 	serial-iec.c \
 	serial-iec.h \
+	serial-realdevice.c \
+	serial-realdevice.h \
 	serial-trap.c \
 	serial-trap.h \
 	serial.c
