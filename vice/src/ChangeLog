@@ -1,3 +1,51 @@
+2004-01-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.49.
+
+	* arch/win32/reside64.rc, arch/win32/uiide64.c,
+	arch/win32/uiide64.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/res.h, arch/win32/c64ui.c, arch/win32/c128ui.c:
+	Added IDE64 UI.
+
+	* arch/win32/uireu.c: Added greying.
+
+2004-01-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c64ui.cc, vsidui.cc: Moved the vsid specific
+	stuff from c64ui.cc to vsidui.cc.
+
+2004-01-22  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/fullscrn.c (init_fullscreen_dialog,
+	dialog_fullscreen_proc): Handle DirectX primary surface
+	rendering checkbox.
+
+	* arch/win32/res.h: Added IDC_TOGGLE_VIDEO_DX_PRIMARY.
+
+	* arch/win32/res.rc (IDD_FULLSCREEN_SETTINGS_DIALOG): Added
+	checkbox for DirectX primary surface rendering selection.
+
+	* arch/win32/ui.c (NUM_OF_COMMON_HOTKEYS): Updated value.
+
+	* arch/win32/video.c (set_dx_primary_surface_rendering): New
+	function for setting new resource.
+	(resources): Added DXPrimarySurfaceRendering resource.
+	(real_refresh): Primary surface rendering try only happens if
+	resource allows it.
+	Changed primary surface render failure from error reporting to
+	a simple warning into the log file.
+
+2004-01-21  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicommands.c
+	(events_set_ms,events_return_ms,events_select_dir):
+	New functions implementing the event record UI.
+	
 2004-01-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.48.
@@ -40,12 +88,12 @@
 	(ui_display_drive_current_image): Allow widgets up to
 	NUM_DRIVES.
 
-2004-01-13  David Hansel  <hansel@reactive-systems.com>
+2004-01-13  David Hansel  <david@hansels.net>
 
 	* tape/tap.c: improved error tolerance for reading
 	TurboTape encoded files
 
-2004-01-12  David Hansel  <hansel@reactive-systems.com>
+2004-01-12  David Hansel  <david@hansels.net>
 
 	* tape/tap.c: fixed warnings
 
@@ -116,7 +164,7 @@
 	the snapshot filename.
 	Fixed a bug in event_record_reset_milestone_trap.
 
-2004-01-08  David Hansel  <hansel@reactive-systems.com>
+2004-01-08  David Hansel  <david@hansels.net>
 
 	* arch/unix/x11/xaw/x11ui.c: Fixed compile error
 
@@ -127,7 +175,7 @@
 	imagecontents/tapecontents.c:  When listing contents 
 	of TAP file, list turbo-tape files as "TPRG" instead of "PRG"
 		
-2004-01-07  David Hansel  <hansel@reactive-systems.com>
+2004-01-07  David Hansel  <david@hansels.net>
 
 	* arch/unix/uisettings.c,
 	arch/unix/x11/ui-cmdline-options.c,
@@ -144,7 +192,7 @@
 	* tape/tap.c (tap_cbm_read_file_seq):  Fixed reading of SEQ
 	files
 
-2004-01-06  David Hansel  <hansel@reactive-systems.com>
+2004-01-06  David Hansel  <david@hansels.net>
 
 	* tape/tap.c:  Added support for TurboTape encoded files
 	
@@ -185,7 +233,7 @@
 	* arch/riscos/archdep.c: initialize the default fliplist
 	name
 
-2004-01-02  David Hansel  <hansel@reactive-systems.com>
+2004-01-02  David Hansel  <david@hansels.net>
 
 	* tape/tap.c (tap_read):  improved error recovery, 
 	  timing refinements
@@ -250,7 +298,7 @@
 	* arch/win32/uivideo.c: Grey out external palette UI if
 	external palette is not selected.
 
-2003-12-31  David Hansel  <hansel@reactive-systems.com>
+2003-12-31  David Hansel  <david@hansels.net>
 
 	* tap.h, tape/tap.c, tape/tapeimage.c: implemented tap_read()
 
@@ -262,7 +310,7 @@
 	* fsdevice/fsdevice-open.c:  when reading from tape, ignore
 	load address for sequential files.
 
-2003-12-30  David Hansel  <hansel@reactive-systems.com>
+2003-12-30  David Hansel  <david@hansels.net>
 
 	* iecbus.h, iecbus/iecbus.c, serial/serial-iec-device.c:
 	More warning fixes
@@ -270,7 +318,7 @@
 	* arch/win32/uiperipheral.c:  Disable "Formfeed" button
 	when printer is off.
 
-2003-12-29  David Hansel  <hansel@reactive-systems.com>
+2003-12-29  David Hansel  <david@hansels.net>
 
 	* fsdevice/fsdevice-open.c:  Fixed tape access via fsdevice
 
@@ -336,7 +384,7 @@
 
 	* video/Makefile.am, arch/win32/video.dsp: Updated.
 
-2003-12-28  David Hansel  <hansel@reactive-systems.com>
+2003-12-28  David Hansel  <david@hansels.net>
 
 	* serial/serial-iec-device.c, printerdrv/drv-nl10.c:  Fixed
 	warnings
@@ -440,7 +488,7 @@
 	* rawfile.c: cast rawfile_info_t::fd to FILE* before using it
 	in stdio calls.
 
-2003-12-23  David Hansel  <hansel@reactive-systems.com>
+2003-12-23  David Hansel  <david@hansels.net>
 
 	* printerdrv/drv-nl10.c:  Fixed character upload.
 	ixed bottom margin issues.  Reduced border size.  Allocate
@@ -542,7 +590,7 @@
 	* resid/filter.cc: init f0_6581 and f0_8580 to avoid floating
 	point exceptions later on in set_w0()
 
-2003-12-13  David Hansel  <hansel@reactive-systems.com>
+2003-12-13  David Hansel  <david@hansels.net>
 
 	* printerdrv/drv-nl10.c:  implemented vertical tabs,
 	top and bottom margins.  Fixed bug in mapping table.
@@ -631,7 +679,7 @@
 	vic20/vic20drive.c, plus4/plus4drive.c, cbm2/cbm2drive.c,
 	pet/petdrive.c, machine-drive.h: Removed job code function.
 
-2003-12-01  David Hansel  <hansel@reactive-systems.com>
+2003-12-01  David Hansel  <david@hansels.net>
 
 	* fsdevice/fsdevice-open.c, fsdevice/fsdevice-read.c,
 	fsdevice/fsdevice-close.c, fsdevice/fsdevicetypes.h:
@@ -685,7 +733,7 @@
 	* drive/drivecpu.c, drive/ieee/memieee.c: Include
 	drive-check.h.
 
-2003-11-27  David Hansel  <hansel@reactive-systems.com>
+2003-11-27  David Hansel  <david@hansels.net>
 
 	* printer.h, printerdrv/printer.c:
 	Added new function "printer_formfeed"
@@ -775,7 +823,7 @@
 
 	* serial/Makefile.am: Removed vdrive include path.
 
-2003-11-26  David Hansel  <hansel@reactive-systems.com>
+2003-11-26  David Hansel  <david@hansels.net>
 
 	* arch/win32/uiperipheral.c:  Only add printer-userport page
 	if emulated actually has a userport.  Hide "Use IEC Device"
@@ -796,7 +844,7 @@
 	machine_bus_status_drivetype_set(), changed second parameter
 	to type!=DRIVE_TYPE_1551, since 1551 drive does not use the bus.
 	
-2003-11-25  David Hansel  <hansel@reactive-systems.com>
+2003-11-25  David Hansel  <david@hansels.net>
 
 	* arch/win32/uiattach.c, arch/win32/uiattach.h:
 	renamed to uiperipheral.c/h
@@ -901,7 +949,7 @@
 
 	* printerdrv/drv-nl10.c: Fixed prototypes.
 
-2003-11-23  David Hansel  <hansel@reactive-systems.com>
+2003-11-23  David Hansel  <david@hansels.net>
 
 	* arch/unix/uiperipheralieee.c, arch/unix/uiperipheraliec.c, 
 	arch/unix/uiperipheral.c, arch/unix/uiperipheral.h, 
@@ -927,7 +975,7 @@
 	* vicii/vicii-snapshot.c (vicii_snapshot_read_module): Close
 	the module.
 
-2003-11-22  David Hansel  <hansel@reactive-systems.com>
+2003-11-22  David Hansel  <david@hansels.net>
 
 	* drive/drive.c: reversed return values of
 	drive_write_protect_sense for pull-out/put-in sequence and
@@ -994,7 +1042,7 @@
 	* vicii/vicii-sprites.c (draw_sprite_partial): Fixed msk_ptr
 	respecting new gfx_msk offset.
 
-2003-11-21  David Hansel  <hansel@reactive-systems.com>
+2003-11-21  David Hansel  <david@hansels.net>
 
 	* arch/unix/uidrivec128, arch/unix/uidrivec64vic20,
 	arch/unix/uidriveplus4, uiperipheral.c, uiprinter.c:
@@ -1040,13 +1088,13 @@
 	* vicii/vicii-sprites.c (draw_sprite_partial): Fixed msk_ptr
 	respecting new gfx_msk offset.
 
-2003-11-20  David Hansel  <hansel@reactive-systems.com>
+2003-11-20  David Hansel  <david@hansels.net>
 
 	* drive/iec/via1d1541.c, drive/iec/cia1581d.c:  
 	When calculating cpu_port value, run loop from
 	4-11 instead of 8-11
 
-2003-11-20  David Hansel  <hansel@reactive-systems.com>
+2003-11-20  David Hansel  <david@hansels.net>
 
 	* serial/serial-iec-device.c:  
 	- Calculate correct number of timeout-cycles from microseconds
@@ -1102,7 +1150,7 @@
 	fsdevice/fsdevice-open.c, vdrive/vdrive.c: removed superfluous
 	RISC OS ui.h include
 
-2003-11-19  David Hansel  <hansel@reactive-systems.com>
+2003-11-19  David Hansel  <david@hansels.net>
 
 	* iecbus.h, iecbus/iecbus.c:  Added functions
 	BYTE iecbus_device_read(void);
@@ -1516,7 +1564,7 @@
 
 	* arch/unix/uiprinter.c: Added new printer.
 
-2003-11-10  David Hansel  <hansel@reactive-systems.com>
+2003-11-10  David Hansel  <david@hansels.net>
 
 	* printerdrv/drv-nl10.c, printerdrv/drv-nl10.h: New files.
 

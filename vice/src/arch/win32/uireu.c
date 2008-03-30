@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -46,6 +47,18 @@ static const int ui_reu_size[NUM_OF_REU_SIZE] = {
 };
 
 
+static void enable_reu_controls(HWND hwnd)
+{
+    int is_enabled;
+
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_REU_ENABLE)
+                 == BST_CHECKED) ? 1 : 0;
+
+    EnableWindow(GetDlgItem(hwnd, IDC_REU_SIZE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_REU_BROWSE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_REU_FILE), is_enabled);
+}
+
 static void init_reu_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -77,15 +90,30 @@ static void init_reu_dialog(HWND hwnd)
 
     resources_get_value("REUfilename", (void *)&reufile);
     SetDlgItemText(hwnd, IDC_REU_FILE, reufile != NULL ? reufile : "");
+
+    enable_reu_controls(hwnd);
 }
 
+static void end_reu_dialog(HWND hwnd)
+{
+    char s[MAX_PATH];
 
+    resources_set_value("REU", (resource_value_t)
+                        (IsDlgButtonChecked
+                        (hwnd, IDC_REU_ENABLE) == BST_CHECKED ?
+                        1 : 0 ));
+    resources_set_value("REUsize",(resource_value_t)
+                        ui_reu_size[SendMessage(GetDlgItem(
+                        hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
+
+    GetDlgItemText(hwnd, IDC_REU_FILE, s, MAX_PATH);
+    resources_set_value("REUfilename", (resource_value_t)s);
+}
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
 {
     int command;
-    char s[MAX_PATH];
 
     switch (msg) {
       case WM_COMMAND:
@@ -124,18 +152,11 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                     SetDlgItemText(hwnd, IDC_REU_FILE, name);
             }
             break;
-
+          case IDC_REU_ENABLE:
+            enable_reu_controls(hwnd);
+            break;
           case IDOK:
-            resources_set_value("REU", (resource_value_t)
-                (IsDlgButtonChecked
-                (hwnd, IDC_REU_ENABLE) == BST_CHECKED ?
-                1 : 0 ));
-            resources_set_value("REUsize",(resource_value_t)
-                ui_reu_size[SendMessage(GetDlgItem(
-                hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
-                  
-            GetDlgItemText(hwnd, IDC_REU_FILE, s, MAX_PATH);
-            resources_set_value("REUfilename", (resource_value_t)s);
+            end_reu_dialog(hwnd);
           case IDCANCEL:
             EndDialog(hwnd, 0);
             return TRUE;
