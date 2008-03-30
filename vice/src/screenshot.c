@@ -26,9 +26,11 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "gfxoutput.h"
 #include "log.h"
 #include "machine.h"
 #include "palette.h"
@@ -37,84 +39,20 @@
 #include "video.h"
 #include "videoarch.h"
 
-struct screendrv_list_s {
-    struct screendrv_s *drv;
-    struct screendrv_list_s *next;
-};
-typedef struct screendrv_list_s screendrv_list_t;
-
-static screendrv_list_t *screendrv_list;
-static int screendrv_list_count = 0;
-
 static log_t screenshot_log = LOG_ERR;
-static screendrv_list_t *screendrv_list_iter = NULL;
-
-int screenshot_num_drivers(void)
-{
-    return screendrv_list_count;
-}
-
-screendrv_t *screenshot_drivers_iter_init(void)
-{
-    screendrv_list_iter = screendrv_list;
-    return screendrv_list_iter->drv;
-}
-
-screendrv_t *screenshot_drivers_iter_next(void)
-{
-    if (screendrv_list_iter)
-        screendrv_list_iter = screendrv_list_iter->next;
-
-    if (screendrv_list_iter)
-        return screendrv_list_iter->drv;
-
-    return NULL;
-}
 
 int screenshot_init(void)
 {
     /* Setup logging system.  */
     screenshot_log = log_open("Screenshot");
 
-    /* Initialize screen driver list.  */
-    screendrv_list = (screendrv_list_t *)xmalloc(sizeof(screendrv_list_t));
-    screendrv_list->drv = NULL;
-    screendrv_list->next = NULL;
-
-#if 1
-    screenshot_init_bmp();
-#endif
-#if HAVE_PNG
-    screenshot_init_png();
-#endif
     return 0;
 }
 
 /*-----------------------------------------------------------------------*/
 
-int screenshot_register(screendrv_t *drv)
-{
-    screendrv_list_t *current;
-
-    current = screendrv_list;
-
-    /* Warp to end of list.  */
-    while (current->next != NULL)
-        current = current->next;
-
-    /* Fill in entry.  */
-    current->drv = drv;
-    current->next = (screendrv_list_t *)xmalloc(sizeof(screendrv_list_t));
-    current->next->drv = NULL;
-    current->next->next = NULL;
-
-    screendrv_list_count++;
-
-    return 0;
-}
-
-void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
-                          unsigned int line, unsigned int mode)
+static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
+                                 unsigned int line, unsigned int mode)
 {
     unsigned int i;
     PIXEL *line_base;
@@ -150,26 +88,9 @@ void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
     }
 }
 
-screendrv_t *screenshot_get_driver(const char *drvname)
-{
-    screendrv_list_t *current = screendrv_list;
+/*-----------------------------------------------------------------------*/
 
-    while (current->next != NULL) {
-       if (strcmp(drvname, current->drv->name) == 0)
-           break;
-       current = current->next;
-    }
-
-    /* Requested screenshot driver is not registered.  */
-    if (current->next == NULL) {
-        log_error(screenshot_log, "Request screenshot driver %s not found.",
-                  drvname);
-        return NULL;
-    }
-    return current->drv;
-}
-
-static int screenshot_save_core(screenshot_t *screenshot, screendrv_t *drv,
+static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
                                 const char *filename)
 {
     unsigned int i;
@@ -184,6 +105,8 @@ static int screenshot_save_core(screenshot_t *screenshot, screendrv_t *drv,
 
     for (i = 0; i < screenshot->palette->num_entries; i++)
         screenshot->color_map[screenshot->pixel_table_sing[i]] = i;
+
+    screenshot->convert_line = screenshot_line_data;
 
     if ((drv->save)(screenshot, filename) < 0) {
         log_error(screenshot_log, "Saving failed...");
@@ -201,9 +124,9 @@ int screenshot_save(const char *drvname, const char *filename,
                     unsigned int window_number)
 {
     screenshot_t screenshot;
-    screendrv_t *drv;
+    gfxoutputdrv_t *drv;
 
-    if ((drv = screenshot_get_driver(drvname)) == NULL)
+    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
         return -1;
 
     /* Retrive framebuffer and screen geometry.  */
@@ -219,9 +142,9 @@ int screenshot_canvas_save(const char *drvname, const char *filename,
                            struct canvas_s *canvas)
 {
     screenshot_t screenshot;
-    screendrv_t *drv;
+    gfxoutputdrv_t *drv;
 
-    if ((drv = screenshot_get_driver(drvname)) == NULL)
+    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
         return -1;
 
     if (machine_canvas_screenshot(&screenshot, canvas) < 0) {
@@ -231,3 +154,4 @@ int screenshot_canvas_save(const char *drvname, const char *filename,
 
     return screenshot_save_core(&screenshot, drv, filename);
 }
+

@@ -27,11 +27,14 @@
 #ifndef _SCREENSHOT_H
 #define _SCREENSHOT_H
 
+#include <stdio.h>
+
 #include "types.h"
 
 struct video_frame_buffer_s;
 struct palette_s;
 struct canvas_s;
+struct gfxoutputdrv_data_s;
 
 typedef struct screenshot_s {
     struct video_frame_buffer_s *frame_buffer;
@@ -58,37 +61,24 @@ typedef struct screenshot_s {
     /* Pixel size.  */
     unsigned int size_width;
     unsigned int size_height;
-} screenshot_t;
 
-typedef struct screendrv_s {
-    const char *name;
-    const char *default_extension;
-    int (*save)(struct screenshot_s *, const char *);
-} screendrv_t;
+    /* Line data convert function.  */
+    void (*convert_line)(struct screenshot_s *screenshot, BYTE *data,
+                         unsigned int line, unsigned int mode);
+
+    /* Pointer for graphics outout driver internal data.  */
+    struct gfxoutputdrv_data_s *gfxoutputdrv_data;
+} screenshot_t;
 
 #define SCREENSHOT_MODE_PALETTE 0
 #define SCREENSHOT_MODE_RGB32   1
 
 /* Functions called by external emulator code.  */
 extern int screenshot_init(void);
+
 extern int screenshot_save(const char *drvname, const char *filename,
                            unsigned int window_number);
 extern int screenshot_canvas_save(const char *drvname, const char *filename,
                            struct canvas_s *canvas);
-
-/* Functions called by screenshot modules.  */
-extern int screenshot_register(screendrv_t *drv);
-extern void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
-                                 unsigned int line, unsigned int mode);
-
-extern int screenshot_num_drivers(void);
-extern screendrv_t *screenshot_drivers_iter_init(void);
-extern screendrv_t *screenshot_drivers_iter_next(void);
-extern screendrv_t *screenshot_get_driver(const char *drvname);
-
-/* Initialization prototypes */
-extern void screenshot_init_bmp(void);
-extern void screenshot_init_png(void);
-
 #endif
 

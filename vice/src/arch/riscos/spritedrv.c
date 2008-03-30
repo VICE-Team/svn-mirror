@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "gfxoutput.h"
 #include "palette.h"
 #include "screenshot.h"
 #include "types.h"
@@ -123,7 +124,7 @@ static int sprite_save(screenshot_t *screenshot, const char *filename)
         unsigned int pixel, shift;
         unsigned int *dptr = (unsigned int*)linedata;
 
-        screenshot_line_data(screenshot, data, line, SCREENSHOT_MODE_PALETTE);
+        (screenshot->convert_line)(screenshot, data, line, SCREENSHOT_MODE_PALETTE);
 
         switch (ldbpp)
         {
@@ -173,7 +174,7 @@ static int sprite_save(screenshot_t *screenshot, const char *filename)
     return 0;
 }
 
-static screendrv_t sprite_drv =
+static gfxoutputdrv_t sprite_drv =
 {
     "Sprite",
     NULL,
@@ -182,5 +183,5 @@ static screendrv_t sprite_drv =
 
 void screenshot_init_sprite(void)
 {
-    screenshot_register(&sprite_drv);
+    gfxoutput_register(&sprite_drv);
 }
