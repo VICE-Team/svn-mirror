@@ -46,6 +46,9 @@ int machine_init(void);
 /* Reset the machine.  */
 void machine_reset(void);
 
+/* Power-up the machine.  */
+void machine_powerup(void);
+
 /* Shutdown th emachine.  */
 void machine_shutdown(void);
 

@@ -220,8 +220,10 @@ void kbd_flush_commands(void)
 	DEBUG(("Executing command #%d: %d", i, command_queue[i]));
 	switch (command_queue[i].type) {
 	  case KCMD_HARD_RESET:
-	    mem_powerup();
-	    /* Fall through.  */
+            suspend_speed_eval();
+            machine_powerup();
+            break;
+            
 	  case KCMD_RESET:
 	    suspend_speed_eval();
 	    maincpu_trigger_reset();

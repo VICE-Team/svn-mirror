@@ -310,6 +310,12 @@ void machine_reset(void)
 #endif
 }
 
+void machine_powerup(void)
+{
+    mem_powerup();
+    maincpu_trigger_reset();
+}
+
 void machine_shutdown(void)
 {
     /* Detach all devices.  */

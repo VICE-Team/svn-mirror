@@ -250,6 +250,12 @@ void machine_reset(void)
     set_bank_ind(15);
 }
 
+void machine_powerup(void)
+{
+    mem_powerup();
+    maincpu_trigger_reset();
+}
+
 void machine_shutdown(void)
 {
     /* Detach all devices.  */

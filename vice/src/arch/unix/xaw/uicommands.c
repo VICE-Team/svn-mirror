@@ -214,8 +214,7 @@ static UI_CALLBACK(reset)
 static UI_CALLBACK(powerup_reset)
 {
     suspend_speed_eval();
-    mem_powerup();
-    maincpu_trigger_reset();
+    machine_powerup();
 }
 
 static UI_CALLBACK(browse_manual)
