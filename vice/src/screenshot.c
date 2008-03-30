@@ -103,11 +103,11 @@ void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
     switch (mode) {
       case SCREENSHOT_MODE_PALETTE:
         for (i = 0; i < screenshot->width; i++)
-            data[i] = screenshot->color_map[line_base[i]];
+            data[i] = screenshot->color_map[line_base[i + screenshot->x_offset]];
         break;
       case SCREENSHOT_MODE_RGB32:
         for (i = 0; i < screenshot->width; i++) {
-            color = screenshot->color_map[line_base[i]];
+            color = screenshot->color_map[line_base[i + screenshot->x_offset]];
             data[i * 4] = screenshot->palette->entries[color].red;
             data[i * 4 + 1] = screenshot->palette->entries[color].green;
             data[i * 4 + 2] = screenshot->palette->entries[color].blue;
@@ -148,6 +148,9 @@ int screenshot_save(const char *drvname, const char *filename,
         log_error(screenshot_log, "Retriving screen geometry failed.");
         return -1;
     }
+
+    screenshot.width = screenshot.max_width;
+    screenshot.height = screenshot.max_height;
 
     screenshot.color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
     memset(screenshot.color_map, 0, 256 * sizeof(PIXEL));
