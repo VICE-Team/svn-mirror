@@ -1,3 +1,35 @@
+1998-12-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.15.0.41.
+
+	* arch/unix/archdep.h: Moved definition of `LIBDIR' and `DOCDIR'
+	here.
+
+	* arch/unix/kbd.c, arch/unix/video.c, arch/unix/xaw/petui.c,
+	arch/unix/xaw/ui.c, arch/unix/xaw/uisnapshot.c, c128/c128.c,
+	crtc-tmpl.c, drive/via1drive0.def, drive/via1drive1.def,
+	pet/petmem.c, sid/resid.cc, tpi-tmpl.c: Removed unused variables.
+
+	* fsdevice.c (open_fs): Do not modify const char.
+
+	* arch/unix/xaw/uicommands.c: #include "archdep.h".
+
+	* arch/unix/xaw/widgets/MultiList.c: Initialize variables `fg_gc'
+	and `item'.
+
+	* c64/c64mem.c (pla_config_changed): Reverted to old routine.
+	(initialize_memory): Initialize watchpoints for wrap around too.
+
+	* log.c (log_open): Initialize `new_log'.
+
+	* pet/pet.c: #include <stdlib.h> and #include <unistd.h>.
+
+	* prdevice.c (open_pr): Made `name' const.
+
+	* t64.c: #include <string.h>.
+
+	* vice.h: Removed architecture dependent filename handling.
+
 1998-12-21  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.40.

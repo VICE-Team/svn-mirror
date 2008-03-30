@@ -619,8 +619,6 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-archdep.o: ../src/arch/unix/archdep.c vice.h config.h \
-	../src/arch/unix/archdep.h findpath.h utils.h types.h
 asm.o: asm.c vice.h config.h asm.h types.h
 attach.o: attach.c vice.h config.h resources.h vdrive.h types.h fs_cbm.h \
 	serial.h traps.h log.h attach.h snapshot.h

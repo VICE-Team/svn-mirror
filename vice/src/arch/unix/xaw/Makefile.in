@@ -352,7 +352,8 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h ../../../../src/attach.h ../../../../src/vdrive.h \
+	uihotkey.h ../../../../src/arch/unix/archdep.h \
+	../../../../src/attach.h ../../../../src/vdrive.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
 	../../../../src/traps.h ../../../../src/log.h \
 	../../../../src/snapshot.h ../../../../src/autostart.h \
