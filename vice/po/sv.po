@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-05-28 00:29+0200\n"
+"POT-Creation-Date: 2001-05-31 21:55+0200\n"
 "PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
@@ -2055,12 +2055,12 @@ msgstr "Koppla från insticksmodulfil(er)"
 msgid "VIC settings"
 msgstr "VICE-inställning"
 
-#: src/arch/unix/archdep.c:226
+#: src/arch/unix/archdep.c:233
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Tog emot signal %d (%s)."
 
-#: src/arch/unix/archdep.c:229
+#: src/arch/unix/archdep.c:236
 #, c-format
 msgid "Received signal %d."
 msgstr "Tog emot signal %d."

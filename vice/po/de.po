@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-05-28 00:29+0200\n"
+"POT-Creation-Date: 2001-05-31 21:55+0200\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2029,12 +2029,12 @@ msgstr "Erweiterungsmodul Image(s) entfernen"
 msgid "VIC settings"
 msgstr "VICE Einstellungen"
 
-#: src/arch/unix/archdep.c:226
+#: src/arch/unix/archdep.c:233
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Received signal %d (%s)."
 
-#: src/arch/unix/archdep.c:229
+#: src/arch/unix/archdep.c:236
 #, c-format
 msgid "Received signal %d."
 msgstr "Received signal %d."
