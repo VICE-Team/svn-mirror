@@ -1,3 +1,63 @@
+1998-09-13  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* drive/drive.c (drive_move_head): Do not display the drive track.
+	(drive_enable): Force an update of the UI elements.
+
+	* arch/unix/xaw/ui.c (ui_display_drive_led): New parameter
+ 	`drive_number'.
+	(ui_display_drive_led): Do not realize unrealized widgets.
+	(ui_display_drive_track): Do not realize unrealized widgets.
+
+	* drive/drive.c (drive_update_ui_status): Update tracks and LEDs
+ 	for both drives.
+
+	* arch/unix/xaw/ui.c: Added `drive_status' to `app_shells'; it
+	replaces `drive_track_label' and `drive_led'.
+	(ui_open_canvas_window): Create two drive track labels and two
+	drive LEDs and initialize `drive_status'.
+	(ui_toggle_drive_status): Removed.
+	(ui_enable_drive_status): New function.
+	(ui_display_drive_track): New parameter `drive_number'.
+
+1998-09-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* drive/drivecpu-tmpl.c (mydrive_cpu_prevent_clk_overflow): Added
+ 	call to `mywd1770_prevent_clk_overflow()'.
+
+	* drive/wd1770.c: #include "interrupt.h".
+	(wd1770_command_restore): New function.
+	((wd1770_command_seek): New function.
+ 	(wd1770_command_step): New function.
+ 	(wd1770_command_stepin): New function.
+ 	(wd1770_command_stepout): New function.
+ 	(wd1770_command_readsector): New function.
+ 	(wd1770_command_writesector): New function.
+ 	(wd1770_command_readaddress): New function.
+ 	(wd1770_command_forceint): New function.
+ 	(wd1770_command_readtrack, wd1770_command_writetrack): New
+ 	functions.
+	(wd1770d0_prevent_clk_overflow, wd1770d1_prevent_clk_overflow):
+ 	New functions to prevent counter overflow.
+	(store_wd1770, read_wd1770): Added WD1770 register structure.
+	(wd1770_update_track_register, wd1770_motor_control): New
+ 	functions.
+
+	* drive/wd1770.h: New struct `wd1770_t'.
+	* c128/Makefile.am: Added `-I$(top_srcdir)/src/sid' to `INCLUDES'.
+	* c64/Makefile.am: Changed likewise
+
+	* c610/Makefile.am: Added `-I$(top_srcdir)/src/sid' to `INCLUDES'.
+	Added `c610acia1.def' to `libc610_a_SOURCES'.
+
+	* c610/c610acia1.def: Added missing file.
+	* sid/sid.h: Added missing file
+
+	* sid/Makefile.am: Added `sid.h' to `libsid_a_SOURCES'.
+
+1998-09-13  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128mem.c (mem_set_vbank): Really update the video bank.
+
 1998-09-12  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.6.
