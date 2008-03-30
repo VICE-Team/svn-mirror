@@ -69,7 +69,7 @@
 #include "types.h"
 
 
-#define PETCATVERSION   2.15
+#define PETCATVERSION   2.16
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -100,6 +100,8 @@
 #define B_MAGIC         24
 #define B_EASY          25
 #define B_BLARG         26
+#define B_VIC4          27
+#define B_VIC5          28
 
 /* Limits */
 
@@ -111,6 +113,8 @@
 
 #define NUM_V4CC        15      /* PET 4.0 */
 #define NUM_4ECC        24      /* 4.0 extension (C64) */
+#define NUM_VIC4        20      /* 4.0 extension (VIC20) */
+#define NUM_VIC5        38      /* 5.0 extension (VIC20) */
 #define NUM_SPECC       27      /* Speech Basic */
 #define NUM_ATBCC       43      /* Atbasic */
 
@@ -142,6 +146,8 @@
 
 #define MAX_V4CC        0xDA    /* PET 4.0 */
 #define MAX_4ECC        0xE3    /* 4.0 extension (C64) */
+#define MAX_VIC4        0xDF    /* 4.0 extension (VIC20) */
+#define MAX_VIC5        0xF1    /* 5.0 extension (VIC20) */
 #define MAX_SPECC       0xE6    /* Speech Basic */
 #define MAX_ATBCC       0xF6    /* Atbasic */
 
@@ -207,7 +213,7 @@ static const char *cbmkeys[] = {
     "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
 };
 
-#define NUM_VERSIONS  26
+#define NUM_VERSIONS  28
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -220,7 +226,7 @@ const char *VersNames[] = {
     "Basic 2.0 with @Basic",
 
     "Basic 4.0",
-    "Basic 4.0 extension",
+    "Basic 4.0 extension for C64",
     "Basic 3.5",
     "Basic 7.0",
     "Basic 10.0",
@@ -241,6 +247,8 @@ const char *VersNames[] = {
     "Basic 2.0 with Magic Basic",
     "Basic 2.0 with Easy Basic",
     "Basic 2.0 with Blarg",
+    "Basic 4.0 extension for VIC20",
+    "Basic 5.0 extension for VIC20",
     ""
 };
 
@@ -356,13 +364,6 @@ const char *turtlekwcc[] = {
     "deek",  "joy"
 };
 
-/* Blarg Keywords */
-const char *blargkwe0[] = {
-    "plot",  "line",   "circle", "gron", "groff", "mode", "origin",
-    "clear", "buffer", "swap",   "color"
-};
-
-
 /* Easy Basic Keywords */
 
 const char *easykwcc[] = {
@@ -391,6 +392,27 @@ const char *mightykwcc[] = {
     "hex$",    "grab",    "ds$"
 };
 
+/* Basic 4.0 extension Keywords */
+
+const char *vic4kwcc[] = {
+    "concat",  "dopen",   "dclose",    "record", "header", "collect",
+    "backup",  "copy",    "append",    "dsave",  "dload",  "catalog",
+    "rename",  "scratch", "directory", "ieee",   "serial", "parallel",
+    "monitor", "modem"
+};
+
+/* Basic 5.0 extension Keywords */
+
+const char *vic5kwcc[] = {
+    "concat", "dopen",    "dclose",    "record",  "header",  "collect",
+    "backup", "copy",     "append",    "dsave",   "dload",   "catalog",
+    "rename", "scratch",  "directory", "dverify", "monitor", "repeat",
+    "bell",   "commands", "renew",     "`",       "key",     "auto",
+    "off",    "",         "merge",     "color",   "mem",     "enter",
+    "delete", "find",     "number",    "else",    "call",    "graphic",
+    "alpha",  "dmerge"
+};
+
 
 /*
  * Third party products for C=64
@@ -406,6 +428,12 @@ const char *speechkwcc[] = {
     "screen", "exec",  "mon",   "<-",    "from",   "speed",  "off"
 };
 
+
+/* Blarg Keywords */
+const char *blargkwe0[] = {
+    "plot",  "line",   "circle", "gron", "groff", "mode", "origin",
+    "clear", "buffer", "swap",   "color"
+};
 
 /* @Basic (Atbasic) Keywords (Tokens CC - F6) -- André Fachat */
 
@@ -767,6 +795,8 @@ int main(int argc, char **argv)
                 "\tblarg\tBasic v2.0 with Blarg (C64)\n"
                 "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t3\tBasic v3.5 program (C16)\n"
+                "\t4v\tBasic 2.0 with Basic 4.0 extensions (VIC20)\n"
+                "\t5\tBasic 2.0 with Basic 5.0 extensions (VIC20)\n"
                 "\t70\tBasic v7.0 program (C128)\n"
                 "\t71\tBasic v7.1 program (C128)\n"
                 "\t10\tBasic v10.0 program (C64DX)\n\n");
@@ -1022,7 +1052,11 @@ static int parse_version(char *str)
         break;
 
       case '4':
-        version = ((str[1]=='e') ? B_4E : B_4); /* Basic 4.0 */
+        version = ((str[1]=='e') ? B_4E : ((str[1]=='v') ? B_VIC4 : B_4)); /* Basic 4.0 */
+        break;
+
+      case '5':
+        version = B_VIC5; /* 5.0 */
         break;
 
       case '3':
@@ -1184,6 +1218,16 @@ static void list_keywords(int version)
       case B_4E:
         for (n = 0; n < ((version == B_4) ? NUM_V4CC : NUM_4ECC); n++)
             printf("%s\t", petkwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_VIC4:
+        for (n = 0; n < NUM_VIC4; n++)
+            printf("%s\t", vic4kwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_VIC5:
+        for (n = 0; n < NUM_VIC5; n++)
+            printf("%s\t", vic5kwcc[n] /*, n + 0xcc*/);
         break;
 
       case B_SIMON:
@@ -1508,6 +1552,16 @@ static int p_expand(int version, int addr, int ctrls)
                         fprintf(dest, "%s", petkwcc[c - 0xcc]);
                     break;
 
+                  case B_VIC4:
+                    if (c >= 0xcc && c <= MAX_VIC4)
+                        fprintf(dest, "%s", vic4kwcc[c - 0xcc]);
+                    break;
+
+                  case B_VIC5:
+                    if (c >= 0xcc && c <= MAX_VIC5)
+                        fprintf(dest, "%s", vic5kwcc[c - 0xcc]);
+                    break;
+
                   default:              /* C128 */
                     fprintf(dest, "%s", keyword[c & 0x7f]);
                 }
@@ -1721,7 +1775,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     if ((c = sstrcmp(p2, magickwcc, 0, NUM_MAGICCC)) !=KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
-                        match;
+                        match++;
                     }
                     break;
 
@@ -1730,6 +1784,22 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     if ((c = sstrcmp(p2, petkwcc, 0,
                         ((version == B_4) ? NUM_V4CC : NUM_4ECC)))
                         != KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_VIC4:
+                    if ((c = sstrcmp(p2, vic4kwcc, 0, NUM_VIC4)) != KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_VIC5:
+                    if ((c = sstrcmp(p2, vic5kwcc, 0, NUM_VIC5)) != KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;

@@ -44,6 +44,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	msdosmain.c \
+	parsid.c \
 	petui.c \
 	plus4ui.c \
 	signals.c \

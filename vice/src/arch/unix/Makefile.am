@@ -43,6 +43,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	opencbmlib.c \
+	parsid.c \
 	petui.c \
 	plus4ui.c \
 	rs232.c \

@@ -38,7 +38,7 @@
 
 static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
-    IDCLS_P_ENGINE, IDCLS_SPECIFY_SID_ENGINE },
+      IDCLS_P_ENGINE, IDCLS_SPECIFY_SID_ENGINE },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
       (void *)1,
       0, IDCLS_ENABLE_SECOND_SID },
@@ -73,29 +73,61 @@ static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_RESID
 #  ifdef HAVE_CATWEASELMKIII
 #    ifdef HAVE_HARDSID
-       N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)")
+#      endif
 #    else
-       N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4:ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)")
+#      endif
 #    endif
 #  else
 #    ifdef HAVE_HARDSID
-       N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)")
+#      endif
 #    else
-       N_("Specify SID engine (0: FastSID, 1: ReSID)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 4:ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 1: ReSID)")
+#      endif
 #    endif
 #  endif
 #else
 #  ifdef HAVE_CATWEASELMKIII
 #    ifdef HAVE_HARDSID
-       N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4:ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)")
+#      endif
 #    else
-       N_("Specify SID engine (0: FastSID, 2: Catweasel)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 2: Catweasel)")
+#      endif
 #    endif
 #  else
 #    ifdef HAVE_HARDSID
-       N_("Specify SID engine (0: FastSID, 3: HardSID)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID, 3: HardSID)")
+#      endif
 #    else
-       N_("Specify SID engine (0: FastSID)")
+#      ifdef HAVE_PARSID
+         N_("Specify SID engine (0: FastSID, 4: ParSID)")
+#      else
+         N_("Specify SID engine (0: FastSID)")
+#      endif
 #    endif
 #  endif
 #endif

@@ -2652,7 +2652,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_P_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_ENGINE_SV, "<motor>"},
 
-#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID)"},
@@ -2663,7 +2663,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID)"},
@@ -2674,7 +2674,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 2: Catweasel)"},
@@ -2685,18 +2685,29 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 3: HardSID)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路3:路HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 2: Catweasel)"},
@@ -2707,7 +2718,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 3: HardSID)"},
@@ -2718,7 +2729,18 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路1:路ReSID,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 2: Catweasel, 3: HardSID)"},
@@ -2729,13 +2751,79 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
-#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 2: Catweasel, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路2:路Catweasel,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 3: HardSID, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路3:路HardSID,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路1:路ReSID,路2:路Catweasel,路3:路HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路1:路ReSID,路2:路Catweasel,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路1:路ReSID,路3:路HardSID,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路2:路Catweasel,路3:路HardSID,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine w鋒len (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:路FastSID,路1:路ReSID,路2:路Catweasel,路3:路HardSID,路4:路ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif

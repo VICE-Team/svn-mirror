@@ -10,8 +10,7 @@ doc_DATA = \
 	Win32-Howto.txt \
 	iec-bus.txt \
 	mon.txt \
-	MinixVmd-Howto.txt \
-	delaep64.pl
+	MinixVmd-Howto.txt
 
 info_TEXINFOS = \
 	vice.texi

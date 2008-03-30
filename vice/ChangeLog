@@ -1,3 +1,21 @@
+2006-02-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.6.
+
+2006-02-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added VIC20 Basic 4.0
+	and 5.0  extension support.
+
+2006-02-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added experimental ParSID support.
+
+2006-02-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/delaep64.pl: Moved the delaep64.pl
+	script to src/c64/cart.
+
 2006-02-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.5.

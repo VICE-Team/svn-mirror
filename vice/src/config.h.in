@@ -155,8 +155,23 @@
 /* Define to 1 if you have the `htons' function. */
 #undef HAVE_HTONS
 
+/* Define to 1 if you have the <hw/inout.h> header file. */
+#undef HAVE_HW_INOUT_H
+
+/* Define to 1 if you have the `i386_set_ioperm' function. */
+#undef HAVE_I386_SET_IOPERM
+
+/* Define to 1 if you have the <ieee1284.h> header file. */
+#undef HAVE_IEEE1284_H
+
+/* Define to 1 if you have the `in8' function. */
+#undef HAVE_IN8
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `ioperm' function. */
+#undef HAVE_IOPERM
 
 /* Define to 1 if you have the <io.h> header file. */
 #undef HAVE_IO_H
@@ -167,6 +182,9 @@
 /* Can we use the JPEG library? */
 #undef HAVE_JPEG
 
+/* Define to 1 if you have the `amd64' library (-lamd64). */
+#undef HAVE_LIBAMD64
+
 /* Define to 1 if you have the `avcodec' library (-lavcodec). */
 #undef HAVE_LIBAVCODEC
 
@@ -175,6 +193,9 @@
 
 /* Define to 1 if you have the `bsd' library (-lbsd). */
 #undef HAVE_LIBBSD
+
+/* Define to 1 if you have the `ieee1284' library (-lieee1284). */
+#undef HAVE_LIBIEEE1284
 
 /* use libintl for NLS. */
 #undef HAVE_LIBINTL_H
@@ -206,8 +227,17 @@
 /* Define to 1 if you have the `listen' function. */
 #undef HAVE_LISTEN
 
+/* Define to 1 if you have the <machine/cpufunc.h> header file. */
+#undef HAVE_MACHINE_CPUFUNC_H
+
+/* Define to 1 if you have the <machine/pio.h> header file. */
+#undef HAVE_MACHINE_PIO_H
+
 /* Define to 1 if you have the <machine/soundcard.h> header file. */
 #undef HAVE_MACHINE_SOUNDCARD_H
+
+/* Define to 1 if you have the <machine/sysarch.h> header file. */
+#undef HAVE_MACHINE_SYSARCH_H
 
 /* Define to 1 if you have the `memmove' function. */
 #undef HAVE_MEMMOVE
@@ -220,6 +250,9 @@
 
 /* Define to 1 if you have the `mkstemp' function. */
 #undef HAVE_MKSTEMP
+
+/* Define to 1 if you have the `mmap_device_io' function. */
+#undef HAVE_MMAP_DEVICE_IO
 
 /* Enable 1351 mouse support */
 #undef HAVE_MOUSE
@@ -241,6 +274,12 @@
 
 /* OpenCBM header file is available. */
 #undef HAVE_OPENCBM_H
+
+/* Define to 1 if you have the `out8' function. */
+#undef HAVE_OUT8
+
+/* Support for ParSID. */
+#undef HAVE_PARSID
 
 /* Can we use the PNG library? */
 #undef HAVE_PNG
@@ -329,6 +368,12 @@
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
 #undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/io.h> header file. */
+#undef HAVE_SYS_IO_H
+
+/* Define to 1 if you have the <sys/mman.h> header file. */
+#undef HAVE_SYS_MMAN_H
 
 /* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
    */

@@ -146,6 +146,7 @@ noinst_HEADERS = \
 	opencbmlib.h \
 	palette.h \
 	parallel.h \
+	parsid.h \
 	petui.h \
 	piacore.h \
 	plus4ui.h \

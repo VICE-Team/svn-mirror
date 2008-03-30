@@ -54,6 +54,14 @@ ui_menu_entry_t sid_engine_submenu[] = {
     { N_("*HardSID"), (ui_callback_t)radio_SidEngine,
       (ui_callback_data_t)SID_ENGINE_HARDSID, NULL },
 #endif
+#ifdef HAVE_PARSID
+    { N_("*ParSID Port 1"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_PARSID_PORT1, NULL },
+    { N_("*ParSID Port 2"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_PARSID_PORT2, NULL },
+    { N_("*ParSID Port 3"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_PARSID_PORT3, NULL },
+#endif
     { NULL }
 };
 
@@ -114,4 +122,3 @@ UI_CALLBACK(set_sid_resid_passband)
     }
 }
 #endif
-

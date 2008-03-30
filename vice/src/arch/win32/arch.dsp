@@ -146,6 +146,10 @@ SOURCE=.\opencbmlib.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\parsid.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\petui.c
 # End Source File
 # Begin Source File

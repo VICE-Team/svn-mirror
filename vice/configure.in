@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=5
+VICE_VERSION_BUILD=6
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -67,6 +67,7 @@ AC_ARG_ENABLE(realdevice,[  --disable-realdevice    disables access to real peri
 AC_ARG_ENABLE(ffmpeg,[  --enable-ffmpeg         enables ffmpeg library support])
 AC_ARG_ENABLE(ethernet,[  --enable-ethernet       enables Tfe Final Ethernet emulation])
 AC_ARG_ENABLE(ipv6,[  --disable-ipv6          disables the checking for ipv6 compatibility])
+AC_ARG_ENABLE(parsid,[  --enable-parsid         enables ParSID support])
 
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
@@ -127,6 +128,10 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
 
+  if test x"$enable_parsid" == "xyes"; then
+    AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+  fi
+
 elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
 
   dnl This is used by subsequent tests.
@@ -146,6 +151,9 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+  if test x"$enable_parsid" == "xyes"; then
+    AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+  fi
 
   AC_TRY_LINK([#include <windows.h>],
               [LARGE_INTEGER li; return (int) li.QuadPart],
@@ -957,6 +965,67 @@ fi
 AC_SUBST(SOUND_DRIVERS)
 
 AC_SUBST(SOUND_LIBS)
+
+
+dnl Check for ParSID support
+
+if test x"$is_win32" != "xyes" -a x"$is_msdos" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+
+  if test x"$enable_parsid" == "xyes"; then
+    dnl Check for needed parallel port io headers
+
+    LIBIEEE1284_HEADERS_PRESENT=yes
+    QNX_MMAN_HEADERS_PRESENT=yes
+    BSD_SET_IOPERM_HEADERS_PRESENT=yes
+    PARSID_SUPPORT=no
+
+    AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+    AC_CHECK_HEADERS(sys/mman.h hw/inout.h,,[QNX_MMAN_HEADERS_PRESENT=no],)
+    AC_CHECK_HEADERS(machine/sysarch.h,,[BSD_SET_IOPERM_HEADERS_PRESENT=no],)
+    AC_CHECK_HEADERS(unistd.h sys/io.h machine/pio.h machine/cpufunc.h)
+
+    if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
+      AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
+      if test x"$PARSID_SUPPORT" = "xyes"; then
+        AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+      fi
+    fi
+
+    if test x"$PARSID_SUPPORT" = "xno"; then
+      if test x"$QNX_MMAN_HEADERS_PRESENT" = "xyes"; then
+        QNX_MMAN_FUNCS_PRESENT=yes
+        AC_CHECK_FUNCS(mmap_device_io in8 out8,,[QNX_MMAN_FUNCS_PRESENT=no])
+        if test x"$QNX_MMAN_FUNCS_PRESENT" = "xyes"; then
+          PARSID_SUPPORT=yes
+        fi
+      fi
+    fi
+
+    if test x"$PARSID_SUPPORT" = "xno"; then
+      if test x"$BSD_SET_IOPERM_HEADERS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(amd64, amd64_set_ioperm,[LIBS="-lamd64 $LIBS"; PARSID_SUPPORT=yes],,)
+        if test x"$PARSID_SUPPORT" = "xyes"; then
+          AC_DEFINE(HAVE_LIBAMD64,,[Define to 1 if you have the `amd64' library (-lamd64).])
+        fi
+      fi
+    fi
+
+    if test x"$PARSID_SUPPORT" = "xno"; then
+      if test x"$BSD_SET_IOPERM_HEADERS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(i386, i386_get_ioperm,[LIBS="-li386 $LIBS"],,)
+        AC_CHECK_FUNCS(i386_set_ioperm,[PARSID_SUPPORT=yes],)
+      fi
+    fi
+
+    if test x"$PARSID_SUPPORT" = "xno"; then
+      AC_CHECK_FUNCS(ioperm,[PARSID_SUPPORT=yes],)
+    fi
+
+    if test x"$PARSID_SUPPORT" = "xyes"; then
+      AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
+    fi
+  fi
+fi
 
 dnl Check for library functions
 

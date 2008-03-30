@@ -36,6 +36,9 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_RESID          1
 #define SID_ENGINE_CATWEASELMKIII 2
 #define SID_ENGINE_HARDSID        3
+#define SID_ENGINE_PARSID_PORT1   4
+#define SID_ENGINE_PARSID_PORT2   5
+#define SID_ENGINE_PARSID_PORT3   6
 
 #define SID_MODEL_6581  0
 #define SID_MODEL_8580  1
@@ -74,4 +77,3 @@ struct sid_engine_s {
 typedef struct sid_engine_s sid_engine_t;
 
 #endif
-

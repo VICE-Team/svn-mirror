@@ -37,6 +37,9 @@
 #include "hardsid.h"
 #include "machine.h"
 #include "maincpu.h"
+#ifdef HAVE_PARSID
+#include "parsid.h"
+#endif
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid-snapshot.h"
@@ -275,6 +278,12 @@ int sound_machine_cycle_based(void)
       case SID_ENGINE_HARDSID:
         return 0;
 #endif
+#ifdef HAVE_PARSID
+      case SID_ENGINE_PARSID_PORT1:
+      case SID_ENGINE_PARSID_PORT2:
+      case SID_ENGINE_PARSID_PORT3:
+        return 0;
+#endif
     }
 
     return 0;
@@ -312,6 +321,14 @@ static void set_sound_func(void)
             sid_store_func = hardsid_store;
         }
 #endif
+#ifdef HAVE_PARSID
+        if (sid_engine_type == SID_ENGINE_PARSID_PORT1 ||
+            sid_engine_type == SID_ENGINE_PARSID_PORT2 ||
+            sid_engine_type == SID_ENGINE_PARSID_PORT3) {
+            sid_read_func = parsid_read;
+            sid_store_func = parsid_store;
+        }
+#endif
     } else {
         sid_read_func = sid_read_off;
         sid_store_func = sid_write_off;
@@ -347,6 +364,26 @@ int sid_engine_set(int engine)
         && sid_engine_type == SID_ENGINE_HARDSID)
         hardsid_close();
 #endif
+#ifdef HAVE_PARSID
+    if ((engine == SID_ENGINE_PARSID_PORT1 || engine == SID_ENGINE_PARSID_PORT2 || engine == SID_ENGINE_PARSID_PORT3)
+        && sid_engine_type != engine) {
+        if (engine == SID_ENGINE_PARSID_PORT1) {
+          if (parsid_open(1) < 0)
+            return -1;
+        }
+        if (engine == SID_ENGINE_PARSID_PORT2) {
+          if (parsid_open(2) < 0)
+            return -1;
+        }
+        if (engine == SID_ENGINE_PARSID_PORT3) {
+          if (parsid_open(3) < 0)
+            return -1;
+        }
+    }
+    if (engine != SID_ENGINE_PARSID_PORT1 && engine != SID_ENGINE_PARSID_PORT2 && engine != SID_ENGINE_PARSID_PORT3
+        && (sid_engine_type == SID_ENGINE_PARSID_PORT1 || sid_engine_type == SID_ENGINE_PARSID_PORT2 || sid_engine_type == SID_ENGINE_PARSID_PORT3))
+        parsid_close();
+#endif
 
     sid_engine_type = engine;
 
@@ -374,4 +411,3 @@ void sid_set_machine_parameter(long clock_rate)
     hardsid_set_machine_parameter(clock_rate);
 #endif
 }
-

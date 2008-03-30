@@ -32,6 +32,9 @@
 
 #include "hardsid.h"
 #include "machine.h"
+#ifdef HAVE_PARSID
+#include "parsid.h"
+#endif
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
@@ -60,7 +63,9 @@ static int sid_engine;
 static unsigned int sid_hardsid_main;
 static unsigned int sid_hardsid_right;
 #endif
-
+#ifdef HAVE_PARSID
+int parsid_port=0;
+#endif
 
 static int set_sid_engine(resource_value_t v, void *param)
 {
@@ -77,6 +82,11 @@ static int set_sid_engine(resource_value_t v, void *param)
 #endif
 #ifdef HAVE_HARDSID
         && engine != SID_ENGINE_HARDSID
+#endif
+#ifdef HAVE_PARSID
+        && engine != SID_ENGINE_PARSID_PORT1
+        && engine != SID_ENGINE_PARSID_PORT2
+        && engine != SID_ENGINE_PARSID_PORT3
 #endif
         )
         return -1;
@@ -214,6 +224,29 @@ static int set_sid_hardsid_right(resource_value_t v, void *param)
 }
 #endif
 
+#ifdef HAVE_PARSID
+static int set_sid_parsid_port(resource_value_t v, void *param)
+{
+    if ((int)v==parsid_port)
+        return 0;
+
+    if (sid_engine==SID_ENGINE_PARSID_PORT1 || sid_engine==SID_ENGINE_PARSID_PORT2 || sid_engine==SID_ENGINE_PARSID_PORT3) {
+        if (parsid_check_port((int)v)<0)
+            return -1;
+        else {
+            if ((int)v==1)
+                sid_engine=SID_ENGINE_PARSID_PORT1;
+            if ((int)v==2)
+                sid_engine=SID_ENGINE_PARSID_PORT2;
+            if ((int)v==3)
+                sid_engine=SID_ENGINE_PARSID_PORT3;
+        }
+    }
+    parsid_port = (int)v;
+    return 0;
+}
+#endif
+
 static const resource_t resources[] = {
 #ifdef HAVE_RESID
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_RESID,
@@ -252,6 +285,11 @@ static const resource_t resources[] = {
       RES_EVENT_NO, NULL,
       (void *)&sid_hardsid_right, set_sid_hardsid_right, NULL },
 #endif
+#ifdef HAVE_PARSID
+    { "SidParSIDport", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_STRICT, (resource_value_t)1,
+      (void *)&parsid_port, set_sid_parsid_port, NULL },
+#endif
     { NULL }
 };
 
@@ -259,4 +297,3 @@ int sid_resources_init(void)
 {
     return resources_register(resources);
 }
-

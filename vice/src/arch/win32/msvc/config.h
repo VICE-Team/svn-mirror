@@ -14,6 +14,7 @@
 #define HAVE_MOUSE              1
 #define HAVE_CATWEASELMKIII     1
 #define HAVE_HARDSID            1
+#define HAVE_PARSID             1
 #define HAVE_RS232              1
 
 #define HAS_LONGLONG_INTEGER    1

@@ -1,5 +1,5 @@
 
-PETCAT version 2.15 PL 1					3 Feb 2006
+PETCAT version 2.16 PL 1					19 Feb 2006
 
 
   Listed below are keywords and token codes for all CBM Basic versions
@@ -27,6 +27,8 @@ PETCAT version 2.15 PL 1					3 Feb 2006
         Basic 2.0 with Blarg
 	Basic 4.0
 	Basic 4.0 extension for C64
+	Basic 4.0 extension for VIC20
+	Basic 5.0 extension for VIC20
 	Basic 3.5
 	Basic 7.0
 	Basic 7.1 extension
@@ -150,67 +152,67 @@ ff	pi
   FA are action keywords.
 
 
-Token	Keyword
-	2.0 Super	4.0		3.5/7.0		10.0
+Token  Keyword
+       2.0 Super  4.0        4.0 (VIC20)  5.0        3.5/7.0/7.1    10.0
 
-cc	key		concat		rgr		rgr  2)
-cd	graphic		dopen		rclr		rclr 2)
-ce	scnclr		dclose		rlum/*prefix*	*prefix*
-cf	circle		record		joy		joy
+cc     key        concat     concat       concat     rgr            rgr 2)
+cd     graphic    dopen      dopen        dopen      rclr           rclr 2)
+ce     scnclr     dclose     dclose       dclose     rlum/*prefix*  *prefix*
+cf     circle     record     record       record     joy            joy
 
-d0	draw		header		rdot		rdot 2)
-d1	region		collect		dec		dec
-d2	color		backup		hex$		hex$
-d3	point		copy		err$		err$
-d4	sound		append		instr		instr
-d5	char		dsave		else		else
-d6	paint		dload		resume		resume
-d7	rpot		catalog		trap		trap
+d0     draw       header     header       header     rdot           rdot 2)
+d1     region     collect    collect      collect    dec            dec
+d2     color      backup     backup       backup     hex$           hex$
+d3     point      copy       copy         copy       err$           err$
+d4     sound      append     append       append     instr          instr
+d5     char       dsave      dsave        dsave      else           else
+d6     paint      dload      dload        dload      resume         resume
+d7     rpot       catalog    catalog      catalog    trap           trap
 
-d8	rpen		rename		tron		tron
-d9	rsnd		scratch		troff		troff
-da	rcolr		directory	sound		sound
-db	rgr				vol		vol
-dc	rjoy				auto		auto
-dd	rdot				pudef		pudef
-de					graphic		graphic
-df					paint		paint 2)
+d8     rpen       rename     rename       rename     tron           tron
+d9     rsnd       scratch    scratch      scratch    troff          troff
+da     rcolr      directory  directory	  directory  sound          sound
+db     rgr                   ieee         dverify    vol            vol
+dc     rjoy                  serial       monitor    auto           auto
+dd     rdot                  parallel     repeat     pudef          pudef
+de                           monitor      bell       graphic        graphic
+df                           modem        commands   paint          paint 2)
 
-e0					char		char
-e1					box		box
-e2					circle		circle
-e3					gshape		paste 2)
-e4					sshape		cut  2)
-e5					draw		line
-e6					locate		locate 2)
-e7					color		color
+e0                                        renew      char           char
+e1                                        `          box            box
+e2                                        key        circle         circle
+e3                                        auto       gshape         paste 2)
+e4                                        off        sshape         cut 2)
+e5                                                   draw           line
+e6                                        merge      locate         locate 2)
+e7                                        color      color          color
 
-e8					scnclr		scnclr
-e9					scale		scale 2)
-ea					help		help
-eb					do		do
-ec					loop		loop
-ed					exit		exit
-ee					directory 4)	dir
-ef					dsave		dsave 4)
+e8                                        mem        scnclr         scnclr
+e9                                        enter      scale          scale 2)
+ea                                        delete     help           help
+eb                                        find       do             do
+ec                                        number     loop           loop
+ed                                        else       exit           exit
+ee                                        call       directory 4)   dir
+ef                                        graphic    dsave          dsave 4)
 
-f0					dload		dload 4)
-f1					header		header 4)
-f2					scratch		scratch 4)
-f3					collect 4)	collect 4)
-f4					copy		copy 4)
-f5					rename		rename 4)
-f6					backup		backup 4)
-f7					delete		delete
+f0                                        alpha      dload          dload 4)
+f1                                        dmerge     header         header 4)
+f2                                                   scratch        scratch 4)
+f3                                                   collect 4)     collect 4)
+f4                                                   copy           copy 4)
+f5                                                   rename         rename 4)
+f6                                                   backup         backup 4)
+f7                                                   delete         delete
 
-f8					renumber	renumber
-f9					key		key
-fa					monitor		monitor
-					--------------------------
-fb					using		using
-fc					until		until
-fd					while		while
-fe					*prefix* 	*prefix*
+f8                                                   renumber       renumber
+f9                                                   key            key
+fa                                                   monitor        monitor
+                                                     -------------------------
+fb                                                   using          using
+fc                                                   until          until
+fd                                                   while          while
+fe                                                   *prefix*       *prefix*
 
 
 

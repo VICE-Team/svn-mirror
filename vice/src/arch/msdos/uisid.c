@@ -92,28 +92,10 @@ static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
 
-#ifdef HAVE_RESID
 TUI_MENU_DEFINE_RADIO(SidEngine)
 
 static TUI_MENU_CALLBACK(sid_engine_submenu_callback)
 {
-#if 0
-    static char s[256];
-    int value;
-
-    resources_get_value("SidEngine", (void *)&value);
-
-    switch (value) {
-      case SID_ENGINE_FASTSID:
-        sprintf(s, "FastSID");
-        break;
-      case SID_ENGINE_RESID:
-        sprintf(s, "ReSID");
-        break;
-    }
-
-    return s;
-#else
     int value;
 
     resources_get_value("SidEngine", (void *)&value);
@@ -122,13 +104,25 @@ static TUI_MENU_CALLBACK(sid_engine_submenu_callback)
       case SID_ENGINE_FASTSID:
         return "FastSID";
         break;
+#ifdef HAVE_RESID
       case SID_ENGINE_RESID:
         return "ReSID";
         break;
+#endif
+#ifdef HAVE_PARSID
+      case SID_ENGINE_PARSID_PORT1:
+        return "ParSID Port 1";
+        break;
+      case SID_ENGINE_PARSID_PORT2:
+        return "ParSID Port 2";
+        break;
+      case SID_ENGINE_PARSID_PORT3:
+        return "ParSID Port 3";
+        break;
+#endif
       default:
         return "Unknown";
     }
-#endif
 }
 
 static tui_menu_item_def_t sid_engine_submenu[] = {
@@ -136,14 +130,28 @@ static tui_menu_item_def_t sid_engine_submenu[] = {
       "Fast SID emulation",
       radio_SidEngine_callback, (void *)SID_ENGINE_FASTSID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+#ifdef HAVE_RESID
     { "_ReSID",
       "Cycle accurate SID emulation",
       radio_SidEngine_callback, (void *)SID_ENGINE_RESID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+#endif
+#ifdef HAVE_PARSID
+    { "ParSID Port _1",
+      "Parallel Port 1 SID adapter",
+      radio_SidEngine_callback, (void *)SID_ENGINE_PARSID_PORT1, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "ParSID Port _2",
+      "Parallel Port 2 SID adapter",
+      radio_SidEngine_callback, (void *)SID_ENGINE_PARSID_PORT2, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "ParSID Port _3",
+      "Parallel Port 3 SID adapter",
+      radio_SidEngine_callback, (void *)SID_ENGINE_PARSID_PORT3, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+#endif
     { NULL }
 };
-#endif
-
 
 tui_menu_item_def_t sid_ui_menu_items[] = {
     { "--" },
@@ -155,11 +163,11 @@ tui_menu_item_def_t sid_ui_menu_items[] = {
       "Enable/disable emulation of the SID built-in programmable filters",
       toggle_SidFilters_callback, NULL, 4,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-#ifdef HAVE_RESID
     { "SID _Engine:",
       "Select the SID engine",
-      sid_engine_submenu_callback, NULL, 10,
+      sid_engine_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, sid_engine_submenu, "SID engine" },
+#ifdef HAVE_RESID
     { "--" },
     { "reSID s_ampling method:",
       "How the reSID engine generates the samples",
@@ -168,4 +176,3 @@ tui_menu_item_def_t sid_ui_menu_items[] = {
 #endif
     { NULL }
 };
-

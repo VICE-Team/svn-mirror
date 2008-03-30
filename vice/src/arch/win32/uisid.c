@@ -59,6 +59,11 @@ static const TCHAR *ui_sid_engine[] =
 #ifdef HAVE_HARDSID
     TEXT("HardSID"),
 #endif
+#ifdef HAVE_PARSID
+    TEXT("ParSID on Port 1"),
+    TEXT("ParSID on Port 2"),
+    TEXT("ParSID on Port 3"),
+#endif
     NULL
 };
 
