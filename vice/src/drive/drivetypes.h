@@ -28,10 +28,7 @@
 #ifndef _DRIVETYPES_H
 #define _DRIVETYPES_H
 
-
-#include "alarm.h"
 #include "ciatimer.h"
-#include "clkguard.h"
 #include "drive.h"
 #include "interrupt.h"
 #include "log.h"
@@ -66,41 +63,45 @@ typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, ADDRESS,
 
 typedef struct drivecpu_context_s {
 
-  int traceflg;
-  /* This is non-zero each time a Read-Modify-Write instructions that accesses
-     memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
-  int rmw_flag; /* init to 0 */
+    int traceflg;
+    /* This is non-zero each time a Read-Modify-Write instructions that accesses
+       memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
+    int rmw_flag; /* init to 0 */
 
-  /* Interrupt/alarm status.  */
-  struct cpu_int_status_s int_status;
-  alarm_context_t alarm_context;
-  /* Clk guard.  */
-  clk_guard_t clk_guard;
+    /* Interrupt/alarm status.  */
+    struct cpu_int_status_s int_status;
 
-  struct monitor_interface_s *monitor_interface;
+    struct alarm_context_s *alarm_context;
 
-  /* Value of clk for the last time mydrive_cpu_execute() was called.  */
-  CLOCK last_clk;
-  /* Number of cycles in excess we executed last time mydrive_cpu_execute()
-     was called.  */
-  CLOCK last_exc_cycles;
+    /* Clk guard.  */
+    struct clk_guard_s *clk_guard;
 
-  CLOCK cycle_accum;
-  BYTE *d_bank_base;
-  int d_bank_limit;     /* init to -1 */
+    struct monitor_interface_s *monitor_interface;
 
-  /* Information about the last executed opcode.  */
-  opcode_info_t last_opcode_info;
-  /* Public copy of the registers.  */
-  mos6510_regs_t cpu_regs;
+    /* Value of clk for the last time mydrive_cpu_execute() was called.  */
+    CLOCK last_clk;
 
-  BYTE *pageone;        /* init to NULL */
+    /* Number of cycles in excess we executed last time mydrive_cpu_execute()
+       was called.  */
+    CLOCK last_exc_cycles;
 
-  int monspace;         /* init to e_disk[89]_space */
+    CLOCK cycle_accum;
+    BYTE *d_bank_base;
+    int d_bank_limit;     /* init to -1 */
 
-  char snap_module_name[12];    /* init to "DRIVECPU[01]" */
+    /* Information about the last executed opcode.  */
+    opcode_info_t last_opcode_info;
 
-  char identification_string[8];        /* init to "DRIVE#[89]" */
+    /* Public copy of the registers.  */
+    mos6510_regs_t cpu_regs;
+
+    BYTE *pageone;        /* init to NULL */
+
+    int monspace;         /* init to e_disk[89]_space */
+
+    char snap_module_name[12];    /* init to "DRIVECPU[01]" */
+
+    char identification_string[8];        /* init to "DRIVE#[89]" */
 
 } drivecpu_context_t;
 
@@ -113,19 +114,19 @@ typedef struct drivecpu_context_s {
 
 typedef struct drivecpud_context_s {
 
-  /* Drive RAM */
-  BYTE drive_ram[DRIVE_RAM_SIZE];
+    /* Drive RAM */
+    BYTE drive_ram[DRIVE_RAM_SIZE];
 
-  /* functions */
-  drive_read_func_t  *read_func[0x101];
-  drive_store_func_t *store_func[0x101];
-  drive_read_func_t  *read_func_watch[0x101];
-  drive_store_func_t *store_func_watch[0x101];
-  drive_read_func_t  *read_func_nowatch[0x101];
-  drive_store_func_t *store_func_nowatch[0x101];
+    /* functions */
+    drive_read_func_t  *read_func[0x101];
+    drive_store_func_t *store_func[0x101];
+    drive_read_func_t  *read_func_watch[0x101];
+    drive_store_func_t *store_func_watch[0x101];
+    drive_read_func_t  *read_func_nowatch[0x101];
+    drive_store_func_t *store_func_nowatch[0x101];
 
-  unsigned long clk_conv_table[MAX_TICKS + 1];
-  unsigned long clk_mod_table[MAX_TICKS + 1];
+    unsigned long clk_conv_table[MAX_TICKS + 1];
+    unsigned long clk_mod_table[MAX_TICKS + 1];
 
 } drivecpud_context_t;
 
@@ -137,39 +138,39 @@ typedef struct drivecpud_context_s {
 
 typedef struct drivevia_context_s {
 
-  BYTE via[16];
-  int ifr;
-  int ier;
-  unsigned int tal;
-  unsigned int tbl;
-  CLOCK tau;
-  CLOCK tbu;
-  CLOCK tai;
-  CLOCK tbi;
-  int pb7;
-  int pb7x;
-  int pb7o;
-  int pb7xx;
-  int pb7sx;
-  BYTE oldpa;
-  BYTE oldpb;
-  BYTE ila;
-  BYTE ilb;
-  int ca2_state;
-  int cb2_state;
-  alarm_t t1_alarm;
-  alarm_t t2_alarm;
-  log_t log;                    /* init to LOG_ERR */
+    BYTE via[16];
+    int ifr;
+    int ier;
+    unsigned int tal;
+    unsigned int tbl;
+    CLOCK tau;
+    CLOCK tbu;
+    CLOCK tai;
+    CLOCK tbi;
+    int pb7;
+    int pb7x;
+    int pb7o;
+    int pb7xx;
+    int pb7sx;
+    BYTE oldpa;
+    BYTE oldpb;
+    BYTE ila;
+    BYTE ilb;
+    int ca2_state;
+    int cb2_state;
+    struct alarm_s *t1_alarm;
+    struct alarm_s *t2_alarm;
+    log_t log;                    /* init to LOG_ERR */
 
-  CLOCK read_clk;               /* init to 0 */
-  int read_offset;              /* init to 0 */
-  BYTE last_read;               /* init to 0 */
+    CLOCK read_clk;               /* init to 0 */
+    int read_offset;              /* init to 0 */
+    BYTE last_read;               /* init to 0 */
 
-  int irq_type;                 /* I_... */
-  int irq_line;                 /* IK_... */
+    int irq_type;                 /* I_... */
+    int irq_line;                 /* IK_... */
 
-  char myname[12];              /* init to "DriveXViaY" */
-  char my_module_name[8];       /* init to "VIAXDY" */
+    char myname[12];              /* init to "DriveXViaY" */
+    char my_module_name[8];       /* init to "VIAXDY" */
 
 } drivevia_context_t;
 
@@ -180,14 +181,14 @@ typedef struct drivevia_context_s {
 
 typedef struct drivefunc_context_s {
 
-  void (*iec_write)(BYTE);
-  BYTE (*iec_read)(void);
-  void (*parallel_set_bus)(BYTE);
-  void (*parallel_set_eoi)(BYTE); /* we may be able to eleminate these... */
-  void (*parallel_set_dav)(BYTE);
-  void (*parallel_set_ndac)(BYTE);
-  void (*parallel_set_nrfd)(BYTE);
-  void (*parallel_cable_write)(BYTE, int);
+    void (*iec_write)(BYTE);
+    BYTE (*iec_read)(void);
+    void (*parallel_set_bus)(BYTE);
+    void (*parallel_set_eoi)(BYTE); /* we may be able to eleminate these... */
+    void (*parallel_set_dav)(BYTE);
+    void (*parallel_set_ndac)(BYTE);
+    void (*parallel_set_nrfd)(BYTE);
+    void (*parallel_cable_write)(BYTE, int);
 
 } drivefunc_context_t;
 
@@ -198,10 +199,10 @@ typedef struct drivefunc_context_s {
 
 typedef struct drivevia1_context_s {
 
-  int parallel_id;
+    int parallel_id;
 
-  int v_parieee_is_out;         /* init to 1 */
-  struct iec_info_s *v_iec_info;
+    int v_parieee_is_out;         /* init to 1 */
+    struct iec_info_s *v_iec_info;
 
 } drivevia1_context_t;
 
@@ -212,37 +213,37 @@ typedef struct drivevia1_context_s {
 
 typedef struct drivecia_context_s {
 
-  BYTE c_cia[16];
-  alarm_t ta_alarm;
-  alarm_t tb_alarm;
-  alarm_t tod_alarm;
-  int irqflags;
-  CLOCK rdi;
-  unsigned int tat;
-  unsigned int tbt;
-  CLOCK todclk;
-  unsigned int sr_bits;
-  int sdr_valid;
-  BYTE shifter;
-  BYTE old_pa;
-  BYTE old_pb;
-  char todstopped;
-  char todlatched;
-  BYTE todalarm[4];
-  BYTE todlatch[4];
-  int todticks;                 /* init to 100000 */
-  log_t log;                    /* init to LOG_ERR */
+    BYTE c_cia[16];
+    struct alarm_s *ta_alarm;
+    struct alarm_s *tb_alarm;
+    struct alarm_s *tod_alarm;
+    int irqflags;
+    CLOCK rdi;
+    unsigned int tat;
+    unsigned int tbt;
+    CLOCK todclk;
+    unsigned int sr_bits;
+    int sdr_valid;
+    BYTE shifter;
+    BYTE old_pa;
+    BYTE old_pb;
+    char todstopped;
+    char todlatched;
+    BYTE todalarm[4];
+    BYTE todlatch[4];
+    int todticks;                 /* init to 100000 */
+    log_t log;                    /* init to LOG_ERR */
 
-  ciat_t ta;
-  ciat_t tb;
-  CLOCK read_clk;               /* init to 0 */
-  int read_offset;              /* init to 0 */
-  BYTE last_read;               /* init to 0 */
-  int debugFlag;                /* init to 0 */
+    ciat_t ta;
+    ciat_t tb;
+    CLOCK read_clk;               /* init to 0 */
+    int read_offset;              /* init to 0 */
+    BYTE last_read;               /* init to 0 */
+    int debugFlag;                /* init to 0 */
 
-  int irq_line;                 /* IK_IRQ */
+    int irq_line;                 /* IK_IRQ */
 
-  char myname[12];
+    char myname[12];
 
 } drivecia_context_t;
 
@@ -260,27 +261,27 @@ typedef struct drivecia_context_s {
 
 typedef struct driveriot_context_s {
 
-  BYTE riot_io[4];
-  BYTE old_pa;
-  BYTE old_pb;
+    BYTE riot_io[4];
+    BYTE old_pa;
+    BYTE old_pb;
 
-  log_t log;            /* init to LOG_ERR */
+    log_t log;            /* init to LOG_ERR */
 
-  alarm_t alarm;
+    struct alarm_s *alarm;
 
-  CLOCK read_clk;       /* init to 0 */
-  int read_offset;      /* init to 0 */
-  BYTE last_read;       /* init to 0 */
-  BYTE r_edgectrl;      /* init to 0 */
-  BYTE r_irqfl;         /* init to 0 */
-  BYTE r_irqline;       /* init to 0 */
+    CLOCK read_clk;       /* init to 0 */
+    int read_offset;      /* init to 0 */
+    BYTE last_read;       /* init to 0 */
+    BYTE r_edgectrl;      /* init to 0 */
+    BYTE r_irqfl;         /* init to 0 */
+    BYTE r_irqline;       /* init to 0 */
 
-  CLOCK r_write_clk;
-  int r_N;
-  int r_divider;
-  int r_irqen;
+    CLOCK r_write_clk;
+    int r_N;
+    int r_divider;
+    int r_irqen;
 
-  char myname[12];
+    char myname[12];
 
 } driveriot_context_t;
 
@@ -291,8 +292,8 @@ typedef struct driveriot_context_s {
 
 typedef struct driveriot2_context_s {
 
-  int r_atn_active;     /* init to 0 */
-  int irq_type;         /* I_RIOTD#FL */
+    int r_atn_active;     /* init to 0 */
+    int irq_type;         /* I_RIOTD#FL */
 
 } driveriot2_context_t;
 
@@ -304,22 +305,22 @@ typedef struct driveriot2_context_s {
 
 typedef struct drive_context_s {
 
-  int mynumber;         /* init to [01] */
-  CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
-  struct drive_s *drive_ptr;    /* shortcut to drive[mynumber] */
+    int mynumber;         /* init to [01] */
+    CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
+    struct drive_s *drive_ptr;    /* shortcut to drive[mynumber] */
 
-  drivecpu_context_t cpu;
-  drivefunc_context_t func;
-  drivevia_context_t via1;
-  drivevia1_context_t via1p;
-  drivevia_context_t via2;
-  drivecia_context_t cia1571;
-  drivecia_context_t cia1581;
-  struct iec_info_s *c_iec_info;        /* for CIA1581 */
-  driveriot_context_t riot1;
-  driveriot_context_t riot2;
-  driveriot2_context_t riot2p;
-  drivecpud_context_t cpud;
+    drivecpu_context_t cpu;
+    drivefunc_context_t func;
+    drivevia_context_t via1;
+    drivevia1_context_t via1p;
+    drivevia_context_t via2;
+    drivecia_context_t cia1571;
+    drivecia_context_t cia1581;
+    struct iec_info_s *c_iec_info;        /* for CIA1581 */
+    driveriot_context_t riot1;
+    driveriot_context_t riot2;
+    driveriot2_context_t riot2p;
+    drivecpud_context_t cpud;
 
 } drive_context_t;
 
