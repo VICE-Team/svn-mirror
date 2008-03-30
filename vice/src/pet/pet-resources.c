@@ -366,5 +366,12 @@ void pet_resources_shutdown(void)
     lib_free(machine_keymap_file_list[3]);
     lib_free(machine_keymap_file_list[4]);
     lib_free(machine_keymap_file_list[5]);
+    lib_free(petres.chargenName);
+    lib_free(petres.kernalName);
+    lib_free(petres.editorName);
+    lib_free(petres.basicName);
+    lib_free(petres.memBname);
+    lib_free(petres.memAname);
+    lib_free(petres.mem9name);
 }
 

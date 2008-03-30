@@ -120,11 +120,14 @@ void tape_traps_deinstall(void)
 /* FIXME: This should be passed through a struct.  */
 int tape_init(const tape_init_t *init)
 {
-    tape_log = log_open("Tape");
+    if (tape_log == LOG_ERR)
+        tape_log = log_open("Tape");
 
     tape_internal_init();
     tape_image_init();
 
+    if (tape_image_dev1 != NULL);
+        lib_free(tape_image_dev1);
     tape_image_dev1 = (tape_image_t *)lib_calloc(1, sizeof(tape_image_t));
 
     tap_init(init);
