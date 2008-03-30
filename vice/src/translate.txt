@@ -607,9 +607,6 @@ IDCLS_SPECIFY_1571_DOS_ROM_NAME
 IDCLS_SPECIFY_1581_DOS_ROM_NAME
 
 /* drive/iec/iec-cmdline-options.c */
-IDCLS_PAR_CABLE_TYPE
-
-/* drive/iec/iec-cmdline-options.c */
 IDCLS_SET_IDLE_METHOD
 
 /* drive/iec/iec-cmdline-options.c */
@@ -641,6 +638,21 @@ IDCLS_ENABLE_DRIVE_RAM_A000
 
 /* drive/iec/iec-cmdline-options.c */
 IDCLS_DISABLE_DRIVE_RAM_A000
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_PAR_CABLE_C64EXP_TYPE
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_ENABLE_PROFDOS
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_DISABLE_PROFDOS
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME
+
+/* drive/iec/plus4exp/plus4exp-cmdline-options.c */
+IDCLS_PAR_CABLE_PLUS4EXP_TYPE
 
 /* drive/iec128dcr/iec128dcr-cmdline-options.c */
 IDCLS_SPECIFY_1571CR_DOS_ROM_NAME

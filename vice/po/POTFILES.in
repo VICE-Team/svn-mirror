@@ -33,6 +33,8 @@ src/cbm2/cbm2-cmdline-options.c
 src/datasette.c
 src/drive/drive-cmdline-options.c
 src/drive/iec/iec-cmdline-options.c
+src/drive/iec/c64exp/c64exp-cmdline-options.c
+src/drive/iec/plus4exp/plus4exp-cmdline-options.c
 src/drive/iec128dcr/iec128dcr-cmdline-options.c
 src/drive/ieee/ieee-cmdline-options.c
 src/drive/tcbm/tcbm-cmdline-options.c
