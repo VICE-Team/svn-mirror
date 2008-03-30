@@ -388,6 +388,7 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 static void cbm2ui_dynamic_menu_create(void)
 {
+    uisound_menu_create();
     uicrtc_menu_create();
     uivicii_menu_create();
 }
@@ -396,6 +397,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
 {
     uicrtc_menu_shutdown();
     uivicii_menu_shutdown();
+    uisound_menu_shutdown();
 }
 
 int cbm2ui_init(void)

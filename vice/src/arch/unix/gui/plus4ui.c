@@ -151,12 +151,14 @@ static ui_menu_entry_t plus4_menu[] = {
 
 static void plus4ui_dynamic_menu_create(void)
 {
+    uisound_menu_create();
     uited_menu_create();
 }
 
 static void plus4ui_dynamic_menu_shutdown(void)
 {
     uited_menu_shutdown();
+    uisound_menu_shutdown();
 }
 
 int plus4ui_init(void)

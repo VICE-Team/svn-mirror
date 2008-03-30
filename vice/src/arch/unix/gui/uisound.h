@@ -34,5 +34,8 @@ extern struct ui_menu_entry_s set_sound_sample_rate_submenu[];
 extern struct ui_menu_entry_s set_sound_oversample_submenu[];
 extern struct ui_menu_entry_s ui_sound_settings_menu[];
 
+extern void uisound_menu_create(void);
+extern void uisound_menu_shutdown(void);
+
 #endif
 

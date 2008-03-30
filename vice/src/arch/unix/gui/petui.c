@@ -326,12 +326,14 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 static void petui_dynamic_menu_create(void)
 {
+    uisound_menu_create();
     uicrtc_menu_create();
 }
 
 static void petui_dynamic_menu_shutdown(void)
 {
     uicrtc_menu_shutdown();
+    uisound_menu_shutdown();
 }
 
 int petui_init(void)

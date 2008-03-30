@@ -433,12 +433,14 @@ static ui_menu_entry_t vic20_menu[] = {
 
 static void vic20ui_dynamic_menu_create(void)
 {
+    uisound_menu_create();
     uivic_menu_create();
 }
 
 static void vic20ui_dynamic_menu_shutdown(void)
 {
     uivic_menu_shutdown();
+    uisound_menu_shutdown();
 }
 
 int vic20ui_init(void)

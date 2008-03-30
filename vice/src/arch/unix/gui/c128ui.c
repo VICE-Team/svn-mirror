@@ -379,6 +379,7 @@ static ui_menu_entry_t c128_menu[] = {
 
 static void c128ui_dynamic_menu_create(void)
 {
+    uisound_menu_create();
     uivicii_menu_create();
     uivdc_menu_create();
 }
@@ -387,6 +388,7 @@ static void c128ui_dynamic_menu_shutdown(void)
 {
     uivicii_menu_shutdown();
     uivdc_menu_shutdown();
+    uisound_menu_shutdown();
 }
 
 int c128ui_init(void)
