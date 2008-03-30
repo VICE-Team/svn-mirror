@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 24 August 1998 -->
+     from ../vice.texi on 28 August 1998 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -56,11 +56,11 @@ using command-line options.
 <H2><A NAME="SEC36" HREF="vice_toc.html#TOC36">6.1  Format of resource files</A></H2>
 
 <P>
-A resource file is made up of several section; sections have the purpose
-of separating the resources of a certain emulator from the ones of the
-other emulators.  A section is started with the name of an emulator in
-brackets (eg. <SAMP>`[C64]'</SAMP>) and ends when another section starts, or the
-file ends.
+A resource file is made up of several sections; sections have the
+purpose of separating the resources of a certain emulator from the ones
+of the other emulators.  A section is started with the name of an
+emulator in brackets (eg. <SAMP>`[C64]'</SAMP>) and ends when another section
+starts, or the file ends.
 
 </P>
 <P>
@@ -179,10 +179,10 @@ limit" as the maximum speed at the same time.
 <P>
 <A NAME="IDX17"></A>
 Moreover, a special <EM>warp speed</EM> mode is provided and can be toggled
-with the "Enable Warp Mode" menu item.  If this mode is enabled, warp
-speed mode will be enabled and will cause the emulator to disable any
-speed limit, turn sound emulation off and use a 1/10 refresh rate, so
-that it will run at the maximum possible speed.
+with the "Enable Warp Mode" menu item.  If this mode is enabled, it
+will cause the emulator to disable any speed limit, turn sound emulation
+off and use a 1/10 refresh rate, so that it will run at the maximum
+possible speed.
 
 </P>
 
@@ -258,17 +258,20 @@ The following right-button menu items control the video output:
 <A NAME="IDX24"></A>
  
 "Video Cache" enables a video cache that can speed up the emulation
-when little graphics activity is going on.  This can actually make the
-emulator slower when there is little graphics activity, and the cache is
-useless.
+when little graphics activity is going on; it is especially useful when
+you run the emulator on a networked X terminal, as it can reduce the
+amount of bandwidth required.  But this can actually make the emulator
+slower when there is little graphics activity and the amount of work
+needed to maintain the cache is bigger than the amount of work that
+would be wasted by not using it (if any).
 
 <A NAME="IDX25"></A>
 <P> <LI>
 
 "Double Size" toggles <EM>double-size mode</EM>, which makes the
-emulation window twice as big (when emulating a 80-column PET, only the
+emulation window twice as big.  When emulating a 80-column PET, only the
 height is doubled, so that the aspect ratio is more similiar to the one
-of the real thing).
+of the real thing.
 
 <A NAME="IDX26"></A>
 <P> <LI>
@@ -525,8 +528,9 @@ to 50%, audio slows down by the same amount too.
 <P> <LI>
 
 "Exact", instead, makes the audio renderer output always the same
-samples you would hear from the real thing, without trying to adapt the
-ratio.
+sounds you would hear from the real thing, without trying to adapt the
+ratio; to compensate the tolerances in speed, some extra frames will be
+skipped or added.
 </UL> </P>
 
 <A NAME="IDX52"></A>
@@ -733,28 +737,28 @@ These settings are used to control the emulation of the 1541 drive.
 
 <P> <LI>
 
-"Enable true 1541 emulation") enables the slow hardware-level
+"Enable true 1541 emulation" enables the slow hardware-level
 emulation of the 1541 drive number 8 for maximum compatibility.
 
 <P> <LI>
 
 "Enable parallel cable" enables emulation of a SpeedDOS parallel
 cable; if you switch this option on and replace the original Commodore
-ROMs with SpeedDOS-compatible ones, you can speed up the loading speed.
+ROMs with SpeedDOS-compatible ones, you can speed up loading/saving times.
 
 <P> <LI>
 
 "True 1541 sync factor" specifies the speed of the 1541 CPU.  This can
 be used to help loading certain programs that have trouble with the
-default setting (for example, programs designed for NTSC machines).  The
-ratio is calculated as follows:
+default PAL setting (for example, programs designed for NTSC machines).
+The ratio is calculated as follows:
 
 
 <PRE>
 sync_factor = 65536 * clk_1541 / clk_machine
 </PRE>
 
-where <CODE>clk_1541</CODE> and <CODE>clk_machine</CODE> are clock speeds, in MHz.
+where <CODE>clk_1541</CODE> and <CODE>clk_machine</CODE> are clock speeds in MHz.
 The menu lets you choose between the PAL and NTSC values, and also lets
 you specify whatever value you want.  Be careful when changing it,
 though, because a wrong value can break things and even corrupt disk
@@ -783,7 +787,7 @@ only pending interrupts are emulated to save time.
 
 <EM>No traps</EM>: Like "Trap idle", but without traps at all.  So
 basically the 1541 works exactly as with the real thing, and nothing is
-done to reduce memory consumption.
+done to reduce the power needs of the 1541 emulation.
 </UL> </P>
 
 The first option ("Skip cycles") is usually better for performance, as
@@ -1225,7 +1229,7 @@ Specify device for the IEC printer (<CODE>PrUserDev</CODE>).
 
 <P>
 If you have compatibility problems, you can completely disable Kernal
-traps with the "Disable serial traps" option.  This will of course
+traps with the "Disable kernal traps" option.  This will of course
 disable all the features that depend on it, such as the fast 1541
 emulation (so you will have to turn true 1541 emulation on if you want
 to be able to read or write disk images) and tape support.
@@ -1267,7 +1271,7 @@ Enable (<CODE>NoTraps=0</CODE>) or disable (<CODE>NoTraps=1</CODE>) kernal traps
 <H2><A NAME="SEC63" HREF="vice_toc.html#TOC63">6.9  Miscellaneous settings</A></H2>
 
 <P>
-This section lists generic resources that did not fit in the other
+This section lists generic resources that do not fit in the other
 categories.
 
 </P>
@@ -1283,10 +1287,10 @@ categories.
 <A NAME="IDX120"></A>
  
 String specifying the search path for system files.  It is defined as a
-sequence of paths, separated by colons (<SAMP>`:'</SAMP>), just like the
-<CODE>PATH</CODE> variable in the shell.  The special path <SAMP>`$$'</SAMP> stands
-for the default search path, which is initialized at startup to the
-following value:
+sequence of directory names, separated by colons (<SAMP>`:'</SAMP>), just like
+the <CODE>PATH</CODE> variable in the shell.  The special string <SAMP>`$$'</SAMP>
+stands for the default search path, which is initialized at startup to
+the following value:
 
 
 <PRE>
@@ -1328,7 +1332,7 @@ example, the default value <SAMP>`netscape %s'</SAMP> runs Netscape Navigator.
 <DD>
 Boolean specifying whether the emulator should save changed settings
 before exiting.  If this is enabled, the user will be always prompted
-first.
+first, in case the settings have changed.
 
 </DL>
 

@@ -410,7 +410,7 @@ File: vice.info,  Node: Resource files,  Next: Resources and command-line,  Prev
 Format of resource files
 ========================
 
-   A resource file is made up of several section; sections have the
+   A resource file is made up of several sections; sections have the
 purpose of separating the resources of a certain emulator from the ones
 of the other emulators.  A section is started with the name of an
 emulator in brackets (eg. `[C64]') and ends when another section
@@ -502,10 +502,10 @@ will never be worse than 1/10 if this option is specified.
 limit" as the maximum speed at the same time.
 
    Moreover, a special "warp speed" mode is provided and can be toggled
-with the "Enable Warp Mode" menu item.  If this mode is enabled, warp
-speed mode will be enabled and will cause the emulator to disable any
-speed limit, turn sound emulation off and use a 1/10 refresh rate, so
-that it will run at the maximum possible speed.
+with the "Enable Warp Mode" menu item.  If this mode is enabled, it
+will cause the emulator to disable any speed limit, turn sound emulation
+off and use a 1/10 refresh rate, so that it will run at the maximum
+possible speed.
 
 * Menu:
 
@@ -558,14 +558,17 @@ Video settings
    The following right-button menu items control the video output:
 
    * "Video Cache" enables a video cache that can speed up the emulation
-     when little graphics activity is going on.  This can actually make
-     the emulator slower when there is little graphics activity, and
-     the cache is useless.
+     when little graphics activity is going on; it is especially useful
+     when you run the emulator on a networked X terminal, as it can
+     reduce the amount of bandwidth required.  But this can actually
+     make the emulator slower when there is little graphics activity
+     and the amount of work needed to maintain the cache is bigger than
+     the amount of work that would be wasted by not using it (if any).
 
    * "Double Size" toggles "double-size mode", which makes the
-     emulation window twice as big (when emulating a 80-column PET,
+     emulation window twice as big.  When emulating a 80-column PET,
      only the height is doubled, so that the aspect ratio is more
-     similiar to the one of the real thing).
+     similiar to the one of the real thing.
 
    * "Double Scan" toggles "double-scan mode", which causes the
      emulator to draw only odd lines when running in double-size mode
@@ -740,8 +743,9 @@ Sound settings
           same amount too.
 
         * "Exact", instead, makes the audio renderer output always the
-          same samples you would hear from the real thing, without
-          trying to adapt the ratio.
+          same sounds you would hear from the real thing, without
+          trying to adapt the ratio; to compensate the tolerances in
+          speed, some extra frames will be skipped or added.
 
    * "Sample rate" specifies the sampling frequency, ranging from 8000
      to 48000 Hz (not all the sound cards and/or sound drivers can
@@ -881,22 +885,22 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
 
    These settings are used to control the emulation of the 1541 drive.
 
-   * "Enable true 1541 emulation") enables the slow hardware-level
+   * "Enable true 1541 emulation" enables the slow hardware-level
      emulation of the 1541 drive number 8 for maximum compatibility.
 
    * "Enable parallel cable" enables emulation of a SpeedDOS parallel
      cable; if you switch this option on and replace the original
-     Commodore ROMs with SpeedDOS-compatible ones, you can speed up the
-     loading speed.
+     Commodore ROMs with SpeedDOS-compatible ones, you can speed up
+     loading/saving times.
 
    * "True 1541 sync factor" specifies the speed of the 1541 CPU.  This
      can be used to help loading certain programs that have trouble
-     with the default setting (for example, programs designed for NTSC
-     machines).  The ratio is calculated as follows:
+     with the default PAL setting (for example, programs designed for
+     NTSC machines).  The ratio is calculated as follows:
 
           sync_factor = 65536 * clk_1541 / clk_machine
 
-     where `clk_1541' and `clk_machine' are clock speeds, in MHz.  The
+     where `clk_1541' and `clk_machine' are clock speeds in MHz.  The
      menu lets you choose between the PAL and NTSC values, and also lets
      you specify whatever value you want.  Be careful when changing it,
      though, because a wrong value can break things and even corrupt
@@ -918,7 +922,8 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
 
         * "No traps": Like "Trap idle", but without traps at all.  So
           basically the 1541 works exactly as with the real thing, and
-          nothing is done to reduce memory consumption.
+          nothing is done to reduce the power needs of the 1541
+          emulation.
 
      The first option ("Skip cycles") is usually better for
      performance, as the drive is emulated as little as possible; on
@@ -1224,7 +1229,7 @@ Disabling kernal traps
 ----------------------
 
    If you have compatibility problems, you can completely disable Kernal
-traps with the "Disable serial traps" option.  This will of course
+traps with the "Disable kernal traps" option.  This will of course
 disable all the features that depend on it, such as the fast 1541
 emulation (so you will have to turn true 1541 emulation on if you want
 to be able to read or write disk images) and tape support.
@@ -1259,7 +1264,7 @@ File: vice.info,  Node: Misc settings,  Prev: Peripheral settings,  Up: Settings
 Miscellaneous settings
 ======================
 
-   This section lists generic resources that did not fit in the other
+   This section lists generic resources that do not fit in the other
 categories.
 
 * Menu:
@@ -1275,10 +1280,10 @@ Miscellaneous resources
 
 `Directory'
      String specifying the search path for system files.  It is defined
-     as a sequence of paths, separated by colons (`:'), just like the
-     `PATH' variable in the shell.  The special path `$$' stands for
-     the default search path, which is initialized at startup to the
-     following value:
+     as a sequence of directory names, separated by colons (`:'), just
+     like the `PATH' variable in the shell.  The special string `$$'
+     stands for the default search path, which is initialized at
+     startup to the following value:
 
           LIBDIR/EMUID:BOOTPATH/EMUID
 
@@ -1306,7 +1311,7 @@ Miscellaneous resources
 `SaveResourcesOnExit'
      Boolean specifying whether the emulator should save changed
      settings before exiting.  If this is enabled, the user will be
-     always prompted first.
+     always prompted first, in case the settings have changed.
 
 
 File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
@@ -1371,7 +1376,7 @@ supported on the C128 emulator.
 
    X64 allows you to attach the following kinds of cartridges:
 
-   * `.crt' images, as used by the CCS64 emulator by Per Hâkan Sundell;
+   * `.crt' images, as used by the CCS64 emulator by Per H^akan Sundell;
 
    * generic raw dumps of 8K and 16K images;
 

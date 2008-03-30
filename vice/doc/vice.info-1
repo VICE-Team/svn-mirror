@@ -636,10 +636,10 @@ information is not available here.  *Note Contacts:: for information
 about how to retrieve the the FAQs.
 
    All the emulators provide an accurate 6502/6510 emulator, with
-emulation of all the opcodes and accurate timing.  Moreover, all of the
-undocumented opcodes are implemented.  Unlike other emulators, the
-emulation of all the chips is cycle accurate, and tries to emulate
-timings as precisely as possible.
+emulation of all the opcodes (both documented and undocumented ones)
+and accurate timing.  Unlike other emulators, the emulation of all the
+chips is cycle accurate, and tries to emulate timings as precisely as
+possible while trying to use as little processor power as possible.
 
    Please do *not* expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
@@ -669,8 +669,7 @@ cycle-accurate.
 
    Moreover, a rather complete emulation of the SID sound chip is
 provided.  All the basic features are implemented as well as most of
-the complex ones including sync and ring modulation.  Filters are the
-only major feature missing at the moment.
+the complex ones including sync, ring modulation and filters.
 
    Of course, also both CIAs are cycle-accurate and fully emulated.
 
@@ -1030,8 +1029,8 @@ Autostarting programs from the command-line
 ===========================================
 
    It is possible to let the emulator "autostart" a disk or tape image
-file, by simply specifying its name as the last argument on the command
-line; for example
+file, by simply specifying its name as the *last* argument on the
+command line; for example
 
      x64 lovelygame.x64.gz
 

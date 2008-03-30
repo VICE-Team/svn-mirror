@@ -457,9 +457,9 @@ and 5:
    * block 5 (8 Kbytes at $A000-$BFFF).
 
    These blocks are called "expansion blocks" because they are not
-present in the stock machine.  Each of them is associated to a boolean
-`RamBlockX' resource (where `X' is the block number) that specifies
-whether the block is enabled or not.
+present a stock ("unexpanded") machine.  Each of them is associated to
+a boolean `RamBlockX' resource (where `X' is the block number) that
+specifies whether the block is enabled or not.
 
    There are also some common memory configurations you can pick from
 the right-button menu:
@@ -531,7 +531,7 @@ VIC20 memory configuration command-line options
 
         * `04', `20', `40', `60', `A0' (memory at respective address.
 
-     Examples:
+     For example,
 
           xvic -memory none
 
@@ -617,10 +617,10 @@ File: vice.info,  Node: PET model,  Next: PET diagnostic pin,  Prev: PET-specifi
 Changing PET model settings
 ---------------------------
 
-   With XPET, it is possible to change at runtime the characteristics of
-the emulated PET so that it matches (or not) the ones of a certain PET
-model, and it is also possible to select from a common set of PET models
-so that all the features are selected accordingly.
+   With `xpet', it is possible to change at runtime the characteristics
+of the emulated PET so that it matches (or not) the ones of a certain
+PET model, and it is also possible to select from a common set of PET
+models so that all the features are selected accordingly.
 
    The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
@@ -1480,7 +1480,7 @@ team.
      writing to (Ettore is Italian, Andr'e and Andreas are German,
      Teemu is Finnish, Daniel is from Canada).
 
-   In any case, we would *really* be glad to receive your comments
+   In any case, we would be *really* glad to receive your comments
 about VICE.
 
    Thanks!

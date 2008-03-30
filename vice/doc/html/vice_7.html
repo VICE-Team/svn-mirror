@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 24 August 1998 -->
+     from ../vice.texi on 28 August 1998 -->
 
 <TITLE>VICE Manual - 7  Machine-specific features</TITLE>
 </HEAD>
@@ -40,7 +40,7 @@ X64 allows you to attach the following kinds of cartridges:
 <P> <UL>
 <P> <LI>
 
-<TT>`.crt'</TT> images, as used by the CCS64 emulator by Per Hâkan Sundell;
+<TT>`.crt'</TT> images, as used by the CCS64 emulator by Per H&acirc;kan Sundell;
 <P> <LI>
 
 generic raw dumps of 8K and 16K images;
@@ -688,9 +688,9 @@ block 5 (8 Kbytes at $A000-$BFFF).
 
 <P>
 These blocks are called <EM>expansion blocks</EM> because they are not
-present in the stock machine.  Each of them is associated to a boolean
-<CODE>RamBlockX</CODE> resource (where <CODE>X</CODE> is the block number) that
-specifies whether the block is enabled or not.
+present a stock ("unexpanded") machine.  Each of them is associated to
+a boolean <CODE>RamBlockX</CODE> resource (where <CODE>X</CODE> is the block number)
+that specifies whether the block is enabled or not.
 
 </P>
 <P>
@@ -804,7 +804,7 @@ blocks);
 respective address.
 </UL> </P>
 
-Examples:
+For example,
 
 
 <PRE>
@@ -913,10 +913,10 @@ thus are not present in the other emulators.
 <H3><A NAME="SEC93" HREF="vice_toc.html#TOC93">7.3.1  Changing PET model settings</A></H3>
 
 <P>
-With XPET, it is possible to change at runtime the characteristics of
-the emulated PET so that it matches (or not) the ones of a certain PET
-model, and it is also possible to select from a common set of PET models
-so that all the features are selected accordingly.
+With <CODE>xpet</CODE>, it is possible to change at runtime the
+characteristics of the emulated PET so that it matches (or not) the ones
+of a certain PET model, and it is also possible to select from a common
+set of PET models so that all the features are selected accordingly.
 
 </P>
 <P>
