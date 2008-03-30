@@ -1,3 +1,93 @@
+1999-12-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.8.
+
+	* c64/cartridge.c: Delay memory mapping change by 3 cycles.
+
+	* c64/c64.c (machine_init): Initialize cartridge emulation.
+
+	* arch/unix/x11/xaw/about.c: #include "vsync.h".
+
+	* arch/win32/console.c: Applied file open fix.
+
+	* mon.c (mon): Use `console_in' instead of `readline'.
+
+	* arch/unix/console.c, arch/win32/console.c,
+	arch/msdos/console.c, arch/riscos/console.c,
+	arch/os2/console.c: Use the old code for `console_in'.
+
+	* arch/os2/Makefile.am: Added `petui.c' and `petui.h'.
+
+1999-12-16  Nathan Huizinga  <nathan.huizinga@chess.nl>
+
+	* arch/unix/c64ui.c: Menu entry added for Super Snapshot V5.
+
+	* c64/c64cartmem.c: Support added for Super Snapshot V5.
+
+	* c64/cartridge.c: Command line option: "-cartss5" added for
+	Super Snapshot V5.  Small text change for ss4 from "64KB" to
+	"32KB". It's a 32KB image...
+
+	* cartridge.h: define CARTRIDGE_SUPER_SNAPSHOT_V5 added.
+
+1999-12-15  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: minor changes, added workaround for
+	p00_check_name
+
+	* arch/os2/config.h: defined NAME_NEED_QM
+
+	* arch/os2/dialogs.[hcrc]: added toggle, pause, sprite
+	collision
+
+	* arch/os2/kbd.c: minor changes
+
+	* arch/os2/petui.[ch] added
+
+	* arch/os2/ui.h: minor changes
+
+	* arch/os2/vac++/Xpet.icc added
+
+	* arch/os2/vac++/*.icc: made compile again.
+
+	* arch/os2/vsync.c: added pause feature
+
+	* autostart.c: workaround for p00_check_name (I hope to fix
+	this in the future)
+
+	* c128/z80mem.c: included string.h
+
+	* pet/petsound.c: included string.h
+
+	* sounddrv/sounddart.c: extended semaphore handling
+
+	* utils.c: added return ti x[mc]alloc in case of size=0
+
+	* zfile.c: added macro for OS which needs quotationmarks around
+
+1999-12-15  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/{print,rs232}.c: fixed bug in resource setting
+	function.
+
+1999-12-14  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* configure.in: define HAVE_PRINTER for DOS,Win32 (next try)
+
+	* win32/msvc/config.h: define HAVE_PRINTER
+
+	* win32/print.c,msdos/print.c (set_printer_file): bugfix
+	(print_putc): adds LF after CR
+
+	* win32/archdep.c (archdep_open_monitor_console): title for
+	console window; (archdep_close_monitor_console): closes
+	mon-related files which should fix the 'iterated z' problem
+
+	* win32/vdrive.dsp: add vdrive-snapshot.c to project files
+
+	* win32/xpet.dsp,xcbm2.dsp,x64.dps,x128.dsp,xvic.dsp: add
+	pruser.c and prdevice.c to project files
+
 1999-12-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.7.

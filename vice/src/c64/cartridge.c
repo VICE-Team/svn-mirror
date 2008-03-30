@@ -39,10 +39,12 @@
 #include <sys/types.h>
 #endif
 
+#include "alarm.h"
 #include "archdep.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
 #include "utils.h"
@@ -53,6 +55,8 @@ static char *cartridge_file;
 int carttype = CARTRIDGE_NONE;
 static int crttype = 0;
 static char *cartfile;
+
+static alarm_t cartridge_alarm;
 
 static int set_cartridge_type(resource_value_t v)
 {
@@ -115,6 +119,9 @@ static cmdline_option_t cmdline_options[] =
      "<name>", "Attach raw 8KB Epyx fastload cartridge image"},
     {"-cartss4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
+     "<name>", "Attach raw 32KB Super Snapshot cartridge image"},
+    {"-cartss5", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, NULL, NULL,
      "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
     {"-cartieee488", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_IEEE488, NULL, NULL,
@@ -193,6 +200,16 @@ int cartridge_attach_image(int type, const char *filename)
         if (!fd)
             goto done;
         if (fread(rawcart, 0x8000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        fd = fopen(filename, MODE_READ);
+        if (!fd)
+            goto done;
+        if (fread(rawcart, 0x10000, 1, fd) < 1) {
             fclose(fd);
             goto done;
         }
@@ -403,6 +420,21 @@ void cartridge_set_default(void)
                        "" : cartfile));
 }
 
+static int cartridge_change_mapping(CLOCK offset)
+{
+    alarm_unset(&cartridge_alarm);
+
+    cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+
+    return 0;
+}
+
+void cartridge_init(void)
+{
+    alarm_init(&cartridge_alarm, &maincpu_alarm_context,
+               "Cartrigde", cartridge_change_mapping);
+}
+
 void cartridge_trigger_freeze(void)
 {
     if (crttype != CARTRIDGE_ACTION_REPLAY
@@ -410,10 +442,13 @@ void cartridge_trigger_freeze(void)
         && crttype != CARTRIDGE_KCS_POWER
         && crttype != CARTRIDGE_FINAL_III
         && carttype != CARTRIDGE_SUPER_SNAPSHOT
+        && carttype != CARTRIDGE_SUPER_SNAPSHOT_V5
         && carttype != CARTRIDGE_ATOMIC_POWER)
         return;
-    cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+
     maincpu_set_nmi(I_FREEZE, IK_NMI);
+
+    alarm_set(&cartridge_alarm, clk + 3);    
 }
 
 void cartridge_release_freeze(void)

@@ -34,6 +34,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "c64.h"
+#include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
 #include "c64tpi.h"
@@ -394,6 +395,8 @@ int machine_init(void)
 #endif
 
     iec_init();
+
+    cartridge_init();
 
     return 0;
 }

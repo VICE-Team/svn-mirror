@@ -35,6 +35,8 @@ extern void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value);
 extern void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value);
 extern void cartridge_init_config(void);
 
+extern void cartridge_init(void);
+
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 extern int ultimax;
 
