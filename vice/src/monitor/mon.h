@@ -112,38 +112,16 @@ enum t_action {
 };
 typedef enum t_action ACTION;
 
-struct t_cond_node {
+struct cond_node_s {
    int operation;
    int value;
    MON_REG reg_num;
    bool is_reg;
    bool is_parenthized;
-   struct t_cond_node *child1;
-   struct t_cond_node *child2;
+   struct cond_node_s *child1;
+   struct cond_node_s *child2;
 };
-typedef struct t_cond_node CONDITIONAL_NODE;
-
-struct t_breakpoint {
-   int brknum;
-   MON_ADDR start_addr;
-   MON_ADDR end_addr;
-   int hit_count;
-   int ignore_count;
-   CONDITIONAL_NODE *condition;
-   char *command;
-   bool trace;
-   bool enabled;
-   bool watch_load;
-   bool watch_store;
-   bool temporary;
-};
-typedef struct t_breakpoint breakpoint;
-
-struct t_break_list {
-   breakpoint *brkpt;
-   struct t_break_list *next;
-};
-typedef struct t_break_list BREAK_LIST;
+typedef struct cond_node_s cond_node_t;
 
 typedef void monitor_toggle_func_t(int value);
 
@@ -182,6 +160,8 @@ struct monitor_interface_s {
     BYTE (*mem_bank_peek)(int bank, ADDRESS addr);
     void (*mem_bank_write)(int bank, ADDRESS addr, BYTE byte);
 
+    struct mem_ioreg_list_s *(*mem_ioreg_list_get)(void);
+
     /* Pointer to a function to disable/enable watchpoint checking.  */
     monitor_toggle_func_t *toggle_watchpoints_func;
 
@@ -189,6 +169,25 @@ struct monitor_interface_s {
     void (*set_bank_base)(void);
 };
 typedef struct monitor_interface_s monitor_interface_t;
+
+enum CPU_TYPE_s {
+    CPU_6502,
+    CPU_Z80
+};
+typedef enum CPU_TYPE_s CPU_TYPE_t;
+
+struct monitor_cpu_type_s {
+    CPU_TYPE_t cpu_type;
+    unsigned int (*asm_addr_mode_get_size)(unsigned int mode, BYTE p0, BYTE p1);
+    struct asm_opcode_info_s *(*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
+    int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
+    unsigned int (*mon_register_get_val)(int mem, int reg_id);
+    void (*mon_register_set_val)(int mem, int reg_id, WORD val);
+    void (*mon_register_print)(int mem);
+    struct mon_reg_list_s *(*mon_register_list_get)(int mem);
+    void (*mon_register_list_set)(struct mon_reg_list_s *mon_reg_list, int mem);
+};
+typedef struct monitor_cpu_type_s monitor_cpu_type_t;
 
 /* Defines */
 
@@ -218,12 +217,11 @@ typedef struct monitor_interface_s monitor_interface_t;
 #define NUM_MEMSPACES 4
 #define DEFAULT_DISASSEMBLY_SIZE 40
 
-#define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
 #define any_watchpoints_store(mem) (watchpoints_store[(mem)] != NULL)
 #define any_watchpoints(mem) (watchpoints_load[(mem)] || watchpoints_store[(mem)])
 
-#define new_cond ((CONDITIONAL_NODE *)(xmalloc(sizeof(CONDITIONAL_NODE))))
+#define new_cond ((cond_node_t *)(xmalloc(sizeof(cond_node_t))))
 #define addr_memspace(ma) (HI16_TO_LO16(ma))
 #define addr_location(ma) (LO16(ma))
 #define new_addr(m, l) (LO16_TO_HI16(m) | (l))
@@ -257,9 +255,9 @@ extern int mon_stop_output;
 extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 extern bool force_array[NUM_MEMSPACES];
 
-extern BREAK_LIST *breakpoints[NUM_MEMSPACES];
-extern BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
-extern BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
+struct break_list_s;
+extern struct break_list_s *watchpoints_load[NUM_MEMSPACES];
+extern struct break_list_s *watchpoints_store[NUM_MEMSPACES];
 
 /* Function declarations */
 extern void monitor_init(monitor_interface_t *maincpu_interface,
@@ -301,23 +299,22 @@ extern void mon_cpu_type(const char *cpu_type);
 extern void mon_bank(MEMSPACE mem, const char *bank);
 extern void mon_display_io_regs(void);
 extern void mon_evaluate_default_addr(MON_ADDR *a);
-extern void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr,
-                            unsigned char val);
+extern void mon_set_mem_val(MEMSPACE mem, ADDRESS mem_addr, BYTE val);
 extern bool mon_inc_addr_location(MON_ADDR *a, unsigned inc);
 extern void mon_start_assemble_mode(MON_ADDR addr, char *asm_line);
 extern long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
                                        bool must_be_range, WORD default_len);
 
 extern bool check_drive_emu_level_ok(int drive_num);
-extern void mon_print_conditional(CONDITIONAL_NODE *cnode);
-extern void mon_delete_conditional(CONDITIONAL_NODE *cnode);
-extern int mon_evaluate_conditional(CONDITIONAL_NODE *cnode);
+extern void mon_print_conditional(cond_node_t *cnode);
+extern void mon_delete_conditional(cond_node_t *cnode);
+extern int mon_evaluate_conditional(cond_node_t *cnode);
 extern bool mon_is_valid_addr(MON_ADDR a);
 extern bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr,
                             unsigned loc);
 
-unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr);
-unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr);
+extern BYTE mon_get_mem_val(MEMSPACE mem, ADDRESS mem_addr);
+extern BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, ADDRESS mem_addr);
 extern void mon_jump(MON_ADDR addr);
 
 extern char *mon_symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr);

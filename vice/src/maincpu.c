@@ -292,6 +292,8 @@ monitor_interface_t maincpu_monitor_interface = {
     mem_bank_peek,
     mem_bank_write,
 
+    mem_ioreg_list_get,
+
     /* Pointer to a function to disable/enable watchpoint checking.  */
     mem_toggle_watchpoints,
 

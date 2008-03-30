@@ -2467,11 +2467,12 @@ static BYTE peek_bank_io(ADDRESS addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram", "rom", "io", "ram1", NULL
+    "default", "cpu", "ram", "rom", "io", "ram1", "intfunc", "extfunc", "cart",
+    "c64rom", NULL
 };
 
 static int banknums[] = {
-    1, 0, 1, 2, 3, 4
+    1, 0, 1, 2, 3, 4, 5, 6, 7, 8
 };
 
 const char **mem_bank_list(void)
@@ -2505,20 +2506,47 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
             return read_bank_io(addr);
         }
       case 2:                   /* rom */
-        if (addr <= 0x0FFF) {
+        if (addr <= 0x0fff) {
             return read_bios(addr);
         }
-        if (addr >= 0x4000 && addr <= 0xCFFF) {
+        if (addr >= 0x4000 && addr <= 0xcfff) {
             return basic_rom[addr - 0x4000];
         }
-        if (addr >= 0xD000 && addr <= 0xDFFF) {
+        if (addr >= 0xd000 && addr <= 0xdfff) {
             return chargen_rom[addr & 0x0fff];
         }
-        if (addr >= 0xE000 && addr <= 0xFFFF) {
+        if (addr >= 0xe000 && addr <= 0xffff) {
             return kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
         break;
+      case 5:
+        if (addr >= 0x8000) {
+            return int_function_rom[addr & 0x7fff];
+        }
+        break;
+      case 6:
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return ext_function_rom[addr & 0x3fff];
+        }
+        break;
+      case 7:
+        if (addr >= 0x8000 && addr <= 0x9fff) {
+            return roml_banks[addr & 0x1fff];
+        }
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return romh_banks[addr & 0x1fff];
+        }
+      case 8:
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return basic64_rom[addr & 0x1fff];
+        }
+        if (addr >= 0xd000 && addr <= 0xdfff) {
+            return chargen64_rom[addr & 0x0fff];
+        }
+        if (addr >= 0xe000 && addr <= 0xffff) {
+            return kernal64_rom[addr & 0x1fff];
+        }
     }
     return ram[addr];
 }
@@ -2552,16 +2580,77 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
             return;
         }
       case 2:                   /* rom */
-        if (addr >= 0x4000 && addr <= 0xCFFF) {
+        if (addr >= 0x4000 && addr <= 0xcfff) {
             return;
         }
-        if (addr >= 0xE000 && addr <= 0xffff) {
+        if (addr >= 0xe000 && addr <= 0xffff) {
             return;
         }
       case 1:                   /* ram */
         break;
+      case 5:
+        if (addr >= 0x8000) {
+            return;
+        }
+        break;
+      case 6:
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return;
+        }
+        break;
+      case 7:
+        if (addr >= 0x8000 && addr <= 0x9fff) {
+            return;
+        }
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return;
+        }
+      case 8:
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return;
+        }
+        if (addr >= 0xd000 && addr <= 0xdfff) {
+            return;
+        }
+        if (addr >= 0xe000 && addr <= 0xffff) {
+            return;
+        }
     }
     ram[addr] = byte;
+}
+
+mem_ioreg_list_t *mem_ioreg_list_get(void)
+{
+    mem_ioreg_list_t *mem_ioreg_list;
+
+    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 5);
+
+    mem_ioreg_list[0].name = "VIC-IIe";
+    mem_ioreg_list[0].start = 0xd000;
+    mem_ioreg_list[0].end = 0xd030;
+    mem_ioreg_list[0].next = &mem_ioreg_list[1];
+
+    mem_ioreg_list[1].name = "SID";
+    mem_ioreg_list[1].start = 0xd400;
+    mem_ioreg_list[1].end = 0xd41f;
+    mem_ioreg_list[1].next = &mem_ioreg_list[2];
+
+    mem_ioreg_list[2].name = "MMU";
+    mem_ioreg_list[2].start = 0xd500;
+    mem_ioreg_list[2].end = 0xd50b;
+    mem_ioreg_list[2].next = &mem_ioreg_list[3];
+
+    mem_ioreg_list[3].name = "CIA1";
+    mem_ioreg_list[3].start = 0xdc00;
+    mem_ioreg_list[3].end = 0xdc0f;
+    mem_ioreg_list[3].next = &mem_ioreg_list[4];
+
+    mem_ioreg_list[4].name = "CIA2";
+    mem_ioreg_list[4].start = 0xdd00;
+    mem_ioreg_list[4].end = 0xdd0f;
+    mem_ioreg_list[4].next = NULL;
+
+    return mem_ioreg_list;
 }
 
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
