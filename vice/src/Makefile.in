@@ -77,10 +77,7 @@ FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
 HAVE_READLINE = @HAVE_READLINE@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
 INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
@@ -94,7 +91,6 @@ LINKCC = @LINKCC@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-MSGFMT = @MSGFMT@
 NLS_LOCALEDIR = @NLS_LOCALEDIR@
 PACKAGE = @PACKAGE@
 PERL = @PERL@
@@ -126,7 +122,6 @@ XPET_WINRES = @XPET_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
-l = @l@
 
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 @HAVE_RS232_TRUE@@HAVE_PRINTER_TRUE@rs232_printer_ldadd = pruser.o prdevice.o rsuser.o
@@ -139,13 +134,13 @@ ARCH_LIBS = @ARCH_LIBS@
 SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	raster 	vicii         vdc 	crtc 	screendrv 	sid 	monitor 	c64 	c128 	vic20 	pet 	cbm2 	arch
 
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 	-I$(top_srcdir)/intl 	@NLS_LOCALEDIR@
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 	@NLS_LOCALEDIR@
 
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	console.h 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	zfile.h 	zipcode.h
 
 
-base_sources =  	alarm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	zfile.c 	zipcode.c
+base_sources =  	alarm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	zfile.c 	zipcode.c
 
 
 cpucore_sources =  	6510core.c
@@ -180,7 +175,7 @@ vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @INTLLIBS@ 
+common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 
@@ -260,31 +255,31 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
-clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
+clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
 screenshot.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o \
 traps.o utils.o zfile.o zipcode.o maincpu.o
 x128_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
-clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
+clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
 screenshot.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o \
 traps.o utils.o zfile.o zipcode.o
 xvic_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
-clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
+clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
 screenshot.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o \
 traps.o utils.o zfile.o zipcode.o maincpu.o
 xpet_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
-clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
+clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
 screenshot.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o \
 traps.o utils.o zfile.o zipcode.o maincpu.o
 xcbm2_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
-clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
+clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
 screenshot.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o \
@@ -566,6 +561,8 @@ clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
 	utils.h
 cmdline.o: cmdline.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h resources.h arch/unix/types.h arch/unix/uicmdline.h \
+	utils.h
+color.o: color.c vice.h config.h log.h palette.h arch/unix/types.h \
 	utils.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
 	clkguard.h cmdline.h resources.h datasette.h log.h machine.h \
