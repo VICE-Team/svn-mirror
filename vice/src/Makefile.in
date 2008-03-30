@@ -222,7 +222,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_libs =          @XPLUS4_WINRES@         $(plus4_lib)         $(drive_lib)         $(vdrive_lib)         $(sounddrv_lib)         $(gfxoutputdrv_lib)         $(printerdrv_lib)         $(raster_lib)         $(monitor_lib)         $(common_libs)
 
 
-xplus4_SOURCES = $(base_sources) $(maincpu_sources)
+xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) @X_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
@@ -298,7 +298,7 @@ fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o machine.o main.o p00.o palette.o parallel.o \
 resources.o romset.o screenshot.o serial.o snapshot.o sound.o sysfile.o \
 t64.o tap.o tape.o traps.o utils.o video-color.o video-render.o \
-video-resources.o vsync.o zfile.o zipcode.o maincpu.o
+video-resources.o vsync.o zfile.o zipcode.o
 xcbm2_OBJECTS =  alarm.o attach.o autostart.o charset.o ciatimer.o \
 clkguard.o cmdline.o color.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
@@ -632,7 +632,7 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	kbdbuf.h keyboard.h machine.h maincpu.h arch/unix/main_exit.h \
 	palette.h sysfile.h screenshot.h tape.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h version.h \
-	video.h arch/unix/mouse.h
+	video.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
 	monitor/mon.h mos6510.h snapshot.h traps.h utils.h 6510core.c
