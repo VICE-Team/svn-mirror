@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-11-11 01:58+0100\n"
+"POT-Creation-Date: 2003-11-11 20:30+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -1330,16 +1330,20 @@ msgstr "Spela in"
 msgid "Datassette control"
 msgstr "Datasettestyrning"
 
-#: src/arch/unix/uidrive.c:83 src/arch/unix/uidrivec128.c:99
-#: src/arch/unix/uidrivec64vic20.c:97 src/arch/unix/uidrivepetcbm2.c:72
-#: src/arch/unix/uidriveplus4.c:78
+#: src/arch/unix/uidrive.c:125 src/arch/unix/uidrivec128.c:147
+#: src/arch/unix/uidrivec64vic20.c:139 src/arch/unix/uidrivepetcbm2.c:92
+#: src/arch/unix/uidriveplus4.c:120
 msgid "*Enable true drive emulation"
 msgstr "*Aktivera äkta diskettenhetsemulering"
 
-#: src/arch/unix/uidrivec128.c:45 src/arch/unix/uidrivec128.c:77
-#: src/arch/unix/uidrivec64vic20.c:45 src/arch/unix/uidrivec64vic20.c:75
+#: src/arch/unix/uidrivec128.c:47 src/arch/unix/uidrivec128.c:79
+#: src/arch/unix/uidrivec128.c:101 src/arch/unix/uidrivec128.c:123
+#: src/arch/unix/uidrivec64vic20.c:47 src/arch/unix/uidrivec64vic20.c:77
+#: src/arch/unix/uidrivec64vic20.c:97 src/arch/unix/uidrivec64vic20.c:117
 #: src/arch/unix/uidrivepetcbm2.c:42 src/arch/unix/uidrivepetcbm2.c:62
-#: src/arch/unix/uidriveplus4.c:44 src/arch/unix/uidriveplus4.c:60
+#: src/arch/unix/uidrivepetcbm2.c:72 src/arch/unix/uidrivepetcbm2.c:82
+#: src/arch/unix/uidriveplus4.c:46 src/arch/unix/uidriveplus4.c:64
+#: src/arch/unix/uidriveplus4.c:82 src/arch/unix/uidriveplus4.c:100
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
 #: src/arch/unix/uiperipheral.c:97 src/arch/unix/uiperipheral.c:128
 #: src/arch/unix/uiperipheral.c:159 src/arch/unix/uiperipheral.c:190
@@ -1348,141 +1352,222 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 msgid "*None"
 msgstr "*Ingen"
 
-#: src/arch/unix/uidrivec128.c:102 src/arch/unix/uidrivec64vic20.c:100
-#: src/arch/unix/uidriveplus4.c:81
+#: src/arch/unix/uidrivec128.c:150 src/arch/unix/uidrivec64vic20.c:142
+#: src/arch/unix/uidriveplus4.c:123
 msgid "Drive #8 model"
 msgstr "Modell för enhet 8"
 
-#: src/arch/unix/uidrivec128.c:104 src/arch/unix/uidrivec64vic20.c:102
-#: src/arch/unix/uidriveplus4.c:83
+#: src/arch/unix/uidrivec128.c:152 src/arch/unix/uidrivec64vic20.c:144
+#: src/arch/unix/uidriveplus4.c:125
 msgid "Drive #8 RAM expansion"
 msgstr "RAM-utökning för enhet 8"
 
-#: src/arch/unix/uidrivec128.c:106 src/arch/unix/uidrivec64vic20.c:104
-#: src/arch/unix/uidriveplus4.c:85
+#: src/arch/unix/uidrivec128.c:154 src/arch/unix/uidrivec64vic20.c:146
+#: src/arch/unix/uidriveplus4.c:127
 msgid "*Drive #8 enable parallel cable"
 msgstr "*Aktivera parallellkabel för enhet 8"
 
-#: src/arch/unix/uidrivec128.c:108 src/arch/unix/uidrivec64vic20.c:106
-#: src/arch/unix/uidrivepetcbm2.c:78 src/arch/unix/uidriveplus4.c:87
+#: src/arch/unix/uidrivec128.c:156 src/arch/unix/uidrivec64vic20.c:148
+#: src/arch/unix/uidrivepetcbm2.c:98 src/arch/unix/uidriveplus4.c:129
 msgid "Drive #8 40-track image support"
 msgstr "40-spårsstöd för enhet 8"
 
-#: src/arch/unix/uidrivec128.c:110 src/arch/unix/uidrivec64vic20.c:108
-#: src/arch/unix/uidrivepetcbm2.c:80 src/arch/unix/uidriveplus4.c:89
+#: src/arch/unix/uidrivec128.c:158 src/arch/unix/uidrivec64vic20.c:150
+#: src/arch/unix/uidrivepetcbm2.c:100 src/arch/unix/uidriveplus4.c:131
 msgid "Drive #8 idle method"
 msgstr "Pausmetod för enhet 8"
 
-#: src/arch/unix/uidrivec128.c:113 src/arch/unix/uidrivec64vic20.c:111
-#: src/arch/unix/uidriveplus4.c:92
+#: src/arch/unix/uidrivec128.c:161 src/arch/unix/uidrivec64vic20.c:153
+#: src/arch/unix/uidriveplus4.c:134
 msgid "Drive #9 model"
 msgstr "Modell för enhet 9"
 
-#: src/arch/unix/uidrivec128.c:115 src/arch/unix/uidrivec64vic20.c:113
-#: src/arch/unix/uidriveplus4.c:94
+#: src/arch/unix/uidrivec128.c:163 src/arch/unix/uidrivec64vic20.c:155
+#: src/arch/unix/uidriveplus4.c:136
 msgid "Drive #9 RAM expansion"
 msgstr "RAM-utökning för enhet 9"
 
-#: src/arch/unix/uidrivec128.c:117 src/arch/unix/uidrivec64vic20.c:115
-#: src/arch/unix/uidriveplus4.c:96
+#: src/arch/unix/uidrivec128.c:165 src/arch/unix/uidrivec64vic20.c:157
+#: src/arch/unix/uidriveplus4.c:138
 msgid "*Drive #9 enable parallel cable"
 msgstr "*Aktivera parallellkabel för enhet 9"
 
-#: src/arch/unix/uidrivec128.c:119 src/arch/unix/uidrivec64vic20.c:117
-#: src/arch/unix/uidrivepetcbm2.c:87 src/arch/unix/uidriveplus4.c:98
+#: src/arch/unix/uidrivec128.c:167 src/arch/unix/uidrivec64vic20.c:159
+#: src/arch/unix/uidrivepetcbm2.c:107 src/arch/unix/uidriveplus4.c:140
 msgid "Drive #9 40-track image support"
 msgstr "40-spårsstöd för enhet 9"
 
-#: src/arch/unix/uidrivec128.c:121 src/arch/unix/uidrivec64vic20.c:119
-#: src/arch/unix/uidrivepetcbm2.c:89 src/arch/unix/uidriveplus4.c:100
+#: src/arch/unix/uidrivec128.c:169 src/arch/unix/uidrivec64vic20.c:161
+#: src/arch/unix/uidrivepetcbm2.c:109 src/arch/unix/uidriveplus4.c:142
 msgid "Drive #9 idle method"
 msgstr "Pausmetod för enhet 9"
 
-#: src/arch/unix/uidrivec128.c:127 src/arch/unix/uidrivec64vic20.c:125
-#: src/arch/unix/uidrivepetcbm2.c:96 src/arch/unix/uidriveplus4.c:106
+#: src/arch/unix/uidrivec128.c:172 src/arch/unix/uidrivec64vic20.c:164
+#: src/arch/unix/uidriveplus4.c:145
+#, fuzzy
+msgid "Drive #10 model"
+msgstr "Modell för enhet 8"
+
+#: src/arch/unix/uidrivec128.c:174 src/arch/unix/uidrivec64vic20.c:166
+#: src/arch/unix/uidriveplus4.c:147
+#, fuzzy
+msgid "Drive #10 RAM expansion"
+msgstr "RAM-utökning för enhet 8"
+
+#: src/arch/unix/uidrivec128.c:176 src/arch/unix/uidrivec64vic20.c:168
+#: src/arch/unix/uidriveplus4.c:149
+#, fuzzy
+msgid "*Drive #10 enable parallel cable"
+msgstr "*Aktivera parallellkabel för enhet 9"
+
+#: src/arch/unix/uidrivec128.c:178 src/arch/unix/uidrivec64vic20.c:170
+#: src/arch/unix/uidrivepetcbm2.c:116 src/arch/unix/uidriveplus4.c:151
+#, fuzzy
+msgid "Drive #10 40-track image support"
+msgstr "40-spårsstöd för enhet 9"
+
+#: src/arch/unix/uidrivec128.c:180 src/arch/unix/uidrivec64vic20.c:172
+#: src/arch/unix/uidrivepetcbm2.c:118 src/arch/unix/uidriveplus4.c:153
+#, fuzzy
+msgid "Drive #10 idle method"
+msgstr "Pausmetod för enhet 8"
+
+#: src/arch/unix/uidrivec128.c:183 src/arch/unix/uidrivec64vic20.c:175
+#: src/arch/unix/uidriveplus4.c:156
+#, fuzzy
+msgid "Drive #11 model"
+msgstr "Modell för enhet 8"
+
+#: src/arch/unix/uidrivec128.c:185 src/arch/unix/uidrivec64vic20.c:177
+#: src/arch/unix/uidriveplus4.c:158
+#, fuzzy
+msgid "Drive #11 RAM expansion"
+msgstr "RAM-utökning för enhet 8"
+
+#: src/arch/unix/uidrivec128.c:187 src/arch/unix/uidrivec64vic20.c:179
+#: src/arch/unix/uidriveplus4.c:160
+#, fuzzy
+msgid "*Drive #11 enable parallel cable"
+msgstr "*Aktivera parallellkabel för enhet 9"
+
+#: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
+#: src/arch/unix/uidrivepetcbm2.c:125 src/arch/unix/uidriveplus4.c:162
+#, fuzzy
+msgid "Drive #11 40-track image support"
+msgstr "40-spårsstöd för enhet 9"
+
+#: src/arch/unix/uidrivec128.c:191 src/arch/unix/uidrivec64vic20.c:183
+#: src/arch/unix/uidrivepetcbm2.c:127 src/arch/unix/uidriveplus4.c:164
+#, fuzzy
+msgid "Drive #11 idle method"
+msgstr "Pausmetod för enhet 8"
+
+#: src/arch/unix/uidrivec128.c:197 src/arch/unix/uidrivec64vic20.c:189
+#: src/arch/unix/uidrivepetcbm2.c:134 src/arch/unix/uidriveplus4.c:170
 msgid "Drive settings"
 msgstr "Diskettenhetsinställningar"
 
-#: src/arch/unix/uidrivec128.c:135 src/arch/unix/uidrivec64vic20.c:133
+#: src/arch/unix/uidrivec128.c:205 src/arch/unix/uidrivec64vic20.c:197
 msgid "Load new 1541 ROM"
 msgstr "Ladda ny 1541-ROM"
 
-#: src/arch/unix/uidrivec128.c:138 src/arch/unix/uidrivec64vic20.c:136
+#: src/arch/unix/uidrivec128.c:208 src/arch/unix/uidrivec64vic20.c:200
 msgid "Load new 1541-II ROM"
 msgstr "Ladda ny 1541-II-ROM"
 
-#: src/arch/unix/uidrivec128.c:141 src/arch/unix/uidrivec64vic20.c:139
+#: src/arch/unix/uidrivec128.c:211 src/arch/unix/uidrivec64vic20.c:203
 #, fuzzy
 msgid "Load new 1570 ROM"
 msgstr "Ladda ny 1571-ROM"
 
-#: src/arch/unix/uidrivec128.c:144 src/arch/unix/uidrivec64vic20.c:142
+#: src/arch/unix/uidrivec128.c:214 src/arch/unix/uidrivec64vic20.c:206
 msgid "Load new 1571 ROM"
 msgstr "Ladda ny 1571-ROM"
 
-#: src/arch/unix/uidrivec128.c:147
+#: src/arch/unix/uidrivec128.c:217
 #, fuzzy
 msgid "Load new 1571CR ROM"
 msgstr "Ladda ny 1571-ROM"
 
-#: src/arch/unix/uidrivec128.c:150 src/arch/unix/uidrivec64vic20.c:145
+#: src/arch/unix/uidrivec128.c:220 src/arch/unix/uidrivec64vic20.c:209
 msgid "Load new 1581 ROM"
 msgstr "Ladda ny 1581-ROM"
 
-#: src/arch/unix/uidrivec128.c:153 src/arch/unix/uidrivec64vic20.c:148
+#: src/arch/unix/uidrivec128.c:223 src/arch/unix/uidrivec64vic20.c:212
 msgid "Load new 2031 ROM"
 msgstr "Ladda ny 2031-ROM"
 
-#: src/arch/unix/uidriveiec.c:53 src/arch/unix/uidriveiec.c:67
+#: src/arch/unix/uidriveiec.c:67 src/arch/unix/uidriveiec.c:81
+#: src/arch/unix/uidriveiec.c:95 src/arch/unix/uidriveiec.c:109
 msgid "*$2000-$3FFF RAM expansion"
 msgstr "*$2000-$3FFF minnesutökning"
 
-#: src/arch/unix/uidriveiec.c:55 src/arch/unix/uidriveiec.c:69
+#: src/arch/unix/uidriveiec.c:69 src/arch/unix/uidriveiec.c:83
+#: src/arch/unix/uidriveiec.c:97 src/arch/unix/uidriveiec.c:111
 msgid "*$4000-$5FFF RAM expansion"
 msgstr "*$4000-$5FFF minnesutökning"
 
-#: src/arch/unix/uidriveiec.c:57 src/arch/unix/uidriveiec.c:71
+#: src/arch/unix/uidriveiec.c:71 src/arch/unix/uidriveiec.c:85
+#: src/arch/unix/uidriveiec.c:99 src/arch/unix/uidriveiec.c:113
 msgid "*$6000-$7FFF RAM expansion"
 msgstr "*$6000-$7FFF minnesutökning"
 
-#: src/arch/unix/uidriveiec.c:59 src/arch/unix/uidriveiec.c:73
+#: src/arch/unix/uidriveiec.c:73 src/arch/unix/uidriveiec.c:87
+#: src/arch/unix/uidriveiec.c:101 src/arch/unix/uidriveiec.c:115
 msgid "*$8000-$9FFF RAM expansion"
 msgstr "*$8000-$9FFF minnesutökning"
 
-#: src/arch/unix/uidriveiec.c:61 src/arch/unix/uidriveiec.c:75
+#: src/arch/unix/uidriveiec.c:75 src/arch/unix/uidriveiec.c:89
+#: src/arch/unix/uidriveiec.c:103 src/arch/unix/uidriveiec.c:117
 msgid "*$A000-$BFFF RAM expansion"
 msgstr "*$A000-$BFFF minnesutökning"
 
-#: src/arch/unix/uidriveiec.c:81 src/arch/unix/uidriveiec.c:91
+#: src/arch/unix/uidriveiec.c:123 src/arch/unix/uidriveiec.c:133
+#: src/arch/unix/uidriveiec.c:143 src/arch/unix/uidriveiec.c:153
 msgid "*Never extend"
 msgstr "*Utöka aldrig"
 
-#: src/arch/unix/uidriveiec.c:83 src/arch/unix/uidriveiec.c:93
+#: src/arch/unix/uidriveiec.c:125 src/arch/unix/uidriveiec.c:135
+#: src/arch/unix/uidriveiec.c:145 src/arch/unix/uidriveiec.c:155
 msgid "*Ask on extend"
 msgstr "*Fråga vid utökning"
 
-#: src/arch/unix/uidriveiec.c:85 src/arch/unix/uidriveiec.c:95
+#: src/arch/unix/uidriveiec.c:127 src/arch/unix/uidriveiec.c:137
+#: src/arch/unix/uidriveiec.c:147 src/arch/unix/uidriveiec.c:157
 msgid "*Extend on access"
 msgstr "*Utöka vid åtkomst"
 
-#: src/arch/unix/uidriveiec.c:101 src/arch/unix/uidriveiec.c:111
+#: src/arch/unix/uidriveiec.c:163 src/arch/unix/uidriveiec.c:173
+#: src/arch/unix/uidriveiec.c:183 src/arch/unix/uidriveiec.c:193
 msgid "*No traps"
 msgstr "*Ingen infångning"
 
-#: src/arch/unix/uidriveiec.c:103 src/arch/unix/uidriveiec.c:113
+#: src/arch/unix/uidriveiec.c:165 src/arch/unix/uidriveiec.c:175
+#: src/arch/unix/uidriveiec.c:185 src/arch/unix/uidriveiec.c:195
 msgid "*Skip cycles"
 msgstr "*Hoppa över cykler"
 
-#: src/arch/unix/uidriveiec.c:105 src/arch/unix/uidriveiec.c:115
+#: src/arch/unix/uidriveiec.c:167 src/arch/unix/uidriveiec.c:177
+#: src/arch/unix/uidriveiec.c:187 src/arch/unix/uidriveiec.c:197
 msgid "*Trap idle"
 msgstr "*Fånga inaktiva cykler"
 
-#: src/arch/unix/uidrivepetcbm2.c:75
+#: src/arch/unix/uidrivepetcbm2.c:95
 msgid "Drive #8 floppy disk type"
 msgstr "Diskettyp i enhet 8"
 
-#: src/arch/unix/uidrivepetcbm2.c:84
+#: src/arch/unix/uidrivepetcbm2.c:104
 msgid "Drive #9 floppy disk type"
+msgstr "Diskettyp i enhet 9"
+
+#: src/arch/unix/uidrivepetcbm2.c:113
+#, fuzzy
+msgid "Drive #10 floppy disk type"
+msgstr "Diskettyp i enhet 9"
+
+#: src/arch/unix/uidrivepetcbm2.c:122
+#, fuzzy
+msgid "Drive #11 floppy disk type"
 msgstr "Diskettyp i enhet 9"
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110

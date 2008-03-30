@@ -344,7 +344,7 @@ noinst_HEADERS = \
 	uicolor.h \
 	uimon.h \
 	usleep.h \
-	utils.h \
+	util.h \
 	version.h.in \
 	version.h \
 	via.h \
@@ -400,7 +400,7 @@ base_sources = \
 	sound.c \
 	sysfile.c \
 	traps.c \
-	utils.c \
+	util.c \
 	vsync.c \
 	zfile.c \
 	zipcode.c
@@ -613,7 +613,7 @@ c1541_SOURCES = \
 	log.c \
 	p00.c \
 	resources.c \
-	utils.c \
+	util.c \
 	zfile.c \
 	zipcode.c
 
@@ -644,7 +644,7 @@ petcat_SOURCES = \
 	p00.c \
 	petcat.c \
 	resources.c \
-	utils.c \
+	util.c \
 	zfile.c \
 	zipcode.c
 
@@ -665,7 +665,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_c1541_OBJECTS = c1541.$(OBJEXT) charset.$(OBJEXT) cmdline.$(OBJEXT) \
 	findpath.$(OBJEXT) gcr.$(OBJEXT) cbmimage.$(OBJEXT) \
 	info.$(OBJEXT) ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
-	p00.$(OBJEXT) resources.$(OBJEXT) utils.$(OBJEXT) \
+	p00.$(OBJEXT) resources.$(OBJEXT) util.$(OBJEXT) \
 	zfile.$(OBJEXT) zipcode.$(OBJEXT)
 c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_TRUE@c1541_DEPENDENCIES = @ARCH_DIR@/archdep.o \
@@ -687,7 +687,7 @@ c1541_LDFLAGS =
 am_petcat_OBJECTS = charset.$(OBJEXT) cmdline.$(OBJEXT) \
 	findpath.$(OBJEXT) ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
 	p00.$(OBJEXT) petcat.$(OBJEXT) resources.$(OBJEXT) \
-	utils.$(OBJEXT) zfile.$(OBJEXT) zipcode.$(OBJEXT)
+	util.$(OBJEXT) zfile.$(OBJEXT) zipcode.$(OBJEXT)
 petcat_OBJECTS = $(am_petcat_OBJECTS)
 petcat_DEPENDENCIES = @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o
 petcat_LDFLAGS =
@@ -703,7 +703,7 @@ am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	palette.$(OBJEXT) ram.$(OBJEXT) resources.$(OBJEXT) \
 	romset.$(OBJEXT) screenshot.$(OBJEXT) snapshot.$(OBJEXT) \
 	sound.$(OBJEXT) sysfile.$(OBJEXT) traps.$(OBJEXT) \
-	utils.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
+	util.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
 	zipcode.$(OBJEXT)
 am_x128_OBJECTS = $(am__objects_1)
 x128_OBJECTS = $(am_x128_OBJECTS)
@@ -744,7 +744,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/romset.Po ./$(DEPDIR)/screenshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/snapshot.Po ./$(DEPDIR)/sound.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sysfile.Po ./$(DEPDIR)/traps.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/utils.Po ./$(DEPDIR)/vsync.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/util.Po ./$(DEPDIR)/vsync.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -893,7 +893,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sysfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/traps.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsync.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/zfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/zipcode.Po@am__quote@
