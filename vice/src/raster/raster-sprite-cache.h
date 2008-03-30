@@ -2,7 +2,7 @@
  * raster-sprite-cache.c - Cache for a sprite raster line.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -64,3 +64,4 @@ void raster_sprite_cache_init (raster_sprite_cache_t *sc);
 raster_sprite_cache_t *raster_sprite_cache_new (void);
 
 #endif /* _RASTER_SPRITE_CACHE_H */
+

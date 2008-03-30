@@ -2,7 +2,7 @@
  * c128iec.c - IEC bus handling for the C128.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,9 +24,9 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#include <stdio.h>
 
 #include "c64cia.h"
 #include "c64iec.h"
@@ -37,6 +37,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "viad.h"
+#include "via.h"
 
 /* Status of the IEC bus signals.  */
 static iec_info_t iec_info;

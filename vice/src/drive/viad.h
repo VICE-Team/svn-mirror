@@ -2,8 +2,8 @@
  * viad.h - Drive VIA definitions.
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +30,6 @@
 
 #include "types.h"
 #include "snapshot.h"
-#include "via.h"
 
 extern void via1d0_set_atn(BYTE state);
 extern void via1d1_set_atn(BYTE state);
@@ -38,32 +37,32 @@ extern void via1d1_set_atn(BYTE state);
 extern void via1d0_init(void);
 extern void via1d0_reset(void);
 extern void via1d0_signal(int line, int edge);
-extern void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_via1d0(ADDRESS addr);
+extern void REGPARM2 via1d0_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 via1d0_read(ADDRESS addr);
 extern int via1d0_write_snapshot_module(snapshot_t * p);
 extern int via1d0_read_snapshot_module(snapshot_t * p);
 
 extern void via2d0_init(void);
 extern void via2d0_reset(void);
 extern void via2d0_signal(int line, int edge);
-extern void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_via2d0(ADDRESS addr);
+extern void REGPARM2 via2d0_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 via2d0_read(ADDRESS addr);
 extern int via2d0_write_snapshot_module(snapshot_t * p);
 extern int via2d0_read_snapshot_module(snapshot_t * p);
 
 extern void via1d1_init(void);
 extern void via1d1_reset(void);
 extern void via1d1_signal(int line, int edge);
-extern void REGPARM2 store_via1d1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_via1d1(ADDRESS addr);
+extern void REGPARM2 via1d1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 via1d1_read(ADDRESS addr);
 extern int via1d1_write_snapshot_module(snapshot_t * p);
 extern int via1d1_read_snapshot_module(snapshot_t * p);
 
 extern void via2d1_init(void);
 extern void via2d1_reset(void);
 extern void via2d1_signal(int line, int edge);
-extern void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_via2d1(ADDRESS addr);
+extern void REGPARM2 via2d1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 via2d1_read(ADDRESS addr);
 extern int via2d1_write_snapshot_module(snapshot_t * p);
 extern int via2d1_read_snapshot_module(snapshot_t * p);
 

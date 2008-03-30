@@ -27,6 +27,8 @@
 #ifndef _RASTER_H
 #define _RASTER_H
 
+#include "vice.h"
+
 #include <string.h>
 
 #include "palette.h"
@@ -34,6 +36,7 @@
 #include "raster-changes.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
+#include "types.h"
 #include "video.h"
 
 /* We assume that, if already #defined, the provided `MAX' and `MIN' actually

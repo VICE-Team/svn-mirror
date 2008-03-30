@@ -28,6 +28,7 @@
 #ifndef _VDRIVE_BAM_H
 #define _VDRIVE_BAM_H
 
+#include "types.h"
 #include "vdrive.h"
 
 #define BAM_FIRST_TRACK         0

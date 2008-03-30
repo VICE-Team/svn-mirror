@@ -41,6 +41,7 @@
 #include "maincpu.h"
 #include "iecdrive.h"
 #include "resources.h"
+#include "via.h"
 #include "viad.h"
 
 /* Status of the IEC bus signals.  */

@@ -28,6 +28,7 @@
 #ifndef _VDRIVE_DIR_H
 #define _VDRIVE_DIR_H
 
+#include "types.h"
 #include "vdrive.h"
 
 #define SLOT_TYPE_OFFSET      2

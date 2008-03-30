@@ -3,7 +3,7 @@
  * ciad.h - Drive CIA definitions.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,14 +28,13 @@
 #ifndef _CIAD_H
 #define _CIAD_H
 
-#include "cia.h"
 #include "snapshot.h"
 #include "types.h"
 
 extern void cia1571d0_init(void);
-extern void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_cia1571d0(ADDRESS addr);
-extern BYTE REGPARM1 peek_cia1571d0(ADDRESS addr);
+extern void REGPARM2 cia1571d0_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 cia1571d0_read(ADDRESS addr);
+extern BYTE REGPARM1 cia1571d0_peek(ADDRESS addr);
 extern void cia1571d0_prevent_clk_overflow(CLOCK sub);
 extern void cia1571d0_set_flag(void);
 extern void cia1571d0_set_sdr(BYTE received_byte);
@@ -44,9 +43,9 @@ extern int cia1571d0_write_snapshot_module(snapshot_t *p);
 extern int cia1571d0_read_snapshot_module(snapshot_t *p);
 
 extern void cia1571d1_init(void);
-extern void REGPARM2 store_cia1571d1(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_cia1571d1(ADDRESS addr);
-extern BYTE REGPARM1 peek_cia1571d1(ADDRESS addr);
+extern void REGPARM2 cia1571d1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 cia1571d1_read(ADDRESS addr);
+extern BYTE REGPARM1 cia1571d1_peek(ADDRESS addr);
 extern void cia1571d1_prevent_clk_overflow(CLOCK sub);
 extern void cia1571d1_set_flag(void);
 extern void cia1571d1_set_sdr(BYTE received_byte);
@@ -55,9 +54,9 @@ extern int cia1571d1_write_snapshot_module(snapshot_t *p);
 extern int cia1571d1_read_snapshot_module(snapshot_t *p);
 
 extern void cia1581d0_init(void);
-extern void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_cia1581d0(ADDRESS addr);
-extern BYTE REGPARM1 peek_cia1581d0(ADDRESS addr);
+extern void REGPARM2 cia1581d0_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 cia1581d0_read(ADDRESS addr);
+extern BYTE REGPARM1 cia1581d0_peek(ADDRESS addr);
 extern void cia1581d0_prevent_clk_overflow(CLOCK sub);
 extern void cia1581d0_set_flag(void);
 extern void cia1581d0_set_sdr(BYTE received_byte);
@@ -66,9 +65,9 @@ extern int cia1581d0_write_snapshot_module(snapshot_t *p);
 extern int cia1581d0_read_snapshot_module(snapshot_t *p);
 
 extern void cia1581d1_init(void);
-extern void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_cia1581d1(ADDRESS addr);
-extern BYTE REGPARM1 peek_cia1581d1(ADDRESS addr);
+extern void REGPARM2 cia1581d1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 cia1581d1_read(ADDRESS addr);
+extern BYTE REGPARM1 cia1581d1_peek(ADDRESS addr);
 extern void cia1581d1_prevent_clk_overflow(CLOCK sub);
 extern void cia1581d1_set_flag(void);
 extern void cia1581d1_set_sdr(BYTE received_byte);

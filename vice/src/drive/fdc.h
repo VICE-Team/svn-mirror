@@ -2,7 +2,7 @@
  * fdc.h - 1001/8x50 FDC definitions
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,10 @@
 #ifndef _FDC_H
 #define _FDC_H
 
+#include "diskimage.h"
+#include "snapshot.h"
+#include "types.h"
+
 /* FDC states */
 #define	FDC_UNUSED	0
 #define	FDC_RESET0	1
@@ -50,11 +54,6 @@
 #define	FDC_ERR_FSPEED	12
 #define	FDC_ERR_DRIVE	15
 #define	FDC_ERR_DECODE	16
-
-#include "vice.h"
-#include "log.h"
-#include "alarm.h"
-#include "snapshot.h"
 
 extern void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
 extern void fdc_reset(int fnum, int enabled);

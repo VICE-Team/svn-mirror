@@ -2,7 +2,7 @@
  * raster-sprite-status.h - Sprite status handling for the raster emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +28,7 @@
 #define _RASTER_SPRITE_STATUS_H
 
 #include "raster-sprite.h"
+#include "types.h"
 
 typedef void (*raster_sprite_status_draw_function_t) (PIXEL * line_ptr,
                                                       BYTE * gfx_msk_ptr);

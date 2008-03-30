@@ -26,9 +26,9 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#include <stdio.h>
 
 #include "ciad.h"
 #include "drive.h"
@@ -37,6 +37,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "viad.h"
+#include "via.h"
 
 #define NOT(x) ((x)^1)
 
