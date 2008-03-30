@@ -412,10 +412,6 @@ petui.o: petui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/uimenu.h x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
 	x11/xaw/../xaw/uihotkey.h uiscreenshot.h uisettings.h \
 	../../../src/vsync.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/log.h ../../../src/print.h types.h \
-	../../../src/utils.h
 rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h coproc.h \
 	../../../src/log.h ../../../src/rs232.h types.h \

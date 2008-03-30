@@ -336,9 +336,10 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/screenshot.h \
-	../../src/serial.h ../../src/sound.h ../../src/tape.h \
-	../../src/traps.h ../../src/utils.h ../../src/via.h vic.h \
+	../../src/monitor/mon.h ../../src/prdevice.h ../../src/print.h \
+	../../src/pruser.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/sound.h ../../src/tape.h ../../src/traps.h \
+	../../src/utils.h ../../src/via.h vic.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	vic-mem.h vic20.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
@@ -348,7 +349,6 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h vic20ieeevia.h \
 	vic20mem.h ../../src/mem.h vic20sound.h \
 	../../src/arch/unix/vic20ui.h vic20via.h ../../src/vsync.h \
-	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
 	../../src/rs232.h ../../src/rsuser.h vic20rsuser.h
 vic20cartridge.o: vic20cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
@@ -410,8 +410,8 @@ vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
 	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/viacore.h ../../src/alarm.h ../../src/via.h \
-	vic20iec.h vic20via.h ../../src/pruser.h ../../src/rsuser.h \
+	../../src/pruser.h ../../src/viacore.h ../../src/alarm.h \
+	../../src/via.h vic20iec.h vic20via.h ../../src/rsuser.h \
 	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/snapshot.h
 
