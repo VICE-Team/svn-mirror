@@ -62,6 +62,7 @@ typedef struct _canvas *canvas_t;
 
 typedef BITMAP *frame_buffer_t;
 
+#define FRAME_BUFFER_POINTER_FIXUP(x)   ((BITMAP *)x)
 #define FRAME_BUFFER_LINE_SIZE(f)	((f)->w)
 #define FRAME_BUFFER_LINE_START(f, n)   ((f)->line[(n)])
 #define FRAME_BUFFER_START(f)		(FRAME_BUFFER_LINE_START(f, 0))
