@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.7.12)
+AM_INIT_AUTOMAKE(vice, 1.7.13)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -161,7 +161,7 @@ else
         dnl `-DNO_REGPARM' should theoretically make it slower, but
         dnl regparms are so broken on the current GCC/EGCS that it's
         dnl better not to rely on them by default.
-        CFLAGS="-g -O5 -fomit-frame-pointer -funroll-loops -DNO_REGPARM $warnings"
+        CFLAGS="-g -O5 -funroll-loops -DNO_REGPARM $warnings"
 
       else
 
