@@ -34,7 +34,7 @@ monitor:
 IEC bus access by the build in monitor
 
 c1541:
-IEC bus and block acccess by the c1541 stand-alone utility.
+IEC bus and block acccess by the c1541 stand-alone utility
 
 
 Backends used by the IEC bus system

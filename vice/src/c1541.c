@@ -1141,7 +1141,7 @@ static int format_cmd(int nargs, char **args)
         /* Shouldn't happen.  */
         return FD_BADVAL;
     }
-    printf("Unit: %i\n",unit);
+    printf("Unit: %i\n", unit);
     if (!strchr(args[1], ',')) {
         fprintf(stderr, "There must be ID on the name.\n");
         return FD_OK;
