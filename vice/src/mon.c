@@ -83,7 +83,7 @@ extern void parse_and_execute_line(char *input);
 extern char *readline ( const char *prompt );
 extern void add_history ( const char *str );
 #else
-static char *readline(const char *prompt)
+char *readline(const char *prompt)
 {
     char *p = xmalloc(1024);
 
@@ -105,7 +105,7 @@ static char *readline(const char *prompt)
     return p;
 }
 
-static void add_history(const char *str)
+void add_history(const char *str)
 {
     return;
 }

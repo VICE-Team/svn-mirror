@@ -16,4 +16,3 @@ vic20:
 
 pet:
 	(cd src; $(MAKE) xpet)
-

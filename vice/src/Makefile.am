@@ -9,7 +9,7 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = sounddrv drive c64 c128 vic20 pet arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -211,7 +211,7 @@ petcat_SOURCES = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libdrive libsounddrv
+.PHONY: libc64 libc128 libvic20 libpet libdrive libsounddrv libarch
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -229,4 +229,3 @@ libsounddrv:
 	(cd sounddrv && $(MAKE))
 libarch:
 	(cd arch && $(MAKE))
-

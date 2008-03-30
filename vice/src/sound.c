@@ -680,6 +680,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 #endif
 
+#ifdef WIN32
+    sound_init_dx_device();
+#endif
+
     sound_init_dummy_device();
     sound_init_fs_device();
     sound_init_speed_device();

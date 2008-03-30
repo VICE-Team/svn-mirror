@@ -34,8 +34,11 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>
+
+#ifndef WIN32
+#include <sys/wait.h>
+#endif
 
 #ifdef HAVE_VFORK_H
 #include <vfork.h>
@@ -492,7 +495,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 int spawn(const char *name, char **argv,
 	  const char *stdout_redir, const char *stderr_redir)
 {
-#ifndef __MSDOS__
+#if !defined __MSDOS__ && !defined WIN32
 
     /* Unix version.  */
 
@@ -526,7 +529,7 @@ int spawn(const char *name, char **argv,
     else
 	return -1;
 
-#else
+#elif defined __MSDOS__
 
     /* MS-DOS version.  */
 
@@ -582,6 +585,12 @@ cleanup:
 	close(new_stderr);
 
     return retval;
+
+#else
+
+    /* On Win32, this is not implemented.  */
+    return -1;
+
 #endif
 }
 
@@ -590,8 +599,7 @@ cleanup:
 /* This code is grabbed from GNU make.  It returns the maximum path length by
    using `pathconf'.  */
 #ifdef NEED_GET_PATH_MAX
-unsigned int
-get_path_max(void)
+unsigned int get_path_max(void)
 {
     static unsigned int value;
 
@@ -693,4 +701,3 @@ int write_dword(int fd, DWORD *buf, int num)
     free(tmpbuf);
     return 0;
 }
-

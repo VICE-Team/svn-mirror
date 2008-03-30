@@ -93,6 +93,7 @@ extern int  sound_init_speed_device(void);
 extern int  sound_init_sun_device(void);
 extern int  sound_init_test_device(void);	/* XXX: missing */
 extern int  sound_init_uss_device(void);
+extern int  sound_init_dx_device(void);
 
 
 /* internal function for sound device registration */
