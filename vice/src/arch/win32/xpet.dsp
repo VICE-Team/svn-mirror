@@ -249,6 +249,10 @@ SOURCE=..\..\utils.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vsync.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\zfile.c
 # End Source File
 # Begin Source File

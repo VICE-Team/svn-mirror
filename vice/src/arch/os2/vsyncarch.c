@@ -138,7 +138,7 @@ void vice_exit(void)
 // -------------------------------------------------------------------------
 
 // Display speed (percentage) and frame rate (frames per second).
-void vsyncarch_display_speed(double speed, double frame_rate)
+void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 {
     WinSendMsg(hwndEmulator, WM_DISPLAY,
                (void*)(int)(speed+0.5), (void*)(int)(frame_rate+0.5));

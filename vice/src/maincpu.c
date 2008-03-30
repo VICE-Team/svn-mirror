@@ -42,6 +42,7 @@
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -406,6 +407,8 @@ static void cpu_reset(void)
     machine_reset();
 
     initialize_memory();
+
+    suspend_speed_eval();
 }
 
 void maincpu_reset(void)

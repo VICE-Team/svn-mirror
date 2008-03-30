@@ -38,13 +38,44 @@ IDR_MENUMONITOR MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Test",   IDM_AUTOSTART
+        MENUITEM "&Open", IDM_MON_OPEN
+        MENUITEM "&Save", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
+        MENUITEM "E&xit\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Computer", IDM_MON_COMPUTER
+        MENUITEM "Drive &8", IDM_MON_DRIVE8
+        MENUITEM "Drive &9", IDM_MON_DRIVE9
     END
     POPUP "&Window"
     BEGIN
-        MENUITEM "&Test", IDM_AUTOSTART
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
     END
 END
 
@@ -61,19 +92,75 @@ IDR_MONTOOLBAR           BITMAP  MOVEABLE PURE   "montb.bmp"
 //
 
 #if 0
+
+// with VC++, this definition would be possible:
+
 IDR_MONTOOLBAR TOOLBAR DISCARDABLE  16, 15
 BEGIN
-    BUTTON      IDM_LICENSE // ID_FILE_NEW
-    BUTTON      IDM_LICENSE // ID_FILE_OPEN
-    BUTTON      IDM_LICENSE // ID_FILE_SAVE
+    BUTTON      IDM_MON_OPEN
+    BUTTON      IDM_MON_SAVE
+    BUTTON      IDM_MON_PRINT
 	SEPARATOR
-    BUTTON      IDM_LICENSE // ID_EDIT_CUT
-    BUTTON      IDM_LICENSE // ID_EDIT_COPY
-    BUTTON      IDM_LICENSE // ID_EDIT_PASTE
+    BUTTON      IDM_MON_STOP_DEBUG
+    BUTTON      IDM_MON_STOP_EXEC
+    BUTTON      IDM_MON_CURRENT
 	SEPARATOR
-    BUTTON      IDM_LICENSE // ID_FILE_PRINT
-    BUTTON      IDM_LICENSE // ID_APP_ABOUT
+    BUTTON      IDM_MON_STEP_INTO
+    BUTTON      IDM_MON_STEP_OVER
+    BUTTON      IDM_MON_SKIP_RETURN
+    BUTTON      IDM_MON_GOTO_CURSOR
+	SEPARATOR
+    BUTTON      IDM_MON_EVAL
+    BUTTON      IDM_MON_WND_EVAL
+    BUTTON      IDM_MON_WND_REG
+    BUTTON      IDM_MON_WND_MEM
+    BUTTON      IDM_MON_WND_DIS
+    BUTTON      IDM_MON_WND_CONSOLE
+	SEPARATOR
+    BUTTON      IDM_MON_COMPUTER
+    BUTTON      IDM_MON_DRIVE8
+    BUTTON      IDM_MON_DRIVE9
+	SEPARATOR
+    BUTTON      IDM_MON_HELP
 END
+
+#else
+
+// winres does not recognize TOOLBAR, so this workaround is used (ResType is 2410 instead of 241):
+
+IDR_MONTOOLBAR 2410 DISCARDABLE
+BEGIN
+    1, // wVersion
+    16, // wWidth
+    15, // wHeight
+    25, // wItemCount
+    IDM_MON_OPEN,
+    IDM_MON_SAVE,
+    IDM_MON_PRINT,
+	0,
+    IDM_MON_STOP_DEBUG,
+    IDM_MON_STOP_EXEC,
+    IDM_MON_CURRENT,
+	0,
+    IDM_MON_STEP_INTO,
+    IDM_MON_STEP_OVER,
+    IDM_MON_SKIP_RETURN,
+    IDM_MON_GOTO_CURSOR,
+	0,
+    IDM_MON_EVAL,
+    IDM_MON_WND_EVAL,
+    IDM_MON_WND_REG,
+    IDM_MON_WND_MEM,
+    IDM_MON_WND_DIS,
+    IDM_MON_WND_CONSOLE,
+	0,
+    IDM_MON_COMPUTER,
+    IDM_MON_DRIVE8,
+    IDM_MON_DRIVE9,
+	0,
+    IDM_MON_HELP
+END
+
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

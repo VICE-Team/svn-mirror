@@ -47,6 +47,8 @@ BMenuBar *menu_create(int machine_class) {
 	menu = new BMenu("File");
 	menu->AddItem(new BMenuItem("Autostart",
 		new BMessage(MENU_AUTOSTART), 'A'));
+	menu->AddSeparatorItem();
+
 	menu->AddItem(submenu = new BMenu("Attach Disk"));
 	submenu->AddItem(new BMenuItem("Drive 8", 
 		new BMessage(MENU_ATTACH_DISK8), '8'));
@@ -56,6 +58,7 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_ATTACH_DISK10)));
 	submenu->AddItem(new BMenuItem("Drive 11", 
 		new BMessage(MENU_ATTACH_DISK11)));
+
 	menu->AddItem(submenu = new BMenu("Detach Disk"));
 	submenu->AddItem(new BMenuItem("Drive 8", 
 		new BMessage(MENU_DETACH_DISK8)));
@@ -65,7 +68,18 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_DETACH_DISK10)));
 	submenu->AddItem(new BMenuItem("Drive 11", 
 		new BMessage(MENU_DETACH_DISK11)));
+
+	menu->AddItem(submenu = new BMenu("Flip List"));
+	submenu->AddItem(new BMenuItem("Add current image", 
+		new BMessage(MENU_FLIP_ADD), 'I'));
+	submenu->AddItem(new BMenuItem("Remove Current Image", 
+		new BMessage(MENU_FLIP_REMOVE), 'K'));
+	submenu->AddItem(new BMenuItem("Attach next image", 
+		new BMessage(MENU_FLIP_NEXT), 'N'));
+	submenu->AddItem(new BMenuItem("Attach previous image", 
+		new BMessage(MENU_FLIP_PREVIOUS), 'N', B_CONTROL_KEY));
 	menu->AddSeparatorItem();
+
 	menu->AddItem(new BMenuItem("Attach Tape", 
 		new BMessage(MENU_ATTACH_TAPE), 'T'));
 	menu->AddItem(new BMenuItem("Detach Tape", 
@@ -88,17 +102,52 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_DATASETTE_COUNTER)));
 	menu->AddSeparatorItem();
 
-	menu->AddItem(submenu = new BMenu("Flip List"));
-	submenu->AddItem(new BMenuItem("Add current image", 
-		new BMessage(MENU_FLIP_ADD), 'I'));
-	submenu->AddItem(new BMenuItem("Remove Current Image", 
-		new BMessage(MENU_FLIP_REMOVE), 'K'));
-	submenu->AddItem(new BMenuItem("Attach next image", 
-		new BMessage(MENU_FLIP_NEXT), 'N'));
-	submenu->AddItem(new BMenuItem("Attach previous image", 
-		new BMessage(MENU_FLIP_PREVIOUS), 'N', B_CONTROL_KEY));
-	menu->AddSeparatorItem();
-	
+	if (machine_class == VICE_MACHINE_C64) {
+		menu->AddItem(submenu = new BMenu("Attach cartridge image"));
+		submenu->AddItem(new BMenuItem("CRT",
+			new BMessage(MENU_CART_ATTACH_CRT)));
+		submenu->AddItem(new BMenuItem("Generic 8KB",
+			new BMessage(MENU_CART_ATTACH_8KB)));
+		submenu->AddItem(new BMenuItem("Generic 16KB",
+			new BMessage(MENU_CART_ATTACH_16KB)));
+		submenu->AddItem(new BMenuItem("Action Replay",
+			new BMessage(MENU_CART_ATTACH_AR)));
+		submenu->AddItem(new BMenuItem("Atomic Power",
+			new BMessage(MENU_CART_ATTACH_AT)));
+		submenu->AddItem(new BMenuItem("Epyx fastload",
+			new BMessage(MENU_CART_ATTACH_EPYX)));
+		submenu->AddItem(new BMenuItem("IEEE488 interface",
+			new BMessage(MENU_CART_ATTACH_IEEE488)));
+		submenu->AddItem(new BMenuItem("Super Snapshot 4",
+			new BMessage(MENU_CART_ATTACH_SS4)));
+		submenu->AddItem(new BMenuItem("Super Snapshot 5",
+			new BMessage(MENU_CART_ATTACH_SS5)));
+		submenu->AddSeparatorItem();
+		submenu->AddItem(new BMenuItem("Set cartridge as default",
+			new BMessage(MENU_CART_SET_DEFAULT)));
+		menu->AddItem(new BMenuItem("Detach cartridge image", 
+			new BMessage(MENU_CART_DETACH)));
+		menu->AddItem(new BMenuItem("Cartridge freeze", 
+			new BMessage(MENU_CART_FREEZE), 'Z'));
+		menu->AddSeparatorItem();
+	}
+	if (machine_class == VICE_MACHINE_VIC20) {
+		menu->AddItem(submenu = new BMenu("Attach cartridge image"));
+		submenu->AddItem(new BMenuItem("4/8/16KB image at $2000",
+			new BMessage(MENU_CART_VIC20_16KB_2000)));
+		submenu->AddItem(new BMenuItem("4/8/16KB image at $4000",
+			new BMessage(MENU_CART_VIC20_16KB_4000)));
+		submenu->AddItem(new BMenuItem("4/8/16KB image at $6000",
+			new BMessage(MENU_CART_VIC20_16KB_6000)));
+		submenu->AddItem(new BMenuItem("4/8KB image at $A000",
+			new BMessage(MENU_CART_VIC20_8KB_A000)));
+		submenu->AddItem(new BMenuItem("4KB image at $B000",
+			new BMessage(MENU_CART_VIC20_4KB_B000)));
+		menu->AddItem(new BMenuItem("Detach cartridge image", 
+			new BMessage(MENU_CART_DETACH)));
+		menu->AddSeparatorItem();
+	}
+			
 	menu->AddItem(submenu = new BMenu("Snapshot"));
 	submenu->AddItem(new BMenuItem("Load snapshot", 
 		new BMessage(MENU_SNAPSHOT_LOAD)));

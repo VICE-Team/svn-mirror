@@ -146,7 +146,7 @@ SOURCE=.\petui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\print.c
+SOURCE=..\..\print.c
 # End Source File
 # Begin Source File
 
@@ -226,7 +226,7 @@ SOURCE=.\vsidui.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\vsync.c
+SOURCE=.\vsyncarch.c
 # End Source File
 # Begin Source File
 

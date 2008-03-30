@@ -35,7 +35,7 @@ unsigned long vsyncarch_gettime(void);
 void vsyncarch_init(void);
 
 /* display speed(%) and framerate(fps) */
-void vsyncarch_display_speed(double speed, double fps);
+void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 
 /* sleep the given amount of uu */
 void vsyncarch_sleep(long delay);

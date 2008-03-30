@@ -350,11 +350,40 @@
 #define IDM_LICENSE                     40195
 #define IDM_WARRANTY                    40196
 #define IDM_CMDLINE                     40197
-#define IDM_FULLSCREEN_SETTINGS		40198
-#define IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT	40199
-#define IDM_TOGGLE_FULLSCREEN		40200
-#define IDM_TOGGLE_CONFIRM_ON_EXIT	40201
+#define IDM_FULLSCREEN_SETTINGS         40198
+#define IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT 40199
+#define IDM_TOGGLE_FULLSCREEN           40200
+#define IDM_TOGGLE_CONFIRM_ON_EXIT      40201
 
-#define IDM_WNDCHILD                    45000
+#define IDM_MON_OPEN                    42000
+#define IDM_MON_SAVE                    42001
+#define IDM_MON_PRINT                   42002
+#define IDM_MON_STOP_DEBUG              42003
+#define IDM_MON_STOP_EXEC               42004
+#define IDM_MON_CURRENT                 42005
+#define IDM_MON_STEP_INTO               42006
+#define IDM_MON_STEP_OVER               42007
+#define IDM_MON_SKIP_RETURN             42008
+#define IDM_MON_GOTO_CURSOR             42009
+#define IDM_MON_EVAL                    42010
+#define IDM_MON_WND_EVAL                42011
+#define IDM_MON_WND_REG                 42012
+#define IDM_MON_WND_MEM                 42013
+#define IDM_MON_WND_DIS                 42014
+#define IDM_MON_WND_CONSOLE             42015
+#define IDM_MON_COMPUTER                42016
+#define IDM_MON_DRIVE8                  42017
+#define IDM_MON_DRIVE9                  42018
+#define IDM_MON_HELP                    42019
+#define IDM_MON_CASCADE                 42020
+#define IDM_MON_TILE_HORIZ              42021
+#define IDM_MON_TILE_VERT               42022
+#define IDM_MON_ARRANGE_ICONS           42023
+#define IDM_WNDCHILD                    42100
+
+#define WM_CONSOLE_INSERTLINE           (WM_USER)
+#define WM_CONSOLE_CLOSED               (WM_USER+1)
+#define WM_CONSOLE_RESIZED              (WM_USER+2)
+
 #endif
 

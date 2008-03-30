@@ -67,8 +67,27 @@ const uint32 MENU_SNAPSHOT_SAVE					= 'M029';
 const uint32 MENU_LOADQUICK						= 'M030';
 const uint32 MENU_SAVEQUICK						= 'M031';
 const uint32 MENU_MONITOR						= 'M032';
+const uint32 MENU_CART_ATTACH_CRT				= 'M040';
+const uint32 MENU_CART_ATTACH_8KB				= 'M041';
+const uint32 MENU_CART_ATTACH_16KB				= 'M042';
+const uint32 MENU_CART_ATTACH_AR				= 'M043';
+const uint32 MENU_CART_ATTACH_AT				= 'M044';
+const uint32 MENU_CART_ATTACH_EPYX				= 'M045';
+const uint32 MENU_CART_ATTACH_IEEE488			= 'M046';
+const uint32 MENU_CART_ATTACH_SS4				= 'M047';
+const uint32 MENU_CART_ATTACH_SS5				= 'M048';
+const uint32 MENU_CART_SET_DEFAULT				= 'M049';
+const uint32 MENU_CART_DETACH					= 'M050';
+const uint32 MENU_CART_FREEZE					= 'M051';
 
+const uint32 MENU_CART_VIC20_16KB_2000			= 'M060';
+const uint32 MENU_CART_VIC20_16KB_4000			= 'M061';
+const uint32 MENU_CART_VIC20_16KB_6000			= 'M062';
+const uint32 MENU_CART_VIC20_8KB_A000			= 'M063';
+const uint32 MENU_CART_VIC20_4KB_B000			= 'M064';
 
+const uint32 ATTACH_C64_CART					= 'MA01';
+const uint32 ATTACH_VIC20_CART					= 'MA02';
 
 const uint32 MENU_TOGGLE_SOUND					= 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE				= 'M101';
@@ -122,6 +141,7 @@ const uint32 MENU_DATASETTE_SETTINGS			= 'M204';
 const uint32 MENU_CBM2_SETTINGS					= 'M205';
 const uint32 MENU_PET_SETTINGS					= 'M206';
 const uint32 MENU_VICII_SETTINGS				= 'M207';
+const uint32 MENU_VIC20_SETTINGS				= 'M208';
 
 const uint32 MENU_SETTINGS_LOAD					= 'M210';
 const uint32 MENU_SETTINGS_SAVE					= 'M211';
@@ -132,6 +152,5 @@ const uint32 MENU_CONTRIBUTORS					= 'M902';
 const uint32 MENU_LICENSE						= 'M904';
 const uint32 MENU_WARRANTY						= 'M905';
 const uint32 MENU_CMDLINE						= 'M906';
-
 
 #endif

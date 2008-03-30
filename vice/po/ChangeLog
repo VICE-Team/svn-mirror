@@ -1,3 +1,7 @@
+2000-10-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* POTFILES.in: Removed `arch/unix/print.c'.
+
 2000-08-16  pottendo  <pottendo@utanet.at>
 
 	* sv.po: Introduced Peter Karssons upgrade to the swedish

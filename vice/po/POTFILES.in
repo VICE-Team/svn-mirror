@@ -12,7 +12,6 @@ src/arch/unix/joystick.c
 src/arch/unix/kmap.c
 src/arch/unix/mouse.c
 src/arch/unix/petkmap.c
-src/arch/unix/print.c
 src/arch/unix/rs232.c
 src/arch/unix/vsidui.c
 src/arch/unix/vsync.c

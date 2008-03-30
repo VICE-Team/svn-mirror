@@ -31,7 +31,7 @@
 #include "vice.h"
 
 /* Port me... */
-#ifdef OS2
+#if defined OS2 || defined WIN32
 
 #include "sound.h"      // sound_flush
 #include "maincpu.h"    // maincpu_clk_guard
@@ -130,7 +130,7 @@ static void (*vsync_hook)(void);
 
 /* ------------------------------------------------------------------------- */
 static unsigned long display_start;
-static unsigned long frame_ticks;
+static signed long frame_ticks;
 
 static int timer_speed = 0;
 static int speed_eval_suspended = 1;
@@ -208,7 +208,7 @@ static void display_speed(int num_frames)
     double speed_index = diff_clk/(cycles_per_sec*diff_tm);
     double frame_rate  = num_frames/diff_tm;
 
-    vsyncarch_display_speed(speed_index*100, frame_rate);
+    vsyncarch_display_speed(speed_index*100, frame_rate, warp_mode_enabled);
 
     display_start       = now;
     speed_eval_prev_clk = clk;

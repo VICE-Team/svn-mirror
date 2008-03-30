@@ -89,7 +89,7 @@ libarch_a_SOURCES = \
 	video.c \
 	videoarch.h \
 	vsidui.c \
-	vsync.c \
+	vsyncarch.c \
 	winhack.h \
 	winmain.c \
 	winmain.h

@@ -33,11 +33,15 @@
 extern "C" {
 #include "attach.h"
 #include "autostart.h"
+#include "c64ui.h"
+#include "constants.h"
 #include "machine.h"
 #include "tape.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "ui_file.h"
 #include "utils.h"
+#include "vic20ui.h"
 }
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
@@ -45,15 +49,17 @@ static int last_filetype[2];
 
 void ui_select_file(BFilePanel *filepanel, 
 					filetype_t filetype, 
-					int fileparam) {
+					void *fileparam) {
 
-	int panelnr;
+	int panelnr = (filepanel->PanelMode() == B_OPEN_PANEL ? 0 : 1);
 	char title[40];
 	sprintf(title,"VICE filepanel"); /* default */
 
 	/* Modify the panel */
-	if (filetype == DISK_FILE)
-		sprintf(title,"Attach Disk %d",fileparam);
+	if (filetype == DISK_FILE) {
+		sprintf(title,"Attach Disk %d",*(int*)fileparam);
+		last_fileparam[panelnr] = *(int*)fileparam;
+	}
 	if (filetype == TAPE_FILE)
 		sprintf(title,"Attach Tape");
 	if (filetype == AUTOSTART_FILE)
@@ -62,6 +68,11 @@ void ui_select_file(BFilePanel *filepanel,
 		sprintf(title,"Save snapshot");
 	if (filetype == SNAPSHOTLOAD_FILE)
 		sprintf(title,"Load snapshot");
+	if (filetype == C64_CARTRIDGE_FILE || filetype == VIC20_CARTRIDGE_FILE) {
+		sprintf(title,"Attach Cartridge (%s)",
+			((ui_cartridge_t*)fileparam)->cart_name);
+		last_fileparam[panelnr] = ((ui_cartridge_t*)fileparam)->cart_type;
+	}
 
 	filepanel->Window()->SetTitle(title);
 
@@ -69,9 +80,6 @@ void ui_select_file(BFilePanel *filepanel,
 
 	/* remember for later action */
 
-	panelnr = (filepanel->PanelMode() == B_OPEN_PANEL ? 0 : 1);
-		
-	last_fileparam[panelnr] = fileparam;
 	last_filetype[panelnr] = filetype;
 }
 	
@@ -90,11 +98,11 @@ void ui_select_file_action(BMessage *msg) {
 		path = new BPath(&ref);
 	
 		/* now the ACTION */
-    	if (last_fileparam[0] >= 8  && last_fileparam[0] <= 11) {
+    	if (last_filetype[0] == DISK_FILE) {
     		/* it's a disk-attach */
     		if (file_system_attach_disk(last_fileparam[0], path->Path()) < 0)
         		ui_error("Cannot attach specified file");
-		} else if (last_fileparam[0] == 1) {
+		} else if (last_filetype[0] == TAPE_FILE) {
 			/* it's a tape-attach */
     		if (tape_attach_image(path->Path()) < 0)
         		ui_error("Cannot attach specified file");
@@ -105,8 +113,17 @@ void ui_select_file_action(BMessage *msg) {
 	    	if (machine_read_snapshot(path->Path())<0) {
         		ui_error("Cannot read snapshot image");
         	}
+    	} else if (last_filetype[0] == C64_CARTRIDGE_FILE) {
+    		BMessage *msg = new BMessage(ATTACH_C64_CART);
+    		msg->AddInt32("type", last_fileparam[0]);
+    		msg->AddString("filename", path->Path());
+    		ui_add_event(msg);
+    	} else if (last_filetype[0] == VIC20_CARTRIDGE_FILE) {
+    		BMessage *msg = new BMessage(ATTACH_VIC20_CART);
+    		msg->AddInt32("type", last_fileparam[0]);
+    		msg->AddString("filename", path->Path());
+    		ui_add_event(msg);
     	}
-    	
 		delete path;	
 	}
 	

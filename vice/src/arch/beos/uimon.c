@@ -29,6 +29,7 @@
 #include "console.h"
 #include "uimon.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -55,4 +56,25 @@ void arch_mon_window_suspend( void )
 console_t *arch_mon_window_resume( void )
 {
     return arch_mon_window_open();
+}
+
+#define MAX_OUTPUT_LENGTH 2000
+
+int arch_mon_out(const char *format, ...)
+{
+    va_list ap;
+    char buffer[MAX_OUTPUT_LENGTH];
+
+    if (console_log)
+    {
+        va_start(ap, format);
+        vsprintf(buffer, format, ap);
+        return console_out(console_log, buffer);
+    }
+    return 0;
+}
+
+const char *arch_mon_in()
+{
+    return console_in(console_log);
 }

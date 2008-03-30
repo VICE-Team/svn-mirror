@@ -57,7 +57,7 @@
 #define MAX_WIDTH           60 /* max. char count for an input line  */
 #define MAX_HISTORY         20 /* maximum history entrys per console */
 
-#define MIN_XSIZE           80
+#define MIN_XSIZE           30
 #define MIN_YSIZE           10
 
 /*
@@ -111,6 +111,7 @@ typedef struct console_private_s
 	HDC	         hdc;			/* a DC for writing inside the window */
 
 	BOOLEAN      bIsMdiChild;
+    HWND         hwndMdiClient;
 
 	int          xWindow;		/* the position of the window for re-opening */
 	int          yWindow;		/* the position of the window for re-opening */
@@ -305,16 +306,16 @@ static void get_char_dimensions( console_private_t *pcp )
 }
 
 
-static void resize_window( console_private_t *pcp )
-{
+static void size_window( console_private_t *pcp )
+{ 
 	RECT rect;
 
-	GetClientRect( pcp->hwndConsole, &rect );
+    GetClientRect( pcp->hwndConsole, &rect );
 
 	ClientToScreen( pcp->hwndConsole,  (LPPOINT) &rect);
 	ClientToScreen( pcp->hwndConsole, ((LPPOINT) &rect) + 1);
 
-	rect.right  = rect.left + pcp->pConsole->console_xres * pcp->xCharDimension;
+    rect.right  = rect.left + pcp->pConsole->console_xres * pcp->xCharDimension;
 	rect.bottom = rect.top  + pcp->pConsole->console_yres * pcp->yCharDimension;
 
 	AdjustWindowRect( &rect, GetWindowLong( pcp->hwndConsole, GWL_STYLE ), FALSE );
@@ -667,13 +668,6 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 	unsigned xDim = nWidth  / pcp->xCharDimension;
 	unsigned yDim = nHeight / pcp->yCharDimension;
 
-	/* make sure the cursor is visible even in the new area */
-	xDim = max( xDim, pcp->xPos + 1 );
-
-	/* make sure the minimum window sizes */
-	xDim = max( xDim, MIN_XSIZE );
-	yDim = max( yDim, MIN_YSIZE );
-
 	/* @SRT TODO: if a multi-line-input is given, make sure that the
 	   x dimension is not changed OR that the input is correctly redrawn!
 	*/
@@ -694,7 +688,10 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 		scroll_up( pcp );
 	}
 
-	resize_window( pcp );
+    {
+        HWND hwndFrame = (HWND)GetWindowLong((HWND)GetWindowLong(pcp->hwndConsole,GWL_HWNDPARENT),GWL_HWNDPARENT);
+        SendMessage(hwndFrame,WM_CONSOLE_RESIZED,0,0);
+    }
 }
 
 
@@ -714,6 +711,22 @@ static long CALLBACK console_window_proc(HWND hwnd,
 
 	switch (msg)
 	{
+    case WM_GETMINMAXINFO:
+        if (bIsMdiChild)
+            DefMDIChildProc(hwnd, msg, wParam, lParam );
+        else
+            DefWindowProc(hwnd, msg, wParam, lParam);
+
+        /* adjust: minimum size */
+        if (pcp)
+        {
+            LPMINMAXINFO lpmmi = (LPMINMAXINFO) lParam; // address of structure 
+
+            lpmmi->ptMinTrackSize.x += max(MIN_XSIZE,pcp->xPos + 1) * pcp->xCharDimension;
+            lpmmi->ptMinTrackSize.y += MIN_YSIZE * pcp->yCharDimension;
+        }
+        return 0;
+
 	case WM_SIZE:
         if (pcp)
     		external_resize_window( pcp, LOWORD(lParam), HIWORD(lParam) );
@@ -724,41 +737,52 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		/* if the window is closed, i.e. by pressing the close
 		   button, we simulate the typing of a specific line
 		*/
-		if (pcp->achInputBuffer)
-		{
-			pcp->bInputReady       = TRUE;
-			replace_current_input( pcp, pcp->pchOnClose );
-			console_out_character( pcp, '\n' );
-		}	
-		/* FALL THROUGH */
-
-	case WM_DESTROY:
-		/* no PostQuitMessage(), because else, the whole application
-		   (VICE) would be closed - as it occurred in the old version
-		   with the standard console
-		*/
-		UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
+        /* inform parent that window is closed */
+        if (bIsMdiChild)
+        {
+            HWND hwndFrame = (HWND)GetWindowLong((HWND)GetWindowLong(hwnd,GWL_HWNDPARENT),GWL_HWNDPARENT);
+            SendMessage(hwndFrame,WM_CONSOLE_CLOSED,0,0);
+            pcp->bInputReady       = TRUE;
+            replace_current_input( pcp, "" );
+        }
+        else
+        {
+            if (pcp->achInputBuffer)
+            {
+                pcp->bInputReady       = TRUE;
+                replace_current_input( pcp, pcp->pchOnClose );
+                console_out_character( pcp, '\n' );
+            }
+        }
         break;
-//		return 0;
 
-	case WM_TIMER:
-		if (wParam == 1)
-		{
-			if (pcp->bBlinkOn)
-			{
-				/* restore previous character */
-				restore_current_character( pcp );
-			}
-			else
-			{
-				/* paint cursor */
-				paint_cursor( pcp );
-			}
+    case WM_DESTROY:
+        /* no PostQuitMessage(), because else, the whole application
+           (VICE) would be closed - as it occurred in the old version
+           with the standard console
+        */
+        UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
+        break;
+//        return 0;
 
-			start_timer( pcp );
-			return 0;
-		}
-		break;
+    case WM_TIMER:
+        if (wParam == 1)
+        {
+            if (pcp->bBlinkOn)
+            {
+                /* restore previous character */
+                restore_current_character( pcp );
+            }
+            else
+            {
+                /* paint cursor */
+                paint_cursor( pcp );
+            }
+
+            start_timer( pcp );
+            return 0;
+        }
+        break;
 
 
 	case WM_KEYDOWN:
@@ -877,6 +901,11 @@ static long CALLBACK console_window_proc(HWND hwnd,
 			}
 		}
 		break;
+
+    case WM_CONSOLE_INSERTLINE:
+        // pcp->achInputBuffer[pcp->cntInputBuffer] = 0;
+        pcp->bInputReady = TRUE;
+        break;
 
 	case WM_CHAR:
 		{
@@ -1093,7 +1122,7 @@ static console_private_t *find_console_entry(const char *id)
 	return pcp;
 }
 
-static console_t *console_open_internal(const char *id, BOOLEAN bMdi, HWND hwndParent, HWND hwndMdiClient)
+static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hwndMdiClient)
 {
 	console_private_t *pcp;
 	
@@ -1101,16 +1130,17 @@ static console_t *console_open_internal(const char *id, BOOLEAN bMdi, HWND hwndP
 
 	allocate_window_memory( pcp );
 
-	pcp->hwndParent  = hwndParent; 
-    bIsMdiChild      =
-    pcp->bIsMdiChild = bMdi;
+	pcp->hwndParent    = hwndParent; 
+    bIsMdiChild        =
+    pcp->bIsMdiChild   = hwndMdiClient ? TRUE : FALSE;
+    pcp->hwndMdiClient = hwndMdiClient;
 
 	SuspendFullscreenMode( pcp->hwndParent );
 
-    if (bMdi)
+    if (pcp->bIsMdiChild)
     {
         pcp->hwndConsole = CreateMDIWindow(CONSOLE_CLASS,
-    		id,
+    		(LPTSTR) id,
 	    	WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
             pcp->xWindow,
             pcp->yWindow,
@@ -1118,7 +1148,7 @@ static console_t *console_open_internal(const char *id, BOOLEAN bMdi, HWND hwndP
             0,
             hwndMdiClient,
             winmain_instance,
-            5);
+            0);
     }
     else
     {
@@ -1154,7 +1184,7 @@ static console_t *console_open_internal(const char *id, BOOLEAN bMdi, HWND hwndP
 	get_char_dimensions( pcp );
 
 	/* set the window to the correct size */
-	resize_window( pcp );
+	size_window( pcp );
 
 	/* now show the window */
 	ShowWindow( pcp->hwndConsole, SW_SHOW );
@@ -1166,7 +1196,7 @@ static console_t *console_open_internal(const char *id, BOOLEAN bMdi, HWND hwndP
 
 console_t *console_open(const char *id)
 {
-    return console_open_internal(id,FALSE,GetActiveWindow(),0);
+    return console_open_internal(id,GetActiveWindow(),NULL);
 }
 
 console_t *arch_console_open_mdi(const char *id, void *hw, void *hwndParent,
@@ -1174,8 +1204,7 @@ console_t *arch_console_open_mdi(const char *id, void *hw, void *hwndParent,
 {
     console_t *console_log;
 
-    console_log = console_open_internal(id, TRUE, *(HWND *)hwndParent,
-                                        *(HWND *)hwMdiClient);
+    console_log = console_open_internal(id, *(HWND*)hwndParent, *(HWND*)hwMdiClient);
 
     if (hw)
     {

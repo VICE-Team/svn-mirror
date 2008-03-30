@@ -34,12 +34,14 @@ enum filetype_t {
 	DISK_FILE,
 	TAPE_FILE,
 	SNAPSHOTSAVE_FILE,
-	SNAPSHOTLOAD_FILE
+	SNAPSHOTLOAD_FILE,
+	C64_CARTRIDGE_FILE,
+	VIC20_CARTRIDGE_FILE,
 };
 
 extern void ui_select_file(BFilePanel *filepanel, 
 					filetype_t filetype, 
-					int fileparam);
+					void *fileparam);
 
 extern void ui_select_file_action(BMessage *msg);
 

@@ -28,6 +28,7 @@
 #define _ARCHDEP_H
 
 #include "archapi.h"
+#include "posix.h"
 
 /* Name of the resource file.  */
 #define RESOURCE_FILE_NAME "VICERC"

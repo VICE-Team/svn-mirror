@@ -227,12 +227,12 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-	ui_select_file(windowlist[0]->savepanel,SNAPSHOTSAVE_FILE,0);
+	ui_select_file(windowlist[0]->savepanel,SNAPSHOTSAVE_FILE,(void*)0);
 }
 
 static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-	ui_select_file(windowlist[0]->filepanel,SNAPSHOTLOAD_FILE,0);
+	ui_select_file(windowlist[0]->filepanel,SNAPSHOTLOAD_FILE,(void*)0);
 }
 
 typedef struct {
@@ -364,7 +364,7 @@ void ui_dispatch_events(void)
 
 	    /* Handle machine specific commands first.  */
 	    if (ui_machine_specific)
-        ui_machine_specific(&message_queue[i]);
+        ui_machine_specific(&message_queue[i], windowlist[0]);
 
 		switch (message_queue[i].what) {
 			case MENU_EXIT_REQUESTED:
@@ -401,23 +401,23 @@ void ui_dispatch_events(void)
 				machine_powerup();
 				break;
 			case MENU_AUTOSTART:
-				ui_select_file(filepanel,AUTOSTART_FILE,0);
+				ui_select_file(filepanel,AUTOSTART_FILE,(void*)0);
 				break;
 			case MENU_ATTACH_DISK8:
 				attachdrive = 8;
-				ui_select_file(filepanel,DISK_FILE,attachdrive);
+				ui_select_file(filepanel,DISK_FILE,(void*)&attachdrive);
 				break;
 			case MENU_ATTACH_DISK9:
 				attachdrive = 9;
-				ui_select_file(filepanel,DISK_FILE,attachdrive);
+				ui_select_file(filepanel,DISK_FILE,(void*)&attachdrive);
 				break;
 			case MENU_ATTACH_DISK10:
 				attachdrive = 10;
-				ui_select_file(filepanel,DISK_FILE,attachdrive);
+				ui_select_file(filepanel,DISK_FILE,(void*)&attachdrive);
 				break;
 			case MENU_ATTACH_DISK11:
 				attachdrive = 11;
-				ui_select_file(filepanel,DISK_FILE,attachdrive);
+				ui_select_file(filepanel,DISK_FILE,(void*)&attachdrive);
 				break;
 			case MENU_DETACH_DISK8:
 				file_system_detach_disk(8);
@@ -433,7 +433,7 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_ATTACH_TAPE:
 				attachdrive = 1;
-				ui_select_file(filepanel,TAPE_FILE,1);
+				ui_select_file(filepanel,TAPE_FILE,(void*)1);
 				break;
 			case MENU_DETACH_TAPE:
 				tape_detach_image();
@@ -472,10 +472,10 @@ void ui_dispatch_events(void)
 		        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
 				break;
 			case MENU_SNAPSHOT_LOAD:
-				maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+				maincpu_trigger_trap(load_snapshot_trap, (void*) 0);
 				break;
 			case MENU_SNAPSHOT_SAVE:
-				maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
+				maincpu_trigger_trap(save_snapshot_trap, (void*) 0);
 				break;
 			case MENU_LOADQUICK:
 				scan_files();
@@ -566,9 +566,6 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_SOUND_SETTINGS:
 				ui_sound();
-				break;
-			case MENU_VICII_SETTINGS:
-				ui_vicii();
 				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {

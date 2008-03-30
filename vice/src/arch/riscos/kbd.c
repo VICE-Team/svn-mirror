@@ -30,6 +30,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#include "posix.h"
+
 #include "kbd.h"
 #include "vsyncarch.h"
 #include "joystick.h"

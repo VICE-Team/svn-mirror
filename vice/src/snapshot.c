@@ -43,6 +43,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
+#include "vsync.h"
 #include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
@@ -505,6 +506,7 @@ snapshot_t *snapshot_open(const char *filename,
     s->first_module_offset = ftell(f);
     s->write_mode = 0;
 
+    suspend_speed_eval();
     return s;
 
 fail:

@@ -42,7 +42,7 @@ ui_menu_toggle  pet_ui_menu_toggles[]={
     { NULL, 0 }
 };
 
-void pet_ui_specific(void *msg)
+void pet_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
       case MENU_PET_SETTINGS:

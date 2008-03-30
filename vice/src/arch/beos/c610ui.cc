@@ -43,7 +43,7 @@ ui_menu_toggle  cbm2_ui_menu_toggles[]={
     { NULL, 0 }
 };
 
-void cbm2_ui_specific(void *msg)
+void cbm2_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
       case MENU_CBM2_SETTINGS:

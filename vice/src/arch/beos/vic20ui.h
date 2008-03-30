@@ -28,6 +28,7 @@
 #define _VIC20UI_H
 
 extern int vic20_ui_init(void);
+extern int vic20_cartridge_attach_image(int type, const char *filename);
 
 #endif
 

@@ -44,6 +44,7 @@
 #include "uilib.h"
 #include "utils.h"
 #include "vdrive.h"
+#include "vsync.h"
 #include "winmain.h"
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
@@ -533,6 +534,7 @@ char *ui_select_file(HWND hwnd, const char *title, const char *filter, int style
     read_content_func=styles[style].content_read_function;
     get_filename_from_content=styles[style].get_filename_from_content;
     autostart_result=autostart;
+    suspend_speed_eval();
     if (GetOpenFileName(&ofn)) {
         return stralloc(name);
     } else {

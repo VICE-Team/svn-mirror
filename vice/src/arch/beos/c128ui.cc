@@ -34,6 +34,7 @@ extern "C" {
 #include "constants.h" 
 #include "resources.h"
 #include "ui.h"
+#include "ui_vicii.h"
 }
 
 ui_menu_toggle  c128_ui_menu_toggles[]={
@@ -65,7 +66,7 @@ ui_res_value_list c128_ui_res_values[] = {
 };
 
 
-void c128_ui_specific(void *msg)
+void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
 		case MENU_SIDTYPE_6581:
@@ -75,7 +76,7 @@ void c128_ui_specific(void *msg)
         	resources_set_value("SidModel", (resource_value_t) 1);
         	break;
 		case MENU_VICII_SETTINGS:
-        	//ui_vicii_settings_dialog(); /* later */
+        	ui_vicii();
         break;
 
     	default: ;

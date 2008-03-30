@@ -48,6 +48,12 @@ typedef struct {
     ui_res_possible_values *vals;
 } ui_res_value_list;
 
+typedef struct { 
+	int menu_item; 
+	int cart_type; 
+	char *cart_name; 
+} ui_cartridge_t;
+
 
 /* ------------------------------------------------------------------------- */
 /* These are the commands that cannot be handled within a keyboard
@@ -76,7 +82,7 @@ typedef struct {
     char *param;
 } ui_command_type_t;
 
-typedef void (*ui_machine_specific_t) (void* msg);
+typedef void (*ui_machine_specific_t) (void* msg, void* window);
 
 /*-------------------------------------------------------------------------*/
 

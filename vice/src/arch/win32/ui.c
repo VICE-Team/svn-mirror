@@ -618,6 +618,7 @@ void ui_error(const char *format, ...)
     va_end(args);
     log_debug(tmp);
     ui_messagebox(tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+    suspend_speed_eval();
 }
 
 /* Report an error to the user (one string).  */
@@ -637,6 +638,7 @@ void ui_message(const char *format,...)
     vsprintf(tmp, format, args);
     va_end(args);
     ui_messagebox(tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
+    suspend_speed_eval();
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -1295,6 +1297,7 @@ char *dname;
                 maincpu_trigger_reset();
             }
         }
+        suspend_speed_eval();
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t) 0);
@@ -1638,6 +1641,7 @@ int     window_index;
             int quit = 1;
 
             SuspendFullscreenMode(window);
+            suspend_speed_eval();
             if (ui_resources.confirm_on_exit)
             {
                 if (MessageBox(window,

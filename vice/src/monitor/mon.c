@@ -639,12 +639,12 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
 static bool check_drive_emu_level_ok(int drive_num)
 {
     if (drive_num == 8 && drive8_interface == NULL) {
-        console_out(console_log,
+        arch_mon_out(
                     "True drive emulation not supported for this machine.\n");
         return FALSE;
     }
     if (drive_num == 9 && drive9_interface == NULL) {
-        console_out(console_log,
+        arch_mon_out(
                     "True drive emulation not supported for this machine.\n");
         return FALSE;
     }
@@ -656,7 +656,7 @@ static bool check_drive_emu_level_ok(int drive_num)
 */
 #if 0
     else if (!app_resources.true1541) {
-        console_out(console_log, "True drive emulation is not turned on.\n");
+        arch_mon_out( "True drive emulation is not turned on.\n");
         return FALSE;
     }
 #endif
@@ -670,23 +670,23 @@ void mon_bank(MEMSPACE mem, char *bankname)
        mem = default_memspace;
 
     if(!mon_interfaces[mem]->mem_bank_list) {
-	console_out(console_log, "Banks not available in this memspace\n");
+	arch_mon_out( "Banks not available in this memspace\n");
 	return;
     }
 
     if(bankname==NULL) {
 	const char **bnp = mon_interfaces[mem]->mem_bank_list();
-	console_out(console_log,
+	arch_mon_out(
                     "Available banks (some may be equivalent to others):\n");
 	while(*bnp) {
-	    console_out(console_log, "%s\t",*bnp);
+	    arch_mon_out( "%s\t",*bnp);
 	    bnp++;
 	}
-	console_out(console_log, "\n");
+	arch_mon_out( "\n");
     } else {
 	int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
 	if(newbank < 0) {
-	    console_out(console_log, "Unknown bank name `%s'\n", bankname);
+	    arch_mon_out( "Unknown bank name `%s'\n", bankname);
 	    return;
 	}
 	mon_interfaces[mem]->current_bank = newbank;
@@ -817,8 +817,8 @@ void mon_print_registers(MEMSPACE mem)
         assert(FALSE);
 
     regs = mon_interfaces[mem]->cpu_regs;
-    console_out(console_log, "  ADDR AC XR YR SP 01 NV-BDIZC\n");
-    console_out(console_log,
+    arch_mon_out( "  ADDR AC XR YR SP 01 NV-BDIZC\n");
+    arch_mon_out(
                 ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
                 mon_get_reg_val(mem, e_PC),
                 mon_get_reg_val(mem, e_A),
@@ -860,9 +860,9 @@ static void print_bin(int val, char on, char off)
 
    while (divisor) {
       digit = (val & divisor) ? on : off;
-      console_out(console_log, "%c",digit);
+      arch_mon_out( "%c",digit);
       if (divisor == 256)
-         console_out(console_log, " ");
+         arch_mon_out( " ");
       divisor /= 2;
    }
 }
@@ -870,27 +870,27 @@ static void print_bin(int val, char on, char off)
 static void print_hex(int val)
 {
    if (val > 255)
-      console_out(console_log, "$%04x\n", val);
+      arch_mon_out( "$%04x\n", val);
    else
-      console_out(console_log, "$%02x\n", val);
+      arch_mon_out( "$%02x\n", val);
 }
 
 static void print_octal(int val)
 {
    if (val > 511)
-      console_out(console_log, "0%06o\n", val);
+      arch_mon_out( "0%06o\n", val);
    else
-      console_out(console_log, "0%03o\n", val);
+      arch_mon_out( "0%03o\n", val);
 }
 
 
 void mon_print_convert(int val)
 {
-   console_out(console_log, "+%d\n", val);
+   arch_mon_out( "+%d\n", val);
    print_hex(val);
    print_octal(val);
    print_bin(val,'1','0');
-   console_out(console_log, "\n");
+   arch_mon_out( "\n");
 }
 
 void mon_add_number_to_buffer(int number)
@@ -1023,48 +1023,48 @@ void mon_print_help(char *cmd)
        int column = 0;
 
        /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
-       console_out(console_log, "\nAvailable commands are:\n\n");
+       arch_mon_out( "\nAvailable commands are:\n\n");
        for (c = mon_cmd_array; c->token != -1; c++) {
            int tot = 0;
 
            tot += strlen(c->str);
            if (tot == 0)        /* "Empty" command?  */
                continue;
-           console_out(console_log, "%s", c->str);
+           arch_mon_out( "%s", c->str);
 
            if (c->abbrev != NULL && c->abbrev[0] != '\0') {
-               console_out(console_log, " (%s)", c->abbrev);
+               arch_mon_out( " (%s)", c->abbrev);
                tot += 3 + strlen(c->abbrev);
            }
 
            if (tot > 40 || column == 1) {
-               console_out(console_log, "\n");
+               arch_mon_out( "\n");
                column = 0;
            } else {
                for (; tot < 40; tot++)
-                   console_out(console_log, " ");
+                   arch_mon_out( " ");
                column = 1;
            }
            if (stop_output != 0) break;
        }
-       console_out(console_log, "\n\n");
+       arch_mon_out( "\n\n");
    } else {
        int push_back;
        int cmd_num = mon_cmd_lookup_index(cmd, &push_back);
 
        if (cmd_num == -1 || push_back)
-           console_out(console_log, "Command `%s' unknown.\n", cmd);
+           arch_mon_out( "Command `%s' unknown.\n", cmd);
        else if (mon_cmd_array[cmd_num].description == NULL)
-           console_out(console_log, "No help available for `%s'\n", cmd);
+           arch_mon_out( "No help available for `%s'\n", cmd);
        else {
            struct mon_cmds *c = &mon_cmd_array[cmd_num];
 
-           console_out(console_log, "\nSyntax: %s %s\n",
+           arch_mon_out( "\nSyntax: %s %s\n",
                        c->str,
                        c->param_names != NULL ? c->param_names : "");
            if (c->abbrev != NULL && c->abbrev[0] != '\0')
-               console_out(console_log, "Abbreviation: %s\n", c->abbrev);
-           console_out(console_log, "\n%s\n\n", c->description);
+               arch_mon_out( "Abbreviation: %s\n", c->abbrev);
+           arch_mon_out( "\n%s\n\n", c->description);
        }
    }
 }
@@ -1124,7 +1124,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
              && opinfo->addr_mode == ASM_ADDR_MODE_RELATIVE) {
             branch_offset = operand_value - loc - 2;
             if (branch_offset > 127 || branch_offset < -128) {
-               console_out(console_log, "Branch offset too large.\n");
+               arch_mon_out( "Branch offset too large.\n");
                return -1;
             }
             operand_value = (branch_offset & 0xff);
@@ -1160,7 +1160,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
    }
 
    if (!found) {
-      console_out(console_log, "Instruction not valid.\n");
+      arch_mon_out( "Instruction not valid.\n");
       return -1;
    }
 
@@ -1177,7 +1177,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
       inc_addr_location(&asm_mode_addr, len);
       dot_addr[mem] = asm_mode_addr;
    } else {
-      console_out(console_log, "Assemble error: %d\n",len);
+      arch_mon_out( "Assemble error: %d\n",len);
    }
    return len;
 }
@@ -1224,7 +1224,7 @@ const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
 	sprintf(buff, "%02X %02X %02X   %s", x, p1 & 0xFF, p2 & 0xFF, string);
 	break;
       default:
-	console_out(console_log, "Invalid opcode length: %d\n", opc_size);
+	arch_mon_out( "Invalid opcode length: %d\n", opc_size);
 	sprintf (buff, "            %s", string);
     }
 
@@ -1345,14 +1345,14 @@ static unsigned disassemble_instr(MON_ADDR addr)
    /* Print the label for this location - if we have one */
    label = mon_symbol_table_lookup_name(mem, loc);
    if (label)
-      console_out(console_log,
+      arch_mon_out(
                   ".%s:%04x   %s:\n",memspace_string[mem],loc,label);
 
    /* Print the disassembled instruction */
-   console_out(console_log, ".%s:%04x   %s\n",memspace_string[mem],loc,
+   arch_mon_out( ".%s:%04x   %s\n",memspace_string[mem],loc,
                mon_disassemble_to_string_ex(loc, op, p1, p2, hex_mode,&opc_size));
 
-   return opc_size; // asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode);
+   return opc_size; /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */
 }
 
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
@@ -1393,17 +1393,17 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 
    while (cnt < len) {
       for(i=0;i<y;i++) {
-         console_out(console_log, ">%s:%04x ",memspace_string[mem],addr);
+         arch_mon_out( ">%s:%04x ",memspace_string[mem],addr);
          for(j=0; j < (x / 8); j++) {
             print_bin(mon_get_mem_val(mem,ADDR_LIMIT(addr+j)),'.','*');
             cnt++;
          }
-         console_out(console_log, "\n");
+         arch_mon_out( "\n");
          addr = ADDR_LIMIT(addr + (x/8));
          if (stop_output != 0) break;
       }
 
-      console_out(console_log, "\n");
+      arch_mon_out( "\n");
       if (stop_output != 0) break;
    }
 
@@ -1440,11 +1440,11 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
    addr = addr_location(start_addr);
 
    while (cnt < len) {
-      console_out(console_log, ">%s:%04x ",memspace_string[mem],addr);
+      arch_mon_out( ">%s:%04x ",memspace_string[mem],addr);
       for (i=0,real_width=0;i<max_width;i++) {
          switch(radix_type) {
             case 0: /* special case == petscii text */
-               console_out(console_log, "%c",
+               arch_mon_out( "%c",
                            p_toascii(mon_get_mem_val(mem, ADDR_LIMIT(addr+i)), 1));
                real_width++;
                cnt++;
@@ -1452,48 +1452,48 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
             case e_decimal:
                memset(printables,0,50);
                if (cnt < len) {
-                  console_out(console_log, "%3d ",
+                  arch_mon_out( "%3d ",
                               mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
                else
-                  console_out(console_log, "    ");
+                  arch_mon_out( "    ");
                break;
             case e_hexadecimal:
                memset(printables,0,50);
                if (cnt < len) {
                   if(!(cnt%4))
-                      console_out(console_log, " ");
-                  console_out(console_log, "%02x ",
+                      arch_mon_out( " ");
+                  arch_mon_out( "%02x ",
                               mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
                else
-                  console_out(console_log, "   ");
+                  arch_mon_out( "   ");
                break;
             case e_octal:
                memset(printables,0,50);
                if (cnt < len) {
-                  console_out(console_log, "%03o ",
+                  arch_mon_out( "%03o ",
                               mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
                else
-                  console_out(console_log, "    ");
+                  arch_mon_out( "    ");
                break;
             case e_binary:
                memset(printables,0,50);
                if (cnt < len) {
                   print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr+i)),'1','0');
-                  console_out(console_log, " ");
+                  arch_mon_out( " ");
                   real_width++;
                   cnt++;
                }
                else
-                  console_out(console_log, "         ");
+                  arch_mon_out( "         ");
                break;
             default:
                assert(FALSE);
@@ -1503,9 +1503,9 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 
       if (radix_type != 0) {
          memory_to_string(printables, mem, addr, real_width, FALSE);
-         console_out(console_log, "  %s",printables);
+         arch_mon_out( "  %s",printables);
       }
-      console_out(console_log, "\n");
+      arch_mon_out( "\n");
       addr = ADDR_LIMIT(addr+real_width);
       if (stop_output != 0) break;
    }
@@ -1522,10 +1522,10 @@ void mon_display_screen(void) {
    mem_get_screen_parameter(&base, &rows, &cols);
    for (r=0;r<rows;r++) {
       for (c=0;c<cols;c++) {
-         console_out(console_log, "%c",p_toascii(mon_get_mem_val(e_comp_space,
+         arch_mon_out( "%c",p_toascii(mon_get_mem_val(e_comp_space,
                  ADDR_LIMIT(base++)),1));
       }
-      console_out(console_log, "\n");
+      arch_mon_out( "\n");
    }
 }
 
@@ -1563,7 +1563,7 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
   if (len < 0) {
-     console_out(console_log, "Invalid range.\n");
+     arch_mon_out( "Invalid range.\n");
      return;
   }
   src_mem = addr_memspace(start_addr);
@@ -1593,7 +1593,7 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
   if (len < 0) {
-     console_out(console_log, "Invalid range.\n");
+     arch_mon_out( "Invalid range.\n");
      return;
   }
   src_mem = addr_memspace(start_addr);
@@ -1608,7 +1608,7 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
      byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst+i));
 
      if (byte1 != byte2)
-        console_out(console_log, "$%04x $%04x: %02x %02x\n",
+        arch_mon_out( "$%04x $%04x: %02x %02x\n",
                     ADDR_LIMIT(start+i), ADDR_LIMIT(dst+i), byte1, byte2);
   }
 }
@@ -1623,13 +1623,13 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
   len = evaluate_address_range(&start_addr, &end_addr, FALSE, data_buf_len);
   if (len < 0) {
-     console_out(console_log, "Invalid range.\n");
+     arch_mon_out( "Invalid range.\n");
      return;
   }
   start = addr_location(start_addr);
 
   if (!is_valid_addr(start_addr)) {
-     console_out(console_log, "Invalid start address\n");
+     arch_mon_out( "Invalid start address\n");
      return;
   }
 
@@ -1658,7 +1658,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
   if (len < 0 || len < data_buf_len) {
-     console_out(console_log, "Invalid range.\n");
+     arch_mon_out( "Invalid range.\n");
      return;
   }
   mem = addr_memspace(start_addr);
@@ -1675,7 +1675,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
   for (i = 0; i < (len-data_buf_len); i++, next_read++) {
      if (memcmp(buf,data_buf,data_buf_len) == 0)
-        console_out(console_log, "%04x\n",ADDR_LIMIT(start+i));
+        arch_mon_out( "%04x\n",ADDR_LIMIT(start+i));
 
      if (data_buf_len > 1)
         memmove(&(buf[0]), &(buf[1]), data_buf_len - 1);
@@ -1692,11 +1692,11 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 void mon_change_dir(char *path)
 {
     if (chdir(path) < 0)
-        console_out(console_log,
+        arch_mon_out(
                     "Cannot change to directory `%s':\n%s",
                     path, strerror(errno));
 
-    console_out(console_log, "Changing to directory: `%s'\n", path);
+    arch_mon_out( "Changing to directory: `%s'\n", path);
 }
 
 
@@ -1710,7 +1710,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
         perror(filename);
-        console_out(console_log, "Loading failed.\n");
+        arch_mon_out( "Loading failed.\n");
         return;
     }
 
@@ -1722,7 +1722,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
     evaluate_default_addr(&start_addr);
     if (!is_valid_addr(start_addr)) {	/* No Load address given */
         if (is_bload == TRUE) {
-            console_out(console_log, "No LOAD address given.\n");
+            arch_mon_out( "No LOAD address given.\n");
             return;
         }
 
@@ -1736,8 +1736,8 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
         mem = addr_memspace(start_addr);
     }
 
-    console_out(console_log, "Loading %s", filename);
-    console_out(console_log, " from %04X\n", adr);
+    arch_mon_out( "Loading %s", filename);
+    arch_mon_out( " from %04X\n", adr);
 
     do {
         unsigned char load_byte;
@@ -1748,7 +1748,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
         ch ++;
     } while(1);
 
-    console_out(console_log, "%x bytes\n", ch);
+    arch_mon_out( "%x bytes\n", ch);
 
     if (is_bload == FALSE) {
         /* set end of load addresses like kernal load */
@@ -1768,7 +1768,7 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
 
     len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
     if (len < 0) {
-        console_out(console_log, "Invalid range.\n");
+        arch_mon_out( "Invalid range.\n");
         return;
     }
 
@@ -1778,13 +1778,13 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
     end = addr_location(end_addr);
 
     if (end < adr) {
-        console_out(console_log,
+        arch_mon_out(
                     "Start address must be below end address.\n");
         return;
     }
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-        console_out(console_log, "Saving for `%s' failed: %s.\n",
+        arch_mon_out( "Saving for `%s' failed: %s.\n",
                     filename, strerror(errno));
     } else {
         printf("Saving file `%s'...\n", filename);
@@ -1799,7 +1799,7 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
 
             save_byte = mon_get_mem_val(mem, adr + ch);
             if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
-                console_out(console_log, "Saving for `%s' failed: %s.\n",
+                arch_mon_out( "Saving for `%s' failed: %s.\n",
                             filename, strerror(errno));
                 fclose(fp);
             }
@@ -1813,7 +1813,7 @@ void mon_verify_file(char *filename, MON_ADDR start_addr)
 {
    evaluate_default_addr(&start_addr);
 
-   console_out(console_log, "Verify file %s at address $%04x\n",
+   arch_mon_out( "Verify file %s at address $%04x\n",
                filename, addr_location(start_addr));
 }
 
@@ -1834,12 +1834,12 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     int rc, line_num = 2;
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
-	console_out(console_log, "Loading for `%s' failed: %s.\n",
+	arch_mon_out( "Loading for `%s' failed: %s.\n",
                     filename, strerror(errno));
 	return;
     }
 
-    console_out(console_log, "Loading symbol table from `%s'...\n", filename);
+    arch_mon_out( "Loading symbol table from `%s'...\n", filename);
 
     if (mem == e_default_space) {
        if (fscanf(fp, "%10s\n", name) == 1) {
@@ -1851,7 +1851,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
           }
        }
        if (!found) {
-          console_out(console_log,
+          arch_mon_out(
                       "Bad label file : expecting a memory space in the first line but found %s\n",
                       name);
           return;
@@ -1861,7 +1861,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     while (!feof(fp)) {
        rc = fscanf(fp, "%6x %255s\n", (int *) &adr, name);
        if (rc != 2) {
-          console_out(console_log,
+          arch_mon_out(
                       "Bad label file: (line %d) cannot parse argument %d.\n",
                       line_num, rc + 1);
           break;
@@ -1869,7 +1869,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
        /* FIXME: Check name is a valid label name */
        name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
        strcpy(name_ptr, name);
-       console_out(console_log, "Read ($%x:%s)\n", adr, name_ptr);
+       arch_mon_out( "Read ($%x:%s)\n", adr, name_ptr);
        mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
 
        line_num++;
@@ -1885,12 +1885,12 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
     symbol_entry_t *sym_ptr;
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-	console_out(console_log, "Saving for `%s' failed: %s.\n",
+	arch_mon_out( "Saving for `%s' failed: %s.\n",
                     filename, strerror(errno));
 	return;
     }
 
-    console_out(console_log, "Saving symbol table to `%s'...\n", filename);
+    arch_mon_out( "Saving symbol table to `%s'...\n", filename);
 
     /* FIXME: Write out all memspaces? */
     if (mem == e_default_space)
@@ -1914,7 +1914,7 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
 void mon_record_commands(char *filename)
 {
    if (recording) {
-       console_out(console_log,
+       arch_mon_out(
                    "Recording already in progress. Use 'stop' to end recording.\n");
        return;
    }
@@ -1922,7 +1922,7 @@ void mon_record_commands(char *filename)
    recording_name = filename;
 
    if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
-       console_out(console_log, "Cannot create `%s': %s.\n",
+       arch_mon_out( "Cannot create `%s': %s.\n",
                    recording_name, strerror(errno));
        return;
    }
@@ -1932,12 +1932,12 @@ void mon_record_commands(char *filename)
 void mon_end_recording(void)
 {
    if (!recording) {
-       console_out(console_log, "No file is currently being recorded.\n");
+       arch_mon_out( "No file is currently being recorded.\n");
        return;
    }
 
    fclose(recording_fp);
-   console_out(console_log, "Closed file %s.\n",recording_name);
+   arch_mon_out( "Closed file %s.\n",recording_name);
    recording = FALSE;
 }
 
@@ -1947,7 +1947,7 @@ static void playback_commands(char *filename)
    char string[256], *rc;
 
    if (NULL == (fp = fopen(filename, MODE_READ_TEXT))) {
-       console_out(console_log, "Playback for `%s' failed: %s.\n",
+       arch_mon_out( "Playback for `%s' failed: %s.\n",
                    filename, strerror(errno));
        return;
    }
@@ -2045,7 +2045,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
    ADDRESS loc = addr_location(addr);
 
    if (strcmp(name, ".PC") == 0) {
-      console_out(console_log, "Error: .PC is a reserved label.\n");
+      arch_mon_out( "Error: .PC is a reserved label.\n");
       return;
    }
 
@@ -2055,12 +2055,12 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
    old_name = mon_symbol_table_lookup_name(mem, loc);
    old_addr = mon_symbol_table_lookup_addr(mem, name);
    if (old_name && old_addr != addr ) {
-      console_out(console_log,
+      arch_mon_out(
                   "Warning: label(s) for address $%04x already exist.\n",
                   loc);
    }
    if (old_addr >= 0 && old_addr != loc) {
-      console_out(console_log,
+      arch_mon_out(
                   "Changing address of label %s from $%04x to $%04x\n",
                   name, old_addr, loc);
    }
@@ -2095,7 +2095,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
       free_symbol_table(mem);
       return;
    } else if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
-      console_out(console_log, "Symbol %s not found.\n", name);
+      arch_mon_out( "Symbol %s not found.\n", name);
       return;
    }
 
@@ -2146,7 +2146,7 @@ void mon_print_symbol_table(MEMSPACE mem)
 
    sym_ptr = monitor_labels[mem].name_list;
    while (sym_ptr) {
-      console_out(console_log, "$%04x %s\n",sym_ptr->addr, sym_ptr->name);
+      arch_mon_out( "$%04x %s\n",sym_ptr->addr, sym_ptr->name);
       sym_ptr = sym_ptr->next;
    }
 }
@@ -2158,7 +2158,7 @@ void mon_print_symbol_table(MEMSPACE mem)
 void mon_instructions_step(int count)
 {
    if (count >= 0)
-       console_out(console_log,
+       arch_mon_out(
                    "Stepping through the next %d instruction(s).\n",
                    count);
    instruction_count = (count >= 0) ? count : 1;
@@ -2176,7 +2176,7 @@ void mon_instructions_step(int count)
 void mon_instructions_next(int count)
 {
    if (count >= 0)
-       console_out(console_log,
+       arch_mon_out(
                    "Nexting through the next %d instruction(s).\n",
                    count);
    instruction_count = (count >= 0) ? count : 1;
@@ -2206,13 +2206,13 @@ void mon_instruction_return(void)
 
 void mon_stack_up(int count)
 {
-   console_out(console_log, "Going up %d stack frame(s).\n",
+   arch_mon_out( "Going up %d stack frame(s).\n",
           (count>=0)?count:1);
 }
 
 void mon_stack_down(int count)
 {
-   console_out(console_log, "Going down %d stack frame(s).\n",
+   arch_mon_out( "Going down %d stack frame(s).\n",
                (count>=0)?count:1);
 }
 
@@ -2229,7 +2229,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
     floppy = (vdrive_t *)file_system_get_vdrive(8);
 
     if (!floppy || floppy->image == NULL) {
-        console_out(console_log, "No disk attached\n");
+        arch_mon_out( "No disk attached\n");
         return;
     }
 
@@ -2242,7 +2242,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         /* We ignore disk error codes here.  */
         if (disk_image_read_sector(floppy->image, readdata, track, sector)
             < 0) {
-            console_out(console_log, "Error reading track %d sector %d\n",
+            arch_mon_out( "Error reading track %d sector %d\n",
                         track, sector);
             return;
         }
@@ -2254,18 +2254,18 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
             for (i = 0; i < 256; i++)
                 set_mem_val(dest_mem, ADDR_LIMIT(dst+i), readdata[i]);
 
-            console_out(console_log,
+            arch_mon_out(
                         "Read track %d sector %d into address $%04x\n",
                         track, sector, dst);
         } else {
             for (i = 0; i < 16; i++) {
-                console_out(console_log, ">%04x", i * 16);
+                arch_mon_out( ">%04x", i * 16);
                 for (j = 0; j < 16; j++) {
                     if ((j & 3) == 0)
-                        console_out(console_log, " ");
-                    console_out(console_log, " %02x", readdata[i * 16 + j]);
+                        arch_mon_out( " ");
+                    arch_mon_out( " %02x", readdata[i * 16 + j]);
                 }
-                console_out(console_log, "\n");
+                arch_mon_out( "\n");
             }
         }
     } else {
@@ -2280,12 +2280,12 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
             writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src+i));
 
         if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
-            console_out(console_log, "Error writing track %d sector %d\n",
+            arch_mon_out( "Error writing track %d sector %d\n",
                     track, sector);
             return;
         }
 
-        console_out(console_log,
+        arch_mon_out(
                     "Write data from address $%04x to track %d sector %d\n",
                     src, track, sector);
     }
@@ -2312,26 +2312,26 @@ static void print_conditional(CONDITIONAL_NODE *cnode)
 {
    /* Do an in-order traversal of the tree */
    if (cnode->is_parenthized)
-      console_out(console_log, "( ");
+      arch_mon_out( "( ");
 
    if (cnode->operation != e_INV)
    {
       assert(cnode->child1 && cnode->child2);
       print_conditional(cnode->child1);
-      console_out(console_log, " %s ",cond_op_string[cnode->operation]);
+      arch_mon_out( " %s ",cond_op_string[cnode->operation]);
       print_conditional(cnode->child2);
    }
    else
    {
       if (cnode->is_reg)
-         console_out(console_log,
+         arch_mon_out(
                      ".%s",register_string[reg_regid(cnode->reg_num)]);
       else
-         console_out(console_log, "%d", cnode->value);
+         arch_mon_out( "%d", cnode->value);
    }
 
    if (cnode->is_parenthized)
-      console_out(console_log, " )");
+      arch_mon_out( " )");
 }
 
 
@@ -2370,7 +2370,7 @@ static int evaluate_conditional(CONDITIONAL_NODE *cnode)
             cnode->value = ((cnode->child1->value) || (cnode->child2->value));
             break;
          default:
-            console_out(console_log,
+            arch_mon_out(
                         "Unexpected conditional operator: %d\n",
                         cnode->operation);
             assert(0);
@@ -2466,10 +2466,10 @@ void mon_switch_checkpoint(int op, int breakpt_num)
    bp = find_checkpoint(breakpt_num);
 
    if (!bp) {
-      console_out(console_log, "#%d not a valid breakpoint\n", breakpt_num);
+      arch_mon_out( "#%d not a valid breakpoint\n", breakpt_num);
    } else {
       bp->enabled = op;
-      console_out(console_log, "Set breakpoint #%d to state: %s\n",
+      arch_mon_out( "Set breakpoint #%d to state: %s\n",
               breakpt_num, (op == e_ON) ? "enabled" : "disabled");
    }
 }
@@ -2481,12 +2481,12 @@ void mon_set_ignore_count(int breakpt_num, int count)
 
    if (!bp)
    {
-      console_out(console_log, "#%d not a valid breakpoint\n", breakpt_num);
+      arch_mon_out( "#%d not a valid breakpoint\n", breakpt_num);
    }
    else
    {
       bp->ignore_count = count;
-      console_out(console_log,
+      arch_mon_out(
                   "Ignoring the next %d crossings of breakpoint #%d\n",
                   count, breakpt_num);
    }
@@ -2495,35 +2495,35 @@ void mon_set_ignore_count(int breakpt_num, int count)
 static void print_checkpoint_info(breakpoint *bp)
 {
    if (bp->trace) {
-      console_out(console_log, "TRACE: ");
+      arch_mon_out( "TRACE: ");
    } else if (bp->watch_load || bp->watch_store) {
-      console_out(console_log, "WATCH: ");
+      arch_mon_out( "WATCH: ");
    } else {
       if (bp->temporary)
-         console_out(console_log, "UNTIL: ");
+         arch_mon_out( "UNTIL: ");
       else
-         console_out(console_log, "BREAK: ");
+         arch_mon_out( "BREAK: ");
    }
-   console_out(console_log,
+   arch_mon_out(
                "%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
    if (is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
-      console_out(console_log, "-$%04x",addr_location(bp->end_addr));
+      arch_mon_out( "-$%04x",addr_location(bp->end_addr));
 
    if (bp->watch_load)
-      console_out(console_log, " load");
+      arch_mon_out( " load");
    if (bp->watch_store)
-      console_out(console_log, " store");
+      arch_mon_out( " store");
 
-   console_out(console_log, "   %s\n",
+   arch_mon_out( "   %s\n",
                (bp->enabled==e_ON) ? "enabled" : "disabled");
 
    if (bp->condition) {
-      console_out(console_log, "\tCondition: ");
+      arch_mon_out( "\tCondition: ");
       print_conditional(bp->condition);
-      console_out(console_log, "\n");
+      arch_mon_out( "\n");
    }
    if (bp->command)
-      console_out(console_log, "\tCommand: %s\n", bp->command);
+      arch_mon_out( "\tCommand: %s\n", bp->command);
 }
 
 void mon_print_checkpoints(void)
@@ -2541,7 +2541,7 @@ void mon_print_checkpoints(void)
    }
 
    if (!any_set)
-      console_out(console_log, "No breakpoints are set\n");
+      arch_mon_out( "No breakpoints are set\n");
 }
 
 void mon_delete_checkpoint(int brknum)
@@ -2553,7 +2553,7 @@ void mon_delete_checkpoint(int brknum)
    if (brknum == -1)
    {
       /* Add user confirmation here. */
-      console_out(console_log, "Deleting all breakpoints\n");
+      arch_mon_out( "Deleting all breakpoints\n");
       for (i=1;i<breakpoint_count;i++)
       {
          bp = find_checkpoint(i);
@@ -2563,7 +2563,7 @@ void mon_delete_checkpoint(int brknum)
    }
    else if ( !(bp = find_checkpoint(brknum)) )
    {
-      console_out(console_log, "#%d not a valid breakpoint\n",brknum);
+      arch_mon_out( "#%d not a valid breakpoint\n",brknum);
       return;
    }
    else
@@ -2609,15 +2609,15 @@ void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode)
 
    if (!bp)
    {
-      console_out(console_log, "#%d not a valid breakpoint\n", brk_num);
+      arch_mon_out( "#%d not a valid breakpoint\n", brk_num);
    }
    else
    {
       bp->condition = cnode;
 
-      console_out(console_log, "Setting breakpoint %d condition to: ", brk_num);
+      arch_mon_out( "Setting breakpoint %d condition to: ", brk_num);
       print_conditional(cnode);
-      console_out(console_log, "\n");
+      arch_mon_out( "\n");
    }
 }
 
@@ -2629,12 +2629,12 @@ void mon_set_checkpoint_command(int brk_num, char *cmd)
 
    if (!bp)
    {
-      console_out(console_log, "#%d not a valid breakpoint\n", brk_num);
+      arch_mon_out( "#%d not a valid breakpoint\n", brk_num);
    }
    else
    {
       bp->command = cmd;
-      console_out(console_log, "Setting breakpoint %d command to: %s\n",
+      arch_mon_out( "Setting breakpoint %d command to: %s\n",
                   brk_num, cmd);
    }
 }
@@ -2725,11 +2725,11 @@ bool mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
 
          /*archdep_open_monitor_console(&mon_input, &mon_output);*/
 
-         console_out(console_log, "#%d (%s) ", bp->brknum, type);
+         arch_mon_out( "#%d (%s) ", bp->brknum, type);
          disassemble_instr(temp);
 
          if (bp->command) {
-            console_out(console_log, "Executing: %s\n", bp->command);
+            arch_mon_out( "Executing: %s\n", bp->command);
             parse_and_execute_line(bp->command);
          }
 
@@ -3015,10 +3015,10 @@ void mon_open(ADDRESS a)
     char prompt[40];
 
     if (mon_console_close_on_leaving)
-        console_log = arch_mon_window_open(); // @SRT console_open("Monitor");
+        console_log = arch_mon_window_open(); /* @SRT console_open("Monitor"); */
     else
     {
-        console_log = arch_mon_window_resume(); // @SRT
+        console_log = arch_mon_window_resume(); /* @SRT */
         mon_console_close_on_leaving = 1;
     }
 
@@ -3030,7 +3030,7 @@ void mon_open(ADDRESS a)
 
     dot_addr[caller_space] = new_addr(caller_space, a);
 
-    console_out(console_log, "\n** Monitor\n");
+    arch_mon_out( "\n** Monitor\n");
 
     if (disassemble_on_entry) {
         disassemble_instr(new_addr(caller_space, a));
@@ -3043,7 +3043,7 @@ void mon_open(ADDRESS a)
         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
 
-    console_out(console_log, prompt);
+    arch_mon_out( prompt);
 }
 
 int mon_process(char *cmd)
@@ -3052,7 +3052,7 @@ int mon_process(char *cmd)
 
     stop_output = 0;
     if (cmd == NULL) {
-        console_out(console_log, "\n");
+        arch_mon_out( "\n");
     } else {
         if (!cmd[0]) {
             if (!asm_mode) {
@@ -3077,7 +3077,7 @@ int mon_process(char *cmd)
         if (cmd) {
             if (recording) {
                 if (fprintf(recording_fp, "%s\n", cmd) != 1) {
-                   console_out(console_log,
+                   arch_mon_out(
                                "Error while recording commands. "
                                "Output file closed.\n");
                    fclose(recording_fp);
@@ -3103,7 +3103,7 @@ int mon_process(char *cmd)
         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
 
-    console_out(console_log, prompt);
+    arch_mon_out( prompt);
 
     return exit_mon;
 }
@@ -3127,7 +3127,7 @@ void mon_close(int check)
 
 	if (mon_console_close_on_leaving)
     {
-//		console_close(console_log); // @SRT
+/*		console_close(console_log); // @SRT */
         arch_mon_window_close();
     }
     else
@@ -3141,7 +3141,7 @@ void mon(ADDRESS a)
 {
     mon_open(a);
     while (!exit_mon) {
-        myinput = console_in(console_log);
+        myinput = arch_mon_in();
         mon_process(myinput);
     }
     mon_close(1);

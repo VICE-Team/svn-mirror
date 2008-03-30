@@ -3916,6 +3916,9 @@ static int ui_menu_select_emuwin(int *b, int **menu)
           {
             flip_remove(FlipListDrive + 8, DriveFile8);
             ui_build_fliplist_menu(1);
+            /* don't tick an image (without attaching it) */
+            wimp_menu_tick_all(MenuFlipImages, 0);
+            FlipListIter = 0;
           }
           break;
         case Menu_Fliplist_Next:
@@ -5118,7 +5121,12 @@ void ui_display_tape_counter(int counter)
 
 void ui_display_tape_current_image(const char *image)
 {
+  int state;
+
   wimp_window_write_icon_text(ConfWindows[CONF_WIN_TAPE], Icon_Conf_TapeFile, image);
+
+  state = ((image == NULL) || (strlen(image) == 0));
+  ui_set_icons_grey(NULL, TapeFileDependentIcons, 1);
 }
 
 
@@ -5129,6 +5137,9 @@ void ui_display_paused(int flag)
   if (flag == 0)
   {
     ui_temp_resume_sound(); t = SymbolStrings[Symbol_Pause];
+    /* resync to avoid including the pause in the speed calculation */
+    LastSpeed = OS_ReadMonotonicTime();
+    NumberOfFrames = 0; NumberOfRefreshes = 0;
   }
   else
   {
