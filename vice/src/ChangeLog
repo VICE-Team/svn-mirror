@@ -1,3 +1,105 @@
+2000-07-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.25.
+
+	* diskimage.c, diskimage.h, drive/drive.c, vdrive/vdrive.c:
+	Use a function to read the 1541/71 speed map.
+
+	* color.c (color_fill_pixel_return): Fixed conversion table
+	index calculation.
+
+	* arch/unix/x11/gnome/uicolor.c: Removed old code.
+
+	* arch/os2/Makefile.am: Fixes.
+
+	* arch/os2/vac++/Makefile.am: Removed references to
+	`incl/lpng.icc' and `incl/lzlib.icc' as they don't exist.
+
+2000-07-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.h,res.rc: new IDs for the new screenshot
+	save hook
+
+	* arch/win32/uisnapshot.c(hook_save_snapshot): handles
+	handles init and notification of the screenshot save hook
+	(ui_screenshot_save_dialog) now supports every initialized
+	screendriver
+	(ui_soundshot_save_dialog): removed wrong 'free' of the
+	SoundDeviceName resource pointer
+
+	* screenshot.h,screenshot.c: the screendrv_t now includes
+	a default file extension; (screenshot_get_driver) is now
+	public
+
+	* screendrv/bmp.c,png.c: added default file-extension
+	to the drivers
+
+2000-07-12  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: added archdep_create_mutex_sem, some
+	minor changes
+  
+	* arch/os2/config.h: added HAVE_PNG
+  
+	* arch/os2/console.c: fixed a bug in console_in
+  
+	* arch/os2/dislogs/dialogs.*: small changes in the layout,
+	added screenshot dialog
+  
+	* arch/os2/dialogs/dlg-emulator.c: added screenshot part
+  
+	* arch/os2/dialogs/dlg-screenshot.c added
+  
+	* arch/os2/fonts/bdf2fnt.cc, arch/os2/fonts/bdf2fnt.icc,
+	arch/os2/fonts/header.fnt, arch/os2/fonts/vice-cbm.asm,
+	arch/os2/fonts/vice-cbm.cmd, arch/fonts/os2/vice-cbm.def,
+	arch/os2/fonts/vice-cbm.rc added
+      
+	* arch/os2/joystick.c: init uses archdep_create_mutex_sem now
+  
+	* arch/os2/kbd/kbd-*.c: old keyboard transaltion arrays
+	deleted
+  
+	* arch/os2/kbd/: kmap-pet.c, kmap.[ch], parse.[ch], proc.[ch]
+	added
+  
+	* arch/os2/kbd.c: keyboard handling, translation handling and
+	processing moved to new files in kbd/
+           
+	* arch/os2/kbd.h: small corrations in enum
+  
+	* arch/os2/ui.c: writes also the actual time to the log-file
+	now
+  
+	* arch/os2/vac++/Fonts.ic: added
+  
+	* arch/os2/vac++/, arch/os2/vac++/incl: screendrv.icc,
+	lpng.icc, lzlib.icc added, all necessary changes for compiling
+	with the png-lib added
+    
+	* arch/os2/video.c: make it compile again, some small changes
+  
+	* arch/os2/videoarch.h: palette removed from canvas_t
+  
+	* arch/os2/vsync.c removed split into an arch independant an
+	dependant part
+  
+	* vsync.c added
+  
+	* vsyncarch.h added
+  
+	* c128/c128.c: mouse_init_resources removed (s. main.c) 
+
+	* c64/c64.c: mouse_init_resources removed (s. main.c) 
+  
+	* crtc/crtc.c, drive/drive-snapshot.c, raster/raster.c,
+	vdc/vdc.c, vic20/vic.c, vicii/vicii.c: 
+	added an explicite cast to get rid of warnings
+  
+	* screendriver/bmp.c: added string.h
+  
+	* sound.h: added stdlib.h
+  
 2000-07-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.24.

@@ -5,6 +5,7 @@ EXTRA_DIST = \
         Xpet.ICC \
         Xvic.ICC \
         C1541.ICC \
+        Fonts.icc \
         PETcat.ICC \
         RESID.ICC \
         VICE_INF.ICC \
@@ -18,9 +19,11 @@ EXTRA_DIST = \
         incl/mainsrc.icc \
         incl/monitor.icc\
         incl/pet.icc \
+        incl/kbd.icc \
         incl/raster.icc \
         incl/resid.icc \
         incl/sounddrv.icc \
+        incl/screendrv.icc \
         incl/vdc.icc \
         incl/vdrive.icc \
         incl/vic20.icc \
