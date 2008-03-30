@@ -24,8 +24,6 @@
  *
  */
 
-#define _KBD_DOS_C
-
 #include "vice.h"
 
 #include <sys/farptr.h>
@@ -40,6 +38,7 @@
 #include "machine.h"
 #include "kbd.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "resources.h"
 #include "vsync.h"
 #include "mem.h"
@@ -88,6 +87,20 @@ static int virtual_shift_column, virtual_shift_row;
 
 /* ------------------------------------------------------------------------- */
 
+/* For now, no resources and no command-line options.  */
+
+int kbd_init_resources(void)
+{
+    return 0;
+}
+
+int kbd_init_cmdline_options(void)
+{
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* These are the keyboard commands that cannot be handled within a keyboard
    interrupt.  They are dispatched via `kbd_flush_commands()'.  */
 
@@ -133,12 +146,10 @@ void kbd_flush_commands(void)
 
 	  case KCMD_RESTORE_PRESSED:
 	    machine_set_restore_key(1);
-	    /*maincpu_set_nmi(I_RESTORE, 1);*/
 	    break;
 
 	  case KCMD_RESTORE_RELEASED:
 	    machine_set_restore_key(0);
-	    /*maincpu_set_nmi(I_RESTORE, 0);*/
 	    break;
 
 	  default:
