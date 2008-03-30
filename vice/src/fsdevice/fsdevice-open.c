@@ -114,7 +114,8 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
     cmd_parse.parsecmd[cmd_parse.parselength] = 0;
     strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength);
 
-    charset_petconvstring(cmd_parse.parsecmd, 1); /* CBM name to FSname */
+    /* CBM name to FSname */
+    charset_petconvstring((BYTE *)(cmd_parse.parsecmd), 1);
 
     switch (cmd_parse.readmode) {
       case FAM_WRITE:
@@ -180,8 +181,8 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
         *p++ = (BYTE) 0x12;     /* Reverse on */
 
         *p++ = '"';
-        strcpy((char *) p, fs_info[secondary].dir);     /* Dir name */
-        charset_petconvstring((char *) p, 0);   /* ASCII name to PETSCII */
+        strcpy((char *)p, fs_info[secondary].dir);     /* Dir name */
+        charset_petconvstring((BYTE *)p, 0);   /* ASCII name to PETSCII */
         i = 0;
         while (*p) {
             ++p;
