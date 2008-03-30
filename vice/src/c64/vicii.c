@@ -850,7 +850,9 @@ void vic_ii_trigger_light_pen(CLOCK mclk)
 /* Handle the exposure event. */
 void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
+#ifdef USE_VIDMODE_EXTENSION
     if(fullscreen) return;
+#endif
     resize(width, height);
     force_repaint();
 }

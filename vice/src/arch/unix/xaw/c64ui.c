@@ -348,10 +348,10 @@ int c64_ui_init(void)
     }
 #endif
     romsets = mem_get_romsets();
+    
+    romset_submenu = (ui_menu_entry_t*) xcalloc(mem_get_numromsets() + 4,
+						sizeof(ui_menu_entry_t));
 
-    romset_submenu = (ui_menu_entry_t*) calloc(sizeof(ui_menu_entry_t),
-					       (size_t) (mem_get_numromsets()
-							 +3));
     romset_submenu[0].string = "Default";
     romset_submenu[0].callback = (ui_callback_t) radio_RomSet;
     romset_submenu[0].callback_data = (ui_callback_data_t) "Default";

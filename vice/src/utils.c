@@ -81,6 +81,21 @@ void *xmalloc(size_t size)
     return p;
 }
 
+/* Like calloc, but abort if not enough memory is available.  */
+void *xcalloc(size_t nmemb, size_t size)
+{
+    void *p = calloc(nmemb, size);
+
+    if (p == NULL) {
+	log_error(LOG_DEFAULT,
+                  "Virtual memory exhausted: cannot allocate %lu bytes.",
+                  (unsigned long)size * (unsigned long)nmemb);
+	exit(-1);
+    }
+
+    return p;
+}
+
 /* Like realloc, but abort if not enough memory is available.  */
 void *xrealloc(void *p, size_t size)
 {

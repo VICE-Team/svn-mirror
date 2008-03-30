@@ -113,6 +113,7 @@ static int selected_videomode_index;
 
 static ui_menu_entry_t* resolutions_submenu;
 
+extern void video_setfullscreen(int v,int width, int height);
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -188,6 +189,7 @@ static int set_fullscreen(resource_value_t v)
     static int timeout,interval,prefer_blanking,allow_exposures;
     static XF86VidModeModeLine restoremodeline;
     static int dotclock;
+    static int window_doublesize;
     int i;
 
     if( !vidmodeavail) {
@@ -255,9 +257,6 @@ static int set_fullscreen(resource_value_t v)
 		     XtWindow(canvas),
 		     None, CurrentTime);
 	
-	XWarpPointer(display, None,
-		     XtWindow(canvas),
-		     0, 0, 0, 0, 0, 0);
 	XGetScreenSaver(display,&timeout,&interval,
 			&prefer_blanking,&allow_exposures);
 	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
@@ -265,6 +264,12 @@ static int set_fullscreen(resource_value_t v)
 	use_fullscreen = 1;
 	video_setfullscreen(1,allmodes[selected_videomode_index]->hdisplay - 2,
 			    allmodes[selected_videomode_index]->vdisplay - 2);
+	XWarpPointer(display, None,
+		     XtWindow(canvas),
+		     0, 0, 0, 0, 0, 0);
+	if (resources_get_value("DoubleSize",
+                            (resource_value_t *) &window_doublesize) < 0)
+	  window_doublesize = 0;
     } else if((int) v == 2) {	
         log_message(LOG_DEFAULT, "Change to fullscreen %ix%i",
 		    allmodes[selected_videomode_index]->hdisplay,
@@ -298,7 +303,11 @@ static int set_fullscreen(resource_value_t v)
 		      NULL);
 	video_setfullscreen(1,allmodes[selected_videomode_index]->hdisplay - 2,
 			    allmodes[selected_videomode_index]->vdisplay - 2);
+	XWarpPointer(display, None,
+		     XtWindow(canvas),
+		     0, 0, 0, 0, 0, 0);
     } else if(use_fullscreen) {
+        int ds;
         log_message(LOG_DEFAULT, "Switch to windowmode");
 
 	use_fullscreen = 0;
@@ -330,6 +339,15 @@ static int set_fullscreen(resource_value_t v)
 			  NULL);
 	}
 
+	if (resources_get_value("DoubleSize",
+                            (resource_value_t *) &ds) < 0);
+	if(ds < window_doublesize) {
+	  w -= canvas_width/2;
+	  h -= canvas_height/2;
+	} else if(ds > window_doublesize) {
+	  w += canvas_width;
+	  h += canvas_height;
+	}
 	XtVaSetValues(XtParent(XtParent(canvas)),
 		      XtNwidth,      w,
 		      XtNheight,     h,
@@ -352,7 +370,7 @@ static int set_bestmode(resource_value_t v)
 {
     int i;
     if(!vidmodeavail) {
-      selected_videomode_at_start = (char*) strdup(v);
+      selected_videomode_at_start = (char*) stralloc(v);
       return(0);
     }
     selected_videomode = (char*) v;
@@ -984,8 +1002,8 @@ void ui_create_dynamic_menues()
     {
 	int i;
         resolutions_submenu = (ui_menu_entry_t*)
-	  calloc(sizeof(ui_menu_entry_t),
-		 (size_t) bestmode_counter + 1);
+	  xmalloc(sizeof(ui_menu_entry_t)*
+		 (size_t) (bestmode_counter + 1));
 
 	for(i = 0; i < bestmode_counter ; i++) {
 	    resolutions_submenu[i].string =

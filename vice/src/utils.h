@@ -37,6 +37,7 @@
 
 char *stralloc(const char *str);
 void *xmalloc(size_t s);
+void *xcalloc(size_t nmemb, size_t size);
 void *xrealloc(void *p, size_t s);
 char *concat(const char *s1, ...);
 char *bufcat(char *buf, int *buf_size, int *max_buf_size,
