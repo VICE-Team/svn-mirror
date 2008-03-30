@@ -308,17 +308,23 @@ int video_color_update_palette(void)
 {
 	palette_t *palette;
 
-	if (video_current_palette == NULL) return 0;
-	if (video_current_raster  == NULL) return 0;
+	if (video_current_palette == NULL)
+            return 0;
+	if (video_current_raster == NULL)
+            return 0;
 
 	video_calc_gammatable();
 	video_calc_ycbcrtable(video_current_palette);
+
 	if (video_resources.ext_palette)
-            palette=video_load_palette(video_current_palette,video_resources.palette_file_name);
-	else palette=video_calc_palette(video_current_palette);
+            palette = video_load_palette(video_current_palette,
+                                         video_resources.palette_file_name);
+	else
+            palette = video_calc_palette(video_current_palette);
 
 	if (palette != NULL)
-           return raster_set_palette(video_current_raster,palette);
+           return raster_set_palette(video_current_raster, palette);
 
 	return -1;
 }
+
