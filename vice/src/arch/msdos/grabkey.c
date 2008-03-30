@@ -127,7 +127,6 @@ static int install_kbd_handler(void)
     if (r)
         return -1;
 
-    printf("All ok\n");
     return 0;
 }
 
