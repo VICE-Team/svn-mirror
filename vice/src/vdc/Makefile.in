@@ -273,7 +273,7 @@ vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-resources.h ../../src/resources.h \
 	../../src/utils.h ../../src/arch/unix/types.h vdc-resources.h \
 	vdc.h vdctypes.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h
+	../../src/raster/raster-changes.h ../../src/video.h
 vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h vdc-snapshot.h \
 	vdc.h vdctypes.h ../../src/log.h ../../src/raster/raster.h \

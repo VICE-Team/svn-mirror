@@ -274,7 +274,7 @@ crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-resources.h ../../src/resources.h \
-	../../src/utils.h
+	../../src/utils.h ../../src/video.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	crtc.h ../../src/arch/unix/types.h crtctypes.h crtc-mem.h \
 	../../src/log.h ../../src/raster/raster.h \
