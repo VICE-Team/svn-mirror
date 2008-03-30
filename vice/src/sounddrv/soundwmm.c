@@ -125,6 +125,9 @@ static unsigned wmm_timer_id = 0;
 /* Inactivity timer (for clearing the buffer) */
 static int inactivity_timer;
 
+static SWORD                last_buffered_sample[2];
+
+
 /* Prototypes */
 static int wmm_init(const char *param, int *speed,
                    int *fragsize, int *fragnr, int *channels);
@@ -151,14 +154,14 @@ static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD dwUser, D
      * Increment inactivity timer. If inactive for a whole buffer, stop
      * playing
      */
-    inactivity_timer++;
+/*    inactivity_timer++;
     if (inactivity_timer >= num_fragments)
     {
         waveOutReset(hwaveout);
         waveOutUnprepareHeader(hwaveout, &wavehdr, sizeof(WAVEHDR));
         headerprepared = 0;
         wavehdr.dwFlags |= WHDR_DONE;
-    }
+    }*/
 }
 
 static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
@@ -357,6 +360,7 @@ static int wmm_write(SWORD *pbuf, size_t nr)
     DWORD worktodo;
     int t;
     char *destptr;
+    int i;
 
     if (!sndinitted) return 0;
 
@@ -459,9 +463,48 @@ static int wmm_write(SWORD *pbuf, size_t nr)
         }
     }
 
+    pbuf-=num_of_channels;
+    for (i=0; i<num_of_channels; i++) {
+        last_buffered_sample[i]=*pbuf++;
+    }
+
     /* Increment writing pos */
     write_cursor += worktodo;
     write_cursor %= buffer_size;
+    return 0;
+}
+
+static int wmm_suspend(void)
+{
+    int c, i;
+    SWORD *p = (SWORD *)xmalloc(fragment_size * num_fragments * num_of_channels * sizeof(SWORD));
+
+    if (!p)
+        return 0;
+
+    for (c = 0; c < num_of_channels; c++) {
+        for (i = 0; i < fragment_size * num_fragments * num_of_channels; i++) 
+            p[i * num_of_channels + c] = last_buffered_sample[c];
+    }
+
+    i = wmm_write(p, fragment_size * num_fragments * num_of_channels);
+    free(p);
+
+    return 0;
+}
+
+static int wmm_resume(void)
+{
+DWORD play_cursor;
+
+    if (waveOutGetPosition (hwaveout, &mmtime, sizeof (mmtime)) != MMSYSERR_NOERROR)
+      	return 0;
+
+    play_cursor = mmtime.u.cb - (mmtime.u.cb % fragment_bytesize);
+
+    write_cursor = play_cursor - fragment_bytesize;
+    write_cursor %= buffer_size;
+    play_cursor_subtract = 0;
     return 0;
 }
 
@@ -474,8 +517,8 @@ static sound_device_t wmm_device =
     NULL,
     wmm_bufferspace,
     wmm_close,
-    NULL,
-    NULL
+    wmm_suspend,
+    wmm_resume
 };
 
 int sound_init_wmm_device(void)

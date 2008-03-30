@@ -169,7 +169,7 @@ static HANDLE               notifyThreadHandle;
 static LPVOID               fragment_pointer;
 
 /*  Last played sample. This will be played in underflow condition */
-static WORD                 last_played_sample=0;
+static SWORD                last_buffered_sample[2];
 
 /*  Flag: is soundcard a 16bit or 8bit card? */
 static int                  is16bit;
@@ -409,35 +409,35 @@ static int dx_write(SWORD *pbuf, size_t nr)
         if (buffer_offset>=buffer_size) buffer_offset=0;
         pbuf+=fragment_size;
     }
+    pbuf-=num_of_channels;
+    for (i=0; i<num_of_channels; i++) {
+        last_buffered_sample[i]=*pbuf++;
+    }
     return 0;
 }
-
 
 static int dx_suspend(void)
 {
-    LPVOID lpvPtr1,lpvPtr2;
-    DWORD dwBytes1,dwBytes2;
+    int c, i;
+    SWORD *p = (SWORD *)xmalloc(stream_buffer_size * sizeof(SWORD));
 
-    if (IDirectSoundBuffer_Lock(buffer, buffer_offset, buffer_size-fragment_size,
-                                 &lpvPtr1, &dwBytes1, &lpvPtr2,
-                                 &dwBytes2, 0) == DS_OK)
-    {
-        memset(lpvPtr1,0,dwBytes1);
-        if (lpvPtr2)
-            memset(lpvPtr2,0,dwBytes2);
-        IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
-                                    lpvPtr2, dwBytes2);
+    if (!p)
+        return 0;
+
+    for (c = 0; c < num_of_channels; c++) {
+        for (i = 0; i < stream_buffer_size; i++) 
+            p[i * num_of_channels + c] = last_buffered_sample[c];
     }
-    
-    IDirectSoundBuffer_Stop(buffer);
-    buffer_offset = buffer_size - fragment_size;
+
+    i = dx_write(p, stream_buffer_size);
+    free(p);
 
     return 0;
 }
 
-
 static int dx_resume(void)
 {
+    buffer_offset = buffer_size - fragment_size;
     IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
 
     return 0;

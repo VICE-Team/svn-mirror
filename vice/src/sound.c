@@ -336,7 +336,7 @@ static void fill_buffer(int size)
     for (c = 0; c < snddata.channels; c++) {
         for (i = 0; i < size; i++) {
             p[i * snddata.channels + c] =
-                snddata.lastsample[c] - (float)snddata.lastsample[c] * i / size;        }
+                snddata.lastsample[c] - (float)snddata.lastsample[c] * i / size; }
         snddata.lastsample[c] = 0;
     }
 
@@ -346,6 +346,7 @@ static void fill_buffer(int size)
         sound_error("write to sound device failed.");
     }
 }
+
 
 /* open SID engine */
 static int sid_open(void)
@@ -899,9 +900,9 @@ void sound_suspend(void)
     if (!snddata.pdev)
         return;
 
-    if (snddata.pdev->write && !snddata.issuspended) {
-        fill_buffer(snddata.fragsize);
-    }
+/*    if (snddata.pdev->write && !snddata.issuspended) {
+        fill_buffer(snddata.fragsize*snddata.fragnr);
+    }*/
     if (snddata.pdev->suspend && !snddata.issuspended) {
         if (snddata.pdev->suspend())
             return;

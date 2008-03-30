@@ -628,8 +628,8 @@ inline static void _draw_hires_bitmap(PIXEL *p, int xs, int xe,
         int d;
 
         ptr = hr_table
-              + ((ted.cbuf[i] & 0x70) << 11) + ((ted.vbuf[i] & 0xf0) << 7)
-              + ((ted.cbuf[i] & 0x07) << 8) + ((ted.vbuf[i] & 0x0f) << 4);
+              + ((ted.cbuf[i] & 0x07) << 15) + ((ted.vbuf[i] & 0xf0) << 7)
+              + ((ted.cbuf[i] & 0x70) << 4) + ((ted.vbuf[i] & 0x0f) << 4);
 
         d = *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = bmptr[j];
         *((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
@@ -683,8 +683,8 @@ inline static void _draw_hires_bitmap_2x(PIXEL *p, int xs, int xe,
 
 /*        ptr = hr_table_2x + (ted.vbuf[i] << 5);*/
         ptr = hr_table
-              + ((ted.cbuf[i] & 0x70) << 12) + ((ted.vbuf[i] & 0xf0) << 8)
-              + ((ted.cbuf[i] & 0x07) << 9) + ((ted.vbuf[i] & 0x0f) << 5);
+              + ((ted.cbuf[i] & 0x07) << 16) + ((ted.vbuf[i] & 0xf0) << 8)
+              + ((ted.cbuf[i] & 0x70) << 5) + ((ted.vbuf[i] & 0x0f) << 5);
 
         d = *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = bmptr[j];
         *((PIXEL4 *)p + i * 4) = *(ptr + (d >> 4));
