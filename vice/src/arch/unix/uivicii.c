@@ -30,6 +30,8 @@
 #include <stdio.h>
 
 #include "c64ui.h"
+#include "drive.h"
+#include "resources.h"
 #include "uipalette.h"
 #include "uimenu.h"
 #include "uivicii.h"
@@ -61,9 +63,35 @@ UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 #if VIDEO_DISPLAY_DEPTH == 0
-UI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)
+/*UI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)*/
+#if 0
 UI_MENU_DEFINE_TOGGLE(PALEmulation)
 #endif
+#endif
+
+static UI_CALLBACK(toggle_DelayLoopEmulation)
+{
+    int delayloopemulation;
+
+    resources_get_value("DelayLoopEmulation",
+                        (resource_value_t *)&delayloopemulation);
+    if (!CHECK_MENUS) {
+        resources_set_value("DelayLoopEmulation",
+                            (resource_value_t)!delayloopemulation);
+        ui_update_menus();
+    } else {
+        int video_standard;
+
+        resources_get_value("VideoStandard",
+                            (resource_value_t *)&video_standard);
+        ui_menu_set_tick(w, delayloopemulation);
+
+        if (video_standard == DRIVE_SYNC_PAL)
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
 
 ui_menu_entry_t vic_submenu[] = {
     { N_("Video standard"),
@@ -82,8 +110,10 @@ ui_menu_entry_t vic_submenu[] = {
     { "--" },
     { N_("*Fast PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
+#if 0
     { N_("*PAL emulation"),
       (ui_callback_t)toggle_PALEmulation, NULL, NULL },
+#endif
 #endif
     { NULL }
 };

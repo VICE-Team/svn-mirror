@@ -26,7 +26,6 @@
  *
  */
 
-#define X11_USE_RENDER
 
 /*** MITSHM-code rewritten by Dirk Farin <farin@ti.uni-mannheim.de>. **
 
@@ -157,119 +156,66 @@ static log_t video_log = LOG_ERR;
 #if VIDEO_DISPLAY_DEPTH == 0
 static void (*_convert_func) (video_frame_buffer_t *p, int x, int y, int w,
                               int h);
-static DWORD real_pixel1[256];
-static DWORD real_pixel2[256];
-static DWORD real_pixel4[256];
-static long real_pixel[256];
 static BYTE shade_table[256];
 
-void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,                               unsigned int bits_per_pixel,
-                               unsigned int dither, long col)
+void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
+                               unsigned int bits_per_pixel,
+                               unsigned int dither, long col,
+                               video_canvas_t *c)
 {
     *pixel_return = i;
 
-#ifdef X11_USE_RENDER
-    if (0) {
-#else
-    if (ui_get_display_depth() == 8) {
-#endif
-        *pixel_return = *data;
-    } else {
-        switch (bits_per_pixel) {
-          case 8:
-            real_pixel1[i] = (DWORD)(*(PIXEL *)data);
-            break;
-          case 16:
-            real_pixel2[i] = (DWORD)col;
-            break;
-          case 32:
-            real_pixel4[i] = (DWORD)col;
-            break;
-          default:
-            real_pixel[i] = col;
-
-        }
+    switch (bits_per_pixel) {
+      case 8:
+        c->color_tab[i] = (DWORD)(*(PIXEL *)data | (*(PIXEL *)data << 8));
+        break;
+      case 16:
+        c->color_tab[i] = (DWORD)(col | ((DWORD)col << 16));
+        break;
+      case 32:
+        c->color_tab[i] = (DWORD)col;
+        break;
+      default:
+        c->color_tab[i] = col;
     }
 
     if (bits_per_pixel == 1)
         shade_table[i] = dither;
 }
 
-/* Conversion routines between 8bit and other sizes. */
+/* This doesn't usually happen, but if it does, this is a great speedup
+   comparing the general convert_8toall() -routine. */
+static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
+{
+    video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
+                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      p->x_image->bytes_per_line, 8);
+
+}
+
+static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
+                          int h)
+{
+    video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
+                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      p->x_image->bytes_per_line, 16);
+
+}
+
+static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
+                          int h)
+{
+    video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
+                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      p->x_image->bytes_per_line, 32);
+
+}
 
 #define SRCPTR(i, x, y) \
         ((i)->tmpframebuffer + (y)*(i)->tmpframebufferlinesize + (x))
 #define DESTPTR(i, x, y, t) \
         ((t *)((PIXEL *)(i)->x_image->data + \
                (i)->x_image->bytes_per_line*(y)) + (x))
-
-static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
-                          int h)
-{
-#ifdef X11_USE_RENDER
-    video_render_main(real_pixel2, p->tmpframebuffer, p->x_image->data,
-                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 16);
-
-#else
-    PIXEL *src;
-    PIXEL2 *dst;
-    int x, y;
-
-    for (y = 0; y < h; y++) {
-        src = SRCPTR(p, sx, sy + y);
-        dst = DESTPTR(p, sx, sy + y, PIXEL2);
-        for (x = 0; x < w; x++)
-            dst[x] = (PIXEL2)real_pixel2[src[x]];
-
-    }
-#endif
-}
-
-static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
-                          int h)
-{
-#ifdef X11_USE_RENDER
-    video_render_main(real_pixel4, p->tmpframebuffer, p->x_image->data,
-                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 32);
-
-#else
-    PIXEL *src;
-    PIXEL4 *dst;
-    int x, y;
-
-    for (y = 0; y < h; y++) {
-        src = SRCPTR(p, sx, sy + y);
-        dst = DESTPTR(p, sx, sy + y, PIXEL4);
-        for (x = 0; x < w; x++)
-            dst[x] = (PIXEL4)real_pixel4[src[x]];
-    }
-#endif
-}
-
-/* This doesn't usually happen, but if it does, this is a great speedup
-   comparing the general convert_8toall() -routine. */
-static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
-{
-#ifdef X11_USE_RENDER
-    video_render_main(real_pixel1, p->tmpframebuffer, p->x_image->data,
-                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 8);
-
-#else
-    PIXEL *src;
-    PIXEL *dst;
-    int x, y;
-
-    for (y = 0; y < h; y++) {
-        src = SRCPTR(p, sx, sy + y);
-        dst = DESTPTR(p, sx, sy + y, PIXEL);
-        for (x = 0; x < w; x++)
-            dst[x] = (PIXEL)real_pixel1[src[x]];
-    }
-#endif
-}
 
 /* Use dither on 1bit display. This is slow but who cares... */
 BYTE dither_table[4][4] = {
@@ -290,7 +236,8 @@ static void convert_8to1_dither(video_frame_buffer_t *p, int sx, int sy, int w,
         for (x = 0; x < w; x++) {
             /* XXX: trusts that real_pixel[0, 1] == black, white */
             XPutPixel(p->x_image, sx + x, sy + y,
-                      real_pixel[shade_table[src[x]] > dither[(sx + x) % 4]]);
+                      p->canvas->color_tab[shade_table[src[x]]
+                      > dither[(sx + x) % 4]]);
         }
     }
 }
@@ -304,7 +251,7 @@ static void convert_8toall(video_frame_buffer_t * p, int sx, int sy, int w,
     for (y = 0; y < h; y++) {
         src = SRCPTR(p, sx, sy + y);
         for (x = 0; x < w; x++)
-            XPutPixel(p->x_image, sx + x, sy + y, real_pixel[src[x]]);
+            XPutPixel(p->x_image, sx + x, sy + y, p->canvas->color_tab[src[x]]);
     }
 }
 
@@ -315,34 +262,23 @@ int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
                        unsigned int height)
 {
 #if VIDEO_DISPLAY_DEPTH == 0
-    /* if display depth != 8 we need a temporary buffer */
-#ifdef X11_USE_RENDER
-    if (0) {
-#else
-    if (depth == 8) {
-#endif
-        i->tmpframebuffer = (PIXEL *)i->x_image->data;
-        i->tmpframebufferlinesize = i->x_image->bytes_per_line;
-        _convert_func = NULL;
-    } else {
-        i->tmpframebufferlinesize = width;
-        i->tmpframebuffer = (PIXEL *)xmalloc(width * height);
-        switch (i->x_image->bits_per_pixel) {
-          case 1:
-            _convert_func = convert_8to1_dither;
-            break;
-          case 8:
-            _convert_func = convert_8to8;
-            break;
-          case 16:
-            _convert_func = convert_8to16;
-            break;
-          case 32:
-            _convert_func = convert_8to32;
-            break;
-          default:
-            _convert_func = convert_8toall;
-        }
+    i->tmpframebufferlinesize = width;
+    i->tmpframebuffer = (PIXEL *)xmalloc(width * height);
+    switch (i->x_image->bits_per_pixel) {
+      case 1:
+        _convert_func = convert_8to1_dither;
+        break;
+      case 8:
+        _convert_func = convert_8to8;
+        break;
+      case 16:
+        _convert_func = convert_8to16;
+        break;
+      case 32:
+        _convert_func = convert_8to32;
+        break;
+      default:
+        _convert_func = convert_8toall;
     }
 #else
 /* VIDEO_DISPLAY_DEPTH == 24 should really be 32.  */
@@ -423,11 +359,11 @@ int shmmajor;          /* major number of MITSHM error codes */
 /* Catch XShmAttach()-failure. */
 int shmhandler(Display* display,XErrorEvent* err)
 {
-  if (err->request_code == shmmajor &&
-      err->minor_code == X_ShmAttach)
-    mitshm_failed=1;
+    if (err->request_code == shmmajor &&
+        err->minor_code == X_ShmAttach)
+      mitshm_failed=1;
 
-  return 0;
+    return 0;
 }
 #endif
 
@@ -474,10 +410,8 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
     }
 #endif
     {
-#ifdef USE_GNOMEUI
         extern video_canvas_t *dangling_canvas;
         dangling_canvas = i->canvas;
-#endif
     }
     free(i);
 }
@@ -487,18 +421,12 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 #if VIDEO_DISPLAY_DEPTH == 0
     memset(f->tmpframebuffer, value,
            f->x_image->height * f->tmpframebufferlinesize);
-    if (_convert_func
-#ifdef USE_XF86_EXTENSIONS
-        && !fullscreen_is_enabled
-#endif
-        )
-        _convert_func(f, 0, 0, f->x_image->width, f->x_image->height);
 #else
     int i;
 
     for (i = 0; i < f->x_image->height * f->x_image->bytes_per_line;
          i += sizeof(PIXEL))
-        *((PIXEL *) (f->x_image->data + i)) = value;
+        *((PIXEL *)(f->x_image->data + i)) = value;
 #endif
 }
 
@@ -512,14 +440,12 @@ void video_register_raster(raster_t *raster)
 /* ------------------------------------------------------------------------- */
 /* Create a canvas.  In the X11 implementation, this is just (guess what?) a
    window. */
-video_canvas_t *canvas_create(const char *win_name, unsigned int *width,
-                        unsigned int *height, int mapped,
-                        void_t exposure_handler,
-                        const palette_t *palette, PIXEL *pixel_return
-#ifdef USE_GNOMEUI
-                       ,video_frame_buffer_t *fb
-#endif
-                       )
+video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
+                                    unsigned int *height, int mapped,
+                                    void_t exposure_handler,
+                                    const palette_t *palette,
+                                    PIXEL *pixel_return,
+                                    video_frame_buffer_t *fb)
 {
     video_canvas_t *c;
     ui_window_t w;
@@ -547,9 +473,9 @@ video_canvas_t *canvas_create(const char *win_name, unsigned int *width,
     video_add_handlers(w);
     if (console_mode || vsid_mode)
         return c;
-#ifdef USE_GNOMEUI
+
     fb->canvas = c;
-#endif
+
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_palette(palette, pixel_return);
 #endif

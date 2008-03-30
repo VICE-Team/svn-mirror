@@ -416,11 +416,11 @@ void _ui_menu_toggle_helper(Widget w,
     int current_value;
 
     if (resources_get_value(resource_name,
-                            (resource_value_t *) &current_value) < 0)
+                            (resource_value_t *)&current_value) < 0)
         return;
 
     if (!call_data) {
-        resources_set_value(resource_name, (resource_value_t) !current_value);
+        resources_set_value(resource_name, (resource_value_t)!current_value);
         ui_update_menus();
     } else {
         ui_menu_set_tick(w, current_value);
