@@ -44,14 +44,14 @@
 #define T64_HDR_DESCRIPTION_OFFSET      40
 #define T64_HDR_DESCRIPTION_LEN         24
 
-struct t64_header {
+struct t64_header_s {
     BYTE magic[T64_HDR_MAGIC_LEN];
     WORD version;
     WORD num_entries;
     WORD num_used;
     BYTE description[T64_HDR_DESCRIPTION_LEN];
 };
-typedef struct t64_header t64_header_t;
+typedef struct t64_header_s t64_header_t;
 
 #define T64_REC_SIZE              32
 
@@ -68,7 +68,7 @@ typedef struct t64_header t64_header_t;
 #define T64_REC_CBMNAME_OFFSET          16
 #define T64_REC_CBMNAME_LEN             16
 
-enum t64_file_record_type {
+enum t64_file_record_type_s {
     T64_FILE_RECORD_FREE,
     T64_FILE_RECORD_NORMAL,
     T64_FILE_RECORD_HEADER,
@@ -76,9 +76,9 @@ enum t64_file_record_type {
     T64_FILE_RECORD_BLOCK,
     T64_FILE_RECORD_STREAM
 };
-typedef enum t64_file_record_type t64_file_record_type_t;
+typedef enum t64_file_record_type_s t64_file_record_type_t;
 
-struct t64_file_record {
+struct t64_file_record_s {
     t64_file_record_type_t entry_type;
     BYTE cbm_name[T64_REC_CBMNAME_LEN];
     BYTE cbm_type;
@@ -86,7 +86,7 @@ struct t64_file_record {
     ADDRESS end_addr;
     DWORD contents;
 };
-typedef struct t64_file_record t64_file_record_t;
+typedef struct t64_file_record_s t64_file_record_t;
 
 struct t64 {
     /* File name.  */
@@ -118,16 +118,17 @@ extern int t64_file_record_get_size(t64_file_record_t *rec);
 extern t64_t *t64_new(void);
 extern void t64_destroy(t64_t *t64);
 
-extern t64_t *t64_open(const char *name);
+extern t64_t *t64_open(const char *name, unsigned int *read_only);
 extern int t64_close(t64_t *t64);
 
 extern int t64_rewind(t64_t *t64);
 extern int t64_seek_to_file(t64_t *t64, int file_number);
-extern int t64_seek_to_next_file(t64_t *t64, int allow_rewind);
+extern int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind);
 extern t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num);
 extern t64_file_record_t *t64_get_current_file_record(t64_t *t64);
 extern int t64_read(t64_t *t64, BYTE *buf, size_t size);
 extern int t64_read_byte(t64_t *t64);
+extern void t64_get_header(t64_t *t64, BYTE *name);
 
 #endif
 
