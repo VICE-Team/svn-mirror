@@ -47,6 +47,7 @@ int read_fs(void *flp, BYTE *data, int secondary);
 int open_fs(void *flp, char *name, int length, int secondary);
 int close_fs(void *flp, int secondary);
 int attach_fsdevice(int device, char *var, char *name);
+void fsdevice_set_directory(char *filename, int unit);
 
 #endif	/* _FSDEVICE_H */
 

@@ -216,6 +216,7 @@ int     initialize_1541(int dev, int type,
 
     floppy->type     = type;
     floppy->ActiveFd = -1;
+    floppy->unit     = dev;
 
     for (i = 0; i < 15; i++)
 	floppy->buffers[i].mode = BUFFER_NOT_IN_USE;

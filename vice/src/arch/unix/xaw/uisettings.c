@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,6 +37,7 @@
 #include "resources.h"
 #include "vsync.h"
 #include "true1541.h"
+#include "fsdevice.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -385,7 +387,34 @@ UI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice9)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice10)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice11)
-UI_MENU_DEFINE_TOGGLE(FSDeviceConvertP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice8ConvertP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice9ConvertP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice10ConvertP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice11ConvertP00)
+
+static UI_CALLBACK(UiSetFSDeviceDirectory)
+{
+    int unit = (int)client_data;
+    char *filename;
+    char title[1024];
+    ui_button_t button;
+
+    suspend_speed_eval();
+    sprintf(title, "Attach file system directory to device #%d", unit);
+
+    /* FIXME: We use the select file dialog for now and delete the filename
+       afterwards. Change this when a select directory dialog is available.  */
+    filename = ui_select_file(title, read_disk_image_contents,
+                              unit == 8 ? True : False, &button);
+    switch (button) {
+      case UI_BUTTON_OK:
+        fsdevice_set_directory(filename, unit);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -609,10 +638,33 @@ static ui_menu_entry_t set_file_system_device_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_file_system_device_directory_submenu[] = {
+    { "Device #8", (ui_callback_t) UiSetFSDeviceDirectory,
+      (ui_callback_data_t) 8, NULL },
+    { "Device #9", (ui_callback_t) UiSetFSDeviceDirectory,
+      (ui_callback_data_t) 9, NULL },
+    { "Device #10", (ui_callback_t) UiSetFSDeviceDirectory,
+      (ui_callback_data_t) 10, NULL },
+    { "Device #11", (ui_callback_t) UiSetFSDeviceDirectory,
+      (ui_callback_data_t) 11, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_file_system_device_p00_support_submenu[] = {
+    { "*Device #8", (ui_callback_t) toggle_FSDevice8ConvertP00, NULL, NULL },
+    { "*Device #9", (ui_callback_t) toggle_FSDevice9ConvertP00, NULL, NULL },
+    { "*Device #10", (ui_callback_t) toggle_FSDevice10ConvertP00, NULL, NULL },
+    { "*Device #11", (ui_callback_t) toggle_FSDevice11ConvertP00, NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t serial_settings_submenu[] = {
-    { "File system access", NULL, NULL, set_file_system_device_submenu },
-    { "*Convert P00 file names", (ui_callback_t) toggle_FSDeviceConvertP00,
-      NULL, NULL },
+    { "File system access", NULL, NULL,
+      set_file_system_device_submenu },
+    { "File system directories", NULL, NULL,
+      set_file_system_device_directory_submenu },
+    { "Convert P00 file names", NULL, NULL,
+      set_file_system_device_p00_support_submenu },
     { "--" },
     { "*Disable serial traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
     { NULL }

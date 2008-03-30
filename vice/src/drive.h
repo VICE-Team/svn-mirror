@@ -128,6 +128,7 @@ struct _DRIVE {
     int ActiveFd;
     char ActiveName[256];	/* Image name */
     char ReadOnly;
+    int unit;
 
     /* Function to call after the image is attached.  */
     drive_attach_func_t attach_func;

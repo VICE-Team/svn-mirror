@@ -34,6 +34,7 @@
 #include "types.h"
 #include "iecdrive.h"
 #include "true1541.h"
+#include "cia.h"
 
 /* FIXME: ugly name `drive_data'.  */
 static BYTE drive_bus, drive_data, cpu_bus;
