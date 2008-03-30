@@ -113,7 +113,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdrive.a
 
-libdrive_a_SOURCES =  	ciad.h 	cia1571d.c 	cia1581d.c 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivetypes.h 	fdc.h 	fdc.c 	riot1d.c 	riot2d.c 	riotd.h 	via1d.c 	via2d.c 	viad.h 	wd1770.c 	wd1770.h
+libdrive_a_SOURCES =  	ciad.h 	cia1571d.c 	cia1581d.c 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivetypes.h 	fdc.h 	fdc.c 	riot1d.c 	riot2d.c 	riotd.h 	via1d.c 	via2d.c 	viad.h 	wd1770.c 	wd1770.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -128,9 +128,9 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdrive_a_LIBADD = 
-libdrive_a_OBJECTS =  cia1571d.o cia1581d.o drive-resources.o \
-drive-snapshot.o drive.o drivecpu.o fdc.o riot1d.o riot2d.o via1d.o \
-via2d.o wd1770.o
+libdrive_a_OBJECTS =  cia1571d.o cia1581d.o drive-cmdline-options.o \
+drive-resources.o drive-snapshot.o drive.o drivecpu.o fdc.o riot1d.o \
+riot2d.o via1d.o via2d.o wd1770.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -251,6 +251,10 @@ cia1581d.o: cia1581d.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/iecdrive.h \
 	../../src/ciacore.c
+drive-cmdline-options.o: drive-cmdline-options.c ../../src/vice.h \
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
+	drive.h ../../src/diskimage.h ../../src/gcr.h \
+	../../src/arch/unix/types.h ../../src/log.h
 drive-resources.o: drive-resources.c ../../src/vice.h ../../src/config.h \
 	drive-resources.h drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/arch/unix/types.h ../../src/log.h drivecpu.h \
@@ -271,13 +275,13 @@ drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	wd1770.h ../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h ciad.h \
-	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/diskimage.h ../../src/gcr.h drive.h ../../src/log.h \
-	drivecpu.h ../../src/alarm.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
-	drivetypes.h ../../src/ciatimer.h fdc.h ../../src/iecdrive.h \
-	../../src/parallel.h riotd.h ../../src/serial.h \
-	../../src/traps.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/clkguard.h ../../src/diskimage.h ../../src/gcr.h \
+	drive.h ../../src/log.h drivecpu.h ../../src/alarm.h \
+	../../src/mon.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mos6510.h drivetypes.h ../../src/ciatimer.h fdc.h \
+	../../src/iecdrive.h ../../src/parallel.h ../../src/resources.h \
+	riotd.h ../../src/serial.h ../../src/traps.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
 	../../src/uiapi.h ../../src/utils.h \
 	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h viad.h \

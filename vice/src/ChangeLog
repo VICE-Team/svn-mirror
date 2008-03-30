@@ -1,3 +1,46 @@
+1999-11-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.2.
+
+	* drive/drive-cmdline-options.h,
+	drive/drive-cmdline-options.c: New files.
+
+	* drive/drive.h: New pointer to drive RAM expansion.
+
+	* drive/drive.c: New command line option for RAM expansion.
+
+	* drive/drive-resources.c: New resources for RAM expansion.
+
+	* drive/drivecpu.c: Added RAM expansion access functions.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c: #include "drive-cmdline-options.h".
+
+	* arch/unix/x11/xaw/vsidui.c,arch/win32/vsidui.c,
+	arch/msdos/vsidui.c, arch/riscos/vsidui.c, arch/os2/vsidui.c
+	(vsid_set_tune): New function.
+
+	* arch/unix/x11/xaw/ui.h (ui_proc_write_msg): Removed.
+
+	* arch/win32/vsidui.c, arch/msdos/vsidui.c,
+	arch/riscos/vsidui.c, arch/os2/vsidui.c
+
+	* c64/psid.c: #include "vsidui.h".
+
+1999-11-29  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* win32/x64.dsp,x128.dsp,xpet.dsp,xcbm2.dsp,xvic.dsp: added /i "..\..\"
+	for resource-compiler
+
+	* win32/res.rc: includes "config.h" again for MSVC_RC-definition
+	disabled old save_snapshot-dialog and added new one as a 
+	template for GetSaveFile
+
+	* win32/uisnapshot.c: includes "utils.h"
+	new functions (hook_save_snapshot),(ui_save_snapshot) to implement
+	a windows-like snapshot-saver
+	(ui_snapshot_save_dialog): uses new functions instead of old dialog
+
 1999-11-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.1.

@@ -166,7 +166,8 @@ static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, ADDRESS address)
     return riot1_read(drv, address);
 }
 
-static void REGPARM3 drive_store_1001_io(drive_context_t *drv, ADDRESS address, BYTE byte)
+static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
+                                         ADDRESS address, BYTE byte)
 {
     if (address & 0x80) {
 	riot2_store(drv, address, byte);
@@ -175,24 +176,29 @@ static void REGPARM3 drive_store_1001_io(drive_context_t *drv, ADDRESS address, 
     }
 }
 
-static BYTE REGPARM2 drive_read_1001zero_ram(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_1001zero_ram(drive_context_t *drv,
+                                             ADDRESS address)
 {
     return drv->cpud.drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_1001zero_ram(drive_context_t *drv, ADDRESS address, BYTE byte)
+static void REGPARM3 drive_store_1001zero_ram(drive_context_t *drv,
+                                              ADDRESS address, BYTE byte)
 {
     drv->cpud.drive_ram[address & 0xff] = byte;
 }
 
-static BYTE REGPARM2 drive_read_1001buffer_ram(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_1001buffer_ram(drive_context_t *drv,
+                                               ADDRESS address)
 {
-    return drv->cpud.drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff)) - 0x300];
+    return drv->cpud.drive_ram[(((address >> 2) & 0x1c00) 
+                               | (address & 0x03ff)) - 0x300];
 }
 
 static void REGPARM3 drive_store_1001buffer_ram(drive_context_t *drv, ADDRESS address, BYTE byte)
 {
-    drv->cpud.drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff)) - 0x300] = byte;
+    drv->cpud.drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))
+                        - 0x300] = byte;
 }
 
 static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, ADDRESS address)
@@ -201,7 +207,8 @@ static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, ADDRESS address)
     return drv->cpud.drive_ram[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram(drive_context_t *drv, ADDRESS address, BYTE value)
+static void REGPARM3 drive_store_ram(drive_context_t *drv, ADDRESS address,
+                                     BYTE value)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
     drv->cpud.drive_ram[address & 0x1fff] = value;
@@ -217,9 +224,65 @@ static BYTE REGPARM2 drive_read_free(drive_context_t *drv, ADDRESS address)
     return address >> 8;
 }
 
-static void REGPARM3 drive_store_free(drive_context_t *drv, ADDRESS address, BYTE value)
+static void REGPARM3 drive_store_free(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
 {
     return;
+}
+
+static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, ADDRESS address)
+{
+    return drv->drive_ptr->drive_ram_expand2[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_ram2(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
+{
+    drv->drive_ptr->drive_ram_expand2[address & 0x1fff] = value;
+}
+
+static BYTE REGPARM2 drive_read_ram4(drive_context_t *drv, ADDRESS address)
+{
+    return drv->drive_ptr->drive_ram_expand4[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_ram4(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
+{
+    drv->drive_ptr->drive_ram_expand4[address & 0x1fff] = value;
+}
+
+static BYTE REGPARM2 drive_read_ram6(drive_context_t *drv, ADDRESS address)
+{
+    return drv->drive_ptr->drive_ram_expand6[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_ram6(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
+{
+    drv->drive_ptr->drive_ram_expand6[address & 0x1fff] = value;
+}
+
+static BYTE REGPARM2 drive_read_ram8(drive_context_t *drv, ADDRESS address)
+{
+    return drv->drive_ptr->drive_ram_expand8[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_ram8(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
+{
+    drv->drive_ptr->drive_ram_expand8[address & 0x1fff] = value;
+}
+
+static BYTE REGPARM2 drive_read_rama(drive_context_t *drv, ADDRESS address)
+{
+    return drv->drive_ptr->drive_ram_expanda[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_rama(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
+{
+    drv->drive_ptr->drive_ram_expanda[address & 0x1fff] = value;
 }
 
 /* This defines the watchpoint memory access for the drive CPU.  */

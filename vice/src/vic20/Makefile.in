@@ -352,7 +352,8 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/autostart.h ../../src/cartridge.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/datasette.h \
-	../../src/tap.h ../../src/drive/drive-resources.h \
+	../../src/tap.h ../../src/drive/drive-cmdline-options.h \
+	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/mon.h \
