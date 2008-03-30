@@ -40,7 +40,6 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	lose32.h \
 	mousedrv.c \
 	mousedrv.h \
 	petui.c \

@@ -75,6 +75,12 @@
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "/dev/fd0"
 
+/* Access types */
+#define ARCHDEP_R_OK R_OK
+#define ARCHDEP_W_OK W_OK
+#define ARCHDEP_X_OK X_OK
+#define ARCHDEP_F_OK F_OK
+
 extern const char *archdep_home_path(void);
 
 #endif

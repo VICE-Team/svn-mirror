@@ -50,10 +50,6 @@
 #endif
 #endif  /* __hpux */
 
-#if defined HAVE_LIBXPM && defined HAVE_X11_XPM_H
-#define XPM
-#endif
-
 /* FIXME: We currently allow unaligned memory accesses on i386 only, as they
    allow for some optimizations.  What other architectures could benefit from
    having this enabled?  (Maybe the PowerPC would?)  */
@@ -63,7 +59,7 @@
 
 /* Windows portability cruft.  */
 #if defined (WIN32) && !defined(__GNUC__)
-#include "lose32.h"
+#define strcasecmp(s1, s2)      _stricmp(s1, s2)
 #endif
 #ifdef UNDER_CE
 #include "ce32.h"
