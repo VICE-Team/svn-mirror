@@ -331,6 +331,11 @@ void new_joystick_init (void)
   char name[60];
   struct JS_DATA_TYPE js;
 
+  const char *joydevs[2][2] = {
+      { "/dev/js0", "/dev/input/js0" },
+      { "/dev/js1", "/dev/input/js1" }
+  };
+
   if (joystick_log == LOG_ERR)
       joystick_log = log_open("Joystick");
 
@@ -342,11 +347,19 @@ void new_joystick_init (void)
   }
 
   /* open analog device files */
+
   for (i = 0; i < 2; i++) {
       const char *dev;
-      dev = (i == 0) ? "/dev/js0" : "/dev/js1";
+      int j;
+      for(j=0; j<2; j++)
+	{
+	  dev = joydevs[i][j];
+	  ajoyfd[i] = open(dev, O_RDONLY);
+	  if(ajoyfd[i]>=0)
+	    continue;
+	}
 
-      if ((ajoyfd[i] = open(dev, O_RDONLY)) >= 0) {
+      if (ajoyfd[i] >= 0) {
           if (read (ajoyfd[i], &js, sizeof(struct JS_DATA_TYPE)) < 0) {
               close (ajoyfd[i]);
               ajoyfd[i] = -1;

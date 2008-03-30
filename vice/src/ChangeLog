@@ -1,3 +1,29 @@
+2001-08-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.3.
+
+	* arch/unix/joystick.c (new_joystick_init): Move joystick name
+	array to top of function.
+
+2001-08-14  Dag Lem  <resid@nimrod.no>
+
+	* c64/psid.c (psid_init_driver): Fixes a bug in the PSID speed
+	setting - spotted by Roland Hermans.
+
+2001-08-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon_ui.c: replaced #include <malloc.h> with
+	<stdlib.h> (now it's ANSI C; thanks to Andreas D. for the
+	hint!).
+
+	* monitor/mon_ui.{c,h}: mon_disassembly_get_lines() now has an
+	additional parameter for the really *visible* lines.
+
+	* monitor/mon_ui.c: scrolling up is now implemented.
+
+	* arch/win32/uimon.c: changed the color processig for the
+	actual line and lines with breakpoints.
+
 2001-08-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.2.

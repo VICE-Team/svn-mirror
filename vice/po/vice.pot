@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-08-12 23:47+0200\n"
+"POT-Creation-Date: 2001-08-16 21:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1765,7 +1765,7 @@ msgid "Set device for joystick port 2"
 msgstr ""
 
 #: src/arch/unix/joystick.c:197 src/arch/unix/joystick.c:246
-#: src/arch/unix/joystick.c:380
+#: src/arch/unix/joystick.c:393
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr ""
@@ -1788,33 +1788,33 @@ msgstr ""
 msgid "Error reading joystick device."
 msgstr ""
 
-#: src/arch/unix/joystick.c:337
+#: src/arch/unix/joystick.c:342
 msgid "Linux joystick interface initialization..."
 msgstr ""
 
-#: src/arch/unix/joystick.c:356
+#: src/arch/unix/joystick.c:369
 #, c-format
 msgid "%s unknown type"
 msgstr ""
 
-#: src/arch/unix/joystick.c:357 src/arch/unix/joystick.c:372
+#: src/arch/unix/joystick.c:370 src/arch/unix/joystick.c:385
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr ""
 
-#: src/arch/unix/joystick.c:360
+#: src/arch/unix/joystick.c:373
 msgid "Kernel driver version  : 0.8 ??"
 msgstr ""
 
-#: src/arch/unix/joystick.c:361
+#: src/arch/unix/joystick.c:374
 msgid "Please update your Joystick driver !"
 msgstr ""
 
-#: src/arch/unix/joystick.c:362
+#: src/arch/unix/joystick.c:375
 msgid "Fall back to old api routine"
 msgstr ""
 
-#: src/arch/unix/joystick.c:375
+#: src/arch/unix/joystick.c:388
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr ""
