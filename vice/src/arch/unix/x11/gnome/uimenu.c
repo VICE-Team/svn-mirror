@@ -456,10 +456,6 @@ void _ui_menu_toggle_helper(GtkWidget *w,
     if(!CHECK_MENUS) {
         resources_set_value(resource_name, (resource_value_t) !current_value);
 	ui_update_menus();
-	if (psid_mode) {
-	    sprintf(buf, "resource %s %d\n", resource_name, !current_value);
-	    ui_proc_write_msg(buf);
-	}
     } else {
         ui_menu_set_tick(w, current_value);
     }
@@ -479,11 +475,6 @@ void _ui_menu_radio_helper(GtkWidget *w,
             resources_set_value(resource_name,
 				(resource_value_t) UI_MENU_CB_PARAM);
             ui_update_menus();
-	    if (psid_mode) {
-	        sprintf(buf, "resource %s %d\n", resource_name,
-                        (int)UI_MENU_CB_PARAM);
-		ui_proc_write_msg(buf);
-	    }
         }
     } else {
 	ui_menu_set_tick(w, current_value == (int) UI_MENU_CB_PARAM);

@@ -77,7 +77,6 @@
 #include "mouse.h"
 #include "palette.h"
 #include "psid.h"
-#include "vsidproc.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -1518,12 +1517,7 @@ void ui_exit(void)
 #ifdef USE_VIDMODE_EXTENSION
 	ui_set_windowmode();
 #endif
-	if (psid_mode) {
-	    ui_proc_exit();
-	}
-	else {
-	   exit(0);
-	}
+	exit(0);
     }
 
     free(s);
@@ -2007,12 +2001,8 @@ void ui_dispatch_events(void)
         return;
     }
 
-    if (!psid_mode) {
-      while (XtAppPending(app_context) || ui_menu_any_open())
-	ui_dispatch_next_event();
-      return;
-    }
-    psid_dispatch_events();
+    while (XtAppPending(app_context))
+        ui_dispatch_next_event();
 }
 
 /* Resize one window. */
@@ -2167,13 +2157,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     if (console_mode) {
         vfprintf(stderr, format, ap);
 	exit(0);
-    }
-
-    if (psid_mode) {
-        vfprintf(stderr, format, ap);
-	machine_play_psid(-1);
-	/* return UI_JAM_MONITOR; */
-	return UI_JAM_HARD_RESET;
     }
 
     shell = ui_create_transient_shell(_ui_top_level, "jamDialogShell");

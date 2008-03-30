@@ -27,10 +27,6 @@
 #ifndef _VSIDUI_H
 #define _VSIDUI_H
 
-extern int vsid_ui_init(void);
-extern int vsid_ui_exit(void);
-
-extern void vsid_set_tune(char *msg);
+extern void vsid_set_tune(int tune);
 
 #endif
-

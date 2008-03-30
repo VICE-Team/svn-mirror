@@ -299,7 +299,7 @@ UI_MENU_DEFINE_TOGGLE(SidFilters)
 UI_MENU_DEFINE_TOGGLE(SidUseResid)
 #endif
 
-static ui_menu_entry_t sid_submenu[] = {
+ui_menu_entry_t sid_submenu[] = {
     { "*Emulate filters",
       (ui_callback_t) toggle_SidFilters, NULL, NULL },
     { "Chip model",

@@ -404,17 +404,16 @@ static UI_CALLBACK(do_exit)
 
 static UI_CALLBACK(toggle_pause)
 {
+    static int pause = 0;
+
     if (!CHECK_MENUS) {
-        if (ui_emulation_is_paused()) {
-            ui_pause_emulation(0);
-        } else {			/* !paused */
-            ui_menu_set_tick(w, 1);
-            ui_pause_emulation(1);
-	    return ;
-        }
+        pause = !pause;
+	ui_update_menus();
+        ui_pause_emulation(pause);
+	return;
     }
 
-    ui_menu_set_tick(w, ui_emulation_is_paused());
+    ui_menu_set_tick(w, pause);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -848,12 +847,14 @@ ui_menu_entry_t ui_run_commands_menu[] = {
     { "Reset",
       NULL, NULL, reset_submenu },
     { "*Pause",
-      (ui_callback_t) toggle_pause, NULL, NULL },
+      (ui_callback_t) toggle_pause, NULL, NULL,
+      XK_p, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
     { "Exit emulator",
-      (ui_callback_t) do_exit, NULL, NULL },
+      (ui_callback_t) do_exit, NULL, NULL,
+      XK_q, UI_HOTMOD_META },
     { NULL }
 };

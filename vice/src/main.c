@@ -76,7 +76,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-int psid_mode = 0;
+int vsid_mode = 0;
 int console_mode = 0;
 static int init_done;
 
@@ -142,7 +142,7 @@ static int cmdline_attach(const char *param, void *extra_param)
     return 0;
 }
 
-static cmdline_option_t psid_cmdline_options[] = {
+static cmdline_option_t vsid_cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
@@ -261,7 +261,7 @@ static int init_resources(void)
 static int init_cmdline_options(void)
 {
     cmdline_option_t* main_cmdline_options =
-        psid_mode ? psid_cmdline_options : cmdline_options;
+        vsid_mode ? vsid_cmdline_options : cmdline_options;
 
     if (cmdline_init()) {
         archdep_startup_log_error("Cannot initialize resource handling.\n");
@@ -279,13 +279,6 @@ static int init_cmdline_options(void)
         archdep_startup_log_error("Cannot initialize command-line options for system file locator.\n");
         return -1;
     }
-    if (psid_mode) {
-        if (machine_init_cmdline_options() < 0) {
-            archdep_startup_log_error("Cannot initialize machine-specific command-line options.\n");
-	    return -1;
-	}
-	return 0;
-    }
     if (ui_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize UI-specific command-line options.\n");
         return -1;
@@ -294,6 +287,11 @@ static int init_cmdline_options(void)
         archdep_startup_log_error("Cannot initialize machine-specific command-line options.\n");
         return -1;
     }
+
+    if (vsid_mode) {
+        return 0;
+    }
+
     if (fsdevice_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize file system-specific command-line options.\n");
         return -1;
@@ -394,7 +392,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 	    console_mode = 1;
 	}
 	else if (strcmp(argv[i], "-vsid") == 0) {
-	    psid_mode = 1;
+	    vsid_mode = 1;
 	}
     }
 
@@ -435,7 +433,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     /* Load the user's default configuration file.  */
-    if (psid_mode) {
+    if (vsid_mode) {
 	resources_set_value("Drive8Type", (resource_value_t)0);
 	resources_set_value("Sound", (resource_value_t)1);
 #ifdef HAVE_RESID
@@ -516,7 +514,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Check for PSID here since we don't want to allow autodetection
        in autostart.c. ROM image loading should also be skipped. */
-    if (psid_mode)
+    if (vsid_mode)
     {
         if (autostart_string
 	    && machine_autodetect_psid(autostart_string) == -1)
@@ -616,7 +614,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     maincpu_trigger_reset();
 
 #ifdef USE_VIDMODE_EXTENSION
-    if (!(console_mode || psid_mode))
+    if (!(console_mode || vsid_mode))
         ui_set_fullscreenmode_init();
 #endif
 

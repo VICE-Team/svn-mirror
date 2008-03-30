@@ -282,12 +282,12 @@ static int closesound(const char *msg)
         suspend_speed_eval();
 	if (msg[0])
 	{
-	    if (console_mode || psid_mode)
+	    if (console_mode || vsid_mode)
 	        log_message(LOG_DEFAULT, "SOUND: %s", msg);
 	    else
 	        ui_error(msg);
             playback_enabled = 0;
-	    if (!console_mode && !psid_mode)
+	    if (!console_mode && !vsid_mode)
 	        ui_update_menus();
 	}
     }
@@ -403,7 +403,7 @@ static int initsid(void)
 	    snddata.wclk = clk;
 
 	    /* Set warp mode for non-realtime sound devices in psid mode. */
-	    if (psid_mode && !pdev->bufferstatus)
+	    if (vsid_mode && !pdev->bufferstatus)
 	        resources_set_value("WarpMode", (resource_value_t)1);
 
 	    return 0;

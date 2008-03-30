@@ -88,9 +88,9 @@ int psid_init_resources(void)
     return resources_register(resources);
 }
 
-static int cmdline_psid_mode(const char *param, void *extra_param)
+static int cmdline_vsid_mode(const char *param, void *extra_param)
 {
-    psid_mode = 1;
+    vsid_mode = 1;
     return 0;
 }
 
@@ -102,7 +102,7 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-vsid", CALL_FUNCTION, 0, cmdline_psid_mode, NULL, NULL, NULL,
+    { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
       NULL, "SID player mode" },
     { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
       "<number>", "Specify PSID tune <number>" },
@@ -283,10 +283,8 @@ void psid_set_tune(int tune)
 
 int psid_ui_set_tune(resource_value_t tune)
 {
-  char buf[10];
   psid_tune = (int)tune == -1 ? 0 : (int)tune;
-  sprintf(buf, "tune %d\n", (int)tune);
-  vsid_set_tune(buf);
+  vsid_set_tune(psid_tune);
   return 0;
 }
 

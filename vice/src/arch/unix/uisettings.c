@@ -950,7 +950,7 @@ static ui_menu_entry_t set_drive1_idle_method_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_sound_sample_rate_submenu[] = {
+ui_menu_entry_t set_sound_sample_rate_submenu[] = {
     { "*8000Hz", (ui_callback_t) radio_SoundSampleRate,
       (ui_callback_data_t) 8000, NULL },
     { "*11025Hz", (ui_callback_t) radio_SoundSampleRate,
@@ -1000,7 +1000,7 @@ static ui_menu_entry_t set_sound_suspend_time_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_sound_oversample_submenu [] = {
+ui_menu_entry_t set_sound_oversample_submenu [] = {
     { "*1x",
       (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 0, NULL },
     { "*2x",
@@ -1025,7 +1025,7 @@ static ui_menu_entry_t set_sound_adjustment_submenu [] = {
     { NULL }
 };
 
-static ui_menu_entry_t sound_settings_submenu[] = {
+ui_menu_entry_t sound_settings_submenu[] = {
     { "*Enable sound playback",
       (ui_callback_t) toggle_Sound, NULL, NULL },
     { "--" },

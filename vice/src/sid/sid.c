@@ -1062,7 +1062,7 @@ void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
   system is not capable of tracking which messages have already been
   printed. The warning is disabled for now to avoid flooding the
   console.
-    if (psid_mode && addr > 0x1c) {
+    if (vsid_mode && addr > 0x1c) {
       log_message(LOG_DEFAULT, "program uses PSID registers (not supported)");
     }
 */

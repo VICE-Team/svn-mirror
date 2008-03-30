@@ -27,7 +27,11 @@
 #ifndef _C64UI_H
 #define _C64UI_H
 
+#include "uimenu.h"
+
 extern int c64_ui_init(void);
+
+extern ui_menu_entry_t sid_submenu[];
 
 #endif
 

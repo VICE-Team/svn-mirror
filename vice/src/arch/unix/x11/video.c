@@ -420,7 +420,7 @@ int canvas_set_palette(canvas_t c, const palette_t * palette,
 /* Change the size of the canvas. */
 void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
 {
-    if (console_mode || psid_mode) {
+    if (console_mode || vsid_mode) {
         return;
     }
 

@@ -60,5 +60,9 @@ extern UI_CALLBACK(set_rs232_device_file);
 extern UI_CALLBACK(set_rs232_exec_file);
 extern UI_CALLBACK(set_rs232_dump_file);
 
+extern ui_menu_entry_t sound_settings_submenu[];
+extern ui_menu_entry_t set_sound_sample_rate_submenu[];
+extern ui_menu_entry_t set_sound_oversample_submenu[];
+
 #endif
 

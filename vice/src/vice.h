@@ -155,7 +155,7 @@ extern char *alloca ();
 #endif
 
 /* Internationalization stuff */
-#ifdef ENABLE_NLS
+#if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)
 #    include <libintl.h>
 #    define _(String) gettext (String)
 #    ifdef gettext_noop

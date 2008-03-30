@@ -37,9 +37,11 @@
 
 #include "attach.h"
 #include "c64mem.h"
+#include "c64ui.h"
+#include "interrupt.h"
+#include "log.h"
 #include "machine.h"
 #include "psid.h"
-#include "vsidproc.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uimenu.h"
@@ -47,6 +49,7 @@
 #include "utils.h"
 #include "vsync.h"
 
+static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);
 
 /* ------------------------------------------------------------------------- */
@@ -69,15 +72,14 @@ static UI_CALLBACK(psid_load)
 
   switch (button) {
   case UI_BUTTON_OK:
-    if (psid_load_file(filename) < 0)
-      ui_error("`%s' is not a valid PSID file", filename);
-    else {
-      char buf[1000];
-      sprintf(buf, "load %s\n", filename);
-      ui_proc_write_msg(buf);
-      psid_set_tune(0);
-      vsid_create_menus();
+    if (machine_autodetect_psid(filename) < 0) {
+      log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
+      return;
     }
+    machine_play_psid(0);
+    suspend_speed_eval();
+    maincpu_trigger_reset();
+    vsid_create_menus();
     break;
   default:
     /* Do nothing special.  */
@@ -87,9 +89,10 @@ static UI_CALLBACK(psid_load)
 
 static UI_CALLBACK(psid_tune)
 {
-  char buf[10];
-  sprintf(buf, "tune %d\n", *((int *)UI_MENU_CB_PARAM));
-  ui_proc_write_msg(buf);
+  int tune = *((int *)UI_MENU_CB_PARAM);
+  machine_play_psid(tune);
+  suspend_speed_eval();
+  maincpu_trigger_reset();
 }
 
 
@@ -103,83 +106,7 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static UI_CALLBACK(reset)
-{
-  ui_proc_write_msg("reset\n");
-}
-
-static UI_CALLBACK(powerup_reset)
-{
-  ui_proc_write_msg("powerup\n");
-}
-
-static UI_CALLBACK(toggle_pause)
-{
-  static int is_paused = 0;
-
-  if (!CHECK_MENUS) {
-    char buf[10];
-
-    is_paused = !is_paused;
-    sprintf(buf, "pause %d\n", is_paused);
-    ui_proc_write_msg(buf);
-  }
-
-  ui_menu_set_tick(w, is_paused);
-}
-
-static ui_menu_entry_t reset_submenu[] = {
-  { "Soft",
-    (ui_callback_t) reset, NULL, NULL,
-      XK_F9, UI_HOTMOD_META },
-  { "Hard",
-    (ui_callback_t) powerup_reset, NULL, NULL,
-    XK_F12, UI_HOTMOD_META },
-  { NULL }
-};
-
-static ui_menu_entry_t ui_run_commands_menu[] = {
-  { "Reset",
-    NULL, NULL, reset_submenu },
-  { "*Pause",
-    (ui_callback_t) toggle_pause, NULL, NULL },
-  { NULL }
-};
-
-
-/* ------------------------------------------------------------------------- */
-
-static UI_CALLBACK(do_exit)
-{
-  ui_exit();
-}
-
-static ui_menu_entry_t ui_exit_commands_menu[] = {
-  { "Exit emulator",
-    (ui_callback_t) do_exit, NULL, NULL },
-  { NULL }
-};
-
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
-UI_MENU_DEFINE_RADIO(SoundOversample)
-
-static ui_menu_entry_t set_sound_sample_rate_submenu[] = {
-  { "*8000Hz", (ui_callback_t) radio_SoundSampleRate,
-    (ui_callback_data_t) 8000, NULL },
-  { "*11025Hz", (ui_callback_t) radio_SoundSampleRate,
-    (ui_callback_data_t) 11025, NULL },
-  { "*22050Hz", (ui_callback_t) radio_SoundSampleRate,
-    (ui_callback_data_t) 22050, NULL },
-  { "*44100Hz", (ui_callback_t) radio_SoundSampleRate,
-    (ui_callback_data_t) 44100, NULL },
-  { "*48000Hz", (ui_callback_t) radio_SoundSampleRate,
-    (ui_callback_data_t) 48000, NULL },
-  { NULL }
-};
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
   { "*3.00 sec", (ui_callback_t) radio_SoundBufferSize,
@@ -193,24 +120,17 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
   { NULL }
 };
 
-static ui_menu_entry_t set_sound_oversample_submenu [] = {
-  { "*1x",
-    (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 0, NULL },
-  { "*2x",
-    (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 1, NULL },
-  { "*4x",
-    (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 2, NULL },
-  { "*8x",
-    (ui_callback_t) radio_SoundOversample, (ui_callback_data_t) 3, NULL },
-  { NULL }
-};
+UI_MENU_DEFINE_TOGGLE(Sound)
 
 static ui_menu_entry_t sound_settings_submenu[] = {
-  { "*Sample rate",
+  { "*Enable sound playback",
+    (ui_callback_t) toggle_Sound, NULL, NULL },
+  { "--" },
+  { "Sample rate",
     NULL, NULL, set_sound_sample_rate_submenu },
-  { "*Buffer size",
+  { "Buffer size",
     NULL, NULL, set_sound_buffer_size_submenu },
-  { "*Oversample",
+  { "Oversample",
     NULL, NULL, set_sound_oversample_submenu },
   { NULL },
 };
@@ -220,38 +140,6 @@ static ui_menu_entry_t ui_sound_settings_menu[] = {
     NULL, NULL, sound_settings_submenu },
   { NULL }
 };
-
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(SidModel)
-
-static ui_menu_entry_t sid_model_submenu[] = {
-  { "*6581 (old)",
-    (ui_callback_t) radio_SidModel, (ui_callback_data_t) 0, NULL },
-  { "*8580 (new)",
-    (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
-  { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(SidFilters)
-#ifdef HAVE_RESID
-UI_MENU_DEFINE_TOGGLE(SidUseResid)
-#endif
-
-static ui_menu_entry_t sid_submenu[] = {
-  { "*Emulate filters",
-    (ui_callback_t) toggle_SidFilters, NULL, NULL },
-  { "Chip model",
-    NULL, NULL, sid_model_submenu },
-#ifdef HAVE_RESID
-  { "--" },
-  { "*Use reSID emulation",
-    (ui_callback_t) toggle_SidUseResid, NULL, NULL },
-#endif
-  { NULL },
-};
-
 
 static ui_menu_entry_t psid_menu[] = {
   { "SID settings",
@@ -314,6 +202,8 @@ static void vsid_create_menus(void)
 				       ui_load_commands_menu,
 				       ui_tune_menu,
 				       ui_menu_separator,
+				       ui_tool_commands_menu,
+				       ui_menu_separator,
 				       ui_help_commands_menu,
 				       ui_menu_separator,
 				       ui_run_commands_menu,
@@ -335,22 +225,15 @@ int vsid_ui_init(void)
   ui_set_application_icon(icon_data);
 
   vsid_create_menus();
-    
-  if (ui_proc_create() < 0) {
-    return -1;
-  }
+  ui_set_topmenu();
 
   return 0;
 }
 
 
-int vsid_ui_exit(void)
+void vsid_set_tune(int tune)
 {
-  ui_proc_wait();
-  return 0;
-}
-
-void vsid_set_tune(char *msg)
-{
-    ui_proc_write_msg(msg);
+  machine_play_psid(tune);
+  suspend_speed_eval();
+  maincpu_trigger_reset();
 }

@@ -45,7 +45,6 @@
 #include "resources.h"
 #include "uimenu.h"
 #include "utils.h"
-#include "vsidproc.h"
 #include "vsync.h"
 
 /* Separator item.  */
@@ -120,7 +119,7 @@ static UI_CALLBACK(menu_popup_callback)
     if (menu_popup == 0)
         top_menu = w;
     menu_popup++;
-    if (!psid_mode)
+    if (!vsid_mode)
         suspend_speed_eval();
 }
 
@@ -442,10 +441,6 @@ void _ui_menu_toggle_helper(Widget w,
     if (!call_data) {
         resources_set_value(resource_name, (resource_value_t) !current_value);
         ui_update_menus();
-	if (psid_mode) {
-	    sprintf(buf, "resource %s %d\n", resource_name, !current_value);
-	    ui_proc_write_msg(buf);
-	}
     } else {
         ui_menu_set_tick(w, current_value);
     }
@@ -466,11 +461,6 @@ void _ui_menu_radio_helper(Widget w,
             resources_set_value(resource_name,
                                 (resource_value_t) client_data);
             ui_update_menus();
-	    if (psid_mode) {
-	        sprintf(buf, "resource %s %d\n", resource_name,
-                        (int)client_data);
-		ui_proc_write_msg(buf);
-	    }
         }
     } else {
         ui_menu_set_tick(w, current_value == (int) client_data);

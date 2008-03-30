@@ -83,7 +83,6 @@
 #include "uicommands.h"
 #include "utils.h"
 #include "version.h"
-#include "vsidproc.h"
 #include "vsync.h"
 #include "drive/drive.h"
 #include "charsets.h"
@@ -1659,10 +1658,7 @@ void ui_exit(void)
 	/* remove fontpath, Don't care about result */
 	system("xset fp- " PREFIX "/lib/vice/fonts");
 	
-	if (psid_mode) 
-	    ui_proc_exit();
-	else 
-	    exit(0);
+	exit(0);
     }
     free(s);
 }
@@ -2263,13 +2259,8 @@ void ui_dispatch_next_event(void)
 /* Dispatch all the pending UI events. */
 void ui_dispatch_events(void)
 {
-    if (!psid_mode) 
-    {
-	while (gtk_events_pending())
-	    ui_dispatch_next_event();
-	return;
-    }
-    psid_dispatch_events();
+    while (gtk_events_pending())
+        ui_dispatch_next_event();
 }
 
 /* Resize one window. */
@@ -2411,13 +2402,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     if (console_mode) {
         vfprintf(stderr, format, ap);
 	exit(0);
-    }
-
-    if (psid_mode) {
-        vfprintf(stderr, format, ap);
-	machine_play_psid(-1);
-	/* return UI_JAM_MONITOR; */
-	return UI_JAM_HARD_RESET;
     }
 
     jam_dialog = gnome_dialog_new("", "Reset", _("Hard Reset"), "Monitor", NULL);

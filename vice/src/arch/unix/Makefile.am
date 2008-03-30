@@ -62,8 +62,6 @@ libarch_a_SOURCES = \
 	vic20ui.c \
 	videoarch.h \
 	vsync.c \
-	vsidproc.h \
-	vsidproc.c \
 	vsidui.c
 
 bin_SCRIPTS = vsid

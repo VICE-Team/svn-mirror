@@ -1665,7 +1665,7 @@ void drive_update_ui_status(void)
 {
     int i;
 
-    if (console_mode || psid_mode) {
+    if (console_mode || vsid_mode) {
         return;
     }
 

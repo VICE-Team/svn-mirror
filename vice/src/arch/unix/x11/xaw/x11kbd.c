@@ -58,7 +58,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
-    if (psid_mode) {
+    if (vsid_mode) {
         return;
     }
 
