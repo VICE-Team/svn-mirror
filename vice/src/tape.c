@@ -341,7 +341,7 @@ void tape_receive_trap(void)
     WORD start, end, len;
     BYTE st;
 
-    start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1) << 8)));
+    start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1)) << 8));
     end = (mem_read(eal_addr) | (mem_read((ADDRESS)(eal_addr + 1)) << 8));
 
     switch (MOS6510_REGS_GET_X(&maincpu_regs)) {

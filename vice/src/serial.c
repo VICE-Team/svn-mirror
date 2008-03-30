@@ -68,7 +68,7 @@
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
-#define SET_ST(b) mem_store(0x90, (mem_read(0x90) | b))
+#define SET_ST(b) mem_store((ADDRESS)0x90, (BYTE)(mem_read((ADDRESS)0x90) | b))
 #define BSOUR 0x95 /* Buffered Character for IEEE Bus */
 #define TMP_IN 0xA4
 
