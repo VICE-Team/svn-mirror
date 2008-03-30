@@ -31,8 +31,6 @@
 #include "types.h"
 
 extern sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
-					 int filters_enabled, int model,
-					 int sampling, int passband_percentage,
 					 BYTE *sidstate);
 extern void resid_sound_machine_close(sound_t *psid);
 extern BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr);
