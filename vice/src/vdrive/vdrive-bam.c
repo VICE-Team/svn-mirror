@@ -39,6 +39,7 @@
 #include <string.h>
 
 #include "attach.h"
+#include "cbmdos.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "log.h"
@@ -46,6 +47,7 @@
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
+
 
 int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
                                        unsigned int *track,
@@ -190,26 +192,26 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
     while (t) {
         /* Check for illegal track or sector.  */
         if (disk_image_check_sector(vdrive->image, t, s) < 0) {
-            vdrive_command_set_error(vdrive, IPE_ILLEGAL_TRACK_OR_SECTOR,
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR,
                                      s, t);
-            return IPE_ILLEGAL_TRACK_OR_SECTOR;
+            return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
         }
         if (!vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
             t, s)) {
             /* The real drive does not seem to catch this error.  */
-            vdrive_command_set_error(vdrive, IPE_NO_BLOCK, s, t);
-            return IPE_NO_BLOCK;
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_BLOCK, s, t);
+            return CBMDOS_IPE_NO_BLOCK;
         }
         rc = disk_image_read_sector(vdrive->image, tmp, t, s);
         if (rc > 0)
             return rc;
         if (rc < 0)
-            return IPE_NOT_READY;
+            return CBMDOS_IPE_NOT_READY;
 
         t = (int)tmp[0];
         s = (int)tmp[1];
     }
-    return IPE_OK;
+    return CBMDOS_IPE_OK;
 }
 
 static BYTE *vdrive_bam_calculate_track(unsigned int type, BYTE *bam,
@@ -572,7 +574,7 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
     }
 
     if (err < 0)
-        return IPE_NOT_READY;
+        return CBMDOS_IPE_NOT_READY;
 
     return err;
 }
