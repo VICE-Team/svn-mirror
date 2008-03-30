@@ -70,7 +70,7 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
     {
-        resources_get_default_value(ctrls[i].res, (resource_value_t *) &tmp);
+        resources_get_default_value(ctrls[i].res, (void *)&tmp);
 	tmp = tmp * ctrls[i].scale;
 	resources_set_value(ctrls[i].res, (resource_value_t) tmp);
 	if (ctrls[i].adj) {

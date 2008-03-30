@@ -263,7 +263,7 @@ void dga2_menu_create(struct ui_menu_entry_s *menu)
 
 void dga2_menu_shutdown(struct ui_menu_entry_s *menu)
 {
-    unsigned int i, amodes;
+    unsigned int i;
     ui_menu_entry_t *resolutions_submenu = NULL;
 
     if (fs_bestmode_counter == 0)

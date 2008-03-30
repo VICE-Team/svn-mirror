@@ -436,8 +436,7 @@ int resources_get_sprintf(const char *name,void *value_return, ...)
     return result;
 }
 
-int resources_get_default_value(const char *name,
-                                const resource_value_t *value_return)
+int resources_get_default_value(const char *name, void *value_return)
 {
     resource_ram_t *r = lookup(name);
 

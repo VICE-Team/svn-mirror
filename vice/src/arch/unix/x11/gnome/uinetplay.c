@@ -66,7 +66,7 @@ netplay_update_resources (void)
 static void
 netplay_update_status(void)
 {
-    gchar *text;
+    gchar *text = NULL;
     char *server_name;
     int port;
     char st[256];
@@ -152,7 +152,7 @@ build_netplay_dialog(void)
     l = gtk_label_new(_("Current mode: "));
     gtk_container_add(GTK_CONTAINER(hb), l);
     gtk_widget_show(l);
-    current_mode = gtk_label_new(_("<unknonw>"));
+    current_mode = gtk_label_new(_("<unknown>"));
     gtk_container_add(GTK_CONTAINER(hb), current_mode);
     gtk_widget_show(current_mode);
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
