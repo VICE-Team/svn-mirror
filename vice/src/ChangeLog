@@ -1,3 +1,91 @@
+2000-12-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.21.
+
+	* sound.h: Fixed typo in definition of `SOUNDCLK_MULT'.
+
+2000-12-02  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dialogs.h: small changes, some small
+	additions
+ 
+	* arch/os2/dialogs/dialogs.rc: some layout changes
+ 
+	* arch/os2/dialogs/dlg-datasette.c: enhanced for datasette
+	resources
+ 
+	* arch/os2/dialogs/dlg-emulator.c: changed output fields
+ 
+	* arch/os2/dialogs/dlg-hardware.c: Added X128-vdc resource
+ 
+	* arch/os2/dialogs/dlg-joystick.c: uses enabled joysticks now
+ 
+	* arch/os2/dialogs/dlg-vsid.c: added Option-Button
+ 
+	* arch/os2/doc/Vice_for_OS2.txt: updated
+ 
+	* arch/os2/install.cmd: added reSid player
+ 
+	* arch/os2/joystick.c: Output messages changed
+ 
+	* arch/os2/kbd/proc.c: added VK_F11
+
+	* arch/os2/mouse.c: Added some comments, some small changes
+ 
+	* arch/os2/uicmdline.c: added include archdep.h
+ 
+	* arch/os2/uimon.c: small changes
+ 
+	* arch/os2/vac++/incl/archdep.icc: added uimon.c removed
+	vsidui.c
+ 
+	* arch/os2/vac++/incl/c64.icc: removed psid.c
+ 
+	* arch/os2/vac++/incl/dialogs.icc: removed dlg-vsid.c
+ 
+	* arch/os2/vac++/incl/mainsrc.icc: added prdevice.c, print.c,
+	pruser.c
+ 
+	* arch/os2/vac++/incl/vsid.icc: added
+ 
+	* arch/os2/vac++/Makefile.am: added vsid.icc
+ 
+	* arch/os2/vac++/X64.ICC: added vsid.icc
+ 
+	* arch/os2/video.c: added some debug statements, improved
+	handling of WmVrn
+ 
+	* arch/os2/vsidui.c: improved output
+ 
+	* arch/os2/vsyncarch.c: added pms, comments
+ 
+	* c64/c64.c diff/src/c64/c64.c: display time only when
+	changing (vsid)
+
+	* main.c: help is -help not -h
+ 
+	* print.c: adapted for OS/2
+ 
+	* vsync.c: skip too-slow test for OS/2
+
+2000-12-01  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/vsidui.c (vsid_create_menus): Added calls to create
+	toplevel menus.
+
+2000-12-01  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c, ../uimon.c: Fixed some errors
+
+2000-11-27  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: moved video standard selector from drive to
+	system configuration window, added speed to VSID window.
+
+	* sound.c, sound.h, sid/sid.c, sid/resid.cc: alternative
+	fixpoint code for sound timings (if FIXPOINT_ARITHMETIC
+	defined, otherwise use double as before).
+
 2000-11-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.20.
@@ -519,7 +607,7 @@
 	* arch/beos/vicemenu.cc: updated menus to current state of
 	implementation; removed wrong option for C128-NTSCOLD
 
-	* src/c128/c128.c,src/c128/c128.h: removed definitions and
+	* c128/c128.c,src/c128/c128.h: removed definitions and
 	use of C128 NTSCOLD mode
 
 2000-08-23  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
