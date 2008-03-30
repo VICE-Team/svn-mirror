@@ -87,7 +87,7 @@ static void enable_general_sid_controls(HWND hwnd)
 {
     int is_enabled;
 
-    resources_get_value("SidStereo", (void *)&is_enabled);
+    resources_get_int("SidStereo", &is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_STEREOADDRESS), is_enabled);
 }
 
@@ -95,7 +95,7 @@ static void enable_resid_sid_controls(HWND hwnd)
 {
     int engine, is_enabled;
 
-    resources_get_value("SidEngine", (void *)&engine);
+    resources_get_int("SidEngine", &engine);
     is_enabled = (engine == SID_ENGINE_RESID);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
@@ -106,9 +106,9 @@ static void enable_hardsid_sid_controls(HWND hwnd)
 {
     int engine, is_enabled, stereo;
 
-    resources_get_value("SidEngine", (void *)&engine);
+    resources_get_int("SidEngine", &engine);
     is_enabled = (engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
-    resources_get_value("SidStereo", (void *)&stereo);
+    resources_get_int("SidStereo", &stereo);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_RIGHT_ENGINE), is_enabled
@@ -126,7 +126,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
     int cursel = SendMessage(GetDlgItem
                  (hwnd, IDC_SID_STEREOADDRESS), CB_GETCURSEL, 0, 0);
 
-    resources_get_value("SidStereoAddressStart", (void *)&res_value);
+    resources_get_int("SidStereoAddressStart", &res_value);
 
     switch (machine_class) {
       case VICE_MACHINE_C64:
@@ -154,8 +154,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
                 if (adr == res_value)
                     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)index, 0);
             } else if (index == cursel) {
-                resources_set_value("SidStereoAddressStart",
-                                    (resource_value_t)adr);
+                resources_set_int("SidStereoAddressStart", adr);
                 return;
             }
         }
@@ -185,17 +184,17 @@ static void init_general_sid_dialog(HWND hwnd)
 
 //  Setup status
 
-    resources_get_value("SidFilters", (void *)&res_value);
+    resources_get_int("SidFilters", &res_value);
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
     
-    resources_get_value("SidStereo", (void *)&res_value);
+    resources_get_int("SidStereo", &res_value);
     CheckDlgButton(hwnd, IDC_SID_STEREO, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
 
     CreateAndGetSidAddress(hwnd, 0);
 
-    resources_get_value("SidEngine", (void *)&res_value);
+    resources_get_int("SidEngine", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE);
     for (res_value_loop = 0; ui_sid_engine[res_value_loop];
         res_value_loop++) {
@@ -204,7 +203,7 @@ static void init_general_sid_dialog(HWND hwnd)
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SidModel", (void *)&res_value);
+    resources_get_int("SidModel", &res_value);
     CheckRadioButton(hwnd, IDC_SID_6581, IDC_SID_8580, 
                      res_value ? IDC_SID_8580 : IDC_SID_6581);
 
@@ -282,7 +281,7 @@ static void init_resid_sid_dialog(HWND hwnd)
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND);
     SetWindowText(sid_hwnd, intl_translate_text_new(IDS_SID_RESID_PASSBAND));
 
-    resources_get_value("SidResidSampling", (void *)&res_value);
+    resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
     for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop];
         res_value_loop++) {
@@ -291,7 +290,7 @@ static void init_resid_sid_dialog(HWND hwnd)
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SidResidPassband", (void *)&res_value);
+    resources_get_int("SidResidPassband", &res_value);
     _stprintf(st, TEXT("%d"), res_value);
     SetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st);
 
@@ -356,7 +355,7 @@ static void init_hardsid_sid_dialog(HWND hwnd)
     available = hardsid_available();
     device = 0;
 
-    resources_get_value("SidHardSIDMain", (void *)&res_value);
+    resources_get_int("SidHardSIDMain", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE);
 
     while (available > 0) {
@@ -372,7 +371,7 @@ static void init_hardsid_sid_dialog(HWND hwnd)
     available = hardsid_available();
     device = 0;
 
-    resources_get_value("SidHardSIDRight", (void *)&res_value);
+    resources_get_int("SidHardSIDRight", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_HARDSID_RIGHT_ENGINE);
 
     while (available > 0) {
@@ -432,12 +431,10 @@ int xpos;
 
 static void end_general_dialog(HWND hwnd)
 {
-    resources_set_value("SidFilters", (resource_value_t)
-                        (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS)
-                        == BST_CHECKED ? 1 : 0));
-    resources_set_value("SidStereo",
-                        (resource_value_t)(IsDlgButtonChecked
-                        (hwnd, IDC_SID_STEREO) == BST_CHECKED ? 1 : 0));
+    resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd,
+                      IDC_SID_FILTERS) == BST_CHECKED ? 1 : 0));
+    resources_set_int("SidStereo", (IsDlgButtonChecked(hwnd,
+                      IDC_SID_STEREO) == BST_CHECKED ? 1 : 0));
     CreateAndGetSidAddress(hwnd, 1);
 }
 
@@ -445,26 +442,24 @@ static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                          LPARAM lparam)
 {
     int command;
-    resource_value_t dummy;
 
     switch (msg) {
       case WM_COMMAND:
         command = LOWORD(wparam);
         switch (command) {
           case IDC_SID_ENGINE:
-            resources_set_value("SidEngine", (resource_value_t)
-                                SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE), 
-                                CB_GETCURSEL, 0, 0));
+            resources_set_int("SidEngine", (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_SID_ENGINE), CB_GETCURSEL, 0, 0));
             break;
           case IDC_SID_STEREO:
-            resources_toggle("SidStereo", &dummy);
+            resources_toggle("SidStereo", NULL);
             enable_general_sid_controls(hwnd);
             break;
           case IDC_SID_6581:
-            resources_set_value("SidModel", (resource_value_t)0);
+            resources_set_int("SidModel", 0);
             break;
           case IDC_SID_8580:
-            resources_set_value("SidModel", (resource_value_t)1);
+            resources_set_int("SidModel", 1);
             break;
         }
         return FALSE;
@@ -493,12 +488,11 @@ static void end_resid_dialog(HWND hwnd)
 {
     TCHAR st[4];
 
-    resources_set_value("SidResidSampling",(resource_value_t)
-                        SendMessage(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING),
-                        CB_GETCURSEL, 0, 0));
+    resources_set_int("SidResidSampling", (int)SendMessage(GetDlgItem(hwnd,
+                      IDC_SID_RESID_SAMPLING), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st, 4);
-    resources_set_value("SidResidPassband", (resource_value_t)_ttoi(st));
+    resources_set_int("SidResidPassband", _ttoi(st));
 }
 
 static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -531,14 +525,10 @@ static BOOL CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void end_hardsid_dialog(HWND hwnd)
 {
-    resources_set_value("SidHardSIDMain", (resource_value_t)
-                        SendMessage(GetDlgItem(hwnd,
-                        IDC_SID_HARDSID_LEFT_ENGINE),
-                        CB_GETCURSEL, 0, 0));
-    resources_set_value("SidHardSIDRight", (resource_value_t)
-                        SendMessage(GetDlgItem(hwnd,
-                        IDC_SID_HARDSID_RIGHT_ENGINE),
-                        CB_GETCURSEL, 0, 0));
+    resources_set_int("SidHardSIDMain", SendMessage(GetDlgItem(hwnd,
+                      IDC_SID_HARDSID_LEFT_ENGINE), CB_GETCURSEL, 0, 0));
+    resources_set_int("SidHardSIDRight", SendMessage(GetDlgItem(hwnd,
+                      IDC_SID_HARDSID_RIGHT_ENGINE), CB_GETCURSEL, 0, 0));
 }
 
 static BOOL CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -552,16 +542,14 @@ static BOOL CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 /*
         switch (command) {
           case IDC_SID_HARDSID_LEFT_ENGINE:
-            resources_set_value("SidHardSIDMain", (resource_value_t)
-                                SendMessage(GetDlgItem(hwnd,
-                                IDC_SID_HARDSID_LEFT_ENGINE),
-                                CB_GETCURSEL, 0, 0));
+            resources_set_int("SidHardSIDMain", SendMessage(GetDlgItem(hwnd,
+                              IDC_SID_HARDSID_LEFT_ENGINE),
+                              CB_GETCURSEL, 0, 0));
             break;
           case IDC_SID_HARDSID_RIGHT_ENGINE:
-            resources_set_value("SidHardSIDRight", (resource_value_t)
-                                SendMessage(GetDlgItem(hwnd,
-                                IDC_SID_HARDSID_RIGHT_ENGINE),
-                                CB_GETCURSEL, 0, 0));
+            resources_set_int("SidHardSIDRight", SendMessage(GetDlgItem(hwnd,
+                              IDC_SID_HARDSID_RIGHT_ENGINE),
+                              CB_GETCURSEL, 0, 0));
             break;
         }
 */

@@ -74,7 +74,7 @@ static int gray_ungray_items(HWND hwnd)
 
     int disabled = 0;
 
-    resources_get_value("ETHERNET_DISABLED", (void *)&disabled);
+    resources_get_int("ETHERNET_DISABLED", &disabled);
 
     if (disabled) {
         EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE_T), 0);
@@ -151,8 +151,8 @@ static void init_tfe_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, tfe_leftgroup);
     uilib_move_group(hwnd, tfe_rightgroup, xsize + 30);
 
-    resources_get_value("ETHERNET_ACTIVE", (void *)&tfe_enabled);
-    resources_get_value("ETHERNET_AS_RR", (void *)&tfe_as_rr_net);
+    resources_get_int("ETHERNET_ACTIVE", &tfe_enabled);
+    resources_get_int("ETHERNET_AS_RR", &tfe_as_rr_net);
     active_value = tfe_as_rr_net ? 2 : (tfe_enabled ? 1 : 0);
 
     temp_hwnd=GetDlgItem(hwnd,IDC_TFE_SETTINGS_ENABLE);
@@ -161,7 +161,7 @@ static void init_tfe_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RR Net");
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    resources_get_value("ETHERNET_INTERFACE", (void *)&interface_name);
+    resources_get_string("ETHERNET_INTERFACE", &interface_name);
 
     if (tfe_enumadapter_open()) {
         int cnt = 0;
@@ -224,12 +224,12 @@ static void save_tfe_dialog(HWND hwnd)
     tfe_enabled = active_value >= 1 ? 1 : 0;
     tfe_as_rr_net = active_value == 2 ? 1 : 0;
 
-    resources_set_value("ETHERNET_ACTIVE", (resource_value_t)tfe_enabled);
-    resources_set_value("ETHERNET_AS_RR", (resource_value_t)tfe_as_rr_net);
+    resources_set_int("ETHERNET_ACTIVE", tfe_enabled);
+    resources_set_int("ETHERNET_AS_RR", tfe_as_rr_net);
 
-    buffer[255] = 0;
+    buffer[255] = '\0';
     GetDlgItemText(hwnd, IDC_TFE_SETTINGS_INTERFACE, buffer, 255);
-    resources_set_value("ETHERNET_INTERFACE", (resource_value_t)buffer);
+    resources_set_string("ETHERNET_INTERFACE", buffer);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
