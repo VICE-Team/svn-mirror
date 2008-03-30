@@ -286,9 +286,9 @@ static int set_JOYAI_resource(resource_value_t v, void *param)
 }
 
 #define MYRES(res, def, name) \
-  { name, RES_STRING, (resource_value_t)def, RES_EVENT_NO, NULL, (void *)&res, set_JOYAI_resource, (void *)&res },
+  { name, def, RES_EVENT_NO, NULL, &res, set_JOYAI_resource, (void *)&res },
 
-static const resource_t resources[] = {
+static const resource_string_t resources_string[] = {
     MYRES(joy_resource[0], "-1", "JOYAI1_ID")
     MYRES(keysym_1[0].resource, "0,0,-1", "JOYAI1_Up")
     MYRES(keysym_1[1].resource, "0,0,-1", "JOYAI1_Down")
@@ -306,7 +306,7 @@ static const resource_t resources[] = {
 
 int joyai_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 static void get_cfg(int joy)

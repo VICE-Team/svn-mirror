@@ -134,32 +134,29 @@ void vsync_sync_reset(void)
 }
 
 
-static const resource_t resources[] = {
-  {"RefreshRate", RES_INTEGER, (resource_value_t)0,
-    RES_EVENT_STRICT, (resource_value_t)1,                                   \
-    (void *)&refresh_rate, set_refresh_rate, NULL },
-  {"WarpMode", RES_INTEGER, (resource_value_t)0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&warp_mode_enabled, set_warp_mode, NULL },
-  {"PollEvery", RES_INTEGER, (resource_value_t)20,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&PollEvery, set_poll_every, NULL },
-  {"SpeedEvery", RES_INTEGER, (resource_value_t)100,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&SpeedEvery, set_speed_every, NULL },
-  {"Speed", RES_INTEGER, (resource_value_t)100,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&CurrentSpeedLimit, set_speed_limit, NULL },
-  {"MaxSkippedFrames", RES_INTEGER, (resource_value_t)MAX_SKIPPED_FRAMES,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&MaxSkippedFrames, set_max_skipped_frames, NULL },
+static const resource_int_t resources_int[] = {
+  {"RefreshRate", 0, RES_EVENT_STRICT, (resource_value_t)1,
+    &refresh_rate, set_refresh_rate, NULL },
+  {"WarpMode", 0, RES_EVENT_NO, NULL,
+    &warp_mode_enabled, set_warp_mode, NULL },
+  {"PollEvery", 20, RES_EVENT_NO, NULL,
+    &PollEvery, set_poll_every, NULL },
+  {"SpeedEvery", 100, RES_EVENT_NO, NULL,
+    &SpeedEvery, set_speed_every, NULL },
+  {"Speed", 100, RES_EVENT_NO, NULL,
+    &CurrentSpeedLimit, set_speed_limit, NULL },
+  {"MaxSkippedFrames", MAX_SKIPPED_FRAMES, RES_EVENT_NO, NULL,
+    &MaxSkippedFrames, set_max_skipped_frames, NULL },
   {NULL}
 };
 
 
 int vsync_resources_init(void)
 {
-  return resources_register(resources);
+  if (resources_register_string(resources_string) < 0)
+    return -1;
+
+  return resources_register_int(resources_int);
 }
 
 

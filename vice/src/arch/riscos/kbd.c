@@ -309,16 +309,17 @@ static int set_joystick_keys2(resource_value_t v, void *param)
   return 0;
 }
 
-static const resource_t resources[] = {
-  {"KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&keymap_index, set_keymap_index, NULL },
-  {Rsrc_JoyKeys1, RES_STRING, (resource_value_t) DefaultJoyKeys1,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&JoyKeyString1, set_joystick_keys1, NULL},
-  {Rsrc_JoyKeys2, RES_STRING, (resource_value_t) DefaultJoyKeys2,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&JoyKeyString2, set_joystick_keys2, NULL},
+static const resource_string_t resources_string[] = {
+  {Rsrc_JoyKeys1, DefaultJoyKeys1, RES_EVENT_NO, NULL,
+    &JoyKeyString1, set_joystick_keys1, NULL},
+  {Rsrc_JoyKeys2, DefaultJoyKeys2, RES_EVENT_NO, NULL,
+    &JoyKeyString2, set_joystick_keys2, NULL},
+  {NULL}
+};
+
+static const resource_int_t resources_int[] = {
+  {"KeymapIndex", 0, RES_EVENT_NO, NULL,
+    &keymap_index, set_keymap_index, NULL },
   {NULL}
 };
 
@@ -327,7 +328,10 @@ int kbd_resources_init(void)
   sprintf(DefaultJoyKeys1, "%02x%02x%02x%02x%02x", KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire);
   sprintf(DefaultJoyKeys2, "%02x%02x%02x%02x%02x", KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire);
 
-  return resources_register(resources);
+  if (resources_register_string(resources_string) < 0)
+    return -1;
+
+  return resources_register_int(resources_int);
 }
 
 

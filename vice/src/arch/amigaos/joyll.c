@@ -215,25 +215,21 @@ static int set_joystick_fire_2(resource_value_t v, void *param)
   return 0;
 }
 
-static const resource_t resources[] = {
-  { "JoyDevice1", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
-    RES_EVENT_NO, NULL,
-    (void *)&joystick_device[0], set_joystick_device_1, NULL },
-  { "JoyDevice2", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
-    RES_EVENT_NO, NULL,
-    (void *)&joystick_device[1], set_joystick_device_2, NULL },
-  { "JoyFire1", RES_INTEGER, (resource_value_t)JPF_BUTTON_RED,
-    RES_EVENT_NO, NULL,
-    (void *)&joystick_fire[0], set_joystick_fire_1, NULL },
-  { "JoyFire2", RES_INTEGER, (resource_value_t)JPF_BUTTON_RED,
-    RES_EVENT_NO, NULL,
-    (void *)&joystick_fire[1], set_joystick_fire_2, NULL },
+static const resource_int_t resources_int[] = {
+  { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+    &joystick_device[0], set_joystick_device_1, NULL },
+  { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+    &joystick_device[1], set_joystick_device_2, NULL },
+  { "JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+    &joystick_fire[0], set_joystick_fire_1, NULL },
+  { "JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+    &joystick_fire[1], set_joystick_fire_2, NULL },
   { NULL }
 };
 
 int joystick_init_resources(void)
 {
-  return resources_register(resources);
+  return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */

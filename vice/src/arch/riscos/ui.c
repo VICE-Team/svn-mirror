@@ -866,43 +866,35 @@ static int set_16bit_sound(resource_value_t v, void *param)
 
 
 
-static const resource_t resources[] = {
-  {Rsrc_SndEvery, RES_INTEGER, (resource_value_t)0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&SoundPollEvery, set_sound_every, NULL },
-  {Rsrc_AutoPause, RES_INTEGER, (resource_value_t)0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&AutoPauseEmu, set_auto_pause, NULL },
-  {Rsrc_DriveT8, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveType8, set_drive_type8, NULL },
-  {Rsrc_DriveT9, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveType9, set_drive_type9, NULL },
-  {Rsrc_DriveT10, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveType10, set_drive_type10, NULL },
-  {Rsrc_DriveT11, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveType11, set_drive_type11, NULL },
-  {Rsrc_DriveF8, RES_STRING, (resource_value_t)"@",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveFile8, set_drive_file8, NULL },
-  {Rsrc_DriveF9, RES_STRING, (resource_value_t)"@",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveFile9, set_drive_file9, NULL },
-  {Rsrc_DriveF10, RES_STRING, (resource_value_t)"@",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveFile10, set_drive_file10, NULL },
-  {Rsrc_DriveF11, RES_STRING, (resource_value_t)"@",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&DriveFile11, set_drive_file11, NULL },
-  {Rsrc_TapeFile, RES_STRING, (resource_value_t)"",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&TapeFile, set_tape_file, NULL },
-  {Rsrc_Snd16Bit, RES_INTEGER, (resource_value_t)0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&Use16BitSound, set_16bit_sound, NULL },
+static const resource_string_t resources_string[] = {
+  {Rsrc_DriveF8, "@", RES_EVENT_NO, NULL,
+    &DriveFile8, set_drive_file8, NULL },
+  {Rsrc_DriveF9, "@", RES_EVENT_NO, NULL,
+    &DriveFile9, set_drive_file9, NULL },
+  {Rsrc_DriveF10, "@", RES_EVENT_NO, NULL,
+    &DriveFile10, set_drive_file10, NULL },
+  {Rsrc_DriveF11, "@", RES_EVENT_NO, NULL,
+    &DriveFile11, set_drive_file11, NULL },
+  {Rsrc_TapeFile, "", RES_EVENT_NO, NULL,
+    &TapeFile, set_tape_file, NULL },
+  {NULL}
+};
+
+static const resource_int_t resources_int[] = {
+  {Rsrc_SndEvery, 0, RES_EVENT_NO, NULL,
+    &SoundPollEvery, set_sound_every, NULL },
+  {Rsrc_AutoPause, 0, RES_EVENT_NO, NULL,
+    &AutoPauseEmu, set_auto_pause, NULL },
+  {Rsrc_DriveT8, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+    &DriveType8, set_drive_type8, NULL },
+  {Rsrc_DriveT9, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+    &DriveType9, set_drive_type9, NULL },
+  {Rsrc_DriveT10, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+    &DriveType10, set_drive_type10, NULL },
+  {Rsrc_DriveT11, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+    &DriveType11, set_drive_type11, NULL },
+  {Rsrc_Snd16Bit, 0, RES_EVENT_NO, NULL,
+    &Use16BitSound, set_16bit_sound, NULL },
   {NULL}
 };
 
@@ -969,7 +961,10 @@ int ui_init_named_app(const char *appname, const char *iconname)
 
 int ui_resources_init(void)
 {
-  return resources_register(resources);
+  if (resources_register_string(resources_string) < 0)
+    return -1;
+
+  return resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)

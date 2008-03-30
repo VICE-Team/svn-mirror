@@ -423,35 +423,35 @@ static int set_pal_emu_double(resource_value_t v, void *param)
 }
 
 
-static const resource_t resources[] = {
-  {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&ScreenModeNormString, set_screen_mode_norm, NULL },
-  {"ScreenModePAL", RES_STRING, (resource_value_t)"28:640,480,5",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&ScreenModePALString, set_screen_mode_pal, NULL },
-  {"ScreenModeDouble", RES_STRING, (resource_value_t)"31:800,600,5",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&ScreenModeDoubleString, set_screen_mode_double, NULL },
-  {"ScreenSetPalette", RES_INTEGER, (resource_value_t) 1,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&ScreenSetPalette, set_screen_palette, NULL },
-  {"UseBPlot", RES_INTEGER, (resource_value_t) 1,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&UseBPlotModule, set_bplot_status, NULL },
-  {"PALEmuDepth", RES_INTEGER, (resource_value_t) 0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&PALEmuDepth, set_pal_emu_depth, NULL },
-  {"PALEmuDouble", RES_INTEGER, (resource_value_t) 0,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&PALEmuDouble, set_pal_emu_double, NULL },
+static const resource_string_t resources_string[] = {
+  {"ScreenMode", "28:640,480,3", RES_EVENT_NO, NULL,
+    &ScreenModeNormString, set_screen_mode_norm, NULL },
+  {"ScreenModePAL", "28:640,480,5", RES_EVENT_NO, NULL,
+    &ScreenModePALString, set_screen_mode_pal, NULL },
+  {"ScreenModeDouble", "31:800,600,5", RES_EVENT_NO, NULL,
+    &ScreenModeDoubleString, set_screen_mode_double, NULL },
+  {NULL}
+};
+
+static const resource_int_t resources_int[] = {
+  {"ScreenSetPalette", 1, RES_EVENT_NO, NULL,
+    &ScreenSetPalette, set_screen_palette, NULL },
+  {"UseBPlot", 1, RES_EVENT_NO, NULL,
+    &UseBPlotModule, set_bplot_status, NULL },
+  {"PALEmuDepth", 0, RES_EVENT_NO, NULL,
+    &PALEmuDepth, set_pal_emu_depth, NULL },
+  {"PALEmuDouble", 0, RES_EVENT_NO, NULL,
+    &PALEmuDouble, set_pal_emu_double, NULL },
   {NULL}
 };
 
 
 int video_arch_resources_init(void)
 {
-  return resources_register(resources);
+  if (resources_register_string(resources_string) < 0)
+    return -1;
+
+  return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)

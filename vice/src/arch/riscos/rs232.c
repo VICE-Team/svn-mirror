@@ -53,20 +53,25 @@ static int set_serial_baud(resource_value_t v, void *param)
 }
 
 
-static const resource_t resources[] = {
-  {"SerialFile", RES_STRING, (resource_value_t)"SerialFile",
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&SerialFile, set_serial_file, NULL },
-  {"SerialBaud", RES_INTEGER, (resource_value_t)7,
-    RES_EVENT_NO, NULL,                                   \
-    (void *)&SerialBaud, set_serial_baud, NULL },
+static const resource_string_t resources_string[] = {
+  {"SerialFile", "SerialFile", RES_EVENT_NO, NULL,
+    &SerialFile, set_serial_file, NULL },
+  {NULL}
+};
+
+static const resource_int_t resources_int[] = {
+  {"SerialBaud", 7, RES_EVENT_NO, NULL,
+    &SerialBaud, set_serial_baud, NULL },
   {NULL}
 };
 
 
 int rs232_resources_init(void)
 {
-  return resources_register(resources);
+  if (resources_register_string(resources_string) < 0)
+    return -1;
+
+  return resources_register_int(resources_int);
 }
 
 
