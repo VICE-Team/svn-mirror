@@ -160,10 +160,10 @@ int state = WaitATN;
 
 #ifdef PARALLEL_DEBUG_VERBOSE
 static void DoTrans(int tr) {
-        if(parallel_debug)
-            log_debug("DoTrans(%s).%s\n",State[state].name, Trans[tr]);
+    if (parallel_debug)
+        log_debug("DoTrans(%s).%s\n",State[state].name, Trans[tr]);
         State[state].m[tr](tr);
-        if(parallel_debug)
+        if (parallel_debug)
             log_debug(" -> %s\n",State[state].name);
 }
 #else
