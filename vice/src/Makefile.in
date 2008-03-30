@@ -782,7 +782,7 @@ palette.o: palette.c vice.h config.h log.h utils.h arch/unix/types.h \
 parallel.o: parallel.c vice.h config.h arch/unix/types.h parallel.h \
 	serial.h diskimage.h gcr.h traps.h drive/drive.h \
 	drive/drivecpu.h alarm.h log.h clkguard.h mon.h mos6510.h mem.h \
-	snapshot.h interrupt.h 6510core.h
+	snapshot.h interrupt.h 6510core.h resources.h cmdline.h
 petcat.o: petcat.c vice.h config.h charsets.h arch/unix/types.h p00.h
 prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h \
 	vdrive/vdrive.h attach.h arch/unix/types.h snapshot.h \
