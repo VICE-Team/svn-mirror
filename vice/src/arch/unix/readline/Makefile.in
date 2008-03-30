@@ -86,7 +86,6 @@ INTLOBJS = @INTLOBJS@
 JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
 LEX = @LEX@
-LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LINKCC = @LINKCC@
 LN_S = @LN_S@
@@ -139,10 +138,10 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libreadline.a
 
-EXTRA_DIST = README testit.c
-
 libreadline_a_SOURCES =  	editline.c 	editline.h 	unix.h 	complete.c 	editline2.c 	sysunix.c 	version.c
 
+
+EXTRA_DIST = README testit.c
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 

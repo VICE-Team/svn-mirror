@@ -86,7 +86,6 @@ INTLOBJS = @INTLOBJS@
 JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
 LEX = @LEX@
-LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LINKCC = @LINKCC@
 LN_S = @LN_S@
@@ -153,7 +152,7 @@ maincpu_sources =  	maincpu.c
 realdrive_sources =  	realdrive.c 	realdrive.h
 
 
-EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	ChangeLog.3 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c
+EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	ChangeLog.3 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(realdrive_sources)
 
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -655,8 +654,6 @@ parallel.o: parallel.c vice.h config.h cmdline.h drive/drive.h log.h \
 petcat.o: petcat.c vice.h config.h charset.h arch/unix/types.h p00.h
 ram.o: ram.c vice.h config.h cmdline.h ram.h arch/unix/types.h \
 	resources.h
-realdrive.o: realdrive.c log.h maincpu.h arch/unix/types.h vice.h \
-	config.h mem.h mos6510.h realdrive.h traps.h vsync.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	ioutil.h log.h resources.h utils.h arch/unix/types.h
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \

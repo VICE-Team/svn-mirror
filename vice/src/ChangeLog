@@ -1,3 +1,34 @@
+2002-11-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.19.
+
+	* Makefile.am: Added realdrive sources to `EXTRA_DIST'.
+
+	* diskimage/fsimage-gcr.c, diskimage/fsimage-gcr.h,
+	diskimage/fsimage.c, diskimage/fsimage.h,
+	diskimage/rawimage.c, diskimage/rawimage.h: New files.
+
+	* diskimage/fsimage-probe.c, diskimage/fsimage-probe.h:
+	Changed name of files and functions.
+
+	* diskimage/Makefile.am: Updated.
+
+	* diskimage/diskimage.c: Moved GCR specific code to separate
+	file and splitted file system and raw disk image access.
+
+	* attach.c (file_system_detach_disk_single,
+	set_attach_device_raw): New function.
+
+	* arch/unix/uiperipheral.c: Added raw device UI.
+
+2002-11-10  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/readline/Makefile.am: Removed EXTRA_DIST
+	duplicate.
+
+	* resid/depcomp: New script required by recent versions of
+	automake.
+
 2002-11-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.18.

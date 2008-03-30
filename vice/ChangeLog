@@ -1,3 +1,13 @@
+2002-11-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.19.
+
+2002-11-10  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Corrections for recent versions of autoconf.
+
+	* depcomp: New script required by recent versions of automake.
+
 2002-11-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.18.
