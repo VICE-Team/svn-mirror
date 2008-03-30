@@ -32,6 +32,7 @@
 extern void petsound_store_onoff(int value);
 extern void petsound_store_rate(CLOCK t);
 extern void petsound_store_sample(BYTE value);
+extern void petsound_store_manual(int value);
 
 extern void petsound_reset(void);
 

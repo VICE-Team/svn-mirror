@@ -55,9 +55,11 @@ struct pet_sound_s
 
     int speed;
     int cycles_per_sec;
+
+    int manual;       /* 1 if CB2 set to manual control "high", 0 otherwise */
 };
 
-static BYTE snddata[4];
+static BYTE snddata[5];
 static struct pet_sound_s snd;
 
 /* XXX: this is not correct */
@@ -96,6 +98,9 @@ static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
     {
         if (snd.on)
             v = pet_makesample(snd.b, snd.b + snd.bs, snd.sample);
+        else if (snd.manual)
+            v = 20000;
+
         pbuf[i * interleave] += v;
         snd.b += snd.bs;
         while (snd.b >= 8.0)
@@ -124,6 +129,13 @@ void petsound_store_sample(BYTE sample)
     sound_store(0x21, snddata[1], 0);
 }
 
+/* For manual control of CB2 sound using $E84C */
+void petsound_store_manual(int value)
+{
+    snddata[4] = value;
+    sound_store(0x24, snddata[4], 0);
+}
+
 static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch (addr) {
@@ -141,6 +153,9 @@ static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
       case 3:
         snd.t = (snd.t & 0xff) | (val << 8);
         snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
+        break;
+      case 4:
+        snd.manual = val;
         break;
       default:
         abort();
@@ -162,8 +177,9 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     snddata[1] = 0;
     snddata[2] = 4;
     snddata[3] = 0;
+    snddata[4] = 0;
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 5; i++)
         pet_sound_machine_store(psid, i, snddata[i]);
 
     return 1;

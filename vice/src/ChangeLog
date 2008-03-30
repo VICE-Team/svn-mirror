@@ -1,3 +1,52 @@
+2007-11-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.5.
+
+	* machine.c (machine_jam): Fixed some warning.
+
+2007-11-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c (statusbar_create): Set slider
+	value directly instead of using statusbar_display_volume. This
+	fixes problem when returning from fullscreen mode.
+
+	* raster/raster.h, raster.c: Added new member last_video_mode
+	to the raster struct which is initialized with -1 (last mode
+	not used).
+
+	* vicii/vicii-draw.c (draw_std_text_foreground,
+	_draw_hires_bitmap_foreground, draw_mc_text_foreground,
+	draw_mc_bitmap_foreground, draw_ext_text_foreground):
+	If last_video_mode is set, change drawing depending on this
+	last mode.
+
+	* vicii/vicii.c (vicii_update_video_mode): Not only multicolor
+	changes but every change needs to be triggered one cycle
+	earlier with last_video_mode also set on this cycle and
+	cleared two cycles later which will lead to the two chars wide
+	area with mixed mode drawing.
+	FIXME: Change of Idle data needs further testing.
+
+2007-11-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/joy_usb.c: Fixed.
+
+2007-10-30  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/archdep.c, arch/unix/macosx/make-bindist.sh,
+	arch/unix/macosx/x11-launcher.sh: adapted to new Mac OS X 10.5
+
+	* sounddrv/soundcoreaudio.c: fixed bug in API call
+
+	* Makefile.am: added initial support for automake 1.10
+
+	* main.c: added myself to VICE team here, too
+
+2007-10-21  Georg Feil <georg@sgl.sci.yorku.ca>
+
+	* pet/petsound.c, pet/petsound.h, pet/petvia.c: Added support
+	for toggling CB2 sound output line.
+
 2007-10-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.4.

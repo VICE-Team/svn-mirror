@@ -129,6 +129,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
     crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                              /* switching userport strobe with CB2 */
 #endif
+    petsound_store_manual((byte & 0xe0) == 0xe0);   /* Manual control of CB2 sound */
 }
 
 static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
@@ -146,6 +147,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         printer_userport_write_strobe(byte & 0x20);
     }
 #endif
+    petsound_store_manual((byte & 0xe0) == 0xe0);   /* Manual control of CB2 sound */
     return byte;
 }
 
