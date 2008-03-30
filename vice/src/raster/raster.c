@@ -117,37 +117,7 @@ static void update_pixel_tables(raster_t *raster)
     }
 }
 
-static int realize_canvas(raster_t *raster)
-{
-    viewport_t *viewport;
-    video_canvas_t *new_canvas;
-
-    viewport = raster->canvas->viewport;
-
-    raster->intialized = 1;
-
-    if (!console_mode && !vsid_mode) {
-        new_canvas = video_canvas_create(raster->canvas,
-					 &raster->canvas->draw_buffer->canvas_width,
-					 &raster->canvas->draw_buffer->canvas_height,
-					 1, raster->palette);
-
-	if (new_canvas == NULL)
-	    return -1;
-
-	raster->canvas = new_canvas;
-    }
-
-    if (raster_realize_frame_buffer(raster) < 0)
-        return -1;
-
-    /* The canvas might give us something different from what we
-       requested. FIXME: Only do this if really something changed. */
-    video_viewport_resize(raster->canvas);
-    return 0;
-}
-
-int raster_realize_frame_buffer(raster_t *raster)
+static int raster_realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height, fb_pitch;
 
@@ -172,6 +142,36 @@ int raster_realize_frame_buffer(raster_t *raster)
     raster->fake_draw_buffer_line = xrealloc(raster->fake_draw_buffer_line,
                                              fb_width);
 
+    return 0;
+}
+
+static int realize_canvas(raster_t *raster)
+{
+    viewport_t *viewport;
+    video_canvas_t *new_canvas;
+
+    viewport = raster->canvas->viewport;
+
+    raster->intialized = 1;
+
+    if (!console_mode && !vsid_mode) {
+        new_canvas = video_canvas_create(raster->canvas,
+                     &raster->canvas->draw_buffer->canvas_width,
+                     &raster->canvas->draw_buffer->canvas_height,
+                     1, raster->palette);
+
+        if (new_canvas == NULL)
+            return -1;
+
+        raster->canvas = new_canvas;
+    }
+
+    if (raster_realize_frame_buffer(raster) < 0)
+        return -1;
+
+    /* The canvas might give us something different from what we
+       requested. FIXME: Only do this if really something changed. */
+    video_viewport_resize(raster->canvas);
     return 0;
 }
 

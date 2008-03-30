@@ -221,7 +221,6 @@ extern void raster_set_geometry(raster_t *raster,
 extern void raster_invalidate_cache(raster_t *raster,
                                     unsigned int screen_height);
 extern void raster_draw_buffer_ptr_update(raster_t *raster);
-extern int raster_realize_frame_buffer(raster_t *raster);
 extern void raster_force_repaint(raster_t *raster);
 extern int raster_set_palette(raster_t *raster, struct palette_s *palette);
 extern void raster_set_title(raster_t *raster, const char *title);
