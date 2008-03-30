@@ -63,6 +63,9 @@ static void draw_std_background(int start_pixel, int end_pixel)
 
     background_color = (BYTE)vic_ii.raster.background_color;
 
+    if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
+        background_color = 0;
+
     gfxstart = vic_ii.raster.geometry->gfx_position.x + vic_ii.raster.xsmooth;
     gfxend = gfxstart + vic_ii.raster.geometry->gfx_size.width;
 

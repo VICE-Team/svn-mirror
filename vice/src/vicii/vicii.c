@@ -918,6 +918,10 @@ void vic_ii_update_video_mode(unsigned int cycle)
                 && cycle > 0)
                 pos--;
 
+            raster_add_int_change_background(&vic_ii.raster,
+                                             VIC_II_RASTER_X(cycle),
+                                             &vic_ii.raster.video_mode,
+                                             new_video_mode);
             raster_add_int_change_foreground(&vic_ii.raster, pos,
                                              &vic_ii.raster.video_mode,
                                              new_video_mode);
@@ -993,7 +997,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
     raster_line_emulate(&vic_ii.raster);
 
 #if 0
-    if (vic_ii.raster.current_line >= 50 && vic_ii.raster.current_line <= 53) {
+    if (vic_ii.raster.current_line >= 60 && vic_ii.raster.current_line <= 60) {
         char buf[1000];
         int j, i;
         for (i = 0; i < 8; i++) {
