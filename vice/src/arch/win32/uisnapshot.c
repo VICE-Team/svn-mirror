@@ -73,7 +73,8 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LP
             {
                 HWND scrndrv_combo;
                 int i;
-                if (scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER)) {
+                scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER);
+                if (scrndrv_combo) {
                         screendrv_t *driver = screenshot_drivers_iter_init();
                         for (i=0; i<screenshot_num_drivers();i++) {
                             SendMessage(scrndrv_combo,CB_ADDSTRING,0,
