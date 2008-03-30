@@ -271,40 +271,6 @@ static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
     }
 }
 
-#if 0
-static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
-                                    PIXEL pixel_return[],
-                                    unsigned long *col_return)
-{
-    unsigned int colnr, dest_colnr;
-    color_list_t *cdest;
-
-    colnr = 0;
-
-    while (src->next != NULL) {
-        cdest = dest;
-        dest_colnr = 0;
-
-        while (cdest->next != NULL) {
-            if (src->color_rgb_req.red == cdest->color_rgb_req.red
-                && src->color_rgb_req.green == cdest->color_rgb_req.green
-                && src->color_rgb_req.blue == cdest->color_rgb_req.blue) {
-                pixel_return[colnr] = cdest->pixel_data;
-                uicolor_convert_color_table(dest_colnr, &(pixel_return[colnr]),
-                                            &(cdest->pixel_data),
-                                            cdest->color_rgb_req.dither,
-                                            cdest->color_pixel);
-                if (col_return != NULL)
-                    col_return[colnr] = cdest->color_pixel;
-                colnr++;
-            }
-            cdest = cdest->next;
-            dest_colnr++;
-        }
-        src = src->next;
-    }
-}
-#else
 static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                                     PIXEL pixel_return[],
                                     unsigned long *col_return, void *c)
@@ -325,14 +291,15 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
             while (cowner->next != NULL) {
                 if (cowner->color_owner == c) {
                     if (src->color_rgb_req.red == cdest->color_rgb_req.red
-                        && src->color_rgb_req.green == cdest->color_rgb_req.green
-                        && src->color_rgb_req.blue == cdest->color_rgb_req.blue) {
-
-                        pixel_return[colnr] = dest_colnr;
-                        uicolor_convert_color_table(dest_colnr, &(pixel_return[colnr]),
+                        && src->color_rgb_req.green
+                        == cdest->color_rgb_req.green
+                        && src->color_rgb_req.blue
+                        == cdest->color_rgb_req.blue) {
+                        uicolor_convert_color_table(colnr,
+                                                    &(pixel_return[colnr]),
                                                     &(cdest->pixel_data),
                                                     cdest->color_rgb_req.dither,
-                                                    cdest->color_pixel);
+                                                    cdest->color_pixel, c);
                         if (col_return != NULL)
                             col_return[colnr] = cdest->color_pixel;
                         colnr++;
@@ -349,7 +316,6 @@ out:
         src = src->next;
     }
 }
-#endif
 
 /*-----------------------------------------------------------------------*/
 

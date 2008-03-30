@@ -46,6 +46,8 @@ extern Colormap colormap;
 extern Pixel drive_led_on_red_pixel, drive_led_on_green_pixel;
 extern Pixel drive_led_off_pixel;
 
+static video_canvas_t ui_canvas;
+
 #define NUM_ENTRIES 3
 
 static int uicolor_alloc_system_colors(void)
@@ -70,7 +72,7 @@ static int uicolor_alloc_system_colors(void)
     p->entries[2].green = 0xff;
     p->entries[2].blue = 0;
 
-    color_alloc_colors((void *)-1, p, pixel_return, color_return);
+    color_alloc_colors((void *)&ui_canvas, p, pixel_return, color_return);
 
     drive_led_off_pixel = (Pixel)color_return[0];
     drive_led_on_red_pixel = (Pixel)color_return[1];
@@ -162,11 +164,13 @@ void uicolor_free_color(unsigned int red, unsigned int green,
 
 void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
                                  PIXEL *data, unsigned int dither,
-                                 long color_pixel)
+                                 long color_pixel, void *c)
 {
 #if VIDEO_DISPLAY_DEPTH == 0
     video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,
-                              dither, color_pixel);
+                              dither, color_pixel, (video_canvas_t *)c);
+#else
+    *pixel_return = *data;
 #endif
 }
 
