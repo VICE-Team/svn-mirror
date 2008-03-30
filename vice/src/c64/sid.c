@@ -1111,8 +1111,9 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 void sid_reset(void)
 {
     int				i;
+    memset(siddata, 0, 32);
     for (i = 0; i < 32; i++)
-	store_sid(i, 0);
+	sound_store(i, 0);
     warn_reset(pwarn);
     sound_prevent_clk_overflow(clk);
 }
