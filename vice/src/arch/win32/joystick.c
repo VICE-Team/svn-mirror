@@ -37,6 +37,7 @@
 
 #include "joystick.h"
 #include "winmain.h"
+#include "ui.h"
 
 int joystick_inited;
 
@@ -160,8 +161,9 @@ int joystick_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-LPDIRECTINPUT   di;
-int             directinput_inited;
+LPDIRECTINPUT               di;
+int                         directinput_inited;
+extern LPDIRECTINPUTDEVICE  di_mouse;
 
 #if 0
 static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
@@ -180,9 +182,22 @@ HRESULT result;
     result=DirectInputCreate(winmain_instance,0x0300,&di,NULL);
     if (result!=DI_OK) {
         di=NULL;
+        di_mouse=NULL;
         return 0;
     }
     joystick_inited=1;
+
+    /*  Init mouse device */
+    result=IDirectInput_CreateDevice(di,(GUID *)&GUID_SysMouse,&di_mouse,NULL);
+    if (result!=DI_OK) {
+        di_mouse=NULL;
+        return 0;
+    }
+    result=IDirectInputDevice_SetDataFormat(di_mouse,&c_dfDIMouse);
+    if (result!=DI_OK) {
+        di_mouse=NULL;
+        return 0;
+    }
 
 //    IDirectInput_EnumDevices(di,0,EnumCallBack,0,0);
     return 0;
@@ -190,6 +205,11 @@ HRESULT result;
 
 int joystick_close(void)
 {
+    if (di_mouse!=NULL) {
+        IDirectInputDevice_Unacquire(di_mouse);
+        IDirectInputDevice_Release(di_mouse);
+        di_mouse=NULL;
+    }
     if (di!=NULL) IDirectInput_Release(di);
     joystick_inited=0;
     return 0;

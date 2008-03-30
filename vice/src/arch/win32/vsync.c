@@ -39,6 +39,7 @@
 #include "sound.h"
 #include "ui.h"
 #include "joystick.h"
+#include "mouse.h"
 
 #include <mmsystem.h>
 
@@ -199,6 +200,9 @@ int do_vsync(int been_skipped)
 
     /* Dispatch all the pending UI events.  */
     ui_dispatch_events();
+
+    /* Update mouse */
+    mouse_update_mouse();
 
     now_time=timeGetTime();
 

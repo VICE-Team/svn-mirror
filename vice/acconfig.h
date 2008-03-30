@@ -71,3 +71,5 @@
 /* Is only one canvas supported?  */
 #undef HAS_SINGLE_CANVAS
 
+/* Is the GUID lib of DX SDK present? */
+#undef HAVE_GUIDLIB

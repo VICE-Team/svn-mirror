@@ -28,6 +28,8 @@
 
 #include <windows.h>
 
+#include <dinput.h>
+
 #include <stdio.h>
 
 #include "mouse.h"
@@ -37,15 +39,26 @@
 #include "log.h"
 #include "resources.h"
 #include "cmdline.h"
+#include "ui.h"
 
-int _mouse_enabled;
-int _mouse_x, _mouse_y;
+int                 _mouse_enabled;
+int                 _mouse_x, _mouse_y;
+static int          mouse_acquired=0;
+LPDIRECTINPUTDEVICE di_mouse=NULL;
+
+#ifndef HAVE_GUIDLIB
+const GUID GUID_XAxis   =(0xA36D02E0,0xC9F3,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
+const GUID GUID_YAxis   =(0xA36D02E1,0xC9F3,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
+const GUID GUID_ZAxis   =(0xA36D02E2,0xC9F3,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
+const GUID GUID_SysMouse=(0x6F1D2B60,0xD5A0,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
+#endif
 
 /* ------------------------------------------------------------------------- */
 
 static int set_mouse_enabled(resource_value_t v)
 {
     _mouse_enabled = (int) v;
+    mouse_update_mouse_acquire();
     return 0;
 }
 
@@ -78,16 +91,33 @@ int mouse_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 
-void mouse_update_mouse(int x, int y, int button)
+void mouse_update_mouse(void)
 {
-    _mouse_x=x;
-    _mouse_y=y;
-    if (button & MK_LBUTTON) {
+DIMOUSESTATE    state;
+HRESULT         result;
+
+    if (di_mouse==NULL) return;
+
+    result=DIERR_INPUTLOST;
+    while (result==DIERR_INPUTLOST) {
+        result=IDirectInputDevice_GetDeviceState(di_mouse,sizeof(DIMOUSESTATE),&state);
+        if (result==DIERR_INPUTLOST) {
+            result=IDirectInputDevice_Acquire(di_mouse);
+            if (result!=DI_OK) {
+                return;
+            }
+        }
+    }
+    if (result!=DI_OK) return;
+
+    _mouse_x+=state.lX;
+    _mouse_y+=state.lY;
+    if (state.rgbButtons[0] & 0x80) {
         joystick_value[1] |= 16;
     } else {
         joystick_value[1] &=~16;
     }
-    if (button & MK_RBUTTON) {
+    if (state.rgbButtons[1] & 0x80) {
         joystick_value[1] |= 1;
     } else {
         joystick_value[1] &= ~1;
@@ -98,3 +128,33 @@ void mouse_init(void)
 {
 }
 
+void mouse_set_cooperative_level(void)
+{
+HRESULT result;
+
+    result=IDirectInputDevice_SetCooperativeLevel(di_mouse,ui_active_window,DISCL_EXCLUSIVE|DISCL_FOREGROUND);
+    if (result!=DI_OK) {
+        log_debug("Warning: couldn't set cooperation level of mice to exclusive! %d",ui_active_window);
+        di_mouse=NULL;
+    }
+}
+
+void mouse_update_mouse_acquire(void)
+{
+    if (di_mouse==NULL) return;
+    if (_mouse_enabled) {
+        if (ui_active) {
+            mouse_set_cooperative_level();
+            IDirectInputDevice_Acquire(di_mouse);
+            mouse_acquired=1;
+        } else {
+            IDirectInputDevice_Unacquire(di_mouse);
+            mouse_acquired=0;
+        }
+    } else {
+        if (mouse_acquired) {
+            IDirectInputDevice_Unacquire(di_mouse);
+            mouse_acquired=0;
+        }
+    }
+}

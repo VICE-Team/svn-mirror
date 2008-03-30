@@ -1,3 +1,13 @@
+1999-09-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.6.
+
+1999-09-15  Tibor Biczo  <crown@mail.matav.hu>
+
+	* acconfig.h: Added HAVE_GUIDLIB.
+
+	* configure.in: Check for dxguid.lib when compiling for Win32.
+
 1999-09-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.5.

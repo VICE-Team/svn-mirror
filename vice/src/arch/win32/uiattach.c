@@ -33,6 +33,10 @@
 #include <shlobj.h>
 #endif
 
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
+#endif
+
 #include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"
@@ -224,7 +228,7 @@ void ui_attach_dialog(HWND hwnd)
         psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[i].pszIcon = NULL;
 #else
-        psp[i].u1.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
@@ -251,7 +255,7 @@ void ui_attach_dialog(HWND hwnd)
     psh.nStartPage = 0;
     psh.ppsp = psp;
 #else
-    psh.u1.pszIcon = NULL;
+    psh.DUMMYUNIONNAME.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
 #endif

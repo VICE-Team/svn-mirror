@@ -347,6 +347,7 @@ RECT    rect;
     window_handles[number_of_windows]=hwnd;
     exposure_handler[number_of_windows] = exp_handler;
     number_of_windows++;
+
     return hwnd;
 
 #if 0
@@ -1127,6 +1128,9 @@ RECT            clear_rect;
 }
 
 
+int     ui_active=FALSE;
+HWND    ui_active_window;
+
 /* Window procedure.  All messages are handled here.  */
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
@@ -1142,6 +1146,15 @@ int     window_index;
     }
 
     switch (msg) {
+        case WM_ACTIVATE:
+            if (wparam==WA_INACTIVE) {
+                ui_active=FALSE;
+            } else {
+                ui_active=TRUE;
+                ui_active_window=window;
+            }
+            mouse_update_mouse_acquire();
+            break;
         case WM_SIZE:
             SendMessage(status_hwnd,msg,wparam,lparam);
             SetStatusWindowParts();
@@ -1173,12 +1186,22 @@ int     window_index;
         case WM_COMMAND:
             handle_wm_command(wparam, lparam, window);
             return 0;
+        case WM_ENTERMENULOOP:
+            update_menus(window);
         case WM_ENTERSIZEMOVE:
             suspend_speed_eval();
+            ui_active=FALSE;
+            mouse_update_mouse_acquire();
             break;
-        case WM_ENTERMENULOOP:
-            suspend_speed_eval();
-            update_menus(window);
+        case WM_EXITMENULOOP:
+//            if ((BOOL)wparam==FALSE) break;
+        case WM_EXITSIZEMOVE:
+            if (GetActiveWindow()==window || !IsIconic(window)) {
+                ui_active=TRUE;
+            } else {
+                ui_active=FALSE;
+            }
+            mouse_update_mouse_acquire();
             break;
         case WM_SYSKEYDOWN:
             if (wparam==VK_F10) {
@@ -1198,13 +1221,13 @@ int     window_index;
         case WM_KEYUP:
             kbd_handle_keyup(wparam, lparam);
             return 0;
-        case WM_RBUTTONDOWN:
+/*        case WM_RBUTTONDOWN:
         case WM_RBUTTONUP:
         case WM_LBUTTONDOWN:
         case WM_LBUTTONUP:
         case WM_MOUSEMOVE:
             mouse_update_mouse(LOWORD(lparam),HIWORD(lparam),wparam);
-            break;
+            break;*/
         case WM_SYSCOLORCHANGE:
             syscolorchanged = 1;
             break;
@@ -1219,11 +1242,11 @@ int     window_index;
                 palettechanged = 1;
             break;
         case WM_CLOSE:
-            if (MessageBox(window,
+            if (MessageBox(NULL,
                        "Do you really want to exit?\n\n"
                        "All the data present in the emulated RAM will be lost.",
                        "VICE",
-                       MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2)
+                       MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL)
                 == IDYES)
                 DestroyWindow(window);
             return 0;

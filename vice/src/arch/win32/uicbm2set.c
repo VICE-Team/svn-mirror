@@ -27,9 +27,14 @@
 #include "vice.h"
 
 #include <windows.h>
+#include <prsht.h>
 
 #ifdef HAVE_SHLOBJ_H
 #include <shlobj.h>
+#endif
+
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
 #endif
 
 #include "c610mem.h"
@@ -231,8 +236,8 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
 #else
-    psp[0].u1.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
-    psp[1].u1.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
@@ -246,7 +251,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psh.nStartPage = 0;
     psh.ppsp = psp;
 #else
-    psh.u1.pszIcon = NULL;
+    psh.DUMMYUNIONNAME.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
 #endif

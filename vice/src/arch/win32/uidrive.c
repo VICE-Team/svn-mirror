@@ -28,9 +28,14 @@
 #include "vice.h"
 
 #include <windows.h>
+#include <prsht.h>
 
 #ifdef HAVE_SHLOBJ_H
 #include <shlobj.h>
+#endif
+
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
 #endif
 
 #include "drive.h"
@@ -274,7 +279,7 @@ void ui_drive_settings_dialog(HWND hwnd)
         psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG);
         psp[i].pszIcon = NULL;
 #else
-        psp[i].u1.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG);
+        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
@@ -297,7 +302,7 @@ void ui_drive_settings_dialog(HWND hwnd)
     psh.nStartPage = 0;
     psh.ppsp = psp;
 #else
-    psh.u1.pszIcon = NULL;
+    psh.DUMMYUNIONNAME.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
 #endif

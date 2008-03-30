@@ -53,6 +53,9 @@ typedef struct {
     ui_res_possible_values *vals;
 } ui_res_value_list;
 
+extern int  ui_active;
+extern HWND ui_active_window;
+
 /* ------------------------------------------------------------------------- */
 
 extern void ui_exit(void);

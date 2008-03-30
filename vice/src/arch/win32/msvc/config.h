@@ -23,6 +23,7 @@
 #define HAVE_LIMITS_H           1
 #define HAVE_COMMCTRL_H         1
 #define HAVE_SHLOBJ_H           1
+#define HAVE_GUIDLIB            1
 
 #define __i386__                1
 

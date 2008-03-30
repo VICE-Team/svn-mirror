@@ -29,13 +29,17 @@
 
 #include <stdio.h>
 
+#include <windows.h>
+#include <mmsystem.h>
 #include <dsound.h>
 
 #include "sound.h"
 #include "ui.h"
 
+#ifndef HAVE_GUIDLIB
 /*  FIXME: It would be better to convert the dxguid.lib from DX5 into the Mingw32 port of DX5 */
 const GUID IID_IDirectSoundNotify={0xb0210783,0x89cd,0x11d0,{0xaf,0x08,0x00,0xa0,0xc9,0x25,0xcd,0x16}};
+#endif
 
 /* ------------------------------------------------------------------------ */
 
@@ -106,6 +110,7 @@ static LPDIRECTSOUND ds=NULL;
 
 /* Audio buffer.  */
 static LPDIRECTSOUNDBUFFER buffer=NULL;
+static LPDIRECTSOUNDBUFFER pbuffer=NULL;
 
 /* Buffer offset.  */
 static DWORD buffer_offset;
@@ -352,6 +357,7 @@ int         t;
 DSBUFFERDESC desc;
 PCMWAVEFORMAT pcmwf;
 DSCAPS  capabilities;
+WAVEFORMATEX    wfex;
 
 static int dx_init(warn_t *w, const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
@@ -369,30 +375,13 @@ int     i;
             return -1;
         }
 
-#if 0
         result = IDirectSound_SetCooperativeLevel(ds, ui_get_main_hwnd(),
-                                                  DSSCL_WRITEPRIMARY);
-#else
-        /* FIXME: Hack.  For now, we only use `DSSCL_NORMAL' as the cooperative
-           level.  */
-        result = DS_OK + 1;
-#endif
+                                                  DSSCL_EXCLUSIVE);
         if (result != DS_OK) {
-            DEBUG(("Cannot set DDSCL_WRITEPRIMARY CooperativeLevel: %s\n",
-                   ds_error(result)));
-            result = IDirectSound_SetCooperativeLevel(ds, ui_get_main_hwnd(),
-                                                      DSSCL_NORMAL);
-            if (result != DS_OK) {
-                ui_error("Cannot set cooperative level:\n%s",
-                         ds_error(result));
-                return -1;
-            }
+            ui_error("Cannot set cooperative level:\n%s",
+                     ds_error(result));
+            return -1;
         }
-
-#if 0
-        ui_error("DirectSound cooperative level set:\n%s",
-                 is_exclusive ? "exclusive" : "normal");
-#endif
     }
 
     memset(&capabilities, 0, sizeof(DSCAPS));
@@ -418,11 +407,18 @@ int     i;
 
     memset(&desc, 0, sizeof(DSBUFFERDESC));
     desc.dwSize = sizeof(DSBUFFERDESC);
-    desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2  | DSBCAPS_CTRLDEFAULT ;
+    desc.dwFlags = DSBCAPS_PRIMARYBUFFER;
 
     fragment_size = *fragsize;
 
     buffer_size = *fragsize * *fragnr * (is16bit ? sizeof(SWORD) : 1);
+
+    result = IDirectSound_CreateSoundBuffer(ds, &desc, &pbuffer, NULL);
+
+    memset(&desc, 0, sizeof(DSBUFFERDESC));
+    desc.dwSize = sizeof(DSBUFFERDESC);
+    desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2  | DSBCAPS_CTRLDEFAULT;
+
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
 
@@ -436,6 +432,11 @@ int     i;
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &buffer, NULL);
     if (result != DS_OK) {
         ui_error("Cannot create DirectSound buffer:\n%s", ds_error(result));
+        return -1;
+    }
+    result=IDirectSoundBuffer_SetFormat(pbuffer,&pcmwf);
+    if (result!=DS_OK) {
+        ui_error("Cannot set Output format for primary sound buffer:\n%s",ds_error(result));
         return -1;
     }
 

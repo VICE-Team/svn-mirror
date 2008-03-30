@@ -31,9 +31,10 @@
 
 int mouse_init_resources(void);
 int mouse_init_cmdline_options(void);
-void mouse_update_mouse(int x, int y, int button);
+void mouse_update_mouse(void);
 void mouse_init(void);
-
+void mouse_update_mouse_acquire(void);
+void mouse_set_cooperative_level(void);
 
 extern int _mouse_enabled;
 extern int _mouse_x, _mouse_y;
