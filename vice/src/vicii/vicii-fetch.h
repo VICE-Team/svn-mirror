@@ -31,7 +31,7 @@
 #include "types.h"
 
 extern void vic_ii_fetch_alarm_handler(CLOCK offset);
-extern void vic_ii_fetch_matrix(int offs, int num);
+extern void vic_ii_fetch_matrix(int offs, int num, int num_0xff);
 
 #endif
 
