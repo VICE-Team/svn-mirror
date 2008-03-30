@@ -1,3 +1,94 @@
+Sat Aug 15 15:18:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sounddrv/soundsb.c: New file.
+
+	* arch/msdos/vicesb.c, arch/msdos/vicesb.h: New files.
+
+Thu Aug 13 11:44:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): New parameter `hotkey'.
+	If `hotkey' is nonzero, use its value instead of `getkey()' for
+	the first keypress.
+
+	* arch/msdos/kbd.c (kbd_flush_commands): Handle `ui_main()''s
+ 	`hotkey' parameter.  Alt+{letter,number} opens the main menu and
+	the submenu with the matching hotkey, if any.
+
+	* arch/msdos/ui.c (ui_main): Removed parameter `addr'.  Replaced
+	by parameter `hotkey'.
+
+	* pet/petvia.def (INCLUDES): #include "petsound.h".
+
+	* c64/c64.c: #include "cartridge.h".
+
+	* 6510core.c (DO_INTERRUPT): Use `do_trap()'; do not use
+	`ack_trap()' anymore.
+
+	* interrupt.h: New parameter `data' to member `trap_func' in
+ 	`struct cpu_int_status'; New member `data' in `struct
+ 	cpu_int_status'.
+	(trigger_trap): New parameter `data', used to initialize
+ 	`trap_data'.
+	(maincpu_trigger_trap, true1541_trigger_trap): New parameter
+ 	`data'.  Pass it to `trigger_trap()'.
+	(ack_trap): Removed.
+	(do_trap): Replaced by this one.
+
+	* arch/msdos/kbd.c: Replaced `KCMD_ESC_PRESSED' with `KCMD_MENU'.
+	`kcmd_command_t' turned into a struct.
+	(queue_command): Parameter `c' replaced with `type' and `data'.
+
+	* vic20/vic20.c: #include "cartridge.h".
+
+	* arch/msdos/vsync.c: #include "sound.h".
+	(set_warp_mode): Call `sound_set_warp_mode()'.
+	(do_vsync): If warp mode is enabled, do not call `sound_flush()'.
+
+	* sound.c: New variable `warp_mode_enabled'.
+	(sound_set_warp_mode): New function.
+	(sound_run_sound, sound_flush): If warp mode is enabled, just
+ 	return.
+
+	* drive.c (floppy_create_directory): Assignment to `tl' moved to
+	the correct position.
+
+	* cmdline.c (cmdline_parse): Fixed error message for non-valid
+	option parameters.
+
+	* arch/unix/xaw/petui.c (pet_ui_init): Joystick settings moved
+	to the second block of submenus.
+	* arch/unix/xaw/c64ui.c (c64_ui_init): Likewise.
+	* arch/unix/xaw/c128ui.c (c128_ui_init): Likewise.
+	* arch/unix/xaw/petui.c (vic20_ui_init): Likewise.
+
+	* arch/unix/xaw/petui.c: #include "peticon.xpm", not
+ 	"c64icon.xpm".
+
+	* vic20/cartridge.c: #include "zfile.h".
+	(cartridge_attach_image): Use `zfopen()'/`zfclose()' instead of
+ 	`fopen()'/`fclose()'.
+
+	* arch/msdos/vic20ui.c (vic20_ui_init): Add menu items for
+	detaching cartridge images to the detach menu.
+
+	* fsdevice.c (fsdevice_set_directory): Removed kludge that deleted
+ 	the last file name from the path.
+
+	* arch/msdos/mouse.c (my_mouse_callback): Handle the correct mouse
+	port.
+
+Wed Aug 12 23:46:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* zfile.c (zopen): Removed handling of recursive compression (it
+ 	caused `zclose()' not to work correctly anymore).
+
+Wed Aug 12 10:20:26 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* vic20/vic20mem.c (read_emuid): Removed toggle.
+	(store_emuid): New function, toggles last byte.
+	(initialize_memory): Use `store_emuid()' instead of
+ 	`store_dummy()' for $9f**.
+
 Mon Aug 10 21:18:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* c128/c128.c (machine_init) [!__MSDOS__]: Call `c128_kbd_init()'

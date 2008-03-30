@@ -367,22 +367,22 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
-	../../src/types.h c64.h ../../src/arch/unix/xaw/c64ui.h \
-	c64cia.h ../../src/cia.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
-	vicii.h ../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/kbdbuf.h sid.h \
-	../../src/sound.h ../../src/warn.h reu.h c64tpi.h \
-	../../src/true1541/true1541.h ../../src/drive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/true1541/1541cpu.h ../../src/tapeunit.h \
-	../../src/tape.h patchrom.h ../../src/utils.h \
-	../../src/arch/unix/kbd.h ../../src/arch/unix/vsync.h c64mem.h \
-	../../src/attach.h ../../src/autostart.h ../../src/rs232.h \
-	c64acia.h rsuser.h ../../src/print.h ../../src/prdevice.h \
-	../../src/pruser.h
+	../../src/types.h ../../src/true1541/1541cpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/attach.h ../../src/drive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/autostart.h \
+	c64.h c64cia.h ../../src/cia.h c64mem.h c64tpi.h \
+	../../src/arch/unix/xaw/c64ui.h ../../src/cartridge.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/maincpu.h patchrom.h reu.h ../../src/resources.h \
+	sid.h ../../src/sound.h ../../src/warn.h ../../src/tapeunit.h \
+	../../src/tape.h ../../src/true1541/true1541.h \
+	../../src/utils.h vicii.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/arch/unix/vsync.h \
+	../../src/rs232.h c64acia.h rsuser.h ../../src/print.h \
+	../../src/prdevice.h ../../src/pruser.h
 c64acia1.o: c64acia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \

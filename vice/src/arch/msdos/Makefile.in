@@ -147,6 +147,8 @@ libarch_a_SOURCES = \
 	vic20kbd.h \
 	vic20ui.c \
 	vic20ui.h \
+        vicesb.c \
+        vicesb.h \
 	video.c \
 	video.h \
 	vmidas.c \
@@ -169,7 +171,7 @@ libarch_a_LIBADD =
 libarch_a_OBJECTS =  c128kbd.o c128ui.o c64kbd.o c64ui.o grabkey.o \
 joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o petui.o tui.o \
 tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o vic20kbd.o vic20ui.o \
-video.o vmidas.o vsync.o
+vicesb.o video.o vmidas.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

@@ -1,3 +1,10 @@
+Sat Aug 15 15:19:21 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.57.
+
+	* configure.in: If Allegro is detected, use the low-level SB
+ 	driver instead of the Allegro-based one.
+
 Mon Aug 10 11:57:50 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.56.
