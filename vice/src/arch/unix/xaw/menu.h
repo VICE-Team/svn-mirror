@@ -53,6 +53,7 @@ MenuEntry DetachDiskImageSubmenu[] = {
       (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) 10, NULL },
     { "Unit #11",
       (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) 11, NULL },
+    { "--" },
     { "All",
       (UiMenuCallback) UiDetachDisk, (UiCallbackDataPtr) -1, NULL },
     { NULL }
