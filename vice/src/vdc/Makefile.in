@@ -249,8 +249,8 @@ vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h
+	../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
 vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h vdc-mem.h vdc.h \
 	../../src/snapshot.h vdctypes.h ../../src/alarm.h \
@@ -264,8 +264,8 @@ vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h
+	../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
 vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/utils.h \
 	../../src/arch/unix/types.h vdc-resources.h vdc.h \
@@ -295,8 +295,8 @@ vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h
+	../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
@@ -313,8 +313,8 @@ vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h
+	../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
 
 info-am:
 info: info-am

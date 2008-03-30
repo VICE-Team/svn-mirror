@@ -307,8 +307,8 @@ distdir: $(DISTFILES)
 about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/info.h ../../../../../src/version.h \
 	videoarch.h ../videoarch.h ../../../../../src/palette.h \
-	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
-	ui.h ../../../../../src/uiapi.h ../../../../../src/resources.h
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/resources.h ui.h ../../../../../src/uiapi.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/cmdline.h ../../../../../src/resources.h \
 	../../../../../src/drive/drive.h ../../../../../src/diskimage.h \
@@ -372,10 +372,10 @@ x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/keyboard.h ../../../../../src/machine.h ui.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h
 x11video.o: x11video.c ../../../../../src/vice.h \
-	../../../../../src/config.h ../../../../../src/utils.h \
-	../../../../../src/arch/unix/types.h videoarch.h ../videoarch.h \
-	../../../../../src/palette.h ../../../../../src/log.h ui.h \
-	../../../../../src/uiapi.h ../../../../../src/resources.h \
+	../../../../../src/config.h ../../../../../src/log.h \
+	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
+	videoarch.h ../videoarch.h ../../../../../src/palette.h \
+	../../../../../src/resources.h ui.h ../../../../../src/uiapi.h \
 	../../../../../src/video.h
 
 info-am:

@@ -594,9 +594,9 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
 	resources.h diskimage.h gcr.h drive/drive.h log.h \
-	drive/drivecpu.h alarm.h clkguard.h mon.h interrupt.h \
-	6510core.h snapshot.h mos6510.h fsdevice.h arch/unix/joystick.h \
-	arch/unix/kbd.h kbdbuf.h keyboard.h machine.h maincpu.h \
+	drive/drivecpu.h mon.h interrupt.h 6510core.h snapshot.h \
+	mos6510.h fsdevice.h arch/unix/joystick.h arch/unix/kbd.h \
+	kbdbuf.h keyboard.h machine.h maincpu.h alarm.h clkguard.h \
 	arch/unix/main_exit.h sysfile.h tape.h traps.h arch/unix/ui.h \
 	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
 	vdrive/vdrive.h version.h video.h arch/unix/videoarch.h \
@@ -609,10 +609,9 @@ maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	resources.h 6510core.c
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	asm.h arch/unix/types.h charsets.h diskimage.h gcr.h \
-	drive/drive.h log.h drive/drivecpu.h alarm.h clkguard.h mon.h \
-	interrupt.h 6510core.h snapshot.h mos6510.h mem.h mon_parse.h \
-	resources.h utils.h vdrive/vdrive-command.h vdrive/vdrive.h \
-	vsync.h
+	drive/drive.h log.h drive/drivecpu.h mon.h interrupt.h \
+	6510core.h snapshot.h mos6510.h mem.h mon_parse.h resources.h \
+	utils.h vdrive/vdrive-command.h vdrive/vdrive.h vsync.h
 mon_lex.o: mon_lex.c vice.h config.h mon.h interrupt.h 6510core.h \
 	arch/unix/types.h snapshot.h mos6510.h mon_parse.h utils.h
 mon_parse.o: mon_parse.c vice.h config.h asm.h arch/unix/types.h \

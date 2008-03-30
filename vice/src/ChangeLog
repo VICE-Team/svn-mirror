@@ -1,3 +1,37 @@
+1999-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.6.
+
+	* mon.c (mon_check_icount, mon): Disassemble instructions on
+	monitor startup in single step mode.  Fixed usage of
+	uninitialized file pointers.
+
+	* vdc/vdc.c, vdc/vdc-draw.c, raster/raster-cache.h,
+	vdc/vdctypes.h: Implemented reverse and flashing text
+	attribute.
+
+	* arch/unix/x11/video.c, arch/unix/x11/videoarch.h,
+	arch/msdos/video.c, arch/msdos/videoarch.h,
+	arch/riscos/video.c, arch/riscos/videoarch.h: Removed cruft.
+
+	* arch/unix/x11/videoarch.h, arch/unix/x11/gnome/videoarch.h,
+	arch/unix/x11/xaw/videoarch.h, arch/unix/x11/video.c,
+	arch/unix/x11/xaw/x11video.c,
+	arch/unix/x11/gnome/gnomevideo.c: Do not use global logging.
+
+	* sound.c: Removed `warn' stuff.
+
+	* arch/win32/uilib.c: #include <string.h>.
+
+	* arch/unix/Makefile.am: Added `vsid' to `EXTRA_DIST'.
+
+1999-12-11  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* fixpoint.h: removed OS/2 stuff again (sorry, meanwhile I
+	found one not working sound-demo)
+
+	* sounddrv/sounddart.c: added 'dart2' und mute functions.
+
 1999-12-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.5.

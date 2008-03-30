@@ -241,13 +241,13 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/mon.h \
+	../../src/drive/drivecpu.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
 	../../src/iecdrive.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h pet.h petmem.h pets.h petsound.h \
-	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
-	../../src/serial.h ../../src/traps.h ../../src/sound.h \
+	../../src/alarm.h ../../src/mem.h pet.h petmem.h pets.h \
+	petsound.h ../../src/arch/unix/petui.h petvia.h petacia.h \
+	petpia.h ../../src/serial.h ../../src/traps.h ../../src/sound.h \
 	../../src/utils.h ../../src/via.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
@@ -284,19 +284,19 @@ petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
 	../../src/snapshot.h ../../src/datasette.h ../../src/tap.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mos6510.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
 	../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/maincpu.h ../../src/parallel.h pets.h petmem.h \
-	petpia.h ../../src/piacore.h ../../src/piacore.c
+	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/parallel.h pets.h petmem.h petpia.h \
+	../../src/piacore.h ../../src/piacore.c
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/arch/unix/types.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/snapshot.h ../../src/mos6510.h \
-	../../src/maincpu.h ../../src/parallel.h petpia.h \
+	../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
+	../../src/mos6510.h ../../src/maincpu.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/parallel.h petpia.h \
 	../../src/piacore.h ../../src/piacore.c
 petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/6510core.h \

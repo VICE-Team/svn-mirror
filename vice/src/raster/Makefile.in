@@ -255,9 +255,10 @@ raster.o: raster.c ../../src/vice.h ../../src/config.h \
 	raster-sprite-status.h raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/log.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h ../../src/utils.h
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
+	../../src/utils.h
 
 info-am:
 info: info-am

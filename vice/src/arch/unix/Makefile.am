@@ -61,6 +61,8 @@ libarch_a_SOURCES = \
 
 bin_SCRIPTS = vsid
 
+EXTRA_DIST = vsid
+
 .PHONY: x11
 x11:
 	(cd x11; $(MAKE))

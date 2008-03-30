@@ -251,7 +251,7 @@ vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h vdrive-bam.h vdrive.h vdrive-command.h \
 	vdrive-dir.h vdrive-iec.h
 vdrive-snapshot.o: vdrive-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/snapshot.h \
+	../../src/attach.h ../../src/log.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h \
 	../../src/diskimage.h ../../src/gcr.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \

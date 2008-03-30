@@ -121,6 +121,8 @@ libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui
 
 
 bin_SCRIPTS = vsid
+
+EXTRA_DIST = vsid
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -369,8 +371,8 @@ main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h ../../../src/log.h ../../../src/machine.h \
 	main_exit.h ../../../src/sound.h types.h ../../../src/video.h \
 	videoarch.h x11/xaw/videoarch.h x11/xaw/../videoarch.h \
-	../../../src/palette.h ui.h x11/xaw/ui.h ../../../src/uiapi.h \
-	../../../src/resources.h
+	../../../src/palette.h ../../../src/resources.h ui.h \
+	x11/xaw/ui.h ../../../src/uiapi.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
 	mouse.h ../../../src/log.h ui.h x11/xaw/ui.h \

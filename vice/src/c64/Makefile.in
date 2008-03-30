@@ -328,9 +328,9 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/iecdrive.h ../../src/cartridge.h \
 	../../src/drive/ciad.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mos6510.h ../../src/maincpu.h \
+	../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
+	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/resources.h ../../src/via.h ../../src/drive/viad.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
@@ -351,10 +351,10 @@ c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
 c64tpi.o: c64tpi.c c64mem.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mos6510.h ../../src/parallel.h \
-	../../src/maincpu.h ../../src/tpi.h ../../src/tpicore.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
+	../../src/parallel.h ../../src/maincpu.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/tpi.h ../../src/tpicore.h \
 	../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \

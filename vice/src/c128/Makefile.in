@@ -254,12 +254,13 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h ../../src/vdc/vdc.h \
-	../../src/vdc/vdc-mem.h ../../src/vsync.h z80.h z80mem.h \
-	../../src/mem.h ../../src/rs232.h ../../src/c64/c64acia.h \
-	../../src/rsuser.h ../../src/print.h ../../src/prdevice.h \
-	../../src/pruser.h ../../src/arch/unix/mouse.h
+	../../src/resources.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
+	../../src/vdc/vdc.h ../../src/vdc/vdc-mem.h ../../src/vsync.h \
+	z80.h z80mem.h ../../src/mem.h ../../src/rs232.h \
+	../../src/c64/c64acia.h ../../src/rsuser.h ../../src/print.h \
+	../../src/prdevice.h ../../src/pruser.h \
+	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
@@ -286,9 +287,9 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/c64/c64iec.h \
 	../../src/iecdrive.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mos6510.h ../../src/maincpu.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
+	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/resources.h ../../src/drive/viad.h ../../src/via.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
