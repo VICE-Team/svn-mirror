@@ -1,6 +1,34 @@
+2000-12-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.23.
+
+	* Added check for perl.
+
+2000-12-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* NEWS,doc/readme.beos: updated
+
+	* doc/html/Makefile.am: Use provided `texi2html'.
+
+2000-12-06  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* data/c64mem.sym: Since VICE labels are not allowed to
+	contain brackets, corrected .bCHK( und .bCHK) to .bCHKopen and
+	.bCHKclose, resp.
+
+2000-12-06  Michael Klein  <nip@c64.org>
+
+        * configure.in: Fixed SDL tests.
+
+        * doc/vice.texi: Updated.
+
+2000-12-06  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+        * NEWS: updated
+
 2000-12-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.5.22.
+        * Version 1.5.22.
 
 2000-12-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
