@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "asm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "c610.h"
@@ -208,6 +209,21 @@ static void cbm2_crtc_signal(unsigned int signal) {
 
 /* ------------------------------------------------------------------------- */
 
+void c610_monitor_init(void)
+{
+    monitor_cpu_type_t asm6502;
+    monitor_cpu_type_t *asmarray[2];
+
+    asm6502_init(&asm6502);
+
+    asmarray[0] = &asm6502;
+    asmarray[1] = NULL;
+
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
+                 drive1_monitor_interface_ptr, asmarray);
+}
+
 /* CBM-II-specific initialization.  */
 int machine_init(void)
 {
@@ -280,9 +296,7 @@ int machine_init(void)
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(cbm2_cycles_per_sec, C610_NTSC_CYCLES_PER_SEC);
 
-    /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
-                 drive1_monitor_interface_ptr);
+    c610_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);

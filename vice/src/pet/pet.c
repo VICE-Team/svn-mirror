@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "asm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
@@ -210,6 +211,21 @@ static void pet_crtc_signal(unsigned int signal) {
 
 /* ------------------------------------------------------------------------- */
 
+void pet_monitor_init(void)
+{
+    monitor_cpu_type_t asm6502;
+    monitor_cpu_type_t *asmarray[2];
+
+    asm6502_init(&asm6502);
+
+    asmarray[0] = &asm6502;
+    asmarray[1] = NULL;
+
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
+                 drive1_monitor_interface_ptr, asmarray);
+}
+
 /* PET-specific initialization.  */
 int machine_init(void)
 {
@@ -268,9 +284,7 @@ int machine_init(void)
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(PET_PAL_CYCLES_PER_SEC, PET_NTSC_CYCLES_PER_SEC);
 
-    /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
-                 drive1_monitor_interface_ptr);
+    pet_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);

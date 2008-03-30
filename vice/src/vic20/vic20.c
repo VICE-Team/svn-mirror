@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "asm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
@@ -211,6 +212,21 @@ int machine_init_cmdline_options(void)
     return 0;
 }
 
+void vic20_monitor_init(void)
+{
+    monitor_cpu_type_t asm6502;
+    monitor_cpu_type_t *asmarray[2];
+
+    asm6502_init(&asm6502);
+
+    asmarray[0] = &asm6502;
+    asmarray[1] = NULL;
+
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
+                 drive1_monitor_interface_ptr, asmarray);
+}
+
 /* VIC20-specific initialization.  */
 int machine_init(void)
 {
@@ -273,9 +289,7 @@ int machine_init(void)
     if (vic20_kbd_init() < 0)
         return -1;
 
-    /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
-                 drive1_monitor_interface_ptr);
+    vic20_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(VIC20_PAL_RFSH_PER_SEC,

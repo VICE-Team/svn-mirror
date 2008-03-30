@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "asm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "c64.h"
@@ -257,6 +258,21 @@ int machine_init_cmdline_options(void)
     return 0;
 }
 
+void c64_monitor_init(void)
+{
+    monitor_cpu_type_t asm6502;
+    monitor_cpu_type_t *asmarray[2];
+
+    asm6502_init(&asm6502);
+
+    asmarray[0] = &asm6502;
+    asmarray[1] = NULL;
+    
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
+                 drive1_monitor_interface_ptr, asmarray);
+}
+
 /* C64-specific initialization.  */
 int machine_init(void)
 {
@@ -341,9 +357,7 @@ int machine_init(void)
             return -1;
     }
 
-    /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
-                 drive1_monitor_interface_ptr);
+    c64_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
