@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-16 22:38+0200\n"
+"POT-Creation-Date: 2006-10-19 22:20+0200\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 
 #. sid/sid-cmdline-options.c, vsync.c
 #: src/vsync.c:145 src/sid/sid-cmdline-options.c:155
-#: src/sid/sid-cmdline-options.c:158 src/translate.c.po.c:3240
+#: src/sid/sid-cmdline-options.c:158 src/translate.c.po.c:3310
 msgid "<percent>"
 msgstr "<percento>"
 
 #. vsync.c
-#: src/vsync.c:145 src/translate.c.po.c:4359
+#: src/vsync.c:145 src/translate.c.po.c:4429
 msgid "Limit emulation speed to specified value"
 msgstr "Limita la velocità di emulazione al valore specificato"
 
@@ -32,22 +32,22 @@ msgstr "Limita la velocità di emulazione al valore specificato"
 #: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:200
 #: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:95 src/ram.c:101
-#: src/translate.c.po.c:1519
+#: src/translate.c.po.c:1589
 msgid "<value>"
 msgstr "<valore>"
 
 #. vsync.c
-#: src/vsync.c:147 src/translate.c.po.c:4369
+#: src/vsync.c:147 src/translate.c.po.c:4439
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aggiorna ogni <valore> frame (`0' per automatico)"
 
 #. vsync.c
-#: src/vsync.c:149 src/translate.c.po.c:4379
+#: src/vsync.c:149 src/translate.c.po.c:4449
 msgid "Enable warp mode"
 msgstr "Attiva la modalità turbo"
 
 #. vsync.c
-#: src/vsync.c:151 src/translate.c.po.c:4389
+#: src/vsync.c:151 src/translate.c.po.c:4459
 msgid "Disable warp mode"
 msgstr "Disattiva la modalità turbo"
 
@@ -66,22 +66,22 @@ msgid "Cannot load snapshot file."
 msgstr "Non è possibile caricare il file di snapshot."
 
 #. sound.c
-#: src/sound.c:252 src/translate.c.po.c:4209
+#: src/sound.c:252 src/translate.c.po.c:4279
 msgid "Enable sound playback"
 msgstr "Attiva la riproduzione dell'audio"
 
 #. sound.c
-#: src/sound.c:254 src/translate.c.po.c:4219
+#: src/sound.c:254 src/translate.c.po.c:4289
 msgid "Disable sound playback"
 msgstr "Disattiva la riproduzione dell'audio"
 
 #. sound.c
-#: src/sound.c:256 src/translate.c.po.c:4229
+#: src/sound.c:256 src/translate.c.po.c:4299
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Imposta la velocità di campionamento dell'audio a <valore> Hz"
 
 #. sound.c
-#: src/sound.c:258 src/translate.c.po.c:4239
+#: src/sound.c:258 src/translate.c.po.c:4309
 msgid "Set sound buffer size to <value> msec"
 msgstr "Imposta la dimensione del buffer dell'audio a <valore> msec"
 
@@ -174,39 +174,39 @@ msgid "<name>"
 msgstr "<nome>"
 
 #. sound.c
-#: src/sound.c:260 src/translate.c.po.c:4249
+#: src/sound.c:260 src/translate.c.po.c:4319
 msgid "Specify sound driver"
 msgstr "Specifica il driver audio"
 
 #. sound.c
-#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4259
+#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4329
 msgid "<args>"
 msgstr "<argomenti>"
 
 #. sound.c
-#: src/sound.c:262 src/translate.c.po.c:4269
+#: src/sound.c:262 src/translate.c.po.c:4339
 msgid "Specify initialization parameters for sound driver"
 msgstr "Specifica i parametri di inizializzazione del driver audio"
 
 #. sound.c
-#: src/sound.c:264 src/translate.c.po.c:4279
+#: src/sound.c:264 src/translate.c.po.c:4349
 msgid "Specify recording sound driver"
 msgstr "Specifica il driver audio di registrazione"
 
 #. sound.c
-#: src/sound.c:266 src/translate.c.po.c:4289
+#: src/sound.c:266 src/translate.c.po.c:4359
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Specifica i parametri di inizializzazione per il driver audio di "
 "registrazione"
 
 #. sound.c
-#: src/sound.c:268 src/translate.c.po.c:4299
+#: src/sound.c:268 src/translate.c.po.c:4369
 msgid "<sync>"
 msgstr "<sync>"
 
 #. sound.c
-#: src/sound.c:268 src/translate.c.po.c:4309
+#: src/sound.c:268 src/translate.c.po.c:4379
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Imposta il tipo di adattamento della velocità dell'audio (0: flessibile, 1:"
@@ -311,7 +311,8 @@ msgstr "scrittura sulla scheda audio fallita."
 msgid "store to sounddevice failed."
 msgstr "memorizzazione sulla scheda audio fallita."
 
-#: src/event.c:219
+#. event.c
+#: src/event.c:219 src/translate.c.po.c:143
 #, fuzzy
 msgid "Cannot create image file!"
 msgstr "Non è possibile creare l'immagine %s"
@@ -370,7 +371,7 @@ msgid "Error reading start snapshot file."
 msgstr "Errore durante la lettura del file di inizio snapshot."
 
 #. event.c
-#: src/event.c:1225 src/translate.c.po.c:3947
+#: src/event.c:1225 src/translate.c.po.c:4017
 msgid "Playback recorded events"
 msgstr "Riproduzione degli eventi registrati"
 
@@ -384,7 +385,7 @@ msgstr "Risorsa %s bloccata da %s."
 #. fuzzy
 #. fuzzy
 #. c64/c64io.c
-#: src/c64/c64io.c:181 src/translate.c.po.c:617
+#: src/c64/c64io.c:183 src/translate.c.po.c:617
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr ""
@@ -392,14 +393,14 @@ msgstr ""
 #. fuzzy
 #. fuzzy
 #. c64/c64io.c
-#: src/c64/c64io.c:199 src/translate.c.po.c:627
+#: src/c64/c64io.c:201 src/translate.c.po.c:627
 msgid " and "
 msgstr " e "
 
 #. fuzzy
 #. fuzzy
 #. c64/c64io.c
-#: src/c64/c64io.c:200 src/translate.c.po.c:637
+#: src/c64/c64io.c:202 src/translate.c.po.c:637
 msgid ""
 ".\n"
 "All the named devices will be detached."
@@ -408,57 +409,57 @@ msgstr ""
 "Tutti i device specificati sarranno rimossi."
 
 #. debug.c
-#: src/debug.c:171 src/translate.c.po.c:3832
+#: src/debug.c:171 src/translate.c.po.c:3902
 msgid "Trace the main CPU"
 msgstr "Traccia la CPU principale"
 
 #. debug.c
-#: src/debug.c:174 src/translate.c.po.c:3842
+#: src/debug.c:174 src/translate.c.po.c:3912
 msgid "Do not trace the main CPU"
 msgstr "Non tracciare la CPU principale"
 
 #. debug.c
-#: src/debug.c:177 src/translate.c.po.c:3852
+#: src/debug.c:177 src/translate.c.po.c:3922
 msgid "Trace the drive0 CPU"
 msgstr "Traccia la CPU del drive0"
 
 #. debug.c
-#: src/debug.c:180 src/translate.c.po.c:3862
+#: src/debug.c:180 src/translate.c.po.c:3932
 msgid "Do not trace the drive0 CPU"
 msgstr "Non tracciare la CPU del drive0"
 
 #. debug.c
-#: src/debug.c:183 src/translate.c.po.c:3872
+#: src/debug.c:183 src/translate.c.po.c:3942
 msgid "Trace the drive1 CPU"
 msgstr "Traccia la CPU del drive1"
 
 #. debug.c
-#: src/debug.c:186 src/translate.c.po.c:3882
+#: src/debug.c:186 src/translate.c.po.c:3952
 msgid "Do not trace the drive1 CPU"
 msgstr "Non tracciare la CPU del drive1"
 
 #. debug.c
-#: src/debug.c:190 src/translate.c.po.c:3893
+#: src/debug.c:190 src/translate.c.po.c:3963
 msgid "Trace the drive2 CPU"
 msgstr "Traccia la CPU del drive2"
 
 #. debug.c
-#: src/debug.c:193 src/translate.c.po.c:3903
+#: src/debug.c:193 src/translate.c.po.c:3973
 msgid "Do not trace the drive2 CPU"
 msgstr "Non tracciare la CPU del drive2"
 
 #. debug.c
-#: src/debug.c:198 src/translate.c.po.c:3915
+#: src/debug.c:198 src/translate.c.po.c:3985
 msgid "Trace the drive3 CPU"
 msgstr "Traccia la CPU del drive3"
 
 #. debug.c
-#: src/debug.c:201 src/translate.c.po.c:3925
+#: src/debug.c:201 src/translate.c.po.c:3995
 msgid "Do not trace the drive3 CPU"
 msgstr "Non tracciare la CPU del drive3"
 
 #. debug.c
-#: src/debug.c:205 src/translate.c.po.c:3936
+#: src/debug.c:205 src/translate.c.po.c:4006
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Modalità di tracciamento (0=normale 1=piccola 2=storica)"
 
@@ -587,7 +588,7 @@ msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 
 #. aciacore.c
-#: src/aciacore.c:210 src/translate.c.po.c:3661
+#: src/aciacore.c:210 src/translate.c.po.c:3731
 msgid "Specify RS232 device this ACIA should work on"
 msgstr ""
 "Specifica il dispositivo RS232 con il quale questa ACIA dovrebbe funzionare"
@@ -597,73 +598,73 @@ msgstr ""
 #: src/attach.c:163 src/attach.c:166 src/attach.c:169 src/attach.c:172
 #: src/drive/drive-cmdline-options.c:68 src/drive/iec/iec-cmdline-options.c:99
 #: src/printerdrv/interface-serial.c:121 src/printerdrv/interface-serial.c:124
-#: src/translate.c.po.c:1912
+#: src/translate.c.po.c:1982
 msgid "<type>"
 msgstr "<tipo>"
 
 #. attach.c
-#: src/attach.c:164 src/translate.c.po.c:3671
+#: src/attach.c:164 src/translate.c.po.c:3741
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Imposta il tipo di periferica #8 (0 NESSUNA, 1 FS, 2: REALE, 3 RAW)"
 
 #. attach.c
-#: src/attach.c:167 src/translate.c.po.c:3681
+#: src/attach.c:167 src/translate.c.po.c:3751
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Imposta il tipo di periferica #9 (0 NESSUNA, 1 FS, 2: REALE, 3 RAW)"
 
 #. attach.c
-#: src/attach.c:170 src/translate.c.po.c:3691
+#: src/attach.c:170 src/translate.c.po.c:3761
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Imposta il tipo di periferica #10 (0 NESSUNA, 1 FS, 2: REALE, 3 RAW)"
 
 #. attach.c
-#: src/attach.c:173 src/translate.c.po.c:3701
+#: src/attach.c:173 src/translate.c.po.c:3771
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Imposta il tipo di periferica #11 (0 NESSUNA, 1 FS, 2: REALE, 3 RAW)"
 
 #. attach.c
-#: src/attach.c:176 src/translate.c.po.c:3711
+#: src/attach.c:176 src/translate.c.po.c:3781
 msgid "Attach disk image for drive #8 read only"
 msgstr "Seleziona l'immagine del disco per il drive #8 in sola lettura"
 
 #. attach.c
-#: src/attach.c:179 src/translate.c.po.c:3721
+#: src/attach.c:179 src/translate.c.po.c:3791
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr ""
 "Seleziona l'immagine del disco per il drive #8 in lettura/scrittura (se "
 "possibile)"
 
 #. attach.c
-#: src/attach.c:182 src/translate.c.po.c:3731
+#: src/attach.c:182 src/translate.c.po.c:3801
 msgid "Attach disk image for drive #9 read only"
 msgstr "Seleziona l'immagine del disco per il drive #9 in sola lettura"
 
 #. attach.c
-#: src/attach.c:185 src/translate.c.po.c:3741
+#: src/attach.c:185 src/translate.c.po.c:3811
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr ""
 "Seleziona l'immagine del disco per il drive #9 in lettura/scrittura (se "
 "possibile)"
 
 #. attach.c
-#: src/attach.c:188 src/translate.c.po.c:3751
+#: src/attach.c:188 src/translate.c.po.c:3821
 msgid "Attach disk image for drive #10 read only"
 msgstr "Seleziona l'immagine del disco per il drive #10 in sola lettura"
 
 #. attach.c
-#: src/attach.c:191 src/translate.c.po.c:3761
+#: src/attach.c:191 src/translate.c.po.c:3831
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr ""
 "Seleziona l'immagine del disco per il drive #10 in lettura/scrittura (se "
 "possibile)"
 
 #. attach.c
-#: src/attach.c:194 src/translate.c.po.c:3771
+#: src/attach.c:194 src/translate.c.po.c:3841
 msgid "Attach disk image for drive #11 read only"
 msgstr "Seleziona l'immagine del disco per il drive #11 in sola lettura"
 
 #. attach.c
-#: src/attach.c:197 src/translate.c.po.c:3781
+#: src/attach.c:197 src/translate.c.po.c:3851
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr ""
 "Seleziona l'immagine del disco per il drive #11 in lettura/scrittura (se "
@@ -825,7 +826,7 @@ msgstr "Attiva l'emulazione dell'interfaccia RS232 su ACIA a $DE**"
 #: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
-#: src/arch/win32/res.rc.po.c:5179 src/translate.c.po.c:934
+#: src/arch/win32/res.rc.po.c:5181 src/translate.c.po.c:934
 msgid "<number>"
 msgstr "<numero>"
 
@@ -945,157 +946,153 @@ msgstr ""
 "Specifica il nome del file della mappa simbolica della tastiera tedesca"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:229 src/translate.c.po.c:1348
+#: src/c64/cart/c64cart.c:229 src/translate.c.po.c:1418
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Fare il reset della macchina se una cartuccia è collegata o rimossa"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:232 src/translate.c.po.c:1358
+#: src/c64/cart/c64cart.c:232 src/translate.c.po.c:1428
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr ""
 "Non fare il reset della macchina se una cartuccia è collegata o rimossa"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:235 src/arch/win32/res.rc.po.c:5110
-#: src/translate.c.po.c:1368 src/arch/amigaos/intl.c.po.c:2150
+#: src/c64/cart/c64cart.c:235 src/arch/win32/res.rc.po.c:5112
+#: src/translate.c.po.c:1438 src/arch/amigaos/intl.c.po.c:2150
 msgid "Attach CRT cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia CRT"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:238 src/translate.c.po.c:1378
+#: src/c64/cart/c64cart.c:238 src/translate.c.po.c:1448
 msgid "Attach generic 8KB cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia generica di 8KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:241 src/translate.c.po.c:1388
+#: src/c64/cart/c64cart.c:241 src/translate.c.po.c:1458
 msgid "Attach generic 16KB cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia generica di 16KB"
 
 #. fuzzy
 #. fuzzy
-#. fuzzy
-#. fuzzy
-#. fuzzy
-#. fuzzy
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:244 src/translate.c.po.c:1408
+#: src/c64/cart/c64cart.c:244 src/translate.c.po.c:1478
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Action Replay di 32KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:247 src/translate.c.po.c:1398
+#: src/c64/cart/c64cart.c:247 src/translate.c.po.c:1468
 #, fuzzy
 msgid "Attach raw 16KB Action Replay III cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Action Replay di 32KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:250 src/translate.c.po.c:1418
+#: src/c64/cart/c64cart.c:250 src/translate.c.po.c:1488
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Retro Replay di 64KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:253 src/translate.c.po.c:1428
+#: src/c64/cart/c64cart.c:253 src/translate.c.po.c:1498
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia IDE64 di 64KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:256 src/translate.c.po.c:1438
+#: src/c64/cart/c64cart.c:256 src/translate.c.po.c:1508
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Atomic Power di 32KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:259 src/translate.c.po.c:1448
+#: src/c64/cart/c64cart.c:259 src/translate.c.po.c:1518
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Epyx fastload di 8KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:262 src/translate.c.po.c:1458
+#: src/c64/cart/c64cart.c:262 src/translate.c.po.c:1528
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Super Snapshot di 32KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:265 src/translate.c.po.c:1468
+#: src/c64/cart/c64cart.c:265 src/translate.c.po.c:1538
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Super Snapshot di 64KB"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:268 src/translate.c.po.c:1478
+#: src/c64/cart/c64cart.c:268 src/translate.c.po.c:1548
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia CBM IEE488"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:271 src/translate.c.po.c:1488
+#: src/c64/cart/c64cart.c:271 src/translate.c.po.c:1558
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Westermann learning di 16KB"
 
 #. fuzzy
 #. fuzzy
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4529
+#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4599
 #, fuzzy
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Structured Basic"
 
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:277 src/translate.c.po.c:1498
+#: src/c64/cart/c64cart.c:277 src/translate.c.po.c:1568
 msgid "Enable expert cartridge"
 msgstr "Attiva l'Expert Cartridge"
 
 #. c64/cart/ide64.c
-#: src/c64/cart/ide64.c:277 src/translate.c.po.c:1508
+#: src/c64/cart/ide64.c:277 src/translate.c.po.c:1578
 msgid "Specify name of IDE64 image file"
 msgstr "Specifica il nome del file immagine dell'IDE64"
 
 #. c64/cart/ide64.c
-#: src/c64/cart/ide64.c:279 src/translate.c.po.c:1529
+#: src/c64/cart/ide64.c:279 src/translate.c.po.c:1599
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Imposta il numero di cilindri dell'emulazione IDE64"
 
 #. c64/cart/ide64.c
-#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1539
+#: src/c64/cart/ide64.c:281 src/translate.c.po.c:1609
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Imposta il numero di testine dell'emulazione IDE64"
 
 #. c64/cart/ide64.c
-#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1549
+#: src/c64/cart/ide64.c:283 src/translate.c.po.c:1619
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Imposta il numero di settori dell'emulazione IDE64"
 
 #. c64/cart/ide64.c
-#: src/c64/cart/ide64.c:286 src/translate.c.po.c:1559
+#: src/c64/cart/ide64.c:286 src/translate.c.po.c:1629
 msgid "Autodetect geometry of formatted images"
 msgstr "Rileva automaticamente la geometria delle immagini formattate"
 
 #. c64/cart/ide64.c
-#: src/c64/cart/ide64.c:289 src/translate.c.po.c:1569
+#: src/c64/cart/ide64.c:289 src/translate.c.po.c:1639
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Non rilevare automaticamente la geometrica delle immagini formattate"
 
 #. fuzzy
 #. fuzzy
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:201 src/translate.c.po.c:4489
+#: src/c64/c64_256k.c:201 src/translate.c.po.c:4559
 msgid "Enable the 256K RAM expansion"
 msgstr "Attiva l'espansione 256K RAM"
 
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:203 src/translate.c.po.c:4499
+#: src/c64/c64_256k.c:203 src/translate.c.po.c:4569
 msgid "Disable the 256K RAM expansion"
 msgstr "Disattiva l'espansione 256K RAM"
 
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:205 src/translate.c.po.c:4509
+#: src/c64/c64_256k.c:205 src/translate.c.po.c:4579
 msgid "Specify name of 256K image"
 msgstr "Specifica il nome dell'immagine 256K"
 
 #. sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c
 #: src/c64/c64_256k.c:207 src/c64/plus60k.c:246
-#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3169
+#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3239
 msgid "<base address>"
 msgstr "<indirizzo base>"
 
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:207 src/translate.c.po.c:4519
+#: src/c64/c64_256k.c:207 src/translate.c.po.c:4589
 msgid "Base address of the 256K expansion"
 msgstr "Indirizzo base dell'espansione 256K"
 
@@ -1128,37 +1125,37 @@ msgstr "Dimensione dell'espansione GEORAM"
 #. fuzzy
 #. fuzzy
 #. c64/plus256k.c
-#: src/c64/plus256k.c:166 src/translate.c.po.c:4419
+#: src/c64/plus256k.c:166 src/translate.c.po.c:4489
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Attiva l'espansione RAM PLUS256K"
 
 #. c64/plus256k.c
-#: src/c64/plus256k.c:168 src/translate.c.po.c:4429
+#: src/c64/plus256k.c:168 src/translate.c.po.c:4499
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Disattiva l'espansione RAM PLUS256K"
 
 #. c64/plus256k.c
-#: src/c64/plus256k.c:170 src/translate.c.po.c:4439
+#: src/c64/plus256k.c:170 src/translate.c.po.c:4509
 msgid "Specify name of PLUS256K image"
 msgstr "Specifica il nome dell'immagine PLUS256K"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:240 src/translate.c.po.c:4449
+#: src/c64/plus60k.c:240 src/translate.c.po.c:4519
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Attiva l'espansione RAM PLUS60K"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:242 src/translate.c.po.c:4459
+#: src/c64/plus60k.c:242 src/translate.c.po.c:4529
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Disattiva l'espansione RAM PLUS60K"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:244 src/translate.c.po.c:4469
+#: src/c64/plus60k.c:244 src/translate.c.po.c:4539
 msgid "Specify name of PLUS60K image"
 msgstr "Specifica il nome dell'immagine PLUS60K"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:246 src/translate.c.po.c:4479
+#: src/c64/plus60k.c:246 src/translate.c.po.c:4549
 msgid "Base address of the PLUS60K expansion"
 msgstr "Indirizzo base dell'espansione PLUS60K"
 
@@ -1201,198 +1198,202 @@ msgstr "Specifica il nome dell'immagine RAMCART"
 msgid "Size of the RAMCART expansion"
 msgstr "Dimensione dell'espansione RAMCART"
 
+#. fuzzy
+#. fuzzy
 #. c64/reu.c
-#: src/c64/reu.c:238 src/translate.c.po.c:1286
+#: src/c64/reu.c:238 src/translate.c.po.c:1356
 msgid "Enable the RAM expansion unit"
 msgstr "Attiva l'espansione di RAM"
 
 #. c64/reu.c
-#: src/c64/reu.c:240 src/translate.c.po.c:1296
+#: src/c64/reu.c:240 src/translate.c.po.c:1366
 msgid "Disable the RAM expansion unit"
 msgstr "Disattiva l'espansione di RAM"
 
 #. c64/reu.c
-#: src/c64/reu.c:242 src/translate.c.po.c:1306
+#: src/c64/reu.c:242 src/translate.c.po.c:1376
 msgid "Specify name of REU image"
 msgstr "Specifica il nome dell'immagine REU"
 
 #. c64/reu.c
-#: src/c64/reu.c:244 src/translate.c.po.c:1316
+#: src/c64/reu.c:244 src/translate.c.po.c:1386
 msgid "Size of the RAM expansion unit"
 msgstr "Dimensione dell'espansione di RAM"
 
-#: src/c64/tfe.c:1502
+#. c64/tfe.c
+#: src/c64/tfe.c:1502 src/translate.c.po.c:1397
 #, fuzzy
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Attiva l'unità TFE (\"the final ethernet\")"
 
-#: src/c64/tfe.c:1504
+#. c64/tfe.c
+#: src/c64/tfe.c:1504 src/translate.c.po.c:1407
 #, fuzzy
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "Disattiva l'unità TFE (\"the final ethernet\")"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:121 src/pet/pet-cmdline-options.c:114
-#: src/translate.c.po.c:1579
+#: src/translate.c.po.c:1649
 msgid "<modelnumber>"
 msgstr "<numero di modello>"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:121 src/translate.c.po.c:1589
+#: src/cbm2/cbm2-cmdline-options.c:121 src/translate.c.po.c:1659
 msgid "Specify CBM-II model to emulate"
 msgstr "Specifica il modello di CBM II da emulare"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:123 src/translate.c.po.c:1599
+#: src/cbm2/cbm2-cmdline-options.c:123 src/translate.c.po.c:1669
 msgid "Specify to use VIC-II"
 msgstr "Specifica di utilizzare il VIC-II"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:125 src/translate.c.po.c:1609
+#: src/cbm2/cbm2-cmdline-options.c:125 src/translate.c.po.c:1679
 msgid "Specify to use CRTC"
 msgstr "Specifica di utilizzare il CRTC"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:127 src/translate.c.po.c:1619
+#: src/cbm2/cbm2-cmdline-options.c:127 src/translate.c.po.c:1689
 msgid "<linenumber>"
 msgstr "<numero di linea>"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:127 src/translate.c.po.c:1629
+#: src/cbm2/cbm2-cmdline-options.c:127 src/translate.c.po.c:1699
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "Specifica il modello hardware del CBM-II (0=6x0, 1=7x0)"
 
 #. cbm2/cbm2-cmdline-options.c, plus4/plus4-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:99
-#: src/translate.c.po.c:1639
+#: src/translate.c.po.c:1709
 msgid "<ramsize>"
 msgstr "<dimensione della ram>"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:129 src/translate.c.po.c:1649
+#: src/cbm2/cbm2-cmdline-options.c:129 src/translate.c.po.c:1719
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "Specifica la dimensione della RAM (4/128/256/512/1024 kByte)"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:139 src/translate.c.po.c:1659
+#: src/cbm2/cbm2-cmdline-options.c:139 src/translate.c.po.c:1729
 msgid "Specify name of cartridge ROM image for $1000"
 msgstr "Specifica il nome dell'immagine della cartuccia ROM a $1000"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:141 src/translate.c.po.c:1669
+#: src/cbm2/cbm2-cmdline-options.c:141 src/translate.c.po.c:1739
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
 msgstr ""
 "Specifica il nome dell'immagine della ROM della cartuccia per $2000-$3fff"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:143 src/translate.c.po.c:1679
+#: src/cbm2/cbm2-cmdline-options.c:143 src/translate.c.po.c:1749
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
 msgstr ""
 "Specifica il nome dell'immagine della ROM della cartuccia per $4000-$5fff"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:145 src/translate.c.po.c:1689
+#: src/cbm2/cbm2-cmdline-options.c:145 src/translate.c.po.c:1759
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
 msgstr ""
 "Specifica il nome dell'immagine della ROM della cartuccia per $6000-$7fff"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:147 src/translate.c.po.c:1699
+#: src/cbm2/cbm2-cmdline-options.c:147 src/translate.c.po.c:1769
 msgid "Enable RAM mapping in $0800-$0FFF"
 msgstr "Attiva la mappatura della RAM a $0800-$0FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:149 src/translate.c.po.c:1709
+#: src/cbm2/cbm2-cmdline-options.c:149 src/translate.c.po.c:1779
 msgid "Disable RAM mapping in $0800-$0FFF"
 msgstr "Disattiva la mappatura della RAM a $0800-$0FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:151 src/translate.c.po.c:1719
+#: src/cbm2/cbm2-cmdline-options.c:151 src/translate.c.po.c:1789
 msgid "Enable RAM mapping in $1000-$1FFF"
 msgstr "Attiva la mappatura della RAM a $1000-$1FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:153 src/translate.c.po.c:1729
+#: src/cbm2/cbm2-cmdline-options.c:153 src/translate.c.po.c:1799
 msgid "Disable RAM mapping in $1000-$1FFF"
 msgstr "Disattiva la mappatura della RAM a $1000-$1FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:155 src/translate.c.po.c:1739
+#: src/cbm2/cbm2-cmdline-options.c:155 src/translate.c.po.c:1809
 msgid "Enable RAM mapping in $2000-$3FFF"
 msgstr "Attiva la mappatura della RAM a $2000-$3FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:157 src/translate.c.po.c:1749
+#: src/cbm2/cbm2-cmdline-options.c:157 src/translate.c.po.c:1819
 msgid "Disable RAM mapping in $2000-$3FFF"
 msgstr "Disattiva la mappatura della RAM a $2000-$3FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:159 src/translate.c.po.c:1759
+#: src/cbm2/cbm2-cmdline-options.c:159 src/translate.c.po.c:1829
 msgid "Enable RAM mapping in $4000-$5FFF"
 msgstr "Attiva la mappatura della RAM a $4000-$5FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:161 src/translate.c.po.c:1769
+#: src/cbm2/cbm2-cmdline-options.c:161 src/translate.c.po.c:1839
 msgid "Disable RAM mapping in $4000-$5FFF"
 msgstr "Disattiva la mappatura della RAM a $4000-$5FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:163 src/translate.c.po.c:1779
+#: src/cbm2/cbm2-cmdline-options.c:163 src/translate.c.po.c:1849
 msgid "Enable RAM mapping in $6000-$7FFF"
 msgstr "Attiva la mappatura della RAM a $6000-$7FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:165 src/translate.c.po.c:1789
+#: src/cbm2/cbm2-cmdline-options.c:165 src/translate.c.po.c:1859
 msgid "Disable RAM mapping in $6000-$7FFF"
 msgstr "Disattiva la mappatura della RAM a $6000-$7FFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:167 src/translate.c.po.c:1799
+#: src/cbm2/cbm2-cmdline-options.c:167 src/translate.c.po.c:1869
 msgid "Enable RAM mapping in $C000-$CFFF"
 msgstr "Attiva la mappatura della RAM a $C000-$CFFF"
 
 #. cbm2/cbm2-cmdline-options.c
-#: src/cbm2/cbm2-cmdline-options.c:169 src/translate.c.po.c:1809
+#: src/cbm2/cbm2-cmdline-options.c:169 src/translate.c.po.c:1879
 msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "Disattiva la mappatura della RAM a $C000-$CFFF"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:176 src/pet/pet-cmdline-options.c:161
-#: src/translate.c.po.c:1820
+#: src/translate.c.po.c:1890
 msgid "Specify index of keymap file"
 msgstr "Specifica l'indice del file della mappa della tastiera"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:179 src/pet/pet-cmdline-options.c:164
-#: src/translate.c.po.c:1830
+#: src/translate.c.po.c:1900
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr ""
 "Specifica il nome del file della mappa simbolica della tastiera grafica"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:182 src/pet/pet-cmdline-options.c:167
-#: src/translate.c.po.c:1840
+#: src/translate.c.po.c:1910
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr ""
 "Specifica il nome del file della mappa posizionale della tastiera grafica"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:185 src/pet/pet-cmdline-options.c:170
-#: src/translate.c.po.c:1850
+#: src/translate.c.po.c:1920
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 "Specifica il nome del file della mappa simbolica della tastiera UK business"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:188 src/pet/pet-cmdline-options.c:173
-#: src/translate.c.po.c:1860
+#: src/translate.c.po.c:1930
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
 "Specifica il nome del file della mappa posizionale della tastiera UK business"
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:191 src/pet/pet-cmdline-options.c:176
-#: src/translate.c.po.c:1870
+#: src/translate.c.po.c:1940
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 "Specifica il nome del file della mappa simbolica della tastiera business "
@@ -1400,44 +1401,44 @@ msgstr ""
 
 #. cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c
 #: src/cbm2/cbm2-cmdline-options.c:194 src/pet/pet-cmdline-options.c:179
-#: src/translate.c.po.c:1880
+#: src/translate.c.po.c:1950
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 "Specifica il nome del file della mappa posizionale della tastiera business "
 "tedesca"
 
 #. datasette.c
-#: src/datasette.c:175 src/translate.c.po.c:3791
+#: src/datasette.c:175 src/translate.c.po.c:3861
 msgid "Enable automatic Datasette-Reset"
 msgstr "Attiva il reset del registratore automatico"
 
 #. datasette.c
-#: src/datasette.c:178 src/translate.c.po.c:3801
+#: src/datasette.c:178 src/translate.c.po.c:3871
 msgid "Disable automatic Datasette-Reset"
 msgstr "Disattiva il reset del registratore automatico"
 
 #. datasette.c
-#: src/datasette.c:181 src/translate.c.po.c:3811
+#: src/datasette.c:181 src/translate.c.po.c:3881
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Imposta il ritardo in cicli per uno zero nel tap"
 
 #. datasette.c
-#: src/datasette.c:184 src/translate.c.po.c:3821
+#: src/datasette.c:184 src/translate.c.po.c:3891
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Imposta il numero di cicli aggiunti ad ogni gap nel tap"
 
 #. drive/drive-cmdline-options.c
-#: src/drive/drive-cmdline-options.c:51 src/translate.c.po.c:1891
+#: src/drive/drive-cmdline-options.c:51 src/translate.c.po.c:1961
 msgid "Enable hardware-level emulation of disk drives"
 msgstr "Attiva l'emulazione hardware dei disk drive"
 
 #. drive/drive-cmdline-options.c
-#: src/drive/drive-cmdline-options.c:53 src/translate.c.po.c:1901
+#: src/drive/drive-cmdline-options.c:53 src/translate.c.po.c:1971
 msgid "Disable hardware-level emulation of disk drives"
 msgstr "Disattiva l'emulazione hardware dei disk drive"
 
 #. drive/drive-cmdline-options.c
-#: src/drive/drive-cmdline-options.c:69 src/translate.c.po.c:1922
+#: src/drive/drive-cmdline-options.c:69 src/translate.c.po.c:1992
 msgid "Set drive type (0: no drive)"
 msgstr "Imposta il tipo di drive (0: nessun drive)"
 
@@ -1445,178 +1446,174 @@ msgstr "Imposta il tipo di drive (0: nessun drive)"
 #. drive/iec/iec-cmdline-options.c
 #: src/drive/drive-cmdline-options.c:70
 #: src/drive/iec/iec-cmdline-options.c:102 src/sid/sid-cmdline-options.c:152
-#: src/translate.c.po.c:1933
+#: src/translate.c.po.c:2003
 msgid "<method>"
 msgstr "<metodo>"
 
 #. drive/drive-cmdline-options.c
-#: src/drive/drive-cmdline-options.c:71 src/translate.c.po.c:1943
+#: src/drive/drive-cmdline-options.c:71 src/translate.c.po.c:2013
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr ""
 "Imposta la politica di estensione a 40 tracce del drive (0: mai, 1: a "
 "richiesta, 2: all'accesso)"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:85 src/translate.c.po.c:1953
+#: src/drive/iec/iec-cmdline-options.c:85 src/translate.c.po.c:2023
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1541"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:87 src/translate.c.po.c:1963
+#: src/drive/iec/iec-cmdline-options.c:87 src/translate.c.po.c:2033
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1541-II"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:89 src/translate.c.po.c:1973
+#: src/drive/iec/iec-cmdline-options.c:89 src/translate.c.po.c:2043
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1570"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:91 src/translate.c.po.c:1983
+#: src/drive/iec/iec-cmdline-options.c:91 src/translate.c.po.c:2053
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1571"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:93 src/translate.c.po.c:1993
+#: src/drive/iec/iec-cmdline-options.c:93 src/translate.c.po.c:2063
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1581"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:100 src/translate.c.po.c:2003
+#: src/drive/iec/iec-cmdline-options.c:100 src/translate.c.po.c:2073
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
 msgstr ""
 
 #. fuzzy
 #. fuzzy
-#. fuzzy
-#. fuzzy
-#. fuzzy
-#. fuzzy
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:103 src/translate.c.po.c:2013
+#: src/drive/iec/iec-cmdline-options.c:103 src/translate.c.po.c:2083
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Imposta il metodo per rilevare l'inattività del drive (0: non rilevare, 1: "
 "salta cicli, 2: rileva inattività)"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:105 src/translate.c.po.c:2023
+#: src/drive/iec/iec-cmdline-options.c:105 src/translate.c.po.c:2093
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Attiva l'espansione di RAM di 8KB a $2000-$3FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:107 src/translate.c.po.c:2033
+#: src/drive/iec/iec-cmdline-options.c:107 src/translate.c.po.c:2103
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Disattiva l'espansione di RAM di 8KB a $2000-$3FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:109 src/translate.c.po.c:2043
+#: src/drive/iec/iec-cmdline-options.c:109 src/translate.c.po.c:2113
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Attiva l'espansione di RAM di 8KB a $4000-$5FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:111 src/translate.c.po.c:2053
+#: src/drive/iec/iec-cmdline-options.c:111 src/translate.c.po.c:2123
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Disattiva l'espansione di RAM di 8KB a $4000-$5FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:113 src/translate.c.po.c:2063
+#: src/drive/iec/iec-cmdline-options.c:113 src/translate.c.po.c:2133
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Attiva l'espansione di RAM di 8KB a $6000-$7FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:115 src/translate.c.po.c:2073
+#: src/drive/iec/iec-cmdline-options.c:115 src/translate.c.po.c:2143
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Disattiva l'espansione di RAM di 8KB a $6000-$7FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:117 src/translate.c.po.c:2083
+#: src/drive/iec/iec-cmdline-options.c:117 src/translate.c.po.c:2153
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Attiva l'espansione di RAM di 8KB a $8000-$9FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:119 src/translate.c.po.c:2093
+#: src/drive/iec/iec-cmdline-options.c:119 src/translate.c.po.c:2163
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Disattiva l'espansione di RAM di 8KB a $8000-$9FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:121 src/translate.c.po.c:2103
+#: src/drive/iec/iec-cmdline-options.c:121 src/translate.c.po.c:2173
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Attiva l'espansione di RAM di 8KB a $A000-$BFFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:123 src/translate.c.po.c:2113
+#: src/drive/iec/iec-cmdline-options.c:123 src/translate.c.po.c:2183
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Disattiva l'espansione di RAM di 8KB a $A000-$BFFF"
 
 #. drive/iec128dcr/iec128dcr-cmdline-options.c
 #: src/drive/iec128dcr/iec128dcr-cmdline-options.c:45
-#: src/translate.c.po.c:2123
+#: src/translate.c.po.c:2193
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1571CR"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:53 src/translate.c.po.c:2133
+#: src/drive/ieee/ieee-cmdline-options.c:53 src/translate.c.po.c:2203
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 2031"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:55 src/translate.c.po.c:2143
+#: src/drive/ieee/ieee-cmdline-options.c:55 src/translate.c.po.c:2213
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 2040"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:57 src/translate.c.po.c:2153
+#: src/drive/ieee/ieee-cmdline-options.c:57 src/translate.c.po.c:2223
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 3040"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:59 src/translate.c.po.c:2163
+#: src/drive/ieee/ieee-cmdline-options.c:59 src/translate.c.po.c:2233
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 4040"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:61 src/translate.c.po.c:2173
+#: src/drive/ieee/ieee-cmdline-options.c:61 src/translate.c.po.c:2243
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1001/8050/8250"
 
 #. drive/tcbm/tcbm-cmdline-options.c
-#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/translate.c.po.c:2183
+#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/translate.c.po.c:2253
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Specifica il nome dell'immagine della ROM del DOS del 1551"
 
 #. fliplist.c
-#: src/fliplist.c:121 src/translate.c.po.c:3957
+#: src/fliplist.c:121 src/translate.c.po.c:4027
 msgid "Specify name of the flip list file image"
 msgstr "Specifica il nome dell'immagine del file della flip list"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:76 src/translate.c.po.c:2193
+#: src/fsdevice/fsdevice-cmdline-options.c:76 src/translate.c.po.c:2263
 msgid "Use <name> as directory for file system device #8"
 msgstr "Una <nome> come direcory per il file system della periferica #8"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:78 src/translate.c.po.c:2203
+#: src/fsdevice/fsdevice-cmdline-options.c:78 src/translate.c.po.c:2273
 msgid "Use <name> as directory for file system device #9"
 msgstr "Una <nome> come direcory per il file system della periferica #9"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:80 src/translate.c.po.c:2213
+#: src/fsdevice/fsdevice-cmdline-options.c:80 src/translate.c.po.c:2283
 msgid "Use <name> as directory for file system device #10"
 msgstr "Una <nome> come direcory per il file system della periferica #10"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:82 src/translate.c.po.c:2223
+#: src/fsdevice/fsdevice-cmdline-options.c:82 src/translate.c.po.c:2293
 msgid "Use <name> as directory for file system device #11"
 msgstr "Una <nome> come direcory per il file system della periferica #11"
 
 #. gfxoutputdrv/ffmpegdrv.c
-#: src/gfxoutputdrv/ffmpegdrv.c:200 src/translate.c.po.c:2234
+#: src/gfxoutputdrv/ffmpegdrv.c:200 src/translate.c.po.c:2304
 msgid "Set bitrate for audio stream in media file"
 msgstr "Imposta il bitrate del flusso audio nel file multimediale"
 
 #. gfxoutputdrv/ffmpegdrv.c
-#: src/gfxoutputdrv/ffmpegdrv.c:203 src/translate.c.po.c:2244
+#: src/gfxoutputdrv/ffmpegdrv.c:203 src/translate.c.po.c:2314
 msgid "Set bitrate for video stream in media file"
 msgstr "Imposta il bitrate per il flusso video nel file multimediale"
 
@@ -1642,197 +1639,197 @@ msgstr "ffmpegdrv: Non è possibile aprire %s"
 
 #. initcmdline.c
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:3967
+#: src/translate.c.po.c:4037
 msgid "Show a list of the available options and exit normally"
 msgstr "Mostra la lista delle opzioni disponibili ed esce"
 
 #. initcmdline.c
-#: src/initcmdline.c:162 src/translate.c.po.c:3978
+#: src/initcmdline.c:162 src/translate.c.po.c:4048
 msgid "Console mode (for music playback)"
 msgstr "Modalità console (per la riproduzione musicale)"
 
 #. initcmdline.c
-#: src/initcmdline.c:164 src/translate.c.po.c:3988
+#: src/initcmdline.c:164 src/translate.c.po.c:4058
 msgid "Allow production of core dumps"
 msgstr "Consente la produzione di core dump"
 
 #. initcmdline.c
-#: src/initcmdline.c:166 src/translate.c.po.c:3998
+#: src/initcmdline.c:166 src/translate.c.po.c:4068
 msgid "Do not produce core dumps"
 msgstr "Non produce core dump"
 
 #. initcmdline.c
-#: src/initcmdline.c:169 src/translate.c.po.c:4008
+#: src/initcmdline.c:169 src/translate.c.po.c:4078
 msgid "Don't call exception handler"
 msgstr "Richiama il gestore delle eccezioni"
 
 #. initcmdline.c
-#: src/initcmdline.c:171 src/translate.c.po.c:4018
+#: src/initcmdline.c:171 src/translate.c.po.c:4088
 msgid "Call exception handler (default)"
 msgstr "Richiama il gestore delle eccezioni (predefinito)"
 
 #. initcmdline.c
-#: src/initcmdline.c:206 src/translate.c.po.c:4029
+#: src/initcmdline.c:206 src/translate.c.po.c:4099
 msgid "Restore default (factory) settings"
 msgstr "Ripristina le impostazioni predefinite"
 
 #. initcmdline.c
-#: src/initcmdline.c:208 src/translate.c.po.c:4039
+#: src/initcmdline.c:208 src/translate.c.po.c:4109
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Seleziona ed avvia l'immagine di una cassetta/disco <nome>"
 
 #. initcmdline.c
-#: src/initcmdline.c:210 src/translate.c.po.c:4049
+#: src/initcmdline.c:210 src/translate.c.po.c:4119
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Seleziona e carica l'immagine di una cassetta/disco <nome>"
 
 #. initcmdline.c
-#: src/initcmdline.c:212 src/translate.c.po.c:4059
+#: src/initcmdline.c:212 src/translate.c.po.c:4129
 msgid "Attach <name> as a tape image"
 msgstr "Seleziona <nome> come un'immagine di una cassetta"
 
 #. initcmdline.c
-#: src/initcmdline.c:214 src/translate.c.po.c:4069
+#: src/initcmdline.c:214 src/translate.c.po.c:4139
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Seleziona <nome> come un'immagine di un disco nel drive #8"
 
 #. initcmdline.c
-#: src/initcmdline.c:216 src/translate.c.po.c:4079
+#: src/initcmdline.c:216 src/translate.c.po.c:4149
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Seleziona <nome> come un'immagine di un disco nel drive #9"
 
 #. initcmdline.c
-#: src/initcmdline.c:218 src/translate.c.po.c:4089
+#: src/initcmdline.c:218 src/translate.c.po.c:4159
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Seleziona <nome> come un'immagine di un disco nel drive #10"
 
 #. initcmdline.c
-#: src/initcmdline.c:220 src/translate.c.po.c:4099
+#: src/initcmdline.c:220 src/translate.c.po.c:4169
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Seleziona <nome> come un'immagine di un disco nel drive #11"
 
 #. kbdbuf.c
-#: src/kbdbuf.c:136 src/translate.c.po.c:4109
+#: src/kbdbuf.c:136 src/translate.c.po.c:4179
 msgid "<string>"
 msgstr "<stringa>"
 
 #. kbdbuf.c
-#: src/kbdbuf.c:136 src/translate.c.po.c:4119
+#: src/kbdbuf.c:136 src/translate.c.po.c:4189
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Metti la stringa specificata nel buffer di tastiera"
 
 #. log.c
-#: src/log.c:110 src/translate.c.po.c:4129
+#: src/log.c:110 src/translate.c.po.c:4199
 msgid "Specify log file name"
 msgstr "Specifica il nome del file di log"
 
 #. mouse.c
-#: src/mouse.c:91 src/translate.c.po.c:4139
+#: src/mouse.c:91 src/translate.c.po.c:4209
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "Attiva l'emulazione del mouse 1351"
 
 #. mouse.c
-#: src/mouse.c:93 src/translate.c.po.c:4149
+#: src/mouse.c:93 src/translate.c.po.c:4219
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Disattiva l'emulazione del mouse 1351"
 
 #. mouse.c
-#: src/mouse.c:95 src/translate.c.po.c:4159
+#: src/mouse.c:95 src/translate.c.po.c:4229
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Seleziona la porta joystick a cui è collegato il mouse"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:114 src/translate.c.po.c:2255
+#: src/pet/pet-cmdline-options.c:114 src/translate.c.po.c:2325
 msgid "Specify PET model to emulate"
 msgstr "Specifica il modello di PET da emulare"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:120 src/translate.c.po.c:2265
+#: src/pet/pet-cmdline-options.c:120 src/translate.c.po.c:2335
 msgid "Specify name of Editor ROM image"
 msgstr "Specifica il nome dell'immagine della Editor ROM"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:124 src/translate.c.po.c:2275
+#: src/pet/pet-cmdline-options.c:124 src/translate.c.po.c:2345
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "Specifica il nome della ROM di estensione di 4k a $9***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:126 src/translate.c.po.c:2285
+#: src/pet/pet-cmdline-options.c:126 src/translate.c.po.c:2355
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "Specifica il nome della ROM di estensione di 4k a $A***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:128 src/translate.c.po.c:2295
+#: src/pet/pet-cmdline-options.c:128 src/translate.c.po.c:2365
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "Specifica il nome della ROM di estensione di 4k a $B***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:130 src/translate.c.po.c:2305
+#: src/pet/pet-cmdline-options.c:130 src/translate.c.po.c:2375
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "Attiva la mappatura della RAM di 4K del PET8296 a $9***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:132 src/translate.c.po.c:2315
+#: src/pet/pet-cmdline-options.c:132 src/translate.c.po.c:2385
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "Disattiva la mappatura della RAM di 4K del PET8296 a $9***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:134 src/translate.c.po.c:2325
+#: src/pet/pet-cmdline-options.c:134 src/translate.c.po.c:2395
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "Attiva la mappatura della RAM di 4K del PET8296 a $A***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:136 src/translate.c.po.c:2335
+#: src/pet/pet-cmdline-options.c:136 src/translate.c.po.c:2405
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "Disattiva la mappatura della RAM di 4K del PET8296 a $A***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:138 src/translate.c.po.c:2345
+#: src/pet/pet-cmdline-options.c:138 src/translate.c.po.c:2415
 msgid "Enable SuperPET I/O"
 msgstr "Attiva l'I/O del SuperPET"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:140 src/translate.c.po.c:2355
+#: src/pet/pet-cmdline-options.c:140 src/translate.c.po.c:2425
 msgid "Disable SuperPET I/O"
 msgstr "Disattiva l'I/O del SuperPET"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:142 src/translate.c.po.c:2365
+#: src/pet/pet-cmdline-options.c:142 src/translate.c.po.c:2435
 msgid "Enable ROM 1 Kernal patches"
 msgstr "Attiva le patch del Kernal della ROM 1"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:144 src/translate.c.po.c:2375
+#: src/pet/pet-cmdline-options.c:144 src/translate.c.po.c:2445
 msgid "Disable ROM 1 Kernal patches"
 msgstr "Disattiva le patch del Kernal della ROM 1"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:147 src/translate.c.po.c:2385
+#: src/pet/pet-cmdline-options.c:147 src/translate.c.po.c:2455
 msgid "Switch upper/lower case charset"
 msgstr "Scambia il set di caratteri maiuscolo/minuscolo"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:150 src/translate.c.po.c:2395
+#: src/pet/pet-cmdline-options.c:150 src/translate.c.po.c:2465
 msgid "Do not switch upper/lower case charset"
 msgstr "Non scambiare il set di caratteri maiuscolo/minuscolo"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:152 src/translate.c.po.c:2405
+#: src/pet/pet-cmdline-options.c:152 src/translate.c.po.c:2475
 msgid "EOI blanks screen"
 msgstr "EOI oscura lo schermo"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:154 src/translate.c.po.c:2415
+#: src/pet/pet-cmdline-options.c:154 src/translate.c.po.c:2485
 msgid "EOI does not blank screen"
 msgstr "EOI non oscura lo schermo"
 
 #. pet/petpia1.c
-#: src/pet/petpia1.c:120 src/translate.c.po.c:2425
+#: src/pet/petpia1.c:120 src/translate.c.po.c:2495
 msgid "Enable userport diagnostic pin"
 msgstr "Attiva il pin diagnostico della userport"
 
 #. pet/petpia1.c
-#: src/pet/petpia1.c:122 src/translate.c.po.c:2435
+#: src/pet/petpia1.c:122 src/translate.c.po.c:2505
 msgid "Disable userport diagnostic pin"
 msgstr "Disattiva il pin diagnostico della userport"
 
@@ -1864,310 +1861,310 @@ msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Dimensione dell'unità di espansione e della RAM del PET"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:87 src/translate.c.po.c:2445
+#: src/plus4/plus4-cmdline-options.c:87 src/translate.c.po.c:2515
 msgid "Specify name of Function low ROM image"
 msgstr "Specifica il nome dell'immagine della Function ROM bassa"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:89 src/translate.c.po.c:2455
+#: src/plus4/plus4-cmdline-options.c:89 src/translate.c.po.c:2525
 msgid "Specify name of Function high ROM image"
 msgstr "Specifica il nome dell'immagine della Function ROM alta"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:91 src/translate.c.po.c:2465
+#: src/plus4/plus4-cmdline-options.c:91 src/translate.c.po.c:2535
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Specifica il nome dell'immagine della ROM Cartridge 1 bassa"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:93 src/translate.c.po.c:2475
+#: src/plus4/plus4-cmdline-options.c:93 src/translate.c.po.c:2545
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Specifica il nomer dell'immagine della ROM Cartridge 1 alta"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:95 src/translate.c.po.c:2485
+#: src/plus4/plus4-cmdline-options.c:95 src/translate.c.po.c:2555
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Specifica il nomer dell'immagine della ROM Cartridge 2 bassa"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:97 src/translate.c.po.c:2495
+#: src/plus4/plus4-cmdline-options.c:97 src/translate.c.po.c:2565
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Specifica il nomer dell'immagine della ROM Cartridge 2 alta"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:99 src/translate.c.po.c:2505
+#: src/plus4/plus4-cmdline-options.c:99 src/translate.c.po.c:2575
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Specifica la dimensione della RAM installata in kb (16/32/64)"
 
 #. plus4/plus4memcsory256k.c
-#: src/plus4/plus4memcsory256k.c:114 src/translate.c.po.c:4539
+#: src/plus4/plus4memcsory256k.c:114 src/translate.c.po.c:4609
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Attiva l'espansione RAM CSORY 256K"
 
 #. fuzzy
 #. fuzzy
 #. plus4/plus4memhannes256k.c
-#: src/plus4/plus4memhannes256k.c:129 src/translate.c.po.c:4549
+#: src/plus4/plus4memhannes256k.c:129 src/translate.c.po.c:4619
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Attiva l'espansione RAM HANNES 256K"
 
 #. fuzzy
 #. fuzzy
 #. plus4/plus4memhannes256k.c
-#: src/plus4/plus4memhannes256k.c:131 src/translate.c.po.c:4559
+#: src/plus4/plus4memhannes256k.c:131 src/translate.c.po.c:4629
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Attiva l'espansione RAM HANNES 1024K"
 
 #. fuzzy
 #. fuzzy
 #. plus4/plus4memhannes256k.c
-#: src/plus4/plus4memhannes256k.c:133 src/translate.c.po.c:4569
+#: src/plus4/plus4memhannes256k.c:133 src/translate.c.po.c:4639
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Attiva l'espansione RAM HANNES 4096K"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
-#: src/translate.c.po.c:2525
+#: src/translate.c.po.c:2595
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Imposta la saturazione della palette calcolata internamente [1000]"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:58 src/vicii/vicii-cmdline-options.c:85
-#: src/translate.c.po.c:2535
+#: src/translate.c.po.c:2605
 msgid "Set contrast of internal calculated palette [1100]"
 msgstr "Imposta il constrasto della palette calcolata internamente [1100]"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:60 src/vicii/vicii-cmdline-options.c:87
-#: src/translate.c.po.c:2545
+#: src/translate.c.po.c:2615
 msgid "Set brightness of internal calculated palette [1100]"
 msgstr "Imposta la luminanza della palette calcolata internamente [1100]"
 
 #. plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:62 src/vicii/vicii-cmdline-options.c:89
-#: src/translate.c.po.c:2555
+#: src/translate.c.po.c:2625
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "Imposta la gamma della palette calcolata internamente [900]"
 
 #. printerdrv/driver-select.c
-#: src/printerdrv/driver-select.c:125 src/translate.c.po.c:2565
+#: src/printerdrv/driver-select.c:125 src/translate.c.po.c:2635
 msgid "Specify name of printer driver for device #4"
 msgstr "Specifica il nome del driver di stampa per la periferica #4"
 
 #. printerdrv/driver-select.c
-#: src/printerdrv/driver-select.c:127 src/translate.c.po.c:2575
+#: src/printerdrv/driver-select.c:127 src/translate.c.po.c:2645
 msgid "Specify name of printer driver for device #5"
 msgstr "Specifica il nome del driver di stampa per la periferica #5"
 
 #. printerdrv/driver-select.c
-#: src/printerdrv/driver-select.c:129 src/translate.c.po.c:2585
+#: src/printerdrv/driver-select.c:129 src/translate.c.po.c:2655
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Specifica il nome del driver di stampa per la stampante su userport"
 
 #. printerdrv/interface-serial.c
-#: src/printerdrv/interface-serial.c:122 src/translate.c.po.c:2595
+#: src/printerdrv/interface-serial.c:122 src/translate.c.po.c:2665
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Specifica il tipo di periferica #4 (0 NESSUNA, 1 FS, 2 REALE)"
 
 #. printerdrv/interface-serial.c
-#: src/printerdrv/interface-serial.c:125 src/translate.c.po.c:2605
+#: src/printerdrv/interface-serial.c:125 src/translate.c.po.c:2675
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Specifica il tipo di periferica #5 (0 NESSUNA, 1 FS, 2 REALE)"
 
 #. printerdrv/interface-userport.c
-#: src/printerdrv/interface-userport.c:93 src/translate.c.po.c:2615
+#: src/printerdrv/interface-userport.c:93 src/translate.c.po.c:2685
 msgid "Enable the userport printer emulation"
 msgstr "Attiva l'emulazione della stampante su userport"
 
 #. printerdrv/interface-userport.c
-#: src/printerdrv/interface-userport.c:96 src/translate.c.po.c:2625
+#: src/printerdrv/interface-userport.c:96 src/translate.c.po.c:2695
 msgid "Disable the userport printer emulation"
 msgstr "Disttiva l'emulazione della stampante su userport"
 
 #. printerdrv/output-select.c
-#: src/printerdrv/output-select.c:120 src/translate.c.po.c:2635
+#: src/printerdrv/output-select.c:120 src/translate.c.po.c:2705
 msgid "Specify name of output device for device #4"
 msgstr "Specifica il nome del dispositivo di output per la periferica #4"
 
 #. printerdrv/output-select.c
-#: src/printerdrv/output-select.c:122 src/translate.c.po.c:2645
+#: src/printerdrv/output-select.c:122 src/translate.c.po.c:2715
 msgid "Specify name of output device for device #5"
 msgstr "Specifica il nome del dispositivo di output per la periferica #5"
 
 #. printerdrv/output-select.c
-#: src/printerdrv/output-select.c:125 src/translate.c.po.c:2655
+#: src/printerdrv/output-select.c:125 src/translate.c.po.c:2725
 msgid "Specify name of output device for the userport printer"
 msgstr ""
 "Specifica il nome del dispositivo di output per la stampante su userport"
 
 #. printerdrv/output-text.c
 #: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
-#: src/printerdrv/output-text.c:117 src/translate.c.po.c:2665
+#: src/printerdrv/output-text.c:117 src/translate.c.po.c:2735
 msgid "Specify name of printer text device or dump file"
 msgstr "Specifica il nome del dispositivo testuale di stampa o salva su file"
 
 #. printerdrv/output-text.c
-#: src/printerdrv/output-text.c:120 src/translate.c.po.c:2685
+#: src/printerdrv/output-text.c:120 src/translate.c.po.c:2755
 msgid "Specify printer text output device for IEC printer #4"
 msgstr ""
 "Specifica il nome del dispositivo di output testuale di stampa per la "
 "stampante IEC #4"
 
 #. printerdrv/output-text.c
-#: src/printerdrv/output-text.c:123 src/translate.c.po.c:2695
+#: src/printerdrv/output-text.c:123 src/translate.c.po.c:2765
 msgid "Specify printer text output device for IEC printer #5"
 msgstr ""
 "Specifica il nome del dispositivo di output testuale di stampa per la "
 "stampante IEC #5"
 
 #. printerdrv/output-text.c
-#: src/printerdrv/output-text.c:126 src/translate.c.po.c:2705
+#: src/printerdrv/output-text.c:126 src/translate.c.po.c:2775
 msgid "Specify printer text output device for userport printer"
 msgstr ""
 "Specifica il nome del dispositivo di output testuale di stampa per la "
 "stampante su userport"
 
 #. ram.c
-#: src/ram.c:101 src/translate.c.po.c:4169
+#: src/ram.c:101 src/translate.c.po.c:4239
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Imposta il valore del primissimo indirizzo della RAM dopo l'accensione"
 
 #. ram.c
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4179
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4249
 msgid "<num of bytes>"
 msgstr "<numero di byte>"
 
 #. ram.c
-#: src/ram.c:104 src/translate.c.po.c:4189
+#: src/ram.c:104 src/translate.c.po.c:4259
 msgid "Length of memory block initialized with the same value"
 msgstr "Lunghezza del blocco di memoria inizializzato con lo stesso valore"
 
 #. ram.c
-#: src/ram.c:107 src/translate.c.po.c:4199
+#: src/ram.c:107 src/translate.c.po.c:4269
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Lunghezza del blocco di memoria inizializzato con lo stesso pattern"
 
 #. raster/raster-cmdline-options.c
-#: src/raster/raster-cmdline-options.c:59 src/translate.c.po.c:2715
+#: src/raster/raster-cmdline-options.c:59 src/translate.c.po.c:2785
 msgid "Enable the video cache"
 msgstr "Attiva la cache video"
 
 #. raster/raster-cmdline-options.c
-#: src/raster/raster-cmdline-options.c:61 src/translate.c.po.c:2725
+#: src/raster/raster-cmdline-options.c:61 src/translate.c.po.c:2795
 msgid "Disable the video cache"
 msgstr "Disattiva la cache video"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:101 src/translate.c.po.c:2736
+#: src/rs232drv/rs232drv.c:101 src/translate.c.po.c:2806
 msgid "Specify name of first RS232 device"
 msgstr "Specifica il nome della prima RS232"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:103 src/translate.c.po.c:2746
+#: src/rs232drv/rs232drv.c:103 src/translate.c.po.c:2816
 msgid "Specify name of second RS232 device"
 msgstr "Specifica il nome della seconda RS232"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:105 src/translate.c.po.c:2756
+#: src/rs232drv/rs232drv.c:105 src/translate.c.po.c:2826
 msgid "Specify name of third RS232 device"
 msgstr "Specifica il nome della terza RS232"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:107 src/translate.c.po.c:2766
+#: src/rs232drv/rs232drv.c:107 src/translate.c.po.c:2836
 msgid "Specify name of fourth RS232 device"
 msgstr "Specifica il nome della quarta RS232"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:183 src/translate.c.po.c:2777
+#: src/rs232drv/rsuser.c:183 src/translate.c.po.c:2847
 msgid "Enable RS232 userport emulation"
 msgstr "Attiva l'emulazione della RS232 su userport"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:185 src/translate.c.po.c:2787
+#: src/rs232drv/rsuser.c:185 src/translate.c.po.c:2857
 msgid "Disable RS232 userport emulation"
 msgstr "Disattiva l'emulazione della RS232 su userport"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:187 src/translate.c.po.c:2797
+#: src/rs232drv/rsuser.c:187 src/translate.c.po.c:2867
 msgid "<baud>"
 msgstr "<baud>"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:188 src/translate.c.po.c:2807
+#: src/rs232drv/rsuser.c:188 src/translate.c.po.c:2877
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Imposta la velocità della RS232 su userport (in baud)"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:191 src/translate.c.po.c:2827
+#: src/rs232drv/rsuser.c:191 src/translate.c.po.c:2897
 msgid "Specify VICE RS232 device for userport"
 msgstr "Specifica il dispositivo RS232 di VICE su userport"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:140 src/translate.c.po.c:2837
+#: src/serial/serial-iec-device.c:140 src/translate.c.po.c:2907
 msgid "Enable IEC device emulation for device #4"
 msgstr "Attiva l'emulazione IEC per la periferica #4"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:143 src/translate.c.po.c:2847
+#: src/serial/serial-iec-device.c:143 src/translate.c.po.c:2917
 msgid "Disable IEC device emulation for device #4"
 msgstr "Disattiva l'emulazione IEC per la periferica #4"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:146 src/translate.c.po.c:2857
+#: src/serial/serial-iec-device.c:146 src/translate.c.po.c:2927
 msgid "Enable IEC device emulation for device #5"
 msgstr "Attiva l'emulazione IEC per la periferica #5"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:149 src/translate.c.po.c:2867
+#: src/serial/serial-iec-device.c:149 src/translate.c.po.c:2937
 msgid "Disable IEC device emulation for device #5"
 msgstr "Disattiva l'emulazione IEC per la periferica #5"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:152 src/translate.c.po.c:2877
+#: src/serial/serial-iec-device.c:152 src/translate.c.po.c:2947
 msgid "Enable IEC device emulation for device #8"
 msgstr "Attiva l'emulazione IEC per la periferica #8"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:155 src/translate.c.po.c:2887
+#: src/serial/serial-iec-device.c:155 src/translate.c.po.c:2957
 msgid "Disable IEC device emulation for device #8"
 msgstr "Disattiva l'emulazione IEC per la periferica #8"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:158 src/translate.c.po.c:2897
+#: src/serial/serial-iec-device.c:158 src/translate.c.po.c:2967
 msgid "Enable IEC device emulation for device #9"
 msgstr "Attiva l'emulazione IEC per la periferica #9"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:161 src/translate.c.po.c:2907
+#: src/serial/serial-iec-device.c:161 src/translate.c.po.c:2977
 msgid "Disable IEC device emulation for device #9"
 msgstr "Disattiva l'emulazione IEC per la periferica #9"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:164 src/translate.c.po.c:2917
+#: src/serial/serial-iec-device.c:164 src/translate.c.po.c:2987
 msgid "Enable IEC device emulation for device #10"
 msgstr "Attiva l'emulazione IEC per la periferica #10"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:167 src/translate.c.po.c:2927
+#: src/serial/serial-iec-device.c:167 src/translate.c.po.c:2997
 msgid "Disable IEC device emulation for device #10"
 msgstr "Disattiva l'emulazione IEC per la periferica #10"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:170 src/translate.c.po.c:2937
+#: src/serial/serial-iec-device.c:170 src/translate.c.po.c:3007
 msgid "Enable IEC device emulation for device #11"
 msgstr "Attiva l'emulazione IEC per la periferica #11"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:173 src/translate.c.po.c:2947
+#: src/serial/serial-iec-device.c:173 src/translate.c.po.c:3017
 msgid "Disable IEC device emulation for device #11"
 msgstr "Disattiva l'emulazione IEC per la periferica #11"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:72 src/translate.c.po.c:2957
+#: src/sid/sid-cmdline-options.c:72 src/translate.c.po.c:3027
 msgid "<engine>"
 msgstr "<motore>"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:77 src/translate.c.po.c:3148
+#: src/sid/sid-cmdline-options.c:77 src/translate.c.po.c:3218
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
@@ -2176,115 +2173,115 @@ msgstr ""
 "ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:79 src/translate.c.po.c:3100
+#: src/sid/sid-cmdline-options.c:79 src/translate.c.po.c:3170
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:83 src/translate.c.po.c:3112
+#: src/sid/sid-cmdline-options.c:83 src/translate.c.po.c:3182
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
 "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:85 src/translate.c.po.c:3028
+#: src/sid/sid-cmdline-options.c:85 src/translate.c.po.c:3098
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
 msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:91 src/translate.c.po.c:3124
+#: src/sid/sid-cmdline-options.c:91 src/translate.c.po.c:3194
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:93 src/translate.c.po.c:3040
+#: src/sid/sid-cmdline-options.c:93 src/translate.c.po.c:3110
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
 msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:97 src/translate.c.po.c:3052
+#: src/sid/sid-cmdline-options.c:97 src/translate.c.po.c:3122
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:99 src/translate.c.po.c:2980
+#: src/sid/sid-cmdline-options.c:99 src/translate.c.po.c:3050
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr "Specifica il motore SID (0: FastSID, 1: ReSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:107 src/translate.c.po.c:3136
+#: src/sid/sid-cmdline-options.c:107 src/translate.c.po.c:3206
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr ""
 "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:109 src/translate.c.po.c:3064
+#: src/sid/sid-cmdline-options.c:109 src/translate.c.po.c:3134
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
 msgstr "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:113 src/translate.c.po.c:3076
+#: src/sid/sid-cmdline-options.c:113 src/translate.c.po.c:3146
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
 msgstr "Specifica il motore SID (0: FastSID, 2: Catweasel, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:115 src/translate.c.po.c:2992
+#: src/sid/sid-cmdline-options.c:115 src/translate.c.po.c:3062
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
 msgstr "Specifica il motore SID (0: FastSID, 2: Catweasel)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:121 src/translate.c.po.c:3088
+#: src/sid/sid-cmdline-options.c:121 src/translate.c.po.c:3158
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
 msgstr "Specifica il motore SID (0: FastSID, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:123 src/translate.c.po.c:3004
+#: src/sid/sid-cmdline-options.c:123 src/translate.c.po.c:3074
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
 msgstr "Specifica il motore SID (0: FastSID, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:127 src/translate.c.po.c:3016
+#: src/sid/sid-cmdline-options.c:127 src/translate.c.po.c:3086
 msgid "Specify SID engine (0: FastSID, 4: ParSID)"
 msgstr "Specifica il motore SID (0: FastSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:129 src/translate.c.po.c:2968
+#: src/sid/sid-cmdline-options.c:129 src/translate.c.po.c:3038
 msgid "Specify SID engine (0: FastSID)"
 msgstr "Specifica il motore SID (0: FastSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:138 src/translate.c.po.c:3159
+#: src/sid/sid-cmdline-options.c:138 src/translate.c.po.c:3229
 msgid "Enable second SID"
 msgstr "Attiva Secondo SID"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3179
+#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3249
 msgid "Specify base address for 2nd SID"
 msgstr "Specifica l'indirizzo di base per il secondo SID"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3189
+#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3259
 msgid "<model>"
 msgstr "<modello>"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3199
+#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3269
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
 msgstr "Specifica il modello di SID (0: 6581, 1: 8580, 2: 8580 + digi boost)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:146 src/translate.c.po.c:3209
+#: src/sid/sid-cmdline-options.c:146 src/translate.c.po.c:3279
 msgid "Emulate SID filters"
 msgstr "Emula i filtri del SID"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:149 src/translate.c.po.c:3219
+#: src/sid/sid-cmdline-options.c:149 src/translate.c.po.c:3289
 msgid "Do not emulate SID filters"
 msgstr "Non emulare i filtri del SID"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:153 src/translate.c.po.c:3230
+#: src/sid/sid-cmdline-options.c:153 src/translate.c.po.c:3300
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -2293,230 +2290,230 @@ msgstr ""
 "3: ricampionamento veloce)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:156 src/translate.c.po.c:3250
+#: src/sid/sid-cmdline-options.c:156 src/translate.c.po.c:3320
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "Banda passante di ricampionamento del reSID in percentuale di quella totale "
 "(0 - 90)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:159 src/translate.c.po.c:3260
+#: src/sid/sid-cmdline-options.c:159 src/translate.c.po.c:3330
 msgid "reSID gain in percent (90 - 100)"
 msgstr "Guadagno del reSID in percentuale (90 - 100)"
 
 #. sysfile.c
-#: src/sysfile.c:127 src/translate.c.po.c:4319
+#: src/sysfile.c:127 src/translate.c.po.c:4389
 msgid "<path>"
 msgstr "<percorso>"
 
 #. sysfile.c
-#: src/sysfile.c:127 src/translate.c.po.c:4329
+#: src/sysfile.c:127 src/translate.c.po.c:4399
 msgid "Define search path to locate system files"
 msgstr "Definisci il path di ricerca per cercare i file di sistema"
 
 #. traps.c
-#: src/traps.c:123 src/translate.c.po.c:4339
+#: src/traps.c:123 src/translate.c.po.c:4409
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Attiva meccanismo generale per l'emulazione veloce del disco/cassetta"
 
 #. traps.c
-#: src/traps.c:126 src/translate.c.po.c:4349
+#: src/traps.c:126 src/translate.c.po.c:4419
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
 "Disattiva meccanismo generale per l'emulazione veloce del disco/cassetta"
 
 #. vdc/vdc-cmdline-options.c
-#: src/vdc/vdc-cmdline-options.c:62 src/translate.c.po.c:3271
+#: src/vdc/vdc-cmdline-options.c:62 src/translate.c.po.c:3341
 msgid "Set the VDC memory size to 16KB"
 msgstr "Imposta la dimensione della memoria del VDC a 16KB"
 
 #. vdc/vdc-cmdline-options.c
-#: src/vdc/vdc-cmdline-options.c:65 src/translate.c.po.c:3281
+#: src/vdc/vdc-cmdline-options.c:65 src/translate.c.po.c:3351
 msgid "Set the VDC memory size to 64KB"
 msgstr "Imposta la dimensione della memoria del VDC a 64KB"
 
 #. vdc/vdc-cmdline-options.c
-#: src/vdc/vdc-cmdline-options.c:68 src/translate.c.po.c:3291
+#: src/vdc/vdc-cmdline-options.c:68 src/translate.c.po.c:3361
 msgid "Set VDC revision (0..2)"
 msgstr "Imposta la revisione del VDC (0..2)"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3301
+#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3371
 msgid "<spec>"
 msgstr "<spec>"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3311
+#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3381
 msgid "Specify memory configuration"
 msgstr "Specifica la configurazione della memoria"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:221 src/translate.c.po.c:3321
+#: src/vic20/vic20-cmdline-options.c:221 src/translate.c.po.c:3391
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "Attiva l'interfaccia IEEE488 del VIC-1112"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:223 src/translate.c.po.c:3331
+#: src/vic20/vic20-cmdline-options.c:223 src/translate.c.po.c:3401
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Disattiva l'interfaccia IEEE488 del VIC-1112"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3341
+#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3411
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Specifica il nome della ROM di estensione di 4/8/16K a $2000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3351
+#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3421
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Specifica il nome della ROM di estensione di 4/8/16K a $4000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3361
+#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3431
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Specifica il nome della ROM di estensione di 4/8/16K a $6000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3371
+#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3441
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Specifica il nome della ROM di estensione di 4/8K a $A000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3381
+#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3451
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Specifica il nome della ROM di estensione di 4 a $B000"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:71 src/translate.c.po.c:3391
+#: src/vicii/vicii-cmdline-options.c:71 src/translate.c.po.c:3461
 msgid "Enable sprite-background collision registers"
 msgstr "Attiva i registri di collisione sprite-sfondo"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:73 src/translate.c.po.c:3401
+#: src/vicii/vicii-cmdline-options.c:73 src/translate.c.po.c:3471
 msgid "Disable sprite-background collision registers"
 msgstr "Disattiva i registri di collisione sprite-sfondo"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:75 src/translate.c.po.c:3411
+#: src/vicii/vicii-cmdline-options.c:75 src/translate.c.po.c:3481
 msgid "Enable sprite-sprite collision registers"
 msgstr "Attiva i registri di collisione sprite-sprite"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:77 src/translate.c.po.c:3421
+#: src/vicii/vicii-cmdline-options.c:77 src/translate.c.po.c:3491
 msgid "Disable sprite-sprite collision registers"
 msgstr "Disattiva i registri di collisione sprite-sprite"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:79 src/translate.c.po.c:3431
+#: src/vicii/vicii-cmdline-options.c:79 src/translate.c.po.c:3501
 msgid "Use new luminances"
 msgstr "Usa nuove luminanze"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:81 src/translate.c.po.c:3441
+#: src/vicii/vicii-cmdline-options.c:81 src/translate.c.po.c:3511
 msgid "Use old luminances"
 msgstr "Usa vecchie luminanze"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3451
+#: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3521
 msgid "Enable double size"
 msgstr "Attiva la dimensione doppia"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:62 src/translate.c.po.c:3461
+#: src/video/video-cmdline-options.c:62 src/translate.c.po.c:3531
 msgid "Disable double size"
 msgstr "Disattiva la dimensione doppia"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:87 src/translate.c.po.c:3471
+#: src/video/video-cmdline-options.c:87 src/translate.c.po.c:3541
 msgid "Enable double scan"
 msgstr "Attiva la scansione doppia"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:89 src/translate.c.po.c:3481
+#: src/video/video-cmdline-options.c:89 src/translate.c.po.c:3551
 msgid "Disable double scan"
 msgstr "Disattiva la scansione doppia"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:114 src/translate.c.po.c:3491
+#: src/video/video-cmdline-options.c:114 src/translate.c.po.c:3561
 msgid "Enable hardware scaling"
 msgstr "Attiva l'hardware scaling"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:116 src/translate.c.po.c:3501
+#: src/video/video-cmdline-options.c:116 src/translate.c.po.c:3571
 msgid "Disable hardware scaling"
 msgstr "Disattiva l'hardware scaling"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:141 src/translate.c.po.c:3511
+#: src/video/video-cmdline-options.c:141 src/translate.c.po.c:3581
 msgid "Enable Scale2x"
 msgstr "Attiva Scale2x"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:143 src/translate.c.po.c:3521
+#: src/video/video-cmdline-options.c:143 src/translate.c.po.c:3591
 msgid "Disable Scale2x"
 msgstr "Disattiva Scale2x"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:168 src/translate.c.po.c:3531
+#: src/video/video-cmdline-options.c:168 src/translate.c.po.c:3601
 msgid "Use an internal calculated palette"
 msgstr "Usa una palette interna calcolata"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:170 src/translate.c.po.c:3541
+#: src/video/video-cmdline-options.c:170 src/translate.c.po.c:3611
 msgid "Use an external palette (file)"
 msgstr "Usa una palette esterna (file)"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:192 src/translate.c.po.c:3551
+#: src/video/video-cmdline-options.c:192 src/translate.c.po.c:3621
 msgid "Specify name of file of external palette"
 msgstr "Specifica il nome del file della palette esterna"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:232 src/translate.c.po.c:3561
+#: src/video/video-cmdline-options.c:232 src/translate.c.po.c:3631
 msgid "Enable fullscreen mode"
 msgstr "Visualizza a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:234 src/translate.c.po.c:3571
+#: src/video/video-cmdline-options.c:234 src/translate.c.po.c:3641
 msgid "Disable fullscreen mode"
 msgstr "Non visualizzare a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3581
+#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3651
 msgid "<device>"
 msgstr "<dispositivo>"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3591
+#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3661
 msgid "Select fullscreen device"
 msgstr "Seleziona il dispositivo per la visualizzazione a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:238 src/translate.c.po.c:3601
+#: src/video/video-cmdline-options.c:238 src/translate.c.po.c:3671
 msgid "Enable double size in fullscreen mode"
 msgstr "Attiva la dimensione doppia nella visualizzazione a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:240 src/translate.c.po.c:3611
+#: src/video/video-cmdline-options.c:240 src/translate.c.po.c:3681
 msgid "Disable double size in fullscreen mode"
 msgstr "Disattiva la dimensione doppia nella visualizzazione a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:242 src/translate.c.po.c:3621
+#: src/video/video-cmdline-options.c:242 src/translate.c.po.c:3691
 msgid "Enable double scan in fullscreen mode"
 msgstr "Attiva la scansione doppia nella visualizzazione a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:244 src/translate.c.po.c:3631
+#: src/video/video-cmdline-options.c:244 src/translate.c.po.c:3701
 msgid "Disable double scan in fullscreen mode"
 msgstr "Disattiva la scansione doppia nella visualizzazione a tutto schermo"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3641
+#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3711
 msgid "<mode>"
 msgstr "<modalità>"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3651
+#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3721
 msgid "Select fullscreen mode"
 msgstr "Seleziona la modalità di visualizzazione a tutto schermo"
 
@@ -2665,68 +2662,68 @@ msgstr ""
 "\n"
 "Uscita in corso..."
 
-#: src/arch/unix/gui/c128ui.c:69 src/arch/unix/gui/c64ui.c:72
+#: src/arch/unix/gui/c128ui.c:70 src/arch/unix/gui/c64ui.c:73
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:53
 #: src/arch/unix/gui/uivic.c:42 src/arch/unix/gui/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/gui/c128ui.c:71 src/arch/unix/gui/c64ui.c:74
+#: src/arch/unix/gui/c128ui.c:72 src/arch/unix/gui/c64ui.c:75
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:55
 #: src/arch/unix/gui/uivic.c:44 src/arch/unix/gui/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/unix/gui/c128ui.c:152 src/arch/unix/gui/c128ui.c:177
-#: src/arch/unix/gui/c64ui.c:223 src/arch/unix/gui/c64ui.c:248
+#: src/arch/unix/gui/c128ui.c:153 src/arch/unix/gui/c128ui.c:178
+#: src/arch/unix/gui/c64ui.c:224 src/arch/unix/gui/c64ui.c:249
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:318
 msgid "SID engine"
 msgstr "Motore SID"
 
-#: src/arch/unix/gui/c128ui.c:155 src/arch/unix/gui/c128ui.c:181
-#: src/arch/unix/gui/c64ui.c:226 src/arch/unix/gui/c64ui.c:252
+#: src/arch/unix/gui/c128ui.c:156 src/arch/unix/gui/c128ui.c:182
+#: src/arch/unix/gui/c64ui.c:227 src/arch/unix/gui/c64ui.c:253
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:322
 msgid "*Second SID"
 msgstr "*Secondo SID"
 
-#: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
-#: src/arch/unix/gui/c64ui.c:228 src/arch/unix/gui/c64ui.c:254
+#: src/arch/unix/gui/c128ui.c:158 src/arch/unix/gui/c128ui.c:184
+#: src/arch/unix/gui/c64ui.c:229 src/arch/unix/gui/c64ui.c:255
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:324
 msgid "*Second SID base address"
 msgstr "*Indirizzo base secondo SID"
 
-#: src/arch/unix/gui/c128ui.c:160 src/arch/unix/gui/c128ui.c:185
-#: src/arch/unix/gui/c64ui.c:231 src/arch/unix/gui/c64ui.c:256
+#: src/arch/unix/gui/c128ui.c:161 src/arch/unix/gui/c128ui.c:186
+#: src/arch/unix/gui/c64ui.c:232 src/arch/unix/gui/c64ui.c:257
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:327
 msgid "*Emulate filters"
 msgstr "*Emula i filtri"
 
-#: src/arch/unix/gui/c128ui.c:162 src/arch/unix/gui/c128ui.c:187
-#: src/arch/unix/gui/c64ui.c:233 src/arch/unix/gui/c64ui.c:258
+#: src/arch/unix/gui/c128ui.c:163 src/arch/unix/gui/c128ui.c:188
+#: src/arch/unix/gui/c64ui.c:234 src/arch/unix/gui/c64ui.c:259
 #: src/arch/unix/gui/cbm2ui.c:303 src/arch/unix/gui/cbm2ui.c:329
 msgid "Chip model"
 msgstr "Modello"
 
-#: src/arch/unix/gui/c128ui.c:166 src/arch/unix/gui/c64ui.c:237
+#: src/arch/unix/gui/c128ui.c:167 src/arch/unix/gui/c64ui.c:238
 #: src/arch/unix/gui/cbm2ui.c:307
 msgid "reSID sampling method"
 msgstr "Metodo di campionamento del reSID"
 
-#: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:239
+#: src/arch/unix/gui/c128ui.c:169 src/arch/unix/gui/c64ui.c:240
 #: src/arch/unix/gui/cbm2ui.c:309
 msgid "reSID resampling passband..."
 msgstr "Banda passante di ricampionamento del reSID..."
 
-#: src/arch/unix/gui/c128ui.c:179 src/arch/unix/gui/c64ui.c:250
+#: src/arch/unix/gui/c128ui.c:180 src/arch/unix/gui/c64ui.c:251
 #: src/arch/unix/gui/cbm2ui.c:320 src/arch/unix/gui/uisound.c:129
 msgid "*Enable sound playback"
 msgstr "*Attiva la riproduzione dell'audio"
 
-#: src/arch/unix/gui/c128ui.c:208
+#: src/arch/unix/gui/c128ui.c:209
 msgid "Function ROM image"
 msgstr "Immagine della Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:213
+#: src/arch/unix/gui/c128ui.c:214
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
@@ -2735,246 +2732,251 @@ msgstr ""
 "Non è possibile caricarie l'immagine della Function ROM\n"
 "'%s'"
 
-#: src/arch/unix/gui/c128ui.c:218
+#: src/arch/unix/gui/c128ui.c:219
 msgid "*Enable internal Function ROM"
 msgstr "*Attiva la Function ROM interna"
 
-#: src/arch/unix/gui/c128ui.c:220
+#: src/arch/unix/gui/c128ui.c:221
 msgid "Internal Function ROM name..."
 msgstr "Nome della Function ROM interna..."
 
-#: src/arch/unix/gui/c128ui.c:224
+#: src/arch/unix/gui/c128ui.c:225
 msgid "*Enable external Function ROM"
 msgstr "*Attiva la Function ROM esterna"
 
-#: src/arch/unix/gui/c128ui.c:226
+#: src/arch/unix/gui/c128ui.c:227
 msgid "External Function ROM name..."
 msgstr "Nome della Function ROM esterna..."
 
-#: src/arch/unix/gui/c128ui.c:233 src/arch/win32/resc128.rc.po.c:3835
-#: src/arch/win32/resc128.rc.po.c:4211
+#: src/arch/unix/gui/c128ui.c:234 src/arch/win32/resc128.rc.po.c:3843
+#: src/arch/win32/resc128.rc.po.c:4219
 msgid "Function ROM"
 msgstr "Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:236 src/arch/unix/gui/c64ui.c:268
+#: src/arch/unix/gui/c128ui.c:237 src/arch/unix/gui/c64ui.c:269
 msgid "RAM Expansion Unit"
 msgstr "Espansione RAM"
 
-#: src/arch/unix/gui/c128ui.c:238 src/arch/unix/gui/c64ui.c:270
+#: src/arch/unix/gui/c128ui.c:239 src/arch/unix/gui/c64ui.c:271
 msgid "GEORAM Expansion Unit"
 msgstr "Espansione GEORAM"
 
-#: src/arch/unix/gui/c128ui.c:240 src/arch/unix/gui/c64ui.c:272
+#: src/arch/unix/gui/c128ui.c:241 src/arch/unix/gui/c64ui.c:273
 msgid "RAM Expansion Cart"
 msgstr "Espansione RAMCART"
 
-#: src/arch/unix/gui/c128ui.c:242 src/arch/unix/gui/c64ui.c:280
-msgid "IDE64 emulation"
+#: src/arch/unix/gui/c128ui.c:243 src/arch/unix/gui/c64ui.c:281
+#, fuzzy
+msgid "MMC64 emulation"
 msgstr "Emulazione IDE64"
 
 #: src/arch/unix/gui/c128ui.c:245 src/arch/unix/gui/c64ui.c:283
+msgid "IDE64 emulation"
+msgstr "Emulazione IDE64"
+
+#: src/arch/unix/gui/c128ui.c:248 src/arch/unix/gui/c64ui.c:286
 msgid "Ethernet emulation"
 msgstr "Emulazione ethernet"
 
-#: src/arch/unix/gui/c128ui.c:248 src/arch/unix/gui/c64ui.c:286
+#: src/arch/unix/gui/c128ui.c:251 src/arch/unix/gui/c64ui.c:289
 #: src/arch/unix/gui/petui.c:185 src/arch/unix/gui/vic20ui.c:197
 msgid "*Emulator identification"
 msgstr "*Identificazione dell'emulatore"
 
-#: src/arch/unix/gui/c128ui.c:250
+#: src/arch/unix/gui/c128ui.c:253
 msgid "*IEEE488 interface emulation"
 msgstr "*Emulazione dell'interfaccia IEEE488"
 
-#: src/arch/unix/gui/c128ui.c:253 src/arch/unix/gui/c64ui.c:289
+#: src/arch/unix/gui/c128ui.c:256 src/arch/unix/gui/c64ui.c:292
 msgid "*1351 Mouse Emulation"
 msgstr "*Emulazione del mouse 1351"
 
-#: src/arch/unix/gui/c128ui.c:262
+#: src/arch/unix/gui/c128ui.c:265
 msgid "Load new Int. Kernal ROM"
 msgstr "Carica una nuova ROM int. del Kernal"
 
-#: src/arch/unix/gui/c128ui.c:265
+#: src/arch/unix/gui/c128ui.c:268
 msgid "Load new German Kernal ROM"
 msgstr "Carica una nuova ROM tedesca del Kernal"
 
-#: src/arch/unix/gui/c128ui.c:268
+#: src/arch/unix/gui/c128ui.c:271
 msgid "Load new Basic Lo ROM"
 msgstr "Carica una nuova Lo ROM del Basic"
 
-#: src/arch/unix/gui/c128ui.c:271
+#: src/arch/unix/gui/c128ui.c:274
 msgid "Load new Basic Hi ROM"
 msgstr "Carica una nuova Hi ROM del Basic"
 
-#: src/arch/unix/gui/c128ui.c:274
+#: src/arch/unix/gui/c128ui.c:277
 msgid "Load new Chargen ROM"
 msgstr "Carica una nuova ROM del Chargen"
 
-#: src/arch/unix/gui/c128ui.c:281 src/arch/unix/gui/c64ui.c:311
+#: src/arch/unix/gui/c128ui.c:284 src/arch/unix/gui/c64ui.c:314
 #: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:129
 msgid "Load default ROMs"
 msgstr "Carica le ROM predefinite"
 
-#: src/arch/unix/gui/c128ui.c:285 src/arch/unix/gui/c64ui.c:315
+#: src/arch/unix/gui/c128ui.c:288 src/arch/unix/gui/c64ui.c:318
 #: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:209
 #: src/arch/unix/gui/plus4ui.c:99 src/arch/unix/gui/vic20ui.c:132
 msgid "Load new computer ROM"
 msgstr "Carica una nuova ROM del computer"
 
-#: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:317
+#: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:320
 #: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:211
 #: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:134
 msgid "Load new drive ROM"
 msgstr "Carica una nuova ROM del drive"
 
-#: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:320
+#: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:323
 #: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:214
 #: src/arch/unix/gui/plus4ui.c:104 src/arch/unix/gui/vic20ui.c:137
 msgid "ROM set type"
 msgstr "Tipo di ROM set"
 
-#: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:323
+#: src/arch/unix/gui/c128ui.c:296 src/arch/unix/gui/c64ui.c:326
 #: src/arch/unix/gui/cbm2ui.c:132 src/arch/unix/gui/petui.c:248
 #: src/arch/unix/gui/plus4ui.c:107 src/arch/unix/gui/vic20ui.c:140
 msgid "ROM set archive"
 msgstr "Archivio del ROM set"
 
-#: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:325
+#: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:328
 #: src/arch/unix/gui/cbm2ui.c:134 src/arch/unix/gui/petui.c:250
 #: src/arch/unix/gui/plus4ui.c:109 src/arch/unix/gui/vic20ui.c:142
 msgid "ROM set file"
 msgstr "File del ROM set"
 
-#: src/arch/unix/gui/c128ui.c:318
+#: src/arch/unix/gui/c128ui.c:321
 msgid "VIC II Save media file"
 msgstr "Salva file multimediale VIC II"
 
-#: src/arch/unix/gui/c128ui.c:320
+#: src/arch/unix/gui/c128ui.c:323
 msgid "VDC Save media file"
 msgstr "Salva file multimediale VDC"
 
-#: src/arch/unix/gui/c128ui.c:326
+#: src/arch/unix/gui/c128ui.c:329
 msgid "Screenshots..."
 msgstr "Cattura schermo..."
 
-#: src/arch/unix/gui/c128ui.c:355 src/arch/win32/resc128.rc.po.c:3728
-#: src/arch/win32/resc128.rc.po.c:3730 src/arch/win32/resc128.rc.po.c:4210
+#: src/arch/unix/gui/c128ui.c:358 src/arch/win32/resc128.rc.po.c:3736
+#: src/arch/win32/resc128.rc.po.c:3738 src/arch/win32/resc128.rc.po.c:4218
 msgid "Machine type"
 msgstr "Tipo di macchina"
 
-#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/cbm2ui.c:239
+#: src/arch/unix/gui/c128ui.c:360 src/arch/unix/gui/cbm2ui.c:239
 #: src/arch/unix/gui/petui.c:261 src/arch/unix/gui/vic20ui.c:183
 msgid "ROM sets"
 msgstr "ROM set"
 
-#: src/arch/unix/gui/c128ui.c:365 src/arch/unix/gui/c64ui.c:358
+#: src/arch/unix/gui/c128ui.c:368 src/arch/unix/gui/c64ui.c:361
 msgid "VIC-II settings"
 msgstr "Impostazioni del VIC-II"
 
-#: src/arch/unix/gui/c128ui.c:367 src/arch/amigaos/intl.c.po.c:1102
+#: src/arch/unix/gui/c128ui.c:370 src/arch/amigaos/intl.c.po.c:1102
 msgid "VDC settings"
 msgstr "Impostazioni del VDC"
 
-#: src/arch/unix/gui/c128ui.c:369 src/arch/unix/gui/c64ui.c:360
+#: src/arch/unix/gui/c128ui.c:372 src/arch/unix/gui/c64ui.c:363
 #: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:175
 #: src/arch/win32/ressid.rc.po.c:68
 msgid "SID settings"
 msgstr "Impostazioni del SID"
 
-#: src/arch/unix/gui/c128ui.c:371
+#: src/arch/unix/gui/c128ui.c:374
 msgid "Memory and I/O extensions"
 msgstr "Memoria ed estensioni di I/O"
 
-#: src/arch/unix/gui/c128ui.c:373 src/arch/unix/gui/c64ui.c:364
+#: src/arch/unix/gui/c128ui.c:376 src/arch/unix/gui/c64ui.c:367
 #: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/plus4ui.c:147
 #: src/arch/unix/gui/vic20ui.c:376
 msgid "RS232 settings"
 msgstr "Impostazioni della RS232"
 
-#: src/arch/unix/gui/c128ui.c:375
+#: src/arch/unix/gui/c128ui.c:378
 msgid "Model settings"
 msgstr "Impostazioni del modello"
 
 #. ----------------------- AmigaOS Menu Strings -----------------------
-#: src/arch/unix/gui/c128ui.c:499 src/arch/unix/gui/c64ui.c:488
+#: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c64ui.c:491
 #: src/arch/unix/gui/cbm2ui.c:505 src/arch/unix/gui/petui.c:446
 #: src/arch/unix/gui/plus4ui.c:271 src/arch/unix/gui/vic20ui.c:558
 #: src/arch/unix/gui/vsidui.c:231 src/arch/amigaos/intl.c.po.c:121
 msgid "File"
 msgstr "File"
 
-#: src/arch/unix/gui/c128ui.c:501 src/arch/unix/gui/c64ui.c:490
+#: src/arch/unix/gui/c128ui.c:504 src/arch/unix/gui/c64ui.c:493
 #: src/arch/unix/gui/cbm2ui.c:507 src/arch/unix/gui/petui.c:448
 #: src/arch/unix/gui/plus4ui.c:273 src/arch/unix/gui/vic20ui.c:560
 #: src/arch/amigaos/intl.c.po.c:697
 msgid "Snapshot"
 msgstr "Snapshot"
 
-#: src/arch/unix/gui/c128ui.c:503 src/arch/unix/gui/c64ui.c:492
+#: src/arch/unix/gui/c128ui.c:506 src/arch/unix/gui/c64ui.c:495
 #: src/arch/unix/gui/cbm2ui.c:509 src/arch/unix/gui/petui.c:450
 #: src/arch/unix/gui/plus4ui.c:275 src/arch/unix/gui/vic20ui.c:562
 #: src/arch/amigaos/intl.c.po.c:850
 msgid "Options"
 msgstr "Opzioni"
 
-#: src/arch/unix/gui/c128ui.c:505 src/arch/unix/gui/c64ui.c:494
+#: src/arch/unix/gui/c128ui.c:508 src/arch/unix/gui/c64ui.c:497
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:452
 #: src/arch/unix/gui/plus4ui.c:277 src/arch/unix/gui/vic20ui.c:564
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
 #: src/arch/unix/x11/gnome/x11ui.c:1264 src/arch/unix/x11/gnome/x11ui.c:1329
-#: src/arch/win32/res.rc.po.c:4685 src/arch/amigaos/intl.c.po.c:1255
+#: src/arch/win32/res.rc.po.c:4687 src/arch/amigaos/intl.c.po.c:1255
 msgid "Settings"
 msgstr "Impostazioni"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/gui/c128ui.c:509 src/arch/unix/gui/c64ui.c:498
+#: src/arch/unix/gui/c128ui.c:512 src/arch/unix/gui/c64ui.c:501
 #: src/arch/unix/gui/cbm2ui.c:515 src/arch/unix/gui/petui.c:456
 #: src/arch/unix/gui/plus4ui.c:281 src/arch/unix/gui/vic20ui.c:568
 msgid "RJHelp"
 msgstr "RJAiuto"
 
-#: src/arch/unix/gui/c64ui.c:76 src/arch/unix/gui/vsidui.c:129
+#: src/arch/unix/gui/c64ui.c:77 src/arch/unix/gui/vsidui.c:129
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M vecchio"
 
-#: src/arch/unix/gui/c64ui.c:274
+#: src/arch/unix/gui/c64ui.c:275
 msgid "PLUS60K RAM Expansion"
 msgstr "Espansione RAM PLUS60K"
 
-#: src/arch/unix/gui/c64ui.c:276
+#: src/arch/unix/gui/c64ui.c:277
 msgid "PLUS256K RAM Expansion"
 msgstr "Espansione RAM PLUS256K"
 
-#: src/arch/unix/gui/c64ui.c:278
+#: src/arch/unix/gui/c64ui.c:279
 msgid "256K RAM Expansion"
 msgstr "Espansione RAM 256K"
 
-#: src/arch/unix/gui/c64ui.c:298 src/arch/unix/gui/petui.c:168
+#: src/arch/unix/gui/c64ui.c:301 src/arch/unix/gui/petui.c:168
 #: src/arch/unix/gui/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Carica una nuova ROM del Kernal"
 
-#: src/arch/unix/gui/c64ui.c:301 src/arch/unix/gui/petui.c:174
+#: src/arch/unix/gui/c64ui.c:304 src/arch/unix/gui/petui.c:174
 #: src/arch/unix/gui/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Carica una nuova ROM del Basic"
 
-#: src/arch/unix/gui/c64ui.c:304 src/arch/unix/gui/petui.c:217
+#: src/arch/unix/gui/c64ui.c:307 src/arch/unix/gui/petui.c:217
 msgid "Load new character ROM"
 msgstr "Carica una nuova ROM dei caratteri"
 
-#: src/arch/unix/gui/c64ui.c:348 src/arch/unix/gui/cbm2ui.c:381
+#: src/arch/unix/gui/c64ui.c:351 src/arch/unix/gui/cbm2ui.c:381
 #: src/arch/unix/gui/petui.c:320 src/arch/unix/gui/plus4ui.c:71
 #: src/arch/unix/gui/vic20ui.c:417
 msgid "Save media file"
 msgstr "Salva file multimediale"
 
-#: src/arch/unix/gui/c64ui.c:356 src/arch/unix/gui/plus4ui.c:141
-#: src/arch/win32/res.rc.po.c:5096
+#: src/arch/unix/gui/c64ui.c:359 src/arch/unix/gui/plus4ui.c:141
+#: src/arch/win32/res.rc.po.c:5098
 msgid "ROM settings"
 msgstr "Impostazioni delle ROM"
 
-#: src/arch/unix/gui/c64ui.c:362 src/arch/unix/gui/petui.c:294
+#: src/arch/unix/gui/c64ui.c:365 src/arch/unix/gui/petui.c:294
 msgid "I/O extensions"
 msgstr "Estensioni di I/O"
 
@@ -4072,43 +4074,48 @@ msgstr "Carica una nuova ROM del 4040"
 msgid "Load new 1001 ROM"
 msgstr "Carica una nuova ROM del 1001"
 
-#: src/arch/unix/gui/uidriveiec.c:118 src/arch/unix/gui/uidriveiec.c:132
-#: src/arch/unix/gui/uidriveiec.c:146 src/arch/unix/gui/uidriveiec.c:160
+#: src/arch/unix/gui/uidriveiec.c:126 src/arch/unix/gui/uidriveiec.c:143
+#: src/arch/unix/gui/uidriveiec.c:160 src/arch/unix/gui/uidriveiec.c:177
 msgid "*$2000-$3FFF RAM expansion"
 msgstr "*Espansione RAM a $2000-$3FFF"
 
-#: src/arch/unix/gui/uidriveiec.c:120 src/arch/unix/gui/uidriveiec.c:134
-#: src/arch/unix/gui/uidriveiec.c:148 src/arch/unix/gui/uidriveiec.c:162
+#: src/arch/unix/gui/uidriveiec.c:128 src/arch/unix/gui/uidriveiec.c:145
+#: src/arch/unix/gui/uidriveiec.c:162 src/arch/unix/gui/uidriveiec.c:179
 msgid "*$4000-$5FFF RAM expansion"
 msgstr "*Espansione RAM a $4000-$5FFF"
 
-#: src/arch/unix/gui/uidriveiec.c:122 src/arch/unix/gui/uidriveiec.c:136
-#: src/arch/unix/gui/uidriveiec.c:150 src/arch/unix/gui/uidriveiec.c:164
+#: src/arch/unix/gui/uidriveiec.c:130 src/arch/unix/gui/uidriveiec.c:147
+#: src/arch/unix/gui/uidriveiec.c:164 src/arch/unix/gui/uidriveiec.c:181
 msgid "*$6000-$7FFF RAM expansion"
 msgstr "*Espansione RAM a $6000-$7FFF"
 
-#: src/arch/unix/gui/uidriveiec.c:124 src/arch/unix/gui/uidriveiec.c:138
-#: src/arch/unix/gui/uidriveiec.c:152 src/arch/unix/gui/uidriveiec.c:166
+#: src/arch/unix/gui/uidriveiec.c:132 src/arch/unix/gui/uidriveiec.c:149
+#: src/arch/unix/gui/uidriveiec.c:166 src/arch/unix/gui/uidriveiec.c:183
 msgid "*$8000-$9FFF RAM expansion"
 msgstr "*Espansione RAM a $8000-$9FFF"
 
-#: src/arch/unix/gui/uidriveiec.c:126 src/arch/unix/gui/uidriveiec.c:140
-#: src/arch/unix/gui/uidriveiec.c:154 src/arch/unix/gui/uidriveiec.c:168
+#: src/arch/unix/gui/uidriveiec.c:134 src/arch/unix/gui/uidriveiec.c:151
+#: src/arch/unix/gui/uidriveiec.c:168 src/arch/unix/gui/uidriveiec.c:185
 msgid "*$A000-$BFFF RAM expansion"
 msgstr "*Espansione RAM a $A000-$BFFF"
 
-#: src/arch/unix/gui/uidriveiec.c:174 src/arch/unix/gui/uidriveiec.c:184
+#: src/arch/unix/gui/uidriveiec.c:137 src/arch/unix/gui/uidriveiec.c:154
+#: src/arch/unix/gui/uidriveiec.c:171 src/arch/unix/gui/uidriveiec.c:188
+msgid "*Professional DOS expansion"
+msgstr ""
+
 #: src/arch/unix/gui/uidriveiec.c:194 src/arch/unix/gui/uidriveiec.c:204
+#: src/arch/unix/gui/uidriveiec.c:214 src/arch/unix/gui/uidriveiec.c:224
 msgid "*No traps"
 msgstr "*Non rilevare"
 
-#: src/arch/unix/gui/uidriveiec.c:176 src/arch/unix/gui/uidriveiec.c:186
 #: src/arch/unix/gui/uidriveiec.c:196 src/arch/unix/gui/uidriveiec.c:206
+#: src/arch/unix/gui/uidriveiec.c:216 src/arch/unix/gui/uidriveiec.c:226
 msgid "*Skip cycles"
 msgstr "*Salta cicli"
 
-#: src/arch/unix/gui/uidriveiec.c:178 src/arch/unix/gui/uidriveiec.c:188
 #: src/arch/unix/gui/uidriveiec.c:198 src/arch/unix/gui/uidriveiec.c:208
+#: src/arch/unix/gui/uidriveiec.c:218 src/arch/unix/gui/uidriveiec.c:228
 msgid "*Trap idle"
 msgstr "*Rileva inattività"
 
@@ -4360,7 +4367,7 @@ msgid "Swap joystick ports"
 msgstr "Scambia le porte dei joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/vic20ui.c:340
-#: src/arch/win32/res.rc.po.c:1109
+#: src/arch/win32/res.rc.po.c:1111
 msgid "Joystick settings"
 msgstr "Impostazioni dei joystick"
 
@@ -4396,7 +4403,7 @@ msgstr "Imposta il file per la mappatura posizionale"
 msgid "Dump keymap to file"
 msgstr "Scrivi sul file la mappa della tastiera"
 
-#: src/arch/unix/gui/uikeyboard.c:134 src/arch/win32/res.rc.po.c:5065
+#: src/arch/unix/gui/uikeyboard.c:134 src/arch/win32/res.rc.po.c:5067
 msgid "Keyboard settings"
 msgstr "Impostazioni della tastiera"
 
@@ -4453,7 +4460,7 @@ msgid "Connect to server"
 msgstr "Connetti al server"
 
 #: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:320
-#: src/arch/win32/res.rc.po.c:4661
+#: src/arch/win32/res.rc.po.c:4663
 msgid "Disconnect"
 msgstr "Disconnetti"
 
@@ -5121,13 +5128,13 @@ msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1378
-#: src/arch/unix/x11/xaw/x11ui.c:1089 src/arch/win32/res.rc.po.c:5029
+#: src/arch/unix/x11/xaw/x11ui.c:1089 src/arch/win32/res.rc.po.c:5031
 #: src/arch/amigaos/intl.c.po.c:1824
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
 
 #. ----------------------- AmigaOS Message/Error Strings -----------------------
-#: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:5046
+#: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:5048
 #: src/arch/amigaos/intl.c.po.c:1743
 msgid "Settings saved successfully."
 msgstr "Impostazioni salvate con successo."
@@ -5543,7 +5550,7 @@ msgstr "*Blocco 5 (8K a $A000-$BFFF)"
 msgid "Memory expansions"
 msgstr "Espansioni di memoria"
 
-#: src/arch/unix/gui/vic20ui.c:226 src/arch/win32/res.rc.po.c:5053
+#: src/arch/unix/gui/vic20ui.c:226 src/arch/win32/res.rc.po.c:5055
 #: src/arch/amigaos/intl.c.po.c:1932
 msgid "Invalid cartridge image"
 msgstr "Immagine della cartuccia non valida"
@@ -5619,7 +5626,7 @@ msgid "VICE is FREE software!"
 msgstr "VICE è software LIBERO!"
 
 #: src/arch/unix/x11/gnome/about.c:42 src/arch/unix/x11/xaw/about.c:65
-#: src/arch/win32/res.rc.po.c:5134
+#: src/arch/win32/res.rc.po.c:5136
 msgid "No warranty!"
 msgstr "Nessuna garanzia!"
 
@@ -5657,7 +5664,7 @@ msgstr ""
 msgid "(c) 1998 - 2006 The Vice Team"
 msgstr "(c) 1998 - 2006 Il Team di Vice"
 
-#: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:5133
+#: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:5135
 #: src/arch/amigaos/intl.c.po.c:1624
 msgid "License"
 msgstr "Licenza"
@@ -5753,19 +5760,19 @@ msgstr "Sfuocatura"
 msgid "Scanline Shade"
 msgstr "Ombra scanline"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:3002
+#: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:3004
 msgid "Saturation"
 msgstr "Saturazione"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:3005
+#: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:3007
 msgid "Contrast"
 msgstr "Contrasto"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:3008
+#: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:3010
 msgid "Brightness"
 msgstr "Luminosità"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3149
+#: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:3151
 msgid "Gamma"
 msgstr "Gamma"
 
@@ -5781,19 +5788,19 @@ msgstr "Emulazione veloce"
 msgid "Exact Emulation"
 msgstr "Emulazione esatta"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:53 src/arch/win32/res.rc.po.c:4665
+#: src/arch/unix/x11/gnome/uinetplay.c:53 src/arch/win32/res.rc.po.c:4667
 msgid "Keyboard"
 msgstr "Tastiera"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:4670
+#: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:4672
 msgid "Joystick 1"
 msgstr "Joystick1 "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:59 src/arch/win32/res.rc.po.c:4675
+#: src/arch/unix/x11/gnome/uinetplay.c:59 src/arch/win32/res.rc.po.c:4677
 msgid "Joystick 2"
 msgstr "Joystick2 "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:62 src/arch/win32/res.rc.po.c:4680
+#: src/arch/unix/x11/gnome/uinetplay.c:62 src/arch/win32/res.rc.po.c:4682
 msgid "Devices"
 msgstr "Device"
 
@@ -5801,11 +5808,11 @@ msgstr "Device"
 msgid "Invalid Port number"
 msgstr "Numero di porta non valido"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5195
+#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5197
 msgid "Idle"
 msgstr "Inattivo"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5196
+#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5198
 msgid "Server listening"
 msgstr "Server in ascolto"
 
@@ -5813,7 +5820,7 @@ msgstr "Server in ascolto"
 msgid "Connected Server"
 msgstr "Server connesso"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5198
+#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5200
 msgid "Connected Client"
 msgstr "Client connesso"
 
@@ -5831,7 +5838,7 @@ msgid "Couldn't connect client."
 msgstr "Non è possibile connettere il client."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:204
-#: src/arch/unix/x11/gnome/uinetplay.c:210 src/arch/win32/res.rc.po.c:4652
+#: src/arch/unix/x11/gnome/uinetplay.c:210 src/arch/win32/res.rc.po.c:4654
 msgid "Netplay Settings"
 msgstr "Impostazioni Netplay"
 
@@ -5843,7 +5850,7 @@ msgstr "Modalità attuale: "
 msgid "<unknown>"
 msgstr "<sconosciuto>"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:226 src/arch/win32/res.rc.po.c:4658
+#: src/arch/unix/x11/gnome/uinetplay.c:226 src/arch/win32/res.rc.po.c:4660
 msgid "Start Server"
 msgstr "Avvia server"
 
@@ -5855,15 +5862,15 @@ msgstr "Porta TCP: "
 msgid "Connect to "
 msgstr "Connetti a "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:273 src/arch/win32/res.rc.po.c:4662
+#: src/arch/unix/x11/gnome/uinetplay.c:273 src/arch/win32/res.rc.po.c:4664
 msgid "Control"
 msgstr "Controllo"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:278 src/arch/win32/res.rc.po.c:4663
+#: src/arch/unix/x11/gnome/uinetplay.c:278 src/arch/win32/res.rc.po.c:4665
 msgid "Server"
 msgstr "Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:283 src/arch/win32/res.rc.po.c:4664
+#: src/arch/unix/x11/gnome/uinetplay.c:283 src/arch/win32/res.rc.po.c:4666
 msgid "Client"
 msgstr "Client"
 
@@ -6293,22 +6300,22 @@ msgstr "Installa una tavolozza privata"
 msgid "Use the default colormap"
 msgstr "Usa la tavolozza dei colori predefinita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5182
+#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5184
 #: src/arch/amigaos/intl.c.po.c:3023
 msgid "Save settings (resources) on exit"
 msgstr "Salva le impostazioni in uscita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5185
+#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5187
 #: src/arch/amigaos/intl.c.po.c:3050
 msgid "Never confirm quiting VICE"
 msgstr "Non confermare mai l'uscita da VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5184
+#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5186
 #: src/arch/amigaos/intl.c.po.c:3041
 msgid "Confirm quiting VICE"
 msgstr "Conferma l'uscita da VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5183
+#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5185
 #: src/arch/amigaos/intl.c.po.c:3032
 msgid "Never save settings (resources) on exit"
 msgstr "Non salvare mai le impostazioni in uscita"
@@ -6368,7 +6375,7 @@ msgstr ""
 "Si è verificato un errore durante la lettura delle infomazioni sulla "
 "modalità video - disabilitazione della estensione vidmode."
 
-#: src/arch/unix/x11/xaw/about.c:153 src/arch/win32/res.rc.po.c:5025
+#: src/arch/unix/x11/xaw/about.c:153 src/arch/win32/res.rc.po.c:5027
 msgid "VICE Information"
 msgstr "Informazioni su VICE"
 
@@ -6384,30 +6391,30 @@ msgstr "Nome del file:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
 #: src/arch/unix/x11/xaw/uiscreenshot.c:199
-#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/resc128.rc.po.c:2088
-#: src/arch/win32/resc128.rc.po.c:2092 src/arch/win32/resc128.rc.po.c:2096
+#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/resc128.rc.po.c:2096
 #: src/arch/win32/resc128.rc.po.c:2100 src/arch/win32/resc128.rc.po.c:2104
 #: src/arch/win32/resc128.rc.po.c:2108 src/arch/win32/resc128.rc.po.c:2112
 #: src/arch/win32/resc128.rc.po.c:2116 src/arch/win32/resc128.rc.po.c:2120
 #: src/arch/win32/resc128.rc.po.c:2124 src/arch/win32/resc128.rc.po.c:2128
 #: src/arch/win32/resc128.rc.po.c:2132 src/arch/win32/resc128.rc.po.c:2136
 #: src/arch/win32/resc128.rc.po.c:2140 src/arch/win32/resc128.rc.po.c:2144
-#: src/arch/win32/resc128.rc.po.c:2643 src/arch/win32/resc128.rc.po.c:2647
+#: src/arch/win32/resc128.rc.po.c:2148 src/arch/win32/resc128.rc.po.c:2152
 #: src/arch/win32/resc128.rc.po.c:2651 src/arch/win32/resc128.rc.po.c:2655
 #: src/arch/win32/resc128.rc.po.c:2659 src/arch/win32/resc128.rc.po.c:2663
 #: src/arch/win32/resc128.rc.po.c:2667 src/arch/win32/resc128.rc.po.c:2671
 #: src/arch/win32/resc128.rc.po.c:2675 src/arch/win32/resc128.rc.po.c:2679
-#: src/arch/win32/resc128.rc.po.c:2683 src/arch/win32/resc128.rc.po.c:3843
-#: src/arch/win32/resc128.rc.po.c:3851 src/arch/win32/resc128.rc.po.c:4053
-#: src/arch/win32/resc128.rc.po.c:4055 src/arch/win32/resc64.rc.po.c:2065
-#: src/arch/win32/resc64.rc.po.c:2069 src/arch/win32/resc64.rc.po.c:2073
-#: src/arch/win32/resc64.rc.po.c:2236 src/arch/win32/resc64.rc.po.c:2240
+#: src/arch/win32/resc128.rc.po.c:2683 src/arch/win32/resc128.rc.po.c:2687
+#: src/arch/win32/resc128.rc.po.c:2691 src/arch/win32/resc128.rc.po.c:3851
+#: src/arch/win32/resc128.rc.po.c:3859 src/arch/win32/resc128.rc.po.c:4061
+#: src/arch/win32/resc128.rc.po.c:4063 src/arch/win32/resc64.rc.po.c:2073
+#: src/arch/win32/resc64.rc.po.c:2077 src/arch/win32/resc64.rc.po.c:2081
 #: src/arch/win32/resc64.rc.po.c:2244 src/arch/win32/resc64.rc.po.c:2248
 #: src/arch/win32/resc64.rc.po.c:2252 src/arch/win32/resc64.rc.po.c:2256
 #: src/arch/win32/resc64.rc.po.c:2260 src/arch/win32/resc64.rc.po.c:2264
 #: src/arch/win32/resc64.rc.po.c:2268 src/arch/win32/resc64.rc.po.c:2272
-#: src/arch/win32/resc64.rc.po.c:3090 src/arch/win32/resc64.rc.po.c:3092
-#: src/arch/win32/resc64.rc.po.c:3094 src/arch/win32/rescbm2.rc.po.c:1728
+#: src/arch/win32/resc64.rc.po.c:2276 src/arch/win32/resc64.rc.po.c:2280
+#: src/arch/win32/resc64.rc.po.c:3098 src/arch/win32/resc64.rc.po.c:3100
+#: src/arch/win32/resc64.rc.po.c:3102 src/arch/win32/rescbm2.rc.po.c:1728
 #: src/arch/win32/rescbm2.rc.po.c:1732 src/arch/win32/rescbm2.rc.po.c:1736
 #: src/arch/win32/rescbm2.rc.po.c:1740 src/arch/win32/rescbm2.rc.po.c:1744
 #: src/arch/win32/rescbm2.rc.po.c:1748 src/arch/win32/rescbm2.rc.po.c:1752
@@ -6438,13 +6445,13 @@ msgstr "Sfoglia..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
 #: src/arch/unix/x11/xaw/uiscreenshot.c:269
-#: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:943
-#: src/arch/win32/res.rc.po.c:1144 src/arch/win32/res.rc.po.c:1484
-#: src/arch/win32/res.rc.po.c:1724 src/arch/win32/res.rc.po.c:3514
-#: src/arch/win32/res.rc.po.c:3707 src/arch/win32/res.rc.po.c:4372
-#: src/arch/win32/res.rc.po.c:4500 src/arch/win32/res.rc.po.c:5209
-#: src/arch/win32/resc128.rc.po.c:3102 src/arch/win32/resc128.rc.po.c:3457
-#: src/arch/win32/resc64.rc.po.c:2639 src/arch/win32/resc64.rc.po.c:2824
+#: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:945
+#: src/arch/win32/res.rc.po.c:1146 src/arch/win32/res.rc.po.c:1486
+#: src/arch/win32/res.rc.po.c:1726 src/arch/win32/res.rc.po.c:3516
+#: src/arch/win32/res.rc.po.c:3709 src/arch/win32/res.rc.po.c:4374
+#: src/arch/win32/res.rc.po.c:4502 src/arch/win32/res.rc.po.c:5211
+#: src/arch/win32/resc128.rc.po.c:3110 src/arch/win32/resc128.rc.po.c:3465
+#: src/arch/win32/resc64.rc.po.c:2647 src/arch/win32/resc64.rc.po.c:2832
 #: src/arch/win32/rescbm2.rc.po.c:2278 src/arch/win32/rescbm2.rc.po.c:2509
 #: src/arch/win32/resgeoram.rc.po.c:27 src/arch/win32/respet.rc.po.c:2246
 #: src/arch/win32/respet.rc.po.c:2477 src/arch/win32/resplus4.rc.po.c:2320
@@ -6539,7 +6546,7 @@ msgstr "registrazione eventi..."
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1565 src/arch/win32/res.rc.po.c:5024
+#: src/arch/unix/x11/xaw/x11ui.c:1565 src/arch/win32/res.rc.po.c:5026
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
@@ -6594,143 +6601,143 @@ msgstr "Le prestazioni saranno scarse."
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
 
-#: src/arch/win32/res.rc.po.c:77 src/arch/win32/resc128.rc.po.c:23
+#: src/arch/win32/res.rc.po.c:79 src/arch/win32/resc128.rc.po.c:23
 #: src/arch/win32/resc64.rc.po.c:23 src/arch/win32/rescbm2.rc.po.c:22
 #: src/arch/win32/respet.rc.po.c:22 src/arch/win32/resplus4.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:22
 msgid "&File"
 msgstr "&File"
 
-#: src/arch/win32/res.rc.po.c:79
+#: src/arch/win32/res.rc.po.c:81
 msgid "&Open"
 msgstr "&Apri"
 
-#: src/arch/win32/res.rc.po.c:80
+#: src/arch/win32/res.rc.po.c:82
 msgid "&Save"
 msgstr "&Salva"
 
-#: src/arch/win32/res.rc.po.c:81
+#: src/arch/win32/res.rc.po.c:83
 msgid "&Print"
 msgstr "&Stampa"
 
-#: src/arch/win32/res.rc.po.c:83
+#: src/arch/win32/res.rc.po.c:85
 msgid "E&xit\tAlt+F4"
 msgstr "E&sci\tAlt+F4"
 
-#: src/arch/win32/res.rc.po.c:85 src/arch/win32/resc128.rc.po.c:110
+#: src/arch/win32/res.rc.po.c:87 src/arch/win32/resc128.rc.po.c:110
 #: src/arch/win32/resc64.rc.po.c:110 src/arch/win32/rescbm2.rc.po.c:82
 #: src/arch/win32/respet.rc.po.c:80 src/arch/win32/resplus4.rc.po.c:92
 #: src/arch/win32/resvic20.rc.po.c:90
 msgid "&Debug"
 msgstr "&Debug"
 
-#: src/arch/win32/res.rc.po.c:87
+#: src/arch/win32/res.rc.po.c:89
 msgid "&Stop Debug"
 msgstr "&Interrompi Debug"
 
-#: src/arch/win32/res.rc.po.c:88
+#: src/arch/win32/res.rc.po.c:90
 msgid "Stop E&xecution"
 msgstr "Interrompi E&secuzione"
 
-#: src/arch/win32/res.rc.po.c:90
+#: src/arch/win32/res.rc.po.c:92
 msgid "Step &into"
 msgstr "Esegui &istruzione"
 
-#: src/arch/win32/res.rc.po.c:91
+#: src/arch/win32/res.rc.po.c:93
 msgid "Step &over"
 msgstr "Esegui &routine"
 
-#: src/arch/win32/res.rc.po.c:92
+#: src/arch/win32/res.rc.po.c:94
 msgid "Step until &return"
 msgstr "Esegui fino al &ritorno"
 
-#: src/arch/win32/res.rc.po.c:93
+#: src/arch/win32/res.rc.po.c:95
 msgid "Go to &cursor"
 msgstr "Vai al &cursore"
 
-#: src/arch/win32/res.rc.po.c:95
+#: src/arch/win32/res.rc.po.c:97
 msgid "&Evaluate"
 msgstr "&Valutazione"
 
-#: src/arch/win32/res.rc.po.c:97
+#: src/arch/win32/res.rc.po.c:99
 msgid "&View"
 msgstr "&Vista"
 
-#: src/arch/win32/res.rc.po.c:99
+#: src/arch/win32/res.rc.po.c:101
 msgid "&Current instruction"
 msgstr "Istruzione &corrente"
 
-#: src/arch/win32/res.rc.po.c:101
+#: src/arch/win32/res.rc.po.c:103
 msgid "Evaluation &window"
 msgstr "&Finestra di valutazione"
 
-#: src/arch/win32/res.rc.po.c:102
+#: src/arch/win32/res.rc.po.c:104
 msgid "&Register window"
 msgstr "Finestra dei &registri"
 
-#: src/arch/win32/res.rc.po.c:103
+#: src/arch/win32/res.rc.po.c:105
 msgid "&Memory window"
 msgstr "Finestra di &memoria"
 
-#: src/arch/win32/res.rc.po.c:104
+#: src/arch/win32/res.rc.po.c:106
 msgid "&Disassembly window"
 msgstr "Finestra di &disassemblaggio"
 
-#: src/arch/win32/res.rc.po.c:105
+#: src/arch/win32/res.rc.po.c:107
 msgid "&Console window"
 msgstr "Finestra della &console"
 
-#: src/arch/win32/res.rc.po.c:107
+#: src/arch/win32/res.rc.po.c:109
 msgid "&Computer"
 msgstr "&Computer"
 
-#: src/arch/win32/res.rc.po.c:108 src/arch/win32/resc128.rc.po.c:36
+#: src/arch/win32/res.rc.po.c:110 src/arch/win32/resc128.rc.po.c:36
 #: src/arch/win32/resc64.rc.po.c:36 src/arch/win32/rescbm2.rc.po.c:35
 #: src/arch/win32/respet.rc.po.c:35 src/arch/win32/resplus4.rc.po.c:35
 #: src/arch/win32/resvic20.rc.po.c:35
 msgid "Drive &8"
 msgstr "Drive &8"
 
-#: src/arch/win32/res.rc.po.c:109 src/arch/win32/resc128.rc.po.c:37
+#: src/arch/win32/res.rc.po.c:111 src/arch/win32/resc128.rc.po.c:37
 #: src/arch/win32/resc64.rc.po.c:37 src/arch/win32/rescbm2.rc.po.c:36
 #: src/arch/win32/respet.rc.po.c:36 src/arch/win32/resplus4.rc.po.c:36
 #: src/arch/win32/resvic20.rc.po.c:36
 msgid "Drive &9"
 msgstr "Drive &9"
 
-#: src/arch/win32/res.rc.po.c:111
+#: src/arch/win32/res.rc.po.c:113
 msgid "&Window"
 msgstr "&Finestra"
 
-#: src/arch/win32/res.rc.po.c:113
+#: src/arch/win32/res.rc.po.c:115
 msgid "&Cascade"
 msgstr "A &cascata"
 
-#: src/arch/win32/res.rc.po.c:114
+#: src/arch/win32/res.rc.po.c:116
 msgid "Tile &vertically"
 msgstr "Affianca &verticalmente"
 
-#: src/arch/win32/res.rc.po.c:115
+#: src/arch/win32/res.rc.po.c:117
 msgid "Tile &horizontally"
 msgstr "Affianca &orizzontalmente"
 
-#: src/arch/win32/res.rc.po.c:116
+#: src/arch/win32/res.rc.po.c:118
 msgid "&Arrange icons"
 msgstr "&Disponi icone"
 
-#: src/arch/win32/res.rc.po.c:617
+#: src/arch/win32/res.rc.po.c:619
 #, fuzzy
 msgid "About VICE"
 msgstr "Informazioni su VICE..."
 
-#: src/arch/win32/res.rc.po.c:619 src/arch/win32/res.rc.po.c:942
-#: src/arch/win32/res.rc.po.c:1143 src/arch/win32/res.rc.po.c:1483
-#: src/arch/win32/res.rc.po.c:1723 src/arch/win32/res.rc.po.c:2685
-#: src/arch/win32/res.rc.po.c:3513 src/arch/win32/res.rc.po.c:3706
-#: src/arch/win32/res.rc.po.c:4371 src/arch/win32/res.rc.po.c:4499
-#: src/arch/win32/res.rc.po.c:5208 src/arch/win32/resc128.rc.po.c:3101
-#: src/arch/win32/resc128.rc.po.c:3456 src/arch/win32/resc64.rc.po.c:2638
-#: src/arch/win32/resc64.rc.po.c:2823 src/arch/win32/rescbm2.rc.po.c:2277
+#: src/arch/win32/res.rc.po.c:621 src/arch/win32/res.rc.po.c:944
+#: src/arch/win32/res.rc.po.c:1145 src/arch/win32/res.rc.po.c:1485
+#: src/arch/win32/res.rc.po.c:1725 src/arch/win32/res.rc.po.c:2687
+#: src/arch/win32/res.rc.po.c:3515 src/arch/win32/res.rc.po.c:3708
+#: src/arch/win32/res.rc.po.c:4373 src/arch/win32/res.rc.po.c:4501
+#: src/arch/win32/res.rc.po.c:5210 src/arch/win32/resc128.rc.po.c:3109
+#: src/arch/win32/resc128.rc.po.c:3464 src/arch/win32/resc64.rc.po.c:2646
+#: src/arch/win32/resc64.rc.po.c:2831 src/arch/win32/rescbm2.rc.po.c:2277
 #: src/arch/win32/rescbm2.rc.po.c:2508 src/arch/win32/resgeoram.rc.po.c:26
 #: src/arch/win32/respet.rc.po.c:2245 src/arch/win32/respet.rc.po.c:2476
 #: src/arch/win32/resplus4.rc.po.c:2319 src/arch/win32/resplus4.rc.po.c:2511
@@ -6739,11 +6746,11 @@ msgstr "Informazioni su VICE..."
 msgid "OK"
 msgstr "OK"
 
-#: src/arch/win32/res.rc.po.c:620
+#: src/arch/win32/res.rc.po.c:622
 msgid "VICE"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:621
+#: src/arch/win32/res.rc.po.c:623
 msgid "Versatile Commodore Emulator"
 msgstr ""
 
@@ -6752,562 +6759,562 @@ msgstr ""
 #. #else
 #. CTEXT    "Release " VERSION ,IDC_STATIC,7,31,118,8
 #. #endif
-#: src/arch/win32/res.rc.po.c:627
+#: src/arch/win32/res.rc.po.c:629
 #, fuzzy
 msgid "Version 0.0"
 msgstr "Versione %s"
 
-#: src/arch/win32/res.rc.po.c:628
+#: src/arch/win32/res.rc.po.c:630
 msgid "Copyright (c) 1998-2006 Andreas Boose"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:629
+#: src/arch/win32/res.rc.po.c:631
 msgid "Copyright (c) 1998-2006 Dag Lem"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:630
+#: src/arch/win32/res.rc.po.c:632
 msgid "Copyright (c) 1998-2006 Tibor Biczo"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:631
+#: src/arch/win32/res.rc.po.c:633
 msgid "Copyright (c) 1999-2006 Andreas Dehmel"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:632
+#: src/arch/win32/res.rc.po.c:634
 msgid "Copyright (c) 1999-2006 Andreas Matthies"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:633
+#: src/arch/win32/res.rc.po.c:635
 msgid "Copyright (c) 1999-2006 Martin Pottendorfer"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:634
+#: src/arch/win32/res.rc.po.c:636
 msgid "Copyright (c) 2000-2006 Spiro Trikaliotis"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:635
+#: src/arch/win32/res.rc.po.c:637
 msgid "Copyright (c) 2005-2006 Marco van den Heuvel"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:636
+#: src/arch/win32/res.rc.po.c:638
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:637
+#: src/arch/win32/res.rc.po.c:639
 msgid "Copyright (c) 2003-2005 David Hansel"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:638
+#: src/arch/win32/res.rc.po.c:640
 msgid "Copyright (c) 2000-2004 Markus Brenner"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:639
+#: src/arch/win32/res.rc.po.c:641
 msgid " "
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:648 src/arch/win32/res.rc.po.c:3826
+#: src/arch/win32/res.rc.po.c:650 src/arch/win32/res.rc.po.c:3828
 msgid "&Use IEC Device"
 msgstr "&Usa la periferica IEC"
 
-#: src/arch/win32/res.rc.po.c:650
+#: src/arch/win32/res.rc.po.c:652
 msgid "Disk &image"
 msgstr "&Immagine disco"
 
-#: src/arch/win32/res.rc.po.c:652
+#: src/arch/win32/res.rc.po.c:654
 msgid "&Directory"
 msgstr "&Directory"
 
-#: src/arch/win32/res.rc.po.c:654
+#: src/arch/win32/res.rc.po.c:656
 msgid "Rea&l IEC device"
 msgstr "Periferica IEC rea&le"
 
-#: src/arch/win32/res.rc.po.c:657 src/arch/win32/resdrivec128.rc.po.c:41
+#: src/arch/win32/res.rc.po.c:659 src/arch/win32/resdrivec128.rc.po.c:41
 #: src/arch/win32/resdrivec64vic20.rc.po.c:39
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:29
 #: src/arch/win32/resdriveplus4.rc.po.c:27
 msgid "&None"
 msgstr "&Nessuno"
 
-#: src/arch/win32/res.rc.po.c:660 src/arch/win32/res.rc.po.c:3170
-#: src/arch/win32/res.rc.po.c:3402 src/arch/win32/res.rc.po.c:5211
+#: src/arch/win32/res.rc.po.c:662 src/arch/win32/res.rc.po.c:3172
+#: src/arch/win32/res.rc.po.c:3404 src/arch/win32/res.rc.po.c:5213
 #: src/arch/win32/resgeoram.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:2563
 msgid "&Browse..."
 msgstr "&Sfoglia..."
 
-#: src/arch/win32/res.rc.po.c:661
+#: src/arch/win32/res.rc.po.c:663
 msgid "&Autostart"
 msgstr "&Avvio automatico"
 
-#: src/arch/win32/res.rc.po.c:662 src/arch/win32/res.rc.po.c:1936
+#: src/arch/win32/res.rc.po.c:664 src/arch/win32/res.rc.po.c:1938
 #: src/arch/amigaos/intl.c.po.c:2339
 msgid "Attach read only"
 msgstr "Seleziona in sola lettura"
 
-#: src/arch/win32/res.rc.po.c:666
+#: src/arch/win32/res.rc.po.c:668
 msgid "Bro&wse..."
 msgstr "&Sfoglia..."
 
-#: src/arch/win32/res.rc.po.c:667 src/arch/win32/resc128.rc.po.c:149
+#: src/arch/win32/res.rc.po.c:669 src/arch/win32/resc128.rc.po.c:149
 #: src/arch/win32/resc64.rc.po.c:151 src/arch/win32/rescbm2.rc.po.c:121
 #: src/arch/win32/respet.rc.po.c:119 src/arch/win32/resplus4.rc.po.c:131
 #: src/arch/win32/resvic20.rc.po.c:129
 msgid "&Options"
 msgstr "&Opzioni"
 
-#: src/arch/win32/res.rc.po.c:668
+#: src/arch/win32/res.rc.po.c:670
 msgid "&Read P00 files"
 msgstr "&Leggi file P00"
 
-#: src/arch/win32/res.rc.po.c:670
+#: src/arch/win32/res.rc.po.c:672
 msgid "&Write P00 files"
 msgstr "&Scrivi file P00"
 
-#: src/arch/win32/res.rc.po.c:672
+#: src/arch/win32/res.rc.po.c:674
 msgid "&Hide non-P00 files"
 msgstr "&Nascondi i file non P00"
 
-#: src/arch/win32/res.rc.po.c:930 src/arch/amigaos/intl.c.po.c:2681
+#: src/arch/win32/res.rc.po.c:932 src/arch/amigaos/intl.c.po.c:2681
 msgid "Datasette Settings"
 msgstr "Impostazioni del registratore"
 
-#: src/arch/win32/res.rc.po.c:932
+#: src/arch/win32/res.rc.po.c:934
 msgid "&Reset Datasette with CPU"
 msgstr "&Reset del registratore al reset della CPU"
 
-#: src/arch/win32/res.rc.po.c:934
+#: src/arch/win32/res.rc.po.c:936
 msgid "Speed of motor while reading"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:935
+#: src/arch/win32/res.rc.po.c:937
 msgid "cycle(s) additional &delay each trigger"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:939
+#: src/arch/win32/res.rc.po.c:941
 msgid "cycles delay at &zero-values"
 msgstr "cicli di ritardo ai valori di &zero"
 
-#: src/arch/win32/res.rc.po.c:1111
+#: src/arch/win32/res.rc.po.c:1113
 msgid "Joystick in port #&1"
 msgstr "Joystick nella porta #&1"
 
-#: src/arch/win32/res.rc.po.c:1114 src/arch/win32/res.rc.po.c:1127
+#: src/arch/win32/res.rc.po.c:1116 src/arch/win32/res.rc.po.c:1129
 msgid "Select fire button"
 msgstr "Seleziona pulsante di fuoco"
 
-#: src/arch/win32/res.rc.po.c:1117 src/arch/win32/res.rc.po.c:1130
+#: src/arch/win32/res.rc.po.c:1119 src/arch/win32/res.rc.po.c:1132
 msgid "Auto fire button settings"
 msgstr "Impostazioni fuoco automatico"
 
-#: src/arch/win32/res.rc.po.c:1118 src/arch/win32/res.rc.po.c:1131
+#: src/arch/win32/res.rc.po.c:1120 src/arch/win32/res.rc.po.c:1133
 msgid "Autofire &speed (1..32)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1124
+#: src/arch/win32/res.rc.po.c:1126
 msgid "Joystick in port #&2"
 msgstr "Joystick nella porta #&2"
 
-#: src/arch/win32/res.rc.po.c:1137
+#: src/arch/win32/res.rc.po.c:1139
 msgid "Config Keyset &A"
 msgstr "Configura il keyset &A"
 
-#: src/arch/win32/res.rc.po.c:1139
+#: src/arch/win32/res.rc.po.c:1141
 msgid "Config Keyset &B"
 msgstr "Configura il keyset &B"
 
-#: src/arch/win32/res.rc.po.c:1141
+#: src/arch/win32/res.rc.po.c:1143
 msgid "&Calibrate Joystick(s)"
 msgstr "&Calibra Joystick"
 
-#: src/arch/win32/res.rc.po.c:1465
+#: src/arch/win32/res.rc.po.c:1467
 msgid "S&outh West"
 msgstr "S&ud ovest"
 
-#: src/arch/win32/res.rc.po.c:1467
+#: src/arch/win32/res.rc.po.c:1469
 msgid "&South"
 msgstr "&Sud"
 
-#: src/arch/win32/res.rc.po.c:1469
+#: src/arch/win32/res.rc.po.c:1471
 msgid "So&uth East"
 msgstr "Su&d Est"
 
-#: src/arch/win32/res.rc.po.c:1471
+#: src/arch/win32/res.rc.po.c:1473
 msgid "&West"
 msgstr "&Ovest"
 
-#: src/arch/win32/res.rc.po.c:1473
+#: src/arch/win32/res.rc.po.c:1475
 msgid "&East"
 msgstr "&Est"
 
-#: src/arch/win32/res.rc.po.c:1475
+#: src/arch/win32/res.rc.po.c:1477
 msgid "No&rth West"
 msgstr "No&rd Ovest"
 
-#: src/arch/win32/res.rc.po.c:1477
+#: src/arch/win32/res.rc.po.c:1479
 msgid "&North"
 msgstr "&Nord"
 
-#: src/arch/win32/res.rc.po.c:1479
+#: src/arch/win32/res.rc.po.c:1481
 msgid "Nor&th East"
 msgstr "Nor&d Est"
 
-#: src/arch/win32/res.rc.po.c:1481
+#: src/arch/win32/res.rc.po.c:1483
 msgid "&Fire button"
 msgstr "Pulsante di &Fuoco"
 
-#: src/arch/win32/res.rc.po.c:1705
+#: src/arch/win32/res.rc.po.c:1707
 msgid "Configure Sound Device Settings"
 msgstr "Configura le impostazioni della scheda audio"
 
-#: src/arch/win32/res.rc.po.c:1707
+#: src/arch/win32/res.rc.po.c:1709
 msgid "DirectX driver"
 msgstr "Driver DirectX"
 
-#: src/arch/win32/res.rc.po.c:1709
+#: src/arch/win32/res.rc.po.c:1711
 msgid "WMM driver"
 msgstr "Driver WMM"
 
-#: src/arch/win32/res.rc.po.c:1711
+#: src/arch/win32/res.rc.po.c:1713
 msgid "Sample &Frequency :"
 msgstr "&Frequenza di campionamento :"
 
-#: src/arch/win32/res.rc.po.c:1714
+#: src/arch/win32/res.rc.po.c:1716
 msgid "Sound Buffer &Size :"
 msgstr "Dimensione del buffer del suono :"
 
-#: src/arch/win32/res.rc.po.c:1717
+#: src/arch/win32/res.rc.po.c:1719
 msgid "&Oversampling Factor :"
 msgstr "Fattore di &sovracampionamento :"
 
-#: src/arch/win32/res.rc.po.c:1720
+#: src/arch/win32/res.rc.po.c:1722
 msgid "Synchronization &Method :"
 msgstr "&Metodo di sincronizzazione :"
 
-#: src/arch/win32/res.rc.po.c:1933 src/arch/win32/res.rc.po.c:2120
+#: src/arch/win32/res.rc.po.c:1935 src/arch/win32/res.rc.po.c:2122
 msgid "Image Contents "
 msgstr "Contenuti "
 
-#: src/arch/win32/res.rc.po.c:1938 src/arch/amigaos/intl.c.po.c:2366
+#: src/arch/win32/res.rc.po.c:1940 src/arch/amigaos/intl.c.po.c:2366
 msgid "New Image"
 msgstr "Nuova immagine"
 
-#: src/arch/win32/res.rc.po.c:1939 src/arch/amigaos/intl.c.po.c:2348
+#: src/arch/win32/res.rc.po.c:1941 src/arch/amigaos/intl.c.po.c:2348
 msgid "Name"
 msgstr "Nome"
 
-#: src/arch/win32/res.rc.po.c:1941
+#: src/arch/win32/res.rc.po.c:1943
 msgid "ID"
 msgstr "ID"
 
-#: src/arch/win32/res.rc.po.c:1943
+#: src/arch/win32/res.rc.po.c:1945
 msgid "Type"
 msgstr "Tipo"
 
-#: src/arch/win32/res.rc.po.c:1946 src/arch/win32/res.rc.po.c:2124
+#: src/arch/win32/res.rc.po.c:1948 src/arch/win32/res.rc.po.c:2126
 #: src/arch/amigaos/intl.c.po.c:2357
 msgid "Create Image"
 msgstr "Crea immagine"
 
-#: src/arch/win32/res.rc.po.c:2123 src/arch/amigaos/intl.c.po.c:2375
+#: src/arch/win32/res.rc.po.c:2125 src/arch/amigaos/intl.c.po.c:2375
 msgid "New TAP Image"
 msgstr "Nuova immagine TAP"
 
-#: src/arch/win32/res.rc.po.c:2235
+#: src/arch/win32/res.rc.po.c:2237
 msgid "Save currently attached &disks images"
 msgstr "Salva le immagini dei &dischi attualmente selezionati"
 
-#: src/arch/win32/res.rc.po.c:2238
+#: src/arch/win32/res.rc.po.c:2240
 msgid "Save currently loaded &ROM images"
 msgstr "Salva le immagini delle &ROM attualmente caricate"
 
-#: src/arch/win32/res.rc.po.c:2358
+#: src/arch/win32/res.rc.po.c:2360
 msgid "Select Driver:"
 msgstr "Seleziona Driver:"
 
-#: src/arch/win32/res.rc.po.c:2361
+#: src/arch/win32/res.rc.po.c:2363
 msgid "FFMPEG settings"
 msgstr "Impostazioni FFMPEG"
 
-#: src/arch/win32/res.rc.po.c:2362
+#: src/arch/win32/res.rc.po.c:2364
 msgid "Format:"
 msgstr "Formato:"
 
-#: src/arch/win32/res.rc.po.c:2365
+#: src/arch/win32/res.rc.po.c:2367
 msgid "Audio: codec"
 msgstr "Audio: codec"
 
-#: src/arch/win32/res.rc.po.c:2368 src/arch/win32/res.rc.po.c:2374
+#: src/arch/win32/res.rc.po.c:2370 src/arch/win32/res.rc.po.c:2376
 msgid "bitrate"
 msgstr "bitrate"
 
-#: src/arch/win32/res.rc.po.c:2371
+#: src/arch/win32/res.rc.po.c:2373
 msgid "Video: codec"
 msgstr "Video: codec"
 
-#: src/arch/win32/res.rc.po.c:2585
+#: src/arch/win32/res.rc.po.c:2587
 msgid "&Append log to existing file"
 msgstr "&Accoda i log al file esistente"
 
-#: src/arch/win32/res.rc.po.c:2683
+#: src/arch/win32/res.rc.po.c:2685
 msgid "Dialog"
 msgstr "Dialogo"
 
-#: src/arch/win32/res.rc.po.c:2686
+#: src/arch/win32/res.rc.po.c:2688
 msgid "Read this:"
 msgstr "Leggi questo:"
 
-#: src/arch/win32/res.rc.po.c:2799
+#: src/arch/win32/res.rc.po.c:2801
 msgid "Driver:"
 msgstr "Driver:"
 
-#: src/arch/win32/res.rc.po.c:2802
+#: src/arch/win32/res.rc.po.c:2804
 msgid "Bitdepth:"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:2805
+#: src/arch/win32/res.rc.po.c:2807
 msgid "Resolution:"
 msgstr "Risoluzione:"
 
-#: src/arch/win32/res.rc.po.c:2808
+#: src/arch/win32/res.rc.po.c:2810
 msgid "Refreshrate:"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:2811
+#: src/arch/win32/res.rc.po.c:2813
 msgid "VBLANK synchronization"
 msgstr "Sincronizzazione VBLANK"
 
-#: src/arch/win32/res.rc.po.c:2813
+#: src/arch/win32/res.rc.po.c:2815
 msgid "Render to DX Primary surface"
 msgstr "Visualizza sulla superficie primaria DX"
 
-#: src/arch/win32/res.rc.po.c:3003 src/arch/win32/res.rc.po.c:3006
-#: src/arch/win32/res.rc.po.c:3009 src/arch/win32/res.rc.po.c:3150
-#: src/arch/win32/res.rc.po.c:3153
+#: src/arch/win32/res.rc.po.c:3005 src/arch/win32/res.rc.po.c:3008
+#: src/arch/win32/res.rc.po.c:3011 src/arch/win32/res.rc.po.c:3152
+#: src/arch/win32/res.rc.po.c:3155
 msgid "(0..2)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:3152
+#: src/arch/win32/res.rc.po.c:3154
 msgid "Phase"
 msgstr "Fase"
 
-#: src/arch/win32/res.rc.po.c:3155
+#: src/arch/win32/res.rc.po.c:3157
 msgid "PAL Shade"
 msgstr "Ombra PAL"
 
-#: src/arch/win32/res.rc.po.c:3156 src/arch/win32/res.rc.po.c:3159
+#: src/arch/win32/res.rc.po.c:3158 src/arch/win32/res.rc.po.c:3161
 msgid "(0..1)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:3158
+#: src/arch/win32/res.rc.po.c:3160
 msgid "PAL Blur"
 msgstr "Sfuocatura PAL"
 
-#: src/arch/win32/res.rc.po.c:3162
+#: src/arch/win32/res.rc.po.c:3164
 msgid "PAL Mode"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:3166
+#: src/arch/win32/res.rc.po.c:3168
 msgid "External Palette:"
 msgstr "Palette esterna:"
 
-#: src/arch/win32/res.rc.po.c:3498 src/arch/amigaos/intl.c.po.c:3131
+#: src/arch/win32/res.rc.po.c:3500 src/arch/amigaos/intl.c.po.c:3131
 msgid "RAM Settings"
 msgstr "Impostazioni delle RAM"
 
-#: src/arch/win32/res.rc.po.c:3500
+#: src/arch/win32/res.rc.po.c:3502
 msgid "Initialization at powerup"
 msgstr "Inizializzazione all'accensione"
 
-#: src/arch/win32/res.rc.po.c:3501 src/arch/amigaos/intl.c.po.c:3104
+#: src/arch/win32/res.rc.po.c:3503 src/arch/amigaos/intl.c.po.c:3104
 msgid "Value of first byte"
 msgstr "Valore del primo byte"
 
-#: src/arch/win32/res.rc.po.c:3505 src/arch/amigaos/intl.c.po.c:3113
+#: src/arch/win32/res.rc.po.c:3507 src/arch/amigaos/intl.c.po.c:3113
 msgid "Length of constant values"
 msgstr "Lunghezza dei valori costanti"
 
-#: src/arch/win32/res.rc.po.c:3508 src/arch/amigaos/intl.c.po.c:3122
+#: src/arch/win32/res.rc.po.c:3510 src/arch/amigaos/intl.c.po.c:3122
 msgid "Length of constant pattern"
 msgstr "Lunghezza dei pattern costanti"
 
-#: src/arch/win32/res.rc.po.c:3701
+#: src/arch/win32/res.rc.po.c:3703
 msgid "Custom speed"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:3703
+#: src/arch/win32/res.rc.po.c:3705
 msgid "Enter custom speed [%]"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:3824
+#: src/arch/win32/res.rc.po.c:3826
 msgid "Printer Settings"
 msgstr "Impostazioni delle stampanti"
 
-#: src/arch/win32/res.rc.po.c:3828
+#: src/arch/win32/res.rc.po.c:3830
 msgid "Printer emulation"
 msgstr "Emulazione della stampante"
 
-#: src/arch/win32/res.rc.po.c:3831
+#: src/arch/win32/res.rc.po.c:3833
 msgid "Send Formfeed"
 msgstr "Invia Formfeed"
 
-#: src/arch/win32/res.rc.po.c:3832
+#: src/arch/win32/res.rc.po.c:3834
 msgid "File system printer"
 msgstr "Stampante su file system"
 
-#: src/arch/win32/res.rc.po.c:3833
+#: src/arch/win32/res.rc.po.c:3835
 msgid "Printer driver"
 msgstr "Driver di stampa"
 
-#: src/arch/win32/res.rc.po.c:3836
+#: src/arch/win32/res.rc.po.c:3838
 msgid "Output"
 msgstr "Output"
 
-#: src/arch/win32/res.rc.po.c:3839
+#: src/arch/win32/res.rc.po.c:3841
 msgid "Output to file #"
 msgstr "Output su file #"
 
-#: src/arch/win32/res.rc.po.c:3842
+#: src/arch/win32/res.rc.po.c:3844
 msgid "Output file #1 name"
 msgstr "Nome del file di output #1"
 
-#: src/arch/win32/res.rc.po.c:3844
+#: src/arch/win32/res.rc.po.c:3846
 msgid "Output file #2 name"
 msgstr "Nome del file di output #2"
 
-#: src/arch/win32/res.rc.po.c:3846
+#: src/arch/win32/res.rc.po.c:3848
 msgid "Output file #3 name"
 msgstr "Nome del file di output #3"
 
-#: src/arch/win32/res.rc.po.c:4083 src/arch/win32/resc128.rc.po.c:2084
-#: src/arch/win32/resc128.rc.po.c:2639 src/arch/win32/resc64.rc.po.c:2061
-#: src/arch/win32/resc64.rc.po.c:2232 src/arch/win32/rescbm2.rc.po.c:1724
+#: src/arch/win32/res.rc.po.c:4085 src/arch/win32/resc128.rc.po.c:2092
+#: src/arch/win32/resc128.rc.po.c:2647 src/arch/win32/resc64.rc.po.c:2069
+#: src/arch/win32/resc64.rc.po.c:2240 src/arch/win32/rescbm2.rc.po.c:1724
 #: src/arch/win32/rescbm2.rc.po.c:2023 src/arch/win32/respet.rc.po.c:1692
 #: src/arch/win32/respet.rc.po.c:1991 src/arch/win32/resplus4.rc.po.c:1836
 #: src/arch/win32/resplus4.rc.po.c:2039
 msgid "ROM Settings"
 msgstr "Impostazioni delle ROM"
 
-#: src/arch/win32/res.rc.po.c:4085
+#: src/arch/win32/res.rc.po.c:4087
 msgid "Romset archive"
 msgstr "Archivio del ROM set"
 
-#: src/arch/win32/res.rc.po.c:4088 src/arch/win32/res.rc.po.c:4100
+#: src/arch/win32/res.rc.po.c:4090 src/arch/win32/res.rc.po.c:4102
 msgid "Browse"
 msgstr "Sfoglia"
 
-#: src/arch/win32/res.rc.po.c:4089
+#: src/arch/win32/res.rc.po.c:4091
 msgid "Load archive"
 msgstr "Carica archivio"
 
-#: src/arch/win32/res.rc.po.c:4090
+#: src/arch/win32/res.rc.po.c:4092
 msgid "Save archive"
 msgstr "Salva archivio"
 
-#: src/arch/win32/res.rc.po.c:4091
+#: src/arch/win32/res.rc.po.c:4093
 msgid "&Configuration"
 msgstr "&Configurazione"
 
-#: src/arch/win32/res.rc.po.c:4094
+#: src/arch/win32/res.rc.po.c:4096
 msgid "Apply"
 msgstr "Applica"
 
-#: src/arch/win32/res.rc.po.c:4095
+#: src/arch/win32/res.rc.po.c:4097
 msgid "New"
 msgstr "Nuovo"
 
-#: src/arch/win32/res.rc.po.c:4096
+#: src/arch/win32/res.rc.po.c:4098
 msgid "Delete"
 msgstr "Cancella"
 
-#: src/arch/win32/res.rc.po.c:4097
+#: src/arch/win32/res.rc.po.c:4099
 msgid "Romset file"
 msgstr "File del ROM set"
 
-#: src/arch/win32/res.rc.po.c:4101
+#: src/arch/win32/res.rc.po.c:4103
 msgid "Load romset"
 msgstr "Carica romset"
 
-#: src/arch/win32/res.rc.po.c:4102
+#: src/arch/win32/res.rc.po.c:4104
 msgid "Save romset"
 msgstr "Salva romset"
 
-#: src/arch/win32/res.rc.po.c:4105 src/arch/win32/res.rc.po.c:5094
+#: src/arch/win32/res.rc.po.c:4107 src/arch/win32/res.rc.po.c:5096
 msgid "Computer"
 msgstr "Computer"
 
-#: src/arch/win32/res.rc.po.c:4106 src/arch/win32/res.rc.po.c:5095
+#: src/arch/win32/res.rc.po.c:4108 src/arch/win32/res.rc.po.c:5097
 msgid "Drive"
 msgstr "Drive"
 
-#: src/arch/win32/res.rc.po.c:4108
+#: src/arch/win32/res.rc.po.c:4110
 msgid "Other"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:4366
+#: src/arch/win32/res.rc.po.c:4368
 msgid "New configuration"
 msgstr "Nuova configurazione"
 
-#: src/arch/win32/res.rc.po.c:4368
+#: src/arch/win32/res.rc.po.c:4370
 msgid "Enter configuration name"
 msgstr "Inserisci il nome della configurazione"
 
-#: src/arch/win32/res.rc.po.c:4489
+#: src/arch/win32/res.rc.po.c:4491
 msgid "RS232 Settings"
 msgstr "Impostazioni della RS232"
 
-#: src/arch/win32/res.rc.po.c:4491
+#: src/arch/win32/res.rc.po.c:4493
 msgid "RS232 device 1"
 msgstr "Dispositivo RS232 #1"
 
-#: src/arch/win32/res.rc.po.c:4493
+#: src/arch/win32/res.rc.po.c:4495
 msgid "RS232 device 2"
 msgstr "Dispositivo RS232 #2"
 
-#: src/arch/win32/res.rc.po.c:4495
+#: src/arch/win32/res.rc.po.c:4497
 msgid "RS232 device 3"
 msgstr "Dispositivo RS232 #3"
 
-#: src/arch/win32/res.rc.po.c:4497
+#: src/arch/win32/res.rc.po.c:4499
 msgid "RS232 device 4"
 msgstr "Dispositivo RS232 #4"
 
-#: src/arch/win32/res.rc.po.c:4654
+#: src/arch/win32/res.rc.po.c:4656
 msgid "Current mode"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:4656
+#: src/arch/win32/res.rc.po.c:4658
 msgid "TCP-Port"
 msgstr "Porta TCP"
 
-#: src/arch/win32/res.rc.po.c:4659
+#: src/arch/win32/res.rc.po.c:4661
 msgid "Connect to"
 msgstr "Connetti a"
 
-#: src/arch/win32/res.rc.po.c:5026
+#: src/arch/win32/res.rc.po.c:5028
 msgid "VICE question"
 msgstr "Domanda di VICE"
 
-#: src/arch/win32/res.rc.po.c:5027
+#: src/arch/win32/res.rc.po.c:5029
 msgid "Your ffmpeg dll version doesn't match."
 msgstr "La versione della DLL ffmpeg non corrisponde."
 
-#: src/arch/win32/res.rc.po.c:5028
+#: src/arch/win32/res.rc.po.c:5030
 #, c-format
 msgid "DirectDraw error: Code:%8x Error:%s"
 msgstr "Errore DirectDraw: Codice:%8x Errore:%s"
 
-#: src/arch/win32/res.rc.po.c:5030 src/arch/amigaos/intl.c.po.c:1833
+#: src/arch/win32/res.rc.po.c:5032 src/arch/amigaos/intl.c.po.c:1833
 msgid "Cannot load settings."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5031 src/arch/amigaos/intl.c.po.c:1761
+#: src/arch/win32/res.rc.po.c:5033 src/arch/amigaos/intl.c.po.c:1761
 msgid "Default settings restored."
 msgstr "Impostazioni originarie ripristinate."
 
-#: src/arch/win32/res.rc.po.c:5032 src/arch/amigaos/intl.c.po.c:1905
+#: src/arch/win32/res.rc.po.c:5034 src/arch/amigaos/intl.c.po.c:1905
 msgid "Cannot attach specified file"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5033
+#: src/arch/win32/res.rc.po.c:5035
 #, c-format
 msgid ""
 "%s\n"
@@ -7318,46 +7325,46 @@ msgstr ""
 "\n"
 "Avvia il monitor?"
 
-#: src/arch/win32/res.rc.po.c:5034
+#: src/arch/win32/res.rc.po.c:5036
 msgid "VICE CPU JAM"
 msgstr "VICE CPU JAM"
 
-#: src/arch/win32/res.rc.po.c:5035 src/arch/amigaos/intl.c.po.c:2087
+#: src/arch/win32/res.rc.po.c:5037 src/arch/amigaos/intl.c.po.c:2087
 msgid "Extend image to 40-track format?"
 msgstr "Astendere l'immagine al formato di 40 tracce?"
 
-#: src/arch/win32/res.rc.po.c:5036
+#: src/arch/win32/res.rc.po.c:5038
 #, c-format
 msgid "Detached device %s"
 msgstr "Rimosso dispositivo %s"
 
-#: src/arch/win32/res.rc.po.c:5037
+#: src/arch/win32/res.rc.po.c:5039
 #, c-format
 msgid "Attached %s to device#%s"
 msgstr "Selezionato %s per la periferica #%s"
 
-#: src/arch/win32/res.rc.po.c:5038 src/arch/amigaos/intl.c.po.c:2105
+#: src/arch/win32/res.rc.po.c:5040 src/arch/amigaos/intl.c.po.c:2105
 msgid "Detached tape"
 msgstr "Cassetta rimossa"
 
-#: src/arch/win32/res.rc.po.c:5039
+#: src/arch/win32/res.rc.po.c:5041
 msgid "History recorded with unknown release"
 msgstr "Cronologia registrata con una release sconosciuta"
 
-#: src/arch/win32/res.rc.po.c:5040
+#: src/arch/win32/res.rc.po.c:5042
 #, c-format
 msgid "History recorded with VICE-%s"
 msgstr "Cronologia registrata con VICE-%s"
 
-#: src/arch/win32/res.rc.po.c:5041
+#: src/arch/win32/res.rc.po.c:5043
 msgid "paused"
 msgstr "pausa"
 
-#: src/arch/win32/res.rc.po.c:5042
+#: src/arch/win32/res.rc.po.c:5044
 msgid "resumed"
 msgstr "ripreso"
 
-#: src/arch/win32/res.rc.po.c:5043 src/arch/amigaos/intl.c.po.c:2141
+#: src/arch/win32/res.rc.po.c:5045 src/arch/amigaos/intl.c.po.c:2141
 msgid ""
 "Do you really want to exit?\n"
 "\n"
@@ -7367,458 +7374,458 @@ msgstr ""
 "\n"
 "Tutti i dati presenti nella RAM emulata saranno persi."
 
-#: src/arch/win32/res.rc.po.c:5044 src/arch/amigaos/intl.c.po.c:1896
+#: src/arch/win32/res.rc.po.c:5046 src/arch/amigaos/intl.c.po.c:1896
 msgid "Cannot autostart specified file."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5045 src/arch/amigaos/intl.c.po.c:2114
+#: src/arch/win32/res.rc.po.c:5047 src/arch/amigaos/intl.c.po.c:2114
 #, c-format
 msgid "Attached tape %s"
 msgstr "Cassetta %s selezionata"
 
-#: src/arch/win32/res.rc.po.c:5047 src/arch/amigaos/intl.c.po.c:1752
+#: src/arch/win32/res.rc.po.c:5049 src/arch/amigaos/intl.c.po.c:1752
 msgid "Settings loaded successfully."
 msgstr "Impostazioni caricate con successo."
 
-#: src/arch/win32/res.rc.po.c:5048 src/arch/amigaos/intl.c.po.c:139
+#: src/arch/win32/res.rc.po.c:5050 src/arch/amigaos/intl.c.po.c:139
 msgid "Attach disk image"
 msgstr "Seleziona l'immagine di un disco"
 
-#: src/arch/win32/res.rc.po.c:5049 src/arch/amigaos/intl.c.po.c:3482
+#: src/arch/win32/res.rc.po.c:5051 src/arch/amigaos/intl.c.po.c:3482
 msgid "Attach tape image"
 msgstr "Seleziona l'immagine di una cassetta"
 
-#: src/arch/win32/res.rc.po.c:5050 src/arch/amigaos/intl.c.po.c:3491
+#: src/arch/win32/res.rc.po.c:5052 src/arch/amigaos/intl.c.po.c:3491
 msgid "Autostart disk/tape image"
 msgstr "Avvia automaticamente l'immagine del disco/cassetta"
 
-#: src/arch/win32/res.rc.po.c:5051 src/arch/amigaos/intl.c.po.c:1914
+#: src/arch/win32/res.rc.po.c:5053 src/arch/amigaos/intl.c.po.c:1914
 msgid "Invalid cartridge"
 msgstr "Cartuccia non valida"
 
-#: src/arch/win32/res.rc.po.c:5052 src/arch/amigaos/intl.c.po.c:1923
+#: src/arch/win32/res.rc.po.c:5054 src/arch/amigaos/intl.c.po.c:1923
 msgid "Bad cartridge config in UI!"
 msgstr "Configurazione della cartuccia errata nell'IU!"
 
-#: src/arch/win32/res.rc.po.c:5054
+#: src/arch/win32/res.rc.po.c:5056
 msgid "Logging console output image"
 msgstr "Immagine dell'output della console di log"
 
-#: src/arch/win32/res.rc.po.c:5055
+#: src/arch/win32/res.rc.po.c:5057
 msgid "VICE console logging files (*.dbg)"
 msgstr "File di log (*.dbg)"
 
-#: src/arch/win32/res.rc.po.c:5056
+#: src/arch/win32/res.rc.po.c:5058
 #, c-format
 msgid "Cannot write log file `%s'."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5057
+#: src/arch/win32/res.rc.po.c:5059
 msgid "Load flip list file"
 msgstr "Carica il file della fliplist"
 
-#: src/arch/win32/res.rc.po.c:5058
+#: src/arch/win32/res.rc.po.c:5060
 msgid "Cannot read flip list file"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5059
+#: src/arch/win32/res.rc.po.c:5061
 msgid "Save flip list file"
 msgstr "Salva il file della fliplist"
 
-#: src/arch/win32/res.rc.po.c:5060
+#: src/arch/win32/res.rc.po.c:5062
 msgid "Cannot write flip list file"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5061
+#: src/arch/win32/res.rc.po.c:5063
 msgid "Select keymap file"
 msgstr "Seleziona il file della mappa della tastiera"
 
-#: src/arch/win32/res.rc.po.c:5062
+#: src/arch/win32/res.rc.po.c:5064
 msgid "Save keymap file"
 msgstr "Salva il file della mappa della tastiera"
 
-#: src/arch/win32/res.rc.po.c:5063
+#: src/arch/win32/res.rc.po.c:5065
 msgid "Cannot write keymap file"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5064
+#: src/arch/win32/res.rc.po.c:5066
 msgid "Mapping"
 msgstr "Mappatura"
 
-#: src/arch/win32/res.rc.po.c:5066
+#: src/arch/win32/res.rc.po.c:5068
 msgid "&Attach"
 msgstr "&Seleziona"
 
-#: src/arch/win32/res.rc.po.c:5067
+#: src/arch/win32/res.rc.po.c:5069
 msgid "Please enter a filename."
 msgstr "Specifica il nome del file."
 
-#: src/arch/win32/res.rc.po.c:5068 src/arch/amigaos/intl.c.po.c:2384
+#: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:2384
 msgid "Overwrite existing image?"
 msgstr "Sovrascrivo l'immagine esistente?"
 
-#: src/arch/win32/res.rc.po.c:5069 src/arch/amigaos/intl.c.po.c:1941
+#: src/arch/win32/res.rc.po.c:5071 src/arch/amigaos/intl.c.po.c:1941
 msgid "Cannot create image"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:1606
+#: src/arch/win32/res.rc.po.c:5072 src/arch/amigaos/intl.c.po.c:1606
 msgid "Command line options"
 msgstr "Parametri della riga di comando"
 
-#: src/arch/win32/res.rc.po.c:5071 src/arch/amigaos/intl.c.po.c:1815
+#: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:1815
 msgid "Which command line options are available?"
 msgstr "Quali parametri della riga di comando sono disponibili?"
 
-#: src/arch/win32/res.rc.po.c:5072
+#: src/arch/win32/res.rc.po.c:5074
 msgid "No driver selected or selected driver not supported"
 msgstr "Nessun driver selezionato o driver selezionato non supportato"
 
-#: src/arch/win32/res.rc.po.c:5073
+#: src/arch/win32/res.rc.po.c:5075
 #, c-format
 msgid "Cannot write screenshot file `%s'."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5074
+#: src/arch/win32/res.rc.po.c:5076
 msgid "Autostart disk image"
 msgstr "Avvia automaticamente l'immagine del disco"
 
-#: src/arch/win32/res.rc.po.c:5075
+#: src/arch/win32/res.rc.po.c:5077
 msgid "Select file system directory"
 msgstr "Seleziona la directory del file system"
 
-#: src/arch/win32/res.rc.po.c:5076
+#: src/arch/win32/res.rc.po.c:5078
 msgid "Printer Userport"
 msgstr "Stampante su userport"
 
-#: src/arch/win32/res.rc.po.c:5077
+#: src/arch/win32/res.rc.po.c:5079
 msgid "Printer 4"
 msgstr "Stampante 4"
 
-#: src/arch/win32/res.rc.po.c:5078
+#: src/arch/win32/res.rc.po.c:5080
 msgid "Printer 5"
 msgstr "Stampante 5"
 
-#: src/arch/win32/res.rc.po.c:5079 src/arch/amigaos/intl.c.po.c:148
+#: src/arch/win32/res.rc.po.c:5081 src/arch/amigaos/intl.c.po.c:148
 msgid "Drive 8"
 msgstr "Drive 8"
 
-#: src/arch/win32/res.rc.po.c:5080 src/arch/amigaos/intl.c.po.c:157
+#: src/arch/win32/res.rc.po.c:5082 src/arch/amigaos/intl.c.po.c:157
 msgid "Drive 9"
 msgstr "Drive 9"
 
-#: src/arch/win32/res.rc.po.c:5081 src/arch/amigaos/intl.c.po.c:166
+#: src/arch/win32/res.rc.po.c:5083 src/arch/amigaos/intl.c.po.c:166
 msgid "Drive 10"
 msgstr "Drive 10"
 
-#: src/arch/win32/res.rc.po.c:5082 src/arch/amigaos/intl.c.po.c:175
+#: src/arch/win32/res.rc.po.c:5084 src/arch/amigaos/intl.c.po.c:175
 msgid "Drive 11"
 msgstr "Drive 11"
 
-#: src/arch/win32/res.rc.po.c:5083
+#: src/arch/win32/res.rc.po.c:5085
 msgid "Peripheral Settings"
 msgstr "Impostazioni delle periferiche"
 
-#: src/arch/win32/res.rc.po.c:5084
+#: src/arch/win32/res.rc.po.c:5086
 msgid "Can't write snapshot file."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5085
+#: src/arch/win32/res.rc.po.c:5087
 msgid "Cannot read snapshot image"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5086
+#: src/arch/win32/res.rc.po.c:5088
 #, c-format
 msgid "Load %s ROM image"
 msgstr "Carica immagine della ROM %s"
 
-#: src/arch/win32/res.rc.po.c:5087
+#: src/arch/win32/res.rc.po.c:5089
 msgid "Select romset archive"
 msgstr "Seleziona l'archivio del ROM set"
 
-#: src/arch/win32/res.rc.po.c:5088
+#: src/arch/win32/res.rc.po.c:5090
 msgid "Cannot load romset archive!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5089
+#: src/arch/win32/res.rc.po.c:5091
 msgid "Cannot save romset archive!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5090
+#: src/arch/win32/res.rc.po.c:5092
 msgid "Cannot load romset file!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5091
+#: src/arch/win32/res.rc.po.c:5093
 msgid "Cannot save romset file!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5092
+#: src/arch/win32/res.rc.po.c:5094
 msgid "Select romset file"
 msgstr "Seleziona il file del ROM set"
 
-#: src/arch/win32/res.rc.po.c:5093
+#: src/arch/win32/res.rc.po.c:5095
 msgid "Romset"
 msgstr "Romset"
 
-#: src/arch/win32/res.rc.po.c:5097
+#: src/arch/win32/res.rc.po.c:5099
 msgid "Save snapshot image"
 msgstr "Salva l'immagine dello snapshot"
 
-#: src/arch/win32/res.rc.po.c:5098
+#: src/arch/win32/res.rc.po.c:5100
 #, c-format
 msgid "Cannot write snapshot file `%s'."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5099
+#: src/arch/win32/res.rc.po.c:5101
 msgid "Load snapshot image"
 msgstr "Carica immagine dello snapshot"
 
-#: src/arch/win32/res.rc.po.c:5100
+#: src/arch/win32/res.rc.po.c:5102
 msgid "Could not load palette file."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5101
+#: src/arch/win32/res.rc.po.c:5103
 msgid "Load VICE palette file"
 msgstr "Carica il file di palette di VICE"
 
-#: src/arch/win32/res.rc.po.c:5102 src/arch/amigaos/intl.c.po.c:1048
+#: src/arch/win32/res.rc.po.c:5104 src/arch/amigaos/intl.c.po.c:1048
 msgid "Fullscreen"
 msgstr "Schermo intero"
 
-#: src/arch/win32/res.rc.po.c:5103
+#: src/arch/win32/res.rc.po.c:5105
 msgid "Colors"
 msgstr "Colori"
 
-#: src/arch/win32/res.rc.po.c:5104
+#: src/arch/win32/res.rc.po.c:5106
 msgid "Video settings"
 msgstr "Impostazioni video"
 
-#: src/arch/win32/res.rc.po.c:5105
+#: src/arch/win32/res.rc.po.c:5107
 msgid "File system"
 msgstr "File system"
 
-#: src/arch/win32/res.rc.po.c:5107
+#: src/arch/win32/res.rc.po.c:5109
 msgid "Real IEC device"
 msgstr "Periferica IEC reale"
 
-#: src/arch/win32/res.rc.po.c:5109
+#: src/arch/win32/res.rc.po.c:5111
 #, c-format
 msgid "RS232 device %i"
 msgstr "Dispositivo RS232 #%i"
 
-#: src/arch/win32/res.rc.po.c:5111 src/arch/amigaos/intl.c.po.c:2159
+#: src/arch/win32/res.rc.po.c:5113 src/arch/amigaos/intl.c.po.c:2159
 msgid "Attach raw 8KB cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia di 8KB"
 
-#: src/arch/win32/res.rc.po.c:5112 src/arch/amigaos/intl.c.po.c:2168
+#: src/arch/win32/res.rc.po.c:5114 src/arch/amigaos/intl.c.po.c:2168
 msgid "Attach raw 16KB cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia di 16KB"
 
-#: src/arch/win32/res.rc.po.c:5113 src/arch/amigaos/intl.c.po.c:2177
+#: src/arch/win32/res.rc.po.c:5115 src/arch/amigaos/intl.c.po.c:2177
 msgid "Attach Action Replay cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Action Replay"
 
-#: src/arch/win32/res.rc.po.c:5114 src/arch/amigaos/intl.c.po.c:2186
+#: src/arch/win32/res.rc.po.c:5116 src/arch/amigaos/intl.c.po.c:2186
 msgid "Attach Atomic Power cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Atomic Power"
 
-#: src/arch/win32/res.rc.po.c:5115 src/arch/amigaos/intl.c.po.c:2195
+#: src/arch/win32/res.rc.po.c:5117 src/arch/amigaos/intl.c.po.c:2195
 msgid "Attach Epyx fastload cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Epyx fastload"
 
-#: src/arch/win32/res.rc.po.c:5116 src/arch/amigaos/intl.c.po.c:2204
+#: src/arch/win32/res.rc.po.c:5118 src/arch/amigaos/intl.c.po.c:2204
 msgid "Attach IEEE interface cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia di interfaccia IEEE"
 
-#: src/arch/win32/res.rc.po.c:5117 src/arch/amigaos/intl.c.po.c:2213
+#: src/arch/win32/res.rc.po.c:5119 src/arch/amigaos/intl.c.po.c:2213
 msgid "Attach Retro Replay cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Retro Replay"
 
-#: src/arch/win32/res.rc.po.c:5118 src/arch/amigaos/intl.c.po.c:2222
+#: src/arch/win32/res.rc.po.c:5120 src/arch/amigaos/intl.c.po.c:2222
 msgid "Attach IDE64 interface cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia di interfaccia IDE64"
 
-#: src/arch/win32/res.rc.po.c:5119 src/arch/amigaos/intl.c.po.c:2231
+#: src/arch/win32/res.rc.po.c:5121 src/arch/amigaos/intl.c.po.c:2231
 msgid "Attach Super Snapshot 4 cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Super Snapshot 4"
 
-#: src/arch/win32/res.rc.po.c:5120 src/arch/amigaos/intl.c.po.c:2240
+#: src/arch/win32/res.rc.po.c:5122 src/arch/amigaos/intl.c.po.c:2240
 msgid "Attach Super Snapshot 5 cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Super Snapshot 5"
 
-#: src/arch/win32/res.rc.po.c:5121 src/arch/amigaos/intl.c.po.c:2249
+#: src/arch/win32/res.rc.po.c:5123 src/arch/amigaos/intl.c.po.c:2249
 msgid "Attach Structured Basic cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia Structured Basic"
 
-#: src/arch/win32/res.rc.po.c:5122
+#: src/arch/win32/res.rc.po.c:5124
 msgid "Model"
 msgstr "Modello"
 
-#: src/arch/win32/res.rc.po.c:5123 src/arch/amigaos/intl.c.po.c:2789
+#: src/arch/win32/res.rc.po.c:5125 src/arch/amigaos/intl.c.po.c:2789
 msgid "Drive Settings"
 msgstr "Impostazioni dei drive"
 
-#: src/arch/win32/res.rc.po.c:5124 src/arch/amigaos/intl.c.po.c:2123
+#: src/arch/win32/res.rc.po.c:5126 src/arch/amigaos/intl.c.po.c:2123
 msgid "Select start snapshot for event history"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5125 src/arch/amigaos/intl.c.po.c:2132
+#: src/arch/win32/res.rc.po.c:5127 src/arch/amigaos/intl.c.po.c:2132
 #, fuzzy
 msgid "Select end snapshot for event history"
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/arch/win32/res.rc.po.c:5127
+#: src/arch/win32/res.rc.po.c:5129
 #, c-format
 msgid "Version %s *UNSTABLE*"
 msgstr "Versione %s *INSTABILE*"
 
-#: src/arch/win32/res.rc.po.c:5129
+#: src/arch/win32/res.rc.po.c:5131
 #, c-format
 msgid "Version %s"
 msgstr "Versione %s"
 
-#: src/arch/win32/res.rc.po.c:5131 src/arch/amigaos/intl.c.po.c:1788
+#: src/arch/win32/res.rc.po.c:5133 src/arch/amigaos/intl.c.po.c:1788
 msgid "VICE contributors"
 msgstr "Collaboratori"
 
-#: src/arch/win32/res.rc.po.c:5132 src/arch/amigaos/intl.c.po.c:1797
+#: src/arch/win32/res.rc.po.c:5134 src/arch/amigaos/intl.c.po.c:1797
 msgid "Who made what?"
 msgstr "Chi ha fatto cosa?"
 
-#: src/arch/win32/res.rc.po.c:5135 src/arch/amigaos/intl.c.po.c:1806
+#: src/arch/win32/res.rc.po.c:5137 src/arch/amigaos/intl.c.po.c:1806
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5136
+#: src/arch/win32/res.rc.po.c:5138
 msgid "Press key for NorthWest"
 msgstr "Permi il tasto per nord ovest"
 
-#: src/arch/win32/res.rc.po.c:5137
+#: src/arch/win32/res.rc.po.c:5139
 msgid "Press key for North"
 msgstr "Premi il tasto per nord"
 
-#: src/arch/win32/res.rc.po.c:5138
+#: src/arch/win32/res.rc.po.c:5140
 msgid "Press key for NorthEast"
 msgstr "Premi il tasto per nord est"
 
-#: src/arch/win32/res.rc.po.c:5139
+#: src/arch/win32/res.rc.po.c:5141
 msgid "Press key for East"
 msgstr "Premi il tasto per est"
 
-#: src/arch/win32/res.rc.po.c:5140
+#: src/arch/win32/res.rc.po.c:5142
 msgid "Press key for SouthEast"
 msgstr "Premi il tasto per sud est"
 
-#: src/arch/win32/res.rc.po.c:5141
+#: src/arch/win32/res.rc.po.c:5143
 msgid "Press key for South"
 msgstr "Premi il tasto per sud"
 
-#: src/arch/win32/res.rc.po.c:5142
+#: src/arch/win32/res.rc.po.c:5144
 msgid "Press key for SouthWest"
 msgstr "Premi il tasto per sud ovest"
 
-#: src/arch/win32/res.rc.po.c:5143
+#: src/arch/win32/res.rc.po.c:5145
 msgid "Press key for West"
 msgstr "Premi il tasto per ovest"
 
-#: src/arch/win32/res.rc.po.c:5144
+#: src/arch/win32/res.rc.po.c:5146
 msgid "Press key for Fire"
 msgstr "Premi il tasto per il fuoco"
 
-#: src/arch/win32/res.rc.po.c:5145
+#: src/arch/win32/res.rc.po.c:5147
 msgid "Numpad + RCtrl"
 msgstr "Tastierino numerico + Ctrl destro"
 
-#: src/arch/win32/res.rc.po.c:5146
+#: src/arch/win32/res.rc.po.c:5148
 msgid "Keyset A"
 msgstr "Keyset A"
 
-#: src/arch/win32/res.rc.po.c:5147
+#: src/arch/win32/res.rc.po.c:5149
 msgid "Keyset B"
 msgstr "Keyset B"
 
-#: src/arch/win32/res.rc.po.c:5148
+#: src/arch/win32/res.rc.po.c:5150
 msgid "All buttons used as fire"
 msgstr "Tutti i pulsanti usati come fuoco"
 
-#: src/arch/win32/res.rc.po.c:5149
+#: src/arch/win32/res.rc.po.c:5151
 msgid "numeric (see above)"
 msgstr "numerico (vedi sopra)"
 
-#: src/arch/win32/res.rc.po.c:5150
+#: src/arch/win32/res.rc.po.c:5152
 msgid "No button - Autofire disabled"
 msgstr "Nessun pulsante - Fuoco automatico disabilitato"
 
-#: src/arch/win32/res.rc.po.c:5151
+#: src/arch/win32/res.rc.po.c:5153
 #, fuzzy
 msgid "All files (*.*)"
 msgstr "tutti i file"
 
-#: src/arch/win32/res.rc.po.c:5152
+#: src/arch/win32/res.rc.po.c:5154
 msgid "VICE palette files (*.vpl)"
 msgstr "Palette di VICE (*.vpl)"
 
-#: src/arch/win32/res.rc.po.c:5153
+#: src/arch/win32/res.rc.po.c:5155
 msgid "VICE snapshot files (*.vsf)"
 msgstr "Snapshot (*.vsf)"
 
-#: src/arch/win32/res.rc.po.c:5154
+#: src/arch/win32/res.rc.po.c:5156
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Immagini di dischi (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
-#: src/arch/win32/res.rc.po.c:5155
+#: src/arch/win32/res.rc.po.c:5157
 msgid "Tape image files (*.t64;*.p00;*.tap;*.prg)"
 msgstr "Immagini di cassette (*.t64;*.p00;*.tap;*.prg)"
 
-#: src/arch/win32/res.rc.po.c:5156
+#: src/arch/win32/res.rc.po.c:5158
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 msgstr "File compressi (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
-#: src/arch/win32/res.rc.po.c:5157
+#: src/arch/win32/res.rc.po.c:5159
 msgid "CRT cartridge image files (*.crt)"
 msgstr "Immagini delle cartucce CRT (*.crt)"
 
-#: src/arch/win32/res.rc.po.c:5158
+#: src/arch/win32/res.rc.po.c:5160
 msgid "Raw cartridge image files (*.bin)"
 msgstr "Immagini delle cartucce (*.bin)"
 
-#: src/arch/win32/res.rc.po.c:5159
+#: src/arch/win32/res.rc.po.c:5161
 msgid "VICE flip list files (*.vfl)"
 msgstr "Flip list (*.vfl)"
 
-#: src/arch/win32/res.rc.po.c:5160
+#: src/arch/win32/res.rc.po.c:5162
 msgid "VICE romset files (*.vrs)"
 msgstr "ROM set (*.vrs)"
 
-#: src/arch/win32/res.rc.po.c:5161
+#: src/arch/win32/res.rc.po.c:5163
 msgid "VICE romset archives (*.vra)"
 msgstr "Archivi del ROM set (*.vra)"
 
-#: src/arch/win32/res.rc.po.c:5162
+#: src/arch/win32/res.rc.po.c:5164
 msgid "VICE keymap files (*.vkm)"
 msgstr "Mappe della tastiera (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:5163 src/arch/amigaos/intl.c.po.c:3365
+#: src/arch/win32/res.rc.po.c:5165 src/arch/amigaos/intl.c.po.c:3365
 msgid "Flexible"
 msgstr "Flessibile"
 
-#: src/arch/win32/res.rc.po.c:5164 src/arch/amigaos/intl.c.po.c:3374
+#: src/arch/win32/res.rc.po.c:5166 src/arch/amigaos/intl.c.po.c:3374
 msgid "Adjusting"
 msgstr "Adattabile"
 
-#: src/arch/win32/res.rc.po.c:5165 src/arch/amigaos/intl.c.po.c:3383
+#: src/arch/win32/res.rc.po.c:5167 src/arch/amigaos/intl.c.po.c:3383
 msgid "Exact"
 msgstr "Esatta"
 
-#: src/arch/win32/res.rc.po.c:5166
+#: src/arch/win32/res.rc.po.c:5168
 #, fuzzy
 msgid "Sound driver: DirectX"
 msgstr "Parametro del driver audio"
 
-#: src/arch/win32/res.rc.po.c:5167
+#: src/arch/win32/res.rc.po.c:5169
 msgid "Sound driver: WMM"
 msgstr "Driver sonoro: WMM"
 
-#: src/arch/win32/res.rc.po.c:5168
+#: src/arch/win32/res.rc.po.c:5170
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
@@ -7826,37 +7833,37 @@ msgstr ""
 "File multimediali (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*."
 "avi;*.mpg)"
 
-#: src/arch/win32/res.rc.po.c:5169
+#: src/arch/win32/res.rc.po.c:5171
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:5170
+#: src/arch/win32/res.rc.po.c:5172
 msgid "Configure Keyset A"
 msgstr "Configura Keyset A"
 
-#: src/arch/win32/res.rc.po.c:5171
+#: src/arch/win32/res.rc.po.c:5173
 msgid "Configure Keyset B"
 msgstr "Configura Keyset B"
 
-#: src/arch/win32/res.rc.po.c:5172
+#: src/arch/win32/res.rc.po.c:5174
 msgid "Save media image"
 msgstr "Salva immagine multimediale"
 
-#: src/arch/win32/res.rc.po.c:5173 src/arch/amigaos/intl.c.po.c:2312
+#: src/arch/win32/res.rc.po.c:5175 src/arch/amigaos/intl.c.po.c:2312
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5174
+#: src/arch/win32/res.rc.po.c:5176
 msgid "Tape:"
 msgstr "Cassetta:"
 
-#: src/arch/win32/res.rc.po.c:5175
+#: src/arch/win32/res.rc.po.c:5177
 #, fuzzy
 msgid "Joystick:"
 msgstr "Joystick2 "
 
-#: src/arch/win32/res.rc.po.c:5176
+#: src/arch/win32/res.rc.po.c:5178
 #, c-format
 msgid ""
 "Recording\n"
@@ -7865,7 +7872,7 @@ msgstr ""
 "Registrazione\n"
 "%02d:%02d"
 
-#: src/arch/win32/res.rc.po.c:5177
+#: src/arch/win32/res.rc.po.c:5179
 #, c-format
 msgid ""
 "Playback\n"
@@ -7874,57 +7881,57 @@ msgstr ""
 "Riproduzione\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:5178
+#: src/arch/win32/res.rc.po.c:5180
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/arch/win32/res.rc.po.c:5180
+#: src/arch/win32/res.rc.po.c:5182
 msgid "Set input device for joystick #1"
 msgstr "Imposta il dispositivo di input per il joystick 1"
 
-#: src/arch/win32/res.rc.po.c:5181
+#: src/arch/win32/res.rc.po.c:5183
 msgid "Set input device for joystick #2"
 msgstr "Imposta il dispositivo di input per il joystick 2"
 
-#: src/arch/win32/res.rc.po.c:5186
+#: src/arch/win32/res.rc.po.c:5188
 msgid "Use all CPU on SMP systems"
 msgstr "Usa tutte le CPU sui sistemi SMP"
 
-#: src/arch/win32/res.rc.po.c:5187
+#: src/arch/win32/res.rc.po.c:5189
 msgid "Use only first CPU on SMP systems"
 msgstr "Usa solo la prima CPU sui sistemi SMP"
 
-#: src/arch/win32/res.rc.po.c:5188
+#: src/arch/win32/res.rc.po.c:5190
 msgid "Start VICE in fullscreen mode"
 msgstr "Avvia VICE a tutto schermo"
 
-#: src/arch/win32/res.rc.po.c:5190
+#: src/arch/win32/res.rc.po.c:5192
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5192
+#: src/arch/win32/res.rc.po.c:5194
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5197
+#: src/arch/win32/res.rc.po.c:5199
 msgid "Connected server"
 msgstr "Server connesso"
 
-#: src/arch/win32/res.rc.po.c:5199 src/arch/amigaos/intl.c.po.c:1968
+#: src/arch/win32/res.rc.po.c:5201 src/arch/amigaos/intl.c.po.c:1968
 msgid "Invalid port number"
 msgstr "Numero di porta non valido"
 
-#: src/arch/win32/res.rc.po.c:5200 src/arch/amigaos/intl.c.po.c:1950
+#: src/arch/win32/res.rc.po.c:5202 src/arch/amigaos/intl.c.po.c:1950
 msgid "An error occured starting the server."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5201 src/arch/amigaos/intl.c.po.c:1959
+#: src/arch/win32/res.rc.po.c:5203 src/arch/amigaos/intl.c.po.c:1959
 msgid "An error occured connecting the client."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5210 src/arch/win32/resdrivec128.rc.po.c:51
+#: src/arch/win32/res.rc.po.c:5212 src/arch/win32/resdrivec128.rc.po.c:51
 #: src/arch/win32/resdrivec64vic20.rc.po.c:49
 #: src/arch/win32/resdriveplus4.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2465
 msgid "None"
@@ -8746,109 +8753,114 @@ msgid "&RAMCART settings..."
 msgstr "Impostazioni del &RAMCART..."
 
 #: src/arch/win32/resc128.rc.po.c:235 src/arch/win32/resc64.rc.po.c:232
+#, fuzzy
+msgid "&MMC64 settings..."
+msgstr "Impostazioni dell'&IDE64..."
+
+#: src/arch/win32/resc128.rc.po.c:236 src/arch/win32/resc64.rc.po.c:233
 msgid "&IDE64 settings..."
 msgstr "Impostazioni dell'&IDE64..."
 
-#: src/arch/win32/resc128.rc.po.c:237 src/arch/win32/resc64.rc.po.c:234
+#: src/arch/win32/resc128.rc.po.c:238 src/arch/win32/resc64.rc.po.c:235
 msgid "&Ethernet settings..."
 msgstr "Impostazioni dell'&Ethernet..."
 
-#: src/arch/win32/resc128.rc.po.c:239 src/arch/win32/resc64.rc.po.c:236
+#: src/arch/win32/resc128.rc.po.c:240 src/arch/win32/resc64.rc.po.c:237
 #: src/arch/win32/rescbm2.rc.po.c:195 src/arch/win32/respet.rc.po.c:189
 #: src/arch/win32/resplus4.rc.po.c:208
 msgid "&ACIA settings..."
 msgstr "Impostazioni dell'&ACIA..."
 
-#: src/arch/win32/resc128.rc.po.c:240 src/arch/win32/resc64.rc.po.c:237
+#: src/arch/win32/resc128.rc.po.c:241 src/arch/win32/resc64.rc.po.c:238
 #: src/arch/win32/resvic20.rc.po.c:208
 msgid "RS&232 userport settings..."
 msgstr "Impostazioni della RS&232 su userport..."
 
-#: src/arch/win32/resc128.rc.po.c:243 src/arch/win32/resc64.rc.po.c:240
+#: src/arch/win32/resc128.rc.po.c:244 src/arch/win32/resc64.rc.po.c:241
 #: src/arch/win32/rescbm2.rc.po.c:198 src/arch/win32/respet.rc.po.c:193
 #: src/arch/win32/resplus4.rc.po.c:211 src/arch/win32/resvic20.rc.po.c:211
 msgid "&Save current settings"
 msgstr "&Salva le impostazioni attuali"
 
-#: src/arch/win32/resc128.rc.po.c:244 src/arch/win32/resc64.rc.po.c:241
+#: src/arch/win32/resc128.rc.po.c:245 src/arch/win32/resc64.rc.po.c:242
 #: src/arch/win32/rescbm2.rc.po.c:199 src/arch/win32/respet.rc.po.c:194
 #: src/arch/win32/resplus4.rc.po.c:212 src/arch/win32/resvic20.rc.po.c:212
 msgid "&Load saved settings"
 msgstr "&Carica le impostazioni salvate"
 
-#: src/arch/win32/resc128.rc.po.c:245 src/arch/win32/resc64.rc.po.c:242
+#: src/arch/win32/resc128.rc.po.c:246 src/arch/win32/resc64.rc.po.c:243
 #: src/arch/win32/rescbm2.rc.po.c:200 src/arch/win32/respet.rc.po.c:195
 #: src/arch/win32/resplus4.rc.po.c:213 src/arch/win32/resvic20.rc.po.c:213
 msgid "Set de&fault settings"
 msgstr "Ripristina le impostazioni originarie"
 
-#: src/arch/win32/resc128.rc.po.c:247 src/arch/win32/resc64.rc.po.c:244
+#: src/arch/win32/resc128.rc.po.c:248 src/arch/win32/resc64.rc.po.c:245
 #: src/arch/win32/rescbm2.rc.po.c:202 src/arch/win32/respet.rc.po.c:197
 #: src/arch/win32/resplus4.rc.po.c:215 src/arch/win32/resvic20.rc.po.c:215
 msgid "Save settings on e&xit"
 msgstr "Salva le impostazioni in u&scita"
 
-#: src/arch/win32/resc128.rc.po.c:248 src/arch/win32/resc64.rc.po.c:245
+#: src/arch/win32/resc128.rc.po.c:249 src/arch/win32/resc64.rc.po.c:246
 #: src/arch/win32/rescbm2.rc.po.c:203 src/arch/win32/respet.rc.po.c:198
 #: src/arch/win32/resplus4.rc.po.c:216 src/arch/win32/resvic20.rc.po.c:216
 msgid "&Confirm on exit"
 msgstr "&Conferma all'uscita"
 
-#: src/arch/win32/resc128.rc.po.c:251 src/arch/win32/resc64.rc.po.c:248
+#: src/arch/win32/resc128.rc.po.c:252 src/arch/win32/resc64.rc.po.c:249
 #: src/arch/win32/rescbm2.rc.po.c:206 src/arch/win32/respet.rc.po.c:201
 #: src/arch/win32/resplus4.rc.po.c:219 src/arch/win32/resvic20.rc.po.c:219
 msgid "&Language"
 msgstr "&Lingua"
 
-#: src/arch/win32/resc128.rc.po.c:253 src/arch/win32/resc64.rc.po.c:250
+#: src/arch/win32/resc128.rc.po.c:254 src/arch/win32/resc64.rc.po.c:251
 #: src/arch/win32/rescbm2.rc.po.c:208 src/arch/win32/respet.rc.po.c:203
 #: src/arch/win32/resplus4.rc.po.c:221 src/arch/win32/resvic20.rc.po.c:221
 msgid "&English"
 msgstr "&Inglese"
 
-#: src/arch/win32/resc128.rc.po.c:254 src/arch/win32/resc64.rc.po.c:251
+#: src/arch/win32/resc128.rc.po.c:255 src/arch/win32/resc64.rc.po.c:252
 #: src/arch/win32/rescbm2.rc.po.c:209 src/arch/win32/respet.rc.po.c:204
 #: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:222
 msgid "&German"
 msgstr "&Tedesco"
 
-#: src/arch/win32/resc128.rc.po.c:255 src/arch/win32/resc64.rc.po.c:252
+#: src/arch/win32/resc128.rc.po.c:256 src/arch/win32/resc64.rc.po.c:253
 #: src/arch/win32/rescbm2.rc.po.c:210 src/arch/win32/respet.rc.po.c:205
 #: src/arch/win32/resplus4.rc.po.c:223 src/arch/win32/resvic20.rc.po.c:223
 msgid "&French"
 msgstr "&Francese"
 
-#: src/arch/win32/resc128.rc.po.c:256 src/arch/win32/resc64.rc.po.c:253
+#: src/arch/win32/resc128.rc.po.c:257 src/arch/win32/resc64.rc.po.c:254
 #: src/arch/win32/rescbm2.rc.po.c:211 src/arch/win32/respet.rc.po.c:206
 #: src/arch/win32/resplus4.rc.po.c:224 src/arch/win32/resvic20.rc.po.c:224
 msgid "&Hungarian"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:257 src/arch/win32/resc64.rc.po.c:254
+#: src/arch/win32/resc128.rc.po.c:258 src/arch/win32/resc64.rc.po.c:255
 #: src/arch/win32/rescbm2.rc.po.c:212 src/arch/win32/respet.rc.po.c:207
 #: src/arch/win32/resplus4.rc.po.c:225 src/arch/win32/resvic20.rc.po.c:225
 msgid "&Italian"
 msgstr "&Italiano"
 
-#: src/arch/win32/resc128.rc.po.c:258 src/arch/win32/resc64.rc.po.c:255
+#: src/arch/win32/resc128.rc.po.c:259 src/arch/win32/resc64.rc.po.c:256
 #: src/arch/win32/rescbm2.rc.po.c:213 src/arch/win32/respet.rc.po.c:208
 #: src/arch/win32/resplus4.rc.po.c:226 src/arch/win32/resvic20.rc.po.c:226
 msgid "&Dutch"
 msgstr "&Olandese"
 
-#: src/arch/win32/resc128.rc.po.c:259 src/arch/win32/resc64.rc.po.c:256
+#: src/arch/win32/resc128.rc.po.c:260 src/arch/win32/resc64.rc.po.c:257
 #: src/arch/win32/rescbm2.rc.po.c:214 src/arch/win32/respet.rc.po.c:209
 #: src/arch/win32/resplus4.rc.po.c:227 src/arch/win32/resvic20.rc.po.c:227
 msgid "&Polish"
 msgstr "&Polacco"
 
-#: src/arch/win32/resc128.rc.po.c:260 src/arch/win32/resc64.rc.po.c:257
+#: src/arch/win32/resc128.rc.po.c:261 src/arch/win32/resc64.rc.po.c:258
 #: src/arch/win32/rescbm2.rc.po.c:215 src/arch/win32/respet.rc.po.c:210
 #: src/arch/win32/resplus4.rc.po.c:228 src/arch/win32/resvic20.rc.po.c:228
 msgid "&Swedish"
 msgstr "&Svedese"
 
-#: src/arch/win32/resc128.rc.po.c:263 src/arch/win32/resc64.rc.po.c:260
+#: src/arch/win32/resc128.rc.po.c:264 src/arch/win32/resc64.rc.po.c:261
 #: src/arch/win32/rescbm2.rc.po.c:218 src/arch/win32/respet.rc.po.c:213
 #: src/arch/win32/resplus4.rc.po.c:231 src/arch/win32/resvic20.rc.po.c:231
 msgid "&Help"
@@ -8864,113 +8876,113 @@ msgstr "&Aiuto"
 #. MENUITEM SEPARATOR
 #. MENUITEM "H&elp",               IDM_HELP
 #. MENUITEM SEPARATOR
-#: src/arch/win32/resc128.rc.po.c:267 src/arch/win32/resc64.rc.po.c:264
+#: src/arch/win32/resc128.rc.po.c:268 src/arch/win32/resc64.rc.po.c:265
 #: src/arch/win32/rescbm2.rc.po.c:222 src/arch/win32/respet.rc.po.c:217
 #: src/arch/win32/resplus4.rc.po.c:235 src/arch/win32/resvic20.rc.po.c:235
 msgid "&About..."
 msgstr "&Informazioni su VICE..."
 
-#: src/arch/win32/resc128.rc.po.c:269 src/arch/win32/resc64.rc.po.c:266
+#: src/arch/win32/resc128.rc.po.c:270 src/arch/win32/resc64.rc.po.c:267
 #: src/arch/win32/rescbm2.rc.po.c:224 src/arch/win32/respet.rc.po.c:219
 #: src/arch/win32/resplus4.rc.po.c:237 src/arch/win32/resvic20.rc.po.c:237
 msgid "Command line &options"
 msgstr "&Opzioni della riga di comando"
 
-#: src/arch/win32/resc128.rc.po.c:271 src/arch/win32/resc64.rc.po.c:268
+#: src/arch/win32/resc128.rc.po.c:272 src/arch/win32/resc64.rc.po.c:269
 #: src/arch/win32/rescbm2.rc.po.c:226 src/arch/win32/respet.rc.po.c:221
 #: src/arch/win32/resplus4.rc.po.c:239 src/arch/win32/resvic20.rc.po.c:239
 msgid "&Contributors"
 msgstr "&Collaboratori"
 
-#: src/arch/win32/resc128.rc.po.c:272 src/arch/win32/resc64.rc.po.c:269
+#: src/arch/win32/resc128.rc.po.c:273 src/arch/win32/resc64.rc.po.c:270
 #: src/arch/win32/rescbm2.rc.po.c:227 src/arch/win32/respet.rc.po.c:222
 #: src/arch/win32/resplus4.rc.po.c:240 src/arch/win32/resvic20.rc.po.c:240
 msgid "&License"
 msgstr "&Licenza"
 
-#: src/arch/win32/resc128.rc.po.c:273 src/arch/win32/resc64.rc.po.c:270
+#: src/arch/win32/resc128.rc.po.c:274 src/arch/win32/resc64.rc.po.c:271
 #: src/arch/win32/rescbm2.rc.po.c:228 src/arch/win32/respet.rc.po.c:223
 #: src/arch/win32/resplus4.rc.po.c:241 src/arch/win32/resvic20.rc.po.c:241
 msgid "No &warranty"
 msgstr "Nessuna &garanzia"
 
-#: src/arch/win32/resc128.rc.po.c:2086
+#: src/arch/win32/resc128.rc.po.c:2094
 msgid "Kernal Int."
 msgstr "Kernal Int."
 
-#: src/arch/win32/resc128.rc.po.c:2090
+#: src/arch/win32/resc128.rc.po.c:2098
 msgid "Kernal DE"
 msgstr "Kernal DE"
 
-#: src/arch/win32/resc128.rc.po.c:2094
+#: src/arch/win32/resc128.rc.po.c:2102
 msgid "Kernal FI"
 msgstr "Kernal FI"
 
-#: src/arch/win32/resc128.rc.po.c:2098
+#: src/arch/win32/resc128.rc.po.c:2106
 msgid "Kernal FR"
 msgstr "Kernal FR"
 
-#: src/arch/win32/resc128.rc.po.c:2102
+#: src/arch/win32/resc128.rc.po.c:2110
 msgid "Kernal IT"
 msgstr "Kernal IT"
 
-#: src/arch/win32/resc128.rc.po.c:2106
+#: src/arch/win32/resc128.rc.po.c:2114
 msgid "Kernal NO"
 msgstr "Kernal NO"
 
-#: src/arch/win32/resc128.rc.po.c:2110
+#: src/arch/win32/resc128.rc.po.c:2118
 msgid "Kernal SE"
 msgstr "Kernal SE"
 
-#: src/arch/win32/resc128.rc.po.c:2114 src/arch/win32/resc128.rc.po.c:3084
+#: src/arch/win32/resc128.rc.po.c:2122 src/arch/win32/resc128.rc.po.c:3092
 msgid "Basic LO"
 msgstr "Basic LO"
 
-#: src/arch/win32/resc128.rc.po.c:2118 src/arch/win32/resc128.rc.po.c:3086
+#: src/arch/win32/resc128.rc.po.c:2126 src/arch/win32/resc128.rc.po.c:3094
 msgid "Basic HI"
 msgstr "Basic HI"
 
-#: src/arch/win32/resc128.rc.po.c:2122
+#: src/arch/win32/resc128.rc.po.c:2130
 msgid "Char. Int."
 msgstr "Char. Int."
 
-#: src/arch/win32/resc128.rc.po.c:2126
+#: src/arch/win32/resc128.rc.po.c:2134
 msgid "Char. DE"
 msgstr "Char. DE"
 
-#: src/arch/win32/resc128.rc.po.c:2130
+#: src/arch/win32/resc128.rc.po.c:2138
 msgid "Char. FR"
 msgstr "Char. FR"
 
-#: src/arch/win32/resc128.rc.po.c:2134
+#: src/arch/win32/resc128.rc.po.c:2142
 msgid "Char. SE"
 msgstr "Char. SE"
 
-#: src/arch/win32/resc128.rc.po.c:2138
+#: src/arch/win32/resc128.rc.po.c:2146
 msgid "Kernal C64"
 msgstr "Kernal C64"
 
-#: src/arch/win32/resc128.rc.po.c:2142
+#: src/arch/win32/resc128.rc.po.c:2150
 msgid "Basic C64"
 msgstr "Basic C64"
 
-#: src/arch/win32/resc128.rc.po.c:2641 src/arch/win32/resc128.rc.po.c:3433
-#: src/arch/win32/resc64.rc.po.c:2234 src/arch/win32/resc64.rc.po.c:2802
+#: src/arch/win32/resc128.rc.po.c:2649 src/arch/win32/resc128.rc.po.c:3441
+#: src/arch/win32/resc64.rc.po.c:2242 src/arch/win32/resc64.rc.po.c:2810
 #: src/arch/win32/resplus4.rc.po.c:2041 src/arch/win32/resplus4.rc.po.c:2498
 #: src/arch/win32/resvic20.rc.po.c:1861 src/arch/win32/resvic20.rc.po.c:2117
 #, fuzzy
 msgid "1541"
 msgstr "Esegui C1541"
 
-#: src/arch/win32/resc128.rc.po.c:2645 src/arch/win32/resc128.rc.po.c:3435
-#: src/arch/win32/resc64.rc.po.c:2238 src/arch/win32/resc64.rc.po.c:2804
+#: src/arch/win32/resc128.rc.po.c:2653 src/arch/win32/resc128.rc.po.c:3443
+#: src/arch/win32/resc64.rc.po.c:2246 src/arch/win32/resc64.rc.po.c:2812
 #: src/arch/win32/resplus4.rc.po.c:2045 src/arch/win32/resplus4.rc.po.c:2500
 #: src/arch/win32/resvic20.rc.po.c:1865 src/arch/win32/resvic20.rc.po.c:2119
 msgid "1541-II"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2649 src/arch/win32/resc128.rc.po.c:3437
-#: src/arch/win32/resc64.rc.po.c:2242 src/arch/win32/resc64.rc.po.c:2806
+#: src/arch/win32/resc128.rc.po.c:2657 src/arch/win32/resc128.rc.po.c:3445
+#: src/arch/win32/resc64.rc.po.c:2250 src/arch/win32/resc64.rc.po.c:2814
 #: src/arch/win32/resdrivec128.rc.po.c:19
 #: src/arch/win32/resdrivec64vic20.rc.po.c:19
 #: src/arch/win32/resdriveplus4.rc.po.c:21
@@ -8979,34 +8991,34 @@ msgstr ""
 msgid "1570"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2653 src/arch/win32/resc128.rc.po.c:3439
-#: src/arch/win32/resc64.rc.po.c:2246 src/arch/win32/resc64.rc.po.c:2808
+#: src/arch/win32/resc128.rc.po.c:2661 src/arch/win32/resc128.rc.po.c:3447
+#: src/arch/win32/resc64.rc.po.c:2254 src/arch/win32/resc64.rc.po.c:2816
 #: src/arch/win32/resplus4.rc.po.c:2057 src/arch/win32/resplus4.rc.po.c:2506
 #: src/arch/win32/resvic20.rc.po.c:1873 src/arch/win32/resvic20.rc.po.c:2123
 msgid "1571"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2657 src/arch/win32/resc128.rc.po.c:3441
+#: src/arch/win32/resc128.rc.po.c:2665 src/arch/win32/resc128.rc.po.c:3449
 msgid "1571CR"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2661 src/arch/win32/resc128.rc.po.c:3443
-#: src/arch/win32/resc64.rc.po.c:2250 src/arch/win32/resc64.rc.po.c:2810
+#: src/arch/win32/resc128.rc.po.c:2669 src/arch/win32/resc128.rc.po.c:3451
+#: src/arch/win32/resc64.rc.po.c:2258 src/arch/win32/resc64.rc.po.c:2818
 #: src/arch/win32/resplus4.rc.po.c:2061 src/arch/win32/resplus4.rc.po.c:2508
 #: src/arch/win32/resvic20.rc.po.c:1877 src/arch/win32/resvic20.rc.po.c:2125
 msgid "1581"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2665 src/arch/win32/resc128.rc.po.c:3445
-#: src/arch/win32/resc64.rc.po.c:2254 src/arch/win32/resc64.rc.po.c:2812
+#: src/arch/win32/resc128.rc.po.c:2673 src/arch/win32/resc128.rc.po.c:3453
+#: src/arch/win32/resc64.rc.po.c:2262 src/arch/win32/resc64.rc.po.c:2820
 #: src/arch/win32/rescbm2.rc.po.c:2025 src/arch/win32/rescbm2.rc.po.c:2497
 #: src/arch/win32/respet.rc.po.c:1993 src/arch/win32/respet.rc.po.c:2465
 #: src/arch/win32/resvic20.rc.po.c:1881 src/arch/win32/resvic20.rc.po.c:2127
 msgid "2031"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2669 src/arch/win32/resc128.rc.po.c:3447
-#: src/arch/win32/resc64.rc.po.c:2258 src/arch/win32/resc64.rc.po.c:2814
+#: src/arch/win32/resc128.rc.po.c:2677 src/arch/win32/resc128.rc.po.c:3455
+#: src/arch/win32/resc64.rc.po.c:2266 src/arch/win32/resc64.rc.po.c:2822
 #: src/arch/win32/rescbm2.rc.po.c:2029 src/arch/win32/rescbm2.rc.po.c:2499
 #: src/arch/win32/respet.rc.po.c:1997 src/arch/win32/respet.rc.po.c:2467
 #: src/arch/win32/resvic20.rc.po.c:1885 src/arch/win32/resvic20.rc.po.c:2129
@@ -9014,151 +9026,151 @@ msgstr ""
 msgid "2040"
 msgstr "&200%"
 
-#: src/arch/win32/resc128.rc.po.c:2673 src/arch/win32/resc128.rc.po.c:3449
-#: src/arch/win32/resc64.rc.po.c:2262 src/arch/win32/resc64.rc.po.c:2816
+#: src/arch/win32/resc128.rc.po.c:2681 src/arch/win32/resc128.rc.po.c:3457
+#: src/arch/win32/resc64.rc.po.c:2270 src/arch/win32/resc64.rc.po.c:2824
 #: src/arch/win32/rescbm2.rc.po.c:2033 src/arch/win32/rescbm2.rc.po.c:2501
 #: src/arch/win32/respet.rc.po.c:2001 src/arch/win32/respet.rc.po.c:2469
 #: src/arch/win32/resvic20.rc.po.c:1889 src/arch/win32/resvic20.rc.po.c:2131
 msgid "3040"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2677 src/arch/win32/resc128.rc.po.c:3451
-#: src/arch/win32/resc64.rc.po.c:2266 src/arch/win32/resc64.rc.po.c:2818
+#: src/arch/win32/resc128.rc.po.c:2685 src/arch/win32/resc128.rc.po.c:3459
+#: src/arch/win32/resc64.rc.po.c:2274 src/arch/win32/resc64.rc.po.c:2826
 #: src/arch/win32/rescbm2.rc.po.c:2037 src/arch/win32/rescbm2.rc.po.c:2503
 #: src/arch/win32/respet.rc.po.c:2005 src/arch/win32/respet.rc.po.c:2471
 #: src/arch/win32/resvic20.rc.po.c:1893 src/arch/win32/resvic20.rc.po.c:2133
 msgid "4040"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:2681 src/arch/win32/resc128.rc.po.c:3453
-#: src/arch/win32/resc64.rc.po.c:2270 src/arch/win32/resc64.rc.po.c:2820
+#: src/arch/win32/resc128.rc.po.c:2689 src/arch/win32/resc128.rc.po.c:3461
+#: src/arch/win32/resc64.rc.po.c:2278 src/arch/win32/resc64.rc.po.c:2828
 #: src/arch/win32/rescbm2.rc.po.c:2041 src/arch/win32/rescbm2.rc.po.c:2505
 #: src/arch/win32/respet.rc.po.c:2009 src/arch/win32/respet.rc.po.c:2473
 #: src/arch/win32/resvic20.rc.po.c:1897 src/arch/win32/resvic20.rc.po.c:2135
 msgid "1001"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:3066 src/arch/win32/resc64.rc.po.c:2627
+#: src/arch/win32/resc128.rc.po.c:3074 src/arch/win32/resc64.rc.po.c:2635
 #: src/arch/win32/rescbm2.rc.po.c:2258 src/arch/win32/respet.rc.po.c:2226
 #: src/arch/win32/resplus4.rc.po.c:2306 src/arch/win32/resvic20.rc.po.c:1942
 msgid "Computer resources"
 msgstr "Risorse del computer"
 
-#: src/arch/win32/resc128.rc.po.c:3068 src/arch/win32/resc64.rc.po.c:2629
+#: src/arch/win32/resc128.rc.po.c:3076 src/arch/win32/resc64.rc.po.c:2637
 #: src/arch/win32/rescbm2.rc.po.c:2260 src/arch/win32/respet.rc.po.c:2228
 #: src/arch/win32/resplus4.rc.po.c:2308 src/arch/win32/resvic20.rc.po.c:1944
 msgid "Computer resources saved to romset"
 msgstr "Risorse del computer salvate nel ROM set"
 
-#: src/arch/win32/resc128.rc.po.c:3070
+#: src/arch/win32/resc128.rc.po.c:3078
 msgid "International Kernal"
 msgstr "Kernal internazionale"
 
-#: src/arch/win32/resc128.rc.po.c:3072
+#: src/arch/win32/resc128.rc.po.c:3080
 msgid "German Kernal"
 msgstr "Kernal tedesco"
 
-#: src/arch/win32/resc128.rc.po.c:3074
+#: src/arch/win32/resc128.rc.po.c:3082
 msgid "Finnish Kernal"
 msgstr "Kernal finlandese"
 
-#: src/arch/win32/resc128.rc.po.c:3076
+#: src/arch/win32/resc128.rc.po.c:3084
 msgid "French Kernal"
 msgstr "Kernal francese"
 
-#: src/arch/win32/resc128.rc.po.c:3078
+#: src/arch/win32/resc128.rc.po.c:3086
 msgid "Italian Kernal"
 msgstr "Kernal italiano"
 
-#: src/arch/win32/resc128.rc.po.c:3080
+#: src/arch/win32/resc128.rc.po.c:3088
 msgid "Norwegain Kernal"
 msgstr "Kernal norvegese"
 
-#: src/arch/win32/resc128.rc.po.c:3082
+#: src/arch/win32/resc128.rc.po.c:3090
 msgid "Swedish Kernal"
 msgstr "Kernal Svedese"
 
-#: src/arch/win32/resc128.rc.po.c:3088
+#: src/arch/win32/resc128.rc.po.c:3096
 msgid "International Character"
 msgstr "Caratteri internazionali"
 
-#: src/arch/win32/resc128.rc.po.c:3090
+#: src/arch/win32/resc128.rc.po.c:3098
 msgid "German Character"
 msgstr "Caratteri tedeschi"
 
-#: src/arch/win32/resc128.rc.po.c:3092
+#: src/arch/win32/resc128.rc.po.c:3100
 msgid "French Character"
 msgstr "Caratteri francesi"
 
-#: src/arch/win32/resc128.rc.po.c:3094
+#: src/arch/win32/resc128.rc.po.c:3102
 msgid "Swedish Character"
 msgstr "Caratteri svedesi"
 
-#: src/arch/win32/resc128.rc.po.c:3096
+#: src/arch/win32/resc128.rc.po.c:3104
 msgid "C64 mode Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:3098
+#: src/arch/win32/resc128.rc.po.c:3106
 msgid "C64 mode Basic"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:3429 src/arch/win32/resc64.rc.po.c:2798
+#: src/arch/win32/resc128.rc.po.c:3437 src/arch/win32/resc64.rc.po.c:2806
 #: src/arch/win32/rescbm2.rc.po.c:2493 src/arch/win32/respet.rc.po.c:2461
 #: src/arch/win32/resplus4.rc.po.c:2494 src/arch/win32/resvic20.rc.po.c:2113
 msgid "Drive resources"
 msgstr "Risorse dei drive"
 
-#: src/arch/win32/resc128.rc.po.c:3431 src/arch/win32/resc64.rc.po.c:2800
+#: src/arch/win32/resc128.rc.po.c:3439 src/arch/win32/resc64.rc.po.c:2808
 #: src/arch/win32/rescbm2.rc.po.c:2495 src/arch/win32/respet.rc.po.c:2463
 #: src/arch/win32/resplus4.rc.po.c:2496 src/arch/win32/resvic20.rc.po.c:2115
 msgid "Drive resources saved to romset"
 msgstr "Risorse del drive salvate nel ROM set"
 
-#: src/arch/win32/resc128.rc.po.c:3837
+#: src/arch/win32/resc128.rc.po.c:3845
 msgid "Internal Function ROM"
 msgstr "Function ROM interna"
 
-#: src/arch/win32/resc128.rc.po.c:3838
+#: src/arch/win32/resc128.rc.po.c:3846
 msgid "Enable internal Function ROM"
 msgstr "Attiva la Function ROM interna"
 
-#: src/arch/win32/resc128.rc.po.c:3841 src/arch/win32/resc128.rc.po.c:3849
+#: src/arch/win32/resc128.rc.po.c:3849 src/arch/win32/resc128.rc.po.c:3857
 msgid "File name"
 msgstr "Nome del file"
 
-#: src/arch/win32/resc128.rc.po.c:3845
+#: src/arch/win32/resc128.rc.po.c:3853
 msgid "External Function ROM"
 msgstr "Function ROM esterna"
 
-#: src/arch/win32/resc128.rc.po.c:3846
+#: src/arch/win32/resc128.rc.po.c:3854
 msgid "Enable external Function ROM"
 msgstr "Attiva la Function ROM esterna"
 
-#: src/arch/win32/resc128.rc.po.c:4047 src/arch/win32/resplus4.rc.po.c:2933
+#: src/arch/win32/resc128.rc.po.c:4055 src/arch/win32/resplus4.rc.po.c:2933
 #: src/arch/win32/resvic20.rc.po.c:2397
 msgid "&Symbolic"
 msgstr "&Simbolica"
 
-#: src/arch/win32/resc128.rc.po.c:4049 src/arch/win32/resc64.rc.po.c:3086
+#: src/arch/win32/resc128.rc.po.c:4057 src/arch/win32/resc64.rc.po.c:3094
 #: src/arch/win32/resplus4.rc.po.c:2935 src/arch/win32/resvic20.rc.po.c:2399
 msgid "&Positional"
 msgstr "&Posizionale"
 
-#: src/arch/win32/resc128.rc.po.c:4057 src/arch/win32/resc64.rc.po.c:3096
+#: src/arch/win32/resc128.rc.po.c:4065 src/arch/win32/resc64.rc.po.c:3104
 #: src/arch/win32/rescbm2.rc.po.c:3201 src/arch/win32/respet.rc.po.c:3455
 #: src/arch/win32/resplus4.rc.po.c:2943 src/arch/win32/resvic20.rc.po.c:2407
 msgid "Dump keyset"
 msgstr "Scrivi keyset"
 
-#: src/arch/win32/resc128.rc.po.c:4208
+#: src/arch/win32/resc128.rc.po.c:4216
 msgid "Select internal function ROM image"
 msgstr "Seleziona l'immagine della Function ROM interna"
 
-#: src/arch/win32/resc128.rc.po.c:4209
+#: src/arch/win32/resc128.rc.po.c:4217
 msgid "Select external function ROM image"
 msgstr "Seleziona l'immagine della Function ROM esterna"
 
-#: src/arch/win32/resc128.rc.po.c:4212
+#: src/arch/win32/resc128.rc.po.c:4220
 msgid "C128 settings"
 msgstr "Impostazioni del C128"
 
@@ -9194,7 +9206,7 @@ msgstr "Impostazioni 256K..."
 msgid "&256K settings..."
 msgstr "Impostazioni 256K..."
 
-#: src/arch/win32/resc64.rc.po.c:2063 src/arch/win32/resc64.rc.po.c:2631
+#: src/arch/win32/resc64.rc.po.c:2071 src/arch/win32/resc64.rc.po.c:2639
 #: src/arch/win32/rescbm2.rc.po.c:1726 src/arch/win32/rescbm2.rc.po.c:2262
 #: src/arch/win32/respet.rc.po.c:1694 src/arch/win32/respet.rc.po.c:2230
 #: src/arch/win32/resplus4.rc.po.c:1838 src/arch/win32/resplus4.rc.po.c:2310
@@ -9202,7 +9214,7 @@ msgstr "Impostazioni 256K..."
 msgid "Kernal"
 msgstr "Kernal"
 
-#: src/arch/win32/resc64.rc.po.c:2067 src/arch/win32/resc64.rc.po.c:2633
+#: src/arch/win32/resc64.rc.po.c:2075 src/arch/win32/resc64.rc.po.c:2641
 #: src/arch/win32/rescbm2.rc.po.c:1730 src/arch/win32/rescbm2.rc.po.c:2264
 #: src/arch/win32/respet.rc.po.c:1698 src/arch/win32/respet.rc.po.c:2232
 #: src/arch/win32/resplus4.rc.po.c:1842 src/arch/win32/resplus4.rc.po.c:2312
@@ -9210,18 +9222,18 @@ msgstr "Kernal"
 msgid "Basic"
 msgstr "Basic"
 
-#: src/arch/win32/resc64.rc.po.c:2071 src/arch/win32/resc64.rc.po.c:2635
+#: src/arch/win32/resc64.rc.po.c:2079 src/arch/win32/resc64.rc.po.c:2643
 #: src/arch/win32/rescbm2.rc.po.c:1734 src/arch/win32/rescbm2.rc.po.c:2266
 #: src/arch/win32/respet.rc.po.c:1702 src/arch/win32/respet.rc.po.c:2234
 #: src/arch/win32/resvic20.rc.po.c:1950 src/arch/win32/resvic20.rc.po.c:2562
 msgid "Character"
 msgstr "Character"
 
-#: src/arch/win32/resc64.rc.po.c:3082
+#: src/arch/win32/resc64.rc.po.c:3090
 msgid "&Symbolic US"
 msgstr "&Simbolica US"
 
-#: src/arch/win32/resc64.rc.po.c:3084
+#: src/arch/win32/resc64.rc.po.c:3092
 msgid "&Symbolic DE"
 msgstr "&Simbolica GER"
 
@@ -10277,48 +10289,81 @@ msgstr "&Collisioni sprite-sfondo"
 msgid "New Luminances"
 msgstr "Nuove luminanze"
 
-#. event.c
-#: src/translate.c.po.c:143
+#. c64/mmc64.c
+#: src/translate.c.po.c:1286
 #, fuzzy
-msgid "Cannot create image file"
-msgstr "Non è possibile creare l'immagine %s"
+msgid "Enable the MMC64 expansion"
+msgstr "Attiva l'espansione RAMCART"
 
-#. c64/tfe.c
-#: src/translate.c.po.c:1327
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/translate.c.po.c:1296
 #, fuzzy
-msgid "Enable the TFE (\")The Final Ethernet\") unit"
-msgstr "Attiva l'unità TFE (\"the final ethernet\")"
+msgid "Disable the MMC64 expansion"
+msgstr "Disattiva l'espansione RAMCART"
 
-#. c64/tfe.c
-#: src/translate.c.po.c:1337
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/translate.c.po.c:1306
 #, fuzzy
-msgid "Disable the TFE (\")The Final Ethernet\") unit"
-msgstr "Disattiva l'unità TFE (\"the final ethernet\")"
+msgid "Specify name of MMC64 BIOS image"
+msgstr "Specifica il nome dell'immagine della ROM in modalità C64"
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/translate.c.po.c:1316
+#, fuzzy
+msgid "Specify name of MMC64 image"
+msgstr "Specifica il nome dell'immagine 256K"
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/translate.c.po.c:1326
+msgid "Set the MMC64 card to read-only"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/translate.c.po.c:1336
+msgid "Set the MMC64 card to read/write"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/translate.c.po.c:1346
+msgid "Save the MMC64 bios when changed"
+msgstr ""
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
-#: src/translate.c.po.c:2515
+#: src/translate.c.po.c:2585
 msgid "<0-2000>"
 msgstr ""
 
 #. printerdrv/output-text.c
-#: src/translate.c.po.c:2675
+#: src/translate.c.po.c:2745
 msgid "<0-2>"
 msgstr ""
 
 #. rs232drv/rsuser.c, aciacore.c
-#: src/translate.c.po.c:2817
+#: src/translate.c.po.c:2887
 msgid "<0-3>"
 msgstr ""
 
 #. translate.c
-#: src/translate.c.po.c:4399
+#: src/translate.c.po.c:4469
 msgid "<iso language code>"
 msgstr ""
 
 #. fuzzy
 #. fuzzy
 #. translate.c
-#: src/translate.c.po.c:4409
+#: src/translate.c.po.c:4479
 msgid "Specify the iso code of the language"
 msgstr ""
 
@@ -11417,6 +11462,18 @@ msgstr "Collisioni sprite-&sprite"
 #, fuzzy
 msgid "Sprite Background Collisions"
 msgstr "&Collisioni sprite-sfondo"
+
+#, fuzzy
+#~ msgid "Cannot create image file"
+#~ msgstr "Non è possibile creare l'immagine %s"
+
+#, fuzzy
+#~ msgid "Enable the TFE (\")The Final Ethernet\") unit"
+#~ msgstr "Attiva l'unità TFE (\"the final ethernet\")"
+
+#, fuzzy
+#~ msgid "Disable the TFE (\")The Final Ethernet\") unit"
+#~ msgstr "Disattiva l'unità TFE (\"the final ethernet\")"
 
 #~ msgid "Enable SpeedDOS-compatible parallel cable"
 #~ msgstr "Attiva il cavo parallelo compatibile con SpeedDOS"

@@ -62,14 +62,15 @@ am_libarchgui_a_OBJECTS = c128ui.$(OBJEXT) c64ui.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
 	uidrivevic20.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
 	uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) \
-	uilib.$(OBJEXT) uimon.$(OBJEXT) uimouse.$(OBJEXT) \
-	uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
-	uiperipheralieee.$(OBJEXT) uipetreu.$(OBJEXT) \
-	uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
-	uiprinteriec.$(OBJEXT) uiprinteriecplus4.$(OBJEXT) \
-	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uilib.$(OBJEXT) uimmc64.$(OBJEXT) uimon.$(OBJEXT) \
+	uimouse.$(OBJEXT) uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) \
+	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
+	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
+	uiprinteriecplus4.$(OBJEXT) uiprinterieee.$(OBJEXT) \
+	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
+	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
 	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) \
@@ -370,6 +371,8 @@ libarchgui_a_SOURCES = \
 	uikeyboard.h \
 	uilib.c \
 	uilib.h \
+	uimmc64.c \
+	uimmc64.h \
 	uimon.c \
 	uimouse.c \
 	uimouse.h \
@@ -509,6 +512,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uikeyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimmc64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@

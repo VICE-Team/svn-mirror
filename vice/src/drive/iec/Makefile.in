@@ -53,8 +53,8 @@ libdriveiec_a_LIBADD =
 am_libdriveiec_a_OBJECTS = cia1571d.$(OBJEXT) cia1581d.$(OBJEXT) \
 	glue1571.$(OBJEXT) iec-cmdline-options.$(OBJEXT) \
 	iec-resources.$(OBJEXT) iec.$(OBJEXT) iecrom.$(OBJEXT) \
-	mc6821.$(OBJEXT) memiec.$(OBJEXT) via1d1541.$(OBJEXT) \
-	wd1770.$(OBJEXT)
+	mc6821.$(OBJEXT) memiec.$(OBJEXT) profdos.$(OBJEXT) \
+	via1d1541.$(OBJEXT) wd1770.$(OBJEXT)
 libdriveiec_a_OBJECTS = $(am_libdriveiec_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -306,6 +306,8 @@ libdriveiec_a_SOURCES = \
 	mc6821.c \
 	memiec.c \
 	memiec.h \
+	profdos.c \
+	profdos.h \
 	via1d1541.c \
 	via1d1541.h \
 	wd1770.c \
@@ -367,6 +369,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iecrom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mc6821.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/memiec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/profdos.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/via1d1541.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wd1770.Po@am__quote@
 

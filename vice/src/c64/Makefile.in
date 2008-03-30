@@ -61,9 +61,9 @@ am_libc64_a_OBJECTS = c64-cmdline-options.$(OBJEXT) \
 	c64parallel.$(OBJEXT) c64pla.$(OBJEXT) c64printer.$(OBJEXT) \
 	c64rom.$(OBJEXT) c64romset.$(OBJEXT) c64rsuser.$(OBJEXT) \
 	c64tpi.$(OBJEXT) c64video.$(OBJEXT) georam.$(OBJEXT) \
-	patchrom.$(OBJEXT) plus256k.$(OBJEXT) plus60k.$(OBJEXT) \
-	psid.$(OBJEXT) ramcart.$(OBJEXT) reloc65.$(OBJEXT) \
-	reu.$(OBJEXT) tfe.$(OBJEXT)
+	mmc64.$(OBJEXT) patchrom.$(OBJEXT) plus256k.$(OBJEXT) \
+	plus60k.$(OBJEXT) psid.$(OBJEXT) ramcart.$(OBJEXT) \
+	reloc65.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64_a_OBJECTS = $(am_libc64_a_OBJECTS)
 libc64c128_a_AR = $(AR) $(ARFLAGS)
 libc64c128_a_LIBADD =
@@ -72,8 +72,9 @@ am_libc64c128_a_OBJECTS = c64acia1.$(OBJEXT) c64bus.$(OBJEXT) \
 	c64iec.$(OBJEXT) c64io.$(OBJEXT) c64keyboard.$(OBJEXT) \
 	c64meminit.$(OBJEXT) c64memrom.$(OBJEXT) c64printer.$(OBJEXT) \
 	c64pla.$(OBJEXT) c64parallel.$(OBJEXT) c64rsuser.$(OBJEXT) \
-	c64tpi.$(OBJEXT) georam.$(OBJEXT) patchrom.$(OBJEXT) \
-	ramcart.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
+	c64tpi.$(OBJEXT) georam.$(OBJEXT) mmc64.$(OBJEXT) \
+	patchrom.$(OBJEXT) ramcart.$(OBJEXT) reu.$(OBJEXT) \
+	tfe.$(OBJEXT)
 libc64c128_a_OBJECTS = $(am_libc64c128_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -376,6 +377,8 @@ libc64_a_SOURCES = \
 	c64video.c \
 	georam.c \
 	georam.h \
+	mmc64.c \
+	mmc64.h \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -426,6 +429,8 @@ libc64c128_a_SOURCES = \
 	c64tpi.h \
 	georam.c \
 	georam.h \
+	mmc64.c \
+	mmc64.h \
 	patchrom.c \
 	patchrom.h \
 	ramcart.c \
@@ -521,6 +526,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64tpi.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/georam.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mmc64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patchrom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus60k.Po@am__quote@

@@ -1,3 +1,90 @@
+2006-10-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.13.
+
+	* drive/iec/profdos.c, drive/iec/profdos.h: New files.
+
+	* drive/iec/Makefile.am, arch/win32/iec.dsp: Added new files.
+
+	* drive/drive.h, drive/iec/iec.c: Added support for ProfDOS.
+
+	* drive/rotation.c: Switched back to old sync code.
+
+	* drive/iec/memiec.c (memiec_init): Restructured, added 1571
+	$4000 expansion.
+
+	* drive/drivemem.c, drive/drivemem.h (drivemem_set_func): New
+	function.
+
+	* drive/iec/cia1571d.c (pulse_ciapc): Use this function to
+	pulse parallel cable.
+
+	* drive/drive-check.c, drive/drive.h:
+	(drive_check_expansion4000): Allow 157x drives.
+	(drive_check_profdos): New function.
+
+	* arch/unix/gui/uidriveiec.c: Added ProfDOS expansion.
+
+2006-10-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resgeoram.rc, arch/win32/respet.rc,
+	arch/win32/respetreu.rc, arch/win32/resplus4.rc,
+	arch/win32/resplus60k.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/ressid.rc,
+	arch/win32/resvic20.rc, translate.c: Updated hungarian text
+	elements.
+
+	* c64/c64.c: Added mmc64.h include.
+
+2006-10-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* event.c, translate.c, translate.txt: Updated.
+
+2006-10-17  Tibor Biczo  <crown@t-online.hu>
+
+	* arch/win32/gentranslate.dsp, arch/win32/genwinres.dsp,
+	arch/win32/png.dsp, arch/win32/zlib.dsp: Added
+	_CRT_SECURE_NO_DEPRECATE define, so MSVC8 does not complain
+	about the use of unsecure C runtime calls.
+
+	* arch/win32/res.rc: Do not include manifest file if resorce
+	file is compiled under MSVC. Needs further work, so that this
+	is true if MSVC8 or later is used.
+
+	* arch/win32/resid.dsp, arch/win32/sid.dsp: Reorganized build
+	steps for .cc files. Instead of directly calling cl, we copy
+	.cc files to .cpp and let the compiler compile those files.
+	Helps with MSVC8.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp,
+	arch/win32/xcbm2.dsp, arch/win32/xpet.dsp,
+	arch/win32/xplus4.dsp, arch/win32/xvic.dsp: Added
+	vice.manifest into project file. MSVC8 automatically includes
+	manifest files added to the project during manifest
+	autogeneration.
+
+2006-10-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gui/Makefile.am, arch/unix/gui/c128ui.c,
+	arch/unix/gui/c64ui.c, arch/unix/gui/uimmc64.c,
+	arch/unix/gui/uimmc64.h, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/c128ui.c, arch/win32/c64.dsp,
+	arch/win32/c64c128.dsp, arch/win32/c64ui.c, arch/win32/intl.c,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resdialogs.txt, arch/win32/resmenu.txt,
+	arch/win32/resmmc64.rc, arch/win32/uimmc64.c,
+	arch/win32/uimmc64.h, arch/win32/x128.dsp, arch/win32/x64.dsp,
+	c64/Makefile.am, c64/c64.c, c64/c64io.c, c64/c64io.h,
+	c64/c64mem.c, c64/cart/c64cartmem.c, c64/mmc64.c, c64/mmc64.h,
+	translate.c, translate.txt: Added MMC64 support, based upon the
+	work done by Markus Stehr <bastetfurry@ircnet.de>.
+
+	* arch/win32/utils/gentranslate.c: Fixed the 0x0d char parsing
+	problem.
+
 2006-10-16  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.20.12.

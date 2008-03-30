@@ -1,3 +1,9 @@
+2006-10-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* intl2po.c: Updated to handle \" correctly.
+
+	* nl.po: Updated.
+
 2006-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* Makefile.in.in, POTFILES.in, intl2po.c: Updated intl2po and
