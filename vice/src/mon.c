@@ -2733,7 +2733,7 @@ void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
    if (inside_monitor)
       return;
 
-   if (watch_load_count[mem] == 9)
+   if (watch_store_count[mem] == 9)
        return;
 
    watch_store_occurred = TRUE;
