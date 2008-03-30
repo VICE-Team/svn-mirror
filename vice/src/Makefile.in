@@ -177,9 +177,13 @@ UNIXMISC = $(UNIXDIR)/x64_icon.xpm $(UNIXDIR)/checkmark.xbm \
 
 UNIXDIST = $(UNIXSRC) $(UNIXHDR) $(UNIXMISC)
 
-UNIXAWSRC = $(UNIXAWDIR)/xdebug.c $(UNIXAWDIR)/ui.c
+UNIXAWSRC = $(UNIXAWDIR)/ui.c $(UNIXAWDIR)/uicommands.c $(UNIXAWDIR)/uimenu.c \
+	$(UNIXAWDIR)/uisettings.c $(UNIXAWDIR)/xdebug.c $(UNIXAWDIR)/c64ui.c \
+	$(UNIXAWDIR)/vic20ui.c
 
-UNIXAWHDR = $(UNIXAWDIR)/ui.h $(UNIXAWDIR)/menu.h $(UNIXAWDIR)/xdebug.h
+UNIXAWHDR = $(UNIXAWDIR)/ui.h $(UNIXAWDIR)/uicommands.h $(UNIXAWDIR)/uimenu.h \
+	$(UNIXAWDIR)/uisettings.h $(UNIXAWDIR)/xdebug.h $(UNIXAWDIR)/c64ui.h \
+	$(UNIXAWDIR)/vic20ui.h
 
 UNIXAWDIST = $(UNIXAWSRC) $(UNIXAWHDR)
 
@@ -313,7 +317,8 @@ C64_LOBJS = $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o $(C64ODIR)/c64.o \
 VIC20_OBJS = sid_VIC20.o $(XVIC_SYSPEC_OBJS)
 
 VIC20_LOBJS =  $(VICODIR)/via1.o $(VICODIR)/via2.o $ $(VICODIR)/vic20.o \
-	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o
+	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o \
+        $(XVIC_SYSPEC_OBJS)
 
 PET_OBJS = sid_PET.o $(XPET_SYSPEC_OBJS)
 
