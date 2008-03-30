@@ -62,7 +62,7 @@ static void init_rom_dialog(HWND hwnd, unsigned int type)
     }
 }
 
-static void set_resources(HWND hwnd, unsigned int type)
+static void set_dialog_proc(HWND hwnd, unsigned int type)
 {
     unsigned int n = 0;
 
@@ -122,7 +122,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
           case PSN_KILLACTIVE:
-            set_resources(hwnd, type);
+            set_dialog_proc(hwnd, type);
             return TRUE;
         }
         return FALSE;
@@ -148,11 +148,87 @@ static BOOL CALLBACK dialog_proc_drive(HWND hwnd, UINT msg, WPARAM wparam,
     return dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_DRIVE);
 }
 
+static void enable_controls_for_romset(HWND hwnd, int idc_active)
+{
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_NAME),
+                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_BROWSE),
+                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE),
+                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_SAVEACTIVE),
+                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_SAVENEW),
+                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_DELETE),
+                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_NAME),
+                 idc_active == IDC_ROMSET_SELECT_FILE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_BROWSE),
+                 idc_active == IDC_ROMSET_SELECT_FILE);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_SAVE),
+                 idc_active == IDC_ROMSET_SELECT_FILE);
+}
+
+static void set_romset_dialog(HWND hwnd)
+{
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
+        resources_set_value("RomsetSourceFile", 0);
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_FILE) == BST_CHECKED)
+        resources_set_value("RomsetSourceFile", 1);
+}
+
+static void update_romset_dialog(HWND hwnd, int idc_active)
+{
+    CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE, IDC_ROMSET_SELECT_FILE,
+                     idc_active);
+    enable_controls_for_romset(hwnd, idc_active);
+}
+
+static void init_romset_dialog(HWND hwnd)
+{
+    int res_value, idc_active;
+
+    resources_get_value("RomsetSourceFile", (void *)&res_value);
+    idc_active = IDC_ROMSET_SELECT_ARCHIVE + res_value;
+    update_romset_dialog(hwnd, idc_active);
+}
+
+static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
+                                 LPARAM lparam)
+{
+    switch (msg) {
+      case WM_INITDIALOG:
+        system_init_dialog(hwnd);
+        init_romset_dialog(hwnd);
+        return TRUE;
+      case WM_NOTIFY:
+        switch (((NMHDR FAR *)lparam)->code) {
+          case PSN_KILLACTIVE:
+            /*set_resources(hwnd, type);*/
+            return TRUE;
+        }
+        return FALSE;
+      case WM_COMMAND:
+        switch (LOWORD(wparam)) {
+          case IDC_ROMSET_SELECT_ARCHIVE:
+          case IDC_ROMSET_SELECT_FILE:
+            update_romset_dialog(hwnd, LOWORD(wparam));
+            break;
+        }
+        return TRUE;
+      case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        return TRUE;
+    }
+    return FALSE;
+}
+
 void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                            unsigned int idd_dialog_drive,
                            const uirom_settings_t *uirom_settings)
 {
-    PROPSHEETPAGE psp[2];
+    PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
 
     settings = uirom_settings;
@@ -161,10 +237,11 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(idd_dialog_main);
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(idd_dialog_main);
+    psp[0].DUMMYUNIONNAME.pszTemplate
+        = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -174,26 +251,41 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[1].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[1].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[1].pszTemplate = MAKEINTRESOURCE(idd_dialog_drive);
+    psp[1].pszTemplate = MAKEINTRESOURCE(idd_dialog_main);
     psp[1].pszIcon = NULL;
 #else
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(idd_dialog_drive);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(idd_dialog_main);
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
     psp[1].pfnCallback = NULL;
 
-    psp[0].pfnDlgProc = dialog_proc_main;
-    psp[0].pszTitle = TEXT("Computer");
-    psp[1].pfnDlgProc = dialog_proc_drive;
-    psp[1].pszTitle = TEXT("Drive");
+    psp[2].dwSize = sizeof(PROPSHEETPAGE);
+    psp[2].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+    psp[2].hInstance = winmain_instance;
+#ifdef _ANONYMOUS_UNION
+    psp[2].pszTemplate = MAKEINTRESOURCE(idd_dialog_drive);
+    psp[2].pszIcon = NULL;
+#else
+    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(idd_dialog_drive);
+    psp[2].u2.pszIcon = NULL;
+#endif
+    psp[2].lParam = 0;
+    psp[2].pfnCallback = NULL;
+
+    psp[0].pfnDlgProc = dialog_proc_romset;
+    psp[0].pszTitle = TEXT("Romset");
+    psp[1].pfnDlgProc = dialog_proc_main;
+    psp[1].pszTitle = TEXT("Computer");
+    psp[2].pfnDlgProc = dialog_proc_drive;
+    psp[2].pszTitle = TEXT("Drive");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = TEXT("ROM settings");
-    psh.nPages = 2;
+    psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
