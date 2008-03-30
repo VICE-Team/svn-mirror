@@ -73,12 +73,11 @@ static void
 ffmpeg_widget (GtkWidget *w, gpointer data)
 {
     int i;
-    char *current_driver;
+    const char *current_driver;
 
     g_return_if_fail(GTK_IS_COMBO_BOX(w));
     
-    resources_get_value("FFMPEGFormat", 
-			(void *)&current_driver);
+    resources_get_string("FFMPEGFormat", &current_driver);
     
     i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
     if (strcmp(buttons[i].driver, "FFMPEG") == 0) 
@@ -117,18 +116,15 @@ static void
 ffmpeg_details (GtkWidget *w, gpointer data)
 {
     int current_ac_id, current_vc_id;
-    char *current_driver;
+    const char *current_driver;
     GtkTreeIter iter;
     GtkListStore *ac_store, *vc_store;
 
     g_return_if_fail(GTK_IS_COMBO_BOX(w));
 
-    resources_get_value("FFMPEGAudioCodec", 
-			(void *)&current_ac_id);
-    resources_get_value("FFMPEGVideoCodec", 
-			(void *)&current_vc_id);
-    resources_get_value("FFMPEGFormat", 
-			(void *)&current_driver);
+    resources_get_int("FFMPEGAudioCodec", &current_ac_id);
+    resources_get_int("FFMPEGVideoCodec", current_vc_id);
+    resources_get_string("FFMPEGFormat", &current_driver);
 
     if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(w), &iter) == FALSE)
     {
@@ -225,7 +221,7 @@ static GtkWidget *build_screenshot_dialog(void)
 #ifdef HAVE_FFMPEG
     GtkWidget *l, *hbox, *tmp;
     GtkObject *adj;
-    unsigned long v;
+    int audio_bitrate, video_bitrate;
     ffmpegdrv_format_t *f;
     GtkListStore *drv_store;
     GtkTreeIter iter;
@@ -385,8 +381,8 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-    resources_get_value("FFMPEGAudioBitrate", (void *) &v);
-    adj = gtk_adjustment_new ((gfloat) v, 
+    resources_get_int("FFMPEGAudioBitrate", &audio_bitrate);
+    adj = gtk_adjustment_new ((gfloat) audio_bitrate, 
 			      (gfloat) 16000, 
 			      (gfloat) 128000,
 			      (gfloat) 1000,
@@ -400,8 +396,8 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(tmp), ffmpg_audio, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
     
-    resources_get_value("FFMPEGVideoBitrate", (void *) &v);
-    adj = gtk_adjustment_new ((gfloat) v, 
+    resources_get_int("FFMPEGVideoBitrate", &video_bitrate);
+    adj = gtk_adjustment_new ((gfloat) video_bitrate, 
 			      (gfloat) 100000, 
 			      (gfloat) 10000000,
 			      (gfloat) 10000,
@@ -438,10 +434,9 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     const char *driver, *ext;
     int current_ac_id, current_vc_id;
 
-    resources_get_value("FFMPEGAudioCodec", 
-			(void *)&current_ac_id);
-    resources_get_value("FFMPEGVideoCodec", 
-			(void *)&current_vc_id);
+    resources_get_int("FFMPEGAudioCodec", &current_ac_id);
+    resources_get_int("FFMPEGVideoCodec", &current_vc_id);
+
     printf("ac_id: %d, vc_id: %d\n", current_ac_id, current_vc_id);
     
     if (screenshot_dialog) {
@@ -482,18 +477,18 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 #ifdef HAVE_FFMPEG
     if (strcmp(driver, "FFMPEG") == 0)
     {
-	unsigned int v;
+	int audio_bitrate, video_bitrate;
 
-	v = (unsigned int) 
+	audio_bitrate = (int) 
 	    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ffmpg_audio));
-	resources_set_value("FFMPEGAudioBitrate", (resource_value_t) v);
-	v = (unsigned int) 
+	resources_set_int("FFMPEGAudioBitrate", audio_bitrate);
+	video_bitrate = (int) 
 	    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ffmpg_video));
-	resources_set_value("FFMPEGVideoBitrate", (resource_value_t) v);
+	resources_set_int("FFMPEGVideoBitrate", video_bitrate);
 	
-	resources_set_value("FFMPEGFormat", (resource_value_t) selected_driver);
-	resources_set_value("FFMPEGAudioCodec", (resource_value_t) selected_ac);
-	resources_set_value("FFMPEGVideoCodec", (resource_value_t) selected_vc);
+	resources_set_string("FFMPEGFormat", selected_driver);
+	resources_set_int("FFMPEGAudioCodec", selected_ac);
+	resources_set_int("FFMPEGVideoCodec", selected_vc);
 	log_message(LOG_DEFAULT, "FFMPEG: Driver: %s, ac: %d, vc: %d\n",
 		    selected_driver, selected_ac, selected_vc);
     }

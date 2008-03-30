@@ -122,8 +122,8 @@ void ui_check_mouse_cursor()
     if (_mouse_enabled) {
 #ifdef USE_XF86_EXTENSIONS
         if (fullscreen_is_enabled) {
-            if (resources_get_value("FullscreenDoubleSize",
-                (void *)&window_doublesize) < 0)
+            if (resources_get_int("FullscreenDoubleSize",
+                &window_doublesize) < 0)
                 return;
         } else
 #endif
@@ -491,7 +491,7 @@ int ui_init_finish(void)
 
     ui_log = log_open("X11");
 
-    resources_get_value("DisplayDepth", (void *)&depth);
+    resources_get_int("DisplayDepth", &depth);
 
     if (depth != 0) {
         int i;
@@ -1072,15 +1072,14 @@ void ui_exit(void)
     int value;
     char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
-    resources_get_value("ConfirmOnExit", (void *)&value);
+    resources_get_int("ConfirmOnExit", &value);
     if( value )
       b = ui_ask_confirmation(s, _("Do you really want to exit?"));
     else
       b = UI_BUTTON_YES;
 
     if (b == UI_BUTTON_YES) {
-        resources_get_value("SaveResourcesOnExit",
-                            (void *)&value);
+        resources_get_int("SaveResourcesOnExit", &value);
         if (value) {
             b = ui_ask_confirmation(s, _("Save the current settings?"));
             if (b == UI_BUTTON_YES) {
@@ -1116,7 +1115,7 @@ static int alloc_colormap(void)
     if (colormap)
         return 0;
 
-    resources_get_value("PrivateColormap", (void *)&use_private_colormap);
+    resources_get_int("PrivateColormap", &use_private_colormap);
 
     if (!use_private_colormap
         && depth == DefaultDepth(display, screen)
@@ -1184,7 +1183,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
        was wrong before. */
     memset(drive_mapping, -1, sizeof(drive_mapping));
 
-    resources_get_value("DriveTrueEmulation", (void *)&true_emu);
+    resources_get_int("DriveTrueEmulation", &true_emu);
 
     if (true_emu) {
         /* num == number of drives which are active;

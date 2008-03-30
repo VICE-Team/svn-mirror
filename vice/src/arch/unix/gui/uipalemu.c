@@ -40,16 +40,15 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
 {
     int delayloopemulation;
 
-    resources_get_value("PALEmulation", (void *)&delayloopemulation);
+    resources_get_int("PALEmulation", &delayloopemulation);
 
     if (!CHECK_MENUS) {
-        resources_set_value("PALEmulation",
-                            (resource_value_t)!delayloopemulation);
+        resources_set_int("PALEmulation", !delayloopemulation);
         ui_update_menus();
     } else {
         int video_standard;
 
-        resources_get_value("MachineVideoStandard", (void *)&video_standard);
+        resources_get_int("MachineVideoStandard", &video_standard);
 
         ui_menu_set_tick(w, delayloopemulation);
 
@@ -72,21 +71,18 @@ static UI_CALLBACK(PAL_control_cb)
     int what = (int) UI_MENU_CB_PARAM;
     char*resource;
 
-    if (what == 0)
-    {
+    if (what == 0) {
 	resource = "PALScanLineShade";
-	resources_get_value(resource, (void *)&current);
+	resources_get_int(resource, &current);
 	current /= 10;
 	sprintf(buf, "%d", current);
 	button = ui_input_string(_("PAL Scanline shade"),
 				 _("Scanline Shade in percent"),
 				 buf, 50);
 	
-    }
-    else
-    {
+    } else {
 	resource = "PALBlur";
-	resources_get_value(resource, (void *)&current);
+	resources_get_int(resource, &current);
 	current /= 10;
 	sprintf(buf, "%d", current);
 	button = ui_input_string(_("PAL Blurredness"),
@@ -108,7 +104,7 @@ static UI_CALLBACK(PAL_control_cb)
     if ((current != res) &&
         (res <= 100) &&
         (res >= 0))
-        resources_set_value(resource, (resource_value_t)(res * 10));
+        resources_set_int(resource, (int)(res * 10));
 }
 #endif
 

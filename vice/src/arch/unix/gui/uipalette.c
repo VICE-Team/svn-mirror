@@ -51,8 +51,7 @@ UI_CALLBACK(ui_load_palette)
     lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
-        if (resources_set_value(UI_MENU_CB_PARAM,
-                (resource_value_t)filename) < 0)
+        if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0)
             ui_error(_("Could not load palette file\n'%s'"), filename);
         if (last_dir)
             lib_free(last_dir);

@@ -266,11 +266,11 @@ void _ui_menu_toggle_helper(GtkWidget *w,
 {
     int current_value;
 
-    if (resources_get_value(resource_name, (void *)&current_value) < 0)
+    if (resources_get_int(resource_name, &current_value) < 0)
         return;
 
     if(!CHECK_MENUS) {
-        resources_set_value(resource_name, (resource_value_t) !current_value);
+        resources_set_int(resource_name, !current_value);
 	ui_update_menus();
     } else {
         ui_menu_set_tick(w, current_value);
@@ -283,16 +283,15 @@ void _ui_menu_radio_helper(GtkWidget *w,
 {
     int current_value;
 
-    resources_get_value(resource_name, (void *)&current_value);
+    resources_get_int(resource_name, &current_value);
 
     if (!CHECK_MENUS) {
-        if (current_value != (int) UI_MENU_CB_PARAM) {
-            resources_set_value(resource_name,
-				(resource_value_t) UI_MENU_CB_PARAM);
+        if (current_value != (int)UI_MENU_CB_PARAM) {
+            resources_set_int(resource_name, (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
-	ui_menu_set_tick(w, current_value == (int) UI_MENU_CB_PARAM);
+	ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
     }  
 }
 
@@ -300,20 +299,21 @@ void _ui_menu_string_radio_helper(GtkWidget *w,
                                   ui_callback_data_t event_data,
                                   const char *resource_name)
 {
-    resource_value_t current_value;
+    const char *current_value;
 
-    resources_get_value(resource_name, (void *)&current_value);
+    resources_get_string(resource_name, &current_value);
 
-    if( current_value == 0) return;
+    if (current_value == NULL)
+        return;
 
     if (!CHECK_MENUS) {
-        if (strcmp((const char *) current_value, (const char *) UI_MENU_CB_PARAM) != 0) {
-	   resources_set_value(resource_name,(resource_value_t*) UI_MENU_CB_PARAM);
-	   ui_update_menus();
+        if (strcmp(current_value, (const char *)UI_MENU_CB_PARAM) != 0) {
+	    resources_set_string(resource_name,(const char *)UI_MENU_CB_PARAM);
+	    ui_update_menus();
 	}
     } else {
-        ui_menu_set_tick(w, strcmp((const char *) current_value,
-				   (const char *) UI_MENU_CB_PARAM) == 0);
+        ui_menu_set_tick(w, strcmp(current_value,
+                         (const char *) UI_MENU_CB_PARAM) == 0);
     }
 }
 

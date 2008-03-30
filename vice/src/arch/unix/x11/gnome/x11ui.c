@@ -352,8 +352,8 @@ void ui_check_mouse_cursor()
         if(fullscreen_is_enabled) {
 	    int window_doublesize;
 
-            if (resources_get_value("FullscreenDoubleSize",
-				    (void *)&window_doublesize) < 0)
+            if (resources_get_int("FullscreenDoubleSize",
+				  &window_doublesize) < 0)
                 return;
         }
 #endif
@@ -627,7 +627,7 @@ int ui_init_finish(void)
 
     ui_log = log_open("X11");
 
-    resources_get_value("DisplayDepth", (void *)&depth);
+    resources_get_int("DisplayDepth", &depth);
 
     if (depth != 0) {
 	int i;
@@ -816,7 +816,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
 
-    if ((resources_get_value("PALEmulation", (void *)&i) != -1) && (i > 0))
+    if ((resources_get_int("PALEmulation", &i) != -1) && (i > 0))
 	gtk_widget_show(pal_ctrl_checkbox);
     else	
 	gtk_widget_hide(pal_ctrl_checkbox);
@@ -1382,14 +1382,14 @@ void ui_exit(void)
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_suspend(1);
 #endif
-    resources_get_value("ConfirmOnExit", (void *)&value);
+    resources_get_int("ConfirmOnExit", &value);
     if( value )
 	b = ui_ask_confirmation(s, _("Do you really want to exit?"));
     else
 	b = UI_BUTTON_YES;
 
     if (b == UI_BUTTON_YES) {
-        resources_get_value("SaveResourcesOnExit", (void *)&value);
+        resources_get_int("SaveResourcesOnExit", &value);
 	if (value) {
 	    b = ui_ask_confirmation(s, _("Save the current settings?"));
 	    if (b == UI_BUTTON_YES) {
@@ -1429,7 +1429,7 @@ static int alloc_colormap(void)
     if (colormap)
 	return 0;
 
-    resources_get_value("PrivateColormap", (void *)&use_private_colormap);
+    resources_get_int("PrivateColormap", &use_private_colormap);
 
     if (!use_private_colormap
 	&& depth == DefaultDepth(display, screen)
