@@ -61,6 +61,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "main_exit.h"
+#include "palette.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "screenshot.h"
@@ -552,6 +553,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         joystick_init();
 #endif
 
+        palette_init();
         screenshot_init();
 
         drive0_cpu_early_init();

@@ -42,6 +42,7 @@ typedef struct palette_s {
     palette_entry_t *entries;
 } palette_t;
 
+extern void palette_init(void);
 extern palette_t *palette_create(int num_entries, const char *entry_names[]);
 extern void palette_free(palette_t *p);
 extern int palette_set_entry(palette_t *p, int number, BYTE red, BYTE green,
