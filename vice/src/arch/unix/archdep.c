@@ -362,6 +362,19 @@ int archdep_mkdir(const char *pathname, int mode)
     return mkdir(pathname, (mode_t)mode);
 }
 
+int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
+{
+    struct stat statbuf;
+
+    if (stat(file_name, &statbuf) < 0)
+        return -1;
+
+    *len = statbuf.st_size;
+    *isdir = S_ISDIR(statbuf.st_mode);
+
+    return 0;
+}
+
 int archdep_file_is_blockdev(const char *name)
 {
     struct stat buf;
