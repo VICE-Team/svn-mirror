@@ -44,7 +44,6 @@
 #include "console.h"
 #include "debug.h"
 #include "drive.h"
-#include "fliplist.h"
 #include "fullscreen.h"
 #include "init.h"
 #include "initcmdline.h"
@@ -148,7 +147,6 @@ int main_program(int argc, char **argv)
         resources_set_value("SoundSuspendTime", (resource_value_t)0);
     } else {
         int retval = resources_load(NULL);
-        char *filename;
 
         if (retval < 0) {
             /* The resource file might contain errors, and thus certain
@@ -158,9 +156,6 @@ int main_program(int argc, char **argv)
                 return -1;
             }
         }
-        filename = archdep_default_fliplist_file_name();
-        flip_load_list((unsigned int)-1, filename, 0);
-        lib_free(filename);
     }
 
     if (initcmdline_check_args(argc, argv) < 0)
