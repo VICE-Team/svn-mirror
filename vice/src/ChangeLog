@@ -1,6 +1,137 @@
+2000-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.28.
+
+	* maincpu.c, datasette.c, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, pet/pet.c, cbm2/c610.c: Moved datasette
+	specific stuff where it belongs to.
+
+	* 6510core.c: Simplified drive CPU defines.
+
+	* arch/unix/x11/gnome/about.c, arch/unix/x11/xaw/about.c,
+	arch/msdos/menudefs.c, info.c: Updated contributors.
+
+	* arch/os2/vac++/Makefile.am: Fixed filenames.
+
+2000-01-30  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* fsdevice.c: reordered #ifdef __IBMC__ includes
+
+	* vdc/vdctypes.h, vicii/vicii.c: removed char-12
+  
+	* sounddrv/sounddart.c, soundmmos2.c: minor changes (see
+	below)
+  
+	* arch/os2/archdep.c: "right" way to determin exe-filename
+	with OS/2, name of config- and logfile changed,
+	problems with archdep_make_backup_filename solved,
+	archdep_spawn now in background,
+	Semaphore for archdep_spawn added
+
+	* arch/os2/config.h, arch/os2/console.c, arch/os2/dialogs.c,
+	arch/os2/dlg-attach.c, arch/os2/dlg-create.c,
+	arch/os2/dlg-sound.c, arch/os2/joystick.[ch],
+	arch/os2/kbd.[ch], arch/os2/main_exit.c,
+	arch/os2/pm_cmdline.c, arch/os2/rs232.c, arch/os2/sounddrv.c,
+	arch/os2/types.h, arch/os2/ui.h, arch/os2/ui_status.c,
+	arch/os2/video.c, arch/os2/videoarch.h: minor chnages (mainly
+	reorganization of include statements)
+
+	* arch/os2/types.h: include <os2.h> deleted
+
+	* arch/os2/dialogs.[h,rc], dlg-datsette.c: Datasette control
+	enhanced
+
+	* arch/os2/dlg-reset.c added
+
+	* arch/os2/dlg-drive.c: Image-history -> ui_status
+
+	* arch/os2/dlg-emulator.c #define VIDEO_CACHE --> const char
+	definition
+
+	* arch/os2/doc/Vice_for_OS2.txt added
+
+	* arch/os2/install.cmd: cbm/2, Vice_for_os2.txt added
+
+	* arch/os2/makeclean.cmd added
+
+	* arch/os2/makedist.cmd: vice_for_os2.txt added
+
+	* arch/os2/ui.c: some reorganisation, reset-uis --> dlg-reset.c,
+	tape-uis redirected to tape-dialog, display_drive_image
+	handles the imageHist now
+
+	* arch/os2/ui_status.h: imageHist, lastTapeStatus,
+	lastTapeCtrlStatus to ui_status_t added
+
+	* arch/os2/vac++: RESID.ICC renamed to reSID.ICC, VICE_INF.ICC
+	-> Vice_inf.ICC 
+         
+	* arch/os2/vsync.c: kbd_buf_flush added to do_vsync
+
+2000-01-30  Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/uisettings.c (set_drive0_type_submenu): added 3040 and
+	4040 disk drives
+
+	* drive/drive-cmdline-options.c (cmdline_options): added -dos2040,
+	-dos3040 and -dos4040 options.
+
+	* drive/drive-resources.c (dos_rom_name_2040, dos_rom_name_3040,
+	dos_rom_name_4040): new
+	(set_drive0_type, set_drive1_type): add 2040/3040/4040 disk types
+	(set_dos_rom_name_2040, set_dos_rom_name_3040, set_dos_rom_name_4040):
+	new
+	(resources): add DosName2040, DosName3040, and DosName4040
+	
+	* drive/drive-snapshot.c (drive_write_snapshot_module, 
+	drive_read_snapshot_module): use DRIVE_IS_OLDTYPE instead of explicit 
+	drive type tests. Add support for 2040/3040/4040 disk drives
+
+	* drive/drive.c (drive_rom2040, drive_rom3040, drive_rom4040): new
+	(rom2040_loaded,  rom3040_loaded, rom4040_loaded): new
+	(drive_set_active_led_color, drive_set_clock_frequency,
+	drive_set_disk_drive_type): add 2040/3040/4040 support
+	(drive_load_2040, drive_load_3040, drive_load_4040): new
+	(drive_load_rom_images): load 2040/3040/4040 images
+	(drive_setup_rom_image, drive_check_image_format): add 
+	2040/3040/4040 support
+	(drive_match_bus): use DRIVE_IS_IEEE() instead of explicit drive
+	type check
+	(drive_check_type): add 2040/3040/4040 support 
+
+	* drive/drive.h (DRIVE_ROM2040_SIZE, DRIVE_ROM3040_SIZE, 
+	DRIVE_ROM4040_SIZE, DRIVE_TYPE_2040, DRIVE_TYPE_3040, DRIVE_TYPE_4040):
+	new
+	(DRIVE_IS_IEEE, DRIVE_IS_OLDTYPE, DRIVE_IS_DUAL): add support for 
+	new disk types
+	(drive_rom2040, drive_rom3040, drive_rom4040, rom2040_loaded, 
+	rom3040_loaded, rom4040_loaded, drive_load_2040, drive_load_3040,
+	drive_load_4040): new extern definitions.
+
+	* drive/drivecpu.c (drive_jam): add 2040/3040/4040 support
+	(drive_cpu_write_snapshot_module, drive_cpu_read_snapshot_module):
+	use DRIVE_IS_OLDTYPE instead of explicit drive type tests.
+
+	* drive/drivemem.c (drive_mem_init): add 2040/3040/4040 support
+	Use DRIVE_IS_OLDTYPE where appropriate
+	
+	* drive/fdc.c (DOS_IS_80, DOS_IS_40, DOS_IS_30, DOS_IS_20): new tests
+	(fdc_reset): use DRIVE_IS_OLDTYPE
+	(fdc_do_job): better error reporting in debug mode
+	Add support for DOS3040/DOS4040 ROMs
+	(int_fdc): add support for 3040/4040 ROMs
+	(fdc_attach_image, fdc_detach_image): add support for D64, G64 
+	and X64 images, for 3040/4040 disk drives
+
+2000-01-29  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/reu.c: fixed an error when comparing host memory to REU
+	memory; now 17xxTester works w/o reporting a defective REU.
+
 2000-01-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.2.26.
+	* Version 1.2.27.
 
 	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler):
 	canvas_set_border_color is only avaiable on the MSDOS port.
@@ -248,15 +379,15 @@
 	(ui_draw_tape_status),(ui_display_speed): minor changes in 
 	design
 	
-	* arch/msdos/video.c(canvas_set_palette): new statusbar color 
+	* arch/msdos/video.c (canvas_set_palette): new statusbar color 
 	are created
 
-	* arch/win32/ui.c(handle_wm_command): datasette counter resets
+	* arch/win32/ui.c (handle_wm_command): datasette counter resets
 	via (datasette_control)
 
-	* datasette.c(datasette_control): handles even
-	DATASETTE_CONTROL_RESET_COUNTER to simplify the datasette controls
-	for the ports
+	* datasette.c (datasette_control): handles even
+	DATASETTE_CONTROL_RESET_COUNTER to simplify the datasette
+	controls for the ports
 	
 	* datasette.h: new define DATASETTE_CONTROL_RESET_COUNTER
 
@@ -348,8 +479,8 @@
 	* arch/msdos/statusbar.c,arch/msdos/statusbar.h: new files to 
 	implement the statusbar
 
-	* arch/msdos/tuifs.c(file_list_read): recognizes WIN98 and WINNT
-	for long filename support
+	* arch/msdos/tuifs.c(file_list_read): recognizes WIN98 and
+	WINNT for long filename support
 
 	* arch/msdos/ui.c: includes datasette.h ,statusbar.h
 	new resource ShowStatusbar and corresponding cmdline
@@ -366,9 +497,9 @@
 	(canvas_set_palette): creates colors for statusbar
 	(disable_text): updates statusbar
 
-	* arch/msdos/videoarch.h(canvas_refresh): don't refresh region of 
-	statusbar; calls (poll_scroll) and (request_scroll) instead of
-	obsolete ...modex... variants
+	* arch/msdos/videoarch.h (canvas_refresh): don't refresh
+	region of  statusbar; calls (poll_scroll) and (request_scroll)
+	instead of obsolete ...modex... variants
 
 	* arch/msdos/vsync.c(do_vsync): calls ui_display_speed
 
@@ -1278,7 +1409,7 @@
 
 1999-12-26  Andreas Matthies  <andreas.matthies@arcormail.de>
 
-	* datasette.c(datasette_read_bit): fixed bug in counter that
+	* datasette.c (datasette_read_bit): fixed bug in counter that
 	appears when changing the direction during a long gap
 	fixed text of +dsresetwithcounter cmdline
 
@@ -1776,17 +1907,18 @@
 
 1999-11-29  Andreas Matthies  <andreas.matthies@arcormail.de>
 
-	* win32/x64.dsp,x128.dsp,xpet.dsp,xcbm2.dsp,xvic.dsp: added /i "..\..\"
-	for resource-compiler
+	* win32/x64.dsp,x128.dsp,xpet.dsp,xcbm2.dsp,xvic.dsp: added
+	/i "..\..\" for resource-compiler
 
 	* win32/res.rc: includes "config.h" again for MSVC_RC-definition
 	disabled old save_snapshot-dialog and added new one as a 
 	template for GetSaveFile
 
 	* win32/uisnapshot.c: includes "utils.h"
-	new functions (hook_save_snapshot),(ui_save_snapshot) to implement
-	a windows-like snapshot-saver
-	(ui_snapshot_save_dialog): uses new functions instead of old dialog
+	new functions (hook_save_snapshot),(ui_save_snapshot) to
+	implement a windows-like snapshot-saver
+	(ui_snapshot_save_dialog): uses new functions instead of old
+	dialog
 
 1999-11-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
