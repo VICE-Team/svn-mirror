@@ -100,7 +100,7 @@ BYTE chargen64_rom[C128_CHARGEN64_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x800];
-BYTE *mem_color_ram_ptr;
+BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 
 /* Pointer to the chargen ROM.  */
 BYTE *mem_chargen_rom_ptr;
@@ -195,12 +195,17 @@ void mem_update_config(int config)
     }
 
     if (config >= 0x80) {
-        mem_color_ram_ptr = mem_color_ram;
+        mem_color_ram_cpu = mem_color_ram;
+        mem_color_ram_vicii = mem_color_ram;
     } else {
         if (pport.data_read & 1)
-            mem_color_ram_ptr = mem_color_ram;
+            mem_color_ram_cpu = mem_color_ram;
         else
-            mem_color_ram_ptr = &mem_color_ram[0x400];
+            mem_color_ram_cpu = &mem_color_ram[0x400];
+        if (pport.data_read & 2)
+            mem_color_ram_vicii = mem_color_ram;
+        else
+            mem_color_ram_vicii = &mem_color_ram[0x400];
     }
 }
 
@@ -620,12 +625,12 @@ void REGPARM2 top_shared_store(ADDRESS addr, BYTE value)
 
 void REGPARM2 colorram_store(ADDRESS addr, BYTE value)
 {
-    mem_color_ram[addr & 0x3ff] = value & 0xf;
+    mem_color_ram_cpu[addr & 0x3ff] = value & 0xf;
 }
 
 BYTE REGPARM1 colorram_read(ADDRESS addr)
 {
-    return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
+    return mem_color_ram_cpu[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -639,7 +644,8 @@ void mem_initialize_memory(void)
     int i, j;
 
     mem_chargen_rom_ptr = mem_chargen_rom;
-    mem_color_ram_ptr = mem_color_ram;
+    mem_color_ram_cpu = mem_color_ram;
+    mem_color_ram_vicii = mem_color_ram;
 
     mem_limit_init(mem_read_limit_tab);
 

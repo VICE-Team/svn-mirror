@@ -83,7 +83,7 @@ BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x400];
-BYTE *mem_color_ram_ptr;
+BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 
 /* Pointer to the chargen ROM.  */
 BYTE *mem_chargen_rom_ptr;
@@ -381,7 +381,8 @@ void mem_initialize_memory(void)
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
 
     mem_chargen_rom_ptr = mem_chargen_rom;
-    mem_color_ram_ptr = mem_color_ram;
+    mem_color_ram_cpu = mem_color_ram;
+    mem_color_ram_vicii = mem_color_ram;
 
     mem_limit_init(mem_read_limit_tab);
 

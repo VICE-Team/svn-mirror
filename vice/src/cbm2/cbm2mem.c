@@ -74,7 +74,7 @@ BYTE mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x400];
-BYTE *mem_color_ram_ptr;
+BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 
 /* Pointer to the chargen ROM.  */
 BYTE *mem_chargen_rom_ptr;
@@ -709,7 +709,8 @@ void mem_initialize_memory(void)
     int i;
 
     mem_chargen_rom_ptr = mem_chargen_rom;
-    mem_color_ram_ptr = mem_color_ram;
+    mem_color_ram_cpu = mem_color_ram;
+    mem_color_ram_vicii = mem_color_ram;
 
     /* first the tables that hold the predefined bank mappings */
     for (i = 0; i < 16; i++) {          /* 16 banks possible */

@@ -264,9 +264,9 @@ fsdevice-cmdline-options.o: fsdevice-cmdline-options.c ../../src/vice.h \
 fsdevice-flush.o: fsdevice-flush.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charset.h ../../src/arch/unix/types.h \
-	fsdevice-flush.h fsdevice-resources.h fsdevicetypes.h \
-	../../src/utils.h ../../src/vdrive/vdrive-command.h \
-	../../src/vdrive/vdrive.h
+	fsdevice-flush.h fsdevice-resources.h ../../src/fsdevice.h \
+	fsdevicetypes.h ../../src/utils.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice-open.o: fsdevice-open.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charset.h ../../src/arch/unix/types.h fsdevice-open.h \

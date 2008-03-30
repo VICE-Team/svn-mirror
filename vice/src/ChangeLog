@@ -1,3 +1,69 @@
+2002-09-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.5.
+
+	* c64/c64mem.c, c128/c128mem.c, cbm2/cbm2mem.c, mem.h:
+	Splitted pointer to color RAM into CPU and VIC-II part.
+
+	* c128/c128mem.c (colorram_read, colorram_store): Use
+	`mem_color_ram_cpu' to access color RAM.
+
+	* vicii/vicii-fetch.c (vic_ii_fetch_matrix): Use
+	`mem_color_ram_vicii' to access color RAM.
+
+	* fsdevice/fsdevice-read.c: #include <unistd.h>.
+
+2002-09-09  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c (MCSPRITE_MASK, MCSPRITE_DOUBLE_MASK):
+	Added parameter trmsk for trimming.
+	TRIM_MSK: New macro to create a trim mask that depends on the
+	sprites coordinates relative to draw interval.
+	(draw_hires_sprite*, draw_mc_sprite*): Added parameters
+	sprite_xs, sprite_xe for sprite's start- and end-position
+	relative to the draw interval. The functions use TRIM_MSK to
+	cut parts outside the draw interval.
+	draw_all_sprites became draw_all_sprites_partial and gets
+	parameters for the interval to draw.
+	draw_all_sprites calls draw_all_sprites_partial with several
+	intervals for testing.
+	(vic_ii_sprites_set_x_position): Disabled wrapping of sprites.
+
+2002-09-09  Robert Willie  <hydrofilic@hotmail.com>
+
+	* fsdevice/fsdevice-read.c (fsdevice_read) changed 'blocks'
+	to int size
+	added limit (65535) to reported file size
+	added 'splat' file indicator (*) for empty files
+	added read-only file indicator (*) for read-only files
+
+2002-09-09  Robert Willie  <hydrofilic@hotmail.com>
+
+	* fsdevice/fsdevice-flush.c #include <stdlib.h>
+
+	* fsdevice/fsdevice-flush.c (fsdevice_flush_cd) added
+	parameter vdrive_t*
+
+	* fsdevice/fsdevice-flush.c (fsdevice_flush_cd) added calls
+	to fsdevice_get_path and fsdevice_set_directory
+
+	* fsdevice/fsdevice-flush.c (fsdevice_flush_cdup) added
+	parameter vdrive_t* and modified code to call
+	fsdevice_flush_cd
+
+	* fsdevice/fsdevice-flush.c (fsdevice_flush_partition): New
+	function.  Handle 1581 syntax for CD and MD commands.
+
+	* fsdevice/fsdevice-flush.c (fsdevice_flush) modified calls to
+	fsdevice_flush_cd and fsdevice_flush_cdup to pass new
+	parameter vdrive_t*.  Added a call to
+	fsdevice_flush_partition.
+
+2002-09-08  Andreas Dehmel  <zarquon@t-online.de>
+
+	* fsdevice/fsdevicetypes.h: replaced ui.h include to archdep.h
+	include on RISC OS (for definition of DIR structure)
+
 2002-09-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.4.

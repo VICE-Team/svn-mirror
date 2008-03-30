@@ -44,7 +44,8 @@ extern int *mem_read_limit_tab_ptr;
 extern BYTE mem_ram[];
 extern BYTE *mem_page_zero;
 extern BYTE *mem_page_one;
-extern BYTE *mem_color_ram_ptr;
+extern BYTE *mem_color_ram_cpu;
+extern BYTE *mem_color_ram_vicii;
 
 extern unsigned int mem_old_reg_pc;
 extern BYTE *mem_chargen_rom_ptr;

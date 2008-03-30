@@ -73,12 +73,12 @@ inline void vic_ii_fetch_matrix(int offs, int num, int num_0xff)
 
         if (c >= num) {
             memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, num);
-            memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, num);
+            memcpy(vic_ii.cbuf + offs, mem_color_ram_vicii + start_char, num);
         } else {
             memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, c);
             memcpy(vic_ii.vbuf + offs + c, vic_ii.screen_base, num - c);
-            memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, c);
-            memcpy(vic_ii.cbuf + offs + c, mem_color_ram_ptr, num - c);
+            memcpy(vic_ii.cbuf + offs, mem_color_ram_vicii + start_char, c);
+            memcpy(vic_ii.cbuf + offs + c, mem_color_ram_vicii, num - c);
         }
         vic_ii.background_color_source = vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS
                                          - 1 /*- vic_ii.buf_offset*/];
