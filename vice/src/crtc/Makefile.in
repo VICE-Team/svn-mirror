@@ -255,7 +255,9 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h crtc-cmdline-options.h
+	../../src/config.h ../../src/arch/unix/archdep.h \
+	../../src/archapi.h ../../src/cmdline.h crtc-cmdline-options.h \
+	../../src/raster/raster-cmdline-options.h
 crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc-draw.h \
 	crtc.h ../../src/arch/unix/types.h crtctypes.h crtc-mem.h \
 	../../src/log.h ../../src/raster/raster.h \
@@ -267,6 +269,7 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
 	crtctypes.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/maincpu.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	crtc-resources.h crtc.h ../../src/arch/unix/types.h crtctypes.h \
 	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h \

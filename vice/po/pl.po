@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-06-16 23:03+0200\n"
+"POT-Creation-Date: 2002-06-20 18:57+0200\n"
 "PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -78,7 +78,7 @@ msgid "*Revison 2"
 msgstr "*Revision 2"
 
 #: src/arch/unix/c128ui.c:99 src/arch/unix/plus4ui.c:90
-#: src/arch/unix/uicrtc.c:56 src/arch/unix/uivicii.c:69
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uivicii.c:70
 #: src/arch/unix/vic20ui.c:422
 msgid "*Video cache"
 msgstr "*Cache video"
@@ -102,7 +102,7 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/c128ui.c:111 src/arch/unix/plus4ui.c:99
-#: src/arch/unix/uivicii.c:82 src/arch/unix/vic20ui.c:428
+#: src/arch/unix/uivicii.c:85 src/arch/unix/vic20ui.c:428
 msgid "Color set"
 msgstr "Ustaw kolory"
 
@@ -720,11 +720,11 @@ msgstr "Ustawienia modelu PET"
 msgid "*PET userport diagnostic pin"
 msgstr "*Pin diagnostyczny userportu PET"
 
-#: src/arch/unix/plus4ui.c:93 src/arch/unix/uivicii.c:80
+#: src/arch/unix/plus4ui.c:93 src/arch/unix/uivicii.c:83
 msgid "*External color set"
 msgstr "*Zewnêtrzne ustawienia kolorów"
 
-#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:85
+#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:88
 msgid "PAL Emulation"
 msgstr "Emulacja PAL"
 
@@ -2077,18 +2077,22 @@ msgstr "*Frodo "
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:72 src/arch/unix/vic20ui.c:425
+#: src/arch/unix/uivicii.c:73 src/arch/unix/vic20ui.c:425
 #: src/arch/unix/vsidui.c:173
 msgid "Video standard"
 msgstr "Standard video"
 
-#: src/arch/unix/uivicii.c:75
+#: src/arch/unix/uivicii.c:76
 msgid "*Sprite-sprite collisions"
 msgstr "*Kolizje duszków"
 
-#: src/arch/unix/uivicii.c:77
+#: src/arch/unix/uivicii.c:78
 msgid "*Sprite-background collisions"
 msgstr "*Kolizje duszków z t³em"
+
+#: src/arch/unix/uivicii.c:81
+msgid "*New Luminances"
+msgstr ""
 
 #: src/arch/unix/uipalemu.c:75
 msgid "PAL Scanline shade"

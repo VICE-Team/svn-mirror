@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libvideo.a
 
-libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h
+libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	video-cmdline-options.c 	video-cmdline-options.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -151,7 +151,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libvideo_a_LIBADD = 
 libvideo_a_OBJECTS =  render1x1.o render1x1pal.o render1x2.o render2x2.o \
-render2x2pal.o video-color.o video-render.o video-resources.o
+render2x2pal.o video-cmdline-options.o video-color.o video-render.o \
+video-resources.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -264,6 +265,8 @@ render2x2.o: render2x2.c ../../src/vice.h ../../src/config.h render2x2.h \
 	../../src/arch/unix/types.h
 render2x2pal.o: render2x2pal.c ../../src/vice.h ../../src/config.h \
 	render2x2.h ../../src/arch/unix/types.h
+video-cmdline-options.o: video-cmdline-options.c ../../src/vice.h \
+	../../src/config.h
 video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/palette.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \
