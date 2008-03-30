@@ -36,9 +36,9 @@
 #include "driver-select.h"
 #include "interface-serial.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "printer.h"
 #include "resources.h"
-#include "serial.h"
 #include "types.h"
 
 
@@ -287,12 +287,14 @@ static int interface_serial_attach(unsigned int prnr)
 
     switch (prnr) {
       case 0:
-        err = serial_attach_device(4, "Printer #4 device", read_pr4,
-                                   write_pr4, open_pr4, close_pr4, flush_pr4);
+        err = machine_bus_device_attach(4, "Printer #4 device", read_pr4,
+                                        write_pr4, open_pr4, close_pr4,
+                                        flush_pr4);
         break;
       case 1:
-        err = serial_attach_device(5, "Printer #5 device", read_pr5,
-                                   write_pr5, open_pr5, close_pr5, flush_pr5);
+        err = machine_bus_device_attach(5, "Printer #5 device", read_pr5,
+                                        write_pr5, open_pr5, close_pr5,
+                                        flush_pr5);
         break;
       default:
         err = -1;
@@ -314,7 +316,7 @@ static int interface_serial_detach(unsigned int prnr)
         close_pr(prnr, -1);
     }
 
-    serial_detach_device(prnr + 4);
+    machine_bus_device_detach(prnr + 4);
 
     return 0;
 }
