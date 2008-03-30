@@ -38,6 +38,10 @@
 #include "types.h"
 
 
+/* On which channel did listen happen to?  */
+static BYTE TrapDevice;
+static BYTE TrapSecondary;
+
 /* Logging goes here.  */
 static log_t parallel_log = LOG_DEFAULT;
 
@@ -215,8 +219,8 @@ int parallelreceivebyte(BYTE * data, int fake)
     serial_t *p;
     void *vdrive;
 
-    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
-        || ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+    if (((TrapDevice & 0x0f) == 8 && drive[0].enable)
+        || ((TrapDevice & 0x0f) == 9 && drive[1].enable)) {
         return 0x83;    /* device not present */
     }
 
