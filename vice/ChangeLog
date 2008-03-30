@@ -1,5 +1,11 @@
 1999-01-28 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.16.
+
+	* configure.in: Added switch `--without-fullscreen'.
+
+1999-01-28 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.15.
 
 1999-01-28 Andreas Boose  <boose@linux.rz.fh-hannover.de>
