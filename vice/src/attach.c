@@ -67,6 +67,9 @@ static int set_file_system_device(resource_value_t v, void *param);
 
 static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
                                        unsigned int unit);
+static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
+                             const char *filename, unsigned int unit,
+                             unsigned int devicetype);
 
 static resource_t resources[] = {
     { "AttachDevice8Readonly", RES_INTEGER, (resource_value_t)0,
@@ -310,6 +313,7 @@ static int set_file_system_device(resource_value_t v, void *param)
         serial_type_set(SERIAL_DEVICE_REAL, unit);
         break;
 #endif
+#ifdef HAVE_RAWDRIVE
       case ATTACH_DEVICE_RAW:
         if (old_device_enabled == ATTACH_DEVICE_REAL)
             serial_realdevice_disable();
@@ -318,8 +322,12 @@ static int set_file_system_device(resource_value_t v, void *param)
             ui_display_drive_current_image(unit - 8, "");
             vdrive_setup_device(vdrive, unit);
         }
+        attach_disk_image(&(vdrive->image), vdrive, "DUMMY", unit,
+                          ATTACH_DEVICE_RAW);
+        file_system_set_serial_hooks(unit, 0);
         serial_type_set(SERIAL_DEVICE_RAW, unit);
         break;
+#endif
       default:
         return -1;
     }
@@ -356,6 +364,7 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
             break;
         }
         disk_image_close(image);
+        disk_image_media_destroy(image);
     }
 }
 
@@ -371,30 +380,44 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
 }
 
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
-                             const char *filename, unsigned int unit)
+                             const char *filename, unsigned int unit,
+                             unsigned int devicetype)
 {
     disk_image_t *image;
     disk_image_t new_image;
     int err = -1;
-    fsimage_t *fsimage;
 
     if (filename == NULL) {
         log_error(attach_log, "No name, cannot attach floppy image.");
         return -1;
     }
 
-    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
-
     new_image.gcr = NULL;
     new_image.read_only = attach_device_readonly_enabled[unit - 8];
-    new_image.device = DISK_IMAGE_DEVICE_FS;
-    new_image.media = fsimage;
 
-    fsimage->name = stralloc(filename);
+    switch (devicetype) {
+      case ATTACH_DEVICE_NONE:
+      case ATTACH_DEVICE_FS:
+        new_image.device = DISK_IMAGE_DEVICE_FS;
+        break;
+      case ATTACH_DEVICE_RAW:
+        new_image.device = DISK_IMAGE_DEVICE_RAW;
+        break;
+    }
+
+    disk_image_media_create(&new_image);
+
+    switch (devicetype) {
+      case ATTACH_DEVICE_NONE:
+      case ATTACH_DEVICE_FS:
+        ((fsimage_t *)(new_image.media))->name = stralloc(filename);
+        break;
+      case ATTACH_DEVICE_RAW:
+        break;
+    }
 
     if (disk_image_open(&new_image) < 0) {
-        free(fsimage->name);
-        free(fsimage);
+        disk_image_media_destroy(&new_image);
         return -1;
     }
 
@@ -426,8 +449,8 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
         break;
     }
     if (err) {
-        free(fsimage->name);
-        free(fsimage);
+        disk_image_close(image);
+        disk_image_media_destroy(image);
         free(image);
         *imgptr = NULL;
     }
@@ -445,7 +468,8 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
     vdrive_setup_device(vdrive, unit);
     serial_type_set(SERIAL_DEVICE_VIRT, unit);
 
-    if (attach_disk_image(&(vdrive->image), vdrive, filename, unit) < 0) {
+    if (attach_disk_image(&(vdrive->image), vdrive, filename, unit,
+        file_system_device_enabled[unit - 8]) < 0) {
         return -1;
     } else {
         file_system_set_serial_hooks(unit, 0);
