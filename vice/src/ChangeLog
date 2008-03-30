@@ -1,4 +1,147 @@
-2001-10-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2001-11-10  Andreas Boose  <boose@linux.rz.fh-hann.de>
+
+	* Version 1.7.22.
+
+	* Makefile.am: Added `video-color.h', `video-resources.h',
+	`video-color.c' and `video-resources.c'.
+
+	* video-resources.c (video_init_resources): Initialize arch
+	specific video resources.
+
+	* arch/unix/x11/video.c, arch/msdos/video.c, arch/os2/video.c,
+	arch/riscos/video.c, arch/win32/video.c: Renamed arch specific
+	video resource initialization function to
+	`video_arch_init_resources'.
+
+	* video.h: Defined `video_arch_init_resources' here.
+
+	* video-resources.c, video-resources.h, video.h: Renamed
+	`video_init_resources' to `video_resources_init' and moved to
+	`video.h'.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c (machine_init_resources): Call
+	`video_resources_init' to initialize video resources.
+
+	* vic20/Makefile.am: Added `vic-color.c' and `vic-color.h'.
+
+	* arch/riscos/Makefile.am: Added `plus4ui.c' and `plus4ui.h'.
+
+2001-11-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/plus4kbd.c, plus4ui.cc, plus4ui.h: new files
+
+	* arch/beos/Makefile.am: Added new files.
+
+	* sounddrv/soundbeos.cc (beos_wite): Fixed a syntax error and
+	a bug in the write blocking.
+
+2001-11-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am: Added new files uisid.{c|h}
+
+	* arch/win32/arch.dsp: Added new file uisid.c
+
+	* arch/win32/c128ui.c, c610ui.c, c64ui.c: Removed every
+	sid related stuff. (I don't know how this went into c610ui.c)
+
+	* arch/win32/res.h: Removed sid related menu IDs, added IDs
+	for SID option menuitem, dialog and controls.
+
+	* arch/win32/res.rc: Removed stereo SID control from sound
+	settings dialog, added new dialog for SID and reSID settings.
+
+	* arch/win32/resc128.rc, res64.rc: removed every sid related
+	menuitem, added new menuitem for SID settings.
+
+	* arch/win32/ui.c: Removed SID related stuff, added call of
+	the new SID settings dialog.
+
+	* arch/win32/uisid.c, uisid.h: New files that implement the
+	(re)SID settings dialog.
+
+2001-11-04  John Selck  <graham@cruise.de>
+
+	* vic20/vic-color.c: New file. Added vic_update_palette()
+	and VIC-palette.
+
+	* vic20/vic-color.h: New file. Added vic_update_palette()
+	prototype.
+
+	* vic20/vic-resources.c: Removed PaletteFile resource
+	variable setter function and initialisation.
+
+	* vic20/vic-resources.h: Removed palette_file_name
+	variable from vic_resources_t definition.
+
+	* vic20/vic.c: Removed vic_load_palette().
+	init_raster() now calls vic_update_palette() instead of
+	vic_load_palette().
+
+	* vic20/vic.h: Removed vic_load_palette() prototype.
+
+2001-11-03  John Selck  <graham@cruise.de>
+
+	* video-color.h, video-color.c, video-resources.h,
+	video-resources.c: New files.
+
+	* video-resources.c: Added setter functions and resource
+	initialisation routines for following resource variables here:
+	ColorSaturation, ColorContrast, ColorBrightness, ColorGamma,
+	ExternalPalette, DelayLoopEmulation, PALEmulation, PaletteFile.
+
+	* video-resources.h: Added prototype for video_init_resources().
+	Added definition of video_resources_t.
+
+	* arch/win32/video.c: Renamed video_init_resources() to
+	video_init_arch_resources().
+
+	* video.h: Removed video_init_resources() prototype.
+
+	* arch/win32/videoarch.h: Added video_init_arch_resources()
+	prototype.
+
+	* vicii/vicii-color.c: Removed everything and added
+	vic_ii_update_palette() which gives the VIC-II base palette to
+	the video layer and forces palette update. Ofcourse also the
+	two possible VIC-II base palettes are defined here.
+
+	* vicii/vicii-color.h: Removed everything and added prototype
+	of vic_ii_update_palette().
+
+	* vicii/vicii-resources.c: Removed setter functions and
+	initialisations of the resource variables now defined in
+	video-resource.c. Removed vic_ii_activate_palette(),
+	calling vic_ii_update_palette() instead now.
+	vic_ii_resources_init() now calls video_set_raster() because
+	some setter functions call video_update_palette().
+
+	* vicii/vicii-resources.h: Removed variables from
+	vic_ii_resouces_t definition: color_saturation, color_contrast,
+	color_brightness, color_gamma, ext_palette, palette_file_name,
+	fast_delayloop_emulation, pal_emulation.
+	Removed vic_ii_activate_palette() prototype.
+
+	* vicii/vicii.c: Removed vic_ii_calc_palette() and
+	vic_ii_load_palette(). init_raster() now calls
+	vic_ii_update_palette() instead of vic_ii_activate_palette().
+
+	* vicii/viciitypes.h: Removed prototypes
+	for vic_ii_load_palette(), vic_ii_calc_palette() and
+	vic_ii_activate_palette().
+
+2001-11-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-draw.c (draw_hires_bitmap_cached),
+	(draw_hires_bitmap): Removed the setting of the
+	overscan background color.
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler)
+	In HIRES_MODE set the overscan_background_color to
+	0 or low nibble of the last fetched character
+	depending on the idle state.
+
+2001-10-31  Andreas Boose  <boose@linux.rz.fh-hann.de>
 
         * Version 1.7.21.
 

@@ -34,7 +34,6 @@ typedef void (*void_t)(void);
 struct palette_s;
 struct video_frame_buffer_s;
 
-extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern void video_free(void);
@@ -67,6 +66,10 @@ extern void canvas_map(struct canvas_s *s);
 extern void canvas_unmap(struct canvas_s *s);
 extern void canvas_resize(struct canvas_s *s, unsigned int width,
                           unsigned int height);
+
+
+extern int video_resources_init(void);
+extern int video_arch_init_resources(void);
 
 #endif
 

@@ -112,7 +112,7 @@ int machine_init_resources(void)
 {
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
-        || video_init_resources() < 0
+        || video_resources_init() < 0
         || plus4_init_resources() < 0
         || ted_init_resources() < 0
         || sound_init_resources() < 0

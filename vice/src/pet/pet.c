@@ -143,7 +143,7 @@ int machine_init_resources(void)
 
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
-        || video_init_resources() < 0
+        || video_resources_init() < 0
         || pet_init_resources() < 0
         || crtc_init_resources() < 0
         || pia1_init_resources() < 0

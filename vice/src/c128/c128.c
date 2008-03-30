@@ -278,7 +278,7 @@ int machine_init_resources(void)
 {
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
-        || video_init_resources() < 0
+        || video_resources_init() < 0
         || c128_init_resources() < 0
         || reu_init_resources() < 0
         || vic_ii_init_resources() < 0

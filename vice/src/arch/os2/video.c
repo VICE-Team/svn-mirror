@@ -445,7 +445,7 @@ static resource_t resources[] = {
       { NULL }
 };
 
-int video_init_resources(void)
+int video_arch_init_resources(void)
 {
     return resources_register(resources);
 }

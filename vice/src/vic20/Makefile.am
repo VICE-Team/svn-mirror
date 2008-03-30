@@ -17,6 +17,8 @@ noinst_LIBRARIES = libvic20.a
 libvic20_a_SOURCES = \
 	vic-cmdline-options.c \
 	vic-cmdline-options.h \
+	vic-color.c \
+	vic-color.h \
 	vic-draw.c \
 	vic-draw.h \
 	vic-mem.c \
