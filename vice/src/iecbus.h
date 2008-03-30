@@ -31,6 +31,11 @@
 
 #define IECBUS_NUM 16
 
+#define IECBUS_STATUS_TRUEDRIVE      0
+#define IECBUS_STATUS_DRIVETYPE      1
+#define IECBUS_STATUS_IECDEVICE      2
+#define IECBUS_STATUS_VIRTUALDEVICES 3
+
 typedef struct iecbus_s {
     BYTE drv_bus[IECBUS_NUM];
     BYTE drv_data[IECBUS_NUM];
@@ -45,9 +50,12 @@ extern iecbus_t iecbus;
 extern iecbus_t *iecbus_drive_port(void);
 
 extern void iecbus_init(void);
-extern void iecbus_calculate_callback_index(void);
+extern void iecbus_status_set(unsigned int type, unsigned int unit,
+                              unsigned int enable);
 
+extern BYTE (*iecbus_callback_read)(CLOCK);
 extern void (*iecbus_callback_write)(BYTE, CLOCK);
+
 
 #endif
 
