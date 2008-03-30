@@ -33,6 +33,5 @@ libvicii_a_SOURCES = \
 	vicii-timing.c \
 	vicii-timing.h \
 	vicii.c \
-	vicii.h \
 	viciitypes.h
 

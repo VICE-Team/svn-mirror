@@ -54,5 +54,8 @@ extern gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname);
 /* Functions called by graphic output driver modules.  */
 extern int gfxoutput_register(gfxoutputdrv_t *drv);
 
+/* GIF driver functions. */
+extern void gfxoutput_init_gif(void);
+
 #endif
 

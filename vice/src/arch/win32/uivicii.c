@@ -5,6 +5,7 @@
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Tibor Biczo <crown@mail.matav.hu>
+ *  Gunnar Ruthenberg <Krill.Plush@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,11 +36,16 @@
 #include "system.h"
 #include "translate.h"
 #include "uilib.h"
+#include "vicii.h"
 #include "winmain.h"
 
 
 static uilib_localize_dialog_param vicii_dialog[] = {
     {0, IDS_VICII_CAPTION, -1},
+    {IDC_VICII_BORDERSGROUP, IDS_VICII_BORDERSGROUP, 0},
+    {IDC_TOGGLE_VICII_NORMALBORDERS, IDS_VICII_NORMALBORDERS, 0},
+    {IDC_TOGGLE_VICII_FULLBORDERS, IDS_VICII_FULLBORDERS, 0},
+    {IDC_TOGGLE_VICII_DEBUGBORDERS, IDS_VICII_DEBUGBORDERS, 0},
     {IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0},
     {IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0},
     {IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0},
@@ -54,6 +60,22 @@ static void init_vicii_dialog(HWND hwnd)
     int n;
 
     uilib_localize_dialog(hwnd, vicii_dialog);
+
+    resources_get_int("VICIIBorderMode", &n);
+    switch (n) {
+     default:
+      case VICII_NORMAL_BORDERS:
+        n = IDC_TOGGLE_VICII_NORMALBORDERS;
+        break;
+      case VICII_FULL_BORDERS:
+        n = IDC_TOGGLE_VICII_FULLBORDERS;
+        break;
+      case VICII_DEBUG_BORDERS:
+        n = IDC_TOGGLE_VICII_DEBUGBORDERS;
+        break;
+    }
+    CheckRadioButton(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS, IDC_TOGGLE_VICII_DEBUGBORDERS,
+                    n);
 
     resources_get_int("VICIICheckSsColl", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC,
@@ -70,6 +92,11 @@ static void init_vicii_dialog(HWND hwnd)
 
 static void end_vicii_dialog(HWND hwnd)
 {
+    resources_set_int("VICIIBorderMode", (IsDlgButtonChecked(hwnd,
+                      IDC_TOGGLE_VICII_DEBUGBORDERS) == BST_CHECKED ? VICII_DEBUG_BORDERS :      
+                      IsDlgButtonChecked(hwnd,
+                      IDC_TOGGLE_VICII_FULLBORDERS) == BST_CHECKED ? VICII_FULL_BORDERS : VICII_NORMAL_BORDERS));
+
     resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd,
                       IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
 
@@ -95,6 +122,12 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
+                case IDC_TOGGLE_VICII_NORMALBORDERS:
+                    break;
+                case IDC_TOGGLE_VICII_FULLBORDERS:
+                    break;
+                case IDC_TOGGLE_VICII_DEBUGBORDERS:
+                    break;
                 case IDC_TOGGLE_VICII_SSC:
                     break;
                 case IDC_TOGGLE_VICII_SBC:

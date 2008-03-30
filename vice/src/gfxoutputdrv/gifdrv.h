@@ -27,6 +27,5 @@
 #ifndef _GIFDRV_H
 #define _GIFDRV_H
 
-extern void gfxoutput_init_gif(void);
-
 #endif
+

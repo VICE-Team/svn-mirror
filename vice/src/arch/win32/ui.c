@@ -91,6 +91,10 @@ extern char *intl_speed_at_text;
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
+#ifndef VK_OEM_PLUS
+#define VK_OEM_PLUS 0xbb
+#endif
+
 static TCHAR *hwnd_titles[2];
 
 /* Exposure handler.  */
@@ -225,33 +229,35 @@ static const struct {
 #define UI_DEBUG_HOTKEYS
 #endif /* DEBUG*/
 
-#define UI_COMMON_HOTKEYS                                               \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
-    { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
-    { FVIRTKEY | FALT | FNOINVERT, '4', IDM_FORMFEED_PRINTERIEC4 },     \
-    { FVIRTKEY | FALT | FNOINVERT, '5', IDM_FORMFEED_PRINTERIEC5 },     \
-    { FVIRTKEY | FALT | FNOINVERT, '8', IDM_ATTACH_8 },                 \
-    { FVIRTKEY | FALT | FNOINVERT, '9', IDM_ATTACH_9 },                 \
-    { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                \
-    { FVIRTKEY | FALT | FNOINVERT, '1', IDM_ATTACH_11 },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'A', IDM_DETACH_ALL },               \
-    { FVIRTKEY | FALT | FNOINVERT, 'T', IDM_ATTACH_TAPE },              \
-    { FVIRTKEY | FALT | FNOINVERT, 'L', IDM_LOADQUICK },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'S', IDM_SAVEQUICK },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'M', IDM_MONITOR },                  \
-    { FVIRTKEY | FALT | FNOINVERT, 'X', IDM_EXIT },                     \
-    { FVIRTKEY | FALT | FNOINVERT, 'W', IDM_TOGGLE_WARP_MODE },         \
-    { FVIRTKEY | FALT | FNOINVERT, 'I', IDM_FLIP_ADD },                 \
-    { FVIRTKEY | FALT | FNOINVERT, 'K', IDM_FLIP_REMOVE },              \
-    { FVIRTKEY | FALT | FNOINVERT, 'N', IDM_FLIP_NEXT },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },            \
-    { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },            \
-    { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_MEDIAFILE },                \
-    { FVIRTKEY | FALT | FNOINVERT, 'G', IDM_EVENT_SETMILESTONE },       \
-    { FVIRTKEY | FALT | FNOINVERT, 'H', IDM_EVENT_RESETMILESTONE },     \
-    { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },        \
-    { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },  \
-    { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE }
+#define UI_COMMON_HOTKEYS                                                   \
+    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },        \
+    { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },                   \
+    { FVIRTKEY | FALT | FNOINVERT, '4', IDM_FORMFEED_PRINTERIEC4 },         \
+    { FVIRTKEY | FALT | FNOINVERT, '5', IDM_FORMFEED_PRINTERIEC5 },         \
+    { FVIRTKEY | FALT | FNOINVERT, '8', IDM_ATTACH_8 },                     \
+    { FVIRTKEY | FALT | FNOINVERT, '9', IDM_ATTACH_9 },                     \
+    { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                    \
+    { FVIRTKEY | FALT | FNOINVERT, '1', IDM_ATTACH_11 },                    \
+    { FVIRTKEY | FALT | FNOINVERT, 'A', IDM_DETACH_ALL },                   \
+    { FVIRTKEY | FALT | FNOINVERT, 'T', IDM_ATTACH_TAPE },                  \
+    { FVIRTKEY | FALT | FNOINVERT, 'L', IDM_LOADQUICK },                    \
+    { FVIRTKEY | FALT | FNOINVERT, 'S', IDM_SAVEQUICK },                    \
+    { FVIRTKEY | FALT | FNOINVERT, 'M', IDM_MONITOR },                      \
+    { FVIRTKEY | FALT | FNOINVERT, 'X', IDM_EXIT },                         \
+    { FVIRTKEY | FALT | FNOINVERT, 'W', IDM_TOGGLE_WARP_MODE },             \
+    { FVIRTKEY | FALT | FNOINVERT, 'I', IDM_FLIP_ADD },                     \
+    { FVIRTKEY | FALT | FNOINVERT, 'K', IDM_FLIP_REMOVE },                  \
+    { FVIRTKEY | FALT | FNOINVERT, 'N', IDM_FLIP_NEXT },                    \
+    { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },                \
+    { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },                \
+    { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_MEDIAFILE },                    \
+    { FVIRTKEY | FALT | FNOINVERT, 'G', IDM_EVENT_SETMILESTONE },           \
+    { FVIRTKEY | FALT | FNOINVERT, 'H', IDM_EVENT_RESETMILESTONE },         \
+    { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },            \
+    { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },      \
+    { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE },                   \
+    { FVIRTKEY | FALT | FNOINVERT, VK_OEM_PLUS, IDM_SINGLE_FRAME_ADVANCE }, \
+    { FVIRTKEY | FALT | FNOINVERT, VK_ADD, IDM_SINGLE_FRAME_ADVANCE }
 
 static ACCEL c64_accel[] = {
     { FVIRTKEY | FALT | FNOINVERT, 'Z', IDM_CART_FREEZE },
@@ -295,6 +301,8 @@ static HBRUSH tape_motor_off_brush;
 static HWND main_hwnd;
 
 static int emu_menu;
+
+static int pause_pending;
 
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
@@ -776,7 +784,7 @@ void ui_pause_emulation(void)
     if (is_paused) {
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
-        ui_display_paused(0);
+        ui_display_paused(pause_pending);
     }
 }
 
@@ -970,7 +978,11 @@ void ui_display_paused(int flag)
 
     for (index = 0; index < number_of_windows; index++) {
         title = system_wcstombs_alloc(hwnd_titles[index]);
-        buf = lib_msprintf("%s (%s)", title, flag ? translate_text(IDS_PAUSED) : translate_text(IDS_RESUMED));
+        if (flag) {
+            buf = lib_msprintf("%s (%s: %s%i)", title, translate_text(IDS_PAUSED), translate_text(IDS_FRAME_NUMBER), vsync_frame_counter);
+        } else {
+            buf = lib_msprintf("%s (%s)", title, translate_text(IDS_RESUMED));
+        }
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
@@ -1018,6 +1030,13 @@ void ui_dispatch_next_event(void)
 void ui_dispatch_events(void)
 {
     MSG msg;
+
+    /* this function is called once a frame, so this
+       handles single frame advance */
+    if (pause_pending) {
+        ui_pause_emulation();
+        pause_pending = 0;
+    }
 
     while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
         ui_dispatch_next_event();
@@ -1183,6 +1202,13 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_mediafile_save_dialog(hwnd);
         ResumeFullscreenModeKeep(hwnd);
         break;
+      case IDM_SINGLE_FRAME_ADVANCE:
+      case IDM_SINGLE_FRAME_ADVANCE | 0x00010000:
+        pause_pending = 1;
+        if (!is_paused) {
+            break;
+        }
+        // fall through
       case IDM_PAUSE:
       case IDM_PAUSE | 0x00010000:
         ui_pause_emulation();

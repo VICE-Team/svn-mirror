@@ -181,6 +181,7 @@ noinst_HEADERS = \
 	via.h \
 	vic20ui.h \
 	vice.h \
+	vicii.h \
 	video.h \
 	viewport.h \
 	vsidui.h \
@@ -311,7 +312,10 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
+
+# external libraries required for all emulators
+emu_extlibs = @X_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
@@ -352,7 +356,7 @@ x64_libs =  \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(x64_libs) @X_LIBS@ @INTLLIBS@
+x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
@@ -412,7 +416,7 @@ x128_libs =  \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(x128_libs) @X_LIBS@ @INTLLIBS@
+x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
@@ -469,7 +473,7 @@ xvic_libs =  \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(xvic_libs) @X_LIBS@ @INTLLIBS@
+xvic_LDADD = $(xvic_libs) $(emu_extlibs)
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
@@ -518,7 +522,7 @@ xpet_libs =  \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(xpet_libs) @X_LIBS@ @INTLLIBS@
+xpet_LDADD = $(xpet_libs) $(emu_extlibs)
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
@@ -567,7 +571,7 @@ xplus4_libs =  \
 	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
-xplus4_LDADD = $(xplus4_libs) @X_LIBS@ @INTLLIBS@
+xplus4_LDADD = $(xplus4_libs) $(emu_extlibs)
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
@@ -617,7 +621,7 @@ xcbm2_libs = \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(xcbm2_libs) @X_LIBS@ @INTLLIBS@
+xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs)
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
@@ -682,8 +686,8 @@ c1541_LDADD = \
 	$(tape_lib) \
 	$(serial_lib) \
 	@INTLLIBS@ \
-	@READLINE@ \
-	@VICE_ZLIB@
+	@READLINE@ @READLINE_LIBS@ \
+	@VICE_ZLIB@ @ZLIB_LIBS@
 
 # petcat
 petcat_SOURCES = \
@@ -703,7 +707,7 @@ petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	$(fileio_lib) \
 	@INTLLIBS@ \
-	@VICE_ZLIB@
+	@VICE_ZLIB@ @ZLIB_LIBS@
 
 # cartconv
 cartconv_SOURCES = cartconv.c
