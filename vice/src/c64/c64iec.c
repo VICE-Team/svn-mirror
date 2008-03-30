@@ -347,9 +347,3 @@ void iec_fast_drive_write(BYTE data)
 /* The C64 does not use fast IEC.  */
 }
 
-BYTE tcbm_busa[2], tcbm_busb[2], tcbm_busc[2];
-
-void tcbm_update_bus(void)
-{
-}
-

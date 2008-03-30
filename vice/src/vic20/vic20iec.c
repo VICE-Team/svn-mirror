@@ -271,9 +271,3 @@ void iec_calculate_callback_index(void)
     /* This callback can be used for optimization.  */
 }
 
-BYTE tcbm_busa[2], tcbm_busb[2], tcbm_busc[2];
-
-void tcbm_update_bus(void)
-{
-}
-
