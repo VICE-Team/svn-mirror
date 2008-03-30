@@ -130,7 +130,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc128.a
 
-libc128_a_SOURCES =  	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128mem.c 	c128mem.h 	c128mmu.c 	c128mmu.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
+libc128_a_SOURCES =  	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128mem.c 	c128mem.h 	c128mmu.c 	c128mmu.h 	daa.c 	daa.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -146,7 +146,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libc128_a_LIBADD = 
 libc128_a_OBJECTS =  c128.o c128cia1.o c128cpu.o c128iec.o c128mem.o \
-c128mmu.o z80.o z80mem.o
+c128mmu.o daa.o z80.o z80mem.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -315,9 +315,11 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/keyboard.h \
 	../../src/log.h ../../src/maincpu.h ../../src/c64/reu.h \
 	../../src/vdc/vdc.h ../../src/vicii/vicii.h z80.h z80mem.h
-z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
+daa.o: daa.c ../../src/arch/unix/types.h ../../src/vice.h \
+	../../src/config.h
+z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/alarm.h daa.h \
+	../../src/interrupt.h ../../src/log.h ../../src/maincpu.h \
 	../../src/monitor/mon.h z80.h z80mem.h ../../src/mem.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \

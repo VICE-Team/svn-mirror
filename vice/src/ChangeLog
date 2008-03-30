@@ -1,3 +1,29 @@
+2000-07-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.2.
+
+	* raster/raster-cache.c (raster_cache_init): Clear cache for
+	sprites 1..7 too.
+
+	* utils.c, utils.h (stralloc): Bail out on NULL pointer.
+	(xmsprintf): New function.
+
+	* vdrive/vdrive-iec.c: Added debugging info.
+
+	* c128/daa.c, c128/daa.h: New files.
+
+	* c128/z80.c: Fixed opcodes and added some missing ones.
+
+	* autostart.c, arch/unix/uicommands.c, arch/unix/uisettings.c,
+	cmdline.c, arch/unix/vsidui.c, arch/unix/x11/xaw/uimenu.c,
+	arch/unix/x11/xaw/ui.c: Use `xmsprintf', `xmvsprintf' or
+	`stralloc' instead of using random length arrays.
+
+2000-07-27  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c, arch/riscos/uimsgwin.{c,h}: added support
+	for WIMP Null events of message windows.
+
 2000-07-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.1.
