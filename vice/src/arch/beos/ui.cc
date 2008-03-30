@@ -73,6 +73,7 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_file.h"
 #include "ui_joystick.h"
+#include "ui_ram.h"
 #include "ui_sid.h"
 #include "ui_sound.h"
 #include "ui_vicii.h"
@@ -580,6 +581,9 @@ void ui_dispatch_events(void)
 			case MENU_SID_SETTINGS:
 				ui_sid();
 				break;
+			case MENU_RAM_SETTINGS:
+				ui_ram();
+				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {
 	            	ui_error("Cannot load settings.");
@@ -599,15 +603,15 @@ void ui_dispatch_events(void)
 				char *abouttext;
 				abouttext = concat(
 					"BeVICE Version ", VERSION,"\n",
-					"(c) 1998-2002 Andreas Boose\n",
-					"(c) 1998-2002 Dag Lem\n",
-					"(c) 1998-2002 Tibor Biczo\n",
-					"(c) 1999-2002 Andreas Dehmel\n",
-					"(c) 1999-2002 Thomas Bretz\n",
-					"(c) 1999-2002 Andreas Matthies\n",
-					"(c) 1999-2002 Martin Pottendorfer\n",
-					"(c) 2000-2002 Markus Brenner\n",
-					"(c) 2000-2002 Spiro Trikaliotis\n",
+					"(c) 1998-2003 Andreas Boose\n",
+					"(c) 1998-2003 Dag Lem\n",
+					"(c) 1998-2003 Tibor Biczo\n",
+					"(c) 1999-2003 Andreas Dehmel\n",
+					"(c) 1999-2003 Thomas Bretz\n",
+					"(c) 1999-2003 Andreas Matthies\n",
+					"(c) 1999-2003 Martin Pottendorfer\n",
+					"(c) 2000-2003 Markus Brenner\n",
+					"(c) 2000-2003 Spiro Trikaliotis\n",
                                         "(c) 1997-2001 Daniel Sladic\n",
 					"\nOfficial VICE homepage:\n",
 					"http://viceteam.bei.t-online.de/",

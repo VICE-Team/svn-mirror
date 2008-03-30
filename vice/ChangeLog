@@ -1,3 +1,11 @@
+2003-01-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.46.
+
+	* README, vice.spec, doc/Readme.dos, doc/vice.texi,
+	doc/html/index.html, doc/html/plain/NEWS, doc/html/plain/TODO:
+	Updated.
+
 2003-01-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.45.

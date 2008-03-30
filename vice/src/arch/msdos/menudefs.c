@@ -1222,19 +1222,19 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "(unstable)",
 #endif
             "",
-            "Copyright (c) 1998-2002 Andreas Boose",
-            "Copyright (c) 1998-2002 Tibor Biczo",
-            "Copyright (c) 1999-2002 Andreas Dehmel",
-            "Copyright (c) 1999-2002 Thomas Bretz",
-            "Copyright (c) 1999-2002 Andreas Matthies",
-            "Copyright (c) 1999-2002 Martin Pottendorfer",
-            "Copyright (c) 2000-2002 Markus Brenner",
-            "Copyright (c) 2000-2002 Spiro Trikaliotis",
+            "Copyright (c) 1998-2003 Andreas Boose",
+            "Copyright (c) 1998-2003 Tibor Biczo",
+            "Copyright (c) 1999-2003 Andreas Dehmel",
+            "Copyright (c) 1999-2003 Thomas Bretz",
+            "Copyright (c) 1999-2003 Andreas Matthies",
+            "Copyright (c) 1999-2003 Martin Pottendorfer",
+            "Copyright (c) 2000-2003 Markus Brenner",
+            "Copyright (c) 2000-2003 Spiro Trikaliotis",
             "Copyright (c) 1997-2001 Daniel Sladic",
 #ifdef HAVE_RESID
             "",
             "reSID engine:"
-            "Copyright (c) 1998-2001 Dag Lem",
+            "Copyright (c) 1998-2003 Dag Lem",
 #endif
             "",
             "Official VICE homepage:",

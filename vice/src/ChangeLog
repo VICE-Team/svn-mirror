@@ -1,3 +1,36 @@
+2003-01-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.46.
+
+	* crtc/crtc-draw.c (get_rev_text): Fixed range calculation.
+
+	* drive/drivecpu.c (cpu_reset): Reset rotation variables.
+
+	* drive/drive.c, drive/drive.h (drive_rotation_reset): New
+	function.  (drive_init): Call `drive_rotation_reset()'.
+
+	* video/renderyuv.c, snapshot.h, snapshot.c: Removed warnings.
+
+	* arch/unix/x11/gnome/about.c, arch/unix/x11/xaw/about.c,
+	c1541.c, arch/win32/res.rc, arch/msdos/menudefs.c,
+	arch/os2/dialogs/dialogs.rc, arch/beos/ui.cc: Updated.
+
+2003-01-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui_ram.h, ui_ram.cc: New files implementing the
+	RAM settings.
+
+	* arch/beos/Makefile.am: Added new files.
+
+	* arch/beos/constants.h, ui.cc, vicemenu.cc: Added menuitem,
+	ID and the handler for the item.
+
+	* arch/win32/res128.rc, res64.rc, rescbm2.rc, respet.rc,
+	resplus4.rc, resvic.rc: Removed UI for recording/playback.
+	Removed every Ctrl-Alt shortcut except for hard reset.
+
+	* arch/win32/ui.c: Fixed nember of registered shortcuts.
+
 2003-01-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.45.
