@@ -45,6 +45,7 @@
 
 #include "attach.h"
 #include "charsets.h"
+#include "datasette.h"
 #include "fsdevice.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
@@ -252,6 +253,7 @@ void autostart_advance(void)
                 kbd_buf_feed("LOAD\r");
             autostartmode = AUTOSTART_LOADINGTAPE;
             deallocate_program_name();
+            datasette_control(DATASETTE_CONTROL_START);
             break;
           case NO:
             autostart_disable();
@@ -511,28 +513,37 @@ int autostart_prg(const char *file_name)
 int autostart_autodetect(const char *file_name, const char *program_name)
 {
     if (file_name == NULL)
-	return -1;
+        return -1;
 
     if (!autostart_enabled) {
-	log_error(autostart_log,
+        log_error(autostart_log,
                   "Autostart is not available on this setup.");
-	return -1;
+        return -1;
     }
 
-    if (autostart_disk(file_name, program_name) == 0)
-        ;
-    else if (autostart_tape(file_name, program_name) == 0)
-        ;
-    else if (autostart_snapshot(file_name, program_name) == 0)
-        ;
-    else if (autostart_prg(file_name) == 0)
-        ;
-    else {
-	log_error(autostart_log, "`%s' is not a valid file.", file_name);
-	return -1;
+    log_message(autostart_log, "Autodetecting image type of `%s'.", file_name);
+
+    if (autostart_disk(file_name, program_name) == 0) {
+        log_message(autostart_log, "`%s' recognized as disk image.", file_name);
+        return 0;
+    }
+    if (autostart_tape(file_name, program_name) == 0) {
+        log_message(autostart_log, "`%s' recognized as tape image.", file_name);
+        return 0;
+    }
+    if (autostart_snapshot(file_name, program_name) == 0) {
+        log_message(autostart_log, "`%s' recognized as snapshot image.",
+                    file_name);
+        return 0;
+    }
+    if (autostart_prg(file_name) == 0) {
+        log_message(autostart_log, "`%s' recognized as program/p00 file.",
+                    file_name);
+        return 0;
     }
 
-    return 0;
+    log_error(autostart_log, "`%s' is not a valid file.", file_name);
+    return -1;
 }
 
 /* Autostart the image attached to device `num'.  */
