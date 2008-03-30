@@ -50,6 +50,7 @@
 #include "attach.h"
 #include "ciad.h"
 #include "clkguard.h"
+#include "diskconstants.h"
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -67,8 +68,6 @@
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
-#include "vdrive-bam.h"
-#include "vdrive.h"
 #include "viad.h"
 #include "wd1770.h"
 
@@ -224,13 +223,29 @@ static int setID(unsigned int dnr)
 
 void drive_set_disk_id_memory(unsigned int dnr, BYTE *id)
 {
-   if (dnr == 0) {
-       drive0_context.cpud.drive_ram[0x12] = id[0];
-       drive0_context.cpud.drive_ram[0x13] = id[1];
-   } else {
-       drive1_context.cpud.drive_ram[0x12] = id[0];
-       drive1_context.cpud.drive_ram[0x13] = id[1];
-   }
+    if (dnr == 0) {
+        drive0_context.cpud.drive_ram[0x12] = id[0];
+        drive0_context.cpud.drive_ram[0x13] = id[1];
+    } else {
+        drive1_context.cpud.drive_ram[0x12] = id[0];
+        drive1_context.cpud.drive_ram[0x13] = id[1];
+    }
+}
+
+void drive_set_last_read(unsigned int dnr, unsigned int track,
+                         unsigned int sector, BYTE *buffer)
+{
+    drive_set_half_track(track * 2, &drive[dnr]);
+
+    if (drive[dnr].type == DRIVE_TYPE_1541
+        || drive[dnr].type == DRIVE_TYPE_1541II
+        || drive[dnr].type == DRIVE_TYPE_1571) {
+        if (dnr == 0) {
+            memcpy(&(drive0_context.cpud.drive_ram[0x0400]), buffer, 256);
+        } else {
+            memcpy(&(drive1_context.cpud.drive_ram[0x0400]), buffer, 256);
+        }
+    }
 }
 
 /* ------------------------------------------------------------------------- */

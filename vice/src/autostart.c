@@ -224,15 +224,18 @@ void autostart_disable(void)
 static void disk_eof_callback(void)
 {
     if (handle_drive_true_emulation) {
-        BYTE id[2];
+        BYTE id[2], *buffer;
+        unsigned int track, sector;
 
         if (orig_drive_true_emulation_state) {
             log_message(autostart_log, "Turning true drive emulation on.");
             vdrive_bam_get_disk_id(8, id);
+            vdrive_get_last_read(&track, &sector, &buffer);
         }
         set_true_drive_emulation_mode(orig_drive_true_emulation_state);
         if (orig_drive_true_emulation_state) {
             drive_set_disk_id_memory(0, id);
+            drive_set_last_read(0, track, sector, buffer);
         }
     }
 
