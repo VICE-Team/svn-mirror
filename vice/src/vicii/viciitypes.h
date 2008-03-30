@@ -381,6 +381,11 @@ struct vic_ii_s {
     
     /* flag backgroundcolor in HIRES mode */
     int get_background_from_vbuf;
+
+    /* Value to store before DMA.  */
+    CLOCK store_clk;
+    ADDRESS store_addr;
+    BYTE store_value;
 };
 typedef struct vic_ii_s vic_ii_t;
 
