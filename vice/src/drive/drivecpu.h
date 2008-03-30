@@ -29,10 +29,7 @@
 #ifndef _DRIVECPU_H
 #define _DRIVECPU_H
 
-#include "alarm.h"
-#include "clkguard.h"
 #include "mon.h"
-#include "log.h"
 #include "snapshot.h"
 #include "types.h"
 

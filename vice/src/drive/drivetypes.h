@@ -2,7 +2,7 @@
  * drivetypes.h - drive-specific types like the drive context structure.
  *
  * Written by
- *   Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
