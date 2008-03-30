@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-04-13 20:02+0200\n"
+"POT-Creation-Date: 2002-04-09 21:17+0200\n"
 "PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -774,20 +774,19 @@ msgstr "*Emulacja PAL"
 
 #: src/arch/unix/plus4ui.c:115
 msgid "*16KB"
-msgstr ""
+msgstr "*16KB"
 
 #: src/arch/unix/plus4ui.c:117
 msgid "*32KB"
-msgstr ""
+msgstr "*32KB"
 
 #: src/arch/unix/plus4ui.c:119
 msgid "*64KB"
-msgstr ""
+msgstr "*64KB"
 
 #: src/arch/unix/plus4ui.c:127
-#, fuzzy
 msgid "RAM settings"
-msgstr "Ustawienia ROM"
+msgstr "Ustawienia RAM"
 
 #: src/arch/unix/plus4ui.c:129
 msgid "TED settings"
@@ -919,9 +918,8 @@ msgid "Attach IEEE488 interface image..."
 msgstr "W³ó¿ obraz interfejsu IEEE488..."
 
 #: src/arch/unix/uic64cart.c:162
-#, fuzzy
 msgid "Attach Retro Replay image..."
-msgstr "W³ó¿ obraz Action Replay..."
+msgstr "W³ó¿ obraz Retro Replay..."
 
 #: src/arch/unix/uic64cart.c:165
 msgid "Attach Super Snapshot 4 image..."

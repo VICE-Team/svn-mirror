@@ -1,4 +1,5 @@
-These are the most important known problems with VICE 1.8:
+- Screenshots with activated PAL emulation do not deliver the expected
+  (blurry) result. 
 
 - The Unix/Gnome port shows a GdkERROR on some displays (seen on
   Solaris8 mixed color depth visual) and crashes.
@@ -15,8 +16,6 @@ These are the most important known problems with VICE 1.8:
   listed. Once the directory is changed within the file selector the
   filter doesn't apply anymore and directories are shown.
 
-These are the most important known problems with VICE 1.7:
-
 - Some basic features of the VDC are missing. In the MS-DOS port you
   have to save the configuration and restart the emulator when
   changing VDC double size mode.
@@ -24,11 +23,8 @@ These are the most important known problems with VICE 1.7:
 - In the C128 emulation VIC-II and VDC palette can not coexist
   currently in some ports.
 
-- The Z80 emulation is not complete.  Some CP/M applications and ZP/M
-  may not work.
-
 - The VIC-II implementation lacks proper cycle exact $D016 x smooth
-  scroll support.
+  scroll and cycle exact sprite support.
 
 - The CBM-II emulation is not fully supported in all ports.
 
@@ -44,12 +40,6 @@ These are the most important known problems with VICE 1.7:
 
 - Some DEC/Alpha machines crash due to the XAW implementation.  Compile
   VICE with GNOME support `--enable-gnomeui' instead.
-
-- The VIC-I chip in xvic still lacks important features and is still
-  under construction.
-
-- Changing the REU image name via resource files has no effect until
-  exiting.
 
 - Dithering on monochrome X11 servers is *very* (VERY!) slow.
 

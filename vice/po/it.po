@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-04-13 20:02+0200\n"
+"POT-Creation-Date: 2002-04-09 21:17+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -776,20 +776,19 @@ msgstr "*Emulazione PAL"
 
 #: src/arch/unix/plus4ui.c:115
 msgid "*16KB"
-msgstr ""
+msgstr "*16KB"
 
 #: src/arch/unix/plus4ui.c:117
 msgid "*32KB"
-msgstr ""
+msgstr "*32KB"
 
 #: src/arch/unix/plus4ui.c:119
 msgid "*64KB"
-msgstr ""
+msgstr "*64KB"
 
 #: src/arch/unix/plus4ui.c:127
-#, fuzzy
 msgid "RAM settings"
-msgstr "Impostazioni delle ROM"
+msgstr "Impostazioni delle RAM"
 
 #: src/arch/unix/plus4ui.c:129
 msgid "TED settings"
