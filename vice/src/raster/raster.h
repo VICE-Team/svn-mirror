@@ -335,9 +335,9 @@ inline static void raster_add_int_change_foreground(raster_t *raster,
 {
     if (raster->skip_frame || char_x <= 0)
         *ptr = new_value;
-    else if (char_x < (int) raster->geometry.text_size.width) {
+    else if (char_x < (int)raster->geometry.text_size.width) {
         raster_changes_add_int(&raster->changes.foreground,
-                                char_x, ptr, new_value);
+                               char_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
     } else {
         raster_add_int_change_next_line(raster, ptr, new_value);
