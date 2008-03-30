@@ -30,6 +30,7 @@
 
 #include <windows.h>
 #include <prsht.h>
+#include <tchar.h>
 
 #ifdef HAVE_SHLOBJ_H
 #include <shlobj.h>
@@ -42,6 +43,7 @@
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uivideo.h"
@@ -134,21 +136,21 @@ static void init_color_dialog(HWND hwnd)
 {
     int val;
     double fval;
-    char newval[64];
+    TCHAR newval[64];
 
     resources_get_value("ColorSaturation", (void *)&val);
         fval = ((double)val) / 1000.0;
-        sprintf(newval, "%.3f", (float)fval);
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, newval);
 
     resources_get_value("ColorContrast", (void *)&val);
         fval = ((double)val) / 1000.0;
-        sprintf(newval, "%.3f", (float)fval);
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, newval);
 
     resources_get_value("ColorBrightness", (void *)&val);
         fval = ((double)val) / 1000.0;
-        sprintf(newval, "%.3f", (float)fval);
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, newval);
 
 }
@@ -160,7 +162,7 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int n,val;
     double fval;
-    char newval[64];
+    TCHAR newval[64];
     char *path;
     HWND filename_hwnd;
 
@@ -168,7 +170,7 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
     resources_get_value("ColorGamma", (void *)&val);
         fval = ((double)val) / 1000.0;
-        sprintf(newval, "%.3f", (float)fval);
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
 
     /* As long as 'phase' isn't implemented, set a constant entry  */
@@ -176,12 +178,12 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
     resources_get_value("PALScanLineShade", (void *)&val);
         fval = ((double)val) / 1000.0;
-        sprintf(newval, "%.3f", (float)fval);
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, newval);
 
     resources_get_value("PALBlur", (void *)&val);
         fval = ((double)val) / 1000.0;
-        sprintf(newval, "%.3f", (float)fval);
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, newval);
 
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE);
@@ -256,22 +258,25 @@ static void update_palettename2(char *name)
 static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
                                        WPARAM wparam, LPARAM lparam)
 {
-    int type,ival;
-    char s[100];
+    int type, ival;
+    float tf;
+    TCHAR s[100];
     extern int querynewpalette;
 
     switch (msg) {
       case WM_NOTIFY:
         if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
-            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, (LPSTR)s, 100);
-            ival = (int)(atof(s) * 1000.0 + 0.5);
+            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, s, 100);
+            _stscanf(s, "%f", &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorSaturation", (resource_value_t)ival);
-            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, (LPSTR)s, 100);
-            ival = (int)(atof(s) * 1000.0 + 0.5);
+            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, s, 100);
+            _stscanf(s, "%f", &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorContrast", (resource_value_t)ival);
-
-            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, (LPSTR)s, 100);
-            ival = (int)(atof(s) * 1000.0 + 0.5);
+            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, s, 100);
+            _stscanf(s, "%f", &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorBrightness", (resource_value_t)ival);
             querynewpalette = 1;
             SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
@@ -297,26 +302,30 @@ static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
 static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                                           WPARAM wparam, LPARAM lparam)
 {
-    int type,ival;
-    char s[100];
+    int type, ival;
+    float tf;
+    TCHAR s[100];
     extern int querynewpalette;
 
     switch (msg) {
       case WM_NOTIFY:
         if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
-            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, (LPSTR)s, 100);
-            ival = (int)(atof(s) * 1000.0 + 0.5);
+            GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, s, 100);
+            _stscanf(s, "%f", &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorGamma", (resource_value_t)ival);
 
             resources_set_value(current_chip->res_ExternalPalette_name,
                                 (resource_value_t) res_extpalette);
 
-            GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, (LPSTR)s, 100);
-            ival = (int)(atof(s) * 1000.0 + 0.5);
+            GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, s, 100);
+            _stscanf(s, "%f", &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("PALScanLineShade", (resource_value_t)ival);
 
-            GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, (LPSTR)s, 100);
-            ival = (int)(atof(s) * 1000.0 + 0.5);
+            GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, s, 100);
+            _stscanf(s, "%f", &tf);
+            ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("PALBlur", (resource_value_t)ival);
 
             ival = SendMessage(GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE),
@@ -336,7 +345,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             palette_file=NULL;
             resources_set_value(current_chip->res_ExternalPalette_name,
                                 (resource_value_t)res_extpalette);
-            SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
+            SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
         }
         return FALSE;
@@ -373,9 +382,11 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             break;
           case IDC_VIDEO_CUSTOM_NAME:
             {
+                TCHAR st[100];
                 char s[100];
 
-                GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, (LPSTR)s, 100);
+                GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
+                system_wcstombs(s, st, 100);
                 update_palettename(s);
 
                 res_extpalette = 1;
@@ -432,9 +443,11 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
             break;
           case IDC_VIDEO_CUSTOM_NAME:
             {
+                TCHAR st[100];
                 char s[100];
 
-                GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, (LPSTR)s, 100);
+                GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
+                system_wcstombs(s, st, 100);
                 update_palettename2(s);
 
                 break;
