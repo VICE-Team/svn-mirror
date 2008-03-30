@@ -152,7 +152,14 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
 
 #ifdef __riscos
     char buffer[256];
+#endif
 
+    if (name == NULL || *name == '\0') {
+        log_error(LOG_DEFAULT, "Missing name for system file.");
+        return NULL;
+    }
+
+#ifdef __riscos
     p = (char*)name;
     while (*p != '\0') {
         if ((*p == ':') || (*p == '$'))
@@ -229,7 +236,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
 {
     FILE *fp = NULL;
     size_t rsize = 0;
-    char *complete_path;
+    char *complete_path = NULL;
 
     fp = sysfile_open(name, &complete_path, MODE_READ);
     if (fp == NULL)
