@@ -1039,8 +1039,12 @@ long CALLBACK mon_window_proc(HWND hwnd,
 	{
 	case WM_CLOSE:
         SET_COMMAND("x");
-        StoreMonitorDimensions(hwnd);
-		break;
+        /*
+        return 0 so we don't use DefFrameProc(), so we're sure 
+        we do exactly the same as we would do if "x" was 
+        entered from the keyboard.
+        */
+        return 0;
 
 	case WM_DESTROY:
         return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);

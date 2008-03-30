@@ -44,6 +44,7 @@ struct video_frame_buffer_s {
   BYTE *framedata;
   void *spritebase;
   char *transtab;
+  unsigned int *bplot_trans;
 };
 
 typedef struct video_frame_buffer_s video_frame_buffer_t;
@@ -57,7 +58,7 @@ struct video_canvas_s {
   RO_Window *window;
   video_frame_buffer_t fb;
   unsigned int num_colours;
-  unsigned int colour_table[256];
+  unsigned int *current_palette;
   video_render_config_t videoconfig;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
@@ -89,6 +90,9 @@ extern void video_full_screen_drive_leds(unsigned int drive);
 extern void video_full_screen_init_status(void);
 extern void video_full_screen_plot_status(void);
 extern void video_full_screen_display_image(unsigned int num, const char *img);
+
+extern void video_register_callbacks(void);
+
 
 extern canvas_list_t *CanvasList;
 extern video_canvas_t *ActiveCanvas;

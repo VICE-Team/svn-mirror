@@ -90,6 +90,10 @@ SOURCE="..\..\raster\raster-changes.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\raster\raster-line.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\raster\raster-modes.c"
 # End Source File
 # Begin Source File

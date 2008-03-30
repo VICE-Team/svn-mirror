@@ -35,6 +35,7 @@
 #include <ddraw.h>
 
 #include "types.h"
+#include "video.h"
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 

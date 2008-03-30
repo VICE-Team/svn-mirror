@@ -87,7 +87,8 @@ vic_store(ADDRESS addr, BYTE value)
                 vic.raster.geometry.gfx_position.x = xstart;
 
                 /* the line may not start, if new xstart is already passed */
-                vic.raster.blank_this_line = (value < VIC_RASTER_CYCLE(clk));
+                vic.raster.blank_this_line = 
+                    (value < VIC_RASTER_CYCLE(clk) && xstart != xstop);
             }
             return;
         }

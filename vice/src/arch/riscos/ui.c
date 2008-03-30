@@ -357,6 +357,7 @@ static const conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_ResidSamp},
   {CONF_WIN_SOUND, Icon_Conf_ResidSampT},
   {CONF_WIN_SOUND, Icon_Conf_ResidPass},
+  {CONF_WIN_SOUND, Icon_Conf_SidStereo},
   {0xff, 0xff}
 };
 
@@ -394,7 +395,7 @@ static const conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_SidFilter}, {CONF_WIN_SOUND, Icon_Conf_SidModel},\
   {CONF_WIN_SOUND, Icon_Conf_SidModelT}, {CONF_WIN_SOUND, Icon_Conf_UseResid},\
   {CONF_WIN_SOUND, Icon_Conf_ResidSamp}, {CONF_WIN_SOUND, Icon_Conf_ResidSampT}, \
-  {CONF_WIN_SOUND, Icon_Conf_ResidPass},
+  {CONF_WIN_SOUND, Icon_Conf_ResidPass}, {CONF_WIN_SOUND, Icon_Conf_SidStereo},
 
 #define ICON_LIST_SYSTEM \
   {CONF_WIN_SYSTEM, Icon_Conf_REU}, {CONF_WIN_SYSTEM, Icon_Conf_IEEE488},\
@@ -423,7 +424,6 @@ static const conf_icon_id conf_grey_x64[] = {
 };
 
 static const conf_icon_id conf_grey_x128[] = {
-  ICON_LIST_CART64
   ICON_LIST_PET
   ICON_LIST_VIC
   {0xff, 0xff}
@@ -454,8 +454,16 @@ static const conf_icon_id conf_grey_xcbm2[] = {
   ICON_LIST_VIC
   ICON_LIST_SYSTEM
   ICON_LIST_PET
-  ICON_LIST_VIC
   ICON_LIST_DEVRSUSR
+  {0xff, 0xff}
+};
+
+static const conf_icon_id conf_grey_plus4[] = {
+  ICON_LIST_CART64
+  ICON_LIST_VIC
+  ICON_LIST_SYSTEM
+  ICON_LIST_SID
+  ICON_LIST_PET
   {0xff, 0xff}
 };
 
@@ -1095,6 +1103,7 @@ static help_icon_t Help_ConfigSound[] = {
   {Icon_Conf_ResidSampT, "\\HelpConfSndReSampT"},
   {Icon_Conf_ResidPass, "\\HelpConfSndRePass"},
   {Icon_Conf_Sound16Bit, "\\HelpConfSnd16Bit"},
+  {Icon_Conf_SidStereo, "\\HelpConfSndStereo"},
   {Help_Icon_End, NULL}
 };
 
@@ -1136,6 +1145,7 @@ static help_icon_t Help_ConfigSystem[] = {
   {Icon_Conf_KeyboardT, "\\HelpConfSysKbdT"},
   {Icon_Conf_VideoSync, "\\HelpConfSysVsync"},
   {Icon_Conf_VideoSyncT, "\\HelpConfSysVsyncT"},
+  {Icon_Conf_UseBPlot, "\\HelpConfSysUseBPlot"},
   {Help_Icon_End, NULL}
 };
 
@@ -1598,6 +1608,11 @@ static void ui_set_menu_disp_strshow(const disp_desc_t *dd)
   {
     wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
   }
+  else
+  {
+    wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, IFlg_Grey, IFlg_Grey);
+    wimp_window_set_icon_state(ConfWindows[dd->id.win], ds->icon, IFlg_Grey, IFlg_Grey);
+  }
 }
 
 
@@ -1698,6 +1713,10 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
       {
         if (val != 0) bits |= (1<<i);
       }
+      else
+      {
+        wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, IFlg_Grey, IFlg_Grey);
+      }
     }
     wimp_menu_tick_slct(dd->menu, bits);
   }
@@ -1708,9 +1727,14 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
   }
   else if (dd->resource != NULL)
   {
-    if (resources_get_value(dd->resource, &val) != 0) return;
-
-    ui_setup_menu_disp_core(dd, val);
+    if (resources_get_value(dd->resource, &val) == 0)
+    {
+      ui_setup_menu_disp_core(dd, val);
+    }
+    else
+    {
+      wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, IFlg_Grey, IFlg_Grey);
+    }
   }
 }
 
@@ -2692,6 +2716,7 @@ int ui_init_finish(void)
     case VICE_MACHINE_VIC20: gi = conf_grey_xvic; break;
     case VICE_MACHINE_PET: gi = conf_grey_xpet; break;
     case VICE_MACHINE_CBM2: gi = conf_grey_xcbm2; break;
+    case VICE_MACHINE_PLUS4: gi = conf_grey_plus4; break;
     default: gi = NULL;
   }
 
@@ -2786,6 +2811,9 @@ int ui_init_finish(void)
   /* must create log window, but may close it right afterwards! */
   ui_open_log_window();
 
+  /* register callbacks */
+  video_register_callbacks();
+
   atexit(ui_safe_exit);
 
   return 0;
@@ -2806,7 +2834,11 @@ static void ui_setup_config_item(config_item *ci)
 {
   resource_value_t val;
 
-  if (resources_get_value(ci->resource, &val) != 0) return;
+  if (resources_get_value(ci->resource, &val) != 0)
+  {
+    wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, IFlg_Grey, IFlg_Grey);
+    return;
+  }
   /* Development!
   if (ci->icon == 0) return;*/
 

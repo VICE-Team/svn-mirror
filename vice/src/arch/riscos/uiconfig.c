@@ -103,6 +103,7 @@ static const char Rsrc_ReSid[] = "SidUseResid";
 static const char Rsrc_ReSidSamp[] = "SidResidSampling";
 static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_SidMod[] = "SidModel";
+static const char Rsrc_SidStereo[] = "SidStereo";
 static const char Rsrc_CharGen[] = "CharGenName";
 static const char Rsrc_Kernal[] = "KernalName";
 static const char Rsrc_Basic[] = "BasicName";
@@ -151,6 +152,7 @@ static const char Rsrc_C2Line[] = "ModelLine";
 static const char Rsrc_C2Mem[] = "RamSize";
 static const char Rsrc_FullScr[] = "ScreenMode";
 static const char Rsrc_FullSetPal[] = "ScreenSetPalette";
+static const char Rsrc_UseBPlot[] = "UseBPlot";
 static const char Rsrc_Key8040[] = "40/80ColumnKey";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_VDCcache[] = "VDC_VideoCache";
@@ -1388,6 +1390,7 @@ config_item Configurations[] = {
   {Rsrc_AutoPause, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_AutoPause}},
   {Rsrc_FullScr, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_FullScreen}},
   {Rsrc_FullSetPal, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_SetPalette}},
+  {Rsrc_UseBPlot, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_UseBPlot}},
   {Rsrc_MaxSkipped, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_MaxSkipFrms}},
   {Rsrc_DriveF8, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile8}},
   {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile9}},
@@ -1411,6 +1414,7 @@ config_item Configurations[] = {
   {Rsrc_SidFilt, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SidFilter}},	/* sid.c */
   {Rsrc_ReSid, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_UseResid}},
   {Rsrc_ReSidPass, CONFIG_INT, {CONF_WIN_SOUND, Icon_Conf_ResidPass}},
+  {Rsrc_SidStereo, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SidStereo}},
   {Rsrc_SScoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_CheckSScoll}},/* vicii.c */
   {Rsrc_SBcoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_CheckSBcoll}},
   {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Palette}},

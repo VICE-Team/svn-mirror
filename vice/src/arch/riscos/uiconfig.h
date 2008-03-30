@@ -254,6 +254,7 @@ typedef struct {
 #define Icon_Conf_ResidSampT	26
 #define Icon_Conf_ResidPass	27
 #define Icon_Conf_Sound16Bit	29
+#define Icon_Conf_SidStereo	30
 
 /* System config */
 #define Icon_Conf_CharGen	3
@@ -292,6 +293,7 @@ typedef struct {
 #define Icon_Conf_VideoSync	52
 #define Icon_Conf_VideoSyncT	53
 #define Icon_Conf_MaxSkipFrms	54
+#define Icon_Conf_UseBPlot	58
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2

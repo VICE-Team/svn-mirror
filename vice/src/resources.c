@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -59,10 +60,80 @@ static const char *machine_id;
 
 static void write_resource_item(FILE *f, int num);
 
-/* ------------------------------------------------------------------------- */
+/* use a hash table with 1024 entries */
+static const unsigned int logHashSize = 10;
 
-/* FIXME: We might want to use a hash table instead of a linear search some
-   day.  */
+static int *hashTable = NULL;
+
+static resource_callback_func_t *resource_modified_callback = NULL;
+static void *resource_modified_param = NULL;
+
+
+/* calculate the hash key */
+static unsigned int resources_calc_hash_key(const char *name)
+{
+    unsigned int key, i, shift;
+
+    key = 0; shift = 0;
+    for (i=0; name[i] != '\0'; i++)
+    {
+        /* resources are case-insensitive */
+        unsigned int sym = (unsigned int)tolower(name[i]);
+
+        if (shift >= logHashSize)
+            shift = 0;
+
+        key ^= (sym << shift);
+        if (shift + 8 > logHashSize)
+        {
+            key ^= (((unsigned int)sym) >> (logHashSize - shift));
+        }
+        shift++;
+    }
+    return (key & ((1<<logHashSize)-1));
+}
+
+
+/* issue callbacks for a modified resource */
+static void resources_issue_callback(resource_t *res, int global_callback)
+{
+    if (res->callback_func != NULL)
+        (*res->callback_func)(res->name, res->callback_param);
+
+    if ((global_callback != 0) && (resource_modified_callback != NULL))
+        (*resource_modified_callback)(NULL, resource_modified_param);
+}
+
+
+#if 0
+/* for debugging (hash collisions, hash chains, ...) */
+static void resources_check_hash_table(FILE *f)
+{
+    int i, entries;
+
+    for (i=0, entries=0; i<(1<<logHashSize); i++)
+    {
+        if (hashTable[i] >= 0)
+        {
+            int next;
+
+            fprintf(f, "%d: %s", i, resources[hashTable[i]].name);
+            next = resources[hashTable[i]].hash_next;
+            while (next >= 0)
+            {
+                fprintf(f, " -> %s", resources[next].name);
+                next = resources[next].hash_next;
+            }
+            fprintf(f, "\n");
+            entries++;
+        }
+    }
+    fprintf(f, "NUM %d, ENTIES %d\n", num_resources, entries);
+}
+#endif
+
+
+/* ------------------------------------------------------------------------- */
 
 int resources_register(const resource_t *r)
 {
@@ -72,6 +143,9 @@ int resources_register(const resource_t *r)
     sp = r;
     dp = resources + num_resources;
     while (sp->name != NULL) {
+
+        unsigned int hashkey;
+
         if ((sp->type == RES_STRING && sp->factory_value == NULL)
             || sp->value_ptr == NULL || sp->set_func == NULL) {
             archdep_startup_log_error("Inconsistent resource declaration '%s'.",
@@ -91,6 +165,13 @@ int resources_register(const resource_t *r)
         dp->value_ptr = sp->value_ptr;
         dp->set_func = sp->set_func;
         dp->param = sp->param;
+        dp->callback_func = NULL;
+        dp->callback_param = NULL;
+
+        hashkey = resources_calc_hash_key(sp->name);
+        dp->hash_next = hashTable[hashkey];
+        hashTable[hashkey] = (dp - resources);
+
         num_resources++, sp++, dp++;
     }
 
@@ -99,12 +180,17 @@ int resources_register(const resource_t *r)
 
 static resource_t *lookup(const char *name)
 {
-    int i;
+    resource_t *res;
+    unsigned int hashkey;
 
-    for (i = 0; i < num_resources; i++)
-        if (strcasecmp(resources[i].name, name) == 0)
-            return resources + i;
-
+    hashkey = resources_calc_hash_key(name);
+    res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
+    while (res != NULL)
+    {
+        if (strcasecmp(res->name, name) == 0)
+            return res;
+        res = (res->hash_next >= 0) ? resources + res->hash_next : NULL;
+    }
     return NULL;
 }
 
@@ -120,13 +206,12 @@ resource_type_t resources_query_type(const char *name)
 
 int resources_write_item_to_file(FILE *fp, const char *name)
 {
-    int i;
+    resource_t *res = lookup(name);
 
-    for (i = 0; i < num_resources; i++) {
-        if (strcasecmp(resources[i].name, name) == 0) {
-             write_resource_item(fp, i);
-             return 0;
-        }
+    if (res != NULL)
+    {
+        write_resource_item(fp, res - resources);
+        return 0;
     }
     log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
 
@@ -137,11 +222,20 @@ int resources_write_item_to_file(FILE *fp, const char *name)
 
 int resources_init(const char *machine)
 {
+    unsigned int i;
+
     machine_id = stralloc(machine);
     num_allocated_resources = 100;
     num_resources = 0;
     resources = (resource_t *)xmalloc(num_allocated_resources
                                       * sizeof(resource_t));
+
+    /* hash table maps hash keys to index in resources array rather than pointers
+       into the array because the array may be reallocated. */
+    hashTable = (int*)xmalloc((1<<logHashSize)*sizeof(int));
+
+    for (i=0; i<(1<<logHashSize); i++)
+        hashTable[i] = -1;
 
     return 0;
 }
@@ -149,6 +243,7 @@ int resources_init(const char *machine)
 int resources_set_value(const char *name, resource_value_t value)
 {
     resource_t *r = lookup(name);
+    int status;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -157,7 +252,10 @@ int resources_set_value(const char *name, resource_value_t value)
         return -1;
     }
 
-    return (*r->set_func)(value, r->param);
+    if ((status = (*r->set_func)(value, r->param)) == 0)
+        resources_issue_callback(r, 1);
+
+    return status;
 }
 
 int resources_set_sprintf(const char *name, resource_value_t value, ...)
@@ -178,6 +276,7 @@ int resources_set_sprintf(const char *name, resource_value_t value, ...)
 int resources_set_value_string(const char *name, const char *value)
 {
     resource_t *r = lookup(name);
+    int status;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -188,15 +287,18 @@ int resources_set_value_string(const char *name, const char *value)
 
     switch (r->type) {
       case RES_INTEGER:
-        return (*r->set_func)((resource_value_t)atoi(value), r->param);
+        status = (*r->set_func)((resource_value_t)atoi(value), r->param);
       case RES_STRING:
-        return (*r->set_func)((resource_value_t)value, r->param);
+        status = (*r->set_func)((resource_value_t)value, r->param);
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
-        return -1;
+        status = -1;
     }
 
-    return -1;
+    if (status != 0)
+        resources_issue_callback(r, 1);
+
+    return status;
 }
 
 int resources_get_value(const char *name, resource_value_t *value_return)
@@ -273,13 +375,20 @@ void resources_set_defaults(void)
     int i;
 
     for (i = 0; i < num_resources; i++)
+    {
         (*resources[i].set_func)(resources[i].factory_value, resources[i].param);
+        resources_issue_callback(resources + i, 0);
+    }
+
+    if (resource_modified_callback != NULL)
+        (*resource_modified_callback)(NULL, resource_modified_param);
 }
 
 int resources_toggle(const char *name, resource_value_t *new_value_return)
 {
     resource_t *r = lookup(name);
     int value;
+    int status;
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -293,7 +402,10 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     if (new_value_return != NULL)
         *(int *)new_value_return = value;
 
-    return (*r->set_func)((resource_value_t)value, r->param);
+    if ((status = (*r->set_func)((resource_value_t)value, r->param)) == 0)
+        resources_issue_callback(r, 1);
+
+    return status;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -391,6 +503,8 @@ int resources_read_item_from_file(FILE *f)
             return -1;
         }
 
+        resources_issue_callback(r, 0);
+
         return 1;
     }
 }
@@ -446,6 +560,9 @@ int resources_load(const char *fname)
     } while (retval != 0);
 
     fclose(f);
+
+    if (resource_modified_callback != NULL)
+        (*resource_modified_callback)(NULL, resource_modified_param);
 
     return err ? RESERR_FILE_INVALID : 0;
 }
@@ -569,3 +686,27 @@ int resources_save(const char *fname)
     return 0;
 }
 
+
+
+int resources_register_callback(const char *name, resource_callback_func_t *callback,
+                                void *callback_param)
+{
+    if (name == NULL)
+    {
+        resource_modified_callback = callback;
+        resource_modified_param = callback_param;
+        return 0;
+    }
+    else
+    {
+        resource_t *res = lookup(name);
+
+        if (res != NULL)
+        {
+            res->callback_func = callback;
+            res->callback_param = callback_param;
+            return 0;
+        }
+    }
+    return -1;
+}

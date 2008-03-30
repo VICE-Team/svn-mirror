@@ -36,6 +36,8 @@
 #include "ui.h"
 #include "utils.h"
 
+#include "DRender.h"
+
 
 
 /* Separate stack for sound thread */

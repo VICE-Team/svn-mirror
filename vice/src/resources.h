@@ -36,6 +36,8 @@ typedef void *resource_value_t;
 
 typedef int resource_set_func_t(resource_value_t v, void *param);
 
+typedef void resource_callback_func_t(const char *name, void *param);
+
 /* Warning: all the pointers should point to areas that are valid throughout
    the execution.  No reallocation is performed.  */
 typedef struct resource_s {
@@ -58,6 +60,16 @@ typedef struct resource_s {
 
     /* Extra parameter to pass to `set_func'.  */
     void *param;
+
+    /* callback function when resource is modified (NULL if none) */
+    resource_callback_func_t *callback_func;
+
+    /* parameter for callback function */
+    void *callback_param;
+
+    /* number of next entry in hash collision list */
+    int hash_next;
+
 } resource_t;
 
 #define RESERR_FILE_NOT_FOUND       -1
@@ -78,7 +90,7 @@ extern int resources_get_value(const char *name,
                                resource_value_t *value_return);
 extern int resources_get_sprintf(const char *name,
                                  resource_value_t *value_return, ...);
-extern int resources_get_default_value(const char *name, 
+extern int resources_get_default_value(const char *name,
                                        const resource_value_t *value_return);
 extern resource_type_t resources_query_type(const char *name);
 extern int resources_save(const char *fname);
@@ -88,6 +100,10 @@ extern int resources_write_item_to_file(FILE *fp, const char *name);
 extern int resources_read_item_from_file(FILE *fp);
 
 extern void resources_set_defaults(void);
+
+/* register a callback for a resource; use name=NULL to register a callback for all */
+extern int resources_register_callback(const char *name, resource_callback_func_t *callback,
+                                       void *callback_param);
 
 #endif /* _RESOURCES_H */
 

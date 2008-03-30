@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "log.h"
 #include "wimp.h"
 #include "resources.h"
 #include "types.h"
@@ -89,6 +90,7 @@ static const int StatusLEDSpace = 16;
 
 static char *ScreenModeString = NULL;
 static int ScreenSetPalette;
+static int UseBPlotModule;
 
 static void video_full_screen_colours(void);
 
@@ -159,12 +161,20 @@ static int set_screen_palette(resource_value_t v, void *param)
   return 0;
 }
 
+static int set_bplot_status(resource_value_t v, void *param)
+{
+  UseBPlotModule = (int)v;
+  return 0;
+}
+
 
 static resource_t resources[] = {
   {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
     (resource_value_t *)&ScreenModeString, set_screen_mode, NULL },
   {"ScreenSetPalette", RES_INTEGER, (resource_value_t) 1,
     (resource_value_t *)&ScreenSetPalette, set_screen_palette, NULL },
+  {"UseBPlot", RES_INTEGER, (resource_value_t) 1,
+    (resource_value_t *)&UseBPlotModule, set_bplot_status, NULL },
   {NULL}
 };
 
@@ -241,6 +251,110 @@ static void video_frame_buffer_clear(video_canvas_t *canvas, BYTE *draw_buffer, 
 
 
 
+static void video_set_clipping_rectangle(int x1, int y1, int x2, int y2)
+{
+  unsigned short osclip[5];
+
+  osclip[0] = (24<<8); /* relies on little endian */
+  osclip[1] = (unsigned short)x1;
+  osclip[2] = (unsigned short)y1;
+  osclip[3] = (unsigned short)(x2 - (1<<FullScrDesc.eigx));
+  osclip[4] = (unsigned short)(y2 - (1<<FullScrDesc.eigy));
+  OS_WriteN(((const char*)osclip) + 1, 9);
+}
+
+
+
+static void video_canvas_ensure_translation(video_canvas_t *canvas)
+{
+  /* the frame buffer palette is dirty if the palette changed while there was no
+     frame buffer allocated, e.g. on startup */
+  if ((canvas->fb.paldirty != 0) && (canvas->current_palette != NULL))
+  {
+    unsigned int i, numsprpal;
+    sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
+    sprite_desc_t *sprite;
+    unsigned int *sprpal;
+    unsigned int *ct = canvas->current_palette;
+
+    sprite = SpriteGetSprite(sarea);
+    sprpal = (unsigned int*)(sprite + 1);
+    numsprpal = (1 << canvas->fb.depth);
+    for (i=0; i<canvas->num_colours; i++)
+    {
+      sprpal[2*i] = 0x10 | (ct[i] << 8);
+      sprpal[2*i+1] = sprpal[2*i];
+    }
+    for (; i<numsprpal; i++)
+    {
+      sprpal[2*i] = 0x10;
+      sprpal[2*i+1] = 0x10;
+    }
+    canvas->fb.paldirty = 0;
+
+    if (canvas->fb.transtab != NULL)
+    {
+      free(canvas->fb.transtab);
+      canvas->fb.transtab = NULL;
+    }
+    canvas->fb.transdirty = 1;
+  }
+
+  /* do we need to make a new sprite translation table? */
+  if ((canvas->fb.transdirty != 0) && (canvas->fb.transtab == NULL))
+  {
+    sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
+    sprite_desc_t *sprite = SpriteGetSprite(sarea);
+    unsigned int ldbpp;
+    char *dummy = NULL;
+
+    ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
+
+    if ((int)dummy > 0)
+    {
+      canvas->fb.transtab = (char*)xmalloc((int)dummy);
+      dummy = canvas->fb.transtab;
+      ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
+    }
+
+    ldbpp = (FullScreenMode == 0) ? ScreenMode.ldbpp : FullScrDesc.ldbpp;
+
+    if (ldbpp >= 4)
+    {
+      unsigned int *trans;
+      unsigned int i;
+
+      if (canvas->fb.bplot_trans == NULL)
+      {
+        canvas->fb.bplot_trans = xmalloc(256*sizeof(int));
+      }
+      trans = canvas->fb.bplot_trans;
+      if (ldbpp == 4)
+      {
+        for (i=0; i<canvas->num_colours; i++)
+        {
+          unsigned int pix = (canvas->current_palette)[i];
+          BYTE red, green, blue;
+
+          red = pix&0xf8; green = (pix>>8)&0xf8; blue = (pix>>16)&0xf8;
+          trans[i] = (red>>3) | (green << 2) | (blue << 7);
+        }
+      }
+      else
+      {
+        for (i=0; i<canvas->num_colours; i++)
+        {
+          trans[i] = (canvas->current_palette)[i];
+        }
+      }
+      for (; i<256; i++) trans[i] = 0;
+    }
+
+    canvas->fb.transdirty = 0;
+  }
+}
+
+
 void video_canvas_redraw_core(video_canvas_t *canvas, graph_env *ge, int *block)
 {
   if (canvas->fb.framedata != NULL)
@@ -254,59 +368,40 @@ void video_canvas_redraw_core(video_canvas_t *canvas, graph_env *ge, int *block)
     ge->x = block[RedrawB_VMinX] - block[RedrawB_ScrollX] + shiftx;
     ge->y = block[RedrawB_VMaxY] - block[RedrawB_ScrollY] + shifty;
 
-    /* the frame buffer palette is dirty if the palette changed while there was no
-       frame buffer allocated, e.g. on startup */
-    if (canvas->fb.paldirty != 0)
+    video_canvas_ensure_translation(canvas);
+
+    /* Use bplot or sprite plot interface? (this code only called from desktop) */
+    if ((UseBPlotModule != 0) && (ScreenMode.ldbpp >= 4))
     {
-      unsigned int i, numsprpal;
-      sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
-      sprite_desc_t *sprite;
-      unsigned int *sprpal;
-      unsigned int *ct = canvas->colour_table;
-
-      sprite = SpriteGetSprite(sarea);
-      sprpal = (unsigned int*)(sprite + 1);
-      numsprpal = (1 << canvas->fb.depth);
-      for (i=0; i<numsprpal; i++)
+      if (canvas->scale == 1)
       {
-        sprpal[2*i] = 0x10 | (ct[i] << 8);
-        sprpal[2*i+1] = sprpal[2*i];
+        PlotZoom1(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->fb.bplot_trans);
       }
-      canvas->fb.paldirty = 0;
-
-      if (canvas->fb.transtab != NULL)
+      else
       {
-        free(canvas->fb.transtab);
-        canvas->fb.transtab = NULL;
+        PlotZoom2(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->fb.bplot_trans);
       }
-      canvas->fb.transdirty = 1;
-    }
-
-    /* do we need to make a new sprite translation table? */
-    if ((canvas->fb.transdirty != 0) && (canvas->fb.transtab == NULL))
-    {
-      sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
-      sprite_desc_t *sprite = SpriteGetSprite(sarea);
-      char *dummy = NULL;
-
-      ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
-
-      if ((int)dummy > 0)
-      {
-        canvas->fb.transtab = (char*)xmalloc((int)dummy);
-        dummy = canvas->fb.transtab;
-        ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
-      }
-      canvas->fb.transdirty = 0;
-    }
-
-    if (canvas->scale == 1)
-    {
-      PlotZoom1(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->colour_table);
     }
     else
     {
-      PlotZoom2(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->colour_table);
+      sprite_area_t *sarea;
+      sprite_desc_t *sprite;
+
+      /* clipping rectangle already set by WIMP */
+      sarea = (sprite_area_t*)(canvas->fb.spritebase);
+      sprite = SpriteGetSprite(sarea);
+
+      if (canvas->scale == 1)
+      {
+        OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - (canvas->fb.height << UseEigen), 0, 0, (int)(canvas->fb.transtab));
+      }
+      else
+      {
+        int scale[4];
+
+        scale[0] = 2; scale[1] = 2; scale[2] = 1; scale[3] = 1;
+        OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - 2*(canvas->fb.height << UseEigen), 0, (int)scale, (int)(canvas->fb.transtab));
+      }
     }
   }
 }
@@ -322,8 +417,14 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
 
   if (palette == NULL) return 0;
 
+  if (canvas->current_palette != NULL)
+  {
+    free(canvas->current_palette);
+  }
+  canvas->num_colours = palette->num_entries;
+  canvas->current_palette = xmalloc((canvas->num_colours)*sizeof(int));
+
   p = palette->entries;
-  ct = canvas->colour_table;
   numsprpal = (1<<canvas->fb.depth);
 
   /* adapt the palette stored in the frame buffer sprite */
@@ -361,17 +462,14 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
   }
   canvas->fb.transdirty = 1;
 
-  /* remember the current palette in canvas->colour_table */
-  for (i=0; i<palette->num_entries; i++)
+  /* remember the current palette in canvas->current_palette */
+  ct = canvas->current_palette;
+  for (i=0; i<canvas->num_colours; i++)
   {
     /* FIXME: will go entirely eventually */
     pixel_return[i] = i;
 
     ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
-  }
-  for (; i<numsprpal; i++)
-  {
-    ct[i] = 0;
   }
 
   return 0;
@@ -394,7 +492,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   canvas->width = *width; canvas->height = *height;
 
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
-  memset(canvas->colour_table, 0, 256*sizeof(int));
+  canvas->current_palette = NULL;
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   canvas->fb.transdirty = 1;
@@ -464,6 +562,22 @@ void video_canvas_destroy(video_canvas_t *s)
 
   if (s->video_draw_buffer_callback != NULL)
     free(s->video_draw_buffer_callback);
+
+  if (s->current_palette != NULL)
+  {
+    free(s->current_palette);
+    s->current_palette = NULL;
+  }
+  if (s->fb.transtab != NULL)
+  {
+    free(s->fb.transtab);
+    s->fb.transtab = NULL;
+  }
+  if (s->fb.bplot_trans != NULL)
+  {
+    free(s->fb.bplot_trans);
+    s->fb.bplot_trans = NULL;
+  }
 
   free(s);
 }
@@ -541,6 +655,8 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     int clipYlow;
     int shiftx, shifty;
 
+    video_canvas_ensure_translation(canvas);
+
     if (FullScreenStatLine == 0)
       clipYlow = 0;
     else
@@ -562,8 +678,23 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     if (clip[1] < clipYlow) clip[1] = clipYlow;
     if (clip[3] > FullScrDesc.resy) clip[3] = FullScrDesc.resy;
 
-    PlotZoom1(&ge, clip, draw_buffer, canvas->colour_table);
+    /* Use BPlot module or sprite plots? */
+    if ((UseBPlotModule != 0) && ((FullScrDesc.ldbpp >= 4) || (ScreenSetPalette != 0)))
+    {
+      PlotZoom1(&ge, clip, draw_buffer, canvas->fb.bplot_trans);
+    }
+    else
+    {
+      sprite_area_t *sarea;
+      sprite_desc_t *sprite;
 
+      /* Must explicitly set the clipping rectangle */
+      video_set_clipping_rectangle(clip[0], clip[1], clip[2], clip[3]);
+
+      sarea = (sprite_area_t*)(canvas->fb.spritebase);
+      sprite = SpriteGetSprite(sarea);
+      OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge.x, ge.y - (canvas->fb.height << FullUseEigen), 0, 0, (int)(canvas->fb.transtab));
+    }
   }
 }
 
@@ -654,6 +785,13 @@ int canvas_get_number(void)
 }
 
 
+
+static void video_full_screen_set_clip(void)
+{
+  video_set_clipping_rectangle(0, 0, FullScrDesc.resx, (StatusLineHeight << FullScrDesc.eigy));
+}
+
+
 void video_full_screen_colours(void)
 {
   char *sdata, *limit;
@@ -668,20 +806,22 @@ void video_full_screen_colours(void)
 
     if ((canvas != NULL) && ((1 << (1 << FullScrDesc.ldbpp)) >= num_colours) && (FullScrDesc.ldbpp <= 3))
     {
-      unsigned char entries[3 * num_colours];
-      unsigned int i;
       unsigned int *ct;
 
-      ct = canvas->colour_table;
-
-      for (i=0; i<num_colours; i++)
+      ct = canvas->current_palette;
+      if (ct != NULL)
       {
-        entries[3*i] = ct[i] & 0xff;
-        entries[3*i+1] = (ct[i] & 0xff00) >> 8;
-        entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
+        unsigned char entries[3 * num_colours];
+        unsigned int i;
+        for (i=0; i<num_colours; i++)
+        {
+          entries[3*i] = ct[i] & 0xff;
+          entries[3*i+1] = (ct[i] & 0xff00) >> 8;
+          entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
+        }
+        InstallPaletteRange(entries, 0, num_colours);
+        ColourTrans_InvalidateCache();
       }
-      InstallPaletteRange(entries, 0, num_colours);
-      ColourTrans_InvalidateCache();
     }
   }
 
@@ -779,6 +919,8 @@ void video_full_screen_drive_leds(unsigned int drive)
     int posx, posy;
     int sptr;
 
+    video_full_screen_set_clip();
+
     posy = ((StatusLineHeight << FullScrDesc.eigy) - SpriteLEDHeight) >> 1;
     posx = FullScrDesc.resx - (4-drive)*(SpriteLEDWidth + (StatusLEDSpace << FullScrDesc.eigx));
     sptr = (int)((DriveLEDStates[drive] == 0) ? SpriteLED0 : SpriteLED1);
@@ -803,6 +945,8 @@ void video_full_screen_init_status(void)
   if ((FullScreenMode != 0) && (FullScreenStatLine != 0))
   {
     unsigned int i;
+
+    video_full_screen_set_clip();
 
     ColourTrans_SetGCOL(StatusBackColour, 0x100, 0);
     OS_Plot(0x04, 0, 0);
@@ -838,6 +982,8 @@ void video_full_screen_plot_status(void)
     {
       int width;
 
+      video_full_screen_set_clip();
+
       strcpy(LastStatusLine, statText);
       width = (StatusCharSize * strlen(statText)) << FullScrDesc.eigx;
       /* Clear background covered by text */
@@ -857,8 +1003,32 @@ void video_full_screen_plot_status(void)
 
 void video_full_screen_display_image(unsigned int num, const char *img)
 {
+  video_full_screen_set_clip();
+
   if ((img == NULL) || (*img == '\0'))
     CurrentDriveImage[0] = '\0';
   else
     sprintf(CurrentDriveImage, "   [%d: %s]", num + 8, img);
+}
+
+
+
+
+/*
+ *  Callbacks
+ */
+
+static void callback_canvas_modified(const char *name, void *callback_param)
+{
+    log_message(LOG_DEFAULT, "Resource callback for %s", name);
+}
+
+
+
+void video_register_callbacks(void)
+{
+    resources_register_callback("PALMode", callback_canvas_modified, NULL);
+    resources_register_callback("UseBPlot", callback_canvas_modified, NULL);
+    resources_register_callback("VDC_DoubleSize", callback_canvas_modified, NULL);
+    resources_register_callback("VDC_DoubleScan", callback_canvas_modified, NULL);
 }
