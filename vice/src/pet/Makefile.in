@@ -287,7 +287,7 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
 	../../src/sound.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h ../../src/via.h ../../src/video.h \
-	../../src/vsync.h ../../src/rs232.h
+	../../src/viewport.h ../../src/vsync.h ../../src/rs232.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \

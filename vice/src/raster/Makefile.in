@@ -261,37 +261,37 @@ raster-cache.o: raster-cache.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/utils.h
 raster-canvas.o: raster-canvas.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h raster-canvas.h raster.h raster-changes.h \
-	../../src/arch/unix/types.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/fullscreen.h \
-	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
+	../../src/arch/unix/types.h ../../src/viewport.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/gnome/videoarch.h \
+	../../src/arch/unix/x11/gnome/../videoarch.h \
+	../../src/fullscreen.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h \
+	../../src/arch/unix/x11/gnome/../gnome/uiarch.h
 raster-changes.o: raster-changes.c ../../src/vice.h ../../src/config.h \
 	raster-changes.h ../../src/arch/unix/types.h ../../src/utils.h
 raster-cmdline-options.o: raster-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h raster-cmdline-options.h \
-	../../src/utils.h ../../src/arch/unix/types.h ../../src/video.h
+	../../src/utils.h ../../src/arch/unix/types.h ../../src/video.h \
+	../../src/viewport.h
 raster-line.o: raster-line.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h raster-cache.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h raster-canvas.h raster-line.h \
 	raster-modes.h raster-sprite-status.h raster-sprite.h raster.h \
-	raster-changes.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
+	raster-changes.h ../../src/viewport.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/gnome/videoarch.h \
+	../../src/arch/unix/x11/gnome/../videoarch.h \
 	../../src/fullscreen.h ../../src/video.h \
-	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/gnome/../gnome/uiarch.h
 raster-modes.o: raster-modes.c ../../src/vice.h ../../src/config.h \
 	raster-modes.h raster-cache.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/utils.h
 raster-resources.o: raster-resources.c ../../src/vice.h \
 	../../src/config.h raster.h raster-changes.h \
-	../../src/arch/unix/types.h ../../src/resources.h \
-	../../src/utils.h ../../src/video.h
+	../../src/arch/unix/types.h ../../src/viewport.h \
+	../../src/resources.h ../../src/utils.h ../../src/video.h
 raster-sprite-cache.o: raster-sprite-cache.c ../../src/vice.h \
 	../../src/config.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/utils.h
@@ -305,14 +305,14 @@ raster.o: raster.c ../../src/vice.h ../../src/config.h ../../src/log.h \
 	../../src/arch/unix/types.h raster-cache.h \
 	raster-sprite-cache.h raster-canvas.h raster-modes.h \
 	raster-sprite-status.h raster-sprite.h raster.h \
-	raster-changes.h ../../src/screenshot.h ../../src/utils.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/fullscreen.h \
-	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
+	raster-changes.h ../../src/viewport.h ../../src/screenshot.h \
+	../../src/utils.h ../../src/video.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/gnome/videoarch.h \
+	../../src/arch/unix/x11/gnome/../videoarch.h \
+	../../src/fullscreen.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h \
+	../../src/arch/unix/x11/gnome/../gnome/uiarch.h
 
 info-am:
 info: info-am

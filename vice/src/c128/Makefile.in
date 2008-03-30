@@ -291,9 +291,9 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
 	../../src/tape.h ../../src/traps.h ../../src/mem.h \
 	../../src/utils.h ../../src/vicii/vicii.h ../../src/video.h \
-	../../src/vdc/vdc.h ../../src/vsync.h z80.h z80mem.h \
-	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
-	../../src/arch/unix/mouse.h
+	../../src/viewport.h ../../src/vdc/vdc.h ../../src/vsync.h \
+	z80.h z80mem.h ../../src/rs232.h ../../src/c64/c64acia.h \
+	../../src/rsuser.h ../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/c64/c64cia.h \

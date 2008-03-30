@@ -332,8 +332,8 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h ../videoarch.h ../../../../../src/fullscreen.h \
-	../../../../../src/video.h ../xaw/uiarch.h \
-	../../../../../src/vsync.h
+	../../../../../src/video.h ../../../../../src/viewport.h \
+	../xaw/uiarch.h ../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h
 uicartridge.o: uicartridge.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
@@ -347,11 +347,11 @@ uicolor.o: uicolor.c ../../../../../src/vice.h \
 	../../../../../src/log.h ../../../../../src/palette.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/uicolor.h ../../../../../src/utils.h \
-	../../../../../src/video.h videoarch.h \
-	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
-	uiarch.h ../videoarch.h ../../../../../src/fullscreen.h \
-	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
-	uiarch.h
+	../../../../../src/video.h ../../../../../src/viewport.h \
+	videoarch.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
+	../../../../../src/fullscreen.h ../xaw/uiarch.h \
+	../../../../../src/arch/unix/x11/x11ui.h uiarch.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/diskimage.h \
@@ -398,10 +398,7 @@ x11ui.o: x11ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/interrupt.h ../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
-	../../../../../src/c64/psid.h \
-	../../../../../src/raster/raster.h \
-	../../../../../src/raster/raster-changes.h \
-	../../../../../src/resources.h \
+	../../../../../src/c64/psid.h ../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	../../../../../src/uicolor.h \
 	../../../../../src/arch/unix/uihotkey.h uimenu.h uiarch.h \
@@ -411,16 +408,17 @@ x11ui.o: x11ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
 	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
 	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
-	widgets/TextField.h ../../../../../src/video.h videoarch.h \
-	../videoarch.h ../../../../../src/fullscreen.h
+	widgets/TextField.h ../../../../../src/video.h \
+	../../../../../src/viewport.h videoarch.h ../videoarch.h \
+	../../../../../src/fullscreen.h
 x11video.o: x11video.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/log.h \
 	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
 	../../../../../src/fullscreen.h ../../../../../src/video.h \
-	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
-	uiarch.h
+	../../../../../src/viewport.h ../xaw/uiarch.h \
+	../../../../../src/arch/unix/x11/x11ui.h uiarch.h
 
 info-am:
 info: info-recursive

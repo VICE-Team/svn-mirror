@@ -291,7 +291,7 @@ cbm2.o: cbm2.c ../../src/vice.h ../../src/config.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
 	../../src/tape.h ../../src/traps.h ../../src/utils.h \
 	../../src/via.h ../../src/vicii/vicii.h ../../src/video.h \
-	../../src/vsync.h ../../src/rs232.h
+	../../src/viewport.h ../../src/vsync.h ../../src/rs232.h
 cbm2acia1.o: cbm2acia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h cbm2tpi.h \
 	../../src/aciacore.c ../../src/acia.h ../../src/alarm.h \

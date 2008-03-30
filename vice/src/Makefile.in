@@ -138,7 +138,7 @@ SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	tape 	ima
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 
 
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
 
 
 base_sources =  	alarm.c 	attach.c 	autostart.c 	charset.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	debug.c 	emuid.c 	findpath.c 	fliplist.c 	gcr.c 	info.c 	init.c 	initcmdline.c 	interrupt.c 	joystick.c 	kbdbuf.c 	keyboard.c 	log.c 	machine.c 	main.c 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	screenshot.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
@@ -630,7 +630,8 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h drive/drive.h log.h arch/unix/types.h \
 	fullscreen.h init.h initcmdline.h interrupt.h machine.h \
 	maincpu.h arch/unix/main_exit.h resources.h sysfile.h \
-	arch/unix/ui.h uiapi.h utils.h version.h video.h fliplist.h
+	arch/unix/ui.h uiapi.h utils.h version.h video.h viewport.h \
+	fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
 	arch/unix/types.h clkguard.h debug.h interrupt.h log.h \
 	machine.h maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h \
@@ -650,7 +651,8 @@ rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 	cmdline.h interrupt.h log.h maincpu.h resources.h rs232.h \
 	rsuser.h
 screenshot.o: screenshot.c vice.h config.h gfxoutput.h log.h machine.h \
-	palette.h arch/unix/types.h screenshot.h utils.h video.h
+	palette.h arch/unix/types.h screenshot.h utils.h video.h \
+	viewport.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
 	arch/unix/types.h maincpu.h mem.h mos6510.h parallel.h \
 	printer.h serial.h traps.h utils.h vdrive/vdrive.h
@@ -669,10 +671,11 @@ utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	log.h maincpu.h machine.h resources.h sound.h vsync.h \
-	vsyncapi.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
-	arch/unix/x11/xaw/../videoarch.h fullscreen.h video.h \
-	arch/unix/x11/xaw/../xaw/uiarch.h
+	vsyncapi.h arch/unix/videoarch.h \
+	arch/unix/x11/gnome/videoarch.h \
+	arch/unix/x11/gnome/../videoarch.h fullscreen.h video.h \
+	viewport.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/gnome/../gnome/uiarch.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h

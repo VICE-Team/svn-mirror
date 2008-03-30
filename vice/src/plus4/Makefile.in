@@ -291,7 +291,7 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
 	ted-cmdline-options.h ted-resources.h ted.h ../../src/traps.h \
 	../../src/mem.h ../../src/utils.h ../../src/video.h \
-	../../src/vsync.h
+	../../src/viewport.h ../../src/vsync.h
 plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
@@ -339,46 +339,50 @@ ted-cmdline-options.o: ted-cmdline-options.c ../../src/vice.h \
 ted-color.o: ted-color.c ../../src/vice.h ../../src/config.h tedtypes.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
-	ted-color.h ted-resources.h ../../src/video.h
+	../../src/viewport.h ted-color.h ted-resources.h \
+	../../src/video.h
 ted-draw.o: ted-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
 	ted-draw.h ted.h tedtypes.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h
 ted-fetch.o: ted-fetch.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/maincpu.h ted-fetch.h \
 	tedtypes.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h
+	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/keyboard.h ../../src/maincpu.h \
 	../../src/mem.h plus4mem.h plus4pio2.h ted-fetch.h \
 	ted-resources.h ted-mem.h ted-sound.h ted-timer.h ted.h \
 	tedtypes.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h
+	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/raster/raster-resources.h ../../src/resources.h \
 	ted-resources.h ted.h ../../src/arch/unix/types.h tedtypes.h \
 	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/utils.h \
-	../../src/video.h
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	../../src/utils.h ../../src/video.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/mem.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	ted-snapshot.h ted.h tedtypes.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h
 ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/sound.h ted-sound.h ../../src/utils.h
 ted-timer.o: ted-timer.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/maincpu.h ted-timer.h tedtypes.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h
 ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/archdep.h \
 	../../src/archapi.h ../../src/clkguard.h ../../src/interrupt.h \
@@ -391,14 +395,14 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	ted-cmdline-options.h ted-color.h ted-draw.h ted-fetch.h \
 	ted-mem.h ted-resources.h ted-snapshot.h ted-sound.h \
 	ted-timer.h ted.h tedtypes.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/utils.h \
-	../../src/vsync.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	../../src/utils.h ../../src/vsync.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/gnome/videoarch.h \
+	../../src/arch/unix/x11/gnome/../videoarch.h \
 	../../src/fullscreen.h ../../src/video.h \
-	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/gnome/../gnome/uiarch.h
 
 info-am:
 info: info-am

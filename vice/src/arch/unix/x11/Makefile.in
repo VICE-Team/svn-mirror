@@ -354,10 +354,10 @@ ui-resources.o: ui-resources.c ../../../../src/vice.h \
 	../../../../src/utils.h ../../../../src/arch/unix/types.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/uihotkey.h \
-	../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
+	../../../../src/arch/unix/uimenu.h gnome/uimenu.h \
 	../../../../src/arch/unix/ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
-	xaw/uiarch.h xaw/../x11menu.h xaw/../xaw/uiarch.h \
+	gnome/../x11menu.h gnome/../gnome/uiarch.h \
 	../../../../src/utils.h
 vic20icon.o: vic20icon.c
 video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
@@ -366,13 +366,14 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/resources.h ../../../../src/arch/unix/types.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	../../../../src/uicolor.h ../../../../src/utils.h \
-	../../../../src/video.h videoarch.h \
-	../../../../src/fullscreen.h xaw/uiarch.h x11ui.h xaw/uiarch.h
+	../../../../src/video.h ../../../../src/viewport.h videoarch.h \
+	../../../../src/fullscreen.h gnome/uiarch.h x11ui.h \
+	gnome/uiarch.h
 x11menu.o: x11menu.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
 	../../../../src/utils.h x11menu.h \
-	../../../../src/arch/unix/uihotkey.h xaw/uiarch.h
+	../../../../src/arch/unix/uihotkey.h gnome/uiarch.h
 
 info-am:
 info: info-recursive
