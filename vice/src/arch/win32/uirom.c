@@ -45,6 +45,8 @@
 
 static const uirom_settings_t *settings;
 
+static const unsigned int *romset_dialog_resources;
+
 
 static void init_rom_dialog(HWND hwnd, unsigned int type)
 {
@@ -380,6 +382,111 @@ static void save_file_romset_dialog(HWND hwnd)
         ui_error("Cannot save romset file!");
 }
 
+static void init_resources_dialog(HWND hwnd, unsigned int type)
+{
+    unsigned int n = 0;
+
+    while (settings[n].realname != NULL) {
+        if (settings[n].type == type) {
+            int enable;
+
+            resources_get_sprintf("Romset%s", (void *)&enable,
+                                  settings[n].resname);
+
+            CheckDlgButton(hwnd, settings[n].idc_resource,
+                           enable ? BST_CHECKED : BST_UNCHECKED);
+        }
+        n++;
+    }
+}
+
+static void end_resources_dialog(HWND hwnd, unsigned int type)
+{
+    unsigned int n = 0;
+
+    while (settings[n].realname != NULL) {
+        if (settings[n].type == type) {
+            int enable;
+
+            enable = (IsDlgButtonChecked(hwnd, settings[n].idc_resource)
+                     == BST_CHECKED) ? 1 : 0;
+
+            resources_set_sprintf("Romset%s", (resource_value_t)enable,
+                                 settings[n].resname);
+        }
+        n++;
+    }
+}
+
+static BOOL CALLBACK resources_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                           LPARAM lparam, unsigned int type)
+{
+    int command;
+
+    switch (msg) {
+      case WM_INITDIALOG:
+        init_resources_dialog(hwnd, type);
+        return TRUE;
+      case WM_COMMAND:
+        command = LOWORD(wparam);
+        switch (command) {
+          case IDOK:
+            end_resources_dialog(hwnd, type);
+          case IDCANCEL:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        }
+        return FALSE;
+      case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static BOOL CALLBACK resources_computer_dialog_proc(HWND hwnd, UINT msg,
+                                                    WPARAM wparam,
+                                                    LPARAM lparam)
+{
+    return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_MAIN);
+}
+
+static BOOL CALLBACK resources_drive_dialog_proc(HWND hwnd, UINT msg,
+                                                 WPARAM wparam, LPARAM lparam)
+{
+    return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_DRIVE);
+}
+
+static BOOL CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
+                                                 WPARAM wparam, LPARAM lparam)
+{
+    return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_OTHER);
+}
+
+static void uirom_resources_computer(HWND hwnd)
+{
+    DialogBox(winmain_instance,
+              (LPCTSTR)romset_dialog_resources[UIROM_TYPE_MAIN], hwnd,
+              resources_computer_dialog_proc);
+    update_romset_list(hwnd);
+}
+
+static void uirom_resources_drive(HWND hwnd)
+{
+    DialogBox(winmain_instance,
+              (LPCTSTR)romset_dialog_resources[UIROM_TYPE_DRIVE], hwnd,
+              resources_drive_dialog_proc);
+    update_romset_list(hwnd);
+}
+
+static void uirom_resources_other(HWND hwnd)
+{
+    DialogBox(winmain_instance,
+              (LPCTSTR)romset_dialog_resources[UIROM_TYPE_OTHER], hwnd,
+              resources_other_dialog_proc);
+    update_romset_list(hwnd);
+}
+
 static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
 {
@@ -434,6 +541,15 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
           case IDC_ROMSET_FILE_SAVE:
             save_file_romset_dialog(hwnd);
             break;
+          case IDC_ROMSET_RESOURCE_COMPUTER:
+            uirom_resources_computer(hwnd);
+            break;
+          case IDC_ROMSET_RESOURCE_DRIVE:
+            uirom_resources_drive(hwnd);
+            break;
+          case IDC_ROMSET_RESOURCE_OTHER:
+            uirom_resources_other(hwnd);
+            break;
         }
         return TRUE;
       case WM_CLOSE:
@@ -445,12 +561,14 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
 
 void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                            unsigned int idd_dialog_drive,
+                           const unsigned int *idd_dialog_resources,
                            const uirom_settings_t *uirom_settings)
 {
     PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
 
     settings = uirom_settings;
+    romset_dialog_resources = idd_dialog_resources;
 
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
