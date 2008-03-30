@@ -36,7 +36,7 @@
 #include "resources.h"
 #include "types.h"
 
-static BYTE value;		/* userport value */
+static BYTE value;              /* userport value */
 static int strobe;
 static int fd;
 
@@ -49,18 +49,18 @@ static int userport_printer_device;
 
 static int set_up_enabled(resource_value_t v, void *param)
 {
-    int newval = ((int) v) ? 1 : 0;
+    int newval = ((int)v) ? 1 : 0;
 
     if (newval && !userport_printer_enabled) {
-	/* switch printer on */
-	fd = driver_select_open(userport_printer_device);
-	if (fd >= 0) {
+        /* Switch printer on.  */
+        fd = driver_select_open(userport_printer_device);
+        if (fd >= 0) {
             userport_printer_enabled = 1;
-	}
+        }
     }
     if (userport_printer_enabled && !newval) {
-	driver_select_close(fd);
-	userport_printer_enabled = 0;
+        driver_select_close(fd);
+        userport_printer_enabled = 0;
     }
 
     return 0;
@@ -68,16 +68,16 @@ static int set_up_enabled(resource_value_t v, void *param)
 
 static int set_up_device(resource_value_t v, void *param)
 {
-    userport_printer_device = (int) v;
+    userport_printer_device = (int)v;
     return 0;
 }
 
 static resource_t resources[] = {
-    { "PrUser", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &userport_printer_enabled,
+    { "PrUser", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&userport_printer_enabled,
       set_up_enabled, NULL },
-    { "PrUserDev", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &userport_printer_device,
+    { "PrUserDev", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&userport_printer_device,
       set_up_device, NULL },
     { NULL }
 };
@@ -115,11 +115,11 @@ void printer_interface_userport_write_data(BYTE b)
 
 void printer_interface_userport_write_strobe(int s)
 {
-    if (userport_printer_enabled && strobe && !s) {	/* hi->lo on strobe */
-	driver_select_putc(fd, (BYTE)value);
+    if (userport_printer_enabled && strobe && !s) {     /* hi->lo on strobe */
+        driver_select_putc(fd, (BYTE)value);
 
-        printer_interface_userport_set_busy(1);	/* signal lo->hi */
-        printer_interface_userport_set_busy(0);	/* signal hi->lo */
+        printer_interface_userport_set_busy(1); /* signal lo->hi */
+        printer_interface_userport_set_busy(0); /* signal hi->lo */
     }
 
     strobe = s;
