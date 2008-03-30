@@ -77,6 +77,62 @@ static void machine_vsync_hook(void);
 /* Serial traps.  */
 static trap_t plus4_serial_traps[] = {
     {
+        "SerialListen",
+        0xEE2C,
+        0xE1E7,
+        { 0x20, 0xA9, 0xED },
+        serialattention,
+        rom_read,
+        rom_store
+    },
+    {
+        "SerialSaListen",
+        0xEE4D,
+        0xE1E7,
+        { 0x24, 0xF9, 0x30 },
+        serialattention,
+        rom_read,
+        rom_store
+    },
+    {
+        "SerialSendByte",
+        0xECDF,
+        0xE1E7,
+        { 0x24, 0xF9, 0x30 },
+        serialsendbyte,
+        rom_read,
+        rom_store
+    },
+/*
+    {
+        "SerialSendByte2",
+        0xE158,
+        0xE1E7,
+        { 0x48, 0x24, 0x94 },
+        serialsendbyte,
+        rom_read,
+        rom_store
+    },
+*/
+    {
+        "SerialReceiveByte",
+        0xEC8B,
+        0xE1E7,
+        { 0x86, 0xBA, 0x24 },
+        serialreceivebyte,
+        rom_read,
+        rom_store
+    },
+    {
+        "SerialReady",
+        0xE2D4,
+        0xE1E7,
+        { 0xA5, 0x01, 0xC5 },
+        trap_serial_ready,
+        rom_read,
+        rom_store
+    },
+    {
         NULL,
         0,
         0,
@@ -110,16 +166,16 @@ static double rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
    the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (traps_init_resources() < 0
-        || vsync_init_resources() < 0
+    if (traps_resources_init() < 0
+        || vsync_resources_init() < 0
         || video_resources_init() < 0
-        || plus4_init_resources() < 0
-        || ted_init_resources() < 0
-        || sound_init_resources() < 0
-        || printer_init_resources() < 0
-        || kbd_init_resources() < 0
-        || drive_init_resources() < 0
-        || datasette_init_resources() < 0
+        || plus4_resources_init() < 0
+        || ted_resources_init() < 0
+        || sound_resources_init() < 0
+        || printer_resources_init() < 0
+        || kbd_resources_init() < 0
+        || drive_resources_init() < 0
+        || datasette_resources_init() < 0
         )
         return -1;
 
@@ -129,16 +185,16 @@ int machine_init_resources(void)
 /* Plus4-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (traps_init_cmdline_options() < 0
-        || vsync_init_cmdline_options() < 0
+    if (traps_cmdline_options_init() < 0
+        || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
-        || plus4_init_cmdline_options() < 0
-        || ted_init_cmdline_options() < 0
-        || sound_init_cmdline_options() < 0
-        || printer_init_cmdline_options() < 0
-        || kbd_init_cmdline_options() < 0
-        || drive_init_cmdline_options() < 0
-        || datasette_init_cmdline_options() < 0
+        || plus4_cmdline_options_init() < 0
+        || ted_cmdline_options_init() < 0
+        || sound_cmdline_options_init() < 0
+        || printer_cmdline_options_init() < 0
+        || kbd_cmdline_options_init() < 0
+        || drive_cmdline_options_init() < 0
+        || datasette_cmdline_options_init() < 0
         )
         return -1;
 
@@ -197,7 +253,7 @@ int machine_init(void)
     autostart_init((CLOCK)(3 * rfsh_per_sec * cycles_per_rfsh),
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
-    if (!vic_ii_init())
+    if (!ted_init())
         return -1;
 
     if (plus4_kbd_init() < 0)
@@ -340,7 +396,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         drive1_cpu_execute(clk);
 
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s, save_roms) < 0) {
+        || mem_write_snapshot_module(s, save_roms) < 0
+        || ted_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         util_file_remove(name);
         return -1;
@@ -366,10 +423,11 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
-    /*vic_ii_prepare_for_snapshot();*/
+    ted_prepare_for_snapshot();
 
     if (maincpu_read_snapshot_module(s) < 0
-        || mem_read_snapshot_module(s) < 0)
+        || mem_read_snapshot_module(s) < 0
+        || ted_snapshot_read_module(s) < 0)
         goto fail;
 
     snapshot_close(s);
@@ -392,11 +450,20 @@ int machine_autodetect_psid(const char *name)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
+    if (wn == 0)
+        return ted_screenshot(screenshot);
     return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, struct canvas_s *canvas){
+    if (canvas == ted_get_canvas())
+        return ted_screenshot(screenshot);
     return -1;
+}
+
+void machine_video_refresh(void)
+{
+     ted_video_refresh();
 }
 
 /* ------------------------------------------------------------------------- */
