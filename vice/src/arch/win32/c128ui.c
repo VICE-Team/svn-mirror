@@ -55,6 +55,7 @@ static const ui_menu_toggle c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },

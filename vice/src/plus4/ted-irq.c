@@ -124,15 +124,27 @@ void ted_irq_set_raster_line(unsigned int line)
             ted.raster_irq_clk++;
 
         if (line <= current_line)
-            ted.raster_irq_clk += (ted.screen_height
+            ted.raster_irq_clk += ((current_line >= ted.screen_height ? 512 : ted.screen_height)
                                   * ted.cycles_per_line);
         alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
-        /* FIXME it is possible to set the raster counter to this range */
-        TED_DEBUG_RASTER(("TED: update_raster_irq(): "
-                         "raster compare out of range ($%04X)!", line));
-        ted.raster_irq_clk = CLOCK_MAX;
-        alarm_unset(ted.raster_irq_alarm);
+        unsigned int current_line = TED_RASTER_Y(maincpu_clk);
+        if (current_line >= ted.screen_height) {
+            ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
+                                 + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                                 + (ted.cycles_per_line
+                                 * (line - current_line)));
+
+            if (line <= current_line) {
+                ted.raster_irq_clk = CLOCK_MAX;
+                alarm_unset(ted.raster_irq_alarm);
+            } else {
+                alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
+            }
+        } else {
+            ted.raster_irq_clk = CLOCK_MAX;
+            alarm_unset(ted.raster_irq_alarm);
+        }
     }
 
     TED_DEBUG_RASTER(("TED: update_raster_irq(): "

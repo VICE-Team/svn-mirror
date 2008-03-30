@@ -136,6 +136,8 @@ BEGIN
         , CHECKED
         MENUITEM "PAL Emulation",                   IDM_TOGGLE_FASTPAL
         , CHECKED
+        MENUITEM "Scale2x",                         IDM_TOGGLE_SCALE2X
+        , CHECKED
         MENUITEM SEPARATOR
 	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR

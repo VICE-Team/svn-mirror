@@ -89,6 +89,8 @@ struct video_resource_chip_s {
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
 
+static void video_resources_update_ui(video_resource_chip_t *video_resource_chip);
+
 struct video_resource_chip_mode_s {
     video_resource_chip_t *resource_chip;
     unsigned int device;
@@ -147,6 +149,8 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 
     video_resource_chip->double_size_enabled = (int)v;
 
+    video_resources_update_ui(video_resource_chip);
+
     return 0;
 }
 
@@ -173,6 +177,8 @@ static int set_double_scan_enabled(resource_value_t v, void *param)
     if (canvas->initialized)
         video_canvas_refresh_all(canvas);
 
+    video_resources_update_ui(video_resource_chip);
+
     return 0;
 }
 
@@ -198,6 +204,8 @@ static int set_scale2x_enabled(resource_value_t v, void *param)
 
     if (canvas->initialized)
         video_canvas_refresh_all(canvas);
+
+    video_resources_update_ui(video_resource_chip);
 
     return 0;
 }
@@ -434,3 +442,30 @@ int video_resources_chip_init(const char *chipname,
     return 0;
 }
 
+void video_resources_update_ui(video_resource_chip_t *video_resource_chip)
+{
+    int pal_enabled = 0;
+    int ui_doublescan_enabled, ui_scale2x_enabled;
+
+    /* this is ugly; shouldn't PALEmulation be a chip resource??? */ 
+    resources_get_value("PALEmulation", &pal_enabled);
+
+    if (video_resource_chip->double_size_enabled != 0) {
+        if (pal_enabled) {
+            ui_doublescan_enabled = 1;
+            ui_scale2x_enabled = 0;
+        } else if (video_resource_chip->scale2x_enabled != 0) {
+            ui_doublescan_enabled = 0;
+            ui_scale2x_enabled = 1;
+        } else {
+            ui_doublescan_enabled = 1;
+            ui_scale2x_enabled = 1;
+        }
+    } else {
+        ui_doublescan_enabled = 0;
+        ui_scale2x_enabled = 0;
+    }
+/*
+    ui_enable_chip resources(ui_doublescan_enabled, ui_scale2x_enabled);
+*/
+}

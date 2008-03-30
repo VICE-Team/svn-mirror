@@ -172,6 +172,7 @@ void interrupt_log_wrong_nnmi(void)
 
 void interrupt_set_irq_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
 {
+#if 0
     if (value) {
         if (!(cs->pending_int[int_num] & IK_IRQ)) {
             cs->nirq++;
@@ -187,10 +188,17 @@ void interrupt_set_irq_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
             }
         }
     }
+#else
+    if (value)
+        cs->pending_int[int_num] |= IK_IRQ;
+    else
+        cs->pending_int[int_num] &= ~IK_IRQ;
+#endif
 }
 
 void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
 {
+#if 0
     if (value) {
         if (!(cs->pending_int[int_num] & IK_NMI)) {
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI))
@@ -208,6 +216,12 @@ void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
             }
         }
     }
+#else
+    if (value)
+        cs->pending_int[int_num] |= IK_NMI;
+    else
+        cs->pending_int[int_num] &= ~IK_NMI;
+#endif
 }
 
 int interrupt_get_irq(interrupt_cpu_status_t *cs, int int_num)
@@ -298,6 +312,10 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
         || SMW_DW(m, cs->last_stolen_cycles_clk) < 0)
         return -1;
 
+    SMW_DW(m, cs->nirq);
+    SMW_DW(m, cs->nnmi);
+    SMW_DW(m, cs->global_pending_int);
+
     return 0;
 }
 
@@ -322,6 +340,10 @@ int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     if (SMR_DW(m, &dw) < 0)
         return -1;
     cs->last_stolen_cycles_clk = dw;
+
+    SMR_DW(m, &cs->nirq);
+    SMR_DW(m, &cs->nnmi);
+    SMR_DW(m, (DWORD*)&cs->global_pending_int);
 
     return 0;
 }

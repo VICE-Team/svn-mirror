@@ -155,6 +155,8 @@ BEGIN
             , CHECKED
         MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
             , CHECKED
+        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X
+            , CHECKED
         POPUP "VDC settin&gs"
         BEGIN
             MENUITEM "&Double size", IDM_TOGGLE_VDC_DOUBLESIZE

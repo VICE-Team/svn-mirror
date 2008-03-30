@@ -46,6 +46,7 @@
 static const ui_menu_toggle vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICScale2x", IDM_TOGGLE_SCALE2X },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },

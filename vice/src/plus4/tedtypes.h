@@ -57,17 +57,19 @@
 
 /* values in the coordinate system of the Raster object */
         /* 0x113 in TED raster counter */
-#define TED_PAL_FIRST_DISPLAYED_LINE    21
+#define TED_PAL_FIRST_DISPLAYED_LINE    19
         /* 0x0FA in TED raster counter */
-#define TED_PAL_LAST_DISPLAYED_LINE     309
+#define TED_PAL_LAST_DISPLAYED_LINE     306
+
+/* values in TED raster counter */
         /* 0x004 in TED raster counter */
-#define TED_PAL_25ROW_START_LINE        62
+#define TED_PAL_25ROW_START_LINE        4
         /* 0x0CB in TED raster counter */
-#define TED_PAL_25ROW_STOP_LINE         262
+#define TED_PAL_25ROW_STOP_LINE         0xcb
         /* 0x008 in TED raster counter */
-#define TED_PAL_24ROW_START_LINE        66
+#define TED_PAL_24ROW_START_LINE        8
         /* 0x0C7 in TED raster counter */
-#define TED_PAL_24ROW_STOP_LINE         258
+#define TED_PAL_24ROW_STOP_LINE         0xc7
 
 /* FIXME calculate NTSC values */
 #define TED_NTSC_FIRST_DISPLAYED_LINE   (0x20 - TED_NTSC_OFFSET)
@@ -83,7 +85,7 @@
 #define TED_38COL_STOP_PIXEL            0x158
 
 /* TED raster counter values */
-#define TED_PAL_VSYNC_LINE              254
+#define TED_PAL_VSYNC_LINE              257
 #define TED_NTSC_VSYNC_LINE             229
 
 /* FIXME add negated colors as well */

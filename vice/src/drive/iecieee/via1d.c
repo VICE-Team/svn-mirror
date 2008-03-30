@@ -85,6 +85,16 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
                       *(via_context->clk_ptr));
 }
 
+static void restore_int(via_context_t *via_context, unsigned int int_num,
+                    int value)
+{
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(via_context->context);
+
+    interrupt_set_irq_noclk(drive_context->cpu.int_status, int_num, value);
+}
+
 #define iec_drivex_write(a)             (((drive_context_t *)(via_context->context))->func.iec_write(a))
 #define iec_drivex_read()               (((drive_context_t *)(via_context->context))->func.iec_read())
 #define parallel_cable_drivex_write(a,b) (((drive_context_t *)(via_context->context))->func.parallel_cable_write(a,b))
@@ -523,6 +533,7 @@ void via1d_setup_context(drive_context_t *ctxptr)
     via->read_pra = read_pra;
     via->read_prb = read_prb;
     via->set_int = set_int;
+    via->restore_int = restore_int;
     via->set_ca2 = set_ca2;
     via->set_cb2 = set_cb2;
     via->reset = reset;

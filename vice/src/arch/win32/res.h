@@ -435,6 +435,7 @@
 #define IDM_TOGGLE_MAINCPU_TRACE		40216
 #define IDM_TOGGLE_DRIVE0CPU_TRACE		40217
 #define IDM_TOGGLE_DRIVE1CPU_TRACE		40218
+#define IDM_TOGGLE_SCALE2X              40219
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

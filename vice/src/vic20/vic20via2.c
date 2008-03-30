@@ -80,6 +80,12 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
                       *(via_context->clk_ptr));
 }
 
+static void restore_int(via_context_t *via_context, unsigned int int_num,
+                    int value)
+{
+    interrupt_set_nmi_noclk(maincpu_int_status, int_num, value);
+}
+
 static int tape_sense = 0;
 
 void via2_set_tape_sense(int v)
@@ -288,6 +294,7 @@ void vic20via2_setup_context(machine_context_t *machine_context)
     via->read_pra = read_pra;
     via->read_prb = read_prb;
     via->set_int = set_int;
+    via->restore_int = restore_int;
     via->set_ca2 = set_ca2;
     via->set_cb2 = set_cb2;
     via->reset = reset;

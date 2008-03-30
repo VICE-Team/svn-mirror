@@ -53,6 +53,7 @@
 static const ui_menu_toggle c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },

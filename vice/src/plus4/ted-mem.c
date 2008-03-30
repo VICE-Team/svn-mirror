@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
 #include "maincpu.h"
@@ -232,9 +233,6 @@ inline static void check_lower_upper_border(const BYTE value,
         if (value & 0x8) {
             /* 24 -> 25 row mode switch.  */
 
-            ted.raster.display_ystart = ted.row_25_start_line;
-            ted.raster.display_ystop = ted.row_25_stop_line;
-
             if (line == ted.row_24_stop_line && cycle > 0) {
                 /* If on the first line of the 24-line border, we
                    still see the 25-line (lowmost) border because the
@@ -252,9 +250,6 @@ inline static void check_lower_upper_border(const BYTE value,
             TED_DEBUG_REGISTER(("25 line mode enabled"));
         } else {
             /* 25 -> 24 row mode switch.  */
-
-            ted.raster.display_ystart = ted.row_24_start_line;
-            ted.raster.display_ystop = ted.row_24_stop_line;
 
             /* If on the last line of the 25-line border, we still see the
                24-line (upmost) border because the border flip flop has
@@ -276,6 +271,8 @@ inline static void ted06_store(const BYTE value)
 {
     int cycle;
     unsigned int line;
+
+/*    log_debug("FF06 %03x, %02x",ted.ted_raster_counter, value);*/
 
     cycle = TED_RASTER_CYCLE(maincpu_clk);
     line = TED_RASTER_Y(maincpu_clk);
@@ -596,6 +593,71 @@ inline static void ted19_store(BYTE value)
         value);
 }
 
+inline static void ted1c1d_store(WORD addr, BYTE value)
+{
+unsigned int new_raster;
+int diff;
+
+    ted.regs[addr] = value;
+    if (addr == 0x1c) {
+        new_raster = ((value & 1) << 8) + (ted.ted_raster_counter & 0xff);
+    } else {
+        new_raster = (ted.ted_raster_counter & 0x100) + value;
+    }
+
+/*    log_debug("Raster change old %03x, new %03x",ted.ted_raster_counter, new_raster);*/
+    if ((new_raster >= ted.first_dma_line) &&
+        (new_raster <= ted.last_dma_line)) {
+        ted.fetch_clk = ted.last_emulate_line_clk + TED_FETCH_CYCLE + ted.cycles_per_line;
+        alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
+    } else {
+        if (new_raster >= ted.screen_height) {
+            diff = 512 - new_raster;
+        } else {
+            diff = ted.screen_height - new_raster;
+        }
+        ted.fetch_clk = ted.last_emulate_line_clk + TED_FETCH_CYCLE + diff * ted.cycles_per_line;
+
+        alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
+    }
+
+    if (ted.raster_irq_line < (unsigned int)ted.screen_height) {
+        ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
+                             + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                             + (ted.cycles_per_line
+                             * (ted.raster_irq_line - new_raster)));
+
+        /* Raster interrupts on line 0 are delayed by 1 cycle.  */
+        /* FIXME this needs to be checked */
+        if (ted.raster_irq_line == 0)
+            ted.raster_irq_clk++;
+
+        if (ted.raster_irq_line <= new_raster)
+            ted.raster_irq_clk += ((new_raster >= ted.screen_height ? 512 : ted.screen_height)
+                                  * ted.cycles_per_line);
+        alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
+    } else {
+        if (new_raster >= ted.screen_height) {
+            ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
+                                 + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                                 + (ted.cycles_per_line
+                                 * (ted.raster_irq_line - new_raster)));
+
+            if (ted.raster_irq_line <= new_raster) {
+                ted.raster_irq_clk = CLOCK_MAX;
+                alarm_unset(ted.raster_irq_alarm);
+            } else {
+                alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
+            }
+        } else {
+            ted.raster_irq_clk = CLOCK_MAX;
+            alarm_unset(ted.raster_irq_alarm);
+        }
+    }
+
+    ted.ted_raster_counter = new_raster;
+}
+
 inline static void ted3e_store(void)
 {
     ted.regs[0x13] |= 0x01;
@@ -680,6 +742,10 @@ void REGPARM2 ted_store(WORD addr, BYTE value)
         break;
       case 0x19:
         ted19_store(value);
+        break;
+      case 0x1c:
+      case 0x1d:
+        ted1c1d_store(addr, value);
         break;
       case 0x3e:
         ted3e_store();
