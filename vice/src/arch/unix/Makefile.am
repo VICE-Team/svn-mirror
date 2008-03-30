@@ -31,6 +31,7 @@ libarch_a_SOURCES = \
 	console.c \
 	coproc.h \
 	coproc.c \
+	ffmpeglib.c \
 	fullscreenarch.h \
 	icon.h \
 	joy.c \
