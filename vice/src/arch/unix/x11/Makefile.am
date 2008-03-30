@@ -21,7 +21,6 @@ libx11ui_a_SOURCES = \
 	kbdef.h \
 	ui-cmdline-options.c \
 	ui-resources.c \
-	uicolor.h \
 	video.c \
 	videoarch.h \
 	c128icon.xpm \

@@ -1,3 +1,22 @@
+2000-06-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.19.
+
+	* color.c: Added dither bit.
+
+	* arch/unix/x11/video.c (video_convert_color_table): Changed
+	to new color management code.
+
+	* arch/unix/x11/gnome/uicolor.c: New file.
+
+	* arch/unix/x11/gnome/ui.c: Moved color allocation code to
+	`arch/unix/x11/gnome/uicolor.c'.
+
+	* arch/unix/x11/xaw/uicolor.c (uicolor_alloc_color): Fixed bug
+	in 16bpp and 32bpp mode.
+
+	* arch/unix/x11/uicolor.h: Moved to main source.
+
 2000-06-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.18.
