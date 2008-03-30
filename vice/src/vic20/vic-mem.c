@@ -45,11 +45,10 @@ vic_store(ADDRESS addr, BYTE value)
     VIC_DEBUG_REGISTER (("VIC: write $90%02X, value = $%02X.", addr, value));
 
     if (clk >= vic.draw_clk)
-        vic_raster_draw_alarm_handler (clk - vic.draw_clk);
+        vic_raster_draw_alarm_handler(clk - vic.draw_clk);
 
 
-    switch (addr)
-    {
+    switch (addr) {
       case 0:                     /* $9000  Screen X Location. */
         /*
             VIC checks in cycle n for peek($9000)=n
@@ -164,8 +163,7 @@ vic_store(ADDRESS addr, BYTE value)
                 (vic.screen_width - 1) * VIC_PIXEL_WIDTH);
 #endif /* VIDEO_REMOVE_2X */
 
-            if (VIC_RASTER_CYCLE(clk) <= 1)
-            {
+            if (VIC_RASTER_CYCLE(clk) <= 1) {
                 /* changes up to cycle 1 are visible in the current line */
                 vic.text_cols = new_text_cols;
 
@@ -215,8 +213,7 @@ vic_store(ADDRESS addr, BYTE value)
 
             int new_char_height = (value & 0x1) ? 16 : 8;
 
-            if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 2)
-            {
+            if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 2) {
                 /* changes up to cycle 2 of rasterline 0 are visible in
                    current frame */
                 vic.text_lines = new_text_lines;
@@ -231,8 +228,7 @@ vic_store(ADDRESS addr, BYTE value)
             }
 
 
-            if (old_char_height != new_char_height)
-            {
+            if (old_char_height != new_char_height) {
                 if (VIC_RASTER_CYCLE(clk) >= 1) {
                     raster_add_int_change_next_line(&vic.raster,
                         (int *)(&vic.row_increase_line), new_char_height);
@@ -286,7 +282,7 @@ vic_store(ADDRESS addr, BYTE value)
       case 11:                    /* $900B  Alto Enable and Frequency. */
       case 12:                    /* $900C  Soprano Enable and Frequency. */
       case 13:                    /* $900D  Noise Enable and Frequency. */
-        store_vic_sound(addr, value);
+        vic_sound_store(addr, value);
         return;
 
       case 14:                    /* $900E  Auxiliary Colour, Master Volume. */
@@ -308,7 +304,7 @@ vic_store(ADDRESS addr, BYTE value)
             }
         }
 
-        store_vic_sound(addr, value);
+        vic_sound_store(addr, value);
         return;
 
       case 15:                    /* $900F  Screen and Border Colors,
