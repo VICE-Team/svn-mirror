@@ -47,6 +47,7 @@
 #endif
 
 #include "archdep.h"
+#include "diskconstants.h"
 #include "diskimage.h"
 #include "fsdevice.h"
 #include "log.h"
@@ -507,6 +508,27 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
                   "Unknown disk type %i.  Cannot set disk geometry.",
                   vdrive->image_format);
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+static unsigned int last_read_track, last_read_sector;
+static BYTE last_read_buffer[256];
+
+void vdrive_get_last_read(unsigned int *track, unsigned int *sector,
+                          BYTE **buffer)
+{
+    *track = last_read_track;
+    *sector = last_read_sector;
+    *buffer = last_read_buffer;
+}
+
+void vdrive_set_last_read(unsigned int track, unsigned int sector,
+                          BYTE *buffer)
+{
+    last_read_track = track;
+    last_read_sector = sector;
+    memcpy(last_read_buffer, buffer, 256);
 }
 
 /* ------------------------------------------------------------------------- */

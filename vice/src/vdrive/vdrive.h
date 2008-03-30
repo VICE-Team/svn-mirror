@@ -47,88 +47,6 @@
 
 #define WRITE_BLOCK 512
 
-/*
- * Disk Drive Specs
- * For customized disks, the values must fit beteen the NUM_ and MAX_
- * limits. Do not change the NUM_ values, as they define the standard
- * disk geometry.
- */
-
-#define NUM_TRACKS_1541        35
-#define NUM_BLOCKS_1541        683      /* 664 free */
-#define EXT_TRACKS_1541        40
-#define EXT_BLOCKS_1541        768
-#define MAX_TRACKS_1541        42
-#define MAX_BLOCKS_1541        802
-#define DIR_TRACK_1541         18
-#define DIR_SECTOR_1541        1
-#define BAM_TRACK_1541         18
-#define BAM_SECTOR_1541        0
-#define BAM_NAME_1541          144
-#define BAM_ID_1541            162
-#define BAM_EXT_BIT_MAP_1541   192
-
-#define NUM_TRACKS_2040        35
-#define NUM_BLOCKS_2040        690      /* 670 free */
-#define MAX_TRACKS_2040        35
-#define MAX_BLOCKS_2040        690
-#define DIR_TRACK_2040         18
-#define DIR_SECTOR_2040        1
-#define BAM_TRACK_2040         18
-#define BAM_SECTOR_2040        0
-#define BAM_NAME_2040          144
-#define BAM_ID_2040            162
-#define BAM_EXT_BIT_MAP_2040   192
-
-#define NUM_TRACKS_1571        70
-#define NUM_BLOCKS_1571        1366     /* 1328 free */
-#define MAX_TRACKS_1571        70
-#define MAX_BLOCKS_1571        1366
-#define DIR_TRACK_1571         18
-#define DIR_SECTOR_1571        1
-#define BAM_TRACK_1571         18
-#define BAM_SECTOR_1571        0
-#define BAM_NAME_1571          144
-#define BAM_ID_1571            162
-#define BAM_EXT_BIT_MAP_1571   221
-
-#define NUM_TRACKS_1581        80
-#define NUM_SECTORS_1581       40       /* Logical sectors */
-#define NUM_BLOCKS_1581        3200     /* 3120 free */
-#define MAX_TRACKS_1581        80
-#define MAX_BLOCKS_1581        3200
-#define DIR_TRACK_1581         40
-#define DIR_SECTOR_1581        3
-#define BAM_TRACK_1581         40
-#define BAM_SECTOR_1581        0
-#define BAM_NAME_1581          4
-#define BAM_ID_1581            22
-
-#define NUM_TRACKS_8050        77
-#define NUM_BLOCKS_8050        2083     /* 2052 free */
-#define MAX_TRACKS_8050        77
-#define MAX_BLOCKS_8050        2083
-#define BAM_TRACK_8050         39
-#define BAM_SECTOR_8050        0
-#define BAM_NAME_8050          6        /* pos. of disk name in 1st BAM blk */
-#define BAM_ID_8050            24       /* pos. of disk id in 1st BAM blk */
-#define DIR_TRACK_8050         39
-#define DIR_SECTOR_8050        1
-
-#define NUM_TRACKS_8250        154
-#define NUM_BLOCKS_8250        4166     /* 4133 free */
-#define MAX_TRACKS_8250        154
-#define MAX_BLOCKS_8250        4166
-#define BAM_TRACK_8250         39
-#define BAM_SECTOR_8250        0
-#define BAM_NAME_8250          6        /* pos. of disk name in 1st BAM blk */
-#define BAM_ID_8250            24       /* pos. of disk id in 1st BAM blk */
-#define DIR_TRACK_8250         39
-#define DIR_SECTOR_8250        1
-
-#define MAX_TRACKS_ANY         MAX_TRACKS_8250
-#define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
-
 #define SET_LO_HI(p, val)                       \
     do {                                        \
         *((p)++) = (val) & 0xff;                \
@@ -269,6 +187,10 @@ extern int vdrive_parse_name(const char *name, unsigned int length,
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_calculate_disk_half(unsigned int type);
 extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);
+extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector,
+                                 BYTE **buffer);
+extern void vdrive_set_last_read(unsigned int track, unsigned int sector,
+                                 BYTE *buffer);
 
 extern vdrive_t *vdrive_internal_open_disk_image(const char *name,
                                                  unsigned int read_only);
