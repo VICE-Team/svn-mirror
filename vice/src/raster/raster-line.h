@@ -29,6 +29,11 @@
 
 struct raster_s;
 
+extern unsigned int raster_line_get_real_mode(struct raster_s *raster);
+extern void raster_line_draw_borders(struct raster_s *raster);
+extern void raster_line_fill_xsmooth_region(struct raster_s *raster);
+extern void raster_line_draw_blank(struct raster_s *raster, unsigned int start,
+                                   unsigned int end);
 extern void raster_line_emulate(struct raster_s *raster);
 
 #endif
