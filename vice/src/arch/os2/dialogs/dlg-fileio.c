@@ -54,7 +54,7 @@
 #include "archdep.h"           // archdep_boot_path
 #include "fliplist.h"          // flip_*
 #include "charset.h"           // a2p, p2a
-#include "resources.h"         // resources_set_value
+#include "resources.h"         // resources_set_int
 #include "autostart.h"         // autostart_autodetect
 #include "cartridge.h"         // cartridge_attach_image
 #include "interrupt.h"         // interrupt_maincpu_trigger_trap
@@ -396,80 +396,80 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         switch (sact)
         {
         case 0:
-            return resources_set_value(VIDEO_PALETTE, (resource_value_t)szpath);
+            return resources_set_string(VIDEO_PALETTE, szpath);
 #ifdef __X128__
         case 1:
-            return resources_set_value("VDC_PaletteFile", (resource_value_t)szpath);
+            return resources_set_string("VDC_PaletteFile", szpath);
 #endif
 #ifdef __XCBM__
         case 1:
-            return resources_set_value("ViciiPaletteFile", (resource_value_t)szpath);
+            return resources_set_string("ViciiPaletteFile", szpath);
 #endif
         }
         return -1;
     case 6: // rom img
-        return resources_set_value("KeymapFile", (resource_value_t)szpath);
+        return resources_set_string("KeymapFile", szpath);
     case 7:
         switch (sact)
         {
         case 0:
-            return resources_set_value("KernalName",    (resource_value_t)szpath);
+            return resources_set_string("KernalName",    szpath);
         case 1:
-            return resources_set_value("ChargenName",   (resource_value_t)szpath);
+            return resources_set_string("ChargenName",   szpath);
         case 2:
-            return resources_set_value("DosName1541",   (resource_value_t)szpath);
+            return resources_set_string("DosName1541",   szpath);
         case 3:
-            return resources_set_value("DosName154ii",  (resource_value_t)szpath);
+            return resources_set_string("DosName154ii",  szpath);
         case 4:
-            return resources_set_value("DosName1571",   (resource_value_t)szpath);
+            return resources_set_string("DosName1571",   szpath);
         case 5:
-            return resources_set_value("DosName1581",   (resource_value_t)szpath);
+            return resources_set_string("DosName1581",   szpath);
         case 6:
-            return resources_set_value("DosName2031",   (resource_value_t)szpath);
+            return resources_set_string("DosName2031",   szpath);
         case 7:
-            return resources_set_value("DosName1001",   (resource_value_t)szpath);
+            return resources_set_string("DosName1001",   szpath);
         case 8:
-            return resources_set_value("DosName2040",   (resource_value_t)szpath);
+            return resources_set_string("DosName2040",   szpath);
         case 9:
-            return resources_set_value("DosName3040",   (resource_value_t)szpath);
+            return resources_set_string("DosName3040",   szpath);
         case 10:
-            return resources_set_value("DosName4040",   (resource_value_t)szpath);
+            return resources_set_string("DosName4040",   szpath);
         case 11:
-            return resources_set_value("BasicName",     (resource_value_t)szpath);
+            return resources_set_string("BasicName",     szpath);
         case 12:
-            return resources_set_value("Z80BiosName",   (resource_value_t)szpath);
+            return resources_set_string("Z80BiosName",   szpath);
         case 13:
-            return resources_set_value("Kernal64Name",  (resource_value_t)szpath);
+            return resources_set_string("Kernal64Name",  szpath);
         case 14:
-            return resources_set_value("Basic64Name",   (resource_value_t)szpath);
+            return resources_set_string("Basic64Name",   szpath);
         case 15:
-            return resources_set_value("Chargen64Name", (resource_value_t)szpath);
+            return resources_set_string("Chargen64Name", szpath);
         case 16:
-            return resources_set_value("ChargenIntName", (resource_value_t)szpath);
+            return resources_set_string("ChargenIntName", szpath);
         case 17:
-            return resources_set_value("ChargenDEName", (resource_value_t)szpath);
+            return resources_set_string("ChargenDEName", szpath);
         case 18:
-            return resources_set_value("ChargenFRName", (resource_value_t)szpath);
+            return resources_set_string("ChargenFRName", szpath);
         case 19:
-            return resources_set_value("ChargenSEName", (resource_value_t)szpath);
+            return resources_set_string("ChargenSEName", szpath);
         case 20:
-            return resources_set_value("KernalIntName", (resource_value_t)szpath);
+            return resources_set_string("KernalIntName", szpath);
         case 21:
-            return resources_set_value("KernalDEName", (resource_value_t)szpath);
+            return resources_set_string("KernalDEName", szpath);
         case 22:
-            return resources_set_value("KernalFIName", (resource_value_t)szpath);
+            return resources_set_string("KernalFIName", szpath);
         case 23:
-            return resources_set_value("KernalFRName", (resource_value_t)szpath);
+            return resources_set_string("KernalFRName", szpath);
         case 24:
-            return resources_set_value("KernalITName", (resource_value_t)szpath);
+            return resources_set_string("KernalITName", szpath);
         case 25:
-            return resources_set_value("KernalNOName", (resource_value_t)szpath);
+            return resources_set_string("KernalNOName", szpath);
         case 26:
-            return resources_set_value("KernalSEName", (resource_value_t)szpath);
+            return resources_set_string("KernalSEName", szpath);
         case 27:
-            return resources_set_value("BasicHiName", (resource_value_t)szpath);
+            return resources_set_string("BasicHiName", szpath);
         case 28:
-            return resources_set_value("BasicLoName", (resource_value_t)szpath);
+            return resources_set_string("BasicLoName", szpath);
         }
         return -1;
     case 8:
@@ -510,11 +510,11 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         switch (sact)
         {
         case 0:
-            return resources_set_value("RomModule9Name", (resource_value_t)szpath);
+            return resources_set_string("RomModule9Name", szpath);
         case 1:
-            return resources_set_value("RomModuleAName", (resource_value_t)szpath);
+            return resources_set_string("RomModuleAName", szpath);
         case 2:
-            return resources_set_value("RomModuleBName", (resource_value_t)szpath);
+            return resources_set_string("RomModuleBName", szpath);
         }
         return -1;
 #endif
@@ -523,13 +523,13 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         switch (sact)
         {
         case 0:
-            return resources_set_value("Cart1Name", (resource_value_t)szpath);
+            return resources_set_string("Cart1Name", szpath);
         case 1:
-            return resources_set_value("Cart2Name", (resource_value_t)szpath);
+            return resources_set_string("Cart2Name", szpath);
         case 2:
-            return resources_set_value("Cart4Name", (resource_value_t)szpath);
+            return resources_set_string("Cart4Name", szpath);
         case 3:
-            return resources_set_value("Cart6Name", (resource_value_t)szpath);
+            return resources_set_string("Cart6Name", szpath);
         }
         return -1;
 #endif
@@ -538,9 +538,9 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         switch (sact)
         {
         case 0:
-            return resources_set_value("InternalFunctionName", (resource_value_t)szpath);
+            return resources_set_string("InternalFunctionName", szpath);
         case 1:
-            return resources_set_value("ExternalFunctionName", (resource_value_t)szpath);
+            return resources_set_string("ExternalFunctionName", szpath);
         }
         return -1;
 #endif
