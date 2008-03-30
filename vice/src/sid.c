@@ -8,6 +8,9 @@
  * AIX support added by
  *  Chris Sharp (sharpc@hursley.ibm.com)
  *
+ * NetBSD patch by
+ *  Krister Walfridsson (cato@df.lth.se)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -1587,9 +1590,9 @@ static sid_device_t sgi_device;
 
 
 /*
- * Solaris (untested and unfinished)
+ * NetBSD and Solaris
  */
-#if defined(sun) && defined(HAVE_SYS_AUDIOIO_H)
+#if defined(HAVE_SYS_AUDIOIO_H)
 #include <sys/audioio.h>
 
 static int sun_bufferstatus(sound_t *s, int first);
@@ -1692,7 +1695,7 @@ static int sun_write(sound_t *s, s16_t *pbuf, int nr)
 	    return 1;
     }
     sun_written += nr;
-    /* XXX: correct? */
+
     while (sun_bufferstatus(s, 0) > sun_bufsize)
 	usleep(1000000 / (4 * (int)RFSH_PER_SEC));
     return 0;
@@ -1705,7 +1708,10 @@ static int sun_bufferstatus(sound_t *s, int first)
     st = ioctl(sun_fd, AUDIO_GETINFO, &info);
     if (st < 0)
 	return -1;
-    /* XXX: is samples reliable? eof? */
+#ifdef NetBSD
+    if (!sun_8bit)
+	return sun_written - info.play.samples / sizeof(s16_t);
+#endif
     return sun_written - info.play.samples;
 }
 
@@ -1721,7 +1727,11 @@ static void sun_close(void)
 
 static sid_device_t sun_device =
 {
+#ifdef NetBSD
+    "netbsd",
+#else
     "sun",
+#endif
     sun_init,
     sun_write,
     NULL,
