@@ -50,6 +50,7 @@
 #include "ui.h"
 #include "util.h"
 #include "vicii-phi1.h"
+#include "vicii.h"
 
 #ifdef HAVE_TFE
 #include "tfe.h"
@@ -218,6 +219,8 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 {
     int io_source_counter=0;
 
+    vicii_handle_pending_alarms_external(0);
+
     memset(io_source_return,0,sizeof(io_source_return));
     returned=0;
     io_source_start=-1;
@@ -293,6 +296,8 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 
 void REGPARM2 c64io1_store(WORD addr, BYTE value)
 {
+    vicii_handle_pending_alarms_external_write();
+
     if (sid_stereo
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
@@ -322,6 +327,8 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
 BYTE REGPARM1 c64io2_read(WORD addr)
 {
     int io_source_counter=0;
+
+    vicii_handle_pending_alarms_external(0);
 
     memset(io_source_return,0,sizeof(io_source_return));
     returned=0;
@@ -393,6 +400,8 @@ BYTE REGPARM1 c64io2_read(WORD addr)
 
 void REGPARM2 c64io2_store(WORD addr, BYTE value)
 {
+    vicii_handle_pending_alarms_external_write();
+
     if (sid_stereo
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
