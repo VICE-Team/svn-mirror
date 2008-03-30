@@ -29,8 +29,8 @@
 #include "vice.h"
 
 #include "cmdline.h"
-#include "vdc.h"
 #include "vdc-cmdline-options.h"
+#include "vdc.h"
 
 
 

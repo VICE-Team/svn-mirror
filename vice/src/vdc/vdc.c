@@ -38,11 +38,12 @@
 #include "palette.h"
 #include "snapshot.h"
 #include "utils.h"
-#include "vdc.h"
 #include "vdc-cmdline-options.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
 #include "vdc-snapshot.h"
+#include "vdc.h"
+#include "vdctypes.h"
 
 
 
@@ -129,7 +130,7 @@ int vdc_init_cmdline_options(void)
 
 
 /* Initialize the VDC emulation. */
-canvas_t vdc_init(void)
+void *vdc_init(void)
 {
     vdc.initialized = 0;
 
@@ -157,7 +158,7 @@ canvas_t vdc_init(void)
 
     vdc.initialized = 1;
 
-    return vdc.raster.viewport.canvas;
+    return (void *)vdc.raster.viewport.canvas;
 }
 
 /* Reset the VDC chip */

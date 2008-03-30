@@ -29,9 +29,10 @@
 #include "vice.h"
 
 #include "types.h"
-#include "vdc.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
+#include "vdc.h"
+#include "vdctypes.h"
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */

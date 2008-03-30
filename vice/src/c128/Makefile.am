@@ -6,8 +6,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vicii \
-	-I$(top_srcdir)/src/vdc \
-	-I$(top_srcdir)/src/raster
+	-I$(top_srcdir)/src/vdc
 
 noinst_LIBRARIES = libc128.a
 
@@ -25,3 +24,4 @@ libc128_a_SOURCES = \
 	z80.h \
 	z80mem.c \
 	z80mem.h
+

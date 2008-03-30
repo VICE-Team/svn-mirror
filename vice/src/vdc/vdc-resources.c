@@ -30,10 +30,9 @@
 
 #include "resources.h"
 #include "utils.h"
-
-#include "vdc.h"
-
 #include "vdc-resources.h"
+#include "vdc.h"
+#include "vdctypes.h"
 
 
 

@@ -41,6 +41,7 @@
 #include "c64tpi.h"
 #include "cmdline.h"
 #include "emuid.h"
+#include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "resources.h"

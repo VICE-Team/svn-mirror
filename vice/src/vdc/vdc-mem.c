@@ -32,8 +32,9 @@
 #include <string.h>
 
 #include "types.h"
-#include "vdc.h"
 #include "vdc-mem.h"
+#include "vdc.h"
+#include "vdctypes.h"
 
 
 

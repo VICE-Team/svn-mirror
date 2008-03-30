@@ -69,6 +69,7 @@
 #include "types.h"
 #include "utils.h"
 #include "vicii.h"
+#include "video.h"
 #include "vsidui.h"
 #include "vsync.h"
 
@@ -457,7 +458,7 @@ void machine_shutdown(void)
 
 void machine_handle_pending_alarms(int num_write_cycles)
 {
-     vic_ii_handle_pending_alarms(num_write_cycles);
+     vic_ii_handle_pending_alarms_external(num_write_cycles);
 }
 
 /* ------------------------------------------------------------------------- */

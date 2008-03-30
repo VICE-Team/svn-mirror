@@ -3,7 +3,6 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/crtc \
-	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libpet.a
@@ -25,3 +24,4 @@ libpet_a_SOURCES = \
 	petsound.h \
 	petvia.c \
 	petvia.h
+

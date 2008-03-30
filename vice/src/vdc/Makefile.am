@@ -7,8 +7,6 @@ INCLUDES = \
 noinst_LIBRARIES = libvdc.a
 
 libvdc_a_SOURCES = \
-	vdc.c \
-	vdc.h \
 	vdc-cmdline-options.c \
 	vdc-cmdline-options.h \
 	vdc-draw.c \
@@ -18,8 +16,8 @@ libvdc_a_SOURCES = \
 	vdc-resources.c \
 	vdc-resources.h \
 	vdc-snapshot.c \
-	vdc-snapshot.h
+	vdc-snapshot.h \
+        vdc.c \
+        vdc.h \
+	vdctypes.h
 
-EXTRA_DIST =
-
-vdcdir = $(top_srcdir)/src/vdc
