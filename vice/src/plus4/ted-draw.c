@@ -1000,7 +1000,7 @@ static void init_drawing_tables(void)
 {
     DWORD i;
     unsigned int f, b;
-    BYTE tmptable[4] = { 0, 4, 5, 3 };
+    const BYTE tmptable[4] = { 0, 4, 5, 3 };
 
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0x7f; f++) {

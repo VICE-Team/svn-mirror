@@ -81,7 +81,7 @@ int cartC_ram = 0;
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;
 
-static BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
+static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
 /* ramsize starts counting at 0x10000 if less than 512. If 512 or more,
    it starts counting at 0x00000.

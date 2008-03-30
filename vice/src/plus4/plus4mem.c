@@ -102,7 +102,7 @@ static unsigned int mem_config;
 /* Pointer to the IEC structure.  */
 static iec_info_t *plus4_iec_info;
 
-static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
+static const iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
     iec_cpu_write_conf0, iec_cpu_write_conf1,
     iec_cpu_write_conf2, iec_cpu_write_conf3
 };
@@ -615,36 +615,35 @@ void mem_initialize_memory(void)
     int i, j;
     int ram_size;
 
-
     if (resources_get_value("RamSize", (resource_value_t)&ram_size) < 0)
         return;
 
     switch (ram_size) {
-        default:
-        case 64:
-            for (i = 0; i<16; i++) {
-                chargen_tab[1][i] = RAM4;
-                chargen_tab[2][i] = RAM8;
-                chargen_tab[3][i] = RAMC;
-                chargen_tab[5][i] = RAM4;
-            }
-            break;
-        case 32:
-            for (i = 0; i<16; i++) {
-                chargen_tab[1][i] = RAM4;
-                chargen_tab[2][i] = RAM0;
-                chargen_tab[3][i] = RAM4;
-                chargen_tab[5][i] = RAM4;
-            }
-            break;
-        case 16:
-            for (i = 0; i<16; i++) {
-                chargen_tab[1][i] = RAM0;
-                chargen_tab[2][i] = RAM0;
-                chargen_tab[3][i] = RAM0;
-                chargen_tab[5][i] = RAM0;
-            }
-            break;
+      default:
+      case 64:
+        for (i = 0; i < 16; i++) {
+            chargen_tab[1][i] = RAM4;
+            chargen_tab[2][i] = RAM8;
+            chargen_tab[3][i] = RAMC;
+            chargen_tab[5][i] = RAM4;
+        }
+        break;
+      case 32:
+        for (i = 0; i < 16; i++) {
+            chargen_tab[1][i] = RAM4;
+            chargen_tab[2][i] = RAM0;
+            chargen_tab[3][i] = RAM4;
+            chargen_tab[5][i] = RAM4;
+        }
+        break;
+      case 16:
+        for (i = 0; i < 16; i++) {
+            chargen_tab[1][i] = RAM0;
+            chargen_tab[2][i] = RAM0;
+            chargen_tab[3][i] = RAM0;
+            chargen_tab[5][i] = RAM0;
+        }
+        break;
     }
 
     plus4_iec_info = iec_get_drive_port();
@@ -663,22 +662,22 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xff; j++) {
             switch (ram_size) {
-                default:
-                case 64:
-                    mem_read_tab[i][j] = ram_read;
-                    mem_read_base_tab[i][j] = mem_ram + (j << 8);
-                    mem_write_tab[i][j] = ted_mem_vbank_store;
-                    break;
-                case 32:
-                    mem_read_tab[i][j] = ram_read_32k;
-                    mem_read_base_tab[i][j] = mem_ram + ((j & 0x7f) << 8);
-                    mem_write_tab[i][j] = ted_mem_vbank_store_32k;
-                    break;
-                case 16:
-                    mem_read_tab[i][j] = ram_read_16k;
-                    mem_read_base_tab[i][j] = mem_ram + ((j & 0x3f) << 8);
-                    mem_write_tab[i][j] = ted_mem_vbank_store_16k;
-                    break;
+              default:
+              case 64:
+                mem_read_tab[i][j] = ram_read;
+                mem_read_base_tab[i][j] = mem_ram + (j << 8);
+                mem_write_tab[i][j] = ted_mem_vbank_store;
+                break;
+              case 32:
+                mem_read_tab[i][j] = ram_read_32k;
+                mem_read_base_tab[i][j] = mem_ram + ((j & 0x7f) << 8);
+                mem_write_tab[i][j] = ted_mem_vbank_store_32k;
+                break;
+              case 16:
+                mem_read_tab[i][j] = ram_read_16k;
+                mem_read_base_tab[i][j] = mem_ram + ((j & 0x3f) << 8);
+                mem_write_tab[i][j] = ted_mem_vbank_store_16k;
+                break;
             }
 #if 0
             if ((j & 0xc0) == (k << 6)) {
@@ -796,31 +795,31 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i + 1][0xfe] = NULL;
 
         switch (ram_size) {
-            default:
-            case 64:
-                mem_read_tab[i + 0][0xff] = ram_ffxx_read;
-                mem_write_tab[i + 0][0xff] = ram_ffxx_store;
-                mem_read_base_tab[i + 0][0xff] = NULL;
-                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-                mem_write_tab[i + 1][0xff] = rom_ffxx_store;
-                mem_read_base_tab[i + 1][0xff] = NULL;
-                break;
-            case 32:
-                mem_read_tab[i + 0][0xff] = ram_ffxx_read_32k;
-                mem_write_tab[i + 0][0xff] = ram_ffxx_store_32k;
-                mem_read_base_tab[i + 0][0xff] = NULL;
-                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-                mem_write_tab[i + 1][0xff] = rom_ffxx_store_32k;
-                mem_read_base_tab[i + 1][0xff] = NULL;
-                break;
-            case 16:
-                mem_read_tab[i + 0][0xff] = ram_ffxx_read_16k;
-                mem_write_tab[i + 0][0xff] = ram_ffxx_store_16k;
-                mem_read_base_tab[i + 0][0xff] = NULL;
-                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-                mem_write_tab[i + 1][0xff] = rom_ffxx_store_16k;
-                mem_read_base_tab[i + 1][0xff] = NULL;
-                break;
+          default:
+          case 64:
+            mem_read_tab[i + 0][0xff] = ram_ffxx_read;
+            mem_write_tab[i + 0][0xff] = ram_ffxx_store;
+            mem_read_base_tab[i + 0][0xff] = NULL;
+            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+            mem_write_tab[i + 1][0xff] = rom_ffxx_store;
+            mem_read_base_tab[i + 1][0xff] = NULL;
+            break;
+          case 32:
+            mem_read_tab[i + 0][0xff] = ram_ffxx_read_32k;
+            mem_write_tab[i + 0][0xff] = ram_ffxx_store_32k;
+            mem_read_base_tab[i + 0][0xff] = NULL;
+            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+            mem_write_tab[i + 1][0xff] = rom_ffxx_store_32k;
+            mem_read_base_tab[i + 1][0xff] = NULL;
+            break;
+          case 16:
+            mem_read_tab[i + 0][0xff] = ram_ffxx_read_16k;
+            mem_write_tab[i + 0][0xff] = ram_ffxx_store_16k;
+            mem_read_base_tab[i + 0][0xff] = NULL;
+            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+            mem_write_tab[i + 1][0xff] = rom_ffxx_store_16k;
+            mem_read_base_tab[i + 1][0xff] = NULL;
+            break;
         }
 
         mem_read_tab[i + 0][0x100] = mem_read_tab[i + 0][0];
@@ -889,15 +888,10 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* Exported banked memory access functions for the monitor.  */
 
-static const char *banknames[] =
-{
-    "default", "cpu", "ram", "rom", "funcrom", "cart1rom", "cart2rom", NULL
-};
+static const char *banknames[] = {
+    "default", "cpu", "ram", "rom", "funcrom", "cart1rom", "cart2rom", NULL };
 
-static int banknums[] =
-{
-    1, 0, 1, 2, 3, 4, 5
-};
+static const int banknums[] = { 1, 0, 1, 2, 3, 4, 5 };
 
 const char **mem_bank_list(void)
 {
