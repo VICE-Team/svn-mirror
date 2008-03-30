@@ -83,9 +83,9 @@ int mon_stop_output;
 #define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
-#define GET_OPCODE(mem)                                                     \
-    (mon_get_mem_val(mem,                                                   \
-                     (ADDRESS)((monitor_cpu_type.mon_register_get_val)(mem, \
+#define GET_OPCODE(mem)                                                  \
+    (mon_get_mem_val(mem,                                                \
+                     (WORD)((monitor_cpu_type.mon_register_get_val)(mem, \
                      e_PC))))
 
 console_t *console_log = NULL;
@@ -100,7 +100,7 @@ extern void parse_and_execute_line(char *input);
 /* Types */
 
 struct symbol_entry {
-   ADDRESS addr;
+   WORD addr;
    char *name;
    struct symbol_entry *next;
 };
@@ -138,8 +138,8 @@ const char *_mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "<<Invalid>>"
 };
 
-static ADDRESS watch_load_array[10][NUM_MEMSPACES];
-static ADDRESS watch_store_array[10][NUM_MEMSPACES];
+static WORD watch_load_array[10][NUM_MEMSPACES];
+static WORD watch_store_array[10][NUM_MEMSPACES];
 static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
 bool force_array[NUM_MEMSPACES];
@@ -257,7 +257,7 @@ static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
 
 static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 {
-    ADDRESS start, end;
+    WORD start, end;
     unsigned len = 0;
 
     start = addr_location(addr1);
@@ -434,7 +434,7 @@ void mon_bank(MEMSPACE mem, const char *bankname)
     }
 }
 
-BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, ADDRESS mem_addr)
+BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
 {
     if (mem == e_disk8_space) {
         if (!check_drive_emu_level_ok(8))
@@ -448,12 +448,12 @@ BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, ADDRESS mem_addr)
     return mon_interfaces[mem]->mem_bank_read(bank, mem_addr);
 }
 
-BYTE mon_get_mem_val(MEMSPACE mem, ADDRESS mem_addr)
+BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr)
 {
     return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
 }
 
-void mon_set_mem_val(MEMSPACE mem, ADDRESS mem_addr, BYTE val)
+void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
 {
     int bank;
 
@@ -627,7 +627,7 @@ void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
 
 void mon_display_screen(void)
 {
-    ADDRESS base;
+    WORD base;
     BYTE rows, cols;
     unsigned int r, c;
 
@@ -636,7 +636,7 @@ void mon_display_screen(void)
         for (c = 0; c < cols; c++) {
             BYTE data;
 
-            data = mon_get_mem_val(e_comp_space, (ADDRESS)ADDR_LIMIT(base++));
+            data = mon_get_mem_val(e_comp_space, (WORD)ADDR_LIMIT(base++));
             data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
 
             mon_out("%c", data);
@@ -668,7 +668,7 @@ void mon_display_io_regs(void)
 }
 
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
-                        ADDRESS start, ADDRESS end)
+                        WORD start, WORD end)
 {
     mem_ioreg_list_t *base, *curr;
     unsigned int n;
@@ -717,7 +717,7 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
     playback_commands(filename);
 #if 0
     FILE   *fp;
-    ADDRESS adr;
+    WORD adr;
     char memspace[MAX_MEMSPACE_NAME_LEN], name[MAX_LABEL_LEN];
     char *name_ptr;
     bool found = FALSE;
@@ -883,7 +883,7 @@ static void free_symbol_table(MEMSPACE mem)
     }
 }
 
-char *mon_symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr)
+char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr)
 {
     symbol_entry_t *sym_ptr;
 
@@ -927,7 +927,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     char *old_name;
     int old_addr;
     MEMSPACE mem = addr_memspace(addr);
-    ADDRESS loc = addr_location(addr);
+    WORD loc = addr_location(addr);
 
     if (strcmp(name, ".PC") == 0) {
         mon_out("Error: .PC is a reserved label.\n");
@@ -939,7 +939,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
-    if (old_name && (ADDRESS)(old_addr) != addr ) {
+    if (old_name && (WORD)(old_addr) != addr ) {
         mon_out("Warning: label(s) for address $%04x already exist.\n",
                   loc);
     }
@@ -1197,7 +1197,7 @@ void mon_delete_conditional(cond_node_t *cnode)
 /* *** WATCHPOINTS *** */
 
 
-void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
+void mon_watch_push_load_addr(WORD addr, MEMSPACE mem)
 {
     if (inside_monitor)
         return;
@@ -1210,7 +1210,7 @@ void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
     watch_load_count[mem]++;
 }
 
-void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
+void mon_watch_push_store_addr(WORD addr, MEMSPACE mem)
 {
     if (inside_monitor)
         return;
@@ -1227,7 +1227,7 @@ bool watchpoints_check_loads(MEMSPACE mem)
 {
     bool trap = FALSE;
     unsigned count;
-    ADDRESS addr = 0;
+    WORD addr = 0;
 
     count = watch_load_count[mem];
     watch_load_count[mem] = 0;
@@ -1244,7 +1244,7 @@ bool watchpoints_check_stores(MEMSPACE mem)
 {
     bool trap = FALSE;
     unsigned count;
-    ADDRESS addr = 0;
+    WORD addr = 0;
 
     count = watch_store_count[mem];
     watch_store_count[mem] = 0;
@@ -1272,7 +1272,7 @@ int mon_force_import(MEMSPACE mem)
     return result;
 }
 
-void mon_check_icount(ADDRESS a)
+void mon_check_icount(WORD a)
 {
     if (!instruction_count)
         return;
@@ -1332,7 +1332,7 @@ void mon_check_icount_interrupt(void)
             wait_for_return_level++;
 }
 
-void mon_check_watchpoints(ADDRESS a)
+void mon_check_watchpoints(WORD a)
 {
     if (watch_load_occurred) {
         if (watchpoints_check_loads(e_comp_space)) {
@@ -1390,7 +1390,7 @@ static void handle_abort(int signo)
     signal(SIGINT, (signal_handler_t) handle_abort);
 }
 
-void mon_open(ADDRESS a)
+void mon_open(WORD a)
 {
     if (mon_console_close_on_leaving) {
         console_log = uimon_window_open();
@@ -1494,7 +1494,7 @@ void mon_close(int check)
 }
 
 
-void mon(ADDRESS a)
+void mon(WORD a)
 {
     char prompt[40];
 

@@ -223,7 +223,8 @@ static void vdc_update_geometry(void)
     vdc.screen_height = (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)
                         + (vdc.regs[5] & 0x1f);
 
-    vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE, vdc.screen_height);
+    vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE,
+                              vdc.screen_height - 1);
 
     vdc.border_height = VDC_SCREEN_BORDERHEIGHT + (vdc.regs[7] & 0x7f) / 2
                         - (vdc.regs[24] & 0x1f);
@@ -383,8 +384,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
         }
 
         if (vdc.force_resize) {
-            if (vdc.initialized)
+            if (vdc.initialized) {
                 vdc_set_geometry();
+                raster_mode_change();
+            }
             vdc.force_resize = 0;
         }
 

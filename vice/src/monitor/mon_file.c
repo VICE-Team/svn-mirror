@@ -42,7 +42,7 @@
 #include "vdrive.h"
 
 
-#define ADDR_LIMIT(x) ((ADDRESS)(LO16(x)))
+#define ADDR_LIMIT(x) ((WORD)(LO16(x)))
 
 
 static FILE *fp;
@@ -135,7 +135,7 @@ static int mon_file_close(unsigned int secondary, int device)
 void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
                    bool is_bload)
 {
-    ADDRESS adr;
+    WORD adr;
     BYTE b1 = 0, b2 = 0;
     int ch = 0;
     MEMSPACE mem;
@@ -185,7 +185,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
 
     if (is_bload == FALSE && (adr & 0xff) == 1) {
         /* set end of load addresses like kernal load */
-        mem_set_basic_text(adr, (ADDRESS)(adr + ch));
+        mem_set_basic_text(adr, (WORD)(adr + ch));
     }
 
     mon_file_close(0, device);
@@ -194,7 +194,7 @@ void mon_file_load(const char *filename, int device, MON_ADDR start_addr,
 void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
                    MON_ADDR end_addr, bool is_bsave)
 {
-    ADDRESS adr, end;
+    WORD adr, end;
     long len;
     int ch = 0;
     MEMSPACE mem;
@@ -234,7 +234,7 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
     do {
         unsigned char save_byte;
 
-        save_byte = mon_get_mem_val(mem, (ADDRESS)(adr + ch));
+        save_byte = mon_get_mem_val(mem, (WORD)(adr + ch));
         if (mon_file_write(save_byte, 1, device) < 0) {
             mon_out("Saving for `%s' failed.\n", filename);
             break;

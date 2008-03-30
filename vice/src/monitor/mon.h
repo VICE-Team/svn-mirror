@@ -90,9 +90,9 @@ struct monitor_interface_s {
     int current_bank;
     const char **(*mem_bank_list)(void);
     int (*mem_bank_from_name)(const char *name);
-    BYTE (*mem_bank_read)(int bank, ADDRESS addr);
-    BYTE (*mem_bank_peek)(int bank, ADDRESS addr);
-    void (*mem_bank_write)(int bank, ADDRESS addr, BYTE byte);
+    BYTE (*mem_bank_read)(int bank, WORD addr);
+    BYTE (*mem_bank_peek)(int bank, WORD addr);
+    void (*mem_bank_write)(int bank, WORD addr, BYTE byte);
 
     struct mem_ioreg_list_s *(*mem_ioreg_list_get)(void);
 
@@ -120,17 +120,17 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive8_interface_init,
                          monitor_interface_t *drive9_interface_init,
                          struct monitor_cpu_type_s **asmarray);
-extern void mon(ADDRESS a);
+extern void mon(WORD a);
 
 extern void mon_abort(void);
 
 extern int mon_force_import(MEMSPACE mem);
-extern void mon_check_icount(ADDRESS a);
+extern void mon_check_icount(WORD a);
 extern void mon_check_icount_interrupt(void);
-extern void mon_check_watchpoints(ADDRESS a);
+extern void mon_check_watchpoints(WORD a);
 
-extern void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
-extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
+extern void mon_watch_push_load_addr(WORD addr, MEMSPACE mem);
+extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
 
 
 /** Breakpoint interface.  */
@@ -142,18 +142,18 @@ extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 extern struct break_list_s *breakpoints[NUM_MEMSPACES];
 
 /* Prototypes */
-extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
+extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
                                            struct break_list_s *list);
 
 /** Disassemble interace */
 /* Prototypes */
-extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x,
+extern const char *mon_disassemble_to_string(MEMSPACE, WORD addr, BYTE x,
                                              BYTE p1, BYTE p2, BYTE p3,
                                              int hex_mode);
 
 /** Register interface.  */
 extern struct mon_reg_list_s *mon_register_list_get(int mem);
 extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
-                               ADDRESS start, ADDRESS end);
+                               WORD start, WORD end);
 #endif
 

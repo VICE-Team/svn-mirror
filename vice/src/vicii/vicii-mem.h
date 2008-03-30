@@ -30,14 +30,14 @@
 
 #include "types.h"
 
-extern void REGPARM2 vicii_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 vicii_read(ADDRESS addr);
-extern BYTE REGPARM1 vicii_peek(ADDRESS addr);
-extern BYTE REGPARM1 colorram_read(ADDRESS addr);
-extern void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 vicii_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 vicii_read(WORD addr);
+extern BYTE REGPARM1 vicii_peek(WORD addr);
+extern BYTE REGPARM1 colorram_read(WORD addr);
+extern void REGPARM2 colorram_store(WORD addr, BYTE value);
+extern void REGPARM2 vicii_mem_vbank_store(WORD addr, BYTE value);
+extern void REGPARM2 vicii_mem_vbank_39xx_store(WORD addr, BYTE value);
+extern void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value);
 
 #endif
 

@@ -127,9 +127,9 @@ int t64_file_record_read(t64_file_record_t *rec, FILE *fd)
     rec->entry_type = buf[T64_REC_ENTRYTYPE_OFFSET];
     memcpy(rec->cbm_name, buf + T64_REC_CBMNAME_OFFSET, T64_REC_CBMNAME_LEN);
     rec->cbm_type = buf[T64_REC_CBMTYPE_OFFSET];
-    rec->start_addr = (ADDRESS)get_number(buf + T64_REC_STARTADDR_OFFSET,
+    rec->start_addr = (WORD)get_number(buf + T64_REC_STARTADDR_OFFSET,
                                           (unsigned int)T64_REC_STARTADDR_LEN);
-    rec->end_addr = (ADDRESS)get_number(buf + T64_REC_ENDADDR_OFFSET,
+    rec->end_addr = (WORD)get_number(buf + T64_REC_ENDADDR_OFFSET,
                                         (unsigned int)T64_REC_ENDADDR_LEN);
     rec->contents = get_number(buf + T64_REC_CONTENTS_OFFSET,
                                T64_REC_CONTENTS_LEN);

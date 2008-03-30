@@ -64,7 +64,7 @@ static unsigned int fs_cptr[4] = { 0, 0, 0, 0 };
 static int fsdevice_flush_mr(vdrive_t *vdrive)
 {
     unsigned int dnr;
-    ADDRESS addr;
+    WORD addr;
 
     dnr = vdrive->unit - 8;
     addr = fs_cmdbuf[dnr][3] | (fs_cmdbuf[dnr][4] << 8);

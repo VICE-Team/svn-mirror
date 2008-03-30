@@ -81,7 +81,7 @@
 #include "video.h"
 
 
-void vicii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset)
+void vicii_set_phi1_addr_options(WORD mask, WORD offset)
 {
     vic_ii.vaddr_mask_phi1 = mask;
     vic_ii.vaddr_offset_phi1 = offset;
@@ -91,7 +91,7 @@ void vicii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset)
+void vicii_set_phi2_addr_options(WORD mask, WORD offset)
 {
     vic_ii.vaddr_mask_phi2 = mask;
     vic_ii.vaddr_offset_phi2 = offset;
@@ -101,7 +101,7 @@ void vicii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value)
+void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value)
 {
     vic_ii.vaddr_chargen_mask_phi1 = mask;
     vic_ii.vaddr_chargen_value_phi1 = value;
@@ -111,7 +111,7 @@ void vicii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
+void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value)
 {
     vic_ii.vaddr_chargen_mask_phi2 = mask;
     vic_ii.vaddr_chargen_value_phi2 = value;
@@ -121,7 +121,7 @@ void vicii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_chargen_addr_options(ADDRESS mask, ADDRESS value)
+void vicii_set_chargen_addr_options(WORD mask, WORD value)
 {
     vic_ii.vaddr_chargen_mask_phi1 = mask;
     vic_ii.vaddr_chargen_value_phi1 = value;
@@ -416,7 +416,7 @@ void vicii_reset(void)
 
 void vicii_reset_registers(void)
 {
-    ADDRESS i;
+    WORD i;
 
     if (!vic_ii.initialized)
         return;
@@ -597,7 +597,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
     static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
     static int old_vbank_p1 = -1;
     static int old_vbank_p2 = -1;
-    ADDRESS screen_addr;          /* Screen start address.  */
+    WORD screen_addr;             /* Screen start address.  */
     /*BYTE *screen_base;*/            /* Pointer to screen memory.  */
     BYTE *char_base;              /* Pointer to character memory.  */
     BYTE *bitmap_base;            /* Pointer to bitmap memory.  */

@@ -32,7 +32,7 @@
 extern BYTE TrapDevice;
 extern BYTE TrapSecondary;
 
-extern void serial_trap_init(ADDRESS tmpin);
+extern void serial_trap_init(WORD tmpin);
 
 #endif
 

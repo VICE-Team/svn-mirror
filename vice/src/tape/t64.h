@@ -83,8 +83,8 @@ struct t64_file_record_s {
     t64_file_record_type_t entry_type;
     BYTE cbm_name[T64_REC_CBMNAME_LEN];
     BYTE cbm_type;
-    ADDRESS start_addr;
-    ADDRESS end_addr;
+    WORD start_addr;
+    WORD end_addr;
     DWORD contents;
 };
 typedef struct t64_file_record_s t64_file_record_t;

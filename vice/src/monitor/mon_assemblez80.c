@@ -44,7 +44,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     BYTE i, j;
     bool found = FALSE;
     MEMSPACE mem;
-    ADDRESS loc;
+    WORD loc;
     BYTE prefix[5] = { 0x00, 0xcb, 0xdd, 0xed, 0xfd };
 
     mem = addr_memspace(asm_mode_addr);
@@ -147,19 +147,19 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     if (prefix[j] == 0x00) {
         mon_set_mem_val(mem, loc, opcode);
         if (len >= 2)
-            mon_set_mem_val(mem, (ADDRESS)(loc + 1),
+            mon_set_mem_val(mem, (WORD)(loc + 1),
                             (BYTE)(operand_value & 0xff));
         if (len >= 3)
-            mon_set_mem_val(mem, (ADDRESS)(loc + 2),
+            mon_set_mem_val(mem, (WORD)(loc + 2),
                             (BYTE)((operand_value >> 8) & 0xff));
     } else {
         mon_set_mem_val(mem, loc, prefix[j]);
-        mon_set_mem_val(mem, (ADDRESS)(loc + 1), opcode);
+        mon_set_mem_val(mem, (WORD)(loc + 1), opcode);
         if (len >= 3)
-            mon_set_mem_val(mem, (ADDRESS)(loc + 2),
+            mon_set_mem_val(mem, (WORD)(loc + 2),
                             (BYTE)(operand_value & 0xff));
         if (len >= 4)
-            mon_set_mem_val(mem, (ADDRESS)(loc + 3),
+            mon_set_mem_val(mem, (WORD)(loc + 3),
                             (BYTE)((operand_value >> 8) & 0xff));
     }
 

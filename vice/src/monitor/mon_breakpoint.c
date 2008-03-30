@@ -153,8 +153,7 @@ void mon_breakpoint_set_ignore_count(int breakpt_num, int count)
     breakpoint_t *bp;
     bp = find_checkpoint(breakpt_num);
 
-    if (!bp)
-    {
+    if (!bp) {
         mon_out("#%d not a valid breakpoint\n", breakpt_num);
     } else {
         bp->ignore_count = count;
@@ -324,16 +323,16 @@ static int compare_checkpoints(breakpoint_t *bp1, breakpoint_t *bp2)
     addr1 = addr_location(bp1->start_addr);
     addr2 = addr_location(bp2->end_addr);
 
-    if ( addr1 < addr2 )
+    if (addr1 < addr2)
         return -1;
 
-    if ( addr1 > addr2 )
+    if (addr1 > addr2)
         return 1;
 
     return 0;
 }
 
-bool mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
+bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
                                      break_list_t *list)
 {
     break_list_t *ptr;
@@ -489,81 +488,75 @@ int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                   is_temp, TRUE );
 }
 
-mon_breakpoint_type_t mon_is_breakpoint( MON_ADDR address )
+mon_breakpoint_type_t mon_is_breakpoint(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    ADDRESS addr = addr_location(address);
+    WORD addr = addr_location(address);
     break_list_t *ptr;
 
-    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    ptr = search_checkpoint_list(breakpoints[mem], addr);
     
     if (!ptr)
         return BP_NONE;
 
-    return (ptr->brkpt->enabled==e_ON) ? BP_ACTIVE : BP_INACTIVE;
+    return (ptr->brkpt->enabled == e_ON) ? BP_ACTIVE : BP_INACTIVE;
 }
 
-void mon_set_breakpoint( MON_ADDR address )
+void mon_set_breakpoint(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    ADDRESS addr = addr_location(address);
+    WORD addr = addr_location(address);
     break_list_t *ptr;
 
-    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    ptr = search_checkpoint_list(breakpoints[mem], addr);
     
-    if (ptr)
-    {
+    if (ptr) {
         /* there's a breakpoint, so enable it */
         ptr->brkpt->enabled = e_ON;
-    }
-    else
-    {
+    } else {
         /* there's no breakpoint, so set a new one */
         breakpoint_add_checkpoint(address, address,
-                        FALSE, FALSE, FALSE, FALSE, FALSE );
+                                  FALSE, FALSE, FALSE, FALSE, FALSE );
     }
 }
 
-void mon_unset_breakpoint( MON_ADDR address )
+void mon_unset_breakpoint(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    ADDRESS addr = addr_location(address);
+    WORD addr = addr_location(address);
     break_list_t *ptr;
 
-    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    ptr = search_checkpoint_list(breakpoints[mem], addr);
     
-    if (ptr)
-    {
+    if (ptr) {
         /* there's a breakpoint, so remove it */
         remove_checkpoint_from_list( &breakpoints[mem], ptr->brkpt );
     }
 }
 
-void mon_enable_breakpoint( MON_ADDR address )
+void mon_enable_breakpoint(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    ADDRESS addr = addr_location(address);
+    WORD addr = addr_location(address);
     break_list_t *ptr;
 
-    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    ptr = search_checkpoint_list(breakpoints[mem], addr);
     
-    if (ptr)
-    {
+    if (ptr) {
         /* there's a breakpoint, so enable it */
         ptr->brkpt->enabled = e_ON;
     }
 }
 
-void mon_disable_breakpoint( MON_ADDR address )
+void mon_disable_breakpoint(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    ADDRESS addr = addr_location(address);
+    WORD addr = addr_location(address);
     break_list_t *ptr;
 
-    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    ptr = search_checkpoint_list(breakpoints[mem], addr);
     
-    if (ptr)
-    {
+    if (ptr) {
         /* there's a breakpoint, so disable it */
         ptr->brkpt->enabled = e_OFF;
     }

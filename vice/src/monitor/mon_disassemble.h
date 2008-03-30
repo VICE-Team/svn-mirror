@@ -32,7 +32,7 @@
 #include "montypes.h"
 #include "types.h"
 
-extern const char *mon_disassemble_to_string_ex(MEMSPACE, ADDRESS addr, BYTE x,
+extern const char *mon_disassemble_to_string_ex(MEMSPACE, WORD addr, BYTE x,
                                              BYTE p1, BYTE p2, BYTE p3,
                                              int hex_mode, unsigned *len);
 extern void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr);

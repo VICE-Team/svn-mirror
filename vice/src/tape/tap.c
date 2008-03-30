@@ -321,7 +321,7 @@ static int tap_read_header(tap_t *tap)
         return read2;
     checksum ^= read2;
 
-    tap->tap_file_record->start_addr = (ADDRESS)(read + read2 * 256);
+    tap->tap_file_record->start_addr = (WORD)(read + read2 * 256);
 
     read = tap_read_byte(tap);
     if (read < 0)
@@ -332,7 +332,7 @@ static int tap_read_header(tap_t *tap)
         return read2;
     checksum ^= read2;
 
-    tap->tap_file_record->end_addr = (ADDRESS)(read + read2 * 256);
+    tap->tap_file_record->end_addr = (WORD)(read + read2 * 256);
 
     for (i = 0; i < 16; i++) {
         read = tap_read_byte(tap);

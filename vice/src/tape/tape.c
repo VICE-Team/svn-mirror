@@ -65,15 +65,15 @@
 #define CAS_TYPE_EOF    5       /* End of Tape marker */
 
 /* CPU addresses for tape routine variables.  */
-static ADDRESS buffer_pointer_addr;
-static ADDRESS st_addr;
-static ADDRESS verify_flag_addr;
-static ADDRESS stal_addr;
-static ADDRESS eal_addr;
-static ADDRESS kbd_buf_addr;
-static ADDRESS kbd_buf_pending_addr;
+static WORD buffer_pointer_addr;
+static WORD st_addr;
+static WORD verify_flag_addr;
+static WORD stal_addr;
+static WORD eal_addr;
+static WORD kbd_buf_addr;
+static WORD kbd_buf_pending_addr;
 static int irqval;
-static ADDRESS irqtmp;
+static WORD irqtmp;
 
 /* Flag: has tape been initialized?  */
 static int tape_is_initialized = 0;
@@ -183,7 +183,7 @@ int tape_find_header_trap(void)
     BYTE *cassette_buffer;
 
     cassette_buffer = mem_ram + (mem_read(buffer_pointer_addr)
-                      | (mem_read((ADDRESS)(buffer_pointer_addr + 1)) << 8));
+                      | (mem_read((WORD)(buffer_pointer_addr + 1)) << 8));
 
     if (tape_image_dev1->name == NULL
         || tape_image_dev1->type != TAPE_TYPE_T64) {
@@ -224,7 +224,7 @@ int tape_find_header_trap(void)
 
     if (irqtmp) {
         mem_store(irqtmp, (BYTE)(irqval & 0xff));
-        mem_store((ADDRESS)(irqtmp + 1), (BYTE)((irqval >> 8) & 0xff));
+        mem_store((WORD)(irqtmp + 1), (BYTE)((irqval >> 8) & 0xff));
     }
 
     /* Check if STOP has been pressed.  */
@@ -233,7 +233,7 @@ int tape_find_header_trap(void)
 
         MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
         for (i = 0; i < n; i++) {
-            if (mem_read((ADDRESS)(kbd_buf_addr + i)) == 0x3) {
+            if (mem_read((WORD)(kbd_buf_addr + i)) == 0x3) {
                 MOS6510_REGS_SET_CARRY(&maincpu_regs, 1);
                 break;
             }
@@ -297,7 +297,7 @@ int tape_find_header_trap_plus4(void)
 
         MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
         for (i = 0; i < n; i++) {
-            if (mem_read((ADDRESS)(kbd_buf_addr + i)) == 0x3) {
+            if (mem_read((WORD)(kbd_buf_addr + i)) == 0x3) {
                 MOS6510_REGS_SET_CARRY(&maincpu_regs, 1);
                 break;
             }
@@ -324,8 +324,8 @@ int tape_receive_trap(void)
     WORD start, end;
     BYTE st;
 
-    start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1)) << 8));
-    end = (mem_read(eal_addr) | (mem_read((ADDRESS)(eal_addr + 1)) << 8));
+    start = (mem_read(stal_addr) | (mem_read((WORD)(stal_addr + 1)) << 8));
+    end = (mem_read(eal_addr) | (mem_read((WORD)(eal_addr + 1)) << 8));
 
     switch (MOS6510_REGS_GET_X(&maincpu_regs)) {
       case 0x0e:
@@ -356,7 +356,7 @@ int tape_receive_trap(void)
 
     if (irqtmp) {
         mem_store(irqtmp, (BYTE)(irqval & 0xff));
-        mem_store((ADDRESS)(irqtmp + 1), (BYTE)((irqval >> 8) & 0xff));
+        mem_store((WORD)(irqtmp + 1), (BYTE)((irqval >> 8) & 0xff));
     }
 
     set_st(st);                 /* EOF and possible errors */
@@ -371,8 +371,8 @@ int tape_receive_trap_plus4(void)
     WORD start, end, len;
     BYTE st;
 
-    start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1)) << 8));
-    end = (mem_read(eal_addr) | (mem_read((ADDRESS)(eal_addr + 1)) << 8));
+    start = (mem_read(stal_addr) | (mem_read((WORD)(stal_addr + 1)) << 8));
+    end = (mem_read(eal_addr) | (mem_read((WORD)(eal_addr + 1)) << 8));
 
     /* Read block.  */
     len = end - start;

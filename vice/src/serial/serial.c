@@ -101,12 +101,12 @@ static int fn(void)
 
 void serial_set_st(BYTE st)
 {
-    mem_store((ADDRESS)0x90, (BYTE)(mem_read((ADDRESS)0x90) | st));
+    mem_store((WORD)0x90, (BYTE)(mem_read((WORD)0x90) | st));
 }
 
 BYTE serial_get_st(void)
 {
-    return mem_read((ADDRESS)0x90);
+    return mem_read((WORD)0x90);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -334,7 +334,7 @@ int parallelreceivebyte(BYTE * data, int fake)
 
 /* ------------------------------------------------------------------------- */
 
-int serial_init(const trap_t *trap_list, ADDRESS tmpin)
+int serial_init(const trap_t *trap_list, WORD tmpin)
 {
     unsigned int i;
 

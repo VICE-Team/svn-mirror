@@ -44,7 +44,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     int len, branch_offset;
     bool found = FALSE;
     MEMSPACE mem;
-    ADDRESS loc;
+    WORD loc;
 
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
@@ -135,9 +135,9 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     /* EP 98.08.23 use correct memspace for assembling.  */
     mon_set_mem_val(mem, loc, opcode);
     if (len >= 2)
-        mon_set_mem_val(mem, (ADDRESS)(loc + 1), (BYTE)(operand_value & 0xff));
+        mon_set_mem_val(mem, (WORD)(loc + 1), (BYTE)(operand_value & 0xff));
     if (len >= 3)
-        mon_set_mem_val(mem, (ADDRESS)(loc + 2),
+        mon_set_mem_val(mem, (WORD)(loc + 2),
                         (BYTE)((operand_value >> 8) & 0xff));
 
     if (len >= 0) {

@@ -43,7 +43,7 @@
 
 
 /* Address of serial TMP register.  */
-static ADDRESS tmp_in;
+static WORD tmp_in;
 
 /* On which channel did listen happen to?  */
 BYTE TrapDevice;
@@ -177,7 +177,7 @@ int serial_trap_ready(void)
     return 1;
 }
 
-void serial_trap_init(ADDRESS tmpin)
+void serial_trap_init(WORD tmpin)
 {
     tmp_in = tmpin;
 }

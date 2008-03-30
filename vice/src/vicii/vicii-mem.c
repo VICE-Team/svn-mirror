@@ -71,7 +71,7 @@ static int unused_bits_in_registers[64] =
 
 
 /* Store a value in the video bank (it is assumed to be in RAM).  */
-inline void REGPARM2 vicii_local_store_vbank(ADDRESS addr, BYTE value)
+inline void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
 {
     unsigned int f;
 
@@ -119,13 +119,13 @@ inline void REGPARM2 vicii_local_store_vbank(ADDRESS addr, BYTE value)
 }
 
 /* Encapsulate inlined function for other modules */
-void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value)
+void REGPARM2 vicii_mem_vbank_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 }
 
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
-void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
+void REGPARM2 vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 
@@ -138,7 +138,7 @@ void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 }
 
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
-void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
+void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 
@@ -160,7 +160,7 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 }
 
 
-inline static void store_sprite_x_position_lsb(ADDRESS addr, BYTE value)
+inline static void store_sprite_x_position_lsb(WORD addr, BYTE value)
 {
     int n;
     int new_x;
@@ -179,7 +179,7 @@ inline static void store_sprite_x_position_lsb(ADDRESS addr, BYTE value)
         VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)));
 }
 
-inline static void store_sprite_y_position(ADDRESS addr, BYTE value)
+inline static void store_sprite_y_position(WORD addr, BYTE value)
 {
     int cycle;
 
@@ -202,7 +202,7 @@ inline static void store_sprite_y_position(ADDRESS addr, BYTE value)
     vic_ii.regs[addr] = value;
 }
 
-static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
+static inline void store_sprite_x_position_msb(WORD addr, BYTE value)
 {
     int i;
     BYTE b;
@@ -692,7 +692,7 @@ inline static void store_d01d(BYTE value)
     vic_ii.regs[0x1d] = value;
 }
 
-inline static void store_collision(ADDRESS addr, BYTE value)
+inline static void store_collision(WORD addr, BYTE value)
 {
     VIC_II_DEBUG_REGISTER(("(collision register, Read Only)"));
 }
@@ -742,7 +742,7 @@ inline static void store_d021(BYTE value)
     vic_ii.regs[0x21] = value;
 }
 
-inline static void store_ext_background(ADDRESS addr, BYTE value)
+inline static void store_ext_background(WORD addr, BYTE value)
 {
     int char_num;
 
@@ -839,7 +839,7 @@ inline static void store_d026(BYTE value)
     vic_ii.regs[0x26] = value;
 }
 
-inline static void store_sprite_color(ADDRESS addr, BYTE value)
+inline static void store_sprite_color(WORD addr, BYTE value)
 {
     raster_sprite_t *sprite;
     int n;
@@ -896,7 +896,7 @@ inline static void store_d030(BYTE value)
 }
 
 /* Store a value in a VIC-II register.  */
-void REGPARM2 vicii_store(ADDRESS addr, BYTE value)
+void REGPARM2 vicii_store(WORD addr, BYTE value)
 {
     addr &= 0x3f;
 
@@ -1075,7 +1075,7 @@ inline static unsigned int read_raster_y(void)
     return raster_y;
 }
 
-inline static BYTE read_d01112(ADDRESS addr)
+inline static BYTE read_d01112(WORD addr)
 {
     unsigned int tmp;
 
@@ -1109,7 +1109,7 @@ inline static BYTE read_d019(void)
 }
 
 /* Read a value from a VIC-II register.  */
-BYTE REGPARM1 vicii_read(ADDRESS addr)
+BYTE REGPARM1 vicii_read(WORD addr)
 {
     addr &= 0x3f;
 
@@ -1334,7 +1334,7 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
     return 0xff;  /* make compiler happy */
 }
 
-BYTE REGPARM1 vicii_peek(ADDRESS addr)
+BYTE REGPARM1 vicii_peek(WORD addr)
 {
     addr &= 0x3f;
 

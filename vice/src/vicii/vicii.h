@@ -67,11 +67,11 @@ extern void vicii_set_phi1_vbank(int num_vbank);
 extern void vicii_set_phi2_vbank(int num_vbank);
 extern void vicii_set_phi1_ram_base(BYTE *base);
 extern void vicii_set_phi2_ram_base(BYTE *base);
-extern void vicii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
-extern void vicii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
-extern void vicii_set_chargen_addr_options(ADDRESS mask, ADDRESS value);
-extern void vicii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
-extern void vicii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vicii_set_phi1_addr_options(WORD mask, WORD offset);
+extern void vicii_set_phi2_addr_options(WORD mask, WORD offset);
+extern void vicii_set_chargen_addr_options(WORD mask, WORD value);
+extern void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value);
+extern void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value);
 
 #endif
 

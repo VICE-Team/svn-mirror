@@ -404,7 +404,7 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
 static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
                                  unsigned int length)
 {
-    ADDRESS addr = 0;
+    WORD addr = 0;
 
     if (length < 3)
         return IPE_SYNTAX;
@@ -881,7 +881,7 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
     p->readmode = FAM_READ;
 }
 
-int vdrive_command_memory_read(vdrive_t *vdrive, ADDRESS addr,
+int vdrive_command_memory_read(vdrive_t *vdrive, WORD addr,
                                unsigned int length)
 {
     unsigned int i;

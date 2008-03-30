@@ -38,7 +38,7 @@
 #include "types.h"
 #include "uimon.h"
 
-const char *mon_disassemble_to_string(MEMSPACE memspace, ADDRESS addr,
+const char *mon_disassemble_to_string(MEMSPACE memspace, WORD addr,
                                       BYTE x, BYTE p1, BYTE p2, BYTE p3,
                                       int hex_mode)
 {
@@ -46,7 +46,7 @@ const char *mon_disassemble_to_string(MEMSPACE memspace, ADDRESS addr,
                                         hex_mode, NULL);
 }
 
-const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
+const char *mon_disassemble_to_string_ex(MEMSPACE memspace, WORD addr,
                                          BYTE x, BYTE p1, BYTE p2, BYTE p3,
                                          int hex_mode, unsigned *opc_size_p)
 {
@@ -55,10 +55,10 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
     char *buffp, *addr_name;
     int addr_mode;
     unsigned opc_size;
-    ADDRESS ival;
+    WORD ival;
     asm_opcode_info_t *opinfo;
 
-    ival = (ADDRESS)(p1 & 0xff);
+    ival = (WORD)(p1 & 0xff);
 
     buffp = buff;
 
@@ -124,12 +124,12 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
            sprintf(buffp, " %s", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                (ADDRESS)(ival - 1))))
+                (WORD)(ival - 1))))
                 sprintf(buffp, " %s+1", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
@@ -137,7 +137,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_X:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
             sprintf(buffp, (hex_mode ? " $%04X,X" : " %5d,X"), ival);
         else
@@ -145,7 +145,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_Y:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
             sprintf(buffp, (hex_mode ? " $%04X,Y" : " %5d,Y"), ival);
         else
@@ -153,7 +153,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABS_INDIRECT:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
             sprintf(buffp, (hex_mode ? " ($%04X)" : " (%5d)"), ival);
         else
@@ -186,12 +186,12 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_A:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
            sprintf(buffp, " (%s),A", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                (ADDRESS)(ival - 1))))
+                (WORD)(ival - 1))))
                 sprintf(buffp, " (%s+1),A", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),A" : " (%5d),A"), ival);
@@ -199,12 +199,12 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_HL:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
            sprintf(buffp, " (%s),HL", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                (ADDRESS)(ival - 1))))
+                (WORD)(ival - 1))))
                 sprintf(buffp, " (%s+1),HL", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),HL" : " (%5d),HL"), ival);
@@ -212,12 +212,12 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_IX:
-        ival = (ADDRESS)((p2 & 0xff) | ((p3 & 0xff) << 8));
+        ival = (WORD)((p2 & 0xff) | ((p3 & 0xff) << 8));
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
             sprintf(buffp, " (%s),IX", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                (ADDRESS)(ival - 1))))
+                (WORD)(ival - 1))))
                 sprintf(buffp, " (%s+1),IX", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),IX" : " (%5d),IX"), ival);
@@ -225,12 +225,12 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_IY:
-        ival = (ADDRESS)((p2 & 0xff) | ((p3 & 0xff) << 8));
+        ival = (WORD)((p2 & 0xff) | ((p3 & 0xff) << 8));
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
             sprintf(buffp, " (%s),IY", addr_name);
         } else {
             if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
-                (ADDRESS)(ival - 1))))
+                (WORD)(ival - 1))))
                 sprintf(buffp, " (%s+1),IY", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),IY" : " (%5d),IY"), ival);
@@ -238,7 +238,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_IMMEDIATE_16:
-        ival |= (ADDRESS)((p2 & 0xff) << 8);
+        ival |= (WORD)((p2 & 0xff) << 8);
         sprintf(buffp, (hex_mode ? " #$%04X" : " %5d"), ival);
         break;
 
@@ -342,7 +342,7 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
 {
     BYTE op, p1, p2, p3;
     MEMSPACE mem;
-    ADDRESS loc;
+    WORD loc;
     int hex_mode = 1;
     char *label;
     const char *dis_inst;
@@ -352,9 +352,9 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     loc = addr_location(addr);
 
     op = mon_get_mem_val(mem, loc);
-    p1 = mon_get_mem_val(mem, (ADDRESS)(loc + 1));
-    p2 = mon_get_mem_val(mem, (ADDRESS)(loc + 2));
-    p3 = mon_get_mem_val(mem, (ADDRESS)(loc + 3));
+    p1 = mon_get_mem_val(mem, (WORD)(loc + 1));
+    p2 = mon_get_mem_val(mem, (WORD)(loc + 2));
+    p3 = mon_get_mem_val(mem, (WORD)(loc + 3));
 
     /* Print the label for this location - if we have one */
     label = mon_symbol_table_lookup_name(mem, loc);
