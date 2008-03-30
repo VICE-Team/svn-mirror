@@ -525,13 +525,17 @@ void wd1770_vsync_hook(void)
 
 int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 {
+    fsimage_t *fsimage;
+
     if (unit != 8 && unit != 9)
         return -1;
+
+    fsimage = (fsimage_t *)(image->media);
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
         log_message(wd1770_log, "Unit %d: D81 disk image attached: %s.",
-                    unit, image->name);
+                    unit, fsimage->name);
         break;
       default:
         return -1;
@@ -543,13 +547,17 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 
 int wd1770_detach_image(disk_image_t *image, unsigned int unit)
 {
+    fsimage_t *fsimage;
+
     if (unit != 8 && unit != 9)
         return -1;
+
+    fsimage = (fsimage_t *)(image->media);
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
         log_message(wd1770_log, "Unit %d: D81 disk image detached: %s.",
-                    unit, image->name);
+                    unit, fsimage->name);
         break;
       default:
         return -1;

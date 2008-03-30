@@ -746,8 +746,8 @@ void fdc_init(unsigned int fnum, BYTE *buffermem, BYTE *ipromp)
 
 int fdc_attach_image(disk_image_t *image, unsigned int unit)
 {
-    int drive_no;
-    int imgno;
+    int drive_no, imgno;
+    fsimage_t *fsimage;
 
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_attach_image(image=%p, unit=%d)",
@@ -762,7 +762,9 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
     } else {
         drive_no = unit - 8;
     }
+
     imgno = unit - 8;
+    fsimage = (fsimage_t *)(image->media);
 
     /* FIXME: hack - we need to save the image to be able to re-attach
        when the disk drive type changes */
@@ -777,11 +779,11 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
             log_message(fdc_log, "Unit %d (%d): D80 disk image attached: %s.",
-                        unit, fdc[drive_no].drive_type, image->name);
+                        unit, fdc[drive_no].drive_type, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_D82:
             log_message(fdc_log, "Unit %d (%d): D82 disk image attached: %s.",
-                        unit, fdc[drive_no].drive_type, image->name);
+                        unit, fdc[drive_no].drive_type, fsimage->name);
             break;
           default:
 #ifdef FDC_DEBUG
@@ -794,19 +796,19 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
             log_message(fdc_log, "Unit %d (%d): D64 disk image attached: %s.",
-                        unit, fdc[drive_no].drive_type, image->name);
+                        unit, fdc[drive_no].drive_type, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_D67:
             log_message(fdc_log, "Unit %d (%d): D67 disk image attached: %s.",
-                        unit, fdc[drive_no].drive_type, image->name);
+                        unit, fdc[drive_no].drive_type, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_G64:
             log_message(fdc_log, "Unit %d (%d): G64 disk image attached: %s.",
-                        unit, fdc[drive_no].drive_type, image->name);
+                        unit, fdc[drive_no].drive_type, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_X64:
             log_message(fdc_log, "Unit %d (%d): X64 disk image attached: %s.",
-                        unit, fdc[drive_no].drive_type, image->name);
+                        unit, fdc[drive_no].drive_type, fsimage->name);
             break;
           default:
 #ifdef FDC_DEBUG
@@ -824,8 +826,8 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
 
 int fdc_detach_image(disk_image_t *image, unsigned int unit)
 {
-    int drive_no;
-    int imgno;
+    int drive_no, imgno;
+    fsimage_t *fsimage;
 
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_detach_image(image=%p, unit=%d)",
@@ -840,7 +842,9 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
     } else {
         drive_no = unit - 8;
     }
+
     imgno = unit - 8;
+    fsimage = (fsimage_t *)(image->media);
 
     fdc[imgno].realimage = NULL;
 
@@ -850,11 +854,11 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
             log_message(fdc_log, "Unit %d: D80 disk image detached: %s.",
-                        unit, image->name);
+                        unit, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_D82:
             log_message(fdc_log, "Unit %d: D82 disk image detached: %s.",
-                        unit, image->name);
+                        unit, fsimage->name);
             break;
           default:
             return -1;
@@ -863,15 +867,15 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
             log_message(fdc_log, "Unit %d: D64 disk image detached: %s.",
-                        unit, image->name);
+                        unit, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_G64:
             log_message(fdc_log, "Unit %d: G64 disk image detached: %s.",
-                        unit, image->name);
+                        unit, fsimage->name);
             break;
           case DISK_IMAGE_TYPE_X64:
             log_message(fdc_log, "Unit %d: X64 disk image detached: %s.",
-                        unit, image->name);
+                        unit, fsimage->name);
             break;
           default:
             return -1;
