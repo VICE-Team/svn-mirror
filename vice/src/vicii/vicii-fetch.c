@@ -135,9 +135,13 @@ inline static int do_matrix_fetch(CLOCK sub)
             vicii.ycounter_reset_checked = 1;
             vicii.memory_fetch_done = 2;
 
+#ifdef NEW_INTERUPT
+            dma_maincpu_steal_cycles(vicii.fetch_clk,
+                                     VICII_SCREEN_TEXTCOLS + 3 - sub, sub);
+#else
             dma_maincpu_steal_cycles(vicii.fetch_clk,
                                      VICII_SCREEN_TEXTCOLS + 3 - sub, 0);
-
+#endif
             vicii.bad_line = 1;
             return 1;
         }
