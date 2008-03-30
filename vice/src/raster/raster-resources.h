@@ -30,8 +30,7 @@
 struct raster_s;
 
 extern int raster_resources_chip_init(const char *chipname,
-                                      struct raster_s *raster);
-extern int raster_set_video_cache_enabled(void *v, void *param);
-
+                                      struct raster_s *raster,
+                                      int double_size, int doulbe_scan);
 #endif
 

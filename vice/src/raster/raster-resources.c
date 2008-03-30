@@ -50,7 +50,7 @@ typedef struct raster_resource_chip_s raster_resource_chip_t;
 static raster_resource_chip_t raster_resource_chip;
 
 
-int raster_set_video_cache_enabled(resource_value_t v, void *param)
+static int set_video_cache_enabled(resource_value_t v, void *param)
 {
     raster_resource_chip_t *raster_resource_chip;
 
@@ -71,11 +71,12 @@ static resource_t resources_chip[] =
 {
     { NULL, RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
       (resource_value_t *)&(raster_resource_chip.video_cache_enabled),
-      raster_set_video_cache_enabled, NULL },
+      set_video_cache_enabled, NULL },
     { NULL }
 };
 
-int raster_resources_chip_init(const char *chipname, raster_t *raster)
+int raster_resources_chip_init(const char *chipname, raster_t *raster,
+                               int double_size, int doulbe_scan)
 {
     unsigned int i;
 
@@ -87,6 +88,6 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster)
     }
 
     return resources_register(resources_chip)
-        | video_resources_chip_init(chipname, raster);
+        | video_resources_chip_init(chipname, raster, double_size, doulbe_scan);
 }
 
