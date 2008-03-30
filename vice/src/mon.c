@@ -42,6 +42,9 @@
 #include "mshell.h"
 #include "interrupt.h"
 #include "resources.h"
+#include "vsync.h"
+
+#define TEST(x) ((x)!=0)
 
 static monitor_interface_t *maincpu_interface;
 static monitor_interface_t *true1541_interface;
@@ -254,11 +257,11 @@ void print_registers(MEMSPACE mem)
 
     regs = mon_interfaces[mem]->cpu_regs;
     fprintf(mon_output, "  ADDR AR XR YP SP 01 NV-BDIZC\n");
-    fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%d%d%d%d%d%d\n",
-            get_reg_val(mem,e_PC), get_reg_val(mem,e_A),get_reg_val(mem,e_X),
+    fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
+            get_reg_val(mem,e_PC), get_reg_val(mem,e_A), get_reg_val(mem,e_X),
             get_reg_val(mem,e_Y), get_reg_val(mem,e_SP), get_mem_val(mem,1),
-            regs->psp.n, regs->psp.v, 1, 0, regs->psp.d, regs->psp.i,
-            regs->psp.z, regs->psp.c);
+            TEST(regs->psp.n), TEST(regs->psp.v), 'x', TEST(regs->psp.b), TEST(regs->psp.d),
+            TEST(regs->psp.i), TEST(regs->psp.z), TEST(regs->psp.c));
 }
 
 unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
@@ -1058,12 +1061,16 @@ void mon_verify_file(char *filename, M_ADDR start_addr)
    fprintf(mon_output, "Verify file %s at address 0x%04x\n", filename, addr_location(start_addr));
 }
 
-void mon_load_symbols(char *filename, MEMSPACE mem)
+void mon_load_symbols(MEMSPACE mem, char *filename)
 {
     FILE   *fp;
     ADDRESS adr;
     char name[256];
     char *name_ptr;
+
+    /* FIXME - something better than this? */
+    if (mem == e_default_space)
+       mem = e_comp_space;
 
     if (NULL == (fp = fopen(filename, READ))) {
 	perror(filename);
@@ -1078,16 +1085,20 @@ void mon_load_symbols(char *filename, MEMSPACE mem)
        name_ptr = (char *) malloc((strlen(name)+1) * sizeof(char));
        strcpy(name_ptr, name);
        fprintf(mon_output, "Read (0x%x:%s)\n",adr, name_ptr);
-       add_name_to_symbol_table(e_comp_space, name_ptr, adr);
+       add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
     }
 
     fclose(fp);
 }
 
-void mon_save_symbols(char *filename, MEMSPACE mem)
+void mon_save_symbols(MEMSPACE mem, char *filename)
 {
     FILE   *fp;
     symbol_entry_t *sym_ptr;
+
+    /* FIXME - something better than this? */
+    if (mem == e_default_space)
+       mem = e_comp_space;
 
     if (NULL == (fp = fopen(filename, WRITE))) {
 	perror(filename);
@@ -1141,25 +1152,31 @@ int symbol_table_lookup_addr(MEMSPACE mem, char *name)
    return -1;
 }
 
-void add_name_to_symbol_table(MEMSPACE mem, char *name, ADDRESS addr)
+void add_name_to_symbol_table(M_ADDR addr, char *name)
 {
    symbol_entry_t *sym_ptr;
    char *old_name;
    int old_addr;
+   MEMSPACE mem = addr_memspace(addr);
+   ADDRESS loc = addr_location(addr);
 
-   if ( (old_name = symbol_table_lookup_name(mem, addr)) ) {
+   /* FIXME - something better than this? */
+   if (mem == e_default_space)
+      mem = e_comp_space;
+
+   if ( (old_name = symbol_table_lookup_name(mem, loc)) ) {
       fprintf(mon_output, "Replacing label %s with %s for address $%0x4x\n",
-              old_name, name, addr);
+              old_name, name, loc);
    }
    if ( (old_addr = symbol_table_lookup_addr(mem, name)) >= 0) {
       fprintf(mon_output, "Changing address of label %s from $%04x to $%04x\n",
-              name, old_addr, addr);
+              name, old_addr, loc);
    }
 
    /* Add name to name list */
    sym_ptr = (symbol_entry_t *) malloc(sizeof(symbol_entry_t));
    sym_ptr->name = name;
-   sym_ptr->addr = addr;
+   sym_ptr->addr = loc;
 
    sym_ptr->next = monitor_labels[mem].name_list;
    monitor_labels[mem].name_list = sym_ptr;
@@ -1175,11 +1192,67 @@ void add_name_to_symbol_table(MEMSPACE mem, char *name, ADDRESS addr)
 
 void remove_name_from_symbol_table(MEMSPACE mem, char *name)
 {
+   unsigned addr;
+   symbol_entry_t *sym_ptr, *prev_ptr;
+
+   /* FIXME - something better than this? */
+   if (mem == e_default_space)
+      mem = e_comp_space;
+
+   if (name == NULL) {
+      /* FIXME - prompt user */
+      free_symbol_table(mem);
+      return;
+   } else if ( (addr = symbol_table_lookup_addr(mem, name)) < 0) {
+      fprintf(mon_output, "Symbol %s not found.\n", name);
+      return;
+   }
+
+   /* Remove entry in name list */
+   sym_ptr = monitor_labels[mem].name_list;
+   prev_ptr = NULL;
+   while (sym_ptr) {
+      if (strcmp(sym_ptr->name, name) == 0) {
+         /* Name memory is freed below. */
+         addr = sym_ptr->addr;
+         if (prev_ptr)
+            prev_ptr->next = sym_ptr->next;
+         else
+            monitor_labels[mem].name_list = NULL;
+
+         free(sym_ptr);
+         break;
+      }
+      prev_ptr = sym_ptr;
+      sym_ptr = sym_ptr->next;
+   }
+
+   /* Remove entry in address hash table */
+   sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
+   prev_ptr = NULL;
+   while (sym_ptr) {
+      if (addr == sym_ptr->addr) {
+         free (sym_ptr->name);
+         if (prev_ptr)
+            prev_ptr->next = sym_ptr->next;
+         else
+            monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = NULL;
+
+         free(sym_ptr);
+         return;
+      }
+      prev_ptr = sym_ptr;
+      sym_ptr = sym_ptr->next;
+   }
 }
 
 void print_symbol_table(MEMSPACE mem)
 {
    symbol_entry_t *sym_ptr;
+
+   /* FIXME - something better than this? */
+   if (mem == e_default_space)
+      mem = e_comp_space;
 
    sym_ptr = monitor_labels[mem].name_list;
    while (sym_ptr) {
@@ -1190,6 +1263,28 @@ void print_symbol_table(MEMSPACE mem)
 
 void free_symbol_table(MEMSPACE mem)
 {
+   symbol_entry_t *sym_ptr, *temp;
+   int i;
+
+   /* Remove name list */
+   sym_ptr = monitor_labels[mem].name_list;
+   while (sym_ptr) {
+      /* Name memory is freed below. */
+      temp = sym_ptr;
+      sym_ptr = sym_ptr->next;
+      free(temp);
+   }
+
+   /* Remove address hash table */
+   for (i=0;i<HASH_ARRAY_SIZE;i++) {
+      sym_ptr = monitor_labels[mem].addr_hash_table[i];
+      while (sym_ptr) {
+         free (sym_ptr->name);
+         temp = sym_ptr;
+         sym_ptr = sym_ptr->next;
+         free(temp);
+      }
+   }
 }
 
 
@@ -1203,7 +1298,9 @@ void instructions_step(int count)
    instruction_count = (count>=0)?count:1;
    icount_is_next = FALSE;
    exit_mon = 1;
-   maincpu_trigger_trap(mon_helper);
+
+   mon_mask[e_comp_space] |= MI_STEP;
+   monitor_trap_on(maincpu_interface->int_status);
 }
 
 void instructions_next(int count)
@@ -1213,7 +1310,9 @@ void instructions_next(int count)
    instruction_count = (count>=0)?count:1;
    icount_is_next = TRUE;
    exit_mon = 1;
-   maincpu_trigger_trap(mon_helper);
+
+   mon_mask[e_comp_space] |= MI_STEP;
+   monitor_trap_on(maincpu_interface->int_status);
 }
 
 void stack_up(int count)
@@ -1536,6 +1635,7 @@ void set_brkpt_condition(int brk_num, CONDITIONAL_NODE *cnode)
       print_conditional(cnode);
       fprintf(mon_output, "\n");
 #if 0
+      /* DEBUG */
       evaluate_conditional(cnode);
       printf("Condition evaluates to: %d\n",cnode->value);
 #endif
@@ -1654,28 +1754,6 @@ bool check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
    return result;
 }
 
-#if 0
-void check_maincpu_breakpoints(ADDRESS addr)
-{
-   if (check_breakpoints(e_comp_space, addr))
-      mon(maincpu_interface->cpu_regs->pc);
-
-   trigger_trap(maincpu_interface->int_status,
-                check_maincpu_breakpoints,
-                *maincpu_interface->clk);
-}
-
-void check_true1541_breakpoints(ADDRESS addr)
-{
-   if (check_breakpoints(e_disk_space, addr))
-      mon(true1541_interface->cpu_regs->pc);
-
-   trigger_trap(true1541_interface->int_status,
-                check_true1541_breakpoints,
-                *true1541_interface->clk);
-}
-#endif
-
 void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
 {
    BREAK_LIST *new_entry, *cur_entry, *prev_entry;
@@ -1773,9 +1851,10 @@ bool watchpoints_check_loads(MEMSPACE mem)
    bool trap = FALSE;
    unsigned count;
 
-   while (watch_load_count[mem]) {
-      watch_load_count[mem]--;
-      count = watch_load_count[mem];
+   count = watch_load_count[mem];
+   watch_load_count[mem] = 0;
+   while (count) {
+      count--;
       if (check_watchpoints_load(mem, watch_load_array[count][mem]))
          trap = TRUE;
    }
@@ -1787,9 +1866,11 @@ bool watchpoints_check_stores(MEMSPACE mem)
    bool trap = FALSE;
    unsigned count;
 
+   count = watch_store_count[mem];
+   watch_store_count[mem] = 0;
+
    while (watch_store_count[mem]) {
-      watch_store_count[mem]--;
-      count = watch_store_count[mem];
+      count--;
       if (check_watchpoints_store(mem, watch_store_array[count][mem]))
          trap = TRUE;
    }
@@ -1810,7 +1891,21 @@ bool mon_force_import(MEMSPACE mem)
    return result;
 }
 
-void mon_helper(ADDRESS a)
+void mon_check_icount(ADDRESS a)
+{
+    if (instruction_count) {
+        instruction_count--;
+
+        mon_mask[e_comp_space] &= ~MI_STEP;
+        monitor_trap_off(true1541_interface->int_status);
+
+        if (!instruction_count) {
+            mon(a);
+        }
+    }
+}
+
+void mon_check_watchpoints(ADDRESS a)
 {
     if (watch_load_occurred) {
         if (watchpoints_check_loads(e_comp_space)) {
@@ -1835,23 +1930,6 @@ void mon_helper(ADDRESS a)
         }
         watch_store_occurred = FALSE;
     }
-
-    if (instruction_count) {
-        instruction_count--;
-        if (!instruction_count) {
-            mon(a);
-        }
-    }
-
-#if 0
-    if (any_watchpoints(e_comp_space))
-        trigger_trap(maincpu_interface->int_status, mon_helper,
-                     *maincpu_interface->clk + 1);
-
-    if (any_watchpoints(e_disk_space))
-        trigger_trap(true1541_interface->int_status, mon_helper,
-                     *true1541_interface->clk + 1);
-#endif
 }
 
 void mon(ADDRESS a)
@@ -1860,6 +1938,8 @@ void mon(ADDRESS a)
    bool do_trap = FALSE;
 
    inside_monitor = TRUE;
+   suspend_speed_eval();
+
    dot_addr[caller_space] = new_addr(caller_space, a);
 
    do {
@@ -1903,6 +1983,7 @@ void mon(ADDRESS a)
       last_cmd = myinput;
    } while (!exit_mon);
    inside_monitor = FALSE;
+   suspend_speed_eval();
 
    if (any_breakpoints(e_comp_space)) {
        mon_mask[e_comp_space] |= MI_BREAK;
@@ -1912,18 +1993,12 @@ void mon(ADDRESS a)
    }
 
    if (any_watchpoints(e_comp_space)) {
-       mon_mask[e_comp_space] |= MI_WATCH;
        do_trap = TRUE;
-#if 0
+       mon_mask[e_comp_space] |= MI_WATCH;
        maincpu_interface->toggle_watchpoints_func(1);
-       trigger_trap(maincpu_interface->int_status,
-                    mon_helper, *maincpu_interface->clk);
-#endif
    } else {
        mon_mask[e_comp_space] &= ~MI_WATCH;
-#if 0
        maincpu_interface->toggle_watchpoints_func(0);
-#endif
    }
 
    if (do_trap)
@@ -1942,17 +2017,11 @@ void mon(ADDRESS a)
 
    if (any_watchpoints(e_disk_space)) {
        mon_mask[e_disk_space] |= MI_WATCH;
-#if 0
        true1541_interface->toggle_watchpoints_func(1);
-       trigger_trap(true1541_interface->int_status,
-                    mon_helper, *true1541_interface->clk);
-#endif
+       do_trap = TRUE;
    } else {
        mon_mask[e_disk_space] &= ~MI_WATCH;
-#if 0
-       monitor_trap_off(true1541_interface->int_status);
        true1541_interface->toggle_watchpoints_func(0);
-#endif
    }
 
    if (do_trap)

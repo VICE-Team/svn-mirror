@@ -1,3 +1,40 @@
+Tue Apr 28 20:57:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* mon.c (mon): Corrected `suspend_speed_eval()' calls.
+
+	* utils.c (subst): Argh.  Fixed stupid bug with `s_len' update.
+
+Tue Apr 28 01:36:01 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* 1541cpu.c,maincpu.c: Removed #define FORCE_IMPORT. Added
+	#define CALLER.
+
+	* 6510core.c: Removed separate copies of `DO_INTERRUPT' by using
+ 	new #define `CALLER'.  Rearranged monitor interrupt handling.
+
+	* mon.h: Changed some of the symbol table prototypes.
+	(mon_helper): Removed.
+	(mon_check_watchpoints, mon_check_icount): New.
+
+	* mon6510.h: Removed bitfields.
+
+	* mon_cli.l: Added some abbreviations.  Uncommented DATA_TYPEs.
+  	Changed memspaces so they must have a ':'.
+
+	* mon_cli.y: Symbol table handling cleanup.  Account for ':'
+ 	included in memspaces by lexer.
+
+	* mon.c: Cleanup symbol table functions.  Unify monitor traps
+ 	under `IK_MONITOR'.
+	(mon_helper): Removed.
+        (mon_check_icount, mon_check_watchpoints): New.
+        (print_registers): Use new TEST macro to turn SR flags into 0/1.
+ 	(remove_name_from_symbol_table, free_symbol_table): Implemented.
+
+Tue Apr 28 00:39:07 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* c1541.c (disk_gcrformat): Changed to the new GCR disk format.
+
 Mon Apr 27 10:21:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.14.
@@ -101,7 +138,7 @@ Sun Apr 26 19:12:35 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 
 Sun Apr 26 14:47:47 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
 
-	* 1541cpu.c,maincpu.c: Changed FORCE_INPUT to FORCE_IMPORT.
+	* 1541cpu.c, maincpu.c: Renamed `FORCE_INPUT' into `FORCE_IMPORT'.
 
 	* 6510core.c: All monitor based interrupts moved to `IK_MONITOR'
  	case.  Type of interrupt determined by `mon_mask'.  Removed
