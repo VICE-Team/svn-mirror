@@ -33,9 +33,9 @@ struct snapshot_s;
 
 extern void cia1_init(void);
 extern void cia1_reset(void);
-extern void REGPARM2 cia1_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 cia1_read(ADDRESS addr);
-extern BYTE REGPARM1 cia1_peek(ADDRESS addr);
+extern void REGPARM2 cia1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 cia1_read(WORD addr);
+extern BYTE REGPARM1 cia1_peek(WORD addr);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
@@ -44,13 +44,13 @@ extern int cia1_snapshot_read_module(struct snapshot_s *p);
 
 extern void cia2_init(void);
 extern void cia2_reset(void);
-extern void REGPARM2 cia2_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 cia2_read(ADDRESS addr);
-extern BYTE REGPARM1 cia2_peek(ADDRESS addr);
+extern void REGPARM2 cia2_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 cia2_read(WORD addr);
+extern BYTE REGPARM1 cia2_peek(WORD addr);
 extern void cia2_set_flag(void);
 extern void cia2_set_sdr(BYTE received_byte);
 extern int cia2_snapshot_write_module(struct snapshot_s *p);
 extern int cia2_snapshot_read_module(struct snapshot_s *p);
 
-#endif /* _C64_CIA_H */
+#endif
 

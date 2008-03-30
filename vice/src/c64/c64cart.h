@@ -29,25 +29,25 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 roml_read(ADDRESS addr);
-extern void REGPARM2 roml_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 roml_read(WORD addr);
+extern void REGPARM2 roml_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 romh_read(ADDRESS addr);
+extern BYTE REGPARM1 romh_read(WORD addr);
 
-extern BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr);
-extern void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr);
+extern void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr);
-extern void REGPARM2 ultimax_1000_7fff_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr);
+extern void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 ultimax_c000_cfff_read(ADDRESS addr);
-extern void REGPARM2 ultimax_c000_cfff_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr);
+extern void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 cartridge_read_io1(ADDRESS addr);
-extern BYTE REGPARM1 cartridge_read_io2(ADDRESS addr);
-extern void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value);
-extern void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value);
-extern void REGPARM1 cartridge_decode_address(ADDRESS addr);
+extern BYTE REGPARM1 cartridge_read_io1(WORD addr);
+extern BYTE REGPARM1 cartridge_read_io2(WORD addr);
+extern void REGPARM2 cartridge_store_io1(WORD addr, BYTE value);
+extern void REGPARM2 cartridge_store_io2(WORD addr, BYTE value);
+extern void REGPARM1 cartridge_decode_address(WORD addr);
 
 extern void cartridge_init_config(void);
 extern void cartridge_release_freeze(void);
