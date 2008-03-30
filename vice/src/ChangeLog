@@ -1,3 +1,89 @@
+2001-10-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.7.21.
+
+	* vicii/vicii.c (handle_fetch_sprite): Fixed sprite fetch from
+	chargen ROM.
+
+	* 6510core.c: Fixed indirect jump opcode timing.
+
+2001-10-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c (draw_mc_sprite): update
+	sprite_sprite_collisions even in x_expanded case
+
+2001-10-30  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c, src/log.c diff/src/log.c:
+	replaced __C1541__ by __X1541__
+   
+	* arch/os2/config.h: defined __i386__
+   
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	added stuff for CHIP_2X
+   
+	* arch/os2/install.cmd: replaced C1541 by X1541
+	added Plus4
+   
+	* arch/os2/kbd/kbd-plus4.c: added
+   
+	* arch/os2/makedist.cmd: added Plus4
+   
+	* arch/os2/sounddrv.[h,c]: changed to use log_t
+   
+	* arch/os2/ui/c128ui.[h,c], arch/os2/ui/c610ui.[h,c],
+	arch/os2/ui/c64ui.[h,c], arch/os2/ui/petui.[h,c],
+	arch/os2/ui/vic20ui.[h,c]
+	removed uage of source file
+   
+	* arch/os2/ui/plus4ui.h: added
+   
+	* arch/os2/ui.c: small changes
+   
+	* arch/os2/vac++/C1541.ICC: renamed to X1541.ICC
+ 
+	* arch/os2/vac++/incl/plus4.icc: added
+
+	* arch/os2/vac++/Xplus4.ICC: added
+ 
+	* monitor/mon_ui.c: get rid of some warnings
+ 
+	* monitor/mon_util.c: excluded some part for OS/2
+ 
+	* plus4/ted-sound.c: included string.h
+ 
+	* sound.c: some changes to the logging output
+   
+	* sounddrv/sounddart.c: added logger
+	added channel support
+	reorganized code
+   
+	* sounddrv/soundmmos2.c: added logger
+	added channel support
+   
+	* video-render.c: get rid of 'must be a changable lvalue'
+   
+	* video-render.h: define VIDEO_REMOVE_2X for OS/2
+
+2001-10-30  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/plus4ui.{c,h}: new files for Plus4 UI specifics.
+
+2001-10-29  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* video-render.c: replaced C++ comments
+
+2001-10-29  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* sound.c: fixed multichannel refill for asynchronous sound
+	(RISC OS only)
+
+	* sounddrv/soundacorn.c: added multichannel support.
+
+2001-10-29  pottendo  <pottendo@utanet.at>
+
+	* plus4/ted.c: Added fullscreen.h.
+
 2001-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.20.
