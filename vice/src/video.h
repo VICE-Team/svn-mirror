@@ -81,6 +81,8 @@ extern struct video_canvas_s *video_canvas_create(const char *win_name,
                                             struct video_frame_buffer_s *fb);
 
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
+                                 BYTE *draw_buffer,
+                                 unsigned int draw_buffer_line_size,
                                  struct video_frame_buffer_s *frame_buffer,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,

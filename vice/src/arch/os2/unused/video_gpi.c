@@ -395,7 +395,9 @@ int video_canvas_set_palette(video_canvas_t c, const palette_t *p, PIXEL *pixel_
 }
 
 /* ------------------------------------------------------------------------ */
-void video_canvas_refresh(video_canvas_t c, video_frame_buffer_t f,
+void video_canvas_refresh(video_canvas_t c, BYTE *draw_buffer,
+                          unsigned int draw_buffer_line_size,
+                          video_frame_buffer_t f,
                           int xs, int ys, int xi, int yi, int w, int h)
 {
     int H=c->height-yi; // Change coordinate system (up<->down)

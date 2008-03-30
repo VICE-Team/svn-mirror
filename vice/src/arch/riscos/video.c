@@ -412,7 +412,8 @@ void video_canvas_resize(video_canvas_t *s, unsigned int width, unsigned int hei
 }
 
 
-void video_canvas_refresh(video_canvas_t *canvas,
+void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
+                          unsigned int draw_buffer_line_size,
                           video_frame_buffer_t *frame_buffer,
  			  unsigned int xs, unsigned int ys,
 			  unsigned int xi, unsigned int yi,
