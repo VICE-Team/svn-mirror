@@ -1,3 +1,145 @@
+2006-06-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.19.
+
+	* arch/unix/gp2x/*: New directory, moved everything from
+	`arch/gp2x' here.
+
+	* arch/unix/Makefile.am, arch/unix/videoarch.h,
+	arch/unix/uimenu.h: Added gp2x directory.
+
+	* arch/unix/console.c, arch/unix/archdep.c,
+	arch/unix/vsyncarch.c, arch/unix/joy.c: Adopted to gp2x.
+
+	* arch/unix/gp2x/types.h, arch/unix/gp2x/console.c,
+	arch/unix/gp2x/xcbm2_stubs.c, arch/unix/gp2x/xplus4_stubs.c,
+	arch/unix/gp2x/xvic_stubs.c, arch/unix/gp2x/uivdc.h,
+	arch/unix/gp2x/uivic.h, arch/unix/gp2x/uisid.h,
+	arch/unix/gp2x/uivicii.h, arch/unix/gp2x/uisound.h,
+	arch/unix/gp2x/uited.h, arch/unix/gp2x/uisettings.h,
+	arch/unix/gp2x/uirs232petplus4cbm2.h,
+	arch/unix/gp2x/uirs232c64c128.h, arch/unix/gp2x/uirs232user.h,
+	arch/unix/gp2x/uiromset.h, arch/unix/gp2x/uireu.h,
+	arch/unix/gp2x/uiramcart.h, arch/unix/gp2x/uiprinterieee.h,
+	arch/unix/gp2x/uiprinteriecplus4.h,
+	arch/unix/gp2x/uiprinteriec.h, arch/unix/gp2x/uiprinter.h,
+	arch/unix/gp2x/uiplus60k.h, arch/unix/gp2x/uiplus256k.h,
+	arch/unix/gp2x/uipetreu.h, arch/unix/gp2x/uiperipheralieee.h,
+	arch/unix/gp2x/uiperipheraliec.h,
+	arch/unix/gp2x/uiperipheral.h, arch/unix/gp2x/uipalette.h,
+	arch/unix/gp2x/uipalemu.h,  arch/unix/gp2x/uiattach.h,
+	arch/unix/gp2x/uic64_256k.h, arch/unix/gp2x/uic64cart.h,
+	arch/unix/gp2x/uicrtc.h, arch/unix/gp2x/uidatasette.h,
+	arch/unix/gp2x/uidrive.h, arch/unix/gp2x/uidrivec128.h,
+	arch/unix/gp2x/uidrivec64vic20.h, arch/unix/gp2x/uidriveiec.h,
+	arch/unix/gp2x/uidrivepetcbm2.h,
+	arch/unix/gp2x/uidriveplus4.h, arch/unix/gp2x/uiacia1.h,
+	arch/unix/gp2x/uifliplist.h, arch/unix/gp2x/uigeoram.h,
+	arch/unix/gp2x/uiide64.h, arch/unix/gp2x/uikeyboard.h,
+	arch/unix/gp2x/uirs232.h, arch/unix/gp2x/uijoystick2.h,
+	arch/unix/gp2x/gp2xmain.c, arch/unix/gp2x/archdep.h,
+	arch/unix/gp2x/archdep.c, arch/unix/gp2x/vsyncarch.c,
+	arch/unix/gp2x/coproc.h, arch/unix/gp2x/coproc.c,
+	arch/unix/gp2x/blockdev.c, arch/unix/gp2x/ffmpeglib.c,
+	arch/unix/gp2x/joy.c, arch/unix/gp2x/joy.h,
+	arch/unix/gp2x/kbd.h, arch/unix/gp2x/joy_usb.c,
+	arch/unix/gp2x/mousedrv.c, arch/unix/gp2x/mousedrv.h,
+	arch/unix/gp2x/signals.c, arch/unix/gp2x/uiscreenshot.h,
+	arch/unix/gp2x/uicartridge.h, arch/unix/gp2x/uisnapshot.h,
+	arch/unix/gp2x/uihotkey.h, arch/unix/gp2x/uiedisk.h,
+	arch/unix/gp2x/ui.h, arch/unix/gp2x/vsiduigp2x.h: Removed.
+
+	* arch/unix/gp2x/Makefile.am: Updated.
+
+	* arch/unix/gp2x/prefs_gp2x.c: Commented out usage of
+	cartridge functions as the UI is not separated enough.
+
+	* arch/unix/gp2x/video_gp2x.c: Renamed.
+
+	* arch/unix/gp2x/video_gp2x.h: Moved to `videoarch.h'.
+
+	* arch/unix/gp2x/prefs_gp2x.c, arch/unix/gp2x/vsidui.c: Fixed
+	includes.
+
+2006-06-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/gp2x/Char_ROM.h, arch/gp2x/Makefile.am,
+	arch/gp2x/archdep.c, arch/gp2x/archdep.h,
+	arch/gp2x/audio_gp2x.c, arch/gp2x/audio_gp2x.h,
+	arch/gp2x/blockdev.c, arch/gp2x/c128ui.c, arch/gp2x/c64ui.c,
+	arch/gp2x/cbm2ui.c, arch/gp2x/console.c, arch/gp2x/coproc.c,
+	arch/gp2x/coproc.h, arch/gp2x/ffmpeglib.c,
+	arch/gp2x/fullscreenarch.h, arch/gp2x/gp2xmain.c,
+	arch/gp2x/gp2xui.h, arch/gp2x/gpe-files/vsid.gpe,
+	arch/gp2x/gpe-files/x128.gpe, arch/gp2x/gpe-files/x64.gpe,
+	arch/gp2x/gpe-files/xcbm2.gpe, arch/gp2x/gpe-files/xpet.gpe,
+	arch/gp2x/gpe-files/xplus4.gpe, arch/gp2x/gpe-files/xvic.gpe,
+	arch/gp2x/icon.h, arch/gp2x/input_gp2x.c,
+	arch/gp2x/input_gp2x.h, arch/gp2x/joy.c, arch/gp2x/joy.h,
+	arch/gp2x/joy_usb.c, arch/gp2x/joy_usb.c, arch/gp2x/kbd.h,
+	arch/gp2x/make-bindist.sh, arch/gp2x/minimal.c,
+	arch/gp2x/minimal.h, arch/gp2x/minimal_940t.h,
+	arch/gp2x/mousedrv.c, arch/gp2x/mousedrv.h, arch/gp2x/petui.c,
+	arch/gp2x/plus4ui.c, arch/gp2x/prefs_gp2x.c,
+	arch/gp2x/prefs_gp2x.h, arch/gp2x/rs232.c,
+	arch/gp2x/signals.c, arch/gp2x/types.h, arch/gp2x/ui.c,
+	arch/gp2x/ui.h, arch/gp2x/ui_gp2x.c, arch/gp2x/ui_gp2x.h,
+	arch/gp2x/uiacia1.c, arch/gp2x/uiacia1.h, arch/gp2x/uiarch.h,
+	arch/gp2x/uiattach.c, arch/gp2x/uiattach.h,
+	arch/gp2x/uic64_256k.c, arch/gp2x/uic64_256k.h,
+	arch/gp2x/uic64cart.c, arch/gp2x/uic64cart.h,
+	arch/gp2x/uicartridge.h, arch/gp2x/uicmdline.c,
+	arch/gp2x/uicommands.c, arch/gp2x/uicommands.h,
+	arch/gp2x/uicrtc.c, arch/gp2x/uicrtc.h,
+	arch/gp2x/uidatasette.c, arch/gp2x/uidatasette.h,
+	arch/gp2x/uidrive.c, arch/gp2x/uidrive.h,
+	arch/gp2x/uidrivec128.c, arch/gp2x/uidrivec128.h,
+	arch/gp2x/uidrivec64vic20.c, arch/gp2x/uidrivec64vic20.h,
+	arch/gp2x/uidriveiec.c, arch/gp2x/uidriveiec.h,
+	arch/gp2x/uidrivepetcbm2.c, arch/gp2x/uidrivepetcbm2.h,
+	arch/gp2x/uidriveplus4.c, arch/gp2x/uidriveplus4.h,
+	arch/gp2x/uiedisk.h, arch/gp2x/uifliplist.c,
+	arch/gp2x/uifliplist.h, arch/gp2x/uigeoram.c,
+	arch/gp2x/uigeoram.h, arch/gp2x/uihotkey.h,
+	arch/gp2x/uiide64.c, arch/gp2x/uiide64.h,
+	arch/gp2x/uijoystick2.c, arch/gp2x/uijoystick2.h,
+	arch/gp2x/uikeyboard.c, arch/gp2x/uikeyboard.h,
+	arch/gp2x/uilib.c, arch/gp2x/uilib.h, arch/gp2x/uimenu.h,
+	arch/gp2x/uimon.c, arch/gp2x/uipalemu.c, arch/gp2x/uipalemu.h,
+	arch/gp2x/uipalette.c, arch/gp2x/uipalette.h,
+	arch/gp2x/uiperipheral.c, arch/gp2x/uiperipheral.h,
+	arch/gp2x/uiperipheraliec.c, arch/gp2x/uiperipheraliec.h,
+	arch/gp2x/uiperipheralieee.c, arch/gp2x/uiperipheralieee.h,
+	arch/gp2x/uipetreu.c, arch/gp2x/uipetreu.h,
+	arch/gp2x/uiplus256k.c, arch/gp2x/uiplus256k.h,
+	arch/gp2x/uiplus60k.c, arch/gp2x/uiplus60k.h,
+	arch/gp2x/uiprinter.c, arch/gp2x/uiprinter.h,
+	arch/gp2x/uiprinteriec.c, arch/gp2x/uiprinteriec.h,
+	arch/gp2x/uiprinteriecplus4.c, arch/gp2x/uiprinteriecplus4.h,
+	arch/gp2x/uiprinterieee.c, arch/gp2x/uiprinterieee.h,
+	arch/gp2x/uiramcart.c, arch/gp2x/uiramcart.h,
+	arch/gp2x/uireu.c, arch/gp2x/uireu.h, arch/gp2x/uiromset.c,
+	arch/gp2x/uiromset.h, arch/gp2x/uirs232.c,
+	arch/gp2x/uirs232.h, arch/gp2x/uirs232c64c128.c,
+	arch/gp2x/uirs232c64c128.h, arch/gp2x/uirs232petplus4cbm2.c,
+	arch/gp2x/uirs232petplus4cbm2.h, arch/gp2x/uirs232user.c,
+	arch/gp2x/uirs232user.h, arch/gp2x/uiscreenshot.h,
+	arch/gp2x/uisettings.c, arch/gp2x/uisettings.h,
+	arch/gp2x/uisid.c, arch/gp2x/uisid.h, arch/gp2x/uisnapshot.h,
+	arch/gp2x/uisound.c, arch/gp2x/uisound.h, arch/gp2x/uited.c,
+	arch/gp2x/uited.h, arch/gp2x/uitext_gp2x.c,
+	arch/gp2x/uitext_gp2x.h, arch/gp2x/uivdc.c, arch/gp2x/uivdc.h,
+	arch/gp2x/uivic.c, arch/gp2x/uivic.h, arch/gp2x/uivicii.c,
+	arch/gp2x/uivicii.h, arch/gp2x/vic20ui.c,
+	arch/gp2x/video_gp2x.c, arch/gp2x/video_gp2x.h,
+	arch/gp2x/videoarch.h, arch/gp2x/vkeyboard_gp2x.c,
+	arch/gp2x/vkeyboard_gp2x.h, arch/gp2x/vsidui.c,
+	arch/gp2x/vsiduigp2x.h, arch/gp2x/vsyncarch.c,
+	arch/gp2x/xcbm2_stubs.c, arch/gp2x/xpet_stubs.c,
+	arch/gp2x/xpet_stubs.c, arch/gp2x/xplus4_stubs.c,
+	arch/gp2x/xvic_stubs.c, src/joystick.h,
+	raster/raster-canvas.c: Added support for the GP2X port.
+
 2006-06-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.18.
