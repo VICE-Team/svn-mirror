@@ -78,16 +78,15 @@ static int set_column4080_key(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "40/80ColumnKey", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&mmu_column4080_key, set_column4080_key, NULL },
+static const resource_int_t resources_int[] = {
+    { "40/80ColumnKey", 1, RES_EVENT_SAME, NULL,
+      &mmu_column4080_key, set_column4080_key, NULL },
     { NULL }
 };
 
 int mmu_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION

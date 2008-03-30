@@ -140,29 +140,24 @@ static int set_cartridge_file_B(resource_value_t v, void *param)
     return cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, cartfileB);
 }
 
-static const resource_t resources[] =
+static const resource_string_t resources_string[] =
 {
-    { "CartridgeFile2000", RES_STRING, (resource_value_t)"",
-      RES_EVENT_STRICT, (resource_value_t)"",
-      (void *)&cartridge_file_2, set_cartridge_file_2, NULL },
-    { "CartridgeFile4000", RES_STRING, (resource_value_t)"",
-      RES_EVENT_STRICT, (resource_value_t)"",
-      (void *)&cartridge_file_4, set_cartridge_file_4, NULL },
-    { "CartridgeFile6000", RES_STRING, (resource_value_t)"",
-      RES_EVENT_STRICT, (resource_value_t)"",
-      (void *)&cartridge_file_6, set_cartridge_file_6, NULL },
-    { "CartridgeFileA000", RES_STRING, (resource_value_t)"",
-      RES_EVENT_STRICT, (resource_value_t)"",
-      (void *)&cartridge_file_A, set_cartridge_file_A, NULL },
-    { "CartridgeFileB000", RES_STRING, (resource_value_t)"",
-      RES_EVENT_STRICT, (resource_value_t)"",
-      (void *)&cartridge_file_B, set_cartridge_file_B, NULL },
+    { "CartridgeFile2000", "", RES_EVENT_STRICT, (resource_value_t)"",
+      &cartridge_file_2, set_cartridge_file_2, NULL },
+    { "CartridgeFile4000", "", RES_EVENT_STRICT, (resource_value_t)"",
+      &cartridge_file_4, set_cartridge_file_4, NULL },
+    { "CartridgeFile6000", "", RES_EVENT_STRICT, (resource_value_t)"",
+      &cartridge_file_6, set_cartridge_file_6, NULL },
+    { "CartridgeFileA000", "", RES_EVENT_STRICT, (resource_value_t)"",
+      &cartridge_file_A, set_cartridge_file_A, NULL },
+    { "CartridgeFileB000", "", RES_EVENT_STRICT, (resource_value_t)"",
+      &cartridge_file_B, set_cartridge_file_B, NULL },
     { NULL }
 };
 
 int cartridge_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 void cartridge_resources_shutdown(void)
