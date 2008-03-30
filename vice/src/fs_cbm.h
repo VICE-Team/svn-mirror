@@ -104,10 +104,6 @@
 #define HEADER_VERSION_MAJOR	1
 #define HEADER_VERSION_MINOR	2
 
-#define C1541_VERSION_MAJOR	2
-#define C1541_VERSION_MINOR	3
-
-
 #define HEADER_FLAGS_OFFSET	6	/* Disk Image Flags */
 #define HEADER_FLAGS_LEN	4	/* Disk Image Flags */
   /* These 4 bytes are disk type flags (set upon create or format)

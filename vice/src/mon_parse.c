@@ -121,17 +121,17 @@ extern void make_buffer(char *str);
 extern int yylex(void);
 extern int cur_len, last_len;
 
-#define ERR_ILLEGAL_INPUT 0
-#define ERR_RANGE_BAD_START 1
-#define ERR_RANGE_BAD_END 2
-#define ERR_BAD_CMD 3
-#define ERR_EXPECT_BRKNUM 4
-#define ERR_EXPECT_END_CMD 5
-#define ERR_MISSING_CLOSE_PAREN 6
-#define ERR_INCOMPLETE_COMPARE_OP 7
-#define ERR_EXPECT_FILENAME 8
-#define ERR_ADDR_TOO_BIG 9
-#define ERR_IMM_TOO_BIG 10
+#define ERR_ILLEGAL_INPUT 1     /* Generic error as returned by yacc.  */
+#define ERR_RANGE_BAD_START 2
+#define ERR_RANGE_BAD_END 3
+#define ERR_BAD_CMD 4
+#define ERR_EXPECT_BRKNUM 5
+#define ERR_EXPECT_END_CMD 6
+#define ERR_MISSING_CLOSE_PAREN 7
+#define ERR_INCOMPLETE_COMPARE_OP 8
+#define ERR_EXPECT_FILENAME 9
+#define ERR_ADDR_TOO_BIG 10
+#define ERR_IMM_TOO_BIG 11
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == LO16(x))
@@ -1937,8 +1937,9 @@ void parse_and_execute_line(char *input)
            case ERR_IMM_TOO_BIG:
                fprintf(mon_output, "Immediate argument too large:\n");
                break;
+           case ERR_ILLEGAL_INPUT:
            default:
-               fprintf(mon_output, "Illegal input:\n");
+               fprintf(mon_output, "Wrong syntax:\n");
        }
        fprintf(mon_output, "  %s\n", input);
        for (i = 0; i < last_len; i++)
