@@ -355,26 +355,33 @@ static char snap_module_name[] = "MAINCPU";
 
 int maincpu_write_snapshot_module(FILE *f)
 {
-    if (snapshot_write_module_header(f, snap_module_name,
-                                     SNAP_MAJOR, SNAP_MINOR) < 0)
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(f, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
         return -1;
 
     if (0
-        || snapshot_write_dword(f, clk) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
-        || snapshot_write_word(f, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || snapshot_write_dword(f, last_opcode_info) < 0
+        || snapshot_module_write_dword(m, clk) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
+        || snapshot_module_write_word(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+        || snapshot_module_write_dword(m, last_opcode_info) < 0
         )
-        return -1;
+        goto fail;
 
-    if (interrupt_write_snapshot(&maincpu_int_status, f) < 0)
-        return -1;
+    if (interrupt_write_snapshot(&maincpu_int_status, m) < 0)
+        goto fail;
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }
 
 int maincpu_read_snapshot_module(FILE *f)
@@ -383,15 +390,17 @@ int maincpu_read_snapshot_module(FILE *f)
     WORD pc;
     BYTE major, minor;
     char module_name[SNAPSHOT_MODULE_NAME_LEN];
+    snapshot_module_t *m;
 
-    if (snapshot_read_module_header(f, module_name, &major, &minor) < 0)
+    m = snapshot_module_open(f, module_name, &major, &minor);
+    if (m == NULL)
         return -1;
 
     if (strcmp(module_name, snap_module_name) != 0) {
         fprintf(stderr,
                 "MAINCPU: Snapshot module name (`%s') incorrect; should be `%s'.\n",
                 module_name, snap_module_name);
-        return -1;
+        goto fail;
     }
 
     /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
@@ -400,16 +409,16 @@ int maincpu_read_snapshot_module(FILE *f)
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
-        || snapshot_read_dword(f, &clk) < 0
-        || snapshot_read_byte(f, &a) < 0
-        || snapshot_read_byte(f, &x) < 0
-        || snapshot_read_byte(f, &y) < 0
-        || snapshot_read_byte(f, &sp) < 0
-        || snapshot_read_word(f, &pc) < 0
-        || snapshot_read_byte(f, &status) < 0
-        || snapshot_read_dword(f, &last_opcode_info) < 0
+        || snapshot_module_read_dword(m, &clk) < 0
+        || snapshot_module_read_byte(m, &a) < 0
+        || snapshot_module_read_byte(m, &x) < 0
+        || snapshot_module_read_byte(m, &y) < 0
+        || snapshot_module_read_byte(m, &sp) < 0
+        || snapshot_module_read_word(m, &pc) < 0
+        || snapshot_module_read_byte(m, &status) < 0
+        || snapshot_module_read_dword(m, &last_opcode_info) < 0
         )
-        return -1;
+        goto fail;
 
     MOS6510_REGS_SET_A(&maincpu_regs, a);
     MOS6510_REGS_SET_X(&maincpu_regs, x);
@@ -418,8 +427,13 @@ int maincpu_read_snapshot_module(FILE *f)
     MOS6510_REGS_SET_PC(&maincpu_regs, pc);
     MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
 
-    if (interrupt_read_snapshot(&maincpu_int_status, f) < 0)
-        return -1;
+    if (interrupt_read_snapshot(&maincpu_int_status, m) < 0)
+        goto fail;
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }
