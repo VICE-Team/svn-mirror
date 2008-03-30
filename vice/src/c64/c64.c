@@ -68,6 +68,10 @@
 #include "pruser.h"
 #endif
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 static void vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
@@ -176,6 +180,9 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
+#ifdef HAVE_MOUSE
+        || mouse_init_resources() < 0
+#endif
         || kbd_init_resources() < 0
         || true1541_init_resources() < 0
 	|| cartridge_init_resources() < 0)
@@ -203,6 +210,9 @@ int machine_init_cmdline_options(void)
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
+#endif
+#ifdef HAVE_MOUSE
+        || mouse_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
@@ -280,6 +290,11 @@ int machine_init(void)
 
     /* Initialize the C64-specific part of the UI.  */
     c64_ui_init();
+
+#ifdef HAVE_MOUSE
+    /* Initialize mouse support (if present).  */
+    mouse_init();
+#endif
 
     return 0;
 }

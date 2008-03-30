@@ -277,11 +277,6 @@ int MAIN_PROGRAM(int argc, char **argv)
         fprintf(stderr, "Cannot initialize file system-specific resources.\n");
         exit(-1);
     }
-    if (joystick_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
-        exit(-1);
-    }
-
     /* Initialize file system device-specific resources.  */
     if (fsdevice_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize file system device-specific resources.\n");
@@ -291,12 +286,14 @@ int MAIN_PROGRAM(int argc, char **argv)
         fprintf(stderr, "Cannot initialize machine-specific resources.\n");
         exit(-1);
     }
-/*
-    if (cartridge_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize cartridge-specific resources.\n");
+
+#ifdef JOYSTICK
+    if (joystick_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
         exit(-1);
     }
-*/
+#endif
+
     /* Set factory defaults.  */
     resources_set_defaults();
 
@@ -311,6 +308,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     /* Initialize command-line options.  */
+
     cmdline_init();
     if (cmdline_register_options(cmdline_options) < 0) {
         fprintf(stderr, "Cannot initialize main command-line options.\n");
@@ -318,10 +316,6 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
     if (sysfile_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
-        exit(-1);
-    }
-    if (joystick_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
         exit(-1);
     }
     if (ui_init_cmdline_options() < 0) {
@@ -336,6 +330,14 @@ int MAIN_PROGRAM(int argc, char **argv)
         fprintf(stderr, "Cannot initialize file system-specific command-line options.\n");
         exit(-1);
     }
+
+#ifdef JOYSTICK
+    if (joystick_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
+        exit(-1);
+    }
+#endif
+
     if (cmdline_parse(&argc, argv) < 0) {
         fprintf(stderr, "Error parsing command-line options, bailing out.\n");
         exit(-1);
