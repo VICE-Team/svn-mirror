@@ -7,6 +7,37 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.7
+=====================
+
+** OS/2 changes
+--------------
+
+- Dragging a file to the Vice Window now autostarts the file
+
+- Included a base status bar
+
+- Added autostart option to menu
+
+- Added cartridge support to menu
+
+- Added missing resources to menus
+
+- Added popup menu (switch off menu bar, press mouse button 2)
+
+- make menu bar switchable
+
+- removed hardware dialog
+
+- removed sound dialog
+
+- added help system
+
+- changed hotkeys from scancode to Accelerator Table
+
+- changed layout of About Dialog
+
+
 * Changes in VICE 1.6
 =====================
 
@@ -23,7 +54,7 @@ list of all the changes in the code.
 
 - Added a symbol file for the built-in monitor which allows moni-
   toring of ROM sections (use 'll "c64mem.sym"' inside the monitor)
-
+  
 ** C128 changes
 ---------------
 

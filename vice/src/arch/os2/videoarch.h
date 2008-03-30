@@ -24,12 +24,8 @@ typedef struct video_frame_buffer_s {
     ULONG ulBuffer; // DIVE buffer number
 } video_frame_buffer_t;
 
-/* This is necessary because DIVE calculates the optimum line size itself
-   it seems to be x*sizeof(ULONG), see DiveAllocImageBuffer               */
-extern const int FBMULT;
-
 #define VIDEO_FRAME_BUFFER_LINE_START(f,n)  ((f->bitmap) + ((f->width) \
-                                            * sizeof(BYTE) + FBMULT) * n)
+                                            * sizeof(BYTE)) * n)
 #define VIDEO_FRAME_BUFFER_SIZE(f)          (f->width)
 #define VIDEO_FRAME_BUFFER_START(f)         (f->bitmap)
 
@@ -39,6 +35,8 @@ typedef struct canvas_s
 {
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
+    HWND  hwndMenu;         // Handle to menu bar
+    HWND  hwndPopupMenu;    // Handle to popup menu
     HMTX  hmtx;
     char *title;
     UINT  width;            // width of canvas graphic area

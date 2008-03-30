@@ -1,35 +1,51 @@
+#include <iostream.h>
+#include <fstream.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-int CopyHeader(FILE *out)
+
+/**************************************************************
+ *
+ *  To create a header file:
+ *  create a font, with:
+ *    - fixed size
+ *    - width & height = 8
+ *    - no empty characters
+ *
+ **************************************************************/
+
+int CopyHeader(ofstream &fout)
 {
-    FILE *in  = fopen("header.fnt", "rb");
-    if (!in)
+    ifstream fin("header.fnt", ios::binary);
+    if (!fin)
     {
-        printf("File 'header.fnt' not found.\n");
+        cout << "File 'header.fnt' not found." << endl;
         return 1;
     }
 
     // header contains 1758 bytes
-    while (!feof(in))
-    {
-        char c = fgetc(in);
-        if (!feof(in)) fputc(c, out);
-    }
+    const int len = 27*64+30;
+    char c[len];
 
-    fclose(in);
+
+
+    fin.read(c, len);
+    fout.write(c, len);
+
+    fout << flush;
 
     return 0;
 }
 
-int ReadBdf(char font[255][8])
+int ReadBdf(char font[256][8])
 {
     FILE *in = fopen("vice-cbm.bdf", "r");
 
     if (!in)
     {
-        printf("File 'vice-cbm.bdf' not found.\n");
+        cout << "File 'vice-cbm.bdf' not found." << endl;
         return 1;
     }
 
@@ -48,7 +64,7 @@ int ReadBdf(char font[255][8])
             break;
         case 1:
             charn=atoi(str);
-            printf("%i ", charn);
+            cout << charn << " ";
             enc = 2;
             break;
         case 2:
@@ -92,28 +108,26 @@ int ReadBdf(char font[255][8])
 
 int main()
 {
-    FILE *out = fopen("vice-cbm.fnt", "wb");
+    ofstream fout("vice-cbm.fnt", ios::binary);
 
-    if (CopyHeader(out))
+    if (CopyHeader(fout))
         return 0;
 
-    char font[255][8];
+    char font[256][8];
 
     if (ReadBdf(font))
         return 0;
 
     for (int i=0; i<256; i++)
         for (int j=0; j<8; j++)
-            fputc(font[i][j], out);
+            fout << font[i][j];
 
-    fputc('\xff', out);
-    fputc('\xff', out);
-    fputc('\xff', out);
-    fputc('\xff', out);
-    fputc('\x08', out);
-    fputc('\0', out);
-    fputc('\0', out);
-    fputc('\0', out);
-
-    fclose(out);
+    fout << '\xff';
+    fout << '\xff';
+    fout << '\xff';
+    fout << '\xff';
+    fout << '\x08';
+    fout << '\0';
+    fout << '\0';
+    fout << '\0' << flush;
 }

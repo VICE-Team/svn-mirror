@@ -23,26 +23,23 @@
  *  02111-1307  USA.
  *
  */
-#define INCL_GPILCIDS           /* Font functions               */
-#define INCL_GPIPRIMITIVES      /* GPI primitive functions      */
-#define INCL_DOSMEMMGR          /* DOS Memory Manager Functions */
+
+#define INCL_GPILCIDS       /* Font functions               */
+#define INCL_GPIPRIMITIVES  /* GPI primitive functions      */
+#define INCL_DOSMEMMGR      /* DOS Memory Manager Functions */
 #define INCL_WINERRORS
-
-#define INCL_WINSYS // font
-#define INCL_WININPUT
-#define INCL_WINDIALOGS
-#define INCL_WINLISTBOXES
-
+#define INCL_WINSYS         // font
+#define INCL_WINLISTBOXES   // WinLbox*
 #include "vice.h"
-#include "dialogs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "utils.h"           // xmalloc
-#include "charsets.h"
-#include "autostart.h"
+#include "utils.h"          // xmalloc
+#include "dialogs.h"        // WinLbox*
+#include "charsets.h"       // a2p, p2a
+#include "autostart.h"      // autostart_autodetect
 #include "imagecontents.h"
 
 #include "log.h"
@@ -63,13 +60,13 @@ static void LoadFont(HWND hwnd)
         return;
     }
 
-    if (!GpiLoadFonts(hab, "g:\\c64\\src\\vice\\data\\fonts\\vice-cbm.fon"))
+    if (!GpiLoadFonts(hab, "f:\\c64\\src\\vice\\data\\fonts\\vice-cbm.fon"))
     {
         log_debug("dlg-contents.c: Unable to load vice-cbm.fon");
         return;
     }
 
-    /* Determine the number of fonts. */
+    /* Determine the number of fonts */
     cFonts = GpiQueryFonts(hps, QF_PRIVATE, NULL, &lTemp,
                            (LONG) sizeof(FONTMETRICS), NULL);
 
@@ -85,8 +82,7 @@ static void LoadFont(HWND hwnd)
 
     /* Allocate space for the font metrics. */
     pfm = (FONTMETRICS*)xmalloc(cFonts*sizeof(FONTMETRICS));
-    if (!pfm)/*DosAllocMem((VOID *)pfm,(ULONG)(cFonts*sizeof(FONTMETRICS)),
-    PAG_COMMIT | PAG_READ | PAG_WRITE)*/
+    if (!pfm)
     {
         log_debug("dlg-contents.c: Unable to allocate memory for font metrics");
         return;
@@ -109,7 +105,7 @@ static void LoadFont(HWND hwnd)
     while (cFonts>0)
     {
         cFonts--;
-        log_debug("dlg-contents.c: Font  Nr.%3i  %i. Family: %s  Face: %s  Type: %x",
+        log_debug("dlg-contents.c: Font.%3i %i. Family: '%s' Face: '%s' Type: %x",
                   cFonts,
                   pfm[cFonts].lAveCharWidth,
                   pfm[cFonts].szFamilyname,
@@ -118,27 +114,25 @@ static void LoadFont(HWND hwnd)
                  );
     }
     {
-        POINTL ptl = { 10, 10 };
-        FATTRS fat;
         APIRET rc;
+        FATTRS fat;
 
-        fat.usRecordLength = sizeof(FATTRS); /* sets size of structure   */
-        fat.fsSelection = 0;       /* uses default selection             */
-        fat.lMatch = 0L;           /* does not force match               */
-        fat.idRegistry = 0;        /* uses default registry              */
-        fat.usCodePage = 850;      /* code-page 850                      */
-        fat.lMaxBaselineExt = 8L;  /* requested font height is 8 pels    */
-        fat.lAveCharWidth = 8L;    /* requested font width is 8 pels     */
-        fat.fsType = 0;            /* uses default type                  */
-        fat.fsFontUse = FATTR_FONTUSE_NOMIX;/* doesn't mix with graphics */
+        fat.usRecordLength  = sizeof(FATTRS);
+        fat.fsSelection     = 0;   /* uses default selection             */
+        fat.lMatch          = 0;   /* does not force match               */
+        fat.idRegistry      = 0;   /* uses default registry              */
+        fat.usCodePage      = 850; /* code-page 850                      */
+        fat.lMaxBaselineExt = 8;   /* requested font height is 8 pels    */
+        fat.lAveCharWidth   = 8;   /* requested font width is 8 pels     */
+        fat.fsType          = 0;   /* uses default type                  */
+        fat.fsFontUse       = FATTR_FONTUSE_NOMIX; /* doesn't mix with graphics */
 
         /* Copy Courier to szFacename field */
-
-        strcpy(fat.szFacename ,"CBM Vice");
+        strcpy(fat.szFacename, "CBM Fixed");
 
         rc=GpiCreateLogFont(hps,   /* presentation space             */
                             NULL,  /* does not use logical font name */
-                            2L,    /* local identifier               */
+                            1L,    /* local identifier               */
                             &fat); /* structure with font attributes */
 
         if (rc=FONT_MATCH)
@@ -162,7 +156,7 @@ static void LoadFont(HWND hwnd)
                 log_debug("---> %i:  %i.%s", lcid, attrs.lAveCharWidth, attrs.szFacename);
         }
     }
-    if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
+    if (!WinSetDlgFont(hwnd, LB_CONTENTS, "8.CBM Fixed"))//achFont))
                        //pfm[0].szFacename))
         log_debug("dlg-contents.c: Unable to set font %s.",
                   pfm[0].szFacename);
@@ -176,65 +170,62 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 {
     CHAR achFont[] = "11.System VIO";
     static char *image_name=NULL;
-    static int first = TRUE;
 
     switch (msg)
     {
     case WM_INITDLG:
-        setDlgOpen(DLGO_CONTENTS);
-
-        image_name = stralloc(mp2);
-        first = TRUE;
-        break;
-    case WM_CLOSE:
-        if (image_name)
-            free(image_name);
-        delDlgOpen(DLGO_CONTENTS);
-        break;
-    case WM_PAINT:
         {
-            if (first)
+            char *text;
+
+            image_contents_file_list_t *entry;
+            image_contents_t           *image;
+
+            image_name = stralloc(mp2);
+
+            image=image_contents_read_disk(image_name);
+
+            if (!image)
             {
-                char *text;
-                image_contents_file_list_t *entry;
-
-                image_contents_t *image=image_contents_read_disk(image_name);
-
-                if (!image)
-                {
-                    log_debug("dlg-contents.c: Unable to read '%s'.", image_name);
-                    WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
-                    break;
-                }
-
-                entry=image->file_list;
-
-                if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
-                    log_debug("dlg-contents.c: Unable to set font %s.",
-                              achFont);
-
-                // LoadFont(hwnd);
-
-                text=xmsprintf(" 0 \"%s\" %s", p2a(image->name), p2a(image->id));
-                WinLboxInsertItem(hwnd, LB_CONTENTS, text);
-                free(text);
-                while (entry)
-                {
-                    text=xmsprintf(" %-5i\"%s\"%6s", entry->size,
-                                   p2a(entry->name), p2a(entry->type));
-                    WinLboxInsertItem(hwnd, LB_CONTENTS, text);
-                    free(text);
-                    entry = entry->next;
-                }
-                text=xmsprintf(" %i blocks free.", image->blocks_free);
-                WinLboxInsertItem(hwnd, LB_CONTENTS, text);
-                free(text);
-
-                image_contents_destroy(image);
-                first=FALSE;
+                log_debug("dlg-contents.c: Unable to read '%s'.", image_name);
+                WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
+                break;
             }
+
+            entry=image->file_list;
+
+            //                if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
+            //                    log_debug("dlg-contents.c: Unable to set font %s.",
+            //                              achFont);
+
+            LoadFont(hwnd);
+
+            text=xmsprintf(" 0 \"%s\" %s", p2a(image->name), p2a(image->id));
+            WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+            free(text);
+            while (entry)
+            {
+                text=xmsprintf(" %-5i\"%s\"%6s", entry->size,
+                               p2a(entry->name), p2a(entry->type));
+                WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+                free(text);
+                entry = entry->next;
+            }
+            text=xmsprintf(" %i blocks free.", image->blocks_free);
+            WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+            free(text);
+
+            image_contents_destroy(image);
         }
         break;
+
+    case WM_CLOSE:
+        if (!image_name)
+            break;
+
+        free(image_name);
+        image_name=NULL;
+        break;
+
     case WM_ADJUSTWINDOWPOS:
         {
             SWP *swp=(SWP*)mp1;
@@ -251,18 +242,14 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         }
         break;
     case WM_CONTROL:
-        switch(SHORT1FROMMP(mp1))
+        if (mp1==MPFROM2SHORT(LB_CONTENTS, LN_ENTER))
         {
-        case LB_CONTENTS:
-            if (SHORT2FROMMP(mp1)==LN_ENTER)
-            {
-                int pos=WinLboxQuerySelectedItem(hwnd, LB_CONTENTS);
-                if (autostart_autodetect(image_name, NULL, pos))
-                    ;// WinError(hwnd, "Cannot autostart specified image.");
-                else
-                    WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
-                return FALSE;
-            }
+            const int pos=WinQueryLboxSelectedItem((HWND)mp2);
+            if (autostart_autodetect(image_name, NULL, pos))
+                ;// WinError(hwnd, "Cannot autostart specified image.");
+            else
+                WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
+            return FALSE;
         }
         break;
 
@@ -275,8 +262,12 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 
 void contents_dialog(HWND hwnd, char *szFullFile)
 {
-    if (dlgOpen(DLGO_CONTENTS)) return;
-    WinLoadDlg(HWND_DESKTOP, hwnd, pm_contents, NULLHANDLE,
-               DLG_CONTENTS, (void*)szFullFile);
+    HWND hwnd2 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd2))
+        return;
+
+    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, pm_contents, NULLHANDLE,
+                       DLG_CONTENTS, (void*)szFullFile);
 }
 

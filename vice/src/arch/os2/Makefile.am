@@ -74,6 +74,7 @@ EXTRA_DIST = \
 	doc/Vice_for_OS2.txt \
 	fonts/bdf2fnt.cc \
 	fonts/dbf2fnt.icc \
+	fonts/header.FNT \
 	fonts/vice-cbm.asm \
 	fonts/vice-cbm.cmd \
 	fonts/vice-cbm.def \

@@ -30,7 +30,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 {
     target type(exe) "..\\..\\..\\..\\data\\x64.exe"
     {
-        source type (rc)  "dialogs/dialogs.rc"
+        source type (rc)  "dialogs.rc"
         source type (lib)
             "mmpm2.lib",
             "zlib.lib",
@@ -39,7 +39,9 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "maincpu.c"
         source type(c)
             "kbd-c64.c",
-            "c64ui.c"
+            "c64ui.c",
+            "dlg-cartridge.c"
+
         include "incl/archdep.icc"
         include "incl/mainsrc.icc"
         include "incl/c64.icc"

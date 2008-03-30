@@ -74,6 +74,11 @@ static void init_dialog(HWND hwnd, unsigned int num)
     const char *disk_image, *dir;
     int n;
 
+    int drive_true_emulation;
+
+    resources_get_value("DriveTrueEmulation",
+                        (resource_value_t *)&drive_true_emulation);
+
     if (num >= 8 && num <= 11) {
         disk_image = file_system_get_disk_name(num);
         SetDlgItemText(hwnd, IDC_DISKIMAGE,
@@ -98,13 +103,23 @@ static void init_dialog(HWND hwnd, unsigned int num)
         CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        if (disk_image != NULL) {
+        n = IDC_SELECTNONE;
+        if (dir != NULL)
+            if (*dir != 0)
+                n = IDC_SELECTDIR;
+        if (disk_image != NULL)
+            if (*disk_image != 0)
+                n = IDC_SELECTDISK;
+
+        if (drive_true_emulation)
+        {
             n = IDC_SELECTDISK;
-        } else if (dir != NULL) {
-            n = IDC_SELECTDIR;
-        } else {
-            n = IDC_SELECTNONE;
+
+            /* don't allow to check DIR or NONE */
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),  FALSE );
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE), FALSE );
         }
+
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
         enable_controls_for_disk_device_type(hwnd, n);
     }
@@ -125,12 +140,47 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
       case WM_INITDIALOG:
         init_dialog(hwnd, num);
         return TRUE;
+      case WM_DESTROY:
+          /* check if DISKIMAGE is selected? */
+          if (IsDlgButtonChecked( hwnd, IDC_SELECTDISK)!=BST_CHECKED)
+          {
+              /* no, detach the diskimage so a directory is possible as drive */
+              file_system_detach_disk(num);
+
+              /* check if DIR is selected? */
+              if (IsDlgButtonChecked( hwnd, IDC_SELECTDIR)!=BST_CHECKED)
+              {
+                  /* no, detach the virtual disk */
+                  resources_set_sprintf("FSDevice%dDir",
+                    (resource_value_t)"", num);
+              }
+          }
+          break;
       case WM_COMMAND:
         switch (LOWORD(wparam)) {
           case IDC_SELECTDIR:
           case IDC_SELECTDISK:
           case IDC_SELECTNONE:
             enable_controls_for_disk_device_type(hwnd, LOWORD(wparam));
+            break;
+          case IDC_DISKIMAGE:
+            {
+                char s[MAX_PATH];
+
+                switch (HIWORD(wparam))
+                {
+                case CBN_KILLFOCUS:
+                    GetDlgItemText(hwnd, IDC_DISKIMAGE, s, MAX_PATH);
+                    if (s)
+                        if (*s)
+                            if (file_system_attach_disk(num, s) < 0)
+                                ui_error("Cannot attach specified file");
+                    break;
+
+                default:
+                    break;
+                }
+            }
             break;
           case IDC_BROWSEDISK:
             {
@@ -164,6 +214,14 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                         ui_error("Cannot autostart specified file.");
                     free(s);
                 }
+            }
+            break;
+          case IDC_DIR:
+            {
+                char s[MAX_PATH];
+                GetDlgItemText(hwnd, IDC_DIR, s, MAX_PATH);
+                resources_set_sprintf("FSDevice%dDir",
+                    (resource_value_t)s, num);
             }
             break;
           case IDC_BROWSEDIR:
@@ -233,6 +291,14 @@ void ui_attach_dialog(HWND hwnd)
     PROPSHEETHEADER psh;
     int i;
 
+    int drive_true_emulation;
+    int no_of_drives;
+
+    resources_get_value("DriveTrueEmulation",
+                        (resource_value_t *)&drive_true_emulation);
+
+    no_of_drives = drive_true_emulation ? 3 : 5;
+
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
@@ -247,7 +313,7 @@ void ui_attach_dialog(HWND hwnd)
     psp[0].pfnCallback = NULL;
 
 
-    for (i = 1; i < 5; i++) {
+    for (i = 1; i < no_of_drives; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -278,7 +344,7 @@ void ui_attach_dialog(HWND hwnd)
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = "Device manager";
-    psh.nPages = 5;
+    psh.nPages = no_of_drives;
 #ifdef HAVE_UNNAMED_UNIONS
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
@@ -292,4 +358,3 @@ void ui_attach_dialog(HWND hwnd)
 
     PropertySheet(&psh);
 }
-

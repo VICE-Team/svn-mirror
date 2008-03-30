@@ -24,37 +24,32 @@
  *
  */
 
+#define INCL_WINSTATICS     // SS_TEXT
+#define INCL_WINSTDFILE     // FILEDLG
+#define INCL_WINLISTBOXES   // Lbox
+#define INCL_WINWINDOWMGR   // QWL_USER
+#define INCL_WINENTRYFIELDS // WC_ENTRYFIELD
 #include "vice.h"
 
-#define INCL_WINSTATICS
-#define INCL_WINSTDFILE
-#define INCL_WINLISTBOXES
-#define INCL_WINWINDOWMGR   // QWL_USER
-#define INCL_WINENTRYFIELDS
+#include <direct.h>         // chdir
+#include <string.h>         // strrchr
 
-#include <os2.h>
-
-#include <direct.h>
-#include <string.h>
-
-#include "ui.h"
-#include "drive.h"
 #include "vdrive.h"
-#include "dialogs.h"
-#include "charsets.h"
-#include "diskimage.h"
+#include "dialogs.h"        // WinLbox*
+#include "charsets.h"       // a2p, p2a
+#include "diskimage.h"      // DISK_IMAGE_TYPE_*
 
 #define nTYPES 7
 
-const char imgType[nTYPES][5]=
+const char imgType[nTYPES][13]=
 {
-    ".d64",
-    ".g64",
-    ".x64",
-    ".d71",
-    ".d80",
-    ".d81",
-    ".d82",
+    "<1541> *.d64",
+    "<1541> *.g64",
+    "<1541> *.x64",
+    "<1571> *.d71",
+    "<1581> *.d81",
+    "<8050> *.d80",
+    "<8250> *.d82"
 };
 
 const int imgRes[nTYPES]=
@@ -63,8 +58,8 @@ const int imgRes[nTYPES]=
     DISK_IMAGE_TYPE_G64,
     DISK_IMAGE_TYPE_X64,
     DISK_IMAGE_TYPE_D71,
-    DISK_IMAGE_TYPE_D80,
     DISK_IMAGE_TYPE_D81,
+    DISK_IMAGE_TYPE_D80,
     DISK_IMAGE_TYPE_D82
 };
 
@@ -73,73 +68,79 @@ const int imgRes[nTYPES]=
 
 MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    static int first = TRUE;
-
     switch (msg)
     {
+    case WM_INITDLG:
+        {
+            int i;
+            SWP swp1, swp2, swp3, swp4, swp5, swp6, swp7;
+
+            //
+            // create entryfield and corresponding text
+            //
+            WinQueryDlgPos(hwnd, DID_FILTER_TXT, &swp1);
+            WinShowDlg(hwnd, DID_FILTER_TXT, FALSE);
+            WinCreateStdDlg(hwnd, ID_NONE, WC_STATIC, SS_TEXT|WS_VISIBLE,
+                            "Diskette Name (name[,ext]):",
+                            swp1.x, swp1.y, 250, swp1.cy);
+
+            WinQueryDlgPos(hwnd, DID_FILTER_CB,    &swp2);
+            WinQueryDlgPos(hwnd, DID_FILENAME_ED,  &swp3);
+            WinShowDlg(hwnd, DID_FILTER_CB,  FALSE);
+            WinCreateStdDlg(hwnd, EF_NAME,
+                            WC_ENTRYFIELD, ES_MARGIN|ES_AUTOSCROLL, "",
+                            swp3.x, swp2.y+swp2.cy-swp3.cy, 0, 0);
+
+            //
+            // correct for ES_MARGIN
+            //
+            WinQueryDlgPos(hwnd, EF_NAME, &swp4);
+            WinSetDlgPos(hwnd, EF_NAME, 0,
+                         swp3.x+swp4.cx/2,
+                         swp2.y+swp2.cy-swp3.cy+swp4.cy/2,
+                         2*(swp2.cx-swp4.cx)/3,
+                         swp3.cy-swp4.cy,
+                         SWP_SIZE|SWP_MOVE|SWP_SHOW);
+
+            //
+            // create combobox and corresoponding text
+            //
+            WinQueryDlgPos(hwnd, EF_NAME,          &swp5);
+            WinQueryDlgPos(hwnd, DID_DIRECTORY_LB, &swp6);
+            WinQueryDlgPos(hwnd, DID_FILES_LB,     &swp7);
+            swp5.x += swp5.cx;
+            swp6.x += swp6.cx;
+            WinCreateStdDlg(hwnd, ID_NONE, WC_STATIC, SS_TEXT|WS_VISIBLE,
+                            "Type:",
+                            swp5.x-swp6.x+swp7.x, swp1.y, 45, swp1.cy);
+
+            WinCreateStdDlg(hwnd, CBS_IMGTYPE, WC_COMBOBOX,         
+                            CBS_DROPDOWNLIST|WS_TABSTOP|WS_VISIBLE, "",
+                            swp5.x+swp7.x-swp6.x,          swp2.y,
+                            swp3.cx-swp5.cx-swp7.x+swp6.x, swp2.cy);                    /* Pres parameters     */
+
+            //
+            // fill entries in combobox
+            //
+            for (i=0; i<nTYPES; i++)
+                WinLboxInsertItem(hwnd, CBS_IMGTYPE, imgType[i]);
+
+            //
+            // select first entry
+            //
+            WinLboxSelectItem(hwnd, CBS_IMGTYPE, 0);
+        }
+        break;
+
     case WM_DESTROY:
         {
             int  *type = (int*)((FILEDLG*)WinQueryWindowPtr(hwnd,QWL_USER))->ulUser;
             char *name = (char*)type+sizeof(int);
-            WinQueryWindowText(WinWindowFromID(hwnd, EF_NAME), 17, name);
-            *type = WinLboxQuerySelectedItem(hwnd, CBS_IMGTYPE);
-        }
-        first=TRUE;
-        break;
-    case WM_PAINT:
-        if (first)
-        {
-            int i;
-            first = FALSE;
-            WinCreateWindow(hwnd,                     /* Parent window       */
-                            WC_STATIC,                /* Class name          */
-                            "Name:",                  /* Window text         */
-                            SS_TEXT | WS_VISIBLE,     /* Window style        */
-                            17, 48,                   /* Position (x,y)      */
-                            50, 14,                   /* Size (width,height) */
-                            NULLHANDLE,               /* Owner window        */
-                            HWND_TOP,                 /* Sibling window      */
-                            ID_NONE,                  /* Window id           */
-                            NULL,                     /* Control data        */
-                            NULL);                    /* Pres parameters     */
-            WinCreateWindow(hwnd,                     /* Parent window       */
-                            WC_ENTRYFIELD,            /* Class name          */
-                            "",                       /* Window text         */
-                            ES_MARGIN | WS_VISIBLE,   /* Window style        */
-                            70, 46,                   /* Position (x,y)      */
-                            155, 16,                  /* Size (width,height) */
-                            NULLHANDLE,               /* Owner window        */
-                            HWND_TOP,                 /* Sibling window      */
-                            EF_NAME,                  /* Window id           */
-                            NULL,                     /* Control data        */
-                            NULL);                    /* Pres parameters     */
-            WinCreateWindow(hwnd,                     /* Parent window       */
-                            WC_STATIC,                /* Class name          */
-                            "Type:",                  /* Window text         */
-                            SS_TEXT | WS_VISIBLE,     /* Window style        */
-                            255, 46,                  /* Position (x,y)      */
-                            45, 16,                   /* Size (width,height) */
-                            NULLHANDLE,               /* Owner window        */
-                            HWND_TOP,                 /* Sibling window      */
-                            -1,                       /* Window id           */
-                            NULL,                     /* Control data        */
-                            NULL);                    /* Pres parameters     */
-            WinCreateWindow(hwnd,                     /* Parent window       */
-                            WC_COMBOBOX,              /* Class name          */
-                            "",                       /* Window text         */
-                            CBS_DROPDOWNLIST |
-                            //                            WS_GROUP | WS_TABSTOP |
-                            WS_VISIBLE,               /* Window style        */
-                            300, 2,                   /* Position (x,y)      */
-                            50, 62,                   /* Size (width,height) */
-                            NULLHANDLE,               /* Owner window        */
-                            HWND_TOP,                 /* Sibling window      */
-                            CBS_IMGTYPE,              /* Window id           */
-                            NULL,                     /* Control data        */
-                            NULL);                    /* Pres parameters     */
-            for (i=0; i<nTYPES; i++)
-                WinLboxInsertItem(hwnd, CBS_IMGTYPE, imgType[i]+1);
-            WinLboxSelectItem(hwnd, CBS_IMGTYPE, 0);
+
+            const HWND hwndtype = WinWindowFromID(hwnd, CBS_IMGTYPE);
+            *type = WinQueryLboxSelectedItem(hwndtype);
+
+            WinQueryDlgText(hwnd, EF_NAME, name, 20);
         }
         break;
     }
@@ -154,7 +155,7 @@ void create_dialog(HWND hwnd)
 {
     static char drive[3]="g:";                        // maybe a resource
     static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
-    char   result [21];
+    char   result [24];
     char   dirname[CCHMAXPATH];
     FILEDLG filedlg;                     // File dialog info structure
 
@@ -185,6 +186,7 @@ void create_dialog(HWND hwnd)
     // Display the dialog and get the file
     if (!WinFileDlg(HWND_DESKTOP, hwnd, &filedlg))
         return;
+
     if (filedlg.lReturn!=DID_OK)
         return;
 
@@ -192,13 +194,13 @@ void create_dialog(HWND hwnd)
         int type  = *((int*)filedlg.ulUser);
         char *ext = filedlg.szFullFile+strlen(filedlg.szFullFile)-4;
         if (!(ext<filedlg.szFullFile))
-            if (strcmpi(ext, imgType[type]))
+            if (strcmpi(ext, imgType[type]+8))
                 if (strlen(filedlg.szFullFile)<CCHMAXPATH-5)
-                    strcat(filedlg.szFullFile, imgType[type]);
+                    strcat(filedlg.szFullFile, imgType[type]+8);
 
-        if (vdrive_internal_create_format_disk_image(filedlg.szFullFile,
-                                                     a2p((char*)filedlg.ulUser+sizeof(int)),
-                                                     imgRes[type]))
+        if (vdrive_create_image(filedlg.szFullFile,
+                                a2p((char*)filedlg.ulUser+sizeof(int)),
+                                imgRes[type]))
         {
             WinMessageBox(HWND_DESKTOP, hwnd,
                           "Unable to create new diskimage.", "VICE/2 Error",

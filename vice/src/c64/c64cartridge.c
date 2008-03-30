@@ -146,9 +146,9 @@ static cmdline_option_t cmdline_options[] =
     {"-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
      "<name>", "Attach raw 16KB Westermann learning cartridge image"},
-	{"-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
-	 (void *)CARTRIDGE_EXPERT, NULL, NULL,
-	 NULL, "Enable expert cartridge"},
+    {"-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_EXPERT, NULL, NULL,
+     NULL, "Enable expert cartridge"},
     {NULL}
 };
 
@@ -242,12 +242,12 @@ int cartridge_attach_image(int type, const char *filename)
         }
         fclose(fd);
         break;
-	  case CARTRIDGE_EXPERT:
-		/* Clear initial RAM */
-		memset(rawcart, 0xff, 0x2000);
-		/* Set default mode */
-		resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_PRG);
-		break; 
+    case CARTRIDGE_EXPERT:
+        /* Clear initial RAM */
+        memset(rawcart, 0xff, 0x2000);
+        /* Set default mode */
+        resources_set_value("CartridgeMode", (resource_value_t) CARTRIDGE_MODE_PRG);
+        break;
       case CARTRIDGE_IEEE488:
 	/* FIXME: ROM removed? */
         fd = fopen(filename, MODE_READ);
@@ -504,7 +504,6 @@ void cartridge_trigger_freeze(void)
     int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 
     if (type != CARTRIDGE_ACTION_REPLAY
-        && type != CARTRIDGE_ACTION_REPLAY
         && type != CARTRIDGE_KCS_POWER
         && type != CARTRIDGE_FINAL_III
         && type != CARTRIDGE_SUPER_SNAPSHOT

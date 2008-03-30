@@ -13,6 +13,7 @@ libdialogs_a_SOURCES = \
         menubar.c \
         dlg-vsid.c \
         dlg-attach.c \
+        dlg-autostart.c \
         dlg-cmdopt.c \
 	dlg-contents.c \
         dlg-create.c \
@@ -22,8 +23,7 @@ libdialogs_a_SOURCES = \
 	dlg-joystick.c \
 	dlg-monitor.c \
         dlg-reset.c \
+        dlg-cartridge.c \
         dlg-screenshot.c \
-        dlg-snapshot.c \
-	dlg-sound.c \
-        dlg-hardware.c
+        dlg-snapshot.c 
 

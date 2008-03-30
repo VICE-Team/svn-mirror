@@ -82,6 +82,7 @@
 #define HAVE_PNG              1
 
 /* see zfile.c */
+#define HAVE_ZLIB             1
 #define NAME_NEED_QM          1
 
 /* This seems to be needed to prevent the emulator from FPEs */

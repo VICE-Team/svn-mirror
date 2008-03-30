@@ -69,6 +69,9 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *opt)
     //
     hwnd = cmdopt_dialog(HWND_DESKTOP);
 
+    if (!hwnd)
+        return;
+
     //
     // fill dialog with text
     //

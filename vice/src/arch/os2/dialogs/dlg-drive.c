@@ -25,26 +25,25 @@
  */
 
 #define INCL_WINBUTTONS
-#define INCL_WINDIALOGS
+#define INCL_WINDIALOGS      // WinSendDlgItemMsg
 #define INCL_WINSTDSPIN
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
+#include "vice.h"
 
 #include "ui_status.h"
+#include "dialogs.h"   // WinLbox*
 
-#include "vice.h"
-#include "dialogs.h"
+#include <string.h>    // strlen
+#include <stdlib.h>    // free
+#include <direct.h>    // chdir
 
-#include <string.h>
-#include <stdlib.h>
-#include <direct.h> // chdir
-
-#include "log.h"
-#include "utils.h"
-#include "drive.h"
-#include "attach.h"
-#include "fliplist.h"
-#include "resources.h"
+//#include "log.h"
+#include "utils.h"     // xmsprintf
+#include "drive.h"     // DRIVE_TYPE_*
+#include "attach.h"    // file_system_*
+#include "fliplist.h"  // FLIP_NEXT
+#include "resources.h" // resources_
 
 /* Dialog procedures                                                */
 /*----------------------------------------------------------------- */
@@ -102,43 +101,31 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int drive = 0;
     static int exist[nDRIVES];
-    static int first = TRUE;
 
     switch (msg)
     {
     case WM_INITDLG:
-        setDlgOpen(DLGO_DRIVE);
-        first = TRUE;
-        break;
-    case WM_CLOSE:
-        delDlgOpen(DLGO_DRIVE);
-        break;
-    case WM_PAINT:
         {
-            if (first) {
-                int val, i=0;
-                first=FALSE;
-                while (i<10 && ui_status.imageHist[i][0])
-                    WinLboxInsertItem(hwnd, CBS_IMAGE, ui_status.imageHist[i++]);
-                WinLboxInsertItem(hwnd, CBS_IMAGE, "");
-                resources_get_value("DriveTrueEmulation", (resource_value_t*) &val);
-                WinCheckButton(hwnd, CB_TRUEDRIVE, val);
-                WinCheckButton(hwnd, RB_DRIVE8|drive, 1);
-                WinSendMsg(hwnd, WM_SWITCH, (void*)drive, 0);
-                WinSendMsg(hwnd, WM_DRIVESTATE,
-                           (void*)ui_status.lastDriveState, NULL);
-                for (i=0; i<3; i++)
-                    WinSendMsg(hwnd, WM_TRACK, (void*)i,
-                               (void*)(int)(ui_status.lastTrack[i]*2));
-            }
+            int val, i=0;
+
+            while (i<10 && ui_status.imageHist[i][0])
+                WinLboxInsertItem(hwnd, CBS_IMAGE, ui_status.imageHist[i++]);
+            WinLboxInsertItem(hwnd, CBS_IMAGE, "");
+            resources_get_value("DriveTrueEmulation", (resource_value_t*) &val);
+            WinCheckButton(hwnd, CB_TRUEDRIVE, val);
+            WinCheckButton(hwnd, RB_DRIVE8|drive, 1);
+            WinSendMsg(hwnd, WM_SWITCH, (void*)drive, 0);
+            WinSendMsg(hwnd, WM_DRIVESTATE,
+                       (void*)ui_status.lastDriveState, NULL);
+            for (i=0; i<3; i++)
+                WinSendMsg(hwnd, WM_TRACK, (void*)i,
+                           (void*)(int)(ui_status.lastTrack[i]*2));
         }
         break;
+
     case WM_COMMAND:
         switch (LONGFROMMP(mp1))
         {
-        case DID_CLOSE:
-            delDlgOpen(DLGO_DRIVE);
-            break;
         case PB_CREATE:
             create_dialog(hwnd);
             return FALSE;
@@ -263,7 +250,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 case SPBN_CHANGE:
                     {
                         char path[255];
-                        WinSendDlgItemMsg(hwnd, CBS_PATH, SPBM_QUERYVALUE, (MPARAM)&path, (MPARAM)255);
+                        WinSendDlgMsg(hwnd, CBS_PATH, SPBM_QUERYVALUE, &path, 255);
                         if (!chdir(path))
                             resources_set_sprintf("FSDevice%dDir", (resource_value_t*)path, drive+8);
                     }
@@ -272,7 +259,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     {
                         char *path;
                         resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
-                        WinSendDlgItemMsg(hwnd, CBS_PATH, SPBM_SETARRAY, (MPARAM)&path,(MPARAM)1);
+                        WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
                         WinSetSpinVal(hwnd, CBS_PATH, 0);
                     }
                     break;
@@ -281,7 +268,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             case CBS_TYPE:
                 if (SHORT2FROMMP(mp1)==CBN_ENTER && (drive==0 || drive==1))
                 {
-                    int nr = WinLboxQuerySelectedItem(hwnd, CBS_TYPE);
+                    const int nr = WinQueryLboxSelectedItem((HWND)mp2);
                     resources_set_sprintf("Drive%dType", (resource_value_t)exist[nr], drive+8);
                 }
                 return FALSE;
@@ -316,9 +303,11 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinShowDlg(hwnd, SS_HALFTRACK8+(int)mp1, ((int)mp2%2));
         }
         break;
+
     case WM_DRIVELEDS:
         WinShowDlg(hwnd, SS_LED8+(int)mp1, (int)mp2);
         break;
+
     case WM_DRIVESTATE:
         WinShowDlg(hwnd, SPB_TRACK8,    (int)mp1&1?1:0);
         WinShowDlg(hwnd, SS_HALFTRACK8, (int)mp1&1?1:0);
@@ -419,7 +408,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             {
                 char *path;
                 resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
-                WinSendDlgItemMsg(hwnd, CBS_PATH, SPBM_SETARRAY, (MPARAM)&path,(MPARAM)1);
+                WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
                 WinSetSpinVal(hwnd, CBS_PATH, 0);
             }
         }
@@ -436,7 +425,9 @@ HWND hwndDrive=NULLHANDLE;
 
 void drive_dialog(HWND hwnd)
 {
-    if (dlgOpen(DLGO_DRIVE)) return;
+    if (WinIsWindowVisible(hwndDrive))
+        return;
+
     hwndDrive=WinLoadDlg(HWND_DESKTOP, hwnd, pm_drive, NULLHANDLE,
                          DLG_DRIVE, NULL);
 }

@@ -7,4 +7,6 @@ noinst_LIBRARIES = libpm.a
 
 libpm_a_SOURCES = \
 	dirport.c \
-	dirport.h 
+	dirport.h \
+        filedlg.h \
+        filedlg.c

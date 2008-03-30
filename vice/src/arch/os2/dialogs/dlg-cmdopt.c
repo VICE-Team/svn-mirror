@@ -25,17 +25,15 @@
  */
 
 #define INCL_WINSYS        // font
-#define INCL_WININPUT
-#define INCL_WINDIALOGS
 #define INCL_WINPOINTERS   // WinLoadPointer
 #define INCL_WINFRAMEMGR   // WM_SETICON
-#define INCL_WINLISTBOXES
-
+#define INCL_WINLISTBOXES  // WinLbox*
 #include "vice.h"
-#include "dialogs.h"
 
 #include <stdio.h>
 #include <string.h>
+
+#include "dialogs.h"
 
 static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -84,7 +82,13 @@ static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 HWND cmdopt_dialog(HWND hwnd)
 {
-    return WinLoadDlg(HWND_DESKTOP, hwnd, pm_cmdopt, NULLHANDLE,
-                      DLG_CMDOPT, NULL);
+    static HWND hwnd2 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd2))
+        return NULLHANDLE;
+
+    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, pm_cmdopt, NULLHANDLE,
+                       DLG_CMDOPT, NULL);
+    return hwnd2;
 }
 

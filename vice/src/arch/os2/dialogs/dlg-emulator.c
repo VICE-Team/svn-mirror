@@ -29,7 +29,6 @@
 #define INCL_WINSTDSPIN
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
-
 #include "vice.h"
 #include "dialogs.h"
 
@@ -38,25 +37,10 @@
 
 #include "log.h"
 #include "vsync.h"
-#include "drive.h"
 #include "resources.h"
-
-#if defined __X64__ || defined __X128__ || defined __XVIC__
-const char *VIDEO_CACHE="VideoCache";
-#else
-//#if defined __XPET__ || defined __XCBM__
-const char *VIDEO_CACHE="CrtcVideoCache";
-#endif
 
 CHAR  screenshotHist[10][CCHMAXPATH];
 CHAR  snapshotHist[10][CCHMAXPATH];
-
-/* Needed prototype funtions                                        */
-/*----------------------------------------------------------------- */
-
-extern void emulator_pause(void);
-extern void emulator_resume(void);
-extern int isEmulatorPaused(void);
 
 /* The Screenshot saveas name                                       */
 /*------------------------------------------------------------------*/
@@ -155,9 +139,25 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     switch (msg)
     {
     case WM_INITDLG:
-        setDlgOpen(DLGO_EMULATOR);
-        first = TRUE;
+        {
+            int val=0;
+
+            while (val<10 && screenshotHist[val][0])
+                WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
+            WinCheckButton(hwnd, iSsType?RB_PNG:RB_BMP, 1);
+            val=0;
+            while (val<10 && snapshotHist[val][0])
+                WinLboxInsertItem(hwnd, CBS_SSNAME, snapshotHist[val++]);
+            for (val=0; val<11; val++)
+                WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
+            resources_get_value("Speed", (resource_value_t *) &val);
+            WinSetSpinVal(hwnd, SPB_SPEED, val);
+            WinEnableControl(hwnd, PB_SPEED100, (val!=100));
+            resources_get_value("RefreshRate", (resource_value_t *) &val);
+            WinLboxSelectItem(hwnd, CBS_REFRATE, val);
+        }
         break;
+
     case WM_COMMAND:
         switch (LONGFROMMP(mp1))
         {
@@ -193,78 +193,9 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinLboxSelectItem(hwnd, CBS_SPSNAME, 0);
             }
             return FALSE;
-        case DID_CLOSE:
-            delDlgOpen(DLGO_EMULATOR);
-            break;
         }
         break;
-    case WM_CLOSE:
-        delDlgOpen(DLGO_EMULATOR);
-        break;
-    case WM_PAINT:
-        {
-            if (first)
-            {
-                int val;
-                first=FALSE;
-                WinCheckButton(hwnd, CB_PAUSE, isEmulatorPaused());
-                resources_get_value(VIDEO_CACHE,  (resource_value_t *) &val);
-                WinCheckButton(hwnd, CB_VCACHE, val);
-#if defined __X64__ || defined __X128__
-                resources_get_value("CheckSbColl", (resource_value_t *) &val);
-                WinCheckButton(hwnd, CB_SBCOLL, val);
-                resources_get_value("CheckSsColl", (resource_value_t *) &val);
-                WinCheckButton(hwnd, CB_SSCOLL, val);
-                resources_get_value("EmuID", (resource_value_t *) &val);
-                WinCheckButton(hwnd, CB_EMUID, val);
-                resources_get_value("VideoStandard", (resource_value_t*) &val);
-                switch (val)
-                {
-                case DRIVE_SYNC_PAL:
-                    WinCheckButton(hwnd, RB_PAL, 1);
-                    break;
-                case DRIVE_SYNC_NTSC:
-                    WinCheckButton(hwnd, RB_NTSC, 1);
-                    break;
-#ifdef __X64__
-                case DRIVE_SYNC_NTSCOLD:
-                    WinCheckButton(hwnd, RB_NTSCOLD, 1);
-                    break;
-#endif // __X64__
-                }
-#endif // __X64__ || __X128__
-#ifdef HAVE_MOUSE
-                resources_get_value("Mouse", (resource_value_t *) &val);
-                WinCheckButton(hwnd, CB_MOUSE, val);
-                if (val)
-                {
-                    WinEnableControl(hwnd, CB_HIDEMOUSE, 1);
-                    resources_get_value("HideMousePtr", (resource_value_t *) &val);
-                    WinCheckButton(hwnd, CB_HIDEMOUSE, val);
-                }
-                else
-                {
-                    WinCheckButton(hwnd, CB_HIDEMOUSE, 0);
-                    WinEnableControl(hwnd, CB_HIDEMOUSE, 0);
-                }
-#endif // HAVE_MOUSE
-                val=0;
-                while (val<10 && screenshotHist[val][0])
-                    WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
-                WinCheckButton(hwnd, iSsType?RB_PNG:RB_BMP, 1);
-                val=0;
-                while (val<10 && snapshotHist[val][0])
-                    WinLboxInsertItem(hwnd, CBS_SSNAME, snapshotHist[val++]);
-                for (val=0; val<11; val++)
-                    WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
-                resources_get_value("Speed", (resource_value_t *) &val);
-                WinSetSpinVal(hwnd, SPB_SPEED, val);
-                WinEnableControl(hwnd, PB_SPEED100, (val!=100));
-                resources_get_value("RefreshRate", (resource_value_t *) &val);
-                WinLboxSelectItem(hwnd, CBS_REFRATE, val);
-            }
-        }
-        break;
+
     case WM_DISPLAY:
         {
             char txt1[8]="---%";
@@ -295,65 +226,10 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             case CBS_REFRATE:
                 if (SHORT2FROMMP(mp1)==/*LN_ENTER*/LN_SELECT)
                 {
-                    resources_set_value("RefreshRate",
-                                        (resource_value_t)WinLboxQuerySelectedItem (hwnd, CBS_REFRATE));
+                    const int val = WinQueryLboxSelectedItem((HWND)mp2);
+                    resources_set_value("RefreshRate", (resource_value_t)val);
                 }
                 break;
-            case CB_PAUSE:
-                if (isEmulatorPaused())
-                    emulator_resume();
-                else
-                    emulator_pause();
-                break;
-            case CB_VCACHE:
-                toggle(VIDEO_CACHE);
-                break;
-#if defined HAVE_MOUSE
-            case CB_MOUSE:
-                {
-                    int val=toggle("Mouse");
-                    if (val)
-                    {
-                        WinEnableControl(hwnd, CB_HIDEMOUSE, 1);
-                        resources_get_value("HideMousePtr", (resource_value_t *) &val);
-                        WinCheckButton(hwnd, CB_HIDEMOUSE, val);
-                    }
-                    else
-                    {
-                        WinCheckButton(hwnd, CB_HIDEMOUSE, 0);
-                        WinEnableControl(hwnd, CB_HIDEMOUSE, 0);
-                    }
-                    break;
-                }
-            case CB_HIDEMOUSE:
-                toggle("HideMousePtr");
-                break;
-#endif // HAVE_MOUSE
-#if defined __X64__ || defined __X128__
-            case RB_PAL:
-                resources_set_value("VideoStandard",
-                                    (resource_value_t*) DRIVE_SYNC_PAL);
-                break;
-            case RB_NTSC:
-                resources_set_value("VideoStandard",
-                                    (resource_value_t*) DRIVE_SYNC_NTSC);
-                break;
-#ifdef __X64__
-            case RB_NTSCOLD:
-                resources_set_value("VideoStandard",
-                                    (resource_value_t*) DRIVE_SYNC_NTSCOLD);
-                break;
-#endif // __X64__
-            case CB_SBCOLL:
-                toggle("CheckSbColl");
-                break;
-            case CB_SSCOLL:
-                toggle("CheckSsColl");
-                break;
-            case CB_EMUID:
-                toggle("EmuID");
-                break;
-#endif // __X64__ || __X128__
             case CBS_SSNAME:
                 {
                     char psz[CCHMAXPATH]="";
@@ -400,7 +276,9 @@ HWND hwndEmulator=NULLHANDLE;
 
 void emulator_dialog(HWND hwnd)
 {
-    if (dlgOpen(DLGO_EMULATOR)) return;
+    if (WinIsWindowVisible(hwndEmulator))
+        return;
+
     hwndEmulator=WinLoadDlg(HWND_DESKTOP, hwnd, pm_emulator, NULLHANDLE,
                             DLG_EMULATOR, NULL);
 }

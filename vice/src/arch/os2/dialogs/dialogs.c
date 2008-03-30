@@ -39,29 +39,16 @@ int toggle(const char *resource_name)
     return val;
 }
 
-static int dlg_open = FALSE;
-
-int dlgOpen(int dlg)
-{
-    return dlg_open & dlg;
-}
-
-void setDlgOpen(int dlg)
-{
-    dlg_open |= dlg;
-}
-
-void delDlgOpen(int dlg)
-{
-    dlg_open &= ~dlg;
-}
-
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
-
 void about_dialog(HWND hwnd)
 {
-    WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
-               DLG_ABOUT, NULL);
+    static HWND hwnd2 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd2))
+        return;
+
+    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
+                       DLG_ABOUT, NULL);
 }
 

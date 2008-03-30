@@ -56,11 +56,11 @@ end
 
 say 'Creating Program objects...'
 
-CALL createProgram "C=64",   'x64.exe',   '', '*.d64,*.d64.gz,*.g64,*.g64.gz,*.x64,*.x64.gz,*.t64,*.t64.gz,*.tap,*.tap.gz'
+CALL createProgram "C=64",   'x64.exe',   '', '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
 CALL createProgram "C=128",  'x128.exe',  '', '*.d71,*.d71.gz,*.d81,*.d81.gz'
-CALL createProgram "PET",    'xpet.exe',  '', ''
 CALL createProgram "VIC 20", 'xvic.exe',  '', ''
-CALL createProgram "CBM/2",  'xcbm2.exe', '', ''
+CALL createProgram "PET",    'xpet.exe',  '', '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
+CALL createProgram "CBM/2",  'xcbm2.exe', '', '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
 CALL createProgram "C=1541", 'c1541.exe', '', ''
 CALL createProgram "reSID Player", 'x64.exe', '-vsid %*', '*.sid'
 

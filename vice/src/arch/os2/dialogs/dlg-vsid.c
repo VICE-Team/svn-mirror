@@ -51,15 +51,13 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_CLOSE:
         trigger_shutdown = 1;
         break;
+
     case WM_COMMAND:
         switch (LONGFROMMP(mp1))
         {
         case DID_CLOSE:
             trigger_shutdown = 1;
             break;
-        case ID_OPTIONS:
-            sound_dialog(hwnd);
-            return FALSE;
         }
         break;
 

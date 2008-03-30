@@ -13,6 +13,7 @@ copy ..\..\..\data\xpet.exe   Vice2
 copy ..\..\..\data\xcbm2.exe  Vice2
 copy ..\..\..\data\c1541.exe  Vice2
 copy ..\..\..\data\petcat.exe Vice2
+copy ..\..\..\data\c64mem.sym Vice2
 
 md "Vice2\Icons"
 copy icons\folder1.ico Vice2\Icons

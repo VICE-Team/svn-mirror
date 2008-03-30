@@ -24,19 +24,14 @@
  *
  */
 
-#define INCL_WINSTATICS
-#define INCL_WINSTDFILE
-#define INCL_WINBUTTONS
-
+#define INCL_WINSTDFILE // FILEDLG
 #include "vice.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <direct.h>
+#include <os2.h>
 
-#include "log.h"
-#include "dialogs.h"
-#include "resources.h"
+#include <stdio.h>      // sprintf
+#include <string.h>     // strrchr
+#include <direct.h>     // chdir
 
 #ifdef __EMXC__
 #define _getcwd _getcwd2
@@ -51,7 +46,7 @@ char *screenshot_dialog(HWND hwnd)
 
     _getcwd(dirname, CCHMAXPATH);        // store working dir
 
-    strcat(strcpy(filedlg.szFullFile, drive),path);
+    strcat(strcpy(filedlg.szFullFile, drive), path);
     *strrchr(filedlg.szFullFile,'\\')='\0';
     if (chdir(filedlg.szFullFile))       // try if actual image dir exist
     {                                    // if it doesn't exist, set
@@ -76,6 +71,7 @@ char *screenshot_dialog(HWND hwnd)
     // Display the dialog and get the file
     if (!WinFileDlg(HWND_DESKTOP, hwnd, &filedlg))
         return NULL;
+
     if (filedlg.lReturn!=DID_OK)
         return NULL;
 

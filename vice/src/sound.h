@@ -33,10 +33,14 @@
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050
 
-#ifndef __MSDOS__
-# define SOUND_SAMPLE_BUFFER_SIZE       350     /* ms */
-#else
-# define SOUND_SAMPLE_BUFFER_SIZE       100
+#ifdef __MSDOS__
+# define SOUND_SAMPLE_BUFFER_SIZE       100     /* ms */
+#endif
+#ifdef __OS2__
+# define SOUND_SAMPLE_BUFFER_SIZE       400
+#endif
+#ifndef SOUND_SAMPLE_BUFFER_SIZE
+# define SOUND_SAMPLE_BUFFER_SIZE       350
 #endif
 
 /* I need this to serialize close_sound and enablesound/initsid in

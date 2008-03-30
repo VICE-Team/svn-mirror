@@ -1,5 +1,5 @@
 /*
- * dlg-reset.c - The reset-dialogs.
+ * filedlg.h - The new file dialog.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -24,31 +24,18 @@
  *
  */
 
-#include <os2.h>
+#define DID_FILE_FILTER 271
 
-#include "vsync.h"         // suspend_speed_eval
-#include "machine.h"       // machine_powerup
-#include "interrupt.h"     // maincpu_trigger_reset
-
-void hardreset_dialog(HWND hwnd)
+struct _FILEDLG2
 {
-    if (WinMessageBox(HWND_DESKTOP, hwnd,
-                      "Do you really want to hard reset the emulated machine?",
-                      "Hard Reset", 0, MB_YESNO)!=MBID_YES)
-        return;
+    int fN;
+    char **fName;
+    char **fExt;
 
-    suspend_speed_eval();
-    machine_powerup();  // Hard_reset;
-}
+    void *fUser;
+};
+typedef struct _FILEDLG2 FILEDLG2;
 
-void softreset_dialog(HWND hwnd)
-{
-    if (WinMessageBox(HWND_DESKTOP, hwnd,
-                      "Do you really want to soft reset the emulated machine?",
-                      "Soft Reset", 0, MB_YESNO)!=MBID_YES)
-        return;
+MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 
-    suspend_speed_eval();
-    maincpu_trigger_reset();  // Soft Reset
-}
-
+extern HWND WinFileDialog(HWND hwnd, FILEDLG *filedlg);

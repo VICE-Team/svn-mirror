@@ -24,67 +24,132 @@
  *
  */
 
-#define INCL_WINSTDFILE
-#define INCL_WINBUTTONS
-
+#define INCL_WINSTDFILE        // FILEDLG
+#define INCL_WINBUTTONS        // WC_BUTTON
+#define INCL_WINWINDOWMGR      // QWL_USER
 #include "vice.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <direct.h>
+#include <string.h>            // strrchr
+#include <stdlib.h>            // free
+#include <direct.h>            // chdir
 
-#include "ui.h"
-#include "tape.h"
-#include "attach.h"
-#include "dialogs.h"
+#include "tape.h"              // tape_attach_image
+#include "utils.h"             // xmsprintf
+#include "attach.h"            // file_system_attach_disk
+#include "dialogs.h"           // WinQueryDlgPos
+#include "snippets\filedlg.h"  // FILEDLG2
 
-#define ID_LIST     0x1001
+#define nTypesDsk 10
+
+char *imgNameDsk[nTypesDsk]=
+{
+    "All Disk Images",
+    "All 1541 Images",
+    "1541",
+    "1541",
+    "1541",
+    "1581",
+    "8050",
+    "1581",
+    "8250",
+    "All Files"
+};
+
+char *imgExtDsk[nTypesDsk]=
+{
+    "*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*",
+    "*.d64; *.g64*; *.x64*",
+    "*.d64*",
+    "*.g64*",
+    "*.x64*",
+    "*.d71*",
+    "*.d80*",
+    "*.d81*",
+    "*.d82*",
+    ""
+};
+
+#define nTypesTap 4
+
+char *imgNameTap[nTypesTap]=
+{
+    "All Tape Images",
+    "T64",
+    "Raw 1531 Tape File",
+    "All Files"
+};
+
+char *imgExtTap[nTypesTap]=
+{
+    "*.t64*; *.tap*",
+    "*.t64*",
+    "*.tap*",
+    ""
+};
+
+#define ID_LIST 0x1000
 
 MRESULT EXPENTRY fnwpAttach(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    static int first  =TRUE;
+    static int type=0;
     static int suspend=FALSE;
     static char szFullFile[CCHMAXPATH];
 
     switch (msg)
     {
-    case WM_DESTROY:
-        delDlgOpen(DLGO_CONTENTS);
-        first=TRUE;
+    case WM_INITDLG:
+        {
+            SWP swp1, swp2;
+
+            const FILEDLG  *dlg  = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
+            const FILEDLG2 *dlg2 = (FILEDLG2*)dlg->ulUser;
+
+            if (!dlg2->fUser)
+                break;
+
+            WinQueryDlgPos(hwnd, DID_OK,     &swp1);
+            WinQueryDlgPos(hwnd, DID_CANCEL, &swp2);
+
+            WinCreateStdDlg(hwnd, ID_LIST, WC_BUTTON, WS_VISIBLE|BS_PUSHBUTTON,
+                            "Contents",
+                            2*swp2.x-swp1.x, swp1.y,
+                            swp1.cx, swp1.cy);
+        }
         break;
+
     case WM_COMMAND: // 32 0x20
         if ((int)mp1==ID_LIST)
         {
+            //
+            // Send a dummy Apply to get filename from validation msg
+            //
             suspend=TRUE;
-            WinDefFileDlgProc (hwnd, msg, (MPARAM)DID_OK, mp2);
+            WinDefFileDlgProc(hwnd, WM_COMMAND, (MPARAM)DID_OK, mp2);
             suspend=FALSE;
+
+            //
+            // now we have the file name: call the contents dialog.
+            //
             contents_dialog(hwnd, szFullFile);
             return FALSE;
         }
         break;
-    case WM_PAINT:
-        if (first)
-        {
-            first = FALSE;
-            WinCreateWindow(hwnd,                     /* Parent window       */
-                            WC_BUTTON,                /* Class name          */
-                            "Contents",               /* Window text         */
-                            WS_VISIBLE|BS_PUSHBUTTON, /* Window style        */
-                            274, 8,                   /* Position (x,y)      */
-                            93, 28,                   /* Size (width,height) */
-                            NULLHANDLE,               /* Owner window        */
-                            HWND_TOP,                 /* Sibling window      */
-                            ID_LIST,                  /* Window id           */
-                            NULL,                     /* Control data        */
-                            NULL);                    /* Pres parameters     */
-        }
-        break;
-    case 4137:
+
+    case FDM_VALIDATE: // 4137=0x1000+41=WM_USER+41
+        //
+        // not a dummy: file is valid // FIXME? check for REAL validity?
+        //
+        if (!suspend)
+            break;
+
+        //
+        // Dummy apply: don't close the dialog
+        //
         strcpy(szFullFile, mp1);
-        if (suspend) return FALSE; // file nicht uebernehmen!
-        break;
+        return FALSE;
     }
-    return WinDefFileDlgProc (hwnd, msg, mp1, mp2);
+//    return WinDefFileDlgProc (hwnd, msg, mp1, mp2);
+    return WinFileDlgProc(hwnd, msg, mp1, mp2);
 }
 
 #ifdef __EMXC__
@@ -93,11 +158,15 @@ MRESULT EXPENTRY fnwpAttach(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 void attach_dialog(HWND hwnd, int number)
 {
-    static char drive[3]="g:";                        // maybe a resource
+    static char drive[3]="f:";                        // maybe a resource
     static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
     char   result [CCHMAXPATH];
     char   dirname[CCHMAXPATH];
-    FILEDLG filedlg;                     // File dialog info structure
+    char  *text;
+    char  *title;
+    int    rc;
+    FILEDLG  filedlg;                     // File dialog info structure
+    FILEDLG2 filedlg2;
 
     _getcwd(dirname, CCHMAXPATH);        // store working dir
 
@@ -110,26 +179,34 @@ void attach_dialog(HWND hwnd, int number)
     }
     chdir(dirname);                      // change back to working dir
 
+    text = xmsprintf("Attach %s image to ", number?"disk":"tape");
+    free(text);
+
     memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0
 
     // Initialize used fields in the FILEDLG structure
     filedlg.cbSize      = sizeof(FILEDLG);               // Size of structure
     filedlg.fl          = FDS_CENTER | FDS_OPEN_DIALOG;  // FDS_CUSTOM
-    filedlg.pszTitle    = number?"Attach disk image":"Attach tape image";
     filedlg.pszOKButton = "Attach";
     filedlg.pszIDrive   = drive;
     filedlg.pfnDlgProc  = fnwpAttach;
+    filedlg.ulUser      = (ULONG)&filedlg2;
+    filedlg.pszTitle    = number?
+        xmsprintf("%sdrive #%d", text, number):
+        xmsprintf("%sdatasette", text);
 
-    // filedlg.usDlgId = 0x1000;   // custom dialog id
-    // filedlg.hMod = NULLHANDLE;  // handle to module containing <usDlgId>
+    strcpy(filedlg.szFullFile, path);
 
-    sprintf(filedlg.szFullFile, "%s\\%s", path,
-            number?"*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*":"*.t64*; *.tap*"); // Init Path, Filter (*.t64)
+    filedlg2.fUser = (void*)number;
+    filedlg2.fN    = number?nTypesDsk:nTypesTap;
+    filedlg2.fExt  = number?imgExtDsk:imgExtTap;
+    filedlg2.fName = number?imgNameDsk:imgNameTap;
 
     // Display the dialog and get the file
-    if (!WinFileDlg(HWND_DESKTOP, hwnd, &filedlg))
-        return;
-    if (filedlg.lReturn!=DID_OK)
+    rc=WinFileDialog(hwnd, &filedlg);
+    free(filedlg.pszTitle);
+
+    if (!rc || filedlg.lReturn!=DID_OK)
         return;
 
     if ((number?file_system_attach_disk(number, filedlg.szFullFile):tape_attach_image(filedlg.szFullFile)) < 0)

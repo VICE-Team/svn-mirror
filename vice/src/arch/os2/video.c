@@ -27,8 +27,13 @@
 
 #define INCL_GPI
 #define INCL_WINSYS          // SV_CYTITLEBAR
+#define INCL_WINHELP         // WinCreateHelpInstance
 #define INCL_WININPUT        // WM_CHAR
+#define INCL_WINMENUS        // PU_*
+#define INCL_WINSTDDRAG      // Drg*
 #define INCL_DOSPROCESS      // DosSleep
+#define INCL_WINSTATICS      // SS_TEXT
+#define INCL_WINPOINTERS     // WinLoadPointer
 #define INCL_WINFRAMEMGR     // WM_TRANSLATEACCEL
 #define INCL_WINWINDOWMGR    // QWL_USER
 #define INCL_DOSSEMAPHORES   // HMTX
@@ -54,6 +59,7 @@
 #include "dialogs.h"
 #include "machine.h"      // machine_canvas_screenshot
 #include "cmdline.h"
+#include "autostart.h"   // autostart_autodetect
 #include "resources.h"
 #include "screenshot.h"  // screenshot_t
 
@@ -95,33 +101,227 @@ const int FBMULT = 0;
 int stretch;            // Strech factor for window (1,2,3,...)
 static int border;      // PM Border Type
 static int menu;        // flag if menu should be enabled
+static int status=0;    // flag if status should be enabled
 
 static int set_stretch_factor(resource_value_t v, void *param)
 {
     stretch=(int)v;
     return 0;
-
 }
 
-static int set_menu(resource_value_t v, void *param)
+/* ------------------------------------------------------------------------ */
+static UINT border_size_x(void)
 {
-    menu=(int)v;
+    switch (border)
+    {
+    case 1:
+        return WinQuerySysValue(HWND_DESKTOP, SV_CXBORDER);
+    case 2:
+        return WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
+    }
     return 0;
 }
+
+static UINT border_size_y(void)
+{
+    switch (border)
+    {
+    case 1:
+        return WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
+    case 2:
+        return WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
+    }
+    return 0;
+}
+
+static UINT statusbar_height(void)
+{
+    const UINT fntht  = 11;
+    const UINT bdry   = WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
+    const UINT offset = border==2 ? 0 : 2;
+
+    return fntht + 2*bdry + 2 + offset + 3;
+}
+
+static HWND AddStatusFrame(HWND hwnd, UINT x, UINT width, int frame)
+{
+    const UINT fntht  = 11;
+    const UINT bdry   = WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
+    const UINT offset = border==2 ? 0 : 2;
+
+    return WinCreateWindow(hwnd, WC_FRAME, NULL,
+                           WS_VISIBLE|(frame?FS_BORDER:0),
+                           x+offset, offset,
+                           width, fntht + 2*bdry + 2,
+                           NULLHANDLE, HWND_TOP, -1, NULL, NULL);
+}
+
+static HWND AddStatusTxt(HWND hwnd, UINT x, UINT width, int id, char *txt)
+{
+    const UINT fntht  = 11;
+    const UINT bdrx   = WinQuerySysValue(HWND_DESKTOP, SV_CXBORDER);
+    const UINT bdry   = WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
+
+    char *font = "11.System VIO";
+
+    HWND thwnd=WinCreateWindow(hwnd, WC_STATIC, txt,
+                               WS_VISIBLE|SS_TEXT|DT_VCENTER|DT_CENTER,
+                               x+2*bdrx, bdry,
+                               width-4*bdrx, fntht,
+                               NULLHANDLE, HWND_TOP,
+                               id, //FID_STATUS,
+                               NULL, NULL);
+
+    WinSetPresParam(thwnd, PP_FONTNAMESIZE, strlen(font)+1, font);
+
+    return thwnd;
+}
+
+static UINT canvas_fullheight(UINT height)
+{
+    height *= stretch;
+    height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+    height += 2*border_size_y();
+    if (menu)   height += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU)+1;  // FIXME: +1 ?
+    if (status) height += statusbar_height();
+    return height;
+}
+
+static UINT canvas_fullwidth(UINT width)
+{
+    width *= stretch;
+#if defined __XVIC__
+    width *= 2;
+#endif
+    width += 2*border_size_x();
+    return width;
+}
+
+/* ------------------------------------------------------------------------ */
+static void status_resize(canvas_t *c)
+{
+    SWP swp;
+    WinQueryWindowPos(WinWindowFromID(c->hwndFrame, FID_STATUS), &swp);
+
+    log_debug("Size 1: %3d %3d", swp.x, swp.y);
+
+    // FIXME
+    WinSetWindowPos(WinWindowFromID(c->hwndFrame, FID_STATUS), 0,
+                    border_size_x(), border_size_y(),     // Position (x,y)
+                    c->width*stretch, statusbar_height(), // Size (width,height)
+                    SWP_SIZE|SWP_MOVE);
+
+    WinQueryWindowPos(WinWindowFromID(c->hwndFrame, FID_STATUS), &swp);
+    log_debug("Size 2: %3d %3d", swp.x, swp.y);
+}
+
+static int set_status(resource_value_t v, void *hwnd)
+{
+    SWP swp;
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
+
+    status = (int)v;
+
+    if (!hwnd || !c)
+        return 0;
+
+    //
+    // correct window size and position
+    //
+    WinQueryWindowPos(c->hwndFrame, &swp);
+    WinSetWindowPos(c->hwndFrame, 0,
+                    swp.x, swp.y+(status?-statusbar_height():statusbar_height()),
+                    canvas_fullwidth (c->width),
+                    canvas_fullheight(c->height),
+                    SWP_SIZE|SWP_MOVE|SWP_MINIMIZE);
+
+    //
+    // show or hide the menu bar
+    //
+    WinShowWindow(WinWindowFromID(c->hwndFrame, FID_STATUS), status);
+
+    //
+    // update frame (show or hide menubar physically)
+    //
+    // REMARK: instead of updating the frame I minimaze the
+    // window and maximize it again. This makes sure that
+    // the menubar is shown and not only activated. I don't know
+    // why, but it seems to work well. (I don't use HIDE and
+    // SHOW because this two functions are animated)
+    //
+    // WinSendMsg(c->hwndFrame, WM_UPDATEFRAME, (void*)FCF_MENU, NULL);
+
+    WinSetWindowPos(c->hwndFrame, 0, 0, 0, 0, 0, SWP_RESTORE);
+
+    return 0;
+}
+
+static int set_menu(resource_value_t v, void *hwnd)
+{
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
+
+    menu = (int)v;
+
+    if (!hwnd || !c)
+        return 0;
+
+    //
+    // correct window size
+    //
+    WinSetWindowPos(c->hwndFrame, 0, 0, 0,
+                    canvas_fullwidth (c->width),
+                    canvas_fullheight(c->height),
+                    SWP_SIZE|SWP_MINIMIZE);
+
+    //
+    // show or hide the menu bar
+    //
+    WinSetParent(c->hwndMenu, menu?c->hwndFrame:HWND_OBJECT, FALSE);
+
+    //
+    // update frame (show or hide menubar physically)
+    //
+    // REMARK: instead of updating the frame I minimaze the
+    // window and maximize it again. This makes sure that
+    // the menubar is shown and not only activated. I don't know
+    // why, but it seems to work well. (I don't use HIDE and
+    // SHOW because this two functions are animated)
+    //
+    // WinSendMsg(c->hwndFrame, WM_UPDATEFRAME, (void*)FCF_MENU, NULL);
+
+    WinSetWindowPos(c->hwndFrame, 0, 0, 0, 0, 0, SWP_RESTORE);
+
+    return 0;
+}
+
+void toggle_menubar(HWND hwnd)
+{
+    set_menu((void*)!menu, (void*)hwnd);
+}
+
+void toggle_statusbar(HWND hwnd)
+{
+    set_status((void*)!status, (void*)hwnd);
+}
+
 
 static int set_border_type(resource_value_t v, void *param)
 {
     switch ((int)v)
     {
     case 1:
+        flFrameFlags &= ~FCF_DLGBORDER;
         flFrameFlags |= FCF_BORDER;
         border = 1;
         break;
     case 2:
+        flFrameFlags &= ~FCF_BORDER;
         flFrameFlags |= FCF_DLGBORDER;
         border = 2;
         break;
     default:
+        flFrameFlags &= ~FCF_BORDER;
+        flFrameFlags &= ~FCF_DLGBORDER;
         border = 0;
     }
     return 0;
@@ -134,7 +334,11 @@ static resource_t resources[] = {
       (resource_value_t *) &border, set_border_type, NULL },
     { "Menubar", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &menu, set_menu, NULL },
-    { NULL }
+/*
+    { "Statusbar", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &status, set_status, NULL },
+*/
+      { NULL }
 };
 
 int video_init_resources(void)
@@ -151,6 +355,12 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable Main Menu Bar" },
     { "+menu", SET_RESOURCE, 0, NULL, NULL, "Menubar", (resource_value_t) 0,
       NULL, "Disable Main Menu Bar" },
+/*
+    { "-status", SET_RESOURCE, 0, NULL, NULL, "Statusbar", (resource_value_t) 1,
+      NULL, "Enable Status Bar" },
+    { "+status", SET_RESOURCE, 0, NULL, NULL, "Statusbar", (resource_value_t) 0,
+      NULL, "Disable Status Bar" },
+*/
     { NULL }
 };
 
@@ -433,7 +643,7 @@ void wmVrn(HWND hwnd)
 
 void wmVrnEnabled(HWND hwnd)
 {
-    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
 
     DEBUG("WM VRN ENABLED 0");
 
@@ -524,6 +734,122 @@ void wmPaint(HWND hwnd)
     }
 }
 
+static int wmTranslateAccel(HWND hwnd, MPARAM mp1)
+{
+    const QMSG *qmsg = (QMSG*)mp1;
+
+    //
+    // if key is pressed together with alt let the acceltable
+    // process the pressed key
+    //
+    if (SHORT1FROMMP(qmsg->mp1)&KC_ALT)
+        return TRUE;
+
+    //
+    // if the focus of the actual canvas (eg. F1 pressed in
+    // open menu) isn't the actual focus let the acceltable
+    // process the pressed key
+    //
+    if (hwnd != qmsg->hwnd)
+        return TRUE;
+
+    //
+    // don't let the acceltable translate the key (eg. to get
+    // F1 passed to WM_CHAR)
+    //
+    return FALSE;
+}
+
+static void DisplayPopupMenu(HWND hwnd, POINTS *pts)
+{
+    const canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+
+    WinPopupMenu(hwnd, hwnd, c->hwndPopupMenu, pts->x, pts->y, 0,
+                 PU_MOUSEBUTTON2DOWN|PU_HCONSTRAIN|PU_VCONSTRAIN);
+}
+
+MRESULT DragOver(PDRAGINFO pDraginfo)
+{
+    FILE     *f;
+    char      dir[CCHMAXPATH];
+    char      nam[CCHMAXPATH];
+    DRAGITEM *pditem;
+
+    /*
+     * Determine if a drop can be accepted.
+     */
+    if (pDraginfo->usOperation != DO_MOVE &&
+        pDraginfo->usOperation != DO_COPY &&
+        pDraginfo->usOperation != DO_LINK &&
+        pDraginfo->usOperation != DO_UNKNOWN &&
+        pDraginfo->usOperation != DO_DEFAULT)
+        return MRFROM2SHORT(DOR_NODROPOP, 0);
+
+    pditem = DrgQueryDragitemPtr (pDraginfo, 0);
+
+    /*
+     * check if it is an OS/2 File
+     */
+    if (!DrgVerifyRMF(pditem, "DRM_OS2FILE", NULL))
+        return MRFROM2SHORT(DOR_NEVERDROP, 0);
+
+    DrgQueryStrName(pditem->hstrContainerName, sizeof(dir), dir);
+    DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam);
+
+    if (!(f = fopen(strcat(dir, nam), "r")))
+        return MRFROM2SHORT (DOR_NEVERDROP, 0);
+    fclose(f);
+
+    {
+        HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 111);//IDM_VICE2);
+        if (hpt)
+            DrgSetDragPointer(pDraginfo, hpt);
+    }
+    return MRFROM2SHORT(DOR_DROP, DO_UNKNOWN);
+}
+
+MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
+{
+    char      dir[CCHMAXPATH];
+    char      nam[CCHMAXPATH];
+    DRAGITEM *pditem;
+
+    pditem = DrgQueryDragitemPtr(pDraginfo, 0);
+
+    if (!DrgQueryStrName(pditem->hstrContainerName, sizeof(dir), dir) ||
+        !DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam))
+        return NULL;
+
+    if (autostart_autodetect(strcat(dir, nam), NULL, 0) >= 0)
+        return NULL;
+
+    WinMessageBox(HWND_DESKTOP, hwnd,
+                  "Cannot autostart dropped file.", "VICE/2 Error",
+                  0, MB_OK);
+    return NULL;
+}
+
+MRESULT DragDrop(HWND hwnd, ULONG msg, DRAGINFO *info)
+{
+    MRESULT mr;
+
+    if (!DrgAccessDraginfo(info))
+        return MRFROM2SHORT (DOR_NODROPOP, 0);
+
+    switch (msg)
+    {
+    case DM_DRAGOVER:
+        mr = DragOver(info);
+        break;
+    case DM_DROP:
+        mr = Drop(hwnd, info);
+        break;
+    }
+
+    DrgFreeDraginfo(info);
+    return mr;
+}
+
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg)
@@ -537,14 +863,14 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_VRNDISABLED:  wmVrnDisabled(hwnd);       break;
     case WM_VRNENABLED:   wmVrnEnabled(hwnd);        break;
 
+    case DM_DRAGOVER:
+    case DM_DROP:
+        return DragDrop(hwnd, msg, mp1);
+
     case WM_TRANSLATEACCEL:
-        //
-        // let only 'Alt'ed keys pass
-        //
-        if (SHORT1FROMMP(((QMSG*)mp1)->mp1)&KC_ALT)
+        if (wmTranslateAccel(hwnd, mp1))
             break;
-        else
-            return FALSE;
+        return FALSE;
 
     case WM_COMMAND:
         menu_action(hwnd, SHORT1FROMMP(mp1), mp2);
@@ -555,10 +881,15 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
 
 #ifdef HAVE_MOUSE
+    case WM_BUTTON2DOWN:
+        if (!menu)
+        {
+            DisplayPopupMenu(hwnd, (POINTS*)&mp1);
+            return FALSE;
+        }
     case WM_MOUSEMOVE:
     case WM_BUTTON1DOWN:
     case WM_BUTTON1UP:
-    case WM_BUTTON2DOWN:
     case WM_BUTTON2UP:
         mouse_button(hwnd, msg, mp1);
         break;
@@ -575,48 +906,24 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
 }
 
-UINT canvas_fullheight(UINT height)
-{
-    height *= stretch;
-    height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
-    if (menu)      height += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU)+1;  // FIXME: +1 ?
-    if (border==1) height += 2*WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
-    if (border==2) height += 2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
-    return height;
-}
-
-UINT canvas_fullwidth(UINT width)
-{
-    width *= stretch;
-#if defined __XVIC__
-    width *= 2;
-#endif
-    if (border==1) width += 2*WinQuerySysValue(HWND_DESKTOP, SV_CXBORDER);
-    if (border==2) width += 2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
-    return width;
-}
-
-extern int trigger_shutdown;
-
-/*
 static void InitHelp(HWND hwndFrame, int id, PSZ title, PSZ libname)
 {
-    HAB = WInQueryAnchorBlock(hwndFrame);
-
+    HWND     hwndHelp;
     HELPINIT hini;
+    HAB      hab = WinQueryAnchorBlock(hwndFrame);
 
     //
     // initialize help init structure
     //
     memset(&hini, 0, sizeof(hini));
-    hini.cb                       = sizeof(HELPINIT);
-    hini.phtHelpTable             = (PHELPTABLE)MAKELONG(id, 0xFFFF);
-    hini.pszHelpWindowTitle       = (PSZ)title;
-    hini.pszHelpLibraryName       = (PSZ)libname;
-#ifdef DEBUG
-    hini.fShowPanelId             = CMIC_SHOW_PANEL_ID;
+    hini.cb                 = sizeof(HELPINIT);
+    hini.phtHelpTable       = (PHELPTABLE)MAKELONG(id, 0xFFFF);
+    hini.pszHelpWindowTitle = (PSZ)title;
+    hini.pszHelpLibraryName = (PSZ)libname;
+#ifdef HLPDEBUG
+    hini.fShowPanelId       = CMIC_SHOW_PANEL_ID;
 #else
-    hini.fShowPanelId             = CMIC_HIDE_PANEL_ID;
+    hini.fShowPanelId       = CMIC_HIDE_PANEL_ID;
 #endif
 
     //
@@ -624,16 +931,79 @@ static void InitHelp(HWND hwndFrame, int id, PSZ title, PSZ libname)
     //
     hwndHelp = WinCreateHelpInstance(hab, &hini);
 
-    if (hwndHelp == NULLHANDLE || hini.ulReturnCode)
+    if (!hwndHelp || hini.ulReturnCode)
+    {
+        log_debug("video.c: WinCreateHelpInstance failed (rc=%d)",
+                  hini.ulReturnCode);
         return; // error
+    }
 
     //
     // associate help instance with main frame
     //
     if (!WinAssociateHelpInstance(hwndHelp, hwndFrame))
+    {
+        log_debug("video.c: WinAssociateInstance failed.");
         return; // error
+    }
 }
-*/
+
+extern int trigger_shutdown;
+
+static void InitMenuBar(canvas_t *c)
+{
+    //
+    // Load popup menu from resource file (this is attached to the frame)
+    //
+    c->hwndPopupMenu = WinLoadMenu(c->hwndFrame, NULLHANDLE, IDM_VICE2);
+
+    //
+    // detach it from the frame window
+    //
+    WinSetParent(c->hwndPopupMenu, HWND_OBJECT, FALSE);
+
+    //
+    // initialize handle to menubar
+    //
+    c->hwndMenu = WinWindowFromID(c->hwndFrame, FID_MENU);
+
+    //
+    // set visibility state of menubar to actual state
+    // WM_UPDATEFRAME also hides the loaded popup menu
+    // the size is also corrected
+    //
+    set_menu((void*)menu, (void*)c->hwndClient);
+}
+
+void InitStatusBar(canvas_t *c)
+{
+    HWND hwnd=WinCreateWindow(c->hwndFrame,       /* Parent window  */
+                              WC_FRAME,           /* Class name     */
+                              NULL,               /* Window text    */
+                              0,                  /* Frame control  */
+                              border_size_x(), border_size_y(), /* Position */
+                              c->width,
+                              statusbar_height(), /* Size (width,height) */
+                              NULLHANDLE,         /* Owner window    */
+                              HWND_TOP,           /* Sibling window  */
+                              FID_STATUS,         /* Window id       */
+                              NULL,               /* Control data    */
+                              NULL);              /* Pres parameters */
+
+    HWND fhwnd = AddStatusFrame(hwnd, 0, 55, TRUE);
+    HWND stat  = AddStatusFrame(hwnd, c->width-110, 110, FALSE);
+
+    AddStatusTxt(fhwnd, 0, 55, -1, "Status Bar");
+
+    AddStatusTxt(stat,  0, 55, ID_SPEEDDISP,   "99999%");
+    AddStatusTxt(stat, 55, 55, ID_REFRATEDISP, "999fps");
+
+    log_debug("speed3: %x", WinWindowFromID(stat, ID_SPEEDDISP));
+
+    //WinSetDlgText(c->hwndFrame, FID_STATUS, "Test");
+
+    set_status((void*)status, (void*)c->hwndClient);
+}
 
 void PM_mainloop(VOID *arg)
 {
@@ -651,38 +1021,23 @@ void PM_mainloop(VOID *arg)
     hmq = WinCreateMsgQueue(hab, 0);   // Create Msg Queue
 
     //
-    // 2048 Byte Memory (Used eg for the Anchor Blocks)
+    // 16 Byte Memory (Used eg for the Anchor Blocks)
     //  CS_MOVENOTIFY, CS_SIZEREDRAW skipped
     //  CS_SYNCPAINT: send WM_PAINT messages
     //
-    WinRegisterClass(hab, szClientClass, PM_winProc, CS_SYNCPAINT, 2048);
-
-    //
-    // display menu bar if requested
-    //
-    if (menu)
-        flFrameFlags |= FCF_MENU;
+    WinRegisterClass(hab, szClientClass, PM_winProc, CS_SYNCPAINT, 0x10);
 
     //
     // create window on desktop, FIXME: WS_ANIMATE looks sometimes strange
     //
     c->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_ANIMATE|WS_VISIBLE,
                                       &flFrameFlags, szClientClass,
-                                      c->title, 0L, 0, menu?IDM_VICE2:0,
+                                      c->title, 0L, 0, IDM_VICE2,
                                       &(c->hwndClient));
-
-    // InitHelp(c->hwndFrame, IDM_VICE2, "Vice/2 Help", "vice2.hlp");
-
     //
-    // bring window to top, set size and position, set focus
-    // correct for window height
+    // get actual window size and position
     //
     WinQueryWindowPos(c->hwndFrame, &swp);
-    WinSetWindowPos(c->hwndFrame, HWND_TOP,
-                    swp.x, swp.y+swp.cy-canvas_fullheight(c->height),
-                    canvas_fullwidth (c->width),
-                    canvas_fullheight(c->height),
-                    SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|SWP_MOVE);
 
     //
     // set user data pointer
@@ -690,10 +1045,35 @@ void PM_mainloop(VOID *arg)
     WinSetWindowPtr(c->hwndClient, QWL_USER, (VOID*)c);
 
     //
+    // initialize menu bar
+    //
+    InitMenuBar(c);
+
+    //
+    // initialize status bar
+    //
+    InitStatusBar(c);
+
+    //
+    // initialize help system
+    //
+    InitHelp(c->hwndFrame, IDM_VICE2, "Vice/2 Help",
+             "f:\\c64\\src\\vice\\src\\arch\\os2\\doc\\vice2.hlp");
+
+    //
+    // bring window to top, set size and position, set focus
+    // correct for window height
+    //
+    WinSetWindowPos(c->hwndFrame, HWND_TOP,
+                    swp.x, swp.y+swp.cy-canvas_fullheight(c->height),
+                    0, 0,
+                    SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|SWP_MOVE);
+
+    //
     // set visible region notify on, enable visible region
     //
     WinSetVisibleRegionNotify(c->hwndClient, TRUE);
-    WinSendMsg(c->hwndClient, WM_VRNENABLED, 0, 0); //c->vrenabled = TRUE;
+    WinSendMsg(c->hwndClient, WM_VRNENABLED, 0, 0);
 
     //
     // this makes reactions faster when shutdown of main thread is triggered
@@ -847,6 +1227,7 @@ void canvas_resize(canvas_t *c, UINT width, UINT height)
     c->width   = width;
     c->height  = height;
     c->stretch = stretch;
+
     c->exposure_handler(width, height); // update whole window next time!
 }
 
@@ -918,6 +1299,22 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
         return;
 
     DEBUG("CANVAS REFRESH 0");
+    //
+    // FIXME: I get:
+    // frame_buffer_alloc Size=480x312
+    // canvas_create Size=384x271
+    // canvas_refresh height=271 (called from update_canvas_all)
+    // Main CPU: starting at ($FFFC).
+    // Main CPU: RESET.
+    // canvas_refresh height=272 !!! called from update_canvas
+    // canvas_refresh height=224
+    // canvas_refresh height=  2
+    // canvas_refresh height=  2
+    // canvas_refresh height=  1
+    // canvas_refresh height=  8
+    // canvas_refresh height=  8
+    // canvas_refresh height=  8
+    //
 
     if (c->vrenabled)
     {
@@ -941,6 +1338,9 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
             ;
         divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
 
+        if (status)
+            divesetup.lDstPosY += statusbar_height();
+
         //
         // now setup the draw areas
         // (all other values are set already by WM_VRNENABLED)
@@ -961,6 +1361,7 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
         //
         DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN);
     }
+
     DosReleaseMutexSem(hmtx);
 
     DEBUG("CANVAS REFRESH 1");

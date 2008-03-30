@@ -1,9 +1,11 @@
 option ProjectOptions =
-   gen(arch, "pentium"),
+   link(linkwithmultithreadlib, "yes"),
    link(pmtype, "novio"),
    link(exportall, "yes"),
+   gen(arch, "pentium"),
    opt(level, "2"),
    opt(tune, "pentium"),
+   opt(inline, "yes"),
    opt(autoinline, "yes"),
    incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
    incl(searchpath, "..\\..\\..\\..\\..\\lpng")

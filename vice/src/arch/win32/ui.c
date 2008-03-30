@@ -162,6 +162,7 @@ struct {
     int fullscreenenabled;
     int save_resources_on_exit;
     int confirm_on_exit;
+    char *monitor_dimensions;
 } ui_resources;
 
 static int set_fullscreen_device(resource_value_t v, void *param)
@@ -212,6 +213,16 @@ static int set_confirm_on_exit(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_monitor_dimensions(resource_value_t v, void *param)
+{
+    const char *name = (const char *) v;
+    if (ui_resources.monitor_dimensions != NULL && name != NULL)
+        if (strcmp(name, ui_resources.monitor_dimensions) == 0)
+            return 0;
+    string_set(&ui_resources.monitor_dimensions, name ? name : "");
+    return 0;
+}
+
 
 static resource_t resources[] = {
     {"FullscreenDevice",RES_INTEGER, (resource_value_t)0,
@@ -238,6 +249,9 @@ static resource_t resources[] = {
     {"ConfirmOnExit",RES_INTEGER, (resource_value_t)1,
      (resource_value_t *)&ui_resources.confirm_on_exit,
      set_confirm_on_exit, NULL },
+    {"MonitorDimensions",RES_STRING, (resource_value_t)"",
+     (resource_value_t *)&ui_resources.monitor_dimensions,
+     set_monitor_dimensions, NULL },
     { NULL }
 };
 

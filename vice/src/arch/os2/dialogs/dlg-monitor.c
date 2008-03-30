@@ -43,94 +43,76 @@ int trigger_console_exit;
 
 static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    static int first = TRUE;
-
     static int  *wait_for_input;
     static char **input;
 
     switch (msg)
     {
     case WM_INITDLG:
-        setDlgOpen(DLGO_MONITOR);
-        trigger_console_exit=FALSE;
-        first = TRUE;
+        {
+            CHAR achFont[] = "11.System VIO";
+
+            trigger_console_exit=FALSE;
+
+            WinSetDlgFont(hwnd, LB_MONOUT, achFont);
+            WinSetFocus(HWND_DESKTOP, WinWindowFromID(hwnd, EF_MONIN));
+        }
         break;
+
+    case WM_CLOSE:
+        if (!wait_for_input)
+            break;
+
+        trigger_console_exit=TRUE;
+        input=NULL;
+        *wait_for_input=FALSE;
+        wait_for_input=NULL;
+        break;
+
     case WM_CHAR:
         if (SHORT1FROMMP(mp1)&KC_CHAR)
         {
             char txt[80]="";
-            // int len=WinQueryWindowTextLength(WinWindowFromID(hwnd, EF_MONIN));
             WinQueryDlgText(hwnd, EF_MONIN, txt, 80);
             if (strlen(txt))
             {
                 if (input)
                     *input=stralloc(txt);
-                WinSetDlgText(hwnd, EF_MONIN,"");
+                WinSetDlgItemText(hwnd, EF_MONIN,"");
                 input=NULL;
                 *wait_for_input=FALSE;
                 wait_for_input=NULL;
             }
         }
         break;
-    case WM_CLOSE:
-        delDlgOpen(DLGO_MONITOR);
-        if (wait_for_input)
-        {
-            trigger_console_exit=TRUE;
-            input=NULL;
-            *wait_for_input=FALSE;
-            wait_for_input=NULL;
-        }
-        break;
-    case WM_PAINT:
-        {
-            if (first)
-            {
-                CHAR achFont[] = "11.System VIO";
-                first=FALSE;
-                WinSetDlgFont(hwnd, LB_MONOUT, achFont);
-                WinSetFocus(HWND_DESKTOP, WinWindowFromID(hwnd, EF_MONIN));
-            }
-        }
-        break;
-/*    case WM_DELETE:
-        log_debug("WM_SHOW %d", mp1);
-        if (1)//(USHORT)mp1==FALSE)
-        {
-            int max=WinLboxQueryCount(hwnd, CBS_IMAGE);
-            log_debug("deleting");
-            while (max--)
-            {
-                log_debug("del %i", max);
-                WinLboxDeleteItem(hwnd, LB_MONOUT, 0);
-            }
-        }
-        break;*/
+
     case WM_INSERT:
         WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
         free(mp1);
         WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX,
                       WinLboxQueryCount(hwnd, LB_MONOUT), 0);
         return FALSE;
+
     case WM_ADJUSTWINDOWPOS:
         {
             SWP *swp=(SWP*)mp1;
-            if (swp->fl&SWP_SIZE)
-            {
-                if (swp->cx<320) swp->cx=320;
-                if (swp->cy<200) swp->cy=200;
-                // SWP wpos;
-                // WinQueryWindowPos(WinWindowFromID(hwnd, LB_MONOUT), &wpos);
-                WinSetWindowPos(WinWindowFromID(hwnd, LB_MONOUT), 0, 0, 0,
-                                swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
-                                swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
-                                -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-22,
-                                SWP_SIZE);
-                // WinQueryWindowPos(WinWindowFromID(hwnd, EF_MONIN), &wpos);
-                WinSetWindowPos(WinWindowFromID(hwnd, EF_MONIN), 0, 0, 0,
-                                swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME)-4,
-                                16, SWP_SIZE);
-            }
+
+            if (!(swp->fl&SWP_SIZE))
+                break;
+
+            if (swp->cx<320) swp->cx=320;
+            if (swp->cy<200) swp->cy=200;
+            // SWP wpos;
+            // WinQueryWindowPos(WinWindowFromID(hwnd, LB_MONOUT), &wpos);
+            WinSetWindowPos(WinWindowFromID(hwnd, LB_MONOUT), 0, 0, 0,
+                            swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                            swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
+                            -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-22,
+                            SWP_SIZE);
+            // WinQueryWindowPos(WinWindowFromID(hwnd, EF_MONIN), &wpos);
+            WinSetWindowPos(WinWindowFromID(hwnd, EF_MONIN), 0, 0, 0,
+                            swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME)-4,
+                            16, SWP_SIZE);
         }
         break;
     case WM_PROMPT:
@@ -145,13 +127,14 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             free(out);
         }
         return FALSE;
+
     case WM_INPUT:
         input          = mp1;
         wait_for_input = mp2;
         return FALSE;
 
     }
-    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+    return WinDefDlgProc(hwnd, msg, mp1, mp2);
 }
 
 /* call to open dialog                                              */
@@ -160,7 +143,9 @@ HWND hwndMonitor=NULLHANDLE;
 
 void monitor_dialog(HWND hwnd)
 {
-    if (dlgOpen(DLGO_MONITOR)) return;
+    if (WinIsWindowVisible(hwndMonitor))
+        return;
+
     hwndMonitor=WinLoadDlg(HWND_DESKTOP, hwnd, pm_monitor, NULLHANDLE,
                            DLG_MONITOR, NULL);
 }

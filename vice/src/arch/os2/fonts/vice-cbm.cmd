@@ -1,4 +1,5 @@
 @Echo Off
+e:\toolkit\tksetenv
 bdf2fnt
 del vice-cbm.fon
 alp vice-cbm.asm

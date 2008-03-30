@@ -6,6 +6,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Thomas Bretz <tbretz@ph.tum.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -329,11 +330,22 @@ void autostart_advance(void)
             break;
         }
         break;
+
       case AUTOSTART_HASSNAPSHOT:
-        log_message(autostart_log, "Restoring snapshot.");
-	maincpu_trigger_trap(load_snapshot_trap,(void*)0);
-        autostartmode = AUTOSTART_DONE;
-	break;
+        switch (check("READY.")) {
+          case YES:
+              log_message(autostart_log, "Restoring snapshot.");
+              maincpu_trigger_trap(load_snapshot_trap,(void*)0);
+              autostartmode = AUTOSTART_DONE;
+            break;
+          case NO:
+            autostart_disable();
+            break;
+          case NOT_YET:
+            break;
+        }
+        break;
+
       default:
         return;
     }
@@ -385,6 +397,9 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
+
+    //autostart_program_name = (BYTE *)stralloc(file_name);
+    //maincpu_trigger_trap(load_snapshot_trap,(void*)0);
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT);	/* use for snapshot */
 
     return 0;
@@ -531,6 +546,7 @@ int autostart_prg(const char *file_name)
     set_true1541_mode(0);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
     resources_set_value("FSDevice8ConvertP00", (resource_value_t) 1);
+    file_system_detach_disk(8);
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */

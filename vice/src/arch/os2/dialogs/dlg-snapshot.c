@@ -24,19 +24,14 @@
  *
  */
 
-#define INCL_WINSTATICS
-#define INCL_WINSTDFILE
-#define INCL_WINBUTTONS
-
+#define INCL_WINSTDFILE // FILEDLG
 #include "vice.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <direct.h>
+#include <os2.h>
 
-#include "log.h"
-#include "dialogs.h"
-#include "resources.h"
+#include <stdio.h>      // sprintf
+#include <string.h>     // strrchr
+#include <direct.h>     // chdir
 
 #ifdef __EMXC__
 #define _getcwd _getcwd2
