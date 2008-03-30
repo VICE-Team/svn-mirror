@@ -52,16 +52,16 @@ extern BYTE parallel_nrfd;
 extern BYTE parallel_dav;
 extern BYTE parallel_atn;
 
-extern BYTE parallel_bus;	/* data lines */
+extern BYTE parallel_bus;       /* data lines */
 
 extern void parallel_drive_cpu_execute(CLOCK cpu_clk);
 
 /* Each device has a mask bit in the parallel_* handshake lines */
-#define	PARALLEL_EMU	0x01
-#define	PARALLEL_CPU	0x02
-#define	PARALLEL_DRV0	0x04
-#define	PARALLEL_DRV1	0x08
-  
+#define PARALLEL_EMU    0x01
+#define PARALLEL_CPU    0x02
+#define PARALLEL_DRV0   0x04
+#define PARALLEL_DRV1   0x08
+
 /* methods to set handshake lines active for the devices */
 extern void parallel_set_eoi(BYTE mask);
 extern void parallel_set_ndac(BYTE mask);
@@ -80,63 +80,63 @@ extern void parallel_restore_clr_atn(BYTE mask);
 
 
 /* methods to set output lines for the computer */
-#define	PARALLEL_SET_LINE(line,dev,mask)				\
-    static inline void parallel_##dev##_set_##line( char val )		\
-    {									\
-    	if (val) {							\
-	    parallel_set_##line(PARALLEL_##mask);			\
-        } else {							\
-	    parallel_clr_##line(~PARALLEL_##mask);			\
-    	}								\
+#define PARALLEL_SET_LINE(line,dev,mask)                      \
+    static inline void parallel_##dev##_set_##line(BYTE val)  \
+    {                                                         \
+        if (val) {                                            \
+            parallel_set_##line(PARALLEL_##mask);             \
+        } else {                                              \
+            parallel_clr_##line(~PARALLEL_##mask);            \
+        }                                                     \
     }
 
-#define	PARALLEL_RESTORE_LINE(line,dev,mask)				\
-    static inline void parallel_##dev##_restore_##line( char val ) 	\
-    {									\
-    	if (val) {							\
-	    parallel_restore_set_##line(PARALLEL_##mask);		\
-        } else {							\
-	    parallel_restore_clr_##line(~PARALLEL_##mask);		\
-    	}								\
+#define PARALLEL_RESTORE_LINE(line,dev,mask)                      \
+    static inline void parallel_##dev##_restore_##line(BYTE val)  \
+    {                                                             \
+        if (val) {                                                \
+            parallel_restore_set_##line(PARALLEL_##mask);         \
+        } else {                                                  \
+            parallel_restore_clr_##line(~PARALLEL_##mask);        \
+        }                                                         \
     }
 
 /* Emulator functions */
-PARALLEL_SET_LINE(eoi,emu,EMU)
-PARALLEL_SET_LINE(dav,emu,EMU)
-PARALLEL_SET_LINE(nrfd,emu,EMU)
-PARALLEL_SET_LINE(ndac,emu,EMU)
+PARALLEL_SET_LINE(eoi, emu, EMU)
+PARALLEL_SET_LINE(dav, emu, EMU)
+PARALLEL_SET_LINE(nrfd, emu, EMU)
+PARALLEL_SET_LINE(ndac, emu, EMU)
 
 extern void parallel_emu_set_bus(BYTE b);
 
 /* CPU functions */
-/* The *CPU* macros advance the drive CPU to the current clock. This 
+/* The *CPU* macros advance the drive CPU to the current clock. This
    is currently esp. for the VIC20 VIC1112 IEEE488 module. This seems
-   to be necessary for ATN only. Too many of them make IEEE488 
+   to be necessary for ATN only. Too many of them make IEEE488
    slower... (AF, 01AUG1999) */
-PARALLEL_SET_LINE(eoi,cpu,CPU)
-PARALLEL_SET_LINE(dav,cpu,CPU)
-PARALLEL_SET_LINE(nrfd,cpu,CPU)
-PARALLEL_SET_LINE(ndac,cpu,CPU)
+PARALLEL_SET_LINE(eoi, cpu, CPU)
+PARALLEL_SET_LINE(dav, cpu, CPU)
+PARALLEL_SET_LINE(nrfd, cpu, CPU)
+PARALLEL_SET_LINE(ndac, cpu, CPU)
 
 extern void parallel_cpu_set_atn(char val);
 
-PARALLEL_RESTORE_LINE(atn,cpu,CPU)
+PARALLEL_RESTORE_LINE(atn, cpu, CPU)
 
 extern void parallel_cpu_set_bus(BYTE b);
 
 /* Drive 0 functions */
-PARALLEL_SET_LINE(eoi,drv0,DRV0)
-PARALLEL_SET_LINE(dav,drv0,DRV0)
-PARALLEL_SET_LINE(nrfd,drv0,DRV0)
-PARALLEL_SET_LINE(ndac,drv0,DRV0)
+PARALLEL_SET_LINE(eoi, drv0, DRV0)
+PARALLEL_SET_LINE(dav, drv0, DRV0)
+PARALLEL_SET_LINE(nrfd, drv0, DRV0)
+PARALLEL_SET_LINE(ndac, drv0, DRV0)
 
 extern void parallel_drv0_set_bus(BYTE b);
 
 /* Drive 1 functions */
-PARALLEL_SET_LINE(eoi,drv1,DRV1)
-PARALLEL_SET_LINE(dav,drv1,DRV1)
-PARALLEL_SET_LINE(nrfd,drv1,DRV1)
-PARALLEL_SET_LINE(ndac,drv1,DRV1)
+PARALLEL_SET_LINE(eoi, drv1, DRV1)
+PARALLEL_SET_LINE(dav, drv1, DRV1)
+PARALLEL_SET_LINE(nrfd, drv1, DRV1)
+PARALLEL_SET_LINE(ndac, drv1, DRV1)
 
 extern void parallel_drv1_set_bus(BYTE b);
 
