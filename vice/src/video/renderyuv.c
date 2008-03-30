@@ -193,10 +193,10 @@ void render_4_2_2_pal(image_t* image,
     src_x -= 2;
     src_w += 2;
   }
-  if (dest_x + src_w < (int)(image->width)) {
+  if (dest_x + (int)src_w < (int)(image->width)) {
     src_w += 2;
   }
-  if (dest_y + src_h < (int)(image->height)) {
+  if (dest_y + (int)src_h < (int)(image->height)) {
     src_h++;
   }
 
@@ -233,7 +233,7 @@ void render_4_2_2_pal(image_t* image,
     }
     /* Read last two pixels. */
     YUV1 = src_color[*++src];
-    if (dest_x + src_w < (int)(image->width)) {
+    if (dest_x + (int)src_w < (int)(image->width)) {
       YUV2 = src_color[*++src];
     }
     else {
@@ -285,7 +285,7 @@ void render_4_2_2_pal(image_t* image,
     }
     /* Read last two pixels. */
     YUV1 = src_color[*++src];
-    if (dest_x + src_w < (int)(image->width)) {
+    if (dest_x + (int)src_w < (int)(image->width)) {
       YUV2 = src_color[*++src];
     }
     else {
@@ -355,10 +355,10 @@ void render2x_4_2_2_pal(image_t* image,
     dest_x = 0;
   }
   src_w += 2;
-  if (dest_x + src_w > (int)(image->width >> 1)) {
+  if (dest_x + (int)src_w > (int)(image->width >> 1)) {
     src_w = (image->width >> 1) - dest_x;
   }
-  if (dest_y + src_h < (int)(image->height >> 1)) {
+  if (dest_y + (int)src_h < (int)(image->height >> 1)) {
     src_h++;
   }
 
@@ -394,7 +394,7 @@ void render2x_4_2_2_pal(image_t* image,
       YUV0 = YUV1;
     }
     /* Read last pixel. */
-    if (dest_x + src_w < (int)(image->width >> 1)) {
+    if (dest_x + (int)src_w < (int)(image->width >> 1)) {
       YUV1 = src_color[*++src];
     }
     else {
@@ -443,7 +443,7 @@ void render2x_4_2_2_pal(image_t* image,
       YUV0 = YUV1;
     }
     /* Read last pixel. */
-    if (dest_x + src_w < (int)(image->width >> 1)) {
+    if (dest_x + (int)src_w < (int)(image->width >> 1)) {
       YUV1 = src_color[*++src];
     }
     else {
@@ -656,7 +656,7 @@ void render_4_1_1_pal(image_t* image,
     src_x -= 2;
     src_w += 2;
   }
-  if (dest_x + src_w < (int)(image->width)) {
+  if (dest_x + (int)src_w < (int)(image->width)) {
     src_w += 2;
   }
 
@@ -714,7 +714,7 @@ void render_4_1_1_pal(image_t* image,
     /* Read last 2x2 block. */
     YUV10 = src_color[*(src + 1)];
     YUV11 = src_color[*(src + src_pitch + 1)];
-    if (dest_x + src_w < (int)(image->width)) {
+    if (dest_x + (int)src_w < (int)(image->width)) {
       YUV20 = YUV10;
       YUV21 = YUV11;
     }
@@ -789,10 +789,10 @@ void render2x_4_1_1_pal(image_t* image,
     dest_x = 0;
   }
   src_w += 2;
-  if (dest_x + src_w > (int)(image->width >> 1)) {
+  if (dest_x + (int)src_w > (int)(image->width >> 1)) {
     src_w = (image->width >> 1) - dest_x;
   }
-  if (dest_y + src_h < (int)(image->height >> 1)) {
+  if (dest_y + (int)src_h < (int)(image->height >> 1)) {
     src_h++;
   }
 
@@ -830,7 +830,7 @@ void render2x_4_1_1_pal(image_t* image,
       YUV0 = YUV1;
     }
     /* Read last pixel. */
-    if (dest_x + src_w < (int)(image->width >> 1)) {
+    if (dest_x + (int)src_w < (int)(image->width >> 1)) {
       YUV1 = src_color[*++src];
     }
     else {
@@ -879,7 +879,7 @@ void render2x_4_1_1_pal(image_t* image,
       YUV0 = YUV1;
     }
     /* Read last pixel. */
-    if (dest_x + src_w < (int)(image->width >> 1)) {
+    if (dest_x + (int)src_w < (int)(image->width >> 1)) {
       YUV1 = src_color[*++src];
     }
     else {
