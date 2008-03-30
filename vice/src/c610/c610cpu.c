@@ -1,7 +1,7 @@
 
 /*
- * ../../src/maincpu.c
- * This file is generated from ../../src/cpu-tmpl.c and ../../src/maincpu.def,
+ * ../../../src/c610/c610cpu.c
+ * This file is generated from ../../../src/cpu-tmpl.c and ../../../src/c610/c610cpu.def,
  * Do not edit!
  */
 /*
@@ -69,6 +69,10 @@
 
 
 
+/* ------------------------------------------------------------------------- */
+
+/* The following #defines are useful for debugging and speed tuning.  */
+
 /* This enables a special hack that can speed up the instruction fetch quite
    a lot, but does not work when a conditional branch instruction jumps from
    ROM to RAM or vice versa.  It still works if one program lies in the I/O
@@ -78,24 +82,13 @@
    This define affects only this file! */
 # define INSTRUCTION_FETCH_HACK
 
-/* ------------------------------------------------------------------------- */
-
-/* The following #defines are useful for debugging and speed tuning.  */
-
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
 /* #define TRACE */
 
-/* Print a message whenever a program attempts to execute instructions fetched
-   from the I/O area.  */
-#  undef IO_AREA_WARNING
-
 /* Run without interpreting opcodes (just fetch them from memory).  */
 # undef NO_OPCODES
-
-/* Do not handle CPU alarms, but measure speed instead.  */
-#  undef EVALUATE_SPEED
 
 /* Use a global variable for Program Counter.  This makes it slower, but also
    makes debugging easier.  This is needed by the VIC-II emulation, so avoid
@@ -122,17 +115,34 @@
 /* Implement the hack to make opcode fetches faster.  */
 #ifdef INSTRUCTION_FETCH_HACK
 
-#  define JUMP(addr)							\
-       do {								\
-	   reg_pc = (addr);						\
-	   bank_base = mem_read_base(reg_pc);				\
+#  define JUMP(addr)                                                    \
+       do {                                                             \
+           reg_pc = (addr);                                             \
+           bank_base = mem_read_base(reg_pc);                           \
        } while (0)
 
 #else  /* !INSTRUCTION_FETCH_HACK */
 
-#  define JUMP(addr)	(reg_pc = (addr))
+#  define JUMP(addr)    (reg_pc = (addr))
 
 #endif /* !INSTRUCTION_FETCH_HACK */
+
+/* ------------------------------------------------------------------------- */
+
+extern read_func_ptr_t *_mem_read_ind_tab_ptr;
+extern store_func_ptr_t *_mem_write_ind_tab_ptr;
+
+extern BYTE *page_zero;
+extern BYTE *page_one;
+
+#  define	PAGE_ONE	page_one
+#  define	PAGE_ZERO	page_zero
+
+#  define STORE_IND(addr, value) \
+    (*_mem_write_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+
+#  define LOAD_IND(addr) \
+    (*_mem_read_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
 
 
 /* ------------------------------------------------------------------------- */
@@ -265,36 +275,6 @@ monitor_interface_t maincpu_monitor_interface = {
 
 
 
-#include <sys/time.h>
-
-#  define EVALUATE_INTERVAL	10000000L
-
-inline static void evaluate_speed(unsigned long clk)
-{
-    static unsigned long old_clk;
-    static unsigned long next_clk = EVALUATE_INTERVAL;
-    static double old_time;
-
-    if (clk > next_clk) {
-	struct timeval tv;
-	double current_time;
-
-	gettimeofday (&tv, NULL);
-	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
-
-	if (old_clk)
-	    printf ("%ld cycles in %f seconds: %f%% speed\n",
-		    clk - old_clk, current_time - old_time,
-		    100.0 * (((double)(clk - old_clk)
-			      / (current_time - old_time)) / 1108405.0));
-
-	old_clk = clk;
-	next_clk = old_clk + EVALUATE_INTERVAL;
-	old_time = current_time;
-    }
-}
-
-
 /* ------------------------------------------------------------------------- */
 
 static void reset(void)
@@ -343,11 +323,9 @@ void mainloop(ADDRESS start_address)
 #endif
 
 
-
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
 #endif
-
 
     reset();
 
@@ -360,17 +338,6 @@ void mainloop(ADDRESS start_address)
 
     while (1) {
 
-
-
-#ifdef EVALUATE_SPEED
-	evaluate_speed(clk);
-#endif /* !EVALUATE_SPEED */
-
-#ifdef IO_AREA_WARNING
-	if (!bank_base)
-	    printf ("Executing from I/O area at $%04X: "
-		    "$%02X $%02X $%04X at clk %ld\n", reg_pc, p0, p1, p2, clk);
-#endif
 
 
 #ifdef NO_OPCODES
