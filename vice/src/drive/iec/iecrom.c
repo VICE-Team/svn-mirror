@@ -192,7 +192,7 @@ int iecrom_load_1571cr(void)
 
     resources_get_value("DosName1571cr", (void *)&rom_name);
 
-    if (sysfile_load(rom_name, drive_rom1570, DRIVE_ROM1571_SIZE,
+    if (sysfile_load(rom_name, drive_rom1571cr, DRIVE_ROM1571_SIZE,
                      DRIVE_ROM1571_SIZE) < 0) {
         log_error(iecrom_log,
                   "1571CR ROM image not found.  "
