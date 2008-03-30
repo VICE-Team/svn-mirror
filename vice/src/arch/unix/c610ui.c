@@ -44,80 +44,18 @@
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uimenu.h"
+#include "uivicii.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
-
 UI_MENU_DEFINE_RADIO(VideoStandard)
 
-static ui_menu_entry_t set_video_standard_submenu[] = {
+ui_menu_entry_t set_video_standard_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
       (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
       (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
-
-static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"default", NULL }, 
-    { "*C64S",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"c64s", NULL },
-    { N_("*CCS64"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"ccs64", NULL },
-    { N_("*Frodo"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"frodo", NULL },
-    { N_("*GoDot"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"godot", NULL },
-    { "*PC64",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"pc64", NULL },
-    { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"PaletteFile", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(CheckSsColl)
-UI_MENU_DEFINE_TOGGLE(CheckSbColl)
-
-static ui_menu_entry_t vic_submenu[] = {
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { "--",
-      NULL, NULL, NULL },
-    { N_("*Sprite-sprite collisions"),
-      (ui_callback_t)toggle_CheckSsColl, NULL, NULL },
-    { N_("*Sprite-background collisions"),
-      (ui_callback_t)toggle_CheckSbColl, NULL, NULL },
-    { "--",
-      NULL, NULL, NULL },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
-
-static ui_menu_entry_t crtc_palette_submenu[] = {
-    { N_("*Default (Green)"),
-      (ui_callback_t)radio_CrtcPaletteFile, (ui_callback_data_t)"green",
-        NULL },
-    { N_("*Amber"),
-      (ui_callback_t)radio_CrtcPaletteFile, (ui_callback_data_t)"amber",
-        NULL },
-    { N_("*White"),
-      (ui_callback_t)radio_CrtcPaletteFile, (ui_callback_data_t)"white",
-        NULL },
-    { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"CrtcPaletteFile", NULL },
     { NULL }
 };
 

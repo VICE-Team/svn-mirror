@@ -31,6 +31,7 @@
 #include "uimenu.h"
 
 extern ui_menu_entry_t ui_crtc_video_settings_menu[];
+extern ui_menu_entry_t crtc_palette_submenu[];
 
 #endif
 
