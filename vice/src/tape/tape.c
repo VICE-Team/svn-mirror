@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "datasette.h"
+#include "event.h"
 #include "lib.h"
 #include "log.h"
 #include "maincpu.h"
@@ -422,6 +423,7 @@ int tape_tap_attched(void)
 int tape_image_detach(unsigned int unit)
 {
     int retval = 0;
+    char event_data[2];
 
     if (unit != 1)
         return -1;
@@ -452,6 +454,11 @@ int tape_image_detach(unsigned int unit)
 
     ui_display_tape_current_image("");
 
+    event_data[0] = (char)unit;
+    event_data[1] = 0;
+
+    event_record(EVENT_ATTACHTAPE, (void *)event_data, 2);
+
     return retval;
 }
 
@@ -459,6 +466,8 @@ int tape_image_detach(unsigned int unit)
 int tape_image_attach(unsigned int unit, const char *name)
 {
     tape_image_t tape_image;
+    char *event_data;
+    int len;
 
     if (unit != 1)
         return -1;
@@ -501,6 +510,29 @@ int tape_image_attach(unsigned int unit, const char *name)
         return -1;
     }
 
+    len = 1 + strlen(name) + 1;
+    event_data = lib_malloc(len);
+    event_data[0] = (char)unit;
+    strcpy((char *)&event_data[1], name);
+    
+    event_record(EVENT_ATTACHTAPE, (void *)event_data, len);
+
+    lib_free(event_data);
+
     return 0;
+}
+
+void tape_image_event_playback(CLOCK offset, void *data)
+{
+    int unit;
+    char *filename;
+
+    unit = (int)((char*)data)[0];
+    filename = &((char*)data)[1];
+
+    if (filename[0] == 0)
+        tape_image_detach(unit);
+    else
+        tape_image_attach(unit, filename);
 }
 

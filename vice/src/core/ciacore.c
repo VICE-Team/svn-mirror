@@ -1250,9 +1250,9 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 
     SMW_B(m, cia_context->shifter);
     SMW_B(m, (BYTE)(cia_context->sdr_valid));
-    /* TODO: This should be enabled after 1.13 to fix cia snapshot problems
+    /* This has to be tested */
     SMW_B(m, cia_context->irq_enabled);
-    */
+
     snapshot_module_close(m);
 
     return 0;

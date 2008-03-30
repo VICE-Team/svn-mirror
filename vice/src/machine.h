@@ -87,6 +87,7 @@ extern void machine_maincpu_init(void);
 extern void machine_trigger_reset(const unsigned int reset_mode);
 extern void machine_reset(void);
 extern void machine_specific_reset(void);
+extern void machine_reset_event_playback(CLOCK offset, void *data);
 
 /* Power-up the machine.  */
 extern void machine_specific_powerup(void);
