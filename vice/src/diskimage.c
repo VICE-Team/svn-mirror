@@ -50,6 +50,7 @@ static log_t disk_image_log = LOG_ERR;
 /* Defines for probing the disk image type.  */
 #define IS_D64_LEN(x) ((x) == D64_FILE_SIZE_35 || (x) == D64_FILE_SIZE_35E || \
                        (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
+#define IS_D67_LEN(x) ((x) == D67_FILE_SIZE)
 #define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
 #define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
 #define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
@@ -110,9 +111,25 @@ unsigned int disk_image_speed_map_1571(unsigned int track)
 /*-----------------------------------------------------------------------*/
 /* Disk image probing.  */
 
+static void disk_image_check_log(disk_image_t *image, const char *type)
+{
+    log_message(disk_image_log, "%s disk image recognised: %s%s", type,
+                image->name, image->read_only ? " (read only)." : ".");
+}
+
+static int disk_image_check_min_block(unsigned int blk, unsigned int length)
+{
+    if (blk < length) {
+        log_error(disk_image_log, "Cannot read block %d.", blk);
+        return -1;
+    }
+    return 0;
+}
+
 static int disk_image_check_for_d64(disk_image_t *image)
 {
-    int blk = 0, len;
+    unsigned int blk = 0;
+    size_t len;
     BYTE block[256];
 
     if (!(IS_D64_LEN(file_length(image->fd))))
@@ -121,8 +138,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D64;
     image->tracks = NUM_TRACKS_1541;
 
-    if (fseek(image->fd, 256 * blk, SEEK_SET) < 0)
-        return 0;
+    rewind(image->fd);
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > (EXT_BLOCKS_1541 + 3)) {
@@ -131,10 +147,8 @@ static int disk_image_check_for_d64(disk_image_t *image)
         }
     }
 
-    if (blk < NUM_BLOCKS_1541) {
-        log_error(disk_image_log, "Cannot read block %d.", blk);
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_1541) < 0)
         return 0;
-    }
 
     switch (blk) {
       case NUM_BLOCKS_1541:
@@ -171,14 +185,50 @@ static int disk_image_check_for_d64(disk_image_t *image)
       default:
         return 0;
     }
-    log_message(disk_image_log, "D64 disk image recognised: %s%s",
-                image->name, image->read_only ? " (read only)." : ".");
+    disk_image_check_log(image, "D64");
+    return 1;
+}
+
+static int disk_image_check_for_d67(disk_image_t *image)
+{
+    unsigned int blk = 0;
+    size_t len;
+    BYTE block[256];
+
+    if (!(IS_D67_LEN(file_length(image->fd))))
+        return 0;
+
+    image->type = DISK_IMAGE_TYPE_D67;
+    image->tracks = NUM_TRACKS_2040;
+
+    rewind(image->fd);
+
+    while ((len = fread(block, 1, 256, image->fd)) == 256) {
+	/* FIXME */
+        if (++blk > (NUM_BLOCKS_2040)) {
+            log_error(disk_image_log, "Disk image too large");
+            break;
+        }
+    }
+
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_2040) < 0)
+        return 0;
+
+    switch (blk) {
+      case NUM_BLOCKS_2040:
+        image->tracks = NUM_TRACKS_2040;
+        break;
+      default:
+        return 0;
+    }
+    disk_image_check_log(image, "D67");
     return 1;
 }
 
 static int disk_image_check_for_d71(disk_image_t *image)
 {
-    int blk = 0, len;
+    unsigned int blk = 0;
+    size_t len;
     BYTE block[256];
 
     if (!(IS_D71_LEN(file_length(image->fd))))
@@ -187,8 +237,7 @@ static int disk_image_check_for_d71(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D71;
     image->tracks = NUM_TRACKS_1571;
 
-    if (fseek(image->fd, 256 * blk, SEEK_SET) < 0)
-        return 0;
+    rewind(image->fd);
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > 1372) {
@@ -197,10 +246,8 @@ static int disk_image_check_for_d71(disk_image_t *image)
         }
     }
 
-    if (blk < NUM_BLOCKS_1571) {
-        log_error(disk_image_log, "Cannot read block %d.", blk);
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_1571) < 0)
         return 0;
-    }
 
     switch (blk) {
       case 1366:
@@ -209,14 +256,14 @@ static int disk_image_check_for_d71(disk_image_t *image)
       default:
         return 0;
     }
-    log_message(disk_image_log, "D71 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)." : ".");
+    disk_image_check_log(image, "D71");
     return 1;
 }
 
 static int disk_image_check_for_d81(disk_image_t *image)
 {
-    int blk = 0, len;
+    unsigned int blk = 0;
+    size_t len;
     BYTE block[256];
 
     if (!(IS_D81_LEN(file_length(image->fd))))
@@ -225,8 +272,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D81;
     image->tracks = NUM_TRACKS_1581;
 
-    if (fseek(image->fd, 256 * blk, SEEK_SET) < 0)
-        return 0;
+    rewind(image->fd);
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > 3213) {
@@ -235,10 +281,8 @@ static int disk_image_check_for_d81(disk_image_t *image)
         }
     }
 
-    if (blk < NUM_BLOCKS_1581) {
-        log_error(disk_image_log, "Cannot read block %d.", blk);
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_1581) < 0)
         return 0;
-    }
 
     switch (blk) {
       case 3200:
@@ -247,14 +291,14 @@ static int disk_image_check_for_d81(disk_image_t *image)
       default:
         return 0;
     }
-    log_message(disk_image_log, "D81 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)." : "");
+    disk_image_check_log(image, "D81");
     return 1;
 }
 
 static int disk_image_check_for_d80(disk_image_t *image)
 {
-    int blk = 0, len;
+    unsigned int blk = 0;
+    size_t len;
     BYTE block[256];
 
     if (!(IS_D80_LEN(file_length(image->fd))))
@@ -263,8 +307,7 @@ static int disk_image_check_for_d80(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D80;
     image->tracks = NUM_TRACKS_8050;
 
-    if (fseek(image->fd, 256 * blk, SEEK_SET) < 0)
-        return 0;
+    rewind(image->fd);
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > NUM_BLOCKS_8050 + 6) {
@@ -273,10 +316,8 @@ static int disk_image_check_for_d80(disk_image_t *image)
         }
     }
 
-    if (blk < NUM_BLOCKS_8050) {
-        log_error(disk_image_log, "Cannot read block %d.", blk);
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_8050) < 0)
         return 0;
-    }
 
     switch (blk) {
       case NUM_BLOCKS_8050:
@@ -285,14 +326,14 @@ static int disk_image_check_for_d80(disk_image_t *image)
       default:
         return 0;
     }
-    log_message(disk_image_log, "D80 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)." : ".");
+    disk_image_check_log(image, "D80");
     return 1;
 }
 
 static int disk_image_check_for_d82(disk_image_t *image)
 {
-    int blk = 0, len;
+    unsigned int blk = 0;
+    size_t len;
     BYTE block[256];
 
     if (!(IS_D82_LEN(file_length(image->fd))))
@@ -301,8 +342,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D82;
     image->tracks = NUM_TRACKS_8250;
 
-    if (fseek(image->fd, 256 * blk, SEEK_SET) < 0)
-        return 0;
+    rewind(image->fd);
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > NUM_BLOCKS_8250 + 6) {
@@ -311,10 +351,8 @@ static int disk_image_check_for_d82(disk_image_t *image)
         }
     }
 
-    if (blk < NUM_BLOCKS_8250) {
-        log_error(disk_image_log, "Cannot read block %d.", blk);
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_8250) < 0)
         return 0;
-    }
 
     switch (blk) {
       case NUM_BLOCKS_8250:
@@ -323,8 +361,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
       default:
         return 0;
     }
-    log_message(disk_image_log, "D82 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)." : ".");
+    disk_image_check_log(image, "D82");
     return 1;
 }
 
@@ -349,8 +386,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_X64;
     image->tracks = header[X64_HEADER_FLAGS_OFFSET + 1];
 
-    log_message(disk_image_log, "X64 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)." : ".");
+    disk_image_check_log(image, "X64");
     return 1;
 }
 
@@ -481,8 +517,7 @@ static int disk_image_check_for_gcr(disk_image_t *image)
 
     image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
-    log_message(disk_image_log, "GCR disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+    disk_image_check_log(image, "GCR");
 
     if (image->gcr != NULL) {
         if (disk_image_read_gcr_image(image) < 0)
@@ -517,6 +552,8 @@ int disk_image_open(disk_image_t *image)
     }
 
     if (disk_image_check_for_d64(image))
+	return 0;
+    if (disk_image_check_for_d67(image))
         return 0;        
     if (disk_image_check_for_d71(image))
         return 0;
@@ -634,8 +671,8 @@ static int disk_image_create_gcr(disk_image_t *image)
 int disk_image_create(const char *name, unsigned int type)
 {
     disk_image_t *image;
-    long size = 0;
-    char block[256];
+    unsigned long size = 0;
+    BYTE block[256];
     int i;
 
     switch(type) {
@@ -643,6 +680,9 @@ int disk_image_create(const char *name, unsigned int type)
       case DISK_IMAGE_TYPE_X64:
         size = D64_FILE_SIZE_35;
         break;
+      case DISK_IMAGE_TYPE_D67:
+	size = D67_FILE_SIZE;
+	break;
       case DISK_IMAGE_TYPE_D71:
         size = D71_FILE_SIZE;
         break;
@@ -704,6 +744,7 @@ int disk_image_create(const char *name, unsigned int type)
         }
         /* Fall through.  */
       case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_D67:
       case DISK_IMAGE_TYPE_D71:
       case DISK_IMAGE_TYPE_D81:
       case DISK_IMAGE_TYPE_D80:
@@ -761,6 +802,15 @@ static char sector_map_d64[43] =
     17, 17, 17, 17, 17, 17, 17              /* 36 - 42 */
 };
 
+static char sector_map_d67[36] =
+{
+    0,
+    21, 21, 21, 21, 21, 21, 21, 21, 21, 21, /*  1 - 10 */
+    21, 21, 21, 21, 21, 21, 21, 20, 20, 20, /* 11 - 20 */
+    20, 20, 20, 20, 18, 18, 18, 18, 18, 18, /* 21 - 30 */
+    17, 17, 17, 17, 17                      /* 31 - 35 */
+};
+
 static char sector_map_d71[71] =
 {
     0,
@@ -797,6 +847,13 @@ int disk_image_sector_per_track(unsigned int format, unsigned int track)
             return -1;
         }        
         return sector_map_d64[track];
+        break;
+      case DISK_IMAGE_TYPE_D67:
+        if (track >= sizeof(sector_map_d67)) {
+            log_message(disk_image_log, "Track %i exceeds sector map.", track);
+            return -1;
+        }        
+        return sector_map_d67[track];
         break;
       case DISK_IMAGE_TYPE_D71:
         if (track >= sizeof(sector_map_d71)) {
@@ -837,6 +894,14 @@ int disk_image_check_sector(unsigned int format, unsigned int track,
             return -1;
         for (i = 1; i < track; i++)
             sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
+        sectors += sector;
+        break;
+      case DISK_IMAGE_TYPE_D67:
+        if (track > MAX_TRACKS_2040 || sector
+            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, track))
+            return -1;
+        for (i = 1; i < track; i++)
+            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, i);
         sectors += sector;
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -957,6 +1022,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_D67:
       case DISK_IMAGE_TYPE_D71:
       case DISK_IMAGE_TYPE_D81:
       case DISK_IMAGE_TYPE_D80:
@@ -1206,6 +1272,7 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_D67:
       case DISK_IMAGE_TYPE_D71:
       case DISK_IMAGE_TYPE_D81:
       case DISK_IMAGE_TYPE_D80:
