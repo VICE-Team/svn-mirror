@@ -509,7 +509,7 @@ inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
             = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
 #else
         c[3] = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
-        *((PIXEL *) c + 9) = *((PIXEL *)c + 10)
+        *((PIXEL2 *) c + 9) = *((PIXEL2 *)c + 10)
             = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
 #endif
 
