@@ -38,7 +38,9 @@
 #include "log.h"
 #include "util.h"
 
-#define NUM_DRIVES 2
+
+#define NUM_DRIVES 4
+
 
 struct fliplist_t {
     struct fliplist_t *next, *prev;

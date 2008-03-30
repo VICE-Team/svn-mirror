@@ -42,7 +42,7 @@
 #define ALT_AS_META
 
 /* Number of drives we support in the UI.  */
-#define NUM_DRIVES      2
+#define NUM_DRIVES 4
 
 /* Tell menu system to ignore a string for translation
    (e.g. filenames in fliplists) */
