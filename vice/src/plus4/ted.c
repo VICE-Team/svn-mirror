@@ -490,15 +490,15 @@ void ted_update_memory_ptrs(unsigned int cycle)
     /* FIXME */
     if (ted.idle_data_location != IDLE_NONE) {
         if (ted.idle_data_location == IDLE_39FF)
-            raster_add_int_change_foreground(&ted.raster,
-                                             TED_RASTER_CHAR(cycle),
-                                             &ted.idle_data,
-                                             mem_ram[0x39ff]);
+            raster_changes_foreground_add_int(&ted.raster,
+                                              TED_RASTER_CHAR(cycle),
+                                              &ted.idle_data,
+                                              mem_ram[0x39ff]);
         else
-            raster_add_int_change_foreground(&ted.raster,
-                                             TED_RASTER_CHAR(cycle),
-                                             &ted.idle_data,
-                                             mem_ram[0x3fff]);
+            raster_changes_foreground_add_int(&ted.raster,
+                                              TED_RASTER_CHAR(cycle),
+                                              &ted.idle_data,
+                                              mem_ram[0x3fff]);
     }
 
     if (ted.raster.skip_frame || (tmp <= 0 && maincpu_clk < ted.draw_clk)) {
@@ -508,57 +508,57 @@ void ted_update_memory_ptrs(unsigned int cycle)
         old_color_ptr = ted.color_ptr = color_base;
     } else if (tmp < TED_SCREEN_TEXTCOLS) {
         if (screen_base != old_screen_ptr) {
-            raster_add_ptr_change_foreground(&ted.raster, tmp,
-                                             (void **)&ted.screen_ptr,
-                                             (void *)screen_base);
+            raster_changes_foreground_add_ptr(&ted.raster, tmp,
+                                              (void **)&ted.screen_ptr,
+                                              (void *)screen_base);
             old_screen_ptr = screen_base;
         }
 
         if (bitmap_base != old_bitmap_ptr) {
-            raster_add_ptr_change_foreground(&ted.raster,
-                                             tmp,
+            raster_changes_foreground_add_ptr(&ted.raster,
+                                              tmp,
+                                              (void **)&ted.bitmap_ptr,
+                                              (void *)(bitmap_base));
+            old_bitmap_ptr = bitmap_base;
+        }
+
+        if (char_base != old_chargen_ptr) {
+            raster_changes_foreground_add_ptr(&ted.raster,
+                                              tmp,
+                                              (void **)&ted.chargen_ptr,
+                                              (void *)char_base);
+            old_chargen_ptr = char_base;
+        }
+        if (color_base != old_color_ptr) {
+            raster_changes_foreground_add_ptr(&ted.raster, tmp,
+                                              (void **)&ted.color_ptr,
+                                              (void *)color_base);
+            old_color_ptr = color_base;
+        }
+    } else {
+        if (screen_base != old_screen_ptr) {
+            raster_changes_next_line_add_ptr(&ted.raster,
+                                             (void **)&ted.screen_ptr,
+                                             (void *)screen_base);
+            old_screen_ptr = screen_base;
+        }
+        if (bitmap_base != old_bitmap_ptr) {
+            raster_changes_next_line_add_ptr(&ted.raster,
                                              (void **)&ted.bitmap_ptr,
                                              (void *)(bitmap_base));
             old_bitmap_ptr = bitmap_base;
         }
 
         if (char_base != old_chargen_ptr) {
-            raster_add_ptr_change_foreground(&ted.raster,
-                                             tmp,
+            raster_changes_next_line_add_ptr(&ted.raster,
                                              (void **)&ted.chargen_ptr,
                                              (void *)char_base);
             old_chargen_ptr = char_base;
         }
         if (color_base != old_color_ptr) {
-            raster_add_ptr_change_foreground(&ted.raster, tmp,
+            raster_changes_next_line_add_ptr(&ted.raster,
                                              (void **)&ted.color_ptr,
                                              (void *)color_base);
-            old_color_ptr = color_base;
-        }
-    } else {
-        if (screen_base != old_screen_ptr) {
-            raster_add_ptr_change_next_line(&ted.raster,
-                                            (void **)&ted.screen_ptr,
-                                            (void *)screen_base);
-            old_screen_ptr = screen_base;
-        }
-        if (bitmap_base != old_bitmap_ptr) {
-            raster_add_ptr_change_next_line(&ted.raster,
-                                            (void **)&ted.bitmap_ptr,
-                                            (void *)(bitmap_base));
-            old_bitmap_ptr = bitmap_base;
-        }
-
-        if (char_base != old_chargen_ptr) {
-            raster_add_ptr_change_next_line(&ted.raster,
-                                            (void **)&ted.chargen_ptr,
-                                            (void *)char_base);
-            old_chargen_ptr = char_base;
-        }
-        if (color_base != old_color_ptr) {
-            raster_add_ptr_change_next_line(&ted.raster,
-                                            (void **)&ted.color_ptr,
-                                            (void *)color_base);
             old_color_ptr = color_base;
         }
     }
@@ -576,11 +576,11 @@ void ted_update_video_mode(unsigned int cycle)
     if (new_video_mode != old_video_mode) {
         if (TED_IS_ILLEGAL_MODE(new_video_mode)) {
             /* Force the overscan color to black.  */
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&ted.raster, TED_RASTER_X(cycle),
                 &ted.raster.idle_background_color,
                 0);
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&ted.raster, TED_RASTER_X(cycle),
                 &ted.raster.xsmooth_color,
                 0);
@@ -589,11 +589,11 @@ void ted_update_video_mode(unsigned int cycle)
             /* The overscan background color is given by the background color
                register.  */
             if (ted.raster.idle_background_color != ted.regs[0x15]) {
-                raster_add_int_change_background
+                raster_changes_background_add_int
                     (&ted.raster, TED_RASTER_X(cycle),
                     &ted.raster.idle_background_color,
                     ted.regs[0x15]);
-                raster_add_int_change_background
+                raster_changes_background_add_int
                     (&ted.raster, TED_RASTER_X(cycle),
                     &ted.raster.xsmooth_color,
                     ted.regs[0x15]);
@@ -606,17 +606,17 @@ void ted_update_video_mode(unsigned int cycle)
 
             pos = TED_RASTER_CHAR(cycle);
 
-            raster_add_int_change_foreground(&ted.raster, pos,
-                                             &ted.raster.video_mode,
-                                             new_video_mode);
+            raster_changes_foreground_add_int(&ted.raster, pos,
+                                              &ted.raster.video_mode,
+                                              new_video_mode);
 
             if (ted.idle_data_location != IDLE_NONE) {
                 if (ted.regs[0x06] & 0x40)
-                    raster_add_int_change_foreground
+                    raster_changes_foreground_add_int
                         (&ted.raster, pos, (void *)&ted.idle_data,
                         mem_ram[0x39ff]);
                 else
-                    raster_add_int_change_foreground
+                    raster_changes_foreground_add_int
                         (&ted.raster, pos, (void *)&ted.idle_data,
                         mem_ram[0x3fff]);
             }

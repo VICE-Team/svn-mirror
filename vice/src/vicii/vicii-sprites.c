@@ -1089,12 +1089,12 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
             sprite->x = new_x;
         else if (raster_x + 8 < sprite->x)
             sprite->x = vicii.sprite_wrap_x;
-        raster_add_int_change_next_line(&vicii.raster, &sprite->x, new_x);
+        raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     } else {
         /* new_x >= sprite->x */
         if (raster_x + 8 < sprite->x)
             sprite->x = new_x;
-        raster_add_int_change_next_line(&vicii.raster, &sprite->x, new_x);
+        raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     }
 }
 

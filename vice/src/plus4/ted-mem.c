@@ -205,7 +205,7 @@ void REGPARM2 ted_mem_vbank_39xx_store(WORD addr, BYTE value)
     ted_local_store_vbank(addr, value);
 
     if (ted.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
-        raster_add_int_change_foreground
+        raster_changes_foreground_add_int
             (&ted.raster,
             TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.idle_data,
@@ -218,7 +218,7 @@ void REGPARM2 ted_mem_vbank_3fxx_store(WORD addr, BYTE value)
     ted_local_store_vbank (addr, value);
 
     if (ted.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
-        raster_add_int_change_foreground
+        raster_changes_foreground_add_int
             (&ted.raster,
             TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.idle_data,
@@ -313,15 +313,15 @@ inline static void check_lateral_border(const BYTE value, int cycle,
             if (cycle <= 17)
                 raster->display_xstart = TED_40COL_START_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstart,
-                                                TED_40COL_START_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstart,
+                                                 TED_40COL_START_PIXEL);
             if (cycle <= 56)
                 raster->display_xstop = TED_40COL_STOP_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstop,
-                                                TED_40COL_STOP_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstop,
+                                                 TED_40COL_STOP_PIXEL);
             TED_DEBUG_REGISTER(("40 column mode enabled"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
@@ -333,15 +333,15 @@ inline static void check_lateral_border(const BYTE value, int cycle,
             if (cycle <= 17)
                 raster->display_xstart = TED_38COL_START_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstart,
-                                                TED_38COL_START_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstart,
+                                                 TED_38COL_START_PIXEL);
             if (cycle <= 56)
                 raster->display_xstop = TED_38COL_STOP_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstop,
-                                                TED_38COL_STOP_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstop,
+                                                 TED_38COL_STOP_PIXEL);
             TED_DEBUG_REGISTER(("38 column mode enabled"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
@@ -369,14 +369,14 @@ inline static void ted07_store(BYTE value)
         if (raster->skip_frame || TED_RASTER_CHAR(cycle) <= 1)
             raster->xsmooth = value & 0x7;
         else
-            raster_add_int_change_next_line(raster,
-                                            &raster->xsmooth,
-                                            value & 0x7);
+            raster_changes_next_line_add_int(raster,
+                                             &raster->xsmooth,
+                                             value & 0x7);
 #else
-        raster_add_int_change_foreground(raster,
-                                         TED_RASTER_CHAR(cycle),
-                                         &raster->xsmooth,
-                                         value & 7);
+        raster_changes_foreground_add_int(raster,
+                                          TED_RASTER_CHAR(cycle),
+                                          &raster->xsmooth,
+                                          value & 7);
 #endif
     }
 
@@ -477,7 +477,7 @@ inline static void ted0c0d_store(const WORD addr, const BYTE value)
         pos = (ted.crsrpos & 0xff) | ((value & 3) << 8);
 
 #if 0
-    raster_add_int_change_background(&ted.raster,
+    raster_changes_background_add_int(&ted.raster,
         TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
         &ted.crsrpos,
         pos);
@@ -536,32 +536,32 @@ inline static void ted15_store(BYTE value)
 
     if (maincpu_rmw_flag) {
         x_pos = TED_RASTER_X(TED_RASTER_CYCLE(first_write_cycle));
-        raster_add_int_change_background(&ted.raster, x_pos,
-                                        (int *)&ted.raster.background_color,
-                                        0x7f);
-        raster_add_int_change_background(&ted.raster, x_pos + 1,
-                                        (int *)&ted.raster.background_color,
-                                        ted.regs[0x15]);
+        raster_changes_background_add_int(&ted.raster, x_pos,
+                                         (int *)&ted.raster.background_color,
+                                         0x7f);
+        raster_changes_background_add_int(&ted.raster, x_pos + 1,
+                                         (int *)&ted.raster.background_color,
+                                         ted.regs[0x15]);
     }
 
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(last_write_cycle));
 
     /* FIXME: Check whether this is true on Plus4 */
     if (!ted.force_black_overscan_background_color) {
-        raster_add_int_change_background
+        raster_changes_background_add_int
             (&ted.raster, x_pos,
             &ted.raster.idle_background_color, value);
-        raster_add_int_change_background
+        raster_changes_background_add_int
             (&ted.raster, x_pos,
             &ted.raster.xsmooth_color, value);
     }
 
-    raster_add_int_change_background(&ted.raster, x_pos,
-                                     (int *)&ted.raster.background_color,
-                                     0x7f);
-    raster_add_int_change_background(&ted.raster, x_pos + 1,
-                                     (int *)&ted.raster.background_color,
-                                     value);
+    raster_changes_background_add_int(&ted.raster, x_pos,
+                                      (int *)&ted.raster.background_color,
+                                      0x7f);
+    raster_changes_background_add_int(&ted.raster, x_pos + 1,
+                                      (int *)&ted.raster.background_color,
+                                      value);
     ted.regs[0x15] = value;
 }
 
@@ -579,10 +579,10 @@ inline static void ted161718_store(WORD addr, BYTE value)
     /* FIXME add sparkle effect */
     char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(last_write_cycle));
 
-    raster_add_int_change_foreground(&ted.raster,
-                                     char_num,
-                                     &ted.ext_background_color[addr - 0x16],
-                                     value);
+    raster_changes_foreground_add_int(&ted.raster,
+                                      char_num,
+                                      &ted.ext_background_color[addr - 0x16],
+                                      value);
 }
 
 inline static void ted19_store(BYTE value)
@@ -595,11 +595,11 @@ int x_pos;
 
     if (maincpu_rmw_flag) {
         x_pos = TED_RASTER_X(TED_RASTER_CYCLE(first_write_cycle));
-        raster_add_int_change_border(&ted.raster,
+        raster_changes_border_add_int(&ted.raster,
             x_pos,
             (int *)&ted.raster.border_color,
             0x7f);
-        raster_add_int_change_border(&ted.raster,
+        raster_changes_border_add_int(&ted.raster,
             x_pos + 1,
             (int *)&ted.raster.border_color,
             ted.regs[0x19]);
@@ -609,11 +609,11 @@ int x_pos;
 
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(last_write_cycle));
 
-    raster_add_int_change_border(&ted.raster,
+    raster_changes_border_add_int(&ted.raster,
         x_pos,
         (int *)&ted.raster.border_color,
         0x7f);
-    raster_add_int_change_border(&ted.raster,
+    raster_changes_border_add_int(&ted.raster,
         x_pos + 1,
         (int *)&ted.raster.border_color,
         value);

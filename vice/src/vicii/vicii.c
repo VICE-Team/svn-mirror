@@ -624,17 +624,17 @@ void vicii_update_memory_ptrs(unsigned int cycle)
     if (vicii.idle_data_location != IDLE_NONE &&
         old_vbank_p2 != vicii.vbank_phi2) {
         if (vicii.idle_data_location == IDLE_39FF)
-            raster_add_int_change_foreground(&vicii.raster,
-                                             VICII_RASTER_CHAR(cycle),
-                                             &vicii.idle_data,
-                                             vicii.ram_base_phi2[vicii.vbank_phi2
-                                             + 0x39ff]);
+            raster_changes_foreground_add_int(&vicii.raster,
+                                              VICII_RASTER_CHAR(cycle),
+                                              &vicii.idle_data,
+                                              vicii.ram_base_phi2[vicii.vbank_phi2
+                                              + 0x39ff]);
         else
-            raster_add_int_change_foreground(&vicii.raster,
-                                             VICII_RASTER_CHAR(cycle),
-                                             &vicii.idle_data,
-                                             vicii.ram_base_phi2[vicii.vbank_phi2
-                                             + 0x3fff]);
+            raster_changes_foreground_add_int(&vicii.raster,
+                                              VICII_RASTER_CHAR(cycle),
+                                              &vicii.idle_data,
+                                              vicii.ram_base_phi2[vicii.vbank_phi2
+                                              + 0x3fff]);
     }
 
     if (tmp <= 0 && maincpu_clk < vicii.draw_clk) {
@@ -648,47 +648,47 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         vicii.raster.sprite_status->ptr_base = vicii.screen_base + 0x3f8;
     } else if (tmp < VICII_SCREEN_TEXTCOLS) {
         if (vicii.screen_base != old_screen_ptr) {
-            raster_add_ptr_change_foreground(&vicii.raster, tmp,
-                                             (void **)&vicii.screen_ptr,
-                                             (void *)vicii.screen_base);
-            raster_add_ptr_change_foreground(&vicii.raster, tmp,
+            raster_changes_foreground_add_ptr(&vicii.raster, tmp,
+                                              (void **)&vicii.screen_ptr,
+                                              (void *)vicii.screen_base);
+            raster_changes_foreground_add_ptr(&vicii.raster, tmp,
                               (void **)&vicii.raster.sprite_status->ptr_base,
-                                             (void *)(vicii.screen_base
-                                             + 0x3f8));
+                                              (void *)(vicii.screen_base
+                                              + 0x3f8));
             old_screen_ptr = vicii.screen_base;
         }
 
         if (bitmap_low_base != old_bitmap_low_ptr) {
-            raster_add_ptr_change_foreground(&vicii.raster,
-                                             tmp,
-                                             (void **)&vicii.bitmap_low_ptr,
-                                             (void *)(bitmap_low_base));
+            raster_changes_foreground_add_ptr(&vicii.raster,
+                                              tmp,
+                                              (void **)&vicii.bitmap_low_ptr,
+                                              (void *)(bitmap_low_base));
             old_bitmap_low_ptr = bitmap_low_base;
         }
 
         if (bitmap_high_base != old_bitmap_high_ptr) {
-            raster_add_ptr_change_foreground(&vicii.raster,
-                                             tmp,
-                                             (void **)&vicii.bitmap_high_ptr,
-                                             (void *)(bitmap_high_base));
+            raster_changes_foreground_add_ptr(&vicii.raster,
+                                              tmp,
+                                              (void **)&vicii.bitmap_high_ptr,
+                                              (void *)(bitmap_high_base));
             old_bitmap_high_ptr = bitmap_high_base;
         }
 
         if (char_base != old_chargen_ptr) {
-            raster_add_ptr_change_foreground(&vicii.raster,
-                                             tmp,
-                                             (void **)&vicii.chargen_ptr,
-                                             (void *)char_base);
+            raster_changes_foreground_add_ptr(&vicii.raster,
+                                              tmp,
+                                              (void **)&vicii.chargen_ptr,
+                                              (void *)char_base);
             old_chargen_ptr = char_base;
         }
 
         if (vicii.vbank_phi1 != old_vbank_p1) {
 /*
-            raster_add_ptr_change_foreground(&vicii.raster,
-                                             tmp,
-                                             (void **)&vicii.vbank_ptr,
-                                             (void *)(vicii.ram_base
-                                             + vicii.vbank));
+            raster_changes_foreground_add_ptr(&vicii.raster,
+                                              tmp,
+                                              (void **)&vicii.vbank_ptr,
+                                              (void *)(vicii.ram_base
+                                              + vicii.vbank));
 */
             old_vbank_p1 = vicii.vbank_phi1;
         }
@@ -698,43 +698,43 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         }
     } else {
         if (vicii.screen_base != old_screen_ptr) {
-            raster_add_ptr_change_next_line(&vicii.raster,
-                                            (void **)&vicii.screen_ptr,
-                                            (void *)vicii.screen_base);
-            raster_add_ptr_change_next_line(&vicii.raster,
+            raster_changes_next_line_add_ptr(&vicii.raster,
+                                             (void **)&vicii.screen_ptr,
+                                             (void *)vicii.screen_base);
+            raster_changes_next_line_add_ptr(&vicii.raster,
                               (void **)&vicii.raster.sprite_status->ptr_base,
-                                            (void *)(vicii.screen_base
-                                            + 0x3f8));
+                                             (void *)(vicii.screen_base
+                                             + 0x3f8));
             old_screen_ptr = vicii.screen_base;
         }
 
         if (bitmap_low_base != old_bitmap_low_ptr) {
-            raster_add_ptr_change_next_line(&vicii.raster,
-                                            (void **)&vicii.bitmap_low_ptr,
-                                            (void *)(bitmap_low_base));
+            raster_changes_next_line_add_ptr(&vicii.raster,
+                                             (void **)&vicii.bitmap_low_ptr,
+                                             (void *)(bitmap_low_base));
             old_bitmap_low_ptr = bitmap_low_base;
         }
 
         if (bitmap_high_base != old_bitmap_high_ptr) {
-            raster_add_ptr_change_next_line(&vicii.raster,
-                                            (void **)&vicii.bitmap_high_ptr,
-                                            (void *)(bitmap_high_base));
+            raster_changes_next_line_add_ptr(&vicii.raster,
+                                             (void **)&vicii.bitmap_high_ptr,
+                                             (void *)(bitmap_high_base));
             old_bitmap_high_ptr = bitmap_high_base;
         }
 
         if (char_base != old_chargen_ptr) {
-            raster_add_ptr_change_next_line(&vicii.raster,
-                                            (void **)&vicii.chargen_ptr,
-                                            (void *)char_base);
+            raster_changes_next_line_add_ptr(&vicii.raster,
+                                             (void **)&vicii.chargen_ptr,
+                                             (void *)char_base);
             old_chargen_ptr = char_base;
         }
 
         if (vicii.vbank_phi1 != old_vbank_p1) {
 /*
-            raster_add_ptr_change_next_line(&vicii.raster,
-                                            (void **)&vicii.vbank_ptr,
-                                            (void *)(vicii.ram_base
-                                            + vicii.vbank));
+            raster_changes_next_line_add_ptr(&vicii.raster,
+                                             (void **)&vicii.vbank_ptr,
+                                             (void *)(vicii.ram_base
+                                             + vicii.vbank));
 */
             old_vbank_p1 = vicii.vbank_phi1;
         }
@@ -760,10 +760,10 @@ void vicii_update_video_mode(unsigned int cycle)
           case VICII_ILLEGAL_BITMAP_MODE_1:
           case VICII_ILLEGAL_BITMAP_MODE_2:
             /* Force the overscan color to black.  */
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster, VICII_RASTER_X(cycle),
                 &vicii.raster.idle_background_color, 0);
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
                 &vicii.raster.xsmooth_color, 0);
@@ -771,10 +771,10 @@ void vicii_update_video_mode(unsigned int cycle)
             vicii.force_black_overscan_background_color = 1;
             break;
           case VICII_HIRES_BITMAP_MODE:
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster, VICII_RASTER_X(cycle),
                 &vicii.raster.idle_background_color, 0);
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
                 &vicii.raster.xsmooth_color,
@@ -783,11 +783,11 @@ void vicii_update_video_mode(unsigned int cycle)
             vicii.force_black_overscan_background_color = 1;
             break;
           case VICII_EXTENDED_TEXT_MODE:
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster, VICII_RASTER_X(cycle),
                 &vicii.raster.idle_background_color,
                 vicii.regs[0x21]);
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
                 &vicii.raster.xsmooth_color,
@@ -798,11 +798,11 @@ void vicii_update_video_mode(unsigned int cycle)
           default:
             /* The overscan background color is given by the background
                color register.  */
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster, VICII_RASTER_X(cycle),
                 &vicii.raster.idle_background_color,
                 vicii.regs[0x21]);
-            raster_add_int_change_background
+            raster_changes_background_add_int
                 (&vicii.raster,
                 VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
                 &vicii.raster.xsmooth_color,
@@ -822,21 +822,21 @@ void vicii_update_video_mode(unsigned int cycle)
                 && cycle > 0)
                 pos--;
 
-            raster_add_int_change_background(&vicii.raster,
-                                             VICII_RASTER_X(cycle),
-                                             &vicii.raster.video_mode,
-                                             new_video_mode);
-            raster_add_int_change_foreground(&vicii.raster, pos,
-                                             &vicii.raster.video_mode,
-                                             new_video_mode);
+            raster_changes_background_add_int(&vicii.raster,
+                                              VICII_RASTER_X(cycle),
+                                              &vicii.raster.video_mode,
+                                              new_video_mode);
+            raster_changes_foreground_add_int(&vicii.raster, pos,
+                                              &vicii.raster.video_mode,
+                                              new_video_mode);
 
             if (vicii.idle_data_location != IDLE_NONE) {
                 if (vicii.regs[0x11] & 0x40)
-                    raster_add_int_change_foreground
+                    raster_changes_foreground_add_int
                     (&vicii.raster, pos, (void *)&vicii.idle_data,
                     vicii.ram_base_phi2[vicii.vbank_phi2 + 0x39ff]);
                 else
-                    raster_add_int_change_foreground
+                    raster_changes_foreground_add_int
                     (&vicii.raster, pos, (void *)&vicii.idle_data,
                     vicii.ram_base_phi2[vicii.vbank_phi2 + 0x3fff]);
             }

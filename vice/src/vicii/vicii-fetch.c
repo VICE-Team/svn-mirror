@@ -92,13 +92,13 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff)
     if (offs + num >= VICII_SCREEN_TEXTCOLS) {
         switch (vicii.get_background_from_vbuf) {
           case VICII_HIRES_BITMAP_MODE:
-            raster_add_int_change_next_line(
+            raster_changes_next_line_add_int(
                 &vicii.raster,
                 &vicii.raster.xsmooth_color,
                 vicii.background_color_source & 0x0f);
             break;
           case VICII_EXTENDED_TEXT_MODE:
-            raster_add_int_change_next_line(
+            raster_changes_next_line_add_int(
                 &vicii.raster,
                 &vicii.raster.xsmooth_color,
                 vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
