@@ -41,7 +41,7 @@
 #include "vsync.h"
 #include "uisnapshot.h"
 #include "uilib.h"
-#include "fullscreen.h"
+#include "fullscrn.h"
 
 ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },

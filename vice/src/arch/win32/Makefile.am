@@ -31,8 +31,8 @@ libarch_a_SOURCES = \
 	console.c \
 	dirent.c \
 	dirent.h \
-	fullscreen.c \
-	fullscreen.h \
+	fullscrn.c \
+	fullscrn.h \
 	joy.c \
 	joy.h \
 	kbd.c \

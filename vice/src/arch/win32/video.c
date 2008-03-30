@@ -1034,12 +1034,10 @@ static void real_refresh(video_canvas_t *c,
         }
     }
 
-    rect.left = 0;
-    rect.top = 0;
     rect.right = c->client_width;
     rect.bottom = c->client_height;
-    rect.left += xi;
-    rect.top += yi;
+    rect.left = xi;
+    rect.top = yi;
     ClientToScreen(c->hwnd, (LPPOINT) &rect);
     rect.right = rect.left + w;
     rect.bottom = rect.top + h;
@@ -1123,6 +1121,8 @@ static void real_refresh(video_canvas_t *c,
     DEBUG(("REGION count: %d",regioncount));
 
     for (j = 0; j < regioncount; j++) {
+        BYTE *scrn_orig = (BYTE *)(desc.lpSurface);
+
         trect.top = ((RECT*)((RGNDATA*)Region)->Buffer)[j].top;
         trect.bottom = ((RECT*)((RGNDATA*)Region)->Buffer)[j].bottom;
         trect.left = ((RECT*)((RGNDATA*)Region)->Buffer)[j].left;
@@ -1134,14 +1134,26 @@ static void real_refresh(video_canvas_t *c,
         pw = trect.right - trect.left;
         ph = trect.bottom - trect.top;
 
-        if (c->videoconfig->doublesizex)
+        if (c->videoconfig->doublesizex) {
+            /* FIXME: ugly hack to make pixel start on even coordinate */
+            if ((trect.left & 1) != (px & 1)) {
+                scrn_orig += (depth >>3);
+                trect.left--;
+            }
             px /= 2;
+        }
 
-        if (c->videoconfig->doublesizey)
+        if (c->videoconfig->doublesizey) {
+            /* FIXME: ugly hack to make pixel start on even coordinate */
+            if ((trect.top & 1) != (py & 1)) {
+                scrn_orig += pitch;
+                trect.top--;
+            }
             py /= 2;
+        }
 
         video_canvas_render(c,
-                            (BYTE *)(desc.lpSurface),
+                            scrn_orig,
                             pw, ph,
                             px, py,
                             trect.left, trect.top,

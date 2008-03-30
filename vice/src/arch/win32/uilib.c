@@ -36,7 +36,7 @@
 #include <commctrl.h>
 
 #include "diskimage.h"
-#include "fullscreen.h"
+#include "fullscrn.h"
 #include "imagecontents.h"
 #include "res.h"
 #include "resources.h"

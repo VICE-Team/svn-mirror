@@ -44,7 +44,7 @@
 #include "ui.h"
 #include "uilib.h"
 #include "uivideo.h"
-#include "fullscreen.h"
+#include "fullscrn.h"
 #include "utils.h"
 #include "winmain.h"
 

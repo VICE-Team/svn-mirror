@@ -349,10 +349,8 @@ void video_canvas_refresh(video_canvas_t *c,
 				{
 					xxs = xxs + clip_left 
 						/ (c->videoconfig->doublesizex ? 2 : 1);
-					ww = ww - clip_left 
-						+ clip_left % (c->videoconfig->doublesizex ? 2 : 1);
-					xxi = xxi + clip_left
-						- clip_left % (c->videoconfig->doublesizex ? 2 : 1);
+					ww = ww - clip_left; 
+					xxi = xxi + clip_left;
 				}
 
 				/* cut right */
@@ -366,10 +364,8 @@ void video_canvas_refresh(video_canvas_t *c,
 				{
 					yys = yys + clip_top
 						/ (c->videoconfig->doublesizey ? 2 : 1);
-					hh = hh - clip_top
-						+ clip_top % (c->videoconfig->doublesizey ? 2 : 1);
-					yyi = yyi + clip_top
-						- clip_top % (c->videoconfig->doublesizey ? 2 : 1);
+					hh = hh - clip_top;
+					yyi = yyi + clip_top;
 				}
 
 				/* cut bottom */

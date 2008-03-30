@@ -66,8 +66,8 @@ void render_16_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 1);
-        yys = ys << 1;
-	wfirst = 0 /*xs & 1*/;
+    yys = (ys << 1) | (yt & 1);
+	wfirst = xt & 1;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -330,8 +330,8 @@ void render_32_2x2_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 2);
-        yys = ys << 1;
-	wfirst = 0 /*xs & 1*/;
+    yys = (ys << 1) | (yt & 1);
+	wfirst = xt & 1;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -594,8 +594,8 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 1);
-        yys = ys << 1;
-	wfirst = 0 /*xs & 1*/;
+    yys = (ys << 1) | (yt & 1);
+	wfirst = xt & 1;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
@@ -858,8 +858,8 @@ void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 	src=src + pitchs * ys + xs - 2;
 	trg=trg + pitcht*yt + (xt << 2);
-        yys = ys << 1;
-	wfirst = 0 /*xs & 1*/;
+    yys = (ys << 1) | (yt & 1);
+	wfirst = xt & 1;
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;

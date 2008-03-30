@@ -106,7 +106,7 @@ SOURCE=.\dirent.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\fullscreen.c
+SOURCE=.\fullscrn.c
 # End Source File
 # Begin Source File
 

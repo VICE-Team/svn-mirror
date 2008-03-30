@@ -35,7 +35,7 @@
 
 #include "console.h"
 
-#include "fullscreen.h"
+#include "fullscrn.h"
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"

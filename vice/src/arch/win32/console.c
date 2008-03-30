@@ -33,7 +33,7 @@
 #include <windows.h>
 
 #include "console.h"
-#include "fullscreen.h"
+#include "fullscrn.h"
 #include "res.h"
 #include "ui.h"
 #include "uimon.h"

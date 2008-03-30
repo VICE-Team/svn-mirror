@@ -42,7 +42,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "fliplist.h"
-#include "fullscreen.h"
+#include "fullscrn.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
