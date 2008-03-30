@@ -1170,7 +1170,7 @@ void update_last_shown_regs( reg_private_t *prp )
 }
 
 static
-BOOLEAN output_register(HDC hdc, reg_private_t *prp, PRECT clientrect)
+BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
 {
     mon_reg_list_t *pMonRegs = mon_register_list_get(prp->memspace);
     mon_reg_list_t *p;

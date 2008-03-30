@@ -94,11 +94,11 @@ void vsyncarch_sleep(signed long delay)
 {
 	LARGE_INTEGER start, now;
 	
-	if (delay <= 0)
+	if (delay <= vsyncarch_frequency()/1000)
 		return;
 	QueryPerformanceCounter(&start);
 	do {
-		Sleep(10);
+		Sleep(1);
 		QueryPerformanceCounter(&now);
 #ifdef HAS_LONGLONG_INTEGER
 	} while ((now.QuadPart - start.QuadPart) < delay);
