@@ -34,6 +34,7 @@
 #include <string.h>
 #include <process.h>
 #include <windows.h>
+#include <tlhelp32.h>
 
 #include "ui.h"
 
@@ -104,8 +105,16 @@ static char *boot_path = NULL;
 
 const char *archdep_boot_path(void)
 {
+HANDLE          snap;
+MODULEENTRY32   ment;
+
     if (boot_path == NULL) {
-        util_fname_split(argv0, &boot_path, NULL);
+        snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+        memset(&ment, 0, sizeof(MODULEENTRY32));
+        ment.dwSize = sizeof(MODULEENTRY32);
+        Module32First(snap,&ment);
+        util_fname_split(ment.szExePath, &boot_path, NULL);
+        CloseHandle(snap);
 
         /* This should not happen, but you never know...  */
         if (boot_path == NULL)

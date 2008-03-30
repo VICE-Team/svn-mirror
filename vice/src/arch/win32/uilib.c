@@ -548,6 +548,17 @@ static void set_filter(char *filter, DWORD filterlist, DWORD *filterindex)
 
 }
 
+static int CALLBACK EnumFontProc(
+  ENUMLOGFONT *lpelf,    // logical-font data
+  NEWTEXTMETRIC *lpntm,  // physical-font data
+  DWORD FontType,        // type of font
+  LPARAM lParam          // application-defined data
+)
+{
+    (*(int *)lParam)++;
+    return 1;
+}
+
 
 char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
                      int style, int *autostart)
@@ -568,7 +579,11 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     if (fontfile == NULL) {
         fontfile = util_concat(archdep_boot_path(), 
                                "\\fonts\\cbm-directory-charset.fon", NULL);
-        font_loaded = AddFontResource(fontfile);
+        font_loaded = 0;
+        EnumFontFamilies(GetDC(NULL),"cbm-directory-charset/ck!",(FONTENUMPROC)EnumFontProc,(LPARAM)&font_loaded);
+        if (font_loaded == 0) {
+            font_loaded = AddFontResource(fontfile);
+        }
     }
 
     memset(&ofn, 0, sizeof(ofn));

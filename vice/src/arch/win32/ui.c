@@ -171,6 +171,8 @@ struct {
     int save_resources_on_exit;
     int confirm_on_exit;
     int single_cpu;
+    int window_xpos[2];
+    int window_ypos[2];
     char *monitor_dimensions;
     char *initialdir[NUM_OF_FILE_SELECTOR_STYLES];
 } ui_resources;
@@ -265,6 +267,17 @@ static int set_initial_dir(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_window_xpos(resource_value_t v, void *param)
+{
+    ui_resources.window_xpos[(int) param] = (int) v;
+    return 0;
+}
+
+static int set_window_ypos(resource_value_t v, void *param)
+{
+    ui_resources.window_ypos[(int) param] = (int) v;
+    return 0;
+}
 static const resource_t resources[] = {
     { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ui_resources.fullscreendevice,
@@ -314,6 +327,18 @@ static const resource_t resources[] = {
     { "SingleCPU", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ui_resources.single_cpu,
       set_single_cpu, NULL },
+    { "Window0Xpos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
+      (resource_value_t *)&ui_resources.window_xpos[0],
+      set_window_xpos, (void *)0 },
+    { "Window0Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
+      (resource_value_t *)&ui_resources.window_ypos[0],
+      set_window_ypos, (void *)0 },
+    { "Window1Xpos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
+      (resource_value_t *)&ui_resources.window_xpos[1],
+      set_window_xpos, (void *)1 },
+    { "Window1Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
+      (resource_value_t *)&ui_resources.window_ypos[1],
+      set_window_ypos, (void *)1 },
     { NULL }
 };
 
@@ -565,8 +590,8 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
                             WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
                             | WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX
                             | WS_MAXIMIZEBOX,
-                            CW_USEDEFAULT,
-                            CW_USEDEFAULT,
+                            ui_resources.window_xpos[number_of_windows],
+                            ui_resources.window_ypos[number_of_windows],
                             CW_USEDEFAULT,
                             CW_USEDEFAULT,
                             NULL,
@@ -1729,6 +1754,14 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         }
         mouse_update_mouse_acquire();
         break;
+      case WM_MOVE:
+          if (window_index<number_of_windows) {
+              RECT  rect;
+              GetWindowRect(window, &rect);
+              ui_resources.window_xpos[window_index] = rect.left;
+              ui_resources.window_ypos[window_index] = rect.top;
+          }
+          break;
       case WM_SYSKEYDOWN:
         if (wparam == VK_F10) {
             kbd_handle_keydown(wparam, lparam);
