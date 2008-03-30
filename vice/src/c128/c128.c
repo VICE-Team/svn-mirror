@@ -203,9 +203,11 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
-#ifdef HAVE_MOUSE
-        || mouse_init_resources() < 0
-#endif
+        /* FIXME: This is already done in main.c
+         #ifdef HAVE_MOUSE
+         || mouse_init_resources() < 0
+         #endif
+         */
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
         || datasette_init_resources() < 0
@@ -237,9 +239,11 @@ int machine_init_cmdline_options(void)
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
 #endif
-#ifdef HAVE_MOUSE
-        || mouse_init_cmdline_options() < 0
-#endif
+        /* FIXME: This is done already in main.c
+         #ifdef HAVE_MOUSE
+         || mouse_init_cmdline_options() < 0
+         #endif
+         */
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
         || datasette_init_cmdline_options() < 0
