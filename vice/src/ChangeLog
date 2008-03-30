@@ -1,4 +1,59 @@
+1998-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c128/c128mem.c: Added cartridge memory interface.
+
+	* c64/Makefile.am: Added `c64cart.h' to `libc64_a_SOURCES'.
+
+	* c64/c64cart.h: New file.
+
+	* c64/c64mem.c: #include "c64cart.h".  Made `roml_bank',
+	`romh_bank' and `export_ram' non-static.
+
+	* c64/vicii.c: #include "c64cart.h".
+	(int_rasterfetch) [FETCH_SPRITE]: Added Ultimax memory
+	configuration.
+
+	* drive/drive.c: Added new disk type `DRIVE_TYPE_2031' to all
+	functions using `DRIVE_TYPE_*'.
+	(drive_read_image_snapshot_module): Set `drive[].drive_floppy' to
+	`NULL'.
+
+	* drive/drive.h: Defined `DRIVE_TYPE_2031'.
+
+	* drive/drivecpu-tmpl.c: Added new disk type `DRIVE_TYPE_2031' to
+	all functions using `DRIVE_TYPE_*'.
+	
+1998-10-01  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uicommands.c (save_snapshot_trap): Call
+ 	`ui_snapshot_dialog()'.
+
+	* arch/unix/xaw/uisnapshot.h (ui_snapshot_dialog): New file.
+
+	* arch/unix/xaw/uisnapshot.c (ui_snapshot_dialog): New file, new
+ 	function.
+
+1998-09-30  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* mon.c (mon_cmd_array): add entries for bload and bsave
+	(mon_bload_file, mon_bsave_file): new functions
+
+	* mon.h (mon_bload_file, mon_bsave_file): new prototypes
+
+	* mon_parse.y (CMD_BLOAD, CMD_BSAVE): new tokes for the new cmds
+	(disk_rules): add rules for CMD_BLOAD and CMD_BSAVE
+	
+1998-09-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/ui.c (build_error_dialog): Fixed `XtNskipAdjust' in
+ 	`buttonBox'.
+	(ui_jam_dialog): Likewise.
+
+	* sounddrv/soundsgi.c: Added missing `#endif'.
+
 1998-09-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.15.
 
 	* maincpu.c (maincpu_read_snapshot_module): Removed `rwm_flag'
  	kludge.
@@ -14,6 +69,37 @@
 	* c64/vicii.c (vic_ii_prepare_for_snapshot): New function.
 
 1998-09-29  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* c128/c128.c (c64rsuser.h): include to avoid a warning.
+
+	* c610/c610cia1.def, c610/c610tpi1.def, c64/c64tpi.def,
+	pet/petpia1.def, petpia2.def, pet/petvia.def, serial.c:
+	rename pardebug to parallel_debug;
+	rename par_set_*() funcs to parallel_cpu_set_*() funcs;
+	rename par_* variables to parallel_* variables
+
+	* parallel.c, parallel.h: 
+        rename pardebug to parallel_debug;
+        rename par_* variables to parallel_* variables
+	(parallel_set_eoi, parallel_set_ndac, parallel_set_nrfd,
+	parallel_set_dav, parallel_set_atn, parallel_clr_eoi,
+	parallel_clr_ndac, parallel_clr_nrfd, parallel_clr_dav,
+	parallel_clr_atn): new functions to set/clr a bit in the
+	corresponding parallel_* variables. The mask parameter
+	is either ANDed or ORed with the variable and determines
+	the bit to set/clr. A change in line status - if parallel_*
+	changes from zero to not-zero or vice versa - is signaled
+	to the parallel IEEE488 emulation code to handle filesystem
+	access.
+	(parallel_{emu|cpu|drv0|drv1}_set_{eoi|atn|dav|nrfd|ndac}):
+	new inline functions. Set or clr the appropriate (PARALLEL_EMU, 
+	PARALLEL_CPU, PARALLEL_DRV0, PARALLEL_DRV1) bit in the 
+	parallel_* state variables via parallel_{clr|set}_*().
+	emu is the filesystem access emulator, cpu the main CPU
+	code (C64, PET, C610), and drv0/1 two possible emulated
+	disk drives.
+	(parallel_{emu|cpu|drv0|drv1}_set_bus): new functions
+	for each device to set the bus lines.
 
 	* arch/unix/xaw/c128ui.c (c128_ui_init): add snapshot submenu
 

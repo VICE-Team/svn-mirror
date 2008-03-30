@@ -79,7 +79,7 @@
 				     /* switching userport strobe with CB2 */
 #ifdef HAVE_PRINTER
 #define	VIA_SET_CB2(byte)		\
-          userport_printer_write_strobe( byte );
+          pruser_write_strobe( byte );
 #else
 #define	VIA_SET_CB2(byte)
 #endif

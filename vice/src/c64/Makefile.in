@@ -114,6 +114,7 @@ noinst_LIBRARIES = libc64.a libc64c128.a
 libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
+	c64cart.h \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -391,9 +392,9 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
 	c64cia.h
-c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cia.h \
-	../../src/types.h ../../src/cia.h ../../src/snapshot.h c64mem.h \
-	../../src/mem.h c64tpi.h ../../src/cartridge.h \
+c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cart.h \
+	../../src/types.h c64cia.h ../../src/cia.h ../../src/snapshot.h \
+	c64mem.h ../../src/mem.h c64tpi.h ../../src/cartridge.h \
 	../../src/cmdline.h ../../src/resources.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
@@ -430,7 +431,7 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
 	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h c64.h c64cia.h ../../src/cia.h \
+	../../src/resources.h c64.h c64cart.h c64cia.h ../../src/cia.h \
 	../../src/cmdline.h ../../src/machine.h ../../src/utils.h \
 	../../src/raster.h sprites.h sprcycles.h sprcrunch.h \
 	../../src/raster.c ../../src/arch/unix/vsync.h

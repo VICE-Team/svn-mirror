@@ -137,6 +137,8 @@ libxawui_a_SOURCES = \
 	uimenu.h \
 	uisettings.c \
 	uisettings.h \
+	uisnapshot.c \
+	uisnapshot.h \
 	vic20icon.xpm \
 	vic20ui.c \
 	vic20ui.h
@@ -154,7 +156,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
 libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
-uicommands.o uihotkey.o uimenu.o uisettings.o vic20ui.o
+uicommands.o uihotkey.o uimenu.o uisettings.o uisnapshot.o vic20ui.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -332,17 +334,16 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h ../../../../src/interrupt.h \
+	uihotkey.h ../../../../src/attach.h ../../../../src/vdrive.h \
+	../../../../src/fs_cbm.h ../../../../src/serial.h \
+	../../../../src/traps.h ../../../../src/autostart.h \
+	../../../../src/info.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
 	../../../../src/mem.h ../../../../src/snapshot.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/vdrive.h \
-	../../../../src/fs_cbm.h ../../../../src/serial.h \
-	../../../../src/traps.h ../../../../src/tapeunit.h \
-	../../../../src/tape.h ../../../../src/attach.h \
-	../../../../src/autostart.h ../../../../src/mon.h \
-	../../../../src/mos6510.h ../../../../src/info.h \
-	../../../../src/resources.h ../../../../src/machine.h \
-	../../../../src/utils.h
+	../../../../src/machine.h ../../../../src/mon.h \
+	../../../../src/mos6510.h ../../../../src/resources.h \
+	../../../../src/tapeunit.h ../../../../src/tape.h uisnapshot.h \
+	../../../../src/utils.h ../../../../src/arch/unix/vsync.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h
@@ -364,6 +365,10 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/interrupt.h ../../../../src/vmachine.h \
 	../../../../src/6510core.h ../../../../src/arch/unix/vsync.h \
 	../../../../src/utils.h
+uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
+	../../../../src/config.h widgets/TextField.h uisnapshot.h \
+	../../../../src/machine.h ../../../../src/types.h ui.h \
+	../../../../src/palette.h
 vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/types.h \
 	../../../../src/arch/unix/joystick.h \

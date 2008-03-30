@@ -133,6 +133,7 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2031:
         drive[0].type = (int) v;
         if (drive_true_emulation) {
         drive[0].enable = 1;
@@ -443,7 +444,8 @@ static void drive_read_image_d64_d71(int dnr)
     /* Since the D64/D71 format does not provide the actual track sizes or
        speed zones, we set them to standard values.  */
     if (drive[dnr].drive_floppy->ImageFormat == 1541
-        && drive[dnr].type == DRIVE_TYPE_1541) {
+        && (drive[dnr].type == DRIVE_TYPE_1541
+        || drive[dnr].type == DRIVE_TYPE_2031)) {
         for (track = 0; track < MAX_TRACKS_1541; track++) {
             drive[dnr].GCR_track_size[track] =
                 raw_track_size[speed_map_1541[track]];
@@ -452,7 +454,8 @@ static void drive_read_image_d64_d71(int dnr)
         }
     }
     if (drive[dnr].drive_floppy->ImageFormat == 1571
-        || drive[dnr].type == DRIVE_TYPE_1571) {
+        || drive[dnr].type == DRIVE_TYPE_1571
+        || drive[dnr].type == DRIVE_TYPE_2031) {
         for (track = 0; track < MAX_TRACKS_1571; track++) {
             drive[dnr].GCR_track_size[track] =
                 raw_track_size[speed_map_1571[track]];
@@ -892,6 +895,14 @@ static int drive_set_disk_drive_type(int type, int dnr)
             drive_rotate_disk(dnr);
         drive[dnr].clock_frequency = 2;
         break;
+      case DRIVE_TYPE_2031:
+        /* FIXME2031: Add 2031 ROM handling.  */
+        if (rom1541_loaded < 1 && rom_loaded)
+            return -1;
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(dnr);
+        drive[dnr].clock_frequency = 1;
+        break;
       default:
         return -1;
     }
@@ -972,6 +983,10 @@ static void drive_setup_rom_image(int dnr)
             break;
           case DRIVE_TYPE_1581:
             memcpy(drive[dnr].rom, drive_rom1581, DRIVE_ROM1581_SIZE);
+            break;
+          case DRIVE_TYPE_2031:
+            /* FIXME2031 Add 2031 ROM handling.  */
+            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541, DRIVE_ROM1541_SIZE);
             break;
         }
     }
@@ -1318,7 +1333,8 @@ inline static BYTE drive_sync_found(int dnr)
 /* Move the head to half track `num'.  */
 static void drive_set_half_track(int num, int dnr)
 {
-    if (drive[dnr].type == DRIVE_TYPE_1541 && num > 84)
+    if ((drive[dnr].type == DRIVE_TYPE_1541
+        || drive[dnr].type == DRIVE_TYPE_2031) && num > 84)
         num = 84;
     if (drive[dnr].type == DRIVE_TYPE_1571 && num > 140)
         num = 140;
@@ -1739,13 +1755,15 @@ int drive_write_snapshot_module(snapshot_t *s)
             return -1;
           }
     }
+
     if (snapshot_module_close(m) < 0)
         return -1;
 
     if (drive[0].enable) {
         if (drive0_cpu_write_snapshot_module(s) < 0)
             return -1;
-        if (drive[0].type == DRIVE_TYPE_1541) {
+        if (drive[0].type == DRIVE_TYPE_1541
+            || drive[0].type == DRIVE_TYPE_2031) {
             if (via1d0_write_snapshot_module(s) < 0
                 || via2d0_write_snapshot_module(s) < 0)
                 return -1;
@@ -1760,11 +1778,12 @@ int drive_write_snapshot_module(snapshot_t *s)
             if (cia1581d0_write_snapshot_module(s) < 0)
                 return -1;
         }
-    }    
+    }
     if (drive[1].enable) {
         if (drive1_cpu_write_snapshot_module(s) < 0)
             return -1;
-        if (drive[1].type == DRIVE_TYPE_1541) {
+        if (drive[1].type == DRIVE_TYPE_1541
+            || drive[1].type == DRIVE_TYPE_2031) {
             if (via1d1_write_snapshot_module(s) < 0
                 || via2d1_write_snapshot_module(s) < 0)
                 return -1;
@@ -1902,7 +1921,8 @@ int drive_read_snapshot_module(snapshot_t *s)
     if (drive[0].enable) {
         if (drive0_cpu_read_snapshot_module(s) < 0)
             return -1;
-        if (drive[0].type == DRIVE_TYPE_1541) {
+        if (drive[0].type == DRIVE_TYPE_1541
+            || drive[0].type == DRIVE_TYPE_2031) {
             if (via1d0_read_snapshot_module(s) < 0
                 || via2d0_read_snapshot_module(s) < 0)
                 return -1;
@@ -1921,7 +1941,8 @@ int drive_read_snapshot_module(snapshot_t *s)
     if (drive[1].enable) {
         if (drive1_cpu_read_snapshot_module(s) < 0)
             return -1;
-        if (drive[1].type == DRIVE_TYPE_1541) {
+        if (drive[1].type == DRIVE_TYPE_1541
+            || drive[1].type == DRIVE_TYPE_2031) {
             if (via1d1_read_snapshot_module(s) < 0
                 || via2d1_read_snapshot_module(s) < 0)
                 return -1;
@@ -2042,6 +2063,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
 
     free(tmpbuf);
     drive[dnr].GCR_image_loaded = 1;
+    drive[dnr].drive_floppy = NULL;
     return 0;
 }
 
