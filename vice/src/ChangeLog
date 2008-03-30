@@ -1,3 +1,80 @@
+2005-11-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.7
+
+2005-11-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/vac++/incl/mainsrc.icc: Added network.c and
+	translate.c for proper compilation.
+
+2005-11-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c64ui.cc: Fixed typo.
+
+	* arch/beos/ui.cc, arch/msdos/ui.c, arch/os2/ui.c,
+	arch/riscos/ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/xaw/x11ui.c, arch/win32/ui.c, uiapi.h: New
+	function ui_display_statustext to display messages without
+	stopping emulation. Only win32 is implemented.
+
+	* arch/win32/uimediafile.c, uisound.c: Added fade parameter
+	to ui_display_statustext call.
+
+	* gfxoutputdrv/ffmpegdrv.c (ffmpegdrv_init_video): Get frame
+	rate from machine.
+
+	* info.c: Some additions.
+
+	* network.c: Removed NetworkFrameDelta resource. Fixed
+	network_event_record_sync_test() by calling it via trap. New
+	function network_test_delay. Added some information for the
+	user about network operations via ui_display_statustext.
+
+	* vsync.c, vsync.h: New function vsync_get_refresh_frequency.
+
+2005-11-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/Makefile.am, arch/msdos/menudefs.c,
+	arch/msdos/uiscreenshot.c, arch/msdos/uiscreenshot.h: Added
+	screenshot support to the msdos port.
+
+2005-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* arch/msdos/uiplus60k.c: Fixed a typo.
+
+	* network.c: Fixed the includes for proper msdos compilation.
+
+2005-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* arch/beos/c64ui.cc, arch/beos/constants.h,
+	arch/beos/vicemenu.cc, arch/msdos/uiplus60k.c,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/menubar.h,
+	arch/os2/dialogs/menubar.rc, arch/unix/uiplus60k.c,
+	arch/win32/resc64.rc, arch/win32/resdialogs.txt,
+	arch/win32/resplus60k.rc, arch/win32/resstrings.txt,
+	arch/win32/uiplus60k.c, c64/c64mem.c, c64/plus60k.c,
+	c64/plus60k.h, translate.c, translate.h: Added support for the
+	old version of the +60K expansion.
+
+	* arch/win32/uijoystick.c: Made the windows joystick swap
+	behave like all other platforms.
+
+	* info.c: Changed my own info a bit.
+
+2005-11-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am, arch.dsp: Added new files.
+
+	* arch/win32/res.rc, resdialogs.txt: Added (english) dialog
+	for network settings.
+
+	* arch/win32/resc64.rc, resmenu.txt, ui.c: Replaced network
+	items with a settings item.
+
+	* arch/win32/uinetwork.c, uinetwork.h: New files.
+
+	* network.c, network.h: New function network_get_mode().
+
 2005-11-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.6.
