@@ -10,6 +10,7 @@ noinst_LIBRARIES = libsounddrv.a
 # These sources are linked only under certain circumstances.
 EXTRA_libsounddrv_a_SOURCES = \
 	soundaix.c \
+	soundalsa.c \
 	soundarts.c \
 	soundacorn.c \
 	soundallegro.c \

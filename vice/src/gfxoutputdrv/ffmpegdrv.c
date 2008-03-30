@@ -249,10 +249,9 @@ void ffmpegdrv_init_audio(int speed, int channels,
 /* triggered by soundffmpegaudio->write */
 void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in)
 {
-    int out_size;
-    
     if (audio_st) {
-        out_size = (*ffmpeglib.p_avcodec_encode_audio)(&audio_st->codec, 
+#if FFMPEG_VERSION_INT==0x000408
+        int out_size = (*ffmpeglib.p_avcodec_encode_audio)(&audio_st->codec, 
                         audio_outbuf, audio_outbuf_size, audio_in->buffer);
         /* FIXME: Some sync needed ?? */
     
@@ -262,6 +261,25 @@ void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in)
 
         audio_pts = (double)audio_st->pts.val * ffmpegdrv_oc->pts_num 
                     / ffmpegdrv_oc->pts_den;
+#else
+        AVPacket pkt;
+        AVCodecContext *c;
+        av_init_packet(&pkt);
+        c = &audio_st->codec;
+        pkt.size = (*ffmpeglib.p_avcodec_encode_audio)(c, 
+                        audio_outbuf, audio_outbuf_size, audio_in->buffer);
+        pkt.pts = c->coded_frame->pts;
+        pkt.flags |= PKT_FLAG_KEY;
+        pkt.stream_index = audio_st->index;
+        pkt.data = audio_outbuf;
+
+        if ((*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt) != 0)
+            log_debug("ffmpegdrv_encode_audio: Error while writing audio frame");
+
+        audio_pts = (double)audio_st->pts.val * audio_st->time_base.num 
+                    / audio_st->time_base.den;
+#endif
+
     }
 
     audio_in->used = 0;
@@ -309,6 +327,8 @@ static AVFrame* ffmpegdrv_alloc_picture(int pix_fmt, int width, int height)
     
     picture = (AVFrame*)lib_malloc(sizeof(AVFrame));
     memset(picture, 0, sizeof(AVFrame));
+
+    picture->pts = AV_NOPTS_VALUE;
 
     size = (*ffmpeglib.p_avpicture_get_size)(pix_fmt, width, height);
     picture_buf = (unsigned char *)lib_malloc(size);
@@ -553,7 +573,8 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
     
     /* free the streams */
     for(i = 0; i < ffmpegdrv_oc->nb_streams; i++) {
-        (*ffmpeglib.p___av_freep)((void**)&ffmpegdrv_oc->streams[i]);
+        (*ffmpeglib.p_av_free)((void *)ffmpegdrv_oc->streams[i]);
+        ffmpegdrv_oc->streams[i] = NULL;
     }
 
 
@@ -601,8 +622,19 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
     if (ffmpegdrv_oc->oformat->flags & AVFMT_RAWPICTURE) {
         /* raw video case. The API will change slightly in the near
            futur for that */
+#if FFMPEG_VERSION_INT==0x000408
         ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, video_st->index,
                        (unsigned char *)picture, sizeof(AVPicture));
+#else
+        AVPacket pkt;
+        av_init_packet(&pkt);
+        pkt.flags |= PKT_FLAG_KEY;
+        pkt.stream_index = video_st->index;
+        pkt.data = (uint8_t*)picture;
+        pkt.size = sizeof(AVPicture);
+
+        ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt);
+#endif
     } else {
         /* encode the image */
         out_size = (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, 
@@ -610,9 +642,20 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         /* if zero size, it means the image was buffered */
         if (out_size != 0) {
             /* write the compressed frame in the media file */
-            /* XXX: in case of B frames, the pts is not yet valid */
+#if FFMPEG_VERSION_INT==0x000408
             ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, video_st->index,
                                         video_outbuf, out_size);
+#else
+            AVPacket pkt;
+            av_init_packet(&pkt);
+            pkt.pts = c->coded_frame->pts;
+            if (c->coded_frame->key_frame)
+                pkt.flags |= PKT_FLAG_KEY;
+            pkt.stream_index = video_st->index;
+            pkt.data = video_outbuf;
+            pkt.size = out_size;
+            ret = (*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt);
+#endif
         } else {
             ret = 0;
         }
@@ -622,8 +665,13 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         return -1;
     }
 
+#if FFMPEG_VERSION_INT==0x000408
     video_pts = (double)video_st->pts.val * ffmpegdrv_oc->pts_num 
                     / ffmpegdrv_oc->pts_den;
+#else
+    video_pts = (double)video_st->pts.val * video_st->time_base.num 
+                    / video_st->time_base.den;
+#endif
 
     return 0;
 }

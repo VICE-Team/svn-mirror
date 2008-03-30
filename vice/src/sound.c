@@ -1110,6 +1110,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(USE_ARTS)
     sound_init_arts_device();
 #endif
+#if defined(HAVE_ALSA_ASOUNDLIB_H)
+    sound_init_alsa_device();
+#endif
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H) || defined(HAVE_SYS_SOUNDCARD_H)
     sound_init_uss_device();
 #endif

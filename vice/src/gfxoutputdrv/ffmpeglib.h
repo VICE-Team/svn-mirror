@@ -30,7 +30,7 @@
 #include "vice.h"
 
 #if defined (WIN32) && !defined(__GNUC__)
-#undef inline
+/* #undef inline */
 #endif
 
 #ifdef HAVE_FFMPEG_AVFORMAT_H
@@ -48,14 +48,19 @@ typedef int (*avcodec_encode_video_t) (AVCodecContext*, uint8_t*, int, const AVF
 typedef int (*avpicture_fill_t) (AVPicture*, uint8_t*, int, int, int);
 typedef int (*avpicture_get_size_t) (int, int, int);
 typedef int (*img_convert_t) (AVPicture*, int, AVPicture*, int, int, int);
-typedef void (*__av_freep_t) (void**);
+typedef void (*av_free_t) (void**);
+typedef unsigned (*avcodec_version_t) (void);
 
 /* avformat fucntions */
 typedef void (*av_register_all_t) (void);
 typedef AVStream* (*av_new_stream_t) (AVFormatContext*, int);
 typedef int (*av_set_parameters_t) (AVFormatContext*, AVFormatParameters*);
 typedef int (*av_write_header_t) (AVFormatContext*);
+#if FFMPEG_VERSION_INT==0x000408
 typedef int (*av_write_frame_t) (AVFormatContext*, int, const uint8_t*, int);
+#else
+typedef int (*av_write_frame_t) (AVFormatContext*, AVPacket*);
+#endif
 typedef int (*av_write_trailer_t) (AVFormatContext*);
 typedef int (*url_fopen_t) (ByteIOContext*, const char*, int);
 typedef int (*url_fclose_t) (ByteIOContext*);
@@ -71,7 +76,7 @@ struct ffmpeglib_s {
     avpicture_fill_t            p_avpicture_fill;
     avpicture_get_size_t        p_avpicture_get_size;
     img_convert_t               p_img_convert;
-    __av_freep_t                p___av_freep;
+    av_free_t                   p_av_free;
 
     av_register_all_t           p_av_register_all;
     av_new_stream_t             p_av_new_stream;

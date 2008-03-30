@@ -221,16 +221,19 @@ int tap_create(const char *name)
 
 static int tap_find_pilot(tap_t *tap, int type);
 
-inline static int tap_get_pulse(tap_t *tap)
+inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
 {
     BYTE data;
     DWORD pulse_length = 0;
     size_t res;
 
+    *pos_advance = 0;
     res = fread(&data, 1, 1, tap->fd);
 
     if (res == 0)
         return -1;
+
+    *pos_advance += res;
 
     if (data == 0) {
         if (tap->version == 0) {
@@ -240,6 +243,7 @@ inline static int tap_get_pulse(tap_t *tap)
             res = fread(size, 3, 1, tap->fd);
             if (res == 0)
                 return -1;
+            *pos_advance += res;
             pulse_length = ((size[2] << 16) | (size[1] << 8) | size[0]) >> 3;
         }
     } else {
@@ -254,11 +258,13 @@ inline static int tap_get_pulse(tap_t *tap)
 
         if (res == 0)
             return -1;
+        *pos_advance += res;
         if (data == 0) {
             BYTE size[3];
             res = fread(size, 3, 1, tap->fd);
             if (res == 0)
                 return -1;
+            *pos_advance += res;
             pulse_length2 = ((size[2] << 16) | (size[1] << 8) | size[0]) >> 3;
         } else {
             pulse_length2 = data;
@@ -286,10 +292,11 @@ inline static int tap_get_pulse(tap_t *tap)
 inline static int tap_cbm_read_bit(tap_t *tap)
 {
   int pulse1, pulse2;
+  int pos_advance;
 
-  pulse1 = tap_get_pulse(tap);
+  pulse1 = tap_get_pulse(tap, &pos_advance);
   if (pulse1 < 0) return -1;
-  pulse2 = tap_get_pulse(tap);
+  pulse2 = tap_get_pulse(tap, &pos_advance);
   if (pulse2 < 0) return -1;
   
   /* when reading a bit, treat L as M */
@@ -306,17 +313,18 @@ static int tap_cbm_read_byte(tap_t *tap)
 {
     int i, data, parity;
     BYTE read;
+    int pos_advance;
 
     /* wait for L pulse (start-of-byte) */
     do
       {
-        data = tap_get_pulse(tap);
+        data = tap_get_pulse(tap, &pos_advance);
         if (data < 0) return -1;
       }
     while( !TAP_PULSE_LONG(data) );
 
     /* expect either M (L-M: start-of-byte) or S (L-S: end-of-data-block) */
-    data = tap_get_pulse(tap);
+    data = tap_get_pulse(tap, &pos_advance);
     if (data < 0)
       return -1; /* end of tape */
     else if( TAP_PULSE_SHORT(data) )
@@ -352,19 +360,24 @@ static int tap_cbm_skip_pilot(tap_t *tap)
   int data, errors;
   long fpos, counter;
   long fpos2;
+  long current_filepos;
+  int pos_advance;
   
   errors  = 0;
   counter = 0;
+  current_filepos = ftell(tap->fd);
   while(1)
     {
       /*  Save file position */
-      fpos = ftell(tap->fd);
-      data = tap_get_pulse(tap);
-      fpos2 = ftell(tap->fd);
+      fpos = current_filepos;
+      data = tap_get_pulse(tap, &pos_advance);
+      current_filepos += pos_advance;
+      fpos2 = current_filepos;
       if( TAP_PULSE_LONG(data) )
         {
           /* found an L pulse, try to read a byte */
           fseek(tap->fd, fpos, SEEK_SET);
+          current_filepos = fpos;
           data = tap_cbm_read_byte(tap);
           if( data==-1 ) 
             {
@@ -378,12 +391,14 @@ static int tap_cbm_skip_pilot(tap_t *tap)
 
               /* Start over after the L pulse */
               fseek(tap->fd, fpos2, SEEK_SET);
+              current_filepos = fpos2;
               counter = 0;
             }
           else
             {
               /* success.  Go back to start of byte and return */
               fseek(tap->fd, fpos, SEEK_SET);
+              current_filepos = fpos;
               return 0;
             }
         }
@@ -763,6 +778,7 @@ static int tap_tt_read_byte(tap_t *tap)
 {
   int pulse, i;
   BYTE read;
+  int pos_advance;
 
   read = 0;
 
@@ -770,7 +786,7 @@ static int tap_tt_read_byte(tap_t *tap)
      short pulse=0,  long pulse=1.  MSB comes first */
   for(i=0; i<8; i++)
     {
-      pulse = tap_get_pulse(tap);
+      pulse = tap_get_pulse(tap, &pos_advance);
       if( pulse<0 ) return -1;
 
       read <<= 1;
@@ -1192,8 +1208,9 @@ static int tap_find_header(tap_t *tap)
           res = tap_cbm_read_header(tap);
           if( res<0 ) 
             {
+              int pos_advance;
               fseek(tap->fd, fpos, SEEK_SET);
-              while( TAP_PULSE_SHORT(tap_get_pulse(tap)) );
+              while( TAP_PULSE_SHORT(tap_get_pulse(tap, &pos_advance)) );
             }
         }
       else if( type==PILOT_TYPE_TT )

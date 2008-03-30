@@ -49,7 +49,7 @@ int ffmpeglib_open(ffmpeglib_t *lib)
     GET_PROC_ADDRESS_AND_TEST_AVCODEC(avpicture_fill);
     GET_PROC_ADDRESS_AND_TEST_AVCODEC(avpicture_get_size);
     GET_PROC_ADDRESS_AND_TEST_AVCODEC(img_convert);
-    GET_PROC_ADDRESS_AND_TEST_AVCODEC(__av_freep);
+    GET_PROC_ADDRESS_AND_TEST_AVCODEC(av_free);
 
     GET_PROC_ADDRESS_AND_TEST_AVFORMAT(av_register_all);
     GET_PROC_ADDRESS_AND_TEST_AVFORMAT(av_new_stream);

@@ -32,6 +32,7 @@
 
 #include "gfxoutputdrv/ffmpeglib.h"
 #include "log.h"
+#include "ui.h"
 
 static HINSTANCE avcodec_dll = NULL;
 static HINSTANCE avformat_dll = NULL;
@@ -54,7 +55,7 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
     lib->p_avpicture_fill = NULL;
     lib->p_avpicture_get_size = NULL;
     lib->p_img_convert = NULL;
-    lib->p___av_freep = NULL;
+    lib->p_av_free = NULL;
 
     if (avformat_dll) {
         if (!FreeLibrary(avformat_dll)) {
@@ -97,6 +98,8 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
 
 static int ffmpeglib_load_library(ffmpeglib_t *lib)
 {
+	avcodec_version_t avcodec_version;
+
     if (!avcodec_dll) {
         avcodec_dll = LoadLibrary("avcodec.dll");
 
@@ -113,7 +116,7 @@ static int ffmpeglib_load_library(ffmpeglib_t *lib)
         GET_PROC_ADDRESS_AND_TEST_AVCODEC(avpicture_fill);
         GET_PROC_ADDRESS_AND_TEST_AVCODEC(avpicture_get_size);
         GET_PROC_ADDRESS_AND_TEST_AVCODEC(img_convert);
-        GET_PROC_ADDRESS_AND_TEST_AVCODEC(__av_freep);
+        GET_PROC_ADDRESS_AND_TEST_AVCODEC(av_free);
     }
 
     if (!avformat_dll) {
@@ -136,6 +139,12 @@ static int ffmpeglib_load_library(ffmpeglib_t *lib)
         GET_PROC_ADDRESS_AND_TEST_AVFORMAT(guess_format);
     }
 
+	avcodec_version = (avcodec_version_t)GetProcAddress(avcodec_dll, "avcodec_version");
+
+	if (avcodec_version() != LIBAVCODEC_VERSION_INT) {
+		ui_error("Your ffmpeg dll version doesn't match.");
+		return -1;
+	}
     return 0;
 }
 

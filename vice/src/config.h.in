@@ -36,6 +36,9 @@
 /* Define to 1 if you have the <allegro.h> header file. */
 #undef HAVE_ALLEGRO_H
 
+/* Define to 1 if you have the <alsa/asoundlib.h> header file. */
+#undef HAVE_ALSA_ASOUNDLIB_H
+
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
@@ -106,6 +109,9 @@
 
 /* Define to 1 if you have the `artsc' library (-lartsc). */
 #undef HAVE_LIBARTSC
+
+/* Define to 1 if you have the `asound' library (-lasound). */
+#undef HAVE_LIBASOUND
 
 /* Define to 1 if you have the `audio' library (-laudio). */
 #undef HAVE_LIBAUDIO

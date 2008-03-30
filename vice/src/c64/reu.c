@@ -263,11 +263,14 @@ void reu_reset(void)
     reu_blocklen_low_shadow = 0;
 
     if (reu_size >= (256 << 10))
-        reu[REU_REG_R_STATUS] = 0x50;
+        reu[REU_REG_R_STATUS] = 0x10;
     else
-        reu[REU_REG_R_STATUS] = 0x40;
+        reu[REU_REG_R_STATUS] = 0x00;
 
-    reu[REU_REG_W_COMMAND] = 0x4A;
+    reu[REU_REG_W_COMMAND] = 0x10;
+
+    reu[REU_REG_RW_BLOCKLEN_LOW]  = 0xFF;
+    reu[REU_REG_RW_BLOCKLEN_HIGH] = 0xFF;
 }
 
 static int reu_activate(void)

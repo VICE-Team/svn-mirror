@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-02-06 16:23+0100\n"
+"POT-Creation-Date: 2005-03-12 23:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,7 +120,7 @@ msgstr ""
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1219
+#: src/sound.c:1222
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -1636,7 +1636,7 @@ msgstr ""
 
 #: src/arch/unix/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:253
+#: src/arch/unix/x11/xaw/uiscreenshot.c:254
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr ""
@@ -3389,19 +3389,19 @@ msgid "Save cartridge image file"
 msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
-#: src/arch/unix/x11/xaw/uiscreenshot.c:161
+#: src/arch/unix/x11/xaw/uiscreenshot.c:162
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
-#: src/arch/unix/x11/xaw/uiscreenshot.c:190
+#: src/arch/unix/x11/xaw/uiscreenshot.c:191
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
-#: src/arch/unix/x11/xaw/uiscreenshot.c:260
+#: src/arch/unix/x11/xaw/uiscreenshot.c:261
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr ""
@@ -3438,11 +3438,11 @@ msgstr ""
 msgid "Save screenshot file"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:210
+#: src/arch/unix/x11/xaw/uiscreenshot.c:211
 msgid "Image format:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:277
+#: src/arch/unix/x11/xaw/uiscreenshot.c:278
 msgid "Screen Snapshot"
 msgstr ""
 

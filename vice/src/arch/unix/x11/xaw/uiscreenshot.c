@@ -125,6 +125,7 @@ static UI_CALLBACK(save_callback)
 	return;
  
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
+    util_add_extension(&name, driver->default_extension);
     screenshot_save(driver->name, name, canvas);
 }
 
@@ -215,28 +216,28 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
     driver = gfxoutput_drivers_iter_init();
 
     driver_buttons[0] = XtVaCreateManagedWidget
-        (driver->name,
+        (driver->displayname,
          toggleWidgetClass, options_form,
          XtNfromHoriz, driver_label,
          XtNfromVert, browse_button,
-         XtNwidth, 40,
+         XtNwidth, 180,
          XtNheight, 20,
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
-         XtNlabel, driver->name,
+         XtNlabel, driver->displayname,
          NULL);
     driver = gfxoutput_drivers_iter_next();
     for (i = 1; i < num_buttons; i++) {
         driver_buttons[i] = XtVaCreateManagedWidget
-            (driver->name,
+            (driver->displayname,
              toggleWidgetClass, options_form,
              XtNfromHoriz, driver_buttons[i-1],
              XtNfromVert, browse_button,
-             XtNwidth, 40,
+             XtNwidth, 180,
              XtNheight, 20,
              XtNright, XtChainRight,
              XtNleft, XtChainRight,
-             XtNlabel, driver->name,
+             XtNlabel, driver->displayname,
              XtNradioGroup, driver_buttons[i-1],
              NULL);
         driver = gfxoutput_drivers_iter_next();
