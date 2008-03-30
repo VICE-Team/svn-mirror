@@ -24,21 +24,33 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "alarm.h"
 #include "autostart.h"
 #include "clkguard.h"
+#include "cmdline.h"
+#include "console.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "printer.h"
+#include "resources.h"
+#include "sound.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vsync.h"
+
+#ifdef HAS_JOYSTICK
+#include "joy.h"
+#endif
 
 
 unsigned int machine_keymap_index;
@@ -97,5 +109,26 @@ void machine_maincpu_init(void)
                    - CLKGUARD_SUB_MIN);
     clk_guard_add_callback(&maincpu_clk_guard,
                            machine_maincpu_clk_overflow_callback, NULL);
+}
+
+void machine_shutdown(void)
+{
+    machine_specific_shutdown();
+
+#ifdef HAS_JOYSTICK
+    joystick_close();
+#endif
+
+    sound_close();
+
+    printer_shutdown();
+
+    console_close_all();
+
+    cmdline_shutdown();
+
+    resources_shutdown();
+
+    log_close_all();
 }
 

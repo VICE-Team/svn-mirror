@@ -76,6 +76,7 @@ typedef struct resource_s {
 
 extern int resources_init(const char *machine);
 extern int resources_register(const resource_t *r);
+extern void resources_shutdown(void);
 extern int resources_set_value(const char *name, resource_value_t value);
 extern int resources_set_sprintf(const char *name, resource_value_t value, ...);
 extern int resources_set_value_string(const char *name, const char *value);

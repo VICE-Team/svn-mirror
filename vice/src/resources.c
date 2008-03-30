@@ -85,9 +85,9 @@ typedef struct resource_ram_s {
 
 /* the type of the callback vector chain */
 typedef struct resource_callback_desc_s {
-  resource_callback_func_t *func;
-  void *param;
-  struct resource_callback_desc_s *next;
+    resource_callback_func_t *func;
+    void *param;
+    struct resource_callback_desc_s *next;
 } resource_callback_desc_t;
 
 
@@ -136,7 +136,8 @@ static void resources_add_callback(resource_callback_desc_t **where,
     if (callback != NULL) {
         resource_callback_desc_t *cbd;
 
-        cbd = (resource_callback_desc_t *)xmalloc(sizeof(resource_callback_desc_t));
+        cbd = (resource_callback_desc_t *)xmalloc(
+              sizeof(resource_callback_desc_t));
         cbd->func = callback;
         cbd->param = param;
         cbd->next = *where;
@@ -146,8 +147,8 @@ static void resources_add_callback(resource_callback_desc_t **where,
 
 
 /* execute a callback vector chain */
-static void resources_exec_callback_chain(const resource_callback_desc_t *callbacks,
-                                          const char *name)
+static void resources_exec_callback_chain(const resource_callback_desc_t
+                                          *callbacks, const char *name)
 {
     const resource_callback_desc_t *cbd = callbacks;
 
@@ -236,6 +237,12 @@ int resources_register(const resource_t *r)
     }
 
     return 0;
+}
+
+void resources_shutdown(void)
+{
+    free(resources);
+    free(hashTable);
 }
 
 static resource_ram_t *lookup(const char *name)
