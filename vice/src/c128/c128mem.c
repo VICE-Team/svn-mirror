@@ -377,10 +377,10 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 DEBUG(("MMU: Store RCR = $%02x\n", value));
                 DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
-                if (value & 0x3)
-                    shared_size = 0x1000 << (value & 0x3);
+                if ((value & 0x3) == 0)
+                    shared_size = 1024;
                 else
-                    shared_size = 0x400;
+                    shared_size = 0x1000 << ((value & 0x3) - 1);
 
                 /* Share high memory?  */
                 if (value & 0x8) {
