@@ -126,7 +126,7 @@ static resource_t resources[] = {
     { "EmuID", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&emu_id_enabled,
       set_emu_id_enabled, NULL },
-    { "KernalRev", RES_STRING, (resource_value_t)NULL,
+    { "KernalRev", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&kernal_revision,
       set_kernal_revision, NULL },
 #ifdef HAVE_RS232

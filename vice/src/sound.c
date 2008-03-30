@@ -68,8 +68,8 @@ static log_t slog=LOG_ERR;
 
 static int playback_enabled;          /* app_resources.sound */
 static int sample_rate;               /* app_resources.soundSampleRate */
-static char *device_name=NULL;        /* app_resources.soundDeviceName */
-static char *device_arg=NULL;         /* app_resources.soundDeviceArg */
+static char *device_name = NULL;      /* app_resources.soundDeviceName */
+static char *device_arg = NULL;       /* app_resources.soundDeviceArg */
 static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
@@ -77,7 +77,7 @@ static int oversampling_factor;       /* app_resources.soundOversample */
 
 /* I need this to serialize close_sound and enablesound/initsid in
    the OS/2 Multithreaded environment                              */
-static int sdev_open           = FALSE;
+static int sdev_open = FALSE;
 
 /* I need this to serialize close_sound and enablesound/initsid in
    the OS/2 Multithreaded environment                              */
@@ -150,31 +150,31 @@ static int set_oversampling_factor(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "Sound", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &playback_enabled,
+    { "Sound", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&playback_enabled,
       set_playback_enabled, NULL },
-    { "SoundSampleRate", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_RATE,
-      (resource_value_t *) &sample_rate,
+    { "SoundSampleRate", RES_INTEGER, (resource_value_t)SOUND_SAMPLE_RATE,
+      (resource_value_t *)&sample_rate,
       set_sample_rate, NULL },
-    { "SoundDeviceName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &device_name,
+    { "SoundDeviceName", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&device_name,
       set_device_name, NULL },
-    { "SoundDeviceArg", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &device_arg,
+    { "SoundDeviceArg", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&device_arg,
       set_device_arg, NULL },
     { "SoundBufferSize", RES_INTEGER,
       (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
-      (resource_value_t *) &buffer_size,
+      (resource_value_t *)&buffer_size,
       set_buffer_size, NULL },
-    { "SoundSuspendTime", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &suspend_time,
+    { "SoundSuspendTime", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&suspend_time,
       set_suspend_time, NULL },
     { "SoundSpeedAdjustment", RES_INTEGER,
-      (resource_value_t) SOUND_ADJUST_FLEXIBLE,
-      (resource_value_t *) &speed_adjustment_setting,
+      (resource_value_t)SOUND_ADJUST_FLEXIBLE,
+      (resource_value_t *)&speed_adjustment_setting,
       set_speed_adjustment_setting, NULL },
-    { "SoundOversample", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &oversampling_factor,
+    { "SoundOversample", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&oversampling_factor,
       set_oversampling_factor, NULL },
     { NULL }
 };
@@ -852,14 +852,13 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
 /* initialize sid at program start -time */
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
-    if (slog==LOG_ERR)
-        slog = log_open("Sound");
+    slog = log_open("Sound");
 
     sound_state_changed = FALSE;
 
-    cycles_per_sec  = clock_rate;
+    cycles_per_sec = clock_rate;
     cycles_per_rfsh = ticks_per_frame;
-    rfsh_per_sec    = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
+    rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
 
     sound_machine_init();
 
@@ -931,19 +930,25 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 long sound_sample_position(void)
 {
-    return (snddata.clkstep==0) ? 0 : (long)(SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep;
+    return (snddata.clkstep == 0)
+        ? 0 : (long)(SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep;
 }
 
 int sound_read(ADDRESS addr)
 {
-    if (sound_run_sound()) return -1;
+    if (sound_run_sound())
+        return -1;
+
     return sound_machine_read(snddata.psid, addr);
 }
 
 void sound_store(ADDRESS addr, BYTE val)
 {
     int	i;
-    if (sound_run_sound()) return;
+
+    if (sound_run_sound())
+        return;
+
     sound_machine_store(snddata.psid, addr, val);
     if (!snddata.pdev->dump)
         return;
@@ -967,6 +972,7 @@ void sound_set_relative_speed(int value)
 void sound_set_warp_mode(int value)
 {
     warp_mode_enabled = value;
+
     if (value)
         sound_suspend();
     else

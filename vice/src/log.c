@@ -56,8 +56,8 @@ static int set_log_file_name(resource_value_t v, void *param)
 
 #ifndef __C1541__
 static resource_t resources[] = {
-    { "LogFileName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &log_file_name, set_log_file_name, NULL },
+    { "LogFileName", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&log_file_name, set_log_file_name, NULL },
     { NULL }
 };
 

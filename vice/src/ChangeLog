@@ -1,3 +1,39 @@
+2001-09-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.7.
+
+	* monitor/mon_assemble6502.c, monitor/mon_assemblez80.c
+	(mon_assemble_instr): Fixed opcode search loop.
+
+	* resources.c (resources_register): Check for NULL pointer.
+
+	* printerdrv/output-graphics.c, log.c, c64/c64-resources.c,
+	c64/reu.c, sound.c, pet/pet-resources.c, cbm2/c610-resources.c
+	(resources): Fixed resource declaration.
+
+	* sound.c: Enable sound as default.
+
+	* sid/sid-resources.c, sid/sid-resources.h,
+	sid/sid-cmdline-options.c, sid/sid-cmdline-options.h,
+	sid/sid-snapshot.c, sid/sid-snapshot.h: New files.
+
+	* sid/sid.c, sid/sid.h: Removed resource, command line option
+	and snapshot code.
+
+	* sid/resid.cc (resid_sound_machine_open): Use resources
+	instead of passed parameters.
+
+	* sid/Makefile.am: Added new files.
+
+	* c64/c64.c, c128/c128.c, cbm2/c610.c: Include
+	"sid-resources.h", sid-cmdline-options.h" and
+	"sid-snapshot.h".
+
+2001-09-05  Desmon  <zdv7@yahoo.com>
+
+	* diskimage.c, diskimage.h (disk_image_check_for_d64):
+	Added support for odd sized disk images.
+
 2001-09-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.6.

@@ -69,7 +69,7 @@ static int set_ppb(resource_value_t v, void *param)
 
 static resource_t resources[] = {
     { "PixelsPerBit", RES_INTEGER, (resource_value_t)3,
-      NULL, set_ppb, (void *)0 },
+      (resource_value_t *)&ppb, set_ppb, (void *)0 },
     { NULL }
 };
 

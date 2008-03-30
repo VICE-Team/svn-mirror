@@ -187,7 +187,7 @@ static resource_t resources[] = {
       (resource_value_t *)&reu_enabled, set_reu_enabled, NULL },
     { "REUsize", RES_INTEGER, (resource_value_t)512,
       (resource_value_t *)&reu_size_kb, set_reu_size, NULL },
-    { "REUfilename", RES_STRING, (resource_value_t)NULL,
+    { "REUfilename", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&reu_filename, set_reu_filename, NULL },
     { NULL }
 };

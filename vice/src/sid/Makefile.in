@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	@RESID_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_s
 
 noinst_LIBRARIES = libsid.a
 
-libsid_a_SOURCES =  	sid.c 	sid.h 	wave6581.h 	wave8580.h
+libsid_a_SOURCES =  	sid-cmdline-options.c 	sid-cmdline-options.h 	sid-resources.c 	sid-resources.h 	sid-snapshot.c 	sid-snapshot.h 	sid.c 	sid.h 	wave6581.h 	wave8580.h
 
 
 EXTRA_libsid_a_SOURCES =  	resid.cc 	resid.h
@@ -162,7 +162,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RESID_TRUE@libsid_a_DEPENDENCIES =  resid.o
 @HAVE_RESID_FALSE@libsid_a_DEPENDENCIES = 
-libsid_a_OBJECTS =  sid.o
+libsid_a_OBJECTS =  sid-cmdline-options.o sid-resources.o sid-snapshot.o \
+sid.o
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -277,14 +278,23 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/resid/spline.h ../../src/resid/extfilt.h \
 	../../src/resid/pot.h ../../src/log.h ../../src/utils.h \
 	../../src/vice.h ../../src/config.h ../../src/arch/unix/types.h \
-	../../src/sound.h
-sid.o: sid.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h sid.h ../../src/sound.h \
-	../../src/snapshot.h ../../src/utils.h resid.h \
-	../../src/arch/unix/mouse.h ../../src/fixpoint.h wave6581.h \
-	wave8580.h
+	../../src/resources.h ../../src/sound.h
+sid-cmdline-options.o: sid-cmdline-options.c ../../src/vice.h \
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
+	sid-cmdline-options.h
+sid-resources.o: sid-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h sid-resources.h ../../src/sound.h \
+	../../src/arch/unix/types.h
+sid-snapshot.o: sid-snapshot.c ../../src/vice.h ../../src/config.h \
+	../../src/log.h sid-snapshot.h sid.h \
+	../../src/arch/unix/types.h ../../src/sound.h \
+	../../src/snapshot.h
+sid.o: sid.c ../../src/vice.h ../../src/config.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/resources.h sid.h \
+	../../src/sound.h ../../src/snapshot.h ../../src/utils.h \
+	resid.h ../../src/arch/unix/mouse.h ../../src/fixpoint.h \
+	wave6581.h wave8580.h
 
 info-am:
 info: info-am

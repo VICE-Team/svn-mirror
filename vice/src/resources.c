@@ -72,6 +72,13 @@ int resources_register(const resource_t *r)
     sp = r;
     dp = resources + num_resources;
     while (sp->name != NULL) {
+        if ((sp->type == RES_STRING && sp->factory_value == NULL)
+            || sp->value_ptr == NULL || sp->set_func == NULL) {
+            log_warning(LOG_DEFAULT,
+                        "Inconsistent resource declaration `%s'.", sp->name);
+            return -1;
+        }
+
         if (num_allocated_resources <= num_resources) {
             num_allocated_resources *= 2;
             resources = xrealloc(resources,
@@ -133,8 +140,8 @@ int resources_init(const char *machine)
     machine_id = stralloc(machine);
     num_allocated_resources = 100;
     num_resources = 0;
-    resources = (resource_t *) xmalloc(num_allocated_resources
-                                       * sizeof(resource_t));
+    resources = (resource_t *)xmalloc(num_allocated_resources
+                                      * sizeof(resource_t));
 
     return 0;
 }
@@ -181,9 +188,9 @@ int resources_set_value_string(const char *name, const char *value)
 
     switch (r->type) {
       case RES_INTEGER:
-        return r->set_func((resource_value_t) atoi(value), r->param);
+        return r->set_func((resource_value_t)atoi(value), r->param);
       case RES_STRING:
-        return r->set_func((resource_value_t) value, r->param);
+        return r->set_func((resource_value_t)value, r->param);
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
         return -1;
@@ -286,7 +293,7 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     if (new_value_return != NULL)
         *(int *)new_value_return = value;
 
-    return r->set_func((resource_value_t) value, r->param);
+    return r->set_func((resource_value_t)value, r->param);
 }
 
 /* ------------------------------------------------------------------------- */

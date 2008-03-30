@@ -42,7 +42,7 @@ int emu_id_enabled;
 
 static int set_iosize(resource_value_t v, void *param)
 {
-    petres.IOSize = (int) v;
+    petres.IOSize = (int)v;
 
     mem_initialize_memory();
     return 0;
@@ -50,14 +50,14 @@ static int set_iosize(resource_value_t v, void *param)
 
 static int set_crtc_enabled(resource_value_t v, void *param)
 {
-    petres.crtc = (int) v;
+    petres.crtc = (int)v;
     return 0;
 }
 
 static int set_superpet_enabled(resource_value_t v, void *param)
 {
     if ((unsigned int) v < 2)
-        petres.superpet = (unsigned int) v;
+        petres.superpet = (unsigned int)v;
     mem_initialize_memory();
     return 0;
 }
@@ -65,7 +65,7 @@ static int set_superpet_enabled(resource_value_t v, void *param)
 static int set_ram_9_enabled(resource_value_t v, void *param)
 {
     if ((unsigned int) v < 2)
-        petres.mem9 = (unsigned int) v;
+        petres.mem9 = (unsigned int)v;
     mem_initialize_memory();
     return 0;
 }
@@ -73,7 +73,7 @@ static int set_ram_9_enabled(resource_value_t v, void *param)
 static int set_ram_a_enabled(resource_value_t v, void *param)
 {
     if ((unsigned int) v < 2)
-        petres.memA = (unsigned int) v;
+        petres.memA = (unsigned int)v;
     mem_initialize_memory();
     return 0;
 }
@@ -81,7 +81,7 @@ static int set_ram_a_enabled(resource_value_t v, void *param)
 static int set_ramsize(resource_value_t v, void *param)
 {
     int size = (int) v;
-    int i, sizes[] = {4, 8, 16, 32, 96, 128};
+    int i, sizes[] = { 4, 8, 16, 32, 96, 128 };
 
     for (i = 0; i < 6; i++) {
         if (size <= sizes[i])
@@ -106,7 +106,7 @@ static int set_ramsize(resource_value_t v, void *param)
 
 static int set_video(resource_value_t v, void *param)
 {
-    int col = (int) v;
+    int col = (int)v;
 
     if (col != petres.video) {
         if (col == 0 || col == 40 || col == 80) {
@@ -276,13 +276,13 @@ static resource_t resources[] = {
     {"BasicName", RES_STRING, (resource_value_t)PET_BASIC4NAME,
      (resource_value_t *)&petres.basicName,
      set_basic_rom_name, NULL },
-    {"RomModule9Name", RES_STRING, (resource_value_t)NULL,
+    {"RomModule9Name", RES_STRING, (resource_value_t)"",
      (resource_value_t *)&petres.mem9name,
      set_rom_module_9_name, NULL },
-    {"RomModuleAName", RES_STRING, (resource_value_t)NULL,
+    {"RomModuleAName", RES_STRING, (resource_value_t)"",
      (resource_value_t *)&petres.memAname,
      set_rom_module_a_name, NULL },
-    {"RomModuleBName", RES_STRING, (resource_value_t)NULL,
+    {"RomModuleBName", RES_STRING, (resource_value_t)"",
      (resource_value_t *)&petres.memBname,
      set_rom_module_b_name, NULL },
     { "EmuID", RES_INTEGER, (resource_value_t)0,

@@ -94,9 +94,8 @@ static int set_cbm2_model_line(resource_value_t v, void *param)
 {
     int tmp = (int)v;
 
-    if (tmp >= 0 && tmp < 3) {
-        cbm2_model_line = (int) v;
-    }
+    if (tmp >= 0 && tmp < 3)
+        cbm2_model_line = (int)v;
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
@@ -119,9 +118,9 @@ static int set_use_vicii(resource_value_t v, void *param)
     use_vicii = tmp;
 
     /* on boot, select video chip. FIXME: change on runtime */
-    if (isC500 < 1) {
+    if (isC500 < 1)
         isC500 = use_vicii;
-    }
+
     return 0;
 }
 
@@ -243,16 +242,16 @@ static resource_t resources[] = {
     { "BasicName", RES_STRING, (resource_value_t)CBM2_BASIC128,
       (resource_value_t *)&basic_rom_name,
       set_basic_rom_name, NULL },
-    { "Cart1Name", RES_STRING, (resource_value_t)NULL,
+    { "Cart1Name", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&cart_1_name,
       set_cart1_rom_name, NULL },
-    { "Cart2Name", RES_STRING, (resource_value_t)NULL,
+    { "Cart2Name", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&cart_2_name,
       set_cart2_rom_name, NULL },
-    { "Cart4Name", RES_STRING, (resource_value_t)NULL,
+    { "Cart4Name", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&cart_4_name,
       set_cart4_rom_name, NULL },
-    { "Cart6Name", RES_STRING, (resource_value_t)NULL,
+    { "Cart6Name", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&cart_6_name,
       set_cart6_rom_name, NULL },
     { "Ram08", RES_INTEGER, (resource_value_t)0,
