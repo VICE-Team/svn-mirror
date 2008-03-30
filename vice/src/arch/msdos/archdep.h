@@ -50,5 +50,10 @@
 #define MODE_APPEND            "wb"
 #define MODE_APPEND_READ_WRITE "a+b"
 
+/* Printer default devices.  */
+#define PRINTER_DEFAULT_DEV1 "viceprnt.out"
+#define PRINTER_DEFAULT_DEV2 "LPT1:"
+#define PRINTER_DEFAULT_DEV3 "LPT2:"
+
 #endif
 

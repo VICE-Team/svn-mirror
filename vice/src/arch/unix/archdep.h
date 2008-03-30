@@ -55,6 +55,11 @@
 #define DOCDIR          LIBDIR "/doc"
 #define VICEUSERDIR     ".vice"
 
+/* Printer default devices.  */
+#define PRINTER_DEFAULT_DEV1 "print.dump"
+#define PRINTER_DEFAULT_DEV2 "|lpr"
+#define PRINTER_DEFAULT_DEV3 "|petlp -F PS|lpr"
+
 extern const char *archdep_home_path(void);
 
 #endif

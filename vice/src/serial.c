@@ -127,7 +127,10 @@ static BYTE serialcommand(void)
     p = &serialdevices[TrapDevice & 0x0f];
     channel = TrapSecondary & 0x0f;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(TrapDevice & 0x0f);
+    if ((TrapDevice & 0x0f) >= 8)
+        vdrive = (vdrive_t *)file_system_get_vdrive(TrapDevice & 0x0f);
+    else
+        vdrive = NULL;
 
     /* if command on a channel, reset output buffer... */
     if ((TrapSecondary & 0xf0) != 0x60) {
@@ -233,7 +236,10 @@ void serialattention(void)
             TrapSecondary = b;
             p = &(serialdevices[TrapDevice & 0x0f]);
             if (p->isopen[b & 0x0f] == 2) {
-                vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+                if ((TrapDevice & 0x0f) >= 8)
+                    vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+                else
+                    vdrive = NULL;
                 (*(p->closef)) (vdrive, b & 0x0f);
             }
             p->isopen[b & 0x0f] = 1;
@@ -264,7 +270,10 @@ void serialsendbyte(void)
     data = mem_read(BSOUR);	/* BSOUR - character for serial bus */
 
     p = &serialdevices[TrapDevice & 0x0f];
-    vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    if ((TrapDevice & 0x0f) >= 8)
+        vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    else
+        vdrive = NULL;
 
     if (p->inuse) {
 	if (p->isopen[TrapSecondary & 0x0f] == 1) {
@@ -293,7 +302,10 @@ void serialreceivebyte(void)
     void *vdrive;
 
     p = &serialdevices[TrapDevice & 0x0f];
-    vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    if ((TrapDevice & 0x0f) >= 8)
+        vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    else
+        vdrive = NULL;
 
     /* Get next byte if necessary.  */
     if (!(p->nextok[secadr]))

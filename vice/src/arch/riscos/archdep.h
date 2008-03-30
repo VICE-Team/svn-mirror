@@ -52,6 +52,11 @@
 #define MODE_APPEND            "w+"
 #define MODE_APPEND_READ_WRITE "a+"
 
+/* Printer default devices.  */
+#define PRINTER_DEFAULT_DEV1 "Printout"
+#define PRINTER_DEFAULT_DEV2 "parallel:"
+#define PRINTER_DEFAULT_DEV3 "serial:"
+
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);
