@@ -34,13 +34,14 @@
 #include "resources.h"
 
 #include "crtc.h"
-#include "kbd.h"
-#include "parallel.h"
 #include "drive.h"
+#include "kbd.h"
+#include "keyboard.h"
+#include "maincpu.h"
+#include "parallel.h"
 #include "pets.h"
 #include "petmem.h"
 #include "petpia.h"
-#include "maincpu.h"
 
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
@@ -124,7 +125,7 @@ _PIA_FUNC void pia_set_ca2(int a)
 	crtc_screen_enable((a)?1:0);
 }
 
-_PIA_FUNC void pia_set_cb2(a)
+_PIA_FUNC void pia_set_cb2(int a)
 {
 }
 

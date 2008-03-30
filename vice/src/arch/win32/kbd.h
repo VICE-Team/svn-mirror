@@ -29,11 +29,6 @@
 
 #include "types.h"
 
-#define KBD_COLS        8
-#define KBD_ROWS        16
-
-extern int keyarr[KBD_ROWS];
-extern int rev_keyarr[KBD_COLS];
 extern BYTE joystick_value[3];
 
 /* Keymap definition structure.  */
@@ -68,7 +63,6 @@ int pet_kbd_init_cmdline_options(void);
 int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
 int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
 const char *kbd_code_to_string(kbd_code_t kcode);
-void kbd_clear_keymatrix(void);
 
 extern int c64_kbd_init(void);
 extern int c128_kbd_init(void);

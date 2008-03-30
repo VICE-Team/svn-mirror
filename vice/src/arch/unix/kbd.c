@@ -46,6 +46,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "kbdef.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "memutils.h"
@@ -59,10 +60,6 @@
 
 /* #define DEBUG_KBD */
 /* #define DEBUG_JOY */
-
-/* Keyboard array. */
-int keyarr[KBD_ROWS];
-int rev_keyarr[KBD_COLS];
 
 static KeySym key_ctrl_restore1 = XK_Prior;
 #ifdef XK_Page_Up
@@ -144,23 +141,6 @@ int do_kbd_init_cmdline_options(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-static inline void set_keyarr(int row, int col, int value)
-{
-    if (value) {
-#ifdef DEBUG_KBD
-	log_debug("Set keyarr row %d col %d.", row, col);
-#endif
-	keyarr[row] |= 1 << col;
-	rev_keyarr[col] |= 1 << row;
-    } else {
-#ifdef DEBUG_KBD
-	log_debug("Unset keyarr row %d col %d.", row, col);
-#endif
-	keyarr[row] &= ~(1 << col);
-	rev_keyarr[col] &= ~(1 << row);
-    }
-}
 
 int joyreleaseval(int column, int *status)
 {
@@ -301,22 +281,26 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                     int column = keyconvmap[i].column;
 
                     if (row >= 0) {
-                        set_keyarr(row, column, 1);
+                        keyboard_set_keyarr(row, column, 1);
 
                         if (keyconvmap[i].shift == NO_SHIFT) {
-                            set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-                            set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+                            keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol,
+                                                0);
+                            keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol,
+                                                0);
                         } else {
                             if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                                 virtual_shift_down++;
                             if (keyconvmap[i].shift & LEFT_SHIFT)
                                 left_shift_down++;
                             if (left_shift_down + virtual_shift_down > 0)
-                                set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+                                keyboard_set_keyarr(kbd_lshiftrow,
+                                                    kbd_lshiftcol, 1);
                             if (keyconvmap[i].shift & RIGHT_SHIFT)
                                 right_shift_down++;
                             if (right_shift_down > 0)
-                                set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+                                keyboard_set_keyarr(kbd_rshiftrow,
+                                                    kbd_rshiftcol, 1);
                         }
                         break;
                     }
@@ -343,9 +327,8 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                when a modifier has been released, but this heavily simplifies
                the behavior of multiple keys.  Does anybody know a way to
                avoid this X11 oddity?  */
-	    memset(keyarr, 0, sizeof(keyarr));
-	    memset(rev_keyarr, 0, sizeof(rev_keyarr));
-	    virtual_shift_down = 0;
+            keyboard_clear_keymatrix();
+            virtual_shift_down = 0;
 	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
@@ -377,7 +360,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                     int column = keyconvmap[i].column;
 
                     if (row >= 0) {
-                        set_keyarr(row, column, 0);
+                        keyboard_set_keyarr(row, column, 0);
                         if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                             virtual_shift_down--;
                         if (keyconvmap[i].shift & LEFT_SHIFT)
@@ -391,20 +374,19 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
 	/* Map shift keys. */
 	if (right_shift_down > 0)
-	    set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+	    keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
 	else
-	    set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+	    keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
 	if (left_shift_down + virtual_shift_down > 0)
-	    set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+	    keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
 	else
-	    set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+	    keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
 	break;			/* KeyRelease */
 
       case EnterNotify:
       case LeaveNotify:
 	/* Clean up. */
-	memset(keyarr, 0, sizeof(keyarr));
-	memset(rev_keyarr, 0, sizeof(rev_keyarr));
+        keyboard_clear_keymatrix();
 	memset(joystick_value, 0, sizeof(joystick_value));
 	virtual_shift_down = left_shift_down = right_shift_down = 0;
 	memset(joypad_status, 0, sizeof(joypad_status));

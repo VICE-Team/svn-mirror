@@ -31,10 +31,6 @@
 #include "types.h"
 #include "ROlib.h"
 
-#define KBD_ROWS	16
-#define KBD_COLS	8
-
-extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
 extern BYTE joystick_value[3];
 
 extern Joy_Keys JoystickKeys[2];
