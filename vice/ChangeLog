@@ -1,5 +1,12 @@
 1999-01-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+    * Version 0.16.1.3.
+
+	* configure.in: Accumulate libraries for the linking stage in the
+	separate variable `LINK_X_LIBS'.
+
+1999-01-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
     * Version 0.16.1.2.
 
 1999-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
