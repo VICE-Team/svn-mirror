@@ -52,6 +52,9 @@
 #include "vdctypes.h"
 #include "video.h"
 
+#ifdef __MSDOS__
+#include "videoarch.h"
+#endif
 
 vdc_t vdc;
 
