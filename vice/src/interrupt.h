@@ -181,7 +181,7 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
                 cs->nnmi--;
                 cs->pending_int[int_num] = (enum cpu_int)
                         (cs->pending_int[int_num] & ~IK_NMI);
-#if 1
+#if 0
                 /* It should not be possible to remove the NMI condition,
                    only interrupt_ack_nmi() should clear it.  */
                 if (cpu_clk == cs->nmi_clk)
