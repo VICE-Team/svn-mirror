@@ -113,9 +113,6 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
 
-    if (video_convert_func(canvas, width, height) < 0)
-        return -1;
-
     log_message(gnomevideo_log,
                 _("Successfully initialized video."));
 

@@ -218,9 +218,6 @@ tryagain:
                 _("Successfully initialized without shared memory."));
 #endif
 
-    if (video_convert_func(canvas, width, height) < 0)
-        return -1;
-
     return 0;
 }
 
