@@ -36,7 +36,7 @@
 
 
 
-char *WimpTaskName = "Vice C128";
+const char *WimpTaskName = "Vice C128";
 
 static const char IBarIconName[] = "!vice128";
 static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";

@@ -202,7 +202,7 @@ static tui_menu_item_def_t freeze_cartridge_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_TOGGLE(VideoCache)
+TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
 TUI_MENU_DEFINE_TOGGLE(PALEmulation)
@@ -262,7 +262,7 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 static tui_menu_item_def_t vic_ii_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
-      toggle_VideoCache_callback, NULL, 3,
+      toggle_VICIIVideoCache_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_PAL Emulation:",
       "Enable PAL emulation",

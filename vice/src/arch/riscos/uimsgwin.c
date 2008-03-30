@@ -607,3 +607,18 @@ int ui_message_process_event(int event, int *wimpblock)
 
   return status;
 }
+
+
+void ui_message_init_messages(wimp_msg_desc *msg)
+{
+  textwin_init_messages(msg);
+}
+
+
+void ui_message_other_clicked(void)
+{
+  int i;
+
+  for (i=0; i<msg_win_NUMBER; i++)
+    textwin_other_clicked(MsgWindows[i].tw);
+}

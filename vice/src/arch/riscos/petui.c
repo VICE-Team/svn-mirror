@@ -38,7 +38,7 @@
 
 
 
-char *WimpTaskName = "Vice PET";
+const char *WimpTaskName = "Vice PET";
 
 
 /* Modified PET keymap */

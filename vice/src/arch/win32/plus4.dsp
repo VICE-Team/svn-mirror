@@ -142,6 +142,10 @@ SOURCE="..\..\plus4\ted-draw.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\plus4\ted-fetch.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\plus4\ted-mem.c"
 # End Source File
 # Begin Source File

@@ -45,7 +45,7 @@
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { NULL, 0 }
 };

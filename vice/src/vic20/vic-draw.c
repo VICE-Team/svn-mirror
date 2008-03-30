@@ -190,9 +190,9 @@ static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
-    memset(vic.raster.draw_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH,
+    memset(vic.raster.draw_buffer_ptr + start_pixel,
            vic.raster.background_color,
-           (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH);
+           (end_pixel - start_pixel + 1));
 }
 
 static void draw_std_foreground(int start_char, int end_char)

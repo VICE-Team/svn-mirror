@@ -71,13 +71,14 @@ static int oldSingleTask;
 static int newModesAvailable;
 static RO_Screen FullScrDesc;
 static int FullUseEigen;
-static int *SpriteArea;
-static int *SpriteLED0=NULL;
-static int *SpriteLED1=NULL;
+sprite_area_t *SpriteArea;
+sprite_desc_t *SpriteLED0=NULL;
+sprite_desc_t *SpriteLED1=NULL;
+static sprite_plotenv_t led0plot;
+static sprite_plotenv_t led1plot;
 static int SpeedPercentage;
 static int FrameRate;
 static int WarpModeEnabled;
-static int SpriteTranslationTable[256];
 static int SpriteLEDWidth = 0;
 static int SpriteLEDHeight = 0;
 static int SpriteLEDMode = 0;
@@ -426,9 +427,9 @@ static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, 
   for (i=0; i<256; i++) palette[i] = 0x10;
   /*log_message(LOG_DEFAULT, "Alloc %d x %d", fb_width, fb_height);*/
 
-  if ((sarea = SpriteCreateAreaSprite(fb_width, fb_height, 8, "viceframe", palette, 0)) != NULL)
+  if ((sarea = wlsprite_create_area_sprite(fb_width, fb_height, 8, "viceframe", palette, 0)) != NULL)
   {
-    sprite_desc_t *sprite = SpriteGetSprite(sarea);
+    sprite_desc_t *sprite = wlsprite_area_get_sprite(sarea);
 
     if (canvas != NULL)
     {
@@ -436,14 +437,15 @@ static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, 
       canvas->fb.height = fb_height;
       canvas->fb.depth = 8;
       canvas->fb.pitch = (sprite->wwidth+1)*4;
-      canvas->fb.framedata = (BYTE*)SpriteGetImage(sprite);
-      canvas->fb.spritebase = sarea;
+      canvas->fb.framedata = (BYTE*)wlsprite_get_image(sprite);
+
+      wlsprite_plot_bind(&(canvas->fb.normplot), sarea);
 
       /*log_message(LOG_DEFAULT, "width = %d, height = %d, pitch = %d", canvas->fb.width, canvas->fb.height, canvas->fb.pitch);*/
     }
     *fb_pitch = (sprite->wwidth+1)*4;
 
-    *draw_buffer = (BYTE*)SpriteGetImage(sprite);
+    *draw_buffer = (BYTE*)wlsprite_get_image(sprite);
 
     return 0;
   }
@@ -451,14 +453,30 @@ static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, 
 }
 
 
+static void video_frame_buffer_flush_pal(video_canvas_t *canvas)
+{
+  sprite_area_t *sarea;
+
+  if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.palplot))) != NULL)
+  {
+    free(sarea);
+    wlsprite_plot_bind(&(canvas->fb.palplot), (sprite_area_t*)NULL);
+    canvas->fb.paldata = NULL;
+  }
+}
+
+
 static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 {
-  if (canvas->fb.spritebase != NULL)
+  sprite_area_t *sarea;
+
+  if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.normplot))) != NULL)
   {
-    free(canvas->fb.spritebase);
-    canvas->fb.spritebase = NULL;
+    free(sarea);
+    wlsprite_plot_bind(&(canvas->fb.normplot), (sprite_area_t*)NULL);
     canvas->fb.framedata = NULL;
   }
+  video_frame_buffer_flush_pal(canvas);
 }
 
 
@@ -487,20 +505,19 @@ static void video_set_clipping_rectangle(int x1, int y1, int x2, int y2)
 static void video_canvas_ensure_translation(video_canvas_t *canvas)
 {
   /* Frame buffer not allocated yet? Then can't do anything */
-  if (canvas->fb.spritebase == NULL)
+  if (wlsprite_plot_get_sarea(&(canvas->fb.normplot)) == NULL)
     return;
 
   /* the frame buffer palette is dirty if the palette changed while there was no
      frame buffer allocated, e.g. on startup */
   if ((canvas->fb.paldirty != 0) && (canvas->current_palette != NULL))
   {
-    sprite_area_t *sarea = canvas->fb.spritebase;
     unsigned int i, numsprpal;
     sprite_desc_t *sprite;
     unsigned int *sprpal;
     unsigned int *ct = canvas->current_palette;
 
-    sprite = SpriteGetSprite(sarea);
+    sprite = wlsprite_plot_get_sprite(&(canvas->fb.normplot));
     sprpal = (unsigned int*)(sprite + 1);
     numsprpal = (1 << canvas->fb.depth);
     for (i=0; i<canvas->num_colours; i++)
@@ -515,30 +532,15 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
     }
     canvas->fb.paldirty = 0;
 
-    if (canvas->fb.transtab != NULL)
-    {
-      free(canvas->fb.transtab);
-      canvas->fb.transtab = NULL;
-    }
+    wlsprite_plot_flush(&(canvas->fb.normplot));
+
     canvas->fb.transdirty = 1;
   }
 
   /* do we need to make a new sprite translation table? */
-  if ((canvas->fb.transdirty != 0) && (canvas->fb.transtab == NULL))
+  if (canvas->fb.transdirty != 0)
   {
-    sprite_area_t *sarea = canvas->fb.spritebase;
-    sprite_desc_t *sprite = SpriteGetSprite(sarea);
     unsigned int ldbpp;
-    char *dummy = NULL;
-
-    ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
-
-    if ((int)dummy > 0)
-    {
-      canvas->fb.transtab = (char*)xmalloc((int)dummy);
-      dummy = canvas->fb.transtab;
-      ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
-    }
 
     ldbpp = (FullScreenMode == 0) ? ScreenMode.ldbpp : FullScrDesc.ldbpp;
 
@@ -578,44 +580,16 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
 }
 
 
-static void video_canvas_ensure_pal_trans(video_canvas_t *canvas)
-{
-  video_frame_buffer_t *fb = &(canvas->fb);
-
-  if ((fb->palsprite != NULL) && (fb->paltrans == NULL))
-  {
-    sprite_desc_t *sprite;
-    char *dummy = NULL;
-
-    if (fb->paltrans != NULL)
-    {
-      free(fb->paltrans);
-      fb->paltrans = NULL;
-    }
-
-    sprite = SpriteGetSprite(fb->palsprite);
-    ColourTrans_SelectTable((int)(fb->palsprite), (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
-
-    if ((int)dummy > 0)
-    {
-      /*log_message(LOG_DEFAULT, "PAL trans size %d", (int)dummy);*/
-      fb->paltrans = (char*)xmalloc((int)dummy);
-      dummy = fb->paltrans;
-      ColourTrans_SelectTable((int)(fb->palsprite), (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
-    }
-  }
-}
-
-
 static const char *palspritename = "palsprite";
 
 static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pitcht)
 {
   sprite_desc_t *sprite;
 
-  if (canvas->fb.palsprite == NULL)
+  if (wlsprite_plot_get_sarea(&(canvas->fb.palplot)) == NULL)
   {
     video_frame_buffer_t *fb = &(canvas->fb);
+    sprite_area_t *sarea;
     int width, height;
 
     width  = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
@@ -626,27 +600,24 @@ static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pit
       unsigned int dummypal[256];
 
       memset(dummypal, 0, 256*sizeof(int));
-      fb->palsprite = SpriteCreateAreaSprite(width, height, ActualPALDepth, palspritename, dummypal, 0);
+      sarea = wlsprite_create_area_sprite(width, height, ActualPALDepth, palspritename, dummypal, 0);
     }
     else
     {
-      fb->palsprite = SpriteCreateAreaSprite(width, height, ActualPALDepth, palspritename, NULL, 0);
+      sarea = wlsprite_create_area_sprite(width, height, ActualPALDepth, palspritename, NULL, 0);
     }
-    if (fb->palsprite == NULL)
+    if (sarea == NULL)
       return -1;
 
-    sprite = SpriteGetSprite(fb->palsprite);
-    fb->paldata = SpriteGetImage(sprite);
+    sprite = wlsprite_area_get_sprite(sarea);
+    fb->paldata = wlsprite_get_image(sprite);
     memset(fb->paldata, 0, height * (sprite->wwidth+1)*4);
 
-    if (fb->paltrans != NULL)
-    {
-      free(fb->paltrans);
-      fb->paltrans = NULL;
-    }
-    /*log_message(LOG_DEFAULT, "Sprite width %d, height %d, mode %08x", SpriteGetWidth(sprite), SpriteGetHeight(sprite), sprite->sprmode);*/
+    wlsprite_plot_bind(&(canvas->fb.palplot), sarea);
+
+    /*log_message(LOG_DEFAULT, "Sprite width %d, height %d, mode %08x", wlsprite_get_width(sprite), wlsprite_get_height(sprite), sprite->sprmode);*/
   }
-  sprite = SpriteGetSprite(canvas->fb.palsprite);
+  sprite = wlsprite_plot_get_sprite(&(canvas->fb.palplot));
   *pitchs = canvas->fb.pitch;
   *pitcht = (sprite->wwidth+1)*4;
 
@@ -673,12 +644,12 @@ static void video_ensure_pal_colours(video_canvas_t *canvas)
         {
           video_render_setphysicalcolor(config, (int)i, (DWORD)i, ActualPALDepth);
         }
-        if (canvas->fb.palsprite != NULL)
+        if (wlsprite_plot_get_sarea(&(canvas->fb.palplot)) != NULL)
         {
           sprite_desc_t *sprite;
           unsigned int *sprpal;
 
-          sprite = SpriteGetSprite(canvas->fb.palsprite);
+          sprite = wlsprite_plot_get_sprite(&(canvas->fb.palplot));
           sprpal = (unsigned int*)(sprite + 1);
 
           for (i=0; i<canvas->num_colours; i++)
@@ -723,41 +694,29 @@ static void video_ensure_pal_colours(video_canvas_t *canvas)
  */
 static void video_redraw_wimp_sprite(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 {
-  sprite_area_t *sarea;
-  sprite_desc_t *sprite;
-
-  /* clipping rectangle already set by WIMP */
-  sarea = canvas->fb.spritebase;
-  sprite = SpriteGetSprite(sarea);
-
   if (canvas->scale == 1)
   {
-    OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, vrd->ge.x, vrd->ge.y - (canvas->fb.height << ScreenMode.eigy), 0, 0, (int)(canvas->fb.transtab));
+    wlsprite_plot_plot(&(canvas->fb.normplot), vrd->ge.x, vrd->ge.y - (canvas->fb.height << ScreenMode.eigy), NULL);
   }
   else
   {
     int scale[4];
 
     scale[0] = 2; scale[1] = 2; scale[2] = 1; scale[3] = 1;
-    OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, vrd->ge.x, vrd->ge.y - 2*(canvas->fb.height << ScreenMode.eigy), 0, (int)scale, (int)(canvas->fb.transtab));
+    wlsprite_plot_plot(&(canvas->fb.normplot), vrd->ge.x, vrd->ge.y - 2*(canvas->fb.height << ScreenMode.eigy), scale);
   }
 }
 
 
 static void video_redraw_wimp_sprite2(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 {
-  sprite_area_t *sarea;
-  sprite_desc_t *sprite;
   int basescale;
   int scale[4];
-
-  sarea = canvas->fb.spritebase;
-  sprite = SpriteGetSprite(sarea);
 
   basescale = (canvas->scale == 1) ? 1 : 2;
   scale[0] = basescale; scale[1] = 2*basescale; scale[2] = 1; scale[3] = 1;
 
-  OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, vrd->ge.x, vrd->ge.y - ((2*basescale*canvas->fb.height) << ScreenMode.eigy), 0, (int)scale, (int)(canvas->fb.transtab));
+  wlsprite_plot_plot(&(canvas->fb.normplot), vrd->ge.x, vrd->ge.y - ((2*basescale*canvas->fb.height) << ScreenMode.eigy), scale);
 }
 
 
@@ -799,8 +758,6 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
 
   video_ensure_pal_colours(canvas);
 
-  video_canvas_ensure_pal_trans(canvas);
-
   w = vrd->w * scalex;
   h = vrd->h * scaley;
   if (xt < 0) xt = 0;
@@ -811,7 +768,7 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
 
-  sprite = SpriteGetSprite(fb->palsprite);
+  sprite = wlsprite_plot_get_sprite(&(fb->palplot));
 
   video_canvas_get_soft_scale(canvas, &softx, &softy);
 
@@ -821,48 +778,39 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
 
   if (canvas->scale == 1)
   {
-    OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, 0, (int)(fb->paltrans));
+    wlsprite_plot_plot(&(fb->palplot), px, py, NULL);
   }
   else
   {
     int scale[4];
 
     scale[0] = 2; scale[1] = 2; scale[2] = 1; scale[3] = 1;
-    OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, (int)scale, (int)(fb->paltrans));
+    wlsprite_plot_plot(&(fb->palplot), px, py, scale);
   }
 }
 
 
 static void video_redraw_full_sprite(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 {
-  sprite_area_t *sarea;
-  sprite_desc_t *sprite;
   const int *b = vrd->block;
 
   /* Must explicitly set the clipping rectangle */
   video_set_clipping_rectangle(b[0], b[1], b[2], b[3]);
 
-  sarea = canvas->fb.spritebase;
-  sprite = SpriteGetSprite(sarea);
-  OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, vrd->ge.x, vrd->ge.y - (canvas->fb.height << FullScrDesc.eigy), 0, 0, (int)(canvas->fb.transtab));
+  wlsprite_plot_plot(&(canvas->fb.normplot), vrd->ge.x, vrd->ge.y - (canvas->fb.height << FullScrDesc.eigy), NULL);
 }
 
 
 static void video_redraw_full_sprite2(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 {
-  sprite_area_t *sarea;
-  sprite_desc_t *sprite;
   const int *b = vrd->block;
   int scale[4];
 
   video_set_clipping_rectangle(b[0], b[1], b[2], b[3]);
 
-  sarea = canvas->fb.spritebase;
-  sprite = SpriteGetSprite(sarea);
-
   scale[0] = 1; scale[1] = 2; scale[2] = 1; scale[3] = 1;
 
-  OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, vrd->ge.x, vrd->ge.y - ((2*canvas->fb.height) << FullScrDesc.eigy), 0, (int)scale, (int)(canvas->fb.transtab));
+  wlsprite_plot_plot(&(canvas->fb.normplot), vrd->ge.x, vrd->ge.y - ((2*canvas->fb.height) << FullScrDesc.eigy), scale);
 }
 
 
@@ -899,8 +847,6 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
 
   video_ensure_pal_colours(canvas);
 
-  video_canvas_ensure_pal_trans(canvas);
-
   w = vrd->w * scalex;
   h = vrd->h * scaley;
   if (xt < 0) xt = 0;
@@ -911,12 +857,12 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
 
-  sprite = SpriteGetSprite(fb->palsprite);
+  sprite = wlsprite_plot_get_sprite(&(fb->palplot));
 
   px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx);
   py = vrd->ge.y - ((canvas->shifty + ph) << FullScrDesc.eigy);
 
-  OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, 0, (int)(fb->paltrans));
+  wlsprite_plot_plot(&(fb->palplot), px, py, NULL);
 }
 
 
@@ -952,7 +898,7 @@ static void video_get_redraw_wimp(video_canvas_t *canvas)
   int rendermode = canvas->videoconfig.rendermode;
   const char *corename = NULL;
 
-  if (canvas->fb.spritebase == NULL)
+  if (wlsprite_plot_get_sarea(&(canvas->fb.normplot)) == NULL)
     return;
 
   if ((ActualPALDepth != 0)
@@ -992,7 +938,7 @@ static void video_get_redraw_full(video_canvas_t *canvas)
   int rendermode = canvas->videoconfig.rendermode;
   const char *corename = NULL;
 
-  if (canvas->fb.spritebase == NULL)
+  if (wlsprite_plot_get_sarea(&(canvas->fb.normplot)) == NULL)
     return;
 
   if ((ActualPALDepth != 0)
@@ -1084,13 +1030,12 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
   /*{FILE *fp = fopen("PALETTE", "w"); for(i=0;i<canvas->num_colours; i++) fprintf(fp, "%3d: %2x.%2x.%2x\n", i, p[i].red, p[i].green, p[i].blue); fclose(fp);}*/
 
   /* adapt the palette stored in the frame buffer sprite */
-  if (fb->spritebase != NULL)
+  if (wlsprite_plot_get_sarea(&(fb->normplot)) != NULL)
   {
-    sprite_area_t *sarea = fb->spritebase;
     sprite_desc_t *sprite;
     unsigned int *sprpal;
 
-    sprite = SpriteGetSprite(sarea);
+    sprite = wlsprite_plot_get_sprite(&(fb->normplot));
     sprpal = (unsigned int*)(sprite+1);
 
     for (i=0; i<canvas->num_colours; i++)
@@ -1111,26 +1056,15 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
     fb->paldirty = 1;
   }
 
-  if (fb->transtab != NULL)
-  {
-    free(fb->transtab);
-    fb->transtab = NULL;
-  }
-  if (fb->paltrans != NULL)
-  {
-    free(fb->paltrans);
-    fb->paltrans = NULL;
-  }
+  wlsprite_plot_flush(&(fb->normplot));
+  wlsprite_plot_flush(&(fb->palplot));
+
   fb->transdirty = 1;
 
   /* remember the current palette in canvas->current_palette */
   ct = canvas->current_palette;
   for (i=0; i<canvas->num_colours; i++)
   {
-#if 0
-    /* FIXME: will go entirely eventually */
-    pixel_return[i] = i;
-#endif
     ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
   }
 
@@ -1165,6 +1099,9 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   canvas->last_video_render_depth = -1;
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   canvas->fb.transdirty = 1;
+
+  wlsprite_plot_init(&(canvas->fb.normplot));
+  wlsprite_plot_init(&(canvas->fb.palplot));
 
   canvas->videoconfig.doublesizex = 0;
   canvas->videoconfig.doublesizey = 0;
@@ -1247,27 +1184,15 @@ void video_canvas_destroy(video_canvas_t *s)
     free(s->current_palette);
     s->current_palette = NULL;
   }
-  if (fb->transtab != NULL)
-  {
-    free(fb->transtab);
-    fb->transtab = NULL;
-  }
   if (fb->bplot_trans != NULL)
   {
     free(fb->bplot_trans);
     fb->bplot_trans = NULL;
   }
-  if (fb->palsprite != NULL)
-  {
-    free(fb->palsprite);
-    fb->palsprite = NULL;
-    fb->paldata = NULL;
-  }
-  if (fb->paltrans != NULL)
-  {
-    free(fb->paltrans);
-    fb->paltrans = NULL;
-  }
+
+  wlsprite_plot_flush(&(fb->normplot));
+  wlsprite_plot_flush(&(fb->palplot));
+
   free(s);
 }
 
@@ -1478,16 +1403,9 @@ void canvas_mode_change(void)
   {
     video_frame_buffer_t *fb = &(clist->canvas->fb);
 
-    if (fb->transtab != NULL)
-    {
-      free(fb->transtab);
-      fb->transtab = NULL;
-    }
-    if (fb->paltrans != NULL)
-    {
-      free(fb->paltrans);
-      fb->paltrans = NULL;
-    }
+    wlsprite_plot_flush(&(fb->normplot));
+    wlsprite_plot_flush(&(fb->palplot));
+
     fb->transdirty = 1;
     clist->canvas->redraw_wimp = NULL;
     clist->canvas->redraw_full = NULL;
@@ -1573,7 +1491,7 @@ static void video_full_screen_set_clip(void)
 }
 
 
-void video_full_screen_colours(void)
+static void video_full_screen_colours(void)
 {
   char *sdata, *limit;
 
@@ -1606,19 +1524,17 @@ void video_full_screen_colours(void)
     }
   }
 
-  sdata = ((char*)SpriteArea) + SpriteArea[2];
-  limit = ((char*)SpriteArea) + SpriteArea[0];
+  sdata = ((char*)SpriteArea) + SpriteArea->firstoff;
+  limit = ((char*)SpriteArea) + SpriteArea->tsize;
   while (sdata < limit)
   {
-    if (strncmp(sdata+4, "led_off", 12) == 0) SpriteLED0 = (unsigned int *)sdata;
-    else if (strncmp(sdata+4, "led_on", 12) == 0) SpriteLED1 = (unsigned int *)sdata;
+    if (strncmp(sdata+4, "led_off", 12) == 0) SpriteLED0 = (sprite_desc_t *)sdata;
+    else if (strncmp(sdata+4, "led_on", 12) == 0) SpriteLED1 = (sprite_desc_t *)sdata;
     sdata += *((int*)sdata);
   }
   if (SpriteLED0 != NULL)
   {
-    sdata = (char*)SpriteTranslationTable;
-    ColourTrans_SelectTable((int)SpriteArea, (int)SpriteLED0, -1, -1, &sdata, 1, NULL, NULL);
-    OS_SpriteInfo(0x0200, SpriteArea, SpriteLED0, &SpriteLEDWidth, &SpriteLEDHeight, &SpriteLEDMode);
+    OS_SpriteInfo(0x0200, (int*)SpriteArea, SpriteLED0, &SpriteLEDWidth, &SpriteLEDHeight, &SpriteLEDMode);
     SpriteLEDWidth <<= OS_ReadModeVariable(SpriteLEDMode, 4);
     SpriteLEDHeight <<= OS_ReadModeVariable(SpriteLEDMode, 5);
   }
@@ -1660,7 +1576,7 @@ int video_full_screen_on(int *sprites)
   FullScreenMode = 1;
   wimp_read_screen_mode(&FullScrDesc);
   FullUseEigen = (FullScrDesc.eigx < FullScrDesc.eigy) ? FullScrDesc.eigx : FullScrDesc.eigy;
-  SpriteArea = sprites;
+  SpriteArea = (sprite_area_t*)sprites;
 
   /* Set text size */
   OS_WriteC(23); OS_WriteC(17); OS_WriteC(7); OS_WriteC(2);
@@ -1668,6 +1584,11 @@ int video_full_screen_on(int *sprites)
   OS_WriteC(0); OS_WriteC(0);
 
   video_full_screen_colours();
+
+  wlsprite_plot_init(&led0plot);
+  wlsprite_plot_init(&led1plot);
+  wlsprite_plot_bind_sprite(&led0plot, SpriteArea, SpriteLED0);
+  wlsprite_plot_bind_sprite(&led1plot, SpriteArea, SpriteLED1);
 
   raster_mode_change();
 
@@ -1686,6 +1607,9 @@ int video_full_screen_off(void)
 
   SingleTasking = oldSingleTask;
   FullScreenMode = 0;
+
+  wlsprite_plot_exit(&led0plot);
+  wlsprite_plot_exit(&led1plot);
 
   /* Flush keyboard and mouse buffer */
   OS_FlushBuffer(0);
@@ -1718,18 +1642,15 @@ void video_full_screen_drive_leds(unsigned int drive)
 {
   if ((FullScreenMode != 0) && (FullScreenStatLine != 0) && (drive < 4))
   {
+    sprite_plotenv_t *sp;
     int posx, posy;
-    int sptr;
 
     video_full_screen_set_clip();
 
     posy = ((StatusLineHeight << FullScrDesc.eigy) - SpriteLEDHeight) >> 1;
     posx = FullScrDesc.resx - (4-drive)*(SpriteLEDWidth + (StatusLEDSpace << FullScrDesc.eigx));
-    sptr = (int)((DriveLEDStates[drive] == 0) ? SpriteLED0 : SpriteLED1);
-    if (sptr != 0)
-    {
-      OS_SpriteOp(512 + 52, (int)SpriteArea, sptr, posx, posy, 8, 0, (int)SpriteTranslationTable);
-    }
+    sp = (DriveLEDStates[drive] == 0) ? &led0plot : &led1plot;
+    wlsprite_plot_plot(sp, posx, posy, NULL);
   }
 }
 
@@ -1840,22 +1761,13 @@ static void callback_canvas_modified(const char *name, void *callback_param)
   while (clist != NULL)
   {
     video_canvas_t *canvas = clist->canvas;
-    video_frame_buffer_t *fb = &(canvas->fb);
 
     canvas->redraw_wimp = NULL;
     canvas->redraw_full = NULL;
     canvas->last_video_render_depth = -1;
-    if (canvas->fb.palsprite != NULL)
-    {
-      free(fb->palsprite);
-      fb->palsprite = NULL;
-      fb->paldata = NULL;
-    }
-    if (fb->paltrans != NULL)
-    {
-      free(fb->paltrans);
-      fb->paltrans = NULL;
-    }
+
+    video_frame_buffer_flush_pal(canvas);
+
     clist = clist->next;
   }
   canvas_redraw_all();

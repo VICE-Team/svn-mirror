@@ -46,7 +46,7 @@
 ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },

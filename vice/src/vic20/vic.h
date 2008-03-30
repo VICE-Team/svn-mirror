@@ -94,9 +94,7 @@ typedef WORD VIC_PIXEL2;
 #define VIC_RASTER_Y(clk)     ((unsigned int)((clk) / vic.cycles_per_line)   \
                                % vic.screen_height)
 
-#define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4)
-
-#define VIC_BORDER_X(cycle)      (((int)(cycle) - 7) * 4 * VIC_PIXEL_WIDTH)
+#define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4 * VIC_PIXEL_WIDTH)
 
 #define VIC_RASTER_CHAR(cycle)   ((int)((cycle) \
                                  - vic.raster.display_xstart / (VIC_PIXEL_WIDTH * 4) - 6) / 2)

@@ -102,6 +102,10 @@ SOURCE="..\..\raster\raster-modes.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\raster\raster-resources.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\raster\raster-sprite-cache.c"
 # End Source File
 # Begin Source File

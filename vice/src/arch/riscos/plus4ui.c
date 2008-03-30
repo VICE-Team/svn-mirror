@@ -34,7 +34,7 @@
 
 
 
-char *WimpTaskName = "Vice Plus4";
+const char *WimpTaskName = "Vice Plus4";
 
 
 static unsigned char Plus4norm[KEYMAP_ENTRIES] = {

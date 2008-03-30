@@ -37,6 +37,8 @@
 #include "types.h"
 #include "utils.h"
 
+#include "wlsprite.h"
+
 
 typedef struct gfxoutputdrv_data_s {
   FILE *fp;
@@ -109,13 +111,13 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
       sprite_desc_t *sprite;
 
       /* sprite area control block */
-      sarea->tsize = sizeof(sprite_area_t) + SpriteCalcSize(screenshot->width, screenshot->height, bpp, sprpalette, 0);
+      sarea->tsize = sizeof(sprite_area_t) + wlsprite_calc_size(screenshot->width, screenshot->height, bpp, sprpalette, 0);
       sarea->numsprites = 1;
       sarea->firstoff = sizeof(sprite_area_t);
       sarea->firstfree = sarea->tsize;
 
-      sprite = SpriteGetSprite(sarea);
-      SpriteInitSprite(sprite, screenshot->width, screenshot->height, bpp, "vicescreen", sprpalette, 0);
+      sprite = wlsprite_area_get_sprite(sarea);
+      wlsprite_init_sprite(sprite, screenshot->width, screenshot->height, bpp, "vicescreen", sprpalette, 0);
 
       god->pitch = (sprite->wwidth + 1) << 2;
       fwrite(&(sarea->numsprites), 1, header_size-4, god->fp);

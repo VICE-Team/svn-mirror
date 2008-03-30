@@ -36,7 +36,7 @@
 
 
 
-char *WimpTaskName = "Vice C64";
+const char *WimpTaskName = "Vice C64";
 
 static const char IBarIconName64[] = "!vice64";
 static const char IBarIconNameVSID[] = "!vicevsid";

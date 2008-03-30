@@ -53,7 +53,7 @@ int raster_set_video_cache_enabled(resource_value_t v, void *param)
 
     raster_resource_chip = (raster_resource_chip_t *)param;
 
-    if ((int)v > 0)
+    if ((int)v >= 0)
         raster_resource_chip->video_cache_enabled = (int)v;
 
     raster_enable_cache(raster_resource_chip->raster,

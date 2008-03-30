@@ -124,12 +124,12 @@ static void add_palette_submenu(tui_menu_t parent)
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(DoubleScan)
-TUI_MENU_DEFINE_TOGGLE(VideoCache)
+TUI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 
 static tui_menu_item_def_t video_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
-      toggle_VideoCache_callback, NULL, 3,
+      toggle_TEDVideoCache_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "_Double Scan:",

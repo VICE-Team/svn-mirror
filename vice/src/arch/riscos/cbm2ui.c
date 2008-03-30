@@ -34,7 +34,7 @@
 
 
 
-char *WimpTaskName = "Vice CBM-II";
+const char *WimpTaskName = "Vice CBM-II";
 
 
 static unsigned char CBM2norm[KEYMAP_ENTRIES] = {

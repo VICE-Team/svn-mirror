@@ -50,7 +50,7 @@ extern "C" {
 ui_menu_toggle  c64_ui_menu_toggles[]={
     { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "DoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },

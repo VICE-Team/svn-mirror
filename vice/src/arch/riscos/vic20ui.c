@@ -36,7 +36,7 @@
 
 
 
-char *WimpTaskName = "Vice VIC20";
+const char *WimpTaskName = "Vice VIC20";
 
 
 static unsigned char VICnorm[KEYMAP_ENTRIES] = {

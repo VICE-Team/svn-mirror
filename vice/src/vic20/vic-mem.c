@@ -310,7 +310,7 @@ vic_store(ADDRESS addr, BYTE value)
 
             if (new_border_color != old_border_color) {
                 raster_add_int_change_border(&vic.raster,
-                    VIC_BORDER_X(VIC_RASTER_CYCLE(maincpu_clk)),
+                    VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
                     &vic.raster.border_color,
                     new_border_color);
 

@@ -37,7 +37,7 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
-#include "c610ui.h"
+#include "cbm2ui.h"
 #include "cartridge.h"
 #include "console.h"
 #include "datasette.h"
@@ -207,7 +207,7 @@ unsigned int TaskHandle;
 static int WimpMessages[] = {
   Message_DataSave, Message_DataSaveAck, Message_DataLoad, Message_DataLoadAck,
   Message_DataOpen, Message_PaletteChange, Message_ModeChange, Message_MenuWarning,
-  Message_HelpRequest, 0
+  Message_HelpRequest, Message_MenusDeleted, 0
 };
 
 /* General wimp variable */
@@ -2008,6 +2008,7 @@ int ui_init(int *argc, char *argv[])
 
   /* Init internal messages of wimp.c */
   wimp_init_messages(msg);
+  ui_message_init_messages(msg);
 
   /* Translate message pool in two passes: 1) determine lenght, 2) actually do it */
   x = wimp_message_translate_symbols(msg, SymbolStrings, NULL);

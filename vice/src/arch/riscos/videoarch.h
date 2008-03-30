@@ -35,10 +35,10 @@
 #include "ui.h"
 #include "video.h"
 
+#include "wlsprite.h"
+
 
 struct video_draw_buffer_callback_s;
-
-struct sprite_area_s;
 
 typedef struct video_redraw_desc_s {
   graph_env ge;
@@ -51,11 +51,9 @@ struct video_frame_buffer_s {
   unsigned int width, height, depth, pitch;
   int paldirty, transdirty;
   BYTE *framedata;
-  struct sprite_area_s *spritebase;
   BYTE *paldata;
-  struct sprite_area_s *palsprite;
-  char *transtab;
-  char *paltrans;
+  sprite_plotenv_t normplot;
+  sprite_plotenv_t palplot;
   unsigned int *bplot_trans;
 };
 

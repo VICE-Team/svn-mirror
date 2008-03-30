@@ -28,6 +28,8 @@
 #define _UIMSGWIN_H
 
 
+struct wimp_msg_desc_s;
+
 struct text_window_s;
 
 typedef enum {
@@ -60,5 +62,8 @@ message_window_e ui_message_window_for_handle(int handle);
 struct text_window_s *ui_message_get_text_window(message_window_e mwin);
 int  ui_message_need_null_event(void);
 int  ui_message_process_event(int event, int *wimpblock);
+
+void ui_message_init_messages(struct wimp_msg_desc_s *msg);
+void ui_message_other_clicked(void);
 
 #endif
