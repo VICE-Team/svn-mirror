@@ -383,8 +383,13 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
       case CIA_TOD_MIN:	/* Time Of Day clock min */
 	/* Flip AM/PM on hour 12
           (Andreas Boose <boose@rzgw.rz.fh-hannover.de> 1997/10/11). */
-	if (addr == CIA_TOD_HR)
-	    byte = ((byte & 0x1f) == 18) ? (byte & 0x9f) ^ 0x80 : byte & 0x9f;
+        /* Flip AM/PM only when writing time, not when writing alarm
+          (Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de> 2000/09/17). */
+            if (addr == CIA_TOD_HR) {
+                byte &= 0x9f;
+            if ((byte & 0x1f) == 0x12 && !(cia[CIA_CRB] & 0x80))
+                byte ^= 0x80;
+        }
 	if (cia[CIA_CRB] & 0x80)
 	    ciatodalarm[addr - CIA_TOD_TEN] = byte;
 	else {
@@ -1000,7 +1005,8 @@ static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
 		    if (t == 0x12) {
 			t = 1;
 		    } else {
-			t ++;
+			if (++t == 10)
+                            t = 0x10; /* increment, adjust bcd */
 		    }
 		    t &= 0x1f;
 		    cia[CIA_TOD_HR] = t | pm;

@@ -45,7 +45,7 @@
 
 #include <sys/audioio.h>
 
-#ifdef __NetBSD__
+#if defined(__NetBSD__) || defined(__OpenBSD__)
 #include <sys/ioctl.h>       /* For ioctl and _IOWR */
 #include <string.h>          /* For memset */
 #endif
@@ -166,7 +166,7 @@ static int sun_bufferstatus(int first)
     st = ioctl(sun_fd, AUDIO_GETINFO, &info);
     if (st < 0)
 	return -1;
-#ifdef __NetBSD__
+#if defined(__NetBSD__) || defined(__OpenBSD__)
     if (!sun_8bit)
 	return sun_written - info.play.samples / sizeof(SWORD);
 #endif
@@ -185,7 +185,7 @@ static void sun_close(void)
 
 static sound_device_t sun_device =
 {
-#ifdef __NetBSD__
+#if defined(__NetBSD__) || defined(__OpenBSD__)
     "netbsd",
 #else
     "sun",

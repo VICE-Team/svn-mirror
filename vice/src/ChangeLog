@@ -1,4 +1,54 @@
-2000-11-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2000-11-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.20.
+
+	* monitor/mon.h: Added prototype for `mon_cpu_type()'.
+
+	* mon.c, asm.h, asm6502.c, asmz80.c: Added support for
+	multiple byte opcodes.
+
+2000-11-25  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsidui.c: Added menu "Video Standard".
+
+	* c64/psid.c: Added video standard cmdline options.
+
+	* c64/psiddrv.a65: Refined memory bank switching.
+
+	* resid/: Removed libtool usage.
+
+2000-11-23  Dag Lem  <resid@nimrod.no>
+
+	* resid/: reSID 0.10; quite a bit faster.
+
+2000-11-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c64/c64mem.c(initialize_memory): pport initialized with
+	default values $2f, $37
+
+2000-11-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/tuifs.c(tui_file_selector) must not free
+	the return_path; this is done by the calling functions
+
+	* arch/msdos/uisnapshot.c(load_snapshot_callback) frees
+	'name' which is received by tui_file_selector
+
+	* vic20/vic-mem.c(vic_store) geometry uses exact values
+	of $9000
+
+	* vic20/vic20.h: changed constants VIC_SCREEN_WIDTH,
+	VIC_SCREEN_MAX_TEXT_LINES and VIC_LAST_DISPLAYED_LINE so that
+	the emulation can handle shifted or larger screens used in
+	many games like Arcadia or Bongo
+
+2000-11-17  Alexander Bluhm  <bluhm@milab91.mathematik.uni-leipzig.de>
+
+	* ciacore.c (mycia_store, int_ciatod): Fixed some TOD bugs.
+
+	* sounddrv/soundsun.c: Defines for OpenBSD.
+
+2000-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.19.
 
