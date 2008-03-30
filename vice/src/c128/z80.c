@@ -639,13 +639,13 @@ static void export_registers(void)
       }                                                           \
   } while (0)
 
-#define CCF(clk_inc, pc_inc)                  \
-  do {                                        \
-      LOCAL_SET_HALFCARRY((LOCAL_CARRY()));   \
-      LOCAL_SET_CARRY(!(LOCAL_CARRY()));      \
-      LOCAL_SET_NADDSUB(0);                   \
-      CLK += clk_inc;                         \
-      INC_PC(pc_inc);                         \
+#define CCF(clk_inc, pc_inc)                 \
+  do {                                       \
+      LOCAL_SET_HALFCARRY((LOCAL_CARRY()));  \
+      LOCAL_SET_CARRY(!(LOCAL_CARRY()));     \
+      LOCAL_SET_NADDSUB(0);                  \
+      CLK += clk_inc;                        \
+      INC_PC(pc_inc);                        \
   } while (0)
 
 #define CP(loadval, clk_inc1, clk_inc2, pc_inc)                  \
@@ -1008,7 +1008,7 @@ static void export_registers(void)
       CLK += clk_inc1;                                        \
       reg_sp = LOAD(value);                                   \
       CLK += clk_inc2;                                        \
-      reg_sp |= LOAD(value + 1) >> 8;                         \
+      reg_sp |= LOAD(value + 1) << 8;                         \
       CLK += clk_inc3;                                        \
       INC_PC(pc_inc);                                         \
   } while (0)
