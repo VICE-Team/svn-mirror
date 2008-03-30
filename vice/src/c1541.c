@@ -1715,8 +1715,8 @@ int     main(argc, argv)
     progname = argv[0];
     nargs    = 0;
 
-    initialize_1541(8, DT_DISK | DT_1541);
-    initialize_1541(9, DT_DISK | DT_1541);
+    initialize_1541(8, DT_DISK | DT_1541, NULL, NULL);
+    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL);
 
 
     /* Direct mode */

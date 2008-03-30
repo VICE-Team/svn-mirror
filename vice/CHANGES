@@ -45,7 +45,7 @@ list of all the changes in the code.
 
 - `-lICE' is now explicitly linked (the old way could cause troubles
   on GNU/Linux systems with both GNU libc 2 and 1, such as RedHat
-  5.0).
+  5.0 or greater).
 
 ** Miscellaneous changes
 ------------------------
