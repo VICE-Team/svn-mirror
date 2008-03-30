@@ -52,6 +52,7 @@
 #include "resources.h"
 #include "machine.h"
 #include "utils.h"
+#include "cartridge.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,6 +158,35 @@ static UI_CALLBACK(smart_attach)
         break;
     }
 }
+
+static UI_CALLBACK(attach_cartridge)
+{
+    int type = (int)client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+    filename = ui_select_file("Attach cartridge image",
+                              NULL, False, &button);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+	if (cartridge_attach_image(type, filename) < 0)
+	    ui_error("Invalid cartridge image");
+	break;
+      default:
+	/* Do nothing special.  */
+	break;
+    }
+}
+
+static UI_CALLBACK(detach_cartridge)
+{
+    suspend_speed_eval();
+    cartridge_detach_image();
+}
+
+UI_MENU_DEFINE_TOGGLE(CartridgeDefault)
 
 static UI_CALLBACK(change_working_directory)
 {
@@ -467,6 +497,34 @@ ui_menu_entry_t ui_tape_commands_menu[] = {
 ui_menu_entry_t ui_smart_attach_commands_menu[] = {
     { "Smart-attach a file...",
       (ui_callback_t) smart_attach, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t attach_cartridge_image_submenu[] = {
+    { "Smart attach CRT image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_CRT, NULL },
+    { "--" },
+    { "Attach generic 8KB image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_GENERIC_8KB, NULL },
+    { "Attach generic 16KB image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_GENERIC_16KB, NULL },
+    { "Attach Action Replay image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_ACTION_REPLAY, NULL },
+    { "--" },
+    { "*Set cartridge as default", (ui_callback_t)
+      toggle_CartridgeDefault, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_cartridge_commands_menu[] = {
+    { "Attach a cartridge image",
+      NULL, NULL, attach_cartridge_image_submenu },
+    { "Detach cartridge image",
+      (ui_callback_t) detach_cartridge, NULL, NULL },
     { NULL }
 };
 

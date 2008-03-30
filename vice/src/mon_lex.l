@@ -117,9 +117,9 @@ d:              { return MEM_DISK; }
 <*>\n          { dont_match_reg_a = 0; new_cmd = 1; opt_asm = 0; return TRAIL; }
 
 
-<FNAME>\"[0-9a-zA-Z\.]+\" { yytext[yyleng-1] = '\0';
-                   yylval.str = stralloc(yytext+1);
-                   BEGIN (INITIAL); return FILENAME; }
+<FNAME>\".+\" { yytext[yyleng-1] = '\0';
+                yylval.str = stralloc(yytext+1);
+                BEGIN (INITIAL); return FILENAME; }
 
 <ROL>[^ \t\n][^\n]*          { yylval.str = stralloc(yytext); return R_O_L; }
 

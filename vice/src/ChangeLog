@@ -1,3 +1,91 @@
+Mon Jun  8 11:08:16 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* maincpu.c: Use `mem_rom_trap_allowed()' instead of the removed
+ 	`rom_trap_allowed()'.
+	* c128/c128cpu.c: Likewise.
+
+	* pet/pet.c (machine_init_resources): Don't initialize
+ 	trap-related resources (no traps are used in xpet).
+	(machine_init_cmdline_options): Don't inititialize trap-related
+	command-line options.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c, c128/c128mem.c
+ 	(rom_trap_allowed): Removed.
+	* c64/c64mem.c, vic20/vic20mem.c, pet/petmem.c, c128/c128mem.c
+ 	(mem_rom_trap_allowed): Moved here.
+
+	* c64/c64.c, vic20/vic20.c, c128/c128.c (machine_init): Load
+ 	`default.vkm' instead of `vice.vkm'.
+
+	* arch/unix/xaw/petui.c (pet_ui_init): Disable drive status line.
+
+	* resources.c (resources_load): Print the "Reading..." message
+ 	after the file has been successfully open.
+
+	* arch/unix/xaw/vic20ui.c: Added options to setup the memory
+	configuration at runtime.
+
+	* vic20/vic20mem.c (cmdline_memory): Default to "no expansion".
+	(vic20_mem_disable_ram_block): Removed debugging message.
+
+	* arch/unix/xaw/uicommands.c (attach_cartridge): Removed temporary
+ 	`title' variable.  Do not pass `read_disk_image_contents' to
+ 	`ui_select_file'.
+
+Mon Jun  8 00:19:05 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* mon.c: Support 'next' and 'return' instructions. Lots of stuff
+ 	to fix wraparound ranges and default address handling.  Change SR
+ 	to show unused bit as '1' not 'x'.  Added displaying binary data
+ 	with 'm'.  Fixed memory space handling of label files.
+
+	* mon.h: Added `mon_instruction_return()' prototype.
+
+	* mon_lex.l: Allow all characters in filenames.
+
+	* mon_parse.y: Handle immediate constants > 0xff.  Add
+	'return' command.  Fix block disk commands.
+
+Sun Jun  7 22:19:16 1998  Andreas Boose  <unixserv@linux.rz.fh-hannover.de>
+
+	* attach.c: Turn on file system devices by default.
+
+	* fsdevice.c (fsdevice_init_cmdline_options): New function.
+	(cmdline_fsdirectory): New function.
+
+	* fsdevice.h: Added `fsdevice_init_cmdline_options'.
+
+	* main.c (main): Initialize file system device specific
+	command-line options.
+
+	* Makefile.am: Added `cartridge.h' to `noinst_HEADERS' and
+ 	`cartridge.c' to `base_sources'.
+
+	* arch/unix/xaw/c64ui.c: Removed callback `ActionReplay'.  Added
+ 	new `ui_cartridge_commands_menu' menu.
+
+	* arch/unix/xaw/uicommands.c: Added new callbacks
+ 	`attach_cartridge' and `detach_cartridge'.  Added new menus
+ 	`attach_cartridge_image_submenu' and `ui_cartridge_commands_menu'.
+
+	* arch/unix/xaw/uicommands.h: Added `ui_cartridge_commands_menu'.
+
+	* c64/c64mem.c: Removed `action_replay_enabled'.  Added new
+ 	variable `mem_cartridge_type' instead.  Changed to new cartridge
+ 	handling.
+	(mem_attach_cartridge, mem_detach_cartridge): New functions.
+	(set_action_replay_enabled): Removed.
+	(action_config_changed): Renamed to `cartridge_config_changed'.
+
+	* cartridge.c, cartridge.h: New files.
+
+	* main.c (main): Initialize cartridge support.
+
+	* mem.h: Added `mem_attach_cartridge' and `mem_detach_cartridge'.
+
+	* c128/c128mem.c, pet/petmem.c, vic20/vic20mem.c: Added stubs
+	for cartridge support.
+
 Sun Jun  7 11:40:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* c128/c128mem.c (store_mmu): Set the VIC-II video-bank base

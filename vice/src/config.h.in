@@ -188,9 +188,6 @@
 /* Define if you have the <systeminfo.h> header file.  */
 #undef HAVE_SYSTEMINFO_H
 
-/* Define if you have the ICE library (-lICE).  */
-#undef HAVE_LIBICE
-
 /* Define if you have the SDL library (-lSDL).  */
 #undef HAVE_LIBSDL
 
@@ -220,6 +217,3 @@
 
 /* Define if you have the audio library (-laudio).  */
 #undef HAVE_LIBAUDIO
-
-/* Define if you have the socket library (-lsocket).  */
-#undef HAVE_LIBSOCKET

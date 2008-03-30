@@ -255,6 +255,7 @@ extern void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr
 extern void mon_verify_file(char *filename, MON_ADDR start_addr);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);
+extern void mon_instruction_return(void);
 extern void mon_stack_up(int count);
 extern void mon_stack_down(int count);
 extern void mon_block_cmd(int op, int track, int sector, MON_ADDR addr);

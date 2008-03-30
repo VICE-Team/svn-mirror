@@ -32,6 +32,7 @@ extern int cur_len, last_len;
 #define ERR_INCOMPLETE_COMPARE_OP 7
 #define ERR_EXPECT_FILENAME 8
 #define ERR_ADDR_TOO_BIG 9
+#define ERR_IMM_TOO_BIG 10
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == LO16(x))
@@ -87,9 +88,9 @@ extern int cur_len, last_len;
 
 %%
 
-top_level: command_list
-         | assembly_instruction TRAIL
-         | TRAIL { new_cmd = 1; asm_mode = 0; }
+top_level: command_list { $$ = 0; }
+         | assembly_instruction TRAIL { $$ = 0; }
+         | TRAIL { new_cmd = 1; asm_mode = 0;  $$ = 0; }
          ;
 
 command_list: command
@@ -118,7 +119,7 @@ command: machine_state_rules
 machine_state_rules: CMD_BANK end_cmd { fprintf(mon_output, "Bank command not done yet.\n"); }
                    | CMD_GOTO address end_cmd { mon_jump($2); }
                    | CMD_IO end_cmd { fprintf(mon_output, "Display IO registers\n"); }
-                   | CMD_RETURN end_cmd { fprintf(mon_output, "Continue until RTS/RTI\n"); }
+                   | CMD_RETURN end_cmd { mon_instruction_return(); }
                    | CMD_DUMP end_cmd { puts("Dump machine state."); }
                    | CMD_UNDUMP end_cmd { puts("Undump machine state."); }
                    | CMD_STEP opt_count end_cmd { mon_instructions_step($2); }
@@ -158,6 +159,7 @@ memory_rules: CMD_MOVE address address address end_cmd 		  { mon_move_memory($2,
             | CMD_SPRITE_DISPLAY address opt_address end_cmd 	  { mon_display_data($2, $3, 24, 21); }
             | CMD_SPRITE_DISPLAY end_cmd			  { mon_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
             | CMD_TEXT_DISPLAY address opt_address end_cmd 	  { mon_display_memory(0, $2, $3); }
+            | CMD_TEXT_DISPLAY end_cmd 				  { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
             ;
 
 checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); }
@@ -204,8 +206,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2
 disk_rules: CMD_LOAD filename address end_cmd 			{ mon_load_file($2,$3); } 
           | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); } 
           | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); } 
-          | CMD_BLOCK_READ expression expression opt_address 	{ mon_block_cmd(0,$2,$3,$4); }
-          | CMD_BLOCK_WRITE expression expression address 	{ mon_block_cmd(1,$2,$3,$4); }
+          | CMD_BLOCK_READ expression expression opt_address end_cmd	{ mon_block_cmd(0,$2,$3,$4); }
+          | CMD_BLOCK_WRITE expression expression address end_cmd	{ mon_block_cmd(1,$2,$3,$4); }
           ;
 
 cmd_file_rules: CMD_RECORD filename end_cmd 	{ mon_record_commands($2); }
@@ -327,7 +329,8 @@ post_assemble: assembly_instruction
              | assembly_instr_list { asm_mode = 0; }
              ;
 
-asm_operand_mode: ARG_IMMEDIATE number { $$ = join_ints(IMMEDIATE,$2); }
+asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) return ERR_IMM_TOO_BIG; 
+                                         $$ = join_ints(IMMEDIATE,$2); }
                 | number { if ($1 < 0x100)
                               $$ = join_ints(ZERO_PAGE,$1);
                            else
@@ -396,13 +399,15 @@ void parse_and_execute_line(char *input)
            case ERR_ADDR_TOO_BIG:
                fprintf(mon_output, "Address too large\n  %s\n", input);
                break;
+           case ERR_IMM_TOO_BIG:
+               fprintf(mon_output, "Immediate argument too large\n  %s\n", input);
+               break;
            default:
                fprintf(mon_output, "Illegal input:\n  %s\n", input);
        }
        for (i=0;i<last_len;i++)   fprintf(mon_output, " ");
        fprintf(mon_output, "  ^\n");
        new_cmd = 1;
-       asm_mode = 0;
    }
    free_buffer();
 }

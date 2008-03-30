@@ -408,7 +408,7 @@ space is specified, show all labels.
 
 
 COMMAND: Step through instructions.
-ABBREVIATIONS: none
+ABBREVIATIONS: z
 SYNTAX: step [<count>]
 
 FUNCTION: Single step through instructions. An optional

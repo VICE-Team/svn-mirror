@@ -50,6 +50,9 @@
 
 #define HASH_ARRAY_SIZE 256
 #define HASH_ADDR(x) ((x)%0xff)
+#define OP_JSR 0x20
+#define OP_RTI 0x40
+#define OP_RTS 0x60
 
 #define TEST(x) ((x)!=0)
 #define ADDR_LIMIT(x) (LO16(x))
@@ -57,6 +60,7 @@
 #define make_prompt(str) { sprintf(str, "[%c,M:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-',            \
                               memspace_string[default_memspace],  \
                               memspace_string[caller_space], addr_location(dot_addr[caller_space])); }
+#define GET_OPCODE(mem) (get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
 
 /* External functions */
 
@@ -118,7 +122,8 @@ int default_radix;
 int default_memspace;
 static bool inside_monitor = FALSE;
 static unsigned instruction_count;
-static bool icount_is_next;
+static bool skip_jsrs;
+static int wait_for_return_level;
 BREAK_LIST *breakpoints[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
@@ -198,7 +203,7 @@ struct mon_cmds mon_cmd_array[] = {
    { "save", 		"s", 	CMD_SAVE, 		STATE_FNAME },
    { "save_labels", 	"sl", 	CMD_SAVE_LABELS, 	STATE_FNAME },
    { "show_labels", 	"shl", 	CMD_SHOW_LABELS, 	STATE_INITIAL },
-   { "step", 		"", 	CMD_STEP, 		STATE_INITIAL },
+   { "step", 		"z", 	CMD_STEP, 		STATE_INITIAL },
    { "stop", 		"", 	CMD_STOP, 		STATE_INITIAL },
    { "system", 		"sys", 	CMD_SYSTEM, 		STATE_ROL },
    { "trace", 		"tr", 	CMD_TRACE, 		STATE_INITIAL },
@@ -235,10 +240,10 @@ static int default_display_per_line[] = { 8, /* default = hex */
                                           8, /* hexadecimal */
                                           8, /* decimal */
                                           8, /* octal */
-                                          2, /* binary */
+                                          3, /* binary */
                                         };
 
-static char *memspace_string[] = {"", "C", "8" };
+static char *memspace_string[] = {"default", "C", "8" };
 
 static char *register_string[] = { "A",
                                    "X",
@@ -299,61 +304,74 @@ static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
    return TRUE;
 }
 
-static void evaluate_default_addr_range(MON_ADDR *start_addr, MON_ADDR *end_addr)
-{
-   MEMSPACE mem1, mem2, def;
-
-   mem1 = addr_memspace(*start_addr);
-   mem2 = addr_memspace(*end_addr);
-
-   def = default_memspace;
-   assert(is_valid_addr_range(*start_addr, *end_addr));
-
-   if (mem1 == e_default_space) {
-      if (mem2 == e_default_space) {
-         set_addr_memspace(start_addr,def);
-         set_addr_memspace(end_addr,def);
-      } else if (mem2 != e_invalid_space) {
-         set_addr_memspace(start_addr,mem2);
-      } else {
-         set_addr_memspace(start_addr,def);
-      }
-   } else {
-      if (mem2 == e_default_space) {
-         set_addr_memspace(end_addr,mem1);
-      } else if (mem2 != e_invalid_space) {
-         assert(mem1 == mem2);
-      }
-   }
-}
-
-static bool check_positive_range(MON_ADDR start_addr, MON_ADDR end_addr)
+static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 {
    ADDRESS start, end;
+   unsigned len = 0;
 
-   start = addr_location(start_addr);
-   end = addr_location(end_addr);
+   start = addr_location(addr1);
+   end = addr_location(addr2);
 
-   if (start >= end) {
-      fprintf(mon_output, "Invalid address range ($%04x-$%04x).\n",start, end);
-      return FALSE;
-   } else
-      return TRUE;
-}
-
-
-static void get_range_info(MON_ADDR addr1, MON_ADDR addr2, ADDRESS *start, ADDRESS *end, unsigned *len)
-{
-   if (check_positive_range(addr1, addr2)) {
-      *start = addr_location(addr1);
-      *end = addr_location(addr2);
-      *len = *end - *start + 1;
+   if (start <= end) {
+      len = end - start + 1;
    } else {
-      *start = addr_location(addr2);
-      *end = addr_location(addr1);
-      *len = *end - *start + 1;
+      len = (0xffff - start) + end + 1;
    }
+
+   return len;
 }
+
+static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, bool must_be_range,
+                                   WORD default_len)
+{
+   MEMSPACE mem1, mem2;
+   long len = default_len;
+
+   /* Check if we DEFINITELY need a range. */
+   if (!is_valid_addr_range(*start_addr, *end_addr) && must_be_range)
+      return -1;
+
+   if (is_valid_addr_range(*start_addr, *end_addr)) {
+      /* Resolve any default memory spaces. We wait until now because we
+       * need both addresses - if only 1 is a default, use the other to
+       * resolve the memory space. 
+       */ 
+      mem1 = addr_memspace(*start_addr);
+      mem2 = addr_memspace(*end_addr);
+  
+      if (mem1 == e_default_space) {
+         if (mem2 == e_default_space) {
+            set_addr_memspace(start_addr,default_memspace);
+            set_addr_memspace(end_addr,default_memspace);
+         } else if (mem2 != e_invalid_space) {
+            set_addr_memspace(start_addr,mem2);
+         } else {
+            set_addr_memspace(start_addr,default_memspace);
+         }
+      } else {
+         if (mem2 == e_default_space) {
+            set_addr_memspace(end_addr,mem1);
+         } else if (mem2 != e_invalid_space) {
+            assert(mem1 == mem2);
+         } else
+            assert(FALSE);
+      }
+ 
+      len = get_range_len(*start_addr, *end_addr);
+   } else {
+      if (!is_valid_addr(*start_addr))
+         *start_addr = dot_addr[default_memspace];
+      else
+         evaluate_default_addr(start_addr);
+
+      assert(!is_valid_addr(*end_addr));
+      *end_addr = *start_addr;
+      inc_addr_location(end_addr, len);
+   }
+
+   return len;
+}
+
 
 /* *** REGISTER AND MEMORY OPERATIONS *** */
 
@@ -478,7 +496,7 @@ void mon_print_registers(MEMSPACE mem)
     fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
             mon_get_reg_val(mem,e_PC), mon_get_reg_val(mem,e_A), mon_get_reg_val(mem,e_X),
             mon_get_reg_val(mem,e_Y), mon_get_reg_val(mem,e_SP), get_mem_val(mem,1),
-            TEST(regs->p.n), TEST(regs->p.v), 'x', TEST(regs->p.b),
+            TEST(regs->p.n), TEST(regs->p.v), '1', TEST(regs->p.b),
             TEST(regs->p.d), TEST(regs->p.i), TEST(regs->p.z),
             TEST(regs->p.c));
 }
@@ -592,7 +610,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
    default_radix = e_hexadecimal;
    default_memspace = e_comp_space;
    instruction_count = 0;
-   icount_is_next = FALSE;
+   skip_jsrs = FALSE;
+   wait_for_return_level = 0;
    breakpoint_count = 1;
    data_buf_len = 0;
    asm_mode = 0;
@@ -786,30 +805,41 @@ static unsigned disassemble_instr(MON_ADDR addr)
    return clength[lookup[op].addr_mode];
 }
 
+#if 0
+void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
+{
+  long len;
+
+  len = evaluate_address_range(&start_addr, &end_addr, FALSE, -1);
+  if (len < 0) {
+     fprintf(mon_output, "Invalid range.\n");
+     return;
+  }
+  printf("len:%d (%s:%04x) (%s:%04x)\n",len,memspace_string[addr_memspace(start_addr)],addr_location(start_addr),
+         memspace_string[addr_memspace(end_addr)], addr_location(end_addr));
+}
+#else
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 {
    MEMSPACE mem;
    unsigned end_loc;
+   long len, i, bytes;
 
-   if (is_valid_addr(start_addr)) {
-      evaluate_default_addr_range(&start_addr, &end_addr);
-      mem = addr_memspace(start_addr);
-      dot_addr[mem] = start_addr;
+   len = evaluate_address_range(&start_addr, &end_addr, FALSE, DEFAULT_DISASSEMBLY_SIZE);
+   assert(len >= 0);
 
-      if (is_valid_addr(end_addr))
-         end_loc = addr_location(end_addr);
-      else
-         end_loc = addr_location(start_addr) + DEFAULT_DISASSEMBLY_SIZE;
-   } else {
-      mem = default_memspace;
-      end_loc = addr_location(dot_addr[mem]) + DEFAULT_DISASSEMBLY_SIZE;
+   mem = addr_memspace(start_addr);
+   dot_addr[mem] = start_addr;
+   end_loc = addr_location(end_addr);
+
+   i = 0;
+   while (i <= len) {
+      bytes = disassemble_instr(dot_addr[mem]);
+      i += bytes;
+      inc_addr_location(&(dot_addr[mem]), bytes);
    }
-
-   end_loc = ADDR_LIMIT(end_loc);
-
-   while (addr_location(dot_addr[mem]) <= end_loc)
-      inc_addr_location(&(dot_addr[mem]), disassemble_instr(dot_addr[mem]));
 }
+#endif
 
 
 /* *** MEMORY COMMANDS *** */
@@ -818,28 +848,18 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 {
    unsigned i,j,len,cnt=0;
-   ADDRESS addr=0, end;
+   ADDRESS addr=0;
    MEMSPACE mem;
 
-   len = (x*y)/8;
-   if (is_valid_addr_range(start_addr, end_addr)) {
-      evaluate_default_addr_range(&start_addr, &end_addr);
-      get_range_info(start_addr, end_addr, &addr, &end, &len);
-      mem = addr_memspace(start_addr);
-   } else if (is_valid_addr(start_addr)) {
-      evaluate_default_addr(&start_addr);
-      addr = addr_location(start_addr);
-      mem = addr_memspace(start_addr);
-   } else {
-      mem = default_memspace;
-      addr = addr_location(dot_addr[mem]);
-   }
+   len = evaluate_address_range(&start_addr, &end_addr, FALSE, (x*y)/8);
+   mem = addr_memspace(start_addr);
+   addr = addr_location(start_addr);
 
    while (cnt < len) {
       for(i=0;i<y;i++) {
          fprintf(mon_output, ">%s:%04x ",memspace_string[mem],addr);
          for(j=0;j<(x/8);j++) {
-            print_bin(get_mem_val(mem,addr+j),'.','*');
+            print_bin(get_mem_val(mem,ADDR_LIMIT(addr+j)),'.','*');
             cnt++;
          }
          fprintf(mon_output, "\n");
@@ -855,24 +875,13 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 {
    unsigned i, cnt=0, len, max_width, real_width;
-   ADDRESS addr=0, end;
+   ADDRESS addr=0;
    char printables[50];
    MEMSPACE mem;
 
-   len = default_display_number[radix_type];
-
-   if (is_valid_addr_range(start_addr, end_addr)) {
-      evaluate_default_addr_range(&start_addr, &end_addr);
-      get_range_info(start_addr, end_addr, &addr, &end, &len);
-      mem = addr_memspace(start_addr);
-   } else if (is_valid_addr(start_addr)) {
-      evaluate_default_addr(&start_addr);
-      addr = addr_location(start_addr);
-      mem = addr_memspace(start_addr);
-   } else {
-      mem = default_memspace;
-      addr = addr_location(dot_addr[mem]);
-   }
+   len = evaluate_address_range(&start_addr, &end_addr, FALSE, default_display_number[radix_type]);
+   mem = addr_memspace(start_addr);
+   addr = addr_location(start_addr);
 
    if (radix_type)
       max_width = default_display_per_line[radix_type];
@@ -884,14 +893,14 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
       for (i=0,real_width=0;i<max_width;i++) {
          switch(radix_type) {
             case 0: /* special case == petscii text */
-               fprintf(mon_output, "%c",p_toascii(get_mem_val(mem,addr+i),0));
+               fprintf(mon_output, "%c",p_toascii(get_mem_val(mem,ADDR_LIMIT(addr+i)),0));
                real_width++;
                cnt++;
                break;
             case e_decimal:
                memset(printables,0,50);
                if (cnt < len) {
-                  fprintf(mon_output, "%3d ",get_mem_val(mem,addr+i));
+                  fprintf(mon_output, "%3d ",get_mem_val(mem,ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
@@ -901,22 +910,33 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
             case e_hexadecimal:
                memset(printables,0,50);
                if (cnt < len) {
-                  fprintf(mon_output, "%02x ",get_mem_val(mem,addr+i));
+                  fprintf(mon_output, "%02x ",get_mem_val(mem,ADDR_LIMIT(addr+i)));
+                  real_width++;
+                  cnt++;
+               }
+               else
+                  fprintf(mon_output, "   ");
+               break;
+            case e_octal:
+               memset(printables,0,50);
+               if (cnt < len) {
+                  fprintf(mon_output, "%03o ",get_mem_val(mem,ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
                else
                   fprintf(mon_output, "    ");
                break;
-            case e_octal:
+            case e_binary:
                memset(printables,0,50);
                if (cnt < len) {
-                  fprintf(mon_output, "%03o ",get_mem_val(mem,addr+i));
+                  print_bin(get_mem_val(mem,ADDR_LIMIT(addr+i)),'1','0');
+                  fprintf(mon_output, " ");
                   real_width++;
                   cnt++;
                }
                else
-                  fprintf(mon_output, "    ");
+                  fprintf(mon_output, "         ");
                break;
             default:
                assert(FALSE);
@@ -924,7 +944,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 
       }
 
-      if (radix_type == e_decimal || radix_type == e_hexadecimal) {
+      if (radix_type != 0) {
          memory_to_string(printables, mem, addr, real_width, FALSE);
          fprintf(mon_output, "\t%s",printables);
       }
@@ -939,20 +959,23 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
   unsigned i, len, dst;
-  ADDRESS start, end;
+  ADDRESS start;
   MEMSPACE src_mem, dest_mem;
   BYTE *buf;
 
-  evaluate_default_addr_range(&start_addr, &end_addr);
-  get_range_info(start_addr, end_addr, &start, &end, &len);
+  len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+  if (len < 0) {
+     fprintf(mon_output, "Invalid range.\n");
+     return;
+  }
+  src_mem = addr_memspace(start_addr);
+  start = addr_location(start_addr);
 
   evaluate_default_addr(&dest);
   dst = addr_location(dest);
+  dest_mem = addr_memspace(dest);
 
   buf = (BYTE *) xmalloc(sizeof(BYTE) * len);
-
-  src_mem = addr_memspace(start_addr);
-  dest_mem = addr_memspace(dest);
 
   for (i=0; i<len; i++)
      buf[i] = get_mem_val(src_mem, ADDR_LIMIT(start+i));
@@ -966,17 +989,20 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
   unsigned i, len, dst;
-  ADDRESS start, end;
+  ADDRESS start;
   MEMSPACE src_mem, dest_mem;
   BYTE byte1, byte2;
 
-  evaluate_default_addr_range(&start_addr, &end_addr);
-  get_range_info(start_addr, end_addr, &start, &end, &len);
+  len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+  if (len < 0) {
+     fprintf(mon_output, "Invalid range.\n");
+     return;
+  }
+  src_mem = addr_memspace(start_addr);
+  start = addr_location(start_addr);
 
   evaluate_default_addr(&dest);
   dst = addr_location(dest);
-
-  src_mem = addr_memspace(start_addr);
   dest_mem = addr_memspace(dest);
 
   for (i=0; i<len; i++) {
@@ -992,17 +1018,19 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
   unsigned i, index, len = 0;
-  ADDRESS start, end;
+  ADDRESS start;
   MEMSPACE dest_mem;
 
-  if (is_valid_addr(end_addr)) {
-     evaluate_default_addr_range(&start_addr, &end_addr);
-     get_range_info(start_addr, end_addr, &start, &end, &len);
-  } else {
-     /* Fill only until end of data_buf */
-     evaluate_default_addr(&start_addr);
-     start = addr_location(start_addr);
-     len = data_buf_len;
+  len = evaluate_address_range(&start_addr, &end_addr, FALSE, data_buf_len);
+  if (len < 0) {
+     fprintf(mon_output, "Invalid range.\n");
+     return;
+  }
+  start = addr_location(start_addr);
+
+  if (!is_valid_addr(start_addr)) {
+     fprintf(mon_output, "Invalid start address\n");
+     return;
   }
 
   dest_mem = addr_memspace(start_addr);
@@ -1021,31 +1049,35 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
 void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  unsigned len, data_len, i, next_read;
+  unsigned len, i, next_read;
   BYTE *buf;
-  ADDRESS start, end;
+  ADDRESS start;
   MEMSPACE mem;
 
-  evaluate_default_addr_range(&start_addr, &end_addr);
-  get_range_info(start_addr, end_addr, &start, &end, &len);
+  len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+  if (len < 0) {
+     fprintf(mon_output, "Invalid range.\n");
+     return;
+  }
   mem = addr_memspace(start_addr);
+  start = addr_location(start_addr);
 
-  data_len = strlen(data_buf);
-  buf = (BYTE *) xmalloc(sizeof(BYTE) * data_len);
+  buf = (BYTE *) xmalloc(sizeof(BYTE) * data_buf_len);
 
   /* Fill buffer */
-  for (i=0; i<data_len; i++)
+  for (i=0; i<data_buf_len; i++)
      buf[i] = get_mem_val(mem, ADDR_LIMIT(start+i));
 
   /* Do compares */
-  next_read = start + data_len;
+  next_read = start + data_buf_len;
 
-  for (i=0; i<(len-data_len); i++,next_read++) {
-     if (memcmp(buf,data_buf,data_len) == 0)
+  for (i=0; i<(len-data_buf_len); i++,next_read++) {
+     if (memcmp(buf,data_buf,data_buf_len) == 0)
         fprintf(mon_output, "%04x\n",ADDR_LIMIT(start+i));
 
-     memmove(&(buf[0]), &(buf[1]), data_len-1);
-     buf[data_len-1] = get_mem_val(mem, next_read);
+     if (data_buf_len > 1)
+        memmove(&(buf[0]), &(buf[1]), data_buf_len-1);
+     buf[data_buf_len-1] = get_mem_val(mem, next_read);
    }
 
   clear_buffer();
@@ -1072,8 +1104,6 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
     int     b1, b2;
     int     ch;
 
-    evaluate_default_addr(&start_addr);
-
     if (NULL == (fp = fopen(filename, READ))) {
 	perror(filename);
 	fprintf(mon_output, "Loading failed.\n");
@@ -1083,6 +1113,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
     b1 = fgetc(fp);
     b2 = fgetc(fp);
 
+    evaluate_default_addr(&start_addr);
     if (!is_valid_addr(start_addr)) {	/* No Load address given */
 	if (b1 == 1)	/* Load Basic */
 	    mem_get_basic_text(&adr, NULL);
@@ -1108,10 +1139,14 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
 void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
 {
    FILE   *fp;
-   unsigned adr;
-   unsigned end;
+   ADDRESS adr, end;
+   long len;
 
-   evaluate_default_addr_range(&start_addr, &end_addr);
+   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+   if (len < 0) {
+      fprintf(mon_output, "Invalid range.\n");
+      return;
+   }
 
    adr = addr_location(start_addr);
    end = addr_location(end_addr);
@@ -1123,7 +1158,12 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
 	printf("Saving file `%s'...\n", filename);
 	fputc((BYTE) adr & 0xff, fp);
 	fputc((BYTE) (adr >> 8) & 0xff, fp);
-	fwrite((char *) (ram + adr), 1, end - adr, fp);
+        if (end < adr) {
+	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
+	   fwrite((char *) ram, 1, end, fp);
+        } else
+	   fwrite((char *) (ram + adr), 1, len, fp);
+
 	fclose(fp);
    }
 }
@@ -1141,10 +1181,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     ADDRESS adr;
     char name[256];
     char *name_ptr;
-
-    /* FIXME - something better than this? */
-    if (mem == e_default_space)
-       mem = e_comp_space;
+    bool found = FALSE;
 
     if (NULL == (fp = fopen(filename, READ))) {
 	perror(filename);
@@ -1153,6 +1190,20 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     }
 
     fprintf(mon_output, "Loading symbol table from %s\n", filename);
+
+    if (mem == e_default_space) {
+       fscanf(fp, "%s\n", name);
+       for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
+          if (strcmp(name,memspace_string[mem]) == 0) {
+             found = TRUE;
+             break;
+          }
+       }
+       if (!found) {
+          fprintf(mon_output, "Bad label file : expecting a memory space in the first line but found %s\n", name);
+          return;
+       }
+    }
 
     while (!feof(fp)) {
        fscanf(fp, "%x %s\n", (int *) &adr, name);
@@ -1170,19 +1221,16 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
     FILE   *fp;
     symbol_entry_t *sym_ptr;
 
-    /* FIXME - something better than this? */
-    if (mem == e_default_space)
-       mem = e_comp_space;
-
     if (NULL == (fp = fopen(filename, WRITE))) {
 	perror(filename);
-	fprintf(mon_output, "Saving failed.\n");
+	fprintf(mon_output, "Saving failed : cannot open file for writing.\n");
 	return;
     }
 
     fprintf(mon_output, "Saving symbol table to %s\n", filename);
 
     sym_ptr = monitor_labels[mem].name_list;
+    fprintf(fp, "%s\n", memspace_string[mem]);
 
     while (sym_ptr) {
        fprintf(fp, "%04x %s\n", sym_ptr->addr, sym_ptr->name);
@@ -1315,9 +1363,8 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
    MEMSPACE mem = addr_memspace(addr);
    ADDRESS loc = addr_location(addr);
 
-   /* FIXME - something better than this? */
    if (mem == e_default_space)
-      mem = e_comp_space;
+      mem = default_memspace;
 
    if ( (old_name = mon_symbol_table_lookup_name(mem, loc)) ) {
       fprintf(mon_output, "Replacing label %s with %s for address $%04x\n",
@@ -1350,9 +1397,8 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
    unsigned addr;
    symbol_entry_t *sym_ptr, *prev_ptr;
 
-   /* FIXME - something better than this? */
    if (mem == e_default_space)
-      mem = e_comp_space;
+      mem = default_memspace;
 
    if (name == NULL) {
       /* FIXME - prompt user */
@@ -1405,9 +1451,8 @@ void mon_print_symbol_table(MEMSPACE mem)
 {
    symbol_entry_t *sym_ptr;
 
-   /* FIXME - something better than this? */
    if (mem == e_default_space)
-      mem = e_comp_space;
+      mem = default_memspace;
 
    sym_ptr = monitor_labels[mem].name_list;
    while (sym_ptr) {
@@ -1425,11 +1470,12 @@ void mon_instructions_step(int count)
    fprintf(mon_output, "Stepping through the next %d instruction(s).\n",
           (count>=0)?count:1);
    instruction_count = (count>=0)?count:1;
-   icount_is_next = FALSE;
+   wait_for_return_level = 0;
+   skip_jsrs = FALSE;
    exit_mon = 1;
 
-   mon_mask[e_comp_space] |= MI_STEP;
-   monitor_trap_on(maincpu_interface->int_status);
+   mon_mask[caller_space] |= MI_STEP;
+   monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_instructions_next(int count)
@@ -1437,11 +1483,22 @@ void mon_instructions_next(int count)
    fprintf(mon_output, "Nexting through the next %d instruction(s).\n",
           (count>=0)?count:1);
    instruction_count = (count>=0)?count:1;
-   icount_is_next = TRUE;
+   wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
+   skip_jsrs = TRUE;
    exit_mon = 1;
 
-   mon_mask[e_comp_space] |= MI_STEP;
-   monitor_trap_on(maincpu_interface->int_status);
+   mon_mask[caller_space] |= MI_STEP;
+   monitor_trap_on(mon_interfaces[caller_space]->int_status);
+}
+
+void mon_instruction_return(void)
+{
+   instruction_count = 1;
+   wait_for_return_level = 1;
+   exit_mon = 1;
+
+   mon_mask[caller_space] |= MI_STEP;
+   monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
 void mon_stack_up(int count)
@@ -1758,7 +1815,7 @@ void mon_delete_checkpoint(int brknum)
          if (!any_breakpoints(mem)) {
             mon_mask[mem] &= ~MI_BREAK;
 
-            if (!any_watchpoints(mem))
+            if (!mon_mask[mem])
                monitor_trap_off(mon_interfaces[mem]->int_status);
          }
       } else {
@@ -1771,7 +1828,7 @@ void mon_delete_checkpoint(int brknum)
             mon_mask[mem] &= ~MI_WATCH;
             mon_interfaces[mem]->toggle_watchpoints_func(0);
 
-            if (!any_breakpoints(mem))
+            if (!mon_mask[mem])
                monitor_trap_off(mon_interfaces[mem]->int_status);
          }
       }
@@ -1953,9 +2010,9 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bo
 {
    breakpoint *new_bp;
    MEMSPACE mem;
+   long len;
 
-   evaluate_default_addr_range(&start_addr, &end_addr);
-
+   len = evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
    new_bp = (breakpoint *) xmalloc(sizeof(breakpoint));
 
    new_bp->brknum = breakpoint_count++;
@@ -2073,13 +2130,25 @@ bool mon_force_import(MEMSPACE mem)
 void mon_check_icount(ADDRESS a)
 {
     if (instruction_count) {
-        instruction_count--;
+        if (!wait_for_return_level)
+           instruction_count--;
 
-        mon_mask[e_comp_space] &= ~MI_STEP;
-        monitor_trap_off(true1541_interface->int_status);
+        if (GET_OPCODE(caller_space) == OP_JSR)
+           wait_for_return_level++;
+
+        if (GET_OPCODE(caller_space) == OP_RTS)
+           wait_for_return_level--;
+
+        /* FIXME: Should this set the return level to 0? */
+        if (GET_OPCODE(caller_space) == OP_RTI)
+           wait_for_return_level--;
 
         if (!instruction_count) {
-            mon(a);
+           mon_mask[caller_space] &= ~MI_STEP;
+           if (!mon_mask[caller_space])
+              monitor_trap_off(mon_interfaces[caller_space]->int_status);
+
+           mon(a);
         }
     }
 }
