@@ -288,8 +288,8 @@ vicii-fetch.o: vicii-fetch.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/c64/c64cart.h ../../src/dma.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h vicii-fetch.h vicii-sprites.h \
-	viciitypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-sprite.h vicii-fetch.h vicii-irq.h \
+	vicii-sprites.h viciitypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 vicii-irq.o: vicii-irq.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \

@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libxawui.a
 
-libxawui_a_SOURCES =  	about.c 	checkmark.xbm 	right_arrow.xbm 	ui.c 	uiarch.h 	uicartridge.c 	uicolor.c 	uiedisk.c 	uimenu.c 	uimenu.h 	uiscreenshot.c 	uisnapshot.c 	uivsidcontrol.c 	videoarch.h 	x11video.c 	x11kbd.c 	x11ui.c
+libxawui_a_SOURCES =  	about.c 	checkmark.xbm 	right_arrow.xbm 	uiarch.h 	uicartridge.c 	uicolor.c 	uiedisk.c 	uimenu.c 	uimenu.h 	uiscreenshot.c 	uisnapshot.c 	uivsidcontrol.c 	videoarch.h 	x11video.c 	x11kbd.c 	x11ui.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../../src/config.h
@@ -152,9 +152,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  about.o ui.o uicartridge.o uicolor.o uiedisk.o \
-uimenu.o uiscreenshot.o uisnapshot.o uivsidcontrol.o x11video.o \
-x11kbd.o x11ui.o
+libxawui_a_OBJECTS =  about.o uicartridge.o uicolor.o uiedisk.o uimenu.o \
+uiscreenshot.o uisnapshot.o uivsidcontrol.o x11video.o x11kbd.o x11ui.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)

@@ -444,8 +444,7 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/fliplist.h fullscreenarch.h \
 	../../../src/imagecontents.h ../../../src/interrupt.h \
 	../../../src/ioutil.h ../../../src/lib.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/maincpu.h \
-	../../../src/monitor.h ../../../src/mos6510.h \
+	../../../src/machine.h ../../../src/monitor.h \
 	../../../src/resources.h ../../../src/serial.h \
 	../../../src/sound.h ../../../src/tape.h uicommands.h uiedisk.h \
 	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
