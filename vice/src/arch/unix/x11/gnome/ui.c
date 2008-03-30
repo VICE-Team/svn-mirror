@@ -1845,7 +1845,8 @@ UI_CALLBACK(ui_popup_selected_file)
     else if (unit == 8)
     {
 	tmp = stralloc(last_attached_images[0]);
-	if (autostart_disk(last_attached_images[0], NULL, selected) < 0)
+	if (autostart_disk(last_attached_images[0], NULL, selected,
+            AUTOSTART_MODE_RUN) < 0)
 	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
 	free(tmp);
@@ -1853,7 +1854,8 @@ UI_CALLBACK(ui_popup_selected_file)
     else if (unit == 1)
     {
 	tmp = stralloc(last_attached_tape);
-	if (autostart_tape(last_attached_tape, NULL, selected) < 0)
+	if (autostart_tape(last_attached_tape, NULL, selected,
+            AUTOSTART_MODE_RUN) < 0)
 	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
 	free(tmp);

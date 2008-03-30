@@ -472,10 +472,10 @@ void ui_image_contents_click(int *block)
       switch(image_content_type)
       {
         case IMAGE_CONTENT_DISK:
-          autostart_disk(image_content_file, NULL, filenum);
+          autostart_disk(image_content_file, NULL, filenum, AUTOSTART_MODE_RUN);
           break;
         case IMAGE_CONTENT_TAPE:
-          autostart_tape(image_content_file, NULL, filenum);
+          autostart_tape(image_content_file, NULL, filenum, AUTOSTART_MODE_RUN);
           break;
         case IMAGE_CONTENT_DIR:
           {
@@ -492,7 +492,7 @@ void ui_image_contents_click(int *block)
               number = strlen(buffer);
               buffer[number++] = FSDEV_DIR_SEP_CHR;
               strcpy(buffer+number, item->name);
-              if (autostart_prg(buffer) == 0)
+              if (autostart_prg(buffer, AUTOSTART_MODE_RUN) == 0)
               {
                 ui_display_drive_dir(0, image_content_file);
               }
