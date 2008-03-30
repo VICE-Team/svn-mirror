@@ -186,6 +186,10 @@ SOURCE=.\uivicii.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uivicset.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\vic20kbd.c
 # End Source File
 # Begin Source File

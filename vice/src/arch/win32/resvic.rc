@@ -135,6 +135,7 @@ BEGIN
     END
     POPUP "&Settings"
     BEGIN
+        MENUITEM "&VIC settings...",                IDM_VIC_SETTINGS
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "D&atasette settings...",          IDM_DATASETTE_SETTINGS
@@ -152,3 +153,43 @@ BEGIN
         MENUITEM "&About...",                       IDM_ABOUT
     END
 END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_VIC_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 215, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "VIC Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,30,110,50,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,130,110,50,14
+    GROUPBOX        "&Memory",IDC_STATIC,7,7,200,95
+    AUTORADIOBUTTON "no expansion memory",IDC_VIC_NOEXPANSION,
+                    12,23,90,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "3K (block 0)",IDC_VIC_3KEXPANSION,
+                    12,36,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "8K (block 1)",IDC_VIC_8KEXPANSION,
+                    12,49,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "16K (blocks 1/2)",IDC_VIC_16KEXPANSION,
+                    12,62,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "24K (blocks 1/2/3)",IDC_VIC_24KEXPANSION,
+                    12,75,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "Full (blocks 0/1/2/3/5)",IDC_VIC_FULLEXPANSION,
+                    12,88,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "custom",IDC_VIC_CUSTOMEXPANSION,
+                    120,23,50,10,BS_AUTORADIOBUTTON
+    AUTOCHECKBOX    "Block 0",IDC_VIC_MEMORY_BLOCK0,
+                    132,35,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block 1",IDC_VIC_MEMORY_BLOCK1,
+                    132,47,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block 2",IDC_VIC_MEMORY_BLOCK2,
+                    132,59,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block 3",IDC_VIC_MEMORY_BLOCK3,
+                    132,71,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block 5",IDC_VIC_MEMORY_BLOCK5,
+                    132,83,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+

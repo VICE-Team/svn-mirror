@@ -38,6 +38,7 @@
 #include "uilib.h"
 #include "vic20ui.h"
 #include "winmain.h"
+#include "uivicset.h"
 
 ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -119,6 +120,9 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_CART_DETACH:
         cartridge_detach_image();
+        break;
+      case IDM_VIC_SETTINGS:
+        ui_vic_settings_dialog(hwnd);
         break;
     }
 }

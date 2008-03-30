@@ -166,6 +166,20 @@
 #define IDC_DATASETTE_SPEED_TUNING      1262
 #define IDC_DATASETTE_ZERO_GAP_DELAY    1263
 
+#define IDD_VIC_SETTINGS_DIALOG         1270
+#define IDC_VIC_NOEXPANSION             1271
+#define IDC_VIC_3KEXPANSION             1272
+#define IDC_VIC_8KEXPANSION             1273
+#define IDC_VIC_16KEXPANSION            1274
+#define IDC_VIC_24KEXPANSION            1275
+#define IDC_VIC_FULLEXPANSION           1276
+#define IDC_VIC_CUSTOMEXPANSION         1277
+#define IDC_VIC_MEMORY_BLOCK0           1278
+#define IDC_VIC_MEMORY_BLOCK1           1279
+#define IDC_VIC_MEMORY_BLOCK2           1280
+#define IDC_VIC_MEMORY_BLOCK3           1281
+#define IDC_VIC_MEMORY_BLOCK5           1282
+
 
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -274,5 +288,6 @@
 #define IDM_TOGGLE_VDC_64KB             40189
 #define IDM_TOGGLE_VDC_DOUBLESIZE       40190
 #define IDM_TOGGLE_VDC_DOUBLESCAN       40191
+#define IDM_VIC_SETTINGS                40192
 
 #endif

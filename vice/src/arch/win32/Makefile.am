@@ -75,6 +75,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uivicii.h \
 	uivicii.c \
+	uivicset.h \
+	uivicset.c \
 	vic20kbd.c \
 	vic20ui.c \
 	vic20ui.h \
