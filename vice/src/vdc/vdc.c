@@ -54,7 +54,7 @@
 
 vdc_t vdc;
 
-#define VDC_CYCLES_PER_LINE() vdc.regs[0]
+static void vdc_raster_draw_alarm_handler(CLOCK offset);
 
 static void vdc_set_geometry(void)
 {
@@ -64,7 +64,7 @@ static void vdc_set_geometry(void)
     raster = &vdc.raster;
 
     width = VDC_SCREEN_WIDTH;
-    height = vdc.screen_height;
+    height = vdc.last_displayed_line - VDC_FIRST_DISPLAYED_LINE + 1;
 
     raster_set_geometry(raster,
                         VDC_SCREEN_WIDTH, vdc.screen_height,
@@ -143,16 +143,11 @@ raster_t *vdc_init(void)
     alarm_init(&vdc.raster_draw_alarm, maincpu_alarm_context,
                "VdcRasterDraw", vdc_raster_draw_alarm_handler);
 
+    vdc_powerup();
     vdc_resize();
 
     if (init_raster() < 0)
         return NULL;
-    vdc_powerup();
-
-/*
-    vdc_update_video_mode(0);
-    vdc_update_memory_ptrs(0);
-*/
 
     vdc.force_resize = 0;
     vdc.force_repaint = 0;
@@ -170,11 +165,34 @@ struct canvas_s *vdc_get_canvas(void)
     return vdc.raster.viewport.canvas;
 }
 
+
+static void vdc_set_next_alarm(CLOCK offset)
+{
+    unsigned int next_alarm;
+    static unsigned int next_line_accu = 0;
+
+    next_line_accu += vdc.xsync_increment;
+    next_alarm = next_line_accu >> 16;
+    next_line_accu -= (next_alarm << 16);
+
+    /* Set the next draw event. */
+    alarm_set(&vdc.raster_draw_alarm, clk + (CLOCK)next_alarm - offset);
+}
+
+static void vdc_update_geometry(void)
+{
+    vdc.screen_height = (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)
+                        + (vdc.regs[5] & 0x1f);
+    vdc.update_geometry = 0;
+}
+
+
 /* Reset the VDC chip */
 void vdc_reset(void)
 {
-    raster_reset(&vdc.raster);
-    vdc.regs[0] = 49;
+    if (vdc.initialized)
+        raster_reset(&vdc.raster);
+
     vdc.cursor_visible = 0;
     vdc.cursor_frequency = 0;
     vdc.cursor_counter = 0;
@@ -183,7 +201,15 @@ void vdc_reset(void)
     vdc.text_blink_visible = 0;
     vdc.screen_text_cols = VDC_SCREEN_TEXTCOLS;
     vdc.xsmooth = 0;
-    alarm_set(&vdc.raster_draw_alarm, VDC_CYCLES_PER_LINE());
+    vdc.regs[0] = 126;
+    vdc.xchars_total = vdc.regs[0] + 1;
+    vdc_calculate_xsync();
+    vdc.regs[4] = 39;
+    vdc.regs[5] = 0;
+    vdc.regs[6] = 25;
+    vdc.regs[9] = 7;
+    vdc_update_geometry();
+    vdc_set_next_alarm((CLOCK)0);
 }
 
 /* This _should_ put the VDC in the same state as powerup */
@@ -212,13 +238,12 @@ void vdc_update_memory_ptrs(unsigned int cycle)
 
 
 /* Redraw the current raster line. */
-
-void vdc_raster_draw_alarm_handler(CLOCK offset)
+static void vdc_raster_draw_alarm_handler(CLOCK offset)
 {
     int in_visible_area;
 
     in_visible_area = (vdc.raster.current_line >= VDC_FIRST_DISPLAYED_LINE
-                    && vdc.raster.current_line <= vdc.last_displayed_line);
+                      && vdc.raster.current_line <= vdc.last_displayed_line);
 
     if (vdc.raster.current_line == 0) {
         vdc.mem_counter = 0;
@@ -241,9 +266,19 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
             vdc.text_blink_counter--;
         }
 
-        if (vdc.force_cache_flush) {
-            raster_invalidate_cache(&vdc.raster, vdc.screen_height);
+
+        if (vdc.update_geometry) {
+            vdc_update_geometry();
+            vdc.force_resize = 1;
+            vdc.force_repaint = 1;
+            /* Screen height has changed, so do not invalidate cache with
+               the new value.  It will be recreated by resize anyway.  */
             vdc.force_cache_flush = 0;
+        } else {
+            if (vdc.force_cache_flush) {
+                raster_invalidate_cache(&vdc.raster, vdc.screen_height);
+                vdc.force_cache_flush = 0;
+            }
         }
 
         if (vdc.force_resize) {
@@ -279,9 +314,22 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
         }
     }
 
-    /* Set the next draw event. */
-    alarm_set(&vdc.raster_draw_alarm, clk + VDC_CYCLES_PER_LINE() - offset);
+    vdc_set_next_alarm(offset);
 }
+
+
+void vdc_calculate_xsync(void)
+{
+    double vdc_cycles_per_line, host_cycles_per_second;
+
+    host_cycles_per_second = (double)machine_get_cycles_per_second();
+
+    vdc_cycles_per_line = (double)(vdc.xchars_total) * 8.0
+                          * host_cycles_per_second / VDC_DOT_CLOCK;
+
+    vdc.xsync_increment = (unsigned int)(vdc_cycles_per_line * 65536);
+}
+
 
 /* WARNING: This does not change the resource value. External modules are
    expected to set the resource value to change the VDC palette instead of
@@ -316,14 +364,14 @@ int vdc_load_palette(const char *name)
 void vdc_resize(void)
 {
     if (vdc_resources.double_size_enabled) {
-        vdc.screen_height = VDC_SCREEN_HEIGHT_LARGE;
+/*        vdc.screen_height = VDC_SCREEN_HEIGHT_LARGE;*/
         vdc.screen_ypix = VDC_SCREEN_YPIX_LARGE;
         vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE_LARGE;
         vdc.row25_stop_line = VDC_25ROW_STOP_LINE_LARGE;
         vdc.raster_ycounter_max = VDC_SCREEN_CHARHEIGHT_LARGE - 1;
         vdc.raster_ycounter_divide = 2;
     } else {
-        vdc.screen_height = VDC_SCREEN_HEIGHT_SMALL;
+/*        vdc.screen_height = VDC_SCREEN_HEIGHT_SMALL;*/
         vdc.screen_ypix = VDC_SCREEN_YPIX_SMALL;
         vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE_SMALL;
         vdc.row25_stop_line = VDC_25ROW_STOP_LINE_SMALL;
