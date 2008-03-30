@@ -73,6 +73,14 @@ extern void video_render_setphysicalcolor(video_render_config_t *config,
 extern void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b);
 extern void video_render_initraw(void);
 
+struct draw_buffer_s {
+    BYTE *draw_buffer;
+    unsigned int draw_buffer_width;
+    unsigned int draw_buffer_height;
+    unsigned int draw_buffer_pitch;
+};
+typedef struct draw_buffer_s draw_buffer_t;
+
 /**************************************************************/
 
 struct video_canvas_s;
@@ -85,14 +93,10 @@ extern int video_canvas_create(struct video_canvas_s *canvas,
                                unsigned int *height, int mapped,
                                void_t exposure_handler,
                                const struct palette_s *palette);
-extern struct video_canvas_s *video_canvas_init(struct video_render_config_s
+extern void video_arch_canvas_init(struct video_canvas_s *canvas);
+extern struct video_canvas_s *video_canvas_init(video_render_config_t
                                                 *videoconfig);
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
-                                 BYTE *draw_buffer,
-                                 unsigned int draw_buffer_line_size,
-#ifdef __OS2__
-                                 unsigned int draw_buffer_height,
-#endif
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h);
@@ -103,6 +107,9 @@ extern void video_canvas_map(struct video_canvas_s *canvas);
 extern void video_canvas_unmap(struct video_canvas_s *canvas);
 extern void video_canvas_resize(struct video_canvas_s *canvas,
                                 unsigned int width, unsigned int height);
+extern void video_canvas_render(struct video_canvas_s *canvas, BYTE *trg,
+                                int width, int height, int xs, int ys,
+                                int xt, int yt, int pitcht, int depth);
 
 typedef struct video_draw_buffer_callback_s {
     int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,
@@ -168,11 +175,6 @@ struct raster_s;
 extern void video_color_set_palette(video_cbm_palette_t *palette);
 extern int video_color_update_palette(void);
 extern void video_color_set_raster(struct raster_s *raster);
-
-extern void video_render_main(video_render_config_t *config, BYTE *src,
-                              BYTE *trg, int width, int height,
-                              int xs, int ys, int xt, int yt,
-                              int pitchs, int pitcht, int depth);
 extern int video_render_get_fake_pal_state(void);
 extern void video_refresh_all(struct video_canvas_s *c);
 
