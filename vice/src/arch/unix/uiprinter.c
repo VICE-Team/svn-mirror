@@ -165,8 +165,35 @@ static UI_CALLBACK(set_printer_exec_file)
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(Printer4)
-UI_MENU_DEFINE_TOGGLE(Printer5)
+UI_MENU_DEFINE_RADIO(Printer4)
+UI_MENU_DEFINE_RADIO(Printer5)
+
+static ui_menu_entry_t set_printer4_type_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Printer4,
+      (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
+    { N_("*File system access"), (ui_callback_t)radio_Printer4,
+      (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
+#if HAVE_OPENCBM
+    { N_("*Real device access"), (ui_callback_t)radio_Printer4,
+      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t set_printer5_type_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Printer5,
+      (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
+    { N_("*File system access"), (ui_callback_t)radio_Printer5,
+      (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
+#if HAVE_OPENCBM
+    { N_("*Real device access"), (ui_callback_t)radio_Printer5,
+      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+#endif
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_TOGGLE(PrinterUserport)
 
 static UI_CALLBACK(flush_printer)
@@ -176,7 +203,7 @@ static UI_CALLBACK(flush_printer)
 
 ui_menu_entry_t printer_settings_menu[] = {
     { N_("*IEC printer #4 emulation"),
-      (ui_callback_t)toggle_Printer4, NULL, NULL },
+      NULL, NULL, set_printer4_type_submenu },
     { N_("IEC printer #4 driver"),
       NULL, NULL, pr4_driver_submenu },
     { N_("IEC printer #4 text output device"),
@@ -185,7 +212,7 @@ ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t)flush_printer, (ui_callback_data_t)4, NULL },
     { "--" },
     { N_("*IEC printer #5 emulation"),
-      (ui_callback_t)toggle_Printer5, NULL, NULL },
+      NULL, NULL, set_printer4_type_submenu },
     { N_("IEC printer #5 driver"),
       NULL, NULL, pr5_driver_submenu },
     { N_("IEC printer #5 text output device"),
