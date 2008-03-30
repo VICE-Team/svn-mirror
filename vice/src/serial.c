@@ -85,9 +85,15 @@ static int traps_installed = 0;
 /* Pointer to list of traps we are using.  */
 static const trap_t *serial_traps;
 
-/* Function to call when EOF happens in `serialreceivebyte()'.  This is just
-   a kludge for the autostart code (see `autostart.c'.  */
+/* ------------------------------------------------------------------------- */
+
+/* This is just a kludge for the autostart code (see `autostart.c'.  */
+
+/* Function to call when EOF happens in `serialreceivebyte()'.  */
 static void (*eof_callback_func)(void);
+
+/* Function to call when the `serialattention()' trap is called.  */
+static void (*attention_callback_func)(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -226,6 +232,9 @@ void serialattention(void)
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+
+    if (attention_callback_func)
+        attention_callback_func();
 }
 
 /* Send one byte on the serial bus.  */
@@ -442,6 +451,10 @@ int parallelattention(int b)
 	       b, TrapDevice, st + (TrapDevice << 8));
 
     st |= TrapDevice << 8;
+
+    if (attention_callback_func)
+        attention_callback_func();
+
     return st;
 }
 
@@ -788,9 +801,16 @@ void serial_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Specify a function to call when EOF happens in `serialreceivebyte()'.
-   This is just a kludge for the autostart code (see `autostart.c'.  */
+/* These are just kludges for the autostart code (see `autostart.c'.  */
+
+/* Specify a function to call when EOF happens in `serialreceivebyte()'.  */
 void serial_set_eof_callback(void (*func)(void))
 {
     eof_callback_func = func;
+}
+
+/* Specify a function to call when the `serialattention()' trap is called.  */
+void serial_set_attention_callback(void (*func)(void))
+{
+    attention_callback_func = func;
 }
