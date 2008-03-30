@@ -45,6 +45,8 @@ libplus4_a_SOURCES = \
 	ted-draw.h \
 	ted-fetch.c \
 	ted-fetch.h \
+	ted-irq.c \
+	ted-irq.h \
 	ted-mem.c \
 	ted-mem.h \
 	ted-resources.c \
