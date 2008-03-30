@@ -115,12 +115,9 @@ void file_system_init(void)
         file_system[i].serial = serial_get_device(i + 8);;
         file_system[i].vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
         file_system[i].vdrive->image = NULL;
+        file_system[i].vdrive->side_sector = NULL;
         vdrive_setup_device(file_system[i].vdrive, i + 8);
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
-#if 0
-        file_system[i].vdrive->image = xmalloc(sizeof(disk_image_t));    
-        file_system[i].vdrive->image->name = NULL;
-#endif
     }
 }
 
