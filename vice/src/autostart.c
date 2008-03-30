@@ -65,10 +65,10 @@
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
-static int blnsw;		/* Cursor Blink enable: 0 = Flash Cursor */
-static int pnt;			/* Pointer: Current Screen Line Address */
-static int pntr;		/* Cursor Column on Current Line */
-static int lnmx;		/* Physical Screen Line Length */
+static ADDRESS blnsw;           /* Cursor Blink enable: 0 = Flash Cursor */
+static int pnt;                 /* Pointer: Current Screen Line Address */
+static int pntr;                /* Cursor Column on Current Line */
+static int lnmx;                /* Physical Screen Line Length */
 
 /* Current state of the autostart routine.  */
 static enum {
@@ -107,8 +107,8 @@ static int autostart_enabled = 0;
 static void deallocate_program_name(void)
 {
     if (autostart_program_name) {
-	free(autostart_program_name);
-	autostart_program_name = NULL;
+        free(autostart_program_name);
+        autostart_program_name = NULL;
     }
 }
 
@@ -121,15 +121,15 @@ static enum { YES, NO, NOT_YET } check(const char *s)
     int addr, i;
 
     if (!kbd_buf_is_empty() || cursor_column != 0 || mem_read(blnsw) != 0)
-	return NOT_YET;
+        return NOT_YET;
 
     addr = screen_addr - line_length;
     for (i = 0; s[i] != '\0'; i++) {
-	if (mem_read((ADDRESS) (addr + i)) != s[i] % 64) {
-	    if (mem_read((ADDRESS) (addr + i)) != (BYTE) 32)
-		return NO;
-	    return NOT_YET;
-	}
+        if (mem_read((ADDRESS) (addr + i)) != s[i] % 64) {
+            if (mem_read((ADDRESS) (addr + i)) != (BYTE) 32)
+                return NO;
+            return NOT_YET;
+        }
     }
 
     return YES;
@@ -147,7 +147,7 @@ static int get_true_drive_emulation_state(void)
 
     if (resources_get_value("DriveTrueEmulation",
                             (resource_value_t *) & value) < 0)
-	return 0;
+        return 0;
 
     return value;
 }
@@ -168,7 +168,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
                    int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
-    blnsw = _blnsw;
+    blnsw = (ADDRESS)(_blnsw);
     pnt = _pnt;
     pntr = _pntr;
     lnmx = _lnmx;
@@ -183,9 +183,9 @@ int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
     handle_drive_true_emulation = _handle_drive_true_emulation;
 
     if (_min_cycles)
-	autostart_enabled = 1;
+        autostart_enabled = 1;
     else
-	autostart_enabled = 0;
+        autostart_enabled = 0;
 
     return 0;
 }
@@ -193,7 +193,7 @@ int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
 void autostart_disable(void)
 {
     if (!autostart_enabled)
-	return;
+        return;
 
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
@@ -247,7 +247,7 @@ void autostart_advance(void)
     char *tmp;
 
     if (clk < min_cycles || !autostart_enabled)
-	return;
+        return;
 
     switch (autostartmode) {
       case AUTOSTART_HASTAPE:
@@ -297,7 +297,8 @@ void autostart_advance(void)
                                 autostart_program_name);
                 else
                     log_message(autostart_log, "Loading program '*'");
-                orig_drive_true_emulation_state = get_true_drive_emulation_state();
+                orig_drive_true_emulation_state
+                    = get_true_drive_emulation_state();
                 if (handle_drive_true_emulation) {
                     resources_get_value("VirtualDevices",
                                         (resource_value_t *) &traps);
@@ -316,8 +317,7 @@ void autostart_advance(void)
                     traps = 1;
                 }
                 if (autostart_program_name)
-                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
-                else
+                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);                else
                     tmp = stralloc("LOAD\"*\",8,1\r");
                 kbd_buf_feed(tmp);
                 free(tmp);
@@ -362,7 +362,7 @@ void autostart_advance(void)
     if (autostartmode == AUTOSTART_ERROR && handle_drive_true_emulation) {
         log_message(autostart_log, "Now turning true drive emulation %s.",
                     orig_drive_true_emulation_state ? "on" : "off");
-	set_true_drive_emulation_mode(orig_drive_true_emulation_state);
+        set_true_drive_emulation_mode(orig_drive_true_emulation_state);
     }
 }
 
@@ -372,7 +372,7 @@ static int autostart_ignore_reset = 0;
 static void reboot_for_autostart(const char *program_name, int mode)
 {
     if (!autostart_enabled)
-	return;
+        return;
 
     log_message(autostart_log, "Resetting the machine to autostart '%s'",
                 program_name ? program_name : "*");
@@ -380,7 +380,7 @@ static void reboot_for_autostart(const char *program_name, int mode)
     autostart_ignore_reset = 1;
     deallocate_program_name();
     if (program_name)
-	autostart_program_name = (BYTE *)stralloc(program_name);
+        autostart_program_name = (BYTE *)stralloc(program_name);
     maincpu_trigger_reset();
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
@@ -396,13 +396,13 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     snapshot_t *snap;
 
     if (file_name == NULL || !autostart_enabled)
-	return -1;
+        return -1;
 
-    deallocate_program_name();	/* not needed at all */
+    deallocate_program_name();  /* not needed at all */
 
     if (!(snap = snapshot_open(file_name, &vmajor, &vminor, machine_name)) ) {
-	autostartmode = AUTOSTART_ERROR;
-	return -1;
+        autostartmode = AUTOSTART_ERROR;
+        return -1;
     }
 
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
@@ -423,7 +423,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     char *name = NULL;
 
     if (!file_name || !autostart_enabled)
-	return -1;
+        return -1;
 
     /* Get program name first to avoid more than one file handle open on
        image.  */
@@ -480,7 +480,7 @@ int autostart_disk(const char *file_name, const char *program_name,
     char *name = NULL;
 
     if (!file_name || !autostart_enabled)
-	return -1;
+        return -1;
 
     /* Get program name first to avoid more than one file handle open on
        image.  */
@@ -610,12 +610,10 @@ int autostart_autodetect(const char *file_name, const char *program_name,
     log_message(autostart_log, "Autodetecting image type of `%s'.", file_name);
 
     if (autostart_disk(file_name, program_name, program_number) == 0) {
-        log_message(autostart_log, "`%s' recognized as disk image.", file_name);
-        return 0;
+        log_message(autostart_log, "`%s' recognized as disk image.", file_name);        return 0;
     }
     if (autostart_tape(file_name, program_name, program_number) == 0) {
-        log_message(autostart_log, "`%s' recognized as tape image.", file_name);
-        return 0;
+        log_message(autostart_log, "`%s' recognized as tape image.", file_name);        return 0;
     }
     if (autostart_snapshot(file_name, program_name) == 0) {
         log_message(autostart_log, "`%s' recognized as snapshot image.",
@@ -637,7 +635,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 int autostart_device(int num)
 {
     if (!autostart_enabled)
-	return -1;
+        return -1;
 
     switch (num) {
       case 8:
@@ -654,14 +652,14 @@ int autostart_device(int num)
 void autostart_reset(void)
 {
     if (!autostart_enabled)
-	return;
+        return;
 
     if (!autostart_ignore_reset
         && autostartmode != AUTOSTART_NONE
         && autostartmode != AUTOSTART_ERROR) {
-	autostartmode = AUTOSTART_NONE;
-	deallocate_program_name();
-	log_message(autostart_log, "Turned off.");
+        autostartmode = AUTOSTART_NONE;
+        deallocate_program_name();
+        log_message(autostart_log, "Turned off.");
     }
     autostart_ignore_reset = 0;
 }
