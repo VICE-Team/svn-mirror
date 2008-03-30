@@ -39,9 +39,8 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
 {
     WORD operand_value = LO16(operand);
     WORD operand_mode = HI16_TO_LO16(operand);
-    BYTE opcode = 0;
+    BYTE i = 0, opcode = 0;
     int len, branch_offset;
-    BYTE i;
     bool found = FALSE;
     MEMSPACE mem;
     ADDRESS loc;
@@ -52,7 +51,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     /* FIXME (???) : It is impossible to specify absolute mode if the
      * address < 0x100 and there is a zero page mode available.
      */
-    for (i = 0; i <= 0xff; i++) {
+    do {
         asm_opcode_info_t *opinfo;
 
         opinfo = (monitor_cpu_type.asm_opcode_info_get)(i, 0, 0);
@@ -112,7 +111,8 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
                 break;
             }
         }
-    }
+        i++;
+    } while (i != 0);
 
     if (!found) {
         uimon_out("Instruction not valid.\n");

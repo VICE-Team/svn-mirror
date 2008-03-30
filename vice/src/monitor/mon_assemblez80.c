@@ -50,7 +50,8 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     loc = addr_location(asm_mode_addr);
 
     for (j = 0; j < 5; j++) {
-        for (i = 0; i <= 0xff; i++) {
+        i = 0;
+        do {
             asm_opcode_info_t *opinfo = NULL;
 
             switch (prefix[j]) {
@@ -128,7 +129,8 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
                     break;
                 }
             }
-        }
+            i++;
+        } while (i != 0);
         if (found == TRUE)
             break;
     }
