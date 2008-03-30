@@ -66,8 +66,10 @@ static int set_vdc_revision(resource_value_t v, void *param)
 static const resource_t resources[] =
 {
     { "VDC64KB", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_SAME, NULL,
       (void *)&vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
     { "VDCRevision", RES_INTEGER, (resource_value_t)2,
+      RES_EVENT_SAME, NULL,
       (void *)&vdc.revision, set_vdc_revision, NULL },
     { NULL }
 };

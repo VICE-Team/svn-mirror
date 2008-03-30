@@ -55,12 +55,16 @@ static int set_devfile(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "RsDevice1", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV1,
+      RES_EVENT_NO, NULL,
       (void *)&devfile[0], set_devfile, (void *)0 },
     { "RsDevice2", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV2,
+      RES_EVENT_NO, NULL,
       (void *)&devfile[1], set_devfile, (void *)1 },
     { "RsDevice3", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV3,
+      RES_EVENT_NO, NULL,
       (void *)&devfile[2], set_devfile, (void *)2 },
     { "RsDevice4", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV4,
+      RES_EVENT_NO, NULL,
       (void *)&devfile[3], set_devfile, (void *)3 },
     { NULL }
 };
