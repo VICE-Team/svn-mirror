@@ -131,53 +131,57 @@ static void canvas_create_bitmap(video_canvas_t *c,
 			use_colorspace,false,true);
 }    
 
-video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
-                              unsigned int *height, int mapped,
-                              void_t exposure_handler,
-                              const palette_t *palette)
+video_canvas_t *video_canvas_init(void)
 {
-    video_canvas_t *new_canvas;
+    video_canvas_t *canvas;
+
+    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+
+    canvas->video_draw_buffer_callback = NULL;
+
+    return canvas;
+}
+
+int video_canvas_create(struct video_canvas_s *canvas, const char *title,
+                        unsigned int *width, unsigned int *height, int mapped,
+                        void_t exposure_handler,
+                        const struct palette_s *palette)
+{
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
-    new_canvas = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
-    if (!new_canvas)
-	return (video_canvas_t *) NULL;
-
-    new_canvas->video_draw_buffer_callback = NULL;
-
-    video_render_initconfig(&new_canvas->videoconfig);
-	new_canvas->title = stralloc(title);
+    video_render_initconfig(&canvas->videoconfig);
+	canvas->title = stralloc(title);
     switch (BScreen().ColorSpace()) {
     	case B_CMAP8:
-    		new_canvas->depth = 8;
+    		canvas->depth = 8;
     		break;
     	case B_RGB15:
     	case B_RGB16:
-    		new_canvas->depth = 16;
+    		canvas->depth = 16;
     		break;
     	case B_RGB32:
 		default:
-			new_canvas->depth = 32;
+			canvas->depth = 32;
 	}
-    video_canvas_set_palette(new_canvas, palette);
+    video_canvas_set_palette(canvas, palette);
 
-    new_canvas->width = *width;
-    new_canvas->height = *height;
-    new_canvas->palette = palette;
+    canvas->width = *width;
+    canvas->height = *height;
+    canvas->palette = palette;
 
-    new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
+    canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
 	
-	new_canvas->vicewindow = 
+	canvas->vicewindow = 
 		new ViceWindow(BRect(0,0,*width-1,*height-1),title);
 		
-	new_canvas->vicewindow->canvas = new_canvas;
+	canvas->vicewindow->canvas = canvas;
 		
-	canvas_create_bitmap(new_canvas, *width, *height);
+	canvas_create_bitmap(canvas, *width, *height);
 
 	number_of_canvas++;
-	new_canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
+	canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
 
-    return new_canvas;
+    return 0;
 }
 
 

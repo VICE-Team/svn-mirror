@@ -1703,16 +1703,25 @@ void CanvasMainLoop(VOID *arg)
 
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
+video_canvas_t *video_canvas_init(void)
+{
+    video_canvas_t *canvas;
+
+    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+
+    return canvas;
+}
+
 /* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 
-video_canvas_t *video_canvas_create(const char *title,
-                                    UINT *width, UINT *height, int mapped,
-                                    void_t exposure_handler,
-                                    const palette_t *palette);
+int video_canvas_create(video_canvas_t *canvas, const char *title,
+                        UINT *width, UINT *height, int mapped,
+                        void_t exposure_handler,
+                        const struct palette_s *palette);
 {
     canvas_init_t canvini;
 
@@ -1749,7 +1758,7 @@ video_canvas_t *video_canvas_create(const char *title,
 
     video_canvas_set_palette(canvini.canvas, palette);
 
-    return canvini.canvas;
+    return 0;
 }
 
 void video_canvas_destroy(video_canvas_t *c)

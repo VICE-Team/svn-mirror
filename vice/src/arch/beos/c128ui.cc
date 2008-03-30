@@ -39,13 +39,13 @@ extern "C" {
 
 ui_menu_toggle  c128_ui_menu_toggles[]={
     { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "DoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "VDC_DoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
-    { "VDC_DoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
+    { "VDCDoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", MENU_TOGGLE_VDC64KB },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
