@@ -40,6 +40,7 @@ struct ui_resources_s {
     char *html_browser_command;
     int use_private_colormap;
     int save_resources_on_exit;
+    int confirm_on_exit;
     int depth;
 };
 typedef struct ui_resources_s ui_resources_t;
@@ -80,6 +81,12 @@ static int set_save_resources_on_exit(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_confirm_on_exit(resource_value_t v, void *param)
+{
+    ui_resources.confirm_on_exit = (int)v;
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "HTMLBrowserCommand", RES_STRING, (resource_value_t)"netscape %s",
       (void *)&ui_resources.html_browser_command,
@@ -90,6 +97,8 @@ static const resource_t resources[] = {
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
       (void *)&ui_resources.save_resources_on_exit,
       set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
+      (void *)&ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { "DisplayDepth", RES_INTEGER, (resource_value_t)0,
       (void *)&ui_resources.depth,
       set_depth, NULL },

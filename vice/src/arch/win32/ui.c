@@ -49,6 +49,7 @@
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -1616,6 +1617,11 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
         ui_message("Default settings restored.");
+        break;
+      case IDM_EVENT_DIRECTORY:
+        ui_select_file(hwnd, "Select directory for event history", 
+                        UI_LIB_FILTER_ALL | UI_LIB_FILTER_SNAPSHOT,
+                        DIR_SELECTOR_EVENT_STYLE, NULL);
         break;
       case IDM_EVENT_TOGGLE_RECORD:
         {

@@ -430,6 +430,7 @@
 #define IDM_SNAPSHOT_LOAD               40080
 #define IDM_SNAPSHOT_SAVE               40081
 #define IDM_MEDIAFILE                   40082
+#define IDM_EVENT_DIRECTORY             40083
 #define IDM_EVENT_TOGGLE_RECORD         40084
 #define IDM_EVENT_TOGGLE_PLAYBACK       40085
 #define IDM_EVENT_RECORDMODE_SAVE       40086

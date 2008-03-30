@@ -261,6 +261,7 @@ static UI_CALLBACK(set_default_resources)
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
+UI_MENU_DEFINE_TOGGLE(ConfirmOnExit)
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 /* ------------------------------------------------------------------------- */
@@ -525,6 +526,8 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
       (ui_callback_t)set_default_resources, NULL, NULL },
     { N_("*Save settings on exit"),
       (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL },
+    { N_("*Confirm on exit"),
+      (ui_callback_t)toggle_ConfirmOnExit, NULL, NULL },
     { NULL }
 };
 

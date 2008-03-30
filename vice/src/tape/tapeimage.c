@@ -115,6 +115,7 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
             t64_rec = t64_get_current_file_record((t64_t *)tape_image->data);
             memcpy(rec.name, t64_rec->cbm_name, 16);
             rec.type = (t64_rec->entry_type == T64_FILE_RECORD_FREE) ? 0 : 1;
+            rec.encoding = TAPE_ENCODING_NONE;
             rec.start_addr = t64_rec->start_addr;
             rec.end_addr = t64_rec->end_addr;
             break;
@@ -126,6 +127,7 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
             tape_rec = tap_get_current_file_record((tap_t *)tape_image->data);
             memcpy(rec.name, tape_rec->name, 16);
             rec.type = tape_rec->type;
+            rec.encoding = tape_rec->encoding;
             rec.start_addr = tape_rec->start_addr;
             rec.end_addr = tape_rec->end_addr;
             break;

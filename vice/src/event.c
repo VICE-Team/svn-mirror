@@ -75,11 +75,22 @@ static log_t event_log = LOG_DEFAULT;
 
 static unsigned int playback_active = 0, record_active = 0;
 
+static char *event_snapshot_dir = NULL;
 static char *event_start_snapshot = NULL;
 static char *event_end_snapshot = NULL;
-static char *event_milestone_snapshot = NULL;
+static char *event_snapshot_path_str = NULL;
 static unsigned int event_start_mode;
 
+static char *event_snapshot_path(const char *snapshot_file)
+{
+    if (event_snapshot_path_str != NULL)
+        lib_free(event_snapshot_path_str);
+
+    event_snapshot_path_str = 
+        util_concat(event_snapshot_dir, snapshot_file, NULL);
+
+    return event_snapshot_path_str;
+}
 
 void event_record(unsigned int type, void *data, unsigned int size)
 {
@@ -249,7 +260,8 @@ static void event_record_start_trap(WORD addr, void *data)
 {
     switch (event_start_mode) {
       case EVENT_START_MODE_FILE_SAVE:
-        if (machine_write_snapshot(event_start_snapshot, 1, 1, 0) < 0) {
+        if (machine_write_snapshot(event_snapshot_path(event_start_snapshot),
+                                    1, 1, 0) < 0) {
             ui_error("Could not create start snapshot file.");
             return;
         }
@@ -259,7 +271,8 @@ static void event_record_start_trap(WORD addr, void *data)
         event_initial_write();
         break;
       case EVENT_START_MODE_FILE_LOAD:
-        if (machine_read_snapshot(event_end_snapshot, 1) < 0) {
+        if (machine_read_snapshot(
+                event_snapshot_path(event_end_snapshot), 1) < 0) {
             ui_error("Error reading start snapshot file.");
             return;
         }
@@ -296,11 +309,11 @@ int event_record_start(void)
 
 static void event_record_stop_trap(WORD addr, void *data)
 {
-    if (machine_write_snapshot(event_end_snapshot, 1, 1, 1) < 0) {
+    if (machine_write_snapshot(
+            event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
         ui_error("Could not create end snapshot file.");
         return;
     }
-
     record_active = 0;
 }
 
@@ -342,7 +355,8 @@ static void event_playback_start_trap(WORD addr, void *data)
     snapshot_t *s;
     BYTE minor, major;
 
-    s = snapshot_open(event_end_snapshot, &major, &minor, machine_name);
+    s = snapshot_open(
+        event_snapshot_path(event_end_snapshot), &major, &minor, machine_name);
 
     if (s == NULL) {
         ui_error("Could not open end snapshot file.");
@@ -367,7 +381,8 @@ static void event_playback_start_trap(WORD addr, void *data)
         switch (data[0]) {
           case EVENT_START_MODE_FILE_SAVE:
             /*log_debug("READING %s", (char *)(&data[1]));*/
-            if (machine_read_snapshot((char *)(&data[1]), 0) < 0) {
+            if (machine_read_snapshot(
+                    event_snapshot_path((char *)(&data[1])), 0) < 0) {
                 ui_error("Error reading start snapshot file.");
                 return;
             }
@@ -383,7 +398,8 @@ static void event_playback_start_trap(WORD addr, void *data)
             break;
         }
     } else {
-        if (machine_read_snapshot(event_start_snapshot, 0) < 0) {
+        if (machine_read_snapshot(
+                event_snapshot_path(event_start_snapshot), 0) < 0) {
             ui_error("Error reading start snapshot file.");
             return;
         }
@@ -425,10 +441,9 @@ int event_playback_stop(void)
 
 static void event_record_set_milestone_trap(WORD addr, void *data)
 {
-    if (machine_write_snapshot(event_milestone_snapshot, 1, 1, 1) < 0) {
-        ui_error("Could not create milestone snapshot file.");
-        return;
-    }
+    if (machine_write_snapshot(
+            event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0)
+        ui_error("Could not create end snapshot file.");
 }
 
 int event_record_set_milestone(void)
@@ -443,11 +458,17 @@ int event_record_set_milestone(void)
 
 static void event_record_reset_milestone_trap(WORD addr, void *data)
 {
-    if (machine_read_snapshot(event_milestone_snapshot, 1) < 0) {
-            ui_error("Error reading milestone snapshot file.");
-            return;
+    /* We need to disable recording to avoid events being recorded while
+       snapshot reading. */
+    record_active = 0;
+
+    if (machine_read_snapshot(
+            event_snapshot_path(event_end_snapshot), 1) < 0) {
+        ui_error("Error reading end snapshot file.");
+        return;
     }
     warp_end_list();
+    record_active = 1;
 }
 
 int event_record_reset_milestone(void)
@@ -568,6 +589,22 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
 
 /*-----------------------------------------------------------------------*/
 
+static int set_event_snapshot_dir(resource_value_t v, void *param)
+{
+    const char *s = (const char *)v;
+
+    /* Make sure that the string ends with FSDEV_DIR_SEP_STR */
+    if (s[strlen(s) - 1] == FSDEV_DIR_SEP_CHR) {
+        util_string_set(&event_snapshot_dir, s);
+    } else {
+        if (event_snapshot_dir != NULL)
+            lib_free(event_snapshot_dir);
+        event_snapshot_dir = util_concat(s, FSDEV_DIR_SEP_STR, NULL);
+    }
+
+    return 0;
+}
+
 static int set_event_start_snapshot(resource_value_t v, void *param)
 {
     if (util_string_set(&event_start_snapshot, (const char *)v))
@@ -579,14 +616,6 @@ static int set_event_start_snapshot(resource_value_t v, void *param)
 static int set_event_end_snapshot(resource_value_t v, void *param)
 {
     if (util_string_set(&event_end_snapshot, (const char *)v))
-        return 0;
-
-    return 0;
-}
-
-static int set_event_milestone_snapshot(resource_value_t v, void *param)
-{
-    if (util_string_set(&event_milestone_snapshot, (const char *)v))
         return 0;
 
     return 0;
@@ -609,13 +638,13 @@ static int set_event_start_mode(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
+    { "EventSnapshotDir", RES_STRING, 
+      (resource_value_t)FSDEVICE_DEFAULT_DIR FSDEV_DIR_SEP_STR,
+      (void *)&event_snapshot_dir, set_event_snapshot_dir, NULL },
     { "EventStartSnapshot", RES_STRING, (resource_value_t)EVENT_START_SNAPSHOT,
       (void *)&event_start_snapshot, set_event_start_snapshot, NULL },
     { "EventEndSnapshot", RES_STRING, (resource_value_t)EVENT_END_SNAPSHOT,
       (void *)&event_end_snapshot, set_event_end_snapshot, NULL },
-    { "EventMilestoneSnapshot", RES_STRING,
-      (resource_value_t)EVENT_MILESTONE_SNAPSHOT,
-      (void *)&event_milestone_snapshot, set_event_milestone_snapshot, NULL },
     { "EventStartMode", RES_INTEGER,
       (resource_value_t)EVENT_START_MODE_FILE_SAVE,
       (void *)&event_start_mode, set_event_start_mode, NULL },
@@ -631,7 +660,9 @@ void event_shutdown(void)
 {
     lib_free(event_start_snapshot);
     lib_free(event_end_snapshot);
-    lib_free(event_milestone_snapshot);
+    lib_free(event_snapshot_dir);
+    if (event_snapshot_path_str != NULL)
+        lib_free(event_snapshot_path_str);
     destroy_list();
 }
 

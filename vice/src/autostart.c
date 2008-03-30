@@ -521,7 +521,8 @@ int autostart_tape(const char *file_name, const char *program_name,
             if (program_number > 0) {
                 lib_free(name);
                 name = NULL;
-                tape_seek_to_file(tape_image_dev1, program_number);
+                /* program numbers in tape_seek_to_file() start at 0 */
+                tape_seek_to_file(tape_image_dev1, program_number-1);
             } else {
                 tape_seek_start(tape_image_dev1);
             }

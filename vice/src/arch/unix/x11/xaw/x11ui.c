@@ -1013,15 +1013,19 @@ void ui_set_application_icon(const char *icon_data[])
 void ui_exit(void)
 {
     ui_button_t b;
+    int value;
     char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
-    b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+    resources_get_value("ConfirmOnExit", (void *)&value);
+    if( value )
+      b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+    else
+      b = UI_BUTTON_YES;
 
     if (b == UI_BUTTON_YES) {
-        int save_resources_on_exit;
         resources_get_value("SaveResourcesOnExit",
-                            (void *)&save_resources_on_exit);
-        if (save_resources_on_exit) {
+                            (void *)&value);
+        if (value) {
             b = ui_ask_confirmation(s, _("Save the current settings?"));
             if (b == UI_BUTTON_YES) {
                 if (resources_save(NULL) < 0)

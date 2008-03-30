@@ -426,10 +426,13 @@ typedef struct {
 } namedvisual_t;
 
 
-void delete_event(GtkWidget *w, GdkEvent *e, gpointer data) 
+gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data) 
 {
     vsync_suspend_speed_eval();
     ui_exit();
+    /* ui_exit() will exit the application if user allows it. So if
+       we return here then we should keep going => return TRUE */
+    return TRUE;
 }
 
 void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
@@ -1250,19 +1253,21 @@ void ui_set_application_icon(const char *icon_data[])
 void ui_exit(void)
 {
     ui_button_t b;
+    int value;
     char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_suspend(1);
 #endif
-    b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+    resources_get_value("ConfirmOnExit", (void *)&value);
+    if( value )
+      b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+    else
+      b = UI_BUTTON_YES;
 
     if (b == UI_BUTTON_YES) {
-        int save_resources_on_exit;
-
-        resources_get_value("SaveResourcesOnExit",
-                            (void *)&save_resources_on_exit);
-	if (save_resources_on_exit) {
+        resources_get_value("SaveResourcesOnExit", (void *)&value);
+	if (value) {
 	    b = ui_ask_confirmation(s, _("Save the current settings?"));
 	    if (b == UI_BUTTON_YES) {
 		if (resources_save(NULL) < 0)

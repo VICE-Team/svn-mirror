@@ -36,6 +36,10 @@
 #define TAPE_TYPE_T64 0
 #define TAPE_TYPE_TAP 1
 
+#define TAPE_ENCODING_NONE      0
+#define TAPE_ENCODING_CBM       1
+#define TAPE_ENCODING_TURBOTAPE 2
+
 
 struct trap_s;
 
@@ -69,7 +73,7 @@ typedef struct tape_init_s tape_init_t;
 
 struct tape_file_record_s {
     BYTE name[17];
-    BYTE type;
+    BYTE type, encoding;
     WORD start_addr;
     WORD end_addr;
 };

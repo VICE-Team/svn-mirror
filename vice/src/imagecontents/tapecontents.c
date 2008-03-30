@@ -58,14 +58,19 @@ static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)
             memcpy(new_list->name, rec->name, 16);
             new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
 
+            if( rec->encoding==TAPE_ENCODING_TURBOTAPE )
+              new_list->type[0] = 'T';
+            else
+              new_list->type[0] = ' ';
+
             if( rec->type==4 )
               {
-                strcpy((char *)new_list->type, " SEQ ");
+                strcpy((char *)new_list->type+1, "SEQ ");
                 new_list->size = 0;
               }
             else
               {
-                strcpy((char *)new_list->type, " PRG ");
+                strcpy((char *)new_list->type+1, "PRG ");
                 new_list->size = 1 + (rec->end_addr - rec->start_addr) / 254;
               }
             new_list->next = NULL;

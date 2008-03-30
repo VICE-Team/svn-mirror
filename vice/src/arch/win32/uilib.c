@@ -112,6 +112,9 @@ static ui_file_selector_style_type styles[NUM_OF_FILE_SELECTOR_STYLES + 1] = {
     /* FILE_SELECTOR_SNAPSHOT_STYLE */
     { NULL,
       NULL, 0, "InitialSnapshotDir" },
+    /* DIR_SELECTOR_EVENT_STYLE */
+    { NULL,
+      NULL, 0, "EventSnapshotDir" },
     /* DUMMY entry Insert new styles before this */
     { NULL,
       NULL, 0, NULL }
@@ -574,11 +577,15 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     OPENFILENAME ofn;
     int result;
 
-    resources_get_value(styles[style].initialdir_resource,
-        (void *)&initialdir);
+    if (styles[style].initialdir_resource != NULL)
+        resources_get_value(styles[style].initialdir_resource,
+            (void *)&initialdir);
 
     if (ui_file_selector_initialfile[style] != NULL)
         strcpy(name, ui_file_selector_initialfile[style]);
+
+    if (style == DIR_SELECTOR_EVENT_STYLE)
+        strcpy(name, "FilenameNotUsed");
 
     if (fontfile == NULL) {
         fontfile = util_concat(archdep_boot_path(), 
@@ -610,7 +617,6 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
         ofn.Flags = (OFN_EXPLORER
                      | OFN_HIDEREADONLY
                      | OFN_NOTESTFILECREATE
-                     | OFN_FILEMUSTEXIST
                      | OFN_ENABLEHOOK
                      | OFN_ENABLETEMPLATE
                      | OFN_SHAREAWARE
@@ -621,11 +627,13 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
         ofn.Flags = (OFN_EXPLORER
                      | OFN_HIDEREADONLY
                      | OFN_NOTESTFILECREATE
-                     | OFN_FILEMUSTEXIST
                      | OFN_SHAREAWARE);
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;
     }
+    if (style != DIR_SELECTOR_EVENT_STYLE)
+        ofn.Flags |= OFN_FILEMUSTEXIST;
+
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
@@ -646,6 +654,7 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
         return NULL;
     }
 }
+
 
 BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
 {
