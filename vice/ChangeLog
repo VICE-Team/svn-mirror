@@ -1,3 +1,19 @@
+2001-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.6.
+
+2001-02-07  Andre Fachat  <a.fachat@gmx.net>
+
+	* BUGS, TODO, NEWS: some updates
+
+	* data/CBM-II/Makefile.am: add VIC-II palette files to list
+
+	* /data/CBM-II/busi_uk.vkm: move RUN/STOP from escape to left 
+	ctrl, add ESC key emulation on escape
+
+	* data/CBM-II/c64s.vpl, data/CBM-II/ccs64.vpl, data/CBM-II/frodo.vpl,
+	data/CBM-II/godot.vpl, data/CBM-II/pc64.vpl: new files
+
 2001-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.5.

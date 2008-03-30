@@ -38,6 +38,8 @@ extern int arch_mon_out(const char *format, ...);
 extern char *arch_mon_in(void);
 
 extern struct console_s *arch_console_open_mdi(const char *id, void *,
-                                               void *, void *);
+                                               void *, void *,
+                                               unsigned long int dwStyle,
+                                               int x, int y, int dx, int dy );
 
 #endif
