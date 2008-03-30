@@ -3,6 +3,7 @@ source type(c)
     "cart\\atomicpower.c",
     "cart\\c64cart.c",
     "cart\\c64cartmem.c",
+    "cart\\comal80.c",
     "cart\\crt.c",
     "cart\\epyxfastload.c",
     "cart\\expert.c",
@@ -12,6 +13,8 @@ source type(c)
     "cart\\kcs.c",
     "cart\\magicformel.c",
     "cart\\retroreplay.c",
+    "cart\\ross.c",
+    "cart\\stb.c",
     "cart\\supergames.c",
     "cart\\supersnapshot.c",
     "cart\\zaxxon.c"

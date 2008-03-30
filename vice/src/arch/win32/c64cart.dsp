@@ -98,6 +98,10 @@ SOURCE="..\..\c64\cart\c64cartmem.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\comal80.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\crt.c"
 # End Source File
 # Begin Source File
@@ -131,6 +135,10 @@ SOURCE="..\..\c64\cart\magicformel.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\retroreplay.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\ross.c"
 # End Source File
 # Begin Source File
 

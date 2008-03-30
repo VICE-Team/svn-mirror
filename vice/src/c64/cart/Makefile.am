@@ -15,6 +15,8 @@ libc64cart_a_SOURCES = \
 	c64cart.c \
 	c64cartmem.c \
 	c64cartmem.h \
+	comal80.c \
+	comal80.h \
 	crt.c \
 	crt.h \
 	epyxfastload.c \
@@ -33,6 +35,8 @@ libc64cart_a_SOURCES = \
 	magicformel.h \
 	retroreplay.c \
 	retroreplay.h \
+	ross.c \
+	ross.h \
 	stb.c \
 	stb.h \
 	supergames.c \

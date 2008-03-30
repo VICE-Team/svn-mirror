@@ -37,6 +37,7 @@
 #include "c64tpi.h"
 #include "c64cartmem.h"
 #include "cartridge.h"
+#include "comal80.h"
 #include "crt.h"
 #include "epyxfastload.h"
 #include "expert.h"
@@ -51,6 +52,7 @@
 #include "retroreplay.h"
 #include "ide64.h"
 #include "ramcart.h"
+#include "ross.h"
 #include "stb.h"
 #include "supergames.h"
 #include "supersnapshot.h"
@@ -139,6 +141,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return expert_io1_read(addr);
       case CARTRIDGE_MAGIC_FORMEL:
         return magicformel_io1_read(addr);
+      case CARTRIDGE_ROSS:
+        return ross_io1_read(addr);
       case CARTRIDGE_STRUCTURED_BASIC:
         return stb_io1_read(addr);
     }
@@ -172,6 +176,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         break;
       case CARTRIDGE_FINAL_III:
         final_v3_io1_store(addr, value);
+        break;
+      case CARTRIDGE_COMAL80:
+        comal80_io1_store(addr, value);
         break;
       case CARTRIDGE_SIMONS_BASIC:
         cartridge_config_changed(1, 1, CMODE_WRITE);
@@ -266,6 +273,8 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return roml_banks[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_MAGIC_FORMEL:
         return magicformel_io2_read(addr);
+      case CARTRIDGE_ROSS:
+        return ross_io2_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -532,6 +541,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_SUPER_GAMES:
         supergames_config_init();
         break;
+      case CARTRIDGE_COMAL80:
+        comal80_config_init();
+        break;
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_REX:
         generic_8kb_config_init();
@@ -589,6 +601,9 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_config_init();
+        break;
+      case CARTRIDGE_ROSS:
+        ross_config_init();
         break;
       case CARTRIDGE_STRUCTURED_BASIC:
         stb_config_init();
@@ -674,6 +689,9 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_SUPER_GAMES:
         supergames_config_setup(rawcart);
         break;
+      case CARTRIDGE_COMAL80:
+        comal80_config_setup(rawcart);
+        break;
       case CARTRIDGE_EXPERT:
         expert_config_setup(rawcart);
         break;
@@ -686,6 +704,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_config_setup(rawcart);
+        break;
+      case CARTRIDGE_ROSS:
+        ross_config_setup(rawcart);
         break;
       case CARTRIDGE_STRUCTURED_BASIC:
         stb_config_setup(rawcart);
@@ -763,6 +784,15 @@ void cartridge_detach(int type)
       case CARTRIDGE_SUPER_GAMES:
         supergames_detach();
         break;
+      case CARTRIDGE_COMAL80:
+        comal80_detach();
+        break;
+      case CARTRIDGE_STRUCTURED_BASIC:
+        stb_detach();
+        break;
+      case CARTRIDGE_ROSS:
+        ross_detach();
+        break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_detach();
         break;
@@ -836,5 +866,3 @@ void cartridge_romlbank_set(unsigned int bank)
 {
     roml_bank = (int)bank;
 }
-
-

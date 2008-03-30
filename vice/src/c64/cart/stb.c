@@ -112,6 +112,30 @@ int stb_bin_attach(const char *filename, BYTE *rawcart)
     return 0;
 }
 
+int stb_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+
+    while (1) {
+        if (fread(chipheader, 0x10, 1, fd) < 1)
+            break;
+
+        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x20
+            && chipheader[0xb] > 1)
+            return -1;
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1)
+            return -1;
+    }
+
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
+    return 0;
+}
+
+
+
 void stb_detach(void)
 {
     c64export_remove(&export_res);

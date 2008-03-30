@@ -126,7 +126,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_PLAYBACK_ERROR_DIFFERENT,    "Playback error: %s different from line %d of file debug%06d"},
 /* de */ {IDGS_PLAYBACK_ERROR_DIFFERENT_DE, "Wiedergabe Fehler: %s ist unterschiedlich von Zeile %d in Datei debug%06d"},
 /* fr */ {IDGS_PLAYBACK_ERROR_DIFFERENT_FR, "Erreur de lecture: %s est différente de la ligne %d du fichier débug%06d"},
-/* it */ {IDGS_PLAYBACK_ERROR_DIFFERENT_IT, "Errore di riproduzione: %s Ã¨ differente dalla linea %d del file di debug %06d"},
+/* it */ {IDGS_PLAYBACK_ERROR_DIFFERENT_IT, "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"},
 /* nl */ {IDGS_PLAYBACK_ERROR_DIFFERENT_NL, "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"},
 /* pl */ {IDGS_PLAYBACK_ERROR_DIFFERENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_PLAYBACK_ERROR_DIFFERENT_SV, "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"},
@@ -135,7 +135,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANNOT_CREATE_IMAGE_S,    "Cannot create image file %s"},
 /* de */ {IDGS_CANNOT_CREATE_IMAGE_S_DE, "Kann Datei `%s' nicht erzeugen"},
 /* fr */ {IDGS_CANNOT_CREATE_IMAGE_S_FR, "Impossible de créer le fichier image %s"},
-/* it */ {IDGS_CANNOT_CREATE_IMAGE_S_IT, "Non Ã¨ possibile creare l'immagine %s"},
+/* it */ {IDGS_CANNOT_CREATE_IMAGE_S_IT, "Non è possibile creare l'immagine %s"},
 /* nl */ {IDGS_CANNOT_CREATE_IMAGE_S_NL, "Kan bestand `%s' niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_IMAGE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_IMAGE_S_SV, "Kan inte skapa avbildningsfil %s"},
@@ -144,7 +144,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S,    "Cannot write image file %s"},
 /* de */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_DE, "Kann Datei %s nicht schreiben"},
 /* fr */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_FR, "Impossible d'écrire le fichier image %s"},
-/* it */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_IT, "Non Ã¨ possibile scrivere l'immagine %s"},
+/* it */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_IT, "Non è possibile scrivere l'immagine %s"},
 /* nl */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_NL, "Kan niet schrijven naar bestand %s"},
 /* pl */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S_SV, "Kan inte skriva avbildningsfil %s"},
@@ -180,7 +180,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANT_CREATE_END_SNAP_S,    "Could not create end snapshot file %s."},
 /* de */ {IDGS_CANT_CREATE_END_SNAP_S_DE, "Kann Ende Snapshot Datei nicht erzeugen: %s"},
 /* fr */ {IDGS_CANT_CREATE_END_SNAP_S_FR, "Impossible de créer le fichier de sauvegarde de fin %s."},
-/* it */ {IDGS_CANT_CREATE_END_SNAP_S_IT, "Non Ã¨ possibile creare il file di fine snapshot %s."},
+/* it */ {IDGS_CANT_CREATE_END_SNAP_S_IT, "Non è possibile creare il file di fine snapshot %s."},
 /* nl */ {IDGS_CANT_CREATE_END_SNAP_S_NL, "Kon het eind momentopname bestand %s niet maken."},
 /* pl */ {IDGS_CANT_CREATE_END_SNAP_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANT_CREATE_END_SNAP_S_SV, "Kunde inte skapa slutögonblicksbildfilen %s."},
@@ -189,7 +189,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANT_OPEN_END_SNAP_S,    "Could not open end snapshot file %s."},
 /* de */ {IDGS_CANT_OPEN_END_SNAP_S_DE, "Kann Ende Snapshot Datei nicht öffnen: %s"},
 /* fr */ {IDGS_CANT_OPEN_END_SNAP_S_FR, "Impossible d'ouvrir le fichier de sauvegarde de fin %s."},
-/* it */ {IDGS_CANT_OPEN_END_SNAP_S_IT, "Non Ã¨ possibile aprire il file di fine snapshot %s."},
+/* it */ {IDGS_CANT_OPEN_END_SNAP_S_IT, "Non è possibile aprire il file di fine snapshot %s."},
 /* nl */ {IDGS_CANT_OPEN_END_SNAP_S_NL, "Kon het eind momentopname bestand %s niet openen."},
 /* pl */ {IDGS_CANT_OPEN_END_SNAP_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANT_OPEN_END_SNAP_S_SV, "Kunde inte öppna slutögonblicksbildfilen %s."},
@@ -550,7 +550,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME,    "Specify name of C64 mode Kernal ROM image"},
 /* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, "Dateiname des Kernal ROMs im C64 Modus"},
 /* fr */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_FR, "Spécifier le nom de l'image Kernal du mode C64"},
-/* it */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal in modalitÃ  C64"},
+/* it */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal in modalità C64"},
 /* nl */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_NL, "Geef de naam van het C64 modus Kernal ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_SV, "Ange namn på C64-kernal-ROM-avbildning"},
@@ -559,7 +559,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME,    "Specify name of C64 mode BASIC ROM image"},
 /* de */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_DE, "Dateiname des Basic ROMs im C64 Modus"}, 
 /* fr */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_FR, "Spécifier le nom de l'image BASIC ROM du mode C64"},
-/* it */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_IT, "Specifica il nome dell'immagine della ROM in modalitÃ  C64"},
+/* it */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_IT, "Specifica il nome dell'immagine della ROM in modalità C64"},
 /* nl */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_NL, "Geef de naam van het C64 modus BASIC ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_SV, "Ange namn på C64-BASIC-ROM-avbildning"},
@@ -690,7 +690,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ACTIVATE_40_COL_MODE,    "Activate 40 column mode"},
 /* de */ {IDCLS_ACTIVATE_40_COL_MODE_DE, "40 Zeichen Modus"},
 /* fr */ {IDCLS_ACTIVATE_40_COL_MODE_FR, "Activer le mode 40 colonnes"},
-/* it */ {IDCLS_ACTIVATE_40_COL_MODE_IT, "Attiva la modalitÃ  a 40 colonne"},
+/* it */ {IDCLS_ACTIVATE_40_COL_MODE_IT, "Attiva la modalità a 40 colonne"},
 /* nl */ {IDCLS_ACTIVATE_40_COL_MODE_NL, "Aktiveer 40 kolommen modus"},
 /* pl */ {IDCLS_ACTIVATE_40_COL_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ACTIVATE_40_COL_MODE_SV, "Aktivera 40-kolumnersläge"},
@@ -699,7 +699,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ACTIVATE_80_COL_MODE,    "Activate 80 column mode"},
 /* de */ {IDCLS_ACTIVATE_80_COL_MODE_DE, "80 Zeichen Modus"},
 /* fr */ {IDCLS_ACTIVATE_80_COL_MODE_FR, "Activer le mode 80 colonnes"},
-/* it */ {IDCLS_ACTIVATE_80_COL_MODE_IT, "Attiva la modalitÃ  a 80 colonne"},
+/* it */ {IDCLS_ACTIVATE_80_COL_MODE_IT, "Attiva la modalità a 80 colonne"},
 /* nl */ {IDCLS_ACTIVATE_80_COL_MODE_NL, "Aktiveer 80 kolommen modus"},
 /* pl */ {IDCLS_ACTIVATE_80_COL_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ACTIVATE_80_COL_MODE_SV, "Aktivera 80-kolumnersläge"},
@@ -868,7 +868,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SID_PLAYER_MODE,    "SID player mode"},
 /* de */ {IDCLS_SID_PLAYER_MODE_DE, "SID player Modus"},
 /* fr */ {IDCLS_SID_PLAYER_MODE_FR, "Mode jukebox SID"},
-/* it */ {IDCLS_SID_PLAYER_MODE_IT, "ModalitÃ  del SID player"},
+/* it */ {IDCLS_SID_PLAYER_MODE_IT, "Modalità del SID player"},
 /* nl */ {IDCLS_SID_PLAYER_MODE_NL, "SID player modus"},
 /* pl */ {IDCLS_SID_PLAYER_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SID_PLAYER_MODE_SV, "SID-spelarläge"},
@@ -968,7 +968,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TFE,    "Enable the TFE (\"The Final Ethernet\") unit"},
 /* de */ {IDCLS_ENABLE_TFE_DE, "TFE Ethernetemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_TFE_FR, "Activer l'unité TFE (\"The Final Ethernet\")"},
-/* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unitÃ  TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
+/* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Aktiveer de TFE (\"The Final Ethernet\") eenheid"},
 /* pl */ {IDCLS_ENABLE_TFE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TFE_SV, "Aktivera TFE-enhet (\"the final ethernet\")"},
@@ -977,7 +977,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TFE,    "Disable the TFE (\"The Final Ethernet\") unit"},
 /* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE"},
-/* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unitÃ  TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
+/* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\") eenheid afsluiten"},
 /* pl */ {IDCLS_DISABLE_TFE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TFE_SV, "Inaktivera TFE-enhet (\"the final ethernet\")"},
@@ -987,7 +987,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_CART_ATTACH_DETACH_RESET,    "Reset machine if a cartridge is attached or detached"},
 /* de */ {IDCLS_CART_ATTACH_DETACH_RESET_DE, "Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt wird"},
 /* fr */ {IDCLS_CART_ATTACH_DETACH_RESET_FR, "Réinitialiser si une cartouche est insérée ou retirée"},
-/* it */ {IDCLS_CART_ATTACH_DETACH_RESET_IT, "Fare il reset della macchina se una cartuccia Ã¨ collegata o rimossa"},
+/* it */ {IDCLS_CART_ATTACH_DETACH_RESET_IT, "Fare il reset della macchina se una cartuccia è collegata o rimossa"},
 /* nl */ {IDCLS_CART_ATTACH_DETACH_RESET_NL, "Reset machine als een cartridge wordt gekoppelt of ontkoppelt"},
 /* pl */ {IDCLS_CART_ATTACH_DETACH_RESET_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_CART_ATTACH_DETACH_RESET_SV, "Nollställ maskinen om en insticksmodul kopplas till eller från"},
@@ -996,7 +996,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_CART_ATTACH_DETACH_NO_RESET,    "Do not reset machine if a cartridge is attached or detached"},
 /* de */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_DE, "Kein Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt wird"},
 /* fr */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_FR, "Ne pas réinitialiser si une cartouche est insérée ou retirée"},
-/* it */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_IT, "Non fare il reset della macchina se una cartuccia Ã¨ collegata o rimossa"},
+/* it */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_IT, "Non fare il reset della macchina se una cartuccia è collegata o rimossa"},
 /* nl */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_NL, "Reset machine niet als een cartridge wordt gekoppelt of ontkoppelt"},
 /* pl */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_SV, "Nollställ inte maskinen om en insticksmodul kopplas till eller från"},
@@ -2301,7 +2301,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_BAUD_RS232_USERPORT,    "Set the baud rate of the RS232 userport emulation."},
 /* de */ {IDCLS_SET_BAUD_RS232_USERPORT_DE, "Baudrate für RS232 Userport Emulation setzen"},
 /* fr */ {IDCLS_SET_BAUD_RS232_USERPORT_FR, "Spécifiez la vitesse en baud du périphérique RS232 userport"},
-/* it */ {IDCLS_SET_BAUD_RS232_USERPORT_IT, "Imposta la velocitÃ  della RS232 su userport (in baud)"},
+/* it */ {IDCLS_SET_BAUD_RS232_USERPORT_IT, "Imposta la velocità della RS232 su userport (in baud)"},
 /* nl */ {IDCLS_SET_BAUD_RS232_USERPORT_NL, "Zet de baud rate van de RS232 userport emulatie."},
 /* pl */ {IDCLS_SET_BAUD_RS232_USERPORT_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BAUD_RS232_USERPORT_SV, "Ange baudhastighet för RS232-emuleringen på användarporten."},
@@ -2967,7 +2967,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_MODE,    "<mode>"},
 /* de */ {IDCLS_P_MODE_DE, "<Modus>"},
 /* fr */ {IDCLS_P_MODE_FR, "<mode>"},
-/* it */ {IDCLS_P_MODE_IT, "<modalitÃ >"},
+/* it */ {IDCLS_P_MODE_IT, "<modalità>"},
 /* nl */ {IDCLS_P_MODE_NL, "<modus>"},
 /* pl */ {IDCLS_P_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_MODE_SV, "<läge>"},
@@ -2976,7 +2976,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_FULLSCREEN_MODE,    "Select fullscreen mode"},
 /* de */ {IDCLS_SELECT_FULLSCREEN_MODE_DE, "Vollbild Modus wählen"},
 /* fr */ {IDCLS_SELECT_FULLSCREEN_MODE_FR, "Sélectionner le mode plein écran"},
-/* it */ {IDCLS_SELECT_FULLSCREEN_MODE_IT, "Seleziona la modalitÃ  di visualizzazione a tutto schermo"},
+/* it */ {IDCLS_SELECT_FULLSCREEN_MODE_IT, "Seleziona la modalità di visualizzazione a tutto schermo"},
 /* nl */ {IDCLS_SELECT_FULLSCREEN_MODE_NL, "Selecteer volscherm modus"},
 /* pl */ {IDCLS_SELECT_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_FULLSCREEN_MODE_SV, "Aktivera fullskärmsläge"},
@@ -3233,7 +3233,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TRACE_MODE,    "Trace mode (0=normal 1=small 2=history)"},
 /* de */ {IDCLS_TRACE_MODE_DE, "Verfolgung Modus (0=normal 1=klein 2=Geschichte)"},
 /* fr */ {IDCLS_TRACE_MODE_FR, "Mode de trace (0=normal 1=petit 2=historique)"},
-/* it */ {IDCLS_TRACE_MODE_IT, "ModalitÃ  di tracciamento (0=normale 1=piccola 2=storica)"},
+/* it */ {IDCLS_TRACE_MODE_IT, "Modalità di tracciamento (0=normale 1=piccola 2=storica)"},
 /* nl */ {IDCLS_TRACE_MODE_NL, "Traceer modus (0=normaal 1=klein 2=geschiedenis)"},
 /* pl */ {IDCLS_TRACE_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_TRACE_MODE_SV, "Spårningsläge (0=normal 1=liten 2=historik)"},
@@ -3271,7 +3271,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_CONSOLE_MODE,    "Console mode (for music playback)"},
 /* de */ {IDCLS_CONSOLE_MODE_DE, "Konsolenmodus (für Musikwiedergabe)"},
 /* fr */ {IDCLS_CONSOLE_MODE_FR, "Mode console (pour l'écoute de musique)"},
-/* it */ {IDCLS_CONSOLE_MODE_IT, "ModalitÃ  console (per la riproduzione musicale)"},
+/* it */ {IDCLS_CONSOLE_MODE_IT, "Modalità console (per la riproduzione musicale)"},
 /* nl */ {IDCLS_CONSOLE_MODE_NL, "Console modus (voor afspelen voor muziek)"},
 /* pl */ {IDCLS_CONSOLE_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_CONSOLE_MODE_SV, "Konsolläge (för musikspelning)"},
@@ -3434,7 +3434,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    "Select the joystick port the mouse is attached to"},
 /* de */ {IDCLS_SELECT_MOUSE_JOY_PORT_DE, "Joystickport für Maus auswählen"},
 /* fr */ {IDCLS_SELECT_MOUSE_JOY_PORT_FR, "Sélectionner le port joystick sur lequel la souris est attachée"},
-/* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, "Seleziona la porta joystick a cui Ã¨ collegato il mouse"},
+/* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, "Seleziona la porta joystick a cui è collegato il mouse"},
 /* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystick poort waar de muis aan gekoppelt is"},
 /* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, "Ange vilken spelport musen är ansluten till"},
@@ -3497,7 +3497,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ,    "Set sound sample rate to <value> Hz"},
 /* de */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_DE, "Setze Sound Sample Rate zu <Wert> Hz"},
 /* fr */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_FR, "Régler le taux d'échantillonage à <valeur> Hz"},
-/* it */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT, "Imposta la velocitÃ  di campionamento del suono a <valore> Hz"},
+/* it */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT, "Imposta la velocità di campionamento del suono a <valore> Hz"},
 /* nl */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_NL, "Zet de geluid sample rate naar <waarde> Hz"},
 /* pl */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_SV, "Sätt ljudsamplingshastighet till <värde> Hz"},
@@ -3569,7 +3569,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_SOUND_SPEED_ADJUST,    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"},
 /* de */ {IDCLS_SET_SOUND_SPEED_ADJUST_DE, "Setze Sound Geschwindigkeit Anpassung (0: flexibel, 1: anpassend, 2: exakt)"},
 /* fr */ {IDCLS_SET_SOUND_SPEED_ADJUST_FR, "Régler l'ajustement son (0: flexible, 1: ajusté 2: exact"},
-/* it */ {IDCLS_SET_SOUND_SPEED_ADJUST_IT, "Imposta il tipo di adattamento della velocitÃ  del suono (0: flessibile, 1:adattabile, 2: esatta)"},
+/* it */ {IDCLS_SET_SOUND_SPEED_ADJUST_IT, "Imposta il tipo di adattamento della velocità del suono (0: flessibile, 1:adattabile, 2: esatta)"},
 /* nl */ {IDCLS_SET_SOUND_SPEED_ADJUST_NL, "Zet geluid snelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"},
 /* pl */ {IDCLS_SET_SOUND_SPEED_ADJUST_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SOUND_SPEED_ADJUST_SV, "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"},
@@ -3614,7 +3614,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_LIMIT_SPEED_TO_VALUE,    "Limit emulation speed to specified value"},
 /* de */ {IDCLS_LIMIT_SPEED_TO_VALUE_DE, "Emulationsgeschwindigkeit auf Wert beschränken."},
 /* fr */ {IDCLS_LIMIT_SPEED_TO_VALUE_FR, "Limiter la vitesse d'émulation à une valeur specifiée"},
-/* it */ {IDCLS_LIMIT_SPEED_TO_VALUE_IT, "Limita la velocitÃ  di emulazione al valore specificato"},
+/* it */ {IDCLS_LIMIT_SPEED_TO_VALUE_IT, "Limita la velocità di emulazione al valore specificato"},
 /* nl */ {IDCLS_LIMIT_SPEED_TO_VALUE_NL, "Limiteer de emulatie snelheid tot de opgegeven waarde"},
 /* pl */ {IDCLS_LIMIT_SPEED_TO_VALUE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_LIMIT_SPEED_TO_VALUE_SV, "Begränsa emuleringshastighet till angivet värde"},
@@ -3632,7 +3632,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_WARP_MODE,    "Enable warp mode"},
 /* de */ {IDCLS_ENABLE_WARP_MODE_DE, "Warp Mode Aktivieren"},
 /* fr */ {IDCLS_ENABLE_WARP_MODE_FR, "Activer mode turbo"},
-/* it */ {IDCLS_ENABLE_WARP_MODE_IT, "Attiva la modalitÃ  turbo"},
+/* it */ {IDCLS_ENABLE_WARP_MODE_IT, "Attiva la modalità turbo"},
 /* nl */ {IDCLS_ENABLE_WARP_MODE_NL, "Aktiveer warp modus"},
 /* pl */ {IDCLS_ENABLE_WARP_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_WARP_MODE_SV, "Aktivera warpläge"},
@@ -3641,7 +3641,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_WARP_MODE,    "Disable warp mode"},
 /* de */ {IDCLS_DISABLE_WARP_MODE_DE, "*Warp Mode Deaktivieren"},
 /* fr */ {IDCLS_DISABLE_WARP_MODE_FR, "Désactiver mode turbo"},
-/* it */ {IDCLS_DISABLE_WARP_MODE_IT, "Disattiva la modalitÃ  turbo"},
+/* it */ {IDCLS_DISABLE_WARP_MODE_IT, "Disattiva la modalità turbo"},
 /* nl */ {IDCLS_DISABLE_WARP_MODE_NL, "Warp modus afsluiten"},
 /* pl */ {IDCLS_DISABLE_WARP_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_WARP_MODE_SV, "Inaktivera warpläge"},

@@ -49,7 +49,6 @@ extern void cartridge_detach(int type);
 extern void cartridge_freeze(int type);
 
 /* Known cartridge types.  */
-#define CARTRIDGE_STRUCTURED_BASIC  -21
 #define CARTRIDGE_IEEE488           -11
 #define CARTRIDGE_IDE64             -7
 #define CARTRIDGE_ULTIMAX           -6
@@ -79,6 +78,9 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_ZAXXON             18
 #define CARTRIDGE_MAGIC_DESK         19
 #define CARTRIDGE_SUPER_SNAPSHOT_V5  20
+#define CARTRIDGE_COMAL80            21
+#define CARTRIDGE_STRUCTURED_BASIC   22
+#define CARTRIDGE_ROSS               23
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0
@@ -102,4 +104,3 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_VIC20_16KB_6000       21
 
 #endif
-

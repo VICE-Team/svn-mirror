@@ -1,8 +1,8 @@
 /*
- * stb.h - Cartridge handling, Structured Basic cart.
+ * comal80.h - Cartridge handling, Comal80 cart.
  *
  * Written by
- *  Walter Zimmer, adapted from kcs.h
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,20 +24,18 @@
  *
  */
 
-#ifndef _STB_H
-#define _STB_H
+#ifndef _COMAL80_H
+#define _COMAL80_H
 
 #include <stdio.h>
 
 #include "types.h"
 
-extern BYTE REGPARM1 stb_io1_read(WORD addr);
-extern void REGPARM2 stb_io1_store(WORD addr, BYTE value);
+extern void REGPARM2 comal80_io1_store(WORD addr, BYTE value);
 
-extern void stb_config_init(void);
-extern void stb_config_setup(BYTE *rawcart);
-extern int stb_bin_attach(const char *filename, BYTE *rawcart);
-extern int stb_crt_attach(FILE *fd, BYTE *rawcart);
-extern void stb_detach(void);
+extern void comal80_config_init(void);
+extern void comal80_config_setup(BYTE *rawcart);
+extern int comal80_crt_attach(FILE *fd, BYTE *rawcart);
+extern void comal80_detach(void);
 
 #endif
