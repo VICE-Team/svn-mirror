@@ -3,7 +3,7 @@
  *                Directory specific functions.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,6 +39,7 @@
 #define SLOT_NR_BLOCKS        30
 
 struct vdrive_s;
+struct bufferinfo_s;
 
 extern void vdrive_dir_init(void);
 extern int vdrive_dir_create_directory(struct vdrive_s *vdrive,
@@ -51,6 +52,8 @@ extern void vdrive_dir_find_first_slot(struct vdrive_s *vdrive,
 extern BYTE *vdrive_dir_find_next_slot(struct vdrive_s *vdrive);
 extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
 extern void vdrive_dir_remove_slot(struct vdrive_s *vdrive, BYTE *slot);
+extern void vdrive_dir_create_slot(struct bufferinfo_s *p, char *realname,
+                                   int reallength, int filetype);
 
 #endif
 
