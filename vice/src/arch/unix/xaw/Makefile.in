@@ -372,9 +372,9 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/alarm.h ../../../../src/clkguard.h \
 	../../../../src/mon.h ../../../../src/mos6510.h \
 	../../../../src/resources.h ../../../../src/sound.h \
-	../../../../src/warn.h ../../../../src/tape.h uisnapshot.h \
-	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/fliplist.h
+	../../../../src/warn.h ../../../../src/tape.h uiedisk.h \
+	uisnapshot.h ../../../../src/utils.h \
+	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
 uiedisk.o: uiedisk.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/TextField.h uiedisk.h ../../../../src/machine.h \
 	../../../../src/arch/unix/types.h ui.h \

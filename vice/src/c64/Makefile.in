@@ -389,11 +389,12 @@ c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/maincpu.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/vicii/vicii.h \
+	../../src/mon.h ../../src/mos6510.h c64cia.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/rsuser.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h c64cia.h \
-	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
+	../../src/ciacore.c ../../src/ciatimer.h
 c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \

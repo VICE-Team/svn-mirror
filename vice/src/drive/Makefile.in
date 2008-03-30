@@ -377,9 +377,11 @@ drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	fdc.h drivecpucore.c ../../src/6510core.c
 fdc.o: fdc.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/alarm.h \
-	fdc.h drivecpu.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/mon.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/interrupt.h ../../src/6510core.h
+	fdc.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h drivecpu.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/6510core.h
 riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \
