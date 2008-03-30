@@ -179,3 +179,7 @@ z -2 1
 x -2 2
 c -2 3
 space -2 0
+
+# Restore key mappings
+Page_Up -3 0
+Prior -3 1

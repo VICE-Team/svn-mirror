@@ -52,7 +52,7 @@ extern BYTE *page_zero, *page_one;
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef _C128CPU_C
+#if 0 /* def _C128CPU_C */
 
 #include "types.h"
 

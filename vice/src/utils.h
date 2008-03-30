@@ -62,6 +62,10 @@ extern void *memmove(void *target, const void *source, unsigned int length);
 extern int atexit(void (*function)(void));
 #endif
 
+#if !defined HAVE_STRERROR
+extern char *strerror(int errnum);
+#endif
+
 extern int read_dword(int fd, DWORD *buf, int num);
 extern int write_dword(int fd, DWORD *buf, int num);
 

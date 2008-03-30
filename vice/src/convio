@@ -31,25 +31,7 @@ sub doit {
   %DEFINE = ();
   @FUNC = ();
 
-  # Scan defines in cia?.def
-  open (M, "<$CIAD") || die ("\nCannot open $CIAD\n");
-  $ndefs = 0;
-  while (<M>) {
-        if (/^#define\s+(\S*)\s+(.*)/) {
-            print "define $1=$2.\n";
-            if ($DEFINE{$1} ne "") {
-                print "already defined to $DEFINE{$1}\n";
-            } else {
-                $DEFINE{$1} = $2;
-		$DEFVAL[$ndefs] = $1;
-		$ndefs += 1;
-            }
-        }
-  }
-  close(M);
-
-
-  # Scan functions in cia?.def
+  # Scan defines / functions in *.def
   open (M, "<$CIAD") || die ("\nCannot open $CIAD\n");
   while($_ = <M>) {
     if (/^s*(\S*)\s*\(\s*\)/) {
@@ -67,7 +49,18 @@ sub doit {
         print "func $name\n<$s>\n";
         $FUNC{$name} = $s;
     } else {
-        !/^$|^#/ && print O $_;
+        if (/^#define\s+(\S*)\s+(.*)/) {
+            print "define $1=$2.\n";
+            if ($DEFINE{$1} ne "") {
+                print "already defined to $DEFINE{$1}\n";
+            } else {
+                $DEFINE{$1} = $2;
+		$DEFVAL[$ndefs] = $1;
+		$ndefs += 1;
+            }
+        } else {
+            !/^$|^#/ && print O $_;
+	}
     }
   }
   close (M);

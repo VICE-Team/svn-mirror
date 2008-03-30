@@ -44,6 +44,7 @@ extern ui_menu_entry_t ser1_baud_submenu[];
 extern ui_menu_entry_t ser2_baud_submenu[];
 extern ui_menu_entry_t rsuser_device_submenu[];
 extern ui_menu_entry_t acia1_device_submenu[];
+extern ui_menu_entry_t acia1_irq_submenu[];
 extern UI_CALLBACK(set_rs232_device_file);
 extern UI_CALLBACK(set_rs232_exec_file);
 extern UI_CALLBACK(set_rs232_dump_file);

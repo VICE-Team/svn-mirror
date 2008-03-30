@@ -64,6 +64,13 @@
 int keyarr[KBD_ROWS];
 int rev_keyarr[KBD_COLS];
 
+static KeySym key_ctrl_restore1 = XK_Prior;
+#ifdef XK_Page_Up
+static KeySym key_ctrl_restore2 = XK_Page_Up;
+#else
+static KeySym key_ctrl_restore2 = NoSymbol;
+#endif
+
 /* Joystick status */
 
 BYTE joy[3] = { 0, 0, 0 };
@@ -246,7 +253,10 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
-    if (key == XK_Page_Up || key == XK_Prior) {	/* Restore */
+    if (key != NoSymbol
+	     && ((key == key_ctrl_restore1)
+		|| (key == key_ctrl_restore2))
+	     ) {	/* Restore */
 	int retfl = 0;
 	if (report->type == KeyPress) {
 	    retfl = machine_set_restore_key(1);
@@ -460,6 +470,8 @@ static void kbd_parse_keyword(char *buffer)
     } else if (!strcmp(key, "CLEAR")) {
         keyc_num = 0;
         keyconvmap[0].sym = 0;
+	key_ctrl_restore1 = NoSymbol;
+	key_ctrl_restore2 = NoSymbol;
 	for (i=0;i<2;i++) {
             for (j=0;j<10;j++) {
                 joykeys[i][j].sym = NoSymbol;
@@ -539,10 +551,16 @@ static void kbd_parse_entry(char *buffer)
                                 keyconvmap[++keyc_num].sym = 0;
                             }
                         }
-                    } else  /* row >= 0 */
+                    } else  /* row < 0 */
                         if (row>=-2 && col>=0 && col<10) {
                             joykeys[-row-1][col].sym = sym;
-                        } else {
+                        } else
+			if (row == -3 && col == 0) {
+			    key_ctrl_restore1 = sym;
+			} else
+			if (row == -3 && col == 1) {
+			    key_ctrl_restore2 = sym;
+			} else {
                             fprintf(stderr,
                                     "Bad row/column value (%d/%d) for keysym %s\n",
                                     row, col, key);
@@ -665,6 +683,9 @@ int kbd_dump_keymap(const char *filename)
 		"# for joystick emulation (e.g. col==8 -> up)\n"
 		"# row == -1 : 'numpad' joystick emulation\n"
 		"# row == -2 : 'custom' joystick emulation\n"
+		"#\n"
+		"# if row is -3, then we define control keys:\n"
+		"# col == 0  : Restore key (C64/C128)\n"
                 "#\n\n"
             );
         fprintf(fp, "!CLEAR\n");
@@ -689,6 +710,11 @@ int kbd_dump_keymap(const char *filename)
 		}
             }
         }
+	/* Dump control keys. */
+	if(key_ctrl_restore1 != NoSymbol)
+	    fprintf(fp, "%s -3 0\n", XKeysymToString(key_ctrl_restore1));
+	if(key_ctrl_restore2 != NoSymbol)
+	    fprintf(fp, "%s -3 1\n", XKeysymToString(key_ctrl_restore2));
         fclose(fp);
     }
     return 0;

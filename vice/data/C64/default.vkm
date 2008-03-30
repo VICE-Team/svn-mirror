@@ -182,3 +182,13 @@ x -2 1
 c -2 2
 v -2 3
 space -2 0
+
+# Restore key mappings
+Page_Up -3 0
+Prior -3 1
+
+
+# Restore key mappings
+Page_Up -3 0
+Prior -3 1
+

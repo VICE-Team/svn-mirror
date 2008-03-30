@@ -44,6 +44,7 @@
 #include "sound.h"
 #include "drive.h"
 #include "vsync.h"
+#include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -372,21 +373,17 @@ ui_menu_entry_t acia1_device_submenu[] = {
     { NULL }
 };
 
-#if 0
-UI_MENU_DEFINE_RADIO(Acia2Dev)
+UI_MENU_DEFINE_RADIO(Acia1Irq)
 
-static ui_menu_entry_t acia2_device_submenu[] = {
-    { "*Serial 1",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 0, NULL },
-    { "*Serial 2",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 1, NULL },
-    { "*Dump to file",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 2, NULL },
-    { "*Exec process",
-      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 3, NULL },
+ui_menu_entry_t acia1_irq_submenu[] = {
+    { "*No IRQ/NMI",
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 0, NULL },
+    { "*IRQ",
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) IK_IRQ, NULL },
+    { "*NMI",
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) IK_NMI, NULL },
     { NULL }
 };
-#endif
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
@@ -501,6 +498,8 @@ ui_menu_entry_t rs232_submenu[] = {
       (ui_callback_t) toggle_AciaDE, NULL, NULL },
     { "ACIA $DExx device",
       NULL, NULL, acia1_device_submenu },
+    { "ACIA $DExx Interrupt",
+      NULL, NULL, acia1_irq_submenu },
     { "--" },
     { "*No Userport RS232 emulation",
       (ui_callback_t) radio_RsUser, (ui_callback_data_t) 0, NULL },
