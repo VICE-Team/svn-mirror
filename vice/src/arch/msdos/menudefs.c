@@ -41,6 +41,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "sound.h"
+#include "tape.h"
 #include "tui.h"
 #include "tuiview.h"
 #include "ui.h"
@@ -57,7 +58,6 @@
 #include "info.h"
 #include "machine.h"
 #include "serial.h"
-#include "tapeunit.h"
 #include "drive.h"
 #include "utils.h"
 #include "video.h"
@@ -146,8 +146,8 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
                 *behavior = TUI_MENU_BEH_RESUME;
             free(file);
         } else if (name != NULL
-	    && (s == NULL || strcasecmp(s, name) != 0)
-	    && tape_attach_image(name) < 0) {
+                   && (s == NULL || strcasecmp(s, name) != 0)
+                   && tape_attach_image(name) < 0) {
 	    tui_error("Invalid tape image.");
 	}
 	ui_update_menus();

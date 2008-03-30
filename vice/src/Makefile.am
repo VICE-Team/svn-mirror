@@ -36,7 +36,6 @@ noinst_HEADERS = \
 	asm.h \
 	attach.h \
 	autostart.h \
-	c1541.h \
 	cartridge.h \
 	charsets.h \
 	cia.h \

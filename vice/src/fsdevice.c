@@ -350,7 +350,7 @@ int fsdevice_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-int attach_fsdevice(int device, char *var, char *name)
+int attach_fsdevice(int device, char *var, const char *name)
 {
     if (serial_attach_device(device, (char *) var, (char *) name,
 			     read_fs, write_fs, open_fs, close_fs, flush_fs))
@@ -408,7 +408,7 @@ static char *fsdevice_get_path(int unit)
 void fs_error(int code)
 {
     static int last_code;
-    char *message;
+    const char *message;
 
     /* Only set an error once per command */
     if (code != IPE_OK && last_code != IPE_OK && last_code != IPE_DOS_VERSION)
@@ -847,7 +847,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 }
 
 
-int open_fs(void *flp, char *name, int length, int secondary)
+int open_fs(void *flp, const char *name, int length, int secondary)
 {
     DRIVE *floppy = (DRIVE *)flp;
     FILE *fd;

@@ -100,7 +100,7 @@ typedef struct serial_s
     char *name;					/* name of the device */
     int (*getf)(void *, BYTE *, int);		/* serial read function */
     int (*putf)(void *, BYTE, int);		/* serial write function */
-    int (*openf)(void *, char *, int, int);	/* serial open function */
+    int (*openf)(void *, const char *, int, int); /* serial open function */
     int (*closef)(void *, int);			/* serial close function */
     void (*flushf)(void *, int);		/* tell device that write completed */
     BYTE nextbyte[16];				/* next byte to send to emulator, per sec. addr. */
@@ -119,10 +119,10 @@ typedef struct serial_s
 extern int serial_init(const trap_t *trap_list);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
-extern int serial_attach_device(int device, char *var, char *name,
+extern int serial_attach_device(int device, char *var, const char *name,
 				int (*getf)(void *, BYTE *, int),
 				int (*putf)(void *, BYTE, int),
-				int (*openf)(void *, char *, int, int),
+				int (*openf)(void *, const char *, int, int),
 				int (*closef)(void *, int),
 				void (*flushf)(void *, int));
 extern int serial_select_file(int type, int number, const char *file);

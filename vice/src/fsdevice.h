@@ -48,10 +48,10 @@ extern void fs_error(int code);
 extern void flush_fs(void *flp, int secondary);
 extern int write_fs(void *flp, BYTE data, int secondary);
 extern int read_fs(void *flp, BYTE *data, int secondary);
-extern int open_fs(void *flp, char *name, int length, int secondary);
+extern int open_fs(void *flp, const char *name, int length, int secondary);
 extern int close_fs(void *flp, int secondary);
 
-extern int attach_fsdevice(int device, char *var, char *name);
+extern int attach_fsdevice(int device, char *var, const char *name);
 extern void fsdevice_set_directory(char *filename, int unit);
 
 #endif	/* _FSDEVICE_H */
