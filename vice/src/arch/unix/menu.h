@@ -364,8 +364,10 @@ MenuEntry JoystickSubmenu[] = {
 MenuEntry True1541Submenu[] = {
     { "*Enable true 1541 emulation",
       (UiMenuCallback) UiToggleTrue1541, NULL, NULL },
+#ifdef CBM64
     { "*Enable parallel cable",
       (UiMenuCallback) UiToggleParallelCable, NULL, NULL },
+#endif
     { "--" },
     { "True 1541 sync factor",
       NULL, NULL, Change1541SyncFactorSubmenu },

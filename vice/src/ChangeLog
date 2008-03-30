@@ -1,3 +1,30 @@
+Sun Apr  5 01:11:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2 released.
+
+	* arch/unix/menu.h [HAVE_TRUE1541 && !CBM64]: Disable "Enable
+ 	parallel cable" menu entry.
+
+	* arch/msdos/kbd.c (my_kbd_interrupt_handler): Ignore release of
+ 	`K_ESC'.
+
+	* arch/msdos/ui.c (quit_callback): Call
+ 	`true1541_detach_floppy()'.
+
+	* true1541.c (true1541_enable): If `true1541_floppy' is not NULL,
+ 	call `true1541_attach_floppy()' to update the GCR image.
+
+	* main.c (exit64) [!NO_SERIAL]: Detach the serial devices even if
+ 	the `noTraps' resource is set.
+
+	* c64/c64mem.c [EMULATOR_ID]: Updated version and copyright in the
+ 	emulator ID.
+
+Sat Apr  4 21:30:50 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/ui.c (mon_trap): Enable on-file logging before
+	(instead of after) entering graphics mode.
+
 Fri Apr  3 13:39:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.8.
@@ -94,6 +121,12 @@ Mon Mar 30 22:47:30 1998  Michael Schwendt  <sidplay@geocities.com>
 
 	* sid.c: Changed filter parameters to depend on the sample
  	frequency.
+
+Mon Mar 30 22:40:29  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* 6510core.c (LOCAL_SET_OVERFLOW) [__1541__ && TRUE1541_ROTATE]:
+ 	Removed redundant call to `true1541_rotate_disk()'.  Only clear
+ 	the byte ready line if VFLAG is actually cleared.
 
 Mon Mar 30 22:27:28 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
