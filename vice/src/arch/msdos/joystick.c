@@ -115,11 +115,11 @@ void joystick_init(void)
     } else {
         joy_type = JOY_TYPE_STANDARD;
 	if (!initialise_joystick()) {
-            cprintf(" One joystick found.");
+            cprintf(" One joystick found.\r\n");
             num_joysticks = 1;
         } else {
             num_joysticks = 0;
-            cprintf(" No joysticks found.");
+            cprintf(" No joysticks found.\r\n");
         }
     }
 
