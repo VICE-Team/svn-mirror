@@ -642,13 +642,6 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #ifdef USE_XF86_EXTENSIONS
 #if defined (USE_XF86_DGA1_EXTENSIONS) || defined(USE_XF86_DGA2_EXTENSIONS)
     if (video_fullscreen_refresh_func) {
-        /* API Compatibity cruft.  Likely to be removed.  */
-        if (canvas->videoconfig->doublesizex)
-            xs *= 2;
-
-        if (canvas->videoconfig->doublesizey)
-            ys *= 2;
-
         video_fullscreen_refresh_func(canvas, xs, ys, xi, yi, w, h);
         return;
     }
