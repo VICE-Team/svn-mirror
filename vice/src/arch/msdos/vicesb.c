@@ -492,7 +492,7 @@ int vicesb_detect(int *is_16bit)
     /* set up the card description */
     sprintf(vicesb_desc, "%s on port %X, using IRQ %d and DMA channel %d",
 	    msg, _sb_port, _sb_irq, _sb_dma);
-    puts(vicesb_desc);
+    log_message(vicesb_log, vicesb_desc);
 
     *is_16bit = vicesb_16bit;
     return TRUE;

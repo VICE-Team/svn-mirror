@@ -37,6 +37,7 @@
 
 #include "sound.h"
 
+#include "log.h"
 #include "utils.h"
 #include "vicesb.h"
 
@@ -241,8 +242,8 @@ static int sb_write(warn_t *w, SWORD *pbuf, int nr)
     }
 
     if (total != 0)
-        printf("%s: Argh, we have a problem!  total = %d\n",
-               __FUNCTION__, total);
+        log_error(LOG_DEFAULT, "%s: Argh, we have a problem!  total = %d\n",
+                  __FUNCTION__, total);
 
     return 0;
 }
