@@ -152,14 +152,15 @@ static void REGPARM2 mydrive_store_free(ADDRESS address, BYTE value)
 static BYTE REGPARM1 mydrive_read_watch(ADDRESS address)
 {
     mon_watch_push_load_addr(address, mymonspace);
-    return read_func_nowatch[address>>10](address);
+    return read_func_nowatch[address>>8](address);
 }
 
 static void REGPARM2 mydrive_store_watch(ADDRESS address, BYTE value)
 {
     mon_watch_push_store_addr(address, mymonspace);
-    store_func_nowatch[address>>10](address, value);
+    store_func_nowatch[address>>8](address, value);
 }
+
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
 /* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
    We should use tables like in maincpu instead (AF) */
@@ -301,7 +302,7 @@ static void reset(void)
     mywd1770_reset();
     myriot1_reset();
     myriot2_reset();
-    myfdc_reset(drive[mynumber].type == DRIVE_TYPE_1001);
+    fdc_reset(mynumber, drive[mynumber].type == DRIVE_TYPE_1001);
 
     if (preserve_monitor)
 	monitor_trap_on(&mydrive_int_status);
@@ -478,7 +479,7 @@ void mydrive_cpu_early_init(void)
     mywd1770_init();
     myriot1_init();
     myriot2_init();
-    myfdc_init(drive_ram + 0x100);
+    fdc_init(mynumber, drive_ram + 0x100);
 }
 
 void mydrive_cpu_init(int type)
@@ -610,7 +611,7 @@ void mydrive_cpu_execute(CLOCK clk_value)
 
 #define CLK drive_clk[mynumber]
 #define RMW_FLAG mydrive_rmw_flag
-#define PAGE_ONE (drive_ram + 0x100)
+#define PAGE_ONE pageone
 #define LAST_OPCODE_INFO (drive_last_opcode_info)
 #define TRACEFLG mydrive_traceflg
 

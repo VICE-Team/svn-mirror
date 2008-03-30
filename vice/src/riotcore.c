@@ -48,13 +48,32 @@ static CLOCK riot_read_clk = 0;
 static int riot_read_offset = 0;
 static BYTE riot_last_read = 0;  /* the byte read the last time (for RMW) */
 
+static BYTE edgectrl = 0;	/* bit 0: 0=neg., 1=pos. edge, bit 1: en IRQ */
+static BYTE irqfl = 0;
+
 /*
  * code
  */
 
 void myriot_signal(int sig, int type)
 {
+    BYTE oldirq = irqfl & 0x40;
+
+    /* You better not call that twice with the same flag - the IRQ
+     * will be set twice... */
+
     printf(MYRIOT_NAME ": signal type=%d\n",type);
+
+    if ((type == RIOT_SIG_FALL) && !(edgectrl & 1)) {
+	irqfl |= 0x40;
+    } else
+    if ((type == RIOT_SIG_RISE) && (edgectrl & 1)) {
+	irqfl |= 0x40;
+    }
+
+    if ((edgectrl & 2) && (!oldirq) && (irqfl & 0x40)) {
+	my_set_irq(1, myclk);
+    } 
 }
 
 static void clk_overflow_callback(CLOCK sub, void *data)
@@ -84,6 +103,10 @@ void myriot_reset(void)
     oldpa = 0xff;
     oldpb = 0xff;
 
+    edgectrl = 0;
+    irqfl = 0;
+    my_set_irq(0, myclk);
+
     riot_reset();
 }
 
@@ -105,22 +128,21 @@ void REGPARM2 store_myriot(ADDRESS addr, BYTE byte)
     /* manage the weird addressing schemes */
 
     if ((addr & 0x04) == 0) {		/* I/O */
-	switch (addr & 3) {
+	addr &= 3;
+	switch (addr) {
 	case 0: 	/* ORA */
-            riotio[0] = byte;
         case 1: 	/* DDRA */
-            riotio[1] = byte;
+            riotio[addr] = byte;
             byte = riotio[0] | ~riotio[1];
             store_pra(byte);
             oldpa = byte;
             break;
 	case 2: 	/* ORB */
-            riotio[2] = byte;
         case 3: 	/* DDRB */
-            riotio[3] = byte;
+            riotio[addr] = byte;
             byte = riotio[2] | ~riotio[3];
             store_prb(byte);
-            oldpa = byte;
+            oldpb = byte;
             break;
 	}
     } else
@@ -129,8 +151,11 @@ void REGPARM2 store_myriot(ADDRESS addr, BYTE byte)
 		byte, addr);
     } else 
     if ((addr & 0x14) == 0x04) {	/* set edge detect control */
-	log_warning(riot_log, "edge control %02x@%d not yet implemented\n",
-		byte, addr);
+	log_message(riot_log, "edge control %02x@%d\n", byte, addr);
+
+	edgectrl = addr & 3;
+	if ((edgectrl & 2) && (irqfl & 0x40))
+	    my_set_irq(1, rclk);
     }
 }
 
@@ -148,7 +173,6 @@ BYTE REGPARM1 read_myriot(ADDRESS addr)
 BYTE REGPARM1 read_myriot_(ADDRESS addr)
 {
 #endif
-    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0x1f;
@@ -173,6 +197,7 @@ BYTE REGPARM1 read_myriot_(ADDRESS addr)
         case 1: 	/* DDRA */
             riot_last_read = riotio[1];
             return riot_last_read;
+            break;
 	case 2: 	/* ORB */
 	    riot_last_read = read_prb();
             return riot_last_read;
@@ -188,24 +213,34 @@ BYTE REGPARM1 read_myriot_(ADDRESS addr)
 		addr);
     } else 
     if ((addr & 0x05) == 0x05) {	/* read irq flag */
-	log_warning(riot_log, "read irq flag @%d not yet implemented\n",
-		addr);
+	log_message(riot_log, "read irq flag @%d\n", addr);
+
+	riot_last_read = irqfl;
+	irqfl &= 0xbf;
+	if (riot_last_read && !irqfl) {
+	    my_set_irq(0, rclk);
+	}
     }
+    return 0xff;
 }
 
 static int int_riot(long offset)
 {
-    CLOCK rclk = myclk - offset;
+/*    CLOCK rclk = myclk - offset; */
+
+    return 0;
 }
 
 /*-------------------------------------------------------------------*/
 
 int myriot_write_snapshot_module(snapshot_t * p)
 {
+    return 0;
 }
 
 int myriot_read_snapshot_module(snapshot_t * p)
 {
+    return 0;
 }
 
 

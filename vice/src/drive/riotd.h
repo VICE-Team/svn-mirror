@@ -34,6 +34,8 @@
 extern void riot1d0_set_atn(BYTE state);
 extern void riot1d1_set_atn(BYTE state);
 
+void riot1_set_pardata(void);
+
 extern void riot1d0_init(void);
 extern void riot1d0_signal(int sig, int type);
 extern void riot1d0_reset(void);

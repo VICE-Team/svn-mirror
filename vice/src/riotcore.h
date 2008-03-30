@@ -31,6 +31,7 @@
 #include "interrupt.h"
 #include "log.h"
 #include "snapshot.h"
+#include "riot.h"
 
 #if defined(NO_INLINE)
 #define _RIOT_FUNC       static
@@ -42,7 +43,7 @@
  * Local variables
  */
 
-static riotio[4];		/* I/O register data */
+static int riotio[4];		/* I/O register data */
 
 static BYTE oldpa;              /* the actual output on PA (input = high) */
 static BYTE oldpb;              /* the actual output on PB (input = high) */

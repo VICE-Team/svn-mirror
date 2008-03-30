@@ -102,7 +102,7 @@ _PIA_FUNC void undump_pa(BYTE byte)
 
 _PIA_FUNC void store_pb(BYTE byte)
 {
-    parallel_cpu_set_bus(byte^255);
+    parallel_cpu_set_bus(byte ^ 0xff);
 }
 
 _PIA_FUNC void undump_pb(BYTE byte)

@@ -19,9 +19,7 @@ libdrive_a_SOURCES = \
         drivecpu1.c \
         drivecpu.h \
         fdc.h \
-        fdc0.c \
-        fdc1.c \
-        fdccore.h \
+        fdc.c \
         riot1drive0.c \
         riot2drive0.c \
         riotd.h \
@@ -34,8 +32,7 @@ libdrive_a_SOURCES = \
         wd1770.h
 
 EXTRA_DIST = \
-	drivecpucore.c \
-	fdccore.c
+	drivecpucore.c 
 
 drivedir = $(top_srcdir)/src/drive
 

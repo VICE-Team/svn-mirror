@@ -50,6 +50,7 @@
 /* globals */
 
 int parallel_debug = 0;
+int parallel_emu = 1;
 
 /* state of the bus lines -> "if(parallel_eoi) { eoi is active }" */
 char parallel_eoi = 0;
@@ -363,7 +364,7 @@ void parallel_set_atn( char mask )
 {
     char old = parallel_atn;
     parallel_atn |= mask;
-    if (!old) {
+    if (parallel_emu && !old) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "set_atn(%02x) -> ATNlo", mask);
 	DoTrans(ATNlo);
 
@@ -380,7 +381,7 @@ void parallel_clr_atn( char mask )
 {
     char old = parallel_atn;
     parallel_atn &= mask;
-    if (old && !parallel_atn) {
+    if (parallel_emu && old && !parallel_atn) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi", ~mask);
 	DoTrans(ATNhi);
 
@@ -397,7 +398,7 @@ void parallel_set_dav( char mask )
 {
     char old = parallel_dav;
     parallel_dav |= mask;
-    if (!old) {
+    if (parallel_emu && !old) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "set_dav(%02x) -> DAVlo", mask);
 	DoTrans(DAVlo);
     }
@@ -407,7 +408,7 @@ void parallel_clr_dav( char mask )
 {
     char old = parallel_dav;
     parallel_dav &= mask;
-    if (old && !parallel_dav) {
+    if (parallel_emu && old && !parallel_dav) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_dav(%02x) -> DAVhi", ~mask);
 	DoTrans(DAVhi);
     }
@@ -417,7 +418,7 @@ void parallel_set_nrfd( char mask )
 {
     char old = parallel_nrfd;
     parallel_nrfd |= mask;
-    if (!old) {
+    if (parallel_emu && !old) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "set_nrfd(%02x) -> NRFDlo", mask);
 	DoTrans(NRFDlo);
     }
@@ -427,7 +428,7 @@ void parallel_clr_nrfd( char mask )
 {
     char old = parallel_nrfd;
     parallel_nrfd &= mask;
-    if (old && !parallel_nrfd) {
+    if (parallel_emu && old && !parallel_nrfd) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_nrfd(%02x) -> NRFDhi", ~mask);
 	DoTrans(NRFDhi);
     }
@@ -437,7 +438,7 @@ void parallel_set_ndac( char mask )
 {
     char old = parallel_ndac;
     parallel_ndac |= mask;
-    if (!old) {
+    if (parallel_emu && !old) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "set_ndac(%02x) -> NDAClo", mask);
 	DoTrans(NDAClo);
     }
@@ -447,7 +448,7 @@ void parallel_clr_ndac( char mask )
 {
     char old = parallel_ndac;
     parallel_ndac &= mask;
-    if (old && !parallel_ndac) {
+    if (parallel_emu && old && !parallel_ndac) {
 	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_ndac(%02x) -> NDAChi", ~mask);
 	DoTrans(NDAChi);
     }

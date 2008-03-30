@@ -38,11 +38,8 @@
 #include "log.h"
 #include "alarm.h"
 
-void fdc0_init(BYTE *buffer_memory);
-void fdc0_reset(int enabled);
-
-void fdc1_init(BYTE *buffer_memory);
-void fdc1_reset(int enabled);
+void fdc_init(int fnum, BYTE *buffer_memory);
+void fdc_reset(int fnum, int enabled);
 
 #endif
 

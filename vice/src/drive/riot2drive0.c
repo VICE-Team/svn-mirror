@@ -55,6 +55,15 @@
 #define mycpu_rmw_flag  drive0_rmw_flag
 #define mycpu_alarm_context drive0_alarm_context
 
+#define my_set_irq(fl, clk)	\
+	do { \
+	printf("set_int_d0(%d)\n",(fl)); \
+        set_int(&drive0_int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0, (clk)) \
+	; } while(0)
+
+#define my_restore_irq(fl)	\
+        set_int_noclk(&drive0_int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0)
+
 /*************************************************************************
  * I/O
  */
@@ -73,16 +82,27 @@
 
 static int atn_active = 0;
 
-_RIOT_FUNC set_handshake(BYTE pa)
+_RIOT_FUNC void set_handshake(BYTE pa)
 {
-printf("set_handshake(pa=%02x (nrfd=%d, ndac=%d), atn_act=%d)\n",
+printf("set_handshake(pa=%02x (nrfd=%d, ndac=%d), atn_act=%d) -> ",
 	pa, (pa&2)?1:0, (pa&4)?1:0, atn_active);
 
     parallel_drv0_set_nrfd(
-	((pa & 0x5)==0) && !atn_active
+	((pa & 0x4)==0) 
+	|| ((pa & 1) && !atn_active)
+	|| (((pa & 1)==0) && atn_active)
 	);
     parallel_drv0_set_ndac(
-	(!(pa & 0x2)) || (((pa & 0x1)==0) && !atn_active)
+	(pa & 0x2) 
+	|| (((pa & 0x1)==0) && atn_active)
+	);
+
+printf("ndac=%d, nrfd=%d\n",
+	((pa & 0x4)==0)
+        || ((pa & 1) && !atn_active)
+        || (((pa & 1)==0) && atn_active),
+        (pa & 0x2)
+        || (((pa & 0x1)==0) && atn_active)
 	);
 }
  
@@ -95,10 +115,9 @@ void drive0_riot_set_atn(int state)
 	if (state && !atn_active) {
 	    riot2d0_signal(RIOT_SIG_PA7, RIOT_SIG_RISE);
 	}
-
-	atn_active = state;
+        atn_active = state;
+	riot1_set_pardata();
 	set_handshake(oldpa);
-
     }
 }
 
@@ -106,10 +125,6 @@ _RIOT_FUNC void undump_pra(BYTE byte)
 {
     /* bit 0 = atna */
     set_handshake(byte);
-/*
-    parallel_drv0_set_ndac(!(byte & 0x02));
-    parallel_drv0_set_nrfd(!(byte & 0x04));
-*/
     parallel_drv0_set_eoi(!(byte & 0x08));
     parallel_drv0_set_dav(!(byte & 0x10));
 }
@@ -118,10 +133,6 @@ _RIOT_FUNC void store_pra(BYTE byte)
 {
     /* bit 0 = atna */
     set_handshake(byte);
-/*
-    parallel_drv0_set_ndac(!(byte & 0x02));
-    parallel_drv0_set_nrfd(!(byte & 0x04));
-*/
     parallel_drv0_set_eoi(!(byte & 0x08));
     parallel_drv0_set_dav(!(byte & 0x10));
 }
@@ -160,9 +171,9 @@ _RIOT_FUNC void riot_reset(void)
 _RIOT_FUNC BYTE read_pra(void)
 {
     BYTE byte = 0xff;
-    if (parallel_atn) byte -= 0x40;
-    if (parallel_dav) byte -= 0x20;
-    if (parallel_eoi) byte -= 0x10;
+    if (!parallel_atn) byte -= 0x80;
+    if (parallel_dav) byte -= 0x40;
+    if (parallel_eoi) byte -= 0x20;
     return (byte & ~riotio[1]) | (riotio[0] & riotio[1]);
 }
 
@@ -172,9 +183,9 @@ _RIOT_FUNC BYTE read_prb(void)
     if (parallel_nrfd) byte -= 0x80;
     if (parallel_ndac) byte -= 0x40;
 
-    /* byte -= 1;	device address bit 0 */
-    /* byte -= 2;	device address bit 1 */
-    /* byte -= 4;	device address bit 2 */
+    byte -= 1;		/* device address bit 0 */
+    byte -= 2;		/* device address bit 1 */
+    byte -= 4;		/* device address bit 2 */
 
     return (byte & ~riotio[3]) | (riotio[2] & riotio[3]);
 }

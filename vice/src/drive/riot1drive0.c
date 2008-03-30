@@ -55,6 +55,10 @@
 #define mycpu_rmw_flag  drive0_rmw_flag
 #define mycpu_alarm_context drive0_alarm_context
 
+#define	my_set_irq(fl, clk)	
+
+#define	my_restore_irq(fl)
+
 /*************************************************************************
  * I/O
  */
@@ -70,10 +74,6 @@
 #include "riotd.h"
 #include "parallel.h"
 
-static int parieee_is_out = 1;    /* 0= listener, 1= talker */
-
-static iec_info_t *iec_info;
-
 static void undump_pra(BYTE byte)
 {
 }
@@ -84,22 +84,29 @@ inline static void store_pra(BYTE byte)
 
 static void undump_prb(BYTE byte)
 {
-    parallel_drv0_set_bus(byte);
+    parallel_drv0_set_bus(byte ^ 0xff);
 }
 
 inline static void store_prb(BYTE byte)
 {
-    parallel_drv0_set_bus(byte);
+printf("store par data=%02x (atn=%d)\n",byte, parallel_atn);
+    /* hack! */
+    parallel_drv0_set_bus(parallel_atn ? 0 : byte ^ 0xff);
+}
+
+void riot1_set_pardata(void)
+{
+    store_prb(oldpb);
 }
 
 static void riot_reset(void)
 {
-    parallel_drv0_set_bus(0xff);
+    store_prb(0xff);
 }
 
 inline static BYTE read_pra(void)
 {
-    return (parallel_bus & ~riotio[1]) | (riotio[0] & riotio[1]);
+    return ((parallel_bus ^ 0xff) & ~riotio[1]) | (riotio[0] & riotio[1]);
 }
 
 inline static BYTE read_prb(void)

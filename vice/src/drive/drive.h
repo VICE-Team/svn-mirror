@@ -34,6 +34,7 @@
 #include "drivecpu.h"
 #include "log.h"
 
+#if 0
 /* VIA 1 drive 0 alarms.  */
 #define	A_VIA1D0T1	0
 #define	A_VIA1D0T2	1
@@ -66,69 +67,100 @@
 
 #define DRIVE_NUMOFALRM 10
 
+#endif
+
 /* VIA 1 drive 0 interrupts.  */
+/*
 #define	I_VIA1D0T1	0
 #define	I_VIA1D0T2	1
 #define	I_VIA1D0SR	2
+*/
 #define	I_VIA1D0FL	3
+/*
 #define I_VIA1D0CB1	4
 #define I_VIA1D0CB2	5
 #define I_VIA1D0CA1	6
 #define I_VIA1D0CA2	7
+*/
 /* VIA 2 drive 0 interrupts.  */
+/*
 #define	I_VIA2D0T1	8
 #define	I_VIA2D0T2	9
 #define	I_VIA2D0SR	10
+*/
 #define	I_VIA2D0FL	11
+/*
 #define I_VIA2D0CB1	12
 #define I_VIA2D0CB2	13
 #define I_VIA2D0CA1	14
 #define I_VIA2D0CA2	15
+*/
 /* CIA 1571 drive 0 interrupts.  */
 #define I_CIA1571D0FL	16
+/*
 #define I_CIA1571D0TOD	17
 #define I_CIA1571D0SP	18
 #define I_CIA1571D0TA	19
 #define I_CIA1571D0TB	20
+*/
 /* CIA 1581 drive 0 interrupts.  */
 #define I_CIA1581D0FL   21
+/*
 #define I_CIA1581D0TOD  22
 #define I_CIA1581D0SP   23
 #define I_CIA1581D0TA   24
 #define I_CIA1581D0TB   25
+*/
+/* RIOT 1001 drive 0 interrupts. */
+#define	I_RIOTD0FL	26
 
 /* VIA 1 drive 1 interrupts. */
+/*
 #define I_VIA1D1T1  0
 #define I_VIA1D1T2  1
 #define I_VIA1D1SR  2
+*/
 #define I_VIA1D1FL  3
+/*
 #define I_VIA1D1CB1 4
 #define I_VIA1D1CB2 5
 #define I_VIA1D1CA1 6
 #define I_VIA1D1CA2 7
+*/
 /* VIA 2 drive 1 interrupts. */
+/*
 #define I_VIA2D1T1  8
 #define I_VIA2D1T2  9
 #define I_VIA2D1SR  10
+*/
 #define I_VIA2D1FL  11
+/*
 #define I_VIA2D1CB1 12
 #define I_VIA2D1CB2 13
 #define I_VIA2D1CA1 14
 #define I_VIA2D1CA2 15
+*/
 /* CIA 1571 drive 1 interrupts.  */
 #define I_CIA1571D1FL	16
+/*
 #define I_CIA1571D1TOD	17
 #define I_CIA1571D1SP	18
 #define I_CIA1571D1TA	19
 #define I_CIA1571D1TB	20
+*/
 /* CIA 1581 drive 1 interrupts.  */
 #define I_CIA1581D1FL   21
+/*
 #define I_CIA1581D1TOD  22
 #define I_CIA1581D1SP   23
 #define I_CIA1581D1TA   24
 #define I_CIA1581D1TB   25
+*/
+/* RIOT 1001 drive 1 interrupts. */
+#define	I_RIOTD0FL	26
 
-#define DRIVE_NUMOFINT 26
+
+#define DRIVE_NUMOFINT 27
 
 #define DRIVE_ROM1541_SIZE   0x4000
 #define DRIVE_ROM1541II_SIZE 0x4000
