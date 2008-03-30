@@ -34,5 +34,11 @@ extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
                               int height, int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth);
 
+/* This define will completely remove the 2x drawing from the vic-ii
+   and raster layer. */
+#if defined(WIN32)
+#define VIDEO_REMOVE_2X 1
+#endif
+
 #endif
 

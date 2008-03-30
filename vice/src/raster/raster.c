@@ -44,6 +44,8 @@
 #include "video.h"
 #include "videoarch.h"
 
+#include "video-render.h" /* VIDEO_REMOVE_2X */
+
 static void update_pixel_tables(raster_t *raster);
 static int realize_canvas(raster_t *raster);
 static int realize_frame_buffer(raster_t *raster);
@@ -393,6 +395,10 @@ static void update_canvas(raster_t *raster)
         yy = 0;
     }
 
+#ifdef VIDEO_REMOVE_2X
+    x += raster->geometry.extra_offscreen_border;
+#endif /* VIDEO_REMOVE_2X */
+
     x *= viewport->pixel_size.width;
     xx *= viewport->pixel_size.width;
     w *= viewport->pixel_size.width;
@@ -403,7 +409,9 @@ static void update_canvas(raster_t *raster)
     yy *= viewport->pixel_size.height;
     h *= viewport->pixel_size.height;
 
+#ifndef VIDEO_REMOVE_2X
     x += raster->geometry.extra_offscreen_border;
+#endif /* VIDEO_REMOVE_2X */
 
     canvas_refresh(raster->viewport.canvas,
                    raster->frame_buffer,
@@ -475,29 +483,42 @@ inline static void update_sprite_collisions(raster_t *raster)
     if (raster->sprite_status->draw_function == NULL)
         return;
 
-    fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
+#ifndef VIDEO_REMOVE_2X
+  fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
                             + raster->geometry.extra_offscreen_border / 2
                             * raster->viewport.pixel_size.width);
-    raster->sprite_status->draw_function(fake_frame_buffer_ptr,
+#else /* VIDEO_REMOVE_2X */
+  fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
+                            + raster->geometry.extra_offscreen_border / 2);
+#endif /* VIDEO_REMOVE_2X */
+  raster->sprite_status->draw_function(fake_frame_buffer_ptr,
                                          raster->zero_gfx_msk);
 }
+
 
 inline static void draw_blank(raster_t *raster,
                               unsigned int start,
                               unsigned int end)
 {
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
 
     pixel_width = raster->viewport.pixel_size.width;
     vid_memset((PIXEL *)(raster->frame_buffer_ptr + start * pixel_width),
                RASTER_PIXEL(raster, raster->border_color),
                (end - start + 1) * pixel_width);
+#else /* VIDEO_REMOVE_2X */
+    vid_memset((PIXEL *)(raster->frame_buffer_ptr + start),
+               RASTER_PIXEL(raster, raster->border_color),
+               (end - start + 1));
+#endif /* VIDEO_REMOVE_2X */
 }
 
 inline static void add_line_and_double_scan(raster_t *raster,
                                             unsigned int start,
                                             unsigned int end)
 {
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
 
     add_line_to_area(&raster->update_area,
@@ -519,16 +540,26 @@ inline static void add_line_and_double_scan(raster_t *raster,
     add_line_to_area(&raster->update_area,
                      raster->current_line + 1,
                      start, end);
+#else /* VIDEO_REMOVE_2X */
+    add_line_to_area(&raster->update_area,
+                     raster->current_line,
+                     0, raster->geometry.screen_size.width - 1);
+#endif /* VIDEO_REMOVE_2X */
 }
+
 
 inline static void handle_blank_line(raster_t *raster)
 {
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
+#endif /* VIDEO_REMOVE_2X */
 
     if (console_mode || vsid_mode)
         return;
 
+#ifndef VIDEO_REMOVE_2X
     pixel_width = raster->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
 
     /* Changes... Should/could be handled better.  */
     if (raster->changes.have_on_this_line) {
@@ -582,6 +613,7 @@ inline static void handle_blank_line(raster_t *raster)
                          raster->current_line,
                          0, raster->geometry.screen_size.width - 1);
 
+#ifndef VIDEO_REMOVE_2X
         if (raster->viewport.pixel_size.height == 2
             && raster->do_double_scan) {
             /* We do not use `add_line_and_double_scan()' because drawing the
@@ -595,6 +627,7 @@ inline static void handle_blank_line(raster_t *raster)
                              raster->current_line,
                              0, raster->geometry.screen_size.width - 1);
         }
+#endif /* VIDEO_REMOVE_2X */
     }
 
     update_sprite_collisions(raster);
@@ -642,7 +675,9 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         || (cache->overscan_background_color
             != raster->overscan_background_color)) {
 
+#ifndef VIDEO_REMOVE_2X
         unsigned int pixel_width = raster->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
         int changed_start_char, changed_end_char;
         int r;
 
@@ -660,6 +695,8 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 
         /* Fill the space between the border and the graphics with the
            background color (necessary if `xsmooth' is != 0).  */
+
+#ifndef VIDEO_REMOVE_2X
         if (raster->xsmooth != 0)
             vid_memset((raster->frame_buffer_ptr
                        + raster->geometry.gfx_position.x * pixel_width),
@@ -683,6 +720,29 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
                        - raster->geometry.gfx_position.x
                        - raster->geometry.gfx_size.width
                        - raster->xsmooth) * pixel_width));
+#else /* VIDEO_REMOVE_2X */
+        if (raster->xsmooth != 0)
+            vid_memset((raster->frame_buffer_ptr
+                       + raster->geometry.gfx_position.x),
+                       RASTER_PIXEL(raster, raster->overscan_background_color),
+                       raster->xsmooth);
+
+        if (raster->open_left_border)
+            vid_memset(raster->frame_buffer_ptr,
+                       RASTER_PIXEL(raster, raster->overscan_background_color),
+                       (raster->geometry.gfx_position.x + raster->xsmooth));
+
+        if (raster->open_right_border)
+            vid_memset((raster->frame_buffer_ptr +
+                       ( raster->geometry.gfx_position.x
+                       + raster->geometry.gfx_size.width
+                       + raster->xsmooth)),
+                       RASTER_PIXEL(raster, raster->overscan_background_color),
+                       ( raster->geometry.screen_size.width
+                       - raster->geometry.gfx_position.x
+                       - raster->geometry.gfx_size.width
+                       - raster->xsmooth));
+#endif /* VIDEO_REMOVE_2X */
 
         raster_fill_sprite_cache(raster, cache,
                                  &changed_start_char,
@@ -720,7 +780,9 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 {
     raster_cache_t *cache;
     unsigned int video_mode;
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
+#endif /* VIDEO_REMOVE_2X */
     int changed_start_char, changed_end_char;
     int needs_update;
 
@@ -731,7 +793,9 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
     changed_start_char = raster->geometry.text_size.width;
     changed_end_char = -1;
 
+#ifndef VIDEO_REMOVE_2X
     pixel_width = raster->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
 
     needs_update = raster_modes_fill_cache(raster->modes,
                                            video_mode,
@@ -772,7 +836,9 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 {
     raster_cache_t *cache;
     unsigned int video_mode;
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
+#endif /* VIDEO_REMOVE_2X */
     int sprite_changed_start, sprite_changed_end;
     int changed_start_char, changed_end_char;
     int sprites_need_update;
@@ -785,7 +851,9 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
     changed_start_char = raster->geometry.text_size.width;
     changed_end_char = -1;
 
+#ifndef VIDEO_REMOVE_2X
     pixel_width = raster->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
 
     sprites_need_update = raster_fill_sprite_cache(raster,
                                                    cache,
@@ -818,10 +886,17 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 
         /* Fill the space between the border and the graphics with the
            background color (necessary if xsmooth is > 0).  */
+#ifndef VIDEO_REMOVE_2X
         vid_memset(raster->frame_buffer_ptr
                    + raster->geometry.gfx_position.x * pixel_width,
                    RASTER_PIXEL(raster, raster->overscan_background_color),
                    raster->xsmooth * pixel_width);
+#else /* VIDEO_REMOVE_2X */
+        vid_memset(raster->frame_buffer_ptr
+                   + raster->geometry.gfx_position.x,
+                   RASTER_PIXEL(raster, raster->overscan_background_color),
+                   raster->xsmooth);
+#endif /* VIDEO_REMOVE_2X */
 
         if (raster->sprite_status->num_sprites > 0) {
             /* FIXME: Could be optimized better.  */
@@ -937,15 +1012,22 @@ inline static void handle_visible_line_with_cache(raster_t *raster)
 
 inline static void handle_visible_line_without_cache(raster_t *raster)
 {
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
+#endif /* VIDEO_REMOVE_2X */
     raster_geometry_t *geometry;
     raster_cache_t *cache;
 
+#ifndef VIDEO_REMOVE_2X
     pixel_width = raster->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
     geometry = &raster->geometry;
 
     /* If screen is scrolled to the right, we need to fill with the
        background color the blank part on the left.  */
+
+#ifndef VIDEO_REMOVE_2X
+
     vid_memset((raster->frame_buffer_ptr
                + geometry->gfx_position.x * pixel_width),
                RASTER_PIXEL(raster, raster->overscan_background_color),
@@ -967,6 +1049,31 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
                    - geometry->gfx_position.x
                    - geometry->gfx_size.width
                    - raster->xsmooth) * pixel_width);
+
+#else /* VIDEO_REMOVE_2X */
+
+    vid_memset((raster->frame_buffer_ptr
+               + geometry->gfx_position.x),
+               RASTER_PIXEL(raster, raster->overscan_background_color),
+               raster->xsmooth);
+
+    if (raster->open_left_border)
+        vid_memset(raster->frame_buffer_ptr,
+                   RASTER_PIXEL(raster, raster->overscan_background_color),
+                   ((geometry->gfx_position.x
+                   + raster->xsmooth)));
+    if (raster->open_right_border)
+        vid_memset((raster->frame_buffer_ptr +
+                   ((geometry->gfx_position.x
+                   + geometry->gfx_size.width
+                   + raster->xsmooth))),
+                   RASTER_PIXEL(raster, raster->overscan_background_color),
+                   (geometry->screen_size.width
+                   - geometry->gfx_position.x
+                   - geometry->gfx_size.width
+                   - raster->xsmooth));
+
+#endif /* VIDEO_REMOVE_2X */
 
     /* Draw the graphics and sprites.  */
     raster_modes_draw_line(raster->modes, get_real_mode(raster));
@@ -1010,11 +1117,15 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
 inline static void handle_visible_line_with_changes(raster_t *raster)
 {
     unsigned int i;
+#ifndef VIDEO_REMOVE_2X
     unsigned int pixel_width;
+#endif /* VIDEO_REMOVE_2X */
     int xs, xstop;
     raster_geometry_t *geometry;
 
+#ifndef VIDEO_REMOVE_2X
     pixel_width = raster->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
     geometry = &raster->geometry;
 
     /* Draw the background.  */
@@ -1557,11 +1668,17 @@ void raster_emulate_line(raster_t *raster)
             handle_end_of_frame(raster);
        } else {
             if (!console_mode && !vsid_mode) {
+#ifndef VIDEO_REMOVE_2X
                 raster->frame_buffer_ptr
                     = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
                     (raster->current_line
                     * viewport->pixel_size.height))
                     + raster->geometry.extra_offscreen_border);
+#else /* VIDEO_REMOVE_2X */
+                raster->frame_buffer_ptr
+                    = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,raster->current_line)
+                    + raster->geometry.extra_offscreen_border);
+#endif /* VIDEO_REMOVE_2X */
             }
         }
     } else {
@@ -1581,11 +1698,17 @@ void raster_emulate_line(raster_t *raster)
             handle_end_of_frame (raster);
         } else {
             if (!console_mode && !vsid_mode) {
+#ifndef VIDEO_REMOVE_2X
                 raster->frame_buffer_ptr
                     = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
                     (raster->current_line
                     * viewport->pixel_size.height))
                     + raster->geometry.extra_offscreen_border);
+#else /* VIDEO_REMOVE_2X */
+                raster->frame_buffer_ptr
+                    = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,raster->current_line)
+                    + raster->geometry.extra_offscreen_border);
+#endif /* VIDEO_REMOVE_2X */
 	    }
         }
     }

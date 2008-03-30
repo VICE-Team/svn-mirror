@@ -35,6 +35,8 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
+#include "video-render.h" /* VIDEO_REMOVE_2X */
+
 
 const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4] =
 {
@@ -975,6 +977,7 @@ inline static void draw_all_sprites(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
     }
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 inline static void draw_all_sprites_2x(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
 {
@@ -1030,6 +1033,7 @@ inline static void draw_all_sprites_2x(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
     }
 }
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 
 void vic_ii_sprites_init(void)
@@ -1043,12 +1047,14 @@ void vic_ii_sprites_init(void)
 
 void vic_ii_sprites_set_double_size(int enabled)
 {
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
     if (enabled)
         raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
                                                draw_all_sprites_2x);
     else
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
         raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
                                                draw_all_sprites);
 }

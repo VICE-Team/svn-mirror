@@ -113,15 +113,15 @@ InputName=resid
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\sid\fastsid.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\sid\sid.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\sid\sid-cmdline-options.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\sid\sid-engine.c
 # End Source File
 # Begin Source File
 

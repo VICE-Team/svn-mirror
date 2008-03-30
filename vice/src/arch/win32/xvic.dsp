@@ -245,6 +245,10 @@ SOURCE=..\..\utils.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\video-render.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vsync.c
 # End Source File
 # Begin Source File

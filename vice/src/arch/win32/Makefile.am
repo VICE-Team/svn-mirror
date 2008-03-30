@@ -108,6 +108,7 @@ EXTRA_DIST = \
 	c1541.dsp \
 	c64.dsp \
 	c64c128.dsp \
+	c64cart.dsp \
 	cbm2.dsp \
 	crtc.dsp \
 	drive.dsp \

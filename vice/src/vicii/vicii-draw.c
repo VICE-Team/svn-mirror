@@ -33,6 +33,8 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
+#include "video-render.h" /* VIDEO_REMOVE_2X */
+
 #define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH +           \
                                     vic_ii.screen_borderwidth) / 8 + 1)
 #define GFX_MSK_SIZE              ((VIC_II_SCREEN_WIDTH                 \
@@ -44,10 +46,12 @@
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
 static PIXEL4 hr_table[16 * 16 * 16];
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 /* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels.  */
 static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table.  */
 static WORD mc_table[2 * 4 * 256];
@@ -63,6 +67,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
                end_pixel - start_pixel + 1);
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 static void draw_std_background_2x(int start_pixel, int end_pixel)
 {
@@ -71,7 +76,8 @@ static void draw_std_background_2x(int start_pixel, int end_pixel)
                vic_ii.raster.overscan_background_color),
                2 * (end_pixel - start_pixel + 1));
 }
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* If unaligned 32-bit access is not allowed, the graphics is stored in a
    temporary aligned buffer, and later copied to the real frame buffer.  This
@@ -82,6 +88,9 @@ static void draw_std_background_2x(int start_pixel, int end_pixel)
 static PIXEL4 _aligned_line_buffer[VIC_II_SCREEN_XPIX / 2 + 1];
 static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 #endif
+
+
+#ifndef VIDEO_REMOVE_2X
 
 /* Pointer to the start of the graphics area on the frame buffer.  */
 #define GFX_PTR(pixel_width)                               \
@@ -101,6 +110,29 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
                   ((xe) - (xs) + 1) * 8 * (pixel_width));          \
    } while (0)
 #endif
+
+#else /* VIDEO_REMOVE_2X */
+
+/* Pointer to the start of the graphics area on the frame buffer.  */
+#define GFX_PTR()                               \
+    (vic_ii.raster.frame_buffer_ptr                        \
+    + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth))
+
+#ifdef ALLOW_UNALIGNED_ACCESS
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr, pixel_width) \
+   name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
+#else
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)                 \
+   do {                                                            \
+       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr));       \
+       vid_memcpy(GFX_PTR() + (xs) * 8, \
+                  aligned_line_buffer + (xs) * 8,  \
+                  ((xe) - (xs) + 1) * 8 *);          \
+   } while (0)
+#endif
+
+#endif /* VIDEO_REMOVE_2X */
+
 
 /* FIXME: in the cache, we store the foreground bitmap values for the
    characters, but we do not use them when drawing and this is slow!  */
@@ -168,15 +200,25 @@ static void draw_std_text_cached (raster_cache_t *cache,
                                   int xs,
                                   int xe)
 {
+#ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+  ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk);
+#endif
 }
 
 static void draw_std_text (void)
 {
+#ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, 0,
                   VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+  ALIGN_DRAW_FUNC(_draw_std_text, 0,
+                  VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
                                      BYTE *gfx_msk_ptr)
@@ -212,6 +254,7 @@ static void draw_std_text_2x(void)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 #define DRAW_STD_TEXT_BYTE(p, b, f)       \
     do {                                  \
@@ -247,6 +290,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
     }
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 static void draw_std_text_foreground_2x(int start_char, int end_char)
 {
@@ -274,6 +318,7 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
     }
 }
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* Hires Bitmap mode.  */
 
@@ -329,8 +374,13 @@ inline static void _draw_hires_bitmap(PIXEL *p, int xs, int xe,
 
 static void draw_hires_bitmap(void)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 
     /* Overscan color in HIRES is determined by last char of previous line */
     vic_ii.raster.overscan_background_color = 
@@ -339,7 +389,11 @@ static void draw_hires_bitmap(void)
 
 static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_hires_bitmap, xs, xe, cache->gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, xs, xe, cache->gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 
     /* Overscan color in HIRES is determined by last char of previous line */
     if (xe == VIC_II_SCREEN_TEXTCOLS - 1)
@@ -347,6 +401,7 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
             vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 inline static void _draw_hires_bitmap_2x(PIXEL *p, int xs, int xe,
@@ -384,13 +439,20 @@ static void draw_hires_bitmap_cached_2x(raster_cache_t *cache, int xs, int xe)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 static void draw_hires_bitmap_foreground(int start_char, int end_char)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char,
                     vic_ii.raster.gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char,
+                    vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 static void
 draw_hires_bitmap_foreground_2x(int start_char, int end_char)
@@ -399,6 +461,7 @@ draw_hires_bitmap_foreground_2x(int start_char, int end_char)
                     vic_ii.raster.gfx_msk, 2);
 }
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* Multicolor text mode.  */
 
@@ -482,16 +545,27 @@ inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 static void draw_mc_text(void)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_mc_text,
                     0, VIC_II_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_mc_text,
+                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
 static void draw_mc_text_cached(raster_cache_t *cache, int xs, int xe)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_mc_text, xs, xe, cache->gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_mc_text, xs, xe, cache->gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 inline static void _draw_mc_text_2x(PIXEL *p, int xs, int xe,
@@ -546,7 +620,8 @@ static void draw_mc_text_cached_2x(raster_cache_t *cache, int xs, int xe)
                     xs, xe,
                     cache->gfx_msk, 2);
 }
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* FIXME: aligned/unaligned versions.  */
 #define DRAW_MC_BYTE(p, b, f1, f2, f3)      \
@@ -620,6 +695,7 @@ static void draw_mc_text_foreground(int start_char, int end_char)
     }
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 static void draw_mc_text_foreground_2x(int start_char, int end_char)
@@ -659,6 +735,7 @@ static void draw_mc_text_foreground_2x(int start_char, int end_char)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* Multicolor Bitmap Mode.  */
 
@@ -734,16 +811,27 @@ inline static void _draw_mc_bitmap(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 static void draw_mc_bitmap(void)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_mc_bitmap,
                     0, VIC_II_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_mc_bitmap,
+                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
 static void draw_mc_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_mc_bitmap, xs, xe, cache->gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_mc_bitmap, xs, xe, cache->gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 inline static void _draw_mc_bitmap_2x(PIXEL *p, int xs, int xe,
@@ -791,6 +879,7 @@ static void draw_mc_bitmap_cached_2x(raster_cache_t *cache, int xs, int xe)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 static void draw_mc_bitmap_foreground(int start_char, int end_char)
 {
@@ -820,6 +909,7 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
     }
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 static void draw_mc_bitmap_foreground_2x(int start_char, int end_char)
@@ -851,6 +941,7 @@ static void draw_mc_bitmap_foreground_2x(int start_char, int end_char)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* Extended Text Mode.  */
 
@@ -926,16 +1017,27 @@ inline static void _draw_ext_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 static void draw_ext_text(void)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_ext_text,
                     0, VIC_II_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_ext_text,
+                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
 static void draw_ext_text_cached(raster_cache_t *cache, int xs, int xe)
 {
+#ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_ext_text, xs, xe, cache->gfx_msk, 1);
+#else /* VIDEO_REMOVE_2X */
+    ALIGN_DRAW_FUNC(_draw_ext_text, xs, xe, cache->gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 inline static void _draw_ext_text_2x(PIXEL *p, int xs, int xe,
@@ -980,6 +1082,7 @@ static void draw_ext_text_2x(void)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* FIXME: This is *slow* and might not be 100% correct.  */
 static void draw_ext_text_foreground(int start_char, int end_char)
@@ -1018,6 +1121,7 @@ static void draw_ext_text_foreground(int start_char, int end_char)
     }
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 static void draw_ext_text_foreground_2x(int start_char, int end_char)
 {
@@ -1056,7 +1160,8 @@ static void draw_ext_text_foreground_2x(int start_char, int end_char)
         DRAW_STD_TEXT_BYTE(p, b, f);
     }
 }
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 /* Illegal mode.  Everything is black.  */
 
@@ -1082,6 +1187,7 @@ static void draw_black(void)
 {
     PIXEL *p;
 
+#ifndef VIDEO_REMOVE_2X
     p = (vic_ii.raster.frame_buffer_ptr
         + ((vic_ii.screen_borderwidth + vic_ii.raster.xsmooth)
         * vic_ii.raster.viewport.pixel_size.width));
@@ -1089,6 +1195,13 @@ static void draw_black(void)
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
                VIC_II_SCREEN_TEXTCOLS * 8
                * vic_ii.raster.viewport.pixel_size.width);
+#else /* VIDEO_REMOVE_2X */
+    p = (vic_ii.raster.frame_buffer_ptr
+        + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
+
+    vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+               VIC_II_SCREEN_TEXTCOLS * 8);
+#endif /* VIDEO_REMOVE_2X */
 
     /* FIXME: this is not exact! */
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
@@ -1099,6 +1212,7 @@ static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
 
+#ifndef VIDEO_REMOVE_2X
     p = (vic_ii.raster.frame_buffer_ptr
         + ((vic_ii.screen_borderwidth + vic_ii.raster.xsmooth)
         * vic_ii.raster.viewport.pixel_size.width));
@@ -1106,6 +1220,14 @@ static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
                VIC_II_SCREEN_TEXTCOLS * 8
                * vic_ii.raster.viewport.pixel_size.width);
+#else /* VIDEO_REMOVE_2X */
+    p = (vic_ii.raster.frame_buffer_ptr
+        + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
+
+    vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+               VIC_II_SCREEN_TEXTCOLS * 8);
+#endif /* VIDEO_REMOVE_2X */
+
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
            0, VIC_II_SCREEN_TEXTCOLS);
 }
@@ -1114,6 +1236,7 @@ static void draw_black_foreground(int start_char, int end_char)
 {
     PIXEL *p;
 
+#ifndef VIDEO_REMOVE_2X
     p = (vic_ii.raster.frame_buffer_ptr
         + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth +
         8 * start_char) * vic_ii.raster.viewport.pixel_size.width);
@@ -1121,6 +1244,15 @@ static void draw_black_foreground(int start_char, int end_char)
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
                (end_char - start_char + 1) * 8
                * vic_ii.raster.viewport.pixel_size.width);
+#else /* VIDEO_REMOVE_2X */
+    p = (vic_ii.raster.frame_buffer_ptr
+        + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth +
+        8 * start_char));
+
+    vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+               (end_char - start_char + 1) * 8);
+#endif /* VIDEO_REMOVE_2X */
+
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
            0, VIC_II_SCREEN_TEXTCOLS);
 }
@@ -1142,8 +1274,12 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
         return 0;
 }
 
+#ifndef VIDEO_REMOVE_2X
 inline static void _draw_idle(int xs, int xe, int pixel_width,
                               BYTE *gfx_msk_ptr)
+#else /* VIDEO_REMOVE_2X */
+inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
+#endif /* VIDEO_REMOVE_2X */
 {
     PIXEL *p;
     BYTE d;
@@ -1152,16 +1288,28 @@ inline static void _draw_idle(int xs, int xe, int pixel_width,
     d = (BYTE)vic_ii.idle_data;
 
 #ifdef ALLOW_UNALIGNED_ACCESS
+#ifndef VIDEO_REMOVE_2X
     p = (vic_ii.raster.frame_buffer_ptr
         + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth) * pixel_width);
+#else /* VIDEO_REMOVE_2X */
+    p = (vic_ii.raster.frame_buffer_ptr
+        + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
+#endif /* VIDEO_REMOVE_2X */
 #else
     p = aligned_line_buffer;
 #endif
 
+#ifndef VIDEO_REMOVE_2X
     if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
         vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
                    VIC_II_SCREEN_XPIX * pixel_width);
-    else if (pixel_width == 1) {
+	else if (pixel_width == 1) {
+#else /* VIDEO_REMOVE_2X */
+    if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
+        vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+                   VIC_II_SCREEN_XPIX);
+	else {
+#endif /* VIDEO_REMOVE_2X */
         /* The foreground color is always black (0).  */
         unsigned int offs;
         PIXEL4 c1, c2;
@@ -1175,6 +1323,8 @@ inline static void _draw_idle(int xs, int xe, int pixel_width,
             *((PIXEL4 *)(p + i + 4)) = c2;
         }
     }
+
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
     else if (pixel_width == 2) {
         unsigned int offs;
@@ -1194,7 +1344,8 @@ inline static void _draw_idle(int xs, int xe, int pixel_width,
             *((PIXEL4 *)(p + i + 12)) = c4;
         }
     }
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 #ifndef ALLOW_UNALIGNED_ACCESS
     vid_memcpy(vic_ii.raster.frame_buffer_ptr + (vic_ii.screen_borderwidth
@@ -1208,14 +1359,23 @@ inline static void _draw_idle(int xs, int xe, int pixel_width,
 
 static void draw_idle(void)
 {
+#ifndef VIDEO_REMOVE_2X
     _draw_idle(0, VIC_II_SCREEN_TEXTCOLS - 1, 1, vic_ii.raster.gfx_msk);
+#else /* VIDEO_REMOVE_2X */
+    _draw_idle(0, VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
 static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
 {
+#ifndef VIDEO_REMOVE_2X
     _draw_idle(xs, xe, 1, cache->gfx_msk);
+#else /* VIDEO_REMOVE_2X */
+    _draw_idle(xs, xe, cache->gfx_msk);
+#endif /* VIDEO_REMOVE_2X */
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 static void draw_idle_2x(void)
@@ -1229,6 +1389,7 @@ static void draw_idle_cached_2x(raster_cache_t *cache, int xs, int xe)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 static void draw_idle_foreground(int start_char, int end_char)
 {
@@ -1248,6 +1409,7 @@ static void draw_idle_foreground(int start_char, int end_char)
     }
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 static void draw_idle_foreground_2x(int start_char, int end_char)
@@ -1268,7 +1430,9 @@ static void draw_idle_foreground_2x(int start_char, int end_char)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
 
 static void setup_double_size_modes(void)
@@ -1338,6 +1502,7 @@ static void setup_double_size_modes(void)
 }
 
 #endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 static void setup_single_size_modes(void)
 {
@@ -1429,13 +1594,15 @@ static void init_drawing_tables(void)
                 *(p + 2) = i & 0x2 ? fp : bp;
                 *(p + 3) = i & 0x1 ? fp : bp;
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
                 p = (PIXEL *)(hr_table_2x + (offset << 1) + i);
                 *p = *(p + 1) = i & 0x8 ? fp : bp;
                 *(p + 2) = *(p + 3) = i & 0x4 ? fp : bp;
                 *(p + 0x40) = *(p + 0x41) = i & 0x2 ? fp : bp;
                 *(p + 0x42) = *(p + 0x43) = i & 0x1 ? fp : bp;
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
             }
         }
     }
@@ -1464,19 +1631,23 @@ void vic_ii_draw_init(void)
 
     raster_set_table_refresh_handler(&vic_ii.raster, init_drawing_tables);
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
     vic_ii_draw_set_double_size(0);
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
 
 }
 
 void vic_ii_draw_set_double_size(int enabled)
 {
+#ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
     if (enabled)
       setup_double_size_modes();
     else
-#endif
+#endif /* VIC_II_NEED_2X */
+#endif /* VIDEO_REMOVE_2X */
       setup_single_size_modes();
 }
 

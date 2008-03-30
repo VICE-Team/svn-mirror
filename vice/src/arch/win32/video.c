@@ -1004,13 +1004,21 @@ int         safey2;
             rect.bottom=c->client_height;
         }
         //  Calculate upperleft point's framebuffer coords
+#ifndef VIDEO_REMOVE_2X
         xs=xclient-((rect.right-window_canvas_xsize[window_index])/2)-r->viewport.x_offset+r->viewport.first_x*r->viewport.pixel_size.width+r->geometry.extra_offscreen_border;
+#else /* VIDEO_REMOVE_2X */
+        xs=xclient-((rect.right-window_canvas_xsize[window_index])/2)-r->viewport.x_offset+(r->viewport.first_x+r->geometry.extra_offscreen_border)*r->viewport.pixel_size.width;
+#endif /* VIDEO_REMOVE_2X */
         ys=yclient-((rect.bottom-statusbar_get_status_height()-window_canvas_ysize[window_index])/2)-r->viewport.y_offset+r->viewport.first_line*r->viewport.pixel_size.height;
         //  Cut off areas outside of framebuffer and clear them
         xi=xclient;
         yi=yclient;
 
+#ifndef VIDEO_REMOVE_2X
         safex=r->viewport.first_x*r->viewport.pixel_size.width+r->geometry.extra_offscreen_border-r->viewport.x_offset;
+#else /* VIDEO_REMOVE_2X */
+        safex=(r->viewport.first_x+r->geometry.extra_offscreen_border)*r->viewport.pixel_size.width-r->viewport.x_offset;
+#endif /* VIDEO_REMOVE_2X */
         safey=r->viewport.first_line*r->viewport.pixel_size.height-r->viewport.y_offset;
         safey2=r->viewport.last_line*r->viewport.pixel_size.height-r->viewport.y_offset;
 

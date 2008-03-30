@@ -82,14 +82,6 @@ LIB32=link.exe -lib
 # Name "c64c128 - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\c64\c64cartmem.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64cartridge.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\c64\c64cia2.c
 # End Source File
 # Begin Source File

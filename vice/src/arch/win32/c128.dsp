@@ -102,6 +102,10 @@ SOURCE=..\..\c128\c128cpu.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c128\c128io.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\c128iec.c
 # End Source File
 # Begin Source File
