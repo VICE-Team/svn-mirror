@@ -320,6 +320,7 @@ static int update_mycia(CLOCK rclk)
 void reset_mycia(void)
 {
     int i;
+
     for (i = 0; i < 16; i++)
 	mycia[i] = 0;
 

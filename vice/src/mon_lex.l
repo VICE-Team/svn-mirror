@@ -27,17 +27,19 @@ YY_BUFFER_STATE my_state;
 
 %{
    if (new_cmd) {
-      if (asm_mode) 
+      if (!(asm_mode && opt_asm))
+         last_len = cur_len = 0;
+
+      if (asm_mode) {
          BEGIN (ASM_MODE);
-      else
+         opt_asm = 0;
+      } else
          BEGIN (CMD);
       new_cmd = 0;
-      cur_len = 0;
-      last_len = 0;
    }
 %}
 
-<CMD>[^ \t\n]*		{ if ( (temp = mon_cmd_lookup_index(yytext)) < 0)
+<CMD>([~@>\]])|([^~@>\] \t\n]*) { if ( (temp = mon_cmd_lookup_index(yytext)) < 0)
                              return BAD_CMD;
                           else {
                              switch(mon_cmd_get_next_state(temp)) {
@@ -176,7 +178,7 @@ d:              { return MEM_DISK; }
 	[0-9a-fA-F]+            { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }
 
-[^ \t]		{ return yytext[0]; }
+<*>[^ \t]		{ return yytext[0]; }
 
 %%
 

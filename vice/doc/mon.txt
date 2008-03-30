@@ -27,7 +27,7 @@ during disassembly.
  TODO: Allow label to specify address in commands.
 
 
-COMMAND: Assemble
+COMMAND: assemble
 ABBREVIATIONS: a
 SYNTAX: a <address> [ <instruction> [: <instruction>]* ]
 
@@ -145,8 +145,7 @@ ABBREVIATIONS: none
 SYNTAX: device [c:|d:]
 
 FUNCTION: Set the default memory device to either the computer
-or the disk. This is equivalent to setting both the default
-readspace and the default writespace.
+or the disk. 
 
 
 COMMAND: Disassemble instructions.
@@ -167,13 +166,6 @@ SYNTAX: @<disk command>
 FUNCTION: Perform a disk command on the currently attached disk
 image. The specified disk command is sent to the drive's channel #15.
  TODO: Allow drives other than 8, and support for GCR images.
-
-
-COMMAND: Change displaytype.
-ABBREVIATIONS: dt
-SYNTAX: displaytype data_type
-
-FUNCTION: This command sets the default data displaytype.
 
 
 COMMAND: Go down a stackframe.
@@ -230,6 +222,13 @@ of the match is displayed. The entire range is searched for all
 possible matches. 
 
 
+COMMAND: Interpret memory data as PETSCII text.
+ABBREVIATIONS: none
+SYNTAX: i <address_opt_range>
+
+FUNCTION: Display memory contents as PETSCII text.
+
+
 COMMAND: Ignore checkpoints.
 ABBREVIATIONS: none
 SYNTAX: ignore <checknum> [<count>]
@@ -270,8 +269,26 @@ ABBREVIATIONS: none
 SYNTAX: m [data_type] [address_opt_range]
 
 FUNCTION: Display the contents of memory. If no datatype
-is given, the default is used. If only address is specified,
+is given, the default is used. If only one address is specified,
 the length of data displayed is based on the datatype. If
+no addresses are given, the 'dot' address is used.
+
+
+COMMAND: display memory contents as character data
+ABBREVIATIONS: none
+SYNTAX: mc [data_type] [address_opt_range]
+
+FUNCTION: Display the contents of memory as character data.
+If only one address is specified, only one character is displayed. If
+no addresses are given, the 'dot' address is used.
+
+
+COMMAND: display memory contents as sprite data
+ABBREVIATIONS: none
+SYNTAX: ms [data_type] [address_opt_range]
+
+FUNCTION: Display the contents of memory as sprite data.  If 
+only one address is specified, only one sprite is displayed. If
 no addresses are given, the 'dot' address is used.
 
 
@@ -317,13 +334,12 @@ FUNCTION: Exit VICE.
  TODO: prompt user.
 
 
-COMMAND: Set/examine default readspace.
-ABBREVIATIONS: rs
-SYNTAX: readspace [<memspace>]
+COMMAND: Change radix
+ABBREVIATIONS: none
+SYNTAX: radix [H|D|O|B]
 
-FUNCTION: If given an argument, this command sets the
-default readspace. Otherwise the current readspace is
-printed.
+FUNCTION: This command sets the default radix to hex, decimal,
+octal, or binary. With no argument, the current radix is printed.
 
 
 COMMAND: Record commands
@@ -366,7 +382,7 @@ No argument displays the current state.
 
 
 COMMAND: Save file.
-ABBREVIATIONS: none
+ABBREVIATIONS: s
 SYNTAX: save "<filename>" <address1> <address2>
 
 FUNCTION: Save the memory from address1 to address2 to
@@ -392,7 +408,7 @@ space is specified, show all labels.
 
 
 COMMAND: Step through instructions.
-ABBREVIATIONS: s
+ABBREVIATIONS: none
 SYNTAX: step [<count>]
 
 FUNCTION: Single step through instructions. An optional
@@ -451,18 +467,17 @@ an address or range of addresses. If no addresses are given,
 a list of all the checkpoints is printed.
 
 
-COMMAND: Set/examine default writespace.
-ABBREVIATIONS: ws
-SYNTAX: writespace [<memspace>]
-
-FUNCTION: If given an argument, this command sets the
-default writespace. Otherwise the current writespace is
-printed.
-
-
 COMMAND: Convert number base.
 ABBREVIATIONS: none
 SYNTAX: ~ <number>
+
+FUNCTION: This displays the specified number in decimal, hex, octal
+and binary.
+
+
+COMMAND: Enter data.
+ABBREVIATIONS: none
+SYNTAX: > [address] <data_list>
 
 FUNCTION: This displays the specified number in decimal, hex, octal
 and binary.

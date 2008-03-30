@@ -1,7 +1,7 @@
 
 /*
- * ../../src/c64/c64cia1.c
- * This file is generated from ../../src/cia-tmpl.c and ../../src/c64/c64cia1.def,
+ * ../../../src/c64/c64cia1.c
+ * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia1.def,
  * Do not edit!
  */
 /*
@@ -327,6 +327,7 @@ static int update_cia1(CLOCK rclk)
 void reset_cia1(void)
 {
     int i;
+
     for (i = 0; i < 16; i++)
 	cia1[i] = 0;
 

@@ -330,6 +330,7 @@ static int update_cia2(CLOCK rclk)
 void reset_cia2(void)
 {
     int i;
+
     for (i = 0; i < 16; i++)
 	cia2[i] = 0;
 

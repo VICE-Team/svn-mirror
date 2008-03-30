@@ -13,7 +13,6 @@
 #define separate_int2(x) (LO16(x))
 
 static int yyerror(char *s);
-static unsigned check_addr_limits(ADDRESS val);
 static int temp;
 
 /* Defined in the lexer */
@@ -32,8 +31,10 @@ extern int cur_len, last_len;
 #define ERR_MISSING_CLOSE_PAREN 6
 #define ERR_INCOMPLETE_COMPARE_OP 7
 #define ERR_EXPECT_FILENAME 8
+#define ERR_ADDR_TOO_BIG 9
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
+#define CHECK_ADDR(x) ((x) == LO16(x))
 
 %}
 
@@ -59,6 +60,7 @@ extern int cur_len, last_len;
 %token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR CMD_BANK
 %token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
+%token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<str> STRING FILENAME R_O_L OPCODE LABEL
 %token<reg> REGISTER
@@ -78,7 +80,7 @@ extern int cur_len, last_len;
 %type<i> symbol_table_rules asm_rules memory_rules checkpoint_rules
 %type<i> checkpoint_control_rules monitor_state_rules
 %type<i> monitor_misc_rules disk_rules cmd_file_rules
-%type<i> machine_state_rules
+%type<i> machine_state_rules data_entry_rules
 
 %left '+' '-'
 %left '*' '/'
@@ -109,6 +111,7 @@ command: machine_state_rules
        | monitor_misc_rules
        | disk_rules 
        | cmd_file_rules 
+       | data_entry_rules 
        | BAD_CMD { return ERR_BAD_CMD; }
        ;
 
@@ -125,9 +128,9 @@ machine_state_rules: CMD_BANK end_cmd { fprintf(mon_output, "Bank command not do
                    | register_mod
                    ;
 
-register_mod: CMD_REGISTERS 		{ mon_print_registers(default_memspace); }
-            | CMD_REGISTERS memspace    { mon_print_registers($2); }
-            | CMD_REGISTERS reg_list
+register_mod: CMD_REGISTERS end_cmd		{ mon_print_registers(default_memspace); }
+            | CMD_REGISTERS memspace end_cmd    { mon_print_registers($2); }
+            | CMD_REGISTERS reg_list end_cmd
             ;
 
 symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd 	{ mon_load_symbols($2, $3); }
@@ -148,12 +151,13 @@ memory_rules: CMD_MOVE address address address end_cmd 		  { mon_move_memory($2,
             | CMD_FILL address address data_list end_cmd 	  { mon_fill_memory($2, $3, $4); }
             | CMD_HUNT address address data_list end_cmd 	  { mon_hunt_memory($2, $3, $4); }
             | CMD_MEM_DISPLAY RADIX_TYPE address opt_address end_cmd { mon_display_memory($2, $3, $4); }
-            | CMD_MEM_DISPLAY address opt_address end_cmd 	  { mon_display_memory(0, $2, $3); }
-            | CMD_MEM_DISPLAY end_cmd 				  { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
-            | CMD_CHAR_DISPLAY address opt_address end_cmd 	  { mon_display_data(0, $2, $3, 8, 8); }
-            | CMD_CHAR_DISPLAY end_cmd				  { mon_display_data(0, BAD_ADDR, BAD_ADDR, 8, 8); }
-            | CMD_SPRITE_DISPLAY address opt_address end_cmd 	  { mon_display_data(0, $2, $3, 24, 21); }
-            | CMD_SPRITE_DISPLAY end_cmd			  { mon_display_data(0, BAD_ADDR, BAD_ADDR, 24, 21); }
+            | CMD_MEM_DISPLAY address opt_address end_cmd 	  { mon_display_memory(default_radix, $2, $3); }
+            | CMD_MEM_DISPLAY end_cmd 				  { mon_display_memory(default_radix, BAD_ADDR, BAD_ADDR); }
+            | CMD_CHAR_DISPLAY address opt_address end_cmd 	  { mon_display_data($2, $3, 8, 8); }
+            | CMD_CHAR_DISPLAY end_cmd				  { mon_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
+            | CMD_SPRITE_DISPLAY address opt_address end_cmd 	  { mon_display_data($2, $3, 24, 21); }
+            | CMD_SPRITE_DISPLAY end_cmd			  { mon_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
+            | CMD_TEXT_DISPLAY address opt_address end_cmd 	  { mon_display_memory(0, $2, $3); }
             ;
 
 checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); }
@@ -209,6 +213,10 @@ cmd_file_rules: CMD_RECORD filename end_cmd 	{ mon_record_commands($2); }
               | CMD_PLAYBACK filename end_cmd 	{ playback=TRUE; playback_name = $2; }
               ;
 
+data_entry_rules: CMD_ENTER_DATA address data_list end_cmd { mon_fill_memory($2, BAD_ADDR, $3); }
+                | CMD_ENTER_BIN_DATA end_cmd { printf("Not yet.\n"); }
+                ;
+
 rest_of_line: R_O_L { $$ = $1; }
             ;
 
@@ -255,7 +263,7 @@ memspace: MEM_COMP { $$ = e_comp_space; }
         | MEM_DISK { $$ = e_disk_space; }
         ;
 
-memloc: memaddr { $$ = check_addr_limits($1); }
+memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; }
       ;
 
 memaddr: number { $$ = $1; } 
@@ -345,17 +353,6 @@ asm_operand_mode: ARG_IMMEDIATE number { $$ = join_ints(IMMEDIATE,$2); }
 
 %% 
 
-static unsigned check_addr_limits(ADDRESS val)
-{
-   if (val != LO16(val))
-   {
-      fprintf(mon_output, "Overflow warning: $%x -> $ffff\n", val);
-      return 0xffff;
-   }
-
-   return val;
-}
-
 void parse_and_execute_line(char *input)
 {
    char *temp_buf;
@@ -370,6 +367,7 @@ void parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    if ( (rc =yyparse()) != 0) {
+       fprintf(mon_output, "ERROR: ");
        switch(rc) {
            case ERR_BAD_CMD:
                fprintf(mon_output, "Bad command:\n  %s\n", input);
@@ -395,12 +393,16 @@ void parse_and_execute_line(char *input)
            case ERR_EXPECT_FILENAME:
                fprintf(mon_output, "Expecting a filename\n  %s\n", input);
                break;
+           case ERR_ADDR_TOO_BIG:
+               fprintf(mon_output, "Address too large\n  %s\n", input);
+               break;
            default:
                fprintf(mon_output, "Illegal input:\n  %s\n", input);
        }
        for (i=0;i<last_len;i++)   fprintf(mon_output, " ");
        fprintf(mon_output, "  ^\n");
        new_cmd = 1;
+       asm_mode = 0;
    }
    free_buffer();
 }

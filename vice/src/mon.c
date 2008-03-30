@@ -52,6 +52,7 @@
 #define HASH_ADDR(x) ((x)%0xff)
 
 #define TEST(x) ((x)!=0)
+#define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define make_prompt(str) { sprintf(str, "[%c,M:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-',            \
                               memspace_string[default_memspace],  \
@@ -150,10 +151,10 @@ bool playback;
 char *playback_name;
 
 struct mon_cmds mon_cmd_array[] = {
-   { "", 		"", 	BAD_CMD, 		STATE_INITIAL },
+   { "",		"",	BAD_CMD,		STATE_INITIAL }, 
    { "add_label", 	"al", 	CMD_ADD_LABEL, 		STATE_INITIAL },
    { "a", 		"", 	CMD_ASSEMBLE, 		STATE_INITIAL },
-   { "bank", 		"", 	CMD_BANK, 		STATE_INITIAL },
+   { "bank",		"",	CMD_BANK,		STATE_INITIAL }, 
    { "br", 		"", 	CMD_BLOCK_READ, 	STATE_INITIAL },
    { "bw", 		"", 	CMD_BLOCK_WRITE, 	STATE_INITIAL },
    { "break", 		"", 	CMD_BREAK, 		STATE_INITIAL },
@@ -176,6 +177,7 @@ struct mon_cmds mon_cmd_array[] = {
    { "goto", 		"g", 	CMD_GOTO, 		STATE_INITIAL },
    { "help", 		"?", 	CMD_HELP, 		STATE_ROL },
    { "hunt", 		"h", 	CMD_HUNT, 		STATE_INITIAL },
+   { "i", 		"", 	CMD_TEXT_DISPLAY, 	STATE_INITIAL },
    { "ignore", 		"", 	CMD_IGNORE, 		STATE_INITIAL },
    { "io", 		"", 	CMD_IO, 		STATE_INITIAL },
    { "load", 		"l", 	CMD_LOAD, 		STATE_FNAME },
@@ -193,10 +195,10 @@ struct mon_cmds mon_cmd_array[] = {
    { "registers", 	"r", 	CMD_REGISTERS, 		STATE_REG_ASGN },
    { "return", 		"ret", 	CMD_RETURN, 		STATE_INITIAL },
    { "sidefx", 		"sfx", 	CMD_SIDEFX, 		STATE_INITIAL },
-   { "save", 		"", 	CMD_SAVE, 		STATE_FNAME },
+   { "save", 		"s", 	CMD_SAVE, 		STATE_FNAME },
    { "save_labels", 	"sl", 	CMD_SAVE_LABELS, 	STATE_FNAME },
    { "show_labels", 	"shl", 	CMD_SHOW_LABELS, 	STATE_INITIAL },
-   { "step", 		"s", 	CMD_STEP, 		STATE_INITIAL },
+   { "step", 		"", 	CMD_STEP, 		STATE_INITIAL },
    { "stop", 		"", 	CMD_STOP, 		STATE_INITIAL },
    { "system", 		"sys", 	CMD_SYSTEM, 		STATE_ROL },
    { "trace", 		"tr", 	CMD_TRACE, 		STATE_INITIAL },
@@ -204,6 +206,8 @@ struct mon_cmds mon_cmd_array[] = {
    { "up", 		"", 	CMD_UP, 		STATE_INITIAL },
    { "verify", 		"v", 	CMD_VERIFY, 		STATE_FNAME },
    { "watch", 		"w", 	CMD_WATCH, 		STATE_INITIAL },
+   { ">", 		"", 	CMD_ENTER_DATA, 	STATE_INITIAL },
+   { "]", 		"", 	CMD_ENTER_BIN_DATA, 	STATE_INITIAL },
    { "~", 		"", 	CONVERT_OP, 		STATE_INITIAL },
    { "", 		"", 	-1, 			STATE_INITIAL }
 };
@@ -220,11 +224,11 @@ static char *cond_op_string[] = { "",
                                  };
 
 
-static int default_display_number[] = {100, /* default = hex */
-                                       100, /* hexadecimal */
-                                       100, /* decimal */
+static int default_display_number[] = {80, /* default = hex */
+                                       80, /* hexadecimal */
+                                       80, /* decimal */
                                        40, /* octal */
-                                       20, /* binary */
+                                       24, /* binary */
                                       };
 
 static int default_display_per_line[] = { 8, /* default = hex */
@@ -282,10 +286,17 @@ static bool is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
    return ((loc>=start) && (loc<=end));
 }
 
-static bool is_valid_range(MON_ADDR start_addr, MON_ADDR end_addr)
+static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
 {
-   /* FIXME */
-   return (addr_memspace(start_addr) != e_invalid_space);
+   if (addr_memspace(start_addr) == e_invalid_space)
+      return FALSE;
+
+   if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
+       ((addr_memspace(start_addr) != e_default_space) ||
+        (addr_memspace(end_addr) != e_default_space))) {
+      return FALSE;
+   }
+   return TRUE;
 }
 
 static void evaluate_default_addr_range(MON_ADDR *start_addr, MON_ADDR *end_addr)
@@ -296,7 +307,7 @@ static void evaluate_default_addr_range(MON_ADDR *start_addr, MON_ADDR *end_addr
    mem2 = addr_memspace(*end_addr);
 
    def = default_memspace;
-   assert(is_valid_range(*start_addr, *end_addr));
+   assert(is_valid_addr_range(*start_addr, *end_addr));
 
    if (mem1 == e_default_space) {
       if (mem2 == e_default_space) {
@@ -316,16 +327,33 @@ static void evaluate_default_addr_range(MON_ADDR *start_addr, MON_ADDR *end_addr
    }
 }
 
-static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
+static bool check_positive_range(MON_ADDR start_addr, MON_ADDR end_addr)
 {
-   if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
-       ((addr_memspace(start_addr) != e_default_space) ||
-        (addr_memspace(end_addr) != e_default_space))) {
+   ADDRESS start, end;
+
+   start = addr_location(start_addr);
+   end = addr_location(end_addr);
+
+   if (start >= end) {
+      fprintf(mon_output, "Invalid address range ($%04x-$%04x).\n",start, end);
       return FALSE;
-   }
-   return TRUE;
+   } else
+      return TRUE;
 }
 
+
+static void get_range_info(MON_ADDR addr1, MON_ADDR addr2, ADDRESS *start, ADDRESS *end, unsigned *len)
+{
+   if (check_positive_range(addr1, addr2)) {
+      *start = addr_location(addr1);
+      *end = addr_location(addr2);
+      *len = *end - *start + 1;
+   } else {
+      *start = addr_location(addr2);
+      *end = addr_location(addr1);
+      *len = *end - *start + 1;
+   }
+}
 
 /* *** REGISTER AND MEMORY OPERATIONS *** */
 
@@ -442,7 +470,7 @@ void mon_print_registers(MEMSPACE mem)
     if (mem == e_disk_space) {
         if (!check_drive_emu_level_ok(8))
             return;
-    } else
+    } else if (mem != e_comp_space)
         assert(FALSE);
 
     regs = mon_interfaces[mem]->cpu_regs;
@@ -458,7 +486,7 @@ void mon_print_registers(MEMSPACE mem)
 void mon_jump(MON_ADDR addr)
 {
    evaluate_default_addr(&addr);
-   mon_set_reg_val(e_PC, addr_memspace(addr), addr_location(addr));
+   mon_set_reg_val(addr_memspace(addr), e_PC, addr_location(addr));
    exit_mon = 1;
 }
 
@@ -489,9 +517,9 @@ static void print_bin(int val, char on, char off)
 static void print_hex(int val)
 {
    if (val > 255)
-      fprintf(mon_output, "0x%04x\n",val);
+      fprintf(mon_output, "$%04x\n",val);
    else
-      fprintf(mon_output, "0x%02x\n",val);
+      fprintf(mon_output, "$%02x\n",val);
 }
 
 static void print_octal(int val)
@@ -599,6 +627,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 int mon_cmd_lookup_index(char *str)
 {
    int num = 0;
+
+   if (str == NULL)
+      return -1;
 
    do {
       if ((strcasecmp(str, mon_cmd_array[num].str) == 0) ||
@@ -760,7 +791,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
    MEMSPACE mem;
    unsigned end_loc;
 
-   if (is_valid_addr_range(start_addr, end_addr)) {
+   if (is_valid_addr(start_addr)) {
       evaluate_default_addr_range(&start_addr, &end_addr);
       mem = addr_memspace(start_addr);
       dot_addr[mem] = start_addr;
@@ -774,7 +805,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
       end_loc = addr_location(dot_addr[mem]) + DEFAULT_DISASSEMBLY_SIZE;
    }
 
-   end_loc = end_loc & 0xffff;
+   end_loc = ADDR_LIMIT(end_loc);
 
    while (addr_location(dot_addr[mem]) <= end_loc)
       inc_addr_location(&(dot_addr[mem]), disassemble_instr(dot_addr[mem]));
@@ -784,14 +815,16 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 /* *** MEMORY COMMANDS *** */
 
 
-void mon_display_data(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
+void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 {
-   unsigned i,j, addr, last_addr;
+   unsigned i,j,len,cnt=0;
+   ADDRESS addr=0, end;
    MEMSPACE mem;
 
+   len = (x*y)/8;
    if (is_valid_addr_range(start_addr, end_addr)) {
       evaluate_default_addr_range(&start_addr, &end_addr);
-      addr = addr_location(start_addr);
+      get_range_info(start_addr, end_addr, &addr, &end, &len);
       mem = addr_memspace(start_addr);
    } else if (is_valid_addr(start_addr)) {
       evaluate_default_addr(&start_addr);
@@ -802,40 +835,35 @@ void mon_display_data(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, in
       addr = addr_location(dot_addr[mem]);
    }
 
-   if (is_valid_addr(end_addr))
-      last_addr = addr_location(end_addr);
-   else
-      last_addr = addr + ((x*y)/8);
-
-   while (addr <= last_addr) {
+   while (cnt < len) {
       for(i=0;i<y;i++) {
          fprintf(mon_output, ">%s:%04x ",memspace_string[mem],addr);
          for(j=0;j<(x/8);j++) {
             print_bin(get_mem_val(mem,addr+j),'.','*');
+            cnt++;
          }
          fprintf(mon_output, "\n");
-         addr += (x/8);
+         addr = ADDR_LIMIT(addr + (x/8));
       }
 
       fprintf(mon_output, "\n");
-      addr += (x/8);
    }
 
-   set_addr_location(&(dot_addr[mem]),addr+1);
+   set_addr_location(&(dot_addr[mem]),addr);
 }
 
 void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 {
-   unsigned i, addr, last_addr, max_width, real_width;
+   unsigned i, cnt=0, len, max_width, real_width;
+   ADDRESS addr=0, end;
    char printables[50];
    MEMSPACE mem;
 
-   if (radix_type == e_default_radix)
-      radix_type = default_radix;
+   len = default_display_number[radix_type];
 
    if (is_valid_addr_range(start_addr, end_addr)) {
       evaluate_default_addr_range(&start_addr, &end_addr);
-      addr = addr_location(start_addr);
+      get_range_info(start_addr, end_addr, &addr, &end, &len);
       mem = addr_memspace(start_addr);
    } else if (is_valid_addr(start_addr)) {
       evaluate_default_addr(&start_addr);
@@ -846,45 +874,46 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
       addr = addr_location(dot_addr[mem]);
    }
 
-   if (is_valid_addr(end_addr))
-      last_addr = addr_location(end_addr);
-   else
-      last_addr = addr + default_display_number[radix_type] - 1;
-
-   while (addr <= last_addr) {
-      fprintf(mon_output, ">%s:%04x ",memspace_string[mem],addr);
+   if (radix_type)
       max_width = default_display_per_line[radix_type];
+   else
+      max_width = 40;
+
+   while (cnt < len) {
+      fprintf(mon_output, ">%s:%04x ",memspace_string[mem],addr);
       for (i=0,real_width=0;i<max_width;i++) {
          switch(radix_type) {
-#if 0
-            case e_text_petscii:
+            case 0: /* special case == petscii text */
                fprintf(mon_output, "%c",p_toascii(get_mem_val(mem,addr+i),0));
                real_width++;
+               cnt++;
                break;
-#endif
             case e_decimal:
                memset(printables,0,50);
-               if (addr+i <= last_addr) {
+               if (cnt < len) {
                   fprintf(mon_output, "%3d ",get_mem_val(mem,addr+i));
                   real_width++;
+                  cnt++;
                }
                else
                   fprintf(mon_output, "    ");
                break;
             case e_hexadecimal:
                memset(printables,0,50);
-               if (addr+i <= last_addr) {
+               if (cnt < len) {
                   fprintf(mon_output, "%02x ",get_mem_val(mem,addr+i));
                   real_width++;
+                  cnt++;
                }
                else
                   fprintf(mon_output, "    ");
                break;
             case e_octal:
                memset(printables,0,50);
-               if (addr+i <= last_addr) {
+               if (cnt < len) {
                   fprintf(mon_output, "%03o ",get_mem_val(mem,addr+i));
                   real_width++;
+                  cnt++;
                }
                else
                   fprintf(mon_output, "    ");
@@ -900,90 +929,88 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
          fprintf(mon_output, "\t%s",printables);
       }
       fprintf(mon_output, "\n");
-      addr += real_width;
+      addr = ADDR_LIMIT(addr+real_width);
    }
 
-   set_addr_location(&(dot_addr[mem]),last_addr+1);
+   set_addr_location(&(dot_addr[mem]),addr);
 }
 
 
 void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
-  unsigned i, len, start, end, dst;
+  unsigned i, len, dst;
+  ADDRESS start, end;
   MEMSPACE src_mem, dest_mem;
   BYTE *buf;
 
   evaluate_default_addr_range(&start_addr, &end_addr);
-
-  start = addr_location(start_addr);
-  end = addr_location(end_addr);
+  get_range_info(start_addr, end_addr, &start, &end, &len);
 
   evaluate_default_addr(&dest);
   dst = addr_location(dest);
-  len = end - start + 1;
+
   buf = (BYTE *) xmalloc(sizeof(BYTE) * len);
 
   src_mem = addr_memspace(start_addr);
   dest_mem = addr_memspace(dest);
 
-  if (len < 0) len += 65536;
-
   for (i=0; i<len; i++)
-     buf[i] = get_mem_val(src_mem, start+i);
+     buf[i] = get_mem_val(src_mem, ADDR_LIMIT(start+i));
 
   for (i=0; i<len; i++) {
-     set_mem_val(dest_mem, dst+i, buf[i]);
+     set_mem_val(dest_mem, ADDR_LIMIT(dst+i), buf[i]);
   }
 }
 
 
 void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
-  unsigned i, len, start, end, dst;
+  unsigned i, len, dst;
+  ADDRESS start, end;
   MEMSPACE src_mem, dest_mem;
   BYTE byte1, byte2;
 
   evaluate_default_addr_range(&start_addr, &end_addr);
-
-  start = addr_location(start_addr);
-  end = addr_location(end_addr);
+  get_range_info(start_addr, end_addr, &start, &end, &len);
 
   evaluate_default_addr(&dest);
   dst = addr_location(dest);
-  len = end - start + 1;
-  if (len < 0) len += 65536;
 
   src_mem = addr_memspace(start_addr);
   dest_mem = addr_memspace(dest);
 
   for (i=0; i<len; i++) {
-     byte1 = get_mem_val(dest_mem, dst+1);
-     byte2 = get_mem_val(src_mem, start+1);
+     byte1 = get_mem_val(src_mem, ADDR_LIMIT(start+i));
+     byte2 = get_mem_val(dest_mem, ADDR_LIMIT(dst+i));
 
      if (byte1 != byte2)
-        fprintf(mon_output, "$%04x $%04x: %02x %02x\n",start+i, dst+i, byte1, byte2);
+        fprintf(mon_output, "$%04x $%04x: %02x %02x\n",ADDR_LIMIT(start+i), ADDR_LIMIT(dst+i), byte1, byte2);
   }
 }
 
 
 void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  unsigned i, index, len, start, end;
+  unsigned i, index, len = 0;
+  ADDRESS start, end;
   MEMSPACE dest_mem;
 
-  evaluate_default_addr_range(&start_addr, &end_addr);
-
-  start = addr_location(start_addr);
-  end = addr_location(end_addr);
-  len = end - start + 1;
-  if (len < 0) len += 65536;
+  if (is_valid_addr(end_addr)) {
+     evaluate_default_addr_range(&start_addr, &end_addr);
+     get_range_info(start_addr, end_addr, &start, &end, &len);
+  } else {
+     /* Fill only until end of data_buf */
+     evaluate_default_addr(&start_addr);
+     start = addr_location(start_addr);
+     len = data_buf_len;
+  }
 
   dest_mem = addr_memspace(start_addr);
 
   i = 0;
   index = 0;
-  while (i <= len) {
-     set_mem_val(dest_mem, start+i, data_buf[index++]);
+  while (i < len) {
+     set_mem_val(dest_mem, ADDR_LIMIT(start+i), data_buf[index++]);
      if (index >= data_buf_len) index = 0;
      i++;
   }
@@ -994,31 +1021,28 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
 void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  unsigned len, start, end, data_len, i, next_read;
+  unsigned len, data_len, i, next_read;
   BYTE *buf;
+  ADDRESS start, end;
   MEMSPACE mem;
 
   evaluate_default_addr_range(&start_addr, &end_addr);
-
+  get_range_info(start_addr, end_addr, &start, &end, &len);
   mem = addr_memspace(start_addr);
-  start = addr_location(start_addr);
-  end = addr_location(end_addr);
-  len = end - start + 1;
-  if (len < 0) len += 0x10000;
 
   data_len = strlen(data_buf);
   buf = (BYTE *) xmalloc(sizeof(BYTE) * data_len);
 
   /* Fill buffer */
   for (i=0; i<data_len; i++)
-     buf[i] = get_mem_val(mem, start+i);
+     buf[i] = get_mem_val(mem, ADDR_LIMIT(start+i));
 
   /* Do compares */
   next_read = start + data_len;
 
   for (i=0; i<(len-data_len); i++,next_read++) {
      if (memcmp(buf,data_buf,data_len) == 0)
-        fprintf(mon_output, "0x%04x\n",start+i);
+        fprintf(mon_output, "%04x\n",ADDR_LIMIT(start+i));
 
      memmove(&(buf[0]), &(buf[1]), data_len-1);
      buf[data_len-1] = get_mem_val(mem, next_read);
@@ -1071,6 +1095,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
     fprintf(mon_output, "Loading %s", filename);
     fprintf(mon_output, " from %04X\n", adr);
 
+    /* FIXME - check for wraparound */
     ch = fread (ram + adr, 1, ram_size - adr, fp);
     fprintf(mon_output, "%x bytes\n", ch);
 
@@ -1107,7 +1132,7 @@ void mon_verify_file(char *filename, MON_ADDR start_addr)
 {
    evaluate_default_addr(&start_addr);
 
-   fprintf(mon_output, "Verify file %s at address 0x%04x\n", filename, addr_location(start_addr));
+   fprintf(mon_output, "Verify file %s at address $%04x\n", filename, addr_location(start_addr));
 }
 
 void mon_load_symbols(MEMSPACE mem, char *filename)
@@ -1133,7 +1158,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
        fscanf(fp, "%x %s\n", (int *) &adr, name);
        name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
        strcpy(name_ptr, name);
-       fprintf(mon_output, "Read (0x%x:%s)\n",adr, name_ptr);
+       fprintf(mon_output, "Read ($%x:%s)\n",adr, name_ptr);
        mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
     }
 
@@ -1161,7 +1186,7 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
 
     while (sym_ptr) {
        fprintf(fp, "%04x %s\n", sym_ptr->addr, sym_ptr->name);
-       fprintf(mon_output, "Write (0x%x:%s)\n",sym_ptr->addr,sym_ptr-> name);
+       fprintf(mon_output, "Write ($%x:%s)\n",sym_ptr->addr,sym_ptr-> name);
        sym_ptr = sym_ptr->next;
     }
 
@@ -1295,7 +1320,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
       mem = e_comp_space;
 
    if ( (old_name = mon_symbol_table_lookup_name(mem, loc)) ) {
-      fprintf(mon_output, "Replacing label %s with %s for address $%0x4x\n",
+      fprintf(mon_output, "Replacing label %s with %s for address $%04x\n",
               old_name, name, loc);
    }
    if ( (old_addr = mon_symbol_table_lookup_addr(mem, name)) >= 0) {
@@ -1444,11 +1469,11 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
       if (is_valid_addr(addr))
          fprintf(mon_output, "Read track %d sector %d to screen\n", track, sector);
       else
-         fprintf(mon_output, "Read track %d sector %d into address 0x%04x\n", track, sector, addr_location(addr));
+         fprintf(mon_output, "Read track %d sector %d into address $%04x\n", track, sector, addr_location(addr));
    }
    else
    {
-      fprintf(mon_output, "Write data from address 0x%04x to track %d sector %d\n",
+      fprintf(mon_output, "Write data from address $%04x to track %d sector %d\n",
               addr_location(addr), track, sector);
    }
 
@@ -1663,9 +1688,9 @@ static void print_checkpoint_info(breakpoint *bp)
    } else {
       fprintf(mon_output, "BREAK: ");
    }
-   fprintf(mon_output, "%d A:0x%04x",bp->brknum,addr_location(bp->start_addr));
+   fprintf(mon_output, "%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
    if (is_valid_addr(bp->end_addr))
-      fprintf(mon_output, "-0x%04x",addr_location(bp->end_addr));
+      fprintf(mon_output, "-$%04x",addr_location(bp->end_addr));
 
    if (bp->watch_load)
       fprintf(mon_output, " load");
@@ -1959,7 +1984,7 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace, bo
          mon_interfaces[mem]->toggle_watchpoints_func(1);
          monitor_trap_on(mon_interfaces[mem]->int_status);
       }
-
+         
       if (is_load)
          add_to_checkpoint_list(&(watchpoints_load[mem]), new_bp);
       if (is_store)
