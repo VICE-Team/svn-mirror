@@ -330,8 +330,8 @@ static void c64_monitor_init(void)
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(),
-                 drive0_monitor_interface_get(),
-                 drive1_monitor_interface_get(), asmarray);
+                 drivecpu_monitor_interface_get(0),
+                 drivecpu_monitor_interface_get(1), asmarray);
 }
 
 void machine_setup_context(void)
@@ -564,9 +564,7 @@ static void machine_vsync_hook(void)
 
     /* The drive has to deal both with our overflowing and its own one, so
        it is called even when there is no overflowing in the main CPU.  */
-    /* FIXME: Do we have to check drive_enabled here?  */
-    drive_cpu_prevent_clk_overflow(&drive0_context, sub);
-    drive_cpu_prevent_clk_overflow(&drive1_context, sub);
+    drivecpu_prevent_clk_overflow_all(sub);
 }
 
 int machine_set_restore_key(int v)
