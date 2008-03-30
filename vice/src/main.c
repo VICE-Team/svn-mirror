@@ -462,13 +462,14 @@ int MAIN_PROGRAM(int argc, char **argv)
     if (!console_mode && ui_init_finish() < 0)
         return -1;
 
+    if (!console_mode && video_init() < 0)
+        return -1;
+
     archdep_setup_signals(do_core_dumps);
 
     /* Check for PSID here since we don't want to allow autodetection
        in autostart.c. ROM image loading should also be skipped. */
-    if (machine_autodetect_psid(autostart_string) == 0) {
-        int tune;
-
+    if (machine_autodetect_psid(autostart_string) == 0 || psid_mode) {
         psid_mode = 1;
 
 	/* FIXME: Find a way respecting command line arguments for
@@ -483,10 +484,8 @@ int MAIN_PROGRAM(int argc, char **argv)
 	resources_set_value("SidFilters", (resource_value_t)1);
 	resources_set_value("SoundSampleRate", (resource_value_t)44100);
 	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
+	/* resources_set_value("SoundBufferSize", (resource_value_t)1000); */
 	
-	if (!console_mode && video_init() < 0)
-	    return -1;
-
 	if (machine_init() < 0) {
 	    log_error(LOG_DEFAULT, "Machine initialization failed.");
 	    return -1;
@@ -501,9 +500,6 @@ int MAIN_PROGRAM(int argc, char **argv)
 #ifdef HAS_JOYSTICK
     joystick_init();
 #endif
-
-    if (!console_mode && video_init() < 0)
-        return -1;
 
     drive0_cpu_early_init();
     drive1_cpu_early_init();
@@ -575,7 +571,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     maincpu_trigger_reset();
 
 #ifdef USE_VIDMODE_EXTENSION
-    if (!console_mode)
+    if (!(console_mode || psid_mode))
         ui_set_fullscreenmode_init();
 #endif
 

@@ -40,6 +40,7 @@
 #include "c64mem.h"
 #include "cmdline.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "utils.h"
 #include "zfile.h"
@@ -70,6 +71,12 @@ typedef struct psid {
 static psid_t* psid = NULL;
 static int psid_tune = 0;
 
+static int cmdline_psid_mode(const char *param, void *extra_param)
+{
+    psid_mode = 1;
+    return 0;
+}
+
 static int cmdline_psid_tune(const char *param, void *extra_param)
 {
   psid_tune = atoi(param);
@@ -78,6 +85,8 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 
 static cmdline_option_t cmdline_options[] =
 {
+    { "-psid", CALL_FUNCTION, 0, cmdline_psid_mode, NULL, NULL, NULL,
+      NULL, "PSID mode" },
     { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
       "<number>", "Specify PSID tune <number>" },
     { NULL }
@@ -106,6 +115,7 @@ int psid_load_file(const char* filename)
     return -1;
   }
 
+  free(psid);
   psid = xmalloc(sizeof(psid_t));
 
   if (fread(ptr, 1, 6, f) != 6 || memcmp(ptr, "PSID", 4) != 0) {
@@ -200,6 +210,10 @@ void psid_init_tune(void)
   BYTE portval = 0x35;
   int start_song = psid_tune;
   int i;
+
+  if (!psid) {
+    return;
+  }
 
   log_message(LOG_DEFAULT, "\n%s\n%s\n%s\n",
 	      psid->name, psid->author, psid->copyright);

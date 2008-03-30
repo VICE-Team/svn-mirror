@@ -41,6 +41,7 @@
 #include "checkmark.xbm"
 #include "right_arrow.xbm"
 
+#include "machine.h"
 #include "resources.h"
 #include "utils.h"
 #include "vsync.h"
@@ -119,7 +120,8 @@ static UI_CALLBACK(menu_popup_callback)
     if (menu_popup == 0)
         top_menu = w;
     menu_popup++;
-    suspend_speed_eval();
+    if (!psid_mode)
+        suspend_speed_eval();
 }
 
 static UI_CALLBACK(menu_popdown_callback)

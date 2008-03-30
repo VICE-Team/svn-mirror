@@ -569,9 +569,10 @@ int sound_flush(int relative_speed)
 	    }
 	    fill = j;
 	}
-	if (speed_adjustment_setting != SOUND_ADJUST_ADJUSTING
-            && relative_speed > 0)
-	    snddata.clkfactor = relative_speed / 100.0;
+	if (speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
+            if (relative_speed > 0)
+	        snddata.clkfactor = relative_speed / 100.0;
+	}
 	else
 	{
 	    if (snddata.prevfill)

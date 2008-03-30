@@ -44,5 +44,5 @@ libxawui_a_SOURCES = \
 	uisnapshot.h \
 	vic20icon.xpm \
 	vic20ui.c \
-	vic20ui.h
-
+	vic20ui.h \
+	vsidui.c

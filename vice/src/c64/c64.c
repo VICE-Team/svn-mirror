@@ -271,7 +271,9 @@ int machine_init(void)
 	kbd_buf_init(631, 198, 10, C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC);
 
 	/* Initialize the C64-specific part of the UI.  */
-	c64_ui_init();
+	if (!console_mode) {
+  	    vsid_ui_init();
+	}
 
 	return 0;
     }
@@ -407,7 +409,13 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all disks.  */
-    file_system_detach_disk(-1);
+    if (!psid_mode) {
+        file_system_detach_disk(-1);
+    }
+
+    if (!console_mode && psid_mode) {
+        vsid_ui_exit();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
