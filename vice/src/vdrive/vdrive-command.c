@@ -704,8 +704,13 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     if (vdrive->image->read_only)
         return IPE_WRITE_PROTECT_ON;
 
-    if (vdrive->image->fd == NULL)
-        return IPE_NOT_READY;
+    if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
+        fsimage_t *fsimage;
+
+        fsimage = (fsimage_t *)(vdrive->image->media);
+        if (fsimage->fd == NULL)
+            return IPE_NOT_READY;
+    }
 
     comma = memchr(disk_name, ',', strlen(disk_name));
 
