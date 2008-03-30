@@ -10,12 +10,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-07-10 18:11+0200\n"
-"PO-Revision-Date: 2005-12-29 15:09+0100\n"
+"POT-Creation-Date: 2006-07-22 18:29+0200\n"
+"PO-Revision-Date: 2006-07-20 20:08+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
@@ -168,7 +168,8 @@ msgstr "Spécifier le pilote d'enregistrement son"
 #: src/sound.c:267
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
-"Spécifier les paramètres d'initialisation pour le pilote d'enregistrement son"
+"Spécifier les paramètres d'initialisation pour le pilote d'enregistrement "
+"son"
 
 #: src/sound.c:269
 msgid "<sync>"
@@ -212,15 +213,15 @@ msgstr "Le périphérique d'enregistrement %s n'existe pas!"
 #: src/sound.c:729
 msgid "Recording device must be different from playback device"
 msgstr ""
-"Le périphérique d'enregistrement doit être différent du périphérique de "
-"lecture"
+"Le périphérique d'enregistrement doit être différent du périphérique "
+"de lecture"
 
 #: src/sound.c:739
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
-"Attention! Le périphérique d'enregistrement %s semble être un périphérique "
-"temps réel"
+"Attention! Le périphérique d'enregistrement %s semble être un "
+"périphérique temps réel"
 
 #: src/sound.c:750
 #, c-format
@@ -230,7 +231,8 @@ msgstr "Échec de l'initialisation du périphérique `%s'."
 #: src/sound.c:765
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
-"Le périphérique d'enregistrement ne supporte pas les paramètres son actuels"
+"Le périphérique d'enregistrement ne supporte pas les paramètres son "
+"actuels"
 
 #: src/sound.c:846
 msgid "Sound buffer overflow (cycle based)"
@@ -586,7 +588,8 @@ msgstr "Spécifier le nom de l'image BASIC ROM (partie haute)"
 
 #: src/c128/c128-cmdline-options.c:126
 msgid "Specify name of international character generator ROM image"
-msgstr "Spécifier le nom de l'image du générateur de caractères internationaux"
+msgstr ""
+"Spécifier le nom de l'image du générateur de caractères internationaux"
 
 #: src/c128/c128-cmdline-options.c:128
 msgid "Specify name of German character generator ROM image"
@@ -1143,7 +1146,8 @@ msgstr "Désactiver l'utilisation du câble parallèle  compatible SpeedDOS"
 #: src/drive/iec/iec-cmdline-options.c:105
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
-"Spécifier la méthode d'idle (0: no traps, 1: sauter des cycles, 2: trap idle)"
+"Spécifier la méthode d'idle (0: no traps, 1: sauter des cycles, 2: trap "
+"idle)"
 
 #: src/drive/iec/iec-cmdline-options.c:107
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
@@ -1512,11 +1516,13 @@ msgstr "Spécifier le nom du pilote imprimante pour l'imprimante userport"
 
 #: src/printerdrv/interface-serial.c:127
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Spécifier le type de périphérique pour #4 (0: AUCUN, 1: SF, 2: RÉEL)"
+msgstr ""
+"Spécifier le type de périphérique pour #4 (0: AUCUN, 1: SF, 2: RÉEL)"
 
 #: src/printerdrv/interface-serial.c:130
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Spécifier le type de périphérique pour #5 (0: AUCUN, 1: SF, 2: RÉEL)"
+msgstr ""
+"Spécifier le type de périphérique pour #5 (0: AUCUN, 1: SF, 2: RÉEL)"
 
 #: src/printerdrv/interface-userport.c:94
 msgid "Enable the userport printer emulation"
@@ -1528,15 +1534,18 @@ msgstr "Désactiver l'émulation de l'imprimante userport"
 
 #: src/printerdrv/output-select.c:124
 msgid "Specify name of output device for device #4"
-msgstr "Spécifiez le nom du périphérique de sortie pour le périphérique #4"
+msgstr ""
+"Spécifiez le nom du périphérique de sortie pour le périphérique #4"
 
 #: src/printerdrv/output-select.c:126
 msgid "Specify name of output device for device #5"
-msgstr "Spécifiez le nom du périphérique de sortie pour le périphérique #5"
+msgstr ""
+"Spécifiez le nom du périphérique de sortie pour le périphérique #5"
 
 #: src/printerdrv/output-select.c:129
 msgid "Specify name of output device for the userport printer"
-msgstr "Spécifiez le nom du périphérique de sortie pour l'imprimante userport"
+msgstr ""
+"Spécifiez le nom du périphérique de sortie pour l'imprimante userport"
 
 #: src/printerdrv/output-text.c:119 src/printerdrv/output-text.c:121
 #: src/printerdrv/output-text.c:123
@@ -1787,12 +1796,14 @@ msgstr "Définir le chemin de recherche pour trouver les fichiers systèmes"
 #: src/traps.c:126
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
-"Activer les méchanismes généraux pour l'émulation disque/datassette rapide"
+"Activer les méchanismes généraux pour l'émulation disque/datassette "
+"rapide"
 
 #: src/traps.c:129
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
-"Désactiver les méchanismes généraux pour l'émulation disque/datassette rapide"
+"Désactiver les méchanismes généraux pour l'émulation disque/datassette "
+"rapide"
 
 #: src/vdc/vdc-cmdline-options.c:62
 msgid "Set the VDC memory size to 16KB"
@@ -2345,8 +2356,8 @@ msgstr "Options"
 #: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
 #: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
 #: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
-#: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
-#: src/arch/unix/x11/gnome/x11ui.c:1343
+#: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/uinetplay.c:66
+#: src/arch/unix/x11/gnome/x11ui.c:1254 src/arch/unix/x11/gnome/x11ui.c:1346
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -3115,7 +3126,7 @@ msgstr "À propos de VICE..."
 
 #: src/arch/unix/gui/uicommands.c:517 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:2022
+#: src/arch/unix/x11/gnome/x11ui.c:2032
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -3585,8 +3596,8 @@ msgid "Next: "
 msgstr "Suivant: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:903 src/arch/unix/x11/gnome/x11ui.c:913
-#: src/arch/unix/x11/gnome/x11ui.c:1603
+#: src/arch/unix/x11/gnome/x11ui.c:906 src/arch/unix/x11/gnome/x11ui.c:916
+#: src/arch/unix/x11/gnome/x11ui.c:1613
 msgid "<empty>"
 msgstr "<vide>"
 
@@ -3837,7 +3848,7 @@ msgstr ""
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:203
+#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:321
 msgid "Disconnect"
 msgstr ""
 
@@ -4510,7 +4521,7 @@ msgstr "Vitesse maximale d'exécution"
 msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1392
+#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1395
 #: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr "Impossible d'enregistrer les paramètres."
@@ -5064,7 +5075,7 @@ msgid "Save Cartridge"
 msgstr "Sauvegarde de la cartouche"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:95
-#: src/arch/unix/x11/gnome/uiscreenshot.c:464
+#: src/arch/unix/x11/gnome/uiscreenshot.c:471
 #: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
 msgstr "Nom de fichier invalide"
@@ -5085,12 +5096,12 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr "Écriture réussie de `%s'\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:150 src/arch/unix/x11/xaw/uicolor.c:126
+#: src/arch/unix/x11/gnome/uicolor.c:172 src/arch/unix/x11/xaw/uicolor.c:126
 msgid "XCreateImage failed."
 msgstr "Échec de XCreateImage."
 
-#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:221
-#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/gnome/uicolor.c:182 src/arch/unix/x11/gnome/uicolor.c:243
+#: src/arch/unix/x11/gnome/uicolor.c:248 src/arch/unix/x11/gnome/uicolor.c:253
 #: src/arch/unix/x11/xaw/uicolor.c:137 src/arch/unix/x11/xaw/uicolor.c:193
 #: src/arch/unix/x11/xaw/uicolor.c:198 src/arch/unix/x11/xaw/uicolor.c:203
 #, c-format
@@ -5161,66 +5172,100 @@ msgstr "Émulation exacte"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54
 #, fuzzy
+msgid "Keyboard"
+msgstr "Type de &clavier"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:57
+#, fuzzy
+msgid "Joystick 1"
+msgstr "Joystick:"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:60
+#, fuzzy
+msgid "Joystick 2"
+msgstr "Joystick:"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:63
+#, fuzzy
+msgid "Devices"
+msgstr "Lecteur #8"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:119
+#, fuzzy
 msgid "Invalid Port number"
 msgstr "Nom de fichier invalide"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:74
+#: src/arch/unix/x11/gnome/uinetplay.c:139
 msgid "Idle"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:79
+#: src/arch/unix/x11/gnome/uinetplay.c:144
 #, fuzzy
 msgid "Server listening"
 msgstr "Enregistrer les paramètres"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:84
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 msgid "Connected Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:89
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 msgid "Connected Client"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:101
+#: src/arch/unix/x11/gnome/uinetplay.c:166
 #, c-format
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:110
+#: src/arch/unix/x11/gnome/uinetplay.c:176
 msgid "Couldn't start netplay server."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:120
+#: src/arch/unix/x11/gnome/uinetplay.c:186
 #, fuzzy
 msgid "Couldn't connect client."
 msgstr "Impossible d'allouer le cache couleur"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:139
-#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/x11/gnome/uinetplay.c:211
 #, fuzzy
 msgid "Netplay Settings"
 msgstr "Paramètres des périphériques"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:150
+#: src/arch/unix/x11/gnome/uinetplay.c:217
 #, fuzzy
 msgid "Current mode: "
 msgstr "Fichier image ROM courant"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153
+#: src/arch/unix/x11/gnome/uinetplay.c:220
 #, fuzzy
 msgid "<unknown>"
 msgstr "Inconnu"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:160
+#: src/arch/unix/x11/gnome/uinetplay.c:227
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:168
+#: src/arch/unix/x11/gnome/uinetplay.c:235
 msgid "TCP-Port: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:181
+#: src/arch/unix/x11/gnome/uinetplay.c:249
 msgid "Connect to "
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:274
+#, fuzzy
+msgid "Control"
+msgstr "Contrôles PAL"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:279
+#, fuzzy
+msgid "Server"
+msgstr "Tracer par de&ssus"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:284
+msgid "Client"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:239
@@ -5229,7 +5274,7 @@ msgid "No gfxoutputdrivers available"
 msgstr "Il n'y a plus de périphériques disponibles."
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:243
-#: src/arch/unix/x11/gnome/uiscreenshot.c:455
+#: src/arch/unix/x11/gnome/uiscreenshot.c:462
 msgid "Save Screenshot"
 msgstr "Enregistrer une capture d'écran"
 
@@ -5279,12 +5324,12 @@ msgstr "Flux de données audio (bitrate)"
 msgid "Video Bitrate"
 msgstr "Flux de données vidéo"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:499
+#: src/arch/unix/x11/gnome/uiscreenshot.c:506
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Impossible d'écrire la capture écran de `%s' avec le pilote `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:506
+#: src/arch/unix/x11/gnome/uiscreenshot.c:513
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Écriture réussie de `%s'"
@@ -5327,185 +5372,190 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2657
+#: src/arch/unix/x11/gnome/x11ui.c:2676
 #, fuzzy
 msgid "all files"
 msgstr "Tous les fichiers (*.*)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:428
+#: src/arch/unix/x11/gnome/x11ui.c:431
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Impossible d'ajouter le \"fontpath\" `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:430
+#: src/arch/unix/x11/gnome/x11ui.c:433
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Définir le \"fontpath\": `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:638 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Cet affichage ne supporte pas de mode visuel utilisable %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:509
+#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "SVP, veuillez sélectionner une profondeur de couleurs supportée."
 
-#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/gnome/x11ui.c:668
+#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/gnome/x11ui.c:671
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Détecté une capacité visuelle de %dbits/%s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:653
+#: src/arch/unix/x11/gnome/x11ui.c:656
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Détecté une capacité visuelle de %dbits."
 
-#: src/arch/unix/x11/gnome/x11ui.c:676 src/arch/unix/x11/xaw/x11ui.c:537
+#: src/arch/unix/x11/gnome/x11ui.c:679 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Impossible de détecter une configuration visuelle fonctionnelle."
 
-#: src/arch/unix/x11/gnome/x11ui.c:684
+#: src/arch/unix/x11/gnome/x11ui.c:687
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Impossible de charger la police de caractères %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:691
+#: src/arch/unix/x11/gnome/x11ui.c:694
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Impossible de charger la police de caractères CBM %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:805
+#: src/arch/unix/x11/gnome/x11ui.c:808
 msgid "PAL Controls"
 msgstr "Contrôles PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:824
+#: src/arch/unix/x11/gnome/x11ui.c:827
 msgid "audio/video recording"
 msgstr "enregistrement Audio/Vidéo"
 
-#: src/arch/unix/x11/gnome/x11ui.c:838 src/arch/unix/x11/gnome/x11ui.c:857
+#: src/arch/unix/x11/gnome/x11ui.c:841 src/arch/unix/x11/gnome/x11ui.c:860
 msgid "click to stop recording"
 msgstr "cliquez pour arrêter l'enregistrement"
 
-#: src/arch/unix/x11/gnome/x11ui.c:843
+#: src/arch/unix/x11/gnome/x11ui.c:846
 msgid "event recording"
 msgstr "enregistrement d'événements"
 
-#: src/arch/unix/x11/gnome/x11ui.c:863
+#: src/arch/unix/x11/gnome/x11ui.c:866
 msgid "event playback"
 msgstr "lecture d'événements"
 
-#: src/arch/unix/x11/gnome/x11ui.c:877
+#: src/arch/unix/x11/gnome/x11ui.c:880
 msgid "click to stop playback"
 msgstr "cliquez pour arrêter la lecture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:889
+#: src/arch/unix/x11/gnome/x11ui.c:892
 #, c-format
 msgid "Drive %d: "
 msgstr "Lecteur %d:"
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1000
+#: src/arch/unix/x11/gnome/x11ui.c:1003
 msgid "Tape 000"
 msgstr "Datassette 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1070 src/arch/unix/x11/xaw/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:1073 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr "Nombre maximal de fenêtres \"toplevel\" atteint."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/gnome/x11ui.c:1332
+#: src/arch/unix/x11/gnome/x11ui.c:1252 src/arch/unix/x11/gnome/x11ui.c:1335
 msgid "Commands"
 msgstr "Commandes"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1255
+#: src/arch/unix/x11/gnome/x11ui.c:1258
 msgid "Help"
 msgstr "Aide"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1073
+#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr " émulateur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1385 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr "Voulez-vous vraiment quitter?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr "Enregistrer les paramètres courants?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1437 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr "Utilisation d'un \"colormap\" privé."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
+#: src/arch/unix/x11/gnome/x11ui.c:1457 src/arch/unix/x11/gnome/x11ui.c:1460
 #: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr "(Turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1755
+#: src/arch/unix/x11/gnome/x11ui.c:1765
 #, c-format
 msgid "Tape %03d"
 msgstr "Datassette %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1821 src/arch/unix/x11/xaw/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1831 src/arch/unix/x11/xaw/x11ui.c:1401
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (en pause)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1981
+#: src/arch/unix/x11/gnome/x11ui.c:1991
 msgid "VICE Message"
 msgstr "Message VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1992
+#: src/arch/unix/x11/gnome/x11ui.c:2002
 msgid "VICE Error"
 msgstr "Erreur VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2023
+#: src/arch/unix/x11/gnome/x11ui.c:2033
 msgid "Hard Reset"
 msgstr "Réinitialiser à froid"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2024
+#: src/arch/unix/x11/gnome/x11ui.c:2034
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1679
+#: src/arch/unix/x11/gnome/x11ui.c:2078 src/arch/unix/x11/xaw/x11ui.c:1679
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2069
+#: src/arch/unix/x11/gnome/x11ui.c:2079
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Désirez vous étendre l'image de disque à 40 pistes?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2082
+#: src/arch/unix/x11/gnome/x11ui.c:2092
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Démarrage automatique impossible pour le lecteur #%d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2090 src/arch/unix/x11/gnome/x11ui.c:2099
+#: src/arch/unix/x11/gnome/x11ui.c:2100 src/arch/unix/x11/gnome/x11ui.c:2109
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Impossible de démarrer automatiquement la sélection %d de l'image %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
+#: src/arch/unix/x11/gnome/x11ui.c:2235 src/arch/unix/x11/gnome/x11ui.c:2245
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "AUCUN CONTENU D'IMAGE DISPONIBLE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2680
+#: src/arch/unix/x11/gnome/x11ui.c:2699
 msgid "Contents"
 msgstr "Contenu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2726
+#: src/arch/unix/x11/gnome/x11ui.c:2747
 msgid "Attach write protected"
 msgstr "Protéger contre l'écriture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2734
+#. show hidden files
+#: src/arch/unix/x11/gnome/x11ui.c:2753
+msgid "Show hidden files"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:2765
 msgid "Autostart"
 msgstr "Démarrage automatique"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2751
+#: src/arch/unix/x11/gnome/x11ui.c:2782
 msgid "Text cannot be displayed.\n"
 msgstr ""
 
@@ -5569,8 +5619,8 @@ msgstr "Fork DGA réussi"
 #: src/arch/unix/x11/dga2.c:426
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
-"Impossible de déterminer la version de l'extension vidéo - mode plein écran "
-"désactivé."
+"Impossible de déterminer la version de l'extension vidéo - mode plein "
+"écran désactivé."
 
 #: src/arch/unix/x11/dga2.c:431
 msgid "Unable to query video extension information - disabling fullscreen."
@@ -5704,7 +5754,8 @@ msgstr "Impossible de relâcher la mémoire partagée!"
 
 #: src/arch/unix/x11/vidmode.c:76
 msgid "Error getting video mode information - disabling vidmode extension."
-msgstr "Erreur de lecture du mode vidéo - désactivation de l'extension vidmode"
+msgstr ""
+"Erreur de lecture du mode vidéo - désactivation de l'extension vidmode"
 
 #: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
@@ -5830,8 +5881,8 @@ msgstr ""
 #: src/arch/unix/x11/xaw/x11video.c:144
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
-"Impossible d'accéder à la mémoire partagée; retour au mode sans extension "
-"MITSHM."
+"Impossible d'accéder à la mémoire partagée; retour au mode sans "
+"extension MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:155
 msgid ""
@@ -5900,9 +5951,6 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #~ msgid "Step &into"
 #~ msgstr "Tracer à l'&intérieur"
-
-#~ msgid "Step &over"
-#~ msgstr "Tracer par de&ssus"
 
 #~ msgid "Step until &return"
 #~ msgstr "Sauter jusqu'à &return"
@@ -6666,7 +6714,8 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #~ msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 #~ msgstr ""
-#~ "Fichiers compressés (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+#~ "Fichiers compressés (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*."
+#~ "x6z)"
 
 #~ msgid "CRT cartridge image files (*.crt)"
 #~ msgstr "Images de cartouches CRT (*.crt)"
@@ -6722,9 +6771,6 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #~ msgid "Tape:"
 #~ msgstr "Datassette:"
-
-#~ msgid "Joystick:"
-#~ msgstr "Joystick:"
 
 #~ msgid ""
 #~ "Recording\n"
@@ -7601,9 +7647,6 @@ msgstr "Initialisation réussie sans mémoire partagée."
 #~ msgid "CRTC chip &enable"
 #~ msgstr "Activer la puce &CRTC"
 
-#~ msgid "&Keyboard"
-#~ msgstr "Type de &clavier"
-
 #~ msgid "&Graphics"
 #~ msgstr "&Graphiques"
 
@@ -7928,11 +7971,12 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #~ msgid "IDE64: Disk is not formatted, using default 8MB."
 #~ msgstr ""
-#~ "IDE64: Le disque n'est pas formatté, utilisation du paramètre par défaut: "
-#~ "8MO."
+#~ "IDE64: Le disque n'est pas formatté, utilisation du paramètre par "
+#~ "défaut: 8MO."
 
 #~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-#~ msgstr "IDE64: Utilisation : %i/%i/%i géométrie CHS, total de %lu secteurs."
+#~ msgstr ""
+#~ "IDE64: Utilisation : %i/%i/%i géométrie CHS, total de %lu secteurs."
 
 #~ msgid "IDE64: LBA geometry, %lu sectors total."
 #~ msgstr "IDE64: Géométrie LBA, total de %lu secteurs."
@@ -7955,7 +7999,8 @@ msgstr "Initialisation réussie sans mémoire partagée."
 
 #~ msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 #~ msgstr ""
-#~ "Spécifiez la commande de transfer de données, précédée d'une '|' (|lpr)"
+#~ "Spécifiez la commande de transfer de données, précédée d'une '|' (|"
+#~ "lpr)"
 
 #~ msgid "Unknown image type."
 #~ msgstr "Type d'image inconnu."

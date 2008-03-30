@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-07-10 18:11+0200\n"
+"POT-Creation-Date: 2006-07-22 18:29+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -2326,8 +2326,8 @@ msgstr "Opties"
 #: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
 #: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
 #: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
-#: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
-#: src/arch/unix/x11/gnome/x11ui.c:1343
+#: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/uinetplay.c:66
+#: src/arch/unix/x11/gnome/x11ui.c:1254 src/arch/unix/x11/gnome/x11ui.c:1346
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -3087,7 +3087,7 @@ msgstr "Over VICE..."
 
 #: src/arch/unix/gui/uicommands.c:517 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:2022
+#: src/arch/unix/x11/gnome/x11ui.c:2032
 msgid "Reset"
 msgstr "Reset"
 
@@ -3557,8 +3557,8 @@ msgid "Next: "
 msgstr "Volgende: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:903 src/arch/unix/x11/gnome/x11ui.c:913
-#: src/arch/unix/x11/gnome/x11ui.c:1603
+#: src/arch/unix/x11/gnome/x11ui.c:906 src/arch/unix/x11/gnome/x11ui.c:916
+#: src/arch/unix/x11/gnome/x11ui.c:1613
 msgid "<empty>"
 msgstr "<leeg>"
 
@@ -3802,7 +3802,7 @@ msgstr "Server om mee te verbinden"
 msgid "Connect to server"
 msgstr "maak verbinding met de server"
 
-#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:203
+#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:321
 msgid "Disconnect"
 msgstr "Verbreek verbinding"
 
@@ -4462,7 +4462,7 @@ msgstr "Maximale snelheid"
 msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1392
+#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1395
 #: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -4600,14 +4600,12 @@ msgid "Passband percentage"
 msgstr "Passband percentage"
 
 #: src/arch/unix/gui/uisound.c:49
-#, fuzzy
 msgid "Sound driver argument"
-msgstr "Geluid stuurprogramma: DirectX"
+msgstr "Geluid stuurprogramma parameter"
 
 #: src/arch/unix/gui/uisound.c:50
-#, fuzzy
 msgid "Argument:"
-msgstr "gefragmenteerd"
+msgstr "Parameter:"
 
 #: src/arch/unix/gui/uisound.c:68
 msgid "*1.00 sec"
@@ -4679,14 +4677,12 @@ msgstr "*Exact"
 
 #. Do not change position as position 2 is hard coded.
 #: src/arch/unix/gui/uisound.c:133
-#, fuzzy
 msgid "Sound device name"
-msgstr "schrijf actie naar geluidsapparaat faalt."
+msgstr "Geluid stuurprogramma naam"
 
 #: src/arch/unix/gui/uisound.c:135
-#, fuzzy
 msgid "Sound driver argument..."
-msgstr "Geluid stuurprogramma: DirectX"
+msgstr "Geluid stuurprogramma parameter..."
 
 #: src/arch/unix/gui/uisound.c:139
 msgid "Sound synchronization"
@@ -5021,7 +5017,7 @@ msgid "Save Cartridge"
 msgstr "Opslaan Cartridge"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:95
-#: src/arch/unix/x11/gnome/uiscreenshot.c:464
+#: src/arch/unix/x11/gnome/uiscreenshot.c:471
 #: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
 msgstr "Ongeldige bestandsnaam"
@@ -5042,12 +5038,12 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr "Met succes `%s' geschreven\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:150 src/arch/unix/x11/xaw/uicolor.c:126
+#: src/arch/unix/x11/gnome/uicolor.c:172 src/arch/unix/x11/xaw/uicolor.c:126
 msgid "XCreateImage failed."
 msgstr "XCreateImage faalt."
 
-#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:221
-#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/gnome/uicolor.c:182 src/arch/unix/x11/gnome/uicolor.c:243
+#: src/arch/unix/x11/gnome/uicolor.c:248 src/arch/unix/x11/gnome/uicolor.c:253
 #: src/arch/unix/x11/xaw/uicolor.c:137 src/arch/unix/x11/xaw/uicolor.c:193
 #: src/arch/unix/x11/xaw/uicolor.c:198 src/arch/unix/x11/xaw/uicolor.c:203
 #, c-format
@@ -5116,69 +5112,103 @@ msgid "Exact Emulation"
 msgstr "Exacte Emulatie"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54
+#, fuzzy
+msgid "Keyboard"
+msgstr "&Toetsenbord"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:57
+#, fuzzy
+msgid "Joystick 1"
+msgstr "Joystick:"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:60
+#, fuzzy
+msgid "Joystick 2"
+msgstr "Joystick:"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:63
+#, fuzzy
+msgid "Devices"
+msgstr "Apparaat #8"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:119
 msgid "Invalid Port number"
 msgstr "Ongeldige Poort nummer"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:74
+#: src/arch/unix/x11/gnome/uinetplay.c:139
 msgid "Idle"
 msgstr "Idle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:79
+#: src/arch/unix/x11/gnome/uinetplay.c:144
 msgid "Server listening"
 msgstr "Server wacht op verbinding"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:84
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 msgid "Connected Server"
 msgstr "Verbonden Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:89
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 msgid "Connected Client"
 msgstr "Verbonden Client"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:101
+#: src/arch/unix/x11/gnome/uinetplay.c:166
 #, c-format
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr "Status: %s, Server: %s, Poort: %d"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:110
+#: src/arch/unix/x11/gnome/uinetplay.c:176
 msgid "Couldn't start netplay server."
 msgstr "Kon de netplay server niet starten."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:120
+#: src/arch/unix/x11/gnome/uinetplay.c:186
 msgid "Couldn't connect client."
 msgstr "Kon de client niet verbinden."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:139
-#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/x11/gnome/uinetplay.c:211
 msgid "Netplay Settings"
 msgstr "netplay Instellingen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:150
+#: src/arch/unix/x11/gnome/uinetplay.c:217
 msgid "Current mode: "
 msgstr "Huidige modus: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153
+#: src/arch/unix/x11/gnome/uinetplay.c:220
 msgid "<unknown>"
 msgstr "<onbekent>"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:160
+#: src/arch/unix/x11/gnome/uinetplay.c:227
 msgid "Start Server"
 msgstr "Start Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:168
+#: src/arch/unix/x11/gnome/uinetplay.c:235
 msgid "TCP-Port: "
 msgstr "TCP-Poort: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:181
+#: src/arch/unix/x11/gnome/uinetplay.c:249
 msgid "Connect to "
 msgstr "Maak verbinding naar "
+
+#: src/arch/unix/x11/gnome/uinetplay.c:274
+#, fuzzy
+msgid "Control"
+msgstr "PAL Bediening"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:279
+#, fuzzy
+msgid "Server"
+msgstr "Start Server"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:284
+msgid "Client"
+msgstr ""
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:239
 msgid "No gfxoutputdrivers available"
 msgstr "Geen scherm afdruk struurprogrammas beschikbaar"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:243
-#: src/arch/unix/x11/gnome/uiscreenshot.c:455
+#: src/arch/unix/x11/gnome/uiscreenshot.c:462
 msgid "Save Screenshot"
 msgstr "Scherm afdruk opslaan"
 
@@ -5225,12 +5255,12 @@ msgstr "Geluid Bitrate"
 msgid "Video Bitrate"
 msgstr "Video Bitrate"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:499
+#: src/arch/unix/x11/gnome/uiscreenshot.c:506
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kon beeld afdruk niet opslaan naar `%s' met stuurprogramma `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:506
+#: src/arch/unix/x11/gnome/uiscreenshot.c:513
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Met succes `%s' geschreven"
@@ -5273,184 +5303,189 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2657
+#: src/arch/unix/x11/gnome/x11ui.c:2676
 msgid "all files"
 msgstr "alle bestanden"
 
-#: src/arch/unix/x11/gnome/x11ui.c:428
+#: src/arch/unix/x11/gnome/x11ui.c:431
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan fontpad `%s' niet toevoegen.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:430
+#: src/arch/unix/x11/gnome/x11ui.c:433
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Zet fontpad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:638 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Deze monitor ondersteunt geen %dbit afbeeldingen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:509
+#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "Selecteer aub een bit diepte die ondersteunt wordt door uw monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/gnome/x11ui.c:668
+#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/gnome/x11ui.c:671
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Gevonden %dbit/%s beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:653
+#: src/arch/unix/x11/gnome/x11ui.c:656
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Gevonden %dbit beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:676 src/arch/unix/x11/xaw/x11ui.c:537
+#: src/arch/unix/x11/gnome/x11ui.c:679 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan het beeld niet automatisch detecteren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:684
+#: src/arch/unix/x11/gnome/x11ui.c:687
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan de tekst font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:691
+#: src/arch/unix/x11/gnome/x11ui.c:694
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan de CBM font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:805
+#: src/arch/unix/x11/gnome/x11ui.c:808
 msgid "PAL Controls"
 msgstr "PAL Bediening"
 
-#: src/arch/unix/x11/gnome/x11ui.c:824
+#: src/arch/unix/x11/gnome/x11ui.c:827
 msgid "audio/video recording"
 msgstr "geluid/beeld opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:838 src/arch/unix/x11/gnome/x11ui.c:857
+#: src/arch/unix/x11/gnome/x11ui.c:841 src/arch/unix/x11/gnome/x11ui.c:860
 msgid "click to stop recording"
 msgstr "klik om de opname te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:843
+#: src/arch/unix/x11/gnome/x11ui.c:846
 msgid "event recording"
 msgstr "gebeurtenis opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:863
+#: src/arch/unix/x11/gnome/x11ui.c:866
 msgid "event playback"
 msgstr "gebeurtenis terugspelen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:877
+#: src/arch/unix/x11/gnome/x11ui.c:880
 msgid "click to stop playback"
 msgstr "klik om het terugspelen te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:889
+#: src/arch/unix/x11/gnome/x11ui.c:892
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1000
+#: src/arch/unix/x11/gnome/x11ui.c:1003
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1070 src/arch/unix/x11/xaw/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:1073 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/gnome/x11ui.c:1332
+#: src/arch/unix/x11/gnome/x11ui.c:1252 src/arch/unix/x11/gnome/x11ui.c:1335
 msgid "Commands"
 msgstr "Commandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1255
+#: src/arch/unix/x11/gnome/x11ui.c:1258
 msgid "Help"
 msgstr "Help"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1073
+#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1385 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr "Wilt U echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1437 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr "Prive kleurenmap wordt gebruikt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
+#: src/arch/unix/x11/gnome/x11ui.c:1457 src/arch/unix/x11/gnome/x11ui.c:1460
 #: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1755
+#: src/arch/unix/x11/gnome/x11ui.c:1765
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1821 src/arch/unix/x11/xaw/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1831 src/arch/unix/x11/xaw/x11ui.c:1401
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1981
+#: src/arch/unix/x11/gnome/x11ui.c:1991
 msgid "VICE Message"
 msgstr "VICE Bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1992
+#: src/arch/unix/x11/gnome/x11ui.c:2002
 msgid "VICE Error"
 msgstr "Vice Fout"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2023
+#: src/arch/unix/x11/gnome/x11ui.c:2033
 msgid "Hard Reset"
 msgstr "Harde Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2024
+#: src/arch/unix/x11/gnome/x11ui.c:2034
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1679
+#: src/arch/unix/x11/gnome/x11ui.c:2078 src/arch/unix/x11/xaw/x11ui.c:1679
 msgid "Extend disk image"
 msgstr "40-sporen disk bestand"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2069
+#: src/arch/unix/x11/gnome/x11ui.c:2079
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Wilt U her disk bestand uitbreiden naar 40 sporen?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2082
+#: src/arch/unix/x11/gnome/x11ui.c:2092
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostarten niet mogelijk voor drive %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2090 src/arch/unix/x11/gnome/x11ui.c:2099
+#: src/arch/unix/x11/gnome/x11ui.c:2100 src/arch/unix/x11/gnome/x11ui.c:2109
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan de selectie %d in disk bestand %s niet autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
+#: src/arch/unix/x11/gnome/x11ui.c:2235 src/arch/unix/x11/gnome/x11ui.c:2245
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2680
+#: src/arch/unix/x11/gnome/x11ui.c:2699
 msgid "Contents"
 msgstr "Inhoud"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2726
+#: src/arch/unix/x11/gnome/x11ui.c:2747
 msgid "Attach write protected"
 msgstr "Koppel schrijf beveiligd"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2734
+#. show hidden files
+#: src/arch/unix/x11/gnome/x11ui.c:2753
+msgid "Show hidden files"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:2765
 msgid "Autostart"
 msgstr "Autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2751
+#: src/arch/unix/x11/gnome/x11ui.c:2782
 msgid "Text cannot be displayed.\n"
 msgstr "Tekst kan niet worden weergegeben.\n"
 
@@ -6655,9 +6690,6 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 #~ msgid "Tape:"
 #~ msgstr "Tape:"
 
-#~ msgid "Joystick:"
-#~ msgstr "Joystick:"
-
 #~ msgid ""
 #~ "Recording\n"
 #~ "%02d:%02d"
@@ -7538,9 +7570,6 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 
 #~ msgid "CRTC chip &enable"
 #~ msgstr "CRTC chip &aktiveren"
-
-#~ msgid "&Keyboard"
-#~ msgstr "&Toetsenbord"
 
 #~ msgid "&Graphics"
 #~ msgstr "&Grafiek"

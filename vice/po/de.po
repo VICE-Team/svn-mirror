@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-07-10 18:11+0200\n"
-"PO-Revision-Date: 2006-07-01 14:45+0200\n"
+"Project-Id-Version: VICE 1.20\n"
+"POT-Creation-Date: 2006-07-22 18:29+0200\n"
+"PO-Revision-Date: 2006-07-22 13:20+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,11 +36,11 @@ msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
 
 #: src/vsync.c:147
 msgid "Enable warp mode"
-msgstr "Warp Mode Aktivieren"
+msgstr "Warp Mode aktivieren"
 
 #: src/vsync.c:149
 msgid "Disable warp mode"
-msgstr "Warp Mode Deaktivieren"
+msgstr "Warp Mode deaktivieren"
 
 #: src/vsync.c:478
 msgid "Your machine is too slow for current settings!"
@@ -2174,28 +2174,28 @@ msgstr "*1351 Mausemulation"
 
 #: src/arch/unix/gui/c128ui.c:262
 msgid "Load new Int. Kernal ROM"
-msgstr "Int. Kernal ROM Laden"
+msgstr "Int. Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:265
 msgid "Load new German Kernal ROM"
-msgstr "Deutsches Kernal ROM Laden"
+msgstr "Deutsches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:268
 msgid "Load new Basic Lo ROM"
-msgstr "Basic Lo ROM Laden"
+msgstr "Basic Lo ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:271
 msgid "Load new Basic Hi ROM"
-msgstr "Basic Hi ROM Laden"
+msgstr "Basic Hi ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:274
 msgid "Load new Chargen ROM"
-msgstr "Zeichensatz ROM Laden"
+msgstr "Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:281 src/arch/unix/gui/c64ui.c:310
 #: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:133
 msgid "Load default ROMs"
-msgstr "Standard ROMs Laden"
+msgstr "Standard ROMs laden"
 
 #: src/arch/unix/gui/c128ui.c:285 src/arch/unix/gui/c64ui.c:314
 #: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:211
@@ -2207,7 +2207,7 @@ msgstr "Neues computer ROM laden"
 #: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:213
 #: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:138
 msgid "Load new drive ROM"
-msgstr "Floppy ROM Laden"
+msgstr "Floppy ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:319
 #: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:216
@@ -2297,8 +2297,8 @@ msgstr "Optionen"
 #: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
 #: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
 #: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
-#: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
-#: src/arch/unix/x11/gnome/x11ui.c:1343
+#: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/uinetplay.c:66
+#: src/arch/unix/x11/gnome/x11ui.c:1254 src/arch/unix/x11/gnome/x11ui.c:1346
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -2329,16 +2329,16 @@ msgstr "256K RAM Erweiterung"
 #: src/arch/unix/gui/c64ui.c:297 src/arch/unix/gui/petui.c:170
 #: src/arch/unix/gui/plus4ui.c:79
 msgid "Load new kernal ROM"
-msgstr "Kernal ROM Laden"
+msgstr "Kernal ROM laden"
 
 #: src/arch/unix/gui/c64ui.c:300 src/arch/unix/gui/petui.c:176
 #: src/arch/unix/gui/plus4ui.c:82
 msgid "Load new BASIC ROM"
-msgstr "Basic ROM Laden"
+msgstr "Basic ROM laden"
 
 #: src/arch/unix/gui/c64ui.c:303 src/arch/unix/gui/petui.c:219
 msgid "Load new character ROM"
-msgstr "Zeichensatz ROM Laden"
+msgstr "Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c64ui.c:347 src/arch/unix/gui/cbm2ui.c:384
 #: src/arch/unix/gui/petui.c:322 src/arch/unix/gui/plus4ui.c:71
@@ -2356,15 +2356,15 @@ msgstr "I/O Erweiterungen"
 
 #: src/arch/unix/gui/cbm2ui.c:74
 msgid "Load new Kernal"
-msgstr "Kernal Laden"
+msgstr "Kernal laden"
 
 #: src/arch/unix/gui/cbm2ui.c:77
 msgid "Load new Chargen"
-msgstr "Zeichensatz Laden"
+msgstr "Zeichensatz laden"
 
 #: src/arch/unix/gui/cbm2ui.c:80
 msgid "Load new Basic"
-msgstr "Basic Laden"
+msgstr "Basic laden"
 
 #: src/arch/unix/gui/cbm2ui.c:87
 msgid "Basic 128k, low chars"
@@ -2384,7 +2384,7 @@ msgstr "Basic 256k, obere Zeichen"
 
 #: src/arch/unix/gui/cbm2ui.c:104
 msgid "Load new Cart $1***"
-msgstr "Neues Modual bei $1*** Laden"
+msgstr "Neues Modual bei $1*** laden"
 
 #: src/arch/unix/gui/cbm2ui.c:107
 msgid "Unload Cart $1***"
@@ -2392,7 +2392,7 @@ msgstr "Modul bei $1*** entfernen"
 
 #: src/arch/unix/gui/cbm2ui.c:111
 msgid "Load new Cart $2-3***"
-msgstr "Modul bei $2-3*** Laden"
+msgstr "Modul bei $2-3*** laden"
 
 #: src/arch/unix/gui/cbm2ui.c:114
 msgid "Unload Cart $2-3***"
@@ -2408,7 +2408,7 @@ msgstr "Modul bei $4-5*** entfernen"
 
 #: src/arch/unix/gui/cbm2ui.c:125
 msgid "Load new Cart $6-7***"
-msgstr "Modul bei $6-7*** Laden"
+msgstr "Modul bei $6-7*** laden"
 
 #: src/arch/unix/gui/cbm2ui.c:128
 msgid "Unload Cart $6-7***"
@@ -2524,7 +2524,7 @@ msgstr "*80 Spalten"
 
 #: src/arch/unix/gui/petui.c:173
 msgid "Load new editor ROM"
-msgstr "EditorROM Laden"
+msgstr "EditorROM laden"
 
 #: src/arch/unix/gui/petui.c:185
 msgid "PET RAM and Expansion Unit"
@@ -2540,7 +2540,7 @@ msgstr "*Deutschen Zeichensatz"
 
 #: src/arch/unix/gui/petui.c:229
 msgid "Load new $9*** ROM"
-msgstr "Neues $9*** ROM Laden"
+msgstr "Neues $9*** ROM laden"
 
 #: src/arch/unix/gui/petui.c:232
 msgid "Unload $9*** ROM"
@@ -2548,7 +2548,7 @@ msgstr "$9*** ROM Entfernen"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Load new $A*** ROM"
-msgstr "Neues $A*** ROM Laden"
+msgstr "Neues $A*** ROM laden"
 
 #: src/arch/unix/gui/petui.c:239
 msgid "Unload $A*** ROM"
@@ -2556,7 +2556,7 @@ msgstr "$A*** ROM Entfernen"
 
 #: src/arch/unix/gui/petui.c:243
 msgid "Load new $B*** ROM"
-msgstr "Neues $B*** ROM Laden"
+msgstr "Neues $B*** ROM laden"
 
 #: src/arch/unix/gui/petui.c:246
 msgid "Unload $B*** ROM"
@@ -2917,11 +2917,11 @@ msgstr "Kann HTML Browser nicht starten."
 #: src/arch/unix/gui/uicommands.c:250
 #, c-format
 msgid "Quickloading file %s."
-msgstr "Schnell Laden von Datei %s."
+msgstr "Schnell laden von Datei %s."
 
 #: src/arch/unix/gui/uicommands.c:253
 msgid "Load snapshot"
-msgstr "Snapshot Laden..."
+msgstr "Snapshot laden..."
 
 #: src/arch/unix/gui/uicommands.c:267
 #, c-format
@@ -2982,19 +2982,19 @@ msgstr "*Laufende Aufnahme überschreiben"
 
 #: src/arch/unix/gui/uicommands.c:445
 msgid "Load snapshot..."
-msgstr "Snapshot Laden..."
+msgstr "Snapshot laden..."
 
 #: src/arch/unix/gui/uicommands.c:448
 msgid "Save snapshot..."
-msgstr "Snapshot Speichern..."
+msgstr "Snapshot speichern..."
 
 #: src/arch/unix/gui/uicommands.c:452
 msgid "Quickload snapshot"
-msgstr "Snapshot schnell Laden..."
+msgstr "Snapshot schnell laden..."
 
 #: src/arch/unix/gui/uicommands.c:455
 msgid "Quicksave snapshot"
-msgstr "Snapshot schnell Speichern"
+msgstr "Snapshot schnell speichern"
 
 #: src/arch/unix/gui/uicommands.c:461
 msgid "Start recording events"
@@ -3054,7 +3054,7 @@ msgstr "Über VICE..."
 
 #: src/arch/unix/gui/uicommands.c:517 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:2022
+#: src/arch/unix/x11/gnome/x11ui.c:2032
 msgid "Reset"
 msgstr "Reset"
 
@@ -3324,36 +3324,36 @@ msgstr "Floppy Einstellungen"
 #: src/arch/unix/gui/uidrivec128.c:205 src/arch/unix/gui/uidrivec64vic20.c:197
 #: src/arch/unix/gui/uidriveplus4.c:179
 msgid "Load new 1541 ROM"
-msgstr "1541 ROM Laden"
+msgstr "1541 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:208 src/arch/unix/gui/uidrivec64vic20.c:200
 #: src/arch/unix/gui/uidriveplus4.c:182
 msgid "Load new 1541-II ROM"
-msgstr "1541-II ROM Laden"
+msgstr "1541-II ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:211 src/arch/unix/gui/uidrivec64vic20.c:203
 #: src/arch/unix/gui/uidriveplus4.c:188
 msgid "Load new 1570 ROM"
-msgstr "1570 ROM Laden"
+msgstr "1570 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:214 src/arch/unix/gui/uidrivec64vic20.c:206
 #: src/arch/unix/gui/uidriveplus4.c:191
 msgid "Load new 1571 ROM"
-msgstr "1571 ROM Laden"
+msgstr "1571 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:217
 msgid "Load new 1571CR ROM"
-msgstr "1571CR ROM Laden"
+msgstr "1571CR ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:220 src/arch/unix/gui/uidrivec64vic20.c:209
 #: src/arch/unix/gui/uidriveplus4.c:194
 msgid "Load new 1581 ROM"
-msgstr "1581 ROM Laden"
+msgstr "1581 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:223 src/arch/unix/gui/uidrivec64vic20.c:212
 #: src/arch/unix/gui/uidrivepetcbm2.c:143
 msgid "Load new 2031 ROM"
-msgstr "2031 ROM Laden"
+msgstr "2031 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:226 src/arch/unix/gui/uidrivepetcbm2.c:146
 msgid "Load new 2040 ROM"
@@ -3499,11 +3499,11 @@ msgstr "Voriges Image (Gerät 8)"
 
 #: src/arch/unix/gui/uifliplist.c:129
 msgid "Load fliplist file"
-msgstr "Fliplist Datei Laden"
+msgstr "Fliplist Datei laden"
 
 #: src/arch/unix/gui/uifliplist.c:131
 msgid "Save fliplist file"
-msgstr "Fliplist Datei Speichern"
+msgstr "Fliplist Datei speichern"
 
 #: src/arch/unix/gui/uifliplist.c:194
 #, c-format
@@ -3524,8 +3524,8 @@ msgid "Next: "
 msgstr "Nächstes: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:903 src/arch/unix/x11/gnome/x11ui.c:913
-#: src/arch/unix/x11/gnome/x11ui.c:1603
+#: src/arch/unix/x11/gnome/x11ui.c:906 src/arch/unix/x11/gnome/x11ui.c:916
+#: src/arch/unix/x11/gnome/x11ui.c:1613
 msgid "<empty>"
 msgstr "<leer>"
 
@@ -3687,7 +3687,7 @@ msgstr "*Positions Zuordnung (US)"
 
 #: src/arch/unix/gui/uikeyboard.c:84
 msgid "Read Keymap File"
-msgstr "Keymap Datei Laden"
+msgstr "Keymap Datei laden"
 
 #: src/arch/unix/gui/uikeyboard.c:112
 msgid "Write to Keymap File:"
@@ -3714,14 +3714,12 @@ msgid "Keyboard settings"
 msgstr "Tastatur Einstellungen"
 
 #: src/arch/unix/gui/uimouse.c:50
-#, fuzzy
 msgid "*Enable mouse"
-msgstr "*Warp Mode Aktivieren"
+msgstr "*Maus aktivieren"
 
 #: src/arch/unix/gui/uimouse.c:52
-#, fuzzy
 msgid "Mouse port"
-msgstr "Portnummer eingeben"
+msgstr "Maus Port"
 
 #: src/arch/unix/gui/uinetplay.c:68
 msgid "Enter port"
@@ -3761,7 +3759,7 @@ msgstr "TCP Port: "
 
 #: src/arch/unix/gui/uinetplay.c:121
 msgid "Start server"
-msgstr "Server Starten"
+msgstr "Server starten"
 
 #: src/arch/unix/gui/uinetplay.c:123
 msgid "Server to connect to"
@@ -3771,7 +3769,7 @@ msgstr "Server zu welchem verbunden werden soll"
 msgid "Connect to server"
 msgstr "Verbinde mit Server"
 
-#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:203
+#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:321
 msgid "Disconnect"
 msgstr "Verbindung Trennen"
 
@@ -4155,7 +4153,7 @@ msgstr "REU Image Name..."
 
 #: src/arch/unix/gui/uiromset.c:57
 msgid "Load ROM file"
-msgstr "Benutzerdefinierten ROM Satz Laden"
+msgstr "Benutzerdefinierten ROM Satz laden"
 
 #: src/arch/unix/gui/uiromset.c:65
 #, c-format
@@ -4233,7 +4231,7 @@ msgstr "ROM Satz Eintrag wählen"
 
 #: src/arch/unix/gui/uiromset.c:244
 msgid "Load custom ROM set file"
-msgstr "Benutzerdefinierten ROM Satz Laden"
+msgstr "Benutzerdefinierten ROM Satz laden"
 
 #: src/arch/unix/gui/uiromset.c:251
 #, c-format
@@ -4256,7 +4254,7 @@ msgstr "Aktueller ROM Satz"
 
 #: src/arch/unix/gui/uiromset.c:299
 msgid "Load custom ROM set from file"
-msgstr "Benutzerdefinierten ROM Satz Laden"
+msgstr "Benutzerdefinierten ROM Satz laden"
 
 #: src/arch/unix/gui/uiromset.c:301
 msgid "Dump ROM set definition to file"
@@ -4423,7 +4421,7 @@ msgstr "Maximale Geschwindigkeit"
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1392
+#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1395
 #: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
@@ -4437,7 +4435,7 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
-"Kann Einstellungen nicht Laden:\n"
+"Kann Einstellungen nicht laden:\n"
 "Ungültige Ressource-Datei."
 
 #: src/arch/unix/gui/uisettings.c:236
@@ -4445,7 +4443,7 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
-"Kann Einstellungen nicht Laden:\n"
+"Kann Einstellungen nicht laden:\n"
 "Ressource-Datei nicht gefunden."
 
 #: src/arch/unix/gui/uisettings.c:240
@@ -4478,7 +4476,7 @@ msgstr "Einstellungen speichern"
 
 #: src/arch/unix/gui/uisettings.c:324
 msgid "Load settings"
-msgstr "Einstellungen Laden"
+msgstr "Einstellungen laden"
 
 #: src/arch/unix/gui/uisettings.c:326
 msgid "Restore default settings"
@@ -4561,14 +4559,12 @@ msgid "Passband percentage"
 msgstr "Passband Prozent"
 
 #: src/arch/unix/gui/uisound.c:49
-#, fuzzy
 msgid "Sound driver argument"
-msgstr "Sound Treiber: DirectX"
+msgstr "Sound Treiber Argument"
 
 #: src/arch/unix/gui/uisound.c:50
-#, fuzzy
 msgid "Argument:"
-msgstr "Fragmentierungsproblem."
+msgstr "Argument:"
 
 #: src/arch/unix/gui/uisound.c:68
 msgid "*1.00 sec"
@@ -4640,14 +4636,12 @@ msgstr "*Exakt"
 
 #. Do not change position as position 2 is hard coded.
 #: src/arch/unix/gui/uisound.c:133
-#, fuzzy
 msgid "Sound device name"
-msgstr "Schreiben auf Sound Gerät ist fehlgeschlagen."
+msgstr "Sound Gerätename"
 
 #: src/arch/unix/gui/uisound.c:135
-#, fuzzy
 msgid "Sound driver argument..."
-msgstr "Sound Treiber: DirectX"
+msgstr "Sound Treiber Argument"
 
 #: src/arch/unix/gui/uisound.c:139
 msgid "Sound synchronization"
@@ -4781,15 +4775,15 @@ msgstr "Wie Bitte?!\n"
 
 #: src/arch/unix/gui/vic20ui.c:120
 msgid "Load new Kernal ROM"
-msgstr "Kernal ROM Laden"
+msgstr "Kernal ROM laden"
 
 #: src/arch/unix/gui/vic20ui.c:123
 msgid "Load new Basic ROM"
-msgstr "Basic ROM Laden"
+msgstr "Basic ROM laden"
 
 #: src/arch/unix/gui/vic20ui.c:126
 msgid "Load new Character ROM"
-msgstr "Zeichensatz ROM Laden"
+msgstr "Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/vic20ui.c:152
 msgid "No expansion memory"
@@ -4885,7 +4879,7 @@ msgstr "Tunes"
 
 #: src/arch/unix/gui/vsidui.c:78
 msgid "Load PSID file"
-msgstr "PSID Datei Laden"
+msgstr "PSID Datei laden"
 
 #: src/arch/unix/gui/vsidui.c:86
 #, c-format
@@ -4894,7 +4888,7 @@ msgstr "`%s' ist keine gültige PSID Datei."
 
 #: src/arch/unix/gui/vsidui.c:113
 msgid "Load PSID file..."
-msgstr "PSID Datei Laden..."
+msgstr "PSID Datei laden..."
 
 #: src/arch/unix/gui/vsidui.c:173
 msgid "*Override PSID settings"
@@ -4982,7 +4976,7 @@ msgid "Save Cartridge"
 msgstr "Erweiterungsmodul speichern"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:95
-#: src/arch/unix/x11/gnome/uiscreenshot.c:464
+#: src/arch/unix/x11/gnome/uiscreenshot.c:471
 #: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
 msgstr "Ungültiger Dateiname"
@@ -5001,12 +4995,12 @@ msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
 msgid "Successfully wrote `%s'\n"
 msgstr "`%s' erfolgreich gespeichert\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:150 src/arch/unix/x11/xaw/uicolor.c:126
+#: src/arch/unix/x11/gnome/uicolor.c:172 src/arch/unix/x11/xaw/uicolor.c:126
 msgid "XCreateImage failed."
 msgstr "XCreateImage failed."
 
-#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:221
-#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/gnome/uicolor.c:182 src/arch/unix/x11/gnome/uicolor.c:243
+#: src/arch/unix/x11/gnome/uicolor.c:248 src/arch/unix/x11/gnome/uicolor.c:253
 #: src/arch/unix/x11/xaw/uicolor.c:137 src/arch/unix/x11/xaw/uicolor.c:193
 #: src/arch/unix/x11/xaw/uicolor.c:198 src/arch/unix/x11/xaw/uicolor.c:203
 #, c-format
@@ -5075,71 +5069,99 @@ msgid "Exact Emulation"
 msgstr "Exakte Emulation"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:54
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:57
+msgid "Joystick 1"
+msgstr "Joystick 1"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:60
+msgid "Joystick 2"
+msgstr "Joystick 2"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:63
+msgid "Devices"
+msgstr "Geräte"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:119
 msgid "Invalid Port number"
 msgstr "Ungültige Port Nummer"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:74
+#: src/arch/unix/x11/gnome/uinetplay.c:139
 msgid "Idle"
 msgstr "Idle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:79
+#: src/arch/unix/x11/gnome/uinetplay.c:144
 msgid "Server listening"
 msgstr "Server wartet auf Verbindung"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:84
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 msgid "Connected Server"
 msgstr "Verbunden, Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:89
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 msgid "Connected Client"
 msgstr "Verbunden, Client"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:101
+#: src/arch/unix/x11/gnome/uinetplay.c:166
 #, c-format
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr "Status: %s, Server: %s, Port: %d"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:110
+#: src/arch/unix/x11/gnome/uinetplay.c:176
 msgid "Couldn't start netplay server."
 msgstr "Konnte Netplay Server nicht starten."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:120
+#: src/arch/unix/x11/gnome/uinetplay.c:186
 msgid "Couldn't connect client."
 msgstr "Konnte Client nicht verbinden."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:139
-#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/x11/gnome/uinetplay.c:211
 msgid "Netplay Settings"
 msgstr "Netplay Einstellungen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:150
+#: src/arch/unix/x11/gnome/uinetplay.c:217
 msgid "Current mode: "
 msgstr "Status: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153
+#: src/arch/unix/x11/gnome/uinetplay.c:220
 msgid "<unknown>"
 msgstr "<Unbekannt>"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:160
+#: src/arch/unix/x11/gnome/uinetplay.c:227
 msgid "Start Server"
 msgstr "Server Starten"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:168
+#: src/arch/unix/x11/gnome/uinetplay.c:235
 msgid "TCP-Port: "
 msgstr "TCP-Port: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:181
+#: src/arch/unix/x11/gnome/uinetplay.c:249
 msgid "Connect to "
 msgstr "Verbinden mit "
+
+#: src/arch/unix/x11/gnome/uinetplay.c:274
+msgid "Control"
+msgstr "Kontrolle"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:279
+msgid "Server"
+msgstr "Server"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:284
+msgid "Client"
+msgstr "Client"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:239
 msgid "No gfxoutputdrivers available"
 msgstr "Kein Ausgabe Treiber verfügbar"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:243
-#: src/arch/unix/x11/gnome/uiscreenshot.c:455
+#: src/arch/unix/x11/gnome/uiscreenshot.c:462
 msgid "Save Screenshot"
-msgstr "Screenshot Speichern"
+msgstr "Screenshot speichern"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:251
 msgid "Save Media File..."
@@ -5184,12 +5206,12 @@ msgstr "Ton Bitrate"
 msgid "Video Bitrate"
 msgstr "Video Bitrate"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:499
+#: src/arch/unix/x11/gnome/uiscreenshot.c:506
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Screenshot konnte auf `%s' mit Treiber `%s' nicht gespeichert werden."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:506
+#: src/arch/unix/x11/gnome/uiscreenshot.c:513
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "`%s' erfolgreich gespeichert"
@@ -5197,7 +5219,7 @@ msgstr "`%s' erfolgreich gespeichert"
 #: src/arch/unix/x11/gnome/uisnapshot.c:44
 #: src/arch/unix/x11/gnome/uisnapshot.c:52
 msgid "Save Snapshot"
-msgstr "Snapshot Speichern"
+msgstr "Snapshot speichern"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:62
 msgid "Snapshot options"
@@ -5232,184 +5254,189 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2657
+#: src/arch/unix/x11/gnome/x11ui.c:2676
 msgid "all files"
 msgstr "Alle Dateien (*.*)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:428
+#: src/arch/unix/x11/gnome/x11ui.c:431
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:430
+#: src/arch/unix/x11/gnome/x11ui.c:433
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:638 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:509
+#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/gnome/x11ui.c:668
+#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/gnome/x11ui.c:671
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:653
+#: src/arch/unix/x11/gnome/x11ui.c:656
 #, c-format
 msgid "Found %dbit visual."
 msgstr "%dbit Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:676 src/arch/unix/x11/xaw/x11ui.c:537
+#: src/arch/unix/x11/gnome/x11ui.c:679 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:684
+#: src/arch/unix/x11/gnome/x11ui.c:687
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:691
+#: src/arch/unix/x11/gnome/x11ui.c:694
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Laden der CBM font `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:805
+#: src/arch/unix/x11/gnome/x11ui.c:808
 msgid "PAL Controls"
 msgstr "PAL Steuerung"
 
-#: src/arch/unix/x11/gnome/x11ui.c:824
+#: src/arch/unix/x11/gnome/x11ui.c:827
 msgid "audio/video recording"
 msgstr "Audio/Video Aufnahme"
 
-#: src/arch/unix/x11/gnome/x11ui.c:838 src/arch/unix/x11/gnome/x11ui.c:857
+#: src/arch/unix/x11/gnome/x11ui.c:841 src/arch/unix/x11/gnome/x11ui.c:860
 msgid "click to stop recording"
 msgstr "Klick um Aufnahme zu stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:843
+#: src/arch/unix/x11/gnome/x11ui.c:846
 msgid "event recording"
 msgstr "Event Aufnahme"
 
-#: src/arch/unix/x11/gnome/x11ui.c:863
+#: src/arch/unix/x11/gnome/x11ui.c:866
 msgid "event playback"
 msgstr "Event Wiedergabe"
 
-#: src/arch/unix/x11/gnome/x11ui.c:877
+#: src/arch/unix/x11/gnome/x11ui.c:880
 msgid "click to stop playback"
 msgstr "Klick um Wiedergabe zu stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:889
+#: src/arch/unix/x11/gnome/x11ui.c:892
 #, c-format
 msgid "Drive %d: "
 msgstr "Laufwerk %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1000
+#: src/arch/unix/x11/gnome/x11ui.c:1003
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1070 src/arch/unix/x11/xaw/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:1073 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/gnome/x11ui.c:1332
+#: src/arch/unix/x11/gnome/x11ui.c:1252 src/arch/unix/x11/gnome/x11ui.c:1335
 msgid "Commands"
 msgstr "Kommandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1255
+#: src/arch/unix/x11/gnome/x11ui.c:1258
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1073
+#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1385 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1437 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
+#: src/arch/unix/x11/gnome/x11ui.c:1457 src/arch/unix/x11/gnome/x11ui.c:1460
 #: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1755
+#: src/arch/unix/x11/gnome/x11ui.c:1765
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1821 src/arch/unix/x11/xaw/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1831 src/arch/unix/x11/xaw/x11ui.c:1401
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1981
+#: src/arch/unix/x11/gnome/x11ui.c:1991
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1992
+#: src/arch/unix/x11/gnome/x11ui.c:2002
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2023
+#: src/arch/unix/x11/gnome/x11ui.c:2033
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2024
+#: src/arch/unix/x11/gnome/x11ui.c:2034
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1679
+#: src/arch/unix/x11/gnome/x11ui.c:2078 src/arch/unix/x11/xaw/x11ui.c:1679
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2069
+#: src/arch/unix/x11/gnome/x11ui.c:2079
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2082
+#: src/arch/unix/x11/gnome/x11ui.c:2092
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostart für Laufwerk %d nicht möglich."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2090 src/arch/unix/x11/gnome/x11ui.c:2099
+#: src/arch/unix/x11/gnome/x11ui.c:2100 src/arch/unix/x11/gnome/x11ui.c:2109
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
+#: src/arch/unix/x11/gnome/x11ui.c:2235 src/arch/unix/x11/gnome/x11ui.c:2245
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFÜGBAR."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2680
+#: src/arch/unix/x11/gnome/x11ui.c:2699
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2726
+#: src/arch/unix/x11/gnome/x11ui.c:2747
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2734
+#. show hidden files
+#: src/arch/unix/x11/gnome/x11ui.c:2753
+msgid "Show hidden files"
+msgstr "Versteckte Dateien anzeigen"
+
+#: src/arch/unix/x11/gnome/x11ui.c:2765
 msgid "Autostart"
 msgstr "Autostart"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2751
+#: src/arch/unix/x11/gnome/x11ui.c:2782
 msgid "Text cannot be displayed.\n"
 msgstr "Text kann nicht dargestellt werden.\n"
 
@@ -5668,7 +5695,7 @@ msgstr "Disk Format:"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
 msgid "Save screenshot file"
-msgstr "Screenshot Speichern"
+msgstr "Screenshot speichern"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:219
 msgid "Image format:"
@@ -5680,7 +5707,7 @@ msgstr "Bildschirm Screenshot"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:84
 msgid "Save snapshot file"
-msgstr "Snapshot Speichern"
+msgstr "Snapshot speichern"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:185
 msgid "Snapshot options:"
@@ -5706,7 +5733,7 @@ msgstr "Aktuelle ROMs mitspeichern:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:305
 msgid "Save snapshot"
-msgstr "Snapshot Speichern"
+msgstr "Snapshot speichern"
 
 #: src/arch/unix/x11/xaw/x11ui.c:811
 msgid "recording..."
@@ -6301,13 +6328,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "VICE Konsole Log Dateien (*.dbg)"
 
 #~ msgid "Load flip list file"
-#~ msgstr "Fliplist Datei Laden"
+#~ msgstr "Fliplist Datei laden"
 
 #~ msgid "Cannot read flip list file"
 #~ msgstr "Lesen von Fliplist Datei fehlgeschlagen"
 
 #~ msgid "Save flip list file"
-#~ msgstr "Fliplist Datei Speichern"
+#~ msgstr "Fliplist Datei speichern"
 
 #~ msgid "Cannot write flip list file"
 #~ msgstr "Schreiben von Fliplist Datei fehlgeschlagen"
@@ -6386,13 +6413,13 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Kann ROM Satz Archiv nicht laden!"
 
 #~ msgid "Cannot save romset archive!"
-#~ msgstr "Fehler beim Speichern des ROM Satz Archivs!"
+#~ msgstr "Fehler beim speichern des ROM Satz Archivs!"
 
 #~ msgid "Cannot load romset file!"
 #~ msgstr "Kann ROM Satz Datei nicht laden!"
 
 #~ msgid "Cannot save romset file!"
-#~ msgstr "Fehler beim Speichern der ROM Satz Datei!"
+#~ msgstr "Fehler beim speichern der ROM Satz Datei!"
 
 #~ msgid "Select romset file"
 #~ msgstr "ROM Satz Datei wählen"
@@ -6401,10 +6428,10 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Rom Satz"
 
 #~ msgid "Save snapshot image"
-#~ msgstr "Snapshot Datei Speichern"
+#~ msgstr "Snapshot Datei speichern"
 
 #~ msgid "Load snapshot image"
-#~ msgstr "Snapshot Laden"
+#~ msgstr "Snapshot laden"
 
 #~ msgid "Could not load palette file."
 #~ msgstr "Kann Paletten Datei nicht laden."
@@ -6594,9 +6621,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 
 #~ msgid "Tape:"
 #~ msgstr "Band:"
-
-#~ msgid "Joystick:"
-#~ msgstr "Joystick:"
 
 #~ msgid ""
 #~ "Recording\n"
@@ -6835,7 +6859,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "Sna&pshot"
 
 #~ msgid "Load snapshot &image..."
-#~ msgstr "Snapshot &Image Laden..."
+#~ msgstr "Snapshot &Image laden..."
 
 #~ msgid "&Load quicksnapshot image\tAlt+L"
 #~ msgstr "Schnell&laden von Snapshot Image\tAlt+L"
@@ -7431,9 +7455,6 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgid "CRTC chip &enable"
 #~ msgstr "CRTC Chip aktivi&eren"
 
-#~ msgid "&Keyboard"
-#~ msgstr "&Tastaturtyp"
-
 #~ msgid "&Graphics"
 #~ msgstr "&Grafik"
 
@@ -7762,7 +7783,7 @@ msgstr "Video erfolgreich ohne Shared Memory initialisiert."
 #~ msgstr "*CIA 9600 Baud RS232 Emulation"
 
 #~ msgid "Load custom ROM set definition"
-#~ msgstr "Benutzerdefinierten ROM Satz Laden"
+#~ msgstr "Benutzerdefinierten ROM Satz laden"
 
 #~ msgid "Unload Basic ROM"
 #~ msgstr "Basic ROM entfernen"

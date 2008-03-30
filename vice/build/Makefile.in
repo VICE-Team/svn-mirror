@@ -46,6 +46,7 @@ AR = @AR@
 ARCH_DIR = @ARCH_DIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
+ARCH_SRC_DIR = @ARCH_SRC_DIR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -244,7 +245,8 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 EXTRA_DIST = \
-	mingw32/linux-cross.sh
+	mingw32/linux-cross.sh \
+	macosx/make-ub.sh
 
 subdir = build
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -273,7 +275,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/mingw32
+	$(mkinstalldirs) $(distdir)/macosx $(distdir)/mingw32
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
