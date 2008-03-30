@@ -275,48 +275,48 @@ static int cmdline_memory(const char *param, void *extra_param)
     char *opt = alloca(strlen(param) + 1);
 
     /* Default is all banks. */
-    if (!memstring)
-	memconf = VIC_BLK_ALL;
-    else {
-	/* Maybe we should use strtok for this? */
-	while (*memstring) {
-	    for (optend = memstring; *optend && *optend != ','; optend++);
+    if (!memstring) {
+        memconf = VIC_BLK_ALL;
+    } else {
+        /* Maybe we should use strtok for this? */
+        while (*memstring) {
+            for (optend = memstring; *optend && *optend != ','; optend++);
 
-	    strncpy(opt, memstring, optend - memstring);
-	    opt[optend - memstring] = '\0';
+            strncpy(opt, memstring, optend - memstring);
+            opt[optend - memstring] = '\0';
 
-	    if (strcmp(opt, "") == 0 || strcmp(opt, "none") == 0) {
-		/* no extension */
-	    } else if (strcmp(opt, "all") == 0) {
-		memconf = VIC_BLK_ALL;
-	    } else if (strcmp(opt, "3k") == 0) {
-		memconf |= VIC_BLK0;
-	    } else if (strcmp(opt, "8k") == 0) {
-		memconf |= VIC_BLK1;
-	    } else if (strcmp(opt, "16k") == 0) {
-		memconf |= VIC_BLK1 | VIC_BLK2;
-	    } else if (strcmp(opt, "24k") == 0) {
-		memconf |= VIC_BLK1 | VIC_BLK2 | VIC_BLK3;;
-	    } else if (strcmp(opt, "0") == 0 || strcmp(opt, "04") == 0) {
-		memconf |= VIC_BLK0;
-	    } else if (strcmp(opt, "1") == 0 || strcmp(opt, "20") == 0) {
-		memconf |= VIC_BLK1;
-	    } else if (strcmp(opt, "2") == 0 || strcmp(opt, "40") == 0) {
-		memconf |= VIC_BLK2;
-	    } else if (strcmp(opt, "3") == 0 || strcmp(opt, "60") == 0) {
-		memconf |= VIC_BLK3;
-	    } else if (strcmp(opt, "5") == 0 || strcmp(opt, "a0") == 0
-		       || strcmp(opt, "A0") == 0) {
-		memconf |= VIC_BLK5;
-	    } else {
-		log_error(vic20_mem_log,
+            if (strcmp(opt, "") == 0 || strcmp(opt, "none") == 0) {
+                /* no extension */
+            } else if (strcmp(opt, "all") == 0) {
+                memconf = VIC_BLK_ALL;
+            } else if (strcmp(opt, "3k") == 0) {
+                memconf |= VIC_BLK0;
+            } else if (strcmp(opt, "8k") == 0) {
+                memconf |= VIC_BLK1;
+            } else if (strcmp(opt, "16k") == 0) {
+                memconf |= VIC_BLK1 | VIC_BLK2;
+            } else if (strcmp(opt, "24k") == 0) {
+                memconf |= VIC_BLK1 | VIC_BLK2 | VIC_BLK3;;
+            } else if (strcmp(opt, "0") == 0 || strcmp(opt, "04") == 0) {
+                memconf |= VIC_BLK0;
+            } else if (strcmp(opt, "1") == 0 || strcmp(opt, "20") == 0) {
+                memconf |= VIC_BLK1;
+            } else if (strcmp(opt, "2") == 0 || strcmp(opt, "40") == 0) {
+                memconf |= VIC_BLK2;
+            } else if (strcmp(opt, "3") == 0 || strcmp(opt, "60") == 0) {
+                memconf |= VIC_BLK3;
+            } else if (strcmp(opt, "5") == 0 || strcmp(opt, "a0") == 0
+                       || strcmp(opt, "A0") == 0) {
+                memconf |= VIC_BLK5;
+            } else {
+                log_error(vic20_mem_log,
                           "Unsupported memory extension option: `%s'.", opt);
-		return -1;
-	    }
-	    memstring = optend;
-	    if (*memstring)
-		memstring++;	/* skip ',' */
-	}
+                return -1;
+            }
+            memstring = optend;
+            if (*memstring)
+                memstring++;    /* skip ',' */
+        }
     }
 
     /* FIXME: this is before log is initialized, right? */
@@ -366,17 +366,17 @@ static cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of BASIC ROM image" },
     { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
       "<name>", "Specify name of character generator ROM image" },
-    {"-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
-     "<spec>", "Specify memory configuration"},
-    {"-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
-     NULL, "Enable emulator identification"},
-    {"+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
-     NULL, "Disable emulator identification"},
-    {"-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 1,
-     NULL, "Enable VIC-1112 IEEE488 interface"},
-    {"+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 0,
-     NULL, "Disable VIC-1112 IEEE488 interface"},
-    {NULL}
+    { "-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
+      "<spec>", "Specify memory configuration"},
+    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
+      NULL, "Enable emulator identification"},
+    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
+      NULL, "Disable emulator identification"},
+    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 1,
+      NULL, "Enable VIC-1112 IEEE488 interface"},
+    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 0,
+      NULL, "Disable VIC-1112 IEEE488 interface"},
+    { NULL}
 };
 
 int vic20_mem_init_cmdline_options(void)
