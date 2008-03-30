@@ -458,10 +458,10 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
 	../../src/interrupt.h ../../src/vmachine.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h c64.h ../../src/cmdline.h \
-	../../src/machine.h ../../src/utils.h ../../src/raster.h \
-	sprites.h sprcycles.h sprcrunch.h ../../src/raster.c \
-	../../src/arch/unix/vsync.h
+	../../src/resources.h c64.h c64cia.h ../../src/cia.h \
+	../../src/cmdline.h ../../src/machine.h ../../src/utils.h \
+	../../src/raster.h sprites.h sprcycles.h sprcrunch.h \
+	../../src/raster.c ../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

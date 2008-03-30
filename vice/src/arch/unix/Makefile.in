@@ -280,6 +280,14 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/types.h ../../../src/utils.h \
+	../../../src/resources.h ../../../src/cmdline.h kbd.h
+rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/types.h ../../../src/resources.h \
+	../../../src/cmdline.h ../../../src/rs232.h \
+	../../../src/utils.h coproc.h
+
 info: info-recursive
 dvi: dvi-recursive
 check: all-am

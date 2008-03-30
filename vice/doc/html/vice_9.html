@@ -1,0 +1,150 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 17 August 1998 -->
+
+<TITLE>VICE Manual - 9  C1541</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff" TEXT="#00000">
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_8.html">previous</A>, <A HREF="vice_10.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC63" HREF="vice_toc.html#TOC63">9  C1541</A></H1>
+
+<P>
+VICE is provided with a complete stand-alone disk image maintenance
+utility, called <CODE>c1541</CODE>.  You can either invoke it from the command
+line or from within one of the VICE emulators, using the "Run c1541"
+command which will open a new <CODE>xterm</CODE> window with a running
+<CODE>c1541</CODE> in it.
+
+</P>
+<P>
+The syntax is:
+
+</P>
+
+<PRE>
+c1541 OPTIONS IMAGE
+</PRE>
+
+<P>
+If some <CODE>OPTIONS</CODE> but no <CODE>IMAGE</CODE> are specified, <CODE>c1541</CODE>
+runs in batch mode; otherwise, it attaches the <CODE>IMAGE</CODE> if present
+and enters interactive mode, where you can type commands that are
+executed when you press Enter (abbreviations are allowed).  As with the
+monitor, file name completion and command line editing with history are
+provided via GNU <CODE>readline</CODE>.  Use the command <SAMP>`quit'</SAMP> to exit.
+
+</P>
+<P>
+Notice that <CODE>c1541</CODE> always creates <CODE>X64</CODE> files, but can read
+and write <CODE>D64</CODE> and <CODE>T64</CODE> files automatically, without the
+need for any special options.
+
+</P>
+
+
+
+<H2><A NAME="SEC64" HREF="vice_toc.html#TOC64">9.1  C1541 commands</A></H2>
+
+<P>
+Each command-line option has an interactive-mode counterpart, that is
+shown in parenthesis: (abbreviations are allowed when not ambiguous)
+
+</P>
+<DL COMPACT>
+
+<P><DT><CODE>-attach IMAGE (attach IMAGE)</CODE>
+<DD>
+Attach the disk image <CODE>IMAGE</CODE> for use.  All the following commands
+will refer to this image.
+
+<P><DT><CODE>-detach (detach)</CODE>
+<DD>
+Detach the currently attached disk image.
+
+<P><DT><CODE>-format IMAGE 'NAME,ID' (format IMAGE 'NAME,ID)</CODE>
+<DD>
+Format disk image <CODE>IMAGE</CODE>, giving the specified label.  If
+<CODE>IMAGE</CODE> does not exist, create it.
+
+<P><DT><CODE>-delete IMAGE FILES... (delete FILES...)</CODE>
+<DD>
+Delete  FILES  from <CODE>IMAGE</CODE>.
+
+<P><DT><CODE>-list IMAGE (list)</CODE>
+<DD>
+List files in <CODE>IMAGE</CODE>.
+
+<P><DT><CODE>-validate IMAGE (validate)</CODE>
+<DD>
+Validate the disk.
+
+<P><DT><CODE>-copy IMAGE OLDNAME1 [OLDNAME2...] NEWNAME (copy OLDNAME1 [OLDNAME2...] NEWNAME)</CODE>
+<DD>
+Concatenate <CODE>OLDNAME1</CODE>, <CODE>OLDNAME2</CODE>.. into
+<CODE>NEWNAME</CODE> on <CODE>IMAGE</CODE> (can be used to copy files).
+
+<P><DT><CODE>-create IMAGE DUMP ['DESCR'] (create IMAGE DUMP</CODE>
+<DD>
+['DESCR'])
+
+Build <CODE>IMAGE</CODE> from raw dump file <CODE>DUMP</CODE> (i.e. convert
+from <CODE>D64</CODE> to <CODE>X64</CODE> file).
+
+<P><DT><CODE>-zcreate IMAGE DUMP ['DESCR'] (create IMAGE DUMP ['DESCR'])</CODE>
+<DD>
+Build <CODE>IMAGE</CODE> from a Zipcoded image called
+1!DUMP, 2!DUMP, 3!DUMP, 4!DUMP.
+
+<P><DT><CODE>-tape IMAGE TAPEIMAGE [FILES...]  (tape IMAGE TAPEIMAGE [FILES...])</CODE>
+<DD>
+Transfer <CODE>FILES</CODE> from <CODE>TAPEIMAGE</CODE> to <CODE>IMAGE</CODE>
+(default is copy all files).
+
+<P><DT><CODE>-read IMAGE 1541NAME [FSNAME] (read 1541NAME [FSNAME])</CODE>
+<DD>
+Extract <CODE>1541NAME</CODE> from the disk image into <CODE>FSNAME</CODE>
+(1541NAME by default) from <CODE>IMAGE</CODE>.
+
+<P><DT><CODE>-extract IMAGE (extract)</CODE>
+<DD>
+Extract all files from <CODE>IMAGE</CODE>.
+
+<P><DT><CODE>-write IMAGE FSNAME [1541NAME] (write FSNAME [1541NAME])</CODE>
+<DD>
+Write <CODE>FSNAME</CODE> to <CODE>IMAGE</CODE> as <CODE>1541NAME</CODE>
+(<CODE>FSNAME</CODE> by default). (works with <CODE>P00</CODE> files as well)
+
+<P><DT><CODE>-block [DRIVE:] [TRACK] [SECTOR] [DISP] (block [DRIVE:] [TRACK] [SECTOR] [DISP])</CODE>
+<DD>
+Show disk blocks in hex format.
+
+<P><DT><CODE>-info IMAGE ['DESCRIPTION'] (info ['DESCRIPTION'])</CODE>
+<DD>
+Show version information about <CODE>IMAGE</CODE>.
+
+</DL>
+
+<P>
+When more than one command is specified in batch mode, all of
+them are executed in the same order they have on the command
+line.
+
+</P>
+<P>
+This information should also be available in section 1 of the
+on-line manual pages (<SAMP>`man 1 c1541'</SAMP>).
+
+</P>
+
+
+
+<H2><A NAME="SEC65" HREF="vice_toc.html#TOC65">9.2  C1541 examples</A></H2>
+
+<P><HR><P>
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_8.html">previous</A>, <A HREF="vice_10.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -403,7 +403,10 @@ static void store_sid(sound_t *psid, ADDRESS addr, BYTE byte)
     case 14: case 15: case 16: case 17: case 19: case 20:
 	psid->v[2].update = 1;
 	break;
-    case 57: case 58: case 59: case 60: case 61: case 62: case 63:
+    case 61:
+	if ((psid->d[addr] ^ byte) & 1)
+	    psid->v[3].gateflip = 1;
+    case 57: case 58: case 59: case 60: case 62: case 63:
 	psid->v[3].update = 1;
 	break;
     default:
@@ -502,5 +505,8 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return stralloc("");
+    char				buf[1024];
+
+    sprintf(buf, "#SID: clk=%d v=%d\n", clk, psid->vol);
+    return stralloc(buf);
 }

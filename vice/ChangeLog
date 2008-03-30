@@ -1,3 +1,12 @@
+Mon Aug 17 18:19:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.59.
+
+Sun Aug 16 11:38:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* data/C128/position.vkm, data/C128/default.vkm: Added special
+ 	C128 keys.
+
 Sat Aug 15 21:47:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.58.

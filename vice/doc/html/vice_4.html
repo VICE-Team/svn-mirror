@@ -1,0 +1,400 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 17 August 1998 -->
+
+<TITLE>VICE Manual - 4  System files</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff" TEXT="#00000">
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC16" HREF="vice_toc.html#TOC16">4  System files</A></H1>
+
+<P>
+In order to work properly, the emulators need to load a few system
+files:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+the <EM>system ROMs</EM>, raw binary files containing copies of the original ROMs
+of the machine you are emulating;
+
+<P> <LI>
+
+the <EM>keyboard maps</EM>, text files describing the keyboard layout;
+
+<P> <LI>
+
+the <EM>palette files</EM>, text files describing the colors of the machine you
+are emulating.
+
+</UL> </P>
+
+<P>
+The place where they will be searched for depends on the value of the
+<CODE>Directory</CODE> resource, which is a colon (<CODE>;</CODE>)-separated search
+path list, like the UNIX <CODE>PATH</CODE> environment variable.  The
+default value is
+
+</P>
+
+<PRE>
+PREFIX/lib/vice/EMU;BOOTPATH/EMU
+</PRE>
+
+<P>
+Where <CODE>PREFIX</CODE> is the installation prefix (usually
+<TT>`/usr/local'</TT>), <CODE>EMU</CODE> is the name of the emulated machine
+(<CODE>C64</CODE>, <CODE>C128</CODE>, <CODE>PET</CODE> or <CODE>VIC20</CODE>) and
+<CODE>BOOTPATH</CODE> is the directory where the executable resides.
+
+</P>
+<P>
+For example, if you have the C64 emulator installed in
+<TT>`/usr/local/bin/x64'</TT>, the value will be
+
+</P>
+
+<PRE>
+/usr/local/lib/VICE/C64;/usr/local/bin/C64
+</PRE>
+
+<P>
+And system files will be searched for under
+<TT>`/usr/local/lib/VICE/C64'</TT> first, and then under
+<TT>`/usr/local/bin/C64'</TT>.
+
+</P>
+<P>
+System files can still be installed in a different directory if you
+specify a complete path instead of just a file name.  For example, if
+you specify <TT>`./kernal'</TT> as the kernal image name, the kernal image
+will be loaded from the current directory.
+
+</P>
+
+
+
+<H2><A NAME="SEC17" HREF="vice_toc.html#TOC17">4.1  ROM files</A></H2>
+
+<P>
+Every emulator requires its own ROM set.  For the VIC20 and the C64, the
+ROM set consists in the following files:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<TT>`kernal'</TT>,  the Kernal ROM (8 KBytes)
+
+<P> <LI>
+
+<TT>`basic'</TT>, the Basic ROM (8 KBytes)
+
+<P> <LI>
+
+<TT>`chargen'</TT>, the character generator ROM (4 Kbytes)
+
+<P> <LI>
+
+<TT>`dos1541'</TT>, the 1541 drive ROM (16 Kbytes)
+
+</UL> </P>
+
+<P>
+The C128 needs the following files instead:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<TT>`kernal'</TT>, the Kernal ROM (8 Kbytes)
+
+<P> <LI>
+
+<TT>`basic'</TT>, the BASIC + Editor ROM (32 Kbytes)
+
+<P> <LI>
+
+<TT>`chargen'</TT>, the character generator ROM (4 Kbytes)
+
+<P> <LI>
+
+<TT>`dos1541'</TT>, the 1541 drive ROM (16 Kbytes)
+
+</UL> </P>
+
+<P>
+The PET emulator uses a quite different setup instead: the Basic and
+Kernal ROMS are packed into a single file and only three kernal files
+are provided; one for each basic revision.  To handle the different
+screen sizes and keyboards, different so-called "editor-ROMs" for the
+memory range $E000-$E800 are provided.  The kernal files contain an
+editor ROM for 40 columns and graphics keyboard already.  The PET ROMs
+have the following names:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<TT>`pet2001'</TT>, the PET2001 Basic 1 + Kernal ROM (16 KBytes)
+
+<P> <LI>
+
+<TT>`pet3032'</TT>, the PET3032 Basic 2 + Kernal ROM (16 KBytes)
+
+<P> <LI>
+
+<TT>`pet4032'</TT>, the PET4032/8032 Basic 4 + Kernal ROM (20
+KBytes)
+
+<P> <LI>
+
+<TT>`edit2.b'</TT>, the PET3032 editor for business keyboard (2
+KBytes)
+
+<P> <LI>
+
+<TT>`edit4.b40'</TT>, the PET4032 editor for business keyboard
+(2 KBytes)
+
+<P> <LI>
+
+<TT>`edit4.b80'</TT>, the PET8032 editor for 80 columns and
+business keyboard (2 KBytes)
+
+</UL> </P>
+
+<P>
+The PETs also have sockets for extension ROMs for the addresses
+$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
+PET3032 only).  You can specify ROM image files for those extensions
+command line options <CODE>-petrom9</CODE>, <CODE>-petromA</CODE> and
+<CODE>-petromB</CODE> resp.
+
+</P>
+<P>
+An alternative would be to specify a long kernal ROM with the -kernal
+option that includes the extension ROM areas already.
+
+</P>
+<P>
+Also, you can specify a replacement for the basic ROM at $B000-$DFFF
+with the <CODE>-petromBasic</CODE> option and a replacement for the editor ROM
+at $E000-$E7FF with the <CODE>-petromEditor</CODE> option.
+
+</P>
+<P>
+You can also edit the configuration file as explained in the
+appropriate section.
+
+</P>
+
+
+
+<H2><A NAME="SEC18" HREF="vice_toc.html#TOC18">4.2  Keymap files</A></H2>
+
+<P>
+<EM>Keymap files</EM> are used to define the keyboard layout, defining what
+key (or combination of keys) must me mapped to ever keysym.
+
+</P>
+<P>
+In other words, the keyboard emulation works like this: whenever the
+user presses o releases a key while the input focus in the emulation
+window, the emulator receives an X-Window event with a value that
+identifies that key.  That value is called a <EM>keysym</EM> and is unique
+to that key.  Then the emulator looks for that keysym into an internal
+table which tells it what key(s) to press or release on the emulated
+keyboard.
+
+</P>
+<P>
+This table is described by the keymap file, which is made up of lines
+like the following:
+
+</P>
+
+<PRE>
+KEYSYM ROW COLUMN SHIFTFLAG
+</PRE>
+
+<P>
+Where:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<CODE>KEYSYM</CODE> is a string identifying the keysym: you can use the
+<CODE>xev</CODE> utility (shipped with the X Window system) to see what keysym
+is bound to any key;
+
+<P> <LI>
+
+<CODE>ROW</CODE> and <CODE>COLUMN</CODE> identify the key on the emulated keyboard;
+
+<P> <LI>
+
+<CODE>SHIFTFLAG</CODE> can have one of the following values:
+
+
+<P> <UL>
+
+<P> <LI>
+
+<CODE>0</CODE>: the key is never shifted
+
+<P> <LI>
+
+<CODE>1</CODE>: the key is shifted
+
+<P> <LI>
+
+<CODE>2</CODE>: the key is the left shift
+
+<P> <LI>
+
+<CODE>4</CODE>: the key is the right shift
+
+<P> <LI>
+
+<CODE>8</CODE>: the key can be shifted by the user
+
+</UL> </P>
+
+</UL> </P>
+
+<P>
+The <CODE>ShiftFlag</CODE> is useful if you want certain keys to be
+"artificially" shifted by the emulator, and not by the user.  For
+example, <KBD>F2</KBD> is shifted on the C64 keyboard, but you might want it
+to be mapped to the unshifted <KBD>F2</KBD> key on the PC keyboard.  To do
+so, you just have to use a line like the following:
+
+</P>
+
+<PRE>
+F2 0 4 1
+</PRE>
+
+<P>
+where <CODE>0</CODE> and <CODE>4</CODE> identify the key (row 0, column 4 on the
+keyboard matrix), and <CODE>1</CODE> specifies that every time the user presses
+<KBD>F2</KBD> the shift key on the C64 keyboard must be pressed.
+
+</P>
+<P>
+There are also some special commands you can add to the keyboard file;
+they are recognized because they start with an exclamation mark:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<CODE>!CLEAR</CODE> clears the currently loaded keyboard map; it is
+necessary to put this at the beginning of the file if you want the
+keymap file to override all of the current internal settings;
+
+<P> <LI>
+
+<CODE>!LSHIFT</CODE>, <CODE>!RSHIFT</CODE>, followed by a row and a column
+value, specify where the left and right shift keys are located on the
+emulated keyboard; for example, C64 default keymaps will specify
+
+
+<PRE>
+!LSHIFT 1 7
+!RSHIFT 6 4
+</PRE>
+
+</UL> </P>
+
+<P>
+Any line starting with the <CODE>#</CODE> sign, instead, is completely
+ignored.  This is useful for adding comments within the keymap file.
+
+</P>
+<P>
+VICE keymap files have the <TT>`.vkm'</TT> default extension, and every
+emulator comes with a default positional mapping and a default symbolic
+mapping.
+
+</P>
+
+
+
+<H2><A NAME="SEC19" HREF="vice_toc.html#TOC19">4.3  Palette files</A></H2>
+
+<P>
+<EM>Palette files</EM> are used to specify the colors used in the
+emulators.  They are made up of lines like the following:
+
+</P>
+
+<PRE>
+RED GREEN BLUE DITHER
+</PRE>
+
+<P>
+where <CODE>RED</CODE>, <CODE>GREEN</CODE> and <CODE>BLUE</CODE> are hexadecimal values
+ranging from 0 to FF and specifying the amount of red, green and blue
+you want for each color and <CODE>DITHER</CODE> is an hexadecimal 4-bit
+number specifying the pattern you want to be used when rendering on a
+B/W display.
+
+</P>
+<P>
+You have to include as many lines as the number of colors the emulated
+machine has, and the order of the lines must respect the one used in the
+machine (so the N'th line must contain the specifications for color N -
+1 in the emulated machine).
+
+</P>
+<P>
+Lines starting with the <CODE>#</CODE> sign are completely ignored.  This is
+useful for adding comments (such as color names) within the palette
+file.
+
+</P>
+<P>
+For example, the default PET palette file (which has only two colors, 0 for
+background and 1 for foreground), looks like the following:
+
+</P>
+
+<PRE>
+#
+# VICE Palette file
+#
+# Syntax:
+# Red Green Blue Dither
+#
+
+# Background
+00 00 00 0
+
+# Foreground
+00 FF 00 F
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+</BODY>
+</HTML>

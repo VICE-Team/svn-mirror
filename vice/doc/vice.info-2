@@ -1,0 +1,1315 @@
+This is Info file vice.info, produced by Makeinfo version 1.67 from the
+input file vice.texi.
+
+START-INFO-DIR-ENTRY
+* VICE: (vice).        VICE, the Versatile Commodore Emulator.
+END-INFO-DIR-ENTRY
+
+   VICE Manual
+
+   Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+   Permission is granted to copy and distribute modified versions of
+this manual under the conditions for verbatim copying, provided that
+the entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+
+File: vice.info,  Node: Disk and tape images,  Next: Reset,  Prev: File Selector,  Up: Basics
+
+Using disk and tape images
+==========================
+
+   The emulator is able to emulate disk drives and (read-only) tape
+recorders if provided with suitable "disk images" or "tape images".  An
+"image" is a raw dump of the contents of the media, and must be
+"attached" before the emulator can use it.  "Attaching" a disk or tape
+image is like "virtually" inserting a diskette or a cassette into the
+disk drive or the tape recorder: after an image is attached, the
+emulator is able to use it as a storage media.
+
+   There are five commands (in the left button menu) that deal with disk
+and tape images:
+
+   * Attach Disk Image
+
+   * Detach Disk Image
+
+   * Attach Tape Image
+
+   * Detach Tape Image
+
+   * Smart-attach a file
+
+   The first four commands are used to insert and remove the virtual
+disks and cassette tapes from the respective units.  On the other hand,
+the last commands tries to guess the type of the image you are attaching
+from its name and size, and attaches it to the most reasonable device.
+
+   Supported formats are `D64' and `X64' for disk images (devices 8, 9
+and 10) and `T64' for tape images.  Notice that `T64' support is
+*read-only*, and that the cassette is automatically rewound from the
+start when you reach the end.
+
+   Another important feature is that raw Commodore BASIC binary files
+and .P00 files can be attached as tapes.  As you can autostart a tape
+image when it is attached (as explained below), this allows you to
+autostart these particular files as well.
+
+   You can attach a disk for which you do have write permissions: when
+this happens, the 1541 emulator will emulate a write-protected disk.
+This is also useful if you want to preserve certain disk image from
+being written to; in the latter case, just remove the write permission
+for that file, eg. doing a `chmod a-w'.
+
+* Menu:
+
+* Previewing contents::         Looking into the image before attaching it.
+* Autostart::                   Starting a program automagically.
+* Compressed files::            Dealing with compressed files.
+
+
+File: vice.info,  Node: Previewing contents,  Next: Autostart,  Prev: Disk and tape images,  Up: Disk and tape images
+
+Previewing the image contents
+-----------------------------
+
+   It is possible to look into the disk or tape image and see its
+directory before attaching it: to do so, just press the "Contents"
+button in the file selector window.  This way, a new window will be
+popped up with the contents of the selected image.
+
+   Notice that this function automatically translates the directory from
+PETSCII to ASCII; but, due to differences in the two encodings, it is
+not always possible to translate all the characters, so you might get
+funny results when "weird" characters such as the semi-graphical ones
+are being used.
+
+
+File: vice.info,  Node: Autostart,  Next: Compressed files,  Prev: Previewing contents,  Up: Disk and tape images
+
+"Autostarting" an image
+-----------------------
+
+   If you want to reset the machine and run the first program on a
+certain image without typing the command at the Commodore BASIC prompt,
+you can use the "Autostart" button in the file selector window after
+selecting a proper disk or tape image file.
+
+   Notice that, if true 1541 emulation is turned on, it will be turned
+off before running the program and then turned on again after it has
+been loaded.  This way, you get the maximum possible speed while
+loading the file, but you don't loose compatibility when the actual
+program is running.
+
+   This method is not completely safe, because some autostarting methods
+might cause the true 1541 emulation not to be turned on again.  In such
+cases, the best thing to do is to disable serial traps (which will cause
+true 1541 emulation to be always kept turned on), or to manually load
+the program with true 1541 emulation turned on.
+
+
+File: vice.info,  Node: Compressed files,  Prev: Autostart,  Up: Disk and tape images
+
+Using compressed files
+----------------------
+
+   It is also possible to attach disk or tape images that have been
+compressed through various algorithms; the compression format is
+recognized from the file extension.  The following formats are supported
+(the expected file name extension is in parenthesis):
+
+   * GNU Zip (`.gz' or `.z');
+
+   * BZip version 2 (`.bz2');
+
+   * PkZip (`.zip');
+
+   * GNU Zipped TAR archives (`.tar.gz', `.tgz');
+
+   * Zoo (`.zoo').
+
+   PkZip, `tar.gz', `lha' and `zoo' support is *read-only* and always
+uses the *first* `T64' or `D64' file in the archive.  So archives
+containing multiple files will always be handled as if they contained
+one single file.
+
+
+File: vice.info,  Node: Reset,  Prev: Disk and tape images,  Up: Basics
+
+Resetting the machine
+=====================
+
+   You can reset the emulated machine at any time by using the "Reset"
+command from the command menu.  There are two types of reset:
+
+   * "soft reset", which simply resets the CPU and all the chips;
+
+   * "hard reset", which also clears up the contents of RAM.
+
+   A "soft reset" is the same as a hardware reset achieved by pulling
+the RESET line down; a "hard reset" is more like a power on/power off
+sequence, which makes sure the whole RAM is cleared.
+
+   It is possible that a soft reset is not enough to bring the machine
+back to the OS initialization sequence: in such cases, you have to do a
+hard reset instead.
+
+
+File: vice.info,  Node: Settings and resources,  Next: Machine-specific features,  Prev: Basics,  Up: Top
+
+Settings and resources
+**********************
+
+   In the VICE emulators, all the settings are stored in entities which
+are called "resources".  Every resource has a name and its value can be
+either an integer or a string.  Often integer values are used as boolean
+values, with the usual convention of using zero for "false" and any
+other value for "true".
+
+   Resource values can be changed via the right-button menu (the
+"settings" menu), via command-line options or via the "resource file".
+
+   The "resource file" is a human-readable file containing resource
+values: it is called `.vicerc' and is stored in the user's home
+directory.  At any time, it is possible to dump the current values of
+the resources into that file or load the values stored into that file as
+the current values.  This can be achieved with the "Save settings" and
+"Load settings" right menu items.  A third menu item, "Restore Default
+Settings", can be used to set all the values to the factory defaults.
+
+   A special resource, `SaveResourcesOnExit', if set to a non zero
+value, causes the emulator to ask you if you want to save the current
+(changed) settings before exiting, and can be toggled with the "Save
+settings on exit" command from the right-button menu.
+
+   When describing resources in the following sections, we will put both
+their name and the text of the corresponding menu item in parenthesis.
+This will help in case you want to edit `.vicerc' by hand.
+
+* Menu:
+
+* Resource files::              Format of resource files.
+
+* Performance settings::        Settings that affect speed of execution.
+* Video settings::              Settings dealing with the video output.
+* Keyboard settings::           Settings relative to the keyboard emulation.
+* Sound settings::              Settings that affect sound output.
+* 1541 settings::               Settings that control disk-drive emulation.
+* Serial settings::             Settings for emulated IEC devices.
+
+
+File: vice.info,  Node: Resource files,  Next: Performance settings,  Prev: Settings and resources,  Up: Settings and resources
+
+Format of resource files
+========================
+
+   A resource file is made up of several section; every section has the
+purpose of separating resources of a certain emulator from resources of
+the other ones.  A section is started with the name of an emulator in
+brackets (eg. `[C64]') and ends when another section starts, or the
+file ends.
+
+   Every line in a section has the following format:
+
+     RESOURCE=VALUE
+
+   where `RESOURCE' is the name of a resource, while `VALUE' is the
+value to assign.  Resource names are case-sensitive, and resource
+values can be either strings or integers.  Strings must start and end
+with a double quote (`"'), while integers do just have to be written in
+decimal notation.
+
+   Here is an example of a stripped-down `.vicerc' file:
+
+     [VIC20]
+     HTMLBrowserCommand="netscape %s"
+     SaveResourcesOnExit=0
+     FileSystemDevice8=1
+     FSDevice8ConvertP00=1
+     FSDevice8Dir="/home/ettore/cbm/stuff/vic20p00"
+     FSDevice8SaveP00=1
+     FSDevice8HideCBMFiles=1
+     [C64]
+     HTMLBrowserCommand="netscape %s"
+     SaveResourcesOnExit=1
+     FileSystemDevice8=1
+     FSDevice8ConvertP00=1
+     FSDevice8Dir="/home/ettore/cbm/stuff/c64p00"
+     FSDevice8SaveP00=1
+     FSDevice8HideCBMFiles=1
+
+   Notice that, when resource values are saved with "Save settings", the
+emulator only modifies its own section, keeping the other ones
+unchanged.
+
+
+File: vice.info,  Node: Performance settings,  Next: Video settings,  Prev: Resource files,  Up: Settings and resources
+
+Performance settings
+====================
+
+   You can control the emulation speed by changing the `Speed'
+resource, which controls the maximum speed (in percent) of the emulated
+machine.  The default setting is `100', which causes the emulation to
+never run faster than the real machine.  A higher value makes the
+emulator faster, a lower one makes it slower.  A value of zero means to
+run as fast as possible, without limiting speed.  These values can also
+be set using the "Maximum Speed" submenu in the settings menu.
+
+   It is also possible to control the amount of screen frames the
+emulator calculates; the value ranges from `1' (update as 1/1 of the
+frames of the real machine, that is 50 frames per second) to `10'
+(update 1 every 10 frames), is stored in the resource `RefreshRate' and
+can be changed via the "Refresh Rate" submenu.  The special value "zero"
+means to dynamically adapt the refresh rate to the current speed of the
+host machine, making sure the maximum speed specified by the `Speed'
+resource is always reached if possible.  In any case, the refresh rate
+will never be worse than 1/10 if this value is specified.
+
+   Moreover, a special "warp speed" mode is provided by the `WarpMode'
+resource, which can be toggled with the "Enable Warp Mode" menu item.
+If `WarpMode' contains a nonzero value, warp speed mode will be enabled
+and will cause the emulator to disable any speed limit, turn sound
+emulation off and use a 1/10 refresh rate, so that it will run at the
+maximum possible speed.
+
+
+File: vice.info,  Node: Video settings,  Next: Keyboard settings,  Prev: Performance settings,  Up: Settings and resources
+
+Video settings
+==============
+
+   The following resources affect the screen emulation:
+
+   * `VideoCache' ("Video Cache") enables a video cache that can speed
+     up the emulation when little graphics activity is going on.
+
+   * `DoubleSize' ("Double Size") makes the emulation window twice as
+     big (when emulating a 80-column PET, only the height is doubled,
+     so that the aspect ratio is more similiar to the one of the real
+     thing).
+
+   * `DoubleScan' ("Double Scan"), if disabled, causes the emulator to
+     draw only odd lines when running in double-size mode (this saves
+     some CPU time and also makes the emulation window look more like
+     an old monitor).
+
+   * `UseXSync' ("Use XSync()") causes the emulator to call the X11
+     function `XSync()' before updating the emulation window: this might
+     be necessary on low-end systems to prevent it from stealing so many
+     system resources that it would become impossible for the user to
+     interact with it.
+
+
+File: vice.info,  Node: Keyboard settings,  Next: Sound settings,  Prev: Video settings,  Up: Settings and resources
+
+Keyboard settings
+=================
+
+   It is possible to specify whether the "positional" or "symbolic"
+keyboard mapping is being used with the "Keyboard mapping type
+submenu".  The value is saved in the `KeymapIndex' resource (*note
+Keyboard emulation::. for a description of positional and symbolic
+mapping); a value of `0' identifies symbolic mapping, a value `1'
+positional mapping.
+
+   The keyboard settings submenu also allows you to load custom-made
+positional and symbolic keymap files, and to dump the current keymap to
+a user-defined keymap file.
+
+
+File: vice.info,  Node: Sound settings,  Next: 1541 settings,  Prev: Keyboard settings,  Up: Settings and resources
+
+Sound settings
+==============
+
+   The following resources affect sound output:
+
+   * `Sound' ("Enable sound playback") toggles sound emulation on and
+     off.
+
+   * `SoundSpeedAdjustment' ("Enable adaptive playback") enables a
+     special playback mode that is able to adapt the sound output to the
+     speed of the emulated machine, trying to avoid "clicks".
+
+   * `SoundSampleRate' ("Sample rate") specifies the sampling
+     frequency, ranging from 8000 to 48000 Hz (not all the sound cards
+     and/or sound drivers can support all the frequencies, so actually
+     the nearmost candidate will be picked up).
+
+   * `SoundBufferSize' ("Buffer size") specifies the size of the audio
+     buffer; the bigger the buffer, the longer the delay with which
+     sounds are played.  You should pick the smallest value your
+     machine can handle without problems.
+
+   * `SoundSuspendTime' ("Suspend time"), if different from zero ("Keep
+     going"), will cause the audio playback to pause for the specified
+     number of seconds whenever some clicking happens.
+
+   * `SoundOversample' ("Oversample") specifies an oversampling factor.
+
+
+File: vice.info,  Node: 1541 settings,  Next: Serial settings,  Prev: Sound settings,  Up: Settings and resources
+
+1541 settings
+=============
+
+   These settings are used to control the emulation of the 1541 drive.
+
+   * `True1541' ("Enable true 1541 emulation") enables the slow
+     hardware-level emulation of the 1541 drive number 8 for maximum
+     compatibility.
+
+   * `True1541ParallelCable' ("Enable parallel cable") enables
+     emulation of a SpeedDOS parallel cable; if you switch this option
+     on and replace the original Commodore ROMs with
+     SpeedDOS-compatible ones, you can speed up the loading speed.
+
+   * `True1541SyncFactor' ("True 1541 sync factor") specifies the speed
+     of the 1541 CPU.  This can be used to help loading certain games,
+     eg. NTSC ones, that have trouble with the default setting.  The
+     ratio is calculated as follows:
+          True1541SyncFactor = 65536 * clk_1541 / clk_machine
+     where `clk_1541' and `clk_machine' is the clock speed in MHz.  The
+     menu lets you choose between the PAL and NTSC values, and also lets
+     you specify whatever value you want.  Be careful when changing it,
+     though.  Also notice that the special values `-1' and `-2'
+     identify the PAL and NTSC sync factors, respectively.
+
+   * `True1541IdleMethod' ("True 1541 idle method") specify which
+     method the 1541 emulation should use to save CPU cycles when
+     nothing is really happening.  There are three methods:
+
+        * "Skip cycles" (`True1541IdleMethod=1'): Each time the serial
+          line is accessed by the C64, the drive executes all the
+          cycles since the last time it was running.  If the number of
+          elapsed cycles is larger than a certain value, the drive
+          discards part of them.
+
+        * "Trap idle" (`True1541IdleMethod=2'): The disk drive is still
+          emulated upon serial line accesses as with the previous
+          option, but it is also always emulated at the end of each
+          screen frame.  If the drive gets into the DOS idle loop, only
+          pending interrupts are emulated to save time.
+
+        * "No traps" (`True1541IdleMethod=0'): Like "Trap idle", but
+          without traps at all.  So basically the 1541 works exactly as
+          with the real thing, and nothing is done to reduce memory
+          consumption.
+
+     The first option ("Skip cycles") is usually better for
+     performance, as the drive is emulated as little as possible; on
+     the other hand, you can notice sudden slowdowns (when the drive
+     executes several cycles at once) and the LED status is never
+     updated (because it would not be possible to do correctly so).
+     Moreover, if the drive tries to get in sync with the computer in
+     some weird way and the computer does not access the serial line
+     for a long time, it is possible that some cycles are discarded and
+     the sync is lost.  Notice that this hack can have no effect on
+     performance if one program continuously reads the CIA ports, as the
+     drive will have to be emulated in any case.
+
+     The second option ("Trap idle") is usually a bit slower, as at
+     least interrupts are always emulated, but allows the LED state to
+     be always updated correctly and always keeps the 1541 and the
+     computer in sync.  On the other hand, if a program installs a
+     non-standard idle loop in the drive, the 1541 CPU has to be
+     emulated even when not necessary and the global emulation speed is
+     then *much* slower.
+
+   * `True1541ExtendImagePolicy' ("40-track image support") specifies
+     how 40-track ("extended") disk images should be supported.  There
+     are three possible ways:
+
+        * "Never extend" (`True1541ExtendImagePolicy=0') never extends
+          disk images at all (so if a program tries to write tracks
+          beyond the 35th, it is not allowed to do so);
+
+        * "Ask on extend" (`True1541ExtendImagePolicy=1') prompts the
+          user as soon as a program tries to write tracks beyond the
+          35th, and the user can then choose whether she wants the disk
+          image to be extended or not;
+
+        * "Extend on access" (`True1541ExtendImagePolicy=2') simply
+          extends the disk image as soon the program needs it, without
+          prompting the user.
+
+
+File: vice.info,  Node: Serial settings,  Prev: 1541 settings,  Up: Settings and resources
+
+Serial settings
+===============
+
+   These settings deal with the drive-like peripherals connected to the
+bus of the emulated machine.  Four peripherals, numbered from 8 to 11,
+are accessible; each of them provides the following settings (substitute
+`X' in the resource names with the number of the corresponding
+peripheral):
+
+   * `FileSystemDeviceX' ("File system access"), if enabled, allows
+     device number `X' to emulate a drive accessing a file system
+     directory;
+
+   * `FSDeviceXDir' ("File system directory") specifies what directory
+     is accessed;
+
+   * `FSDeviceXConvertP00' ("Convert P00 file names"), if enabled,
+     allows access to P00 files using their built-in name on drive
+     number `X';
+
+   * `FSDeviceXSaveP00' ("Create P00 files on save"), if enabled,
+     creates P00 files (instead of raw files) when a program creates a
+     file on drive number `X'.
+
+   This feature depends on some "serial traps" that replace the
+existing routines in the original Commodore operating system with
+custom-made C routines.
+
+   If you have compatibility problems, you can completely disable serial
+traps by setting the `NoTraps' resource to a nonzero value.  This will
+also disable those features that depend on it, such as the fast 1541
+emulation (so you will have to turn true 1541 emulation on if you want
+to be able to read or write disk images).
+
+
+File: vice.info,  Node: Machine-specific features,  Next: Monitor,  Prev: Settings and resources,  Up: Top
+
+Machine-specific features
+*************************
+
+* Menu:
+
+* C64/128-specific::            Commands and settings specific to the
+                                C64/128 emulators
+* VIC20-specific::              Commands and settings specific to the
+                                VIC20 emulator
+* PET-specific::                Commands and settings specific to the
+                                PET emulator
+
+
+File: vice.info,  Node: C64/128-specific,  Next: VIC20-specific,  Prev: Machine-specific features,  Up: Machine-specific features
+
+C64/128-specific commands and settings
+======================================
+
+   This section lists the settings and commands that are C64/128
+specific and thus are not present in the other emulators.
+
+* Menu:
+
+* C64 cartridges::
+* VIC-II settings::
+* SID settings::
+* I/O extension settings::
+* RS232 settings::
+
+
+File: vice.info,  Node: C64 cartridges,  Next: VIC-II settings,  Prev: C64/128-specific,  Up: C64/128-specific
+
+Using cartridge images
+----------------------
+
+   "Cartridge images" are like disk images, but mirror the contents of
+cartridge ROM images instead of disk images.  They are currently
+unsupported on the C128 emulator.
+
+   X64 allows you to attach the following kinds of cartridges:
+
+   * `.crt' images, as used by the CCS64 emulator by Per Hâkan Sundell;
+
+   * generic raw dumps of 8K and 16K images;
+
+   * Action Replay images.
+
+   Each of these kinds has a specific command in the "Attach a cartridge
+image" submenu.  When you have successfully attached a cartridge image,
+you should then reset the machine to make sure the cartridge initializes
+itself.  Of course, it is also possible to detach a currently attached
+cartridge image ("Detach cartridge image").
+
+   If you are using an Action Replay cartridge, you can emulate the
+cartridge's freeze button with the "Freeze" command.
+
+
+File: vice.info,  Node: VIC-II settings,  Next: SID settings,  Prev: C64 cartridges,  Up: C64/128-specific
+
+VIC-II settings
+---------------
+
+   These resources control the emulation of the VIC-II (MOS6569) video
+chip used in both the C64 and the C128.
+
+   * `CheckSsColl' ("Sprite-sprite collisions") and `CheckSbColl'
+     ("Sprite-background collisions") are boolean resources; if set to a
+     nonzero value, they cause the hardware detection of
+     sprite-to-sprite and sprite-to-background collision to be
+     emulated.  This feature is used by many games, and disabling
+     either of the two detection systems can sometimes make you
+     invincible (although there is also a chance that also enemies
+     become invincible then).
+
+   * `PaletteFile' ("Color set") is a string resource whose value
+     identifies the name of the palette file being used (*note Palette
+     files::. for a description of palette files).  You can dynamically
+     change its value at runtime by choosing one of the available
+     predefined color sets:
+
+        * `default.vpl' ("default"), the default VICE palette;
+
+        * `ccs64.vpl' ("CCS64"), palette taken from the CCS64 emulator
+          by Per H^akan Sundell (http://www.fatal-design.com/ccs64/).
+
+        * `frodo.vpl' ("Frodo"), palette taken from the Frodo emulator
+          by Christian Bauer
+          (http://www.uni-mainz.de/~bauec002/FRMain.html).
+
+        * `godot.vpl' ("GoDot"), palette as suggested by the authors of
+          the C64 graphics package GoDot
+          (http://users.aol.com/howtogodot/welcome.htm).
+
+
+File: vice.info,  Node: SID settings,  Next: I/O extension settings,  Prev: VIC-II settings,  Up: C64/128-specific
+
+SID settings
+------------
+
+   These resources control the emulation of the SID (MOS6581 or MOS8580)
+audio chip.
+
+   * `SidFilters' is a boolean resource; if enabled, it causes the
+     built-in programmable filters of the SID chip to be emulated.  A
+     lot of C64 music requires them to be emulated properly, but their
+     emulation requires some additional processor power.
+
+   * `SidModel' specifies the model of the SID chip being emulated:
+     there are two slightly different generations of SID chips: MOS6581
+     ones (`0') and MOS8580 ones (`1').
+
+
+File: vice.info,  Node: I/O extension settings,  Next: RS232 settings,  Prev: SID settings,  Up: C64/128-specific
+
+I/O extension settings
+----------------------
+
+   There are three I/O extensions available: they are located at the
+address range $DF00 ... $DFFF and each of them is controlled by a
+boolean resource.  Please use these extensions only when needed, as they
+might cause compatibility problems.
+
+   * The "emulator identification" extension (related to the `EmuID'
+     resource) allows programs to identify the kind of emulator they are
+     running on, according to the emulation detection proposal by
+     Wolfgang Lorenz.  This basically means that, when some locations
+     in the $DFxx I/O space are read, the emulator returns some values
+     which identify the emulator itself, its version and a copyright
+     message.  If this extension is disabled, programs will have
+     virtually no way to realize they are running on an emulator.
+
+   * The "IEEE488 interface emulation" extension (enabled by the
+     `IEEE488' resource) emulates a standard Commodore IEEE488 interface
+     connected to the IEC bus; one possible use for this is André
+     Fachat's OS/A65 multitasking operating system.
+
+   * The "512K RAM Expansion Unit" extension (enabled by the `REU'
+     resource) emulates a standard 512K Commodore RAM Expansion Unit;
+     this can be used with GEOS and other programs that are designed to
+     take advantage of it.  This currently works only in the C64
+     emulator.
+
+
+File: vice.info,  Node: RS232 settings,  Prev: I/O extension settings,  Up: C64/128-specific
+
+RS232 settings
+--------------
+
+   X64 and X128 can support RS232 in the following ways:
+
+   * By emulating Daniel Dallmann's 9600 baud userport-based RS232
+     interface (enabled by the `RsUser' boolean resource).
+
+   * By emulating a 6551-based RS232 interface located at $DE00
+     (enabled by the `AciaDE' boolean resource).
+
+   Each of these emulated devices can be either:
+
+   * connected a real UNIX serial device;
+
+   * dumped to a file;
+
+   * piped through a process.
+
+   It is possible to define up to two UNIX serial devices, and then
+decide which interface should be connected to which device.  Devices are
+defined through the following resources:
+
+   * `RsDevice1' and `RsDevice2' ("Serial 1 device..." and "Serial 2
+     device..." in the submenu) are strings specifying the pathnames of
+     the serial devices, and can be specified at runtime via the file
+     selector;
+
+   * `RsDevice1Baud' and `RsDevice2Baud' ("Serial 1 baudrate" and
+     "Serial 2 baudrate" in the submenu) specify the baudrate.
+
+   The dump file name is specified through the `RsDevice3' resource,
+while the name of the program to pipe the RS232 data through is defined
+by the `RsDevice4' resource.
+
+   Finally, `RsUserDev' and `Acia1Dev' are numeric resources used to
+specify how the userport-based interface and the ACIA-based one are
+emulated.  The possible values are:
+
+   * `0': connect to serial device number 1;
+
+   * `1': connect to serial device number 2;
+
+   * `2': dump to file;
+
+   * `3': exec an external process;
+
+
+File: vice.info,  Node: VIC20-specific,  Next: PET-specific,  Prev: C64/128-specific,  Up: Machine-specific features
+
+VIC20-specific commands and settings
+====================================
+
+   This section lists the settings and commands that are VIC20-specific
+and thus are not present in the other emulators.
+
+* Menu:
+
+* VIC20 cartridges::
+* VIC20 memory expansions::
+
+
+File: vice.info,  Node: VIC20 cartridges,  Next: VIC20 memory expansions,  Prev: VIC20-specific,  Up: VIC20-specific
+
+Using cartridge images
+----------------------
+
+   As with the C64 (*note C64 cartridges::.), it is possible to attach
+several types of cartridge images:
+
+   * 4 or 8 Kbyte cartridges located at $2000;
+
+   * 4 or 8 Kbyte cartridges located at $6000;
+
+   * 4 or 8 Kbyte cartridges located at $A000;
+
+   * 4 Kbyte cartridges located at $B000.
+
+   This can all be done via the "Attach cartridge image..." command in
+the left-button menu.  It is also possible to let XVIC "guess" the type
+of cartridge using "Smart-attach cartridge image...".
+
+   Notice that several cartridges are actually made up of two pieces
+(and two files), that need to be loaded separately at different
+addresses.  In that case, you have to know the addresses (which are
+usually specified in the file name) and use the "attach" command twice.
+
+
+File: vice.info,  Node: VIC20 memory expansions,  Prev: VIC20 cartridges,  Up: VIC20-specific
+
+Changing memory configuration
+-----------------------------
+
+   It is possible to change the VIC20 memory configuration in two ways:
+by enabling and/or disabling certain individual memory blocks, or by
+choosing one among a few typical memory configurations.  The former can
+be done by modifying resource values directly or from the right-button
+menu; the latter can only be done from the menu.
+
+   There are 5 RAM expansion blocks in the VIC20, numbered 0, 1, 2, 3
+and 5:
+
+   * block 0 (3 Kbytes at $0400-$0FFF);
+
+   * block 1 (8 Kbytes at $2000-$3FFF);
+
+   * block 2 (8 Kbytes at $4000-$5FFF);
+
+   * block 3 (8 Kbytes at $6000-$7FFF);
+
+   * block 5 (8 Kbytes at $A000-$BFFF).
+
+   These blocks are called "expansion blocks" because they are not
+present in the stock machine.  Each of them is associated to a boolean
+`RamBlockX' resource (where `X' is the block number) that specifies
+whether the block is enabled or not.
+
+   There are also some common memory configurations you can pick from
+the right-button menu:
+
+   * no RAM expansion blocks at all;
+
+   * all RAM expansion blocks enabled;
+
+   * 3K expansion (only block 0 is enabled);
+
+   * 8K expansion (only block 1 is enabled);
+
+   * 16K expansion (only blocks 1 and 2 are enabled);
+
+   * 24K expansion (only blocks 1, 2 and 3 are enabled).
+
+   As with the X64 (*note I/O extension settings::.), it is also
+possible to enable a special emulator identification mechanism that
+uses certain memory locations to let a running program query
+information about the emulator itself.
+
+
+File: vice.info,  Node: PET-specific,  Prev: VIC20-specific,  Up: Machine-specific features
+
+PET-specific commands and settings
+==================================
+
+   This section lists the settings and commands that are PET-specific
+and thus are not present in the other emulators.
+
+* Menu:
+
+* PET model::
+* PET diagnostic pin::
+* PET colors::
+
+
+File: vice.info,  Node: PET model,  Next: PET diagnostic pin,  Prev: PET-specific,  Up: PET-specific
+
+Changing PET model settings
+---------------------------
+
+   With XPET, it is possible to change at runtime the characteristics of
+the emulated PET so that it matches (or not) the ones of a certain PET
+model, and it is also possible to select from a common set of PET models
+so that all the features are selected accordingly.
+
+   The former is done by changing the following resources (via resource
+file, command line options or right-menu items):
+
+   *  Choosing a common PET model is done from the right-button menu
+instead, by choosing an item from the "Model defaults" submenu.
+Available models are:
+
+   * PET 2001-8N
+
+   * PET 3008
+
+   * PET 3016
+
+   * PET 3032
+
+   * PET 3032B
+
+   * PET 4016
+
+   * PET 4032
+
+   * PET 4032B
+
+   * PET 8032
+
+   * PET 8096
+
+   * PET 8296
+
+   Notice that this will *reset the emulated machine*.
+
+   It is also possible to select the PET model at startup, with the
+`-model' command-line option: for example, `xpet -model 3032' will
+emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
+
+
+File: vice.info,  Node: PET diagnostic pin,  Next: PET colors,  Prev: PET model,  Up: PET-specific
+
+The PET diagnostic pin
+----------------------
+
+   It is possible to enable or disable emulation of the PET diagnostic
+pin via the `DiagPin' resource, or the "PET userport diagnostic pin"
+item in the right-button menu.
+
+
+File: vice.info,  Node: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
+
+Changing screen colors
+----------------------
+
+   It is also possible to choose what color set is used for the
+emulation window.  This is done by specifying a palette file name
+(*note Palette files::.) in the `PaletteName' resource.  The menu
+provides the following values:
+
+   * `default.vpl' ("default (green)"), the good old green-on-black
+     feeling;
+
+   * `amber.vpl' ("amber"), an amber phosphor lookalike;
+
+   * `white.vpl' ("white"), simple white-on-black palette.
+
+
+File: vice.info,  Node: Monitor,  Next: C1541,  Prev: Machine-specific features,  Up: Top
+
+Monitor
+*******
+
+   Every VICE emulator has a complete built-in monitor, which can be
+used to examine, disassemble and assemble machine language programs, as
+well as debug them through breakpoints.  It can be activated by using
+the "Activate monitor" command (left button menu).  Notice that you have
+to run the emulator from a terminal emulation program (such as `rxvt'
+or `xterm') in order to use the monitor.
+
+   Warning: this version of the monitor is still under construction,
+and some of the features are not fully working yet.
+
+* Menu:
+
+* Terminology::
+* Machine state commands::
+* Memory commands::
+* Assembly commands::
+* Checkpoint commands::
+* General commands::
+* Disk commands::
+* Command file commands::
+* Label commands::
+* Miscellaneous commands::
+
+
+File: vice.info,  Node: Terminology,  Next: Machine state commands,  Prev: Monitor,  Up: Monitor
+
+Terminology
+===========
+
+`address_space'
+     This refers to the range of memory locations and a set of
+     registers.  This can be the addresses available to the computer's
+     processor, the disk drive's processor or a specific memory
+     configuration of one of the mentioned processors.
+
+`register'
+     One of the following: program counter (PC), stack pointer (SP),
+     accumulator (A), X register (X), or Y register (Y).
+
+`address'
+     A specific memory location in the range $0000 to $FFFF.
+
+`address_range'
+     Two addresses.  If the second address is less than the first, the
+     range is assumed to wraparound from $FFFF to $0000.  Both
+     addresses must be in the same address space.
+
+`address_opt_range'
+     An address or an address range.
+
+`label'
+     Fixme.
+
+`prompt'
+     The prompt has the format [x:y].  If x is -, memory reads from the
+     monitor do not have side effects.  Otherwise, x is S.  The second
+     part of the prompt, y, shows the default address space.
+
+`checkpoint'
+     The monitor has the ability to setup triggers that perform an
+     action when a specified situation occurs.  There are three types
+     of checkpoints; breakpoints, tracepoints and watchpoints.
+
+`breakpoint'
+     A breakpoint is triggered based on the program counter.  When it is
+     triggered, the monitor is entered.
+
+`tracepoint'
+     Like breakpoints, a tracepoint is triggered based on the program
+     counter.  Instead of entering the monitor, the program counter is
+     printed and execution continues.
+
+`watchpoint'
+     Watchpoints are triggered by a read and/or write to an address.
+     When a watchpoint is triggered, the monitor is entered.
+
+`<...>'
+     A data type.
+
+`*'
+     Zero or more occurrences.
+
+`[...]'
+     An optional argument.
+
+
+File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: Terminology,  Up: Monitor
+
+Machine state commands
+======================
+
+`goto <address>'
+     Change the PC to address and continue execution.
+
+`io'
+     Nothing yet.  Will display VIC/VIA/CIA/SID registers.
+
+`next [<count>]'
+     Advance to the next instruction.  Subroutines are treated as a
+     single instruction.
+
+`registers [<reg_name> = <number> [, <reg_name> = <number>]*]'
+     This command allows displaying and setting the registers of the
+     6502 microprocessor.  Valid register names are A, X, Y, PC and SP.
+
+`return'
+     Continues the execution of the 6502 and returns to the monitor just
+     before(after?) the next RTS or RTI is executed.
+
+`step [<count>]'
+     Single step through instructions.  An optional count allows
+     stepping more than a single instruction at a time.
+
+
+File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machine state commands,  Up: Monitor
+
+Memory commands
+===============
+
+`compare <address_range> <address>'
+     Compare memory from the source specified by the address range to
+     the destination specified by the address.  The regions may
+     overlap.  Any values that miscompare are displayed using the
+     default displaytype.
+
+`fill <address_range> <data_list>'
+     Fill memory in the specified address range with the data in
+     <data_list>.  If the size of the address range is greater than the
+     size of the data_list, the data_list is repeated.
+
+`hunt <address_range> <data_list>'
+     Hunt memory in the specified address range for the data in
+     <data_list>.  If the data is found, the starting address of the
+     match is displayed.  The entire range is searched for all possible
+     matches.
+
+`i <address_opt_range>'
+     Display memory contents as PETSCII text.
+
+`m [data_type] [address_opt_range]'
+     Display the contents of memory.  If no datatype is given, the
+     default is used.  If only one address is specified, the length of
+     data displayed is based on the datatype.  If no addresses are
+     given, the 'dot' address is used.
+
+`mc [data_type] [address_opt_range]'
+     Display the contents of memory as character data.  If only one
+     address is specified, only one character is displayed.  If no
+     addresses are given, the "dot" address is used.
+
+`ms [data_type] [address_opt_range]'
+     Display the contents of memory as sprite data.  If only one
+     address is specified, only one sprite is displayed.  If no
+     addresses are given, the "dot" address is used.
+
+`move address_range address'
+`transfer address_range address'
+     Move memory from the source specified by the address range to the
+     destination specified by the address.  The regions may overlap.
+
+`> [address] <data_list>'
+     Display the specified number in decimal, hex, octal and binary.
+
+
+File: vice.info,  Node: Assembly commands,  Next: Checkpoint commands,  Prev: Memory commands,  Up: Monitor
+
+Assembly commands
+=================
+
+`a <address> [ <instruction> [: <instruction>]* ]'
+     Assemble instructions to the specified address.  If more than one
+     instruction is given, the command does not cause the monitor to
+     enter assembly mode.
+
+`d [<address> [<address>]]'
+     Disassemble instructions.  If two addresses are specified, they
+     are used as a start and end address.  If only one is specified, it
+     is treated as the start address and a default number of
+     instructions are disassembled.  If no addresses are specified, a
+     default number of instructions are disassembled from the dot
+     address.
+
+
+File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
+
+Checkpoint commands
+===================
+
+`break [<address> [if <cond_expr>] ]'
+     This command allows setting a breakpoint or listing the current
+     breakpoints.  If no address is given, the currently valid
+     checkpoints are printed.  If an address is given, a breakpoint is
+     set for that address and the breakpoint number is printed.  A
+     conditional expression can also be specified for the breakpoint.
+     For more information on conditions, see the CONDITION command.
+
+`enable/disable <checknum>'
+     Each checkpoint can be enabled or disabled.  This command allows
+     changing between these states.
+
+`command <check_num> "<command>"'
+     When checkpoint check_num is hit, the specified command is
+     executed by the monitor.  Note that the 'x' command is not yet
+     supported as a command argument.
+
+`condition <checknum> if <cond_expr>'
+     Each time the specified checkpoint is examined, the condition is
+     evaluated.  If it evalutes to true, the checkpoint is activated.
+     Otherwise, it is ignores.  If registers are specified in the
+     expression, the values used are those at the time the checkpoint
+     is examined, not when the condition is set.
+
+`delete <check_num>'
+     Delete the specified checkpoint.
+
+`ignore <checknum> [<count>]'
+     Ignore a checkpoint a given number of crossings.  If no count is
+     given, the default value is 1.
+
+`trace [address [address]]'
+     This command is similar to the `break' command except that it
+     operates on tracepoints.  A tracepoint differs from a breakpoint
+     by not stopping execution but simply printing the PC, giving the
+     user an execution trace.  The second optional address can be used
+     to specify the end of an range of addresses to be traced.
+
+`watch [address [address]]'
+     This command is similar to the previous two commands except that it
+     operates on watchpoints.  A watchpoint differs from the others by
+     stopping on a read and/or write to an address or range of
+     addresses.  If no addresses are given, a list of all the
+     checkpoints is printed.
+
+
+File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
+
+General commands
+================
+
+`cd <directory>'
+     Change the working directory.
+
+`device [c:|d:]'
+     Set the default memory device to either the computer or the disk.
+
+`radix [H|D|O|B]'
+     Set the default radix to hex, decimal, octal, or binary.  With no
+     argument, the current radix is printed.
+
+`sidefx [on|off|toggle]'
+     Control how monitor generated reads affect memory locations that
+     have read side-effects.  If the argument is 'on' then reads may
+     cause side-effects.  If the argument is 'off' then reads don't
+     cause side-effects.  If the argument is 'toggle' then the current
+     mode is switched.  No argument displays the current state.
+     (Unfinished!)
+
+`system <system command>'
+     Nothing yet.
+
+
+File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: General commands,  Up: Monitor
+
+Disk commands
+=============
+
+`br <track> <sector> [<address>]'
+     Read the block at the specified track and sector.  If an address is
+     specified, the data is loaded into memory.  If no address is
+     given, the data is displayed on the screen using the default
+     datatype.
+
+`bw <track> <sector> <address>'
+     This command writes a block of data at address to the specified
+     track and sector.
+
+`@<disk command>'
+     Perform a disk command on the currently attached disk image.  The
+     specified disk command is sent to the drive's channel #15.
+
+`load "<filename>" <address>'
+     Load the specified file into memory at the specified address.
+
+`save "<filename>" <address1> <address2>'
+     Save the memory from address1 to address2 to the specified file.
+
+`v "<filename>" <address>'
+     Nothing yet.  Is this really needed?
+
+
+File: vice.info,  Node: Command file commands,  Next: Label commands,  Prev: Disk commands,  Up: Monitor
+
+Command file commands
+=====================
+
+`playback "<filename>"'
+     Monitor commands from the specified file are read and executed.
+     This command stops at the end of file or when a STOP command is
+     read.
+
+`record "<filename>"'
+     After this command, all commands entered are written to the
+     specified file until the STOP command is entered.
+
+`stop'
+     Stop recording commands.  See `record'.
+
+
+File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Command file commands,  Up: Monitor
+
+Label commands
+==============
+
+`add_label <address> <label>'
+     Map a given address to a label.  This label can be used when
+     entering assembly code and is shown during disassembly.
+
+`delete_label [<memspace>] <label>'
+     Remove the specified label from the label tables.  If no memory
+     space is checked, all tables are checked.
+
+`load_labels [<memspace>] "<filename>"'
+     Load a file containing a mapping of labels to addresses.  If no
+     memory space is specified, the default readspace is used.
+
+`save_labels [<memspace>] "<filename>"'
+     Save labels to a file.  If no memory space is specified, all of the
+     labels are saved.
+
+`show_labels [<memspace>]'
+     Display current label mappings.  If no memory space is specified,
+     show all labels.
+
+
+File: vice.info,  Node: Miscellaneous commands,  Prev: Label commands,  Up: Monitor
+
+Miscellaneous commands
+======================
+
+`exit'
+     Leave the monitor and return to execution.
+
+`print <expression>'
+     Evaluate the specified expression and output the result.
+
+`quit'
+     Exit the emulator immediately.
+
+`~ <number>'
+     Display the specified number in decimal, hex, octal and binary.
+
+
+File: vice.info,  Node: C1541,  Next: Acknowledgments,  Prev: Monitor,  Up: Top
+
+C1541
+*****
+
+   VICE is provided with a complete stand-alone disk image maintenance
+utility, called `c1541'.  You can either invoke it from the command
+line or from within one of the VICE emulators, using the "Run c1541"
+command which will open a new `xterm' window with a running `c1541' in
+it.
+
+   The syntax is:
+
+     c1541 OPTIONS IMAGE
+
+   If some `OPTIONS' but no `IMAGE' are specified, `c1541' runs in
+batch mode; otherwise, it attaches the `IMAGE' if present and enters
+interactive mode, where you can type commands that are executed when
+you press Enter (abbreviations are allowed).  As with the monitor, file
+name completion and command line editing with history are provided via
+GNU `readline'.  Use the command `quit' to exit.
+
+   Notice that `c1541' always creates `X64' files, but can read and
+write `D64' and `T64' files automatically, without the need for any
+special options.
+
+* Menu:
+
+* Commands::                    List of the available commands.
+* Examples::                    Using c1541 in practice.
+
+
+File: vice.info,  Node: Commands,  Next: Examples,  Prev: C1541,  Up: C1541
+
+C1541 commands
+==============
+
+   Each command-line option has an interactive-mode counterpart, that is
+shown in parenthesis: (abbreviations are allowed when not ambiguous)
+
+`-attach IMAGE (attach IMAGE)'
+     Attach the disk image `IMAGE' for use.  All the following commands
+     will refer to this image.
+
+`-detach (detach)'
+     Detach the currently attached disk image.
+
+`-format IMAGE 'NAME,ID' (format IMAGE 'NAME,ID)'
+     Format disk image `IMAGE', giving the specified label.  If `IMAGE'
+     does not exist, create it.
+
+`-delete IMAGE FILES... (delete FILES...)'
+     Delete  FILES  from `IMAGE'.
+
+`-list IMAGE (list)'
+     List files in `IMAGE'.
+
+`-validate IMAGE (validate)'
+     Validate the disk.
+
+`-copy IMAGE OLDNAME1 [OLDNAME2...] NEWNAME (copy OLDNAME1 [OLDNAME2...] NEWNAME)'
+     Concatenate `OLDNAME1', `OLDNAME2'.. into `NEWNAME' on `IMAGE'
+     (can be used to copy files).
+
+`-create IMAGE DUMP ['DESCR'] (create IMAGE DUMP'
+     ['DESCR'])
+
+     Build `IMAGE' from raw dump file `DUMP' (i.e. convert from `D64'
+     to `X64' file).
+
+`-zcreate IMAGE DUMP ['DESCR'] (create IMAGE DUMP ['DESCR'])'
+     Build `IMAGE' from a Zipcoded image called 1!DUMP, 2!DUMP, 3!DUMP,
+     4!DUMP.
+
+`-tape IMAGE TAPEIMAGE [FILES...]  (tape IMAGE TAPEIMAGE [FILES...])'
+     Transfer `FILES' from `TAPEIMAGE' to `IMAGE' (default is copy all
+     files).
+
+`-read IMAGE 1541NAME [FSNAME] (read 1541NAME [FSNAME])'
+     Extract `1541NAME' from the disk image into `FSNAME' (1541NAME by
+     default) from `IMAGE'.
+
+`-extract IMAGE (extract)'
+     Extract all files from `IMAGE'.
+
+`-write IMAGE FSNAME [1541NAME] (write FSNAME [1541NAME])'
+     Write `FSNAME' to `IMAGE' as `1541NAME' (`FSNAME' by default).
+     (works with `P00' files as well)
+
+`-block [DRIVE:] [TRACK] [SECTOR] [DISP] (block [DRIVE:] [TRACK] [SECTOR] [DISP])'
+     Show disk blocks in hex format.
+
+`-info IMAGE ['DESCRIPTION'] (info ['DESCRIPTION'])'
+     Show version information about `IMAGE'.
+
+   When more than one command is specified in batch mode, all of them
+are executed in the same order they have on the command line.
+
+   This information should also be available in section 1 of the
+on-line manual pages (`man 1 c1541').
+
+
+File: vice.info,  Node: Examples,  Prev: Commands,  Up: C1541
+
+C1541 examples
+==============
+

@@ -1,0 +1,99 @@
+This is Info file vice.info, produced by Makeinfo version 1.67 from the
+input file vice.texi.
+
+START-INFO-DIR-ENTRY
+* VICE: (vice).        VICE, the Versatile Commodore Emulator.
+END-INFO-DIR-ENTRY
+
+   VICE Manual
+
+   Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+   Permission is granted to copy and distribute modified versions of
+this manual under the conditions for verbatim copying, provided that
+the entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+
+Indirect:
+vice.info-1: 631
+vice.info-2: 49992
+vice.info-3: 97780
+
+Tag Table:
+(Indirect)
+Node: Top631
+Node: License4120
+Node: Preface23302
+Node: C64 emulator features24794
+Node: C128 emulator features25490
+Node: VIC20 emulator features25926
+Node: PET emulator features26462
+Node: Keyboard emulation29160
+Node: Joystick emulation31111
+Node: Disk drive emulation31823
+Node: Emulation file formats34483
+Node: Common problems35246
+Node: Usage36113
+Node: System files36943
+Node: ROM files38451
+Node: Keymap files40663
+Node: Palette files43376
+Node: Basics44611
+Node: Emulation window44936
+Node: Menus46202
+Node: Help48083
+Node: File Selector48738
+Node: Disk and tape images49992
+Node: Previewing contents52122
+Node: Autostart52857
+Node: Compressed files53907
+Node: Reset54683
+Node: Settings and resources55424
+Node: Resource files57481
+Node: Performance settings59000
+Node: Video settings60637
+Node: Keyboard settings61754
+Node: Sound settings62433
+Node: 1541 settings63688
+Node: Serial settings67996
+Node: Machine-specific features69460
+Node: C64/128-specific69985
+Node: C64 cartridges70433
+Node: VIC-II settings71432
+Node: SID settings73015
+Node: I/O extension settings73693
+Node: RS232 settings75199
+Node: VIC20-specific76812
+Node: VIC20 cartridges77188
+Node: VIC20 memory expansions78121
+Node: PET-specific79751
+Node: PET model80099
+Node: PET diagnostic pin81238
+Node: PET colors81559
+Node: Monitor82119
+Node: Terminology82977
+Node: Machine state commands84853
+Node: Memory commands85736
+Node: Assembly commands87726
+Node: Checkpoint commands88473
+Node: General commands90671
+Node: Disk commands91523
+Node: Command file commands92477
+Node: Label commands93000
+Node: Miscellaneous commands93890
+Node: C154194291
+Node: Commands95399
+Node: Examples97684
+Node: Acknowledgments97780
+Node: Copyright104685
+Node: Contacts105783
+Node: Homepage105989
+Node: Sending feedback106538
+Node: Contributing109462
+Node: Newsgroups110654
+Node: FAQs you should read111285
+
+End Tag Table

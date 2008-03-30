@@ -1,0 +1,320 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 17 August 1998 -->
+
+<TITLE>VICE Manual - 10  Acknowledgments</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff" TEXT="#00000">
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_9.html">previous</A>, <A HREF="vice_11.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC66" HREF="vice_toc.html#TOC66">10  Acknowledgments</A></H1>
+
+<P>
+VICE derives from X64, the first Commodore 64 emulator for the X Window
+System.  Here is an informal list of the people who were mostly involved
+in the development of X64 and VICE:
+
+</P>
+<P>
+The VICE core team:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<B>Ettore Perazzoli</B> (<A HREF="mailto:ettore@comm2000.it">ettore@comm2000.it</A>)
+made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
+hardware-level 1541 emulation, speed optimizations, bug fixes,
+event-driven cycle-exact engine, Xt/Xaw/Xfwf-based GUI for X11, a
+general code reorganization, the new resource handling, most of the
+documentation and the MS-DOS port (well, somebody had to do it).
+
+<P> <LI>
+
+<B>Teemu Rantanen</B> (<A HREF="mailto:tvr@cs.hut.fi">tvr@cs.hut.fi</A>)
+implemented the SID emulation and the trap-based disk drive and serial bus
+implementation; added support for multiple display depths under X11.
+
+<P> <LI>
+
+<B>Andr&eacute; Fachat</B> (<A HREF="mailto:fachat@physik.tu-chemnitz.de">fachat@physik.tu-chemnitz.de</A>)
+wrote the PET emulators, the CIA and VIA emulation, the IEEE488
+interface, implemented the IEC serial bus in <CODE>xvic</CODE> and made tons
+of bug fixes.
+
+<P> <LI>
+
+<B>Daniel Sladic</B> (<A HREF="mailto:sladic@eecg.toronto.edu">sladic@eecg.toronto.edu</A>)
+started the work on hardware-level 1541 emulation and wrote the
+new monitor introduced with VICE 0.15.
+
+<P> <LI>
+
+<B>Andreas Boose</B> (<A HREF="mailto:boose@unixserv.rz.fh-hannover.de">boose@unixserv.rz.fh-hannover.de</A>)
+gave lots of information and bug reports about the VIC-II, the 6510 and
+the CIAs; moreover, he wrote several test-routines that were used to
+improve the emulation.  Also contributed some important patches, fixed
+several problems in the 1541 emulation, implemented SpeedDOS parallel
+cable emulation, and added BZIP v2 support.
+
+</UL> </P>
+
+<P>
+Former team members:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<B>Jouko Valta</B> (<A HREF="mailto:jopi@stekt.oulu.fi">jopi@stekt.oulu.fi</A>) wrote <CODE>petcat</CODE> and
+<CODE>c1541</CODE>, documentation, <CODE>T64</CODE> handling, user service and
+maintenance (most of the work in x64 0.3.x was made by him); retired
+from the project in July 96, after VICE 0.10.0.
+
+<P> <LI>
+
+<B>Jarkko Sonninen</B> (<A HREF="mailto:sonninen@lut.fi">sonninen@lut.fi</A>) was the founder of the
+project, wrote the old version of the 6502 emulation and the XDebugger,
+and retired from the project after x64 0.2.1.
+
+</UL> </P>
+
+<P>
+External contributors:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<B>Michael Schwendt</B> (<A HREF="mailto:sidplay@geocities.com">sidplay@geocities.com</A>) helped with the
+SID (audio) chip emulation, bringing important suggestions and bug
+reports, as well as the wave tables and filter emulation from his
+SIDplay emulator.
+
+<P> <LI>
+
+<B>Christian Bauer</B> (<A HREF="mailto:bauec002@goofy.zdv.uni-mainz.de">bauec002@goofy.zdv.uni-mainz.de</A>) wrote
+the very interesting "VIC article" from which we got invaluable
+information about the VIC-II chip: without this, the VIC-II
+implementation would have not been possible.
+
+<P> <LI>
+
+<B>Wolfgang Lorenz</B> wrote an excellent 6510 test suite that helped us
+to debug the CPU emulation.
+
+<P> <LI>
+
+<B>Giuliano Procida</B> (<A HREF="mailto:gpp10@cam.ac.uk">gpp10@cam.ac.uk</A>) is the maintainer of the VICE
+<CODE>deb</CODE> package for the Debian distribution.
+
+<P> <LI>
+
+<B>Nathan Hand</B> is (was?) the maintainer of the VICE <CODE>rpm</CODE> package
+for the Red Hat distribution.
+
+<P> <LI>
+
+<B>Marko M&auml;kel&auml;</B> (<A HREF="mailto:msmakela@nic.funet.fi">msmakela@nic.funet.fi</A>) wrote lots of CPU
+documentation.
+
+<P> <LI>
+
+<B>Martin Pottendorfer</B> (<A HREF="mailto:Martin.Pottendorfer@aut.alcatel.at">Martin.Pottendorfer@aut.alcatel.at</A>)
+wrote the "Contents" button in the file selector and provided us with
+several suggestions and constant testing of constantly broken snapshots.
+
+<P> <LI>
+
+<B>Chris Sharp</B> (<A HREF="mailto:sharpc@hurlsey.ibm.com">sharpc@hurlsey.ibm.com</A>) wrote the AIX sound
+driver.
+
+<P> <LI>
+
+<B>Krister Walfridsson</B> (<A HREF="mailto:cato@df.lth.se">cato@df.lth.se</A>) implemented joystick
+and sound support for NetBSD.
+
+<P> <LI>
+
+<B>Peter Andrew Felvegi aka Petschy</B> (<A HREF="mailto:petschy@derceto.sch.bme.hu">petschy@derceto.sch.bme.hu</A>)
+fixed a couple of bugs in the fast serial emulation.
+
+<P> <LI>
+
+<B>Olaf Seibert</B> (<A HREF="mailto:rhialto@polder.ubc.kun.nl">rhialto@polder.ubc.kun.nl</A>) contributed some PET,
+and disk drive patches.
+
+<P> <LI>
+
+<B>Daniel Fandrich</B> (<A HREF="mailto:dan@fch.wimsey.bc.ca">dan@fch.wimsey.bc.ca</A>) contributed some disk
+drive patches.
+
+<P> <LI>
+
+<B>Heiko Selber</B> (<A HREF="mailto:selber@fhi-berlin.mpg.de">selber@fhi-berlin.mpg.de</A>) contributed some VIC20
+I/O patches.
+
+<P> <LI>
+
+<B>Steven Tieu</B> (<A HREF="mailto:stieu@physics.ubc.ca">stieu@physics.ubc.ca</A>) added initial support for
+16/24 bpp X11 displays.
+
+<P> <LI>
+
+<B>Alexander Lehmann</B> (<A HREF="mailto:alex@mathematik.th-darmstadt.de">alex@mathematik.th-darmstadt.de</A>) added
+complete support for all the VIC20 memory configurations for the old
+VICE 0.12.
+
+<P> <LI>
+
+<B>Lionel Ulmer</B> implemented joystick support for Linux and a first try of a
+SID emulation for SGI machines.
+
+<P> <LI>
+
+<B>Bernhard Kuhn</B> (<A HREF="mailto:kuhn@eikon.e-technik.tu-muenchen.de">kuhn@eikon.e-technik.tu-muenchen.de</A>)
+made some joystick improvements for Linux.
+
+<P> <LI>
+
+<B>Gerhard Wesp</B> (<A HREF="mailto:gwesp@cosy.sbg.ac.at">gwesp@cosy.sbg.ac.at</A>) contributed the
+<CODE>extract</CODE> command in <CODE>c1541</CODE>.
+
+<P> <LI>
+
+<B>Ricardo Ferreira</B> (<A HREF="mailto:storm@esoterica.pt">storm@esoterica.pt</A>) contributed the
+<CODE>unlynx</CODE> and <CODE>system</CODE> commands in <CODE>c1541</CODE>.
+
+<P> <LI>
+
+<B>Tomi Ollila</B> (<A HREF="mailto:Tomi.Ollila@tfi.net">Tomi.Ollila@tfi.net</A>) Donated
+<CODE>findpath.c</CODE>.
+
+<P> <LI>
+
+<B>Richard Hable</B> (<A HREF="mailto:hab@fim.uni-linz.ac.at">hab@fim.uni-linz.ac.at</A>) contributed the initial
+version of the REU Emulation.
+
+<P> <LI>
+
+<B>Vesa-Matti Puro</B> (<A HREF="mailto:vmp@lut.fi">vmp@lut.fi</A>) wrote the very first 6502 CPU
+emulator in x64 0.1.0. That was the beginning of the story...
+
+<P> <LI>
+
+<B>Dan Miner</B> (<A HREF="mailto:dminer@nyx10.cs.du.edu">dminer@nyx10.cs.du.edu</A>) contributed some patches to
+the fast disk drive emulation.
+
+<P> <LI>
+
+<B>Frank Prindle</B> (<A HREF="mailto:Frank.Prindle@lambada.oit.unc.edu">Frank.Prindle@lambada.oit.unc.edu</A>) contributed some
+patches.
+
+<P> <LI>
+
+<B>Peter Weighill</B> (<A HREF="mailto:stuce@csv.warwick.ac.uk">stuce@csv.warwick.ac.uk</A>) gave many ideas and
+ROM patcher.
+
+<P> <LI>
+
+<B>Dominique Strigl</B> (<A HREF="mailto:strigl@sxb.bsf.alcatel.fr">strigl@sxb.bsf.alcatel.fr</A>), <B>Craig Jackson</B>
+(<A HREF="mailto:Craig.Jackson@lambada.oit.unc.edu">Craig.Jackson@lambada.oit.unc.edu</A>) and <B>Lasse Jyrkinen</B>
+((<A HREF="mailto:Lasse.Jyrkinen@uz.kuleuven.ac.be">Lasse.Jyrkinen@uz.kuleuven.ac.be</A>) contributed miscellaneous
+patches in the old X64 times.
+
+<P> <LI>
+
+<B>Per Olofsson</B> (<A HREF="mailto:MagerValp@Goth.Org">MagerValp@Goth.Org</A>) digitalized the C64 colors
+used in the default palette.
+
+<P> <LI>
+
+<B>Paul David Doherty</B> (<A HREF="mailto:h0142kdd@rz.hu-berlin.de">h0142kdd@rz.hu-berlin.de</A>) wrote
+<CODE>zip2disk</CODE>, on which the Zipcode support in <CODE>c1541</CODE> is based.
+
+<P> <LI>
+
+<B>Robert H. Forsman Jr.</B>, <B>Brian Totty</B> (<A HREF="mailto:totty@cs.uiuc.edu">totty@cs.uiuc.edu</A>)
+and <B>Robert W. McMullen</B> (<A HREF="mailto:rwmcm@orion.ae.utexas.edu">rwmcm@orion.ae.utexas.edu</A>) provided the
+widget set for implementing the <CODE>Xaw</CODE> GUI.
+
+<P> <LI>
+
+<B>Shawn Hargreaves</B> (<A HREF="mailto:shawn@talula.demon.co.uk">shawn@talula.demon.co.uk</A>) wrote
+Allegro, the graphics and audio library used in the MS-DOS version.
+
+</UL> </P>
+
+<P>
+(We hope we have not forgotten anybody; if you think we have, please
+tell us.)
+
+</P>
+<P>
+Thanks also to everyone else for sending suggestions, ideas,
+bug reports, questions and requests.  In particular, a warm thank
+goes to the following people:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<B>Lutz Sammer</B>
+<P> <LI>
+
+<B>Ralph Mason</B> (<A HREF="mailto:RALPHM@msmail02.liffe.com">RALPHM@msmail02.liffe.com</A>)
+<P> <LI>
+
+<B>George Caswell</B> (<A HREF="mailto:timbuktu@the-eye.res.wpi.edu">timbuktu@the-eye.res.wpi.edu</A>)
+<P> <LI>
+
+<B>Per Olofsson</B> (<A HREF="mailto:MagerValp@goth.org">MagerValp@goth.org</A>)
+<P> <LI>
+
+<B>Jasper Phillips</B> (<A HREF="mailto:philljas@newt.cs.orst.edu">philljas@newt.cs.orst.edu</A>)
+<P> <LI>
+
+<B>Luca Forcucci</B> (<A HREF="mailto:frk@geocities.com">frk@geocities.com</A>)
+<P> <LI>
+
+<B>Asger Alstrup</B> (<A HREF="mailto:alstrup@diku.dk">alstrup@diku.dk</A>)
+<P> <LI>
+
+<B>Bernhard Schwall</B> (<A HREF="mailto:uzs484@uni-bonn.de">uzs484@uni-bonn.de</A>)
+<P> <LI>
+
+<B>Salvatore Valente</B> (<A HREF="mailto:svalente@mit.edu">svalente@mit.edu</A>)
+<P> <LI>
+
+<B>Arthur Hagen</B> (<A HREF="mailto:art@broomstick.com">art@broomstick.com</A>)
+<P> <LI>
+
+<B>Douglas Carmichael</B> (<A HREF="mailto:dcarmich@mcs.com">dcarmich@mcs.com</A>)
+<P> <LI>
+
+<B>Ferenc Veres</B> (<A HREF="mailto:lion@c64.rulez.org">lion@c64.rulez.org</A>)
+
+</UL> </P>
+
+<P>
+Last but not least, a very special thank to Andreas Arens, Lutz Sammer,
+Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel and Per
+H&acirc;kan Sundell for writing cool emulators to compete with.  <TT>:-)</TT>
+
+</P>
+
+<P><HR><P>
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_9.html">previous</A>, <A HREF="vice_11.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+</BODY>
+</HTML>

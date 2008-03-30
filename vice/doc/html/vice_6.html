@@ -1,0 +1,425 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 17 August 1998 -->
+
+<TITLE>VICE Manual - 6  Settings and resources</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff" TEXT="#00000">
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <A HREF="vice_7.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC30" HREF="vice_toc.html#TOC30">6  Settings and resources</A></H1>
+
+<P>
+In the VICE emulators, all the settings are stored in entities which are
+called <EM>resources</EM>.  Every resource has a name and its value can be
+either an integer or a string.  Often integer values are used as boolean
+values, with the usual convention of using zero for "false" and any
+other value for "true".
+
+</P>
+<P>
+Resource values can be changed via the right-button menu (the
+<EM>settings</EM> menu), via command-line options or via the <EM>resource
+file</EM>.
+
+</P>
+<P>
+The <EM>resource file</EM> is a human-readable file containing resource
+values: it is called <TT>`.vicerc'</TT> and is stored in the user's home
+directory.  At any time, it is possible to dump the current values of
+the resources into that file or load the values stored into that file as
+the current values.  This can be achieved with the "Save settings" and
+"Load settings" right menu items.  A third menu item, "Restore
+Default Settings", can be used to set all the values to the factory
+defaults.
+
+</P>
+<P>
+A special resource, <CODE>SaveResourcesOnExit</CODE>, if set to a non zero
+value, causes the emulator to ask you if you want to save the current
+(changed) settings before exiting, and can be toggled with the "Save
+settings on exit" command from the right-button menu.
+
+</P>
+<P>
+When describing resources in the following sections, we will put both
+their name and the text of the corresponding menu item in parenthesis.
+This will help in case you want to edit <TT>`.vicerc'</TT> by hand.
+
+</P>
+
+
+
+<H2><A NAME="SEC31" HREF="vice_toc.html#TOC31">6.1  Format of resource files</A></H2>
+
+<P>
+A resource file is made up of several section; every section has the
+purpose of separating resources of a certain emulator from resources of
+the other ones.  A section is started with the name of an emulator in
+brackets (eg. <CODE>[C64]</CODE>) and ends when another section starts, or the
+file ends.
+
+</P>
+<P>
+Every line in a section has the following format:
+
+</P>
+
+<PRE>
+RESOURCE=VALUE
+</PRE>
+
+<P>
+where <CODE>RESOURCE</CODE> is the name of a resource, while <CODE>VALUE</CODE> is
+the value to assign.  Resource names are case-sensitive, and resource
+values can be either strings or integers.  Strings must start and end
+with a double quote (<CODE>"</CODE>), while integers do just have to be
+written in decimal notation.
+
+</P>
+<P>
+Here is an example of a stripped-down <TT>`.vicerc'</TT> file:
+
+</P>
+
+<PRE>
+[VIC20]
+HTMLBrowserCommand="netscape %s"
+SaveResourcesOnExit=0
+FileSystemDevice8=1
+FSDevice8ConvertP00=1
+FSDevice8Dir="/home/ettore/cbm/stuff/vic20p00"
+FSDevice8SaveP00=1
+FSDevice8HideCBMFiles=1
+[C64]
+HTMLBrowserCommand="netscape %s"
+SaveResourcesOnExit=1
+FileSystemDevice8=1
+FSDevice8ConvertP00=1
+FSDevice8Dir="/home/ettore/cbm/stuff/c64p00"
+FSDevice8SaveP00=1
+FSDevice8HideCBMFiles=1
+</PRE>
+
+<P>
+Notice that, when resource values are saved with "Save settings", the
+emulator only modifies its own section, keeping the other ones
+unchanged.
+
+</P>
+
+
+
+<H2><A NAME="SEC32" HREF="vice_toc.html#TOC32">6.2  Performance settings</A></H2>
+
+<P>
+You can control the emulation speed by changing the <CODE>Speed</CODE>
+resource, which controls the maximum speed (in percent) of the emulated
+machine.  The default setting is <CODE>100</CODE>, which causes the emulation
+to never run faster than the real machine.  A higher value makes the
+emulator faster, a lower one makes it slower.  A value of zero means to
+run as fast as possible, without limiting speed.  These values can also
+be set using the "Maximum Speed" submenu in the settings menu.
+
+</P>
+<P>
+It is also possible to control the amount of screen frames the emulator
+calculates; the value ranges from <CODE>1</CODE> (update as 1/1 of the frames
+of the real machine, that is 50 frames per second) to <CODE>10</CODE> (update
+1 every 10 frames), is stored in the resource <CODE>RefreshRate</CODE> and can
+be changed via the "Refresh Rate" submenu.  The special value "zero"
+means to dynamically adapt the refresh rate to the current speed of the
+host machine, making sure the maximum speed specified by the
+<CODE>Speed</CODE> resource is always reached if possible.  In any case, the
+refresh rate will never be worse than 1/10 if this value is specified.
+
+</P>
+<P>
+Moreover, a special <EM>warp speed</EM> mode is provided by the
+<CODE>WarpMode</CODE> resource, which can be toggled with the "Enable Warp
+Mode" menu item.  If <CODE>WarpMode</CODE> contains a nonzero value, warp
+speed mode will be enabled and will cause the emulator to disable any
+speed limit, turn sound emulation off and use a 1/10 refresh rate, so
+that it will run at the maximum possible speed.
+
+</P>
+
+
+
+<H2><A NAME="SEC33" HREF="vice_toc.html#TOC33">6.3  Video settings</A></H2>
+
+<P>
+The following resources affect the screen emulation:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<CODE>VideoCache</CODE> ("Video Cache") enables a video cache that can speed
+up the emulation when little graphics activity is going on.
+
+<P> <LI>
+
+<CODE>DoubleSize</CODE> ("Double Size") makes the emulation window twice as
+big (when emulating a 80-column PET, only the height is doubled, so that
+the aspect ratio is more similiar to the one of the real thing).
+
+<P> <LI>
+
+<CODE>DoubleScan</CODE> ("Double Scan"), if disabled, causes the emulator to
+draw only odd lines when running in double-size mode (this saves some
+CPU time and also makes the emulation window look more like an old
+monitor).
+
+<P> <LI>
+
+<CODE>UseXSync</CODE> ("Use XSync()") causes the emulator to call the X11
+function <CODE>XSync()</CODE> before updating the emulation window: this might
+be necessary on low-end systems to prevent it from stealing so many
+system resources that it would become impossible for the user to
+interact with it.
+
+</UL> </P>
+
+
+
+<H2><A NAME="SEC34" HREF="vice_toc.html#TOC34">6.4  Keyboard settings</A></H2>
+
+<P>
+It is possible to specify whether the "positional" or "symbolic"
+keyboard mapping is being used with the "Keyboard mapping type
+submenu".  The value is saved in the <CODE>KeymapIndex</CODE> resource
+(see section <A HREF="vice_2.html#SEC10">2.5  The keyboard emulation</A> for a description of positional and symbolic
+mapping); a value of <CODE>0</CODE> identifies symbolic mapping, a value
+<CODE>1</CODE> positional mapping.
+
+</P>
+<P>
+The keyboard settings submenu also allows you to load custom-made
+positional and symbolic keymap files, and to dump the current keymap to
+a user-defined keymap file.
+
+</P>
+
+
+
+<H2><A NAME="SEC35" HREF="vice_toc.html#TOC35">6.5  Sound settings</A></H2>
+
+<P>
+The following resources affect sound output:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<CODE>Sound</CODE> ("Enable sound playback") toggles sound emulation on and
+off.
+
+<P> <LI>
+
+<CODE>SoundSpeedAdjustment</CODE> ("Enable adaptive playback") enables a
+special playback mode that is able to adapt the sound output to the
+speed of the emulated machine, trying to avoid "clicks".
+
+<P> <LI>
+
+<CODE>SoundSampleRate</CODE> ("Sample rate") specifies the sampling
+frequency, ranging from 8000 to 48000 Hz (not all the sound cards and/or
+sound drivers can support all the frequencies, so actually the nearmost
+candidate will be picked up).
+
+<P> <LI>
+
+<CODE>SoundBufferSize</CODE> ("Buffer size") specifies the size of the audio
+buffer; the bigger the buffer, the longer the delay with which sounds are
+played.  You should pick the smallest value your machine can handle
+without problems.
+
+<P> <LI>
+
+<CODE>SoundSuspendTime</CODE> ("Suspend time"), if different from zero
+("Keep going"), will cause the audio playback to pause for the
+specified number of seconds whenever some clicking happens.
+
+<P> <LI>
+
+<CODE>SoundOversample</CODE> ("Oversample") specifies an oversampling factor.
+
+</UL> </P>
+
+
+
+<H2><A NAME="SEC36" HREF="vice_toc.html#TOC36">6.6  1541 settings</A></H2>
+
+<P>
+These settings are used to control the emulation of the 1541 drive.
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<CODE>True1541</CODE> ("Enable true 1541 emulation") enables the slow
+hardware-level emulation of the 1541 drive number 8 for maximum
+compatibility.
+
+<P> <LI>
+
+<CODE>True1541ParallelCable</CODE> ("Enable parallel cable") enables
+emulation of a SpeedDOS parallel cable; if you switch this option on and
+replace the original Commodore ROMs with SpeedDOS-compatible ones, you
+can speed up the loading speed.
+
+<P> <LI>
+
+<CODE>True1541SyncFactor</CODE> ("True 1541 sync factor") specifies the
+speed of the 1541 CPU.  This can be used to help loading certain games,
+eg. NTSC ones, that have trouble with the default setting.  The ratio
+is calculated as follows:
+
+<PRE>
+True1541SyncFactor = 65536 * clk_1541 / clk_machine
+</PRE>
+
+where <CODE>clk_1541</CODE> and <CODE>clk_machine</CODE> is the clock speed in MHz.
+The menu lets you choose between the PAL and NTSC values, and also lets
+you specify whatever value you want.  Be careful when changing it,
+though.  Also notice that the special values <CODE>-1</CODE> and <CODE>-2</CODE>
+identify the PAL and NTSC sync factors, respectively.
+
+<P> <LI>
+
+<CODE>True1541IdleMethod</CODE> ("True 1541 idle method") specify which
+method the 1541 emulation should use to save CPU cycles when nothing is
+really happening.  There are three methods:
+
+
+<P> <UL>
+<P> <LI>
+
+<EM>Skip cycles</EM> (<CODE>True1541IdleMethod=1</CODE>): Each time the serial
+line is accessed by the C64, the drive executes all the cycles since the
+last time it was running.  If the number of elapsed cycles is larger
+than a certain value, the drive discards part of them.
+<P> <LI>
+
+<EM>Trap idle</EM> (<CODE>True1541IdleMethod=2</CODE>): The disk drive is still
+emulated upon serial line accesses as with the previous option, but it
+is also always emulated at the end of each screen frame.  If the drive
+gets into the DOS idle loop, only pending interrupts are emulated to
+save time.
+<P> <LI>
+
+<EM>No traps</EM> (<CODE>True1541IdleMethod=0</CODE>): Like "Trap idle", but
+without traps at all.  So basically the 1541 works exactly as with the
+real thing, and nothing is done to reduce memory consumption.
+</UL> </P>
+
+The first option ("Skip cycles") is usually better for performance, as
+the drive is emulated as little as possible; on the other hand, you can
+notice sudden slowdowns (when the drive executes several cycles at once)
+and the LED status is never updated (because it would not be possible to
+do correctly so).  Moreover, if the drive tries to get in sync with the
+computer in some weird way and the computer does not access the serial
+line for a long time, it is possible that some cycles are discarded and
+the sync is lost.  Notice that this hack can have no effect on
+performance if one program continuously reads the CIA ports, as the
+drive will have to be emulated in any case.
+
+<P>
+
+The second option ("Trap idle") is usually a bit slower, as at least
+interrupts are always emulated, but allows the LED state to be always
+updated correctly and always keeps the 1541 and the computer in sync.
+On the other hand, if a program installs a non-standard idle loop in the
+drive, the 1541 CPU has to be emulated even when not necessary and the
+global emulation speed is then <EM>much</EM> slower.
+
+<P> <LI>
+
+<CODE>True1541ExtendImagePolicy</CODE> ("40-track image support") specifies
+how 40-track ("extended") disk images should be supported.  There are
+three possible ways:
+
+
+<P> <UL>
+<P> <LI>
+
+"Never extend" (<CODE>True1541ExtendImagePolicy=0</CODE>) never extends
+disk images at all (so if a program tries to write tracks beyond the
+35th, it is not allowed to do so);
+<P> <LI>
+
+"Ask on extend" (<CODE>True1541ExtendImagePolicy=1</CODE>) prompts the user
+as soon as a program tries to write tracks beyond the 35th, and the user
+can then choose whether she wants the disk image to be extended or not;
+<P> <LI>
+
+"Extend on access" (<CODE>True1541ExtendImagePolicy=2</CODE>) simply extends
+the disk image as soon the program needs it, without prompting the user.
+</UL> </P>
+
+</UL> </P>
+
+
+
+<H2><A NAME="SEC37" HREF="vice_toc.html#TOC37">6.7  Serial settings</A></H2>
+
+<P>
+These settings deal with the drive-like peripherals connected to the bus
+of the emulated machine.  Four peripherals, numbered from 8 to 11, are
+accessible; each of them provides the following settings (substitute
+<CODE>X</CODE> in the resource names with the number of the corresponding
+peripheral):
+
+</P>
+
+<P> <UL>
+<P> <LI>
+
+<CODE>FileSystemDeviceX</CODE> ("File system access"), if enabled, allows
+device number <CODE>X</CODE> to emulate a drive accessing a file system
+directory;
+<P> <LI>
+
+<CODE>FSDeviceXDir</CODE> ("File system directory") specifies what directory
+is accessed;
+<P> <LI>
+
+<CODE>FSDeviceXConvertP00</CODE> ("Convert P00 file names"), if enabled,
+allows access to P00 files using their built-in name on drive number
+<CODE>X</CODE>;
+<P> <LI>
+
+<CODE>FSDeviceXSaveP00</CODE> ("Create P00 files on save"), if enabled,
+creates P00 files (instead of raw files) when a program creates a file
+on drive number <CODE>X</CODE>.
+</UL> </P>
+
+<P>
+This feature depends on some <EM>serial traps</EM> that replace the
+existing routines in the original Commodore operating system with
+custom-made C routines.
+
+</P>
+<P>
+If you have compatibility problems, you can completely disable serial
+traps by setting the <CODE>NoTraps</CODE> resource to a nonzero value.  This
+will also disable those features that depend on it, such as the fast
+1541 emulation (so you will have to turn true 1541 emulation on if you
+want to be able to read or write disk images).
+
+</P>
+
+<P><HR><P>
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <A HREF="vice_7.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+</BODY>
+</HTML>

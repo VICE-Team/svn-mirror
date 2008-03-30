@@ -1,3 +1,101 @@
+Mon Aug 17 13:33:31 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uicommands.c (browse_manual): Open
+ 	`html/vice_toc.html' instead of `MANUAL.html' in `DOCDIR'.
+
+	* arch/unix/kbd.c (kbd_event_handler): Filter out keys when right
+	control is pressed.
+
+	* arch/unix/xaw/uihotkey.c (ui_hotkey_event_handler): Handle only
+ 	right Ctrl; don't handle Shift.  Hotkeys only work with Ctrl now.
+
+Thu Aug 16 23:34:02 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/resid.h (resid_sound_machine_dump_state): New prototype.
+
+	* c64/resid.cc (resid_sound_machine_dump_state): Dummy until Dag
+ 	finds some use for it :-)
+
+	* c64/resid.cc: Added include utils.h (stralloc).
+
+	* c64/sid.c (sound_machine_dump_state): Call
+ 	resid_sound_machine_dump_state when using reSID.
+
+	* vic20/vic20sound.c (store_sid): Added gateflip -check for voice
+ 	3.
+
+	* vic20/vic20sound.c (sound_machine_dump_state): Dump clk+volume.
+  	Feel too lazy for voices...
+
+Sun Aug 16 21:02:39 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/ui.c (ui_toggle_drive_status): If disabling the drive
+ 	LED, turn the corresponding LED off.
+	(ui_autorepeat_on): Removed.
+	(ui_autorepeat_off): Removed.
+
+Sun Aug 16 13:54:07 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* fsdevice.c (open_fs): Use parsed file name to find P00 files.
+
+	* autostart.c (autostart_disk): Call `file_system_detach_disk()'
+ 	if attaching as a disk image fails.
+
+Sun Aug 16 10:29:33 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/joystick.c (handle_keyset_mapping): Return type
+ 	changed to `int'.  Return nonzero if the key was used; zero
+ 	otherwise.
+	(joystick_handle_key): Return the correct value, as expected by
+	the caller.
+
+	* arch/msdos/c128kbd.c: Added special C128 keys.
+
+	* c128/c128.c (machine_init): Enabled support for extended
+	keyboard rows in the VIC-II and in the CIA #1.
+
+	* c64/c64.c (machine_init): Disable support for extended keyboard
+	rows in the VIC-II and in the CIA #1.
+
+	* c64/vicii.c: Added support for the C128 extended keyboard rows.
+	(vic_ii_enable_extended_keyboard_rows): New function.
+	(store_vic): $D02F selects extended keyboard rows.
+
+	* c64/c64cia1.def: Added support for the C128 extended keyboard
+ 	rows.
+	(cia1_enable_extended_keyboard_rows): New function.
+	(cia1_set_extended_keyboard_rows_mask): New function.
+	(READ_CIAPB): Handle extended keyboard rows.
+
+	* arch/msdos/vsync.c (register_timer_callback): Actually use the
+	user-specified timer speed.
+
+	* emuid.c: Fixed emulator ID: version 0.15; a couple of typos
+ 	corrected.
+
+Sat Aug 15 23:53:51 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/tuifs.c (file_selector_display_path): Draw an
+	horizontal line under the path.
+
+Sat Aug 15 16:33:52 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* fsdevice.c (fsdevice_compare_pc64_name): Changed to
+ 	`fsdevice_compare_wildcards'.
+	(fsdevice_compare_file_name): Added parameter `secondary'.  Do not
+ 	expand the file name of a P00 file.
+	(open_fs): Added some debugging output.
+
+	* c64/c64mem.c (store_io1, read_io1): Added banking for Simon's
+	Basic cartridge.
+	(initialize_memory, mem_attach_cartridge): Added support for generic
+	16KB carts and Simon's Basic.
+
+	* c64/cartridge.c (cartridge_attach_image): Handle Simon's Basic
+	like a generic 16KB cartridge.
+
+	* cartridge.h: New #define CARTRIDGE_SIMONS_BASIC.
+
 Sat Aug 15 15:18:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* sound.h: Fixed typo.
@@ -121,6 +219,15 @@ Wed Aug 12 10:20:26 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 	(store_emuid): New function, toggles last byte.
 	(initialize_memory): Use `store_emuid()' instead of
  	`store_dummy()' for $9f**.
+
+Tue Aug 11 20:16:13 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.c (setup_voice,doosc): Keep pulse level up when test-bit
+ 	is set. Fixes ACE (thanks to Dag).
+
+Tue Aug 11 20:01:53 1998  Dag Lem  <resid@nimrod.no>
+
+	* c64/resid.cc: Modified to use reSID-0.2 interface.
 
 Mon Aug 10 21:18:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 

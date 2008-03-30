@@ -397,7 +397,7 @@ static DWORD doosc(voice_t *pv)
     case NOISEWAVE:
 	return ((DWORD)NVALUE(NSHIFT(pv->rv, pv->f >> 28))) << 7;
     case PULSEWAVE:
-	if (f > pv->pw)
+	if (f >= pv->pw)
 	    return 0x7fff;
     }
     return 0x0000;
@@ -503,6 +503,10 @@ char *sound_machine_dump_state(sound_t *psid)
 {
     int			i;
     char		buf[1024];
+#ifdef HAVE_RESID
+    if (useresid)
+	return resid_sound_machine_dump_state(psid);
+#endif
     sprintf(buf, "#SID: clk=%d v=%d s3=%d\n", clk, psid->vol, psid->has3);
     for (i = 0; i < 3; i++)
 	print_voice(buf + strlen(buf), &psid->v[i]);
@@ -601,7 +605,10 @@ inline static void setup_voice(voice_t *pv)
 	warn(pwarn, 3, "program combines waveforms");
 	break;
     case 4:
-	pv->wt = &wavetable40[4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
+	if (pv->d[4] & 0x08)
+	    pv->wt = &wavetable40[4096];
+	else
+	    pv->wt = &wavetable40[4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
 	break;
     case 5:
 	warn(pwarn, 9, "program combines pulse and triangle waveforms");
@@ -639,7 +646,7 @@ inline static void setup_voice(voice_t *pv)
     if (pv->d[4] & 0x08)
     {
 	pv->fm = TESTWAVE;
-	pv->f = pv->fs = 0;
+	pv->pw = pv->f = pv->fs = 0;
 	pv->rv = NSEED;
     }
     else switch ((pv->d[4] & 0xf0) >> 4)

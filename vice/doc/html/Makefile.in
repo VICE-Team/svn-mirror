@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -93,60 +93,30 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-INCLUDES = \
-	@ARCH_INCLUDES@ \
-        -I$(top_srcdir)/src \
-	-I$(top_builddir)/src
+docdir = $(prefix)/lib/vice/doc
 
-noinst_LIBRARIES = libwidgets.a
+doc_DATA = \
+	vice_1.html \
+	vice_2.html \
+	vice_3.html \
+	vice_4.html \
+	vice_5.html \
+	vice_6.html \
+	vice_7.html \
+	vice_8.html \
+	vice_9.html \
+	vice_10.html \
+	vice_11.html \
+	vice_12.html \
+	vice_toc.html
 
-libwidgets_a_SOURCES = \
-	Canvas.c \
-	Canvas.h \
-	CanvasP.h \
-	DirMgr.c \
-	DirMgr.h \
-	Directory.c \
-	Directory.h \
-	DrawImageString.c \
-	DrawString.c \
-	FileSel.c \
-	FileSel.h \
-	FileSelP.h \
-	MultiList.c \
-	MultiList.h \
-	MultiListP.h \
-	RegExp.c \
-	RegExp.h \
-	ScrList.c \
-	ScrList.h \
-	ScrListP.h \
-	TabString.h \
-	Tablist2Tabs.c \
-	TextField.c \
-	TextField.h \
-	TextFieldP.h \
-	TextWidth.c \
-	strnchr.c
+EXTRA_DIST = $(doc_DATA) \
+	texi2html
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
-LIBRARIES =  $(noinst_LIBRARIES)
+DATA =  $(doc_DATA)
 
-
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../../src
-CPPFLAGS = @CPPFLAGS@
-X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
-libwidgets_a_LIBADD = 
-libwidgets_a_OBJECTS =  Canvas.o DirMgr.o Directory.o DrawImageString.o \
-DrawString.o FileSel.o MultiList.o RegExp.o ScrList.o Tablist2Tabs.o \
-TextField.o TextWidth.o strnchr.o
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
-LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -154,53 +124,35 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libwidgets_a_SOURCES)
-OBJECTS = $(libwidgets_a_OBJECTS)
-
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/xaw/widgets/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps doc/html/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-mostlyclean-noinstLIBRARIES:
+install-docDATA: $(doc_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	@list='$(doc_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(docdir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(docdir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(docdir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(docdir)/$$p; \
+	  fi; fi; \
+	done
 
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-
-distclean-noinstLIBRARIES:
-
-maintainer-clean-noinstLIBRARIES:
-
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
-mostlyclean-compile:
-	-rm -f *.o core *.core
-
-clean-compile:
-
-distclean-compile:
-	-rm -f *.tab.c
-
-maintainer-clean-compile:
-
-libwidgets.a: $(libwidgets_a_OBJECTS) $(libwidgets_a_DEPENDENCIES)
-	-rm -f libwidgets.a
-	$(AR) cru libwidgets.a $(libwidgets_a_OBJECTS) $(libwidgets_a_LIBADD)
-	$(RANLIB) libwidgets.a
+uninstall-docDATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(doc_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(docdir)/$$p; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -269,7 +221,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix/xaw/widgets
+subdir = doc/html
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -286,28 +238,32 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-
 info: info-recursive
 dvi: dvi-recursive
 check: all-am
 	$(MAKE) check-recursive
 installcheck: installcheck-recursive
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(DATA)
+
+install-data-am: install-docDATA
+
+uninstall-am: uninstall-docDATA
 
 install-exec: install-exec-recursive
 	@$(NORMAL_INSTALL)
 
-install-data: install-data-recursive
+install-data: install-data-recursive install-data-am
 	@$(NORMAL_INSTALL)
 
-install: install-recursive
+install: install-recursive install-data-am
 	@:
 
-uninstall: uninstall-recursive
+uninstall: uninstall-recursive uninstall-am
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
 installdirs: installdirs-recursive
+	$(mkinstalldirs)  $(DATADIR)$(docdir)
 
 
 mostlyclean-generic:
@@ -324,18 +280,14 @@ distclean-generic:
 maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-tags mostlyclean-generic
 
-clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-tags clean-generic mostlyclean-am
 
-distclean-am:  distclean-noinstLIBRARIES distclean-compile \
-		distclean-tags distclean-generic clean-am
+distclean-am:  distclean-tags distclean-generic clean-am
 
-maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 
 mostlyclean:  mostlyclean-recursive mostlyclean-am
 
@@ -348,20 +300,22 @@ maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
-clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile install-data-recursive \
+.PHONY: uninstall-docDATA install-docDATA install-data-recursive \
 uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
-installcheck all-am install-exec install-data install uninstall all \
-installdirs mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+installcheck all-am install-data-am uninstall-am install-exec \
+install-data install uninstall all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
+
+vice_toc.html: $(top_srcdir)/doc/vice.texi
+	(cd $(srcdir); \
+         $(PERL) texi2html -number -space_itemize -space_table -foreground 00000 -background ffffff -split_chapter -acc ../vice.texi)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
