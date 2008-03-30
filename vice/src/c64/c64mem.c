@@ -48,6 +48,140 @@
 #include "reu.h"
 #include "tapeunit.h"
 #include "mon.h"
+#include "utils.h"
+
+/* ------------------------------------------------------------------------- */
+
+/* C64 memory-related resources.  */
+
+/* Name of the character ROM.  */
+static char *chargen_rom_name;
+
+/* Name of the BASIC ROM.  */
+static char *basic_rom_name;
+
+/* Name of the Kernal ROM.  */
+static char *kernal_rom_name;
+
+/* Kernal revision for ROM patcher.  */
+static char *kernal_revision;
+
+/* Flag: Do we enable the Emulator ID?  */
+static int emu_id_enabled;
+
+/* Flag: Do we enable the IEEE488 interface emulation?  */
+static int ieee488_enabled;
+
+/* Flag: Do we enable the internal REU?  */
+static int reu_enabled;
+
+/* FIXME: Should load the new character ROM.  */
+static int set_chargen_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (chargen_rom_name != NULL && name != NULL
+        && strcmp(name, chargen_rom_name) == 0)
+        return 0;
+
+    string_set(&chargen_rom_name, name);
+    return 0;
+}
+
+/* FIXME: Should load the new Kernal ROM.  */
+static int set_kernal_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (kernal_rom_name != NULL && name != NULL
+        && strcmp(name, kernal_rom_name) == 0)
+        return 0;
+
+    string_set(&kernal_rom_name, name);
+    return 0;
+}
+
+/* FIXME: Should load the new BASIC ROM.  */
+static int set_basic_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (basic_rom_name != NULL && name != NULL
+        && strcmp(name, basic_rom_name) == 0)
+        return 0;
+
+    string_set(&basic_rom_name, name);
+    return 0;
+}
+
+static int set_emu_id_enabled(resource_value_t v)
+{
+    emu_id_enabled = (int) v;
+    return 0;
+}
+
+static int set_ieee488_enabled(resource_value_t v)
+{
+    if (!(int)v) {
+        ieee488_enabled = 0;
+        return 0;
+    } else if (!reu_enabled) {
+        ieee488_enabled = 1;
+        return 0;
+    } else {
+	/* The REU and the IEEE488 interface share the same address space, so
+	   they cannot be enabled at the same time.  */
+        return -1;
+    }
+}
+
+/* FIXME: Should initialize the REU when turned on.  */
+static int set_reu_enabled(resource_value_t v)
+{
+    if (!(int)v) {
+        reu_enabled = 0;
+        return 0;
+    } else if (!ieee488_enabled) {
+        reu_enabled = 1;
+        return 0;
+    } else {
+	/* The REU and the IEEE488 interface share the same address space, so
+	   they cannot be enabled at the same time.  */
+        return -1;
+    }
+}
+
+/* FIXME: Should patch the ROM on-the-fly.  */
+static int set_kernal_revision(resource_value_t v)
+{
+    const char *rev = (const char *) v;
+
+    string_set(&kernal_revision, rev);
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "ChargenName", RES_STRING, (resource_value_t) "chargen",
+      (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
+    { "KernalName", RES_STRING, (resource_value_t) "kernal",
+      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
+    { "BasicName", RES_STRING, (resource_value_t) "basic",
+      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
+    { "REU", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &reu_enabled, set_reu_enabled },
+    { "IEEE488", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &ieee488_enabled, set_ieee488_enabled },
+    { "EmuID", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
+    { "KernalRev", RES_STRING, (resource_value_t) NULL,
+      (resource_value_t *) &kernal_revision, set_kernal_revision },
+    { NULL }
+};
+
+int c64_mem_init_resources(void)
+{
+    return resources_register(resources);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -345,16 +479,16 @@ void REGPARM2 store_ram(ADDRESS addr, BYTE value)
 void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
 {
     ram[addr] = value;
-    if (app_resources.reu && addr == 0xff00)
+    if (reu_enabled && addr == 0xff00)
 	reu_dma(-1);
 }
 
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xdf00) {
-	if (app_resources.reu)
+	if (reu_enabled)
 	    store_reu(addr & 0x0f, value);
-	if(app_resources.ieee488)
+	if (ieee488_enabled)
 	    store_tpi(addr & 0x07, value);
     }
 
@@ -363,16 +497,16 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_io2(ADDRESS addr)
 {
-    if (app_resources.emuID && addr >= 0xdfa0) {
+    if (emu_id_enabled && addr >= 0xdfa0) {
 	addr &= 0xff;
 	if (addr == 0xff)
 	    emulator_id[addr - 0xa0] ^= 0xff;
 	return emulator_id[addr - 0xa0];
     }
     if ((addr & 0xff00) == 0xdf00) {
-	if (app_resources.reu)
+	if (reu_enabled)
 	    return read_reu(addr & 0x0f);
-	if(app_resources.ieee488)
+	if(ieee488_enabled)
 	    return read_tpi(addr & 0x07);
     }
 
@@ -607,16 +741,16 @@ int mem_load(void)
     int	id;			/* ROM identification number */
     int i;
 
+#if 0
     /* try to load a RAM image if available. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.ramName,
-			  ram, C64_RAM_SIZE, C64_RAM_SIZE) < 0) {
+    if (mem_load_sys_file(ram_name,
+                          ram, C64_RAM_SIZE, C64_RAM_SIZE) < 0) {
 	mem_powerup();
     }
+#endif
 
     /* Load Kernal ROM. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.kernalName,
+    if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, C64_KERNAL_ROM_SIZE,
 			  C64_KERNAL_ROM_SIZE) < 0) {
 	fprintf(stderr,"Couldn't load kernal ROM.\n\n");
@@ -624,7 +758,6 @@ int mem_load(void)
     }
 
     /* Check Kernal ROM.  */
-
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
 	sum += kernal_rom[i];
 
@@ -646,8 +779,7 @@ int mem_load(void)
     }
 
     /* Load Basic ROM. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.basicName,
+    if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, C64_BASIC_ROM_SIZE,
 			  C64_BASIC_ROM_SIZE) < 0) {
 	fprintf(stderr, "Couldn't load basic ROM.\n\n");
@@ -665,7 +797,7 @@ int mem_load(void)
 
     /* Load chargen ROM. */
 
-    if (mem_load_sys_file(app_resources.directory, app_resources.charName,
+    if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom, C64_CHARGEN_ROM_SIZE,
 			  C64_CHARGEN_ROM_SIZE) < 0) {
 	fprintf(stderr, "Couldn't load character ROM.\n");
@@ -694,6 +826,24 @@ void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
     pport_changed();
+}
+
+/* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
+void mem_toggle_reu(int flag)
+{
+    reu_enabled = flag;
+}
+
+/* Enable/disable the IEEE488 interface.  */
+void mem_toggle_ieee488(int flag)
+{
+    ieee488_enabled = flag;
+}
+
+/* Enable/disable the Emulator ID.  */
+void mem_toggle_emu_id(int flag)
+{
+    emu_id_enabled = flag;
 }
 
 /* ------------------------------------------------------------------------- */

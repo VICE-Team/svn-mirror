@@ -59,35 +59,15 @@
 #define I_VIAD2CB2	13
 #define I_VIAD2CA1	14
 #define I_VIAD2CA2	15
-
 #define TRUE1541_NUMOFINT 16
-
-/*
-   1541 sync factor.
-
-   The ``sync factor'' is computed approximately as:
-
-     65536 * clk_1541 / clk_[c64|vic20]
-
-   where `clk_1541' is fixed to 1 MHz, while `clk_[c64|vic20]' depends on the
-   video timing (PAL or NTSC).
-
- */
-
-/* Are these exact?  */
-
-#if defined(CBM64) || defined(C128)
-#define TRUE1541_PAL_SYNC_FACTOR	66516   /* Maybe 66517? */
-#define TRUE1541_NTSC_SYNC_FACTOR	64094
-#else /* if defined(VIC20) FIXME: Temporary hack */
-#define TRUE1541_PAL_SYNC_FACTOR	59126
-#define TRUE1541_NTSC_SYNC_FACTOR	64079
-#endif
 
 #define TRUE1541_ROM_SIZE		16384
 #define TRUE1541_RAM_SIZE		2048
-
 #define TRUE1541_ROM_CHECKSUM		1976666
+
+/* Sync factors.  */
+#define TRUE1541_SYNC_PAL               -1
+#define TRUE1541_SYNC_NTSC              -2
 
 /* Extended disk image handling.  */
 #define TRUE1541_EXTEND_NEVER		0
@@ -107,8 +87,11 @@
 
 /* ------------------------------------------------------------------------- */
 
-extern int initialize_true1541(void);
+extern int true1541_enabled;
+extern int true1541_parallel_cable_enabled;
 
+extern int true1541_init_resources(void);
+extern int initialize_true1541(void);
 extern void serial_bus_drive_write(BYTE data);
 extern BYTE serial_bus_drive_read(void);
 extern int true1541_trap_handler(void);
@@ -126,10 +109,8 @@ extern void true1541_cpu_reset(void);
 extern void true1541_set_sync_factor(unsigned int factor);
 extern void true1541_set_ntsc_sync_factor(void);
 extern void true1541_set_pal_sync_factor(void);
-extern void true1541_ack_sync_factor(void);
 extern int true1541_enable(void);
 extern void true1541_disable(void);
-extern void true1541_ack_switch(void);
 extern void true1541_reset(void);
 extern int true1541_attach_floppy(DRIVE *floppy);
 extern int true1541_detach_floppy(DRIVE *floppy);
@@ -138,6 +119,7 @@ extern void true1541_update_viad2_pcr(int pcrval);
 extern void true1541_prevent_clk_overflow(void);
 extern void true1541_motor_control(int flag);
 extern void true1541_update_ui_status(void);
+void true1541_vsync_hook(void);
 
 extern BYTE true1541_rom[TRUE1541_ROM_SIZE];
 extern BYTE true1541_ram[TRUE1541_RAM_SIZE];
