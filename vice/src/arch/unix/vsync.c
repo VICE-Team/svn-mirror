@@ -76,6 +76,9 @@ static int relative_speed;
 /* Refresh rate.  0 means "auto".  */
 static int refresh_rate;
 
+/* "Warp mode".  If nonzero, attempt to run as fast as possible.  */
+static int warp_mode_enabled;
+
 /* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v)
 {
@@ -91,12 +94,20 @@ static int set_refresh_rate(resource_value_t v)
     return 0;
 }
 
+static int set_warp_mode(resource_value_t v)
+{
+    warp_mode_enabled = (int) v;
+    return 0;
+}
+
 /* Vsync-related resources.  */
 static resource_t resources[] = {
     { "Speed", RES_INTEGER, (resource_value_t) 100,
       (resource_value_t *) &relative_speed, set_relative_speed },
     { "RefreshRate", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &refresh_rate, set_refresh_rate },
+    { "WarpMode", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &warp_mode_enabled, set_warp_mode },
     { NULL }
 };
 
@@ -113,6 +124,10 @@ static cmdline_option_t cmdline_options[] = {
       "<percent>", "Limit emulation speed to specified value" },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
       "<value>", "Update every <value> frames (`0' for automatic)" },
+    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 1,
+      NULL, "Enable warp mode" },
+    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 0,
+      NULL, "Disable warp mode" },
     { NULL }
 };
 
@@ -124,7 +139,7 @@ int vsync_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* Maximum number of frames we can skip consecutively when adjusting the
-   refresh rate dynamically. */
+   refresh rate dynamically.  */
 #define MAX_SKIPPED_FRAMES	10
 
 /* Number of frames per second on the real machine.  */
@@ -253,7 +268,8 @@ static void display_speed(int num_frames)
 	frame_rate = (double)num_frames / (curr_time - prev_time);
 	speed_index = ((((double)diff_clk / (curr_time - prev_time))
 			/ (double)cycles_per_sec)) * 100.0;
-	UiDisplaySpeed((float)speed_index, (float)frame_rate);
+	UiDisplaySpeed((float)speed_index, (float)frame_rate,
+                       warp_mode_enabled);
     }
     prev_time = curr_time;
     speed_eval_prev_clk = clk;
@@ -272,7 +288,7 @@ void vsync_prevent_clk_overflow(CLOCK sub)
 /* ------------------------------------------------------------------------- */
 
 /* This is called at the end of each screen frame.  It flushes the audio buffer
-   and keeps control of the emulation speed. */
+   and keeps control of the emulation speed.  */
 int do_vsync(int been_skipped)
 {
     static unsigned short frame_counter = USHRT_MAX;
@@ -295,12 +311,17 @@ int do_vsync(int been_skipped)
 
     UiDispatchEvents();
 
-#if defined(HAS_JOYSTICK) /* && !defined(PET) */
-    /* Handle `real' joystick. */
-    joystick();
-#endif
-
-    if (refresh_rate != 0) {
+    if (warp_mode_enabled) {
+        /* "Warp Mode".  Just skip as many frames as possible and do not
+           limit the maximum speed at all.  */
+        if (skip_counter < MAX_SKIPPED_FRAMES) {
+            skip_next_frame = 1;
+            skip_counter++;
+        } else {
+            skip_counter = elapsed_frames = 0;
+        }
+        flush_sound(0);
+    } else if (refresh_rate != 0) {
 	/* Fixed refresh rate.*/
 	update_elapsed_frames(0);
 	if (timer_speed && skip_counter >= elapsed_frames)
