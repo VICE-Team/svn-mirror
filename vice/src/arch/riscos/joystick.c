@@ -116,7 +116,7 @@ void joystick(void)
           }
           old_joy[port] = code;
         }
-        joy[port+1] = code;
+        joystick_value[port+1] = code;
       }
     }
   }

@@ -96,7 +96,7 @@ keymap_desc ViceKeymap = {
 
 
 int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
-BYTE joy[3];
+BYTE joystick_value[3];
 
 Joy_Keys JoystickKeys[2] = {
   {KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire},
@@ -255,13 +255,13 @@ void kbd_poll(void)
 
     for (i=0; i<KBD_ROWS; i++) keyarr[i] = 0;
     for (i=0; i<KBD_COLS; i++) rev_keyarr[i] = 0;
-    joy[0] = 0;
+    joystick_value[0] = 0;
     /* If the joystick isn't a real one we clear it here */
     for (i=0; i<2; i++)
     {
       if ((joystick_port_map[i] != JOYDEV_JOY1) && (joystick_port_map[i] != JOYDEV_JOY2))
       {
-        joy[i+1] = 0;
+        joystick_value[i+1] = 0;
       }
     }
     memset(new_keys, 0, 32);
@@ -308,11 +308,11 @@ void kbd_poll(void)
 
           if (joyset >= 0)
           {
-            if (code == JoystickKeys[joyset].up) {joy[i+1] |= 1; row = 0xff;}
-            else if (code == JoystickKeys[joyset].down) {joy[i+1] |= 2; row = 0xff;}
-            else if (code == JoystickKeys[joyset].left) {joy[i+1] |= 4; row = 0xff;}
-            else if (code == JoystickKeys[joyset].right) {joy[i+1] |= 8; row = 0xff;}
-            else if (code == JoystickKeys[joyset].fire) {joy[i+1] |= 16; row = 0xff;}
+            if (code == JoystickKeys[joyset].up) {joystick_value[i+1] |= 1; row = 0xff;}
+            else if (code == JoystickKeys[joyset].down) {joystick_value[i+1] |= 2; row = 0xff;}
+            else if (code == JoystickKeys[joyset].left) {joystick_value[i+1] |= 4; row = 0xff;}
+            else if (code == JoystickKeys[joyset].right) {joystick_value[i+1] |= 8; row = 0xff;}
+            else if (code == JoystickKeys[joyset].fire) {joystick_value[i+1] |= 16; row = 0xff;}
           }
         }
 

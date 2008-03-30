@@ -35,7 +35,7 @@
 #define KBD_COLS	8
 
 extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
-extern BYTE joy[3];
+extern BYTE joystick_value[3];
 
 extern Joy_Keys JoystickKeys[2];
 extern int kbd_update_joykeys(int port);

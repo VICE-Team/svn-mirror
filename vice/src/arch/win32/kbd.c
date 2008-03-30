@@ -73,7 +73,7 @@ BYTE _kbd_extended_key_tab[256] = {
 
 int keyarr[KBD_ROWS];
 int rev_keyarr[KBD_COLS];
-BYTE joy[3];
+BYTE joystick_value[3];
 
 struct _convmap {
     /* Conversion map.  */

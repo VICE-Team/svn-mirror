@@ -227,10 +227,10 @@ MMRESULT    result;
                     value|=16;
                 }
                 if (joystick_device_1==JOYDEV_HW1) {
-                    joy[1]=value;
+                    joystick_value[1]=value;
                 }
                 if (joystick_device_2==JOYDEV_HW1) {
-                    joy[2]=value;
+                    joystick_value[2]=value;
                 }
             }
         }
@@ -260,10 +260,10 @@ MMRESULT    result;
                     value|=16;
                 }
                 if (joystick_device_1==JOYDEV_HW2) {
-                    joy[1]=value;
+                    joystick_value[1]=value;
                 }
                 if (joystick_device_2==JOYDEV_HW2) {
-                    joy[2]=value;
+                    joystick_value[2]=value;
                 }
             }
         }
@@ -301,14 +301,14 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
         if (pressed) {
             if (joystick_device_1 == device)
-                joy[1] |= value;
+                joystick_value[1] |= value;
             if (joystick_device_2 == device)
-                joy[2] |= value;
+                joystick_value[2] |= value;
         } else {
             if (joystick_device_1 == device)
-                joy[1] &= ~value;
+                joystick_value[1] &= ~value;
             if (joystick_device_2 == device)
-                joy[2] &= ~value;
+                joystick_value[2] &= ~value;
         }
         return 1;
     }
@@ -361,14 +361,14 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
         if (pressed) {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joy[1] |= value;
+                joystick_value[1] |= value;
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joy[2] |= value;
+                joystick_value[2] |= value;
         } else {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joy[1] &= ~value;
+                joystick_value[1] &= ~value;
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joy[2] &= ~value;
+                joystick_value[2] &= ~value;
         }
     }
 

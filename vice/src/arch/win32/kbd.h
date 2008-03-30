@@ -34,7 +34,7 @@
 
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
-extern BYTE joy[3];
+extern BYTE joystick_value[3];
 
 /* Keymap definition structure.  */
 typedef struct {

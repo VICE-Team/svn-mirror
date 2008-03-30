@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/cbm2/c610cia1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/cbm2/c610cia1.def,
+ * ../../src/cbm2/c610cia1.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/cbm2/c610cia1.def,
  * Do not edit!
  */
 /*
@@ -967,8 +967,8 @@ BYTE read_cia1_(ADDRESS addr)
                     parallel_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
     }
     byte = ((byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]))
-		& ~( ((joy[1] & 0x10) ? 0x40 : 0) 
-		| ((joy[2] & 0x10) ? 0x80 : 0) );
+		& ~( ((joystick_value[1] & 0x10) ? 0x40 : 0) 
+		| ((joystick_value[2] & 0x10) ? 0x80 : 0) );
 	return byte;
 	break;
 
@@ -978,7 +978,7 @@ BYTE read_cia1_(ADDRESS addr)
 	   expected due to excessive load. */
 
     byte = ((0xff & ~cia1[CIA_DDRB]) | (cia1[CIA_PRB] & cia1[CIA_DDRB]))
-		& ~( (joy[1] & 0x0f) | ((joy[2] & 0x0f) << 4) );
+		& ~( (joystick_value[1] & 0x0f) | ((joystick_value[2] & 0x0f) << 4) );
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);
 	    if (cia1[CIA_CRA] & 0x02) {

@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64cia1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia1.def,
+ * ../../src/c64/c64cia1.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/c64/c64cia1.def,
  * Do not edit!
  */
 /*
@@ -961,14 +961,14 @@ BYTE read_cia1_(ADDRESS addr)
 
     {
 	BYTE val = oldpa;
-	BYTE msk = (oldpb) & ~joy[2];
+	BYTE msk = (oldpb) & ~joystick_value[2];
 	BYTE m;
 	int i;
 
 	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 	    if (!(msk & m))
 		val &= ~rev_keyarr[i];
-	byte = val & ~joy[2];
+	byte = val & ~joystick_value[2];
     }
 	return byte;
 	break;
@@ -980,7 +980,7 @@ BYTE read_cia1_(ADDRESS addr)
 
     {
 	BYTE val = ~cia1[CIA_DDRB];
-	BYTE msk = (oldpa) & ~joy[1];
+	BYTE msk = (oldpa) & ~joystick_value[1];
 	BYTE m;
 	int i;
 
@@ -993,7 +993,7 @@ BYTE read_cia1_(ADDRESS addr)
 		if (!(extended_keyboard_rows_mask & m))
 		    val &= ~keyarr[i];
 
-	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB]) ) & ~joy[1];
+	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB]) ) & ~joystick_value[1];
     }
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);

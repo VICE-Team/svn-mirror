@@ -32,7 +32,8 @@
 
 #include "mouse.h"
 
-#include "kbd.h"  /* for joy[]... (this is ugly and should be fixed) */
+#include "kbd.h"  /* for joystick_value[]...
+                     (this is ugly and should be fixed) */
 #include "log.h"
 #include "resources.h"
 #include "cmdline.h"
@@ -89,13 +90,13 @@ static void my_mouse_callback(int flags)
     if (flags & MOUSE_FLAG_MOVE)
         _mouse_coords_dirty = 1;
     if (flags & MOUSE_FLAG_LEFT_UP)
-        joy[1] &= ~16;
+        joystick_value[1] &= ~16;
     if (flags & MOUSE_FLAG_LEFT_DOWN)
-        joy[1] |= 16;
+        joystick_value[1] |= 16;
     if (flags & MOUSE_FLAG_RIGHT_UP)
-        joy[1] &= ~1;
+        joystick_value[1] &= ~1;
     if (flags & MOUSE_FLAG_RIGHT_DOWN)
-        joy[1] |= 1;
+        joystick_value[1] |= 1;
 }
 
 int mouse_init(void)
