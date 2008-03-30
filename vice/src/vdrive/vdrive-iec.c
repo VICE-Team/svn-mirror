@@ -60,6 +60,7 @@
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
+#include "vdrive-rel.h"
 #include "vdrive.h"
 
 static log_t vdrive_iec_log = LOG_ERR;
@@ -67,24 +68,6 @@ static log_t vdrive_iec_log = LOG_ERR;
 void vdrive_iec_init(void)
 {
     vdrive_iec_log = log_open("VDriveIEC");
-}
-
-void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
-                                 int reallength, int filetype)
-{
-    p->slot = (BYTE *)xmalloc(32);
-    memset(p->slot, 0, 32);
-    memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
-    memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
-#ifdef DEBUG_DRIVE
-    log_debug("DIR: Created dir slot. Name (%d) '%s'\n", reallength, realname);
-#endif
-    p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
-
-    p->buffer = (BYTE *)xmalloc(256);
-    p->mode = BUFFER_SEQUENTIAL;
-    p->bufptr = 2;
-    return;
 }
 
 static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
@@ -154,25 +137,19 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
  * directory slot.
  */
 
-int vdrive_open(vdrive_t *vdrive, const char *name, int length,
-                unsigned int secondary)
+int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
+                    unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     char realname[256];
-    unsigned int reallength, readmode, filetype, rl;
+    unsigned int reallength, readmode, filetype, record_length;
     int track, sector;
     BYTE *slot; /* Current directory entry */
 
     if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
         return SERIAL_NO_DEVICE;	/* Routine was called incorrectly. */
 
-    /*
-     * No floppy in drive ?
-     *
-     * On systems with limited memory it may save resources not to keep
-     * the image file open all the time.
-     */
-
+   /* No floppy in drive?   */
    if (vdrive->image == NULL
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
@@ -199,7 +176,7 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
         int status = SERIAL_OK;
 
         for (n = 0; n < length; n++)
-            status = vdrive_write(vdrive, name[n], secondary);
+            status = vdrive_iec_write(vdrive, name[n], secondary);
         if (length)
             p->readmode = FAM_WRITE;
         else
@@ -227,10 +204,10 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
     readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
 
     filetype = 0;
-    rl = 0;  /* REL */
+    record_length = 0;
 
     if (vdrive_parse_name(name, length, realname, &reallength,
-        &readmode, &filetype, &rl) != SERIAL_OK)
+        &readmode, &filetype, &record_length) != SERIAL_OK)
         return SERIAL_ERROR;
 #ifdef DEBUG_DRIVE
         log_debug("Raw file name: `%s', length: %i.", name, length);
@@ -309,6 +286,9 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
     p->readmode = readmode;
     p->slot = slot;
 
+    if (filetype == FT_REL)
+        return vdrive_rel_open(vdrive, secondary, record_length);
+
     /*
      * Open file for reading
      */
@@ -317,24 +297,17 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
         int status, type;
 
         if (!slot) {
-            vdrive_close(vdrive, secondary);
+            vdrive_iec_close(vdrive, secondary);
             vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
             return SERIAL_ERROR;
         }
 
         type = slot[SLOT_TYPE_OFFSET] & 0x07;
 
-        /*  I don't think that this one is needed - EP
-        if (filetype && type != filetype) {
-            vdrive_command_set_error(vdrive, IPE_BAD_TYPE, 0, 0);
-            return SERIAL_ERROR;
-	    }
-        */
+        filetype = type;
 
-        filetype = type;  /* EP */
-
-        track = (int) slot[SLOT_FIRST_TRACK];
-        sector = (int) slot[SLOT_FIRST_SECTOR];
+        track = (int)slot[SLOT_FIRST_TRACK];
+        sector = (int)slot[SLOT_FIRST_SECTOR];
 
         /*
          * Del, Seq, Prg, Usr (Rel not yet supported)
@@ -348,7 +321,7 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
             status = disk_image_read_sector(vdrive->image, p->buffer, track,
                                             sector);
             if (status != 0) {
-                vdrive_close(vdrive, secondary);
+                vdrive_iec_close(vdrive, secondary);
                 return SERIAL_ERROR;
             }
             return SERIAL_OK;
@@ -372,13 +345,13 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
         if (*name == '@')
             vdrive_dir_remove_slot(vdrive, slot);
         else {
-            vdrive_close(vdrive, secondary);
+            vdrive_iec_close(vdrive, secondary);
             vdrive_command_set_error(vdrive, IPE_FILE_EXISTS, 0, 0);
             return SERIAL_ERROR;
         }
     }
 
-    vdrive_open_create_dir_slot(p, realname, reallength, filetype);
+    vdrive_dir_create_slot(p, realname, reallength, filetype);
 
 #if 0
     /* XXX keeping entry until close not implemented */
@@ -406,7 +379,7 @@ int vdrive_open(vdrive_t *vdrive, const char *name, int length,
 }
 
 
-int vdrive_close(vdrive_t *vdrive, unsigned int secondary)
+int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 {
     BYTE *e;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -473,6 +446,12 @@ int vdrive_close(vdrive_t *vdrive, unsigned int secondary)
         free((char *)p->buffer);
         p->buffer = NULL;
         break;
+      case BUFFER_RELATIVE:
+        /* FIXME !!! */
+        p->mode = BUFFER_NOT_IN_USE;
+        free((char *)p->buffer);
+        p->buffer = NULL;
+        break;
       case BUFFER_COMMAND_CHANNEL:
         /* I'm not sure if this is correct, but really closing the buffer
            should reset the read pointer to the beginning for the next
@@ -489,7 +468,7 @@ int vdrive_close(vdrive_t *vdrive, unsigned int secondary)
 }
 
 
-int vdrive_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
+int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
@@ -567,7 +546,7 @@ int vdrive_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 }
 
 
-int vdrive_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
+int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
@@ -624,7 +603,7 @@ int vdrive_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
     return SERIAL_OK;
 }
 
-void vdrive_flush(vdrive_t *vdrive, unsigned int secondary)
+void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int status;
@@ -659,8 +638,8 @@ void vdrive_flush(vdrive_t *vdrive, unsigned int secondary)
 int vdrive_iec_attach(unsigned int unit, const char *name)
 {
     return serial_attach_device(unit, "1541 Disk Drive",
-                                vdrive_read, vdrive_write,
-                                vdrive_open, vdrive_close,
-                                vdrive_flush);
+                                vdrive_iec_read, vdrive_iec_write,
+                                vdrive_iec_open, vdrive_iec_close,
+                                vdrive_iec_flush);
 }
 
