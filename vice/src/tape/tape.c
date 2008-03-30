@@ -444,6 +444,28 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
     return &rec;
 }
 
+int tape_seek_start(tape_image_t *tape_image)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        return t64_seek_start((t64_t *)tape_image->data);
+      case TAPE_TYPE_TAP:
+        return tap_seek_start((tap_t *)tape_image->data);
+    }
+    return -1;
+}
+
+int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        return t64_seek_to_file((t64_t *)tape_image->data, file_number);
+      case TAPE_TYPE_TAP:
+        return tap_seek_to_file((tap_t *)tape_image->data, file_number);
+    }
+    return -1;
+}
+
 int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
 {
     switch (tape_image->type) {
@@ -478,6 +500,7 @@ tape_image_t *tape_internal_open_tape_image(const char *name,
 
     if (tape_image_open(image) < 0) {
         free(image->name);
+        free(image);
         log_error(tape_log, "Cannot open file `%s'", name);
         return NULL;
     }

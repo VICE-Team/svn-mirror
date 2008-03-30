@@ -411,7 +411,7 @@ void autostart_advance(void)
     }
 }
 
-static int autostart_ignore_reset = 0;
+int autostart_ignore_reset = 0;
 
 /* Clean memory and reboot for autostart.  */
 static void reboot_for_autostart(const char *program_name, unsigned int mode,
@@ -483,6 +483,15 @@ int autostart_tape(const char *file_name, const char *program_name,
     if (!(tape_image_attach(1, file_name) < 0)) {
         log_message(autostart_log,
                     "Attached file `%s' as a tape image.", file_name);
+        if (tape_tap_attched()) {
+            if (program_number > 0) {
+                free(name);
+                name = NULL;
+                tape_seek_to_file(tape_image_dev1, program_number);
+            } else {
+                tape_seek_start(tape_image_dev1);
+            }
+        }
         reboot_for_autostart(name, AUTOSTART_HASTAPE, runmode);
         free(name);
 

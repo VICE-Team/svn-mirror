@@ -95,7 +95,8 @@ extern void tap_init(struct tape_init_s *init);
 extern tap_t *tap_open(const char *name, unsigned int *read_only);
 extern int tap_close(tap_t *tap);
 
-extern void tap_seek_start(tap_t *tap);
+extern int tap_seek_start(tap_t *tap);
+extern int tap_seek_to_file(tap_t *tap, unsigned int file_number);
 extern int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind);
 extern void tap_get_header(tap_t *tap, BYTE *name);
 extern struct tape_file_record_s *tap_get_current_file_record(tap_t *tap);

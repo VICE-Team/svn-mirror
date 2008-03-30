@@ -121,7 +121,7 @@ extern void t64_destroy(t64_t *t64);
 extern t64_t *t64_open(const char *name, unsigned int *read_only);
 extern int t64_close(t64_t *t64);
 
-extern int t64_rewind(t64_t *t64);
+extern int t64_seek_start(t64_t *t64);
 extern int t64_seek_to_file(t64_t *t64, int file_number);
 extern int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind);
 extern t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num);

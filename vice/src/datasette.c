@@ -31,6 +31,7 @@
 #include <math.h>
 
 #include "alarm.h"
+#include "autostart.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -575,7 +576,8 @@ static void datasette_internal_reset(void)
             datasette_alarm_pending = 0;
         }
         datasette_control(DATASETTE_CONTROL_STOP);
-        tap_seek_start(current_image);
+        if (!autostart_ignore_reset)
+            tap_seek_start(current_image);
         current_image->cycle_counter = 0;
         datasette_counter_offset = 0;
         datasette_long_gap_pending = 0;

@@ -89,6 +89,9 @@ extern void tape_traps_deinstall(void);
 
 extern tape_file_record_t *tape_get_current_file_record(
                           tape_image_t *tape_image);
+extern int tape_seek_start(tape_image_t *tape_image);
+extern int tape_seek_to_file(tape_image_t *tape_image,
+                             unsigned int file_number);
 extern int tape_seek_to_next_file(tape_image_t *tape_image,
                                   unsigned int allow_rewind);
 
