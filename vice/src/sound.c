@@ -512,13 +512,12 @@ int sound_flush(int relative_speed)
 	    j *= sizeof(*p);
 	    if (j > 0)
 	    {
-	        p = xmalloc(j);
+	        p = alloca(j);
 		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
 		for (i = 0; i < j / sizeof(*p); i++)
 		    p[i] = (float)v*i/(j / sizeof(*p));
 		i = snddata.pdev->write(snddata.pwarndev, p,
 					j / sizeof(*p));
-		free(p);
 		if (i)
 		{
 		    closesound("Audio: write to sound device failed.");
@@ -561,7 +560,7 @@ int sound_flush(int relative_speed)
 		minspace = snddata.bufsize;
 	    }
 	}
-	else if (speed_adjustment_setting == SOUND_ADJUST_ADJUSTING)
+	else
 	    snddata.clkfactor *= 0.9 + (used+nr)*0.12/snddata.bufsize;
 	snddata.clkstep = snddata.origclkstep * snddata.clkfactor;
 	if (cycles_per_rfsh / snddata.clkstep >= snddata.bufsize)
@@ -588,6 +587,7 @@ int sound_flush(int relative_speed)
 	for (i = 0; i < snddata.bufptr; i++)
 	    snddata.buffer[i] = snddata.buffer[i + nr];
     }
+
     return dir;
 }
 

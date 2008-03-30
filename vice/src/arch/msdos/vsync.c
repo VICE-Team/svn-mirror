@@ -30,6 +30,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <pc.h>
@@ -37,7 +38,6 @@
 #include <go32.h>
 
 #include <allegro.h>
-#undef EOF			/* Workaround for Allegro bug. */
 
 #include "vsync.h"
 
@@ -197,6 +197,7 @@ static void register_timer_callback(void)
 
         /* We use `install_int_ex()' instead of `install_int()' for increased
            accuracy.  */
+        printf("%s: rate = %d\n", __FUNCTION__, rate);
         if (install_int_ex(my_timer_callback, rate) < 0) {
             /* FIXME: Maybe we could handle this better?  Well, it is not
                very likely to happen after all...  */
@@ -300,6 +301,7 @@ int do_vsync(int been_skipped)
     static int num_skipped_frames = 0;
     static int frame_counter = 0;
     int skip_next_frame = 0;
+    static unsigned int old_rawclock;
 
     vsync_hook();
 
@@ -317,7 +319,7 @@ int do_vsync(int been_skipped)
 	}
         /* sound_flush(0); */
     } else if (refresh_rate != 0) { /* Fixed refresh rate.  */
-	if (timer_speed != 0 && skip_counter >= elapsed_frames)
+	if (timer_speed != 0)
 	    while (skip_counter >= elapsed_frames)
 		/* Sleep...  */;
 	if (skip_counter < refresh_rate - 1) {
@@ -369,7 +371,10 @@ int do_vsync(int been_skipped)
 void vsync_init(double hz, long cycles, void (*hook)(void))
 {
     LOCK_VARIABLE(elapsed_frames);
+
+#ifndef USE_HARDCODED_TIMER
     LOCK_FUNCTION(my_timer_callback);
+#endif
 
 #ifdef USE_MIDAS_SOUND
     vmidas_startup();

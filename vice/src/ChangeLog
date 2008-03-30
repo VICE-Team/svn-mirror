@@ -1,3 +1,39 @@
+Wed Aug 26 19:23:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.71.
+
+Wed Aug 26 18:09:23 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64iec.c (iec_cpu_write): Removed call to `set_atn()'.
+	Call `viaD1_signal()' every time when the state of the ATN line
+	changes.  New variable `iec_old_atn'.
+
+Wed Aug 26 18:03:03 1998  Teemu Rantanen  <tvr@tekla.fi>
+
+	* src/sound.c (sound_flush): Argh, mixed sound_adjustment
+	modes and forgot to adjust if mode is flexible.
+
+Wed Aug 26 14:31:01 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.c (read_sid, store_sid): Handle possible VIC-II DMA.
+
+	* c64/sid.c: Added include "vicii.h".
+
+	* c64/resid.cc (resid_sound_machine_calculate_samples): Make sure
+ 	clk -variables don't overflow.  Note that these are not directly
+ 	related to the `clk', so prevent_clk_overflow cannot be used.
+
+Wed Aug 26 12:21:26 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* mon.c (mon_switch_checkpoint): Added missing braces around
+	`else' statements.
+
+	* sounddrv/soundsb.c (sb_write): Write warning message when
+	attempting to write non-full fragments.
+
+	* sound.c (sound_flush): Use `alloca()' instead of
+	`xmalloc()'/`free()'.
+
 Tue Aug 25 00:47:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.70.
