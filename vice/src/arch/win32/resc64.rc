@@ -151,7 +151,9 @@ BEGIN
         POPUP "Sound engine"
         BEGIN
             MENUITEM "Fast SID",        IDM_SIDENGINE_FASTSID
+#ifdef HAVE_CATWEASELMKIII
             MENUITEM "Catweasel MKIII", IDM_SIDENGINE_CATWEASELMKIII
+#endif
             END
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED

@@ -186,7 +186,7 @@ int ui_empty_disk_dialog(char *name)
 
     /* type radio button */
     for (i = 0; type_radio[i].label; i++)
-	if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active) {
+	if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active)
 	{
 	    type = type_radio[i].type;
 	    break;

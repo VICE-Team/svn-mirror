@@ -47,129 +47,128 @@ typedef void (*voidfunc_t)(void);
 
 #define MAXSID 2
 
-static BYTE sidbuf[0x20*MAXSID];
-static int sidfh=-1;
-static int ntsc=0;
-static int atexitinitialized=0;
+static BYTE sidbuf[0x20 * MAXSID];
+static int sidfh = -1;
+static int ntsc = 0;
+static int atexitinitialized = 0;
 
 static void setfreq()
 {
-  if(sidfh>=0)
-    ioctl(sidfh, ntsc?CWSID_IOCTL_NTSC:CWSID_IOCTL_PAL);
+    if (sidfh >= 0)
+        ioctl(sidfh, ntsc ? CWSID_IOCTL_NTSC : CWSID_IOCTL_PAL);
 }
 
 static int opendevice()
 {
-  if(sidfh<0)
-    {
-      sidfh = open("/dev/sid", O_WRONLY);
+    if (sidfh < 0) {
+        sidfh = open("/dev/sid", O_WRONLY);
 
-      if (sidfh < 0)
-        sidfh = open("/dev/misc/sid", O_WRONLY);
+        if (sidfh < 0)
+            sidfh = open("/dev/misc/sid", O_WRONLY);
 
-      if (sidfh < 0) {
-        log_error(LOG_DEFAULT,
-                  "could not open sid device /dev/sid or /dev/misc/sid");
-        return -1;
-      }
+        if (sidfh < 0) {
+            log_error(LOG_DEFAULT,
+                      "could not open sid device /dev/sid or /dev/misc/sid");
+            return -1;
+        }
     }
 
-  return 0;
+    return 0;
 }
 
 int catweaselmkiii_init(void)
 {
-  int r=opendevice();
+  int r = opendevice();
+
   catweaselmkiii_close();
-  if(r < 0)
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: not found");
+
+  if (r < 0)
+      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: not found");
   else
-    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: found");
+      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: found");
+
   return r;
 }
 
 int catweaselmkiii_open(void)
 {
-  if(!atexitinitialized)
-    {
-      atexitinitialized=1;
-      atexit((voidfunc_t)catweaselmkiii_close);
+    if (!atexitinitialized) {
+        atexitinitialized = 1;
+        atexit((voidfunc_t)catweaselmkiii_close);
     }
 
-  if(opendevice() < 0)
-    {
-      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: could not open");
-      return -1;
+    if (opendevice() < 0) {
+        log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: could not open");
+        return -1;
     }
 
-  memset(sidbuf, 0, sizeof(sidbuf));
-  lseek(sidfh, 0, SEEK_SET);
-  write(sidfh, sidbuf, sizeof(sidbuf));
-  setfreq();
+    memset(sidbuf, 0, sizeof(sidbuf));
+    lseek(sidfh, 0, SEEK_SET);
+    write(sidfh, sidbuf, sizeof(sidbuf));
+    setfreq();
 
-  log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
+    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
 
-  return 0;
+    return 0;
 }
 
 int catweaselmkiii_close(void)
 {
-  if(sidfh>=0)
-    {
-      memset(sidbuf, 0, sizeof(sidbuf));
-      lseek(sidfh, 0, SEEK_SET);
-      write(sidfh, sidbuf, sizeof(sidbuf));
+    if (sidfh >= 0) {
+        memset(sidbuf, 0, sizeof(sidbuf));
+        lseek(sidfh, 0, SEEK_SET);
+        write(sidfh, sidbuf, sizeof(sidbuf));
 
-      close(sidfh);
-      sidfh=-1;
+        close(sidfh);
+        sidfh = -1;
 
-      /*log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");*/
+        /*log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");*/
     }
-  return 0;
+
+    return 0;
 }
 
 int catweaselmkiii_read(ADDRESS addr, int chipno)
 {
-  if(chipno<MAXSID && addr<0x20)
-    {
-      if(addr>=0x19 && addr<=0x1C && sidfh>=0)
-        {
-	  addr+=chipno*0x20;
-          lseek(sidfh, addr, SEEK_SET);
-          read(sidfh, &sidbuf[addr], 1);
-        }
-      else
-	addr+=chipno*0x20;
-      return sidbuf[addr];
+    if (chipno < MAXSID && addr < 0x20) {
+        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
+            addr += chipno*0x20;
+            lseek(sidfh, addr, SEEK_SET);
+            read(sidfh, &sidbuf[addr], 1);
+        } else
+          addr += chipno*0x20;
+
+        return sidbuf[addr];
     }
-  return 0;
+
+    return 0;
 }
 
 void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
 {
-  if(chipno<MAXSID && addr<=0x18)
-    {
-      addr+=chipno*0x20;
-      sidbuf[addr]=val;
-      if(sidfh>=0)
-        {
-          lseek(sidfh, addr, SEEK_SET);
-          write(sidfh, &val, 1);
+    if (chipno < MAXSID && addr <= 0x18) {
+        addr += chipno * 0x20;
+        sidbuf[addr] = val;
+        if (sidfh >= 0) {
+            lseek(sidfh, addr, SEEK_SET);
+            write(sidfh, &val, 1);
         }
     }
 }
 
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
-  ntsc=(cycles_per_sec <= 1000000)?0:1;
-  setfreq();
+    ntsc = (cycles_per_sec <= 1000000) ? 0 : 1;
+    setfreq();
 }
 
 int catweaselmkiii_available(void)
 {
-  int r=opendevice();
-  catweaselmkiii_close();
-  return r;
+    int r = opendevice();
+
+    catweaselmkiii_close();
+
+    return r;
 }
 
 #endif

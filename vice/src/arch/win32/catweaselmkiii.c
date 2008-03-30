@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_CATWEASELMKIII
+
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
@@ -43,8 +45,10 @@
 typedef void (*voidfunc_t)(void);
 
 /* defined for CatWeasel MK3 PCI device driver */
-#define SID_SID_PEEK_POKE   CTL_CODE(FILE_DEVICE_SOUND,0x0800UL + 1,METHOD_BUFFERED,FILE_ANY_ACCESS)
-#define SID_SET_CLOCK       CTL_CODE(FILE_DEVICE_SOUND,0x0800UL + 4,METHOD_BUFFERED,FILE_ANY_ACCESS)
+#define SID_SID_PEEK_POKE   \
+    CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 1, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define SID_SET_CLOCK \
+    CTL_CODE(FILE_DEVICE_SOUND, 0x0800UL + 4, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define SID_CMD_READ   32
 
 #define MAXCARDS 4
@@ -193,3 +197,6 @@ int catweaselmkiii_available(void)
 {
   return initthem();
 }
+
+#endif
+
