@@ -1,7 +1,7 @@
 
 /*
- * ../../src/pet/crtc.c
- * This file is generated from ../../src/crtc-tmpl.c and ../../src/pet/crtc.def,
+ * ../../src/cbm2/crtc.c
+ * This file is generated from ../../src/crtc-tmpl.c and ../../src/cbm2/crtc.def,
  * Do not edit!
  */
 /*
@@ -37,7 +37,7 @@
 
 #define _CRTC_C
 
-#define CRTC_WINDOW_TITLE            "VICE: PET emulator"
+#define CRTC_WINDOW_TITLE            "VICE: CBM-II emulator"
 
 /*
 #define NDEBUG
@@ -70,7 +70,7 @@
 #include "utils.h"
 
 
-#include "petpia.h"
+#include "c610tpi.h"
 
 #define	max(a,b)	(((a)>(b))?(a):(b))
 #define	min(a,b)	(((a)<(b))?(a):(b))
@@ -853,15 +853,11 @@ static void crtc_update_memory_ptrs(void)
     scraddr = crtc[13] + ((crtc[12] & 0x3f) << 8);
 
 
-    if ((addr_mask & 0x1000) || (scraddr & 0x1000)) {
+    if (!(scraddr & 0x1000)) {
         video_mode = CRTC_STANDARD_MODE;
     } else {
         video_mode = CRTC_REVERSE_MODE;
     }
-    if(hw_double_cols) {
-	scraddr *= 2;
-    }
-
     chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
 
     /* chargen_rel is computed for 8bytes/char, but charom is 16bytes/char */
@@ -889,7 +885,7 @@ int int_rasterdraw(long offset)
     /* This generates one raster interrupt per frame. */
     if (rasterline == 0) {
         /* we assume this to start the screen */
-	signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
+	tpi1_set_int(0, 1);
         if(crsrmode & 0x02) {
             if(crsrcnt) crsrcnt--;
             else {
@@ -900,7 +896,7 @@ int int_rasterdraw(long offset)
         }
     } else if (rasterline == SCREEN_YPIX) {
         /* and this to end the screen */
-	signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
+	tpi1_set_int(0, 0);
     }
 
     return 0;
@@ -1225,7 +1221,7 @@ int crtc_read_snapshot_module(snapshot_t *s)
 
     maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE /* - RASTER_CYCLE*/);
 
-    signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
+    tpi1_set_int(0, 1);
 
     force_repaint();
     return snapshot_module_close(m);
