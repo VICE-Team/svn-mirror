@@ -64,6 +64,7 @@ noinst_HEADERS = \
 	diskimage.h \
 	dma.h \
 	emuid.h \
+	event.h \
 	findpath.h \
 	fixpoint.h \
 	fsdevice.h \
@@ -142,6 +143,7 @@ base_sources = \
 	debug.c \
 	dma.c \
 	emuid.c \
+	event.c \
 	findpath.c \
 	fliplist.c \
 	gcr.c \
