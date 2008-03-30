@@ -65,14 +65,14 @@
 #include "uiarch.h"
 
 #include "cmdline.h"
+#include "datasette.h"
+#include "interrupt.h"
 #include "log.h"
 #include "kbd.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "interrupt.h"
-#include "vsidproc.h"
 #include "mouse.h"
-#include "datasette.h"
+#include "palette.h"
 #include "resources.h"
 #include "uihotkey.h"
 #include "uimenu.h"
@@ -80,6 +80,7 @@
 #include "uicommands.h"
 #include "utils.h"
 #include "version.h"
+#include "vsidproc.h"
 #include "vsync.h"
 
 
@@ -137,7 +138,7 @@ extern void video_setfullscreen(int v,int width, int height);
 
 /* ------------------------------------------------------------------------- */
 
-_ui_resources_t _ui_resources;
+ui_resources_t _ui_resources;
 
 #ifdef USE_VIDMODE_EXTENSION
 
