@@ -69,7 +69,8 @@ static int mem_load_rom9(void);
 static int mem_load_romA(void);
 static int mem_load_romB(void);
 
-static void pet_check_info(PetInfo * pi);
+static int pet_set_conf_info(PetInfo *pi);
+static void pet_check_info(PetRes * pi);
 static void petmem_convert_chargen_2k(void);
 
 /* Old program counter.  Not used without MMU support.  */
@@ -79,7 +80,7 @@ unsigned int old_reg_pc;
 
 /* we keep the current system config in here. */
 
-PetInfo petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
+PetRes petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
         NULL, NULL, NULL,
         NULL, NULL, NULL,
 	0, 0, 0, 0, 0, 0, 0, 0
@@ -400,7 +401,7 @@ static int set_pet2k_enabled(resource_value_t v)
     if(i!=petres.pet2k) {
         petres.pet2k = i;
 
-	/* patches can only be revered by reloading */
+	/* patches can only be reversed by reloading */
 	mem_load_kernal();
     }
     return 0;
@@ -1210,6 +1211,9 @@ static void petmem_checksum(void)
     static WORD last_sum = 0;
     WORD sum;
 
+/*    log_message(pet_mem_log, "editor checksum=%d, kernal checksum=%d",
+		(int) petres.editor_checksum, (int) petres.kernal_checksum); */
+
     sum = petres.editor_checksum + petres.kernal_checksum;
 
     /* ignore the same message popping up more than once - but only
@@ -1325,6 +1329,8 @@ static int mem_load_chargen(void)
 {
     if(!rom_loaded) return 0;
 
+    if(IS_NULL(petres.chargenName)) return 0;
+
     /* Load chargen ROM - we load 2k with 8 bytes/char, and generate
        the inverted 2k. Then we expand the chars to 16 bytes/char
        for the CRTC, filling the rest with zeros */
@@ -1359,9 +1365,9 @@ static int mem_load_kernal(void)
     tape_deinstall();
 
     /* Load Kernal ROM.  */
+    if(!IS_NULL(petres.kernalName))
     {
-        const char *name =      /* (IS_NULL(kernal_rom_name)
-           ? */ petres.kernalName /*: kernal_rom_name) */ ;
+        const char *name = petres.kernalName;
 
         if ((krsize = mem_load_sys_file(name,
                                         rom, 0x2000, PET_ROM_SIZE)) < 0) {
@@ -1452,12 +1458,11 @@ static int mem_load_editor(void)
     autostart_init(0, 0, 0, 0, 0, 0, NULL);
     tape_deinstall();
 
+    if(!IS_NULL(petres.editorName))
     {
         const char *name = petres.editorName;
 
-        if (!IS_NULL(name)
-            && (mem_load_sys_file(name, rom + 0x6000,
-                                           0x0800, 0x0800) < 0)) {
+        if (mem_load_sys_file(name, rom + 0x6000, 0x0800, 0x0800) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
@@ -1840,7 +1845,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 static const char module_ram_name[] = "PETMEM";
 #define	PETMEM_DUMP_VER_MAJOR	1
-#define	PETMEM_DUMP_VER_MINOR	0
+#define	PETMEM_DUMP_VER_MINOR	1
 
 /*
  * UBYTE 	CONFIG		Bits 0-3: 0 = 40 col PET without CRTC
@@ -1869,6 +1874,12 @@ static const char module_ram_name[] = "PETMEM";
  * ARRAY	VRAM		2/4k RAM (not 8296, dep in CONFIG)
  * ARRAY	EXTRAM		64k (SuperPET and 8096 only)
  * ARRAY	RAM		128k RAM (8296 only)
+ *
+ *     				Added in format V1.1, should be part of 
+ *				KEYBOARD in later versions.
+ *
+ * BYTE		POSITIONAL	bit 0=0 = symbolic keyboard mapping
+ *				     =1 = positional keyboard mapping
  *
  */
 
@@ -1933,6 +1944,8 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
         snapshot_module_write_byte_array(m, ram, 0x20000);
     }
 
+    snapshot_module_write_byte(m, kbdindex & 1);
+
     snapshot_module_close(m);
 
     return 0;
@@ -1943,17 +1956,25 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
+    PetInfo peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
+        		NULL, NULL, NULL, NULL, NULL, NULL };
 
     m = snapshot_module_open(p, module_ram_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
-    petres.pet2k = 0;	/* if ROM is already patched...? */
+    if (vmajor != PETMEM_DUMP_VER_MAJOR) {
+	log_error(pet_mem_log, 
+		"Cannot load PET RAM module with major version %d",
+		vmajor);
+        snapshot_module_close(m);
+	return -1;
+    }
 
     snapshot_module_read_byte(m, &config);
 
     snapshot_module_read_byte(m, &byte);
-    petres.kbd_type = byte;
+    peti.kbd_type = byte;
 
     snapshot_module_read_byte(m, &memsize);
     snapshot_module_read_byte(m, &conf8x96);
@@ -1962,20 +1983,19 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     rconf = config & 0xc0;
     config &= 0x0f;
 
-    petres.ramSize = memsize;
-    petres.crtc = 1;
-    petres.IOSize = 0x800;
-    petres.video = 80;
-    petres.map = 0;
-    petres.superpet = 0;
+    peti.ramSize = memsize;
+    peti.crtc = 1;
+    peti.IOSize = 0x800;
+    peti.video = 80;
+    peti.superpet = 0;
 
     switch (config) {
     case 0:		/* 40 cols w/o CRTC */
-	petres.crtc = 0;
-	petres.video = 40;
+	peti.crtc = 0;
+	peti.video = 40;
 	break;
     case 1:		/* 40 cols w/ CRTC */
-	petres.video = 40;
+	peti.video = 40;
 	break;
     case 2:		/* 80 cols (w/ CRTC) */
 	break;
@@ -1985,20 +2005,20 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 	spet_ctrlwp= superpet & 4;
 	spet_diag  = superpet & 8;
 	spet_bank  = (superpet >> 4) & 0x0f;
-	petres.superpet = 1;
+	peti.superpet = 1;
 	break;
     case 4:		/* 8096 */
-	petres.ramSize = 96;
+	peti.ramSize = 96;
 	break;
     case 5:		/* 8296 */
-	petres.ramSize = 128;
+	peti.ramSize = 128;
 	break;
     };
 
-    petres.mem9 = (rconf & 0x40) ? 1 : 0;
-    petres.memA = (rconf & 0x80) ? 1 : 0;
+    peti.mem9 = (rconf & 0x40) ? 1 : 0;
+    peti.memA = (rconf & 0x80) ? 1 : 0;
 
-    pet_set_model_info(&petres);  /* set resources and config accordingly */
+    pet_set_conf_info(&peti);  /* set resources and config accordingly */
     set_screen();
 
     initialize_memory();
@@ -2019,6 +2039,16 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 	}
     } else {	/* 8296 */
         snapshot_module_read_byte_array(m, ram, 0x20000);
+    }
+
+    if(vminor > 0) {
+        int kindex;
+        snapshot_module_read_byte(m, &byte);
+        resources_get_value("KeymapIndex",
+                       (resource_value_t *) &kindex);
+        resources_set_value("KeymapIndex",
+                       (resource_value_t) ((kindex & ~1) | (byte & 1)));
+
     }
 
     snapshot_module_close(m);
@@ -2056,22 +2086,26 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 
     if (!save_roms) return 0;
 
- /*   save_roms = 2; */
-
     m = snapshot_module_create(p, module_rom_name,
                                PETROM_DUMP_VER_MAJOR, PETROM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
+
+    /* De-initialize kbd-buf, autostart and tape stuff here before
+       saving the ROM the traps are installed in.  */
+    /* log_warning(pet_mem_log, "Deinstalling Traps"); */
+    kbd_buf_init(0, 0, 0, 0);
+    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    tape_deinstall();
 
     config = (rom_9_loaded ? 1 : 0)
 		| (rom_A_loaded ? 2 : 0)
 		| (rom_B_loaded ? 4 : 0)
 		| ((petres.pet2k || petres.ramSize == 128) ? 8 : 0);
 
-/*    snapshot_module_write_byte(m, save_roms); */
     snapshot_module_write_byte(m, config);
 
-    /* if (save_roms & 2) */ {
+    {
         snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
         snapshot_module_write_byte_array(m, rom + 0x6000, 0x0800);
 
@@ -2100,6 +2134,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	}
     }
 
+    petmem_checksum();
+
     snapshot_module_close(m);
 
     return 0;
@@ -2110,18 +2146,39 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config;
+    int i;
 
     m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
     if (m == NULL)
         return 0;	/* optional */
+
+    if (vmajor != PETROM_DUMP_VER_MAJOR) {
+        log_error(pet_mem_log,
+                "Cannot load PET ROM module with major version %d",
+                vmajor);
+        snapshot_module_close(m);
+        return -1;
+    }
 
     config = (rom_9_loaded ? 1 : 0)
 		| (rom_A_loaded ? 2 : 0)
 		| (rom_B_loaded ? 4 : 0)
 		| ((petres.pet2k || petres.ramSize == 128) ? 8 : 0);
 
-/*    snapshot_module_read_byte(m, &flag); */
     snapshot_module_read_byte(m, &config);
+
+    /* De-initialize kbd-buf, autostart and tape stuff here before
+       loading the new ROMs.  */
+    kbd_buf_init(0, 0, 0, 0);
+    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    tape_deinstall();
+
+    if(config & 1)	/* unload current ROM (name) */
+        resources_set_value("RomModule9Name", (resource_value_t) NULL);
+    if(config & 2)	/* unload current ROM (name) */
+        resources_set_value("RomModuleAName", (resource_value_t) NULL);
+    if(config & 4)	/* unload current ROM (name) */
+        resources_set_value("RomModuleBName", (resource_value_t) NULL);
 
     rom_9_loaded = config & 1;
     rom_A_loaded = config & 2;
@@ -2131,29 +2188,55 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 	initialize_memory();
     }
 
-    /* if (flag & 2) */ {
+    {
+	/* kernal $f000-$ffff */
         snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
+	/* editor $e000-$e7ff */
         snapshot_module_read_byte_array(m, rom + 0x6000, 0x0800);
 
+	/* chargen ROM */
+        resources_set_value("Basic1Chars", (resource_value_t) 0);
         snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
 	petmem_convert_chargen(chargen_rom);
 
+	/* $9000-$9fff */
 	if (config & 1) {
             snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
 	}
+	/* $a000-$afff */
 	if (config & 2) {
             snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
 	}
+	/* $b000-$bfff */
 	if (config & 4) {
             snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
 	}
 
+	/* $c000-$dfff */
         snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
 
+	/* $e900-$efff editor extension */
 	if (config & 8) {
             snapshot_module_read_byte_array(m, rom + 0x6900, 0x0700);
 	}
     }
+
+    /* Checksum over top 4 kByte PET kernal.  */
+    petres.kernal_checksum = 0;
+    for (i = 0x7000; i < 0x8000; i++)
+        petres.kernal_checksum += rom[i];
+
+    /* 4032 and 8032 have the same kernals, so we have to test more, here
+       $E000 - $E800.  */
+    petres.editor_checksum = 0;
+    for (i = 0x6000; i < 0x6800; i++)
+        petres.editor_checksum += rom[i];
+
+    /* unset the ROM names - also does checksum check, to 
+       install traps etc if able to do so */
+    resources_set_value("KernalName", (resource_value_t) NULL);
+    resources_set_value("EditorName", (resource_value_t) NULL);
+    resources_set_value("ChargenName", (resource_value_t) NULL);
 
     snapshot_module_close(m);
 
@@ -2233,7 +2316,7 @@ static struct {
     {NULL}
 };
 
-int pet_set_model_info(PetInfo *pi) 
+int pet_set_conf_info(PetInfo *pi) 
 {
     int kindex;
 
@@ -2251,29 +2334,42 @@ int pet_set_model_info(PetInfo *pi)
                        (resource_value_t) pi->memA);
     resources_set_value("SuperPET",
                        (resource_value_t) pi->superpet);
+
+    resources_get_value("KeymapIndex",
+                       (resource_value_t *) &kindex);
+    resources_set_value("KeymapIndex",
+                       (resource_value_t) ((kindex & 1) + 2 * pi->kbd_type));
+    return 0;
+}
+
+int pet_set_model_info(PetInfo *pi) 
+{
+    /* set hardware config */
+    pet_set_conf_info(pi);
+
     if(pi->pet2k) {	/* set resource only when necessary */
         resources_set_value("Basic1",
                        (resource_value_t) pi->pet2k);
     }
     resources_set_value("Basic1Chars",
                        (resource_value_t) pi->pet2kchar);
-
-    resources_get_value("KeymapIndex",
-                       (resource_value_t *) &kindex);
-    resources_set_value("KeymapIndex",
-                       (resource_value_t) ((kindex & 1) + 2 * pi->kbd_type));
-
+ 
     resources_set_value("ChargenName",
                        (resource_value_t) pi->chargenName);
     resources_set_value("KernalName",
                        (resource_value_t) pi->kernalName);
     resources_set_value("EditorName",
                        (resource_value_t) pi->editorName);
-    resources_set_value("RomModule9Name",
+
+    /* allow additional ROMs to survive a model switch. */
+    if(pi->mem9name)
+        resources_set_value("RomModule9Name",
                        (resource_value_t) pi->mem9name);
-    resources_set_value("RomModuleAName",
+    if(pi->memAname)
+        resources_set_value("RomModuleAName",
                        (resource_value_t) pi->memAname);
-    resources_set_value("RomModuleBName",
+    if(pi->memBname)
+        resources_set_value("RomModuleBName",
                        (resource_value_t) pi->memBname);
     return 0;
 }
@@ -2306,7 +2402,7 @@ int pet_set_model(const char *model_name, void *extra)
 
 /* check PetInfo struct for consistency after change? */
 
-static void pet_check_info(PetInfo * pi)
+static void pet_check_info(PetRes * pi)
 {
     if (pi->superpet) {
 	pi->ramSize = 32;	/* 128 */

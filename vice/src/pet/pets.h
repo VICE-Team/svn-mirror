@@ -43,6 +43,7 @@
 #endif
 #define PET_COLS	80
 
+/* This struct is used to hold the default values for the different models */
 typedef struct PetInfo {
 	/* hardware options (resources) */
 	int		ramSize;
@@ -65,6 +66,43 @@ typedef struct PetInfo {
 	const char	*memBname;	/* $B*** ROM image filename */
 	const char	*memAname;	/* $A*** ROM image filename */
 	const char	*mem9name;	/* $9*** ROM image filename */
+#if 0
+	/* runtime (derived) variables */
+	int		videoSize;	/* video RAM size (1k or 2k) */
+	int		map;		/* 0 = linear map, 1 = 8096 mapping */
+					/* 2 = 8296 mapping */
+	int		vmask;		/* valid CRTC address bits */
+	int		rompatch;	/* 1 = need $ef** for ROM patch */
+	int		rom_video;	/* derived from ROM */
+	ADDRESS		basic_start;	/* derived from ROM */
+	WORD		kernal_checksum;/* derived from ROM */
+	WORD		editor_checksum;/* derived from ROM */
+#endif
+} PetInfo;
+
+/* This struct holds the resources and some other runtime-derived info */
+typedef struct PetRes {
+	/* hardware options (resources) */
+	int		ramSize;
+	int		IOSize;		/* 256 Byte / 2k I/O */
+	int		crtc;		/* 0 = no CRTC, 1 = has one */
+	int		video;		/* 0 = autodetect, 40, or 80 */
+	int		mem9;		/* 0 = open/ROM, 1 = RAM */
+	int		memA;		/* 0 = open/ROM, 1 = RAM */
+	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
+	int		pet2k;		/* 1 = do PET 2001 kernal patches */
+	int		pet2kchar;	/* 1 = do PET 2001 chargen patches */
+        int		superpet;	/* 1 = enable SuperPET I/O */
+
+	/* ROM image resources */
+	char		*chargenName;	/* Character ROM */
+	char		*kernalName;	/* ROM to load before others */
+					/* the following override kernalName
+					   for their specific area */
+	char		*editorName;	/* $E*** ROM image filename */
+	char		*memBname;	/* $B*** ROM image filename */
+	char		*memAname;	/* $A*** ROM image filename */
+	char		*mem9name;	/* $9*** ROM image filename */
 
 	/* runtime (derived) variables */
 	int		videoSize;	/* video RAM size (1k or 2k) */
@@ -76,9 +114,9 @@ typedef struct PetInfo {
 	ADDRESS		basic_start;	/* derived from ROM */
 	WORD		kernal_checksum;/* derived from ROM */
 	WORD		editor_checksum;/* derived from ROM */
-} PetInfo;
+} PetRes;
 
-extern PetInfo petres;
+extern PetRes petres;
 
 extern int pet_set_model(const char *model_name, void *extra);
 extern int pet_set_ramsize(int v);

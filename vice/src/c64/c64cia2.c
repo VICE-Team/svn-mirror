@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64cia2.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia2.def,
+ * ../../src/c64/c64cia2.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/c64/c64cia2.def,
  * Do not edit!
  */
 /*
