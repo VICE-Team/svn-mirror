@@ -34,6 +34,18 @@ typedef void (*void_t)(void);
 struct palette_s;
 struct video_frame_buffer_s;
 
+/* these constants are used to configure the video output */
+
+/* PAL is for PAL based video outputs, like VIC, VIC-II or TED */
+/* RGB is for anything which doesn't need any color filtering  */
+/* for display, like monochrome or rgbi (CRTC and VDC)         */
+
+#define VIDEO_RENDER_PAL_1X1	0
+#define VIDEO_RENDER_PAL_2X2	1
+#define VIDEO_RENDER_RGB_1X1	2
+#define VIDEO_RENDER_RGB_1X2	3
+#define VIDEO_RENDER_RGB_2X2	4
+
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern void video_free(void);
@@ -65,15 +77,6 @@ extern void video_canvas_map(struct video_canvas_s *s);
 extern void video_canvas_unmap(struct video_canvas_s *s);
 extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
                                 unsigned int height);
-
-/* these constants are used to configure the video output */
-
-#define VIDEO_RENDER_PAL                      0   /* standard, pixel size 1x1 or 2x2, pal emu possible */
-#define VIDEO_RENDER_MONOCHROME               1   /* mono, pixel size 1x1 or 2x2, no pal emu */
-#define VIDEO_RENDER_MONOCHROME_FIXEDWIDTH    2   /* mono, pixel size 1x1 or 1x2, no pal emu */
-#define VIDEO_RENDER_MONOCHROME_FIXEDSIZE     3   /* mono, pixel size 1x1 , no pal emu */
-
-extern void video_render_set_rendermode(int mode);
 
 /* these constants tell the video layer what */
 /* resources should be registered */
@@ -110,7 +113,7 @@ extern void video_color_set_raster(struct raster_s *raster);
 
 extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
                               int height, int xs, int ys, int xt, int yt,
-                              int pitchs, int pitcht, int depth);
+                              int pitchs, int pitcht, int depth, int rendermode);
 extern int video_render_get_fake_pal_state(void);
 
 #endif

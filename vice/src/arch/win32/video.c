@@ -1424,7 +1424,7 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
                           px, py,
                           trect.left, trect.top,
                           VIDEO_FRAME_BUFFER_LINE_SIZE(f), pitch,
-                          depth);
+                          depth,c->videorendermode);
     }
 
     if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {

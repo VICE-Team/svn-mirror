@@ -147,9 +147,9 @@ static void vic_set_geometry(void)
         width *= 2;
         height *= 2;
 #ifndef VIDEO_REMOVE_2X
-        raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
+        raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2, VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-        raster_set_pixel_size (&vic.raster, 2, 2);
+        raster_set_pixel_size (&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
 #endif /* VIDEO_REMOVE_2X */
     } else 
     {
@@ -157,9 +157,9 @@ static void vic_set_geometry(void)
 	if (!fullscreen_is_enabled)
 #endif
 #ifndef VIDEO_REMOVE_2X
-	    raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+	    raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1, VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-	    raster_set_pixel_size (&vic.raster, 1, 1);
+	    raster_set_pixel_size (&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
 #endif /* VIDEO_REMOVE_2X */
     }
     
@@ -430,20 +430,20 @@ void vic_resize (void)
 #ifndef VIDEO_REMOVE_2X
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2, VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
       if (vic.raster.viewport.pixel_size.width == 1
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, 2, 2);
+          raster_set_pixel_size (&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
 #endif /* VIDEO_REMOVE_2X */
         raster_resize_viewport (&vic.raster,
                                 vic.raster.viewport.width * 2,
                                 vic.raster.viewport.height * 2);
       } else {
 #ifndef VIDEO_REMOVE_2X
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2, VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-          raster_set_pixel_size (&vic.raster, 2, 2);
+          raster_set_pixel_size (&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
 #endif /* VIDEO_REMOVE_2X */
       }
 
@@ -454,20 +454,20 @@ void vic_resize (void)
 #ifndef VIDEO_REMOVE_2X
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH * 2
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1, VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
       if (vic.raster.viewport.pixel_size.width == 2
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, 1, 1);
+          raster_set_pixel_size (&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
 #endif /* VIDEO_REMOVE_2X */
         raster_resize_viewport (&vic.raster,
                                 vic.raster.viewport.width / 2,
                                 vic.raster.viewport.height / 2);
       } else {
 #ifndef VIDEO_REMOVE_2X
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1, VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-          raster_set_pixel_size (&vic.raster, 1, 1);
+          raster_set_pixel_size (&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
 #endif /* VIDEO_REMOVE_2X */
       }
 

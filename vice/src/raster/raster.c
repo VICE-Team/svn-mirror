@@ -1623,10 +1623,13 @@ void raster_resize_viewport(raster_t *raster,
 
 void raster_set_pixel_size(raster_t *raster,
                            unsigned int width,
-                           unsigned int height)
+                           unsigned int height,
+                           int videorendermode)
 {
     raster->viewport.pixel_size.width = width;
     raster->viewport.pixel_size.height = height;
+	if (raster->viewport.canvas)
+		raster->viewport.canvas->videorendermode = videorendermode;
 
     realize_frame_buffer(raster);
     raster_force_repaint(raster);

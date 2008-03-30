@@ -102,16 +102,11 @@ static resource_t resources[] =
 #ifdef VIC_II_NEED_2X
 
 #ifdef VIDEO_REMOVE_2X         /* bad */
-extern int double_size_bad;    /* bad */
 extern int double_scan_bad;    /* bad */
 #endif /* VIDEO_REMOVE_2X */   /* bad */
 
 static int set_double_size_enabled(resource_value_t v, void *param)
 {
-#ifdef VIDEO_REMOVE_2X         /* bad */
-	double_size_bad=(int)v;    /* bad */
-#endif /* VIDEO_REMOVE_2X */   /* bad */
-
     vic_ii_resources.double_size_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)

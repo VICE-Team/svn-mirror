@@ -304,7 +304,7 @@ static void vic_ii_set_geometry(void)
     {
       width *= 2;
       height *= 2;
-      raster_set_pixel_size(&vic_ii.raster, 2, 2);
+      raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
     }
 #endif
 
@@ -1126,6 +1126,8 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 
   /* Hack for overscan background color in HIRES mode                    */
   /* This may not 100% correct and probably there's a better solution... */
+  /* AM,081201: It isn't! End Part of Krestology is broken!              */
+  /* Other demos to test this: Action, emufuxxer, nutrasweet/mirinda     */
   if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
   {
      if (vic_ii.idle_state)
@@ -1583,12 +1585,12 @@ void vic_ii_resize(void)
     {
       if (vic_ii.raster.viewport.pixel_size.width == 1
           && vic_ii.raster.viewport.canvas != NULL) {
-        raster_set_pixel_size(&vic_ii.raster, 2, 2);
+        raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
         raster_resize_viewport(&vic_ii.raster,
                                vic_ii.raster.viewport.width * 2,
                                vic_ii.raster.viewport.height * 2);
       } else {
-          raster_set_pixel_size(&vic_ii.raster, 2, 2);
+          raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
       }
 
       vic_ii_draw_set_double_size(1);
@@ -1598,12 +1600,12 @@ void vic_ii_resize(void)
     {
       if (vic_ii.raster.viewport.pixel_size.width == 2
           && vic_ii.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size(&vic_ii.raster, 1, 1);
+          raster_set_pixel_size(&vic_ii.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
         raster_resize_viewport(&vic_ii.raster,
                                vic_ii.raster.viewport.width / 2,
                                vic_ii.raster.viewport.height / 2);
       } else {
-          raster_set_pixel_size(&vic_ii.raster, 1, 1);
+          raster_set_pixel_size(&vic_ii.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
       }
 
       vic_ii_draw_set_double_size(0);
