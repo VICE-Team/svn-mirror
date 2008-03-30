@@ -434,7 +434,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     snapshot_close(s);
 
     if (ef)
-        util_remove_file(name);
+        util_file_remove(name);
 
     return ef;
 }

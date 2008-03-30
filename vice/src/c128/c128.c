@@ -602,7 +602,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || drive_write_snapshot_module(s, save_disks, save_roms) < 0
         || vic_ii_write_snapshot_module(s) < 0) {
         snapshot_close(s);
-        util_remove_file(name);
+        util_file_remove(name);
         return -1;
     }
 

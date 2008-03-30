@@ -35,6 +35,9 @@
 
 #include "types.h"
 
+#define UTIL_FILE_LOAD_RAW          0
+#define UTIL_FILE_LOAD_SKIP_ADDRESS 1
+
 extern char *stralloc(const char *str);
 extern void *xmalloc(size_t s);
 extern void *xcalloc(size_t nmemb, size_t size);
@@ -51,9 +54,10 @@ extern char *util_add_extension_const(const char *filename,
 extern char *util_get_current_dir(void);
 
 extern size_t util_file_length(FILE *fd);
-extern int util_load_file(const char *name, void *dest, size_t size);
-extern int util_save_file(const char *name, const void *src, int size);
-extern int util_remove_file(const char *name);
+extern int util_file_load(const char *name, BYTE *dest, size_t size,
+                          unsigned int load_flag);
+extern int util_file_save(const char *name, BYTE *src, int size);
+extern int util_file_remove(const char *name);
 
 extern int util_get_line(char *buf, int bufsize, FILE *f);
 extern void util_fname_split(const char *path, char **directory_return,

@@ -180,7 +180,7 @@ static char *try_uncompress_with_gzip(const char *name)
     fdsrc = gzopen(name, MODE_READ);
     if (fdsrc == NULL) {
         fclose(fddest);
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         return NULL;
     }
 
@@ -224,7 +224,7 @@ static char *try_uncompress_with_gzip(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_gzip: failed"));
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -266,7 +266,7 @@ static char *try_uncompress_with_bzip(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_bzip: failed"));
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -303,7 +303,7 @@ static char *try_uncompress_with_tzx(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_tzx: failed"));
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -401,7 +401,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     if (exit_status != 0) {
         ZDEBUG(("try_uncompress_archive: `%s %s' failed.", program,
             listopts));
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -413,7 +413,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     if (!fd) {
         ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
             program, tmp_name));
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -443,7 +443,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     }
 
     fclose(fd);
-    util_remove_file(tmp_name);
+    util_file_remove(tmp_name);
     if (!found) {
         ZDEBUG(("try_uncompress_archive: no valid file found."));
         free(tmp_name);
@@ -495,7 +495,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     if (exit_status != 0) {
         ZDEBUG(("try_uncompress_archive: `%s %s' failed.",
             program, extractopts));
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -565,7 +565,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     free(argv[3]);
 
     if (exit_status) {
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -659,7 +659,7 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     free(argv[6]);
 
     if (exit_status) {
-        util_remove_file(tmp_name);
+        util_file_remove(tmp_name);
         free(tmp_name);
         return NULL;
     }
@@ -887,7 +887,7 @@ static int zfile_compress(const char *src, const char *dest,
             ZDEBUG(("compress: making backup %s... ", dest_backup_name));
 #ifdef WIN32
         if (dest_backup_name != NULL)
-            util_remove_file(dest_backup_name);
+            util_file_remove(dest_backup_name);
 #endif
         if (dest_backup_name != NULL && rename(dest, dest_backup_name) < 0) {
             ZDEBUG(("failed."));
@@ -913,7 +913,7 @@ static int zfile_compress(const char *src, const char *dest,
     /* Compression failed: restore original file.  */
 #ifdef WIN32
         if (dest_backup_name != NULL) {
-            util_remove_file(dest);
+            util_file_remove(dest);
         }
 #endif
         if (dest_backup_name != NULL && rename(dest_backup_name, dest) < 0) {
@@ -923,7 +923,7 @@ static int zfile_compress(const char *src, const char *dest,
     } else {
     /* Compression succeeded: remove backup file.  */
         if (dest_backup_name != NULL
-            && util_remove_file(dest_backup_name) < 0) {
+            && util_file_remove(dest_backup_name) < 0) {
             log_error(zlog, "Warning: could not remove backup file.");
             /* Do not return an error anyway (no data is lost).  */
         }
@@ -1004,7 +1004,7 @@ static int handle_close_action(struct zfile *ptr)
             break;
         */
         case ZFILE_DEL:
-            if (util_remove_file(ptr->orig_name) < 0)
+            if (util_file_remove(ptr->orig_name) < 0)
                 log_error(zlog, "Cannot unlink `%s': %s",
                     ptr->orig_name, strerror(errno));
             break;
@@ -1027,7 +1027,7 @@ static int handle_close(struct zfile *ptr)
             return -1;
 
         /* Remove temporary file.  */
-        if (util_remove_file(ptr->tmp_name) < 0)
+        if (util_file_remove(ptr->tmp_name) < 0)
             log_error(zlog, "Cannot unlink `%s': %s",
                 ptr->tmp_name, strerror(errno));
     }

@@ -488,7 +488,7 @@ int resources_save(const char *fname)
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
-    util_remove_file(backup_name);
+    util_file_remove(backup_name);
     if (rename(fname, backup_name) == 0)
         have_old = 1;
     else

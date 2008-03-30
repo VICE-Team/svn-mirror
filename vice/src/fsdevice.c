@@ -394,7 +394,7 @@ static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
                 strcat(name1, FSDEV_DIR_SEP_STR);
                 strcat(name1, arg);
             }
-        if (util_remove_file(name1)) {
+        if (util_file_remove(name1)) {
             er = IPE_NOT_FOUND;
             if (errno == EPERM)
                 er = IPE_PERMISSION;
@@ -451,7 +451,7 @@ static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
                             continue;
                         }
 
-                        util_remove_file(name1p00);
+                        util_file_remove(name1p00);
                         if (rename(name2p00, name1p00) == 0)
                             break;
                     }
@@ -470,7 +470,7 @@ static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
                 strcat(name2, FSDEV_DIR_SEP_STR);
                 strcat(name2, arg2);
 
-                util_remove_file(name1);
+                util_file_remove(name1);
                 if (rename(name2, name1)) {
                     er = IPE_NOT_FOUND;
                     if (errno == EPERM)
