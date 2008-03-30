@@ -57,28 +57,6 @@ void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
 extern
 void tfe_arch_line_ctl(bEnableTransmitter, bEnableReceiver);
 
-/* the following function polls if there is a frame received
-
-   If there's none, it returns a -1.
-
-   If there is one, it returns the length of the frame in bytes.
-*/
-extern
-int tfe_arch_poll_receive(void);
-
-/* the following function receives a frame.
-
-   The caller should not call it unless tfe_arch_poll_receive()
-   indicated the availability of a frame (with a return value >= 0).
-   The given buffer must have enough memory for storing the frame;
-   else, the behaviour of this function is undefined.
-
-   It copies the frame to *buffer and returns the number of copied 
-   bytes as return value.
-*/
-extern
-int tfe_arch_receive_frame( BYTE *buffer );
-
 extern
 void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in transmit buffer */
                        int onecoll,     /* ONECOLL: Terminate after just one collision */

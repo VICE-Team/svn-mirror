@@ -29,6 +29,10 @@
 
 #ifdef HAVE_TFE 
 
+/* #define WPCAP */
+
+#include "pcap.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,8 +42,7 @@
 #include "tfearch.h"
 #include "utils.h"
 
-
-/**/ #define TFE_DEBUG_ARCH 1 /**/
+/** #define TFE_DEBUG_ARCH 1 /**/
 
 #define TFE_DEBUG_WARN 1 /* this should not be deactivated */
 
@@ -49,12 +52,92 @@
 
 static log_t tfe_arch_log = LOG_ERR;
 
+
+static pcap_if_t *TfePcapAlldevs = NULL;
+static pcap_t *TfePcapFP = NULL;
+
+static char TfePcapErrbuf[PCAP_ERRBUF_SIZE];
+
+
+static
+void TfePcapCloseAdapter(void) 
+{
+    if (TfePcapAlldevs)
+        pcap_freealldevs(TfePcapAlldevs);
+}
+
+
+static
+BOOL TfePcapOpenAdapter() 
+{
+	u_int netmask;
+	char packet_filter[] = "ip and udp";
+	struct bpf_program fcode;
+  
+
+    /* The user didn't provide a packet source: Retrieve the device list */
+    if (pcap_findalldevs(&TfePcapAlldevs, TfePcapErrbuf) == -1)
+    {
+        log_message(tfe_arch_log, "ERROR in pcap_findalldevs: '%s'", TfePcapErrbuf);
+        return FALSE;
+    }
+
+    TfePcapFP = pcap_open_live(TfePcapAlldevs->name, 1700, 1, 20, TfePcapErrbuf);
+    if ( TfePcapFP == NULL)
+    {
+        log_message(tfe_arch_log, "ERROR opening adapter: '%s'", TfePcapErrbuf);
+        TfePcapCloseAdapter();
+        return FALSE;
+    }
+
+    if (pcap_setnonblock(TfePcapFP, 1, TfePcapErrbuf)<0)
+    {
+        log_message(tfe_arch_log, "WARNING: Setting PCAP to non-blocking failed: '%s'", TfePcapErrbuf);
+    }
+
+	/* Check the link layer. We support only Ethernet for simplicity. */
+	if(pcap_datalink(TfePcapFP) != DLT_EN10MB)
+	{
+		log_message(tfe_arch_log, "ERROR: TFE works only on Ethernet networks.");
+		TfePcapCloseAdapter();
+        return FALSE;
+	}
+	
+/*
+	if(TfePcapAlldevs->addresses != NULL)
+		/* Retrieve the mask of the first address of the interface *
+		netmask=((struct sockaddr_in *)(TfePcapAlldevs->addresses->netmask))->sin_addr.S_un.S_addr;
+	else
+		/* If the interface is without addresses we suppose to be in a C class network *
+		netmask=0xffffff; 
+
+	//compile the filter
+	if(pcap_compile(TfePcapFP, &fcode, packet_filter, 1, netmask) <0 ){
+		log_message(tfe_arch_log, "Unable to compile the packet filter. Check the syntax.");
+		TfePcapCloseAdapter();
+        return FALSE;
+	}
+	
+	//set the filter
+	if(pcap_setfilter(TfePcapFP, &fcode)<0){
+		log_message(tfe_arch_log, "Error setting the filter.");
+		TfePcapCloseAdapter();
+        return FALSE;
+	}
+*/
+    return TRUE;
+}
+
+
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
+
 
 void tfe_arch_init(void)
 {
     tfe_arch_log = log_open("TFEARCH");
+
+	TfePcapOpenAdapter(); // @@@SRT: Just for testing
 }
 
 void tfe_arch_pre_reset( void )
@@ -140,38 +223,48 @@ void tfe_arch_line_ctl( bEnableTransmitter, bEnableReceiver )
 }
 
 
-/* the following function polls if there is a frame received
+typedef struct TFE_PCAP_INTERNAL_tag {
 
-   If there's none, it returns a -1.
+    unsigned int len;
+    BYTE *buffer;
 
-   If there is one, it returns the length of the frame in bytes.
-*/
-int tfe_arch_poll_receive( void )
+} TFE_PCAP_INTERNAL;
+
+/* Callback function invoked by libpcap for every incoming packet */
+static
+void TfePcapPacketHandler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data)
 {
-    int ret = -1;
+    TFE_PCAP_INTERNAL *pinternal = (void*)param;
 
-#ifdef TFE_DEBUG_ARCH
-    log_message( tfe_arch_log, "tfe_arch_poll_receive() called, returns %d.", ret );
-#endif
+    /* determine the count of bytes which has been returned, 
+     * but make sure not to overrun the buffer 
+     */
+    if (header->caplen < pinternal->len)
+        pinternal->len = header->caplen;
 
-    return ret;
+    memcpy(pinternal->buffer, pkt_data, pinternal->len);
 }
-
 
 /* the following function receives a frame.
 
-   The caller should not call it unless tfe_arch_poll_receive()
-   indicated the availability of a frame (with a return value >= 0).
-   The given buffer must have enough memory for storing the frame;
-   else, the behaviour of this function is undefined.
+   If there's none, it returns a -1.
+   If there is one, it returns the length of the frame in bytes.
 
    It copies the frame to *buffer and returns the number of copied 
    bytes as return value.
+
+   At most 'len' bytes are copied.
 */
-extern
-int tfe_arch_receive_frame( BYTE *buffer )
+static 
+int tfe_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
 {
-    int ret = 0;
+    int ret = -1;
+
+    /* check if there is something to receive */
+    if (pcap_dispatch(TfePcapFP, 1, TfePcapPacketHandler, (void*)pinternal)!=0) {
+        /* Something has been received */
+        ret = pinternal->len;
+    }
 
 #ifdef TFE_DEBUG_ARCH
     log_message( tfe_arch_log, "tfe_arch_receive_frame() called, returns %d.", ret );
@@ -198,13 +291,17 @@ void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in trans
         txlength
         );
 #endif
+
+    if (pcap_sendpacket(TfePcapFP, txframe, txlength) == -1) {
+        log_message(tfe_arch_log, "WARNING! Could not send packet!");
+    }
 }
 
 /*
   tfe_arch_receive()
 
   This function checks if there was a frame received.
-  If so, it returns TRUE, else FALSE.
+  If so, it returns 1, else 0.
 
   If there was no frame, none of the parameters is changed!
 
@@ -238,9 +335,55 @@ int tfe_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
                      int  *pcrc_error    /* set if received frame had a CRC error */
                     )
 {
+    int len;
+
+    TFE_PCAP_INTERNAL internal = { *plen, pbuffer };
+
+
 #ifdef TFE_DEBUG_ARCH
     log_message( tfe_arch_log, "tfe_arch_receive() called, with *plen=%u.", *plen );
 #endif
+
+    assert((*plen&1)==0);
+
+    len = tfe_arch_receive_frame(&internal);
+
+    if (len!=-1) {
+
+/*
+        {
+            char buffer[256];
+            char *p = buffer;
+            char *pbuffer1 = pbuffer; 
+            int len1 = len;
+            int i;
+
+            sprintf(buffer, "\nReceived frame: length = %u\n", len1);
+            OutputDebugString(buffer);
+            do {
+                p = buffer;
+                for (i=0; (i<8) && len1>0; len1--, i++) {
+                    sprintf( p, "%02x ", (unsigned int)(unsigned char)*pbuffer1++);
+                    p += 3;
+                }
+                *(p-1) = '\n'; *p = 0;
+                OutputDebugString(buffer);
+            } while (len1>0);
+        }
+*/
+        if (len&1)
+            ++len;
+
+        *plen = len;
+        *phashed =
+        *phash_index =
+        *pbroadcast = 
+        *pcrc_error = 0;
+
+        *pcorrect_mac =
+        *prx_ok = 1;
+        return 1;
+    }
 
     return 0;
 }

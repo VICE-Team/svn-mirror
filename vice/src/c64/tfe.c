@@ -47,7 +47,8 @@
 
 #define TFE_DEBUG_WARN 1 /* this should not be deactivated */
 /** #define TFE_DEBUG_INIT 1 **/
-/** #define TFE_DEBUG_LOADSTORE 1 **/
+/** #define TFE_DEBUG_LOAD 1 **/
+/** #define TFE_DEBUG_STORE 1 **/
 /**/
 
 /* ------------------------------------------------------------------------- */
@@ -254,7 +255,7 @@ static WORD tfe_packetpage_ptr = 0;
 /*    more variables needed                                                  */
 
 static WORD txcollect_buffer = TFE_PP_ADDR_TX_FRAMELOC;
-/* @SRT static WORD rx_buffer        = TFE_PP_ADDR_RX_FRAMELOC; */
+static WORD rx_buffer        = TFE_PP_ADDR_RXSTATUS;
 
 
 
@@ -633,6 +634,11 @@ WORD tfe_receive(void)
                 for (i=0;i<len; i++) {
                     SET_PP_8(TFE_PP_ADDR_RX_FRAMELOC+i, buffer[i]);
                 }
+
+                /* set rx_buffer to where start reading *
+                 * According to 4.10.9 (pp. 76-77), we start with RxStatus and RxLength!
+                 */
+                rx_buffer = TFE_PP_ADDR_RXSTATUS;
             }
         }
     } while (!ready);
@@ -645,7 +651,7 @@ WORD tfe_receive(void)
 static
 void tfe_sideeffects_write_pp_on_txframe(WORD ppaddress)
 {
-    if (ppaddress==TFE_PP_ADDR_TX_FRAMELOC+GET_PP_16(TFE_PP_ADDR_TXLENGTH)) {
+    if (ppaddress==TFE_PP_ADDR_TX_FRAMELOC+GET_PP_16(TFE_PP_ADDR_TXLENGTH)-1) {
 
         /* we have collected the whole frame, now start transmission */
         WORD txcmd = GET_PP_16(TFE_PP_ADDR_TXCMD);
@@ -672,6 +678,8 @@ void tfe_sideeffects_write_pp_on_txframe(WORD ppaddress)
                 txlen,
                 &tfe_packetpage[TFE_PP_ADDR_TX_FRAMELOC]         
                 );
+
+        txcollect_buffer = TFE_PP_ADDR_TX_FRAMELOC; // @@@@@@@@@@@@
 
 #ifdef TFE_DEBUG_WARN
             /* remember that the TXCMD has been completed */
@@ -779,6 +787,7 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
 
     case TFE_PP_ADDR_TXLENGTH:
         {
+
             WORD txlength = GET_PP_16(TFE_PP_ADDR_TXLENGTH);
             WORD txcommand = GET_PP_16(TFE_PP_ADDR_TXCMD);
 
@@ -864,6 +873,73 @@ void tfe_sideeffects_read_pp(WORD ppaddress)
     }
 }
 
+
+void tfe_proceed_rx_buffer(int oddaddress) {
+    /*
+     According to the CS8900 spec, the handling is the following:
+     first read H, then L, then H, then L.
+     Now, we're inside the RX frame, now, we always get L then H, until the end is reached.
+
+                                 even    odd
+     TFE_PP_ADDR_RXSTATUS:         -     proceed 1)
+     TFE_PP_ADDR_RXLENGTH:         -    proceed 
+     TFE_PP_ADDR_RX_FRAMELOC:    2),3)       -
+     TFE_PP_ADDR_RX_FRAMELOC+2: proceed     -
+     TFE_PP_ADDR_RX_FRAMELOC+4: like TFE_PP_ADDR_RX_FRAMELOC+2
+
+     1) set status "Inside FRAMELOC" FALSE
+     2) set status "Inside FRAMELOC" TRUE if it is not already
+     3) if "Inside FRAMELOC", proceed
+     
+     */
+
+    static int inside_frameloc;
+    int proceed = 0;
+
+    if (rx_buffer==TFE_PP_ADDR_RX_FRAMELOC+GET_PP_16(TFE_PP_ADDR_RXLENGTH)) {
+        /* we've read all that is available, go to start again */
+        rx_buffer = TFE_PP_ADDR_RXSTATUS;
+        inside_frameloc = 0;
+    }
+    else {
+        switch (rx_buffer) {
+        case TFE_PP_ADDR_RXSTATUS:
+            if (oddaddress) {
+                proceed = 1;
+                inside_frameloc = 0;
+            }
+            break;
+
+        case TFE_PP_ADDR_RXLENGTH:
+            if (oddaddress) {
+                proceed = 1;
+            }
+            break;
+
+        case TFE_PP_ADDR_RX_FRAMELOC:
+            if (oddaddress==0) {
+                if (inside_frameloc) {
+                    proceed = 1;
+                } 
+                else {
+                    inside_frameloc = 1;
+                }
+            }
+            break;
+
+        default:
+            proceed = (oddaddress==0) ? 1 : 0;
+            break;
+        }
+    }
+    
+    if (proceed) {
+        SET_TFE_16(TFE_ADDR_RXTXDATA, GET_PP_16(rx_buffer));
+        rx_buffer += 2;
+    }
+}
+
+
 BYTE REGPARM1 tfe_read(WORD ioaddress)
 {
     BYTE retval;
@@ -922,7 +998,7 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
         }
 
 
-#ifdef TFE_DEBUG_LOADSTORE
+#ifdef TFE_DEBUG_LOAD
         log_message(tfe_log, "reading PP Ptr: 0x%04X => 0x%04X.", 
             tfe_packetpage_ptr, GET_PP_16(tfe_packetpage_ptr) );
 #endif
@@ -936,13 +1012,22 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
         retval = GET_TFE_8(ioaddress);
         break;
 
+    case TFE_ADDR_RXTXDATA:
+    case TFE_ADDR_RXTXDATA+1:
+        /* we're trying to read a new 16 bit word, get it from the
+           receive buffer
+         */
+        tfe_proceed_rx_buffer(ioaddress & 0x01);
+        retval = GET_TFE_8(ioaddress);
+        break;
+
     default:
         retval = GET_TFE_8(ioaddress);
         break;
     };
 
-#ifdef TFE_DEBUG_LOADSTORE
-    log_message(tfe_log, "read [$%02X] => $%02X.", ioaddres, retval);
+#ifdef TFE_DEBUG_LOAD
+    log_message(tfe_log, "read [$%02X] => $%02X.", ioaddress, retval);
 #endif
     return retval;
 }
@@ -990,8 +1075,10 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
     case TFE_ADDR_TXLENGTH:
     case TFE_ADDR_TXLENGTH+1:
+
         SET_TFE_8(ioaddress, byte);
         SET_PP_8((ioaddress-TFE_ADDR_TXLENGTH)+TFE_PP_ADDR_TXLENGTH, byte ); /* perform the mapping to PP+0144 */
+
         tfe_sideeffects_write_pp(TFE_PP_ADDR_TXLENGTH, ioaddress-TFE_ADDR_TXLENGTH);
         break;
 
@@ -1011,7 +1098,7 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
         SET_TFE_8(ioaddress, byte);
     }
 
-#ifdef TFE_DEBUG_LOADSTORE
+#ifdef TFE_DEBUG_STORE
     log_message(tfe_log, "store [$%02X] <= $%02X.", ioaddress, (int)byte);
 #endif
 
@@ -1022,7 +1109,7 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
     case TFE_ADDR_PP_PTR+1:
         tfe_packetpage_ptr = GET_TFE_16(TFE_ADDR_PP_PTR);
 
-#ifdef TFE_DEBUG_LOADSTORE
+#ifdef TFE_DEBUG_STORE
         log_message(tfe_log, "set PP Ptr to 0x%04X.", tfe_packetpage_ptr);
 #endif
 
@@ -1036,7 +1123,7 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
     case TFE_ADDR_PP_DATA:
     case TFE_ADDR_PP_DATA+1:
-#ifdef TFE_DEBUG_LOADSTORE
+#ifdef TFE_DEBUG_STORE
         log_message(tfe_log, "before writing to PP Ptr: 0x%04X <= 0x%04X.", 
             tfe_packetpage_ptr, GET_PP_16(tfe_packetpage_ptr) );
 #endif
@@ -1049,8 +1136,8 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
                 /* FIXME: @SRT What is the real behaviour in such condition? */
 #ifdef TFE_DEBUG_WARN
                 log_message(tfe_log, 
-                "WARNING! Writing PacketPage beyond MAX_PACKETPAGE_ARRAY: %04X."
-                "Performing \"wrap around\".", ppaddress);
+                    "WARNING! Writing PacketPage beyond MAX_PACKETPAGE_ARRAY: %04X."
+                    "Performing \"wrap around\".", ppaddress);
 #endif
         		ppaddress &= MAX_PACKETPAGE_ARRAY-1;
 	        }
@@ -1066,7 +1153,7 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
         }
 
 
-#ifdef TFE_DEBUG_LOADSTORE
+#ifdef TFE_DEBUG_STORE
         log_message(tfe_log, "after  writing to PP Ptr: 0x%04X <= 0x%04X.", 
             tfe_packetpage_ptr, GET_PP_16(tfe_packetpage_ptr) );
 #endif

@@ -99,5 +99,9 @@ SOURCE=..\..\maincpu.c
 
 SOURCE=.\resc64.rc
 # End Source File
+# Begin Source File
+ 
+SOURCE=..\..\..\..\wpdpack\Lib\wpcap.lib
+# End Source File
 # End Target
 # End Project
