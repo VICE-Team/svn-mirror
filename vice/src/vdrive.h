@@ -77,30 +77,6 @@
 #define FAM_M		4
 #define FAM_F		8
 
-/* This structure is from cbmargc.c of fvcbm by Dan Fandrich */
-
-#ifdef __GNUC__
-#define PACK __attribute__ ((packed))	/* pack structures on byte boundaries */
-#else
-#define PACK			/* pack using a compiler switch instead */
-#endif
-
-typedef struct {
-    BYTE Link[2];		/* On the 1st entry only */
-
-    BYTE FileType PACK;
-    BYTE FirstTrack PACK;
-    BYTE FirstSector PACK;
-    BYTE FileName[16] PACK;
-    BYTE FirstSideTrack PACK;
-    BYTE FirstSideSector PACK;
-    BYTE RecordSize PACK;
-    BYTE Filler[4] PACK;
-    BYTE FirstReplacementTrack PACK;
-    BYTE FirstReplacementSector PACK;
-    BYTE FileBlocks[2] PACK;
-} dirslot;
-
 typedef struct bufferinfo_s {
     int mode;			/* Mode on this buffer */
     int readmode;		/* Is this channel for reading or writing */

@@ -108,7 +108,7 @@ int speed_map_1541[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 
 int speed_map_1571[70] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
                            3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-                           1, 1, 1, 1, 0, 0, 0, 0, 0, 
+                           1, 1, 1, 1, 0, 0, 0, 0, 0,
                            3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
                            3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
                            1, 1, 1, 1, 0, 0, 0, 0, 0 };
@@ -322,7 +322,7 @@ int     open_1541(void *flp, char *name, int length, int secondary)
     int     track, sector;
     BYTE   *slot;		/* Current directory entry */
 
-    if ( (!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL )  /* EP */
+    if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
 	return SERIAL_NO_DEVICE;	/* Routine was called incorrectly. */
 
     /*
@@ -3217,98 +3217,6 @@ void set_disk_geometry(DRIVE *floppy, int type)
 }
 
 /* ------------------------------------------------------------------------- */
-
-#define MAXLEVELS   1
-struct {
-    int   level;
-
-    struct {
-	DIR    *dp;
-	struct dirent *dirp;
-    } current[MAXLEVELS+1];
-} ITERATION;
-
-
-/*
- * Returns -1 if an error occurred, 0 if no files match, and positive
- * integer for matches.
- */
-
-#if 0
-
-int  find_name (char *fsname)
-{
-    char    buf[MAXPATHLEN], dirname[MAXPATHLEN];
-    char   *p;
-
-    DIR    *dp;
-    struct dirent *dirp;
-
-    /* dp ja dirp sailytettava tai kaikki nimet palautettava kerralla */
-
-
-    /* Directory read */
-
-#if 0
-    if (fsname[1]) {
-	if (!(dp = opendir((char *)fsname + 1))) {
-	    for (p = fsname; *p; p++)
-		if (isupper(*p))
-		    *p = tolower(*p);
-	    if (!(dp = opendir((char *)fsname + 1)))
-		return (-1);
-	}
-	strcpy(dirname, fsname + 1);
-    }
-    else {
-	if (!(dp = opendir(".")))
-	    return (-1);
-	strcpy(dirname, ".");
-    }
-#else
-	if (!(dp = opendir(".")))
-	    return (-1);
-	strcpy(dirname, ".");
-#endif
-
-
-#ifdef DEBUG_FSDRIVE
-    printf ("reading\n");
-#endif
-
-    /*
-     * Find the next directory entry and try if it matches
-     * given pattern.
-     */
-
-    if ((dirp = readdir(dp))) {
-
-	strcpy(buf, dirname);
-	strcat(buf, "/");
-	strcat(buf, dirp->d_name);
-
-	if (stat(buf, &statbuf) < 0)
-	    return (-1);
-
-	p = buf;
-	for (i = 0; i < dirp->d_namlen &&
-	     (*p = p_topetcii(dirp->d_name[i])); ++i, ++p);
-
-
-#ifdef DEBUG_FSDRIVE
-	printf ("found >%s< (%d/%d)  buf:>%s< (%d)\n",
-		dirp->d_name, i, dirp->d_namlen, info->name +4, info->buflen);
-#endif
-
-    }
-
-
-    closedir(dp);
-
-}
-
-#endif
-
 
 /* Wild-card match routine
  *
