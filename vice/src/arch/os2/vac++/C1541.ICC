@@ -1,30 +1,27 @@
-option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
-                        link(linkwithmultithreadlib, "yes"), link(pmtype, "vio"), opt(autoinline, "yes"),
-                        opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
-                        define("HAVE_CONFIG_H", ), define("HAS_JOYSTICK", ),
-                        define("HAVE_RESID", ), incl(searchpath, "..\\..\\.."),
-                        define("__C1541__", ),
-                        incl(searchpath, "..\\..\\..\\c64"),
-                        incl(searchpath, "..\\..\\..\\sid"),
-                        incl(searchpath, "..\\..\\..\\resid"),
-                        incl(searchpath, "..\\..\\..\\drive"),
-                        incl(searchpath, "..\\..\\..\\vdrive"),
-                        incl(searchpath, "..\\..\\..\\raster"),
-                        incl(searchpath, "..\\..\\..\\sounddrv"),
-                        incl(searchpath, "..\\..\\..\\vicii"),
-                        incl(searchpath, ".."), incl(searchpathfirst, "yes"),
-                        gen(debug, "no"), file(genobject, "Yes"), info(cnd, "no"),
-                        info(ppc, "no"), info(ppt, "no")
+option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
+    link(pmtype, "vio"),     gen(arch, "pentium"),
+    link(debug, "no"),      gen(debug, "no"),
+    opt(level, "2"),        opt(tune, "pentium"),
+    opt(autoinline, "yes"), opt(inline, "yes"),
+    info(cnd, "no"),        info(ppc, "no"),
+    info(ppt, "no"),        file(genobject, "Yes"),
+    file(genpch, "no"),     file(usepch, "no"),
+    define("HAVE_CONFIG_H", ),
+    incl(searchpath, ".."),
+    incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\vdrive"),
+    incl(searchpathfirst, "yes"),
+    define("__C1541__", ),
+    res_rc_options("-i ..\\dialogs -d __C1541__ -x1")
+
 {
 target type(exe) "..\\..\\..\\..\\data\\c1541.exe"
 {
+      source type (rc) "dialogs/c1541.rc"
       source type(c) "c1541.c",
                      "charsets.c",
-                     "cmdline.c",
                      "diskimage.c",
-                     "findpath.c",
                      "gcr.c",
-                     "imagecontents.c",
                      "info.c",
                      "log.c",
                      "p00.c",
@@ -33,12 +30,7 @@ target type(exe) "..\\..\\..\\..\\data\\c1541.exe"
                      "utils.c",
                      "zfile.c",
                      "zipcode.c"
-      source type(c) "archdep.c",
-                     "uicmdline.c",
-                     "pm_cmdline.c",
-                     "contentsdlg.c",
-                     "pm/winaddon.c",
-                     "pm/scrollbars.c"
+      source type(c) "archdep.c"
       include "incl/vdrive.icc"
 }
 }

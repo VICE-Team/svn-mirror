@@ -112,6 +112,15 @@ OS/2 and RiscOS.
     There is a separate file `Win32-Howto.txt' in the `doc' directory
     describing what is required to compile VICE under MS-Windows.
 
+  1.4. OS/2
+  --------------
+
+    After unzipping the archive and moving the folder 'Vice2' to
+    where-ever-you-want run 'install.cmd' to create the desktop-objects.
+
+    Mention that 'install.cmd' does nothing else than creating desktop-
+    objects which could be easily removed.
+    
 
 2. Configuring and compiling
 ============================

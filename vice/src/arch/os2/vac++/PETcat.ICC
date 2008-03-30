@@ -1,0 +1,26 @@
+option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
+    link(pmtype, "vio"),     gen(arch, "pentium"),
+    link(debug, "no"),      gen(debug, "no"),
+    opt(level, "2"),        opt(tune, "pentium"),
+    opt(autoinline, "yes"), opt(inline, "yes"),
+    info(cnd, "no"),        info(ppc, "no"),
+    info(ppt, "no"),        file(genobject, "Yes"),
+    file(genpch, "no"),     file(usepch, "no"),
+    define("HAVE_CONFIG_H", ),
+    incl(searchpath, ".."),
+    incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\c64"),
+    incl(searchpath, "..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\vdrive"),
+    incl(searchpathfirst, "yes"),
+    define("__PETCAT__", )
+
+{
+target type(exe) "..\\..\\..\\..\\data\\PETcat.exe"
+{
+      source type(c) "petcat.c",
+                     "p00.c"
+}
+}
+
+

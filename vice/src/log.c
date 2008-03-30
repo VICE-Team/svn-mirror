@@ -54,6 +54,7 @@ static int set_log_file_name(resource_value_t v)
     return 0;
 }
 
+#ifndef __C1541__
 static resource_t resources[] = {
     { "LogFileName", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &log_file_name, set_log_file_name },
@@ -75,6 +76,7 @@ int log_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

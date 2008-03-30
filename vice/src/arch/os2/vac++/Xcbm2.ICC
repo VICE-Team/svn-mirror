@@ -1,8 +1,15 @@
-option ProjectOptions = link(debug, "no"), gen(debug, "yes"),
-    link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
-    opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
+option ProjectOptions = link(linkwithmultithreadlib, "yes"),
+    link(pmtype, "pm"),     gen(arch, "pentium"),
+    link(debug, "no"),      gen(debug, "no"),
+    opt(level, "2"),        opt(tune, "pentium"),
+    opt(autoinline, "yes"), opt(inline, "yes"),
+    info(cnd, "no"),        info(ppc, "no"),
+    info(ppt, "no"),        file(genobject, "Yes"),
+    file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
-    define("__XCBM__", ),
+    incl(searchpath, ".."),
+    incl(searchpath, "..\\ui"),
+    incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\cbm2"),
@@ -13,14 +20,13 @@ option ProjectOptions = link(debug, "no"), gen(debug, "yes"),
     incl(searchpath, "..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
-    incl(searchpath, ".."), incl(searchpathfirst, "yes"),
-    file(genobject, "Yes"), gen(arch, "pentium"),
-    file(genpch, "no"), file(usepch, "no"), info(cnd, "no"),
-    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i .. -x1")
+    incl(searchpathfirst, "yes"),
+    define("__XCBM__", ),
+    res_rc_options("-i ..\\dialogs -x1 -d __XCBM__")
 {
     target type(exe) "..\\..\\..\\..\\data\\xcbm2.exe"
     {
-        source type (rc)  "dialogs.rc"
+        source type (rc)  "dialogs/dialogs.rc"
         source type (lib) "mmpm2.lib"
 
         include "incl/cbm2.icc"

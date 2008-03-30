@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * dialogs.c - The dialogs.
+ *
+ * Written by
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,38 +24,45 @@
  *
  */
 
+#define INCL_WINDIALOGS
+
 #include "vice.h"
+#include "dialogs.h"
 
-#include <stdio.h>
-#include <signal.h>
-
-#include "joystick.h"
-#include "log.h"
-#include "machine.h"
-#include "main_exit.h"
-#include "sound.h"
-#include "video.h"
 #include "resources.h"
 
-void main_exit(void)
+int toggle(char *resource_name)
 {
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    signal(SIGINT, SIG_IGN);
+    int val;
+    if (resources_get_value(resource_name, (resource_value_t *) &val) <0)
+        return -1;
+    resources_set_value(resource_name, (resource_value_t)   !val);
+    return !val;
+}
 
-    log_message(LOG_DEFAULT, "\nExiting...");
+static int dlg_open = FALSE;
 
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
-    //---    DosSleep(500);
+int dlgOpen(int dlg)
+{
+    return dlg_open & dlg;
+}
 
-    //---    machine_shutdown();
-    //    video_free();
-    //    sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
+void setDlgOpen(int dlg)
+{
+    dlg_open |= dlg;
+}
 
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
+void delDlgOpen(int dlg)
+{
+    dlg_open &= ~dlg;
+}
+
+/* call to open dialog                                              */
+/*----------------------------------------------------------------- */
+
+void about_dialog(HWND hwnd)
+{
+    WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
+               DLG_ABOUT, NULL);
 }
 

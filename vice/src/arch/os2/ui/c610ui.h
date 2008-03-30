@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * c610ui.h - Implementation of the C610-specific part of the UI.
+ *
+ * Written by
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,38 +24,10 @@
  *
  */
 
-#include "vice.h"
+#ifndef _C610UI_H
+#define _C610UI_H
 
-#include <stdio.h>
-#include <signal.h>
+extern int c610_ui_init(void);
 
-#include "joystick.h"
-#include "log.h"
-#include "machine.h"
-#include "main_exit.h"
-#include "sound.h"
-#include "video.h"
-#include "resources.h"
-
-void main_exit(void)
-{
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    signal(SIGINT, SIG_IGN);
-
-    log_message(LOG_DEFAULT, "\nExiting...");
-
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
-    //---    DosSleep(500);
-
-    //---    machine_shutdown();
-    //    video_free();
-    //    sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
-
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
-}
+#endif
 

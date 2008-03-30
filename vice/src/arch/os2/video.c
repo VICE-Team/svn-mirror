@@ -46,7 +46,6 @@
 #include "ui.h"
 #include "ui_status.h"
 #include "utils.h"
-//#include "vicii.h"  // video_free()
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -60,6 +59,8 @@ static CHAR  szClientClass [] = "VICE/2 Grafic Area";
 static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
+
+#undef __XVIC__
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
@@ -328,6 +329,8 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
 }
 
+extern int trigger_shutdown;
+
 void PM_mainloop(VOID *arg)
 {
     APIRET rc;
@@ -350,9 +353,13 @@ void PM_mainloop(VOID *arg)
                                    &((*ptr)->hwndClient));
 
     WinSetWindowPos((*ptr)->hwndFrame, HWND_TOP, 0, 0,
-                    (*ptr)->width *stretch,
-                    (*ptr)->height*stretch+
-                    WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR), // +1 with gcc?
+                    (*ptr)->width *stretch
+#if defined __XVIC__
+                    *2
+#endif
+                    ,
+                    (*ptr)->height*stretch
+                    +WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR), // +1 with gcc?
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE);    // Make visible, resize, top window
     WinSetWindowPtr((*ptr)->hwndClient, QWL_USER, (VOID*)(*ptr));
 
@@ -378,7 +385,8 @@ void PM_mainloop(VOID *arg)
     //    sound_close();
     //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!
     //      free(*ptr);
-    exit(0); // Kill VICE, All went OK
+    trigger_shutdown = 1;
+//    exit(0); // Kill VICE, All went OK
 }
 
 
@@ -462,9 +470,17 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         divesetup.ulSrcHeight = h;
         divesetup.ulSrcPosX   = xs;
         divesetup.ulSrcPosY   = ys;
-        divesetup.ulDstWidth  = w *stretch;
+        divesetup.ulDstWidth  = w *stretch
+#if defined __XVIC__
+            *2
+#endif
+            ;
         divesetup.ulDstHeight = h *stretch;
-        divesetup.lDstPosX    = xi*stretch;
+        divesetup.lDstPosX    = xi*stretch
+#if defined __XVIC__
+            *2
+#endif
+            ;
         divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
         wmVrn(c->hwndClient);                               // setup draw areas
         DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN); // draw the image

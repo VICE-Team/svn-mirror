@@ -45,6 +45,7 @@
 #include "ui.h"
 #include "ui_status.h"
 #include "interrupt.h"
+#include "machine.h" //machine_shutdown
 #include "maincpu.h"
 #include "log.h"
 #include "kbdbuf.h"
@@ -326,6 +327,20 @@ int isEmulatorPaused()
 
 
 /* ------------------------------------------------------------------------- */
+void vice_exit(void);
+
+void vice_exit()
+{
+    sound_close();
+    machine_shutdown();
+    //    video_free();
+#ifdef HAS_JOYSTICK
+    joystick_close();
+#endif
+    exit(0);
+}
+
+int trigger_shutdown=0;
 
 /* This is called at the end of each screen frame.  It flushes the audio buffer
    and keeps control of the emulation speed.  */
@@ -336,7 +351,8 @@ int do_vsync(int been_skipped)
     static int skip_counter;
     int skip_next_frame = 0;
 
-    while (emulator_paused) DosSleep(1);
+    while (emulator_paused && !trigger_shutdown) DosSleep(1);
+    if (trigger_shutdown) vice_exit();
 
     vsync_hook();
 

@@ -41,8 +41,6 @@
 #include "vic20.h"
 #include "video.h"
 
-
-
 #define VIC_SCREEN_WIDTH                233
 #define VIC_SCREEN_HEIGHT               312
     
@@ -56,12 +54,12 @@
 
 #define VIC_NUM_COLORS 16
 
-
-
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
 /* But this is no problem as 320*200 does not fit anyhow.  */
+//#ifndef OS2
 #define VIC_DUPLICATES_PIXELS
+//#endif
 
 #ifdef VIC_DUPLICATES_PIXELS
 typedef PIXEL2 VIC_PIXEL;
@@ -77,8 +75,6 @@ typedef PIXEL2 VIC_PIXEL2;
 #define VIC_PIXEL_WIDTH 1
 #endif
 
-
-
 #define VIC_CYCLES_PER_LINE VIC20_PAL_CYCLES_PER_LINE
 
 /* Cycle # within the current line.  */
@@ -89,8 +85,6 @@ typedef PIXEL2 VIC_PIXEL2;
    guarranteed to be always correct.  It is a bit slow, though.  */
 #define VIC_RASTER_Y(clk)     ((int)((clk) / VIC_CYCLES_PER_LINE)   \
                                % VIC_SCREEN_HEIGHT)
-
-
 
 /* Video mode definitions. */
 
@@ -104,15 +98,11 @@ typedef enum _vic_video_mode vic_video_mode_t;
 
 #define VIC_IDLE_MODE VIC_STANDARD_MODE
 
-
-
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
-#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
+#if !defined(__MSDOS__) && !defined(__riscos) && !defined(OS2)
 #define VIC_NEED_2X 1
 #endif
-
-
 
 struct snapshot_s;
 struct palette_s;
@@ -146,8 +136,6 @@ typedef struct _vic vic_t;
 
 extern vic_t vic;
 
-
-
 extern canvas_t vic_init (void);
 extern void vic_reset (void);
 
@@ -157,15 +145,11 @@ extern int vic_init_cmdline_options (void);
 extern int vic_write_snapshot_module (struct snapshot_s *s);
 extern int vic_read_snapshot_module (struct snapshot_s *s);
 
-
-
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */
 extern void vic_update_memory_ptrs (void);
 extern int vic_load_palette (const char *name);
 extern void vic_resize (void);
-
-
 
 /* Debugging options.  */
 

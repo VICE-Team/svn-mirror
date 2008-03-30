@@ -206,7 +206,7 @@ static RETSIGTYPE break64(int sig)
             "Received signal %d (%s). Vice will be closed.",
             sig, sys_siglist[sig]);
     log_message(LOG_DEFAULT, sigtxt);
-#ifndef __C1541__
+#if !defined __C1541__ && !defined __PETCAT__
     ui_OK_dialog("Vice/2 Exception", sigtxt);
 #endif
     exit (-1);
@@ -410,7 +410,7 @@ void archdep_startup_log_error(const char *format, ...)
     va_list ap;
     va_start(ap, format);
     vsprintf(txt, format, ap);
-#ifndef __C1541__
+#if !defined __C1541__ && !defined __PETCAT__
     ui_OK_dialog("VICE/2 Startup Error", txt);
 #else
     printf(txt);

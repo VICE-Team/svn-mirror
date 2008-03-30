@@ -1,10 +1,15 @@
-option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
-    link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
-    opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
+option ProjectOptions = link(linkwithmultithreadlib, "yes"),
+    link(pmtype, "pm"),     gen(arch, "pentium"),
+    link(debug, "no"),      gen(debug, "no"),
+    opt(level, "2"),        opt(tune, "pentium"),
+    opt(autoinline, "yes"), opt(inline, "yes"),
+    info(cnd, "no"),        info(ppc, "no"),
+    info(ppt, "no"),        file(genobject, "Yes"),
+    file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
-    define("HAS_JOYSTICK", ),
-    define("HAVE_RESID", ),
-    define("__X128__", ),
+    incl(searchpath, ".."),
+    incl(searchpath, "..\\ui"),
+    incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\c128"),
@@ -17,16 +22,15 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
-    incl(searchpath, ".."), incl(searchpathfirst, "yes"),
-    gen(debug, "no"), file(genobject, "Yes"),
-    file(genpch, "no"), file(usepch, "no"), info(cnd, "no"),
-    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i ..")
+    incl(searchpathfirst, "yes"),
+    define("__X128__", ),
+    res_rc_options("-i ..\\dialogs -x1 -d __X128__")
 {
     target type(exe) "..\\..\\..\\..\\data\\x128.exe"
     {
         source type (lib) "mmpm2.lib"
         source type (lib) "resid.lib"
-        source type (rc)  "dialogs.rc"
+        source type (rc)  "dialogs/dialogs.rc"
 
         source type(c)
             "rs232.c",

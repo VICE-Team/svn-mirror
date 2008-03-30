@@ -1,4 +1,5 @@
 option ProjectOptions = ipf_preopt("/i")
 {
+   run "..\\texi2ipf\\texi2ipf.exe  ..\\..\\..\\..\\doc\\vice.texi > vice2.ipf"
    source type(ipf) "vice2.ipf"
 }
