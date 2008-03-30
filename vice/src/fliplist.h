@@ -30,6 +30,8 @@
 #define FLIP_NEXT 1
 #define FLIP_PREV 0
 
+extern int fliplist_resources_init(void);
+extern int fliplist_cmdline_options_init(void);
 
 extern void flip_shutdown(void);
 extern void flip_set_current(unsigned int unit, const char *image);

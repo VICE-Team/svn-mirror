@@ -33,9 +33,11 @@
 
 #include "archdep.h"
 #include "attach.h"
+#include "cmdline.h"
 #include "fliplist.h"
 #include "lib.h"
 #include "log.h"
+#include "resources.h"
 #include "util.h"
 
 
@@ -61,6 +63,50 @@ static const char flip_file_header[] = "# Vice fliplist file";
 #define buffer_size 1024
 
 static void show_fliplist(unsigned int unit);
+
+static char *fliplist_file_name = NULL;
+
+
+static int set_fliplist_file_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&fliplist_file_name, (const char *)v))
+        return 0;
+
+    flip_load_list((unsigned int)-1, fliplist_file_name, 0);
+
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "FliplistName", RES_STRING, NULL,
+      (void *)&fliplist_file_name, set_fliplist_file_name, NULL },
+    { NULL }
+};
+
+int fliplist_resources_init(void)
+{
+    resources[0].factory_value
+        = (resource_value_t)archdep_default_fliplist_file_name();
+
+    if (resources_register(resources) < 0)
+        return -1;
+
+    lib_free(resources[0].factory_value);
+
+    return 0;
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-flipname", SET_RESOURCE, 1, NULL, NULL, "FliplistName", NULL,
+      "<name>", "Specify name of the flip list file image" },
+    { NULL }
+};
+
+int fliplist_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
 /* ------------------------------------------------------------------------- */
 /* interface functions */
