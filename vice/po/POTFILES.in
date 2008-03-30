@@ -32,6 +32,8 @@ src/arch/unix/uidrivec64vic20.c
 src/arch/unix/uidriveiec.c
 src/arch/unix/uidrivepetcbm2.c
 src/arch/unix/uidriveplus4.c
+src/arch/unix/uifliplist.c
+src/arch/unix/uiide64.c
 src/arch/unix/uijoystick2.c
 src/arch/unix/uimon.c
 src/arch/unix/uipalemu.c
