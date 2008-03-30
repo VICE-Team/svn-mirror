@@ -35,13 +35,16 @@
 #include "diskcontents.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "machine-bus.h"
 #include "machine.h"
-#include "serial.h"
 
 
 image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
 {
     image_contents_t *contents = NULL;
+
+    if (machine_bus_device_fsimage_state_get(unit))
+        unit = 0;
 
     switch (unit) {
       case 0:
@@ -51,7 +54,7 @@ image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
       case 9:
       case 10:
       case 11:
-        if (serial_device_get_realdevice_state(unit))
+        if (machine_bus_device_realdevice_state_get(unit))
             contents = machine_diskcontents_bus_read(unit);
         else
             contents = diskcontents_block_read(file_name, unit);

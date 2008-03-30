@@ -67,7 +67,6 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "screenshot.h"
-#include "serial.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
@@ -263,10 +262,6 @@ int machine_init(void)
     traps_init();
 
     if (mem_load() < 0)
-        return -1;
-
-    /* No traps installed on the CBM-II.  */
-    if (serial_init(NULL) < 0)
         return -1;
 
     /* Initialize drives. */
@@ -607,39 +602,8 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-void machine_bus_status_truedrive_set(unsigned int enable)
-{
-}
-
-void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
-{
-}
-
-void machine_bus_status_virtualdevices_set(unsigned int enable)
-{
-    parallel_bus_enable(enable);
-}
-
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 {
     return NULL;
-}
-
-int machine_bus_lib_directory(unsigned int unit, const char *pattern,
-                              BYTE **buf)
-{
-    return -1;
-}
-
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
-                                unsigned int sector, BYTE *buf)
-{
-    return -1;
-}
-
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
-                                 unsigned int sector, BYTE *buf)
-{
-    return -1;
 }
 
