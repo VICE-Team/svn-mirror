@@ -69,17 +69,18 @@ void reu_init(void)
 }
 
 /* FIXME: This does not really handle different sizes.  */
+/* FIXED? I hope. [SRT], 01-18-2000. */
 int reu_reset(int size)
 {
     int i;
 
     if (size > 0)
-        ReuSize = size;
+        ReuSize = size << 10;
 
     for (i = 0; i < 16; i++)
         reu[i] = 0;
 
-    if (ReuSize >= 256)
+    if (ReuSize >= (256<<10))
         reu[0] = 0x50;
     else
         reu[0] = 0x40;
@@ -88,7 +89,7 @@ int reu_reset(int size)
 
     if (reuram == NULL) {
         reuram = (char*)xmalloc(ReuSize);
-        log_message(reu_log, "%dKB unit installed.", REUSIZE);
+        log_message(reu_log, "%dKB unit installed.", ReuSize >> 10);
         if (reu_file_name != NULL) {
             if (load_file(reu_file_name, reuram, ReuSize) == 0) {
                 log_message(reu_log, "Image `%s' loaded successfully.",
@@ -130,16 +131,17 @@ BYTE REGPARM1 reu_read(ADDRESS addr)
     switch (addr) {
       case 0x0:
         /* fixed by [EP], 04-16-97. */
-        retval = (reu[0] & 0x60) | (((ReuSize >> 10) >= 256) ? 0x10 : 0x00);
+        /* fixed again by [SRT], 01-18-2000:
+           The checking for ReuSize is already done in reu_reset() */
+        /* FIXME: are we SURE that bit 7, int pending, cannot be read as 1
+           on a real machine? I believe it can be read as 1, but I leave
+           it as is until I can check it. */
+        retval = reu[0] & 0x70;
 
         /* Bits 7-5 are cleared when register is read, and pending IRQs are
            removed. */
         reu[0] &= ~0xe0;
         maincpu_set_irq(I_REU, 0);
-        break;
-
-      case 0x5:
-        retval = reu[addr];
         break;
 
       case 0x6:
@@ -231,7 +233,7 @@ void reu_dma(int immed)
     BYTE c;
 
     if (!immed) {
-        delay++;
+        delay = 1;
         return;
     } else {
         if (!delay && (immed < 0))
@@ -419,6 +421,7 @@ int reu_read_snapshot_module(snapshot_t *s)
     }
 
     /* FIXME: We cannot really support sizes different from `REUSIZE'.  */
+    /* FIXED? I hope. [SRT], 01-18-2000. */
 
     reu_reset(ReuSize);
 

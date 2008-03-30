@@ -71,7 +71,7 @@ void *xmalloc(size_t size)
 
     if (!p) {
 	log_error(LOG_DEFAULT,
-                  "Virtual memory exhausted: cannot allocate %lu bytes.",
+                  "xmalloc - virtual memory exhausted: cannot allocate %lu bytes.",
                   (unsigned long)size);
         if (!size) return NULL;
 	exit(-1);
@@ -87,9 +87,10 @@ void *xcalloc(size_t nmemb, size_t size)
 
     if (!p) {
 	log_error(LOG_DEFAULT,
-                  "Virtual memory exhausted: cannot allocate %lu bytes.",
-                  (unsigned long)size * (unsigned long)nmemb);
-        if (!size) return NULL;
+                  "xcalloc - virtual memory exhausted: cannot allocate %lux%lu bytes.",
+                  (unsigned long)nmemb, (unsigned long)size);
+        if (!size)
+            return NULL;
 	exit(-1);
     }
 
@@ -103,7 +104,7 @@ void *xrealloc(void *p, size_t size)
 
     if (new_p == NULL) {
 	log_error(LOG_DEFAULT,
-                  "Virtual memory exhausted: cannot allocate %lu bytes.",
+                  "xrealloc - virtual memory exhausted: cannot allocate %lu bytes.",
                   (unsigned long)size);
 	exit(-1);
     }
@@ -169,11 +170,13 @@ char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
 	     const char *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
+
     if (*buf_size + src_size > *max_buf_size) {
 	char *new_buf;
 
 	*max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
 			  * BUFCAT_GRANULARITY);
+
 	new_buf = (char *)xrealloc(buf, *max_buf_size);
 	buf = new_buf;
     }

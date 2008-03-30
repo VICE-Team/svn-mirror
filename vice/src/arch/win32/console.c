@@ -517,8 +517,9 @@ static void restore_current_character( console_private_t *pcp )
 {
 	/* remark: in general, we don't need to bother 
 	   synchronizing with the blink timer, because the 
-	   timer cannot due to the cooperative multi-
-	   tasking!
+	   timer cannot effectively expire unless the next
+       message is dispatched due to the cooperative
+       multitasking in Windows.
 	*/
 
 	pcp->bBlinkOn = FALSE;

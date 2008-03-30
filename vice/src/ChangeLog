@@ -1,6 +1,68 @@
+2000-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.24.
+
+	* imagecontents.c (image_contents_to_string): `bufcat' returns
+	a pointer to the new buffer if the old one was too small.
+
+	* c1541.c (floppy_read_directory): Fixed usage of `bufcat'.
+
+	* c64/Makefile.am, vic20/Makefile.am: Changed name of
+	`cartridge.c'.
+
+2000-01-19  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* vic20/vic.h: replaced // with /* ... */
+
+2000-01-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/reu.c: corrections of errors in reu_reset(), now it
+	should be able to process reu sizes different from REUSIZE.
+
+	* c128/c128mmu.c: now reu_dma(-1) is called when a write to
+	$FF00 is detected, so the reu will work the $FF00 option.
+
+2000-01-18  Nathan Huizinga  <nathan.huizinga@chess.nl>
+
+	* c64/c64cart.h: Define C64CART_RAM_LIMIT added.
+
+	* c64/c64mem.c: Use C64CART_RAM_LIMIT define for allocating
+	export_ram0 buffer.
+
+	* c64/c64cartmem.c: Use C64CART_RAM_LIMIT define for allocating
+	the *static* export_ram0 buffer.
+	Current SS5 emulation replaced by a more exact emulation and
+	support added for 32Kb RAM expansion.
+
+2000-01-18  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* c64/cartridge.c --> cartridge64.c
+
+	* vic20/cartridge.c --> cartridge20.c
+
+	* crtc/crtc.h: vice.h included
+
+	* main.c: description for OS/2-"DoCoreDump" added
+
+	* utils.c: better log_error for x/re/malloc
+
+	* arch/os2/config.h: minor change
+
+	* arch/os2/dialogs/dialogs.[hc,rc]: minor changes
+
+	* arch/os2/dialogs/dlg-emulator.c: Emulator ID added
+
+	* arch/os2/vac++/*.icc: minor changes
+
+	* arch/os2/vac++/incl/resid.icc: added (needed, because extern
+	"C" could not be optimized)
+
+	* video.c: added resources and cmdline ptions for changing PM
+	border
+
 2000-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.2.23.
+	* Version 1.2.23.
 
 	* vdrive/vdrive.h: Changed `find_length' to `int'.
 

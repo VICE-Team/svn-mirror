@@ -297,8 +297,8 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
 	../../src/mem.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/keyboard.h \
-	../../src/log.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
-	z80.h z80mem.h
+	../../src/log.h ../../src/c64/reu.h ../../src/vdc/vdc.h \
+	../../src/vicii/vicii.h z80.h z80mem.h
 z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \

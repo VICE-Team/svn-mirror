@@ -35,6 +35,7 @@
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
+#include "reu.h"
 #include "types.h"
 #include "vdc.h"
 #include "vicii.h"
@@ -230,7 +231,12 @@ BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
 void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
 {
     if (addr == 0xff00)
+    {
         mmu_store(0, value);
+        /* FIXME? [SRT] does reu_dma(-1) work here, or should
+        it be deferred until later? */
+        reu_dma(-1);
+    }
     else if (addr <= 0xff04)
         mmu_store(0, mmu[addr & 0xf]);
     else

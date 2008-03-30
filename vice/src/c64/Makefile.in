@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
-libc64_a_SOURCES =  	c64.c 	c64.h 	c64cart.h 	c64cartmem.c 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64mem.c 	c64mem.h 	cartridge.c 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h
+libc64_a_SOURCES =  	c64.c 	c64.h 	c64cart.h 	c64cartridge.c 	c64cartmem.c 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64iec.c 	c64iec.h 	c64mem.c 	c64mem.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	c64tpi.c 	c64tpi.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h
 
 
 libc64c128_a_SOURCES =  	c64cia.h 	c64cia2.c 	c64datasette.c 	patchrom.c 	patchrom.h 	c64tpi.c 	c64tpi.h 	reu.c 	reu.h
@@ -149,8 +149,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
-libc64_a_OBJECTS =  c64.o c64cartmem.o c64cia1.o c64cia2.o \
-c64datasette.o c64iec.o c64mem.o cartridge.o patchrom.o reu.o c64tpi.o \
+libc64_a_OBJECTS =  c64.o c64cartridge.o c64cartmem.o c64cia1.o \
+c64cia2.o c64datasette.o c64iec.o c64mem.o patchrom.o reu.o c64tpi.o \
 psid.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
@@ -297,6 +297,12 @@ c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h c64mem.h ../../src/mem.h c64tpi.h \
 	../../src/cartridge.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/vicii/vicii.h
+c64cartridge.o: c64cartridge.c ../../src/vice.h ../../src/config.h \
+	../../src/alarm.h ../../src/arch/unix/types.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/utils.h
 c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
@@ -340,12 +346,6 @@ c64tpi.o: c64tpi.c c64mem.h ../../src/mem.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/parallel.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/tpi.h \
 	../../src/tpicore.h ../../src/tpicore.c ../../src/snapshot.h
-cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/utils.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
 	patchrom.h ../../src/utils.h
