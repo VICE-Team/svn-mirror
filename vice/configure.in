@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.53)
+AM_INIT_AUTOMAKE(vice, 0.14.2.54)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -208,7 +208,7 @@ AC_PROG_GCC_TRADITIONAL
 dnl Check for header files.
 
 AC_HEADER_DIRENT
-AC_CHECK_HEADERS(fcntl.h limits.h sgtty.h regexp.h systeminfo.h)
+AC_CHECK_HEADERS(fcntl.h limits.h sgtty.h regex.h regexp.h)
 AC_CHECK_HEADERS(sys/param.h sys/file.h sys/ioctl.h sys/time.h sys/dirent.h)
 
 AC_DECL_SYS_SIGLIST
