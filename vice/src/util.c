@@ -330,6 +330,7 @@ int util_file_load(const char *name, BYTE *dest, size_t size,
         if (i + length > size)
             break;
         r = fread((void *)&(dest[i]), length, 1, fd);
+//log_debug("READ %i bytes to offset %i result %i.",length,i,r);
         if (r < 1)
             break;
     }
