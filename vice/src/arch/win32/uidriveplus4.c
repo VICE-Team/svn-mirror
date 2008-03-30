@@ -113,11 +113,11 @@ static void init_dialog(HWND hwnd, int num)
                  drive_check_type(DRIVE_TYPE_1581, num - 8));
 
     resources_get_sprintf("Drive%dType",
-                          (resource_value_t *) &drive_type, num);
+                          (void *)&drive_type, num);
     resources_get_sprintf("Drive%dExtendImagePolicy",
-                          (resource_value_t *) &drive_extend_image_policy, num);
+                          (void *)&drive_extend_image_policy, num);
     resources_get_sprintf("Drive%dIdleMethod",
-                          (resource_value_t *) &drive_idle_method, num);
+                          (void *)&drive_idle_method, num);
 
     switch (drive_type) {
       case DRIVE_TYPE_NONE:
@@ -175,27 +175,27 @@ static void init_dialog(HWND hwnd, int num)
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE,
                      IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, n);
 
-    resources_get_sprintf("Drive%dParallelCable", (resource_value_t *) &n, num);
+    resources_get_sprintf("Drive%dParallelCable", (void *)&n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM2000", (resource_value_t *) &n, num);
+    resources_get_sprintf("Drive%dRAM2000", (void *)&n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM4000", (resource_value_t *) &n, num);
+    resources_get_sprintf("Drive%dRAM4000", (void *)&n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM6000", (resource_value_t *) &n, num);
+    resources_get_sprintf("Drive%dRAM6000", (void *)&n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM8000", (resource_value_t *) &n, num);
+    resources_get_sprintf("Drive%dRAM8000", (void *)&n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAMA000", (resource_value_t *) &n, num);
+    resources_get_sprintf("Drive%dRAMA000", (void *)&n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 }

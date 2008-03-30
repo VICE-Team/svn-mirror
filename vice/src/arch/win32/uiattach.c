@@ -88,27 +88,23 @@ static void init_dialog(HWND hwnd, unsigned int num)
         SetDlgItemText(hwnd, IDC_DISKIMAGE,
                        disk_image != NULL ? disk_image : "");
 
-        resources_get_sprintf("FSDevice%dDir",
-                              (resource_value_t *)&dir, num);
+        resources_get_sprintf("FSDevice%dDir", (void *)&dir, num);
         SetDlgItemText(hwnd, IDC_DIR, dir != NULL ? dir : "");
 
-        resources_get_sprintf("FSDevice%dConvertP00",
-                              (resource_value_t *)&n, num);
+        resources_get_sprintf("FSDevice%dConvertP00", (void *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_READP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        resources_get_sprintf("FSDevice%dSaveP00",
-                              (resource_value_t *)&n, num);
+        resources_get_sprintf("FSDevice%dSaveP00", (void *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_WRITEP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        resources_get_sprintf("FSDevice%dHideCBMFiles",
-                              (resource_value_t *)&n, num);
+        resources_get_sprintf("FSDevice%dHideCBMFiles", (void *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
         resources_get_sprintf("AttachDevice%dReadonly",
-                              (resource_value_t *)&n, num);
+                              (void *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
                        n ? BST_CHECKED : BST_UNCHECKED);
 

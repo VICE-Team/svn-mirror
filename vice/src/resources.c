@@ -396,8 +396,7 @@ int resources_get_value(const char *name, void *value_return)
     return 0;
 }
 
-int resources_get_sprintf(const char *name,
-                          resource_value_t *value_return, ...)
+int resources_get_sprintf(const char *name,void *value_return, ...)
 {
     va_list args;
     char *resname;

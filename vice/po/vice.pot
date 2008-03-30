@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-05-29 18:52+0200\n"
+"POT-Creation-Date: 2003-06-01 20:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1306,9 +1306,9 @@ msgstr ""
 #: src/arch/unix/uidrivec64c128vic20.c:73 src/arch/unix/uidrivepetcbm2.c:42
 #: src/arch/unix/uidrivepetcbm2.c:62 src/arch/unix/uidriveplus4.c:43
 #: src/arch/unix/uidriveplus4.c:59 src/arch/unix/uijoystick2.c:78
-#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:96
-#: src/arch/unix/uiperipheral.c:127 src/arch/unix/uiperipheral.c:158
-#: src/arch/unix/uiperipheral.c:189 src/arch/unix/uiprinter.c:173
+#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:98
+#: src/arch/unix/uiperipheral.c:129 src/arch/unix/uiperipheral.c:160
+#: src/arch/unix/uiperipheral.c:191 src/arch/unix/uiprinter.c:173
 #: src/arch/unix/uiprinter.c:185 src/arch/unix/vic20ui.c:288
 msgid "*None"
 msgstr ""
@@ -1519,82 +1519,82 @@ msgid ""
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:85
+#: src/arch/unix/uiperipheral.c:87
 msgid "Path:"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:98 src/arch/unix/uiperipheral.c:129
-#: src/arch/unix/uiperipheral.c:160 src/arch/unix/uiperipheral.c:191
+#: src/arch/unix/uiperipheral.c:100 src/arch/unix/uiperipheral.c:131
+#: src/arch/unix/uiperipheral.c:162 src/arch/unix/uiperipheral.c:193
 #: src/arch/unix/uiprinter.c:175 src/arch/unix/uiprinter.c:187
 msgid "*File system access"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:132
-#: src/arch/unix/uiperipheral.c:163 src/arch/unix/uiperipheral.c:194
+#: src/arch/unix/uiperipheral.c:103 src/arch/unix/uiperipheral.c:134
+#: src/arch/unix/uiperipheral.c:165 src/arch/unix/uiperipheral.c:196
 #: src/arch/unix/uiprinter.c:178 src/arch/unix/uiprinter.c:190
 msgid "*Real device access"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
-#: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
+#: src/arch/unix/uiperipheral.c:106 src/arch/unix/uiperipheral.c:137
+#: src/arch/unix/uiperipheral.c:168 src/arch/unix/uiperipheral.c:199
 msgid "*Raw device access"
-msgstr ""
-
-#: src/arch/unix/uiperipheral.c:110 src/arch/unix/uiperipheral.c:141
-#: src/arch/unix/uiperipheral.c:172 src/arch/unix/uiperipheral.c:203
-msgid "Device type"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:112 src/arch/unix/uiperipheral.c:143
 #: src/arch/unix/uiperipheral.c:174 src/arch/unix/uiperipheral.c:205
-msgid "*Read only access"
+msgid "Device type"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:146
-#: src/arch/unix/uiperipheral.c:177 src/arch/unix/uiperipheral.c:208
-msgid "File system directory..."
+#: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:145
+#: src/arch/unix/uiperipheral.c:176 src/arch/unix/uiperipheral.c:207
+msgid "*Read only access"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:117 src/arch/unix/uiperipheral.c:148
 #: src/arch/unix/uiperipheral.c:179 src/arch/unix/uiperipheral.c:210
-msgid "*Convert P00 file names"
+msgid "File system directory..."
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:119 src/arch/unix/uiperipheral.c:150
 #: src/arch/unix/uiperipheral.c:181 src/arch/unix/uiperipheral.c:212
-msgid "*Create P00 files on save"
+msgid "*Convert P00 file names"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:121 src/arch/unix/uiperipheral.c:152
 #: src/arch/unix/uiperipheral.c:183 src/arch/unix/uiperipheral.c:214
+msgid "*Create P00 files on save"
+msgstr ""
+
+#: src/arch/unix/uiperipheral.c:123 src/arch/unix/uiperipheral.c:154
+#: src/arch/unix/uiperipheral.c:185 src/arch/unix/uiperipheral.c:216
 msgid "*Hide raw CBM files"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:220
+#: src/arch/unix/uiperipheral.c:222
 msgid "Device #8"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:221
+#: src/arch/unix/uiperipheral.c:223
 msgid "Device #9"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:222
+#: src/arch/unix/uiperipheral.c:224
 msgid "Device #10"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:223
+#: src/arch/unix/uiperipheral.c:225
 msgid "Device #11"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:225
+#: src/arch/unix/uiperipheral.c:227
 msgid "Printer settings"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:227
+#: src/arch/unix/uiperipheral.c:229
 msgid "*Enable Virtual Devices"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:233
+#: src/arch/unix/uiperipheral.c:235
 msgid "Peripheral settings"
 msgstr ""
 
@@ -1795,7 +1795,7 @@ msgid "Invalid speed value"
 msgstr ""
 
 #: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1260
-#: src/arch/unix/x11/xaw/x11ui.c:1023
+#: src/arch/unix/x11/xaw/x11ui.c:1025
 msgid "Cannot save settings."
 msgstr ""
 
@@ -2468,17 +2468,17 @@ msgstr ""
 msgid "Set fontpath: `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:475
+#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:477
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/xaw/x11ui.c:478
+#: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/xaw/x11ui.c:480
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:635 src/arch/unix/x11/gnome/x11ui.c:659
-#: src/arch/unix/x11/xaw/x11ui.c:481 src/arch/unix/x11/xaw/x11ui.c:498
+#: src/arch/unix/x11/xaw/x11ui.c:483 src/arch/unix/x11/xaw/x11ui.c:500
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr ""
@@ -2488,7 +2488,7 @@ msgstr ""
 msgid "Found %dbit visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:667 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:667 src/arch/unix/x11/xaw/x11ui.c:508
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 
@@ -2516,7 +2516,7 @@ msgstr ""
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:587
+#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:589
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
@@ -2528,24 +2528,24 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1011
+#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1013
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1013
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1015
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1020
+#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1022
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1302 src/arch/unix/x11/xaw/x11ui.c:1061
+#: src/arch/unix/x11/gnome/x11ui.c:1302 src/arch/unix/x11/xaw/x11ui.c:1063
 msgid "Using private colormap."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:1322 src/arch/unix/x11/gnome/x11ui.c:1325
-#: src/arch/unix/x11/xaw/x11ui.c:1082 src/arch/unix/x11/xaw/x11ui.c:1088
+#: src/arch/unix/x11/xaw/x11ui.c:1084 src/arch/unix/x11/xaw/x11ui.c:1090
 msgid "(warp)"
 msgstr ""
 
@@ -2556,7 +2556,7 @@ msgstr ""
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1652 src/arch/unix/x11/xaw/x11ui.c:1308
+#: src/arch/unix/x11/gnome/x11ui.c:1652 src/arch/unix/x11/xaw/x11ui.c:1310
 #, c-format
 msgid "%s (paused)"
 msgstr ""
@@ -2577,7 +2577,7 @@ msgstr ""
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1888 src/arch/unix/x11/xaw/x11ui.c:1586
+#: src/arch/unix/x11/gnome/x11ui.c:1888 src/arch/unix/x11/xaw/x11ui.c:1588
 msgid "Extend disk image"
 msgstr ""
 
@@ -2895,16 +2895,16 @@ msgstr ""
 msgid "Save snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1173
+#: src/arch/unix/x11/xaw/x11ui.c:1175
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1471
+#: src/arch/unix/x11/xaw/x11ui.c:1473
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1654
+#: src/arch/unix/x11/xaw/x11ui.c:1656
 msgid "Unknown image type."
 msgstr ""
 

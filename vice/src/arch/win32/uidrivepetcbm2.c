@@ -85,7 +85,7 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
 
 static void init_dialog(HWND hwnd, int num)
 {
-    int drive_type, drive_extend_image_policy, n;
+    int drive_type, drive_extend_image_policy, n = 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031),
                  drive_check_type(DRIVE_TYPE_2031, num - 8));
@@ -103,9 +103,9 @@ static void init_dialog(HWND hwnd, int num)
                  drive_check_type(DRIVE_TYPE_8250, num - 8));
 
     resources_get_sprintf("Drive%dType",
-                          (resource_value_t *) &drive_type, num);
+                          (void *)&drive_type, num);
     resources_get_sprintf("Drive%dExtendImagePolicy",
-                          (resource_value_t *) &drive_extend_image_policy, num);
+                          (void *)&drive_extend_image_policy, num);
 
     switch (drive_type) {
       case DRIVE_TYPE_NONE:

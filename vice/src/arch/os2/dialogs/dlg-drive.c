@@ -66,7 +66,7 @@ static int toggle_drive_res(char *format, int drive)
 static int get_drive_res(char *format, int drive)
 {
     long val;
-    resources_get_sprintf(format, (resource_value_t*) &val, drive+8);
+    resources_get_sprintf(format, (void *)&val, drive+8);
     return val;
 }
 
@@ -253,7 +253,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 case SPBN_KILLFOCUS:
                     {
                         char *path;
-                        resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
+                        resources_get_sprintf("FSDevice%dDir", (void *)&path, drive+8);
                         WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
                         WinSetDlgSpinVal(hwnd, CBS_PATH, 0);
                     }
@@ -421,7 +421,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             }
             {
                 char *path;
-                resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
+                resources_get_sprintf("FSDevice%dDir", (void *)&path, drive+8);
                 WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
                 WinSetDlgSpinVal(hwnd, CBS_PATH, 0);
             }

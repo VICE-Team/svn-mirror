@@ -74,8 +74,10 @@ static UI_CALLBACK(set_fsdevice_directory)
 
     title = lib_msprintf("Attach file system directory to device #%d", unit);
 
-    resources_get_sprintf("FSDevice%dDir", (resource_value_t *)&value, unit);
+    resources_get_sprintf("FSDevice%dDir", (void *)&value, unit);
+
     len = strlen(value) * 2;
+
     if (len < 255)
         len = 255;
 

@@ -84,8 +84,7 @@ extern int resources_toggle(const char *name,
                             resource_value_t *new_value_return);
 extern int resources_touch(const char *name);
 extern int resources_get_value(const char *name, void *value_return);
-extern int resources_get_sprintf(const char *name,
-                                 resource_value_t *value_return, ...);
+extern int resources_get_sprintf(const char *name, void *value_return, ...);
 extern int resources_get_default_value(const char *name,
                                        const resource_value_t *value_return);
 extern resource_type_t resources_query_type(const char *name);
