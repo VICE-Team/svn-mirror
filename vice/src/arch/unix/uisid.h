@@ -29,6 +29,7 @@
 
 #include "uimenu.h"
 
+extern struct ui_menu_entry_s sid_engine_submenu[];
 extern struct ui_menu_entry_s sid_model_submenu[];
 extern struct ui_menu_entry_s sid_resid_sampling_submenu[];
 extern UI_CALLBACK(set_sid_resid_passband);

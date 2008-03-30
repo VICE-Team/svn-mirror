@@ -144,6 +144,9 @@ UI_MENU_DEFINE_TOGGLE(SidUseResid)
 #endif
 
 static ui_menu_entry_t sid_submenu[] = {
+    { N_("SID engine"),
+      NULL, NULL, sid_engine_submenu },
+    { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
     { N_("*Second SID base address"),
