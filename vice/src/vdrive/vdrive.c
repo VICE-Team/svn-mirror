@@ -492,7 +492,8 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
 
 /* ------------------------------------------------------------------------- */
 
-vdrive_t *vdrive_internal_open_disk_image(const char *name)
+vdrive_t *vdrive_internal_open_disk_image(const char *name,
+                                          unsigned int read_only)
 {
     vdrive_t *vdrive;
     disk_image_t *image;
@@ -500,6 +501,7 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name)
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
     image->name = stralloc(name);
     image->gcr = NULL;
+    image->read_only = read_only;
 
     if (disk_image_open(image) < 0) {
         free(image->name);
@@ -541,7 +543,7 @@ int vdrive_internal_format_disk_image(const char *filename,
 
     format_name = (disk_name == NULL) ? " " : disk_name;
 
-    vdrive = vdrive_internal_open_disk_image(filename);
+    vdrive = vdrive_internal_open_disk_image(filename, 0);
 
     if (vdrive == NULL)
         return -1;

@@ -205,7 +205,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     int retval;
     image_contents_file_list_t *lp;
 
-    vdrive = vdrive_internal_open_disk_image(file_name);
+    vdrive = vdrive_internal_open_disk_image(file_name, 1);
     if (vdrive == NULL)
         return NULL;
 
