@@ -73,21 +73,21 @@ static int sid_useresid;
 static int set_sid_filters_enabled(resource_value_t v)
 {
     sid_filters_enabled = (int)v;
-    sound_close();
+    sound_state_changed = TRUE;
     return 0;
 }
 
 static int set_sid_model(resource_value_t v)
 {
     sid_model = (int)v;
-    sound_close();
+    sound_state_changed = TRUE;
     return 0;
 }
 
 static int set_sid_useresid(resource_value_t v)
 {
     sid_useresid = (int)v;
-    sound_close();
+    sound_state_changed = TRUE;
     return 0;
 }
 
@@ -142,21 +142,21 @@ static BYTE siddata[32];
 #define WAVETABLES
 
 /* ADSR state */
-#define ATTACK 0
-#define DECAY 1
-#define SUSTAIN 2
-#define RELEASE 3
-#define IDLE 4
+#define ATTACK   0
+#define DECAY    1
+#define SUSTAIN  2
+#define RELEASE  3
+#define IDLE     4
 
 #ifndef WAVETABLES
 /* Current waveform */
-#define TESTWAVE 0
-#define PULSEWAVE 1
-#define SAWTOOTHWAVE 2
-#define TRIANGLEWAVE 3
-#define NOISEWAVE 4
-#define NOWAVE 5
-#define RINGWAVE 6
+#define TESTWAVE          0
+#define PULSEWAVE         1
+#define SAWTOOTHWAVE      2
+#define TRIANGLEWAVE      3
+#define NOISEWAVE         4
+#define NOWAVE            5
+#define RINGWAVE          6
 #define PULSETRIANGLEWAVE 7
 #define PULSESAWTOOTHWAVE 8
 #endif
@@ -858,12 +858,7 @@ static void init_filter(sound_t *psid, int freq)
     {
         float h;
 
-/* I have trouble using log, I must use the long double version */
-/* #ifdef OS2
-        h = (((exp(rk/2048*logl(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
-#else */
         h = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
-/* #endif */
         if ( h < yMin )
             h = yMin;
         if ( h > yMax )

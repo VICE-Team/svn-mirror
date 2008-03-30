@@ -233,45 +233,45 @@ void joystick_update(void)
     static ULONG dataLen = sizeof(gameStatus); // length of gameStatus
 
     // calibration data!
-    static int joyA_up    = 200; // value < 200
-    static int joyA_down  = 600; // value > 600
-    static int joyA_left  = 200; // value < 200
-    static int joyA_right = 600; // value > 600
-    static int joyB_up    = 200;
-    static int joyB_down  = 600;
-    static int joyB_left  = 600;
-    static int joyB_right = 200;
+    const int joyA_up    = 200; // value < 200
+    const int joyA_down  = 600; // value > 600
+    const int joyA_left  = 200; // value < 200
+    const int joyA_right = 600; // value > 600
+    const int joyB_up    = 200;
+    const int joyB_down  = 600;
+    const int joyB_left  = 600;
+    const int joyB_right = 200;
 
     if (!number_joysticks) return;
     // if (SWhGame == 0) return FALSE; // exit if game port is not opened
 
-    if (DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_STATUS, NULL, 0, NULL, &gameStatus, dataLen, &dataLen))
+    if (DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_STATUS, NULL, 0, NULL,
+                    &gameStatus, dataLen, &dataLen))
         return;      // exit if reading failed;
 
-    if (joystick_device_1 & JOYDEV_HW1 ||
-        joystick_device_2 & JOYDEV_HW1)
+    if (joystick_device_1&JOYDEV_HW1 || joystick_device_2&JOYDEV_HW1)
     {
         int value = 0;
-        if (gameStatus.curdata.A.y < joyA_up)    value |= 1;
-        if (gameStatus.curdata.A.y > joyA_down)  value |= 2;
-        if (gameStatus.curdata.A.x < joyA_left)  value |= 4;
-        if (gameStatus.curdata.A.x > joyA_right) value |= 8;
-        if (~gameStatus.curdata.butMask & (JOYA_BUT1 | JOYA_BUT2)) value |= 16;
+        GAME_2DPOS_STRUCT *A=&(gameStatus.curdata.A);
+        if (A->y < joyA_up)    value |= 1;
+        if (A->y > joyA_down)  value |= 2;
+        if (A->x < joyA_left)  value |= 4;
+        if (A->x > joyA_right) value |= 8;
+        if (~gameStatus.curdata.butMask & JOYA_BUTTONS) value |= 16;
         if (joystick_device_1 & JOYDEV_HW1) joystick_value[1] = value;
         if (joystick_device_2 & JOYDEV_HW1) joystick_value[2] = value;
     }
 
     if (number_joysticks >= 2 &&
-        (joystick_device_1 & JOYDEV_HW2 ||
-         joystick_device_2 & JOYDEV_HW2)
-       )
+        (joystick_device_1&JOYDEV_HW2 || joystick_device_2&JOYDEV_HW2))
     {
         int value = 0;
-        if (gameStatus.curdata.B.y < joyB_up)    value |= 1;
-        if (gameStatus.curdata.B.y > joyB_down)  value |= 2;
-        if (gameStatus.curdata.B.x < joyB_left)  value |= 4;
-        if (gameStatus.curdata.B.x > joyB_right) value |= 8;
-        if (~gameStatus.curdata.butMask & (JOYB_BUT1 | JOYB_BUT2)) value |= 16;
+        GAME_2DPOS_STRUCT *B=&(gameStatus.curdata.A);
+        if (B->y < joyB_up)    value |= 1;
+        if (B->y > joyB_down)  value |= 2;
+        if (B->x < joyB_left)  value |= 4;
+        if (B->x > joyB_right) value |= 8;
+        if (~gameStatus.curdata.butMask & JOYB_BUTTONS) value |= 16;
         if (joystick_device_1 & JOYDEV_HW2) joystick_value[1] = value;
         if (joystick_device_2 & JOYDEV_HW2) joystick_value[2] = value;
     }

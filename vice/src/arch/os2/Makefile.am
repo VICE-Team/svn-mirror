@@ -17,6 +17,11 @@ libarch_a_SOURCES = \
 	c64ui.c \
 	c64ui.h \
         config.h \
+        contentsdlg.c \
+        contentsdlg.h \
+        dialogs.h \
+        dialogs.c \
+        dialogs.rc \
 	joystick.c \
 	joystick.h \
 	kbd.c \

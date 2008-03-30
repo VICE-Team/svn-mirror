@@ -54,7 +54,7 @@
 #endif
 
 static HMTX  hmtx;
-static CHAR  szClientClass [] = "VICE/2 Gfx";
+static CHAR  szClientClass [] = "VICE/2 Grafic Area";
 static CHAR  szTitleBarText[] = "VICE/2 " VICE2VERSION;
 static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
@@ -92,12 +92,9 @@ int video_init_cmdline_options(void)
 }
 
 /* ------------------------------------------------------------------------ */
-const int DIVE_RECTLS=50;
-static HDIVE hDiveInst = 0;  // DIVE instance
+const int DIVE_RECTLS  = 50;
+static HDIVE hDiveInst =  0;  // DIVE instance
 static SETUP_BLITTER divesetup;
-
-// TODO: put this stuff somewhere else!
-// static ULONG ulBuffer; // DIVE buffer number, move this to frame_buffer
 
 static void video_close(void)
 {   // close Dive
@@ -154,8 +151,8 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
 }
 
 void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
-{ // raster_force_repaint, we needn't this
-//    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
+{   // raster_force_repaint, we needn't this
+    //    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
     //    log_message(LOG_DEFAULT,"video.c: Frame buffer cleared");
 }
 
@@ -254,15 +251,8 @@ void wmSetSelection(MPARAM mp1)
     DosReleaseMutexSem(hmtxKey);
 }
 
-void wmPaint(HWND hwnd)
+void wmVrn(HWND hwnd)
 {
-    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
-    c->exposure_handler(c->width, c->height); // update whole window next time!
-}
-
-void wmVrn(HWND hwnd/*, int exposure*/)
-{
-    //    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     HPS   hps  = WinGetPS(hwnd);
     HRGN  hrgn = GpiCreateRegion(hps, 0L, NULL);
     if (hrgn) {  // this should be controlled again (clr/home, stretch 3)
@@ -284,8 +274,6 @@ void wmVrn(HWND hwnd/*, int exposure*/)
             divesetup.lScreenPosY   = pointl.y;
             divesetup.ulNumDstRects = rgnCtl.crcReturned;
             DiveSetupBlitter(hDiveInst, &divesetup);
-            // because of wmPaint looks like not needed
-            //  if (exposure) c->exposure_handler(c->width, c->height); // update whole window next time!
         }
         GpiDestroyRegion(hps, hrgn);
     }
@@ -296,9 +284,10 @@ void wmVrnEnabled(HWND hwnd)
 {
     canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-    wmVrn(hwnd/*, 1*/);
+    wmVrn(hwnd);
     c->vrenabled=TRUE;
     DosReleaseMutexSem(hmtx);
+    c->exposure_handler(c->width, c->height); // update whole window next time!
 }
 
 void wmVrnDisabled(HWND hwnd)
@@ -316,7 +305,9 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     switch (msg)
     {
         //    case WM_CREATE:       wmCreate      ();          break;
-    case WM_PAINT:        wmPaint       (hwnd);      break;
+
+        // After 'make visible': VRNDISABLED, PAINT, VRNENABLED
+        //    case WM_PAINT:        wmPaint       (hwnd);      break;
     case WM_CHAR:         wmChar        (hwnd, mp1); break;
     case WM_DESTROY:      wmDestroy     ();          break;
     case WM_SETSELECTION: wmSetSelection(mp1);       break;
@@ -405,13 +396,12 @@ canvas_t canvas_create(const char *title, UINT *width,
     canvas_new = (canvas_t)xcalloc(1,sizeof(struct _canvas));
     if (!canvas_new) return (canvas_t) NULL;
 
-    canvas_new->init_ready       =  FALSE;  // canvas_new not yet initialized
     canvas_new->width            = *width;
     canvas_new->height           = *height;
     canvas_new->exposure_handler =  exposure_handler;
     canvas_new->vrenabled        =  FALSE;  // pbmi not yet initialized
 
-    DosCreateMutexSem("\\SEM32\\ViceGfx", &hmtx, 0, FALSE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
+    DosCreateMutexSem("\\SEM32\\Vice2\\Graphic", &hmtx, 0, FALSE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
     _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
@@ -456,18 +446,20 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                            unsigned int xi, unsigned int yi,
                            unsigned int w, unsigned int h)
 {
-    if (!(c->vrenabled)) return;
-    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-    divesetup.ulSrcWidth  = w;
-    divesetup.ulSrcHeight = h;
-    divesetup.ulSrcPosX   = xs;
-    divesetup.ulSrcPosY   = ys;
-    divesetup.ulDstWidth  = w *stretch;
-    divesetup.ulDstHeight = h *stretch;
-    divesetup.lDstPosX    = xi*stretch;
-    divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
-    wmVrn(c->hwndClient/*, 0*/);                               // setup draw areas
-    DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN); // draw the image
+    if (DosRequestMutexSem(hmtx, SEM_IMMEDIATE_RETURN)) return;
+    if (c->vrenabled)
+    {
+        divesetup.ulSrcWidth  = w;
+        divesetup.ulSrcHeight = h;
+        divesetup.ulSrcPosX   = xs;
+        divesetup.ulSrcPosY   = ys;
+        divesetup.ulDstWidth  = w *stretch;
+        divesetup.ulDstHeight = h *stretch;
+        divesetup.lDstPosX    = xi*stretch;
+        divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
+        wmVrn(c->hwndClient);                               // setup draw areas
+        DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN); // draw the image
+    }
     DosReleaseMutexSem(hmtx);
 };
 

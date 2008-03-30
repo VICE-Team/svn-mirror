@@ -32,6 +32,7 @@
 #include "main_exit.h"
 #include "sound.h"
 #include "video.h"
+#include "resources.h"
 
 void main_exit(void)
 {
@@ -42,14 +43,18 @@ void main_exit(void)
 
     log_message(LOG_DEFAULT, "\nExiting...");
 
+    resources_set_value("Sound", (resource_value_t)FALSE);
+    DosSleep(500);
+    
     machine_shutdown();
     //    video_free();
-    sound_close();
+    //    sound_close(); // Be sure sound device is closed.
+    // Maybe we need some DosSleep(500)...
 
 #ifdef HAS_JOYSTICK
     joystick_close();
 #endif
 
-    putchar ('\n');
+    //    putchar ('\n');
 }
 

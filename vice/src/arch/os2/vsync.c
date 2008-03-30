@@ -217,7 +217,6 @@ static int set_timer_speed(int speed)
 
     timer_speed    = speed;
     timer_disabled = speed ? 0 : 1;
-
     return 0;
 }
 
@@ -240,8 +239,10 @@ static void patch_timer(int patch)
 
 int vsync_disable_timer(void)
 {
-    if (!timer_disabled) return set_timer_speed(0);
-    else return 0;
+/*    log_message(LOG_DEFAULT,"disable timer %i",timer_disabled);
+    if (!timer_disabled)
+        return set_timer_speed(0);
+    else */return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -323,14 +324,7 @@ int do_vsync(int been_skipped)
 
     if (timer_speed != relative_speed) {
 	frame_counter = USHRT_MAX;
-        /*if (*/
         set_timer_speed(relative_speed);
-            /*< 0) {
-             log_error(LOG_DEFAULT, "Trouble setting timers... giving up.");*/
-            /* FIXME: Hm, maybe we should be smarter.  But this is should
-             never happen.*/
-            /*exit(-1);
-             }*/
     }
 
     if (warp_mode_enabled) {
@@ -383,8 +377,6 @@ int do_vsync(int been_skipped)
         if (warp_mode_enabled) DosSleep(1);
     }
     else frame_counter++;
-
-    kbd_buf_flush();
 
 #ifdef HAS_JOYSTICK
     joystick_update();

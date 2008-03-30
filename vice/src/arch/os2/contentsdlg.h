@@ -1,5 +1,5 @@
 /*
- * sounddrv.c - Implementation of Sound for Vice/2
+ * contentsdlg.c - The dialog to show the disk dir.
  *
  * Written by
  *  Thomas Bretz (tbretz@gsi.de)
@@ -24,22 +24,9 @@
  *
  */
 
-#include "ctype.h"
+#ifndef _CONTENTSDLG_H
+#define _CONTENTSDLG_H
 
-#include "types.h"
-#include "log.h"
+void contents_dialog(void *szFullFile);
 
-int sound_err(ULONG rc, char *s)
-{
-    char text[128];
-    log_message(LOG_DEFAULT, "soundmmos2.c: %s", s);
-    mciGetErrorString(rc, text, 128);
-    if (isprint(text[0]))
-    {
-        WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-        log_message(LOG_DEFAULT, "soundmmos2.c: %s (rc=%li)",text, rc);
-    }
-    return 1;
-    //    WORD lo order=unsigned short
-}
-
+#endif

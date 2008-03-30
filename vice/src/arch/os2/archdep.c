@@ -363,6 +363,7 @@ int archdep_spawn(const char *name, char **argv,
         DosCloseQueue(hqQueue);
     }
     free(cmdline);
+    //    DosSleep(1000);
     log_message(LOG_DEFAULT, "archdep.c: Return Code, rc = %li", rc);
     return rc;
 }

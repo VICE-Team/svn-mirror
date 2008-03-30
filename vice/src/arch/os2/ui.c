@@ -27,6 +27,7 @@
 #define INCL_GPILCIDS // vac++
 #define INCL_GPIPRIMITIVES
 #define INCL_WINSTDFILE
+#define INCL_WINBUTTONS
 #define INCL_WINFRAMEMGR
 #define INCL_WINWINDOWMGR
 #define INCL_WINSCROLLBARS
@@ -292,19 +293,102 @@ int ui_yesno_dialog(HWND hwnd, char *title, char *msg)
                           msg, title, 0, MB_YESNO)==MBID_YES);
 }
 
+#include "contentsdlg.h"
+
+MRESULT EXPENTRY FNWP2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+#define ID_LIST     3
+#define ID_DRIVE8   8
+#define ID_DRIVE9   9
+#define ID_DRIVE10 10
+#define ID_DRIVE11 11
+    static int first  =TRUE;
+    static int suspend=FALSE;
+    static char szFullFile[CCHMAXPATH];
+    static HWND drive8, drive9, drive10, drive11;
+
+    switch (msg)
+    {
+    case WM_DESTROY:
+        first=TRUE;
+        break;;
+    case WM_COMMAND: // 32 0x20
+        if ((int)mp1==ID_LIST)
+        {
+            suspend=TRUE;
+            WinDefFileDlgProc (hwnd, msg, (MPARAM)DID_OK,mp2);
+            suspend=FALSE;
+            _beginthread(contents_dialog,NULL,0x4000,szFullFile);
+            return FALSE;
+        }
+        break;
+    case WM_PAINT:
+        if (first)
+        {
+            first = FALSE;
+            WinCreateWindow(hwnd,                     /* Parent window       */
+                            WC_BUTTON,                /* Class name          */
+                            "Contents",               /* Window text         */
+                            WS_VISIBLE|BS_PUSHBUTTON, /* Window style        */
+                            274, 8,                   /* Position (x,y)      */
+                            93, 28,                   /* Size (width,height) */
+                            NULLHANDLE,               /* Owner window        */
+                            HWND_TOP,                 /* Sibling window      */
+                            ID_LIST,                  /* Window id           */
+                            NULL,                     /* Control data        */
+                            NULL);                    /* Pres parameters     */
+/*            drive8=WinCreateWindow(hwnd, WC_BUTTON, "Drive 8",
+                                   WS_VISIBLE|WS_GROUP|BS_AUTORADIOBUTTON,
+                                   400, 51, 93, 15, NULLHANDLE,
+                                   HWND_TOP, ID_DRIVE8, NULL, NULL);
+            drive9=WinCreateWindow(hwnd, WC_BUTTON, "Drive 9",
+                                   WS_VISIBLE|BS_AUTORADIOBUTTON,
+                                   400, 36, 93, 15, NULLHANDLE,
+                                   drive8, ID_DRIVE9, NULL, NULL);
+            drive10=WinCreateWindow(hwnd, WC_BUTTON, "Drive 10",
+                                    WS_VISIBLE|BS_AUTORADIOBUTTON,
+                                    400, 21, 93, 15, NULLHANDLE,
+                                    drive8, ID_DRIVE10, NULL, NULL);
+            drive11=WinCreateWindow(hwnd, WC_BUTTON, "Drive 11",
+                                    WS_VISIBLE|BS_AUTORADIOBUTTON,
+                                    400,  6, 93, 15, NULLHANDLE,
+                                    drive8, ID_DRIVE11, NULL, NULL);
+            //            WinPostMsg(drive10, BM_SETCHECK, MPFROMP(1), MPFROMP(0));*/
+            //            WinSendMsg(drive9, BM_QUERYCHECK,0,0);
+            //            WinSendMsg(drive10, BM_QUERYCHECK,0,0);
+        }
+        break;
+        /*    case 4136:
+         log_message(LOG_DEFAULT, "4136: %s %x", mp1, mp2);
+         return WinDefFileDlgProc (hwnd, msg, mp1, mp2);*/
+    case 4137: // strcpy(mp1, "g:\\c64\\images\\3dwaters.d64.gz");
+        strcpy(szFullFile, mp1);
+        //        log_message(LOG_DEFAULT, "Result: %s - (%i)", mp1, mp2);
+        if (suspend) return FALSE; // file nicht uebernehmen!
+        break;
+    }
+    return WinDefFileDlgProc (hwnd, msg, mp1, mp2);
+}
+
 // path="\\path1\\path2\\"
 int ui_file_dialog(HWND hwnd, char *title, char *drive, char *path,
                    char *mask, char *button, char *result)
 {
     FILEDLG filedlg;                      // File dialog info structure
+
+    //    char *papszITypeList[] = {"*.d??; *.d??.gz", "*.t64; *.t64.gz", "*.d64", NULL};
     memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0
 
     // Initialize used fields in the FILEDLG structure
     filedlg.cbSize      = sizeof(FILEDLG); // Size of structure
-    filedlg.fl          = FDS_CENTER | FDS_OPEN_DIALOG;
+    filedlg.fl          = FDS_CENTER | FDS_OPEN_DIALOG /*| FDS_CUSTOM*/;
     filedlg.pszTitle    = title;
     filedlg.pszOKButton = button;
     filedlg.pszIDrive   = drive;
+    filedlg.pfnDlgProc  = FNWP2;/*FileDialogProc2;*/
+
+    //    filedlg.usDlgId = 0x1000;                // custom dialog id
+    //    filedlg.hMod = NULLHANDLE;                   // handle to module containing <usDlgId>
     strcat(strcat(strcpy(filedlg.szFullFile, path),"\\"), mask); // Init Path, Filter (*.t64)
 
     // Display the dialog and get the file

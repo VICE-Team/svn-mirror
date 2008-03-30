@@ -96,10 +96,12 @@ extern const char *joystick_direction_to_string(joystick_direction_t
 #define GAME_DATA_FORMAT_BINARY 3 /* {-1,0,+1} */
 #define GAME_DATA_FORMAT_SCALED 4 /* [-10,+10] */
 
-#define JOYA_BUT1   0x10
-#define JOYA_BUT2   0x20
-#define JOYB_BUT1   0x40
-#define JOYB_BUT2   0x80
+#define JOYA_BUT1     0x10
+#define JOYA_BUT2     0x20
+#define JOYA_BUTTONS  (JOYA_BUT1 | JOYA_BUT2)
+#define JOYB_BUT1     0x40
+#define JOYB_BUT2     0x80
+#define JOYB_BUTTONS  (JOYB_BUT1 | JOYB_BUT2)
 
 // simple 2-D position for each joystick
 typedef struct

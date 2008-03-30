@@ -33,7 +33,7 @@
 
 /* ------------------------ VICE/2 Status Window ------------------------ */
 
-static CHAR  szStatusClntClass[] = "VICE/2";
+static CHAR  szStatusClntClass[] = "VICE/2 Status Window";
 static CHAR  szStatusBarTitle [] = "VICE/2 Status";
 static ULONG flStatusFrameFlags = FCF_TITLEBAR|FCF_SHELLPOSITION;
 

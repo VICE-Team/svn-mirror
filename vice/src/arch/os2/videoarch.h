@@ -21,20 +21,16 @@ typedef struct _frame_buffer {
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
 typedef struct _canvas {
+    //    HPS   hps;
+    //    BOOL  init_ready;       // dont't use exposure_handler to early
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area
     RGB2 *palette;          // pointer to structure which stores colorinfo
-    BOOL  init_ready;       // dont't use exposure_handler to early
     BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
     canvas_redraw_t exposure_handler;
 } *canvas_t;
-
-/* ------------------------------------------------------------------------ */
-
-void wmCreate();
-void wmDestroy();
 
 #endif
 
