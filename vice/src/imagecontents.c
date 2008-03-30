@@ -183,21 +183,21 @@ static DRIVE *open_image(const char *name)
 
     fd = zopen(name, O_RDONLY, 0);
     if (fd == ILLEGAL_FILE_DESC)
-	return NULL;
+        return NULL;
     if (check_header(fd, &hdr))
-	return NULL;
+        return NULL;
 
     if (hdr.v_major > HEADER_VERSION_MAJOR
-	|| (hdr.v_major == HEADER_VERSION_MAJOR
+        || (hdr.v_major == HEADER_VERSION_MAJOR
 	    && hdr.v_minor > HEADER_VERSION_MINOR)) {
-	zclose(fd);
-	return 0;
+        zclose(fd);
+        return 0;
     }
 
     image_format = get_diskformat(hdr.devtype);
     if (image_format < 0 || hdr.gcr) {
-	zclose(fd);
-	return NULL;
+        zclose(fd);
+        return NULL;
     }
 
     floppy = xmalloc(sizeof(DRIVE));
