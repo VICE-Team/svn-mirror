@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 28 January 2001 -->
+     from ../vice.texi on 24 Febuary 2001 -->
 
 <TITLE>VICE Manual - 9  Monitor</TITLE>
 </HEAD>
@@ -298,12 +298,15 @@ stopping execution but simply printing the PC, giving the user an
 execution trace.  The second optional address can be used to specify the
 end of an range of addresses to be traced.
 
-<DT><CODE>watch [address [address]]</CODE>
+<DT><CODE>watch [loadstore] [address [address]]</CODE>
 <DD>
 This command is similar to the previous two commands except that it
 operates on watchpoints.  A watchpoint differs from the others by
 stopping on a read and/or write to an address or range of addresses.  If
 no addresses are given, a list of all the watchpoints is printed.
+The loadstore parameter can be either "load" or "store" to determine
+on which operation the monitor breaks. If not specified, the monitor
+breaks on both operations.
 
 </DL>
 

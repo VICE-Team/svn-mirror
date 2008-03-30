@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 28 January 2001 -->
+     from ../vice.texi on 24 Febuary 2001 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -348,7 +348,7 @@ and <KBD>space</KBD> for the fire button instead.
 <P>
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1541-II, 1571, 1581, 2031, 3040, 4040, 1001, 8050 and 
+Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and 
 8250 drives in one of two ways:
 
 </P>
@@ -375,7 +375,7 @@ does <EM>not</EM> really emulate the serial line, but patches the kernal
 ROM (with the so-called <EM>kernal traps</EM>) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
-all of them). The IEEE488 drives (2031, 3040, 4040, 1001, 8050 and 8250) 
+all of them). The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050 and 8250) 
 do not use
 kernal traps. Instead the IEEE488 interface lines are monitored and
 the data is passed to the drive emulation. To use them on the C64,
@@ -444,10 +444,21 @@ this is checked for.
 
 </P>
 <P>
+The dual disk drive 2040 emulates one of the very first CBM disk drives.
+This drive has DOS version 1. DOS1 uses an own disk type, that is closely
+related to the 1541 disk image. Only on tracks 18-24 DOS1 disks have 
+a sector more than 1541 disks. DOS1 disk images have the extension .d67.
+
+</P>
+<P>
 The dual disk drives 3040 and 4040 use the same logical disk format as 
 the VC1541 and the 2031. In fact, the 4040 was the first disk with 
-DOS version 2. It is, however, not yet clear whether those disks
-are write compatible, as rumors exist that the write gap between 
+DOS version 2. The 3040 emulated here originally was the same as 2040, only
+for the european 30xx PET series. As many of the original DOS1 disk drives
+were upgraded (a simple ROM upgrade!) to DOS2, I use the 3040 number for
+a DOS 2.0 disk drive, and 4040 for a revised DOS 2 disk drive.
+It is, however, not yet clear whether the disks here
+are write compatible to the 1541, as rumors exist that the write gap between 
 sectors is different. But read compatible they are. As VICE emulates
 the FDC processor in C and not as 6504 emulation, this does not matter
 in VICE.
@@ -457,6 +468,7 @@ in VICE.
 The drives 1001, 8050 and 8250 do actually have the very same DOS ROM.
 Only the code in the FDC is different, which is taken care of by VICE.
 So for all three of those disk drives, only <CODE>dos1001</CODE> is needed.
+The DOS version used is 2.7.
 
 </P>
 
@@ -477,6 +489,10 @@ VICE supports the most popular Commodore file formats:
 <LI>
 
 <CODE>G64</CODE> GCR-encoded 1541 disk image files;
+
+<LI>
+
+<CODE>D67</CODE> CBM2040 (DOS1) disk image format
 
 <LI>
 

@@ -58,6 +58,9 @@ drives:
    * `dos2031', the 2031 drive ROM (16 Kbytes) (DOS 2.6, Commodore ROM
      images 901484-03 and 901484-05)
 
+   * `dos2040', the 2040 drive ROM (8 Kbytes) (DOS 1, Commodore ROM
+     images 901468-06, 901468-07)
+
    * `dos3040', the 3040 drive ROM (12 Kbytes) (DOS 2, Commodore ROM
      images 901468-11, 901468-12 and 901468-13)
 
@@ -69,10 +72,7 @@ drives:
 
    Note that there are other DOS images on the internet. The DOS 2.5
 images might be used with the 8050, but it cannot handle the double
-sided drives of the 1001 and 8250 and it is not supported by VICE. Also
-the DOS 1 disk images for the 3040/4040 are not supported as the
-available copies seem to be broken. It would be interesting though to
-see them handle 670 free blocks on a D64 image...
+sided drives of the 1001 and 8250 and it is not supported by VICE.
 
    The PET emulator uses an expanded setup, because there are three
 major versions of the Basic and the Kernal, and many versions of the

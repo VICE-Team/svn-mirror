@@ -365,12 +365,14 @@ Checkpoint commands
      user an execution trace.  The second optional address can be used
      to specify the end of an range of addresses to be traced.
 
-`watch [address [address]]'
+`watch [loadstore] [address [address]]'
      This command is similar to the previous two commands except that it
      operates on watchpoints.  A watchpoint differs from the others by
      stopping on a read and/or write to an address or range of
      addresses.  If no addresses are given, a list of all the
-     watchpoints is printed.
+     watchpoints is printed.  The loadstore parameter can be either
+     "load" or "store" to determine on which operation the monitor
+     breaks. If not specified, the monitor breaks on both operations.
 
 
 File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor

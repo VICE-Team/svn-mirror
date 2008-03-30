@@ -111,11 +111,12 @@ Drive command-line options
 `-dos1571'
 `-dos1581'
 `-dos2031'
+`-dos2040'
 `-dos3040'
 `-dos4040'
 `-dos1001'
-     Specify the ROM names for the 1541, 1571, 1581, 2031, 3040, 4040
-     and 1001 emulation respectively.
+     Specify the ROM names for the 1541, 1571, 1581, 2031, 2040, 3040,
+     4040 and 1001 emulation respectively.
 
 
 File: vice.info,  Node: Peripheral settings,  Next: RS232 settings,  Prev: Drive settings,  Up: Settings and resources
