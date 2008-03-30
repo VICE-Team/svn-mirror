@@ -43,8 +43,7 @@
 #endif
 
 #ifdef HAVE_XVIDEO
-#include <X11/extensions/Xv.h>
-#include <X11/extensions/Xvlib.h>
+#include "renderxv.h"
 #endif
 
 #include "types.h"
@@ -53,6 +52,8 @@
 #ifdef USE_GNOMEUI
 #include <gdk/gdk.h>
 #endif
+
+struct video_draw_buffer_callback_s;
 
 struct video_canvas_s {
     unsigned int width, height;
@@ -70,6 +71,7 @@ struct video_canvas_s {
     XvImage *xv_image;
     int xv_format;
     XvPortID xv_port;
+    xv_render_t xv_render;
 #endif
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
@@ -80,6 +82,7 @@ struct video_canvas_s {
     int using_mitshm;     /* True if MITSHM is used for this framebuffer. */
 #endif
     GC gc;
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 typedef struct video_canvas_s video_canvas_t;
 

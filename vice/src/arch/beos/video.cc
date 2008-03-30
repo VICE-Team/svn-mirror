@@ -124,6 +124,8 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
     if (!new_canvas)
 	return (video_canvas_t *) NULL;
 
+    new_canvas->video_draw_buffer_callback = NULL;
+
     video_render_initconfig(&new_canvas->videoconfig);
 	new_canvas->title = stralloc(title);
     switch (BScreen().ColorSpace()) {

@@ -41,6 +41,7 @@
 typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
 
 struct palette_s;
+struct video_draw_buffer_callback_s;
 
 typedef struct video_canvas_s {
     char *title;
@@ -50,8 +51,7 @@ typedef struct video_canvas_s {
     video_render_config_t videoconfig;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
-    PIXEL *pixels;
-    PIXEL *pixel_translate;
+    BYTE *pixels;
     HWND hwnd;
     LPDIRECTDRAW        dd_object;
     LPDIRECTDRAW2       dd_object2;
@@ -62,6 +62,7 @@ typedef struct video_canvas_s {
     LPDIRECTDRAWPALETTE dd_palette;
     int client_width;
     int client_height;
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 } video_canvas_t;
 
 /* ------------------------------------------------------------------------ */

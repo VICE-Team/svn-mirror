@@ -35,6 +35,8 @@
 
 typedef void (*canvas_redraw_t)();
 
+struct video_draw_buffer_callback_s;
+
 struct video_canvas_s {
     char *title;
     unsigned int width, height, depth;
@@ -47,6 +49,7 @@ struct video_canvas_s {
     ViceWindow *vicewindow;
 #else
     void *vicewindow;
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 #endif
 };
 typedef struct video_canvas_s video_canvas_t;

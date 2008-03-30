@@ -445,13 +445,10 @@ int set_physical_colors(video_canvas_t *c)
                 (((c->palette->entries[i].blue&(bmask<<bbits))>>bbits)
                 << bshift);
         }
-        c->pixel_translate[c->pixels[i]] = i;
-        c->pixels[i] = i;
         video_render_setphysicalcolor(&c->videoconfig, i, p, c->depth);
 
         DEBUG(("Physical color for %d is 0x%04X", i,
               c->videoconfig.physical_colors[i]));
-        DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
         if (c->depth == 8) {
             if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
                 == DDERR_SURFACELOST) {
@@ -494,6 +491,8 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 
     c = xmalloc(sizeof(struct video_canvas_s));
     memset(c, 0, sizeof(struct video_canvas_s));
+
+    canvas->video_draw_buffer_callback = NULL;
 
     video_render_initconfig(&c->videoconfig);
 
@@ -639,7 +638,6 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
         }
     }
 
-    c->pixel_translate=malloc(sizeof(BYTE)*256);
     if (set_palette(c) < 0)
         goto error;
     c->pixels = pixel_return;

@@ -17,6 +17,8 @@
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
+struct video_draw_buffer_callback_s;
+
 typedef struct video_frame_buffer_s {
     int   width;
     int   height;
@@ -47,10 +49,12 @@ typedef struct video_canvas_s
     BOOL   vrenabled;        // only BlitImage when Visible Region Enabled
     BYTE  *bitmaptrg;
     ULONG  ulBuffer; // DIVE buffer number
+    BYTE   bDepth;
     HDIVE  hDiveInst;
     BYTE  *pVram;
     SETUP_BLITTER divesetup;
     canvas_redraw_t exposure;
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 
 typedef struct video_canvas_s video_canvas_t;

@@ -78,7 +78,18 @@
 #include "version.h"
 
 //#define DIRECT_ACCESS
-#define USE_LUT8
+
+#ifdef DIRECT_ACCESS
+#define divecaps.fccColorEncoding
+#define divecaps.ulDepth
+#else
+//#define SRC_COLORFORMAT FOURCC_LUT8
+//#define SRC_COLORDEPTH  8
+#define SRC_COLORFORMAT   FOURCC_R565
+#define SRC_COLORDEPTH    16
+//#define SRC_COLORFORMAT   FOURCC_RGB4
+//#define SRC_COLORDEPTH    32
+#endif
 
 //
 //  VICE Speed Test... Warp Mode: Speed(%), Frames per Second (fps)
@@ -654,6 +665,34 @@ void video_close(void)
 /* ------------------------------------------------------------------------ */
 /* PM Window mainloop */
 
+static ULONG GetRed(ULONG n)
+{
+    return (n>>3)<<11;
+}
+
+static ULONG GetGreen(ULONG n)
+{
+    return (n>>2)<<5;
+}
+
+static ULONG GetBlue(ULONG n)
+{
+    return n>>3;
+}
+
+static void VideoInitRenderer(video_canvas_t *c)
+{
+    int i;
+
+    video_render_initconfig(&c->videoconfig);
+
+    // video_render_setrawrgb: index, r, g, b
+    for (i=0; i<0x100; i++)
+        video_render_setrawrgb(i, GetRed(i), GetGreen(i), GetBlue(i));
+
+    video_render_initraw();
+}
+
 MRESULT WmCreate(HWND hwnd)
 {
     ULONG rc;
@@ -671,11 +710,8 @@ MRESULT WmCreate(HWND hwnd)
     canvas_new->divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
     canvas_new->divesetup.ulDitherType      = 0; // 0=1x1, 1=2x2
     canvas_new->divesetup.fInvert           = 0; // Bit0=vertical, Bit1=horz
-#if defined USE_LUT8 && !defined DIRECT_ACCESS
-    canvas_new->divesetup.fccSrcColorFormat = FOURCC_LUT8;
-#else
-    canvas_new->divesetup.fccSrcColorFormat = divecaps.fccColorEncoding;
-#endif
+    canvas_new->divesetup.fccSrcColorFormat = SRC_COLORFORMAT;
+    canvas_new->bDepth                      = SRC_COLORDEPTH;
     canvas_new->divesetup.fccDstColorFormat = FOURCC_SCRN;
     canvas_new->divesetup.pVisDstRects      = calloc(DIVE_RECTLS, sizeof(RECTL));
 
@@ -709,7 +745,10 @@ MRESULT WmCreate(HWND hwnd)
     log_message(vidlog, "Dive instance #%d opened successfully (Vram=%p)",
                 canvas_new->hDiveInst, canvas_new->pVram);
 
-    video_render_initconfig(&canvas_new->videoconfig);
+    //
+    // Now initialize and setuip vice renderers
+    //
+    VideoInitRenderer(canvas_new);
 
     //
     // set user data pointer to newly created canvas structure
@@ -902,14 +941,11 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
         log_message(vidlog, "Debug - fbuf read x: %d + %d > %d * %d, c->width=%d", xs, w, linesz, dsx, c->width);
         w = dsx*linesz-xs;
     }
-
     if (ys+h > bufh*dsy)
     {
         log_message(vidlog, "Debug - fbuf read y: %d + %d > %d * %d, c->height=%d", ys, h, bufh, dsy, c->height);
         h = dsy*bufh-ys;
     }
-
-/*
     if (xi+w > c->width)
     {
         log_message(vidlog, "Debug - scr write x x%d: %d + %d > %d", dsx, xi, w, c->width);
@@ -920,7 +956,7 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
         log_message(vidlog, "Debug - scr write y x%d: %d + %d > %d", dsy, yi, h, c->height);
         h = c->height-yi;
     }
-*/
+
 #ifndef DIRECT_ACCESS
     //
     // calculate source and destinations
@@ -966,7 +1002,6 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
         log_error(vidlog, "Call to DiveBeginImageBufferAccess failed, rc = 0x%x", rc);
         return;
     }
-
     video_render_main(&c->videoconfig,   // color table
                       buf,               // bitmap source  (vice)
                       targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
@@ -975,15 +1010,9 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
                       xi, yi,            // 0, 0,                // top, left target
                       linesz,            // line size source
                       scanlinesize,      // fccColorEncoding,    // c->width,            // line size target
-#ifdef USE_LUT8
-                      8
-#else
-                      divecaps.ulDepth
-#endif
-                     );
+                      c->bDepth);
 
     rc = DiveEndImageBufferAccess(c->hDiveInst, c->ulBuffer);
-
     if (rc!=DIVE_SUCCESS)
     {
         log_error(vidlog, "Call to DiveEndImageBufferAccess failed, rc = 0x%x", rc);
@@ -993,8 +1022,12 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
     //
     // and blit the image to the screen
     //
-    DiveBlitImage(c->hDiveInst, c->ulBuffer, DIVE_BUFFER_SCREEN);
-
+    rc = DiveBlitImage(c->hDiveInst, c->ulBuffer, DIVE_BUFFER_SCREEN);
+    if (rc!=DIVE_SUCCESS)
+    {
+        log_error(vidlog, "Call to DiveBlitImage failed, rc = 0x%x", rc);
+        return;
+    }
     /*
      {
      BYTE mask[500];
@@ -1034,8 +1067,7 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
                       c->divesetup.lScreenPosY+yi,
                       linesz,
                       divecaps.ulScanLineBytes,
-                      divecaps.ulDepth
-                     );
+                      c->bDepth);
 
     rc = DiveDeacquireFrameBuffer(c->hDiveInst);
     if (rc!=DIVE_SUCCESS)
@@ -1087,7 +1119,7 @@ void WmPaint(HWND hwnd)
         WmVrnEnabled(hwnd);
 
         DEBUG("WM_PAINT 3");
-        
+
         //
         // blit to canvas (canvas_refresh should be thread safe by itself)
         //
@@ -1369,7 +1401,10 @@ void VideoBufferAlloc(video_canvas_t *c)
 {
     ULONG rc;
 
-    c->bitmaptrg = (char*)calloc(c->width*c->height, divecaps.ulDepth/8+1); // sizeof(BYTE);
+    //
+    // FIXME: bitmaptrg needs some additional lines!
+    //
+    c->bitmaptrg = (char*)calloc(c->height+4, c->width*c->bDepth/8);
 
     //
     // allocate image buffer, I might be faster to specify 0 for
@@ -1380,12 +1415,8 @@ void VideoBufferAlloc(video_canvas_t *c)
     // if ulBuffer != 0 the call to DiveAllocImageBuffer fails
     //
     c->ulBuffer = 0;
-    rc=DiveAllocImageBuffer(c->hDiveInst, &(c->ulBuffer),
-#ifdef USE_LUT8
-                            FOURCC_LUT8,
-#else
-                            divecaps.fccColorEncoding,
-#endif
+    rc=DiveAllocImageBuffer(c->hDiveInst, &c->ulBuffer,
+                            c->divesetup.fccSrcColorFormat,
                             c->width, c->height, 0, c->bitmaptrg);
 
     //
@@ -1612,6 +1643,7 @@ video_canvas_t *video_canvas_create(const char *title,
     canvini.stretch =  stretch;
     canvini.expose  = (canvas_redraw_t)exposure_handler;
     canvini.canvas  =  NULL;
+    canvini.video_draw_buffer_callback = NULL;
 
     _beginthread(CanvasMainLoop, NULL, 0x4000, &canvini);
 
@@ -1777,120 +1809,126 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
         return;
     }
 
-    log_message(vidlog, "Canvas resized (%ix%i * %i --> %ix%i * %i)",
-                wold, hold, sold, wnew, hnew, stretch);
-
     //
     // reenable drawing into window (call exposure_handler, too)
     // this calls also the exposure handler
     //
     WmVrnEnabled(c->hwndClient);
 
+    log_message(vidlog, "Canvas resized (%ix%i * %i --> %ix%i * %i)",
+                wold, hold, sold, wnew, hnew, stretch);
+
 //    c->exposure(c->width, c->height);
 }
 
-void VideoConvertPalette(video_render_config_t *cfg, int num, palette_entry_t *src) //, RGB2 *trg)
+void VideoConvertPalette8(video_canvas_t *c, int num)
 {
-#if defined USE_LUT8 && !defined DIRECT_ACCESS
     int i;
     for (i=0; i<num; i++)
-        video_render_setphysicalcolor(cfg, i, i, 8);
-#else
+        video_render_setphysicalcolor(&c->videoconfig, i, i, 8);
+}
+
+void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, RGB2 *trg)
+{
     ULONG rc;
 
     ULONG ulTrg=0;
     ULONG ulSrc=0;
 
-    int bytes = divecaps.ulDepth/8 + 1;
-
-    char *target = (char*)calloc(num, bytes);
-    char *source = (char*)calloc(num, 3);
+    char target[0x400]; // max: 256*4b
+    char source[0x400]; // max: 256*4b
 
     HDIVE inst=0;
     SETUP_BLITTER setup;
 
-    memset(&setup, 0, sizeof(SETUP_BLITTER));
-
-    rc = DiveOpen(&inst, TRUE, NULL);
-    log_debug("Dive Open %d: 0x%x", inst, rc);
-    if (!rc)
+    if (num>0x100)
     {
-        rc=DiveAllocImageBuffer(inst, &ulSrc, FOURCC_RGB3, num, 1, 0, source);
-        log_debug("Alloc Src: 0x%x", rc);
-        if (!rc)
-        {
-            rc=DiveAllocImageBuffer(inst, &ulTrg, divecaps.fccColorEncoding,
-                                    num, 1, 0, target);
-                log_debug("Alloc Trg: 0x%x", rc);
-                if (!rc)
-                {
-                    int i;
-                    for (i=0; i<num; i++)
-                    {
-                        source[i*3]   = src[i].red;
-                        source[i*3+1] = src[i].green;
-                        source[i*3+2] = src[i].blue;
-                    }
-
-                    setup.ulStructLen           = sizeof(SETUP_BLITTER);
-                    setup.pVisDstRects          = calloc(1, sizeof(RECTL));
-                    setup.fccSrcColorFormat     = FOURCC_RGB3;
-                    setup.fccDstColorFormat     = divecaps.fccColorEncoding;
-                    setup.ulSrcWidth            = num;
-                    setup.ulDstWidth            = num;
-                    setup.pVisDstRects->xRight  = num;
-                    setup.pVisDstRects->yTop    = 1;
-                    setup.ulNumDstRects         = 1;
-                    setup.ulSrcHeight           = 1;
-                    setup.ulDstHeight           = 1;
-
-                    rc = DiveSetupBlitter(inst, &setup);
-                    log_debug("Setup: 0x%x", rc);
-                    if (!rc)
-                    {
-                        int i;
-                        DWORD color;
-
-                        rc = DiveBlitImage(inst, ulSrc, ulTrg);
-                        log_debug("Blit: 0x%x", rc);
-
-                        for (i=0; i<num; i++)
-                        {
-                            switch (divecaps.ulDepth)
-                            {
-                            case 8:
-                                color = i;
-                                continue;
-                            case 16:
-                                color = target[i*2] | (target[i*2+1]<<8);
-                                continue;
-                            case 24:
-                                color = target[i*3] | target[i*3+1]<<8 | target[i*3+2]<<16;
-                                continue;
-                            case 32:
-                                color = target[i*4] | target[i*4+1]<<8 | target[i*4+2]<<16 | target[i*4+3]<<24;
-                                continue;
-                            }
-                            video_render_setphysicalcolor(cfg, i, color, divecaps.ulDepth);
-                        }
-                    }
-
-                    rc=DiveFreeImageBuffer(inst, ulTrg);
-                    log_debug("Free Trg: 0x%x", rc);
-                    free(setup.pVisDstRects);
-                }
-
-                rc=DiveFreeImageBuffer(inst, ulSrc);
-                log_debug("Free Src: 0x%x", rc);
-        }
-
-        rc = DiveClose(inst);
-        log_debug("Dive Close: 0x%x", rc);
+        log_error(vidlog, "VideoConvertPalette - More than 256 (%d) palette entries requested.", num);
+        return;
     }
 
-    free(source);
-    free(target);
-#endif
+    memset(&setup, 0, sizeof(SETUP_BLITTER));
+
+    setup.ulStructLen          = sizeof(SETUP_BLITTER);
+    setup.pVisDstRects         = calloc(1, sizeof(RECTL));
+    setup.fccSrcColorFormat    = FOURCC_RGB3;
+    setup.fccDstColorFormat    = c->divesetup.fccSrcColorFormat;
+    setup.ulSrcHeight          = 1;
+    setup.ulDstHeight          = 1;
+    setup.ulNumDstRects        = 1;
+    setup.pVisDstRects->yTop   = 1;
+    setup.pVisDstRects->xRight = num;
+    setup.ulSrcWidth           = num;
+    setup.ulDstWidth           = num;
+
+    rc = DiveOpen(&inst, TRUE, NULL);
+    if (rc)
+    {
+        log_error(vidlog, "VideoConvertPalette - DiveOpen failed, rc=0x%x", rc);
+        return;
+    }
+
+    rc=DiveAllocImageBuffer(inst, &ulSrc, FOURCC_RGB3, num, 1, 0, source);
+    if (rc)
+        log_error(vidlog, "VideoConvertPalette - DiveAllocImageBuffer (src) failed, rc=0x%x", rc);
+    else
+    {
+        rc=DiveAllocImageBuffer(inst, &ulTrg, c->divesetup.fccSrcColorFormat,
+                                num, 1, 0, target);
+        if (rc)
+            log_error(vidlog, "VideoConvertPalette - DiveAllocImageBuffer (trg) failed, rc=0x%x", rc);
+        else
+        {
+            int i;
+            for (i=0; i<num; i++)
+            {
+                source[i*3]   = src[i].red;
+                source[i*3+1] = src[i].green;
+                source[i*3+2] = src[i].blue;
+            }
+
+            rc = DiveSetupBlitter(inst, &setup);
+            if (rc)
+                log_error(vidlog, "VideoConvertPalette - DiveSetupBlitter failed, rc=0x%x", rc);
+            else
+            {
+                int i;
+                DWORD color;
+                int bytes = c->bDepth/8;
+
+                rc = DiveBlitImage(inst, ulSrc, ulTrg);
+                if (rc)
+                    log_error(vidlog, "VideoConvertPalette - DiveBlitImage failed, rc=0x%x", rc);
+                else
+                {
+                    for (i=0; i<num; i++)
+                    {
+                        int b;
+
+                        color = 0;
+                        for (b=0; b<bytes; b++)
+                            color |= (ULONG)target[i*bytes+b] << (b*8);
+
+                        video_render_setphysicalcolor(&c->videoconfig, i, color,
+                                                      c->bDepth);
+                    }
+                }
+            }
+
+            rc=DiveFreeImageBuffer(inst, ulTrg);
+            if (rc)
+                log_error(vidlog, "VideoConvertPalette - DiveFreeImageBuffer (trg) failed, rc=0x%x", rc);
+            free(setup.pVisDstRects);
+        }
+
+        rc=DiveFreeImageBuffer(inst, ulSrc);
+        if (rc)
+            log_error(vidlog, "VideoConvertPalette - DiveFreeImageBuffer (src) failed, rc=0x%x", rc);
+    }
+
+    rc = DiveClose(inst);
+    if (rc)
+        log_error(vidlog, "VideoConvertPalette - DiveClose failed, rc=0x%x", rc);
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in
@@ -1900,44 +1938,48 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
 {
     int i;
 
-#ifdef USE_LUT8
-    ULONG rc;
-
-    //
-    // number of already used blocks of color data
-    //
-    RGB2 *palette = calloc(p->num_entries, sizeof(RGB2));
-
-    /*
-     log_debug("Setting %d pallette entries, ret=0x%p.", p->num_entries,
-     pixel_return);
-     */
-
-    for (i=0; i<p->num_entries; i++)
+    if (c->bDepth==8)
     {
-        palette[i].bRed   = p->entries[i].red;
-        palette[i].bGreen = p->entries[i].green;
-        palette[i].bBlue  = p->entries[i].blue;
+        ULONG rc;
+
+        //
+        // number of already used blocks of color data
+        //
+        RGB2 *palette = calloc(p->num_entries, sizeof(RGB2));
+
+        /*
+         log_debug("Setting %d pallette entries, ret=0x%p.", p->num_entries,
+         pixel_return);
+         */
+
+        for (i=0; i<p->num_entries; i++)
+        {
+            palette[i].bRed   = p->entries[i].red;
+            palette[i].bGreen = p->entries[i].green;
+            palette[i].bBlue  = p->entries[i].blue;
+        }
+
+        rc=DiveSetSourcePalette(c->hDiveInst, 0, p->num_entries, (BYTE*)palette);
+
+        if (rc)
+            log_error(vidlog, "DiveSetSourcePalette (rc=0x%x).",rc);
+        else
+            log_message(vidlog, "%d palette entries realized.", p->num_entries);
+
+        free(palette);
     }
-
-    rc=DiveSetSourcePalette(c->hDiveInst, 0, p->num_entries, (BYTE*)palette);
-
-    if (rc)
-        log_error(vidlog, "DiveSetSourcePalette (rc=0x%x).",rc);
-    else
-        log_message(vidlog, "%d palette entries realized.", p->num_entries);
-
-    free(palette);
-#endif
 
     for (i=0; i<p->num_entries; i++)
         pixel_return[i] = i;
 
-    VideoConvertPalette(&c->videoconfig, p->num_entries, p->entries);
+    if (c->bDepth==8)
+        VideoConvertPalette8(c, p->num_entries);
+    else
+        VideoConvertPalette(c, p->num_entries, p->entries);
 
-#ifndef USE_LUT8
-    WmPaint(c->hwndClient);
-#endif
+    if (c->bDepth!=8)
+        WmPaint(c->hwndClient);
+
     return 0;
 }
 
@@ -1968,6 +2010,7 @@ void video_canvas_refresh(video_canvas_t *c,
     if (c->vrenabled)
         VideoCanvasBlit(c, draw_buffer, draw_buffer_line_size, bufh,
                         xs, ys, xi, yi, w, h);
+    //else log_debug("drawing skipped");
 
     DosReleaseMutexSem(c->hmtx);
 

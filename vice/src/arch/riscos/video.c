@@ -307,6 +307,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   if ((canvas = (video_canvas_t *)malloc(sizeof(struct video_canvas_s))) == NULL)
     return (video_canvas_t *)0;
 
+  canvas->video_draw_buffer_callback = NULL;
   canvas->width = *width; canvas->height = *height;
 
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;

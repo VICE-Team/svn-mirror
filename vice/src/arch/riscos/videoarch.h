@@ -36,6 +36,8 @@
 #include "video.h"
 
 
+struct video_draw_buffer_callback_s;
+
 struct video_frame_buffer_s {
   int width, height, depth;
   PIXEL *tmpframebuffer;
@@ -57,6 +59,7 @@ struct video_canvas_s {
   unsigned int num_colours;
   unsigned int colour_table[256];
   video_render_config_t videoconfig;
+  struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 
 typedef struct video_canvas_s video_canvas_t;

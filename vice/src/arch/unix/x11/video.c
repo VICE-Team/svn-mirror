@@ -76,9 +76,12 @@
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
+#ifdef USE_GNOMEUI
+#include <gdk/gdkx.h>
+#endif
 #ifdef HAVE_XVIDEO
 #include "raster/raster.h"
-#include "renderXv.h"
+#include "renderxv.h"
 extern DWORD yuv_table[128];
 #endif
 
@@ -455,6 +458,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     memset(canvas, 0, sizeof(video_canvas_t));
 
     canvas->depth = ui_get_display_depth();
+    canvas->video_draw_buffer_callback = NULL;
 
     if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
         free(canvas);
@@ -513,14 +517,12 @@ int video_canvas_set_palette(video_canvas_t *c, const struct palette_s *palette,
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
-    if (console_mode || vsid_mode) {
+    if (console_mode || vsid_mode || use_xvideo) {
         return;
     }
 
-    if (!use_xvideo) {
-        video_arch_frame_buffer_free(canvas);
-	video_arch_frame_buffer_alloc(canvas, width, height);
-    }
+    video_arch_frame_buffer_free(canvas);
+    video_arch_frame_buffer_alloc(canvas, width, height);
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
     /* printf("%s: w = %d, h = %d\n", __FUNCTION__, width, height); */
@@ -571,26 +573,43 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 	display = ui_get_display_ptr();
 
-	/* FIXME: raster.c passes ys = 0, h = screen_size.height on resize.
-	   This goes outside the displayed area! */
-	if (ys < xv_raster->geometry.first_displayed_line) {
+	/* FIXME: raster.c passes off-screen areas on resize! */
+	if (ys < xv_raster->geometry.first_displayed_line
+	    || h > xv_raster->geometry.last_displayed_line
+	           - xv_raster->geometry.first_displayed_line + 1)
+	{
+            log_error(video_log, "Off-screen area passed to video_canvas_refresh: x=%i, y=%i, w=%i, h=%i",
+		      xs - xv_raster->geometry.extra_offscreen_border_left,
+		      ys - xv_raster->geometry.first_displayed_line,
+		      w, h);
 	    ys = xv_raster->geometry.first_displayed_line;
 	    h = xv_raster->geometry.last_displayed_line
 	      - xv_raster->geometry.first_displayed_line + 1;
 	}
-	render_yuv_image(canvas->xv_image,
-			 draw_buffer, draw_buffer_line_size, yuv_table,
-			 xs, ys, w, h,
-			 xs - xv_raster->geometry.extra_offscreen_border_left,
-			 ys - xv_raster->geometry.first_displayed_line);
+	canvas->xv_render.render_function(canvas->xv_image,
+					  draw_buffer, draw_buffer_line_size,
+					  yuv_table,
+					  xs, ys, w, h,
+					  xs - xv_raster->geometry.extra_offscreen_border_left,
+					  ys - xv_raster->geometry.first_displayed_line);
 
-	XGetGeometry(display, canvas->drawable, &root, &x, &y,
+	XGetGeometry(display,
+#ifdef USE_GNOMEUI
+		     GDK_WINDOW_XWINDOW(canvas->emuwindow->window),
+#else
+		     canvas->drawable,
+#endif
+		     &root, &x, &y,
 		     &dest_w, &dest_h, &border_width, &depth);
 
 	/* Xv does subpixel scaling. Since coordinates are in integers we
 	   refresh the entire image to get it right. */
 	display_yuv_image(display, canvas->xv_port,
+#ifdef USE_GNOMEUI
+			  GDK_WINDOW_XWINDOW(canvas->emuwindow->window), GDK_GC_XGC(_video_gc),
+#else
 			  canvas->drawable, _video_gc,
+#endif
 			  canvas->xv_image, shminfo,
 			  0, 0,
 			  xv_raster->geometry.screen_size.width,

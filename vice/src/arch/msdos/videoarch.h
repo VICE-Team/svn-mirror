@@ -40,6 +40,8 @@
 
 typedef void (*canvas_redraw_t)();
 
+struct video_draw_buffer_callback_s;
+
 struct video_canvas_s {
     unsigned int width, height, depth, bytes_per_line;
     video_render_config_t videoconfig;
@@ -62,6 +64,8 @@ struct video_canvas_s {
 
     /* remember palette for change of color depth */
     palette_t *palette;
+
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 typedef struct video_canvas_s video_canvas_t;
 
