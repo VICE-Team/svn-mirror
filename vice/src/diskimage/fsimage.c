@@ -41,7 +41,7 @@
 #include "zfile.h"
 
 
-static log_t fsimage_log = LOG_ERR;
+static log_t fsimage_log = LOG_DEFAULT;
 
 
 void fsimage_name_set(disk_image_t *image, char *name)
@@ -77,9 +77,7 @@ void fsimage_media_create(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
-
-    fsimage->name = NULL;
+    fsimage = (fsimage_t *)xcalloc(1, sizeof(fsimage_t));
 
     image->media = (void *)fsimage;
 }
@@ -175,7 +173,7 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
       case DISK_IMAGE_TYPE_X64:
-        sectors = disk_image_check_sector(image->type, track, sector);
+        sectors = disk_image_check_sector(image, track, sector);
 
         if (sectors < 0) {
             log_error(fsimage_log, "Track %i, Sector %i out of bounds.",
@@ -261,7 +259,7 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         return -1;
     }
 
-    sectors = disk_image_check_sector(image->type, track, sector);
+    sectors = disk_image_check_sector(image, track, sector);
 
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:

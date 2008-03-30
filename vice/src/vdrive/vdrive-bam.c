@@ -185,31 +185,11 @@ static int vdrive_bam_isset(BYTE *bamp, unsigned int sector)
 int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
 {
     BYTE tmp[256];
-    int disk_type = -1, rc;
-
-    switch (vdrive->image_format) {
-      case VDRIVE_IMAGE_FORMAT_1541:
-        disk_type = DISK_IMAGE_TYPE_D64;
-        break;
-      case VDRIVE_IMAGE_FORMAT_1571:
-        disk_type = DISK_IMAGE_TYPE_D71;
-        break;
-      case VDRIVE_IMAGE_FORMAT_1581:
-        disk_type = DISK_IMAGE_TYPE_D81;
-        break;
-      case VDRIVE_IMAGE_FORMAT_8050:
-        disk_type = DISK_IMAGE_TYPE_D80;
-        break;
-      case VDRIVE_IMAGE_FORMAT_8250:
-        disk_type = DISK_IMAGE_TYPE_D82;
-        break;
-      case VDRIVE_IMAGE_FORMAT_2040:
-        disk_type = DISK_IMAGE_TYPE_D67;
-    }
+    int rc;
 
     while (t) {
         /* Check for illegal track or sector.  */
-        if (disk_image_check_sector(disk_type, t, s) < 0) {
+        if (disk_image_check_sector(vdrive->image, t, s) < 0) {
             vdrive_command_set_error(vdrive, IPE_ILLEGAL_TRACK_OR_SECTOR,
                                      s, t);
             return IPE_ILLEGAL_TRACK_OR_SECTOR;

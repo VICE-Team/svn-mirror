@@ -72,18 +72,24 @@ extern int disk_image_cmdline_options_init(void);
 extern void disk_image_fsimage_name_set(disk_image_t *image, char *name);
 extern char *disk_image_fsimage_name_get(disk_image_t *image);
 extern void *disk_image_fsimage_fd_get(disk_image_t *image);
+extern int disk_image_fsimage_create(const char *name, unsigned int type);
+
+extern void disk_image_rawimage_name_set(disk_image_t *image, char *name);
+extern void disk_image_rawimage_driver_name_set(disk_image_t *image);
+
+extern void disk_image_name_set(disk_image_t *image, char *name);
+
 extern void disk_image_media_create(disk_image_t *image);
 extern void disk_image_media_destroy(disk_image_t *image);
 
 extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
-extern int disk_image_create(const char *name, unsigned int type);
 
 extern int disk_image_read_sector(disk_image_t *image, BYTE *buf,
                                   unsigned int track, unsigned int sector);
 extern int disk_image_write_sector(disk_image_t *image, BYTE *buf,
                                    unsigned int track, unsigned int sector);
-extern int disk_image_check_sector(unsigned int format, unsigned int track,
+extern int disk_image_check_sector(disk_image_t *image, unsigned int track,
                                    unsigned int sector);
 extern unsigned int disk_image_sector_per_track(unsigned int format,
                                                 unsigned int track);

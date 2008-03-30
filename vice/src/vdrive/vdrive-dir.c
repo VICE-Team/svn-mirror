@@ -104,32 +104,10 @@ static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
 static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
 {
     BYTE buf[256];
-    int disk_type = -1;
-
-    switch (vdrive->image_format) {
-      case VDRIVE_IMAGE_FORMAT_1541:
-        disk_type = DISK_IMAGE_TYPE_D64;
-        break;
-      case VDRIVE_IMAGE_FORMAT_2040:
-        disk_type = DISK_IMAGE_TYPE_D67;
-        break;
-      case VDRIVE_IMAGE_FORMAT_1571:
-        disk_type = DISK_IMAGE_TYPE_D71;
-        break;
-      case VDRIVE_IMAGE_FORMAT_1581:
-        disk_type = DISK_IMAGE_TYPE_D81;
-        break;
-      case VDRIVE_IMAGE_FORMAT_8050:
-        disk_type = DISK_IMAGE_TYPE_D80;
-        break;
-      case VDRIVE_IMAGE_FORMAT_8250:
-        disk_type = DISK_IMAGE_TYPE_D82;
-        break;
-    }
 
     while (t) {
         /* Check for illegal track or sector.  */
-        if (disk_image_check_sector(disk_type, t, s) < 0)
+        if (disk_image_check_sector(vdrive->image, t, s) < 0)
             break;
 
         /* Check if this sector is really allocated.  */
