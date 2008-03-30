@@ -206,6 +206,8 @@ void sound_resources_shutdown(void)
 {
     lib_free(device_name);
     lib_free(device_arg);
+    lib_free(recorddevice_name);
+    lib_free(recorddevice_arg);
 }
 
 /* ------------------------------------------------------------------------- */
