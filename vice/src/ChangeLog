@@ -1,3 +1,66 @@
+2002-05-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.8.
+
+	* vicii/vicii.c (vic_ii_update_memory_ptrs,
+	handle_fetch_sprite): Removed `skip_frame' hack.
+
+	* vicii/vicii-mem.c (vic_ii_local_store_vbank): Likewise.
+
+	* raster/raster-canvas.c, raster/raster-canvas.h: New files.
+
+	* raster/Makefile.am: Added new files.
+
+	* raster/raster-line.c (add_line_to_area): Fixed calculation
+	of area to update.
+	Moved canvas specific code to `raster/raster-canvas.c'.
+
+	* raster/raster.h: Removed `skip_frame' hacks.
+	Removed obsolete `vid_*' functions.
+
+	* raster/raster.c (add_line_and_double_scan): Removed, changed
+	calls to use `add_line_to_area()' instead.
+	Moved canvas specific code to `raster/raster-canvas.c'.
+
+	* crtc/crtc.c (crtc_raster_draw_alarm_handler): Renamed call
+	to `raster_canvas_handle_end_of_frame()'.
+
+	* video/video-render.c (video_refresh_all): Likewise.
+
+	* raster/raster.c, raster/raster-line.c, vicii/vicii-draw.c,
+	vdc/vdc-draw.c, crtc/crtc-draw.c, vic20/vic-draw.c,
+	plus4/ted-draw.c: Call `memset' and `memcpy' directly.
+
+	* vic20/vic.h: Moved definition of `RASTER_PIXEL*' to here.
+
+2002-05-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-draw.c (draw_mc_text_foreground),
+	(draw_mc_bitmap_foreground): Don't use background_color
+	but the value peeked before DRAW_MC_BYTE to restore
+	the background behind the cropped area.
+
+2002-04-30  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-draw.c (draw_std_text_foreground): We only have
+	to check for xsmooth_shift_left > 0, then we're always on
+	the last char.
+	(draw_mc_text_foreground), (draw_mc_bitmap_foreground),
+	(draw_ext_text_foreground), (draw_idle_foreground) now handle
+	the xsmooth_shift_left case.
+
+2002-04-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* autostart.c (autostart_advance): Even if READY prompt
+	doesn't appear the orig_drive_true_emulation_state has
+	to be set to be resetted correctly later.
+	(autostart_prg): Don't disable true drive emulation as
+	it is done later in autostart_advance.
+
+	* vicii/vicii.c (vic_ii_reset): Call vic_ii_reset_registers.
+	(vic_ii_reset_registers): Return immediately if vic_ii is
+	not initialized.
+
 2002-04-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.7.

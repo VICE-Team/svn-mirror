@@ -284,8 +284,8 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/palette.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/raster/raster-canvas.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/screenshot.h \
 	../../src/utils.h ../../src/vsync.h ../../src/video.h
 
