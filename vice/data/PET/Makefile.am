@@ -18,7 +18,7 @@ keymaps = \
 	graphics.vkm \
 	posg_de.vkm
 
-petdir = $(prefix)/lib/PET
+petdir = $(prefix)/lib/vice/PET
 
 pet_DATA = $(keymaps) $(roms) $(palettes)
 

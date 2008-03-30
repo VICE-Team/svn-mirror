@@ -1,4 +1,4 @@
-c128dir = $(prefix)/lib/C128
+c128dir = $(prefix)/lib/vice/C128
 
 c128_DATA = \
 	basic \

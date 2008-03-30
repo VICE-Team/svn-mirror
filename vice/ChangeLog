@@ -1,0 +1,23 @@
+Wed May 27 19:24:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* data/VIC20/Makefile.am: Install under
+ 	`$(prefix)/lib/vice/VIC20', not `$(prefix)/lib/VIC20'.
+
+	* data/PET/Makefile.am: Install under `$(prefix)/lib/vice/PET',
+	not `$(prefix)/lib/PET'.
+
+	* data/C128/Makefile.am: Install under `$(prefix)/lib/vice/C128',
+ 	not `$(prefix)/lib/C128'.
+
+	* data/C64/Makefile.am: Install under `$(prefix)/lib/vice/C64',
+	not `$(prefix)/lib/C64'.
+
+Sat May 23 14:06:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: New cpp symbol `HAVE_READLINE', set if we use
+	`readline' or its lightweight replacement.
+
+	* configure.in: Handle `msdosdjgpp' as a host os string.  Put the
+ 	sound drivers to link in `@SOUND_DRIVERS@' instead of using
+ 	automake conditionals.
+
