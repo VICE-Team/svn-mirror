@@ -57,9 +57,9 @@
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
 /* But this is no problem as 320*200 does not fit anyhow.  */
-//#ifndef OS2
+/*#ifndef OS2*/
 #define VIC_DUPLICATES_PIXELS
-//#endif
+/*#endif*/
 
 #ifdef VIC_DUPLICATES_PIXELS
 typedef PIXEL2 VIC_PIXEL;
@@ -107,7 +107,7 @@ typedef enum _vic_video_mode vic_video_mode_t;
 struct snapshot_s;
 struct palette_s;
 
-struct _vic
+struct vic_s
   {
     int initialized;
 
@@ -132,7 +132,7 @@ struct _vic
 
     unsigned int memptr;
   };
-typedef struct _vic vic_t;
+typedef struct vic_s vic_t;
 
 extern vic_t vic;
 
