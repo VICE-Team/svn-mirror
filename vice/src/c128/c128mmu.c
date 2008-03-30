@@ -218,7 +218,8 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
         mem_update_config(((basic_lo_in) ? 1 : 0) | ((basic_hi_in) ? 2 : 0)
                           | ((kernal_in) ? 4 : 0) | ((mmu[0] & 0x40) ? 8 : 0)
                           | ((io_in) ? 16 : 0));
-        z80mem_update_config(((io_in) ? 1 : 0) | ((mmu[0] & 0x40) ? 2 : 0));
+        z80mem_update_config(((io_in) ? 1 : 0) | ((mmu[0] & 0x40) ? 2 : 0)
+                          | ((mmu[0] & 0x80) ? 4 : 0));
     }
 }
 
