@@ -253,6 +253,13 @@ void vicii_handle_pending_alarms_external(int num_write_cycles)
         vicii_handle_pending_alarms(num_write_cycles);
 }
 
+void vicii_handle_pending_alarms_external_write(void)
+{
+    /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
+    if (vicii.initialized)
+        vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
+}
+
 static void vicii_set_geometry(void)
 {
     unsigned int width, height;
