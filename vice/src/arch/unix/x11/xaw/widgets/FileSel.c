@@ -353,6 +353,7 @@ Widget request,new;
 	static char *star = "*";
 
 	fsw = (XfwfFileSelectorWidget)new;
+
 	FSHandCursor(fsw) = XCreateFontCursor(XtDisplay(fsw),XC_hand1);
 	FSBusyCursor(fsw) = XCreateFontCursor(XtDisplay(fsw),XC_watch);
 
@@ -364,7 +365,8 @@ Widget request,new;
 	FSFileList(fsw) = NULL;
 	FSFileListCount(fsw) = 0;
 
-	str = (char *)XtCalloc((MAXPATHLEN + 2),sizeof(char));
+	str = (char *)XtCalloc((MAXPATHLEN + 2), sizeof(char));
+
 	if (FSCurrentDirectory(fsw) != NULL)	/* User Specified Path */
 	{
 		strcpy(str,FSCurrentDirectory(fsw));
@@ -438,20 +440,30 @@ XfwfFileSelectorWidget fsw;
 {
 	int i;
 
+        if (FSDirMgr(fsw)) /* [AB] 2000-07-18 */
+            DirectoryMgrClose(FSDirMgr(fsw));
+
 	XtFree(FSCurrentDirectory(fsw));
 	XtFree(FSCurrentFile(fsw));
 	XtFree(FSPattern(fsw));
-
+/*printf("PLC DEST CNT %i\n",FSPathListCount(fsw));*/
 	if (FSPathList(fsw) != NULL)
 	{
 		for (i = 0; i < FSPathListCount(fsw); i++)
+{
+/*printf("PLC DEST %i POINTER %p\n",i,FSPathList(fsw)[i]);*/
 			free(FSPathList(fsw)[i]);
+}
 		free(FSPathList(fsw));
 	}
+/*printf("FLC DEST CNT %i\n",FSFileListCount(fsw));*/
 	if (FSFileList(fsw) != NULL)
 	{
 		for (i = 0; i < FSFileListCount(fsw); i++)
+{
+/*printf("FLC DEST %i POINTER %p\n",i,FSFileList(fsw)[i]);*/
 			free(FSFileList(fsw)[i]);
+}
 		free(FSFileList(fsw));
 	}
 } /* End Destroy */
@@ -1525,13 +1537,19 @@ XfwfFileSelectorWidget fsw;
 	if (FSPathList(fsw) != NULL)
 	{
 		for (i = 0; i < FSPathListCount(fsw); i++)
+{
+/*printf("PLC DEST %i POINTER %p\n",i,FSPathList(fsw)[i]);*/
 			free(FSPathList(fsw)[i]);
+}
 		free(FSPathList(fsw));
 	}
 	if (FSFileList(fsw) != NULL)
 	{
 		for (i = 0; i < FSFileListCount(fsw); i++)
-			free(FSFileList(fsw)[i]);
+{
+/*printf("FLC DEST %i POINTER %p\n",i,FSFileList(fsw)[i]);*/
+ 			free(FSFileList(fsw)[i]);
+}
 		free(FSFileList(fsw));
 	}
 
@@ -1542,14 +1560,10 @@ XfwfFileSelectorWidget fsw;
 		if (*dir == '/') ++ FSPathListCount(fsw);
 	}
 
-	FSFileList(fsw) = (char **)malloc(sizeof(char *) *
-					  (FSFileListCount(fsw) + 1));
-	if (FSFileList(fsw) == NULL)
-	{
-		fprintf(stderr,"UpdateLists: Out of memory\n");
-		exit(-1);
-	}
+	FSFileList(fsw) = (char **)xmalloc(sizeof(char *) *
+					   (FSFileListCount(fsw) + 1));
 
+/*printf("FLC MALLOC CNT %i\n",FSFileListCount(fsw));*/
 	for (i = 0; i < FSFileListCount(fsw); i++)
 	{
 		dir_entry = DirectoryMgrNextEntry(FSDirMgr(fsw));
@@ -1564,14 +1578,16 @@ XfwfFileSelectorWidget fsw;
 		    else if (DirEntryIsSymLink(dir_entry) && FSFlagLinks(fsw))
 			strcat(temp," @");
 
-		FSFileList(fsw)[i] = StrCopy(temp);
+		FSFileList(fsw)[i] = stralloc(temp);
+/*printf("FLC MALLOC %i POINTER %p\n",i,FSFileList(fsw)[i]);*/
 	}
 	FSFileList(fsw)[i] = NULL;
 
-	FSPathList(fsw) = (char **)malloc(sizeof(char *) *
-					  (FSPathListCount(fsw) + 1));
+	FSPathList(fsw) = (char **)xmalloc(sizeof(char *) *
+					   (FSPathListCount(fsw) + 1));
+/*printf("PLC MALLOC CNT %i\n",FSPathListCount(fsw));*/
 	start = FSCurrentDirectory(fsw);
-	FSPathList(fsw)[0] = StrCopy("/");
+	FSPathList(fsw)[0] = stralloc("/");
 	for (i = 1; i < FSPathListCount(fsw); i++)
 	{
 		while (*start != '\0' && *start == '/') ++start;
@@ -1579,7 +1595,8 @@ XfwfFileSelectorWidget fsw;
 		while (*start != '\0' && *start != '/')
 			temp[count++] = *start++;
 		temp[count++] = '\0';
-		FSPathList(fsw)[i] = StrCopy(temp);
+		FSPathList(fsw)[i] = stralloc(temp);
+/*printf("PLC MALLOC %i POINTER %p\n",i,FSPathList(fsw)[i]);*/
 	}
 	FSPathList(fsw)[i] = NULL;
 

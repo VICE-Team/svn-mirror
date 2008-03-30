@@ -176,6 +176,7 @@ static int sprite_save(screenshot_t *screenshot, const char *filename)
 static screendrv_t sprite_drv =
 {
     "Sprite",
+    NULL,
     sprite_save
 };
 

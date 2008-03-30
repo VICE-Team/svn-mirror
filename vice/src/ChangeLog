@@ -1,3 +1,25 @@
+2000-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.28.
+
+	* attach.c (file_system_init): Clear vdrive struct.
+	(file_system_detach_disk): Fixed wrong handling of file system
+	access if all disks are detached.
+	(set_file_system_device): Unified several functions.
+
+	* vdrive/vdrive.c (vdrive_setup_device): Fixed memory leak.
+
+	* arch/unix/x11/xaw/widgets/FileSel.c (Destroy): Close open
+	directory.  Use either xmalloc/free or X11 memory functions
+	but do not mix both.
+
+	* utils.c (xmalloc): Cosmetics.
+
+2000-07-17  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/spritedrv.c: added entry for file extension
+	(none).
+
 2000-07-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.27.
