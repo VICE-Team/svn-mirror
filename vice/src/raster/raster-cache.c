@@ -38,18 +38,14 @@ void raster_cache_new(raster_cache_t *cache, raster_sprite_status_t *status)
 {
     unsigned int i;
 
+    memset(cache, 0, sizeof(raster_cache_t));
+
     if (status != NULL) {
         for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
             (status->cache_init_func)(&(cache->sprites[i]));
 
         cache->gfx_msk = lib_calloc(1, RASTER_CACHE_GFX_MSK_SIZE);
     }
-
-    memset(cache->background_data, 0, RASTER_CACHE_MAX_TEXTCOLS);
-    memset(cache->foreground_data, 0, RASTER_CACHE_MAX_TEXTCOLS);
-    memset(cache->color_data_1, 0, RASTER_CACHE_MAX_TEXTCOLS);
-    memset(cache->color_data_2, 0, RASTER_CACHE_MAX_TEXTCOLS);
-    memset(cache->color_data_3, 0, RASTER_CACHE_MAX_TEXTCOLS);
 
     cache->is_dirty = 1;
 }
