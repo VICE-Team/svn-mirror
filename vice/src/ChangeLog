@@ -1,3 +1,65 @@
+1999-10-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.17.
+
+	* datasette.c: #include <math.h>.
+	(datasette_set_tape_image): Removed implicit cast.
+	(datasette_read_bit): Initialize variables.
+
+	* datasette.h: Removed nested comment.
+
+1999-10-14  Andreas Matthies <andreas.matthies@arcormail.de>
+
+	* win32/res.h: two new menu-identifier for Datasette
+
+	* win32/resc128,resc64,rescbm2,respet,resvic:
+	new Datasette-Controls Reset, Reset Counter, Reset with Main CPU
+
+	* win32/ui.c: connect menu-identifier IDM_DATASETTE_RESET_WITH_CPU
+	with corresponding datasette-resource
+	(handle_wm_command): new message handler for reset of Datasette-counter
+
+	* c128/c128.c (machine_init): added initialation of datasette
+
+	* c128/c128.c,c64/c64.c,pet/pet.c,cbm2/c610.c,vic20/vic20.c
+	(machine_init_resources): added init for datasette-resources
+	(machine_init_cmdline_options): added init for datasette-cmd-optns
+
+	* datasette.c: new includes machine.h,resources.h,cmdline.h
+	new variables for buffered reading of tap: tap_buffer[], next_tap,
+	last_tap; new variables datasette_cycles_per_second and 
+	datasette_counter_offset
+	Resource "DatasetteResetWithCPU", corresponding cmdline-options
+	+/-dsresetwithcpu
+	(datasette_update_ui_counter): new realistic calculation of counter
+	(datasette_reset_counter): new function to set counter to 000 even in
+	the middle of the tap
+	(datasette_move_buffer_forward),(datasette_move_buffer_back),
+	(datasette_read_gap): new functions for buffered reading of datasette 
+	gaps in both directions
+	(datasette_read_bit): rewritten to set real timed alarms even at FF and
+	REWIND
+	(datasette_init): gets cycles per second for correct timing of counter
+	(datasette_set_tape_image): reads length of tap for realistic REWIND
+	(datasette_reset): resets the cycle_counter and datasette_counter_offset
+	(datasette_control): now handles DATASETTE_CONTROL_RESET; sets the
+	sense-line even at FF and REWIND
+	(datasette_motor): sets the correct state of motor even at FF and REWIND
+	(datasette_toggle_write_bit): increases size and cycle_counter_total
+	if neccessary
+
+	* datasette.h: definitions for TAP_BUFFER_LENGTH, TAPV0_ZERO_GAP and
+	the parameters for the tape based on a standard SONY-90-minutes-tape
+	prototype for public functions (datasette_reset_counter),
+	(datasette_init_resources) and (datasette_init_cmdline_options)
+
+	* maincpu.c: new include resources.h
+	(reset): only resets the datasette if the DatasetteResetWithCPU-resource
+	is set
+
+	* tap.h: added cycle_counter and cycle_counter_total to tap_s for
+	exact timing of the tape
+
 1999-10-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.16.

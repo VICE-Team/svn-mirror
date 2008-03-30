@@ -292,7 +292,7 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../log.h ../machine.h ../maincpu.h ../mem.h ../mon.h \
 	../mos6510.h ../snapshot.h ../traps.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/uiapi.h ../6510core.c
+	../../src/uiapi.h ../resources.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/c64/c64iec.h \
