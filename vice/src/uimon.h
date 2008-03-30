@@ -46,12 +46,14 @@ extern char *            uimon_get_in         (char **);
 
 #ifdef WIN32
 
+#include "types.h"
+
 /*
  For the time being, this internal interface remains here...
 */
 extern struct console_s *uimon_console_open_mdi(const char *id, void *,
                                                 void *, void *,
-                                                unsigned long int dwStyle,
+                                                DWORD dwStyle,
                                                 int x, int y, int dx, int dy );
 #endif /* #ifdef WIN32 */
 
