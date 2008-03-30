@@ -907,9 +907,37 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
             return -1;
         }
 
-        if (image->error_info != NULL)
-            return image->error_info[sectors];
-
+        if (image->error_info != NULL) {
+            switch (image->error_info[sectors]) {
+              case 0x0:
+              case 0x1:
+                return 0;
+              case 0x2:
+                return 20;
+              case 0x3:
+                return 21;
+              case 0x4:
+                return 22;
+              case 0x5:
+                return 23;
+              case 0x7:
+                return 25;
+              case 0x8:
+                return 26;
+              case 0x9:
+                return 27;
+              case 0xA:
+                return 28;
+              case 0xB:
+                return 29;
+              case 0xF:
+                return 74;
+              case 0x10:
+                return 24;
+              default:
+                return 0;
+            }
+        }
         break;
       case DISK_IMAGE_TYPE_GCR:
         {
