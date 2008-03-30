@@ -119,6 +119,8 @@ noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c
 
+
+bin_SCRIPTS = vsid
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -135,6 +137,8 @@ libarch_a_LIBADD =
 libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o coproc.o \
 joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o print.o rs232.o \
 uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o
+SCRIPTS =  $(bin_SCRIPTS)
+
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -193,6 +197,25 @@ libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
 	-rm -f libarch.a
 	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
 	$(RANLIB) libarch.a
+
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	    $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	  else if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	    $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	  else :; fi; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -420,7 +443,7 @@ check-am: all-am
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
-install-exec-am:
+install-exec-am: install-binSCRIPTS
 install-exec: install-exec-recursive
 
 install-data-am:
@@ -429,14 +452,15 @@ install-data: install-data-recursive
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
-uninstall-am:
+uninstall-am: uninstall-binSCRIPTS
 uninstall: uninstall-recursive
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(LIBRARIES) $(SCRIPTS)
 all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)
 
 
 mostlyclean-generic:
@@ -474,8 +498,8 @@ maintainer-clean: maintainer-clean-recursive
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile install-data-recursive \
-uninstall-data-recursive install-exec-recursive \
+maintainer-clean-compile uninstall-binSCRIPTS install-binSCRIPTS \
+install-data-recursive uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
