@@ -33,11 +33,13 @@ extern int mouse_resources_init(void);
 extern int mouse_cmdline_options_init(void);
 extern void mouse_init(void);
 
+extern void mouse_button_left(int pressed);
+extern void mouse_button_right(int pressed);
+
 extern BYTE mouse_get_x(void);
 extern BYTE mouse_get_y(void);
 
 extern int _mouse_enabled;
-
 
 #endif
 
