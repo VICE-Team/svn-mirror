@@ -28,10 +28,10 @@
 
 #include <stdio.h>
 
-#include "archdep.h"
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
 #include "ted-cmdline-options.h"
+#include "tedtypes.h"
 
 
 /* TED command-line options.  */
@@ -54,31 +54,9 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-/* TED double-size-specific command-line options.  */
-static cmdline_option_t cmdline_options_2x[] =
-{
-#if ARCHDEP_TED_DSIZE == 1
-    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleSize",
-      (void *)1, NULL, "Enable double size" },
-    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleSize",
-      (void *)0, NULL, "Disable double size" },
-#endif
-#if ARCHDEP_TED_DSCAN == 1
-    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleScan",
-      (void *)1, NULL, "Enable double scan" },
-    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "TEDDoubleScan",
-      (void *)0, NULL, "Disable double scan" },
-#endif
-    { NULL }
-};
-
 int ted_cmdline_options_init(void)
 {
-#if (ARCHDEP_TED_DSIZE == 1) || (ARCHDEP_TED_DSCAN == 1)
-    if (cmdline_register_options(cmdline_options_2x) < 0)
-        return -1;
-#endif
-    if (raster_cmdline_options_chip_init("TED") < 0)
+    if (raster_cmdline_options_chip_init("TED", ted.video_chip_cap) < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);

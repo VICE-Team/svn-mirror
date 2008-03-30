@@ -33,6 +33,7 @@
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
 #include "vdc-cmdline-options.h"
+#include "vdctypes.h"
 
 
 /* VDC command-line options.  */
@@ -53,29 +54,9 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-
-/* VDC double-size-specific command-line options.  */
-
-static cmdline_option_t cmdline_options_2x[] =
-{
-    { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleSize",
-      (void *)1, NULL, "Enable double size" },
-    { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleSize",
-      (void *)0, NULL, "Disable double size" },
-    { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleScan",
-      (void *)1, NULL, "Enable double scan" },
-    { "+VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleScan",
-      (void *)0, NULL, "Disable double scan" },
-    { NULL }
-};
-
-
 int vdc_cmdline_options_init(void)
 {
-    if (cmdline_register_options(cmdline_options_2x) < 0)
-        return -1;
-
-    if (raster_cmdline_options_chip_init("VDC") < 0)
+    if (raster_cmdline_options_chip_init("VDC", vdc.video_chip_cap) < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);

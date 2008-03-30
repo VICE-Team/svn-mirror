@@ -30,9 +30,9 @@
 
 #include <stdio.h>
 
-#include "archdep.h"
 #include "cmdline.h"
 #include "crtc-cmdline-options.h"
+#include "crtctypes.h"
 #include "raster-cmdline-options.h"
 
 
@@ -42,29 +42,13 @@ static cmdline_option_t cmdline_options[] =
     { "-crtcpalette", SET_RESOURCE, 1, NULL, NULL,
       "CrtcPaletteFile", NULL,
       "<name>", "Specify palette file name" },
-#if ARCHDEP_CRTC_DSIZE == 1
-    { "-crtcdsize", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleSize", (void *)1,
-      NULL, "Enable double size" },
-    { "+crtcdsize", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleSize", (void *)0,
-      NULL, "Disable double size" },
-#endif
-#if ARCHDEP_CRTC_DSCAN == 1
-    { "-crtcdscan", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleScan", (void *)1,
-      NULL, "Enable double scan" },
-    { "+crtcdscan", SET_RESOURCE, 0, NULL, NULL,
-      "CrtcDoubleScan", (void *)0,
-      NULL, "Disable double scan" },
-#endif
     { NULL }
 };
 
 
 int crtc_cmdline_options_init(void)
 {
-    if (raster_cmdline_options_chip_init("Crtc") < 0)
+    if (raster_cmdline_options_chip_init("Crtc", crtc.video_chip_cap) < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);

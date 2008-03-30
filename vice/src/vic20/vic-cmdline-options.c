@@ -28,10 +28,10 @@
 
 #include <stdio.h>
 
-#include "archdep.h"
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
 #include "vic-cmdline-options.h"
+#include "vic.h"
 
 
 /* VIC command-line options.  */
@@ -43,32 +43,9 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-/* VIC double-size-specific command-line options.  */
-
-static cmdline_option_t cmdline_options_2x[] =
-{
-#if ARCHDEP_VIC_DSIZE == 1
-    { "-dsize", SET_RESOURCE, 0, NULL, NULL, "VICDoubleSize",
-      (void *)1, NULL, "Enable double size" },
-    { "+dsize", SET_RESOURCE, 0, NULL, NULL, "VICDoubleSize",
-      (void *)0, NULL, "Disable double size" },
-#endif
-#if ARCHDEP_VIC_DSCAN == 1
-    { "-dscan", SET_RESOURCE, 0, NULL, NULL, "VICDoubleScan",
-      (void *)1, NULL, "Enable double scan" },
-    { "+dscan", SET_RESOURCE, 0, NULL, NULL, "VICDoubleScan",
-      (void *)0, NULL, "Disable double scan" },
-#endif
-    { NULL }
-};
-
 int vic_cmdline_options_init(void)
 {
-#if (ARCHDEP_VIC_DSIZE == 1) || (ARCHDEP_VIC_DSCAN == 1)
-    if (cmdline_register_options(cmdline_options_2x) < 0)
-        return -1;
-#endif
-    if (raster_cmdline_options_chip_init("VIC") < 0)
+    if (raster_cmdline_options_chip_init("VIC", vic.video_chip_cap) < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);

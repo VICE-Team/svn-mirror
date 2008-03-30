@@ -34,7 +34,7 @@
 #include "vice.h"
 
 #include "log.h"
-#include "raster/raster.h"
+#include "raster.h"
 #include "types.h"
 #include "vic-mem.h"
 #include "vic20.h"
@@ -123,6 +123,7 @@ struct vic_light_pen_s {
 typedef struct vic_light_pen_s vic_light_pen_t;
 
 struct alarm_s;
+struct video_chip_cap_s;
 
 struct vic_s
 {
@@ -183,6 +184,9 @@ struct vic_s
     unsigned int cycle_offset;
 
     vic_light_pen_t light_pen; 
+
+    /* Video chip capabilities.  */
+    struct video_chip_cap_s *video_chip_cap;
 };
 typedef struct vic_s vic_t;
 
