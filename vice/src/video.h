@@ -44,15 +44,14 @@ extern void video_frame_buffer_free(struct video_frame_buffer_s *i);
 extern void video_frame_buffer_clear(struct video_frame_buffer_s *i,
                                      PIXEL value);
 
-extern struct video_canvas_s *canvas_create(const char *win_name, unsigned int *width,
-                                      unsigned int *height, int mapped,
-                                      void_t exposure_handler,
-                                      const struct palette_s *palette,
-                                      PIXEL *pixel_return
-#ifdef USE_GNOMEUI
-                                      , struct video_frame_buffer_s *fb
-#endif
-                                      );
+extern struct video_canvas_s *video_canvas_create(const char *win_name,
+                                            unsigned int *width,
+                                            unsigned int *height, int mapped,
+                                            void_t exposure_handler,
+                                            const struct palette_s *palette,
+                                            PIXEL *pixel_return,
+                                            struct video_frame_buffer_s *fb);
+
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  struct video_frame_buffer_s *frame_buffer,
                                  unsigned int xs, unsigned int ys,

@@ -194,17 +194,14 @@ static int realize_canvas(raster_t *raster)
     viewport = &raster->viewport;
 
     if (viewport->canvas == NULL) {
-        viewport->canvas = canvas_create(viewport->title,
-                                         &viewport->width,
-                                         &viewport->height,
-                                         1,
-                                         (void_t)(raster->viewport.exposure_handler),
-                                         raster->palette,
-                                         raster->pixel_table.sing
-#ifdef USE_GNOMEUI
-                                         ,raster->frame_buffer
-#endif
-                                         );
+        viewport->canvas = video_canvas_create(viewport->title,
+                                               &viewport->width,
+                                               &viewport->height,
+                                               1,
+                                               (void_t)(raster->viewport.exposure_handler),
+                                               raster->palette,
+                                               raster->pixel_table.sing,
+                                               raster->frame_buffer);
 
         if (viewport->canvas == NULL)
             return -1;

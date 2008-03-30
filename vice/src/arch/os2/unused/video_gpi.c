@@ -327,10 +327,11 @@ void PM_mainloop(VOID *arg)
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 
-video_canvas_t canvas_create(const char *title, UINT *width,
+video_canvas_t video_canvas_create(const char *title, UINT *width,
                              UINT *height, int mapped,
                              canvas_redraw_t exposure_handler,
-                             const palette_t *palette, PIXEL *pixel_return)
+                             const palette_t *palette, PIXEL *pixel_return,
+                             struct video_frame_buffer_s *fb)
 {
     video_canvas_t canvas_new;
 

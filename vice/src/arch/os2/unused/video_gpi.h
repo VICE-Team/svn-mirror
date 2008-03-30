@@ -44,9 +44,10 @@ extern int  frame_buffer_alloc(video_frame_buffer_t *i, UINT width,
 extern void frame_buffer_free(video_frame_buffer_t *i);
 extern void frame_buffer_clear(video_frame_buffer_t *i, BYTE value);
 
-extern video_canvas_t canvas_create(const char *win_name, UINT *width, UINT *height,
+extern video_canvas_t video_canvas_create(const char *win_name, UINT *width, UINT *height,
                               int mapped, canvas_redraw_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return);
+                              const palette_t *palette, PIXEL *pixel_return,
+                              struct video_frame_buffer_s *fb);
 extern void video_canvas_map(video_canvas_t s);
 extern void video_canvas_unmap(video_canvas_t s);
 extern void video_canvas_resize(video_canvas_t s, UINT width, UINT height);

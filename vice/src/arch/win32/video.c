@@ -430,10 +430,11 @@ extern int fullscreen_transition;
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 #define CANVAS_ERROR ((video_canvas_t *) -1)
-video_canvas_t *canvas_create(const char *title, unsigned int *width,
+video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return)
+                              const palette_t *palette, PIXEL *pixel_return,
+                              struct video_frame_buffer_s *fb)
 {
     HRESULT result;
     HRESULT ddresult;
