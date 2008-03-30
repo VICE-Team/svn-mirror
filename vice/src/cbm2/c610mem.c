@@ -31,6 +31,7 @@
 
 #include "archdep.h"
 #include "autostart.h"
+#include "c610-resources.h"
 #include "c610acia.h"
 #include "c610cia.h"
 #include "c610mem.h"
@@ -81,15 +82,6 @@ BYTE *page_one;
 static int bank_exec = -1;
 static int bank_ind = -1;
 
-/* ROM load functions */
-static int mem_load_chargen(void);
-static int mem_load_kernal(void);
-static int mem_load_basic(void);
-static int mem_load_cart_1(void);
-static int mem_load_cart_2(void);
-static int mem_load_cart_4(void);
-static int mem_load_cart_6(void);
-
 /* Memory read and write tables - banked. */
 static read_func_ptr_t _mem_read_tab[16][0x101];
 static store_func_ptr_t _mem_write_tab[16][0x101];
@@ -123,18 +115,6 @@ static int rom_loaded = 0;
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
 static log_t c610_mem_log = LOG_ERR;
-
-/* prototype */
-static void initialize_memory_bank(int i);
-
-#define CBM2_CHARGEN500 "chargen" FSDEV_EXT_SEP_STR "500"
-#define CBM2_CHARGEN600 "chargen" FSDEV_EXT_SEP_STR "600"
-#define CBM2_CHARGEN700 "chargen" FSDEV_EXT_SEP_STR "700"
-#define CBM2_BASIC128   "basic" FSDEV_EXT_SEP_STR "128"
-#define CBM2_BASIC256   "basic" FSDEV_EXT_SEP_STR "256"
-#define CBM2_BASIC500   "basic" FSDEV_EXT_SEP_STR "500"
-#define CBM2_KERNAL     "kernal"
-#define CBM2_KERNAL500  "kernal" FSDEV_EXT_SEP_STR "500"
 
 /* ------------------------------------------------------------------------- */
 
@@ -236,40 +216,6 @@ const char *mem_romset_resources_list[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-/* ramsize starts counting at 0x10000 if less than 512. If 512 or more,
-   it starts counting at 0x00000.
-   CBM2MEM module requires(!) that ramsize never gets 512-64 = 448
-   (Just don't ask...)
-   In a C500, that has RAM in bank 0, the actual size of RAM is 64k larger
-   than ramsize when ramsize is less than 512, otherwise the same as ramsize.
-*/
-
-static int ramsize;
-
-static int set_ramsize(resource_value_t v, void *param)
-{
-    int rs = (int) v;
-    if (rs == 64 || rs == 128 || rs == 256 || rs == 512 || rs == 1024) {
-        ramsize = rs;
-        vsync_suspend_speed_eval();
-        mem_initialize_memory();
-        mem_powerup();
-        maincpu_trigger_reset();
-        return 0;
-    }
-    return -1;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Flag: Do we enable the Emulator ID?  */
-static int emu_id_enabled;
-
-static int set_emu_id_enabled(resource_value_t v, void *param)
-{
-    emu_id_enabled = (int)v;
-    return 0;
-}
 
 /* Enable/disable the Emulator ID.  */
 void mem_toggle_emu_id(int flag)
@@ -278,261 +224,6 @@ void mem_toggle_emu_id(int flag)
 }
 
 /* ------------------------------------------------------------------------- */
-
-/* ROM names */
-static char *kernal_rom_name = NULL;
-static char *chargen_name = NULL;
-static char *basic_rom_name = NULL;
-static char *cart_1_name = NULL;
-static char *cart_2_name = NULL;
-static char *cart_4_name = NULL;
-static char *cart_6_name = NULL;
-static int cart08_ram = 0;
-static int cart1_ram = 0;
-static int cart2_ram = 0;
-static int cart4_ram = 0;
-static int cart6_ram = 0;
-static int cartC_ram = 0;
-
-static int cbm2_model_line = 0;
-static int use_vicii = 0;
-
-static BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
-
-static int set_cbm2_model_line(resource_value_t v, void *param)
-{
-    int tmp = (int) v;
-
-    if (tmp>=0 && tmp<3) {
-        cbm2_model_line = (int) v;
-    }
-
-    set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
-
-    if (isC500) {
-	/* VIC-II config */
-    } else {
-        crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
-    }
-
-    return 0;
-}
-
-static int set_use_vicii(resource_value_t v, void *param)
-{
-    int tmp = (int) v;
-
-    if (tmp >= 0 && tmp <= 1) {
-	use_vicii = tmp;
-
-	/* on boot, select video chip. FIXME: change on runtime */
-	if (isC500 < 1) {
-	    isC500 = use_vicii;
-	}
-        return 0;
-    }
-    return -1;
-}
-
-static int set_chargen_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (chargen_name != NULL && name != NULL
-        && strcmp(name, chargen_name) == 0)
-        return 0;
-
-    util_string_set(&chargen_name, name);
-
-    return mem_load_chargen();	/* only does something after mem_load() */
-}
-
-static int set_kernal_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (kernal_rom_name != NULL && name != NULL
-        && strcmp(name, kernal_rom_name) == 0)
-        return 0;
-
-    util_string_set(&kernal_rom_name, name);
-
-    return mem_load_kernal();	/* only does something after mem_load() */
-}
-
-static int set_basic_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (basic_rom_name != NULL
-        && name != NULL
-        && strcmp(name, basic_rom_name) == 0)
-        return 0;
-
-    util_string_set(&basic_rom_name, name);
-
-    return mem_load_basic();	/* only does something after mem_load() */
-}
-
-static int set_cart1_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (cart_1_name != NULL
-        && name != NULL
-        && strcmp(name, cart_1_name) == 0)
-        return 0;
-
-    util_string_set(&cart_1_name, name);
-
-    return mem_load_cart_1();	/* only does something after mem_load() */
-}
-
-static int set_cart2_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (cart_2_name != NULL
-        && name != NULL
-        && strcmp(name, cart_2_name) == 0)
-        return 0;
-
-    util_string_set(&cart_2_name, name);
-
-    return mem_load_cart_2();	/* only does something after mem_load() */
-}
-
-static int set_cart4_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (cart_4_name != NULL
-        && name != NULL
-        && strcmp(name, cart_4_name) == 0)
-        return 0;
-
-    util_string_set(&cart_4_name, name);
-
-    return mem_load_cart_4();	/* only does something after mem_load() */
-}
-
-static int set_cart6_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (cart_6_name != NULL
-        && name != NULL
-        && strcmp(name, cart_6_name) == 0)
-        return 0;
-
-    util_string_set(&cart_6_name, name);
-
-    return mem_load_cart_6();	/* only does something after mem_load() */
-}
-
-static int set_cart08_ram(resource_value_t v, void *param)
-{
-    cart08_ram = (int) v;
-    initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart1_ram(resource_value_t v, void *param)
-{
-    cart1_ram = (int) v;
-    initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart2_ram(resource_value_t v, void *param)
-{
-    cart2_ram = (int) v;
-    initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart4_ram(resource_value_t v, void *param)
-{
-    cart4_ram = (int) v;
-    initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart6_ram(resource_value_t v, void *param)
-{
-    cart6_ram = (int) v;
-    initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cartC_ram(resource_value_t v, void *param)
-{
-    cartC_ram = (int) v;
-    initialize_memory_bank(15);
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static resource_t resources[] = {
-    {"RamSize", RES_INTEGER, (resource_value_t) 128,
-      (resource_value_t *) & ramsize,
-      set_ramsize, NULL },
-    { "ChargenName", RES_STRING, (resource_value_t) CBM2_CHARGEN600,
-      (resource_value_t *) &chargen_name,
-      set_chargen_rom_name, NULL },
-    { "KernalName", RES_STRING, (resource_value_t) "kernal",
-      (resource_value_t *) &kernal_rom_name,
-      set_kernal_rom_name, NULL },
-    { "BasicName", RES_STRING, (resource_value_t) CBM2_BASIC128,
-      (resource_value_t *) &basic_rom_name,
-      set_basic_rom_name, NULL },
-    { "Cart1Name", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &cart_1_name,
-      set_cart1_rom_name, NULL },
-    { "Cart2Name", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &cart_2_name,
-      set_cart2_rom_name, NULL },
-    { "Cart4Name", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &cart_4_name,
-      set_cart4_rom_name, NULL },
-    { "Cart6Name", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &cart_6_name,
-      set_cart6_rom_name, NULL },
-    { "Ram08", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart08_ram,
-      set_cart08_ram, NULL },
-    { "Ram1", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart1_ram,
-      set_cart1_ram, NULL },
-    { "Ram2", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart2_ram,
-      set_cart2_ram, NULL },
-    { "Ram4", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart4_ram,
-      set_cart4_ram, NULL },
-    { "Ram6", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart6_ram,
-      set_cart6_ram, NULL },
-    { "RamC", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cartC_ram,
-      set_cartC_ram, NULL },
-    { "UseVicII", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &use_vicii,
-      set_use_vicii, NULL },
-    { "ModelLine", RES_INTEGER, (resource_value_t) 2,
-      (resource_value_t *) &cbm2_model_line,
-      set_cbm2_model_line, NULL },
-    { "EmuID", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &emu_id_enabled,
-      set_emu_id_enabled, NULL },
-    { NULL }
-};
-
-int c610_mem_init_resources(void)
-{
-    return resources_register(resources);
-}
 
 static cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, cbm2_set_model, NULL, NULL, NULL,
@@ -632,12 +323,18 @@ int cbm2_set_model(const char *model, void *extra)
 
         vsync_suspend_speed_eval();
 
-        set_use_vicii((resource_value_t)modtab[i].usevicii, NULL);
-        set_ramsize((resource_value_t)modtab[i].ramsize, NULL);
-        set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
-        set_chargen_rom_name((resource_value_t)modtab[i].charrom, NULL);
-        set_kernal_rom_name((resource_value_t)modtab[i].kernal, NULL);
-        set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
+        resources_set_value("UseVicII",
+                            (resource_value_t)(modtab[i].usevicii));
+        resources_set_value("RamSize",
+                            (resource_value_t)(modtab[i].ramsize));
+        resources_set_value("BasicName",
+                            (resource_value_t)(modtab[i].basic));
+        resources_set_value("ChargenName",
+                            (resource_value_t)(modtab[i].charrom));
+        resources_set_value("KernalName",
+                            (resource_value_t)(modtab[i].kernal));
+        resources_set_value("ModelLine",
+                             (resource_value_t)(modtab[i].line));
 
         cbm2_model = i;
 
@@ -1065,8 +762,8 @@ void mem_initialize_memory(void)
     int i;
 
     /* first the tables that hold the predefined bank mappings */
-    for (i=0;i<16;i++) {		/* 16 banks possible */
-        initialize_memory_bank(i);
+    for (i = 0; i < 16; i++) {		/* 16 banks possible */
+        mem_initialize_memory_bank(i);
     }
 
     /* set bank limit tables for optimized opcode fetch */
@@ -1121,7 +818,8 @@ void mem_initialize_memory(void)
     }
 }
 
-static void initialize_memory_bank(int i) {
+void mem_initialize_memory_bank(int i)
+{
     int j;
 
     switch (i) {
@@ -1328,7 +1026,7 @@ void mem_powerup(void)
  * Called from mem_load() and from setting the resources.
  */
 
-static int mem_load_chargen(void)
+int mem_load_chargen(const char *rom_name)
 {
     int i;
 
@@ -1339,17 +1037,17 @@ static int mem_load_chargen(void)
      * we load 4k of 16-byte-per-char Charrom.
      * Then we generate the inverted chars */
 
-    if (!IS_NULL(chargen_name)) {
+    if (!IS_NULL(rom_name)) {
         memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
-        if (sysfile_load(chargen_name, chargen_rom, 4096, 4096) < 0) {
+        if (sysfile_load(rom_name, chargen_rom, 4096, 4096) < 0) {
             log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
-                  chargen_name);
+                      rom_name);
             return -1;
         }
 
         if (!isC500) {
-            memmove(chargen_rom+4096, chargen_rom+2048, 2048);
+            memmove(chargen_rom + 4096, chargen_rom + 2048, 2048);
 
             /* Inverted chargen into second half. This is a hardware feature.*/
             for (i = 0; i < 2048; i++) {
@@ -1382,7 +1080,7 @@ static int mem_checksum(void)
     return 0;
 }
 
-static int mem_load_kernal(void)
+int mem_load_kernal(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;  /* init not far enough */
@@ -1394,9 +1092,9 @@ static int mem_load_kernal(void)
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
 
     /* Load Kernal ROM.  */
-    if (!IS_NULL(kernal_rom_name)) {
-        if (sysfile_load(kernal_rom_name, rom + 0xe000, 0x2000, 0x2000) < 0) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
+    if (!IS_NULL(rom_name)) {
+        if (sysfile_load(rom_name, rom + 0xe000, 0x2000, 0x2000) < 0) {
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.", rom_name);
             return -1;
         }
     }
@@ -1405,16 +1103,16 @@ static int mem_load_kernal(void)
 }
 
 
-static int mem_load_basic(void)
+int mem_load_basic(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;  /* init not far enough */
 
     /* Load BASIC ROM.  */
-    if (!IS_NULL(basic_rom_name)) {
-        if ((sysfile_load(basic_rom_name, rom + 0x8000, 0x4000, 0x4000) < 0)) {
+    if (!IS_NULL(rom_name)) {
+        if ((sysfile_load(rom_name, rom + 0x8000, 0x4000, 0x4000) < 0)) {
             log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
-                  basic_rom_name);
+                      rom_name);
             return -1;
         }
     } else {
@@ -1424,15 +1122,15 @@ static int mem_load_basic(void)
     return 0;
 }
 
-static int mem_load_cart_1(void)
+int mem_load_cart_1(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_1_name)) {
-        if ((sysfile_load(cart_1_name, rom + 0x1000, 0x1000, 0x1000) < 0)) {
+    if (!IS_NULL(rom_name)) {
+        if ((sysfile_load(rom_name, rom + 0x1000, 0x1000, 0x1000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                  cart_1_name);
+                      rom_name);
         }
     } else {
         memset(rom + 0x1000, 0xff, 0x1000);
@@ -1440,15 +1138,15 @@ static int mem_load_cart_1(void)
     return 0;
 }
 
-static int mem_load_cart_2(void)
+int mem_load_cart_2(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_2_name)) {
-        if ((sysfile_load(cart_2_name, rom + 0x2000, 0x2000, 0x2000) < 0)) {
+    if (!IS_NULL(rom_name)) {
+        if ((sysfile_load(rom_name, rom + 0x2000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                      cart_2_name);
+                      rom_name);
         }
     } else {
         memset(rom + 0x2000, 0xff, 0x2000);
@@ -1456,15 +1154,15 @@ static int mem_load_cart_2(void)
     return 0;
 }
 
-static int mem_load_cart_4(void)
+int mem_load_cart_4(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_4_name)) {
-        if ((sysfile_load(cart_4_name, rom + 0x4000, 0x2000, 0x2000) < 0)) {
+    if (!IS_NULL(rom_name)) {
+        if ((sysfile_load(rom_name, rom + 0x4000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                      cart_4_name);
+                      rom_name);
         }
     } else {
         memset(rom + 0x4000, 0xff, 0x2000);
@@ -1472,14 +1170,15 @@ static int mem_load_cart_4(void)
     return 0;
 }
 
-static int mem_load_cart_6(void)
+int mem_load_cart_6(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_6_name)) {
-        if ((sysfile_load(cart_6_name, rom + 0x6000, 0x2000, 0x2000) < 0)) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
+    if (!IS_NULL(rom_name)) {
+        if ((sysfile_load(rom_name, rom + 0x6000, 0x2000, 0x2000) < 0)) {
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+                      rom_name);
         }
     } else {
         memset(rom + 0x6000, 0xff, 0x2000);
@@ -1491,13 +1190,16 @@ static int mem_load_cart_6(void)
 int mem_load(void)
 {
     int i;
+    char *rom_name = NULL;
 
     if (c610_mem_log == LOG_ERR)
         c610_mem_log = log_open("CBM2MEM");
 
     rom_loaded = 1;
 
-    if (mem_load_chargen() < 0)
+    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_chargen(rom_name) < 0)
         return -1;
 
     /* Init Disk/Cartridge ROM with 'unused address' values.  */
@@ -1505,24 +1207,36 @@ int mem_load(void)
         rom[i] = 0xff;
     }
 
-    if (mem_load_kernal() < 0)
+    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_kernal(rom_name) < 0)
         return -1;
 
-    if (mem_load_basic() < 0)
+    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_basic(rom_name) < 0)
         return -1;
 
     /* Load extension ROMs.  */
 
-    if (mem_load_cart_1() < 0)
+    if (resources_get_value("Cart1Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_cart_1(rom_name) < 0)
         return -1;
 
-    if (mem_load_cart_2() < 0)
+    if (resources_get_value("Cart2Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_cart_2(rom_name) < 0)
         return -1;
 
-    if (mem_load_cart_4() < 0)
+    if (resources_get_value("Cart4Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_cart_4(rom_name) < 0)
         return -1;
 
-    if (mem_load_cart_6() < 0)
+    if (resources_get_value("Cart6Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_cart_6(rom_name) < 0)
         return -1;
 
     if (isC500) {
@@ -1923,6 +1637,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     snapshot_module_t *m;
     BYTE config;
     int trapfl;
+    char *cart_1_name, *cart_2_name, *cart_4_name, *cart_6_name;
 
     if (!save_roms) return 0;
 
@@ -1934,6 +1649,11 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     /* disable traps before saving the ROM */
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
+
+    resources_get_value("Cart1Name", (resource_value_t)&cart_1_name);
+    resources_get_value("Cart2Name", (resource_value_t)&cart_2_name);
+    resources_get_value("Cart4Name", (resource_value_t)&cart_4_name);
+    resources_get_value("Cart6Name", (resource_value_t)&cart_6_name);
 
     config = (  (cart_1_name ? 2 : 0)
 		| (cart_2_name ? 4 : 0)
