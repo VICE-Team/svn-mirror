@@ -34,12 +34,12 @@ static BYTE pio1_data = 0xff;
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
-BYTE REGPARM1 pio1_read(ADDRESS addr)
+BYTE REGPARM1 pio1_read(WORD addr)
 {
     return pio1_data;
 }
 
-void REGPARM2 pio1_store(ADDRESS addr, BYTE value)
+void REGPARM2 pio1_store(WORD addr, BYTE value)
 {
     pio1_data = (value & ~4) | (BYTE)(tape_sense ? 0 : 4);
 }

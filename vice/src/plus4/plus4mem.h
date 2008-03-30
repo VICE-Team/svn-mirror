@@ -42,8 +42,8 @@ extern BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE];
 extern BYTE extromhi2[PLUS4_KERNAL_ROM_SIZE];
 extern BYTE extromhi3[PLUS4_KERNAL_ROM_SIZE];
 
-extern BYTE REGPARM1 kernal_read(ADDRESS addr);
-extern void REGPARM2 kernal_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 kernal_read(WORD addr);
+extern void REGPARM2 kernal_store(WORD addr, BYTE value);
 
 extern int plus4_mem_init_resources(void);
 extern int plus4_mem_init_cmdline_options(void);

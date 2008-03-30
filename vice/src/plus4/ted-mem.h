@@ -30,17 +30,17 @@
 
 #include "types.h"
 
-extern void REGPARM2 ted_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 ted_read(ADDRESS addr);
-extern BYTE REGPARM1 ted_peek(ADDRESS addr);
-extern BYTE REGPARM1 colorram_read(ADDRESS addr);
-extern void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_store_32k(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_store_16k(ADDRESS addr, BYTE value);
+extern void REGPARM2 ted_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 ted_read(WORD addr);
+extern BYTE REGPARM1 ted_peek(WORD addr);
+extern BYTE REGPARM1 colorram_read(WORD addr);
+extern void REGPARM2 colorram_store(WORD addr, BYTE value);
+extern void REGPARM2 ted_mem_vbank_store(WORD addr, BYTE value);
+extern void REGPARM2 ted_mem_vbank_store_32k(WORD addr, BYTE value);
+extern void REGPARM2 ted_mem_vbank_store_16k(WORD addr, BYTE value);
 #if 0
-extern void REGPARM2 ted_mem_vbank_39xx_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 ted_mem_vbank_39xx_store(WORD addr, BYTE value);
+extern void REGPARM2 ted_mem_vbank_3fxx_store(WORD addr, BYTE value);
 #endif
 
 #endif

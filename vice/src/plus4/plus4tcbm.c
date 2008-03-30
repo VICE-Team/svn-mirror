@@ -210,7 +210,7 @@ static void tiatcbm_reset(unsigned int dnr)
 {
 }
 
-static void tiatcbm_store(ADDRESS addr, BYTE byte, unsigned int dnr)
+static void tiatcbm_store(WORD addr, BYTE byte, unsigned int dnr)
 {
     switch (addr & 7) {
       case 0:
@@ -234,7 +234,7 @@ static void tiatcbm_store(ADDRESS addr, BYTE byte, unsigned int dnr)
     }
 }
 
-static BYTE tiatcbm_read(ADDRESS addr, unsigned int dnr)
+static BYTE tiatcbm_read(WORD addr, unsigned int dnr)
 {
     switch (addr & 7) {
       case 0:
@@ -256,7 +256,7 @@ static BYTE tiatcbm_read(ADDRESS addr, unsigned int dnr)
 
 /*-----------------------------------------------------------------------*/
 
-BYTE REGPARM1 tcbm1_read(ADDRESS addr)
+BYTE REGPARM1 tcbm1_read(WORD addr)
 {
     if (drive[0].enable && drive[0].type == DRIVE_TYPE_1551) {
         drive0_cpu_execute(maincpu_clk);
@@ -265,7 +265,7 @@ BYTE REGPARM1 tcbm1_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 tcbm1_store(ADDRESS addr, BYTE value)
+void REGPARM2 tcbm1_store(WORD addr, BYTE value)
 {
     if (drive[0].enable && drive[0].type == DRIVE_TYPE_1551) {
         drive0_cpu_execute(maincpu_clk);
@@ -273,7 +273,7 @@ void REGPARM2 tcbm1_store(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 tcbm2_read(ADDRESS addr)
+BYTE REGPARM1 tcbm2_read(WORD addr)
 {
     if (drive[1].enable && drive[1].type == DRIVE_TYPE_1551) {
         drive1_cpu_execute(maincpu_clk);
@@ -282,7 +282,7 @@ BYTE REGPARM1 tcbm2_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 tcbm2_store(ADDRESS addr, BYTE value)
+void REGPARM2 tcbm2_store(WORD addr, BYTE value)
 {
     if (drive[1].enable && drive[1].type == DRIVE_TYPE_1551) {
         drive1_cpu_execute(maincpu_clk);

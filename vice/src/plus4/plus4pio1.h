@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 pio1_read(ADDRESS addr);
-extern void REGPARM2 pio1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 pio1_read(WORD addr);
+extern void REGPARM2 pio1_store(WORD addr, BYTE value);
 
 extern void pio1_set_tape_sense(int sense);
 

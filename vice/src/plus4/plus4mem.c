@@ -186,7 +186,7 @@ inline static void mem_proc_port_store(void)
     }
 }
 
-inline static BYTE mem_proc_port_read(ADDRESS addr)
+inline static BYTE mem_proc_port_read(WORD addr)
 {
     BYTE tmp;
 
@@ -214,7 +214,7 @@ void mem_proc_port_trigger_flux_change(unsigned int on)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 zero_read(ADDRESS addr)
+BYTE REGPARM1 zero_read(WORD addr)
 {
     addr &= 0xff;
 
@@ -226,7 +226,7 @@ BYTE REGPARM1 zero_read(ADDRESS addr)
     return mem_ram[addr];
 }
 
-void REGPARM2 zero_store(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(WORD addr, BYTE value)
 {
     addr &= 0xff;
 
@@ -288,14 +288,14 @@ void mem_config_rom_set(unsigned int config)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_watch(ADDRESS addr)
+BYTE REGPARM1 read_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
 
-void REGPARM2 store_watch(ADDRESS addr, BYTE value)
+void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
@@ -314,83 +314,83 @@ void mem_toggle_watchpoints(int flag)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 basic_read(ADDRESS addr)
+BYTE REGPARM1 basic_read(WORD addr)
 {
     return mem_basic_rom[addr & 0x3fff];
 }
 
-BYTE REGPARM1 kernal_read(ADDRESS addr)
+BYTE REGPARM1 kernal_read(WORD addr)
 {
     return mem_kernal_rom[addr & 0x3fff];
 }
 
-void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
+void REGPARM2 kernal_store(WORD addr, BYTE value)
 {
     mem_kernal_rom[addr & 0x3fff] = value;
 }
 
-static BYTE REGPARM1 extromlo1_read(ADDRESS addr)
+static BYTE REGPARM1 extromlo1_read(WORD addr)
 {
     return extromlo1[addr & 0x3fff];
 }
 
-static BYTE REGPARM1 extromlo2_read(ADDRESS addr)
+static BYTE REGPARM1 extromlo2_read(WORD addr)
 {
     return extromlo2[addr & 0x3fff];
 }
 
-static BYTE REGPARM1 extromlo3_read(ADDRESS addr)
+static BYTE REGPARM1 extromlo3_read(WORD addr)
 {
     return extromlo3[addr & 0x3fff];
 }
 
-static BYTE REGPARM1 extromhi1_read(ADDRESS addr)
+static BYTE REGPARM1 extromhi1_read(WORD addr)
 {
     return extromhi1[addr & 0x3fff];
 }
 
-static BYTE REGPARM1 extromhi2_read(ADDRESS addr)
+static BYTE REGPARM1 extromhi2_read(WORD addr)
 {
     return extromhi2[addr & 0x3fff];
 }
 
-static BYTE REGPARM1 extromhi3_read(ADDRESS addr)
+static BYTE REGPARM1 extromhi3_read(WORD addr)
 {
     return extromhi3[addr & 0x3fff];
 }
 
 
-BYTE REGPARM1 ram_read(ADDRESS addr)
+BYTE REGPARM1 ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-BYTE REGPARM1 ram_read_32k(ADDRESS addr)
+BYTE REGPARM1 ram_read_32k(WORD addr)
 {
     return mem_ram[addr & 0x7fff];
 }
 
-BYTE REGPARM1 ram_read_16k(ADDRESS addr)
+BYTE REGPARM1 ram_read_16k(WORD addr)
 {
     return mem_ram[addr & 0x3fff];
 }
 
-void REGPARM2 ram_store(ADDRESS addr, BYTE value)
+void REGPARM2 ram_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 }
 
-void REGPARM2 ram_store_32k(ADDRESS addr, BYTE value)
+void REGPARM2 ram_store_32k(WORD addr, BYTE value)
 {
     mem_ram[addr & 0x7fff] = value;
 }
 
-void REGPARM2 ram_store_16k(ADDRESS addr, BYTE value)
+void REGPARM2 ram_store_16k(WORD addr, BYTE value)
 {
     mem_ram[addr & 0x3fff] = value;
 }
 
-BYTE REGPARM1 rom_read(ADDRESS addr)
+BYTE REGPARM1 rom_read(WORD addr)
 {
     switch (addr & 0xc000) {
       case 0x8000:
@@ -424,7 +424,7 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
     return 0;
 }
 
-void REGPARM2 rom_store(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xc000) {
       case 0x8000:
@@ -440,19 +440,19 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 
 /* Generic memory access.  */
 
-void REGPARM2 mem_store(ADDRESS addr, BYTE value)
+void REGPARM2 mem_store(WORD addr, BYTE value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read(ADDRESS addr)
+BYTE REGPARM1 mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE REGPARM1 fdxx_read(ADDRESS addr)
+static BYTE REGPARM1 fdxx_read(WORD addr)
 {
 #ifdef HAVE_RS232
     if (addr >= 0xfd00 && addr <= 0xfd0f)
@@ -468,7 +468,7 @@ static BYTE REGPARM1 fdxx_read(ADDRESS addr)
     return 0;
 }
 
-static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
+static void REGPARM2 fdxx_store(WORD addr, BYTE value)
 {
 #ifdef HAVE_RS232
     if (addr >= 0xfd00 && addr <= 0xfd0f) {
@@ -490,7 +490,7 @@ static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 fexx_read(ADDRESS addr)
+static BYTE REGPARM1 fexx_read(WORD addr)
 {
 #if 1
     if (addr >= 0xfec0 && addr <= 0xfedf)
@@ -502,7 +502,7 @@ static BYTE REGPARM1 fexx_read(ADDRESS addr)
     return 0;
 }
 
-static void REGPARM2 fexx_store(ADDRESS addr, BYTE value)
+static void REGPARM2 fexx_store(WORD addr, BYTE value)
 {
 #if 1
     if (addr >= 0xfec0 && addr <= 0xfedf) {
@@ -516,7 +516,7 @@ static void REGPARM2 fexx_store(ADDRESS addr, BYTE value)
 #endif
 }
 
-static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
+static BYTE REGPARM1 ram_ffxx_read(WORD addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
         return ram_read(addr);
@@ -524,7 +524,7 @@ static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
     return ted_read(addr);
 }
 
-static BYTE REGPARM1 ram_ffxx_read_32k(ADDRESS addr)
+static BYTE REGPARM1 ram_ffxx_read_32k(WORD addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
         return ram_read_32k(addr);
@@ -532,7 +532,7 @@ static BYTE REGPARM1 ram_ffxx_read_32k(ADDRESS addr)
     return ted_read(addr);
 }
 
-static BYTE REGPARM1 ram_ffxx_read_16k(ADDRESS addr)
+static BYTE REGPARM1 ram_ffxx_read_16k(WORD addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
         return ram_read_16k(addr);
@@ -541,7 +541,7 @@ static BYTE REGPARM1 ram_ffxx_read_16k(ADDRESS addr)
 }
 
 
-static void REGPARM2 ram_ffxx_store(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_ffxx_store(WORD addr, BYTE value)
 {
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
@@ -550,7 +550,7 @@ static void REGPARM2 ram_ffxx_store(ADDRESS addr, BYTE value)
     }
 }
 
-static void REGPARM2 ram_ffxx_store_32k(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_ffxx_store_32k(WORD addr, BYTE value)
 {
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
@@ -559,7 +559,7 @@ static void REGPARM2 ram_ffxx_store_32k(ADDRESS addr, BYTE value)
     }
 }
 
-static void REGPARM2 ram_ffxx_store_16k(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_ffxx_store_16k(WORD addr, BYTE value)
 {
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
@@ -568,7 +568,7 @@ static void REGPARM2 ram_ffxx_store_16k(ADDRESS addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
+static BYTE REGPARM1 rom_ffxx_read(WORD addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
         return rom_read(addr);
@@ -576,7 +576,7 @@ static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
     return ted_read(addr);
 }
 
-static void REGPARM2 rom_ffxx_store(ADDRESS addr, BYTE value)
+static void REGPARM2 rom_ffxx_store(WORD addr, BYTE value)
 {
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
@@ -585,7 +585,7 @@ static void REGPARM2 rom_ffxx_store(ADDRESS addr, BYTE value)
     }
 }
 
-static void REGPARM2 rom_ffxx_store_32k(ADDRESS addr, BYTE value)
+static void REGPARM2 rom_ffxx_store_32k(WORD addr, BYTE value)
 {
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
@@ -594,7 +594,7 @@ static void REGPARM2 rom_ffxx_store_32k(ADDRESS addr, BYTE value)
     }
 }
 
-static void REGPARM2 rom_ffxx_store_16k(ADDRESS addr, BYTE value)
+static void REGPARM2 rom_ffxx_store_16k(WORD addr, BYTE value)
 {
     if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
@@ -862,7 +862,7 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 /* FIXME: this part needs to be checked.  */
 
-void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
+void mem_get_basic_text(WORD *start, WORD *end)
 {
     if (start != NULL)
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
@@ -870,7 +870,7 @@ void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
         *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
 }
 
-void mem_set_basic_text(ADDRESS start, ADDRESS end)
+void mem_set_basic_text(WORD start, WORD end)
 {
     mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
     mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
@@ -880,7 +880,7 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 
 /* ------------------------------------------------------------------------- */
 
-int mem_rom_trap_allowed(ADDRESS addr)
+int mem_rom_trap_allowed(WORD addr)
 {
     return addr >= 0x8000 && (mem_config & 0x1);
 }
@@ -917,7 +917,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, ADDRESS addr)
+BYTE mem_bank_read(int bank, WORD addr)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -961,12 +961,12 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
     return mem_ram[addr];
 }
 
-BYTE mem_bank_peek(int bank, ADDRESS addr)
+BYTE mem_bank_peek(int bank, WORD addr)
 {
     return mem_bank_read(bank, addr);
 }
 
-void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
+void mem_bank_write(int bank, WORD addr, BYTE byte)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -1020,7 +1020,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
 {
     *base = (ted_peek(0xff14) & 0xf8) << 8 | 0x400;
     *rows = 25;

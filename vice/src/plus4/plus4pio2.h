@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 pio2_read(ADDRESS addr);
-extern void REGPARM2 pio2_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 pio2_read(WORD addr);
+extern void REGPARM2 pio2_store(WORD addr, BYTE value);
 
 extern BYTE pio2_kbd;
 

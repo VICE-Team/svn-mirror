@@ -208,7 +208,7 @@ static BYTE ted_timer_t3_read_high(void)
 
 /*-----------------------------------------------------------------------*/
 
-void REGPARM2 ted_timer_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_timer_store(WORD addr, BYTE value)
 {
 /*printf("TI STORE %02x %02x CLK %x\n", addr, value, maincpu_clk);*/
     switch (addr) {
@@ -233,7 +233,7 @@ void REGPARM2 ted_timer_store(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 ted_timer_read(ADDRESS addr)
+BYTE REGPARM1 ted_timer_read(WORD addr)
 {
     switch (addr) {
       case 0:

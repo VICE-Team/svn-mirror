@@ -88,7 +88,7 @@ static int unused_bits_in_registers[64] =
 };
 
 
-inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
+inline void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
 {
     unsigned int f;
 
@@ -123,7 +123,7 @@ inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
     mem_ram[addr] = value;
 }
 
-inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
+inline void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
 {
     unsigned int f;
 
@@ -158,7 +158,7 @@ inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
     mem_ram[addr & 0x7fff] = value;
 }
 
-inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
+inline void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
 {
     unsigned int f;
 
@@ -194,24 +194,24 @@ inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
 }
 
 /* Encapsulate inlined function for other modules */
-void REGPARM2 ted_mem_vbank_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_store(WORD addr, BYTE value)
 {
     ted_local_store_vbank(addr, value);
 }
 
-void REGPARM2 ted_mem_vbank_store_32k(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_store_32k(WORD addr, BYTE value)
 {
     ted_local_store_vbank_32k(addr, value);
 }
 
-void REGPARM2 ted_mem_vbank_store_16k(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_store_16k(WORD addr, BYTE value)
 {
     ted_local_store_vbank_16k(addr, value);
 }
 
 #if 0
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
-void REGPARM2 ted_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
     ted_local_store_vbank(addr, value);
 
@@ -224,7 +224,7 @@ void REGPARM2 ted_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 }
 
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
-void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
     ted_local_store_vbank (addr, value);
 
@@ -533,7 +533,7 @@ inline static void ted0b_store(BYTE value)
     }
 }
 
-inline static void ted0c0d_store(ADDRESS addr, BYTE value)
+inline static void ted0c0d_store(WORD addr, BYTE value)
 {
     int pos;
 
@@ -627,7 +627,7 @@ inline static void ted15_store(BYTE value)
     ted.regs[0x15] = value;
 }
 
-inline static void ted161718_store(ADDRESS addr, BYTE value)
+inline static void ted161718_store(WORD addr, BYTE value)
 {
     int char_num;
 
@@ -677,7 +677,7 @@ inline static void ted3f_store(void)
 }
 
 /* Store a value in a TED register.  */
-void REGPARM2 ted_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_store(WORD addr, BYTE value)
 {
     addr &= 0x3f;
 
@@ -802,7 +802,7 @@ inline static BYTE ted12_read(void)
     return ted.regs[0x12] | 0xc0;
 }
 
-inline static BYTE ted1a1b_read(ADDRESS addr)
+inline static BYTE ted1a1b_read(WORD addr)
 {
     if (addr == 0x1a)
         return (ted.mem_counter & 0x100) >> 8;
@@ -810,7 +810,7 @@ inline static BYTE ted1a1b_read(ADDRESS addr)
         return ted.mem_counter & 0xff;
 }
 
-inline static BYTE ted1c1d_read(ADDRESS addr)
+inline static BYTE ted1c1d_read(WORD addr)
 {
     unsigned int tmp = (ted.screen_height + read_raster_y()
                        - ted.offset) % ted.screen_height;
@@ -840,7 +840,7 @@ inline static BYTE ted1f_read(void)
 }
 
 /* Read a value from a TED register.  */
-BYTE REGPARM1 ted_read(ADDRESS addr)
+BYTE REGPARM1 ted_read(WORD addr)
 {
     addr &= 0x3f;
 
@@ -883,7 +883,7 @@ BYTE REGPARM1 ted_read(ADDRESS addr)
     return ted.regs[addr] | unused_bits_in_registers[addr];
 }
 
-BYTE REGPARM1 ted_peek(ADDRESS addr)
+BYTE REGPARM1 ted_peek(WORD addr)
 {
     addr &= 0x3f;
 

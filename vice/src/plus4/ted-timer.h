@@ -32,8 +32,8 @@
 extern void ted_timer_init(void);
 extern void ted_timer_reset(void);
 
-extern void REGPARM2 ted_timer_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 ted_timer_read(ADDRESS addr);
+extern void REGPARM2 ted_timer_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 ted_timer_read(WORD addr);
 
 #endif
 

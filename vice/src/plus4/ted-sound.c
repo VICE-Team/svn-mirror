@@ -124,7 +124,7 @@ void sound_machine_close(sound_t *psid)
     free(psid);
 }
 
-void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val)
+void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch(addr) {
       case 0x0e:
@@ -163,7 +163,7 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val)
     }
 }
 
-BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
     switch(addr) {
       case 0x0e:
@@ -187,7 +187,7 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    ADDRESS i;
+    WORD i;
 
     for (i = 0x0e; i <= 0x12; i++)
         sound_machine_store(psid, i, 0);
@@ -215,7 +215,7 @@ void sound_machine_enable(int enable)
 
 /* ---------------------------------------------------------------------*/
 
-void REGPARM2 ted_sound_store(ADDRESS addr, BYTE value)
+void REGPARM2 ted_sound_store(WORD addr, BYTE value)
 {
     sound_store(addr, value, 0);
 }
@@ -225,7 +225,7 @@ void ted_sound_reset(void)
     sound_reset();
 }
 
-BYTE REGPARM1 ted_sound_read(ADDRESS addr)
+BYTE REGPARM1 ted_sound_read(WORD addr)
 {
     BYTE value;
 

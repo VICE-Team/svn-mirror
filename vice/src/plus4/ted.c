@@ -357,7 +357,7 @@ void ted_reset(void)
 
 void ted_reset_registers(void)
 {
-    ADDRESS i;
+    WORD i;
 
     if (!ted.initialized)
         return;
@@ -469,7 +469,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
     /* FIXME: This is *horrible*!  */
     static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
     static BYTE *old_color_ptr;
-    ADDRESS screen_addr, char_addr, bitmap_addr, color_addr;
+    WORD screen_addr, char_addr, bitmap_addr, color_addr;
     BYTE *screen_base;            /* Pointer to screen memory.  */
     BYTE *char_base;              /* Pointer to character memory.  */
     BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
