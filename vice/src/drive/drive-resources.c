@@ -37,8 +37,8 @@
 #include "iecdrive.h"
 #include "lib.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "machine-drive.h"
-#include "machine.h"
 #include "resources.h"
 #include "vdrive-bam.h"
 
@@ -56,6 +56,8 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
 
     drive_true_emulation = (unsigned int)v;
 
+    machine_bus_status_truedrive_set(drive_true_emulation);
+
     if ((int)v) {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive = drive_context[dnr]->drive;
@@ -67,7 +69,6 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive_enable(drive_context[dnr]);
         }
-        machine_bus_status_truedrive_set(drive_true_emulation);
     } else {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive = drive_context[dnr]->drive;
