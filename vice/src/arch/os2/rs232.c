@@ -37,10 +37,11 @@ static char *SerialFile=NULL;
 //static int SerialBaud;
 static FILE *fd[3] = {NULL, NULL, NULL};
 
-static int set_serial_file(resource_value_t v, void *param)
+static int set_serial_file(const char *val, void *param)
 {
-  util_string_set(&SerialFile, (const char*)v);
-  return 0;
+    util_string_set(&SerialFile, val);
+
+    return 0;
 }
 
 

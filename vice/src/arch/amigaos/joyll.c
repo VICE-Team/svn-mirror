@@ -69,77 +69,75 @@ void joystick_close(void)
   joystick_inited = 0;
 }
 
-static int set_joystick_device_1(resource_value_t v, void *param)
+static int set_joystick_device_1(int val, void *param)
 {
   ULONG portstate;
 
   joy_arch_init();
 
-  if ((int)v>=JOYDEV_JOY0 && (int)v<=JOYDEV_JOY3)
+  if (val>=JOYDEV_JOY0 && val<=JOYDEV_JOY3)
   {
-    portstate=ReadJoyPort((int)v-JOYDEV_JOY0);
+    portstate=ReadJoyPort(val-JOYDEV_JOY0);
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_NOTAVAIL)
     {
-      ui_error(translate_text(IDMES_NO_JOY_ON_PORT_D),(int)v-JOYDEV_JOY0);
+      ui_error(translate_text(IDMES_NO_JOY_ON_PORT_D),val-JOYDEV_JOY0);
       return -1;
     }
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_MOUSE)
     {
-      ui_error(translate_text(IDMES_MOUSE_ON_PORT_D),(int)v-JOYDEV_JOY0);
+      ui_error(translate_text(IDMES_MOUSE_ON_PORT_D),val-JOYDEV_JOY0);
       return -1;
     }
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_UNKNOWN)
     {
-      ui_error(translate_text(IDMES_UNKNOWN_DEVICE_ON_PORT_D),(int)v-JOYDEV_JOY0);
+      ui_error(translate_text(IDMES_UNKNOWN_DEVICE_ON_PORT_D),val-JOYDEV_JOY0);
       return -1;
     }
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_JOYSTK)
       joystick_fire[0]=JPF_BUTTON_RED;
   }
-  joystick_device[0] = (int)v;
+  joystick_device[0] = val;
 
   return 0;
 }
 
-static int set_joystick_device_2(resource_value_t v, void *param)
+static int set_joystick_device_2(int val, void *param)
 {
   ULONG portstate;
 
   joy_arch_init();
 
-  if ((int)v>=JOYDEV_JOY0 && (int)v<=JOYDEV_JOY3)
+  if (val>=JOYDEV_JOY0 && val<=JOYDEV_JOY3)
   {
-    portstate=ReadJoyPort((int)v-JOYDEV_JOY0);
+    portstate=ReadJoyPort(val-JOYDEV_JOY0);
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_NOTAVAIL)
     {
-      ui_error(translate_text(IDMES_NO_JOY_ON_PORT_D),(int)v-JOYDEV_JOY0);
+      ui_error(translate_text(IDMES_NO_JOY_ON_PORT_D),val-JOYDEV_JOY0);
       return -1;
     }
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_MOUSE)
     {
-      ui_error(translate_text(IDMES_MOUSE_ON_PORT_D),(int)v-JOYDEV_JOY0);
+      ui_error(translate_text(IDMES_MOUSE_ON_PORT_D),val-JOYDEV_JOY0);
       return -1;
     }
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_UNKNOWN)
     {
-      ui_error(translate_text(IDMES_UNKNOWN_DEVICE_ON_PORT_D),(int)v-JOYDEV_JOY0);
+      ui_error(translate_text(IDMES_UNKNOWN_DEVICE_ON_PORT_D),val-JOYDEV_JOY0);
       return -1;
     }
     if ((portstate&JP_TYPE_MASK)==JP_TYPE_JOYSTK)
       joystick_fire[1]=JPF_BUTTON_RED;
   }
-  joystick_device[1] = (int)v;
+  joystick_device[1] = val;
 
   return 0;
 }
 
-static int set_joystick_fire_1(resource_value_t v, void *param)
+static int set_joystick_fire_1(int value, void *param)
 {
   ULONG portstate;
-  int value;
 
   joy_arch_init();
-  value=(int)v;
 
   if (joystick_device[0]!=JOYDEV_NONE)
   {
@@ -174,13 +172,11 @@ static int set_joystick_fire_1(resource_value_t v, void *param)
   return 0;
 }
 
-static int set_joystick_fire_2(resource_value_t v, void *param)
+static int set_joystick_fire_2(int value, void *param)
 {
   ULONG portstate;
-  int value;
 
   joy_arch_init();
-  value=(int)v;
 
   if (joystick_device[1]!=JOYDEV_NONE)
   {

@@ -69,20 +69,20 @@ void joystick_close(void)
     joystick_inited = 0;
 }
 
-static int set_joystick_device_1(resource_value_t v, void *param)
+static int set_joystick_device_1(int val, void *param)
 {
     joy_arch_init();
 
-    joystick_device[0] = (int)v;
+    joystick_device[0] = val;
 
     return 0;
 }
 
-static int set_joystick_device_2(resource_value_t v, void *param)
+static int set_joystick_device_2(int val, void *param)
 {
     joy_arch_init();
 
-    joystick_device[1] = (int)v;
+    joystick_device[1] = val;
 
     return 0;
 }

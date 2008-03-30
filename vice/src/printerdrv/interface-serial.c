@@ -54,12 +54,9 @@ static log_t interface_serial_log = LOG_ERR;
 
 static int printer_enabled[2];
 
-static int set_printer_enabled(resource_value_t v, void *param)
+static int set_printer_enabled(int flag, void *param)
 {
-    int flag;
     unsigned int prnr;
-
-    flag = (int)v;
 
     if (flag != PRINTER_DEVICE_NONE
         && flag != PRINTER_DEVICE_FS

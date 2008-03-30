@@ -281,10 +281,8 @@ static int set_keymap_index(resource_value_t v, void *param)
   return 0;
 }
 
-static int set_joystick_keys1(resource_value_t v, void *param)
+static int set_joystick_keys1(const char *name, void *param)
 {
-  const char *name = (const char *)v;
-
   if ((JoyKeyString1 != NULL) && (name != NULL) && (strcmp(name, JoyKeyString1) == 0))
     return 0;
 
@@ -295,10 +293,8 @@ static int set_joystick_keys1(resource_value_t v, void *param)
   return 0;
 }
 
-static int set_joystick_keys2(resource_value_t v, void *param)
+static int set_joystick_keys2(const char *name, void *param)
 {
-  const char *name = (const char *)v;
-
   if ((JoyKeyString2 != NULL) && (name != NULL) && (strcmp(name, JoyKeyString2) == 0))
     return 0;
 

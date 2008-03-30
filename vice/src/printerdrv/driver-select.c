@@ -63,9 +63,8 @@ static driver_select_t driver_select[3];
 static driver_select_list_t *driver_select_list = NULL;
 
 
-static int set_printer_driver(resource_value_t v, void *param)
+static int set_printer_driver(const char *name, void *param)
 {
-    const char *name = (const char *)v;
     driver_select_list_t *list;
 
     list = driver_select_list;

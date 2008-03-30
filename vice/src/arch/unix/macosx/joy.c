@@ -69,15 +69,15 @@ int joystick_init_cmdline_options(void)
 
 /* ----- VICE Resources ----- */
 
-static int joyport1select(resource_value_t v, void *param)
+static int joyport1select(int val, void *param)
 {
-    joystick_port_map[0] = (int)v;
+    joystick_port_map[0] = val;
     return 0;
 }
 
-static int joyport2select(resource_value_t v, void *param)
+static int joyport2select(int val, void *param)
 {
-    joystick_port_map[1] = (int)v;
+    joystick_port_map[1] = val;
     return 0;
 }
 

@@ -70,13 +70,13 @@ static int keyset[2][9];
 // This variables describes which PC devices are conneted to the CBM Port?
 static joystick_device_t cbm_joystick[2];
 
-static int set_cbm_joystick(resource_value_t v, void *param)
+static int set_cbm_joystick(int val, void *param)
 {
     const int nr = (int)param;
 
-    cbm_joystick[nr] = (joystick_device_t)(int) v;
+    cbm_joystick[nr] = (joystick_device_t)val;
 
-    joystick_clear(nr+1);
+    joystick_clear(nr + 1);
 
     return 0;
 }

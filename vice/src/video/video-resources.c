@@ -83,7 +83,7 @@ struct video_resource_chip_mode_s {
 };
 typedef struct video_resource_chip_mode_s video_resource_chip_mode_t;
 
-static int set_double_size_enabled(resource_value_t v, void *param)
+static int set_double_size_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -95,7 +95,7 @@ static int set_double_size_enabled(resource_value_t v, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    if ((int)v)
+    if (val)
         cap_render = &video_chip_cap->double_mode;
     else
         cap_render = &video_chip_cap->single_mode;
@@ -133,7 +133,7 @@ static int set_double_size_enabled(resource_value_t v, void *param)
             canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X1;
     }
 
-    if ((video_resource_chip->double_size_enabled != (int)v
+    if ((video_resource_chip->double_size_enabled != val
         || old_doublesizex != canvas->videoconfig->doublesizex
         || old_doublesizey != canvas->videoconfig->doublesizey)
         && canvas->initialized
@@ -141,7 +141,7 @@ static int set_double_size_enabled(resource_value_t v, void *param)
         video_viewport_resize(canvas);
     }
 
-    video_resource_chip->double_size_enabled = (int)v;
+    video_resource_chip->double_size_enabled = val;
 
     video_resources_update_ui(video_resource_chip);
 
@@ -157,7 +157,7 @@ static resource_int_t resources_chip_size[] =
     { NULL }
 };
 
-static int set_double_scan_enabled(resource_value_t v, void *param)
+static int set_double_scan_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_canvas_t *canvas;
@@ -165,8 +165,8 @@ static int set_double_scan_enabled(resource_value_t v, void *param)
     video_resource_chip = (video_resource_chip_t *)param;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->double_scan_enabled = (int)v;
-    canvas->videoconfig->doublescan = (int)v;
+    video_resource_chip->double_scan_enabled = val;
+    canvas->videoconfig->doublescan = val;
 
     if (canvas->initialized)
         video_canvas_refresh_all(canvas);
@@ -185,7 +185,7 @@ static resource_int_t resources_chip_scan[] =
     { NULL }
 };
 
-static int set_hwscale_enabled(resource_value_t v, void *param)
+static int set_hwscale_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_canvas_t *canvas;
@@ -193,8 +193,8 @@ static int set_hwscale_enabled(resource_value_t v, void *param)
     video_resource_chip = (video_resource_chip_t *)param;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->hwscale_enabled = (int)v;
-    canvas->videoconfig->hwscale = (int)v;
+    video_resource_chip->hwscale_enabled = val;
+    canvas->videoconfig->hwscale = val;
 
     if (canvas->initialized) {
         video_viewport_resize(canvas);
@@ -215,7 +215,7 @@ static resource_int_t resources_chip_hwscale[] =
     { NULL }
 };
 
-static int set_scale2x_enabled(resource_value_t v, void *param)
+static int set_scale2x_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_canvas_t *canvas;
@@ -223,8 +223,8 @@ static int set_scale2x_enabled(resource_value_t v, void *param)
     video_resource_chip = (video_resource_chip_t *)param;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->scale2x_enabled = (int)v;
-    canvas->videoconfig->scale2x = (int)v;
+    video_resource_chip->scale2x_enabled = val;
+    canvas->videoconfig->scale2x = val;
 
     if (canvas->initialized)
         video_canvas_refresh_all(canvas);
@@ -243,7 +243,7 @@ static resource_int_t resources_chip_scale2x[] =
     { NULL }
 };
 
-static int set_fullscreen_enabled(resource_value_t v, void *param)
+static int set_fullscreen_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -253,15 +253,15 @@ static int set_fullscreen_enabled(resource_value_t v, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->fullscreen_enabled = (int)v;
+    video_resource_chip->fullscreen_enabled = val;
 
     if (canvas->initialized)
-        return (video_chip_cap->fullscreen.enable)(canvas, (int)v);
+        return (video_chip_cap->fullscreen.enable)(canvas, val);
 
     return 0;
 }
 
-static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
+static int set_fullscreen_double_size_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -271,12 +271,12 @@ static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->fullscreen_double_size_enabled = (int)v;
+    video_resource_chip->fullscreen_double_size_enabled = val;
 
-    return (video_chip_cap->fullscreen.double_size)(canvas, (int)v);
+    return (video_chip_cap->fullscreen.double_size)(canvas, val);
 }
 
-static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
+static int set_fullscreen_double_scan_enabled(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -286,12 +286,12 @@ static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->fullscreen_double_scan_enabled = (int)v;
+    video_resource_chip->fullscreen_double_scan_enabled = val;
 
-    return (video_chip_cap->fullscreen.double_scan)(canvas, (int)v);
+    return (video_chip_cap->fullscreen.double_scan)(canvas, val);
 }
 
-static int set_fullscreen_device(resource_value_t v, void *param)
+static int set_fullscreen_device(const char *val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -301,11 +301,10 @@ static int set_fullscreen_device(resource_value_t v, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    if (util_string_set(&video_resource_chip->fullscreen_device,
-        (const char *)v))
+    if (util_string_set(&video_resource_chip->fullscreen_device, val))
         return 0;
 
-    return (video_chip_cap->fullscreen.device)(canvas, (const char *)v);
+    return (video_chip_cap->fullscreen.device)(canvas, val);
 }
 
 static const char *vname_chip_fullscreen[] = {
@@ -331,7 +330,7 @@ static resource_int_t resources_chip_fullscreen_int[] =
     { NULL }
 };
 
-static int set_fullscreen_mode(resource_value_t v, void *param)
+static int set_fullscreen_mode(int val, void *param)
 {
     video_resource_chip_mode_t *video_resource_chip_mode;
     video_resource_chip_t *video_resource_chip;
@@ -347,9 +346,9 @@ static int set_fullscreen_mode(resource_value_t v, void *param)
 
     device = video_resource_chip_mode->device;
 
-    video_resource_chip->fullscreen_mode[device] = (int)v;
+    video_resource_chip->fullscreen_mode[device] = val;
 
-    return (video_chip_cap->fullscreen.mode[device])(canvas, (int)v);
+    return (video_chip_cap->fullscreen.mode[device])(canvas, val);
 }
 
 static const char *vname_chip_fullscreen_mode[] = { "FullscreenMode", NULL };
@@ -361,7 +360,7 @@ static resource_int_t resources_chip_fullscreen_mode[] =
     { NULL }
 };
 
-static int set_ext_palette(resource_value_t v, void *param)
+static int set_ext_palette(int val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -371,13 +370,13 @@ static int set_ext_palette(resource_value_t v, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->external_palette_enabled = (int)v;
-    canvas->videoconfig->external_palette = (unsigned int)v;
+    video_resource_chip->external_palette_enabled = val;
+    canvas->videoconfig->external_palette = (unsigned int)val;
 
     return video_color_update_palette(canvas);
 }
 
-static int set_palette_file_name(resource_value_t v, void *param)
+static int set_palette_file_name(const char *val, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_canvas_t *canvas;
@@ -385,7 +384,7 @@ static int set_palette_file_name(resource_value_t v, void *param)
     video_resource_chip = (video_resource_chip_t *)param;
     canvas = *(video_resource_chip->canvas);
 
-    util_string_set(&(video_resource_chip->external_palette_name), (char *)v);
+    util_string_set(&(video_resource_chip->external_palette_name), val);
     canvas->videoconfig->external_palette_name
         = video_resource_chip->external_palette_name;
 

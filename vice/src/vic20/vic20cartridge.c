@@ -75,10 +75,8 @@ static char *cartfile6 = NULL;
 static char *cartfileA = NULL;
 static char *cartfileB = NULL;
 
-static int set_cartridge_file_2(resource_value_t v, void *param)
+static int set_cartridge_file_2(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (cartridge_file_2 != NULL && name != NULL
         && strcmp(name, cartridge_file_2) == 0)
         return 0;
@@ -88,10 +86,8 @@ static int set_cartridge_file_2(resource_value_t v, void *param)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, cartfile2);
 }
 
-static int set_cartridge_file_4(resource_value_t v, void *param)
+static int set_cartridge_file_4(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (cartridge_file_4 != NULL && name != NULL
         && strcmp(name, cartridge_file_4) == 0)
         return 0;
@@ -101,10 +97,8 @@ static int set_cartridge_file_4(resource_value_t v, void *param)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, cartfile4);
 }
 
-static int set_cartridge_file_6(resource_value_t v, void *param)
+static int set_cartridge_file_6(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (cartridge_file_6 != NULL && name != NULL
         && strcmp(name, cartridge_file_6) == 0)
         return 0;
@@ -114,10 +108,8 @@ static int set_cartridge_file_6(resource_value_t v, void *param)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, cartfile6);
 }
 
-static int set_cartridge_file_A(resource_value_t v, void *param)
+static int set_cartridge_file_A(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (cartridge_file_A != NULL && name != NULL
         && strcmp(name, cartridge_file_A) == 0)
         return 0;
@@ -127,10 +119,8 @@ static int set_cartridge_file_A(resource_value_t v, void *param)
     return cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, cartfileA);
 }
 
-static int set_cartridge_file_B(resource_value_t v, void *param)
+static int set_cartridge_file_B(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (cartridge_file_B != NULL && name != NULL
         && strcmp(name, cartridge_file_B) == 0)
         return 0;
@@ -371,11 +361,11 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_file_2((resource_value_t)cartfile2, NULL);
-    set_cartridge_file_4((resource_value_t)cartfile4, NULL);
-    set_cartridge_file_6((resource_value_t)cartfile6, NULL);
-    set_cartridge_file_A((resource_value_t)cartfileA, NULL);
-    set_cartridge_file_B((resource_value_t)cartfileB, NULL);
+    set_cartridge_file_2(cartfile2, NULL);
+    set_cartridge_file_4(cartfile4, NULL);
+    set_cartridge_file_6(cartfile6, NULL);
+    set_cartridge_file_A(cartfileA, NULL);
+    set_cartridge_file_B(cartfileB, NULL);
 }
 
 const char *cartridge_get_file_name(WORD addr)

@@ -104,12 +104,12 @@ static int video_codec;
 
 static int ffmpegdrv_init_file(void);
 
-static int set_format(resource_value_t v, void *param)
+static int set_format(const char *val, void *param)
 {
     int i;
 
     format_index = -1;
-    util_string_set(&ffmpeg_format, (const char *)v);
+    util_string_set(&ffmpeg_format, val);
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++)
         if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
             format_index = i;
@@ -120,33 +120,33 @@ static int set_format(resource_value_t v, void *param)
         return 0;
 }
 
-static int set_audio_bitrate(resource_value_t v, void *param)
+static int set_audio_bitrate(int val, void *param)
 {
-    audio_bitrate = (CLOCK)v;
+    audio_bitrate = (CLOCK)val;
     if (audio_bitrate < 16000 || audio_bitrate > 128000)
         audio_bitrate = 64000;
 
     return 0;
 }
 
-static int set_video_bitrate(resource_value_t v, void *param)
+static int set_video_bitrate(int val, void *param)
 {
-    video_bitrate = (CLOCK)v;
+    video_bitrate = (CLOCK)val;
     if (video_bitrate < 100000 || video_bitrate > 10000000)
         video_bitrate = 800000;
 
     return 0;
 }
 
-static int set_audio_codec(resource_value_t v, void *param)
+static int set_audio_codec(int val, void *param)
 {
-    audio_codec = (int)v;
+    audio_codec = val;
     return 0;
 }
 
-static int set_video_codec(resource_value_t v, void *param)
+static int set_video_codec(int val, void *param)
 {
-    video_codec = (int)v;
+    video_codec = val;
     return 0;
 
 }

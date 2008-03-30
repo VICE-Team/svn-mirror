@@ -43,15 +43,15 @@ static BYTE old_joy[2];
 
 
 
-static int set_joystick_port1(resource_value_t val, void *param)
+static int set_joystick_port1(int val, void *param)
 {
-  joystick_port_map[0] = (int)val;
+  joystick_port_map[0] = val;
   return 0;
 }
 
-static int set_joystick_port2(resource_value_t val, void *param)
+static int set_joystick_port2(int val, void *param)
 {
-  joystick_port_map[1] = (int)val;
+  joystick_port_map[1] = val;
   return 0;
 }
 

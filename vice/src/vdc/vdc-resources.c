@@ -41,19 +41,20 @@ vdc_resources_t vdc_resources;
 static video_chip_cap_t video_chip_cap;
 
 
-static int set_64kb_expansion(resource_value_t v, void *param)
+static int set_64kb_expansion(int val, void *param)
 {
-    vdc_resources.vdc_64kb_expansion = (int)v;
+    vdc_resources.vdc_64kb_expansion = val;
+
     vdc.vdc_address_mask = vdc_resources.vdc_64kb_expansion
                            ? 0xffff : 0x3fff;
     return 0;
 }
 
-static int set_vdc_revision(resource_value_t v, void *param)
+static int set_vdc_revision(int val, void *param)
 {
     unsigned int revision;
 
-    revision = (unsigned int)v;
+    revision = (unsigned int)val;
 
     if (revision > 2)
         return -1;

@@ -36,10 +36,8 @@
 
 extern struct video_canvas_s *video_current_canvas;
 
-static int set_color_saturation(resource_value_t v, void *param)
+static int set_color_saturation(int val, void *param)
 {
-    int val;
-    val = (int)v;
     if (val < 0)
         val = 0;
     if (val > 2000)
@@ -48,10 +46,8 @@ static int set_color_saturation(resource_value_t v, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
-static int set_color_contrast(resource_value_t v, void *param)
+static int set_color_contrast(int val, void *param)
 {
-    int val;
-    val = (int)v;
     if (val < 0)
         val = 0;
     if (val > 2000)
@@ -60,10 +56,8 @@ static int set_color_contrast(resource_value_t v, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
-static int set_color_brightness(resource_value_t v, void *param)
+static int set_color_brightness(int val, void *param)
 {
-    int val;
-    val = (int)v;
     if (val < 0)
         val = 0;
     if (val > 2000)
@@ -72,10 +66,8 @@ static int set_color_brightness(resource_value_t v, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
-static int set_color_gamma(resource_value_t v, void *param)
+static int set_color_gamma(int val, void *param)
 {
-    int val;
-    val = (int)v;
     if (val < 0)
         val=0;
     if (val > 2000)
@@ -89,10 +81,10 @@ static int set_color_gamma(resource_value_t v, void *param)
 #define ui_update_pal_ctrls(a)
 #endif
 
-static int set_delayloop_emulation(resource_value_t v, void *param)
+static int set_delayloop_emulation(int val, void *param)
 {
     int old = video_resources.delayloop_emulation;
-    video_resources.delayloop_emulation = (int)v;
+    video_resources.delayloop_emulation = val;
 
     if (video_color_update_palette(video_current_canvas) < 0) {
         video_resources.delayloop_emulation = old;
@@ -104,10 +96,8 @@ static int set_delayloop_emulation(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_pal_scanlineshade(resource_value_t v, void *param)
+static int set_pal_scanlineshade(int val, void *param)
 {
-    int val;
-    val = (int)v;
     if (val < 0)
         val = 0;
     if (val > 1000)
@@ -116,10 +106,8 @@ static int set_pal_scanlineshade(resource_value_t v, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
-static int set_pal_blur(resource_value_t v, void *param)
+static int set_pal_blur(int val, void *param)
 {
-    int val;
-    val = (int)v;
     if (val < 0)
         val = 0;
     if (val > 1000)
@@ -128,9 +116,9 @@ static int set_pal_blur(resource_value_t v, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
-static int set_pal_mode(resource_value_t v, void *param)
+static int set_pal_mode(int val, void *param)
 {
-    video_resources.pal_mode = (int)v;
+    video_resources.pal_mode = val;
     return 0;
 }
 

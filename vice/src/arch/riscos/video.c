@@ -359,9 +359,9 @@ static void video_update_all_palette(void)
   }
 }
 
-static int set_screen_mode_norm(resource_value_t v, void *param)
+static int set_screen_mode_norm(const char *val, void *param)
 {
-  if (parse_screen_mode_string((const char *)v, &ScreenModeNormString, &newScreenModeNorm) == 0)
+  if (parse_screen_mode_string(val, &ScreenModeNormString, &newScreenModeNorm) == 0)
   {
     newScreenValidNorm = 1;
     return 0;
@@ -370,9 +370,9 @@ static int set_screen_mode_norm(resource_value_t v, void *param)
   return -1;
 }
 
-static int set_screen_mode_pal(resource_value_t v, void *param)
+static int set_screen_mode_pal(const char *val, void *param)
 {
-  if (parse_screen_mode_string((const char *)v, &ScreenModePALString, &newScreenModePAL) == 0)
+  if (parse_screen_mode_string(val, &ScreenModePALString, &newScreenModePAL) == 0)
   {
     newScreenValidPAL = 1;
     return 0;
@@ -381,9 +381,9 @@ static int set_screen_mode_pal(resource_value_t v, void *param)
   return -1;
 }
 
-static int set_screen_mode_double(resource_value_t v, void *param)
+static int set_screen_mode_double(const char *val, void *param)
 {
-  if (parse_screen_mode_string((const char *)v, &ScreenModeDoubleString, &newScreenModeDouble) == 0)
+  if (parse_screen_mode_string(val, &ScreenModeDoubleString, &newScreenModeDouble) == 0)
   {
     newScreenValidDouble = 1;
     return 0;
@@ -392,21 +392,21 @@ static int set_screen_mode_double(resource_value_t v, void *param)
   return -1;
 }
 
-static int set_screen_palette(resource_value_t v, void *param)
+static int set_screen_palette(int val, void *param)
 {
-  ScreenSetPalette = (int)v;
+  ScreenSetPalette = val;
   return 0;
 }
 
-static int set_bplot_status(resource_value_t v, void *param)
+static int set_bplot_status(int val, void *param)
 {
-  UseBPlotModule = (int)v;
+  UseBPlotModule = val;
   return 0;
 }
 
-static int set_pal_emu_depth(resource_value_t v, void *param)
+static int set_pal_emu_depth(int val, void *param)
 {
-  PALEmuDepth = (int)v;
+  PALEmuDepth = val;
   video_init_pal_depth();
   video_update_all_palette();
   /* to rescale canvases if necessary */
@@ -415,9 +415,9 @@ static int set_pal_emu_depth(resource_value_t v, void *param)
   return 0;
 }
 
-static int set_pal_emu_double(resource_value_t v, void *param)
+static int set_pal_emu_double(int val, void *param)
 {
-  PALEmuDouble = (int)v;
+  PALEmuDouble = val;
   video_init_pal_double();
   return 0;
 }

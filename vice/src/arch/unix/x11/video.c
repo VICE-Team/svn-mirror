@@ -99,21 +99,21 @@ static double aspect_ratio;
 static char *aspect_ratio_s = NULL;
 
 
-static int set_use_xsync(resource_value_t v, void *param)
+static int set_use_xsync(int val, void *param)
 {
-    _video_use_xsync = (int)v;
+    _video_use_xsync = val;
     return 0;
 }
 
-static int set_try_mitshm(resource_value_t v, void *param)
+static int set_try_mitshm(int val, void *param)
 {
-    try_mitshm = (int)v;
+    try_mitshm = val;
     return 0;
 }
 
-static int set_fourcc(resource_value_t v, void *param)
+static int set_fourcc(const char *val, void *param)
 {
-    if (util_string_set(&fourcc_s, (const char *)v))
+    if (util_string_set(&fourcc_s, val))
         return 0;
 
     if (fourcc_s != NULL && strlen(fourcc_s) == 4) {
@@ -125,15 +125,15 @@ static int set_fourcc(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_aspect_ratio(resource_value_t v, void *param)
+static int set_aspect_ratio(const char *val, void *param)
 {
-    if (v) {
+    if (val) {
         char *endptr;
 
-        util_string_set(&aspect_ratio_s, (const char *)v);
+        util_string_set(&aspect_ratio_s, val);
 
-        aspect_ratio = strtod((char *)v, &endptr);
-        if ((char *)v == endptr) {
+        aspect_ratio = strtod(val, &endptr);
+        if (val == endptr) {
             aspect_ratio = 1.0;
         }
         else if (aspect_ratio < 0.8) {

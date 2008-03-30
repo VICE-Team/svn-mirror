@@ -62,9 +62,9 @@ static unsigned int current_prnr;
 /* CURRENTLY NOT USED. ANDREAS B. PROMISED TO IMPLEMENT THIS FEATURE AGAIN
 static int ppb;
 
-static int set_ppb(resource_value_t v, void *param)
+static int set_ppb(int val, void *param)
 {
-    ppb = (int)v;
+    ppb = val;
 
     if (ppb<0) ppb=0;
     if (ppb>3) ppb=3;

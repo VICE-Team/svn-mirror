@@ -37,18 +37,18 @@ static char *SerialFile=NULL;
 static int SerialBaud;
 static FILE *fd[3] = {NULL, NULL, NULL};
 
-static int set_serial_file(resource_value_t v, void *param)
+static int set_serial_file(const char *val, void *param)
 {
-  util_string_set(&SerialFile, (const char*)v);
+  util_string_set(&SerialFile, val);
   return 0;
 }
 
 
-static int set_serial_baud(resource_value_t v, void *param)
+static int set_serial_baud(int val, void *param)
 {
-  SerialBaud = (int)v;
+  SerialBaud = val;
   /* Set receive and transmit rate */
-  SerialOp5((int)v); SerialOp6((int)v);
+  SerialOp5(val); SerialOp6(val);
   return 0;
 }
 

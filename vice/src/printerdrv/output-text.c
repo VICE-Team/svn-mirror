@@ -48,22 +48,18 @@ static char *PrinterDev[3] = { NULL, NULL, NULL };
 static int printer_device[3];
 static FILE *output_fd[3] = { NULL, NULL, NULL };
 
-static int set_printer_device_name(resource_value_t v, void *param)
+static int set_printer_device_name(const char *val, void *param)
 {
-    util_string_set(&PrinterDev[(int)param], (const char *)v);
+    util_string_set(&PrinterDev[(int)param], val);
     return 0;
 }
 
-static int set_printer_device(resource_value_t v, void *param)
+static int set_printer_device(int prn_dev, void *param)
 {
-    unsigned int prn_dev;
-
-    prn_dev = (int)v;
-
     if (prn_dev > 3)
         return -1;
 
-    printer_device[(int)param] = (unsigned int)v;
+    printer_device[(int)param] = (unsigned int)prn_dev;
     return 0;
 }
 

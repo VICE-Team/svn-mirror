@@ -188,22 +188,22 @@ static int joystickdisplay;
 static int save_resources_on_exit;
 static int confirm_on_exit;
 
-static int set_joystickdisplay(resource_value_t v, void *param)
+static int set_joystickdisplay(int val, void *param)
 {
-	joystickdisplay = (int) v;
+	joystickdisplay = val;
 	ui_enable_joyport();
 	return 0;
 }
 
-static int set_save_resources_on_exit(resource_value_t v, void *param)
+static int set_save_resources_on_exit(int val, void *param)
 {
-    save_resources_on_exit=(int) v;
+    save_resources_on_exit = val;
     return 0;
 }
 
-static int set_confirm_on_exit(resource_value_t v, void *param)
+static int set_confirm_on_exit(int val, void *param)
 {
-    confirm_on_exit=(int) v;
+    confirm_on_exit = val;
     return 0;
 }
 

@@ -40,19 +40,19 @@ static int romset_firmware[1];
 static char *dos_rom_name_1551 = NULL;
 
 
-static int set_dos_rom_name_1551(resource_value_t v, void *param)
+static int set_dos_rom_name_1551(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1551, (const char *)v))
+    if (util_string_set(&dos_rom_name_1551, val))
         return 0;
 
     return tcbmrom_load_1551();
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }

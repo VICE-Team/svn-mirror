@@ -91,9 +91,10 @@ void vidlog(char *s, int i) {
 /* Video-related resources.  */
 static int stretch;  // Strech factor for window (1,2,3,...)
 
-static int set_stretch_factor(resource_value_t v, void *param)
+static int set_stretch_factor(int val, void *param)
 {
-    stretch=(int)v;
+    stretch = val;
+
     return 0;
 }
 

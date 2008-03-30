@@ -47,9 +47,10 @@ void mousedrv_mouse_changed(void)
      */
 }
 
-static int set_hide_mouseptr(resource_value_t v, void *param)
+static int set_hide_mouseptr(int val, void *param)
 {
-    hide_mouseptr = (int) v;
+    hide_mouseptr = val;
+
     if (!hide_mouseptr && !visible && !FullscreenIsNow())
     { // do we have to show the ptr again?
         WinSetCapture(HWND_DESKTOP, NULLHANDLE);

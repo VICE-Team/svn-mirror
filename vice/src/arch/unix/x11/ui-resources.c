@@ -51,10 +51,8 @@ static unsigned int ui_resources_initialized = 0;
 
 
 /* Warning: This cannot actually be changed at runtime.  */
-static int set_depth(resource_value_t v, void *param)
+static int set_depth(int d, void *param)
 {
-    int d = (int)v;
-
     /* Minimal sanity check.  */
     if (d < 0 || d > 32)
         return -1;
@@ -63,27 +61,27 @@ static int set_depth(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_html_browser_command(resource_value_t v, void *param)
+static int set_html_browser_command(const char *val, void *param)
 {
-    util_string_set(&ui_resources.html_browser_command, (char *)v);
+    util_string_set(&ui_resources.html_browser_command, val);
     return 0;
 }
 
-static int set_use_private_colormap(resource_value_t v, void *param)
+static int set_use_private_colormap(int val, void *param)
 {
-    ui_resources.use_private_colormap = (int)v;
+    ui_resources.use_private_colormap = val;
     return 0;
 }
 
-static int set_save_resources_on_exit(resource_value_t v, void *param)
+static int set_save_resources_on_exit(int val, void *param)
 {
-    ui_resources.save_resources_on_exit = (int)v;
+    ui_resources.save_resources_on_exit = val;
     return 0;
 }
 
-static int set_confirm_on_exit(resource_value_t v, void *param)
+static int set_confirm_on_exit(int val, void *param)
 {
-    ui_resources.confirm_on_exit = (int)v;
+    ui_resources.confirm_on_exit = val;
     return 0;
 }
 

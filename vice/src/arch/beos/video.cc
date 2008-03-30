@@ -65,10 +65,10 @@ static int number_of_canvas = 0;
 
 int use_direct_window;
 
-static int set_direct_window(resource_value_t v, void *param)
+static int set_direct_window(int val, void *param)
 {
 	/* first set the new value; ui_set_window_mode need's it */
-	use_direct_window = (int)v;
+	use_direct_window = val;
 	/* test if we can really use the mode */
 	use_direct_window = ui_set_window_mode(use_direct_window);
 	return 0;

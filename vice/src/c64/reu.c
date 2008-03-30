@@ -117,9 +117,9 @@ static DWORD reu_size_kb = 0;
 static char *reu_filename = NULL;
 
 
-static int set_reu_enabled(resource_value_t v, void *param)
+static int set_reu_enabled(int val, void *param)
 {
-    if (!(int)v) {
+    if (!val) {
         if (reu_enabled) {
             if (reu_deactivate() < 0) {
                 return -1;
@@ -139,12 +139,12 @@ static int set_reu_enabled(resource_value_t v, void *param)
     }
 }
 
-static int set_reu_size(resource_value_t v, void *param)
+static int set_reu_size(int val, void *param)
 {
-    if ((DWORD)v == reu_size_kb)
+    if ((DWORD)val == reu_size_kb)
         return 0;
 
-    switch ((DWORD)v) {
+    switch ((DWORD)val) {
       case 128:
       case 256:
       case 512:
@@ -155,27 +155,25 @@ static int set_reu_size(resource_value_t v, void *param)
       case 16384:
         break;
       default:
-        log_message(reu_log, "Unknown REU size %ld.", (long)v);
+        log_message(reu_log, "Unknown REU size %ld.", (long)val);
         return -1;
     }
 
     if (reu_enabled) {
         reu_deactivate();
-        reu_size_kb = (DWORD)v;
+        reu_size_kb = (DWORD)val;
         reu_size = reu_size_kb << 10;
         reu_activate();
     } else {
-        reu_size_kb = (DWORD)v;
+        reu_size_kb = (DWORD)val;
         reu_size = reu_size_kb << 10;
     }
 
     return 0;
 }
 
-static int set_reu_filename(resource_value_t v, void *param)
+static int set_reu_filename(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (reu_filename != NULL && name != NULL
         && strcmp(name, reu_filename) == 0)
         return 0;
@@ -735,10 +733,10 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    set_reu_size((resource_value_t)size, NULL);
+    set_reu_size((int)size, NULL);
 
     if (!reu_enabled)
-        set_reu_enabled((resource_value_t)1, NULL);
+        set_reu_enabled(1, NULL);
 
     if (SMR_BA(m, reu, sizeof(reu)) < 0 || SMR_BA(m, reu_ram, reu_size) < 0)
         goto fail;

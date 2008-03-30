@@ -91,9 +91,9 @@ static void video_debug(const char *format, ...)
 int fullscreen_enabled;
 int dx_primary_surface_rendering;
 
-static int set_dx_primary_surface_rendering(resource_value_t v, void *param)
+static int set_dx_primary_surface_rendering(int val, void *param)
 {
-    dx_primary_surface_rendering = (int) v;
+    dx_primary_surface_rendering = val;
     return 0;
 }
 

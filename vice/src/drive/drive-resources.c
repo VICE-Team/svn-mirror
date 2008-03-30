@@ -47,19 +47,19 @@
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
 
-static int drive1_resources_type(resource_value_t v, void *param);
+static int drive1_resources_type(int val, void *param);
 
 
-static int set_drive_true_emulation(resource_value_t v, void *param)
+static int set_drive_true_emulation(int val, void *param)
 {
     unsigned int dnr;
     drive_t *drive;
 
-    drive_true_emulation = (int)v;
+    drive_true_emulation = val;
 
     machine_bus_status_truedrive_set((unsigned int)drive_true_emulation);
 
-    if ((int)v) {
+    if (val) {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive = drive_context[dnr]->drive;
             if (drive->type != DRIVE_TYPE_NONE) {
@@ -82,27 +82,27 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_drive_extend_image_policy(resource_value_t v, void *param)
+static int set_drive_extend_image_policy(int val, void *param)
 {
-    switch ((int)v) {
+    switch (val) {
       case DRIVE_EXTEND_NEVER:
       case DRIVE_EXTEND_ASK:
       case DRIVE_EXTEND_ACCESS:
-        drive_context[(int)param]->drive->extend_image_policy = (int)v;
+        drive_context[(int)param]->drive->extend_image_policy = val;
         return 0;
       default:
         return -1;
     }
 }
 
-static int drive0_resources_type(resource_value_t v, void *param)
+static int drive0_resources_type(int val, void *param)
 {
     unsigned int type;
     int busses;
     drive_t *drive;
 
     drive = drive_context[0]->drive;
-    type = (unsigned int)v;
+    type = (unsigned int)val;
     busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
@@ -121,7 +121,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
         log_warning(drive->log,
                     "Dual disk drive disables second emulated drive");
 
-        drive1_resources_type((resource_value_t)DRIVE_TYPE_NONE, NULL);
+        drive1_resources_type(DRIVE_TYPE_NONE, NULL);
     }
 
     switch (type) {
@@ -169,7 +169,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
     }
 }
 
-static int drive1_resources_type(resource_value_t v, void *param)
+static int drive1_resources_type(int val, void *param)
 {
     unsigned int type, dnr;
     int busses;
@@ -179,7 +179,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
     drive = drive_context[dnr]->drive;
     drive0 = drive_context[0]->drive;
 
-    type = (unsigned int)v;
+    type = (unsigned int)val;
     busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
@@ -246,15 +246,15 @@ static int drive1_resources_type(resource_value_t v, void *param)
     }
 }
 
-static int drive_resources_type(resource_value_t v, void *param)
+static int drive_resources_type(int val, void *param)
 {
     switch ((unsigned int)param) {
       case 0:
-        return drive0_resources_type(v, param);
+        return drive0_resources_type(val, param);
       case 1:
       case 2:
       case 3:
-        return drive1_resources_type(v, param);
+        return drive1_resources_type(val, param);
     }
 
     return -1;

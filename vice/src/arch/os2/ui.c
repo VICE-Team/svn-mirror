@@ -72,9 +72,9 @@ ui_status_t ui_status;
 /* Flag: Use keyboard LEDs?  */
 int use_leds;
 
-static int set_use_leds(resource_value_t v, void *param)
+static int set_use_leds(int val, void *param)
 {
-    use_leds = (int) v;
+    use_leds = val;
     return 0;
 }
 

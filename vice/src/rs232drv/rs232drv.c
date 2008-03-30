@@ -45,9 +45,9 @@
 
 /*static*/ char *devfile[NUM_DEVICES] = { NULL, NULL, NULL, NULL };
 
-static int set_devfile(resource_value_t v, void *param)
+static int set_devfile(const char *val, void *param)
 {
-    util_string_set(&devfile[(int)param], (const char *)v);
+    util_string_set(&devfile[(int)param], val);
     return 0;
 }
 

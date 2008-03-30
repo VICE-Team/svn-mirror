@@ -69,14 +69,14 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-static int set_keymap_sym_file(resource_value_t v, void *param)
+static int set_keymap_sym_file(const char *val, void *param)
 {
-    return set_keymap_file(0, (const char *) v);
+    return set_keymap_file(0, val);
 }
 
-static int set_keymap_pos_file(resource_value_t v, void *param)
+static int set_keymap_pos_file(const char *val, void *param)
 {
-    return set_keymap_file(1, (const char *) v);
+    return set_keymap_file(1, val);
 }
 
 static const resource_string_t resources_string[] = {

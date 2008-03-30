@@ -66,12 +66,8 @@ static unsigned int sid_hardsid_right;
 int parsid_port=0;
 #endif
 
-static int set_sid_engine(resource_value_t v, void *param)
+static int set_sid_engine(int engine, void *param)
 {
-    int engine;
-
-    engine = (int)v;
-
     if (engine != SID_ENGINE_FASTSID
 #ifdef HAVE_RESID
         && engine != SID_ENGINE_RESID
@@ -109,25 +105,25 @@ static int set_sid_engine(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_sid_filters_enabled(resource_value_t v, void *param)
+static int set_sid_filters_enabled(int val, void *param)
 {
-    sid_filters_enabled = (int)v;
+    sid_filters_enabled = val;
     sid_state_changed = 1;
     return 0;
 }
 
-static int set_sid_stereo(resource_value_t v, void *param)
+static int set_sid_stereo(int val, void *param)
 {
-    sid_stereo = (int)v;
+    sid_stereo = val;
     sound_state_changed = 1;
     return 0;
 }
 
-int sid_set_sid_stereo_address(resource_value_t v, void *param)
+int sid_set_sid_stereo_address(int val, void *param)
 {
     unsigned int sid2_adr;
 
-    sid2_adr = (unsigned int)v;
+    sid2_adr = (unsigned int)val;
 
     if (machine_sid2_check_range(sid2_adr) < 0)
         return -1;
@@ -137,25 +133,23 @@ int sid_set_sid_stereo_address(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_sid_model(resource_value_t v, void *param)
+static int set_sid_model(int val, void *param)
 {
-    sid_model = (int)v;
+    sid_model = val;
     sid_state_changed = 1;
     return 0;
 }
 
 #ifdef HAVE_RESID
-static int set_sid_resid_sampling(resource_value_t v, void *param)
+static int set_sid_resid_sampling(int val, void *param)
 {
-    sid_resid_sampling = (int)v;
+    sid_resid_sampling = val;
     sid_state_changed = 1;
     return 0;
 }
 
-static int set_sid_resid_passband(resource_value_t v, void *param)
+static int set_sid_resid_passband(int i, void *param)
 {
-    int i = (int)v;
-
     if (i < 0) {
         i = 0;
     }
@@ -168,10 +162,8 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_sid_resid_gain(resource_value_t v, void *param)
+static int set_sid_resid_gain(int i, void *param)
 {
-    int i = (int)v;
-
     if (i < 90)
         i = 90;
     else if (i > 100)
@@ -185,17 +177,17 @@ static int set_sid_resid_gain(resource_value_t v, void *param)
 #endif
 
 #ifdef HAVE_HARDSID
-static int set_sid_hardsid_main(resource_value_t v, void *param)
+static int set_sid_hardsid_main(int val, void *param)
 {
-    sid_hardsid_main = (unsigned int)v;
+    sid_hardsid_main = (unsigned int)val;
     hardsid_set_device(0, sid_hardsid_main);
 
     return 0;
 }
 
-static int set_sid_hardsid_right(resource_value_t v, void *param)
+static int set_sid_hardsid_right(int val, void *param)
 {
-    sid_hardsid_right = (unsigned int)v;
+    sid_hardsid_right = (unsigned int)val;
     hardsid_set_device(1, sid_hardsid_right);
 
     return 0;
@@ -203,24 +195,27 @@ static int set_sid_hardsid_right(resource_value_t v, void *param)
 #endif
 
 #ifdef HAVE_PARSID
-static int set_sid_parsid_port(resource_value_t v, void *param)
+static int set_sid_parsid_port(int val, void *param)
 {
-    if ((int)v==parsid_port)
+    if (val == parsid_port)
         return 0;
 
-    if (sid_engine==SID_ENGINE_PARSID_PORT1 || sid_engine==SID_ENGINE_PARSID_PORT2 || sid_engine==SID_ENGINE_PARSID_PORT3) {
-        if (parsid_check_port((int)v)<0)
+    if (sid_engine == SID_ENGINE_PARSID_PORT1
+        || sid_engine == SID_ENGINE_PARSID_PORT2
+        || sid_engine == SID_ENGINE_PARSID_PORT3) {
+        if (parsid_check_port(val) < 0)
             return -1;
         else {
-            if ((int)v==1)
-                sid_engine=SID_ENGINE_PARSID_PORT1;
-            if ((int)v==2)
-                sid_engine=SID_ENGINE_PARSID_PORT2;
-            if ((int)v==3)
-                sid_engine=SID_ENGINE_PARSID_PORT3;
+            if (val == 1)
+                sid_engine = SID_ENGINE_PARSID_PORT1;
+            if (val == 2)
+                sid_engine = SID_ENGINE_PARSID_PORT2;
+            if (val == 3)
+                sid_engine = SID_ENGINE_PARSID_PORT3;
         }
     }
-    parsid_port = (int)v;
+    parsid_port = val;
+
     return 0;
 }
 #endif

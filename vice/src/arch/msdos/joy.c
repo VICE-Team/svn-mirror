@@ -52,9 +52,9 @@ int joystick_port_map[2];
 /* Joystick devices.  */
 static joystick_device_t joystick_device_1, joystick_device_2;
 
-static int set_joystick_device_1(resource_value_t v, void *param)
+static int set_joystick_device_1(int val, void *param)
 {
-    joystick_device_t dev = (joystick_device_t)v;
+    joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device_1 = joystick_device_1;
 
     joystick_device_1 = dev;
@@ -63,9 +63,9 @@ static int set_joystick_device_1(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_joystick_device_2(resource_value_t v, void *param)
+static int set_joystick_device_2(int val, void *param)
 {
-    joystick_device_t dev = (joystick_device_t)v;
+    joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device_2 = joystick_device_2;
 
     joystick_device_2 = dev;
@@ -76,13 +76,13 @@ static int set_joystick_device_2(resource_value_t v, void *param)
 
 static int joystick_hw_type;
 
-static int set_joystick_hw_type(resource_value_t v, void *param)
+static int set_joystick_hw_type(int val, void *param)
 {
-    if (joystick_hw_type != (int)v){
+    if (joystick_hw_type != val){
         int old_joystick_hw_type = joystick_hw_type;
         int old_num_joysticks = num_joysticks;
         
-    	joystick_hw_type = (int)v;
+    	joystick_hw_type = val;
         remove_joystick();
         if (joystick_hw_type != 0){
             if(install_joystick(joystick_hw_type)){
@@ -107,12 +107,12 @@ static int set_joystick_hw_type(resource_value_t v, void *param)
     return 0;
 }
 
-#define DEFINE_SET_KEYSET(num, dir)              \
-    static int set_keyset##num##_##dir(resource_value_t v, void *param) \
-    {                                            \
-        keyset##num[KEYSET_##dir] = (int)v;      \
-                                                 \
-        return 0;                                \
+#define DEFINE_SET_KEYSET(num, dir)                          \
+    static int set_keyset##num##_##dir(int val, void *param) \
+    {                                                        \
+        keyset##num[KEYSET_##dir] = val;                     \
+                                                             \
+        return 0;                                            \
     }
 
 DEFINE_SET_KEYSET(1, NW)

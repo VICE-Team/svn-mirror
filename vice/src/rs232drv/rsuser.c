@@ -106,10 +106,8 @@ static void calculate_baudrate(void)
 #endif
 }
 
-static int set_enable(resource_value_t v, void *param)
+static int set_enable(int newval, void *param)
 {
-    int newval = ((int)v);
-
     if (newval && !rsuser_enabled) {
         dtr = DTR_OUT;  /* inactive */
         rts = RTS_OUT;  /* inactive */
@@ -131,18 +129,18 @@ static int set_enable(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_baudrate(resource_value_t v, void *param)
+static int set_baudrate(int val, void *param)
 {
-    rsuser_baudrate = (int)v;
+    rsuser_baudrate = val;
 
     calculate_baudrate();
 
     return 0;
 }
 
-static int set_up_device(resource_value_t v, void *param)
+static int set_up_device(int val, void *param)
 {
-    rsuser_device = (int) v;
+    rsuser_device = val;
     if (fd != -1) {
         rs232drv_close(fd);
         fd = rs232drv_open(rsuser_device);

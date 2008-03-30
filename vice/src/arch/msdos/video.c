@@ -97,10 +97,10 @@ int video_in_gfx_mode() {
     return in_gfx_mode;
 }
 
-static int set_vga_mode(resource_value_t v, void *param)
+static int set_vga_mode(int val, void *param)
 {
     /* FIXME: Sanity check!  */
-    vga_mode = (int) v;
+    vga_mode = val;
     return 0;
 }
 
@@ -109,11 +109,11 @@ static int set_vga_mode(resource_value_t v, void *param)
 /* Flag: do we try to use triple buffering if possible?  */
 static int try_triple_buffering;
 
-static int set_try_triple_buffering(resource_value_t v, void *param)
+static int set_try_triple_buffering(int val, void *param)
 {
     /* FIXME: this has only effect when we switch to gfx mode.  This is OK
        for now, but is not the correct behavior.  */
-    try_triple_buffering = (int)v;
+    try_triple_buffering = val;
     return 0;
 }
 

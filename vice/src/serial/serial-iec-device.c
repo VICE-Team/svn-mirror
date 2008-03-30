@@ -52,12 +52,10 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value);
 
 static int iec_device_enabled[IECBUS_NUM];
 
-static int set_iec_device_enable(resource_value_t v, void *param)
+static int set_iec_device_enable(int enable, void *param)
 {
-    int enable;
     unsigned int unit;
 
-    enable = (int)v;
     unit = (unsigned int)param;
 
     if ((unit < 4 || unit > 5) && (unit < 8 || unit > 11))

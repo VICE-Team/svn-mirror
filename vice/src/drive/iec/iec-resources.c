@@ -47,14 +47,14 @@ static char *dos_rom_name_1571 = NULL;
 static char *dos_rom_name_1581 = NULL;
 
 
-static int set_drive_parallel_cable_enabled(resource_value_t v, void *param)
+static int set_drive_parallel_cable_enabled(int val, void *param)
 {
-    drive_context[(unsigned int)param]->drive->parallel_cable_enabled = (int)v;
+    drive_context[(unsigned int)param]->drive->parallel_cable_enabled = val;
 
     return 0;
 }
 
-static int set_drive_idling_method(resource_value_t v, void *param)
+static int set_drive_idling_method(int val, void *param)
 {
     unsigned int dnr;
     drive_t *drive;
@@ -63,12 +63,12 @@ static int set_drive_idling_method(resource_value_t v, void *param)
     drive = drive_context[dnr]->drive;
 
     /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
-    if ((int)v != DRIVE_IDLE_SKIP_CYCLES
-        && (int)v != DRIVE_IDLE_TRAP_IDLE
-        && (int)v != DRIVE_IDLE_NO_IDLE)
+    if (val != DRIVE_IDLE_SKIP_CYCLES
+        && val != DRIVE_IDLE_TRAP_IDLE
+        && val != DRIVE_IDLE_NO_IDLE)
         return -1;
 
-    drive->idling_method = (int)v;
+    drive->idling_method = val;
 
     if (rom_loaded &&
         ((drive->type == DRIVE_TYPE_1541) ||
@@ -107,41 +107,41 @@ static int set_drive_idling_method(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_dos_rom_name_1541(resource_value_t v, void *param)
+static int set_dos_rom_name_1541(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1541, (const char *)v))
+    if (util_string_set(&dos_rom_name_1541, val))
         return 0;
 
     return iecrom_load_1541();
 }
 
-static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
+static int set_dos_rom_name_1541ii(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1541ii, (const char *)v))
+    if (util_string_set(&dos_rom_name_1541ii, val))
         return 0;
 
     return iecrom_load_1541ii();
 }
 
-static int set_dos_rom_name_1570(resource_value_t v, void *param)
+static int set_dos_rom_name_1570(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1570, (const char *)v))
+    if (util_string_set(&dos_rom_name_1570, val))
         return 0;
 
     return iecrom_load_1570();
 }
 
-static int set_dos_rom_name_1571(resource_value_t v, void *param)
+static int set_dos_rom_name_1571(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1571, (const char *)v))
+    if (util_string_set(&dos_rom_name_1571, val))
         return 0;
 
     return iecrom_load_1571();
 }
 
-static int set_dos_rom_name_1581(resource_value_t v, void *param)
+static int set_dos_rom_name_1581(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1581, (const char *)v))
+    if (util_string_set(&dos_rom_name_1581, val))
         return 0;
 
     return iecrom_load_1581();
@@ -159,56 +159,56 @@ static void set_drive_ram(unsigned int dnr)
     return;
 }
 
-static int set_drive_ram2(resource_value_t v, void *param)
+static int set_drive_ram2(int val, void *param)
 {
     drive_t *drive = drive_context[(unsigned int)param]->drive;
 
-    drive->drive_ram2_enabled = (int)v;
+    drive->drive_ram2_enabled = val;
     set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive_ram4(resource_value_t v, void *param)
+static int set_drive_ram4(int val, void *param)
 {
     drive_t *drive = drive_context[(unsigned int)param]->drive;
 
-    drive->drive_ram4_enabled = (int)v;
+    drive->drive_ram4_enabled = val;
     set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive_ram6(resource_value_t v, void *param)
+static int set_drive_ram6(int val, void *param)
 {
     drive_t *drive = drive_context[(unsigned int)param]->drive;
 
-    drive->drive_ram6_enabled = (int)v;
+    drive->drive_ram6_enabled = val;
     set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive_ram8(resource_value_t v, void *param)
+static int set_drive_ram8(int val, void *param)
 {
     drive_t *drive = drive_context[(unsigned int)param]->drive;;
 
-    drive->drive_ram8_enabled = (int)v;
+    drive->drive_ram8_enabled = val;
     set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive_rama(resource_value_t v, void *param)
+static int set_drive_rama(int val, void *param)
 {
     drive_t *drive = drive_context[(unsigned int)param]->drive;;
 
-    drive->drive_rama_enabled = (int)v;
+    drive->drive_rama_enabled = val;
     set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }

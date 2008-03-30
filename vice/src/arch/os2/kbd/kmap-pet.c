@@ -77,34 +77,35 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-static int set_keymap_buk_sym_file(resource_value_t v, void *param)
+/* FIXME: Use param to get rid of these wrappers.  */
+static int set_keymap_buk_sym_file(const char *val, void *param)
 {
-    return set_keymap_file(0, (const char *) v);
+    return set_keymap_file(0, val);
 }
 
-static int set_keymap_buk_pos_file(resource_value_t v, void *param)
+static int set_keymap_buk_pos_file(const char *val, void *param)
 {
-    return set_keymap_file(1, (const char *) v);
+    return set_keymap_file(1, val);
 }
 
-static int set_keymap_gr_sym_file(resource_value_t v, void *param)
+static int set_keymap_gr_sym_file(const char *val, void *param)
 {
-    return set_keymap_file(2, (const char *) v);
+    return set_keymap_file(2, val);
 }
 
-static int set_keymap_gr_pos_file(resource_value_t v, void *param)
+static int set_keymap_gr_pos_file(const char *val, void *param)
 {
-    return set_keymap_file(3, (const char *) v);
+    return set_keymap_file(3, val);
 }
 
-static int set_keymap_bde_sym_file(resource_value_t v, void *param)
+static int set_keymap_bde_sym_file(const char *val, void *param)
 {
-    return set_keymap_file(4, (const char *) v);
+    return set_keymap_file(4, val);
 }
 
-static int set_keymap_bde_pos_file(resource_value_t v, void *param)
+static int set_keymap_bde_pos_file(const char *val, void *param)
 {
-    return set_keymap_file(5, (const char *) v);
+    return set_keymap_file(5, val);
 }
 
 static const resource_string_t resources_string[] = {
@@ -165,3 +166,4 @@ int pet_kbd_cmdline_options_init(void)
     cmdline_register_options(cmdline_options);
     return do_kbd_init_cmdline_options();
 }
+

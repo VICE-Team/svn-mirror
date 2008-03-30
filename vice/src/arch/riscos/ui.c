@@ -792,75 +792,75 @@ static struct MenuDisplayROMSetTmpl {
 /*
  *  Resource functions
  */
-static int set_sound_every(resource_value_t v, void *param)
+static int set_sound_every(int val, void *param)
 {
-  SoundPollEvery = (int)v;	/* actually defined in soundacorn */
+  SoundPollEvery = val;	/* actually defined in soundacorn */
   return 0;
 }
 
-static int set_drive_type8(resource_value_t v, void *param)
+static int set_drive_type8(int val, void *param)
 {
-  DriveType8 = (int)v;
+  DriveType8 = val;
   return 0;
 }
 
-static int set_drive_type9(resource_value_t v, void *param)
+static int set_drive_type9(int val, void *param)
 {
-  DriveType9 = (int)v;
+  DriveType9 = val;
   return 0;
 }
 
-static int set_drive_type10(resource_value_t v, void *param)
+static int set_drive_type10(int val, void *param)
 {
-  DriveType10 = (int)v;
+  DriveType10 = val;
   return 0;
 }
 
-static int set_drive_type11(resource_value_t v, void *param)
+static int set_drive_type11(int val, void *param)
 {
-  DriveType11 = (int)v;
+  DriveType11 = val;
   return 0;
 }
 
-static int set_drive_file8(resource_value_t v, void *param)
+static int set_drive_file8(const char *val, void *param)
 {
-  util_string_set(&DriveFile8, (const char *)v);
+  util_string_set(&DriveFile8, val);
   return 0;
 }
 
-static int set_drive_file9(resource_value_t v, void *param)
+static int set_drive_file9(const char *val, void *param)
 {
-  util_string_set(&DriveFile9, (const char*)v);
+  util_string_set(&DriveFile9, val);
   return 0;
 }
 
-static int set_drive_file10(resource_value_t v, void *param)
+static int set_drive_file10(const char *val, void *param)
 {
-  util_string_set(&DriveFile10, (const char*)v);
+  util_string_set(&DriveFile10, val);
   return 0;
 }
 
-static int set_drive_file11(resource_value_t v, void *param)
+static int set_drive_file11(const char *val, void *param)
 {
-  util_string_set(&DriveFile11, (const char*)v);
+  util_string_set(&DriveFile11, val);
   return 0;
 }
 
-static int set_tape_file(resource_value_t v, void *param)
+static int set_tape_file(const char *val, void *param)
 {
-  util_string_set(&TapeFile, (const char*)v);
+  util_string_set(&TapeFile, val);
   return 0;
 }
 
-static int set_auto_pause(resource_value_t v, void *param)
+static int set_auto_pause(int val, void *param)
 {
-  AutoPauseEmu = (int)v;
+  AutoPauseEmu = val;
   return 0;
 }
 
-static int set_16bit_sound(resource_value_t v, void *param)
+static int set_16bit_sound(int val, void *param)
 {
-  Use16BitSound = (int)v;
+  Use16BitSound = val;
   return 0;
 }
 

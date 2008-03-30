@@ -274,9 +274,8 @@ static struct MsgPort *ai_port = NULL;
 #include "resources.h"
 #include "util.h"
 
-static int set_JOYAI_resource(resource_value_t v, void *param)
+static int set_JOYAI_resource(const char *name, void *param)
 {
-    const char *name = (const char *)v;
     char **ptr = (char **)param;
     if (*ptr != NULL && name != NULL)
         if (strcmp(name, *ptr) == 0)

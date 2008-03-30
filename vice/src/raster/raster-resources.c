@@ -49,14 +49,14 @@ struct raster_resource_chip_s {
 };
 typedef struct raster_resource_chip_s raster_resource_chip_t;
 
-static int set_video_cache_enabled(resource_value_t v, void *param)
+static int set_video_cache_enabled(int val, void *param)
 {
     raster_resource_chip_t *raster_resource_chip;
 
     raster_resource_chip = (raster_resource_chip_t *)param;
 
-    if ((int)v >= 0)
-        raster_resource_chip->video_cache_enabled = (int)v;
+    if (val >= 0)
+        raster_resource_chip->video_cache_enabled = val;
 
     raster_enable_cache(raster_resource_chip->raster,
                         raster_resource_chip->video_cache_enabled);

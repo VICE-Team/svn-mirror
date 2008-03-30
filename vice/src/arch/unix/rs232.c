@@ -70,9 +70,9 @@
 extern char *devfile[NUM_DEVICES];
 static int devbaud[NUM_DEVICES];
 
-static int set_devbaud(resource_value_t v, void *param)
+static int set_devbaud(int val, void *param)
 {
-    devbaud[(int)param] = (int)v;
+    devbaud[(int)param] = val;
     return 0;
 }
 

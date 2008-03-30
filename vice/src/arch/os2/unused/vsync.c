@@ -89,23 +89,28 @@ static int refresh_rate;
 int warp_mode_enabled;
 
 /* FIXME: This should call `set_timers'.  */
-static int set_relative_speed(resource_value_t v, void *param)
-  {
-    relative_speed = (int) v;
-    return 0;
-  }
+static int set_relative_speed(int val, void *param)
+{
+    relative_speed = val;
 
-static int set_refresh_rate(resource_value_t v, void *param)
-  {
-    if ((int) v < 0) return -1;
-    refresh_rate = (int) v;
     return 0;
-  }
+}
+
+static int set_refresh_rate(int val, void *param)
+{
+    if (val < 0)
+        return -1;
+
+    refresh_rate = val;
+
+    return 0;
+}
 
 static int set_warp_mode(resource_value_t v, void *param)
 {
-    warp_mode_enabled = (int) v;
+    warp_mode_enabled = val;
     sound_set_warp_mode(warp_mode_enabled);
+
     return 0;
 }
 

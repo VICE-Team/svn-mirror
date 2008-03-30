@@ -57,9 +57,8 @@ static output_select_t output_select[3];
 static output_select_list_t *output_select_list = NULL;
 
 
-static int set_output_device(resource_value_t v, void *param)
+static int set_output_device(const char *name, void *param)
 {
-    const char *name = (const char *)v;
     output_select_list_t *list;
 
     list = output_select_list;

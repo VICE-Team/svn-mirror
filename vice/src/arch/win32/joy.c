@@ -242,9 +242,9 @@ void joystick_di_close(int index)
 }
 
 
-static int set_joystick_device_1(resource_value_t v, void *param)
+static int set_joystick_device_1(int val, void *param)
 {
-    joystick_device_t dev = (joystick_device_t) v;
+    joystick_device_t dev = (joystick_device_t)val;
 
     if (!joystick_inited) joy_arch_init();
 
@@ -263,9 +263,9 @@ static int set_joystick_device_1(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_joystick_device_2(resource_value_t v, void *param)
+static int set_joystick_device_2(int val, void *param)
 {
-    joystick_device_t dev = (joystick_device_t) v;
+    joystick_device_t dev = (joystick_device_t)val;
 
     if (!joystick_inited) joy_arch_init();
 
@@ -285,90 +285,96 @@ static int set_joystick_device_2(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_joystick_fire1_speed(resource_value_t v, void *param)
+static int set_joystick_fire1_speed(int speed, void *param)
 {
-    int speed = (int)v;
-
     if (speed < 1)
         speed = 1;
     if (speed > 32)
         speed = 32;
+
     joystick_fire_speed[0] = speed;
+
     return 0;
 }
 
-static int set_joystick_fire2_speed(resource_value_t v, void *param)
+static int set_joystick_fire2_speed(int speed, void *param)
 {
-    int speed = (int)v;
-
     if (speed < 1)
         speed = 1;
     if (speed > 32)
         speed = 32;
+
     joystick_fire_speed[1] = speed;
+
     return 0;
 }
 
-static int set_joystick_fire1_axis(resource_value_t v, void *param)
+static int set_joystick_fire1_axis(int axis, void *param)
 {
-int axis = (int)v;
+    if (axis < 0)
+        axis = 0;
 
-    if (axis < 0) axis = 0;
     joystick_fire_axis[0] = axis;
+
     return 0;
 }
 
-static int set_joystick_fire2_axis(resource_value_t v, void *param)
+static int set_joystick_fire2_axis(int axis, void *param)
 {
-int axis = (int)v;
+    if (axis < 0)
+        axis = 0;
 
-    if (axis < 0) axis = 0;
     joystick_fire_axis[1] = axis;
+
     return 0;
 }
 
-static int set_joystick_autofire1_button(resource_value_t v, void *param)
+static int set_joystick_autofire1_button(int button, void *param)
 {
-int button = (int)v;
+    if (button < 0)
+        button = 0;
 
-    if (button < 0) button = 0;
     joystick_autofire_button[0] = button;
+
     return 0;
 }
 
-static int set_joystick_autofire2_button(resource_value_t v, void *param)
+static int set_joystick_autofire2_button(int button, void *param)
 {
-int button = (int)v;
+    if (button < 0)
+        button = 0;
 
-    if (button < 0) button = 0;
     joystick_autofire_button[1] = button;
+
     return 0;
 }
 
-static int set_joystick_fire1_button(resource_value_t v, void *param)
+static int set_joystick_fire1_button(int button, void *param)
 {
-int button = (int)v;
+    if (button < 0)
+        button = 0;
 
-    if (button < 0) button = 0;
     joystick_fire_button[0] = button;
+
     return 0;
 }
 
-static int set_joystick_fire2_button(resource_value_t v, void *param)
+static int set_joystick_fire2_button(int button, void *param)
 {
-int button = (int)v;
+    if (button < 0)
+        button = 0;
 
-    if (button < 0) button = 0;
     joystick_fire_button[1] = button;
+
     return 0;
 }
 
-#define DEFINE_SET_KEYSET(num)                                  \
-    static int set_keyset##num(resource_value_t v, void *param) \
-    {                                                           \
-        keyset##num[(int)param] = (int)v;                       \
-                                                                \
-        return 0;                                               \
+#define DEFINE_SET_KEYSET(num)                       \
+    static int set_keyset##num(int val, void *param) \
+    {                                                \
+        keyset##num[(int)param] = val;               \
+                                                     \
+        return 0;                                    \
     }
 
 DEFINE_SET_KEYSET(1)

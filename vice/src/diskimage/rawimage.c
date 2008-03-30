@@ -138,9 +138,9 @@ void rawimage_init(void)
 
 /*-----------------------------------------------------------------------*/
 
-static int set_raw_drive_driver(resource_value_t v, void *param)
+static int set_raw_drive_driver(const char *val, void *param)
 {
-    if (util_string_set(&raw_drive_driver, (const char *)v))
+    if (util_string_set(&raw_drive_driver, val))
         return 0;
 
     return 0;

@@ -130,7 +130,7 @@ static void dga2_draw_buffer_clear(struct video_canvas_s *c,
                                    BYTE *draw_buffer, BYTE value,
                                    unsigned int w, unsigned int h,
                                    unsigned int pitch);
-static int dga2_set_mode(resource_value_t v, void *param);
+static int dga2_set_mode(int val, void *param);
 static log_t dga_log = LOG_ERR;
 
 /* public DGA2 interface functions ------------------------------------- */
@@ -228,7 +228,7 @@ void dga2_resume(void)
 
     dga2_is_suspended = 0;
     x11kbd_focus_change();
-    dga2_set_mode((resource_value_t) 1, NULL);
+    dga2_set_mode(1, NULL);
 }
 
 static void *mode_callback;
@@ -546,32 +546,32 @@ static void dga2_draw_buffer_clear(struct video_canvas_s *c,
     memset(draw_buffer, value, w * h);
 }
 
-static int dga2_set_mode(resource_value_t v, void *param)
+static int dga2_set_mode(int val, void *param)
 {
-    static int interval,prefer_blanking,allow_exposures;
+    static int interval, prefer_blanking, allow_exposures;
     XColor color;
     unsigned int i;
 
     if (!dga2_is_available || !fs_bestmode_counter) {
-        fs_use_fs_at_start = (int) v;
+        fs_use_fs_at_start = val;
         return 0;
     }
 
-    if (v && !dga2_is_enabled)
+    if (val && !dga2_is_enabled)
     {
 #ifdef XXX_CHECK_DGA2
-        XGrabKeyboard(display,  XRootWindow (display, screen),
+        XGrabKeyboard(display, XRootWindow(display, screen),
                       1, GrabModeAsync,
                       GrabModeAsync,  CurrentTime);
-        XGrabPointer(display,  XRootWindow (display, screen), 1,
+        XGrabPointer(display,  XRootWindow(display, screen), 1,
                      PointerMotionMask | ButtonPressMask |
                      ButtonReleaseMask,
                      GrabModeAsync, GrabModeAsync,
                      None, None, CurrentTime);
 
-        XGetScreenSaver(display,&timeout,&interval,
-                        &prefer_blanking,&allow_exposures);
-        XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
+        XGetScreenSaver(display, &timeout, &interval,
+                        &prefer_blanking, &allow_exposures);
+        XSetScreenSaver(display, 0, 0, DefaultBlanking, DefaultExposures);
 #endif
         log_message(dga_log, _("Switch to fullscreen%s"),
                     fs_bestmodes[dga2_cached_canvas->fullscreenconfig->mode].name);
@@ -600,8 +600,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
         }
 
 #if FS_PIXMAP_DGA
-        if (!dgadev->pixmap)
-        {
+        if (!dgadev->pixmap) {
             log_error(dga_log,
                       _("Error switching to fullscreen (pixmap) %ix%i"),
                       fs_allmodes_dga2[dga2_selected_videomode].viewportWidth,
@@ -620,8 +619,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
         pitch = dgadev->mode.bytesPerScanline /
             (dgadev->mode.bitsPerPixel >> 3);
         offs = dgadev->mode.bytesPerScanline * fs_height;
-        for (i = 0; i < BB_DEPTH; i++)
-        {
+        for (i = 0; i < BB_DEPTH; i++) {
             fb_offs[i] = i * offs;
             fb_ybegin[i] = i * fs_height;
             fb_page[i] = fb_addr + fb_offs[i];
@@ -631,8 +629,8 @@ static int dga2_set_mode(resource_value_t v, void *param)
                         fb_page[i], fb_offs[i], fb_ybegin[i]);
 #endif
         }
-        fb_ybegin_static = i*fs_height; /* framebuffer is the fixed
-                                           last page */
+        fb_ybegin_static = i * fs_height; /* framebuffer is the fixed
+                                             last page */
         if (fb_ybegin_static > dgadev->mode.maxViewportY)
         {
             log_message(dga_log,
@@ -652,7 +650,8 @@ static int dga2_set_mode(resource_value_t v, void *param)
             log_error(dga_log,
                       _("Error switching to fullscreen (CreateGC) %ix%i"),
                       fs_allmodes_dga2[dga2_selected_videomode].viewportWidth,
-                      fs_allmodes_dga2[dga2_selected_videomode].viewportHeight);            XDGASetMode(display,screen,0);
+                      fs_allmodes_dga2[dga2_selected_videomode].viewportHeight);
+            XDGASetMode(display, screen, 0);
             XFree(dgadev);
             ui_display_paused(1);
             return 0;
@@ -665,10 +664,8 @@ static int dga2_set_mode(resource_value_t v, void *param)
                         KeyPressMask |
                         KeyReleaseMask);
 
-        if (canvas_palette != dga2_cached_canvas->palette)
-        {
-            if (canvas_palette)
-            {
+        if (canvas_palette != dga2_cached_canvas->palette) {
+            if (canvas_palette) {
                 log_message(dga_log, "colormao should be freed, FIXME");
                 /* FIXME here */
             }
@@ -678,8 +675,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
                    sizeof(DWORD) * 256);
             cm = XDGACreateColormap(display, screen, dgadev, AllocNone);
 	
-            for (i = 0; i < dga2_cached_canvas->palette->num_entries; i++)
-            {
+            for (i = 0; i < dga2_cached_canvas->palette->num_entries; i++) {
                 color.blue =
                     (dga2_cached_canvas->palette->entries[i].blue << 8);
                 color.red =
@@ -701,9 +697,8 @@ static int dga2_set_mode(resource_value_t v, void *param)
                palette is allocated until next fullscreen activation */
             if (fs_saved_colors)
                 lib_free(fs_saved_colors);
-            fs_saved_colors = (DWORD *)malloc (sizeof(DWORD) * 256);
-            if (!fs_saved_colors)
-            {
+            fs_saved_colors = (DWORD *)malloc(sizeof(DWORD) * 256);
+            if (!fs_saved_colors) {
                 log_error(dga_log, _("Couldn't allocate color cache"));
                 goto nodga;
             }
@@ -712,12 +707,9 @@ static int dga2_set_mode(resource_value_t v, void *param)
                    dga2_cached_canvas->videoconfig->color_tables.physical_colors,
                    sizeof(DWORD) * 256);
 
-        }
-        else
-        {
+        } else {
             /* Reuse pixel values from earlier activation */
-            if (fs_saved_colors == NULL)
-            {
+            if (fs_saved_colors == NULL) {
                 log_error(dga_log, "inconsistent view for color management, disabling fullscreen.");
                 goto nodga;
             }
@@ -775,8 +767,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
 #endif
     }
 
-    if (!v && dga2_is_enabled)
-    {
+    if (!val && dga2_is_enabled) {
         log_message(dga_log, _("Switch to windowmode"));
 
         /* Restore framebuffer details */
@@ -821,7 +812,7 @@ static int dga2_mode_on(void)
 {
     if (!dga2_is_enabled) {
         x11kbd_focus_change();
-        dga2_set_mode((resource_value_t) 1, NULL);
+        dga2_set_mode(1, NULL);
         ui_update_menus();
         return 0;
     }

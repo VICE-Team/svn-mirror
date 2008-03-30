@@ -180,20 +180,20 @@ static void AddToWindowList(HWND hwnd)
     hwndlist[i+1] = NULLHANDLE;
 }
 
-static int set_stretch_factor(resource_value_t v, void *param)
+static int set_stretch_factor(int val, void *param)
 {
-    int i=0;
+    int i = 0;
 
-    if (!hwndlist || stretch==(int)v)
+    if (!hwndlist || stretch == val)
     {
-        stretch=(int)v;
+        stretch = val;
         return 0;
     }
 
     //
     // set new stretch factor
     //
-    stretch=(int)v;
+    stretch = val;
 
     i = 0;
     while (hwndlist[i])
@@ -378,12 +378,12 @@ static void status_resize(video_canvas_t *c)
     log_debug("Size 2: %3d %3d", swp.x, swp.y);
 }
 
-static int set_status(resource_value_t v, void *hwnd)
+static int set_status(int val, void *hwnd)
 {
     SWP swp;
     video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
 
-    status = (int)v;
+    status = val;
 
     if (!hwnd || !c)
         return 0;
@@ -419,11 +419,11 @@ static int set_status(resource_value_t v, void *hwnd)
     return 0;
 }
 */
-static int set_menu(resource_value_t v, void *param)
+static int set_menu(int val, void *param)
 {
-    int i=0;
+    int i = 0;
 
-    menu = (int)v;
+    menu = val;
 
     if (!hwndlist)
         return 0;
@@ -459,9 +459,9 @@ static int set_menu(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_border_type(resource_value_t v, void *param)
+static int set_border_type(int val, void *param)
 {
-    switch ((int)v)
+    switch (val)
     {
     case 1:
         flFrameFlags &= ~FCF_DLGBORDER;
@@ -482,9 +482,11 @@ static int set_border_type(resource_value_t v, void *param)
 }
 
 static int logwin;
-static int set_logging(resource_value_t v, void *param)
+
+static int set_logging(int val, void *param)
 {
-    logwin = (int)v;
+    logwin = val;
+
     return 0;
 }
 

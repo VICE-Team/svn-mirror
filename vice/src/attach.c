@@ -67,8 +67,8 @@ static log_t attach_log = LOG_DEFAULT;
 static int attach_device_readonly_enabled[4];
 static int file_system_device_enabled[4];
 
-static int set_attach_device_readonly(resource_value_t v, void *param);
-static int set_file_system_device(resource_value_t v, void *param);
+static int set_attach_device_readonly(int val, void *param);
+static int set_file_system_device(int val, void *param);
 
 static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
                               unsigned int unit);
@@ -306,7 +306,7 @@ int file_system_bam_set_disk_id(unsigned int unit, BYTE *id)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_attach_device_readonly(resource_value_t v, void *param)
+static int set_attach_device_readonly(int val, void *param)
 {
     unsigned int unit;
     const char *old_filename;
@@ -316,14 +316,14 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
     unit = (unsigned int)param;
 
     /* Do nothing if resource is unchanged.  */
-    if (attach_device_readonly_enabled[unit - 8] == ((int)v))
+    if (attach_device_readonly_enabled[unit - 8] == val)
         return 0;
 
     old_filename = file_system_get_disk_name(unit);
 
     /* If no disk is attached, just changed the resource.  */
     if (old_filename == NULL) {
-        attach_device_readonly_enabled[unit - 8] = (int)v;
+        attach_device_readonly_enabled[unit - 8] = val;
         return 0;
     }
 
@@ -331,7 +331,7 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
     new_filename = lib_stralloc(old_filename);
 
     file_system_detach_disk(unit);
-    attach_device_readonly_enabled[unit - 8] = (int)v;
+    attach_device_readonly_enabled[unit - 8] = val;
 
     rc = file_system_attach_disk(unit, new_filename);
 
@@ -342,7 +342,7 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_file_system_device(resource_value_t v, void *param)
+static int set_file_system_device(int val, void *param)
 {
     vdrive_t *vdrive;
     unsigned int unit;
@@ -353,7 +353,7 @@ static int set_file_system_device(resource_value_t v, void *param)
 
     vdrive = file_system_get_vdrive(unit);
 
-    switch ((unsigned int)v) {
+    switch (val) {
       case ATTACH_DEVICE_NONE:
         if (old_device_enabled == ATTACH_DEVICE_REAL)
             serial_realdevice_disable();
@@ -382,8 +382,7 @@ static int set_file_system_device(resource_value_t v, void *param)
             detach_disk_image(vdrive->image, vdrive, unit);
         if (serial_realdevice_enable() < 0) {
             log_warning(attach_log, "Falling back to fs device.");
-            return set_file_system_device((resource_value_t)ATTACH_DEVICE_FS,
-                                          param);
+            return set_file_system_device(ATTACH_DEVICE_FS, param);
         }
         if (vdrive != NULL && vdrive->image != NULL) {
             detach_disk_image_and_free(vdrive->image, vdrive, unit);
@@ -412,7 +411,7 @@ static int set_file_system_device(resource_value_t v, void *param)
         return -1;
     }
 
-    file_system_device_enabled[unit - 8] = (int)v;
+    file_system_device_enabled[unit - 8] = val;
 
     return 0;
 }
@@ -594,8 +593,7 @@ static void file_system_detach_disk_single(unsigned int unit)
     if (vdrive != NULL)
         detach_disk_image_and_free(vdrive->image, vdrive, (unsigned int)unit);
 
-    set_file_system_device((resource_value_t)
-                           file_system_device_enabled[unit - 8], (void *)unit);
+    set_file_system_device(file_system_device_enabled[unit - 8], (void *)unit);
     ui_display_drive_current_image(unit - 8, "");
 }
 

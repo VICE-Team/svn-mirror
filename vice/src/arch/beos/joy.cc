@@ -141,12 +141,12 @@ static void joystick_open_device(int dev_index)
 }
 
 
-static int set_joystick_device(resource_value_t v, void *param)
+static int set_joystick_device(int val, void *param)
 {
 	if (joystick_initialized)
 		joystick_close_device((int) param);
 
-    joystick_device[(int) param] = (joystick_device_t) (int) v; /* argh */
+    joystick_device[(int) param] = (joystick_device_t)val;
 	
 	if (joystick_initialized)
 		joystick_open_device((int) param);
@@ -155,15 +155,15 @@ static int set_joystick_device(resource_value_t v, void *param)
 }
 
 
-static int set_keyset1(resource_value_t v, void *param)
+static int set_keyset1(int val, void *param)
 {
-        keyset1[(int) param] = (int) v;
+        keyset1[(int) param] = val;
         return 0;
 }
 
-static int set_keyset2(resource_value_t v, void *param)
+static int set_keyset2(int val, void *param)
 {
-        keyset2[(int) param] = (int) v;
+        keyset2[(int) param] = val;
         return 0;
 }
 

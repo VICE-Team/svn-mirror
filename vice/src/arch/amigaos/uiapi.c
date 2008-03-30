@@ -62,27 +62,27 @@ extern video_canvas_t *canvaslist;
 
 ui_resources_t ui_resources;
 
-static int set_fullscreen_bitdepth(resource_value_t v, void *param)
+static int set_fullscreen_bitdepth(int val, void *param)
 {
-    ui_resources.fullscreenbitdepth = (int)v;
+    ui_resources.fullscreenbitdepth = val;
     return 0;
 }
 
-static int set_fullscreen_width(resource_value_t v, void *param)
+static int set_fullscreen_width(int val, void *param)
 {
-    ui_resources.fullscreenwidth = (int)v;
+    ui_resources.fullscreenwidth = val;
     return 0;
 }
 
-static int set_fullscreen_height(resource_value_t v, void *param)
+static int set_fullscreen_height(int val, void *param)
 {
-    ui_resources.fullscreenheight = (int)v;
+    ui_resources.fullscreenheight = val;
     return 0;
 }
 
-static int set_fullscreen_enabled(resource_value_t v, void *param)
+static int set_fullscreen_enabled(int val, void *param)
 {
-    ui_resources.fullscreenenabled = (int)v;
+    ui_resources.fullscreenenabled = val;
 
     video_arch_fullscreen_toggle();
 
@@ -91,9 +91,9 @@ static int set_fullscreen_enabled(resource_value_t v, void *param)
 
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 
-static int set_videooverlay_enabled(resource_value_t v, void *param)
+static int set_videooverlay_enabled(int val, void *param)
 {
-    ui_resources.videooverlayenabled = (int)v;
+    ui_resources.videooverlayenabled = val;
 
     /* reuse the fullscreen toggle */
     video_arch_fullscreen_toggle();
@@ -103,29 +103,28 @@ static int set_videooverlay_enabled(resource_value_t v, void *param)
 
 #endif
 
-static int set_statusbar_enabled(resource_value_t v, void *param)
+static int set_statusbar_enabled(int val, void *param)
 {
-    ui_resources.statusbarenabled = (int)v;
+    ui_resources.statusbarenabled = val;
     video_arch_fullscreen_toggle();
 
     return 0;
 }
 
-static int set_save_resources_on_exit(resource_value_t v, void *param)
+static int set_save_resources_on_exit(int val, void *param)
 {
-    ui_resources.save_resources_on_exit = (int)v;
+    ui_resources.save_resources_on_exit = val;
     return 0;
 }
 
-static int set_confirm_on_exit(resource_value_t v, void *param)
+static int set_confirm_on_exit(int val, void *param)
 {
-    ui_resources.confirm_on_exit = (int)v;
+    ui_resources.confirm_on_exit = val;
     return 0;
 }
 
-static int set_monitor_dimensions(resource_value_t v, void *param)
+static int set_monitor_dimensions(const char *name, void *param)
 {
-    const char *name = (const char *)v;
     if (ui_resources.monitor_dimensions != NULL && name != NULL)
         if (strcmp(name, ui_resources.monitor_dimensions) == 0)
             return 0;
@@ -133,9 +132,8 @@ static int set_monitor_dimensions(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_initial_dir(resource_value_t v, void *param)
+static int set_initial_dir(const char *name, void *param)
 {
-    const char *name = (const char *)v;
     int index = (int)param;
     if (ui_resources.initialdir[index] != NULL && name != NULL)
         if (strcmp(name, ui_resources.initialdir[index]) == 0)

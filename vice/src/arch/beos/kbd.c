@@ -102,11 +102,11 @@ int kbd_init(int num, ...)
     return 0;
 }
 
-static int set_keymap_index(resource_value_t v, void *param)
+static int set_keymap_index(int val, void *param)
 {
-int real_index;
+    int real_index;
 
-    keymap_index=(int)v;
+    keymap_index=val;
     real_index=keymap_index>>1;
     keyconv_base=&keyconvmaps[real_index];
 

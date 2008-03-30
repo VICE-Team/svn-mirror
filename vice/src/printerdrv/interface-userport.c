@@ -45,11 +45,11 @@ static int userport_printer_enabled = 0;
 static void (*set_busy_func)(unsigned int b) = NULL;
 
 
-static int set_up_enabled(resource_value_t v, void *param)
+static int set_up_enabled(int val, void *param)
 {
     int newval;
 
-    newval = ((int)v) ? 1 : 0;
+    newval = val ? 1 : 0;
 
     if (newval && !userport_printer_enabled) {
         /* Switch printer on.  */

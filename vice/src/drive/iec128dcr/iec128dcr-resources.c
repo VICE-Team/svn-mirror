@@ -40,19 +40,19 @@ static int romset_firmware[1];
 static char *dos_rom_name_1571cr = NULL;
 
 
-static int set_dos_rom_name_1571cr(resource_value_t v, void *param)
+static int set_dos_rom_name_1571cr(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1571cr, (const char *)v))
+    if (util_string_set(&dos_rom_name_1571cr, val))
         return 0;
 
     return iec128dcrrom_load_1571cr();
 }
 
-static int set_romset_firmware(resource_value_t v, void *param)
+static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
 
-    romset_firmware[num] = (int)v;
+    romset_firmware[num] = val;
 
     return 0;
 }
