@@ -49,7 +49,6 @@
 
 static void update_pixel_tables(raster_t *raster);
 static int realize_canvas(raster_t *raster);
-static int realize_frame_buffer(raster_t *raster);
 
 int raster_calc_frame_buffer_width(raster_t *raster)
 {
@@ -144,7 +143,7 @@ static int realize_canvas(raster_t *raster)
     if (viewport->canvas == NULL)
         return -1;
 
-    realize_frame_buffer(raster);
+    raster_realize_frame_buffer(raster);
 
     update_pixel_tables(raster);
 
@@ -154,7 +153,7 @@ static int realize_canvas(raster_t *raster)
     return 0;
 }
 
-static int realize_frame_buffer(raster_t *raster)
+int raster_realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height, fb_pitch;
     video_canvas_t *canvas;
@@ -257,7 +256,6 @@ static void raster_viewport_init(raster_viewport_t *viewport)
     viewport->x_offset = viewport->y_offset = 0;
     viewport->first_line = viewport->last_line = 0;
     viewport->first_x = 0;
-    viewport->pixel_size.width = viewport->pixel_size.height = 1;
     viewport->exposure_handler = NULL;
 }
 
@@ -439,7 +437,7 @@ void raster_set_geometry(raster_t *raster,
         geometry->screen_size.height = screen_height;
         geometry->extra_offscreen_border_left = extra_offscreen_border_left;
         geometry->extra_offscreen_border_right = extra_offscreen_border_right;
-        realize_frame_buffer(raster);
+        raster_realize_frame_buffer(raster);
     }
 
     geometry->gfx_size.width = gfx_width;
@@ -571,17 +569,6 @@ void raster_resize_viewport(raster_t *raster,
         viewport->first_line = geometry->first_displayed_line;
         viewport->last_line = (geometry->first_displayed_line + height);
     }
-    raster_force_repaint(raster);
-}
-
-void raster_set_pixel_size(raster_t *raster,
-                           unsigned int width,
-                           unsigned int height)
-{
-    raster->viewport.pixel_size.width = width;
-    raster->viewport.pixel_size.height = height;
-
-    realize_frame_buffer(raster);
     raster_force_repaint(raster);
 }
 
