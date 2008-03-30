@@ -73,6 +73,8 @@ libarch_a_SOURCES = \
 	uiscreenshot.h \
 	uisettings.h \
 	uisettings.c \
+	uisid.c \
+	uisid.h \
 	uisnapshot.h \
 	uivicii.c \
 	uivicii.h \
