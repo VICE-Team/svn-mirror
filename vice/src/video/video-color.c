@@ -320,48 +320,48 @@ static palette_t *video_calc_palette(video_cbm_palette_t *p)
 
 static palette_t *video_load_palette(video_cbm_palette_t *p,const char *name)
 {
-	palette_t *palette;
+    palette_t *palette;
 
-	palette = palette_create(p->num_entries, NULL);
-	if (palette == NULL) return NULL;
+    palette = palette_create(p->num_entries, NULL);
+    if (palette == NULL)
+        return NULL;
 
-	if (!console_mode && !vsid_mode && palette_load(name, palette) < 0)
-	{
-/*	    log_message(vic_ii.log, "Cannot load palette file `%s'.", name); */
-	    return NULL;
-	}
+    if (!console_mode && !vsid_mode && palette_load(name, palette) < 0) {
+        /* log_message(vic_ii.log, "Cannot load palette file `%s'.", name); */
+        return NULL;
+    }
 
-	return palette;
+    return palette;
 }
 
 /* calculate or load a palette, depending on configuration */
 
 int video_color_update_palette(void)
 {
-	palette_t *palette;
+    palette_t *palette;
 
-	if (video_current_palette == NULL)
-            return 0;
-	if (video_current_raster == NULL)
-            return 0;
+    if (video_current_palette == NULL)
+        return 0;
+    if (video_current_raster == NULL)
+        return 0;
 
-	video_calc_gammatable();
-	video_calc_ycbcrtable(video_current_palette);
+    video_calc_gammatable();
+    video_calc_ycbcrtable(video_current_palette);
 
-	if (video_resources.ext_palette)
-            palette = video_load_palette(video_current_palette,
-                                         video_resources.palette_file_name);
-	else
-            palette = video_calc_palette(video_current_palette);
+    if (video_resources.ext_palette)
+        palette = video_load_palette(video_current_palette,
+                                     video_resources.palette_file_name);
+    else
+        palette = video_calc_palette(video_current_palette);
 
-	if (palette != NULL)
-           return raster_set_palette(video_current_raster, palette);
+    if (palette != NULL)
+       return raster_set_palette(video_current_raster, palette);
 
-	return -1;
+    return -1;
 }
 
 void video_render_initraw()
 {
-	video_calc_gammatable();
+    video_calc_gammatable();
 }
 
