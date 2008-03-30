@@ -41,10 +41,6 @@
 
 #include "mui/filereq.h"
 
-#ifndef MAX_PATH
-#define MAX_PATH (1024)
-#endif
-
 #if 0 /* doesn't seem to be used anywhere (yet?) */
 
 struct uilib_filefilter_s {

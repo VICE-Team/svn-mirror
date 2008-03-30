@@ -729,7 +729,7 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (size > 16384) {
-        log_error(reu_log, "Size %ld in snapshot not supported.", (long)size);
+        log_error(reu_log, "Size %d in snapshot not supported.", (int)size);
         goto fail;
     }
 

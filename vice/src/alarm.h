@@ -133,18 +133,19 @@ inline static void alarm_context_update_next_pending(alarm_context_t *context)
 inline static void alarm_context_dispatch(alarm_context_t *context,
                                           CLOCK cpu_clk)
 {
-    long offset;
+    CLOCK offset;
     unsigned int idx;
     alarm_t *alarm;
 
-    offset = (long) (cpu_clk - context->next_pending_alarm_clk);
+    offset = (CLOCK)(cpu_clk - context->next_pending_alarm_clk);
+
     if (offset < 0)
         return;
 
     idx = context->next_pending_alarm_idx;
     alarm = context->pending_alarms[idx].alarm;
 
-    (alarm->callback)((CLOCK)(offset), alarm->data);
+    (alarm->callback)(offset, alarm->data);
 }
 
 inline static void alarm_set(alarm_t *alarm, CLOCK cpu_clk)

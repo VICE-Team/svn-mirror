@@ -194,7 +194,7 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler((long)(maincpu_clk
+                ted_raster_draw_alarm_handler((CLOCK)(maincpu_clk
                                               - ted.draw_clk), NULL);
                 f = 1;
             }

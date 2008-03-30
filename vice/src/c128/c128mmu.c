@@ -121,8 +121,7 @@ int mmu_cmdline_options_init(void)
 static void mmu_toggle_column4080_key(void)
 {
     mmu_column4080_key = !mmu_column4080_key;
-    resources_set_value("40/80ColumnKey",
-                        (resource_value_t)mmu_column4080_key);
+    resources_set_int("40/80ColumnKey", mmu_column4080_key);
     log_message(mmu_log, "40/80 column key %s.",
                 (mmu_column4080_key) ? "released" : "pressed");
 }
@@ -145,7 +144,7 @@ static void mmu_switch_cpu(int value)
 static void mmu_set_ram_bank(BYTE value)
 {
     /* (We handle only 128K here.)  */
-    ram_bank = mem_ram + (((long) value & 0x40) << 10);
+    ram_bank = mem_ram + (((long)value & 0x40) << 10);
 #ifdef MMU_DEBUG
     log_message(mmu_log, "Set RAM bank %i.", (value & 0x40) ? 1 : 0);
 #endif

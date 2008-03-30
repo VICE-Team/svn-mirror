@@ -204,6 +204,7 @@ static int palette_load_core(FILE *f, const char *file_name,
 
     return 0;
 }
+
 int palette_load(const char *file_name, palette_t *palette_return)
 {
     palette_t *tmp_palette;
@@ -220,6 +221,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
         util_add_extension(&tmp, "vpl");
         f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);
         lib_free(tmp);
+
         if (f == NULL)
             return -1;
     }

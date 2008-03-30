@@ -842,8 +842,12 @@ static void playback_commands(const char *filename)
     FILE *fp;
     char string[256];
 
-    if (NULL == (fp = fopen(filename, MODE_READ_TEXT))
-        && NULL == (fp = sysfile_open(filename, NULL, MODE_READ_TEXT))) {
+    fp = fopen(filename, MODE_READ_TEXT);
+
+    if (fp == NULL)
+        fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
+
+    if (fp == NULL) {
         mon_out("Playback for `%s' failed.\n", filename);
         return;
     }

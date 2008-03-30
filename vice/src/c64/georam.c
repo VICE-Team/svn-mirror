@@ -378,7 +378,7 @@ int georam_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (size > 4096) {
-        log_error(georam_log, "Size %ld in snapshot not supported.", (long)size);
+        log_error(georam_log, "Size %d in snapshot not supported.", (int)size);
         goto fail;
     }
 

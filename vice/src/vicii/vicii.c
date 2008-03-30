@@ -209,7 +209,7 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
                     vicii_delay_clk();
             }
             if (maincpu_clk >= vicii.draw_clk) {
-                vicii_raster_draw_alarm_handler((long)(maincpu_clk
+                vicii_raster_draw_alarm_handler((CLOCK)(maincpu_clk
                                                 - vicii.draw_clk), NULL);
                 f = 1;
                 if (vicii.viciie != 0)
