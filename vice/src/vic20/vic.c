@@ -184,7 +184,7 @@ static BYTE vic[64];
 static BYTE auxiliary_color;
 static BYTE *colormem;
 static BYTE *screenmem;
-static BYTE *chargen_ptr = chargen_rom;
+static BYTE *chargen_ptr = chargen_rom + 0x400;
 
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
@@ -456,13 +456,17 @@ static void set_memory_ptrs(void)
     charaddr = (tmp & 0x8) ? 0x0000 : 0x8000;
     charaddr += (tmp & 0x7) * 0x400;
     if (charaddr >= 0x8000 && charaddr < 0x9000) {
-	chargen_ptr = chargen_rom + (charaddr & 0xfff);
+	chargen_ptr = chargen_rom + 0x400 + (charaddr & 0xfff);
 #ifdef VIC_REGISTERS_DEBUG
 	printf("\tcharacter memory at $%04X (character ROM + $%04X)\n",
 	       charaddr, charaddr & 0xfff);
 #endif
     } else {
-	chargen_ptr = ram + charaddr;
+	if(charaddr == 0x1c00) {
+	    chargen_ptr = chargen_rom; 	/* handle wraparound */
+	} else {
+	   chargen_ptr = ram + charaddr;
+	}
 #ifdef VIC_REGISTERS_DEBUG
 	printf("\tcharacter memory at $%04X\n", charaddr);
 #endif

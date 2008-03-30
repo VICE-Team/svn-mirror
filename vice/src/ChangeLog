@@ -1,3 +1,118 @@
+Thu Jul  9 14:09:52 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/msdos/kbd.c: #Include "machine.h", replace
+ 	`maincpu_set_nmi()' with `machine_set_restore_key()' for the
+ 	restore key.
+
+	* arch/unix/kbd.c: #Include "machine.h", replace
+ 	`maincpu_set_nmi()' with `machine_set_restore_key()' for the
+ 	restore key.  If the key has been used, return; if not, allow
+ 	checking in the keymap: The PET uses the Tab key as RVS/OFF.
+
+	* machine.h (machine_set_restore_key): New prototype.
+
+	* c64/c64.c, c128/c128.c, pet/pet.c, vic20/vic20.c
+ 	(machine_set_restore_key): New function to handle restore key.
+
+Wed Jul  8 18:58:50 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128mem.c (mem_get_basic_text, mem_set_basic_text): Pointer
+ 	addresses fixed.
+	(store_bank_io, read_bank_io, peek_bank_io): New functions for
+ 	banked (i.e. monitor) IO access.
+	(mem_bank_from_name, mem_bank_lists, mem_bank_read, mem_bank_peek,
+ 	mem_bank_write): New functions for monitor memory bank access.
+
+	* c64/c64.c: Replace "tpi.h" with "c64tpi.h".
+
+	* c64/c64cia.h (peek_cia1, peek_cia2): Add prototypes.
+
+	* c64/c64mem.c: Replace "tpi.h" with "c64tpi.h".
+	(store_bank_io, read_bank_io, peek_bank_io): New functions for
+ 	banked (i.e. monitor) IO access.
+	(mem_bank_from_name, mem_bank_lists, mem_bank_read): New functions
+ 	for monitor memory bank access.
+	(mem_bank_peek, mem_bank_write): More new functions.
+
+	* mem.h (mem_bank_from_name, mem_bank_lists, mem_bank_read): Add
+ 	prototypes.
+ 	(mem_bank_peek, mem_bank_write): Add prototypes.
+
+	* pet/petmem.c (mem_get_basic_text, mem_set_basic_text): Pointer
+ 	addresses fixed (for Basic2 and Basic4 only).
+	(peek_bank_io): new functions for banked (i.e. monitor) IO access
+	(mem_bank_from_name, mem_bank_lists, mem_bank_read): New functions
+ 	for monitor memory bank access.
+	(mem_bank_peek, mem_bank_write): New functions for monitor memory
+ 	bank access.
+
+	* tapeunit.c (is_valid_prgfile): Detect C128 and VIC Basic start
+	addresses.
+
+	* vic20/vic20mem.c (mem_set_tape_sense): Removed (->
+ 	vic20via2.def)
+	(mem_bank_from_name, mem_bank_lists, mem_bank_read): New functions
+ 	for monitor memory bank access.
+	(mem_bank_peek, mem_bank_write): New functions for monitor memory
+ 	bank access.
+
+	* vic20/vic20via2.def: #Include "mem.h".  New variable
+ 	`tape_sense'.
+	(mem_set_tape_sense): New function.
+	(READ_PRA): Add `tape_sense' flag check.
+
+Wed Jul  8 23:18:40 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* resources.c (resources_toggle): Do not set `*new_value_return'
+ 	if `new_value_return' is NULL.
+
+Wed Jul  8 14:05:55 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/c128ui.c (io_extensions_submenu): Added EmuID
+ 	toggle.
+
+	* arch/unix/xaw/petui.c (model_settings_submenu): Added EmuID
+ 	toggle.
+
+	* autostart.c (check): Removed check fo 0 and 255.
+	(autostart_init): If parameter _min_cycles = 0 then disable
+ 	autostart.
+
+	* c128/c128.c: #include "c64tpi.h" instead of "tpi.h"
+	(c128_tape_traps): Tape traps for the C128.
+	(machine_init): Call tape_init appropriately.  Fix calls to
+ 	`autostart_init' and `kbd_buf_init()'.
+
+	* c128/c128mem.c: #Include "c64tpi.h" instead of "tpi.h", #include
+ 	"emuid.h"
+	(read_io): Enable emulator ID output.
+
+	* kbdbuf.c (kbd_buf_init): If `mincycles' is zero then disable
+ 	`kbd_buf'.
+
+	* pet/pet.c (machine_init_resources, machine_init_cmdline_options):
+	Add call to `pet_init_resources()' and `pet_init_cmdline_options()'.
+
+	* pet/petmem.c: #include "emuid.h".
+	(emu_id_enabled, mem_toggle_emu_id, resources,
+ 	pet_mem_init_resources, cmdline_options,
+ 	pet_mem_init_cmdline_options): New stuff with complete
+ 	emu_id_enabled flag handling.
+	(read_io): Check emu_id_enabled and return emulator id if
+ 	appropriate
+	(mem_load): In the beginning, disable autostart, kbd_buf and tape
+ 	before (re)loading the ROM.
+
+	* pet/pets.c (pet_init_resources): Renamed from
+ 	`pet_mem_init_resources'.
+	(pet_init_cmdline_options): Renamed from
+ 	`pet_mem_init_cmdline_options'.
+
+	* pet/pets.h: New prototypes for
+ 	`pet_init_{resources|cmdline_options}'.
+
+	* vic20/vic20mem.c (set_emu_id_enabled): Return valid value.
+
 Tue Jul  7 21:30:30 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* true1541/Makefile.am: Added dependencies to build `viad1.c' and

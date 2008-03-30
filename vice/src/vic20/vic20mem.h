@@ -43,7 +43,7 @@
 
 extern BYTE ram[VIC20_RAM_SIZE];
 extern BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
-extern BYTE chargen_rom[VIC20_CHARGEN_ROM_SIZE];
+extern BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 
 extern int rom_loaded;
 

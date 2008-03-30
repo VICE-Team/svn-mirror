@@ -101,7 +101,7 @@ READ_PRB()
 {
     {
 	/* FIXME: not 100% sure about this... */
-        BYTE val = via1[VIA_PRB] | ~via1[VIA_DDRB];
+        BYTE val = ~via1[VIA_DDRB];
 	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
 	int m, i;
 
@@ -114,7 +114,7 @@ READ_PRB()
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val;
+	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]);
     }
 }
 
