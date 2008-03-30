@@ -164,7 +164,7 @@ READ_CIAPA()
 	drive0_cpu_execute();
     if (drive[1].enable)
 	drive1_cpu_execute();
-    byte = ( /*(cia2[CIA_PRA] | ~cia2[CIA_DDRA]) &*/ 0x3f) | iec_info->cpu_port;
+    byte = ( (cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
 }
 
 READ_CIAPB()
@@ -180,6 +180,7 @@ READ_CIAPB()
             ? parallel_cable_cpu_read()
             : 0xff );
 #endif
+    byte = (byte & ~cia2[CIA_DDRB]) | (cia2[CIA_PRB] & cia2[CIA_DDRB]);
 }
 
 READ_CIAICR()

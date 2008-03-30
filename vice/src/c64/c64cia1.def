@@ -90,7 +90,6 @@ PRE_PEEK_CIA()
 #define	READ_SDR
 #define STORE_CIAPA
 #define UNDUMP_CIAPA
-#define UNDUMP_CIAPB
 
 STORE_SDR()
 {
@@ -110,6 +109,10 @@ STORE_CIAPB()
 	    vic_ii_trigger_light_pen(rclk);
 	}
     }
+}
+
+UNDUMP_CIAPB()
+{
 }
 
 READ_CIAPA()
@@ -144,7 +147,7 @@ READ_CIAPB()
 		if (!(extended_keyboard_rows_mask & m))
 		    val &= ~keyarr[i];
 
-	byte = (val /* | (cia1[CIA_PRB] & cia1[CIA_DDRB])*/ ) & ~joy[1];
+	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB]) ) & ~joy[1];
     }
 }
 
