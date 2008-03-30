@@ -74,15 +74,15 @@ extern void REGPARM2 d7xx_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 lo_read(WORD addr);
 extern void REGPARM2 lo_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 rom64_read(WORD addr);
-extern void REGPARM2 rom64_store(WORD addr, BYTE value);
-
 extern BYTE REGPARM1 basic_read(WORD addr);
 extern void REGPARM2 basic_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 kernal_read(WORD addr);
 extern void REGPARM2 kernal_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 chargen_read(WORD addr);
 extern void REGPARM2 chargen_store(WORD addr, BYTE value);
+
+extern void REGPARM2 colorram_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 colorram_read(WORD addr);
 
 extern BYTE *ram_bank;
 
@@ -91,6 +91,7 @@ extern BYTE mem_kernal_rom[C128_KERNAL_ROM_SIZE];
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 extern BYTE mem_basic64_rom[C128_BASIC64_ROM_SIZE];
 extern BYTE mem_kernal64_rom[C128_KERNAL64_ROM_SIZE];
+extern BYTE mem_kernal64_trap_rom[C128_KERNAL64_ROM_SIZE];
 
 #endif
 
