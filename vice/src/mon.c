@@ -1045,7 +1045,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
    }
 
    if (!found) {
-      fprintf(mon_output, "\"%s\" is not a valid opcode.\n",opcode_name);
+      fprintf(mon_output, "Instruction not valid.\n");
       return -1;
    }
 
@@ -2007,12 +2007,13 @@ void mon_switch_checkpoint(int op, int breakpt_num)
    breakpoint *bp;
    bp = find_checkpoint(breakpt_num);
 
-   if (!bp)
+   if (!bp) {
       fprintf(mon_output,"#%d not a valid breakpoint\n",breakpt_num);
-   else
+   } else {
       bp->enabled = op;
       fprintf(mon_output, "Set breakpoint #%d to state: %s\n",
               breakpt_num, (op == e_ON) ? "enabled" : "disabled");
+   }
 }
 
 void mon_set_ignore_count(int breakpt_num, int count)
