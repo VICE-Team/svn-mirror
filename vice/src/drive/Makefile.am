@@ -1,4 +1,6 @@
 SUBDIRS = \
+	iec \
+	ieee \
 	tcbm
 
 INCLUDES = \
@@ -11,8 +13,6 @@ INCLUDES = \
 noinst_LIBRARIES = libdrive.a
 
 libdrive_a_SOURCES = \
-	cia1571d.c \
-	cia1581d.c \
 	ciad.h \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
@@ -35,9 +35,8 @@ libdrive_a_SOURCES = \
 	drivetypes.h \
 	fdc.h \
 	fdc.c \
-	riot1d.c \
-	riot2d.c \
-	riotd.h \
+	iec.h \
+	ieee.h \
 	tcbm.h \
 	via1d.c \
 	via2d.c \
@@ -45,8 +44,12 @@ libdrive_a_SOURCES = \
 	wd1770.c \
 	wd1770.h
 
-.PHONY: libdrivetcbm
+.PHONY: libdriveiec libdriveieee libdrivetcbm
 
+libdriveiec:
+	(cd iec; $(MAKE))
+libdriveieee:
+	(cd ieee; $(MAKE))
 libdrivetcbm:
 	(cd tcbm; $(MAKE))
 

@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.10.32)
+AM_INIT_AUTOMAKE(vice, 1.10.33)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -1058,6 +1058,8 @@ if false ; then
     mkdir -p crtc
     mkdir -p diskimage
     mkdir -p drive
+    mkdir -p drive/iec
+    mkdir -p drive/ieee
     mkdir -p drive/tcbm
     mkdir -p fsdevice
     mkdir -p gfxoutputdrv
@@ -1132,6 +1134,8 @@ AC_OUTPUT([Makefile
            src/crtc/Makefile
            src/diskimage/Makefile
            src/drive/Makefile
+           src/drive/iec/Makefile
+           src/drive/ieee/Makefile
            src/drive/tcbm/Makefile
            src/fsdevice/Makefile
            src/gfxoutputdrv/Makefile

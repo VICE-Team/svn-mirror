@@ -26,22 +26,55 @@
 
 #include "vice.h"
 
+#include "iec.h"
+#include "ieee.h"
 #include "machine-drive.h"
 
 
 void machine_drive_init(struct drive_context_s *drv)
 {
-
+    iec_drive_init(drv);
+    ieee_drive_init(drv);
 }
 
 void machine_drive_reset(struct drive_context_s *drv)
 {
-
+    iec_drive_reset(drv);
+    ieee_drive_reset(drv);
 }
 
-void machine_drive_mem_init(struct drive_context_s *drv)
+void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 {
+    iec_drive_mem_init(drv, type);
+    ieee_drive_mem_init(drv, type);
+}
 
+void machine_drive_setup_context(struct drive_context_s *drv)
+{
+    iec_drive_setup_context(drv);
+    ieee_drive_setup_context(drv);
+}
+
+int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
+                                struct snapshot_s *s)
+{
+    if (iec_drive_snapshot_read(ctxptr, s) < 0)
+        return -1;
+    if (ieee_drive_snapshot_read(ctxptr, s) < 0)
+        return -1;
+
+    return 0;
+}
+
+int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
+                                 struct snapshot_s *s)
+{
+    if (iec_drive_snapshot_write(ctxptr, s) < 0)
+        return -1;
+    if (ieee_drive_snapshot_write(ctxptr, s) < 0)
+        return -1;
+
+    return 0;
 }
 
 void machine_drive_stub(void)

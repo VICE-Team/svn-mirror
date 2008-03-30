@@ -199,6 +199,8 @@ c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+driveiec_lib = $(top_builddir)/src/drive/iec/libdriveiec.a
+driveieee_lib = $(top_builddir)/src/drive/ieee/libdriveieee.a
 drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
@@ -240,6 +242,8 @@ x64_libs =  \
 	$(c64_lib) \
 	$(c64cart_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
+	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
@@ -259,6 +263,8 @@ x64-all: \
 	libc64 \
 	libc64cart \
 	libdrive \
+	libdriveiec \
+	libdriveieee \
 	libvdrive \
 	libraster \
 	libsid \
@@ -284,6 +290,8 @@ x128_libs =  \
 	$(c64c128_lib) \
 	$(c64cart_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
+	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
@@ -308,6 +316,8 @@ x128-all: \
 	libprinterdrv \
 	librs232drv \
 	libdrive \
+	libdriveiec \
+	libdriveieee \
 	libvdrive \
 	libarch \
 	libsid \
@@ -329,6 +339,8 @@ xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
+	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
@@ -343,6 +355,8 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 .PHONY: xvic-all
 xvic-all: \
 	libdrive \
+	libdriveiec \
+	libdriveieee \
 	libvdrive \
 	libraster \
 	libsounddrv \
@@ -365,6 +379,7 @@ xpet_libs =  \
 	@XPET_WINRES@ \
 	$(pet_lib) \
 	$(drive_lib) \
+	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
@@ -380,6 +395,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	libdrive \
+	libdriveieee \
 	libvdrive \
 	libraster \
 	libcrtc \
@@ -403,6 +419,7 @@ xplus4_libs =  \
 	@XPLUS4_WINRES@ \
 	$(plus4_lib) \
 	$(drive_lib) \
+	$(driveiec_lib) \
 	$(drivetcbm_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
@@ -418,6 +435,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 .PHONY: xplus4-all
 xplus4-all: \
 	libdrive \
+	libdriveiec \
 	libdrivetcbm \
 	libvdrive \
 	libraster \
@@ -441,6 +459,7 @@ xcbm2_libs = \
 	@XCBM2_WINRES@ \
 	$(xcbm2_lib) \
 	$(drive_lib) \
+	$(driveieee_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(sid_lib) \
@@ -466,6 +485,7 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	libdrive \
+	libdriveieee \
 	libvdrive \
 	libraster \
 	libcrtc \
@@ -552,6 +572,8 @@ libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
+libdriveieee:
+	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:
 	(cd drive && $(MAKE) libdrivetcbm)
 libgfxoutputdrv:
