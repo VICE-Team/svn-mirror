@@ -98,7 +98,7 @@ ui_menu_entry_t crtc_submenu[] = {
 #ifdef USE_XF86_EXTENSIONS
     { "--" },
     { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_CrtcFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+      (ui_callback_t)toggle_CrtcFullscreen, NULL, NULL, XK_f, UI_HOTMOD_META },
     { N_("*Double size"),
       (ui_callback_t)toggle_CrtcFullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),

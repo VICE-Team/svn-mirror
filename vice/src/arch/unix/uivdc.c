@@ -105,7 +105,7 @@ ui_menu_entry_t vdc_submenu[] = {
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_VDCFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+      (ui_callback_t)toggle_VDCFullscreen, NULL, NULL, XK_f, UI_HOTMOD_META },
     { N_("*Double size"),
       (ui_callback_t)toggle_VDCFullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),

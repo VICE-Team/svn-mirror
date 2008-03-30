@@ -187,7 +187,7 @@ ui_menu_entry_t ui_c64cart_commands_menu[] = {
     { N_("Detach cartridge image"),
       (ui_callback_t)detach_cartridge, NULL, NULL },
     { N_("Cartridge freeze"),
-      (ui_callback_t)freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
+      (ui_callback_t)freeze_cartridge, NULL, NULL, XK_z, UI_HOTMOD_META },
     { N_("*Cartridge control"),
       (ui_callback_t)control_cartridge,
       (ui_callback_data_t)0, cartridge_control_submenu },
