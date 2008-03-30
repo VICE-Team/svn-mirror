@@ -1,5 +1,4 @@
-
-                              VICE 1.1
+                              VICE 1.2
                               ~~~~~~~~
 
                      MS-DOS specific information
@@ -26,7 +25,8 @@ OVERVIEW
 ========
 
 VICE is a set of advanced emulators for the Commodore PET, CBM-II, 
-VIC20, C64 and C128.  It runs on MS-DOS, Windows 95 and Unix systems.
+VIC20, C64 and C128.  It runs on MS-DOS, MS-Windows, RiscOS, OS/2 and
+Unix systems.
 
 VICE is Free Software, released under the GNU General Public License,
 and you must read the License before using this program.  The License
@@ -580,11 +580,10 @@ too.
 If you want to report bugs, make suggestions or contribute to the
 project, e-mail one of the following people:
 
-  Teemu Rantanen (tvr@cs.hut.fi) for the sound stuff;
+  Andreas Boose <boose@linux.rz.fh-hannover.de> drive, tape and
+  cartridge emulation.
 
-  Andre' Fachat (fachat@physik.tu-chemnitz.de) for the PETs;
-
-  Ettore Perazzoli (ettore@comm2000.it) for everything else.
+  Ettore Perazzoli <ettore@comm2000.it> for everything else.
 
 
 COPYRIGHT

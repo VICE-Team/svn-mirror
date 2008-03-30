@@ -1,12 +1,12 @@
 
-Installation notes for VICE 1.1
+Installation notes for VICE 1.2
 *******************************
 
 
 This version of VICE can be compiled and installed both under
-Unix/X-Window and MS-DOS, and this file explains how this can be done.
-There is currently no documentation how to compile under Win32 and
-RiscOS.
+Unix/X-Window, MS-DOS and MS-Windows, and this file explains how this
+can be done. There is currently no documentation how to compile under
+OS/2 and RiscOS.
 
 1. What you will need
 =====================
@@ -105,6 +105,12 @@ RiscOS.
     Anyway, the current source distribution is only suitable for
     cross-compilation from a Unix system.  This might change in future
     versions.  Help is welcome.
+
+  1.3.MS-Windows 
+  --------------
+
+    There is a separate file `Win32-Howto.txt' in the `doc' directory
+    describing what is required to compile VICE under MS-Windows.
 
 
 2. Configuring and compiling

@@ -1,6 +1,6 @@
 These are the most important known problems with VICE 1.1:
 
-- Some basic features of the VDC are missing (no hardware cursor).
+- Some basic features of the VDC are missing.
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get
