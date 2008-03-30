@@ -50,28 +50,28 @@ static void init_drawing_tables(void)
     BYTE msk;
 
     for (byte = 0; byte < 0x0100; byte++) {
-        *((PIXEL *) (dwg_table2x_0 + byte))
+        *((PIXEL *)(dwg_table2x_0 + byte))
             = *((PIXEL *)(dwg_table2x_0 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x80 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_0 + byte) + 2)
+        *((PIXEL *)(dwg_table2x_0 + byte) + 2)
             = *((PIXEL *)(dwg_table2x_0 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x40 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_1 + byte))
+        *((PIXEL *)(dwg_table2x_1 + byte))
             = *((PIXEL *)(dwg_table2x_1 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x20 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_1 + byte) + 2)
+        *((PIXEL *)(dwg_table2x_1 + byte) + 2)
             = *((PIXEL *)(dwg_table2x_1 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x10 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_2 + byte))
+        *((PIXEL *)(dwg_table2x_2 + byte))
             = *((PIXEL *)(dwg_table2x_2 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x08 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_2 + byte) + 2)
+        *((PIXEL *)(dwg_table2x_2 + byte) + 2)
             = *((PIXEL *)(dwg_table2x_2 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x04 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_3 + byte))
+        *((PIXEL *)(dwg_table2x_3 + byte))
             = *((PIXEL *)(dwg_table2x_3 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x02 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_3 + byte) + 2)
+        *((PIXEL *)(dwg_table2x_3 + byte) + 2)
             = *((PIXEL *)(dwg_table2x_3 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x01 ? 1 : 0);
     }
@@ -118,7 +118,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
     PIXEL *p = crtc.raster.frame_buffer_ptr + (offset & ~3);
     BYTE *chargen_ptr, *screen_ptr;
     int screen_rel;
-    register int i, d;
+    int i, d;
     /* pointer to current chargen line */
     chargen_ptr = crtc.chargen_base
                 + crtc.chargen_rel
@@ -126,11 +126,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
     /* pointer to current screen line */
     screen_ptr = crtc.screen_base;
     screen_rel = ((scr_rel) + (xs));
-/*
-    if (crtc.current_line == 1)
-        printf("xs=%d, xc=%d, xe=%d\n",(xs),(xc),(xe));
-*/
-#if 1 /* CRTC_NEED_HW_CURSOR */
+
     if (crtc.crsrmode && crtc.cursor_lines && crtc.crsrstate) {
         int crsrrel = ((crtc.regs[14] << 8) | crtc.regs[15]) & crtc.vaddr_mask;
 
@@ -151,9 +147,6 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
             *(((PIXEL4 *)p) + i * 2 + 1) = dwg_table_1[d];
         }
     } else {
-#else
-    {
-#endif
         for (i = (xs); i < (xc); i++) {
             /* we use 16 bytes/char character generator */
             d = *(chargen_ptr
@@ -236,7 +229,7 @@ static void draw_reverse_line(void)
 
 #ifndef VIDEO_REMOVE_2X
 static inline void DRAW_2x(int reverse_flag, int offset, int scr_rel,
-                                                        int xs, int xc, int xe)
+                           int xs, int xc, int xe)
 {
     PIXEL *p = crtc.raster.frame_buffer_ptr + (offset);
     BYTE *chargen_ptr, *screen_ptr;
@@ -250,11 +243,7 @@ static inline void DRAW_2x(int reverse_flag, int offset, int scr_rel,
     /* pointer to current screen line */
     screen_ptr = crtc.screen_base;
     screen_rel = ((scr_rel) + (xs));
-/*
-    if (crtc.current_line == 1)
-        printf("xs=%d, xc=%d, xe=%d\n",(xs),(xc),(xe));
-*/
-#if 1 /* CRTC_NEED_HW_CURSOR */
+
     if (crtc.crsrmode && crtc.cursor_lines && crtc.crsrstate) {
         int crsrrel = ((crtc.regs[14] << 8) | crtc.regs[15]) & crtc.vaddr_mask;
 
@@ -277,9 +266,6 @@ static inline void DRAW_2x(int reverse_flag, int offset, int scr_rel,
             *((PIXEL4 *)p + i * 4 + 3) = dwg_table2x_3[d];
         }
     } else {
-#else
-    {
-#endif
         for (i = (xs); i < (xc); i++) {
             /* we use 16 bytes/char character generator */
             d = *(chargen_ptr
