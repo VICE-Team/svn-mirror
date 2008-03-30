@@ -32,7 +32,8 @@
 #include "types.h"
 
 inline static int raster_cache_data_fill_39ff(BYTE *dest,
-                                              const BYTE *src_base,
+                                              const BYTE *src_base_low,
+                                              const BYTE *src_base_high,
                                               int src_cnt,
                                               const unsigned int length,
                                               const int src_step,
@@ -46,15 +47,19 @@ inline static int raster_cache_data_fill_39ff(BYTE *dest,
         *xs = 0;
         *xe = length - 1;
 
-        for (i = 0; i < length; i++, src_cnt += src_step)
-            dest[i] = src_base[src_cnt & 0x19ff];
-
+        for (i = 0; i < length; i++, src_cnt += src_step) {
+            if (src_cnt & 0x1000)
+                dest[i] = src_base_high[src_cnt & 0x9ff];
+            else
+                dest[i] = src_base_low[src_cnt & 0x9ff];
+        }
         return 1;
     } else {
         unsigned int x = 0, i;
 
-        for (i = 0; i < length && dest[i] == src_base[src_cnt & 0x19ff];
-            i++, src_cnt += src_step)
+        for (i = 0; i < length
+            && dest[i] == ((src_cnt & 0x1000) ? src_base_high[src_cnt & 0x9ff]
+            : src_base_low[src_cnt & 0x9ff]); i++, src_cnt += src_step)
             /* do nothing */ ;
 
         if (i < length) {
@@ -62,8 +67,14 @@ inline static int raster_cache_data_fill_39ff(BYTE *dest,
                 *xs = i;
 
             for (; i < length; i++, src_cnt += src_step) {
-                if (dest[i] != src_base[src_cnt & 0x19ff]) {
-                    dest[i] = src_base[src_cnt & 0x19ff];
+                BYTE bmval;
+                if (src_cnt & 0x1000)
+                    bmval = src_base_high[src_cnt & 0x9ff];
+                else
+                    bmval = src_base_low[src_cnt & 0x9ff];
+
+                if (dest[i] != bmval) {
+                    dest[i] = bmval;
                     x = i;
                 }
             }
