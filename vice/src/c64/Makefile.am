@@ -47,7 +47,9 @@ libc64c128_a_SOURCES = \
 	patchrom.c \
 	patchrom.h \
 	c64tpi.c \
-	c64tpi.h
+	c64tpi.h \
+	reu.c \
+	reu.h
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
