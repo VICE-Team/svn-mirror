@@ -1,3 +1,29 @@
+2002-09-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.2.
+
+	* raster/raster-sprite-status.c,
+	raster/raster-sprite-status.h: Added sprite cache function
+	support.
+
+	* vicii/vicii-sprites.c (update_cached_sprite_collisions): New
+	function.  (update_for_minor_changes_with_sprites,
+	update_for_minor_changes_without_sprites): Call new function.
+
+	* vicii/vicii-draw.c: Removed sprite collision kludge.
+
+	* c128/c128mem.c (d5xx_read, d5xx_store): New functions.
+	(mem_initialize_memory): MMU is not available in C64 mode.
+	(d7xx_read): Return VIC-II phi1 value.
+
+	* c128/c128mmu.c (mmu_read): Return `0xff' for unused
+	registers.
+
+2002-09-02  Robert W <hydrofilic@hotmail.com>
+
+	* c128/c128mmu.c (mmu_reset, mmu_read): Added support for MMU
+	ID register.
+
 2002-09-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.1.

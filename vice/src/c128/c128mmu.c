@@ -49,7 +49,7 @@
 /* #define MMU_DEBUG */
 
 /* MMU register.  */
-static BYTE mmu[11];
+static BYTE mmu[12];
 
 /* Memory configuration.  */
 static int chargen_in;
@@ -181,7 +181,7 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
     log_message(mmu_log, "MMU READ $%x.", addr);
 #endif
 
-    if (addr < 0xb) {
+    if (addr < 0xc) {
         if (addr == 5) {
             /* 0x80 = 40/80 key released.  */
             return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0)
@@ -190,7 +190,7 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
             return mmu[addr];
         }
     } else {
-        return 0xf;
+        return 0xff;
     }
 }
 
@@ -304,6 +304,7 @@ void mmu_init(void)
     set_column4080_key((resource_value_t)mmu_column4080_key, NULL);
 
     mmu[5] = 0;
+    mmu[11] = (C128_RAM_SIZE >> 12) /* # of 64k banks */ | 2 /* MMU revision */;
 }
 
 void mmu_reset(void)
