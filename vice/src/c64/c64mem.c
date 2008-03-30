@@ -38,6 +38,7 @@
 #include "c64mem.h"
 #include "c64meminit.h"
 #include "c64memlimit.h"
+#include "c64memrom.h"
 #include "c64pla.h"
 #include "cart/c64cartmem.h"
 #include "cartridge.h"
@@ -73,9 +74,6 @@ unsigned int mem_old_reg_pc;
 
 /* The C64 memory.  */
 BYTE mem_ram[C64_RAM_SIZE];
-BYTE mem_basic64_rom[C64_BASIC_ROM_SIZE];
-BYTE mem_kernal64_rom[C64_KERNAL_ROM_SIZE];
-BYTE mem_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
 BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
@@ -489,22 +487,6 @@ void mem_set_tape_sense(int sense)
     mem_pla_config_changed();
 }
 
-/* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
-/* @SRT FIXME: Is this used anywhere?
-void mem_toggle_reu(int flag)
-{
-    reu_enabled = flag;
-}
-*/
-
-#if 0
-/* Enable/disable the Emulator ID.  */
-void mem_toggle_emu_id(int flag)
-{
-    emu_id_enabled = flag;
-}
-#endif
-
 void mem_set_bank_pointer(BYTE **base, int *limit)
 {
     bank_base = base;
@@ -575,8 +557,6 @@ void REGPARM2 store_bank_io(WORD addr, BYTE byte)
         break;
       case 0xd400:
       case 0xd500:
-        sid_store(addr, byte);
-        break;
       case 0xd600:
       case 0xd700:
         sid_store(addr, byte);
@@ -711,13 +691,13 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
         }
       case 2:                   /* rom */
         if (addr >= 0xa000 && addr <= 0xbfff) {
-            return mem_basic64_rom[addr & 0x1fff];
+            return c64memrom_basic64_rom[addr & 0x1fff];
         }
         if (addr >= 0xd000 && addr <= 0xdfff) {
             return mem_chargen_rom[addr & 0x0fff];
         }
         if (addr >= 0xe000) {
-            return mem_kernal64_rom[addr & 0x1fff];
+            return c64memrom_kernal64_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
         break;
