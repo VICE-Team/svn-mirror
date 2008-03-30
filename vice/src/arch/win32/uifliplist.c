@@ -30,15 +30,17 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "archdep.h"
 #include "fliplist.h"
 #include "lib.h"
+#include "res.h"
 #include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "util.h"
 
 
-void uifliplist_load_dialog(HWND hwnd)
+static void uifliplist_load_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
@@ -55,7 +57,7 @@ void uifliplist_load_dialog(HWND hwnd)
     }
 }
 
-void uifliplist_save_dialog(HWND hwnd)
+static void uifliplist_save_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
@@ -71,6 +73,42 @@ void uifliplist_save_dialog(HWND hwnd)
             ui_error("Cannot write flip list file");
         system_wcstombs_free(name);
         lib_free(st_name);
+    }
+}
+
+void uifliplist_save_settings(void)
+{
+    char *fname = archdep_default_fliplist_file_name();
+
+    flip_save_list((unsigned int) -1, fname);
+    lib_free(fname);
+}
+
+void uifliplist_command(HWND hwnd, WPARAM wparam)
+{
+    switch (wparam) {
+      case IDM_FLIP_ADD | 0x00010000:
+      case IDM_FLIP_ADD:
+        flip_add_image(8);
+        break;
+      case IDM_FLIP_REMOVE | 0x00010000:
+      case IDM_FLIP_REMOVE:
+        flip_remove(8, NULL);
+        break;
+      case IDM_FLIP_NEXT | 0x00010000:
+      case IDM_FLIP_NEXT:
+        flip_attach_head(8, 1);
+        break;
+      case IDM_FLIP_PREVIOUS | 0x00010000:
+      case IDM_FLIP_PREVIOUS:
+        flip_attach_head(8, 0);
+        break;
+      case IDM_FLIP_LOAD:
+        uifliplist_load_dialog(hwnd);
+        break;
+      case IDM_FLIP_SAVE:
+        uifliplist_save_dialog(hwnd);
+        break;
     }
 }
 

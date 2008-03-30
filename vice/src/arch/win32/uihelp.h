@@ -28,7 +28,7 @@
 #ifndef _UIHELP_H
 #define _UIHELP_H
 
-extern void ui_help_dialog(HWND hwnd, WPARAM wparam);
+extern void uihelp_dialog(HWND hwnd, WPARAM wparam);
 
 #endif
 

@@ -27,7 +27,7 @@
 #ifndef _UIDATASETTE_H
 #define _UIDATASETTE_H
 
-void ui_datasette_settings_dialog(HWND hwnd);
+extern void uidatasette_command(HWND hwnd, WPARAM wparam);
 
 #endif
 

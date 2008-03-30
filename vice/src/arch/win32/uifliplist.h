@@ -27,8 +27,8 @@
 #ifndef _UIFLIPLIST_H
 #define _UIFLIPLIST_H
 
-extern void uifliplist_load_dialog(HWND hwnd);
-extern void uifliplist_save_dialog(HWND hwnd);
+extern void uifliplist_command(HWND hwnd, WPARAM wparam);
+extern void uifliplist_save_settings(void);
 
 #endif
 

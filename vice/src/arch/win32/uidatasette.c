@@ -84,7 +84,20 @@ static void init_datasette_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
-
+static void end_datasette_dialog(HWND hwnd)
+{
+    resources_set_value("DatasetteResetWithCPU", (resource_value_t)
+                        (IsDlgButtonChecked
+                        (hwnd, IDC_DATASETTE_RESET_WITH_CPU) == BST_CHECKED ?
+                        1 : 0 ));
+    resources_set_value("DatasetteSpeedTuning",
+                        (resource_value_t)
+                        SendDlgItemMessage(hwnd, IDC_DATASETTE_SPEED_TUNING,
+                        CB_GETCURSEL, 0, 0));
+    resources_set_value("DatasetteZeroGapDelay", (resource_value_t)
+                        ui_datasette_zero_gap_delay[SendDlgItemMessage(hwnd,
+                        IDC_DATASETTE_ZERO_GAP_DELAY, CB_GETCURSEL, 0, 0)]);
+}
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
@@ -96,17 +109,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command=LOWORD(wparam);
         switch (command) {
           case IDOK:
-            resources_set_value("DatasetteResetWithCPU", (resource_value_t)
-                (IsDlgButtonChecked
-                (hwnd,IDC_DATASETTE_RESET_WITH_CPU) == BST_CHECKED ?
-                1 : 0 ));
-            resources_set_value("DatasetteSpeedTuning",
-                (resource_value_t)
-                SendDlgItemMessage(hwnd, IDC_DATASETTE_SPEED_TUNING,
-                                   CB_GETCURSEL, 0, 0));
-            resources_set_value("DatasetteZeroGapDelay", (resource_value_t)
-                ui_datasette_zero_gap_delay[SendDlgItemMessage(hwnd,
-                IDC_DATASETTE_ZERO_GAP_DELAY, CB_GETCURSEL, 0, 0)]);
+            end_datasette_dialog(hwnd);
           case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;
@@ -124,9 +127,39 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 }
 
 
-void ui_datasette_settings_dialog(HWND hwnd)
+static void uidatasette_settings_dialog(HWND hwnd)
 {
     DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_DATASETTE_SETTINGS_DIALOG),
               hwnd, dialog_proc);
+}
+
+void uidatasette_command(HWND hwnd, WPARAM wparam)
+{
+    switch (wparam) {
+      case IDM_DATASETTE_SETTINGS:
+        uidatasette_settings_dialog(hwnd);
+        break;
+      case IDM_DATASETTE_CONTROL_STOP:
+        datasette_control(DATASETTE_CONTROL_STOP);
+        break;
+      case IDM_DATASETTE_CONTROL_START:
+        datasette_control(DATASETTE_CONTROL_START);
+        break;
+      case IDM_DATASETTE_CONTROL_FORWARD:
+        datasette_control(DATASETTE_CONTROL_FORWARD);
+        break;
+      case IDM_DATASETTE_CONTROL_REWIND:
+        datasette_control(DATASETTE_CONTROL_REWIND);
+        break;
+      case IDM_DATASETTE_CONTROL_RECORD:
+        datasette_control(DATASETTE_CONTROL_RECORD);
+        break;
+      case IDM_DATASETTE_CONTROL_RESET:
+        datasette_control(DATASETTE_CONTROL_RESET);
+        break;
+      case IDM_DATASETTE_RESET_COUNTER:
+        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
+        break;
+    }
 }
 

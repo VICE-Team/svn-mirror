@@ -73,7 +73,7 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
     return FALSE;
 }
 
-void ui_help_dialog(HWND hwnd, WPARAM wparam)
+void uihelp_dialog(HWND hwnd, WPARAM wparam)
 {
     char *fname;
     char *dname;
