@@ -1,4 +1,167 @@
+1998-12-21  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.40.
+
+1998-12-20  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uicommands.c (toggle_pause): Rewrote by means of
+ 	`ui_pause_emulation()' and `ui_emulation_is_paused()'.
+	(load_snapshot): Use a trap IFF the emulation is not paused.
+	(activate_monitor): Likewise.
+
+	* arch/unix/xaw/ui.c (ui_pause_emulation): New function; pause
+	mode is now achieved through a trap, so that registers are
+	exported first.
+	(ui_emulation_is_paused): New function.
+	(pause_trap): Trap for pause mode.
+
+	* vdrive-iec.h: #include "vdrive.h".
+
+	* c1541.h: Removed.
+
+	* vdrive.c (vdrive_command_set_error): `message' made const.
+	(floppy_parse_name): Local variable `p' made const.
+
+	* serial.c (serial_attach_device): `char *' argument of `openf'
+ 	pointer made const.  All the `*_open' functions updated
+ 	accordingly.
+
+	* arch/msdos/menudefs.c: Do not #include "tapeunit.h" anymore.
+
+	* arch/msdos/archdep.c: #include <conio.h>.
+
+	* arch/unix/xaw/uicommands.c (pause_trap): New CPU trap to pause
+ 	the emulation.
+	(toggle_pause): Trigger `pause_trap' instead of running the event
+ 	loop yourself.  This way CPU registers are exported before
+	entering pause mode.
+
+	* arch/unix/xaw/c64icon.xpm (icon_data): Made const.
+	* arch/unix/xaw/c128icon.xpm (icon_data): Likewise.
+	* arch/unix/xaw/vic20icon.xpm (icon_data): Likewise.
+	* arch/unix/xaw/peticon.xpm (icon_data): Likewise.
+	* arch/unix/xaw/c610icon.xpm (icon_data): Likewise.
+
+	* arch/unix/xaw/uicommands.c (run_c1541): Close sound.
+
+	* main.c (replace_hexcodes): New function to replace `$xx'
+	substrings into the corresponding hex codes.
+	(MAIN_PROGRAM): Replace hex codes in the program name, if any.
+
+	* c64/c64mem.c (pla_config_changed): Applied André's patch to fix
+	the MMUFETCH test of Wolfgang's test suite.  Somebody should check 
+	this on a real C64.
+
+1998-12-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* zfile.c (try_uncompress_zipcode): Changed to new c1541
+	interface.
+
+	* c1541.c (zcreate_cmd): Rewrote file name handling as the old one
+	could not cope with path names.
+
+	* arch/unix/joystick.c, arch/unix/kbd.c, arch/unix/kbd.h,
+	arch/unix/kmap.c, arch/unix/petkmap.c, arch/unix/xaw/uimenu.h,
+	arch/unix/xaw/uisettings.c, autostart.c, c1541.c, c1541.h,
+	charsets.c, charsets.h, fsdevice.c, fsdevice.h, imagecontents.c,
+	kbdbuf.c, kbdbuf.h, mon.c, parallel.c, petcat.c, rsuser.h,
+	serial.c, serial.h, sid.c, vdrive-iec.c, vdrive-iec.h, vdrive.c,
+	vdrive.h, warn.c, warn.h, zfile.c: Added missing `const' to text
+	variables and added proper type casting.
+
+	* arch/unix/joystick.h: Removed unused external declaration of
+	`ajoyfd' and `djoyfd'.
+
+	* arch/unix/petkmap.c (set_keymap_file): Use `kmap_index' instead
+	of `index'.
+
+	* arch/unix/xaw/c610ui.c: #include "vsync.h".
+
+	* arch/unix/xaw/checkmark.xbm: `checkmark_bits' has to be
+	unsigned char as values above 0x7f exceed range of char.
+	* arch/unix/xaw/right_arrow.xbm: Changed likewise.
+	* arch/unix/xaw/uimenu.c: Changed likewise.
+
+	* arch/unix/xaw/uisettings.c: Removed unused defines `SidFilters'
+	and `SidModel'.
+
+	* autostart.c: #include "tape.h".
+
+	* cbm2/c610mem.c: Removed unused variables `byte' and `flag'.
+
+	* interrupt.c: Removed unused variable `i' and `b'.
+
+	* prdevice.c (fn): Added parameter `void'.
+	* serial.c (fn, serialcommand): Likewise.
+
+	* snapshot.c: Removed unused variable `start_pos'.
+
+	* tape.c (fn): Removed unused function declaration.
+
+1998-12-20  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sounddrv/soundfs.c (fs_init): Do not stralloc `param' anymore:
+ 	this was an unnecessary memory leak.
+	* sounddrv/sounddump.c (dump_init): Likewise.
+
+	* sound.h (sound_device_t): Parameter `device' changed into
+	`param' and made const.  All the `*_init()' sound driver functions 
+	updated accordingly.
+
+1998-12-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* drive/wd1770.c (wd1770d0_prevent_clk_overflow):
+	Handle overflows of the `drq' timer.
+	(wd1770d1_prevent_clk_overflow): Likewise.
+	(read_wd1770): Emulate `drq' bit of the wd1770 controller.
+	(reset_wd1770): Reset `drq' timer too.
+	(wd1770_command_seek): Set `drq' bit after completion of the seek
+	command.  Updated logging messages.
+	(wd1770_job_code_read, wd1770_job_code_write): Made static.
+
+	* drive/wd1770.h: Added new member `set_drq' to `wd1770_t'.
+
+	* arch/unix/xaw/c610ui.c: Include the correct icon.
+
+	* arch/unix/xaw/widgets/FileSel.c 
+	(XfwfFileSelectorChangeDirectory): Made directory name const.
+
+	* c64/cartridge.c (cartridge_set_default): Added parathensis for
+	proper type casting.
+
+	* cia-tmpl.c (my_set_tbi_clk): Use `tbi_clk' instead of `clk'.
+	(my_set_tai_clk): Changed likewise.
+
+	* crtc-tmpl.c: Changed name of `min' and `max' macros as they clash
+	with mingw32 defines.
+
+	* drive/drive.c (drive_set_pal_sync_factor): Use `new_sync_factor'
+	instead of `sync_factor'.
+	(drive_set_ntsc_sync_factor): Changed likewise.
+	(drive_set_1571_sync_factor): Changed likewise.
+
+	* mon.c, mon.h (mon_cmd_get_token, mon_cmd_get_next_state): Use
+	`mon_index' instead of `index'.
+
+	* raster.c (open_output_window): Made `win_name' const.
+
+	* snapshot.c, snapshot.h (snapshot_create, snapshot_open): Use
+	`snapshot_machine_name' instead of `machine_name'.
+
+	* sound.h (sound_device_t): Made member `*name' const.
+
+	* sounddrv/sounddump.c (dump_init): Copy filename to `param' as
+	this pointer is not const.
+	* sounddrv/soundfs.c (fs_init): Changed likewise.
+
+1998-12-15  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* zfile.c (try_uncompress_lynx): Free all the allocated elements
+	in the `argv[]' array.
+
 1998-12-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.39.
 
 	* petcat.c: Added prototypes for static functions.  #include
  	"p00.h".
@@ -33,8 +196,6 @@
 
 	* arch/win32/video.c (canvas_refresh): Speeds up 8 and 16 bit
  	screencopy. Handling of clip lists are implemented.
-
-1998-12-15  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.38.
 
