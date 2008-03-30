@@ -79,7 +79,7 @@ struct sound_s
 };
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int *delta_t)
+                                    int interleave, int *delta_t)
 {
     int i;
     DWORD o0, o1, o2, o3;
@@ -100,20 +100,27 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
         o2 = (psid->v[2].f & 0x80000000) >> 2;
         o3 = (DWORD)NVALUE(NSHIFT(psid->v[3].rv, psid->v[3].f >> 28)) << 22;
         /* sample */
-        pbuf[i] = ((SDWORD)((o0+o1+o2+o3)>>20)-0x800)*psid->vol;
+        pbuf[i*interleave] = ((SDWORD)((o0+o1+o2+o3)>>20)-0x800)*psid->vol;
     }
     return 0;
 }
 
 
 /* SID initialization routine */
-sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
+sound_t *sound_machine_open(int chipno)
 {
-    DWORD i;
     sound_t *psid;
 
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(psid));
+
+    return psid;
+}
+
+int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    DWORD i;
+
     psid->speed1 = (cycles_per_sec << 8) / speed;
     psid->v[3].rv = NSEED;
     for (i = 0; i < NOISETABLESIZE; i++)
@@ -126,7 +133,8 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
     }
     for (i = 0; i < 16; i++)
         sound_machine_store(psid, (ADDRESS)i, siddata[i]);
-    return psid;
+
+    return 1;
 }
 
 void sound_machine_close(sound_t *psid)
@@ -141,10 +149,6 @@ void vic_sound_reset(void)
         store_vic_sound(i, 0);
 
     sound_reset();
-}
-
-void sound_machine_init(void)
-{
 }
 
 

@@ -36,16 +36,17 @@ void REGPARM2 sid_store(ADDRESS address, BYTE byte);
 void REGPARM2 sid2_store(ADDRESS address, BYTE byte);
 void sid_reset(void);
 
-extern BYTE siddata[];
+extern BYTE siddata[SOUND_CHANNELS_MAX][32];
 
 struct sid_engine_s {
-    sound_t* (*open)(int speed, int cycles_per_sec, BYTE *sidstate);
+    sound_t* (*open)(BYTE *sidstate);
+    int (*init)(sound_t *psid, int speed, int cycles_per_sec);
     void (*close)(sound_t *psid);
     BYTE (*read)(sound_t *psid, ADDRESS addr);
     void (*store)(sound_t *psid, ADDRESS addr, BYTE val);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);
     int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr,
-			     int *delta_t);
+			     int interleave, int *delta_t);
     void (*prevent_clk_overflow)(sound_t *psid, CLOCK sub);
     char* (*dump_state)(sound_t *psid);
 };

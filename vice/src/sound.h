@@ -34,6 +34,7 @@
 
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050
+#define SOUND_CHANNELS_MAX 2
 
 #ifdef __MSDOS__
 # define SOUND_SAMPLE_BUFFER_SIZE       100     /* ms */
@@ -45,9 +46,10 @@
 # define SOUND_SAMPLE_BUFFER_SIZE       350
 #endif
 
-/* I need this to serialize close_sound and enablesound/initsid in
+/* I need this to serialize close_sound and enablesound/sound_open in
    the OS/2 Multithreaded environment                              */
 extern int sound_state_changed;
+extern int sid_state_changed;
 
 /* device structure */
 typedef struct sound_device_s
@@ -60,7 +62,7 @@ typedef struct sound_device_s
     int (*init)(const char *param,
         int *speed,
         int *fragsize, int *fragnr,
-        int *stereo);
+        int *channels);
     /* send number of bytes to the soundcard. it is assumed to block if kernel
        buffer is full */
     int (*write)(SWORD *pbuf, size_t nr);
@@ -139,12 +141,12 @@ extern void sound_store(ADDRESS addr, BYTE val, int chipno);
 extern long sound_sample_position(void);
 
 /* functions and structs implemented by each machine */
-extern void sound_machine_init(void);
 typedef struct sound_s sound_t;
-extern sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno);
+extern sound_t *sound_machine_open(int chipno);
+extern int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void sound_machine_close(sound_t *psid);
 extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                           int *delta_t);
+					   int interleave, int *delta_t);
 extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
 extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
 extern char *sound_machine_dump_state(sound_t *psid);

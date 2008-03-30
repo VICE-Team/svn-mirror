@@ -73,7 +73,7 @@ static WORD pet_makesample(double s, double e, BYTE sample)
 }
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-				    int *delta_t)
+				    int interleave, int *delta_t)
 {
     int				 i;
     WORD			 v = 0;
@@ -82,7 +82,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
     {
 	if (psid->on)
 	    v = pet_makesample(psid->b, psid->b + psid->bs, psid->sample);
-	pbuf[i] = v;
+	pbuf[i*interleave] = v;
 	psid->b += psid->bs;
 	while (psid->b >= 8.0)
 	    psid->b -= 8.0;
@@ -90,17 +90,20 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
     return 0;
 }
 
-void sound_machine_init(void)
-{
-}
-
-sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
+sound_t *sound_machine_open(int chipno)
 {
     sound_t *psid;
-    ADDRESS i;
 
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(psid));
+
+    return psid;
+}
+
+int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    ADDRESS i;
+
     psid->speed = speed;
     psid->cycles_per_sec = cycles_per_sec;
     if (!psid->t)
@@ -116,7 +119,7 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
     for (i = 0; i < 4; i++)
 	sound_machine_store(psid, i, snddata[i]);
 
-    return psid;
+    return 1;
 }
 
 void sound_machine_close(sound_t *psid)

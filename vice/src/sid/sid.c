@@ -49,8 +49,7 @@ static sid_engine_t sid_engine;
 /* read register value from sid */
 static BYTE lastsidread;
 /* register data */
-BYTE siddata[32];
-BYTE siddata2[32];
+BYTE siddata[SOUND_CHANNELS_MAX][32];
 
 BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 {
@@ -98,9 +97,8 @@ BYTE REGPARM1 sid2_read(ADDRESS addr)
 /* write register value to sid */
 void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
 {
-    BYTE *state = chipno ? siddata2 : siddata;
     addr &= 0x1f;
-    state[addr] = byte;
+    siddata[chipno][addr] = byte;
 
     machine_handle_pending_alarms(rmw_flag + 1);
     if (rmw_flag)
@@ -126,17 +124,12 @@ void sid_reset(void)
 {
     sound_reset();
 
-    memset(siddata, 0, 32);
-    memset(siddata2, 0, 32);
+    memset(siddata, 0, sizeof(siddata));
 }
 
 
 
-void sound_machine_init(void)
-{
-}
-
-sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
+sound_t *sound_machine_open(int chipno)
 {
 #ifdef HAVE_RESID
     int useresid;
@@ -148,7 +141,12 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec, int chipno)
     else
 #endif
         sid_engine = fastsid_hooks;
-    return sid_engine.open(speed, cycles_per_sec, chipno ? siddata2 : siddata);
+    return sid_engine.open(siddata[chipno]);
+}
+
+int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    return sid_engine.init(psid, speed, cycles_per_sec);
 }
 
 void sound_machine_close(sound_t *psid)
@@ -172,9 +170,9 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 }
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-				    int *delta_t)
+				    int interleave, int *delta_t)
 {
-    return sid_engine.calculate_samples(psid, pbuf, nr, delta_t);
+    return sid_engine.calculate_samples(psid, pbuf, nr, interleave, delta_t);
 }
 
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)

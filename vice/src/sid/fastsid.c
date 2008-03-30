@@ -644,7 +644,7 @@ inline static void setup_voice(voice_t *pv)
 }
 
 int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-			  int *delta_t)
+			      int interleave, int *delta_t)
 {
     register DWORD		o0, o1, o2;
     register int		dosync1, dosync2, i;
@@ -732,7 +732,8 @@ int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 	    o2 = ((DWORD)(v2->filtIO) + 0x80) << (7 + 15);
 	}
 
-        pbuf[i] = ((SDWORD)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol;
+        pbuf[i*interleave] =
+	  ((SDWORD)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol;
     }
     return nr;
 }
@@ -805,15 +806,21 @@ static void init_filter(sound_t *psid, int freq)
 }
 
 /* SID initialization routine */
-sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
+sound_t *fastsid_open(BYTE *sidstate)
 {
-    DWORD i;
     sound_t *psid;
-    int sid_model;
 
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(*psid));
     memcpy(psid->d, sidstate, 32);
+    return psid;
+}
+
+int fastsid_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    DWORD i;
+    int sid_model;
+
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
@@ -825,8 +832,7 @@ sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
     if (resources_get_value("SidFilters",
         (resource_value_t *)&(psid->emulatefilter)) < 0)
     {
-	free(psid);
-	return NULL;
+	return 0;
     }
 
     init_filter(psid, speed);
@@ -847,8 +853,7 @@ sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
     }
 #ifdef WAVETABLES
     if (resources_get_value("SidModel", (resource_value_t *)&sid_model) < 0) {
-	free(psid);
-	return NULL;
+	return 0;
     }
 
     psid->newsid = sid_model == 1;
@@ -879,7 +884,8 @@ sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
     }
     for (i = 0; i < 9; i++)
         sidreadclocks[i] = 13;
-    return psid;
+
+    return 1;
 }
 
 void fastsid_close(sound_t *psid)
@@ -1004,6 +1010,7 @@ void fastsid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 sid_engine_t fastsid_hooks =
 {
     fastsid_open,
+    fastsid_init,
     fastsid_close,
     fastsid_read,
     fastsid_store,

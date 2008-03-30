@@ -43,10 +43,23 @@ struct sound_s
     SID	sid;
 };
 
-sound_t *resid_open(int speed, int cycles_per_sec, BYTE *sidstate)
+
+sound_t *resid_open(BYTE *sidstate)
 {
     sound_t *psid;
     int	i;
+
+    psid = new sound_t;
+
+    for (i = 0x00; i <= 0x18; i++) {
+	psid->sid.write(i, sidstate[i]);
+    }
+
+    return psid;
+}
+
+int resid_init(sound_t *psid, int speed, int cycles_per_sec)
+{
     sampling_method method;
     char method_text[100];
     double passband;
@@ -54,22 +67,20 @@ sound_t *resid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 
     if (resources_get_value("SidFilters",
         (resource_value_t *)&filters_enabled) < 0)
-        return NULL;
+        return 0;
 
     if (resources_get_value("SidModel", (resource_value_t *)&model) < 0)
-        return NULL;
+        return 0;
 
     if (resources_get_value("SidResidSampling",
         (resource_value_t *)&sampling) < 0)
-        return NULL;
+        return 0;
 
     if (resources_get_value("SidResidPassband",
         (resource_value_t *)&passband_percentage) < 0)
-        return NULL;
+        return 0;
 
     passband = speed * passband_percentage / 200.0;
-
-    psid = new sound_t;
 
     psid->sid.set_chip_model(model == 0 ? MOS6581 : MOS8580);
     psid->sid.enable_filter(filters_enabled);
@@ -95,8 +106,7 @@ sound_t *resid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 					   speed, passband)) {
         log_warning(LOG_DEFAULT,
                     "reSID: Out of spec, increase sampling rate or decrease maximum speed");
-	delete psid;
-	return NULL;
+	return 0;
     }
 
     log_message(LOG_DEFAULT, "reSID: %s, filter %s, sampling rate %dHz - %s",
@@ -104,11 +114,7 @@ sound_t *resid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 		filters_enabled ? "on" : "off",
 		speed, method_text);
 
-    for (i = 0x00; i <= 0x18; i++) {
-	psid->sid.write(i, sidstate[i]);
-    }
-
-    return psid;
+    return 1;
 }
 
 void resid_close(sound_t *psid)
@@ -132,9 +138,9 @@ void resid_reset(sound_t *psid, CLOCK cpu_clk)
 }
 
 int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-			    int *delta_t)
+			    int interleave, int *delta_t)
 {
-    return psid->sid.clock(*delta_t, pbuf, nr);
+    return psid->sid.clock(*delta_t, pbuf, nr, interleave);
 }
 
 void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
@@ -150,6 +156,7 @@ char *resid_dump_state(sound_t *psid)
 sid_engine_t resid_hooks =
 {
     resid_open,
+    resid_init,
     resid_close,
     resid_read,
     resid_store,

@@ -49,7 +49,7 @@ int sid_stereo;
 static int set_sid_filters_enabled(resource_value_t v, void *param)
 {
     sid_filters_enabled = (int)v;
-    sound_state_changed = 1;
+    sid_state_changed = 1;
     return 0;
 }
 
@@ -63,7 +63,7 @@ static int set_sid_stereo(resource_value_t v, void *param)
 static int set_sid_model(resource_value_t v, void *param)
 {
     sid_model = (int)v;
-    sound_state_changed = 1;
+    sid_state_changed = 1;
     return 0;
 }
 
@@ -77,7 +77,7 @@ static int set_sid_useresid(resource_value_t v, void *param)
 static int set_sid_resid_sampling(resource_value_t v, void *param)
 {
     sid_resid_sampling = (int)v;
-    sound_state_changed = 1;
+    sid_state_changed = 1;
     return 0;
 }
 
@@ -93,7 +93,7 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
     }
 
     sid_resid_passband = i;
-    sound_state_changed = 1;
+    sid_state_changed = 1;
     return 0;
 }
 
