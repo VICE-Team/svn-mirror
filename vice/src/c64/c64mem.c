@@ -44,6 +44,7 @@
 #include "drive.h"
 #include "emuid.h"
 #include "interrupt.h"
+#include "log.h"
 #include "maincpu.h"
 #include "memutils.h"
 #include "mon.h"
@@ -366,6 +367,9 @@ int ultimax = 0;
 
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
+
+/* Logging goes here.  */
+static log_t c64_mem_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -732,6 +736,9 @@ void initialize_memory(void)
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
 
+    if (c64_mem_log != LOG_ERR)
+        c64_mem_log = log_open("C64MEM");
+        
     /* Default is RAM.  */
     for (i = 0; i <= 0xff; i++) {
         mem_read_tab_watch[i] = read_watch;
@@ -938,10 +945,6 @@ void mem_powerup(void)
 {
     int i;
 
-#ifndef __MSDOS__
-    fprintf(logfile, "Initializing RAM for power-up...\n");
-#endif
-
 #ifdef AVOID_STATIC_ARRAYS
     if (!ram)
     {
@@ -983,8 +986,8 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
                           kernal_rom, C64_KERNAL_ROM_SIZE,
                           C64_KERNAL_ROM_SIZE) < 0) {
-        fprintf(errfile, "Couldn't load kernal ROM `%s'.\n",
-                kernal_rom_name);
+        log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
+                  kernal_rom_name);
         return -1;
     }
     /* Check Kernal ROM.  */
@@ -993,7 +996,7 @@ int mem_load(void)
 
     id = read_rom(0xff80);
 
-    fprintf(logfile, "Kernal rev #%d.\n", id);
+    log_message(c64_mem_log, "Kernal rev #%d.", id);
 
     if ((id == 0
          && sum != C64_KERNAL_CHECKSUM_R00)
@@ -1004,9 +1007,9 @@ int mem_load(void)
             && sum != C64_KERNAL_CHECKSUM_R43)
         || (id == 0x64
             && sum != C64_KERNAL_CHECKSUM_R64)) {
-        fprintf(errfile,
-                "Warning: Unknown Kernal image `%s'.  Sum: %d ($%04X)\n",
-                kernal_rom_name, sum, sum);
+        log_warning(c64_mem_log,
+                    "Warning: Unknown Kernal image `%s'.  Sum: %d ($%04X).",
+                    kernal_rom_name, sum, sum);
     } else if (kernal_revision != NULL) {
         if (patch_rom(kernal_revision) < 0)
             return -1;
@@ -1015,8 +1018,9 @@ int mem_load(void)
     if (mem_load_sys_file(basic_rom_name,
                           basic_rom, C64_BASIC_ROM_SIZE,
                           C64_BASIC_ROM_SIZE) < 0) {
-        fprintf(errfile, "Couldn't load basic ROM `%s'.\n",
-                basic_rom_name);
+        log_error(c64_mem_log,
+                  "Couldn't load basic ROM `%s'.",
+                  basic_rom_name);
         return -1;
     }
     /* Check Basic ROM.  */
@@ -1025,17 +1029,17 @@ int mem_load(void)
         sum += basic_rom[i];
 
     if (sum != C64_BASIC_CHECKSUM)
-        fprintf(errfile,
-                "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
-                basic_rom_name, sum, sum);
+        log_warning(c64_mem_log,
+                    "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X).",
+                    basic_rom_name, sum, sum);
 
     /* Load chargen ROM.  */
 
     if (mem_load_sys_file(chargen_rom_name,
                           chargen_rom, C64_CHARGEN_ROM_SIZE,
                           C64_CHARGEN_ROM_SIZE) < 0) {
-        fprintf(errfile, "Couldn't load character ROM `%s'.\n",
-                chargen_rom_name);
+        log_error(c64_mem_log, "Couldn't load character ROM `%s'.",
+                  chargen_rom_name);
         return -1;
     }
     rom_loaded = 1;
@@ -1461,10 +1465,10 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     }
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        fprintf(errfile,
-                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                major_version, minor_version,
-                SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+        log_error(c64_mem_log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  major_version, minor_version,
+                  SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
         goto fail;
     }
 
@@ -1561,10 +1565,10 @@ int mem_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(errfile,
-                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
+        log_error(c64_mem_log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  major_version, minor_version,
+                  SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 
