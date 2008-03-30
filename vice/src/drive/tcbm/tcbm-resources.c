@@ -31,6 +31,7 @@
 #include "driverom.h"
 #include "resources.h"
 #include "tcbm-resources.h"
+#include "tcbmrom.h"
 #include "utils.h"
 
 
@@ -42,7 +43,7 @@ static int set_dos_rom_name_1551(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1551, (const char *)v))
         return 0;
 
-    return drive_rom_load_1551();
+    return tcbmrom_load_1551();
 }
 
 static resource_t resources[] = {

@@ -32,6 +32,7 @@
 #include "drivemem.h"
 #include "driverom.h"
 #include "iec-resources.h"
+#include "iecrom.h"
 #include "resources.h"
 #include "utils.h"
 
@@ -47,7 +48,7 @@ static int set_dos_rom_name_1541(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1541, (const char *)v))
         return 0;
 
-    return drive_rom_load_1541();
+    return iecrom_load_1541();
 }
 
 static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
@@ -55,7 +56,7 @@ static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1541ii, (const char *)v))
         return 0;
 
-    return drive_rom_load_1541ii();
+    return iecrom_load_1541ii();
 }
 
 static int set_dos_rom_name_1571(resource_value_t v, void *param)
@@ -63,7 +64,7 @@ static int set_dos_rom_name_1571(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1571, (const char *)v))
         return 0;
 
-    return drive_rom_load_1571();
+    return iecrom_load_1571();
 }
 
 static int set_dos_rom_name_1581(resource_value_t v, void *param)
@@ -71,7 +72,7 @@ static int set_dos_rom_name_1581(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1581, (const char *)v))
         return 0;
 
-    return drive_rom_load_1581();
+    return iecrom_load_1581();
 }
 
 static void set_drive_ram(unsigned int dnr)

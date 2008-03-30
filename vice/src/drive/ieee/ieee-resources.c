@@ -30,6 +30,7 @@
 
 #include "driverom.h"
 #include "ieee-resources.h"
+#include "ieeerom.h"
 #include "resources.h"
 #include "utils.h"
 
@@ -46,7 +47,7 @@ static int set_dos_rom_name_2040(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_2040, (const char *)v))
         return 0;
 
-    return drive_rom_load_2040();
+    return ieeerom_load_2040();
 }
 
 static int set_dos_rom_name_3040(resource_value_t v, void *param)
@@ -54,7 +55,7 @@ static int set_dos_rom_name_3040(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_3040, (const char *)v))
         return 0;
 
-    return drive_rom_load_3040();
+    return ieeerom_load_3040();
 }
 
 static int set_dos_rom_name_4040(resource_value_t v, void *param)
@@ -62,7 +63,7 @@ static int set_dos_rom_name_4040(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_4040, (const char *)v))
         return 0;
 
-    return drive_rom_load_4040();
+    return ieeerom_load_4040();
 }
 
 static int set_dos_rom_name_1001(resource_value_t v, void *param)
@@ -70,7 +71,7 @@ static int set_dos_rom_name_1001(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1001, (const char *)v))
         return 0;
 
-    return drive_rom_load_1001();
+    return ieeerom_load_1001();
 }
 
 static int set_dos_rom_name_2031(resource_value_t v, void *param)
@@ -78,7 +79,7 @@ static int set_dos_rom_name_2031(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_2031, (const char *)v))
         return 0;
 
-    return drive_rom_load_2031();
+    return ieeerom_load_2031();
 }
 
 static resource_t resources[] = {
