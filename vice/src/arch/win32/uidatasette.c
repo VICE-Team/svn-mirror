@@ -95,10 +95,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
         case WM_COMMAND:
             command=LOWORD(wparam);
             switch (command) {
-                case IDC_CANCEL:
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
                 case IDOK:
                     resources_set_value("DatasetteResetWithCPU", (resource_value_t)
                         (IsDlgButtonChecked
@@ -109,6 +105,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
                         hwnd,IDC_DATASETTE_SPEED_TUNING),CB_GETCURSEL,0,0));
                     resources_set_value("DatasetteZeroGapDelay",(resource_value_t)
                         ui_datasette_zero_gap_delay[SendMessage(GetDlgItem(hwnd,IDC_DATASETTE_ZERO_GAP_DELAY),CB_GETCURSEL,0,0)]);
+                case IDCANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;
             }
