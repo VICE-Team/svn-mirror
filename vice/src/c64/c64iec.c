@@ -33,10 +33,10 @@
 #include "viad.h"
 #include "types.h"
 #include "iecdrive.h"
-#include "true1541.h"
+#include "drive.h"
 #include "c64cia.h"
 
-static iec_info_t iec_info;
+iec_info_t iec_info; /* FIXME: Make static again */
 
 static BYTE iec_old_atn = 0x10;
 
@@ -45,8 +45,10 @@ static BYTE parallel_cable_drive_value = 0xff;
 
 inline static void update_ports(void)
 {
-    iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus;
-    iec_info.drive_port = (((iec_info.cpu_port >> 4) & 0x4)
+    iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
+                          & iec_info.drive2_bus;
+    iec_info.drive_port = iec_info.drive2_port = (((iec_info.cpu_port >> 4)
+          & 0x4)
                            | (iec_info.cpu_port >> 7)
                            | ((iec_info.cpu_bus << 3) & 0x80));
 }
@@ -71,12 +73,15 @@ BYTE iec_drive_read(void)
 
 void iec_cpu_write(BYTE data)
 {
-    if (!true1541_enabled) {
+    if (!drive_enabled[0] && !drive_enabled[1]) {
 	iec_info.iec_fast_1541 = data;
 	return;
     }
 
-    true1541_cpu_execute();
+    if (drive_enabled[0])
+	drive0_cpu_execute();
+    if (drive_enabled[1])
+	drive1_cpu_execute();
 
     iec_info.cpu_bus = (((data << 2) & 0x80)
                         | ((data << 2) & 0x40)
@@ -84,23 +89,35 @@ void iec_cpu_write(BYTE data)
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
 	iec_old_atn = iec_info.cpu_bus & 0x10;
-	viaD1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	if (drive_enabled[0])
+	    via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	if (drive_enabled[1])
+	    via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
     }
-
-    iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+    if (drive_enabled[0])
+	iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                           | ((iec_info.drive_data << 6)
                              & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
                              & 0x80));
+
+    if (drive_enabled[1])
+	iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+         | ((iec_info.drive2_data << 6)
+            & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
+            & 0x80));
 
     update_ports();
 }
 
 BYTE iec_cpu_read(void)
 {
-    if (!true1541_enabled)
+    if (!drive_enabled[0] && !drive_enabled[1])
 	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
-    true1541_cpu_execute();
+    if (drive_enabled[0])
+	drive0_cpu_execute();
+    if (drive_enabled[1])
+	drive1_cpu_execute();
     return iec_info.cpu_port;
 }
 
@@ -125,23 +142,31 @@ BYTE parallel_cable_drive_read(int handshake)
 
 void parallel_cable_cpu_write(BYTE data, int handshake)
 {
-    if (!true1541_enabled)
+    if (!drive_enabled[0] && !drive_enabled[1])
         return;
 
-    true1541_cpu_execute();
-    if (handshake)
-	viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    if (drive_enabled[0])
+	drive0_cpu_execute();
+    if (drive_enabled[1])
+	drive1_cpu_execute();
+    if (handshake) {
+	via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+	via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    }
     parallel_cable_cpu_value = data;
 }
 
 BYTE parallel_cable_cpu_read(void)
 {
-    if (!true1541_enabled)
+    if (!drive_enabled[0] && !drive_enabled[1])
         return 0;
 
-    true1541_cpu_execute();
-    viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    if (drive_enabled[0])
+    drive0_cpu_execute();
+    if (drive_enabled[1])
+    drive1_cpu_execute();
+    via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     return parallel_cable_cpu_value & parallel_cable_drive_value;
 }
-
 

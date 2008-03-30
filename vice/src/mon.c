@@ -55,7 +55,7 @@
 #include "interrupt.h"
 #include "resources.h"
 #include "vsync.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "mon_parse.h"
 #include "utils.h"
 

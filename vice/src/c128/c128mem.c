@@ -38,7 +38,7 @@
 #include <stdio.h>
 
 #include "vmachine.h"
-#include "true1541.h"
+#include "drive.h"
 #include "c128mem.h"
 #include "resources.h"
 #include "cmdline.h"

@@ -29,7 +29,7 @@
 #define _ATTACH_H
 
 #include "types.h"
-#include "drive.h"
+#include "vdrive.h"
 
 int file_system_init_resources(void);
 void file_system_init(void);

@@ -268,7 +268,7 @@ int c128_ui_init(void)
                                      ui_video_settings_menu,
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
-                                     ui_true1541_settings_menu,
+                                     ui_drive_settings_menu,
                                      ui_peripheral_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,

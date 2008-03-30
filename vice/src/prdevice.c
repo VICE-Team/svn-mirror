@@ -34,7 +34,7 @@
 
 #include "resources.h"
 #include "cmdline.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "file.h"
 #include "charsets.h"
 #include "utils.h"

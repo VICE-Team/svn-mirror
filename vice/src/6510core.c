@@ -47,7 +47,7 @@
 #if defined __1541__
 #define LOCAL_SET_OVERFLOW(val)			\
     do {					\
-        if (!(val)) true1541_set_byte_ready(0);	\
+        if (!(val)) _drive_set_byte_ready(0);	\
         ((val) ? (reg_p |= P_OVERFLOW)		\
          : (reg_p &= ~P_OVERFLOW));		\
     } while (0)
@@ -1496,7 +1496,7 @@
             BYTE hi = p2 >> 8;
 
             printf("1541: .%04X\t%ld\t%s\n",
-                   reg_pc, (long)true1541_clk,
+                   reg_pc, (long)drive_clk[0],
                    sprint_disassembled(reg_pc, op, lo, hi, 1));
         }
 #else
@@ -1546,7 +1546,7 @@
 
         case 0x08:                      /* PHP */
 #ifdef __1541__
-            if (true1541_byte_ready())
+            if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
 #endif
             PHP();
@@ -1840,7 +1840,7 @@
 #ifndef __1541__
             BRANCH(!LOCAL_OVERFLOW(), p1);
 #else
-            if (true1541_byte_ready())
+            if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
             BRANCH(!LOCAL_OVERFLOW(), p1);
 #endif
@@ -1976,7 +1976,7 @@
 #ifndef __1541__
             BRANCH(LOCAL_OVERFLOW(), p1);
 #else
-            if (true1541_byte_ready())
+            if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
             BRANCH(LOCAL_OVERFLOW(), p1);
 #endif

@@ -1,0 +1,95 @@
+/* -*- C -*-
+ *
+ * cia1571drive0.def - Definitions for the MOS6526 (CIA) chip in the 1571
+ * disk drive ($4000).
+ *
+ * Written by
+ *   Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ * */
+
+
+#define mycpu drive0
+
+#define myclk drive_clk[0]
+
+#define mycia cia1571d0
+
+#define MYCIA CIA1571D0
+
+#define READ_SDR
+
+#define STORE_SDR
+
+/* #define CIA1571D0_TIMER_DEBUG */
+
+#define	cia1571d0_set_int_clk		drive0_set_irq_clk
+#define	CIA1571D0_INT			IK_IRQ
+
+INCLUDES()
+{
+#include "drive.h"
+#include "ciad.h"
+}
+
+PRE_CIA_FUNCS()
+{
+
+}
+
+RESET_CIA()
+{
+
+}
+
+#define PRE_STORE_CIA
+#define PRE_READ_CIA
+#define PRE_PEEK_CIA
+
+STORE_CIAPA()
+{
+
+}
+
+STORE_CIAPB()
+{
+
+}
+
+READ_CIAPA()
+{
+
+}
+
+READ_CIAPB()
+{
+
+}
+
+READ_CIAICR()
+{
+
+}
+
+POST_CIA_FUNCS()
+{
+
+}
+

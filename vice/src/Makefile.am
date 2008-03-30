@@ -9,7 +9,7 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = sounddrv true1541 c64 c128 vic20 pet arch
+SUBDIRS = sounddrv drive c64 c128 vic20 pet arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -33,7 +33,6 @@ noinst_HEADERS = \
 	cmdline.h \
 	config.h.in \
 	emuid.h \
-	drive.h \
 	file.h \
 	findpath.h \
 	fs_cbm.h \
@@ -68,6 +67,7 @@ noinst_HEADERS = \
 	traps.h \
 	types.h \
 	utils.h \
+	vdrive.h \
 	via.h \
 	vice.h \
 	vmachine.h \
@@ -81,7 +81,6 @@ base_sources = \
 	autostart.c \
 	charsets.c \
 	cmdline.c \
-	drive.c \
 	emuid.c \
 	findpath.c \
 	fsdevice.c \
@@ -105,6 +104,7 @@ base_sources = \
 	tapeunit.c \
 	traps.c \
 	utils.c \
+	vdrive.c \
 	warn.c \
 	zfile.c \
 	zipcode.c
@@ -122,6 +122,7 @@ EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
 	ChangeLog.1 \
+	ChangeLog.2 \
 	acia-tmpl.c \
 	cia-tmpl.c \
 	convio \
@@ -133,7 +134,7 @@ EXTRA_DIST = \
 BUILT_SOURCES = mon_parse.h mon_parse.c
 
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
-true1541_lib = $(top_builddir)/src/true1541/libtrue1541.a
+drive_lib = $(top_builddir)/src/drive/libdrive.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -145,33 +146,33 @@ bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
+x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(printer_ldadd) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
         @X_LIBS@ $(READLINE) -lm
-x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) \
 	$(printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
-x64-all: libc64 libsounddrv libtrue1541 libarch x64
+x64-all: libc64 libsounddrv libdrive libarch x64
 
 # x128
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
+x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
 	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
 	@SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(printer_ldadd) $(true1541_lib) @ALLOCA@ @LIBOBJS@ \
+	$(printer_ldadd) $(drive_lib) @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libtrue1541 libarch x128
+x128-all: libc128 libc64c128 libsounddrv libdrive libarch x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
+xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
-xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
+xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
 	$(printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xvic-all
-xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
+xvic-all: libvic20 libsounddrv libdrive libarch xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -186,7 +187,7 @@ xpet-all: libpet libsounddrv libarch xpet
 c1541_SOURCES = \
 	c1541.c \
 	charsets.c \
-	drive.c \
+	vdrive.c \
 	gcr.c \
 	mshell.c \
 	tape.c \
@@ -207,7 +208,7 @@ petcat_SOURCES = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libtrue1541 libsounddrv
+.PHONY: libc64 libc128 libvic20 libpet libdrive libsounddrv
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -219,8 +220,8 @@ libvic20:
 	(cd vic20 && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
-libtrue1541:
-	(cd true1541 && $(MAKE))
+libdrive:
+	(cd drive && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
 libarch:

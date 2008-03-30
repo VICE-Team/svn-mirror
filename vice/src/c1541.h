@@ -33,7 +33,7 @@
 #ifndef _C1541_H
 #define _C1541_H
 
-#include "drive.h"
+#include "vdrive.h"
 
 extern int  ip_execute ( DRIVE *floppy, BYTE *buf, int length );
 extern int  do_validate ( DRIVE *floppy );

@@ -36,7 +36,6 @@
 #include "autostart.h"
 
 #include "attach.h"
-#include "drive.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
 #include "mem.h"
@@ -45,6 +44,7 @@
 #include "tape.h"
 #include "ui.h"
 #include "utils.h"
+#include "vdrive.h"
 #include "vmachine.h"
 #include "warn.h"
 
@@ -121,7 +121,7 @@ static enum { YES, NO, NOT_YET } check(const char *s)
 
 static void set_true1541_mode(int on)
 {
-    resources_set_value("True1541", (resource_value_t) on);
+    resources_set_value("Drive8", (resource_value_t) on);
     ui_update_menus();
 }
 
@@ -129,7 +129,7 @@ static int get_true1541_state(void)
 {
     int value;
 
-    if (resources_get_value("True1541", (resource_value_t *) & value) < 0)
+    if (resources_get_value("Drive8", (resource_value_t *) & value) < 0)
 	return 0;
 
     return value;

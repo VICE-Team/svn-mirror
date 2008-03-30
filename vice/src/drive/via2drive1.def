@@ -1,0 +1,139 @@
+/* -*- C -*-
+ *
+ * via2drive1.def - Definitions for the VIA2 emulation in the 1541 disk drive.
+ *
+ * Written by
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+
+#define mycpu drive1
+
+#define myclk drive_clk[1]
+
+#define myrmwf drive1_rmw_flag
+
+#define myvia via2d1
+
+#define MYVIA VIA2D1
+
+INCLUDES()
+{
+    #include "drive.h"
+    #include "viad.h"
+}
+
+#define	GLOBALS
+
+#define	via_set_int		drive1_set_irq
+#define	VIA2D1_INT		IK_IRQ
+
+/* #define VIA2D1_TIMER_DEBUG */
+
+PRE_VIA_FUNCS()
+{
+}
+
+STORE_PRA()
+{
+	via2d1[addr] = byte;
+	drive_write_gcr(via2d1[VIA_PRA] | ~via2d1[VIA_DDRA], 1);
+}
+
+STORE_PRB()
+{
+	{
+	  BYTE oldval = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];
+
+	  via2d1[addr] = byte;
+	  byte = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];	/* newval */
+
+	  drive[1].led_status = byte & 8;
+
+	  if (((oldval ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
+	  {
+	    if ((oldval & 0x3) == ((byte + 1) & 0x3))
+              drive_move_head(-1, 1);
+            else if ((oldval & 0x3) == ((byte - 1) & 0x3))
+              drive_move_head(+1, 1);
+	  }
+	  if ((oldval ^ byte) & 0x60)     /* Zone bits */
+	      drive_update_zone_bits((byte >> 5) & 0x3, 1);
+
+	  if ((oldval ^ byte) & 0x04)     /* Motor on/off */
+	      drive_motor_control(byte & 0x04, 1);
+	}
+}
+
+STORE_PCR()
+{
+        if(byte != via2d1[VIA_PCR]) {
+          register BYTE tmp = byte;
+          /* first set bit 1 and 5 to the real output values */
+          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
+          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+          /* insert_your_favourite_drive_function_here(tmp);
+	     bit 5 is the write output to the analog circuitry:
+	     0 = writing, 0x20 = reading */
+	     drive_update_viad2_pcr(tmp, 1);
+          if ((byte&0x20) != (via2d1[addr]&0x20)) {
+             drive_rotate_disk(0, 1);
+             drive_rotate_disk(1, 1);
+          }
+          byte = tmp;
+        }
+}
+
+#define	STORE_ACR
+
+#define	STORE_SR
+
+#define	STORE_T2L
+
+#define	RESET_VIA
+
+READ_PRA()
+{
+    {
+        BYTE tmp;
+
+        tmp = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
+            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA]));
+        if (drive[1].type == DRIVE_TYPE_1571)
+            if (drive_byte_ready(1))
+                drive_set_byte_ready(0, 1);
+        return tmp;
+    }
+}
+
+READ_PRB()
+{
+	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB]);
+}
+
+#define POST_VIA_FUNCS
+
+

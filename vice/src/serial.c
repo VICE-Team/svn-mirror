@@ -54,7 +54,7 @@
 #include "parallel.h"
 #include "utils.h"
 
-#include "drive.h"
+#include "vdrive.h"
 #include "tape.h"
 #include "tapeunit.h"
 

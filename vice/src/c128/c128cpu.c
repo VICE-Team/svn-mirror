@@ -47,7 +47,7 @@
 #include "mon.h"
 #include "c128mem.h"
 #include "misc.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "6510core.h"
 
 #include "interrupt.h"

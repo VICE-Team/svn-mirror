@@ -44,18 +44,18 @@
 #include "ui.h"
 
 /* FIXME: Argh!!  Megakludge!  <dir.h> #defines `DRIVE', which we need in
-   "drive.h".  */
+   "vdrive.h".  */
 #undef DRIVE
 
 #include "attach.h"
 #include "autostart.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "fsdevice.h"
 #include "info.h"
 #include "machine.h"
 #include "serial.h"
 #include "tapeunit.h"
-#include "true1541.h"
+#include "drive.h"
 #include "utils.h"
 #include "video.h"
 

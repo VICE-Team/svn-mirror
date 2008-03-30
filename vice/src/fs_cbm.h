@@ -48,7 +48,7 @@
 
 
 #include "serial.h"	/* for DT_1541 */
-#include "drive.h"
+#include "vdrive.h"
 
 
 #define BUFFER_NOT_IN_USE		0

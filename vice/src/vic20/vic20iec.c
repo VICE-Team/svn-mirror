@@ -30,7 +30,7 @@
 #include "types.h"
 #include "iecdrive.h"
 #include "resources.h"
-#include "true1541.h"
+#include "drive.h"
 #include "viad.h"
 
 #define NOT(x) ((x)^1)
@@ -49,7 +49,7 @@ inline void resolve_bus_signals(void)
 
 #if BUS_DBG
     printf("SB: [%ld]  data:%d clock:%d atn:%d\n",
-	   true1541_clk, bus_data, bus_clock, bus_atn);
+	   drive_clk[0], bus_data, bus_clock, bus_atn);
 #endif
 }
 
@@ -93,10 +93,11 @@ BYTE iec_drive_read(void)
 BYTE iec_pa_read(void)
 
 {
-    if (!true1541_enabled)
+    if (!drive_enabled[0])
 	return 0;
 
-    true1541_cpu_execute();
+    drive0_cpu_execute();
+/*  drive1_cpu_execute(); */
 
     cpu_bus_val = (bus_data << 1) | (bus_clock << 0) | (bus_atn << 7);
 
@@ -107,16 +108,17 @@ void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!true1541_enabled)
+    if (!drive_enabled[0])
 	return;
 
-    true1541_cpu_execute();
+    drive0_cpu_execute();
+/*  drive1_cpu_execute(); */
 
     if ((cpu_atn == 0) && (data & 128))
-	set_atn(1);
+	via1d0_set_atn(1);
 
     if (!(data & 128))
-	set_atn(0);
+	via1d0_set_atn(0);
 
     cpu_atn = ((data & 128) >> 7);
     drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
@@ -137,10 +139,11 @@ void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!true1541_enabled)
+    if (!drive_enabled[0])
 	return;
 
-    true1541_cpu_execute();
+    drive0_cpu_execute();
+/*  drive1_cpu_execute(); */
 
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);

@@ -4,7 +4,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/true1541
+	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libvic20.a
 

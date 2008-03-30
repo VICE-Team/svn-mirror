@@ -43,6 +43,9 @@ typedef struct {
     BYTE drive_bus;
     BYTE drive_port;
     BYTE drive_data;
+    BYTE drive2_bus;
+    BYTE drive2_port;
+    BYTE drive2_data;
     BYTE cpu_bus;
     BYTE cpu_port;
     BYTE iec_fast_1541;

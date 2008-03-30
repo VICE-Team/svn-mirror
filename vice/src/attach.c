@@ -26,7 +26,7 @@
 
 #include "vice.h"
 #include "resources.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "attach.h"
 
 static int file_system_device_enabled[4];

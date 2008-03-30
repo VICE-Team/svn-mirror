@@ -28,11 +28,11 @@
 
 #include <stdio.h>
 
-#include "1541cpu.h"
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -41,7 +41,6 @@
 #include "resources.h"
 #include "tapeunit.h"
 #include "traps.h"
-#include "true1541.h"
 #include "vic.h"
 #include "vic20.h"
 #include "vic20mem.h"
@@ -158,7 +157,7 @@ int machine_init_resources(void)
         || pruser_init_resources() < 0
 #endif
         || kbd_init_resources() < 0
-        || true1541_init_resources() < 0
+        || drive_init_resources() < 0
 	|| cartridge_init_resources() <0)
         return -1;
 
@@ -180,7 +179,7 @@ int machine_init_cmdline_options(void)
         || pruser_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
-        || true1541_init_cmdline_options() < 0
+        || drive_init_cmdline_options() < 0
 	|| cartridge_init_cmdline_options() < 0)
         return -1;
 
@@ -199,12 +198,13 @@ int machine_init(void)
     traps_init();
 
     /* Initialize serial traps.  If user does not want them, or if the
-       ``true1541'' emulation is used, do not install them.  */
+       ``drive'' emulation is used, do not install them.  */
     serial_init(vic20_serial_traps);
 
     /* Initialize drives, and attach true 1541 emulation hooks to
        drive 8 (which is the only true 1541-capable device).  */
-    file_system_set_hooks(8, true1541_attach_floppy, true1541_detach_floppy);
+    file_system_set_hooks(8, drive_attach_floppy, drive_detach_floppy);
+    file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
 
 #ifdef HAVE_PRINTER
@@ -217,7 +217,7 @@ int machine_init(void)
               0x277, 0xc6);
 
     /* Fire up the hardware-level 1541 emulation. */
-    true1541_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
+    drive_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
     autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1,
@@ -236,7 +236,7 @@ int machine_init(void)
 #endif
 
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
+    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(VIC20_PAL_RFSH_PER_SEC, VIC20_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -269,7 +269,7 @@ void machine_reset(void)
     reset_via1();
     reset_via2();
 
-    true1541_reset();
+    drive_reset();
 
     sound_reset();
 
@@ -297,7 +297,7 @@ static void vsync_hook(void)
 {
     CLOCK sub;
 
-    true1541_vsync_hook();
+    drive_vsync_hook();
 
     autostart_advance();
 
@@ -315,7 +315,9 @@ static void vsync_hook(void)
 
     /* The 1541 has to deal both with our overflowing and its own one, so it
        is called even when there is no overflowing in the main CPU.  */
-    true1541_prevent_clk_overflow(sub);
+    /* FIXME: Do we have to check drive_enabled here?  */
+    drive_prevent_clk_overflow(sub, 0);
+    drive_prevent_clk_overflow(sub, 1);
 
 #ifdef HAS_JOYSTICK
     joystick();

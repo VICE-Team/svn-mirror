@@ -38,7 +38,7 @@
 #include <ctype.h>
 #include <unistd.h>
 
-#include "drive.h"
+#include "vdrive.h"
 #include "tape.h"
 #include "zfile.h"
 #include "utils.h"

@@ -55,7 +55,7 @@
 #include <errno.h>
 
 #include "resources.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "file.h"
 #include "charsets.h"
 #include "tape.h"

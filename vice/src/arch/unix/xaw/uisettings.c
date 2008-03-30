@@ -42,7 +42,7 @@
 #include "kbd.h"
 #include "resources.h"
 #include "sound.h"
-#include "true1541.h"
+#include "drive.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
@@ -501,34 +501,35 @@ ui_menu_entry_t rs232_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-/* True 1541 support items.  */
+/* Drive emulation support items.  */
 
-UI_MENU_DEFINE_TOGGLE(True1541)
+UI_MENU_DEFINE_TOGGLE(Drive8)
+UI_MENU_DEFINE_TOGGLE(Drive9)
 
-UI_MENU_DEFINE_TOGGLE(True1541ParallelCable)
+UI_MENU_DEFINE_TOGGLE(DriveParallelCable)
 
-static UI_CALLBACK(set_custom_true1541_sync_factor)
+static UI_CALLBACK(set_custom_drive_sync_factor)
 {
     static char input_string[256];
     char msg_string[256];
     ui_button_t button;
     int sync_factor;
 
-    resources_get_value("True1541SyncFactor",
+    resources_get_value("DriveSyncFactor",
                         (resource_value_t *) &sync_factor);
     if (!*input_string)
 	sprintf(input_string, "%d", sync_factor);
 
     if (call_data) {
-	if (sync_factor != TRUE1541_SYNC_PAL
-            && sync_factor != TRUE1541_SYNC_NTSC)
+	if (sync_factor != DRIVE_SYNC_PAL
+            && sync_factor != DRIVE_SYNC_NTSC)
 	    ui_menu_set_tick(w, 1);
 	else
 	    ui_menu_set_tick(w, 0);
     } else {
 	suspend_speed_eval();
 	sprintf(msg_string, "Enter factor (PAL %d, NTSC %d)",
-		TRUE1541_SYNC_PAL, TRUE1541_SYNC_NTSC);
+		DRIVE_SYNC_PAL, DRIVE_SYNC_NTSC);
 	button = ui_input_string("1541 Sync Factor", msg_string, input_string,
 				 256);
 	if (button == UI_BUTTON_OK) {
@@ -536,7 +537,7 @@ static UI_CALLBACK(set_custom_true1541_sync_factor)
 
 	    v = atoi(input_string);
 	    if (v != sync_factor) {
-                resources_set_value("True1541SyncFactor",
+                resources_set_value("DriveSyncFactor",
                                     (resource_value_t) v);
 		ui_update_menus();
 	    }
@@ -544,11 +545,12 @@ static UI_CALLBACK(set_custom_true1541_sync_factor)
     }
 }
 
-UI_MENU_DEFINE_RADIO(True1541ExtendImagePolicy)
-
-UI_MENU_DEFINE_RADIO(True1541SyncFactor)
-
-UI_MENU_DEFINE_RADIO(True1541IdleMethod)
+UI_MENU_DEFINE_RADIO(Drive8Type)
+UI_MENU_DEFINE_RADIO(Drive9Type)
+UI_MENU_DEFINE_RADIO(DriveExtendImagePolicy)
+UI_MENU_DEFINE_RADIO(DriveSyncFactor)
+UI_MENU_DEFINE_RADIO(Drive8IdleMethod)
+UI_MENU_DEFINE_RADIO(Drive9IdleMethod)
 
 /* ------------------------------------------------------------------------- */
 
@@ -666,33 +668,63 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_true1541_extend_image_policy_submenu[] = {
-    { "*Never extend", (ui_callback_t) radio_True1541ExtendImagePolicy,
-      (ui_callback_data_t) TRUE1541_EXTEND_NEVER, NULL },
-    { "*Ask on extend", (ui_callback_t) radio_True1541ExtendImagePolicy,
-      (ui_callback_data_t) TRUE1541_EXTEND_ASK, NULL },
-    { "*Extend on access", (ui_callback_t) radio_True1541ExtendImagePolicy,
-      (ui_callback_data_t) TRUE1541_EXTEND_ACCESS, NULL },
+static ui_menu_entry_t set_drive8_type_submenu[] = {
+    { "*1541", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_1541, NULL },
+    { "*1571", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
+    { "*1581", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
     { NULL }
 };
 
-static ui_menu_entry_t set_true1541_sync_factor_submenu[] = {
-    { "*PAL", (ui_callback_t) radio_True1541SyncFactor,
-      (ui_callback_data_t) TRUE1541_SYNC_PAL, NULL },
-    { "*NTSC", (ui_callback_t) radio_True1541SyncFactor,
-      (ui_callback_data_t) TRUE1541_SYNC_NTSC, NULL },
-    { "*Custom...", (ui_callback_t) set_custom_true1541_sync_factor,
+static ui_menu_entry_t set_drive9_type_submenu[] = {
+    { "*1541", (ui_callback_t) radio_Drive9Type,
+      (ui_callback_data_t) DRIVE_TYPE_1541, NULL },
+    { "*1571", (ui_callback_t) radio_Drive9Type,
+      (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
+    { "*1581", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive_extend_image_policy_submenu[] = {
+    { "*Never extend", (ui_callback_t) radio_DriveExtendImagePolicy,
+      (ui_callback_data_t) DRIVE_EXTEND_NEVER, NULL },
+    { "*Ask on extend", (ui_callback_t) radio_DriveExtendImagePolicy,
+      (ui_callback_data_t) DRIVE_EXTEND_ASK, NULL },
+    { "*Extend on access", (ui_callback_t) radio_DriveExtendImagePolicy,
+      (ui_callback_data_t) DRIVE_EXTEND_ACCESS, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive_sync_factor_submenu[] = {
+    { "*PAL", (ui_callback_t) radio_DriveSyncFactor,
+      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
+    { "*NTSC", (ui_callback_t) radio_DriveSyncFactor,
+      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+    { "*Custom...", (ui_callback_t) set_custom_drive_sync_factor,
       NULL, NULL },
     { NULL }
 };
 
-static ui_menu_entry_t set_true1541_idle_method_submenu[] = {
-    { "*No traps", (ui_callback_t) radio_True1541IdleMethod,
-      (ui_callback_data_t) TRUE1541_IDLE_NO_IDLE, NULL },
-    { "*Skip cycles", (ui_callback_t) radio_True1541IdleMethod,
-      (ui_callback_data_t) TRUE1541_IDLE_SKIP_CYCLES, NULL },
-    { "*Trap idle", (ui_callback_t) radio_True1541IdleMethod,
-      (ui_callback_data_t) TRUE1541_IDLE_TRAP_IDLE, NULL },
+static ui_menu_entry_t set_drive0_idle_method_submenu[] = {
+    { "*No traps", (ui_callback_t) radio_Drive8IdleMethod,
+      (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
+    { "*Skip cycles", (ui_callback_t) radio_Drive8IdleMethod,
+      (ui_callback_data_t) DRIVE_IDLE_SKIP_CYCLES, NULL },
+    { "*Trap idle", (ui_callback_t) radio_Drive8IdleMethod,
+      (ui_callback_data_t) DRIVE_IDLE_TRAP_IDLE, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive1_idle_method_submenu[] = {
+    { "*No traps", (ui_callback_t) radio_Drive9IdleMethod,
+      (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
+    { "*Skip cycles", (ui_callback_t) radio_Drive9IdleMethod,
+      (ui_callback_data_t) DRIVE_IDLE_SKIP_CYCLES, NULL },
+    { "*Trap idle", (ui_callback_t) radio_Drive9IdleMethod,
+      (ui_callback_data_t) DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };
 
@@ -960,19 +992,32 @@ static ui_menu_entry_t peripheral_settings_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t true1541_settings_submenu[] = {
-    { "*Enable true 1541 emulation",
-      (ui_callback_t) toggle_True1541, NULL, NULL },
-    { "*Enable parallel cable",
-      (ui_callback_t) toggle_True1541ParallelCable, NULL, NULL },
+static ui_menu_entry_t drive_settings_submenu[] = {
+    { "*Enable true emulation of drive #8",
+      (ui_callback_t) toggle_Drive8, NULL, NULL },
+    { "*Enable true emulation of drive #9",
+      (ui_callback_t) toggle_Drive9, NULL, NULL },
     { "--" },
-    { "True 1541 sync factor",
-      NULL, NULL, set_true1541_sync_factor_submenu },
-    { "True 1541 idle method",
-      NULL, NULL, set_true1541_idle_method_submenu },
+    { "Drive #8 floppy disk type",
+      NULL, NULL, set_drive8_type_submenu },
+    { "*Drive #8 enable parallel cable",
+      (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
+    { "Drive #8 40-track image support",
+      NULL, NULL, set_drive_extend_image_policy_submenu },
+    { "Drive #8 idle method",
+      NULL, NULL, set_drive0_idle_method_submenu },
     { "--" },
-    { "40-track image support",
-      NULL, NULL, set_true1541_extend_image_policy_submenu },
+    { "Drive #9 floppy disk type",
+      NULL, NULL, set_drive9_type_submenu },
+    { "*Drive #9 enable parallel cable",
+      (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
+    { "Drive #9 40-track image support",
+      NULL, NULL, set_drive_extend_image_policy_submenu },
+    { "Drive #9 idle method",
+      NULL, NULL, set_drive1_idle_method_submenu },
+    { "--" },
+    { "Drive sync factor",
+      NULL, NULL, set_drive_sync_factor_submenu },
     { NULL }
 };
 
@@ -1018,9 +1063,9 @@ ui_menu_entry_t ui_sound_settings_menu[] = {
     { NULL }
 };
 
-ui_menu_entry_t ui_true1541_settings_menu[] = {
-    { "1541 settings",
-      NULL, NULL, true1541_settings_submenu },
+ui_menu_entry_t ui_drive_settings_menu[] = {
+    { "Drive settings",
+      NULL, NULL, drive_settings_submenu },
     { NULL }
 };
 

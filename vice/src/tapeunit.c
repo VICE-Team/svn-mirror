@@ -51,7 +51,7 @@
 #include "maincpu.h"
 #include "serial.h"
 #include "file.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "tape.h"
 #include "c1541.h"
 #include "traps.h"

@@ -42,6 +42,7 @@
 #include "vsync.h"
 
 #include "cmdline.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -49,7 +50,6 @@
 #include "resources.h"
 #include "sid.h"
 #include "sound.h"
-#include "true1541.h"
 #include "ui.h"
 #include "vmachine.h"
 #include "vmidas.h"

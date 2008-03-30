@@ -1,0 +1,121 @@
+/* -*- C -*-
+ *
+ * cia1581drive1.def - Definitions for the MOS6526 (CIA) chip in the 1581
+ * disk drive ($4000).  Notice that the real 1581 uses a 8520 CIA.
+ *
+ * Written by
+ *   Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ * */
+
+
+#define mycpu drive1
+
+#define myclk drive_clk[1]
+
+#define mycia cia1581d1
+
+#define MYCIA CIA1581D1
+
+#define READ_SDR
+
+#define STORE_SDR
+
+/* #define CIA1581D1_TIMER_DEBUG */
+
+#define	cia1581d1_set_int_clk		drive1_set_irq_clk
+#define	CIA1581D1_INT			IK_IRQ
+
+INCLUDES()
+{
+#include "drive.h"
+#include "iecdrive.h"
+#include "ciad.h"
+}
+
+PRE_CIA_FUNCS()
+{
+    static iec_info_t *iec_info;
+}
+
+RESET_CIA()
+{
+    iec_info = iec_get_drive_port();
+}
+
+#define PRE_STORE_CIA
+#define PRE_READ_CIA
+#define PRE_PEEK_CIA
+
+STORE_CIAPA()
+{
+    {
+        BYTE oldval = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];
+
+        cia1581d1[addr] = byte;
+        byte = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];   /* newval */
+
+        drive[1].led_status = byte & 0x40;
+    }
+}
+
+STORE_CIAPB()
+{
+    if (byte != cia1581d1[addr]) {
+        cia1581d1[addr] = byte;
+        if (iec_info != NULL) {
+            iec_info->drive_data = cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB];
+            iec_info->drive_bus = (((iec_info->drive_data << 3) & 0x40)
+                | ((iec_info->drive_data << 6)
+                & ((~iec_info->drive_data ^ iec_info->cpu_bus) << 3) & 0x80));
+            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
+                & iec_info->drive2_bus;
+            iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
+                | (iec_info->cpu_port >> 7)
+                | ((iec_info->cpu_bus << 3) & 0x80));
+        } else {
+            iec_drive_write(cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB]);
+        }
+    }
+}
+
+READ_CIAPA()
+{
+
+}
+
+READ_CIAPB()
+{
+    if (iec_info != NULL)
+        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    else
+        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+}
+
+READ_CIAICR()
+{
+
+}
+
+POST_CIA_FUNCS()
+{
+
+}
+

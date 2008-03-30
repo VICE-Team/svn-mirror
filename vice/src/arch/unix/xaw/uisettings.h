@@ -35,7 +35,7 @@ extern ui_menu_entry_t ui_joystick_settings_menu[];
 extern ui_menu_entry_t ui_video_settings_menu[];
 extern ui_menu_entry_t ui_keyboard_settings_menu[];
 extern ui_menu_entry_t ui_sound_settings_menu[];
-extern ui_menu_entry_t ui_true1541_settings_menu[];
+extern ui_menu_entry_t ui_drive_settings_menu[];
 extern ui_menu_entry_t ui_peripheral_settings_menu[];
 extern ui_menu_entry_t ui_settings_settings_menu[];
 extern ui_menu_entry_t rs232_submenu[];

@@ -42,7 +42,7 @@
 #include "uicommands.h"
 #include "interrupt.h"
 #include "vsync.h"
-#include "drive.h"
+#include "vdrive.h"
 #include "tapeunit.h"
 #include "attach.h"
 #include "autostart.h"

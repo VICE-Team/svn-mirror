@@ -79,10 +79,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "vmachine.h"
 #include "cia.h"
-#include "vicii.h"
-#include "mycpu.h"
 #include "resources.h"
 
 INCLUDES
@@ -427,7 +424,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 
-    vic_ii_handle_pending_alarms(mycpu_num_write_cycles());
+    PRE_STORE_CIA
 
     rclk = clk - STORE_OFFSET;
 
@@ -759,7 +756,7 @@ BYTE read_mycia_(ADDRESS addr)
 
     addr &= 0xf;
 
-    vic_ii_handle_pending_alarms(0);
+    PRE_READ_CIA
 
     rclk = clk - READ_OFFSET;
 
@@ -899,7 +896,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
     addr &= 0xf;
 
-    vic_ii_handle_pending_alarms(0);
+    PRE_PEEK_CIA
 
     rclk = clk - READ_OFFSET;
 
