@@ -119,18 +119,24 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 	   and then in the `boot_path'.  */
         default_path = concat(LIBDIR, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
-			      home_path, "/", VICEUSERDIR, "/", emu_id, 
+                              home_path, "/", VICEUSERDIR, "/", emu_id, 
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               LIBDIR, "/DRIVES",
                               FINDPATH_SEPARATOR_STRING,
-			      home_path, "/", VICEUSERDIR, "/DRIVES", 
+                              home_path, "/", VICEUSERDIR, "/DRIVES", 
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "/DRIVES", NULL);
     }
 
     return default_path;
+}
+
+/* Return a malloc'ed backup file name for file `fname'.  */
+char *archdep_make_backup_filename(const char *fname)
+{
+    return concat(fname, "~", NULL);
 }
 
 const char *archdep_default_resource_file_name(void)

@@ -72,6 +72,11 @@ FILE *archdep_open_default_log_file(void)
   return fopen("null:", "w");
 }
 
+/* Return a malloc'ed backup file name for file `fname'.  */
+char *archdep_make_backup_filename(const char *fname)
+{
+    return concat(fname, "~", NULL);
+}
 
 const char *archdep_default_resource_file_name(void)
 {

@@ -118,6 +118,12 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     return default_path;
 }
 
+/* Return a malloc'ed backup file name for file `fname'.  */
+char *archdep_make_backup_filename(const char *fname)
+{
+    return concat(fname, "~", NULL);
+}
+
 const char *archdep_default_save_resource_file_name(void) {
     return archdep_default_resource_file_name();
 }

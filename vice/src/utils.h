@@ -43,7 +43,6 @@ extern char *concat(const char *s1, ...);
 extern char *bufcat(char *buf, int *buf_size, int *max_buf_size,
                     const char *src, int src_size);
 extern void remove_spaces(char *s);
-extern char *make_backup_filename(const char *fname);
 extern int make_backup_file(const char *fname);
 extern char *get_current_dir(void);
 

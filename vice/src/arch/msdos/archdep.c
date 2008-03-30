@@ -122,6 +122,21 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     return default_path;
 }
 
+/* Return a malloc'ed backup file name for file `fname'.  */
+char *archdep_make_backup_filename(const char *fname)
+{
+    static char backup_name[MAXPATH];
+    char drive[MAXDRIVE];
+    char dir[MAXDIR];
+    char name[MAXFILE];
+    char ext[MAXEXT];
+
+    fnsplit(fname, drive, dir, name, ext);
+    fnmerge(backup_name, drive, dir, name, "BAK");
+
+    return stralloc(backup_name);
+}
+
 const char *archdep_default_save_resource_file_name(void) {
     return archdep_default_resource_file_name();
 }
