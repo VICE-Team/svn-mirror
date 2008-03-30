@@ -66,14 +66,14 @@ static void REGPARM3 drive_store_free(drive_context_t *drv, WORD address,
 static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, WORD address)
 {
     mon_watch_push_load_addr(address, drv->cpu->monspace);
-    return drv->cpud.read_func_nowatch[address >> 8](drv, address);
+    return drv->cpud->read_func_nowatch[address >> 8](drv, address);
 }
 
 static void REGPARM3 drive_store_watch(drive_context_t *drv, WORD address,
                                        BYTE value)
 {
     mon_watch_push_store_addr(address, drv->cpu->monspace);
-    drv->cpud.store_func_nowatch[address >> 8](drv, address, value);
+    drv->cpud->store_func_nowatch[address >> 8](drv, address, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -87,20 +87,20 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
     int i;
 
     for (i = 0; i < 0x101; i++) {
-        drv->cpud.read_func_watch[i] = drive_read_watch;
-        drv->cpud.store_func_watch[i] = drive_store_watch;
-        drv->cpud.read_func_nowatch[i] = drive_read_free;
-        drv->cpud.store_func_nowatch[i] = drive_store_free;
+        drv->cpud->read_func_watch[i] = drive_read_watch;
+        drv->cpud->store_func_watch[i] = drive_store_watch;
+        drv->cpud->read_func_nowatch[i] = drive_read_free;
+        drv->cpud->store_func_nowatch[i] = drive_store_free;
     }
 
     machine_drive_mem_init(drv, type);
 
-    drv->cpud.read_func_nowatch[0x100] = drv->cpud.read_func_nowatch[0];
-    drv->cpud.store_func_nowatch[0x100] = drv->cpud.store_func_nowatch[0];
+    drv->cpud->read_func_nowatch[0x100] = drv->cpud->read_func_nowatch[0];
+    drv->cpud->store_func_nowatch[0x100] = drv->cpud->store_func_nowatch[0];
 
-    memcpy(drv->cpud.read_func, drv->cpud.read_func_nowatch,
+    memcpy(drv->cpud->read_func, drv->cpud->read_func_nowatch,
            sizeof(drive_read_func_t *) * 0x101);
-    memcpy(drv->cpud.store_func, drv->cpud.store_func_nowatch,
+    memcpy(drv->cpud->store_func, drv->cpud->store_func_nowatch,
            sizeof(drive_store_func_t *) * 0x101);
 
     switch (type) {

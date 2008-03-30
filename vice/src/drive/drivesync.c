@@ -46,8 +46,8 @@ static void drive_sync_cpu_set_factor(drive_context_t *drv,
 
         tmp = i * (unsigned long)sync_factor;
 
-        drv->cpud.clk_conv_table[i] = tmp / 0x10000;
-        drv->cpud.clk_mod_table[i] = tmp % 0x10000;
+        drv->cpud->clk_conv_table[i] = tmp / 0x10000;
+        drv->cpud->clk_mod_table[i] = tmp % 0x10000;
     }
 }
 
