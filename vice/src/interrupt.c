@@ -35,6 +35,7 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
+#include "maincpu.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -250,7 +251,8 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
 /*
     {
         unsigned int i;
-        log_debug("INTREQ %ld", (long)cpu_clk);
+        log_debug("INTREQ %ld NUMWR %i", (long)cpu_clk,
+                  maincpu_num_write_cycles());
         for (i = 0; i < cs->num_dma_per_opcode; i++)
             log_debug("%iCYLEFT %i STCLK %i", i, cs->num_cycles_left[i],
                       cs->dma_start_clk[i]);
