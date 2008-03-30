@@ -94,6 +94,7 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 SUFFIXES = .def
 
@@ -287,6 +288,21 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+c610.o: c610.c ../../src/vice.h ../../src/config.h c610.h \
+	../../src/attach.h ../../src/types.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/autostart.h c610acia.h c610cia.h ../../src/cia.h \
+	c610mem.h c610tpi.h ../../src/arch/unix/xaw/c610ui.h \
+	../../src/cmdline.h ../../src/resources.h crtc.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/arch/unix/kbd.h \
+	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/sid/sid.h \
+	../../src/sound.h ../../src/warn.h ../../src/utils.h \
+	../../src/via.h ../../src/arch/unix/vsync.h ../../src/print.h \
+	../../src/prdevice.h ../../src/pruser.h ../../src/rs232.h
 c610acia1.o: c610acia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
@@ -298,9 +314,9 @@ c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
 	c610cia.h c610tpi.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h
 c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
-	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/snapshot.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/types.h ../../src/snapshot.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/machine.h ../../src/misc.h ../../src/resources.h \
 	../../src/traps.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
@@ -314,9 +330,9 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/kbdbuf.h ../../src/autostart.h ../../src/cmdline.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/maincpu.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/emuid.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/emuid.h \
 	../../src/utils.h c610mem.h c610tpi.h c610acia.h c610cia.h \
-	../../src/cia.h ../../src/sid.h ../../src/sound.h \
+	../../src/cia.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
 	../../src/traps.h
 c610tpi1.o: c610tpi1.c ../../src/vice.h ../../src/config.h \
@@ -330,14 +346,6 @@ c610tpi2.o: c610tpi2.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/tpi.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/arch/unix/kbd.h
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/types.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster.h ../../src/vmachine.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/cmdline.h ../../src/utils.h c610tpi.h \
-	../../src/raster.c ../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

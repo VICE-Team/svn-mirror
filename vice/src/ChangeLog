@@ -1,3 +1,239 @@
+1998-09-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.9.
+
+	* cia-tmpl.c (mycia_read_snapshot_module): Open module "MYCIA",
+	not "CIA".
+
+	* c610/c610.c (machine_write_snapshot, machine_read_snapshot):
+ 	Updated to use `snapshot_t' instead of `FILE'.
+
+	* c64/c64.c (machine_write_snapshot, machine_read_snapshot):
+ 	Updated to use `snapshot_t' instead of `FILE'.
+
+	* All snapshot module functions now take `snapshot_t *' as a
+	parameter, instead of `FILE *'.  Changed files (functions) are:
+	* vic20/vic20mem.c (mem_read_snapshot_module)
+	* vic20/vic20mem.c (mem_write_snapshot_module)
+	* cpu-tmpl.c (maincpu_write_snapshot_module)
+	* cpu-tmpl.c (maincpu_read_snapshot_module)
+	* c64/c64tpi.c (tpi_write_snapshot_module)
+	* c64/c64tpi.c (tpi_read_snapshot_module)
+	* c64/vicii.c (vic_ii_write_snapshot_module)
+	* c64/vicii.c (vic_ii_read_snapshot_module)
+	* maincpu.c (maincpu_write_snapshot_module)
+	* maincpu.c (maincpu_read_snapshot_module)
+	* via-tmpl.c (myvia_read_snapshot_module)
+	* via-tmpl.c (myvia_write_snapshot_module)
+	* cia-tmpl.c (mycia_write_snapshot_module)
+	* cia-tmpl.c (mycia_read_snapshot_module)
+	* c64/c64mem.c (mem_write_snapshot_module)
+	* c64/c64mem.c (mem_read_snapshot_module)
+	* acia-tmpl.c (myacia_write_snapshot_module)
+	* acia-tmpl.c (myacia_read_snapshot_module)
+	* pet/petmem.c (mem_read_snapshot_module)
+	* pet/petmem.c (mem_write_snapshot_module)
+	* c610/c610mem.c (mem_read_snapshot_module)
+	* c610/c610mem.c (mem_write_snapshot_module)
+	* c610/c610tpi1.c (tpi1_write_snapshot_module)
+	* c610/c610tpi1.c (tpi1_read_snapshot_module)
+	* c610/c610tpi2.c (tpi1_write_snapshot_module)
+	* c610/c610tpi2.c (tpi1_read_snapshot_module)
+
+	* snapshot.c: New typedef `snapshot_t'.
+	(snapshot_module_open): Replaced `FILE *f' argument with
+ 	`snapshot_t *s'.
+	(snapshot_module_create): Likewise.
+	(snapshot_create): Return a `snapshot_t *' instead of a `FILE *'.
+	(snapshot_open): Likewise.
+	(snapshot_close): Take a `snapshot_t *' instead of a `FILE *' as a
+	parameter.
+
+	* sid/sid.c (sid_read_snapshot_module): Do not check signature.
+
+	* c64/reu.c (reu_read_snapshot_module): New function.
+	(reu_write_snapshot_module): New function.
+
+	* c64/c64mem.c (mem_read_snapshot_module): Do not check signature.
+
+	* cpu-tmpl.c (maincpu_read_snapshot_module): Do not check
+ 	signature.
+
+	* cia-tmpl.c (mycia_read_snapshot_module): Do not check signature.
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Do not check
+ 	signature.
+
+	* snapshot.c (snapshot_module_open): Parameter `name_return'
+	replaced by parameter `name', const.  Search for the module whose
+	name matches `name'.  If the module is not found or another error
+	happens, restore the the previous position and return NULL.
+
+1998-09-16  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.h: New prototypes sid_write_snapshot_module() and
+	sid_read_snapshot_module().
+
+	* c64/sid.c: Added #include "snapshot.h".
+
+	* c64/sid.c (snap_module_name, sid_write_snapshot_module,
+ 	sid_read_snapshot_module): Implemented initial version of SID
+ 	snapshots.  Not fully accurate yet.
+
+	* c64/c64.c (machine_read_snapshot, machine_write_snapshot):
+	Added SID snapshot function calls.
+
+1998-09-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vic20/vic20rsuser.h: New file.
+	(vic20_rsuser_init): Prototype.
+
+1998-09-16  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/c610ui.c (set_KeyboardType, c610_keybd_submenu):
+ 	outcomented
+	(model_settings_submenu): outcommented Keyboard type
+ 	(graph/business) entry.
+
+	* pet/crtc.h (CRTC_WINDOW_TITLE): removed def that shadowed define
+ 	in crtc-tmpl.c resp. pet/crtc.c
+
+	* c610/crtc.h (CRTC_WINDOW_TITLE): removed def that shadowed define
+        in crtc-tmpl.c resp. pet/crtc.c
+
+	* cia-tmpl.c (read_mycia): when reading CIA_CRA and CIA_CRB
+	call update_mycia() to update bit 0 (stopped/running)
+
+	* c64/c64cia1.def (UNDUMP_CIAPA): remove call to
+ 	vic_ii_trigger_light_pen
+
+	* cia-tmpl.c : many debug prints.
+	(mycia_write_snapshot_module): call update_tai() and
+	update_tbi() before writing snapshot.
+	(mycia_read_snapshot_module): before reading snapshot,
+	stop TA and TB.
+	Switch timer on accordign to code in store_mycia(CIA_CRA/CRB).
+
+1998-09-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* zfile.c (zclose_all): If an element of the zfile list is not
+	consistent, free it and skip it.
+
+	* vic20/vic20.c [HAVE_RS232]: #include "vic20rsuser.h".
+
+	* c64/c64.c [HAVE_RS232]: #include "c64rsuser.h".
+
+	* Makefile.am (x610_LDADD): Do not add `-lm'.
+
+	* arch/msdos/menudefs.c (monitor_callback): Do not use an extra
+	trap to activate the monitor, as the registers have already been
+	exported when reaching the main menu.
+
+	* arch/msdos/vsync.c: Do not #include "sid.h" anymore.
+
+	* c610/c610acia1.c (rs232_open): Made non-static.
+	(rs232_close): Likewise.
+	(rs232_putc): Made non-static; return 0.
+	(rs232_getc): Likewise.
+
+	* c610/c610.c: #include <unistd.h>.
+
+	* arch/msdos/c610kbd.h, arch/msdos/c610kbd.c (c610_kbd_init): New
+ 	files, new function.
+
+	* c610/c610.c [__MSDOS__]: #include "c610kbd.h".
+	(machine_init) [__MSDOS__]: Call `c610_kbd_init()', not
+ 	`pet_kbd_init'.
+
+	* arch/msdos/c610ui.h, arch/msdos/c610ui.c (c64_ui_init): New
+	files, new function.
+
+	* pet/petacia1.c (rs232_open): Made non-static.
+	(rs232_close): Likewise.
+	(rs232_putc): Made non-static, and return 0.
+	(rs232_getc): Likewise.
+
+	* vic20/vic20.c [__MSDOS__]: #include "vic20kbd.h".
+
+	* c64/c64.c: #include <unistd.h>.
+
+	* arch/msdos/ui.c (ui_toggle_drive_status): Removed.
+	(ui_enable_drive_status): New function.
+	(ui_display_drive_led): New parameter `drive_number'.
+	(ui_display_drive_track): New parameter `drive_number'.
+
+	* arch/msdos/ui.h: Typedef `ui_jam_action_t'.
+
+	* arch/msdos/c64ui.c: Removed SID menu.  Use the one from
+	`sidui.c'.
+	* arch/msdos/c128ui.c: Likewise.
+
+	* arch/msdos/sidui.h, arch/msdos/sidui.c: New files.
+
+1998-09-15  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Disable reSID configuration if no C++ compiler is
+	found on the system.
+
+1998-09-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c (myacia_write_snapshot_module,
+	myacia_read_snapshot_module): implemented snapshot code.
+
+	* c128/c128cia1.def, c610/c610cia1.def, c610/c610tpi1.def,
+ 	c610/c610tpi2.def, c64/c64cia1.def, c64/c64cia2.def,
+ 	c64/c64tpi.def, drive/cia1571drive0.def, drive/cia1571drive1.def,
+ 	drive/cia1581drive0.def, drive/cia1581drive1.def,
+ 	drive/via1drive0.def, drive/via1drive1.def, drive/via2drive0.def,
+ 	drive/via2drive1.def, pet/petvia.def, vic20/vic20via1.def,
+ 	vic20/vic20via2.def
+	[READ_PA, READ_PB, READ_PC, READ_PRA, READ_PRB, READ_CIAPA,
+ 	READ_CIAPB]: add data direction register masking (moved from
+ 	-tmpl.c files where appropriate)
+
+	* c610/c610mem.c (mem_write_snapshot_module,
+ 	mem_read_snapshot_module): new functions, implemented snapshot
+ 	code
+
+	* vic20/vic20mem.c (mem_write_snapshot_module,
+ 	mem_read_snapshot_module): new functions, implemented snapshot
+ 	code
+
+	* cia-tmpl.c (read_mycia): remove DDRA/DDRB masking from read
+ 	functions, as not the output register but the pins are read on an
+ 	output pin.
+	(mycia_write_snapshot_module): fix myciardi handling
+	(mycia_read_snapshot_module): fix ioport handling (PA/PB typo!)
+  	fix myciardi handling
+
+	* pet/petmem.c (petmem_dump, petmem_undump,
+ 	mem_write_snapshot_module, mem_read_snapshot_module): renamed
+ 	petmem_* new snapshot format.
+
+	* tpi-tmpl.c (read_mytpi): remove DDPA/PB/PC masking when reading
+ 	a port bit.
+
+	* via-tmpl.c (read_myvia): remove DDRA/B masking when reading a
+ 	port bit.
+
+1998-09-15  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/reu.c (reu_dma): Set interrupt bit when DMA is completed,
+	according to $DF09.
+
+	* cia-tmpl.c (mycia_read_snapshot_module): Corrected `oldpa' ->
+	`oldpb' typo.
+
+	* fsdevice.c (fsdevice_reduce_filename_p00): Added cast to `int'
+ 	when using `isalpha()'.
+	(open_fs): Added cast to `int' when using `isupper()' or
+ 	`tolower()'.
+	(fsdevice_evaluate_name_p00): Added cast to `int' when using
+ 	`islower()' or `isalnum()'.
+
+	* mon.c (mon_add_string_to_buffer): Removed bogus debugging
+ 	message.
+
 1998-09-14  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.8.

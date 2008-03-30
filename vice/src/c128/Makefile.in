@@ -94,6 +94,7 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 SUFFIXES = .def
 
@@ -283,8 +284,8 @@ distdir: $(DISTFILES)
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/vmachine.h ../../src/c64/vicii.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
-	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/arch/unix/kbd.h ../../src/c64/c64cia.h \
@@ -292,9 +293,9 @@ c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
 	../../src/drive/drivecpu.h ../../src/rsuser.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
-	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/snapshot.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/types.h ../../src/snapshot.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/machine.h ../../src/misc.h ../../src/resources.h \
 	../../src/traps.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
@@ -305,9 +306,9 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h ../../src/drive/drivecpu.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
 	c128mem.h ../../src/resources.h ../../src/cmdline.h \
-	../../src/c64/c64cia.h ../../src/cia.h ../../src/sid.h \
+	../../src/c64/c64cia.h ../../src/cia.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/warn.h ../../src/memutils.h \
 	../../src/maincpu.h ../../src/parallel.h ../../src/c64/c64tpi.h \
 	../../src/tapeunit.h ../../src/tape.h ../../src/utils.h vdc.h \

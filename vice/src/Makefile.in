@@ -91,6 +91,7 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 READLINE = @READLINE@
 
@@ -286,7 +287,7 @@ xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 x610_SOURCES = $(base_sources)
 x610_LDADD = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ \
-	$(READLINE) -lm
+	$(READLINE)
 x610_DEPENDENCIES = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
        @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
@@ -578,11 +579,19 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-maincpu.o: maincpu.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h snapshot.h machine.h \
+fsdevice.o: fsdevice.c vice.h config.h resources.h vdrive.h types.h \
+	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \
+	cmdline.h fsdevice.h
+maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
+	snapshot.h mon.h mos6510.h interrupt.h vmachine.h machine.h \
 	misc.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \
 	palette.h vdrive.h fs_cbm.h serial.h 6510core.c
-utils.o: utils.c vice.h config.h utils.h types.h
+mon.o: mon.c vice.h config.h asm.h types.h mon.h mos6510.h mem.h \
+	snapshot.h interrupt.h vmachine.h 6510core.h charsets.h file.h \
+	misc.h mshell.h resources.h arch/unix/vsync.h vdrive.h fs_cbm.h \
+	serial.h traps.h mon_parse.h utils.h
+snapshot.o: snapshot.c vice.h config.h snapshot.h types.h utils.h
+zfile.o: zfile.c vice.h config.h utils.h types.h zfile.h zipcode.h
 
 info: info-recursive
 dvi: dvi-recursive

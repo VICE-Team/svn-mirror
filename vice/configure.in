@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.8)
+AM_INIT_AUTOMAKE(vice, 0.15.0.9)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -170,6 +170,14 @@ AC_SUBST(PERL)
 
 
 dnl Setup reSID compilation.  We need a C++ compiler for this.
+
+if test x"$with_resid" != "xno" -a -z "$CXX"; then
+  AC_CHECK_PROGS(cxx, $CCC c++ g++ gcc CC cxx cc++, no)
+  if test x"$cxx" = "xno"; then
+    AC_MSG_WARN([C++ compiler missing, reSID will not be configured])
+    with_resid=no
+  fi
+fi
 
 RESID_DIR=
 RESID_LIBS=

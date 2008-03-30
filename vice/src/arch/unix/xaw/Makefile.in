@@ -93,6 +93,7 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 SUBDIRS = widgets
 
@@ -302,12 +303,6 @@ c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/resources.h uicommands.h uisettings.h \
 	../../../../src/arch/unix/joystick.h \
 	../../../../src/c610/c610mem.h c64icon.xpm
-petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/joystick.h ../../../../src/pet/pets.h \
-	petui.h ../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h uisettings.h ../../../../src/arch/unix/vsync.h \
-	peticon.xpm
 ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
 	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
@@ -316,20 +311,6 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/machine.h ../../../../src/resources.h \
 	../../../../src/cmdline.h ../../../../src/utils.h \
 	../../../../src/arch/unix/vsync.h
-uisettings.o: uisettings.c ../../../../src/vice.h \
-	../../../../src/config.h uisettings.h ui.h \
-	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h ../../../../src/fsdevice.h \
-	../../../../src/arch/unix/kbd.h ../../../../src/resources.h \
-	../../../../src/sound.h ../../../../src/warn.h \
-	../../../../src/drive/drive.h ../../../../src/vdrive.h \
-	../../../../src/fs_cbm.h ../../../../src/serial.h \
-	../../../../src/traps.h ../../../../src/drive/drivecpu.h \
-	../../../../src/mos6510.h ../../../../src/mon.h \
-	../../../../src/mem.h ../../../../src/interrupt.h \
-	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/snapshot.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/utils.h
 
 info: info-recursive
 dvi: dvi-recursive

@@ -94,6 +94,7 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 SUFFIXES = .def
 
@@ -285,14 +286,20 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
-	../../src/types.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster.h ../../src/vmachine.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/cmdline.h ../../src/utils.h pia.h ../../src/raster.c \
-	../../src/arch/unix/vsync.h
+pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
+	../../src/attach.h ../../src/types.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/autostart.h ../../src/cmdline.h ../../src/resources.h \
+	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/arch/unix/kbd.h \
+	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mon.h ../../src/mos6510.h petmem.h pets.h petsound.h \
+	../../src/arch/unix/xaw/petui.h petvia.h petacia.h pia.h \
+	../../src/sound.h ../../src/warn.h ../../src/utils.h \
+	../../src/via.h ../../src/arch/unix/vsync.h ../../src/rs232.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 petacia1.o: petacia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
@@ -307,13 +314,8 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/autostart.h ../../src/cmdline.h ../../src/tapeunit.h \
 	../../src/tape.h ../../src/traps.h pets.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
-	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/maincpu.h ../../src/mon.h ../../src/mos6510.h \
 	petmem.h ../../src/emuid.h ../../src/utils.h
-pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/interrupt.h ../../src/types.h \
-	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
-	../../src/snapshot.h pets.h ../../src/utils.h \
-	../../src/arch/unix/vsync.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/types.h petvia.h crtc.h \

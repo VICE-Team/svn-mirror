@@ -94,6 +94,7 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 @USE_MIDAS_SOUND_TRUE@libarch_a_LIBADD = vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_LIBADD = vicesb.o
@@ -116,6 +117,10 @@ libarch_a_SOURCES = \
 	c128kbd.h \
 	c128ui.c \
 	c128ui.h \
+	c610ui.c \
+	c610ui.h \
+	c610kbd.c \
+	c610kbd.h \
 	c64kbd.c \
 	c64kbd.h \
 	c64ui.c \
@@ -136,6 +141,8 @@ libarch_a_SOURCES = \
 	petkbd.h \
 	petui.c \
 	petui.h \
+	sidui.c \
+	sidui.h \
 	tui.c \
 	tui.h \
 	tui_backend.c \
@@ -176,10 +183,10 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
-libarch_a_OBJECTS =  c128kbd.o c128ui.o c64kbd.o c64ui.o grabkey.o \
-joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o petui.o tui.o \
-tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o vic20kbd.o vic20ui.o \
-video.o vsync.o
+libarch_a_OBJECTS =  c128kbd.o c128ui.o c610ui.o c610kbd.o c64kbd.o \
+c64ui.o grabkey.o joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o \
+petui.o sidui.o tui.o tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o \
+vic20kbd.o vic20ui.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

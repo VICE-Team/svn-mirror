@@ -95,6 +95,7 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 SUBDIRS = src data man doc
 

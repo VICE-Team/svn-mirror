@@ -93,6 +93,7 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 SUBDIRS = C64 C128 VIC20 PET C610
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs

@@ -94,6 +94,7 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
+cxx = @cxx@
 
 @HAVE_RESID_TRUE@resid_libadd = resid.o
 @HAVE_RESID_FALSE@resid_libadd =
@@ -283,6 +284,13 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
+	../../src/types.h ../../src/warn.h ../../src/snapshot.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/utils.h resid.h wave6581.h \
+	wave8580.h
 
 info: info-recursive
 dvi: dvi-recursive
