@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"

@@ -45,6 +45,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon.h"
 #include "pet.h"
 #include "petacia.h"
 #include "petmem.h"

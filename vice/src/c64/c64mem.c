@@ -46,6 +46,7 @@
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
+#include "mon.h"
 #include "parallel.h"
 #include "patchrom.h"
 #include "resources.h"

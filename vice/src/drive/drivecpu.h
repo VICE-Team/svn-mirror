@@ -29,7 +29,7 @@
 #ifndef _DRIVECPU_H
 #define _DRIVECPU_H
 
-#include "mon.h"
+#include "interrupt.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -65,8 +65,9 @@ extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv, snapshot_
 #define drive1_set_bank_base()	drive_set_bank_base(&drive1_context)
 
 /* don't use these pointers before the context is set up! */
-extern monitor_interface_t *drive0_monitor_interface_ptr;
-extern monitor_interface_t *drive1_monitor_interface_ptr;
+struct monitor_interface_s;
+extern struct monitor_interface_s *drive0_monitor_interface_ptr;
+extern struct monitor_interface_s *drive1_monitor_interface_ptr;
 extern cpu_int_status_t *drive0_int_status_ptr;
 extern cpu_int_status_t *drive1_int_status_ptr;
 

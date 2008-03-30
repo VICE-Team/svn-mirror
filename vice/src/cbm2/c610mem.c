@@ -43,6 +43,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon.h"
 #include "resources.h"
 #include "sid.h"
 #include "snapshot.h"

@@ -67,9 +67,9 @@
 
 #include "cmdline.h"
 #include "drive.h"
+#include "interrupt.h"
 #include "log.h"
 #include "machine.h"
-#include "maincpu.h"
 #include "mouse.h"
 #include "psid.h"
 #include "resources.h"
@@ -590,7 +590,7 @@ static int set_depth(resource_value_t v)
     if (d < 0 || d > 32)
         return -1;
 
-    _ui_resources.depth = d;
+    depth = _ui_resources.depth = d;
     return 0;
 }
 
@@ -2544,12 +2544,13 @@ void ui_update_menus(void)
     ui_menu_update_all();
 }
 
-Widget ui_create_transient_shell(Widget parent, const char *name)
+Widget ui_create_shell(Widget parent, const char *name,
+			      WidgetClass class)
 {
     Widget w;
 
     w = XtVaCreatePopupShell
-	(name, transientShellWidgetClass, parent, XtNinput, True, NULL);
+	(name, class, parent, XtNinput, True, NULL);
 
     XtVaSetValues(w,
 		  XtNvisual, visual,
@@ -2558,6 +2559,11 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
 		  NULL);
 
     return w;
+}
+
+Widget ui_create_transient_shell(Widget parent, const char *name)
+{
+    return ui_create_shell(parent, name, transientShellWidgetClass);
 }
 
 /* Pop up a popup shell and center it to the last visited AppShell */

@@ -6,7 +6,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vicii \
-	-I$(top_srcdir)/src/vdc
+	-I$(top_srcdir)/src/vdc \
+	-I$(top_srcdir)/src/monitor
 
 noinst_LIBRARIES = libc128.a
 

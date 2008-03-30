@@ -9,7 +9,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/raster
+	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/monitor
 
 noinst_LIBRARIES = libvic20.a
 

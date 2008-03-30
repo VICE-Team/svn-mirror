@@ -2,7 +2,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/vdrive
+	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/monitor
 
 noinst_LIBRARIES = libdrive.a
 

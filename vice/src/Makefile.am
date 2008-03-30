@@ -28,6 +28,7 @@ SUBDIRS = \
         vdc \
 	crtc \
 	sid \
+	monitor \
 	c64 \
 	c128 \
 	vic20 \
@@ -40,16 +41,14 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/vdrive
-
-YFLAGS = -dt
+	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/monitor
 
 noinst_HEADERS = \
 	6510core.h \
 	acia.h \
 	alarm.h \
 	archapi.h \
-	asm.h \
 	attach.h \
 	autostart.h \
 	cartridge.h \
@@ -79,8 +78,6 @@ noinst_HEADERS = \
 	machine.h \
 	maincpu.h \
 	mem.h \
-	mon.h \
-	mon_parse.h \
 	mos6510.h \
 	p00.h \
 	palette.h \
@@ -118,7 +115,6 @@ noinst_HEADERS = \
 
 base_sources = \
 	alarm.c \
-	asm.c \
 	attach.c \
 	autostart.c \
 	charsets.c \
@@ -139,9 +135,6 @@ base_sources = \
 	keyboard.c \
 	log.c \
 	main.c \
-	mon.c \
-	mon_lex.l \
-	mon_parse.y \
 	p00.c \
 	palette.c \
 	parallel.c \
@@ -190,12 +183,11 @@ EXTRA_DIST = \
 	$(printer_sources) \
 	$(rs232_sources)
 
-BUILT_SOURCES = mon_parse.h mon_parse.c 
-
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
@@ -223,6 +215,7 @@ x64_libs =  \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(monitor_lib) \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -241,6 +234,7 @@ x64-all: \
 	libsounddrv \
 	libvicii \
 	libarch \
+	libmonitor \
 	x64
 
 # x128
@@ -255,6 +249,7 @@ x128_libs =  \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
+	$(monitor_lib) \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
@@ -274,6 +269,7 @@ x128-all: \
 	libvicii \
 	libvdc \
 	libraster \
+	libmonitor \
 	@RESID_DEP@ \
 	x128
 
@@ -285,6 +281,7 @@ xvic_libs =  \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
 	$(raster_lib) \
+	$(monitor_lib) \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -300,6 +297,7 @@ xvic-all: \
 	libsounddrv \
 	libvic20 \
 	libarch \
+	libmonitor \
 	xvic
 
 # xpet
@@ -311,6 +309,7 @@ xpet_libs =  \
 	$(sounddrv_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
+	$(monitor_lib) \
 	$(common_libs)
 	
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -327,6 +326,7 @@ xpet-all: \
 	libsounddrv \
 	libpet \
 	libarch \
+	libmonitor \
 	xpet 
 
 # xcbm2
@@ -339,6 +339,7 @@ xcbm2_libs = \
 	$(sid_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
+	$(monitor_lib) \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
@@ -357,6 +358,7 @@ xcbm2-all: \
 	libvdrive \
 	libraster \
 	libcrtc \
+	libmonitor \
 	xcbm2
 
 # c1541
@@ -439,3 +441,6 @@ libvdc:
 	(cd vdc && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
+libmonitor:
+	(cd monitor && $(MAKE))
+

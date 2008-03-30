@@ -34,6 +34,7 @@
 #include "drive.h"
 #include "log.h"
 #include "mon.h"
+#include "mos6510.h"
 #include "types.h"
 
 
@@ -56,8 +57,6 @@ typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, ADDRESS,
 /* This table is used to approximate the sync between the main and the
    drive CPU, since the two clock rates are different.  */
 #define MAX_TICKS 0x1000
-
-
 
 /*
  *  The private CPU data.
