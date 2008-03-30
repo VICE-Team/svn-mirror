@@ -1,9 +1,8 @@
 /*
- * uicrtc.c
+ * uivdc.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,72 +29,67 @@
 #include <stdio.h>
 
 #include "fullscreen.h"
+#include "machine.h"
 #include "uimenu.h"
+#include "uipalemu.h"
 #include "uipalette.h"
+#include "uited.h"
 
 
-UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-static ui_menu_entry_t crtc_palette_submenu[] = {
-    { N_("*Default (Green)"), (ui_callback_t)radio_CrtcPaletteFile,
-      (ui_callback_data_t)"green", NULL },
-    { N_("*Amber"), (ui_callback_t)radio_CrtcPaletteFile,
-      (ui_callback_data_t)"amber", NULL },
-    { N_("*White"), (ui_callback_t)radio_CrtcPaletteFile,
-      (ui_callback_data_t)"white", NULL },
-    { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"CrtcPaletteFile", NULL },
+ui_menu_entry_t set_video_standard_submenu[] = {
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
-UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
-UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-UI_MENU_DEFINE_TOGGLE(UseXSync)
+UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
+UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
+UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
+UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 #ifdef USE_XF86_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
-UI_MENU_DEFINE_STRING_RADIO(CrtcFullscreenDevice)
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreenDoubleScan)
+UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
+UI_MENU_DEFINE_STRING_RADIO(TEDFullscreenDevice)
+UI_MENU_DEFINE_TOGGLE(TEDFullscreenDoubleSize)
+UI_MENU_DEFINE_TOGGLE(TEDFullscreenDoubleScan)
 #ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_RADIO(CrtcVidmodeFullscreenMode);
+UI_MENU_DEFINE_RADIO(TEDVidmodeFullscreenMode);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-UI_MENU_DEFINE_RADIO(CrtcDGA2FullscreenMode);
+UI_MENU_DEFINE_RADIO(TEDDGA2FullscreenMode);
 #endif
 
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
-    { "*Vidmode", (ui_callback_t)radio_CrtcFullscreenDevice,
+    { "*Vidmode", (ui_callback_t)radio_TEDFullscreenDevice,
       (ui_callback_data_t)"Vidmode", NULL },
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    { "*DGA2", (ui_callback_t)radio_CrtcFullscreenDevice,
+    { "*DGA2", (ui_callback_t)radio_TEDFullscreenDevice,
       (ui_callback_data_t)"DGA2", NULL },
 #endif
     { NULL }
 };
 #endif
 
-ui_menu_entry_t crtc_submenu[] = {
+ui_menu_entry_t ted_submenu[] = {
     { N_("*Double size"),
-      (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_TEDDoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_TEDDoubleScan, NULL, NULL },
     { N_("*Video cache"),
-      (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
-#ifdef USE_XF86_EXTENSIONS
+      (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
     { "--" },
+#ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_CrtcFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+      (ui_callback_t)toggle_TEDFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
     { N_("*Double size"),
-      (ui_callback_t)toggle_CrtcFullscreenDoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_TEDFullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t)toggle_CrtcFullscreenDoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_TEDFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
 #ifdef USE_XF86_VIDMODE_EXT
@@ -106,25 +100,35 @@ ui_menu_entry_t crtc_submenu[] = {
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #endif
-#endif
     { "--" },
-    { N_("*CRTC Screen color"),
-      NULL, NULL, crtc_palette_submenu },
+#endif
+    { N_("*External color set"),
+      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
+    { "--" },
+    { N_("PAL Emulation"),
+      NULL, NULL, PALMode_submenu },
+#if 0
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
+    { "--" },
+    { N_("*Fast PAL emulation"),
+      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
+#endif
     { NULL }
 };
 
-void uicrtc_create_menus(void)
+void uited_create_menus(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 #ifdef USE_XF86_VIDMODE_EXT
     fullscreen_mode_callback("Vidmode",
-                             (void *)radio_CrtcVidmodeFullscreenMode);
+                             (void *)radio_TEDVidmodeFullscreenMode);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_callback("DGA2",
-                             (void *)radio_CrtcDGA2FullscreenMode);
+                             (void *)radio_TEDDGA2FullscreenMode);
 #endif
-    fullscreen_create_menus(crtc_submenu);
+    fullscreen_create_menus(ted_submenu);
 #endif
 }
 

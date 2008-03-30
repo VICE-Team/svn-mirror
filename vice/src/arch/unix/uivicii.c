@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "c64ui.h"
+#include "fullscreen.h"
 #include "resources.h"
 #include "uipalette.h"
 #include "uimenu.h"
@@ -70,6 +71,14 @@ UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(VICIIFullscreenDevice)
+UI_MENU_DEFINE_TOGGLE(VICIIFullscreenDoubleSize)
+UI_MENU_DEFINE_TOGGLE(VICIIFullscreenDoubleScan)
+#ifdef USE_XF86_VIDMODE_EXT
+UI_MENU_DEFINE_RADIO(VICIIVidmodeFullscreenMode);
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+UI_MENU_DEFINE_RADIO(VICIIDGA2FullscreenMode);
+#endif
 
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
@@ -82,10 +91,9 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #endif
     { NULL }
 };
-
 #endif
 
-ui_menu_entry_t vic_submenu[] = {
+ui_menu_entry_t vicii_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_VICIIDoubleSize, NULL, NULL },
     { N_("*Double scan"),
@@ -96,13 +104,21 @@ ui_menu_entry_t vic_submenu[] = {
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
       (ui_callback_t)toggle_VICIIFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+    { N_("*Double size"),
+      (ui_callback_t)toggle_VICIIFullscreenDoubleSize, NULL, NULL },
+    { N_("*Double scan"),
+      (ui_callback_t)toggle_VICIIFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
-    { "--" },
 #ifdef USE_XF86_VIDMODE_EXT
+    /* Translators: 'VidMode' must remain in the beginning of the translation
+       e.g. German: "VidMode Auflösungen" */
+    { N_("VidMode Resolutions"),
+      (ui_callback_t) NULL, NULL, NULL },
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #endif
+    { "--" },
 #endif
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
@@ -123,4 +139,19 @@ ui_menu_entry_t vic_submenu[] = {
       NULL, NULL, PALMode_submenu },
     { NULL }
 };
+
+void uivicii_create_menus(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_VIDMODE_EXT
+    fullscreen_mode_callback("Vidmode",
+                             (void *)radio_VICIIVidmodeFullscreenMode);
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    fullscreen_mode_callback("DGA2",
+                             (void *)radio_VICIIDGA2FullscreenMode);
+#endif
+    fullscreen_create_menus(vicii_submenu);
+#endif
+}
 
