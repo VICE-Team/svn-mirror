@@ -54,10 +54,10 @@ static int set_palette_file_name(resource_value_t v, void *param)
 
 static resource_t resources[] =
 {
-  { "CrtcPaletteFile", RES_STRING, (resource_value_t)"green",
-    (resource_value_t *)&crtc_resources.palette_file_name,
-    set_palette_file_name, NULL },
-  { NULL }
+    { "CrtcPaletteFile", RES_STRING, (resource_value_t)"green",
+      (resource_value_t *)&crtc_resources.palette_file_name,
+      set_palette_file_name, NULL },
+    { NULL }
 };
 
 int crtc_resources_init(void)
@@ -67,6 +67,9 @@ int crtc_resources_init(void)
     video_chip_cap = (video_chip_cap_t *)xmalloc(sizeof(video_chip_cap_t));
 
     video_chip_cap->dsize_allowed = ARCHDEP_CRTC_DSIZE;
+    video_chip_cap->dsize_default = 0;
+    video_chip_cap->dsize_limit_width = 400;
+    video_chip_cap->dsize_limit_height = 350;
     video_chip_cap->dscan_allowed = ARCHDEP_CRTC_DSCAN;
     video_chip_cap->single_mode.sizex = 1;
     video_chip_cap->single_mode.sizey = 1;

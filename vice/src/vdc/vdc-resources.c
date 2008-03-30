@@ -91,6 +91,9 @@ int vdc_resources_init(void)
     video_chip_cap = (video_chip_cap_t *)xmalloc(sizeof(video_chip_cap_t));
 
     video_chip_cap->dsize_allowed = ARCHDEP_VDC_DSIZE;
+    video_chip_cap->dsize_default = ARCHDEP_VDC_DSIZE;
+    video_chip_cap->dsize_limit_width = 0;
+    video_chip_cap->dsize_limit_height = 0;
     video_chip_cap->dscan_allowed = ARCHDEP_VDC_DSCAN;
     video_chip_cap->single_mode.sizex = 1;
     video_chip_cap->single_mode.sizey = 1;

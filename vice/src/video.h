@@ -157,6 +157,9 @@ typedef struct cap_fullscreen_s cap_fullscreen_t;
 
 struct video_chip_cap_s {
     unsigned int dsize_allowed;
+    unsigned int dsize_default;
+    unsigned int dsize_limit_width;
+    unsigned int dsize_limit_height;
     unsigned int dscan_allowed;
     cap_render_t single_mode;
     cap_render_t double_mode;
