@@ -627,9 +627,9 @@ BYTE REGPARM1 io1_read(ADDRESS addr)
 void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
     if (reu_enabled)
-        reu_store(addr & 0x0f, value);
+        reu_store((ADDRESS)(addr & 0x0f), value);
     if (ieee488_enabled) {
-        tpi_store(addr & 0x07, value);
+        tpi_store((ADDRESS)(addr & 0x07), value);
     }
     return;
 }
@@ -643,9 +643,9 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
         return emulator_id[addr - 0xa0];
     }
     if (reu_enabled)
-        return reu_read(addr & 0x0f);
+        return reu_read((ADDRESS)(addr & 0x0f));
     if (ieee488_enabled)
-        return tpi_read(addr & 0x07);
+        return tpi_read((ADDRESS)(addr & 0x07));
 
     return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
