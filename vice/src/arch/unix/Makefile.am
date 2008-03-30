@@ -36,12 +36,10 @@ libarch_a_SOURCES = \
 	joystick.c \
 	joystick.h \
 	kbd.h \
-	kmap.c \
 	main_exit.c \
 	main_exit.h \
 	mouse.c \
 	mouse.h \
-	petkmap.c \
 	petui.c \
 	petui.h \
 	plus4ui.c \
@@ -68,6 +66,8 @@ libarch_a_SOURCES = \
 	uijoystick2.h \
 	uimenu.h \
 	uimon.c \
+	uipalemu.c \
+	uipalemu.h \
 	uipalette.c \
 	uipalette.h \
 	uiperipheral.c \
@@ -88,8 +88,6 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uivicii.c \
 	uivicii.h \
-	uipalemu.c \
-	uipalemu.h \
 	vic20ui.c \
 	vic20ui.h \
 	videoarch.h \
