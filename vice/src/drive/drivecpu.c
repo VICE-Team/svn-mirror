@@ -38,6 +38,7 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "ciad.h"
+#include "clkguard.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivemem.h"
@@ -92,35 +93,42 @@ monitor_interface_t *drive1_get_monitor_interface_ptr(void)
 /* non-time critical monitor functions; should be OK */
 static BYTE drive0_bank_read(int bank, ADDRESS adr)
 {
-  return drive_bank_read(&drive0_context, bank, adr);
+    return drive_bank_read(&drive0_context, bank, adr);
 }
+
 static BYTE drive0_bank_peek(int bank, ADDRESS adr)
 {
-  return drive_bank_peek(&drive0_context, bank, adr);
+    return drive_bank_peek(&drive0_context, bank, adr);
 }
+
 static void drive0_bank_store(int bank, ADDRESS adr, BYTE val)
 {
-  drive_bank_store(&drive0_context, bank, adr, val);
+    drive_bank_store(&drive0_context, bank, adr, val);
 }
+
 static void drive0_toggle_watchpoints(int flag)
 {
-  drive_toggle_watchpoints(&drive0_context, flag);
+    drive_toggle_watchpoints(&drive0_context, flag);
 }
+
 static BYTE drive1_bank_read(int bank, ADDRESS adr)
 {
-  return drive_bank_read(&drive1_context, bank, adr);
+    return drive_bank_read(&drive1_context, bank, adr);
 }
+
 static BYTE drive1_bank_peek(int bank, ADDRESS adr)
 {
-  return drive_bank_peek(&drive1_context, bank, adr);
+    return drive_bank_peek(&drive1_context, bank, adr);
 }
+
 static void drive1_bank_store(int bank, ADDRESS adr, BYTE val)
 {
-  drive_bank_store(&drive1_context, bank, adr, val);
+    drive_bank_store(&drive1_context, bank, adr, val);
 }
+
 static void drive1_toggle_watchpoints(int flag)
 {
-  drive_toggle_watchpoints(&drive1_context, flag);
+    drive_toggle_watchpoints(&drive1_context, flag);
 }
 
 static void drive0_set_bank_base(void)
@@ -135,46 +143,46 @@ static void drive1_set_bank_base(void)
 
 void drive_cpu_setup_context(drive_context_t *drv)
 {
-  monitor_interface_t *mi;
+    monitor_interface_t *mi;
 
-  drv->cpu.rmw_flag = 0;
-  drv->cpu.d_bank_limit = -1;
-  drv->cpu.pageone = NULL;
-  sprintf(drv->cpu.snap_module_name, "DRIVECPU%d", drv->mynumber);
-  sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber+8);
-  drv->cpu.monitor_interface
-      = (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
-  mi = drv->cpu.monitor_interface;
-  mi->cpu_regs = &(drv->cpu.cpu_regs);
-  mi->z80_cpu_regs = NULL;
-  mi->int_status = &(drv->cpu.int_status);
-  mi->clk = &(drive_clk[drv->mynumber]);
-  mi->current_bank = 0;
-  mi->mem_bank_list = NULL;
-  mi->mem_bank_from_name = NULL;
+    drv->cpu.alarm_context
+        = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
+    drv->cpu.clk_guard = (clk_guard_t *)xmalloc(sizeof(clk_guard_t));
+    drv->cpu.rmw_flag = 0;
+    drv->cpu.d_bank_limit = -1;
+    drv->cpu.pageone = NULL;
+    sprintf(drv->cpu.snap_module_name, "DRIVECPU%d", drv->mynumber);
+    sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber+8);
+    drv->cpu.monitor_interface
+        = (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
+    mi = drv->cpu.monitor_interface;
+    mi->cpu_regs = &(drv->cpu.cpu_regs);
+    mi->z80_cpu_regs = NULL;
+    mi->int_status = &(drv->cpu.int_status);
+    mi->clk = &(drive_clk[drv->mynumber]);
+    mi->current_bank = 0;
+    mi->mem_bank_list = NULL;
+    mi->mem_bank_from_name = NULL;
 
-  if (drv->mynumber == 0)
-  {
-    mi->mem_bank_read = drive0_bank_read;
-    mi->mem_bank_peek = drive0_bank_peek;
-    mi->mem_bank_write = drive0_bank_store;
-    mi->mem_ioreg_list_get = drive0_ioreg_list_get;
-    mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
-    mi->set_bank_base = drive0_set_bank_base;
+    if (drv->mynumber == 0) {
+        mi->mem_bank_read = drive0_bank_read;
+        mi->mem_bank_peek = drive0_bank_peek;
+        mi->mem_bank_write = drive0_bank_store;
+        mi->mem_ioreg_list_get = drive0_ioreg_list_get;
+        mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
+        mi->set_bank_base = drive0_set_bank_base;
 
-    drv->cpu.monspace = e_disk8_space;
-  }
-  else
-  {
-    mi->mem_bank_read = drive1_bank_read;
-    mi->mem_bank_peek = drive1_bank_peek;
-    mi->mem_bank_write = drive1_bank_store;
-    mi->mem_ioreg_list_get = drive1_ioreg_list_get;
-    mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
-    mi->set_bank_base = drive1_set_bank_base;
+        drv->cpu.monspace = e_disk8_space;
+    } else {
+        mi->mem_bank_read = drive1_bank_read;
+        mi->mem_bank_peek = drive1_bank_peek;
+        mi->mem_bank_write = drive1_bank_store;
+        mi->mem_ioreg_list_get = drive1_ioreg_list_get;
+        mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
+        mi->set_bank_base = drive1_set_bank_base;
 
-    drv->cpu.monspace = e_disk9_space;
-  }
+        drv->cpu.monspace = e_disk9_space;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -326,11 +334,9 @@ void drive_cpu_reset(drive_context_t *drv)
 
 void drive_cpu_early_init(drive_context_t *drv)
 {
-    clk_guard_init(&(drv->cpu.clk_guard), drv->clk_ptr,
-                   CLOCK_MAX - 0x100000);
+    clk_guard_init(drv->cpu.clk_guard, drv->clk_ptr, CLOCK_MAX - 0x100000);
 
-    alarm_context_init(&(drv->cpu.alarm_context),
-                       drv->cpu.identification_string);
+    alarm_context_init(drv->cpu.alarm_context, drv->cpu.identification_string);
 
     via1d_init(drv);
     via2d_init(drv);
@@ -389,7 +395,7 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
     }
 
     /* Then, check our own clock counters.  */
-    return clk_guard_prevent_overflow(&(drv->cpu.clk_guard));
+    return clk_guard_prevent_overflow(drv->cpu.clk_guard);
 }
 
 /* Handle a ROM trap. */
@@ -401,7 +407,7 @@ inline static int drive_trap_handler(drive_context_t *drv)
         if (drv->drive_ptr->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
-            next_clk = alarm_context_next_pending_clk(&(drv->cpu.alarm_context));
+            next_clk = alarm_context_next_pending_clk(drv->cpu.alarm_context);
             *(drv->clk_ptr) = next_clk;
         }
         return 0;
