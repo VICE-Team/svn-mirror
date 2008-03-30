@@ -11,6 +11,8 @@ INCLUDES = \
 noinst_LIBRARIES = libcbm2.a
 
 libcbm2_a_SOURCES = \
+	c610-cmdline-options.c \
+	c610-cmdline-options.h \
 	c610-resources.c \
 	c610-resources.h \
 	c610.c \

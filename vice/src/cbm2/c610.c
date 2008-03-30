@@ -31,6 +31,7 @@
 #include "asm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "c610-cmdline-options.h"
 #include "c610-resources.h"
 #include "c610.h"
 #include "c610acia.h"
@@ -145,7 +146,7 @@ int machine_init_cmdline_options(void)
     if (traps_init_cmdline_options() < 0
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
-        || c610_mem_init_cmdline_options() < 0
+        || c610_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0

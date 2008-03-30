@@ -64,6 +64,7 @@
 #include "utils.h"
 #include "via.h"
 #include "vic.h"
+#include "vic20-cmdline-options.h"
 #include "vic20-resources.h"
 #include "vic20.h"
 #include "vic20ieeevia.h"
@@ -94,41 +95,53 @@ static trap_t vic20_serial_traps[] = {
         0xEE2E,
         0xEEB2,
         {0x20, 0xA0, 0xE4},
-        serialattention
+        serialattention,
+        rom_read,
+        rom_store
     },
     {
         "SerialSaListen",
         0xEE40,
         0xEEB2,
         {0x20, 0x8D, 0xEF},
-        serialattention
+        serialattention,
+        rom_read,
+        rom_store
     },
     {
         "SerialSendByte",
         0xEE49,
         0xEEB2,
         {0x78, 0x20, 0xA0},
-        serialsendbyte
+        serialsendbyte,
+        rom_read,
+        rom_store
     },
     {
         "SerialReceiveByte",
         0xEF19,
         0xEEB2,
         {0x78, 0xA9, 0x00},
-        serialreceivebyte
+        serialreceivebyte,
+        rom_read,
+        rom_store
     },
     {
         "SerialReady",
         0xE4B2,
         0xEEB2,
         {0xAD, 0x1F, 0x91},
-        trap_serial_ready
+        trap_serial_ready,
+        rom_read,
+        rom_store
     },
     {
         NULL,
         0,
         0,
         {0, 0, 0},
+        NULL,
+        NULL,
         NULL
     }
 };
@@ -140,20 +153,26 @@ static trap_t vic20_tape_traps[] = {
         0xF7B2,
         0xF7B5,
         {0x20, 0xC0, 0xF8},
-        tape_find_header_trap
+        tape_find_header_trap,
+        rom_read,
+        rom_store
     },
     {
         "TapeReceive",
         0xF90B,
         0xFCCF,
         {0x20, 0xFB, 0xFC},
-        tape_receive_trap
+        tape_receive_trap,
+        rom_read,
+        rom_store
     },
     {
         NULL,
         0,
         0,
         {0, 0, 0},
+        NULL,
+        NULL,
         NULL
     }
 };
@@ -194,7 +213,7 @@ int machine_init_cmdline_options(void)
     if (traps_init_cmdline_options()
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
-        || vic20_mem_init_cmdline_options() < 0
+        || vic20_init_cmdline_options() < 0
         || vic_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
 #ifdef HAVE_RS232

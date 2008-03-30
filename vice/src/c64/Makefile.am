@@ -16,6 +16,8 @@ INCLUDES = \
 noinst_LIBRARIES = libc64.a libc64c128.a
 
 libc64_a_SOURCES = \
+	c64-cmdline-options.c \
+	c64-cmdline-options.h \
 	c64-resources.c \
 	c64-resources.h \
 	c64.c \
@@ -31,6 +33,8 @@ libc64_a_SOURCES = \
 	c64iec.h \
 	c64mem.c \
 	c64mem.h \
+	c64memlimit.c \
+	c64memlimit.h \
 	patchrom.c \
 	patchrom.h \
 	reu.c \

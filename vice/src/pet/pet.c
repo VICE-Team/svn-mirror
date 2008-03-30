@@ -53,6 +53,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "pet-cmdline-options.h"
 #include "pet-resources.h"
 #include "pet.h"
 #include "petmem.h"
@@ -176,7 +177,7 @@ int machine_init_cmdline_options(void)
     if (traps_init_cmdline_options() < 0
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
-        || pet_mem_init_cmdline_options() < 0
+        || pet_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
         || pia1_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0

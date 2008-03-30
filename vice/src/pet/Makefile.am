@@ -9,6 +9,8 @@ INCLUDES = \
 noinst_LIBRARIES = libpet.a
 
 libpet_a_SOURCES = \
+	pet-cmdline-options.c \
+	pet-cmdline-options.h \
 	pet-resources.c \
 	pet-resources.h \
 	pet.c \
