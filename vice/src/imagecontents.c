@@ -182,48 +182,9 @@ static int circular_check(unsigned int track, unsigned int sector)
 /* ------------------------------------------------------------------------ */
 
 /* Disk contents.  */
-/* FIXME: When we will have a module for disk image handling in the style of
-   `t64.c', this will be moved into it.  */
 
 /* Argh!  Really ugly!  FIXME!  */
 extern char const *slot_type[];
-
-static vdrive_t *open_disk_image(const char *name)
-{
-    vdrive_t *vdrive;
-    disk_image_t *image;
-
-    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-    image->name = stralloc(name);
-    image->gcr = NULL; 
-
-    if (disk_image_open(image) < 0) {
-        free(image->name);
-        log_error(LOG_ERR, "Cannot open file `%s'", name);
-        return NULL;
-    }
-
-    vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
-    memset(vdrive, 0, sizeof(vdrive_t));
-
-    vdrive_setup_device(vdrive, 100);
-    vdrive->image = image;
-    vdrive_attach_image(image, 100, vdrive);
-    return vdrive;
-}
-
-static void close_disk_image(vdrive_t *vdrive)
-{
-    disk_image_t *image;
-
-    image = vdrive->image;
-
-    vdrive_detach_image(image, 100, vdrive);
-    disk_image_close(image);
-
-    free(image);
-    free(vdrive);
-}
 
 image_contents_t *image_contents_read_disk(const char *file_name)
 {
@@ -233,14 +194,14 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     int retval;
     image_contents_file_list_t *lp;
 
-    vdrive = open_disk_image(file_name);
+    vdrive = vdrive_internal_open_disk_image(file_name);
     if (vdrive == NULL)
         return NULL;
 
     retval = vdrive_bam_read_bam(vdrive);
 
     if (retval < 0) {
-        close_disk_image(vdrive);
+        vdrive_internal_close_disk_image(vdrive);
         return NULL;
     }
 
@@ -273,7 +234,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         if (retval != 0
             || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
             image_contents_destroy(new);
-            close_disk_image(vdrive);
+            vdrive_internal_close_disk_image(vdrive);
             return NULL;
         }
 
@@ -318,7 +279,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         vdrive->Curr_sector = (int) buffer[1];
     }
 
-    close_disk_image(vdrive);
+    vdrive_internal_close_disk_image(vdrive);
     return new;
 }
 
