@@ -40,7 +40,6 @@
 #include "charsets.h"
 #include "diskimage.h"
 #include "imagecontents.h"
-#include "log.h"
 #include "serial.h"
 #include "t64.h"
 #include "types.h"
