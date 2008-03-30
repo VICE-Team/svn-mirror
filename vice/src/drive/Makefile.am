@@ -1,9 +1,8 @@
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/vdrive
 
 noinst_LIBRARIES = libdrive.a
 
@@ -35,6 +34,4 @@ libdrive_a_SOURCES = \
 
 EXTRA_DIST = \
 	drivecpucore.c 
-
-drivedir = $(top_srcdir)/src/drive
 
