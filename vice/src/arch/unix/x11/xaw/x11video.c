@@ -214,7 +214,7 @@ void video_add_handlers(ui_window_t w)
 }
 
 /* Make the canvas visible. */
-void canvas_map(canvas_t s)
+void canvas_map(canvas_t *s)
 {
     Display *display;
 
@@ -225,7 +225,7 @@ void canvas_map(canvas_t s)
 }
 
 /* Make the canvas not visible. */
-void canvas_unmap(canvas_t s)
+void canvas_unmap(canvas_t *s)
 {
     Display *display;
 
@@ -235,7 +235,7 @@ void canvas_unmap(canvas_t s)
     XFlush(display);
 }
 
-void ui_finish_canvas(canvas_t c)
+void ui_finish_canvas(canvas_t *c)
 {
     c->drawable = XtWindow(c->emuwindow);
 }
