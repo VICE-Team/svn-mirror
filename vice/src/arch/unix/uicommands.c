@@ -591,13 +591,16 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
 	i++;
-	
+
+#ifdef USE_GNOMEUI	
 	/* drivesettings */
-	/* this won't work so far, because the checkmarks aren't updated
-	   when a menu is destroyed, as the flipmenu is constantly */
+	/* this won't work so far for Xaw, because the checkmarks 
+	   aren't updated when a menu is destroyed, as the flipmenu is 
+	   dynamically regenerated; The Gnome code is already fixed. */
 	memcpy(&flipmenu[drive][i], (const char *)ui_drive_settings_menu, 
 	       sizeof (ui_menu_entry_t));
 	i++;
+#endif
 	
 	/* don't update menu deeply when drive has not been enabled 
 	   or nothing has been attached */
