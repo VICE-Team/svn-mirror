@@ -87,8 +87,11 @@ int palette_copy(palette_t *dest, const palette_t *src)
 {
     int i;
 
-    if (dest->num_entries != src->num_entries)
+    if (dest->num_entries != src->num_entries) {
+        log_error(LOG_DEFAULT,
+                  "Number of entries of src and dest palette do not match.");
         return -1;
+    }
 
     for (i = 0; i < src->num_entries; i++) {
         dest->entries[i].red = src->entries[i].red;
