@@ -2,7 +2,7 @@
  * vicii-mem.h - Memory interface for the MOS6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,14 +27,16 @@
 #ifndef _VIC_II_MEM_H
 #define _VIC_II_MEM_H
 
-/* FIXME: Names should be changed.  */
-void REGPARM2 store_vic (ADDRESS addr, BYTE value);
-BYTE REGPARM1 read_vic (ADDRESS addr);
-BYTE REGPARM1 peek_vic (ADDRESS addr);
-BYTE REGPARM1 read_colorram (ADDRESS addr);
-void REGPARM2 store_colorram (ADDRESS addr, BYTE value);
+#include "types.h"
+
+void REGPARM2 vic_store(ADDRESS addr, BYTE value);
+BYTE REGPARM1 vic_read(ADDRESS addr);
+BYTE REGPARM1 vic_peek(ADDRESS addr);
+BYTE REGPARM1 colorram_read(ADDRESS addr);
+void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
 void REGPARM2 store_vbank (ADDRESS addr, BYTE value);
 void REGPARM2 store_vbank_39xx (ADDRESS addr, BYTE value);
 void REGPARM2 store_vbank_3fxx (ADDRESS addr, BYTE value);
 
 #endif
+

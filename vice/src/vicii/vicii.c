@@ -457,7 +457,7 @@ void vic_ii_reset_registers(void)
     int i;
 
     for (i = 0; i <= 0x3f; i++)
-        store_vic (i, 0);
+        vic_store(i, 0);
 }
 
 /* This /should/ put the VIC-II in the same state as after a powerup, if
@@ -1035,7 +1035,7 @@ handle_fetch_matrix(long offset,
 
       /* As sprites are all turned off, there is no need for a sprite DMA
          check; next time we will VIC_II_FETCH_MATRIX again.  This works
-         because a VIC_II_CHECK_SPRITE_DMA is forced in `store_vic()'
+         because a VIC_II_CHECK_SPRITE_DMA is forced in `vic_store()'
          whenever the mask becomes nonzero.  */
 
       /* This makes sure we only create VIC_II_FETCH_MATRIX events in the bad
