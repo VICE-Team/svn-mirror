@@ -2,8 +2,8 @@
  * p00.c - Utility functions for P00 file support.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on older code by
  *  Dan Fandrich <dan@fch.wimsey.bc.ca>
@@ -44,6 +44,7 @@
 #include "p00.h"
 #include "rawfile.h"
 #include "types.h"
+#include "util.h"
 
 
 /* FIXME: Remove this. */
@@ -132,7 +133,7 @@ int p00_read_header(FILE *fd, BYTE *cbmname_return,
     return 0;
 }
 
-int p00_write_header(FILE *fd, BYTE *cbmname, BYTE recsize)
+int p00_write_header(FILE *fd, const BYTE *cbmname, BYTE recsize)
 {
     BYTE hdr[P00_HDR_LEN];
 
@@ -141,7 +142,7 @@ int p00_write_header(FILE *fd, BYTE *cbmname, BYTE recsize)
     memcpy(hdr + P00_HDR_MAGIC_OFFSET, p00_hdr_magic_string,
            P00_HDR_MAGIC_LEN);
     memcpy(hdr + P00_HDR_CBMNAME_OFFSET, cbmname, P00_HDR_CBMNAME_LEN);
-    hdr[P00_HDR_RECORDSIZE_OFFSET] = (BYTE) recsize;
+    hdr[P00_HDR_RECORDSIZE_OFFSET] = (BYTE)recsize;
 
     if (fseek(fd, 0, SEEK_SET) != 0)
         return -1;
@@ -149,7 +150,27 @@ int p00_write_header(FILE *fd, BYTE *cbmname, BYTE recsize)
     return fwrite(hdr, sizeof(hdr), 1, fd);
 }
 
-static char *p00_find_file(const char *file_name, const char *path)
+static int p00_compare_wildcards(const char *name, const char *p00name)
+{
+    size_t i, len;
+
+    len = strlen(name);
+    if (len == 0)
+        return 0;
+
+    for (i = 0; i < len; i++) {
+        if (name[i] == '*')
+            return 1;
+        if (name[i] != '?' && name[i] != p00name[i])
+            return 0;
+    }
+    if (strlen(p00name) > len)
+        return 0;
+
+    return 1;
+}
+
+static char *p00_file_find(const char *file_name, const char *path)
 {
     struct ioutil_dir_s *ioutil_dir;
     struct rawfile_info_s *rawfile;
@@ -178,8 +199,14 @@ static char *p00_find_file(const char *file_name, const char *path)
         rc = p00_read_header((FILE *)(rawfile->fd),
                              (BYTE *)p00_header_file_name, NULL);
 
-        if (rc >= 0)
-            alloc_name = lib_stralloc(name);
+        p00_header_file_name[16] = '\0';
+
+        if (rc >= 0) {
+            if (p00_compare_wildcards(file_name, p00_header_file_name) > 0)
+                alloc_name = lib_stralloc(name);
+            else
+                rc = -1;
+        }
 
         rawfile_destroy(rawfile);
 
@@ -192,48 +219,216 @@ static char *p00_find_file(const char *file_name, const char *path)
     return alloc_name;
 }
 
-fileio_info_t *p00_info(const char *file_name, const char *path,
-                        unsigned int command)
+static size_t p00_eliminate_char_p00(char *filename, int pos)
 {
-    int p00_type;
-    char p00_header_file_name[20]; /* FIXME */
+    memcpy(&filename[pos], &filename[pos + 1], 16 - pos);
+    return strlen(filename);
+}
+
+static int p00_reduce_filename_p00(char *filename, int len)
+{
+    int i, j;
+
+    for (i = len - 1; i >= 0; i--) {
+        if (filename[i] == '_')
+            if (p00_eliminate_char_p00(filename, i) <= 8)
+                return 8;
+        }
+
+    for (i = 0; i < len; i++) {
+        if (strchr("AEIOU", filename[i]) != NULL)
+            break;
+    }
+
+    for (j = len - 1; j >= i; j--) {
+        if (strchr("AEIOU", filename[j]) != NULL)
+            if (p00_eliminate_char_p00(filename, j) <= 8)
+                return 8;
+    }
+
+    for (i = len - 1; i >= 0; i--) {
+        if (isalpha((int) filename[i]))
+            if (p00_eliminate_char_p00(filename, i) <= 8)
+                return 8;
+    }
+
+    for (i = len - 1; i >= 0; i--)
+        if (p00_eliminate_char_p00(filename, i) <= 8)
+            return 8;
+
+    return 1;
+}
+
+static char *p00_evaluate_name(const char *name, int length)
+{
+    int i, j;
+    char *filename;
+
+    filename = lib_calloc(1, 17);
+
+    for (i = 0, j = 0; i < length; i++) {
+        switch (name[i]) {
+          case ' ':
+          case '-':
+            filename[j++] = '_';
+            break;
+          default:
+            if (islower((int)name[i])) {
+                filename[j++] = toupper(name[i]);
+                break;
+            }
+            if (isalnum((int)name[i])) {
+                filename[j++] = name[i];
+                break;
+            }
+        }
+    }
+    if (j == 0) {
+        strcpy(filename, "_");
+        j++;
+    }
+
+    if (j > 8)
+        p00_reduce_filename_p00(filename, j);
+
+    return filename;
+}
+
+static char *p00_filename_create(const char *file_name, unsigned int type)
+{
+    char *p00name, *main_name;
+    const char *typeext = NULL;
+    int length;
+
+    length = strlen(file_name);
+
+    if (length > 16)
+        length = 16;
+
+    main_name = p00_evaluate_name(file_name, length);
+
+    switch (type) {
+      case FILEIO_TYPE_DEL:
+        typeext = "D";
+        break;
+      case FILEIO_TYPE_SEQ:
+        typeext = "S";
+        break;
+      case FILEIO_TYPE_PRG:
+        typeext = "P";
+        break;
+      case FILEIO_TYPE_USR:
+        typeext = "U";
+        break;
+      case FILEIO_TYPE_REL:
+        typeext = "R";
+        break;
+    }
+
+    p00name = util_concat(main_name, FSDEV_EXT_SEP_STR, typeext, "00", NULL);
+    lib_free(main_name);
+
+    return p00name;
+}
+
+static char *p00_file_create(const char *file_name, const char *path,
+                             unsigned int type)
+{
+    char *p00name;
+    unsigned int i;
+    struct rawfile_info_s *rawfile;
+
+    p00name = p00_filename_create(file_name, type);
+
+    for (i = 1; i < 100; i++) {
+        rawfile = rawfile_open(p00name, path, FILEIO_COMMAND_READ);
+        if (rawfile == NULL)
+            break;
+        sprintf(&p00name[strlen(p00name) - 2], "%02i", i);
+    }
+
+    if (i >= 100)
+        return NULL;
+
+    return p00name;
+}
+
+fileio_info_t *p00_open(const char *file_name, const char *path,
+                        unsigned int command, unsigned int type)
+{
+    char rname[20]; /* FIXME */
     fileio_info_t *info;
     struct rawfile_info_s *rawfile;
     char *fname = NULL;
 
-    if (/*command & FILEIO_COMMAND_FSNAME*/ 1)
+    if (command & FILEIO_COMMAND_FSNAME) {
         fname = lib_stralloc(file_name);
-    else
-        fname = p00_find_file(file_name, path);
+    } else {
+        switch (command & FILEIO_COMMAND_MASK) {
+          case FILEIO_COMMAND_READ:
+          case FILEIO_COMMAND_APPEND:
+          case FILEIO_COMMAND_APPEND_READ:
+            fname = p00_file_find(file_name, path);
+            break;
+          case FILEIO_COMMAND_WRITE:
+            fname = p00_file_create(file_name, path, type);
+            break;
+        }
+    }
 
     if (fname == NULL)
         return NULL;
 
     rawfile = rawfile_open(fname, path, command & FILEIO_COMMAND_MASK);
+    lib_free(fname);
 
-    if (rawfile == NULL) {
-        lib_free(fname);
+    if (rawfile == NULL)
         return NULL;
-    }
 
-    p00_type = p00_check_name(fname);
+    switch (command & FILEIO_COMMAND_MASK) {
+      case FILEIO_COMMAND_READ:
+        type = p00_check_name(fname);
 
-    if (p00_type < 0
-        || p00_read_header((FILE *)(rawfile->fd),
-                           (BYTE *)p00_header_file_name, NULL) < 0) {
-        rawfile_destroy(rawfile);
-        lib_free(fname);
-        return NULL;
+        if (type < 0 || p00_read_header((FILE *)(rawfile->fd), (BYTE *)rname,
+            NULL) < 0) {
+            rawfile_destroy(rawfile);
+            return NULL;
+        }
+        break;
+      case FILEIO_COMMAND_APPEND:
+      case FILEIO_COMMAND_APPEND_READ:
+        type = p00_check_name(fname);
+
+        if (type < 0 || p00_read_header((FILE *)(rawfile->fd), (BYTE *)rname,
+            NULL) < 0) {
+            rawfile_destroy(rawfile);
+            return NULL;
+        }
+        if (fseek((FILE *)(rawfile->fd), 0, SEEK_END) != 0)
+            rawfile_destroy(rawfile);
+            return NULL;
+        break;
+      case FILEIO_COMMAND_WRITE:
+        memset(rname, 0, sizeof(rname));
+        strncpy(rname, file_name, 16);
+        if (p00_write_header((FILE *)(rawfile->fd), rname, 0) < 0) {
+            rawfile_destroy(rawfile);
+            return NULL;
+        }
+        break;
     }
 
     info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
-    info->name = (BYTE *)lib_stralloc(p00_header_file_name);;
-    info->type = (unsigned int)p00_type;
+    info->name = (BYTE *)lib_stralloc(rname);
+    info->type = (unsigned int)type;
     info->format = FILEIO_FORMAT_P00;
     info->rawfile = rawfile;
 
-    lib_free(fname);
-
     return info;
+}
+
+void p00_close(fileio_info_t *info)
+{
+    rawfile_destroy(info->rawfile);
 }
 
