@@ -1,3 +1,21 @@
+2003-06-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.
+
+2003-06-08  Andreas Dehmel  <zarquon@t-online.de>
+
+	* sound.c: avoid possible division by zero error in sound_open
+
+2003-06-08  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/plus4.dsp, arch/win32/xplus4.dsp: Compile proper
+	CPU file.
+
+2003-06-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui_drive.cc: Added missing drive types using the
+	drive_check API.
+
 2003-06-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.50.
