@@ -451,6 +451,7 @@ void flush_fs(void *flp, int secondary)
 		fclose(fd);
 	    } else {
 		strcpy(name1, fsdevice_get_path(floppy->unit));
+                strcat(name1, "/");
 		strcat(name1, arg);
 	    }
 	if (unlink(name1)) {
@@ -497,6 +498,7 @@ void flush_fs(void *flp, int secondary)
 		    for (i = 0; i < 100; i++) {
 			memset(name1p00, 0, MAXPATHLEN);
 			strcpy(name1p00, fsdevice_get_path(floppy->unit));
+                        strcat(name1p00, "/");
 			strcat(name1p00, name1);
 			strcat(name1p00, ".");
 			strncat(name1p00, &p00type, 1);
@@ -514,8 +516,10 @@ void flush_fs(void *flp, int secondary)
 	    } else {
 		/* Rename CBM file.  */
 		strcpy(name1, fsdevice_get_path(floppy->unit));
+                strcat(name1, "/");
 		strcat(name1, arg);
 		strcpy(name2, fsdevice_get_path(floppy->unit));
+                strcat(name2, "/");
 		strcat(name2, arg2);
 		if (rename(name2, name1)) {
 		    er = IPE_NOT_FOUND;
@@ -967,11 +971,12 @@ int open_fs(void *flp, char *name, int length, int secondary)
 
 	strcpy(fsname2, fsname);
 	strcpy(fsname, fsdevice_get_path(floppy->unit));
+        strcat(fsname, "/");
 	strcat(fsname, fsname2);
 
 	/* Test on wildcards.  */
 	if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
-	    if (fs_info[secondary].mode == Write 
+	    if (fs_info[secondary].mode == Write
 				|| fs_info[secondary].mode == Append) {
 		fs_error(IPE_BAD_NAME);
 		return FLOPPY_ERROR;
@@ -1120,6 +1125,7 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
     tmptype = is_pc64name(rname);
     if (tmptype >= 0) {
 	strcpy(pathname, fsdevice_get_path(floppy->unit));
+        strcat(pathname, "/");
 	strcat(pathname, rname);
 	fd = fopen(pathname, READ);
 	if (!fd)
@@ -1164,6 +1170,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 	dirp = readdir(dp);
 	if (dirp != NULL) {
 	    strcpy(pname, fsdevice_get_path(floppy->unit));
+            strcat(pname, "/");
 	    strcat(pname, dirp->d_name);
 	    p = pname;
 	    if (is_pc64name(p) >= 0) {
@@ -1230,6 +1237,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname)
 	if (dirp != NULL) {
 	    if (fsdevice_compare_pc64_name(fsname2, dirp->d_name) > 0) {
 		strcpy(fsname, fsdevice_get_path(floppy->unit));
+                strcat(fsname, "/");
 		strcat(fsname, dirp->d_name);
 		closedir(dp);
 		return;
@@ -1257,6 +1265,7 @@ static int fsdevice_create_file_p00(void *flp, char *name, int length,
     len = fsdevice_evaluate_name_p00(name, length, filename);
 
     strcpy(fsname, fsdevice_get_path(floppy->unit));
+    strcat(fsname, "/");
     strncat(fsname, filename, len);
     switch (fs_info[secondary].type) {
       case FT_DEL:
