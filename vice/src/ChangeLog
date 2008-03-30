@@ -1,3 +1,154 @@
+2001-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.37.
+
+	* raster/raster.c (draw_blank): Commented out multiplication
+	by two as the border is mixed up otherwise.
+	(realize_frame_buffer): Removed frame buffer width hack.
+
+	* vicii/vicii.c (vic_ii_set_geometry): Enlarged extra border.
+
+	* vdc/vdc.c (vdc_init): Moved call to
+	`raster_set_pixel_size()' here.
+	(vdc_raster_draw_alarm_handler): Update bitmap address on
+	first visisble line.
+
+	* vdc/vdc-mem.c (vdc_store): Changed calculation of vertial
+	scroll.
+
+	* vdc/vdc-draw.c (get_std_text): Added support for reverse
+	bit.
+
+	* raster/raster-cache.h (raster_cache_data_fill_attr_text,
+	raster_cache_data_fill_attr_text_const): Added support for
+	reverse bit.
+
+	* vdc/vdc-resources.c: #include <stdio.h>.
+
+2001-12-11  John Selck  <graham@cruise.de>
+
+	* crtc/crtc.c: crtc_resize() and crtc_set_geometry() now
+	select VIDEO_RENDER_2X2 for 2x2 rendering.
+
+	* crtc/crtc-draw.c: When VIDEO_REMOVE_2X is defined, the
+	2x renderers are removed.
+
+	* raster/raster.c: When VIDEO_REMOVE_2X is defined,
+	realize_frame_buffer() will allocate a framebuffer independent
+	from the pixel_size in the viewport. The framebuffer size
+	should be always 1x1, but due to a bug in a VIC-II renderer
+	which causes access faults the width is doubled.
+ 
+	* vicii/vicii-resources.c: DoubleScan default setting now is
+	"1".
+
+	* vicii/vicii.c: vic_ii_resize() now also calls
+	raster_enable_double_scan().
+
+	* vic/vic-resources.c: DoubleScan default setting now is "1".
+
+	* vic/vic.c: vic_resize() now also calls
+	raster_enable_double_scan().
+
+	* crtc/crtc.c: crtc_resize() now also calls
+	raster_enable_double_scan().
+
+2001-12-11  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h: 
+	-added definitions for *_NEED_2X, HAVE_*
+	-removed HAVE_MOUSE for Plus4
+
+	* arch/os2/dialogs/dialogs.rc:
+	- removed defaulticons
+	- removed pointers
+	- changed About-dialog to 2002
+
+	* arch/os2/dialogs/dlg-color.c: simplified
+  
+	* arch/os2/dialogs/dlg-fileio.c:
+	- fixed some bugs
+	- added crtridge support for x128
+  
+	* arch/os2/dialogs/menubar.[h,rc,c]:
+	- added support for video souble size/scan
+	- added support for fake pal emu
+  
+	* arch/os2/makeclean.cmd: added *.ics
+  
+	* arch/os2/makedist.cmd: added plus4 stuff
+  
+	* arch/os2/ui.c: changes resources and cmdline options for
+	vsid_mode
+  
+	* arch/os2/vac++/incl/cbm2.icc: added c610-snapshot.c
+  
+	* arch/os2/vac++/incl/pet.icc: added pet-snapshot.c
+  
+	* arch/os2/vac++/incl/plus4.icc: added plus4-snapshot.c
+  
+	* arch/os2/vac++/incl/video.icc: added render1x2.c
+  
+	* arch/os2/vac++/Makefile.am: removed c64cart.icc
+  
+	* arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	arch/os2/vac++/xpet/Xpet.ICC,
+	arch/os2/vac++/xplus4/Xplus4.ICC: 
+	- added video stuff
+
+	* arch/os2/video.c, videoarch.h:
+	- added support for direct access
+	- added some measurements
+	- changed resource handling for vsid_mode
+	- made all video stuff local to the canvas
+	- removed palette from video_canvas_t
+	- added support for video_render_setphysical_palette
+	- reorganized initialization of canvas
+	- renamed and reordered some functions
+	- added support for renderer
+  
+	* raster/raster.c:
+	- don't realize video canvas in vsid_mode
+	- don't destroy canvas in vsid_mode
+  
+	* vdc/vdc-resources.c: - removed include of stdio
+  
+	* video.h: - splitted typedef struct
+  
+2001-12-10  John Selck  <graham@cruise.de>
+
+	* video.h: New rendermode VIDEO_RENDER_NULL which
+	disables rendering.
+
+	* video/video-render.c: video_render_initconfig() now
+	initialises the videoconfig with VIDEO_RENDER_NULL.
+	video_render_main() now has a case for this new rendermode.
+
+	* vicii/vicii.c: vic_ii_init() now calls vic_ii_resize().
+
+	* vic20/vic.c: vic_init() now calls vic_resize().
+
+	* crtc/crtc.c: crtc_init() now calls crtc_resize().
+
+	* vdc/vdc.c: vdc_resize() now calls raster_set_pixel_size().
+
+2001-12-09  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/videoarch.h: Made `videorendermode' visible for
+	Gnome.
+
+	* arch/unix/x11/gnome/uipalcontrol.c (build_pal_ctrl_widget):
+	Added a reset button. Changed scrollbars to be aligned. Added
+	instrumentation for translations to labels.
+
+	* arch/unix/x11/gnome/ui.c (ui_create_status_bar): Fixed focus
+	behavior of the pal_ctrl_checkbox widget. 
+	(ui_update_pal_ctrls): Handle hide/show of pal controls more
+	smartly. 
+
+	* arch/unix/x11/dga2.c (fullscreen_vidmode_available): if 0'ed
+	XF86DGAForkApp() call. Dga should be stable enough now.
+ 
 2001-12-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.36.

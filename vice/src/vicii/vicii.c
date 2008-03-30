@@ -316,7 +316,7 @@ static void vic_ii_set_geometry(void)
                       0,
                       vic_ii.first_displayed_line,
                       vic_ii.last_displayed_line,
-                      2 * VIC_II_MAX_SPRITE_WIDTH);
+                      2 * VIC_II_MAX_SPRITE_WIDTH + 0x58 * 2);
 #ifdef USE_XF86_EXTENSIONS
   if (!fullscreen_is_enabled)
 #endif
@@ -556,6 +556,8 @@ raster_t *vic_ii_init(void)
   vic_ii.initialized = 1;
 
   clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+
+  vic_ii_resize();
 
   return &vic_ii.raster;
 }
@@ -1611,15 +1613,20 @@ void vic_ii_resize(void)
       vic_ii_draw_set_double_size(0);
       vic_ii_sprites_set_double_size(0);
     }
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+	    raster_enable_double_scan(&vic_ii.raster,
+	                              vic_ii_resources.fullscreen_double_scan_enabled);
+	else
+#endif
+	    raster_enable_double_scan(&vic_ii.raster,
+	                              vic_ii_resources.double_scan_enabled);
 }
 
 void vic_ii_set_canvas_refresh(int enable)
 {
-    raster_t *raster;
-
-    raster = &vic_ii.raster;
-
-    raster_set_canvas_refresh(raster, enable);
+    raster_set_canvas_refresh(&vic_ii.raster, enable);
 }
 
 int vic_ii_write_snapshot_module(snapshot_t *s)
