@@ -249,7 +249,7 @@ static void In1_nrfdhi(int tr) {
 
 #define	In2_atnlo	WATN_atnlo
 
-static void In2_atnhi(a) {	/* atn data transfer interrupted */
+static void In2_atnhi(int a) {	/* atn data transfer interrupted */
 	ResetBus();
 	Go(WaitATN);		/* ??? */
 }
@@ -364,16 +364,21 @@ void parallel_set_atn( char mask )
 {
     char old = parallel_atn;
     parallel_atn |= mask;
-    if (parallel_emu && !old) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "set_atn(%02x) -> ATNlo", mask);
-	DoTrans(ATNlo);
 
-	if (drive[0].enable) {
-	    drive0_parallel_set_atn(1);
-	}
-	if (drive[1].enable) {
-	    drive1_parallel_set_atn(1);
-	}
+    if(parallel_debug && !old) 
+	log_warning(LOG_DEFAULT, "set_atn(%02x) -> ATNlo", mask);
+
+    /* if ATN went active, signal to attached devices */
+    if (!old) {
+        if (parallel_emu) {
+	    DoTrans(ATNlo);
+        }
+        if (drive[0].enable) {
+            drive0_parallel_set_atn(1);
+        }
+        if (drive[1].enable) {
+            drive1_parallel_set_atn(1);
+        }
     }
 }
 
@@ -381,10 +386,15 @@ void parallel_clr_atn( char mask )
 {
     char old = parallel_atn;
     parallel_atn &= mask;
-    if (parallel_emu && old && !parallel_atn) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi", ~mask);
-	DoTrans(ATNhi);
 
+    if(parallel_debug && old && !parallel_atn) 
+	log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi", ~mask);
+
+    /* if ATN went inactive, signal to attached devices */
+    if (old && !parallel_atn) {
+        if (parallel_emu) {
+	    DoTrans(ATNhi);
+        }
 	if (drive[0].enable) {
 	    drive0_parallel_set_atn(0);
 	}
@@ -398,8 +408,11 @@ void parallel_set_dav( char mask )
 {
     char old = parallel_dav;
     parallel_dav |= mask;
+
+    if(parallel_debug && !old) 
+	log_warning(LOG_DEFAULT, "set_dav(%02x) -> DAVlo", mask);
+
     if (parallel_emu && !old) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "set_dav(%02x) -> DAVlo", mask);
 	DoTrans(DAVlo);
     }
 }
@@ -408,8 +421,11 @@ void parallel_clr_dav( char mask )
 {
     char old = parallel_dav;
     parallel_dav &= mask;
+
+    if(parallel_debug && old && !parallel_dav) 
+	log_warning(LOG_DEFAULT, "clr_dav(%02x) -> DAVhi", ~mask);
+
     if (parallel_emu && old && !parallel_dav) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_dav(%02x) -> DAVhi", ~mask);
 	DoTrans(DAVhi);
     }
 }
@@ -418,8 +434,11 @@ void parallel_set_nrfd( char mask )
 {
     char old = parallel_nrfd;
     parallel_nrfd |= mask;
+
+    if(parallel_debug && !old) 
+	log_warning(LOG_DEFAULT, "set_nrfd(%02x) -> NRFDlo", mask);
+
     if (parallel_emu && !old) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "set_nrfd(%02x) -> NRFDlo", mask);
 	DoTrans(NRFDlo);
     }
 }
@@ -428,8 +447,11 @@ void parallel_clr_nrfd( char mask )
 {
     char old = parallel_nrfd;
     parallel_nrfd &= mask;
+
+    if(parallel_debug && old && !parallel_nrfd) 
+	log_warning(LOG_DEFAULT, "clr_nrfd(%02x) -> NRFDhi", ~mask);
+
     if (parallel_emu && old && !parallel_nrfd) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_nrfd(%02x) -> NRFDhi", ~mask);
 	DoTrans(NRFDhi);
     }
 }
@@ -438,8 +460,11 @@ void parallel_set_ndac( char mask )
 {
     char old = parallel_ndac;
     parallel_ndac |= mask;
+
+    if(parallel_debug && !old) 
+	log_warning(LOG_DEFAULT, "set_ndac(%02x) -> NDAClo", mask);
+
     if (parallel_emu && !old) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "set_ndac(%02x) -> NDAClo", mask);
 	DoTrans(NDAClo);
     }
 }
@@ -448,8 +473,11 @@ void parallel_clr_ndac( char mask )
 {
     char old = parallel_ndac;
     parallel_ndac &= mask;
+
+    if(parallel_debug && old && !parallel_ndac) 
+	log_warning(LOG_DEFAULT, "clr_ndac(%02x) -> NDAChi", ~mask);
+
     if (parallel_emu && old && !parallel_ndac) {
-	if(parallel_debug) log_warning(LOG_DEFAULT, "clr_ndac(%02x) -> NDAChi", ~mask);
 	DoTrans(NDAChi);
     }
 }

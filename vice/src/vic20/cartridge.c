@@ -59,11 +59,13 @@
 
 /* Hm, if this gets more, I should introduce an array :-) */
 static char *cartridge_file_2;
+static char *cartridge_file_4;
 static char *cartridge_file_6;
 static char *cartridge_file_A;
 static char *cartridge_file_B;
 
 static char *cartfile2;
+static char *cartfile4;
 static char *cartfile6;
 static char *cartfileA;
 static char *cartfileB;
@@ -78,7 +80,20 @@ static int set_cartridge_file_2(resource_value_t v)
 
     string_set(&cartridge_file_2, name);
     string_set(&cartfile2, name);
-    return cartridge_attach_image(CARTRIDGE_VIC20_8KB_2000, cartfile2);
+    return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, cartfile2);
+}
+
+static int set_cartridge_file_4(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (cartridge_file_4 != NULL && name != NULL
+	&& strcmp(name, cartridge_file_4) == 0)
+	return 0;
+
+    string_set(&cartridge_file_4, name);
+    string_set(&cartfile4, name);
+    return cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, cartfile4);
 }
 
 static int set_cartridge_file_6(resource_value_t v)
@@ -91,7 +106,7 @@ static int set_cartridge_file_6(resource_value_t v)
 
     string_set(&cartridge_file_6, name);
     string_set(&cartfile6, name);
-    return cartridge_attach_image(CARTRIDGE_VIC20_8KB_6000, cartfile6);
+    return cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, cartfile6);
 }
 
 static int set_cartridge_file_A(resource_value_t v)
@@ -124,6 +139,8 @@ static resource_t resources[] =
 {
     {"CartridgeFile2000", RES_STRING, (resource_value_t) "",
      (resource_value_t *) & cartridge_file_2, set_cartridge_file_2},
+    {"CartridgeFile4000", RES_STRING, (resource_value_t) "",
+     (resource_value_t *) & cartridge_file_4, set_cartridge_file_4},
     {"CartridgeFile6000", RES_STRING, (resource_value_t) "",
      (resource_value_t *) & cartridge_file_6, set_cartridge_file_6},
     {"CartridgeFileA000", RES_STRING, (resource_value_t) "",
@@ -150,20 +167,27 @@ static int attach_cartA(const char *param, void *extra_param)
 
 static int attach_cart6(const char *param, void *extra_param)
 {
-    return cartridge_attach_image(CARTRIDGE_VIC20_8KB_6000, param);
+    return cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, param);
+}
+
+static int attach_cart4(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, param);
 }
 
 static int attach_cart2(const char *param, void *extra_param)
 {
-    return cartridge_attach_image(CARTRIDGE_VIC20_8KB_2000, param);
+    return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, param);
 }
 
 static cmdline_option_t cmdline_options[] =
 {
     {"-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
-     "<name>", "Specify 4/8K extension ROM name at $2000"},
+     "<name>", "Specify 4/8/16K extension ROM name at $2000"},
+    {"-cart4", CALL_FUNCTION, 1, attach_cart4, NULL, NULL, NULL,
+     "<name>", "Specify 4/8/16K extension ROM name at $4000"},
     {"-cart6", CALL_FUNCTION, 1, attach_cart6, NULL, NULL, NULL,
-     "<name>", "Specify 4/8K extension ROM name at $6000"},
+     "<name>", "Specify 4/8/16K extension ROM name at $6000"},
     {"-cartA", CALL_FUNCTION, 1, attach_cartA, NULL, NULL, NULL,
      "<name>", "Specify 4/8K extension ROM name at $A000"},
     {"-cartB", CALL_FUNCTION, 1, attach_cartB, NULL, NULL, NULL,
@@ -184,6 +208,7 @@ int cartridge_attach_image(int type, const char *filename)
     FILE *fd;
     int addr;
     size_t n;
+    int type2 = CARTRIDGE_VIC20_DETECT;
 
     /* Attaching no cartridge always works.  */
     if (type == CARTRIDGE_NONE || filename==NULL || *filename == '\0')
@@ -199,39 +224,66 @@ int cartridge_attach_image(int type, const char *filename)
     addr = fgetc(fd);
     addr = (addr & 0xff) | ((fgetc(fd) << 8) & 0xff00);
 
-    if (type == CARTRIDGE_VIC20_DETECT) {
-	if (addr == 0x6000) {
-	    type = CARTRIDGE_VIC20_8KB_6000;
-	} else if (addr == 0xA000) {
-	    type = CARTRIDGE_VIC20_8KB_A000;
-	} else if (addr == 0x2000) {
-	    type = CARTRIDGE_VIC20_8KB_2000;
-	} else if (addr == 0xB000) {
-	    type = CARTRIDGE_VIC20_4KB_B000;
-	}
+    if (addr == 0x6000 || addr == 0x7000) {
+        type2 = CARTRIDGE_VIC20_16KB_6000;
+    } else if (addr == 0xA000) {
+        type2 = CARTRIDGE_VIC20_8KB_A000;
+    } else if (addr == 0x2000 || addr == 0x3000) {
+        type2 = CARTRIDGE_VIC20_16KB_2000;
+    } else if (addr == 0xB000) {
+        type2 = CARTRIDGE_VIC20_4KB_B000;
+    } else if (addr == 0x4000 || addr == 0x5000) {
+        type2 = CARTRIDGE_VIC20_16KB_4000;
     }
+    if (type2 == CARTRIDGE_VIC20_DETECT) {
+	/* rewind to the beginning of the file (no load address) */
+	fseek(fd, 0, SEEK_SET);
+    }
+    if (type == CARTRIDGE_VIC20_DETECT) {
+	type = type2;
+    }
+
     memset(rawcart, 0xff, 0x4000);
 
     switch (type) {
-      case CARTRIDGE_VIC20_8KB_2000:
-	  if ((n = fread(rawcart, 0x1000, 2, fd)) < 1) {
+      case CARTRIDGE_VIC20_16KB_4000:
+	  if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
 	      zfclose(fd);
 	      return -1;
 	  }
-	  if (n < 2) {
-	      /* type = CARTRIDGE_VIC20_4KB_2000; */
-	      memcpy(rawcart + 0x1000, rawcart, 0x1000);
+	  if (n < 4) {
+	      type = CARTRIDGE_VIC20_8KB_4000;
+	      if (n < 2) {
+	          memcpy(rawcart + 0x1000, rawcart, 0x1000);
+	      }
+	  }
+	  string_set(&cartfile4, filename);
+	  break;
+      case CARTRIDGE_VIC20_16KB_2000:
+	  if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
+	      zfclose(fd);
+	      return -1;
+	  }
+	  if (n < 4) {
+	      type = CARTRIDGE_VIC20_8KB_2000;
+	      if (n < 2) {
+	          /* type = CARTRIDGE_VIC20_4KB_2000; */
+	          memcpy(rawcart + 0x1000, rawcart, 0x1000);
+	      }
 	  }
 	  string_set(&cartfile2, filename);
 	  break;
-      case CARTRIDGE_VIC20_8KB_6000:
-	  if ((n = fread(rawcart, 0x1000, 2, fd)) < 1) {
+      case CARTRIDGE_VIC20_16KB_6000:
+	  if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
 	      zfclose(fd);
 	      return -1;
 	  }
-	  if (n < 2) {
-	      /* type = CARTRIDGE_VIC20_4KB_6000; */
-	      memcpy(rawcart + 0x1000, rawcart, 0x1000);
+	  if (n < 4) {
+	      type = CARTRIDGE_VIC20_8KB_6000;
+	      if (n < 2) {
+	          /* type = CARTRIDGE_VIC20_4KB_6000; */
+	          memcpy(rawcart + 0x1000, rawcart, 0x1000);
+	      }
 	  }
 	  string_set(&cartfile6, filename);
 	  break;
@@ -271,9 +323,11 @@ int cartridge_attach_image(int type, const char *filename)
 void cartridge_detach_image(void)
 {
     mem_detach_cartridge(CARTRIDGE_VIC20_8KB_2000);
+    mem_detach_cartridge(CARTRIDGE_VIC20_8KB_4000);
     mem_detach_cartridge(CARTRIDGE_VIC20_8KB_6000);
     mem_detach_cartridge(CARTRIDGE_VIC20_8KB_A000);
     string_set(&cartfile2, NULL);
+    string_set(&cartfile4, NULL);
     string_set(&cartfile6, NULL);
     string_set(&cartfileA, NULL);
     string_set(&cartfileB, NULL);
@@ -282,6 +336,7 @@ void cartridge_detach_image(void)
 void cartridge_set_default(void)
 {
     set_cartridge_file_2((resource_value_t) cartfile2);
+    set_cartridge_file_4((resource_value_t) cartfile4);
     set_cartridge_file_6((resource_value_t) cartfile6);
     set_cartridge_file_A((resource_value_t) cartfileA);
     set_cartridge_file_B((resource_value_t) cartfileB);
@@ -292,6 +347,8 @@ const char *cartridge_get_file_name(ADDRESS addr)
     switch (addr) {
       case 0x2000:
 	  return cartfile2;
+      case 0x4000:
+	  return cartfile4;
       case 0x6000:
 	  return cartfile6;
       case 0xa000:

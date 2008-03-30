@@ -1271,7 +1271,7 @@ static int vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
 	floppy->bam[0x100 + 1] = 3;
 	floppy->bam[0x100 + 2] = 67;
 	floppy->bam[0x100 + 4] = 1;	/* In this block from track ... */
-	floppy->bam[0x100 + 5] = 51;	/* till including track ... */
+	floppy->bam[0x100 + 5] = 51;	/* till excluding track ... */
 
 	if (floppy->ImageFormat == 8050) {
 	    /* second bitmap block at 38/3 */
@@ -1279,26 +1279,26 @@ static int vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
 	    floppy->bam[0x200 + 1] = 1;
 	    floppy->bam[0x200 + 2] = 67;
 	    floppy->bam[0x200 + 4] = 51;    /* In this block from track ... */
-	    floppy->bam[0x200 + 5] = 78;    /* till excluding track ... */
+	    floppy->bam[0x200 + 5] = 79;    /* till excluding track ... */
 	} else 
-	if (floppy->ImageFormat == 8050) {
+	if (floppy->ImageFormat == 8250) {
 	    /* second bitmap block at 38/3 */
 	    floppy->bam[0x200]     = 38;
 	    floppy->bam[0x200 + 1] = 6;
 	    floppy->bam[0x200 + 2] = 67;
 	    floppy->bam[0x200 + 4] = 51;    /* In this block from track ... */
-	    floppy->bam[0x200 + 5] = 100;   /* till including track ... */
+	    floppy->bam[0x200 + 5] = 101;   /* till excluding track ... */
 	    /* third bitmap block at 38/6 */
 	    floppy->bam[0x300]     = 38;
 	    floppy->bam[0x300 + 1] = 9;
 	    floppy->bam[0x300 + 2] = 67;
 	    floppy->bam[0x300 + 4] = 101;   /* In this block from track ... */
-	    floppy->bam[0x300 + 5] = 150;   /* till including track ... */
+	    floppy->bam[0x300 + 5] = 151;   /* till excluding track ... */
 	    /* fourth bitmap block at 38/9 */
 	    floppy->bam[0x400]     = 39;
 	    floppy->bam[0x400 + 1] = 1;
 	    floppy->bam[0x400 + 2] = 67;
-	    floppy->bam[0x400 + 4] = 151;    /* In this block from track ... */
+	    floppy->bam[0x400 + 4] = 151;   /* In this block from track ... */
 	    floppy->bam[0x400 + 5] = 155;   /* till excluding track ... */
 	}
 	break;

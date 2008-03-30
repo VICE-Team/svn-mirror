@@ -50,7 +50,5 @@
 #define DOCDIR          LIBDIR "/doc"
 #define VICEUSERDIR     ".vice"
 
-const char *archdep_home_path(void);
-
 #endif
 

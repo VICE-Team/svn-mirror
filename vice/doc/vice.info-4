@@ -18,6 +18,53 @@ permission notice identical to this one.
 
 
 
+File: vice.info,  Node: xcbm2 modules,  Next: Drive modules,  Prev: xpet modules,  Up: Emulator modules
+
+xcbm2 modules
+.............
+
+   The modules in the xcbm2 emulator are:
+
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU - although it is a      
+                                      6509, only the 6502 core is saved    
+                                      here                                 
+CBM2MEM Memory                        Holds the RAM contents of the        
+                                      CBM-II models.  Also holds the       
+                                      exec-bank and indirection bank       
+                                      registers                            
+CBM2ROM Memory                        optional.  Holds the ROM images.     
+CRTC    6545                          The video chip for the C6*0 and      
+                                      C7*0 models (only those models).     
+VIC-II  656?                          The video chip for the C5*0 models   
+                                      (only the C5*0 models).              
+CIA1    6526                          The CIA for IEEE 488 and userport.   
+TPI1    6525                          TPI 1 for IEEE488                    
+TPI2    6525                          TPI 2 for interrupts and keyboard.   
+ACIA1   6551                          The RS232 interface                  
+SID     6581                          The CBM2s SID sound chip             
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
+
+   The snapshot either contains CRTC or VIC-II snapshot modules, but
+not both.  Depending on which module is found, a C5*0 or C6*0 is
+emulated.
+
+
+File: vice.info,  Node: Drive modules,  Prev: xcbm2 modules,  Up: Emulator modules
+
+Drive modules
+.............
+
+   The modules for the real disk drive emulation are included in the
+emulator when the emulation is enabled during the writing of the
+snapshot.
+
+Name    Type                          Description                          
+*CPU    6502                          The Drive 0 CPU                      
+*       *                             *                                    
+
+
 File: vice.info,  Node: Module formats,  Prev: Emulator modules,  Up: Snapshot format
 
 Module formats
@@ -456,9 +503,9 @@ memory configuration. The RAM configuration is saved in the snapshot,
 and restored when the snapshot is loaded. The attached cartridges are
 also restored upon load if they have been saved in the snapshot.
 
-   Version numbers: Major 1, Minor 0
-
    The VIC20MEM module
+
+   Version numbers: Major 1, Minor 0
 
 Type    Name                          Description                          
 BYTE    CONFIG                        Configuration register.  Bits        
@@ -481,9 +528,13 @@ ARRAY   BLK5                          if CONFIG & 32 then: 8k RAM dump
 
    The VIC20ROM module
 
+   Version numbers: Major 1, Minor 1
+
 Type    Name                          Description                          
 BYTE    CONFIG                        Bit 0: 1= ROM block $2*** enabled.   
                                       Bit 1: 1= ROM block $3*** enabled.   
+                                      Bit 2: 1= ROM block $4*** enabled.   
+                                      Bit 3: 1= ROM block $5*** enabled.   
                                       Bit 4: 1= ROM block $6*** enabled.   
                                       Bit 5: 1= ROM block $7*** enabled.   
                                       Bit 6: 1= ROM block $A*** enabled.   
@@ -497,6 +548,10 @@ ARRAY   BLK3A                         4k ROM image $6*** (if CONFIG & 16)
 ARRAY   BLK3B                         4k ROM image $7*** (if CONFIG & 32)  
 ARRAY   BLK5A                         4k ROM image $A*** (if CONFIG & 64)  
 ARRAY   BLK5B                         4k ROM image $B*** (if CONFIG & 128) 
+ARRAY   BLK2A                         4k ROM image $4*** (if CONFIG & 4;   
+                                      added in V1.1)                       
+ARRAY   BLK2B                         4k ROM image $5*** (if CONFIG & 8;   
+                                      added in V1.1)                       
 
 
 File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: VIC20 memory module,  Up: Module formats
@@ -1059,36 +1114,4 @@ respectively.
      @9:somefile
 
    will name file named `somefile' on unit 9.
-
-
-File: vice.info,  Node: c1541 quoting,  Next: c1541 commands and options,  Prev: c1541 file specification,  Up: c1541
-
-Using quotes and backslashes
-============================
-
-   You can use quotes (`"') in a command to embed spaces into file
-names.  For instance,
-
-     read some file
-
-   will read file `some' from the disk image and write it into the file
-system as `file', while
-
-     read "some file"
-
-   will copy `some file' into the file system, with the name `some
-file'.
-
-   The backslash character (`\') has a special meaning too: it lets you
-literally insert the following character no matter what it is.  For
-example,
-
-     read some\ file
-
-   will copy file `some file' into the file system, while
-
-     read some\ file this\"file
-
-   will copy `some file' into the file system with name `this"file'
-(with an embedded quote).
 

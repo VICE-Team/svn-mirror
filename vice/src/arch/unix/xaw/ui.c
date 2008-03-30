@@ -216,7 +216,7 @@ int vidmode_available(void)
     return 1;
 }
 
-void focus_window_again()
+void focus_window_again(void)
 {
     if (!use_fullscreen)
         return;
@@ -548,7 +548,7 @@ void ui_restore_mouse(void)
 }
 
 
-void initBlankCursor()
+void initBlankCursor(void)
 {
     static char no_data[] = { 0,0,0,0, 0,0,0,0 };
     static Pixmap blank;

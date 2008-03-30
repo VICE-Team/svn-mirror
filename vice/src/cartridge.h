@@ -61,7 +61,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_FUNPLAY            7
 #define CARTRIDGE_SUPER_GAMES        8
 
-/* VIC20: &1 -> 0=4k, 1=8k */
+/* VIC20: &1 -> 0=4k, 1=8k; &16 -> 0= < 16k, 1= 16k 2nd half at $a000 */
 #define	CARTRIDGE_VIC20_DETECT		0
 #define	CARTRIDGE_VIC20_4KB_2000	2
 #define	CARTRIDGE_VIC20_8KB_2000	3
@@ -70,5 +70,11 @@ extern void cartridge_freeze(int type);
 #define	CARTRIDGE_VIC20_4KB_A000	6
 #define	CARTRIDGE_VIC20_8KB_A000	7
 #define	CARTRIDGE_VIC20_4KB_B000	8
+#define	CARTRIDGE_VIC20_8KB_4000	9
+#define	CARTRIDGE_VIC20_4KB_4000	10
+
+#define	CARTRIDGE_VIC20_16KB_2000	19
+#define	CARTRIDGE_VIC20_16KB_4000	25
+#define	CARTRIDGE_VIC20_16KB_6000	21
 
 #endif

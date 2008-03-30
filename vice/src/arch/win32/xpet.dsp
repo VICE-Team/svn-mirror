@@ -160,6 +160,10 @@ SOURCE=..\..\kbdbuf.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\keyboard.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\log.c
 # End Source File
 # Begin Source File

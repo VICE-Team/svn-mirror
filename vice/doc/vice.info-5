@@ -17,6 +17,38 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: c1541 quoting,  Next: c1541 commands and options,  Prev: c1541 file specification,  Up: c1541
+
+Using quotes and backslashes
+============================
+
+   You can use quotes (`"') in a command to embed spaces into file
+names.  For instance,
+
+     read some file
+
+   will read file `some' from the disk image and write it into the file
+system as `file', while
+
+     read "some file"
+
+   will copy `some file' into the file system, with the name `some
+file'.
+
+   The backslash character (`\') has a special meaning too: it lets you
+literally insert the following character no matter what it is.  For
+example,
+
+     read some\ file
+
+   will copy file `some file' into the file system, while
+
+     read some\ file this\"file
+
+   will copy `some file' into the file system with name `this"file'
+(with an embedded quote).
+
+
 File: vice.info,  Node: c1541 commands and options,  Next: c1541 executing shell commands,  Prev: c1541 quoting,  Up: c1541
 
 c1541 commands and options
@@ -911,9 +943,14 @@ Concept Index
 * -basic:                                C64/128 system ROM options.
 * -bdesymkeymap -bdeposkeymap:           Keyboard options.
 * -buksymkeymap -bukposkeymap:           Keyboard options.
-* -cart2:                                CBM-II commandline options.
-* -cart4:                                CBM-II commandline options.
-* -cart6:                                CBM-II commandline options.
+* -cart2 <1>:                            CBM-II commandline options.
+* -cart2:                                VIC20 system ROM options.
+* -cart4 <1>:                            CBM-II commandline options.
+* -cart4:                                VIC20 system ROM options.
+* -cart6 <1>:                            CBM-II commandline options.
+* -cart6:                                VIC20 system ROM options.
+* -cartA:                                VIC20 system ROM options.
+* -cartB:                                VIC20 system ROM options.
 * -chargen <1>:                          CBM-II commandline options.
 * -chargen <2>:                          PET commandline options.
 * -chargen <3>:                          VIC20 system ROM options.
@@ -1019,6 +1056,11 @@ Concept Index
 * Cart2Name:                             CBM-II model.
 * Cart4Name:                             CBM-II model.
 * Cart6Name:                             CBM-II model.
+* CartridgeFile2000:                     VIC20 system ROM resources.
+* CartridgeFile4000:                     VIC20 system ROM resources.
+* CartridgeFile6000:                     VIC20 system ROM resources.
+* CartridgeFileA000:                     VIC20 system ROM resources.
+* CartridgeFileB000:                     VIC20 system ROM resources.
 * ChargenName <1>:                       PET model.
 * ChargenName <2>:                       VIC20 system ROM resources.
 * ChargenName:                           C64/128 system ROM resources.

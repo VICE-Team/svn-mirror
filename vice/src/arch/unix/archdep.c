@@ -34,6 +34,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 #ifdef HAVE_VFORK_H
 #include <vfork.h>
@@ -84,7 +85,7 @@ const char *archdep_boot_path(void)
     return boot_path;
 }
 
-const char *archdep_home_path(void)
+static const char *archdep_home_path(void)
 {
     char *home;
 

@@ -1,5 +1,107 @@
 1999-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.11.
+
+	* arch/unix/xaw/uicommands.c: #include "uiedisk.h".
+
+	* arch/unix/xaw/ui.c (focus_window_again, initBlankCursor): Fixed
+	prototype.
+	* parallel.c (In2_atnhi): Likewise.
+	* mon_lex.l (yywrap): Likewise.
+
+	* arch/unix/archdep.h (archdep_home_path): Removed.
+
+	* arch/unix/archdep.c (archdep_home_path): Made static.
+
+1998-05-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/fdc.c (fdc_int): return "no sync" instead of "drive not
+	ready" for the missing second drive
+
+	* parallel.c (parallel_set_atn, parallel_clr_atn, parallel_set_dav,
+	parallel_clr_dav, parallel_set_nrfd, parallel_clr_nrfd,
+	parallel_set_ndac, parallel_clr_ndac): print debug info also when
+	the emulator is disabled.
+
+1998-05-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* vdrive.c (vdrive_command_format): fix some typos to make 8250 
+	disk format work.
+
+1998-05-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi (VIC20 Cartridges): add $4000 carts and 
+	explanation of 16k carts
+	(VIC20 resources & cmdline options): add cartridge resources
+	and cmdline options.
+	(VIC20ROM snapshot module): update format
+
+	* arch/msdos/vic20ui.c (cartridge_type_to_address): add $4000 
+	cartridge types
+	(attach_cartridge_menu_items): add $4000 carts, change $2000 and 
+	$6000 to 16k types
+
+	* arch/unix/xaw/vic20ui.c (attach_cartridge_image_submenu): 
+	add $4000 carts, change $2000 and $6000 to 16k types
+
+	* arch/win32/vic20ui.c (vic20_ui_specific): add $4000 types
+	return 16k types instead of 8k types
+
+	* cartridge.h (CARTRIDGE_VIC20_16K_[246]000, 
+	CARTRIDGE_VIC20_[48]K_4000): new defines
+
+	* vic20/cartridge.c (cartridge_file_4, cartfile4, set_cartridge_file_4):
+	new functions
+	(set_cartridge_file_6, set_cartridge_file_2): use 16k types instead
+	of 8k
+	(resources): Cartridge4000 new resource
+	(attach_cart6, attach_cart2): use 16k types
+	(attach_cart4): new function
+	(cmdline_options): "-cart4" new option
+	(cartridge_attach_image): read start address and try to detect
+	sane value. If not detected, assume no load address available.
+	handle 16k type and $4000 images.
+	(cartridge_detach_image): detach $4000 images
+	(cartridge_set_default): set $4000 images
+	(cartridge_get_file_name): return $4000 image file name
+
+	* /vic20/vic20mem.c (VIC_ROM_BLK2A, VIC_ROM_BLK2B): fixed defines
+	(vic20_mem_enable_rom_block): allow $4000 image too
+	(initialize_memory): allow ROM in the $4000 range too
+	(mem_attach_cartridge): handle $4000 and 16k type images
+	(mem_detach_cartridge): handle $4000 and 16k type images
+	(mem_write_rom_snapshot_module, mem_write_ram_snapshot_module):
+	handle $4000 and $5000 ROMs too. Format is completely compatible,
+	but minor version is increased for diagnostics
+
+1998-05-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/archdep.c: include errno.h
+
+	* drive/fdc.c: include drive.h and vdrive.h
+	(fdc_do_job): new function to handle FDC jobs
+	(int_fdc): call fdc_do_job
+
+	* drive/fdc.h (FDC_ERR_*): define error codes for FDC
+
+	* riotcore.c (myriot_signal, store_myriot, read_myriot): remove
+	some debugging output
+
+1999-05-10  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/drive.dsp: Added riot1drive1.c and riot2drive1.c.
+
+	* arch/win32/kbd.c: Include "machine.h".
+	  (kbd_handle_keyup, kbd_handle_keydown): Call machine_set_restore_key
+	  when PGUP is pressed.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/xcbm2.dsp,
+	  arch/win32/xpet.dsp, arch/win32/xvic.dsp: Added keyboard.c.
+
+	* zfile.c: Include <stdio.h>.
+
+1999-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.10.
 
 	* kbdbuf.c, kbdbuf.h (kbd_buf_init_cmdline_options,

@@ -61,9 +61,9 @@ void myriot_signal(int sig, int type)
 
     /* You better not call that twice with the same flag - the IRQ
      * will be set twice... */
-
+/*
     printf(MYRIOT_NAME ": signal type=%d\n",type);
-
+*/
     if ((type == RIOT_SIG_FALL) && !(edgectrl & 1)) {
 	irqfl |= 0x40;
     } else
@@ -151,8 +151,9 @@ void REGPARM2 store_myriot(ADDRESS addr, BYTE byte)
 		byte, addr);
     } else 
     if ((addr & 0x14) == 0x04) {	/* set edge detect control */
+/*
 	log_message(riot_log, "edge control %02x@%d\n", byte, addr);
-
+*/
 	edgectrl = addr & 3;
 	if ((edgectrl & 2) && (irqfl & 0x40))
 	    my_set_irq(1, rclk);
@@ -213,8 +214,9 @@ BYTE REGPARM1 read_myriot_(ADDRESS addr)
 		addr);
     } else 
     if ((addr & 0x05) == 0x05) {	/* read irq flag */
+/*
 	log_message(riot_log, "read irq flag @%d\n", addr);
-
+*/
 	riot_last_read = irqfl;
 	irqfl &= 0xbf;
 	if (riot_last_read && !irqfl) {

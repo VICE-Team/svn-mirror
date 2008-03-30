@@ -54,6 +54,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "tape.h"
+#include "uiedisk.h"
 #include "uisnapshot.h"
 #include "utils.h"
 #include "vdrive.h"

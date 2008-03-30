@@ -79,6 +79,8 @@ const char *mem_romset_resources_list[] = {
 
 #define	VIC_ROM_BLK1A	1
 #define	VIC_ROM_BLK1B	2
+#define	VIC_ROM_BLK2A	4
+#define	VIC_ROM_BLK2B	8
 #define	VIC_ROM_BLK3A	16
 #define	VIC_ROM_BLK3B	32
 #define	VIC_ROM_BLK5A	64
@@ -86,8 +88,6 @@ const char *mem_romset_resources_list[] = {
 
 #define	VIC_ROM_BLK0A	0
 #define	VIC_ROM_BLK0B	0
-#define	VIC_ROM_BLK2A	0
-#define	VIC_ROM_BLK2B	0
 
 /*----------------------------------------------------------------------*/
 
@@ -599,7 +599,7 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 int vic20_mem_enable_rom_block(int num)
 {
-    if (num == 1 || num == 3 || num == 5) {
+    if (num == 1 || num == 2 || num == 3 || num == 5) {
 	set_mem(num * 0x20, num * 0x20 + 0x1f,
 		read_cartrom, store_dummy,
 		cartrom, 0xffff);
@@ -674,7 +674,10 @@ void initialize_memory(void)
 	vic20_mem_disable_ram_block(1);
     }
 
-    /* Setup RAM at $4000-$5FFF.  */
+    /* Setup RAM or cartridge ROM at $4000-$5FFF.  */
+    if (mem_rom_blocks & (VIC_ROM_BLK2A | VIC_ROM_BLK2B)) {
+        vic20_mem_enable_rom_block(2);
+    } else 
     if (ram_block_2_enabled) {
 	vic20_mem_enable_ram_block(2);
     } else {
@@ -916,6 +919,38 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B;
 	set_ram_block_1_enabled((resource_value_t) 0);
         break;
+      case CARTRIDGE_VIC20_16KB_2000:
+        log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $2000.");
+        memcpy(cartrom + 0x2000, rawcart, 0x2000);
+        memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
+        mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B
+			| VIC_ROM_BLK5A | VIC_ROM_BLK5B;
+	set_ram_block_1_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0);
+        break;
+
+      case CARTRIDGE_VIC20_4KB_4000:
+        log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $4000.");
+        memcpy(cartrom + 0x4000, rawcart, 0x2000);
+	mem_rom_blocks |= VIC_ROM_BLK2A;
+	set_ram_block_2_enabled((resource_value_t) 0);
+	break;
+      case CARTRIDGE_VIC20_8KB_4000:
+        log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $4000.");
+        memcpy(cartrom + 0x4000, rawcart, 0x2000);
+        mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B;
+	set_ram_block_2_enabled((resource_value_t) 0);
+        break;
+      case CARTRIDGE_VIC20_16KB_4000:
+        log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $4000.");
+        memcpy(cartrom + 0x4000, rawcart, 0x2000);
+        memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
+        mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B
+			| VIC_ROM_BLK5A | VIC_ROM_BLK5B;
+	set_ram_block_2_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0);
+        break;
+
       case CARTRIDGE_VIC20_4KB_6000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $6000.");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
@@ -928,6 +963,16 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B;
 	set_ram_block_3_enabled((resource_value_t) 0);
         break;
+      case CARTRIDGE_VIC20_16KB_6000:
+        log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $6000.");
+        memcpy(cartrom + 0x6000, rawcart, 0x2000);
+        memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
+        mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B
+			| VIC_ROM_BLK5A | VIC_ROM_BLK5B;
+	set_ram_block_3_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0);
+        break;
+
       case CARTRIDGE_VIC20_4KB_A000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $A000.");
         memcpy(cartrom + 0xa000, rawcart, 0x1000);
@@ -940,6 +985,7 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         mem_rom_blocks |= VIC_ROM_BLK5A | VIC_ROM_BLK5B;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
+
       case CARTRIDGE_VIC20_4KB_B000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $B000.");
         memcpy(cartrom + 0xB000, rawcart, 0x1000);
@@ -958,10 +1004,20 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 void mem_detach_cartridge(int type)
 {
     switch(type) {
+      case CARTRIDGE_VIC20_16KB_2000:
+        mem_rom_blocks &= ~(VIC_ROM_BLK5A | VIC_ROM_BLK5B);
       case CARTRIDGE_VIC20_8KB_2000:
       case CARTRIDGE_VIC20_4KB_2000:
         mem_rom_blocks &= ~(VIC_ROM_BLK1A | VIC_ROM_BLK1B);
         break;
+      case CARTRIDGE_VIC20_16KB_4000:
+        mem_rom_blocks &= ~(VIC_ROM_BLK5A | VIC_ROM_BLK5B);
+      case CARTRIDGE_VIC20_8KB_4000:
+      case CARTRIDGE_VIC20_4KB_4000:
+        mem_rom_blocks &= ~(VIC_ROM_BLK2A | VIC_ROM_BLK2B);
+	break;
+      case CARTRIDGE_VIC20_16KB_6000:
+        mem_rom_blocks &= ~(VIC_ROM_BLK5A | VIC_ROM_BLK5B);
       case CARTRIDGE_VIC20_8KB_6000:
       case CARTRIDGE_VIC20_4KB_6000:
         mem_rom_blocks &= ~(VIC_ROM_BLK3A | VIC_ROM_BLK3B);
@@ -1196,12 +1252,14 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
  * VIC20 ROM dump
  */
 #define VIC20ROM_DUMP_VER_MAJOR   1
-#define VIC20ROM_DUMP_VER_MINOR   0
+#define VIC20ROM_DUMP_VER_MINOR   1
 #define SNAP_ROM_MODULE_NAME      "VIC20ROM"
 
 /*
  * UBYTE        CONFIG          Bit 0: 1 = ROM block $2*** enabled
  *				    1: 1 = ROM block $3*** enabled
+ *				    2: 1 = ROM block $4*** enabled
+ *				    3: 1 = ROM block $5*** enabled
  *				    4: 1 = ROM block $6*** enabled
  *				    5: 1 = ROM block $7*** enabled
  *				    6: 1 = ROM block $A*** enabled
@@ -1216,6 +1274,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
  * ARRAY	BLK3B		4k ROM $7*** (if CONFIG & 32) 
  * ARRAY	BLK5A		4k ROM $A*** (if CONFIG & 64)
  * ARRAY	BLK5B		4k ROM $B*** (if CONFIG & 128) 
+ *
+ * ARRAY	BLK2A		4k ROM $4*** (if CONFIG & 4) 
+ * ARRAY	BLK2B		4k ROM $5*** (if CONFIG & 8) 
  */
 
 
@@ -1265,6 +1326,12 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
     if (config & 128) {
         snapshot_module_write_byte_array(m, cartrom + 0xB000, 0x1000);
+    }
+    if (config & 4) {
+        snapshot_module_write_byte_array(m, cartrom + 0x4000, 0x1000);
+    }
+    if (config & 8) {
+        snapshot_module_write_byte_array(m, cartrom + 0x5000, 0x1000);
     }
 
     /* enable traps again when necessary */
@@ -1329,6 +1396,14 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     if (config & 128) {
         snapshot_module_read_byte_array(m, cartrom + 0xB000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
+    }
+    if (config & 4) {
+        snapshot_module_read_byte_array(m, cartrom + 0x4000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK2A;
+    }
+    if (config & 8) {
+        snapshot_module_read_byte_array(m, cartrom + 0x5000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK2B;
     }
 
     mem_kernal_checksum();

@@ -3847,6 +3847,8 @@ several types of cartridge images:
 @item
 4 or 8 Kbyte cartridges located at $2000;
 @item
+4 or 8 Kbyte cartridges located at $4000;
+@item
 4 or 8 Kbyte cartridges located at $6000;
 @item
 4 or 8 Kbyte cartridges located at $A000;
@@ -3863,6 +3865,16 @@ two files), that need to be loaded separately at different addresses.
 In that case, you have to know the addresses (which are usually
 specified in the file name) and use the ``attach'' command twice.
 
+A special kind of cartridge file is where the two files mentioned
+above are concatenated (with removing the two byte load address of
+the second image) into one 16k image. There are only few of those
+images, though. Normally the second part is located at $A000. 
+Vice can now attach such concatenated files at the start address
+$2000, $4000, and $6000. The second half of such an image is
+moved to $A000. If you encounter 16k images that have the second
+half not at $A000 you can split the image into two halfs 
+(i.e. one 8194 byte and one 8192 byte, because the first has the load
+address) and attach both files separately.
 
 @node VIC20 memory expansions, VIC20 system ROM settings, VIC20 cartridges, VIC20-specific
 @subsection Changing memory configuration
@@ -4037,6 +4049,18 @@ String specifying the name of the Basic ROM (default @file{basic}).
 String specifying the name of the character generator ROM (default
 @file{chargen}).
 
+@cindex CartridgeFile2000
+@cindex CartridgeFile4000
+@cindex CartridgeFile6000
+@cindex CartridgeFileA000
+@cindex CartridgeFileB000
+@item CartridgeFile2000
+@itemx CartridgeFile4000
+@itemx CartridgeFile6000
+@itemx CartridgeFileA000
+@itemx CartridgeFileB000
+String specifying the name of the respective cartridge ROM images.
+
 @end table
 
 @node VIC20 system ROM options,  , VIC20 system ROM resources, VIC20 system ROM settings
@@ -4056,6 +4080,19 @@ Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
 @item -chargen NAME
 Specify @file{NAME} as the character generator ROM file
 (@code{ChargenName}).
+
+@cindex -cart2
+@cindex -cart4
+@cindex -cart6
+@cindex -cartA
+@cindex -cartB
+@item -cart2 NAME
+@itemx -cart4 NAME
+@itemx -cart6 NAME
+@itemx -cartA NAME
+@itemx -cartB NAME
+Specify @file{NAME} as the cartridge image to attach.
+(@code{CartridgeFile2000},...,@code{CartridgeFileB000}).
 
 @end table
 
@@ -5330,9 +5367,9 @@ configuration. The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded. The attached cartridges are
 also restored upon load if they have been saved in the snapshot.
 
-Version numbers: Major 1, Minor 0
-
 @b{The VIC20MEM module}
+
+Version numbers: Major 1, Minor 0
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -5369,13 +5406,15 @@ Version numbers: Major 1, Minor 0
 
 @b{The VIC20ROM module}
 
+Version numbers: Major 1, Minor 1
+
 @multitable @columnfractions .1 .4 .5
 @item Type
 @tab Name
 @tab Description
 @item BYTE
 @tab CONFIG
-@tab Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.
+@tab Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 2: 1= ROM block $4*** enabled.  Bit 3: 1= ROM block $5*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.
 @item ARRAY
 @tab KERNAL
 @tab 8k KERNAL ROM image $e000-$ffff
@@ -5403,6 +5442,12 @@ Version numbers: Major 1, Minor 0
 @item ARRAY
 @tab BLK5B
 @tab 4k ROM image $B*** (if CONFIG & 128)
+@item ARRAY
+@tab BLK2A
+@tab 4k ROM image $4*** (if CONFIG & 4; added in V1.1)
+@item ARRAY
+@tab BLK2B
+@tab 4k ROM image $5*** (if CONFIG & 8; added in V1.1)
 @end multitable
 
 @node PET memory module, CBM-II memory module, VIC20 memory module, Module formats

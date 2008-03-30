@@ -778,6 +778,8 @@ several types of cartridge images:
 
    * 4 or 8 Kbyte cartridges located at $2000;
 
+   * 4 or 8 Kbyte cartridges located at $4000;
+
    * 4 or 8 Kbyte cartridges located at $6000;
 
    * 4 or 8 Kbyte cartridges located at $A000;
@@ -792,6 +794,17 @@ of cartridge using "Smart-attach cartridge image...".
 (and two files), that need to be loaded separately at different
 addresses.  In that case, you have to know the addresses (which are
 usually specified in the file name) and use the "attach" command twice.
+
+   A special kind of cartridge file is where the two files mentioned
+above are concatenated (with removing the two byte load address of the
+second image) into one 16k image. There are only few of those images,
+though. Normally the second part is located at $A000.  Vice can now
+attach such concatenated files at the start address $2000, $4000, and
+$6000. The second half of such an image is moved to $A000. If you
+encounter 16k images that have the second half not at $A000 you can
+split the image into two halfs (i.e. one 8194 byte and one 8192 byte,
+because the first has the load address) and attach both files
+separately.
 
 
 File: vice.info,  Node: VIC20 memory expansions,  Next: VIC20 system ROM settings,  Prev: VIC20 cartridges,  Up: VIC20-specific
@@ -943,6 +956,13 @@ VIC20 system ROM resources
      String specifying the name of the character generator ROM (default
      `chargen').
 
+`CartridgeFile2000'
+`CartridgeFile4000'
+`CartridgeFile6000'
+`CartridgeFileA000'
+`CartridgeFileB000'
+     String specifying the name of the respective cartridge ROM images.
+
 
 File: vice.info,  Node: VIC20 system ROM options,  Prev: VIC20 system ROM resources,  Up: VIC20 system ROM settings
 
@@ -957,6 +977,14 @@ VIC20 system ROM command-line options
 
 `-chargen NAME'
      Specify `NAME' as the character generator ROM file (`ChargenName').
+
+`-cart2 NAME'
+`-cart4 NAME'
+`-cart6 NAME'
+`-cartA NAME'
+`-cartB NAME'
+     Specify `NAME' as the cartridge image to attach.
+     (`CartridgeFile2000',...,`CartridgeFileB000').
 
 
 File: vice.info,  Node: PET-specific,  Next: CBM-II-specific,  Prev: VIC20-specific,  Up: Machine-specific features
@@ -1433,50 +1461,3 @@ ACIA1   6551                          The ACIA for the SuperPET.  This
                                       module is optional.                  
 *       Drive modules                 The emulated drive(s) have their     
                                       own modules *note Drive modules::.   
-
-
-File: vice.info,  Node: xcbm2 modules,  Next: Drive modules,  Prev: xpet modules,  Up: Emulator modules
-
-xcbm2 modules
-.............
-
-   The modules in the xcbm2 emulator are:
-
-Name    Type                          Description                          
-MAINCPU 6502                          The Main CPU - although it is a      
-                                      6509, only the 6502 core is saved    
-                                      here                                 
-CBM2MEM Memory                        Holds the RAM contents of the        
-                                      CBM-II models.  Also holds the       
-                                      exec-bank and indirection bank       
-                                      registers                            
-CBM2ROM Memory                        optional.  Holds the ROM images.     
-CRTC    6545                          The video chip for the C6*0 and      
-                                      C7*0 models (only those models).     
-VIC-II  656?                          The video chip for the C5*0 models   
-                                      (only the C5*0 models).              
-CIA1    6526                          The CIA for IEEE 488 and userport.   
-TPI1    6525                          TPI 1 for IEEE488                    
-TPI2    6525                          TPI 2 for interrupts and keyboard.   
-ACIA1   6551                          The RS232 interface                  
-SID     6581                          The CBM2s SID sound chip             
-*       Drive modules                 The emulated drive(s) have their     
-                                      own modules *note Drive modules::.   
-
-   The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0 is
-emulated.
-
-
-File: vice.info,  Node: Drive modules,  Prev: xcbm2 modules,  Up: Emulator modules
-
-Drive modules
-.............
-
-   The modules for the real disk drive emulation are included in the
-emulator when the emulation is enabled during the writing of the
-snapshot.
-
-Name    Type                          Description                          
-*CPU    6502                          The Drive 0 CPU                      
-*       *                             *                                    

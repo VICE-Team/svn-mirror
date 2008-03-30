@@ -112,7 +112,15 @@ SOURCE=..\..\drive\riot1drive0.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\riot1drive1.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\riot2drive0.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\riot2drive1.c
 # End Source File
 # Begin Source File
 

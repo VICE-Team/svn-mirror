@@ -34,6 +34,7 @@
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
+#include <stdio.h>
 #ifdef __riscos
 #include "ROlib.h"
 #else

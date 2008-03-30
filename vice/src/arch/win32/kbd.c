@@ -36,6 +36,7 @@
 #include "keyboard.h"
 #include "resources.h"
 #include "joystick.h"
+#include "machine.h"
 
 /* ------------------------------------------------------------------------ */
 
@@ -175,6 +176,10 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
         kcode=_kbd_extended_key_tab[kcode];
     }
 
+    if (kcode==K_PGUP) {
+        machine_set_restore_key(1);
+    }
+
     DEBUG(("Keydown, code %d (0x%02x)\n", kcode, kcode));
     if (!joystick_handle_key(kcode, 1)) {
         keyboard_set_keyarr(keyconv_base->map[kcode].row,
@@ -194,6 +199,10 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
     /*  Translate Extended scancodes */
     if (key_data & (1<<24)) {
         kcode=_kbd_extended_key_tab[kcode];
+    }
+
+    if (kcode==K_PGUP) {
+        machine_set_restore_key(0);
     }
 
     if (!joystick_handle_key(kcode, 0)) {

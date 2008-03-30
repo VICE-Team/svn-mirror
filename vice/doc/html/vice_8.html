@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 28 April 1999 -->
+     from ../vice.texi on 13 May 1999 -->
 
 <TITLE>VICE Manual - 8  Snapshots</TITLE>
 </HEAD>
@@ -1399,11 +1399,11 @@ also restored upon load if they have been saved in the snapshot.
 
 </P>
 <P>
-Version numbers: Major 1, Minor 0
+<B>The VIC20MEM module</B>
 
 </P>
 <P>
-<B>The VIC20MEM module</B>
+Version numbers: Major 1, Minor 0
 
 </P>
 <TABLE BORDER>
@@ -1463,6 +1463,10 @@ Version numbers: Major 1, Minor 0
 <B>The VIC20ROM module</B>
 
 </P>
+<P>
+Version numbers: Major 1, Minor 1
+
+</P>
 <TABLE BORDER>
 
 <TR><TD>Type</TD>
@@ -1473,7 +1477,7 @@ Version numbers: Major 1, Minor 0
 <TR><TD>BYTE</TD>
 
 <TD>CONFIG</TD>
-<TD>Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.</TD>
+<TD>Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 2: 1= ROM block $4*** enabled.  Bit 3: 1= ROM block $5*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.</TD>
 </TR>
 <TR><TD>ARRAY</TD>
 
@@ -1519,6 +1523,16 @@ Version numbers: Major 1, Minor 0
 
 <TD>BLK5B</TD>
 <TD>4k ROM image $B*** (if CONFIG &#38; 128)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK2A</TD>
+<TD>4k ROM image $4*** (if CONFIG &#38; 4; added in V1.1)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK2B</TD>
+<TD>4k ROM image $5*** (if CONFIG &#38; 8; added in V1.1)</TD>
 </TR></TABLE>
 
 

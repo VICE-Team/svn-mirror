@@ -30,7 +30,9 @@
 #include "log.h"
 #include "alarm.h"
 #include "fdc.h"
+#include "drive.h"
 #include "drivecpu.h"
+#include "vdrive.h"
 
 static void clk_overflow_callback(int fnum, CLOCK sub, void *data);
 static int int_fdc(int fnum, long offset);
@@ -76,6 +78,114 @@ void fdc_reset(int fnum, int enabled)
 	alarm_unset(&fdc_alarm[fnum]);
 	fdc_state[fnum] = FDC_UNUSED;
     }
+}
+
+static BYTE fdc_do_job(int fnum, int buf, 
+				int drv, BYTE job, int track, int sector)
+{
+    int rc, dnr;
+    int i;
+    BYTE *base;
+    BYTE sector_data[256];
+
+    if (drv) {
+	return FDC_ERR_SYNC;
+    }
+    dnr = fnum;
+
+    rc = 0;
+    base = &(buffer[fnum][(buf + 1) << 8]);
+
+    log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%d t%d s%d, "
+		"image=%p, type=%04d\n",
+		job, buf, (buf + 1) << 8, dnr, track, sector,
+		drive[dnr].drive_floppy,
+		drive[dnr].drive_floppy 
+			? drive[dnr].drive_floppy->ImageFormat : 0);
+
+    if (drive[dnr].drive_floppy == NULL
+           || (drive[dnr].drive_floppy->ImageFormat != 8050
+		&& drive[dnr].drive_floppy->ImageFormat != 8250)
+	) {
+	return FDC_ERR_DRIVE;
+    }
+
+    switch (job) {
+    case 0x80:		/* read */
+	rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
+                           drive[dnr].drive_floppy->ImageFormat,
+                           sector_data, track, sector,
+                           drive[dnr].drive_floppy->D64_Header,
+                           drive[dnr].drive_floppy->GCR_Header,
+                           drive[dnr].drive_floppy->unit);
+        if (rc < 0) {
+            log_error(drive[dnr].log,
+                  "Cannot read T:%d S:%d from disk image.",
+                  track, sector);
+            rc = FDC_ERR_DRIVE;
+        } else {
+	    memcpy(base, sector_data, 256);
+	    rc = FDC_ERR_OK;
+	}
+	break;
+    case 0x90:		/* write */
+	memcpy(sector_data, base, 256);
+        rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
+                           drive[dnr].drive_floppy->ImageFormat,
+                           sector_data, track, sector,
+                           drive[dnr].drive_floppy->D64_Header,
+                           drive[dnr].drive_floppy->GCR_Header,
+                           drive[dnr].drive_floppy->unit);
+        if (rc < 0) {
+            log_error(drive[dnr].log,
+                  "Could not update T:%d S:%d on disk image.",
+                  track, sector);
+            rc = FDC_ERR_DRIVE;
+        } else {
+            rc = FDC_ERR_OK;
+        }
+        break;
+    case 0xA0:		/* verify */
+        rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
+                           drive[dnr].drive_floppy->ImageFormat,
+                           sector_data, track, sector,
+                           drive[dnr].drive_floppy->D64_Header,
+                           drive[dnr].drive_floppy->GCR_Header,
+                           drive[dnr].drive_floppy->unit);
+        if (rc < 0) {
+            log_error(drive[dnr].log,
+                  "Cannot read T:%d S:%d from disk image.",
+                  track, sector);
+            rc = FDC_ERR_DRIVE;
+        } else {
+            rc = FDC_ERR_OK;
+            for (i = 0; i < 256; i++) {
+                if (fnum) {
+                    if (sector_data[i] != base[i]) {
+			rc = FDC_ERR_VERIFY;
+		    }
+                } else {
+                    if (sector_data[i] != base[i]) {
+			rc = FDC_ERR_VERIFY;
+		    }
+                }
+	    }
+        }
+        break;
+    case 0xB0:		/* seek */
+	rc = FDC_ERR_OK;
+	break;
+    case 0xC0:		/* bump (to track 0) */
+	rc = FDC_ERR_OK;
+	break;
+    case 0xD0:		/* jump to buffer :-( */
+	rc = FDC_ERR_DRIVE;
+	break;
+    case 0xE0:		/* execute when drive/head ready */
+	rc = FDC_ERR_DRIVE;
+	break;
+    }
+    return (BYTE) rc;
 }
 
 static int int_fdc(int fnum, long offset)
@@ -134,7 +244,14 @@ static int int_fdc(int fnum, long offset)
 		log_message(fdc_log, "D/Buf %d/%x: Job code %02x t:%02d s:%02d",
 			fnum, i, buffer[fnum][i+3],
 			buffer[fnum][j+2],buffer[fnum][j+3]);
-		buffer[fnum][i + 3] = 03; /* no sync */
+		buffer[fnum][i + 3] = 
+			fdc_do_job(fnum, 			/* FDC# */
+				i,				/* buffer# */
+				buffer[fnum][i+3] & 1,		/* drive */
+				buffer[fnum][i+3] & 0xfe,	/* job code */
+				buffer[fnum][j+2], 		/* track */
+				buffer[fnum][j+3]		/* sector */
+			);
 	    }
 	}
 	/* check "move head", by half tracks I guess... */

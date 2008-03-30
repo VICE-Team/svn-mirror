@@ -34,6 +34,21 @@
 #define	FDC_RESET2	3
 #define	FDC_RUN		10
 
+/* fdc error codes to return to drive CPU */
+#define	FDC_ERR_OK	1
+#define	FDC_ERR_HEADER	2
+#define	FDC_ERR_SYNC	3
+#define	FDC_ERR_NOBLOCK	4
+#define	FDC_ERR_DCHECK	5
+#define	FDC_ERR_VERIFY	7
+#define	FDC_ERR_WPROT	8
+#define	FDC_ERR_HCHECK	9
+#define	FDC_ERR_BLENGTH	10
+#define	FDC_ERR_ID	11
+#define	FDC_ERR_FSPEED	12
+#define	FDC_ERR_DRIVE	15
+#define	FDC_ERR_DECODE	16
+
 #include "vice.h"
 #include "log.h"
 #include "alarm.h"

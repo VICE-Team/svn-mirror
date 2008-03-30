@@ -49,9 +49,15 @@ static ADDRESS cartridge_type_to_address(int type)
     switch (type) {
       case CARTRIDGE_VIC20_4KB_2000:
       case CARTRIDGE_VIC20_8KB_2000:
+      case CARTRIDGE_VIC20_16KB_2000:
         return 0x2000;
+      case CARTRIDGE_VIC20_4KB_4000:
+      case CARTRIDGE_VIC20_8KB_4000:
+      case CARTRIDGE_VIC20_16KB_4000:
+	return 0x4000;
       case CARTRIDGE_VIC20_4KB_6000:
       case CARTRIDGE_VIC20_8KB_6000:
+      case CARTRIDGE_VIC20_16KB_6000:
         return 0x6000;
       case CARTRIDGE_VIC20_4KB_A000:
       case CARTRIDGE_VIC20_8KB_A000:
@@ -102,11 +108,15 @@ static tui_menu_item_def_t attach_cartridge_menu_items[] = {
     { "--" },
     { "Cartridge at $_2000:",
       "Attach a cartridge image at address $2000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_8KB_2000, 30,
+      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_16KB_2000, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Cartridge at $_4000:",
+      "Attach a cartridge image at address $4000",
+      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_16KB_4000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_6000:",
       "Attach a cartridge image at address $6000",
-      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_8KB_6000, 30,
+      attach_cartridge_callback, (void *) CARTRIDGE_VIC20_16KB_6000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cartridge at $_A000:",
       "Attach a cartridge image at address $A000",
@@ -262,7 +272,7 @@ static tui_menu_item_def_t special_menu_items[] = {
       toggle_RAMBlock1_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "  RAM Block _2 (8K at $4000-$5FFF)",
-      "Enable RAM expansion block at address $6000-$5FFF",
+      "Enable RAM expansion block at address $4000-$5FFF",
       toggle_RAMBlock2_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "  RAM Block _3 (8K at $6000-$7FFF)",

@@ -39,10 +39,12 @@
 #include "vic20ui.h"
 #include "winmain.h"
 
+/* Probably one should simply remove the size numbers from the IDM_* stuff */
 void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
       case IDM_CART_VIC20_8KB_2000:
+      case IDM_CART_VIC20_16KB_4000:
       case IDM_CART_VIC20_8KB_6000:
       case IDM_CART_VIC20_8KB_A000:
       case IDM_CART_VIC20_4KB_B000:
@@ -52,8 +54,8 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 
             switch (wparam) {
               case IDM_CART_VIC20_8KB_2000:
-                type = CARTRIDGE_VIC20_8KB_2000;
-                if ((s = ui_select_file("Attach 8KB cartridge image at $2000",
+                type = CARTRIDGE_VIC20_16KB_2000;
+                if ((s = ui_select_file("Attach 4/8/16KB cartridge image at $2000",
                     "8KB cartridge image files (*.*)\0*.*\0"
                     "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
@@ -61,9 +63,19 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                     free(s);
                 }
                 break;
+              case IDM_CART_VIC20_16KB_4000:
+                type = CARTRIDGE_VIC20_16KB_4000;
+                if ((s = ui_select_file("Attach 4/8/16KB cartridge image at $4000",
+                    "cartridge image files (*.*)\0*.*\0"
+                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    if (cartridge_attach_image(type, s) < 0)
+                        ui_error("Invalid cartridge image");
+                    free(s);
+                }
+                break;
               case IDM_CART_VIC20_8KB_6000:
-                type = CARTRIDGE_VIC20_8KB_6000;
-                if ((s = ui_select_file("Attach 8KB cartridge image at $6000",
+                type = CARTRIDGE_VIC20_16KB_6000;
+                if ((s = ui_select_file("Attach 4/8/16KB cartridge image at $6000",
                     "8KB cartridge image files (*.*)\0*.*\0"
                     "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
