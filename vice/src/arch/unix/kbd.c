@@ -49,6 +49,7 @@
 #include "kbd.h"
 #include "kbdef.h"
 #include "interrupt.h"
+#include "findpath.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
@@ -74,7 +75,18 @@ static short kbd_rshiftcol = 0;
 
 /* Each element in this array is set to 0 if the corresponding key in the
    numeric keypad is pressed. */
+#if 0
 static int numpad_status[10];
+#else
+
+static int joy1pad_status[10];
+static int joy2pad_status[10];
+
+static int joypad_bits[10] = {
+	0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
+};
+
+#endif
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
@@ -83,7 +95,7 @@ static int left_shift_down, right_shift_down, virtual_shift_down;
 
 /* Joystick emulation via numeric keypad. VIC20 has one single joystick
    port. */
-#if 1
+#if 0
 
 static int handle_joy_emu(KeySym key, int event_type)
 {
@@ -287,6 +299,28 @@ static inline void set_keyarr(int row, int col, int value)
     }
 }
 
+int joyreleaseval(int column, int *status) {
+    int val = 0;
+    switch (column) {
+    case 1:
+	val = ((status[2] ? 0 : 0x2) | (status[4] ? 0 : 0x4));
+	break;
+    case 3:
+	val = ((status[2] ? 0 : 0x2) | (status[6] ? 0 : 0x8));
+	break;
+    case 7:
+	val = ((status[4] ? 0 : 0x4) | (status[8] ? 0 : 0x1));
+	break;
+    case 9:
+	val = ((status[8] ? 0 : 0x1) | (status[6] ? 0 : 0x8));
+	break;
+    default:
+	val = joypad_bits[column];
+	break;
+    }
+    return ~val;
+}
+
 void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 		       Boolean *ctd)
 {
@@ -297,12 +331,14 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
+#if 0
 #if defined(PET)
     if (app_resources.numpadJoystick && handle_joy_emu(key, report->type))
 #else
     if (handle_joy_emu(key, report->type))
 #endif
 	return;
+#endif
 
 #ifndef PET
     if (key == XK_Tab) {	/* Restore */
@@ -322,12 +358,34 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 		int row = keyconvmap[i].row;
 		int column = keyconvmap[i].column;
 
-		set_keyarr(row, column, 1);
+		if(app_resources.numpadJoystick && row<0) {
+		  if(row==-1) {
+		    if(joypad_bits[column]) {
+		      joy[1] |= joypad_bits[column];
+		      joy1pad_status[column]=1;
+		    } else {
+		      joy[1] = 0;
+	              memset(joy1pad_status, 0, sizeof(joy1pad_status));
+		    }
+		  } else
+		  if(row==-2) {
+		    if(joypad_bits[column]) {
+		      joy[2] |= joypad_bits[column];
+		      joy2pad_status[column]=1;
+		    } else {
+		      joy[2] = 0;
+	              memset(joy2pad_status, 0, sizeof(joy2pad_status));
+		    }
+		  }
+		  break;
+		} 
+		if(row>=0) {
+		  set_keyarr(row, column, 1);
 
-		if (keyconvmap[i].shift == NO_SHIFT) {
+		  if (keyconvmap[i].shift == NO_SHIFT) {
 		    set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
 		    set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-		} else {
+		  } else {
 		    if (keyconvmap[i].shift & VIRTUAL_SHIFT)
 			virtual_shift_down++;
 		    if (keyconvmap[i].shift & LEFT_SHIFT)
@@ -338,8 +396,9 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 			right_shift_down++;
 		    if (right_shift_down > 0)
 			set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+		  }
+		  break;
 		}
-		break;
 	    }
 	}
 	break;			/* KeyPress */
@@ -360,6 +419,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	    memset(keyarr, 0, sizeof(keyarr));
 	    memset(rev_keyarr, 0, sizeof(rev_keyarr));
 	    virtual_shift_down = 0;
+	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
 	for (i = 0; keyconvmap[i].sym != 0; i++) {
@@ -367,13 +427,24 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 		int row = keyconvmap[i].row;
 		int column = keyconvmap[i].column;
 
-		set_keyarr(row, column, 0);
-		if (keyconvmap[i].shift & VIRTUAL_SHIFT)
+		if(row<0) {
+		  if(row==-1) {
+		    joy[1] &= joyreleaseval(column, joy1pad_status);
+		    joy1pad_status[column] = 0;
+		  } else
+		  if(row==-2) {
+		    joy[2] &= joyreleaseval(column, joy2pad_status);
+		    joy2pad_status[column] = 0;
+		  }
+		} else {
+		  set_keyarr(row, column, 0);
+		  if (keyconvmap[i].shift & VIRTUAL_SHIFT)
 		    virtual_shift_down--;
-		if (keyconvmap[i].shift & LEFT_SHIFT)
+		  if (keyconvmap[i].shift & LEFT_SHIFT)
 		    left_shift_down--;
-		if (keyconvmap[i].shift & RIGHT_SHIFT)
+		  if (keyconvmap[i].shift & RIGHT_SHIFT)
 		    right_shift_down--;
+		}
 	    }
 	}
 
@@ -394,9 +465,8 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	memset(rev_keyarr, 0, sizeof(rev_keyarr));
 	memset(joy, 0, sizeof(joy));
 	virtual_shift_down = left_shift_down = right_shift_down = 0;
-#ifndef PET
-	memset(numpad_status, 0, sizeof(numpad_status));
-#endif
+	memset(joy1pad_status, 0, sizeof(joy1pad_status));
+	memset(joy2pad_status, 0, sizeof(joy2pad_status));
 	break;			/* LeaveNotify */
 
       default:
@@ -420,6 +490,13 @@ void kbd_init()
        function for the emulation window. We do only load the keymap
        file here and sort it into the keymap. */
 
+    app_resources.numpadJoystick = 1;
+
+    if(!app_resources.keymapFile) {
+	resources_set_string(&app_resources.keymapFile, "vice.vkm");
+    }
+
+#if 0
     /* set40key() / set80key() is called before this */
 #ifndef PET
     keyc_mem = 0;
@@ -431,8 +508,17 @@ void kbd_init()
     kbd_rshiftrow = 6;
     kbd_rshiftcol = 4;
 #endif
+#endif
 
-    if(app_resources.keymapFile) kbd_load_keymap(app_resources.keymapFile);
+fprintf(stderr,"kbd_init(): keymapFile=%s\n",app_resources.keymapFile);
+
+    if(app_resources.keymapFile) {
+	kbd_load_keymap(app_resources.keymapFile);
+    } else {
+	fprintf(stderr,"Couldn't load keymap file '%s', aborting!\n",
+						app_resources.keymapFile);
+	exit(1);
+    }
 }
 
 /* Select between different PET keyboards. */
@@ -440,6 +526,11 @@ void kbd_init()
 
 void set80key(void)
 {
+
+    if(!app_resources.keymapFile) {
+	resources_set_string(&app_resources.keymapFile, "busi_uk.vkm");
+    }
+#if 0
     if(keyconvmap) {
 	if(keyc_mem) free(keyconvmap);
     }
@@ -451,11 +542,15 @@ void set80key(void)
     kbd_lshiftcol = 0;
     kbd_rshiftrow = 6;
     kbd_rshiftcol = 6;
-
+#endif
 }
 
 void set40key(void)
 {
+    if(!app_resources.keymapFile) {
+	resources_set_string(&app_resources.keymapFile, "graphics.vkm");
+    }
+#if 0
     if(keyconvmap) {
 	if(keyc_mem) free(keyconvmap);
     }
@@ -467,6 +562,7 @@ void set40key(void)
     kbd_lshiftcol = 0;
     kbd_rshiftrow = 8;
     kbd_rshiftcol = 5;
+#endif
 }
 
 #endif /* PET */
@@ -523,6 +619,8 @@ static void kbd_parse_keyword(char *buffer) {
 	  }
 	}
     }
+    memset(joy1pad_status, 0, sizeof(joy1pad_status));
+    memset(joy1pad_status, 0, sizeof(joy2pad_status));
 }
 
 static void kbd_parse_entry(char *buffer) {
@@ -538,25 +636,25 @@ static void kbd_parse_entry(char *buffer) {
     } else {
 	p = strtok(NULL, " \t,");
 	if(p) {
-	  row = atoi(p);
+	  row = strtol(p,NULL,10);
 	  p = strtok(NULL, " \t,");
 	  if(p) {
 	    col = atoi(p);
 	    p = strtok(NULL, " \t");
-	    if(p) {
-	      shift = atoi(p);
-
-	      for(i=0;keyconvmap[i].sym;i++) {
+	    if(p || row<0) {
+	      if(p) { shift = atoi(p); }
+	      if(row>=0 || (row>=-2 && col>=0 && col<10)) {
+	       for(i=0;keyconvmap[i].sym;i++) {
 		if(sym == keyconvmap[i].sym) {
 		  keyconvmap[i].row = row;
 		  keyconvmap[i].column = col;
 		  keyconvmap[i].shift = shift;
 		  break;
 		}
-	      }
+	       }
 
-	      /* not in table -> add */
-	      if(i>=keyc_num) {
+	       /* not in table -> add */
+	       if(i>=keyc_num) {
 	        /* table too small -> realloc */
 		if(keyc_num>=keyc_mem) {
 		  i = keyc_mem * 1.5;
@@ -575,6 +673,10 @@ static void kbd_parse_entry(char *buffer) {
 		  keyconvmap[keyc_num].shift = shift;
 		  keyconvmap[++keyc_num].sym = 0;
 		}
+	       }
+	      } else {
+	       fprintf(stderr, "Bad row/column value (%d/%d) for keysym %s\n",
+			row, col, key);
 	      }
 	    }
 	  }
@@ -588,7 +690,7 @@ static void kbd_parse_keymap(const char *filename)
     char *complete_path;
     char buffer[1000];
 
-    printf("kbd_load_keymap() called, file='%s'\n",
+    printf("kbd_parse_keymap() called, file='%s'\n",
            filename ? filename : "(null)");
 
     if (!filename)
@@ -644,9 +746,15 @@ void kbd_load_keymap(const char *filename)
 	  keyc_mem = keyc_num;
 	  keyconvmap = p;
 	}
+      } else {
+	keyconvmap = malloc((151) * sizeof(keyconv));
+	keyc_num = 0;
+	keyc_mem = 150;
+	keyconvmap[0].sym = 0;
       }
     }
     if(keyc_mem) {
+      resources_set_string(&app_resources.keymapFile,filename);
       kbd_parse_keymap(filename);
     }
 }
@@ -674,7 +782,7 @@ printf("kbd_dump_keymap() called, keyb file='%s'\n", filename);
 		  "# - normal line has 'keysym row column shiftflag'\n"
 		  "#\n"
 		  "# keywords and their lines are:\n"
-		  "# '!CLEAR'               clear whole table\n"
+/*		  "# '!CLEAR'               clear whole table\n" */
 		  "# '!INCLUDE filename'    read file as mapping file\n"
 		  "# '!LSHIFT row col'      left shift keyboard row/column\n"
 		  "# '!RSHIFT row col'      right shift keyboard row/column\n"

@@ -31,18 +31,22 @@
 #ifndef _KBDEF_X_H
 #define _KBDEF_X_H
 
-#define	NO_SHIFT	(0)		/* Key is not shifted. */
-#define	VIRTUAL_SHIFT	(1 << 0)	/* The key needs a shift on the real machine. */
-#define	LEFT_SHIFT	(1 << 1)	/* Key is left shift. */
-#define	RIGHT_SHIFT	(1 << 2)	/* Key is right shift. */
-#define	ALLOW_SHIFT	(1 << 3)	/* Allow key to be shifted. */
+enum shift_type {
+    NO_SHIFT =(0),		/* Key is not shifted. */
+    VIRTUAL_SHIFT =(1 << 0),	/* The key needs a shift on the real machine. */
+    LEFT_SHIFT =(1 << 1),	/* Key is left shift. */
+    RIGHT_SHIFT =(1 << 2),	/* Key is right shift. */
+    ALLOW_SHIFT =(1 << 3),	/* Allow key to be shifted. */
+};
 
 typedef struct {
     KeySym sym;
     int row;
     int column;
-    int shift;
+    enum shift_type shift;
 } keyconv;
+
+#if 0 /*********************************************************************/
 
 #ifdef VIC20
 #define ROW0	7
@@ -595,6 +599,8 @@ keyconv pet40map[] =
 #ifndef PET
 /* #define CONV_KEYS (sizeof(keyconvmap)/sizeof(keyconv)) */
 #endif
+
+#endif /*******************************************************************/
 
 static keyconv *keyconvmap = NULL;
 
