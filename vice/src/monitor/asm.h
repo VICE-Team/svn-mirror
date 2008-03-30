@@ -97,7 +97,11 @@ struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
     unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode, BYTE p0,
                   BYTE p1);
-    asm_opcode_info_t * (*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
+    asm_opcode_info_t *(*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
+    int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
+    unsigned int (*mon_register_get_val)(int mem, int reg_id);
+    void (*mon_register_set_val)(int mem, int reg_id, WORD val);
+    void (*mon_register_print)(int mem);
 };
 typedef struct monitor_cpu_type_s monitor_cpu_type_t;
 
