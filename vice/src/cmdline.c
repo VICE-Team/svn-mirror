@@ -190,23 +190,24 @@ char *cmdline_options_string(void)
 {
     unsigned int i;
     char *cmdline_string, *new_cmdline_string;
-    char add_to_options1[1000];
-    char add_to_options2[1000];
-    char add_to_options3[1000];
+    char *add_to_options1, *add_to_options2, *add_to_options3;
 
     cmdline_string = stralloc("\n");
 
     for (i = 0; i < num_options; i++) {
-        sprintf(add_to_options1, "%s", options[i].name);
-        sprintf(add_to_options3, "\n\t%s\n", options[i].description);
+        add_to_options1 = xmsprintf("%s", options[i].name);
+        add_to_options3 = xmsprintf("\n\t%s\n", options[i].description);
         if (options[i].need_arg && options[i].param_name != NULL) {
-            sprintf(add_to_options2, " %s", options[i].param_name);
+            add_to_options2 = xmsprintf(" %s", options[i].param_name);
             new_cmdline_string = concat(cmdline_string, add_to_options1,
                                         add_to_options2, add_to_options3, NULL);
+            free(add_to_options2);
         } else {
             new_cmdline_string = concat(cmdline_string, add_to_options1,
                                         add_to_options3, NULL);
         }
+        free(add_to_options1);
+        free(add_to_options3);
 
         free(cmdline_string);
         cmdline_string = new_cmdline_string;
