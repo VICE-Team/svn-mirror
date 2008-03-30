@@ -535,8 +535,8 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     snapshot_module_t *m;
     char snap_module_name[10];
     WORD word;
-    char *filename;
-    char request_str[100];
+    char *filename = NULL;
+    char *request_str;
     int len = 0;
     FILE *fp;
     BYTE sector_data[0x100];
@@ -594,20 +594,10 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     }
 
     /* create temporary file of the right size */
-    filename = archdep_tmpnam();
-
-    if (filename == NULL) {
-        log_error(drive_snapshot_log, "Could not create temporary filename");
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    fp = fopen(filename, MODE_WRITE);
+    fp = archdep_mkstemp_fd(&filename, MODE_WRITE);
 
     if (fp == NULL) {
-        log_error(drive_snapshot_log, "Could not create temporary file");
-        log_error(drive_snapshot_log, "filename=%s", filename);
-        lib_free(filename);
+        log_error(drive_snapshot_log, "Could not create temporary file!");
         snapshot_module_close(m);
         return -1;
     }
@@ -632,8 +622,10 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
         return -1;
     }
 
-    sprintf(request_str, "Disk image unit #%d imported from snapshot", dnr + 8);
+    request_str = lib_msprintf("Disk image unit #%d imported from snapshot",
+                               dnr + 8);
     zfile_close_action(filename, ZFILE_REQUEST, request_str);
+    lib_free(request_str);
 
     /* we use the return code to step through the tracks. So we do not
        need any geometry info. */
