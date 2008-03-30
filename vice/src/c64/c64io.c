@@ -41,16 +41,29 @@
 #include "types.h"
 
 
-void REGPARM2 io2_store(ADDRESS addr, BYTE value)
+BYTE REGPARM1 io1_read(ADDRESS addr)
 {
-    if (mem_cartridge_type != CARTRIDGE_NONE) {
-        cartridge_store_io2(addr, value);
-        return;
-    }
-    if (reu_enabled) {
-        reu_store((ADDRESS)(addr & 0x0f), value);
-        return;
-    }
+    if (sid_stereo)
+        return sid2_read(addr);
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        return cartridge_read_io1(addr);
+#ifdef HAVE_RS232
+    if (acia_de_enabled)
+        return acia1_read(addr & 0x03);
+#endif
+    return rand();
+}
+
+void REGPARM2 io1_store(ADDRESS addr, BYTE value)
+{
+    if (sid_stereo)
+        sid2_store(addr, value);
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        cartridge_store_io1(addr, value);
+#ifdef HAVE_RS232
+    if (acia_de_enabled)
+        acia1_store(addr & 0x03, value);
+#endif
     return;
 }
 
@@ -69,29 +82,16 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
     return rand();
 }
 
-void REGPARM2 io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
-    if (sid_stereo)
-        sid2_store(addr, value);
-    if (mem_cartridge_type != CARTRIDGE_NONE)
-        cartridge_store_io1(addr, value);
-#ifdef HAVE_RS232
-    if (acia_de_enabled)
-        acia1_store(addr & 0x03, value);
-#endif
+    if (mem_cartridge_type != CARTRIDGE_NONE) {
+        cartridge_store_io2(addr, value);
+        return;
+    }
+    if (reu_enabled) {
+        reu_store((ADDRESS)(addr & 0x0f), value);
+        return;
+    }
     return;
-}
-
-BYTE REGPARM1 io1_read(ADDRESS addr)
-{
-    if (sid_stereo)
-        return sid2_read(addr);
-    if (mem_cartridge_type != CARTRIDGE_NONE)
-        return cartridge_read_io1(addr);
-#ifdef HAVE_RS232
-    if (acia_de_enabled)
-        return acia1_read(addr & 0x03);
-#endif
-    return rand();
 }
 

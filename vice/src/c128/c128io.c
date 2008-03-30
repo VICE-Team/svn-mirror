@@ -35,7 +35,9 @@
 #include "c128-resources.h"
 #include "c128io.h"
 #include "c64acia.h"
+#include "c64cart.h"
 #include "c64tpi.h"
+#include "cartridge.h"
 #include "emuid.h"
 #include "reu.h"
 #include "sid-resources.h"
@@ -43,21 +45,12 @@
 #include "types.h"
 
 
-void REGPARM2 io1_store(ADDRESS addr, BYTE value)
-{
-    if (sid_stereo)
-        sid2_store(addr, value);
-#ifdef HAVE_RS232
-    if (acia_de_enabled)
-        acia1_store(addr & 0x03, value);
-#endif
-    return;
-}
-
 BYTE REGPARM1 io1_read(ADDRESS addr)
 {
     if (sid_stereo)
         return sid2_read(addr);
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        return cartridge_read_io1(addr);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
         return acia1_read(addr & 0x03);
@@ -65,18 +58,23 @@ BYTE REGPARM1 io1_read(ADDRESS addr)
     return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
-void REGPARM2 io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
-    if (reu_enabled)
-        reu_store((ADDRESS)(addr & 0x0f), value);
-    if (ieee488_enabled) {
-        tpi_store((ADDRESS)(addr & 0x07), value);
-    }
+    if (sid_stereo)
+        sid2_store(addr, value);
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        cartridge_store_io1(addr, value);
+#ifdef HAVE_RS232
+    if (acia_de_enabled)
+        acia1_store(addr & 0x03, value);
+#endif
     return;
 }
 
 BYTE REGPARM1 io2_read(ADDRESS addr)
 {
+    if (mem_cartridge_type != CARTRIDGE_NONE)
+        return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0) {
         addr &= 0xff;
         if (addr == 0xff)
@@ -89,5 +87,19 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
         return tpi_read((ADDRESS)(addr & 0x07));
 
     return 0xff;  /* rand(); - C64 has rand(), which is correct? */
+}
+
+void REGPARM2 io2_store(ADDRESS addr, BYTE value)
+{
+    if (mem_cartridge_type != CARTRIDGE_NONE) {
+        cartridge_store_io2(addr, value);
+        return;
+    }
+    if (reu_enabled)
+        reu_store((ADDRESS)(addr & 0x0f), value);
+    if (ieee488_enabled) {
+        tpi_store((ADDRESS)(addr & 0x07), value);
+    }
+    return;
 }
 
