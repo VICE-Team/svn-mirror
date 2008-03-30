@@ -31,10 +31,21 @@
 #include <stdlib.h>
 
 #include "resources.h"
+#include "sid.h"
 #include "uimenu.h"
 #include "utils.h"
 #include "vsync.h"
 
+
+UI_MENU_DEFINE_RADIO(SidEngine)
+
+ui_menu_entry_t sid_engine_submenu[] = {
+    { N_("*Fast SID"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_FASTSID, NULL },
+    { N_("*Catweasle MKIII"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII, NULL },
+    { NULL }
+};
 
 UI_MENU_DEFINE_RADIO(SidModel)
 
