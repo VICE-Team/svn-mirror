@@ -137,7 +137,8 @@ int main_program(int argc, char **argv)
         resources_set_value("Drive8Type", (resource_value_t)0);
         resources_set_value("Sound", (resource_value_t)1);
 #ifdef HAVE_RESID
-        resources_set_value("SidUseResid", (resource_value_t)1);
+        /* FIXME: Use `SID_ENGINE_RESID'. */
+        resources_set_value("SidEngine", (resource_value_t)1);
 #endif
         resources_set_value("SidModel", (resource_value_t)0);
         resources_set_value("SidFilters", (resource_value_t)1);
@@ -156,7 +157,7 @@ int main_program(int argc, char **argv)
                 return -1;
             }
         }
-	flip_load_list((unsigned int) -1, archdep_default_fliplist_file_name(),
+	flip_load_list((unsigned int)-1, archdep_default_fliplist_file_name(),
 		       0);
     }
 
