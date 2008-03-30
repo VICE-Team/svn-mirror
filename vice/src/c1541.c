@@ -57,14 +57,16 @@
 #endif
 
 #include "c1541.h"
-#include "serial.h"
-#include "vdrive.h"
-#include "gcr.h"
-#include "file.h"
+
 #include "charsets.h"
-#include "tape.h"
+#include "file.h"
+#include "gcr.h"
+#include "p00.h"
+#include "serial.h"
+#include "t64.h"
 #include "utils.h"
 #include "vdrive-iec.h"
+#include "vdrive.h"
 #include "zipcode.h"
 
 #define MAXARG		256
@@ -120,7 +122,6 @@ static int list_cmd(int nargs, char **args);
 static int quit_cmd(int nargs, char **args);
 static int read_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
-static int system_cmd(int nargs, char **args);
 static int tape_cmd(int nargs, char **args);
 static int unit_cmd(int nargs, char **args);
 static int unlynx_cmd(int nargs, char **args);
@@ -155,7 +156,7 @@ command_t command_list[] = {
       0, 1, help_cmd },
     { "attach",
       "attach <diskimage> [<unit>]",
-      "Attach <diskimage> to <unit> (default unit is 8)",
+      "Attach <diskimage> to <unit> (default unit is 8).",
       1, 2,
       attach_cmd },
     { "block",
@@ -176,6 +177,10 @@ command_t command_list[] = {
       "Delete the specified files.",
       1, MAXARG,
       delete_cmd },
+    { "exit",
+      "exit",
+      "Exit (same as `quit').",
+      0, 0, quit_cmd },
     { "extract",
       "extract",
       "Extract all the files to the file system.",
@@ -210,7 +215,7 @@ command_t command_list[] = {
       list_cmd },
     { "quit",
       "quit",
-      "Exit.",
+      "Exit (same as `exit').",
       0, 0, quit_cmd },
     { "read",
       "read <source> [<destination>]",
@@ -222,13 +227,9 @@ command_t command_list[] = {
       "rename <oldname> <newname>",
       "Rename <oldname> into <newname>.  The files must be on the same drive.",
       2, 2, rename_cmd },
-    { "system",
-      "system <command>",
-      "Execute specified shell command.",
-      1, 1, system_cmd },
     { "tape",
       "tape <t64name> [<file1> ... <fileN>]",
-      "Extract files from a T64 image.",
+      "Extract files from a T64 image into the current drive.",
       1, MAXARG, tape_cmd },
     { "unit",
       "unit <number>",
@@ -238,7 +239,7 @@ command_t command_list[] = {
       "unlynx <lynxname> [<unit>]",
       "Extract the specified Lynx image file into the specified unit (default\n"
       "is the current unit).",
-      0, 0, unlynx_cmd },
+      1, 2, unlynx_cmd },
     { "validate",
       "validate [<unit>]",
       "Validate the disk in unit <unit>.  If <unit> is not specified, validate\n"
@@ -500,8 +501,7 @@ static int is_valid_cbm_file_name(const char *name)
 
 /* ------------------------------------------------------------------------- */
 
-/* Create Floppy Image.  */
-
+/* Create a new floppy image.  */
 static int create_image(file_desc_t fd, int devtype, int tracks, int errb,
 			char *label, int disktype)
 {
@@ -584,7 +584,6 @@ static int set_label(file_desc_t fd, char *label)
 
 /* These 4 bytes are disk type flags (set upon create or format).  They
    contain: Device Type, Max Tracks, Side, and Error Flag.  */
-
 static int set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
 {
     int siz = HEADER_FLAGS_LEN;
@@ -605,7 +604,6 @@ static int set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
 
 /* Open image or create a new one.  If the file exists, it must have valid
    header.  */
-
 static int open_image(int dev, char *name, int create, int disktype)
 {
     DRIVE *floppy;
@@ -655,14 +653,6 @@ static int open_image(int dev, char *name, int create, int disktype)
 
     return 0;
 }
-
-/*
- * This routine is used in order to get around standard serial bus
- * connection.
- * It checks privileges for the requested operation on the specified
- * disk unit. Return value < 0 means requested action is not allowed,
- * i.e. there is no disk in the drive, or that drive is not available.
- */
 
 static int check_drive(int dev, int flags)
 {
@@ -775,7 +765,7 @@ static int block_cmd(int nargs, char **args)
 	printf("  ;%s\n", str);
     }
 
-    /* Find next sector for the file being traced */
+    /* Find next sector for the file being traced.  */
     if (buf[0] && buf[1]) {
 	track = buf[0];
 	sector = buf[1];
@@ -808,10 +798,10 @@ static int create_cmd(int nargs, char **args)
 	return FD_NOTRD;
     }
 
-    set_label(floppy->ActiveFd, "*** Truncated image.");	/* Notify of errors */
+    set_label(floppy->ActiveFd, "*** Truncated image."); /* Notify of errors */
 
     /* First copy all available blocks and then check existence of the Error
-       Data Block. */
+       Data Block.  */
 
     printf("Copying blocks.\n");
     lseek(floppy->ActiveFd, HEADER_LENGTH, SEEK_SET);
@@ -1424,7 +1414,7 @@ static int read_cmd(int nargs, char **args)
     char *actual_name;
     char *p;
     int unit;
-    int is_pc64;
+    int is_p00;
     FILE *outf;
 
     p = extract_unit_from_file_name(args[1], &unit);
@@ -1464,10 +1454,10 @@ static int read_cmd(int nargs, char **args)
     if (nargs == 3) {
         if (strcmp(args[2], "-") == 0) {
             dest_name_ascii = NULL;      /* stdout */
-            is_pc64 = 0;
+            is_p00 = 0;
         } else {
             dest_name_ascii = args[2];
-            is_pc64 = (is_pc64name(args[2]) >= 0);
+            is_p00 = (p00_check_name(args[2]) >= 0);
         }
     } else {
 	int l;
@@ -1480,7 +1470,7 @@ static int read_cmd(int nargs, char **args)
 	    l--;
 	}
 	petconvstring(dest_name_ascii, 1);
-        is_pc64 = 0;
+        is_p00 = 0;
     }
 
     if (dest_name_ascii == NULL)
@@ -1494,9 +1484,11 @@ static int read_cmd(int nargs, char **args)
             free(src_name_petscii), free(src_name_ascii), free(actual_name);
 	    return FD_NOTWRT;
 	}
-        if (is_pc64) {
-	    printf("Writing PC64 header.\n");
-	    write_pc64header(outf, dest_name_ascii, 0);
+        if (is_p00) {
+	    if (p00_write_header(outf, dest_name_ascii, 0) < 0)
+                printf("Cannot write P00 header.\n");
+            else
+                printf("Written P00 header.\n");
 	}
     }				/* stdout */
 
@@ -1575,124 +1567,109 @@ static int rename_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-/* `system' command added by Riccardo Ferreira (storm@esoterica.pt) --
-   1998-02-07.  */
-int system_cmd(int nargs, char **args)
-{
-    system(args[1]);
-
-    return FD_OK;
-}
-
-/* Copy files from *.t64 tape image. An already formatted X64 disk image is
-   required.  */
+/* Copy files from a T64 tape image.  */
 static int tape_cmd(int nargs, char **args)
 {
-#define TAPE_HDR_SIZE 64        /* FIXME: Ugly */
-#define TAPE_DIR_SIZE 32        /* FIXME: Ugly */
-    DRIVE *floppy = drives[drive_number];
-    FILE *f;
-    BYTE *dirp, *tapebuf = NULL;
-    char asciiname[20], *p;
-    int maxentries = 0, ccount = 0;
-    int c, i, len, loc;
-    char newname[256];
+    t64_t *t64;
+    DRIVE *drive;
+    int count;
 
     if (check_drive(drive_number, CHK_RDY) < 0)
         return FD_NOTREADY;
+    drive = drives[drive_number];
 
-    if (!(f = fopen(args[1], READ))) {
-	printf("Cannot open %s for reading\n", args[1]);
-	return FD_NOTRD;
+    t64 = t64_open(args[1]);
+    if (t64 == NULL) {
+        printf("Cannot read T64 file `%s'.\n", args[1]);
+        return FD_BADNAME;
     }
 
-    if ((maxentries = check_t64_header(f)) <= 0)
-	return maxentries;
+    for (count = 0; t64_seek_to_next_file(t64, 0) >= 0;) {
+        t64_file_record_t *rec;
 
-    /* Read the tape directory entries into memory */
+        rec = t64_get_current_file_record(t64);
 
-    tapebuf = (BYTE *) malloc(TAPE_DIR_SIZE * maxentries);
-    assert(tapebuf);
+	if (rec->entry_type == T64_FILE_RECORD_NORMAL) {
+            char *dest_name_ascii;
+            char *dest_name_petscii;
+            BYTE *buf;
+            int name_len;
+            WORD file_size;
+            int retval;
 
-    fread(tapebuf, TAPE_DIR_SIZE, maxentries, f);
-    dirp = tapebuf;
+            /* Ignore traling spaces and 0xa0's.  */
+            name_len = T64_REC_CBMNAME_LEN;
+            while (name_len > 0 && (rec->cbm_name[name_len - 1] == 0xa0
+                                    || rec->cbm_name[name_len - 1] == 0x20))
+                name_len--;
 
-    while (maxentries--) {
-	if (*dirp == 1) {	/* found a file */
+            dest_name_petscii = xmalloc(name_len + 1);
+            memcpy(dest_name_petscii, rec->cbm_name, name_len);
+            dest_name_petscii[name_len] = 0;
 
-	    /* Get filename and remove trailing spaces */
-	    memccpy(newname, &dirp[16], 0xa0, 16);
-	    newname[16] = 0;
-	    {
-		char *cf = &newname[15];
-		while (*cf == 0x20)
-		    *cf-- = 0;
+            dest_name_ascii = xmalloc(name_len + 1);
+            memcpy(dest_name_ascii, dest_name_petscii, name_len);
+            dest_name_ascii[name_len] = 0;
+            petconvstring(dest_name_ascii, 1);
+
+            if (nargs > 2) {
+                int i, found;
+
+                for (i = 2, found = 0; i < nargs; i++)
+                    if (name_len == strlen(args[i])
+                        && memcmp(args[i], dest_name_ascii, name_len) == 0) {
+                        found = 1;
+                        break;
+                    }
+
+                if (!found)
+                    continue;
+            }
+
+            /* FIXME: This does not write the actual file type.  */
+	    if (vdrive_open(drive, dest_name_petscii, name_len, 1)) {
+		printf("Cannot open `%s' for writing on drive %d.\n",
+                       dest_name_ascii, drive_number + 8);
+                free(dest_name_petscii), free(dest_name_ascii);
+                continue;
 	    }
-	    strcpy(asciiname, newname);
-	    petconvstring(asciiname, 1);	/* to ascii */
 
-	    /* Check filename match against [files] list */
+	    printf("Writing `%s' ($%04X - $%04X) to drive %d.\n",
+                   dest_name_ascii, rec->start_addr, rec->end_addr,
+                   drive_number + 8);
 
-	    /* if (nargs > 4) { */
-	    if (nargs > 2) {
-		for (i = 2; i < nargs &&
-		     !compare_filename(asciiname, args[i]); ++i);
+	    vdrive_write(drive, rec->start_addr & 0xff, 1);
+	    vdrive_write(drive, rec->start_addr >> 8, 1);
 
-		if (i >= nargs) {
-		    dirp += TAPE_DIR_SIZE;	/* No match, skip the file */
-		    continue;
-		}
-	    } else {
-		if (!strcmp(asciiname, "file")) {
-		    /* Invalid filename, try the imagename instead. */
-		    strncpy(asciiname, args[1], 16);
-		    asciiname[16] = 0;
+            file_size = rec->end_addr - rec->start_addr;
+            buf = alloca((unsigned int) file_size);
+            memset(buf, 0, (size_t) file_size);
+            retval = t64_read(t64, buf, file_size);
+            if (retval < 0 || retval != (int) file_size)
+                printf("Unexpected end of tape: file may be truncated.\n");
 
-		    if ((p = strstr(asciiname, ".t64")) != NULL)
-			*p = 0;
-		    strcpy(newname, asciiname);
-		    petconvstring(newname, 0);	/* to petcii */
-		}
-	    }
+            {
+                int i;
 
-	    printf("  \"%-16s\"\t%02x%02x to %02x%02x\n",
-		   asciiname, dirp[3], dirp[2], dirp[5], dirp[4]);
+                for (i = 0; i < file_size; i++)
+                    if (vdrive_write(drives[drive_number], buf[i], 1)) {
+                        t64_close(t64);
+                        free(dest_name_petscii), free(dest_name_ascii);
+                        return FD_WRTERR;
+                    }
+            }
 
-	    loc = dirp[8] | (dirp[9] << 8);
-	    len = (dirp[4] | (dirp[5] << 8)) - (dirp[2] | (dirp[3] << 8));
+	    vdrive_close(drive, 1);
+            free(dest_name_petscii), free(dest_name_ascii);
 
-	    if (vdrive_open(floppy, newname, strlen(newname), 1)) {
-		printf("Cannot open `%s' for writing on image.\n", asciiname);
-		free(tapebuf);
-		return FD_WRTERR;
-	    }
-	    printf("Writing file to image. %d bytes\n", len);
-
-	    /* PRG file */
-	    vdrive_write(floppy, dirp[2], 1);
-	    vdrive_write(floppy, dirp[3], 1);
-
-	    fseek(f, loc, 0);
-	    while ((len--) > 0 && (EOF != (c = fgetc(f))))
-		if (vdrive_write(floppy, c, 1)) {
-		    printf("No space on image ?\n");
-		    vdrive_close(floppy, 1);
-		    free(tapebuf);
-		    return FD_WRTERR;
-		}
-	    vdrive_close(floppy, 1);
-
-	    if (len > 0)
-		fprintf(stderr,
-			"T64 Error: Unexpected end of tape. File may be truncated.\n");
-	    ++ccount;
-	}			/* if dirp */
-	dirp += TAPE_DIR_SIZE;
+            count++;
+	}
     }
 
-    printf("\n%d files copied.\n", ccount);
-    fclose(f);
-    free(tapebuf);
+    t64_close(t64);
+
+    printf("\n%d files copied.\n", count);
+
     return FD_OK;
 }
 
@@ -1951,9 +1928,10 @@ static int write_cmd(int nargs, char **args)
 
         /* User did not specify a destination name...  Let's try to make an
            educated guess at what she expects.  */
-        if (is_pc64name(args[1]) >= 0
-            && read_pc64header(f, realname, &reclen) == FD_OK) {
-            dest_name_petscii = stralloc(pc_get_cbmname(f, args[1]));
+        /* FIXME: We should create files according to the P00 file type.  */
+        if (p00_check_name(args[1]) >= 0
+            && p00_read_header(f, realname, &reclen) >= 0) {
+            dest_name_petscii = stralloc(realname);
             dest_name_ascii = stralloc(dest_name_petscii);
             petconvstring(dest_name_ascii, 0);
         } else {
@@ -2173,9 +2151,8 @@ int main(int argc, char **argv)
 	char buf[16];
 
         /* Interactive mode.  */
-	fprintf(stderr, "\nC1541 V %d.%02d  Image %d.%02d\n\n",
-		C1541_VERSION_MAJOR, C1541_VERSION_MINOR,
-		HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
+	printf("\nC1541 Version %d.%02d.\n\n",
+               C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
 
 	while (1) {
 	    sprintf(buf, "c1541 #%d> ", drive_number | 8);
@@ -2187,8 +2164,16 @@ int main(int argc, char **argv)
 		break;
             }
 
-	    split_args(line, &nargs, args);
-	    lookup_and_execute_command(nargs, args);
+            if (*line=='!') {
+                int retval;
+
+                retval = system(line + 1);
+                printf("Exit code: %d.\n", retval);
+            } else {
+                split_args(line, &nargs, args);
+                if (nargs > 0)
+                    lookup_and_execute_command(nargs, args);
+            }
 	}
     } else {
         while (i < argc) {

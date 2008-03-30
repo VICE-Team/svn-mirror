@@ -194,7 +194,7 @@ char *tui_image_browser(const char *filename,
         if (key == K_Escape) {
             tui_area_put(backing_store, x, y);
             tui_area_free(backing_store);
-            image_contents_free(contents);
+            image_contents_destroy(contents);
             return NULL;
         } else if (current != NULL) {
             switch (key) {
@@ -216,7 +216,7 @@ char *tui_image_browser(const char *filename,
                     tui_area_put(backing_store, x, y);
                     tui_area_free(backing_store);
                     retval = stralloc(current->name);
-                    image_contents_free(contents);
+                    image_contents_destroy(contents);
                     return retval;
                 }
 

@@ -480,9 +480,16 @@ void fname_split(const char *path, char **directory_return, char **name_return)
     }
 
     p = strrchr(path, '/');
+
 #if defined __MSDOS__ || defined WIN32
-    if (p == NULL)
-        p = strrchr(path, '\\');
+    /* Both `/' and `\' are valid.  */
+    {
+        const char *p1;
+
+        p1 = strrchr(path, '\\');
+        if (p == NULL || p < p1)
+            p = p1;
+    }
 #endif
 
     if (p == NULL) {
@@ -625,82 +632,6 @@ cleanup:
 
 /* ------------------------------------------------------------------------- */
 
-/* This code is grabbed from GNU make.  It returns the maximum path length by
-   using `pathconf'.  */
-#ifdef NEED_GET_PATH_MAX
-unsigned int get_path_max(void)
-{
-    static unsigned int value;
-
-    if (value == 0) {
-	long int x = pathconf("/", _PC_PATH_MAX);
-
-	if (x > 0)
-	    value = x;
-	else
-	    return MAXPATHLEN;
-    }
-
-    return value;
-}
-#endif
-
-/* The following are replacements for libc functions that could be missing.  */
-
-#if !defined HAVE_MEMMOVE
-
-void *memmove(void *target, const void *source, unsigned int length)
-{
-    char *tptr = (char *) target;
-    const char *sptr = (const char *) source;
-
-    if (tptr > sptr) {
-	tptr += length;
-	sptr += length;
-	while (length--)
-	    *(--tptr) = *(--sptr);
-    } else if (tptr < sptr) {
-	while (length--)
-	    *(tptr++) = *(sptr++);
-    }
-
-    return target;
-}
-
-#endif /* !defined HAVE_MEMMOVE */
-
-
-#if !defined HAVE_ATEXIT
-
-static void atexit_support_func(int status, void *arg)
-{
-    void (*f)(void) =(void (*)(void)) arg;
-
-    f();
-}
-
-int atexit(void (*function)(void))
-{
-    return on_exit(atexit_support_func, (void *)function);
-}
-
-#endif /* !defined HAVE_ATEXIT */
-
-
-#if !defined HAVE_STRERROR
-
-char *strerror(int errnum)
-{
-    static char buffer[100];
-
-    sprintf(buffer, "Error %d", errnum);
-    return buffer;
-}
-
-#endif /* !defined HAVE_STRERROR */
-
-/* ------------------------------------------------------------------------- */
-
 int read_dword(file_desc_t fd, DWORD *buf, int num)
 {
     int i;
@@ -714,8 +645,8 @@ int read_dword(file_desc_t fd, DWORD *buf, int num)
     }
 
     for (i = 0; i < (num / 4); i++)
-	buf[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
-	    + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
+	buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
+                  + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
 
     free(tmpbuf);
     return 0;
@@ -785,3 +716,79 @@ char *find_prev_line(const char *text, const char *pos)
 
     return (char *) p;
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* This code is grabbed from GNU make.  It returns the maximum path length by
+   using `pathconf'.  */
+#ifdef NEED_GET_PATH_MAX
+unsigned int get_path_max(void)
+{
+    static unsigned int value;
+
+    if (value == 0) {
+	long int x = pathconf("/", _PC_PATH_MAX);
+
+	if (x > 0)
+	    value = x;
+	else
+	    return MAXPATHLEN;
+    }
+
+    return value;
+}
+#endif
+
+/* The following are replacements for libc functions that could be missing.  */
+
+#if !defined HAVE_MEMMOVE
+
+void *memmove(void *target, const void *source, unsigned int length)
+{
+    char *tptr = (char *) target;
+    const char *sptr = (const char *) source;
+
+    if (tptr > sptr) {
+	tptr += length;
+	sptr += length;
+	while (length--)
+	    *(--tptr) = *(--sptr);
+    } else if (tptr < sptr) {
+	while (length--)
+	    *(tptr++) = *(sptr++);
+    }
+
+    return target;
+}
+
+#endif /* !defined HAVE_MEMMOVE */
+
+#if !defined HAVE_ATEXIT
+
+static void atexit_support_func(int status, void *arg)
+{
+    void (*f)(void) =(void (*)(void)) arg;
+
+    f();
+}
+
+int atexit(void (*function)(void))
+{
+    return on_exit(atexit_support_func, (void *)function);
+}
+
+#endif /* !defined HAVE_ATEXIT */
+
+
+#if !defined HAVE_STRERROR
+
+char *strerror(int errnum)
+{
+    static char buffer[100];
+
+    sprintf(buffer, "Error %d", errnum);
+    return buffer;
+}
+
+#endif /* !defined HAVE_STRERROR */
+
