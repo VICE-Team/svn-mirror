@@ -33,13 +33,13 @@
 #include "types.h"
 #include "mem.h"
 
-#define VIC20_RAM_SIZE			0x10000	/* Kludged... */
-#define VIC20_BASIC_ROM_SIZE		0x2000
-#define VIC20_KERNAL_ROM_SIZE		0x2000
-#define VIC20_CHARGEN_ROM_SIZE		0x1000
+#define VIC20_RAM_SIZE                  0x10000 /* Kludged... */
+#define VIC20_BASIC_ROM_SIZE            0x2000
+#define VIC20_KERNAL_ROM_SIZE           0x2000
+#define VIC20_CHARGEN_ROM_SIZE          0x1000
 
-#define VIC20_BASIC_CHECKSUM		33073
-#define VIC20_KERNAL_CHECKSUM		38203
+#define VIC20_BASIC_CHECKSUM            33073
+#define VIC20_KERNAL_CHECKSUM           38203
 
 #define VIC_ROM_BLK1A   1
 #define VIC_ROM_BLK1B   2

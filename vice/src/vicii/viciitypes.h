@@ -196,19 +196,19 @@ struct vic_ii_light_pen_s {
 };
 typedef struct vic_ii_light_pen_s vic_ii_light_pen_t;
 
-enum _vic_ii_fetch_idx {
+enum vic_ii_fetch_idx_s {
     VIC_II_FETCH_MATRIX,
     VIC_II_CHECK_SPRITE_DMA,
     VIC_II_FETCH_SPRITE
 };
-typedef enum _vic_ii_fetch_idx vic_ii_fetch_idx_t;
+typedef enum vic_ii_fetch_idx_s vic_ii_fetch_idx_t;
 
-enum _vic_ii_idle_data_location {
+enum vic_ii_idle_data_location_s {
     IDLE_NONE,
     IDLE_3FFF,
     IDLE_39FF
 };
-typedef enum _vic_ii_idle_data_location vic_ii_idle_data_location_t;
+typedef enum vic_ii_idle_data_location_s vic_ii_idle_data_location_t;
 
 struct vic_ii_s {
     /* Flag: Are we initialized?  */

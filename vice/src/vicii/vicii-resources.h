@@ -32,19 +32,19 @@
 #include "viciitypes.h"
 
 /* VIC-II resources.  */
-struct _vic_ii_resources
-  {
-	/* fixed point values */
+struct vic_ii_resources_s
+{
+    /* fixed point values */
     int color_saturation;
     int color_contrast;
     int color_brightness;
     int color_gamma;
 
-	/* Flag: New or old luminances? */
-	int new_luminances;
+    /* Flag: New or old luminances? */
+    int new_luminances;
 
-	/* Flag: External palette used? */
-	int ext_palette;
+    /* Flag: External palette used? */
+    int ext_palette;
 
     /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
     int sprite_sprite_collisions_enabled;
@@ -64,11 +64,11 @@ struct _vic_ii_resources
     int double_scan_enabled;
 #endif
 
-	/* Flag: Fast palette based delay loop emulation? (fake pal emu) */
-	int fast_delayloop_emulation;
+    /* Flag: Fast palette based delay loop emulation? (fake pal emu) */
+    int fast_delayloop_emulation;
 
-	/* Flag: Slow but real PAL emulation? */
-	int pal_emulation;
+    /* Flag: Slow but real PAL emulation? */
+    int pal_emulation;
 
     /* Flag: Do we enable the video cache?  */
     int video_cache_enabled;
@@ -80,13 +80,13 @@ struct _vic_ii_resources
     /* Flag: Do we copy lines in double size mode?  */
     int fullscreen_double_scan_enabled;
 #endif
-  };
-typedef struct _vic_ii_resources vic_ii_resources_t;
+};
+typedef struct vic_ii_resources_s vic_ii_resources_t;
 
 extern vic_ii_resources_t vic_ii_resources;
 
-int vic_ii_resources_init (void);
-int vic_ii_activate_palette(void);
+extern int vic_ii_resources_init(void);
+extern int vic_ii_activate_palette(void);
 
 #endif
 

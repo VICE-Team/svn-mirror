@@ -47,19 +47,19 @@
 #define CRTC_NEED_2X 1
 #endif
 
-enum _crtc_video_mode
-  {
+enum crtc_video_mode_s
+{
     CRTC_STANDARD_MODE,
     CRTC_REVERSE_MODE,
     CRTC_NUM_VMODES
-  };
-typedef enum _crtc_video_mode crtc_video_mode_t;
+};
+typedef enum crtc_video_mode_s crtc_video_mode_t;
 
 #define CRTC_IDLE_MODE CRTC_STANDARD_MODE
 
-#define	CRTC_NUM_COLORS	2
+#define CRTC_NUM_COLORS 2
 
-struct _crtc
+struct crtc_s
   {
     /* Flag: Are we initialized?  */
     int initialized;
@@ -72,14 +72,14 @@ struct _crtc
 
     /* hardware options as given to crtc_set_hw_options() */
     int hw_cursor;
-    int hw_cols;	/* 1 or 2, number of chars per cycle */
+    int hw_cols;        /* 1 or 2, number of chars per cycle */
     int hw_blank;
     int vaddr_mask;
     int vaddr_charswitch;
     int vaddr_charoffset;
     int vaddr_revswitch;
 
-    /* screen and charset memory options (almost) as given to 
+    /* screen and charset memory options (almost) as given to
        crtc_set_chargen_addr() and crtc_set_screen_addr() */
     BYTE *screen_base;
     BYTE *chargen_base;
@@ -87,22 +87,22 @@ struct _crtc
     int chargen_offset;
 
     /* those values are derived */
-    int chargen_rel;	/* currently used charset rel. to chargen_base */
-    int screen_rel;	/* current screen line rel. to screen_base */
+    int chargen_rel;    /* currently used charset rel. to chargen_base */
+    int screen_rel;     /* current screen line rel. to screen_base */
 
     /* internal CRTC state variables */
 
-    int regno;		/* current register selected with store to addr 0 */
+    int regno;          /* current register selected with store to addr 0 */
 
     /* The alarm handler is called in the last cycles of a rasterline.
        Some effects need better timing, though */
 
     /* rasterline variables */
-    CLOCK rl_start;	/* clock when the current rasterline starts */
-    int rl_visible;	/* number of visible chars in this line */
-    int rl_sync;	/* character in line when the sync starts */
-    int rl_len;		/* length of line in cycles */
-    int sync_diff;	/* cycles between two sync pulses */
+    CLOCK rl_start;     /* clock when the current rasterline starts */
+    int rl_visible;     /* number of visible chars in this line */
+    int rl_sync;        /* character in line when the sync starts */
+    int rl_len;         /* length of line in cycles */
+    int sync_diff;      /* cycles between two sync pulses */
 
     /* values of the previous rasterline */
     int prev_rl_visible;
@@ -111,42 +111,42 @@ struct _crtc
     int prev_screen_rel;
 
     /* internal state */
-    int hjitter;	/* horizontal jitter when sync phase is changed */
-    int xoffset;	/* pixel-offset of current rasterline */
-    int screen_xoffset;	/* pixel-offset of current rasterline */
-    int screen_yoffset;	/* rasterline-offset of CRTC to VICE screen */
+    int hjitter;        /* horizontal jitter when sync phase is changed */
+    int xoffset;        /* pixel-offset of current rasterline */
+    int screen_xoffset; /* pixel-offset of current rasterline */
+    int screen_yoffset; /* rasterline-offset of CRTC to VICE screen */
 
-    int henable;	/* flagged when horizontal enable flipflop has not
-			   been reset in line */
+    int henable;        /* flagged when horizontal enable flipflop has not
+                           been reset in line */
 
-    int current_line;	/* current rasterline as of CRTC counting */
-    int framelines;	/* expected number of rasterlines for current frame,
-			   decreasing till end */
-    int venable;	/* flagged when vertical enable flipflop has not
-			   been reset in frame */
-    int vsync;		/* number of rasterlines till end of vsync */
+    int current_line;   /* current rasterline as of CRTC counting */
+    int framelines;     /* expected number of rasterlines for current frame,
+                           decreasing till end */
+    int venable;        /* flagged when vertical enable flipflop has not
+                           been reset in frame */
+    int vsync;          /* number of rasterlines till end of vsync */
 
     int current_charline; /* state of the current character line counter */
 
-    int blank;		/* external blank (only honored if hw_blank set) */
+    int blank;          /* external blank (only honored if hw_blank set) */
 
     /* frame */
 
-    CLOCK frame_start;	/* when did the last frame start */
-			/* last frame length */
+    CLOCK frame_start;  /* when did the last frame start */
+                        /* last frame length */
     long cycles_per_frame;
 
     /*---------------------------------------------------------------*/
 
-    int crsrmode;	/* 0=no crsr, 1=continous, 2=1/32, 3=1/16 */
-    int crsrcnt;	/* framecounter */
-    int crsrstate;	/* 1=crsr active */
-    int cursor_lines;	/* flagged when rasterline within hw cursor lines */
+    int crsrmode;       /* 0=no crsr, 1=continous, 2=1/32, 3=1/16 */
+    int crsrcnt;        /* framecounter */
+    int crsrstate;      /* 1=crsr active */
+    int cursor_lines;   /* flagged when rasterline within hw cursor lines */
 
     /*---------------------------------------------------------------*/
 
     /* this is the function to be called when the retrace signal
-       changes. type&1=0: old PET, type&1=1: CRTC-PET. retrace_type 
+       changes. type&1=0: old PET, type&1=1: CRTC-PET. retrace_type
        Also used by crtc_offscreen() */
 
     machine_crtc_retrace_signal_t retrace_callback;
@@ -168,7 +168,7 @@ struct _crtc
     alarm_t raster_draw_alarm;
 };
 
-typedef struct _crtc crtc_t;
+typedef struct crtc_s crtc_t;
 
 extern crtc_t crtc;
 
@@ -178,15 +178,15 @@ extern crtc_t crtc;
 
 /* These define the extra space around the size given from the machine,
    to allow effects like open borders etc. */
-#define	CRTC_EXTRA_COLS		6
-#define	CRTC_EXTRA_RASTERLINES	16
+#define CRTC_EXTRA_COLS         6
+#define CRTC_EXTRA_RASTERLINES  16
 
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
-extern int crtc_load_palette (const char *name);
-extern void crtc_resize (void);
-extern void crtc_exposure_handler (unsigned int width, unsigned int height);
-extern void crtc_raster_draw_alarm_handler (CLOCK offset);
+extern int crtc_load_palette(const char *name);
+extern void crtc_resize(void);
+extern void crtc_exposure_handler(unsigned int width, unsigned int height);
+extern void crtc_raster_draw_alarm_handler(CLOCK offset);
 
 #endif
 

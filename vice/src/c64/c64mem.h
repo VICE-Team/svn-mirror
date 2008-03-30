@@ -31,17 +31,17 @@
 #include "mem.h"
 #include "types.h"
 
-#define C64_RAM_SIZE			0x10000
-#define C64_KERNAL_ROM_SIZE		0x2000
-#define C64_BASIC_ROM_SIZE		0x2000
-#define C64_CHARGEN_ROM_SIZE		0x1000
+#define C64_RAM_SIZE                    0x10000
+#define C64_KERNAL_ROM_SIZE             0x2000
+#define C64_BASIC_ROM_SIZE              0x2000
+#define C64_CHARGEN_ROM_SIZE            0x1000
 
-#define C64_BASIC_CHECKSUM		15702
-#define C64_KERNAL_CHECKSUM_R00		50955
-#define C64_KERNAL_CHECKSUM_R03		50954
-#define C64_KERNAL_CHECKSUM_R03swe	50633
-#define C64_KERNAL_CHECKSUM_R43		50955
-#define C64_KERNAL_CHECKSUM_R64		49680
+#define C64_BASIC_CHECKSUM              15702
+#define C64_KERNAL_CHECKSUM_R00         50955
+#define C64_KERNAL_CHECKSUM_R03         50954
+#define C64_KERNAL_CHECKSUM_R03swe      50633
+#define C64_KERNAL_CHECKSUM_R43         50955
+#define C64_KERNAL_CHECKSUM_R64         49680
 
 extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);

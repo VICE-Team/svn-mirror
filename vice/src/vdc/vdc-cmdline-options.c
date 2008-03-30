@@ -54,6 +54,9 @@ static cmdline_option_t cmdline_options[] =
   { "-64KB", SET_RESOURCE, 0, NULL, NULL,
     "VDC_64KB", (resource_value_t)1,
     NULL, "Set the VDC memory size to 64KB"},
+  { "-VDC_Revision", SET_RESOURCE, 1, NULL, NULL,
+    "VDC_Revision", (resource_value_t)2,
+    "<number>", "Set VDC revision (0..2)" },
   { NULL }
 };
 
