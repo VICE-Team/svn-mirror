@@ -187,17 +187,14 @@ static void canvas_free_bitmaps(video_canvas_t *c)
 {
     int i;
 
-    for (i=0; i<2; i++)
-    {
-        if (c->pages[i])
-        {
+    for (i = 0; i < 2; i++) {
+        if (c->pages[i]) {
             destroy_bitmap(c->pages[i]);
             c->pages[i] = NULL;
         }
     }
 
-    if (c->render_bitmap)
-    {
+    if (c->render_bitmap) {
         destroy_bitmap(c->render_bitmap);
         c->render_bitmap = NULL;
     }
@@ -282,60 +279,64 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
     return 0;
 }
 
-/* Note: `mapped' is ignored.  */
-video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
-                                    unsigned int *height, int mapped,
-                                    void_t exposure_handler,
-                                    const palette_t *palette);
+video_canvas_t *video_canvas_init(void)
 {
-    video_canvas_t *new_canvas;
+    video_canvas_t *canvas;
+
+    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+
+    canvas->video_draw_buffer_callback = NULL;
+
+    return canvas;
+}
+
+/* Note: `mapped' is ignored.  */
+int video_canvas_create(video_canvas_t *canvas, const char *win_name,
+                        unsigned int *width, unsigned int *height, int mapped,
+                        void_t exposure_handler,
+                        const struct palette_s *palette)
+{
     int result = 0;
     int next_canvas = 0;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
         log_error(video_log, "Too many colors requested.");
-        return (video_canvas_t *)NULL;
+        return -1;
     }
-    new_canvas = (video_canvas_t *)xmalloc(sizeof(struct video_canvas_s));
-    if (!new_canvas)
-        return (video_canvas_t *)NULL;
 
-    new_canvas->pages[0] = new_canvas->pages[1] = NULL;
-    new_canvas->render_bitmap = NULL;
-    new_canvas->video_draw_buffer_callback = NULL;
+    canvas->pages[0] = canvas->pages[1] = NULL;
+    canvas->render_bitmap = NULL;
 
-    video_render_initconfig(&new_canvas->videoconfig);
+    video_render_initconfig(&canvas->videoconfig);
 
     DEBUG(("Setting VGA mode"));
-    do
-    {
-        video_canvas_resize(new_canvas, 0, 0);
-        *width = new_canvas->width;
-        *height = new_canvas->height;
-        result += canvas_set_vga_mode(new_canvas);
-        if (result == -1)
-        {
+    do {
+        video_canvas_resize(canvas, 0, 0);
+        *width = canvas->width;
+        *height = canvas->height;
+        result += canvas_set_vga_mode(canvas);
+        if (result == -1) {
             log_error(video_log, "Falling back to default VGA mode.");
             resources_set_value("VGAMode", (resource_value_t)VGA_640x480x32);
         }
-        if (result == -2)
-        {
-            log_error(video_log, "Even default VGA mode doesn't work. Exiting...");
+        if (result == -2) {
+            log_error(video_log,
+                      "Even default VGA mode doesn't work. Exiting...");
             exit(-1);
         }
     } while (result < 0);
 
-    video_canvas_set_palette(new_canvas, palette);
+    video_canvas_set_palette(canvas, palette);
 
-    new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
-    new_canvas->back_page = 1;
+    canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
+    canvas->back_page = 1;
 
     while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM - 1)
         next_canvas++;
-    canvaslist[next_canvas] = new_canvas;
+    canvaslist[next_canvas] = canvas;
 
-    return new_canvas;
+    return 0;
 }
 
 void video_canvas_destroy(video_canvas_t *c)
@@ -358,10 +359,8 @@ static void canvas_change_palette(video_canvas_t *c)
     int col;
     int next_avail = 0;
         
-    for (i = 0; i < c->palette->num_entries; i++)
-    {
-        if (c->depth == 8)
-        {
+    for (i = 0; i < c->palette->num_entries; i++) {
+        if (c->depth == 8) {
             /* For 8-bit-mode we need to use the global palette */
             c->colors[i].r = c->palette->entries[i].red >> 2;
             c->colors[i].g = c->palette->entries[i].green >> 2;
@@ -386,17 +385,15 @@ static void canvas_change_palette(video_canvas_t *c)
         video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
     }
 
-	if (c->depth > 8)
-	{
-		for (i=0;i<256;i++)
-		{
-			video_render_setrawrgb(i,
-				makecol_depth(c->depth, i, 0, 0),
-				makecol_depth(c->depth, 0, i, 0),
-				makecol_depth(c->depth, 0, 0, i));
-		}
-		video_render_initraw();
-	}
+    if (c->depth > 8) {
+        for (i = 0; i < 256; i++) {
+            video_render_setrawrgb(i,
+                                   makecol_depth(c->depth, i, 0, 0),
+                                   makecol_depth(c->depth, 0, i, 0),
+                                   makecol_depth(c->depth, 0, 0, i));
+        }
+        video_render_initraw();
+    }
 
     canvas_update_colors(c);
 
@@ -408,17 +405,8 @@ static void canvas_change_palette(video_canvas_t *c)
 int video_canvas_set_palette(struct video_canvas_s *c,
                              const palette_t *palette)
 {
-    int i;
+    DEBUG(("Allocating %d colors", palette->num_entries));
 
-    DEBUG(("Allocating %d colors",palette->num_entries));
-#if 0
-    c->palette = (palette_t*) palette;
-
-    for (i = 0; i < palette->num_entries; i++)
-    {
-        pixel_return[i] = i;
-    }
-#endif
     canvas_change_palette(c);
 
     return 0;
@@ -455,8 +443,7 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 
 void video_ack_vga_mode(void)
 {
-    if (last_canvas != NULL)
-    {
+    if (last_canvas != NULL) {
         video_canvas_resize(last_canvas, last_canvas->width,
                         last_canvas->height);
         last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
@@ -487,14 +474,11 @@ void disable_text(void)
 
     video_ack_vga_mode();
 
-    for (i=0; i<MAX_CANVAS_NUM; i++)
-    {
+    for (i = 0; i<MAX_CANVAS_NUM; i++) {
         canvas = canvaslist[i];
-        if (canvas != NULL)
-        {
+        if (canvas != NULL) {
             video_canvas_resize(canvas,0,0);
-            if (canvas_set_vga_mode(canvas) < 0)
-            {
+            if (canvas_set_vga_mode(canvas) < 0) {
                 resources_set_value("VGAMode", (resource_value_t)VGA_320x200x8);
                 video_canvas_resize(canvas,0,0);
                 canvas_set_vga_mode(canvas);
@@ -529,8 +513,7 @@ inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
         return;
 
     /* this is a hack for F7 change between VICII and VDC */
-    if (last_canvas != c)
-    {
+    if (last_canvas != c) {
         last_canvas = c;
         canvas_update_colors(c);
         clear(screen);

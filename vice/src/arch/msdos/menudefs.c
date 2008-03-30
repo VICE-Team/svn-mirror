@@ -1162,7 +1162,7 @@ static tui_menu_item_def_t quit_submenu[] = {
 static TUI_MENU_CALLBACK(monitor_callback)
 {
     if (been_activated)
-        mon(maincpu_regs.reg_pc);
+        mon(maincpu_regs.pc);
 
     return NULL;
 }
