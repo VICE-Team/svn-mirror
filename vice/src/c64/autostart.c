@@ -129,13 +129,16 @@ void autostart_advance(void)
 	}
 	break;
     case AUTOSTART_HASDISK:
-	if (check("READY.", 1024+5*40))
+	if (clk > CYCLES_PER_RFSH * RFSH_PER_SEC && check("READY.", 1024+5*40))
 	{
 	    warn(pwarn, -1, "loading disk");
 	    orig_true1541_state = app_resources.true1541;
-	    if (orig_true1541_state)
-		warn(pwarn, -1, "switching true 1541 emulation off");
-	    settrue1541mode(0);
+	    if (!app_resources.noTraps)
+	    {
+		if (orig_true1541_state)
+		    warn(pwarn, -1, "switching true 1541 emulation off");
+		settrue1541mode(0);
+	    }
 	    feed("LOAD\"*\",8,1");
 	    autostartmode = AUTOSTART_LOADINGDISK;
 	}
@@ -143,7 +146,7 @@ void autostart_advance(void)
     case AUTOSTART_LOADINGDISK:
 	if (check("READY.", 1024+10*40))
 	{
-	    if (orig_true1541_state)
+	    if (!app_resources.noTraps && orig_true1541_state)
 		warn(pwarn, -1, "switching true1541 on and starting program");
 	    else
 		warn(pwarn, -1, "starting program");
@@ -152,7 +155,7 @@ void autostart_advance(void)
 	    autostartmode = AUTOSTART_DONE;
 	}
 	break;
-    default:
+      default:
         return;
     }
 

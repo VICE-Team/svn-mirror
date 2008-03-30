@@ -938,7 +938,8 @@ int  serial_select_file(int type, int number, const char *file)
 	int ret;
 
 #ifdef HAVE_TRUE1541
-	true1541_detach_floppy();
+	if (number == 8)
+	    true1541_detach_floppy();
 #endif
 
 	ret = attach_floppy_image((DRIVE *)(p->info), file, 0);

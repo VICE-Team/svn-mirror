@@ -57,11 +57,10 @@
 
 #if defined(__1541__) && defined(TRUE1541_ROTATE)
 #define LOCAL_SET_OVERFLOW(val)			\
-    do {					\
-        true1541_rotate_disk(0);		\
-        true1541_set_byte_ready(0);		\
-        ((val) ? (reg_p |= P_OVERFLOW)		\
-         : (reg_p &= ~P_OVERFLOW));		\
+    do {						\
+        if (!(val)) true1541_set_byte_ready(0);	\
+        ((val) ? (reg_p |= P_OVERFLOW)			\
+         : (reg_p &= ~P_OVERFLOW));			\
     } while (0)
 #else
 #define LOCAL_SET_OVERFLOW(val)  ((val) ? (reg_p |= P_OVERFLOW)    \

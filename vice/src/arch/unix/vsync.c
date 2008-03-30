@@ -169,6 +169,9 @@ static int speed_eval_suspended = 1;
    emulation happens, so that we don't display bogus speed values. */
 void suspend_speed_eval(void)
 {
+#ifdef SOUND
+    suspend_sound();
+#endif
     speed_eval_suspended = 1;
 }
 
@@ -250,19 +253,31 @@ inline static void vsync_prevent_clk_overflow()
 #ifdef HAVE_TRUE1541
 /* Actually update the LED status only if the `trap idle' idling method is
    being used, as the LED status could be incorrect otherwise. */
-static void update_drive_led(void)
+static void update_drive_status(void)
 {
-    static int old_status = -1;
-    int my_status;
+    static int old_led_status = -1;
+    static int old_half_track = -1;
+    int my_led_status;
+
+    if (!app_resources.true1541) {
+	old_led_status = old_half_track = -1;
+	UiToggleDriveStatus(0);
+	return;
+    }
 
     if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
-	my_status = true1541_led_status;
+	my_led_status = true1541_led_status ? 1 : 0;
     else
-	my_status = 0;
+	my_led_status = 0;
 
-    if (my_status != old_status) {
-        UiDisplayDriveLed(my_status);
-	old_status = my_status;
+    if (my_led_status != old_led_status) {
+        UiDisplayDriveLed(my_led_status);
+	old_led_status = my_led_status;
+    }
+
+    if (true1541_current_half_track != old_half_track) {
+	old_half_track = true1541_current_half_track;
+	UiDisplayDriveTrack((float) true1541_current_half_track / 2.0);
     }
 }
 #endif
@@ -354,7 +369,7 @@ int do_vsync(int been_skipped)
     vsync_prevent_clk_overflow();
 
 #ifdef HAVE_TRUE1541
-    update_drive_led();
+    update_drive_status();
 #endif
 
     refresh_rate = app_resources.refreshRate;

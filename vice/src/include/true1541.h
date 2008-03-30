@@ -150,5 +150,6 @@ extern void true1541_motor_control(int flag);
 extern BYTE true1541_rom[TRUE1541_ROM_SIZE];
 extern BYTE true1541_ram[TRUE1541_RAM_SIZE];
 extern int true1541_led_status;
+extern int true1541_current_half_track;
 
 #endif /* !_TRUE1541_H */

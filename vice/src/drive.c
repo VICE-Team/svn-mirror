@@ -2719,7 +2719,6 @@ void    detach_floppy_image(DRIVE *floppy)
 	floppy->ActiveFd = -1;
 	floppy->ActiveName[0] = 0;		/* Name is used as flag */
     }
-
 }
 
 

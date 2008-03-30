@@ -1,7 +1,7 @@
 
 /*
- * viap.c
- * This file is generated from ../via-tmpl.c and viap.def,
+ * ./pet/viap.c
+ * This file is generated from ./via-tmpl.c and ./pet/viap.def,
  * Do not edit!
  */
 /*

@@ -290,12 +290,7 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
 static void resize(unsigned int width, unsigned int height)
 {
     if (width >= SCREEN_WIDTH * pixel_width) {
-#if 1 /* def __MSDOS__ */
 	window_x_offset = (width - SCREEN_WIDTH * pixel_width) / 2;
-#else
-	width = SCREEN_WIDTH * pixel_width;
-	window_x_offset = 0;
-#endif
 	window_first_x = 0;
     } else {
 	window_x_offset = 0;
@@ -311,13 +306,9 @@ static void resize(unsigned int width, unsigned int height)
     }
 
     if (height >= SCREEN_HEIGHT * pixel_height) {
-#if 1 /* def __MSDOS__ */
 	window_y_offset = (height - SCREEN_HEIGHT * pixel_height) / 2;
-#else
-	height = SCREEN_HEIGHT * pixel_height;
-	window_y_offset = 0;
-#endif
 	window_first_line = 0;
+	window_last_line = window_first_line + SCREEN_HEIGHT - 1;
     } else {
 	window_y_offset = 0;
 #ifndef SCREEN_BORDERHEIGHT_VARIES
@@ -329,10 +320,10 @@ static void resize(unsigned int width, unsigned int height)
 #else
 	window_first_line = (SCREEN_HEIGHT - height / pixel_height) / 2;
 #endif
+	window_last_line = window_first_line + height / pixel_height;
     }
-    canvas_resize(canvas, width, height);
 
-    window_last_line = window_first_line + height / pixel_height;
+    canvas_resize(canvas, width, height);
 
     /* Make sure we don't waste space showing unused lines. */
     if ((window_first_line < SCREEN_FIRST_DISPLAYED_LINE
@@ -679,14 +670,19 @@ inline static void refresh_changed(void)
 inline static void refresh_all(void)
 {
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
-    printf("Global refresh %d %d %d %d %d %d\n", window_first_x * pixel_width,
-    window_first_line * pixel_height, 0, 0, window_width, window_height);
+    printf("Global refresh %d %d %d %d %d %d\n",
+	   window_first_x * pixel_width + 2 * SCREEN_MAX_SPRITE_WIDTH,
+	   window_first_line * pixel_height,
+	   window_x_offset, window_y_offset,
+	   MIN(window_width, SCREEN_WIDTH * pixel_width),
+	   MIN(window_height, SCREEN_HEIGHT * pixel_height));
 #endif
     canvas_refresh(canvas, frame_buffer,
 		   window_first_x * pixel_width + 2 * SCREEN_MAX_SPRITE_WIDTH,
 		   window_first_line * pixel_height,
 		   window_x_offset, window_y_offset,
-		   window_width, window_height);
+		   MIN(window_width, SCREEN_WIDTH * pixel_width),
+		   MIN(window_height, SCREEN_HEIGHT * pixel_height));
 }
 
 /* ------------------------------------------------------------------------- */

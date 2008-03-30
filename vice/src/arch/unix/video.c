@@ -362,6 +362,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 			   num_colors, color_defs, pixel_return);
     if (!w)
 	return (canvas_t) NULL;
+
     c = (canvas_t) XtMalloc(sizeof(struct _canvas));
     c->emuwindow = w;
     c->drawable = UiCanvasDrawable(w);
@@ -370,6 +371,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     XtAddEventHandler(w,(EnterWindowMask | LeaveWindowMask | KeyReleaseMask
 			 | KeyPressMask), True,
 		      (XtEventHandler) kbd_event_handler, NULL);
+
     /* ...ugly... */
     XtAddEventHandler(XtParent(w), (EnterWindowMask | LeaveWindowMask
 				    | KeyReleaseMask | KeyPressMask), True,

@@ -55,6 +55,8 @@ int flush_sound(void);
 void close_sound(void);
 void initialize_sound(void);
 void sid_prevent_clk_overflow(void);
+void suspend_sound(void);
+void resume_sound(void);
 #endif
 
 #endif /* !defined (_SID_H) */

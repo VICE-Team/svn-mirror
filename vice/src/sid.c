@@ -267,6 +267,7 @@ static float filterDy, filterResDy;
 static BYTE filterType = 0;
 static BYTE filterCurType = 0;
 static u16_t filterValue;
+static const float filterRefFreq = 44100.0;
 static signed char ampMod1x8[256];
 
 inline static void dofilter(voice_t *pVoice)
@@ -780,12 +781,6 @@ inline static void update_sid(sound_t *psid, int nr)
 	/* no sample? */
 	if (!psid->pbuf)
 	    continue;
-	/* volume check */
-	if (!psid->vol)
-	{
-	    psid->pbuf[psid->bufptr++] = 0;
-	    continue;
-	}
 	/* oscillators */
 	o0 = psid->v[0].adsr >> 16;
 	o1 = psid->v[1].adsr >> 16;
@@ -816,7 +811,7 @@ inline static void update_sid(sound_t *psid, int nr)
 }
 #endif
 
-static void init_filter(sound_t *psid)
+static void init_filter(sound_t *psid, int freq)
 {
     u16_t uk;
     float rk;
@@ -828,15 +823,8 @@ static void init_filter(sound_t *psid)
     float resDyMin = 2.0;
     float resDy = resDyMin;
 
-	float yAdd, yTmp;
+    float yAdd, yTmp;
 
-    /* XXX: Normally the sample rate and tolerances of individual SID chips
-	 * should affect most of these constants. However the filter parameter
-	 * configuration is too experimental and complicated. For sample rates
-	 * much below 22-60 kHz the overall SID emulation does no longer sound
-	 * close to a real SID chip anyway, so any further missing accuracy in
-	 * the linear IIR filter set up has been neglected.
-	 */
     float filterFs = 400.0;
     float filterFm = 60.0;
     float filterFt = 0.05;
@@ -851,7 +839,8 @@ static void init_filter(sound_t *psid)
 
     for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
     {
-	lowPassParam[uk] = ( exp( rk/2048*log(filterFs) ) / filterFm ) + filterFt;
+	lowPassParam[uk] = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt)
+			    *filterRefFreq) / freq;
 	if ( lowPassParam[uk] < yMin )
 	    lowPassParam[uk] = yMin;
 	if ( lowPassParam[uk] > yMax )
@@ -864,8 +853,8 @@ static void init_filter(sound_t *psid)
 	yTmp = yMin;
 	for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
 	{
-		bandPassParam[uk] = yTmp;
-		yTmp += yAdd;
+	    bandPassParam[uk] = (yTmp*filterRefFreq) / freq;
+	    yTmp += yAdd;
 	}
 
     for ( uk = 0; uk < 16; uk++ )
@@ -913,7 +902,7 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     psid->update = 1;
     psid->emulatefilter = app_resources.sidFilters;
     setup_sid(psid);
-    init_filter(psid);
+    init_filter(psid, speed);
     for (i = 0; i < nr; i++)
     {
 #ifndef VIC20
@@ -1072,6 +1061,10 @@ typedef struct
     int				(*bufferstatus)(sound_t *s, int first);
     /* close and cleanup device */
     void			(*close)(void);
+    /* suspend device */
+    int				(*suspend)(sound_t *s);
+    /* resume device */
+    int				(*resume)(sound_t *s);
 } sid_device_t;
 
 #define FRAGS_PER_SECOND ((int)RFSH_PER_SEC)
@@ -1115,7 +1108,9 @@ static sid_device_t fs_device =
     NULL,
     NULL,
     NULL,
-    fs_close
+    fs_close,
+    NULL,
+    NULL
 };
 
 
@@ -1125,6 +1120,8 @@ static sid_device_t fs_device =
 static sid_device_t dummy_device =
 {
     "dummy",
+    NULL,
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -1146,6 +1143,8 @@ static sid_device_t speed_device =
     "speed",
     NULL,
     speed_write,
+    NULL,
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -1202,7 +1201,9 @@ static sid_device_t dump_device =
     dump_dump,
     dump_flush,
     NULL,
-    dump_close
+    dump_close,
+    NULL,
+    NULL
 };
 
 
@@ -1271,6 +1272,8 @@ static sid_device_t test_device =
     NULL,
     NULL,
     test_bufferstatus,
+    NULL,
+    NULL,
     NULL
 };
 #else /* TESTDEVICE */
@@ -1291,6 +1294,7 @@ static sid_device_t test_device;
 static int uss_fd = -1;
 static int uss_8bit = 0;
 static int uss_bufsize = 0;
+static int uss_fragsize = 0;
 
 static int uss_bufferstatus(sound_t *s, int first);
 
@@ -1367,12 +1371,14 @@ static int uss_init(sound_t *s, char *param, int *speed,
 	}
     }
     uss_bufsize = (*fragsize)*(*fragnr);
+    uss_fragsize = *fragsize;
     return 0;
 fail:
     close(uss_fd);
     uss_fd = -1;
     uss_8bit = 0;
     uss_bufsize = 0;
+    uss_fragsize = 0;
     return 1;
 }
 
@@ -1451,6 +1457,19 @@ static void uss_close(void)
     uss_fd = -1;
     uss_8bit = 0;
     uss_bufsize = 0;
+    uss_fragsize = 0;
+}
+
+static int uss_suspend(sound_t *s)
+{
+    int			 st;
+    st = ioctl(uss_fd, SNDCTL_DSP_POST, NULL);
+    if (st < 0)
+    {
+	warn(s->pwarn, -1, "SNDCTL_DSP_POST failed");
+	return 1;
+    }
+    return 0;
 }
 
 static sid_device_t uss_device =
@@ -1461,7 +1480,9 @@ static sid_device_t uss_device =
     NULL,
     NULL,
     uss_bufferstatus,
-    uss_close
+    uss_close,
+    uss_suspend,
+    NULL
 };
 
 #else
@@ -1555,7 +1576,9 @@ static sid_device_t sgi_device =
     NULL,
     NULL,
     sgi_bufferstatus,
-    sgi_close
+    sgi_close,
+    NULL,
+    NULL
 };
 
 #else
@@ -1704,7 +1727,9 @@ static sid_device_t sun_device =
     NULL,
     NULL,
     sun_bufferstatus,
-    sun_close
+    sun_close,
+    NULL,
+    NULL
 };
 
 #else
@@ -1842,7 +1867,9 @@ static sid_device_t aix_device =
     NULL,
     NULL,
     aix_bufferstatus,
-    aix_close
+    aix_close,
+    NULL,
+    NULL
 };
 
 #else
@@ -1938,7 +1965,9 @@ static sid_device_t hpux_device =
     NULL,
     NULL,
     hpux_bufferstatus,
-    hpux_close
+    hpux_close,
+    NULL,
+    NULL
 };
 
 #else
@@ -2067,7 +2096,9 @@ static sid_device_t midas_device =
     NULL,
     NULL,
     midas_bufferstatus,
-    midas_close
+    midas_close,
+    NULL,
+    NULL
 };
 #else
 static sid_device_t midas_device;
@@ -2201,7 +2232,9 @@ static sid_device_t sdl_device =
     NULL,
     NULL,
     sdl_bufferstatus,
-    sdl_close
+    sdl_close,
+    NULL,
+    NULL
 };
 
 #else
@@ -2257,9 +2290,12 @@ typedef struct
     int			 bufsize;
     /* return value of first pdev->bufferstatus() call to device */
     int			 firststatus;
-    /* constans related to adjusting sound */
+    /* constants related to adjusting sound */
     int			 prevused;
     int			 prevfill;
+    /* is the device suspended? */
+    int			 issuspended;
+    s16_t		 lastsample;
 } siddata_t;
 
 static siddata_t siddata;
@@ -2363,6 +2399,8 @@ static int initsid(void)
 		    return closesid(err);
 		}
 	    }
+	    siddata.issuspended = -1;
+	    siddata.lastsample = 0;
 	    siddata.pdev = pdev;
 	    siddata.fragsize = fragsize;
 	    siddata.fragnr = fragnr;
@@ -2434,6 +2472,7 @@ int flush_sound(void)
     i = run_sid();
     if (i)
 	return 0;
+    resume_sound();
     if (siddata.pdev->flush)
     {
 	i = siddata.pdev->flush(&siddata.sid);
@@ -2463,7 +2502,7 @@ int flush_sound(void)
 	/* buffer empty */
 	if (used <= siddata.fragsize)
 	{
-	    s16_t		*p;
+	    s16_t		*p, v;
 	    int			 j;
 	    static int		 prev;
 	    int			 now;
@@ -2488,7 +2527,9 @@ int flush_sound(void)
 	    if (j > 0)
 	    {
 	        p = xmalloc(j);
-		memset(p, 0, j);
+		v = siddata.sid.bufptr > 0 ? siddata.buffer[0] : 0;
+		for (i = 0; i < j / sizeof(*p); i++)
+		    p[i] = (float)v*i/(j / sizeof(*p));
 		i = siddata.pdev->write(&siddata.sid, p,
 					j / sizeof(*p));
 		free(p);
@@ -2497,6 +2538,7 @@ int flush_sound(void)
 		    closesid("Audio: write to sound device failed.");
 		    return 0;
 		}
+		siddata.lastsample = v;
 	    }
 	    fill = j;
 	}
@@ -2531,6 +2573,7 @@ int flush_sound(void)
 	closesid("Audio: write to sounddevice failed.");
 	return 0;
     }
+    siddata.lastsample = siddata.buffer[nr-1];
     siddata.sid.bufptr -= nr;
     if (siddata.sid.bufptr > 0)
     {
@@ -2544,6 +2587,52 @@ int flush_sound(void)
 void close_sound(void)
 {
     closesid(NULL);
+}
+
+/* suspend sid (eg. before pause) */
+void suspend_sound(void)
+{
+    int				 i;
+    s16_t			*p, v;
+    if (siddata.pdev)
+    {
+	if (siddata.pdev->write && siddata.issuspended == 0)
+	{
+	    p = xmalloc(siddata.fragsize*sizeof(s16_t));
+	    if (!p)
+		return;
+	    v = siddata.lastsample;
+	    for (i = 0; i < siddata.fragsize; i++)
+		p[i] = v - (float)v*i/siddata.fragsize;
+	    free(p);
+	    i = siddata.pdev->write(&siddata.sid, p, siddata.fragsize);
+	    if (i)
+		return;
+	}
+	if (siddata.pdev->suspend && siddata.issuspended == 0)
+	{
+	    i = siddata.pdev->suspend(&siddata.sid);
+	    if (i)
+		return;
+	}
+	siddata.issuspended = 1;
+    }
+}
+
+/* resume sid */
+void resume_sound(void)
+{
+    int				i;
+    if (siddata.pdev)
+    {
+	if (siddata.pdev->resume && siddata.issuspended == 1)
+	{
+	    i = siddata.pdev->resume(&siddata.sid);
+	    siddata.issuspended = i ? 1 : 0;
+	}
+	else
+	    siddata.issuspended = 0;
+    }
 }
 
 /* initialize sid at program start -time */
@@ -2693,11 +2782,7 @@ void reset_sid(void)
 {
     int				i;
     for (i = 0; i < 64; i++)
-	siddata.sid.d[i] = 0;
-    siddata.sid.v[0].update = 1;
-    siddata.sid.v[1].update = 1;
-    siddata.sid.v[2].update = 1;
-    siddata.sid.update = 1;
+	store_sid(i, 0);
 }
 
 #ifdef VIC20
