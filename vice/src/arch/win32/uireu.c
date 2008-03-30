@@ -72,7 +72,7 @@ static void init_reu_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_REU_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
-    temp_hwnd = GetDlgItem(hwnd,IDC_REU_SIZE);
+    temp_hwnd = GetDlgItem(hwnd, IDC_REU_SIZE);
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
         TCHAR st[10];
