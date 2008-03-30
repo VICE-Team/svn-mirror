@@ -257,21 +257,17 @@ mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/attach.h asm.h ../../src/arch/unix/types.h \
 	../../src/charsets.h ../../src/console.h ../../src/diskimage.h \
-	../../src/gcr.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/snapshot.h ../../src/mem.h mon.h \
-	../../src/mos6510.h mon_parse.h ../../src/resources.h \
-	../../src/utils.h ../../src/vdrive/vdrive-command.h \
-	../../src/vdrive/vdrive.h ../../src/vsync.h
+	../../src/6510core.h ../../src/mem.h mon.h mon_parse.h \
+	../../src/mos6510.h ../../src/resources.h ../../src/utils.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h \
+	../../src/vsync.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
-	../../src/console.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h \
-	../../src/mos6510.h mon_parse.h ../../src/utils.h
+	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h ../../src/console.h \
-	../../src/machine.h mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/snapshot.h ../../src/mos6510.h \
-	../../src/utils.h
+	../../src/machine.h mon.h ../../src/utils.h
 
 info-am:
 info: info-am

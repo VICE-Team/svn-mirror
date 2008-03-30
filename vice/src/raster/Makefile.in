@@ -249,13 +249,13 @@ raster-sprite-status.o: raster-sprite-status.c ../../src/vice.h \
 raster-sprite.o: raster-sprite.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/arch/unix/types.h raster-sprite.h
 raster.o: raster.c ../../src/vice.h ../../src/config.h \
-	../../src/machine.h raster.h ../../src/palette.h \
-	../../src/arch/unix/types.h raster-cache.h \
-	raster-sprite-cache.h raster-changes.h raster-modes.h \
-	raster-sprite-status.h raster-sprite.h ../../src/video.h \
+	../../src/machine.h raster.h raster-cache.h \
+	raster-sprite-cache.h ../../src/arch/unix/types.h \
+	raster-changes.h raster-modes.h raster-sprite-status.h \
+	raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
 	../../src/resources.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
 	../../src/utils.h

@@ -312,10 +312,9 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/cmdline.h ../../../../../src/resources.h \
-	../../../../../src/drive/drive.h ../../../../../src/diskimage.h \
-	../../../../../src/gcr.h ../../../../../src/arch/unix/types.h \
-	../../../../../src/log.h ../../../../../src/interrupt.h \
-	../../../../../src/6510core.h ../../../../../src/snapshot.h \
+	../../../../../src/drive/drive.h ../../../../../src/log.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/interrupt.h ../../../../../src/6510core.h \
 	../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h ui.h ../../../../../src/palette.h \
@@ -329,12 +328,12 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	widgets/TextField.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
-	../../../../../src/machine.h ui.h \
+	../../../../../src/diskimage.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	../../../../../src/machine.h ui.h ../../../../../src/palette.h \
+	../../../../../src/uiapi.h \
 	../../../../../src/arch/unix/uiedisk.h \
-	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h \
-	../../../../../src/diskimage.h ../../../../../src/gcr.h
+	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h
 uihotkey.o: uihotkey.c ../../../../../src/vice.h \
 	../../../../../src/config.h uihotkey.h ui.h \
 	../../../../../src/arch/unix/types.h \
@@ -354,8 +353,7 @@ uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h
 vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/attach.h ../../../../../src/c64/c64mem.h \
-	../../../../../src/mem.h ../../../../../src/snapshot.h \
-	../../../../../src/arch/unix/types.h \
+	../../../../../src/mem.h ../../../../../src/arch/unix/types.h \
 	../../../../../src/machine.h ../../../../../src/c64/psid.h \
 	../../../../../src/resources.h \
 	../../../../../src/arch/unix/uicommands.h \

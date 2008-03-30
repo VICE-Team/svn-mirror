@@ -233,34 +233,32 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/log.h ../../src/arch/unix/types.h \
-	vdrive-bam.h vdrive.h ../../src/diskimage.h ../../src/gcr.h \
-	vdrive-command.h
-vdrive-command.o: vdrive-command.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/serial.h ../../src/diskimage.h \
-	../../src/gcr.h ../../src/arch/unix/types.h ../../src/traps.h \
-	../../src/utils.h vdrive-bam.h vdrive.h vdrive-command.h \
-	vdrive-dir.h vdrive-iec.h
-vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
-	../../src/diskimage.h ../../src/gcr.h \
+	../../src/attach.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h ../../src/log.h vdrive-bam.h \
-	vdrive.h vdrive-dir.h
+	vdrive-command.h vdrive.h
+vdrive-command.o: vdrive-command.c ../../src/vice.h ../../src/config.h \
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/serial.h ../../src/utils.h \
+	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
+	vdrive.h
+vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h vdrive-bam.h vdrive-dir.h vdrive.h
 vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/serial.h ../../src/diskimage.h \
-	../../src/gcr.h ../../src/arch/unix/types.h ../../src/traps.h \
-	../../src/utils.h vdrive-bam.h vdrive.h vdrive-command.h \
-	vdrive-dir.h vdrive-iec.h
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/serial.h ../../src/utils.h \
+	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
+	vdrive.h
 vdrive-snapshot.o: vdrive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/log.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h \
-	../../src/diskimage.h ../../src/gcr.h
+	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/charsets.h ../../src/fsdevice.h ../../src/log.h \
-	../../src/serial.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/arch/unix/types.h ../../src/traps.h ../../src/utils.h \
-	vdrive-bam.h vdrive.h vdrive-command.h vdrive-dir.h \
-	vdrive-iec.h vdrive-snapshot.h ../../src/snapshot.h
+	../../src/charsets.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h ../../src/fsdevice.h \
+	../../src/log.h ../../src/serial.h ../../src/utils.h \
+	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
+	vdrive-snapshot.h vdrive.h
 
 info-am:
 info: info-am
