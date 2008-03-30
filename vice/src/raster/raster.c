@@ -36,6 +36,7 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"
+#include "screenshot.h"
 #include "types.h"
 #include "utils.h"
 #include "video.h"
@@ -245,7 +246,7 @@ static int realize_frame_buffer (raster_t *raster)
   if (raster->frame_buffer != NULL)
     video_frame_buffer_free (&raster->frame_buffer);
 #else
-  if (!console_mode && !psid_mode)
+  if (!console_mode && !vsid_mode)
     video_frame_buffer_free (&raster->frame_buffer);
 #endif
 
@@ -259,11 +260,11 @@ static int realize_frame_buffer (raster_t *raster)
   if (fb_height == 0)
     fb_height = 1;
 
-  if (!console_mode && !psid_mode)
+  if (!console_mode && !vsid_mode)
     if (video_frame_buffer_alloc (&raster->frame_buffer, fb_width, fb_height))
       return -1;
 
-  if (!console_mode && !psid_mode)
+  if (!console_mode && !vsid_mode)
     video_frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
 
   if (raster->fake_frame_buffer_line != NULL)
@@ -364,7 +365,7 @@ static void update_canvas (raster_t *raster)
   int x, y, xx, yy;
   int w, h;
 
-  if (console_mode || psid_mode) {
+  if (console_mode || vsid_mode) {
     return;
   }
 
@@ -417,7 +418,7 @@ static void update_canvas_all (raster_t *raster)
 {
   raster_viewport_t *viewport;
 
-  if (console_mode || psid_mode) {
+  if (console_mode || vsid_mode) {
     return;
   }
 
@@ -469,7 +470,7 @@ inline static void update_sprite_collisions (raster_t *raster)
 {
   PIXEL *fake_frame_buffer_ptr;
 
-  if (console_mode || psid_mode) {
+  if (console_mode || vsid_mode) {
     return;
   }
 
@@ -526,7 +527,7 @@ inline static void handle_blank_line (raster_t *raster)
 {
   unsigned int pixel_width;
 
-  if (console_mode || psid_mode)
+  if (console_mode || vsid_mode)
     return;
 
   pixel_width = raster->viewport.pixel_size.width;
@@ -1168,7 +1169,7 @@ inline static void handle_visible_line_with_changes (raster_t *raster)
 
 inline static void handle_visible_line (raster_t *raster)
 {
-  if (console_mode || psid_mode)
+  if (console_mode || vsid_mode)
     return;
 
   if (raster->changes.have_on_this_line)
@@ -1255,7 +1256,7 @@ void raster_init (raster_t *raster,
   raster_sprite_status_init (raster->sprite_status, num_sprites);
 
   /* Woo!  This sucks real bad!  FIXME!  */
-  if (!console_mode && !psid_mode)
+  if (!console_mode && !vsid_mode)
     video_frame_buffer_alloc (&raster->frame_buffer, 1, 1);
 
   raster_reset (raster);
@@ -1638,7 +1639,7 @@ void raster_force_repaint (raster_t *raster)
   raster->dont_cache = 1;
   raster->num_cached_lines = 0;
 
-  if (!console_mode && !psid_mode)
+  if (!console_mode && !vsid_mode)
       video_frame_buffer_clear (&raster->frame_buffer,
                                 RASTER_PIXEL (raster, 0));
 }
@@ -1705,5 +1706,13 @@ void raster_set_canvas_refresh (raster_t *raster,
 
   viewport = &raster->viewport;
   viewport->update_canvas = enable;
+}
+
+int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
+{
+    screenshot->frame_buffer = &raster->frame_buffer;
+    screenshot->width = raster->viewport.width;
+    screenshot->height = raster->viewport.height;
+    return 0;
 }
 

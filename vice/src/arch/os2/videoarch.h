@@ -15,7 +15,7 @@
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-typedef struct _frame_buffer {
+typedef struct frame_buffer_s {
     int   width;
     int   height;
     BYTE *bitmap;

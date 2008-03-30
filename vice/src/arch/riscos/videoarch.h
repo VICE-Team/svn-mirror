@@ -35,13 +35,13 @@
 #include "ui.h"
 
 
-struct _frame_buffer {
+struct frame_buffer_s {
   int width, height;
   PIXEL *tmpframebuffer;
   unsigned int tmpframebufferlinesize;
 };
 
-typedef struct _frame_buffer frame_buffer_t;
+typedef struct frame_buffer_s frame_buffer_t;
 
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;

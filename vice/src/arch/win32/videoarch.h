@@ -39,7 +39,7 @@
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
 #if 0
-typedef struct _frame_buffer {
+typedef struct frame_buffer_s {
     LPDIRECTDRAWSURFACE dd_surface;
     DDSURFACEDESC dd_surface_desc;
 } *frame_buffer_t;
@@ -53,7 +53,7 @@ typedef struct _frame_buffer {
 
 #else
 
-typedef struct _frame_buffer {
+typedef struct frame_buffer_s {
     int     width;
     int     height;
     PIXEL   *buffer;

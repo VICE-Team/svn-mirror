@@ -59,7 +59,7 @@ typedef struct _canvas *canvas_t;
 /* Triple buffering is never available on X11.  */
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-struct _frame_buffer {
+struct frame_buffer_s {
     XImage *x_image;
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
@@ -76,7 +76,7 @@ struct _frame_buffer {
 #endif
     GC gc;
 };
-typedef struct _frame_buffer frame_buffer_t;
+typedef struct frame_buffer_s frame_buffer_t;
 
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
