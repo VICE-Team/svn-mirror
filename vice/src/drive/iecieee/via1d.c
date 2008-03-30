@@ -136,7 +136,7 @@ void via1d_setup_context(drive_context_t *ctxptr)
       ctxptr->via1p.parallel_id = PARALLEL_DRV0;
     } else {
       ctxptr->via1p.parallel_id = PARALLEL_DRV1;
-   }
+    }
 }
 
 void drive_via_set_atn(drive_context_t *ctxptr, int state)
