@@ -62,10 +62,8 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
 
-    if (s == NULL) {
-        perror(name);
+    if (s == NULL)
         return -1;
-    }
 
     sound_snapshot_prepare();
 

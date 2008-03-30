@@ -101,7 +101,7 @@ int main_program(int argc, char **argv)
 
 #ifndef __riscos
     if (atexit(main_exit) < 0) {
-        perror("atexit");
+        archdep_startup_log_error("atexit");
         return -1;
     }
 #endif
