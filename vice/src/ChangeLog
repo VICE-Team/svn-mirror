@@ -1,3 +1,32 @@
+2000-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.17.
+
+2000-10-23  Markus Brenner  <markus@brenner.de>
+
+	* cartridge.h: added CARTRIDGE_DINAMIC type (17)
+
+	* c64/c64cartmem.c: added support for CARTRIDGE_DINAMIC
+
+	* c64/c64cartridge.c: added support for CARTRIDGE_DINAMIC
+
+2000-10-17  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	*  c64/psid.c: don't dereference psid before checking whether
+	it's legal (Segfaults on Solaris).
+
+2000-10-15  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* c64/c64.c, c64/psid.{c,h}: count number of vsyncs a tune was
+	played for playtime information.
+
+	* arch/riscos/ui.{c,h}: pass international messages to vsidui.
+
+	* arch/riscos/vsidui.c: added vsid_ui_display_time(); pause
+	and stop working correctly now.
+
+	* arch/*/vsidui.c: added vsid_ui_display_time() dummy stubs.
+
 2000-10-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.16.
