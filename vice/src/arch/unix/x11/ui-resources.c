@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "resources.h"
 #include "utils.h"
 
@@ -43,6 +44,9 @@ struct ui_resources_s {
 typedef struct ui_resources_s ui_resources_t;
 
 static ui_resources_t ui_resources;
+
+static ui_resources_initialized = 0;
+
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v, void *param)
@@ -93,6 +97,13 @@ static const resource_t resources[] = {
 
 int ui_resources_init(void)
 {
+    ui_resources_initialized = 1;
     return resources_register(resources);
+}
+
+void ui_resources_shutdown(void)
+{
+    if (ui_resources_initialized)
+        lib_free(ui_resources.html_browser_command);
 }
 
