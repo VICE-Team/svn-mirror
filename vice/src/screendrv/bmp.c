@@ -36,7 +36,7 @@
 #include "types.h"
 #include "utils.h"
 
-#define BMP_HDR_OFFSET (14 + 40 + 4 * 16)
+#define BMP_HDR_OFFSET (14 + 40 + 4 * screenshot->palette->num_entries)
 #define BMP_SIZE       (BMP_HDR_OFFSET + \
                        (screenshot->width / 2 * screenshot->height))
 
@@ -62,7 +62,7 @@ int bmp_write_file_header(screenshot_t *screenshot, FILE *fd)
 int bmp_write_bitmap_info(screenshot_t *screenshot, FILE *fd)
 {
     BYTE binfo[40];
-    BYTE bcolor[16 * 4];
+    BYTE *bcolor;
     unsigned int i;
 
     memset(binfo, 0, sizeof(binfo));
@@ -89,16 +89,21 @@ int bmp_write_bitmap_info(screenshot_t *screenshot, FILE *fd)
     if (fwrite(binfo, sizeof(binfo), 1, fd) < 1)
         return -1;
 
-    for (i = 0; i < 16; i++) {
+    bcolor = (BYTE *)xmalloc(screenshot->palette->num_entries * 4);
+
+    for (i = 0; i < screenshot->palette->num_entries; i++) {
         bcolor[i * 4] = screenshot->palette->entries[i].blue;
         bcolor[i * 4 + 1] = screenshot->palette->entries[i].green;
         bcolor[i * 4 + 2] = screenshot->palette->entries[i].red;
         bcolor[i * 4 + 3] = 0;
     }
 
-    if (fwrite(bcolor, sizeof(bcolor), 1, fd) < 1)
+    if (fwrite(bcolor, screenshot->palette->num_entries * 4, 1, fd) < 1) {
+        free(bcolor);
         return -1;
+    }
 
+    free(bcolor);
     return 0;
 }
 
@@ -133,8 +138,8 @@ int bmp_save(screenshot_t *screenshot, const char *filename)
 {
     FILE *fd;
 
-    if (screenshot->palette->num_entries != 16) {
-        log_error(LOG_ERR, "Only 16 colors supported.");
+    if (screenshot->palette->num_entries > 16) {
+        log_error(LOG_DEFAULT, "Max 16 colors supported.");
         return -1;
     }
 
