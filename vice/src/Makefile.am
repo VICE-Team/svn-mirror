@@ -24,6 +24,7 @@ SUBDIRS = \
 	rs232drv \
 	sid \
 	monitor \
+	core \
 	c64 \
 	c128 \
 	vic20 \
@@ -122,7 +123,6 @@ noinst_HEADERS = \
 	version.h.in \
 	version.h \
 	via.h \
-	viacore.h \
 	vice.h \
 	video.h \
 	viewport.h \
@@ -196,13 +196,13 @@ EXTRA_DIST = \
 	fixpoint.c \
 	piacore.c \
 	riotcore.c \
-	tpicore.c \
-	viacore.c
+	tpicore.c
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
+core_lib = $(top_builddir)/src/core/libcore.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
@@ -232,7 +232,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(serial_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -291,6 +291,7 @@ x64-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libcore \
 	x64$(EXEEXT)
 
 # x128
@@ -343,6 +344,7 @@ x128-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libcore \
 	@RESID_DEP@ \
 	x128$(EXEEXT)
 
@@ -386,6 +388,7 @@ xvic-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libcore \
 	xvic$(EXEEXT)
 
 # xpet
@@ -428,6 +431,7 @@ xpet-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libcore \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -470,6 +474,7 @@ xplus4-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libcore \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -517,6 +522,7 @@ xcbm2-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libcore \
 	xcbm2$(EXEEXT)
 
 # c1541
@@ -575,7 +581,7 @@ petcat_LDADD = \
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
-	libvideo libserial @RESID_DEP@
+	libvideo libserial libcore @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -589,6 +595,8 @@ libc64cart:
 	(cd c64 && $(MAKE) libc64cart)
 libcbm2:
 	(cd cbm2 && $(MAKE))
+libcore:
+	(cd core && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
 libdiskimage:
