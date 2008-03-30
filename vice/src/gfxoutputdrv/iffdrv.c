@@ -84,11 +84,11 @@ static int iffdrv_write_file_header(screenshot_t *screenshot)
   header[14]='H';
   header[15]='D';
   util_dword_to_be_buf(&header[16], 20);
-  util_word_to_be_buf(&header[20],screenshot->width);
-  util_word_to_be_buf(&header[22],screenshot->height);
+  util_word_to_be_buf(&header[20],(WORD)(screenshot->width));
+  util_word_to_be_buf(&header[22],(WORD)(screenshot->height));
   header[28]=8;
-  util_word_to_be_buf(&header[36],screenshot->width);
-  util_word_to_be_buf(&header[38],screenshot->height);
+  util_word_to_be_buf(&header[36],(WORD)(screenshot->width));
+  util_word_to_be_buf(&header[38],(WORD)(screenshot->height));
   header[40]='C';
   header[41]='M';
   header[42]='A';

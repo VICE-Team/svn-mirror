@@ -26,9 +26,7 @@
 
 #include "vice.h"
 
-#ifdef AMIGA_M68K
-#define _INLINE_MUIMASTER_H
-#endif
+#ifdef AMIGA_OS4
 #include "mui.h"
 
 #include "resources.h"
@@ -60,18 +58,14 @@ static ui_to_from_t ui_to_from[] = {
 
 static ULONG BT0Click(struct Hook *hook, Object *obj, APTR arg)
 {
-#ifdef AMIGA_OS4
   joyai_config(1);
-#endif
 
   return 0;
 }
 
 static ULONG BT1Click(struct Hook *hook, Object *obj, APTR arg)
 {
-#ifdef AMIGA_OS4
   joyai_config(2);
-#endif
 
   return 0;
 }
@@ -129,3 +123,4 @@ void ui_joystick_swap_joystick(void)
     resources_set_value("JoyDevice1",(resource_value_t)device2);
     resources_set_value("JoyDevice2",(resource_value_t)device1);
 }
+#endif

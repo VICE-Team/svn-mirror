@@ -30,6 +30,8 @@
 #include <windows.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <conio.h>
+#include <assert.h>
 
 #include "alarm.h"
 #include "parsid.h"
@@ -44,7 +46,7 @@
 #define parsid_SELECTIN		0x08
 #define parsid_PCD		0x20
 
-static unsigned char parsid_ctrport;
+static unsigned short parsid_ctrport;
 static int parsid_use_lib=0;
 static int parsid_port_address[4];
 
@@ -65,8 +67,13 @@ static Out32_t Out32;
 #endif
 
 /* input/output functions */
-static void parsid_outb(WORD addr, short value)
+static void parsid_outb(unsigned int addrint, short value)
 {
+  WORD addr = (WORD)addrint;
+
+  /* make sure the above conversion did not loose any details */
+  assert(addr == addrint);
+
   if (parsid_use_lib)
 #ifndef MSVC_RC
     (oup32fp)(addr,value);
@@ -77,8 +84,13 @@ static void parsid_outb(WORD addr, short value)
     _outp(addr,value);
 }
 
-static short parsid_inb(WORD addr)
+static short parsid_inb(unsigned int addrint)
 {
+  WORD addr = (WORD)addrint;
+
+  /* make sure the above conversion did not loose any details */
+  assert(addr == addrint);
+
   if (parsid_use_lib)
 #ifndef MSVC_RC
     return (inp32fp)(addr);

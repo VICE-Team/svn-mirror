@@ -649,7 +649,7 @@ static void update_menus(HWND hwnd)
 
 }
 
-static void ui_set_language(int lang_id)
+static void ui_set_language(unsigned int lang_id)
 {
     int i;
 

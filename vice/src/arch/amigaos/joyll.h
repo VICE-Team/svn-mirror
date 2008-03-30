@@ -1,8 +1,8 @@
 /*
- * fullscreenarch.h
+ * joyll.h
  *
  * Written by
- *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,10 +24,22 @@
  *
  */
 
-#ifndef _FULLSCREENARCH_H_
-#define _FULLSCREENARCH_H_
+#ifndef _JOYLL_H
+#define _JOYLL_H
 
-void video_arch_fullscreen_update(void);
-void video_arch_fullscreen_toggle(void);
+#define JOYDEV_NONE     0
+#define JOYDEV_NUMPAD   1
+#define JOYDEV_JOY0     2
+#define JOYDEV_JOY1     3
+#define JOYDEV_JOY2     4
+#define JOYDEV_JOY3     5
 
-#endif /* _FULLSCREENARCH_H_ */
+extern int joystick_port_map[2];
+
+extern int joy_arch_init(void);
+extern int joystick_init_resources(void);
+extern int joystick_init_cmdline_options(void);
+extern int joystick_handle_key(unsigned long kcode, int pressed);
+extern int joystick_update(void);
+
+#endif

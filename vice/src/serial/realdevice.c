@@ -56,7 +56,8 @@ void realdevice_open(unsigned int device, BYTE secondary,
 {
     vsync_suspend_speed_eval();
 
-    (*opencbmlib.p_cbm_open)(realdevice_fd, device & 0x0f, secondary & 0x0f,
+    (*opencbmlib.p_cbm_open)(realdevice_fd, (BYTE)(device & 0x0f),
+                             (BYTE)(secondary & 0x0f),
                              NULL, 0);
 
 #ifdef DEBUG_RD
@@ -69,7 +70,8 @@ void realdevice_close(unsigned int device, BYTE secondary,
 {
     vsync_suspend_speed_eval();
 
-    (*opencbmlib.p_cbm_close)(realdevice_fd, device & 0x0f, secondary & 0x0f);
+    (*opencbmlib.p_cbm_close)(realdevice_fd, (BYTE)(device & 0x0f),
+                              (BYTE)(secondary & 0x0f));
 
 #ifdef DEBUG_RD
     log_debug("CLOSE DEVICE %i SECONDARY %i", device & 0x0f, secondary & 0x0f);
@@ -81,7 +83,8 @@ void realdevice_listen(unsigned int device, BYTE secondary,
 {
     vsync_suspend_speed_eval();
 
-    (*opencbmlib.p_cbm_listen)(realdevice_fd, device & 0x0f, secondary & 0x0f);
+    (*opencbmlib.p_cbm_listen)(realdevice_fd, (BYTE)(device & 0x0f),
+                               (BYTE)(secondary & 0x0f));
 #ifdef DEBUG_RD
     log_debug("LISTEN DEVICE %i SECONDARY %i", device & 0x0f,
               secondary & 0x0f);
@@ -92,8 +95,8 @@ void realdevice_talk(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
-    (*opencbmlib.p_cbm_talk)(realdevice_fd, device & 0x0f,
-                             secondary & 0x0f);
+    (*opencbmlib.p_cbm_talk)(realdevice_fd, (BYTE)(device & 0x0f),
+                             (BYTE)(secondary & 0x0f));
 #ifdef DEBUG_RD
     log_debug("TALK DEVICE %i SECONDARY %i", device & 0x0f,
               secondary & 0x0f);

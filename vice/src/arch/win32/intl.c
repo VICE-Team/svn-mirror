@@ -2704,7 +2704,7 @@ int length;
     if (!(text_cache[en_resource >> 7] & (1 << ((en_resource >> 4) & 7)))) {
         j = (en_resource >> 4) + 1;
         for (i = 0; i < countof(language_table); i++) {
-            hRes = FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(j), MAKELANGID(windows_to_iso[i].windows_code, SUBLANG_NEUTRAL));
+            hRes = FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(j), (WORD) MAKELANGID(windows_to_iso[i].windows_code, SUBLANG_NEUTRAL));
             if (hRes) {
                 hGlob = LoadResource(NULL, hRes);
                 p = LockResource(hGlob);

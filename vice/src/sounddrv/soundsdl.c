@@ -104,6 +104,24 @@ static int sdl_init(const char *param, int *speed,
     return 0;
 }
 
+#if defined(WORDS_BIGENDIAN) && !defined(HAVE_SWAB)
+void swab (void *src, void *dst, size_t length)
+{
+  const char *from=src;
+  char *to=dst;
+  size_t ptr;
+  for (ptr=1; ptr<length; ptr+=2)
+  {
+    char p=from[ptr];
+    char q=from[ptr-1];
+    to[ptr-1]=p;
+    to[ptr]=q;
+  }
+  if (ptr==length)
+    to[ptr-1]=0;
+}
+#endif
+
 static int sdl_write(SWORD *pbuf, size_t nr)
 {
     int			total, amount;

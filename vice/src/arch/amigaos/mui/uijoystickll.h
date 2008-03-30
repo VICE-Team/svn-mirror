@@ -1,8 +1,8 @@
 /*
- * fullscreenarch.h
+ * uijoystickll.h
  *
  * Written by
- *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,10 +24,11 @@
  *
  */
 
-#ifndef _FULLSCREENARCH_H_
-#define _FULLSCREENARCH_H_
+#ifndef _UIJOYSTICKLL_H_
+#define _UIJOYSTICKLL_H_
 
-void video_arch_fullscreen_update(void);
-void video_arch_fullscreen_toggle(void);
+void ui_joystick_device_dialog(void);
+void ui_joystick_fire_dialog(void);
+void ui_joystick_swap_joystick(void);
 
-#endif /* _FULLSCREENARCH_H_ */
+#endif

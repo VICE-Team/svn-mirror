@@ -442,7 +442,7 @@ reg_list: reg_list REG_ASGN_SEP reg_asgn
         | reg_asgn
         ;
 
-reg_asgn: register EQUALS number { (monitor_cpu_type.mon_register_set_val)(reg_memspace($1), reg_regid($1), $3); }
+reg_asgn: register EQUALS number { (monitor_cpu_type.mon_register_set_val)(reg_memspace($1), reg_regid($1), (WORD) $3); }
         ;
 
 opt_count: expression { $$ = $1; }

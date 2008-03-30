@@ -98,7 +98,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
         }
         if ((value & 0x7f) == 9)
             romconfig = 6;
-        cartridge_config_changed(romconfig & 3, romconfig, CMODE_WRITE);
+        cartridge_config_changed((BYTE)(romconfig & 3), romconfig, CMODE_WRITE);
     }
     if ((addr & 0xff) == 1) {
         if(((ramconfig - 1) & 0xff) == value) {
@@ -109,7 +109,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
             ramconfig = value;
             romconfig &= 0xdd;
         }
-        cartridge_config_changed(romconfig & 3, romconfig, CMODE_WRITE);
+        cartridge_config_changed((BYTE)(romconfig & 3), romconfig, CMODE_WRITE);
     }
 }
 

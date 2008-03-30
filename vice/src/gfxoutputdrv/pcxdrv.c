@@ -64,14 +64,14 @@ static int pcxdrv_write_file_header(screenshot_t *screenshot)
   header[2]=1;
   header[3]=8;
 
-  util_word_to_le_buf(&header[8], screenshot->width-1);
-  util_word_to_le_buf(&header[10], screenshot->height-1);
+  util_word_to_le_buf(&header[8], (WORD)(screenshot->width-1));
+  util_word_to_le_buf(&header[10], (WORD)(screenshot->height-1));
 
-  util_word_to_le_buf(&header[12], screenshot->dpi_x);
-  util_word_to_le_buf(&header[14], screenshot->dpi_x);
+  util_word_to_le_buf(&header[12], (WORD)(screenshot->dpi_x));
+  util_word_to_le_buf(&header[14], (WORD)(screenshot->dpi_x));
 
   header[65]=1;
-  util_word_to_le_buf(&header[66], screenshot->width);
+  util_word_to_le_buf(&header[66], (WORD)(screenshot->width));
 
   if (fwrite(header, sizeof(header), 1, screenshot->gfxoutputdrv_data->fd)<1)
     return -1;

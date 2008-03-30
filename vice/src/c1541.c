@@ -38,6 +38,8 @@
  */
 
 #include "vice.h"
+#include "diskimage.h"
+#include "diskimage/fsimage.h"
 
 #ifdef AMIGA_AROS
 #define __AROS_OFF_T_DECLARED
@@ -1291,7 +1293,11 @@ static int info_cmd(int nargs, char **args)
     printf("Disk Format: %s.\n", format_name);
 /*printf("Sides\t   : %d.\n", hdr.sides);*/
     printf("Tracks\t   : %d.\n", vdrive->image->tracks);
-    printf((0 ? "Error Block present.\n" : "No Error Block.\n"));
+    if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
+        printf((
+            (((fsimage_t *)(vdrive->image->media))->error_info
+            ) ? "Error Block present.\n" : "No Error Block.\n"));
+    }
     printf("Write protect: %s.\n", vdrive->image->read_only ? "On" : "Off");
 
     return FD_OK;
