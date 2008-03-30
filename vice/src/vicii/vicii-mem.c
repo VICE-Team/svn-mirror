@@ -245,12 +245,11 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
 #if 0
             vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
 #else             
-              raster_add_int_change_foreground
-                   (&vic_ii.raster,
-                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
-                    &vic_ii.raster.draw_idle_state,
-                    0);
-              vic_ii.idle_state = 0;
+            raster_add_int_change_foreground(&vic_ii.raster,
+                                  VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
+                                  &vic_ii.raster.draw_idle_state,
+                                  0);
+            vic_ii.idle_state = 0;
 #endif
             vic_ii.idle_data_location = IDLE_NONE;
             if (cycle > VIC_II_FETCH_CYCLE + 2
@@ -326,7 +325,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             vic_ii.mem_counter_inc = inc;
 
             /* Take over the bus until the memory fetch is done.  */
-            clk = (VIC_II_LINE_START_CLK (clk) + VIC_II_FETCH_CYCLE
+            clk = (VIC_II_LINE_START_CLK(clk) + VIC_II_FETCH_CYCLE
                    + VIC_II_SCREEN_TEXTCOLS + 3);
 
             /* Remember we have done a DMA.  */
