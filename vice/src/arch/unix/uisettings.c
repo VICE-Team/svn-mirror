@@ -28,15 +28,11 @@
 
 #include "vice.h"
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
-
-#include <X11/Intrinsic.h>
-
-#include "uisettings.h"
 
 #include "drive.h"
 #include "fsdevice.h"
@@ -46,6 +42,7 @@
 #include "resources.h"
 #include "romset.h"
 #include "sound.h"
+#include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
 
@@ -1004,16 +1001,16 @@ static ui_menu_entry_t sound_settings_submenu[] = {
     { "*Enable sound playback",
       (ui_callback_t) toggle_Sound, NULL, NULL },
     { "--" },
-    { "*Sound synchronization",
+    { "Sound synchronization",
       NULL, NULL, set_sound_adjustment_submenu },
     { "--" },
-    { "*Sample rate",
+    { "Sample rate",
       NULL, NULL, set_sound_sample_rate_submenu },
-    { "*Buffer size",
+    { "Buffer size",
       NULL, NULL, set_sound_buffer_size_submenu },
-    { "*Suspend time",
+    { "Suspend time",
       NULL, NULL, set_sound_suspend_time_submenu },
-    { "*Oversample",
+    { "Oversample",
       NULL, NULL, set_sound_oversample_submenu },
     { NULL },
 };
@@ -1108,7 +1105,7 @@ static ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t) toggle_Printer4, NULL, NULL },
     { "IEC printer device",
       NULL, NULL, pr4_device_submenu  },
-    { "flush IEC printer device",
+    { "Flush IEC printer device",
       (ui_callback_t) flush_printer4, NULL, NULL },
     { "--" },
     { "*Userport printer emulation",
