@@ -26,7 +26,6 @@
 
 #include "vice.h"
 
-#include "mem.h"
 
 #define NUM_SEGMENTS 14
 #define NUM_CONFIGS 256
