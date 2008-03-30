@@ -154,7 +154,6 @@ extern void video_free(void);
 extern int int_raster(long offset);
 extern int int_rasterfetch(long offset);
 extern int int_rasterdraw(long offset);
-extern void vic_ii_prevent_clk_overflow(CLOCK sub);
 extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
 extern void vic_ii_set_ram_base(BYTE *base);

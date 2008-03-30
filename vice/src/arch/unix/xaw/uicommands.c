@@ -552,18 +552,6 @@ static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #11...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL,
       XK_1, UI_HOTMOD_META },
-    { "Add current image to fliplist...",
-      (ui_callback_t) add2fliplist, (ui_callback_data_t) 0, NULL,
-      XK_i, UI_HOTMOD_META },
-    { "Remove current image from fliplist...",
-      (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
-      XK_k, UI_HOTMOD_META },
-    { "Attach next image from fliplist...",
-      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 1, NULL,
-      XK_n, UI_HOTMOD_META },
-    { "Attach previous image from fliplist...",
-      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 0, NULL,
-      XK_N, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -607,11 +595,29 @@ static ui_menu_entry_t reset_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t flip_submenu[] = {
+    { "Add current image",
+      (ui_callback_t) add2fliplist, (ui_callback_data_t) 0, NULL,
+      XK_i, UI_HOTMOD_META },
+    { "Remove current image",
+      (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
+      XK_k, UI_HOTMOD_META },
+    { "Attach next image",
+      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 1, NULL,
+      XK_n, UI_HOTMOD_META },
+    { "Attach previous image",
+      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 0, NULL,
+      XK_N, UI_HOTMOD_META },
+    { NULL }
+};
+
 ui_menu_entry_t ui_disk_commands_menu[] = {
     { "Attach a disk image",
       NULL, NULL, attach_disk_image_submenu },
     { "Detach disk image",
       NULL, NULL, detach_disk_image_submenu },
+    { "Fliplist for drive #8",
+      NULL, NULL, flip_submenu },
     { NULL }
 };
 

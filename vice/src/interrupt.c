@@ -51,6 +51,7 @@ void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
     cs->global_pending_int = IK_NONE;
 }
 
+#if 0
 /* This is used to avoid clock counter overflows.  Return the number of
    cycles subtracted, which is always a multiple of `baseval'.  */
 CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
@@ -82,6 +83,7 @@ CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
     return 0;
 #endif
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

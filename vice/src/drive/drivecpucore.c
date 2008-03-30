@@ -355,7 +355,7 @@ void mydrive_cpu_reset(void)
 
 void mydrive_cpu_init(int type)
 {
-    alarm_context_init(&mydrive_alarm_context, "MYIDENTIFICATION");
+    alarm_context_init(&mydrive_alarm_context, IDENTIFICATION_STRING);
 
     myvia1_init();
     myvia2_init();

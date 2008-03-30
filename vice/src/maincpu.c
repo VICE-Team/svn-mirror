@@ -34,6 +34,7 @@
 
 #include "6510core.h"
 #include "alarm.h"
+#include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -211,6 +212,7 @@ inline static int mem_read_limit(int addr)
 
 struct cpu_int_status maincpu_int_status;
 alarm_context_t maincpu_alarm_context;
+clk_guard_t maincpu_clk_guard;
 
 /* Global clock counter.  */
 CLOCK clk = 0L;
@@ -356,13 +358,15 @@ inline static void evaluate_speed(unsigned long clk)
 
 #endif /* EVALUATE_SPEED */
  
-
 /* ------------------------------------------------------------------------- */
 
 void maincpu_init(void)
 {
     alarm_context_init(&maincpu_alarm_context, "MainCPU");
+    clk_guard_init(&maincpu_clk_guard, &clk, PREVENT_CLK_OVERFLOW_TICK);
 }
+
+/* ------------------------------------------------------------------------- */
 
 static void reset(void)
 {

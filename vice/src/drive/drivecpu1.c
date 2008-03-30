@@ -91,7 +91,7 @@ int drive1_traceflg;
 #define mydrive_traceflg drive1_traceflg
 
 #define mymonspace e_disk9_space
-#define MYIDENTIFICATION DRIVE#9
+#define IDENTIFICATION_STRING "DRIVE#9"
 
 #define reset_myvia1 reset_via1d1
 #define reset_myvia2 reset_via2d1

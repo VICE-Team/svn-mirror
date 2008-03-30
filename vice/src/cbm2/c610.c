@@ -41,6 +41,7 @@
 #include "c610mem.h"
 #include "c610tpi.h"
 #include "c610ui.h"
+#include "clkguard.h"
 #include "cmdline.h"
 #include "crtc.h"
 #include "interrupt.h"
@@ -279,6 +280,9 @@ static void vsync_hook(void)
 
     autostart_advance();
 
+    sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
+
+#if 0
     sub = maincpu_prevent_clk_overflow(C610_PAL_CYCLES_PER_RFSH);
 
     if (sub > 0) {
@@ -288,6 +292,7 @@ static void vsync_hook(void)
         vsync_prevent_clk_overflow(sub);
         acia1_prevent_clk_overflow(sub);
     }
+#endif
 
     /* The 1541 has to deal both with our overflowing and its own one, so it
        is called even when there is no overflowing in the main CPU.  */

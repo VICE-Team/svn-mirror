@@ -74,7 +74,8 @@ extern int debugflg;
 #define CLOCK_MAX (~((CLOCK)0))
 
 /* Define the tick when the clock counter overflow must be prevented and what
-   value should be subtracted from the counter when the tick is reached.  */
+   value should be subtracted from the counter when the tick is reached.
+   FIXME: To be moved somewhere else.  */
 #define PREVENT_CLK_OVERFLOW_TICK (CLOCK_MAX - 0x100000)
 
 /* These are the available types of interrupt lines.  */
@@ -369,8 +370,6 @@ extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 
 /* Extern functions.  These are defined in `interrupt.c'.  */
 
-extern CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
-                                  CLOCK baseval);
 extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
 				opcode_info_t *last_opcode_info_ptr);
 extern int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m);
@@ -414,8 +413,6 @@ extern CLOCK drive_clk[2];
     trigger_reset(&maincpu_int_status, clk)
 #define maincpu_trigger_trap(trap_func, data) \
     trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
-#define maincpu_prevent_clk_overflow(rfsh_per_sec) \
-    prevent_clk_overflow(&maincpu_int_status, &clk, (rfsh_per_sec))
 #define maincpu_steal_cycles(start_clk, num) \
     steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
 

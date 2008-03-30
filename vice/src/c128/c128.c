@@ -43,6 +43,7 @@
 #include "c128ui.h"
 #include "c64cia.h"
 #include "c64rsuser.h"
+#include "clkguard.h"
 #include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -368,6 +369,9 @@ static void vsync_hook(void)
 
     autostart_advance();
 
+    sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
+
+#if 0
     /* We have to make sure the number of cycles subtracted is multiple of
        `C128_PAL_CYCLES_PER_RFSH' here, or the VIC-II emulation could go
        nuts.  */
@@ -383,6 +387,7 @@ static void vsync_hook(void)
 	sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
+#endif
 
     /* The 1541 has to deal both with our overflowing and its own one, so it
        is called even when there is no overflowing in the main CPU.  */

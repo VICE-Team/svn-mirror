@@ -41,7 +41,15 @@
 #define _CIATIMER_H
 
 #undef	CIAT_DEBUG
-#undef	NO_INLINE
+/* #undef	NO_INLINE */
+#define CIAT_NEED_LOG
+
+static foo = 0;
+
+/***************************************************************************/
+/* constants */
+
+#define	CIAT_STACKLEN	4
 
 /***************************************************************************/
 /* Timer debug stuff */
@@ -90,19 +98,23 @@ typedef struct ciat_state_t {
     CLOCK	nextz;		/* clk when the timer is 0 again */
     WORD 	cnt;		/* counter value at clk. counts from latch
 				   value to zero, including both */
-    WORD	latch;		/* latch value at clk */
     int		runp2;		/* 1 = timer counts clk pulses */
-    int		oneshot;	/* 1 = oneshot, 0 = continous */
     int		single;		/* 1 = single step mode (like tb count ta) */
 } ciat_state_t;
 
 typedef struct ciat_t {
-    const char 	*name;		/* name of timer */
-    ciat_state_t	st[4];	/* timer state stack */
-    int			nst;	/* number of states on stack */
-    alarm_t		*alarm;	/* alarm handler */
+    const char 		*name;		/* name of timer */
+    ciat_state_t	st[CIAT_STACKLEN];	/* timer state stack */
+    int			nst;		/* number of states on stack */
+    alarm_t		*alarm;		/* alarm handler */
     CLOCK		alarmclk;
     CLOCK		last_update;
+    CLOCK		last_ack;
+    CLOCK		lastz;
+    CLOCK		oneshot_clk;	/* clock oneshot has been changed at */
+    int			oneshot;	/* 1 = oneshot, 0 = continous */
+    WORD		latch;		/* latch value at clk */
+    void		(*strobef)(CLOCK);
 } ciat_t;
 
 /***************************************************************************/
@@ -111,7 +123,7 @@ typedef struct ciat_t {
    compiled once when included in `ciatimer.c'.  */
 
 #ifdef INLINE_CIAT_FUNCS
-#  define _CIAT_FUNC inline static
+#  define _CIAT_FUNC inline static 
 #else
 #  define _CIAT_FUNC
 #endif
@@ -122,7 +134,7 @@ typedef struct ciat_t {
  * Init the timer 
  */
 _CIAT_FUNC void ciat_init(ciat_t *state, const char *name, 
-						CLOCK cclk, alarm_t *alarm)
+			CLOCK cclk, alarm_t *alarm, void (*strobef)(CLOCK))
 {
     CIAT_LOGIN(("%s init: cclk=%d",name,cclk));
 
@@ -130,20 +142,24 @@ _CIAT_FUNC void ciat_init(ciat_t *state, const char *name,
     state->name = name;
     state->st[0].clk = cclk;
     state->st[0].cnt = 0xffff;
-    state->st[0].latch = 0xffff;
     state->st[0].runp2 = 0;
-    state->st[0].oneshot = 0;
     state->st[0].single = 0;
     state->alarm = alarm;
     state->alarmclk = CLOCK_MAX;
     state->last_update = cclk;
+    state->lastz = 0;
+    state->last_ack = 0;
+    state->oneshot = 0;
+    state->oneshot_clk = 0;
+    state->strobef = strobef;
+    state->latch = 0xffff;
 
     CIAT_LOGOUT((""));
 }
 
 /* check when the next underflow will occur and set the alarm */
 /* needs update before */
-_CIAT_FUNC void ciat_set_alarm(ciat_t *state)
+_CIAT_FUNC void ciat_set_alarm(ciat_t *state, CLOCK cclk)
 {
     CLOCK tmp = CLOCK_MAX;
     int i;
@@ -153,6 +169,16 @@ _CIAT_FUNC void ciat_set_alarm(ciat_t *state)
     for (i=0;i<state->nst;i++) {
 	if (state->st[i].clk <= tmp) {
 	    tmp = state->st[i].nextz;
+/*
+	    tmp = (state->st[i].nextz == state->last_ack)
+			? state->st[i].nextz + state->latch + 1
+			: state->st[i].nextz;
+*/
+/*
+	    tmp = (state->st[i].nextz == state->last_update)
+			? state->st[i].nextz + state->latch + 1
+			: state->st[i].nextz;
+*/
 	}
     }
 
@@ -190,8 +216,8 @@ _CIAT_FUNC void ciat_tostack(ciat_t *state, ciat_state_t *timer)
 		state->name, timer->clk, state->st[0].clk, state->nst)); 
     CIAT_LOG(("             runp2=%d, t->cnt=%d, -> t->nextz=%d", 
 		timer->runp2, timer->cnt, timer->nextz)); 
-    CIAT_LOG(("             alarmclk=%d, t->latch=%d", 
-		state->alarmclk, timer->latch)); 
+    CIAT_LOG(("             alarmclk=%d, s->latch=%d", 
+		state->alarmclk, state->latch)); 
 
     for (i=0;i<state->nst;i++) {
 	if (state->st[i].clk >= timer->clk) {
@@ -199,6 +225,10 @@ _CIAT_FUNC void ciat_tostack(ciat_t *state, ciat_state_t *timer)
 	    break;
 	}
     }
+    if (i >= CIAT_STACKLEN) {
+	ciat_log("%s tostack: oops: stack exceeded!");
+    }
+
     state->st[i] = *timer;
     state->nst ++;
 
@@ -210,22 +240,33 @@ _CIAT_FUNC void ciat_tostack(ciat_t *state, ciat_state_t *timer)
  * Returns 0 when no underflow has happened, or n the number of underflows.
  * *now is set to 1 if the last underflow is at the current clock */
 /* FIXME: what when alarm is set? */
-_CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk, int *now) 
+_CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk) 
 {
-    int i,j, n, neg;
+    int i,j, n;
 
-    neg = 0;
     n = 0;
 
     CIAT_LOGIN(("%s update: cclk=%d, nst=%d", state->name, cclk, state->nst));
 
+    if (cclk <= state->last_update) {
+	ciat_log("%s update: cclk=%d, last update was at %d",
+		state->name, cclk, state->last_update);
+        CIAT_LOGOUT(("-> n=%d",0));
+	return 0;
+    }
+
     if (state->nst > 1) {
         for (j=0,i=1;i<state->nst;i++) {
-	    if (state->st[i].clk >= state->st[i-1].nextz) {
+	    if (state->st[i].clk > state->st[i-1].nextz) {
 		n++;   /* FIXME: approximation, but when will this be wrong? */
+		state->lastz = state->st[i-1].nextz;
 	    }
 	    if (state->st[i].clk <= cclk) {
 	        j = i;
+/*
+	    } else {
+		break;
+*/
 	    }
         }
         if (j) {
@@ -237,21 +278,28 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk, int *now)
     }
 
     CIAT_LOG(("cclk=%d, nextz=%d, latch=%d, st0.clk=%d, st0.cnt=%d", 
-	cclk, state->st[0].nextz, state->st[0].latch, state->st[0].clk,
+	cclk, state->st[0].nextz, state->latch, state->st[0].clk,
 	state->st[0].cnt));
 
     if (state->st[0].runp2) {
         if (state->st[0].nextz == cclk) {
+/*
 	    if(state->last_update < cclk) {
 	        n++;
 	    }
-	    neg = 1;
+*/
+	    n++;
+	    state->lastz = state->st[0].nextz;
+	    /* neg = 1; */
 	} else
         if (state->st[0].nextz < cclk) {
 	    CLOCK tmp = cclk - state->st[0].nextz;
 
-	    n += 1 + (tmp / (state->st[0].latch + 1)); 
-	    tmp -= tmp % (state->st[0].latch + 1);
+	    n += 1 + (tmp / (state->latch + 1)); 
+
+	    state->lastz = state->st[0].nextz + (state->latch + 1) * (n - 1);
+
+	    tmp -= tmp % (state->latch + 1);
 	    state->st[0].clk += tmp;
             state->st[0].nextz = state->st[0].runp2 ? 
 			state->st[0].clk + state->st[0].cnt : CLOCK_MAX;
@@ -260,15 +308,23 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk, int *now)
 				tmp, state->st[0].clk, state->st[0].nextz));
 	}
     } else {
+        if (state->st[0].nextz == cclk) {
+/*
+	    if(state->last_update < cclk) {
+	        n++;
+	    }
+*/
+	    state->lastz = state->st[0].nextz;
+	    n++;
+	}
+	state->st[0].nextz = CLOCK_MAX;
 	state->st[0].clk = cclk;
     }
 
     state->last_update = cclk;
 
-    CIAT_LOGOUT(("-> n=%d, neg=%d",n,neg));
+    CIAT_LOGOUT(("-> n=%d",n));
 
-    if(now) *now=neg;
- 
     return n;
 }
 
@@ -277,7 +333,7 @@ _CIAT_FUNC void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
 {
     int i;
 
-    CIAT_LOGIN(("%s prevent_clock_overflow", state->name));
+    ciat_login("%s prevent_clock_overflow", state->name);
 
     for (i=0; i<state->nst; i++) {
 	state->st[i].clk -= sub;
@@ -286,10 +342,16 @@ _CIAT_FUNC void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
     }
     if (state->alarmclk != CLOCK_MAX)
 	state->alarmclk -= sub;
-    if (state->last_update > sub)
+    if (state->last_update)
 	state->last_update -= sub;
-    else
-	state->last_update = 0;
+    if (state->oneshot_clk > sub)
+	state->oneshot_clk -= sub;
+    else 
+	state->oneshot_clk = 0;
+    if (state->last_ack > sub)
+	state->last_ack -= sub;
+    else 
+	state->last_ack = 0;
 
     CIAT_LOGOUT((""));
 }
@@ -306,11 +368,13 @@ _CIAT_FUNC void ciat_reset(ciat_t *state, CLOCK cclk)
     state->nst = 1;
     state->st[0].clk = cclk;
     state->st[0].cnt = 0xffff;
-    state->st[0].latch = 0xffff;
     state->st[0].runp2 = 0;
-    state->st[0].oneshot = 0;
     state->st[0].single = 0;
     state->last_update = cclk;
+    state->oneshot = 0;
+    state->last_ack = 0;
+    state->oneshot_clk = 0;
+    state->latch = 0xffff;
 
     state->alarmclk = CLOCK_MAX;
     alarm_unset(state->alarm);
@@ -320,35 +384,56 @@ _CIAT_FUNC void ciat_reset(ciat_t *state, CLOCK cclk)
 /* read timer value - ciat_update _must_ have been called before! */
 _CIAT_FUNC WORD ciat_read_latch(ciat_t *state, CLOCK cclk)
 {
-    return state->st[0].latch;
+    return state->latch;
 }
 
 /* read timer value - ciat_update _must_ have been called before! */
-_CIAT_FUNC WORD ciat_read_timer(ciat_t *state, CLOCK cclk)
+_CIAT_FUNC WORD ciat_do_read_timer(ciat_t *state, CLOCK cclk, int fl)
 {
     WORD current;
     CLOCK tmp;
     /*  (cclk - state->st[0].clk) 	= number of cycles since valid */
     /*  (state->st[0].clk + state->st[0].cnt 
 					= clk of next underflow (when cnt=0) */
+/*
+if (foo) {
+printf("%s do_read_timer, cclk=%d, fl=%d, nst=%d, st0.cnt=%d, st0.clk=%d, st0.nextz=%d\n",
+	state->name, cclk, fl, state->nst, state->st[0].cnt, state->st[0].clk, state->st[0].nextz);
+}
+*/
     if (state->st[0].runp2) {
 	tmp = state->st[0].nextz;
+
+	if (tmp == state->last_ack + state->latch + 1)
+	    tmp = state->last_ack;
+
 	if (cclk <= tmp) {
-	    current = tmp - cclk;
+	    current = (tmp - cclk) /* % (state->st[0].latch + 1) */;
 	} else {
-	    current = state->st[0].latch - 
-		((cclk - (tmp + 1)) % (state->st[0].latch + 1));
+/*
+            if (state->oneshot || (state->oneshot_clk == (cclk - 1)) ) {
+	    if (state->st[0].oneshot) {
+		current = state->latch;
+	    } else {
+*/
+	        current = state->latch - 
+		    ((cclk - (tmp + 1)) % (state->latch + 1));
+/*
+	    }
+*/
 	}
-	/* FIXME: what is when counter is stopped with "0" in it? */
-	if (current == 0)
-	    current = state->st[0].latch;
+	if (fl && (current == 0))
+	    current = state->latch;
     } else {
 	current = state->st[0].cnt;
     }
+/*
+if(foo) {
+    printf("ciat_read_timer(cclk=%d) -> %s=%d\n",cclk, state->name, current);
+foo--;
+}
+*/
 #if 0 /* def CIAT_TIMER_DEBUG */
-
-    ciat_log("ciat_read_timer(cclk=%d) -> %s=%d\n",cclk, state->name, 
-           (current == 0) ? state->st[0].latch : current);
 
 if(current==0x0f) { extern int ciat_logfl; ciat_logfl=1; }
 if(current==0xe7 || current==0xf1) { extern int ciat_logfl; ciat_logfl=0; }
@@ -357,32 +442,93 @@ if(current==0xe7 || current==0xf1) { extern int ciat_logfl; ciat_logfl=0; }
     return current;
 }
 
+_CIAT_FUNC WORD ciat_read_timer(ciat_t *state, CLOCK cclk)
+{
+    return ciat_do_read_timer(state, cclk, 1);
+}
+
+_CIAT_FUNC WORD ciat_read_cnt(ciat_t *state, CLOCK cclk)
+{
+    return ciat_do_read_timer(state, cclk, 0);
+}
+
+/* check whether underflow clk - ciat_update _must_ have been called before! 
+   Code mostly from ciat_read_timer */
+_CIAT_FUNC WORD ciat_is_underflow_clk(ciat_t *state, CLOCK cclk)
+{
+    WORD current;
+    CLOCK tmp;
+    /*  (cclk - state->st[0].clk) 	= number of cycles since valid */
+    /*  (state->st[0].clk + state->st[0].cnt 
+					= clk of next underflow (when cnt=0) */
+    if (state->st[0].runp2) {
+	tmp = state->st[0].nextz;
+/*
+	if (tmp == state->last_ack + state->latch + 1)
+	    tmp = state->last_ack;
+*/
+	if (cclk <= tmp) {
+	    current = (tmp - cclk) % (state->latch + 1);
+	} else {
+	    current = state->latch - 
+		((cclk - (tmp + 1)) % (state->latch + 1));
+	}
+    } else {
+	current = state->st[0].cnt;
+    }
+    return current == 0;
+}
+
+/* return 1 when the timer is running - update must have ... */
+_CIAT_FUNC WORD ciat_is_running(ciat_t *state, CLOCK cclk)
+{
+    if (state->oneshot || (state->oneshot_clk == (cclk - 1)) ) {
+	if (state->nst > 1 
+		&& ((!state->st[1].single) && (!state->st[1].runp2))
+		&& (state->st[0].nextz - state->latch - 1 == cclk)
+	    ) {
+	    return 0;
+	}
+    }
+    return (state->st[0].runp2 || state->st[0].single) ? 1 : 0;
+}
+
 /* single-step a timer. update _must_ have been called before */
-_CIAT_FUNC void ciat_single_step(ciat_t *state, CLOCK cclk) 
+_CIAT_FUNC int ciat_single_step(ciat_t *state, CLOCK cclk) 
 {
     ciat_state_t timer;
+    int n;
+
+    n = 0;
 
     timer = state->st[state->nst-1];
 
+/* printf("single step TB cclk=%d\n",cclk); */
     if (!timer.single)
-	return;
-
+	return 0;
 
     if (timer.cnt) {
 	timer.cnt --;
-        timer.clk = cclk + 0;
+        timer.clk = cclk + 2;
         ciat_tostack(state, &timer);
     } else {
-	/* FIXME: alarm handling */
-	if (timer.oneshot) {
+	if (state->oneshot || (state->oneshot_clk == (cclk - 1)) ) {
 	    timer.single = 0;
 	}
-        timer.clk = cclk + 0;
-	timer.cnt = timer.latch;
+        timer.clk = cclk + 1;
+	timer.cnt = state->latch;
         ciat_tostack(state, &timer);
+
+	/* FIXME: hack */
+	state->st[state->nst-1].nextz = cclk + 1;
+	ciat_set_alarm(state, cclk);
+
+	n = 0 /* 1 */;		/* sh*t. We have to delay this one cycle */
     }
 
+    state->last_update = cclk;
 
+    return n;
 }
 
 _CIAT_FUNC void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
@@ -391,11 +537,18 @@ _CIAT_FUNC void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
 
     CIAT_LOGIN(("%s set_latchhi: cclk=%d, byte=%02x", state->name, cclk, byte));
 
+    /* FIXME: hack: store latch also takes effect one cycle after underflow */
+    if (state->st[0].clk == cclk 
+	    && state->st[0].cnt == state->latch
+	    && state->lastz == cclk 
+	) {
+        state->st[0].cnt = (state->latch & 0xff) | (byte << 8);
+    }
+    state->latch = (state->latch & 0xff) | (byte << 8);
     for (i=0; i<state->nst; i++) {
 	if (state->st[i].clk <= cclk) {
-	    state->st[i].latch = (state->st[i].latch & 0xff) | (byte << 8);
 	    if ( (!state->st[i].runp2) && (!state->st[i].single)) {
-	        state->st[i].cnt = (state->st[i].latch & 0xff) | (byte << 8);
+	        state->st[i].cnt = (state->latch & 0xff) | (byte << 8);
 	    }
 	}
     }
@@ -406,13 +559,33 @@ _CIAT_FUNC void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
 _CIAT_FUNC void ciat_set_latchlo(ciat_t *state, CLOCK cclk, BYTE byte)
 {
     int i;
+/*
+    printf("%s set_latchlo: nst=%d, st0.clk=%d, st1.clk=%d, cclk=%d, "
+		"st0.cnt=%d, st1.cnt=%d, byte=%02x, last_update=%d, lastz=%d\n", 
+	state->name, state->nst, state->st[0].clk, state->st[1].clk, 
+	cclk, state->st[0].cnt, state->st[1].cnt, byte, state->last_update, 
+	state->lastz);
+*/
+    state->latch = (state->latch & 0xff00) | byte;
 
-    CIAT_LOGIN(("%s set_latchlo: cclk=%d, byte=%02x", state->name, cclk, byte));
-
-    for (i=0; i<state->nst; i++) {
-	if (state->st[i].clk <= cclk) {
-	    state->st[i].latch = (state->st[i].latch & 0xff00) | byte;
+    /* FIXME: hack: store latch also takes effect one cycle after underflow */
+    if (/* state->st[0].clk == cclk  */ 
+/*	    && state->st[0].cnt == state->latch */
+/*	    && */ state->lastz == cclk 
+	) {
+	ciat_state_t timer;
+	timer = state->st[state->nst-1];
+	timer.cnt = state->latch;
+	timer.clk = cclk + 1;
+	ciat_tostack(state, &timer);
+/*
+	if (state->oneshot || state->oneshot_clk == cclk - 1) {
+	    ciat_set_alarm(state, cclk);
 	}
+*/
+/*
+printf("doit\n");
+*/
     }
 
     CIAT_LOGOUT((""));
@@ -425,19 +598,12 @@ _CIAT_FUNC void ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
     ciat_state_t timer;
     WORD current = ciat_read_timer(state, cclk+1);
 
-/*
-    CIAT_LOGIN(("%s set_ctrl: cclk=%d, byte=%02x, CRA=%02x, CRB=%02x, int=%02x",
-	state->name, cclk, byte, cia[CIA_CRA], cia[CIA_CRB], ciaint));
-*/
     CIAT_LOGIN(("%s set_ctrl: cclk=%d, byte=%02x",
 	state->name, cclk, byte));
  
-    /* FIXME: */
-    if ( (byte ^ state->st[0].oneshot) & 8) {
-        timer = state->st[0];
-        timer.oneshot = byte & 8;
-	timer.clk = cclk + 1;
-	ciat_tostack(state, &timer);
+    if ( (byte ^ state->oneshot) & 8) {
+	state->oneshot = byte & 8;
+	state->oneshot_clk = cclk;
     }
 
 #ifdef CIAT_NEED_LOG
@@ -453,35 +619,88 @@ if(byte & 0x20)
       case 0x00:
       case 0x20:
 	if (state->st[0].runp2 || state->st[0].single) {
-            current = ciat_read_timer(state, cclk+2);
+/*
+            current = ciat_read_cnt(state, cclk+2);
+	    timer = state->st[0];
+	    timer.clk = cclk + 1;
+	    timer.runp2 = 0;
+	    timer.single = 0;
+	    ciat_tostack(state, &timer);
+*/
+            current = ciat_read_cnt(state, cclk);
+/*
+printf("%s set ctrl: cclk=%d, current=%d, oneshot=%d, oneshot_clk=%d\n",
+	state->name, cclk, current, state->oneshot, state->oneshot_clk);
+printf("   nst=%d, st0.clk=%d, st0.cnt=%d, st0.nextz=%d\n",
+	state->nst, state->st[0].clk, state->st[0].cnt, state->st[0].nextz);
+printf("   st1.clk=%d, st1.cnt=%d, st1.nextz=%d\n",
+	state->st[1].clk, state->st[1].cnt, state->st[1].nextz);
+*/
+	    if ((current == 0) 
+		&& ( ((!state->oneshot) && (state->oneshot_clk == cclk))
+		    || (state->oneshot && (state->oneshot_clk < cclk)) )
+		) {
+		current = state->latch;
+	    } else {
+                current = ciat_read_cnt(state, cclk+2);
+		if (state->st[0].nextz <= cclk)
+		    state->st[0].nextz += state->latch + 1;
+	    }
+/* printf("current=%d\n", current); */
 	    timer = state->st[0];
 	    timer.clk = cclk + 2;
 	    timer.cnt = current;
 	    timer.runp2 = 0;
 	    timer.single = 0;
-	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
+/*
+if (current == 0) {
+foo=5;
+printf("nst=%d\n",state->nst);
+printf("st0.nextz=%d, st1.nextz=%d\n", state->st[0].nextz, state->st[1].nextz);
+printf("st0.cnt=%d, st1.cnt=%d\n", state->st[0].cnt, state->st[1].cnt);
+printf("st0.clk=%d, st1.clk=%d\n", state->st[0].clk, state->st[1].clk);
+}
+*/
 	}
 	break;
       case 0x01:
 	if (!state->st[0].runp2) {
+            current = ciat_read_cnt(state, cclk);
+/*
+	    if ((current == 0) 
+		&& ((!state->oneshot) && (state->oneshot_clk == cclk))) {
+		current = state->latch;
+	    } else {
+                current = ciat_read_cnt(state, cclk+2);
+	    }
+*/
+            current = ciat_read_timer(state, cclk+2);
 	    timer = state->st[0];
 	    timer.clk = cclk + 2;
 	    timer.cnt = current;
 	    timer.runp2 = 1;
 	    timer.single = 0;
-	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
+	} else {
+	    if ((state->nst > 1) 
+			&& (state->st[1].clk == cclk + 1)
+			&& (state->st[1].runp2 == 0)) {
+	        timer = state->st[0];
+		timer.clk = cclk + 2;
+		timer.cnt = ciat_read_timer(state, cclk + 1);
+		ciat_tostack(state, &timer);
+	    }
 	}
 	break;
       case 0x21:
-	if (!state->st[0].runp2) {
+	if (!state->st[0].single) {
+    	    current = ciat_read_timer(state, cclk+2);
 	    timer = state->st[0];
 	    timer.clk = cclk + 2;
 	    timer.cnt = current;
 	    timer.runp2 = 0;
 	    timer.single = 1;
-	    timer.oneshot = byte & 8;
 	    ciat_tostack(state, &timer);
 	}
 	break;
@@ -489,39 +708,71 @@ if(byte & 0x20)
       case 0x30:
 	timer = state->st[0];
 	timer.clk = cclk + 2;
-	timer.cnt = timer.latch;
+	timer.cnt = state->latch;
 	timer.runp2 = 0;
 	timer.single = 0;
-	timer.oneshot = byte & 8;
 	ciat_tostack(state, &timer);
 	break;	
       case 0x11:
+/*
+printf("%s set_ctrl 0x11: cclk=%d, nst=%d, st0.clk=%d, st0.cnt=%d, st0.nextz=%d\n",
+		state->name, cclk, state->nst, state->st[0].clk, state->st[0].cnt, state->st[0].nextz);
+*/
+	if (state->st[0].nextz == cclk) {
+/*
+	    if ((state->st[0].cnt) == 0 && (!state->st[0].runp2)) {
+printf("doitsetctrl\n");
+	    } else {
+*/
+	        state->st[0].nextz = CLOCK_MAX;
+/*
+	    }
+	} else 
+	if (state->st[0].nextz == CLOCK_MAX && state->st[0].cnt == 0
+		&&  (!state->st[0].runp2)
+		&& state->st[0].clk == cclk) {
+	    state->st[0].nextz = cclk;
+*/
+	}
+/*
+	if (current == 0) {
+	    if (state->strobef) {
+		state->strobef(cclk);
+	    }
+	}
+*/
+        current = ciat_read_cnt(state, cclk+2);
 	timer = state->st[0];
 	timer.clk = cclk + 2;
-	timer.cnt = timer.latch;
+	timer.cnt = state->latch;
 	timer.runp2 = 0;
 	timer.single = 0;
-	timer.oneshot = byte & 8;
 	ciat_tostack(state, &timer);
+	if (/* state->st[0].runp2 && */ (current == 0)) {
+	    state->st[state->nst - 1].nextz = cclk + 2;
+	}
 	timer.runp2 = 1;
-	timer.clk ++;
+	timer.clk +=1;
 	ciat_tostack(state, &timer);
 	break;
       case 0x31:
 	timer = state->st[0];
 	timer.clk = cclk + 2;
-	timer.cnt = timer.latch;
+	timer.cnt = state->latch;
 	timer.runp2 = 0;
 	timer.single = 1;
-	timer.oneshot = byte & 8;
 	ciat_tostack(state, &timer);
+/*
 	timer.clk ++;
 	ciat_tostack(state, &timer);
+*/
 	break;
     }
 
-    ciat_set_alarm(state);
-
+    ciat_set_alarm(state, cclk);
+/*
+printf("->alarm at %d\n",state->alarmclk);
+*/
     CIAT_LOGOUT((""));
 }
 
@@ -538,14 +789,14 @@ _CIAT_FUNC void ciat_ack_alarm(ciat_t *state, CLOCK cclk)
             ciat_state_t timer;
             WORD current = ciat_read_timer(state, cclk+1);
 /*
-
 printf("%s: ack_alarm hit @ cclk=%d!\n", state->name, cclk);
 	    timer = state->st[0];
 	    timer.clk = cclk;
 	    timer.cnt = current;
 	    ciat_tostack(state, &timer);
 */
-	    if (state->st[0].oneshot) {
+	    if (state->oneshot || (state->oneshot_clk == (cclk - 1)) ) {
+                WORD current = ciat_read_timer(state, cclk+1);
                 timer = state->st[0];
                 timer.clk = cclk + 1;
                 timer.cnt = current;
@@ -554,12 +805,14 @@ printf("%s: ack_alarm hit @ cclk=%d!\n", state->name, cclk);
                 ciat_tostack(state, &timer);
 	    }
 	    /* FIXME: hack? */
-            state->st[0].nextz += state->st[0].latch + 1;
+            state->st[0].nextz += state->latch + 1; 
+
+	    state->last_ack = cclk;
 	}
 	/* FIXME: what happens when the else clause here happens...????? */
 
 
-	if (state->st[0].oneshot) {
+	if (state->oneshot || (state->oneshot_clk == (cclk - 1)) ) {
             ciat_state_t timer;
             WORD current = ciat_read_timer(state, cclk+1);
 
@@ -570,7 +823,7 @@ printf("%s: ack_alarm hit @ cclk=%d!\n", state->name, cclk);
             timer.single = 0;
             ciat_tostack(state, &timer);
 
-	    ciat_set_alarm(state);
+	    ciat_set_alarm(state, cclk);
 	}
     } else {
 #ifdef CIAT_TIMER_DEBUG
@@ -590,17 +843,17 @@ extern void ciat_ack_alarm(ciat_t *state, CLOCK cclk);
 extern void ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte);
 extern void ciat_set_latchlo(ciat_t *state, CLOCK cclk, BYTE byte);
 extern void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte);
-extern void ciat_single_step(ciat_t *state, CLOCK cclk);
+extern int ciat_single_step(ciat_t *state, CLOCK cclk);
 extern WORD ciat_read_timer(ciat_t *state, CLOCK cclk);
 extern WORD ciat_read_latch(ciat_t *state, CLOCK cclk);
 extern void ciat_reset(ciat_t *state, CLOCK cclk);
 extern void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub);
-extern int ciat_update(ciat_t *state, CLOCK cclk, int *now);
+extern int ciat_update(ciat_t *state, CLOCK cclk);
 extern void ciat_tostack(ciat_t *state, ciat_state_t *timer);
 extern CLOCK ciat_alarm_clk(ciat_t *state);
-extern void ciat_set_alarm(ciat_t *state);
+extern void ciat_set_alarm(ciat_t *state, CLOCK clk);
 extern void ciat_init(ciat_t *state, const char *name,
-                                                CLOCK cclk, alarm_t *alarm);
+                       CLOCK cclk, alarm_t *alarm, void (*strobef)(CLOCK));
 
 #endif 	/* defined INLINE_CIAT_FUNCS || defined _CIATIMER_C */
 

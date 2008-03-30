@@ -89,6 +89,8 @@ struct _alarm_context {
 alarm_context_t *alarm_context_new(const char *name);
 void alarm_context_init(alarm_context_t *context, const char *name);
 void alarm_context_destroy(alarm_context_t *context);
+void alarm_context_time_warp (alarm_context_t *context, CLOCK warp_amount,
+                              int warp_direction);
 
 alarm_t *alarm_new(alarm_context_t *context, const char *name,
                    alarm_callback_t callback);

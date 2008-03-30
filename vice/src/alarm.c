@@ -73,6 +73,28 @@ void alarm_context_destroy(alarm_context_t *context)
     free(context);
 }
 
+void alarm_context_time_warp (alarm_context_t *context,
+                              CLOCK warp_amount,
+                              int warp_direction)
+{
+    unsigned int i;
+
+    if (warp_direction == 0)
+        return;
+
+    for (i = 0; i < context->num_pending_alarms; i++) {
+        if (warp_direction > 0)
+            context->pending_alarms[i].clk += warp_amount;
+        else
+            context->pending_alarms[i].clk -= warp_amount;
+    }
+
+    if (warp_direction > 0)
+        context->next_pending_alarm_clk += warp_amount;
+    else
+        context->next_pending_alarm_clk -= warp_amount;
+}
+
 /* ------------------------------------------------------------------------ */
 
 alarm_t *alarm_new(alarm_context_t *context,

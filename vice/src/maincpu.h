@@ -31,6 +31,7 @@
 
 #include "6510core.h"
 #include "alarm.h"
+#include "clkguard.h"
 #include "mem.h"
 #include "mon.h"
 #include "mos6510.h"
@@ -63,6 +64,7 @@ extern CLOCK clk;
 
 extern CLOCK _maincpu_opcode_write_cycles[];
 extern alarm_context_t maincpu_alarm_context;
+extern clk_guard_t maincpu_clk_guard;
 
 /* Return the number of write accesses in the last opcode emulated. */
 inline static CLOCK maincpu_num_write_cycles(void)

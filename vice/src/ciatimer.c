@@ -34,7 +34,6 @@
 #include "alarm.h"
 #include "interrupt.h"
 
-#include "ciatimer.h"
 
 #if 1 /* def CIAT_NEED_LOG */
 
@@ -80,4 +79,6 @@ void ciat_log(const char *format,...) {
 }
 
 #endif
+
+#include "ciatimer.h"
 
