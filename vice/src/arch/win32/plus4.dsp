@@ -130,6 +130,10 @@ SOURCE=..\..\plus4\plus4memsnapshot.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4parallel.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\plus4pio1.c
 # End Source File
 # Begin Source File

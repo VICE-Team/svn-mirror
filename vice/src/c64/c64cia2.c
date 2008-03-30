@@ -35,6 +35,7 @@
 #include "c64mem.h"
 #include "c64iec.h"
 #include "c64cia.h"
+#include "c64parallel.h"
 #include "cia.h"
 #include "drive.h"
 #include "drivecpu.h"

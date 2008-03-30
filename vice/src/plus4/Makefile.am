@@ -30,6 +30,8 @@ libplus4_a_SOURCES = \
 	plus4memlimit.h \
 	plus4memsnapshot.c \
 	plus4memsnapshot.h \
+	plus4parallel.c \
+	plus4parallel.h \
 	plus4pio1.c \
 	plus4pio1.h \
 	plus4pio2.c \

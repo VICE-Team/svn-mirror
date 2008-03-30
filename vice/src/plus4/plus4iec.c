@@ -45,9 +45,6 @@
 static iec_info_t iec_info;
 
 static BYTE iec_old_atn = 0x10;
-static BYTE parallel_cable_cpu_value = 0xff;
-static BYTE parallel_cable_drive0_value = 0xff;
-static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
 
@@ -258,60 +255,6 @@ BYTE iec_cpu_read(void)
 iec_info_t *iec_get_drive_port(void)
 {
     return &iec_info;
-}
-
-#if 0
-void parallel_cable_drive0_write(BYTE data, int handshake)
-{
-}
-
-void parallel_cable_drive1_write(BYTE data, int handshake)
-{
-}
-
-BYTE parallel_cable_drive_read(int handshake)
-{
-    return 0;
-}
-#endif
-
-void parallel_cable_drive0_write(BYTE data, int handshake)
-{
-    parallel_cable_drive0_value = data;
-}
-
-void parallel_cable_drive1_write(BYTE data, int handshake)
-{
-    parallel_cable_drive1_value = data;
-}
-
-BYTE parallel_cable_drive_read(int handshake)
-{
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
-}
-
-void parallel_cable_cpu_write(BYTE data)
-{
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return;
-
-    drivecpu_execute_all(last_write_cycle);
-
-    parallel_cable_cpu_value = data;
-}
-
-BYTE parallel_cable_cpu_read(void)
-{
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return 0;
-
-    drivecpu_execute_all(maincpu_clk);
-
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
 }
 
 /* This function is called from ui_update_menus() */

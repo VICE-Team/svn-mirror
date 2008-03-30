@@ -40,6 +40,7 @@
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64fastiec.h"
 #include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64memrom.h"
@@ -453,6 +454,7 @@ int machine_init(void)
 #endif
 
         c64iec_init();
+        c64fastiec_init();
 
         cartridge_init();
     }
