@@ -2,7 +2,7 @@
  * petui.c - Implementation of the PET-specific part of the UI.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,8 +26,8 @@
 
 #include "vice.h"
 
+#include <wimp.h>
 #include <string.h>
-
 
 #include "ui.h"
 #include "petui.h"
@@ -83,7 +83,7 @@ static unsigned char PETshiftB_sflags[KEYMAP_ENTRIES/8];
 static const char IBarIconName[] = "!vicepet";
 static const char PETnormfile[] = "Vice:PET.RObusi/vkm";
 
-static keymap_t PETkeysBusiness = {
+static kbd_keymap_t PETkeysBusiness = {
   PETnormfile,
   PETnormBusiness,
   PETshiftBusiness,
@@ -132,7 +132,7 @@ static unsigned char PETnormG_sflags[KEYMAP_ENTRIES/8];
 static unsigned char PETshiftG_sflags[KEYMAP_ENTRIES/8];
 static const char PETgrphfile[] = "Vice:PET.ROgrph/vkm";
 
-static keymap_t PETkeysGraphic = {
+static kbd_keymap_t PETkeysGraphic = {
   PETgrphfile,
   PETnormGraphic,
   PETshiftGraphic,
@@ -178,7 +178,7 @@ static struct MenuDisplayVideoCache {
 static char PETkeyBusinessName[] = "Business";
 static char PETkeyGraphicName[] = "Graphic";
 
-char *pet_get_keyboard_name(void)
+const char *pet_get_keyboard_name(void)
 {
   resource_value_t val;
   int idx;
@@ -231,7 +231,7 @@ const char *ui_get_machine_ibar_icon(void)
 
 
 /* Dummies */
-char *cbm2_get_keyboard_name(void)
+const char *cbm2_get_keyboard_name(void)
 {
   return NULL;
 }

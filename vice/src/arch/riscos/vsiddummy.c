@@ -2,7 +2,7 @@
  * vsiddummy.c - Dummy sidplayer stubs for non-C64 targets
  *
  * Written by
- *  Andreas Dehmel (dehmel@forwiss.tu-muenchen)
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

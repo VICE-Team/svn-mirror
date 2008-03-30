@@ -39,7 +39,9 @@
 #include "video.h"
 
 
-SDWORD ytable[128];
+SDWORD ytable[128];		/* unscaled luminance */
+SDWORD ytablel[128];	/* luminance for neighbouring pixels */
+SDWORD ytableh[128];	/* luminance for current pixel */
 SDWORD cbtable[128];
 SDWORD crtable[128];
 
@@ -246,14 +248,18 @@ DWORD yuv_table[128];
 static void video_calc_ycbcrtable(const video_cbm_palette_t *p)
 {
     video_ycbcr_color_t primary;
-    unsigned int i;
+    unsigned int i, lf, hf;
     float sat;
 
+	lf = 64*video_resources.pal_blur/1000;
+	hf = 256 - (lf << 1);
     sat = ((float)(video_resources.color_saturation)) * (256.0f / 1000.0f);
     for (i = 0;i < p->num_entries; i++) {
         video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
                                    p->phase,&primary);
         ytable[i] = (SDWORD)(primary.y * 256.0f);
+        ytablel[i] = ytable[i]*lf;
+        ytableh[i] = ytable[i]*hf;
         cbtable[i] = (SDWORD)(primary.cb * sat);
         crtable[i] = (SDWORD)(primary.cr * sat);
 

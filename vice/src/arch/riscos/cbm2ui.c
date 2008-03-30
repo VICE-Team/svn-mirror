@@ -2,7 +2,7 @@
  * cbm2ui.c - Implementation of the CBM-II-specific part of the UI.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+
+#include <wimp.h>
 
 #include "ui.h"
 #include "cbm2ui.h"
@@ -79,7 +81,7 @@ static unsigned char CBM2shift_sflag[KEYMAP_ENTRIES/8];
 static const char IBarIconName[] = "!vicecbm2";
 static const char CBM2keyfile[] = "Vice:CBM-II.ROdflt/vkm";
 
-static keymap_t CBM2keys = {
+static kbd_keymap_t CBM2keys = {
   CBM2keyfile,
   CBM2norm,
   CBM2shifted,
@@ -126,7 +128,7 @@ static struct MenuDisplayVideoCache {
 static char CBM2keyBusinessName[] = "Business";
 static char CBM2keyGraphicName[] = "Graphic";
 
-char *cbm2_get_keyboard_name(void)
+const char *cbm2_get_keyboard_name(void)
 {
   resource_value_t val;
   int idx;
@@ -179,7 +181,7 @@ const char *ui_get_machine_ibar_icon(void)
 int *mem_read_limit_tab_ptr;
 
 
-char *pet_get_keyboard_name(void)
+const char *pet_get_keyboard_name(void)
 {
   return NULL;
 }

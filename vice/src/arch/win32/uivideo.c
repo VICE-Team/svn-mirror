@@ -110,11 +110,10 @@ static Chip_Parameters  chip_param_table[] =
     {ted_palettes, "TEDPaletteFile", "TEDExternalPalette", UI_VIDEO_PAL, "TED Palette"},
 };
 
-static char *modes[4]=
+static char *modes[5]=
 {
     "Fast PAL",
-    "Y/C cable (sharp)",
-    "Composite (blurry)",
+	"PAL Emulation",
     NULL
 };
 
@@ -174,6 +173,11 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
         fval = ((double)val) / 1000.0;
         sprintf(newval, "%.3f", (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, newval);
+
+    resources_get_value("PALBlur", (void *)&val);
+        fval = ((double)val) / 1000.0;
+        sprintf(newval, "%.3f", (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, newval);
 
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE);
     SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
@@ -299,6 +303,10 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, (LPSTR)s, 100);
             ival = (int)(atof(s) * 1000.0 + 0.5);
             resources_set_value("PALScanLineShade", (resource_value_t)ival);
+
+            GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, (LPSTR)s, 100);
+            ival = (int)(atof(s) * 1000.0 + 0.5);
+            resources_set_value("PALBlur", (resource_value_t)ival);
 
             ival = SendMessage(GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE),
                                CB_GETCURSEL, 0, 0);

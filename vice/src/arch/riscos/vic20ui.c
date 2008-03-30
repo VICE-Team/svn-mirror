@@ -2,7 +2,7 @@
  * vic20ui.c - Implementation of the VIC20-specific part of the UI.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <wimp.h>
 #include <string.h>
 
 #include "c64ui.h"
@@ -81,7 +82,7 @@ static unsigned char VICshift_sflags[KEYMAP_ENTRIES/8];
 static const char IBarIconName[] = "!vicevic";
 static const char VICkeyfile[] = "Vice:VIC20.ROdflt/vkm";
 
-static keymap_t VIC20keys = {
+static kbd_keymap_t VIC20keys = {
   VICkeyfile,
   VICnorm,
   VICshifted,
@@ -158,7 +159,7 @@ const char *ui_get_machine_ibar_icon(void)
 
 
 /* Dummies */
-char *pet_get_keyboard_name(void)
+const char *pet_get_keyboard_name(void)
 {
   return NULL;
 }
@@ -169,7 +170,7 @@ int pet_set_model(const char *name, void *extra)
   return 0;
 }
 
-char *cbm2_get_keyboard_name(void)
+const char *cbm2_get_keyboard_name(void)
 {
   return NULL;
 }
@@ -194,11 +195,6 @@ int vic_ii_raster_fetch_alarm_handler(long offset)
   return 0;
 }
 
-
-/*int int_rasterfetch(long offset)
-{
-  return 0;
-}*/
 
 void cartridge_trigger_freeze(void)
 {

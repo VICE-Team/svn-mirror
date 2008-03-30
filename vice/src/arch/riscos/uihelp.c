@@ -2,7 +2,7 @@
  * uihelp.c - RISC OS interactive help data structures.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +26,8 @@
 
 
 #include <stdlib.h>
+
+#include <wimp.h>
 
 #include "machine.h"
 #include "ui.h"

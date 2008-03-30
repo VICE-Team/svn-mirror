@@ -83,13 +83,9 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                     render_16_1x1_08(colortab, src, trg, width, height,
                                      xs, ys, xt, yt, pitchs, pitcht);
                     return;
-                  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-                    render_16_1x1_palyc(colortab, src, trg, width, height,
-                                        xs, ys, xt, yt, pitchs, pitcht);
-                    return;
-                  case VIDEO_RESOURCE_PAL_MODE_BLUR:
+                  case VIDEO_RESOURCE_PAL_MODE_TRUE:
                     render_16_1x1_pal(colortab, src, trg, width, height,
-                                      xs, ys, xt, yt, pitchs, pitcht);
+                                        xs, ys, xt, yt, pitchs, pitcht);
                     return;
                 }
                 return;
@@ -104,14 +100,10 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                     render_32_1x1_08(colortab, src, trg, width, height,
                                      xs, ys, xt, yt, pitchs, pitcht);
                     return;
-                  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-                    render_32_1x1_palyc(colortab, src, trg, width, height,
-                                        xs, ys, xt, yt, pitchs, pitcht);
-                    return;
-                  case VIDEO_RESOURCE_PAL_MODE_BLUR:
+                  case VIDEO_RESOURCE_PAL_MODE_TRUE:
                     render_32_1x1_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht);
-                    return;
+					return;
                 }
                 return;
             }
@@ -151,12 +143,7 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                                      xs, ys, xt, yt, pitchs, pitcht,
                                      doublescan);
                     return;
-                  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-                    render_16_2x2_palyc(colortab, src, trg, width, height,
-                                        xs, ys, xt, yt, pitchs, pitcht,
-                                        doublescan);
-                    return;
-                  case VIDEO_RESOURCE_PAL_MODE_BLUR:
+                  case VIDEO_RESOURCE_PAL_MODE_TRUE:
                     render_16_2x2_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht,
                                       doublescan);
@@ -175,12 +162,7 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                                      xs, ys, xt, yt, pitchs, pitcht,
                                      doublescan);
                     return;
-                  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-                    render_32_2x2_palyc(colortab, src, trg, width, height,
-                                        xs, ys, xt, yt, pitchs, pitcht,
-                                        doublescan);
-                    return;
-                  case VIDEO_RESOURCE_PAL_MODE_BLUR:
+                  case VIDEO_RESOURCE_PAL_MODE_TRUE:
                     render_32_2x2_pal(colortab, src, trg, width, height,
                                       xs, ys, xt, yt, pitchs, pitcht,
                                       doublescan);

@@ -2,7 +2,7 @@
  * plus4ui.c - Implementation of the Plus4-specific part of the UI.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+
+#include <wimp.h>
 
 #include "ui.h"
 #include "plus4ui.h"
@@ -79,7 +81,7 @@ static unsigned char Plus4shift_sflag[KEYMAP_ENTRIES/8];
 static const char IBarIconName[] = "!viceplus4";
 static const char Plus4keyfile[] = "Vice:PLUS4.ROdflt/vkm";
 
-static keymap_t Plus4keys = {
+static kbd_keymap_t Plus4keys = {
   Plus4keyfile,
   Plus4norm,
   Plus4shifted,
@@ -156,7 +158,7 @@ const char *ui_get_machine_ibar_icon(void)
 
 
 /* dummy stubs for linker */
-char *pet_get_keyboard_name(void)
+const char *pet_get_keyboard_name(void)
 {
   return NULL;
 }
@@ -166,7 +168,7 @@ int pet_set_model(const char *name, void *extra)
   return 0;
 }
 
-char *cbm2_get_keyboard_name(void)
+const char *cbm2_get_keyboard_name(void)
 {
   return NULL;
 }

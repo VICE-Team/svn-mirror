@@ -2,7 +2,7 @@
  * uihelp.h - RISC OS interactive help data structures.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,9 +29,9 @@
 #ifndef _UIHELP_RO_H
 #define _UIHELP_RO_H
 
-#include "wimp.h"
+struct wimp_msg_desc_s;
 
-extern void ui_translate_help_messages(const wimp_msg_desc *msg);
+extern void ui_translate_help_messages(const struct wimp_msg_desc_s *msg);
 extern const char *ui_get_help_for_window_icon(int handle, int icon);
 
 #endif

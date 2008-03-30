@@ -2,7 +2,7 @@
  * kbd.c - Acorn keyboard driver.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,7 +61,7 @@
 
 typedef struct keymap_desc {
   int total_number;
-  keymap_t keymaps[MAXIMUM_KEYMAPS];
+  kbd_keymap_t keymaps[MAXIMUM_KEYMAPS];
 } keymap_desc;
 
 
@@ -182,10 +182,10 @@ void kbd_init_keymap(int number)
   ViceKeymap.total_number = number;
 }
 
-int kbd_add_keymap(keymap_t *map, int number)
+int kbd_add_keymap(kbd_keymap_t *map, int number)
 {
   if (number >= MAXIMUM_KEYMAPS) return -1;
-  memcpy(ViceKeymap.keymaps + number, map, sizeof(keymap_t));
+  memcpy(ViceKeymap.keymaps + number, map, sizeof(kbd_keymap_t));
   /*{
     char buffer[64];
     sprintf(buffer, "keymap%d", number);
@@ -195,7 +195,7 @@ int kbd_add_keymap(keymap_t *map, int number)
 }
 
 /* inits shifted, and the sflags members to default values that are OK for all emulator */
-int kbd_default_keymap(keymap_t *map)
+int kbd_default_keymap(kbd_keymap_t *map)
 {
   memset(map->shifted, 0xff, KEYMAP_ENTRIES);	/* no special shifted keys */
   memset(map->shift_sflag, 0, KEYMAP_ENTRIES/8);
@@ -339,7 +339,7 @@ void kbd_poll(void)
   int i, scan, code, row, col, status, joyset;
   unsigned char new_keys[32];
   int shr, shc;
-  keymap_t *keymap;
+  kbd_keymap_t *keymap;
   int shiftPressed = 0;
   int ctrlPressed = 0;
 
@@ -612,7 +612,7 @@ static void kbd_dump_keyboard_position(FILE *fp, const unsigned char *map, const
 int kbd_load_keymap(const char *filename, int number)
 {
   FILE *fp;
-  keymap_t *map;
+  kbd_keymap_t *map;
   char buffer[BUFFERSIZE];
   int clear_length;
   int linenr;
@@ -692,7 +692,7 @@ int kbd_load_keymap(const char *filename, int number)
 int kbd_dump_keymap(const char *filename, int number)
 {
   FILE *fp;
-  keymap_t *map;
+  kbd_keymap_t *map;
   int i;
   int useIndex;
   const char *useFile;

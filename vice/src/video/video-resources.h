@@ -28,8 +28,7 @@
 #define _VIDEO_RESOURCES_H
 
 #define VIDEO_RESOURCE_PAL_MODE_FAST	0
-#define VIDEO_RESOURCE_PAL_MODE_SHARP	1
-#define VIDEO_RESOURCE_PAL_MODE_BLUR	2
+#define VIDEO_RESOURCE_PAL_MODE_TRUE	1
 
 struct video_resources_s
 {
@@ -39,6 +38,7 @@ struct video_resources_s
     int color_gamma;
     int delayloop_emulation;	/* fake PAL emu */
     int pal_scanlineshade;
+	int pal_blur;
     int pal_mode;
 };
 

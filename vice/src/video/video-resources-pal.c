@@ -116,6 +116,18 @@ static int set_pal_scanlineshade(resource_value_t v, void *param)
     return video_color_update_palette(video_current_canvas);
 }
 
+static int set_pal_blur(resource_value_t v, void *param)
+{
+    int val;
+    val = (int)v;
+    if (val < 0)
+        val = 0;
+    if (val > 1000)
+        val = 1000;
+    video_resources.pal_blur = val;
+    return video_color_update_palette(video_current_canvas);
+}
+
 static int set_pal_mode(resource_value_t v, void *param)
 {
     video_resources.pal_mode = (int)v;
@@ -142,7 +154,10 @@ static const resource_t resources_pal[] =
     { "PALScanLineShade", RES_INTEGER, (resource_value_t)667,
       (void *)&video_resources.pal_scanlineshade,
       set_pal_scanlineshade, NULL },
-    { "PALMode", RES_INTEGER, (resource_value_t)VIDEO_RESOURCE_PAL_MODE_BLUR,
+    { "PALBlur", RES_INTEGER, (resource_value_t)500,
+      (void *)&video_resources.pal_blur,
+      set_pal_blur, NULL },
+    { "PALMode", RES_INTEGER, (resource_value_t)VIDEO_RESOURCE_PAL_MODE_TRUE,
       (void *)&video_resources.pal_mode, set_pal_mode, NULL },
     { NULL }
 };

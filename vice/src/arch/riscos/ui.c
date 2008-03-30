@@ -2,7 +2,7 @@
  * ui.c - RISC OS GUI.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -90,6 +90,8 @@
 extern int  pet_set_model(const char *name, void *extra);
 extern int  cbm2_set_model(const char *name, void *extra);
 extern void screenshot_init_sprite(void);
+extern const char *pet_get_keyboard_name(void);
+extern const char *cbm2_get_keyboard_name(void);
 
 /* Defined in soundacorn.c. Important for timer handling! */
 extern int  sound_wimp_poll_prologue(void);
@@ -2594,27 +2596,11 @@ void ui_toggle_sid_emulation(void)
  */
 static void ui_redraw_window(int *b)
 {
-  int more;
   struct video_canvas_s *canvas;
 
   if ((canvas = canvas_for_handle(b[RedrawB_Handle])) != NULL)
   {
-    video_redraw_desc_t vrd;
-    video_frame_buffer_t *fb = &(canvas->fb);
-
-    vrd.ge.dimx = fb->pitch; vrd.ge.dimy = fb->height;
-    vrd.block = b;
-
-    more = Wimp_RedrawWindow(b);
-    while (more != 0)
-    {
-      /* transform WIMP coordinates back to canvas coordinates */
-      video_pos_screen_to_canvas(canvas, b, b[RedrawB_CMinX], b[RedrawB_CMaxY], &vrd.xs, &vrd.ys);
-      video_pos_screen_to_canvas(canvas, b, b[RedrawB_CMaxX], b[RedrawB_CMinY], &vrd.w, &vrd.h);
-      vrd.w -= vrd.xs; vrd.h -= vrd.ys;
-      video_canvas_redraw_core(canvas, &vrd);
-      more = Wimp_GetRectangle(b);
-    }
+    video_canvas_redraw_event(canvas, b);
   }
   else if (b[RedrawB_Handle] == ImgContWindow->Handle)
   {
@@ -2622,7 +2608,7 @@ static void ui_redraw_window(int *b)
   }
   else
   {
-    more = Wimp_RedrawWindow(b);
+    int more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
       if (b[RedrawB_Handle] == ConfWindows[CONF_WIN_SOUND]->Handle)
@@ -4358,51 +4344,55 @@ static const char *ui_get_file_extension(const char *name)
 }
 
 
+static int ui_mode_change_canvas_func(video_canvas_t *canvas, void *context)
+{
+  int *block = (int*)context;
+  RO_Window *win;
+
+  /* Extremely annoying mode change code */
+  /* Change in eigen factors might make this necessary */
+  video_canvas_update_extent(canvas);
+  win = canvas->window;
+
+  block[WindowB_Handle] = win->Handle;
+  Wimp_GetWindowState(block);
+  if ((block[WindowB_WFlags] & (1<<16)) != 0)	/* window open? */
+  {
+    int d;
+
+    d = block[WindowB_VMaxY] - block[WindowB_VMinY];
+    if (block[WindowB_VMaxY] > ScreenMode.resy - TitleBarHeight)
+    {
+      block[WindowB_VMaxY] = ScreenMode.resy - TitleBarHeight;
+      if ((block[WindowB_VMinY] = block[WindowB_VMaxY] - d) < TitleBarHeight)
+      {
+        block[WindowB_VMinY] = TitleBarHeight;
+      }
+    }
+    d = block[WindowB_VMaxX] - block[WindowB_VMinX];
+    if (block[WindowB_VMaxX] > ScreenMode.resx - TitleBarHeight)
+    {
+      block[WindowB_VMaxX] = ScreenMode.resx - TitleBarHeight;
+      if ((block[WindowB_VMinX] = block[WindowB_VMaxX] - d) < 0)
+      {
+        block[WindowB_VMinX] = 0;
+      }
+    }
+    /* Send myself a message where to open the window */
+    Wimp_SendMessage(2, block, TaskHandle, 0);
+  }
+  return 0;
+}
+
 static void ui_user_msg_mode_change(int *b)
 {
-  canvas_list_t *clist = CanvasList;
   int block[WindowB_WFlags+1];
-  RO_Window *win;
 
   vsync_suspend_speed_eval();
 
   wimp_read_screen_mode(&ScreenMode);
-  /* Extremely annoying mode change code */
-  /* Change in eigen factors might make this necessary */
-  while (clist != NULL)
-  {
-    video_canvas_update_extent(clist->canvas);
-    win = clist->canvas->window;
-    clist = clist->next;
 
-    block[WindowB_Handle] = win->Handle;
-    Wimp_GetWindowState(block);
-    if ((block[WindowB_WFlags] & (1<<16)) != 0)	/* window open? */
-    {
-      int d;
-
-      d = block[WindowB_VMaxY] - block[WindowB_VMinY];
-      if (block[WindowB_VMaxY] > ScreenMode.resy - TitleBarHeight)
-      {
-        block[WindowB_VMaxY] = ScreenMode.resy - TitleBarHeight;
-        if ((block[WindowB_VMinY] = block[WindowB_VMaxY] - d) < TitleBarHeight)
-        {
-          block[WindowB_VMinY] = TitleBarHeight;
-        }
-      }
-      d = block[WindowB_VMaxX] - block[WindowB_VMinX];
-      if (block[WindowB_VMaxX] > ScreenMode.resx - TitleBarHeight)
-      {
-        block[WindowB_VMaxX] = ScreenMode.resx - TitleBarHeight;
-        if ((block[WindowB_VMinX] = block[WindowB_VMaxX] - d) < 0)
-        {
-          block[WindowB_VMinX] = 0;
-        }
-      }
-      /* Send myself a message where to open the window */
-      Wimp_SendMessage(2, block, TaskHandle, 0);
-    }
-  }
+  video_canvas_iterate(ui_mode_change_canvas_func, block);
 }
 
 static void ui_user_msg_data_load(int *b)

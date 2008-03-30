@@ -2,7 +2,7 @@
  * uiconfig.h - RISC OS configuration data structures.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +30,8 @@
 #define _UICONFIG_RO_H
 
 
-#include "wimp.h"
+struct RO_MenuHead_s;
+struct RO_Window_s;
 
 
 /* Configuration windows */
@@ -134,14 +135,14 @@ typedef struct disp_strshow_s {
 typedef struct disp_desc_s {
   const char *resource;
   conf_iconid_t id;
-  RO_MenuHead *menu;
+  struct RO_MenuHead_s *menu;
   int items;
   unsigned int flags;
   unsigned int writable;
 } disp_desc_t;
 
 typedef struct menu_icon_s {
-  RO_MenuHead *menu;
+  struct RO_MenuHead_s *menu;
   const char *resource;
   disp_desc_t *desc;
   conf_iconid_t id;
@@ -414,6 +415,6 @@ typedef struct menu_icon_s {
 extern menu_icon_t ConfigMenus[];
 extern config_item_t Configurations[];
 
-extern RO_Window *ConfWindows[CONF_WIN_NUMBER];
+extern struct RO_Window_s *ConfWindows[CONF_WIN_NUMBER];
 
 #endif

@@ -2,7 +2,7 @@
  * c64c128ui.c - UI aspects shared by C64 and C128.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -73,7 +73,7 @@ static unsigned char C64C128shifted[KEYMAP_ENTRIES];
 static unsigned char C64C128norm_sflags[KEYMAP_ENTRIES/8];
 static unsigned char C64C128shift_sflags[KEYMAP_ENTRIES/8];
 
-static keymap_t C64C128keys = {
+static kbd_keymap_t C64C128keys = {
   NULL,
   C64C128norm,
   C64C128shifted,
@@ -92,7 +92,7 @@ void c64c128_ui_init_keyboard(const char *filename)
 
 
 /* Dummies */
-char *pet_get_keyboard_name(void)
+const char *pet_get_keyboard_name(void)
 {
   return NULL;
 }
@@ -102,7 +102,7 @@ int pet_set_model(const char *name, void *extra)
   return 0;
 }
 
-char *cbm2_get_keyboard_name(void)
+const char *cbm2_get_keyboard_name(void)
 {
   return NULL;
 }

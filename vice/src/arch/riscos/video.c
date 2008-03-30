@@ -2,7 +2,7 @@
  * video.c - RISC OS graphics routines.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,10 +28,11 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <wimp.h>
 
 #include "lib.h"
 #include "log.h"
-#include "wimp.h"
+#include "palette.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
@@ -46,19 +47,34 @@
 
 
 
-
 #define STATUS_LINE_SIZE	64
 
 
+/* Linked list of canvases */
+typedef struct canvas_list_s {
+  video_canvas_t *canvas;
+  struct canvas_list_s *next;
+} canvas_list_t;
 
-/* Colour translation table, only used in 16/32bpp modes */
-canvas_list_t *CanvasList = NULL;
+/* Redraw descriptor structure */
+typedef struct video_redraw_desc_s {
+  graph_env ge;
+  int xs, ys;
+  int w, h;
+  int *block;
+} video_redraw_desc_t;
+
+
 /* Active canvas */
 video_canvas_t *ActiveCanvas = NULL;
 
 /* Full screen variables */
 int FullScreenMode = 0;
 int FullScreenStatLine = 1;
+
+
+/* Colour translation table, only used in 16/32bpp modes */
+static canvas_list_t *CanvasList = NULL;
 
 static int NumberOfCanvases = 0;
 static screen_mode_t newScreenModeNorm;
@@ -72,9 +88,9 @@ static int oldSingleTask;
 static int newModesAvailable;
 static RO_Screen FullScrDesc;
 static int FullUseEigen;
-sprite_area_t *SpriteArea;
-sprite_desc_t *SpriteLED0=NULL;
-sprite_desc_t *SpriteLED1=NULL;
+static sprite_area_t *SpriteArea;
+static sprite_desc_t *SpriteLED0=NULL;
+static sprite_desc_t *SpriteLED1=NULL;
 static sprite_plotenv_t led0plot;
 static sprite_plotenv_t led1plot;
 static int SpeedPercentage;
@@ -1376,6 +1392,31 @@ void video_canvas_refresh(video_canvas_t *canvas,
 }
 
 
+void video_canvas_redraw_event(video_canvas_t *canvas, int *block)
+{
+  int more;
+
+  video_redraw_desc_t vrd;
+  video_frame_buffer_t *fb = &(canvas->fb);
+
+  vrd.ge.dimx = fb->pitch; vrd.ge.dimy = fb->height;
+  vrd.block = block;
+
+  more = Wimp_RedrawWindow(block);
+  while (more != 0)
+  {
+    int cx, cy;
+    cx = block[RedrawB_CMinX]; cy = block[RedrawB_CMaxY];
+    /* transform WIMP coordinates back to canvas coordinates */
+    video_pos_screen_to_canvas(canvas, block, cx, cy, &vrd.xs, &vrd.ys);
+    cx = block[RedrawB_CMaxX]; cy = block[RedrawB_CMinY];
+    video_pos_screen_to_canvas(canvas, block, cx, cy, &vrd.w, &vrd.h);
+    vrd.w -= vrd.xs; vrd.h -= vrd.ys;
+    video_canvas_redraw_core(canvas, &vrd);
+    more = Wimp_GetRectangle(block);
+  }
+}
+
 static void canvas_force_redraw(video_canvas_t *canvas)
 {
   int eigx, eigy;
@@ -1525,6 +1566,20 @@ void canvas_next_active(int moveCaret)
 
     if (moveCaret != 0) Wimp_SetCaretPosition(ActiveCanvas->window->Handle, -1, -100, 100, -1, -1);
   }
+}
+
+
+int video_canvas_iterate(canvas_func_f func, void *context)
+{
+  canvas_list_t *clist = CanvasList;
+  int status = 0;
+
+  while ((clist != NULL) && (status == 0))
+  {
+    status = func(clist->canvas, context);
+    clist = clist->next;
+  }
+  return status;
 }
 
 

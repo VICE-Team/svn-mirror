@@ -264,12 +264,13 @@ void renderyuv_4_2_2_pal(image_t* image,
       /* Read next two pixels. */
       YUV1 = src_color[*++src];
       YUV2 = src_color[*++src];
-
+/*
       if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
         line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
         line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
       }
-      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      else */
+	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
         line->Y0 = Y(YUV0);
         line->Y1 = Y(YUV1);
       }
@@ -289,11 +290,13 @@ void renderyuv_4_2_2_pal(image_t* image,
     else {
       YUV2 = src_color[*src++];
     }
+/*
     if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
       line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
       line->Y1 = (Y(YUV0) + (Y(YUV1) << 1) + Y(YUV2)) >> 2;
     }
-    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+    else */
+	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
       line->Y0 = Y(YUV0);
       line->Y1 = Y(YUV1);
     }
@@ -424,11 +427,12 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
     for (x = 0; x < src_w - 1; x++) {
       /* Read next pixel. */
       YUV1 = src_color[*++src];
-
+/*
       if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
         line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
       }
-      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      else */
+	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
         line->Y0 = Y(YUV0);
       }
       line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
@@ -447,10 +451,12 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
     else {
       YUV1 = src_color[*src++];
     }
+/*
     if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
       line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
     }
-    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+    else */
+	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
       line->Y0 = Y(YUV0);
     }
     line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
@@ -684,14 +690,15 @@ void renderyuv_4_1_1_pal(image_t* image,
       YUV11 = src_color[*(src + src_pitch + 1)];
       YUV21 = src_color[*(src + src_pitch + 2)];
       src += 2;
-
+/*
       if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
         *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
         *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
         *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
         *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
       }
-      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      else */
+	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
         *Yptr = Y(YUV00);
         *(Yptr + 1) = Y(YUV10);
         *(Yptr + Ypitch) = Y(YUV01);
@@ -721,14 +728,15 @@ void renderyuv_4_1_1_pal(image_t* image,
       YUV21 = src_color[*(src + src_pitch + 2)];
     }
     src += 2;
-
+/*
     if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
       *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
       *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
       *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
       *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
     }
-    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+    else */
+	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
       *Yptr = Y(YUV00);
       *(Yptr + 1) = Y(YUV10);
       *(Yptr + Ypitch) = Y(YUV01);
@@ -860,11 +868,12 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
     for (x = 0; x < src_w - 1; x++) {
       /* Read next pixel. */
       YUV1 = src_color[*++src];
-
+/*
       if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
         line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
       }
-      else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+      else */
+	  { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
         line->Y0 = Y(YUV0);
       }
       line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
@@ -883,10 +892,12 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
     else {
       YUV1 = src_color[*src++];
     }
+/*
     if (pal_mode == VIDEO_RESOURCE_PAL_MODE_BLUR) {
       line->Y0 = (Y(YUVm1) + (Y(YUV0) << 1) + Y(YUV1)) >> 2;
     }
-    else { /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
+    else */
+	{ /* pal_mode == VIDEO_RESOURCE_PAL_MODE_SHARP */
       line->Y0 = Y(YUV0);
     }
     line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);

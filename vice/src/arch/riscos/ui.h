@@ -2,7 +2,7 @@
  * ui.h - RISC OS GUI.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #include "types.h"
-#include "palette.h"
 #include "uiapi.h"
 
 struct conf_iconid_s;

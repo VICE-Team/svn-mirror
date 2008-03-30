@@ -2,7 +2,7 @@
  * kbd.h - Acorn keyboard driver.
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,26 +36,26 @@ extern void kbd_arch_init(void);
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
-#define KBD_C64_SYM   "ros_sym.vkm"
-#define KBD_C64_POS   "ros_pos.vkm"
-#define KBD_C128_SYM  "ros_sym.vkm"
-#define KBD_C128_POS  "ros_pos.vkm"
-#define KBD_VIC20_SYM "ros_sym.vkm"
-#define KBD_VIC20_POS "ros_pos.vkm"
-#define KBD_PET_BUKS  "ros_buks.vkm"
-#define KBD_PET_BUKP  "ros_bukp.vkm"
-#define KBD_PET_BDES  "ros_bdes.vkm"
-#define KBD_PET_BDEP  "ros_bdep.vkm"
-#define KBD_PET_BGRS  "ros_bgrs.vkm"
-#define KBD_PET_BGRP  "ros_bgrp.vkm"
-#define KBD_PLUS4_SYM "ros_sym.vkm"
-#define KBD_PLUS4_POS "ros_pos.vkm"
-#define KBD_CBM2_BUKS "ros_buks.vkm"
-#define KBD_CBM2_BUKP "ros_bukp.vkm"
-#define KBD_CBM2_BDES "ros_bdes.vkm"
-#define KBD_CBM2_BDEP "ros_bdep.vkm"
-#define KBD_CBM2_BGRS "ros_bgrs.vkm"
-#define KBD_CBM2_BGRP "ros_bgrp.vkm"
+#define KBD_C64_SYM   "ros_sym/vkm"
+#define KBD_C64_POS   "ros_pos/vkm"
+#define KBD_C128_SYM  "ros_sym/vkm"
+#define KBD_C128_POS  "ros_pos/vkm"
+#define KBD_VIC20_SYM "ros_sym/vkm"
+#define KBD_VIC20_POS "ros_pos/vkm"
+#define KBD_PET_BUKS  "ros_buks/vkm"
+#define KBD_PET_BUKP  "ros_bukp/vkm"
+#define KBD_PET_BDES  "ros_bdes/vkm"
+#define KBD_PET_BDEP  "ros_bdep/vkm"
+#define KBD_PET_BGRS  "ros_bgrs/vkm"
+#define KBD_PET_BGRP  "ros_bgrp/vkm"
+#define KBD_PLUS4_SYM "ros_sym/vkm"
+#define KBD_PLUS4_POS "ros_pos/vkm"
+#define KBD_CBM2_BUKS "ros_buks/vkm"
+#define KBD_CBM2_BUKP "ros_bukp/vkm"
+#define KBD_CBM2_BDES "ros_bdes/vkm"
+#define KBD_CBM2_BDEP "ros_bdep/vkm"
+#define KBD_CBM2_BGRS "ros_bgrs/vkm"
+#define KBD_CBM2_BGRP "ros_bgrp/vkm"
 
 #define KBD_INDEX_C64_DEFAULT   KBD_INDEX_C64_POS
 #define KBD_INDEX_C128_DEFAULT  KBD_INDEX_C128_POS
@@ -66,20 +66,20 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
 #define KEYMAP_ENTRIES	128
 
-typedef struct keymap_t {
+typedef struct kbd_keymap_s {
   const char *default_file;
   unsigned char *normal;
   unsigned char *shifted;
   unsigned char *norm_sflag;
   unsigned char *shift_sflag;
-} keymap_t;
+} kbd_keymap_t;
 
 extern Joy_Keys JoystickKeys[2];
 extern int kbd_update_joykeys(int port);
 
 extern void kbd_init_keymap(int number);
-extern int  kbd_add_keymap(keymap_t *map, int number);
-extern int  kbd_default_keymap(keymap_t *map);
+extern int  kbd_add_keymap(kbd_keymap_t *map, int number);
+extern int  kbd_default_keymap(kbd_keymap_t *map);
 extern int kbd_load_keymap(const char *filename, int number);
 extern int kbd_dump_keymap(const char *filename, int number);
 
