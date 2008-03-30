@@ -71,6 +71,7 @@ BEGIN
             MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
             MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
+            MENUITEM "Action Replay &III image...", IDM_CART_ATTACH_AR3
             MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
             MENUITEM "&Epyx fastload image...",     IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488 interface image...", IDM_CART_ATTACH_IEEE488
@@ -328,6 +329,7 @@ BEGIN
             MENUITEM "Generische 8Kb Image...",  IDM_CART_ATTACH_8KB
             MENUITEM "Generische 16Kb Image...", IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay Image...",     IDM_CART_ATTACH_AR
+            MENUITEM "Action Replay &III Image...", IDM_CART_ATTACH_AR3
             MENUITEM "Atomic Power &Image...",      IDM_CART_ATTACH_AT
             MENUITEM "&Epyx Fastload Image...",     IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE 488 Schnittstellenmodul...",           IDM_CART_ATTACH_IEEE488
@@ -583,6 +585,7 @@ BEGIN
             MENUITEM "Insérer une image générique de 8Ko...",      IDM_CART_ATTACH_8KB
             MENUITEM "Insérer une image générique de 16Ko...",     IDM_CART_ATTACH_16KB
             MENUITEM "Insérer une cartouche Action Replay...",     IDM_CART_ATTACH_AR
+            MENUITEM "Insérer une cartouche Action Replay III...", IDM_CART_ATTACH_AR3
             MENUITEM "Insérer une cartouche Atomic Power...",      IDM_CART_ATTACH_AT
             MENUITEM "Insérer une cartouche Epyx FastLoad...",     IDM_CART_ATTACH_EPYX
             MENUITEM "Insérer une cartouche interface IEEE488...", IDM_CART_ATTACH_IEEE488
@@ -839,6 +842,7 @@ BEGIN
             MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
             MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
+            MENUITEM "Action Replay &III image...", IDM_CART_ATTACH_AR3
             MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
             MENUITEM "&Epyx fastload image...",     IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488 interface image...", IDM_CART_ATTACH_IEEE488
@@ -1095,6 +1099,7 @@ BEGIN
             MENUITEM "Immagine generica di &8KB...",       IDM_CART_ATTACH_8KB
             MENUITEM "Immagine generica di &16KB...",      IDM_CART_ATTACH_16KB
             MENUITEM "Immagine &Action Replay...",     IDM_CART_ATTACH_AR
+            MENUITEM "Immagine Action Replay &III...", IDM_CART_ATTACH_AR3
             MENUITEM "Immagine Atomic &Power...",      IDM_CART_ATTACH_AT
             MENUITEM "Immagine &Epyx fastload...",     IDM_CART_ATTACH_EPYX
             MENUITEM "Immagine dell'interfaccia &IEEE488...", IDM_CART_ATTACH_IEEE488
@@ -1350,6 +1355,7 @@ BEGIN
             MENUITEM "Algemeen &8KB bestand...",      IDM_CART_ATTACH_8KB
             MENUITEM "Algemeen &16KB bestand...",     IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay bestand...",     IDM_CART_ATTACH_AR
+            MENUITEM "Action Replay III bestand...",  IDM_CART_ATTACH_AR3
             MENUITEM "Atomic &Power bestand...",      IDM_CART_ATTACH_AT
             MENUITEM "&Epyx fastload bestand...",     IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488 interface bestand...", IDM_CART_ATTACH_IEEE488
@@ -1606,6 +1612,7 @@ BEGIN
             MENUITEM "Standardowy obraz &8KB...",    IDM_CART_ATTACH_8KB
             MENUITEM "Standardowy obraz &16KB...",   IDM_CART_ATTACH_16KB
             MENUITEM "Obraz &Action Replay...",      IDM_CART_ATTACH_AR
+            MENUITEM "Obraz Action Replay III...",   IDM_CART_ATTACH_AR3
             MENUITEM "Obraz Atomic &Power...",       IDM_CART_ATTACH_AT
             MENUITEM "Obraz &Epyx fastload...",      IDM_CART_ATTACH_EPYX
             MENUITEM "Obraz interfejsu &IEEE488...", IDM_CART_ATTACH_IEEE488
@@ -1862,6 +1869,7 @@ BEGIN
             MENUITEM "Vanlig &8KB-fil...",         IDM_CART_ATTACH_8KB
             MENUITEM "Vanlig &16KB-fil...",        IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay-fil...",      IDM_CART_ATTACH_AR
+            MENUITEM "Action Replay &III-fil...",  IDM_CART_ATTACH_AR3
             MENUITEM "Atomic &Power-fil...",       IDM_CART_ATTACH_AT
             MENUITEM "&Epyx fastload-fil...",      IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488-gränssnittsfil...", IDM_CART_ATTACH_IEEE488
