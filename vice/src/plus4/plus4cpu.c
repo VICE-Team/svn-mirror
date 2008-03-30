@@ -1,5 +1,5 @@
 /*
- * plus4.h
+ * plus4cpu.c - Emulation of the main processor.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,24 +24,30 @@
  *
  */
 
-#ifndef _PLUS4_H
-#define _PLUS4_H
+#include "vice.h"
 
-#define PLUS4_PAL_CYCLES_PER_SEC  886723
-#define PLUS4_PAL_CYCLES_PER_LINE 57
-#define PLUS4_PAL_SCREEN_LINES    312
-#define PLUS4_PAL_CYCLES_PER_RFSH (PLUS4_PAL_SCREEN_LINES \
-                                  * PLUS4_PAL_CYCLES_PER_LINE)
-#define PLUS4_PAL_RFSH_PER_SEC    (1.0 / ((double)PLUS4_PAL_CYCLES_PER_RFSH \
-                                  / (double)PLUS4_PAL_CYCLES_PER_SEC))
+/* ------------------------------------------------------------------------- */
 
-#define PLUS4_NTSC_CYCLES_PER_SEC  886723
-#define PLUS4_NTSC_CYCLES_PER_LINE 57
-#define PLUS4_NTSC_SCREEN_LINES    312
-#define PLUS4_NTSC_CYCLES_PER_RFSH (PLUS4_NTSC_SCREEN_LINES \
-                                   * PLUS4_NTSC_CYCLES_PER_LINE)
-#define PLUS4_NTSC_RFSH_PER_SEC    (1.0 / ((double)PLUS4_NTSC_CYCLES_PER_RFSH \
-                                   / (double)PLUS4_NTSC_CYCLES_PER_SEC))
+/* MACHINE_STUFF should define/undef
 
-#endif
+ - NEED_REG_PC
+ - TRACE
+
+ The following are optional:
+
+ - PAGE_ZERO
+ - PAGE_ONE
+ - STORE_IND
+ - LOAD_IND
+ - DMA_FUNC
+ - DMA_ON_RESET
+
+*/
+
+/* ------------------------------------------------------------------------- */
+
+#define LOAD_ZERO(addr) \
+    read_zero(addr)
+
+#include "../maincpu.c"
 

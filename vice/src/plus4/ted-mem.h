@@ -1,5 +1,5 @@
 /*
- * vicii-mem.h - Memory interface for the MOS6569 (VIC-II) emulation.
+ * ted-mem.h - Memory interface for the TED emulation.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>

@@ -1,5 +1,5 @@
 /*
- * plus4.h
+ * ted-timer.h - Timer implementation for the TED emulation.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,24 +24,16 @@
  *
  */
 
-#ifndef _PLUS4_H
-#define _PLUS4_H
+#ifndef _TED_TIMER_H
+#define _TED_TIMER_H
 
-#define PLUS4_PAL_CYCLES_PER_SEC  886723
-#define PLUS4_PAL_CYCLES_PER_LINE 57
-#define PLUS4_PAL_SCREEN_LINES    312
-#define PLUS4_PAL_CYCLES_PER_RFSH (PLUS4_PAL_SCREEN_LINES \
-                                  * PLUS4_PAL_CYCLES_PER_LINE)
-#define PLUS4_PAL_RFSH_PER_SEC    (1.0 / ((double)PLUS4_PAL_CYCLES_PER_RFSH \
-                                  / (double)PLUS4_PAL_CYCLES_PER_SEC))
+#include "types.h"
 
-#define PLUS4_NTSC_CYCLES_PER_SEC  886723
-#define PLUS4_NTSC_CYCLES_PER_LINE 57
-#define PLUS4_NTSC_SCREEN_LINES    312
-#define PLUS4_NTSC_CYCLES_PER_RFSH (PLUS4_NTSC_SCREEN_LINES \
-                                   * PLUS4_NTSC_CYCLES_PER_LINE)
-#define PLUS4_NTSC_RFSH_PER_SEC    (1.0 / ((double)PLUS4_NTSC_CYCLES_PER_RFSH \
-                                   / (double)PLUS4_NTSC_CYCLES_PER_SEC))
+extern void ted_timer_init(void);
+extern void ted_timer_reset(void);
+
+extern void REGPARM2 ted_timer_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ted_timer_read(ADDRESS addr);
 
 #endif
 

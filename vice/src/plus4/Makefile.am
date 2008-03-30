@@ -15,6 +15,7 @@ libplus4_a_SOURCES = \
 	plus4-resources.h \
 	plus4.c \
 	plus4.h \
+	plus4cpu.c \
 	plus4datasette.c \
 	plus4iec.c \
 	plus4iec.h \
@@ -38,6 +39,8 @@ libplus4_a_SOURCES = \
 	ted-snapshot.h \
 	ted-sound.c \
 	ted-sound.h \
+	ted-timer.c \
+	ted-timer.h \
 	ted.c \
 	ted.h \
 	tedtypes.h
