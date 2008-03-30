@@ -102,7 +102,7 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
-        vic_ii_resize ();
+        vic_ii_resize();
 
     return 0;
 }
