@@ -46,6 +46,7 @@
 #include "console.h"
 #include "crtc.h"
 #include "datasette.h"
+#include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-snapshot.h"
@@ -424,7 +425,8 @@ long machine_get_cycles_per_second(void)
 
 void machine_change_timing(int timeval)
 {
-
+    debug_set_machine_parameter(C610_PAL_CYCLES_PER_LINE,
+                                C610_PAL_SCREEN_LINES);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */

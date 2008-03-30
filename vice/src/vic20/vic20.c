@@ -37,6 +37,7 @@
 #include "cmdline.h"
 #include "console.h"
 #include "datasette.h"
+#include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-snapshot.h"
@@ -443,6 +444,8 @@ long machine_get_cycles_per_second(void)
 
 void machine_change_timing(int timeval)
 {
+    unsigned int cycles_per_line = 0, screen_lines = 0;
+
     maincpu_trigger_reset();
 
     switch (timeval) {
@@ -450,11 +453,15 @@ void machine_change_timing(int timeval)
         cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
         cycles_per_rfsh = VIC20_PAL_CYCLES_PER_RFSH;
         rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
+        cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
+        screen_lines = VIC20_PAL_SCREEN_LINES;
         break;
       case MACHINE_SYNC_NTSC:
         cycles_per_sec = VIC20_NTSC_CYCLES_PER_SEC;
         cycles_per_rfsh = VIC20_NTSC_CYCLES_PER_RFSH;
         rfsh_per_sec = VIC20_NTSC_RFSH_PER_SEC;
+        cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
+        screen_lines = VIC20_NTSC_SCREEN_LINES;
         break;
       default:
         log_error(vic20_log, "Unknown machine timing.");
@@ -462,8 +469,9 @@ void machine_change_timing(int timeval)
 
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
     sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
-    mem_patch_kernal();
+    debug_set_machine_parameter(cycles_per_line, screen_lines);
 
+    mem_patch_kernal();
 }
 
 /* ------------------------------------------------------------------------- */

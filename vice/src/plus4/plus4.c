@@ -35,6 +35,7 @@
 #include "clkguard.h"
 #include "console.h"
 #include "datasette.h"
+#include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-snapshot.h"
@@ -427,6 +428,8 @@ long machine_get_cycles_per_second(void)
 
 void machine_change_timing(int timeval)
 {
+    unsigned int cycles_per_line = 0, screen_lines = 0;
+
     maincpu_trigger_reset();
 
     switch (timeval) {
@@ -434,11 +437,15 @@ void machine_change_timing(int timeval)
         cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
         cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
         rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
+        cycles_per_line = PLUS4_PAL_CYCLES_PER_LINE;
+        screen_lines = PLUS4_PAL_SCREEN_LINES;
         break;
       case MACHINE_SYNC_NTSC:
         cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
         cycles_per_rfsh = PLUS4_NTSC_CYCLES_PER_RFSH;
         rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
+        cycles_per_line = PLUS4_NTSC_CYCLES_PER_LINE;
+        screen_lines = PLUS4_NTSC_SCREEN_LINES;
         break;
       default:
         log_error(plus4_log, "Unknown machine timing.");
@@ -446,6 +453,7 @@ void machine_change_timing(int timeval)
 
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
     sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
+    debug_set_machine_parameter(cycles_per_line, screen_lines);
 }
 
 /* ------------------------------------------------------------------------- */
