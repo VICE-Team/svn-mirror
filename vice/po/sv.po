@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-01-11 15:24+0100\n"
+"POT-Creation-Date: 2004-01-16 19:54+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -32,6 +32,137 @@ msgstr "Deaktivera warpläge"
 #: src/vsync.c:429
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
+
+#: src/screenshot.c:152
+msgid "Sorry. Multiple recording is not supported."
+msgstr ""
+
+#: src/autostart.c:180
+#, fuzzy
+msgid "Cannot load snapshot file."
+msgstr ""
+"Kan inte ladda ögonblicksbildfil\n"
+"\"%s\""
+
+#: src/sound.c:412
+msgid "write to sound device failed."
+msgstr ""
+
+#: src/sound.c:423
+#, fuzzy
+msgid "Cannot open SID engine"
+msgstr "SID-motor"
+
+#: src/sound.c:458
+msgid "Cannot initialize SID engine"
+msgstr ""
+
+#: src/sound.c:560
+#, fuzzy, c-format
+msgid "initialization failed for device `%s'."
+msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
+
+#: src/sound.c:568
+msgid "sound device lacks stereo capability"
+msgstr ""
+
+#: src/sound.c:614
+#, c-format
+msgid "device '%s' not found or not supported."
+msgstr ""
+
+#: src/sound.c:631
+#, c-format
+msgid "Recording device %s doesn't exist!"
+msgstr ""
+
+#: src/sound.c:635
+msgid "Recording device must be different from playback device"
+msgstr ""
+
+#: src/sound.c:641
+#, c-format
+msgid "Warning! Recording device %s seems to be a realtime device!"
+msgstr ""
+
+#: src/sound.c:647
+#, fuzzy, c-format
+msgid "Initialization failed for device `%s'."
+msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
+
+#: src/sound.c:658
+msgid "The recording device doesn't support current sound parameters"
+msgstr ""
+
+#: src/sound.c:735
+msgid "Sound buffer overflow (cycle based)"
+msgstr ""
+
+#: src/sound.c:745
+msgid "Sound buffer overflow."
+msgstr ""
+
+#: src/sound.c:867
+msgid "cannot flush."
+msgstr ""
+
+#: src/sound.c:912
+msgid "fragment problems."
+msgstr ""
+
+#: src/sound.c:941
+#, fuzzy
+msgid "Buffer drained"
+msgstr "Buffertstorlek"
+
+#: src/sound.c:977
+msgid "running too slow."
+msgstr ""
+
+#: src/sound.c:989 src/sound.c:995
+msgid "write to sounddevice failed."
+msgstr ""
+
+#: src/sound.c:1219
+msgid "store to sounddevice failed."
+msgstr ""
+
+#: src/event.c:265
+#, fuzzy
+msgid "Could not create start snapshot file."
+msgstr ""
+"Kan inte ladda ögonblicksbildfil\n"
+"\"%s\""
+
+#: src/event.c:276 src/event.c:386 src/event.c:403
+#, fuzzy
+msgid "Error reading start snapshot file."
+msgstr "Fel vid läsning av digital styrspak."
+
+#: src/event.c:314 src/event.c:446
+#, fuzzy
+msgid "Could not create end snapshot file."
+msgstr ""
+"Kan inte ladda ögonblicksbildfil\n"
+"\"%s\""
+
+#: src/event.c:362
+#, fuzzy
+msgid "Could not open end snapshot file."
+msgstr ""
+"Kan inte ladda ögonblicksbildfil\n"
+"\"%s\""
+
+#: src/event.c:371
+msgid "Could not find event section in end snapshot file."
+msgstr ""
+
+#: src/event.c:467
+#, fuzzy
+msgid "Error reading end snapshot file."
+msgstr ""
+"Kan inte ladda ögonblicksbildfil\n"
+"\"%s\""
 
 #: src/arch/unix/archdep.c:234
 #, c-format
@@ -261,8 +392,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
 #: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:418
 #: src/arch/unix/plus4ui.c:185 src/arch/unix/vic20ui.c:508
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1133
-#: src/arch/unix/x11/gnome/x11ui.c:1225
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
+#: src/arch/unix/x11/gnome/x11ui.c:1287
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1002,8 +1133,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:746 src/arch/unix/uicommands.c:761
-#: src/arch/unix/x11/gnome/x11ui.c:793 src/arch/unix/x11/gnome/x11ui.c:803
-#: src/arch/unix/x11/gnome/x11ui.c:1471
+#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
+#: src/arch/unix/x11/gnome/x11ui.c:1533
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -1193,7 +1324,7 @@ msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:1074 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1858
+#: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1974,8 +2105,8 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1274
-#: src/arch/unix/x11/xaw/x11ui.c:1032
+#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/x11/xaw/x11ui.c:1036
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
@@ -2687,165 +2818,179 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:395
+#: src/arch/unix/x11/gnome/x11ui.c:401
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:397
+#: src/arch/unix/x11/gnome/x11ui.c:403
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:603 src/arch/unix/x11/xaw/x11ui.c:480
+#: src/arch/unix/x11/gnome/x11ui.c:610 src/arch/unix/x11/xaw/x11ui.c:484
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:606 src/arch/unix/x11/xaw/x11ui.c:483
+#: src/arch/unix/x11/gnome/x11ui.c:613 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/x11ui.c:609 src/arch/unix/x11/gnome/x11ui.c:633
-#: src/arch/unix/x11/xaw/x11ui.c:486 src/arch/unix/x11/xaw/x11ui.c:503
+#: src/arch/unix/x11/gnome/x11ui.c:616 src/arch/unix/x11/gnome/x11ui.c:640
+#: src/arch/unix/x11/xaw/x11ui.c:490 src/arch/unix/x11/xaw/x11ui.c:507
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-vy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:625
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Hittade %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:511
+#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:649
+#: src/arch/unix/x11/gnome/x11ui.c:656
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:656
+#: src/arch/unix/x11/gnome/x11ui.c:663
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:734
+#: src/arch/unix/x11/gnome/x11ui.c:749
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:753
+#: src/arch/unix/x11/gnome/x11ui.c:768
 #, fuzzy
-msgid "recording"
+msgid "audio/video recording"
 msgstr "Spela in"
 
-#: src/arch/unix/x11/gnome/x11ui.c:767
+#: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:801
 msgid "click to stop recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:779
+#: src/arch/unix/x11/gnome/x11ui.c:787
+#, fuzzy
+msgid "event recording"
+msgstr "Spela in"
+
+#: src/arch/unix/x11/gnome/x11ui.c:807
+#, fuzzy
+msgid "event playback"
+msgstr "*Aktivera ljudåtergivning"
+
+#: src/arch/unix/x11/gnome/x11ui.c:821
+msgid "click to stop playback"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:833
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:889
+#: src/arch/unix/x11/gnome/x11ui.c:943
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:958 src/arch/unix/x11/xaw/x11ui.c:592
+#: src/arch/unix/x11/gnome/x11ui.c:1012 src/arch/unix/x11/xaw/x11ui.c:596
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1131 src/arch/unix/x11/gnome/x11ui.c:1214
+#: src/arch/unix/x11/gnome/x11ui.c:1193 src/arch/unix/x11/gnome/x11ui.c:1276
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1137
+#: src/arch/unix/x11/gnome/x11ui.c:1199
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1017
+#: src/arch/unix/x11/gnome/x11ui.c:1319 src/arch/unix/x11/xaw/x11ui.c:1021
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1264 src/arch/unix/x11/xaw/x11ui.c:1021
+#: src/arch/unix/x11/gnome/x11ui.c:1326 src/arch/unix/x11/xaw/x11ui.c:1025
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1271 src/arch/unix/x11/xaw/x11ui.c:1029
+#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1033
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1316 src/arch/unix/x11/xaw/x11ui.c:1070
+#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1074
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1336 src/arch/unix/x11/gnome/x11ui.c:1339
-#: src/arch/unix/x11/xaw/x11ui.c:1091 src/arch/unix/x11/xaw/x11ui.c:1097
+#: src/arch/unix/x11/gnome/x11ui.c:1398 src/arch/unix/x11/gnome/x11ui.c:1401
+#: src/arch/unix/x11/xaw/x11ui.c:1095 src/arch/unix/x11/xaw/x11ui.c:1101
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1623
+#: src/arch/unix/x11/gnome/x11ui.c:1685
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1667 src/arch/unix/x11/xaw/x11ui.c:1318
+#: src/arch/unix/x11/gnome/x11ui.c:1737 src/arch/unix/x11/xaw/x11ui.c:1322
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1821
+#: src/arch/unix/x11/gnome/x11ui.c:1891
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1832
+#: src/arch/unix/x11/gnome/x11ui.c:1902
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1858
+#: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1859
+#: src/arch/unix/x11/gnome/x11ui.c:1929
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1903 src/arch/unix/x11/xaw/x11ui.c:1596
+#: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/unix/x11/xaw/x11ui.c:1600
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:1974
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1917
+#: src/arch/unix/x11/gnome/x11ui.c:1987
 #, fuzzy, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1925 src/arch/unix/x11/gnome/x11ui.c:1934
+#: src/arch/unix/x11/gnome/x11ui.c:1995 src/arch/unix/x11/gnome/x11ui.c:2004
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/gnome/x11ui.c:2066
+#: src/arch/unix/x11/gnome/x11ui.c:2131 src/arch/unix/x11/gnome/x11ui.c:2136
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2531
+#: src/arch/unix/x11/gnome/x11ui.c:2601
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2578
+#: src/arch/unix/x11/gnome/x11ui.c:2648
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2604
+#: src/arch/unix/x11/gnome/x11ui.c:2674
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -3148,16 +3293,16 @@ msgstr "Spara laddade ROMar:"
 msgid "Save snapshot"
 msgstr "Spara ögonblicksbild"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1183
+#: src/arch/unix/x11/xaw/x11ui.c:1187
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1481
+#: src/arch/unix/x11/xaw/x11ui.c:1485
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1664
+#: src/arch/unix/x11/xaw/x11ui.c:1668
 msgid "Unknown image type."
 msgstr "Okänd avbildningsfiltyp."
 
@@ -3203,6 +3348,12 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#, fuzzy
+#~ msgid "Could not create milestone snapshot file."
+#~ msgstr ""
+#~ "Kan inte ladda ögonblicksbildfil\n"
+#~ "\"%s\""
 
 #~ msgid "Flush IEC printer #4 device"
 #~ msgstr "Töm IEC-skrivarenhet 4"
