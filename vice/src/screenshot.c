@@ -43,9 +43,33 @@ struct screendrv_list_s {
 typedef struct screendrv_list_s screendrv_list_t;
 
 static screendrv_list_t *screendrv_list;
+static int screendrv_list_count = 0;
 
 static log_t screenshot_log = LOG_ERR;
+static screendrv_list_t *screendrv_list_iter = NULL;
 
+int screenshot_num_drivers(void)
+{
+    return screendrv_list_count;
+}
+
+screendrv_t *screenshot_drivers_iter_init(void)
+{
+    screendrv_list_iter = screendrv_list;
+    return screendrv_list_iter->drv;
+}
+
+screendrv_t *screenshot_drivers_iter_next(void)
+{
+    if (screendrv_list_iter)
+        screendrv_list_iter = screendrv_list_iter->next;
+
+    if (screendrv_list_iter)
+        return screendrv_list_iter->drv;
+
+    return NULL;
+}
+    
 int screenshot_init(void)
 {
     /* Setup logging system.  */
@@ -83,6 +107,8 @@ int screenshot_register(screendrv_t *drv)
     current->next->drv = NULL;
     current->next->next = NULL;
 
+    screendrv_list_count++;
+
     return 0;
 }
 
@@ -99,7 +125,8 @@ void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
     }
 
     line_base = VIDEO_FRAME_BUFFER_LINE_START((screenshot->frame_buffer),
-                                              line * screenshot->size_height);
+                                              (line + screenshot->y_offset)
+                                              * screenshot->size_height);
 
     switch (mode) {
       case SCREENSHOT_MODE_PALETTE:
@@ -153,7 +180,9 @@ int screenshot_save(const char *drvname, const char *filename,
     }
 
     screenshot.width = screenshot.max_width & ~3;
-    screenshot.height = screenshot.max_height & ~3;
+    screenshot.height = screenshot.last_displayed_line
+                        - screenshot.first_displayed_line;
+    screenshot.y_offset = screenshot.first_displayed_line;
 
     screenshot.color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
     memset(screenshot.color_map, 0, 256 * sizeof(PIXEL));
