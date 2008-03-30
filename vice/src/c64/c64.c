@@ -85,7 +85,6 @@ static void vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-const char machine_name[] = "C64";
 
 /* Serial traps.  */
 static trap_t c64_serial_traps[] = {
@@ -410,34 +409,33 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
-long machine_get_cycles_per_second(void) 
+long machine_get_cycles_per_second(void)
 {
     return C64_PAL_CYCLES_PER_SEC;
 }
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MACHINE_NAME   "C64"
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
+
+const char machine_name[] = "C64";
 
 int machine_write_snapshot(const char *name)
 {
     snapshot_t *s;
-    resource_value_t rval;
-    int ef = 0;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
     if (s == NULL)
         return -1;
 
     if (maincpu_write_snapshot_module(s) < 0
         || mem_write_snapshot_module(s) < 0
-        || vic_ii_write_snapshot_module(s) < 0
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s) < 0) {
+        || drive_write_snapshot_module(s) < 0
+        || vic_ii_write_snapshot_module(s) < 0) {
         snapshot_close(s);
         unlink(name);
         return -1;
@@ -452,7 +450,7 @@ int machine_read_snapshot(const char *name)
     snapshot_t *s;
     BYTE minor, major;
 
-    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
+    s = snapshot_open(name, &major, &minor, machine_name);
     if (s == NULL)
         return -1;
 
@@ -462,13 +460,15 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
+    vic_ii_prepare_for_snapshot();
+
     if (maincpu_read_snapshot_module(s) < 0
         || mem_read_snapshot_module(s) < 0
-        || vic_ii_read_snapshot_module(s) < 0
         || cia1_read_snapshot_module(s) < 0
         || cia2_read_snapshot_module(s) < 0
         || sid_read_snapshot_module(s) < 0
-        || drive_read_snapshot_module(s) < 0)
+        || drive_read_snapshot_module(s) < 0
+        || vic_ii_read_snapshot_module(s) < 0)
         goto fail;
 
     snapshot_close(s);
