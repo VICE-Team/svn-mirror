@@ -86,11 +86,13 @@ void vdrive_init(void)
     vdrive_snapshot_init();
 }
 
-int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
+int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit,
+                        unsigned int device)
 {
     int i;
 
     vdrive->unit = unit;
+    vdrive->device = device;
 
     for (i = 0; i < 15; i++)
         vdrive->buffers[i].mode = BUFFER_NOT_IN_USE;
@@ -552,7 +554,7 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
 
     vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
 
-    vdrive_setup_device(vdrive, 100);
+    vdrive_setup_device(vdrive, 100, VDRIVE_DEVICE_VIRT);
     vdrive->image = image;
     vdrive_attach_image(image, 100, vdrive);
     return vdrive;

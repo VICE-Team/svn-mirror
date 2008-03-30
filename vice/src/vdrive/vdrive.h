@@ -38,6 +38,11 @@
 #define VDRIVE_IMAGE_FORMAT_8250 4
 #define VDRIVE_IMAGE_FORMAT_2040 5
 
+#define VDRIVE_DEVICE_VIRT 0
+#define VDRIVE_DEVICE_FS   1
+#define VDRIVE_DEVICE_REAL 2
+#define VDRIVE_DEVICE_RAW  3
+
 #define BUFFER_NOT_IN_USE      0
 #define BUFFER_DIRECTORY_READ  1
 #define BUFFER_SEQUENTIAL      2
@@ -99,6 +104,7 @@ typedef struct vdrive_s {
     unsigned int mode;         /* Read/Write */
     unsigned int image_format; /* 1541/71/81 */
     unsigned int unit;
+    unsigned int device;
 
     unsigned int Bam_Track;
     unsigned int Bam_Sector;
@@ -175,7 +181,8 @@ typedef struct errortext_s {
 /* ------------------------------------------------------------------------- */
 
 extern void vdrive_init(void);
-extern int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit);
+extern int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit,
+                               unsigned int device);
 extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
                                vdrive_t *vdrive);
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
