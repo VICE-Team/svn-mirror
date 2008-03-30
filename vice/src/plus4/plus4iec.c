@@ -63,11 +63,11 @@ inline static void iec_update_cpu_bus(BYTE data)
 inline static void iec_update_ports(void)
 {
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
-                          & iec_info.drive2_bus;
+                        & iec_info.drive2_bus;
     iec_info.drive_port = iec_info.drive2_port = (((iec_info.cpu_port >> 4)
-                           & 0x4)
-                           | (iec_info.cpu_port >> 7)
-                           | ((iec_info.cpu_bus << 3) & 0x80));
+                          & 0x4)
+                          | (iec_info.cpu_port >> 7)
+                          | ((iec_info.cpu_bus << 3) & 0x80));
 }
 
 void iec_update_ports_embedded(void)
@@ -78,8 +78,8 @@ void iec_update_ports_embedded(void)
 void iec_drive0_write(BYTE data)
 {
     iec_info.drive_bus = (((data << 3) & 0x40)
-                          | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
-                             & 0x80));
+                         | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
+                         & 0x80));
     iec_info.drive_data = data;
     iec_update_ports();
 }
@@ -88,7 +88,7 @@ void iec_drive1_write(BYTE data)
 {
     iec_info.drive2_bus = (((data << 3) & 0x40)
                           | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
-                             & 0x80));
+                          & 0x80));
     iec_info.drive2_data = data;
     iec_update_ports();
 }
@@ -119,28 +119,25 @@ void iec_cpu_write_conf1(BYTE data)
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
-        if (drive[0].type != DRIVE_TYPE_2031) {
-            if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
-                               iec_old_atn ? 0 : VIA_SIG_RISE);
-            else
-                if (!iec_old_atn)
-                    ciacore_set_flag(&(drive0_context.cia1581));
-        }
-    }
-    if (drive[0].type != DRIVE_TYPE_2031) {
         if (drive[0].type != DRIVE_TYPE_1581)
-            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                          | ((iec_info.drive_data << 6)
-                          & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
-                          & 0x80));
+            viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
+                           iec_old_atn ? 0 : VIA_SIG_RISE);
         else
-            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                          | ((iec_info.drive_data << 6)
-                          & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
-                          & 0x80));
-
+            if (!iec_old_atn)
+                ciacore_set_flag(&(drive0_context.cia1581));
     }
+
+    if (drive[0].type != DRIVE_TYPE_1581)
+        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                             | ((iec_info.drive_data << 6)
+                             & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
+                             & 0x80));
+    else
+        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                             | ((iec_info.drive_data << 6)
+                             & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
+                             & 0x80));
+
     iec_update_ports();
 }
 
@@ -153,27 +150,25 @@ void iec_cpu_write_conf2(BYTE data)
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
-        if (drive[1].type != DRIVE_TYPE_2031) {
-            if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
-                               iec_old_atn ? 0 : VIA_SIG_RISE);
-            else
-                if (!iec_old_atn)
-                    ciacore_set_flag(&(drive1_context.cia1581));
-        }
-    }
-    if (drive[1].type != DRIVE_TYPE_2031) {
         if (drive[1].type != DRIVE_TYPE_1581)
-            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                          | ((iec_info.drive2_data << 6)
-                          & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
-                          & 0x80));
+            viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
+                           iec_old_atn ? 0 : VIA_SIG_RISE);
         else
-            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                          | ((iec_info.drive2_data << 6)
-                          & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
-                          & 0x80));
+            if (!iec_old_atn)
+                ciacore_set_flag(&(drive1_context.cia1581));
     }
+
+    if (drive[1].type != DRIVE_TYPE_1581)
+        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                              | ((iec_info.drive2_data << 6)
+                              & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
+                              & 0x80));
+    else
+        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                              | ((iec_info.drive2_data << 6)
+                              & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
+                              & 0x80));
+
     iec_update_ports();
 }
 
@@ -187,47 +182,45 @@ void iec_cpu_write_conf3(BYTE data)
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
-        if (drive[0].type != DRIVE_TYPE_2031) {
-            if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
-                               iec_old_atn ? 0 : VIA_SIG_RISE);
-            else
-                if (!iec_old_atn)
-                    ciacore_set_flag(&(drive0_context.cia1581));
-        }
-        if (drive[1].type != DRIVE_TYPE_2031) {
-            if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
-                               iec_old_atn ? 0 : VIA_SIG_RISE);
-            else
-                if (!iec_old_atn)
-                    ciacore_set_flag(&(drive1_context.cia1581));
-        }
-    }
-    if (drive[0].type != DRIVE_TYPE_2031) {
+
         if (drive[0].type != DRIVE_TYPE_1581)
-            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                          | ((iec_info.drive_data << 6)
-                          & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
-                          & 0x80));
+            viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
+                           iec_old_atn ? 0 : VIA_SIG_RISE);
         else
-            iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                          | ((iec_info.drive_data << 6)
-                          & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
-                          & 0x80));
-    }
-    if (drive[1].type != DRIVE_TYPE_2031) {
+            if (!iec_old_atn)
+                ciacore_set_flag(&(drive0_context.cia1581));
+
         if (drive[1].type != DRIVE_TYPE_1581)
-            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                          | ((iec_info.drive2_data << 6)
-                          & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
-                          & 0x80));
+            viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
+                           iec_old_atn ? 0 : VIA_SIG_RISE);
         else
-            iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                          | ((iec_info.drive2_data << 6)
-                          & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
-                          & 0x80));
+            if (!iec_old_atn)
+                ciacore_set_flag(&(drive1_context.cia1581));
+
     }
+
+    if (drive[0].type != DRIVE_TYPE_1581)
+        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                             | ((iec_info.drive_data << 6)
+                             & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
+                             & 0x80));
+    else
+        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
+                             | ((iec_info.drive_data << 6)
+                             & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
+                             & 0x80));
+
+    if (drive[1].type != DRIVE_TYPE_1581)
+        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                              | ((iec_info.drive2_data << 6)
+                              & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
+                              & 0x80));
+    else
+        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
+                              | ((iec_info.drive2_data << 6)
+                              & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
+                              & 0x80));
+
     iec_update_ports();
 }
 
