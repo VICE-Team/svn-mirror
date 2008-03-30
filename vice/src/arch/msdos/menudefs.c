@@ -1201,9 +1201,9 @@ static TUI_MENU_CALLBACK(speed_submenu_callback)
 static TUI_MENU_CALLBACK(speed_callback)
 {
     if (been_activated) {
-        int value;
+        int value = (int)param;
 
-	if ((int)param < 0) {
+	if (value < 0) {
 	    char buf[25];
 
 	    *buf = '\0';
@@ -1217,8 +1217,6 @@ static TUI_MENU_CALLBACK(speed_callback)
 		    value = 0;
 	    } else
                 return NULL;
-	} else {
-	    value = (int)param;
 	}
 
         resources_set_value("Speed", (resource_value_t) value);
@@ -1227,6 +1225,7 @@ static TUI_MENU_CALLBACK(speed_callback)
 }
 
 TUI_MENU_DEFINE_TOGGLE(WarpMode)
+TUI_MENU_DEFINE_TOGGLE(UseLeds)
 
 static void create_special_submenu(int has_serial_traps)
 {
@@ -1250,7 +1249,7 @@ static void create_special_submenu(int has_serial_traps)
 			speed[i], machine_name);
 	    sprintf(s2, "_%d%%", speed[i]);
 	    tui_menu_add_item(speed_submenu, s2, s1,
-			      speed_callback, (void *)100, 5,
+			      speed_callback, (void *)speed[i], 5,
 			      TUI_MENU_BEH_CLOSE);
 	}
 	tui_menu_add_item(speed_submenu, "_No Limit",
@@ -1291,6 +1290,13 @@ static void create_special_submenu(int has_serial_traps)
                           "Disable the Kernal ROM patches used by tape and fast drive emulation",
                           toggle_NoTraps_callback, NULL, 4,
                           TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_separator(ui_special_submenu);
+    tui_menu_add_item(ui_special_submenu,
+                      "Use _Keyboard LEDs:",
+                      "Use PC keyboard LEDs to emulate the 1541 drive LED and to show the state of Warp Mode",
+                      toggle_UseLeds_callback, NULL, 4,
+                      TUI_MENU_BEH_CONTINUE);
 }
 
 /* ------------------------------------------------------------------------- */

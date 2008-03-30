@@ -36,10 +36,13 @@
 
 #include "ui.h"
 
+#include "cmdline.h"
+#include "dos.h"
 #include "log.h"
 #include "machine.h"
 #include "menudefs.h"
 #include "mon.h"
+#include "resources.h"
 #include "sound.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -54,14 +57,39 @@ static int kbd_led_status;
 
 /* ------------------------------------------------------------------------- */
 
-int ui_init_resources(void)
+/* UI-related resources and command-line options.  */
+
+/* Flag: Use keyboard LEDs?  */
+static int use_leds;
+
+static int set_use_leds(resource_value_t v)
 {
+    use_leds = (int) v;
     return 0;
 }
 
+static resource_t resources[] = {
+    { "UseLeds", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &use_leds, set_use_leds },
+    { NULL }
+};
+
+int ui_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 1,
+      NULL, "Enable usage of PC keyboard LEDs" },
+    { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 0,
+      NULL, "Disable usage of PC keyboard LEDs" },
+    { NULL },
+};
+
 int ui_init_cmdline_options(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -69,10 +97,12 @@ int ui_init_cmdline_options(void)
 inline static void set_kbd_leds(int value)
 {
     /* FIXME: Is this the 100% correct way to do it?  */
-    outportb(0x60, 0xed);
-    delay(1);
-    outportb(0x60, value);
-    delay(1);
+    if (use_leds) {
+        outportb(0x60, 0xed);
+        delay(1);
+        outportb(0x60, value);
+        delay(1);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

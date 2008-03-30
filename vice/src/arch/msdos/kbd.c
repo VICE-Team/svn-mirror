@@ -44,7 +44,6 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
-#include "resources.h"
 #include "ui.h"
 #include "vmachine.h"
 #include "vsync.h"

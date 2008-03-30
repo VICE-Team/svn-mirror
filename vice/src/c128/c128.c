@@ -58,6 +58,10 @@
 #include "vmachine.h"
 #include "vsync.h"
 
+#ifdef __MSDOS__
+#include "c128kbd.h"
+#endif
+
 #ifdef HAVE_RS232
 #include "rs232.h"
 #include "c64acia.h"
