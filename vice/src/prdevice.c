@@ -233,18 +233,7 @@ static int prdevice_detach(int device)
     }
 
     serial_detach_device(device);
- 
+
     return 0;
 }
-
-/* not used */
-int detach_prdevice(PRINTER *info) {
-    return 0;
-}
-
-/* not used */
-int attach_prdevice(PRINTER *info, const char *file, int mode) {
-    return 0;
-}
-
 

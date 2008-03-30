@@ -643,115 +643,6 @@ int serial_attach_device(int device, char *var, const char *name,
     return 0;
 }
 
-/* Attach a file for use to specified peripheral.  The device numbed is
-   searched in filename if device # == -1.  Note that tape and RS-232 are
-   handled here as well.  */
-int serial_select_file(int type, int number, const char *file)
-{
-    serial_t *p;
-
-    if (number < 0 && type) {
-	if (type & DT_PRINTER)
-	    number = 4;
-        else
-	if (type & DT_DISK)
-	    number = 8;
-    }
-    if (number < 0 || number >= MAXDEVICES) {
-	log_error(serial_log, "Illegal device number %d.", number);
-	return -1;
-    }
-    p = &serialdevices[number];
-
-    /* WARNING: In older versions of this code, we initialized the devices
-       which had not been initialized yet, but this is not done anymore.  All
-       the devices must have been explicitly initialized before we get here.
-       EP 98-04-24.  */
-    if (!p || !(p->inuse)) {
-	log_error(serial_log, "No device for #%d.", number);
-	return -1;
-    }
-
-    /* should be based on p -> info.type */
-
-    switch (number) {
-#ifdef HAVE_PRINTER
-      case 4:
-      case 5:
-	  return attach_prdevice((PRINTER *) p->info, file, 0);
-#endif
-
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-#if 0
-	  return attach_floppy_image((DRIVE *) p->info, file, 0);
-#endif
-      default:
-	  return -1;
-    }
-
-    return 0;
-}
-
-
-/* Detach files from serial devices.  Detach all (shutdown) if dev# == -1.  */
-int serial_remove_file(int number)
-{
-    serial_t *p;
-    int i;
-
-    if (number < 0) {
-	for (i = 0; i < MAXDEVICES; i++) {
-
-	    p = &serialdevices[i];
-
-	    if (p && p->inuse) {
-		if (number == -2) {	/* QUERY mode */
-		    log_message(serial_log, "    Unit #%d: %s.", i, p->name);	/* add file */
-		} else {
-		    serial_remove_file(i);
-		}
-	    }
-	}
-    }
-    /* number < 0 */
-    else {
-	if (number < 0 || number >= MAXDEVICES) {
-	    log_error(serial_log, "Illegal device number %d.", number);
-	    return -1;
-	}
-	p = &serialdevices[number];
-
-	if (!p || !(p->inuse)) {
-	    log_error(serial_log, "Attempting to remove empty device #%d.", number);
-	} else
-	    switch (number) {	/* should be based on actual type ... */
-#ifdef HAVE_PRINTER
-          case 4:
-	      case 5:
-		  detach_prdevice((PRINTER *) p->info);
-		  break;
-#endif
-	      case 8:
-	      case 9:
-	      case 10:
-	      case 11:
-#if 0
-		  detach_floppy_image((DRIVE *) p->info);
-#endif
-		  break;
-	      default:
-		  log_error(serial_log, "Orphan device #%d.", number);
-		  return -1;
-	    }
-
-    }				/* else */
-
-    return (0);
-}
-
 /* Detach and kill serial devices.  Detach all (shutdown) if device# == -1.  */
 int serial_detach_device(int number)
 {
@@ -766,7 +657,7 @@ int serial_detach_device(int number)
     if (!p || !(p->inuse)) {
         log_error(serial_log, "Attempting to remove empty device #%d.", number);
     } else {
-	p->inuse = 0;
+        p->inuse = 0;
     }
 
     return (0);
@@ -811,3 +702,4 @@ void serial_set_attention_callback(void (*func)(void))
 {
     attention_callback_func = func;
 }
+
