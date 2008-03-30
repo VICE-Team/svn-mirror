@@ -1628,7 +1628,7 @@ static int alloc_colormap(void)
 }
 
 /* Allocate colors in the colormap. */
-static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
+static int do_alloc_colors(const palette_t *palette, PIXEL *pixel_return,
                            int releasefl)
 {
     int i, failed;
@@ -1640,20 +1640,23 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
        way to do this? //tvr */
     im = XCreateImage(display, visual, depth,
 		      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
-    if (!im)
+    if (!im) {
+        log_error(ui_log, "XCreateImage failed.");
         return -1;
+    }
 
     n_allocated_pixels = 0;
 
-    color.flags = DoRed | DoGreen | DoBlue;
     for (i = 0, failed = 0; i < palette->num_entries; i++) {
+        color.flags = DoRed | DoGreen | DoBlue;
         color.red = palette->entries[i].red << 8;
         color.green = palette->entries[i].green << 8;
         color.blue = palette->entries[i].blue << 8;
+
         if (!XAllocColor(display, colormap, &color)) {
             failed = 1;
-            log_warning(ui_log, "Cannot allocate color \"#%04X%04X%04X\".",
-                        color.red, color.green, color.blue);
+            log_error(ui_log, "Cannot allocate color \"#%04X%04X%04X\".",
+                      color.red, color.green, color.blue);
         } else {
             allocated_pixels[n_allocated_pixels++] = color.pixel;
 	}
@@ -1667,6 +1670,7 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
             extern long   real_pixel[];
             extern BYTE   shade_table[];
             pixel_return[i] = i;
+
             if (depth == 8)
                 pixel_return[i] = *data;
             else if (im->bits_per_pixel == 8)
@@ -1764,8 +1768,9 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 {
     if (!have_truecolor) {
 	int nallocp;
-	PIXEL  *xpixel=xmalloc(sizeof(PIXEL)*palette->num_entries);
-	unsigned long *ypixel=xmalloc(sizeof(unsigned long)*n_allocated_pixels);
+	PIXEL  *xpixel = xmalloc(sizeof(PIXEL) * palette->num_entries);
+	unsigned long *ypixel = xmalloc(sizeof(unsigned long)
+                                        * n_allocated_pixels);
 
 #if X_DISPLAY_DEPTH == 0
         extern PIXEL  real_pixel1[];
@@ -1789,14 +1794,14 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 
 	/* save the list of already allocated X pixel values */
 	nallocp = n_allocated_pixels;
-	memcpy(ypixel, allocated_pixels, sizeof(unsigned long)*nallocp);
+	memcpy(ypixel, allocated_pixels, sizeof(unsigned long) * nallocp);
 	n_allocated_pixels = 0;
 
-	if ( do_alloc_colors(palette, xpixel, 1) ) {	/* failed */
+	if (do_alloc_colors(palette, xpixel, 1)) { /* failed */
 
 	    /* restore list of previously allocated X pixel values */
 	    n_allocated_pixels = nallocp;
-	    memcpy(allocated_pixels, ypixel, sizeof(unsigned long)*nallocp);
+	    memcpy(allocated_pixels, ypixel, sizeof(unsigned long) * nallocp);
 
 #if X_DISPLAY_DEPTH == 0
 	    memcpy(real_pixel, my_real_pixel, sizeof(my_real_pixel));
@@ -1807,11 +1812,32 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 #endif
 	    log_error(ui_log, "Cannot allocate enough colors.");
 	} else {					/* successful */
+#if 0
+            unsigned int i;
+#endif
+
 	    /* copy the new return values to the real return values */
 	    memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);
 
 	    /* free the previously allocated pixel values */
+#if 0
+            if (nallocp > 0) {
+                for (i = 0; i < nallocp; i++) {
+                    unsigned int j, color_exists;
+
+                    color_exists = 0;
+                    for (j = 0; j < n_allocated_pixels; j++) {
+                        if (ypixel[i] == allocated_pixels[j]) {
+                            color_exists |= 1;
+                        }
+                    }
+                    if (color_exists == 0)
+                        XFreeColors(display, colormap, &(ypixel[i]), 1, 0);
+                }
+            }
+#else
             XFreeColors(display, colormap, ypixel, nallocp, 0);
+#endif
 	}
 	free(xpixel);
 
