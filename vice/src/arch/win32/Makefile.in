@@ -292,9 +292,8 @@ dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h lose32.h \
 fullscreen.o: fullscreen.c ../../../src/vice.h ../../../src/config.h \
 	lose32.h res.h ui.h ../../../src/uiapi.h winmain.h \
 	../../../src/palette.h types.h ../../../src/resources.h \
-	../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h ../../../src/utils.h \
-	../../../src/log.h videoarch.h ../../../src/video.h statusbar.h
+	../../../src/utils.h ../../../src/log.h videoarch.h \
+	../../../src/video.h statusbar.h
 joy.o: joy.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/cmdline.h ../../../src/resources.h joy.h kbd.h \
 	types.h ../../../src/joystick.h ../../../src/keyboard.h \
@@ -412,10 +411,9 @@ vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	res.h uilib.h uivideo.h vic20ui.h winmain.h uivicset.h
 video.o: video.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/cmdline.h ../../../src/log.h fullscreen.h \
-	../../../src/palette.h types.h ../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h ../../../src/resources.h \
-	ui.h ../../../src/uiapi.h ../../../src/utils.h \
-	../../../src/video.h videoarch.h statusbar.h
+	../../../src/palette.h types.h ../../../src/resources.h ui.h \
+	../../../src/uiapi.h ../../../src/utils.h ../../../src/video.h \
+	videoarch.h statusbar.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/log.h ../../../src/machine.h
 vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \

@@ -287,7 +287,13 @@ vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
 	vdc-cmdline-options.h vdc-draw.h vdc-resources.h vdc-snapshot.h \
-	vdc.h vdctypes.h ../../src/video.h
+	vdc.h vdctypes.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/fullscreen.h ../../src/video.h \
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:
 info: info-am

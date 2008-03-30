@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-06-27 01:30+0200\n"
+"POT-Creation-Date: 2002-06-27 22:07+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2655,7 +2655,7 @@ msgstr ""
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:637 src/arch/unix/x11/fullscreen.c:481
+#: src/arch/unix/x11/dga2.c:636 src/arch/unix/x11/fullscreen.c:481
 msgid "Switch to windowmode"
 msgstr ""
 

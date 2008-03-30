@@ -628,9 +628,8 @@ machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
 	machine.h mem.h arch/unix/ui.h uiapi.h utils.h vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h drive/drive.h log.h arch/unix/types.h \
-	fullscreen.h arch/unix/x11/fullscreen-common.h raster/raster.h \
-	raster/raster-changes.h init.h initcmdline.h interrupt.h \
-	machine.h maincpu.h arch/unix/main_exit.h resources.h sysfile.h \
+	fullscreen.h init.h initcmdline.h interrupt.h machine.h \
+	maincpu.h arch/unix/main_exit.h resources.h sysfile.h \
 	arch/unix/ui.h uiapi.h utils.h version.h video.h fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
 	arch/unix/types.h clkguard.h debug.h interrupt.h log.h \
@@ -672,9 +671,7 @@ vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	log.h maincpu.h machine.h resources.h sound.h vsync.h \
 	vsyncapi.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
 	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
-	arch/unix/x11/xaw/../videoarch.h fullscreen.h \
-	arch/unix/x11/fullscreen-common.h raster/raster.h \
-	raster/raster-changes.h video.h \
+	arch/unix/x11/xaw/../videoarch.h fullscreen.h video.h \
 	arch/unix/x11/xaw/../xaw/uiarch.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h

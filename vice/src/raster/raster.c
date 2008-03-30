@@ -47,8 +47,6 @@
 #include "videoarch.h"
 
 
-static int realize_canvas(raster_t *raster);
-
 int raster_calc_frame_buffer_width(raster_t *raster)
 {
     return raster->geometry.screen_size.width
@@ -102,7 +100,7 @@ void raster_draw_buffer_ptr_update(raster_t *raster)
         return;
 
     raster->draw_buffer_ptr
-        = raster->viewport.canvas->draw_buffer->draw_buffer
+        = raster->canvas->draw_buffer->draw_buffer
         + raster->current_line * raster_calc_frame_buffer_width(raster)
         + raster->geometry.extra_offscreen_border_left;
 }
@@ -122,27 +120,20 @@ static void update_pixel_tables(raster_t *raster)
     }
 }
 
-void raster_canvas_init(raster_t *raster)
-{
-    raster_viewport_t *viewport;
-
-    viewport = &raster->viewport;
-}
-
 static int realize_canvas(raster_t *raster)
 {
-    raster_viewport_t *viewport;
+    viewport_t *viewport;
 
-    viewport = &raster->viewport;
+    viewport = raster->canvas->viewport;
 
-    viewport->canvas = video_canvas_init(raster->videoconfig);
+    raster->intialized = 1;
 
-    video_canvas_create(viewport->canvas, viewport->title,
-                        &viewport->width, &viewport->height, 1,
-                        (void_t)(raster->viewport.exposure_handler),
-                        raster->palette);
+    if (video_canvas_create(raster->canvas,
+        &raster->canvas->draw_buffer->canvas_width,
+        &raster->canvas->draw_buffer->canvas_height, 1, raster->palette) < 0)
+        return -1;
 
-    if (viewport->canvas == NULL)
+    if (raster->canvas == NULL)
         return -1;
 
     if (raster_realize_frame_buffer(raster) < 0)
@@ -150,39 +141,34 @@ static int realize_canvas(raster_t *raster)
 
     /* The canvas might give us something different from what we
        requested.  */
-    raster_resize_viewport(raster, viewport->width, viewport->height);
+    raster_resize_viewport(raster);
     return 0;
 }
 
 int raster_realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height, fb_pitch;
-    video_canvas_t *canvas;
 
-    canvas = raster->viewport.canvas;
-
-    if (canvas == NULL)
+    if (raster->canvas == NULL)
         return 0;
 
     if (!console_mode && !vsid_mode)
-        raster_draw_buffer_free(canvas);
+        raster_draw_buffer_free(raster->canvas);
 
     fb_width = raster_calc_frame_buffer_width(raster);
     fb_height = raster->geometry.screen_size.height;
 
     if (!console_mode && !vsid_mode && fb_width > 0 && fb_height > 0) {
-        if (raster_draw_buffer_alloc(canvas, fb_width, fb_height, &fb_pitch))
+        if (raster_draw_buffer_alloc(raster->canvas, fb_width, fb_height,
+            &fb_pitch))
         return -1;
 
-        raster->viewport.canvas->draw_buffer->draw_buffer_width = fb_width;
-        raster->viewport.canvas->draw_buffer->draw_buffer_height = fb_height;
-        raster->viewport.canvas->draw_buffer->draw_buffer_pitch = fb_pitch;
+        raster->canvas->draw_buffer->draw_buffer_width = fb_width;
+        raster->canvas->draw_buffer->draw_buffer_height = fb_height;
+        raster->canvas->draw_buffer->draw_buffer_pitch = fb_pitch;
 
-#if defined (USE_XF86_EXTENSIONS)
-        video_register_raster(raster);
-#endif
-
-        raster_draw_buffer_clear(canvas, 0, fb_width, fb_height, fb_pitch);
+        raster_draw_buffer_clear(raster->canvas, 0, fb_width, fb_height,
+                                 fb_pitch);
     }
 
     raster->fake_draw_buffer_line = xrealloc(raster->fake_draw_buffer_line,
@@ -193,36 +179,21 @@ int raster_realize_frame_buffer(raster_t *raster)
 
 static int perform_mode_change(raster_t *raster)
 {
-    raster_viewport_t *viewport;
-    struct video_canvas_s *canvas;
-
-    viewport = &raster->viewport;
-
-    if ((canvas = viewport->canvas) == NULL)
+    if (raster->canvas == NULL)
         return 0;
 
     if (raster->palette != NULL) {
-        if (video_canvas_set_palette(canvas, raster->palette) < 0)
+        if (video_canvas_set_palette(raster->canvas, raster->palette) < 0)
             return -1;
     }
 
-    if (raster->refresh_tables != NULL)
-        raster->refresh_tables();
-
     raster_force_repaint(raster);
 
-    video_canvas_resize(canvas, viewport->width, viewport->height);
-    raster_resize_viewport(raster, viewport->width, viewport->height);
+    video_canvas_resize(raster->canvas,
+                        raster->canvas->draw_buffer->canvas_width,
+                        raster->canvas->draw_buffer->canvas_height);
+    raster_resize_viewport(raster);
     return 0;
-}
-
-/*  Rebuild Color tables of raster. It's used when colordepth
-    of the viewport changes.
-*/
-void raster_rebuild_tables(raster_t *raster)
-{
-    if (raster->refresh_tables != NULL)
-        raster->refresh_tables();
 }
 
 inline static void draw_blank(raster_t *raster,
@@ -244,17 +215,6 @@ inline static void draw_borders(raster_t *raster)
                    raster->geometry.screen_size.width - 1);
 }
 
-static void raster_viewport_init(raster_viewport_t *viewport)
-{
-    viewport->canvas = NULL;
-    viewport->width = viewport->height = 0;
-    viewport->title = NULL;
-    viewport->x_offset = viewport->y_offset = 0;
-    viewport->first_line = viewport->last_line = 0;
-    viewport->first_x = 0;
-    viewport->exposure_handler = NULL;
-}
-
 static void raster_geometry_init(raster_geometry_t *geometry)
 {
     geometry->screen_size.width = geometry->screen_size.height = 0;
@@ -266,23 +226,12 @@ static void raster_geometry_init(raster_geometry_t *geometry)
     geometry->last_displayed_line = 0;
 }
 
-#if defined(WIN32) || defined(USE_XF86_EXTENSIONS)
-void video_register_raster(raster_t *raster);
-#endif
-
 int raster_init(raster_t *raster,
                 unsigned int num_modes,
                 unsigned int num_sprites)
 {
-/*  FIXME: This is a WORKAROUND, I need access to fields in the
-    raster struct when window has to be updated in certain cases...
-    So I have to register it in the video module and do a lookup.
-    */
-#if defined(WIN32) || defined(USE_XF86_EXTENSIONS)
-    video_register_raster(raster);
-#endif
+    raster->intialized = 0;
 
-    raster_viewport_init(&raster->viewport);
     raster_geometry_init(&raster->geometry);
 
     raster->modes = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
@@ -308,8 +257,6 @@ int raster_init(raster_t *raster,
 
     raster->fake_draw_buffer_line = NULL;
 
-    raster->refresh_tables = NULL;
-
     raster->border_color = 0;
     raster->background_color = 0;
     raster->overscan_background_color = 0;
@@ -317,6 +264,8 @@ int raster_init(raster_t *raster,
 
     memset(raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);
     memset(raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
+
+    raster->canvas = video_canvas_init(raster->videoconfig);
 
     raster_set_canvas_refresh(raster, 1);
 
@@ -367,14 +316,6 @@ raster_t *raster_new(unsigned int num_modes,
     new = xmalloc(sizeof(raster_t));
     raster_init(new, num_modes, num_sprites);
 
-/*  FIXME: This is a WORKAROUND, I need access to fields in the
-    raster struct when window has to be updated in certain cases...
-    So I have to register it in the video module and do a lookup.
-*/
-#ifdef WIN32
-    video_register_raster(new);
-#endif
-
     return new;
 }
 
@@ -398,6 +339,7 @@ void raster_invalidate_cache(raster_t *raster, unsigned int screen_height)
 }
 
 void raster_set_geometry(raster_t *raster,
+                         unsigned int canvas_width, unsigned int canvas_height,
                          unsigned int screen_width, unsigned int screen_height,
                          unsigned int gfx_width, unsigned int gfx_height,
                          unsigned int text_width, unsigned int text_height,
@@ -443,18 +385,22 @@ void raster_set_geometry(raster_t *raster,
 
     geometry->first_displayed_line = first_displayed_line;
     geometry->last_displayed_line = last_displayed_line;
+
+    raster->canvas->draw_buffer->canvas_width = canvas_width;
+    raster->canvas->draw_buffer->canvas_height = canvas_height;
+
+    raster->canvas->viewport->screen_width = screen_width;
+    raster->canvas->viewport->screen_height = screen_height;
+    raster->canvas->viewport->extra_offscreen_border_left
+        = extra_offscreen_border_left;
+    raster->canvas->viewport->extra_offscreen_border_right
+        = extra_offscreen_border_right;
 }
 
 void raster_set_exposure_handler(raster_t *raster, void *exposure_handler)
 {
-    raster->viewport.exposure_handler = exposure_handler;
+    raster->canvas->viewport->exposure_handler = exposure_handler;
 }
-
-void raster_set_table_refresh_handler(raster_t *raster, void (*handler)(void))
-{
-    raster->refresh_tables = handler;
-}
-
 
 int raster_realize(raster_t *raster)
 {
@@ -466,7 +412,7 @@ int raster_realize(raster_t *raster)
 
     raster_canvas_update_all(raster);
 
-    rlist = (raster_list_t*)xmalloc(sizeof(raster_list_t));
+    rlist = (raster_list_t *)xmalloc(sizeof(raster_list_t));
     rlist->raster = raster;
     rlist->next = NULL;
     if (ActiveRasters == NULL) {
@@ -484,16 +430,15 @@ int raster_realize(raster_t *raster)
 /* Resize the canvas with the specified values and center the screen image on
    it.  The actual size can be different if the parameters are not
    suitable.  */
-void raster_resize_viewport(raster_t *raster,
-                            unsigned int width,
-                            unsigned int height)
+void raster_resize_viewport(raster_t *raster)
 {
     raster_geometry_t *geometry;
-    raster_viewport_t *viewport;
+    viewport_t *viewport;
     raster_rectangle_t *screen_size;
     raster_rectangle_t *gfx_size;
     raster_position_t *gfx_position;
     unsigned int gfx_height;
+    unsigned width, height;
 
     geometry = &raster->geometry;
 
@@ -501,7 +446,10 @@ void raster_resize_viewport(raster_t *raster,
     gfx_size = &geometry->gfx_size;
     gfx_position = &geometry->gfx_position;
 
-    viewport = &raster->viewport;
+    viewport = raster->canvas->viewport;
+
+    width = raster->canvas->draw_buffer->canvas_width;
+    height = raster->canvas->draw_buffer->canvas_height;
 
     if (width >= screen_size->width) {
         viewport->x_offset = (width - screen_size->width) / 2;
@@ -546,11 +494,8 @@ void raster_resize_viewport(raster_t *raster,
     }
 
     /* Hmmm....  FIXME?  */
-    if (viewport->canvas != NULL)
-        video_canvas_resize(viewport->canvas, width, height);
-
-    viewport->width = width;
-    viewport->height = height;
+    if (raster->canvas != NULL)
+        video_canvas_resize(raster->canvas, width, height);
 
     /* Make sure we don't waste space showing unused lines.  */
     if ((viewport->first_line < geometry->first_displayed_line
@@ -571,9 +516,8 @@ void raster_force_repaint(raster_t *raster)
 
 int raster_set_palette(raster_t *raster, palette_t *palette)
 {
-
-    if (raster->viewport.canvas != NULL) {
-        if (video_canvas_set_palette(raster->viewport.canvas, palette) < 0)
+    if (raster->canvas != NULL && raster->intialized > 0) {
+        if (video_canvas_set_palette(raster->canvas, palette) < 0)
             return -1;
     }
 
@@ -582,9 +526,6 @@ int raster_set_palette(raster_t *raster, palette_t *palette)
 
     raster->palette = palette;
 
-    if (raster->refresh_tables != NULL)
-        raster->refresh_tables();
-
     raster_force_repaint(raster);
 
     return 0;
@@ -592,16 +533,16 @@ int raster_set_palette(raster_t *raster, palette_t *palette)
 
 void raster_set_title(raster_t *raster, const char *title)
 {
-    raster_viewport_t *viewport;
+    viewport_t *viewport;
 
-    viewport = &raster->viewport;
+    viewport = raster->canvas->viewport;
 
     free(viewport->title);
     viewport->title = stralloc(title);
 
 #if 0                           /* FIXME: Not yet in the canvas API.  */
-    if (viewport->canvas != NULL)
-        canvas_set_title(viewport->canvas, title);
+    if (raster->canvas != NULL)
+        canvas_set_title(raster->canvas, title);
 #endif
 }
 
@@ -618,7 +559,7 @@ void raster_enable_cache(raster_t *raster, int enable)
 
 void raster_set_canvas_refresh(raster_t *raster, int enable)
 {
-    raster->viewport.update_canvas = enable;
+    raster->canvas->viewport->update_canvas = enable;
 }
 
 void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
@@ -634,43 +575,39 @@ void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->last_displayed_line = raster->geometry.last_displayed_line;
     screenshot->first_displayed_col
         = raster->geometry.extra_offscreen_border_left
-        + raster->viewport.first_x;
-    screenshot->draw_buffer = raster->viewport.canvas->draw_buffer->draw_buffer;
+        + raster->canvas->viewport->first_x;
+    screenshot->draw_buffer = raster->canvas->draw_buffer->draw_buffer;
     screenshot->draw_buffer_line_size
-        = raster->viewport.canvas->draw_buffer->draw_buffer_width;
+        = raster->canvas->draw_buffer->draw_buffer_width;
 }
 
 void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
 {
-    ref->draw_buffer = raster->viewport.canvas->draw_buffer->draw_buffer;
+    ref->draw_buffer = raster->canvas->draw_buffer->draw_buffer;
     ref->draw_buffer_line_size
-        = raster->viewport.canvas->draw_buffer->draw_buffer_width;
+        = raster->canvas->draw_buffer->draw_buffer_width;
 #ifdef __OS2__
     ref->bufh = raster->draw_buffer_height;
 #endif
     ref->x = raster->geometry.extra_offscreen_border_left
-        + raster->viewport.first_x;
+        + raster->canvas->viewport->first_x;
     ref->y = raster->geometry.first_displayed_line;
 
-    if (raster->viewport.canvas->videoconfig->doublesizex)
+    if (raster->canvas->videoconfig->doublesizex)
         ref->x *= 2;
-    if (raster->viewport.canvas->videoconfig->doublesizey)
+    if (raster->canvas->videoconfig->doublesizey)
         ref->y *= 2;
 }
 
 void raster_free(raster_t *raster)
 {
     if (!console_mode && !vsid_mode) {
-        video_canvas_t *canvas;
+        if (raster->canvas)
+            raster_draw_buffer_free(raster->canvas);
 
-        canvas = raster->viewport.canvas;
-
-        if (canvas)
-            raster_draw_buffer_free(canvas);
-
-        video_canvas_destroy(raster->viewport.canvas);
+        video_canvas_destroy(raster->canvas);
     }
-    free(raster->viewport.title);
+    free(raster->canvas->viewport->title);
     free(raster->modes);
     free(raster->sprite_status);
     free(raster->cache);
@@ -684,7 +621,7 @@ raster_t *raster_get_raster_from_canvas(struct video_canvas_s *canvas)
     raster_list_t *rasters = ActiveRasters;
 
     while (rasters != NULL) {
-        if (rasters->raster->viewport.canvas == canvas)
+        if (rasters->raster->canvas == canvas)
             return rasters->raster;
 
         rasters = rasters->next;

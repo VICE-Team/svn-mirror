@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-06-27 01:30+0200\n"
+"POT-Creation-Date: 2002-06-27 22:07+0200\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2662,7 +2662,7 @@ msgstr "Fel vid växling till fullskärm %ix%i\n"
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
 
-#: src/arch/unix/x11/dga2.c:637 src/arch/unix/x11/fullscreen.c:481
+#: src/arch/unix/x11/dga2.c:636 src/arch/unix/x11/fullscreen.c:481
 msgid "Switch to windowmode"
 msgstr "Växla till fönsterläge"
 

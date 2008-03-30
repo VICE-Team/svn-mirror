@@ -1,5 +1,37 @@
 2002-06-27  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.46.
+
+	* video/video-resources.c (set_double_size_enabled): Do not
+	reallocate the draw buffer.
+
+	* vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c,
+	plus4/ted.c (*_set_geometry): Do not resize viewport.
+	(*_exposure_handler): Save coordinates to canvas.
+
+	* video/video-resources.c, raster/raster-canvas.c,
+	raster/raster-line.c, raster/raster.c, vicii/vicii.c,
+	plus4/ted.c, arch/win32/video.c: Access viewport data from the
+	canvas.
+
+	* arch/unix/x11/videoarch.h, arch/win32/videoarch.h,
+	arch/msdos/videoarch.h, arch/riscos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h: Added
+	`struct viewport_s ' to `video_canvas_s'.
+
+	* vicii/vicii-draw.c, vdc/vdc-draw.c, crtc/crtc-draw.c,
+	vic20/vic-draw.c, plus4/ted-draw.c, raster/raster.c,
+	raster/raster.h, arch/win32/fullscreen.c,
+	arch/unix/x11/dga2.c, arch/unix/x11/video.c,
+	arch/unix/x11/videoarch.h: Do not rebuild drawing tables.
+
+	* video.h, raster/raster.c, arch/unix/x11/video.c,
+	arch/win32/video.c, arch/msdos/video.c, arch/riscos/video.c,
+	arch/os2/video.c, arch/beos/video.cc (video_canvas_create):
+	Title and exposure handler are already set in the canvas.
+
+2002-06-27  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.45.
 
 	* raster/raster.c (raster_force_repaint): Removed call to

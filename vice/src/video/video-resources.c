@@ -242,11 +242,9 @@ int set_double_size_enabled(resource_value_t v, void *param)
         raster->videoconfig->doublesizey = 0;
 
     if (video_resource_chip->double_size_enabled != (int)v
-        && raster->viewport.canvas != NULL) {
-        raster_realize_frame_buffer(raster);
-        raster_resize_viewport(raster,
-                               raster->viewport.width,
-                               raster->viewport.height);
+        && raster->canvas != NULL
+        && raster->canvas->viewport->update_canvas > 0) {
+        raster_resize_viewport(raster);
     }
 
     video_resource_chip->double_size_enabled = (int)v;
@@ -297,6 +295,8 @@ int video_resources_chip_init(const char *chipname, struct raster_s *raster,
 
     raster->videoconfig
         = (video_render_config_t *)xcalloc(1, sizeof(video_render_config_t));
+    /*raster->canvas = video_canvas_init(raster->videoconfig);*/
+
     video_render_initconfig(raster->videoconfig);
 
     video_resource_chip->raster = raster;
