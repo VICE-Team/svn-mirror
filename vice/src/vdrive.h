@@ -253,7 +253,6 @@ extern int initialize_1541(int dev, int type,
                            drive_attach_func_t attach_func,
                            drive_detach_func_t detach_func,
                            DRIVE *oldinfo);
-extern int find_devno(int dev, const char *name);
 extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
 extern void detach_floppy_image(DRIVE *floppy);
 extern int vdrive_check_track_sector(int format, int track, int sector);
