@@ -32,6 +32,13 @@
 #include "types.h"
 #include "log.h"
 
+/* High level disk formats.  They can be different than the disk image type.  */
+#define VDRIVE_IMAGE_FORMAT_1541 0
+#define VDRIVE_IMAGE_FORMAT_1571 1
+#define VDRIVE_IMAGE_FORMAT_1581 2
+#define VDRIVE_IMAGE_FORMAT_8050 3
+#define VDRIVE_IMAGE_FORMAT_8250 4
+
 #define BUFFER_NOT_IN_USE		0
 #define BUFFER_DIRECTORY_READ		1
 #define BUFFER_SEQUENTIAL		2
@@ -211,20 +218,13 @@ typedef struct bufferinfo_s {
 typedef struct {
     disk_image_t *image;
 
-    char ActiveName[256];
-    int type;			/* Device */
+    int type;         /* Device */
 
     /* Current image file */
-
-    int mode;			/* Read/Write */
-    int ImageFormat;		/* 1541/71/81 */
+    int mode;         /* Read/Write */
+    int image_format; /* 1541/71/81 */
     char ReadOnly;
     int unit;
-
-    /* Disk Format Constants */
-
-    int D64_Header;		/* flag if file has header! */
-    int GCR_Header;		/* flag if file is GCR image.  */
 
     int Bam_Track;
     int Bam_Sector;
@@ -233,9 +233,7 @@ typedef struct {
     int Dir_Track;
     int Dir_Sector;
 
-
     /* Drive information */
-
     int NumBlocks;		/* Total Count (683) */
     int NumTracks;
     int BSideTrack;		/* First track on the second side (1571: 36) */
@@ -347,7 +345,7 @@ extern void vdrive_detach_image(disk_image_t *image, int unit,
 
 extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int get_diskformat(int devtype);
-extern int num_blocks(int format, int tracks);
+extern int vdrive_calc_num_blocks(int format, int tracks);
 extern char *floppy_read_directory(vdrive_t *floppy, const char *pattern);
 extern int floppy_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,

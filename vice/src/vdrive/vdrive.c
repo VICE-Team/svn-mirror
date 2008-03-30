@@ -95,7 +95,6 @@ char const *slot_type[] = {
 };
 
 static int compare_filename (char *name, char *pattern);
-static int set_error_data(vdrive_t *floppy, int flags);
 static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer);
 static int vdrive_command_memory(vdrive_t *floppy, BYTE *buffer, int length);
 static int vdrive_command_initialize(vdrive_t *floppy);
@@ -161,29 +160,8 @@ int vdrive_setup_device(vdrive_t *vdrive, int unit)
 #if 0
     /* Initialise format constants.  */
     vdrive_set_disk_geometry(vdrive, type);
-
-    /*
-     * 'type' specifies what kind of emulation is selected
-     */
-
-    if (!(type & DT_FS)) {
-        if (serial_attach_device(unit, (char *)vdrive, "1541 Disk Drive",
-                                 vdrive_read, vdrive_write,
-                                 vdrive_open, vdrive_close,
-                                 vdrive_flush)) {
-            log_error(vdrive_log,
-                      "Could not initialize virtual drive emulation for device #%d.", 
-                      vdrive->unit);
-            return(-1);
-        }
-    } else {
-        if (attach_fsdevice(unit, (char *)vdrive, "1541 FS Drive")) {
-            log_error(vdrive_log, "Could not initialize FS drive for device #%d.",
-                    vdrive->unit);
-            return(-1);
-        }
-    }
 #endif
+
     vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
     return 0;
 }
@@ -504,7 +482,7 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
         if (l > 0) /* just 3 args used */
             return l;
         if (command == 'A') {
-            if (!vdrive_bam_allocate_sector(floppy->ImageFormat, floppy->bam,
+            if (!vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
                 track, sector)) {
                 /*
                  * Desired sector not free. Suggest another. XXX The 1541
@@ -515,7 +493,7 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
                 if (vdrive_bam_alloc_next_free_sector(floppy, floppy->bam,
                     &track, &sector) >= 0) {
                     /* Deallocate it and merely suggest it */
-                    vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam,
+                    vdrive_bam_free_sector(floppy->image_format, floppy->bam,
                                            track, sector);
                 } else {
                     /* Found none */
@@ -527,7 +505,7 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
                 return IPE_NO_BLOCK;
             }
         } else {
-            vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam,
+            vdrive_bam_free_sector(floppy->image_format, floppy->bam,
                                    track, sector);
         }
         break;
@@ -874,9 +852,10 @@ static int vdrive_command_initialize(vdrive_t *floppy)
     /* Update BAM in memory.  */
     if (floppy->image->fd != NULL)
         vdrive_bam_read_bam(floppy);
+#if 0
     if (floppy->ErrFlg)
         set_error_data(floppy, 3); /* Clear or read error data.  */
-
+#endif
     return IPE_OK;
 }
 
@@ -895,12 +874,12 @@ int vdrive_command_validate(vdrive_t *floppy)
     /* FIXME: size of BAM define */
     memcpy(oldbam, floppy->bam, 5 * 256);
 
-    vdrive_bam_clear_all(floppy->ImageFormat, floppy->bam);
+    vdrive_bam_clear_all(floppy->image_format, floppy->bam);
     for (t = 1; t <= floppy->NumTracks; t++) {
         int max_sector;
-        max_sector = vdrive_get_max_sectors(floppy->ImageFormat, t);
+        max_sector = vdrive_get_max_sectors(floppy->image_format, t);
         for (s = 0; s < max_sector; s++)
-            vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam, t, s);
+            vdrive_bam_free_sector(floppy->image_format, floppy->bam, t, s);
     }
 
     /* First map out the BAM and directory itself.  */
@@ -912,10 +891,10 @@ int vdrive_command_validate(vdrive_t *floppy)
         return status;
     }
 
-    if (floppy->ImageFormat == 1581) {
-        vdrive_bam_allocate_sector(floppy->ImageFormat, floppy->bam,
+    if (floppy->image_format == 1581) {
+        vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
                                    floppy->Bam_Track, floppy->Bam_Sector + 1);
-        vdrive_bam_allocate_sector(floppy->ImageFormat, floppy->bam,
+        vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
                                    floppy->Bam_Track, floppy->Bam_Sector + 2);
     }
 
@@ -977,8 +956,10 @@ static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
     else
         id = &null;
 
+#if 0
     if (floppy->ErrFlg)
         set_error_data(floppy, 5);	/* clear and write error data */
+#endif
 
     /*
      * Make the first dir-entry
@@ -996,20 +977,16 @@ static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
 }
 
 /* ------------------------------------------------------------------------- */
-/*
- * Floppy Disc Controller Simulator. FDC executes tasks in the work queue
- * and puts return values there.
- */
 
+#if 0
 /*
  * Sync (update) the Error Block image in memory
  */
 
-static int  set_error_data(vdrive_t *floppy, int flags)
+static int set_error_data(vdrive_t *floppy, int flags)
 {
     int    size;
     off_t  offset;
-
 
     if (!(floppy->ErrData)) {
 	floppy->ErrData = (char *)xmalloc((size_t)MAX_BLOCKS_ANY);
@@ -1019,7 +996,7 @@ static int  set_error_data(vdrive_t *floppy, int flags)
 	memset(floppy->ErrData, 0x01, MAX_BLOCKS_ANY);
 
 
-    size   = num_blocks (floppy->ImageFormat, floppy->NumTracks);
+    size = vdrive_calc_num_blocks(floppy->image_format, floppy->NumTracks);
     offset = ((off_t)size << 8) + (off_t)(floppy->D64_Header?0:HEADER_LENGTH);
     fseek(floppy->image->fd, offset, SEEK_SET);
 
@@ -1039,32 +1016,6 @@ static int  set_error_data(vdrive_t *floppy, int flags)
 
     return (0);
 }
-
-
-#if 0				/* unused... */
-
-/*
- * Return 'error' according to track and sector
- */
-
-static int  get_disk_error(vdrive_t *floppy, int track, int sector)
-{
-    int     sectors, i;
-
-    if ((sectors = vdrive_check_track_sector(floppy->ImageFormat, 
-        track, sector)) < 0)
-	return -1;
-
-    if (floppy->ErrFlg) {
-	i = floppy->ErrData[sectors];
-    }
-    else
-	i = 0x01;
-
-
-    return (i);
-}
-
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -1072,15 +1023,18 @@ static int  get_disk_error(vdrive_t *floppy, int track, int sector)
 int vdrive_calculate_disk_half(int type)
 {
     switch (type) {
-      case 1541:
+      case VDRIVE_IMAGE_FORMAT_1541:
         return 17;
-      case 1571:
+      case VDRIVE_IMAGE_FORMAT_1571:
         return 17;
-      case 1581:
+      case VDRIVE_IMAGE_FORMAT_1581:
         return 40;
-      case 8050:
-      case 8250:
-	return 39;
+      case VDRIVE_IMAGE_FORMAT_8050:
+      case VDRIVE_IMAGE_FORMAT_8250:
+        return 39;
+      default:
+        log_error(vdrive_log,
+                  "Unknown disk type %i.  Cannot calculate disk half.", type);
     }
     return -1;
 }
@@ -1088,19 +1042,26 @@ int vdrive_calculate_disk_half(int type)
 int vdrive_get_max_sectors(int type, int track)
 {
     switch (type) {
-      case DISK_IMAGE_TYPE_D64:
-      case DISK_IMAGE_TYPE_D71:
-      case DISK_IMAGE_TYPE_D80:
-        return disk_image_sector_per_track(type, track);
-      case DISK_IMAGE_TYPE_D81:
+      case VDRIVE_IMAGE_FORMAT_1541:
+        return disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
+      case VDRIVE_IMAGE_FORMAT_1571:
+        return disk_image_sector_per_track(DISK_IMAGE_TYPE_D71, track);
+      case VDRIVE_IMAGE_FORMAT_8050:
+        return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track);
+      case VDRIVE_IMAGE_FORMAT_1581:
         return 40;
-      case DISK_IMAGE_TYPE_D82:
+      case VDRIVE_IMAGE_FORMAT_8250:
         if (track <= NUM_TRACKS_8250 / 2) {
             return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track);
         } else {
             return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track
                                                - (NUM_TRACKS_8250 / 2));
         }
+      default:
+        log_message(vdrive_log,
+                    "Unknown disk type %i.  Cannot calculate max sectors",
+                    type);
+
     }
     return -1;
 }
@@ -1134,61 +1095,64 @@ void vdrive_detach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
         log_message(vdrive_log, "Unit %d: D82 disk image detached: %s.",
                     unit, image->name);
         break;
+      case DISK_IMAGE_TYPE_GCR:
+        log_message(vdrive_log, "Unit %d: GCR disk image detached: %s.",
+                    unit, image->name);
+        break;
       default:
         return;
     }
-
     floppy_close_all_channels(vdrive);
-
-    vdrive->ActiveName[0] = 0; /* Name is used as flag */
-
     vdrive->image = NULL;
 }
 
 int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
 {
     /* Compatibily cruft (soon to be removed).  */
-    vdrive->ImageFormat = image->type;
-    strcpy(vdrive->ActiveName, image->name);
     vdrive->unit = unit;
     vdrive->NumTracks  = image->tracks;
-    vdrive->NumBlocks  = num_blocks(image->type, image->tracks);
     vdrive->ErrFlg = 0;
-
-    vdrive->D64_Header = (image->type == DISK_IMAGE_TYPE_D64
-                         || image->type == DISK_IMAGE_TYPE_D71
-                         || image->type == DISK_IMAGE_TYPE_D81
-                         || image->type == DISK_IMAGE_TYPE_D80
-                         || image->type == DISK_IMAGE_TYPE_D82) ? 1 : 0;
-    vdrive->GCR_Header = (image->type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
-
-    /* Initialise format constants */
-    vdrive_set_disk_geometry(vdrive, image->type);
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
         log_message(vdrive_log, "Unit %d: D64 disk image attached: %s.",
                     vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         break;
       case DISK_IMAGE_TYPE_D71:
         log_message(vdrive_log, "Unit %d: D71 disk image attached: %s.",
                     vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
         break;
       case DISK_IMAGE_TYPE_D81:
         log_message(vdrive_log, "Unit %d: D81 disk image attached: %s.",
                     vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1581;
         break;
       case DISK_IMAGE_TYPE_D80:
         log_message(vdrive_log, "Unit %d: D80 disk image attached: %s.",
                     vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_8050;
         break;
       case DISK_IMAGE_TYPE_D82:
         log_message(vdrive_log, "Unit %d: D82 disk image attached: %s.",
                     vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_8250;
+        break;
+      case DISK_IMAGE_TYPE_GCR:
+        log_message(vdrive_log, "Unit %d: GCR disk image attached: %s.",
+                    vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         break;
       default:
         return -1;
     }
+
+    /* Initialise format constants */
+    vdrive_set_disk_geometry(vdrive, vdrive->image_format);
+
+    vdrive->NumBlocks = vdrive_calc_num_blocks(vdrive->image_format,
+                                               image->tracks);
 
     vdrive->image = image;
     vdrive_bam_read_bam(vdrive);
@@ -1202,33 +1166,36 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
  * Calculate and return the total number of blocks available on a disk.
  */
 
-int num_blocks(int format, int tracks)
+int vdrive_calc_num_blocks(int format, int tracks)
 {
     int blocks = -1;
 
     switch (format) {
-      case 1541:
+      case VDRIVE_IMAGE_FORMAT_1541:
         if (tracks > MAX_TRACKS_1541)
             tracks = MAX_TRACKS_1541;
         blocks = NUM_BLOCKS_1541 + (tracks - 35) * 17;
         break;
-      case 1571:
+      case VDRIVE_IMAGE_FORMAT_1571:
         if (tracks > MAX_TRACKS_1571)
             tracks = MAX_TRACKS_1571;
         blocks = NUM_BLOCKS_1571 + (tracks - 70) * 17;
         break;
-      case 1581:
+      case VDRIVE_IMAGE_FORMAT_1581:
         blocks = NUM_BLOCKS_1581;
         break;
-      case 8050:
+      case VDRIVE_IMAGE_FORMAT_8050:
         blocks = NUM_BLOCKS_8050;
         break;
-      case 8250:
+      case VDRIVE_IMAGE_FORMAT_8250:
         blocks = NUM_BLOCKS_8250;
         break;
+      default:
+        log_error(vdrive_log,
+                  "Unknown disk type %i.  Cannot calculate number of blocks.",
+                  format);
     }
-
-    return (blocks);
+    return blocks;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1237,51 +1204,52 @@ int num_blocks(int format, int tracks)
  * Initialise format constants
  */
 
-void vdrive_set_disk_geometry(vdrive_t *floppy, int type)
+void vdrive_set_disk_geometry(vdrive_t *vdrive, int type)
 {
     switch (type) {
-      case DISK_IMAGE_TYPE_D64:
-        floppy->Bam_Track  = BAM_TRACK_1541;
-        floppy->Bam_Sector = BAM_SECTOR_1541;
-        floppy->bam_name   = BAM_NAME_1541;
-        floppy->bam_id     = BAM_ID_1541;
-        floppy->Dir_Track  = DIR_TRACK_1541;
-        floppy->Dir_Sector = DIR_SECTOR_1541;
+      case VDRIVE_IMAGE_FORMAT_1541:
+        vdrive->Bam_Track  = BAM_TRACK_1541;
+        vdrive->Bam_Sector = BAM_SECTOR_1541;
+        vdrive->bam_name   = BAM_NAME_1541;
+        vdrive->bam_id     = BAM_ID_1541;
+        vdrive->Dir_Track  = DIR_TRACK_1541;
+        vdrive->Dir_Sector = DIR_SECTOR_1541;
         break;
-      case DISK_IMAGE_TYPE_D71:
-        floppy->Bam_Track  = BAM_TRACK_1571;
-        floppy->Bam_Sector = BAM_SECTOR_1571;
-        floppy->bam_name   = BAM_NAME_1571;
-        floppy->bam_id     = BAM_ID_1571;
-        floppy->Dir_Track  = DIR_TRACK_1571;
-        floppy->Dir_Sector = DIR_SECTOR_1571;
+      case VDRIVE_IMAGE_FORMAT_1571:
+        vdrive->Bam_Track  = BAM_TRACK_1571;
+        vdrive->Bam_Sector = BAM_SECTOR_1571;
+        vdrive->bam_name   = BAM_NAME_1571;
+        vdrive->bam_id     = BAM_ID_1571;
+        vdrive->Dir_Track  = DIR_TRACK_1571;
+        vdrive->Dir_Sector = DIR_SECTOR_1571;
         break;
-      case DISK_IMAGE_TYPE_D81:
-        floppy->Bam_Track  = BAM_TRACK_1581;
-        floppy->Bam_Sector = BAM_SECTOR_1581;
-        floppy->bam_name   = BAM_NAME_1581;
-        floppy->bam_id     = BAM_ID_1581;
-        floppy->Dir_Track  = DIR_TRACK_1581;
-        floppy->Dir_Sector = DIR_SECTOR_1581;
+      case VDRIVE_IMAGE_FORMAT_1581:
+        vdrive->Bam_Track  = BAM_TRACK_1581;
+        vdrive->Bam_Sector = BAM_SECTOR_1581;
+        vdrive->bam_name   = BAM_NAME_1581;
+        vdrive->bam_id     = BAM_ID_1581;
+        vdrive->Dir_Track  = DIR_TRACK_1581;
+        vdrive->Dir_Sector = DIR_SECTOR_1581;
         break;
-      case DISK_IMAGE_TYPE_D80:
-        floppy->Bam_Track  = BAM_TRACK_8050;
-        floppy->Bam_Sector = BAM_SECTOR_8050;
-        floppy->bam_name   = BAM_NAME_8050;
-        floppy->bam_id     = BAM_ID_8050;
-        floppy->Dir_Track  = DIR_TRACK_8050;
-        floppy->Dir_Sector = DIR_SECTOR_8050;
+      case VDRIVE_IMAGE_FORMAT_8050:
+        vdrive->Bam_Track  = BAM_TRACK_8050;
+        vdrive->Bam_Sector = BAM_SECTOR_8050;
+        vdrive->bam_name   = BAM_NAME_8050;
+        vdrive->bam_id     = BAM_ID_8050;
+        vdrive->Dir_Track  = DIR_TRACK_8050;
+        vdrive->Dir_Sector = DIR_SECTOR_8050;
         break;
-      case DISK_IMAGE_TYPE_D82:
-        floppy->Bam_Track  = BAM_TRACK_8250;
-        floppy->Bam_Sector = BAM_SECTOR_8250;
-        floppy->bam_name   = BAM_NAME_8250;
-        floppy->bam_id     = BAM_ID_8250;
-        floppy->Dir_Track  = DIR_TRACK_8250;
-        floppy->Dir_Sector = DIR_SECTOR_8250;
+      case VDRIVE_IMAGE_FORMAT_8250:
+        vdrive->Bam_Track  = BAM_TRACK_8250;
+        vdrive->Bam_Sector = BAM_SECTOR_8250;
+        vdrive->bam_name   = BAM_NAME_8250;
+        vdrive->bam_id     = BAM_ID_8250;
+        vdrive->Dir_Track  = DIR_TRACK_8250;
+        vdrive->Dir_Sector = DIR_SECTOR_8250;
         break;
       default:
-        log_message(vdrive_log, "Unknown disk type %i.", type);
+        log_error(vdrive_log,
+                  "Unknown disk type %i.  Cannot set disk geometry.", type);
     }
 }
 

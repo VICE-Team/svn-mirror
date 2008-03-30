@@ -168,7 +168,6 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
      *
      * On systems with limited memory it may save resources not to keep
      * the image file open all the time.
-     * If ActiveName exists, the file may have been temporarily closed.
      */
 
    if ((floppy->image == NULL || floppy->image->fd == NULL)

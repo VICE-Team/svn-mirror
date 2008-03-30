@@ -46,6 +46,15 @@
 #include "vdrive-iec.h"
 #include "wd1770.h"
 
+typedef struct {
+    serial_t *serial;
+    vdrive_t *vdrive;
+} file_system_t;
+
+static file_system_t file_system[4];
+
+static log_t attach_log = LOG_ERR;
+
 static int file_system_device_enabled[4];
 
 static int set_file_system_device8(resource_value_t v);
@@ -75,15 +84,16 @@ static int file_system_set_serial_hooks(int unit, int fs)
 {
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
-            log_error(LOG_ERR,
-                      "Could not initialize virtual drive emulation for device #%d.",
+            log_error(attach_log,
+                      "Could not initialize vdrive emulation for device #%i",
                       unit);
             return -1;
         }
     } else {
         if (fsdevice_attach(unit, "FS Drive")) {
-            log_error(LOG_ERR, "Could not initialize FS drive for device #%d.",
-                    unit);
+            log_error(attach_log,
+                      "Could not initialize FS drive for device #%i",
+                      unit);
             return -1;
         }
     }
@@ -95,23 +105,19 @@ int file_system_init_resources(void)
     return resources_register(resources);
 }
 
-typedef struct {
-    serial_t *serial;
-    vdrive_t *vdrive;
-} file_system_t;
-
-static file_system_t file_system[4];
-
 void file_system_init(void)
 {
     int i;
+
+    if (attach_log == LOG_ERR)
+        attach_log = log_open("Attach");
 
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_get_device(i + 8);;
         file_system[i].vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
         file_system[i].vdrive->image = NULL;
         vdrive_setup_device(file_system[i].vdrive, i + 8);
-        file_system_set_serial_hooks(i + 8, file_system_device_enabled[0]);
+        file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
         file_system[i].vdrive->image = xmalloc(sizeof(disk_image_t));    
         file_system[i].vdrive->image->name = NULL;
     }
@@ -121,8 +127,8 @@ void file_system_init(void)
 void *file_system_get_vdrive(int unit)
 {
     if (unit < 8 || unit > 11) {
-        log_error(LOG_ERR, "Wrong unit for vdrive");
-        exit(-1);
+        log_error(attach_log, "Wrong unit for vdrive");
+        return NULL;
     }
     return (void *)(file_system[unit - 8].vdrive);
 }
@@ -201,73 +207,6 @@ static int set_file_system_device11(resource_value_t v)
 
 /* ------------------------------------------------------------------------- */
 
-int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
-                      const char *filename, int unit)
-{
-    disk_image_t new_image;
-
-    if (!filename) {
-        log_error(LOG_ERR, "No name, cannot attach floppy image");
-        return -1;
-    }
-
-    new_image.name = stralloc(filename);
-
-    if (disk_image_open(&new_image) < 0) {
-        free(new_image.name);
-        log_error(LOG_ERR, "Cannot open file `%s'", filename);
-        return -1;
-    }
-
-    if (image->name != NULL) {
-        switch (unit) {
-          case 8:
-            wd1770_detach_image(image, 8);
-            fdc_detach_image(image, 8);
-            drive_detach_image(image, 8);
-            vdrive_detach_image(image, 8, floppy);
-            break;
-          case 9:
-            wd1770_detach_image(image, 9);
-            fdc_detach_image(image, 9);
-            drive_detach_image(image, 9);
-            vdrive_detach_image(image, 9, floppy);
-            break;
-          case 10:
-            vdrive_detach_image(image, 10, floppy);
-            break;
-          case 11:
-            vdrive_detach_image(image, 11, floppy);
-            break;
-        }
-        disk_image_close(image);
-    }
-
-    memcpy(image, &new_image, sizeof(disk_image_t));
-
-    switch (unit) {
-      case 8:
-        vdrive_attach_image(image, 8, floppy);
-        drive_attach_image(image, 8);
-        fdc_attach_image(image, 8);
-        wd1770_attach_image(image, 8);
-        break;
-      case 9:
-        vdrive_attach_image(image, 9, floppy);
-        drive_attach_image(image, 9);
-        fdc_attach_image(image, 9);
-        wd1770_attach_image(image, 9);
-        break;
-      case 10:
-        vdrive_attach_image(image, 10, floppy);
-        break;
-      case 11:
-        vdrive_attach_image(image, 11, floppy);
-        break;
-    }
-    return 0;
-}
-
 void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
 {
     if (image->name != NULL) {
@@ -293,6 +232,51 @@ void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
         }
         disk_image_close(image);
     }
+}
+
+int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
+                      const char *filename, int unit)
+{
+    disk_image_t new_image;
+
+    if (!filename) {
+        log_error(attach_log, "No name, cannot attach floppy image");
+        return -1;
+    }
+
+    new_image.name = stralloc(filename);
+
+    if (disk_image_open(&new_image) < 0) {
+        free(new_image.name);
+        log_error(attach_log, "Cannot open file `%s'", filename);
+        return -1;
+    }
+
+    detach_disk_image(image, floppy, unit);
+
+    memcpy(image, &new_image, sizeof(disk_image_t));
+
+    switch (unit) {
+      case 8:
+        vdrive_attach_image(image, 8, floppy);
+        drive_attach_image(image, 8);
+        fdc_attach_image(image, 8);
+        wd1770_attach_image(image, 8);
+        break;
+      case 9:
+        vdrive_attach_image(image, 9, floppy);
+        drive_attach_image(image, 9);
+        fdc_attach_image(image, 9);
+        wd1770_attach_image(image, 9);
+        break;
+      case 10:
+        vdrive_attach_image(image, 10, floppy);
+        break;
+      case 11:
+        vdrive_attach_image(image, 11, floppy);
+        break;
+    }
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -390,14 +374,6 @@ int vdrive_write_snapshot_module(snapshot_t *s, int start)
                                        SNAP_MINOR);
             if (m == NULL)
                 return -1;
-
-            if (snapshot_module_write_byte_array(m,
-                                                 (BYTE *)floppy->ActiveName,
-                                                 sizeof(floppy->ActiveName)) < 0) {
-                if (m != NULL)
-                    snapshot_module_close(m);
-                return -1;
-            }
             snapshot_module_close(m);
         }
     }
@@ -420,7 +396,7 @@ int vdrive_read_snapshot_module(snapshot_t *s, int start)
             return 0;
 
         if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-            log_message(LOG_ERR,
+            log_message(attach_log,
                         "Snapshot module version (%d.%d) newer than %d.%d.",
                         major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
         }

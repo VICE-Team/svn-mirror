@@ -393,6 +393,10 @@ int disk_image_sector_per_track(int format, int track)
       case DISK_IMAGE_TYPE_D82:
         return sector_map_d80[track];
         break;
+      default:
+        log_message(disk_image_log,
+                    "Unknown disk type %i.  Cannot calculate sectors per track",
+                    format);
     }
     return -1;
 }
@@ -468,13 +472,18 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
     int sectors;
     long offset;
 
-    if (image->fd == NULL)
+    if (image->fd == NULL) {
+        log_error(disk_image_log, "Attempt to write without disk image");
         return -1;
+    }
 
     sectors = disk_image_check_sector(image->type, track, sector);
 
-    if (sectors < 0)
+    if (sectors < 0) {
+        log_error(disk_image_log, "Track %i, Sector %i out of bounds",
+                  track, sector);
         return -1;
+    }
 
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
@@ -487,7 +496,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
 
         if (fread((char *)buf, 256, 1, image->fd) < 1) {
             log_error(disk_image_log,
-                      "Error reading T:%d S:%d from disk image",
+                      "Error reading T:%i S:%i from disk image",
                       track, sector);
             return -1;
         }
@@ -507,13 +516,18 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
     int sectors;
     long offset;
 
-    if (image->fd == NULL)
+    if (image->fd == NULL) {
+        log_error(disk_image_log, "Attempt to write without disk image");
         return -1;
+    }
 
     sectors = disk_image_check_sector(image->type, track, sector);
 
-    if (sectors < 0)
+    if (sectors < 0) {
+        log_error(disk_image_log, "Track: %i, Sector: %i out of bounds",
+                  track, sector);
         return -1;
+    }
 
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
@@ -525,7 +539,7 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
         fseek(image->fd, offset, SEEK_SET);
 
         if (fwrite((char *)buf, 256, 1, image->fd) < 1) {
-            log_error(disk_image_log, "Error writing T:%d S:%d: to disk image",
+            log_error(disk_image_log, "Error writing T:%i S:%i to disk image",
                       track, sector);
             return -1;
         }
