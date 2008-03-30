@@ -5,8 +5,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-12-29 16:13+0100\n"
+"Project-Id-Version: 1.19\n"
+"POT-Creation-Date: 2005-12-31 15:41+0100\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -269,42 +269,42 @@ msgstr "Kan niet schrijven naar bestand %s"
 msgid "Cannot find mapped name for %s"
 msgstr "Kan vertaalde naam voor %s niet vinden"
 
-#: src/event.c:620
+#: src/event.c:624
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kon het start momentopname bestand %s niet maken."
 
-#: src/event.c:639 src/event.c:933
+#: src/event.c:643 src/event.c:937
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fout bij het lezen van het eind van het momentopname bestand %s."
 
-#: src/event.c:706 src/event.c:900
+#: src/event.c:710 src/event.c:904
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet maken."
 
-#: src/event.c:774
+#: src/event.c:778
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet openen."
 
-#: src/event.c:789
+#: src/event.c:793
 msgid "Could not find event section in end snapshot file."
 msgstr "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden."
 
-#: src/event.c:813
+#: src/event.c:817
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fout bij het lezen van het start momentopname bestand. Heb %s en %s "
 "geprobeerd"
 
-#: src/event.c:843
+#: src/event.c:847
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
 
-#: src/event.c:1224
+#: src/event.c:1228
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
@@ -366,7 +366,7 @@ msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
 #: src/network.c:149
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
-msgstr "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."
+msgstr ""
 
 #: src/network.c:367
 msgid "Testing best frame delay..."
@@ -427,11 +427,11 @@ msgstr "Momentopname van de server wordt ontvangen..."
 
 #: src/network.c:836
 msgid "Remote host disconnected."
-msgstr "Andere computer heeft de verbinding verbroken."
+msgstr ""
 
 #: src/network.c:847
 msgid "Remote host suspending..."
-msgstr "Andere computer halt de netplay..."
+msgstr ""
 
 #: src/network.c:889
 msgid "Network out of sync - disconnecting."
@@ -469,35 +469,35 @@ msgstr ""
 
 #: src/attach.c:172
 msgid "Attach disk image for drive #8 read only"
-msgstr "Koppel disk bestand voor station #8 als alleen lezen"
+msgstr "Koppel disk bestand voor drive #8 als alleen lezen"
 
 #: src/attach.c:175
 msgid "Attach disk image for drive #8 read write (if possible)"
-msgstr "Koppel disk bestand voor station #8 als schrijfbaar (indien mogelijk)"
+msgstr "Koppel disk bestand voor drive #8 als schrijfbaar (indien mogelijk)"
 
 #: src/attach.c:178
 msgid "Attach disk image for drive #9 read only"
-msgstr "Koppel disk bestand voor station #9 als alleen lezen"
+msgstr "Koppel disk bestand voor drive #9 als alleen lezen"
 
 #: src/attach.c:181
 msgid "Attach disk image for drive #9 read write (if possible)"
-msgstr "Koppel disk bestand voor station #9 als schrijfbaar (indien mogelijk)"
+msgstr "Koppel disk bestand voor drive #9 als schrijfbaar (indien mogelijk)"
 
 #: src/attach.c:184
 msgid "Attach disk image for drive #10 read only"
-msgstr "Koppel disk bestand voor station #10 als alleen lezen"
+msgstr "Koppel disk bestand voor drive #10 als alleen lezen"
 
 #: src/attach.c:187
 msgid "Attach disk image for drive #10 read write (if possible)"
-msgstr "Koppel disk bestand voor station #10 als schrijfbaar (indien mogelijk)"
+msgstr "Koppel disk bestand voor drive #10 als schrijfbaar (indien mogelijk)"
 
 #: src/attach.c:190
 msgid "Attach disk image for drive #11 read only"
-msgstr "Koppel disk bestand voor station #11 als alleen lezen"
+msgstr "Koppel disk bestand voor drive #11 als alleen lezen"
 
 #: src/attach.c:193
 msgid "Attach disk image for drive #11 read write (if possible)"
-msgstr "Koppel disk bestand voor station #11 als schrijfbaar (indien mogelijk)"
+msgstr "Koppel disk bestand voor drive #11 als schrijfbaar (indien mogelijk)"
 
 #: src/c128/c128-cmdline-options.c:104 src/c64/c64-cmdline-options.c:84
 #: src/c64/psid.c:152 src/plus4/plus4-cmdline-options.c:76
@@ -1040,11 +1040,11 @@ msgstr "Zet aantal extra cylcli voor elk gat in de tap"
 
 #: src/drive/drive-cmdline-options.c:51
 msgid "Enable hardware-level emulation of disk drives"
-msgstr "Aktiveer hardware-matige emulatie van disk stations"
+msgstr "Aktiveer hardware-matige emulatie van disk drives"
 
 #: src/drive/drive-cmdline-options.c:53
 msgid "Disable hardware-level emulation of disk drives"
-msgstr "Hardware-matige emulatie van disk stations afsluiten"
+msgstr "Hardware-matige emulatie van disk drives afsluiten"
 
 #: src/drive/drive-cmdline-options.c:69
 msgid "Set drive type (0: no drive)"
@@ -1244,19 +1244,19 @@ msgstr "Koppel <naam> als een tape bestand"
 
 #: src/initcmdline.c:214
 msgid "Attach <name> as a disk image in drive #8"
-msgstr "Koppel <naam> als een disk bestand in station #8"
+msgstr "Koppel <naam> als een disk bestand in drive #8"
 
 #: src/initcmdline.c:216
 msgid "Attach <name> as a disk image in drive #9"
-msgstr "Koppel <naam> als een disk bestand in station #9"
+msgstr "Koppel <naam> als een disk bestand in drive #9"
 
 #: src/initcmdline.c:218
 msgid "Attach <name> as a disk image in drive #10"
-msgstr "Koppel <naam> als een disk bestand in station #10"
+msgstr "Koppel <naam> als een disk bestand in drive #10"
 
 #: src/initcmdline.c:220
 msgid "Attach <name> as a disk image in drive #11"
-msgstr "Koppel <naam> als een disk bestand in station #11"
+msgstr "Koppel <naam> als een disk bestand in drive #11"
 
 #: src/kbdbuf.c:136
 msgid "<string>"
@@ -1766,11 +1766,11 @@ msgstr "Hardware schalering afsluiten"
 
 #: src/video/video-cmdline-options.c:141
 msgid "Enable Scale2x"
-msgstr "Aktiveer Scale2x"
+msgstr "Aktiveer Schaal2x"
 
 #: src/video/video-cmdline-options.c:143
 msgid "Disable Scale2x"
-msgstr "Scale2x afsluiten"
+msgstr "Schaal2x afsluiten"
 
 #: src/video/video-cmdline-options.c:168
 msgid "Use an internal calculated palette"
@@ -1988,19 +1988,19 @@ msgstr "Laad nieuw drive ROM"
 #: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
 #: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:141
 msgid "ROM set type"
-msgstr "ROM zet type"
+msgstr "ROM set type"
 
 #: src/arch/unix/c128ui.c:295 src/arch/unix/c64ui.c:321
 #: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
 #: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:144
 msgid "ROM set archive"
-msgstr "ROM zet archief"
+msgstr "ROM set archief"
 
 #: src/arch/unix/c128ui.c:297 src/arch/unix/c64ui.c:323
 #: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
 #: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:146
 msgid "ROM set file"
-msgstr "ROM zet bestand"
+msgstr "ROM set bestand"
 
 #: src/arch/unix/c128ui.c:320
 msgid "VIC II Save media file"
@@ -2016,7 +2016,7 @@ msgstr "Scherm opnames..."
 
 #: src/arch/unix/c128ui.c:357
 msgid "Machine type"
-msgstr "Machine type"
+msgstr "Machine soort"
 
 #: src/arch/unix/c128ui.c:359 src/arch/unix/cbm2ui.c:240
 #: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:181
@@ -2549,7 +2549,7 @@ msgstr "*Exec proces"
 #: src/arch/unix/uiattach.c:75
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr "Koppel Disk Bestand aan station #%d"
+msgstr "Koppel Disk Bestand aan drive #%d"
 
 #: src/arch/unix/uiattach.c:90 src/arch/unix/uiattach.c:143
 msgid "Invalid Disk Image"
@@ -2561,35 +2561,35 @@ msgstr "Ongeldig Disk Bestand of Bestandsnaam"
 
 #: src/arch/unix/uiattach.c:113 src/arch/unix/uiattach.c:147
 msgid "Unit #8..."
-msgstr "Station #8..."
+msgstr "Drive #8..."
 
 #: src/arch/unix/uiattach.c:116 src/arch/unix/uiattach.c:149
 msgid "Unit #9..."
-msgstr "Station #9..."
+msgstr "Drive #9..."
 
 #: src/arch/unix/uiattach.c:119 src/arch/unix/uiattach.c:151
 msgid "Unit #10..."
-msgstr "Station #10..."
+msgstr "Drive #10..."
 
 #: src/arch/unix/uiattach.c:122 src/arch/unix/uiattach.c:153
 msgid "Unit #11..."
-msgstr "Station #11..."
+msgstr "Drive #11..."
 
 #: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:412
 msgid "Unit #8"
-msgstr "Station #8"
+msgstr "Drive #8"
 
 #: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:414
 msgid "Unit #9"
-msgstr "Station #9"
+msgstr "Drive #9"
 
 #: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:416
 msgid "Unit #10"
-msgstr "Station #10"
+msgstr "Drive #10"
 
 #: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:418
 msgid "Unit #11"
-msgstr "Station #11"
+msgstr "Drive #11"
 
 #: src/arch/unix/uiattach.c:176
 msgid "All"
@@ -2609,7 +2609,7 @@ msgstr "Ontkoppel disk bestand"
 
 #: src/arch/unix/uiattach.c:188
 msgid "Fliplist"
-msgstr "Fliplist"
+msgstr "Fliplijst"
 
 #: src/arch/unix/uiattach.c:213
 msgid "Attach a tape image"
@@ -2632,7 +2632,7 @@ msgid "Smart-attach a file"
 msgstr "Slim-koppel een bestand"
 
 #: src/arch/unix/uiattach.c:302 src/arch/unix/uiattach.c:311
-#: src/arch/unix/x11/xaw/x11ui.c:1673
+#: src/arch/unix/x11/xaw/x11ui.c:1741
 msgid "Unknown image type"
 msgstr "Onbekent bestand type"
 
@@ -2689,7 +2689,7 @@ msgstr "Koppel 16KB bestand..."
 
 #: src/arch/unix/uic64cart.c:153
 msgid "Attach Action Replay image..."
-msgstr "Koppel Actiun Replay bestand..."
+msgstr "Koppel Action Replay bestand..."
 
 #: src/arch/unix/uic64cart.c:156
 msgid "Attach Atomic Power image..."
@@ -2729,7 +2729,7 @@ msgstr "Aktiveer Expert Cartridge..."
 
 #: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:270
 msgid "Set cartridge as default"
-msgstr "Zet cartridge als standaart"
+msgstr "Zet cartridge als standaard"
 
 #: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:276
 msgid "Attach a cartridge image"
@@ -2916,7 +2916,7 @@ msgstr "Opname start modus"
 
 #: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
 msgid "Netplay (experimental)"
-msgstr "Netplay (experimenteel)"
+msgstr ""
 
 #: src/arch/unix/uicommands.c:489
 msgid "Snapshot commands"
@@ -3106,102 +3106,102 @@ msgstr "*Geen"
 #: src/arch/unix/uidrivec128.c:150 src/arch/unix/uidrivec64vic20.c:142
 #: src/arch/unix/uidriveplus4.c:124
 msgid "Drive #8 model"
-msgstr "Station #8 model"
+msgstr "Drive #8 model"
 
 #: src/arch/unix/uidrivec128.c:152 src/arch/unix/uidrivec64vic20.c:144
 #: src/arch/unix/uidriveplus4.c:126
 msgid "Drive #8 RAM expansion"
-msgstr "Station #8 RAM uitbreiding"
+msgstr "Drive #8 RAM uitbreiding"
 
 #: src/arch/unix/uidrivec128.c:154 src/arch/unix/uidrivec64vic20.c:146
 #: src/arch/unix/uidriveplus4.c:128
 msgid "*Drive #8 enable parallel cable"
-msgstr "*Station #8 aktiveer parallel kabel"
+msgstr "*Drive #8 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:156 src/arch/unix/uidrivec64vic20.c:148
 #: src/arch/unix/uidrivepetcbm2.c:99 src/arch/unix/uidriveplus4.c:130
 msgid "Drive #8 40-track image support"
-msgstr "Station #8 40-sporen bestand ondersteuning"
+msgstr "Drive #8 40-sporen bestand ondersteuning"
 
 #: src/arch/unix/uidrivec128.c:158 src/arch/unix/uidrivec64vic20.c:150
 #: src/arch/unix/uidrivepetcbm2.c:101 src/arch/unix/uidriveplus4.c:132
 msgid "Drive #8 idle method"
-msgstr "Station #8 idle methode"
+msgstr "Drive #8 idle methode"
 
 #: src/arch/unix/uidrivec128.c:161 src/arch/unix/uidrivec64vic20.c:153
 #: src/arch/unix/uidriveplus4.c:135
 msgid "Drive #9 model"
-msgstr "Station #9 model"
+msgstr "Drive #9 model"
 
 #: src/arch/unix/uidrivec128.c:163 src/arch/unix/uidrivec64vic20.c:155
 #: src/arch/unix/uidriveplus4.c:137
 msgid "Drive #9 RAM expansion"
-msgstr "Station #9 RAM uitbreiding"
+msgstr "Drive #9 RAM uitbreiding"
 
 #: src/arch/unix/uidrivec128.c:165 src/arch/unix/uidrivec64vic20.c:157
 #: src/arch/unix/uidriveplus4.c:139
 msgid "*Drive #9 enable parallel cable"
-msgstr "*Station #9 aktiveer parallel kabel"
+msgstr "*Drive #9 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:167 src/arch/unix/uidrivec64vic20.c:159
 #: src/arch/unix/uidrivepetcbm2.c:108 src/arch/unix/uidriveplus4.c:141
 msgid "Drive #9 40-track image support"
-msgstr "Station #9 40-sporen bestand ondersteuning"
+msgstr "Drive #9 40-sporen bestand ondersteuning"
 
 #: src/arch/unix/uidrivec128.c:169 src/arch/unix/uidrivec64vic20.c:161
 #: src/arch/unix/uidrivepetcbm2.c:110 src/arch/unix/uidriveplus4.c:143
 msgid "Drive #9 idle method"
-msgstr "Station #9 idle methode"
+msgstr "Drive #9 idle methode"
 
 #: src/arch/unix/uidrivec128.c:172 src/arch/unix/uidrivec64vic20.c:164
 #: src/arch/unix/uidriveplus4.c:146
 msgid "Drive #10 model"
-msgstr "Station #10 model"
+msgstr "Drive #10 model"
 
 #: src/arch/unix/uidrivec128.c:174 src/arch/unix/uidrivec64vic20.c:166
 #: src/arch/unix/uidriveplus4.c:148
 msgid "Drive #10 RAM expansion"
-msgstr "Station #10 RAM uitbreiding"
+msgstr "Drive #10 RAM uitbreiding"
 
 #: src/arch/unix/uidrivec128.c:176 src/arch/unix/uidrivec64vic20.c:168
 #: src/arch/unix/uidriveplus4.c:150
 msgid "*Drive #10 enable parallel cable"
-msgstr "*Station #10 aktiveer parallel kabel"
+msgstr "*Drive #10 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:178 src/arch/unix/uidrivec64vic20.c:170
 #: src/arch/unix/uidrivepetcbm2.c:117 src/arch/unix/uidriveplus4.c:152
 msgid "Drive #10 40-track image support"
-msgstr "Station #10 40-sporten bestand ondersteuning"
+msgstr "Drive #10 40-sporten bestand ondersteuning"
 
 #: src/arch/unix/uidrivec128.c:180 src/arch/unix/uidrivec64vic20.c:172
 #: src/arch/unix/uidrivepetcbm2.c:119 src/arch/unix/uidriveplus4.c:154
 msgid "Drive #10 idle method"
-msgstr "Station #10 idle methode"
+msgstr "Drive #10 idle methode"
 
 #: src/arch/unix/uidrivec128.c:183 src/arch/unix/uidrivec64vic20.c:175
 #: src/arch/unix/uidriveplus4.c:157
 msgid "Drive #11 model"
-msgstr "Station #11 model"
+msgstr "Drive #11 model"
 
 #: src/arch/unix/uidrivec128.c:185 src/arch/unix/uidrivec64vic20.c:177
 #: src/arch/unix/uidriveplus4.c:159
 msgid "Drive #11 RAM expansion"
-msgstr "Station #11 RAM uitbreiding"
+msgstr "Drive #11 RAM uitbreiding"
 
 #: src/arch/unix/uidrivec128.c:187 src/arch/unix/uidrivec64vic20.c:179
 #: src/arch/unix/uidriveplus4.c:161
 msgid "*Drive #11 enable parallel cable"
-msgstr "*Station #11 aktiveer parallel kabel"
+msgstr "*Drive #11 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
 #: src/arch/unix/uidrivepetcbm2.c:126 src/arch/unix/uidriveplus4.c:163
 msgid "Drive #11 40-track image support"
-msgstr "Station #11 40-sporen bestand ondersteuning"
+msgstr "Drive #11 40-sporen bestand ondersteuning"
 
 #: src/arch/unix/uidrivec128.c:191 src/arch/unix/uidrivec64vic20.c:183
 #: src/arch/unix/uidrivepetcbm2.c:128 src/arch/unix/uidriveplus4.c:165
 msgid "Drive #11 idle method"
-msgstr "Station #11 idle methode"
+msgstr "Drive #11 idle methode"
 
 #: src/arch/unix/uidrivec128.c:197 src/arch/unix/uidrivec64vic20.c:189
 #: src/arch/unix/uidrivepetcbm2.c:135 src/arch/unix/uidriveplus4.c:171
@@ -3315,19 +3315,19 @@ msgstr "*Trap idle"
 
 #: src/arch/unix/uidrivepetcbm2.c:96
 msgid "Drive #8 floppy disk type"
-msgstr "Station #8 floppy disk type"
+msgstr "Drive #8 floppy disk type"
 
 #: src/arch/unix/uidrivepetcbm2.c:105
 msgid "Drive #9 floppy disk type"
-msgstr "Station #9 floppy disk type"
+msgstr "Drive #9 floppy disk type"
 
 #: src/arch/unix/uidrivepetcbm2.c:114
 msgid "Drive #10 floppy disk type"
-msgstr "Station #10 floppy disk type"
+msgstr "Drive #10 floppy disk type"
 
 #: src/arch/unix/uidrivepetcbm2.c:123
 msgid "Drive #11 floppy disk type"
-msgstr "Station #11 floppy disk type"
+msgstr "Drive #11 floppy disk type"
 
 #: src/arch/unix/uidriveplus4.c:185
 msgid "Load new 1551 ROM"
@@ -3339,14 +3339,14 @@ msgstr "Laad "
 
 #: src/arch/unix/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:255
+#: src/arch/unix/x11/xaw/uiscreenshot.c:262
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Opslaan"
 
 #: src/arch/unix/uifliplist.c:87
 msgid "Fliplist File"
-msgstr "Fliplist Bestand"
+msgstr "Fliplijst Bestand"
 
 #: src/arch/unix/uifliplist.c:97
 #, c-format
@@ -3370,27 +3370,27 @@ msgstr "Fout bij het schrijven van `%s'."
 
 #: src/arch/unix/uifliplist.c:117
 msgid "Add current image (Unit 8)"
-msgstr "Voeg huidig bestand toe (Station 8)"
+msgstr "Voeg huidig bestand toe (Drive 8)"
 
 #: src/arch/unix/uifliplist.c:120
 msgid "Remove current image (Unit 8)"
-msgstr "Verwijder huidig bestand (Station 8)"
+msgstr "Verwijder huidig bestand (Drive 8)"
 
 #: src/arch/unix/uifliplist.c:123
 msgid "Attach next image (Unit 8)"
-msgstr "Koppel volgend bestand (Station 8)"
+msgstr "Koppel volgend bestand (Drive 8)"
 
 #: src/arch/unix/uifliplist.c:126
 msgid "Attach previous image (Unit 8)"
-msgstr "Koppel vorig bestand (Station 8)"
+msgstr "Koppel vorig bestand (Drive 8)"
 
 #: src/arch/unix/uifliplist.c:129
 msgid "Load fliplist file"
-msgstr "Laad fliplist bestand"
+msgstr "Laad fliplijst bestand"
 
 #: src/arch/unix/uifliplist.c:131
 msgid "Save fliplist file"
-msgstr "Opslaan fliplist bestand"
+msgstr "Opslaan fliplijst bestand"
 
 #: src/arch/unix/uifliplist.c:194
 #, c-format
@@ -3412,7 +3412,7 @@ msgstr "Volgende: "
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
 #: src/arch/unix/x11/gnome/x11ui.c:882 src/arch/unix/x11/gnome/x11ui.c:892
-#: src/arch/unix/x11/gnome/x11ui.c:1573
+#: src/arch/unix/x11/gnome/x11ui.c:1575
 msgid "<empty>"
 msgstr "<leeg>"
 
@@ -3646,11 +3646,11 @@ msgstr "Server om mee te verbinden"
 
 #: src/arch/unix/uinetplay.c:113
 msgid "Connect to server"
-msgstr "Maak verbinding met de server"
+msgstr "maak verbinding met de server"
 
 #: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
 msgid "Disconnect"
-msgstr "Verbreek de verbinding"
+msgstr "Verbreek verbinding"
 
 #: src/arch/unix/uipalemu.c:81
 msgid "PAL Scanline shade"
@@ -4097,7 +4097,7 @@ msgstr "ACIA $DExx apparaat"
 
 #: src/arch/unix/uirs232c64c128.c:59
 msgid "ACIA $DExx Interrupt"
-msgstr "ACUA $DExx Interrupt"
+msgstr "ACIA $DExx Interrupt"
 
 #: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
 msgid "*Userport RS232 emulation"
@@ -4189,7 +4189,7 @@ msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
 #: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1371
-#: src/arch/unix/x11/xaw/x11ui.c:1041
+#: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
 
@@ -4703,13 +4703,13 @@ msgstr "Opslaan Cartridge"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:210
+#: src/arch/unix/x11/gnome/uiscreenshot.c:212
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr "Bestandsnaam: "
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:458
+#: src/arch/unix/x11/gnome/uiscreenshot.c:461
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Ongeldige bestandsnaam"
@@ -4833,7 +4833,7 @@ msgstr "Status: %s, Server: %s, Poort: %d"
 #: src/arch/unix/x11/gnome/uinetplay.c:143
 #: src/arch/unix/x11/gnome/uinetplay.c:147
 msgid "Netplay Settings"
-msgstr "Netplay Instellingen"
+msgstr "netplay Instellingen"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:152
 msgid "Current mode: "
@@ -4841,7 +4841,7 @@ msgstr "Huidige modus: "
 
 #: src/arch/unix/x11/gnome/uinetplay.c:155
 msgid "<unknown>"
-msgstr "<onbekend>"
+msgstr "<onbekent>"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:162
 msgid "Start Server"
@@ -4855,61 +4855,61 @@ msgstr "TCP-Poort: "
 msgid "Connect to "
 msgstr "Maak verbinding naar "
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:200
+#: src/arch/unix/x11/gnome/uiscreenshot.c:202
 msgid "No gfxoutputdrivers available"
-msgstr "Geen apparaten meer beschikbaar."
+msgstr "Geen scherm afdruk struurprogrammas beschikbaar"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:204
-#: src/arch/unix/x11/gnome/uiscreenshot.c:215
-#: src/arch/unix/x11/gnome/uiscreenshot.c:449
+#: src/arch/unix/x11/gnome/uiscreenshot.c:206
+#: src/arch/unix/x11/gnome/uiscreenshot.c:217
+#: src/arch/unix/x11/gnome/uiscreenshot.c:452
 msgid "Save Screenshot"
 msgstr "Scherm afdruk opslaan"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:228
+#: src/arch/unix/x11/gnome/uiscreenshot.c:230
 msgid "Image Format"
 msgstr "Beeld Formaat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:298
+#: src/arch/unix/x11/gnome/uiscreenshot.c:301
 #, c-format
 msgid "FFMPEG Driver: %s"
 msgstr "FFMPEG Stuurprogramma: %s"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:320
+#: src/arch/unix/x11/gnome/uiscreenshot.c:323
 #, c-format
 msgid "\tAC: %s(%d)"
 msgstr "\tAC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:345
+#: src/arch/unix/x11/gnome/uiscreenshot.c:348
 #, c-format
 msgid "\tVC: %s(%d)"
 msgstr "\tVC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:356
+#: src/arch/unix/x11/gnome/uiscreenshot.c:359
 msgid "Format"
 msgstr "Formaat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:365
+#: src/arch/unix/x11/gnome/uiscreenshot.c:368
 msgid "Audio Codec"
 msgstr "Audio Codec"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:374
+#: src/arch/unix/x11/gnome/uiscreenshot.c:377
 msgid "Video Codec"
 msgstr "Video Codec"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:391
+#: src/arch/unix/x11/gnome/uiscreenshot.c:394
 msgid "Audio Bitrate"
 msgstr "Geluid Bitrate"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:406
+#: src/arch/unix/x11/gnome/uiscreenshot.c:409
 msgid "Video Bitrate"
 msgstr "Video Bitrate"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:494
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kon beeld afdruk niet opslaan naar `%s' met stuurprogramma `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:500
+#: src/arch/unix/x11/gnome/uiscreenshot.c:508
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Met succes `%s' geschreven"
@@ -4956,17 +4956,17 @@ msgstr "Kan fontpad `%s' niet toevoegen.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Zet fontpad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/xaw/x11ui.c:489
+#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Deze monitor ondersteunt geen %dbit afbeeldingen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:492
+#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "Selecteer aub een bit diepte die ondersteunt wordt door uw monitor"
 
 #: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/gnome/x11ui.c:656
-#: src/arch/unix/x11/xaw/x11ui.c:495 src/arch/unix/x11/xaw/x11ui.c:512
+#: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Gevonden %dbit/%s beeld."
@@ -4976,7 +4976,7 @@ msgstr "Gevonden %dbit/%s beeld."
 msgid "Found %dbit visual."
 msgstr "Gevonden %dbit beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:664 src/arch/unix/x11/xaw/x11ui.c:520
+#: src/arch/unix/x11/gnome/x11ui.c:664 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan het beeld niet automatisch detecteren."
 
@@ -5024,7 +5024,7 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1047 src/arch/unix/x11/xaw/x11ui.c:601
+#: src/arch/unix/x11/gnome/x11ui.c:1047 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
@@ -5036,35 +5036,35 @@ msgstr "Commandos"
 msgid "Help"
 msgstr "Help"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/x11/gnome/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1030
+#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr "Wilt U echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1038
+#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1413 src/arch/unix/x11/xaw/x11ui.c:1079
+#: src/arch/unix/x11/gnome/x11ui.c:1413 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr "Prive kleurenmap wordt gebruikt"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1433 src/arch/unix/x11/gnome/x11ui.c:1436
-#: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/unix/x11/xaw/x11ui.c:1106
+#: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1725
+#: src/arch/unix/x11/gnome/x11ui.c:1727
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1777 src/arch/unix/x11/xaw/x11ui.c:1327
+#: src/arch/unix/x11/gnome/x11ui.c:1779 src/arch/unix/x11/xaw/x11ui.c:1395
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
@@ -5085,7 +5085,7 @@ msgstr "Harde Reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/xaw/x11ui.c:1605
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Extend disk image"
 msgstr "40-sporen disk bestand"
 
@@ -5096,7 +5096,7 @@ msgstr "Wilt U her disk bestand uitbreiden naar 40 sporen?"
 #: src/arch/unix/x11/gnome/x11ui.c:2032
 #, c-format
 msgid "Autostart not possible for unit %d"
-msgstr "Autostarten niet mogelijk voor station %d"
+msgstr "Autostarten niet mogelijk voor drive %d"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2040 src/arch/unix/x11/gnome/x11ui.c:2049
 #, c-format
@@ -5246,19 +5246,19 @@ msgstr "Gebruik de standaard kleurenmap"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:48
 msgid "Save settings (resources) on exit"
-msgstr "Opslaan instellingen (bronnen) bij afsluiten"
+msgstr "Instellingen (resources) opslaan bij afsluiten"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never confirm quiting VICE"
-msgstr "Nooit afsluiten van VICE bevestigen"
+msgstr "Niet bevestigen van het afsluiten van VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Confirm quiting VICE"
-msgstr "Aflsuiten van VICE bevestigen"
+msgstr "Bevestigen van het aflsuiten van VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Never save settings (resources) on exit"
-msgstr "Nooit instellingen (bronnen) opslaan bij afsluiten"
+msgstr "Instellingen (resources) niet opslaan bij afsluiten"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Enable fullscreen"
@@ -5324,19 +5324,19 @@ msgid "Save cartridge image file"
 msgstr "Opslaan cartridge bestand"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
-#: src/arch/unix/x11/xaw/uiscreenshot.c:163
+#: src/arch/unix/x11/xaw/uiscreenshot.c:170
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr "Bestand naam:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
-#: src/arch/unix/x11/xaw/uiscreenshot.c:192
+#: src/arch/unix/x11/xaw/uiscreenshot.c:199
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr "Bladeren..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
-#: src/arch/unix/x11/xaw/uiscreenshot.c:262
+#: src/arch/unix/x11/xaw/uiscreenshot.c:269
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr "Anuleer"
@@ -5369,15 +5369,15 @@ msgstr "Disk naam:"
 msgid "Disk format:"
 msgstr "Disk formaat:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:88
+#: src/arch/unix/x11/xaw/uiscreenshot.c:90
 msgid "Save screenshot file"
 msgstr "Opslaan scherm afdruk bestand"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:212
+#: src/arch/unix/x11/xaw/uiscreenshot.c:219
 msgid "Image format:"
 msgstr "Beeld formaat:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:279
+#: src/arch/unix/x11/xaw/uiscreenshot.c:286
 msgid "Screen Snapshot"
 msgstr "Scherm Afdruk"
 
@@ -5411,12 +5411,22 @@ msgstr "Opslaan huidig geladen ROMs:"
 msgid "Save snapshot"
 msgstr "Opslaan momentopname"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1192
+#: src/arch/unix/x11/xaw/x11ui.c:811
+#, fuzzy
+msgid "recording..."
+msgstr "gebeurtenis opname"
+
+#: src/arch/unix/x11/xaw/x11ui.c:820
+#, fuzzy
+msgid "event recording..."
+msgstr "gebeurtenis opname"
+
+#: src/arch/unix/x11/xaw/x11ui.c:1253
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spoor %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1490
+#: src/arch/unix/x11/xaw/x11ui.c:1558
 msgid "VICE Error!"
 msgstr "VICE Fout!"
 
@@ -5471,6 +5481,2043 @@ msgstr "Prestatie zal slecht zijn."
 msgid "Successfully initialized without shared memory."
 msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 
+#~ msgid "&File"
+#~ msgstr "&Bestand"
+
+#~ msgid "&Open"
+#~ msgstr "&Open"
+
+#~ msgid "&Save"
+#~ msgstr "Op&slaan"
+
+#~ msgid "&Print"
+#~ msgstr "&Print"
+
+#~ msgid "E&xit\tAlt+F4"
+#~ msgstr "A&fsluiten\tAlt+F4"
+
+#~ msgid "&Debug"
+#~ msgstr "&Debug"
+
+#~ msgid "&Stop Debug"
+#~ msgstr "&Stop Debug"
+
+#~ msgid "Stop E&xecution"
+#~ msgstr "Stop &Uitvoering"
+
+#~ msgid "Step &into"
+#~ msgstr "Stap i&n"
+
+#~ msgid "Step &over"
+#~ msgstr "Stap &over"
+
+#~ msgid "Step until &return"
+#~ msgstr "Stap tot &terugkeer"
+
+#~ msgid "Go to &cursor"
+#~ msgstr "Ga naar &cursor"
+
+#~ msgid "&Evaluate"
+#~ msgstr "&Evalueren"
+
+#~ msgid "&View"
+#~ msgstr "&Beeld"
+
+#~ msgid "&Current instruction"
+#~ msgstr "&Huidige instructie"
+
+#~ msgid "Evaluation &window"
+#~ msgstr "Ev&aluatie venster"
+
+#~ msgid "&Register window"
+#~ msgstr "&Register venster"
+
+#~ msgid "&Memory window"
+#~ msgstr "&Geheugen venster"
+
+#~ msgid "&Disassembly window"
+#~ msgstr "&Disasembly venster"
+
+#~ msgid "&Console window"
+#~ msgstr "&Console venster"
+
+#~ msgid "&Computer"
+#~ msgstr "&Computer"
+
+#~ msgid "Drive &8"
+#~ msgstr "Drive &8"
+
+#~ msgid "Drive &9"
+#~ msgstr "Drive &9"
+
+#~ msgid "&Window"
+#~ msgstr "&Venster"
+
+#~ msgid "&Cascade"
+#~ msgstr "&Alle vensters"
+
+#~ msgid "Tile &vertically"
+#~ msgstr "&Naast elkaar"
+
+#~ msgid "Tile &horizontally"
+#~ msgstr "Onder &elkaar"
+
+#~ msgid "&Arrange icons"
+#~ msgstr "&Rangschik iconen"
+
+#~ msgid "&Use IEC Device"
+#~ msgstr "&Gebruik IEC Apparaat"
+
+#~ msgid "Disk &image"
+#~ msgstr "Disk &bestand"
+
+#~ msgid "&Directory"
+#~ msgstr "&Directory"
+
+#~ msgid "Rea&l IEC device"
+#~ msgstr "echt IEC appa&raat"
+
+#~ msgid "&None"
+#~ msgstr "G&een"
+
+#~ msgid "&Browse..."
+#~ msgstr "&Bladeren..."
+
+#~ msgid "&Autostart"
+#~ msgstr "&Autostart"
+
+#~ msgid "Attach read only"
+#~ msgstr "Alleen lezen"
+
+#~ msgid "Bro&wse..."
+#~ msgstr "Bla&deren..."
+
+#~ msgid "&Options"
+#~ msgstr "&Opties"
+
+#~ msgid "&Read P00 files"
+#~ msgstr "&Lees P00 bestanden"
+
+#~ msgid "&Write P00 files"
+#~ msgstr "&Schrijf P00 bestanden"
+
+#~ msgid "&Hide non-P00 files"
+#~ msgstr "&Verberg non-P00 bestanden"
+
+#~ msgid "Datasette Settings"
+#~ msgstr "Datasette Instellingen"
+
+#~ msgid "&Reset Datasette with CPU"
+#~ msgstr "&Reset Datasette met CPU"
+
+#~ msgid "Speed of motor while reading"
+#~ msgstr "Snelheid van de motor tijdens lezen"
+
+#~ msgid "cycle(s) additional &delay each trigger"
+#~ msgstr "Snelheids instellingen"
+
+#~ msgid "cycles delay at &zero-values"
+#~ msgstr "&nul-waarden cycli vertraging"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Joystick in port #&1"
+#~ msgstr "Joystick in poort #&1"
+
+#~ msgid "Select fire button"
+#~ msgstr "Selecteer vuur knop"
+
+#~ msgid "Auto fire button settings"
+#~ msgstr "Autofire knop instellingen"
+
+#~ msgid "Autofire &speed (1..32)"
+#~ msgstr "Autofire &snelheid (1..32)"
+
+#~ msgid "Joystick in port #&2"
+#~ msgstr "Joystick in poort #&2"
+
+#~ msgid "Config Keyset &A"
+#~ msgstr "Configureer Keyset &A"
+
+#~ msgid "Config Keyset &B"
+#~ msgstr "Configureer Keyset &B"
+
+#~ msgid "&Calibrate Joystick(s)"
+#~ msgstr "&Kalibreer Joystick(s)"
+
+#~ msgid "S&outh West"
+#~ msgstr "Z&uid West"
+
+#~ msgid "&South"
+#~ msgstr "&Zuiden"
+
+#~ msgid "So&uth East"
+#~ msgstr "Z&uid Oost"
+
+#~ msgid "&West"
+#~ msgstr "&west"
+
+#~ msgid "&East"
+#~ msgstr "*Oost"
+
+#~ msgid "No&rth West"
+#~ msgstr "Noo&rd West"
+
+#~ msgid "&North"
+#~ msgstr "&Noord"
+
+#~ msgid "Nor&th East"
+#~ msgstr "Noord Oos&t"
+
+#~ msgid "&Fire button"
+#~ msgstr "&Vuur knop"
+
+#~ msgid "Configure Sound Device Settings"
+#~ msgstr "Geluidsapparaat instellingen"
+
+#~ msgid "DirectX driver"
+#~ msgstr "DirectX stuurprogramma"
+
+#~ msgid "WMM driver"
+#~ msgstr "WMM stuurprogramma"
+
+#~ msgid "Sample &Frequency :"
+#~ msgstr "Sample &Frequency :"
+
+#~ msgid "Sound Buffer &Size :"
+#~ msgstr "Geluid Buffer &Grootte"
+
+#~ msgid "&Oversampling Factor :"
+#~ msgstr "&Oversampling Faktor :"
+
+#~ msgid "Synchronization &Method :"
+#~ msgstr "Synchronisatie &Methode :"
+
+#~ msgid "Image Contents "
+#~ msgstr "bestand Inhoud "
+
+#~ msgid "New Image"
+#~ msgstr "Nieuw Bestand"
+
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Type"
+#~ msgstr "Soort"
+
+#~ msgid "Create Image"
+#~ msgstr "Maak Bestand"
+
+#~ msgid "New TAP Image"
+#~ msgstr "Nieuw TAP Bestand"
+
+#~ msgid "Save currently attached &disks images"
+#~ msgstr "Opslaan huidig gekoppelde &disks"
+
+#~ msgid "Save currently loaded &ROM images"
+#~ msgstr "Opslaan huidig gekoppelde &ROMs"
+
+#~ msgid "Select Driver:"
+#~ msgstr "Selecteer Stuurprogramma:"
+
+#~ msgid "FFMPEG settings"
+#~ msgstr "FFMPEG instellingen"
+
+#~ msgid "Format:"
+#~ msgstr "Formaat:"
+
+#~ msgid "Audio: codec"
+#~ msgstr "Audio: codec"
+
+#~ msgid "bitrate"
+#~ msgstr "bitrate"
+
+#~ msgid "Video: codec"
+#~ msgstr "Video: codec"
+
+#~ msgid "&Append log to existing file"
+#~ msgstr "&Logboek aan bestaand bestand toevoegen"
+
+#~ msgid "Dialog"
+#~ msgstr "Dialog"
+
+#~ msgid "Read this:"
+#~ msgstr "Lees dit:"
+
+#~ msgid "Driver:"
+#~ msgstr "Stuurprogramma:"
+
+#~ msgid "Bitdepth:"
+#~ msgstr "Bitdiepte:"
+
+#~ msgid "Resolution:"
+#~ msgstr "Resolutie:"
+
+#~ msgid "Refreshrate:"
+#~ msgstr "Vernieuwingssnelheid:"
+
+#~ msgid "VBLANK synchronization"
+#~ msgstr "VBLANK synchronisatie"
+
+#~ msgid "Render to DX Primary surface"
+#~ msgstr "Render naar DX Primaire oppervlakte"
+
+#~ msgid "Phase"
+#~ msgstr "Fase"
+
+#~ msgid "PAL Shade"
+#~ msgstr "Schaduw"
+
+#~ msgid "PAL Blur"
+#~ msgstr "Wazigheid"
+
+#~ msgid "PAL Mode"
+#~ msgstr "PAL Modus"
+
+#~ msgid "External Palette:"
+#~ msgstr "Extern Palette:"
+
+#~ msgid "RAM Settings"
+#~ msgstr "RAM Instellingen"
+
+#~ msgid "Initialization at powerup"
+#~ msgstr "Initialisatie bij opstarten"
+
+#~ msgid "Value of first byte"
+#~ msgstr "Waarde van eerste byte"
+
+#~ msgid "Length of constant values"
+#~ msgstr "Lengte van constante waarden"
+
+#~ msgid "Length of constant pattern"
+#~ msgstr "Lengte van constant patroon"
+
+#~ msgid "Custom speed"
+#~ msgstr "Eigen snelheid"
+
+#~ msgid "Enter custom speed [%]"
+#~ msgstr "Geef snelheid op [%]"
+
+#~ msgid "Printer Settings"
+#~ msgstr "Printer Instellingen"
+
+#~ msgid "Printer emulation"
+#~ msgstr "Printer emulatie"
+
+#~ msgid "Send Formfeed"
+#~ msgstr "Zend Formfeed"
+
+#~ msgid "File system printer"
+#~ msgstr "File system printer"
+
+#~ msgid "Printer driver"
+#~ msgstr "Printer stuurprogramma"
+
+#~ msgid "Output"
+#~ msgstr "Uitvoer"
+
+#~ msgid "Output to file #"
+#~ msgstr "Uitvoer bestand #"
+
+#~ msgid "Output file #1 name"
+#~ msgstr "Uitvoer bestand #1 naam"
+
+#~ msgid "Output file #2 name"
+#~ msgstr "Uitvoer bestand #2 naam"
+
+#~ msgid "Output file #3 name"
+#~ msgstr "Uitvoer bestand #3 naam"
+
+#~ msgid "ROM Settings"
+#~ msgstr "ROM instellingen"
+
+#~ msgid "Romset archive"
+#~ msgstr "Romset archief"
+
+#~ msgid "Browse"
+#~ msgstr "Bladeren"
+
+#~ msgid "Load archive"
+#~ msgstr "Laad archief"
+
+#~ msgid "Save archive"
+#~ msgstr "Opslaan archief"
+
+#~ msgid "&Configuration"
+#~ msgstr "&Configuratie"
+
+#~ msgid "Apply"
+#~ msgstr "Toepassen"
+
+#~ msgid "New"
+#~ msgstr "Nieuw"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijderen"
+
+#~ msgid "Romset file"
+#~ msgstr "Romset bestand"
+
+#~ msgid "Load romset"
+#~ msgstr "Laad romset"
+
+#~ msgid "Save romset"
+#~ msgstr "Opslaan romset"
+
+#~ msgid "Computer"
+#~ msgstr "Computer"
+
+#~ msgid "Drive"
+#~ msgstr "Drive"
+
+#~ msgid "New configuration"
+#~ msgstr "Nieuwe configuratie"
+
+#~ msgid "Enter configuration name"
+#~ msgstr "Geef configuratie naam"
+
+#~ msgid "RS232 Settings"
+#~ msgstr "RS232 Instellingen"
+
+#~ msgid "RS232 device 1"
+#~ msgstr "RS232 apparaat 1"
+
+#~ msgid "RS232 device 2"
+#~ msgstr "RS232 apparaat 2"
+
+#~ msgid "RS232 device 3"
+#~ msgstr "RS232 apparaat 3"
+
+#~ msgid "RS232 device 4"
+#~ msgstr "RS232 apparaat 4"
+
+#~ msgid "Current mode"
+#~ msgstr "Huidige modus"
+
+#~ msgid "TCP-Port"
+#~ msgstr "TCP-Poort"
+
+#~ msgid "Connect to"
+#~ msgstr "Maak verbinding naar"
+
+#~ msgid "None"
+#~ msgstr "Geen"
+
+#~ msgid "VICE question"
+#~ msgstr "VICE vraag"
+
+#~ msgid "Your ffmpeg dll version doesn't match."
+#~ msgstr "Uw ffmpeg dll versie is niet juist."
+
+#~ msgid "DirectDraw error: Code:%8x Error:%s"
+#~ msgstr "DirectDraw fout: Code:%8x Fout:%s"
+
+#~ msgid "Cannot load settings."
+#~ msgstr "Kan de instellingen niet laden."
+
+#~ msgid "Default settings restored."
+#~ msgstr "Standaard instellingen herteld."
+
+#~ msgid "Cannot attach specified file"
+#~ msgstr "Kan het opgegeven bestand niet koppelen"
+
+#~ msgid ""
+#~ "%s\n"
+#~ "\n"
+#~ "Start monitor?"
+#~ msgstr ""
+#~ "%s\n"
+#~ "\n"
+#~ "Monitor starten?"
+
+#~ msgid "VICE CPU JAM"
+#~ msgstr "VICE CPU HANGT"
+
+#~ msgid "Extend image to 40-track format?"
+#~ msgstr "Bestand uitbreiden naar 40-sporen formaat?"
+
+#~ msgid "Detached device %s"
+#~ msgstr "Apparaat %s ontkoppelt"
+
+#~ msgid "Attached %s to device#%s"
+#~ msgstr "%s aan apparaat#%s gekoppelt"
+
+#~ msgid "Detached tape"
+#~ msgstr "Tape ontkoppelt"
+
+#~ msgid "History recorded with unknown release"
+#~ msgstr "Geschiedenis opgenomen met onbekende VICE versie"
+
+#~ msgid "History recorded with VICE-%s"
+#~ msgstr "geschiedenis opgenomen met VICE-%s"
+
+#~ msgid "paused"
+#~ msgstr "gepauzeerd"
+
+#~ msgid "resumed"
+#~ msgstr "hervat"
+
+#~ msgid ""
+#~ "Do you really want to exit?\n"
+#~ "\n"
+#~ "All the data present in the emulated RAM will be lost."
+#~ msgstr ""
+#~ "Wilt U echt afsluiten?\n"
+#~ "\n"
+#~ "Alle data in geëmuleerd geheugen zal verloren gaan."
+
+#~ msgid "Cannot autostart specified file."
+#~ msgstr "Kan opgegeven bestand niet autostarten."
+
+#~ msgid "Attached tape %s"
+#~ msgstr "Tape %s gekoppelt"
+
+#~ msgid "Settings loaded successfully."
+#~ msgstr "Instellingen met succes geladen."
+
+#~ msgid "Attach disk image"
+#~ msgstr "Koppel disk bestand"
+
+#~ msgid "Attach tape image"
+#~ msgstr "Koppel tape bestand"
+
+#~ msgid "Autostart disk/tape image"
+#~ msgstr "Autostart disk/tape bestand"
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Ongeldige cartridge"
+
+#~ msgid "Bad cartridge config in UI!"
+#~ msgstr "Slechte cartridge configuratie in UI!"
+
+#~ msgid "Logging console output image"
+#~ msgstr "Logboek console uitvoer bestand"
+
+#~ msgid "VICE console logging files (*.dbg)"
+#~ msgstr "VICE console logboek bestanden (*.dbg)"
+
+#~ msgid "Cannot write log file `%s'."
+#~ msgstr "Kan logboek bestand `%s' niet schrijven."
+
+#~ msgid "Load flip list file"
+#~ msgstr "Laad flip lijst bestand"
+
+#~ msgid "Cannot read flip list file"
+#~ msgstr "Kan het flip lijst bestand niet lezen"
+
+#~ msgid "Save flip list file"
+#~ msgstr "Flip lijst bestand opslaan"
+
+#~ msgid "Cannot write flip list file"
+#~ msgstr "Kan flip lijst bestand niet schrijven"
+
+#~ msgid "Select keymap file"
+#~ msgstr "Selecteer keymap bestand"
+
+#~ msgid "Save keymap file"
+#~ msgstr "Keymap bestand opslaan"
+
+#~ msgid "Cannot write keymap file"
+#~ msgstr "Kan het keymap bestand niet schrijven"
+
+#~ msgid "Mapping"
+#~ msgstr "Mapping"
+
+#~ msgid "&Attach"
+#~ msgstr "&Koppel"
+
+#~ msgid "Please enter a filename."
+#~ msgstr "Geef aub een bestandsnaam op."
+
+#~ msgid "Overwrite existing image?"
+#~ msgstr "Bestaand bestand overschrijven?"
+
+#~ msgid "Cannot create image"
+#~ msgstr "Kan bestand niet maken"
+
+#~ msgid "Command line options"
+#~ msgstr "Commando opties"
+
+#~ msgid "Which command line options are available?"
+#~ msgstr "Welke commando opties zijn beschikbaar?"
+
+#~ msgid "No driver selected or selected driver not supported"
+#~ msgstr ""
+#~ "Geen stuurprogramma geselecteerd, of geselecteerd stuurprogramma wordt "
+#~ "niet ondersteund"
+
+#~ msgid "Cannot write screenshot file `%s'."
+#~ msgstr "Kan schermafdruk bestand `%s' niet schrijven."
+
+#~ msgid "Autostart disk image"
+#~ msgstr "Autostart disk bestand"
+
+#~ msgid "Select file system directory"
+#~ msgstr "Selecteer bestand systeem directory"
+
+#~ msgid "Printer Userport"
+#~ msgstr "Printer Userport"
+
+#~ msgid "Printer 4"
+#~ msgstr "Printer 4"
+
+#~ msgid "Printer 5"
+#~ msgstr "Printer 5"
+
+#~ msgid "Drive 8"
+#~ msgstr "Drive 8"
+
+#~ msgid "Drive 9"
+#~ msgstr "Drive 9"
+
+#~ msgid "Drive 10"
+#~ msgstr "Drive 10"
+
+#~ msgid "Drive 11"
+#~ msgstr "Drive 11"
+
+#~ msgid "Peripheral Settings"
+#~ msgstr "Rand apparaat instellingen"
+
+#~ msgid "Can't write snapshot file."
+#~ msgstr "Kan momentopname bestand niet schrijven."
+
+#~ msgid "Cannot read snapshot image"
+#~ msgstr "Kan momentopname bestand niet lezen"
+
+#~ msgid "Load %s ROM image"
+#~ msgstr "Laad %s ROM bestand"
+
+#~ msgid "Select romset archive"
+#~ msgstr "Selecteer romset archief"
+
+#~ msgid "Cannot load romset archive!"
+#~ msgstr "Kan romset archief niet laden!"
+
+#~ msgid "Cannot save romset archive!"
+#~ msgstr "Kan romset archief niet opslaan!"
+
+#~ msgid "Cannot load romset file!"
+#~ msgstr "Kan romset bestand niet laden!"
+
+#~ msgid "Cannot save romset file!"
+#~ msgstr "Kan romset bestand niet opslaan!"
+
+#~ msgid "Select romset file"
+#~ msgstr "Selecteer romset bestand"
+
+#~ msgid "Romset"
+#~ msgstr "Remset"
+
+#~ msgid "Save snapshot image"
+#~ msgstr "Momentopname bestand opslaan"
+
+#~ msgid "Cannot write snapshot file `%s'."
+#~ msgstr "Kan momentopname bestand `%s' niet schrijven."
+
+#~ msgid "Load snapshot image"
+#~ msgstr "Laad momentopname bestand"
+
+#~ msgid "Could not load palette file."
+#~ msgstr "Kon palette bestand niet laden."
+
+#~ msgid "Load VICE palette file"
+#~ msgstr "Laad VICE palette bestand"
+
+#~ msgid "Fullscreen"
+#~ msgstr "Volscherm"
+
+#~ msgid "Colors"
+#~ msgstr "Kleuren"
+
+#~ msgid "Video settings"
+#~ msgstr "Video Instellingen"
+
+#~ msgid "File system"
+#~ msgstr "Bestand systeem"
+
+#~ msgid "Real IEC device"
+#~ msgstr "Echt IEC apparaat"
+
+#~ msgid "RS232 device %i"
+#~ msgstr "RS232 apparaat %i"
+
+#~ msgid "Attach raw 8KB cartridge image"
+#~ msgstr "Koppel binair 8KB cartridge bestand"
+
+#~ msgid "Attach raw 16KB cartridge image"
+#~ msgstr "Koppel binair 16KB cartridge bestand"
+
+#~ msgid "Attach Action Replay cartridge image"
+#~ msgstr "Koppel Action Replay cartridge bestand"
+
+#~ msgid "Attach Atomic Power cartridge image"
+#~ msgstr "Koppel Atomic Power cartridge bestand"
+
+#~ msgid "Attach Epyx fastload cartridge image"
+#~ msgstr "Koppel Epyx fastload cartridge bestand"
+
+#~ msgid "Attach IEEE interface cartridge image"
+#~ msgstr "Koppel IEEE interface cartridge bestand"
+
+#~ msgid "Attach Retro Replay cartridge image"
+#~ msgstr "Koppel Retro Replay cartridge bestand"
+
+#~ msgid "Attach IDE64 interface cartridge image"
+#~ msgstr "Koppel IDE64 interface cartridge bestand"
+
+#~ msgid "Attach Super Snapshot 4 cartridge image"
+#~ msgstr "Koppel Super Snapshot 4 cartridge bestand"
+
+#~ msgid "Attach Super Snapshot 5 cartridge image"
+#~ msgstr "Koppel Super Snapshot 5 cartridge bestand"
+
+#~ msgid "Model"
+#~ msgstr "Model"
+
+#~ msgid "Drive Settings"
+#~ msgstr "Drive Instellingen"
+
+#~ msgid "Select start snapshot for event history"
+#~ msgstr "Selecteer start momentopname voor gebeurtenis geschiedenis"
+
+#~ msgid "Select end snapshot for event history"
+#~ msgstr "Selecteer eind momentopname voor gebeurtenis geschiedenis"
+
+#~ msgid "Version %s *UNSTABLE*"
+#~ msgstr "Versie %s *ONSTABIEL*"
+
+#~ msgid "Version %s"
+#~ msgstr "Versie %s"
+
+#~ msgid "VICE contributors"
+#~ msgstr "VICE medewerkers"
+
+#~ msgid "Who made what?"
+#~ msgstr "Wie heeft wat gemaakt?"
+
+#~ msgid "VICE is distributed WITHOUT ANY WARRANTY!"
+#~ msgstr "VICE heeft ABSOLUUT GEEN GARANTIE!"
+
+#~ msgid "Press key for NorthWest"
+#~ msgstr "Druk toets voor NoordWest"
+
+#~ msgid "Press key for North"
+#~ msgstr "Druk toets voor Noord"
+
+#~ msgid "Press key for NorthEast"
+#~ msgstr "Druk toets voor NoordOost"
+
+#~ msgid "Press key for East"
+#~ msgstr "Druk toets voor Oost"
+
+#~ msgid "Press key for SouthEast"
+#~ msgstr "Druk toets voor ZuidOost"
+
+#~ msgid "Press key for South"
+#~ msgstr "Druk toets voor Zuid"
+
+#~ msgid "Press key for SouthWest"
+#~ msgstr "Druk toets voor ZuidWest"
+
+#~ msgid "Press key for West"
+#~ msgstr "Druk toets voor West"
+
+#~ msgid "Press key for Fire"
+#~ msgstr "Druk toets voor Vuur"
+
+#~ msgid "Numpad + RCtrl"
+#~ msgstr "Numpad + RCtrl"
+
+#~ msgid "Keyset A"
+#~ msgstr "Keyset A"
+
+#~ msgid "Keyset B"
+#~ msgstr "Keyset B"
+
+#~ msgid "All buttons used as fire"
+#~ msgstr "Alle knoppen gebruiken als vuur"
+
+#~ msgid "numeric (see above)"
+#~ msgstr "numeriek (zie boven)"
+
+#~ msgid "No button - Autofire disabled"
+#~ msgstr "Geen knop - Autovuren is uit"
+
+#~ msgid "All files (*.*)"
+#~ msgstr "Alle bestanden (*.*)"
+
+#~ msgid "VICE palette files (*.vpl)"
+#~ msgstr "VICE palette bestanden (*.vpl)"
+
+#~ msgid "VICE snapshot files (*.vsf)"
+#~ msgstr "VICE momentopname bestanden (*.vsf)"
+
+#~ msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+#~ msgstr "Disk bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+
+#~ msgid "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+#~ msgstr "Tape bestanden (*.t64;*.p00;*.tap;*.prg)"
+
+#~ msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+#~ msgstr ""
+#~ "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+
+#~ msgid "CRT cartridge image files (*.crt)"
+#~ msgstr "CRT cartridge bestanden (*.crt)"
+
+#~ msgid "Raw cartridge image files (*.bin)"
+#~ msgstr "Binaire cartridge bestanden (*.bin)"
+
+#~ msgid "VICE flip list files (*.vfl)"
+#~ msgstr "VICE flip lijst bestanden (*.vfl)"
+
+#~ msgid "VICE romset files (*.vrs)"
+#~ msgstr "VICE romset bestanden (*.vrs)"
+
+#~ msgid "VICE romset archives (*.vra)"
+#~ msgstr "VICE romset archieven (*.vra)"
+
+#~ msgid "VICE keymap files (*.vkm)"
+#~ msgstr "VICE keymap bestanden (*.vkm)"
+
+#~ msgid "Flexible"
+#~ msgstr "Flexibel"
+
+#~ msgid "Adjusting"
+#~ msgstr "Aanpassend"
+
+#~ msgid "Exact"
+#~ msgstr "Exact"
+
+#~ msgid "Sound driver: DirectX"
+#~ msgstr "Geluid stuurprogramma: DirectX"
+
+#~ msgid "Sound driver: WMM"
+#~ msgstr "Geluid stuurprogramma: WMM"
+
+#~ msgid ""
+#~ "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;"
+#~ "*.mpg)"
+#~ msgstr ""
+#~ "Media bestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*."
+#~ "avi;*.mpg)"
+
+#~ msgid " kB"
+#~ msgstr " kB"
+
+#~ msgid "Configure Keyset A"
+#~ msgstr "Configureer Keyset A"
+
+#~ msgid "Configure Keyset B"
+#~ msgstr "Configureer Keyset B"
+
+#~ msgid "Save media image"
+#~ msgstr "Media bestand opslaan"
+
+#~ msgid "%s at %d%% speed, %d fps%s"
+#~ msgstr "%s met %d%% snelheid, %d fps%s"
+
+#~ msgid "Tape:"
+#~ msgstr "Tape:"
+
+#~ msgid "Joystick:"
+#~ msgstr "Joystick:"
+
+#~ msgid ""
+#~ "Recording\n"
+#~ "%02d:%02d"
+#~ msgstr ""
+#~ "Opnemen\n"
+#~ "%02d:%02d"
+
+#~ msgid ""
+#~ "Playback\n"
+#~ "%02d:%02d (%02d:%02d)"
+#~ msgstr ""
+#~ "Afspelen\n"
+#~ "%02d:$02d"
+
+#~ msgid "Unknown"
+#~ msgstr "Onbekend"
+
+#~ msgid "Set input device for joystick #1"
+#~ msgstr "Zet invoer apparaat voor joystick #1"
+
+#~ msgid "Set input device for joystick #2"
+#~ msgstr "Zet invoer apparaat voor joystick #2"
+
+#~ msgid "Use all CPU on SMP systems"
+#~ msgstr "Gebruik alle CPU's op SMP systemen"
+
+#~ msgid "Use only first CPU on SMP systems"
+#~ msgstr "Gebruik alleen de eerste CPU op SMP systemen"
+
+#~ msgid "Start VICE in fullscreen mode"
+#~ msgstr "Start VICE in volscherm modus"
+
+#~ msgid "An unexpected error occured. Received signal %d (%s)."
+#~ msgstr "Onverwachte fout. Kreeg signaal %d (%s)."
+
+#~ msgid "An unexpected error occured. Received signal %d."
+#~ msgstr "Onverwachte fout. Kreeg signaal %d."
+
+#~ msgid "Connected server"
+#~ msgstr "Verbonden server"
+
+#~ msgid "Connected client"
+#~ msgstr "Verbonden client"
+
+#~ msgid "Invalid port number"
+#~ msgstr "Ongeldig poort nummer"
+
+#~ msgid "An error occured starting the server."
+#~ msgstr "Een fout is opgetreden bij het starten van de server."
+
+#~ msgid "An error occured connecting the client."
+#~ msgstr "Een fout is opgetreden bij het verbinden."
+
+#~ msgid "IRQ"
+#~ msgstr "IRQ"
+
+#~ msgid "NMI"
+#~ msgstr "NMI"
+
+#~ msgid "ACIA Settings"
+#~ msgstr "ACIA Instellingen"
+
+#~ msgid "&Enable ACIA"
+#~ msgstr "&Aktiveer ACIA"
+
+#~ msgid "ACIA location"
+#~ msgstr "ACIA adres"
+
+#~ msgid "ACIA interrupt"
+#~ msgstr "ACIA Interrupt"
+
+#~ msgid "&Autostart disk/tape image..."
+#~ msgstr "&Autostart disk/tape bestand..."
+
+#~ msgid "Attach &disk image"
+#~ msgstr "Koppel &disk bestand"
+
+#~ msgid "Drive &8\tAlt+8"
+#~ msgstr "Drive &8\tAlt+8"
+
+#~ msgid "Drive &9\tAlt+9"
+#~ msgstr "Drive &9\tAlt+9"
+
+#~ msgid "Drive 1&0\tAlt+0"
+#~ msgstr "Drive 1&0\tAlt+0"
+
+#~ msgid "Drive &11\tAlt+1"
+#~ msgstr "Drive &11\tAlt+1"
+
+#~ msgid "D&etach disk image"
+#~ msgstr "Ontkopp&el disk bestand"
+
+#~ msgid "Drive 1&0"
+#~ msgstr "Drive 1&0"
+
+#~ msgid "Drive &11"
+#~ msgstr "Drive &11"
+
+#~ msgid "&All\tAlt+A"
+#~ msgstr "&Alles"
+
+#~ msgid "&Flip list"
+#~ msgstr "&Flip lijst"
+
+#~ msgid "&Add current image\tAlt+I"
+#~ msgstr "Voeg huidig best&and toe\tAlt+I"
+
+#~ msgid "&Remove current image\tAlt+K"
+#~ msgstr "Ve&rwijder huidig bestand\tAlt+K"
+
+#~ msgid "Attach &next image\tAlt+N"
+#~ msgstr "Koppel volge&nd bestand\tAlt+N"
+
+#~ msgid "Attach &previous image\tAlt+B"
+#~ msgstr "Koppel vori&g bestand\tAlt+B"
+
+#~ msgid "&Load flip list"
+#~ msgstr "&Laad flip lijst bestand"
+
+#~ msgid "&Save flip list"
+#~ msgstr "Op&slaan flip lijst"
+
+#~ msgid "Attach &tape image...\tAlt+T"
+#~ msgstr "Koppel &tape bestand...\t+Alt+T"
+
+#~ msgid "Detac&h tape image"
+#~ msgstr "Ontkoppe&l tape bestand"
+
+#~ msgid "Datassette contro&l"
+#~ msgstr "Datasette bedie&ning"
+
+#~ msgid "S&top"
+#~ msgstr "S&top"
+
+#~ msgid "&Start"
+#~ msgstr "&Start"
+
+#~ msgid "&Forward"
+#~ msgstr "&Vooruit"
+
+#~ msgid "&Rewind"
+#~ msgstr "Te&rug"
+
+#~ msgid "Re&cord"
+#~ msgstr "Op&name"
+
+#~ msgid "R&eset"
+#~ msgstr "R&eset"
+
+#~ msgid "Reset C&ounter"
+#~ msgstr "Reset T&eller"
+
+#~ msgid "Attach &cartridge image..."
+#~ msgstr "Koppel &cartridge bestand..."
+
+#~ msgid "&CRT image..."
+#~ msgstr "&CRT bestand..."
+
+#~ msgid "Generic &8KB image..."
+#~ msgstr "Algemeen &8KB bestand..."
+
+#~ msgid "Generic &16KB image..."
+#~ msgstr "Algemeen &16KB bestand..."
+
+#~ msgid "&Action Replay image..."
+#~ msgstr "&Action Replay bestand..."
+
+#~ msgid "Atomic &Power image..."
+#~ msgstr "Atomic &Power bestand..."
+
+#~ msgid "&Epyx fastload image..."
+#~ msgstr "&Epyx fastload bestand..."
+
+#~ msgid "&IEEE488 interface image..."
+#~ msgstr "&IEEE488 interface bestand..."
+
+#~ msgid "&Retro Replay image..."
+#~ msgstr "&retro Replay bestand..."
+
+#~ msgid "IDE&64 interface image..."
+#~ msgstr "IDE&64 interface bestand..."
+
+#~ msgid "Super Snapshot &4 image..."
+#~ msgstr "Super Snapshot &4 bestand..."
+
+#~ msgid "Super Snapshot &5 image..."
+#~ msgstr "Super Snapshot &5 bestand..."
+
+#~ msgid "Structured &Basic image..."
+#~ msgstr "Structured &Basic bestand..."
+
+#~ msgid "Expert Cartridge"
+#~ msgstr "Expert Cartridge"
+
+#~ msgid "Enable"
+#~ msgstr "Aktiveer"
+
+#~ msgid "Prg"
+#~ msgstr "Prg"
+
+#~ msgid "Set cartridge as &default"
+#~ msgstr "Zet cartridge als stan&daard"
+
+#~ msgid "Reset &on cart change"
+#~ msgstr "Reset bij cart wisse&ling"
+
+#~ msgid "Detach cartridge &image"
+#~ msgstr "Ontkoppel cartr&idge bestand"
+
+#~ msgid "Cartridge free&ze\tAlt+Z"
+#~ msgstr "Cartridge free&ze\tAlt+Z"
+
+#~ msgid "&Pause\tAlt+Pause"
+#~ msgstr "&Pauze\tAlt+Pause"
+
+#~ msgid "&Monitor\tAlt+M"
+#~ msgstr "&Monitor\tAlt+M"
+
+#~ msgid "&Reset"
+#~ msgstr "&Reset"
+
+#~ msgid "&Hard\tCtrl+Alt+R"
+#~ msgstr "&Hard\tCtrl+Alt+R"
+
+#~ msgid "&Soft\tAlt+R"
+#~ msgstr "&Zacht\tAlt+R"
+
+#~ msgid "Drive #&8"
+#~ msgstr "Drive #&8"
+
+#~ msgid "Drive #&9"
+#~ msgstr "Drive #&9"
+
+#~ msgid "Drive #1&0"
+#~ msgstr "Drive #1&0"
+
+#~ msgid "Drive #&11"
+#~ msgstr "Drive #&11"
+
+#~ msgid "M&ode"
+#~ msgstr "Modus"
+
+#~ msgid "&Normal"
+#~ msgstr "&Normaal"
+
+#~ msgid "&Small"
+#~ msgstr "&Klein"
+
+#~ msgid "&History"
+#~ msgstr "&Geschiedenis"
+
+#~ msgid "&History Autoplay"
+#~ msgstr "&Geschiedenis Autospeel"
+
+#~ msgid "&Main CPU Trace\tAlt+F10"
+#~ msgstr "&Hoofd CPU Trace\tAlt+F10"
+
+#~ msgid "Drive&0 CPU Trace\tAlt+F11"
+#~ msgstr "Drive&0 CPU Trace\tAlt+F11"
+
+#~ msgid "Drive&1 CPU Trace\tAlt+F12"
+#~ msgstr "Drive&1 CPU Trace\tAlt+F12"
+
+#~ msgid "E&xit\tAlt+X"
+#~ msgstr "Af&sluiten\tAlt+X"
+
+#~ msgid "Sna&pshot"
+#~ msgstr "Momento&pname"
+
+#~ msgid "Load snapshot &image..."
+#~ msgstr "Laad momentopname best&and..."
+
+#~ msgid "Save sna&pshot image..."
+#~ msgstr "Opslaan momento&pname bestand..."
+
+#~ msgid "&Load quicksnapshot image\tAlt+L"
+#~ msgstr "Snel&laad momentopname bestand\tAlt+L"
+
+#~ msgid "&Save quicksnapshot image\tAlt+S"
+#~ msgstr "&Snelopslaan momentopname bestand\tAlt+S"
+
+#~ msgid "Start/Stop &Recording History"
+#~ msgstr "Sta&rt/Stop Opname Geschiedenis"
+
+#~ msgid "Start/Stop Pl&ayback History"
+#~ msgstr "Start/Stop &Afspeel Geschiedenis"
+
+#~ msgid "Set Recording Milestone\tAlt+G"
+#~ msgstr "Zet Opname Mijlpaal\tAlt+G"
+
+#~ msgid "Return to Milestone\tAlt+H"
+#~ msgstr "Ga terug naar Mijlpaal\tAlt+H"
+
+#~ msgid "&Save new snapshot"
+#~ msgstr "Op&slaan nieuwe momentopname"
+
+#~ msgid "&Load existing snapshot"
+#~ msgstr "&Laad bestaande momentopname"
+
+#~ msgid "Start with &reset"
+#~ msgstr "Start bij &reset"
+
+#~ msgid "Overwrite &Playback"
+#~ msgstr "Overschrijf weer&gave"
+
+#~ msgid "Select History files/directory"
+#~ msgstr "Selecteer Geschiedenis directory"
+
+#~ msgid "Save/stop media file...\tAlt+C"
+#~ msgstr "Opslaan/stop media bestand...\tAlt+C"
+
+#~ msgid "&Refresh rate"
+#~ msgstr "Ve&rnieuwing snelheid"
+
+#~ msgid "&Auto"
+#~ msgstr "&Auto"
+
+#~ msgid "&Custom"
+#~ msgstr "&Eigen"
+
+#~ msgid "&Maximum Speed"
+#~ msgstr "&Maximale Snelheid"
+
+#~ msgid "No &limit"
+#~ msgstr "Geen &limiet"
+
+#~ msgid "&Warp mode\tAlt+W"
+#~ msgstr "&Warp modus\tAlt+W"
+
+#~ msgid "Always on Top"
+#~ msgstr "Altijd Boven"
+
+#~ msgid "Video &cache"
+#~ msgstr "Video &cache"
+
+#~ msgid "&Double size"
+#~ msgstr "&Dubbele grootte"
+
+#~ msgid "Dou&ble scan"
+#~ msgstr "Du&bbele scan"
+
+#~ msgid "Scale2x"
+#~ msgstr "Schaal2x"
+
+#~ msgid "VDC settin&gs"
+#~ msgstr "VDC instellin&gen"
+
+#~ msgid "64KB video &memory"
+#~ msgstr "64KB video &geheugen"
+
+#~ msgid "Swap &Joystick\tAlt+J"
+#~ msgstr "Verwissel &Joysticks\tAlt+J"
+
+#~ msgid "&Sound playback"
+#~ msgstr "&Geluid&suitvoer"
+
+#~ msgid "&True drive emulation"
+#~ msgstr "&Hardware drive emulatie"
+
+#~ msgid "&Virtual device traps"
+#~ msgstr "&Virtuele Apparaat traps"
+
+#~ msgid "Vide&o standard"
+#~ msgstr "Vide&o standaard"
+
+#~ msgid "Emulator &Identification"
+#~ msgstr "Emulator &Identificatie"
+
+#~ msgid "IEEE&488 Interface emulation"
+#~ msgstr "IEEE&488 Interface emulatie"
+
+#~ msgid "&1351 mouse emulation\tAlt+Q"
+#~ msgstr "&1351 muis emulatie\tAlt+Q"
+
+#~ msgid "S&ettings"
+#~ msgstr "Inst&ellingen"
+
+#~ msgid "&Video settings..."
+#~ msgstr "&Video instellingen..."
+
+#~ msgid "&Peripheral settings..."
+#~ msgstr "Rand A&pparaten instellingen..."
+
+#~ msgid "&Drive settings..."
+#~ msgstr "&Drive instellingen..."
+
+#~ msgid "D&atasette settings..."
+#~ msgstr "D&atasette instellingen..."
+
+#~ msgid "VIC-II settings..."
+#~ msgstr "VIC-II instellingen..."
+
+#~ msgid "&Joystick settings..."
+#~ msgstr "&Joystick instellingen..."
+
+#~ msgid "&Keyboard settings..."
+#~ msgstr "&Toetsenbord instellingen..."
+
+#~ msgid "S&ound settings..."
+#~ msgstr "G&eluid instellingen..."
+
+#~ msgid "S&ID settings..."
+#~ msgstr "S&ID instellingen..."
+
+#~ msgid "&ROM settings..."
+#~ msgstr "&ROM instellingen..."
+
+#~ msgid "RA&M settings..."
+#~ msgstr "RA&M instellingen..."
+
+#~ msgid "C&128 settings..."
+#~ msgstr "C&128 instellingen..."
+
+#~ msgid "RS&232 settings..."
+#~ msgstr "RS&232 instellingen..."
+
+#~ msgid "&Cartridge Settings"
+#~ msgstr "&Cartridge Instellingen"
+
+#~ msgid "&REU settings..."
+#~ msgstr "&REU instellingen..."
+
+#~ msgid "&GEORAM settings..."
+#~ msgstr "&GEORAM instellingen..."
+
+#~ msgid "&RAMCART settings..."
+#~ msgstr "&RAMCART instellingen..."
+
+#~ msgid "&IDE64 settings..."
+#~ msgstr "&IDE64 instellingen..."
+
+#~ msgid "&Ethernet settings..."
+#~ msgstr "&Ethernet instellingen..."
+
+#~ msgid "&ACIA settings..."
+#~ msgstr "&ACIA instellingen..."
+
+#~ msgid "RS&232 userport settings..."
+#~ msgstr "RS&232 userport instellingen..."
+
+#~ msgid "&Save current settings"
+#~ msgstr "Huidige instellingen op&slaan"
+
+#~ msgid "&Load saved settings"
+#~ msgstr "Opges&lagen instellingen laden"
+
+#~ msgid "Set de&fault settings"
+#~ msgstr "Herstel standaar&d instellingen"
+
+#~ msgid "Save settings on e&xit"
+#~ msgstr "Sla instellingen op bij afslui&ten"
+
+#~ msgid "&Confirm on exit"
+#~ msgstr "Bevestigen bij afsl&uiten"
+
+#~ msgid "&Language"
+#~ msgstr "&Taal"
+
+#~ msgid "&English"
+#~ msgstr "&Engels"
+
+#~ msgid "&German"
+#~ msgstr "&Duits"
+
+#~ msgid "&French"
+#~ msgstr "&Frans"
+
+#~ msgid "&Italian"
+#~ msgstr "&Italiaans"
+
+#~ msgid "&Dutch"
+#~ msgstr "&Nederlands"
+
+#~ msgid "&Polish"
+#~ msgstr "&Pools"
+
+#~ msgid "&Swedish"
+#~ msgstr "&Zweeds"
+
+#~ msgid "&Help"
+#~ msgstr "&Help"
+
+#~ msgid "&About..."
+#~ msgstr "&Over VICE..."
+
+#~ msgid "Command line &options"
+#~ msgstr "Commando invoer &opties"
+
+#~ msgid "&Contributors"
+#~ msgstr "&Medewerkers aan het VICE project"
+
+#~ msgid "&License"
+#~ msgstr "&Licensie"
+
+#~ msgid "No &warranty"
+#~ msgstr "Geen &garantie"
+
+#~ msgid "Kernal Int."
+#~ msgstr "Kernal Int."
+
+#~ msgid "Kernal DE"
+#~ msgstr "Kernal DE"
+
+#~ msgid "Kernal FI"
+#~ msgstr "Kernal FI"
+
+#~ msgid "Kernal FR"
+#~ msgstr "Kernal FR"
+
+#~ msgid "Kernal IT"
+#~ msgstr "Kernal IT"
+
+#~ msgid "Kernal NO"
+#~ msgstr "Kernal NO"
+
+#~ msgid "Kernal SE"
+#~ msgstr "Kernal SE"
+
+#~ msgid "Basic LO"
+#~ msgstr "Basic LO"
+
+#~ msgid "Basic HI"
+#~ msgstr "Basic HI"
+
+#~ msgid "Char. Int."
+#~ msgstr "Char. Int."
+
+#~ msgid "Char. DE"
+#~ msgstr "Char. DE"
+
+#~ msgid "Char. FR"
+#~ msgstr "Char. FR"
+
+#~ msgid "Char. SE"
+#~ msgstr "Char. SE"
+
+#~ msgid "Kernal C64"
+#~ msgstr "Kernal C64"
+
+#~ msgid "Basic C64"
+#~ msgstr "Basic C64"
+
+#~ msgid "Computer resources"
+#~ msgstr "Computer resources"
+
+#~ msgid "Computer resources saved to romset"
+#~ msgstr "Computer resources opgeslagen naar romset"
+
+#~ msgid "International Kernal"
+#~ msgstr "Internationale Kernal"
+
+#~ msgid "German Kernal"
+#~ msgstr "Duitse Kernal"
+
+#~ msgid "Finnish Kernal"
+#~ msgstr "Finse Kernal"
+
+#~ msgid "French Kernal"
+#~ msgstr "Franse Kernal"
+
+#~ msgid "Italian Kernal"
+#~ msgstr "Italiaanse Kernal"
+
+#~ msgid "Norwegain Kernal"
+#~ msgstr "Noorse Kernal"
+
+#~ msgid "Swedish Kernal"
+#~ msgstr "Zweedse Kernal"
+
+#~ msgid "International Character"
+#~ msgstr "Internationale Karakters"
+
+#~ msgid "German Character"
+#~ msgstr "Duitse Karakters"
+
+#~ msgid "French Character"
+#~ msgstr "Franse Karakters"
+
+#~ msgid "Swedish Character"
+#~ msgstr "Zweedse Karakters"
+
+#~ msgid "C64 mode Kernal"
+#~ msgstr "C64 modus Kernal"
+
+#~ msgid "C64 mode Basic"
+#~ msgstr "C64 modus Basic"
+
+#~ msgid "Drive resources"
+#~ msgstr "Drive resources"
+
+#~ msgid "Drive resources saved to romset"
+#~ msgstr "Drive resources opgeslagen naar romset"
+
+#~ msgid "Internal Function ROM"
+#~ msgstr "Interne Functie ROM"
+
+#~ msgid "Enable internal Function ROM"
+#~ msgstr "Aktiveer interne Functie ROM"
+
+#~ msgid "File name"
+#~ msgstr "Bestand naam"
+
+#~ msgid "External Function ROM"
+#~ msgstr "Externe Functie ROM"
+
+#~ msgid "Enable external Function ROM"
+#~ msgstr "Aktiveer externe Functie ROM"
+
+#~ msgid "&Symbolic"
+#~ msgstr "&Symbolisch"
+
+#~ msgid "&Positional"
+#~ msgstr "&Positioneel"
+
+#~ msgid "Dump keyset"
+#~ msgstr "Keyset opslaan"
+
+#~ msgid "Select internal function ROM image"
+#~ msgstr "Selecteer intern Functie ROM bestand"
+
+#~ msgid "Select external function ROM image"
+#~ msgstr "Selecteer extern Functie ROM bestand"
+
+#~ msgid "C128 settings"
+#~ msgstr "C128 instellingen"
+
+#~ msgid "Netplay (experimental)..."
+#~ msgstr "Netplay (experimenteel)..."
+
+#~ msgid "Fullscreen\tAlt+D"
+#~ msgstr "Volscherm\tAlt+D"
+
+#~ msgid "&Old NTSC-M"
+#~ msgstr "&Oud NTSC-M"
+
+#~ msgid "&Cartridge/IO settings"
+#~ msgstr "&Cartridge/IO instellingen"
+
+#~ msgid "+&60K settings..."
+#~ msgstr "+&60K instellingen..."
+
+#~ msgid "&256K settings..."
+#~ msgstr "&256K instellingen..."
+
+#~ msgid "Kernal"
+#~ msgstr "Kernal"
+
+#~ msgid "Basic"
+#~ msgstr "Basic"
+
+#~ msgid "Character"
+#~ msgstr "Character"
+
+#~ msgid "&Symbolic US"
+#~ msgstr "&Symbolisch US"
+
+#~ msgid "&Symbolic DE"
+#~ msgstr "&Symbolisch DE"
+
+#~ msgid "256K Settings"
+#~ msgstr "Instellingen"
+
+#~ msgid "&Enable 256K"
+#~ msgstr "&Aktiveer 256K"
+
+#~ msgid "256K base address"
+#~ msgstr "256K basis adres"
+
+#~ msgid "256K file"
+#~ msgstr "256K bestand"
+
+#~ msgid "Select file for 256K"
+#~ msgstr "Selecteer bestand voor 256K"
+
+#~ msgid "Drive s&ync factor"
+#~ msgstr "Drive synchronisatie faktor"
+
+#~ msgid "&CBM2 settings..."
+#~ msgstr "&CBM2 instellingen..."
+
+#~ msgid "&VIC-II settings..."
+#~ msgstr "&VIC-II instellingen..."
+
+#~ msgid "&Cartridge/IO Settings"
+#~ msgstr "&Cartridge/IO instellingen"
+
+#~ msgid "Cart 1"
+#~ msgstr "Cart 1"
+
+#~ msgid "Cart 2"
+#~ msgstr "Cart 2"
+
+#~ msgid "Cart 4"
+#~ msgstr "Cart 4"
+
+#~ msgid "Cart 6"
+#~ msgstr "Cart 6"
+
+#~ msgid "Machine &defaults"
+#~ msgstr "Machine &standaards"
+
+#~ msgid "&Model line"
+#~ msgstr "&Model lijn"
+
+#~ msgid "&Memory"
+#~ msgstr "&Geheugen"
+
+#~ msgid "12&8 kByte"
+#~ msgstr "12&8 kByte"
+
+#~ msgid "2&56 kByte"
+#~ msgstr "2&56 kByte"
+
+#~ msgid "512 &kByte"
+#~ msgstr "512 &kByte"
+
+#~ msgid "1024 kByt&e"
+#~ msgstr "1024 kByt&e"
+
+#~ msgid "&Ram banks"
+#~ msgstr "&Ram banken"
+
+#~ msgid "Bank 15 $&0800-$0FFF RAM"
+#~ msgstr "Bank 15 $&0800-$0FFF RAM"
+
+#~ msgid "Bank 15 $&1000-$1FFF RAM"
+#~ msgstr "Bank 15 $&1000-$1FFF RAM"
+
+#~ msgid "Bank 15 $&2000-$3FFF RAM"
+#~ msgstr "Bank 15 $&2000-$3FFF RAM"
+
+#~ msgid "Bank 15 $&4000-$5FFF RAM"
+#~ msgstr "Bank 15 $&4000-$5FFF RAM"
+
+#~ msgid "Bank 15 $&6000-$7FFF RAM"
+#~ msgstr "Bank 15 $&6000-$7FFF RAM"
+
+#~ msgid "Bank 15 $&C000-$CFFF RAM"
+#~ msgstr "Bank 15 $&C000-$CFFF RAM"
+
+#~ msgid "&Gr Sym."
+#~ msgstr "&Gr Sym."
+
+#~ msgid "G&r Pos."
+#~ msgstr "G&r Pos."
+
+#~ msgid "&UK Sym."
+#~ msgstr "&UK Sym."
+
+#~ msgid "U&K Pos."
+#~ msgstr "U&K Pos."
+
+#~ msgid "&DE Sym."
+#~ msgstr "&DE Sym."
+
+#~ msgid "D&E Pos."
+#~ msgstr "D&E Pos."
+
+#~ msgid "Memory"
+#~ msgstr "Geheugen"
+
+#~ msgid "CBM2 settings"
+#~ msgstr "CBM2 instellingen"
+
+#~ msgid "&Drive type"
+#~ msgstr "&Drive soort"
+
+#~ msgid "40 &track handling"
+#~ msgstr "40 &sporen ondersteuning"
+
+#~ msgid "Never extend"
+#~ msgstr "Nooit uitbreiden"
+
+#~ msgid "Ask on extend"
+#~ msgstr "Vragen bij uitbreiden"
+
+#~ msgid "Extend on access"
+#~ msgstr "Uitbreiden bij toegang"
+
+#~ msgid "Id&le method"
+#~ msgstr "Id&le methode"
+
+#~ msgid "Trap idle"
+#~ msgstr "Trap idle"
+
+#~ msgid "Skip cycles"
+#~ msgstr "Sla cycli over"
+
+#~ msgid "&Parallel cable"
+#~ msgstr "&Parellel kabel"
+
+#~ msgid "Drive &expansion"
+#~ msgstr "Drive &uitbreiding"
+
+#~ msgid "GEORAM Settings"
+#~ msgstr "GEORAM Instellingen"
+
+#~ msgid "&Enable GEORAM"
+#~ msgstr "&Aktiveer GEORAM"
+
+#~ msgid "GEORAM file"
+#~ msgstr "GEORAM bestand"
+
+#~ msgid "Select file for GEORAM"
+#~ msgstr "Selecteer bestand voor GEORAM"
+
+#~ msgid "IDE64 Settings"
+#~ msgstr "IDE64 Instellingen"
+
+#~ msgid "&HD image file"
+#~ msgstr "&HD bestand"
+
+#~ msgid "&Geometry"
+#~ msgstr "&Geometry"
+
+#~ msgid "&Autodetect"
+#~ msgstr "&Autodetectie"
+
+#~ msgid "Cylinders"
+#~ msgstr "Cylinders"
+
+#~ msgid "Heads"
+#~ msgstr "Koppen"
+
+#~ msgid "Sectors"
+#~ msgstr "Sectors"
+
+#~ msgid "Total size: %iKB"
+#~ msgstr "Totale grootte: %iKB"
+
+#~ msgid "Select HD image file"
+#~ msgstr "Selecteer HD bestand"
+
+#~ msgid "P&ET settings..."
+#~ msgstr "P&ET instellingen..."
+
+#~ msgid "Editor"
+#~ msgstr "Editor"
+
+#~ msgid "Machine defaults"
+#~ msgstr "Machine standaards"
+
+#~ msgid "M&emory"
+#~ msgstr "G&eheugen"
+
+#~ msgid "4KB"
+#~ msgstr "4KB"
+
+#~ msgid "8KB"
+#~ msgstr "8KB"
+
+#~ msgid "16KB"
+#~ msgstr "16KB"
+
+#~ msgid "32KB"
+#~ msgstr "32KB"
+
+#~ msgid "96KB"
+#~ msgstr "96KB"
+
+#~ msgid "128KB"
+#~ msgstr "128KB"
+
+#~ msgid "&Video"
+#~ msgstr "&Video"
+
+#~ msgid "&Auto (from ROM)"
+#~ msgstr "&Auto (van ROM)"
+
+#~ msgid "&40 Columns"
+#~ msgstr "&40 Kolommen"
+
+#~ msgid "&80 Columns"
+#~ msgstr "&80 Kolommen"
+
+#~ msgid "&IO Size"
+#~ msgstr "&IO grootte"
+
+#~ msgid "2&56 Byte"
+#~ msgstr "2&56 Byte"
+
+#~ msgid "&2 kByte"
+#~ msgstr "&2 kByte"
+
+#~ msgid "CRTC chip &enable"
+#~ msgstr "CRTC chip &aktiveren"
+
+#~ msgid "&Keyboard"
+#~ msgstr "&Toetsenbord"
+
+#~ msgid "&Graphics"
+#~ msgstr "&Grafiek"
+
+#~ msgid "&Business (UK)"
+#~ msgstr "&Business (UK)"
+
+#~ msgid "&IO Settings"
+#~ msgstr "&IO Instellingen"
+
+#~ msgid "SuperPET I/O &enable (disables 8x96)"
+#~ msgstr "SuperPET I/O aktiv&eren (zet 8x96 uit)"
+
+#~ msgid "&RAM Settings"
+#~ msgstr "&RAM Instellingen"
+
+#~ msgid "$&9*** as RAM"
+#~ msgstr "$&9*** als RAM"
+
+#~ msgid "$&A*** as RAM"
+#~ msgstr "$&A*** als RAM"
+
+#~ msgid "Input/Output"
+#~ msgstr "Invoer/Uitvoer"
+
+#~ msgid "PET settings"
+#~ msgstr "PET instellingen"
+
+#~ msgid "C1 low  image..."
+#~ msgstr "C1 low  bestand..."
+
+#~ msgid "C1 high image..."
+#~ msgstr "C1 high bestand..."
+
+#~ msgid "C2 low  image..."
+#~ msgstr "C2 low  bestand..."
+
+#~ msgid "C2 high image..."
+#~ msgstr "C2 high bestand..."
+
+#~ msgid "Function low  image (3plus1)..."
+#~ msgstr "Function low  bestand (3plus1)..."
+
+#~ msgid "Function high image (3plus1)..."
+#~ msgstr "Function high bestand (3plus1)..."
+
+#~ msgid "P&lus4 settings..."
+#~ msgstr "P&lus4 instellingen..."
+
+#~ msgid "3+1 Lo"
+#~ msgstr "3+1 Lo"
+
+#~ msgid "3+1 Hi"
+#~ msgstr "3+1 Hi"
+
+#~ msgid "3 plus 1 LO"
+#~ msgstr "3 plus 1 LO"
+
+#~ msgid "3 plus 1 HI"
+#~ msgstr "3 plus 1 HI"
+
+#~ msgid "Plus4 settings"
+#~ msgstr "Plus4 instellingen"
+
+#~ msgid "&16 kByte"
+#~ msgstr "&16 kByte"
+
+#~ msgid "&32 kByte"
+#~ msgstr "&32 kByte"
+
+#~ msgid "&64 kByte"
+#~ msgstr "&64 kByte"
+
+#~ msgid "Attach cartridge image for Function Low"
+#~ msgstr "Koppel cartridge bestand voor 'Function Low'"
+
+#~ msgid "Attach cartridge image for Function High"
+#~ msgstr "Koppel cartridge bestand voor 'Function High'"
+
+#~ msgid "Attach cartridge image for Cartridge1 Low"
+#~ msgstr "Koppel cartridge bestand voor 'Cartridge1 Low'"
+
+#~ msgid "Attach cartridge image for Cartridge1 High"
+#~ msgstr "Koppel cartridge bestand voor 'Cartridge High'"
+
+#~ msgid "Attach cartridge image for Cartridge2 Low"
+#~ msgstr "Koppel cartridge bestand voor 'Cartridge2 Low'"
+
+#~ msgid "Attach cartridge image for Cartridge2 High"
+#~ msgstr "Koppel cartridge bestand voor 'Cartridge2 High'"
+
+#~ msgid "+60K Settings"
+#~ msgstr "+60K Instellingen"
+
+#~ msgid "&Enable +60K"
+#~ msgstr "&Aktiveer +60K"
+
+#~ msgid "+60K file"
+#~ msgstr "+60K bestand"
+
+#~ msgid "Select file for +60K"
+#~ msgstr "Selecteer bestand voor +60K"
+
+#~ msgid "RAMCART Settings"
+#~ msgstr "RAMCART Instellingen"
+
+#~ msgid "&Enable RAMCART"
+#~ msgstr "&Aktiveer RAMCART"
+
+#~ msgid "&Read Only"
+#~ msgstr "Alleen &Lezen"
+
+#~ msgid "RAMCART file"
+#~ msgstr "RAMCART bestand"
+
+#~ msgid "Select file for RAMCART"
+#~ msgstr "Selecteer bestand voor RAMCART"
+
+#~ msgid "REU Settings"
+#~ msgstr "REU Instellingen"
+
+#~ msgid "&Enable REU"
+#~ msgstr "&Aktiveer REU"
+
+#~ msgid "REU file"
+#~ msgstr "REU bestand"
+
+#~ msgid "Select file for REU"
+#~ msgstr "Selecteer bestand voor REU"
+
+#~ msgid "RS232 Userport Settings"
+#~ msgstr "RS232 Userport Instellingen"
+
+#~ msgid "&Enable RS232 userport"
+#~ msgstr "&Aktiveer RS232 userport"
+
+#~ msgid "Userport device"
+#~ msgstr "Userport apparaat"
+
+#~ msgid "Userport baud rate"
+#~ msgstr "Userport baud rate"
+
+#~ msgid "This machine may not have a SID"
+#~ msgstr "Deze machine heeft mogelijk geen SID"
+
+#~ msgid "General"
+#~ msgstr "Algemeen"
+
+#~ msgid "fast"
+#~ msgstr "snel"
+
+#~ msgid "interpolating"
+#~ msgstr "interpolating"
+
+#~ msgid "resampling"
+#~ msgstr "resampling"
+
+#~ msgid "fast resampling"
+#~ msgstr "snelle resampling"
+
+#~ msgid "SID Engine"
+#~ msgstr "SID Kern"
+
+#~ msgid "SID Model"
+#~ msgstr "SID Model"
+
+#~ msgid "6581 (old)"
+#~ msgstr "6581 (oud)"
+
+#~ msgid "8580 (new)"
+#~ msgstr "8580 (nieuw)"
+
+#~ msgid "SID Stereo"
+#~ msgstr "Stereo SID"
+
+#~ msgid "Stereo SID at"
+#~ msgstr "Stereo SID op"
+
+#~ msgid "SID Filters"
+#~ msgstr "SID Filters"
+
+#~ msgid "reSID options"
+#~ msgstr "reSID opties"
+
+#~ msgid "Sample method"
+#~ msgstr "Sample methode"
+
+#~ msgid "Passband (0-90%)"
+#~ msgstr "Passband (0-90%)"
+
+#~ msgid "Device selection"
+#~ msgstr "Apparaat selectie"
+
+#~ msgid "Left/Main device"
+#~ msgstr "Linker/Hoofd apparaat"
+
+#~ msgid "Right device"
+#~ msgstr "Rechter apparaat"
+
+#~ msgid "Ethernet Settings"
+#~ msgstr "Ethernet Instellingen"
+
+#~ msgid "&Ethernet"
+#~ msgstr "&Ethernet"
+
+#~ msgid "&Interface"
+#~ msgstr "&Interface"
+
+#~ msgid "4/8/16KB image at $&2000..."
+#~ msgstr "Koppel 4/8/16KB bestand in $&2000..."
+
+#~ msgid "4/8/16KB image at $&4000..."
+#~ msgstr "Koppel 4/8/16KB bestand in $&4000..."
+
+#~ msgid "4/8/16KB image at $&6000..."
+#~ msgstr "Koppel 4/8/16KB bestand in $&6000..."
+
+#~ msgid "4/8KB image at $&A000..."
+#~ msgstr "Koppel 4/8KB bestand in $&A000..."
+
+#~ msgid "4KB image at $&B000..."
+#~ msgstr "Koppel 4KB bestand in $&B000..."
+
+#~ msgid "Detach c&artridge image"
+#~ msgstr "Ontkoppel cartr&idge bestand"
+
+#~ msgid "VIC-1112 IEEE &488 module"
+#~ msgstr "VIC-1112 IEEE &488 module"
+
+#~ msgid "V&IC settings..."
+#~ msgstr "V&IC instellingen..."
+
+#~ msgid "VIC Settings"
+#~ msgstr "VIC Instellingen"
+
+#~ msgid "&no expansion memory"
+#~ msgstr "&geen geheugen uitbreiding"
+
+#~ msgid "3&K (block 0)"
+#~ msgstr "3&K (blok 0)"
+
+#~ msgid "&8K (block 1)"
+#~ msgstr "&8K (blok 1)"
+
+#~ msgid "1&6K (blocks 1/2)"
+#~ msgstr "1&6K (blokken 1/2)"
+
+#~ msgid "2&4K (blocks 1/2/3)"
+#~ msgstr "2&4K (blokken 1/2/3)"
+
+#~ msgid "&Full (blocks 0/1/2/3/5)"
+#~ msgstr "&Alles (blokken 0/1/2/3/5)"
+
+#~ msgid "&custom"
+#~ msgstr "&eigen"
+
+#~ msgid "Block &0"
+#~ msgstr "Blok &0"
+
+#~ msgid "Block &1"
+#~ msgstr "Blok &1"
+
+#~ msgid "Block &2"
+#~ msgstr "Blok &2"
+
+#~ msgid "Block &3"
+#~ msgstr "Blok &3"
+
+#~ msgid "Block &5"
+#~ msgstr "Bblok &5"
+
+#~ msgid "Attach 4/8/16KB cartridge image at $2000"
+#~ msgstr "Koppel 4/8/16KB bestand op $2000"
+
+#~ msgid "Attach 4/8/16KB cartridge image at $4000"
+#~ msgstr "Koppel 4/8/16KB bestand op $4000"
+
+#~ msgid "Attach 4/8/16KB cartridge image at $6000"
+#~ msgstr "Koppel 4/8/16KB bestand op $6000"
+
+#~ msgid "Attach 4/8KB cartridge image at $A000"
+#~ msgstr "Koppel 4/8KB bestand op $A000"
+
+#~ msgid "Attach 4KB cartridge image at $B000"
+#~ msgstr "Koppel 4KB bestand op $B000"
+
+#~ msgid "VIC-II Settings"
+#~ msgstr "VIC-II Instellingen"
+
+#~ msgid "Sprite Collisions"
+#~ msgstr "Sprite Botsingen"
+
+#~ msgid "Sprite-&sprite collisions"
+#~ msgstr "Sprite-&sprite botsingen"
+
+#~ msgid "Sprite-background &collisions"
+#~ msgstr "Sprite-achtergrond &botsingen"
+
+#~ msgid "New Luminances"
+#~ msgstr "Nieuwe kleuren"
+
 #~ msgid "VIC II Screenshot"
 #~ msgstr "VIC II Scherm opname"
 
@@ -5487,954 +7534,8 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 #~ msgstr "gefragmenteerd"
 
 #, fuzzy
-#~ msgid "&File"
-#~ msgstr "Bestand"
-
-#, fuzzy
-#~ msgid "&Save"
-#~ msgstr "Opslaan"
-
-#, fuzzy
-#~ msgid "&Evaluate"
-#~ msgstr "<waarde>"
-
-#, fuzzy
-#~ msgid "&Current instruction"
-#~ msgstr "Huidige ROM set archief"
-
-#, fuzzy
-#~ msgid "&Memory window"
-#~ msgstr "Geheugen grootte"
-
-#, fuzzy
-#~ msgid "Drive &8"
-#~ msgstr "Drive %d: "
-
-#, fuzzy
-#~ msgid "Drive &9"
-#~ msgstr "Drive %d: "
-
-#, fuzzy
-#~ msgid "&Use IEC Device"
-#~ msgstr "*Aktiveer IEC apparaat"
-
-#, fuzzy
-#~ msgid "Disk &image"
-#~ msgstr "Ontkoppel disk bestand"
-
-#, fuzzy
-#~ msgid "&Directory"
-#~ msgstr "Directory niet gevonden"
-
-#, fuzzy
-#~ msgid "Rea&l IEC device"
-#~ msgstr "*Aktiveer IEC apparaat"
-
-#, fuzzy
-#~ msgid "&None"
-#~ msgstr "*Geen"
-
-#, fuzzy
-#~ msgid "&Browse..."
-#~ msgstr "Bladeren..."
-
-#, fuzzy
-#~ msgid "&Autostart"
-#~ msgstr "Autostarten"
-
-#, fuzzy
-#~ msgid "Attach read only"
-#~ msgstr "Koppel #%d"
-
-#, fuzzy
-#~ msgid "Bro&wse..."
-#~ msgstr "Bladeren..."
-
-#, fuzzy
-#~ msgid "&Options"
-#~ msgstr "Opties"
-
-#, fuzzy
-#~ msgid "&Read P00 files"
-#~ msgstr "Laad PSID bestand"
-
-#, fuzzy
-#~ msgid "&Write P00 files"
-#~ msgstr "*Maak P00 bestanden bij opslaan"
-
-#, fuzzy
-#~ msgid "Datasette Settings"
-#~ msgstr "Datasette snelheid regeling"
-
-#, fuzzy
-#~ msgid "&Reset Datasette with CPU"
-#~ msgstr "*Reset Datasette met CPU Reset"
-
-#, fuzzy
-#~ msgid "Joystick in port #&1"
-#~ msgstr "Joystick apparaat in poort 1"
-
-#, fuzzy
-#~ msgid "Select fire button"
-#~ msgstr "Aktiveer volscherm modus"
-
-#, fuzzy
-#~ msgid "Auto fire button settings"
-#~ msgstr "Herstel standaard instellingen"
-
-#, fuzzy
-#~ msgid "Joystick in port #&2"
-#~ msgstr "Joystick apparaat in poort 2"
-
-#, fuzzy
-#~ msgid "&South"
-#~ msgstr "Zacht"
-
-#, fuzzy
-#~ msgid "&West"
-#~ msgstr "Reset"
-
-#, fuzzy
-#~ msgid "&East"
-#~ msgstr "*Snel"
-
-#, fuzzy
-#~ msgid "Sample &Frequency :"
-#~ msgstr "Sample snelheid"
-
-#, fuzzy
-#~ msgid "Sound Buffer &Size :"
-#~ msgstr "Buffer grootte"
-
-#, fuzzy
-#~ msgid "Synchronization &Method :"
-#~ msgstr "Geluid Synchronisatie"
-
-#, fuzzy
-#~ msgid "Image Contents "
-#~ msgstr "Inhoud"
-
-#, fuzzy
-#~ msgid "Name"
-#~ msgstr "Naam:"
-
-#, fuzzy
-#~ msgid "Type"
-#~ msgstr "<soort>"
-
-#, fuzzy
-#~ msgid "Create Image"
-#~ msgstr "XCreateImage faalt."
-
-#, fuzzy
-#~ msgid "Save currently attached &disks images"
-#~ msgstr "Opslaan huidig gekoppelde disks"
-
-#, fuzzy
-#~ msgid "Save currently loaded &ROM images"
-#~ msgstr "Opslaan huidig geladen ROMs:"
-
-#, fuzzy
 #~ msgid "Save as"
 #~ msgstr "Opslaan"
-
-#, fuzzy
-#~ msgid "Driver:"
-#~ msgstr "Drive %d: "
-
-#, fuzzy
-#~ msgid "Resolution:"
-#~ msgstr "DGA2 Resoluties"
-
-#, fuzzy
-#~ msgid "Refreshrate:"
-#~ msgstr "Vernieuwing snelheid"
-
-#, fuzzy
-#~ msgid "VBLANK synchronization"
-#~ msgstr "Geluid Synchronisatie"
-
-#, fuzzy
-#~ msgid "Phase"
-#~ msgstr "*Pauze"
-
-#, fuzzy
-#~ msgid "PAL Shade"
-#~ msgstr "PAL Scanlijn Schaduw"
-
-#, fuzzy
-#~ msgid "PAL Blur"
-#~ msgstr "PAL Wazigheid"
-
-#, fuzzy
-#~ msgid "External Palette:"
-#~ msgstr "*Externe kleuren set"
-
-#, fuzzy
-#~ msgid "RAM Settings"
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "Initialization at powerup"
-#~ msgstr "Initialisatie faalt voor apparaat `%s'."
-
-#, fuzzy
-#~ msgid "Custom speed"
-#~ msgstr "*Eigen Toetsen"
-
-#, fuzzy
-#~ msgid "Enter custom speed [%]"
-#~ msgstr "Geef snelheid"
-
-#, fuzzy
-#~ msgid "Printer Settings"
-#~ msgstr "Printer instellingen"
-
-#, fuzzy
-#~ msgid "Printer emulation"
-#~ msgstr "*IEC printer #5 emulatie"
-
-#, fuzzy
-#~ msgid "File system printer"
-#~ msgstr "Bestand systeem directory..."
-
-#, fuzzy
-#~ msgid "Printer driver"
-#~ msgstr "IEC printer #4 stuurprogramma"
-
-#, fuzzy
-#~ msgid "Output to file #"
-#~ msgstr "*Uitvoer naar bestand"
-
-#, fuzzy
-#~ msgid "Output file #1 name"
-#~ msgstr "Dump bestandsnaam..."
-
-#, fuzzy
-#~ msgid "Output file #2 name"
-#~ msgstr "Dump bestandsnaam..."
-
-#, fuzzy
-#~ msgid "Output file #3 name"
-#~ msgstr "Dump bestandsnaam..."
-
-#, fuzzy
-#~ msgid "ROM Settings"
-#~ msgstr "ROM instellingen"
-
-#, fuzzy
-#~ msgid "Romset archive"
-#~ msgstr "ROM zet archief"
-
-#, fuzzy
-#~ msgid "Browse"
-#~ msgstr "Bladeren..."
-
-#, fuzzy
-#~ msgid "Load archive"
-#~ msgstr "Laad ROM set archief"
-
-#, fuzzy
-#~ msgid "Save archive"
-#~ msgstr "Opslaan ROM set archief"
-
-#, fuzzy
-#~ msgid "&Configuration"
-#~ msgstr "Gemeenschappelijke configuraties"
-
-#, fuzzy
-#~ msgid "Romset file"
-#~ msgstr "ROM zet bestand"
-
-#, fuzzy
-#~ msgid "Load romset"
-#~ msgstr "Laad instellingen"
-
-#, fuzzy
-#~ msgid "Save romset"
-#~ msgstr "Opslaan instellingen"
-
-#, fuzzy
-#~ msgid "Drive"
-#~ msgstr "Drive %d: "
-
-#, fuzzy
-#~ msgid "New configuration"
-#~ msgstr "Verwijder configuratie"
-
-#, fuzzy
-#~ msgid "Enter configuration name"
-#~ msgstr "Verwijder configuratie"
-
-#, fuzzy
-#~ msgid "RS232 Settings"
-#~ msgstr "RS232 instellingen"
-
-#, fuzzy
-#~ msgid "RS232 device 1"
-#~ msgstr "Userport RS232 apparaat"
-
-#, fuzzy
-#~ msgid "RS232 device 2"
-#~ msgstr "Userport RS232 apparaat"
-
-#, fuzzy
-#~ msgid "RS232 device 3"
-#~ msgstr "Userport RS232 apparaat"
-
-#, fuzzy
-#~ msgid "RS232 device 4"
-#~ msgstr "Userport RS232 apparaat"
-
-#, fuzzy
-#~ msgid "None"
-#~ msgstr "*Geen"
-
-#, fuzzy
-#~ msgid "VICE question"
-#~ msgstr "VICE instelling"
-
-#, fuzzy
-#~ msgid "Cannot load settings."
-#~ msgstr "Kan de instellingen niet opslaan."
-
-#, fuzzy
-#~ msgid "Default settings restored."
-#~ msgstr "Herstel standaard instellingen"
-
-#, fuzzy
-#~ msgid "Cannot attach specified file"
-#~ msgstr "Kan cartridge niet koppelen"
-
-#, fuzzy
-#~ msgid ""
-#~ "%s\n"
-#~ "\n"
-#~ "Start monitor?"
-#~ msgstr "Aktiveer monitor"
-
-#, fuzzy
-#~ msgid "Detached tape"
-#~ msgstr "Ontkoppel tape bestand"
-
-#, fuzzy
-#~ msgid "paused"
-#~ msgstr "%s (op pauze)"
-
-#, fuzzy
-#~ msgid "Cannot autostart specified file."
-#~ msgstr "Kan de selectie %d in disk bestand %s niet autostarten"
-
-#, fuzzy
-#~ msgid "Attached tape %s"
-#~ msgstr "Koppel een tape bestand"
-
-#, fuzzy
-#~ msgid "Settings loaded successfully."
-#~ msgstr "Instellingen met succes opgeslagen"
-
-#, fuzzy
-#~ msgid "Attach disk image"
-#~ msgstr "Koppel een disk bestand"
-
-#, fuzzy
-#~ msgid "Attach tape image"
-#~ msgstr "Koppel een tape bestand"
-
-#, fuzzy
-#~ msgid "Autostart disk/tape image"
-#~ msgstr "Koppel een tape bestand"
-
-#, fuzzy
-#~ msgid "Invalid cartridge"
-#~ msgstr "Ongeldig cartridge bestand"
-
-#, fuzzy
-#~ msgid "Bad cartridge config in UI!"
-#~ msgstr "Opslaan cartridge bestand"
-
-#, fuzzy
-#~ msgid "Load flip list file"
-#~ msgstr "Laad fliplist bestand"
-
-#, fuzzy
-#~ msgid "Cannot read flip list file"
-#~ msgstr "Laad fliplist bestand"
-
-#, fuzzy
-#~ msgid "Save flip list file"
-#~ msgstr "Opslaan fliplist bestand"
-
-#, fuzzy
-#~ msgid "Cannot write flip list file"
-#~ msgstr "Kan niet schrijven naar bestand %s"
-
-#, fuzzy
-#~ msgid "Select keymap file"
-#~ msgstr "Zet symbolische toetsenbord bestand"
-
-#, fuzzy
-#~ msgid "Save keymap file"
-#~ msgstr "Opslaan leeg disk bestand"
-
-#, fuzzy
-#~ msgid "Cannot write keymap file"
-#~ msgstr "Kan niet schrijven naar bestand %s"
-
-#, fuzzy
-#~ msgid "&Attach"
-#~ msgstr "Koppel #%d"
-
-#, fuzzy
-#~ msgid "Cannot create image"
-#~ msgstr "Kan bestand `%s' niet maken."
-
-#, fuzzy
-#~ msgid "Command line options"
-#~ msgstr ""
-#~ "\n"
-#~ "Beschikbare command-line opties:\n"
-#~ "\n"
-
-#, fuzzy
-#~ msgid "Cannot write screenshot file `%s'."
-#~ msgstr ""
-#~ "Kan momentopname bestand niet schrijven\n"
-#~ "`%s'\n"
-
-#, fuzzy
-#~ msgid "Autostart disk image"
-#~ msgstr "Koppel een disk bestand"
-
-#, fuzzy
-#~ msgid "Select file system directory"
-#~ msgstr "Selecteer geschiedenis directory"
-
-#, fuzzy
-#~ msgid "Printer 4"
-#~ msgstr "Printer instellingen"
-
-#, fuzzy
-#~ msgid "Printer 5"
-#~ msgstr "Printer instellingen"
-
-#, fuzzy
-#~ msgid "Drive 8"
-#~ msgstr "Drive %d: "
-
-#, fuzzy
-#~ msgid "Drive 9"
-#~ msgstr "Drive %d: "
-
-#, fuzzy
-#~ msgid "Drive 10"
-#~ msgstr "Station #10 model"
-
-#, fuzzy
-#~ msgid "Drive 11"
-#~ msgstr "Station #11 model"
-
-#, fuzzy
-#~ msgid "Can't write snapshot file."
-#~ msgstr ""
-#~ "Kan momentopname bestand niet schrijven\n"
-#~ "`%s'\n"
-
-#, fuzzy
-#~ msgid "Load %s ROM image"
-#~ msgstr "Laad ROM bestand"
-
-#, fuzzy
-#~ msgid "Select romset archive"
-#~ msgstr "Opslaan ROM set archief"
-
-#, fuzzy
-#~ msgid "Cannot load romset archive!"
-#~ msgstr ""
-#~ "Kon ROM set archief niet laden\n"
-#~ "'%s'"
-
-#, fuzzy
-#~ msgid "Cannot save romset archive!"
-#~ msgstr "Kan de instellingen niet opslaan."
-
-#, fuzzy
-#~ msgid "Cannot load romset file!"
-#~ msgstr "Kan momentopname bestand niet laden."
-
-#, fuzzy
-#~ msgid "Cannot save romset file!"
-#~ msgstr "Kan de instellingen niet opslaan."
-
-#, fuzzy
-#~ msgid "Select romset file"
-#~ msgstr "Selecteer ROM set item"
-
-#, fuzzy
-#~ msgid "Romset"
-#~ msgstr "Reset"
-
-#, fuzzy
-#~ msgid "Save snapshot image"
-#~ msgstr "Opslaan momentopname bestand"
-
-#, fuzzy
-#~ msgid "Load snapshot image"
-#~ msgstr "Laad momentopname"
-
-#, fuzzy
-#~ msgid "Could not load palette file."
-#~ msgstr ""
-#~ "Kon kleuren bestand niet laden\n"
-#~ "'%s'"
-
-#, fuzzy
-#~ msgid "Load VICE palette file"
-#~ msgstr "Laad fliplist bestand"
-
-#, fuzzy
-#~ msgid "Fullscreen"
-#~ msgstr "Volscherm apparaat"
-
-#, fuzzy
-#~ msgid "Colors"
-#~ msgstr "Kleuren set"
-
-#, fuzzy
-#~ msgid "Video settings"
-#~ msgstr "Drive instellingen"
-
-#, fuzzy
-#~ msgid "File system"
-#~ msgstr "*Bestand systeem toegang"
-
-#, fuzzy
-#~ msgid "Real IEC device"
-#~ msgstr "*Aktiveer IEC apparaat"
-
-#, fuzzy
-#~ msgid "RS232 device %i"
-#~ msgstr "Selecteer RS232 apparaat bestand"
-
-#, fuzzy
-#~ msgid "Attach raw 8KB cartridge image"
-#~ msgstr "Koppel een cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach raw 16KB cartridge image"
-#~ msgstr "Koppel binair 64KB IDE64 cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach Action Replay cartridge image"
-#~ msgstr "Koppel binair 32KB Action Replay cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach Atomic Power cartridge image"
-#~ msgstr "Koppel binair 32KB Atomic Power cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach Epyx fastload cartridge image"
-#~ msgstr "Koppel binair 8KB Epyx fastload cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach IEEE interface cartridge image"
-#~ msgstr "Koppel een cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach Retro Replay cartridge image"
-#~ msgstr "Koppel binair 64KB Retro Replay cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach IDE64 interface cartridge image"
-#~ msgstr "Koppel IDE64 interface bestand..."
-
-#, fuzzy
-#~ msgid "Attach Super Snapshot 4 cartridge image"
-#~ msgstr "Koppel binair 32KB Super Snapshot cartridge bestand..."
-
-#, fuzzy
-#~ msgid "Attach Super Snapshot 5 cartridge image"
-#~ msgstr "Koppel binair 32KB Super Snapshot cartridge bestand..."
-
-#, fuzzy
-#~ msgid "Model"
-#~ msgstr "<model>"
-
-#, fuzzy
-#~ msgid "Drive Settings"
-#~ msgstr "Drive instellingen"
-
-#, fuzzy
-#~ msgid "VICE contributors"
-#~ msgstr "Medewerkers"
-
-#, fuzzy
-#~ msgid "Keyset A"
-#~ msgstr "Reset"
-
-#, fuzzy
-#~ msgid "Keyset B"
-#~ msgstr "Reset"
-
-#, fuzzy
-#~ msgid "VICE snapshot files (*.vsf)"
-#~ msgstr "Opslaan momentopname bestand"
-
-#, fuzzy
-#~ msgid "CRT cartridge image files (*.crt)"
-#~ msgstr "Opslaan cartridge bestand"
-
-#, fuzzy
-#~ msgid "Raw cartridge image files (*.bin)"
-#~ msgstr "Opslaan cartridge bestand"
-
-#, fuzzy
-#~ msgid "VICE flip list files (*.vfl)"
-#~ msgstr "Laad fliplist bestand"
-
-#, fuzzy
-#~ msgid "Flexible"
-#~ msgstr "*Flexibel"
-
-#, fuzzy
-#~ msgid "Adjusting"
-#~ msgstr "*Aanpassend"
-
-#, fuzzy
-#~ msgid "Exact"
-#~ msgstr "*Exact"
-
-#, fuzzy
-#~ msgid "Sound driver: WMM"
-#~ msgstr "Geef geluid stuurprogramma"
-
-#, fuzzy
-#~ msgid "Tape:"
-#~ msgstr "Tape 000"
-
-#, fuzzy
-#~ msgid "Joystick:"
-#~ msgstr "*USB Joystick 1"
-
-#, fuzzy
-#~ msgid "Set input device for joystick #1"
-#~ msgstr "Zet apparaat voor joystick poort 1"
-
-#, fuzzy
-#~ msgid "Set input device for joystick #2"
-#~ msgstr "Zet apparaat voor joystick poort 2"
-
-#, fuzzy
-#~ msgid "Start VICE in fullscreen mode"
-#~ msgstr "Aktiveer volscherm modus"
-
-#, fuzzy
-#~ msgid "IRQ"
-#~ msgstr "*IRQ"
-
-#, fuzzy
-#~ msgid "NMI"
-#~ msgstr "*NMI"
-
-#, fuzzy
-#~ msgid "ACIA Settings"
-#~ msgstr "PAL Instellingen"
-
-#, fuzzy
-#~ msgid "&Enable ACIA"
-#~ msgstr "*Aktiveer RAMCART"
-
-#, fuzzy
-#~ msgid "ACIA location"
-#~ msgstr "PAL Emulatie"
-
-#, fuzzy
-#~ msgid "ACIA interrupt"
-#~ msgstr "ACUA $DExx Interrupt"
-
-#, fuzzy
-#~ msgid "&Autostart disk/tape image..."
-#~ msgstr "Koppel een tape bestand..."
-
-#, fuzzy
-#~ msgid "Attach &disk image"
-#~ msgstr "Koppel een disk bestand"
-
-#, fuzzy
-#~ msgid "Drive 1&0\tAlt+0"
-#~ msgstr "Station #10 model"
-
-#, fuzzy
-#~ msgid "Drive &11\tAlt+1"
-#~ msgstr "Station #11 model"
-
-#, fuzzy
-#~ msgid "D&etach disk image"
-#~ msgstr "Ontkoppel disk bestand"
-
-#, fuzzy
-#~ msgid "Drive 1&0"
-#~ msgstr "Station #10 model"
-
-#, fuzzy
-#~ msgid "Drive &11"
-#~ msgstr "Station #11 model"
-
-#, fuzzy
-#~ msgid "&Flip list"
-#~ msgstr "Fliplist"
-
-#, fuzzy
-#~ msgid "&Add current image\tAlt+I"
-#~ msgstr "Voeg huidig bestand toe (Station 8)"
-
-#, fuzzy
-#~ msgid "&Remove current image\tAlt+K"
-#~ msgstr "Verwijder huidig bestand (Station 8)"
-
-#, fuzzy
-#~ msgid "Attach &next image\tAlt+N"
-#~ msgstr "Koppel volgend bestand (Station 8)"
-
-#, fuzzy
-#~ msgid "Attach &previous image\tAlt+B"
-#~ msgstr "Koppel vorig bestand (Station 8)"
-
-#, fuzzy
-#~ msgid "&Load flip list"
-#~ msgstr "Laad fliplist bestand"
-
-#, fuzzy
-#~ msgid "&Save flip list"
-#~ msgstr "Opslaan fliplist bestand"
-
-#, fuzzy
-#~ msgid "Attach &tape image...\tAlt+T"
-#~ msgstr "Koppel een tape bestand..."
-
-#, fuzzy
-#~ msgid "Detac&h tape image"
-#~ msgstr "Ontkoppel tape bestand"
-
-#, fuzzy
-#~ msgid "Datassette contro&l"
-#~ msgstr "Datasette regeling"
-
-#, fuzzy
-#~ msgid "S&top"
-#~ msgstr "Stop"
-
-#, fuzzy
-#~ msgid "&Forward"
-#~ msgstr "Vooruit"
-
-#, fuzzy
-#~ msgid "&Rewind"
-#~ msgstr "Terug"
-
-#, fuzzy
-#~ msgid "Re&cord"
-#~ msgstr "Opname"
-
-#, fuzzy
-#~ msgid "R&eset"
-#~ msgstr "Reset"
-
-#, fuzzy
-#~ msgid "&CRT image..."
-#~ msgstr "RAMCART bestand naam..."
-
-#, fuzzy
-#~ msgid "Generic &8KB image..."
-#~ msgstr "Koppel 8KB bestand..."
-
-#, fuzzy
-#~ msgid "Generic &16KB image..."
-#~ msgstr "Koppel 16KB bestand..."
-
-#, fuzzy
-#~ msgid "&Action Replay image..."
-#~ msgstr "Koppel Actiun Replay bestand..."
-
-#, fuzzy
-#~ msgid "Atomic &Power image..."
-#~ msgstr "Koppel Atomic Power bestand..."
-
-#, fuzzy
-#~ msgid "&Epyx fastload image..."
-#~ msgstr "Koppel Epyx fastload bestand..."
-
-#, fuzzy
-#~ msgid "&IEEE488 interface image..."
-#~ msgstr "Koppel IEEE488 interface bestand..."
-
-#, fuzzy
-#~ msgid "&Retro Replay image..."
-#~ msgstr "Koppel Retro Replay bestand..."
-
-#, fuzzy
-#~ msgid "IDE&64 interface image..."
-#~ msgstr "Koppel IDE64 interface bestand..."
-
-#, fuzzy
-#~ msgid "Super Snapshot &4 image..."
-#~ msgstr "Koppel Super Snapshot 4 bestand..."
-
-#, fuzzy
-#~ msgid "Super Snapshot &5 image..."
-#~ msgstr "Koppel Super Snapshot 5 bestand..."
-
-#, fuzzy
-#~ msgid "Expert Cartridge"
-#~ msgstr "Aktiveer expert cartridge"
-
-#, fuzzy
-#~ msgid "Enable"
-#~ msgstr "*Aktiveer REU"
-
-#, fuzzy
-#~ msgid "Set cartridge as &default"
-#~ msgstr "Zet cartridge als standaart"
-
-#, fuzzy
-#~ msgid "Detach cartridge &image"
-#~ msgstr "Ontkoppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "Cartridge free&ze\tAlt+Z"
-#~ msgstr "Cartridge freeze"
-
-#, fuzzy
-#~ msgid "&Monitor\tAlt+M"
-#~ msgstr "Monitor"
-
-#, fuzzy
-#~ msgid "&Reset"
-#~ msgstr "Reset"
-
-#, fuzzy
-#~ msgid "Drive #&8"
-#~ msgstr "Station #8 model"
-
-#, fuzzy
-#~ msgid "Drive #&9"
-#~ msgstr "Station #9 model"
-
-#, fuzzy
-#~ msgid "Drive #1&0"
-#~ msgstr "Station #10 model"
-
-#, fuzzy
-#~ msgid "Drive #&11"
-#~ msgstr "Station #11 model"
-
-#, fuzzy
-#~ msgid "Sna&pshot"
-#~ msgstr "Momentopname"
-
-#, fuzzy
-#~ msgid "Load snapshot &image..."
-#~ msgstr "Laad momentopname..."
-
-#, fuzzy
-#~ msgid "&Save quicksnapshot image\tAlt+S"
-#~ msgstr "Opslaan momentopname bestand"
-
-#, fuzzy
-#~ msgid "Start/Stop &Recording History"
-#~ msgstr "Start opname gebeurtenissen"
-
-#, fuzzy
-#~ msgid "Set Recording Milestone\tAlt+G"
-#~ msgstr "Zet opname mijlpaal"
-
-#, fuzzy
-#~ msgid "Return to Milestone\tAlt+H"
-#~ msgstr "Ga terug naar mijlpaal"
-
-#, fuzzy
-#~ msgid "&Save new snapshot"
-#~ msgstr "*Opslaan nieuw momentopname"
-
-#, fuzzy
-#~ msgid "&Load existing snapshot"
-#~ msgstr "*Laad bestaand momentopname"
-
-#, fuzzy
-#~ msgid "Start with &reset"
-#~ msgstr "*start met reset"
-
-#, fuzzy
-#~ msgid "Overwrite &Playback"
-#~ msgstr "*Overschrijf huidige weergave"
-
-#, fuzzy
-#~ msgid "Select History files/directory"
-#~ msgstr "Selecteer geschiedenis directory"
-
-#, fuzzy
-#~ msgid "&Refresh rate"
-#~ msgstr "Vernieuwing snelheid"
-
-#, fuzzy
-#~ msgid "&Auto"
-#~ msgstr "*Automatisch"
-
-#, fuzzy
-#~ msgid "&Maximum Speed"
-#~ msgstr "Maximale snelheid"
-
-#, fuzzy
-#~ msgid "No &limit"
-#~ msgstr "*Geen limiet"
-
-#, fuzzy
-#~ msgid "&Custom"
-#~ msgstr "*Eigen..."
-
-#, fuzzy
-#~ msgid "Video &cache"
-#~ msgstr "*Video cache"
-
-#, fuzzy
-#~ msgid "&Double size"
-#~ msgstr "*Dubbele grootte"
-
-#, fuzzy
-#~ msgid "Dou&ble scan"
-#~ msgstr "*Dubbele scan"
-
-#, fuzzy
-#~ msgid "Scale2x"
-#~ msgstr "Aktiveer Scale2x"
-
-#, fuzzy
-#~ msgid "VDC settin&gs"
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "64KB video &memory"
-#~ msgstr "*64KB beeld geheugen"
-
-#, fuzzy
-#~ msgid "Swap &Joystick\tAlt+J"
-#~ msgstr "Verwissel joystick poorten"
-
-#, fuzzy
-#~ msgid "&Sound playback"
-#~ msgstr "Aktiveer geluids"
-
-#, fuzzy
-#~ msgid "&True drive emulation"
-#~ msgstr "*Aktiveer hardware drive emulatie"
-
-#, fuzzy
-#~ msgid "&Virtual device traps"
-#~ msgstr "*Aktiveer Virtuele Apparaten"
-
-#, fuzzy
-#~ msgid "Vide&o standard"
-#~ msgstr "Video standaard"
 
 #, fuzzy
 #~ msgid "&PAL-G"
@@ -6443,790 +7544,3 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 #, fuzzy
 #~ msgid "&NTSC-M"
 #~ msgstr "*NTSC-M"
-
-#, fuzzy
-#~ msgid "Emulator &Identification"
-#~ msgstr "*Emulator identificatie"
-
-#, fuzzy
-#~ msgid "IEEE&488 Interface emulation"
-#~ msgstr "*IEEE488 interface emulatie"
-
-#, fuzzy
-#~ msgid "&1351 mouse emulation\tAlt+Q"
-#~ msgstr "*1351 Muis Emulatie"
-
-#, fuzzy
-#~ msgid "S&ettings"
-#~ msgstr "Instellingen"
-
-#, fuzzy
-#~ msgid "&Video settings..."
-#~ msgstr "Model instellingen"
-
-#, fuzzy
-#~ msgid "&Peripheral settings..."
-#~ msgstr "Rand apparaten instellingen"
-
-#, fuzzy
-#~ msgid "&Drive settings..."
-#~ msgstr "Drive instellingen"
-
-#, fuzzy
-#~ msgid "D&atasette settings..."
-#~ msgstr "Datasette snelheid regeling"
-
-#, fuzzy
-#~ msgid "VIC-II settings..."
-#~ msgstr "VIC-II instellingen"
-
-#, fuzzy
-#~ msgid "&Joystick settings..."
-#~ msgstr "Joystick instellingen"
-
-#, fuzzy
-#~ msgid "&Keyboard settings..."
-#~ msgstr "Toetsenbord instellingen"
-
-#, fuzzy
-#~ msgid "S&ound settings..."
-#~ msgstr "Geluid instellingen"
-
-#, fuzzy
-#~ msgid "S&ID settings..."
-#~ msgstr "SID instellingen"
-
-#, fuzzy
-#~ msgid "&ROM settings..."
-#~ msgstr "ROM instellingen"
-
-#, fuzzy
-#~ msgid "RA&M settings..."
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "C&128 settings..."
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "RS&232 settings..."
-#~ msgstr "RS232 instellingen"
-
-#, fuzzy
-#~ msgid "&Cartridge Settings"
-#~ msgstr "Crtc instellingen"
-
-#, fuzzy
-#~ msgid "&REU settings..."
-#~ msgstr "ROM instellingen"
-
-#, fuzzy
-#~ msgid "&GEORAM settings..."
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "&RAMCART settings..."
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "&IDE64 settings..."
-#~ msgstr "SID instellingen"
-
-#, fuzzy
-#~ msgid "&Ethernet settings..."
-#~ msgstr "Ethernet emulatie"
-
-#, fuzzy
-#~ msgid "&ACIA settings..."
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "RS&232 userport settings..."
-#~ msgstr "RS232 instellingen"
-
-#, fuzzy
-#~ msgid "&Save current settings"
-#~ msgstr "De huidige instellingen opslaan?"
-
-#, fuzzy
-#~ msgid "&Load saved settings"
-#~ msgstr "Laad instellingen"
-
-#, fuzzy
-#~ msgid "Set de&fault settings"
-#~ msgstr "Herstel standaard instellingen"
-
-#, fuzzy
-#~ msgid "Save settings on e&xit"
-#~ msgstr "*Sla instellingen op bij afsluiten"
-
-#, fuzzy
-#~ msgid "&Confirm on exit"
-#~ msgstr "*Bevestigen bij afsluiten"
-
-#, fuzzy
-#~ msgid "&Help"
-#~ msgstr "Help"
-
-#, fuzzy
-#~ msgid "&About..."
-#~ msgstr "Over VICE..."
-
-#, fuzzy
-#~ msgid "Command line &options"
-#~ msgstr ""
-#~ "\n"
-#~ "Beschikbare command-line opties:\n"
-#~ "\n"
-
-#, fuzzy
-#~ msgid "&Contributors"
-#~ msgstr "Medewerkers"
-
-#, fuzzy
-#~ msgid "&License"
-#~ msgstr "Licensie"
-
-#, fuzzy
-#~ msgid "No &warranty"
-#~ msgstr "Geen garantie!"
-
-#, fuzzy
-#~ msgid "German Kernal"
-#~ msgstr "Laad nieuw Duits Kernal ROM"
-
-#, fuzzy
-#~ msgid "Italian Kernal"
-#~ msgstr "Laad nieuw Kernal"
-
-#, fuzzy
-#~ msgid "Norwegain Kernal"
-#~ msgstr "Laad nieuw Kernal"
-
-#, fuzzy
-#~ msgid "International Character"
-#~ msgstr "*orginele karakter set"
-
-#, fuzzy
-#~ msgid "German Character"
-#~ msgstr "*Duitse karakter set"
-
-#, fuzzy
-#~ msgid "C64 mode Kernal"
-#~ msgstr "Laad nieuw Kernal"
-
-#, fuzzy
-#~ msgid "C64 mode Basic"
-#~ msgstr "Laad nieuw Basic"
-
-#, fuzzy
-#~ msgid "Drive resources"
-#~ msgstr "Drive instellingen"
-
-#, fuzzy
-#~ msgid "Internal Function ROM"
-#~ msgstr "Interne Functie ROM naam..."
-
-#, fuzzy
-#~ msgid "Enable internal Function ROM"
-#~ msgstr "*Interne Functie ROM aan"
-
-#, fuzzy
-#~ msgid "File name"
-#~ msgstr "Bestand naam:"
-
-#, fuzzy
-#~ msgid "External Function ROM"
-#~ msgstr "Externe Functie ROM naam..."
-
-#, fuzzy
-#~ msgid "Enable external Function ROM"
-#~ msgstr "*externe Functie ROM aan"
-
-#, fuzzy
-#~ msgid "&Drive type"
-#~ msgstr "Apparaat type"
-
-#, fuzzy
-#~ msgid "Never extend"
-#~ msgstr "*Nooit 40-sporen"
-
-#, fuzzy
-#~ msgid "Ask on extend"
-#~ msgstr "*Vraag als 40-sporen"
-
-#, fuzzy
-#~ msgid "Extend on access"
-#~ msgstr "*40-sporen bij toegang"
-
-#, fuzzy
-#~ msgid "Id&le method"
-#~ msgstr "Station #8 idle methode"
-
-#, fuzzy
-#~ msgid "Trap idle"
-#~ msgstr "*Trap idle"
-
-#, fuzzy
-#~ msgid "Skip cycles"
-#~ msgstr "*Sla cycli over"
-
-#, fuzzy
-#~ msgid "Drive &expansion"
-#~ msgstr "Station #8 RAM uitbreiding"
-
-#, fuzzy
-#~ msgid "&Symbolic"
-#~ msgstr "*Symbolische toewijzing"
-
-#, fuzzy
-#~ msgid "Dump keyset"
-#~ msgstr "Schrijf toetsenbord naar bestand"
-
-#, fuzzy
-#~ msgid "Select internal function ROM image"
-#~ msgstr "Geef de naam van het intern Functie ROM bestand"
-
-#, fuzzy
-#~ msgid "Select external function ROM image"
-#~ msgstr "Geef de naam van het extern Functie ROM bestand"
-
-#, fuzzy
-#~ msgid "C128 settings"
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "Fullscreen\tAlt+D"
-#~ msgstr "Volscherm apparaat"
-
-#, fuzzy
-#~ msgid "&Old NTSC-M"
-#~ msgstr "*Oud NTSC-M"
-
-#, fuzzy
-#~ msgid "&Cartridge/IO settings"
-#~ msgstr "Crtc instellingen"
-
-#, fuzzy
-#~ msgid "+&60K settings..."
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "&Symbolic US"
-#~ msgstr "*Symbolische toewijzing"
-
-#, fuzzy
-#~ msgid "&Symbolic DE"
-#~ msgstr "*Symbolische toewijzing"
-
-#, fuzzy
-#~ msgid "Drive s&ync factor"
-#~ msgstr "Gebruik PAL synchronisatie faktor"
-
-#, fuzzy
-#~ msgid "&CBM2 settings..."
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "&VIC-II settings..."
-#~ msgstr "VIC-II instellingen"
-
-#, fuzzy
-#~ msgid "&Cartridge/IO Settings"
-#~ msgstr "Crtc instellingen"
-
-#, fuzzy
-#~ msgid "Machine &defaults"
-#~ msgstr "Model standaard instellingen"
-
-#, fuzzy
-#~ msgid "&Model line"
-#~ msgstr "Model instellingen"
-
-#, fuzzy
-#~ msgid "&Memory"
-#~ msgstr "Geheugen grootte"
-
-#, fuzzy
-#~ msgid "12&8 kByte"
-#~ msgstr "*128 kByte"
-
-#, fuzzy
-#~ msgid "2&56 kByte"
-#~ msgstr "*256 Byte"
-
-#, fuzzy
-#~ msgid "512 &kByte"
-#~ msgstr "*128 kByte"
-
-#, fuzzy
-#~ msgid "1024 kByt&e"
-#~ msgstr "*128 kByte"
-
-#, fuzzy
-#~ msgid "Bank 15 $&0800-$0FFF RAM"
-#~ msgstr "*Bank 15 $0800-$0FFF RAM"
-
-#, fuzzy
-#~ msgid "Bank 15 $&1000-$1FFF RAM"
-#~ msgstr "*Bank 15 $1000-$1FFF RAM"
-
-#, fuzzy
-#~ msgid "Bank 15 $&2000-$3FFF RAM"
-#~ msgstr "*Bank 15 $2000-$3FFF RAM"
-
-#, fuzzy
-#~ msgid "Bank 15 $&4000-$5FFF RAM"
-#~ msgstr "*Bank 15 $4000-$5FFF RAM"
-
-#, fuzzy
-#~ msgid "Bank 15 $&6000-$7FFF RAM"
-#~ msgstr "*Bank 15 $6000-$7FFF RAM"
-
-#, fuzzy
-#~ msgid "Bank 15 $&C000-$CFFF RAM"
-#~ msgstr "*Bank 15 $C000-$CFFF RAM"
-
-#, fuzzy
-#~ msgid "Memory"
-#~ msgstr "Geheugen grootte"
-
-#, fuzzy
-#~ msgid "CBM2 settings"
-#~ msgstr "VDC instellingen"
-
-#, fuzzy
-#~ msgid "GEORAM Settings"
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "&Enable GEORAM"
-#~ msgstr "*Aktiveer GEORAM"
-
-#, fuzzy
-#~ msgid "GEORAM file"
-#~ msgstr "GEORAM grootte"
-
-#, fuzzy
-#~ msgid "IDE64 Settings"
-#~ msgstr "SID instellingen"
-
-#, fuzzy
-#~ msgid "&HD image file"
-#~ msgstr "IDE64 bestand naam"
-
-#, fuzzy
-#~ msgid "&Autodetect"
-#~ msgstr "*Automatisch detecteren bestand grootte"
-
-#, fuzzy
-#~ msgid "Cylinders"
-#~ msgstr "*Cylinders..."
-
-#, fuzzy
-#~ msgid "Heads"
-#~ msgstr "*Koppen..."
-
-#, fuzzy
-#~ msgid "Sectors"
-#~ msgstr "*Sectors..."
-
-#, fuzzy
-#~ msgid "Select HD image file"
-#~ msgstr "Selecteer RS232 apparaat bestand"
-
-#, fuzzy
-#~ msgid "P&ET settings..."
-#~ msgstr "TED instellingen"
-
-#, fuzzy
-#~ msgid "Editor"
-#~ msgstr "Monitor"
-
-#, fuzzy
-#~ msgid "Machine defaults"
-#~ msgstr "Model standaard instellingen"
-
-#, fuzzy
-#~ msgid "M&emory"
-#~ msgstr "Geheugen grootte"
-
-#, fuzzy
-#~ msgid "4KB"
-#~ msgstr "*64KB"
-
-#, fuzzy
-#~ msgid "16KB"
-#~ msgstr "*16KB"
-
-#, fuzzy
-#~ msgid "32KB"
-#~ msgstr "*32KB"
-
-#, fuzzy
-#~ msgid "96KB"
-#~ msgstr "*64KB"
-
-#, fuzzy
-#~ msgid "128KB"
-#~ msgstr "*32KB"
-
-#, fuzzy
-#~ msgid "&Video"
-#~ msgstr "Video grootte"
-
-#, fuzzy
-#~ msgid "&Auto (from ROM)"
-#~ msgstr "*Automatisch (van ROM)"
-
-#, fuzzy
-#~ msgid "&40 Columns"
-#~ msgstr "*40 Kolommen"
-
-#, fuzzy
-#~ msgid "&80 Columns"
-#~ msgstr "*80 Kolommen"
-
-#, fuzzy
-#~ msgid "&IO Size"
-#~ msgstr "I/O grootte"
-
-#, fuzzy
-#~ msgid "2&56 Byte"
-#~ msgstr "*256 Byte"
-
-#, fuzzy
-#~ msgid "&2 kByte"
-#~ msgstr "*2 kByte"
-
-#, fuzzy
-#~ msgid "CRTC chip &enable"
-#~ msgstr "*CRTC chip aan"
-
-#, fuzzy
-#~ msgid "&Keyboard"
-#~ msgstr "Toetsenbord type"
-
-#, fuzzy
-#~ msgid "&Graphics"
-#~ msgstr "*Beeld"
-
-#, fuzzy
-#~ msgid "&Business (UK)"
-#~ msgstr "*Business (UK)"
-
-#, fuzzy
-#~ msgid "&IO Settings"
-#~ msgstr "Instellingen"
-
-#, fuzzy
-#~ msgid "SuperPET I/O &enable (disables 8x96)"
-#~ msgstr "*SuperPET I/O aan (zet 8x96 uit)"
-
-#, fuzzy
-#~ msgid "&RAM Settings"
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "$&9*** as RAM"
-#~ msgstr "*$9*** als RAM (alleen 8296)"
-
-#, fuzzy
-#~ msgid "$&A*** as RAM"
-#~ msgstr "*$A*** als RAM (alleen 8296)"
-
-#, fuzzy
-#~ msgid "PET settings"
-#~ msgstr "TED instellingen"
-
-#, fuzzy
-#~ msgid "C1 high image..."
-#~ msgstr "Sla cartridge bestand op..."
-
-#, fuzzy
-#~ msgid "C2 high image..."
-#~ msgstr "Sla cartridge bestand op..."
-
-#, fuzzy
-#~ msgid "Function low  image (3plus1)..."
-#~ msgstr "Functie ROM bestand"
-
-#, fuzzy
-#~ msgid "Function high image (3plus1)..."
-#~ msgstr "Functie ROM bestand"
-
-#, fuzzy
-#~ msgid "P&lus4 settings..."
-#~ msgstr "Model instellingen"
-
-#, fuzzy
-#~ msgid "3 plus 1 LO"
-#~ msgstr "Laad nieuw 3 plus 1 LO ROM"
-
-#, fuzzy
-#~ msgid "3 plus 1 HI"
-#~ msgstr "Laad nieuw 3 plus 1 HI ROM"
-
-#, fuzzy
-#~ msgid "Plus4 settings"
-#~ msgstr "Model instellingen"
-
-#, fuzzy
-#~ msgid "&16 kByte"
-#~ msgstr "*16 kByte"
-
-#, fuzzy
-#~ msgid "&32 kByte"
-#~ msgstr "*32 kByte"
-
-#, fuzzy
-#~ msgid "&64 kByte"
-#~ msgstr "*4 kByte"
-
-#, fuzzy
-#~ msgid "Attach cartridge image for Function Low"
-#~ msgstr "Koppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach cartridge image for Function High"
-#~ msgstr "Koppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach cartridge image for Cartridge1 Low"
-#~ msgstr "Koppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach cartridge image for Cartridge1 High"
-#~ msgstr "Koppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach cartridge image for Cartridge2 Low"
-#~ msgstr "Koppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "Attach cartridge image for Cartridge2 High"
-#~ msgstr "Koppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "+60K Settings"
-#~ msgstr "Instellingen"
-
-#, fuzzy
-#~ msgid "RAMCART Settings"
-#~ msgstr "RAM instellingen"
-
-#, fuzzy
-#~ msgid "&Enable RAMCART"
-#~ msgstr "*Aktiveer RAMCART"
-
-#, fuzzy
-#~ msgid "&Read Only"
-#~ msgstr "*Alleen lezen"
-
-#, fuzzy
-#~ msgid "RAMCART file"
-#~ msgstr "RAMCART grootte"
-
-#, fuzzy
-#~ msgid "REU Settings"
-#~ msgstr "Instellingen"
-
-#, fuzzy
-#~ msgid "&Enable REU"
-#~ msgstr "*Aktiveer REU"
-
-#, fuzzy
-#~ msgid "REU file"
-#~ msgstr "REU grootte"
-
-#, fuzzy
-#~ msgid "RS232 Userport Settings"
-#~ msgstr "RS232 instellingen"
-
-#, fuzzy
-#~ msgid "&Enable RS232 userport"
-#~ msgstr "Aktiveer RS232 userport emulatie"
-
-#, fuzzy
-#~ msgid "Userport device"
-#~ msgstr "Userport RS232 apparaat"
-
-#, fuzzy
-#~ msgid "Userport baud rate"
-#~ msgstr "Userport RS232 baudrate"
-
-#, fuzzy
-#~ msgid "fast"
-#~ msgstr "*Snel"
-
-#, fuzzy
-#~ msgid "interpolating"
-#~ msgstr "*Interpoleren"
-
-#, fuzzy
-#~ msgid "resampling"
-#~ msgstr "*Resampling"
-
-#, fuzzy
-#~ msgid "fast resampling"
-#~ msgstr "*Snelle Resampling"
-
-#, fuzzy
-#~ msgid "SID Engine"
-#~ msgstr "SID kern"
-
-#, fuzzy
-#~ msgid "6581 (old)"
-#~ msgstr "*6581 (oud)"
-
-#, fuzzy
-#~ msgid "8580 (new)"
-#~ msgstr "*8580 (nieuw)"
-
-#, fuzzy
-#~ msgid "SID Stereo"
-#~ msgstr "SID kern"
-
-#, fuzzy
-#~ msgid "SID Filters"
-#~ msgstr "Emuleer SID filters"
-
-#, fuzzy
-#~ msgid "reSID options"
-#~ msgstr "Disk opties"
-
-#, fuzzy
-#~ msgid "Sample method"
-#~ msgstr "reSID sampling methode"
-
-#, fuzzy
-#~ msgid "Device selection"
-#~ msgstr "Drive instellingen"
-
-#, fuzzy
-#~ msgid "Right device"
-#~ msgstr "ACIA apparaat"
-
-#, fuzzy
-#~ msgid "Ethernet Settings"
-#~ msgstr "Ethernet emulatie"
-
-#, fuzzy
-#~ msgid "&Ethernet"
-#~ msgstr "*Aktiveer Ethernet"
-
-#, fuzzy
-#~ msgid "&Interface"
-#~ msgstr "Interface..."
-
-#, fuzzy
-#~ msgid "4/8/16KB image at $&2000..."
-#~ msgstr "Koppel 4/8/16KB bestand in $2000..."
-
-#, fuzzy
-#~ msgid "4/8/16KB image at $&4000..."
-#~ msgstr "Koppel 4/8/16KB bestand in $4000..."
-
-#, fuzzy
-#~ msgid "4/8/16KB image at $&6000..."
-#~ msgstr "Koppel 4/8/16KB bestand in $6000..."
-
-#, fuzzy
-#~ msgid "4/8KB image at $&A000..."
-#~ msgstr "Koppel 4/8KB bestand in $A000..."
-
-#, fuzzy
-#~ msgid "4KB image at $&B000..."
-#~ msgstr "Koppel 4KB bestand in $B000..."
-
-#, fuzzy
-#~ msgid "Detach c&artridge image"
-#~ msgstr "Ontkoppel cartridge bestand"
-
-#, fuzzy
-#~ msgid "VIC-1112 IEEE &488 module"
-#~ msgstr "Aktiveer VIC-1112 IEEE488 interface"
-
-#, fuzzy
-#~ msgid "V&IC settings..."
-#~ msgstr "VIC instellingen"
-
-#, fuzzy
-#~ msgid "VIC Settings"
-#~ msgstr "VIC instellingen"
-
-#, fuzzy
-#~ msgid "&no expansion memory"
-#~ msgstr "Geen geheugen uitbreiding"
-
-#, fuzzy
-#~ msgid "3&K (block 0)"
-#~ msgstr "3K (blok 0)"
-
-#, fuzzy
-#~ msgid "&8K (block 1)"
-#~ msgstr "8K (blok 1)"
-
-#, fuzzy
-#~ msgid "1&6K (blocks 1/2)"
-#~ msgstr "16K (blokken 1/2)"
-
-#, fuzzy
-#~ msgid "2&4K (blocks 1/2/3)"
-#~ msgstr "24K (blokken 1/2/3)"
-
-#, fuzzy
-#~ msgid "&Full (blocks 0/1/2/3/5)"
-#~ msgstr "Alles (blokken 0/1/2/3/5)"
-
-#, fuzzy
-#~ msgid "&custom"
-#~ msgstr "Laad eigen"
-
-#, fuzzy
-#~ msgid "Block &0"
-#~ msgstr "3K (blok 0)"
-
-#, fuzzy
-#~ msgid "Block &1"
-#~ msgstr "8K (blok 1)"
-
-#, fuzzy
-#~ msgid "Attach 4/8/16KB cartridge image at $2000"
-#~ msgstr "Koppel 4/8/16KB bestand in $2000..."
-
-#, fuzzy
-#~ msgid "Attach 4/8/16KB cartridge image at $4000"
-#~ msgstr "Koppel 4/8/16KB bestand in $4000..."
-
-#, fuzzy
-#~ msgid "Attach 4/8/16KB cartridge image at $6000"
-#~ msgstr "Koppel 4/8/16KB bestand in $6000..."
-
-#, fuzzy
-#~ msgid "Attach 4/8KB cartridge image at $A000"
-#~ msgstr "Koppel 4/8KB bestand in $A000..."
-
-#, fuzzy
-#~ msgid "Attach 4KB cartridge image at $B000"
-#~ msgstr "Koppel 4KB bestand in $B000..."
-
-#, fuzzy
-#~ msgid "VIC-II Settings"
-#~ msgstr "VIC-II instellingen"
-
-#, fuzzy
-#~ msgid "Sprite Collisions"
-#~ msgstr "*Sprite-sprite botsingen"
-
-#, fuzzy
-#~ msgid "Sprite-&sprite collisions"
-#~ msgstr "*Sprite-sprite botsingen"
-
-#, fuzzy
-#~ msgid "Sprite-background &collisions"
-#~ msgstr "*Sprite-achtergrond botsingen"
-
-#, fuzzy
-#~ msgid "New Luminances"
-#~ msgstr "*New Luminances"
