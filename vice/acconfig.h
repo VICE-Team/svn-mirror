@@ -109,6 +109,6 @@
    function. */
 #undef HAS_UNLOCKRESOURCE
 
-#undef HAVE_CBM4LINUX
+/* Support for OpenCBM (former CBM4Linux) */
 #undef HAVE_OPENCBM
 
