@@ -676,7 +676,7 @@ The disk drive emulation
 
    All the emulators support up to 4 external disk drives as devices 8,
 9, 10 and 11.  Each of these devices can emulate virtual Commodore
-1541, 1571, 1581 and 2031 drives in one of two ways:
+1541, 1571, 1581, 2031 and 1001 drives in one of two ways:
 
    * using disk images, i.e., files that contain a dump of all the
      blocks contained in a real floppy disk (if you want more
@@ -694,6 +694,10 @@ really emulate the serial line, but patches the kernal ROM (with the
 so-called "kernal traps") so that serial line operations can be
 emulated via C language routines.  This emulation is very fast, but
 only allows use of standard DOS functions (and not even all of them).
+The IEEE488 drives (2031 and 1001) do not use kernal traps. Instead the
+IEEE488 interface lines are monitored the data is passed to the drive
+emulation. To use them on the C64, you need to enable the IEEE488
+interface emulation and load an appropriate kernal.
 
    The other alternative is a "hardware level" drive emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
@@ -709,14 +713,17 @@ the emulator has to emulate two CPUs instead of one.
 emulators.  It can only be used to emulate drive unit #8 or #9.  Other
 units are disabled if "hardware level" drive emulation is enabled.
 
-   However, the PETs do not use a serial IEC bus to communicate with the
-floppy drive but instead use the parallel IEEE488 bus.  This does *byte
-by byte* transfers, as opposed to the *bit by bit* transfers of the C64
+   The PETs do not use a serial IEC bus to communicate with the floppy
+drive but instead use the parallel IEEE488 bus.  This does *byte by
+byte* transfers, as opposed to the *bit by bit* transfers of the C64
 and VIC20, so making it feasible to emulate the parallel line
 completely while emulating the drive at DOS level only.  The IEEE488
 line interpreter maps the drives 8-11 (as described above) to the
 IEEE488 disk units, and no kernal traps are needed.  The same emulation
-of the Commodore IEEE488 bus interface is available for the C64.
+of the Commodore IEEE488 bus interface is available for the C64. With
+IEEE488 drives you can have true 2031 emulation at unit #8, and still
+have filesystem access at units #10 or #11, because monitoring the
+IEEE488 lines does not interfere with the true drive emulation.
 
 
 File: vice.info,  Node: Supported file formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface

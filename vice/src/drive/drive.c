@@ -69,6 +69,7 @@
 #include "log.h"
 #include "memutils.h"
 #include "resources.h"
+#include "riotd.h"
 #include "serial.h"
 #include "snapshot.h"
 #include "ui.h"
@@ -100,6 +101,7 @@ static int drive_load_1541ii(void);
 static int drive_load_1571(void);
 static int drive_load_1581(void);
 static int drive_load_2031(void);
+static int drive_load_1001(void);
 
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
@@ -129,6 +131,7 @@ static char *dos_rom_name_1541ii = 0;
 static char *dos_rom_name_1571 = 0;
 static char *dos_rom_name_1581 = 0;
 static char *dos_rom_name_2031 = 0;
+static char *dos_rom_name_1001 = 0;
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 static int rom_loaded = 0;
@@ -181,6 +184,7 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
+      case DRIVE_TYPE_1001:
         drive[0].type = type;
         if (drive_true_emulation) {
             drive[0].enable = 1;
@@ -222,6 +226,7 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
+      case DRIVE_TYPE_1001:
         drive[1].type = type;
         if (drive_true_emulation) {
             drive[1].enable = 1;
@@ -357,6 +362,19 @@ static int set_sync_factor(resource_value_t v)
     return 0;
 }
 
+static int set_dos_rom_name_1001(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name_1001 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_1001) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_1001, name);
+
+    return drive_load_1001();
+}
+
 static int set_dos_rom_name_2031(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -450,7 +468,7 @@ static resource_t resources[] = {
       (resource_value_t *) &sync_factor, set_sync_factor },
     { "DosName1541", RES_STRING, (resource_value_t) "dos1541",
       (resource_value_t *) &dos_rom_name_1541, set_dos_rom_name_1541 },
-    { "DosName1541ii", RES_STRING, (resource_value_t) "dos1541II",
+    { "DosName1541ii", RES_STRING, (resource_value_t) "d1541II",
       (resource_value_t *) &dos_rom_name_1541ii, set_dos_rom_name_1541ii },
     { "DosName1571", RES_STRING, (resource_value_t) "dos1571",
       (resource_value_t *) &dos_rom_name_1571, set_dos_rom_name_1571 },
@@ -458,6 +476,8 @@ static resource_t resources[] = {
       (resource_value_t *) &dos_rom_name_1581, set_dos_rom_name_1581 },
     { "DosName2031", RES_STRING, (resource_value_t) "dos2031",
       (resource_value_t *) &dos_rom_name_2031, set_dos_rom_name_2031 },
+    { "DosName1001", RES_STRING, (resource_value_t) "dos1001",
+      (resource_value_t *) &dos_rom_name_1001, set_dos_rom_name_1001 },
     { NULL }
 };
 
@@ -499,6 +519,12 @@ static cmdline_option_t cmdline_options[] = {
     { "-drive9idle", SET_RESOURCE, 1, NULL, NULL, "Drive9IdleMethod",
       (resource_value_t) DRIVE_IDLE_TRAP_IDLE, "<method>",
       "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
+    { "-drive8extend", SET_RESOURCE, 1, NULL, NULL, "Drive8ExtendImagePolicy",
+      (resource_value_t) DRIVE_EXTEND_NEVER, "<method>",
+      "Set drive 8 40 track extension policy (0: never, 1: ask, 2: on access)"},
+    { "-drive9extend", SET_RESOURCE, 1, NULL, NULL, "Drive9ExtendImagePolicy",
+      (resource_value_t) DRIVE_EXTEND_NEVER, "<method>",
+      "Set drive 9 40 track extension policy (0: never, 1: ask, 2: on access)"},
     { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_PAL, "<value>",
       "Set drive sync factor to <value>" },
@@ -518,6 +544,8 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of 1581 DOS ROM image name" },
     { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
       "<name>", "Specify name of 2031 DOS ROM image name" },
+    { "-dos1001", SET_RESOURCE, 1, NULL, NULL, "DosName1001", "dos1001",
+      "<name>", "Specify name of 1001/8050/8250 DOS ROM image name" },
     { NULL }
 };
 
@@ -535,12 +563,14 @@ static BYTE *drive_rom1541ii;
 static BYTE *drive_rom1571;
 static BYTE *drive_rom1581;
 static BYTE *drive_rom2031;
+static BYTE *drive_rom1001;
 #else
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
 static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
+static BYTE drive_rom1001[DRIVE_ROM1001_SIZE];
 #endif
 
 /* If nonzero, the ROM image has been loaded.  */
@@ -549,6 +579,7 @@ static int rom1541ii_loaded = 0;
 static int rom1571_loaded = 0;
 static int rom1581_loaded = 0;
 static int rom2031_loaded = 0;
+static int rom1001_loaded = 0;
 
 /* Map of the sector sizes.  */
 extern char sector_map_1541[43];
@@ -986,6 +1017,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_rom1571 = xmalloc(DRIVE_ROM1571_SIZE);
     drive_rom1581 = xmalloc(DRIVE_ROM1581_SIZE);
     drive_rom2031 = xmalloc(DRIVE_ROM2031_SIZE);
+    drive_rom1001 = xmalloc(DRIVE_ROM1001_SIZE);
 #endif
 
     drive_clk[0] = 0L;
@@ -1083,6 +1115,9 @@ static void drive_set_active_led_color(int type, int dnr)
       case DRIVE_TYPE_2031:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
+      case DRIVE_TYPE_1001:
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        break;
       default:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
     }
@@ -1121,6 +1156,13 @@ static int drive_set_disk_drive_type(int type, int dnr)
         break;
       case DRIVE_TYPE_2031:
         if (rom2031_loaded < 1 && rom_loaded)
+            return -1;
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[dnr]);
+        drive[dnr].clock_frequency = 1;
+        break;
+      case DRIVE_TYPE_1001:
+        if (rom1001_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
@@ -1240,6 +1282,22 @@ static int drive_load_2031(void)
     return -1;
 }
 
+static int drive_load_1001(void)
+{
+    if (!drive_rom_load_ok) return 0;
+
+    if (mem_load_sys_file(dos_rom_name_1001, drive_rom1001, DRIVE_ROM1001_SIZE,
+                          DRIVE_ROM1001_SIZE) < 0) {
+        log_error(drive_log,
+                  "1001 ROM image not found.  "
+                  "Hardware-level 1001 emulation is not available.");
+    } else {
+        rom1001_loaded = 1;
+	return 0;
+    }
+    return -1;
+}
+
 static int drive_load_rom_images(void)
 {
     drive_rom_load_ok = 1;
@@ -1253,6 +1311,8 @@ static int drive_load_rom_images(void)
     drive_load_1581();
 
     drive_load_2031();
+
+    drive_load_1001();
 
     /* FIXME: Drive type radio button should be made insensitive here
        if a ROM image is not loaded. */
@@ -1292,6 +1352,10 @@ static void drive_setup_rom_image(int dnr)
           case DRIVE_TYPE_2031:
             memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031,
                    DRIVE_ROM2031_SIZE);
+	    break;
+          case DRIVE_TYPE_1001:
+            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1001,
+                   DRIVE_ROM1001_SIZE);
             break;
         }
     }
@@ -1447,6 +1511,11 @@ static int drive_check_image_format(int format, int dnr)
         if (drive[dnr].type != DRIVE_TYPE_1581)
             return -1;
         break;
+      case 8050:
+      case 8250:
+        if (drive[dnr].type != DRIVE_TYPE_1001)
+            return -1;
+	break;
       default:
         return -1;
     }
@@ -2058,8 +2127,10 @@ void drive_cpu_execute(CLOCK clk_value)
 int drive_match_bus(int drive_type, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
-    || ((drive_type == DRIVE_TYPE_2031) && (bus_map & IEC_BUS_IEEE))
-    || ((drive_type != DRIVE_TYPE_2031) && (bus_map & IEC_BUS_IEC))
+    || ((drive_type == DRIVE_TYPE_2031 || drive_type == DRIVE_TYPE_1001) 
+	&& (bus_map & IEC_BUS_IEEE))
+    || ((drive_type != DRIVE_TYPE_2031 && drive_type != DRIVE_TYPE_1001) 
+	&& (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
     }
@@ -2282,6 +2353,11 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
             if (cia1581d0_write_snapshot_module(s) < 0)
                 return -1;
         }
+	if (drive[0].type == DRIVE_TYPE_1001) {
+	    if (riot1d0_write_snapshot_module(s) < 0
+		|| riot2d0_write_snapshot_module(s) < 0)
+		return -1;
+	}
     }
     if (drive[1].enable) {
         if (drive1_cpu_write_snapshot_module(s) < 0)
@@ -2303,6 +2379,11 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
             if (cia1581d1_write_snapshot_module(s) < 0)
                 return -1;
         }
+	if (drive[1].type == DRIVE_TYPE_1001) {
+	    if (riot1d1_write_snapshot_module(s) < 0
+		|| riot2d1_write_snapshot_module(s) < 0)
+		return -1;
+	}
     }
 
     if (save_disks && GCR_image[0] > 0)
@@ -2450,6 +2531,7 @@ int drive_read_snapshot_module(snapshot_t *s)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
+      case DRIVE_TYPE_1001:
         drive[0].enable = 1;
         drive_setup_rom_image(0);
         drive0_mem_init(drive[0].type);
@@ -2470,6 +2552,7 @@ int drive_read_snapshot_module(snapshot_t *s)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
+      case DRIVE_TYPE_1001:
         drive[1].enable = 1;
         drive_setup_rom_image(1);
         drive1_mem_init(drive[1].type);
@@ -2508,6 +2591,11 @@ int drive_read_snapshot_module(snapshot_t *s)
             if (cia1581d0_read_snapshot_module(s) < 0)
                 return -1;
         }
+	if (drive[0].type == DRIVE_TYPE_1001) {
+	    if (riot1d1_read_snapshot_module(s) < 0
+		|| riot2d1_read_snapshot_module(s) < 0)
+		return -1;
+	}
     }
 
     if (drive[1].enable) {
@@ -2530,6 +2618,11 @@ int drive_read_snapshot_module(snapshot_t *s)
             if (cia1581d1_read_snapshot_module(s) < 0)
                 return -1;
         }
+	if (drive[1].type == DRIVE_TYPE_1001) {
+	    if (riot1d1_read_snapshot_module(s) < 0
+		|| riot2d1_read_snapshot_module(s) < 0)
+		return -1;
+	}
     }
     if (drive_read_image_snapshot_module(s, 0) < 0)
         return -1;
@@ -2686,6 +2779,10 @@ static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM2031_SIZE;
         break;
+      case DRIVE_TYPE_1001:
+        base = &(drive[dnr].rom[0x4000]);
+        len = DRIVE_ROM1001_SIZE;
+        break;
       default:
         return -1;
     }
@@ -2743,6 +2840,10 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM2031_SIZE;
         break;
+      case DRIVE_TYPE_1001:
+        base = &(drive[dnr].rom[0x4000]);
+        len = DRIVE_ROM1001_SIZE;
+        break;
       default:
         return -1;
     }
@@ -2782,3 +2883,18 @@ int reload_rom_1541(char *name) {
     drive_load_rom_images();
     return(1);
 }
+
+void drive1_riot_set_atn(int state) {}
+
+void drive0_parallel_set_atn(int state)
+{
+    drive0_via_set_atn(state);
+    drive0_riot_set_atn(state);
+}
+
+void drive1_parallel_set_atn(int state)
+{
+    drive1_via_set_atn(state);
+    drive1_riot_set_atn(state);
+}
+

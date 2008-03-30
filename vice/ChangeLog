@@ -1,6 +1,16 @@
+1999-04-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.3.
+
+	* data/DRIVES/dos1541II: Renamed to `d1541II'.
+
 1999-04-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.0.0.1
+	* Version 1.0.2.
+
+1999-04-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.1.
 
 	* configure.in: Define `AC_DEFINE(UNSTABLE)'. Moved the definition
 	of `PREFIX' from the command line to `config.h'. Changed `CFLAGS'

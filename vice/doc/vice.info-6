@@ -1,0 +1,123 @@
+This is Info file vice.info, produced by Makeinfo version 1.68 from the
+input file vice.texi.
+
+START-INFO-DIR-ENTRY
+* VICE: (vice).        VICE, the Versatile Commodore Emulator.
+END-INFO-DIR-ENTRY
+
+   VICE Manual
+
+   Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+   Permission is granted to copy and distribute modified versions of
+this manual under the conditions for verbatim copying, provided that
+the entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+
+File: vice.info,  Node: Resource Index,  Prev: Concept Index,  Up: Top
+
+Index of Resources
+******************
+
+* Menu:
+
+* Acia1Dev:                              RS232 resources.
+* Acia1Irq:                              RS232 resources.
+* AciaDE:                                RS232 resources.
+* CheckSbColl:                           VIC-II resources.
+* CheckSsColl:                           VIC-II resources.
+* Directory:                             Misc resources.
+* DisplayDepth:                          Video resources.
+* DoCoreDump:                            Misc resources.
+* DosName1541:                           Drive resources.
+* DosName1571:                           Drive resources.
+* DosName1581:                           Drive resources.
+* DosName2031:                           Drive resources.
+* DoubleScan:                            Video resources.
+* DoubleSize:                            Video resources.
+* Drive8ExtendImagePolicy:               Drive resources.
+* Drive8IdleMethod:                      Drive resources.
+* Drive8ParallelCable:                   Drive resources.
+* Drive8Type:                            Drive resources.
+* Drive9ExtendImagePolicy:               Drive resources.
+* Drive9IdleMethod:                      Drive resources.
+* Drive9ParallelCable:                   Drive resources.
+* Drive9Type:                            Drive resources.
+* DriveSyncFactor:                       Drive resources.
+* DriveTrueEmulation:                    Drive resources.
+* EmuID <1>:                             VIC20 memconf resources.
+* EmuID:                                 C64 I/O extension resources.
+* FSDevice10ConvertP00:                  File system device resources.
+* FSDevice10Dir:                         File system device resources.
+* FSDevice10HideCBMFiles:                File system device resources.
+* FSDevice10SaveP00:                     File system device resources.
+* FSDevice11ConvertP00:                  File system device resources.
+* FSDevice11Dir:                         File system device resources.
+* FSDevice11HideCBMFiles:                File system device resources.
+* FSDevice11SaveP00:                     File system device resources.
+* FSDevice8ConvertP00:                   File system device resources.
+* FSDevice8Dir:                          File system device resources.
+* FSDevice8HideCBMFiles:                 File system device resources.
+* FSDevice8SaveP00:                      File system device resources.
+* FSDevice9ConvertP00:                   File system device resources.
+* FSDevice9Dir:                          File system device resources.
+* FSDevice9HideCBMFiles:                 File system device resources.
+* FSDevice9SaveP00:                      File system device resources.
+* HTMLBrowserCommand:                    Misc resources.
+* IEEE488:                               C64 I/O extension resources.
+* JoyDevice1, JoyDevice2:                Misc resources.
+* KeymapBusinessDESymFile KeymapBusinessDEPosFile: Keyboard resources.
+* KeymapBusinessUKSymFile KeymapBusinessUKPosFile: Keyboard resources.
+* KeymapGraphicsSymFile KeymapGraphicsPosFile: Keyboard resources.
+* KeymapIndex:                           Keyboard resources.
+* KeymapPosFile:                         Keyboard resources.
+* KeymapSymFile:                         Keyboard resources.
+* MITSHM:                                Video resources.
+* NoTraps:                               No traps resources.
+* PaletteFile:                           VIC-II resources.
+* PrDevice1:                             Printer resources.
+* PrDevice2:                             Printer resources.
+* PrDevice3:                             Printer resources.
+* Printer4:                              Printer resources.
+* Printer4Dev:                           Printer resources.
+* PrivateColormap:                       Video resources.
+* PrUser:                                Printer resources.
+* PrUserDev:                             Printer resources.
+* RAMBlock0:                             VIC20 memconf resources.
+* RAMBlock1:                             VIC20 memconf resources.
+* RAMBlock2:                             VIC20 memconf resources.
+* RAMBlock3:                             VIC20 memconf resources.
+* RAMBlock5:                             VIC20 memconf resources.
+* RefreshRate:                           Performance resources.
+* REU:                                   C64 I/O extension resources.
+* RsDevice1:                             RS232 resources.
+* RsDevice1Baud:                         RS232 resources.
+* RsDevice2:                             RS232 resources.
+* RsDevice2Baud:                         RS232 resources.
+* RsDevice3:                             RS232 resources.
+* RsDevice3Baud:                         RS232 resources.
+* RsDevice4:                             RS232 resources.
+* RsDevice4Baud:                         RS232 resources.
+* RsUser:                                RS232 resources.
+* RsUserDev:                             RS232 resources.
+* SaveResourcesOnExit:                   Misc resources.
+* SidFilters:                            SID resources.
+* SidModel:                              SID resources.
+* SidUseResid:                           SID resources.
+* Sound:                                 Sound resources.
+* SoundBufferSize:                       Sound resources.
+* SoundDeviceArg:                        Sound resources.
+* SoundDeviceName:                       Sound resources.
+* SoundOversample:                       Sound resources.
+* SoundSampleRate:                       Sound resources.
+* SoundSpeedAdjustment:                  Sound resources.
+* SoundSuspendTime:                      Sound resources.
+* Speed:                                 Performance resources.
+* UseXSync:                              Video resources.
+* VideoCache:                            Video resources.
+* WarpMode:                              Performance resources.
+
+

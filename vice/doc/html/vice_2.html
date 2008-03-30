@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 25 April 1999 -->
+     from ../vice.texi on 28 April 1999 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -325,7 +325,7 @@ and <KBD>space</KBD> for the fire button instead.
 <P>
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1571, 1581 and 2031 drives in one of two ways:
+Commodore 1541, 1571, 1581, 2031 and 1001 drives in one of two ways:
 
 </P>
 
@@ -351,7 +351,11 @@ does <EM>not</EM> really emulate the serial line, but patches the kernal
 ROM (with the so-called <EM>kernal traps</EM>) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
-all of them).
+all of them). The IEEE488 drives (2031 and 1001) do not use
+kernal traps. Instead the IEEE488 interface lines are monitored
+the data is passed to the drive emulation. To use them on the C64,
+you need to enable the IEEE488 interface emulation and load an
+appropriate kernal.
 
 </P>
 <P>
@@ -373,7 +377,7 @@ units are disabled if <EM>hardware level</EM> drive emulation is enabled.
 
 </P>
 <P>
-However, the PETs do not use a serial IEC bus to communicate with the
+The PETs do not use a serial IEC bus to communicate with the
 floppy drive but instead use the parallel IEEE488 bus.  This does
 <EM>byte by byte</EM> transfers, as opposed to the <EM>bit by bit</EM>
 transfers of the C64 and VIC20, so making it feasible to emulate the
@@ -381,7 +385,10 @@ parallel line completely while emulating the drive at DOS level only.
 The IEEE488 line interpreter maps the drives 8-11 (as described above)
 to the IEEE488 disk units, and no kernal traps are needed.  The same
 emulation of the Commodore IEEE488 bus interface is available for the
-C64.
+C64. With IEEE488 drives you can have true 2031 emulation at unit
+#8, and still have filesystem access at units #10 or #11, because
+monitoring the IEEE488 lines does not interfere with the true drive
+emulation.
 
 </P>
 

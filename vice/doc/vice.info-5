@@ -17,6 +17,116 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: c1541 commands and options,  Next: c1541 executing shell commands,  Prev: c1541 quoting,  Up: c1541
+
+c1541 commands and options
+==========================
+
+   This is a list of the `c1541' commands.  They are shown in their
+interactive form, without the leading `-'.  Square brackets [] indicate
+an optional part, and "<COMMAND>" translates to a disk command
+according to CBM DOS, like "i0" for example.
+
+` [<command>]'
+     Execute specified CBM DOS command and print the current status of
+     the drive.  If no `command' is specified, just print the status.
+
+`? [<command>]'
+     Explain specified command.  If no command is specified, list
+     available ones.
+
+`attach <diskimage> [<unit>]'
+     Attach `diskimage' to `unit' (default unit is 8).
+
+`block <track> <sector> <disp> [<drive>]'
+     Show specified disk block in hex form.
+
+`create <x64name> <d64name>'
+     Create an X64 disk image out of a D64 disk image.
+
+`copy <source1> [<source2> ... <sourceN>] <destination>'
+     Copy `source1' ... `sourceN' into destination.  If N > 1,
+     `destination' must be a simple drive specifier (`@n:').
+
+`delete <file1> [<file2> ... <fileN>]'
+     Delete the specified files.
+
+`exit'
+     Exit (same as `quit').
+
+`extract'
+     Extract all the files to the file system.
+
+`format <diskname,id> [<type> <imagename>] [<unit>]'
+     If `unit' is specified, format the disk in unit `unit'.  If `type'
+     and `imagename' are specified, create a new image named
+     `imagename', attach it to unit 8 and format it.  `type' is a disk
+     image type, and must be either `x64', `d64', `d71' or `d81'.
+     Otherwise, format the disk in the current unit, if any.
+
+`gcrformat <diskname,id> <imagename>'
+     Create and format a G64 disk image named `imagename'.
+
+`help [<command>]'
+     Explain specified command.  If no command is specified, list
+     available ones.
+
+`info [<unit>]'
+     Display information about unit `unit' (if unspecified, use the
+     current one).
+
+`list [<pattern>]'
+     List files matching `pattern' (default is all files).
+
+`quit'
+     Exit (same as `exit').
+
+`read <source> [<destination>]'
+     Read `source' from the disk image and copy it into `destination' in
+     the file system.  If `destination' is not specified, copy it into a
+     file with the same name as `source'.",
+
+`rename <oldname> <newname>'
+     Rename `oldname' into `newname'.  The files must be on the same
+     drive.
+
+`tape <t64name> [<file1> ... <fileN>]'
+     Extract files from a T64 image.
+
+`unit <number>'
+     Make unit `number' the current unit.
+
+`unlynx <lynxname> [<unit>]'
+     Extract the specified Lynx image file into the specified unit
+     (default is the current unit).
+
+`validate [<unit>]'
+     Validate the disk in unit `unit'.  If `unit' is not specified,
+     validate the disk in the current unit.
+
+`write <source> [<destination>]'
+     Write `source' from the file system into `destination' on a disk
+     image.
+
+`zcreate <x64name> <zipname> [<label,id>]'
+     Create an X64 disk image out of a set of four Zipcoded files named
+     `1!zipname', `2!zipname', `3!zipname' and `4!zipname'.
+
+
+File: vice.info,  Node: c1541 executing shell commands,  Prev: c1541 commands and options,  Up: c1541
+
+Executing shell commands
+========================
+
+   If you want to execute a shell command from withing `c1541', just
+prepend it with an exclamation mark (`!').  For example,
+
+     !ls -la
+
+   will execute the command `ls -la', which will show you all the files
+in the current directory.
+
+
 File: vice.info,  Node: File formats,  Next: Acknowledgments,  Prev: c1541,  Up: Top
 
 The emulator file formats
@@ -814,10 +924,12 @@ Concept Index
 * -default:                              Command-line initialization.
 * -directory:                            Misc options.
 * -displaydepth:                         Video options.
+* -dos1001:                              Drive options.
 * -dos1541:                              Drive options.
 * -dos1571:                              Drive options.
 * -dos1581:                              Drive options.
 * -dos2031:                              Drive options.
+* -drive8extend, -drive9extend:          Drive options.
 * -drive8idle, -drive9idle:              Drive options.
 * -drive8type, -drive9type:              Drive options.
 * -drivesync:                            Drive options.
@@ -835,6 +947,7 @@ Concept Index
 * -htmlbrowser:                          Misc options.
 * -ieee488, +ieee488:                    C64 I/O extension options.
 * -install, +install:                    Video options.
+* -joydev1, -joydev2:                    Misc options.
 * -kernal <1>:                           CBM-II commandline options.
 * -kernal <2>:                           PET commandline options.
 * -kernal <3>:                           VIC20 system ROM options.
@@ -849,7 +962,7 @@ Concept Index
 * -modelline:                            CBM-II commandline options.
 * -ntscdrive:                            Drive options.
 * -paldrive:                             Drive options.
-* -parallel8, +parallel8:                Drive options.
+* -parallel8, +parallel8, -parallel9, +parallel9: Drive options.
 * -petramA:                              PET commandline options.
 * -petramB:                              PET commandline options.
 * -poskeymap:                            Keyboard options.
@@ -958,108 +1071,4 @@ Concept Index
 * Video cache:                           Video settings.
 * VideoSize:                             PET model.
 * Warp speed mode:                       Performance settings.
-
-
-File: vice.info,  Node: Resource Index,  Prev: Concept Index,  Up: Top
-
-Index of Resources
-******************
-
-* Menu:
-
-* Acia1Dev:                              RS232 resources.
-* Acia1Irq:                              RS232 resources.
-* AciaDE:                                RS232 resources.
-* CheckSbColl:                           VIC-II resources.
-* CheckSsColl:                           VIC-II resources.
-* Directory:                             Misc resources.
-* DisplayDepth:                          Video resources.
-* DoCoreDump:                            Misc resources.
-* DosName1541:                           Drive resources.
-* DosName1571:                           Drive resources.
-* DosName1581:                           Drive resources.
-* DosName2031:                           Drive resources.
-* DoubleScan:                            Video resources.
-* DoubleSize:                            Video resources.
-* Drive8ExtendImagePolicy:               Drive resources.
-* Drive8IdleMethod:                      Drive resources.
-* Drive8ParallelCable:                   Drive resources.
-* Drive8Type:                            Drive resources.
-* Drive9ExtendImagePolicy:               Drive resources.
-* Drive9IdleMethod:                      Drive resources.
-* Drive9ParallelCable:                   Drive resources.
-* Drive9Type:                            Drive resources.
-* DriveSyncFactor:                       Drive resources.
-* DriveTrueEmulation:                    Drive resources.
-* EmuID <1>:                             VIC20 memconf resources.
-* EmuID:                                 C64 I/O extension resources.
-* FSDevice10ConvertP00:                  File system device resources.
-* FSDevice10Dir:                         File system device resources.
-* FSDevice10HideCBMFiles:                File system device resources.
-* FSDevice10SaveP00:                     File system device resources.
-* FSDevice11ConvertP00:                  File system device resources.
-* FSDevice11Dir:                         File system device resources.
-* FSDevice11HideCBMFiles:                File system device resources.
-* FSDevice11SaveP00:                     File system device resources.
-* FSDevice8ConvertP00:                   File system device resources.
-* FSDevice8Dir:                          File system device resources.
-* FSDevice8HideCBMFiles:                 File system device resources.
-* FSDevice8SaveP00:                      File system device resources.
-* FSDevice9ConvertP00:                   File system device resources.
-* FSDevice9Dir:                          File system device resources.
-* FSDevice9HideCBMFiles:                 File system device resources.
-* FSDevice9SaveP00:                      File system device resources.
-* HTMLBrowserCommand:                    Misc resources.
-* IEEE488:                               C64 I/O extension resources.
-* KeymapBusinessDESymFile KeymapBusinessDEPosFile: Keyboard resources.
-* KeymapBusinessUKSymFile KeymapBusinessUKPosFile: Keyboard resources.
-* KeymapGraphicsSymFile KeymapGraphicsPosFile: Keyboard resources.
-* KeymapIndex:                           Keyboard resources.
-* KeymapPosFile:                         Keyboard resources.
-* KeymapSymFile:                         Keyboard resources.
-* MITSHM:                                Video resources.
-* NoTraps:                               No traps resources.
-* PaletteFile:                           VIC-II resources.
-* PrDevice1:                             Printer resources.
-* PrDevice2:                             Printer resources.
-* PrDevice3:                             Printer resources.
-* Printer4:                              Printer resources.
-* Printer4Dev:                           Printer resources.
-* PrivateColormap:                       Video resources.
-* PrUser:                                Printer resources.
-* PrUserDev:                             Printer resources.
-* RAMBlock0:                             VIC20 memconf resources.
-* RAMBlock1:                             VIC20 memconf resources.
-* RAMBlock2:                             VIC20 memconf resources.
-* RAMBlock3:                             VIC20 memconf resources.
-* RAMBlock5:                             VIC20 memconf resources.
-* RefreshRate:                           Performance resources.
-* REU:                                   C64 I/O extension resources.
-* RsDevice1:                             RS232 resources.
-* RsDevice1Baud:                         RS232 resources.
-* RsDevice2:                             RS232 resources.
-* RsDevice2Baud:                         RS232 resources.
-* RsDevice3:                             RS232 resources.
-* RsDevice3Baud:                         RS232 resources.
-* RsDevice4:                             RS232 resources.
-* RsDevice4Baud:                         RS232 resources.
-* RsUser:                                RS232 resources.
-* RsUserDev:                             RS232 resources.
-* SaveResourcesOnExit:                   Misc resources.
-* SidFilters:                            SID resources.
-* SidModel:                              SID resources.
-* SidUseResid:                           SID resources.
-* Sound:                                 Sound resources.
-* SoundBufferSize:                       Sound resources.
-* SoundDeviceArg:                        Sound resources.
-* SoundDeviceName:                       Sound resources.
-* SoundOversample:                       Sound resources.
-* SoundSampleRate:                       Sound resources.
-* SoundSpeedAdjustment:                  Sound resources.
-* SoundSuspendTime:                      Sound resources.
-* Speed:                                 Performance resources.
-* UseXSync:                              Video resources.
-* VideoCache:                            Video resources.
-* WarpMode:                              Performance resources.
-
 

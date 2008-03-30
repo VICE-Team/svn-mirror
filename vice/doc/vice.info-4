@@ -16,6 +16,41 @@ this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
+
+
+File: vice.info,  Node: Module formats,  Prev: Emulator modules,  Up: Snapshot format
+
+Module formats
+--------------
+
+   This section shows the basic module framework and the contents of the
+different types of modules.
+
+   The single chip modules contain the chip state, not the state of the
+emulator.  We tried to make the format as implementation-independent as
+possible, to allow reuse of snapshots in later versions of this
+emulator, or even in other emulators.
+
+* Menu:
+
+* Module Terminology::
+* Module framework::
+* CPU 6502 module::
+* CIA 6526 module::
+* VIA 6522 module::
+* PIA 6520 module::
+* TPI 6525 module::
+* SID 6581 module::
+* ACIA 6551 module::
+* VIC-I module::
+* VIC-II module::
+* CRTC module::
+* C64 memory module::
+* C128 memory module::
+* VIC20 memory module::
+* PET memory module::
+* CBM-II memory module::
+
 
 File: vice.info,  Node: Module Terminology,  Next: Module framework,  Prev: Module formats,  Up: Module formats
 
@@ -1056,112 +1091,4 @@ example,
 
    will copy `some file' into the file system with name `this"file'
 (with an embedded quote).
-
-
-File: vice.info,  Node: c1541 commands and options,  Next: c1541 executing shell commands,  Prev: c1541 quoting,  Up: c1541
-
-c1541 commands and options
-==========================
-
-   This is a list of the `c1541' commands.  They are shown in their
-interactive form, without the leading `-'.
-
-` [<command>]'
-     Execute specified CBM DOS command and print the current status of
-     the drive.  If no `command' is specified, just print the status.
-
-`? [<command>]'
-     Explain specified command.  If no command is specified, list
-     available ones.
-
-`attach <diskimage> [<unit>]'
-     Attach `diskimage' to `unit' (default unit is 8).
-
-`block <track> <sector> <disp> [<drive>]'
-     Show specified disk block in hex form.
-
-`create <x64name> <d64name>'
-     Create an X64 disk image out of a D64 disk image.
-
-`copy <source1> [<source2> ... <sourceN>] <destination>'
-     Copy `source1' ... `sourceN' into destination.  If N > 1,
-     `destination' must be a simple drive specifier (`@n:').
-
-`delete <file1> [<file2> ... <fileN>]'
-     Delete the specified files.
-
-`exit'
-     Exit (same as `quit').
-
-`extract'
-     Extract all the files to the file system.
-
-`format <diskname,id> [<type> <imagename>] [<unit>]'
-     If `unit' is specified, format the disk in unit `unit'.  If `type'
-     and `imagename' are specified, create a new image named
-     `imagename', attach it to unit 8 and format it.  `type' is a disk
-     image type, and must be either `x64', `d64', `d71' or `d81'.
-     Otherwise, format the disk in the current unit, if any.
-
-`gcrformat <diskname,id> <imagename>'
-     Create and format a G64 disk image named `imagename'.
-
-`help [<command>]'
-     Explain specified command.  If no command is specified, list
-     available ones.
-
-`info [<unit>]'
-     Display information about unit `unit' (if unspecified, use the
-     current one).
-
-`list [<pattern>]'
-     List files matching `pattern' (default is all files).
-
-`quit'
-     Exit (same as `exit').
-
-`read <source> [<destination>]'
-     Read `source' from the disk image and copy it into `destination' in
-     the file system.  If `destination' is not specified, copy it into a
-     file with the same name as `source'.",
-
-`rename <oldname> <newname>'
-     Rename `oldname' into `newname'.  The files must be on the same
-     drive.
-
-`tape <t64name> [<file1> ... <fileN>]'
-     Extract files from a T64 image.
-
-`unit <number>'
-     Make unit `number' the current unit.
-
-`unlynx <lynxname> [<unit>]'
-     Extract the specified Lynx image file into the specified unit
-     (default is the current unit).
-
-`validate [<unit>]'
-     Validate the disk in unit `unit'.  If `unit' is not specified,
-     validate the disk in the current unit.
-
-`write <source> [<destination>]'
-     Write `source' from the file system into `destination' on a disk
-     image.
-
-`zcreate <x64name> <zipname> [<label,id>]'
-     Create an X64 disk image out of a set of four Zipcoded files named
-     `1!zipname', `2!zipname', `3!zipname' and `4!zipname'.
-
-
-File: vice.info,  Node: c1541 executing shell commands,  Prev: c1541 commands and options,  Up: c1541
-
-Executing shell commands
-========================
-
-   If you want to execute a shell command from withing `c1541', just
-prepend it with an exclamation mark (`!').  For example,
-
-     !ls -la
-
-   will execute the command `ls -la', which will show you all the files
-in the current directory.
 

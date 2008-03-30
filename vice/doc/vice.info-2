@@ -1190,16 +1190,24 @@ Drive command-line options
      Specifies the drive types for units 8 and 9, respectively.
      Possible values for `TYPE' are `1541', `1571', `1581' and `2031'.
 
-`-parallel'
-`+parallel'
-     Turns emulation of the SpeedDOS-compatible parallel cable on
-     (`DriveXParallelCable=1') and off (`DriveXParallelCable=0'),
-     respectively.
+`-parallel8'
+`+parallel8'
+`-parallel9'
+`+parallel9'
+     Turns emulation of the SpeedDOS-compatible parallel cable for disk
+     unit 8 or 9 on (`DriveXParallelCable=1', X=8 or 9) and off
+     (`DriveXParallelCable=0'), respectively.
 
 `-drive8idle NUM'
 `-drive9idle NUM'
      Specifies `NUM' as the idling method in drives 8 and 9,
      respectively (`Drive8IdleMethod', `Drive9IdleMethod').
+
+`-drive8extend NUM'
+`-drive9extend NUM'
+     Specifies `NUM' as the track 40 extend policy in drives 8 and 9,
+     respectively (`Drive8ExtendImagePolicy',
+     `Drive9ExtendImagePolicy').
 
 `-paldrive'
      Specifies a PAL sync factor for the drive emulation
@@ -1217,8 +1225,9 @@ Drive command-line options
 `-dos1571'
 `-dos1581'
 `-dos2031'
-     Specify the ROM names for the 1541, 1571, 1581 and 2031 emulation
-     respectively.
+`-dos1001'
+     Specify the ROM names for the 1541, 1571, 1581, 2031 and 1001
+     emulation respectively.
 
 
 File: vice.info,  Node: Peripheral settings,  Next: RS232 settings,  Prev: Drive settings,  Up: Settings and resources

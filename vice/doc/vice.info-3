@@ -361,6 +361,16 @@ Miscellaneous resources
      Boolean specifying whether the emulator should dump core when it
      gets a signal.
 
+`JoyDevice1'
+`JoyDevice2'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for ports 1 and 2, respectively (0=None,
+     1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
+     5=Digital joystick 1, 6=Digital joystick 2 on Unix) The available
+     joysticks might differ depending on operating system and joystick
+     support in the OS (Linux joystick module must be available for
+     example).
+
 
 File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
 
@@ -383,6 +393,11 @@ Miscellaneous command-line options
 `+core'
      Enable/disable generation of core dumps (`DoCoreDump=1',
      `DoCoreDump=0').
+
+`-joydev1'
+`-joydev2'
+     Set the device for joystick emulation of port 1 and 2, respectively
+     (`JoyDevice1', `JoyDevice2').
 
 
 File: vice.info,  Node: Machine-specific features,  Next: Snapshots,  Prev: Settings and resources,  Up: Top
@@ -1465,38 +1480,3 @@ snapshot.
 Name    Type                          Description                          
 *CPU    6502                          The Drive 0 CPU                      
 *       *                             *                                    
-
-
-File: vice.info,  Node: Module formats,  Prev: Emulator modules,  Up: Snapshot format
-
-Module formats
---------------
-
-   This section shows the basic module framework and the contents of the
-different types of modules.
-
-   The single chip modules contain the chip state, not the state of the
-emulator.  We tried to make the format as implementation-independent as
-possible, to allow reuse of snapshots in later versions of this
-emulator, or even in other emulators.
-
-* Menu:
-
-* Module Terminology::
-* Module framework::
-* CPU 6502 module::
-* CIA 6526 module::
-* VIA 6522 module::
-* PIA 6520 module::
-* TPI 6525 module::
-* SID 6581 module::
-* ACIA 6551 module::
-* VIC-I module::
-* VIC-II module::
-* CRTC module::
-* C64 memory module::
-* C128 memory module::
-* VIC20 memory module::
-* PET memory module::
-* CBM-II memory module::
-

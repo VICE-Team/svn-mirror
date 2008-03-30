@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 25 April 1999 -->
+     from ../vice.texi on 28 April 1999 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -1017,13 +1017,18 @@ values for <CODE>TYPE</CODE> are <CODE>1541</CODE>, <CODE>1571</CODE>, <CODE>158
 <CODE>2031</CODE>.
 
 <A NAME="IDX95"></A>
-<P><DT><CODE>-parallel</CODE>
+<P><DT><CODE>-parallel8</CODE>
 <DD>
-<DT><CODE>+parallel</CODE>
+<DT><CODE>+parallel8</CODE>
 <DD>
-Turns emulation of the SpeedDOS-compatible parallel cable on
-(<CODE>DriveXParallelCable=1</CODE>) and off (<CODE>DriveXParallelCable=0</CODE>),
-respectively.
+<DT><CODE>-parallel9</CODE>
+<DD>
+<DT><CODE>+parallel9</CODE>
+<DD>
+Turns emulation of the SpeedDOS-compatible parallel cable for 
+disk unit 8 or 9 on
+(<CODE>DriveXParallelCable=1</CODE>, X=8 or 9) and off 
+(<CODE>DriveXParallelCable=0</CODE>), respectively.
 
 <A NAME="IDX96"></A>
 <P><DT><CODE>-drive8idle NUM</CODE>
@@ -1034,27 +1039,37 @@ Specifies <CODE>NUM</CODE> as the idling method in drives 8 and 9, respectively
 (<CODE>Drive8IdleMethod</CODE>, <CODE>Drive9IdleMethod</CODE>).
 
 <A NAME="IDX97"></A>
+<P><DT><CODE>-drive8extend NUM</CODE>
+<DD>
+<DT><CODE>-drive9extend NUM</CODE>
+<DD>
+Specifies <CODE>NUM</CODE> as the track 40 extend policy in drives 8 and 9, 
+respectively
+(<CODE>Drive8ExtendImagePolicy</CODE>, <CODE>Drive9ExtendImagePolicy</CODE>).
+
+<A NAME="IDX98"></A>
 <P><DT><CODE>-paldrive</CODE>
 <DD>
 Specifies a PAL sync factor for the drive emulation
 (<CODE>DriveSyncFactor=-1</CODE>).
 
-<A NAME="IDX98"></A>
+<A NAME="IDX99"></A>
 <P><DT><CODE>-ntscdrive</CODE>
 <DD>
 Specifies an NTSC sync factor for the drive emulation
 (<CODE>DriveSyncFactor=-2</CODE>).
 
-<A NAME="IDX99"></A>
+<A NAME="IDX100"></A>
 <P><DT><CODE>-drivesync NUM</CODE>
 <DD>
 Specifies a generic sync factor for the drive emulation
 (<CODE>True1541SyncFactor</CODE>).
 
-<A NAME="IDX100"></A>
 <A NAME="IDX101"></A>
 <A NAME="IDX102"></A>
 <A NAME="IDX103"></A>
+<A NAME="IDX104"></A>
+<A NAME="IDX105"></A>
 <P><DT><CODE>-dos1541</CODE>
 <DD>
 <DT><CODE>-dos1571</CODE>
@@ -1063,7 +1078,9 @@ Specifies a generic sync factor for the drive emulation
 <DD>
 <DT><CODE>-dos2031</CODE>
 <DD>
-Specify the ROM names for the 1541, 1571, 1581 and 2031 emulation
+<DT><CODE>-dos1001</CODE>
+<DD>
+Specify the ROM names for the 1541, 1571, 1581, 2031 and 1001 emulation
 respectively.
 
 </DL>
@@ -1139,60 +1156,60 @@ while drive 11 creates Unix files.
 
 <P><DT><CODE>FSDevice8ConvertP00</CODE>
 <DD>
-<A NAME="IDX104"></A>
+<A NAME="IDX106"></A>
  
-<A NAME="IDX105"></A>
+<A NAME="IDX107"></A>
 <DT><CODE>FSDevice9ConvertP00</CODE>
 <DD>
-<A NAME="IDX106"></A>
+<A NAME="IDX108"></A>
 <DT><CODE>FSDevice10ConvertP00</CODE>
 <DD>
-<A NAME="IDX107"></A>
+<A NAME="IDX109"></A>
 <DT><CODE>FSDevice11ConvertP00</CODE>
 <DD>
 Booleans specifying whether on-read support for P00 files is enabled on
 drives 8, 9, 10 and 11 respectively (on by default).
 
-<A NAME="IDX108"></A>
+<A NAME="IDX110"></A>
 <P><DT><CODE>FSDevice8SaveP00</CODE>
 <DD>
-<A NAME="IDX109"></A>
+<A NAME="IDX111"></A>
 <DT><CODE>FSDevice9SaveP00</CODE>
 <DD>
-<A NAME="IDX110"></A>
+<A NAME="IDX112"></A>
 <DT><CODE>FSDevice10SaveP00</CODE>
 <DD>
-<A NAME="IDX111"></A>
+<A NAME="IDX113"></A>
 <DT><CODE>FSDevice11SaveP00</CODE>
 <DD>
 Booleans specifying whether the drives should create P00 files instead
 of plain CBM ones (on by default for drives 8-10, off for 11).
 
-<A NAME="IDX112"></A>
+<A NAME="IDX114"></A>
 <P><DT><CODE>FSDevice8HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX113"></A>
+<A NAME="IDX115"></A>
 <DT><CODE>FSDevice9HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX114"></A>
+<A NAME="IDX116"></A>
 <DT><CODE>FSDevice10HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX115"></A>
+<A NAME="IDX117"></A>
 <DT><CODE>FSDevice11HideCBMFiles</CODE>
 <DD>
 Booleans specifying whether non-P00 files should be invisible to
 programs running in the emulator (do not hide by default).
 
-<A NAME="IDX116"></A>
+<A NAME="IDX118"></A>
 <P><DT><CODE>FSDevice8Dir</CODE>
 <DD>
-<A NAME="IDX117"></A>
+<A NAME="IDX119"></A>
 <DT><CODE>FSDevice9Dir</CODE>
 <DD>
-<A NAME="IDX118"></A>
+<A NAME="IDX120"></A>
 <DT><CODE>FSDevice10Dir</CODE>
 <DD>
-<A NAME="IDX119"></A>
+<A NAME="IDX121"></A>
 <DT><CODE>FSDevice11Dir</CODE>
 <DD>
 Strings specifying the directories to which drives 8, 9, 10 and 11
@@ -1208,15 +1225,15 @@ have access.
 
 <P><DT><CODE>-fs8 PATH</CODE>
 <DD>
-<A NAME="IDX120"></A>
+<A NAME="IDX122"></A>
  
-<A NAME="IDX121"></A>
+<A NAME="IDX123"></A>
 <DT><CODE>-fs9 PATH</CODE>
 <DD>
-<A NAME="IDX122"></A>
+<A NAME="IDX124"></A>
 <DT><CODE>-fs10 PATH</CODE>
 <DD>
-<A NAME="IDX123"></A>
+<A NAME="IDX125"></A>
 <DT><CODE>-fs11 PATH</CODE>
 <DD>
 Specify the paths for the file system access on drives 8, 9, 10 and 11,
@@ -1282,33 +1299,33 @@ output from the Commodore printer code) and then to the printer via
 
 <P><DT><CODE>PrDevice1</CODE>
 <DD>
-<A NAME="IDX124"></A>
+<A NAME="IDX126"></A>
  
-<A NAME="IDX125"></A>
+<A NAME="IDX127"></A>
 <DT><CODE>PrDevice2</CODE>
 <DD>
-<A NAME="IDX126"></A>
+<A NAME="IDX128"></A>
 <DT><CODE>PrDevice3</CODE>
 <DD>
 Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC61">6.8.2  Printer settings</A>).
 
-<A NAME="IDX127"></A>
+<A NAME="IDX129"></A>
 <P><DT><CODE>Printer4</CODE>
 <DD>
 Boolean specifying if the IEC printer (device 4) is being emulated.
 
-<A NAME="IDX128"></A>
+<A NAME="IDX130"></A>
 <P><DT><CODE>Printer4Dev</CODE>
 <DD>
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer device 
 (see section <A HREF="vice_6.html#SEC61">6.8.2  Printer settings</A>) the IEC printer is using.
 
-<A NAME="IDX129"></A>
+<A NAME="IDX131"></A>
 <P><DT><CODE>PrUser</CODE>
 <DD>
 Boolean specifying if the user-port printer is being emulated.
 
-<A NAME="IDX130"></A>
+<A NAME="IDX132"></A>
 <P><DT><CODE>PrUserDev</CODE>
 <DD>
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer 
@@ -1324,18 +1341,18 @@ device the user-port printer is using.
 
 <P><DT><CODE>-prdev1 NAME</CODE>
 <DD>
-<A NAME="IDX131"></A>
+<A NAME="IDX133"></A>
  
-<A NAME="IDX132"></A>
+<A NAME="IDX134"></A>
 <DT><CODE>-prdev2 NAME</CODE>
 <DD>
-<A NAME="IDX133"></A>
+<A NAME="IDX135"></A>
 <DT><CODE>-prdev3 NAME</CODE>
 <DD>
 Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
 (<CODE>PrDevice1</CODE>, <CODE>PrDevice2</CODE> and <CODE>PrDevice3</CODE>).
 
-<A NAME="IDX134"></A>
+<A NAME="IDX136"></A>
 <P><DT><CODE>-printer4</CODE>
 <DD>
 <DT><CODE>+printer4</CODE>
@@ -1343,12 +1360,12 @@ Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
 Enable/disable emulation of the IEC printer (<CODE>Printer4=1</CODE>,
 <CODE>Printer4=0</CODE>).
 
-<A NAME="IDX135"></A>
+<A NAME="IDX137"></A>
 <P><DT><CODE>-pr4dev DEV</CODE>
 <DD>
 Specify device for the IEC printer (<CODE>Printer4Dev</CODE>).
 
-<A NAME="IDX136"></A>
+<A NAME="IDX138"></A>
 <P><DT><CODE>-pruser</CODE>
 <DD>
 <DT><CODE>+pruser</CODE>
@@ -1356,7 +1373,7 @@ Specify device for the IEC printer (<CODE>Printer4Dev</CODE>).
 Enable/disable emulation of the IEC printer (<CODE>PrUser=1</CODE>,
 <CODE>PrUser=0</CODE>).
 
-<A NAME="IDX137"></A>
+<A NAME="IDX139"></A>
 <P><DT><CODE>-pruserdev DEV</CODE>
 <DD>
 Specify device for the IEC printer (<CODE>PrUserDev</CODE>).
@@ -1384,7 +1401,7 @@ to be able to read or write disk images) and tape support.
 
 <P><DT><CODE>NoTraps</CODE>
 <DD>
-<A NAME="IDX138"></A>
+<A NAME="IDX140"></A>
  
 Boolean specifying whether all the Kernal trap should be disabled.
 
@@ -1398,7 +1415,7 @@ Boolean specifying whether all the Kernal trap should be disabled.
 
 <P><DT><CODE>-traps</CODE>
 <DD>
-<A NAME="IDX139"></A>
+<A NAME="IDX141"></A>
  
 <DT><CODE>+traps</CODE>
 <DD>
@@ -1510,60 +1527,60 @@ actually expects).
 
 <P><DT><CODE>RsDevice1</CODE>
 <DD>
-<A NAME="IDX140"></A>
+<A NAME="IDX142"></A>
  
-<A NAME="IDX141"></A>
+<A NAME="IDX143"></A>
 <DT><CODE>RsDevice2</CODE>
 <DD>
-<A NAME="IDX142"></A>
+<A NAME="IDX144"></A>
 <DT><CODE>RsDevice3</CODE>
 <DD>
-<A NAME="IDX143"></A>
+<A NAME="IDX145"></A>
 <DT><CODE>RsDevice4</CODE>
 <DD>
 Strings specifying the RS232 devices (see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>).
 
-<A NAME="IDX144"></A>
+<A NAME="IDX146"></A>
 <P><DT><CODE>RsDevice1Baud</CODE>
 <DD>
-<A NAME="IDX145"></A>
+<A NAME="IDX147"></A>
 <DT><CODE>RsDevice2Baud</CODE>
 <DD>
-<A NAME="IDX146"></A>
+<A NAME="IDX148"></A>
 <DT><CODE>RsDevice3Baud</CODE>
 <DD>
-<A NAME="IDX147"></A>
+<A NAME="IDX149"></A>
 <DT><CODE>RsDevice4Baud</CODE>
 <DD>
 Integer specifying the RS232 baudrate devices if the device file points
 to a special device (like <TT>`/dev/ttyS0'</TT>; see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>).
 
-<A NAME="IDX148"></A>
+<A NAME="IDX150"></A>
 <P><DT><CODE>AciaDE</CODE>
 <DD>
 Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
 I/O 1, at <CODE>$de**</CODE>.
 
-<A NAME="IDX149"></A>
+<A NAME="IDX151"></A>
 <P><DT><CODE>Acia1Dev</CODE>
 <DD>
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
 (see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>) the ACIA is using (all except VIC20).
 
-<A NAME="IDX150"></A>
+<A NAME="IDX152"></A>
 <P><DT><CODE>Acia1Irq</CODE>
 <DD>
 Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI 
 (C64 and C128 only)
 
-<A NAME="IDX151"></A>
+<A NAME="IDX153"></A>
 <P><DT><CODE>RsUser</CODE>
 <DD>
 Integer specifying if the user-port RS232 interface is being emulated and 
 at which baudrate it should have for the emulator. 0 = off; &#62; 0 specifies the
 baudrate (C64, C128 and VIC20).
 
-<A NAME="IDX152"></A>
+<A NAME="IDX154"></A>
 <P><DT><CODE>RsUserDev</CODE>
 <DD>
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
@@ -1579,30 +1596,30 @@ the user-port interface is using (C64, C128 and VIC20).
 
 <P><DT><CODE>-rsdev1 NAME</CODE>
 <DD>
-<A NAME="IDX153"></A>
+<A NAME="IDX155"></A>
  
-<A NAME="IDX154"></A>
+<A NAME="IDX156"></A>
 <DT><CODE>-rsdev2 NAME</CODE>
 <DD>
-<A NAME="IDX155"></A>
+<A NAME="IDX157"></A>
 <DT><CODE>-rsdev3 NAME</CODE>
 <DD>
-<A NAME="IDX156"></A>
+<A NAME="IDX158"></A>
 <DT><CODE>-rsdev4 NAME</CODE>
 <DD>
 Specify <CODE>NAME</CODE> as RS232 devices 1, 2, 3 and 4, respectively
 (<CODE>RsDevice1</CODE>, <CODE>RsDevice2</CODE> <CODE>RsDevice3</CODE> and <CODE>RsDevice4</CODE>).
 
-<A NAME="IDX157"></A>
+<A NAME="IDX159"></A>
 <P><DT><CODE>-rsdev1 BAUDRATE</CODE>
 <DD>
-<A NAME="IDX158"></A>
+<A NAME="IDX160"></A>
 <DT><CODE>-rsdev2 BAUDRATE</CODE>
 <DD>
-<A NAME="IDX159"></A>
+<A NAME="IDX161"></A>
 <DT><CODE>-rsdev3 BAUDRATE</CODE>
 <DD>
-<A NAME="IDX160"></A>
+<A NAME="IDX162"></A>
 <DT><CODE>-rsdev4 BAUDRATE</CODE>
 <DD>
 Specify <CODE>BAUDRATE</CODE> as baudrate for the RS232 devices if the device name
@@ -1611,18 +1628,18 @@ see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>;
 <CODE>RsDevice1Baud</CODE>, <CODE>RsDevice2Baud</CODE> <CODE>RsDevice3Baud</CODE> and 
 <CODE>RsDevice4Baud</CODE>).
 
-<A NAME="IDX161"></A>
+<A NAME="IDX163"></A>
 <P><DT><CODE>-acia1dev</CODE>
 <DD>
 Specify device for the ACIA (<CODE>Acia1Dev</CODE>).
 
-<A NAME="IDX162"></A>
+<A NAME="IDX164"></A>
 <P><DT><CODE>-rsuser BAUDRATE</CODE>
 <DD>
 Enable (BAUDRATE not 0) or disable (BAUDRATE = 0) emulation of the 
 userport RS232 emulation (<CODE>RsUser</CODE>; C64, C128 and VIC20)
 
-<A NAME="IDX163"></A>
+<A NAME="IDX165"></A>
 <P><DT><CODE>-rsuserdev DEV</CODE>
 <DD>
 Specify device for the userport RS232 emulation (<CODE>RsUserDev</CODE>; 
@@ -1696,7 +1713,7 @@ categories.
 
 <P><DT><CODE>Directory</CODE>
 <DD>
-<A NAME="IDX164"></A>
+<A NAME="IDX166"></A>
  
 String specifying the search path for system files.  It is defined as a
 sequence of directory names, separated by colons (<SAMP>`:'</SAMP>), just like
@@ -1740,7 +1757,7 @@ speeddos or JiffyDos) can be stored for example.
 See section <A HREF="vice_4.html#SEC23">4  System files</A> for a description of the method used to load the
 emulator's system files.
 
-<A NAME="IDX165"></A>
+<A NAME="IDX167"></A>
 <P><DT><CODE>HTMLBrowserCommand</CODE>
 <DD>
 String specifying the command to run the help browser.  The help browser
@@ -1748,18 +1765,31 @@ can be any HTML browser, and every <SAMP>`%s'</SAMP> in the string is replaced
 with the name of the toplevel file of the VICE documentation.  For
 example, the default value <SAMP>`netscape %s'</SAMP> runs Netscape Navigator.
 
-<A NAME="IDX166"></A>
+<A NAME="IDX168"></A>
 <P><DT><CODE>SaveResourcesOnExit</CODE>
 <DD>
 Boolean specifying whether the emulator should save changed settings
 before exiting.  If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
-<A NAME="IDX167"></A>
+<A NAME="IDX169"></A>
 <P><DT><CODE>DoCoreDump</CODE>
 <DD>
 Boolean specifying whether the emulator should dump core when it gets a
 signal.
+
+<A NAME="IDX170"></A>
+<P><DT><CODE>JoyDevice1</CODE>
+<DD>
+<DT><CODE>JoyDevice2</CODE>
+<DD>
+Integer specifying which joystick device the emulator should use for
+joystick emulation for ports 1 and 2, respectively
+(0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
+5=Digital joystick 1, 6=Digital joystick 2 on Unix)
+The available joysticks might differ depending on operating system and
+joystick support in the OS (Linux joystick module must be 
+available for example).
 
 </DL>
 
@@ -1771,28 +1801,37 @@ signal.
 
 <P><DT><CODE>-directory SEARCHPATH</CODE>
 <DD>
-<A NAME="IDX168"></A>
+<A NAME="IDX171"></A>
  
 Specify the system file search path (<CODE>Directory</CODE>).
-<A NAME="IDX169"></A>
+<A NAME="IDX172"></A>
 <P><DT><CODE>-htmlbrowser COMMAND</CODE>
 <DD>
 Specify the command to run the HTML browser for the on-line help
 (<CODE>HTMLBrowserCommand</CODE>).
-<A NAME="IDX170"></A>
+<A NAME="IDX173"></A>
 <P><DT><CODE>-saveres</CODE>
 <DD>
 <DT><CODE>+saveres</CODE>
 <DD>
 Enable/disable automatic saving of settings on exit
 (<CODE>SaveResourcesOnExit=1</CODE>, <CODE>SaveResourcesOnExit=0</CODE>).
-<A NAME="IDX171"></A>
+
+<A NAME="IDX174"></A>
 <P><DT><CODE>-core</CODE>
 <DD>
 <DT><CODE>+core</CODE>
 <DD>
 Enable/disable generation of core dumps (<CODE>DoCoreDump=1</CODE>,
 <CODE>DoCoreDump=0</CODE>).
+
+<A NAME="IDX175"></A>
+<P><DT><CODE>-joydev1</CODE>
+<DD>
+<DT><CODE>-joydev2</CODE>
+<DD>
+Set the device for joystick emulation of port 1 and 2, respectively
+(<CODE>JoyDevice1</CODE>, <CODE>JoyDevice2</CODE>).
 </DL>
 
 <P><HR><P>
