@@ -71,7 +71,7 @@ static void set_ca2(int state)
 /* switching userport strobe with CB2 */
 static void set_cb2(int state)
 {
-    printer_interface_userport_write_strobe(state);
+    printer_userport_write_strobe(state);
 }
 
 static void set_int(via_context_t *via_context, unsigned int int_num,
@@ -89,13 +89,13 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
-    printer_interface_userport_write_data(byte);
+    printer_userport_write_data(byte);
 }
 
-inline static void store_pra(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpa, WORD addr)
+static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
+                      WORD addr)
 {
-    printer_interface_userport_write_data(byte);
+    printer_userport_write_data(byte);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
@@ -104,8 +104,8 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
     parallel_cpu_restore_atn((BYTE)(!(byte & 0x04)));
 }
 
-inline static void store_prb(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpb, WORD addr)
+static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
+                      WORD addr)
 {
     if ((addr == VIA_DDRB) && (via_context->via[addr] & 0x20)) {
         log_warning(via_context->log,
@@ -132,7 +132,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 #endif
 }
 
-inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
 #if 0
     if (byte != via_context->via[VIA_PCR]) {
@@ -144,7 +144,7 @@ inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
             tmp |= 0x20;
         crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                                  /* switching userport strobe with CB2 */
-        printer_interface_userport_write_strobe(byte & 0x20);
+        printer_userport_write_strobe(byte & 0x20);
     }
 #endif
     return byte;
@@ -156,18 +156,18 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
                        ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
-inline void static store_acr(via_context_t *via_context, BYTE byte)
+void static store_acr(via_context_t *via_context, BYTE byte)
 {
     store_petsnd_onoff(via_context->via[VIA_T2LL]
                        ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
-inline void static store_sr(via_context_t *via_context, BYTE byte)
+void static store_sr(via_context_t *via_context, BYTE byte)
 {
     store_petsnd_sample(byte);
 }
 
-inline void static store_t2l(via_context_t *via_context, BYTE byte)
+void static store_t2l(via_context_t *via_context, BYTE byte)
 {
     store_petsnd_rate(2 * byte + 4);
     if (!byte) {
@@ -184,8 +184,8 @@ static void reset(via_context_t *via_context)
     parallel_cpu_set_atn(0);
     parallel_cpu_set_nrfd(0);
 
-    printer_interface_userport_write_data(0xff);
-    printer_interface_userport_write_strobe(1);
+    printer_userport_write_data(0xff);
+    printer_userport_write_strobe(1);
 }
 
 inline static BYTE read_pra(via_context_t *via_context, WORD addr)
@@ -211,7 +211,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     return byte;
 }
 
-inline static BYTE read_prb(via_context_t *via_context)
+static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
 
@@ -229,12 +229,6 @@ inline static BYTE read_prb(via_context_t *via_context)
     byte = ((byte & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
     return byte;
-}
-
-void printer_interface_userport_set_busy(int b)
-{
-    viacore_signal(machine_context.via,
-                   VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
 void via_init(via_context_t *via_context)

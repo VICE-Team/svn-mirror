@@ -39,6 +39,9 @@
 
 static int userport_printer_enabled = 0;
 
+static void (*set_busy_func)(unsigned int b) = NULL;
+
+
 static int set_up_enabled(resource_value_t v, void *param)
 {
     int newval;
@@ -90,20 +93,27 @@ int interface_userport_init_cmdline_options(void)
 static BYTE value; /* userport value */
 static int strobe;
 
-void printer_interface_userport_write_data(BYTE b)
+void interface_userport_write_data(BYTE b)
 {
     value = b;
 }
 
-void printer_interface_userport_write_strobe(int s)
+void interface_userport_write_strobe(int s)
 {
     if (userport_printer_enabled && strobe && !s) {     /* hi->lo on strobe */
         driver_select_putc(2, 4, (BYTE)value);
 
-        printer_interface_userport_set_busy(1); /* signal lo->hi */
-        printer_interface_userport_set_busy(0); /* signal hi->lo */
+        if (set_busy_func != NULL) {
+            (*set_busy_func)(1); /* signal lo->hi */
+            (*set_busy_func)(0); /* signal hi->lo */
+        }
     }
 
     strobe = s;
+}
+
+void interface_userport_init(void (*set_busy)(unsigned int))
+{
+    set_busy_func = set_busy;
 }
 

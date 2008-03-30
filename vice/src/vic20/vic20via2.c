@@ -108,13 +108,13 @@ inline static void store_pra(via_context_t *via_context, BYTE byte,
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
 {
-    printer_interface_userport_write_data(byte);
+    printer_userport_write_data(byte);
 }
 
 inline static void store_prb(via_context_t *via_context, BYTE byte,
                              BYTE myoldpb, WORD addr)
 {
-    printer_interface_userport_write_data(byte);
+    printer_userport_write_data(byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
 #endif
@@ -128,8 +128,8 @@ static void reset(via_context_t *via_context)
 {
 /*    iec_pa_write(0xff);*/
 
-    printer_interface_userport_write_data(0xff);
-    printer_interface_userport_write_strobe(1);
+    printer_userport_write_data(0xff);
+    printer_userport_write_strobe(1);
 #ifdef HAVE_RS232
     rsuser_write_ctrl(0xff);
     rsuser_set_tx_bit(1);
@@ -155,7 +155,7 @@ inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
             rsuser_set_tx_bit(byte & 0x20);
         }
 #endif
-        printer_interface_userport_write_strobe(byte & 0x20);
+        printer_userport_write_strobe(byte & 0x20);
     }
     return byte;
 }
@@ -220,12 +220,6 @@ inline static BYTE read_prb(via_context_t *via_context)
     byte = 0xff;
 #endif
     return byte;
-}
-
-void printer_interface_userport_set_busy(int b)
-{
-    viacore_signal(machine_context.via2,
-                   VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
 void via2_init(via_context_t *via_context)

@@ -91,8 +91,8 @@ static int vbank;
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-    printer_interface_userport_write_strobe(1);
-    printer_interface_userport_write_data((BYTE)0xff);
+    printer_userport_write_strobe(1);
+    printer_userport_write_data((BYTE)0xff);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
@@ -136,7 +136,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             mem_set_vbank(new_vbank);
         }
         (*iecbus_callback_write)((BYTE)tmp, maincpu_clk);
-        printer_interface_userport_write_strobe(tmp & 0x04);
+        printer_userport_write_strobe(tmp & 0x04);
     }
 }
 
@@ -164,7 +164,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
     parallel_cable_cpu_pulse();
-    printer_interface_userport_write_data((BYTE)(cia_context->old_pb));
+    printer_userport_write_data((BYTE)(cia_context->old_pb));
 }
 
 /* FIXME! */
@@ -172,7 +172,7 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
                                 BYTE byte)
 {
     parallel_cable_cpu_undump((BYTE)byte);
-    printer_interface_userport_write_data((BYTE)byte);
+    printer_userport_write_data((BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
@@ -268,11 +268,5 @@ void cia2_setup_context(machine_context_t *machine_context)
     cia->pre_store = pre_store;
     cia->pre_read = pre_read;
     cia->pre_peek = pre_peek;
-}
-
-void printer_interface_userport_set_busy(int b)
-{
-    if (!b)
-        ciacore_set_flag(machine_context.cia2);
 }
 

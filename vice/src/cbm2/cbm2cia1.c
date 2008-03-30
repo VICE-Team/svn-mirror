@@ -90,8 +90,8 @@ void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-    printer_interface_userport_write_strobe(1);
-    printer_interface_userport_write_data(0xff);
+    printer_userport_write_strobe(1);
+    printer_userport_write_data(0xff);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -117,9 +117,9 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    printer_interface_userport_write_data(byte);
-    printer_interface_userport_write_strobe(0);
-    printer_interface_userport_write_strobe(1);
+    printer_userport_write_data(byte);
+    printer_userport_write_strobe(0);
+    printer_userport_write_strobe(1);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -212,11 +212,5 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->pre_store = NULL;
     cia->pre_read = NULL;
     cia->pre_peek = NULL;
-}
-
-void printer_interface_userport_set_busy(int b)
-{
-    if (!b)
-        ciacore_set_flag(machine_context.cia1);
 }
 
