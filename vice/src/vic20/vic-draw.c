@@ -64,7 +64,8 @@ static void init_drawing_tables(void)
 }
 
 
-static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int fill_cache(raster_cache_t *cache, unsigned int *xs,
+                      unsigned int *xe, int rr)
 {
     int r;
 
@@ -116,7 +117,7 @@ static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int rr)
     *(vic.chargen_ptr + ((code) * vic.char_height) \
     + (row & ((vic.char_height >> 1) | 7)))
 
-inline static void draw(BYTE *p, int xs, int xe, int reverse,
+inline static void draw(BYTE *p, unsigned int xs, unsigned int xe, int reverse,
                         int transparent)
 /* transparent>0: don't overwrite background */
 {
@@ -166,7 +167,8 @@ static void draw_reverse_line(void)
     draw(p, 0, vic.text_cols - 1, 1, 0);
 }
 
-static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_line_cached(raster_cache_t *cache, unsigned int xs,
+                             unsigned int xe)
 {
     BYTE *p;
 
@@ -178,7 +180,8 @@ static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
          ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 0, 0);
 }
 
-static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_reverse_line_cached(raster_cache_t *cache, unsigned int xs,
+                                     unsigned int xe)
 {
     BYTE *p;
 
@@ -189,14 +192,16 @@ static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
          ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 1, 0);
 }
 
-static void draw_std_background(int start_pixel, int end_pixel)
+static void draw_std_background(unsigned int start_pixel,
+                                unsigned int end_pixel)
 {
     memset(vic.raster.draw_buffer_ptr + start_pixel,
            vic.raster.background_color,
            (end_pixel - start_pixel + 1));
 }
 
-static void draw_std_foreground(int start_char, int end_char)
+static void draw_std_foreground(unsigned int start_char,
+                                unsigned int end_char)
 {
     BYTE *p;
 
@@ -206,7 +211,7 @@ static void draw_std_foreground(int start_char, int end_char)
     draw(p, start_char, end_char, 0, 1);
 }
 
-static void draw_rev_foreground(int start_char, int end_char)
+static void draw_rev_foreground(unsigned int start_char, unsigned int end_char)
 {
     BYTE *p;
 

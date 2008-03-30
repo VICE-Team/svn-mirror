@@ -57,7 +57,8 @@ static void init_drawing_tables(void)
 
 /***************************************************************************/
 
-static void draw_standard_background(int start_pixel, int end_pixel)
+static void draw_standard_background(unsigned int start_pixel,
+                                     unsigned int end_pixel)
 {
     memset(crtc.raster.draw_buffer_ptr + start_pixel,
            0,
@@ -178,7 +179,8 @@ static void draw_reverse_line(void)
          (crtc.rl_len + 1) * crtc.hw_cols);
 }
 
-static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_std_text(raster_cache_t *cache, unsigned int *xs,
+                        unsigned int *xe, int rr)
 {
     *xs = 0;
     *xe = (crtc.rl_len + 1) * crtc.hw_cols;
@@ -186,12 +188,14 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return 1;
 }
 
-static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
+                                 unsigned int xe)
 {
     draw_standard_line();
 }
 
-static int get_rev_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_rev_text(raster_cache_t *cache, unsigned int *xs,
+                        unsigned int *xe, int rr)
 {
     *xs = 0;
     *xe = (crtc.rl_len + 1) * crtc.hw_cols;
@@ -199,7 +203,8 @@ static int get_rev_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return 1;
 }
 
-static void draw_rev_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_rev_text_cached(raster_cache_t *cache, unsigned int xs,
+                                 unsigned int xe)
 {
     draw_reverse_line();
 }
