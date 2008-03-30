@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib dxguid.lib wsock32.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib dxguid.lib wsock32.lib version.lib /nologo /subsystem:windows /machine:I386
 
 !ELSEIF  "$(CFG)" == "x128 - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 dxguid.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib wsock32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 dxguid.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib wsock32.lib version.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
 !ENDIF
 

@@ -452,30 +452,32 @@ void ted_update_memory_ptrs(unsigned int cycle)
     BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
     BYTE *color_base;             /* Pointer to color memory.  */
     int tmp;
-    unsigned int romsel;
+    unsigned int video_romsel;
+    unsigned int cpu_romsel;
 
-    romsel = ted.regs[0x12] & 4;
+    video_romsel = ted.regs[0x12] & 4;
+    cpu_romsel = (ted.regs[0x13] & 1) << 2;
 
     screen_addr = ((ted.regs[0x14] & 0xf8) << 8) | 0x400;
-    screen_base = mem_get_tedmem_base((screen_addr >> 14) | romsel)
+    screen_base = mem_get_tedmem_base((screen_addr >> 14) | cpu_romsel)
                   + (screen_addr & 0x3fff);
 
     TED_DEBUG_REGISTER(("\tVideo memory at $%04X", screen_addr));
 
     bitmap_addr = (ted.regs[0x12] & 0x38) << 10;
-    bitmap_base = mem_get_tedmem_base((bitmap_addr >> 14) | romsel)
+    bitmap_base = mem_get_tedmem_base((bitmap_addr >> 14) | video_romsel)
                   + (bitmap_addr & 0x3fff);
 
     TED_DEBUG_REGISTER(("\tBitmap memory at $%04X", bitmap_addr));
 
     char_addr = (ted.regs[0x13] & (((ted.regs[0x06] & 0x40) | (ted.regs[0x07] & 0x90)) ? 0xf8 : 0xfc)) << 8;
-    char_base = mem_get_tedmem_base((char_addr >> 14) | romsel)
+    char_base = mem_get_tedmem_base((char_addr >> 14) | video_romsel)
                 + (char_addr & 0x3fff);
 
     TED_DEBUG_REGISTER(("\tUser-defined character set at $%04X", char_addr));
 
     color_addr = ((ted.regs[0x14] & 0xf8) << 8);
-    color_base = mem_get_tedmem_base((color_addr >> 14) | romsel)
+    color_base = mem_get_tedmem_base((color_addr >> 14) | cpu_romsel)
                  + (color_addr & 0x3fff);
 
     TED_DEBUG_REGISTER(("\tColor memory at $%04X", color_addr));

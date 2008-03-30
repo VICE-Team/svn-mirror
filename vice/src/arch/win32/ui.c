@@ -1800,18 +1800,12 @@ static long CALLBACK window_proc(HWND window, UINT msg,
             if (GetUpdateRect(window, &update_rect, FALSE)) {
                 PAINTSTRUCT ps;
                 HDC hdc;
-                int frame_coord[6];
 
                 hdc = BeginPaint(window, &ps);
 
-                frame_coord[0] = update_rect.left;
-                frame_coord[1] = update_rect.top;
-                frame_coord[2] = update_rect.right;
-                frame_coord[3] = update_rect.bottom;
-
-                canvas_update(window, hdc,update_rect.left, update_rect.top,
-                              update_rect.right - update_rect.left,
-                              update_rect.bottom - update_rect.top);
+                canvas_update(window, hdc, ps.rcPaint.left, ps.rcPaint.top,
+                              ps.rcPaint.right - ps.rcPaint.left,
+                              ps.rcPaint.bottom - ps.rcPaint.top);
 
                 EndPaint(window, &ps);
                 return 0;

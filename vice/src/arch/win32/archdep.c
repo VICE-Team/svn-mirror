@@ -138,6 +138,11 @@ typedef BOOL (WINAPI * _Module32First)(
     LPMODULEENTRY32 lpme
 );
 
+typedef BOOL (WINAPI * _Module32Next)(
+    HANDLE hSnapshot,
+    LPMODULEENTRY32 lpme
+);
+
 typedef BOOL (WINAPI * _EnumProcessModules)(
     HANDLE hProcess,      // handle to process
     HMODULE *lphModule,   // array of module handles
@@ -152,43 +157,83 @@ typedef DWORD (WINAPI * _GetModuleFileNameEx)(
     DWORD nSize         // maximum characters to retrieve
 );
 
+static BOOL verify_exe(char *file_name)
+{
+DWORD	version_info_size;
+BOOL	bResult = FALSE;
+char	*product_name = NULL;
+int 	product_name_length = 0;
+
+    if (version_info_size = GetFileVersionInfoSize(file_name, NULL)) {
+        BYTE *version_info_buffer = lib_malloc(version_info_size);
+
+        if (GetFileVersionInfo(file_name, (DWORD)NULL, version_info_size, (VOID*)version_info_buffer)) {
+            if (VerQueryValue(version_info_buffer, "\\StringFileInfo\\04090000\\ProductName", &product_name, &product_name_length)) {
+                if (product_name) {
+                    if (strncmp("Vice Emulator", product_name, product_name_length) == 0) {
+                        bResult = TRUE;
+                    }
+                }
+            }
+        }
+
+        lib_free(version_info_buffer);
+    }
+
+    return bResult;
+}
+
 const char *archdep_boot_path(void)
 {
 HANDLE          snap;
 MODULEENTRY32   ment;
 HANDLE          hproc;
-HMODULE         hmodule;
 int             cbneed;
+int             i;
 _CreateToolhelp32Snapshot   func_CreateToolhelp32Snapshot = NULL;
 _Module32First              func_Module32First  = NULL;
+_Module32Next               func_Module32Next = NULL;
 _EnumProcessModules         func_EnumProcessModules = NULL;
 _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
+char            *possible_trojan_path;
 
+    possible_trojan_path = NULL;
     if (boot_path == NULL) {
         hkernel = LoadLibrary(TEXT("kernel32.dll"));
         if (hkernel) {
             OutputDebugString(TEXT("DLL: kernel32.dll loaded"));
+
             OutputDebugString(TEXT("DLL: getting address for CreateToolhelp32Snapshot"));
             func_CreateToolhelp32Snapshot
                 = (_CreateToolhelp32Snapshot)GetProcAddress(hkernel,
                   TEXT("CreateToolhelp32Snapshot"));
             if (func_CreateToolhelp32Snapshot)
                 OutputDebugString(TEXT("CreateToolhelp32Snaphshot success"));
+
             OutputDebugString(TEXT("DLL: getting address for Module32First"));
             func_Module32First = (_Module32First)GetProcAddress(hkernel,
                                  TEXT("Module32First"));
             if (func_Module32First)
                 OutputDebugString(TEXT("Module32First success"));
+
+            OutputDebugString(TEXT("DLL: getting address for Module32Next"));
+            func_Module32Next = (_Module32Next)GetProcAddress(hkernel,
+                                 TEXT("Module32Next"));
+            if (func_Module32Next)
+                OutputDebugString(TEXT("Module32Next success"));
         }
+
         hpsapi = LoadLibrary(TEXT("psapi.dll"));
         if (hpsapi) {
             OutputDebugString(TEXT("DLL: psapi.dll loaded"));
+
             OutputDebugString(TEXT("DLL: getting address for EnumProcessModules"));
             func_EnumProcessModules
                 = (_EnumProcessModules)GetProcAddress(hpsapi,
                   TEXT("EnumProcessModules"));
             if (func_EnumProcessModules)
                 OutputDebugString(TEXT("EnumProcessModules success"));
+
             OutputDebugString(TEXT("DLL: getting address for GetModuleFileNameEx"));
             func_GetModuleFileNameEx
                 = (_GetModuleFileNameEx)GetProcAddress(hpsapi,
@@ -196,29 +241,57 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
             if (func_GetModuleFileNameEx)
                 OutputDebugString(TEXT("GetModuleFileNameEx success"));
         }
+
         if (func_EnumProcessModules) {
             OutputDebugString(TEXT("BOOT path NT method"));
             hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
                                 FALSE, GetCurrentProcessId());
-            if (func_EnumProcessModules(hproc, &hmodule, sizeof(hmodule),
-                (LPDWORD)&cbneed)) {
-                TCHAR st_temp[MAX_PATH];
-                char temp[MAX_PATH];
-                if (func_GetModuleFileNameEx(hproc, hmodule, st_temp,
-                    MAX_PATH)) {
-                    system_wcstombs(temp, st_temp, MAX_PATH);
-                    util_fname_split(temp, &boot_path, NULL);
+            cbneed = 0;
+            func_EnumProcessModules(hproc, NULL, 0, (LPDWORD)&cbneed);
+            if (cbneed) {
+                HMODULE *modules = lib_malloc(cbneed);
+                int	n_modules = cbneed / sizeof(HMODULE);
+                if (func_EnumProcessModules(hproc, modules, cbneed,
+                    (LPDWORD)&cbneed)) {
+                    for (i = 0; i < n_modules; i++) {
+                        TCHAR st_temp[MAX_PATH];
+                        char temp[MAX_PATH];
+                        if (func_GetModuleFileNameEx(hproc, modules[i], st_temp,
+                            MAX_PATH)) {
+                            system_wcstombs(temp, st_temp, MAX_PATH);
+                            OutputDebugString(st_temp);
+                            if (verify_exe(temp)) {
+                                util_fname_split(temp, &boot_path, NULL);
+                                break;
+                            } else if (i == 0) {
+                                possible_trojan_path = lib_stralloc(temp);
+                            }
+                        }
+                    }
                 }
+                lib_free(modules);
             }
             CloseHandle(hproc);
-        } else if (func_CreateToolhelp32Snapshot) {
+        } else if (func_CreateToolhelp32Snapshot && func_Module32First && func_Module32Next) {
             OutputDebugString(TEXT("BOOT path Win9x method"));
             snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,
                                                  GetCurrentProcessId());
             memset(&ment, 0, sizeof(MODULEENTRY32));
             ment.dwSize = sizeof(MODULEENTRY32);
-            func_Module32First(snap,&ment);
-            util_fname_split(ment.szExePath, &boot_path, NULL);
+            func_Module32First(snap, &ment);
+            OutputDebugString(ment.szExePath);
+            if (verify_exe(ment.szExePath)) {
+                util_fname_split(ment.szExePath, &boot_path, NULL);
+            } else {
+                possible_trojan_path = lib_stralloc(ment.szExePath);
+                while (func_Module32Next(snap, &ment)) {
+                    OutputDebugString(ment.szExePath);
+                    if (verify_exe(ment.szExePath)) {
+                        util_fname_split(ment.szExePath, &boot_path, NULL);
+                        break;
+                    }
+                }
+            }
             CloseHandle(snap);
         } else {
             TCHAR st_temp[MAX_PATH];
@@ -237,6 +310,12 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
         /* This should not happen, but you never know...  */
         if (boot_path == NULL)
             boot_path = lib_stralloc(".\\");
+    }
+
+    if (possible_trojan_path) {
+        archdep_startup_log_error("Vice detected a possible trojan running in its process space\n\n%s\n\nPlease run your favourite Antivirus software!", possible_trojan_path);
+
+        lib_free(possible_trojan_path);
     }
 
     return boot_path;

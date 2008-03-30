@@ -25,6 +25,7 @@ a. Reset to default settings.
 b. Choose refresh rate 1/1.
 c. Choose joystick and Video/Doublesize settings as desired or needed.
 d. SID engine must be reSID (which is the default).
+e. Choose Drive settings/Idle method: None
 Do not change any settings during recording or playback!
 
 3. Recorded Events
@@ -40,14 +41,15 @@ The following is a list of the user interaction that will be recorded:
 -----------------------------
 Recording an event history will create one or two files for a snapshot and
 the list of the user events. First, create an empty directory in which these
-files are to be saved and then select this directory via 'Snapshot//Select 
-History directory'. Next, attach the disk or tape image with the game you 
-want to record and load and run the game.
+files are to be saved and then select this directory and the name of the 
+snapshot files via 'Snapshot//Select History files/directory'. 
+Next, attach the disk or tape image with the game you want to record and load and
+run the game.
 Start recording via 'Snapshot//Start/Stop Recording History'.
 Play the game. All actions will be recorded.
 After the game is finished, stop recording via 'Snapshot//Start/Stop
 Recording History'. The selected directory should now contain the two
-files start.vsf and end.vsf
+snapshot files (default ist start.vsf and end.vsf). 
 
 5. Setting and Returning to Milestones
 --------------------------------------
@@ -70,6 +72,13 @@ overwriting them by accident.
 Then change the event history start mode: 'Snapshot//Recording start mode//Load
 existing snapshot'. When you start recording now, you will continue where the
 session was stopped last time.
+Another way of continuing an existing history is to start somewhere inside the
+history (e.g. you have recorded 10 minutes of a game and later recognize that you
+made a mistake after 6 minutes that makes it impossible to finish the game).
+For this you have to select the start mode 'Overwrite playback'. Now you can
+start the playback with 'Snapshot//Start/Stop Playback History' and when you
+reach the point where you want to change the history you can directly switch to
+recording via 'Snapshot//Start/Stop Recording History'.
 
 7. Playing Back an Event History
 --------------------------------
@@ -82,13 +91,6 @@ The playback stops when the end of the session is reached or if
 
 8. Limitations and Suggestions
 ------------------------------
-a. When playing back a session in which images were attached, those images
-need to be in the same directory that they were located during recording.
-This makes it difficult to distribute a walkthrough for games that need 
-disk or tape changes. We will fix this later.
-b. The names of the snapshot files start.vsf and end.vsf can be changed with
-the resources EventStartSnapshot and EventEndSnapshot. However, we suggest 
-keeping the defaults as there is no GUI support for changing them.
-c. Snapshot files will be quite big (>1MB) if a disk image has been attached. 
+a. Snapshot files will be quite big (>1MB) if a disk image has been attached. 
 If possible, use PRG or T64 images to reduce the size of snapshot files.
-d. Snapshots may not be 100% accurate even with all the recommended settings.
+b. Snapshots may not be 100% accurate even with all the recommended settings.

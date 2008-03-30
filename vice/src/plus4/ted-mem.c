@@ -699,12 +699,14 @@ inline static void ted3e_store(void)
 {
     ted.regs[0x13] |= 0x01;
     mem_config_ram_set(1);
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
 inline static void ted3f_store(void)
 {
     ted.regs[0x13] &= 0xfe;
     mem_config_ram_set(0);
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
 /* Store a value in a TED register.  */

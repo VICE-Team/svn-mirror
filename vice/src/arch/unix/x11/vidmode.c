@@ -85,8 +85,14 @@ int vidmode_init(void)
             vm_bestmodes = (vm_bestvideomode_t *)lib_realloc(vm_bestmodes,
                            (vm_index + 1) * sizeof(vm_bestvideomode_t));
             vm_bestmodes[vm_index].modeindex = i;
-            hz = vm_modes[i]->dotclock * 1000
-                 / (vm_modes[i]->vtotal * vm_modes[i]->htotal);
+
+            if(vm_modes[i]->vtotal * vm_modes[i]->htotal) {
+                hz = vm_modes[i]->dotclock * 1000
+                     / (vm_modes[i]->vtotal * vm_modes[i]->htotal);
+            }
+            else 
+                hz = 0;
+	    
             vm_bestmodes[vm_index].name = lib_msprintf(" %ix%i-%iHz",
                                                        vm_modes[i]->hdisplay,
                                                        vm_modes[i]->vdisplay,
