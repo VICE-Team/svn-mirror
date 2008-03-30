@@ -255,7 +255,9 @@ canvas_t crtc_init(void)
         double_size_enabled = 0;
 #endif
 
-    init_raster(1, 2, 2);
+    if (init_raster(1, 2, 2) < 0)
+        return NULL;
+
     video_resize();
 
     palette = palette_create(CRTC_NUM_COLORS, color_names);
