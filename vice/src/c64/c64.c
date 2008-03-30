@@ -62,6 +62,7 @@
 #include "traps.h"
 #include "utils.h"
 #include "vicii.h"
+#include "vsidui.h"
 #include "vsync.h"
 
 #ifdef HAVE_RS232
@@ -272,7 +273,7 @@ int machine_init(void)
 
 	/* Initialize the C64-specific part of the UI.  */
 	if (!console_mode) {
-  	    vsid_ui_init();
+	    vsid_ui_init();
 	}
 
 	return 0;

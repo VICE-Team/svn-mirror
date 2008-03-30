@@ -156,8 +156,11 @@ static UI_CALLBACK(load_psid)
       case UI_BUTTON_OK:
  	if (psid_load_file(filename) < 0)
 	    ui_error("Invalid PSID File");
-	else
-	    ui_thread_op = PSID_LOAD;
+	else {
+	    char buf[1000];
+	    sprintf(buf, "load %s\n", filename);
+	    ui_proc_write_msg(buf);
+	}
 	break;
       default:
 	/* Do nothing special.  */
@@ -242,7 +245,7 @@ int vsid_ui_init(void)
     ui_update_menus();
 
 
-    if (ui_create_thread() < 0) {
+    if (ui_proc_create() < 0) {
         return -1;
     }
 
@@ -252,6 +255,6 @@ int vsid_ui_init(void)
 
 int vsid_ui_exit(void)
 {
-    ui_join_thread();
+    ui_proc_wait();
     return 0;
 }

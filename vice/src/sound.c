@@ -39,6 +39,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "ui.h"
@@ -273,9 +274,11 @@ static int closesound(const char *msg)
         suspend_speed_eval();
 	if (strcmp(msg, ""))
 	{
-	    ui_error(msg);
+	    if (!console_mode && !psid_mode)
+	        ui_error(msg);
 	    playback_enabled = 0;
-	    ui_update_menus();
+	    if (!console_mode && !psid_mode)
+	        ui_update_menus();
 	}
     }
     snddata.prevused = snddata.prevfill = 0;

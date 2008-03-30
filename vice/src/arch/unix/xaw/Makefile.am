@@ -45,4 +45,5 @@ libxawui_a_SOURCES = \
 	vic20icon.xpm \
 	vic20ui.c \
 	vic20ui.h \
-	vsidui.c
+	vsidui.c \
+	vsidui.h

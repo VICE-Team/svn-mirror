@@ -102,7 +102,8 @@ realize_frame_buffer (raster_t *raster)
   if (raster->frame_buffer != NULL)
     frame_buffer_free (&raster->frame_buffer);
 #else
-  frame_buffer_free (&raster->frame_buffer);
+  if (!console_mode && !psid_mode)
+    frame_buffer_free (&raster->frame_buffer);
 #endif
 
   fb_width = ((raster->geometry.screen_size.width
@@ -115,10 +116,12 @@ realize_frame_buffer (raster_t *raster)
   if (fb_height == 0)
     fb_height = 1;
 
-  if (frame_buffer_alloc (&raster->frame_buffer, fb_width, fb_height))
-    return -1;
+  if (!console_mode && !psid_mode)
+    if (frame_buffer_alloc (&raster->frame_buffer, fb_width, fb_height))
+      return -1;
 
-  frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
+  if (!console_mode && !psid_mode)
+    frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
 
   if (raster->fake_frame_buffer_line != NULL)
     free (raster->fake_frame_buffer_line);
@@ -1113,7 +1116,8 @@ raster_init (raster_t *raster,
   raster_sprite_status_init (&raster->sprite_status, num_sprites);
 
   /* Woo!  This sucks real bad!  FIXME!  */
-  frame_buffer_alloc (&raster->frame_buffer, 1, 1);
+  if (!console_mode && !psid_mode)
+    frame_buffer_alloc (&raster->frame_buffer, 1, 1);
 
   raster_reset (raster);
 

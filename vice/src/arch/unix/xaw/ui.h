@@ -84,8 +84,8 @@ extern int screen;
 extern Visual *visual;
 extern int depth;
 
-typedef enum { PSID_NOOP, PSID_EXIT, PSID_LOAD } ui_thread_op_t;
-extern ui_thread_op_t ui_thread_op;
+void ui_proc_write_msg(char* msg);
+int ui_proc_read_msg(char* msg, size_t size);
 
 /* ------------------------------------------------------------------------- */
 #ifdef USE_VIDMODE_EXTENSION
@@ -138,8 +138,8 @@ void ui_set_mouse_timeout(void);
 int ui_is_fullscreen_available(void);
 #endif
 
-int ui_create_thread(void);
-int ui_join_thread(void);
+int ui_proc_create(void);
+int ui_proc_wait(void);
 
 #endif /* !defined (_UI_XAW_H) */
 

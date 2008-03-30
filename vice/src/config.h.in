@@ -198,9 +198,6 @@
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
 
-/* Define if you have the <pthread.h> header file.  */
-#undef HAVE_PTHREAD_H
-
 /* Define if you have the <regex.h> header file.  */
 #undef HAVE_REGEX_H
 

@@ -41,10 +41,9 @@
 #include <errno.h>
 #include <signal.h>
 
-#ifdef HAVE_PTHREAD_H
-#define _MIT_POSIX_THREADS
-#include <pthread.h>
-#endif
+#include <fcntl.h>
+#include <signal.h>
+#include <sys/wait.h>
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
@@ -911,70 +910,97 @@ typedef struct {
 
 
 /* ------------------------------------------------------------------------- */
-/* Thread for the user interface */
-ui_thread_op_t ui_thread_op = PSID_NOOP;
-static pthread_t ui_thread;
+/* Process for the user interface */
+static pid_t ui_pid;
+static int ui_pipefd[2];
 
-int ui_exit_thread(void)
+void ui_proc_write_msg(char* msg)
 {
-  ui_thread_op = PSID_EXIT;
-  pthread_exit(NULL);
+  write(ui_pipefd[1], msg, strlen(msg));
+}
+
+int ui_proc_read_msg(char* msg, size_t size)
+{
+  int num, total = 0;
+  char* ptr;
+  char* endl;
+
+  /* Non-blocking read */
+  if ((num = read(ui_pipefd[0], msg, size)) < 0) {
+    return 0;
+  }
+
+  ptr = msg;
+  total = num;
+  while ((endl = strchr(ptr, '\n')) == NULL) {
+    ptr += num;
+    total += num;
+    size -= num;
+    while ((num = read(ui_pipefd[0], ptr, size) < 0));
+  }
+
+  *endl = '\0';
+
+  return total;
+}
+
+void ui_proc_exit(void)
+{
+  ui_proc_write_msg("exit\n");
+  exit(0);
+}
+
+void ui_proc_start(void)
+{
+    signal(SIGINT,  SIG_IGN);
+    signal(SIGTERM, SIG_DFL);
+
+    XtAppMainLoop(app_context);
+}
+
+int ui_proc_create(void)
+{
+  XSync(display, False);
+
+  if (pipe(ui_pipefd) < 0) {
+    log_error(ui_log, "Cannot create pipe: %s", strerror(errno));
+    return -1;
+  }
+
+  if ((ui_pid = fork()) < 0) {
+    log_error(ui_log, "Cannot create UI process: %s", strerror(errno));
+    return -1;
+  }
+
+  if (ui_pid > 0) {
+    close(ui_pipefd[0]);
+    ui_proc_start();
+  }
+  else {
+    //    fcntl(ui_pipefd[0], F_SETFL, FNDELAY);
+    close(ui_pipefd[1]);
+  }
+  
   return 0;
 }
 
-void* ui_thread_start(void* arg)
+int ui_proc_wait(void)
 {
-    int rc;
-    sigset_t set;
+  int status;
 
-    sigfillset(&set);
-    
-    if ((rc = pthread_sigmask(SIG_SETMASK, &set, NULL)) != 0) {
-        log_error(ui_log, "Cannot set signal mask for UI thread: %s", strerror(rc));
-	ui_exit_thread();
+  if (kill(ui_pid, 0) != ESRCH) {
+    if (kill(ui_pid, SIGTERM) < 0) {
+      log_error(ui_log, "Cannot kill UI process: %s", strerror(errno));
+      return -1;
     }
+  }
 
-    if ((rc = pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL)) != 0) {
-        log_error(ui_log, "Cannot set cancel type for UI thread: %s", strerror(rc));
-	ui_exit_thread();
-    }
-
-    XtAppMainLoop(app_context);
-
-    return NULL;
-}
-
-int ui_create_thread(void)
-{
-    int rc;
-
-    XSync(display, False);
-
-    if ((rc = pthread_create(&ui_thread, NULL, ui_thread_start, NULL)) != 0) {
-        log_error(ui_log, "Cannot create UI thread: %s", strerror(rc));
-        return -1;
-    }
-
-    return 0;
-}
-
-int ui_join_thread(void)
-{
-    int rc;
-
-    if (ui_thread_op != PSID_EXIT) {
-	if ((rc = pthread_cancel(ui_thread)) != 0) {
-	    log_error(ui_log, "Cannot cancel UI thread: %s", strerror(rc));
-	    return -1;
-	}
-    }
-
-    if ((rc = pthread_join(ui_thread, NULL)) != 0) {
-        log_error(ui_log, "Cannot join UI thread: %s", strerror(rc));
-	return -1;
-    }
-
-    return 0;
+  if (wait(&status) != ui_pid) {
+    log_error(ui_log, "wait for UI process failed: %s", strerror(errno));
+    return -1;
+  }
+  
+  return 0;
 }
 
 
@@ -1543,7 +1569,7 @@ void ui_exit(void)
 	ui_set_windowmode();
 #endif
 	if (psid_mode) {
-	    ui_exit_thread();
+	    ui_proc_exit();
 	}
 	else {
 	   exit(0);
@@ -1979,20 +2005,23 @@ void ui_dispatch_events(void)
     }
 
     if (psid_mode) {
-        switch (ui_thread_op) {
-	case PSID_EXIT:
-	    /* exit64() in main.c will join the thread */
-	  exit(0);
-	case PSID_LOAD:
-	  suspend_speed_eval();
-	  maincpu_trigger_reset();
-	  break;
-	default:
-	case PSID_NOOP:
-	  break;
+        char buf[1000];
+	if (!ui_proc_read_msg(buf, sizeof(buf))) {
+	  return;
 	}
 
-	ui_thread_op = PSID_NOOP;
+	if (strcmp(buf, "exit") == 0) {
+	  /* exit64() in main.c will wait for the UI process */
+	  exit(0);
+	}
+	else if (strncmp(buf, "load", 4) == 0) {
+	  char* filename = buf + 5;
+	  printf("load: %s\n", filename);
+	  if (machine_autodetect_psid(filename) < 0)
+	    log_error(ui_log, "Invalid PSID file: %s", filename);
+	  suspend_speed_eval();
+	  maincpu_trigger_reset();
+	}
 
         return;
     }
