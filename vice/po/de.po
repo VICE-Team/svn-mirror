@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-08-21 21:55+0200\n"
-"PO-Revision-Date: 2004-08-16 23:28+0200\n"
+"POT-Creation-Date: 2004-08-22 12:56+0200\n"
+"PO-Revision-Date: 2004-08-22 10:57+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1187,7 +1187,7 @@ msgstr "*Mit Reset starten"
 
 #: src/arch/unix/uicommands.c:429
 msgid "*Overwrite running playback"
-msgstr ""
+msgstr "*Laufende Aufnahme überschreiben"
 
 #: src/arch/unix/uicommands.c:435
 msgid "Load snapshot..."

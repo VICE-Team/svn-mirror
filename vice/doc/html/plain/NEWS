@@ -22,6 +22,8 @@ list of all the changes in the code.
 
 - Improved TFE cart emulation.
 
+- Fixed Final Cartridge III freeze bug.
+
 ** VIC20 changes
 -----------------
 
@@ -49,6 +51,9 @@ list of all the changes in the code.
 - Fixed crash on 64bit archs.
 
 - Added BSD USB joystick support.
+
+- Complete rework of french translation. Credits to Paul (alias
+  Kaddict)!
 
 ** MS-Windows changes
 ---------------------
