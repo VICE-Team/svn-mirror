@@ -93,13 +93,10 @@ int log_init(void)
     if (logs != NULL)
         return -1;
 
-    if (log_file_name == NULL || *log_file_name == 0)
-    {
+    if (log_file_name == NULL || *log_file_name == 0) {
         log_file = archdep_open_default_log_file();
-        return log_file<0 ? -1 : 0;
-    }
-    else
-    {
+        return log_file < 0 ? -1 : 0;
+    } else {
 #ifndef __OS2__
         if (strcmp(log_file_name, "-") == 0)
             log_file = stdout;
@@ -127,7 +124,7 @@ log_t log_open(const char *id)
     }
     if (i == num_logs) {
         new_log = num_logs++;
-        logs = (char**)xrealloc(logs, sizeof(*logs) * num_logs);
+        logs = (char **)xrealloc(logs, sizeof(*logs) * num_logs);
     }
 
     logs[new_log] = stralloc(id);
@@ -138,8 +135,8 @@ int log_close(log_t log)
 {
     if (logs[(unsigned int) log] == NULL)
         return -1;
-    free(logs[(unsigned int) log]);
-    logs[(unsigned int) log] = NULL;
+    free(logs[(unsigned int)log]);
+    logs[(unsigned int)log] = NULL;
     return 0;
 }
 
@@ -155,15 +152,13 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
     char *beg = txt;
     char *end = txt + strlen(txt)+1;
 
-    while (beg < end)
-    {
+    while (beg < end) {
         char *eol = strchr(beg, '\n');
 
         if (eol)
             *eol='\0';
 
-        if (archdep_default_logger(*beg?logtxt:"", beg)<0)
-        {
+        if (archdep_default_logger(*beg ? logtxt : "", beg) < 0) {
             rc = -1;
             break;
         }
@@ -189,23 +184,20 @@ static int log_helper(log_t log, unsigned int level,
     };
 
     const signed int logi = (signed int)log;
-
-    int rc=0;
-
+    int rc = 0;
     char *logtxt = NULL;
 
-    if (logi==LOG_ERR || (logi != LOG_DEFAULT && logs[logi] == NULL))
+    if (logi == LOG_ERR || (logi != LOG_DEFAULT && logs[logi] == NULL))
         return -1;
 
-    if (logi!=LOG_DEFAULT && *logs[logi]!='\0')
+    if (logi != LOG_DEFAULT && *logs[logi] != '\0')
         logtxt = xmsprintf("%s: %s", logs[logi], level_strings[level]);
     else
         logtxt = stralloc("");
 
     if (log_file == NULL) {
         rc = log_archdep(logtxt, format, ap);
-    }
-    else {
+    } else {
         if (fputs(logtxt, log_file) == EOF
             || vfprintf(log_file, format, ap) < 0
             || fputc ('\n', log_file) == EOF)
