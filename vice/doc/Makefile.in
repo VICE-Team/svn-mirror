@@ -114,6 +114,7 @@ doc_DATA = \
 	64doc.txt \
 	Evaluation \
 	PETdoc.txt \
+	Readme.dos \
 	cbm_basic_tokens.txt \
 	drive_info.txt \
 	mnemonics.txt \
