@@ -41,6 +41,7 @@ extern void tape_receive_trap(void);
 extern void tape_find_header_trap_plus4(void);
 extern void tape_receive_trap_plus4(void);
 extern const char *tape_get_file_name(void);
+extern int tape_tap_attched(void);
 
 #endif
 

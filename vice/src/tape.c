@@ -227,7 +227,7 @@ int tape_attach_image(const char *name)
     if (new_t64_tape != NULL) {
         tape_detach_image();
         attached_t64_tape = new_t64_tape;
-                ui_display_tape_current_image(name);
+        ui_display_tape_current_image(name);
 
         log_message(tape_log, "T64 image '%s' attached.", name);
 
@@ -241,7 +241,7 @@ int tape_attach_image(const char *name)
     if (new_tap_tape != NULL) {
         tape_detach_image();
         attached_tap_tape = new_tap_tape;
-                ui_display_tape_current_image(name);
+        ui_display_tape_current_image(name);
 
         datasette_set_tape_image(new_tap_tape);
 
@@ -255,6 +255,14 @@ int tape_attach_image(const char *name)
     }
 
     return -1;
+}
+
+int tape_tap_attched(void)
+{
+    if (attached_tap_tape != NULL)
+        return 1;
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
