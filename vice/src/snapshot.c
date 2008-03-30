@@ -30,14 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __IBMC__
-#include <direct.h>
-#endif
-
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-
 #include "archdep.h"
 #include "lib.h"
 #include "ioutil.h"

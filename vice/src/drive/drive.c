@@ -43,10 +43,6 @@
 #include <string.h>
 #include <math.h>
 
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-
 #include "attach.h"
 #include "diskconstants.h"
 #include "diskimage.h"
