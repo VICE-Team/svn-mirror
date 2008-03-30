@@ -566,7 +566,7 @@ fsdevice.o: fsdevice.c vice.h config.h resources.h vdrive.h types.h \
 gcr.o: gcr.c vice.h config.h gcr.h types.h
 info.o: info.c
 interrupt.o: interrupt.c vice.h config.h interrupt.h types.h vmachine.h \
-	6510core.h mem.h
+	6510core.h mem.h snapshot.h
 kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
 	6510core.h mon.h interrupt.h vmachine.h kbdbuf.h charsets.h
 main.o: main.c vice.h config.h machine.h types.h maincpu.h mem.h \

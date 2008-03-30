@@ -95,6 +95,8 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
+SUFFIXES = .def
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -107,11 +109,16 @@ noinst_LIBRARIES = libc128.a
 libc128_a_SOURCES = \
 	c128.c \
 	c128.h \
+	c128cia1.def \
+	c128cia1.c \
 	c128cpu.c \
+	c128iec.c \
 	c128mem.c \
 	c128mem.h \
 	vdc.c \
 	vdc.h
+
+c128dir = $(top_srcdir)/src/c128
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -125,7 +132,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libc128_a_LIBADD = 
-libc128_a_OBJECTS =  c128.o c128cpu.o c128mem.o vdc.o
+libc128_a_OBJECTS =  c128.o c128cia1.o c128cpu.o c128iec.o c128mem.o \
+vdc.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -142,7 +150,7 @@ OBJECTS = $(libc128_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .def .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/c128/Makefile
 
@@ -287,6 +295,17 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/rs232.h ../../src/c64/c64acia.h \
 	../../src/c64/rsuser.h ../../src/print.h ../../src/prdevice.h \
 	../../src/pruser.h
+c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/cia.h ../../src/types.h ../../src/resources.h \
+	../../src/snapshot.h ../../src/vmachine.h ../../src/c64/vicii.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/kbd.h ../../src/c64/c64cia.h \
+	../../src/iecdrive.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/c64/rsuser.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
@@ -295,6 +314,14 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/palette.h ../../src/resources.h ../../src/traps.h \
 	c128mem.h ../../src/misc.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/6510core.c
+c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/drive/ciad.h ../../src/types.h \
+	../../src/cia.h ../../src/drive/viad.h ../../src/via.h \
+	../../src/iecdrive.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/c64/c64cia.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/drive/drive.h ../../src/types.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
@@ -388,6 +415,14 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+c128cia1.c: c128cia1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c128cia1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/cia-tmpl.c \
+	       	   $(c128dir)/c128cia1.def $(c128dir)/c128cia1.c; \
+           fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

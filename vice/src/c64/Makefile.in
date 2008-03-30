@@ -143,12 +143,8 @@ libc64_a_SOURCES = \
 
 libc64c128_a_SOURCES = \
 	c64cia.h \
-	c64cia1.c \
-	c64cia1.def \
 	c64cia2.c \
 	c64cia2.def \
-	c64iec.c \
-	c64iec.h \
 	patchrom.c \
 	patchrom.h \
 	sid.c \
@@ -217,8 +213,7 @@ cartridge.o patchrom.o reu.o sid.o c64tpi.o vicii.o
 @HAVE_RESID_FALSE@@HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RESID_TRUE@@HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  resid.o \
 @HAVE_RESID_TRUE@@HAVE_RS232_TRUE@c64acia1.o rsuser.o
-libc64c128_a_OBJECTS =  c64cia1.o c64cia2.o c64iec.o patchrom.o sid.o \
-c64tpi.o vicii.o
+libc64c128_a_OBJECTS =  c64cia2.o patchrom.o sid.o c64tpi.o vicii.o
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 CXXLINK = $(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@
