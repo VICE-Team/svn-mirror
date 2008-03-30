@@ -142,32 +142,22 @@ static BYTE REGPARM1 z80mem_read(ADDRESS addr)
     return _z80mem_read_tab_ptr[addr >> 8](addr);
 }
 
-static BYTE REGPARM1 read_ram(ADDRESS addr)
+static BYTE REGPARM1 ram_read(ADDRESS addr)
 {
     return ram_bank[addr];
 }
 
-static void REGPARM2 store_ram(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
-static BYTE REGPARM1 read_ram0(ADDRESS addr)
-{
-    return ram[addr];
-}
-
-static void REGPARM2 store_ram0(ADDRESS addr, BYTE value)
-{
-    ram[addr] = value;
-}
-
-BYTE REGPARM1 read_bios(ADDRESS addr)
+BYTE REGPARM1 bios_read(ADDRESS addr)
 {
     return z80bios_rom[addr & 0x0fff];
 }
 
-void REGPARM2 store_bios(ADDRESS addr, BYTE value)
+void REGPARM2 bios_store(ADDRESS addr, BYTE value)
 {
     z80bios_rom[addr] = value;
 }
@@ -220,9 +210,9 @@ void z80mem_initialize(void)
         }
     }
 
-    mem_read_tab[0][0] = read_bios;
+    mem_read_tab[0][0] = bios_read;
     mem_write_tab[0][0] = z80_store_zero;
-    mem_read_tab[1][0] = read_bios;
+    mem_read_tab[1][0] = bios_read;
     mem_write_tab[1][0] = z80_store_zero;
     mem_read_tab[2][0] = z80_read_zero;
     mem_write_tab[2][0] = z80_store_zero;
@@ -237,9 +227,9 @@ void z80mem_initialize(void)
     mem_read_tab[7][0] = z80_read_zero;
     mem_write_tab[7][0] = z80_store_zero;
  
-    mem_read_tab[0][1] = read_bios;
+    mem_read_tab[0][1] = bios_read;
     mem_write_tab[0][1] = store_one;
-    mem_read_tab[1][1] = read_bios;
+    mem_read_tab[1][1] = bios_read;
     mem_write_tab[1][1] = store_one;
     mem_read_tab[2][1] = read_one;
     mem_write_tab[2][1] = store_one;
@@ -255,124 +245,124 @@ void z80mem_initialize(void)
     mem_write_tab[7][1] = store_one;
 
     for (i = 2; i < 0x10; i++) {
-        mem_read_tab[0][i] = read_bios;
-        mem_write_tab[0][i] = store_ram;
-        mem_read_tab[1][i] = read_bios;
-        mem_write_tab[1][i] = store_ram;
-        mem_read_tab[2][i] = read_lo;
-        mem_write_tab[2][i] = store_lo;
-        mem_read_tab[3][i] = read_lo;
-        mem_write_tab[3][i] = store_lo;
-        mem_read_tab[4][i] = read_ram;
-        mem_write_tab[4][i] = store_ram;
-        mem_read_tab[5][i] = read_ram;
-        mem_write_tab[5][i] = store_ram;
-        mem_read_tab[6][i] = read_lo;
-        mem_write_tab[6][i] = store_lo;
-        mem_read_tab[7][i] = read_lo;
-        mem_write_tab[7][i] = store_lo;
+        mem_read_tab[0][i] = bios_read;
+        mem_write_tab[0][i] = ram_store;
+        mem_read_tab[1][i] = bios_read;
+        mem_write_tab[1][i] = ram_store;
+        mem_read_tab[2][i] = lo_read;
+        mem_write_tab[2][i] = lo_store;
+        mem_read_tab[3][i] = lo_read;
+        mem_write_tab[3][i] = lo_store;
+        mem_read_tab[4][i] = ram_read;
+        mem_write_tab[4][i] = ram_store;
+        mem_read_tab[5][i] = ram_read;
+        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[6][i] = lo_read;
+        mem_write_tab[6][i] = lo_store;
+        mem_read_tab[7][i] = lo_read;
+        mem_write_tab[7][i] = lo_store;
     }
 
     for (i = 0x10; i <= 0x13; i++) {
-        mem_read_tab[0][i] = read_ram;
-        mem_write_tab[0][i] = store_ram;
+        mem_read_tab[0][i] = ram_read;
+        mem_write_tab[0][i] = ram_store;
         mem_read_tab[1][i] = colorram_read;
         mem_write_tab[1][i] = colorram_store;
-        mem_read_tab[2][i] = read_lo;
-        mem_write_tab[2][i] = store_lo;
+        mem_read_tab[2][i] = lo_read;
+        mem_write_tab[2][i] = lo_store;
         mem_read_tab[3][i] = colorram_read;
         mem_write_tab[3][i] = colorram_store;
-        mem_read_tab[4][i] = read_ram;
-        mem_write_tab[4][i] = store_ram;
+        mem_read_tab[4][i] = ram_read;
+        mem_write_tab[4][i] = ram_store;
         mem_read_tab[5][i] = colorram_read;
         mem_write_tab[5][i] = colorram_store;
-        mem_read_tab[6][i] = read_lo;
-        mem_write_tab[6][i] = store_lo;
+        mem_read_tab[6][i] = lo_read;
+        mem_write_tab[6][i] = lo_store;
         mem_read_tab[7][i] = colorram_read;
         mem_write_tab[7][i] = colorram_store;
     }
 
     for (i = 0x14; i <= 0x3f; i++) {
-        mem_read_tab[0][i] = read_ram;
-        mem_write_tab[0][i] = store_ram;
-        mem_read_tab[1][i] = read_ram;
-        mem_write_tab[1][i] = store_ram;
-        mem_read_tab[2][i] = read_lo;
-        mem_write_tab[2][i] = store_lo;
-        mem_read_tab[3][i] = read_lo;
-        mem_write_tab[3][i] = store_lo;
-        mem_read_tab[4][i] = read_ram;
-        mem_write_tab[4][i] = store_ram;
-        mem_read_tab[5][i] = read_ram;
-        mem_write_tab[5][i] = store_ram;
-        mem_read_tab[6][i] = read_lo;
-        mem_write_tab[6][i] = store_lo;
-        mem_read_tab[7][i] = read_lo;
-        mem_write_tab[7][i] = store_lo;
+        mem_read_tab[0][i] = ram_read;
+        mem_write_tab[0][i] = ram_store;
+        mem_read_tab[1][i] = ram_read;
+        mem_write_tab[1][i] = ram_store;
+        mem_read_tab[2][i] = lo_read;
+        mem_write_tab[2][i] = lo_store;
+        mem_read_tab[3][i] = lo_read;
+        mem_write_tab[3][i] = lo_store;
+        mem_read_tab[4][i] = ram_read;
+        mem_write_tab[4][i] = ram_store;
+        mem_read_tab[5][i] = ram_read;
+        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[6][i] = lo_read;
+        mem_write_tab[6][i] = lo_store;
+        mem_read_tab[7][i] = lo_read;
+        mem_write_tab[7][i] = lo_store;
     }
 
     for (j = 0; j < NUM_CONFIGS; j++) {
         for (i = 0x40; i <= 0xbf; i++) {
-            mem_read_tab[j][i] = read_ram;
-            mem_write_tab[j][i] = store_ram;
+            mem_read_tab[j][i] = ram_read;
+            mem_write_tab[j][i] = ram_store;
         }
     }
 
     for (i = 0xc0; i <= 0xcf; i++) {
-        mem_read_tab[0][i] = read_ram;
-        mem_write_tab[0][i] = store_ram;
-        mem_read_tab[1][i] = read_ram;
-        mem_write_tab[1][i] = store_ram;
-        mem_read_tab[2][i] = read_top_shared;
-        mem_write_tab[2][i] = store_top_shared;
-        mem_read_tab[3][i] = read_top_shared;
-        mem_write_tab[3][i] = store_top_shared;
-        mem_read_tab[4][i] = read_ram;
-        mem_write_tab[4][i] = store_ram;
-        mem_read_tab[5][i] = read_ram;
-        mem_write_tab[5][i] = store_ram;
-        mem_read_tab[6][i] = read_top_shared;
-        mem_write_tab[6][i] = store_top_shared;
-        mem_read_tab[7][i] = read_top_shared;
-        mem_write_tab[7][i] = store_top_shared;
+        mem_read_tab[0][i] = ram_read;
+        mem_write_tab[0][i] = ram_store;
+        mem_read_tab[1][i] = ram_read;
+        mem_write_tab[1][i] = ram_store;
+        mem_read_tab[2][i] = top_shared_read;
+        mem_write_tab[2][i] = top_shared_store;
+        mem_read_tab[3][i] = top_shared_read;
+        mem_write_tab[3][i] = top_shared_store;
+        mem_read_tab[4][i] = ram_read;
+        mem_write_tab[4][i] = ram_store;
+        mem_read_tab[5][i] = ram_read;
+        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[6][i] = top_shared_read;
+        mem_write_tab[6][i] = top_shared_store;
+        mem_read_tab[7][i] = top_shared_read;
+        mem_write_tab[7][i] = top_shared_store;
     }
 
     for (i = 0xd0; i <= 0xdf; i++) {
-        mem_read_tab[0][i] = read_ram;
-        mem_write_tab[0][i] = store_ram;
-        mem_read_tab[1][i] = read_ram;
-        mem_write_tab[1][i] = store_ram;
-        mem_read_tab[2][i] = read_top_shared;
-        mem_write_tab[2][i] = store_top_shared;
-        mem_read_tab[3][i] = read_top_shared;
-        mem_write_tab[3][i] = store_top_shared;
-        mem_read_tab[4][i] = read_ram;
-        mem_write_tab[4][i] = store_ram;
-        mem_read_tab[5][i] = read_ram;
-        mem_write_tab[5][i] = store_ram;
-        mem_read_tab[6][i] = read_top_shared;
-        mem_write_tab[6][i] = store_top_shared;
-        mem_read_tab[7][i] = read_top_shared;
-        mem_write_tab[7][i] = store_top_shared;
+        mem_read_tab[0][i] = ram_read;
+        mem_write_tab[0][i] = ram_store;
+        mem_read_tab[1][i] = ram_read;
+        mem_write_tab[1][i] = ram_store;
+        mem_read_tab[2][i] = top_shared_read;
+        mem_write_tab[2][i] = top_shared_store;
+        mem_read_tab[3][i] = top_shared_read;
+        mem_write_tab[3][i] = top_shared_store;
+        mem_read_tab[4][i] = ram_read;
+        mem_write_tab[4][i] = ram_store;
+        mem_read_tab[5][i] = ram_read;
+        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[6][i] = top_shared_read;
+        mem_write_tab[6][i] = top_shared_store;
+        mem_read_tab[7][i] = top_shared_read;
+        mem_write_tab[7][i] = top_shared_store;
     }
 
     for (i = 0xe0; i <= 0xfe; i++) {
-        mem_read_tab[0][i] = read_ram;
-        mem_write_tab[0][i] = store_ram;
-        mem_read_tab[1][i] = read_ram;
-        mem_write_tab[1][i] = store_ram;
-        mem_read_tab[2][i] = read_top_shared;
-        mem_write_tab[2][i] = store_top_shared;
-        mem_read_tab[3][i] = read_top_shared;
-        mem_write_tab[3][i] = store_top_shared;
-        mem_read_tab[4][i] = read_ram;
-        mem_write_tab[4][i] = store_ram;
-        mem_read_tab[5][i] = read_ram;
-        mem_write_tab[5][i] = store_ram;
-        mem_read_tab[6][i] = read_top_shared;
-        mem_write_tab[6][i] = store_top_shared;
-        mem_read_tab[7][i] = read_top_shared;
-        mem_write_tab[7][i] = store_top_shared;
+        mem_read_tab[0][i] = ram_read;
+        mem_write_tab[0][i] = ram_store;
+        mem_read_tab[1][i] = ram_read;
+        mem_write_tab[1][i] = ram_store;
+        mem_read_tab[2][i] = top_shared_read;
+        mem_write_tab[2][i] = top_shared_store;
+        mem_read_tab[3][i] = top_shared_read;
+        mem_write_tab[3][i] = top_shared_store;
+        mem_read_tab[4][i] = ram_read;
+        mem_write_tab[4][i] = ram_store;
+        mem_read_tab[5][i] = ram_read;
+        mem_write_tab[5][i] = ram_store;
+        mem_read_tab[6][i] = top_shared_read;
+        mem_write_tab[6][i] = top_shared_store;
+        mem_read_tab[7][i] = top_shared_read;
+        mem_write_tab[7][i] = top_shared_store;
     }
 
     for (j = 0; j < NUM_CONFIGS; j++) {
