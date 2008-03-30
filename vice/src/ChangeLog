@@ -1,3 +1,97 @@
+2000-01-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.26.
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler):
+	canvas_set_border_color is only avaiable on the MSDOS port.
+
+	* cartridge.h, c64/c64cartridge.c, c64/c64cartmem.c: New REX
+	fastload module.
+
+2000-01-29  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/msdos/Makefile.am: add raster to include paths
+
+	* arch/msdos/statusbar.c(statusbar_disable): calls
+	raster_mode_change to force a repaint of the bitmap
+
+	* src/arch/msdos/tuifs.c: checks for defintions of 
+	OSTYPE_WIN98 for compatibility with Allegro 3.00
+	
+	* arch/msdos/videoarch.h(canvas_refresh): back to older
+	scroll-functions for compatibility with Allegro 3.00
+
+	* datasette.c: new function (datasette_start_motor)
+	(datasette_control): calls datasette_start_motor at PLAY,
+	FF or REWIND to fix a bug that occured when stop and 
+	restart the datasette
+
+	* vicii/vicii.c: removed all #ifndef __MSDOS__
+	(vic_ii_set_geometry) calls video_ack_vga_mode for MSDOS
+	to reset the canvas size for current VGA-mode
+
+2000-01-24  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon.c, monitor/mon.h, 6510core.c:
+	fixed bug regarding 'next' and 'return' monitor commands,
+	where these sometimes did not return to the monitor.
+
+2000-01-23  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* info.c: Updated my contribution.
+
+	* arch/unix/x11/gnome/uisnapshot.c 
+	(ui_snapshot_dialog): Make use of ui_popdown() to properly
+	unblock the shells.
+
+	* arch/unix/x11/gnome/uiedisk.c 
+	(ui_empty_disk_dialog): Make use of ui_popdown() to properly
+	unblock the shells.
+
+	* arch/unix/x11/gnome/ui.c 
+	(app_shell_type): Added field for shell local topmenu.
+	(filesel_autostart_cb): New function. Callback for autostart a
+	selected file from an image.
+	(ui_init_finish): Select a fixed font for textdisplay.
+	(ui_create_status_bar): Beautified. 
+	(ui_open_canvas_window): Changed from `gtk_window()' to
+	`gnome_app()'. This make menuhandling easier. -> One now can tear
+	off the topmenu. 
+	Removed handlers to `ui_hotkey_event_handler' on key-presses. This
+	is called by the main kbd-handler now. See below. 
+	Initialize topmenu for each shell.
+	(ui_set_topmenu): Set topmen for all shells. This issues a GTK+
+	warning when more than one shell is active (x128), but from
+	reading the GTK+-code this is not a problem now.
+	(ui_display_drive_current_image): Adjusted tooltip to new status bar.
+	(ui_display_tape_current_image): ditto.
+	(ui_fill_preview): New function. Callback when a fileselection is
+	done. This fills the contents preview, which now can be selected
+	and autostarted.
+	(ui_select_file): Reworked to support inlined contents preview +
+	selection autostart.
+	(ui_block_shells): Block any events for all shells.
+	(ui_unblock_shells): Unblock all shells.
+	(ui_popup): Block/Unblock shells. This fixes the `multiple popup
+	by hotkey' bug.
+	(ui_popdown): ditto. 
+	(build_file_selector): Reworked to inline image contents preview.
+	(UI_CALLBACK exposure_callback): Added support for resizing issued
+	by GTK+. This makes resizing after menu-tearoff/attach work
+	correctly.
+
+	* arch/unix/x11/gnome/gnomekbd.c: Fixed `meta_count' to be extern
+	(kbd_event_handler): Call `ui_hotkey_event_handler' directly. So
+	there's only one GTK+ keyboardhandler. This fixes the `keys passed
+	on...' bug.
+	
+	* arch/unix/x11/gnome/about.c: Reworked, beautified. Added buttons
+	for licence, warranty and contributors.
+
+	* arch/unix/uicommands.c: 
+	(ui_set_selected_file): New function. Called from specific UI to
+	tell autostart file number.
+
 2000-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.26.

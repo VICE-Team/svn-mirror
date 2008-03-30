@@ -39,6 +39,8 @@
 #include "vicii.h"
 #include "types.h"
 
+/* #define DEBUG */
+
 /* Expansion port signals.  */
 export_t export;
 
@@ -87,6 +89,9 @@ static void cartridge_config_changed(BYTE mode)
 
 BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
 {
+#ifdef DEBUG
+    log_debug("Read IO1 %02x.", addr);
+#endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_ATOMIC_POWER:
@@ -118,7 +123,11 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
 
 void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
 {
-	int banknr;
+    int banknr;
+ 
+#ifdef DEBUG
+    log_debug("Store IO1 %02x <- %02x.", addr, value);
+#endif
 
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
@@ -195,6 +204,9 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
 {
+#ifdef DEBUG
+    log_debug("Read IO2 %02x.", addr);
+#endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_ATOMIC_POWER:
@@ -230,12 +242,21 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_WESTERMANN:
         cartridge_config_changed(0);
         return rand();
+      case CARTRIDGE_REX:
+        if ((addr & 0xff) < 0xc0)
+            cartridge_config_changed(2);
+        else
+            cartridge_config_changed(0);
+        return 0;
     }
     return rand();
 }
 
 void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
 {
+#ifdef DEBUG
+    log_debug("Store IO2 %02x <- %02x.", addr, value);
+#endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_ATOMIC_POWER:
@@ -308,17 +329,12 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_roml(ADDRESS addr)
 {
-    if (export_ram)
-		{
-		if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
-			{
-			return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
-			}
-		else 
-			{
-			return export_ram0[addr & 0x1fff];
-			}
-		}
+    if (export_ram) {
+        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
+            return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
+        else 
+            return export_ram0[addr & 0x1fff];
+    }
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
@@ -331,17 +347,12 @@ BYTE REGPARM1 read_romh(ADDRESS addr)
 
 void REGPARM2 store_roml(ADDRESS addr, BYTE value)
 {
-    if (export_ram)
-		{
-		if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
-			{
-			export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
-			}
-		else
-			{
-			export_ram0[addr & 0x1fff] = value;
-			}
-		}
+    if (export_ram) {
+        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
+            export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
+        else
+            export_ram0[addr & 0x1fff] = value;
+    }
     return;
 }
 
@@ -369,6 +380,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_SUPER_GAMES:
       case CARTRIDGE_EPYX_FASTLOAD:
+      case CARTRIDGE_REX:
         cartridge_config_changed(0);
         break;
       case CARTRIDGE_FINAL_III:
@@ -406,6 +418,7 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_IEEE488:
       case CARTRIDGE_EPYX_FASTLOAD:
+      case CARTRIDGE_REX:
         memcpy(roml_banks, rawcart, 0x2000);
         cartridge_config_changed(0);
         break;
