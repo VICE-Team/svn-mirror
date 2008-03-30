@@ -109,7 +109,9 @@ noinst_HEADERS = \
 	viacore.h \
 	vice.h \
 	video.h \
+	video-color.h \
 	video-render.h \
+	video-resources.h \
 	vsidui.h \
 	vsync.h \
 	vsyncapi.h \
@@ -156,7 +158,9 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
+	video-color.c \
 	video-render.c \
+	video-resources.c \
 	vsync.c \
 	zfile.c \
 	zipcode.c
@@ -482,6 +486,8 @@ libc64:
 	(cd c64 && $(MAKE) libc64.a)
 libc64c128:
 	(cd c64 && $(MAKE) libc64c128.a)
+libc64cart:
+	(cd c64 && $(MAKE) libc64cart)
 libcbm2:
 	(cd cbm2 && $(MAKE))
 libdrive:
