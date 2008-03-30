@@ -371,23 +371,23 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
 #define DEFINE_DRIVE_MODEL_SUBMENU(num)                                   \
 static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
     { "_None",                                                            \
-      "Disable hardware-level emulation of drive" #num,                   \
+      "Disable hardware-level emulation of drive #" #num,                 \
       radio_Drive##num##Type_callback, (void *) 0, 0,                     \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_1541, 5\"1/4 SS",                                                 \
-      "Emulate a 1541 5\"1/4 single-sided disk drive as unit " #num,      \
+      "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,     \
       radio_Drive##num##Type_callback, (void *) 1541, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_1571, 5\"1/4 DS",                                                 \
-      "Emulate a 1571 5\"1/4 double-sided disk drive as unit " #num,      \
+      "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,     \
       radio_Drive##num##Type_callback, (void *) 1571, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_1581, 3\"1/2 DS",                                                 \
-      "Emulate a 1581 3\"1/2 double-sided disk drive as unit " #num,      \
+      "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,     \
       radio_Drive##num##Type_callback, (void *) 1581, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_2031, 5\"1/4 SS IEEE488",                                         \
-      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit " #num, \
+      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num,\
       radio_Drive##num##Type_callback, (void *) 2031, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { NULL }                                                              \
@@ -423,17 +423,17 @@ static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
 #define DEFINE_DRIVE_IDLE_METHOD_SUBMENU(num)                             \
 static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {         \
     { "_None",                                                            \
-      "Always run the drive's CPU as on the real thing",                  \
+      "Always run the drive CPU as on the real thing",                    \
       radio_Drive##num##IdleMethod_callback,                              \
       (void *) DRIVE_IDLE_NO_IDLE, 0,                                     \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_Trap Idle",                                                       \
-      "Stop running the drive's CPU when entering the idle DOS loop",     \
+      "Stop running the drive CPU when entering the idle DOS loop",       \
       radio_Drive##num##IdleMethod_callback,                              \
       (void *) DRIVE_IDLE_TRAP_IDLE, 0,                                   \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "_Skip Cycles",                                                     \
-      "Skip drive's CPU cycles when the IEC bus is not used for a while", \
+      "Skip drive CPU cycles when the IEC bus is not used for a while",   \
       radio_Drive##num##IdleMethod_callback,                              \
       (void *) DRIVE_IDLE_SKIP_CYCLES, 0,                                 \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
@@ -1528,9 +1528,9 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 			 TUI_MENU_BEH_CONTINUE);
 
     if (has_drive) {
-        ui_drive_submenu = tui_menu_create("1541 Settings", 1);
+        ui_drive_submenu = tui_menu_create("Disk Drive Settings", 1);
 	tui_menu_add(ui_drive_submenu, drive_settings_submenu);
-	tui_menu_add_submenu(ui_main_menu, "_1541 Settings...",
+	tui_menu_add_submenu(ui_main_menu, "Dis_k Drive Settings...",
 			     "Drive emulation settings",
 			     ui_drive_submenu, NULL, 0,
 			     TUI_MENU_BEH_CONTINUE);
@@ -1566,10 +1566,10 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 
     tui_menu_add_separator(ui_main_menu);
 
-    ui_snapshot_submenu = tui_menu_create("Snapshot Commands", 1);
+    ui_snapshot_submenu = tui_menu_create("Freeze Commands", 1);
     tui_menu_add(ui_snapshot_submenu, ui_snapshot_menu_def);
 
-    tui_menu_add_submenu(ui_main_menu, "_Snapshot Commands...",
+    tui_menu_add_submenu(ui_main_menu, "_Freeze Commands...",
                          "Commands for loading/saving the machine state",
                          ui_snapshot_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);

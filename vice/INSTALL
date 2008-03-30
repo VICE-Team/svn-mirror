@@ -1,6 +1,6 @@
 
-Installation notes for VICE 0.15.0
-**********************************
+Installation notes for VICE 1.0
+*******************************
 
 
 This version of VICE can be compiled and installed both under
@@ -293,24 +293,6 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
       cd i386-go32-msdos
       CC="gcc-dos" CFLAGS="-O5" ../src/configure --host=i386-go32-msdos
       make x64
-
-
-  2.4. Using the reSID SID emulator
-  ---------------------------------
-
-    Since version 0.15.0, VICE natively supports Dag Lem's reSID
-    engine.  reSID is an enhanced cycle-exact SID emulator; it aims at
-    a more accurate emulation of the SID, at the price of additional
-    use of processing power.  Of course, reSID is free software,
-    released under the GNU Library General Public License.
-
-    Although we currently do not distribute binaries compiled against
-    reSID, you can compile reSID support in by just specifying
-    `--with-resid=PATH', where PATH is the prefix where the reSID
-    library is located.
-
-    When reSID support is compiled in, it is possible to switch it on
-    or off at runtime from the right-button "settings" menu.
 
 
 3. Hints
