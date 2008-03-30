@@ -1,5 +1,30 @@
-// Common resources.
-//
+/*
+ * res.rc - Common UI resources.
+ *
+ * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
 #include "res.h"
 #include "config.h"
 #include "version.h"
@@ -126,7 +151,7 @@ BEGIN
     CTEXT    "Copyright (c) 1993-1994 Jarkko Sonninen",IDC_STATIC,16,122,158,8
 END
 
-IDD_DISKDEVICE_DIALOG DIALOG DISCARDABLE  0, 0, 307, 190
+IDD_DISKDEVICE_DIALOG DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -134,20 +159,28 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "&Directory",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&None",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,81,19,210,12,CBS_DROPDOWN | CBS_SORT |
+    COMBOBOX        IDC_DISKIMAGE,81,19,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Browse...",IDC_BROWSEDISK,81,37,50,14,WS_GROUP
-    PUSHBUTTON      "&Autostart",IDC_AUTOSTART,241,37,50,14,WS_GROUP
-    COMBOBOX        IDC_DIR,81,74,210,12,CBS_DROPDOWN | CBS_SORT |
+    PUSHBUTTON      "&Autostart",IDC_AUTOSTART,221,37,50,14,WS_GROUP
+    COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Browse...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
-    GROUPBOX        "&Options",IDC_STATIC,195,90,95,63
-    AUTOCHECKBOX    "&Read P00 files",IDC_TOGGLE_READP00,205,105,62,10,
+    GROUPBOX        "&Options",IDC_STATIC,175,90,95,63
+    AUTOCHECKBOX    "&Read P00 files",IDC_TOGGLE_READP00,185,105,62,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Write P00 files",IDC_TOGGLE_WRITEP00,205,120,61,10,
+    AUTOCHECKBOX    "&Write P00 files",IDC_TOGGLE_WRITEP00,185,120,61,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,205,135,73,10,
+    AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,185,135,73,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+IDD_PRINTDEVICE_DIALOG DIALOG DISCARDABLE  0, 0, 287, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Enable printer",IDC_TOGGLE_PRINTER,15,20,65,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
 IDD_DRIVE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 250, 180
@@ -187,8 +220,19 @@ BEGIN
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "Skip cycles",IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES,
                             185,60,51,10,BS_AUTORADIOBUTTON
-    AUTOCHECKBOX    "Enable &parallel cable",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
-                    85,90,80,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "&Parallel cable",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
+                    185,90,80,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "Drive &expansion",IDC_STATIC,75,75,90,90
+    AUTOCHECKBOX    "$&2000-$3FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_2000,
+                    85,90,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "$&4000-$5FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_4000,
+                    85,105,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "$&6000-$7FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_6000,
+                    85,120,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "$&8000-$9FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_8000,
+                    85,135,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "$&A000-$BFFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_A000,
+                    85,150,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
 IDD_DATASETTE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
