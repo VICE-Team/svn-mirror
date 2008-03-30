@@ -44,17 +44,26 @@
 #include "ROlib.h"
 #include "ui.h"
 #else
-#include <sys/types.h>
-#include <sys/stat.h>
 #ifndef __IBMC__
 #include <dirent.h>
 #else
 #include <direct.h>
 #endif
-#include <fcntl.h>
 #include <memory.h>
 #endif
+#endif
+
+#ifdef HAVE_ERRNO_H
 #include <errno.h>
+#endif
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -71,7 +80,7 @@
 #include "utils.h"
 #include "vdrive.h"
 
-#ifdef __IBMC__ // OS/2 Visual Age C
+#ifdef __IBMC__
 #include "snippets/dirport.h"
 #endif
 

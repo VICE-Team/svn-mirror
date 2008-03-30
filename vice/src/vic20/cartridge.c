@@ -37,14 +37,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#ifndef __riscos
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#endif
 #include <memory.h>
-#include <assert.h>
-#include <errno.h>
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 
 #include "archdep.h"
 #include "cartridge.h"

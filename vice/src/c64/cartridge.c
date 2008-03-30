@@ -32,13 +32,12 @@
 #include <ctype.h>
 #include <string.h>
 #ifndef __riscos
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <memory.h>
 #endif
-#include <assert.h>
-#include <errno.h>
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 
 #include "archdep.h"

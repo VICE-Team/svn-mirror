@@ -30,29 +30,36 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
-#include <ctype.h>
-#include <errno.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #ifdef __IBMC__
-#include <io.h>
 #include <direct.h>
 #endif
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#include <fcntl.h>
-#include <sys/types.h>
 #endif
+#endif
+
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+#ifdef HAVE_IO_H
+#include <io.h>
 #endif
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-
-#include <stdarg.h>
 
 #include "archdep.h"
 #include "log.h"

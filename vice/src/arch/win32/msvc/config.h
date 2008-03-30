@@ -23,6 +23,10 @@
 #define HAVE_LIMITS_H           1
 #define HAVE_COMMCTRL_H         1
 #define HAVE_SHLOBJ_H           1
+#define HAVE_ERRNO_H            1
+#define HAVE_IO_H               1
+#define HAVE_SYS_TYPES_H        1
+#define HAVE_SYS_STAT_H         1
 #define HAVE_GUIDLIB            1
 #define DWORD_IS_LONG           1
 

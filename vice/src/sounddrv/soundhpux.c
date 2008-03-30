@@ -24,11 +24,15 @@
  *
  */
 
-#include <fcntl.h>
+#include "vice.h"
+
 #include <sys/ioctl.h>
 #include <sys/audio.h>
 
-#include "vice.h"
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+
 #include "sound.h"
 
 static int hpux_fd = -1;

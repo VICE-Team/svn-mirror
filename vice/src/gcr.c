@@ -29,11 +29,12 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
-#ifndef __riscos
-#include <fcntl.h>
-#endif
 #include <ctype.h>
 #include <string.h>
+#endif
+
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
 #endif
 
 #include "gcr.h"
