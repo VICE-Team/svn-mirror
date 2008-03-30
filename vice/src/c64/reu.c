@@ -93,7 +93,7 @@ static BYTE reu_blocklen_low_shadow;
 
 /* REU image.  */
 static BYTE *reu_ram = NULL;
-static unsigned int old_reu_ram_size = 0;
+static int old_reu_ram_size = 0;
 
 static log_t reu_log = LOG_ERR;
 
@@ -108,10 +108,10 @@ static unsigned int reu_int_num;
 int reu_enabled;
 
 /* Size of the REU.  */
-static DWORD reu_size = 0;
+static int reu_size = 0;
 
 /* Size of the REU in KB.  */
-static DWORD reu_size_kb = 0;
+static int reu_size_kb = 0;
 
 /* Filename of the REU image.  */
 static char *reu_filename = NULL;
@@ -141,10 +141,10 @@ static int set_reu_enabled(int val, void *param)
 
 static int set_reu_size(int val, void *param)
 {
-    if ((DWORD)val == reu_size_kb)
+    if (val == reu_size_kb)
         return 0;
 
-    switch ((DWORD)val) {
+    switch (val) {
       case 128:
       case 256:
       case 512:
@@ -155,17 +155,17 @@ static int set_reu_size(int val, void *param)
       case 16384:
         break;
       default:
-        log_message(reu_log, "Unknown REU size %ld.", (long)val);
+        log_message(reu_log, "Unknown REU size %d.", val);
         return -1;
     }
 
     if (reu_enabled) {
         reu_deactivate();
-        reu_size_kb = (DWORD)val;
+        reu_size_kb = val;
         reu_size = reu_size_kb << 10;
         reu_activate();
     } else {
-        reu_size_kb = (DWORD)val;
+        reu_size_kb = val;
         reu_size = reu_size_kb << 10;
     }
 
@@ -197,9 +197,9 @@ static const resource_string_t resources_string[] = {
 
 static const resource_int_t resources_int[] = {
     { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&reu_enabled, set_reu_enabled, NULL },
+      &reu_enabled, set_reu_enabled, NULL },
     { "REUsize", 512, RES_EVENT_NO, NULL,
-      (int *)&reu_size_kb, set_reu_size, NULL },
+      &reu_size_kb, set_reu_size, NULL },
     { NULL }
 };
 
@@ -296,7 +296,7 @@ static int reu_activate(void)
 
     old_reu_ram_size = reu_size;
 
-    log_message(reu_log, "%dKB unit installed.", (int)(reu_size >> 10));
+    log_message(reu_log, "%dKB unit installed.", reu_size >> 10);
 
     if (!util_check_null_string(reu_filename)) {
         if (util_file_load(reu_filename, reu_ram, (size_t)reu_size,
