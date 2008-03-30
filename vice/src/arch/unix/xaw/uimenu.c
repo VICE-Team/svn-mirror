@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
@@ -44,6 +45,7 @@
 #include "right_arrow.xbm"
 #include "uimenu.h"
 #include "vsync.h"
+#include "utils.h"
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -60,7 +62,7 @@ static Pixmap checkmark_bitmap, right_arrow_bitmap;
 static int menu_popup = 0;
 
 #define MAX_SUBMENUS 1024
-static struct Submenu {
+static struct {
     Widget widget;
     Widget parent;
     int level;
@@ -70,7 +72,9 @@ static int num_submenus = 0;
 
 static Widget active_submenu, active_entry;
 
-static int SubmenuPoppedUp = 0;
+static int submenu_popped_up = 0;
+
+static Widget top_menu;
 
 /* This keeps a list of the menus with a checkmark on the left.  Each time
    some setting is changed, we have to update them. */
@@ -80,12 +84,17 @@ static int num_checkmark_menu_items = 0;
 
 /* ------------------------------------------------------------------------- */
 
+/* This makes sure the submenu is fully visible.  */
 static void position_submenu(Widget w, Widget parent)
 {
     Position parent_x, parent_y, my_x, my_y;
     Dimension parent_width, my_width, my_height;
     int root_width, root_height, foo;
     Window foowin;
+
+    /* Make sure the widget is realized--otherwise, we get 0 as width and
+       height.  */
+    XtRealizeWidget(w);
 
     XtVaGetValues(parent, XtNx, &parent_x, XtNy, &parent_y,
 		  XtNwidth, &parent_width, NULL);
@@ -96,9 +105,9 @@ static void position_submenu(Widget w, Widget parent)
     my_y = parent_y + 1;
     XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
 		 &foo, &root_width, &root_height, &foo, &foo);
-    if ((my_x + my_width) > root_width)
+    if (my_x + my_width > root_width)
 	my_x -= my_width + parent_width - 2;
-    if ((my_y + my_height) > root_height)
+    if (my_y + my_height > root_height)
 	my_y = root_height - my_height;
     XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     XtPopup(w, XtGrabNonexclusive);
@@ -106,6 +115,8 @@ static void position_submenu(Widget w, Widget parent)
 
 static UI_CALLBACK(menu_popup_callback)
 {
+    if (menu_popup == 0)
+        top_menu = w;
     menu_popup++;
     suspend_speed_eval();
 }
@@ -114,16 +125,18 @@ static UI_CALLBACK(menu_popdown_callback)
 {
     if (menu_popup > 0)
 	menu_popup--;
+    else
+        top_menu = NULL;
 }
 
 static UI_CALLBACK(submenu_popup_callback)
 {
-    SubmenuPoppedUp++;
+    submenu_popped_up++;
 }
 
 static UI_CALLBACK(submenu_popdown_callback)
 {
-    SubmenuPoppedUp--;
+    submenu_popped_up--;
     if (XawSimpleMenuGetActiveEntry(w))
 	XtPopdown((Widget)client_data);
 }
@@ -176,24 +189,54 @@ static void popdown_submenus_action(Widget w, XEvent * event,
 {
     int i;
 
-    /* Pop down all the submenus.  */
-    for (i = 0; i < num_submenus; i++) {
+    /* Pop down all the submenus and the top ones.  */
+
+    for (i = 0; i < num_submenus; i++)
 	XtPopdown(submenus[i].widget);
-    }
+
+    XtPopdown(top_menu);
+    top_menu = NULL;
 
     menu_popup = 0;
-
-#if 0
-    /* Pop down the two main menus too.  */
-    XtPopdown(left_menu_widget);
-    XtPopdown(right_menu_widget);
-#endif
 }
 
 static void menu_unhighlight_action(Widget w, XEvent * event, String * params,
                                     Cardinal * num_params)
 {
     XtCallActionProc(w, "unhighlight", event, params, *num_params);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static char *make_menu_label(ui_menu_entry_t *e)
+{
+    static char *p = NULL;
+    const char *key_string;
+    char *tmp = alloca(1024);
+
+    if (e->hotkey_keysym == (KeySym) 0)
+        return e->string;
+
+    if (p != NULL)
+        free(p);
+
+    *tmp = '\0';
+    if (e->hotkey_modifier & UI_HOTMOD_CTRL)
+        strcat(tmp, "C-");
+    if (e->hotkey_modifier & UI_HOTMOD_META)
+        strcat(tmp, "M-");
+    if (e->hotkey_modifier & UI_HOTMOD_ALT)
+        strcat(tmp, "A-");
+    if (e->hotkey_modifier & UI_HOTMOD_SHIFT)
+        strcat(tmp, "S-");
+
+    key_string = strchr(XKeysymToString(e->hotkey_keysym), '_');
+    if (key_string == NULL)
+        key_string = XKeysymToString(e->hotkey_keysym);
+    else
+        key_string++;
+
+    return concat(e->string, "    (", tmp, key_string, ")", NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -229,9 +272,9 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
 
 Widget ui_menu_create(const char *name, ...)
 {
+    static int level = 0;
     Widget w;
     unsigned int i, j;
-    static int level = 0;
     ui_menu_entry_t *list;
     va_list ap;
 
@@ -268,7 +311,7 @@ Widget ui_menu_create(const char *name, ...)
                                                    XtNrightMargin, 20,
                                                    XtNleftMargin, 20,
                                                    XtNlabel,
-                                                   list[i].string + 1,
+                                                   make_menu_label(&list[i]) + 1,
                                                    NULL);
                 /* Add this item to the list of calls to perform to update the
                    menu status. */
@@ -288,7 +331,8 @@ Widget ui_menu_create(const char *name, ...)
                 new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
                                                    XtNleftMargin, 20,
                                                    XtNrightMargin, 20,
-                                                   XtNlabel, list[i].string,
+                                                   XtNlabel,
+                                                   make_menu_label(&list[i]),
                                                    NULL);
                 j++;
             }
