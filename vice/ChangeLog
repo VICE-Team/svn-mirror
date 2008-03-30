@@ -1,3 +1,25 @@
+2000-08-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.9.
+
+2000-08-15  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* data/C128/os2.vkm: fixed text & wrong numbers
+
+	* data/C64/os2.vkm: fixed text
+
+	* data/C64/os2_sym.vkm: fixed text, reordered
+
+	* data/CBM-II/os2.vkm: fixed text
+
+	* data/PET/os2.vkm: fixed text
+
+	* data/PET/os2_40.vkm: fixed text
+
+	* data/VIC20/os2.vkm: fixed text
+
+	* NEWS: added changes which will appear in the next release
+
 2000-08-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.8.
