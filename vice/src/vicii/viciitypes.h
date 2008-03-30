@@ -32,7 +32,6 @@
 
 #include "alarm.h"
 #include "log.h"
-#include "maincpu.h"
 #include "raster.h"
 #include "types.h"
 #include "vicii-mem.h"
@@ -421,67 +420,5 @@ extern void vic_ii_raster_fetch_alarm_handler (CLOCK offset);
 #define VIC_II_DEBUG_REGISTER(x)
 #endif
 
-inline static void vic_ii_handle_pending_alarms (int num_write_cycles)
-{
-  if (num_write_cycles != 0)
-    {
-      int f;
-
-      /* Cycles can be stolen only during the read accesses, so we serve
-         only the events that happened during them.  The last read access
-         happened at `clk - maincpu_write_cycles()' as all the opcodes
-         except BRK and JSR do all the write accesses at the very end.  BRK
-         cannot take us here and we would not be able to handle JSR
-         correctly anyway, so we don't care about them...  */
-
-      /* Go back to the time when the read accesses happened and serve VIC
-         events.  */
-      clk -= num_write_cycles;
-
-      do
-	{
-	  f = 0;
-	  if (clk > vic_ii.fetch_clk)
-	    {
-	      vic_ii_raster_fetch_alarm_handler (0);
-	      f = 1;
-	    }
-	  if (clk >= vic_ii.draw_clk)
-	    {
-	      vic_ii_raster_draw_alarm_handler((long)(clk - vic_ii.draw_clk));
-	      f = 1;
-	    }
-	}
-      while (f);
-
-      /* Go forward to the time when the last write access happens (that's
-         the one we care about, as the only instructions that do two write
-         accesses - except BRK and JSR - are the RMW ones, which store the
-         old value in the first write access, and then store the new one in
-         the second write access).  */
-      clk += num_write_cycles;
-
-    }
-  else
-    {
-      int f;
-
-      do
-	{
-	  f = 0;
-	  if (clk >= vic_ii.fetch_clk)
-	    {
-	      vic_ii_raster_fetch_alarm_handler (0);
-	      f = 1;
-	    }
-	  if (clk >= vic_ii.draw_clk)
-	    {
-	      vic_ii_raster_draw_alarm_handler (0);
-	      f = 1;
-	    }
-	}
-      while (f);
-    }
-}
-
 #endif /* _VICII_H */
+
