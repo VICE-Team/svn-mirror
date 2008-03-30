@@ -154,7 +154,7 @@ static BYTE oldpb;		/* the actual output on PB (input = high) */
 
 inline static void update_via1d0irq(void)
 {
-#if 0
+#if 0	/* DEBUG */
     static int irq = 0;
     if(irq && !(via1d0ifr & via1d0ier & 0x7f)) {
        printf("via1d0: clk=%d, IRQ off\n", clk);
@@ -752,6 +752,8 @@ void via1d0_prevent_clk_overflow(CLOCK sub)
 #define VIA_DUMP_VER_MAJOR      0
 #define VIA_DUMP_VER_MINOR      0
 
+static char snap_module_name[] = "VIA1D0";
+
 /*
  * The dump data:
  *
@@ -784,7 +786,7 @@ int via1d0_write_snapshot_module(snapshot_t * p)
     if (via1d0tbi && (via1d0tbi <= drive_clk[0]))
         int_via1d0t2(drive_clk[0] - via1d0tbi);
 
-    m = snapshot_module_create(p, "VIA1D0",
+    m = snapshot_module_create(p, snap_module_name,
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -817,20 +819,18 @@ int via1d0_write_snapshot_module(snapshot_t * p)
 
 int via1d0_read_snapshot_module(snapshot_t * p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     BYTE byte;
     WORD word;
-    /* DWORD dword; */
     ADDRESS addr;
     CLOCK rclk = clk;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
-    if (strcmp(name, "VIA1D0") || vmajor != VIA_DUMP_VER_MAJOR) {
+    if (vmajor != VIA_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
         return -1;
     }
@@ -883,13 +883,20 @@ int via1d0_read_snapshot_module(snapshot_t * p)
     via1d0ifr = byte;
     snapshot_module_read_byte(m, &byte);
     via1d0ier = byte;
-    update_via1d0irq();
+
+    /* update_via1d0irq(); */
+#ifdef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
+    via_restore_int(I_VIA1D0FL, (via1d0ifr & via1d0ier & 0x7f) ? IK_IRQ : 0);
+#else
+    set_int_noclk(&drive0_int_status, I_VIA1D0FL,
+			(via1d0ifr & via1d0ier & 0x7f) ? IK_IRQ : 0);
+#endif
 						/* FIXME! */
     snapshot_module_read_byte(m, &byte);
     via1d0pb7 = byte ? 1 : 0;
     via1d0pb7x = 0;
     via1d0pb7o = 0;
-    snapshot_module_read_byte(m, &byte);		/* SRHBITS */
+    snapshot_module_read_byte(m, &byte);	/* SRHBITS */
 
     return snapshot_module_close(m);
 }
