@@ -10,8 +10,8 @@ These are the most important known problems with VICE 0.15.0:
 - The VIC-I chip in xvic still lacks important features and is still
   under construction.
 
-- The CRTC chip in xpet only supports the basic features and is still
-  under construction.
+- The CRTC chip in xpet and x610 only supports the basic features and
+  is still under construction.
 
 - Changing the REU image name via resource files has no effect until
   exiting.

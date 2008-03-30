@@ -11,6 +11,11 @@ list of all the changes in the code.
 * Changes in VICE 0.15.1
 ========================
 
+** CBM-II changes
+-----------------
+
+- A new Commodore 610 (aka CBM-II) emulator has been added.
+
 ** Drive changes
 ----------------
 
