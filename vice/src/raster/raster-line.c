@@ -185,8 +185,15 @@ inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
 {
     if (raster->sprite_status != NULL
         && raster->sprite_status->draw_partial_function != NULL)
-        raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
+    {
+        if (raster->sprite_xsmooth_shift_right > 0)
+            raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
+                                             raster->zero_gfx_msk, xs, xe);
+        else
+            raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
                                              raster->gfx_msk, xs, xe);
+        raster->sprite_xsmooth_shift_right = 0;
+    }
 }
 
 void raster_line_draw_borders(raster_t *raster)

@@ -265,8 +265,10 @@ void raster_reset(raster_t *raster)
     raster->current_line = 0;
 
     raster->xsmooth = raster->ysmooth = 0;
+    raster->sprite_xsmooth = 0;
     raster->xsmooth_shift_left = 0;
     raster->xsmooth_shift_right = 0;
+    raster->sprite_xsmooth_shift_right = 0;
     raster->skip_frame = 0;
 
     raster->blank_off = 0;

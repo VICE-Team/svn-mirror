@@ -1,3 +1,69 @@
+2007-09-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.3.
+
+2007-09-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Fixed a netplay libs issue.
+
+2007-09-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* machine.c (machine_jam): Set ignore_jam flag if desired
+	action isn't reset or monitor start.
+	(machine_trigger_reset_internal): Clear the ignor_jam flag.
+
+	* uiapi.h: New ui_jam_action_t member UI_JAM_NONE.
+
+	* arch/win32/res.rc: Added explanation in IDS_START_MONITOR.
+
+	* arch/win32/ui.c (ui_jam_dialog): Added Cancel button to the
+	message box and return UI_JAM_NONE as its action.
+
+2007-09-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster-line.c (draw_sprites_partial): Use the
+	zero_gfx_msk if we are on an xsmooth shift right and
+	reset the flag.
+
+	* raster/raster.h, raster.c (raster_reset): Init for new
+	members sprite_xsmooth and sprite_xsmooth_shift_right.
+
+	* vicii/vicii-mem.c (d016_store): Set a copy of xsmooth for
+	the sprite drawing code. Set sprite_xsmooth_shift_right flag
+	at the starting point of a shift right.
+
+	* vicii/vicii-snapshot.c (vicii_snapshot_read_module): Set
+	sprite_xsmooth.
+
+	* vicii/vicii-sprites.c (draw_sprite_partial): Don't use
+	xsmooth which is already progressed to next line but
+	sprite_xsmooth.
+
+2007-09-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-mem.c (d01c_store), vicii/vicii-sprites.c
+	(vicii_sprites_set_x_position), vicii/vicii.c
+	(vicii_trigger_light_pen): Fixed raster x positions for
+	different screen border settings.
+
+2007-09-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added libpng and zlib deps.
+
+	* monitor/Makefile.am, raster/Makefile.am: Cosmetic fixes.
+
+2007-09-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added 'BUILT_SOURCES' dependency to the
+	x64-all, x128-all, xcbm2-all, xpet-all, xplus4-all and
+	xvic-all targets.
+
+2007-09-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64.h, c64/c64mem.c, c64/c64pla.c, c64/c64pla.h: Changed
+	the fall-off time and behavior of the unused bit in $01 to
+	match the real hardware.
+
 2007-09-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.2.

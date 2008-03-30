@@ -8,7 +8,7 @@ noinst_LIBRARIES = libraster.a
 libraster_a_SOURCES = \
 	raster-cache-const.h \
 	raster-cache-fill-1fff.h \
-        raster-cache-fill-39ff.h \
+	raster-cache-fill-39ff.h \
 	raster-cache-fill.h \
 	raster-cache-nibbles.h \
 	raster-cache-text-ext.h \

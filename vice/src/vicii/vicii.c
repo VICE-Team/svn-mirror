@@ -515,7 +515,8 @@ void vicii_trigger_light_pen(CLOCK mclk)
 {
     if (!vicii.light_pen.triggered) {
         vicii.light_pen.triggered = 1;
-        vicii.light_pen.x = VICII_RASTER_X(mclk % vicii.cycles_per_line);
+        vicii.light_pen.x = VICII_RASTER_X(mclk % vicii.cycles_per_line)
+                                - vicii.screen_leftborderwidth + 0x20;
 
         if (vicii.light_pen.x < 0)
             vicii.light_pen.x = vicii.sprite_wrap_x + vicii.light_pen.x;

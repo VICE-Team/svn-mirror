@@ -84,13 +84,13 @@ struct raster_s {
     BYTE *fake_draw_buffer_line;
 
     /* Smooth scroll values for the graphics (not the whole screen).  */
-    int xsmooth, ysmooth;
+    int xsmooth, ysmooth, sprite_xsmooth;
 
     /* Number of pixels at a xsmooth shift to the left.  */
     int xsmooth_shift_left;
 
     /* Number of pixels at a xsmooth shift to the right.  */
-    int xsmooth_shift_right;
+    int xsmooth_shift_right, sprite_xsmooth_shift_right;
 
     /* If nonzero, we should skip the next frame. (used for automatic refresh
        rate setting) */

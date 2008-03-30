@@ -5246,7 +5246,7 @@ BEGIN
   IDS_CANNOT_LOAD_SETTINGS        "Cannot load settings."
   IDS_DEFAULT_SETTINGS_RESTORED   "Default settings restored."
   IDS_CANNOT_ATTACH_FILE          "Cannot attach specified file"
-  IDS_START_MONITOR               "%s\012\012Start monitor?"
+  IDS_START_MONITOR               "%s\012\012Start monitor? (No will reset, cancel will continue)"
   IDS_VICE_CPU_JAM                "VICE CPU JAM"
   IDS_EXTEND_TO_40_TRACKS         "Extend image to 40-track format?"
   IDS_DETACHED_DEVICE_S           "Detached device %s"

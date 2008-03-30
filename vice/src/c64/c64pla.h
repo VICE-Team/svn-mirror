@@ -42,12 +42,18 @@ struct pport_s {
     BYTE data_out;
 
     /* cycle that should invalidate the unused bits of the data port. */
-    CLOCK data_set_clk;
+    CLOCK data_set_clk_bit6;
+    CLOCK data_set_clk_bit7;
 
     /* indicates if the unused bits of the data port are still
        valid or should be read as 0, 1 = unused bits valid,
        0 = unused bits should be 0 */
-    BYTE data_set;
+    BYTE data_set_bit6;
+    BYTE data_set_bit7;
+
+    /* indicated if the unused bits are in the process of falling off. */
+    BYTE data_falloff_bit6;
+    BYTE data_falloff_bit7;
 };
 typedef struct pport_s pport_t;
 

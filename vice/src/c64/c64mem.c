@@ -142,33 +142,49 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 /* ------------------------------------------------------------------------- */
 
-static void c64_mem_alarm_handler(CLOCK offset, void *data)
-{
-    pport.data_set = 0;
-}
-
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
-    if (pport.data_set)
+    if (pport.data_falloff_bit6)
     {
-        pport.data_set++;
-        if (pport.data_set==3)
+        pport.data_falloff_bit6++;
+        if (pport.data_falloff_bit6==3)
         {
-            pport.data_set = 0;
+            pport.data_set_bit6 = 0;
+            pport.data_falloff_bit6 = 0;
         }
     }
-    pport.data_set_clk -= sub;
+
+    if (pport.data_falloff_bit7)
+    {
+        pport.data_falloff_bit7++;
+        if (pport.data_falloff_bit7==3)
+        {
+            pport.data_set_bit7 = 0;
+            pport.data_falloff_bit7 = 0;
+        }
+    }
+
+    pport.data_set_clk_bit6 -= sub;
+    pport.data_set_clk_bit7 -= sub;
 }
 
 static void check_data_set_alarm(void)
 {
-    if (pport.data_set_clk < maincpu_clk)
-        pport.data_set = 0;
+    if (pport.data_set_clk_bit6 < maincpu_clk)
+    {
+        pport.data_falloff_bit6 = 0;
+        pport.data_set_bit6 = 0;
+    }
+
+    if (pport.data_set_clk_bit7 < maincpu_clk)
+    {
+        pport.data_set_bit7 = 0;
+        pport.data_falloff_bit7 = 0;
+    }
 }
 
 void c64_mem_init(void)
 {
-    pport.data_set = 0;
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
@@ -207,12 +223,10 @@ BYTE REGPARM1 zero_read(WORD addr)
       case 0:
         return pport.dir_read;
       case 1:
-        if (pport.data_set)
+        if (pport.data_falloff_bit6 || pport.data_falloff_bit7)
             check_data_set_alarm();
 
-        if (pport.data_set)
-            return pport.data_read;
-        return (pport.data_read & 0x3f);
+        return (pport.data_read & (0xff - (((!pport.data_set_bit6)<<6)+((!pport.data_set_bit7)<<7))));
     }
 
     if (c64_256k_enabled)
@@ -244,6 +258,24 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
             mem_ram[0] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
         }
+        if (pport.data_set_bit7 && ((value & 0x80) == 0) && pport.data_falloff_bit7 == 0)
+        {
+            pport.data_falloff_bit7 = 1;
+            pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+        }
+        if (pport.data_set_bit6 && ((value & 0x40) == 0) && pport.data_falloff_bit6 == 0)
+        {
+            pport.data_falloff_bit6 = 1;
+            pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+        }
+        if (pport.data_set_bit7 && (value & 0x80) && pport.data_falloff_bit7)
+        {
+            pport.data_falloff_bit7 = 0;
+        }
+        if (pport.data_set_bit6 && (value & 0x40) && pport.data_falloff_bit6)
+        {
+            pport.data_falloff_bit6 = 0;
+        }
         if (pport.dir != value) {
             pport.dir = value;
             mem_pla_config_changed();
@@ -263,8 +295,15 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
             mem_ram[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
         }
-        pport.data_set = 1;
-        pport.data_set_clk = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+        if ((pport.dir & 0x80) && (value & 0x80))
+        {
+            pport.data_set_bit7 = 1;
+        }
+        if ((pport.dir & 0x40) && (value & 0x40))
+        {
+            pport.data_set_bit6 = 1;
+        }
+
         if (pport.data != value) {
             pport.data = value;
             mem_pla_config_changed();

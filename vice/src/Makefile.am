@@ -272,6 +272,8 @@ translate.h:	$(srcdir)/translate.txt
 translate_table.h:	$(srcdir)/translate.txt
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
+else
+BUILT_SOURCES =
 endif
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -362,7 +364,10 @@ x64_LDFLAGS = @x64_LDFLAGS@
 
 .PHONY: x64-all
 x64-all: \
+	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
 	libc64 \
 	libc64cart \
 	libdriveiec \
@@ -422,6 +427,7 @@ x128_LDFLAGS = @x128_LDFLAGS@
 
 .PHONY: x128-all
 x128-all: \
+	$(BUILT_SOURCES) \
 	libc128 \
 	libc64c128 \
 	libc64cart \
@@ -453,6 +459,8 @@ x128-all: \
 	libfileio \
 	libcore \
 	@RESID_DEP@ \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
 	x128$(EXEEXT)
 
 # xvic
@@ -473,12 +481,13 @@ xvic_libs =  \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(xvic_libs) $(emu_extlibs)
+xvic_LDADD = $(xvic_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 .PHONY: xvic-all
 xvic-all: \
+	$(BUILT_SOURCES) \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
@@ -503,6 +512,8 @@ xvic-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
 	xvic$(EXEEXT)
 
 # xpet
@@ -522,12 +533,13 @@ xpet_libs =  \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(xpet_libs) $(emu_extlibs)
+xpet_LDADD = $(xpet_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 .PHONY: xpet-all
 xpet-all: \
+	$(BUILT_SOURCES) \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -551,6 +563,8 @@ xpet-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -571,12 +585,13 @@ xplus4_libs =  \
 	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
-xplus4_LDADD = $(xplus4_libs) $(emu_extlibs)
+xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
 .PHONY: xplus4-all
 xplus4-all: \
+	$(BUILT_SOURCES) \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecplus4exp \
@@ -601,6 +616,8 @@ xplus4-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -621,20 +638,23 @@ xcbm2_libs = \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs)
+xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @NETPLAY_LIBS@
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
 .PHONY: xcbm2-all
 xcbm2-all: \
+	$(BUILT_SOURCES) \
 	libcbm2 \
 	libsounddrv \
-        libgfxoutputdrv \
+	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
+	@VICE_LIBPNG_DEP@ \
+	@VICE_ZLIB_DEP@ \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \

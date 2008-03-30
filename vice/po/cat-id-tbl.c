@@ -1581,7 +1581,7 @@ Cannot get shared memory address; falling back to non MITSHM extension mode.", 1
   {"\
 %s\n\
 \n\
-Start monitor?", 1523},
+Start monitor? (No will reset, cancel will continue)", 1523},
   {"VICE CPU JAM", 1524},
   {"Extend image to 40-track format?", 1525},
   {"Detached device %s", 1526},

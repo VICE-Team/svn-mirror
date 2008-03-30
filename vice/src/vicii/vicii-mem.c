@@ -480,11 +480,20 @@ inline static void d016_store(const BYTE value)
                                               VICII_RASTER_X(cycle),
                                               &raster->xsmooth_shift_right,
                                               xsmooth - (vicii.regs[0x16] & 7));
+            raster_changes_sprites_add_int(raster,
+                                           VICII_RASTER_X(cycle) + 8 
+                                                + (vicii.regs[0x16] & 7),
+                                           &raster->sprite_xsmooth_shift_right,
+                                           1);
         }
         raster_changes_foreground_add_int(raster,
                                           VICII_RASTER_CHAR(cycle) - 1,
                                           &raster->xsmooth,
                                           xsmooth);
+        raster_changes_sprites_add_int(raster,
+                                        VICII_RASTER_X(cycle) + 8 + xsmooth,
+                                        &raster->sprite_xsmooth,
+                                        xsmooth);
     }
 
     /* Bit 4 (CSEL) selects 38/40 column mode.  */
@@ -627,7 +636,8 @@ inline static void d01c_store(const BYTE value)
 
         if ((vicii.regs[0x1c] & b) != (value & b)) {
             /* Test for MC bug condition */
-            sprite_x = (vicii.regs[2 * i] | (vicii.regs[0x10] & b ? 0x100 : 0));
+            sprite_x = (vicii.regs[2 * i] | (vicii.regs[0x10] & b ? 0x100 : 0))
+                    + vicii.screen_leftborderwidth - 0x20;
             x_exp = vicii.regs[0x1d] & b;
             delayed_pixel = 6;
 

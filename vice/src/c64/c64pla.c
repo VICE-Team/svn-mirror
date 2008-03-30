@@ -77,5 +77,8 @@ void c64pla_pport_reset(void)
     pport.data_read = 0x3f;
     pport.dir = 0;
     pport.dir_read = 0;
+    pport.data_set_bit6 = 0;
+    pport.data_set_bit7 = 0;
+    pport.data_falloff_bit6 = 0;
+    pport.data_falloff_bit7 = 0;
 }
-

@@ -71,7 +71,7 @@
 #include "joy.h"
 #endif
 
-
+static int ignore_jam;
 int machine_keymap_index;
 
 
@@ -80,6 +80,9 @@ unsigned int machine_jam(const char *format, ...)
     char *str;
     va_list ap;
     ui_jam_action_t ret;
+
+    if (ignore_jam > 0)
+        return JAM_NONE;
 
     va_start(ap, format);
 
@@ -95,12 +98,14 @@ unsigned int machine_jam(const char *format, ...)
       case UI_JAM_MONITOR:
         return JAM_MONITOR;
     }
-
+    ignore_jam = 1;
     return JAM_NONE;
 }
 
 static void machine_trigger_reset_internal(const unsigned int mode)
 {
+    ignore_jam = 0;
+
     switch (mode) {
       case MACHINE_RESET_MODE_HARD:
         vsync_frame_counter = 0;

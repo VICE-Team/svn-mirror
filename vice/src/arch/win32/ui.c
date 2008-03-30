@@ -743,11 +743,19 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     txt = lib_mvsprintf(format, ap);
     txt2 = lib_msprintf(translate_text(IDS_START_MONITOR), txt);
     st = system_mbstowcs_alloc(txt2);
-    ret = ui_messagebox(st, translate_text(IDS_VICE_CPU_JAM), MB_YESNO);
+    ret = ui_messagebox(st, translate_text(IDS_VICE_CPU_JAM), MB_YESNOCANCEL);
     system_mbstowcs_free(st);
     lib_free(txt2);
     lib_free(txt);
-    return (ret == IDYES) ? UI_JAM_MONITOR : UI_JAM_HARD_RESET;
+    switch (ret) {
+        case IDYES:
+            return UI_JAM_MONITOR;
+        case IDNO:
+            return UI_JAM_HARD_RESET;
+        case IDCANCEL:
+            return UI_JAM_NONE;
+    }
+    return UI_JAM_NONE;
 //    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
 }
 

@@ -1043,10 +1043,10 @@ static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 
         msk_ptr = gfx_msk_ptr
                   + (VICII_MAX_SPRITE_WIDTH + sprite_offset
-                    - VICII_RASTER_X(0) - vicii.raster.xsmooth) / 8;
+                    - VICII_RASTER_X(0) - vicii.raster.sprite_xsmooth) / 8;
         ptr = line_ptr + sprite_offset;
         lshift = (sprite_offset
-                 - vicii.raster.xsmooth) & 0x7;
+                 - vicii.raster.sprite_xsmooth) & 0x7;
         sptr = sprline - VICII_RASTER_X(0) + sprite_offset;
 
         if (sprite_status->sprites[n].multicolor)
@@ -1163,7 +1163,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
                     + vicii.sprite_wrap_x) % vicii.sprite_wrap_x;
     last_pos = (sprite->x - SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
                     + 2 * vicii.sprite_wrap_x) % vicii.sprite_wrap_x;
-    change_pos = (raster_x + x_offset - SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
+    change_pos = (raster_x + 8 - SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
                     + 2 * vicii.sprite_wrap_x) % vicii.sprite_wrap_x;
 
     /* disabled display is at the very end even on the transfered timeline */
