@@ -427,7 +427,8 @@ static void drive_read_image_d64_d71(int dnr)
 
     /* Since the D64/D71 format does not provide the actual track sizes or
        speed zones, we set them to standard values.  */
-    if (drive[dnr].drive_floppy->ImageFormat == 1541) {
+    if (drive[dnr].drive_floppy->ImageFormat == 1541
+        && drive[dnr].type == DRIVE_TYPE_1541) {
         for (track = 0; track < MAX_TRACKS_1541; track++) {
             drive[dnr].GCR_track_size[track] = 
                 raw_track_size[speed_map_1541[track]];
@@ -435,7 +436,8 @@ static void drive_read_image_d64_d71(int dnr)
                 NUM_MAX_BYTES_TRACK);
         }
     }
-    if (drive[dnr].drive_floppy->ImageFormat == 1571) {
+    if (drive[dnr].drive_floppy->ImageFormat == 1571
+        || drive[dnr].type == DRIVE_TYPE_1571) {
         for (track = 0; track < MAX_TRACKS_1571; track++) {
             drive[dnr].GCR_track_size[track] =
                 raw_track_size[speed_map_1571[track]];

@@ -371,7 +371,7 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
             {
                 int shared_size;
 
-                vic_ii_set_ram_base(ram + ((value & 0xc0) << 2));
+                vic_ii_set_ram_base(ram + ((value & 0xc0) << 10));
 
                 DEBUG(("MMU: Store RCR = $%02x\n", value));
                 DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
