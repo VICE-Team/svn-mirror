@@ -677,7 +677,7 @@ int sound_open(void)
 
         /* Set warp mode for non-realtime sound devices in vsid mode. */
         if (vsid_mode && !pdev->bufferspace) {
-            resources_set_value("WarpMode", (resource_value_t)1);
+            resources_set_int("WarpMode", 1);
         }
 
         /* Fill up the sound hardware buffer. */
@@ -727,7 +727,7 @@ int sound_open(void)
 #else
             ui_error(_("Recording device must be different from playback device"));
 #endif
-            resources_set_value("SoundRecordDeviceName", "");
+            resources_set_string("SoundRecordDeviceName", "");
             return 0;
         }
 
@@ -749,7 +749,7 @@ int sound_open(void)
                 ui_error(_("Initialization failed for device `%s'."),
                                    rdev->name);
 #endif
-                resources_set_value("SoundRecordDeviceName", "");
+                resources_set_string("SoundRecordDeviceName", "");
                 return 0;
             }
 
@@ -764,7 +764,7 @@ int sound_open(void)
                 ui_error(_("The recording device doesn't support current sound parameters"));
 #endif
                 rdev->close();
-                resources_set_value("SoundRecordDeviceName", "");
+                resources_set_string("SoundRecordDeviceName", "");
             } else {
                 snddata.recdev = rdev;
                 log_message(sound_log,
