@@ -183,10 +183,9 @@ static inline void read_ciaicr(void)
 
 #include "ciacore.c"
 
-void printer_interface_userport_set_busy(int flank)
+void printer_interface_userport_set_busy(int b)
 {
-    if (!flank) {
+    if (!b)
         cia1_set_flag();
-    }
 }
 

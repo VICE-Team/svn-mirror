@@ -237,10 +237,9 @@ static inline void store_sdr(BYTE byte) {}
 
 #include "ciacore.c"
 
-void printer_interface_userport_set_busy(int flank)
+void printer_interface_userport_set_busy(int b)
 {
-    if(!flank) {
+    if (!b)
         cia2_set_flag();
-    }
 }
 
