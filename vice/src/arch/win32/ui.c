@@ -35,6 +35,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "cmdline.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "machine.h"
@@ -86,10 +87,10 @@ struct {
 /*  List of resources which can have multiple mutual exclusive menu entries. */
 typedef struct {
     int value;
-    UINT item_id;
+    UINT item_id; /* The last item_id has to be zero.  */
 } res_possible_values;
 
-res_possible_values RefreshRateValues[]={
+res_possible_values RefreshRateValues[] = {
         {0, IDM_REFRESH_RATE_AUTO},
         {1, IDM_REFRESH_RATE_1},
         {2, IDM_REFRESH_RATE_2},
@@ -104,7 +105,7 @@ res_possible_values RefreshRateValues[]={
         {-1, 0}
 };
 
-res_possible_values SpeedValues[]={
+res_possible_values SpeedValues[] = {
         {0, IDM_MAXIMUM_SPEED_NO_LIMIT},
         {10, IDM_MAXIMUM_SPEED_10},
         {20, IDM_MAXIMUM_SPEED_20},
@@ -114,12 +115,19 @@ res_possible_values SpeedValues[]={
         {-1, 0}
 };
 
+res_possible_values SyncFactor[] = {
+        {DRIVE_SYNC_PAL, IDM_SYNC_FACTOR_PAL},
+        {DRIVE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC},
+        {-1, 0}
+};
+
 struct {
     const char *name;
     const res_possible_values *vals;
-} value_list[]={
+} value_list[] = {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
+    {"DriveSyncFactor", SyncFactor},
     {NULL,NULL}
 };
 
@@ -288,10 +296,10 @@ void ui_update_menus(void)
                       value ? MF_CHECKED : MF_UNCHECKED);
     }
 
-    for (i=0; value_list[i].name!=NULL; i++) {
+    for (i = 0; value_list[i].name != NULL; i++) {
         resources_get_value(value_list[i].name, (resource_value_t *) &value);
-        for (j=0; value_list[i].vals[j].value!=-1; j++) {
-            if (value==value_list[i].vals[j].value) {
+        for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
+            if (value == value_list[i].vals[j].value) {
                 CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_CHECKED);
             } else {
                 CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_UNCHECKED);
@@ -477,7 +485,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
       case IDM_ATTACH_11:
         {
             char *s;
-            int unit;
+            int unit = 8;
 
             switch (wparam) {
               case IDM_ATTACH_8:
@@ -620,6 +628,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(main_hwnd);
+        break;
+      case IDM_SYNC_FACTOR_PAL:
+        resources_set_value("DriveSyncFactor",
+                            (resource_value_t) DRIVE_SYNC_PAL);
+        break;
+      case IDM_SYNC_FACTOR_NTSC:
+        resources_set_value("DriveSyncFactor",
+                            (resource_value_t) DRIVE_SYNC_NTSC);
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
