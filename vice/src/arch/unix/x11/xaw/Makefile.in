@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libxawui.a
 
-libxawui_a_SOURCES =  	checkmark.xbm 	right_arrow.xbm 	ui.c 	uiarch.h 	uicartridge.c 	uicolor.c 	uiedisk.c 	uimenu.c 	uimenu.h 	uiscreenshot.c 	uisnapshot.c 	videoarch.h 	x11video.c 	x11kbd.c 	about.c
+libxawui_a_SOURCES =  	checkmark.xbm 	right_arrow.xbm 	ui.c 	uiarch.h 	uicartridge.c 	uicolor.c 	uiedisk.c 	uimenu.c 	uimenu.h 	uiscreenshot.c 	uisnapshot.c 	videoarch.h 	x11video.c 	x11kbd.c 	about.c 	uivsidcontrol.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../../src/config.h
@@ -153,7 +153,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
 libxawui_a_OBJECTS =  ui.o uicartridge.o uicolor.o uiedisk.o uimenu.o \
-uiscreenshot.o uisnapshot.o x11video.o x11kbd.o about.o
+uiscreenshot.o uisnapshot.o x11video.o x11kbd.o about.o uivsidcontrol.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -397,6 +397,10 @@ uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/arch/unix/uisnapshot.h \
 	../../../../../src/utils.h
+uivsidcontrol.o: uivsidcontrol.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/vsidui.h ../../../../../src/utils.h
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \
 	../../../../../src/arch/unix/types.h \

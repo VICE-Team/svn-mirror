@@ -1,3 +1,161 @@
+2002-01-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.54.
+
+2002-01-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.cc (video_canvas_resize): Return
+	immediately if size hasn't changed.
+
+	* arch/beos/vsidui.cc: Don't set color for the view as
+	it isn't updated properly.
+
+2002-01-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: Added new files ui_sid.{h|cc}.
+
+	* arch/beos/C128ui.cc, c64ui.cc, ui_sound.cc: Removed every
+	SID related stuff.
+
+	* arch/beos/constants.h: Added id for SID setting menu,
+	removed every other SID related id.
+
+	* arch/beos/ui.cc: Handle MENU_SID_SETTINGS.
+
+	* arch/beos/ui_sid.cc, ui_sid.h: New files that implement the
+	SID settings dialog.
+
+	* arch/beos/vicemenu.cc: Added shortcut for PAL emulation.
+	Added SID settings menu item, removed every other SID related
+	menu item.
+
+	* arch/beos/vicewindow.cc: Fixed top of the stausbar frame.
+
+2002-01-02  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/vsidui.c (vsid_ui_display_tune_nr): Added call to
+	updated UI control.
+	(vsid_ui_display_name): ditto.
+	(vsid_ui_display_author): ditto.
+	(vsid_ui_display_copyright): ditto.
+	(vsid_ui_display_sync): ditto.
+	(vsid_ui_display_sid_model): ditto.
+	(vsid_ui_display_tune_nr): ditto.
+	(vsid_ui_display_irqtype): ditto.
+
+	* arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES): 
+	* arch/unix/x11/xaw/Makefile.am (libxawui_a_SOURCES): Added
+	`vsidcontrol.c' 
+
+	* arch/unix/vsidui.h: New file; API to UI for vsid control UI.
+
+	* arch/unix/x11/xaw/uivsidcontrol.c: Dummies for vsid control
+	widget.
+
+	* arch/unix/x11/gnome/uivsidcontrol.c: New file, implemented
+	vsid control UI.
+	
+	* arch/unix/x11/videoarch.h: fullscreen_set_palette() New
+	interface. 
+
+	* arch/unix/x11/video.c (video_canvas_set_palette): Update
+	fullscreen color palettes.
+
+	* arch/unix/x11/gnome/uipalcontrol.c (pal_ctrl_reset):
+	Reworked to access defaults via
+	`resources_get_default_value()'.
+	`resourcese()'. Triggered bug in resources.c, see below.
+
+	* arch/unix/x11/dga2.c:
+	(all): Introduced `dag_log' for log messages.
+	(fullscreen_set_palette): Save physical color representation
+	in window mode away.
+	Changed interface to pass the canvas as first argument.
+	(alarm_timeout): Use DGA primitives to switch back, instead of
+	`fullscreen_mode_odd()'. 
+	(fullscreen_refresh_func): Render through video layer in case
+	of PAL Emulation.
+	(fullscreen_set_mode): Install segfault handler.
+	Allocate new colors only if necessary. Use saved colors when
+	possible. Recalculate physical representation for video layer.
+	Support for PAL Emulation: If active emulation goes into
+	malloc'ed backbuffer. Refresh uses the video renderer to
+	render the picture into the backbuffer of the graphics card,
+	which in turn is drawn by the gfx hardware in Sync with the
+	screen refresh.
+	(fullscreen_mode_init): Initialize `dga_log'.
+
+	* resources.c (resources_get_default_value): Fixed access to
+	struct resource_s for factory value to return direct values. 
+
+2002-01-02  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/menubar.c:
+	removed NewLuminances for TED
+
+	* arch/os2/video.c:
+	changed GetWindowHeight/Width to use the canvas pointer
+	changed output in case of wrong coordinates
+	changed order in canvas_resize to fix a bug when calling
+	WM_PAINT
+
+	* crtc/crtc-resources.c, src/crtc/crtc.c:
+	moved raster_enable_double_size to crtc_resize
+	removed force_repaint from exposure handler (already in
+	rastaer code)
+
+	* plus4/ted-resources.c, src/plus4/ted.c:
+	moved raster_enable_double_size to ted_resize
+	removed force_repaint from exposure handler (already in raster
+	code)
+
+	* raster/raster.c
+	some unimportant changes to the code layout
+
+	* vdc/vdc-resources.c, src/vdc/vdc.c
+	moved raster_enable_double_size to set_geometry
+	changed first/last_displayed_line to fit the meaning in all
+	other canvases (FIXME: Screenshot doesn't work anymore now)
+
+	* vic20/vic-resources.c, src/vic20/vic.c:
+	moved raster_enable_double_size to vic_resize
+	removed force_repaint from exposure handler (already in raster
+	code)
+
+	* vicii/vicii-resources.c, src/vicii/vicii.c:
+	moved raster_enable_double_size to vicii_resize
+	removed force_repaint from exposure handler (already in raster
+	code)
+
+2002-01-01  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/menubar.c: fixed a bug in the CRTC double
+	size/scan menu
+
+	* arch/os2/video.c: fixed WmPaint
+
+	* crtc/crtc-mem.c: show a bug in startup
+
+	* pet/pet.c: changed mHz debugging to Hz. mHz is real unusual
+	unit
+
+2002-01-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/rescbm2.rc: Added SID settings menuitem.
+
+	* arch/win32/uisid.c (CreateAndGetSidAddress): List of
+	addresses for second SID now depends on the machine.
+
+2002-01-01  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/res.h, arch/win32/uimon.c,
+	monitor/mon_breakpoint.[hc], monitor/mon_ui.[hc]:
+	added support for a context menu for the monitor disassembly
+	window (to be opened by right-clicking inside of the window)
+
+	* sid/resid.cc: rewrote two assignments int --> bool so that
+	two warnings about assigning int to bool are avoided
+
 2002-01-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.53.

@@ -270,7 +270,7 @@ raster-sprite-status.o: raster-sprite-status.c ../../src/vice.h \
 	../../src/arch/unix/types.h raster-sprite.h ../../src/utils.h
 raster-sprite.o: raster-sprite.c ../../src/vice.h ../../src/config.h \
 	raster-sprite.h ../../src/utils.h ../../src/arch/unix/types.h
-raster.o: raster.c ../../src/vice.h ../../src/config.h \
+raster.o: raster.c ../../src/vice.h ../../src/config.h ../../src/log.h \
 	../../src/machine.h ../../src/palette.h \
 	../../src/arch/unix/types.h raster-cache.h \
 	raster-sprite-cache.h raster-modes.h raster-sprite-status.h \

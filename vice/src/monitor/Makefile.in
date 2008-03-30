@@ -333,7 +333,8 @@ mon_registerz80.o: mon_registerz80.c ../../src/vice.h ../../src/config.h \
 	../../src/z80regs.h
 mon_ui.o: mon_ui.c ../../src/vice.h ../../src/config.h mon.h \
 	../../src/arch/unix/types.h montypes.h mon_breakpoint.h \
-	mon_register.h mon_ui.h mon_util.h ../../src/utils.h
+	mon_register.h mon_ui.h mon_util.h ../../src/resources.h \
+	../../src/utils.h
 mon_util.o: mon_util.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/console.h ../../src/mem.h ../../src/arch/unix/types.h \
