@@ -88,6 +88,7 @@ static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
                                  BYTE *minus);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
+static void vdrive_set_disk_geometry(vdrive_t *vdrive, int type);
 
 /* ------------------------------------------------------------------------- */
 
@@ -845,12 +846,11 @@ int vdrive_command_validate(vdrive_t *vdrive)
         return status;
     if (vdrive->read_only)
         return IPE_WRITE_PROTECT_ON;
-
     /* FIXME: size of BAM define */
     memcpy(oldbam, vdrive->bam, 5 * 256);
 
     vdrive_bam_clear_all(vdrive->image_format, vdrive->bam);
-    for (t = 1; t <= vdrive->NumTracks; t++) {
+    for (t = 1; t <= vdrive->num_tracks; t++) {
         int max_sector;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
         for (s = 0; s < max_sector; s++)
@@ -919,7 +919,7 @@ static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
     if (vdrive->read_only)
         return IPE_WRITE_PROTECT_ON;
 
-    if (vdrive->image->fd != NULL)
+    if (vdrive->image->fd == NULL)
         return IPE_NOT_READY;
 
     /*
@@ -971,7 +971,7 @@ static int set_error_data(vdrive_t *vdrive, int flags)
 	memset(vdrive->ErrData, 0x01, MAX_BLOCKS_ANY);
 
 
-    size = vdrive_calc_num_blocks(vdrive->image_format, vdrive->NumTracks);
+    size = vdrive_calc_num_blocks(vdrive->image_format, vdrive->num_tracks);
     offset = ((off_t)size << 8) + (off_t)(vdrive->D64_Header?0:HEADER_LENGTH);
     fseek(vdrive->image->fd, offset, SEEK_SET);
 
@@ -1085,38 +1085,43 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
 {
     /* Compatibily cruft (soon to be removed).  */
     vdrive->unit = unit;
-    vdrive->NumTracks  = image->tracks;
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
         log_message(vdrive_log, "Unit %d: D64 disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+        vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D71:
         log_message(vdrive_log, "Unit %d: D71 disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
+        vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D81:
         log_message(vdrive_log, "Unit %d: D81 disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1581;
+        vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D80:
         log_message(vdrive_log, "Unit %d: D80 disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8050;
+        vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D82:
         log_message(vdrive_log, "Unit %d: D82 disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8250;
+        vdrive->num_tracks = image->tracks;
         break;
       case DISK_IMAGE_TYPE_GCR:
         log_message(vdrive_log, "Unit %d: GCR disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+        vdrive->num_tracks = 35;
         break;
       default:
         return -1;
@@ -1125,8 +1130,6 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
     /* Initialise format constants */
     vdrive_set_disk_geometry(vdrive, vdrive->image_format);
 
-    vdrive->NumBlocks = vdrive_calc_num_blocks(vdrive->image_format,
-                                               image->tracks);
     vdrive->image = image;
 
     if (vdrive_bam_read_bam(vdrive)) {
@@ -1180,7 +1183,7 @@ int vdrive_calc_num_blocks(int format, int tracks)
  * Initialise format constants
  */
 
-void vdrive_set_disk_geometry(vdrive_t *vdrive, int type)
+static void vdrive_set_disk_geometry(vdrive_t *vdrive, int type)
 {
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
