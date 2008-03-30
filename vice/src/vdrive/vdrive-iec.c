@@ -63,15 +63,304 @@
 #include "vdrive-rel.h"
 #include "vdrive.h"
 
+
 static log_t vdrive_iec_log = LOG_ERR;
+
 
 void vdrive_iec_init(void)
 {
     vdrive_iec_log = log_open("VDriveIEC");
 }
 
-static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
-                                   int length )
+/* ------------------------------------------------------------------------- */
+
+static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary,
+                                     unsigned int track, unsigned int sector)
+{
+    int status;
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+
+    p->mode = BUFFER_SEQUENTIAL;
+    p->bufptr = 2;
+    p->buffer = (BYTE *)xmalloc(256);
+
+    status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
+
+    vdrive_set_last_read(track, sector, p->buffer);
+
+    if (status != 0) {
+        vdrive_iec_close(vdrive, secondary);
+        return SERIAL_ERROR;
+    }
+    return SERIAL_OK;
+}
+
+static int iec_open_read(vdrive_t *vdrive, unsigned int secondary)
+{
+    int type;
+    unsigned int track, sector;
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    BYTE *slot = p->slot;
+
+    if (!slot) {
+        vdrive_iec_close(vdrive, secondary);
+        vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
+        return SERIAL_ERROR;
+    }
+
+    type = slot[SLOT_TYPE_OFFSET] & 0x07;
+    track = (unsigned int)slot[SLOT_FIRST_TRACK];
+    sector = (unsigned int)slot[SLOT_FIRST_SECTOR];
+
+    /* Del, Seq, Prg, Usr (Rel not supported here).  */
+    if (type != FT_REL)
+        return iec_open_read_sequential(vdrive, secondary, track, sector);
+
+    return SERIAL_ERROR;
+}
+
+static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
+                                   cmd_parse_t *cmd_parse)
+{
+    int retlen;
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+
+    if (secondary > 0)
+        return iec_open_read_sequential(vdrive, secondary, vdrive->Dir_Track,
+                                        0);
+
+    p->mode = BUFFER_DIRECTORY_READ;
+    p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
+
+    retlen = vdrive_dir_create_directory(vdrive, cmd_parse->parsecmd,
+                                         cmd_parse->parselength,
+                                         cmd_parse->filetype, p->buffer);
+
+    if (retlen < 0) {
+        /* Directory not valid.  */
+        p->mode = BUFFER_NOT_IN_USE;
+        free(p->buffer);
+        p->length = 0;
+        vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
+        return SERIAL_ERROR;
+    }
+
+    p->length = (unsigned int)retlen;
+    p->bufptr = 0;
+
+    return SERIAL_OK;
+}
+
+static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
+                          cmd_parse_t *cmd_parse, const char *name)
+{
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    BYTE *slot = p->slot;
+
+    if (vdrive->image->read_only) {
+        vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
+        return SERIAL_ERROR;
+    }
+
+    if (slot) {
+        if (*name == '@')
+            vdrive_dir_remove_slot(vdrive, slot);
+        else {
+            vdrive_iec_close(vdrive, secondary);
+            vdrive_command_set_error(vdrive, IPE_FILE_EXISTS, 0, 0);
+            return SERIAL_ERROR;
+        }
+    }
+
+    vdrive_dir_create_slot(p, cmd_parse->parsecmd, cmd_parse->parselength,
+                           cmd_parse->filetype);
+
+#if 0
+    /* XXX keeping entry until close not implemented */
+    /* Write the directory entry to disk as an UNCLOSED file. */
+
+    vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
+    e = vdrive_dir_find_next_slot(vdrive);
+
+    if (!e) {
+        p->mode = BUFFER_NOT_IN_USE;
+        free((char *)p->buffer);
+        p->buffer = NULL;
+        vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
+        status = SERIAL_ERROR;
+        goto out;
+    }
+    memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
+           p->slot + 2, 30);
+
+    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+    v                        vdrive->Curr_track, vdrive->Curr_sector);
+    /*vdrive_bam_write_bam(vdrive);*/
+#endif  /* BAM write */
+
+    return SERIAL_OK;
+}
+
+
+/*
+ * Open a file on the disk image, and store the information on the
+ * directory slot.
+ */
+
+int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
+                    unsigned int secondary)
+{
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    BYTE *slot; /* Current directory entry */
+    int rc, status = SERIAL_OK;
+    cmd_parse_t cmd_parse;
+
+    if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
+        return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
+
+   /* No floppy in drive?   */
+   if (vdrive->image == NULL
+       && p->mode != BUFFER_COMMAND_CHANNEL
+       && secondary != 15
+       && *name != '#') {
+       vdrive_command_set_error(vdrive, IPE_NOT_READY, 18, 0);
+       log_message(vdrive_iec_log, "Drive not ready.");
+       return SERIAL_ERROR;
+   }
+
+#ifdef DEBUG_DRIVE
+    log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
+                  vdrive->unit, vdrive->image->fd, name, length, secondary);
+#endif
+#ifdef __riscos
+    ui_set_drive_leds(vdrive->unit - 8, 1);
+#endif
+
+    /*
+     * If channel is command channel, name will be used as write. Return only
+     * status of last write ...
+     */
+    if (p->mode == BUFFER_COMMAND_CHANNEL) {
+        int n;
+
+        for (n = 0; n < length; n++)
+            status = vdrive_iec_write(vdrive, name[n], secondary);
+
+        if (length)
+            p->readmode = FAM_WRITE;
+        else
+            p->readmode = FAM_READ;
+        return status;
+    }
+
+    /*
+     * Clear error flag
+     */
+    vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
+
+    /*
+     * In use ?
+     */
+    if (p->mode != BUFFER_NOT_IN_USE) {
+#ifdef DEBUG_DRIVE
+        log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
+#endif
+        vdrive_command_set_error(vdrive, IPE_NO_CHANNEL, 0, 0);
+        return SERIAL_ERROR;
+    }
+
+    cmd_parse.cmd = name;
+    cmd_parse.cmdlength = length;
+    cmd_parse.readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;;
+
+    rc = vdrive_command_parse(&cmd_parse);
+
+    if (rc != IPE_OK) {
+        status = SERIAL_ERROR;
+        goto out;
+    }
+
+#ifdef DEBUG_DRIVE
+        log_debug("Raw file name: `%s', length: %i.", name, length);
+        log_debug("Parsed file name: `%s', reallength: %i.",
+                  cmd_parse.parsecmd, cmd_parse.parselength);
+#endif
+
+    /* Override read mode if secondary is 0 or 1.  */
+    if (secondary == 0)
+        cmd_parse.readmode = FAM_READ;
+    if (secondary == 1)
+        cmd_parse.readmode = FAM_WRITE;
+
+    /* Limit file name to 16 chars.  */
+    if (cmd_parse.parselength > 16)
+        cmd_parse.parselength = 16;
+
+    /*
+     * Internal buffer ?
+     */
+    if (*name == '#') {
+        p->mode = BUFFER_MEMORY_BUFFER;
+        p->buffer = (BYTE *)xmalloc(256);
+        p->bufptr = 0;
+        status = SERIAL_OK;
+        goto out;
+    }
+
+    /*
+     * Directory read
+     * A little-known feature of the 1541: open 1,8,2,"$" (or even 1,8,1).
+     * It gives you the BAM+DIR as a sequential file, containing the data
+     * just as it appears on disk.  -Olaf Seibert
+     */
+
+    if (*name == '$') {
+        status = iec_open_read_directory(vdrive, secondary, &cmd_parse);
+        goto out;
+    }
+
+    /*
+     * Now, set filetype according secondary address, if it was not specified
+     * on filename
+     */
+
+    if (cmd_parse.filetype != 0)
+        cmd_parse.filetype = (secondary < 2) ? FT_PRG : FT_SEQ;
+
+    /*
+     * Check that there is room on directory.
+     */
+    vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
+                               cmd_parse.parselength, 0);
+
+    /*
+     * Find the first non-DEL entry in the directory (if it exists).
+     */
+    do
+        slot = vdrive_dir_find_next_slot(vdrive);
+    while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == FT_DEL));
+
+    p->readmode = cmd_parse.readmode;
+    p->slot = slot;
+
+    if (cmd_parse.filetype == FT_REL) {
+        status = vdrive_rel_open(vdrive, secondary, cmd_parse.recordlength);
+        goto out;
+    }
+
+    if (cmd_parse.readmode == FAM_READ)
+        status = iec_open_read(vdrive, secondary);
+    else
+        status = iec_open_write(vdrive, secondary, &cmd_parse, name);
+
+out:
+    free(cmd_parse.parsecmd);
+    return status;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
 {
     unsigned int t_new, s_new;
     int retval;
@@ -82,8 +371,7 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
      * First block of a file ?
      */
     if (slot[SLOT_FIRST_TRACK] == 0) {
-        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,
-                                                    &s_new);
+        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,                                                    &s_new);
         if (retval < 0) {
             vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
             return -1;
@@ -127,292 +415,64 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
     return 0;
 }
 
-/* ------------------------------------------------------------------------- */
-
-/*
- * Serial Bus Interface
- */
-
-/*
- * Open a file on the disk image, and store the information on the
- * directory slot.
- */
-
-int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
-                    unsigned int secondary)
+static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 {
+    BYTE *slot;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    int track, sector;
-    BYTE *slot; /* Current directory entry */
-    int rc, status = SERIAL_OK;
-    cmd_parse_t cmd_parse;
 
-    if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
-        return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
+    if (p->readmode & (FAM_WRITE | FAM_APPEND)) {
+        /*
+         * Flush bytes and write slot to directory
+         */
 
-   /* No floppy in drive?   */
-   if (vdrive->image == NULL
-       && p->mode != BUFFER_COMMAND_CHANNEL
-       && secondary != 15
-       && *name != '#') {
-       vdrive_command_set_error(vdrive, IPE_NOT_READY, 18, 0);
-       log_message(vdrive_iec_log, "Drive not ready.");
-       return SERIAL_ERROR;
-   }
-
-#ifdef DEBUG_DRIVE
-    log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
-                  vdrive->unit, vdrive->image->fd, name, length, secondary);
-#endif
-#ifdef __riscos
-    ui_set_drive_leds(vdrive->unit - 8, 1);
-#endif
-
-    /*
-     * If channel is command channel, name will be used as write. Return only
-     * status of last write ...
-     */
-    if (p->mode == BUFFER_COMMAND_CHANNEL) {
-        int n;
-        int status = SERIAL_OK;
-
-        for (n = 0; n < length; n++)
-            status = vdrive_iec_write(vdrive, name[n], secondary);
-        if (length)
-            p->readmode = FAM_WRITE;
-        else
-            p->readmode = FAM_READ;
-        return status;
-    }
-
-    /*
-     * Clear error flag
-     */
-    vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
-
-    /*
-     * In use ?
-     */
-    if (p->mode != BUFFER_NOT_IN_USE) {
-#ifdef DEBUG_DRIVE
-        log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
-#endif
-        vdrive_command_set_error(vdrive, IPE_NO_CHANNEL, 0, 0);
-        return SERIAL_ERROR;
-    }
-
-    cmd_parse.cmd = name;
-    cmd_parse.cmdlength = length;
-    cmd_parse.readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;;
-
-    rc = vdrive_command_parse(&cmd_parse);
-
-    if (rc != SERIAL_OK) {
-        status = SERIAL_ERROR;
-        goto out;
-    }
-
-#ifdef DEBUG_DRIVE
-        log_debug("Raw file name: `%s', length: %i.", name, length);
-        log_debug("Parsed file name: `%s', reallength: %i.",
-                  cmd_parse.parsecmd, cmd_parse.parselength);
-#endif
-
-    /* Override read mode if secondary is 0 or 1.  */
-    if (secondary == 0)
-        cmd_parse.readmode = FAM_READ;
-    if (secondary == 1)
-        cmd_parse.readmode = FAM_WRITE;
-
-    /* Limit file name to 16 chars.  */
-    if (cmd_parse.parselength > 16)
-        cmd_parse.parselength = 16;
-
-    /*
-     * Internal buffer ?
-     */
-    if (*name == '#') {
-        p->mode = BUFFER_MEMORY_BUFFER;
-        p->buffer = (BYTE *)xmalloc(256);
-        p->bufptr = 0;
-        status = SERIAL_OK;
-        goto out;
-    }
-
-    /*
-     * Directory read
-     * A little-known feature of the 1541: open 1,8,2,"$" (or even 1,8,1).
-     * It gives you the BAM+DIR as a sequential file, containing the data
-     * just as it appears on disk.  -Olaf Seibert
-     */
-
-    if (*name == '$') {
-        int retlen;
-
-        if (secondary > 0) {
-            track = vdrive->Dir_Track;
-            sector = 0;
-            goto as_if_sequential;
+        if (vdrive->image->read_only) {
+            vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
+            return SERIAL_ERROR;
         }
 
-        p->mode = BUFFER_DIRECTORY_READ;
-        p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
-        retlen = vdrive_dir_create_directory(vdrive, cmd_parse.parsecmd,
-                                             cmd_parse.parselength,
-                                             cmd_parse.filetype, p->buffer);
+#ifdef DEBUG_DRIVE
+        log_debug("DEBUG: flush.");
+#endif
+        iec_write_sequential(vdrive, p, p->bufptr);
 
-        if (retlen < 0) {
-            /* Directory not valid.  */
-            p->mode = BUFFER_NOT_IN_USE;
-            free(p->buffer);
-            p->length = 0;
-            vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
-            status = SERIAL_ERROR;
-            goto out;
-        }
-        p->length = (unsigned int)retlen;
-        p->bufptr = 0;
-        status = SERIAL_OK;
-        goto out;
-    }
-
-    /*
-     * Now, set filetype according secondary address, if it was not specified
-     * on filename
-     */
-
-    if (cmd_parse.filetype != 0)
-        cmd_parse.filetype = (secondary < 2) ? FT_PRG : FT_SEQ;
-
-    /*
-     * Check that there is room on directory.
-     */
-    vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                               cmd_parse.parselength, 0);
-
-    /*
-     * Find the first non-DEL entry in the directory (if it exists).
-     */
-    do
+#ifdef DEBUG_DRIVE
+        log_debug("DEBUG: find empty DIR slot.");
+#endif
+        vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
         slot = vdrive_dir_find_next_slot(vdrive);
-    while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == FT_DEL));
-
-    p->readmode = cmd_parse.readmode;
-    p->slot = slot;
-
-    if (cmd_parse.filetype == FT_REL) {
-        status = vdrive_rel_open(vdrive, secondary, cmd_parse.recordlength);
-        goto out;
-    }
-
-    /*
-     * Open file for reading
-     */
-
-    if (cmd_parse.readmode == FAM_READ) {
-        int status, type;
 
         if (!slot) {
-            vdrive_iec_close(vdrive, secondary);
-            vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
-            status = SERIAL_ERROR;
-            goto out;
+            p->mode = BUFFER_NOT_IN_USE;
+            free((char *)p->buffer);
+            p->buffer = NULL;
+
+            vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
+            return SERIAL_ERROR;
         }
+        p->slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
 
-        type = slot[SLOT_TYPE_OFFSET] & 0x07;
+        memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
+               p->slot + 2, 30);
 
-        cmd_parse.filetype = type;
-
-        track = (int)slot[SLOT_FIRST_TRACK];
-        sector = (int)slot[SLOT_FIRST_SECTOR];
-
-        /*
-         * Del, Seq, Prg, Usr (Rel not yet supported)
-         */
-        if (type != FT_REL) {
-            as_if_sequential:
-            p->mode = BUFFER_SEQUENTIAL;
-            p->bufptr = 2;
-            p->buffer = (BYTE *)xmalloc(256);
-
-            status = disk_image_read_sector(vdrive->image, p->buffer,
-                                            (unsigned int)track,
-                                            (unsigned int)sector);
-            vdrive_set_last_read((unsigned int)track, (unsigned int)sector,
-                                 p->buffer);
-            if (status != 0) {
-                vdrive_iec_close(vdrive, secondary);
-                status = SERIAL_ERROR;
-                goto out;
-            }
-            status = SERIAL_OK;
-            goto out;
-        }
-    /*
-     * Unsupported filetype
-     */
-        status = SERIAL_ERROR;
-        goto out;
+#ifdef DEBUG_DRIVE
+        log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.",
+                  vdrive->Curr_track, vdrive->Curr_sector);
+#endif
+        disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+                                vdrive->Curr_track, vdrive->Curr_sector);
+        vdrive_bam_write_bam(vdrive);
     }
+    p->mode = BUFFER_NOT_IN_USE;
+    free((char *)p->buffer);
+    p->buffer = NULL;
 
-    /*
-     * Write
-     */
-
-    if (vdrive->image->read_only) {
-        vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
-        status = SERIAL_ERROR;
-        goto out;
-    }
-
-    if (slot) {
-        if (*name == '@')
-            vdrive_dir_remove_slot(vdrive, slot);
-        else {
-            vdrive_iec_close(vdrive, secondary);
-            vdrive_command_set_error(vdrive, IPE_FILE_EXISTS, 0, 0);
-            status = SERIAL_ERROR;
-            goto out;
-        }
-    }
-
-    vdrive_dir_create_slot(p, cmd_parse.parsecmd, cmd_parse.parselength,
-                           cmd_parse.filetype);
-
-#if 0
-    /* XXX keeping entry until close not implemented */
-    /* Write the directory entry to disk as an UNCLOSED file. */
-
-    vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
-    e = vdrive_dir_find_next_slot(vdrive);
-
-    if (!e) {
-        p->mode = BUFFER_NOT_IN_USE;
-        free((char *)p->buffer);
-        p->buffer = NULL;
-        vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
-        status = SERIAL_ERROR;
-        goto out;
-    }
-
-    memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
-           p->slot + 2, 30);
-
-    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
-                            vdrive->Curr_track, vdrive->Curr_sector);
-    /*vdrive_bam_write_bam(vdrive);*/
-#endif  /* BAM write */
-
-out:
-    free(cmd_parse.parsecmd);
-    return status;
+    return SERIAL_OK;
 }
-
 
 int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 {
-    BYTE *e;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    int status = SERIAL_OK;
 
 #ifdef __riscos
     ui_set_drive_leds(vdrive->unit - 8, 0);
@@ -430,51 +490,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
         p->slot = NULL;
         break;
       case BUFFER_SEQUENTIAL:
-        if (p->readmode & (FAM_WRITE | FAM_APPEND)) {
-            /*
-             * Flush bytes and write slot to directory
-             */
-
-            if (vdrive->image->read_only) {
-                vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
-                return SERIAL_ERROR;
-            }
-
-#ifdef DEBUG_DRIVE
-            log_debug("DEBUG: flush.");
-#endif
-            write_sequential_buffer(vdrive, p, p->bufptr);
-
-#ifdef DEBUG_DRIVE
-            log_debug("DEBUG: find empty DIR slot.");
-#endif
-            vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
-            e = vdrive_dir_find_next_slot(vdrive);
-
-            if (!e) {
-                p->mode = BUFFER_NOT_IN_USE;
-                free((char *)p->buffer);
-                p->buffer = NULL;
-
-                vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
-                return SERIAL_ERROR;
-            }
-            p->slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
-
-            memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
-                   p->slot + 2, 30);
-
-#ifdef DEBUG_DRIVE
-            log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.",
-                      vdrive->Curr_track, vdrive->Curr_sector);
-#endif
-            disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
-                                    vdrive->Curr_track, vdrive->Curr_sector);
-            vdrive_bam_write_bam(vdrive);
-        }
-        p->mode = BUFFER_NOT_IN_USE;
-        free((char *)p->buffer);
-        p->buffer = NULL;
+        status = iec_close_sequential(vdrive, secondary);
         break;
       case BUFFER_RELATIVE:
         /* FIXME !!! */
@@ -492,15 +508,66 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
       default:
         log_error(vdrive_iec_log, "Fatal: unknown floppy-close-mode: %i.",
                   p->mode);
-        exit(-1);
     }
-    return SERIAL_OK;
+
+    return status;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static int iec_read_sequential(vdrive_t *vdrive, BYTE *data,
+                               unsigned int secondary)
+{
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+
+    if (p->readmode != FAM_READ)
+        return SERIAL_ERROR;
+
+    /*
+     * Read next block if needed
+     */
+    if (p->buffer[0]) {
+        if (p->bufptr >= 256) {
+            int status;
+            unsigned int track, sector;
+
+            track = (unsigned int)p->buffer[0];
+            sector = (unsigned int)p->buffer[1];
+
+            status = disk_image_read_sector(vdrive->image, p->buffer,
+                                                track, sector);
+            vdrive_set_last_read(track, sector, p->buffer);
+
+            if (status == 0) {
+                p->bufptr = 2;
+            } else {
+                *data = 0xc7;
+                return SERIAL_EOF;
+            }
+        }
+    } else {
+        if (p->bufptr > p->buffer[1]) {
+            *data = 0xc7;
+#ifdef DEBUG_DRIVE
+            if (p->mode == BUFFER_COMMAND_CHANNEL)
+                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                          p->mode, 0, 0, *data, (isprint(*data)
+                          ? *data : '.'));
+#endif
+            return SERIAL_EOF;
+        }
+    }
+
+    *data = p->buffer[p->bufptr];
+    p->bufptr++;
+
+    return SERIAL_OK;
+}
 
 int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
+    int status = SERIAL_OK;
 
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
@@ -531,46 +598,7 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         break;
 
       case BUFFER_SEQUENTIAL:
-        if (p->readmode != FAM_READ)
-            return SERIAL_ERROR;
-
-        /*
-         * Read next block if needed
-         */
-        if (p->buffer[0]) {
-            if (p->bufptr >= 256) {
-                int status;
-                unsigned int track, sector;
-
-                track = (unsigned int)p->buffer[0];
-                sector = (unsigned int)p->buffer[1];
-
-                status = disk_image_read_sector(vdrive->image, p->buffer,
-                                                track, sector);
-                vdrive_set_last_read(track, sector, p->buffer);
-
-                if (status == 0) {
-                    p->bufptr = 2;
-                } else {
-                    *data = 0xc7;
-                    return SERIAL_EOF;
-                }
-            }
-        } else {
-            if (p->bufptr > p->buffer[1]) {
-                *data = 0xc7;
-#ifdef DEBUG_DRIVE
-                if (p->mode == BUFFER_COMMAND_CHANNEL)
-                    log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
-                              p->mode, 0, 0, *data, (isprint(*data)
-                              ? *data : '.'));
-#endif
-                return SERIAL_EOF;
-            }
-        }
-
-        *data = p->buffer[p->bufptr];
-        p->bufptr++;
+        status = iec_read_sequential(vdrive, data, secondary);
         break;
       case BUFFER_COMMAND_CHANNEL:
         if (p->bufptr > p->length) {
@@ -606,7 +634,6 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 
       default:
         log_error(vdrive_iec_log, "Fatal: unknown buffermode on floppy-read.");
-        exit(-1);
     }
 
 #ifdef DEBUG_DRIVE
@@ -614,9 +641,10 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
                   p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
 #endif
-    return SERIAL_OK;
+    return status;
 }
 
+/* ------------------------------------------------------------------------- */
 
 int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
@@ -652,7 +680,7 @@ int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 
         if (p->bufptr >= 256) {
             p->bufptr = 2;
-            if (write_sequential_buffer(vdrive, p, WRITE_BLOCK) < 0)
+            if (iec_write_sequential(vdrive, p, WRITE_BLOCK) < 0)
                 return SERIAL_ERROR;
         }
         p->buffer[p->bufptr] = data;
@@ -674,6 +702,8 @@ int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
     }
     return SERIAL_OK;
 }
+
+/* ------------------------------------------------------------------------- */
 
 void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 {
@@ -706,6 +736,8 @@ void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
         p->bufptr = 0;
     }
 }
+
+/* ------------------------------------------------------------------------- */
 
 int vdrive_iec_attach(unsigned int unit, const char *name)
 {
