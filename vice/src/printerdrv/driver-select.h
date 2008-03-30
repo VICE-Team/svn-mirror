@@ -29,6 +29,22 @@
 
 #include "types.h"
 
+struct driver_select_s {
+    const char *drv_name;
+    int (*drv_open)(int device);
+    void (*drv_close)(int fi);
+    int (*drv_putc)(int fi, BYTE b);
+    int (*drv_getc)(int fi, BYTE *b);
+    int (*drv_flush)(int fi);
+};
+typedef struct driver_select_s driver_select_t;
+
+extern void driver_select_init(void);
+extern int driver_select_init_resources(void);
+extern int driver_select_init_cmdline_options(void);
+
+extern void driver_select_register(driver_select_t *driver_select);
+
 extern int driver_select_open(int device);
 extern void driver_select_close(int fi);
 extern int driver_select_putc(int fi, BYTE b);
