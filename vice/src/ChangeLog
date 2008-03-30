@@ -1,3 +1,42 @@
+2002-03-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.24.
+
+	* drive/drive.c (drive_sync_found): Do not report sync if disk
+	is changing.
+
+2002-03-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/constants.h: New id for DirectWindow toggle.
+
+	* arch/beos/ui.cc, ui.h: New function ui_set_window_mode.
+	New menu toggle for DirectWindow.
+
+	* arch/beos/vicemenu.cc: Renamed 'Fast PAL' to 'PAL'. Added
+	menuitem for DirectWIndow toggle.
+
+	* arch/beos/vicewindow.cc: Reenabled the bitmap stuff. It is
+	used if DirectWindow is disabled. Fixed menubar_offset and
+	position of the view and the statusbar.
+
+	* arch/beos/video.cc: Reenabled the bitmap stuff (for disabled
+	DirectWindow). New resource 'DirectWindow' and commandline
+	options +- directwindow.
+
+	* arch/beos/videoarch.h: Include video.h.
+
+	* raster/raster.c (raster_update_canvas_all): Fixed xs in the
+	call of video_canvas_refresh.
+
+2002-02-27  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/renderxv.c: Added credits, fixed typos.
+
+	* arch/unix/x11/video.c: XVIDEO and FOURCC resources only
+	available when HAVE_XVIDEO is defined.
+
+	* resources.c: Added missing breaks in switch statements.
+
 2002-02-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.23.

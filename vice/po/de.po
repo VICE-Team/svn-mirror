@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-02-26 21:07+0100\n"
+"POT-Creation-Date: 2002-03-02 15:37+0100\n"
 "PO-Revision-Date: 2002-02-11 21:27+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2690,42 +2690,42 @@ msgstr "Deaktiviere Vollbild Modus"
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:154
+#: src/arch/unix/x11/video.c:156
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:157
+#: src/arch/unix/x11/video.c:159
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:160
+#: src/arch/unix/x11/video.c:162
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:164
+#: src/arch/unix/x11/video.c:166
 msgid "Use XVideo Extension (hardware scaling)"
 msgstr "XVideo Erweiterung nutzen (Hardware Skalierung)"
 
-#: src/arch/unix/x11/video.c:167
+#: src/arch/unix/x11/video.c:169
 msgid "Use software rendering"
 msgstr "Software Rendering benutzen"
 
-#: src/arch/unix/x11/video.c:169
+#: src/arch/unix/x11/video.c:171
 msgid "Request YUV FOURCC format"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:370
+#: src/arch/unix/x11/video.c:372
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:374
+#: src/arch/unix/x11/video.c:376
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:435
+#: src/arch/unix/x11/video.c:437
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
