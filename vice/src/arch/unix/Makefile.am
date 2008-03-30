@@ -103,6 +103,8 @@ libarch_a_SOURCES = \
 	uiprinterieee.h \
 	uireu.c \
 	uireu.h \
+	uiromset.c \
+	uiromset.h \
 	uirs232.c \
 	uirs232.h \
 	uiscreenshot.h \
