@@ -1,3 +1,51 @@
+2003-09-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.30.
+
+	* arch/win32/msvc/wpcap/*: Changed to lower case.
+
+	* arch/win32/Makefile.am: Updated.
+
+	* arch/win32/tfearch.c: Fixed nested comments.
+
+	* arch/win32/tfearch.c, c64/tfearch.h (tfe_arch_line_ctl):
+	Fixed prototype.
+
+2003-09-03  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/msvc/wpcap/PCAP.H: Removed new pointer
+	definitions for the functions and put them to
+	arch/win32/tfearch.c.
+
+	* arch/win32/tfearch.c: See arch/win32/msvc/wpcap/PCAP.H
+	above.
+	Removed unneccessary code, doesn't justify every incoming
+	packet as "for this MAC address" anymore.
+
+	* arch/win32/msvc/wpcap/pcap-stdinc.h: Removed definition of
+	inline to avoid warning.
+
+	* arch/win32/uitfe.c: Removed unneccessary code
+
+	* c64/tfe.c: added crc32() function, corrected
+	tfe_should_accept()
+
+	* c64/tfearch.h: Changed BYTE * to char * (for other arch to
+	be able to compile), added a new parameter *pmulticast.
+
+2003-09-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am: Added missing include directory
+	wpcap. FIXME: This should be moved to somewhere else.
+
+	* arch/win32/res.h: Added missing defines.
+
+	* arch/win32/resc64.rc, resc128.rc: Include config.h.
+
+2003-09-03  Kajtar Zsolt  <soci@c64.rulez.org>
+
+	* c64/cart/c64cart.c (try_cartridge_init): New function.
+
 2003-09-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.29.

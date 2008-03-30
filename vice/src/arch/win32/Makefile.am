@@ -4,6 +4,7 @@ SUFFIXES = .rc
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@ARCH_INCLUDES@/msvc/wpcap \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -134,8 +135,8 @@ EXTRA_DIST = \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \
 	msvc/wpcap/pcap-stdinc.h \
-	msvc/wpcap/PCAP.H \
-	msvc/wpcap/NET/bpf.h \
+	msvc/wpcap/pcap.h \
+	msvc/wpcap/net/bpf.h \
 	arch.dsp \
 	base.dsp \
 	c128.dsp \

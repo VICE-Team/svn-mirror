@@ -55,7 +55,7 @@ void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
                       );
 
 extern
-void tfe_arch_line_ctl(bEnableTransmitter, bEnableReceiver);
+void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver);
 
 extern
 void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in transmit buffer */
@@ -88,8 +88,8 @@ int tfe_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
  necessary, which is the reason why its prototype is included here in tfearch.h.
 */
 extern 
-int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index, 
-                      int *pcorrect_mac, int *pbroadcast);
+int tfe_should_accept(char *buffer, int length, int *phashed, int *phash_index, 
+                      int *pcorrect_mac, int *pbroadcast, int *pmulticast);
 
 
 #endif

@@ -511,10 +511,47 @@ TFE_PP_ADDR_MAC_ADDR        0x0158 * # RW - 4.6., p. 71 - 5.3., p. 86 *
 /* This is a helper for tfe_should_accept(), since that one 
    needs a CRC32 value 
 */
-DWORD crc32(const char *buffer, unsigned int len) 
+static
+unsigned long crc32(const char *buffer, unsigned int len) 
 {
-    // @@@@@@@@@@@@@@SRT TODO
-    return 0;
+    unsigned int i;
+    unsigned long crc;
+    unsigned long crc_result;
+
+    const char *pbuffer = buffer;
+
+    crc = 0xFFFFFFFF;
+
+    /* perform on every byte of the buffer */
+    for (i=0; i<len; i++ )
+    {
+        int act_byte = *pbuffer++;
+        unsigned int j;
+
+        /* now, perform on every bit of this byte */
+        for (j=8; j; j-- ) {
+
+            int highest_bit = crc >> 31;
+            crc <<= 1;
+
+            if (highest_bit ^ (act_byte & 1)) {
+                crc ^= 0x04C11DB6;
+                crc |= 1;
+            }
+
+            act_byte >>= 1;
+        }
+    }
+
+    /* Unfortunately, our CRC has wrong order. Reverse it */
+    crc_result = 0;
+
+    for (i=0; i<32; i++) {
+        crc_result = (crc_result << 1) | (crc & 1);
+        crc >>= 1;
+    }
+
+    return crc_result;
 }
 
 /*
@@ -524,8 +561,8 @@ DWORD crc32(const char *buffer, unsigned int len)
  This function is even allowed to be called in tfearch.c from tfe_arch_receive() if 
  necessary, which is the reason why its prototype is included here in tfearch.h.
 */
-int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index, 
-                      int *pcorrect_mac, int *pbroadcast) 
+int tfe_should_accept(char *buffer, int length, int *phashed, int *phash_index, 
+                      int *pcorrect_mac, int *pbroadcast, int *pmulticast) 
 {
 	int hashreg; /* Hash Register (for hash computation) */
 
@@ -544,7 +581,14 @@ int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index,
         && buffer[5]==tfe_ia_mac[5]
        ) {
         /* this is our individual address (IA) */
-        return (tfe_recv_mac || tfe_recv_promiscuous) ? 1 : 0;
+
+        *pcorrect_mac = 1;
+
+        /* if we don't want "correct MAC", we might have the chance
+         * that this address fits the hash index 
+         */
+        if (tfe_recv_mac || tfe_recv_promiscuous) 
+            return 1;
     }
 
     if (   buffer[0]==0xFF
@@ -557,6 +601,7 @@ int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index,
         /* this is a broadcast address */
         *pbroadcast = 1;
 
+        /* broadcasts cannot be accepted by the hash filter */
         return (tfe_recv_broadcast || tfe_recv_promiscuous) ? 1 : 0;
     }
 
@@ -566,6 +611,18 @@ int tfe_should_accept(BYTE *buffer, int length, int *phashed, int *phash_index,
     *phashed = (tfe_hash_mask[(hashreg>=32)?1:0] & (1 << (hashreg&0x1F))) ? 1 : 0;
     if (*phashed) {
         *phash_index = hashreg;
+
+        if (buffer[0] & 0x80) {
+            /* we have a multicast address */
+            *pmulticast = 1;
+
+            /* if the multicast address fits into the hash filter, 
+             * the hashed bit has to be clear 
+             */
+            *phashed = 0;
+
+            return (tfe_recv_multicast || tfe_recv_promiscuous) ? 1 : 0;
+        }
         return (tfe_recv_hashfilter || tfe_recv_promiscuous) ? 1 : 0;
     }
        
@@ -585,6 +642,7 @@ WORD tfe_receive(void)
     int  rx_ok;
     int  correct_mac;
     int  broadcast;
+    int  multicast;
     int  crc_error;
 
     int  newframe;
@@ -612,8 +670,9 @@ WORD tfe_receive(void)
                 /* we already know the type of frame: Trust it! */
             }
             else {
+                /* determine ourself the type of frame */
                 if (!tfe_should_accept(buffer, 
-                    len, &hashed, &hash_index, &correct_mac, &broadcast)) {
+                    len, &hashed, &hash_index, &correct_mac, &broadcast, &multicast)) {
 
                     /* if we should not accept this frame, just do nothing
                      * now, look for another one */
@@ -624,8 +683,12 @@ WORD tfe_receive(void)
 
 
             /* we did receive a frame, return that status */
-            ret_val |= rx_ok  ? 0x0100 : 0;
-            ret_val |= hashed ? 0x0240 : 0;
+            ret_val |= rx_ok     ? 0x0100 : 0;
+            ret_val |= multicast ? 0x0200 : 0;
+
+            if (!multicast) {
+                ret_val |= hashed ? 0x0040 : 0;
+            }
 
             if (hashed && rx_ok) {
                 /* we have the 2nd, special format with hash index: */
@@ -700,7 +763,7 @@ void tfe_sideeffects_write_pp_on_txframe(WORD ppaddress)
                 &tfe_packetpage[TFE_PP_ADDR_TX_FRAMELOC]         
                 );
 
-        txcollect_buffer = TFE_PP_ADDR_TX_FRAMELOC; // @@@@@@@@@@@@
+        txcollect_buffer = TFE_PP_ADDR_TX_FRAMELOC;
 
 #ifdef TFE_DEBUG_WARN
             /* remember that the TXCMD has been completed */
@@ -1210,8 +1273,9 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 /*    resources support functions                                            */
 
 static
-int set_tfe_dummy(resource_value_t v, void *param)
+int set_tfe_disabled(resource_value_t v, void *param)
 {
+    /* dummy function since we don't want "disabled" to be stored on disk */
     return 0;
 }
 
@@ -1284,6 +1348,21 @@ int set_tfe_interface(resource_value_t v, void *param)
         return 0;
 
     util_string_set(&tfe_interface, name);
+
+    if (tfe_enabled) {
+        /* ethernet is enabled, make sure that the new name is
+           taken account of 
+         */
+        if (tfe_deactivate() < 0) {
+            return -1;
+        }
+        if (tfe_activate() < 0) {
+            return -1;
+        }
+
+        /* virtually reset the LAN chip */
+        tfe_reset();
+    }
     return 0;
 }
 
@@ -1291,7 +1370,7 @@ int set_tfe_interface(resource_value_t v, void *param)
 static 
 const resource_t resources[] = {
     { "ETHERNET_DISABLED", RES_INTEGER, (resource_value_t)0,
-      (void *)&tfe_cannot_use, set_tfe_dummy, NULL },
+      (void *)&tfe_cannot_use, set_tfe_disabled, NULL },
     { "ETHERNET_ACTIVE", RES_INTEGER, (resource_value_t)0,
       (void *)&tfe_enabled, set_tfe_enabled, NULL },
     { "ETHERNET_AS_RR", RES_INTEGER, (resource_value_t)0,

@@ -44,7 +44,16 @@
 #include "uitfe.h"
 #include "utils.h"
 
+typedef pcap_t	*(*pcap_open_live_t)(const char *, int, int, int, char *);
+typedef int (*pcap_dispatch_t)(pcap_t *, int, pcap_handler, u_char *);
+typedef int (*pcap_setnonblock_t)(pcap_t *, int, char *);
+typedef int (*pcap_datalink_t)(pcap_t *);
+typedef int (*pcap_findalldevs_t)(pcap_if_t **, char *);
+typedef void (*pcap_freealldevs_t)(pcap_if_t *);
+typedef int (*pcap_sendpacket_t)(pcap_t *p, u_char *buf, int size);
+
 /** #define TFE_DEBUG_ARCH 1 **/
+/** #define TFE_DEBUG_PKTDUMP 1 **/
 
 #define TFE_DEBUG_WARN 1 /* this should not be deactivated */
 
@@ -58,6 +67,7 @@ static pcap_datalink_t p_pcap_datalink;
 
 static HINSTANCE pcap_library = NULL;
 
+
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 
@@ -70,6 +80,31 @@ static pcap_if_t *TfePcapAlldevs = NULL;
 static pcap_t *TfePcapFP = NULL;
 
 static char TfePcapErrbuf[PCAP_ERRBUF_SIZE];
+
+#ifdef TFE_DEBUG_PKTDUMP
+
+static
+void debug_output( const char *text, BYTE *what, int count )
+{
+    char buffer[256];
+    char *p = buffer;
+    char *pbuffer1 = what;
+    int len1 = count;
+    int i;
+
+    sprintf(buffer, "\n%s: length = %u\n", text, len1);
+    OutputDebugString(buffer);
+    do {
+        p = buffer;
+        for (i=0; (i<8) && len1>0; len1--, i++) {
+            sprintf( p, "%02x ", (unsigned int)(unsigned char)*pbuffer1++);
+            p += 3;
+        }
+        *(p-1) = '\n'; *p = 0;
+        OutputDebugString(buffer);
+    } while (len1>0);
+}
+#endif // #ifdef TFE_DEBUG_PKTDUMP
 
 
 static
@@ -204,10 +239,6 @@ int TfeEnumAdapterClose(void)
 static
 BOOL TfePcapOpenAdapter(const char *interface_name) 
 {
-//	u_int netmask;
-//	char packet_filter[] = "ip and udp";
-//	struct bpf_program fcode;
-
     pcap_if_t *TfePcapDevice = NULL;
 
     if (!TfeEnumAdapterOpen()) {
@@ -262,28 +293,6 @@ BOOL TfePcapOpenAdapter(const char *interface_name)
         return FALSE;
 	}
 	
-/*
-	if(TfePcapAlldevs->addresses != NULL)
-		* Retrieve the mask of the first address of the interface *
-		netmask=((struct sockaddr_in *)(TfePcapAlldevs->addresses->netmask))->sin_addr.S_un.S_addr;
-	else
-		* If the interface is without addresses we suppose to be in a C class network *
-		netmask=0xffffff; 
-
-	//compile the filter
-	if((*p_pcap_compile)(TfePcapFP, &fcode, packet_filter, 1, netmask) <0 ){
-		log_message(tfe_arch_log, "Unable to compile the packet filter. Check the syntax.");
-		TfePcapCloseAdapter();
-        return FALSE;
-	}
-	
-	//set the filter
-	if((*p_pcap_setfilter)(TfePcapFP, &fcode)<0){
-		log_message(tfe_arch_log, "Error setting the filter.");
-		TfePcapCloseAdapter();
-        return FALSE;
-	}
-*/
     TfeEnumAdapterClose();
     return TRUE;
 }
@@ -381,7 +390,7 @@ void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
 #endif
 }
 
-void tfe_arch_line_ctl( bEnableTransmitter, bEnableReceiver )
+void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
 #ifdef TFE_DEBUG_ARCH
     log_message( tfe_arch_log, "tfe_arch_line_ctl() called with the following parameters:" );
@@ -460,6 +469,10 @@ void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in trans
         );
 #endif
 
+#ifdef TFE_DEBUG_PKTDUMP
+    debug_output( "Transmit frame: ", txframe, txlength);
+#endif // #ifdef TFE_DEBUG_PKTDUMP
+
     if ((*p_pcap_sendpacket)(TfePcapFP, txframe, txlength) == -1) {
         log_message(tfe_arch_log, "WARNING! Could not send packet!");
     }
@@ -518,38 +531,28 @@ int tfe_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
 
     if (len!=-1) {
 
-/*
-        {
-            char buffer[256];
-            char *p = buffer;
-            char *pbuffer1 = pbuffer; 
-            int len1 = len;
-            int i;
+#ifdef TFE_DEBUG_PKTDUMP
+        debug_output( "Received frame: ", internal.buffer, internal.len );
+#endif // #ifdef TFE_DEBUG_PKTDUMP
 
-            sprintf(buffer, "\nReceived frame: length = %u\n", len1);
-            OutputDebugString(buffer);
-            do {
-                p = buffer;
-                for (i=0; (i<8) && len1>0; len1--, i++) {
-                    sprintf( p, "%02x ", (unsigned int)(unsigned char)*pbuffer1++);
-                    p += 3;
-                }
-                *(p-1) = '\n'; *p = 0;
-                OutputDebugString(buffer);
-            } while (len1>0);
-        }
-*/
         if (len&1)
             ++len;
 
         *plen = len;
+
+        /* we don't decide if this frame fits the needs;
+         * by setting all zero, we let tfe.c do the work
+         * for us
+         */
         *phashed =
         *phash_index =
         *pbroadcast = 
+        *pcorrect_mac =
         *pcrc_error = 0;
 
-        *pcorrect_mac =
+        /* this frame has been received correctly */
         *prx_ok = 1;
+
         return 1;
     }
 
