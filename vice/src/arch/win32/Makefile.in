@@ -120,7 +120,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet
+	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/cbm2
 
 noinst_LIBRARIES = libarch.a
 
@@ -162,10 +163,14 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.c \
 	uiattach.h \
+	uicbm2set.c \
+	uicbm2set.h \
 	uidrive.c \
 	uidrive.h \
 	uilib.c \
 	uilib.h \
+	uipetset.c \
+	uipetset.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uivicii.h \
@@ -201,8 +206,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
 c64kbd.o c64ui.o dirent.o joystick.o kbd.o petkbd.o petui.o print.o \
-ui.o uiattach.o uidrive.o uilib.o uisnapshot.o uivicii.o vic20kbd.o \
-vic20ui.o video.o vsync.o winmain.o
+ui.o uiattach.o uicbm2set.o uidrive.o uilib.o uipetset.o uisnapshot.o \
+uivicii.o vic20kbd.o vic20ui.o video.o vsync.o winmain.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

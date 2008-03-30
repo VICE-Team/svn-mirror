@@ -123,3 +123,25 @@ FILE *archdep_open_default_log_file(void)
 {
     return stdout;
 }
+
+int archdep_num_text_lines(void)
+{
+    char *s;
+
+    s = getenv("LINES");
+    if (s == NULL) {
+        printf("No LINES!\n");
+        return -1;
+    }
+    return atoi(s);
+}
+
+int archdep_num_text_columns(void)
+{
+    char *s;
+
+    s = getenv("COLUMNS");
+    if (s == NULL)
+        return -1;
+    return atoi(s);
+}

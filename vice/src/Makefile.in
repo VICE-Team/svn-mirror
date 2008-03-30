@@ -326,6 +326,7 @@ c1541_SOURCES = \
 	cmdline.c \
 	findpath.c \
 	gcr.c \
+	info.c \
 	log.c \
 	p00.c \
 	resources.c \
@@ -395,8 +396,9 @@ findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o t64.o \
 tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o zipcode.o
-c1541_OBJECTS =  c1541.o charsets.o cmdline.o findpath.o gcr.o log.o \
-p00.o resources.o t64.o utils.o vdrive-iec.o vdrive.o zfile.o zipcode.o
+c1541_OBJECTS =  c1541.o charsets.o cmdline.o findpath.o gcr.o info.o \
+log.o p00.o resources.o t64.o utils.o vdrive-iec.o vdrive.o zfile.o \
+zipcode.o
 c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charsets.o cmdline.o findpath.o log.o p00.o petcat.o \
@@ -618,6 +620,8 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+archdep.o: ../src/arch/unix/archdep.c vice.h config.h \
+	../src/arch/unix/archdep.h findpath.h utils.h types.h
 asm.o: asm.c vice.h config.h asm.h types.h
 attach.o: attach.c vice.h config.h resources.h vdrive.h types.h fs_cbm.h \
 	serial.h traps.h log.h attach.h snapshot.h
@@ -626,8 +630,8 @@ autostart.o: autostart.c vice.h config.h autostart.h types.h attach.h \
 	vmachine.h 6510core.h mem.h kbdbuf.h resources.h arch/unix/ui.h \
 	arch/unix/xaw/ui.h palette.h utils.h machine.h warn.h
 c1541.o: c1541.c vice.h config.h c1541.h vdrive.h types.h fs_cbm.h \
-	serial.h traps.h log.h charsets.h file.h gcr.h p00.h t64.h \
-	utils.h vdrive-iec.h zipcode.h
+	serial.h traps.h log.h arch/unix/archdep.h charsets.h file.h \
+	gcr.h info.h p00.h t64.h utils.h vdrive-iec.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
 cmdline.o: cmdline.c vice.h config.h types.h utils.h cmdline.h \
 	resources.h
@@ -648,12 +652,12 @@ kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	charsets.h
 log.o: log.c vice.h config.h log.h cmdline.h resources.h \
 	arch/unix/archdep.h utils.h types.h
-main.o: main.c vice.h config.h machine.h types.h attach.h vdrive.h \
-	fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
+main.o: main.c vice.h config.h arch/unix/archdep.h attach.h types.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
 	cartridge.h charsets.h cmdline.h resources.h findpath.h \
 	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h \
-	arch/unix/joystick.h arch/unix/kbd.h maincpu.h mon.h mos6510.h \
-	sound.h warn.h sysfile.h arch/unix/archdep.h arch/unix/ui.h \
+	arch/unix/joystick.h arch/unix/kbd.h machine.h maincpu.h mon.h \
+	mos6510.h sound.h warn.h sysfile.h tape.h arch/unix/ui.h \
 	arch/unix/xaw/ui.h palette.h utils.h arch/unix/video.h \
 	arch/unix/vsync.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
