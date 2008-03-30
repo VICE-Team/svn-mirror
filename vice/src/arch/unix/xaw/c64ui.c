@@ -121,6 +121,9 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Attach Action Replay image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
+    { "Attach Atomic Power image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_ATOMIC_POWER, NULL },
     { "Attach Super Snapshot 4 image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT, NULL },
