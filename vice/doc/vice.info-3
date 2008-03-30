@@ -604,7 +604,7 @@ Miscellaneous resources
      user's home directory. Here private ROM versions (e.g.  speeddos
      or JiffyDos) can be stored for example.
 
-     *Note System files:: for a description of the method used to load
+     *Note System files::. for a description of the method used to load
      the emulator's system files.
 
 `HTMLBrowserCommand'
@@ -706,7 +706,7 @@ cartridge ROM images instead of disk images.
 
    X64 and X128 allow you to attach the following kinds of cartridges:
 
-   * `.crt' images, as used by the CCS64 emulator by Per H^akan Sundell;
+   * `.crt' images, as used by the CCS64 emulator by Per Håkan Sundell;
 
    * generic raw dumps of 8K and 16K images;
 
@@ -774,7 +774,7 @@ chip used in both the C64 and the C128.
           emulator by Miha Peternel.
 
         * `ccs64.vpl' ("CCS64"), palette taken from the shareware CCS64
-          emulator by Per H^akan Sundell.
+          emulator by Per Håkan Sundell.
 
         * `frodo.vpl' ("Frodo"), palette taken from the free Frodo
           emulator by Christian Bauer

@@ -436,8 +436,8 @@ Checkpoint commands
      Delete the specified checkpoint.
 
 `ignore <checknum> [<count>]'
-     Ignore a checkpoint a given number of crossings.  If no count is
-     given, the default value is 1.
+     Ignore a checkpoint after a given number of crossings.  If no
+     count is given, the default value is 1.
 
 `trace [address [address]]'
      This command is similar to the `break' command except that it
@@ -883,7 +883,7 @@ The G64 GCR-encoded disk image format
 (<ettore@comm2000.it>).)
 
    This format was defined in 1998 as a cooperative effort between
-several emulator people, mainly Per Hakan Sundell, author of the CCS64
+several emulator people, mainly Per Håkan Sundell, author of the CCS64
 C64 emulator, Andreas Boose of the VICE CBM emulator team and Joe
 Forster/STA, the author of Star Commander.  It was the first real public
 attempt to create a format for the emulator community which removed

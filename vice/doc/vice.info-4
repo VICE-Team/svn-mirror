@@ -697,7 +697,7 @@ File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: RIOT 65
 SID module
 ..........
 
-   TODO
+   Warning: This module is still under construction.
 
 
 File: vice.info,  Node: ACIA 6551 module,  Next: VIC-I module,  Prev: SID 6581 module,  Up: Module formats
@@ -734,7 +734,7 @@ File: vice.info,  Node: VIC-I module,  Next: VIC-II module,  Prev: ACIA 6551 mod
 VIC-I module
 ............
 
-   TODO
+   Warning: This module is still under construction.
 
 
 File: vice.info,  Node: VIC-II module,  Next: CRTC module,  Prev: VIC-I module,  Up: Module formats
@@ -742,7 +742,7 @@ File: vice.info,  Node: VIC-II module,  Next: CRTC module,  Prev: VIC-I module, 
 VIC-II module
 .............
 
-   TODO
+   Warning: This module is still under construction.
 
 
 File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II module,  Up: Module formats
@@ -858,7 +858,7 @@ C64 memory module
 .................
 
    The C64 memory module actually consists of two modules.  The
-"C128MEM" module is mandatory and contains the RAM dump.  The "C64ROM"
+"C64MEM" module is mandatory and contains the RAM dump.  The "C64ROM"
 module is optional and contains a dump of the ROM images.
 
    The size of the C64 memory modules differs with each different memory

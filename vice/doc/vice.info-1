@@ -433,7 +433,7 @@ support the same file formats.
 computer is, or have questions about how these machines are used, how
 the file formats work or anything else that is not strictly related to
 VICE, you should read the appropriate FAQs *first*, as that kind of
-information is not available here.  *Note Contacts:: for information
+information is not available here.  *Note Contacts::. for information
 about how to retrieve the FAQs.
 
    All the emulators provide an accurate 6502/6510 emulator, with
@@ -829,7 +829,7 @@ that, although the emulators and utilities can both read and write on
 
      dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 
-   *Note File formats:: for a technical description of the supported
+   *Note File formats::. for a technical description of the supported
 file formats.
 
 
@@ -1038,7 +1038,7 @@ directory containing the file first.  This is a very convenient way to
 start multi-file programs stored in file system directories and not
 requiring "true" drive emulation.
 
-   *Note Disk and tape images:: for more information about images and
+   *Note Disk and tape images::. for more information about images and
 autostart.
 
 

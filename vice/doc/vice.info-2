@@ -381,7 +381,7 @@ command and the settings menu is that, while commands have only effect
 on the current session, settings can be saved and later used with the
 "Save settings" and "Load settings" right-button menu items,
 respectively.  "Restore default settings" restores the factory defaults.
-*Note Settings and resources:: for more information about how settings
+*Note Settings and resources::. for more information about how settings
 work in VICE.
 
    Sometimes commands can be reached via "shortcuts" or "hotkeys",
@@ -1308,7 +1308,7 @@ and 9 are being emulated.
 
         * "Ask on extend" prompts the user as soon as a program tries
           to write tracks beyond the 35th, and the user can then choose
-          whether she wants the disk image to be extended or not;
+          whether he wants the disk image to be extended or not;
 
         * "Extend on access" simply extends the disk image as soon the
           program needs it, without prompting the user.

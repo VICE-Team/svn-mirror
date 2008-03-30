@@ -68,7 +68,7 @@ involved in the development of X64 and VICE:
 
    Former team members:
 
-   * Ettore Perazzoli (<ettore@comm2000.it>) Copyright (c) 1996-1999
+   * Ettore Perazzoli (<ettore@comm2000.it>) Copyright (C) 1996-1999
      Made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
      hardware-level 1541 emulation, speed optimizations, bug fixes, the
      event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for
@@ -76,22 +76,22 @@ involved in the development of X64 and VICE:
      most of the documentation.  He also wrote the MS-DOS port and the
      initial MS-Windows port (well, somebody had to do it).
 
-   * Andre' Fachat (<fachat@physik.tu-chemnitz.de>) Copyright (c)
+   * André Fachat (<fachat@physik.tu-chemnitz.de>) Copyright (C)
      1996-2001 Wrote the PET and CBM-II emulators, the CIA and VIA
      emulation, the IEEE488 interface, implemented the IEC serial bus
      in `xvic' and made tons of bug fixes.
 
-   * Teemu Rantanen (<tvr@cs.hut.fi>) Copyright (c) 1993-1994, 1997-1999
+   * Teemu Rantanen (<tvr@cs.hut.fi>) Copyright (C) 1993-1994, 1997-1999
      Implemented the SID emulation and the trap-based disk drive and
      serial bus implementation; added support for multiple display
      depths under X11.  Also wrote `c1541'
 
-   * Jouko Valta (<jopi@stekt.oulu.fi>) Copyright (c) 1993-1996 Wrote
+   * Jouko Valta (<jopi@stekt.oulu.fi>) Copyright (C) 1993-1996 Wrote
      `petcat' and `c1541', `T64' handling, user service and maintenance
      (most of the work in x64 0.3.x was made by him); retired from the
      project in July 96, after VICE 0.10.0.
 
-   * Jarkko Sonninen (<sonninen@lut.fi>) Copyright (c) 1993-1994 He was
+   * Jarkko Sonninen (<sonninen@lut.fi>) Copyright (C) 1993-1994 He was
      the founder of the project, wrote the old version of the 6502
      emulation and the XDebugger, and retired from the project after
      x64 0.2.1.
@@ -115,7 +115,7 @@ involved in the development of X64 and VICE:
      `deb' package for the Debian distribution, and also helped
      proofreading the documentation.
 
-   * Marko M"akel"a (<msmakela@nic.funet.fi>) wrote lots of CPU
+   * Marko Mäkelä (<msmakela@nic.funet.fi>) wrote lots of CPU
      documentation.
 
    * Chris Sharp (<sharpc@hurlsey.ibm.com>) wrote the AIX sound driver.
@@ -123,7 +123,7 @@ involved in the development of X64 and VICE:
    * Krister Walfridsson (<cato@df.lth.se>) implemented joystick and
      sound support for NetBSD.
 
-   * Mattias Engdeg^ard (<f91-men@nada.kth.se>) got non-default depths
+   * Mattias Engdegård (<f91-men@nada.kth.se>) got non-default depths
      to work.
 
    * Peter Andrew Felvegi aka Petschy (<petschy@derceto.sch.bme.hu>)
@@ -263,7 +263,7 @@ involved in the development of X64 and VICE:
 
    Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
-and Per H^akan Sundell for writing cool emulators to compete with.  :-)
+and Per Håkan Sundell for writing cool emulators to compete with.  :-)
 
 
 File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up: Top
@@ -271,35 +271,35 @@ File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up:
 Copyright
 *********
 
-   * Copyright C 1998-2002 Andreas Boose
+   * Copyright (C) 1998-2002 Andreas Boose
 
-   * Copyright C 1998-2002 Dag Lem
+   * Copyright (C) 1998-2002 Dag Lem
 
-   * Copyright C 1998-2002 Tibor Biczo
+   * Copyright (C) 1998-2002 Tibor Biczo
 
-   * Copyright C 1999-2002 Andreas Dehmel
+   * Copyright (C) 1999-2002 Andreas Dehmel
 
-   * Copyright C 1999-2002 Thomas Bretz
+   * Copyright (C) 1999-2002 Thomas Bretz
 
-   * Copyright C 1999-2002 Andreas Matthies
+   * Copyright (C) 1999-2002 Andreas Matthies
 
-   * Copyright C 1999-2002 Martin Pottendorfer
+   * Copyright (C) 1999-2002 Martin Pottendorfer
 
-   * Copyright C 2000-2002 Markus Brenner
+   * Copyright (C) 2000-2002 Markus Brenner
 
-   * Copyright C 2000-2002 Spiro Trikaliotis
+   * Copyright (C) 2000-2002 Spiro Trikaliotis
 
-   * Copyright C 1997-2001 Daniel Sladic
+   * Copyright (C) 1997-2001 Daniel Sladic
 
-   * Copyright C 1996-1999 Ettore Perazzoli
+   * Copyright (C) 1996-1999 Ettore Perazzoli
 
-   * Copyright C 1996-1999 André Fachat
+   * Copyright (C) 1996-1999 André Fachat
 
-   * Copyright C 1993-1994, 1997-1999 Teemu Rantanen
+   * Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
 
-   * Copyright C 1993-1996 Jouko Valta
+   * Copyright (C) 1993-1996 Jouko Valta
 
-   * Copyright C 1993-1994 Jarkko Sonninen
+   * Copyright (C) 1993-1994 Jarkko Sonninen
 
    This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -360,7 +360,7 @@ project, please email one of the following people:
    * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for disk drive,
      tape, cartridge and Z80 emulation;
 
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
+   * André Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
      CBM-II;
 
    It's always nice to receive feedback and/or bugreports about VICE,
