@@ -425,14 +425,14 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     canvas_t c;
     Widget w;
 
-    w = UiOpenCanvasWindow(win_name, *width, *height, 1, exposure_handler,
-			   palette, pixel_return);
+    w = ui_open_canvas_window(win_name, *width, *height, 1, exposure_handler,
+                              palette, pixel_return);
     if (!w)
 	return (canvas_t) NULL;
 
     c = (canvas_t) XtMalloc(sizeof(struct _canvas));
     c->emuwindow = w;
-    c->drawable = UiCanvasDrawable(w);
+    c->drawable = ui_canvas_get_drawable(w);
     c->width = *width;
     c->height = *height;
     XtAddEventHandler(w,(EnterWindowMask | LeaveWindowMask | KeyReleaseMask
@@ -463,7 +463,7 @@ void canvas_unmap(canvas_t s)
 /* Change the size of the canvas. */
 void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
 {
-    UiResizeCanvasWindow(s->emuwindow, width, height);
+    ui_resize_canvas_window(s->emuwindow, width, height);
 }
 
 void enable_text(void)
