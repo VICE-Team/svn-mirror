@@ -450,9 +450,6 @@ inline static void ted0a_store(BYTE value)
 
 inline static void ted0b_store(BYTE value)
 {
-    /* FIXME: Not accurate as bit #8 is missing.  */
-    value = (value - ted.offset) & 255;
-
     TED_DEBUG_REGISTER(("Raster compare register: $%02X", value));
 
     if (value == ted.regs[0x0b])
@@ -732,7 +729,6 @@ inline static BYTE ted09_read(void)
 inline static BYTE ted0a_read(void)
 {
     return (ted.regs[0x0a] & 0x5f) | 0xa0;
-
 }
 
 inline static BYTE ted12_read(void)
@@ -750,8 +746,7 @@ inline static BYTE ted1a1b_read(WORD addr)
 
 inline static BYTE ted1c1d_read(WORD addr)
 {
-    unsigned int tmp = (ted.screen_height + read_raster_y()
-                       - ted.offset) % ted.screen_height;
+    unsigned int tmp = read_raster_y();
 
     if (addr == 0x1c)
         return (tmp & 0x100) >> 8;

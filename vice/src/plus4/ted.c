@@ -242,8 +242,10 @@ static int init_raster(void)
     raster = &ted.raster;
     video_color_set_raster(raster);
 
-    if (raster_init(raster, TED_NUM_VMODES, 0) < 0)
+    raster->sprite_status = NULL;
+    if (raster_init(raster, TED_NUM_VMODES) < 0)
         return -1;
+
     raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
     resources_touch("TEDVideoCache");
@@ -748,7 +750,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
 
 void ted_shutdown(void)
 {
-    raster_free(&ted.raster);
+    raster_shutdown(&ted.raster);
 }
 
 void ted_screenshot(screenshot_t *screenshot)
