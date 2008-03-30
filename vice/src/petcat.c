@@ -41,7 +41,9 @@
  *
  * Written by
  *   Jouko Valta (jopi@stekt.oulu.fi)
- *
+ * 
+ * With additional changes by
+ *   Ettore Perazzoli (ettore@comm2000.it)
  *
  * $Log: petcat.c,v $
  * Revision 2.3  1997/05/04 16:23:04  ettore
@@ -172,47 +174,6 @@
 
 #define CLARIF_LP	'<'	/* control code left delimiter */
 #define CLARIF_RP	'>'	/* control code right delimiter */
-
-#if (!defined(GEMDOS) && defined(__STDC__))
-static int    parse_version ( char *str );
-static void   pet_2_asc ( int ctrls );
-static void   _p_toascii ( int c, int ctrls);
-static void   list_keywords ( int version );
-static int    p_expand ( int version, int addr, int ctrls );
-static void   p_tokenize ( int version, int addr, int ctrls );
-static unsigned char sstrcmp ( unsigned char *, char**, int, int );
-
-/* extern */
-extern long filelength ( int handle );
-extern int  is_pc64name ( char *name );
-extern int  write_pc64header ( FILE *fd, char *name, int reclen );
-extern int  read_pc64header ( FILE *fd, char *name, int *reclen );
-extern char *pc_get_cbmname ( FILE *fd, char *fsname );
-extern int  DirP00 ( FILE *fd, char *CbmName, int *start, int *end );
-
-extern int  check_t64_header (FILE *f);
-
-#else
-static int    parse_version();
-static void   pet_2_asc();
-static void   _p_toascii();
-static void   list_keywords();
-static int    p_expand();
-static void   p_tokenize();
-static unsigned char sstrcmp();
-
-/* extern */
-extern long filelength ();
-extern int  is_pc64name ();
-extern int  write_pc64header ();
-extern int  read_pc64header ();
-extern char *pc_get_cbmname ();
-extern int  DirP00 ();
-
-extern int  check_t64_header (FILE *f);
-
-#endif
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -658,9 +619,8 @@ int    main(argc, argv)
 		exit(1);
 	    }
 
-	    if (read_pc64header(source, realname, &reclen) == 0) {
+	    if (p00_read_header(source, realname, &reclen) == 0) {
 		printf ("p00 file.\n");
-
 		/*outfilename = realname;*/
 	    }
 	    else {
@@ -689,10 +649,9 @@ int    main(argc, argv)
 
 	    /* Write P00 header ?  -- Available on tokenizer only */
 
-	    if (is_pc64name(outfilename) >= 0) {
+	    if (p00_check_name(outfilename) >= 0) {
 		printf("writing PC64 header.\n");
-		write_pc64header(dest, argv[0], 0);
-		/*write_pc64header(dest, pc_get_cbmname(argv[0]), 0);*/
+		p00_write_header(dest, argv[0], 0);
 	    }
 
 	    p_tokenize(version, load_addr, ctrls);
