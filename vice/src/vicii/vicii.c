@@ -31,10 +31,6 @@
 /*
    Current (most important) known limitations:
 
-   - if we switch from display to idle state in the middle of one line, we
-   only paint it completely in idle or display mode (we choose the most
-   likely one, though);
-
    - sprite colors (and other attributes) cannot change in the middle of the
    raster line;
 
@@ -997,7 +993,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
     raster_line_emulate(&vic_ii.raster);
 
 #if 0
-    if (vic_ii.raster.current_line >= 52 && vic_ii.raster.current_line <= 53) {
+    if (vic_ii.raster.current_line >= 50 && vic_ii.raster.current_line <= 53) {
         char buf[1000];
         int j, i;
         for (i = 0; i < 8; i++) {
