@@ -1,5 +1,5 @@
 /*
- * archapi.h - Common user interface API.
+ * uiapi.h - Common user interface API.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
