@@ -774,8 +774,8 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   if (yt < 0) yt = 0;
   if (yt + h > ph) h = ph - yt;
   /*log_message(LOG_DEFAULT, "s(%d,%d), t(%d,%d), d(%d,%d)", vrd->xs, vrd->ys, xt, yt, w, h);*/
-  video_render_main(canvas->videoconfig, fb->framedata, fb->paldata, w, h,
-                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
+  video_canvas_render(canvas, fb->paldata, w, h,
+                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitcht, ActualPALDepth);
 
   video_canvas_get_soft_scale(canvas, &softx, &softy);
 
@@ -860,8 +860,8 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   if (yt < 0) yt = 0;
   if (yt + h > ph) h = ph - yt;
 
-  video_render_main(canvas->videoconfig, fb->framedata, fb->paldata, w, h,
-                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
+  video_canvas_render(canvas, fb->paldata, w, h,
+                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitcht, ActualPALDepth);
 
   px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx);
   py = vrd->ge.y - ((canvas->shifty + ph) << FullScrDesc.eigy);
@@ -1080,12 +1080,8 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
 }
 
 
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-  video_canvas_t *canvas;
-
-  canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
-
   canvas->video_draw_buffer_callback
         = xmalloc(sizeof(video_draw_buffer_callback_t));
   canvas->video_draw_buffer_callback->draw_buffer_alloc
@@ -1095,13 +1091,9 @@ video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
   canvas->video_draw_buffer_callback->draw_buffer_clear
         = video_frame_buffer_clear;
 
-  canvas->videoconfig = videoconfig;
-
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   wlsprite_plot_init(&(canvas->fb.normplot));
   wlsprite_plot_init(&(canvas->fb.palplot));
-
-  return canvas;
 }
 
 int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette)
@@ -1250,8 +1242,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
 }
 
 
-void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
-                          unsigned int draw_buffer_line_size,
+void video_canvas_refresh(video_canvas_t *canvas,
  			  unsigned int xs, unsigned int ys,
 			  unsigned int xi, unsigned int yi,
 			  unsigned int w, unsigned int h)

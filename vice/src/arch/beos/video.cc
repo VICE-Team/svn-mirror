@@ -131,17 +131,9 @@ static void canvas_create_bitmap(video_canvas_t *c,
 			use_colorspace,false,true);
 }    
 
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    video_canvas_t *canvas;
-
-    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
-
     canvas->video_draw_buffer_callback = NULL;
-
-    canvas->videoconfig = videoconfig;
-
-    return canvas;
 }
 
 int video_canvas_create(struct video_canvas_s *canvas, const char *title,
@@ -319,13 +311,11 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 		w = MIN(w, c->width - xi);
 		h = MIN(h, c->height - yi);
 
-		video_render_main(c->videoconfig,
-                          draw_buffer,
+		video_canvas_render(c,
                           (BYTE *)(c->vicewindow->bitmap->Bits()),
                           w, h,
                           xs, ys,
                           xi, yi,
-                          draw_buffer_line_size,
                           c->vicewindow->bitmap->BytesPerRow(),
                           c->depth);
 
@@ -378,13 +368,11 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 				}
 		
 				if (ww > 0 && hh > 0)
-					video_render_main(c->videoconfig,
-                          draw_buffer,
+					video_canvas_render(c,
                           p,
                           ww, hh,
                           xxs, yys,
                           xxi, yyi,
-                          draw_buffer_line_size,
                           vw->fbytes_per_row,
                           c->depth);
 			}

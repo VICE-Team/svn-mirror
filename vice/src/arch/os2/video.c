@@ -732,7 +732,7 @@ static void VideoInitRenderer(video_canvas_t *c)
 
     int i;
 
-    /* FIXME: Move this to video_canvas_init()!  */
+    /* FIXME: This is done in video_canvas_init()!  */
     video_render_initconfig(c->videoconfig);
 
     // video_render_setrawrgb: index, r, g, b
@@ -1093,15 +1093,13 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
         log_error(vidlog, "Call to DiveBeginImageBufferAccess failed, rc = 0x%x", rc);
         return;
     }
-    video_render_main(c->videoconfig,    // color table
-                      buf,               // bitmap source  (vice)
-                      targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
-                      w, h,              // f->width, f->height, // bitmap width, height (2copy)
-                      xs, ys,            // 0, 0,                // top, left source
-                      xi, yi,            // 0, 0,                // top, left target
-                      linesz,            // line size source
-                      scanlinesize,      // fccColorEncoding,    // c->width,            // line size target
-                      c->bDepth);
+    video_canvas_render(c,
+                        targetbuffer,      // c->bitmaptrg,        // bitmap target (screen/dive)
+                        w, h,              // f->width, f->height, // bitmap width, height (2copy)
+                        xs, ys,            // 0, 0,                // top, left source
+                        xi, yi,            // 0, 0,                // top, left target
+                        scanlinesize,      // fccColorEncoding,    // c->width,            // line size target
+                        c->bDepth);
 
     rc = DiveEndImageBufferAccess(c->hDiveInst, c->ulBuffer);
     if (rc!=DIVE_SUCCESS)
@@ -1149,16 +1147,14 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
     if (c->divesetup.lScreenPosY+yi+h >= divecaps.ulVerticalResolution)
         h = divecaps.ulVerticalResolution - (c->divesetup.lScreenPosY + yi);
 
-    video_render_main(c->palette,
-                      buf,
-                      c->pVram,
-                      w, h,
-                      xs, ys,
-                      c->divesetup.lScreenPosX+xi,
-                      c->divesetup.lScreenPosY+yi,
-                      linesz,
-                      divecaps.ulScanLineBytes,
-                      c->bDepth);
+    video_canvas_render(c,
+                        c->pVram,
+                        w, h,
+                        xs, ys,
+                        c->divesetup.lScreenPosX+xi,
+                        c->divesetup.lScreenPosY+yi,
+                        divecaps.ulScanLineBytes,
+                        c->bDepth);
 
     rc = DiveDeacquireFrameBuffer(c->hDiveInst);
     if (rc!=DIVE_SUCCESS)
@@ -2094,9 +2090,6 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
 
 /* ------------------------------------------------------------------------ */
 void video_canvas_refresh(video_canvas_t *c,
-                          BYTE *draw_buffer,
-                          unsigned int draw_buffer_line_size,
-                          unsigned int bufh,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
@@ -2129,7 +2122,9 @@ void video_canvas_refresh(video_canvas_t *c,
     // changed, but it doesn't speed up anything
     //
     if (c->vrenabled)
-        VideoCanvasBlit(c, draw_buffer, draw_buffer_line_size, bufh,
+        VideoCanvasBlit(c, c->draw_buffer->draw_buffer,
+                        c->draw_buffer->draw_buffer_width,
+                        c->draw_buffer->draw_buffer_height,
                         xs, ys, xi, yi, w, h);
     //else log_debug("drawing skipped");
 
