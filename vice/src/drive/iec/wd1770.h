@@ -82,6 +82,9 @@ typedef struct wd1770_s {
     /* Interrupt line.  */
     CLOCK set_drq;
 
+    /* Set to drive clock if a disk image is attached.  */
+    CLOCK attach_clk;
+
     /* Pointer to the disk image.  */
     struct disk_image_s *image;
 
@@ -112,6 +115,7 @@ extern void wd1770_vsync_hook(void);
 
 extern int wd1770_attach_image(struct disk_image_s *image, unsigned int unit);
 extern int wd1770_detach_image(struct disk_image_s *image, unsigned int unit);
+extern int wd1770_disk_change(struct drive_context_s *drive_context);
 
 #endif 
 

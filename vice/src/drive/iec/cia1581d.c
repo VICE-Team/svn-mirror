@@ -169,14 +169,16 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
+    drive_context_t *drive_context;
     drivecia1581_context_t *cia1581p;
     BYTE tmp;
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+    drive_context = (drive_context_t *)(cia_context->context);
 
     tmp = 8 * (cia1581p->number);
 
-    if (wd1770[cia1581p->number].image != NULL)
+    if (!wd1770_disk_change(drive_context))
         tmp |= 0x80;
 
     return (tmp & ~(cia_context->c_cia[CIA_DDRA]))

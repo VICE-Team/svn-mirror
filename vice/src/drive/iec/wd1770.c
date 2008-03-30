@@ -103,6 +103,8 @@ static void clk_overflow_callback(CLOCK sub, void *data)
         wd1770[dnr].led_delay_clk -= sub;
     if (wd1770[dnr].set_drq > (CLOCK) 0)
         wd1770[dnr].set_drq -= sub;
+    if (wd1770[dnr].attach_clk > (CLOCK) 0)
+        wd1770[dnr].attach_clk -= sub;
 }
 
 /* Functions using drive context.  */
@@ -837,7 +839,7 @@ static void wd1770_command_readtrack(BYTE command, unsigned int dnr)
 static void wd1770_command_writetrack(BYTE command, unsigned int dnr)
 {
 #ifdef WD_DEBUG
-    log_debug("C:WRITE TRACK");
+    log_debug("C:WRITEyy TRACK");
 #endif
     wd1770[dnr].type = 3;
     wd1770[dnr].busy_clk = drive_clk[dnr];
@@ -887,6 +889,7 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
         return -1;
     }
 
+    wd1770[unit - 8].attach_clk = drive_clk[unit - 8];
     wd1770[unit - 8].image = image;
     return 0;
 }
@@ -905,6 +908,26 @@ int wd1770_detach_image(disk_image_t *image, unsigned int unit)
     }
 
     wd1770[unit - 8].image = NULL;
+    return 0;
+}
+
+int wd1770_disk_change(drive_context_t *drive_context)
+{
+    unsigned int dnr;
+
+    dnr = drive_context->mynumber;
+
+    if (wd1770[dnr].image == NULL)
+        return 1;
+
+    if (wd1770[dnr].attach_clk != (CLOCK)0) {
+        if (*(drive_context->clk_ptr) - wd1770[dnr].attach_clk
+            < DRIVE_ATTACH_DELAY)
+            return 1;
+        wd1770[dnr].attach_clk = (CLOCK)0;
+    }
+
+
     return 0;
 }
 

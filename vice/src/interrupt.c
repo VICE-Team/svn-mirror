@@ -260,6 +260,9 @@ void interrupt_ack_dma(interrupt_cpu_status_t *cs)
 /* Trigger a RESET.  This resets the machine.  */
 void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk)
 {
+    if (cs == NULL)
+        return;
+
     cs->global_pending_int |= IK_RESET;
 }
 
