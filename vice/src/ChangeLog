@@ -1,3 +1,54 @@
+2003-08-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.27.
+
+	* c64/c64cia1.c, c128/c128cia1.c (read_ciapa, read_ciapb):
+	Fixed keyboard port.
+
+2003-08-29  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/tfearch.c, c64/tfe.c, c64/tfearch.h: TFE support
+	now works
+
+	* arch/win32/{arch|x128|x64}.dsp: Added infrastructure for TFE
+	compilation
+
+2003-08-28  Tibor Biczo <crown@axelero.hu>
+
+	* plus4/plus4mem.c (mem_proc_port_store, mem_proc_port_read):
+	Call ted_handle_pending_alarms to correct maincpu clock, so
+	 read/write happens on the right cycle.
+	(mem_proc_port_read): Fixed bit 4 and bit 5 issues.
+	(zero_store): Bit 5 is always 0.
+
+	* plus4/ted-draw.c (_draw_mc_bitmap,
+	draw_mc_bitmap_foreground): Fixed colors.
+
+	* plus4/ted-fetch.c (ted_fetch_alarm_handler): Updated
+	positions of the write cycles.
+	Correct cpu clock after DMA in fast mode.
+
+	* plus4/ted-mem.c (ted1c1d_read): Unused bits set to 1.
+	(ted13_store): Removed debug log messages.
+	(ted1e_read): Fixed register reading.
+
+	* plus4/ted.c (old_cycle): New variable, contains the cycle
+	position inside of the line for the last corrected maincpu
+	cycle.
+	(ted_delay_clk): Implemented fast mode cycle stealing for RAM
+	refresh and graphics fetch. Fixed slow mode stealing,
+	switching from fast mode to slow mode didn't align cycles on
+	odd slots.
+	(ted_handle_pending_alarms): Fixed clock correction for
+	instructions with write cycles, removed unnecessary calls to
+	clock correction after handling fetch and draw alarms.
+	(ted_power_up): Init ted.character_fetch_on flag.
+	(ted_raster_draw_alarm_handler): Update ted.character_fetch_on
+	flag on change of line type, this drives clock correction.
+
+	* plus4/tedtypes.h (ted_s): Added character_fetch_on flag.
+	(TED_RASTER_X): Updated.
+
 2003-08-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.26.
