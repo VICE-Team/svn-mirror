@@ -1,3 +1,23 @@
+2002-07-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.53.
+
+	* arch/os2/video.c (WmCreate): Create whole canvas structure.
+	(video_canvas_init): Replaced by `video_canvas_init()'.
+	(canvas_init_s): Added videoconfig_t, draw_buffer_t,
+	viewport_t, geometry_t, palette_t.
+	(CanvasMainLoop): Also copy new members of canvas_init_s.
+	(video_canvas_create): Likewise. Return new canvas struct.
+
+	* video.h, arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc (video_canvas_create): Return canvas.
+
+	* raster/raster.c (realize_canvas): Use new canvas returned
+	by `video_canvas_create()'.
+
+	* video/video-canvas.c: Provide `MIN()' macro.
+
 2002-07-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.52.

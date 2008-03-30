@@ -33,6 +33,12 @@
 #include "videoarch.h"
 
 
+/* Temporary! */
+#ifndef MIN
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
+
+
 video_canvas_t *video_canvas_init(void)
 {
     video_canvas_t *canvas;
