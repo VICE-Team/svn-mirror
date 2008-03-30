@@ -237,6 +237,10 @@ void rotation_rotate_disk(drive_t *dptr)
             dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
             /*log_debug("HEAD %04i READ %02x", dptr->GCR_head_offset,
                       dptr->GCR_read);*/
+            /* We could use this kludge
+            if (dptr->GCR_read == 0)
+                dptr->GCR_read = *(dptr->clk);
+            */
         }
 
         rptr->shifter = rptr->bits_moved;
