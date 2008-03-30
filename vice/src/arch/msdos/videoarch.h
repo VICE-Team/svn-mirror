@@ -101,7 +101,6 @@ enum vga_mode_id {
 
 extern void enable_text(void);
 extern void disable_text(void);
-extern int num_text_lines(void);
 
 extern void video_ack_vga_mode(void);
 
