@@ -948,7 +948,7 @@ and 9 are being emulated.
      though, because a wrong value can break things and even corrupt
      disk images.
 
-   The following settings, instead, are specific each drive:
+   The following settings, instead, are specific of each drive:
 
    * "Drive model" specifies the model of the drive being emulated.
      *Warning:* This will reset the drive.

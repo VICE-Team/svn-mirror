@@ -647,10 +647,10 @@ relative to the very latest version, and provide us with the following:
    This is very important, and makes adding patches much smoother and
 safer.
 
-   People willing to port VICE to other platforms are always welcome.  A
-Windows and a MacOS port are in the works, so if you are interested in
-those platforms, please let us know.  There is plenty of work to do and
-any sort of help can be very useful.
+   People willing to port VICE to other platforms are always welcome.
+Windows, MacOS and Acorn RISC-OS ports are in the works, so if you are
+interested in those platforms, please let us know.  There is plenty of
+work to do and any sort of help can be very useful.
 
 
 File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
@@ -696,13 +696,11 @@ Concept Index
 * -9:                                    Command-line initialization.
 * -?:                                    Command-line initialization.
 * -acia1dev:                             RS232 options.
-* -attach:                               c1541 commands and options.
 * -autostart <1>:                        Command-line autostart.
 * -autostart:                            Command-line initialization.
 * -basic <1>:                            CBM-II commandline options.
 * -basic <2>:                            VIC20 system ROM options.
 * -basic:                                C64/128 system ROM options.
-* -block:                                c1541 commands and options.
 * -buksymkeymap -bukposkeymap:           Keyboard options.
 * -cart2:                                CBM-II commandline options.
 * -cart4:                                CBM-II commandline options.
@@ -713,12 +711,8 @@ Concept Index
 * -chargen:                              C64/128 system ROM options.
 * -checksb, +checksb:                    VIC-II options.
 * -checkss, +checkss:                    VIC-II options.
-* -copy:                                 c1541 commands and options.
 * -core, +core:                          Misc options.
-* -create:                               c1541 commands and options.
 * -default:                              Command-line initialization.
-* -delete:                               c1541 commands and options.
-* -detach:                               c1541 commands and options.
 * -directory:                            Misc options.
 * -displaydepth:                         Video options.
 * -dos1541:                              Drive options.
@@ -733,18 +727,14 @@ Concept Index
 * -editor:                               PET commandline options.
 * -emuid, +emuid <1>:                    VIC20 memconf options.
 * -emuid, +emuid:                        C64 I/O extension options.
-* -extract:                              c1541 commands and options.
-* -format:                               c1541 commands and options.
 * -fs10:                                 File system device options.
 * -fs11:                                 File system device options.
 * -fs8:                                  File system device options.
 * -fs9:                                  File system device options.
-* -gcr:                                  c1541 commands and options.
 * -grsymkeymap -grposkeymap:             Keyboard options.
 * -help:                                 Command-line initialization.
 * -htmlbrowser:                          Misc options.
 * -ieee488, +ieee488:                    C64 I/O extension options.
-* -info:                                 c1541 commands and options.
 * -install, +install:                    Video options.
 * -kernal <1>:                           CBM-II commandline options.
 * -kernal <2>:                           PET commandline options.
@@ -752,7 +742,6 @@ Concept Index
 * -kernal:                               C64/128 system ROM options.
 * -kernalrev:                            C64/128 system ROM options.
 * -keymap:                               Keyboard options.
-* -list:                                 c1541 commands and options.
 * -memory:                               VIC20 memconf options.
 * -mitshm, +mitshm <1>:                  Video options.
 * -mitshm, +mitshm:                      Shared memory problems.
@@ -779,7 +768,6 @@ Concept Index
 * -ram4:                                 CBM-II commandline options.
 * -ram6:                                 CBM-II commandline options.
 * -ramC:                                 CBM-II commandline options.
-* -read:                                 c1541 commands and options.
 * -refresh:                              Performance options.
 * -resid, +resid:                        SID options.
 * -reu, +reu:                            C64 I/O extension options.
@@ -808,21 +796,14 @@ Concept Index
 * -speed:                                Performance options.
 * -superpet:                             PET commandline options.
 * -symkeymap:                            Keyboard options.
-* -tape:                                 c1541 commands and options.
 * -traps, +traps:                        No traps options.
 * -truedrive, +truedrive:                Drive options.
-* -unlynx:                               c1541 commands and options.
-* -validate:                             c1541 commands and options.
 * -vcache, +vcache:                      Video options.
 * -warp, +warp:                          Performance options.
-* -write:                                c1541 commands and options.
 * -xsync, +xsync:                        Video options.
-* -zcreate:                              c1541 commands and options.
-* attach:                                c1541 commands and options.
 * Audio buffer size:                     Sound settings.
 * BasicName <1>:                         VIC20 system ROM resources.
 * BasicName:                             C64/128 system ROM resources.
-* block:                                 c1541 commands and options.
 * C64/128 emulator identification:       C64 I/O extension settings.
 * Cart2Name:                             CBM-II model.
 * Cart4Name:                             CBM-II model.
@@ -831,27 +812,18 @@ Concept Index
 * ChargenName <2>:                       VIC20 system ROM resources.
 * ChargenName:                           C64/128 system ROM resources.
 * Converting X64 files into D64:         Supported file formats.
-* copy:                                  c1541 commands and options.
-* create:                                c1541 commands and options.
 * Crtc:                                  PET model.
-* delete:                                c1541 commands and options.
-* detach:                                c1541 commands and options.
 * Double-scan mode.:                     Video settings.
 * Double-size mode:                      Video settings.
 * EditorName:                            PET model.
-* extract:                               c1541 commands and options.
-* format:                                c1541 commands and options.
-* gcrformat:                             c1541 commands and options.
 * HP-UX and Solaris audio problems:      Sound problems.
 * IEEE488 interface emulation:           C64 I/O extension settings.
-* info:                                  c1541 commands and options.
 * IOSize:                                PET model.
 * KernalName <1>:                        PET model.
 * KernalName <2>:                        VIC20 system ROM resources.
 * KernalName:                            C64/128 system ROM resources.
 * KernalRev:                             C64/128 system ROM resources.
 * Limiting emulation speed:              Performance settings.
-* list:                                  c1541 commands and options.
 * Loosing control on low-end systems:    Video settings.
 * MITSHM:                                Shared memory problems.
 * ModelLine:                             CBM-II model.
@@ -867,7 +839,6 @@ Concept Index
 * RamC:                                  CBM-II model.
 * RamSize <1>:                           CBM-II model.
 * RamSize:                               PET model.
-* read:                                  c1541 commands and options.
 * Refresh rate:                          Performance settings.
 * REU:                                   C64 I/O extension settings.
 * RomModule9Name:                        PET model.
@@ -882,18 +853,13 @@ Concept Index
 * Sound syncronization:                  Sound settings.
 * Sprite collision detection:            VIC-II settings.
 * SuperPET:                              PET model.
-* tape:                                  c1541 commands and options.
 * Toggling reSID emulation:              SID settings.
 * Turning sound playback on/off:         Sound settings.
-* unlynx:                                c1541 commands and options.
 * Using XSync():                         Video settings.
-* validate:                              c1541 commands and options.
 * VIC-II color sets:                     VIC-II settings.
 * Video cache:                           Video settings.
 * VideoSize:                             PET model.
 * Warp speed mode:                       Performance settings.
-* write:                                 c1541 commands and options.
-* zcreate:                               c1541 commands and options.
 
 
 File: vice.info,  Node: Resource Index,  Prev: Concept Index,  Up: Top

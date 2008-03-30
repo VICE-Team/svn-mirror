@@ -31,7 +31,8 @@ running as a SuperPET, and the CBM-II has such an ACIA by default.  The
 C64 and C128 emulators can emulate an ACIA 6551 (also known as Datapump
 for example) as extension at `$de**'.
 
-   Emulation can be achieved by
+   Emulation can be achieved by either:
+
    * connecting a real UNIX serial device;
 
    * dumping to a file;

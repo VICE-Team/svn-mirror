@@ -31,15 +31,6 @@
 
 #include "vice.h"
 
-#ifdef __hpux
-#ifndef _INCLUDE_POSIX_SOURCE
-#define _INCLUDE_POSIX_SOURCE
-#endif
-#ifndef _POSIX_SOURCE
-#define _POSIX_SOURCE
-#endif
-#endif  /* __hpux */
-
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
@@ -136,7 +127,7 @@ static int cmdline_attach(const char *param, void *extra_param)
       case 10:
       case 11:
         if (startup_disk_images[unit - 8] != NULL)
-            free(startup_disk_images);
+            free(startup_disk_images[unit - 8]);
         startup_disk_images[unit - 8] = stralloc(param);
         break;
       default:
@@ -451,8 +442,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     /* `-1': Attach specified tape image.  */
-    if (startup_tape_image
-        && serial_select_file(DT_TAPE, 1, startup_tape_image) < 0)
+    if (startup_tape_image && tape_attach_image(startup_tape_image) < 0)
         log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
                   startup_tape_image);
 
@@ -472,8 +462,8 @@ int MAIN_PROGRAM(int argc, char **argv)
 static RETSIGTYPE break64(int sig)
 {
 #ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT,
-                "Received signal %d (%s).", sig, sys_siglist[sig]);
+    log_message(LOG_DEFAULT, "Received signal %d (%s).",
+                sig, sys_siglist[sig]);
 #else
     log_message(LOG_DEFAULT, "Received signal %d.", sig);
 #endif

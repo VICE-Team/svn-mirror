@@ -788,135 +788,203 @@ c1541
 *****
 
    VICE is provided with a complete stand-alone disk image maintenance
-utility, called `c1541'.  You can either invoke it from the command
-line or from within one of the VICE emulators, using the "Run c1541"
-command which will open a new `xterm' window with a running `c1541' in
-it.
+utility, called `c1541'.
+
+   You can either invoke it from the command line or from within one of
+the VICE emulators, using the "Run c1541" command which will open a new
+`xterm' window with a running `c1541' in it.
 
    The syntax is:
 
-     c1541 OPTIONS IMAGE
+     c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 ... COMMANDN]
 
-   If some `OPTIONS' but no `IMAGE' are specified, `c1541' runs in
-batch mode; otherwise, it attaches the `IMAGE' if present and enters
-interactive mode, where you can type commands that are executed when
-you press Enter (abbreviations are allowed).  As with the monitor, file
-name completion and command line editing with history are provided via
-GNU `readline'.  Use the command `quit' to exit.
+   `IMAGE1' and `IMAGE2' are disk image names that can be attached
+before `c1541' starts.  `c1541' can handle up to two disk images at the
+same time by using two virtual built-in drives, numbered `8' and `9';
+`IMAGE1' (if present) is always attached to drive `8', while `IMAGE2'
+is attached to drive `9'.
 
-   Notice that `c1541' always creates `X64' files, but can read and
-write `D64' and `T64' files automatically, without the need for any
-special options.
+   `COMMAND's specified on the command-line all begin with the minus
+sign (`-'); if present, `c1541' executes them in the same order as they
+are on the command line and returns a zero error code if they were
+successful.  If any of the `COMMAND's fails, `c1541' stops and returns
+a nonzero error code.
+
+   If no `COMMAND's are specified at all, `c1541' enters interactive
+mode, where you can type commands manually.  Commands in interactive
+mode are the same as commands in batch mode, but do not require a
+leading `-'.  As with the monitor, file name completion and command
+line editing with history are provided via GNU `readline'.  Use the
+command `quit' or press `C-d' to exit.
 
 * Menu:
 
+* c1541 file specification::
+* c1541 quoting::
 * c1541 commands and options::
+* c1541 executing shell commands::
 
 
-File: vice.info,  Node: c1541 commands and options,  Prev: c1541,  Up: c1541
+File: vice.info,  Node: c1541 file specification,  Next: c1541 quoting,  Prev: c1541,  Up: c1541
+
+Specifying files in c1541
+=========================
+
+   When accessing CBM DOS files (i.e. files that reside on disk images),
+c1541 uses a special syntax that lets you access files on both drive 8
+and 9.  If you prepend the file name with `@8:' or `@9:', you will
+specified that file is to be found or created on drive 8 and 9,
+respectively.
+
+   For instance,
+
+     @8:somefile
+
+   will name file named `somefile' on unit 8, while
+
+     @9:somefile
+
+   will name file named `somefile' on unit 9.
+
+
+File: vice.info,  Node: c1541 quoting,  Next: c1541 commands and options,  Prev: c1541 file specification,  Up: c1541
+
+Using quotes and backslashes
+============================
+
+   You can use quotes (`"') in a command to embed spaces into file
+names.  For instance,
+
+     read some file
+
+   will read file `some' from the disk image and write it into the file
+system as `file', while
+
+     read "some file"
+
+   will copy `some file' into the file system, with the name `some
+file'.
+
+   The backslash character (`\') has a special meaning too: it lets you
+literally insert the following character no matter what it is.  For
+example,
+
+     read some\ file
+
+   will copy file `some file' into the file system, while
+
+     read some\ file this\"file
+
+   will copy `some file' into the file system with name `this"file'
+(with an embedded quote).
+
+
+File: vice.info,  Node: c1541 commands and options,  Next: c1541 executing shell commands,  Prev: c1541 quoting,  Up: c1541
 
 c1541 commands and options
 ==========================
 
-   Each command-line option has an interactive-mode counterpart, that is
-shown after it.  `-' as a file name stands for standard input or
-standard output, depending on the context.
+   This is a list of the `c1541' commands.  They are shown in their
+interactive form, without the leading `-'.
 
-`-attach  IMAGE'
+` [<command>]'
+     Execute specified CBM DOS command and print the current status of
+     the drive.  If no `command' is specified, just print the status.
 
-`attach  IMAGE'
-     Attach the disk image `IMAGE' for use.  All the following commands
-     will refer to this image.
+`? [<command>]'
+     Explain specified command.  If no command is specified, list
+     available ones.
 
-`-detach'
+`attach <diskimage> [<unit>]'
+     Attach `diskimage' to `unit' (default unit is 8).
 
-`detach'
-     Detach the currently attached disk image.
+`block <track> <sector> <disp> [<drive>]'
+     Show specified disk block in hex form.
 
-`-format  IMAGE 'NAME,ID''
+`create <x64name> <d64name>'
+     Create an X64 disk image out of a D64 disk image.
 
-`format  IMAGE 'NAME,ID''
-     Format the D64 disk image `IMAGE', giving the specified label.  If
-     `IMAGE' does not exist, create it.
+`copy <source1> [<source2> ... <sourceN>] <destination>'
+     Copy `source1' ... `sourceN' into destination.  If N > 1,
+     `destination' must be a simple drive specifier (`@n:').
 
-`-gcr  IMAGENAME ['NAME,ID']'
+`delete <file1> [<file2> ... <fileN>]'
+     Delete the specified files.
 
-`gcrformat  IMAGE 'NAME,ID''
-     Create a GCR disk image; if `NAME,ID' is specified, format it.
-
-`-delete  IMAGE FILES...'
-
-`delete  FILES...'
-     Delete  FILES  from `IMAGE'.
-
-`-list  IMAGE'
-
-`list'
-     List files in `IMAGE'.
-
-`-validate  IMAGE'
-
-`validate'
-     Validate the disk.
-
-`-copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME'
-
-`copy  OLDNAME1 [OLDNAME2...] NEWNAME'
-     Concatenate `OLDNAME1', `OLDNAME2'.. into `NEWNAME' on `IMAGE'
-     (can be used to copy files).
-
-`-create  IMAGE DUMP ['DESCR']'
-
-`create  IMAGE DUMP ['DESCR']'
-     Build `IMAGE' from raw dump file `DUMP' (i.e., convert from `D64'
-     to `X64' file).
-
-`-tape  IMAGE TAPEIMAGE [FILES...]'
-
-`tape  IMAGE TAPEIMAGE [FILES...]'
-     Transfer `FILES' from `TAPEIMAGE' to `IMAGE' (default is copy all
-     files).
-
-`-read  IMAGE 1541NAME [FSNAME]'
-
-`read  1541NAME [FSNAME]'
-     Extract `1541NAME' from the disk image into `FSNAME' (1541NAME by
-     default) from `IMAGE'.
-
-`-extract  IMAGE'
+`exit'
+     Exit (same as `quit').
 
 `extract'
-     Extract all files from `IMAGE'.
+     Extract all the files to the file system.
 
-`-write  IMAGE FSNAME [1541NAME]'
+`format <diskname,id> [<type> <imagename>] [<unit>]'
+     If `unit' is specified, format the disk in unit `unit'.  If `type'
+     and `imagename' are specified, create a new image named
+     `imagename', attach it to unit 8 and format it.  `type' is a disk
+     image type, and must be either `x64', `d64', `d71' or `d81'.
+     Otherwise, format the disk in the current unit, if any.
 
-`write  FSNAME [1541NAME]'
-     Write `FSNAME' to `IMAGE' as `1541NAME' (`FSNAME' by default).
-     (works with `P00' files as well)
+`gcrformat <diskname,id> <imagename>'
+     Create and format a G64 disk image named `imagename'.
 
-`-block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
+`help [<command>]'
+     Explain specified command.  If no command is specified, list
+     available ones.
 
-`block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
-     Show disk blocks in hex format.
+`info [<unit>]'
+     Display information about unit `unit' (if unspecified, use the
+     current one).
 
-`-info  IMAGE ['DESCRIPTION']'
+`list [<pattern>]'
+     List files matching `pattern' (default is all files).
 
-`info  ['DESCRIPTION']'
-     Show version information about `IMAGE'.
+`quit'
+     Exit (same as `exit').
 
-`-unlynx IMAGE LYNXFILE'
+`read <source> [<destination>]'
+     Read `source' from the disk image and copy it into `destination' in
+     the file system.  If `destination' is not specified, copy it into a
+     file with the same name as `source'.",
 
-`unlynx LYNXFILE'
-     Unlynx `LYNXFILE' into the image.
+`rename <oldname> <newname>'
+     Rename `oldname' into `newname'.  The files must be on the same
+     drive.
 
-`-zcreate  IMAGE DUMP ['DESCR']'
+`tape <t64name> [<file1> ... <fileN>]'
+     Extract files from a T64 image.
 
-`zcreate IMAGE DUMP ['DESCR']'
-     Build `IMAGE' from a Zipcoded image made up of files called
-     `1!DUMP', `2!DUMP', `3!DUMP', `4!DUMP'.
+`unit <number>'
+     Make unit `number' the current unit.
 
-   When more than one command is specified in batch mode, all of them
-are executed in the same order they have on the command line.
+`unlynx <lynxname> [<unit>]'
+     Extract the specified Lynx image file into the specified unit
+     (default is the current unit).
+
+`validate [<unit>]'
+     Validate the disk in unit `unit'.  If `unit' is not specified,
+     validate the disk in the current unit.
+
+`write <source> [<destination>]'
+     Write `source' from the file system into `destination' on a disk
+     image.
+
+`zcreate <x64name> <zipname> [<label,id>]'
+     Create an X64 disk image out of a set of four Zipcoded files named
+     `1!zipname', `2!zipname', `3!zipname' and `4!zipname'.
+
+
+File: vice.info,  Node: c1541 executing shell commands,  Prev: c1541 commands and options,  Up: c1541
+
+Executing shell commands
+========================
+
+   If you want to execute a shell command from withing `c1541', just
+prepend it with an exclamation mark (`!').  For example,
+
+     !ls -la
+
+   will execute the command `ls -la', which will show you all the files
+in the current directory.
 
 
 File: vice.info,  Node: File formats,  Next: Acknowledgments,  Prev: c1541,  Up: Top
@@ -975,7 +1043,7 @@ Offset                 Size                   Description
 36                     2                      number of used entries (can   
                                               be 0 in my loader)            
 38                     2                      free                          
-40                     4                      user description as           
+40                     24                     user description as           
                                               displayed in tape menu        
 
 
@@ -995,7 +1063,7 @@ Offset                 Size                   Description
 12                     4                      free                          
 16                     16                     C64 file name                 
 
-   Valid file types are:
+   Valid entry types are:
 
 Code                   Explanation                                        
 `0'                    free entry                                         

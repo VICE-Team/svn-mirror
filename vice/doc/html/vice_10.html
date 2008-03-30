@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 1 December 1998 -->
+     from ../vice.texi on 5 December 1998 -->
 
 <TITLE>VICE Manual - 10  c1541</TITLE>
 </HEAD>
@@ -14,7 +14,11 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_9.html">previous</A>, <
 
 <P>
 VICE is provided with a complete stand-alone disk image maintenance
-utility, called <CODE>c1541</CODE>.  You can either invoke it from the command
+utility, called <CODE>c1541</CODE>.
+
+</P>
+<P>
+You can either invoke it from the command
 line or from within one of the VICE emulators, using the "Run c1541"
 command which will open a new <CODE>xterm</CODE> window with a running
 <CODE>c1541</CODE> in it.
@@ -26,188 +30,265 @@ The syntax is:
 </P>
 
 <PRE>
-c1541 OPTIONS IMAGE
+c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 ... COMMANDN]
 </PRE>
 
 <P>
-If some <CODE>OPTIONS</CODE> but no <CODE>IMAGE</CODE> are specified, <CODE>c1541</CODE>
-runs in batch mode; otherwise, it attaches the <CODE>IMAGE</CODE> if present
-and enters interactive mode, where you can type commands that are
-executed when you press Enter (abbreviations are allowed).  As with the
-monitor, file name completion and command line editing with history are
-provided via GNU <CODE>readline</CODE>.  Use the command <SAMP>`quit'</SAMP> to exit.
+<CODE>IMAGE1</CODE> and <CODE>IMAGE2</CODE> are disk image names that can be
+attached before <CODE>c1541</CODE> starts.  <CODE>c1541</CODE> can handle up to two
+disk images at the same time by using two virtual built-in drives,
+numbered <CODE>8</CODE> and <CODE>9</CODE>; <CODE>IMAGE1</CODE> (if present) is always
+attached to drive <CODE>8</CODE>, while <CODE>IMAGE2</CODE> is attached to drive
+<CODE>9</CODE>.
 
 </P>
 <P>
-Notice that <CODE>c1541</CODE> always creates <CODE>X64</CODE> files, but can read
-and write <CODE>D64</CODE> and <CODE>T64</CODE> files automatically, without the
-need for any special options.
+<CODE>COMMAND</CODE>s specified on the command-line all begin with the minus
+sign (<CODE>-</CODE>); if present, <CODE>c1541</CODE> executes them in the same
+order as they are on the command line and returns a zero error code if
+they were successful.  If any of the <CODE>COMMAND</CODE>s fails, <CODE>c1541</CODE>
+stops and returns a nonzero error code.
+
+</P>
+<P>
+If no <CODE>COMMAND</CODE>s are specified at all, <CODE>c1541</CODE> enters
+interactive mode, where you can type commands manually.  Commands in
+interactive mode are the same as commands in batch mode, but do not
+require a leading <CODE>-</CODE>.  As with the monitor, file name completion
+and command line editing with history are provided via GNU
+<CODE>readline</CODE>.  Use the command <SAMP>`quit'</SAMP> or press <KBD>C-d</KBD> to
+exit.
 
 </P>
 
 
 
-<H2><A NAME="SEC142" HREF="vice_toc.html#TOC142">10.1  c1541 commands and options</A></H2>
+<H2><A NAME="SEC142" HREF="vice_toc.html#TOC142">10.1  Specifying files in c1541</A></H2>
 
 <P>
-Each command-line option has an interactive-mode counterpart, that is
-shown after it.  <SAMP>`-'</SAMP> as a file name stands for standard input or
-standard output, depending on the context.
+When accessing CBM DOS files (i.e. files that reside on disk images),
+c1541 uses a special syntax that lets you access files on both drive 8
+and 9.  If you prepend the file name with <CODE>@8:</CODE> or <CODE>@9:</CODE>, you
+will specified that file is to be found or created on drive 8 and 9,
+respectively.
+
+</P>
+<P>
+For instance,
+
+</P>
+
+<PRE>
+@8:somefile
+</PRE>
+
+<P>
+will name file named <CODE>somefile</CODE> on unit 8, while
+
+</P>
+
+<PRE>
+@9:somefile
+</PRE>
+
+<P>
+will name file named <CODE>somefile</CODE> on unit 9.
+
+</P>
+
+
+<H2><A NAME="SEC143" HREF="vice_toc.html#TOC143">10.2  Using quotes and backslashes</A></H2>
+
+<P>
+You can use quotes (<CODE>"</CODE>) in a command to embed spaces into file
+names.  For instance,
+
+</P>
+
+<PRE>
+read some file
+</PRE>
+
+<P>
+will read file <CODE>some</CODE> from the disk image and write it into the
+file system as <CODE>file</CODE>, while
+
+</P>
+
+<PRE>
+read "some file"
+</PRE>
+
+<P>
+will copy <CODE>some file</CODE> into the file system, with the name
+<CODE>some file</CODE>.
+
+</P>
+<P>
+The backslash character (<CODE>\</CODE>) has a special meaning too: it lets
+you literally insert the following character no matter what it is.  For
+example,
+
+</P>
+
+<PRE>
+read some\ file
+</PRE>
+
+<P>
+will copy file <CODE>some file</CODE> into the file system, while
+
+</P>
+
+<PRE>
+read some\ file this\"file
+</PRE>
+
+<P>
+will copy <CODE>some file</CODE> into the file system with name
+<CODE>this"file</CODE> (with an embedded quote).
+
+</P>
+
+
+
+<H2><A NAME="SEC144" HREF="vice_toc.html#TOC144">10.3  c1541 commands and options</A></H2>
+
+<P>
+This is a list of the <CODE>c1541</CODE> commands.  They are shown in their
+interactive form, without the leading <CODE>-</CODE>.
 
 </P>
 <DL COMPACT>
 
-<P><DT><CODE>-attach  IMAGE</CODE>
+<P><DT><CODE>[&#60;command&#62;]</CODE>
 <DD>
-<A NAME="IDX267"></A>
- 
-<A NAME="IDX268"></A>
-<P><DT><CODE>attach  IMAGE</CODE>
-<DD>
-Attach the disk image <CODE>IMAGE</CODE> for use.  All the following commands
-will refer to this image.
+Execute specified CBM DOS command and print the current status of the
+drive.  If no <CODE>command</CODE> is specified, just print the status.
 
-<A NAME="IDX269"></A>
-<P><DT><CODE>-detach</CODE>
+<P><DT><CODE>? [&#60;command&#62;]</CODE>
 <DD>
-<A NAME="IDX270"></A>
-<P><DT><CODE>detach</CODE>
-<DD>
-Detach the currently attached disk image.
+Explain specified command.  If no command is specified, list available
+ones.
 
-<A NAME="IDX271"></A>
-<P><DT><CODE>-format  IMAGE 'NAME,ID'</CODE>
+<P><DT><CODE>attach &#60;diskimage&#62; [&#60;unit&#62;]</CODE>
 <DD>
-<A NAME="IDX272"></A>
-<P><DT><CODE>format  IMAGE 'NAME,ID'</CODE>
-<DD>
-Format the D64 disk image <CODE>IMAGE</CODE>, giving the specified label.  If
-<CODE>IMAGE</CODE> does not exist, create it.
+Attach <CODE>diskimage</CODE> to <CODE>unit</CODE> (default unit is 8).
 
-<A NAME="IDX273"></A>
-<P><DT><CODE>-gcr  IMAGENAME ['NAME,ID']</CODE>
+<P><DT><CODE>block &#60;track&#62; &#60;sector&#62; &#60;disp&#62; [&#60;drive&#62;]</CODE>
 <DD>
-<A NAME="IDX274"></A>
-<P><DT><CODE>gcrformat  IMAGE 'NAME,ID'</CODE>
-<DD>
-Create a GCR disk image; if <CODE>NAME,ID</CODE> is specified, format it.
+Show specified disk block in hex form.
 
-<A NAME="IDX275"></A>
-<P><DT><CODE>-delete  IMAGE FILES...</CODE>
+<P><DT><CODE>create &#60;x64name&#62; &#60;d64name&#62;</CODE>
 <DD>
-<A NAME="IDX276"></A>
-<P><DT><CODE>delete  FILES...</CODE>
-<DD>
-Delete  FILES  from <CODE>IMAGE</CODE>.
+Create an X64 disk image out of a D64 disk image.
 
-<A NAME="IDX277"></A>
-<P><DT><CODE>-list  IMAGE</CODE>
+<P><DT><CODE>copy &#60;source1&#62; [&#60;source2&#62; ... &#60;sourceN&#62;] &#60;destination&#62;</CODE>
 <DD>
-<A NAME="IDX278"></A>
-<P><DT><CODE>list</CODE>
-<DD>
-List files in <CODE>IMAGE</CODE>.
+Copy <CODE>source1</CODE> ... <CODE>sourceN</CODE> into destination.  If N &#62; 1,
+<CODE>destination</CODE> must be a simple drive specifier (<CODE>@n:</CODE>).
 
-<A NAME="IDX279"></A>
-<P><DT><CODE>-validate  IMAGE</CODE>
+<P><DT><CODE>delete &#60;file1&#62; [&#60;file2&#62; ... &#60;fileN&#62;]</CODE>
 <DD>
-<A NAME="IDX280"></A>
-<P><DT><CODE>validate</CODE>
-<DD>
-Validate the disk.
+Delete the specified files.
 
-<A NAME="IDX281"></A>
-<P><DT><CODE>-copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME</CODE>
+<P><DT><CODE>exit</CODE>
 <DD>
-<A NAME="IDX282"></A>
-<P><DT><CODE>copy  OLDNAME1 [OLDNAME2...] NEWNAME</CODE>
-<DD>
-Concatenate <CODE>OLDNAME1</CODE>, <CODE>OLDNAME2</CODE>.. into
-<CODE>NEWNAME</CODE> on <CODE>IMAGE</CODE> (can be used to copy files).
+Exit (same as <CODE>quit</CODE>).
 
-<A NAME="IDX283"></A>
-<P><DT><CODE>-create  IMAGE DUMP ['DESCR']</CODE>
-<DD>
-<A NAME="IDX284"></A>
-<P><DT><CODE>create  IMAGE DUMP ['DESCR']</CODE>
-<DD>
-Build <CODE>IMAGE</CODE> from raw dump file <CODE>DUMP</CODE> (i.e., convert
-from <CODE>D64</CODE> to <CODE>X64</CODE> file).
-
-<A NAME="IDX285"></A>
-<P><DT><CODE>-tape  IMAGE TAPEIMAGE [FILES...]</CODE>
-<DD>
-<A NAME="IDX286"></A>
-<P><DT><CODE>tape  IMAGE TAPEIMAGE [FILES...]</CODE>
-<DD>
-Transfer <CODE>FILES</CODE> from <CODE>TAPEIMAGE</CODE> to <CODE>IMAGE</CODE>
-(default is copy all files).
-
-<A NAME="IDX287"></A>
-<P><DT><CODE>-read  IMAGE 1541NAME [FSNAME]</CODE>
-<DD>
-<A NAME="IDX288"></A>
-<P><DT><CODE>read  1541NAME [FSNAME]</CODE>
-<DD>
-Extract <CODE>1541NAME</CODE> from the disk image into <CODE>FSNAME</CODE>
-(1541NAME by default) from <CODE>IMAGE</CODE>.
-
-<A NAME="IDX289"></A>
-<P><DT><CODE>-extract  IMAGE</CODE>
-<DD>
-<A NAME="IDX290"></A>
 <P><DT><CODE>extract</CODE>
 <DD>
-Extract all files from <CODE>IMAGE</CODE>.
+Extract all the files to the file system.
 
-<A NAME="IDX291"></A>
-<P><DT><CODE>-write  IMAGE FSNAME [1541NAME]</CODE>
+<P><DT><CODE>format &#60;diskname,id&#62; [&#60;type&#62; &#60;imagename&#62;] [&#60;unit&#62;]</CODE>
 <DD>
-<A NAME="IDX292"></A>
-<P><DT><CODE>write  FSNAME [1541NAME]</CODE>
-<DD>
-Write <CODE>FSNAME</CODE> to <CODE>IMAGE</CODE> as <CODE>1541NAME</CODE>
-(<CODE>FSNAME</CODE> by default). (works with <CODE>P00</CODE> files as well)
+If <CODE>unit</CODE> is specified, format the disk in unit <CODE>unit</CODE>.  If
+<CODE>type</CODE> and <CODE>imagename</CODE> are specified, create a new image named
+<CODE>imagename</CODE>, attach it to unit 8 and format it.  <CODE>type</CODE> is a
+disk image type, and must be either <CODE>x64</CODE>, <CODE>d64</CODE>, <CODE>d71</CODE>
+or <CODE>d81</CODE>.  Otherwise, format the disk in the current unit, if any.
 
-<A NAME="IDX293"></A>
-<P><DT><CODE>-block  [DRIVE:] [TRACK] [SECTOR] [DISP]</CODE>
+<P><DT><CODE>gcrformat &#60;diskname,id&#62; &#60;imagename&#62;</CODE>
 <DD>
-<A NAME="IDX294"></A>
-<P><DT><CODE>block  [DRIVE:] [TRACK] [SECTOR] [DISP]</CODE>
-<DD>
-Show disk blocks in hex format.
+Create and format a G64 disk image named <CODE>imagename</CODE>.
 
-<A NAME="IDX295"></A>
-<P><DT><CODE>-info  IMAGE ['DESCRIPTION']</CODE>
+<P><DT><CODE>help [&#60;command&#62;]</CODE>
 <DD>
-<A NAME="IDX296"></A>
-<P><DT><CODE>info  ['DESCRIPTION']</CODE>
-<DD>
-Show version information about <CODE>IMAGE</CODE>.
+Explain specified command.  If no command is specified, list available
+ones.
 
-<A NAME="IDX297"></A>
-<P><DT><CODE>-unlynx IMAGE LYNXFILE</CODE>
+<P><DT><CODE>info [&#60;unit&#62;]</CODE>
 <DD>
-<A NAME="IDX298"></A>
-<P><DT><CODE>unlynx LYNXFILE</CODE>
-<DD>
-Unlynx <TT>`LYNXFILE'</TT> into the image.
+Display information about unit <CODE>unit</CODE> (if unspecified, use the current
+one).
 
-<A NAME="IDX299"></A>
-<P><DT><CODE>-zcreate  IMAGE DUMP ['DESCR']</CODE>
+<P><DT><CODE>list [&#60;pattern&#62;]</CODE>
 <DD>
-<A NAME="IDX300"></A>
-<P><DT><CODE>zcreate IMAGE DUMP ['DESCR']</CODE>
+List files matching <CODE>pattern</CODE> (default is all files).
+
+<P><DT><CODE>quit</CODE>
 <DD>
-Build <CODE>IMAGE</CODE> from a Zipcoded image made up of files called
-<TT>`1!DUMP'</TT>, <TT>`2!DUMP'</TT>, <TT>`3!DUMP'</TT>, <TT>`4!DUMP'</TT>.
+Exit (same as <CODE>exit</CODE>).
+
+<P><DT><CODE>read &#60;source&#62; [&#60;destination&#62;]</CODE>
+<DD>
+Read <CODE>source</CODE> from the disk image and copy it into <CODE>destination</CODE> in
+the file system.  If <CODE>destination</CODE> is not specified, copy it into a
+file with the same name as <CODE>source</CODE>.", 
+
+<P><DT><CODE>rename &#60;oldname&#62; &#60;newname&#62;</CODE>
+<DD>
+Rename <CODE>oldname</CODE> into <CODE>newname</CODE>.  The files must be on the
+same drive.
+
+<P><DT><CODE>tape &#60;t64name&#62; [&#60;file1&#62; ... &#60;fileN&#62;]</CODE>
+<DD>
+Extract files from a T64 image.
+
+<P><DT><CODE>unit &#60;number&#62;</CODE>
+<DD>
+Make unit <CODE>number</CODE> the current unit.
+
+<P><DT><CODE>unlynx &#60;lynxname&#62; [&#60;unit&#62;]</CODE>
+<DD>
+Extract the specified Lynx image file into the specified unit (default
+is the current unit).
+
+<P><DT><CODE>validate [&#60;unit&#62;]</CODE>
+<DD>
+Validate the disk in unit <CODE>unit</CODE>.  If <CODE>unit</CODE> is not specified,
+validate the disk in the current unit.
+
+<P><DT><CODE>write &#60;source&#62; [&#60;destination&#62;]</CODE>
+<DD>
+Write <CODE>source</CODE> from the file system into <CODE>destination</CODE> on a
+disk image.
+
+<P><DT><CODE>zcreate &#60;x64name&#62; &#60;zipname&#62; [&#60;label,id&#62;]</CODE>
+<DD>
+Create an X64 disk image out of a set of four Zipcoded files named
+<CODE>1!zipname</CODE>, <CODE>2!zipname</CODE>, <CODE>3!zipname</CODE> and
+<CODE>4!zipname</CODE>.
 
 </DL>
 
+
+
+<H2><A NAME="SEC145" HREF="vice_toc.html#TOC145">10.4  Executing shell commands</A></H2>
+
 <P>
-When more than one command is specified in batch mode, all of
-them are executed in the same order they have on the command
-line.
+If you want to execute a shell command from withing <CODE>c1541</CODE>, just
+prepend it with an exclamation mark (<CODE>!</CODE>).  For example,
+
+</P>
+
+<PRE>
+!ls -la
+</PRE>
+
+<P>
+will execute the command <CODE>ls -la</CODE>, which will show you all the
+files in the current directory.
 
 </P>
 
