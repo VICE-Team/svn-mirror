@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-05 21:54+0200\n"
+"POT-Creation-Date: 2007-08-19 18:14+0200\n"
 "PO-Revision-Date: 2007-07-27 15:58+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -384,73 +384,73 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Visszajátszási hiba: %s különbözik a %d. sorban a debug%06d fájl esetén"
 
-#: src/network.c:251 src/translate.c.po.c:548
+#: src/network.c:258 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"
 
-#: src/network.c:476 src/translate.c.po.c:397
+#: src/network.c:483 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr "Legjobb képkocka késleltetés tesztelése..."
 
-#: src/network.c:526 src/translate.c.po.c:407
+#: src/network.c:533 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d képkocka késleltetés használata."
 
-#: src/network.c:551 src/translate.c.po.c:417
+#: src/network.c:558 src/translate.c.po.c:417
 msgid "Cannot load snapshot file for transfer"
 msgstr "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"
 
-#: src/network.c:564 src/translate.c.po.c:427
+#: src/network.c:571 src/translate.c.po.c:427
 msgid "Sending snapshot to client..."
 msgstr "Pillanatkép küldése a kliensnek..."
 
-#: src/network.c:574 src/translate.c.po.c:437
+#: src/network.c:581 src/translate.c.po.c:437
 msgid "Cannot send snapshot to client"
 msgstr "Nem sikerült pillanatképet elküldeni a klienshez"
 
-#: src/network.c:604 src/translate.c.po.c:447
+#: src/network.c:611 src/translate.c.po.c:447
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt létrehozni (%s)"
 
-#: src/network.c:644 src/translate.c.po.c:457
+#: src/network.c:651 src/translate.c.po.c:457
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt megnyitni (%s)"
 
-#: src/network.c:794 src/translate.c.po.c:467
+#: src/network.c:801 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr "A kiszolgáló kliensre vár..."
 
-#: src/network.c:831 src/translate.c.po.c:477
+#: src/network.c:838 src/translate.c.po.c:477
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"
 
-#: src/network.c:850 src/translate.c.po.c:487
+#: src/network.c:857 src/translate.c.po.c:487
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Nem sikerült %s-t feloldani"
 
-#: src/network.c:895 src/translate.c.po.c:497
+#: src/network.c:902 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Nem sikerült %s-hez kapcsolódni (a %d porton nem fut kiszolgáló)"
 
-#: src/network.c:909 src/translate.c.po.c:507
+#: src/network.c:916 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr "Pillanatkép fogadása a szerverrõl..."
 
-#: src/network.c:996 src/network.c:1026 src/translate.c.po.c:527
+#: src/network.c:1003 src/network.c:1033 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr "A távoli számítogép lekapcsolódott."
 
-#: src/network.c:1038 src/translate.c.po.c:537
+#: src/network.c:1045 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr "A távoli számítógép felfüggesztést kért..."
 
-#: src/network.c:1082 src/translate.c.po.c:517
+#: src/network.c:1089 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr "A hálózat kiesett a szinkronból - szétkapcsolódás"
 
@@ -632,7 +632,7 @@ msgstr "$DE** ACIA RS232 interfész emuláció engedélyezése"
 #: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
-#: src/arch/win32/res.rc.po.c:5052 src/translate.c.po.c:896
+#: src/arch/win32/res.rc.po.c:5053 src/translate.c.po.c:896
 msgid "<number>"
 msgstr "<szám>"
 
@@ -2108,77 +2108,77 @@ msgstr "Visszatérés egy régi API rutinhoz"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel meghajtó verziója  : %d.%d.%d"
 
-#: src/arch/unix/rs232.c:104
+#: src/arch/unix/rs232.c:111
 msgid "Specify baudrate of first RS232 device"
 msgstr "Adja meg az elsõ RS232-es eszköz átviteli sebességét"
 
-#: src/arch/unix/rs232.c:106
+#: src/arch/unix/rs232.c:113
 msgid "Specify baudrate of second RS232 device"
 msgstr "Adja meg a második RS232-es eszköz átviteli sebességét"
 
-#: src/arch/unix/rs232.c:108
+#: src/arch/unix/rs232.c:115
 msgid "Specify baudrate of third RS232 device"
 msgstr "Adja meg a harmadik RS232-es eszköz átviteli sebességét"
 
-#: src/arch/unix/rs232.c:110
+#: src/arch/unix/rs232.c:117
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Adja meg a negyedik RS232-es eszköz átviteli sebességét"
 
-#: src/arch/unix/rs232.c:241
+#: src/arch/unix/rs232.c:248
 msgid "No more devices available."
 msgstr "Több eszköz nem áll rendelkezésre."
 
-#: src/arch/unix/rs232.c:246
+#: src/arch/unix/rs232.c:253
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "srs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:266
+#: src/arch/unix/rs232.c:273
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Nem sikerült megnyitni: \"%s\": %s"
 
-#: src/arch/unix/rs232.c:293
+#: src/arch/unix/rs232.c:300
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Lezárási kísérlet érvénytelen fájlleíróra (%d)"
 
-#: src/arch/unix/rs232.c:297
+#: src/arch/unix/rs232.c:304
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Lezárási kísérlet meg nem nyitott fájlleíróra (%d)"
 
-#: src/arch/unix/rs232.c:317
+#: src/arch/unix/rs232.c:324
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Írási kísérlet érvénytelen fájlleíróra (%d)"
 
-#: src/arch/unix/rs232.c:321
+#: src/arch/unix/rs232.c:328
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Írási kísérlet meg nem nyitott fájlleíróra (%d)"
 
-#: src/arch/unix/rs232.c:333
+#: src/arch/unix/rs232.c:340
 #, c-format
 msgid "Error writing: %s."
 msgstr "Hiba írás közben: %s."
 
-#: src/arch/unix/rs232.c:348
+#: src/arch/unix/rs232.c:355
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Olvasási kísérlet érvénytelen fájlleíróra (%d)"
 
-#: src/arch/unix/rs232.c:352
+#: src/arch/unix/rs232.c:359
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Olvasási kísérlet meg nem nyitott fájlleíróra (%d)"
 
-#: src/arch/unix/signals.c:41
+#: src/arch/unix/signals.c:46
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Signal érkezett %d (%s)."
 
-#: src/arch/unix/signals.c:44
+#: src/arch/unix/signals.c:49
 #, c-format
 msgid "Received signal %d."
 msgstr "Signal érkezett %d."
@@ -3144,7 +3144,7 @@ msgstr ""
 msgid "Select history directory"
 msgstr "Pillanatképek könyvtára"
 
-#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5077
+#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5078
 #: src/arch/amigaos/intl.c.po.c:4583
 msgid "Sound Recording stopped..."
 msgstr "Hangfelvétel leállítva..."
@@ -3153,7 +3153,7 @@ msgstr "Hangfelvétel leállítva..."
 msgid "Record sound to file"
 msgstr "Hangfájl felvétele"
 
-#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5076
+#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5077
 #: src/arch/amigaos/intl.c.po.c:4592
 msgid "Sound Recording started..."
 msgstr "Hangfelvétel elindítva..."
@@ -5445,12 +5445,12 @@ msgstr "Eszközök"
 msgid "Invalid Port number"
 msgstr "Érvénytelen port szám"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5068
+#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5069
 #: src/arch/amigaos/intl.c.po.c:2162
 msgid "Idle"
 msgstr "Tétlen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5069
+#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5070
 #: src/arch/amigaos/intl.c.po.c:2171
 msgid "Server listening"
 msgstr "Várakozás kliensre"
@@ -5459,7 +5459,7 @@ msgstr "Várakozás kliensre"
 msgid "Connected Server"
 msgstr "Kiszolgáló a kapcsolatban"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5071
+#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5072
 msgid "Connected Client"
 msgstr "Kliens a kapcsolatban"
 
@@ -5926,22 +5926,22 @@ msgstr "Privát színpaletta telepítése"
 msgid "Use the default colormap"
 msgstr "Alapértelmezett színpaletta használata"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5055
+#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5056
 #: src/arch/amigaos/intl.c.po.c:3242
 msgid "Save settings (resources) on exit"
 msgstr "Erõforrásbeállítások mentése kilépéskor"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5058
+#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5059
 #: src/arch/amigaos/intl.c.po.c:3269
 msgid "Never confirm quiting VICE"
 msgstr "Sosem kér megerõsítést kilépés elõtt"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5057
+#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5058
 #: src/arch/amigaos/intl.c.po.c:3260
 msgid "Confirm quiting VICE"
 msgstr "Megerõsítés kilépés elõtt"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5056
+#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5057
 #: src/arch/amigaos/intl.c.po.c:3251
 msgid "Never save settings (resources) on exit"
 msgstr "Sose mentse az erõforrásbeállításokat kilépéskor"
@@ -6080,7 +6080,7 @@ msgstr "Tallózás..."
 #: src/arch/win32/res.rc.po.c:1618 src/arch/win32/res.rc.po.c:3301
 #: src/arch/win32/res.rc.po.c:3485 src/arch/win32/res.rc.po.c:4123
 #: src/arch/win32/res.rc.po.c:4242 src/arch/win32/res.rc.po.c:4757
-#: src/arch/win32/res.rc.po.c:5084 src/arch/win32/resc128.rc.po.c:3076
+#: src/arch/win32/res.rc.po.c:5085 src/arch/win32/resc128.rc.po.c:3076
 #: src/arch/win32/resc128.rc.po.c:3422 src/arch/win32/resc64.rc.po.c:2637
 #: src/arch/win32/resc64.rc.po.c:2813 src/arch/win32/rescbm2.rc.po.c:2252
 #: src/arch/win32/rescbm2.rc.po.c:2474 src/arch/win32/resgeoram.rc.po.c:24
@@ -6360,7 +6360,7 @@ msgstr "A VICE névjegye"
 #: src/arch/win32/res.rc.po.c:1617 src/arch/win32/res.rc.po.c:2525
 #: src/arch/win32/res.rc.po.c:3300 src/arch/win32/res.rc.po.c:3484
 #: src/arch/win32/res.rc.po.c:4122 src/arch/win32/res.rc.po.c:4241
-#: src/arch/win32/res.rc.po.c:4756 src/arch/win32/res.rc.po.c:5083
+#: src/arch/win32/res.rc.po.c:4756 src/arch/win32/res.rc.po.c:5084
 #: src/arch/win32/resc128.rc.po.c:3075 src/arch/win32/resc128.rc.po.c:3421
 #: src/arch/win32/resc64.rc.po.c:2636 src/arch/win32/resc64.rc.po.c:2812
 #: src/arch/win32/rescbm2.rc.po.c:2251 src/arch/win32/rescbm2.rc.po.c:2473
@@ -6462,7 +6462,7 @@ msgid "&None"
 msgstr "&Nincs"
 
 #: src/arch/win32/res.rc.po.c:591 src/arch/win32/res.rc.po.c:2975
-#: src/arch/win32/res.rc.po.c:3198 src/arch/win32/res.rc.po.c:5086
+#: src/arch/win32/res.rc.po.c:3198 src/arch/win32/res.rc.po.c:5087
 #: src/arch/win32/resgeoram.rc.po.c:20 src/arch/win32/resvic20.rc.po.c:2526
 msgid "&Browse..."
 msgstr "&Tallózás..."
@@ -7414,7 +7414,8 @@ msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Lemez képmás fájlok (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:5028
-msgid "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+#, fuzzy
+msgid "Tape image files (*.t64;*.tap)"
 msgstr "Szalag képmás fájlok (*.t64;*.p00;*.tap;*.prg)"
 
 #: src/arch/win32/res.rc.po.c:5029
@@ -7446,27 +7447,31 @@ msgstr "VICE ROM készlet archívumok (*.vra)"
 msgid "VICE keymap files (*.vkm)"
 msgstr "VICE billentyû leképezés fájlok (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:5036 src/arch/amigaos/intl.c.po.c:3656
+#: src/arch/win32/res.rc.po.c:5036
+msgid "Commodore emulator files (*.prg;*.p00)"
+msgstr ""
+
+#: src/arch/win32/res.rc.po.c:5037 src/arch/amigaos/intl.c.po.c:3656
 msgid "Flexible"
 msgstr "Rugalmas"
 
-#: src/arch/win32/res.rc.po.c:5037 src/arch/amigaos/intl.c.po.c:3665
+#: src/arch/win32/res.rc.po.c:5038 src/arch/amigaos/intl.c.po.c:3665
 msgid "Adjusting"
 msgstr "Igazodó"
 
-#: src/arch/win32/res.rc.po.c:5038 src/arch/amigaos/intl.c.po.c:3674
+#: src/arch/win32/res.rc.po.c:5039 src/arch/amigaos/intl.c.po.c:3674
 msgid "Exact"
 msgstr "Pontos"
 
-#: src/arch/win32/res.rc.po.c:5039
+#: src/arch/win32/res.rc.po.c:5040
 msgid "Sound driver: DirectX"
 msgstr "Hang meghajtó: DirectX"
 
-#: src/arch/win32/res.rc.po.c:5040
+#: src/arch/win32/res.rc.po.c:5041
 msgid "Sound driver: WMM"
 msgstr "Hang meghajtó: WMM"
 
-#: src/arch/win32/res.rc.po.c:5041
+#: src/arch/win32/res.rc.po.c:5042
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
@@ -7474,36 +7479,36 @@ msgstr ""
 "Média fájlok (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
 
-#: src/arch/win32/res.rc.po.c:5042
+#: src/arch/win32/res.rc.po.c:5043
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:5043
+#: src/arch/win32/res.rc.po.c:5044
 msgid "Configure Keyset A"
 msgstr "'A' gombkészlet beállítása"
 
-#: src/arch/win32/res.rc.po.c:5044
+#: src/arch/win32/res.rc.po.c:5045
 msgid "Configure Keyset B"
 msgstr "'B' gombkészlet beállítása"
 
-#: src/arch/win32/res.rc.po.c:5045
+#: src/arch/win32/res.rc.po.c:5046
 msgid "Save media image"
 msgstr "Fénykép készítése"
 
-#: src/arch/win32/res.rc.po.c:5046 src/arch/amigaos/intl.c.po.c:2495
+#: src/arch/win32/res.rc.po.c:5047 src/arch/amigaos/intl.c.po.c:2495
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr "%s %d%% sebességen, %d fps%s"
 
-#: src/arch/win32/res.rc.po.c:5047
+#: src/arch/win32/res.rc.po.c:5048
 msgid "Tape:"
 msgstr "Szalag:"
 
-#: src/arch/win32/res.rc.po.c:5048
+#: src/arch/win32/res.rc.po.c:5049
 msgid "Joystick:"
 msgstr "Botkormány:"
 
-#: src/arch/win32/res.rc.po.c:5049
+#: src/arch/win32/res.rc.po.c:5050
 #, c-format
 msgid ""
 "Recording\n"
@@ -7512,7 +7517,7 @@ msgstr ""
 "Felvétel\n"
 "%02d:%02d"
 
-#: src/arch/win32/res.rc.po.c:5050
+#: src/arch/win32/res.rc.po.c:5051
 #, c-format
 msgid ""
 "Playback\n"
@@ -7521,57 +7526,57 @@ msgstr ""
 "Visszajátszás\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:5051
+#: src/arch/win32/res.rc.po.c:5052
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/arch/win32/res.rc.po.c:5053
+#: src/arch/win32/res.rc.po.c:5054
 msgid "Set input device for joystick #1"
 msgstr "Port 1-es botkormány eszköz megadása"
 
-#: src/arch/win32/res.rc.po.c:5054
+#: src/arch/win32/res.rc.po.c:5055
 msgid "Set input device for joystick #2"
 msgstr "Port 2-es botkormány eszköz megadása"
 
-#: src/arch/win32/res.rc.po.c:5059
+#: src/arch/win32/res.rc.po.c:5060
 msgid "Use all CPU on SMP systems"
 msgstr "SMP rendszereken az összes CPU használata"
 
-#: src/arch/win32/res.rc.po.c:5060
+#: src/arch/win32/res.rc.po.c:5061
 msgid "Use only first CPU on SMP systems"
 msgstr "SMP rendszereken csak az elsõ CPU használata"
 
-#: src/arch/win32/res.rc.po.c:5061
+#: src/arch/win32/res.rc.po.c:5062
 msgid "Start VICE in fullscreen mode"
 msgstr "A VICE indítása teljes képernyõs módban"
 
-#: src/arch/win32/res.rc.po.c:5063
+#: src/arch/win32/res.rc.po.c:5064
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
 msgstr "Váratlan hiba történt. %d szignál érkezett (%s)."
 
-#: src/arch/win32/res.rc.po.c:5065
+#: src/arch/win32/res.rc.po.c:5066
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Váratlan hiba történt. %d szignál érkezett."
 
-#: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:2180
+#: src/arch/win32/res.rc.po.c:5071 src/arch/amigaos/intl.c.po.c:2180
 msgid "Connected server"
 msgstr "Kapcsolódva kiszolgálóhoz"
 
-#: src/arch/win32/res.rc.po.c:5072 src/arch/amigaos/intl.c.po.c:2052
+#: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:2052
 msgid "Invalid port number"
 msgstr "Érvénytelen port szám"
 
-#: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:2034
+#: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:2034
 msgid "An error occured starting the server."
 msgstr "Hiba történt a játék kiszolgáló indításakor."
 
-#: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:2043
+#: src/arch/win32/res.rc.po.c:5075 src/arch/amigaos/intl.c.po.c:2043
 msgid "An error occured connecting the client."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/win32/res.rc.po.c:5085 src/arch/win32/resdrivec128.rc.po.c:48
+#: src/arch/win32/res.rc.po.c:5086 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64.rc.po.c:46
 #: src/arch/win32/resdriveplus4.rc.po.c:34
 #: src/arch/win32/resdrivevic20.rc.po.c:46 src/arch/amigaos/intl.c.po.c:2648

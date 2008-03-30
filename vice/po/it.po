@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-05 21:54+0200\n"
+"POT-Creation-Date: 2007-08-19 18:14+0200\n"
 "PO-Revision-Date: 2007-07-28 14:26+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -390,75 +390,75 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
 
-#: src/network.c:251 src/translate.c.po.c:548
+#: src/network.c:258 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."
 
-#: src/network.c:476 src/translate.c.po.c:397
+#: src/network.c:483 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr "Rileva il miglior ritardo tra frame..."
 
-#: src/network.c:526 src/translate.c.po.c:407
+#: src/network.c:533 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Utilizzo %d frame di ritardo."
 
-#: src/network.c:551 src/translate.c.po.c:417
+#: src/network.c:558 src/translate.c.po.c:417
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot per il trasferimento"
 
-#: src/network.c:564 src/translate.c.po.c:427
+#: src/network.c:571 src/translate.c.po.c:427
 msgid "Sending snapshot to client..."
 msgstr "Invio dell'immagine dello snapshot al client in corso..."
 
-#: src/network.c:574 src/translate.c.po.c:437
+#: src/network.c:581 src/translate.c.po.c:437
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile inviare lo snapshot al client"
 
-#: src/network.c:604 src/translate.c.po.c:447
+#: src/network.c:611 src/translate.c.po.c:447
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile creare il file di snapshot %s"
 
-#: src/network.c:644 src/translate.c.po.c:457
+#: src/network.c:651 src/translate.c.po.c:457
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile aprire il file di snapshot %s"
 
-#: src/network.c:794 src/translate.c.po.c:467
+#: src/network.c:801 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr "Il server è in attesa di un client..."
 
-#: src/network.c:831 src/translate.c.po.c:477
+#: src/network.c:838 src/translate.c.po.c:477
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Non è possibile creare il file di snapshot. Seleziona una directory diversa "
 "per la cronologia."
 
-#: src/network.c:850 src/translate.c.po.c:487
+#: src/network.c:857 src/translate.c.po.c:487
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile risolvere %s"
 
-#: src/network.c:895 src/translate.c.po.c:497
+#: src/network.c:902 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."
 
-#: src/network.c:909 src/translate.c.po.c:507
+#: src/network.c:916 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:996 src/network.c:1026 src/translate.c.po.c:527
+#: src/network.c:1003 src/network.c:1033 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:1038 src/translate.c.po.c:537
+#: src/network.c:1045 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:1082 src/translate.c.po.c:517
+#: src/network.c:1089 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 
@@ -649,7 +649,7 @@ msgstr "Attiva l'emulazione dell'interfaccia RS232 su ACIA a $DE**"
 #: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
-#: src/arch/win32/res.rc.po.c:5052 src/translate.c.po.c:896
+#: src/arch/win32/res.rc.po.c:5053 src/translate.c.po.c:896
 msgid "<number>"
 msgstr "<numero>"
 
@@ -2143,77 +2143,77 @@ msgstr "Ripiego sulle vecchie api"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Versione del driver del kernel: %d.%d.%d"
 
-#: src/arch/unix/rs232.c:104
+#: src/arch/unix/rs232.c:111
 msgid "Specify baudrate of first RS232 device"
 msgstr "Specifica la velocità della prima RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:106
+#: src/arch/unix/rs232.c:113
 msgid "Specify baudrate of second RS232 device"
 msgstr "Specifica la velocità della seconda RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:108
+#: src/arch/unix/rs232.c:115
 msgid "Specify baudrate of third RS232 device"
 msgstr "Specifica la velocità della terza RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:110
+#: src/arch/unix/rs232.c:117
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Specifica la velocità della quarta RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:241
+#: src/arch/unix/rs232.c:248
 msgid "No more devices available."
 msgstr "Non ci sono più device disponibili."
 
-#: src/arch/unix/rs232.c:246
+#: src/arch/unix/rs232.c:253
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:266
+#: src/arch/unix/rs232.c:273
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Non è possibile aprire il file \"%s\": %s"
 
-#: src/arch/unix/rs232.c:293
+#: src/arch/unix/rs232.c:300
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Tentativo di chiusura di fd %d non valido."
 
-#: src/arch/unix/rs232.c:297
+#: src/arch/unix/rs232.c:304
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Tentativo di chiusura di fd %d non aperto."
 
-#: src/arch/unix/rs232.c:317
+#: src/arch/unix/rs232.c:324
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Tentativo di scrittura su fd %d non valido."
 
-#: src/arch/unix/rs232.c:321
+#: src/arch/unix/rs232.c:328
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Tentativo di scrittura su fd %d non aperto."
 
-#: src/arch/unix/rs232.c:333
+#: src/arch/unix/rs232.c:340
 #, c-format
 msgid "Error writing: %s."
 msgstr "Errore durante la scrittura: %s."
 
-#: src/arch/unix/rs232.c:348
+#: src/arch/unix/rs232.c:355
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Tentativo di lettura da fd %d non valido."
 
-#: src/arch/unix/rs232.c:352
+#: src/arch/unix/rs232.c:359
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Tentativo di lettura da fd %d non aperto."
 
-#: src/arch/unix/signals.c:41
+#: src/arch/unix/signals.c:46
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Ricevuto il segnale %d (%s)."
 
-#: src/arch/unix/signals.c:44
+#: src/arch/unix/signals.c:49
 #, c-format
 msgid "Received signal %d."
 msgstr "Ricevuto il segnale %d."
@@ -3179,7 +3179,7 @@ msgstr ""
 msgid "Select history directory"
 msgstr "Seleziona la directory della cronologia"
 
-#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5077
+#: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5078
 #: src/arch/amigaos/intl.c.po.c:4583
 msgid "Sound Recording stopped..."
 msgstr "Registrazione audio interrotta..."
@@ -3188,7 +3188,7 @@ msgstr "Registrazione audio interrotta..."
 msgid "Record sound to file"
 msgstr "Registra l'audio su file"
 
-#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5076
+#: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5077
 #: src/arch/amigaos/intl.c.po.c:4592
 msgid "Sound Recording started..."
 msgstr "Registrazione audio avviata..."
@@ -5479,12 +5479,12 @@ msgstr "Device"
 msgid "Invalid Port number"
 msgstr "Numero di porta non valido"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5068
+#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5069
 #: src/arch/amigaos/intl.c.po.c:2162
 msgid "Idle"
 msgstr "Inattivo"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5069
+#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5070
 #: src/arch/amigaos/intl.c.po.c:2171
 msgid "Server listening"
 msgstr "Server in ascolto"
@@ -5493,7 +5493,7 @@ msgstr "Server in ascolto"
 msgid "Connected Server"
 msgstr "Server connesso"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5071
+#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5072
 msgid "Connected Client"
 msgstr "Client connesso"
 
@@ -5975,22 +5975,22 @@ msgstr "Installa una tavolozza privata"
 msgid "Use the default colormap"
 msgstr "Usa la tavolozza dei colori predefinita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5055
+#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5056
 #: src/arch/amigaos/intl.c.po.c:3242
 msgid "Save settings (resources) on exit"
 msgstr "Salva le impostazioni in uscita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5058
+#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5059
 #: src/arch/amigaos/intl.c.po.c:3269
 msgid "Never confirm quiting VICE"
 msgstr "Non confermare mai l'uscita da VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5057
+#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5058
 #: src/arch/amigaos/intl.c.po.c:3260
 msgid "Confirm quiting VICE"
 msgstr "Conferma l'uscita da VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5056
+#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5057
 #: src/arch/amigaos/intl.c.po.c:3251
 msgid "Never save settings (resources) on exit"
 msgstr "Non salvare mai le impostazioni in uscita"
@@ -6130,7 +6130,7 @@ msgstr "Sfoglia..."
 #: src/arch/win32/res.rc.po.c:1618 src/arch/win32/res.rc.po.c:3301
 #: src/arch/win32/res.rc.po.c:3485 src/arch/win32/res.rc.po.c:4123
 #: src/arch/win32/res.rc.po.c:4242 src/arch/win32/res.rc.po.c:4757
-#: src/arch/win32/res.rc.po.c:5084 src/arch/win32/resc128.rc.po.c:3076
+#: src/arch/win32/res.rc.po.c:5085 src/arch/win32/resc128.rc.po.c:3076
 #: src/arch/win32/resc128.rc.po.c:3422 src/arch/win32/resc64.rc.po.c:2637
 #: src/arch/win32/resc64.rc.po.c:2813 src/arch/win32/rescbm2.rc.po.c:2252
 #: src/arch/win32/rescbm2.rc.po.c:2474 src/arch/win32/resgeoram.rc.po.c:24
@@ -6415,7 +6415,7 @@ msgstr "Informazioni su VICE"
 #: src/arch/win32/res.rc.po.c:1617 src/arch/win32/res.rc.po.c:2525
 #: src/arch/win32/res.rc.po.c:3300 src/arch/win32/res.rc.po.c:3484
 #: src/arch/win32/res.rc.po.c:4122 src/arch/win32/res.rc.po.c:4241
-#: src/arch/win32/res.rc.po.c:4756 src/arch/win32/res.rc.po.c:5083
+#: src/arch/win32/res.rc.po.c:4756 src/arch/win32/res.rc.po.c:5084
 #: src/arch/win32/resc128.rc.po.c:3075 src/arch/win32/resc128.rc.po.c:3421
 #: src/arch/win32/resc64.rc.po.c:2636 src/arch/win32/resc64.rc.po.c:2812
 #: src/arch/win32/rescbm2.rc.po.c:2251 src/arch/win32/rescbm2.rc.po.c:2473
@@ -6517,7 +6517,7 @@ msgid "&None"
 msgstr "&Nessuno"
 
 #: src/arch/win32/res.rc.po.c:591 src/arch/win32/res.rc.po.c:2975
-#: src/arch/win32/res.rc.po.c:3198 src/arch/win32/res.rc.po.c:5086
+#: src/arch/win32/res.rc.po.c:3198 src/arch/win32/res.rc.po.c:5087
 #: src/arch/win32/resgeoram.rc.po.c:20 src/arch/win32/resvic20.rc.po.c:2526
 msgid "&Browse..."
 msgstr "&Sfoglia..."
@@ -7469,7 +7469,8 @@ msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr "Immagini di dischi (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:5028
-msgid "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+#, fuzzy
+msgid "Tape image files (*.t64;*.tap)"
 msgstr "Immagini di cassette (*.t64;*.p00;*.tap;*.prg)"
 
 #: src/arch/win32/res.rc.po.c:5029
@@ -7500,27 +7501,31 @@ msgstr "Archivi del ROM set (*.vra)"
 msgid "VICE keymap files (*.vkm)"
 msgstr "Mappe della tastiera (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:5036 src/arch/amigaos/intl.c.po.c:3656
+#: src/arch/win32/res.rc.po.c:5036
+msgid "Commodore emulator files (*.prg;*.p00)"
+msgstr ""
+
+#: src/arch/win32/res.rc.po.c:5037 src/arch/amigaos/intl.c.po.c:3656
 msgid "Flexible"
 msgstr "Flessibile"
 
-#: src/arch/win32/res.rc.po.c:5037 src/arch/amigaos/intl.c.po.c:3665
+#: src/arch/win32/res.rc.po.c:5038 src/arch/amigaos/intl.c.po.c:3665
 msgid "Adjusting"
 msgstr "Adattabile"
 
-#: src/arch/win32/res.rc.po.c:5038 src/arch/amigaos/intl.c.po.c:3674
+#: src/arch/win32/res.rc.po.c:5039 src/arch/amigaos/intl.c.po.c:3674
 msgid "Exact"
 msgstr "Esatta"
 
-#: src/arch/win32/res.rc.po.c:5039
+#: src/arch/win32/res.rc.po.c:5040
 msgid "Sound driver: DirectX"
 msgstr "Driver audio: DirectX"
 
-#: src/arch/win32/res.rc.po.c:5040
+#: src/arch/win32/res.rc.po.c:5041
 msgid "Sound driver: WMM"
 msgstr "Driver sonoro: WMM"
 
-#: src/arch/win32/res.rc.po.c:5041
+#: src/arch/win32/res.rc.po.c:5042
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
@@ -7528,36 +7533,36 @@ msgstr ""
 "File multimediali (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*."
 "avi;*.mpg)"
 
-#: src/arch/win32/res.rc.po.c:5042
+#: src/arch/win32/res.rc.po.c:5043
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:5043
+#: src/arch/win32/res.rc.po.c:5044
 msgid "Configure Keyset A"
 msgstr "Configura Keyset A"
 
-#: src/arch/win32/res.rc.po.c:5044
+#: src/arch/win32/res.rc.po.c:5045
 msgid "Configure Keyset B"
 msgstr "Configura Keyset B"
 
-#: src/arch/win32/res.rc.po.c:5045
+#: src/arch/win32/res.rc.po.c:5046
 msgid "Save media image"
 msgstr "Salva immagine multimediale"
 
-#: src/arch/win32/res.rc.po.c:5046 src/arch/amigaos/intl.c.po.c:2495
+#: src/arch/win32/res.rc.po.c:5047 src/arch/amigaos/intl.c.po.c:2495
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr "velocità %s al %d%%, %d fps%s"
 
-#: src/arch/win32/res.rc.po.c:5047
+#: src/arch/win32/res.rc.po.c:5048
 msgid "Tape:"
 msgstr "Cassetta:"
 
-#: src/arch/win32/res.rc.po.c:5048
+#: src/arch/win32/res.rc.po.c:5049
 msgid "Joystick:"
 msgstr "Joystick:"
 
-#: src/arch/win32/res.rc.po.c:5049
+#: src/arch/win32/res.rc.po.c:5050
 #, c-format
 msgid ""
 "Recording\n"
@@ -7566,7 +7571,7 @@ msgstr ""
 "Registrazione\n"
 "%02d:%02d"
 
-#: src/arch/win32/res.rc.po.c:5050
+#: src/arch/win32/res.rc.po.c:5051
 #, c-format
 msgid ""
 "Playback\n"
@@ -7575,58 +7580,58 @@ msgstr ""
 "Riproduzione\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:5051
+#: src/arch/win32/res.rc.po.c:5052
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/arch/win32/res.rc.po.c:5053
+#: src/arch/win32/res.rc.po.c:5054
 msgid "Set input device for joystick #1"
 msgstr "Imposta il dispositivo di input per il joystick 1"
 
-#: src/arch/win32/res.rc.po.c:5054
+#: src/arch/win32/res.rc.po.c:5055
 msgid "Set input device for joystick #2"
 msgstr "Imposta il dispositivo di input per il joystick 2"
 
-#: src/arch/win32/res.rc.po.c:5059
+#: src/arch/win32/res.rc.po.c:5060
 msgid "Use all CPU on SMP systems"
 msgstr "Usa tutte le CPU sui sistemi SMP"
 
-#: src/arch/win32/res.rc.po.c:5060
+#: src/arch/win32/res.rc.po.c:5061
 msgid "Use only first CPU on SMP systems"
 msgstr "Usa solo la prima CPU sui sistemi SMP"
 
-#: src/arch/win32/res.rc.po.c:5061
+#: src/arch/win32/res.rc.po.c:5062
 msgid "Start VICE in fullscreen mode"
 msgstr "Avvia VICE a tutto schermo"
 
-#: src/arch/win32/res.rc.po.c:5063
+#: src/arch/win32/res.rc.po.c:5064
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
 msgstr ""
 "Si è verificato un errore imprevisto. E' stato ricevuto il segnale %d (%s)."
 
-#: src/arch/win32/res.rc.po.c:5065
+#: src/arch/win32/res.rc.po.c:5066
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Si è verificato un errore imprevisto. E' stato ricevuto il segnale %d."
 
-#: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:2180
+#: src/arch/win32/res.rc.po.c:5071 src/arch/amigaos/intl.c.po.c:2180
 msgid "Connected server"
 msgstr "Server connesso"
 
-#: src/arch/win32/res.rc.po.c:5072 src/arch/amigaos/intl.c.po.c:2052
+#: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:2052
 msgid "Invalid port number"
 msgstr "Numero di porta non valido"
 
-#: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:2034
+#: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:2034
 msgid "An error occured starting the server."
 msgstr "Si è verificato un errore all'avvio del server."
 
-#: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:2043
+#: src/arch/win32/res.rc.po.c:5075 src/arch/amigaos/intl.c.po.c:2043
 msgid "An error occured connecting the client."
 msgstr "Si è verificato un errore durante il collegamento col client."
 
-#: src/arch/win32/res.rc.po.c:5085 src/arch/win32/resdrivec128.rc.po.c:48
+#: src/arch/win32/res.rc.po.c:5086 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64.rc.po.c:46
 #: src/arch/win32/resdriveplus4.rc.po.c:34
 #: src/arch/win32/resdrivevic20.rc.po.c:46 src/arch/amigaos/intl.c.po.c:2648

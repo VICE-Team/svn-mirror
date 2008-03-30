@@ -1,3 +1,56 @@
+2007-08-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.1.
+
+	* c64/c64cia1.c, c128/c128cia1.c (store_ciapa): Write access
+	to port a can also trigger a lightpen interrupt if some
+	corresponding key is pressed.
+
+	* arch/unix/Makefile.am: Removed sco directory references.
+
+2007-08-18  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/win32/uiattach.c, arch/win32/uilib.h: split off .prg
+	and .p00 from tape image files filter into a new filter
+
+	* arch/win32/uilib.c: when filling file filter, add new
+	entries at the beginning, rather than at the end, so "All
+	files" is always the last
+
+	* arch/win32/intl.c, /arch/win32/res.rc,
+	arch/win32/resstrings.txt: add one string, change another one
+
+2007-08-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am, arch/unix/rs232.c,
+	arch/unix/sco_sol/convertprototype.c,
+	arch/unix/sco_sol/make-bindist.sh, arch/unix/signals.c,
+	arch/unix/vsyncarch.c, network.c: Added SCO Openserver and
+	Unixware support.
+
+	* arch/unix/solaris/convertprototype.c,
+	arch/unix/solaris/make-bindist.sh: Removed.
+
+2007-08-16  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/unix/x11/gnome/uijoystickkeys.c: use GtkTable so
+	buttons are better aligned.
+
+2007-08-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* 6510core.c: Fixed timing of SHA_ABS_Y, SHX_ABS_Y, SHY_ABS_X
+	and SHS_ABS_Y.
+
+2007-08-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/ui.c: Make sure the window content's are repaint
+	if the user changes with Alt+TAB in full-screen mode, or if
+	the user connects remotely to another machine (for example,
+	via Remote Desktop). This works except for x128 with its two
+	windows, where the bottom status-bar is erroneous after
+	entering fullscreen. Note that this behaviour was present even
+	before this patch.
+
 2007-08-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.

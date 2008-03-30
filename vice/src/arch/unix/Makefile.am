@@ -77,8 +77,8 @@ EXTRA_DIST = \
 	qnx/getlibs.c \
 	qnx/getsize.c \
 	qnx/make-bindist.sh \
-	solaris/convertprototype.c \
-	solaris/make-bindist.sh \
+	sco_sol/convertprototype.c \
+	sco_sol/make-bindist.sh \
 	vsid
 
 .PHONY: x11
@@ -96,4 +96,3 @@ gui:
 .PHONY: macosx
 macosx:
 	(cd macosx; $(MAKE))
-
