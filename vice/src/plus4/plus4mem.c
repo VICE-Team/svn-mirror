@@ -435,8 +435,10 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 static BYTE REGPARM1 fdxx_read(ADDRESS addr)
 {
+#ifdef HAVE_RS232
     if (addr >= 0xfd00 && addr <= 0xfd0f)
         return acia_read(addr);
+#endif
 
     if (addr >= 0xfd10 && addr <= 0xfd1f)
         return pio1_read(addr);
@@ -449,10 +451,12 @@ static BYTE REGPARM1 fdxx_read(ADDRESS addr)
 
 static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
 {
+#ifdef HAVE_RS232
     if (addr >= 0xfd00 && addr <= 0xfd0f) {
         acia_store(addr, value);
         return;
     }
+#endif
     if (addr >= 0xfd10 && addr <= 0xfd1f) {
         pio1_store(addr, value);
         return;
