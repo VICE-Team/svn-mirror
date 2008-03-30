@@ -135,7 +135,7 @@ static int set_idling_method(resource_value_t v)
         return -1;
 
     if (rom_loaded)
-	true1541_rom[0xec9b - 0xc000] = 
+	true1541_rom[0xec9b - 0xc000] =
 	    (idling_method != TRUE1541_IDLE_TRAP_IDLE)
 	    ? 0x00 : true1541_rom_idle_trap;
     idling_method = (int) v;
@@ -253,7 +253,6 @@ int true1541_current_half_track = 36;
 /* If nonzero, the 1541 ROM has already been loaded.  */
 static int rom_loaded = 0;
 
-static int init_complete = 0;
 static int byte_ready = 1;
 
 /* Pointer to the attached disk image.  */
@@ -695,13 +694,13 @@ int true1541_init(CLOCK pal_hz, CLOCK ntsc_hz)
     printf("1541: ROM loaded successfully.\n");
     rom_loaded = 1;
 
-    /* Remove the ROM check. */
+    /* Remove the ROM check.  */
     true1541_rom[0xeae4 - 0xc000] = 0xea;
     true1541_rom[0xeae5 - 0xc000] = 0xea;
     true1541_rom[0xeae8 - 0xc000] = 0xea;
     true1541_rom[0xeae9 - 0xc000] = 0xea;
 
-    /* Trap the idle loop. */
+    /* Trap the idle loop.  */
     true1541_rom_idle_trap = true1541_rom[0xec9b - 0xc000];
     if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
 	true1541_rom[0xec9b - 0xc000] = 0x00;
@@ -1210,10 +1209,9 @@ BYTE true1541_read_viad2_prb(void)
 /* Handle a ROM trap. */
 int true1541_trap_handler(void)
 {
-    if (true1541_cpu_regs.pc == 0xec9b) {
+    if (MOS6510_REGS_GET_PC(&true1541_cpu_regs) == 0xec9b) {
 	/* Idle loop */
-	init_complete = 1;
-	true1541_cpu_regs.pc = 0xebff;
+	MOS6510_REGS_SET_PC(&true1541_cpu_regs, 0xebff);
 	if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
 	    true1541_clk = next_alarm_clk(&true1541_int_status);
     } else
