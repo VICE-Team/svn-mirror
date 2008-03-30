@@ -66,8 +66,8 @@ inline void vic_ii_fetch_matrix(int offs, int num)
     vic_ii.background_color_source = vic_ii.vbuf[offs + num - 1];
 
     /* Set correct background color in in the xsmooth area.
-       Because we are at the end of DMA the changes to xsmooth color
-       cannot take effect on this line (the border is closed)!  */
+       As this only affects the next line, the xsmooth color is immediately
+       set if the right border is opened.  */
     if (offs + num >= VIC_II_SCREEN_TEXTCOLS) {
         switch (vic_ii.get_background_from_vbuf) {
           case VIC_II_HIRES_BITMAP_MODE:
