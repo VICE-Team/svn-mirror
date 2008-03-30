@@ -28,6 +28,7 @@
 #ifndef _TRAPS_H
 #define _TRAPS_H
 
+#include "mem.h"
 #include "types.h"
 
 typedef struct trap_s
@@ -41,6 +42,8 @@ typedef struct trap_s
 #else
     void (*func)();
 #endif
+    read_func_t *readfunc;
+    store_func_t *storefunc;
 } trap_t;
 
 extern void traps_init(void);
