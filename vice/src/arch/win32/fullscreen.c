@@ -46,6 +46,11 @@ raster_t *video_find_raster_for_canvas(canvas_t *canvas);
 
 // ----------------------------------------------
 
+#ifndef HAVE_GUIDLIB
+const GUID IID_IDirectDraw2={0xB3A6F3E0,0x2B43,0x11CF,
+{0xA2,0xDE,0x00,0xAA,0x00,0xB9,0x33,0x56}};
+#endif
+
 typedef struct _DDL {
     struct _DDL *next;
     int         isNullGUID;
