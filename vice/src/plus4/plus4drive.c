@@ -98,11 +98,6 @@ void machine_drive_vsync_hook(void)
     iec_drive_vsync_hook();
 }
 
-void machine_drive_handle_job_code(unsigned int dnr)
-{
-    iec_drive_handle_job_code(dnr);
-}
-
 void machine_drive_rom_load(void)
 {
     iec_drive_rom_load();

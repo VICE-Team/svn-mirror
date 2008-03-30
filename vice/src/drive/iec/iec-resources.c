@@ -60,7 +60,7 @@ static int set_drive_idling_method(resource_value_t v, void *param)
     drive_t *drive;
 
     dnr = (unsigned int)param;
-    drive = drive_context[(unsigned int)param]->drive;
+    drive = drive_context[dnr]->drive;
 
     /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
     if ((int)v != DRIVE_IDLE_SKIP_CYCLES

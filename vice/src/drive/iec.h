@@ -43,7 +43,6 @@ extern void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type);
 extern void iec_drive_setup_context(struct drive_context_s *drv);
 extern void iec_drive_idling_method(unsigned int dnr);
 extern void iec_drive_vsync_hook(void);
-extern void iec_drive_handle_job_code(unsigned int dnr);
 extern void iec_drive_rom_load(void);
 extern void iec_drive_rom_setup_image(unsigned int dnr);
 extern int iec_drive_rom_read(unsigned int type, WORD addr, BYTE *data);

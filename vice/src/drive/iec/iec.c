@@ -128,10 +128,6 @@ void iec_drive_vsync_hook(void)
     wd1770_vsync_hook();
 }
 
-void iec_drive_handle_job_code(unsigned int dnr)
-{
-}
-
 void iec_drive_rom_load(void)
 {
     iecrom_load_1541();

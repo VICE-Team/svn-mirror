@@ -88,10 +88,6 @@ void machine_drive_vsync_hook(void)
 {
 }
 
-void machine_drive_handle_job_code(unsigned int dnr)
-{
-}
-
 void machine_drive_rom_load(void)
 {
     ieee_drive_rom_load();
