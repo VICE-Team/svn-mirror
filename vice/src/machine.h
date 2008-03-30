@@ -163,5 +163,7 @@ extern int machine_romset_file_save(const char *filename);
 extern char *machine_romset_file_list(void);
 extern int machine_romset_archive_item_create(const char *romset_name);
 
+extern BYTE machine_tape_type_default(void);
+
 #endif
 
