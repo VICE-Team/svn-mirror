@@ -710,7 +710,7 @@ static struct MenuPALDepth {
   }
 };
 
-#define Menu_PALMode_Items	3
+#define Menu_PALMode_Items	2
 #define Menu_PALMode_Width	200
 static struct MenuPALMode {
   RO_MenuHead head;
@@ -719,8 +719,7 @@ static struct MenuPALMode {
   MENU_HEADER("\\MenPModeT", Menu_PALMode_Width),
   {
     MENU_ITEM("\\MenPMFast"),
-    MENU_ITEM("\\MenPMSharp"),
-    MENU_ITEM_LAST("\\MenPMBlur")
+    MENU_ITEM_LAST("\\MenPMTrue")
   }
 };
 
@@ -1219,7 +1218,7 @@ static struct MenuDisplayPALMode {
 } MenuDisplayPALMode = {
   {Rsrc_PALMode, {CONF_WIN_VIDEO, Icon_ConfVid_PalModeT},
     (RO_MenuHead*)&MenuPALMode, Menu_PALMode_Items, 0, 0},
-  {VIDEO_RESOURCE_PAL_MODE_FAST, VIDEO_RESOURCE_PAL_MODE_SHARP, VIDEO_RESOURCE_PAL_MODE_BLUR}
+  {VIDEO_RESOURCE_PAL_MODE_FAST, VIDEO_RESOURCE_PAL_MODE_TRUE}
 };
 
 static struct MenuDisplayPetMemory {
