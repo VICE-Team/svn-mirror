@@ -1,5 +1,5 @@
 /*
- * tfe.c - TFE ("The final ethernet" emulation.
+ * tfe.c - TFE ("The final ethernet") emulation.
  *
  * Written by
  *  Spiro Trikaliotis <trik-news@gmx.de>
@@ -46,6 +46,8 @@
 
 /**/
 /** #define TFE_DEBUG_DUMP 1 **/
+
+/* #define TFE_DEBUG_FRAMES - might be defined in TFE.H! */
 
 #define TFE_DEBUG_WARN 1 /* this should not be deactivated */
 /** #define TFE_DEBUG_INIT 1 **/
@@ -281,6 +283,37 @@ static WORD rx_buffer        = TFE_PP_ADDR_RXSTATUS;
 
 /* ------------------------------------------------------------------------- */
 /*    debugging functions                                                    */
+
+#ifdef TFE_DEBUG_FRAMES
+
+static int TfeDebugMaxFrameLengthToDump = 150;
+
+char *debug_outbuffer(const int length, const unsigned char * const buffer)
+{
+#define MAXLEN_DEBUG 1600
+
+    int i;
+    static char outbuffer[MAXLEN_DEBUG*4+1];
+    char *p = outbuffer;
+
+    assert( TfeDebugMaxFrameLengthToDump <= MAXLEN_DEBUG );
+    
+    *p = 0;
+
+    for (i=0; i<TfeDebugMaxFrameLengthToDump; i++) {
+        if (i>=length)
+            break;
+    
+        sprintf( p, "%02X%c", buffer[i], ((i+1)%16==0)?'*':(((i+1)%8==0)?'-':' '));
+        p+=3;
+    }
+
+    return outbuffer;
+}
+
+#endif
+
+
 #ifdef TFE_DEBUG_DUMP
 
 #define NUMBER_PER_LINE 8
@@ -556,6 +589,17 @@ unsigned long crc32(const char *buffer, unsigned int len)
     return crc_result;
 }
 
+#ifdef TFE_DEBUG_FRAMES
+    #define return( _x_ ) \
+    { \
+        int retval = _x_; \
+        \
+        log_message(tfe_log, "%s correct_mac=%u, broadcast=%u, multicast=%u, hashed=%u, hash_index=%u", (retval? "+++ ACCEPTED":"--- rejected"), *pcorrect_mac, *pbroadcast, *pmulticast, *phashed, *phash_index); \
+        \
+        return retval; \
+    }
+
+#endif
 /*
  This is a helper for tfe_receive() to determine if the received frame should be accepted
  according to the settings.
@@ -572,8 +616,20 @@ int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phas
 
     /* first of all, delete any status */
     *phashed      = 0;
+    *phash_index  = 0;
     *pcorrect_mac = 0;
     *pbroadcast   = 0;
+    *pmulticast   = 0;
+
+#ifdef TFE_DEBUG_FRAMES
+    log_message(tfe_log, "tfe_should_accept called with %02X:%02X:%02X:%02X:%02X:%02X, length=%4u and buffer %s", 
+        tfe_ia_mac[0], tfe_ia_mac[1], tfe_ia_mac[2],
+        tfe_ia_mac[3], tfe_ia_mac[4], tfe_ia_mac[5],
+        length,
+        debug_outbuffer(length, buffer)
+        );
+#endif
+
 
     if (   buffer[0]==tfe_ia_mac[0]
         && buffer[1]==tfe_ia_mac[1]
@@ -590,7 +646,7 @@ int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phas
          * that this address fits the hash index 
          */
         if (tfe_recv_mac || tfe_recv_promiscuous) 
-            return 1;
+            return(1);
     }
 
     if (   buffer[0]==0xFF
@@ -604,7 +660,7 @@ int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phas
         *pbroadcast = 1;
 
         /* broadcasts cannot be accepted by the hash filter */
-        return (tfe_recv_broadcast || tfe_recv_promiscuous) ? 1 : 0;
+            return((tfe_recv_broadcast || tfe_recv_promiscuous) ? 1 : 0);
     }
 
 	/* now check if DA passes the hash filter */
@@ -623,13 +679,17 @@ int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phas
              */
             *phashed = 0;
 
-            return (tfe_recv_multicast || tfe_recv_promiscuous) ? 1 : 0;
+            return((tfe_recv_multicast || tfe_recv_promiscuous) ? 1 : 0);
         }
-        return (tfe_recv_hashfilter || tfe_recv_promiscuous) ? 1 : 0;
+        return((tfe_recv_hashfilter || tfe_recv_promiscuous) ? 1 : 0);
     }
        
-    return tfe_recv_promiscuous ? 1 : 0;
+    return(tfe_recv_promiscuous ? 1 : 0);
 }
+
+#ifdef TFE_DEBUG_FRAMES
+    #undef return
+#endif
 
 static 
 WORD tfe_receive(void)
@@ -650,6 +710,10 @@ WORD tfe_receive(void)
     int  newframe;
 
     int  ready;
+
+#ifdef TFE_DEBUG_FRAMES
+    log_message( tfe_log, "");
+#endif
 
     do {
         len = MAX_RXLENGTH;
@@ -672,6 +736,10 @@ WORD tfe_receive(void)
         if (newframe) {
             if (hashed || correct_mac || broadcast) {
                 /* we already know the type of frame: Trust it! */
+#ifdef TFE_DEBUG_FRAMES
+                log_message( tfe_log, "+++ tfe_receive(): *** hashed=%u, correct_mac=%u, "
+                    "broadcast=%u", hashed, correct_mac, broadcast);
+#endif
             }
             else {
                 /* determine ourself the type of frame */
@@ -731,6 +799,11 @@ WORD tfe_receive(void)
         }
     } while (!ready);
 
+#ifdef TFE_DEBUG_FRAMES
+    if (ret_val != 0x0004)
+        log_message( tfe_log, "+++ tfe_receive(): ret_val=%04X", ret_val);
+#endif
+
     return ret_val;
 }
 
@@ -757,6 +830,13 @@ void tfe_sideeffects_write_pp_on_txframe(WORD ppaddress)
         else {
             /* clear BusST */
             SET_PP_16(TFE_PP_ADDR_SE_BUSST, busst & ~0x180);
+
+#ifdef TFE_DEBUG_FRAMES
+            log_message(tfe_log, "tfe_arch_transmit() called with:                 "
+                "length=%4u and buffer %s", txlen,
+                debug_outbuffer(txlen, &tfe_packetpage[TFE_PP_ADDR_TX_FRAMELOC])
+                );
+#endif
 
             tfe_arch_transmit(
                 txcmd & 0x0100 ? 1 : 0,   /* FORCE: Delete waiting frames in transmit buffer */
@@ -1059,7 +1139,7 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
     case TFE_ADDR_PP_DATA+1:
         /* make sure the TFE register have the correct content */
         {
-            WORD ppaddress = tfe_packetpage_ptr & MAX_PACKETPAGE_ARRAY-1;
+            WORD ppaddress = tfe_packetpage_ptr & (MAX_PACKETPAGE_ARRAY-1);
 
             /* perform side-effects the read may perform */
             tfe_sideeffects_read_pp( ppaddress );

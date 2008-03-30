@@ -55,6 +55,8 @@ typedef int (*pcap_sendpacket_t)(pcap_t *p, u_char *buf, int size);
 /** #define TFE_DEBUG_ARCH 1 **/
 /** #define TFE_DEBUG_PKTDUMP 1 **/
 
+/* #define TFE_DEBUG_FRAMES - might be defined in TFE.H! */
+
 #define TFE_DEBUG_WARN 1 /* this should not be deactivated */
 
 static pcap_open_live_t   p_pcap_open_live;
@@ -347,7 +349,7 @@ void tfe_arch_deactivate( void )
 
 void tfe_arch_set_mac( const BYTE mac[6] )
 {
-#ifdef TFE_DEBUG_ARCH
+#if defined(TFE_DEBUG_ARCH) || defined(TFE_DEBUG_FRAMES)
     log_message( tfe_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.",
         mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] );
 #endif
@@ -355,7 +357,7 @@ void tfe_arch_set_mac( const BYTE mac[6] )
 
 void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
 {
-#ifdef TFE_DEBUG_ARCH
+#if defined(TFE_DEBUG_ARCH) || defined(TFE_DEBUG_FRAMES)
     log_message( tfe_arch_log, "New hash filter set: %08X:%08X.",
         hash_mask[1], hash_mask[0]);
 #endif
@@ -379,7 +381,7 @@ void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
                         int bIAHash       /* accept if IA passes the hash filter */
                       )
 {
-#ifdef TFE_DEBUG_ARCH
+#if defined(TFE_DEBUG_ARCH) || defined(TFE_DEBUG_FRAMES)
     log_message( tfe_arch_log, "tfe_arch_recv_ctl() called with the following parameters:" );
     log_message( tfe_arch_log, "\tbBroadcast   = %s", bBroadcast   ? "TRUE" : "FALSE" );
     log_message( tfe_arch_log, "\tbIA          = %s", bIA          ? "TRUE" : "FALSE" );
@@ -392,7 +394,7 @@ void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
 
 void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
-#ifdef TFE_DEBUG_ARCH
+#if defined(TFE_DEBUG_ARCH) || defined(TFE_DEBUG_FRAMES)
     log_message( tfe_arch_log, "tfe_arch_line_ctl() called with the following parameters:" );
     log_message( tfe_arch_log, "\tbEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE" );
     log_message( tfe_arch_log, "\tbEnableReceiver    = %s", bEnableReceiver    ? "TRUE" : "FALSE" );

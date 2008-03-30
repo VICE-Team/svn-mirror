@@ -34,6 +34,12 @@
 
 #include "types.h"
 
+/* define this only if VICE should write each and every frame received
+   and send into the VICE log
+   WARNING: The log grows very fast!
+*/
+/** #define TFE_DEBUG_FRAMES **/
+
 struct snapshot_s;
 
 extern int tfe_enabled;
