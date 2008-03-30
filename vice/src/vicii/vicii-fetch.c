@@ -76,11 +76,11 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff)
         c = 0x3ff - start_char + 1;
 
         if (c >= num) {
-            memcpy(vicii.vbuf + offs, vicii.screen_base + start_char, num);
+            memcpy(vicii.vbuf + offs, vicii.screen_base_phi2 + start_char, num);
             memcpy(vicii.cbuf + offs, mem_color_ram_vicii + start_char, num);
         } else {
-            memcpy(vicii.vbuf + offs, vicii.screen_base + start_char, c);
-            memcpy(vicii.vbuf + offs + c, vicii.screen_base, num - c);
+            memcpy(vicii.vbuf + offs, vicii.screen_base_phi2 + start_char, c);
+            memcpy(vicii.vbuf + offs + c, vicii.screen_base_phi2, num - c);
             memcpy(vicii.cbuf + offs, mem_color_ram_vicii + start_char, c);
             memcpy(vicii.cbuf + offs + c, mem_color_ram_vicii, num - c);
         }
@@ -349,46 +349,59 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     unsigned int i;
     int next_cycle, num_cycles;
     raster_sprite_status_t *sprite_status;
-    BYTE *bank, *spr_base;
+    BYTE *bank_phi1, *bank_phi2, *spr_base;
 
     sf = &vicii_sprites_fetch_table[vicii.sprite_fetch_msk][vicii.sprite_fetch_idx];
 
     sprite_status = vicii.raster.sprite_status;
     /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
        sequence. This is of minor interest, though, only for CBM-II... */
-    bank = vicii.ram_base_phi1 + vicii.vbank_phi1;
-    spr_base = vicii.screen_base + 0x3f8 + sf->first;
+    bank_phi1 = vicii.ram_base_phi1 + vicii.vbank_phi1;
+    bank_phi2 = vicii.ram_base_phi2 + vicii.vbank_phi2;
+    spr_base = vicii.screen_base_phi1 + 0x3f8 + sf->first;
 
     /* Fetch sprite data.  */
     for (i = sf->first; i <= sf->last; i++, spr_base++) {
         if (vicii.sprite_fetch_msk & (1 << i)) {
-            BYTE *src;
+            BYTE *src_phi1, *src_phi2;
             BYTE *dest;
             int my_memptr;
 
 #ifdef DEBUG
             if (debug.maincpu_traceflg)
-                log_debug("SDMA %i",i);
+                log_debug("SDMA %i", i);
 #endif
 
-            src = bank + (*spr_base << 6);
+            src_phi1 = bank_phi1 + (*spr_base << 6);
+            src_phi2 = bank_phi2 + (*spr_base << 6);
             my_memptr = sprite_status->sprites[i].memptr;
             dest = (BYTE *)(sprite_status->new_sprite_data + i);
 
             if (cart_ultimax_phi1) {
                 if (*spr_base >= 0xc0)
-                    src = (romh_banks + 0x1000 + (romh_bank << 13)
-                          + ((*spr_base - 0xc0) << 6));
+                    src_phi1 = (romh_banks + 0x1000 + (romh_bank << 13)
+                               + ((*spr_base - 0xc0) << 6));
             } else {
                 if (((vicii.vbank_phi1 + (*spr_base << 6))
                     & vicii.vaddr_chargen_mask_phi1)
                     == vicii.vaddr_chargen_value_phi1)
-                    src = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
+                    src_phi1 = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
             }
 
-            dest[0] = src[my_memptr];
-            dest[1] = src[++my_memptr & 0x3f];
-            dest[2] = src[++my_memptr & 0x3f];
+            if (cart_ultimax_phi2) {
+                if (*spr_base >= 0xc0)
+                    src_phi2 = (romh_banks + 0x1000 + (romh_bank << 13)
+                               + ((*spr_base - 0xc0) << 6));
+            } else {
+                if (((vicii.vbank_phi2 + (*spr_base << 6))
+                    & vicii.vaddr_chargen_mask_phi2)
+                    == vicii.vaddr_chargen_value_phi2)
+                    src_phi2 = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
+            }
+
+            dest[0] = src_phi2[my_memptr];
+            dest[1] = src_phi1[++my_memptr & 0x3f];
+            dest[2] = src_phi2[++my_memptr & 0x3f];
         }
     }
 
