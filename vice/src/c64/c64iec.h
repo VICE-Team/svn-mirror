@@ -40,6 +40,7 @@ extern void iec_cpu_write_conf1(BYTE data);
 extern void iec_cpu_write_conf2(BYTE data);
 extern void iec_cpu_write_conf3(BYTE data);
 extern void iec_cpu_undump(BYTE data);
+extern void parallel_cable_cpu_execute(void);
 extern void parallel_cable_cpu_write(BYTE data);
 extern void parallel_cable_cpu_pulse(void);
 extern BYTE parallel_cable_cpu_read(void);

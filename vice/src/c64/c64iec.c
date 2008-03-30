@@ -300,13 +300,24 @@ BYTE parallel_cable_drive_read(int handshake)
         & parallel_cable_drive1_value;
 }
 
+void parallel_cable_cpu_execute(void)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if (drive_context[dnr]->drive->enable
+            && drive_context[dnr]->drive->parallel_cable_enabled)
+            drivecpu_execute(drive_context[dnr], maincpu_clk);
+    }
+}
+
 void parallel_cable_cpu_write(BYTE data)
 {
     if (!(drive_context[0]->drive->enable)
         && !(drive_context[1]->drive->enable))
         return;
 
-    drivecpu_execute_all(maincpu_clk);
+    parallel_cable_cpu_execute();
 
     parallel_cable_cpu_value = data;
 }
@@ -315,9 +326,9 @@ BYTE parallel_cable_cpu_read(void)
 {
     if (!(drive_context[0]->drive->enable)
         && !(drive_context[1]->drive->enable))
-        return 0;
+        return 0xff;
 
-    drivecpu_execute_all(maincpu_clk);
+    parallel_cable_cpu_execute();
 
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
@@ -325,14 +336,20 @@ BYTE parallel_cable_cpu_read(void)
 
 void parallel_cable_cpu_pulse(void)
 {
+    unsigned int dnr;
+
     if (!(drive_context[0]->drive->enable)
         && !(drive_context[1]->drive->enable))
         return;
 
-    drivecpu_execute_all(maincpu_clk);
+    parallel_cable_cpu_execute();
 
-    viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
-    viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if (drive_context[dnr]->drive->enable
+            && drive_context[dnr]->drive->parallel_cable_enabled)
+            viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1,
+                           VIA_SIG_FALL);
+    }
 }
 
 void parallel_cable_cpu_undump(BYTE data)
