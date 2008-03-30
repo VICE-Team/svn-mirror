@@ -52,7 +52,7 @@
 #include "rs232.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "tapeunit.h"
+#include "tape.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdc.h"
