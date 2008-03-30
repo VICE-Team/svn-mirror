@@ -690,8 +690,8 @@ snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
 	lib.h ioutil.h log.h snapshot.h arch/unix/types.h vsync.h \
 	zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	fixpoint.h lib.h log.h machine.h maincpu.h resources.h sound.h \
-	arch/unix/ui.h uiapi.h utils.h vsync.h
+	debug.h fixpoint.h lib.h log.h machine.h maincpu.h resources.h \
+	sound.h arch/unix/ui.h uiapi.h utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h findpath.h ioutil.h lib.h log.h resources.h sysfile.h \
 	arch/unix/types.h utils.h
@@ -701,7 +701,7 @@ traps.o: traps.c vice.h config.h cmdline.h interrupt.h arch/unix/types.h \
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h lib.h \
 	log.h utils.h arch/unix/types.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	log.h maincpu.h machine.h resources.h sound.h vsync.h \
+	debug.h log.h maincpu.h machine.h resources.h sound.h vsync.h \
 	vsyncapi.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
 	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
 	arch/unix/x11/xaw/../videoarch.h video.h viewport.h \

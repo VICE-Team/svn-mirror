@@ -403,12 +403,11 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
-	../../src/screenshot.h ../../src/snapshot.h \
-	ted-cmdline-options.h ted-color.h ted-draw.h ted-fetch.h \
-	ted-irq.h ted-mem.h ted-resources.h ted-snapshot.h ted-sound.h \
-	ted-timer.h ted.h tedtypes.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h \
-	../../src/utils.h ../../src/vsync.h \
+	../../src/screenshot.h ted-cmdline-options.h ted-color.h \
+	ted-draw.h ted-fetch.h ted-irq.h ted-mem.h ted-resources.h \
+	ted-snapshot.h ted-sound.h ted-timer.h ted.h tedtypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h ../../src/utils.h ../../src/vsync.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \

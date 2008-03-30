@@ -333,7 +333,6 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	uiarch.h ../videoarch.h ../../../../../src/video.h \
 	../../../../../src/viewport.h ../xaw/uiarch.h \
 	../../../../../src/vsync.h
-ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h
 uicartridge.o: uicartridge.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/arch/unix/uicartridge.h \
