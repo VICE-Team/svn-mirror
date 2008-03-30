@@ -1,10 +1,8 @@
 docdir = $(prefix)/lib/vice/doc
 
 doc_DATA = \
-	images/navbarlogo.gif \
 	images/new.gif \
 	images/vice-logo.jpg \
-	images/vice-sublogo.jpg \
 	index.html \
 	plain/64doc.txt \
 	plain/BUGS \
