@@ -47,6 +47,7 @@
 
 #include "clkguard.h"
 #include "cmdline.h"
+#include "debug.h"
 #include "log.h"
 #include "maincpu.h"
 #include "machine.h"
@@ -421,7 +422,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      * Allow up to one second lag.
      */
     if ((signed long)(now - next_frame_start) >= vsyncarch_freq) {
-#ifndef __OS2__
+#if !defined(__OS2__) && !defined(DEBUG)
         if (!warp_mode_enabled && relative_speed) {
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
         }

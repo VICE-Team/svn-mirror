@@ -60,6 +60,13 @@ static int set_drive_traceflg(resource_value_t v, void *param)
     debug.drivecpu_traceflg[(int)param] = (int)v;
     return 0;
 }
+
+static int set_trace_small(resource_value_t v, void *param)
+{
+    debug.trace_small = (int)v;
+    return 0;
+}
+
 #endif
 
 /* Debug-related resources. */
@@ -77,6 +84,9 @@ static const resource_t resources[] = {
     { "Drive1CPU_TRACE", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&debug.drivecpu_traceflg[1],
       set_drive_traceflg, (void *)1 },
+    { "TraceSmall", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&debug.trace_small,
+      set_trace_small, NULL },
 #endif
     { NULL }
 };
@@ -106,6 +116,12 @@ static const cmdline_option_t cmdline_options[] = {
     { "+trace_drive1", SET_RESOURCE, 0, NULL, NULL,
       "Drive1CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive1 CPU" },
+    { "-trace_small", SET_RESOURCE, 0, NULL, NULL,
+      "TraceSmall", (resource_value_t)1,
+      NULL, "Make debug output small and compact" },
+    { "+trace_small", SET_RESOURCE, 0, NULL, NULL,
+      "TraceSmall", (resource_value_t)0,
+      NULL, "Do not make debug output small and compact" },
 #endif
     { NULL }
 };
@@ -131,9 +147,34 @@ void debug_set_machine_parameter(unsigned int cycles, unsigned int lines)
 void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
                    BYTE reg_x, BYTE reg_y, BYTE reg_sp)
 {
-    log_debug(".%04X %03i %03i %10ld  %-20s A=$%02X X=$%02X Y=$%02X SP=$%02X",
-              reg_pc, RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
-              reg_a, reg_x, reg_y, reg_sp);
+    if (debug.trace_small) {
+        char small_dis[7];
+
+        small_dis[0] = dis[0];
+        small_dis[1] = dis[1];
+
+        if (dis[3] == ' ') {
+            small_dis[2] = '\0';
+        } else {
+            small_dis[2] = dis[3];
+            small_dis[3] = dis[4];
+            if (dis[6] == ' ') {
+                small_dis[4] = '\0';
+            } else {
+                small_dis[4] = dis[6];
+                small_dis[5] = dis[7];
+                small_dis[6] = '\0';
+            }  
+        }
+
+        log_debug("%04X %ld %02X%02X%02X %s",
+                  reg_pc, (long)mclk, reg_a, reg_x, reg_y, small_dis);
+    } else {
+        log_debug(".%04X %03i %03i %10ld  %-20s "
+                  "A=$%02X X=$%02X Y=$%02X SP=$%02X",
+                  reg_pc, RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                  reg_a, reg_x, reg_y, reg_sp);
+    }
 }
 
 void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a)
