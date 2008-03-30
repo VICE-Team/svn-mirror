@@ -46,9 +46,9 @@ BEGIN
             MENUITEM "&Forward",                  IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Rewind",                   IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",                   IDM_DATASETTE_CONTROL_RECORD
-#if 0
             MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
-#endif
+            MENUITEM "Reset with &Main-CPU",      IDM_DATASETTE_RESET_WITH_CPU, CHECKED
+            MENUITEM "Reset C&ounter",            IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
         MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR

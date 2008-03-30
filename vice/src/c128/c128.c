@@ -195,6 +195,7 @@ int machine_init_resources(void)
 #endif
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
+        || datasette_init_resources() < 0
         || mmu_init_resources() < 0
         || z80mem_init_resources() < 0)
         return -1;
@@ -228,6 +229,7 @@ int machine_init_cmdline_options(void)
 #endif
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
+        || datasette_init_cmdline_options() < 0
         || mmu_init_cmdline_options() < 0
         || z80mem_init_cmdline_options() < 0)
         return -1;
@@ -272,6 +274,9 @@ int machine_init(void)
     /* Initialize the tape emulation.  */
     tape_init(0xb2, 0x90, 0x93, 0xa09, 0, 0xc1, 0xae, 0x34a, 0xd0,
               c128_tape_traps);
+
+    /* Initialize the datasette emulation.  */
+    datasette_init();
 
     /* Fire up the hardware-level drive emulation.  */
     drive_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);

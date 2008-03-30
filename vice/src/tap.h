@@ -54,6 +54,12 @@ typedef struct tap_s {
     /* Header offset.  */
     int offset;
 
+    /* Tape counter in machine-cycles/8 for even looong tapes */
+    long cycle_counter;
+
+    /* Tape length in machine-cycles/8 */
+    long cycle_counter_total;
+
     /* Tape counter.  */
     int counter;
 

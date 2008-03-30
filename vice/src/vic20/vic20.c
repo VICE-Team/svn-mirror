@@ -176,6 +176,7 @@ int machine_init_resources(void)
 #endif
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
+        || datasette_init_resources() < 0
         || cartridge_init_resources() <0)
         return -1;
 
@@ -202,6 +203,7 @@ int machine_init_cmdline_options(void)
 #endif
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
+        || datasette_init_cmdline_options() < 0
         || cartridge_init_cmdline_options() < 0)
         return -1;
 

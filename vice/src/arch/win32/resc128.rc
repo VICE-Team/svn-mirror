@@ -46,10 +46,10 @@ BEGIN
             MENUITEM "&Start",                    IDM_DATASETTE_CONTROL_START
             MENUITEM "&Forward",                  IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Rewind",                   IDM_DATASETTE_CONTROL_REWIND
-#if 0
             MENUITEM "Re&cord",                   IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
-#endif
+            MENUITEM "Reset with &Main-CPU",      IDM_DATASETTE_RESET_WITH_CPU, CHECKED
+            MENUITEM "Reset C&ounter",            IDM_DATASETTE_RESET_COUNTER
         END
 #endif
         MENUITEM SEPARATOR

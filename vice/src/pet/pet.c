@@ -139,6 +139,7 @@ int machine_init_resources(void)
         || pia1_init_resources() < 0
         || sound_init_resources() < 0
         || drive_init_resources() < 0
+        || datasette_init_resources() < 0
         || acia1_init_resources() < 0
 #ifdef HAVE_RS232
 	|| rs232_init_resources() < 0
@@ -171,6 +172,7 @@ int machine_init_cmdline_options(void)
         || pia1_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
+        || datasette_init_cmdline_options() < 0
         || acia1_init_cmdline_options() < 0
 #ifdef HAVE_RS232
 	|| rs232_init_cmdline_options() < 0
