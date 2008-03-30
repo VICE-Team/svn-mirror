@@ -387,21 +387,29 @@ static int set_drive1_idling_method(resource_value_t v)
 
 static int set_sync_factor(resource_value_t v)
 {
+    int change_timing = 0;
+
+    if (sync_factor != (int)v)
+        change_timing = 1;
+
     switch ((int) v) {
       case DRIVE_SYNC_PAL:
         sync_factor = (int) v;
         drive_set_pal_sync_factor();
-        machine_change_timing(DRIVE_SYNC_PAL);
+        if (change_timing)
+            machine_change_timing(DRIVE_SYNC_PAL);
         break;
       case DRIVE_SYNC_NTSC:
         sync_factor = (int) v;
         drive_set_ntsc_sync_factor();
-        machine_change_timing(DRIVE_SYNC_NTSC);
+        if (change_timing)
+            machine_change_timing(DRIVE_SYNC_NTSC);
         break;
       case DRIVE_SYNC_NTSCOLD:
         sync_factor = (int) v;
         drive_set_ntsc_sync_factor();
-        machine_change_timing(DRIVE_SYNC_NTSCOLD);
+        if (change_timing)
+            machine_change_timing(DRIVE_SYNC_NTSCOLD);
         break;
       default:
         if ((int) v > 0) {
