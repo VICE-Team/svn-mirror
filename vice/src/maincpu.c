@@ -396,7 +396,7 @@ void maincpu_mainloop(void)
 
         maincpu_int_status->num_dma_per_opcode = 0;
 #if 0
-        if (CLK > 278310000)
+        if (CLK > 246171754)
             debug.maincpu_traceflg = 1;
 #endif
     }
