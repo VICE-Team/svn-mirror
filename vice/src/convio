@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 #
-# $Id: convcia,v 1.1 1997/05/22 22:00:59 fachat Exp ettore $
-#
 # This file is part of VICE, the Versatile Commodore Emulator.
 # See README for copyright notice.
 #
@@ -10,10 +8,6 @@
 #
 # Written (i.e. taken from convop script) by
 #   André Fachat (fachat@physik.tu-chemnitz.de)
-#
-# $Log: convcia,v $
-# Revision 1.1  1997/05/22 22:00:59  fachat
-# Initial revision
 #
 #
 
@@ -32,7 +26,6 @@ sub doit {
   $TEMPL= $_[0];
   $CIAD = $_[1];
   $CIAO = $_[2];
-#  $NUM  = $_[3];
 
   @DEFVAL = ();
   %DEFINE = ();
@@ -89,8 +82,6 @@ sub doit {
   while(<I>) {
     chomp;
     s/\n//g;
-#    s/mycia/cia$NUM/g;
-#    s/MYCIA/CIA$NUM/g;
 
     $t = $_;
     $i = 0;
@@ -107,11 +98,7 @@ sub doit {
     if($FUNC{$_}) {
       print O $FUNC{$_};
     } else {
-#      if($DEFINE{$_}) {
-#        print O $DEFINE{$_};
-#      } else {
-        print O "$f\n";
-#      }
+      print O "$f\n";
     }
   }
   close (O);
