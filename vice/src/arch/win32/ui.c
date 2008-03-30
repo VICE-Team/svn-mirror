@@ -982,6 +982,7 @@ char *dname;
             }
             if ((s = ui_select_file(hwnd,"Attach disk image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
+                "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
                 "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,
                 &autostart_filename)) != NULL) {
                 if (autostart_filename!=NULL) {
@@ -1039,6 +1040,7 @@ char *dname;
 
             if ((s = ui_select_file(hwnd,"Attach tape image",
                 "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
+                "Zipped files (*.zip;*.gz;*.bz2;*.t6z;*.p0z;*.taz;*.prz)\0*.zip;*.bz2;*.gz;*.t6z;*.p0z;*.taz;*.prz\0"
                 "All files (*.*)\0*.*\0", FILE_SELECTOR_TAPE_STYLE,
                 &autostart_filename)) != NULL) {
                 if (autostart_filename!=NULL) {
@@ -1086,6 +1088,7 @@ char *dname;
             if ((s = ui_select_file(hwnd,"Autostart disk/tape image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
                 "Tape image files (*.t64;*.p00;*.tap;*.prg)\0*.t64;*.p00;*.tap;*.prg\0"
+                "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.t6z;*.p0z;*.taz;*.prz)\0*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.t6z;*.p0z;*.taz;*.prz\0"
                 "All files (*.*)\0*.*\0",
                 FILE_SELECTOR_DISK_AND_TAPE_STYLE,
                 &autostart_filename)) != NULL) {

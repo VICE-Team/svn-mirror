@@ -517,122 +517,137 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
-attach.o: attach.c vice.h config.h attach.h diskimage.h \
-	arch/unix/types.h drive/drive.h log.h drive/fdc.h fsdevice.h \
-	fliplist.h resources.h serial.h snapshot.h arch/unix/ui.h \
-	uiapi.h arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h \
-	vdrive/vdrive-iec.h drive/wd1770.h
-autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
-	autostart.h arch/unix/types.h attach.h charsets.h datasette.h \
-	fsdevice.h imagecontents.h interrupt.h 6510core.h kbdbuf.h \
-	log.h machine.h mem.h p00.h resources.h serial.h snapshot.h \
-	tape.h arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
-	utils.h vdrive/vdrive.h zfile.h
-c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
-	charsets.h diskimage.h arch/unix/types.h gcr.h info.h log.h \
-	p00.h serial.h snapshot.h t64.h utils.h vdrive/vdrive-bam.h \
-	vdrive/vdrive-command.h vdrive/vdrive-dir.h vdrive/vdrive-iec.h \
-	vdrive/vdrive.h zipcode.h
-charsets.o: charsets.c vice.h config.h charsets.h log.h \
-	arch/unix/types.h
-ciatimer.o: ciatimer.c vice.h config.h alarm.h arch/unix/types.h \
-	ciatimer.h snapshot.h interrupt.h 6510core.h
-clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
-	utils.h
-cmdline.o: cmdline.c vice.h config.h arch/unix/archdep.h archapi.h \
-	cmdline.h resources.h arch/unix/types.h arch/unix/uicmdline.h \
-	utils.h
-datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
-	clkguard.h cmdline.h resources.h datasette.h log.h machine.h \
-	maincpu.h 6510core.h tap.h arch/unix/ui.h uiapi.h \
-	arch/unix/x11/xaw/uiarch.h
-diskimage.o: diskimage.c vice.h config.h arch/unix/archdep.h archapi.h \
-	diskimage.h arch/unix/types.h gcr.h log.h utils.h \
-	vdrive/vdrive.h zfile.h
-emuid.o: emuid.c arch/unix/types.h vice.h config.h
-findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
-	findpath.h utils.h arch/unix/types.h
-fliplist.o: fliplist.c vice.h config.h attach.h fliplist.h log.h utils.h \
-	arch/unix/types.h
-fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
-	attach.h charsets.h cmdline.h resources.h fsdevice.h log.h \
-	p00.h arch/unix/types.h serial.h utils.h \
-	vdrive/vdrive-command.h vdrive/vdrive.h
-gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
-imagecontents.o: imagecontents.c vice.h config.h arch/unix/archdep.h \
-	archapi.h charsets.h diskimage.h arch/unix/types.h \
-	imagecontents.h log.h serial.h t64.h utils.h \
+alarm.o: alarm.c vice.h config.h arch/win32/lose32.h alarm.h \
+	arch/win32/types.h log.h utils.h
+attach.o: attach.c vice.h config.h arch/win32/lose32.h attach.h \
+	diskimage.h arch/win32/types.h drive/drive.h log.h drive/fdc.h \
+	fsdevice.h fliplist.h resources.h serial.h snapshot.h \
+	arch/win32/ui.h uiapi.h video.h arch/win32/videoarch.h utils.h \
+	vdrive/vdrive.h vdrive/vdrive-iec.h drive/wd1770.h
+autostart.o: autostart.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h autostart.h arch/win32/types.h \
+	attach.h charsets.h datasette.h fsdevice.h imagecontents.h \
+	interrupt.h 6510core.h kbdbuf.h log.h machine.h mem.h p00.h \
+	resources.h serial.h snapshot.h tape.h arch/win32/ui.h uiapi.h \
+	video.h arch/win32/videoarch.h utils.h vdrive/vdrive.h zfile.h
+c1541.o: c1541.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h charsets.h diskimage.h \
+	arch/win32/types.h gcr.h info.h log.h p00.h serial.h snapshot.h \
+	t64.h utils.h vdrive/vdrive-bam.h vdrive/vdrive-command.h \
+	vdrive/vdrive-dir.h vdrive/vdrive-iec.h vdrive/vdrive.h \
+	zipcode.h
+charsets.o: charsets.c vice.h config.h arch/win32/lose32.h charsets.h \
+	log.h arch/win32/types.h
+ciatimer.o: ciatimer.c vice.h config.h arch/win32/lose32.h alarm.h \
+	arch/win32/types.h ciatimer.h snapshot.h interrupt.h 6510core.h
+clkguard.o: clkguard.c vice.h config.h arch/win32/lose32.h clkguard.h \
+	arch/win32/types.h utils.h
+cmdline.o: cmdline.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h cmdline.h resources.h \
+	arch/win32/types.h arch/win32/uicmdline.h utils.h
+datasette.o: datasette.c vice.h config.h arch/win32/lose32.h alarm.h \
+	arch/win32/types.h clkguard.h cmdline.h resources.h datasette.h \
+	log.h machine.h maincpu.h 6510core.h tap.h arch/win32/ui.h \
+	uiapi.h video.h arch/win32/videoarch.h
+diskimage.o: diskimage.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h diskimage.h arch/win32/types.h \
+	gcr.h log.h utils.h vdrive/vdrive.h zfile.h
+emuid.o: emuid.c arch/win32/types.h vice.h config.h arch/win32/lose32.h
+findpath.o: findpath.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h findpath.h utils.h \
+	arch/win32/types.h
+fliplist.o: fliplist.c vice.h config.h arch/win32/lose32.h attach.h \
+	fliplist.h log.h utils.h arch/win32/types.h
+fsdevice.o: fsdevice.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/dirent.h arch/win32/archdep.h archapi.h attach.h \
+	charsets.h cmdline.h resources.h fsdevice.h log.h p00.h \
+	arch/win32/types.h serial.h utils.h vdrive/vdrive-command.h \
+	vdrive/vdrive.h
+gcr.o: gcr.c vice.h config.h arch/win32/lose32.h gcr.h \
+	arch/win32/types.h utils.h
+imagecontents.o: imagecontents.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h charsets.h diskimage.h \
+	arch/win32/types.h imagecontents.h log.h serial.h t64.h utils.h \
 	vdrive/vdrive-bam.h vdrive/vdrive-dir.h vdrive/vdrive.h zfile.h
 info.o: info.c
-interrupt.o: interrupt.c vice.h config.h interrupt.h 6510core.h \
-	arch/unix/types.h log.h snapshot.h
-kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h resources.h maincpu.h \
-	6510core.h arch/unix/types.h mem.h kbdbuf.h utils.h
-keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
-	keyboard.h maincpu.h 6510core.h
-log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
-	resources.h log.h utils.h arch/unix/types.h
-main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
-	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
-	resources.h console.h diskimage.h drive/drive.h log.h \
-	drive/drivecpu.h fsdevice.h interrupt.h 6510core.h \
-	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
-	machine.h maincpu.h arch/unix/main_exit.h sysfile.h tape.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
-	vdrive/vdrive.h version.h video.h arch/unix/videoarch.h \
-	arch/unix/x11/xaw/videoarch.h arch/unix/x11/xaw/../videoarch.h \
-	arch/unix/mouse.h
-maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
-	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
-	monitor/mon.h mos6510.h snapshot.h traps.h arch/unix/ui.h \
-	uiapi.h arch/unix/x11/xaw/uiarch.h 6510core.c
-p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
-palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
-	palette.h arch/unix/types.h sysfile.h utils.h
-parallel.o: parallel.c vice.h config.h cmdline.h resources.h \
-	drive/drive.h log.h arch/unix/types.h drive/drivecpu.h \
-	maincpu.h 6510core.h parallel.h serial.h
-petcat.o: petcat.c vice.h config.h charsets.h p00.h arch/unix/types.h
-prdevice.o: prdevice.c vice.h config.h charsets.h cmdline.h resources.h \
-	log.h prdevice.h print.h arch/unix/types.h serial.h utils.h \
-	vdrive/vdrive.h
-pruser.o: pruser.c vice.h config.h cmdline.h resources.h print.h \
-	arch/unix/types.h pruser.h
-resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
-	log.h resources.h utils.h arch/unix/types.h
-romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
-	mem.h arch/unix/types.h resources.h romset.h sysfile.h utils.h
+interrupt.o: interrupt.c vice.h config.h arch/win32/lose32.h interrupt.h \
+	6510core.h arch/win32/types.h log.h snapshot.h
+kbdbuf.o: kbdbuf.c vice.h config.h arch/win32/lose32.h cmdline.h \
+	resources.h maincpu.h 6510core.h arch/win32/types.h mem.h \
+	kbdbuf.h utils.h
+keyboard.o: keyboard.c vice.h config.h arch/win32/lose32.h alarm.h \
+	arch/win32/types.h keyboard.h maincpu.h 6510core.h
+log.o: log.c vice.h config.h arch/win32/lose32.h arch/win32/archdep.h \
+	archapi.h cmdline.h resources.h log.h utils.h \
+	arch/win32/types.h
+main.o: main.c vice.h config.h arch/win32/lose32.h arch/win32/archdep.h \
+	archapi.h attach.h autostart.h arch/win32/types.h cartridge.h \
+	charsets.h cmdline.h resources.h console.h diskimage.h \
+	drive/drive.h log.h drive/drivecpu.h fsdevice.h interrupt.h \
+	6510core.h arch/win32/joystick.h arch/win32/kbd.h kbdbuf.h \
+	keyboard.h machine.h maincpu.h arch/win32/main_exit.h sysfile.h \
+	tape.h arch/win32/ui.h uiapi.h video.h arch/win32/videoarch.h \
+	utils.h vdrive/vdrive.h version.h arch/win32/mouse.h
+maincpu.o: maincpu.c vice.h config.h arch/win32/lose32.h 6510core.h \
+	arch/win32/types.h alarm.h clkguard.h interrupt.h log.h \
+	machine.h maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h \
+	traps.h arch/win32/ui.h uiapi.h video.h arch/win32/videoarch.h \
+	6510core.c
+p00.o: p00.c vice.h config.h arch/win32/lose32.h p00.h \
+	arch/win32/types.h vdrive/vdrive.h
+palette.o: palette.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h palette.h \
+	arch/win32/types.h sysfile.h utils.h
+parallel.o: parallel.c vice.h config.h arch/win32/lose32.h cmdline.h \
+	resources.h drive/drive.h log.h arch/win32/types.h \
+	drive/drivecpu.h maincpu.h 6510core.h parallel.h serial.h
+petcat.o: petcat.c vice.h config.h arch/win32/lose32.h charsets.h p00.h \
+	arch/win32/types.h
+prdevice.o: prdevice.c vice.h config.h arch/win32/lose32.h charsets.h \
+	cmdline.h resources.h log.h prdevice.h print.h \
+	arch/win32/types.h serial.h utils.h vdrive/vdrive.h
+pruser.o: pruser.c vice.h config.h arch/win32/lose32.h cmdline.h \
+	resources.h print.h arch/win32/types.h pruser.h
+resources.o: resources.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h resources.h utils.h \
+	arch/win32/types.h
+romset.o: romset.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h mem.h arch/win32/types.h \
+	resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 	cmdline.h resources.h interrupt.h 6510core.h log.h maincpu.h \
 	rs232.h rsuser.h
-serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
-	arch/unix/types.h maincpu.h 6510core.h mem.h mos6510.h \
-	parallel.h prdevice.h serial.h traps.h utils.h vdrive/vdrive.h
-snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
-	log.h snapshot.h arch/unix/types.h utils.h zfile.h
-sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	resources.h log.h machine.h maincpu.h 6510core.h sound.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
-	vsync.h
-sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
-	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \
-	arch/unix/types.h utils.h
-t64.o: t64.c vice.h config.h arch/unix/archdep.h archapi.h log.h t64.h \
-	arch/unix/types.h utils.h zfile.h
-tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
-	tap.h arch/unix/types.h utils.h zfile.h
-tape.o: tape.c vice.h config.h datasette.h log.h maincpu.h 6510core.h \
-	arch/unix/types.h mem.h mos6510.h serial.h t64.h tap.h tape.h \
-	traps.h utils.h zfile.h
-traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
-	6510core.h arch/unix/types.h log.h maincpu.h mem.h mos6510.h \
-	parallel.h traps.h utils.h
-utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
-	utils.h arch/unix/types.h
-zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
-	utils.h arch/unix/types.h zfile.h zipcode.h
-zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h
+serial.o: serial.c vice.h config.h arch/win32/lose32.h attach.h \
+	drive/drive.h log.h arch/win32/types.h maincpu.h 6510core.h \
+	mem.h mos6510.h parallel.h prdevice.h serial.h traps.h utils.h \
+	vdrive/vdrive.h
+snapshot.o: snapshot.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h snapshot.h \
+	arch/win32/types.h utils.h zfile.h
+sound.o: sound.c vice.h config.h arch/win32/lose32.h clkguard.h \
+	arch/win32/types.h cmdline.h resources.h log.h machine.h \
+	maincpu.h 6510core.h sound.h arch/win32/ui.h uiapi.h video.h \
+	arch/win32/videoarch.h utils.h vsync.h
+sysfile.o: sysfile.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h cmdline.h resources.h findpath.h \
+	log.h machine.h sysfile.h arch/win32/types.h utils.h
+t64.o: t64.c vice.h config.h arch/win32/lose32.h arch/win32/archdep.h \
+	archapi.h log.h t64.h arch/win32/types.h utils.h zfile.h
+tap.o: tap.c vice.h config.h arch/win32/lose32.h arch/win32/archdep.h \
+	archapi.h datasette.h tap.h arch/win32/types.h utils.h zfile.h
+tape.o: tape.c vice.h config.h arch/win32/lose32.h datasette.h log.h \
+	maincpu.h 6510core.h arch/win32/types.h mem.h mos6510.h \
+	serial.h t64.h tap.h tape.h traps.h utils.h zfile.h
+traps.o: traps.c vice.h config.h arch/win32/lose32.h cmdline.h \
+	resources.h interrupt.h 6510core.h arch/win32/types.h log.h \
+	maincpu.h mem.h mos6510.h parallel.h traps.h utils.h
+utils.o: utils.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h utils.h arch/win32/types.h
+zfile.o: zfile.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/archdep.h archapi.h log.h utils.h arch/win32/types.h \
+	zfile.h zipcode.h
+zipcode.o: zipcode.c vice.h config.h arch/win32/lose32.h \
+	arch/win32/types.h zipcode.h
 
 info-am:
 info: info-recursive

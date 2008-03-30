@@ -233,78 +233,58 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vicii-cmdline-options.h vicii.h ../../src/arch/unix/types.h \
+	../../src/config.h ../../src/arch/win32/lose32.h \
+	../../src/cmdline.h ../../src/resources.h \
+	vicii-cmdline-options.h vicii.h ../../src/arch/win32/types.h \
 	viciitypes.h ../../src/alarm.h ../../src/log.h \
 	../../src/maincpu.h ../../src/6510core.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h
+	../../src/video.h ../../src/arch/win32/videoarch.h vicii-mem.h
 vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/win32/lose32.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
+	../../src/arch/win32/types.h ../../src/raster/raster-modes.h \
 	vicii-draw.h vicii.h viciitypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h
+	../../src/video.h ../../src/arch/win32/videoarch.h vicii-mem.h
 vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/raster/raster-sprite-status.h \
+	../../src/arch/win32/lose32.h ../../src/c64/c64cia.h \
+	../../src/arch/win32/types.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h vicii-resources.h viciitypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/maincpu.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h vicii-mem.h \
 	vicii-sprites.h vicii.h
 vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vicii-resources.h viciitypes.h \
-	../../src/alarm.h ../../src/log.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h vicii.h
+	../../src/arch/win32/lose32.h ../../src/resources.h \
+	../../src/utils.h ../../src/arch/win32/types.h \
+	vicii-resources.h viciitypes.h ../../src/alarm.h \
+	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h vicii-mem.h \
+	vicii.h
 vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/raster/raster-sprite-status.h \
+	../../src/arch/win32/lose32.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/arch/win32/types.h \
+	../../src/mem.h ../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	vicii-snapshot.h vicii-sprites.h vicii.h viciitypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/maincpu.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h
+	../../src/video.h ../../src/arch/win32/videoarch.h vicii-mem.h
 vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/arch/unix/types.h ../../src/raster/raster-sprite.h \
+	../../src/arch/win32/types.h ../../src/raster/raster-sprite.h \
 	vicii-sprites.h vicii.h viciitypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h
-vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/c64/c64.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h vicii-mem.h
+vicii.o: vicii.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/alarm.h \
+	../../src/arch/win32/types.h ../../src/c64/c64.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/palette.h \
@@ -315,12 +295,8 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	vicii-cmdline-options.h vicii-draw.h vicii-sprites.h \
 	vicii-resources.h viciitypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vicii-mem.h \
-	vicii-snapshot.h ../../src/vsync.h
+	../../src/arch/win32/videoarch.h vicii-mem.h vicii-snapshot.h \
+	../../src/vsync.h
 
 info-am:
 info: info-am

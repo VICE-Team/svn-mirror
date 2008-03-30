@@ -1,3 +1,44 @@
+2000-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.2
+
+	* zfile.c, zfile.h (zclose_all): Removed.
+
+	* t64.c (t64_seek_to_next_file): Only exit without error if a
+	normal record is found.
+
+	* arch/win32/uiattach.c, arch/win32/ui.c: Added DOS GZIP file
+	extensions.
+
+2000-04-22  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/msdos/archdep.c,arch/os2/archdep.c,arch/unix/archdep.c,
+	arch/win32/archdep.c,arch/riscos/archdep.c: new functions
+	archdep_make_name,archdep_tmpnam
+
+	* arch/msdos/menudefs.c,uiattach.h: directory browsers
+	also show .gz and .lzh files
+
+	* arch/win32/archdep.c(archdep_default_sysfile_pathlist):
+	enabled code that returns the absolute path which should
+	make x64 startable from every directory
+
+	* arch/win32/ui.c,arch/win32/uiattach.c: new directory filters
+	for zipped files in the attach dialogs
+
+	* archapi.h: new prototypes archdep_make_name,archdep_tmpnam
+
+	* zfile.c: completely reformated; removed NAME_NEED which
+	is now implemented in archdep_make_name
+	tmp_name is not static char[L_tmpname] but now allocated by
+	archdep_tmpnam
+	(try_uncompress_archive): rewritten the part that finds the 
+	first file in the zip; should work now even if the filename is
+	not at the end of the line
+	valid_archives[]: removed pkunzip which seems to be unable to
+	write only the zipped files without any messages to stdout,
+	added 'unzip' and 'lha' for MSDOS
+
 2000-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.1

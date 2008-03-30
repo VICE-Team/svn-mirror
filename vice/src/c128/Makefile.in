@@ -232,9 +232,10 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/autostart.h ../../src/arch/unix/types.h c128.h \
-	c128mem.h c128mmu.h ../../src/arch/unix/c128ui.h \
+c128.o: c128.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/attach.h \
+	../../src/autostart.h ../../src/arch/win32/types.h c128.h \
+	c128mem.h c128mmu.h ../../src/arch/win32/c128ui.h \
 	../../src/c64/c64cia.h ../../src/c64/c64rsuser.h \
 	../../src/c64/c64tpi.h ../../src/ciatimer.h ../../src/alarm.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/console.h \
@@ -248,62 +249,63 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/c64/reu.h ../../src/serial.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h ../../src/vicii/vicii.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/vdc/vdc.h \
+	../../src/arch/win32/videoarch.h ../../src/vdc/vdc.h \
 	../../src/vsync.h z80.h z80mem.h ../../src/mem.h \
-	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
-	../../src/arch/unix/mouse.h
+	../../src/arch/win32/mouse.h
 c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/interrupt.h \
-	../../src/c64/c64cia.h ../../src/drive/drive.h \
-	../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/vicii/vicii.h ../../src/rsuser.h ../../src/ciacore.c \
-	../../src/clkguard.h ../../src/ciatimer.h ../../src/snapshot.h
-c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
-	../../src/arch/unix/types.h z80.h ../maincpu.c ../vice.h \
+	../../src/config.h ../../src/arch/win32/lose32.h \
+	../../src/alarm.h ../../src/arch/win32/types.h ../../src/cia.h \
+	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/interrupt.h ../../src/c64/c64cia.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/iecdrive.h ../../src/arch/win32/kbd.h \
+	../../src/keyboard.h ../../src/vicii/vicii.h \
+	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
+	../../src/snapshot.h
+c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/mem.h \
+	../../src/arch/win32/types.h z80.h ../maincpu.c ../vice.h \
 	../6510core.h ../alarm.h ../clkguard.h ../interrupt.h ../log.h \
 	../machine.h ../maincpu.h ../mem.h ../../src/monitor/mon.h \
-	../mos6510.h ../snapshot.h ../traps.h ../../src/arch/unix/ui.h \
-	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
-	../6510core.c
+	../mos6510.h ../snapshot.h ../traps.h ../../src/arch/win32/ui.h \
+	../../src/uiapi.h ../../src/video.h \
+	../../src/arch/win32/videoarch.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
-	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
-	../../src/c64/c64iec.h ../../src/drive/ciad.h \
-	../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/win32/lose32.h ../../src/c64/c64cia.h \
+	../../src/arch/win32/types.h ../../src/c64/c64iec.h \
+	../../src/drive/ciad.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
-c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
+c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128mem.h \
+	../../src/arch/win32/types.h c128mmu.h ../../src/c64/c64cart.h \
 	../../src/c64/c64cia.h ../../src/c64/c64tpi.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/emuid.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/parallel.h ../../src/c64/reu.h ../../src/rs232.h \
 	../../src/sid/sid.h ../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
+	../../src/arch/win32/ui.h ../../src/uiapi.h ../../src/video.h \
+	../../src/arch/win32/videoarch.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h \
-	../../src/mem.h ../../src/c64/c64acia.h
-c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
+	../../src/mem.h
+c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128mem.h \
+	../../src/arch/win32/types.h c128mmu.h ../../src/c64/c64mem.h \
 	../../src/mem.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/keyboard.h \
 	../../src/log.h ../../src/c64/reu.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii.h z80.h z80mem.h
-z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/interrupt.h \
+z80.o: z80.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/alarm.h \
+	../../src/arch/win32/types.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
 	../../src/monitor/mon.h z80.h z80mem.h ../../src/mem.h
-z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
+z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h c128mem.h \
+	../../src/arch/win32/types.h c128mmu.h ../../src/c64/c64cia.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/log.h \
 	../../src/mem.h ../../src/sid/sid.h ../../src/sysfile.h \
 	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \

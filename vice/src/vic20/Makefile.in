@@ -240,76 +240,55 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vic-cmdline-options.o: vic-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vic.h ../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h \
-	vic-cmdline-options.h
-vic-draw.o: vic-draw.c ../../src/vice.h ../../src/config.h \
+	../../src/config.h ../../src/arch/win32/lose32.h \
+	../../src/cmdline.h ../../src/resources.h vic.h \
+	../../src/alarm.h ../../src/arch/win32/types.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h vic-mem.h \
+	vic20.h vic-cmdline-options.h
+vic-draw.o: vic-draw.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/win32/types.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-modes.h vic.h ../../src/alarm.h \
 	../../src/log.h vic-mem.h vic20.h vic-draw.h
 vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h vic.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h \
-	vic20mem.h ../../src/mem.h vic20sound.h
-vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vic-resources.h vic.h \
+	../../src/arch/win32/lose32.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/arch/win32/types.h vic.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h
+	../../src/arch/win32/videoarch.h vic-mem.h vic20.h vic20mem.h \
+	../../src/mem.h vic20sound.h
+vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/resources.h \
+	../../src/utils.h ../../src/arch/win32/types.h vic-resources.h \
+	vic.h ../../src/alarm.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h vic-mem.h \
+	vic20.h
 vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/sound.h vic.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h \
+	../../src/arch/win32/lose32.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/arch/win32/types.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/sound.h vic.h \
+	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h \
+	../../src/arch/win32/videoarch.h vic-mem.h vic20.h \
 	vic-snapshot.h
-vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
-	../../src/arch/unix/types.h ../../src/log.h ../../src/mem.h \
+vic.o: vic.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/clkguard.h \
+	../../src/arch/win32/types.h ../../src/log.h ../../src/mem.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/palette.h ../../src/raster/raster-modes.h \
 	../../src/snapshot.h ../../src/utils.h vic.h ../../src/alarm.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h \
-	vic-cmdline-options.h vic-draw.h vic-resources.h vic-snapshot.h \
-	../../src/vsync.h
-vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/autostart.h ../../src/arch/unix/types.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h vic-mem.h \
+	vic20.h vic-cmdline-options.h vic-draw.h vic-resources.h \
+	vic-snapshot.h ../../src/vsync.h
+vic20.o: vic20.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/attach.h \
+	../../src/autostart.h ../../src/arch/win32/types.h \
 	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/console.h ../../src/datasette.h \
@@ -323,79 +302,76 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/tape.h ../../src/traps.h ../../src/utils.h \
 	../../src/via.h vic.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h \
+	../../src/arch/win32/videoarch.h vic-mem.h vic20.h \
 	vic20ieeevia.h vic20mem.h ../../src/mem.h vic20sound.h \
-	../../src/arch/unix/vic20ui.h vic20via.h ../../src/vsync.h \
-	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
-	../../src/rs232.h ../../src/rsuser.h vic20rsuser.h
+	../../src/arch/win32/vic20ui.h vic20via.h ../../src/vsync.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 vic20cartridge.o: vic20cartridge.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/cartridge.h ../../src/arch/unix/types.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
+	../../src/arch/win32/lose32.h ../../src/arch/win32/archdep.h \
+	../../src/archapi.h ../../src/cartridge.h \
+	../../src/arch/win32/types.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/mem.h \
 	../../src/utils.h vic20mem.h ../../src/zfile.h
 vic20datasette.o: vic20datasette.c ../../src/vice.h ../../src/config.h \
-	../../src/via.h vic20via.h ../../src/arch/unix/types.h
+	../../src/arch/win32/lose32.h ../../src/via.h vic20via.h \
+	../../src/arch/win32/types.h
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/ciad.h ../../src/arch/unix/types.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/iecdrive.h \
+	../../src/arch/win32/lose32.h ../../src/drive/ciad.h \
+	../../src/arch/win32/types.h ../../src/drive/drive.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/resources.h \
 	../../src/drive/viad.h ../../src/via.h
 vic20ieeevia1.o: vic20ieeevia1.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/parallel.h \
-	../../src/viacore.h ../../src/alarm.h ../../src/via.h \
-	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
-	../../src/snapshot.h
+	../../src/arch/win32/lose32.h ../../src/drive/drive.h \
+	../../src/log.h ../../src/arch/win32/types.h \
+	../../src/drive/drivecpu.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/parallel.h ../../src/viacore.h \
+	../../src/alarm.h ../../src/via.h ../../src/viacore.c \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
 vic20ieeevia2.o: vic20ieeevia2.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/parallel.h \
-	../../src/viacore.h ../../src/alarm.h ../../src/via.h \
-	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
-	../../src/snapshot.h
+	../../src/arch/win32/lose32.h ../../src/drive/drive.h \
+	../../src/log.h ../../src/arch/win32/types.h \
+	../../src/drive/drivecpu.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/parallel.h ../../src/viacore.h \
+	../../src/alarm.h ../../src/via.h ../../src/viacore.c \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h \
-	../../src/cartridge.h ../../src/arch/unix/types.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/emuid.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
-	../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h vic.h \
-	../../src/alarm.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h vic-mem.h vic20.h \
-	vic20ieeevia.h vic20mem.h ../../src/mem.h vic20via.h
+	../../src/arch/win32/lose32.h ../../src/cartridge.h \
+	../../src/arch/win32/types.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/emuid.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
+	../../src/monitor/mon.h ../../src/snapshot.h \
+	../../src/sysfile.h ../../src/arch/win32/ui.h ../../src/uiapi.h \
+	../../src/video.h ../../src/arch/win32/videoarch.h \
+	../../src/utils.h vic.h ../../src/alarm.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	vic-mem.h vic20.h vic20ieeevia.h vic20mem.h ../../src/mem.h \
+	vic20via.h
 vic20rsuser.o: vic20rsuser.c ../../src/vice.h ../../src/config.h \
-	../../src/machine.h ../../src/rsuser.h \
-	../../src/arch/unix/types.h ../../src/via.h vic20.h vic20via.h
+	../../src/arch/win32/lose32.h ../../src/machine.h \
+	../../src/rsuser.h ../../src/arch/win32/types.h ../../src/via.h \
+	vic20.h vic20via.h
 vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/sound.h ../../src/utils.h \
-	vic20sound.h
+	../../src/arch/win32/lose32.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/arch/win32/types.h \
+	../../src/sound.h ../../src/utils.h vic20sound.h
 vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
+	../../src/arch/win32/lose32.h ../../src/datasette.h \
+	../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/win32/types.h ../../src/arch/win32/kbd.h \
 	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/viacore.h ../../src/alarm.h ../../src/via.h \
 	vic20iec.h vic20via.h ../../src/viacore.c ../../src/clkguard.h \
 	../../src/interrupt.h ../../src/snapshot.h
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
+	../../src/arch/win32/lose32.h ../../src/datasette.h \
+	../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/win32/types.h ../../src/arch/win32/kbd.h \
 	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/viacore.h ../../src/alarm.h ../../src/via.h \
-	vic20iec.h vic20via.h ../../src/pruser.h ../../src/rsuser.h \
-	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
-	../../src/snapshot.h
+	vic20iec.h vic20via.h ../../src/pruser.h ../../src/viacore.c \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
 
 info-am:
 info: info-am
