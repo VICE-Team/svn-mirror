@@ -45,27 +45,10 @@ typedef struct _traplist_t {
 
 static traplist_t *traplist;
 
-#ifdef IDLE_TRAP
-static void trap_idle_E5D4();
-
-static trap_t idle_trap =
-{
-    "Idle trap",
-    0xE5D4,
-    {0xF0, 0xF7, 0x78},
-    trap_idle_E5D4,
-};
-#endif
-
 void    initialize_traps()
 {
     traplist = NULL;
-
-#ifdef IDLE_TRAP
-    set_trap(&idle_trap);
-#endif
 }
-
 
 int     set_trap(const trap_t *t)
 {
@@ -148,22 +131,3 @@ int     trap_handler(void)
 
     return 1;
 }
-
-
-/* FIXME: this is obsolete... */
-#ifdef IDLE_TRAP
-static void trap_idle_E5D4()
-{
-    if (!IF_ZERO())
-    {
-	maincpu_regs.pc = 0xe5d6;
-	clk += 2;
-    }
-    else {
-	clk = next_alarm_clk(&maincpu_int_status);
-	if (LOAD(0xc6))
-	    maincpu_regs.pc = 0xe5cd;
-    }
-}
-
-#endif  /* IDLE_TRAP */
