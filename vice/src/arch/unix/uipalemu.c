@@ -62,26 +62,44 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
 
 UI_MENU_DEFINE_RADIO(PALMode)
 
-static UI_CALLBACK(PAL_scanline_shade_cb)
+#ifndef USE_GNOMEUI
+static UI_CALLBACK(PAL_control_cb)
 {
     char buf[50];
     ui_button_t button;
     long res;
     int current;
+    int what = (int) UI_MENU_CB_PARAM;
+    char*resource;
 
-    resources_get_value("PALScanLineShade", (void *)&current);
-    current /= 10;
-    sprintf(buf, "%d", current);
-    button = ui_input_string(_("PAL Scanline shade"),
-                             _("Scanline Shade in percent"),
-                             buf, 50);
+    if (what == 0)
+    {
+	resource = "PALScanLineShade";
+	resources_get_value(resource, (void *)&current);
+	current /= 10;
+	sprintf(buf, "%d", current);
+	button = ui_input_string(_("PAL Scanline shade"),
+				 _("Scanline Shade in percent"),
+				 buf, 50);
+	
+    }
+    else
+    {
+	resource = "PALBlur";
+	resources_get_value(resource, (void *)&current);
+	current /= 10;
+	sprintf(buf, "%d", current);
+	button = ui_input_string(_("PAL Blurredness"),
+				 _("Blurredness in percent"),
+				 buf, 50);
+    }
+    
     switch (button) {
       case UI_BUTTON_OK:
         if (util_string_to_long(buf, NULL, 10, &res) != 0) {
              ui_error(_("Invalid value: %s"), buf);
              return;
         }
-        resources_set_value("PALScanLineShade", (resource_value_t)res);
         break;
       default:
         break;
@@ -90,22 +108,25 @@ static UI_CALLBACK(PAL_scanline_shade_cb)
     if ((current != res) &&
         (res <= 100) &&
         (res >= 0))
-        resources_set_value("PALScanLineShade", (resource_value_t)(res * 10));
+        resources_set_value(resource, (resource_value_t)(res * 10));
 }
+#endif
 
 ui_menu_entry_t PALMode_submenu[] = {
     { N_("*Activate PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
     { "--" },
-    { N_("*Fake PAL Emulation"),
+    { N_("*Fast PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)0, NULL },
-    { N_("*Sharp PAL Emulation (Y/C Input)"),
+    { N_("*Exact PAL Emulation"),
       (ui_callback_t)radio_PALMode, (ui_callback_data_t)1, NULL },
-    { N_("*Blurry PAL Emulation (Composite Input)"),
-      (ui_callback_t)radio_PALMode, (ui_callback_data_t)2, NULL },
+#ifndef USE_GNOMEUI
     { "--" },
     { N_("PAL Scanline Shade"),
-      (ui_callback_t)PAL_scanline_shade_cb, NULL, NULL },
+      (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 0, NULL },
+    { N_("PAL Blurredness"),
+      (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 1, NULL },
+#endif
     { NULL }
 };
 

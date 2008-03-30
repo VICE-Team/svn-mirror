@@ -34,24 +34,34 @@
 #include "videoarch.h"
 #include "x11ui.h"
 
+static GtkWidget *fake_palemu, *true_palemu;
+static video_canvas_t *cached_canvas;
+
 typedef struct pal_res_s {
-    char *label;
-    char *res;
-    GtkObject *adj;
+    char *label;		/* Label of Adjustmentbar */
+    char *res;			/* Associated resource */
+    int scale;			/* Scale to adjust to value range 0..2000 */
+    GtkObject *adj;		/* pointer to widget */
+    GtkWidget *w;		/* widget holding the scrollbar+label */
 } pal_res_t;
 
 static pal_res_t ctrls[] =
 {
-  { N_("Saturation"), "ColorSaturation", NULL },
-  { N_("Contrast"), "ColorContrast", NULL },
-  { N_("Brightness"), "ColorBrightness", NULL },
-  { N_("Gamma"), "ColorGamma", NULL },
+  { N_("Blurredness"), "PALBlur", 2, NULL, NULL },
+  { N_("Scanline Shade"), "PALScanLineShade", 2, NULL, NULL  },
+  { N_("Saturation"), "ColorSaturation", 1, NULL, NULL  },
+  { N_("Contrast"), "ColorContrast", 1, NULL, NULL  },
+  { N_("Brightness"), "ColorBrightness", 1, NULL, NULL  },
+  { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
 };
 
 static void upd_sb (GtkAdjustment *adj, gpointer data)
 {
+    int v = (int) adj->value;
     pal_res_t *p = (pal_res_t *) data;
-    resources_set_value(p->res, (resource_value_t) (int) adj->value);
+
+    v  = (int) v / p->scale;
+    resources_set_value(p->res, (resource_value_t) v);
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
@@ -61,12 +71,31 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
     {
         resources_get_default_value(ctrls[i].res, (resource_value_t *) &tmp);
+	tmp = tmp * ctrls[i].scale;
 	resources_set_value(ctrls[i].res, (resource_value_t) tmp);
 	if (ctrls[i].adj) {
 	    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj),
 				     (gfloat) tmp);
 	}
     }      
+}
+
+static void upd_palmode (GtkWidget *w, gpointer data)
+{
+    resources_set_value("PALMode",
+			(resource_value_t) (int) data);
+    if (data == (gpointer) 0)
+    {
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), FALSE);
+    }
+    else
+    {
+    	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), TRUE);
+    }
+    
+    video_canvas_refresh_all(cached_canvas);
 }
 
 GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
@@ -76,9 +105,12 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     GtkWidget *sb;
     GtkWidget *f;
     GtkWidget *l, *c;
+    GtkWidget *box;
+    
     GtkWidget *rb;
     int i, v;
 
+    cached_canvas = canvas;
     f = gtk_frame_new(_("PAL Settings"));
     
     b = gtk_vbox_new(FALSE, 5);
@@ -88,7 +120,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	hb = gtk_hbox_new(FALSE, 0);
 
 	c = gtk_hbox_new(FALSE, 0);
-	gtk_widget_set_usize(GTK_WIDGET(c), 80, 10);
+	gtk_widget_set_usize(GTK_WIDGET(c), 100, 10);
 	
 	l = gtk_label_new(_(ctrls[i].label));
 	gtk_container_add(GTK_CONTAINER(c), l);
@@ -99,8 +131,9 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	
 	ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
 	
-	resources_get_value(ctrls[i].res, (void *)&v);
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat) v);
+ 	resources_get_value(ctrls[i].res, (void *)&v);
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), 
+				 (gfloat) (v * ctrls[i].scale));
 	sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
 	gtk_range_set_update_policy(GTK_RANGE(sb),
 				    GTK_UPDATE_CONTINUOUS);
@@ -113,19 +146,54 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	gtk_widget_show(sb);
 	gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
 	gtk_widget_show(hb);
+	ctrls[i].w = hb;
     }
 
-    rb = gtk_button_new_with_label(_("Reset PAL Settings"));
-    gtk_box_pack_start(GTK_BOX(b), rb, FALSE, FALSE, 5);
+    box = gtk_hbox_new(FALSE, 0);
+
+    rb = gtk_button_new_with_label(_("Reset"));
+    gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(rb), "clicked",
 		       GTK_SIGNAL_FUNC(pal_ctrl_reset),
 		       rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
+    fake_palemu = gtk_radio_button_new_with_label(NULL, 
+						  _("Fast Emulation"));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fake_palemu), TRUE);
+    gtk_box_pack_start(GTK_BOX(box), fake_palemu, FALSE, FALSE, 5);
+    gtk_widget_show(fake_palemu);
+
+    true_palemu = gtk_radio_button_new_with_label(
+	gtk_radio_button_group(GTK_RADIO_BUTTON(fake_palemu)),
+	_("Exact Emulation"));
+    gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
+    gtk_widget_show(true_palemu);
+
+    gtk_signal_connect(GTK_OBJECT(fake_palemu), "clicked",
+		       GTK_SIGNAL_FUNC(upd_palmode), (gpointer) 0);
+    
+    gtk_signal_connect(GTK_OBJECT(true_palemu), "clicked",
+		       GTK_SIGNAL_FUNC(upd_palmode), (gpointer) 1);
+    
+    resources_get_value("PALMode", (void *) &v);
+    if (v == 0)
+    {
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), FALSE);
+    }
+    else
+    {
+    	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), TRUE);
+    }
+    gtk_widget_show(box);
+
+    gtk_box_pack_start(GTK_BOX(b), box, FALSE, FALSE, 5);
     gtk_widget_show(b);
     gtk_container_add(GTK_CONTAINER(f), b);
     gtk_widget_show(f);
-    
+
     return f;
 }

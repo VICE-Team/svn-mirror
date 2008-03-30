@@ -253,8 +253,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	menudefs.c \
 	menudefs.h \
-	mouse.c \
-	mouse.h \
+	mousedrv.c \
+	mousedrv.h \
 	msdosmain.c \
 	petui.c \
 	plus4ui.c \
@@ -310,7 +310,7 @@ libarch_a_AR = $(AR) cru
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	c64ui.$(OBJEXT) cbm2ui.$(OBJEXT) cbmcharsets.$(OBJEXT) \
 	console.$(OBJEXT) grabkey.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
-	menudefs.$(OBJEXT) mouse.$(OBJEXT) msdosmain.$(OBJEXT) \
+	menudefs.$(OBJEXT) mousedrv.$(OBJEXT) msdosmain.$(OBJEXT) \
 	petui.$(OBJEXT) plus4ui.$(OBJEXT) statusbar.$(OBJEXT) \
 	tui.$(OBJEXT) tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
 	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
@@ -328,7 +328,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/cbmcharsets.Po ./$(DEPDIR)/console.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/grabkey.Po ./$(DEPDIR)/joy.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/menudefs.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mouse.Po ./$(DEPDIR)/msdosmain.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/msdosmain.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/tui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tui_backend.Po \
@@ -381,7 +381,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menudefs.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msdosmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@

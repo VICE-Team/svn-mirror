@@ -253,8 +253,8 @@ libarch_a_SOURCES = \
 	joy.c \
 	joy.h \
 	kbd.h \
-	mouse.c \
-	mouse.h \
+	mousedrv.c \
+	mousedrv.h \
 	petui.c \
 	plus4ui.c \
 	rs232.c \
@@ -339,19 +339,19 @@ libarch_a_LIBADD =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	c128ui.$(OBJEXT) c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) \
 	cbm2ui.$(OBJEXT) console.$(OBJEXT) coproc.$(OBJEXT) \
-	joy.$(OBJEXT) mouse.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
-	rs232.$(OBJEXT) ui.$(OBJEXT) uic64cart.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uicommands.$(OBJEXT) uicrtc.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uijoystick2.$(OBJEXT) uimon.$(OBJEXT) uipalemu.$(OBJEXT) \
-	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) uiprinter.$(OBJEXT) \
-	uireu.$(OBJEXT) uirs232.$(OBJEXT) uisettings.$(OBJEXT) \
-	uisid.$(OBJEXT) uisound.$(OBJEXT) uited.$(OBJEXT) \
-	uivdc.$(OBJEXT) uivic.$(OBJEXT) uivicii.$(OBJEXT) \
-	unixmain.$(OBJEXT) vic20ui.$(OBJEXT) vsyncarch.$(OBJEXT) \
-	vsidui.$(OBJEXT)
+	joy.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
+	plus4ui.$(OBJEXT) rs232.$(OBJEXT) ui.$(OBJEXT) \
+	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uicommands.$(OBJEXT) \
+	uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) uidrive.$(OBJEXT) \
+	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
+	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uijoystick2.$(OBJEXT) uimon.$(OBJEXT) \
+	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uireu.$(OBJEXT) uirs232.$(OBJEXT) \
+	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
+	uited.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
+	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
+	vsyncarch.$(OBJEXT) vsidui.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 SCRIPTS = $(bin_SCRIPTS)
 
@@ -363,7 +363,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/c128ui.Po ./$(DEPDIR)/c64ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/catweaselmkiii.Po ./$(DEPDIR)/cbm2ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/coproc.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/mouse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/mousedrv.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
@@ -451,7 +451,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/coproc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rs232.Po@am__quote@

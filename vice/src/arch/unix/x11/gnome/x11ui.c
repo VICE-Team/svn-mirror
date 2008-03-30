@@ -72,6 +72,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
+#include "mousedrv.h"
 #include "resources.h"
 #include "uicolor.h"
 #include "uimenu.h"
@@ -701,6 +702,8 @@ int ui_init_finalize(void)
 
 static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 {
+    GtkRequisition req;
+    
     if (!w || !GTK_IS_TOGGLE_BUTTON(w))
 	return;
 
@@ -708,7 +711,11 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 	gtk_widget_show(pal_ctrl_widget);
     else
 	gtk_widget_hide(pal_ctrl_widget);
-    gtk_widget_queue_resize(pal_ctrl_widget->parent);
+    
+    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
+    gdk_window_resize(gdk_window_get_toplevel(w->window), 
+		      req.width, req.height);
+    gdk_flush();
 }
 
 void ui_create_status_bar(GtkWidget *pane, int width, int height)

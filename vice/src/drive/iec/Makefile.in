@@ -229,6 +229,8 @@ libdriveiec_a_SOURCES = \
 	cia1571d.c \
 	cia1581d.c \
 	ciad.h \
+	glue1571.c \
+	glue1571.h \
 	iec-cmdline-options.c \
 	iec-cmdline-options.h \
 	iec-resources.c \
@@ -254,15 +256,17 @@ LIBRARIES = $(noinst_LIBRARIES)
 libdriveiec_a_AR = $(AR) cru
 libdriveiec_a_LIBADD =
 am_libdriveiec_a_OBJECTS = cia1571d.$(OBJEXT) cia1581d.$(OBJEXT) \
-	iec-cmdline-options.$(OBJEXT) iec-resources.$(OBJEXT) \
-	iec.$(OBJEXT) iecrom.$(OBJEXT) jobcode1581.$(OBJEXT) \
-	memiec.$(OBJEXT) via1d1541.$(OBJEXT) wd1770.$(OBJEXT)
+	glue1571.$(OBJEXT) iec-cmdline-options.$(OBJEXT) \
+	iec-resources.$(OBJEXT) iec.$(OBJEXT) iecrom.$(OBJEXT) \
+	jobcode1581.$(OBJEXT) memiec.$(OBJEXT) via1d1541.$(OBJEXT) \
+	wd1770.$(OBJEXT)
 libdriveiec_a_OBJECTS = $(am_libdriveiec_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/cia1571d.Po ./$(DEPDIR)/cia1581d.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/glue1571.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/iec-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/iec-resources.Po ./$(DEPDIR)/iec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/iecrom.Po ./$(DEPDIR)/jobcode1581.Po \
@@ -301,6 +305,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cia1571d.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cia1581d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glue1571.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iec.Po@am__quote@

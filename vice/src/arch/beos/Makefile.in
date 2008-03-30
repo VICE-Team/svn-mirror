@@ -249,8 +249,8 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	mouse.cc \
-	mouse.h \
+	mousedrv.cc \
+	mousedrv.h \
 	petui.cc \
 	plus4ui.cc \
 	statusbar.cc \
@@ -308,16 +308,16 @@ libarch_a_AR = $(AR) cru
 libarch_a_LIBADD =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	c128ui.$(OBJEXT) c64ui.$(OBJEXT) cbm2ui.$(OBJEXT) \
-	console.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) mouse.$(OBJEXT) \
-	petui.$(OBJEXT) plus4ui.$(OBJEXT) statusbar.$(OBJEXT) \
-	ui.$(OBJEXT) ui_cbm2.$(OBJEXT) ui_datasette.$(OBJEXT) \
-	ui_drive.$(OBJEXT) ui_device.$(OBJEXT) ui_file.$(OBJEXT) \
-	ui_joystick.$(OBJEXT) ui_pet.$(OBJEXT) ui_ram.$(OBJEXT) \
-	ui_sid.$(OBJEXT) ui_sound.$(OBJEXT) ui_vic20.$(OBJEXT) \
-	ui_vicii.$(OBJEXT) ui_video.$(OBJEXT) uicmdline.$(OBJEXT) \
-	uimon.$(OBJEXT) vic20ui.$(OBJEXT) viceapp.$(OBJEXT) \
-	vicemenu.$(OBJEXT) vicewindow.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT)
+	console.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
+	mousedrv.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
+	statusbar.$(OBJEXT) ui.$(OBJEXT) ui_cbm2.$(OBJEXT) \
+	ui_datasette.$(OBJEXT) ui_drive.$(OBJEXT) ui_device.$(OBJEXT) \
+	ui_file.$(OBJEXT) ui_joystick.$(OBJEXT) ui_pet.$(OBJEXT) \
+	ui_ram.$(OBJEXT) ui_sid.$(OBJEXT) ui_sound.$(OBJEXT) \
+	ui_vic20.$(OBJEXT) ui_vicii.$(OBJEXT) ui_video.$(OBJEXT) \
+	uicmdline.$(OBJEXT) uimon.$(OBJEXT) vic20ui.$(OBJEXT) \
+	viceapp.$(OBJEXT) vicemenu.$(OBJEXT) vicewindow.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsyncarch.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -327,7 +327,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/c128ui.Po ./$(DEPDIR)/c64ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2ui.Po ./$(DEPDIR)/console.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/kbd.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mouse.Po ./$(DEPDIR)/petui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/petui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/statusbar.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/ui_cbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui_datasette.Po \
@@ -385,7 +385,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@

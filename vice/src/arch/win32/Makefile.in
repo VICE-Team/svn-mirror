@@ -259,8 +259,8 @@ libarch_a_SOURCES = \
 	kbd.c \
 	kbd.h \
 	lose32.h \
-	mouse.c \
-	mouse.h \
+	mousedrv.c \
+	mousedrv.h \
 	petui.c \
 	plus4ui.c \
 	res.h \
@@ -413,7 +413,7 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	c128ui.$(OBJEXT) c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) \
 	cbm2ui.$(OBJEXT) console.$(OBJEXT) dirent.$(OBJEXT) \
 	ffmpeglib.$(OBJEXT) fullscrn.$(OBJEXT) hardsid.$(OBJEXT) \
-	joy.$(OBJEXT) kbd.$(OBJEXT) mouse.$(OBJEXT) petui.$(OBJEXT) \
+	joy.$(OBJEXT) kbd.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
 	plus4ui.$(OBJEXT) statusbar.$(OBJEXT) system.$(OBJEXT) \
 	tfearch.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
 	uic128.$(OBJEXT) uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) \
@@ -438,7 +438,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/dirent.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ffmpeglib.Po ./$(DEPDIR)/fullscrn.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/hardsid.Po ./$(DEPDIR)/joy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mouse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mousedrv.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/system.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui.Po \
@@ -504,7 +504,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hardsid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@

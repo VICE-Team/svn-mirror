@@ -1,3 +1,86 @@
+2003-11-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.14.
+
+	* drive/drive.c, drive/drive.h: Removed cruft.
+
+	* drive/iec/glue1571.c, drive/iec/glue1571.h,
+	drive/drive-overflow.c: New files.
+
+	* drive/iec/Makefile.am, drive/Makefile.am,
+	arch/win32/iec.dsp, arch/win32/drive.dsp: Added new files.
+
+	* arch/unix/x11/xaw/x11ui.c: Fixed warning.
+	
+	* drive/iec/via1d1541.c: Call new 1571 glue functions.
+
+	* drive/iec/iec.c, drive/iec.h (iec_drive_port_default): New
+	function.
+
+	* machine-drive.h, c64/c64drive.c, vic20/vic20drive.c,
+	pet/petdrive.c, plus4/plus4drive.c, cbm2/cbm2drive.c
+	(machine_drive_port_default): New function.
+
+	* drive/drive.c, drive/drive.h, drive/drive-snapshot.c,
+	drive/drive-resources.c (drive_enable, drive_disable): Pass
+	drive context pointer.
+
+	* drive/drive.c, drive/drive.h, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, pet/pet.c, plus4/plus4.c, cbm2/cbm2.c
+	(machine_vsync_hook): Pass drive context pointer.
+
+	* drive/drive.c, drive/drive.h, drive/drive-resources.c
+	(drive_set_disk_drive_type): Pass drive context pointer.
+
+	* drive/drive.c, drive/drive.h, autostart.c
+	(drive_set_disk_memory, drive_set_last_read): Pass drive
+	context pointer.
+
+	* drive/drivesync.c, drive/drivesync.h, drive/drive.c,
+	drive/iec/via1d1541.c (drive_sync_factor,
+	drive_sync_set_1571): Pass drive context pointer.
+
+	* drive/iec/wd1770.c (wd1770d_init, wd1770d0_init,
+	wd1770d1_init, clk_overflow_callback): Simplified.
+
+	* drive/ieee/fdc.c (clk_overflow_callback0,
+	clk_overflow_callback1, clk_overflow_callback, fdc_init):
+	Changed likewise.
+
+	* arch/unix/mouse.c, arch/unix/mouse.h, arch/win32/mouse.c,
+	arch/win32/mouse.h, arch/msdos/mouse.c, arch/msdos/mouse.h,
+	arch/beos/mouse.cc, arch/beos/mouse.h, arch/os2/mouse.c,
+	arch/os2/mouse.h: Renamed and moved common code to `mouse.c'.
+
+	* arch/unix/Makefile.am, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/msdos/Makefile.am,
+	arch/beos/Makefile.am, arch/os2/Makefile.am, Makefile.am,
+	arch/win32/base.dsp: Updated.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/win32/ui.c, arch/os2/video.c, arch/win32/vsyncarch.c,
+	arch/unix/x11/dga1.c, arch/unix/x11/dga2.c: Fixed includes.
+
+	* vdc/vdc.c: Added include for MSDOS.
+
+	* arch/msdos/menudefs.c: Fixed includes.
+
+2003-11-02  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uipalemu.c (PAL_control_cb): Simple UI to enter
+	scanline shade and PAL blurredness for Xaw. GnomeUI doesn't
+	use this as it supports a more convenient PAL control widget.
+
+	* arch/unix/x11/gnome/x11ui.c (ui_update_pal_checkbox): Resize
+	window properly.
+
+	* arch/unix/uipalemu.c: Adapted to new PAL resources.
+
+	* arch/unix/x11/gnome/uipalcontrol.c (build_pal_ctrl_widget):
+	Respect scale value for setting values of gtk_adjustment.
+	`struct pal_res_s': added field `scale'.
+	(upd_sb): scale value.
+
 2003-11-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.13.

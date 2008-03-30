@@ -316,6 +316,7 @@ noinst_HEADERS = \
 	mem.h \
 	monitor.h \
 	mos6510.h \
+	mouse.h \
 	p00.h \
 	palette.h \
 	parallel.h \
@@ -388,6 +389,7 @@ base_sources = \
 	log.c \
 	machine.c \
 	main.c \
+	mouse.c \
 	p00.c \
 	palette.c \
 	ram.c \
@@ -697,7 +699,7 @@ am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	info.$(OBJEXT) init.$(OBJEXT) initcmdline.$(OBJEXT) \
 	interrupt.$(OBJEXT) ioutil.$(OBJEXT) joystick.$(OBJEXT) \
 	kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
-	machine.$(OBJEXT) main.$(OBJEXT) p00.$(OBJEXT) \
+	machine.$(OBJEXT) main.$(OBJEXT) mouse.$(OBJEXT) p00.$(OBJEXT) \
 	palette.$(OBJEXT) ram.$(OBJEXT) resources.$(OBJEXT) \
 	romset.$(OBJEXT) screenshot.$(OBJEXT) snapshot.$(OBJEXT) \
 	sound.$(OBJEXT) sysfile.$(OBJEXT) traps.$(OBJEXT) \
@@ -736,14 +738,14 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/keyboard.Po ./$(DEPDIR)/lib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/log.Po ./$(DEPDIR)/machine.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/maincpu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/p00.Po ./$(DEPDIR)/palette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petcat.Po ./$(DEPDIR)/ram.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/resources.Po ./$(DEPDIR)/romset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/screenshot.Po ./$(DEPDIR)/snapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sound.Po ./$(DEPDIR)/sysfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/traps.Po ./$(DEPDIR)/utils.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po ./$(DEPDIR)/zfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/zipcode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/mouse.Po ./$(DEPDIR)/p00.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/palette.Po ./$(DEPDIR)/petcat.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ram.Po ./$(DEPDIR)/resources.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/romset.Po ./$(DEPDIR)/screenshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/snapshot.Po ./$(DEPDIR)/sound.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sysfile.Po ./$(DEPDIR)/traps.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/utils.Po ./$(DEPDIR)/vsync.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -879,6 +881,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/machine.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maincpu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p00.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/palette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petcat.Po@am__quote@
