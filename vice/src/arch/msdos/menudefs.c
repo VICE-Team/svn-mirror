@@ -252,13 +252,17 @@ TUI_MENU_DEFINE_TOGGLE(TripleBuffering)
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_RADIO(DriveExtendImagePolicy)
+TUI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
+TUI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
 
 static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
 {
+    int unit = (int) param;
+    char rname[256];
     int v;
 
-    resources_get_value("DriveExtendImagePolicy", (resource_value_t *) &v);
+    sprintf(rname, "Drive%dExtendImagePolicy", unit);
+    resources_get_value(rname, (resource_value_t *) &v);
 
     switch (v) {
       case DRIVE_EXTEND_NEVER:
@@ -272,24 +276,28 @@ static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
     }
 }
 
-static tui_menu_item_def_t drive_extend_image_policy_submenu[] = {
-    { "_Never extend",
-      "Never create more than 35 tracks",
-      radio_DriveExtendImagePolicy_callback,
-      (void *) DRIVE_EXTEND_NEVER, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Ask on extend",
-      "Ask the user before creating extra tracks",
-      radio_DriveExtendImagePolicy_callback,
-      (void *) DRIVE_EXTEND_ASK, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Extend on access",
-      "Automagically extend the disk image if extra (>35) tracks are accessed",
-      radio_DriveExtendImagePolicy_callback,
-      (void *) DRIVE_EXTEND_ACCESS, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+#define DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(num)                           \
+static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {       \
+    { "_Never extend",                                                          \
+      "Never create more than 35 tracks",                                       \
+      radio_Drive##num##ExtendImagePolicy_callback,                             \
+      (void *) DRIVE_EXTEND_NEVER, 0,                                           \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
+    { "_Ask on extend",                                                         \
+      "Ask the user before creating extra tracks",                              \
+      radio_Drive##num##ExtendImagePolicy_callback,                             \
+      (void *) DRIVE_EXTEND_ASK, 0,                                             \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
+    { "_Extend on access",                                                      \
+      "Automagically extend the disk image if extra (>35) tracks are accessed", \
+      radio_Drive##num##ExtendImagePolicy_callback,                             \
+      (void *) DRIVE_EXTEND_ACCESS, 0,                                          \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
+    { NULL }                                                                    \
 };
+
+DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
+DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(9)
 
 TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 
@@ -351,19 +359,19 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
       "Disable hardware-level emulation of drive" #num,                   \
       radio_Drive##num##Type_callback, (void *) 0, 0,                     \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_1541",                                                            \
+    { "_1541, 5\"1/4 SS",                                                 \
       "Emulate a 1541 5\"1/4 single-sided disk drive as unit " #num,      \
       radio_Drive##num##Type_callback, (void *) 1541, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_1571",                                                            \
+    { "_1571, 5\"1/4 DS",                                                 \
       "Emulate a 1571 5\"1/4 double-sided disk drive as unit " #num,      \
       radio_Drive##num##Type_callback, (void *) 1571, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_1581",                                                            \
+    { "_1581, 3\"1/2 DS",                                                 \
       "Emulate a 1581 3\"1/2 double-sided disk drive as unit " #num,      \
       radio_Drive##num##Type_callback, (void *) 1581, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_2031",                                                            \
+    { "_2031, 5\"1/4 SS IEEE488",                                         \
       "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit " #num, \
       radio_Drive##num##Type_callback, (void *) 2031, 0,                  \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
@@ -420,7 +428,8 @@ static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {         \
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
 
-TUI_MENU_DEFINE_TOGGLE(DriveParallelCable)
+TUI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
+TUI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 
 static tui_menu_item_def_t drive_settings_submenu[] = {
     { "True Drive _Emulation:",
@@ -438,6 +447,14 @@ static tui_menu_item_def_t drive_settings_submenu[] = {
       drive_idle_method_submenu_callback, (void *) 8, 10,
       TUI_MENU_BEH_CONTINUE, drive8_idle_method_submenu,
       "Drive 8 idle method" },
+    { "Drive #8 Parallel Cable:",
+      "Enable a SpeedDOS-compatible parallel cable for drive #8",
+      toggle_Drive8ParallelCable_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #8 40-Track Image Support:",
+      "Settings for dealing with 40-track disk images in drive #8",
+      drive_extend_image_policy_submenu_callback, (void *) 8, 16,
+      TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, "" },
     { "--" },
     { "Drive #_9 model:",
       "Specify model for drive #9",
@@ -449,19 +466,19 @@ static tui_menu_item_def_t drive_settings_submenu[] = {
       drive_idle_method_submenu_callback, (void *) 9, 10,
       TUI_MENU_BEH_CONTINUE, drive9_idle_method_submenu,
       "Drive 9 idle method" },
+    { "Drive #9 Parallel Cable:",
+      "Enable a SpeedDOS-compatible parallel cable for drive #9",
+      toggle_Drive9ParallelCable_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #9 40-Track Image Support:",
+      "Settings for dealing with 40-track disk images in drive #9",
+      drive_extend_image_policy_submenu_callback, (void *) 9, 16,
+      TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
     { "--" },
     { "Drive _Sync Factor:",
       "Select drive/machine clock ratio",
       toggle_DriveSyncFactor_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Enable _Parallel Cable:",
-      "Enable a SpeedDOS-compatible parallel cable",
-      toggle_DriveParallelCable_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_40-Track Image Support:",
-      "Settings for dealing with 40-track disk images",
-      drive_extend_image_policy_submenu_callback, NULL, 16,
-      TUI_MENU_BEH_CONTINUE, drive_extend_image_policy_submenu, "" },
     { NULL }
 };
 
