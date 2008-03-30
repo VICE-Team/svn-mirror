@@ -27,7 +27,9 @@
 #ifndef _GLUE1571_H
 #define _GLUE1571_H
 
-extern void glue1571_side_set(unsigned int side, unsigned int dnr);
+struct drive_s;
+
+extern void glue1571_side_set(unsigned int side, struct drive_s *drive);
 
 #endif
 
