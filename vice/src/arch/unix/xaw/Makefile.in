@@ -361,19 +361,20 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/palette.h \
 	uimenu.h uihotkey.h ../../../../src/arch/unix/archdep.h \
-	../../../../src/attach.h ../../../../src/vdrive.h \
-	../../../../src/fs_cbm.h ../../../../src/serial.h \
-	../../../../src/traps.h ../../../../src/log.h \
-	../../../../src/snapshot.h ../../../../src/autostart.h \
-	../../../../src/imagecontents.h ../../../../src/info.h \
-	../../../../src/interrupt.h ../../../../src/6510core.h \
-	../../../../src/mem.h ../../../../src/machine.h \
-	../../../../src/maincpu.h ../../../../src/alarm.h \
-	../../../../src/clkguard.h ../../../../src/mon.h \
-	../../../../src/mos6510.h ../../../../src/resources.h \
-	../../../../src/sound.h ../../../../src/warn.h \
-	../../../../src/tape.h uisnapshot.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
+	../../../../src/archapi.h ../../../../src/attach.h \
+	../../../../src/vdrive.h ../../../../src/fs_cbm.h \
+	../../../../src/serial.h ../../../../src/traps.h \
+	../../../../src/log.h ../../../../src/snapshot.h \
+	../../../../src/autostart.h ../../../../src/imagecontents.h \
+	../../../../src/info.h ../../../../src/interrupt.h \
+	../../../../src/6510core.h ../../../../src/mem.h \
+	../../../../src/machine.h ../../../../src/maincpu.h \
+	../../../../src/alarm.h ../../../../src/clkguard.h \
+	../../../../src/mon.h ../../../../src/mos6510.h \
+	../../../../src/resources.h ../../../../src/sound.h \
+	../../../../src/warn.h ../../../../src/tape.h uisnapshot.h \
+	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
+	../../../../src/fliplist.h
 uiedisk.o: uiedisk.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/TextField.h uiedisk.h ../../../../src/machine.h \
 	../../../../src/arch/unix/types.h ui.h \

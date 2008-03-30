@@ -303,8 +303,8 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
-	../../../src/findpath.h ../../../src/log.h ../../../src/utils.h \
-	types.h
+	../../../src/archapi.h ../../../src/findpath.h \
+	../../../src/log.h ../../../src/utils.h types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h types.h \
 	kbd.h ../../../src/log.h ../../../src/resources.h \

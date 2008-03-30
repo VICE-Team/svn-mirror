@@ -129,6 +129,7 @@ noinst_HEADERS = \
 	6510core.h \
 	acia.h \
 	alarm.h \
+	archapi.h \
 	asm.h \
 	attach.h \
 	autostart.h \
@@ -689,14 +690,15 @@ attach.o: attach.c vice.h config.h attach.h arch/unix/types.h vdrive.h \
 	fs_cbm.h serial.h traps.h log.h snapshot.h fliplist.h \
 	resources.h
 autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
-	arch/unix/archdep.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
-	log.h snapshot.h charsets.h datasette.h tap.h fsdevice.h \
-	interrupt.h 6510core.h mem.h kbdbuf.h machine.h p00.h \
-	resources.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
-	utils.h zfile.h
-c1541.o: c1541.c vice.h config.h arch/unix/archdep.h charsets.h \
-	arch/unix/types.h gcr.h info.h p00.h serial.h traps.h t64.h \
-	utils.h vdrive-iec.h vdrive.h fs_cbm.h log.h zipcode.h
+	arch/unix/archdep.h archapi.h attach.h vdrive.h fs_cbm.h \
+	serial.h traps.h log.h snapshot.h charsets.h datasette.h tap.h \
+	fsdevice.h interrupt.h 6510core.h mem.h kbdbuf.h machine.h \
+	p00.h resources.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h \
+	palette.h utils.h zfile.h
+c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
+	charsets.h arch/unix/types.h gcr.h info.h p00.h serial.h \
+	traps.h t64.h utils.h vdrive-iec.h vdrive.h fs_cbm.h log.h \
+	zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h arch/unix/types.h
 ciatimer.o: ciatimer.c vice.h config.h arch/unix/types.h alarm.h log.h \
 	interrupt.h 6510core.h mem.h snapshot.h ciatimer.h
@@ -709,13 +711,13 @@ datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
 	6510core.h mem.h clkguard.h mon.h mos6510.h interrupt.h
 emuid.o: emuid.c vice.h config.h arch/unix/types.h
 findpath.o: findpath.c vice.h config.h findpath.h utils.h \
-	arch/unix/types.h arch/unix/archdep.h
+	arch/unix/types.h arch/unix/archdep.h archapi.h
 fliplist.o: fliplist.c vice.h config.h log.h utils.h arch/unix/types.h \
 	fliplist.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
 	snapshot.h
 fsdevice.o: fsdevice.c vice.h config.h fsdevice.h arch/unix/types.h \
-	arch/unix/archdep.h charsets.h cmdline.h resources.h log.h \
-	p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
+	arch/unix/archdep.h archapi.h charsets.h cmdline.h resources.h \
+	log.h p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h
 imagecontents.o: imagecontents.c vice.h config.h imagecontents.h \
 	arch/unix/types.h charsets.h log.h t64.h utils.h vdrive.h \
@@ -727,8 +729,8 @@ kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h 6510core.h mem.h \
 	arch/unix/types.h snapshot.h alarm.h log.h clkguard.h mon.h \
 	mos6510.h interrupt.h kbdbuf.h charsets.h
 log.o: log.c vice.h config.h log.h cmdline.h resources.h \
-	arch/unix/archdep.h utils.h arch/unix/types.h
-main.o: main.c vice.h config.h arch/unix/archdep.h attach.h \
+	arch/unix/archdep.h archapi.h utils.h arch/unix/types.h
+main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/types.h vdrive.h fs_cbm.h serial.h traps.h log.h \
 	snapshot.h autostart.h cartridge.h charsets.h cmdline.h \
 	resources.h drive/drivecpu.h alarm.h clkguard.h mos6510.h mon.h \
@@ -744,11 +746,11 @@ maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h \
 	fs_cbm.h serial.h 6510core.c
 memutils.o: memutils.c vice.h config.h memutils.h arch/unix/types.h \
 	log.h resources.h sysfile.h utils.h
-mon.o: mon.c vice.h config.h arch/unix/archdep.h asm.h arch/unix/types.h \
-	charsets.h drive/drivecpu.h alarm.h log.h clkguard.h mos6510.h \
-	mon.h mem.h snapshot.h interrupt.h 6510core.h mon_parse.h \
-	resources.h utils.h vdrive.h fs_cbm.h serial.h traps.h \
-	arch/unix/vsync.h
+mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h asm.h \
+	arch/unix/types.h charsets.h drive/drivecpu.h alarm.h log.h \
+	clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
+	6510core.h mon_parse.h resources.h utils.h vdrive.h fs_cbm.h \
+	serial.h traps.h arch/unix/vsync.h
 mon_lex.o: mon_lex.c vice.h config.h arch/unix/types.h mon.h mos6510.h \
 	mem.h snapshot.h interrupt.h 6510core.h mon_parse.h utils.h
 mon_parse.o: mon_parse.c vice.h config.h arch/unix/types.h asm.h utils.h \
@@ -769,7 +771,7 @@ prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
 pruser.o: pruser.c vice.h config.h arch/unix/types.h print.h pruser.h \
 	resources.h cmdline.h
 resources.o: resources.c vice.h config.h log.h resources.h \
-	arch/unix/archdep.h utils.h arch/unix/types.h
+	arch/unix/archdep.h archapi.h utils.h arch/unix/types.h
 romset.o: romset.c config.h arch/unix/types.h mem.h snapshot.h \
 	resources.h sysfile.h log.h utils.h romset.h
 rsuser.o: rsuser.c vice.h config.h arch/unix/types.h alarm.h log.h \
@@ -787,7 +789,8 @@ sound.o: sound.c vice.h config.h sound.h arch/unix/types.h warn.h \
 	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
 	arch/unix/vsync.h
 sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
-	findpath.h arch/unix/archdep.h utils.h arch/unix/types.h
+	findpath.h arch/unix/archdep.h archapi.h utils.h \
+	arch/unix/types.h
 t64.o: t64.c vice.h config.h t64.h arch/unix/types.h utils.h zfile.h
 tap.o: tap.c vice.h config.h datasette.h tap.h arch/unix/types.h utils.h \
 	zfile.h
@@ -799,7 +802,7 @@ traps.o: traps.c vice.h config.h traps.h arch/unix/types.h log.h \
 	maincpu.h 6510core.h mem.h snapshot.h alarm.h clkguard.h mon.h \
 	mos6510.h interrupt.h resources.h cmdline.h utils.h
 utils.o: utils.c vice.h config.h utils.h arch/unix/types.h \
-	arch/unix/archdep.h log.h
+	arch/unix/archdep.h archapi.h log.h
 vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h arch/unix/types.h \
 	fs_cbm.h serial.h traps.h log.h vdrive-iec.h utils.h
 vdrive.o: vdrive.c vice.h config.h charsets.h arch/unix/types.h \
@@ -808,8 +811,8 @@ vdrive.o: vdrive.c vice.h config.h charsets.h arch/unix/types.h \
 	snapshot.h interrupt.h 6510core.h fsdevice.h utils.h \
 	vdrive-iec.h zfile.h
 warn.o: warn.c vice.h config.h warn.h log.h utils.h arch/unix/types.h
-zfile.o: zfile.c vice.h config.h log.h utils.h arch/unix/types.h zfile.h \
-	zipcode.h
+zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
+	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h zipcode.h arch/unix/types.h
 
 info: info-recursive

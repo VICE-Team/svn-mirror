@@ -306,9 +306,9 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/archdep.h ../../src/cartridge.h \
-	../../src/arch/unix/types.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/interrupt.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/cartridge.h ../../src/arch/unix/types.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/log.h ../../src/utils.h vic20mem.h ../../src/zfile.h
 vic.o: vic.c ../../src/vice.h ../../src/config.h vic.h \

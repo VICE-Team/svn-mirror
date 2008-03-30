@@ -349,8 +349,8 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/findpath.h archdep.h ../../../src/log.h \
-	../../../src/utils.h types.h
+	../../../src/findpath.h archdep.h ../../../src/archapi.h \
+	../../../src/log.h ../../../src/utils.h types.h
 c128kbd.o: c128kbd.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h kbd.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h c128ui.h \
