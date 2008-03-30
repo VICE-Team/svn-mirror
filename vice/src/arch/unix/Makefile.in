@@ -377,8 +377,8 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64mem.h ../../../src/mem.h types.h \
 	../../../src/c64/c64cart.h ../../../src/cartridge.h \
 	../../../src/drive/drive.h ../../../src/log.h icon.h joystick.h \
-	../../../src/resources.h ../../../src/sound.h uicartridge.h \
-	uicommands.h uidatasette.h uimenu.h x11/xaw/uimenu.h ui.h \
+	../../../src/resources.h uicartridge.h uicommands.h \
+	uidatasette.h uimenu.h x11/xaw/uimenu.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
 	x11/xaw/../x11menu.h uireu.h uiscreenshot.h uisettings.h \
 	uivicii.h ../../../src/utils.h ../../../src/vsync.h

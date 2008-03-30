@@ -1,3 +1,11 @@
+2001-06-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.40.
+
+	* data/PRINTER/mps801, data/PRINTER/mps803: New files.
+
+	* data/PRINTER/Makefile.am: Added new files.
+
 2001-06-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.39.
