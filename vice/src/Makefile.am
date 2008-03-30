@@ -83,6 +83,7 @@ noinst_HEADERS = \
 	types.h \
 	utils.h \
 	vdrive.h \
+	vdrive-iec.h\
 	via.h \
 	vice.h \
 	vmachine.h \
@@ -123,6 +124,7 @@ base_sources = \
 	traps.c \
 	utils.c \
 	vdrive.c \
+	vdrive-iec.c \
 	warn.c \
 	zfile.c \
 	zipcode.c
@@ -239,6 +241,7 @@ c1541_SOURCES = \
 	c1541.c \
 	charsets.c \
 	vdrive.c \
+	vdrive-iec.c \
 	gcr.c \
 	mshell.c \
 	tape.c \

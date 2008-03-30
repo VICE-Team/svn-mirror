@@ -1134,13 +1134,11 @@ static void set_sprite_x(int num, int new_x, int raster_x)
 /* Enable DMA for sprite `num'.  */
 inline static void turn_sprite_dma_on(int num)
 {
-    if (!sprites[num].dma_flag) {
-        new_dma_msk |= 1 << num;
-        sprites[num].dma_flag = 1;
-        sprites[num].memptr = 0;
-        sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
-        sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
-    }
+    new_dma_msk |= 1 << num;
+    sprites[num].dma_flag = 1;
+    sprites[num].memptr = 0;
+    sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
+    sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
 }
 
 /* Store a value in a VIC-II register. */
@@ -1964,7 +1962,9 @@ inline static void check_sprite_dma(void)
 
     new_dma_msk = dma_msk;
     for (i = 0, b = 1; i < SCREEN_NUM_SPRITES; i++, b <<= 1) {
-	if ((visible_sprite_msk & b) && sprites[i].y == (rasterline & 0xff)) {
+	if ((visible_sprite_msk & b)
+            && sprites[i].y == (rasterline & 0xff)
+            && !sprites[i].dma_flag) {
             turn_sprite_dma_on(i);
 	} else if (sprites[i].dma_flag) {
 	    sprites[i].memptr = ((sprites[i].memptr + sprites[i].memptr_inc)
@@ -4113,6 +4113,8 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
     ysmooth = vic[0x11] & 0x7;
     rasterline = RASTER_Y;      /* FIXME? */
 
+    visible_sprite_msk = vic[0x15];
+
     /* Update colors.  */
     border_color = vic[0x20] & 0xf;
     background_color = vic[0x21] & 0xf;
@@ -4121,6 +4123,7 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
     ext_background_color[2] = vic[0x24] & 0xf;
     mc_sprite_color_1 = vic[0x25] & 0xf;
     mc_sprite_color_2 = vic[0x26] & 0xf;
+
     blank = !(vic[0x11] & 0x10);
 
     if (video_mode == VIC_II_HIRES_BITMAP_MODE

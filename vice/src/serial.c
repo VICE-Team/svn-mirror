@@ -625,8 +625,9 @@ int serial_attach_device(int device, char *var, char *name,
     p = &serialdevices[device];
 
     if (p->inuse) {
-	fprintf(logfile, "warning. serial device %d (%s) in use\n", device, name);
-	return 1;
+        fprintf(logfile, "warning. serial device %d (%s) in use\n",
+                device, name);
+        return 1;
     }
     p->getf = getf;
     p->putf = putf;
@@ -641,9 +642,9 @@ int serial_attach_device(int device, char *var, char *name,
         free(p->name);
     p->name = stralloc(name);
 
-    for (i = 0; i < 16; i++) {
-	p->nextok[i] = 0;
-    }
+    for (i = 0; i < 16; i++)
+        p->nextok[i] = 0;
+
     return 0;
 }
 

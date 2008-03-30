@@ -54,6 +54,8 @@
 #define DRIVE_RAMSIZE		0x400
 #define IP_MAX_COMMAND_LEN	128	/* real 58 */
 
+#define DIR_MAXBUF  (40 * 256)
+
 /* File Types */
 
 #define FT_DEL		0
@@ -251,18 +253,6 @@ extern int find_devno(int dev, const char *name);
 extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
 extern void detach_floppy_image(DRIVE *floppy);
 
-extern int open_1541(void *floppy, char *name, int length, int secondary);
-extern int close_1541(void *floppy, int secondary);
-extern int read_1541(void *floppy, BYTE *data, int secondary);
-extern int write_1541(void *floppy, BYTE data, int secondary);
-extern void flush_1541(void *floppy, int secondary);
-
-extern int write_fs(void *floppy, BYTE data, int secondary);
-extern int read_fs(void *floppy, BYTE *data, int secondary);
-extern int open_fs(void *floppy, char *name, int length, int secondary);
-extern int close_fs(void *floppy, int secondary);
-extern void flush_fs(void *floppy, int secondary);
-
 extern int ip_execute(DRIVE *floppy, BYTE *buf, int length);
 extern int do_validate(DRIVE *floppy);
 extern int check_track_sector(int format, int track, int sector);
@@ -273,22 +263,32 @@ extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
 extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
 			      int sector, int d64);
 
-extern int get_std64_header(file_desc_t fd, BYTE *header);
 extern int check_header(file_desc_t fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern void no_a0_pads(BYTE *ptr, int l);
-extern int free_sector (BYTE *bam, int track, int sector);
-extern int allocate_sector (BYTE *bam, int track, int sector);
+extern int free_sector(BYTE *bam, int track, int sector);
+extern int allocate_sector(BYTE *bam, int track, int sector);
 
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
-extern int floppy_parse_name ( char *name, int length, char *realname,
-		int *reallength, int *readmode, int *filetype, int *rl );
+extern int floppy_parse_name(char *name, int length, char *realname,
+                             int *reallength, int *readmode,
+                             int *filetype, int *rl );
 
-void set_disk_geometry(DRIVE *floppy, int type);
+extern void floppy_error(bufferinfo_t *p, int code, int track, int sector);
+extern int alloc_first_free_sector(DRIVE *floppy, BYTE *bam,
+                                   int *track, int *sector);
+extern int alloc_next_free_sector(DRIVE *floppy, BYTE *bam,
+                                  int *track, int *sector);
+extern BYTE *find_next_slot(DRIVE *floppy);
+extern void floppy_close_all_channels(DRIVE *);
+extern int floppy_write_bam(DRIVE *floppy);
+extern void remove_slot(DRIVE *floppy, BYTE *slot);
+extern void set_disk_geometry(DRIVE *floppy, int type);
+extern void set_find_first_slot(DRIVE *floppy, char *name, 
+                                int length, int type);
 
-int compare_filename(char *name, char *pattern);
-void fs_error(int code);
+extern int compare_filename(char *name, char *pattern);
 
 char *read_disk_image_contents(const char *fname);
 

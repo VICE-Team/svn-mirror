@@ -73,5 +73,6 @@ EXTRA_DIST = \
         c64.ico
 
 resc64.o : resc64.r resc64.h
-	windres -i $< -o $@ --include-dir $(top_srcdir)/src/arch/win32 \
- 		--include-dir $(top_srcdir)/src
+	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
+

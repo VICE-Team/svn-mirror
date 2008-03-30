@@ -57,7 +57,6 @@
 #include <unistd.h>
 #include <memory.h>
 #endif
-#include <assert.h>
 #include <errno.h>
 #endif
 
