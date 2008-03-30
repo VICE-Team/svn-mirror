@@ -392,6 +392,8 @@ xpet-all: \
 	libmonitor \
 	libdiskimage \
 	libserial \
+	libfsdevice \
+	libtape \
 	libimagecontents \
 	xpet 
 
@@ -498,6 +500,7 @@ c1541_LDADD = \
 	@ARCH_DIR@/uicmdline.o \
 	$(blockdev_lib) \
 	$(vdrive_lib) \
+	$(imagecontents_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	@READLINE@

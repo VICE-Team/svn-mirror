@@ -28,18 +28,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#include "datasette.h"
 #include "log.h"
 #include "t64.h"
 #include "tap.h"
 #include "tape.h"
-#include "ui.h"
 #include "utils.h"
 
-
-static log_t tape_image_log = LOG_ERR;
 
 int tape_image_close(tape_image_t *tape_image)
 {
@@ -84,94 +79,89 @@ int tape_image_open(tape_image_t *tape_image)
     return -1;
 }
 
-/* Detach.  */
-int tape_image_detach(unsigned int unit)
+/* ------------------------------------------------------------------------- */
+
+void tape_get_header(tape_image_t *tape_image, BYTE *name)
 {
-    int retval = 0;
-
-    if (unit != 1)
-        return -1;
-
-    if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL)
-        return 0;
-
-    switch (tape_image_dev1->type) {
+    switch (tape_image->type) {
       case TAPE_TYPE_T64:
-        log_message(tape_image_log,
-                    "Detaching T64 image `%s'.", tape_image_dev1->name);
-        /* Tape detached: release play button.  */
-        datasette_set_tape_sense(0);
+        t64_get_header((t64_t *)tape_image->data, name);
         break;
       case TAPE_TYPE_TAP:
-        log_message(tape_image_log,
-                    "Detaching TAP image `%s'.", tape_image_dev1->name);
-        datasette_set_tape_image(NULL);
-
-        tape_traps_install();
+        tap_get_header((tap_t *)tape_image->data, name);
         break;
-      default:
-        log_error(tape_image_log, "Unknown tape type %i.",
-                  tape_image_dev1->type);
     }
-
-    retval = tape_image_close(tape_image_dev1);
-
-    ui_display_tape_current_image("");
-
-    return retval;
 }
 
-/* Attach.  */
-int tape_image_attach(unsigned int unit, const char *name)
+tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
 {
-    tape_image_t tape_image;
+    static tape_file_record_t rec;
 
-    if (unit != 1)
-        return -1;
+    memset(rec.name, 0, 17);
 
-    if (!name || !*name)
-        return -1;
-
-    tape_image.name = stralloc(name);
-    tape_image.read_only = 0;
-
-    if (tape_image_open(&tape_image) < 0) {
-        free(tape_image.name);
-        log_error(tape_image_log, "Cannot open file `%s'", name);
-        return -1;
-    }
-
-    tape_image_detach(unit);
-
-    memcpy(tape_image_dev1, &tape_image, sizeof(tape_image_t));
-
-    ui_display_tape_current_image(tape_image_dev1->name);
-
-    switch (tape_image_dev1->type) {
+    switch (tape_image->type) {
       case TAPE_TYPE_T64:
-        log_message(tape_image_log, "T64 image '%s' attached.", name);
-        /* Tape attached: press play button.  */
-        datasette_set_tape_sense(1);
-        break;
-      case TAPE_TYPE_TAP:
-        datasette_set_tape_image((tap_t *)tape_image_dev1->data);
-        log_message(tape_image_log, "TAP image '%s' attached.", name);
-        log_message(tape_image_log, "TAP image version: %i, system: %i.",
-                    ((tap_t *)tape_image_dev1->data)->version,
-                    ((tap_t *)tape_image_dev1->data)->system);
-        tape_traps_deinstall();
-        break;
-      default:
-        log_error(tape_image_log, "Unknown tape type %i.",
-                  tape_image_dev1->type);
-        return -1;
-    }
+        {
+            t64_file_record_t *t64_rec;
 
-    return 0;
+            t64_rec = t64_get_current_file_record((t64_t *)tape_image->data);
+            memcpy(rec.name, t64_rec->cbm_name, 16);
+            rec.type = (t64_rec->entry_type == T64_FILE_RECORD_FREE) ? 0 : 1;
+            rec.start_addr = t64_rec->start_addr;
+            rec.end_addr = t64_rec->end_addr;
+            break;
+        }
+      case TAPE_TYPE_TAP:
+        {
+            tape_file_record_t *tape_rec;
+
+            tape_rec = tap_get_current_file_record((tap_t *)tape_image->data);
+            memcpy(rec.name, tape_rec->name, 16);
+            rec.type = 1;
+            rec.start_addr = tape_rec->start_addr;
+            rec.end_addr = tape_rec->end_addr;
+            break;
+        }
+    }
+    return &rec;
 }
+
+int tape_seek_start(tape_image_t *tape_image)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        return t64_seek_start((t64_t *)tape_image->data);
+      case TAPE_TYPE_TAP:
+        return tap_seek_start((tap_t *)tape_image->data);
+    }
+    return -1;
+}
+
+int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        return t64_seek_to_file((t64_t *)tape_image->data, file_number);
+      case TAPE_TYPE_TAP:
+        return tap_seek_to_file((tap_t *)tape_image->data, file_number);
+    }
+    return -1;
+}
+
+int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
+{
+    switch (tape_image->type) {
+      case TAPE_TYPE_T64:
+        return t64_seek_to_next_file((t64_t *)tape_image->data, allow_rewind);
+      case TAPE_TYPE_TAP:
+        return tap_seek_to_next_file((tap_t *)tape_image->data, allow_rewind);
+    }
+    return -1;
+}
+
+/* ------------------------------------------------------------------------- */
 
 void tape_image_init(void)
 {
-    tape_image_log = log_open("Tape Access");
 }
 
