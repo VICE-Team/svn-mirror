@@ -79,7 +79,6 @@ struct video_canvas_s;
 
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
-extern void video_free(void);
 
 extern int video_canvas_create(struct video_canvas_s *canvas,
                                const char *win_name, unsigned int *width,

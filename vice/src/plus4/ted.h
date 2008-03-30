@@ -52,7 +52,6 @@ extern int ted_snapshot_write_module(struct snapshot_s *s);
 extern int ted_snapshot_read_module(struct snapshot_s *s);
 
 extern void ted_video_refresh(void);
-extern void video_free(void);
 
 #endif
 
