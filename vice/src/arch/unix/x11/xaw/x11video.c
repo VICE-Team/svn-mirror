@@ -48,8 +48,7 @@ static log_t x11video_log = LOG_ERR;
 
 void video_init_arch(void)
 {
-    if (x11video_log == LOG_ERR)
-        x11video_log = log_open("X11Video");
+    x11video_log = log_open("X11Video");
 }
 
 int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
