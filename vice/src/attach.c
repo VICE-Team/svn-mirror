@@ -33,7 +33,7 @@
 #include "attach.h"
 #include "cmdline.h"
 #include "diskimage.h"
-#include "drive.h"
+#include "driveimage.h"
 #include "fdc.h"
 #include "fsdevice.h"
 #include "fliplist.h"
@@ -255,13 +255,13 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
           case 8:
             wd1770_detach_image(image, 8);
             fdc_detach_image(image, 8);
-            drive_detach_image(image, 8);
+            drive_image_detach(image, 8);
             vdrive_detach_image(image, 8, floppy);
             break;
           case 9:
             wd1770_detach_image(image, 9);
             fdc_detach_image(image, 9);
-            drive_detach_image(image, 9);
+            drive_image_detach(image, 9);
             vdrive_detach_image(image, 9, floppy);
             break;
           case 10:
@@ -316,13 +316,13 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
     switch (unit) {
       case 8:
-        err = drive_attach_image(image, 8);
+        err = drive_image_attach(image, 8);
         err &= vdrive_attach_image(image, 8, floppy);
         err &= fdc_attach_image(image, 8);
         err &= wd1770_attach_image(image, 8);
         break;
       case 9:
-        err = drive_attach_image(image, 9);
+        err = drive_image_attach(image, 9);
         err &= vdrive_attach_image(image, 9, floppy);
         err &= fdc_attach_image(image, 9);
         err &= wd1770_attach_image(image, 9);
