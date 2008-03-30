@@ -398,8 +398,7 @@ char *read_tape_image_contents(const char *fname)
 	no_entries = 1;
 
     /* Seek to start of file records. */
-    if (lseek (fd, 64, SEEK_SET) < 0)
-    {
+    if (lseek (fd, 64, SEEK_SET) < 0) {
 	perror("lseek to file records failed");
 	zclose(fd);
 	return NULL;
@@ -414,15 +413,13 @@ char *read_tape_image_contents(const char *fname)
     len = sprintf(linebuf, "0 .\"%s\"\n", &inbuf[40]);
     bufcat(outbuf, &outbuf_size, &max_outbuf_size, linebuf, len);
 
-    for (i = 0; i < no_entries; i++)
-    {
+    for (i = 0; i < no_entries; i++) {
 	char *ext;
 	int start_addr, end_addr;
 	int blocks;
 
 	res = read(fd, inbuf, 32);
-	if (res != 32)
-	{
+	if (res != 32) {
 	    perror("read of file record failed");
 	    zclose(fd);
 	    free(outbuf);
