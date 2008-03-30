@@ -92,6 +92,7 @@ static int set_playback_enabled(resource_value_t v, void *param)
     if ((int)v)
         vsync_disable_timer();
     playback_enabled = (int)v;
+    sound_machine_enable(playback_enabled);
     return 0;
 }
 

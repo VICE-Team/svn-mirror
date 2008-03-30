@@ -221,3 +221,8 @@ int sound_machine_channels(void)
     return 1;
 }
 
+void sound_machine_enable(int enable)
+{
+
+}
+

@@ -208,6 +208,11 @@ int sound_machine_channels(void)
     return 1;
 }
 
+void sound_machine_enable(int enable)
+{
+
+}
+
 /* ---------------------------------------------------------------------*/
 
 void REGPARM2 ted_sound_store(ADDRESS addr, BYTE value)
