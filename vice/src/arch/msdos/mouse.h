@@ -47,8 +47,8 @@ inline static void _update_mouse(void)
         int x, y;
 
         get_mouse_mickeys(&x, &y);
-        _mouse_x = (_mouse_x + (x >> 2)) & 0xff;
-        _mouse_y = (_mouse_y + (y >> 2)) & 0xff;
+        _mouse_x = (_mouse_x + (x / 3)) & 0xff;
+        _mouse_y = (_mouse_y + (y / 3)) & 0xff;
         _mouse_coords_dirty = 0;
     }
 }
