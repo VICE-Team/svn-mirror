@@ -50,7 +50,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* Like malloc, but abort if not enough memory is available. */
+/* Like malloc, but abort if not enough memory is available.  */
 void *xmalloc(size_t size)
 {
     void *p = malloc(size);
@@ -65,7 +65,7 @@ void *xmalloc(size_t size)
     return p;
 }
 
-/* Like realloc, but abort if not enough memory is available. */
+/* Like realloc, but abort if not enough memory is available.  */
 void *xrealloc(void *p, size_t size)
 {
     void *new_p = realloc(p, size);
@@ -81,7 +81,7 @@ void *xrealloc(void *p, size_t size)
 }
 
 /* Malloc enough space for `str', copy `str' into it and return its
-   address. */
+   address.  */
 char *stralloc(const char *str)
 {
     int l = strlen(str);
@@ -92,7 +92,7 @@ char *stralloc(const char *str)
 }
 
 /* Malloc a new string whose contents concatenate the arguments until the
-   first NULL pointer (max `_CONCAT_MAX_ARGS' arguments). */
+   first NULL pointer (max `_CONCAT_MAX_ARGS' arguments).  */
 char *concat(const char *s, ...)
 {
 #define _CONCAT_MAX_ARGS 128
@@ -125,13 +125,14 @@ char *concat(const char *s, ...)
     }
     *ptr = '\0';
 
+    va_end(ap);
     return new;
 }
 
 /* Add the first `src_size' bytes of `src' to the end of `buf', which is a
    malloc'ed block of `max_buf_size' bytes of which only the first `buf_size'
    ones are used.  If the `buf' is not large enough, realloc it.  Return a
-   pointer to the new block. */
+   pointer to the new block.  */
 char *bufcat(char *buf, int *buf_size, int *max_buf_size,
 	     const char *src, int src_size)
 {
@@ -150,7 +151,7 @@ char *bufcat(char *buf, int *buf_size, int *max_buf_size,
 }
 
 /* Remove spaces from start and end of string `s'.  The string is not
-   reallocated even if it becomes smaller. */
+   reallocated even if it becomes smaller.  */
 void remove_spaces(char *s)
 {
     char *p;
@@ -291,12 +292,12 @@ char *subst(const char *s, const char *string, const char *replacement)
 
 /* ------------------------------------------------------------------------- */
 
-/* Return a malloc'ed backup file name for file `fname'. */
+/* Return a malloc'ed backup file name for file `fname'.  */
 char *make_backup_filename(const char *fname)
 {
 #ifndef __MSDOS__
 
-    /* Just add a '~' to the end of the name. */
+    /* Just add a '~' to the end of the name.  */
     int l = strlen(fname);
     char *p = (char *)xmalloc(l + 2);
 
@@ -319,13 +320,13 @@ char *make_backup_filename(const char *fname)
 #endif /* !__MSDOS__ */
 }
 
-/* Make a backup for file `fname'. */
+/* Make a backup for file `fname'.  */
 int make_backup_file(const char *fname)
 {
     char *backup_name = make_backup_filename(fname);
     int retval;
 
-    /* Cannot do it... */
+    /* Cannot do it...  */
     if (backup_name == NULL)
 	return -1;
 
@@ -335,7 +336,7 @@ int make_backup_file(const char *fname)
     return retval;
 }
 
-/* Get the current working directory as a malloc'ed string. */
+/* Get the current working directory as a malloc'ed string.  */
 char *get_current_dir(void)
 {
     static int len = 128;
@@ -351,7 +352,7 @@ char *get_current_dir(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Return the length of an open file in bytes. */
+/* Return the length of an open file in bytes.  */
 unsigned long file_length(int fd)
 {
     struct stat statbuf;
@@ -363,7 +364,7 @@ unsigned long file_length(int fd)
 }
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
-   success, -1 on failure. */
+   success, -1 on failure.  */
 int load_file(const char *name, void *dest, int size)
 {
     int fd, r;
@@ -387,7 +388,7 @@ int load_file(const char *name, void *dest, int size)
 
 /* Write the first `size' bytes of `src' into a newly created file `name'.
    If `name' already exists, it is replaced by the new one.  Returns 0 on
-   success, -1 on failure. */
+   success, -1 on failure.  */
 int save_file(const char *name, const void *src, int size)
 {
     int fd, r;
@@ -484,7 +485,7 @@ int spawn(const char *name, char **argv,
 {
 #ifndef __MSDOS__
 
-    /* Unix version. */
+    /* Unix version.  */
 
     pid_t child_pid;
     int child_status;
@@ -518,7 +519,7 @@ int spawn(const char *name, char **argv,
 
 #else
 
-    /* MS-DOS version. */
+    /* MS-DOS version.  */
 
     int new_stdout, new_stderr;
     int old_stdout_mode, old_stderr_mode;
@@ -527,12 +528,12 @@ int spawn(const char *name, char **argv,
 
     new_stdout = new_stderr = old_stdout = old_stderr = -1;
 
-    /* Make sure we are in binary mode. */
+    /* Make sure we are in binary mode.  */
     old_stdout_mode = setmode(STDOUT_FILENO, O_BINARY);
     old_stderr_mode = setmode(STDERR_FILENO, O_BINARY);
 
     /* Redirect stdout and stderr as requested, saving the old
-       descriptors. */
+       descriptors.  */
     if (stdout_redir != NULL) {
 	old_stdout = dup(STDOUT_FILENO);
 	new_stdout = open(stdout_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
@@ -554,7 +555,7 @@ int spawn(const char *name, char **argv,
 	dup2(new_stderr, STDERR_FILENO);
     }
 
-    /* Spawn the child process. */
+    /* Spawn the child process.  */
     retval = spawnvp(P_WAIT, name, argv);
 
 cleanup:

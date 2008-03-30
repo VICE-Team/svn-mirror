@@ -70,7 +70,7 @@ sub doit {
             ($c eq '}') && $bc--;
             $bc && ($s .= $c);
             #print "$bc,$c\n";
-        } while (!eof(M) && $bc); 
+        } while (!eof(M) && $bc);
         print "func $name\n<$s>\n";
         $FUNC{$name} = $s;
     } else {
@@ -91,7 +91,7 @@ sub doit {
     s/\n//g;
 #    s/mycia/cia$NUM/g;
 #    s/MYCIA/CIA$NUM/g;
-  
+
     $t = $_;
     $i = 0;
     #print "define(0) = $DEFVAL[$i]\n";
@@ -103,138 +103,17 @@ sub doit {
     s/^\s+//g;
 
     #print "f=$f, _='$_' FUNC()=$FUNC{$f}, DEFINE()=$DEFINE{$_}\n";
-  
+
     if($FUNC{$_}) {
       print O $FUNC{$_};
     } else {
-#      if($DEFINE{$_}) { 
+#      if($DEFINE{$_}) {
 #        print O $DEFINE{$_};
 #      } else {
         print O "$f\n";
 #      }
     }
   }
-  close (O);  
+  close (O);
 
 }
-
-#!/usr/bin/perl
-#
-# $Id: convcia,v 1.1 1997/05/22 22:00:59 fachat Exp ettore $
-#
-# This file is part of VICE, the Versatile Commodore Emulator.
-# See README for copyright notice.
-#
-# This prg converts the cia-tmpl.c file into a real C file,
-# using the functions in cia1.def/cia2.def
-#
-# Written (i.e. taken from convop script) by
-#   Andre' Fachat (fachat@physik.tu-chemnitz.de)
-#
-# $Log: convcia,v $
-# Revision 1.1  1997/05/22 22:00:59  fachat
-# Initial revision
-#
-#
-
-#
-# Change interface such that the script can be used for all I/O chips:
-# add mycpu, myclk, my{via|cia} and MY{VIA|CIA} definititions to *.def files
-# command line parameters are now:
-#   convio template-file definition-file output-file
-# i.e. use like
-#   convio ../cia-tmpl cia1.def cia1.c
-#
-
-&doit( "@ARGV[0]", "@ARGV[1]", "@ARGV[2]");
-
-sub doit {
-  $TEMPL= $_[0];
-  $CIAD = $_[1];
-  $CIAO = $_[2];
-#  $NUM  = $_[3];
-
-  @DEFVAL = ();
-  %DEFINE = ();
-  @FUNC = ();
-
-  # Scan defines in cia?.def
-  open (M, "<$CIAD") || die ("\nCannot open $CIAD\n");
-  $ndefs = 0;
-  while (<M>) {
-        if (/^#define\s+(\S*)\s+(.*)/) {
-            print "define $1=$2.\n";
-            if ($DEFINE{$1} ne "") {
-                print "already defined to $DEFINE{$1}\n";
-            } else {
-                $DEFINE{$1} = $2;
-		$DEFVAL[$ndefs] = $1;
-		$ndefs += 1;
-            }
-        }
-  }
-  close(M);
-
-
-  # Scan functions in cia?.def
-  open (M, "<$CIAD") || die ("\nCannot open $CIAD\n");
-  while($_ = <M>) {
-    if (/^s*(\S*)\s*\(\s*\)/) {
-        $name = $1;
-        ($c = getc(M)) while ($c ne '{');
-        $s = ""; $bc = 1;
-
-        do {
-            $c = getc(M);
-            ($c eq '{') && $bc++;
-            ($c eq '}') && $bc--;
-            $bc && ($s .= $c);
-            #print "$bc,$c\n";
-        } while (!eof(M) && $bc); 
-        print "func $name\n<$s>\n";
-        $FUNC{$name} = $s;
-    } else {
-        !/^$|^#/ && print O $_;
-    }
-  }
-  close (M);
-
-
-  # Open Input/Output files for loops
-  #
-  open(O, ">$CIAO");
-  print O "\n/*\n * $CIAO\n * This file is generated from $TEMPL and $CIAD,\n * Do not edit!\n */\n";
-
-  open(I, "<$TEMPL");
-  while(<I>) {
-    chomp;
-    s/\n//g;
-#    s/mycia/cia$NUM/g;
-#    s/MYCIA/CIA$NUM/g;
-  
-    $t = $_;
-    $i = 0;
-    #print "define(0) = $DEFVAL[$i]\n";
-    while ($DEFVAL[$i] ne "") {
-      s/$DEFVAL[$i]/$DEFINE{$DEFVAL[$i]}/g;
-      $i += 1;
-    }
-    $f = $_;
-    s/^\s+//g;
-
-    #print "f=$f, _='$_' FUNC()=$FUNC{$f}, DEFINE()=$DEFINE{$_}\n";
-  
-    if($FUNC{$_}) {
-      print O $FUNC{$_};
-    } else {
-#      if($DEFINE{$_}) { 
-#        print O $DEFINE{$_};
-#      } else {
-        print O "$f\n";
-#      }
-    }
-  }
-  close (O);  
-
-}
-
