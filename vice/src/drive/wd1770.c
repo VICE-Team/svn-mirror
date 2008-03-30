@@ -238,7 +238,7 @@ static void wd1770_store(ADDRESS addr, BYTE byte, unsigned int dnr)
         break;
     }
 }
-/* extern int drive0_traceflg;*/
+
 static BYTE wd1770_read(ADDRESS addr, unsigned int dnr)
 {
     BYTE tmp = 0;
@@ -286,7 +286,6 @@ static BYTE wd1770_read(ADDRESS addr, unsigned int dnr)
             tmp = wd1770[dnr].data_buffer[wd1770[dnr].data_buffer_index--];
         break;
     }
-    /*drive0_traceflg = 1;*/
 #ifdef WD_DEBUG
     log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, tmp, drive_clk[dnr]);
 #endif
