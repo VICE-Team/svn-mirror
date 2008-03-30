@@ -1,3 +1,50 @@
+2002-01-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.56.
+
+	* plus4/ted.c (ted_raster_draw_alarm_handler,
+	do_matrix_fetch): Fixed color fetch.
+
+	* plus4/tedtypes.h: Fixed 24/25 row start.
+
+	* plus4/plus4mem.c (pio1_set_tape_sense): New function.
+
+	* plus4/ted-sound.c (ted_sound_read): Mask out other bits in
+	shared register.
+
+	* tap.c (tap_header_read, tap_open): Also recognise C16 tap
+	images.
+
+	* tape.c (tape_attach_image): Log TAP image version and
+	system.
+
+	* datasette.c (datasette_read_gap): Some C16 tap support.
+
+2002-01-06  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/arch.dsp: Added plus4 folder to include path.
+
+	* plus4/plus4mem.c (mem_initialize_memory, mem_powerup): Set
+	mem_config only during power up and hard reset, but don't
+	change during soft reset.
+
+	* plus4/ted-draw.c (_draw_hires_bitmap,
+	_draw_hires_bitmap_2x): Fixed wrong color nibble pairings.
+
+	* plus4/ted.c (ted_reset): Initialize ted.reverse_mode.
+
+	* sound.c (sound_suspend): Don't call fill_buffer.
+
+	* sounddrv/sounddx.c (dx_write): Store last samples.
+	(dx_suspend): Fill buffer up with last buffered sample.
+	(dx_resume): Restart playing buffer from start.
+
+	* sounddrv/soundwmm.c (wmm_write): Store last samples.
+	(wmm_timercallback): Don't watch inactivity and don't
+	stop buffer playing, this function became obsolete, will
+	be removed.
+	(wmm_suspend, wmm_resume): New functions.
+
 2002-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.55.
@@ -19,7 +66,7 @@
 
 	* c128/c128.c (machine_write_snapshot): Fixed typo.
 
-2002-01-04  Tibor Biczo <crown@axelero.hu>
+2002-01-04  Tibor Biczo  <crown@axelero.hu>
 
 	* plus4/ted-draw.c: Added blinking color support for normal
 	textmode.
@@ -30,7 +77,7 @@
 	* plus4/ted.c (ted_fetch_color): Fetch all bits. Bit 7 is used
 	for blinking in normal text mode.
 
-2002-01-04  Tibor Biczo <crown@axelero.hu>
+2002-01-04  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/plus4kbd.c: Fixed Plus4 keyboard layout.
 

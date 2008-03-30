@@ -328,7 +328,8 @@ inline static int do_matrix_fetch(CLOCK sub)
         ted.memory_fetch_done = 1;
         ted.mem_counter = ted.memptr;
 
-        if ((raster->current_line & 7) == (unsigned int)raster->ysmooth
+        if ((raster->current_line & 7)
+            == (unsigned int)((raster->ysmooth + 1) & 7)
             && ted.allow_bad_lines
             && raster->current_line >= ted.first_dma_line
             && raster->current_line <= ted.last_dma_line) {
@@ -349,11 +350,12 @@ inline static int do_matrix_fetch(CLOCK sub)
             return 1;
         }
 
-        if (((raster->current_line + 1) & 7) == (unsigned int)raster->ysmooth
+        if ((raster->current_line & 7) == (unsigned int)raster->ysmooth
             && ted.allow_bad_lines
             && raster->current_line >= ted.first_dma_line
             && raster->current_line <= ted.last_dma_line) {
             ted_fetch_color(0, TED_SCREEN_TEXTCOLS);
+
 /*
             raster->draw_idle_state = 0;
             raster->ycounter = 0;
@@ -366,7 +368,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             maincpu_steal_cycles(ted.fetch_clk,
                                  TED_SCREEN_TEXTCOLS + 3 - sub);
 
-            ted.bad_line = 1;
+/*            ted.bad_line = 1;*/
             return 1;
         }
 
@@ -455,6 +457,8 @@ void ted_reset(void)
     alarm_set(&ted.raster_irq_alarm, 1);
 
     ted.force_display_state = 0;
+
+    ted.reverse_mode = 0;
 
     /* Remove all the IRQ sources.  */
     ted.regs[0x0a] = 0;
@@ -552,7 +556,7 @@ void ted_set_raster_irq(unsigned int line)
         alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
         TED_DEBUG_RASTER(("TED: update_raster_irq(): "
-                         "raster compare out of range ($%04X)!\n",
+                         "raster compare out of range ($%04X)!",
                          line));
         alarm_unset(&ted.raster_irq_alarm);
     }
@@ -588,25 +592,25 @@ void ted_update_memory_ptrs(unsigned int cycle)
     screen_base = mem_get_tedmem_base((screen_addr >> 14) | romsel)
                   + (screen_addr& 0x3fff);
 
-    TED_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
+    TED_DEBUG_REGISTER(("\tVideo memory at $%04X", screen_addr));
 
     bitmap_addr = (ted.regs[0x12] & 0x38) << 10;
     bitmap_base = mem_get_tedmem_base((bitmap_addr >> 14) | romsel)
                   + (bitmap_addr & 0x3fff);
 
-    TED_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmap_addr));
+    TED_DEBUG_REGISTER(("\tBitmap memory at $%04X", bitmap_addr));
 
     char_addr = (ted.regs[0x13] & 0xfc) << 8;
     char_base = mem_get_tedmem_base((char_addr >> 14) | romsel)
                 + (char_addr & 0x3fff);
 
-    TED_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", char_addr));
+    TED_DEBUG_REGISTER(("\tUser-defined character set at $%04X", char_addr));
 
     color_addr = ((ted.regs[0x14] & 0xf8) << 8);
     color_base = mem_get_tedmem_base((color_addr >> 14) | romsel)
                  + (color_addr & 0x3fff);
 
-    TED_DEBUG_REGISTER(("\tColor memory at $%04X\n", color_addr));
+    TED_DEBUG_REGISTER(("\tColor memory at $%04X", color_addr));
 
 
     tmp = TED_RASTER_CHAR(cycle);
@@ -769,7 +773,7 @@ void ted_update_video_mode(unsigned int cycle)
         TED_DEBUG_VMODE(("???"));
     }
 
-    TED_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.\n",
+    TED_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.",
                     TED_RASTER_Y(clk), cycle));
 #endif
 }
@@ -811,9 +815,11 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         ted.mem_counter_inc = TED_SCREEN_TEXTCOLS;
         /* `ycounter' makes the chip go to idle state when it reaches the
            maximum value.  */
+        if (ted.raster.ycounter == 6) {
+            ted.memptr = ted.mem_counter;
+        }
         if (ted.raster.ycounter == 7) {
             ted.idle_state = 1;
-            ted.memptr = ted.mem_counter;
         }
         if (!ted.idle_state || ted.bad_line) {
             ted.raster.ycounter = (ted.raster.ycounter + 1) & 0x7;
@@ -841,8 +847,9 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
             ted.idle_data_location = IDLE_3FFF;
             ted.idle_data = ram[0x3fff];
         }
-    } else
+    } else {
       ted.idle_data_location = IDLE_NONE;
+    }
 
     /* Set the next draw event.  */
     ted.last_emulate_line_clk += ted.cycles_per_line;
@@ -948,7 +955,7 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
         maincpu_set_irq_clk(I_RASTER, 1, ted.raster_irq_clk);
         ted.irq_status |= 0x80;
         TED_DEBUG_RASTER(("TED: *** IRQ requested at line $%04X, "
-                         "ted.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
+                         "ted.raster_irq_line=$%04X, offset = %ld, cycle = %d.",
                          TED_RASTER_Y(clk), ted.raster_irq_line, offset,
                          TED_RASTER_CYCLE(clk)));
     }

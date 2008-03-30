@@ -288,7 +288,8 @@ plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h ../maincpu.c \
 	../clkguard.h ../interrupt.h ../log.h ../machine.h ../maincpu.h \
 	../mem.h ../../src/monitor/mon.h ../mos6510.h ../snapshot.h \
 	../traps.h ../utils.h ../6510core.c
-plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h
+plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h \
+	plus4mem.h ../../src/mem.h ../../src/arch/unix/types.h
 plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/log.h \
@@ -296,7 +297,7 @@ plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/iecdrive.h plus4iec.h \
 	../../src/via.h ../../src/drive/viad.h
 plus4mem.o: plus4mem.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
+	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/monitor/mon.h plus4iec.h plus4mem.h ../../src/mem.h \

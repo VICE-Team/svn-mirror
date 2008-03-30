@@ -227,6 +227,13 @@ void ted_sound_reset(void)
 
 BYTE REGPARM1 ted_sound_read(ADDRESS addr)
 {
-    return sound_read(addr, 0);
+    BYTE value;
+
+    value = sound_read(addr, 0);
+
+    if (addr == 0x12)
+        value &= 3;
+
+    return value;
 }
 
