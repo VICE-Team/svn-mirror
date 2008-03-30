@@ -52,9 +52,9 @@
 typedef struct _disk_image_t {
     FILE *fd;
     char *name;
-    int read_only;
-    int type;
-    int tracks;
+    unsigned int read_only;
+    unsigned int type;
+    unsigned int tracks;
     gcr_t *gcr;
     BYTE *error_info;
 } disk_image_t;
@@ -65,15 +65,16 @@ extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
 extern int disk_image_create(const char *name, int type);
 
-extern int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
-                                  int sector);
-extern int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
-                                   int sector);
-extern int disk_image_check_sector(int format, int track, int sector);
-extern int disk_image_sector_per_track(int format, int track);
+extern int disk_image_read_sector(disk_image_t *image, BYTE *buf,
+                                  unsigned int track, unsigned int sector);
+extern int disk_image_write_sector(disk_image_t *image, BYTE *buf,
+                                   unsigned int track, unsigned int sector);
+extern int disk_image_check_sector(unsigned int format, unsigned int track,
+                                   unsigned int sector);
+extern int disk_image_sector_per_track(int format, unsigned int track);
 
 extern int disk_image_read_gcr_image(disk_image_t *image);
-extern void disk_image_write_track(disk_image_t *image, int track,
+extern void disk_image_write_track(disk_image_t *image, unsigned int track,
                                    int *gcr_track_size,
                                    BYTE *gcr_speed_zone);
 #endif

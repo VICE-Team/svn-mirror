@@ -324,23 +324,25 @@ static int disk_image_check_for_x64(disk_image_t *image)
 
 int disk_image_read_gcr_image(disk_image_t *image)
 {
-    int track, track_len, zone_len, i, NumTracks;
+    int track, zone_len, i;
+    unsigned int num_tracks;
+    size_t track_len;
     BYTE len[2], comp_speed[NUM_MAX_BYTES_TRACK / 4];
     BYTE *track_data, *zone_data;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     long offset;
 
-    NumTracks = image->tracks;
+    num_tracks = image->tracks;
 
     fseek(image->fd, 12, SEEK_SET);
-    if (read_dword(image->fd, gcr_track_p, NumTracks * 8) < 0) {
+    if (read_dword(image->fd, gcr_track_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image.");
         return -1;
     }
 
-    fseek(image->fd, 12 + NumTracks * 8, SEEK_SET);
-    if (read_dword(image->fd, gcr_speed_p, NumTracks * 8) < 0) {
+    fseek(image->fd, 12 + num_tracks * 8, SEEK_SET);
+    if (read_dword(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image.");
         return -1;
     }
@@ -353,7 +355,7 @@ int disk_image_read_gcr_image(disk_image_t *image)
         memset(zone_data, 0x00, NUM_MAX_BYTES_TRACK / 4);
         image->gcr->track_size[track] = 6250;
 
-        if (track <= NumTracks && gcr_track_p[track * 2] != 0) {
+        if (track <= num_tracks && gcr_track_p[track * 2] != 0) {
 
             offset = gcr_track_p[track * 2];
 
@@ -729,7 +731,7 @@ static char sector_map_d80[78] =
     23, 23, 23, 23, 23, 23, 23          /* 71 - 77 */
 };
 
-int disk_image_sector_per_track(int format, int track)
+int disk_image_sector_per_track(int format, unsigned int track)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
@@ -751,7 +753,8 @@ int disk_image_sector_per_track(int format, int track)
     return -1;
 }
 
-int disk_image_check_sector(int format, int track, int sector)
+int disk_image_check_sector(unsigned int format, unsigned int track,
+                            unsigned int sector)
 {
     int sectors = 0, i;
 
@@ -817,8 +820,8 @@ int disk_image_check_sector(int format, int track, int sector)
 /*-----------------------------------------------------------------------*/
 /* Read an entire GCR track from the disk image.  */
 
-int disk_image_read_track(disk_image_t *image, int track, BYTE *gcr_data,
-                    int *gcr_track_size)
+int disk_image_read_track(disk_image_t *image, unsigned int track,
+                          BYTE *gcr_data, int *gcr_track_size)
 {
     int track_len;
     BYTE len[2];
@@ -868,8 +871,8 @@ int disk_image_read_track(disk_image_t *image, int track, BYTE *gcr_data,
 /*-----------------------------------------------------------------------*/
 /* Read an sector from the disk image.  */
 
-int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
-                           int sector)
+int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+                           unsigned int sector)
 {
     int sectors;
     long offset;
@@ -987,10 +990,11 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
 /*-----------------------------------------------------------------------*/
 /* Write an entire GCR track to the disk image.  */
 
-void disk_image_write_track(disk_image_t *image, int track,
+void disk_image_write_track(disk_image_t *image, unsigned int track,
                             int *gcr_track_size, BYTE *gcr_speed_zone)
 {
-    int gap, i, NumTracks;
+    int gap, i;
+    unsigned int num_tracks;
     BYTE len[2], *gcr_track_start_ptr;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
@@ -999,16 +1003,16 @@ void disk_image_write_track(disk_image_t *image, int track,
     gcr_track_start_ptr = image->gcr->data 
                           + ((track - 1) * NUM_MAX_BYTES_TRACK);
 
-    NumTracks = image->tracks;
+    num_tracks = image->tracks;
 
     fseek(image->fd, 12, SEEK_SET);
-    if (read_dword(image->fd, gcr_track_p, NumTracks * 8) < 0) {
+    if (read_dword(image->fd, gcr_track_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image header.");
         return;
     }
 
-    fseek(image->fd, 12 + NumTracks * 8, SEEK_SET);
-    if (read_dword(image->fd, gcr_speed_p, NumTracks * 8) < 0) {
+    fseek(image->fd, 12 + num_tracks * 8, SEEK_SET);
+    if (read_dword(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image header.");
         return;
     }
@@ -1064,7 +1068,7 @@ void disk_image_write_track(disk_image_t *image, int track,
         return;
     }
 
-    offset = 12 + NumTracks * 8 + (track - 1) * 8;
+    offset = 12 + num_tracks * 8 + (track - 1) * 8;
     if (fseek(image->fd, offset, SEEK_SET) < 0
         || write_dword(image->fd, &gcr_speed_p[(track - 1) * 2], 4) < 0) {
         log_error(disk_image_log, "Could not write GCR disk image.");
@@ -1098,8 +1102,8 @@ void disk_image_write_track(disk_image_t *image, int track,
 /*-----------------------------------------------------------------------*/
 /* Write a sector to the disk image.  */
 
-int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
-                            int sector)
+int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+                            unsigned int sector)
 {
     int sectors;
     long offset;
