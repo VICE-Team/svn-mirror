@@ -25,7 +25,8 @@
  *
  */
 
-#include "vice.h"
+#ifndef _VDRIVE_BAM_H
+#define _VDRIVE_BAM_H
 
 #include "vdrive.h"
 
@@ -58,4 +59,6 @@ extern int vdrive_bam_get_disk_id(DRIVE *floppy, BYTE *id);
 extern int vdrive_bam_set_disk_id(DRIVE *floppy, BYTE *id);
 extern int vdrive_bam_read_bam(DRIVE *floppy);
 extern int vdrive_bam_write_bam(DRIVE *floppy);
+
+#endif
 
