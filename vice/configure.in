@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.13.6)
+AM_INIT_AUTOMAKE(vice, 1.13.7)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -581,6 +581,9 @@ if [[ x"$is_beos" = "xyes" ]] ; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o"
 fi
 
+AC_CHECK_HEADERS(avformat.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundmovie.o"; break])
+
 AC_SUBST(SOUND_DRIVERS)
 
 if test x"$with_arts" = "xyes"; then
@@ -595,6 +598,9 @@ fi
 AC_CHECK_LIB(audio, ALseterrorhandler,,,$SOUND_LIBS)
 AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,,,$SOUND_LIBS)
 AC_CHECK_LIB(esd, esd_open_sound,,,$SOUND_LIBS)
+AC_CHECK_LIB(avcodec, avcodec_init,,,$SOUND_LIBS)
+AC_CHECK_LIB(avformat, av_register_all,,,$SOUND_LIBS)
+
 
 AC_SUBST(SOUND_LIBS)
 
@@ -1069,11 +1075,14 @@ AC_SUBST(SOUND_MIDAS_OBJ)
 AC_SUBST(SOUND_SDL_OBJ)
 
 if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
-  AC_DEFINE_UNQUOTED(PREFIX, "$ac_default_prefix")
+  AC_DEFINE_UNQUOTED(PREFIX, "$ac_default_prefix",
+                     [Where do we want to install the executable?])
 elif test "$prefix" = NONE; then
-  AC_DEFINE_UNQUOTED(PREFIX, "$exec_prefix")
+  AC_DEFINE_UNQUOTED(PREFIX, "$exec_prefix",
+                     [Where do we want to install the executable?])
 else
-  AC_DEFINE_UNQUOTED(PREFIX, "$prefix")
+  AC_DEFINE_UNQUOTED(PREFIX, "$prefix",
+                     [Where do we want to install the executable?])
 fi
 
 if false ; then
