@@ -146,6 +146,7 @@ static int set_reu_size(resource_value_t v, void *param)
       case 16384:
         break;
       default:
+        log_message(reu_log, "Unknown REU size %ld.", (long)v);
         return -1;
     }
 
@@ -204,7 +205,7 @@ static cmdline_option_t cmdline_options[] =
       NULL, "Disable the RAM expansion unit" },
     { "-reuimage", SET_RESOURCE, 1, NULL, NULL, "REUfilename", NULL,
       "<name>", "Specify name of REU image" },
-    { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REU", NULL,
+    { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REUsize", NULL,
       "<size in KB>", "Size of the RAM expansion unit" },
     { NULL }
 };
@@ -387,14 +388,15 @@ void reu_dma(int immed)
     host_addr = (ADDRESS)reu[2] | ((ADDRESS)reu[3] << 8);
     reu_addr  = ((unsigned int)reu[4] | ((unsigned int)reu[5] << 8)
                  | (((unsigned int)reu[6] & reu6_mask) << 16));
-    if ((len = ((unsigned int)(reu[7]) | ((unsigned int)(reu[8]) << 8))) == 0)
+
+    len = (unsigned int)(reu[7]) | ((unsigned int)(reu[8]) << 8);
+
+    if (len == 0)
         len = 0x10000;
 
     /* Fixed addresses implemented -- [EP] 04-16-97. */
-    host_step = reu[0xA] & 0x80 ? 0 : 1;
-    reu_step = reu[0xA] & 0x40 ? 0 : 1;
-
-    /* clk += len; */
+    host_step = (reu[0xA] & 0x80) ? 0 : 1;
+    reu_step = (reu[0xA] & 0x40) ? 0 : 1;
 
     switch (reu[1] & 0x03) {
       case 0: /* C64 -> REU */
@@ -409,9 +411,9 @@ void reu_dma(int immed)
             BYTE value;
             value = mem_read(host_addr);
 #ifdef REU_DEBUG
-        log_message(reu_log,
-                    "Transferring byte: %x from main $%04X to ext $%05X.",
-                    value, host_addr, reu_addr);
+            log_message(reu_log,
+                        "Transferring byte: %x from main $%04X to ext $%05X.",
+                        value, host_addr, reu_addr);
 #endif
             reu_ram[reu_addr % reu_size] = value;
         }
@@ -428,9 +430,9 @@ void reu_dma(int immed)
 #endif
         for (; len--; host_addr += host_step, reu_addr += reu_step ) {
 #ifdef REU_DEBUG
-        log_message(reu_log,
-                    "Transferring byte: %x from ext $%05X to main $%04X.",
-                    reu_ram[reu_addr % reu_size], reu_addr, host_addr);
+            log_message(reu_log,
+                        "Transferring byte: %x from ext $%05X to main $%04X.",
+                        reu_ram[reu_addr % reu_size], reu_addr, host_addr);
 #endif
             mem_store((host_addr & 0xffff), reu_ram[reu_addr % reu_size]);
         }
@@ -467,7 +469,8 @@ void reu_dma(int immed)
         while (len--) {
             if (reu_ram[reu_addr % reu_size] != mem_read(host_addr & 0xffff)) {
 
-                host_addr += host_step; reu_addr += reu_step;
+                host_addr += host_step;
+                reu_addr += reu_step;
 
                 reu[0] |=  0x20; /* FAULT */
 
@@ -479,11 +482,11 @@ void reu_dma(int immed)
                 }
                 break;
             }
-            host_addr += host_step; reu_addr += reu_step;
+            host_addr += host_step;
+            reu_addr += reu_step;
         }
 
-        if (len<0)
-        {
+        if (len < 0) {
             /* all bytes are equal, mark End Of Block */
             reu[0] |= 0x40;
             len = 1;
@@ -508,11 +511,11 @@ void reu_dma(int immed)
 #ifdef REU_DEBUG
         log_message(reu_log, "No autoload.");
 #endif
-        if ( !(reu[0xA] & 0x80)) {
+        if (!(reu[0xA] & 0x80)) {
             reu[2] = host_addr & 0xff;
             reu[3] = (host_addr >> 8) & 0xff;
         }
-        if ( !(reu[0xA] & 0x40)) {
+        if (!(reu[0xA] & 0x40)) {
             reu[4] = reu_addr & 0xff;
             reu[5] = (reu_addr >> 8) & 0xff;
             reu[6] = (reu_addr >> 16);
@@ -587,15 +590,15 @@ int reu_read_snapshot_module(snapshot_t *s)
     if (snapshot_module_read_dword(m, &size) < 0)
         goto fail;
 
-    if (size > 512) {
+    if (size > 16384) {
         log_error(reu_log, "Size %ld in snapshot not supported.", (long)size);
         goto fail;
     }
 
-    /* FIXME: We cannot really support sizes different from `REUSIZE'.  */
-    /* FIXED? I hope. [SRT], 01-18-2000. */
+    set_reu_size((resource_value_t)size, NULL);
 
-    reu_reset();
+    if (!reu_enabled)
+        set_reu_enabled((resource_value_t)1, NULL);
 
     if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
         || snapshot_module_read_byte_array(m, reu_ram, reu_size) < 0)
