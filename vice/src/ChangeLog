@@ -1,3 +1,143 @@
+1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.16.
+
+	* raster.c, raster.h: Moved definition of `MIN' and `MAX' to
+	`raster.h.
+
+1999-05-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vic20/vic20mem.c (store_wrap): Made static.
+	(read_ram): Made static.
+	(store_ram): Made static.
+	(read_cartrom): Made static.
+	(read_watch): Made static.
+	(store_watch): Made static.
+
+	* vic20/vic20.c (machine_reset): Call `vic_reset()' instead of
+	`reset_vic()'.
+
+1999-05-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	Massive VIC-II reorganization and cleanup.
+	* vicii/vicii.c: Split into the	following parts:
+	* vic20/vic-cmdline-options.c: New file.
+	* vic20/vic-cmdline-options.h: New file.
+	* vic20/vic-draw.c: New file.
+	* vic20/vic-draw.h: New file.
+	* vic20/vic-mem.c: New file.
+	* vic20/vic-mem.h: New file.
+	* vic20/vic-resources.c: New file.
+	* vic20/vic-resources.h: New file.
+	* vic20/vic-snapshot.c: New file.
+	* vic20/vic-snapshot.h: New file.
+
+	* arch/unix/rs232.c (rs232_putc): Declare `n' (return value from
+	`write()') as `ssize_t' instead of `size_t'.
+
+	* arch/unix/xaw/ui.c (DEFINE_BUTTON_CALLBACK): Make the defined
+	callback static.
+	(mouse_timeout): Made static.
+	(mouse_handler): Made static.
+	(vidmode_available): Made static.
+	(focus_window_again): Made static.
+	(set_fullscreen): Local variable `dotclock' made static.
+	(ui_restore_mouse): Made static.
+	(initBlankCursor): Made static.
+	(mouse_handler1351): Made static.
+	(prepare_wm_command_data): Added a couple of signed -> unsigned
+	casts to make compiler happier.
+
+	* mon.c (mon_move_memory): Type of local variable `len' changed
+	from `unsigned int' to `int'.
+	(mon_compare_memory): Likewise.
+	(mon_fill_memory): Likewise.
+	(mon_hunt_memory): Likewise.
+	(mon_remove_name_from_symbol_table): Type of `addr' changed from
+	`unsigned int' to `int'.
+
+	* drive/via1drive0.c (store_acr): Use `static void' instead of
+	`void static'.
+	(store_sr): Likewise.
+	(store_t21): Likewise.
+	* drive/via2drive0.c (store_acr): Likewise.
+	(store_sr): Likewise.
+	(store_t2l): Likewise.
+	* drive/via1drive1.c (store_acr): Likewise.
+	(store_sr): Likewise.
+	(store_t2l): Likewise.
+	* drive/via2drive1.c (store_acr): Likewise.
+	(store_sr): Likewise.
+	(store_t2l): Likewise.
+
+	* c64/c64.c (machine_reset): Call `vic_ii_reset()' instead of
+	`reset_vic_ii()'.
+	* c64/c128.c (machine_reset): Likewise.
+
+	* vicii/sprites.h: Removed.
+	* vicii/sprcrunch.h: Removed.
+	* vicii/sprcycles.h: Removed.
+
+	Massive VIC-II reorganization and cleanup.
+	* vicii/vicii.c: Split into the	following parts:
+	* vicii/vicii-cmdline-options.c: New file.
+	* vicii/vicii-cmdline-options.h: New file.
+	* vicii/vicii-draw.c: New file.
+	* vicii/vicii-draw.h: New file.
+	* vicii/vicii-mem.c: New file.
+	* vicii/vicii-mem.h: New file.
+	* vicii/vicii-resources.c: New file.
+	* vicii/vicii-resources.h: New	file.
+	* vicii/vicii-snapshot.c: New file.
+	* vicii/vicii-snapshot.h: New file.
+	* vicii/vicii-sprites.c: New file.
+	* vicii/vicii-sprites.h: New file.
+
+	* Makefile.am: Cleaned up `x64', `x128' and `xvic' targets a bit.
+
+	* Makefile.am: Add `raster' to the include file directory list in
+	`INCLUDES'.
+	* c64/Makefile.am: Likewise.
+	* c128/Makefile.am: Likewise.
+	* vic20/Makefile.am: Likewise.
+
+	* arch/unix/video.c (frame_buffer_free): No longer mark the block
+	as deleted.
+	(frame_buffer_alloc): Do it here instead.  Fixed debugging
+	messages.  Destroy image on error.  XSync after XShmAttaching.
+	Use `xmalloc()' instead of `malloc()'.
+	(frame_buffer_free): Memset the struct with zero.
+
+	* arch/unix/xaw/ui.c (exposure_callback): Call the exposure
+	handler only if not NULL.
+
+	* vicii/vicii.c, vicii/vicii.h, vicii/raster.h: Massive
+	reorganization to take advantage of the new `libraster'.
+
+	* Makefile.am: Link all the emulators with `raster/libraster.a'
+
+	* vicii/Makefile.am: Added `$(top_srcdir)/src/raster' to
+	`INCLUDES'.
+
+	* raster.c, raster.h: Removed.
+
+	* Makefile.am: Added `raster' to `SUBDIRS'.
+
+	* raster/raster-cache.c: New file.
+	* raster/raster-cache.h: New file.
+	* raster/raster-changes.c: New file.
+	* raster/raster-changes.h: New file.
+	* raster/raster-modes.c: New file.
+	* raster/raster-modes.h: New file.
+	* raster/raster-sprite-cache.c: New file.
+	* raster/raster-sprite-cache.h: New file.
+	* raster/raster-sprite-status.c: New file.
+	* raster/raster-sprite-status.h: New file.
+	* raster/raster-sprite.c: New file.
+	* raster/raster-sprite.h: New file.
+	* raster/raster.c: New file.
+	* raster/raster.h: New file.
+
 1999-05-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.15.
