@@ -33,7 +33,7 @@
 
 /* global */
 
-BYTE myvia[16];
+static BYTE myvia[16];
 
 /*
  * Local variables
