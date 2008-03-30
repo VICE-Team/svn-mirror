@@ -1,3 +1,44 @@
+2002-01-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.4.
+
+	* raster/raster.c, raster/raster.h, raster-sprite-status.h,
+	video.h, arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc, vicii/vicii-draw.c, vicii/vicii-sprites.c,
+	crtc/crtc-draw.c, vic20/vic-draw.c, vic20/vic.h,
+	plus4/ted-draw.c, screenshot.h, arch/unix/x11/xaw/ui.c,
+	arch/unix/x11/gnome/ui.c, arch/unix/x11/xaw/uicolor.c,
+	arch/unix/ui.h, uicolor.h, screenshot.c, color.c, color.h:
+	Removed support for variable pixel size as the draw buffer
+	uses 8bpp all the time now.
+
+2002-01-24  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/plus4ui.c: Removed #if VIDEO_DISPLAY_DEPTH == 0
+
+	* arch/unix/uivicii.c: Likewise
+
+	* arch/unix/x11/gnome/uicolor.c: Likewise
+
+	* arch/unix/x11/xaw/uicolor.c: Likewise
+
+	* arch/unix/x11/video.c: Make VIDEO_DISPLAY_DEPTH != 0 almost
+	work.
+
+	* arch/unix/x11/videoarch.c: Removed VIDEO_FRAME_BUFFER_xxx
+	macros.
+
+2002-01-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/videoarch.h,video.cc, msdos/videoarch.h,video.c:
+	Removed obsolete video_frame_buffer stuff. Adapted call off
+	video_render_main.
+
+	* arch/win32/plus4.dsp: Updated files for plus4 library.
+
+	* arch/win32/vice.dsw: xplus4 doesn't depent on sid and resid.
+
 2002-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.3.
