@@ -162,19 +162,17 @@ int psid_load_file(const char* filename)
     BYTE* ptr = buf;
     unsigned int length;
 
-    if (vlog==LOG_ERR)
+    if (vlog == LOG_ERR)
         vlog = log_open("Vsid");
 
-    if (!(f = zfopen(filename, MODE_READ))) {
+    if (!(f = zfopen(filename, MODE_READ)))
         return -1;
-    }
 
     lib_free(psid);
     psid = lib_malloc(sizeof(psid_t));
 
     if (fread(ptr, 1, 6, f) != 6
-        || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0))
-    {
+        || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
         goto fail;
     }
 
@@ -218,8 +216,7 @@ int psid_load_file(const char* filename)
         psid->start_page = *ptr++;
         psid->max_pages = *ptr++;
         psid->reserved = psid_extract_word(&ptr);
-    }
-    else {
+    } else {
         psid->flags = 0;
         psid->start_page = 0;
         psid->max_pages = 0;
@@ -289,7 +286,8 @@ int psid_load_file(const char* filename)
         /* Find largest free range. */
         psid->max_pages = 0x00;
         for (page = 0; page < sizeof(pages)/sizeof(*pages); page++) {
-            if (!pages[page]) continue;
+            if (!pages[page])
+                continue;
             tmp = page - last_page;
             if (tmp > psid->max_pages) {
                 psid->start_page = last_page;
@@ -303,8 +301,7 @@ int psid_load_file(const char* filename)
         }
     }
 
-    if (psid->start_page == 0xff || psid->max_pages < 2)
-    {
+    if (psid->start_page == 0xff || psid->max_pages < 2) {
         log_error(vlog, "No space for driver.");
         goto fail;
     }
@@ -395,8 +392,7 @@ void psid_init_tune(void)
 
     if (psid->play_addr) {
         strcpy(irq_str, irq);
-    }
-    else {
+    } else {
         sprintf(irq_str, "custom (%s ?)", irq);
     }
 
@@ -443,8 +439,7 @@ void psid_set_tune(int tune)
       psid_tune = 0;
       lib_free(psid);
       psid = NULL;
-    }
-    else {
+    } else {
       psid_tune = tune;
     }
 }
@@ -463,6 +458,7 @@ int psid_ui_set_tune(resource_value_t tune, void *param)
 int psid_tunes(int* default_tune)
 {
     *default_tune = psid ? psid->start_song : 0;
+
     return psid ? psid->songs : 0;
 }
 
@@ -480,9 +476,8 @@ void psid_init_driver(void)
     int i;
     resource_value_t sync;
 
-    if (!psid) {
+    if (!psid)
         return;
-    }
 
     /* C64 PAL/NTSC flag. */
     resources_get_value("MachineVideoStandard", &sync);
