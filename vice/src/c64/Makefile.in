@@ -444,12 +444,13 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
 	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/parallel.h \
-	patchrom.h reu.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/warn.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/uiapi.h ../../src/utils.h ../../src/vicii/vicii.h \
-	c64.h ../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/raster/raster-cache.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
+	../../src/drive/drivecpu.h patchrom.h reu.h ../../src/sid/sid.h \
+	../../src/sound.h ../../src/warn.h ../../src/sysfile.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
+	../../src/vicii/vicii.h c64.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -462,11 +463,11 @@ c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/maincpu.h c64mem.h ../../src/tpicore.c
+	../../src/drive/drivecpu.h c64mem.h ../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \

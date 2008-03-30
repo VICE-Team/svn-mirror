@@ -1,3 +1,31 @@
+1999-08-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.56.
+
+	* drive/drive.c, drive/drive.h (drive_check_type): New function.
+
+	* arch/unix/xaw/uisettings.c (radio_Drive8Type, radio_Drive9Type):
+	Check drive type.
+
+	* vicii/vicii-resources.c: Added fullscreen resources.
+
+	* vdc/vdc.h: Fixed last text line.
+
+1999-07-30  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* NEWS: add Cycle-exact CRTC emulation
+
+	* c128/c128mem.c, c64/c64mem.c, cbm2/c610mem.c, pet/petmem.c,
+	vic20/vic20mem.c:
+	to disable traps, set "VirtualDevices" to 0, not 1
+
+	* crtc/crtc-snapshot.c (crtc_read_v0_snapshot_module): new function
+	to read VICE 1.0 and earlier CRTC snapshots
+	(crtc_read_snapshot_module): call crtc_read_v0_snapshot_module()
+	when found
+
+	* crtc/crtc.c (crtc_reset): set alarm relative to clk value
+
 1999-07-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.55.
