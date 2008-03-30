@@ -35,32 +35,6 @@
 
 #define VIC_II_NUM_COLORS	16
 
-#ifdef _VICII_C
-
-/* These have been measured with a digitizer by MagerValp@Goth.Org. Thanks! */
-static color_def_t color_defs[VIC_II_NUM_COLORS] =
-{
-    { 0x0000, 0x0000, 0x0000,  0 },	/* Black */
-    { 0xfd00, 0xfe00, 0xfc00, 16 },	/* White */
-    { 0xbe00, 0x1a00, 0x2400,  4 },	/* Red */
-    { 0x3000, 0xe600, 0xc600, 12 },	/* Cyan */
-    { 0xb400, 0x1a00, 0xe200,  8 },	/* Purple */
-    { 0x1f00, 0xd200, 0x1e00,  4 },	/* Green */
-    { 0x2100, 0x1b00, 0xae00,  4 },	/* Blue */
-    { 0xdf00, 0xf600, 0x0a00, 12 },	/* Yellow */
-    { 0xb800, 0x4100, 0x0400,  4 },	/* Orange */
-    { 0x6a00, 0x3300, 0x0400,  4 },	/* Brown */
-    { 0xfe00, 0x4a00, 0x5700,  8 },	/* Light Red */
-    { 0x4200, 0x4500, 0x4000,  4 },	/* Dark Gray */
-    { 0x7000, 0x7400, 0x6f00,  8 },	/* Medium Gray */
-    { 0x5900, 0xfe00, 0x5900,  8 },	/* Light Green */
-    { 0x5f00, 0x5300, 0xfe00,  8 },	/* Light Blue */
-    { 0xa400, 0xa700, 0xa200, 12 }	/* Light Gray */
-};
-
-#endif /* defined(_VICII_C) */
-
-
 /* Screen constants. */
 
 #define VIC_II_SCREEN_HEIGHT	       312

@@ -27,6 +27,7 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
+#include <stdio.h>
 #include <stdlib.h>
 
 extern char *stralloc(const char *str);
@@ -44,8 +45,9 @@ extern int spawn(const char *name, char **argv, const char *stdout_redir,
 		 const char *stderr_redir);
 extern int load_file(const char *name, void *dest, int size);
 extern int save_file(const char *name, const void *src, int size);
+extern int get_line(char *buf, int bufsize, FILE *f);
 
-int string_to_long(const char *str, char **endptr, int base,
+int string_to_long(const char *str, const char **endptr, int base,
 		   long *result);
 char *subst(const char *s, const char *string, const char *replacement);
 void string_set(char **str, const char *new_value);
