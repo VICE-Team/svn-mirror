@@ -262,6 +262,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 EXTRA_DIST = \
+	mingw32/build-cross.sh \
 	mingw32/linux-cross.sh \
 	macosx/make-ub.sh \
 	minix3/build.sh \

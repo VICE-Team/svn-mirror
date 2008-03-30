@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-10 18:43+0200\n"
+"POT-Creation-Date: 2006-09-16 22:22+0200\n"
 "PO-Revision-Date: 2006-08-29 16:44+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -271,40 +271,40 @@ msgstr "Nem sikerült a %s képmás fájlba írni"
 msgid "Cannot find mapped name for %s"
 msgstr "A VICE %s leképzett nevét nem találta meg."
 
-#: src/event.c:625
+#: src/event.c:624
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Nem sikerült a %s pillanatkép fájlt létrehozni."
 
-#: src/event.c:644 src/event.c:938
+#: src/event.c:643 src/event.c:937
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Hiba az utolsó %s pillanatkép fájl írásakor."
 
-#: src/event.c:711 src/event.c:905
+#: src/event.c:710 src/event.c:904
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Nem sikerült az utolsó %s pillanatkép fájlt létrehozni."
 
-#: src/event.c:779
+#: src/event.c:778
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Nem sikerült az utolsó %s pillanatkép fájlt megnyitni."
 
-#: src/event.c:794
+#: src/event.c:793
 msgid "Could not find event section in end snapshot file."
 msgstr "Nem találtam esemény részt az utolsó pillanatkép fájlban."
 
-#: src/event.c:818
+#: src/event.c:817
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Nem sikerült az elsõ pillanatkép fájl olvasása. Kipróbálva: %s és %s"
 
-#: src/event.c:848
+#: src/event.c:847
 msgid "Error reading start snapshot file."
 msgstr "Nem sikerült az elsõ pillanatkép fájl olvasása."
 
-#: src/event.c:1231
+#: src/event.c:1230
 msgid "Playback recorded events"
 msgstr "A felvett események visszajátszása"
 
@@ -375,7 +375,7 @@ msgstr "A 3-as eszközmeghajtó CPU-jának nyomkövetésének tiltása"
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Nyomkövetési mód (0=normális 1=kicsi 2=elõzmények)"
 
-#: src/debug.c:438
+#: src/debug.c:445
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
@@ -2079,46 +2079,46 @@ msgstr "*NTSC-M"
 
 #: src/arch/unix/gui/c128ui.c:152 src/arch/unix/gui/c128ui.c:177
 #: src/arch/unix/gui/c64ui.c:222 src/arch/unix/gui/c64ui.c:247
-#: src/arch/unix/gui/cbm2ui.c:294 src/arch/unix/gui/cbm2ui.c:319
+#: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:318
 msgid "SID engine"
 msgstr "SID motor"
 
 #: src/arch/unix/gui/c128ui.c:155 src/arch/unix/gui/c128ui.c:181
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:251
-#: src/arch/unix/gui/cbm2ui.c:297 src/arch/unix/gui/cbm2ui.c:323
+#: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:322
 msgid "*Second SID"
 msgstr "*Második SID"
 
 #: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
 #: src/arch/unix/gui/c64ui.c:227 src/arch/unix/gui/c64ui.c:253
-#: src/arch/unix/gui/cbm2ui.c:299 src/arch/unix/gui/cbm2ui.c:325
+#: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:324
 msgid "*Second SID base address"
 msgstr "*Második SID báziscíme"
 
 #: src/arch/unix/gui/c128ui.c:160 src/arch/unix/gui/c128ui.c:185
 #: src/arch/unix/gui/c64ui.c:230 src/arch/unix/gui/c64ui.c:255
-#: src/arch/unix/gui/cbm2ui.c:302 src/arch/unix/gui/cbm2ui.c:328
+#: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:327
 msgid "*Emulate filters"
 msgstr "*Szûrõk emulációja"
 
 #: src/arch/unix/gui/c128ui.c:162 src/arch/unix/gui/c128ui.c:187
 #: src/arch/unix/gui/c64ui.c:232 src/arch/unix/gui/c64ui.c:257
-#: src/arch/unix/gui/cbm2ui.c:304 src/arch/unix/gui/cbm2ui.c:330
+#: src/arch/unix/gui/cbm2ui.c:303 src/arch/unix/gui/cbm2ui.c:329
 msgid "Chip model"
 msgstr "Csip modell"
 
 #: src/arch/unix/gui/c128ui.c:166 src/arch/unix/gui/c64ui.c:236
-#: src/arch/unix/gui/cbm2ui.c:308
+#: src/arch/unix/gui/cbm2ui.c:307
 msgid "reSID sampling method"
 msgstr "reSID mintavételezõ mód"
 
 #: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:238
-#: src/arch/unix/gui/cbm2ui.c:310
+#: src/arch/unix/gui/cbm2ui.c:309
 msgid "reSID resampling passband..."
 msgstr "reSID sáváteresztés újramintavételezésnél..."
 
 #: src/arch/unix/gui/c128ui.c:179 src/arch/unix/gui/c64ui.c:249
-#: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:129
+#: src/arch/unix/gui/cbm2ui.c:320 src/arch/unix/gui/uisound.c:129
 msgid "*Enable sound playback"
 msgstr "*Hangok engedélyezése"
 
@@ -2176,7 +2176,7 @@ msgid "Ethernet emulation"
 msgstr "Ethernet emuláció"
 
 #: src/arch/unix/gui/c128ui.c:248 src/arch/unix/gui/c64ui.c:285
-#: src/arch/unix/gui/petui.c:187 src/arch/unix/gui/vic20ui.c:201
+#: src/arch/unix/gui/petui.c:185 src/arch/unix/gui/vic20ui.c:196
 msgid "*Emulator identification"
 msgstr "*Emulátor azonosító"
 
@@ -2209,37 +2209,37 @@ msgid "Load new Chargen ROM"
 msgstr "Új karaktergenerátor ROM betöltése"
 
 #: src/arch/unix/gui/c128ui.c:281 src/arch/unix/gui/c64ui.c:310
-#: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:133
+#: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:128
 msgid "Load default ROMs"
 msgstr "Az alapértelmezett ROM-ok betöltése"
 
 #: src/arch/unix/gui/c128ui.c:285 src/arch/unix/gui/c64ui.c:314
-#: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:211
-#: src/arch/unix/gui/plus4ui.c:99 src/arch/unix/gui/vic20ui.c:136
+#: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:209
+#: src/arch/unix/gui/plus4ui.c:99 src/arch/unix/gui/vic20ui.c:131
 msgid "Load new computer ROM"
 msgstr "Új számítógép ROM betöltése"
 
 #: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:316
-#: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:213
-#: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:138
+#: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:211
+#: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:133
 msgid "Load new drive ROM"
 msgstr "Új lemezegység ROM betöltése"
 
 #: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:319
-#: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:216
-#: src/arch/unix/gui/plus4ui.c:104 src/arch/unix/gui/vic20ui.c:141
+#: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:214
+#: src/arch/unix/gui/plus4ui.c:104 src/arch/unix/gui/vic20ui.c:136
 msgid "ROM set type"
 msgstr "ROM készlet típusa"
 
 #: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:322
-#: src/arch/unix/gui/cbm2ui.c:132 src/arch/unix/gui/petui.c:250
-#: src/arch/unix/gui/plus4ui.c:107 src/arch/unix/gui/vic20ui.c:144
+#: src/arch/unix/gui/cbm2ui.c:132 src/arch/unix/gui/petui.c:248
+#: src/arch/unix/gui/plus4ui.c:107 src/arch/unix/gui/vic20ui.c:139
 msgid "ROM set archive"
 msgstr "ROM készlet archívum"
 
 #: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:324
-#: src/arch/unix/gui/cbm2ui.c:134 src/arch/unix/gui/petui.c:252
-#: src/arch/unix/gui/plus4ui.c:109 src/arch/unix/gui/vic20ui.c:146
+#: src/arch/unix/gui/cbm2ui.c:134 src/arch/unix/gui/petui.c:250
+#: src/arch/unix/gui/plus4ui.c:109 src/arch/unix/gui/vic20ui.c:141
 msgid "ROM set file"
 msgstr "ROM készlet fájl"
 
@@ -2259,8 +2259,8 @@ msgstr "Fénykép készítés..."
 msgid "Machine type"
 msgstr "Gép típus"
 
-#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/cbm2ui.c:240
-#: src/arch/unix/gui/petui.c:263 src/arch/unix/gui/vic20ui.c:187
+#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/cbm2ui.c:239
+#: src/arch/unix/gui/petui.c:261 src/arch/unix/gui/vic20ui.c:182
 msgid "ROM sets"
 msgstr "ROM készletek"
 
@@ -2273,7 +2273,7 @@ msgid "VDC settings"
 msgstr "VDC beállítása"
 
 #: src/arch/unix/gui/c128ui.c:369 src/arch/unix/gui/c64ui.c:359
-#: src/arch/unix/gui/cbm2ui.c:361 src/arch/unix/gui/vsidui.c:175
+#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:175
 msgid "SID settings"
 msgstr "SID beállítása"
 
@@ -2282,8 +2282,8 @@ msgid "Memory and I/O extensions"
 msgstr "Memória és I/O beállítása"
 
 #: src/arch/unix/gui/c128ui.c:373 src/arch/unix/gui/c64ui.c:363
-#: src/arch/unix/gui/cbm2ui.c:354 src/arch/unix/gui/plus4ui.c:147
-#: src/arch/unix/gui/vic20ui.c:380
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/plus4ui.c:147
+#: src/arch/unix/gui/vic20ui.c:375
 msgid "RS232 settings"
 msgstr "RS232 beállítása"
 
@@ -2292,27 +2292,27 @@ msgid "Model settings"
 msgstr "Modell beállítása"
 
 #: src/arch/unix/gui/c128ui.c:442 src/arch/unix/gui/c64ui.c:428
-#: src/arch/unix/gui/cbm2ui.c:452 src/arch/unix/gui/petui.c:390
-#: src/arch/unix/gui/plus4ui.c:210 src/arch/unix/gui/vic20ui.c:503
+#: src/arch/unix/gui/cbm2ui.c:451 src/arch/unix/gui/petui.c:388
+#: src/arch/unix/gui/plus4ui.c:210 src/arch/unix/gui/vic20ui.c:498
 #: src/arch/unix/gui/vsidui.c:259
 msgid "File"
 msgstr "Fájl"
 
 #: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64ui.c:447
-#: src/arch/unix/gui/cbm2ui.c:469 src/arch/unix/gui/petui.c:407
-#: src/arch/unix/gui/plus4ui.c:227 src/arch/unix/gui/vic20ui.c:522
+#: src/arch/unix/gui/cbm2ui.c:468 src/arch/unix/gui/petui.c:405
+#: src/arch/unix/gui/plus4ui.c:227 src/arch/unix/gui/vic20ui.c:517
 msgid "Snapshot"
 msgstr "Pillanatkép"
 
 #: src/arch/unix/gui/c128ui.c:468 src/arch/unix/gui/c64ui.c:454
-#: src/arch/unix/gui/cbm2ui.c:476 src/arch/unix/gui/petui.c:414
-#: src/arch/unix/gui/plus4ui.c:234 src/arch/unix/gui/vic20ui.c:529
+#: src/arch/unix/gui/cbm2ui.c:475 src/arch/unix/gui/petui.c:412
+#: src/arch/unix/gui/plus4ui.c:234 src/arch/unix/gui/vic20ui.c:524
 msgid "Options"
 msgstr "Opciók"
 
 #: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
-#: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
-#: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
+#: src/arch/unix/gui/cbm2ui.c:485 src/arch/unix/gui/petui.c:422
+#: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:530
 #: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/uinetplay.c:66
 #: src/arch/unix/x11/gnome/x11ui.c:1256 src/arch/unix/x11/gnome/x11ui.c:1348
 msgid "Settings"
@@ -2321,8 +2321,8 @@ msgstr "Beállítások"
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64ui.c:480
-#: src/arch/unix/gui/cbm2ui.c:500 src/arch/unix/gui/petui.c:438
-#: src/arch/unix/gui/plus4ui.c:256 src/arch/unix/gui/vic20ui.c:550
+#: src/arch/unix/gui/cbm2ui.c:499 src/arch/unix/gui/petui.c:436
+#: src/arch/unix/gui/plus4ui.c:256 src/arch/unix/gui/vic20ui.c:545
 msgid "RJHelp"
 msgstr "RJSegítség"
 
@@ -2342,23 +2342,23 @@ msgstr "PLUS256K RAM kiterjesztés"
 msgid "256K RAM Expansion"
 msgstr "256K RAM bõvítés"
 
-#: src/arch/unix/gui/c64ui.c:297 src/arch/unix/gui/petui.c:170
+#: src/arch/unix/gui/c64ui.c:297 src/arch/unix/gui/petui.c:168
 #: src/arch/unix/gui/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Új kernal ROM betöltése"
 
-#: src/arch/unix/gui/c64ui.c:300 src/arch/unix/gui/petui.c:176
+#: src/arch/unix/gui/c64ui.c:300 src/arch/unix/gui/petui.c:174
 #: src/arch/unix/gui/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Új BASIC ROM betöltése"
 
-#: src/arch/unix/gui/c64ui.c:303 src/arch/unix/gui/petui.c:219
+#: src/arch/unix/gui/c64ui.c:303 src/arch/unix/gui/petui.c:217
 msgid "Load new character ROM"
 msgstr "Új character ROM betöltése"
 
-#: src/arch/unix/gui/c64ui.c:347 src/arch/unix/gui/cbm2ui.c:384
-#: src/arch/unix/gui/petui.c:322 src/arch/unix/gui/plus4ui.c:71
-#: src/arch/unix/gui/vic20ui.c:421
+#: src/arch/unix/gui/c64ui.c:347 src/arch/unix/gui/cbm2ui.c:383
+#: src/arch/unix/gui/petui.c:320 src/arch/unix/gui/plus4ui.c:71
+#: src/arch/unix/gui/vic20ui.c:416
 msgid "Save media file"
 msgstr "Fénykép készítése"
 
@@ -2366,7 +2366,7 @@ msgstr "Fénykép készítése"
 msgid "ROM settings"
 msgstr "ROM-ok beállítása"
 
-#: src/arch/unix/gui/c64ui.c:361 src/arch/unix/gui/petui.c:296
+#: src/arch/unix/gui/c64ui.c:361 src/arch/unix/gui/petui.c:294
 msgid "I/O extensions"
 msgstr "I/O kiterjesztések"
 
@@ -2430,187 +2430,187 @@ msgstr "Új Cart. betöltése a $6-$7*** címre"
 msgid "Unload Cart $6-7***"
 msgstr "Cart. leválasztása a $6-7*** címrõl"
 
-#: src/arch/unix/gui/cbm2ui.c:213 src/arch/unix/gui/petui.c:120
+#: src/arch/unix/gui/cbm2ui.c:212 src/arch/unix/gui/petui.c:118
 msgid "*Graphics"
 msgstr "*Grafikus"
 
-#: src/arch/unix/gui/cbm2ui.c:215 src/arch/unix/gui/petui.c:122
+#: src/arch/unix/gui/cbm2ui.c:214 src/arch/unix/gui/petui.c:120
 msgid "*Business (UK)"
 msgstr "*Hivatalos (UK)"
 
-#: src/arch/unix/gui/cbm2ui.c:237 src/arch/unix/gui/petui.c:260
+#: src/arch/unix/gui/cbm2ui.c:236 src/arch/unix/gui/petui.c:258
 msgid "Model defaults"
 msgstr "Alapértelmezett modellek"
 
-#: src/arch/unix/gui/cbm2ui.c:243 src/arch/unix/gui/petui.c:268
+#: src/arch/unix/gui/cbm2ui.c:242 src/arch/unix/gui/petui.c:266
 msgid "Memory size"
 msgstr "Memória mérete"
 
-#: src/arch/unix/gui/cbm2ui.c:245
+#: src/arch/unix/gui/cbm2ui.c:244
 msgid "Hardwired switches"
 msgstr "Bedrótozott kapcsolók"
 
-#: src/arch/unix/gui/cbm2ui.c:248
+#: src/arch/unix/gui/cbm2ui.c:247
 msgid "*Bank 15 $0800-$0FFF RAM"
 msgstr "*Bank 15 $0800-$0FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:250
+#: src/arch/unix/gui/cbm2ui.c:249
 msgid "*Bank 15 $1000-$1FFF RAM"
 msgstr "*Bank 15 $1000-$1FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:252
+#: src/arch/unix/gui/cbm2ui.c:251
 msgid "*Bank 15 $2000-$3FFF RAM"
 msgstr "*Bank 15 $2000-$3FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:254
+#: src/arch/unix/gui/cbm2ui.c:253
 msgid "*Bank 15 $4000-$5FFF RAM"
 msgstr "*Bank 15 $4000-$5FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:256
+#: src/arch/unix/gui/cbm2ui.c:255
 msgid "*Bank 15 $6000-$7FFF RAM"
 msgstr "*Bank 15 $6000-$7FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:258
+#: src/arch/unix/gui/cbm2ui.c:257
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*Bank 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:262 src/arch/unix/gui/petui.c:285
+#: src/arch/unix/gui/cbm2ui.c:261 src/arch/unix/gui/petui.c:283
 msgid "Keyboard type"
 msgstr "Billentyûzet típus"
 
-#: src/arch/unix/gui/cbm2ui.c:352
+#: src/arch/unix/gui/cbm2ui.c:351
 msgid "CBM-II model settings"
 msgstr "CBM-II modell beállítása"
 
-#: src/arch/unix/gui/cbm2ui.c:357 src/arch/unix/gui/petui.c:299
+#: src/arch/unix/gui/cbm2ui.c:356 src/arch/unix/gui/petui.c:297
 msgid "Crtc settings"
 msgstr "Crtc beállításas"
 
-#: src/arch/unix/gui/cbm2ui.c:359
+#: src/arch/unix/gui/cbm2ui.c:358
 msgid "*VIC-II settings"
 msgstr "*VIC-II beállítása"
 
-#: src/arch/unix/gui/petui.c:96
+#: src/arch/unix/gui/petui.c:94
 msgid "*4 kByte"
 msgstr "*4 kBájt"
 
-#: src/arch/unix/gui/petui.c:98
+#: src/arch/unix/gui/petui.c:96
 msgid "*8 kByte"
 msgstr "*8 kBájt"
 
-#: src/arch/unix/gui/petui.c:100
+#: src/arch/unix/gui/petui.c:98
 msgid "*16 kByte"
 msgstr "*16 kBájt"
 
-#: src/arch/unix/gui/petui.c:102
+#: src/arch/unix/gui/petui.c:100
 msgid "*32 kByte"
 msgstr "*32 kBájt"
 
-#: src/arch/unix/gui/petui.c:104
+#: src/arch/unix/gui/petui.c:102
 msgid "*96 kByte"
 msgstr "*96 kBájt"
 
-#: src/arch/unix/gui/petui.c:106
+#: src/arch/unix/gui/petui.c:104
 msgid "*128 kByte"
 msgstr "*128 kBájt"
 
-#: src/arch/unix/gui/petui.c:112
+#: src/arch/unix/gui/petui.c:110
 msgid "*2 kByte"
 msgstr "*2 kBájt"
 
-#: src/arch/unix/gui/petui.c:114
+#: src/arch/unix/gui/petui.c:112
 msgid "*256 Byte"
 msgstr "*256 Bájt"
 
-#: src/arch/unix/gui/petui.c:124
+#: src/arch/unix/gui/petui.c:122
 msgid "*Business (DE)"
 msgstr "*Hivatalos (DE)"
 
-#: src/arch/unix/gui/petui.c:130
+#: src/arch/unix/gui/petui.c:128
 msgid "*Auto (from ROM)"
 msgstr "*Automatikus (ROM-ból)"
 
-#: src/arch/unix/gui/petui.c:132
+#: src/arch/unix/gui/petui.c:130
 msgid "*40 Columns"
 msgstr "*40 Oszlop"
 
-#: src/arch/unix/gui/petui.c:134
+#: src/arch/unix/gui/petui.c:132
 msgid "*80 Columns"
 msgstr "*80 Oszlop"
 
-#: src/arch/unix/gui/petui.c:173
+#: src/arch/unix/gui/petui.c:171
 msgid "Load new editor ROM"
 msgstr "Új szerkesztõ ROM betöltése"
 
-#: src/arch/unix/gui/petui.c:185
+#: src/arch/unix/gui/petui.c:183
 msgid "PET RAM and Expansion Unit"
 msgstr "PET RAM and Expansion Unit"
 
-#: src/arch/unix/gui/petui.c:222
+#: src/arch/unix/gui/petui.c:220
 msgid "*Original character set"
 msgstr "*Eredeti karakterkészlet"
 
-#: src/arch/unix/gui/petui.c:225
+#: src/arch/unix/gui/petui.c:223
 msgid "*German character set"
 msgstr "*Német karakterkészlet"
 
-#: src/arch/unix/gui/petui.c:229
+#: src/arch/unix/gui/petui.c:227
 msgid "Load new $9*** ROM"
 msgstr "Új $9*** ROM betöltése"
 
-#: src/arch/unix/gui/petui.c:232
+#: src/arch/unix/gui/petui.c:230
 msgid "Unload $9*** ROM"
 msgstr "$9*** ROM leválasztása"
 
-#: src/arch/unix/gui/petui.c:236
+#: src/arch/unix/gui/petui.c:234
 msgid "Load new $A*** ROM"
 msgstr "Új $A*** ROM betöltése"
 
-#: src/arch/unix/gui/petui.c:239
+#: src/arch/unix/gui/petui.c:237
 msgid "Unload $A*** ROM"
 msgstr "$A*** ROM leválasztása"
 
-#: src/arch/unix/gui/petui.c:243
+#: src/arch/unix/gui/petui.c:241
 msgid "Load new $B*** ROM"
 msgstr "Új $B*** ROM betöltése"
 
-#: src/arch/unix/gui/petui.c:246
+#: src/arch/unix/gui/petui.c:244
 msgid "Unload $B*** ROM"
 msgstr "$B*** ROM leválasztása"
 
-#: src/arch/unix/gui/petui.c:266
+#: src/arch/unix/gui/petui.c:264
 msgid "Video size"
 msgstr "Videó méret"
 
-#: src/arch/unix/gui/petui.c:270
+#: src/arch/unix/gui/petui.c:268
 msgid "I/O size"
 msgstr "I/O méret"
 
-#: src/arch/unix/gui/petui.c:272
+#: src/arch/unix/gui/petui.c:270
 msgid "*CRTC chip enable"
 msgstr "*CRTC csip engedélyezése"
 
-#: src/arch/unix/gui/petui.c:275
+#: src/arch/unix/gui/petui.c:273
 msgid "*SuperPET I/O enable (disables 8x96)"
 msgstr "*SuperPET I/O engedélyezése (8x96-on tiltva)"
 
-#: src/arch/unix/gui/petui.c:277
+#: src/arch/unix/gui/petui.c:275
 msgid "SuperPET ACIA"
 msgstr "SuperPET ACIA"
 
-#: src/arch/unix/gui/petui.c:280
+#: src/arch/unix/gui/petui.c:278
 msgid "*$9*** as RAM (8296 only)"
 msgstr "*$9*** RAM-ként (csak 8296-on)"
 
-#: src/arch/unix/gui/petui.c:282
+#: src/arch/unix/gui/petui.c:280
 msgid "*$A*** as RAM (8296 only)"
 msgstr "*$A*** RAM-ként (csak 8296-on)"
 
-#: src/arch/unix/gui/petui.c:291
+#: src/arch/unix/gui/petui.c:289
 msgid "PET model settings"
 msgstr "PET modell beállítása"
 
-#: src/arch/unix/gui/petui.c:293
+#: src/arch/unix/gui/petui.c:291
 msgid "*PET userport diagnostic pin"
 msgstr "*PET userport diagnosztikai tû"
 
@@ -2679,92 +2679,92 @@ msgstr "*Alkalmazás futtatása"
 msgid "Attach Disk Image as unit #%d"
 msgstr "Lemezképmás csatolása #%d egységként"
 
-#: src/arch/unix/gui/uiattach.c:90 src/arch/unix/gui/uiattach.c:143
+#: src/arch/unix/gui/uiattach.c:89 src/arch/unix/gui/uiattach.c:142
 msgid "Invalid Disk Image"
 msgstr "Érvénytelen lemez képmás"
 
-#: src/arch/unix/gui/uiattach.c:98
+#: src/arch/unix/gui/uiattach.c:97
 msgid "Invalid Disk Image or Filename"
 msgstr "Érvénytelen lemez képmás, vagy fájlnév"
 
-#: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:147
+#: src/arch/unix/gui/uiattach.c:112 src/arch/unix/gui/uiattach.c:146
 msgid "Unit #8..."
 msgstr "Egység: #8..."
 
-#: src/arch/unix/gui/uiattach.c:116 src/arch/unix/gui/uiattach.c:149
+#: src/arch/unix/gui/uiattach.c:115 src/arch/unix/gui/uiattach.c:148
 msgid "Unit #9..."
 msgstr "Egység: #9..."
 
-#: src/arch/unix/gui/uiattach.c:119 src/arch/unix/gui/uiattach.c:151
+#: src/arch/unix/gui/uiattach.c:118 src/arch/unix/gui/uiattach.c:150
 msgid "Unit #10..."
 msgstr "Egység: #10..."
 
-#: src/arch/unix/gui/uiattach.c:122 src/arch/unix/gui/uiattach.c:153
+#: src/arch/unix/gui/uiattach.c:121 src/arch/unix/gui/uiattach.c:152
 msgid "Unit #11..."
 msgstr "Egység: #11..."
 
-#: src/arch/unix/gui/uiattach.c:167 src/arch/unix/gui/uicommands.c:427
+#: src/arch/unix/gui/uiattach.c:166 src/arch/unix/gui/uicommands.c:427
 msgid "Unit #8"
 msgstr "Egység: #8"
 
-#: src/arch/unix/gui/uiattach.c:169 src/arch/unix/gui/uicommands.c:429
+#: src/arch/unix/gui/uiattach.c:168 src/arch/unix/gui/uicommands.c:429
 msgid "Unit #9"
 msgstr "Egység: #9"
 
-#: src/arch/unix/gui/uiattach.c:171 src/arch/unix/gui/uicommands.c:431
+#: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:431
 msgid "Unit #10"
 msgstr "Egység: #10"
 
-#: src/arch/unix/gui/uiattach.c:173 src/arch/unix/gui/uicommands.c:433
+#: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:433
 msgid "Unit #11"
 msgstr "Egység: #11"
 
-#: src/arch/unix/gui/uiattach.c:176
+#: src/arch/unix/gui/uiattach.c:175
 msgid "All"
 msgstr "Mindegyik"
 
-#: src/arch/unix/gui/uiattach.c:182
+#: src/arch/unix/gui/uiattach.c:181
 msgid "Attach a disk image"
 msgstr "Lemezképmás csatolása"
 
-#: src/arch/unix/gui/uiattach.c:184
+#: src/arch/unix/gui/uiattach.c:183
 msgid "Create and attach an empty disk"
 msgstr "Üres lemezképmás létrehozása és csatolása"
 
-#: src/arch/unix/gui/uiattach.c:186
+#: src/arch/unix/gui/uiattach.c:185
 msgid "Detach disk image"
 msgstr "Lemezképmás leválasztása"
 
-#: src/arch/unix/gui/uiattach.c:188
+#: src/arch/unix/gui/uiattach.c:187
 msgid "Fliplist"
 msgstr "Lemezlista"
 
-#: src/arch/unix/gui/uiattach.c:213
+#: src/arch/unix/gui/uiattach.c:212
 msgid "Attach a tape image"
 msgstr "Magnószalag képmás csatolása"
 
-#: src/arch/unix/gui/uiattach.c:221 src/arch/unix/gui/uiattach.c:229
+#: src/arch/unix/gui/uiattach.c:220 src/arch/unix/gui/uiattach.c:228
 msgid "Invalid Tape Image"
 msgstr "Érvénytelen magnószalag képmás"
 
-#: src/arch/unix/gui/uiattach.c:248
+#: src/arch/unix/gui/uiattach.c:247
 msgid "Attach a tape image..."
 msgstr "Magnószalag képmás csatolása..."
 
-#: src/arch/unix/gui/uiattach.c:251
+#: src/arch/unix/gui/uiattach.c:250
 msgid "Detach tape image"
 msgstr "Magnószalag képmás leválasztása"
 
-#: src/arch/unix/gui/uiattach.c:287
+#: src/arch/unix/gui/uiattach.c:286
 msgid "Smart-attach a file"
 msgstr "Egy fájl gyors-csatolása"
 
-#: src/arch/unix/gui/uiattach.c:302 src/arch/unix/gui/uiattach.c:311
-#: src/arch/unix/x11/xaw/x11ui.c:1747
+#: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
+#: src/arch/unix/x11/xaw/x11ui.c:1746
 msgid "Unknown image type"
 msgstr "Ismeretlen képmás típus"
 
-#: src/arch/unix/gui/uiattach.c:325
+#: src/arch/unix/gui/uiattach.c:324
 msgid "Smart-attach disk/tape..."
 msgstr "Lemez/szalag gyors-csatlakoztatása..."
 
@@ -2796,7 +2796,7 @@ msgstr "256K képmás neve..."
 msgid "Cannot attach cartridge"
 msgstr "Nem lehet a cartridge-et csatlakoztatni"
 
-#: src/arch/unix/gui/uic64cart.c:66 src/arch/unix/gui/vic20ui.c:224
+#: src/arch/unix/gui/uic64cart.c:66 src/arch/unix/gui/vic20ui.c:219
 msgid "Attach cartridge image"
 msgstr "Cartridge képmás csatlakoztatása"
 
@@ -2856,11 +2856,11 @@ msgstr "Structured Basic képmás csatlakoztatása..."
 msgid "Enable Expert Cartridge..."
 msgstr "Expert Cartridge engedélyezése..."
 
-#: src/arch/unix/gui/uic64cart.c:185 src/arch/unix/gui/vic20ui.c:276
+#: src/arch/unix/gui/uic64cart.c:185 src/arch/unix/gui/vic20ui.c:271
 msgid "Set cartridge as default"
 msgstr "Cartridge alapértelmezetté tétele"
 
-#: src/arch/unix/gui/uic64cart.c:191 src/arch/unix/gui/vic20ui.c:282
+#: src/arch/unix/gui/uic64cart.c:191 src/arch/unix/gui/vic20ui.c:277
 msgid "Attach a cartridge image"
 msgstr "Cartridge képmás csatlakoztatása"
 
@@ -2888,7 +2888,7 @@ msgstr ""
 "\n"
 
 #: src/arch/unix/gui/uicommands.c:68 src/arch/unix/gui/uicommands.c:75
-#: src/arch/unix/gui/uicommands.c:347 src/arch/unix/gui/uikeyboard.c:112
+#: src/arch/unix/gui/uicommands.c:347 src/arch/unix/gui/uikeyboard.c:111
 msgid "VICE setting"
 msgstr "VICE beállítás"
 
@@ -3045,7 +3045,7 @@ msgstr "Visszaugrás az elõzõ kilóméterkõhöz"
 msgid "Recording start mode"
 msgstr "Rögzítés indításának módja"
 
-#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:116
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:115
 msgid "Netplay (experimental)"
 msgstr "Hálózati játék (szakértõ)"
 
@@ -3180,7 +3180,7 @@ msgstr "Magnó sebesség hangolása"
 msgid "Datasette zero gap delay"
 msgstr "Fájlok közti üres rés hossza"
 
-#: src/arch/unix/gui/uidatasette.c:67 src/arch/unix/gui/uipalemu.c:100
+#: src/arch/unix/gui/uidatasette.c:67 src/arch/unix/gui/uipalemu.c:96
 #, c-format
 msgid "Invalid value: %s"
 msgstr "Hibás érték: %s"
@@ -3213,7 +3213,7 @@ msgstr "Felvétel"
 msgid "Datassette control"
 msgstr "Kazettás egység vezérlés"
 
-#: src/arch/unix/gui/uidrive.c:125 src/arch/unix/gui/uidrivec128.c:147
+#: src/arch/unix/gui/uidrive.c:121 src/arch/unix/gui/uidrivec128.c:147
 #: src/arch/unix/gui/uidrivec64vic20.c:139
 #: src/arch/unix/gui/uidrivepetcbm2.c:93 src/arch/unix/gui/uidriveplus4.c:121
 msgid "*Enable true drive emulation"
@@ -3233,7 +3233,7 @@ msgstr "*Valós emuláció engedélyezése"
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:74
 #: src/arch/unix/gui/uiperipheral.c:88 src/arch/unix/gui/uiperipheral.c:102
 #: src/arch/unix/gui/uiprinter.c:158 src/arch/unix/gui/uiprinter.c:170
-#: src/arch/unix/gui/vic20ui.c:307
+#: src/arch/unix/gui/vic20ui.c:302
 msgid "*None"
 msgstr "*Nincs"
 
@@ -3627,22 +3627,22 @@ msgid "*Sectors..."
 msgstr "*Szektorok..."
 
 #: src/arch/unix/gui/uijoystick2.c:81 src/arch/unix/gui/uijoystick2.c:130
-#: src/arch/unix/gui/vic20ui.c:310
+#: src/arch/unix/gui/vic20ui.c:305
 msgid "*Numpad"
 msgstr "*Numerikus billentyûk"
 
 #: src/arch/unix/gui/uijoystick2.c:84 src/arch/unix/gui/uijoystick2.c:133
-#: src/arch/unix/gui/vic20ui.c:313
+#: src/arch/unix/gui/vic20ui.c:308
 msgid "*Custom Keys"
 msgstr "*Egyéni billentyûk"
 
 #: src/arch/unix/gui/uijoystick2.c:88 src/arch/unix/gui/uijoystick2.c:137
-#: src/arch/unix/gui/vic20ui.c:317
+#: src/arch/unix/gui/vic20ui.c:312
 msgid "*Analog Joystick 0"
 msgstr "*Analóg botkormány 0"
 
 #: src/arch/unix/gui/uijoystick2.c:91 src/arch/unix/gui/uijoystick2.c:140
-#: src/arch/unix/gui/vic20ui.c:320
+#: src/arch/unix/gui/vic20ui.c:315
 msgid "*Analog Joystick 1"
 msgstr "*Analóg botkormány 1"
 
@@ -3663,22 +3663,22 @@ msgid "*Analog Joystick 5"
 msgstr "*Analóg botkormány 5"
 
 #: src/arch/unix/gui/uijoystick2.c:107 src/arch/unix/gui/uijoystick2.c:156
-#: src/arch/unix/gui/vic20ui.c:324
+#: src/arch/unix/gui/vic20ui.c:319
 msgid "*Digital Joystick 0"
 msgstr "*Digitális botkormány 0"
 
 #: src/arch/unix/gui/uijoystick2.c:110 src/arch/unix/gui/uijoystick2.c:159
-#: src/arch/unix/gui/vic20ui.c:327
+#: src/arch/unix/gui/vic20ui.c:322
 msgid "*Digital Joystick 1"
 msgstr "*Digitális botkormány 1"
 
 #: src/arch/unix/gui/uijoystick2.c:115 src/arch/unix/gui/uijoystick2.c:164
-#: src/arch/unix/gui/vic20ui.c:332
+#: src/arch/unix/gui/vic20ui.c:327
 msgid "*USB Joystick 0"
 msgstr "*USB botkormány 0"
 
 #: src/arch/unix/gui/uijoystick2.c:118 src/arch/unix/gui/uijoystick2.c:167
-#: src/arch/unix/gui/vic20ui.c:335
+#: src/arch/unix/gui/vic20ui.c:330
 msgid "*USB Joystick 1"
 msgstr "*USB botkormány 1"
 
@@ -3694,43 +3694,43 @@ msgstr "Botkormány a 2-es porton"
 msgid "Swap joystick ports"
 msgstr "Portok felcserélése"
 
-#: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/vic20ui.c:344
+#: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/vic20ui.c:339
 msgid "Joystick settings"
 msgstr "Botkormány beállítása"
 
-#: src/arch/unix/gui/uikeyboard.c:64
+#: src/arch/unix/gui/uikeyboard.c:63
 msgid "*Symbolic mapping"
 msgstr "*Szimbolikus leképzés"
 
-#: src/arch/unix/gui/uikeyboard.c:66
+#: src/arch/unix/gui/uikeyboard.c:65
 msgid "*Positional mapping (US)"
 msgstr "*Pozíció szerinti leképzés (US)"
 
-#: src/arch/unix/gui/uikeyboard.c:84
+#: src/arch/unix/gui/uikeyboard.c:83
 msgid "Read Keymap File"
 msgstr "Billentyûzetleképzés olvasása"
 
-#: src/arch/unix/gui/uikeyboard.c:112
+#: src/arch/unix/gui/uikeyboard.c:111
 msgid "Write to Keymap File:"
 msgstr "Billentyûzetleképzés írása:"
 
-#: src/arch/unix/gui/uikeyboard.c:121
+#: src/arch/unix/gui/uikeyboard.c:120
 msgid "Keyboard mapping type"
 msgstr "Billentyûzetleképzési mód"
 
-#: src/arch/unix/gui/uikeyboard.c:124
+#: src/arch/unix/gui/uikeyboard.c:123
 msgid "Set symbolic keymap file"
 msgstr "Szimbolikus billentyûzetleképzés betöltése"
 
-#: src/arch/unix/gui/uikeyboard.c:126
+#: src/arch/unix/gui/uikeyboard.c:125
 msgid "Set positional keymap file"
 msgstr "Pozíció szerintt billentyûzetleképzés betöltése"
 
-#: src/arch/unix/gui/uikeyboard.c:129
+#: src/arch/unix/gui/uikeyboard.c:128
 msgid "Dump keymap to file"
 msgstr "Billentyûzetleképzés fájlba írása"
 
-#: src/arch/unix/gui/uikeyboard.c:135
+#: src/arch/unix/gui/uikeyboard.c:134
 msgid "Keyboard settings"
 msgstr "Billentyûzet beállítása"
 
@@ -3742,87 +3742,87 @@ msgstr "*Egér engedélyezése"
 msgid "Mouse port"
 msgstr "Egér port"
 
-#: src/arch/unix/gui/uinetplay.c:68
+#: src/arch/unix/gui/uinetplay.c:69
 msgid "Enter port"
 msgstr "Adja meg a portot"
 
-#: src/arch/unix/gui/uinetplay.c:69
+#: src/arch/unix/gui/uinetplay.c:70
 msgid "Netplay TCP port"
 msgstr "TCP port megadása"
 
-#: src/arch/unix/gui/uinetplay.c:81
+#: src/arch/unix/gui/uinetplay.c:80
 msgid "Invalid TCP port"
 msgstr "Érvénytelen TCP port"
 
-#: src/arch/unix/gui/uinetplay.c:89
+#: src/arch/unix/gui/uinetplay.c:88
 msgid "Error starting the netplay server."
 msgstr "Hiba történt a játék kiszolgáló indításakor"
 
-#: src/arch/unix/gui/uinetplay.c:94
+#: src/arch/unix/gui/uinetplay.c:93
 msgid "Netplay Server name"
 msgstr "Játékkiszolgáló név"
 
-#: src/arch/unix/gui/uinetplay.c:95
+#: src/arch/unix/gui/uinetplay.c:94
 msgid "Hostname:"
 msgstr "A gazdagép neve:"
 
-#: src/arch/unix/gui/uinetplay.c:101
+#: src/arch/unix/gui/uinetplay.c:100
 msgid "Error connecting to server."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/unix/gui/uinetplay.c:112
+#: src/arch/unix/gui/uinetplay.c:111
 msgid "*Enable IPV6"
 msgstr "*IPV6 engedélyezése"
 
-#: src/arch/unix/gui/uinetplay.c:119
+#: src/arch/unix/gui/uinetplay.c:118
 msgid "TCP port"
 msgstr "TCP port"
 
-#: src/arch/unix/gui/uinetplay.c:121
+#: src/arch/unix/gui/uinetplay.c:120
 msgid "Start server"
 msgstr "Kiszolgáló elindítása"
 
-#: src/arch/unix/gui/uinetplay.c:123
+#: src/arch/unix/gui/uinetplay.c:122
 msgid "Server to connect to"
 msgstr "Kiszolgáló kapcsolódási címe"
 
-#: src/arch/unix/gui/uinetplay.c:126
+#: src/arch/unix/gui/uinetplay.c:125
 msgid "Connect to server"
 msgstr "Kapcsolódás a kiszolgálóhoz"
 
-#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:321
+#: src/arch/unix/gui/uinetplay.c:127 src/arch/unix/x11/gnome/uinetplay.c:321
 msgid "Disconnect"
 msgstr "Szétkapcsolódás"
 
-#: src/arch/unix/gui/uipalemu.c:81
+#: src/arch/unix/gui/uipalemu.c:79
 msgid "PAL Scanline shade"
 msgstr "PAL pászta árnyalás"
 
-#: src/arch/unix/gui/uipalemu.c:82
+#: src/arch/unix/gui/uipalemu.c:80
 msgid "Scanline Shade in percent"
 msgstr "Pászta árnyalás százalékosban"
 
-#: src/arch/unix/gui/uipalemu.c:92 src/arch/unix/gui/uipalemu.c:127
+#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:123
 msgid "PAL Blurredness"
 msgstr "PAL elmosás"
 
-#: src/arch/unix/gui/uipalemu.c:93
+#: src/arch/unix/gui/uipalemu.c:89
 msgid "Blurredness in percent"
 msgstr "Elmosás százalékban"
 
-#: src/arch/unix/gui/uipalemu.c:116
+#: src/arch/unix/gui/uipalemu.c:112
 msgid "*Activate PAL emulation"
 msgstr "*PAL emuláció aktiválása"
 
-#: src/arch/unix/gui/uipalemu.c:119
+#: src/arch/unix/gui/uipalemu.c:115
 msgid "*Fast PAL Emulation"
 msgstr "*Gyors PAL emuláció"
 
-#: src/arch/unix/gui/uipalemu.c:121
+#: src/arch/unix/gui/uipalemu.c:117
 msgid "*Exact PAL Emulation"
 msgstr "*Pontos PAL emuláció"
 
-#: src/arch/unix/gui/uipalemu.c:125
+#: src/arch/unix/gui/uipalemu.c:121
 msgid "PAL Scanline Shade"
 msgstr "PAL pászta árnyalás"
 
@@ -3830,7 +3830,7 @@ msgstr "PAL pászta árnyalás"
 msgid "Load custom palette"
 msgstr "Egyéni színkészlet betöltése"
 
-#: src/arch/unix/gui/uipalette.c:56
+#: src/arch/unix/gui/uipalette.c:55
 #, c-format
 msgid ""
 "Could not load palette file\n"
@@ -4178,7 +4178,7 @@ msgstr "REU képmás neve..."
 msgid "Load ROM file"
 msgstr "ROM fájl betöltése"
 
-#: src/arch/unix/gui/uiromset.c:65
+#: src/arch/unix/gui/uiromset.c:64
 #, c-format
 msgid ""
 "Could not load ROM file\n"
@@ -4187,11 +4187,11 @@ msgstr ""
 "Nem sikerült a ROM fájlt betölteni\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiromset.c:102
+#: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
 msgstr "ROM készlet archívum betöltése"
 
-#: src/arch/unix/gui/uiromset.c:109
+#: src/arch/unix/gui/uiromset.c:108
 #, c-format
 msgid ""
 "Could not load ROM set archive\n"
@@ -4200,31 +4200,31 @@ msgstr ""
 "Nem sikerült a ROM készlet archívum betöltése\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiromset.c:136
+#: src/arch/unix/gui/uiromset.c:135
 msgid "File to save ROM set archive to"
 msgstr "ROM készlet archívum mentése ebbe a fájlba"
 
-#: src/arch/unix/gui/uiromset.c:137
+#: src/arch/unix/gui/uiromset.c:136
 msgid "ROM set archive:"
 msgstr "ROM készlet archívum:"
 
-#: src/arch/unix/gui/uiromset.c:151
+#: src/arch/unix/gui/uiromset.c:150
 msgid "Current ROM set archive"
 msgstr "Jelenlegi ROM készlet archívum"
 
-#: src/arch/unix/gui/uiromset.c:167
+#: src/arch/unix/gui/uiromset.c:166
 msgid "ROM set item name to create"
 msgstr "A létrhozandó ROM készlet elem neve"
 
-#: src/arch/unix/gui/uiromset.c:168
+#: src/arch/unix/gui/uiromset.c:167
 msgid "ROM set name:"
 msgstr "ROM készlet neves"
 
-#: src/arch/unix/gui/uiromset.c:183
+#: src/arch/unix/gui/uiromset.c:182
 msgid "Delete configuration"
 msgstr "Konfiguráció törlése"
 
-#: src/arch/unix/gui/uiromset.c:183 src/arch/unix/gui/uiromset.c:205
+#: src/arch/unix/gui/uiromset.c:182 src/arch/unix/gui/uiromset.c:205
 msgid "Enter name"
 msgstr "Adja meg a nevet"
 
@@ -4232,35 +4232,35 @@ msgstr "Adja meg a nevet"
 msgid "Active configuration"
 msgstr "Aktív konfiguráció"
 
-#: src/arch/unix/gui/uiromset.c:216
+#: src/arch/unix/gui/uiromset.c:215
 msgid "Load ROM set archive"
 msgstr "ROM készlet archívum betöltése"
 
-#: src/arch/unix/gui/uiromset.c:218
+#: src/arch/unix/gui/uiromset.c:217
 msgid "Save ROM set archive"
 msgstr "ROM készlet archívum mentése"
 
-#: src/arch/unix/gui/uiromset.c:220
+#: src/arch/unix/gui/uiromset.c:219
 msgid "List current ROM set archive"
 msgstr "Aktuális ROM készlet archívum kilistázása"
 
-#: src/arch/unix/gui/uiromset.c:223
+#: src/arch/unix/gui/uiromset.c:222
 msgid "Create ROM set item"
 msgstr "ROM készlet elem létrehozása"
 
-#: src/arch/unix/gui/uiromset.c:225
+#: src/arch/unix/gui/uiromset.c:224
 msgid "Delete ROM set item"
 msgstr "ROM készlet elem törlése"
 
-#: src/arch/unix/gui/uiromset.c:227
+#: src/arch/unix/gui/uiromset.c:226
 msgid "Select ROM set item"
 msgstr "ROM készlet elem kiválasztása"
 
-#: src/arch/unix/gui/uiromset.c:244
+#: src/arch/unix/gui/uiromset.c:243
 msgid "Load custom ROM set file"
 msgstr "ROM készlet fájl betöltése"
 
-#: src/arch/unix/gui/uiromset.c:251
+#: src/arch/unix/gui/uiromset.c:250
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
@@ -4269,27 +4269,27 @@ msgstr ""
 "Nem sikerült a ROM készlet fájlt betölteni\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiromset.c:278
+#: src/arch/unix/gui/uiromset.c:277
 msgid "File to save ROM set definition to"
 msgstr "A fájl, ahova elmenti a ROM készlet leírást"
 
-#: src/arch/unix/gui/uiromset.c:279
+#: src/arch/unix/gui/uiromset.c:278
 msgid "ROM set file:"
 msgstr "ROM készlet fájl:"
 
-#: src/arch/unix/gui/uiromset.c:293
+#: src/arch/unix/gui/uiromset.c:292
 msgid "Current ROM set"
 msgstr "Aktuális ROM készlet"
 
-#: src/arch/unix/gui/uiromset.c:299
+#: src/arch/unix/gui/uiromset.c:298
 msgid "Load custom ROM set from file"
 msgstr "ROM készlet betöltése fájlból"
 
-#: src/arch/unix/gui/uiromset.c:301
+#: src/arch/unix/gui/uiromset.c:300
 msgid "Dump ROM set definition to file"
 msgstr "ROM készlet leírás fájlba mentése"
 
-#: src/arch/unix/gui/uiromset.c:303
+#: src/arch/unix/gui/uiromset.c:302
 msgid "List current ROM set"
 msgstr "Aktuális ROM készlet kilistázása"
 
@@ -4361,40 +4361,40 @@ msgstr "ACIA $DExx megszakítás"
 msgid "ACIA $DExx Emulation Mode"
 msgstr "ACIA $DExx emuláció módja"
 
-#: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:354
+#: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:349
 msgid "*Userport RS232 emulation"
 msgstr "*Userport RS232 emuláció"
 
-#: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:356
+#: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:351
 msgid "Userport RS232 baud rate"
 msgstr "Userport RS232 átviteli ráta"
 
-#: src/arch/unix/gui/uirs232c64c128.c:80 src/arch/unix/gui/vic20ui.c:358
+#: src/arch/unix/gui/uirs232c64c128.c:80 src/arch/unix/gui/vic20ui.c:353
 msgid "Userport RS232 device"
 msgstr "Userport RS232 eszköz"
 
 #: src/arch/unix/gui/uirs232c64c128.c:83
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:42 src/arch/unix/gui/vic20ui.c:361
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:42 src/arch/unix/gui/vic20ui.c:356
 msgid "Serial 1 device..."
 msgstr "Soros eszköz 1..."
 
 #: src/arch/unix/gui/uirs232c64c128.c:85
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:44 src/arch/unix/gui/vic20ui.c:363
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:44 src/arch/unix/gui/vic20ui.c:358
 msgid "Serial 1 baudrate"
 msgstr "Soros átviteli sebesség 1"
 
 #: src/arch/unix/gui/uirs232c64c128.c:90
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:49 src/arch/unix/gui/vic20ui.c:368
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:49 src/arch/unix/gui/vic20ui.c:363
 msgid "Serial 2 baudrate"
 msgstr "Soros átviteli sebesség 2"
 
 #: src/arch/unix/gui/uirs232c64c128.c:93
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:52 src/arch/unix/gui/vic20ui.c:371
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:52 src/arch/unix/gui/vic20ui.c:366
 msgid "Dump filename..."
 msgstr "Kimeneti fájl neve..."
 
 #: src/arch/unix/gui/uirs232c64c128.c:96
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:55 src/arch/unix/gui/vic20ui.c:374
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:55 src/arch/unix/gui/vic20ui.c:369
 msgid "Program name to exec..."
 msgstr "Végrehajtandó program neve..."
 
@@ -4402,7 +4402,7 @@ msgstr "Végrehajtandó program neve..."
 msgid "ACIA device"
 msgstr "ACIA eszköz"
 
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:47 src/arch/unix/gui/vic20ui.c:366
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:47 src/arch/unix/gui/vic20ui.c:361
 msgid "Serial 2 device..."
 msgstr "Soros eszköz 2"
 
@@ -4430,36 +4430,36 @@ msgstr "*4800 baud"
 msgid "*9600 baud"
 msgstr "*9600 baud"
 
-#: src/arch/unix/gui/uisettings.c:112
+#: src/arch/unix/gui/uisettings.c:111
 msgid "Enter refresh rate"
 msgstr "Adja meg a frissítési rátát"
 
-#: src/arch/unix/gui/uisettings.c:113 src/arch/unix/gui/uisettings.c:312
+#: src/arch/unix/gui/uisettings.c:112 src/arch/unix/gui/uisettings.c:311
 msgid "Refresh rate"
 msgstr "Frissítési ráta"
 
-#: src/arch/unix/gui/uisettings.c:185
+#: src/arch/unix/gui/uisettings.c:184
 msgid "Enter speed"
 msgstr "Adja meg a sebességet"
 
-#: src/arch/unix/gui/uisettings.c:186
+#: src/arch/unix/gui/uisettings.c:185
 msgid "Maximum run speed"
 msgstr "Maximális sebesség"
 
-#: src/arch/unix/gui/uisettings.c:200
+#: src/arch/unix/gui/uisettings.c:199
 msgid "Invalid speed value"
 msgstr "Hibás sebesség érték"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1397
-#: src/arch/unix/x11/xaw/x11ui.c:1088
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1397
+#: src/arch/unix/x11/xaw/x11ui.c:1087
 msgid "Cannot save settings."
 msgstr "A mentés nem sikerült."
 
-#: src/arch/unix/gui/uisettings.c:217
+#: src/arch/unix/gui/uisettings.c:216
 msgid "Settings saved successfully."
 msgstr "Beállítások sikeresen elmentve"
 
-#: src/arch/unix/gui/uisettings.c:234
+#: src/arch/unix/gui/uisettings.c:233
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -4467,7 +4467,7 @@ msgstr ""
 "Nem sikerült betölteni a beállításokat:\n"
 "a fájl nem érvényes"
 
-#: src/arch/unix/gui/uisettings.c:236
+#: src/arch/unix/gui/uisettings.c:235
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -4475,47 +4475,47 @@ msgstr ""
 "Nem sikerült betölteni a beállításokat:\n"
 "a fájlt nem találom"
 
-#: src/arch/unix/gui/uisettings.c:240
+#: src/arch/unix/gui/uisettings.c:239
 msgid "Settings loaded."
 msgstr "Beállítások betöltve."
 
-#: src/arch/unix/gui/uisettings.c:262
+#: src/arch/unix/gui/uisettings.c:261
 msgid "*Auto"
 msgstr "*Automatikus"
 
-#: src/arch/unix/gui/uisettings.c:285 src/arch/unix/gui/uisettings.c:304
+#: src/arch/unix/gui/uisettings.c:284 src/arch/unix/gui/uisettings.c:303
 msgid "*Custom..."
 msgstr "*Egyéni..."
 
-#: src/arch/unix/gui/uisettings.c:301
+#: src/arch/unix/gui/uisettings.c:300
 msgid "*No limit"
 msgstr "*Nincs határ"
 
-#: src/arch/unix/gui/uisettings.c:314
+#: src/arch/unix/gui/uisettings.c:313
 msgid "Maximum speed"
 msgstr "Maximális sebesség"
 
-#: src/arch/unix/gui/uisettings.c:316
+#: src/arch/unix/gui/uisettings.c:315
 msgid "*Enable warp mode"
 msgstr "*Hipergyors mód engedélyezése"
 
-#: src/arch/unix/gui/uisettings.c:322
+#: src/arch/unix/gui/uisettings.c:321
 msgid "Save settings"
 msgstr "Beállítások mentése"
 
-#: src/arch/unix/gui/uisettings.c:324
+#: src/arch/unix/gui/uisettings.c:323
 msgid "Load settings"
 msgstr "Beállítások betöltése"
 
-#: src/arch/unix/gui/uisettings.c:326
+#: src/arch/unix/gui/uisettings.c:325
 msgid "Restore default settings"
 msgstr "Alapértelmezés visszaállítása"
 
-#: src/arch/unix/gui/uisettings.c:328
+#: src/arch/unix/gui/uisettings.c:327
 msgid "*Save settings on exit"
 msgstr "*Beállítások mentése kilépéskor"
 
-#: src/arch/unix/gui/uisettings.c:330
+#: src/arch/unix/gui/uisettings.c:329
 msgid "*Confirm on exit"
 msgstr "*Megerõsítés kilépéskor"
 
@@ -4804,103 +4804,103 @@ msgstr "*Sprite-háttér ütközések"
 msgid "What?!\n"
 msgstr "Micsoda?!\n"
 
-#: src/arch/unix/gui/vic20ui.c:120
+#: src/arch/unix/gui/vic20ui.c:115
 msgid "Load new Kernal ROM"
 msgstr "Új Kernal ROM betöltése"
 
-#: src/arch/unix/gui/vic20ui.c:123
+#: src/arch/unix/gui/vic20ui.c:118
 msgid "Load new Basic ROM"
 msgstr "Új Basic ROM betöltése"
 
-#: src/arch/unix/gui/vic20ui.c:126
+#: src/arch/unix/gui/vic20ui.c:121
 msgid "Load new Character ROM"
 msgstr "Új Character ROM betöltése"
 
-#: src/arch/unix/gui/vic20ui.c:152
+#: src/arch/unix/gui/vic20ui.c:147
 msgid "No expansion memory"
 msgstr "Nincs memória bõvítés"
 
-#: src/arch/unix/gui/vic20ui.c:156
+#: src/arch/unix/gui/vic20ui.c:151
 msgid "3K (block 0)"
 msgstr "3K (blokk 0)"
 
-#: src/arch/unix/gui/vic20ui.c:159
+#: src/arch/unix/gui/vic20ui.c:154
 msgid "8K (block 1)"
 msgstr "8K (blokk 1)"
 
-#: src/arch/unix/gui/vic20ui.c:162
+#: src/arch/unix/gui/vic20ui.c:157
 msgid "16K (blocks 1/2)"
 msgstr "16K (blokk 1/2)"
 
-#: src/arch/unix/gui/vic20ui.c:165
+#: src/arch/unix/gui/vic20ui.c:160
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (blokk 1/2/3)"
 
-#: src/arch/unix/gui/vic20ui.c:169
+#: src/arch/unix/gui/vic20ui.c:164
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Mindegyik (blokk 0/1/2/3/5)"
 
-#: src/arch/unix/gui/vic20ui.c:184
+#: src/arch/unix/gui/vic20ui.c:179
 msgid "Common configurations"
 msgstr "Közös konfigurációk"
 
-#: src/arch/unix/gui/vic20ui.c:190
+#: src/arch/unix/gui/vic20ui.c:185
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Blokk 0 (3K $0400-$0FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:192
+#: src/arch/unix/gui/vic20ui.c:187
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Blokk 1 (8K $2000-$3FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:189
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Blokk 2 (8K $4000-$5FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:196
+#: src/arch/unix/gui/vic20ui.c:191
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Blokk 3 (8K $6000-$7FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:198
+#: src/arch/unix/gui/vic20ui.c:193
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Blokk 5 (8K $A000-$BFFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:208 src/arch/unix/gui/vic20ui.c:429
+#: src/arch/unix/gui/vic20ui.c:203 src/arch/unix/gui/vic20ui.c:424
 msgid "Memory expansions"
 msgstr "Memória bõvítések"
 
-#: src/arch/unix/gui/vic20ui.c:230
+#: src/arch/unix/gui/vic20ui.c:225
 msgid "Invalid cartridge image"
 msgstr "Érvénytelen cartridge képmás"
 
-#: src/arch/unix/gui/vic20ui.c:255
+#: src/arch/unix/gui/vic20ui.c:250
 msgid "Smart-attach cartridge image..."
 msgstr "Cartridge képmás gyors csatolása.."
 
-#: src/arch/unix/gui/vic20ui.c:260
+#: src/arch/unix/gui/vic20ui.c:255
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "4/8/16KB képmás csatolása $2000 címre..."
 
-#: src/arch/unix/gui/vic20ui.c:263
+#: src/arch/unix/gui/vic20ui.c:258
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "4/8/16KB képmás csatolása $4000 címre..."
 
-#: src/arch/unix/gui/vic20ui.c:266
+#: src/arch/unix/gui/vic20ui.c:261
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "4/8/16KB képmás csatolása $6000 címre..."
 
-#: src/arch/unix/gui/vic20ui.c:269
+#: src/arch/unix/gui/vic20ui.c:264
 msgid "Attach 4/8KB image at $A000..."
 msgstr "4/8KB képmás csatolása $A000 címre..."
 
-#: src/arch/unix/gui/vic20ui.c:272
+#: src/arch/unix/gui/vic20ui.c:267
 msgid "Attach 4KB image at $B000..."
 msgstr "4KB képmás csatolása $B000 címre..."
 
-#: src/arch/unix/gui/vic20ui.c:284
+#: src/arch/unix/gui/vic20ui.c:279
 msgid "Detach cartridge image(s)"
 msgstr "Cartridge képmás(ok) leválasztása"
 
-#: src/arch/unix/gui/vic20ui.c:427
+#: src/arch/unix/gui/vic20ui.c:422
 msgid "VIC settings"
 msgstr "VIC beállítása"
 
@@ -5009,7 +5009,7 @@ msgid "Save Cartridge"
 msgstr "Cartridge mentése"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:95
-#: src/arch/unix/x11/gnome/uiscreenshot.c:471
+#: src/arch/unix/x11/gnome/uiscreenshot.c:466
 #: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
 msgstr "Érvénytelen fájlnév"
@@ -5189,64 +5189,64 @@ msgstr "Kiszolgáló"
 msgid "Client"
 msgstr "Kliens"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:239
+#: src/arch/unix/x11/gnome/uiscreenshot.c:235
 msgid "No gfxoutputdrivers available"
 msgstr "Nincs rendelkezésre álló gfxoutputdriver."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:243
-#: src/arch/unix/x11/gnome/uiscreenshot.c:462
+#: src/arch/unix/x11/gnome/uiscreenshot.c:239
+#: src/arch/unix/x11/gnome/uiscreenshot.c:457
 msgid "Save Screenshot"
 msgstr "Fénykép mentése"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:251
+#: src/arch/unix/x11/gnome/uiscreenshot.c:247
 msgid "Save Media File..."
 msgstr "Fénykép készítése..."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:268
+#: src/arch/unix/x11/gnome/uiscreenshot.c:264
 msgid "Image Format"
 msgstr "Kép formátum"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:310
+#: src/arch/unix/x11/gnome/uiscreenshot.c:306
 #, c-format
 msgid "FFMPEG Driver: %s"
 msgstr "FFMPEG meghajtó: %s"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:320
+#: src/arch/unix/x11/gnome/uiscreenshot.c:316
 #, c-format
 msgid "\tAC: %s(%d)"
 msgstr "\tAC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:333
+#: src/arch/unix/x11/gnome/uiscreenshot.c:329
 #, c-format
 msgid "\tVC: %s(%d)"
 msgstr "\tVC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:352
+#: src/arch/unix/x11/gnome/uiscreenshot.c:348
 msgid "Format"
 msgstr "Formátum"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:366
+#: src/arch/unix/x11/gnome/uiscreenshot.c:362
 msgid "Audio Codec"
 msgstr "Audió kodek"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:380
+#: src/arch/unix/x11/gnome/uiscreenshot.c:376
 msgid "Video Codec"
 msgstr "Videó kodek"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:397
+#: src/arch/unix/x11/gnome/uiscreenshot.c:393
 msgid "Audio Bitrate"
 msgstr "Audió bitráta"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:412
+#: src/arch/unix/x11/gnome/uiscreenshot.c:408
 msgid "Video Bitrate"
 msgstr "Videó bitráta"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:506
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Nem sikerült a `%s' pillanatképet elkészíteni `%s' formátumban."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:513
+#: src/arch/unix/x11/gnome/uiscreenshot.c:508
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "`%s' sikeresen kiírva"
@@ -5391,16 +5391,16 @@ msgstr " emulátor"
 msgid "Do you really want to exit?"
 msgstr "Valóban ki szeretne lépni?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1394 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1394 src/arch/unix/x11/xaw/x11ui.c:1084
 msgid "Save the current settings?"
 msgstr "Elmentsem a jelenlegi beállításokat?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1439 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1439 src/arch/unix/x11/xaw/x11ui.c:1125
 msgid "Using private colormap."
 msgstr "Privát színpaletta használata."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1459 src/arch/unix/x11/gnome/x11ui.c:1462
-#: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
+#: src/arch/unix/x11/xaw/x11ui.c:1153 src/arch/unix/x11/xaw/x11ui.c:1158
 msgid "(warp)"
 msgstr "(hiper)"
 
@@ -5411,7 +5411,7 @@ msgstr "(hiper)"
 msgid "Tape %03d"
 msgstr "Szalag %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1833 src/arch/unix/x11/xaw/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1833 src/arch/unix/x11/xaw/x11ui.c:1400
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (szünet)"
@@ -5432,7 +5432,7 @@ msgstr "Kemény Reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2080 src/arch/unix/x11/xaw/x11ui.c:1679
+#: src/arch/unix/x11/gnome/x11ui.c:2080 src/arch/unix/x11/xaw/x11ui.c:1678
 msgid "Extend disk image"
 msgstr "Lemez képmás kiterjesztése"
 
@@ -5773,12 +5773,12 @@ msgstr "felvétel..."
 msgid "event recording..."
 msgstr "esemény felvétel..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1253
+#: src/arch/unix/x11/xaw/x11ui.c:1252
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Sáv %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1564
+#: src/arch/unix/x11/xaw/x11ui.c:1563
 msgid "VICE Error!"
 msgstr "VICE hiba!"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-10 18:43+0200\n"
+"POT-Creation-Date: 2006-09-16 22:22+0200\n"
 "PO-Revision-Date: 2006-08-06 13:49+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -269,40 +269,40 @@ msgstr "Kan inte skriva avbildningsfil %s"
 msgid "Cannot find mapped name for %s"
 msgstr "Kan inte kopplat namn för %s"
 
-#: src/event.c:625
+#: src/event.c:624
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/event.c:644 src/event.c:938
+#: src/event.c:643 src/event.c:937
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/event.c:711 src/event.c:905
+#: src/event.c:710 src/event.c:904
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/event.c:779
+#: src/event.c:778
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/event.c:794
+#: src/event.c:793
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:818
+#: src/event.c:817
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/event.c:848
+#: src/event.c:847
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:1231
+#: src/event.c:1230
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
@@ -373,7 +373,7 @@ msgstr "Spåra inte processor i diskettstation 3"
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 
-#: src/debug.c:438
+#: src/debug.c:445
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
@@ -2065,46 +2065,46 @@ msgstr "*NTSC-M"
 
 #: src/arch/unix/gui/c128ui.c:152 src/arch/unix/gui/c128ui.c:177
 #: src/arch/unix/gui/c64ui.c:222 src/arch/unix/gui/c64ui.c:247
-#: src/arch/unix/gui/cbm2ui.c:294 src/arch/unix/gui/cbm2ui.c:319
+#: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:318
 msgid "SID engine"
 msgstr "SID-motor"
 
 #: src/arch/unix/gui/c128ui.c:155 src/arch/unix/gui/c128ui.c:181
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:251
-#: src/arch/unix/gui/cbm2ui.c:297 src/arch/unix/gui/cbm2ui.c:323
+#: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:322
 msgid "*Second SID"
 msgstr "*Andra SID"
 
 #: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
 #: src/arch/unix/gui/c64ui.c:227 src/arch/unix/gui/c64ui.c:253
-#: src/arch/unix/gui/cbm2ui.c:299 src/arch/unix/gui/cbm2ui.c:325
+#: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:324
 msgid "*Second SID base address"
 msgstr "*Basadress för andra SID"
 
 #: src/arch/unix/gui/c128ui.c:160 src/arch/unix/gui/c128ui.c:185
 #: src/arch/unix/gui/c64ui.c:230 src/arch/unix/gui/c64ui.c:255
-#: src/arch/unix/gui/cbm2ui.c:302 src/arch/unix/gui/cbm2ui.c:328
+#: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:327
 msgid "*Emulate filters"
 msgstr "*Emulera filter"
 
 #: src/arch/unix/gui/c128ui.c:162 src/arch/unix/gui/c128ui.c:187
 #: src/arch/unix/gui/c64ui.c:232 src/arch/unix/gui/c64ui.c:257
-#: src/arch/unix/gui/cbm2ui.c:304 src/arch/unix/gui/cbm2ui.c:330
+#: src/arch/unix/gui/cbm2ui.c:303 src/arch/unix/gui/cbm2ui.c:329
 msgid "Chip model"
 msgstr "Kretsmodell"
 
 #: src/arch/unix/gui/c128ui.c:166 src/arch/unix/gui/c64ui.c:236
-#: src/arch/unix/gui/cbm2ui.c:308
+#: src/arch/unix/gui/cbm2ui.c:307
 msgid "reSID sampling method"
 msgstr "reSID-samplingsmetod"
 
 #: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:238
-#: src/arch/unix/gui/cbm2ui.c:310
+#: src/arch/unix/gui/cbm2ui.c:309
 msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
 #: src/arch/unix/gui/c128ui.c:179 src/arch/unix/gui/c64ui.c:249
-#: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:129
+#: src/arch/unix/gui/cbm2ui.c:320 src/arch/unix/gui/uisound.c:129
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
@@ -2162,7 +2162,7 @@ msgid "Ethernet emulation"
 msgstr "Ethernetemulering"
 
 #: src/arch/unix/gui/c128ui.c:248 src/arch/unix/gui/c64ui.c:285
-#: src/arch/unix/gui/petui.c:187 src/arch/unix/gui/vic20ui.c:201
+#: src/arch/unix/gui/petui.c:185 src/arch/unix/gui/vic20ui.c:196
 msgid "*Emulator identification"
 msgstr "*Emulatoridentifiering"
 
@@ -2195,37 +2195,37 @@ msgid "Load new Chargen ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
 #: src/arch/unix/gui/c128ui.c:281 src/arch/unix/gui/c64ui.c:310
-#: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:133
+#: src/arch/unix/gui/plus4ui.c:95 src/arch/unix/gui/vic20ui.c:128
 msgid "Load default ROMs"
 msgstr "Läs standard-ROM"
 
 #: src/arch/unix/gui/c128ui.c:285 src/arch/unix/gui/c64ui.c:314
-#: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:211
-#: src/arch/unix/gui/plus4ui.c:99 src/arch/unix/gui/vic20ui.c:136
+#: src/arch/unix/gui/cbm2ui.c:96 src/arch/unix/gui/petui.c:209
+#: src/arch/unix/gui/plus4ui.c:99 src/arch/unix/gui/vic20ui.c:131
 msgid "Load new computer ROM"
 msgstr "Läs ny dator-ROM"
 
 #: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:316
-#: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:213
-#: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:138
+#: src/arch/unix/gui/cbm2ui.c:98 src/arch/unix/gui/petui.c:211
+#: src/arch/unix/gui/plus4ui.c:101 src/arch/unix/gui/vic20ui.c:133
 msgid "Load new drive ROM"
 msgstr "Läs ny diskettstation-ROM"
 
 #: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:319
-#: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:216
-#: src/arch/unix/gui/plus4ui.c:104 src/arch/unix/gui/vic20ui.c:141
+#: src/arch/unix/gui/cbm2ui.c:101 src/arch/unix/gui/petui.c:214
+#: src/arch/unix/gui/plus4ui.c:104 src/arch/unix/gui/vic20ui.c:136
 msgid "ROM set type"
 msgstr "ROM-uppsättningstyp"
 
 #: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:322
-#: src/arch/unix/gui/cbm2ui.c:132 src/arch/unix/gui/petui.c:250
-#: src/arch/unix/gui/plus4ui.c:107 src/arch/unix/gui/vic20ui.c:144
+#: src/arch/unix/gui/cbm2ui.c:132 src/arch/unix/gui/petui.c:248
+#: src/arch/unix/gui/plus4ui.c:107 src/arch/unix/gui/vic20ui.c:139
 msgid "ROM set archive"
 msgstr "ROM-uppsättningsarkiv"
 
 #: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:324
-#: src/arch/unix/gui/cbm2ui.c:134 src/arch/unix/gui/petui.c:252
-#: src/arch/unix/gui/plus4ui.c:109 src/arch/unix/gui/vic20ui.c:146
+#: src/arch/unix/gui/cbm2ui.c:134 src/arch/unix/gui/petui.c:250
+#: src/arch/unix/gui/plus4ui.c:109 src/arch/unix/gui/vic20ui.c:141
 msgid "ROM set file"
 msgstr "ROM-uppsättningsfil"
 
@@ -2245,8 +2245,8 @@ msgstr "Skärmdump..."
 msgid "Machine type"
 msgstr "Maskintyp"
 
-#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/cbm2ui.c:240
-#: src/arch/unix/gui/petui.c:263 src/arch/unix/gui/vic20ui.c:187
+#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/cbm2ui.c:239
+#: src/arch/unix/gui/petui.c:261 src/arch/unix/gui/vic20ui.c:182
 msgid "ROM sets"
 msgstr "ROM-uppsättningar"
 
@@ -2259,7 +2259,7 @@ msgid "VDC settings"
 msgstr "VDC-inställningar"
 
 #: src/arch/unix/gui/c128ui.c:369 src/arch/unix/gui/c64ui.c:359
-#: src/arch/unix/gui/cbm2ui.c:361 src/arch/unix/gui/vsidui.c:175
+#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:175
 msgid "SID settings"
 msgstr "SID-inställningar"
 
@@ -2268,8 +2268,8 @@ msgid "Memory and I/O extensions"
 msgstr "Minnes- och I/O-utökningar"
 
 #: src/arch/unix/gui/c128ui.c:373 src/arch/unix/gui/c64ui.c:363
-#: src/arch/unix/gui/cbm2ui.c:354 src/arch/unix/gui/plus4ui.c:147
-#: src/arch/unix/gui/vic20ui.c:380
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/plus4ui.c:147
+#: src/arch/unix/gui/vic20ui.c:375
 msgid "RS232 settings"
 msgstr "RS232-inställningar"
 
@@ -2278,27 +2278,27 @@ msgid "Model settings"
 msgstr "Modellinställningar"
 
 #: src/arch/unix/gui/c128ui.c:442 src/arch/unix/gui/c64ui.c:428
-#: src/arch/unix/gui/cbm2ui.c:452 src/arch/unix/gui/petui.c:390
-#: src/arch/unix/gui/plus4ui.c:210 src/arch/unix/gui/vic20ui.c:503
+#: src/arch/unix/gui/cbm2ui.c:451 src/arch/unix/gui/petui.c:388
+#: src/arch/unix/gui/plus4ui.c:210 src/arch/unix/gui/vic20ui.c:498
 #: src/arch/unix/gui/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
 #: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64ui.c:447
-#: src/arch/unix/gui/cbm2ui.c:469 src/arch/unix/gui/petui.c:407
-#: src/arch/unix/gui/plus4ui.c:227 src/arch/unix/gui/vic20ui.c:522
+#: src/arch/unix/gui/cbm2ui.c:468 src/arch/unix/gui/petui.c:405
+#: src/arch/unix/gui/plus4ui.c:227 src/arch/unix/gui/vic20ui.c:517
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
 #: src/arch/unix/gui/c128ui.c:468 src/arch/unix/gui/c64ui.c:454
-#: src/arch/unix/gui/cbm2ui.c:476 src/arch/unix/gui/petui.c:414
-#: src/arch/unix/gui/plus4ui.c:234 src/arch/unix/gui/vic20ui.c:529
+#: src/arch/unix/gui/cbm2ui.c:475 src/arch/unix/gui/petui.c:412
+#: src/arch/unix/gui/plus4ui.c:234 src/arch/unix/gui/vic20ui.c:524
 msgid "Options"
 msgstr "Alternativ"
 
 #: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
-#: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
-#: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
+#: src/arch/unix/gui/cbm2ui.c:485 src/arch/unix/gui/petui.c:422
+#: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:530
 #: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/uinetplay.c:66
 #: src/arch/unix/x11/gnome/x11ui.c:1256 src/arch/unix/x11/gnome/x11ui.c:1348
 msgid "Settings"
@@ -2307,8 +2307,8 @@ msgstr "Inställningar"
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64ui.c:480
-#: src/arch/unix/gui/cbm2ui.c:500 src/arch/unix/gui/petui.c:438
-#: src/arch/unix/gui/plus4ui.c:256 src/arch/unix/gui/vic20ui.c:550
+#: src/arch/unix/gui/cbm2ui.c:499 src/arch/unix/gui/petui.c:436
+#: src/arch/unix/gui/plus4ui.c:256 src/arch/unix/gui/vic20ui.c:545
 msgid "RJHelp"
 msgstr "RJHjälp"
 
@@ -2328,23 +2328,23 @@ msgstr "PLUS256K RAM-expansion"
 msgid "256K RAM Expansion"
 msgstr "256K RAM-expansion"
 
-#: src/arch/unix/gui/c64ui.c:297 src/arch/unix/gui/petui.c:170
+#: src/arch/unix/gui/c64ui.c:297 src/arch/unix/gui/petui.c:168
 #: src/arch/unix/gui/plus4ui.c:79
 msgid "Load new kernal ROM"
 msgstr "Läs ny kernal-ROM"
 
-#: src/arch/unix/gui/c64ui.c:300 src/arch/unix/gui/petui.c:176
+#: src/arch/unix/gui/c64ui.c:300 src/arch/unix/gui/petui.c:174
 #: src/arch/unix/gui/plus4ui.c:82
 msgid "Load new BASIC ROM"
 msgstr "Läs ny BASIC-ROM"
 
-#: src/arch/unix/gui/c64ui.c:303 src/arch/unix/gui/petui.c:219
+#: src/arch/unix/gui/c64ui.c:303 src/arch/unix/gui/petui.c:217
 msgid "Load new character ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
-#: src/arch/unix/gui/c64ui.c:347 src/arch/unix/gui/cbm2ui.c:384
-#: src/arch/unix/gui/petui.c:322 src/arch/unix/gui/plus4ui.c:71
-#: src/arch/unix/gui/vic20ui.c:421
+#: src/arch/unix/gui/c64ui.c:347 src/arch/unix/gui/cbm2ui.c:383
+#: src/arch/unix/gui/petui.c:320 src/arch/unix/gui/plus4ui.c:71
+#: src/arch/unix/gui/vic20ui.c:416
 msgid "Save media file"
 msgstr "Spara mediafil"
 
@@ -2352,7 +2352,7 @@ msgstr "Spara mediafil"
 msgid "ROM settings"
 msgstr "ROM-inställningar"
 
-#: src/arch/unix/gui/c64ui.c:361 src/arch/unix/gui/petui.c:296
+#: src/arch/unix/gui/c64ui.c:361 src/arch/unix/gui/petui.c:294
 msgid "I/O extensions"
 msgstr "I/O-utökningar"
 
@@ -2416,187 +2416,187 @@ msgstr "Läs ny insticksmodul $6-7***"
 msgid "Unload Cart $6-7***"
 msgstr "Läs ur insticksmodul $6-7***"
 
-#: src/arch/unix/gui/cbm2ui.c:213 src/arch/unix/gui/petui.c:120
+#: src/arch/unix/gui/cbm2ui.c:212 src/arch/unix/gui/petui.c:118
 msgid "*Graphics"
 msgstr "*Grafik"
 
-#: src/arch/unix/gui/cbm2ui.c:215 src/arch/unix/gui/petui.c:122
+#: src/arch/unix/gui/cbm2ui.c:214 src/arch/unix/gui/petui.c:120
 msgid "*Business (UK)"
 msgstr "*Business (Storbritannien)"
 
-#: src/arch/unix/gui/cbm2ui.c:237 src/arch/unix/gui/petui.c:260
+#: src/arch/unix/gui/cbm2ui.c:236 src/arch/unix/gui/petui.c:258
 msgid "Model defaults"
 msgstr "Modellens förval"
 
-#: src/arch/unix/gui/cbm2ui.c:243 src/arch/unix/gui/petui.c:268
+#: src/arch/unix/gui/cbm2ui.c:242 src/arch/unix/gui/petui.c:266
 msgid "Memory size"
 msgstr "Minnesstorlek"
 
-#: src/arch/unix/gui/cbm2ui.c:245
+#: src/arch/unix/gui/cbm2ui.c:244
 msgid "Hardwired switches"
 msgstr "Maskinvaruinställningar"
 
-#: src/arch/unix/gui/cbm2ui.c:248
+#: src/arch/unix/gui/cbm2ui.c:247
 msgid "*Bank 15 $0800-$0FFF RAM"
 msgstr "*Bank 15 $0800-$0FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:250
+#: src/arch/unix/gui/cbm2ui.c:249
 msgid "*Bank 15 $1000-$1FFF RAM"
 msgstr "*Bank 15 $1000-$1FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:252
+#: src/arch/unix/gui/cbm2ui.c:251
 msgid "*Bank 15 $2000-$3FFF RAM"
 msgstr "*Bank 15 $2000-$3FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:254
+#: src/arch/unix/gui/cbm2ui.c:253
 msgid "*Bank 15 $4000-$5FFF RAM"
 msgstr "*Bank 15 $4000-$5FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:256
+#: src/arch/unix/gui/cbm2ui.c:255
 msgid "*Bank 15 $6000-$7FFF RAM"
 msgstr "*Bank 15 $6000-$7FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:258
+#: src/arch/unix/gui/cbm2ui.c:257
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*Bank 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:262 src/arch/unix/gui/petui.c:285
+#: src/arch/unix/gui/cbm2ui.c:261 src/arch/unix/gui/petui.c:283
 msgid "Keyboard type"
 msgstr "Tangentbordstyp"
 
-#: src/arch/unix/gui/cbm2ui.c:352
+#: src/arch/unix/gui/cbm2ui.c:351
 msgid "CBM-II model settings"
 msgstr "CBM-II-modellinställningar"
 
-#: src/arch/unix/gui/cbm2ui.c:357 src/arch/unix/gui/petui.c:299
+#: src/arch/unix/gui/cbm2ui.c:356 src/arch/unix/gui/petui.c:297
 msgid "Crtc settings"
 msgstr "Crtc-inställningar"
 
-#: src/arch/unix/gui/cbm2ui.c:359
+#: src/arch/unix/gui/cbm2ui.c:358
 msgid "*VIC-II settings"
 msgstr "*VIC-II-inställningar"
 
-#: src/arch/unix/gui/petui.c:96
+#: src/arch/unix/gui/petui.c:94
 msgid "*4 kByte"
 msgstr "*4 kbyte"
 
-#: src/arch/unix/gui/petui.c:98
+#: src/arch/unix/gui/petui.c:96
 msgid "*8 kByte"
 msgstr "*8 kbyte"
 
-#: src/arch/unix/gui/petui.c:100
+#: src/arch/unix/gui/petui.c:98
 msgid "*16 kByte"
 msgstr "*16 kbyte"
 
-#: src/arch/unix/gui/petui.c:102
+#: src/arch/unix/gui/petui.c:100
 msgid "*32 kByte"
 msgstr "*32 kbyte"
 
-#: src/arch/unix/gui/petui.c:104
+#: src/arch/unix/gui/petui.c:102
 msgid "*96 kByte"
 msgstr "*96 kbyte"
 
-#: src/arch/unix/gui/petui.c:106
+#: src/arch/unix/gui/petui.c:104
 msgid "*128 kByte"
 msgstr "*128 kbyte"
 
-#: src/arch/unix/gui/petui.c:112
+#: src/arch/unix/gui/petui.c:110
 msgid "*2 kByte"
 msgstr "*2 kbyte"
 
-#: src/arch/unix/gui/petui.c:114
+#: src/arch/unix/gui/petui.c:112
 msgid "*256 Byte"
 msgstr "*256 byte"
 
-#: src/arch/unix/gui/petui.c:124
+#: src/arch/unix/gui/petui.c:122
 msgid "*Business (DE)"
 msgstr "*Business (Tyskland)"
 
-#: src/arch/unix/gui/petui.c:130
+#: src/arch/unix/gui/petui.c:128
 msgid "*Auto (from ROM)"
 msgstr "*Automatisk (från ROM)"
 
-#: src/arch/unix/gui/petui.c:132
+#: src/arch/unix/gui/petui.c:130
 msgid "*40 Columns"
 msgstr "*40 kolumner"
 
-#: src/arch/unix/gui/petui.c:134
+#: src/arch/unix/gui/petui.c:132
 msgid "*80 Columns"
 msgstr "*80 kolumner"
 
-#: src/arch/unix/gui/petui.c:173
+#: src/arch/unix/gui/petui.c:171
 msgid "Load new editor ROM"
 msgstr "Läs ny editor-ROM"
 
-#: src/arch/unix/gui/petui.c:185
+#: src/arch/unix/gui/petui.c:183
 msgid "PET RAM and Expansion Unit"
 msgstr "PET RAM- och -expansionsenhet"
 
-#: src/arch/unix/gui/petui.c:222
+#: src/arch/unix/gui/petui.c:220
 msgid "*Original character set"
 msgstr "*Ursprunglig teckenuppsättning"
 
-#: src/arch/unix/gui/petui.c:225
+#: src/arch/unix/gui/petui.c:223
 msgid "*German character set"
 msgstr "*Tysk teckenuppsättning"
 
-#: src/arch/unix/gui/petui.c:229
+#: src/arch/unix/gui/petui.c:227
 msgid "Load new $9*** ROM"
 msgstr "Läs ny $9***-ROM"
 
-#: src/arch/unix/gui/petui.c:232
+#: src/arch/unix/gui/petui.c:230
 msgid "Unload $9*** ROM"
 msgstr "Läs ur $9***-ROM"
 
-#: src/arch/unix/gui/petui.c:236
+#: src/arch/unix/gui/petui.c:234
 msgid "Load new $A*** ROM"
 msgstr "Läs ny $A***-ROM"
 
-#: src/arch/unix/gui/petui.c:239
+#: src/arch/unix/gui/petui.c:237
 msgid "Unload $A*** ROM"
 msgstr "Läs ur $A***-ROM"
 
-#: src/arch/unix/gui/petui.c:243
+#: src/arch/unix/gui/petui.c:241
 msgid "Load new $B*** ROM"
 msgstr "Läs ny $B***-ROM"
 
-#: src/arch/unix/gui/petui.c:246
+#: src/arch/unix/gui/petui.c:244
 msgid "Unload $B*** ROM"
 msgstr "Läs ur $B***-ROM"
 
-#: src/arch/unix/gui/petui.c:266
+#: src/arch/unix/gui/petui.c:264
 msgid "Video size"
 msgstr "Skärmbredd"
 
-#: src/arch/unix/gui/petui.c:270
+#: src/arch/unix/gui/petui.c:268
 msgid "I/O size"
 msgstr "I/O-utrymme"
 
-#: src/arch/unix/gui/petui.c:272
+#: src/arch/unix/gui/petui.c:270
 msgid "*CRTC chip enable"
 msgstr "*Aktivera CRTC-krets"
 
-#: src/arch/unix/gui/petui.c:275
+#: src/arch/unix/gui/petui.c:273
 msgid "*SuperPET I/O enable (disables 8x96)"
 msgstr "*Aktivera SuperPET-I/O (inaktiverar 8x96)"
 
-#: src/arch/unix/gui/petui.c:277
+#: src/arch/unix/gui/petui.c:275
 msgid "SuperPET ACIA"
 msgstr "SuperPET-ACIA"
 
-#: src/arch/unix/gui/petui.c:280
+#: src/arch/unix/gui/petui.c:278
 msgid "*$9*** as RAM (8296 only)"
 msgstr "*$9*** som RAM (endast 8296)"
 
-#: src/arch/unix/gui/petui.c:282
+#: src/arch/unix/gui/petui.c:280
 msgid "*$A*** as RAM (8296 only)"
 msgstr "*$A*** som RAM (endast 8296)"
 
-#: src/arch/unix/gui/petui.c:291
+#: src/arch/unix/gui/petui.c:289
 msgid "PET model settings"
 msgstr "Inställningar för PET-modell"
 
-#: src/arch/unix/gui/petui.c:293
+#: src/arch/unix/gui/petui.c:291
 msgid "*PET userport diagnostic pin"
 msgstr "*PET-diagnostik på användarporten"
 
@@ -2665,92 +2665,92 @@ msgstr "*Starta process"
 msgid "Attach Disk Image as unit #%d"
 msgstr "Anslut diskettavbildningsfil som enhet %d"
 
-#: src/arch/unix/gui/uiattach.c:90 src/arch/unix/gui/uiattach.c:143
+#: src/arch/unix/gui/uiattach.c:89 src/arch/unix/gui/uiattach.c:142
 msgid "Invalid Disk Image"
 msgstr "Ogiltig diskettavbildningsfil"
 
-#: src/arch/unix/gui/uiattach.c:98
+#: src/arch/unix/gui/uiattach.c:97
 msgid "Invalid Disk Image or Filename"
 msgstr "Ogiltig diskettavbildingsfil eller filnamn"
 
-#: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:147
+#: src/arch/unix/gui/uiattach.c:112 src/arch/unix/gui/uiattach.c:146
 msgid "Unit #8..."
 msgstr "Enhet 8..."
 
-#: src/arch/unix/gui/uiattach.c:116 src/arch/unix/gui/uiattach.c:149
+#: src/arch/unix/gui/uiattach.c:115 src/arch/unix/gui/uiattach.c:148
 msgid "Unit #9..."
 msgstr "Enhet 9..."
 
-#: src/arch/unix/gui/uiattach.c:119 src/arch/unix/gui/uiattach.c:151
+#: src/arch/unix/gui/uiattach.c:118 src/arch/unix/gui/uiattach.c:150
 msgid "Unit #10..."
 msgstr "Enhet 10..."
 
-#: src/arch/unix/gui/uiattach.c:122 src/arch/unix/gui/uiattach.c:153
+#: src/arch/unix/gui/uiattach.c:121 src/arch/unix/gui/uiattach.c:152
 msgid "Unit #11..."
 msgstr "Enhet 11..."
 
-#: src/arch/unix/gui/uiattach.c:167 src/arch/unix/gui/uicommands.c:427
+#: src/arch/unix/gui/uiattach.c:166 src/arch/unix/gui/uicommands.c:427
 msgid "Unit #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/gui/uiattach.c:169 src/arch/unix/gui/uicommands.c:429
+#: src/arch/unix/gui/uiattach.c:168 src/arch/unix/gui/uicommands.c:429
 msgid "Unit #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/gui/uiattach.c:171 src/arch/unix/gui/uicommands.c:431
+#: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:431
 msgid "Unit #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/gui/uiattach.c:173 src/arch/unix/gui/uicommands.c:433
+#: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:433
 msgid "Unit #11"
 msgstr "Enhet 11"
 
-#: src/arch/unix/gui/uiattach.c:176
+#: src/arch/unix/gui/uiattach.c:175
 msgid "All"
 msgstr "Alla"
 
-#: src/arch/unix/gui/uiattach.c:182
+#: src/arch/unix/gui/uiattach.c:181
 msgid "Attach a disk image"
 msgstr "Anslut en diskettavbildningsfil"
 
-#: src/arch/unix/gui/uiattach.c:184
+#: src/arch/unix/gui/uiattach.c:183
 msgid "Create and attach an empty disk"
 msgstr "Skapa och anslut en tom diskett"
 
-#: src/arch/unix/gui/uiattach.c:186
+#: src/arch/unix/gui/uiattach.c:185
 msgid "Detach disk image"
 msgstr "Koppla från diskettavbildningsfil"
 
-#: src/arch/unix/gui/uiattach.c:188
+#: src/arch/unix/gui/uiattach.c:187
 msgid "Fliplist"
 msgstr "Vallista"
 
-#: src/arch/unix/gui/uiattach.c:213
+#: src/arch/unix/gui/uiattach.c:212
 msgid "Attach a tape image"
 msgstr "Anslut bandavbildningsfil"
 
-#: src/arch/unix/gui/uiattach.c:221 src/arch/unix/gui/uiattach.c:229
+#: src/arch/unix/gui/uiattach.c:220 src/arch/unix/gui/uiattach.c:228
 msgid "Invalid Tape Image"
 msgstr "Ogiltig bandavbildningsfil"
 
-#: src/arch/unix/gui/uiattach.c:248
+#: src/arch/unix/gui/uiattach.c:247
 msgid "Attach a tape image..."
 msgstr "Anslut en bandavbildningsfil..."
 
-#: src/arch/unix/gui/uiattach.c:251
+#: src/arch/unix/gui/uiattach.c:250
 msgid "Detach tape image"
 msgstr "Koppla från bandavbildningsfil"
 
-#: src/arch/unix/gui/uiattach.c:287
+#: src/arch/unix/gui/uiattach.c:286
 msgid "Smart-attach a file"
 msgstr "Smartanslut en fil"
 
-#: src/arch/unix/gui/uiattach.c:302 src/arch/unix/gui/uiattach.c:311
-#: src/arch/unix/x11/xaw/x11ui.c:1747
+#: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
+#: src/arch/unix/x11/xaw/x11ui.c:1746
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
-#: src/arch/unix/gui/uiattach.c:325
+#: src/arch/unix/gui/uiattach.c:324
 msgid "Smart-attach disk/tape..."
 msgstr "Smartanslut diskett/band..."
 
@@ -2782,7 +2782,7 @@ msgstr "Namn på 256K-avbildning..."
 msgid "Cannot attach cartridge"
 msgstr "Kan inte ansluta insticksmodul"
 
-#: src/arch/unix/gui/uic64cart.c:66 src/arch/unix/gui/vic20ui.c:224
+#: src/arch/unix/gui/uic64cart.c:66 src/arch/unix/gui/vic20ui.c:219
 msgid "Attach cartridge image"
 msgstr "Anslut insticksmodulfil"
 
@@ -2842,11 +2842,11 @@ msgstr "Anslut Structured Basic-avbildning..."
 msgid "Enable Expert Cartridge..."
 msgstr "Aktivera Expert Cartridge..."
 
-#: src/arch/unix/gui/uic64cart.c:185 src/arch/unix/gui/vic20ui.c:276
+#: src/arch/unix/gui/uic64cart.c:185 src/arch/unix/gui/vic20ui.c:271
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
 
-#: src/arch/unix/gui/uic64cart.c:191 src/arch/unix/gui/vic20ui.c:282
+#: src/arch/unix/gui/uic64cart.c:191 src/arch/unix/gui/vic20ui.c:277
 msgid "Attach a cartridge image"
 msgstr "Anslut insticksmodulfil"
 
@@ -2874,7 +2874,7 @@ msgstr ""
 "\n"
 
 #: src/arch/unix/gui/uicommands.c:68 src/arch/unix/gui/uicommands.c:75
-#: src/arch/unix/gui/uicommands.c:347 src/arch/unix/gui/uikeyboard.c:112
+#: src/arch/unix/gui/uicommands.c:347 src/arch/unix/gui/uikeyboard.c:111
 msgid "VICE setting"
 msgstr "VICE-inställning"
 
@@ -3031,7 +3031,7 @@ msgstr "Återgå till bokmärke"
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:116
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:115
 msgid "Netplay (experimental)"
 msgstr "Nätverksspel (experimentellt)"
 
@@ -3166,7 +3166,7 @@ msgstr "Finjustering av Datasettehastighet"
 msgid "Datasette zero gap delay"
 msgstr "Datasette nollgapsfördröjning"
 
-#: src/arch/unix/gui/uidatasette.c:67 src/arch/unix/gui/uipalemu.c:100
+#: src/arch/unix/gui/uidatasette.c:67 src/arch/unix/gui/uipalemu.c:96
 #, c-format
 msgid "Invalid value: %s"
 msgstr "Ogiltigt värde: %s"
@@ -3199,7 +3199,7 @@ msgstr "Spela in"
 msgid "Datassette control"
 msgstr "Datasettestyrning"
 
-#: src/arch/unix/gui/uidrive.c:125 src/arch/unix/gui/uidrivec128.c:147
+#: src/arch/unix/gui/uidrive.c:121 src/arch/unix/gui/uidrivec128.c:147
 #: src/arch/unix/gui/uidrivec64vic20.c:139
 #: src/arch/unix/gui/uidrivepetcbm2.c:93 src/arch/unix/gui/uidriveplus4.c:121
 msgid "*Enable true drive emulation"
@@ -3219,7 +3219,7 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:74
 #: src/arch/unix/gui/uiperipheral.c:88 src/arch/unix/gui/uiperipheral.c:102
 #: src/arch/unix/gui/uiprinter.c:158 src/arch/unix/gui/uiprinter.c:170
-#: src/arch/unix/gui/vic20ui.c:307
+#: src/arch/unix/gui/vic20ui.c:302
 msgid "*None"
 msgstr "*Ingen"
 
@@ -3613,22 +3613,22 @@ msgid "*Sectors..."
 msgstr "*Sektorer..."
 
 #: src/arch/unix/gui/uijoystick2.c:81 src/arch/unix/gui/uijoystick2.c:130
-#: src/arch/unix/gui/vic20ui.c:310
+#: src/arch/unix/gui/vic20ui.c:305
 msgid "*Numpad"
 msgstr "*Numeriskt tangentbord"
 
 #: src/arch/unix/gui/uijoystick2.c:84 src/arch/unix/gui/uijoystick2.c:133
-#: src/arch/unix/gui/vic20ui.c:313
+#: src/arch/unix/gui/vic20ui.c:308
 msgid "*Custom Keys"
 msgstr "*Användardefinierade tangenter"
 
 #: src/arch/unix/gui/uijoystick2.c:88 src/arch/unix/gui/uijoystick2.c:137
-#: src/arch/unix/gui/vic20ui.c:317
+#: src/arch/unix/gui/vic20ui.c:312
 msgid "*Analog Joystick 0"
 msgstr "*Analog styrspak 0"
 
 #: src/arch/unix/gui/uijoystick2.c:91 src/arch/unix/gui/uijoystick2.c:140
-#: src/arch/unix/gui/vic20ui.c:320
+#: src/arch/unix/gui/vic20ui.c:315
 msgid "*Analog Joystick 1"
 msgstr "*Analog styrspak 1"
 
@@ -3649,22 +3649,22 @@ msgid "*Analog Joystick 5"
 msgstr "*Analog styrspak 5"
 
 #: src/arch/unix/gui/uijoystick2.c:107 src/arch/unix/gui/uijoystick2.c:156
-#: src/arch/unix/gui/vic20ui.c:324
+#: src/arch/unix/gui/vic20ui.c:319
 msgid "*Digital Joystick 0"
 msgstr "*Digial styrspak 0"
 
 #: src/arch/unix/gui/uijoystick2.c:110 src/arch/unix/gui/uijoystick2.c:159
-#: src/arch/unix/gui/vic20ui.c:327
+#: src/arch/unix/gui/vic20ui.c:322
 msgid "*Digital Joystick 1"
 msgstr "*Digital styrspak 1"
 
 #: src/arch/unix/gui/uijoystick2.c:115 src/arch/unix/gui/uijoystick2.c:164
-#: src/arch/unix/gui/vic20ui.c:332
+#: src/arch/unix/gui/vic20ui.c:327
 msgid "*USB Joystick 0"
 msgstr "*USB-styrspak 0"
 
 #: src/arch/unix/gui/uijoystick2.c:118 src/arch/unix/gui/uijoystick2.c:167
-#: src/arch/unix/gui/vic20ui.c:335
+#: src/arch/unix/gui/vic20ui.c:330
 msgid "*USB Joystick 1"
 msgstr "*USB-styrspak 1"
 
@@ -3680,43 +3680,43 @@ msgstr "Styrspak i spelport 2"
 msgid "Swap joystick ports"
 msgstr "Växla spelportarna"
 
-#: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/vic20ui.c:344
+#: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/vic20ui.c:339
 msgid "Joystick settings"
 msgstr "Inställningar för styrspak"
 
-#: src/arch/unix/gui/uikeyboard.c:64
+#: src/arch/unix/gui/uikeyboard.c:63
 msgid "*Symbolic mapping"
 msgstr "*Symbolisk tangentbordsemulering"
 
-#: src/arch/unix/gui/uikeyboard.c:66
+#: src/arch/unix/gui/uikeyboard.c:65
 msgid "*Positional mapping (US)"
 msgstr "*Positionsriktig tangentbordsemulering (Amerikanskt tangentbord)"
 
-#: src/arch/unix/gui/uikeyboard.c:84
+#: src/arch/unix/gui/uikeyboard.c:83
 msgid "Read Keymap File"
 msgstr "Läs tangentbordsinställning"
 
-#: src/arch/unix/gui/uikeyboard.c:112
+#: src/arch/unix/gui/uikeyboard.c:111
 msgid "Write to Keymap File:"
 msgstr "Skriv tangentbordsinställning:"
 
-#: src/arch/unix/gui/uikeyboard.c:121
+#: src/arch/unix/gui/uikeyboard.c:120
 msgid "Keyboard mapping type"
 msgstr "Typ av tangentbordsinställning"
 
-#: src/arch/unix/gui/uikeyboard.c:124
+#: src/arch/unix/gui/uikeyboard.c:123
 msgid "Set symbolic keymap file"
 msgstr "Välj fil för symbolisk tangentbordsemulering"
 
-#: src/arch/unix/gui/uikeyboard.c:126
+#: src/arch/unix/gui/uikeyboard.c:125
 msgid "Set positional keymap file"
 msgstr "Välj fil för positionsriktig tangentbordsemulering"
 
-#: src/arch/unix/gui/uikeyboard.c:129
+#: src/arch/unix/gui/uikeyboard.c:128
 msgid "Dump keymap to file"
 msgstr "Spara tangentbordsemulering till fil"
 
-#: src/arch/unix/gui/uikeyboard.c:135
+#: src/arch/unix/gui/uikeyboard.c:134
 msgid "Keyboard settings"
 msgstr "Tangentbordsinställningar"
 
@@ -3728,87 +3728,87 @@ msgstr "*Aktivera mus"
 msgid "Mouse port"
 msgstr "Musport"
 
-#: src/arch/unix/gui/uinetplay.c:68
+#: src/arch/unix/gui/uinetplay.c:69
 msgid "Enter port"
 msgstr "Ange port"
 
-#: src/arch/unix/gui/uinetplay.c:69
+#: src/arch/unix/gui/uinetplay.c:70
 msgid "Netplay TCP port"
 msgstr "TCP-port för nätverksspel"
 
-#: src/arch/unix/gui/uinetplay.c:81
+#: src/arch/unix/gui/uinetplay.c:80
 msgid "Invalid TCP port"
 msgstr "Ogiltig TCP-port"
 
-#: src/arch/unix/gui/uinetplay.c:89
+#: src/arch/unix/gui/uinetplay.c:88
 msgid "Error starting the netplay server."
 msgstr "Fel vid start av nätverksspelsserver."
 
-#: src/arch/unix/gui/uinetplay.c:94
+#: src/arch/unix/gui/uinetplay.c:93
 msgid "Netplay Server name"
 msgstr "Namn på nätverksspelsserver"
 
-#: src/arch/unix/gui/uinetplay.c:95
+#: src/arch/unix/gui/uinetplay.c:94
 msgid "Hostname:"
 msgstr "Värdnamn:"
 
-#: src/arch/unix/gui/uinetplay.c:101
+#: src/arch/unix/gui/uinetplay.c:100
 msgid "Error connecting to server."
 msgstr "Fel vid anslutning til server."
 
-#: src/arch/unix/gui/uinetplay.c:112
+#: src/arch/unix/gui/uinetplay.c:111
 msgid "*Enable IPV6"
 msgstr "*Aktivera IPV6"
 
-#: src/arch/unix/gui/uinetplay.c:119
+#: src/arch/unix/gui/uinetplay.c:118
 msgid "TCP port"
 msgstr "TCP-port"
 
-#: src/arch/unix/gui/uinetplay.c:121
+#: src/arch/unix/gui/uinetplay.c:120
 msgid "Start server"
 msgstr "Starta server"
 
-#: src/arch/unix/gui/uinetplay.c:123
+#: src/arch/unix/gui/uinetplay.c:122
 msgid "Server to connect to"
 msgstr "Server att ansluta till"
 
-#: src/arch/unix/gui/uinetplay.c:126
+#: src/arch/unix/gui/uinetplay.c:125
 msgid "Connect to server"
 msgstr "Anslut till server"
 
-#: src/arch/unix/gui/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:321
+#: src/arch/unix/gui/uinetplay.c:127 src/arch/unix/x11/gnome/uinetplay.c:321
 msgid "Disconnect"
 msgstr "Koppla från"
 
-#: src/arch/unix/gui/uipalemu.c:81
+#: src/arch/unix/gui/uipalemu.c:79
 msgid "PAL Scanline shade"
 msgstr "Skuggning av PAL-skannlinjer"
 
-#: src/arch/unix/gui/uipalemu.c:82
+#: src/arch/unix/gui/uipalemu.c:80
 msgid "Scanline Shade in percent"
 msgstr "Skannlinjeskuggning i procent"
 
-#: src/arch/unix/gui/uipalemu.c:92 src/arch/unix/gui/uipalemu.c:127
+#: src/arch/unix/gui/uipalemu.c:88 src/arch/unix/gui/uipalemu.c:123
 msgid "PAL Blurredness"
 msgstr "PAL-suddighet"
 
-#: src/arch/unix/gui/uipalemu.c:93
+#: src/arch/unix/gui/uipalemu.c:89
 msgid "Blurredness in percent"
 msgstr "Suddighet i procent"
 
-#: src/arch/unix/gui/uipalemu.c:116
+#: src/arch/unix/gui/uipalemu.c:112
 msgid "*Activate PAL emulation"
 msgstr "*Aktivera PAL-emulering"
 
-#: src/arch/unix/gui/uipalemu.c:119
+#: src/arch/unix/gui/uipalemu.c:115
 msgid "*Fast PAL Emulation"
 msgstr "*Snabb PAL-emulering"
 
-#: src/arch/unix/gui/uipalemu.c:121
+#: src/arch/unix/gui/uipalemu.c:117
 msgid "*Exact PAL Emulation"
 msgstr "*Exakt PAL-emulering"
 
-#: src/arch/unix/gui/uipalemu.c:125
+#: src/arch/unix/gui/uipalemu.c:121
 msgid "PAL Scanline Shade"
 msgstr "Skuggning av PAL-skannlinjer"
 
@@ -3816,7 +3816,7 @@ msgstr "Skuggning av PAL-skannlinjer"
 msgid "Load custom palette"
 msgstr "Läs egen palett"
 
-#: src/arch/unix/gui/uipalette.c:56
+#: src/arch/unix/gui/uipalette.c:55
 #, c-format
 msgid ""
 "Could not load palette file\n"
@@ -4164,7 +4164,7 @@ msgstr "Filnamn för minnesexpansionsavbildning..."
 msgid "Load ROM file"
 msgstr "Läs ROM-fil"
 
-#: src/arch/unix/gui/uiromset.c:65
+#: src/arch/unix/gui/uiromset.c:64
 #, c-format
 msgid ""
 "Could not load ROM file\n"
@@ -4173,11 +4173,11 @@ msgstr ""
 "Kunde inte läsa ROM-fil\n"
 "\"%s\""
 
-#: src/arch/unix/gui/uiromset.c:102
+#: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
 msgstr "Läs eget ROM-uppsättningsarkiv"
 
-#: src/arch/unix/gui/uiromset.c:109
+#: src/arch/unix/gui/uiromset.c:108
 #, c-format
 msgid ""
 "Could not load ROM set archive\n"
@@ -4186,31 +4186,31 @@ msgstr ""
 "Kunde inte läsa ROM-uppsättningsarkiv\n"
 "\"%s\""
 
-#: src/arch/unix/gui/uiromset.c:136
+#: src/arch/unix/gui/uiromset.c:135
 msgid "File to save ROM set archive to"
 msgstr "Fil att spara ROM-uppsättningsarkiv till"
 
-#: src/arch/unix/gui/uiromset.c:137
+#: src/arch/unix/gui/uiromset.c:136
 msgid "ROM set archive:"
 msgstr "ROM-uppsättningsarkiv:"
 
-#: src/arch/unix/gui/uiromset.c:151
+#: src/arch/unix/gui/uiromset.c:150
 msgid "Current ROM set archive"
 msgstr "Nuvarande ROM-uppsättningsarkiv:"
 
-#: src/arch/unix/gui/uiromset.c:167
+#: src/arch/unix/gui/uiromset.c:166
 msgid "ROM set item name to create"
 msgstr "ROM-uppsättningspostnamn att skapa"
 
-#: src/arch/unix/gui/uiromset.c:168
+#: src/arch/unix/gui/uiromset.c:167
 msgid "ROM set name:"
 msgstr "ROM-uppsättningsnamn:"
 
-#: src/arch/unix/gui/uiromset.c:183
+#: src/arch/unix/gui/uiromset.c:182
 msgid "Delete configuration"
 msgstr "Ta bort inställningar"
 
-#: src/arch/unix/gui/uiromset.c:183 src/arch/unix/gui/uiromset.c:205
+#: src/arch/unix/gui/uiromset.c:182 src/arch/unix/gui/uiromset.c:205
 msgid "Enter name"
 msgstr "Ange namn"
 
@@ -4218,35 +4218,35 @@ msgstr "Ange namn"
 msgid "Active configuration"
 msgstr "Aktiva inställningar"
 
-#: src/arch/unix/gui/uiromset.c:216
+#: src/arch/unix/gui/uiromset.c:215
 msgid "Load ROM set archive"
 msgstr "Läs ROM-uppsättningsarkiv"
 
-#: src/arch/unix/gui/uiromset.c:218
+#: src/arch/unix/gui/uiromset.c:217
 msgid "Save ROM set archive"
 msgstr "Spara ROM-uppsättningsarkiv"
 
-#: src/arch/unix/gui/uiromset.c:220
+#: src/arch/unix/gui/uiromset.c:219
 msgid "List current ROM set archive"
 msgstr "Lista eget ROM-uppsättningsarkiv"
 
-#: src/arch/unix/gui/uiromset.c:223
+#: src/arch/unix/gui/uiromset.c:222
 msgid "Create ROM set item"
 msgstr "Skapa ROM-uppsättningspost"
 
-#: src/arch/unix/gui/uiromset.c:225
+#: src/arch/unix/gui/uiromset.c:224
 msgid "Delete ROM set item"
 msgstr "Ta bort ROM-uppsättningspost"
 
-#: src/arch/unix/gui/uiromset.c:227
+#: src/arch/unix/gui/uiromset.c:226
 msgid "Select ROM set item"
 msgstr "Välj en ROM-uppsättningspost"
 
-#: src/arch/unix/gui/uiromset.c:244
+#: src/arch/unix/gui/uiromset.c:243
 msgid "Load custom ROM set file"
 msgstr "Läs egen ROM-uppsättningsfil"
 
-#: src/arch/unix/gui/uiromset.c:251
+#: src/arch/unix/gui/uiromset.c:250
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
@@ -4255,27 +4255,27 @@ msgstr ""
 "Kunde inte läsa ROM-uppsättningsfil\n"
 "\"%s\""
 
-#: src/arch/unix/gui/uiromset.c:278
+#: src/arch/unix/gui/uiromset.c:277
 msgid "File to save ROM set definition to"
 msgstr "Fil att spara ROM-uppsättningsdefinition till"
 
-#: src/arch/unix/gui/uiromset.c:279
+#: src/arch/unix/gui/uiromset.c:278
 msgid "ROM set file:"
 msgstr "ROM-uppsättningsfil:"
 
-#: src/arch/unix/gui/uiromset.c:293
+#: src/arch/unix/gui/uiromset.c:292
 msgid "Current ROM set"
 msgstr "Nuvarande ROM-uppsättningar"
 
-#: src/arch/unix/gui/uiromset.c:299
+#: src/arch/unix/gui/uiromset.c:298
 msgid "Load custom ROM set from file"
 msgstr "Läs egen ROM-uppsättning från fil"
 
-#: src/arch/unix/gui/uiromset.c:301
+#: src/arch/unix/gui/uiromset.c:300
 msgid "Dump ROM set definition to file"
 msgstr "Spara ROM-uppsättning till fil"
 
-#: src/arch/unix/gui/uiromset.c:303
+#: src/arch/unix/gui/uiromset.c:302
 msgid "List current ROM set"
 msgstr "Lista nuvarande ROM-uppsättning"
 
@@ -4347,40 +4347,40 @@ msgstr "ACIA $DExx-avbrott"
 msgid "ACIA $DExx Emulation Mode"
 msgstr "ACIA $DExx-emuleringsläge"
 
-#: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:354
+#: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:349
 msgid "*Userport RS232 emulation"
 msgstr "*Emulering av RS232 på användarporten"
 
-#: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:356
+#: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:351
 msgid "Userport RS232 baud rate"
 msgstr "Användarportens RS232-baudhastighet"
 
-#: src/arch/unix/gui/uirs232c64c128.c:80 src/arch/unix/gui/vic20ui.c:358
+#: src/arch/unix/gui/uirs232c64c128.c:80 src/arch/unix/gui/vic20ui.c:353
 msgid "Userport RS232 device"
 msgstr "Användarportens RS232-enhet"
 
 #: src/arch/unix/gui/uirs232c64c128.c:83
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:42 src/arch/unix/gui/vic20ui.c:361
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:42 src/arch/unix/gui/vic20ui.c:356
 msgid "Serial 1 device..."
 msgstr "Seriell enhet 1..."
 
 #: src/arch/unix/gui/uirs232c64c128.c:85
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:44 src/arch/unix/gui/vic20ui.c:363
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:44 src/arch/unix/gui/vic20ui.c:358
 msgid "Serial 1 baudrate"
 msgstr "Baudhastighet för seriell enhet 1"
 
 #: src/arch/unix/gui/uirs232c64c128.c:90
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:49 src/arch/unix/gui/vic20ui.c:368
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:49 src/arch/unix/gui/vic20ui.c:363
 msgid "Serial 2 baudrate"
 msgstr "Baudhastighet för seriell enhet 2"
 
 #: src/arch/unix/gui/uirs232c64c128.c:93
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:52 src/arch/unix/gui/vic20ui.c:371
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:52 src/arch/unix/gui/vic20ui.c:366
 msgid "Dump filename..."
 msgstr "Filnamn för datadump..."
 
 #: src/arch/unix/gui/uirs232c64c128.c:96
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:55 src/arch/unix/gui/vic20ui.c:374
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:55 src/arch/unix/gui/vic20ui.c:369
 msgid "Program name to exec..."
 msgstr "Program att starta..."
 
@@ -4388,7 +4388,7 @@ msgstr "Program att starta..."
 msgid "ACIA device"
 msgstr "ACIA-enhet"
 
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:47 src/arch/unix/gui/vic20ui.c:366
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:47 src/arch/unix/gui/vic20ui.c:361
 msgid "Serial 2 device..."
 msgstr "Seriell enhet 2..."
 
@@ -4416,36 +4416,36 @@ msgstr "*4800 baud"
 msgid "*9600 baud"
 msgstr "*9600 baud"
 
-#: src/arch/unix/gui/uisettings.c:112
+#: src/arch/unix/gui/uisettings.c:111
 msgid "Enter refresh rate"
 msgstr "Ange uppdateringsfrekvens"
 
-#: src/arch/unix/gui/uisettings.c:113 src/arch/unix/gui/uisettings.c:312
+#: src/arch/unix/gui/uisettings.c:112 src/arch/unix/gui/uisettings.c:311
 msgid "Refresh rate"
 msgstr "Uppdateringshastighet"
 
-#: src/arch/unix/gui/uisettings.c:185
+#: src/arch/unix/gui/uisettings.c:184
 msgid "Enter speed"
 msgstr "Ange hastighet"
 
-#: src/arch/unix/gui/uisettings.c:186
+#: src/arch/unix/gui/uisettings.c:185
 msgid "Maximum run speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/gui/uisettings.c:200
+#: src/arch/unix/gui/uisettings.c:199
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1397
-#: src/arch/unix/x11/xaw/x11ui.c:1088
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1397
+#: src/arch/unix/x11/xaw/x11ui.c:1087
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
-#: src/arch/unix/gui/uisettings.c:217
+#: src/arch/unix/gui/uisettings.c:216
 msgid "Settings saved successfully."
 msgstr "Inställningarna har sparats."
 
-#: src/arch/unix/gui/uisettings.c:234
+#: src/arch/unix/gui/uisettings.c:233
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -4453,7 +4453,7 @@ msgstr ""
 "Kan inte läsa inställningar:\n"
 "resursfilen ogiltig."
 
-#: src/arch/unix/gui/uisettings.c:236
+#: src/arch/unix/gui/uisettings.c:235
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -4461,47 +4461,47 @@ msgstr ""
 "Kan inte läsa inställningar:\n"
 "resursfilen ej funnen."
 
-#: src/arch/unix/gui/uisettings.c:240
+#: src/arch/unix/gui/uisettings.c:239
 msgid "Settings loaded."
 msgstr "Inställnigarna har lästs."
 
-#: src/arch/unix/gui/uisettings.c:262
+#: src/arch/unix/gui/uisettings.c:261
 msgid "*Auto"
 msgstr "*Auto"
 
-#: src/arch/unix/gui/uisettings.c:285 src/arch/unix/gui/uisettings.c:304
+#: src/arch/unix/gui/uisettings.c:284 src/arch/unix/gui/uisettings.c:303
 msgid "*Custom..."
 msgstr "*Egen..."
 
-#: src/arch/unix/gui/uisettings.c:301
+#: src/arch/unix/gui/uisettings.c:300
 msgid "*No limit"
 msgstr "*Ingen gräns"
 
-#: src/arch/unix/gui/uisettings.c:314
+#: src/arch/unix/gui/uisettings.c:313
 msgid "Maximum speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/gui/uisettings.c:316
+#: src/arch/unix/gui/uisettings.c:315
 msgid "*Enable warp mode"
 msgstr "*Aktivera warpläge"
 
-#: src/arch/unix/gui/uisettings.c:322
+#: src/arch/unix/gui/uisettings.c:321
 msgid "Save settings"
 msgstr "Spara inställningar"
 
-#: src/arch/unix/gui/uisettings.c:324
+#: src/arch/unix/gui/uisettings.c:323
 msgid "Load settings"
 msgstr "Läs inställningar"
 
-#: src/arch/unix/gui/uisettings.c:326
+#: src/arch/unix/gui/uisettings.c:325
 msgid "Restore default settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/arch/unix/gui/uisettings.c:328
+#: src/arch/unix/gui/uisettings.c:327
 msgid "*Save settings on exit"
 msgstr "*Spara inställningar vid avslut"
 
-#: src/arch/unix/gui/uisettings.c:330
+#: src/arch/unix/gui/uisettings.c:329
 msgid "*Confirm on exit"
 msgstr "*Bekräfta avslutning"
 
@@ -4789,103 +4789,103 @@ msgstr "*Sprite-till-bakgrund-kollision"
 msgid "What?!\n"
 msgstr "Vad?!\n"
 
-#: src/arch/unix/gui/vic20ui.c:120
+#: src/arch/unix/gui/vic20ui.c:115
 msgid "Load new Kernal ROM"
 msgstr "Läs ny Kernal-ROM"
 
-#: src/arch/unix/gui/vic20ui.c:123
+#: src/arch/unix/gui/vic20ui.c:118
 msgid "Load new Basic ROM"
 msgstr "Läs ny Basic-ROM"
 
-#: src/arch/unix/gui/vic20ui.c:126
+#: src/arch/unix/gui/vic20ui.c:121
 msgid "Load new Character ROM"
 msgstr "Läs ny teckengenerator-ROM"
 
-#: src/arch/unix/gui/vic20ui.c:152
+#: src/arch/unix/gui/vic20ui.c:147
 msgid "No expansion memory"
 msgstr "Ingen minnesutökning"
 
-#: src/arch/unix/gui/vic20ui.c:156
+#: src/arch/unix/gui/vic20ui.c:151
 msgid "3K (block 0)"
 msgstr "3K (block 0)"
 
-#: src/arch/unix/gui/vic20ui.c:159
+#: src/arch/unix/gui/vic20ui.c:154
 msgid "8K (block 1)"
 msgstr "8K (block 1)"
 
-#: src/arch/unix/gui/vic20ui.c:162
+#: src/arch/unix/gui/vic20ui.c:157
 msgid "16K (blocks 1/2)"
 msgstr "16K (block 1/2)"
 
-#: src/arch/unix/gui/vic20ui.c:165
+#: src/arch/unix/gui/vic20ui.c:160
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (block 1/2/3)"
 
-#: src/arch/unix/gui/vic20ui.c:169
+#: src/arch/unix/gui/vic20ui.c:164
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Alla (block 0/1/2/3/5)"
 
-#: src/arch/unix/gui/vic20ui.c:184
+#: src/arch/unix/gui/vic20ui.c:179
 msgid "Common configurations"
 msgstr "Vanliga inställningar"
 
-#: src/arch/unix/gui/vic20ui.c:190
+#: src/arch/unix/gui/vic20ui.c:185
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Block 0 (3K på $0400-$0FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:192
+#: src/arch/unix/gui/vic20ui.c:187
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Block 1 (8K på $2000-$3FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:189
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Block 2 (8K på $4000-$5FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:196
+#: src/arch/unix/gui/vic20ui.c:191
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Block 3 (8K på $6000-$7FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:198
+#: src/arch/unix/gui/vic20ui.c:193
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Block 5 (8K på $A000-$BFFF)"
 
-#: src/arch/unix/gui/vic20ui.c:208 src/arch/unix/gui/vic20ui.c:429
+#: src/arch/unix/gui/vic20ui.c:203 src/arch/unix/gui/vic20ui.c:424
 msgid "Memory expansions"
 msgstr "Minnesutökningar"
 
-#: src/arch/unix/gui/vic20ui.c:230
+#: src/arch/unix/gui/vic20ui.c:225
 msgid "Invalid cartridge image"
 msgstr "Ogiltig insticksmodulfil"
 
-#: src/arch/unix/gui/vic20ui.c:255
+#: src/arch/unix/gui/vic20ui.c:250
 msgid "Smart-attach cartridge image..."
 msgstr "Smartanslut insticksmodulfil..."
 
-#: src/arch/unix/gui/vic20ui.c:260
+#: src/arch/unix/gui/vic20ui.c:255
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "Anslut 4/8/16KB-fil vid $2000..."
 
-#: src/arch/unix/gui/vic20ui.c:263
+#: src/arch/unix/gui/vic20ui.c:258
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "Anslut 4/8/16KB-fil vid $4000..."
 
-#: src/arch/unix/gui/vic20ui.c:266
+#: src/arch/unix/gui/vic20ui.c:261
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "Anslut 4/8/16KB-fil vid $6000..."
 
-#: src/arch/unix/gui/vic20ui.c:269
+#: src/arch/unix/gui/vic20ui.c:264
 msgid "Attach 4/8KB image at $A000..."
 msgstr "Anslut 4/8KB-fil vid $A000..."
 
-#: src/arch/unix/gui/vic20ui.c:272
+#: src/arch/unix/gui/vic20ui.c:267
 msgid "Attach 4KB image at $B000..."
 msgstr "Anslut 4KB-fil vid $B000..."
 
-#: src/arch/unix/gui/vic20ui.c:284
+#: src/arch/unix/gui/vic20ui.c:279
 msgid "Detach cartridge image(s)"
 msgstr "Koppla från insticksmodulfil(er)"
 
-#: src/arch/unix/gui/vic20ui.c:427
+#: src/arch/unix/gui/vic20ui.c:422
 msgid "VIC settings"
 msgstr "VIC-inställningar"
 
@@ -4994,7 +4994,7 @@ msgid "Save Cartridge"
 msgstr "Spara insticksmodul"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:95
-#: src/arch/unix/x11/gnome/uiscreenshot.c:471
+#: src/arch/unix/x11/gnome/uiscreenshot.c:466
 #: src/arch/unix/x11/gnome/uisnapshot.c:115
 msgid "Invalid filename"
 msgstr "Ogiltigt filnamn"
@@ -5174,64 +5174,64 @@ msgstr "Server"
 msgid "Client"
 msgstr "Klient"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:239
+#: src/arch/unix/x11/gnome/uiscreenshot.c:235
 msgid "No gfxoutputdrivers available"
 msgstr "Inga grafikutdrivrutiner tillgängliga"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:243
-#: src/arch/unix/x11/gnome/uiscreenshot.c:462
+#: src/arch/unix/x11/gnome/uiscreenshot.c:239
+#: src/arch/unix/x11/gnome/uiscreenshot.c:457
 msgid "Save Screenshot"
 msgstr "Spara skärmdump"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:251
+#: src/arch/unix/x11/gnome/uiscreenshot.c:247
 msgid "Save Media File..."
 msgstr "Spara mediafil..."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:268
+#: src/arch/unix/x11/gnome/uiscreenshot.c:264
 msgid "Image Format"
 msgstr "Bildformat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:310
+#: src/arch/unix/x11/gnome/uiscreenshot.c:306
 #, c-format
 msgid "FFMPEG Driver: %s"
 msgstr "FFMPEG-drivrutin: %s"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:320
+#: src/arch/unix/x11/gnome/uiscreenshot.c:316
 #, c-format
 msgid "\tAC: %s(%d)"
 msgstr "\tAC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:333
+#: src/arch/unix/x11/gnome/uiscreenshot.c:329
 #, c-format
 msgid "\tVC: %s(%d)"
 msgstr "\tVC: %s(%d)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:352
+#: src/arch/unix/x11/gnome/uiscreenshot.c:348
 msgid "Format"
 msgstr "Format"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:366
+#: src/arch/unix/x11/gnome/uiscreenshot.c:362
 msgid "Audio Codec"
 msgstr "Ljudomkodare"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:380
+#: src/arch/unix/x11/gnome/uiscreenshot.c:376
 msgid "Video Codec"
 msgstr "Videoomkodare"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:397
+#: src/arch/unix/x11/gnome/uiscreenshot.c:393
 msgid "Audio Bitrate"
 msgstr "Ljudbithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:412
+#: src/arch/unix/x11/gnome/uiscreenshot.c:408
 msgid "Video Bitrate"
 msgstr "Videobithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:506
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kunde inte skriva skärmdump till \"%s\" med drivrutin \"%s\"."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:513
+#: src/arch/unix/x11/gnome/uiscreenshot.c:508
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Skrev \"%s\""
@@ -5376,16 +5376,16 @@ msgstr "-emulator"
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1394 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1394 src/arch/unix/x11/xaw/x11ui.c:1084
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1439 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1439 src/arch/unix/x11/xaw/x11ui.c:1125
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1459 src/arch/unix/x11/gnome/x11ui.c:1462
-#: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
+#: src/arch/unix/x11/xaw/x11ui.c:1153 src/arch/unix/x11/xaw/x11ui.c:1158
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -5396,7 +5396,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1833 src/arch/unix/x11/xaw/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1833 src/arch/unix/x11/xaw/x11ui.c:1400
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
@@ -5417,7 +5417,7 @@ msgstr "Hård nollställning"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2080 src/arch/unix/x11/xaw/x11ui.c:1679
+#: src/arch/unix/x11/gnome/x11ui.c:2080 src/arch/unix/x11/xaw/x11ui.c:1678
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
@@ -5759,12 +5759,12 @@ msgstr "spelar in..."
 msgid "event recording..."
 msgstr "spelar in händelser..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1253
+#: src/arch/unix/x11/xaw/x11ui.c:1252
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1564
+#: src/arch/unix/x11/xaw/x11ui.c:1563
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
