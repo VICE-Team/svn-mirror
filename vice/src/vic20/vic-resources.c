@@ -98,6 +98,22 @@ set_double_scan_enabled (resource_value_t v)
   return 0;
 }
 
+#ifdef USE_VIDMODE_EXTENSION
+static int
+set_fullscreen_double_size_enabled(resource_value_t v)
+{
+  vic_resources.fullscreen_double_size_enabled = (int) v;
+  return 0;
+}
+
+static int
+set_fullscreen_double_scan_enabled(resource_value_t v)
+{
+  vic_resources.fullscreen_double_scan_enabled = (int) v;
+  return 0;
+}
+#endif
+
 static resource_t resources_2x[] =
   {
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
@@ -106,6 +122,14 @@ static resource_t resources_2x[] =
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_resources.double_scan_enabled,
       set_double_scan_enabled },
+#ifdef USE_VIDMODE_EXTENSION
+    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &vic_resources.fullscreen_double_size_enabled,
+      set_fullscreen_double_size_enabled },
+    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &vic_resources.fullscreen_double_scan_enabled,
+      set_fullscreen_double_scan_enabled },
+#endif
     { NULL }
   };
 

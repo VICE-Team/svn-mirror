@@ -27,6 +27,8 @@
 #ifndef _VIC_RESOURCES_H
 #define _VIC_RESOURCES_H
 
+#include "vice.h"
+
 struct _vic_resources
   {
     /* Flag: Do we use double size?  */

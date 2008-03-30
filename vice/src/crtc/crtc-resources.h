@@ -32,6 +32,8 @@
 #ifndef _CRTC_RESOURCES_H
 #define _CRTC_RESOURCES_H
 
+#include "vice.h"
+
 #include "resources.h"
 
 /* CRTC resources.  */
@@ -48,6 +50,20 @@ struct _crtc_resources
 
     /* Flag: Do we copy lines in double size mode?  */
     int double_scan_enabled;
+
+#ifdef USE_VIDMODE_EXTENSION
+    /* Flag: Fullscreenmode?  */
+    int fullscreen;
+
+    /* Flag: Do we use double size?  */
+    int fullscreen_double_size_enabled;
+
+    /* Flag: Do we copy lines in double size mode?  */
+    int fullscreen_double_scan_enabled;
+
+    int fullscreen_width;
+    int fullscreen_height;
+#endif                          /* USE_VIDMODE_EXTENSION */
   };
 
 typedef struct _crtc_resources crtc_resources_t;

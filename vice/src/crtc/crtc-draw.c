@@ -112,11 +112,12 @@ static void draw_standard_background_2x (unsigned int start_pixel,
 static inline void DRAW(int reverse_flag, int offset, int scr_rel, 
 							int xs, int xc, int xe) 
 {
-        PIXEL *p = crtc.raster.frame_buffer_ptr + (offset);
+    /* FIXME: `p' has to be aligned on a 4 byte boundary!
+              Is there a better way than masking `offset'?  */
+    PIXEL *p = crtc.raster.frame_buffer_ptr + (offset & ~3);
 	BYTE *chargen_ptr, *screen_ptr;
 	int screen_rel;
         register int i, d; 
-
 	/* pointer to current chargen line */
 	chargen_ptr = crtc.chargen_base
 		+ crtc.chargen_rel 
@@ -148,8 +149,8 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
 
             if ((reverse_flag))
                 d ^= 0xff;
-            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];
-            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];
+            *(((PIXEL4 *) p) + i * 2) = dwg_table_0[d];
+            *(((PIXEL4 *) p) + i * 2 + 1) = dwg_table_1[d];
           }
         } else {
 #else
@@ -163,15 +164,15 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
 
             if ((reverse_flag))
                 d ^= 0xff;
-            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];
-            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];
+            *(((PIXEL4 *) p) + i * 2) = dwg_table_0[d];
+            *(((PIXEL4 *) p) + i * 2 + 1) = dwg_table_1[d];
 	  }
         }
 
         for (; i < (xe); i++) {
 	    d = 0;	/* blank */
-            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];
-            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];
+            *(((PIXEL4 *) p) + i * 2) = dwg_table_0[d];
+            *(((PIXEL4 *) p) + i * 2 + 1) = dwg_table_1[d];
         }
 }
 

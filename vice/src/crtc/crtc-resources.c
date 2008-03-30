@@ -82,6 +82,22 @@ set_double_scan_enabled (resource_value_t v)
 }
 #endif
 
+#ifdef USE_VIDMODE_EXTENSION
+static int
+set_fullscreen_double_size_enabled(resource_value_t v)
+{
+  crtc_resources.fullscreen_double_size_enabled = (int) v;
+  return 0;
+}
+
+static int
+set_fullscreen_double_scan_enabled(resource_value_t v)
+{
+  crtc_resources.fullscreen_double_scan_enabled = (int) v;
+  return 0;
+}
+#endif
+
 
 
 static resource_t resources[] =
@@ -93,6 +109,14 @@ static resource_t resources[] =
   { "CrtcDoubleSize", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.double_size_enabled,
     set_double_size_enabled },
+#ifdef USE_VIDMODE_EXTENSION
+    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &crtc_resources.fullscreen_double_size_enabled,
+      set_fullscreen_double_size_enabled },
+    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &crtc_resources.fullscreen_double_scan_enabled,
+      set_fullscreen_double_scan_enabled },
+#endif
 #endif
 #if defined CRTC_NEED_2X || defined __MSDOS__
   { "CrtcDoubleScan", RES_INTEGER, (resource_value_t) 0,
