@@ -608,6 +608,28 @@ inline static void store_ted15(ADDRESS addr, BYTE value)
     ted.regs[addr] = value;
 }
 
+inline static void store_ted161718(ADDRESS addr, BYTE value)
+{
+    int char_num;
+
+    value &= 0x7f;
+
+    TED_DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
+                          addr - 0x15, value));
+
+    if (ted.regs[addr] == value)
+        return;
+
+    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(clk));
+
+    raster_add_int_change_foreground(&ted.raster,
+                                     char_num,
+                                     &ted.ext_background_color[addr - 0x16],
+                                     value);
+
+    ted.regs[addr] = value;
+}
+
 inline static void store_ted19(ADDRESS addr, BYTE value)
 {
     TED_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
@@ -621,28 +643,6 @@ inline static void store_ted19(ADDRESS addr, BYTE value)
                                      &ted.raster.border_color,
                                      value);
     }
-}
-
-inline static void store_ext_background(ADDRESS addr, BYTE value)
-{
-    int char_num;
-
-    value &= 0xf;
-
-    TED_DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
-                          addr - 0x21, value));
-
-    if (ted.regs[addr] == value)
-        return;
-
-    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(clk));
-
-    raster_add_int_change_foreground(&ted.raster,
-                                     char_num,
-                                     &ted.ext_background_color[addr - 0x22],
-                                     value);
-
-    ted.regs[addr] = value;
 }
 
 /* Store a value in a TED register.  */
@@ -698,6 +698,11 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
         break;
       case 0x15:
         store_ted15(addr, value);
+        break;
+      case 0x16:
+      case 0x17:
+      case 0x18:
+        store_ted161718(addr, value);
         break;
       case 0x19:
         store_ted19(addr, value);
