@@ -31,13 +31,14 @@
 
 #include <string.h>
 
-#include "palette.h"
 #include "raster-cache.h"
 #include "raster-changes.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
 #include "types.h"
 #include "video.h"
+
+struct palette_s;
 
 /* We assume that, if already #defined, the provided `MAX' and `MIN' actually
    work.  */
@@ -179,7 +180,7 @@ struct _raster
     PIXEL *fake_frame_buffer_line;
 
     /* Palette used for drawing.  */
-    palette_t *palette;
+    struct palette_s *palette;
 
     /* This is a bit mask representing each pixel on the screen (1 =
        foreground, 0 = background) and is used both for sprite-background

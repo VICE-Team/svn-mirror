@@ -27,6 +27,10 @@
  *
  */
 
+#include "clkguard.h"
+#include "interrupt.h"
+#include "snapshot.h"
+
 /*
  * 24jan97 a.fachat
  * new interrupt handling, hopefully according to the specs now.

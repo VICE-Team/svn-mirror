@@ -34,10 +34,10 @@
 
 #include "vice.h"
 
-#include "resources.h"
+struct crtc_resources_s;
 
 /* CRTC resources.  */
-struct _crtc_resources
+struct crtc_resources_s
   {
     /* Name of palette file.  */
     char *palette_file_name;
@@ -66,9 +66,9 @@ struct _crtc_resources
 #endif                          /* USE_VIDMODE_EXTENSION */
   };
 
-typedef struct _crtc_resources crtc_resources_t;
+typedef struct crtc_resources_s crtc_resources_t;
 
-extern crtc_resources_t crtc_resources;
+extern struct crtc_resources_s crtc_resources;
 
 #endif
 

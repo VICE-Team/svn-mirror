@@ -54,6 +54,7 @@
 #include "vice.h"
 
 #include "drive.h"
+#include "drivecpu.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "types.h"

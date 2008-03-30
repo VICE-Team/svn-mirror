@@ -28,12 +28,7 @@
  */
 
 #include "alarm.h"
-#include "clkguard.h"
-#include "drivecpu.h"
-#include "interrupt.h"
 #include "log.h"
-#include "resources.h"
-#include "snapshot.h"
 #include "types.h"
 #include "via.h"
 

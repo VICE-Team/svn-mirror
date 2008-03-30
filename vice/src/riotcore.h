@@ -27,11 +27,8 @@
 #include "vice.h"
 
 #include "alarm.h"
-#include "clkguard.h"
-#include "interrupt.h"
 #include "log.h"
 #include "riot.h"
-#include "snapshot.h"
 #include "types.h"
 
 #if defined(NO_INLINE)

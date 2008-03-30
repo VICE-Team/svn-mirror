@@ -33,9 +33,10 @@
 /* Warning: all the pointers should point to areas that are valid throughout
    the execution.  No reallocation is performed.  */
 
-typedef enum cmdline_option_type {SET_RESOURCE, CALL_FUNCTION} cmdline_option_type_t;
+typedef enum cmdline_option_type {SET_RESOURCE, CALL_FUNCTION}
+    cmdline_option_type_t;
 
-typedef struct cmdline_option {
+typedef struct cmdline_option_s {
 
     /* Name of command-line option.  */
     const char *name;

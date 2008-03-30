@@ -56,6 +56,7 @@
 #include "snapshot.h"
 #include "sysfile.h"
 #include "tape.h"
+#include "traps.h"
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"

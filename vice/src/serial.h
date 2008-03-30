@@ -29,8 +29,6 @@
 #ifndef _SERIAL_H
 #define _SERIAL_H
 
-#include "diskimage.h"
-#include "traps.h"
 #include "types.h"
 
 /* Serial Error Codes. */
@@ -49,12 +47,14 @@
 #define DT_MPS803		1
 #define DT_STAR10CCL		2
 
+struct disk_image_s;
+struct trap_s;
 
 typedef struct serial_s
 {
     int inuse;
     int isopen[16]; /* isopen flag for each secondary address */
-    disk_image_t *image; /* pointer to the disk image data  */ 
+    struct disk_image_s *image; /* pointer to the disk image data  */ 
     char *name; /* name of the device */
     int (*getf)(void *, BYTE *, unsigned int); /* serial read function */
     int (*putf)(void *, BYTE, unsigned int); /* serial write function */
@@ -75,7 +75,7 @@ typedef struct serial_s
 
 } serial_t;
 
-extern int serial_init(const trap_t *trap_list);
+extern int serial_init(const struct trap_s *trap_list);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
 extern int serial_attach_device(unsigned int device, const char *name,

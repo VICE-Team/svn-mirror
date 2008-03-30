@@ -54,6 +54,7 @@
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "kbd.h"
 #include "maincpu.h"
 #include "parallel.h"

@@ -27,18 +27,18 @@
 #ifndef _TAPE_H
 #define _TAPE_H
 
-#include "traps.h"
+struct trap_s;
 
 extern int tape_detach_image(void);
 extern int tape_attach_image(const char *name);
 extern int tape_init(int buffer_pointer_addr, int st_addr,
                      int verify_flag_addr, int irqtmp, int irqval,
                      int stal_addr, int eal_addr, int kbd_buf_addr,
-                     int kbd_buf_pending_addr, const trap_t *trap_list);
+                     int kbd_buf_pending_addr, const struct trap_s *trap_list);
 extern int tape_deinstall(void);
 extern void tape_find_header_trap(void);
 extern void tape_receive_trap(void);
 extern char *tape_get_file_name(void);
 
-#endif /* ndef _TAPE_H */
+#endif
 
