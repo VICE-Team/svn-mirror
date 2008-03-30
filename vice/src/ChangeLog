@@ -1,3 +1,22 @@
+2004-03-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.16.
+
+	* arch/win32/uilib.c, arch/win32/uiide64.c,
+	arch/win32/uic128.c: Use common file selector.
+
+	* arch/win32/uicmdline.c, arch/win32/uilib.c, uicmdline.h,
+	arch/win32/uilib.h, arch/win32/ui.c, c1541.c, petcat.c: Moved
+	`uilib_show_options()'.
+
+	* arch/win32/uirom.c, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/resvic.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/rescbm2.rc, arch/win32/res.h, arch/win32/uirom.h,
+	arch/win32/c64ui.c, arch/win32/c128ui.c, arch/win32/vic20ui.c,
+	arch/win32/petui.c, arch/win32/plus4ui.c, arch/win32/cbm2ui.c:
+	Added drive firmware ROM UI.
+
 2004-03-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.15.
