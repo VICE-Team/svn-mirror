@@ -1,3 +1,45 @@
+1999-06-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.31.
+
+	* diskimage.c (disk_image_close): New function.
+	Use separate logging.  (disk_image_check_sector): Moved here.
+	(disk_image_sector_per_track): New function replacing those ugly
+	global sector tables.
+	(disk_image_read_sector, disk_image_write_sector): New functions.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c
+	(machine_shutdown): Detach all disk images.
+	(machine_init): No need to initialize special attach hooks.
+
+	* drive/drive.c (drive_attach_floppy, drive_detach_floppy): Use
+	new attach mechanism.
+
+	* attach.c (file_system_set_hooks): Removed.
+	(attach_disk_image, detach_disk_image): New functions.
+	(file_system_attach_disk, file_system_detach_disk): Use new attach
+	or detach functions.
+	(file_system_init, set_file_system_device8,
+	set_file_system_device9, set_file_system_device10,
+	set_file_system_device11, file_system_attach_disk): Do not
+	initialize attach/detach function pointer.
+
+	* vdrive/vdrive.h: Removed attach/detach function pointer from
+	struct `DRIVE'.
+
+	* vdrive/vdrive.c (initialize_1541): Removed attach/detach
+	function pointer handling.
+
+	* drive/wd1770.c, drive/wd1770.h (wd1770_attach_image,
+	wd1770_detach_disk): Separated from the 1541/71 drive emulation.
+	Do not use struct `DRIVE' anymore.
+
+	* drive/drive.c, vdrive/vdrive-bam.c, vdrive/vdrive-dir.c: Use
+	`disk_image_sector_per_track' to retrive number of sectors.
+
+	* vdrive/vdrive-bam.h, vdrive/vdrive-bam.c
+	(vdrive_bam_reread_bam): Temporary hack.
+
 1999-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.30.

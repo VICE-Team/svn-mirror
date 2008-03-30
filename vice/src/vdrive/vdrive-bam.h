@@ -58,6 +58,7 @@ extern int vdrive_bam_free_sector(int type, BYTE *bam, int track, int sector);
 extern int vdrive_bam_get_disk_id(DRIVE *floppy, BYTE *id);
 extern int vdrive_bam_set_disk_id(DRIVE *floppy, BYTE *id);
 extern int vdrive_bam_read_bam(DRIVE *floppy);
+extern int vdrive_bam_reread_bam(int unit);
 extern int vdrive_bam_write_bam(DRIVE *floppy);
 
 #endif

@@ -38,6 +38,7 @@
 
 #include <string.h>
 
+#include "serial.h"
 #include "vdrive-bam.h"
 #include "vdrive.h"
 
@@ -160,7 +161,7 @@ int vdrive_bam_allocate_chain(DRIVE *floppy, int t, int s)
     BYTE tmp[256];
 
     while (t) {
-        if (vdrive_check_track_sector(floppy->ImageFormat, t, s) < 0) {
+        if (disk_image_check_sector(floppy->ImageFormat, t, s) < 0) {
             vdrive_command_set_error(&floppy->buffers[15],
                                      IPE_ILLEGAL_TRACK_OR_SECTOR, s, t);
             return IPE_ILLEGAL_TRACK_OR_SECTOR;
@@ -505,6 +506,14 @@ int vdrive_bam_read_bam(DRIVE *floppy)
         err = -1;
     }
     return err;
+}
+
+/* Temporary hack.  */
+int vdrive_bam_reread_bam(int unit)
+{
+    serial_t *p;
+    p = serial_get_device(unit);
+    return vdrive_bam_read_bam((DRIVE *)p->info);
 }
 
 
