@@ -94,14 +94,14 @@ static void vdrive_dir_free_chain(vdrive_t *floppy, int t, int s)
 
     while (t) {
         /* Check for illegal track or sector.  */
-        if (disk_image_check_sector(floppy->ImageFormat, t, s) < 0)
+        if (disk_image_check_sector(floppy->image_format, t, s) < 0)
         break;
         /* Check if this sector is really allocated.  */
-        if (!vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam, t, s))
+        if (!vdrive_bam_free_sector(floppy->image_format, floppy->bam, t, s))
         break;
 
         /* FIXME: This seems to be redundant.  AB19981124  */
-        vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam, t, s);
+        vdrive_bam_free_sector(floppy->image_format, floppy->bam, t, s);
         disk_image_read_sector(floppy->image, buf, t, s);
         t = (int) buf[0];
         s = (int) buf[1];
@@ -110,7 +110,7 @@ static void vdrive_dir_free_chain(vdrive_t *floppy, int t, int s)
 
 static BYTE *find_next_directory_sector(vdrive_t *floppy, int track, int sector)
 {
-    if (vdrive_bam_allocate_sector(floppy->ImageFormat, floppy->bam, track,
+    if (vdrive_bam_allocate_sector(floppy->image_format, floppy->bam, track,
         sector)) {
         floppy->Dir_buffer[0] = track;
         floppy->Dir_buffer[1] = sector;
@@ -238,8 +238,8 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy)
 
     if (floppy->find_length < 0) {
         int sector;
-        switch (floppy->ImageFormat) {
-          case DISK_IMAGE_TYPE_D64:
+        switch (floppy->image_format) {
+          case VDRIVE_IMAGE_FORMAT_1541:
             for (sector = 1;
                 sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64,
                 DIR_TRACK_1541); sector++) {
@@ -250,7 +250,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy)
                     return dirbuf;
             }
             break;
-          case DISK_IMAGE_TYPE_D71:
+          case VDRIVE_IMAGE_FORMAT_1571:
             for (sector = 1;
                 sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D71,
                 DIR_TRACK_1571); sector++) {
@@ -269,7 +269,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy)
                     return dirbuf;
             }
             break;
-          case DISK_IMAGE_TYPE_D81:
+          case VDRIVE_IMAGE_FORMAT_1581:
             for (sector = 3; sector < NUM_SECTORS_1581; sector++) {
                 BYTE *dirbuf;
                 dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1581,
@@ -278,8 +278,8 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy)
                     return dirbuf;
             }
             break;
-          case DISK_IMAGE_TYPE_D80:
-          case DISK_IMAGE_TYPE_D82:
+          case VDRIVE_IMAGE_FORMAT_8050:
+          case VDRIVE_IMAGE_FORMAT_8250:
             for (sector = 1;
                 sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D80,
                 DIR_TRACK_8050); sector++) {
@@ -291,7 +291,9 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy)
             }
             break;
           default:
-            log_error(vdrive_log, "Unknown disk type.");
+            log_error(vdrive_log,
+                      "Unknown disk type %i.  Cannout find directory slot.",
+                      floppy->image_format);
             break;
         }
     } /* length */
