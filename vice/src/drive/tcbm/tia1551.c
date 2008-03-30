@@ -33,16 +33,20 @@
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "rotation.h"
 #include "types.h"
 
-typedef struct tia1551_s {
+
+struct tia1551_s {
     BYTE ddra;
     BYTE dataa;
     BYTE ddrb;
     BYTE datab;
     BYTE ddrc;
     BYTE datac;
-} tia1551_t;
+};
+typedef struct tia1551_s tia1551_t;
+
 
 BYTE tia1551_outputa[2], tia1551_outputb[2], tia1551_outputc[2];
 
@@ -52,6 +56,7 @@ static log_t tia1551_log = LOG_ERR;
 static void tia1551d_store(ADDRESS addr, BYTE byte, unsigned int dnr);
 static BYTE tia1551d_read(ADDRESS addr, unsigned int dnr);
 static void tia1551d_reset(unsigned int dnr);
+
 
 static void tia1551d0_init(void)
 {
@@ -137,9 +142,9 @@ inline void tia1551_portc_update(unsigned int dnr)
             | ((tcbm_busc[dnr] & 0x80) >> 4);
 
     if (dnr == 0)
-        input |= drive_sync_found(drive0_context.drive_ptr) ? 0x40 : 0;
+        input |= rotation_sync_found(drive0_context.drive_ptr) ? 0x40 : 0;
     else
-        input |= drive_sync_found(drive1_context.drive_ptr) ? 0x40 : 0;
+        input |= rotation_sync_found(drive1_context.drive_ptr) ? 0x40 : 0;
 
     tia1551[dnr].datac = (tia1551[dnr].datac & tia1551[dnr].ddrc)
                          | (input & ~tia1551[dnr].ddrc);

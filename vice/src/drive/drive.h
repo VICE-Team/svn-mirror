@@ -163,18 +163,11 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define ROTATION_TABLE_SIZE      0x1000
-#define ACCUM_MAX                0x10000
-
-struct _rotation_table {
-    unsigned long bits;
-    unsigned long accum;
-};
-
 struct gcr_s;
 struct disk_image_s;
 
 typedef struct drive_s {
+    unsigned int mynumber;
 
     int led_status;
 
@@ -243,18 +236,15 @@ typedef struct drive_s {
     /* Byte to read from r/w head.  */
     BYTE GCR_read;
 
-    unsigned long bits_moved;
-    unsigned long accum;
-    unsigned long shifter;
-    int finish_byte;
-    int last_mode;
-    CLOCK rotation_last_clk;
+    /* Only used for snapshot */
+    unsigned long snap_bits_moved;
+    unsigned long snap_accum;
+    int snap_finish_byte;
+    int snap_last_mode;
+    CLOCK snap_rotation_last_clk;
 
     /* Used for disk change detection.  */
     int have_new_disk;
-
-    struct _rotation_table *rotation_table_ptr;
-    struct _rotation_table rotation_table[4][ROTATION_TABLE_SIZE];
 
     /* UI stuff.  */
     int old_led_status;
@@ -326,8 +316,6 @@ extern void drive0_mem_init(int type);
 extern void drive1_mem_init(int type);
 */
 extern void drive_move_head(int step, unsigned int dnr);
-extern void drive_rotation_reset(unsigned int dnr);
-extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
@@ -338,13 +326,10 @@ extern void drive_set_1571_side(int side, unsigned int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(unsigned int dnr);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
-extern void drive_initialize_rotation_table(int freq, unsigned int dnr);
 /*
 extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 */
-extern void drive_initialize_rotation(int freq, unsigned int dnr);
-extern BYTE drive_sync_found(drive_t *dptr);
 extern BYTE drive_write_protect_sense(drive_t *dptr);
 extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);extern int reload_rom_1541(char *name);
 extern void drive_set_half_track(int num, drive_t *dptr);

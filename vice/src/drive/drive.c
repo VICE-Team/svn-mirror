@@ -65,6 +65,7 @@
 #include "machine.h"
 #include "parallel.h"
 #include "resources.h"
+#include "rotation.h"
 #include "serial.h"
 #include "types.h"
 #include "ui.h"
@@ -88,10 +89,6 @@ static iec_info_t *iec_info;
 int rom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
-
-/* Speed (in bps) of the disk in the 4 disk areas.  */
-static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
-                                   { 125000, 133333, 142857, 153846 } };
 
 static int drive_led_color[2];
 
@@ -164,6 +161,8 @@ int drive_init(void)
     drive_clk[1] = 0L;
     drive[0].clk = &drive_clk[0];
     drive[1].clk = &drive_clk[1];
+    drive[0].mynumber = 0;
+    drive[1].mynumber = 1;
 
     if (drive_rom_load_images() < 0) {
         resources_set_value("Drive8Type", (resource_value_t)DRIVE_TYPE_NONE);
@@ -219,7 +218,6 @@ int drive_init(void)
         drive[i].detach_clk = (CLOCK)0;
         drive[i].attach_detach_clk = (CLOCK)0;
         drive[i].have_new_disk = 0;
-        drive[i].rotation_table_ptr = drive[i].rotation_table[0];
         drive[i].old_led_status = 0;
         drive[i].old_half_track = 0;
         drive[i].side = 0;
@@ -227,7 +225,7 @@ int drive_init(void)
         drive[i].read_only = 0;
         drive[i].clock_frequency = 1;
 
-        drive_rotation_reset(i);
+        rotation_reset(i);
         drive_image_init_track_size_d64(i);
 
         /* Position the R/W head on the directory track.  */
@@ -241,8 +239,8 @@ int drive_init(void)
     drive_sync_clock_frequency(drive[0].type, 0);
     drive_sync_clock_frequency(drive[1].type, 1);
 
-    drive_initialize_rotation(0, 0);
-    drive_initialize_rotation(0, 1);
+    rotation_init(0, 0);
+    rotation_init(0, 1);
 
     drive_cpu_init(&drive0_context, drive[0].type);
     drive_cpu_init(&drive1_context, drive[1].type);
@@ -299,11 +297,11 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
         return -1;
 
     if (drive[dnr].byte_ready_active == 0x06)
-        drive_rotate_disk(&drive[dnr]);
+        rotation_rotate_disk(&drive[dnr]);
 
     drive_sync_clock_frequency(type, dnr);
 
-    drive_initialize_rotation(0, dnr);
+    rotation_init(0, dnr);
     drive[dnr].type = type;
     drive[dnr].side = 0;
     machine_drive_rom_setup_image(dnr);
@@ -429,54 +427,22 @@ void drive_reset(void)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Initialization.  */
-
-void drive_initialize_rotation(int freq, unsigned int dnr)
-{
-    drive_initialize_rotation_table(freq, dnr);
-    drive[dnr].bits_moved = drive[dnr].accum = 0;
-}
-
-void drive_rotation_reset(unsigned int dnr)
-{
-    drive[dnr].accum = 0;
-    drive[dnr].bits_moved = 0;
-    drive[dnr].finish_byte = 0;
-    drive[dnr].last_mode = 1;
-    drive[dnr].rotation_last_clk = *(drive[dnr].clk);
-}
-
-void drive_initialize_rotation_table(int freq, unsigned int dnr)
-{
-    int i, j;
-
-    for (i = 0; i < 4; i++) {
-        int speed = rot_speed_bps[freq][i];
-
-        for (j = 0; j < ROTATION_TABLE_SIZE; j++) {
-            double bits = (double)j * (double)speed / 1000000.0;
-
-            drive[dnr].rotation_table[i][j].bits = (unsigned long)bits;
-            drive[dnr].rotation_table[i][j].accum = (unsigned long)(((bits -
-                                          (unsigned long)bits) * ACCUM_MAX));
-        }
-    }
-}
-/* ------------------------------------------------------------------------- */
 
 /* Clock overflow handing.  */
 
 static void drive_clk_overflow_callback(CLOCK sub, void *data)
 {
-    unsigned int drive_num;
+    unsigned int dnr;
     drive_t *d;
 
-    drive_num = (unsigned int) data;
-    d = &drive[drive_num];
+    dnr = (unsigned int)data;
+    d = &drive[dnr];
 
     if (d->byte_ready_active == 0x06)
-        drive_rotate_disk(&drive[drive_num]);
-    d->rotation_last_clk -= sub;
+        rotation_rotate_disk(&drive[dnr]);
+
+    rotation_overflow_callback(sub, dnr);
+
     if (d->attach_clk > (CLOCK) 0)
         d->attach_clk -= sub;
     if (d->detach_clk > (CLOCK) 0)
@@ -486,7 +452,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
 
     /* FIXME: Having to do this by hand sucks *big time*!  These should be in
        `drive_t'.  */
-    switch (drive_num) {
+    switch (dnr) {
       case 0:
         alarm_context_time_warp(drive0_context.cpu.alarm_context, sub, -1);
         interrupt_cpu_status_time_warp(drive0_context.cpu.int_status, sub, -1);
@@ -498,7 +464,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
       default:
         log_error(drive_log,
                   "Unexpected drive number %d in drive_clk_overflow_callback",
-                  drive_num);
+                  dnr);
     }
 }
 
@@ -521,134 +487,6 @@ CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr)
 /*-------------------------------------------------------------------------- */
 
 /* The following functions are time critical.  */
-
-/* Return non-zero if the Sync mark is found.  It is required to
-   call drive_rotate_disk() to update drive[].GCR_head_offset first.
-   The return value corresponds to bit#7 of VIA2 PRB. This means 0x0
-   is returned when sync is found and 0x80 is returned when no sync
-   is found.  */
-inline BYTE drive_sync_found(drive_t *dptr)
-{
-    BYTE val = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
-
-    if (val != 0xff || dptr->last_mode == 0 || dptr->attach_clk != (CLOCK)0) {
-        return 0x80;
-    } else {
-        unsigned int previous_head_offset;
-
-        previous_head_offset = (dptr->GCR_head_offset > 0
-                               ? dptr->GCR_head_offset - 1
-                               : dptr->GCR_current_track_size - 1);
-
-        if ((dptr->GCR_track_start_ptr[previous_head_offset] & 3) != 3) {
-            if (dptr->shifter >= 2) {
-                unsigned int next_head_offset;
-
-                next_head_offset = ((dptr->GCR_head_offset
-                                   < (dptr->GCR_current_track_size - 1))
-                                   ? dptr->GCR_head_offset + 1 : 0);
-
-                if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
-                    == 0xc0)
-                    return 0;
-            }
-            return 0x80;
-        }
-        /* As the current rotation code cannot cope with non byte aligned
-           writes, do not change `drive[].bits_moved'!  */
-        /* dptr->bits_moved = 0; */
-        return 0;
-    }
-}
-
-/* Rotate the disk according to the current value of `drive_clk[]'.  If
-   `mode_change' is non-zero, there has been a Read -> Write mode switch.  */
-void drive_rotate_disk(drive_t *dptr)
-{
-    unsigned long new_bits;
-
-    /* Calculate the number of bits that have passed under the R/W head since
-       the last time.  */
-
-    CLOCK delta = *(dptr->clk) - dptr->rotation_last_clk;
-
-    new_bits = 0;
-    while (delta > 0) {
-        if (delta >= ROTATION_TABLE_SIZE) {
-            struct _rotation_table *p = (dptr->rotation_table_ptr
-                                         + ROTATION_TABLE_SIZE - 1);
-            new_bits += p->bits;
-            dptr->accum += p->accum;
-            delta -= ROTATION_TABLE_SIZE - 1;
-        } else {
-            struct _rotation_table *p = dptr->rotation_table_ptr + delta;
-            new_bits += p->bits;
-            dptr->accum += p->accum;
-            delta = 0;
-        }
-        if (dptr->accum >= ACCUM_MAX) {
-            dptr->accum -= ACCUM_MAX;
-            new_bits++;
-        }
-    }
-
-    dptr->shifter = dptr->bits_moved + new_bits;
-
-    if (dptr->shifter >= 8) {
-
-        dptr->bits_moved += new_bits;
-        dptr->rotation_last_clk = *(dptr->clk);
-
-        if (dptr->finish_byte) {
-            if (dptr->last_mode == 0) { /* write */
-                dptr->GCR_dirty_track = 1;
-                if (dptr->bits_moved >= 8) {
-                    dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
-                        = dptr->GCR_write_value;
-                    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
-                                             dptr->GCR_current_track_size);
-                    dptr->bits_moved -= 8;
-                }
-            } else {            /* read */
-                if (dptr->bits_moved >= 8) {
-                    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
-                                             dptr->GCR_current_track_size);
-                    dptr->bits_moved -= 8;
-                    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
-                }
-            }
-
-            dptr->finish_byte = 0;
-            dptr->last_mode = dptr->read_write_mode;
-        }
-
-        if (dptr->last_mode == 0) {     /* write */
-            dptr->GCR_dirty_track = 1;
-            while (dptr->bits_moved >= 8) {
-                dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
-                    = dptr->GCR_write_value;
-                dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1)
-                                         % dptr->GCR_current_track_size);
-                dptr->bits_moved -= 8;
-            }
-        } else {                /* read */
-            dptr->GCR_head_offset = ((dptr->GCR_head_offset
-                                      + dptr->bits_moved / 8)
-                                     % dptr->GCR_current_track_size);
-            dptr->bits_moved %= 8;
-            dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
-        }
-
-        dptr->shifter = dptr->bits_moved;
-
-        /* The byte ready line is only set when no sync is found.  */
-        if (drive_sync_found(dptr)) {
-            dptr->byte_ready_level = 1;
-            dptr->byte_ready_edge = 1;
-        }
-    } /* if (dptr->shifter >= 8) */
-}
-
 
 /* Move the head to half track `num'.  */
 void drive_set_half_track(int num, drive_t *dptr)
@@ -733,8 +571,8 @@ void drive_update_viad2_pcr(int pcrval, drive_t *dptr)
 BYTE drive_read_viad2_prb(drive_t *dptr)
 {
     if (dptr->byte_ready_active == 0x06)
-        drive_rotate_disk(dptr);
-    return drive_sync_found(dptr) | drive_write_protect_sense(dptr);
+        rotation_rotate_disk(dptr);
+    return rotation_sync_found(dptr) | drive_write_protect_sense(dptr);
 }
 
 /* End of time critical functions.  */
@@ -747,7 +585,7 @@ void drive_set_1571_side(int side, unsigned int dnr)
     num  = drive[dnr].current_half_track;
 
     if (drive[dnr].byte_ready_active == 0x06)
-        drive_rotate_disk(&drive[dnr]);
+        rotation_rotate_disk(&drive[dnr]);
 
     drive_gcr_data_writeback(dnr);
 
