@@ -33,7 +33,7 @@
 #include <string.h>
 #include <windows.h>
 
-#ifndef __GNUC__
+#ifdef HAVE_WINIOCTL_H
 #include <winioctl.h>
 #endif
 
