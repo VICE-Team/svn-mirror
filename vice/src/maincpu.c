@@ -405,11 +405,17 @@ static void reset(void)
     /* Do machine-specific initialization.  */
     machine_reset();
 
-    resources_get_value("DatasetteResetWithCPU", (resource_value_t *) &ds_reset);
+    resources_get_value("DatasetteResetWithCPU",
+                        (resource_value_t *)&ds_reset);
     if (ds_reset)
         datasette_reset();
 
     initialize_memory();
+}
+
+void maincpu_reset(void)
+{
+    reset();
 }
 
 /* ------------------------------------------------------------------------- */

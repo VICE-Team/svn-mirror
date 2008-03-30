@@ -35,6 +35,7 @@
 #include "alarm.h"
 #include "interrupt.h"
 #include "log.h"
+#include "maincpu.h"
 #include "mon.h"
 #include "types.h"
 #include "z80.h"
@@ -304,6 +305,8 @@ static BYTE SZP[256] = {
                     ik |= IK_RESET;                                      \
             }                                                            \
             if (ik & IK_RESET) {                                         \
+                ack_reset(cpu_int_status);                               \
+                maincpu_reset();                                         \
             }                                                            \
         }                                                                \
         if (ik & (IK_MONITOR)) {                                         \
@@ -1661,7 +1664,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
                     CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
-                    exit(-1);
+        INC_PC(2);
    }
 }
 
@@ -1787,24 +1790,28 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
                     CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
-                    exit(-1);
+        INC_PC(2);
    }
 }
 
 inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
                       WORD ip23)
 {
+#if 0
     switch (ip1) {
       case 0xb1:
       /* */
       default:
+#endif
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
                     CLK, reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
-                    exit(-1);
+        INC_PC(2);
+#if 0
    }
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
