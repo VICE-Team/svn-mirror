@@ -28,8 +28,10 @@
 #ifndef _AUTOSTART_H
 #define _AUTOSTART_H
 
+#include "types.h"
+
 int autostart_init(CLOCK _min_cycles, int _handle_true1541,
-        int _blnsw, int _pnt, int _pntr, int _lnmx);
+                   int _blnsw, int _pnt, int _pntr, int _lnmx);
 
 void autostart_disable(void);
 void autostart_advance(void);

@@ -1,6 +1,23 @@
 Mon Aug 24 14:16:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* autostart.h: #include "types.h".
+
+	* serial.h (serial_set_eof_callback): Added (missing) prototype.
+
+	* resources.c: Removed some warning messages.
+
+	* pet/petsound.h: #include "types.h".
+
+	* pet/petsound.c: #include "petsound.h".
+	(sound_machine_open): Initialize rate to 4.
+
+	* serial.c (parallelreceivebyte): Call `eof_callback_func()' at
+ 	EOF.
+
 	* Version 0.14.2.68.
+
+	* autostart.c: Use `serial_set_eof_callback()' to recognize end of
+	loading instead of waiting for the `READY.' prompt.
 
 	* serial.c (serial_set_eof_callback): New function; specifies a
  	callback function for the EOF condition on `serialreceivebyte()'.
