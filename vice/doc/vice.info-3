@@ -831,6 +831,17 @@ SID settings
    These settings control the emulation of the SID (MOS6581 or MOS8580)
 audio chip.
 
+   * "Second SID" maps a second SID chip into the address space for
+     stereo sound. This emulates e.g. the "SID Symphony Stereo
+     Cartridge" from Dr. Evil Laboratories. The second SID can be used
+     with software such as "Stereo SID Player" by Mark Dickenson or
+     "The Enhanced Sidplayer" by Craig Chamberlain.
+
+   * "Second SID base address" sets the start address for the second SID
+     chip. Software normally uses $DE00 or $DF00, since $DE00-$DEFF and
+     $DF00-$DFFF can be mapped through the cartridge port of the C64.
+     The default start address is $DE00.
+
    * "Emulate filters" causes the built-in programmable filters of the
      SID chip to be emulated.  A lot of C64 music requires them to be
      emulated properly, but their emulation requires some additional
@@ -843,6 +854,36 @@ audio chip.
    * "Use reSID emulation" specifies whether the more accurate (and
      resource hungry) reSID emulation is turned on or off.
 
+   * "reSID sampling method" selects the method for conversion of the
+     SID output signal to a sampling rate appropriate for playback by
+     standard digital sound equipment. Possible settings are:
+        * "Fast" simply clocks the SID chip at the output sampling
+          frequency, picking the nearest sample. This yields acceptable
+          sound quality, but sampling noise is noticeable in some
+          cases, especially with SID combined waveforms. The sound
+          emulation is still cycle exact.
+
+        * "Interpolating" clocks the SID chip each cycle, and
+          calculates each sample with linear interpolation. The
+          sampling noise is now strongly attenuated by the SID external
+          filter (as long as "Emulate filters" is selected), and the
+          linear interpolation further improves the sound quality.
+
+        * "Resampling" clocks the SID chip each cycle, and uses the
+          theoretically correct method for sample generation. This
+          delivers CD quality sound, but is extremely CPU intensive,
+          and is thus most useful for non-interactive sound generation.
+          Unless you have a very fast machine, that is.
+
+   * "reSID resampling passband" specifies the percentage of the total
+     bandwidth allocated to the resampling filter passband. The work
+     rate of the resampling filter is inversely proportional to the
+     remaining transition band percentage. This implies that e.g. with
+     the transition band starting at ~ 20kHz, it is faster to generate
+     48kHz than 44.1kHz samples. For CD quality sound generation at
+     44.1kHz the passband percentage should be set to 90 (i.e. the
+     transition band starting at almost 20kHz).
+
 * Menu:
 
 * SID resources::
@@ -853,6 +894,12 @@ File: vice.info,  Node: SID resources,  Next: SID options,  Prev: SID settings, 
 
 SID resources
 .............
+
+`SidStereo'
+     Boolean selecting emulation of a second SID.
+
+`SidStereoAddressStart'
+     Integer specifying the start address for the second SID.
 
 `SidFilters'
      Boolean specifying whether the built-in SID filters must be
@@ -866,11 +913,26 @@ SID resources
      Boolean specifying whether the accurate reSID emulation is being
      used.
 
+`SidResidSampling'
+     Integer specifying the sampling method (`0': Fast, `1':
+     Interpolation, `2': Resampling)
+
+`SidResidPassband'
+     Integer specifying the resampling filter passband in percentage of
+     the total bandwidth (`0 - 90').
+
 
 File: vice.info,  Node: SID options,  Prev: SID resources,  Up: SID settings
 
 SID command-line options
 ........................
+
+`-sidstereo'
+     Emulates a second SID chip for stereo sound (`SidStereo').
+
+`-sidstereoaddress `ADDRESS''
+     Specifies the start address for the second SID chip
+     (`SidStereoAddressStart').
 
 `-sidmodel MODEL'
      Specifies `MODEL' as the emulated model of the SID chip
@@ -885,6 +947,15 @@ SID command-line options
 `+resid'
      Enable (`SidFilters=1') or disable (`SidFilters=0') usage of the
      reSID emulator.
+
+`-residsamp `METHOD''
+     Specifies the sampling method; fast (`SidResidSampling=0'),
+     interpolating (`SidResidSampling=1'), or resampling
+     (`SidResidSampling=2').
+
+`-residpass `PERCENTAGE''
+     Specifies the resampling filter passband in percentage of the total
+     bandwidth (`SidResidPassband=0-90').
 
 
 File: vice.info,  Node: C64 I/O extension settings,  Next: C64/128 system ROM settings,  Prev: SID settings,  Up: C64/128-specific
@@ -1495,105 +1566,4 @@ CBM-II-specific and thus are not present in the other emulators.
 * CBM-II model::
 * CBM-II commandline options::
 * CBM-II colors::
-
-
-File: vice.info,  Node: CBM-II model,  Next: CBM-II commandline options,  Prev: CBM-II-specific,  Up: CBM-II-specific
-
-Changing CBM-II model
----------------------
-
-   With `xcbm2', it is possible to change at runtime the
-characteristics of the emulated CBM so that it matches (or not) the ones
-of a certain CBM model, and it is also possible to select from a common
-set of CBM models so that all the features are selected accordingly.
-
-   The former is done by changing the following resources (via resource
-file, command line options or right-menu items):
-
-`UseVicII'
-     Whether to use VIC-II for video output (value 1) or the CRTC for
-     the other machines (value 0)
-
-`RamSize'
-     Size of memory in kByte.  Possible values are 128, 256, 512 and
-     1024
-
-`Ram08, Ram1, Ram2, Ram4, Ram6, RamC'
-     Expanded CBM-II models could map RAM to the expansion ROM areas at
-     $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
-     and $c000-$cfff respectively.
-
-`Cart2Name, Cart4Name, Cart6Name'
-     Specify `NAME' as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
-     Expansion ROM file.  This file contains an 8k ROM dump.
-
-`ModelLine'
-     The CBM-II business models have two hardcoded lines at one of the
-     I/O ports.  From those lines the kernal determines how it should
-     init the CRTC video chip for either 50Hz (Europe) or 60Hz (North
-     America), and either for 8 (C6x0) or 14 (C7x0) scanlines per
-     character.  0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
-
-   Choosing a common CBM-II model is done from the right-button menu
-instead, by choosing an item from the "Model defaults" submenu.
-Available models are:
-
-   * C510 (128k RAM)
-
-   * C610 (128k RAM)
-
-   * C620 (256k RAM)
-
-   * C620+ (1024k RAM, expanded)
-
-   * C710 (128k RAM)
-
-   * C720 (256k RAM)
-
-   * C720+ (1024k RAM, expanded)
-
-   Notice that this will *reset the emulated machine*.
-
-   Warning: At this time switching between 510 and other machines during
-runtime is not supported and will not work.
-
-   It is also possible to select the CBM model at startup, with the
-`-model' command-line option: for example, `xcbm2 -model 610' will
-emulate a CBM 610 while `xcbm2 -model 620' will emulate a CBM 620.
-Notably this is the only way to start a C510 emulation, with `-model
-510'.
-
-
-File: vice.info,  Node: CBM-II commandline options,  Next: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
-
-CBM-II command line options
----------------------------
-
-   These are the commandline options specific for the CBM-II models.
-
-`-usevicii'
-`+usevicii'
-     Specify whether to use (-usevicii) or not to use (+usevicii) the
-     VIC-II emulation.
-
-`-kernal NAME'
-     Specify `NAME' as the Kernal ROM file (`KernalName').
-
-`-basic NAME'
-     Specify `NAME' as the Basic ROM file (`BasicName').
-
-`-chargen NAME'
-     Specify `NAME' as the character generator ROM file (`ChargenName').
-
-`-cart2 NAME, -cart4 NAME, -cart6 NAME'
-     Specify `NAME' as the ROM image file for the respective cartridge
-     areas (`Cart2Name', `Cart4Name', `Cart6Name').
-
-`-ram08, -ram1, -ram2, -ram4, -ram6, -ramC'
-     Switch on RAM mapping in bank 15 on addresses $0800-$0fff,
-     $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp (`Ram08',
-     `Ram1', `Ram2', `Ram4', `Ram6', `RamC').
-
-`-modelline'
-     Define the hardcoded model switch in the CBM-II models.
 

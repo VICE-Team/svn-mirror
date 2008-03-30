@@ -577,6 +577,8 @@ Concept Index
 * -ramC:                                 CBM-II commandline options.
 * -refresh:                              Performance options.
 * -resid, +resid:                        SID options.
+* -residpass:                            SID options.
+* -residsamp:                            SID options.
 * -reu, +reu:                            C64 I/O extension options.
 * -rom9:                                 PET commandline options.
 * -romA:                                 PET commandline options.
@@ -594,6 +596,8 @@ Concept Index
 * -saveres, +saveres:                    Misc options.
 * -sidfilters, +sidfilters:              SID options.
 * -sidmodel:                             SID options.
+* -sidstereo:                            SID options.
+* -sidstereoaddress:                     SID options.
 * -sound, +sound:                        Sound options.
 * -soundarg:                             Sound options.
 * -soundbufsize:                         Sound options.
@@ -658,11 +662,15 @@ Concept Index
 * RamSize <1>:                           CBM-II model.
 * RamSize:                               PET model.
 * Refresh rate:                          Performance settings.
+* reSID resampling passband:             SID settings.
+* reSID samping method:                  SID settings.
 * REU:                                   C64 I/O extension settings.
 * RomModule9Name:                        PET model.
 * RomModuleAName:                        PET model.
 * RomModuleBName:                        PET model.
 * Sample rate:                           Sound settings.
+* Second SID:                            SID settings.
+* Second SID base address:               SID settings.
 * SID filters:                           SID settings.
 * SID models:                            SID settings.
 * Sound buffer size:                     Sound settings.
@@ -773,6 +781,10 @@ Index of Resources
 * SaveResourcesOnExit:                   Misc resources.
 * SidFilters:                            SID resources.
 * SidModel:                              SID resources.
+* SidResidPassband:                      SID resources.
+* SidResidSampling:                      SID resources.
+* SidStereo:                             SID resources.
+* SidStereoAddressStart:                 SID resources.
 * SidUseResid:                           SID resources.
 * Sound:                                 Sound resources.
 * SoundBufferSize:                       Sound resources.

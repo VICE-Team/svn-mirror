@@ -17,6 +17,107 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: CBM-II model,  Next: CBM-II commandline options,  Prev: CBM-II-specific,  Up: CBM-II-specific
+
+Changing CBM-II model
+---------------------
+
+   With `xcbm2', it is possible to change at runtime the
+characteristics of the emulated CBM so that it matches (or not) the ones
+of a certain CBM model, and it is also possible to select from a common
+set of CBM models so that all the features are selected accordingly.
+
+   The former is done by changing the following resources (via resource
+file, command line options or right-menu items):
+
+`UseVicII'
+     Whether to use VIC-II for video output (value 1) or the CRTC for
+     the other machines (value 0)
+
+`RamSize'
+     Size of memory in kByte.  Possible values are 128, 256, 512 and
+     1024
+
+`Ram08, Ram1, Ram2, Ram4, Ram6, RamC'
+     Expanded CBM-II models could map RAM to the expansion ROM areas at
+     $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
+     and $c000-$cfff respectively.
+
+`Cart2Name, Cart4Name, Cart6Name'
+     Specify `NAME' as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
+     Expansion ROM file.  This file contains an 8k ROM dump.
+
+`ModelLine'
+     The CBM-II business models have two hardcoded lines at one of the
+     I/O ports.  From those lines the kernal determines how it should
+     init the CRTC video chip for either 50Hz (Europe) or 60Hz (North
+     America), and either for 8 (C6x0) or 14 (C7x0) scanlines per
+     character.  0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
+
+   Choosing a common CBM-II model is done from the right-button menu
+instead, by choosing an item from the "Model defaults" submenu.
+Available models are:
+
+   * C510 (128k RAM)
+
+   * C610 (128k RAM)
+
+   * C620 (256k RAM)
+
+   * C620+ (1024k RAM, expanded)
+
+   * C710 (128k RAM)
+
+   * C720 (256k RAM)
+
+   * C720+ (1024k RAM, expanded)
+
+   Notice that this will *reset the emulated machine*.
+
+   Warning: At this time switching between 510 and other machines during
+runtime is not supported and will not work.
+
+   It is also possible to select the CBM model at startup, with the
+`-model' command-line option: for example, `xcbm2 -model 610' will
+emulate a CBM 610 while `xcbm2 -model 620' will emulate a CBM 620.
+Notably this is the only way to start a C510 emulation, with `-model
+510'.
+
+
+File: vice.info,  Node: CBM-II commandline options,  Next: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
+
+CBM-II command line options
+---------------------------
+
+   These are the commandline options specific for the CBM-II models.
+
+`-usevicii'
+`+usevicii'
+     Specify whether to use (-usevicii) or not to use (+usevicii) the
+     VIC-II emulation.
+
+`-kernal NAME'
+     Specify `NAME' as the Kernal ROM file (`KernalName').
+
+`-basic NAME'
+     Specify `NAME' as the Basic ROM file (`BasicName').
+
+`-chargen NAME'
+     Specify `NAME' as the character generator ROM file (`ChargenName').
+
+`-cart2 NAME, -cart4 NAME, -cart6 NAME'
+     Specify `NAME' as the ROM image file for the respective cartridge
+     areas (`Cart2Name', `Cart4Name', `Cart6Name').
+
+`-ram08, -ram1, -ram2, -ram4, -ram6, -ramC'
+     Switch on RAM mapping in bank 15 on addresses $0800-$0fff,
+     $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp (`Ram08',
+     `Ram1', `Ram2', `Ram4', `Ram6', `RamC').
+
+`-modelline'
+     Define the hardcoded model switch in the CBM-II models.
+
+
 File: vice.info,  Node: CBM-II colors,  Prev: CBM-II commandline options,  Up: CBM-II-specific
 
 Changing screen colors
@@ -878,84 +979,3 @@ ARRAY   BLK2A                         4k ROM image $4*** (if CONFIG & 4;
                                       added in V1.1)                       
 ARRAY   BLK2B                         4k ROM image $5*** (if CONFIG & 8;   
                                       added in V1.1)                       
-
-
-File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: VIC20 memory module,  Up: Module formats
-
-PET memory module
-.................
-
-   The PET memory module actually consists of two modules.  The
-"PETMEM" module is mandatory and contains the RAM dump.  The "PETROM"
-module is optional and contains a dump of the ROM images.
-
-   The size of the PET memory modules differs with each different memory
-configuration.  The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.
-
-   The PETMEM module
-
-   Version numbers: Major 1, Minor 2
-
-Type    Name                          Description                          
-BYTE    CONFIG                        Configuration value. Bits 0-3: 0=    
-                                      40 col PET without CRTC; 1= 40 col   
-                                      PET with CRTC; 2 = 80 col PET (with  
-                                      CRTC); 3= SuperPET; 4= 8096; 5=      
-                                      8296. Bit 6: 1= RAM at $9***. Bit    
-                                      7: 1= RAM at $A***.                  
-BYTE    KEYBOARD                      Keyboard type. 0= UK business; 1=    
-                                      Graphics; 2= German business         
-BYTE    MEMSIZE                       memory size of low 32k in k          
-                                      (possible values 4, 8, 16, 32)       
-BYTE    CONF8X96                      Value of the 8x96 configuration      
-                                      register                             
-BYTE    SUPERPET                      SuperPET config. Bit 0: 1= $9***     
-                                      RAM enabled. Bit 1: 1= RAM write     
-                                      protected. Bit 2: 1= CTRL register   
-                                      write protected. Bit 3: 0= DIAG pin  
-                                      active. Bits 4-7: RAM block in use.  
-ARRAY   RAM                           4-32k RAM (not 8296, size depends    
-                                      on MEMSIZE)                          
-ARRAY   VRAM                          2/4k RAM (not 8296, size depends on  
-                                      CONFIG)                              
-ARRAY   EXTRAM                        64k expansion RAM (SuperPET and      
-                                      8096 only)                           
-ARRAY   RAM                           128k RAM (8296 only)                 
--       -                             The following item has been added    
-                                      in V1.1                              
-BYTE    POSITIONAL                    bit 0=0 = symbolic keyboard          
-                                      mapping, bit 0=1 = positional        
-                                      mapping.                             
--       -                             The following item has been added    
-                                      in V1.1                              
-BYTE    EOIBLANK                      bit 0=0 = EOI does not blank         
-                                      screen, bit 0=1 = EOI blanks screen. 
-
-   The last item has been added in PETMEM snapshot version 1.1. It is
-ignored by earlier restore routines (V1.0) and the V1.1 restore routines
-do not change the current setting when reading a V1.0 snapshot.
-
-   In V1.2 the new EOIBLANK variable has been added. This implements
-the "blank screen on EOI" feature that was previously linked to a wrong
-resource.
-
-   The PETROM module
-
-   Version numbers: Major 1, Minor 0
-
-Type    Name                          Description                          
-BYTE    CONFIG                        Bit 0: 1= $9*** ROM included. Bit    
-                                      1: 1= $A*** ROM included. Bit 2: 1=  
-                                      $B*** ROM included. Bit 3: 1=        
-                                      $e900-$efff ROM included             
-ARRAY   KERNAL                        4k KERNAL ROM image $f000-$ffff      
-ARRAY   EDITOR                        2k EDITOR ROM image $e000-$e7ff      
-ARRAY   CHARGEN                       2k CHARGEN ROM image                 
-ARRAY   ROM9                          4k $9*** ROM image (if CONFIG & 1)   
-ARRAY   ROMA                          4k $A*** ROM image (if CONFIG & 2)   
-ARRAY   ROMB                          4k $B*** ROM image (if CONFIG & 4)   
-ARRAY   ROMC                          4k $C*** ROM image                   
-ARRAY   ROMD                          4k $D*** ROM image                   
-ARRAY   ROME9                         7 blocks $e900-$efff ROM image (if   
-                                      CONFIG & 8)                          

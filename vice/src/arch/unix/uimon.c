@@ -26,13 +26,15 @@
 
 #include "vice.h"
 
-#include "console.h"
-#include "mon.h"
-#include "uimon.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "console.h"
+#include "mon.h"
+#include "uimon.h"
+#include "utils.h"
+
 
 static console_t *console_log = NULL;
 
