@@ -1550,6 +1550,17 @@
             break;
 
         case 0x02:                      /* JAM */
+        case 0x12:                      /* JAM */
+        case 0x22:                      /* JAM */
+        case 0x32:                      /* JAM */
+        case 0x42:                      /* JAM */
+        case 0x52:                      /* JAM */
+        case 0x62:                      /* JAM */
+        case 0x72:                      /* JAM */
+        case 0x92:                      /* JAM */
+        case 0xb2:                      /* JAM */
+        case 0xd2:                      /* JAM */
+        case 0xf2:                      /* JAM */
             JAM();
             break;
 
@@ -1617,10 +1628,6 @@
             ORA(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x12:                      /* JAM */
-            JAM();
-            break;
-
         case 0x13:                      /* SLO ($nn),Y */
             SLO_IND_Y(p1);
             break;
@@ -1679,10 +1686,6 @@
 
         case 0x21:                      /* AND ($nn,X) */
             AND(LOAD_IND_X(p1), 2, 4, 2);
-            break;
-
-        case 0x22:                      /* JAM */
-            JAM();
             break;
 
         case 0x23:                      /* RLA ($nn,X) */
@@ -1745,10 +1748,6 @@
             AND(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x32:                      /* JAM */
-            JAM();
-            break;
-
         case 0x33:                      /* RLA ($nn),Y */
             RLA_IND_Y(p1);
             break;
@@ -1807,10 +1806,6 @@
 
         case 0x41:                      /* EOR ($nn,X) */
             EOR(LOAD_IND_X(p1), 2, 4, 2);
-            break;
-
-        case 0x42:                      /* JAM */
-            JAM();
             break;
 
         case 0x43:                      /* SRE ($nn,X) */
@@ -1879,10 +1874,6 @@
             EOR(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x52:                      /* JAM */
-            JAM();
-            break;
-
         case 0x53:                      /* SRE ($nn),Y */
             SRE_IND_Y(p1);
             break;
@@ -1941,10 +1932,6 @@
 
         case 0x61:                      /* ADC ($nn,X) */
             ADC(LOAD_IND_X(p1), 2, 4, 2);
-            break;
-
-        case 0x62:                      /* JAM */
-            JAM();
             break;
 
         case 0x63:                      /* RRA ($nn,X) */
@@ -2013,10 +2000,6 @@
 
         case 0x71:                      /* ADC ($nn),Y */
             ADC(LOAD_IND_Y(p1), 2, 3, 2);
-            break;
-
-        case 0x72:                      /* JAM */
-            JAM();
             break;
 
         case 0x73:                      /* RRA ($nn),Y */
@@ -2141,10 +2124,6 @@
 
         case 0x91:                      /* STA ($nn),Y */
             STA_IND_Y(p1);
-            break;
-
-        case 0x92:                      /* JAM */
-            JAM();
             break;
 
         case 0x93:                      /* SHA ($nn),Y */
@@ -2274,10 +2253,6 @@
             LDA(LOAD_IND_Y_BANK(p1), 2, 3, 2);
             break;
 
-        case 0xb2:                      /* JAM */
-            JAM();
-            break;
-
         case 0xb3:                      /* LAX ($nn),Y */
             LAX(LOAD_IND_Y(p1), 2, 3, 2);
             break;
@@ -2404,10 +2379,6 @@
             CMP(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0xd2:                      /* JAM */
-            JAM();
-            break;
-
         case 0xd3:                      /* DCP ($nn),Y */
             DCP_IND_Y(p1);
             break;
@@ -2530,10 +2501,6 @@
 
         case 0xf1:                      /* SBC ($nn),Y */
             SBC(LOAD_IND_Y(p1), 2, 3, 2);
-            break;
-
-        case 0xf2:                      /* JAM */
-            JAM();
             break;
 
         case 0xf3:                      /* ISB ($nn),Y */

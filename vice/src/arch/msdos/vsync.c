@@ -51,7 +51,10 @@
 #include "sound.h"
 #include "ui.h"
 #include "vmachine.h"
+
+#ifdef USE_MIDAS_SOUND
 #include "vmidas.h"
+#endif
 
 /* Maximum number of frames we can skip consecutively when adjusting the
    refresh rate dynamically.  */
