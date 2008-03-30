@@ -389,8 +389,8 @@ static void machine_vsync_hook(void)
     /* The drive has to deal both with our overflowing and its own one, so
        it is called even when there is no overflowing in the main CPU.  */
     /* FIXME: Do we have to check drive_enabled here?  */
-    drive_prevent_clk_overflow(sub, 0);
-    drive_prevent_clk_overflow(sub, 1);
+    drive_cpu_prevent_clk_overflow(&drive0_context, sub);
+    drive_cpu_prevent_clk_overflow(&drive1_context, sub);
 }
 
 /* Dummy - no restore key.  */
