@@ -25,6 +25,9 @@
  *
  */
 
+
+#define ACCURATE_FETCH
+
 #ifdef DRIVE_CPU
 #define CPU_STR "Drive CPU"
 #else
@@ -37,7 +40,7 @@
 
  /* ------------------------------------------------------------------------- */
 
-/* backup for non-6509 CPUs */
+/* Backup for non-6509 CPUs.  */
 
 #ifndef LOAD_IND
 #define LOAD_IND(a)     LOAD(a)
@@ -51,11 +54,12 @@
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
 #if defined DRIVE_CPU
-#define LOCAL_SET_OVERFLOW(val)			\
-    do {					\
-        if (!(val)) _drive_set_byte_ready(0);	\
-        ((val) ? (reg_p |= P_OVERFLOW)		\
-         : (reg_p &= ~P_OVERFLOW));		\
+#define LOCAL_SET_OVERFLOW(val)         \
+    do {                                \
+        if (!(val))                     \
+            _drive_set_byte_ready(0);   \
+        ((val) ? (reg_p |= P_OVERFLOW)  \
+         : (reg_p &= ~P_OVERFLOW));     \
     } while (0)
 #else
 #define LOCAL_SET_OVERFLOW(val)  ((val) ? (reg_p |= P_OVERFLOW)    \
@@ -174,12 +178,12 @@
                                                                          \
         if (ik & (IK_IRQ | IK_NMI)) {                                    \
             if ((ik & IK_NMI)                                            \
-                && interrupt_check_nmi_delay(&CPU_INT_STATUS, CLK)) {    \
+                && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {     \
                 TRACE_NMI();                                             \
                 if (mon_mask[CALLER] & (MI_STEP)) {                      \
                     mon_check_icount_interrupt();                        \
                 }                                                        \
-                interrupt_ack_nmi(&CPU_INT_STATUS);                      \
+                interrupt_ack_nmi(CPU_INT_STATUS);                       \
                 LOCAL_SET_BREAK(0);                                      \
                 PUSH(reg_pc >> 8);                                       \
                 PUSH(reg_pc & 0xff);                                     \
@@ -191,7 +195,7 @@
             } else if ((ik & IK_IRQ)                                     \
                        && (!LOCAL_INTERRUPT()                            \
                        || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))         \
-                       && interrupt_check_irq_delay(&CPU_INT_STATUS,     \
+                       && interrupt_check_irq_delay(CPU_INT_STATUS,      \
                                                     CLK)) {              \
                 TRACE_IRQ();                                             \
                 if (mon_mask[CALLER] & (MI_STEP)) {                      \
@@ -210,14 +214,14 @@
         if (ik & (IK_TRAP | IK_RESET)) {                                 \
             if (ik & IK_TRAP) {                                          \
                 EXPORT_REGISTERS();                                      \
-                interrupt_do_trap(&CPU_INT_STATUS, (ADDRESS)reg_pc);     \
+                interrupt_do_trap(CPU_INT_STATUS, (ADDRESS)reg_pc);      \
                 IMPORT_REGISTERS();                                      \
-                if (interrupt_check_pending_interrupt(&CPU_INT_STATUS)   \
+                if (interrupt_check_pending_interrupt(CPU_INT_STATUS)    \
                     & IK_RESET)                                          \
                     ik |= IK_RESET;                                      \
             }                                                            \
             if (ik & IK_RESET) {                                         \
-                interrupt_ack_reset(&CPU_INT_STATUS);                    \
+                interrupt_ack_reset(CPU_INT_STATUS);                     \
                 cpu_reset();                                             \
                 JUMP(LOAD_ADDR(0xfffc));                                 \
                 DMA_ON_RESET;                                            \
@@ -248,7 +252,7 @@
             if (ik & IK_DMA) {                                           \
                 EXPORT_REGISTERS();                                      \
                 DMA_FUNC;                                                \
-                interrupt_ack_dma(&CPU_INT_STATUS);                      \
+                interrupt_ack_dma(CPU_INT_STATUS);                       \
                 IMPORT_REGISTERS();                                      \
                 JUMP(reg_pc);                                            \
             }                                                            \
@@ -260,90 +264,90 @@
 /* Addressing modes.  For convenience, page boundary crossing cycles and
    ``idle'' memory reads are handled here as well. */
 
-#define LOAD_ABS(addr) \
+#define LOAD_ABS(addr)  \
    LOAD(addr)
 
-#define LOAD_ABS_X(addr)                                        \
-   ((((addr) & 0xff) + reg_x) > 0xff                            \
-    ? (LOAD(((addr) & 0xff00) | (((addr) + reg_x) & 0xff)),     \
-       CLK++,                                                   \
-       LOAD((addr) + reg_x))                                    \
+#define LOAD_ABS_X(addr)                                     \
+   ((((addr) & 0xff) + reg_x) > 0xff                         \
+    ? (LOAD(((addr) & 0xff00) | (((addr) + reg_x) & 0xff)),  \
+       CLK++,                                                \
+       LOAD((addr) + reg_x))                                 \
     : LOAD((addr) + reg_x))
 
-#define LOAD_ABS_X_RMW(addr)                                    \
-   (LOAD(((addr) & 0xff00) | (((addr) + reg_x) & 0xff)),        \
-    CLK++,                                                      \
+#define LOAD_ABS_X_RMW(addr)                              \
+   (LOAD(((addr) & 0xff00) | (((addr) + reg_x) & 0xff)),  \
+    CLK++,                                                \
     LOAD((addr) + reg_x))
 
-#define LOAD_ABS_Y(addr)                                        \
-   ((((addr) & 0xff) + reg_y) > 0xff                            \
-    ? (LOAD(((addr) & 0xff00) | (((addr) + reg_y) & 0xff)),     \
-       CLK++,                                                   \
-       LOAD((addr) + reg_y))                                    \
+#define LOAD_ABS_Y(addr)                                     \
+   ((((addr) & 0xff) + reg_y) > 0xff                         \
+    ? (LOAD(((addr) & 0xff00) | (((addr) + reg_y) & 0xff)),  \
+       CLK++,                                                \
+       LOAD((addr) + reg_y))                                 \
     : LOAD((addr) + reg_y))
 
-#define LOAD_ABS_Y_RMW(addr)                                    \
-   (LOAD(((addr) & 0xff00) | (((addr) + reg_y) & 0xff)),        \
-    CLK++,                                                      \
+#define LOAD_ABS_Y_RMW(addr)                              \
+   (LOAD(((addr) & 0xff00) | (((addr) + reg_y) & 0xff)),  \
+    CLK++,                                                \
     LOAD((addr) + reg_y))
 
-#define LOAD_IND_X(addr)                        \
+#define LOAD_IND_X(addr)  \
    (LOAD(LOAD_ZERO_ADDR((addr) + reg_x)))
 
-#define LOAD_IND_Y(addr)                                        \
-   (((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y) > 0xff            \
-    ? (LOAD((LOAD_ZERO_ADDR((addr)) & 0xff00)                   \
-            | ((LOAD_ZERO_ADDR((addr)) + reg_y) & 0xff)),       \
-       CLK++,                                                   \
-       LOAD(LOAD_ZERO_ADDR((addr)) + reg_y))                    \
+#define LOAD_IND_Y(addr)                                   \
+   (((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y) > 0xff       \
+    ? (LOAD((LOAD_ZERO_ADDR((addr)) & 0xff00)              \
+            | ((LOAD_ZERO_ADDR((addr)) + reg_y) & 0xff)),  \
+       CLK++,                                              \
+       LOAD(LOAD_ZERO_ADDR((addr)) + reg_y))               \
     : LOAD(LOAD_ZERO_ADDR((addr)) + reg_y))
 
-#define LOAD_ZERO_X(addr)                       \
+#define LOAD_ZERO_X(addr)  \
    (LOAD_ZERO((addr) + reg_x))
 
-#define LOAD_ZERO_Y(addr)                       \
+#define LOAD_ZERO_Y(addr)  \
    (LOAD_ZERO((addr) + reg_y))
 
-#define LOAD_IND_Y_BANK(addr)                                   \
-   (((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y) > 0xff            \
-    ? (LOAD_IND((LOAD_ZERO_ADDR((addr)) & 0xff00)               \
-            | ((LOAD_ZERO_ADDR((addr)) + reg_y) & 0xff)),       \
-       CLK++,                                                   \
-       LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y))                \
+#define LOAD_IND_Y_BANK(addr)                              \
+   (((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y) > 0xff       \
+    ? (LOAD_IND((LOAD_ZERO_ADDR((addr)) & 0xff00)          \
+            | ((LOAD_ZERO_ADDR((addr)) + reg_y) & 0xff)),  \
+       CLK++,                                              \
+       LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y))           \
     : LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y))
 
-#define STORE_ABS(addr, value, inc)             \
-  do {                                          \
-      CLK += (inc);                             \
-      STORE((addr), (value));                   \
+#define STORE_ABS(addr, value, inc)  \
+  do {                               \
+      CLK += (inc);                  \
+      STORE((addr), (value));        \
   } while (0)
 
-#define STORE_ABS_X(addr, value, inc)                           \
-  do {                                                          \
-      CLK += (inc) - 2;                                         \
-      LOAD((((addr) + reg_x) & 0xff) | ((addr) & 0xff00));      \
-      CLK += 2;                                                 \
-      STORE((addr) + reg_x, (value));                           \
+#define STORE_ABS_X(addr, value, inc)                       \
+  do {                                                      \
+      CLK += (inc) - 2;                                     \
+      LOAD((((addr) + reg_x) & 0xff) | ((addr) & 0xff00));  \
+      CLK += 2;                                             \
+      STORE((addr) + reg_x, (value));                       \
   } while (0)
 
-#define STORE_ABS_X_RMW(addr, value, inc)	\
-  do {						\
-      CLK += (inc);				\
-      STORE((addr) + reg_x, (value));		\
-  } while (0)					\
+#define STORE_ABS_X_RMW(addr, value, inc)  \
+  do {                                     \
+      CLK += (inc);                        \
+      STORE((addr) + reg_x, (value));      \
+  } while (0)                              \
 
-#define STORE_ABS_Y(addr, value, inc)                           \
-  do {                                                          \
-      CLK += (inc) - 2;                                         \
-      LOAD((((addr) + reg_y) & 0xff) | ((addr) & 0xff00));      \
-      CLK += 2;                                                 \
-      STORE((addr) + reg_y, (value));                           \
+#define STORE_ABS_Y(addr, value, inc)                       \
+  do {                                                      \
+      CLK += (inc) - 2;                                     \
+      LOAD((((addr) + reg_y) & 0xff) | ((addr) & 0xff00));  \
+      CLK += 2;                                             \
+      STORE((addr) + reg_y, (value));                       \
   } while (0)
 
-#define STORE_ABS_Y_RMW(addr, value, inc)	\
-  do {						\
-      CLK += (inc);				\
-      STORE((addr) + reg_y, (value));		\
+#define STORE_ABS_Y_RMW(addr, value, inc)  \
+  do {                                     \
+      CLK += (inc);                        \
+      STORE((addr) + reg_y, (value));      \
   } while (0)
 
 #define INC_PC(value)   (reg_pc += (value))
@@ -417,72 +421,72 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define ANE(value, clk_inc1, clk_inc2, pc_inc)            \
-  do {                                                    \
-      CLK += (clk_inc1);                                  \
-      reg_a = ((reg_a | 0xee) & reg_x & ((BYTE)(value))); \
-      LOCAL_SET_NZ(reg_a);                                \
-      CLK += (clk_inc2);                                  \
-      INC_PC(pc_inc);                                     \
+#define ANE(value, clk_inc1, clk_inc2, pc_inc)             \
+  do {                                                     \
+      CLK += (clk_inc1);                                   \
+      reg_a = ((reg_a | 0xee) & reg_x & ((BYTE)(value)));  \
+      LOCAL_SET_NZ(reg_a);                                 \
+      CLK += (clk_inc2);                                   \
+      INC_PC(pc_inc);                                      \
   } while (0)
 
 /* The fanciest opcode ever... ARR! */
-#define ARR(value, clk_inc1, clk_inc2, pc_inc)                          \
-  do {                                                                  \
-      unsigned int tmp;                                                 \
-                                                                        \
-      CLK += (clk_inc1);                                                \
-      tmp = reg_a & (value);                                            \
-      CLK += (clk_inc2);                                                \
-      if (LOCAL_DECIMAL()) {                                            \
-          int tmp_2 = tmp;                                              \
-          tmp_2 |= (reg_p & P_CARRY) << 8;                              \
-          tmp_2 >>= 1;                                                  \
-          LOCAL_SET_SIGN(LOCAL_CARRY());                                \
-          LOCAL_SET_ZERO(!tmp_2);                                       \
-          LOCAL_SET_OVERFLOW((tmp_2 ^ tmp) & 0x40);                     \
-          if (((tmp & 0xf) + (tmp & 0x1)) > 0x5)                        \
-              tmp_2 = (tmp_2 & 0xf0) | ((tmp_2 + 0x6) & 0xf);           \
-          if (((tmp & 0xf0) + (tmp & 0x10)) > 0x50) {                   \
-              tmp_2 = (tmp_2 & 0x0f) | ((tmp_2 + 0x60) & 0xf0);         \
-              LOCAL_SET_CARRY(1);                                       \
-          } else                                                        \
-              LOCAL_SET_CARRY(0);                                       \
-          reg_a = tmp_2;                                                \
-      } else {                                                          \
-          tmp |= (reg_p & P_CARRY) << 8;                                \
-          tmp >>= 1;                                                    \
-          LOCAL_SET_NZ(tmp);                                            \
-          LOCAL_SET_CARRY(tmp & 0x40);                                  \
-          LOCAL_SET_OVERFLOW((tmp & 0x40) ^ ((tmp & 0x20) << 1));       \
-          reg_a = tmp;                                                  \
-      }                                                                 \
-      INC_PC(pc_inc);                                                   \
+#define ARR(value, clk_inc1, clk_inc2, pc_inc)                     \
+  do {                                                             \
+      unsigned int tmp;                                            \
+                                                                   \
+      CLK += (clk_inc1);                                           \
+      tmp = reg_a & (value);                                       \
+      CLK += (clk_inc2);                                           \
+      if (LOCAL_DECIMAL()) {                                       \
+          int tmp_2 = tmp;                                         \
+          tmp_2 |= (reg_p & P_CARRY) << 8;                         \
+          tmp_2 >>= 1;                                             \
+          LOCAL_SET_SIGN(LOCAL_CARRY());                           \
+          LOCAL_SET_ZERO(!tmp_2);                                  \
+          LOCAL_SET_OVERFLOW((tmp_2 ^ tmp) & 0x40);                \
+          if (((tmp & 0xf) + (tmp & 0x1)) > 0x5)                   \
+              tmp_2 = (tmp_2 & 0xf0) | ((tmp_2 + 0x6) & 0xf);      \
+          if (((tmp & 0xf0) + (tmp & 0x10)) > 0x50) {              \
+              tmp_2 = (tmp_2 & 0x0f) | ((tmp_2 + 0x60) & 0xf0);    \
+              LOCAL_SET_CARRY(1);                                  \
+          } else                                                   \
+              LOCAL_SET_CARRY(0);                                  \
+          reg_a = tmp_2;                                           \
+      } else {                                                     \
+          tmp |= (reg_p & P_CARRY) << 8;                           \
+          tmp >>= 1;                                               \
+          LOCAL_SET_NZ(tmp);                                       \
+          LOCAL_SET_CARRY(tmp & 0x40);                             \
+          LOCAL_SET_OVERFLOW((tmp & 0x40) ^ ((tmp & 0x20) << 1));  \
+          reg_a = tmp;                                             \
+      }                                                            \
+      INC_PC(pc_inc);                                              \
   } while (0)
 
-#define ASL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp_value, tmp_addr;                                 \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      CLK += (clk_inc1);                                                \
-      tmp_value = load_func(tmp_addr);                                  \
-      LOCAL_SET_CARRY(tmp_value & 0x80);                                \
-      tmp_value = (tmp_value << 1) & 0xff;                              \
-      LOCAL_SET_NZ(tmp_value);                                          \
-      RMW_FLAG = 1;                                                     \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp_value, clk_inc2);                        \
-      RMW_FLAG = 0;                                                     \
+#define ASL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp_value, tmp_addr;                               \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      CLK += (clk_inc1);                                              \
+      tmp_value = load_func(tmp_addr);                                \
+      LOCAL_SET_CARRY(tmp_value & 0x80);                              \
+      tmp_value = (tmp_value << 1) & 0xff;                            \
+      LOCAL_SET_NZ(tmp_value);                                        \
+      RMW_FLAG = 1;                                                   \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp_value, clk_inc2);                      \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define ASL_A()                                 \
-  do {                                          \
-      CLK += 2;                                 \
-      LOCAL_SET_CARRY(reg_a & 0x80);            \
-      reg_a <<= 1;                              \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define ASL_A()                       \
+  do {                                \
+      CLK += 2;                       \
+      LOCAL_SET_CARRY(reg_a & 0x80);  \
+      reg_a <<= 1;                    \
+      LOCAL_SET_NZ(reg_a);            \
+      INC_PC(1);                      \
   } while (0)
 
 #define ASR(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -511,73 +515,73 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define BRANCH(cond, value)                                             \
-  do {                                                                  \
-      if (cond) {                                                       \
-          unsigned int dest_addr = reg_pc + 2 + (signed char)(value);   \
-                                                                        \
-          if (((reg_pc + 2) ^ dest_addr) & 0xff00) {                    \
-              CLK += 4;                                                 \
-          } else {                                                      \
-              CLK += 3;                                                 \
-              OPCODE_DELAYS_INTERRUPT();                                \
-          }                                                             \
-          JUMP(dest_addr & 0xffff);                                     \
-      } else {                                                          \
-          CLK += 2;                                                     \
-          INC_PC(2);                                                    \
-      }                                                                 \
+#define BRANCH(cond, value)                                            \
+  do {                                                                 \
+      if (cond) {                                                      \
+          unsigned int dest_addr = reg_pc + 2 + (signed char)(value);  \
+                                                                       \
+          if (((reg_pc + 2) ^ dest_addr) & 0xff00) {                   \
+              CLK += 4;                                                \
+          } else {                                                     \
+              CLK += 3;                                                \
+              OPCODE_DELAYS_INTERRUPT();                               \
+          }                                                            \
+          JUMP(dest_addr & 0xffff);                                    \
+      } else {                                                         \
+          CLK += 2;                                                    \
+          INC_PC(2);                                                   \
+      }                                                                \
   } while (0)
 
 /* The BRK opcode is also used to patch the ROM.  The function trap_handler()
    returns nonzero if this is not a patch, but a `real' BRK instruction. */
 
-#define BRK()                                                   \
-  do {                                                          \
-      CLK += 7;                                                 \
-      EXPORT_REGISTERS();                                       \
-      if (!ROM_TRAP_ALLOWED() || ROM_TRAP_HANDLER()) {          \
-	  TRACE_BRK();						\
-          INC_PC(2);                                            \
-          LOCAL_SET_BREAK(1);                                   \
-          PUSH(reg_pc >> 8);                                    \
-          PUSH(reg_pc & 0xff);                                  \
-          PUSH(LOCAL_STATUS());                                 \
-          LOCAL_SET_INTERRUPT(1);                               \
-          JUMP(LOAD_ADDR(0xfffe));                              \
-      } else {                                                  \
-          IMPORT_REGISTERS();                                   \
-      }                                                         \
+#define BRK()                                           \
+  do {                                                  \
+      CLK += 7;                                         \
+      EXPORT_REGISTERS();                               \
+      if (!ROM_TRAP_ALLOWED() || ROM_TRAP_HANDLER()) {  \
+	  TRACE_BRK();                                  \
+          INC_PC(2);                                    \
+          LOCAL_SET_BREAK(1);                           \
+          PUSH(reg_pc >> 8);                            \
+          PUSH(reg_pc & 0xff);                          \
+          PUSH(LOCAL_STATUS());                         \
+          LOCAL_SET_INTERRUPT(1);                       \
+          JUMP(LOAD_ADDR(0xfffe));                      \
+      } else {                                          \
+          IMPORT_REGISTERS();                           \
+      }                                                 \
   } while (0)
 
-#define CLC()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      INC_PC(1);                                \
-      LOCAL_SET_CARRY(0);                       \
+#define CLC()              \
+  do {                     \
+      CLK += 2;            \
+      INC_PC(1);           \
+      LOCAL_SET_CARRY(0);  \
   } while (0)
 
-#define CLD()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      INC_PC(1);                                \
-      LOCAL_SET_DECIMAL(0);                     \
+#define CLD()                \
+  do {                       \
+      CLK += 2;              \
+      INC_PC(1);             \
+      LOCAL_SET_DECIMAL(0);  \
   } while (0)
 
-#define CLI()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      INC_PC(1);                                \
-      if (LOCAL_INTERRUPT())                    \
-          OPCODE_ENABLES_IRQ();                 \
-      LOCAL_SET_INTERRUPT(0);                   \
+#define CLI()                    \
+  do {                           \
+      CLK += 2;                  \
+      INC_PC(1);                 \
+      if (LOCAL_INTERRUPT())     \
+          OPCODE_ENABLES_IRQ();  \
+      LOCAL_SET_INTERRUPT(0);    \
   } while (0)
 
-#define CLV()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      INC_PC(1);                                \
-      LOCAL_SET_OVERFLOW(0);                    \
+#define CLV()                 \
+  do {                        \
+      CLK += 2;               \
+      INC_PC(1);              \
+      LOCAL_SET_OVERFLOW(0);  \
   } while (0)
 
 #define CMP(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -616,20 +620,20 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define DCP(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      tmp = load_func(tmp_addr);                                        \
-      tmp = (tmp - 1) & 0xff;                                           \
-      LOCAL_SET_CARRY(reg_a >= tmp);                                    \
-      LOCAL_SET_NZ((reg_a - tmp));                                      \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp, (clk_inc2));                            \
-      RMW_FLAG = 0;                                                     \
+#define DCP(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      tmp = load_func(tmp_addr);                                      \
+      tmp = (tmp - 1) & 0xff;                                         \
+      LOCAL_SET_CARRY(reg_a >= tmp);                                  \
+      LOCAL_SET_NZ((reg_a - tmp));                                    \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp, (clk_inc2));                          \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
 #define DCP_IND_Y(addr)                                         \
@@ -651,35 +655,35 @@
       RMW_FLAG = 0;                                             \
   } while (0)
 
-#define DEC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      CLK += (clk_inc1);                                                \
-      tmp = load_func(tmp_addr);                                        \
-      tmp = (tmp - 1) & 0xff;                                           \
-      LOCAL_SET_NZ(tmp);                                                \
-      RMW_FLAG = 1;                                                     \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp, (clk_inc2));                            \
-      RMW_FLAG = 0;                                                     \
+#define DEC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      CLK += (clk_inc1);                                              \
+      tmp = load_func(tmp_addr);                                      \
+      tmp = (tmp - 1) & 0xff;                                         \
+      LOCAL_SET_NZ(tmp);                                              \
+      RMW_FLAG = 1;                                                   \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp, (clk_inc2));                          \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define DEX()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_x--;                                  \
-      LOCAL_SET_NZ(reg_x);                      \
-      INC_PC(1);                                \
+#define DEX()               \
+  do {                      \
+      CLK += 2;             \
+      reg_x--;              \
+      LOCAL_SET_NZ(reg_x);  \
+      INC_PC(1);            \
   } while (0)
 
-#define DEY()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_y--;                                  \
-      LOCAL_SET_NZ(reg_y);                      \
-      INC_PC(1);                                \
+#define DEY()               \
+  do {                      \
+      CLK += 2;             \
+      reg_y--;              \
+      LOCAL_SET_NZ(reg_y);  \
+      INC_PC(1);            \
   } while (0)
 
 #define EOR(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -691,74 +695,74 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define INC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      CLK += (clk_inc1);                                                \
-      tmp = (load_func(tmp_addr) + 1) & 0xff;                           \
-      LOCAL_SET_NZ(tmp);                                                \
-      RMW_FLAG = 1;                                                     \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp, (clk_inc2));                            \
-      RMW_FLAG = 0;                                                     \
+#define INC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      CLK += (clk_inc1);                                              \
+      tmp = (load_func(tmp_addr) + 1) & 0xff;                         \
+      LOCAL_SET_NZ(tmp);                                              \
+      RMW_FLAG = 1;                                                   \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp, (clk_inc2));                          \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define INX()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_x++;                                  \
-      LOCAL_SET_NZ(reg_x);                      \
-      INC_PC(1);                                \
+#define INX()               \
+  do {                      \
+      CLK += 2;             \
+      reg_x++;              \
+      LOCAL_SET_NZ(reg_x);  \
+      INC_PC(1);            \
   } while (0)
 
-#define INY()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_y++;                                  \
-      LOCAL_SET_NZ(reg_y);                      \
-      INC_PC(1);                                \
+#define INY()               \
+  do {                      \
+      CLK += 2;             \
+      reg_y++;              \
+      LOCAL_SET_NZ(reg_y);  \
+      INC_PC(1);            \
   } while (0)
 
-#define ISB(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      BYTE my_src;                                                      \
-      int my_addr = (addr);                                             \
-                                                                        \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      my_src = load_func(my_addr);                                      \
-      my_src = (my_src + 1) & 0xff;                                     \
-      SBC(my_src, 0, 0, 0);                                             \
-      INC_PC(pc_inc);                                                   \
-      store_func(my_addr, my_src, clk_inc2);                            \
-      RMW_FLAG = 0;                                                     \
+#define ISB(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      BYTE my_src;                                                    \
+      int my_addr = (addr);                                           \
+                                                                      \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      my_src = load_func(my_addr);                                    \
+      my_src = (my_src + 1) & 0xff;                                   \
+      SBC(my_src, 0, 0, 0);                                           \
+      INC_PC(pc_inc);                                                 \
+      store_func(my_addr, my_src, clk_inc2);                          \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define ISB_IND_Y(addr)                                         \
-  do {                                                          \
-      BYTE my_src;                                              \
-      int my_addr = LOAD_ZERO_ADDR(addr);                       \
-                                                                \
-      RMW_FLAG = 1;                                             \
-      CLK += 5;                                                 \
-      LOAD((my_addr & 0xff00) | ((my_addr + reg_y) & 0xff));    \
-      CLK++;                                                    \
-      my_addr += reg_y;                                         \
-      my_src = LOAD(my_addr);                                   \
-      my_src = (my_src + 1) & 0xff;                             \
-      SBC(my_src, 0, 0, 0);                                     \
-      INC_PC(2);                                                \
-      STORE_ABS(my_addr, my_src, 2);                            \
-      RMW_FLAG = 0;                                             \
+#define ISB_IND_Y(addr)                                       \
+  do {                                                        \
+      BYTE my_src;                                            \
+      int my_addr = LOAD_ZERO_ADDR(addr);                     \
+                                                              \
+      RMW_FLAG = 1;                                           \
+      CLK += 5;                                               \
+      LOAD((my_addr & 0xff00) | ((my_addr + reg_y) & 0xff));  \
+      CLK++;                                                  \
+      my_addr += reg_y;                                       \
+      my_src = LOAD(my_addr);                                 \
+      my_src = (my_src + 1) & 0xff;                           \
+      SBC(my_src, 0, 0, 0);                                   \
+      INC_PC(2);                                              \
+      STORE_ABS(my_addr, my_src, 2);                          \
+      RMW_FLAG = 0;                                           \
   } while (0)
 
-#define JMP(addr, clk_inc1, clk_inc2)           \
-  do {                                          \
-      CLK += (clk_inc1);                        \
-      JUMP(addr);                               \
-      CLK += (clk_inc2);                        \
+#define JMP(addr, clk_inc1, clk_inc2)  \
+  do {                                 \
+      CLK += (clk_inc1);               \
+      JUMP(addr);                      \
+      CLK += (clk_inc2);               \
   } while (0)
 
 #define JMP_IND()                                                   \
@@ -772,25 +776,40 @@
       JUMP(dest_addr);                                              \
   } while (0)
 
-#define JSR(addr, clk_inc1, clk_inc2, pc_inc)           \
-  do {                                                  \
-      unsigned int tmp_addr;                            \
-                                                        \
-      CLK += (clk_inc1);                                \
-      tmp_addr = (addr);                                \
-      CLK += (clk_inc2);                                \
-      PUSH(((reg_pc + (pc_inc) - 1) >> 8) & 0xff);      \
-      PUSH((reg_pc + (pc_inc) - 1) & 0xff);             \
-      JUMP(tmp_addr);                                   \
+#ifdef ACCURATE_FETCH
+#define JSR(addr, clk_inc1, clk_inc2, pc_inc)       \
+  do {                                              \
+      unsigned int tmp_addr;                        \
+                                                    \
+      CLK += (clk_inc1);                            \
+      CLK += (clk_inc2 - 1);                        \
+      PUSH(((reg_pc + (pc_inc) - 1) >> 8) & 0xff);  \
+      PUSH((reg_pc + (pc_inc) - 1) & 0xff);         \
+      tmp_addr = (p1 | (LOAD(reg_pc + 2) << 8));    \
+      CLK += 1;                                     \
+      JUMP(tmp_addr);                               \
   } while (0)
+#else
+#define JSR(addr, clk_inc1, clk_inc2, pc_inc)       \
+  do {                                              \
+      unsigned int tmp_addr;                        \
+                                                    \
+      CLK += (clk_inc1);                            \
+      tmp_addr = (addr);                            \
+      CLK += (clk_inc2);                            \
+      PUSH(((reg_pc + (pc_inc) - 1) >> 8) & 0xff);  \
+      PUSH((reg_pc + (pc_inc) - 1) & 0xff);         \
+      JUMP(tmp_addr);                               \
+  } while (0)
+#endif
 
-#define LAS(value, clk_inc1, clk_inc2, pc_inc)          \
-  do {                                                  \
-      CLK += (clk_inc1);                                \
-      reg_a = reg_x = reg_sp = reg_sp & (value);        \
-      LOCAL_SET_NZ(reg_a);                              \
-      CLK += (clk_inc2);                                \
-      INC_PC(pc_inc);                                   \
+#define LAS(value, clk_inc1, clk_inc2, pc_inc)    \
+  do {                                            \
+      CLK += (clk_inc1);                          \
+      reg_a = reg_x = reg_sp = reg_sp & (value);  \
+      LOCAL_SET_NZ(reg_a);                        \
+      CLK += (clk_inc2);                          \
+      INC_PC(pc_inc);                             \
   } while (0)
 
 #define LAX(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -829,40 +848,40 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define LSR(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      tmp = load_func(tmp_addr);                                        \
-      INC_PC(pc_inc);                                                   \
-      LOCAL_SET_CARRY(tmp & 0x01);                                      \
-      tmp >>= 1;                                                        \
-      LOCAL_SET_NZ(tmp);                                                \
-      store_func(tmp_addr, tmp, clk_inc2);                              \
-      RMW_FLAG = 0;                                                     \
+#define LSR(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      tmp = load_func(tmp_addr);                                      \
+      INC_PC(pc_inc);                                                 \
+      LOCAL_SET_CARRY(tmp & 0x01);                                    \
+      tmp >>= 1;                                                      \
+      LOCAL_SET_NZ(tmp);                                              \
+      store_func(tmp_addr, tmp, clk_inc2);                            \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define LSR_A()                                 \
-  do {                                          \
-      CLK += 2;                                 \
-      LOCAL_SET_CARRY(reg_a & 0x01);            \
-      reg_a >>= 1;                              \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define LSR_A()                       \
+  do {                                \
+      CLK += 2;                       \
+      LOCAL_SET_CARRY(reg_a & 0x01);  \
+      reg_a >>= 1;                    \
+      LOCAL_SET_NZ(reg_a);            \
+      INC_PC(1);                      \
   } while (0)
 
 /* Note: this is not always exact, as this opcode can be quite unstable!
    Moreover, the behavior is different from the one described in 64doc. */
-#define LXA(value, clk_inc1, clk_inc2, pc_inc)                  \
-  do {                                                          \
-      CLK += (clk_inc1);                                        \
-      reg_a = reg_x = ((reg_a | 0xee) & ((BYTE)(value)));       \
-      LOCAL_SET_NZ(reg_a);                                      \
-      CLK += (clk_inc2);                                        \
-      INC_PC(pc_inc);                                           \
+#define LXA(value, clk_inc1, clk_inc2, pc_inc)             \
+  do {                                                     \
+      CLK += (clk_inc1);                                   \
+      reg_a = reg_x = ((reg_a | 0xee) & ((BYTE)(value)));  \
+      LOCAL_SET_NZ(reg_a);                                 \
+      CLK += (clk_inc2);                                   \
+      INC_PC(pc_inc);                                      \
   } while (0)
 
 #define ORA(value, clk_inc1, clk_inc2, pc_inc)  \
@@ -874,76 +893,76 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define NOOP(clk_inc, pc_inc)                   \
-  (CLK += (clk_inc), INC_PC(pc_inc))
+#define NOOP(clk_inc, pc_inc)  \
+    (CLK += (clk_inc), INC_PC(pc_inc))
 
-#define NOOP_ABS()                              \
-  do {                                          \
-      CLK += 3;                                 \
-      LOAD(p2);                                 \
-      CLK++;                                    \
-      INC_PC(3);                                \
+#define NOOP_ABS()  \
+  do {              \
+      CLK += 3;     \
+      LOAD(p2);     \
+      CLK++;        \
+      INC_PC(3);    \
   } while (0)
 
-#define NOOP_ABS_X()                            \
-  do {                                          \
-      CLK += 3;                                 \
-      LOAD_ABS_X(p2);                           \
-      CLK++;                                    \
-      INC_PC(3);                                \
+#define NOOP_ABS_X()   \
+  do {                 \
+      CLK += 3;        \
+      LOAD_ABS_X(p2);  \
+      CLK++;           \
+      INC_PC(3);       \
   } while (0)
 
 #define NOP()  NOOP(2, 1)
 
-#define PHA()                                   \
-  do {                                          \
-      CLK += 3;                                 \
-      PUSH(reg_a);                              \
-      INC_PC(1);                                \
+#define PHA()       \
+  do {              \
+      CLK += 3;     \
+      PUSH(reg_a);  \
+      INC_PC(1);    \
   } while (0)
 
-#define PHP()                                   \
-  do {                                          \
-      CLK += 3;                                 \
-      PUSH(LOCAL_STATUS() | P_BREAK);           \
-      INC_PC(1);                                \
+#define PHP()                          \
+  do {                                 \
+      CLK += 3;                        \
+      PUSH(LOCAL_STATUS() | P_BREAK);  \
+      INC_PC(1);                       \
   } while (0)
 
-#define PLA()                                   \
-  do {                                          \
-      CLK += 4;                                 \
-      reg_a = PULL();                           \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define PLA()               \
+  do {                      \
+      CLK += 4;             \
+      reg_a = PULL();       \
+      LOCAL_SET_NZ(reg_a);  \
+      INC_PC(1);            \
   } while (0)
 
-#define PLP()                                           \
-  do {                                                  \
-      BYTE s = PULL();                                  \
-                                                        \
-      if (!(s & P_INTERRUPT) && LOCAL_INTERRUPT())      \
-          OPCODE_ENABLES_IRQ();                         \
-      else if ((s & P_INTERRUPT) && !LOCAL_INTERRUPT()) \
-          OPCODE_DISABLES_IRQ();                        \
-      CLK += 4;                                         \
-      LOCAL_SET_STATUS(s);                              \
-      INC_PC(1);                                        \
+#define PLP()                                            \
+  do {                                                   \
+      BYTE s = PULL();                                   \
+                                                         \
+      if (!(s & P_INTERRUPT) && LOCAL_INTERRUPT())       \
+          OPCODE_ENABLES_IRQ();                          \
+      else if ((s & P_INTERRUPT) && !LOCAL_INTERRUPT())  \
+          OPCODE_DISABLES_IRQ();                         \
+      CLK += 4;                                          \
+      LOCAL_SET_STATUS(s);                               \
+      INC_PC(1);                                         \
   } while (0)
 
-#define RLA(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      tmp = ((load_func(tmp_addr) << 1) | (reg_p & P_CARRY));           \
-      LOCAL_SET_CARRY(tmp & 0x100);                                     \
-      reg_a &= tmp;                                                     \
-      LOCAL_SET_NZ(reg_a);                                              \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp, clk_inc2);                              \
-      RMW_FLAG = 0;                                                     \
+#define RLA(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      tmp = ((load_func(tmp_addr) << 1) | (reg_p & P_CARRY));         \
+      LOCAL_SET_CARRY(tmp & 0x100);                                   \
+      reg_a &= tmp;                                                   \
+      LOCAL_SET_NZ(reg_a);                                            \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp, clk_inc2);                            \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
 #define RLA_IND_Y(addr)                                         \
@@ -965,147 +984,147 @@
       RMW_FLAG = 0;                                             \
   } while (0)
 
-#define ROL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int tmp, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      CLK += (clk_inc1);                                                \
-      tmp = load_func(tmp_addr);                                        \
-      tmp = (tmp << 1) | (reg_p & P_CARRY);                             \
-      LOCAL_SET_CARRY(tmp & 0x100);                                     \
-      LOCAL_SET_NZ(tmp & 0xff);                                         \
-      RMW_FLAG = 1;                                                     \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp, clk_inc2);                              \
-      RMW_FLAG = 0;                                                     \
+#define ROL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int tmp, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      CLK += (clk_inc1);                                              \
+      tmp = load_func(tmp_addr);                                      \
+      tmp = (tmp << 1) | (reg_p & P_CARRY);                           \
+      LOCAL_SET_CARRY(tmp & 0x100);                                   \
+      LOCAL_SET_NZ(tmp & 0xff);                                       \
+      RMW_FLAG = 1;                                                   \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp, clk_inc2);                            \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define ROL_A()                                 \
-  do {                                          \
-      unsigned int tmp = reg_a << 1;            \
-                                                \
-      CLK += 2;                                 \
-      reg_a = tmp | (reg_p & P_CARRY);          \
-      LOCAL_SET_CARRY(tmp & 0x100);             \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define ROL_A()                         \
+  do {                                  \
+      unsigned int tmp = reg_a << 1;    \
+                                        \
+      CLK += 2;                         \
+      reg_a = tmp | (reg_p & P_CARRY);  \
+      LOCAL_SET_CARRY(tmp & 0x100);     \
+      LOCAL_SET_NZ(reg_a);              \
+      INC_PC(1);                        \
   } while (0)
 
-#define ROR(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      unsigned int src, tmp_addr;                                       \
-                                                                        \
-      tmp_addr = (addr);                                                \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      src = load_func(tmp_addr);                                        \
-      if (reg_p & P_CARRY)                                              \
-          src |= 0x100;                                                 \
-      LOCAL_SET_CARRY(src & 0x01);                                      \
-      src >>= 1;                                                        \
-      LOCAL_SET_NZ(src);                                                \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, src, (clk_inc2));                            \
-      RMW_FLAG = 0;                                                     \
+#define ROR(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      unsigned int src, tmp_addr;                                     \
+                                                                      \
+      tmp_addr = (addr);                                              \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      src = load_func(tmp_addr);                                      \
+      if (reg_p & P_CARRY)                                            \
+          src |= 0x100;                                               \
+      LOCAL_SET_CARRY(src & 0x01);                                    \
+      src >>= 1;                                                      \
+      LOCAL_SET_NZ(src);                                              \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, src, (clk_inc2));                          \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define ROR_A()                                 \
-  do {                                          \
-      BYTE tmp = reg_a;                         \
-                                                \
-      CLK += 2;                                 \
-      reg_a = (reg_a >> 1) | (reg_p << 7);      \
-      LOCAL_SET_CARRY(tmp & 0x01);              \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define ROR_A()                             \
+  do {                                      \
+      BYTE tmp = reg_a;                     \
+                                            \
+      CLK += 2;                             \
+      reg_a = (reg_a >> 1) | (reg_p << 7);  \
+      LOCAL_SET_CARRY(tmp & 0x01);          \
+      LOCAL_SET_NZ(reg_a);                  \
+      INC_PC(1);                            \
   } while (0)
 
-#define RRA(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      BYTE src;                                                         \
-      unsigned int my_temp, tmp_addr;                                   \
-                                                                        \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      tmp_addr = (addr);                                                \
-      src = load_func(tmp_addr);                                        \
-      INC_PC(pc_inc);                                                   \
-      my_temp = src >> 1;                                               \
-      if (reg_p & P_CARRY)                                              \
-          my_temp |= 0x80;                                              \
-      LOCAL_SET_CARRY(src & 0x1);                                       \
-      ADC(my_temp, 0, 0, 0);                                            \
-      store_func(tmp_addr, my_temp, clk_inc2);                          \
-      RMW_FLAG = 0;                                                     \
+#define RRA(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      BYTE src;                                                       \
+      unsigned int my_temp, tmp_addr;                                 \
+                                                                      \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      tmp_addr = (addr);                                              \
+      src = load_func(tmp_addr);                                      \
+      INC_PC(pc_inc);                                                 \
+      my_temp = src >> 1;                                             \
+      if (reg_p & P_CARRY)                                            \
+          my_temp |= 0x80;                                            \
+      LOCAL_SET_CARRY(src & 0x1);                                     \
+      ADC(my_temp, 0, 0, 0);                                          \
+      store_func(tmp_addr, my_temp, clk_inc2);                        \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
-#define RRA_IND_Y(addr)                                                 \
-  do {                                                                  \
-      BYTE src;                                                         \
-      unsigned int my_tmp_addr;                                         \
-      unsigned int my_temp;                                             \
-                                                                        \
-      RMW_FLAG = 1;                                                     \
-      CLK += 5;                                                         \
-      my_tmp_addr = LOAD_ZERO_ADDR(addr);                               \
-      LOAD((my_tmp_addr & 0xff00) | ((my_tmp_addr + reg_y) & 0xff));    \
-      CLK++;                                                            \
-      my_tmp_addr += reg_y;                                             \
-      src = LOAD(my_tmp_addr);                                          \
-      INC_PC(2);                                                        \
-      my_temp = src >> 1;                                               \
-      if (reg_p & P_CARRY)                                              \
-          my_temp |= 0x80;                                              \
-      LOCAL_SET_CARRY(src & 0x1);                                       \
-      ADC(my_temp, 0, 0, 0);                                            \
-      STORE_ABS(my_tmp_addr, my_temp, 2);                               \
-      RMW_FLAG = 0;                                                     \
+#define RRA_IND_Y(addr)                                               \
+  do {                                                                \
+      BYTE src;                                                       \
+      unsigned int my_tmp_addr;                                       \
+      unsigned int my_temp;                                           \
+                                                                      \
+      RMW_FLAG = 1;                                                   \
+      CLK += 5;                                                       \
+      my_tmp_addr = LOAD_ZERO_ADDR(addr);                             \
+      LOAD((my_tmp_addr & 0xff00) | ((my_tmp_addr + reg_y) & 0xff));  \
+      CLK++;                                                          \
+      my_tmp_addr += reg_y;                                           \
+      src = LOAD(my_tmp_addr);                                        \
+      INC_PC(2);                                                      \
+      my_temp = src >> 1;                                             \
+      if (reg_p & P_CARRY)                                            \
+          my_temp |= 0x80;                                            \
+      LOCAL_SET_CARRY(src & 0x1);                                     \
+      ADC(my_temp, 0, 0, 0);                                          \
+      STORE_ABS(my_tmp_addr, my_temp, 2);                             \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
 /* RTI does must not use `OPCODE_ENABLES_IRQ()' even if the I flag changes
    from 1 to 0 because the value of I is set 3 cycles before the end of the
    opcode, and thus the 6510 has enough time to call the interrupt routine as
    soon as the opcode ends, if necessary.  */
-#define RTI()                                   \
-  do {                                          \
-      WORD tmp;                                 \
-                                                \
-      CLK += 6;                                 \
-      tmp = (WORD) PULL();                      \
-      LOCAL_SET_STATUS((BYTE) tmp);             \
-      tmp = (WORD) PULL();                      \
-      tmp |= (WORD) PULL() << 8;                \
-      JUMP(tmp);                                \
+#define RTI()                        \
+  do {                               \
+      WORD tmp;                      \
+                                     \
+      CLK += 6;                      \
+      tmp = (WORD) PULL();           \
+      LOCAL_SET_STATUS((BYTE) tmp);  \
+      tmp = (WORD) PULL();           \
+      tmp |= (WORD) PULL() << 8;     \
+      JUMP(tmp);                     \
   } while (0)
 
-#define RTS()                                   \
-  do {                                          \
-      WORD tmp;                                 \
-                                                \
-      CLK += 6;                                 \
-      tmp = PULL();                             \
-      tmp = (tmp | (PULL() << 8)) + 1;          \
-      JUMP(tmp);                                \
+#define RTS()                           \
+  do {                                  \
+      WORD tmp;                         \
+                                        \
+      CLK += 6;                         \
+      tmp = PULL();                     \
+      tmp = (tmp | (PULL() << 8)) + 1;  \
+      JUMP(tmp);                        \
   } while (0)
 
 
-#define SAX(addr, clk_inc1, clk_inc2, pc_inc)   \
-  do {                                          \
-      unsigned int tmp;                         \
-                                                \
-      CLK += (clk_inc1);                        \
-      tmp = (addr);                             \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
-      STORE(tmp, reg_a & reg_x);                \
+#define SAX(addr, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                         \
+      unsigned int tmp;                        \
+                                               \
+      CLK += (clk_inc1);                       \
+      tmp = (addr);                            \
+      CLK += (clk_inc2);                       \
+      INC_PC(pc_inc);                          \
+      STORE(tmp, reg_a & reg_x);               \
   } while (0)
 
-#define SAX_ZERO(addr, clk_inc, pc_inc)         \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_a & reg_x);        \
-      INC_PC(pc_inc);                           \
+#define SAX_ZERO(addr, clk_inc, pc_inc)   \
+  do {                                    \
+      CLK += (clk_inc);                   \
+      STORE_ZERO((addr), reg_a & reg_x);  \
+      INC_PC(pc_inc);                     \
   } while (0)
 
 #define SBC(value, clk_inc1, clk_inc2, pc_inc)                               \
@@ -1156,28 +1175,28 @@
       LOCAL_SET_NZ(reg_x);                      \
   } while (0)
 
-#undef SEC                      /* defined in time.h on SunOS. */
-#define SEC()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      LOCAL_SET_CARRY(1);                       \
-      INC_PC(1);                                \
+#undef SEC    /* defined in time.h on SunOS. */
+#define SEC()              \
+  do {                     \
+      CLK += 2;            \
+      LOCAL_SET_CARRY(1);  \
+      INC_PC(1);           \
   } while (0)
 
-#define SED()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      LOCAL_SET_DECIMAL(1);                     \
-      INC_PC(1);                                \
+#define SED()                \
+  do {                       \
+      CLK += 2;              \
+      LOCAL_SET_DECIMAL(1);  \
+      INC_PC(1);             \
   } while (0)
 
-#define SEI()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      if (!LOCAL_INTERRUPT())                   \
-          OPCODE_DISABLES_IRQ();                \
-      LOCAL_SET_INTERRUPT(1);                   \
-      INC_PC(1);                                \
+#define SEI()                     \
+  do {                            \
+      CLK += 2;                   \
+      if (!LOCAL_INTERRUPT())     \
+          OPCODE_DISABLES_IRQ();  \
+      LOCAL_SET_INTERRUPT(1);     \
+      INC_PC(1);                  \
   } while (0)
 
 #define SHA_ABS_Y(addr)                                                 \
@@ -1189,17 +1208,17 @@
       STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
   } while (0)
 
-#define SHA_IND_Y(addr)                                 \
-  do {                                                  \
-      unsigned int tmp;                                 \
-                                                        \
-      CLK += 5;                                         \
-      tmp = LOAD_ZERO_ADDR(addr);                       \
-      LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));    \
-      CLK++;                                            \
-      tmp += reg_y;                                     \
-      INC_PC(2);                                        \
-      STORE(tmp, reg_a & reg_x & ((tmp >> 8) + 1));     \
+#define SHA_IND_Y(addr)                               \
+  do {                                                \
+      unsigned int tmp;                               \
+                                                      \
+      CLK += 5;                                       \
+      tmp = LOAD_ZERO_ADDR(addr);                     \
+      LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));  \
+      CLK++;                                          \
+      tmp += reg_y;                                   \
+      INC_PC(2);                                      \
+      STORE(tmp, reg_a & reg_x & ((tmp >> 8) + 1));   \
   } while (0)
 
 #define SHX_ABS_Y(addr)                                         \
@@ -1229,22 +1248,22 @@
       reg_sp = reg_a & reg_x;                                           \
   } while (0)
 
-#define SLO(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      BYTE tmp_value;                                                   \
-      int tmp_addr;                                                     \
-                                                                        \
-      CLK += (clk_inc1);                                                \
-      tmp_addr = (addr);                                                \
-      tmp_value = load_func(tmp_addr);                                  \
-      RMW_FLAG = 1;                                                     \
-      LOCAL_SET_CARRY(tmp_value & 0x80);                                \
-      tmp_value <<= 1;                                                  \
-      reg_a |= tmp_value;                                               \
-      LOCAL_SET_NZ(reg_a);                                              \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp_value, clk_inc2);                        \
-      RMW_FLAG = 0;                                                     \
+#define SLO(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      BYTE tmp_value;                                                 \
+      int tmp_addr;                                                   \
+                                                                      \
+      CLK += (clk_inc1);                                              \
+      tmp_addr = (addr);                                              \
+      tmp_value = load_func(tmp_addr);                                \
+      RMW_FLAG = 1;                                                   \
+      LOCAL_SET_CARRY(tmp_value & 0x80);                              \
+      tmp_value <<= 1;                                                \
+      reg_a |= tmp_value;                                             \
+      LOCAL_SET_NZ(reg_a);                                            \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp_value, clk_inc2);                      \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
 #define SLO_IND_Y(addr)                                         \
@@ -1268,22 +1287,22 @@
       RMW_FLAG = 0;                                             \
   } while (0)
 
-#define SRE(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
-  do {                                                                  \
-      BYTE tmp;                                                         \
-      unsigned int tmp_addr;                                            \
-                                                                        \
-      RMW_FLAG = 1;                                                     \
-      CLK += (clk_inc1);                                                \
-      tmp_addr = (addr);                                                \
-      tmp = load_func(tmp_addr);                                        \
-      LOCAL_SET_CARRY(tmp & 0x01);                                      \
-      tmp >>= 1;                                                        \
-      reg_a ^= tmp;                                                     \
-      LOCAL_SET_NZ(reg_a);                                              \
-      INC_PC(pc_inc);                                                   \
-      store_func(tmp_addr, tmp, clk_inc2);                              \
-      RMW_FLAG = 0;                                                     \
+#define SRE(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)  \
+  do {                                                                \
+      BYTE tmp;                                                       \
+      unsigned int tmp_addr;                                          \
+                                                                      \
+      RMW_FLAG = 1;                                                   \
+      CLK += (clk_inc1);                                              \
+      tmp_addr = (addr);                                              \
+      tmp = load_func(tmp_addr);                                      \
+      LOCAL_SET_CARRY(tmp & 0x01);                                    \
+      tmp >>= 1;                                                      \
+      reg_a ^= tmp;                                                   \
+      LOCAL_SET_NZ(reg_a);                                            \
+      INC_PC(pc_inc);                                                 \
+      store_func(tmp_addr, tmp, clk_inc2);                            \
+      RMW_FLAG = 0;                                                   \
   } while (0)
 
 #define SRE_IND_Y(addr)                                         \
@@ -1306,170 +1325,230 @@
       RMW_FLAG = 0;                                             \
   } while (0)
 
-#define STA(addr, clk_inc1, clk_inc2, pc_inc, store_func)       \
-  do {                                                          \
-      unsigned int tmp;                                         \
-                                                                \
-      CLK += (clk_inc1);                                        \
-      tmp = (addr);                                             \
-      INC_PC(pc_inc);                                           \
-      store_func(tmp, reg_a, clk_inc2);                         \
+#define STA(addr, clk_inc1, clk_inc2, pc_inc, store_func)  \
+  do {                                                     \
+      unsigned int tmp;                                    \
+                                                           \
+      CLK += (clk_inc1);                                   \
+      tmp = (addr);                                        \
+      INC_PC(pc_inc);                                      \
+      store_func(tmp, reg_a, clk_inc2);                    \
   } while (0)
 
-#define STA_ZERO(addr, clk_inc, pc_inc)         \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_a);                \
-      INC_PC(pc_inc);                           \
+#define STA_ZERO(addr, clk_inc, pc_inc)  \
+  do {                                   \
+      CLK += (clk_inc);                  \
+      STORE_ZERO((addr), reg_a);         \
+      INC_PC(pc_inc);                    \
   } while (0)
 
-#define STA_IND_Y(addr)                                 \
-  do {                                                  \
-      unsigned int tmp;                                 \
-                                                        \
-      CLK += 5;                                         \
-      tmp = LOAD_ZERO_ADDR(addr);                       \
-      LOAD_IND((tmp & 0xff00) | ((tmp + reg_y) & 0xff));\
-      CLK++;                                            \
-      INC_PC(2);                                        \
-      STORE_IND(tmp + reg_y, reg_a);                    \
+#define STA_IND_Y(addr)                                   \
+  do {                                                    \
+      unsigned int tmp;                                   \
+                                                          \
+      CLK += 5;                                           \
+      tmp = LOAD_ZERO_ADDR(addr);                         \
+      LOAD_IND((tmp & 0xff00) | ((tmp + reg_y) & 0xff));  \
+      CLK++;                                              \
+      INC_PC(2);                                          \
+      STORE_IND(tmp + reg_y, reg_a);                      \
   } while (0)
 
-#define STX(addr, clk_inc1, clk_inc2, pc_inc)   \
-  do {                                          \
-      unsigned int tmp;                         \
-                                                \
-      CLK += (clk_inc1);                        \
-      tmp = (addr);                             \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
-      STORE(tmp, reg_x);                        \
+#define STX(addr, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                         \
+      unsigned int tmp;                        \
+                                               \
+      CLK += (clk_inc1);                       \
+      tmp = (addr);                            \
+      CLK += (clk_inc2);                       \
+      INC_PC(pc_inc);                          \
+      STORE(tmp, reg_x);                       \
   } while (0)
 
-#define STX_ZERO(addr, clk_inc, pc_inc)         \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_x);                \
-      INC_PC(pc_inc);                           \
+#define STX_ZERO(addr, clk_inc, pc_inc)  \
+  do {                                   \
+      CLK += (clk_inc);                  \
+      STORE_ZERO((addr), reg_x);         \
+      INC_PC(pc_inc);                    \
   } while (0)
 
-#define STY(addr, clk_inc1, clk_inc2, pc_inc)   \
-  do {                                          \
-      unsigned int tmp;                         \
-                                                \
-      CLK += (clk_inc1);                        \
-      tmp = (addr);                             \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
-      STORE(tmp, reg_y);                        \
+#define STY(addr, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                         \
+      unsigned int tmp;                        \
+                                               \
+      CLK += (clk_inc1);                       \
+      tmp = (addr);                            \
+      CLK += (clk_inc2);                       \
+      INC_PC(pc_inc);                          \
+      STORE(tmp, reg_y);                       \
   } while (0)
 
-#define STY_ZERO(addr, clk_inc, pc_inc)         \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      STORE_ZERO((addr), reg_y);                \
-      INC_PC(pc_inc);                           \
+#define STY_ZERO(addr, clk_inc, pc_inc)  \
+  do {                                   \
+      CLK += (clk_inc);                  \
+      STORE_ZERO((addr), reg_y);         \
+      INC_PC(pc_inc);                    \
   } while (0)
 
-#define TAX()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_x = reg_a;                            \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define TAX()               \
+  do {                      \
+      CLK += 2;             \
+      reg_x = reg_a;        \
+      LOCAL_SET_NZ(reg_a);  \
+      INC_PC(1);            \
   } while (0)
 
-#define TAY()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_y = reg_a;                            \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define TAY()               \
+  do {                      \
+      CLK += 2;             \
+      reg_y = reg_a;        \
+      LOCAL_SET_NZ(reg_a);  \
+      INC_PC(1);            \
   } while (0)
 
-#define TSX()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_x = reg_sp;                           \
-      LOCAL_SET_NZ(reg_sp);                     \
-      INC_PC(1);                                \
+#define TSX()                \
+  do {                       \
+      CLK += 2;              \
+      reg_x = reg_sp;        \
+      LOCAL_SET_NZ(reg_sp);  \
+      INC_PC(1);             \
   } while (0)
 
-#define TXA()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_a = reg_x;                            \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define TXA()               \
+  do {                      \
+      CLK += 2;             \
+      reg_a = reg_x;        \
+      LOCAL_SET_NZ(reg_a);  \
+      INC_PC(1);            \
   } while (0)
 
-#define TXS()                                   \
-  do {                                          \
-      reg_sp = reg_x;                           \
-      CLK += 2;                                 \
-      INC_PC(1);                                \
+#define TXS()          \
+  do {                 \
+      reg_sp = reg_x;  \
+      CLK += 2;        \
+      INC_PC(1);       \
   } while (0)
 
-#define TYA()                                   \
-  do {                                          \
-      CLK += 2;                                 \
-      reg_a = reg_y;                            \
-      LOCAL_SET_NZ(reg_a);                      \
-      INC_PC(1);                                \
+#define TYA()               \
+  do {                      \
+      CLK += 2;             \
+      reg_a = reg_y;        \
+      LOCAL_SET_NZ(reg_a);  \
+      INC_PC(1);            \
   } while (0)
 
 
 /* ------------------------------------------------------------------------- */
 
-#if !defined FETCH_OPCODE
+#ifdef ACCURATE_FETCH
+static BYTE fetch_tab[] = {
+            /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
+    /* $00 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $00 */
+    /* $10 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $10 */
+    /* $20 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $20 */
+    /* $30 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $30 */
+    /* $40 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $40 */
+    /* $50 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $50 */
+    /* $60 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $60 */
+    /* $70 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $70 */
+    /* $80 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $80 */
+    /* $90 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $90 */
+    /* $A0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $A0 */
+    /* $B0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $B0 */
+    /* $C0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $C0 */
+    /* $D0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $D0 */
+    /* $E0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $E0 */
+    /* $F0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1  /* $F0 */
+};
+#endif
 
-#  if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
-#    define opcode_t DWORD
-#    define FETCH_OPCODE(o) ((o) = ((((int)reg_pc) < bank_limit)           \
-                                    ? (*((DWORD *)(bank_base + reg_pc))    \
-                                       & 0xffffff)                         \
-                                    : (LOAD(reg_pc)                        \
-                                       | (LOAD(reg_pc + 1) << 8)           \
-                                       | (LOAD(reg_pc + 2) << 16))))
-#    define p0 (opcode & 0xff)
-#    define p1 ((opcode >> 8) & 0xff)
-#    define p2 (opcode >> 8)
+#define opcode_t DWORD
 
-#  else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+#ifndef ACCURATE_FETCH
+#define FETCH_OPCODE(o) ((o) = ((((int)reg_pc) < bank_limit)         \
+                                ? (*((DWORD *)(bank_base + reg_pc))  \
+                                   & 0xffffff)                       \
+                                : (LOAD(reg_pc)                      \
+                                   | (LOAD(reg_pc + 1) << 8)         \
+                                   | (LOAD(reg_pc + 2) << 16))))
 
-#    define opcode_t                              \
-        struct {                                  \
-            BYTE ins;                             \
-            union {                               \
-                BYTE op8[2];                      \
-                WORD op16;                        \
-            } op;                                 \
-        }
+#else
+#define FETCH_OPCODE(o)                                         \
+    do {                                                        \
+        if (((int)reg_pc) < bank_limit) {                       \
+            o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);  \
+        } else {                                                \
+            o = LOAD(reg_pc);                                   \
+            CLK += 1;                                           \
+            o |= LOAD(reg_pc + 1) << 8;                         \
+            if (fetch_tab[o & 0xff]) {                          \
+                 CLK += 1;                                      \
+                 o |= (LOAD(reg_pc + 2) << 16);                 \
+                 CLK -= 1;                                      \
+            }                                                   \
+            CLK -= 1;                                           \
+        }                                                       \
+    } while (0)
+#endif
 
-#    define FETCH_OPCODE(o)                                                  \
-          ((((int)reg_pc) < bank_limit) ? ((o).ins = *(bank_base + reg_pc),  \
-                        (o).op.op16 = (*(bank_base + reg_pc + 1)             \
-                                       | (*(bank_base + reg_pc + 2) << 8)))  \
-                     : ((o).ins = LOAD(reg_pc),                              \
-                        (o).op.op16 = (LOAD(reg_pc + 1)                      \
-                                       | (LOAD(reg_pc + 2) << 8))))
+#define p0 (opcode & 0xff)
+#define p1 ((opcode >> 8) & 0xff)
+#define p2 (opcode >> 8)
 
-#    define p0 (opcode.ins)
-#    define p2 (opcode.op.op16)
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
-#    ifdef WORDS_BIGENDIAN
-#      define p1 (opcode.op.op8[1])
-#    else
-#      define p1 (opcode.op.op8[0])
-#    endif
+#define opcode_t          \
+    struct {              \
+        BYTE ins;         \
+        union {           \
+            BYTE op8[2];  \
+            WORD op16;    \
+        } op;             \
+    }
 
-#  endif /* !WORDS_BIGENDIAN */
+#ifndef ACCURATE_FETCH
+#define FETCH_OPCODE(o)                                                  \
+      ((((int)reg_pc) < bank_limit) ? ((o).ins = *(bank_base + reg_pc),  \
+                    (o).op.op16 = (*(bank_base + reg_pc + 1)             \
+                                  | (*(bank_base + reg_pc + 2) << 8)))   \
+                 : ((o).ins = LOAD(reg_pc),                              \
+                    (o).op.op16 = (LOAD(reg_pc + 1)                      \
+                                   | (LOAD(reg_pc + 2) << 8))))
+#else
+#define FETCH_OPCODE(o)                                         \
+    do {                                                        \
+        if (((int)reg_pc) < bank_limit) {                       \
+            (o).ins = *(bank_base + reg_pc);                    \
+            (o).op.op16 = (*(bank_base + reg_pc + 1)            \
+                          | (*(bank_base + reg_pc + 2) << 8));  \
+        } else {                                                \
+            (o).ins = LOAD(reg_pc);                             \
+            CLK += 1;                                           \
+            (o).op.op16 = LOAD(reg_pc + 1);                     \
+            if (fetch_tab[(o).ins]) {                           \
+                 CLK += 1;                                      \
+                 (o).op.op16 |= (LOAD(reg_pc + 2) << 8);        \
+                 CLK -= 1;                                      \
+            }                                                   \
+            CLK -= 1;                                           \
+        }                                                       \
+    } while (0)
+#endif
 
-#endif /* !FETCH_OPCODE */
+#define p0 (opcode.ins)
+#define p2 (opcode.op.op16)
+
+#ifdef WORDS_BIGENDIAN
+#  define p1 (opcode.op.op8[1])
+#else
+#  define p1 (opcode.op.op8[0])
+#endif
+
+#endif /* !WORDS_BIGENDIAN */
 
 /* ------------------------------------------------------------------------ */
-
 
 /* Here, the CPU is emulated. */
 
@@ -1480,7 +1559,7 @@
     {
         enum cpu_int pending_interrupt;
 
-        pending_interrupt = interrupt_check_pending_interrupt(&CPU_INT_STATUS);
+        pending_interrupt = interrupt_check_pending_interrupt(CPU_INT_STATUS);
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
             while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT))

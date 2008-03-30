@@ -1,5 +1,41 @@
 2002-06-02  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.27.
+
+	* 6510core.c [FETCH_OPCODE]: More accurate opcode fetch.
+	[JSR]: Fixed timing.
+
+	* vicii/vicii-phi1.c (gfx_data, gfx_data_illegal_bitmap,
+	gfx_data_extended_text): Added support for multicolor and
+	extended modes.
+
+	* vicii/viciitypes.h, vicii/vicii.c, vicii/vicii-mem.c,
+	vicii/vicii-snapshot.c: Allocate alarms at runtime.
+
+	* plus4/tedtypes.h, plus4/ted.c, plus4/ted-mem.c,
+	plus4/ted-snapshot.c: Likewise.
+
+	* vic20/vic.h, vic20/vic.c, vic20/vic-snapshot.c: Likewise.
+
+	* crtc/crtctypes.h, crtc/crtc.c, crtc/crtc-mem.c: Likewise.
+
+	* vdc/vdctypes.h, vdc/vdc.c: Likewise.
+
+	* drive/drivetypes.h, drive/cia1571d.c, drive/cia1581d.c,
+	drive/drive.c, drive/drivecpu.c, drive/glue1551.c,
+	drive/riot2d.c, drive/via1d.c, drive/via2d.c: Allocate CPU
+	interrupt status at runtime.
+
+	* maincpu.c, 6510core.c, c128/c128cpu.c, viacore.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petvia.c: Fixed CPU interrupt
+	status API.
+
+	* ciatimer.c, ciatimer.h, ciacore.c, drive/fdc.c, riotcore.c:
+	Moved CIA timer snapshot funtions to `ciatimer.c'.
+
+2002-06-02  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.26.
 
 	* vicii/vicii.c, c64/c64cart.h, c64/cart/c64cartmem.c,
@@ -16,6 +52,20 @@
 	* vicii/vicii-draw.c: Removed old code.
 
 	* vicii/vicii-phi1.c: Some implementation.
+
+2002-06-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am: Added fsdevice.dsp.
+
+	* arch/win32/base.dsp: Removed fsdevice.c.
+
+	* arch/win32/c64cart.dsp: Added vicii as include directory.
+
+	* arch/win32/fsdevice.dsp: New file.
+
+	* arch/win32/vice.dsw: Added fsdevice.dsp and dependencies.
+
+	* arch/win32/vicii.dsp: Added vicii-phi1.c.
 
 2002-06-01  Andreas Boose  <viceteam@t-online.de>
 

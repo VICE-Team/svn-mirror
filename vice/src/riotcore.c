@@ -37,7 +37,9 @@
  */
 
 #include "alarm.h"
+#include "snapshot.h"
 #include "utils.h"
+
 
 /*
  * local prototypes

@@ -31,6 +31,7 @@
 #include "alarm.h"
 #include "ciatimer.h"
 #include "interrupt.h"
+#include "snapshot.h"
 #include "types.h"
 
 #if 1 /* def CIAT_NEED_LOG */
@@ -40,40 +41,41 @@
 #include <string.h>
 
 static int ciat_logfl = 0;
-static int logtab=0;
-static const char spaces[]="                                                  ";
+static int logtab = 0;
+static const char spaces[] = "                                                  ";
 /* extern int traceflg; */
 
 void ciat_login(const char *format,...) {
     va_list ap;
-    va_start(ap,format);
-    if(/* traceflg ||*/ ciat_logfl) {
-        printf("%s",spaces+strlen(spaces)-logtab);
+    va_start(ap, format);
+    if (/* traceflg ||*/ ciat_logfl) {
+        printf("%s", spaces + strlen(spaces) - logtab);
         vprintf(format, ap);
         printf(" {\n");
     }
-    logtab+=2;
+    logtab += 2;
 }
 
 void ciat_logout(const char *format,...) {
     va_list ap;
-    va_start(ap,format);
-    if((/* traceflg ||*/ ciat_logfl) && strlen(format)) {
-        printf("%s",spaces+strlen(spaces)-logtab);
+    va_start(ap, format);
+    if ((/* traceflg ||*/ ciat_logfl) && strlen(format)) {
+        printf("%s", spaces + strlen(spaces) - logtab);
         vprintf(format, ap);
         printf("\n");
     }
-    if(logtab>1) logtab-=2;
-    if(ciat_logfl) {
-        printf("%s}\n",spaces+strlen(spaces)-logtab);
+    if (logtab > 1)
+        logtab -= 2;
+    if (ciat_logfl) {
+        printf("%s}\n", spaces + strlen(spaces) - logtab);
     }
 }
 
 void ciat_log(const char *format,...) {
     va_list ap;
-    va_start(ap,format);
-    if(/* traceflg ||*/ ciat_logfl) {
-        printf("%s",spaces+strlen(spaces)-logtab);
+    va_start(ap, format);
+    if (/* traceflg ||*/ ciat_logfl) {
+        printf("%s", spaces + strlen(spaces) - logtab);
         vprintf(format, ap);
         printf("\n");
     }
@@ -82,24 +84,24 @@ void ciat_log(const char *format,...) {
 void ciat_print_state(const ciat_t *state)
 {
     printf("%s print: clk=%ld, cnt=%04x (%d), latch=%04x (%d)\n",
-        state->name, (long)(state->clk),
-        state->cnt, state->cnt,
-        state->latch, state->latch);
+           state->name, (long)(state->clk),
+           state->cnt, state->cnt,
+           state->latch, state->latch);
     printf("          state=%04x = %s%s%s%s%s%s%s%s%s%s%s%s%s\n",
-        state->state,
-        (state->state & CIAT_CR_START)  ? "start " : "",
-        (state->state & CIAT_CR_ONESHOT)? "cr_oneshot " : "",
-        (state->state & CIAT_CR_FLOAD)  ? "cr_fload " : "",
-        (state->state & CIAT_PHI2IN)    ? "Phi2 " : "",
-        (state->state & CIAT_STEP)      ? "step " : "",
-        (state->state & CIAT_COUNT2)    ? "cnt2 " : "",
-        (state->state & CIAT_COUNT3)    ? "cnt3 " : "",
-        (state->state & CIAT_COUNT)     ? "cnt " : "",
-        (state->state & CIAT_LOAD1)     ? "load1 " : "",
-        (state->state & CIAT_LOAD)      ? "load " : "",
-        (state->state & CIAT_ONESHOT0)  ? "oneshot0 " : "",
-        (state->state & CIAT_ONESHOT)   ? "oneshot " : "",
-        (state->state & CIAT_OUT)       ? "out " : ""
+           state->state,
+           (state->state & CIAT_CR_START)  ? "start " : "",
+           (state->state & CIAT_CR_ONESHOT)? "cr_oneshot " : "",
+           (state->state & CIAT_CR_FLOAD)  ? "cr_fload " : "",
+           (state->state & CIAT_PHI2IN)    ? "Phi2 " : "",
+           (state->state & CIAT_STEP)      ? "step " : "",
+           (state->state & CIAT_COUNT2)    ? "cnt2 " : "",
+           (state->state & CIAT_COUNT3)    ? "cnt3 " : "",
+           (state->state & CIAT_COUNT)     ? "cnt " : "",
+           (state->state & CIAT_LOAD1)     ? "load1 " : "",
+           (state->state & CIAT_LOAD)      ? "load " : "",
+           (state->state & CIAT_ONESHOT0)  ? "oneshot0 " : "",
+           (state->state & CIAT_ONESHOT)   ? "oneshot " : "",
+           (state->state & CIAT_OUT)       ? "out " : ""
     );
     printf("          alarm at %ld\n", (long)(state->alarmclk));
 }
@@ -140,5 +142,42 @@ void ciat_init_table(void)
 
         ciat_table[i] = tmp;
     }
+}
+
+void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk, snapshot_module_t *m,
+                        int ver)
+{
+
+    /* ciat_print_state(state); */
+
+    if (ver >= 0x100) {
+        /* major 1, minor >= 1 */
+        /* cnt & latch are saved from cia module already */
+        snapshot_module_write_word(m, ((WORD)(cia_state->state)));
+    }
+}
+
+void ciat_load_snapshot(ciat_t *state, CLOCK cclk, WORD cnt, WORD latch,
+                        BYTE cr, snapshot_module_t *m, int ver)
+{
+    /* cnt & latch are read from cia module already */
+    state->clk = cclk;
+    state->cnt = cnt;
+    state->latch = latch;
+
+    if (ver >= 0x101) {
+        /* major 1, minor >= 1 */
+        snapshot_module_read_word(m, &state->state);
+    } else {
+        state->state = cr;
+        if (cr & CIAT_CR_START)
+            state->state |= CIAT_COUNT2 | CIAT_COUNT3 | CIAT_COUNT;
+        if (cr & CIAT_CR_ONESHOT)
+            state->state |= CIAT_ONESHOT0 | CIAT_ONESHOT;
+    }
+
+    ciat_set_alarm(state, cclk);
+
+    /* ciat_print_state(state); */
 }
 

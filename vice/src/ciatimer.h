@@ -40,8 +40,8 @@
 #define _CIATIMER_H
 
 #include "alarm.h"
-#include "snapshot.h"
 #include "types.h"
+
 
 /* #define      CIAT_DEBUG */
 /* #undef       NO_INLINE */
@@ -121,6 +121,8 @@ extern void ciat_log(const char *format,...);
 extern void ciat_print_state(const ciat_t *state);
 
 #endif
+
+struct snapshot_module_s;
 
 /***************************************************************************/
 /* For maximum performance (these routines are small but used very often), we
@@ -494,44 +496,6 @@ _CIAT_FUNC void ciat_ack_alarm(ciat_t *state, CLOCK cclk)
 }
 
 /***************************************************************************/
-
-_CIAT_FUNC void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk,
-                                        snapshot_module_t *m, int ver) {
-
-    /* ciat_print_state(state); */
-
-    if (ver >= 0x100) {
-        /* major 1, minor >= 1 */
-        /* cnt & latch are saved from cia module already */
-        snapshot_module_write_word(m, ((WORD)(cia_state->state)));
-    }
-}
-
-_CIAT_FUNC void ciat_load_snapshot(ciat_t *state, CLOCK cclk,
-                WORD cnt, WORD latch, BYTE cr, snapshot_module_t *m, int ver) {
-
-    /* cnt & latch are read from cia module already */
-    state->clk = cclk;
-    state->cnt = cnt;
-    state->latch = latch;
-
-    if (ver >= 0x101) {
-        /* major 1, minor >= 1 */
-        snapshot_module_read_word(m, &state->state);
-    } else {
-        state->state = cr;
-        if (cr & CIAT_CR_START)
-            state->state |= CIAT_COUNT2 | CIAT_COUNT3 | CIAT_COUNT;
-        if (cr & CIAT_CR_ONESHOT)
-            state->state |= CIAT_ONESHOT0 | CIAT_ONESHOT;
-    }
-
-    ciat_set_alarm(state, cclk);
-
-    /* ciat_print_state(state); */
-}
-
-/***************************************************************************/
 #else   /* defined INLINE_CIAT_FUNCS || defined _CIATIMER_C */
 
 /* We don't want inline definitions: just provide the prototypes.  */
@@ -553,12 +517,17 @@ extern void ciat_init(ciat_t *state, const char *name, CLOCK cclk,
 extern WORD ciat_is_underflow_clk(ciat_t *state, CLOCK cclk);
 extern WORD ciat_is_running(ciat_t *state, CLOCK cclk);
 extern void ciat_save_snapshot(ciat_t *state, CLOCK cclk,
-                                        snapshot_module_t *m, int ver);
+                               struct snapshot_module_s *m, int ver);
 extern void ciat_load_snapshot(ciat_t *state, CLOCK cclk,
-                                        WORD cnt, WORD latch, BYTE cr,
-                                        snapshot_module_t *m, int ver);
+                               WORD cnt, WORD latch, BYTE cr,
+                               struct snapshot_module_s *m, int ver);
 
 #endif  /* defined INLINE_CIAT_FUNCS || defined _CIATIMER_C */
+
+extern void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk,
+                               struct snapshot_module_s *m, int ver);
+extern void ciat_load_snapshot(ciat_t *state, CLOCK cclk, WORD cnt, WORD latch,
+                               BYTE cr, struct snapshot_module_s *m, int ver);
 
 #endif  /* _CIATIMER_H */
 

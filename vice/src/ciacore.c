@@ -42,6 +42,7 @@
  */
 #include "clkguard.h"
 #include "ciatimer.h"
+#include "snapshot.h"
 #include "types.h"
 #include "utils.h"
 
