@@ -329,12 +329,37 @@ static BYTE mmu[11];
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
 
-/* Memory read and write tables.  These are non-static to allow the CPU code
-   to access them.  */
-store_func_ptr_t _mem_write_tab[0x101];
-read_func_ptr_t _mem_read_tab[0x101];
-store_func_ptr_t *_mem_write_tab_ptr = _mem_write_tab;
-read_func_ptr_t *_mem_read_tab_ptr = _mem_read_tab;
+/* Adjust this pointer when the MMU changes banks.  */
+static BYTE **bank_base;
+static int *bank_limit = NULL;
+unsigned int old_reg_pc;
+
+/* Pointers to the currently used memory read and write tables.  */
+read_func_ptr_t *_mem_read_tab_ptr;
+store_func_ptr_t *_mem_write_tab_ptr;
+BYTE **_mem_read_base_tab_ptr;
+int *mem_read_limit_tab_ptr;
+
+#define NUM_CONFIGS 1
+
+/* Memory read and write tables.  */
+#ifdef AVOID_STATIC_ARRAYS
+static store_func_ptr_t (*mem_write_tab)[NUM_CONFIGS][0x101];
+static read_func_ptr_t (*mem_read_tab)[0x101];
+static BYTE *(*mem_read_base_tab)[0x101];
+static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+
+static store_func_ptr_t *mem_write_tab_watch;
+static read_func_ptr_t *mem_read_tab_watch;
+#else
+static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
+static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
+static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
+static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+
+static store_func_ptr_t mem_write_tab_watch[0x101];
+static read_func_ptr_t mem_read_tab_watch[0x101];
+#endif
 
 /* Fake BIOS initialization.  This is required because the real C128 is
    normally booted by the Z80, which we currently don't emulate at all.  */
@@ -461,7 +486,24 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                    page_zero - ram, page_one - ram));
             break;
         }
+
+        _mem_read_base_tab_ptr = mem_read_base_tab[0];
+        mem_read_limit_tab_ptr = mem_read_limit_tab[0];
+
+        if (bank_limit != NULL) {
+            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+            if (*bank_base != 0)
+                *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
+                             - (old_reg_pc & 0xff00);
+            *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
+        }
     }
+}
+
+void mem_set_bank_pointer(BYTE **base, int *limit)
+{
+    bank_base = base;
+    bank_limit = limit;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -542,7 +584,7 @@ void REGPARM2 mem_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 mem_read(ADDRESS addr)
 {
-    return _mem_read_tab[addr >> 8](addr);
+    return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -938,72 +980,77 @@ void initialize_memory(void)
 {
     int i;
 
-    _mem_read_tab[0] = read_zero;
-    _mem_write_tab[0] = store_zero;
-    _mem_read_tab[1] = read_one;
-    _mem_write_tab[1] = store_one;
+    mem_read_tab[0][0] = read_zero;
+    mem_write_tab[0][0] = store_zero;
+    mem_read_tab[0][1] = read_one;
+    mem_write_tab[0][1] = store_one;
 
     for (i = 0x02; i <= 0x3f; i++) {
-        _mem_read_tab[i] = read_lo;
-        _mem_write_tab[i] = store_lo;
+        mem_read_tab[0][i] = read_lo;
+        mem_write_tab[0][i] = store_lo;
     }
 
     for (i = 0x40; i <= 0x7f; i++) {
-        _mem_read_tab[i] = read_basic_lo;
-        _mem_write_tab[i] = store_basic_lo;
+        mem_read_tab[0][i] = read_basic_lo;
+        mem_write_tab[0][i] = store_basic_lo;
     }
 
     for (i = 0x80; i <= 0xbf; i++) {
-        _mem_read_tab[i] = read_basic_hi;
-        _mem_write_tab[i] = store_basic_hi;
+        mem_read_tab[0][i] = read_basic_hi;
+        mem_write_tab[0][i] = store_basic_hi;
     }
 
     for (i = 0xc0; i <= 0xcf; i++) {
-        _mem_read_tab[i] = read_editor;
-        _mem_write_tab[i] = store_editor;
+        mem_read_tab[0][i] = read_editor;
+        mem_write_tab[0][i] = store_editor;
     }
 
     for (i = 0xd0; i <= 0xd3; i++) {
-        _mem_read_tab[i] = read_d0xx;
-        _mem_write_tab[i] = store_d0xx;
+        mem_read_tab[0][i] = read_d0xx;
+        mem_write_tab[0][i] = store_d0xx;
     }
 
-    _mem_read_tab[0xd4] = read_d4xx;
-    _mem_write_tab[0xd4] = store_d4xx;
-    _mem_read_tab[0xd5] = read_d5xx;
-    _mem_write_tab[0xd5] = store_d5xx;
-    _mem_read_tab[0xd6] = read_d6xx;
-    _mem_write_tab[0xd6] = store_d6xx;
+    mem_read_tab[0][0xd4] = read_d4xx;
+    mem_write_tab[0][0xd4] = store_d4xx;
+    mem_read_tab[0][0xd5] = read_d5xx;
+    mem_write_tab[0][0xd5] = store_d5xx;
+    mem_read_tab[0][0xd6] = read_d6xx;
+    mem_write_tab[0][0xd6] = store_d6xx;
 
-    _mem_read_tab[0xd7] = read_d7xx;    /* read_empty_io; */
-    _mem_write_tab[0xd7] = store_d7xx;  /* store_empty_io; */
+    mem_read_tab[0][0xd7] = read_d7xx;    /* read_empty_io; */
+    mem_write_tab[0][0xd7] = store_d7xx;  /* store_empty_io; */
 
-    _mem_read_tab[0xd8] = _mem_read_tab[0xd9] = read_d8xx;
-    _mem_read_tab[0xda] = _mem_read_tab[0xdb] = read_d8xx;
-    _mem_write_tab[0xd8] = _mem_write_tab[0xd9] = store_d8xx;
-    _mem_write_tab[0xda] = _mem_write_tab[0xdb] = store_d8xx;
+    mem_read_tab[0][0xd8] = mem_read_tab[0][0xd9] = read_d8xx;
+    mem_read_tab[0][0xda] = mem_read_tab[0][0xdb] = read_d8xx;
+    mem_write_tab[0][0xd8] = mem_write_tab[0][0xd9] = store_d8xx;
+    mem_write_tab[0][0xda] = mem_write_tab[0][0xdb] = store_d8xx;
 
-    _mem_read_tab[0xdc] = read_dcxx;
-    _mem_write_tab[0xdc] = store_dcxx;
-    _mem_read_tab[0xdd] = read_ddxx;
-    _mem_write_tab[0xdd] = store_ddxx;
+    mem_read_tab[0][0xdc] = read_dcxx;
+    mem_write_tab[0][0xdc] = store_dcxx;
+    mem_read_tab[0][0xdd] = read_ddxx;
+    mem_write_tab[0][0xdd] = store_ddxx;
 
-    _mem_read_tab[0xde] = read_io1;
-    _mem_write_tab[0xde] = store_io1;
+    mem_read_tab[0][0xde] = read_io1;
+    mem_write_tab[0][0xde] = store_io1;
 
-    _mem_read_tab[0xdf] = read_io2;
-    _mem_write_tab[0xdf] = store_io2;
+    mem_read_tab[0][0xdf] = read_io2;
+    mem_write_tab[0][0xdf] = store_io2;
 
     for (i = 0xe0; i <= 0xfe; i++) {
-        _mem_read_tab[i] = read_hi;
-        _mem_write_tab[i] = store_hi;
+        mem_read_tab[0][i] = read_hi;
+        mem_write_tab[0][i] = store_hi;
     }
 
-    _mem_read_tab[0xff] = read_ffxx;
-    _mem_write_tab[0xff] = store_ffxx;
+    mem_read_tab[0][0xff] = read_ffxx;
+    mem_write_tab[0][0xff] = store_ffxx;
 
-    _mem_read_tab[0x100] = _mem_read_tab[0x0];
-    _mem_write_tab[0x100] = _mem_write_tab[0x0];
+    mem_read_tab[0][0x100] = mem_read_tab[0][0x0];
+    mem_write_tab[0][0x100] = mem_write_tab[0][0x0];
+
+    for (i = 0; i <= 0x100; i++) {
+        mem_read_base_tab[0][i] = NULL;
+        mem_read_limit_tab[0][i] = -1;
+    }
 
     /* FIXME?  Is this the real configuration?  */
     basic_lo_in = basic_hi_in = kernal_in = editor_in = 1;
@@ -1014,6 +1061,11 @@ void initialize_memory(void)
     ram_bank = ram;
     page_zero = ram;
     page_one = ram + 0x100;
+
+    _mem_read_tab_ptr = mem_read_tab[0];
+    _mem_write_tab_ptr = mem_write_tab[0];
+    _mem_read_base_tab_ptr = mem_read_base_tab[0];
+    mem_read_limit_tab_ptr = mem_read_limit_tab[0];
 }
 
 /* ------------------------------------------------------------------------- */
