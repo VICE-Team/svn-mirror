@@ -1357,8 +1357,8 @@ case 74:
     break;}
 case 75:
 #line 218 "../../src/mon_parse.y"
-{ fprintf(mon_output,"Setting default device to %s\n",
-                                                         SPACESTRING(yyvsp[-1].i)); default_memspace = yyvsp[-1].i; ;
+{ fprintf(mon_output,"Setting default device to `%s'\n",
+                                                         _mon_space_strings[(int) yyvsp[-1].i]); default_memspace = yyvsp[-1].i; ;
     break;}
 case 76:
 #line 220 "../../src/mon_parse.y"

@@ -193,7 +193,6 @@ typedef struct monitor_interface monitor_interface_t;
 
 #define NUM_MEMSPACES 3
 #define DEFAULT_DISASSEMBLY_SIZE 40
-#define SPACESTRING(val) (val)?"disk":"computer"
 
 #define check_breakpoints(mem, addr) mon_check_checkpoint(mem, addr, breakpoints[mem])
 #define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
@@ -210,6 +209,8 @@ typedef struct monitor_interface monitor_interface_t;
 #define reg_regid(mr) (LO16(mr))
 
 /* Global variables */
+
+extern const char *_mon_space_strings[];
 
 extern char *register_string[];
 extern struct mon_cmds mon_cmd_array[];
