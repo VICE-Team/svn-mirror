@@ -182,6 +182,12 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
         return -1;
     }
 
+    if (SMW_WA(m, sid_state.rate_counter_period, 3) < 0
+        || SMW_WA(m, sid_state.exponential_counter_period, 3) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
     snapshot_module_close(m);
     return 0;
 }
@@ -234,6 +240,9 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
         snapshot_module_close(m);
         return -1;
     }
+
+    SMR_WA(m, sid_state.rate_counter_period, 3);
+    SMR_WA(m, sid_state.exponential_counter_period, 3);
 
     sid_state_write(0, &sid_state);
 
