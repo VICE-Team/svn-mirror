@@ -2,7 +2,7 @@
  * vic-snapshot.c - Snapshot support for the VIC-I emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,11 +29,10 @@
 #include <stdlib.h>
 
 #include "maincpu.h"
+#include "mem.h"
 #include "sound.h"
-
 #include "vic.h"
 #include "vic-mem.h"
-
 #include "vic-snapshot.h"
 
 
@@ -137,7 +136,7 @@ vic_snapshot_read_module (snapshot_t *s)
 	goto fail;
 
       /* XXX: This assumes that there are no side effects.  */
-      store_vic (i, b);
+      vic_store(i, b);
     }
 
   alarm_set (&vic.raster_draw_alarm,

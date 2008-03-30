@@ -31,7 +31,6 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "clkguard.h"
-#include "mem.h"
 #include "mon.h"
 #include "mos6510.h"
 #include "snapshot.h"

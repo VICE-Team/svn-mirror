@@ -53,6 +53,7 @@
 #include "drive.h"
 #include "log.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "parallel.h"
 #include "prdevice.h"
 #include "serial.h"

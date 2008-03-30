@@ -44,6 +44,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "pet.h"
 #include "petmem.h"
 #include "pets.h"
@@ -191,9 +192,9 @@ int machine_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-#define SIGNAL_VERT_BLANK_OFF   signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
+#define SIGNAL_VERT_BLANK_OFF   pia1_signal(PIA_SIG_CB1, PIA_SIG_RISE);
 
-#define SIGNAL_VERT_BLANK_ON    signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
+#define SIGNAL_VERT_BLANK_ON    pia1_signal(PIA_SIG_CB1, PIA_SIG_FALL);
 
 static void pet_crtc_signal(unsigned int signal) {
     if (signal) {
@@ -293,10 +294,10 @@ void machine_reset(void)
 {
     serial_reset();
 
-    reset_pia1();
-    reset_pia2();
+    pia1_reset();
+    pia2_reset();
     via_reset();
-    reset_acia1();
+    acia1_reset();
     crtc_reset();
     petsnd_reset();
     petmem_reset();
@@ -503,18 +504,18 @@ void pet_crtc_set_screen(void)
 
     /* No CRTC -> assume 40 columns */
     if(!petres.crtc) {
-	store_crtc(0,13); store_crtc(1,0);
-	store_crtc(0,12); store_crtc(1,0x10);
-	store_crtc(0,9); store_crtc(1,7);
-	store_crtc(0,8); store_crtc(1,0);
-	store_crtc(0,7); store_crtc(1,29);
-	store_crtc(0,6); store_crtc(1,25);
-	store_crtc(0,5); store_crtc(1,16);
-	store_crtc(0,4); store_crtc(1,32);
-	store_crtc(0,3); store_crtc(1,8);
-	store_crtc(0,2); store_crtc(1,50);
-	store_crtc(0,1); store_crtc(1,40);
-	store_crtc(0,0); store_crtc(1,63);
+	crtc_store(0,13); crtc_store(1,0);
+	crtc_store(0,12); crtc_store(1,0x10);
+	crtc_store(0,9); crtc_store(1,7);
+	crtc_store(0,8); crtc_store(1,0);
+	crtc_store(0,7); crtc_store(1,29);
+	crtc_store(0,6); crtc_store(1,25);
+	crtc_store(0,5); crtc_store(1,16);
+	crtc_store(0,4); crtc_store(1,32);
+	crtc_store(0,3); crtc_store(1,8);
+	crtc_store(0,2); crtc_store(1,50);
+	crtc_store(0,1); crtc_store(1,40);
+	crtc_store(0,0); crtc_store(1,63);
     }
 }
 

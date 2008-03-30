@@ -4,6 +4,7 @@
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -68,24 +69,23 @@ extern void mem_toggle_watchpoints(int flag);
 extern int mem_rom_trap_allowed(ADDRESS addr);
 extern void mem_set_bank_pointer(BYTE **base, int *limit);
 
-extern read_func_t read_rom, read_zero;
-extern store_func_t store_rom, store_zero;
+extern read_func_t rom_read, read_zero;
+extern store_func_t rom_store, store_zero;
 
 extern read_func_t mem_read;
 extern store_func_t mem_store;
 
 /* ------------------------------------------------------------------------- */
 
-/* Banked memory access functions for the monitor.  */
-
+/* Memory access functions for the monitor.  */
 extern const char **mem_bank_list(void);
 extern int mem_bank_from_name(const char *name);
 extern BYTE mem_bank_read(int bank, ADDRESS addr);
 extern BYTE mem_bank_peek(int bank, ADDRESS addr);
 extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
+extern void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns);
 
 /* Snapshots.  */
-
 extern int mem_write_snapshot_module(snapshot_t *s, int save_roms);
 extern int mem_read_snapshot_module(snapshot_t *s);
 

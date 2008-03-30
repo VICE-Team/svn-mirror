@@ -46,8 +46,8 @@
 
 #include "datasette.h"
 #include "log.h"
-#include "mem.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "serial.h"
 #include "t64.h"
 #include "tap.h"

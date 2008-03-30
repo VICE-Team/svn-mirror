@@ -2,7 +2,7 @@
  * c610mem.c - CBM-II memory handling.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,6 +45,7 @@
 #include "kbdbuf.h"
 #include "log.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "resources.h"
 #include "sid.h"
 #include "snapshot.h"
@@ -694,12 +695,12 @@ void REGPARM2 store_zeroX(ADDRESS addr, BYTE value)
     if(addr==1) set_bank_ind(value);
 }
 
-BYTE REGPARM1 read_rom(ADDRESS addr)
+BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     return rom[addr];
 }
 
-void REGPARM2 store_rom(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     rom[addr] = value;
 }
@@ -762,31 +763,31 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
 {
     switch(addr & 0xf800) {
     case 0xd000:
-	store_rom(addr, value);		/* video RAM mapped here... */
+	rom_store(addr, value);		/* video RAM mapped here... */
 	return;
     case 0xd800:
  	switch(addr & 0xff00) {
 	case 0xd800:
-            store_crtc(addr, value);
+            crtc_store(addr, value);
 	    return;
 	case 0xd900:
 	    return;			/* disk units */
 	case 0xda00:
-	    store_sid(addr & 0xff, value);
+	    sid_store(addr & 0xff, value);
 	    return;
 	case 0xdb00:
 	    return; 			/* coprocessor */
 	case 0xdc00:
-	    store_cia1(addr & 0x0f, value);
+	    cia1_store(addr & 0x0f, value);
 	    return;
 	case 0xdd00:
-	    store_acia1(addr & 0x03, value);
+	    acia1_store(addr & 0x03, value);
 	    return;
 	case 0xde00:
-	    store_tpi1(addr & 0x07, value);
+	    tpi1_store(addr & 0x07, value);
 	    return;
 	case 0xdf00:
-	    store_tpi2(addr & 0x07, value);
+	    tpi2_store(addr & 0x07, value);
 	    return;
 	}
     }
@@ -806,25 +807,25 @@ BYTE REGPARM1 read_io(ADDRESS addr)
 
     switch (addr & 0xf800) {
     case 0xd000:
-	return read_rom(addr);
+	return rom_read(addr);
     case 0xd800:
 	switch (addr & 0xff00) {
 	case 0xd800:
-            return read_crtc(addr);
+            return crtc_read(addr);
 	case 0xd900:
 	    return read_unused(addr);
 	case 0xda00:
-	    return read_sid(addr);
+	    return sid_read(addr);
 	case 0xdb00:
 	    return read_unused(addr);
 	case 0xdc00:
-	    return read_cia1(addr);
+	    return cia1_read(addr);
 	case 0xdd00:
-	    return read_acia1(addr);
+	    return acia1_read(addr);
 	case 0xde00:
-	    return read_tpi1(addr & 0x07);
+	    return tpi1_read(addr & 0x07);
 	case 0xdf00:
-	    return read_tpi2(addr & 0x07);
+	    return tpi2_read(addr & 0x07);
 	}
     }
     return read_unused(addr);
@@ -923,7 +924,7 @@ void initialize_memory(void)
 		_mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
 	    }
 	    for (;j<0xc0;j++) {
-		_mem_read_tab[i][j] = read_rom;
+		_mem_read_tab[i][j] = rom_read;
 		_mem_write_tab[i][j] = store_dummy;
 		_mem_read_base_tab[i][j] = rom + (j << 8);
 	    }
@@ -938,7 +939,7 @@ void initialize_memory(void)
 		_mem_read_base_tab[i][j] = NULL;
 	    }
 	    for (;j<0x100;j++) {
-		_mem_read_tab[i][j] = read_rom;
+		_mem_read_tab[i][j] = rom_read;
 		_mem_write_tab[i][j] = store_dummy;
 		_mem_read_base_tab[i][j] = rom + (j << 8);
 	    }
@@ -1310,25 +1311,25 @@ static BYTE peek_bank_io(ADDRESS addr)
     case 0xc800:
         return read_unused(addr);
     case 0xd000:
-        return read_rom(addr);
+        return rom_read(addr);
     case 0xd800:
         switch (addr & 0xff00) {
         case 0xd800:
-            return read_crtc(addr);
+            return crtc_read(addr);
         case 0xd900:
             return read_unused(addr);
         case 0xda00:
-            return read_sid(addr);
+            return sid_read(addr);
         case 0xdb00:
             return read_unused(addr);
         case 0xdc00:
-            return peek_cia1(addr);
+            return cia1_peek(addr);
         case 0xdd00:
-            return peek_acia1(addr);
+            return acia1_peek(addr);
         case 0xde00:
-            return peek_tpi1(addr & 0x07);
+            return tpi1_peek(addr & 0x07);
         case 0xdf00:
-            return peek_tpi2(addr & 0x07);
+            return tpi2_peek(addr & 0x07);
         }
     }
     return read_unused(addr);
@@ -1415,6 +1416,14 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 	}
     }
     store_dummy(addr, byte);
+}
+
+void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+{
+    /* FIXME */
+    *base = 0;
+    *rows = 25;
+    *columns = 80;
 }
 
 /*-----------------------------------------------------------------------*/

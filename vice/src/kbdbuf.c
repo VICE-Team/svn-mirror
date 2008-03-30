@@ -34,6 +34,7 @@
 #include "charsets.h"
 #include "cmdline.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "kbdbuf.h"
 #include "types.h"
 #include "utils.h"

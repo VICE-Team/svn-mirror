@@ -43,6 +43,7 @@
 #include "kbdbuf.h"
 #include "log.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "pet.h"
 #include "petacia.h"
 #include "petmem.h"
@@ -566,12 +567,12 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
     ram[addr & 0xff] = value;
 }
 
-BYTE REGPARM1 read_ram(ADDRESS addr)
+BYTE REGPARM1 ram_read(ADDRESS addr)
 {
     return ram[addr];
 }
 
-void REGPARM2 store_ram(ADDRESS addr, BYTE value)
+void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
 /*
 if (addr == 0x8000) printf("charline=%d, ycount=%d, char=%d\n",
@@ -610,12 +611,12 @@ static void REGPARM2 store_vmirror(ADDRESS addr, BYTE value)
     ram[0x8000 + (addr & (petres.videoSize - 1))] = value;
 }
 
-BYTE REGPARM1 read_rom(ADDRESS addr)
+BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     return rom[addr & 0x7fff];
 }
 
-void REGPARM2 store_rom(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     rom[addr & 0x7fff] = value;
 }
@@ -684,7 +685,7 @@ BYTE REGPARM1 read_super_io(ADDRESS addr)
         return read_unused(addr);
     } else
     if(addr >= 0xeff0) {	/* ACIA */
-	return read_acia1(addr & 0x03);
+	return acia1_read(addr & 0x03);
     } else
     if(addr >= 0xefe4) {	/* unused */
         return read_unused(addr);
@@ -716,7 +717,7 @@ void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
     if(addr >= 0xeff4) {	/* unused */
     } else
     if(addr >= 0xeff0) {	/* ACIA */
-	store_acia1(addr & 0x03, value);
+	acia1_store(addr & 0x03, value);
     } else
     if(addr >= 0xefe4) {	/* unused */
     } else
@@ -729,7 +730,7 @@ BYTE REGPARM1 read_super_9(ADDRESS addr)
     if (spet_ramen) {
 	return (ram+0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
     }
-    return read_rom(addr);
+    return rom_read(addr);
 }
 
 void REGPARM2 store_super_9(ADDRESS addr, BYTE value)
@@ -767,16 +768,16 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 void REGPARM2 store_io(ADDRESS addr, BYTE value)
 {
     if (addr & 0x10)
-        store_pia1(addr, value);
+        pia1_store(addr, value);
 
     if (addr & 0x20)
-        store_pia2(addr, value);
+        pia2_store(addr, value);
 
     if (addr & 0x40)
-        store_via(addr, value);
+        via_store(addr, value);
 
     if ((addr & 0x80) && petres.crtc) {
-        store_crtc(addr, value);
+        crtc_store(addr, value);
     }
 }
 
@@ -799,33 +800,33 @@ BYTE REGPARM1 read_io(ADDRESS addr)
 
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */
-        return read_pia1(addr);
+        return pia1_read(addr);
       case 0x20:                /* PIA2 */
-        return read_pia2(addr);
+        return pia2_read(addr);
       case 0x40:
-        return read_via(addr);  /* VIA */
+        return via_read(addr);  /* VIA */
       case 0x80:                /* CRTC */
         if (petres.crtc) {
-            return read_crtc(addr);
+            return crtc_read(addr);
         }
       case 0x00:
         return addr >> 8;
       default:                  /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
         if (addr & 0x10)
-            v1 = read_pia1(addr);
+            v1 = pia1_read(addr);
         else
             v1 = 0xff;
         if (addr & 0x20)
-            v2 = read_pia2(addr);
+            v2 = pia2_read(addr);
         else
             v2 = 0xff;
         if (addr & 0x40)
-            v3 = read_via(addr);
+            v3 = via_read(addr);
         else
             v3 = 0xff;
         v4 = 0xff;
         if ((addr & 0x80) && petres.crtc) {
-            v4 = read_crtc(addr);
+            v4 = crtc_read(addr);
         }
         return v1 & v2 & v3 & v4;
     }
@@ -846,7 +847,7 @@ static void set_std_9tof(void)
     static void (*store)(ADDRESS, BYTE);
     int ram9, rama;
 
-    store = (petres.map == 2) ? store_ram : store_dummy;
+    store = (petres.map == 2) ? ram_store : store_dummy;
     ram9 = (petres.map == 2 && petres.mem9) ? 1 : 0;
     rama = (petres.map == 2 && petres.memA) ? 1 : 0;
 
@@ -860,7 +861,7 @@ static void set_std_9tof(void)
         }
     } else {
         for (i = 0x90; i < 0xa0; i++) {
-            _mem_read_tab[i] = ram9 ? read_ram : read_rom;
+            _mem_read_tab[i] = ram9 ? ram_read : rom_read;
             _mem_write_tab[i] = store;
             _mem_read_base_tab[i] = ram9 ? ram + (i << 8) : rom + ((i & 0x7f) << 8);
             mem_read_limit_tab[i] = 0x9ffd;
@@ -869,7 +870,7 @@ static void set_std_9tof(void)
 
     /* Setup RAM/ROM at $A000 - $AFFF. */
     for (i = 0xa0; i < 0xb0; i++) {
-        _mem_read_tab[i] = rama ? read_ram : read_rom;
+        _mem_read_tab[i] = rama ? ram_read : rom_read;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rama ? ram + (i << 8) : rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0x9ffd;
@@ -877,7 +878,7 @@ static void set_std_9tof(void)
 
     /* Setup ROM at $B000 - $E7FF. */
     for (i = 0xb0; i <= 0xe7; i++) {
-        _mem_read_tab[i] = read_rom;
+        _mem_read_tab[i] = rom_read;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xe7fd;
@@ -915,7 +916,7 @@ static void set_std_9tof(void)
 
     /* Setup ROM at $e800 + petres.IOSize - $ffff */
     for (i = l; i <= 0xff; i++) {
-        _mem_read_tab[i] = read_rom;
+        _mem_read_tab[i] = rom_read;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xfffd;
@@ -1001,8 +1002,8 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                 l = 0x80;
                 if (value & 0x20) {     /* screen memory mapped through */
                     for (; l < 0x90; l++) {
-                        _mem_read_tab[l] = read_ram;
-                        _mem_write_tab[l] = store_ram;
+                        _mem_read_tab[l] = ram_read;
+                        _mem_write_tab[l] = ram_store;
                         _mem_read_base_tab[l] = ram + (l << 8);
                         mem_read_limit_tab[l] = 0x8ffd;
                     }
@@ -1046,8 +1047,8 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
             }
         } else {                /* disable ext. RAM */
             for (l = 0x80; l < 0x90; l++) {
-                _mem_read_tab[l] = read_ram;
-                _mem_write_tab[l] = store_ram;
+                _mem_read_tab[l] = ram_read;
+                _mem_write_tab[l] = ram_store;
                 _mem_read_base_tab[l] = ram + (l << 8);
                 mem_read_limit_tab[l] = 0x8ffd;
             }
@@ -1072,8 +1073,8 @@ static void set_vidmem(void) {
 */
     /* Setup RAM from $8000 to $8000 + petres.videoSize */
     for (i = 0x80; i < l; i++) {
-        _mem_read_tab[i] = read_ram;
-        _mem_write_tab[i] = store_ram;
+        _mem_read_tab[i] = ram_read;
+        _mem_write_tab[i] = ram_store;
         _mem_read_base_tab[i] = ram + (i << 8);
         mem_read_limit_tab[i] = (l<<8)-3;
     }
@@ -1111,8 +1112,8 @@ void initialize_memory(void)
 
     /* Setup RAM from $0000 to petres.ramSize */
     for (i = 0x00; i < l; i++) {
-        _mem_read_tab[i] = read_ram;
-        _mem_write_tab[i] = store_ram;
+        _mem_read_tab[i] = ram_read;
+        _mem_write_tab[i] = ram_store;
         _mem_read_base_tab[i] = ram + (i << 8);
         mem_read_limit_tab[i] = (l << 8) - 3;
     }
@@ -1744,33 +1745,33 @@ static BYTE peek_bank_io(ADDRESS addr)
     }
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */
-        return peek_pia1(addr);
+        return pia1_peek(addr);
       case 0x20:                /* PIA2 */
-        return peek_pia2(addr);
+        return pia2_peek(addr);
       case 0x40:
-        return peek_via(addr);  /* VIA */
+        return via_peek(addr);  /* VIA */
       case 0x80:                /* CRTC */
         if (petres.crtc) {
-            return read_crtc(addr);
+            return crtc_read(addr);
         }
       case 0x00:
         return addr >> 8;
       default:                  /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
         if (addr & 0x10)
-            v1 = peek_pia1(addr);
+            v1 = pia1_peek(addr);
         else
             v1 = 0xff;
         if (addr & 0x20)
-            v2 = peek_pia2(addr);
+            v2 = pia2_peek(addr);
         else
             v2 = 0xff;
         if (addr & 0x40)
-            v3 = peek_via(addr);
+            v3 = via_peek(addr);
         else
             v3 = 0xff;
         v4 = 0xff;
         if ((addr & 0x80) && petres.crtc) {
-            v4 = read_crtc(addr);
+            v4 = crtc_read(addr);
         }
         return v1 & v2 & v3 & v4;
     }
@@ -1864,6 +1865,14 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         break;
     }
     ram[addr] = byte;
+}
+
+void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+{
+    /* FIXME */
+    *base = 0;
+    *rows = 25;
+    *columns = 80;
 }
 
 /*-----------------------------------------------------------------------*/

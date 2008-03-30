@@ -2,7 +2,7 @@
  * c610.c
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -49,6 +49,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "resources.h"
 #include "serial.h"
 #include "sid.h"
@@ -262,10 +263,10 @@ void machine_reset(void)
 {
     serial_reset();
 
-    reset_acia1();
+    acia1_reset();
     cia1_reset();
-    reset_tpi1();
-    reset_tpi2();
+    tpi1_reset();
+    tpi2_reset();
 
     crtc_reset();
     sid_reset();
