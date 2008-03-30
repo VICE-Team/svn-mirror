@@ -338,7 +338,6 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/palette.h ../../../../../src/c64/psid.h \
-	../../../../../src/arch/unix/vsidproc.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h uihotkey.h uimenu.h \
 	../../../../../src/arch/unix/uisettings.h \
@@ -372,7 +371,6 @@ uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h uihotkey.h ../../../../../src/utils.h \
-	../../../../../src/arch/unix/vsidproc.h \
 	../../../../../src/vsync.h
 uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \

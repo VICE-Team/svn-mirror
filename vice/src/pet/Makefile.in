@@ -266,10 +266,10 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/monitor/mon.h pet.h petmem.h pets.h \
 	petsound.h ../../src/arch/unix/petui.h petvia.h petacia.h \
-	petpia.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h ../../src/via.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
+	petpia.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/via.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \

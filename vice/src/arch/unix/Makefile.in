@@ -138,7 +138,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uihotkey.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c 	vsidproc.h 	vsidproc.c 	vsidui.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uihotkey.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c 	vsidui.c
 
 
 bin_SCRIPTS = vsid
@@ -160,7 +160,7 @@ libarch_a_LIBADD =
 libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o console.o \
 coproc.o joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o \
 print.o rs232.o uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o \
-vsidproc.o vsidui.o
+vsidui.o
 SCRIPTS =  $(bin_SCRIPTS)
 
 CFLAGS = @CFLAGS@
@@ -446,19 +446,16 @@ vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/datasette.h joystick.h ../../../src/resources.h \
 	uicommands.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
 	uisettings.h ../../../src/vsync.h ../../../src/utils.h
-vsidproc.o: vsidproc.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/interrupt.h ../../../src/6510core.h types.h \
-	../../../src/log.h ../../../src/machine.h \
-	../../../src/c64/psid.h ../../../src/resources.h ui.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h ../../../src/vsync.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c64icon.xpm \
 	../../../src/attach.h ../../../src/c64/c64mem.h \
-	../../../src/mem.h ../../../src/machine.h \
-	../../../src/c64/psid.h vsidproc.h ../../../src/resources.h \
-	uicommands.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
-	uisettings.h ../../../src/utils.h ../../../src/vsync.h
+	../../../src/mem.h c64ui.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/log.h \
+	../../../src/machine.h ../../../src/c64/psid.h \
+	../../../src/resources.h uicommands.h uisettings.h \
+	../../../src/utils.h ../../../src/vsync.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \

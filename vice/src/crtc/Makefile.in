@@ -307,8 +307,8 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/raster/raster-modes.h ../../src/utils.h \
-	../../src/vsync.h
+	../../src/raster/raster-modes.h ../../src/screenshot.h \
+	../../src/utils.h ../../src/vsync.h
 
 info-am:
 info: info-am

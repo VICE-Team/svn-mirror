@@ -320,9 +320,10 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/mem.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/palette.h ../../src/raster/raster-modes.h \
-	../../src/snapshot.h ../../src/utils.h vic.h ../../src/alarm.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
+	vic.h ../../src/alarm.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/video.h \
+	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
@@ -340,11 +341,11 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/serial.h ../../src/sound.h \
-	../../src/tape.h ../../src/traps.h ../../src/utils.h \
-	../../src/via.h vic.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
+	../../src/monitor/mon.h ../../src/screenshot.h \
+	../../src/serial.h ../../src/sound.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/via.h vic.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \

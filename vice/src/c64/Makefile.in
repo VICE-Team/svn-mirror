@@ -287,7 +287,10 @@ distdir: $(DISTFILES)
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/autostart.h ../../src/arch/unix/types.h c64.h \
 	c64cart.h c64cia.h c64mem.h ../../src/mem.h c64tpi.h \
-	../../src/arch/unix/c64ui.h ../../src/cartridge.h \
+	../../src/arch/unix/c64ui.h ../../src/arch/unix/uimenu.h \
+	../../src/arch/unix/x11/xaw/uimenu.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/uihotkey.h ../../src/cartridge.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/snapshot.h \
 	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
 	../../src/drive/drive-cmdline-options.h \
@@ -297,13 +300,11 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h patchrom.h psid.h ../../src/resources.h \
-	reu.h ../../src/serial.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/tape.h ../../src/traps.h ../../src/utils.h \
-	../../src/vicii/vicii.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
+	reu.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/vicii/vicii.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/vsidui.h \
 	../../src/vsync.h c64acia.h c64rsuser.h ../../src/rs232.h \
 	../../src/rsuser.h ../../src/print.h ../../src/prdevice.h \
