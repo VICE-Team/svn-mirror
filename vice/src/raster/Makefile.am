@@ -10,6 +10,8 @@ libraster_a_SOURCES = \
 	raster-cache.h \
 	raster-changes.c \
 	raster-changes.h \
+	raster-line.c \
+	raster-line.h \
 	raster-modes.c \
 	raster-modes.h \
 	raster-sprite.c \
