@@ -164,6 +164,7 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     double fval;
     TCHAR newval[64];
     char *path;
+    TCHAR *st_path;
     HWND filename_hwnd;
 
     current_chip = chip_type;
@@ -174,7 +175,7 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
 
     /* As long as 'phase' isn't implemented, set a constant entry  */
-    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, "N/A");
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, TEXT("N/A"));
 
     resources_get_value("PALScanLineShade", (void *)&val);
         fval = ((double)val) / 1000.0;
@@ -219,13 +220,16 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     }
     resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
     palette_file = lib_stralloc(path);
-    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
+    st_path = system_mbstowcs_alloc(path);
+    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_path);
+    system_mbstowcs_free(st_path);
 }
 
 static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int n;
     char *path;
+    TCHAR *st_path;
     HWND filename_hwnd;
 
     current_chip2 = chip_type;
@@ -240,7 +244,9 @@ static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
     }
     resources_get_value(chip_type->res_PaletteFile_name, (void *)&path);
     palette_file2 = lib_stralloc(path);
-    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, path);
+    st_path = system_mbstowcs_alloc(path);
+    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_path);
+    system_mbstowcs_free(st_path);
 }
 
 static void update_palettename(char *name)
@@ -267,15 +273,15 @@ static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
       case WM_NOTIFY:
         if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, s, 100);
-            _stscanf(s, "%f", &tf);
+            _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorSaturation", (resource_value_t)ival);
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, s, 100);
-            _stscanf(s, "%f", &tf);
+            _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorContrast", (resource_value_t)ival);
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, s, 100);
-            _stscanf(s, "%f", &tf);
+            _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorBrightness", (resource_value_t)ival);
             querynewpalette = 1;
@@ -311,7 +317,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
       case WM_NOTIFY:
         if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
             GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, s, 100);
-            _stscanf(s, "%f", &tf);
+            _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorGamma", (resource_value_t)ival);
 
@@ -319,12 +325,12 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                                 (resource_value_t) res_extpalette);
 
             GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, s, 100);
-            _stscanf(s, "%f", &tf);
+            _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("PALScanLineShade", (resource_value_t)ival);
 
             GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, s, 100);
-            _stscanf(s, "%f", &tf);
+            _stscanf(s, TEXT("%f"), &tf);
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("PALBlur", (resource_value_t)ival);
 
@@ -342,7 +348,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                 return TRUE;
             }
             lib_free(palette_file);
-            palette_file=NULL;
+            palette_file = NULL;
             resources_set_value(current_chip->res_ExternalPalette_name,
                                 (resource_value_t)res_extpalette);
             SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
@@ -431,12 +437,15 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
           case IDC_VIDEO_CUSTOM_BROWSE:
             {
                 char *s;
+                TCHAR *st;
 
                 if ((s = ui_select_file(hwnd,"Load VICE palette file",
                     UI_LIB_FILTER_ALL | UI_LIB_FILTER_PALETTE,
                     FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
                     update_palettename2(s);
-                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, s);
+                    st = system_mbstowcs_alloc(s);
+                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st);
+                    system_mbstowcs_free(st);
                     lib_free(s);
                 }
             }
@@ -482,9 +491,9 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
     if (chip_param->palette_mode == UI_VIDEO_PAL) {
         psp[0].pfnDlgProc = dialog_color_proc;
-        psp[0].pszTitle = "Colors";
+        psp[0].pszTitle = TEXT("Colors");
         psp[1].pfnDlgProc = dialog_fullscreen_proc;
-        psp[1].pszTitle = "Fullscreen";
+        psp[1].pszTitle = TEXT("Fullscreen");
         psp[2].pfnDlgProc = dialog_advanced_proc;
         psp[2].pszTitle = chip_param->page_title;
         psp[2].lParam = (LPARAM)chip_param;
@@ -505,7 +514,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         psh.nPages = 3;
     } else {
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = "Fullscreen";
+        psp[0].pszTitle = TEXT("Fullscreen");
         psp[1].pfnDlgProc = dialog_palette_proc;
         psp[1].pszTitle = chip_param->page_title;
         psp[1].lParam = (LPARAM)chip_param;
@@ -547,7 +556,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "Video settings";
+    psh.pszCaption = TEXT("Video settings");
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
