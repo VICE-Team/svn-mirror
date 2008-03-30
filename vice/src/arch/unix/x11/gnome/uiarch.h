@@ -61,8 +61,7 @@ void ui_set_right_menu(GtkWidget *w);
 void ui_set_left_menu(GnomeUIInfo *w);
 void ui_set_right_menu(GnomeUIInfo *w);
 #endif
-void ui_set_drive8_menu(GtkWidget *w);
-void ui_set_drive9_menu(GtkWidget *w);
+void ui_set_drive_menu(int drvnr, GtkWidget *w);
 void ui_set_tape_menu(GtkWidget *w);
 void ui_set_speedmenu(GtkWidget *w);
 

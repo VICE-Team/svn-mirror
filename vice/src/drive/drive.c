@@ -50,6 +50,7 @@
 #include "attach.h"
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "drive-check.h"
 #include "drive-overflow.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -317,6 +318,7 @@ int drive_enable(drive_context_t *drv)
     int i, drive_true_emulation = 0;
     unsigned int dnr;
     drive_t *drive;
+    unsigned int enabled_drives = 0;
 
     dnr = drv->mynumber;
     drive = drv->drive;
@@ -343,21 +345,29 @@ int drive_enable(drive_context_t *drv)
 
     /* Make sure the UI is updated.  */
     for (i = 0; i < DRIVE_NUM; i++) {
+        unsigned int the_drive;
+ 
+        the_drive = 1 << i;
         if (drive_context[i]->drive->enable) {
+            enabled_drives |= the_drive;
             drive_context[i]->drive->old_led_status = -1;
             drive_context[i]->drive->old_half_track = -1;
         }
     }
 
     drive_set_active_led_color(drive->type, dnr);
+    ui_enable_drive_status(enabled_drives,
+                           drive_led_color);
+
+#if 0
     ui_enable_drive_status((drive_context[0]->drive->enable
                            ? UI_DRIVE_ENABLE_0 : 0)
                            | ((drive_context[1]->drive->enable
                            || (drive_context[0]->drive->enable
-                           && DRIVE_IS_DUAL(drive_context[0]->drive->type))
+                           && drive_check_dual(drive_context[0]->drive->type))
                            ) ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
-
+#endif
     return 0;
 }
 
@@ -396,7 +406,7 @@ void drive_disable(drive_context_t *drv)
                            ? UI_DRIVE_ENABLE_0 : 0)
                            | ((drive_context[1]->drive->enable
                            || (drive_context[0]->drive->enable
-                           && DRIVE_IS_DUAL(drive_context[0]->drive->type))
+                           && drive_check_dual(drive_context[0]->drive->type))
                            ) ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
 /*
@@ -642,17 +652,6 @@ static void drive_extend_disk_image(drive_t *drive)
     }
 }
 
-int drive_match_bus(unsigned int drive_type, unsigned int dnr, int bus_map)
-{
-    if ((drive_type == DRIVE_TYPE_NONE)
-        || (DRIVE_IS_IEEE(drive_type) && (bus_map & IEC_BUS_IEEE))
-        || ((!DRIVE_IS_IEEE(drive_type)) && (bus_map & IEC_BUS_IEC))
-    ) {
-        return 1;
-    }
-    return 0;
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Update the status bar in the UI.  */
@@ -671,7 +670,7 @@ void drive_update_ui_status(void)
         drive = drive_context[i]->drive;
         if (drive->enable
             || ((i == 1) && drive_context[0]->drive->enable
-            && DRIVE_IS_DUAL(drive_context[0]->drive->type))) {
+            && drive_check_dual(drive_context[0]->drive->type))) {
             int my_led_status = 0;
 
             /* Actually update the LED status only if the `trap idle'
@@ -690,7 +689,7 @@ void drive_update_ui_status(void)
                 drive->old_half_track = drive->current_half_track;
                 ui_display_drive_track(i, (i < 2
                                && drive_context[0]->drive->enable
-                               && DRIVE_IS_DUAL(drive_context[0]->drive->type))
+                               && drive_check_dual(drive_context[0]->drive->type))
                                ? 0 : 8, drive->current_half_track);
             }
         }
@@ -699,11 +698,11 @@ void drive_update_ui_status(void)
 
 int drive_num_leds(unsigned int dnr)
 {
-    if (DRIVE_IS_OLDTYPE(drive_context[dnr]->drive->type)) {
+    if (drive_check_old(drive_context[dnr]->drive->type)) {
         return 2;
     }
 
-    if ((dnr == 1) && DRIVE_IS_DUAL(drive_context[0]->drive->type)) {
+    if ((dnr == 1) && drive_check_dual(drive_context[0]->drive->type)) {
         return 2;
     }
 

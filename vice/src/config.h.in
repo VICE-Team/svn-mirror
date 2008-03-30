@@ -119,6 +119,9 @@
 /* Define to 1 if you have the `m' library (-lm). */
 #undef HAVE_LIBM
 
+/* Define to 1 if you have the `mp3lame' library (-lmp3lame). */
+#undef HAVE_LIBMP3LAME
+
 /* Define to 1 if you have the `resid' library (-lresid). */
 #undef HAVE_LIBRESID
 

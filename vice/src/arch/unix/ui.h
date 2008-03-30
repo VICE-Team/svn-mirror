@@ -92,9 +92,12 @@ extern void ui_set_application_icon(const char *icon_data[]);
 extern void ui_set_topmenu(const char *menu_name, ...);
 extern void ui_set_selected_file(int num);
 
+#ifdef USE_GNOMEUI
+extern void ui_destroy_drive_menu(int drnr);
+#else
 extern void ui_destroy_drive8_menu(void);
 extern void ui_destroy_drive9_menu(void);
-
+#endif
 extern void ui_update_pal_ctrls(int v);
 
 extern void ui_common_shutdown(void);

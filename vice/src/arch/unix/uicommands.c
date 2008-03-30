@@ -838,6 +838,11 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
         menuname = lib_msprintf("LeftDrive%iMenu%i", drive + 8, name_count);
 
+#ifdef USE_GNOMEUI
+	ui_destroy_drive_menu(drive);
+	ui_set_drive_menu(drive, ui_menu_create(menuname,
+						flipmenu[drive], NULL));
+#else
         /* ugly ... */
         if (drive == 0)
         {
@@ -853,6 +858,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
             ui_set_drive9_menu(ui_menu_create(menuname /*"LeftDrive9Menu"*/,
                                               flipmenu[drive], NULL));
         }
+
+#endif
 
         lib_free(menuname);
 

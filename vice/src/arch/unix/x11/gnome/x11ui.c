@@ -93,6 +93,8 @@ GdkVisual *visual;
 static int have_truecolor;
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
 char *last_attached_tape;
+static char *last_menus[NUM_DRIVES];
+static GtkWidget *last_drive_menus[NUM_DRIVES];
 
 static Display *display;
 int screen;
@@ -112,7 +114,8 @@ static int tape_control_status = -1;
 #define CTRL_WIDTH 13
 #define CTRL_HEIGHT 11
 
-static GtkWidget *drive8menu, *drive9menu, *tape_menu, *speed_menu;
+static GtkWidget *tape_menu, *speed_menu;
+static GtkWidget *drive_menus[NUM_DRIVES];
 GtkWidget *status_bar;
 GtkWidget *video_ctrl_checkbox;
 static GtkWidget *video_ctrl_checkbox_label;
@@ -457,87 +460,48 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 
 void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
+    int d = (int) data;
     if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
 	if (bevent->button == 1)
 	{
-	    if ((int) data == 0) 
+	    if ((d >= 0)&& (d < NUM_DRIVES))
 	    {
-		ui_update_flip_menus(8, 8);
+		ui_update_flip_menus(d+8, d+8);
 		ui_menu_update_all_GTK();
-		if (drive8menu)
-		    gtk_menu_popup(GTK_MENU(drive8menu),NULL,NULL,NULL,NULL,
-			       bevent->button, bevent->time);
-	    }
-	    if ((int) data == 1)
-	    {
-		ui_update_flip_menus(9, 9);
-		ui_menu_update_all_GTK();
-		if (drive9menu)
-		    gtk_menu_popup(GTK_MENU(drive9menu),NULL,NULL,NULL,NULL,
+		if (drive_menus[d])
+		    gtk_menu_popup(GTK_MENU(drive_menus[d]),
+				   NULL,NULL,NULL,NULL,
 				   bevent->button, bevent->time);
 	    }
 	}
 	else if (bevent->button == 3)
 	{
-	    if ((int) data == 0) 
+	    if (strcmp(last_attached_images[d], "") == 0)
 	    {
-		static char *last8menu;
-		static GtkWidget *l8menu;
-		
-		if (strcmp(last_attached_images[0], "") == 0)
-		{
-		    if (l8menu)
-			gtk_widget_destroy(l8menu);
-		    if (last8menu)
-			lib_free(last8menu);
-		    last8menu = NULL;
-		    return;
-		}
-		
-		if ((last8menu == NULL) ||
-		    (strcmp(last8menu, last_attached_images[0]) != 0))
-		{
-		    if (l8menu)
-			gtk_widget_destroy(l8menu);
-		    if (last8menu)
-			lib_free(last8menu);
-		    last8menu = lib_stralloc(last_attached_images[0]);
-		    l8menu = rebuild_contents_menu(8, last8menu);
-		}
-		if (l8menu)
-		    gtk_menu_popup(GTK_MENU(l8menu),NULL,NULL,NULL,NULL,
-				   bevent->button, bevent->time);
+		if (last_drive_menus[d])
+		    gtk_widget_destroy(last_drive_menus[d]);
+		if (last_menus)
+		    lib_free(last_menus[d]);
+		last_menus[d] = NULL;
+		return;
 	    }
-	    if ((int) data == 1)
+	    
+	    if ((last_menus[d] == NULL) ||
+		(strcmp(last_menus[d], last_attached_images[d]) != 0))
 	    {
-		static char *last9menu;
-		static GtkWidget *l9menu;
-		
-		if (strcmp(last_attached_images[1], "") == 0)
-		{
-		    if (l9menu)
-			gtk_widget_destroy(l9menu);
-		    if (last9menu)
-			lib_free(last9menu);
-		    last9menu = NULL;
-		    return;
-		}
-		
-		if ((last9menu == NULL) ||
-		    (strcmp(last9menu, last_attached_images[1]) != 0))
-		{
-		    if (l9menu)
-			gtk_widget_destroy(l9menu);
-		    if (last9menu)
-			lib_free(last9menu);
-		    last9menu = lib_stralloc(last_attached_images[1]);
-		    l9menu = rebuild_contents_menu(9, last9menu);
-		}
-		if (l9menu)
-		    gtk_menu_popup(GTK_MENU(l9menu),NULL,NULL,NULL,NULL,
-				   bevent->button, bevent->time);
+		if (last_drive_menus[d])
+		    gtk_widget_destroy(last_drive_menus[d]);
+		if (last_menus[d])
+		    lib_free(last_menus[d]);
+		last_menus[d] = lib_stralloc(last_attached_images[d]);
+		last_drive_menus[d] = 
+		    rebuild_contents_menu(d+8, last_menus[d]);
 	    }
+	    if (last_drive_menus[d])
+		gtk_menu_popup(GTK_MENU(last_drive_menus[d]),
+			       NULL, NULL, NULL, NULL,
+			       bevent->button, bevent->time);
 	}
     }
 }
@@ -774,13 +738,11 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
 
-    resources_get_value("PALEmulation", (void *)&i);
-
-    if (i == 0)	
-	gtk_widget_hide(pal_ctrl_checkbox);
-    else
+    if (resources_get_value("PALEmulation", (void *)&i) > 0 && (i > 0))
 	gtk_widget_show(pal_ctrl_checkbox);
-
+    else	
+	gtk_widget_hide(pal_ctrl_checkbox);
+    
     /* Video Control checkbox */
     video_ctrl_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
@@ -1945,16 +1907,16 @@ UI_CALLBACK(ui_popup_selected_file)
     int selected = ((int) UI_MENU_CB_PARAM) & 0x00ffffff;
     char *tmp;
     
-    if (unit == 9)
+    if (unit > 8)
     {
-	ui_message(_("Autostart not possible for unit 9"));
+	ui_message(_("Autostart not possible for unit %d"), unit);
 	return;
     }
     else if (unit == 8)
     {
 	tmp = lib_stralloc(last_attached_images[0]);
 	if (autostart_disk(last_attached_images[0], NULL, selected,
-            AUTOSTART_MODE_RUN) < 0)
+			   AUTOSTART_MODE_RUN) < 0)
 	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
 	lib_free(tmp);
@@ -2749,26 +2711,15 @@ UI_CALLBACK(exposure_callback_canvas)
 
 /* ------------------------------------------------------------------------- */
 
-void ui_destroy_drive8_menu(void)
+void ui_destroy_drive_menu(int drvnr)
 {
-    if (drive8menu)
-        gtk_widget_destroy(drive8menu);
+    if (drive_menus[drvnr])
+	gtk_widget_destroy(drive_menus[drvnr]);
 }
 
-void ui_destroy_drive9_menu(void)
+void ui_set_drive_menu(int drvnr, GtkWidget *w)
 {
-    if (drive9menu)
-        gtk_widget_destroy(drive9menu);
-}
-
-void ui_set_drive8_menu(GtkWidget *w)
-{
-    drive8menu = w;
-}
-
-void ui_set_drive9_menu(GtkWidget *w)
-{
-    drive9menu = w;
+    drive_menus[drvnr] = w;
 }
 
 void ui_set_tape_menu(GtkWidget *w)
