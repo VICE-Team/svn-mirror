@@ -125,43 +125,114 @@ void debug_output( const char *text, BYTE *what, int count )
    *ppname and *ppdescription are not altered.
 */
 
-/* For starters, give always eth0 */
-
-static int ethno = 0;
+static struct ifconf configdata;
+static int socketdesc = -1;
+static struct ifreq *pifreq = NULL;
 
 int tfe_arch_enumadapter_open(void)
 {
-    ethno = 0;
+    static char buffer[8192];
+
+    assert(socketdesc == -1);
+
+    if ((socketdesc = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        log_message(tfe_arch_log, "Cannot open socket for enumerating ethernet adapters");
+        return 0;
+    }
+
+    memset(buffer, 0, sizeof(buffer));
+    configdata.ifc_len = sizeof(buffer);
+    configdata.ifc_buf = buffer;
+
+    if (ioctl(socketdesc, SIOCGIFCONF, &configdata) < 0) {
+        log_message(tfe_arch_log, "Error performing ioctl() for enumerating ethernet adapters");
+        close(socketdesc);
+        return 0;
+    }
+
+    if (configdata.ifc_len >= sizeof(buffer) ) {
+        log_message(tfe_arch_log, "configdata to big while enumerating ethernet adapters");
+        return 0;
+    }
+
+    /* initialize the pointer for later */
+    pifreq = (struct ifreq*) buffer;
+
+    /* calculate (and remember) the count of entries in configdata */
+    configdata.ifc_len /= sizeof(struct ifreq*);
+
     return 1;
 }
 
 int tfe_arch_enumadapter(char **ppname, char **ppdescription)
 {
-    if (ethno++ == 0) {
-        *ppname = lib_stralloc("eth0");
-        *ppdescription = lib_stralloc("First ethernet device");
-        return 1;
+    assert(pifreq != 0);
+    assert(socketdesc >= 0);
+
+    if (configdata.ifc_len == 0)
+        return 0;
+
+    for (; configdata.ifc_len!=0; configdata.ifc_len--, pifreq++) {
+
+       /* get the flags for this interface; skip if it's not up */
+       if (ioctl(socketdesc, SIOCGIFFLAGS, pifreq) < 0) {
+           continue;
+       }
+
+       if ((pifreq->ifr_flags & IFF_UP) != 0) {
+
+           /* we found an interface that is up, return that */
+           *ppname = lib_stralloc(pifreq->ifr_name);
+           *ppdescription = lib_stralloc("");
+
+           /* prepare for the next iteration */
+           configdata.ifc_len--;
+           pifreq++;
+           return 1;
+       }
     }
+
     return 0;
 }
 
 int tfe_arch_enumadapter_close(void)
 {
+    assert(pifreq != 0);
+    assert(socketdesc >= 0);
+
+    close(socketdesc);
+
+    socketdesc = -1;
+    pifreq = NULL;
+
     return 1;
 }
 
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
 
-static char *should_activate = NULL;
-static int tfe_arch_activate_i(const char * const interface_name);
-
 int tfe_arch_init(void)
 {
     tfe_arch_log = log_open("TFEARCH");
 
-    if (should_activate)
-        return tfe_arch_activate_i(should_activate);
+/* only for testing! */
+#if 1
+    if (tfe_arch_enumadapter_open()) {
+        int i;
+        char *pname;
+        char *pdesc;
+
+        do {
+            if ((i = tfe_arch_enumadapter(&pname, &pdesc)) != 0) {
+                log_message(tfe_arch_log, "Found adapter: '%s', desc: '%s'", pname, pdesc);
+                lib_free(pname);
+                lib_free(pdesc);
+            }
+        } while (i != 0);
+
+        tfe_arch_enumadapter_close();
+    }
+#endif
 
     return 1;
 }
@@ -181,11 +252,10 @@ void tfe_arch_post_reset( void )
 }
 
 
-static
-int tfe_arch_activate_i(const char * const interface_name)
+int tfe_arch_activate(const char * const interface_name)
 {
 #ifdef TFE_DEBUG_ARCH
-    log_message( tfe_arch_log, "tfe_arch_activate_i()." );
+    log_message( tfe_arch_log, "tfe_arch_activate()." );
 #endif
 
     struct sockaddr_ll bindto;
@@ -261,49 +331,15 @@ int tfe_arch_activate_i(const char * const interface_name)
     return 1;
 }
 
-static
-void tfe_arch_deactivate_i( void )
-{
-#ifdef TFE_DEBUG_ARCH
-    log_message( tfe_arch_log, "tfe_arch_deactivate_i()." );
-#endif
-
-    if (packet_socket) {
-        close(packet_socket);
-        packet_socket = 0;
-    }
-}
-
-int tfe_arch_activate(const char * interface_name)
-{
-#ifdef TFE_DEBUG_ARCH
-    log_message( tfe_arch_log, "tfe_arch_activate()." );
-#endif
-
-    assert(should_activate==NULL);
-
-    should_activate = lib_stralloc(interface_name);
-
-    assert(should_activate);
-
-    if (tfe_arch_log != LOG_ERR)
-        return tfe_arch_activate_i(interface_name);
-
-    return 1;
-}
-
 void tfe_arch_deactivate( void )
 {
 #ifdef TFE_DEBUG_ARCH
     log_message( tfe_arch_log, "tfe_arch_deactivate()." );
 #endif
 
-    if (should_activate) {
-        if (tfe_arch_log != LOG_ERR)
-            tfe_arch_deactivate_i();
-
-        lib_free(should_activate);
-        should_activate = NULL;
+    if (packet_socket) {
+        close(packet_socket);
+        packet_socket = 0;
     }
 }
 
