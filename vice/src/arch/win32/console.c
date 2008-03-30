@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <assert.h>
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -204,6 +206,9 @@ static void mark_window_i(console_private_t *pcp, BOOLEAN bMark)
 
     if (bMark)
     {
+        assert( pcp->yMarkStart <= pcp->yMarkEnd );
+        assert( (pcp->yMarkStart < pcp->yMarkEnd) || (pcp->xMarkStart <= pcp->xMarkEnd) );
+
         xMinOld = xMin = pcp->xMarkStart                           / pcp->xCharDimension;
         yMinOld = yMin = pcp->yMarkStart                           / pcp->yCharDimension;
         xMaxOld = xMax = (pcp->xMarkEnd   + pcp->xCharDimension-1) / pcp->xCharDimension;
@@ -852,6 +857,9 @@ void MarkModeInClipboard( console_private_t *pcp )
 
         buffer[0] = 0; // make sure that removing trailing spaces will not go beyond this
 
+        assert( pcp->yMarkStart <= pcp->yMarkEnd );
+        assert( (pcp->yMarkStart < pcp->yMarkEnd) || (pcp->xMarkStart <= pcp->xMarkEnd) );
+
         xMin = pcp->xMarkStart                           / pcp->xCharDimension;
         yMin = pcp->yMarkStart                           / pcp->yCharDimension;
         xMax = (pcp->xMarkEnd   + pcp->xCharDimension-1) / pcp->xCharDimension;
@@ -862,12 +870,16 @@ void MarkModeInClipboard( console_private_t *pcp )
         {
             for (row = yMin; row < yMax; row++)
             {
+                assert(xMax >= xMin);
                 memcpy( p, &pcp->pchWindowBuffer[CALC_POS(xMin,row)], xMax-xMin );
                 p += xMax-xMin;
 
                 /* delete trailing spaces */
-                while (p[-1] == ' ')
+                assert(p>buffer);
+                while (p[-1] == ' ') {
                     --p;
+                    assert(p>buffer);
+                }
 
                 *p++ = 13; *p++ = 10;
             }
@@ -877,22 +889,30 @@ void MarkModeInClipboard( console_private_t *pcp )
             if (yMin+1 == yMax)
             {
                 /* we have just one line */
+                assert(xMax >= xMin);
                 memcpy( p, &pcp->pchWindowBuffer[CALC_POS(xMin,yMin)], xMax-xMin );
                 p += xMax-xMin;
 
                 /* delete trailing spaces */
-                while (p[-1] == ' ')
+                assert(p>buffer);
+                while (p[-1] == ' ') {
                     --p;
+                    assert(p>buffer);
+                }
             }
             else
             {
                 /* handle first line */
+                assert(pcp->xMax >= xMin);
                 memcpy( p, &pcp->pchWindowBuffer[CALC_POS(xMin,yMin)], pcp->xMax-xMin );
                 p += pcp->xMax-xMin;
 
                 /* delete trailing spaces */
-                while (p[-1] == ' ')
+                assert(p>buffer);
+                while (p[-1] == ' ') {
                     --p;
+                    assert(p>buffer);
+                }
 
                 *p++ = 13; *p++ = 10;
 
@@ -903,8 +923,11 @@ void MarkModeInClipboard( console_private_t *pcp )
                     p += pcp->xMax;
 
                     /* delete trailing spaces */
-                    while (p[-1] == ' ')
+                    assert(p>buffer);
+                    while (p[-1] == ' ') {
                         --p;
+                        assert(p>buffer);
+                    }
 
                     *p++ = 13; *p++ = 10;
                 }
@@ -914,11 +937,16 @@ void MarkModeInClipboard( console_private_t *pcp )
                 p += xMax;
 
                 /* delete trailing spaces */
-                while (p[-1] == ' ')
+                assert(p>buffer);
+                while (p[-1] == ' ') {
                     --p;
+                    assert(p>buffer);
+                }
             }
         }
 
+        assert(p>buffer);
+        assert(p<&buffer[(pcp->xMax+2)*pcp->yMax + 1 + 1]);
         *p = 0;
 
         // +1 because we have written a leading zero at buffer[0]
@@ -1000,6 +1028,13 @@ BOOLEAN MarkModeMove( console_private_t *pcp, int fwKeys, short xPos, short yPos
             pcp->yMarkStart = pcp->yMarkOrigin;
             pcp->yMarkEnd   = yPos;
         }
+        else if (yPos == pcp->yMarkOrigin)
+        {
+            pcp->xMarkStart = min(xPos, pcp->xMarkOrigin);
+            pcp->xMarkEnd   = max(xPos, pcp->xMarkOrigin);
+            pcp->yMarkStart =
+            pcp->yMarkEnd   = yPos;
+        }
         else
         {
             pcp->xMarkStart = xPos;
@@ -1008,6 +1043,9 @@ BOOLEAN MarkModeMove( console_private_t *pcp, int fwKeys, short xPos, short yPos
             pcp->yMarkEnd   = pcp->yMarkOrigin;
         }
     }
+
+    assert( pcp->yMarkStart <= pcp->yMarkEnd );
+    assert( (pcp->yMarkStart < pcp->yMarkEnd) || (pcp->xMarkStart <= pcp->xMarkEnd) );
 
     mark_window( pcp );
 
@@ -1415,7 +1453,6 @@ static long CALLBACK console_window_proc(HWND hwnd,
 
     case WM_RBUTTONUP:
         /* the user wants to mark a region */
-        /* StartMarkMode( fwKeys, xPos, yPos ); */
         if (MarkModeEnd( pcp, wParam, LOWORD(lParam), HIWORD(lParam) ))
             return 0;
         break;
