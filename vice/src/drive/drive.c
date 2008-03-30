@@ -528,18 +528,12 @@ static BYTE *drive_rom1541ii;
 static BYTE *drive_rom1571;
 static BYTE *drive_rom1581;
 static BYTE *drive_rom2031;
-
-BYTE *drive0_ram;
-BYTE *drive1_ram;
 #else
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
 static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
-
-BYTE drive0_ram[DRIVE_RAM_SIZE];
-BYTE drive1_ram[DRIVE_RAM_SIZE];
 #endif
 
 /* If nonzero, the ROM image has been loaded.  */
@@ -982,9 +976,6 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_rom1571 = xmalloc(DRIVE_ROM1571_SIZE);
     drive_rom1581 = xmalloc(DRIVE_ROM1581_SIZE);
     drive_rom2031 = xmalloc(DRIVE_ROM2031_SIZE);
-
-    drive0_ram = xmalloc(DRIVE_RAM_SIZE);
-    drive1_ram = xmalloc(DRIVE_RAM_SIZE);
 #endif
 
     drive_clk[0] = 0L;

@@ -345,12 +345,8 @@ extern int drive_read_snapshot_module(snapshot_t *s);
 
 #ifdef AVOID_STATIC_ARRAYS
 extern BYTE *drive_rom;
-extern BYTE *drive0_ram;
-extern BYTE *drive1_ram;
 #else
 extern BYTE drive_rom[DRIVE_ROM_SIZE];
-extern BYTE drive0_ram[DRIVE_RAM_SIZE];
-extern BYTE drive1_ram[DRIVE_RAM_SIZE];
 #endif
 
 extern void drive0_parallel_set_atn(int);
