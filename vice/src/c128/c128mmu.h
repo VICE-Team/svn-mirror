@@ -36,6 +36,7 @@ extern void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr);
 
 extern void mmu_reset(void);
+extern void mmu_set_config64(int config);
 
 extern void mmu_init(void);
 extern int mmu_init_resources(void);
