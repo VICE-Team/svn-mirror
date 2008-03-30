@@ -376,3 +376,29 @@ int archdep_mkdir(const char *pathname, int mode)
     return mkdir(pathname, (mode_t)mode);
 }
 
+int archdep_file_is_blockdev(const char *name)
+{
+    struct stat buf;
+
+    if (stat(name, &buf) != 0)
+        return 0;
+
+    if (S_ISBLK(buf.st_mode))
+        return 1;
+
+    return 0;
+}
+
+int archdep_file_is_chardev(const char *name)
+{
+    struct stat buf;
+
+    if (stat(name, &buf) != 0)
+        return 0;
+
+    if (S_ISCHR(buf.st_mode))
+        return 1;
+
+    return 0;
+}
+
