@@ -50,22 +50,26 @@
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
 #include "ioutil.h"
+#include "serial.h"
 #include "types.h"
 #include "utils.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
 
-BYTE fs_cmdbuf[MAXPATHLEN];
+static BYTE fs_cmdbuf[4][MAXPATHLEN];
+static unsigned int fs_cptr[4] = { 0, 0, 0, 0 };
 
 
 static int fsdevice_flush_mr(vdrive_t *vdrive)
 {
+    unsigned int dnr;
     ADDRESS addr;
 
-    addr = fs_cmdbuf[3] | (fs_cmdbuf[4] << 8);
+    dnr = vdrive->unit - 8;
+    addr = fs_cmdbuf[dnr][3] | (fs_cmdbuf[dnr][4] << 8);
 
-    return vdrive_command_memory_read(vdrive, addr, fs_cmdbuf[5]);
+    return vdrive_command_memory_read(vdrive, addr, fs_cmdbuf[dnr][5]);
 }
 
 static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
@@ -266,38 +270,47 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *arg, char *realarg)
 
 void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 {
+    unsigned int dnr;
     char *cmd, *realarg, *arg;
     char cbmcmd[MAXPATHLEN];
     int er = IPE_SYNTAX;
 
-    if (secondary != 15 || !fs_cptr)
+    dnr = vdrive->unit - 8;
+
+    if (secondary != 15 || !fs_cptr[dnr])
         return;
 
+    /* FIXME: Use `vdrive_command_parse()'! */
     /* remove trailing cr */
-    while (fs_cptr && (fs_cmdbuf[fs_cptr - 1] == 13))
-        fs_cptr--;
-    fs_cmdbuf[fs_cptr] = 0;
+    while (fs_cptr[dnr] && (fs_cmdbuf[dnr][fs_cptr[dnr] - 1] == 13))
+        fs_cptr[dnr]--;
 
-    strcpy(cbmcmd, fs_cmdbuf);
+    fs_cmdbuf[dnr][fs_cptr[dnr]] = 0;
+
+    strcpy(cbmcmd, fs_cmdbuf[dnr]);
     charset_petconvstring((BYTE *)cbmcmd, 1);   /* CBM name to FSname */
     cmd = cbmcmd;
+
     while (*cmd == ' ')
         cmd++;
 
     arg = strchr(cbmcmd, ':');
+
     if (arg) {
         *arg++ = '\0';
     }
-    realarg = strchr(fs_cmdbuf, ':');
+
+    realarg = strchr(fs_cmdbuf[dnr], ':');
+
     if (realarg) {
         *realarg++ = '\0';
     }
 
-    if (!strncmp(fs_cmdbuf, "M-R", 3)) {
+    if (!strncmp(fs_cmdbuf[dnr], "M-R", 3)) {
         er = fsdevice_flush_mr(vdrive);
     } else if (!strcmp(cmd, "cd")) {
         er = fsdevice_flush_cd(vdrive, arg);
-    } else if (!strcmp(fs_cmdbuf, "CD_")) {
+    } else if (!strcmp(fs_cmdbuf[dnr], "CD_")) {
         er = fsdevice_flush_cdup(vdrive);
     } else if (*cmd == '/') {
         er = fsdevice_flush_partition(vdrive, arg);
@@ -314,6 +327,27 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     }
 
     fsdevice_error(vdrive, er);
-    fs_cptr = 0;
+
+    fs_cptr[dnr] = 0;
+}
+
+int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
+{
+    unsigned int dnr;
+    int rc;
+
+    dnr = vdrive->unit - 8;
+    rc = SERIAL_OK;
+
+    /* FIXME: Consider the real size of the input buffer. */
+    if (fs_cptr[dnr] < MAXPATHLEN - 1) {
+        fs_cmdbuf[dnr][fs_cptr[dnr]++] = data;
+        rc = SERIAL_OK;
+    } else {
+        fsdevice_error(vdrive, IPE_LONG_LINE);
+        rc = SERIAL_ERROR;
+    }
+
+    return rc;
 }
 

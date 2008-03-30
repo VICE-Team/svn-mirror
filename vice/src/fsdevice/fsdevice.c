@@ -89,10 +89,9 @@ fs_buffer_info_t fs_info[16];
 
 /* this should somehow go into the fs_info struct... */
 
-char fs_errorl[MAXPATHLEN];
-unsigned int fs_eptr;
-size_t fs_elen;
-unsigned int fs_cptr = 0;
+static char fs_errorl[4][MAXPATHLEN];
+static unsigned int fs_eptr[4];
+static size_t fs_elen[4];
 
 char fs_dirmask[MAXPATHLEN];
 
@@ -135,8 +134,8 @@ char *fsdevice_get_path(unsigned int unit)
       case 11:
         return fsdevice_dir[unit - 8];
       default:
-        log_error(LOG_DEFAULT, "Boom! fsdevice_get_path called with "
-                                                "invalid device %d",unit);
+        log_error(LOG_DEFAULT,
+                  "fsdevice_get_pathi() called with invalid device %d.", unit);
         break;
     }
     return NULL;
@@ -144,14 +143,18 @@ char *fsdevice_get_path(unsigned int unit)
 
 void fsdevice_error(vdrive_t *vdrive, int code)
 {
-    static int last_code;
+    unsigned int dnr;
+    static int last_code[4];
     const char *message;
 
+    dnr = vdrive->unit - 8;
+
     /* Only set an error once per command */
-    if (code != IPE_OK && last_code != IPE_OK && last_code != IPE_DOS_VERSION)
+    if (code != IPE_OK && last_code[dnr] != IPE_OK
+        && last_code[dnr] != IPE_DOS_VERSION)
         return;
 
-    last_code = code;
+    last_code[dnr] = code;
 
     if (code != IPE_MEMORY_READ) {
         if (code == IPE_DOS_VERSION) {
@@ -167,18 +170,42 @@ void fsdevice_error(vdrive_t *vdrive, int code)
                 message = "UNKNOWN ERROR NUMBER";
         }
 
-        sprintf(fs_errorl, "%02d,%s,00,00\015", code, message);
+        sprintf(fs_errorl[dnr], "%02d,%s,00,00\015", code, message);
 
-        fs_elen = strlen(fs_errorl);
+        fs_elen[dnr] = strlen(fs_errorl[dnr]);
 
         if (code && code != IPE_DOS_VERSION)
             log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
     } else {
-        memcpy(fs_errorl, vdrive->mem_buf, vdrive->mem_length);
-        fs_elen  = vdrive->mem_length;
+        memcpy(fs_errorl[dnr], vdrive->mem_buf, vdrive->mem_length);
+        fs_elen[dnr]  = vdrive->mem_length;
 
     }
-    fs_eptr = 0;
+
+    fs_eptr[dnr] = 0;
+}
+
+int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
+{
+    unsigned int dnr;
+    int rc;
+
+    dnr = vdrive->unit - 8;
+    rc = SERIAL_OK;
+
+    if (!fs_elen[dnr])
+        fsdevice_error(vdrive, IPE_OK);
+
+    if (fs_eptr[dnr] < fs_elen[dnr]) {
+        *data = (BYTE)fs_errorl[dnr][fs_eptr[dnr]++];
+        rc = SERIAL_OK;
+    } else {
+        fsdevice_error(vdrive, IPE_OK);
+        *data = 0xc7;
+        rc = SERIAL_EOF;
+    }
+
+    return rc;
 }
 
 void fsdevice_test_pc64_name(vdrive_t *vdrive, char *rname, int secondary)
