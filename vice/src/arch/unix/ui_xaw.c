@@ -948,14 +948,19 @@ void UiDisplayDriveLed(int status)
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
-void UiDisplayPaused(void)
+void UiDisplayPaused(int flag)
 {
     int i;
     char str[1024];
 
     for (i = 0; i < NumAppShells; i++) {
-	sprintf(str, "%s (paused)", AppShells[i].title);
-	XtVaSetValues(AppShells[i].shell, XtNtitle, str, NULL);
+	if (flag) {
+	    sprintf(str, "%s (paused)", AppShells[i].title);
+	    XtVaSetValues(AppShells[i].shell, XtNtitle, str, NULL);
+	} else {
+	    XtVaSetValues(AppShells[i].shell, XtNtitle,
+			  AppShells[i].title, NULL);
+	}
     }
 }
 
@@ -2407,13 +2412,15 @@ CallbackFunc(UiTogglePause)
     static int paused;
 
     if (paused) {
-	if (call_data == NULL)
+	if (call_data == NULL) {
+	    UiDisplayPaused(0);
 	    paused = 0;
+	}
     } else {			/* !paused */
 	if (call_data == NULL) {
 	    paused = 1;
 	    XtVaSetValues(w, XtNleftBitmap, CheckmarkBitmap, NULL);
-	    UiDisplayPaused();
+	    UiDisplayPaused(1);
 	    suspend_speed_eval();
 	    while (paused)
 		UiDispatchNextEvent();

@@ -59,7 +59,7 @@ extern void UiDisplaySpeed(float percent, float framerate);
 extern void UiToggleDriveStatus(int state);
 extern void UiDisplayDriveTrack(double track_number);
 extern void UiDisplayDriveLed(int status);
-extern void UiDisplayPaused(void);
+extern void UiDisplayPaused(int flag);
 extern void UiDispatchEvents(void);
 extern void UiError(const char *format,...);
 extern int UiJamDialog(const char *format,...);
