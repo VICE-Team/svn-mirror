@@ -123,31 +123,30 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, drive_idle_method, n;
-    char tmp[256];
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541),
-                 drive_check_type(DRIVE_TYPE_1541, num));
+                 drive_check_type(DRIVE_TYPE_1541, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II),
-                 drive_check_type(DRIVE_TYPE_1541II, num));
+                 drive_check_type(DRIVE_TYPE_1541II, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571),
-                 drive_check_type(DRIVE_TYPE_1571, num));
+                 drive_check_type(DRIVE_TYPE_1571, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581),
-                 drive_check_type(DRIVE_TYPE_1581, num));
+                 drive_check_type(DRIVE_TYPE_1581, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031),
-                 drive_check_type(DRIVE_TYPE_2031, num));
+                 drive_check_type(DRIVE_TYPE_2031, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1001),
-                 drive_check_type(DRIVE_TYPE_1001, num));
+                 drive_check_type(DRIVE_TYPE_1001, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8050),
-                 drive_check_type(DRIVE_TYPE_8050, num));
+                 drive_check_type(DRIVE_TYPE_8050, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8250),
-                 drive_check_type(DRIVE_TYPE_8250, num));
+                 drive_check_type(DRIVE_TYPE_8250, num - 8));
 
-    sprintf(tmp, "Drive%dType", num);
-    resources_get_value(tmp, (resource_value_t *) &drive_type);
-    sprintf(tmp, "Drive%dExtendImagePolicy", num);
-    resources_get_value(tmp, (resource_value_t *) &drive_extend_image_policy);
-    sprintf(tmp, "Drive%dIdleMethod", num);
-    resources_get_value(tmp, (resource_value_t *) &drive_idle_method);
+    resources_get_sprintf("Drive%dType",
+                          (resource_value_t *) &drive_type, num);
+    resources_get_sprintf("Drive%dExtendImagePolicy",
+                          (resource_value_t *) &drive_extend_image_policy, num);
+    resources_get_sprintf("Drive%dIdleMethod",
+                          (resource_value_t *) &drive_idle_method, num);
 
     switch (drive_type) {
       case DRIVE_TYPE_NONE:
@@ -214,33 +213,27 @@ static void init_dialog(HWND hwnd, int num)
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE,
                      IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, n);
 
-    sprintf(tmp, "Drive%dParallelCable", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
+    resources_get_sprintf("Drive%dParallelCable", (resource_value_t *) &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "Drive%dRAM2000", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
+    resources_get_sprintf("Drive%dRAM2000", (resource_value_t *) &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "Drive%dRAM4000", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
+    resources_get_sprintf("Drive%dRAM4000", (resource_value_t *) &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "Drive%dRAM6000", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
+    resources_get_sprintf("Drive%dRAM6000", (resource_value_t *) &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "Drive%dRAM8000", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
+    resources_get_sprintf("Drive%dRAM8000", (resource_value_t *) &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "Drive%dRAMA000", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
+    resources_get_sprintf("Drive%dRAMA000", (resource_value_t *) &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 }
