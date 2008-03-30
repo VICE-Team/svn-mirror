@@ -204,6 +204,14 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width, unsigned int heigh
 
 void frame_buffer_free(frame_buffer_t *i)
 {
+  canvas_list_t *clist = CanvasList;
+
+  while (clist != NULL)
+  {
+    if (clist->canvas->fb.tmpframebuffer == i->tmpframebuffer)
+      clist->canvas->fb.tmpframebuffer = NULL;
+    clist = clist->next;
+  }
   free(i->tmpframebuffer);
 }
 
@@ -304,7 +312,6 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
   {
     CanvasList = newCanvas;
     canvas->window = EmuWindow;
-    ActiveCanvas = canvas;
   }
   else
   {
@@ -319,14 +326,12 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
     list->next = newCanvas;
   }
 
+  ActiveCanvas = canvas;
   wimp_window_set_extent(canvas->window, 0, - *height << UseEigen, *width << UseEigen, 0);
   ui_open_emu_window(canvas->window, NULL);
 
-  if (canvas->window == EmuWindow)
-  {
-    Wimp_GetCaretPosition(&LastCaret);
-    Wimp_SetCaretPosition(EmuWindow->Handle, -1, -100, 100, -1, -1);
-  }
+  Wimp_GetCaretPosition(&LastCaret);
+  Wimp_SetCaretPosition(canvas->window->Handle, -1, -100, 100, -1, -1);
 
   NumberOfCanvases++;
 
@@ -402,7 +407,7 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
   ge.dimx = frame_buffer.width; ge.dimy = frame_buffer.height;
   canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
 
-  if (canvas->fb.tmpframebuffer == NULL)
+  if ((canvas->fb.tmpframebuffer == NULL) || (canvas->fb.tmpframebuffer != frame_buffer.tmpframebuffer))
   {
     memcpy(&(canvas->fb), &frame_buffer, sizeof(frame_buffer_t));
   }

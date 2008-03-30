@@ -280,6 +280,7 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_SetPalette	49
 #define Icon_Conf_Keyboard	50
 #define Icon_Conf_KeyboardT	51
+#define Icon_Conf_Key8040	52
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -516,11 +517,15 @@ static conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9T},\
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9},
 
+#define ICON_LIST_NOTVDC \
+  {CONF_WIN_SYSTEM, Icon_Conf_Key8040},
+
 
 /* Config icons that are greyed out in some CBM machines */
 static conf_icon_id conf_grey_x64[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
+  ICON_LIST_NOTVDC
   {CONF_WIN_DEVICES, Icon_Conf_ACIAD67},
   {0xff, 0xff}
 };
@@ -538,6 +543,7 @@ static conf_icon_id conf_grey_xvic[] = {
   ICON_LIST_SID
   ICON_LIST_DEVICES
   ICON_LIST_PET
+  ICON_LIST_NOTVDC
   {0xff, 0xff}
 };
 
@@ -549,6 +555,7 @@ static conf_icon_id conf_grey_xpet[] = {
   ICON_LIST_DEVICES
   ICON_LIST_SID
   ICON_LIST_TRUE
+  ICON_LIST_NOTVDC
   {0xff, 0xff}
 };
 
@@ -559,6 +566,7 @@ static conf_icon_id conf_grey_xcbm2[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
   ICON_LIST_DEVRSUSR
+  ICON_LIST_NOTVDC
   {0xff, 0xff}
 };
 
@@ -976,6 +984,7 @@ static const char Rsrc_C2Mem[] = "RamSize";
 static const char Rsrc_FullScr[] = "ScreenMode";
 static const char Rsrc_FullSetPal[] = "ScreenSetPalette";
 static const char Rsrc_CoreDump[] = "DoCoreDump";
+static const char Rsrc_Key8040[] = "40/80ColumnKey";
 
 /*static const char Rsrc_PetKeymap[] = "KeymapIndex";*/
 
@@ -1135,7 +1144,7 @@ static struct MenuSoundBuffer {
 #define Menu_TrueIdle_NoTraps	0
 #define Menu_TrueIdle_SkipC	1
 #define Menu_TrueIdle_Trap	2
-#define Menu_TrueType_Items	7
+#define Menu_TrueType_Items	9
 #define Menu_TrueType_Width	200
 #define Menu_TrueType_None	0
 #define Menu_TrueType_1541	1
@@ -1144,6 +1153,8 @@ static struct MenuSoundBuffer {
 #define Menu_TrueType_1581	4
 #define Menu_TrueType_2031	5
 #define Menu_TrueType_1001	6
+#define Menu_TrueType_8050	7
+#define Menu_TrueType_8250	8
 
 #define TRUE_DRIVE_EXTEND_MENU(name, title) \
   static struct name { \
@@ -1184,7 +1195,9 @@ static struct MenuSoundBuffer {
       MENU_ITEM("\\MenDtp1571"), \
       MENU_ITEM("\\MenDtp1581"), \
       MENU_ITEM("\\MenDtp2031"), \
-      MENU_ITEM_LAST("\\MenDtp1001") \
+      MENU_ITEM("\\MenDtp1001"), \
+      MENU_ITEM("\\MenDtp8050"), \
+      MENU_ITEM_LAST("\\MenDtp8250") \
     } \
   };
 
@@ -1852,6 +1865,7 @@ static config_item Configurations[] = {
   {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAMA}},
   {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetDiagPin}},
   {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetSuper}},
+  {Rsrc_Key8040, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_Key8040}},
   {NULL, 0, {0, 0}}
 };
 
@@ -1912,7 +1926,7 @@ static struct MenuDisplayTrueSync {
   } MenuDisplayTrueType##n = { \
     {Rsrc_TrueType##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType##n##T}, \
       (RO_MenuHead*)&MenuTrueType##n, Menu_TrueType_Items, 0, 0}, \
-    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031, DRIVE_TYPE_1001} \
+    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031, DRIVE_TYPE_1001, DRIVE_TYPE_8050, DRIVE_TYPE_8250} \
   };
 
 DISP_TRUE_DRIVE_EXTEND_MENU(8)
