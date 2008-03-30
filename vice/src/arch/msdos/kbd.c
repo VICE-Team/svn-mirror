@@ -210,6 +210,7 @@ static int handle_joy_emu(int kcode, int pressed)
 	    joy[app_resources.joyPort] &= ~1;
 	    break;
 	  case K_KP2:
+          case K_KP5:
 	    joy[app_resources.joyPort] &= ~2;
 	    break;
 	  case K_KP4:
