@@ -998,7 +998,7 @@ int mon_cmd_lookup_index(char *str, int *push_back)
          *push_back = 0;
          return num;
       }
-      else if (strlen(mon_cmd_array[num].abbrev) && 
+      else if (strlen(mon_cmd_array[num].abbrev) &&
                strncasecmp(str, mon_cmd_array[num].abbrev, strlen(mon_cmd_array[num].abbrev)) == 0) {
          *push_back = strlen(mon_cmd_array[num].abbrev);
          partial = num;
@@ -2174,8 +2174,8 @@ void mon_instructions_next(int count)
 void mon_instruction_return(void)
 {
    instruction_count = 1;
-   wait_for_return_level = (GET_OPCODE(caller_space) == OP_RTS) 
-                           ? 0 
+   wait_for_return_level = (GET_OPCODE(caller_space) == OP_RTS)
+                           ? 0
                            : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1;
    skip_jsrs = TRUE;
    exit_mon = 1;
@@ -2479,7 +2479,7 @@ static void print_checkpoint_info(breakpoint *bp)
    } else if (bp->watch_load || bp->watch_store) {
       console_out(console_log, "WATCH: ");
    } else {
-      if (bp->temporary) 
+      if (bp->temporary)
          console_out(console_log, "UNTIL: ");
       else
          console_out(console_log, "BREAK: ");
@@ -2901,14 +2901,14 @@ void mon_check_icount(ADDRESS a)
                wait_for_return_level = 0;
 
                /* FIXME: [SRT], 01-24-2000: this is only a workaround.
-               this occurs when the commands 'n' or  'ret' are executed 
-               out of an active IRQ or NMI processing routine. 
+               this occurs when the commands 'n' or  'ret' are executed
+               out of an active IRQ or NMI processing routine.
 
                the following command immediately stops executing when used
                with 'n' and parameter > 1, but it's necessary because else,
                it can occur that the monitor will not come back at all.
-               Don't know so far how this can be avoided. The only 
-               solution I see is to keep track of every IRQ and NMI 
+               Don't know so far how this can be avoided. The only
+               solution I see is to keep track of every IRQ and NMI
                invocation and every RTI. */
                instruction_count = 0;
             }
@@ -2989,7 +2989,8 @@ static void handle_abort(int signo)
   signal(SIGINT, (signal_handler_t) handle_abort);
 }
 
-void mon(ADDRESS a)
+
+void mon_open(ADDRESS a)
 {
     char prompt[40];
 
@@ -2999,9 +3000,6 @@ void mon(ADDRESS a)
         mon_console_close_on_leaving = 1;
 
     old_handler = signal(SIGINT, handle_abort);
-#ifdef __riscos
-    Wimp_CommandWindow((int)"Vice Monitor");
-#endif
 
     inside_monitor = TRUE;
     suspend_speed_eval();
@@ -3015,73 +3013,89 @@ void mon(ADDRESS a)
         disassemble_on_entry = 0;
     }
 
-    while (!exit_mon) {
-        make_prompt(prompt);
+    make_prompt(prompt);
 
-        if (asm_mode) {
-            sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
-        }
-
-        console_out(console_log, prompt);
-        myinput = console_in(console_log);
-        stop_output = 0;
-        if (myinput == NULL) {
-            console_out(console_log, "\n");
-        } else {
-            if (!myinput[0]) {
-                if (!asm_mode) {
-                    /* Repeat previous command */
-                    free(myinput);
-
-                    if (last_cmd)
-                        myinput = stralloc(last_cmd);
-                    else
-                        myinput = NULL;
-                } else {
-                    /* Leave asm mode */
-                    make_prompt(prompt);
-                }
-            } else {
-                /* Nonempty line */
-#ifdef HAVE_READLINE
-                add_history(myinput);
-#endif
-            }
-
-            if (myinput) {
-                if (recording) {
-                    if (fprintf(recording_fp, "%s\n", myinput) != 1) {
-                       console_out(console_log,
-                                   "Error while recording commands. "
-                                   "Output file closed.\n");
-                       fclose(recording_fp);
-                       recording_fp = NULL;
-                       recording = FALSE;
-                    }
-                }
-
-                parse_and_execute_line(myinput);
-
-                if (playback)
-                    playback_commands(playback_name);
-            }
-        }
-        if (last_cmd)
-            free(last_cmd);
-
-        last_cmd = myinput;
+    if (asm_mode) {
+        sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
+
+    console_out(console_log, prompt);
+}
+
+int mon_process(char *cmd)
+{
+    char prompt[40];
+
+    stop_output = 0;
+    if (cmd == NULL) {
+        console_out(console_log, "\n");
+    } else {
+        if (!cmd[0]) {
+            if (!asm_mode) {
+                /* Repeat previous command */
+                free(cmd);
+
+                if (last_cmd)
+                    cmd = stralloc(last_cmd);
+                else
+                    cmd = NULL;
+            } else {
+                /* Leave asm mode */
+                make_prompt(prompt);
+            }
+        } else {
+            /* Nonempty line */
+#ifdef HAVE_READLINE
+            add_history(cmd);
+#endif
+        }
+
+        if (cmd) {
+            if (recording) {
+                if (fprintf(recording_fp, "%s\n", cmd) != 1) {
+                   console_out(console_log,
+                               "Error while recording commands. "
+                               "Output file closed.\n");
+                   fclose(recording_fp);
+                   recording_fp = NULL;
+                   recording = FALSE;
+                }
+            }
+
+            parse_and_execute_line(cmd);
+
+            if (playback)
+                playback_commands(playback_name);
+        }
+    }
+    if (last_cmd)
+        free(last_cmd);
+
+    last_cmd = cmd;
+
+    make_prompt(prompt);
+
+    if (asm_mode) {
+        sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
+    }
+
+    console_out(console_log, prompt);
+
+    return exit_mon;
+}
+
+void mon_close(int check)
+{
     inside_monitor = FALSE;
     suspend_speed_eval();
 
     exit_mon--;
 
-    if (exit_mon)
+    if (check && exit_mon)
         exit(0);
 
-#ifdef __riscos
-    Wimp_CommandWindow(-1);
-#endif
+    exit_mon = 0;
+
     signal(SIGINT, old_handler);
 
     if (console_log->console_can_stay_open == 0)
@@ -3091,3 +3105,13 @@ void mon(ADDRESS a)
 		console_close(console_log);
 }
 
+
+void mon(ADDRESS a)
+{
+    mon_open(a);
+    while (!exit_mon) {
+        myinput = console_in(console_log);
+        mon_process(myinput);
+    }
+    mon_close(1);
+}

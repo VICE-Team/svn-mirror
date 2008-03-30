@@ -62,6 +62,7 @@ libarch_a_SOURCES = \
 	uicbm2set.h \
 	uicmdline.c \
 	uicmdline.h \
+	uiconsole.c \
 	uidatasette.c \
 	uidatasette.h \
 	uidrive.c \

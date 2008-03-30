@@ -46,11 +46,11 @@ typedef struct console_s {
 extern console_t *console_open(const char *id);
 extern int console_close(console_t *log);
 
-/* the following must be called before any other 
+/* the following must be called before any other
   console_...() function is used */
 extern int console_init(void);
 
-/* The following should be called when quitting VICE 
+/* The following should be called when quitting VICE
  after calling console_close_all(), the console_...()
  functions cannot be accessed unless console_init()
  is called again.
@@ -58,6 +58,7 @@ extern int console_init(void);
 extern int console_close_all(void);
 
 extern int console_out(console_t *log, const char *format, ...);
+extern int console_flush(console_t *log);
 extern char *console_in(console_t *log);
 
 #endif

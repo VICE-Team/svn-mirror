@@ -255,6 +255,9 @@ extern void mon_check_icount(ADDRESS a);
 extern void mon_check_icount_interrupt(void);
 extern void mon_check_watchpoints(ADDRESS a);
 extern void mon(ADDRESS a);
+extern void mon_open(ADDRESS a);
+extern int  mon_process(char *cmd);
+extern void mon_close(int check);
 
 extern void mon_add_number_to_buffer(int number);
 extern void mon_add_string_to_buffer(char *str);
