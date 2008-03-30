@@ -81,7 +81,6 @@ static UI_CALLBACK(petui_set_model)
 static UI_CALLBACK(set_KeyboardType)
 {
     int current_value, new_value = 2 * (int) client_data;
-    extern char *keymap_file_resource_names[];
 
     resources_get_value("KeymapIndex", (resource_value_t*) &current_value);
     if(!call_data) {

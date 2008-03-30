@@ -63,7 +63,6 @@ INCLUDES()
 PRE_VIA_FUNCS()
 {
     static int parieee_is_out = 1;    /* 0= listener, 1= talker */
-    static int parieee_atna = 1;    /*  */
 
     void drive1_parallel_set_atn(int state)
     {

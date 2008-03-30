@@ -76,7 +76,6 @@ static KeySym key_ctrl_restore2 = NoSymbol;
 
 BYTE joy[3] = { 0, 0, 0 };
 
-static int joykey_devs  [2] = { JOYDEV_NUMPAD, JOYDEV_CUSTOM_KEYS };
 static keyconv joykeys  [2][10];
 static int joypad_status[2][10];
 

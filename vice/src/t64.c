@@ -26,8 +26,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#endif
 
 #include "t64.h"
 

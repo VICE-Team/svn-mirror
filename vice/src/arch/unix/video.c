@@ -140,7 +140,7 @@ BYTE shade_table[256];
 static int use_mitshm = 0;
 
 /* The RootWindow of our screen. */
-static Window root_window;
+/* static Window root_window; */
 
 /* Logging goes here.  */
 static log_t video_log = LOG_ERR;

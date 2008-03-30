@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/pet/crtc.c
- * This file is generated from ../../../src/crtc-tmpl.c and ../../../src/pet/crtc.def,
+ * ../../src/pet/crtc.c
+ * This file is generated from ../../src/crtc-tmpl.c and ../../src/pet/crtc.def,
  * Do not edit!
  */
 /*
@@ -1142,7 +1142,7 @@ int crtc_read_snapshot_module(snapshot_t *s)
     WORD w;
     BYTE b;
     WORD vmask;
-    BYTE num_cols, hwflags;
+    BYTE hwflags;
     BYTE major, minor;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);

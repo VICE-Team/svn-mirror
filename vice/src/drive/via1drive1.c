@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/via1drive1.c
- * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via1drive1.def,
+ * ../../src/drive/via1drive1.c
+ * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via1drive1.def,
  * Do not edit!
  */
 /*
@@ -257,7 +257,6 @@ inline static void update_via1d1tbl(void)
 
 
     static int parieee_is_out = 1;    /* 0= listener, 1= talker */
-    static int parieee_atna = 1;    /*  */
 
     void drive1_parallel_set_atn(int state)
     {

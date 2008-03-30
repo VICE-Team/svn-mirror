@@ -996,16 +996,6 @@ int open_fs(void *flp, const char *name, int length, int secondary)
 	    if (comma != NULL)
 		*comma = '\0';
 	}
-	if (name[0] == ',') {
-	    name[1] = '\0';
-	} else {
-	    comma = memchr(name, ',', length);
-	    if (comma != NULL) {
-		*comma = '\0';
-		length = strlen(name);
-	    }
-	}
-
         strcpy(fsname2, fsname);
         strcpy(fsname, fsdevice_get_path(floppy->unit));
         strcat(fsname, FSDEV_DIR_SEP_STR);

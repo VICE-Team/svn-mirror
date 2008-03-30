@@ -383,7 +383,6 @@ static const char module_name[] = "MYTPI";
 int mytpi_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
-    int byte;
 
     m = snapshot_module_create(p, module_name,
                                TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);

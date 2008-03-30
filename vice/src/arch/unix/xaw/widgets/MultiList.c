@@ -1043,8 +1043,8 @@ static void RedrawRowColumn(mlw,row,column)
 XfwfMultiListWidget mlw;
 int row,column;
 {
-	GC bg_gc,fg_gc;
-	XfwfMultiListItem *item;
+	GC bg_gc, fg_gc = 0;
+	XfwfMultiListItem *item = NULL;
 	int ul_x,ul_y,str_x,str_y,w,h,item_index,has_item,text_h;
 
 	if (!XtIsRealized((Widget)mlw)) return;

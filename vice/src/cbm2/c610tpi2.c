@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/cbm2/c610tpi2.c
- * This file is generated from ../../../src/tpi-tmpl.c and ../../../src/cbm2/c610tpi2.def,
+ * ../../src/cbm2/c610tpi2.c
+ * This file is generated from ../../src/tpi-tmpl.c and ../../src/cbm2/c610tpi2.def,
  * Do not edit!
  */
 /*
@@ -421,7 +421,6 @@ static const char module_name[] = "TPI2";
 int tpi2_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
-    int byte;
 
     m = snapshot_module_create(p, module_name,
                                TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);

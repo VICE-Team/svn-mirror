@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SYSDEP_H
-#define _SYSDEP_H
+#ifndef _ARCHDEP_H
+#define _ARCHDEP_H
 
 #include <stdio.h>
 
@@ -35,6 +35,10 @@
 #define FSDEV_DIR_SEP_CHR      '/'
 #define FSDEV_EXT_SEP_STR      "."
 #define FSDEV_EXT_SEP_CHR      '.'
+
+/* Define the default system directory (where the ROMs are).  */
+#define LIBDIR          PREFIX "/lib/vice"
+#define DOCDIR          LIBDIR "/doc"
 
 int archdep_startup(int *argc, char **argv);
 const char *archdep_program_name(void);
@@ -46,3 +50,4 @@ int archdep_num_text_lines(void);
 int archdep_num_text_columns(void);
 
 #endif
+

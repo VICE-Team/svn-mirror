@@ -27,7 +27,13 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#include <stdlib.h>
+#ifndef __riscos
+#include <unistd.h>
+#endif
+#endif
 
 #include "pet.h"
 

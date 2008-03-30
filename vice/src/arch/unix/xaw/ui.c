@@ -220,7 +220,7 @@ static int num_app_shells = 0;
 Pixel drive_led_on_pixel, drive_led_off_pixel;
 
 /* If != 0, we should save the settings. */
-static int resources_have_changed = 0;
+/* static int resources_have_changed = 0; */
 
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
@@ -240,9 +240,6 @@ static Widget build_show_text(Widget parent, ui_button_t *button_return,
 static Widget build_confirm_dialog(Widget parent,
                                    ui_button_t *button_return,
                                    Widget *ConfirmDialogMessage);
-static Widget build_info_dialog(Widget parent,
-                                ui_button_t *button_return,...);
-static void position_submenu(Widget w, Widget parent);
 static void close_action(Widget w, XEvent *event, String *params,
                          Cardinal *num_params);
 
@@ -500,7 +497,6 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                                   PIXEL pixel_return[])
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
-    static int menus_created = 0;
     Widget shell, canvas, pane, speed_label;
     Widget drive_track_label[2], drive_led[2];
     XSetWindowAttributes attr;

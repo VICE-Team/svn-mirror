@@ -1374,7 +1374,6 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
-    int kbdindex;
 
     m = snapshot_module_open(p, module_ram_name, &vmajor, &vminor);
     if (m == NULL)
@@ -1541,7 +1540,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config, flag;
+    BYTE config;
 
     m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
     if (m == NULL)

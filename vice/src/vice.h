@@ -36,7 +36,7 @@
    -I. -I$srcdir will use ./config.h rather than $srcdir/config.h
    (which it would do because vice.h was found in $srcdir).  Well,
    actually automake barfs if the source directory was already
-   configured, so this should not ba an issue anymore.  */
+   configured, so this should not be an issue anymore.  */
 
 #include <config.h> /* Automagically created by the `configure' script.  */
 
@@ -45,16 +45,6 @@
 #define APPLICATION_CLASS "VICE"
 
 /* ------------------------------------------------------------------------- */
-
-/* Define the default system directory (where the ROMs are). */
-
-#ifdef __riscos
-#define LIBDIR         PREFIX ".lib"
-#define DOCDIR         LIBDIR ".doc"
-#else
-#define LIBDIR		PREFIX "/lib/vice"
-#define DOCDIR          LIBDIR "/doc"
-#endif
 
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050

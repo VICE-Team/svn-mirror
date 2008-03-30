@@ -58,7 +58,7 @@ static Widget browse_button;
 static Widget options_form;
 static Widget options_label;
 static Widget options_filling_box_left;
-static Widget options_filling_box_right;
+/* static Widget options_filling_box_right; */
 static Widget save_roms_on_button, save_roms_off_button;
 static Widget save_roms_label;
 static Widget save_disk_off_button, save_disk_button;

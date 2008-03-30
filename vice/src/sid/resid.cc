@@ -87,7 +87,6 @@ void resid_sound_machine_close(sound_t *psid)
 
 BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk)
 {
-    CLOCK				tmp;
     int					delta;
 
     delta = (int) (psid->clk + sound_sample_position()*psid->clkstep

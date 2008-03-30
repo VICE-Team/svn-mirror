@@ -41,6 +41,7 @@
 
 #include "uicommands.h"
 
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"

@@ -432,7 +432,6 @@ long machine_get_cycles_per_second(void)
 int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
-    int ef = 0;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
     if (s == NULL)

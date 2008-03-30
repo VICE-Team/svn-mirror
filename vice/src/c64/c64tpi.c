@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64tpi.c
- * This file is generated from ../../../src/tpi-tmpl.c and ../../../src/c64/c64tpi.def,
+ * ../../src/c64/c64tpi.c
+ * This file is generated from ../../src/tpi-tmpl.c and ../../src/c64/c64tpi.def,
  * Do not edit!
  */
 /*
@@ -463,7 +463,6 @@ static const char module_name[] = "TPI";
 int tpi_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
-    int byte;
 
     m = snapshot_module_create(p, module_name,
                                TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);

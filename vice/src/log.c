@@ -107,7 +107,7 @@ int log_init(void)
 
 int log_open(const char *id)
 {
-    log_t new_log;
+    log_t new_log = 0;
     int i;
 
     for (i = 0; i < num_logs; i++) {

@@ -133,7 +133,7 @@ static int write_pr(void *var, BYTE byte, int secondary)
     return print_putc(currfd, byte);
 }
 
-static int open_pr(void *var, char *name, int length, int secondary)
+static int open_pr(void *var, const char *name, int length, int secondary)
 {
     if(inuse) {
 	log_error(LOG_DEFAULT, "Open printer while still open - ignoring.");
