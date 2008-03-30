@@ -54,7 +54,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "utils.h"
-#include "vmachine.h"
+#include "vic20mem.h"
 #include "zfile.h"
 
 /* Hm, if this gets more, I should introduce an array :-) */

@@ -92,7 +92,6 @@ noinst_HEADERS = \
 	via.h \
 	viacore.h \
 	vice.h \
-	vmachine.h \
 	warn.h \
 	zfile.h \
 	zipcode.h

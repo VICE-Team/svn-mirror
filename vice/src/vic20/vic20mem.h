@@ -53,4 +53,7 @@ extern int vic20_mem_init_cmdline_options(void);
 extern int vic20_mem_disable_ram_block(int num);
 extern int vic20_mem_enable_ram_block(int num);
 
+extern void mem_attach_cartridge(int type, BYTE *rawcart);
+extern void mem_detach_cartridge(int type);
+
 #endif
