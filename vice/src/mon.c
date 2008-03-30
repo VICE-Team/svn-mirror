@@ -65,7 +65,6 @@
 #include "archdep.h"
 #include "asm.h"
 #include "charsets.h"
-#include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "mon.h"
@@ -2144,22 +2143,12 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         int i,j, dst;
         MEMSPACE dest_mem;
 
-        if (floppy->GCR_Header) {
-            if (drive_read_block(track, sector, readdata, 0) < 0) {
-                fprintf(mon_output, "Error reading track %d sector %d\n",
-                        track, sector);
-                return;
-            }
-        } else {
-            /* Make sure data is flushed to the file before reading.  */
-            drive_GCR_data_writeback(0);
-            if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                readdata, track, sector, floppy->D64_Header,
-                floppy->GCR_Header, floppy->unit) < 0) {
-                fprintf(mon_output, "Error reading track %d sector %d\n",
-                        track, sector);
-                return;
-            }
+        if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+            readdata, track, sector, floppy->D64_Header,
+            floppy->GCR_Header, floppy->unit) < 0) {
+            fprintf(mon_output, "Error reading track %d sector %d\n",
+                    track, sector);
+            return;
         }
 
         if (is_valid_addr(addr)) {
@@ -2193,19 +2182,12 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         for (i = 0; i < 256; i++)
             writedata[i] = get_mem_val(src_mem, ADDR_LIMIT(src+i));
 
-        if (floppy->GCR_Header) {
-            if (drive_write_block(track, sector, writedata, 0) < 0) {
-                fprintf(mon_output, "Error writing track %d sector %d\n",
-                        track, sector);
-                return;
-            }
-        } else {
-            if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                writedata, track, sector, floppy->D64_Header)) {
-                fprintf(mon_output, "Error writing track %d sector %d\n",
-                        track, sector);
-                return;
-            }
+        if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+            writedata, track, sector, floppy->D64_Header,
+            floppy->GCR_Header, floppy->unit)) {
+            fprintf(mon_output, "Error writing track %d sector %d\n",
+                    track, sector);
+            return;
         }
 
         fprintf(mon_output, 

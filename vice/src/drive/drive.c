@@ -1501,14 +1501,16 @@ int drive_detach_floppy(DRIVE *floppy)
         /* Shouldn't happen.  */
         log_error(drive_log, "Whaaat?  Attempt for bogus drive detachment!");
         return -1;
-    } else if (drive[dnr].drive_floppy != NULL) {
-        if (floppy->ImageFormat == 1541 || floppy->ImageFormat == 1571) {
-            drive_GCR_data_writeback(dnr);
-            memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
+    } else {
+        if (drive[dnr].drive_floppy != NULL) {
+            if (floppy->ImageFormat == 1541 || floppy->ImageFormat == 1571) {
+                drive_GCR_data_writeback(dnr);
+                memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
+            }
+            drive[dnr].detach_clk = drive_clk[dnr];
+            drive[dnr].drive_floppy = NULL;
+            drive[dnr].GCR_image_loaded = 0;
         }
-        drive[dnr].detach_clk = drive_clk[dnr];
-        drive[dnr].drive_floppy = NULL;
-        drive[dnr].GCR_image_loaded = 0;
     }
     return 0;
 }
@@ -1804,7 +1806,9 @@ static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, 
         rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
                                 drive[dnr].drive_floppy->ImageFormat,
                                 buffer + 1, track, sector,
-                                drive[dnr].drive_floppy->D64_Header);
+                                drive[dnr].drive_floppy->D64_Header,
+                                drive[dnr].drive_floppy->GCR_Header,
+                                drive[dnr].drive_floppy->unit);
         if (rc < 0)
             log_error(drive[dnr].log,
                       "Could not update T:%d S:%d.", track, sector);
@@ -1901,6 +1905,9 @@ int drive_read_block(int track, int sector, BYTE *readdata, int dnr)
     if (track > drive[dnr].drive_floppy->NumTracks)
         return -1;
 
+    /* Make sure data is flushed to the file before reading.  */
+    drive_GCR_data_writeback(dnr);
+
     GCR_track_start_ptr = drive[dnr].GCR_data
                + ((track - 1) * NUM_MAX_BYTES_TRACK);
     GCR_current_track_size = drive[dnr].GCR_track_size[track - 1];
@@ -1990,7 +1997,9 @@ static void drive_extend_disk_image(int dnr)
 	    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
                             drive[dnr].drive_floppy->ImageFormat,
                             buffer, track, sector,
-                            drive[dnr].drive_floppy->D64_Header);
+                            drive[dnr].drive_floppy->D64_Header,
+                            drive[dnr].drive_floppy->GCR_Header,
+                            drive[dnr].drive_floppy->unit);
 	if (rc < 0)
 	    log_error(drive[dnr].log,
                       "Could not update T:%d S:%d.", track, sector);
