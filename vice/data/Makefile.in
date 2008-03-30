@@ -129,8 +129,8 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-
-SUBDIRS = C64 C128 VIC20 PET PLUS4 CBM-II DRIVES PRINTER fonts
+@DOS_OR_WIN_TRUE@SUBDIRS = C64 C128 VIC20 PET PLUS4 CBM-II DRIVES PRINTER
+@DOS_OR_WIN_FALSE@SUBDIRS = C64 C128 VIC20 PET PLUS4 CBM-II DRIVES PRINTER fonts
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -141,6 +141,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
+DIST_SUBDIRS =  C64 C128 VIC20 PET PLUS4 CBM-II DRIVES PRINTER C64 C128 \
+VIC20 PET PLUS4 CBM-II DRIVES PRINTER fonts
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -255,7 +257,7 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-	for subdir in $(SUBDIRS); do \
+	for subdir in $(DIST_SUBDIRS); do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
