@@ -1482,8 +1482,6 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     unsigned int drive_num;
     drive_t *d;
 
-    log_warning(drive_log, "drive_clk_overflow_callback");
-
     drive_num = (unsigned int) data;
     d = &drive[drive_num];
 
