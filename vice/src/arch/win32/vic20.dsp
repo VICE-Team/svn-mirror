@@ -7,19 +7,19 @@
 CFG=vic20 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "vic20.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "vic20.mak" CFG="vic20 - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "vic20 - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "vic20 - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,16 +74,12 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
 # Name "vic20 - Win32 Release"
 # Name "vic20 - Win32 Debug"
-# Begin Source File
-
-SOURCE=..\..\vic20\vic20cartridge.c
-# End Source File
 # Begin Source File
 
 SOURCE="..\..\vic20\vic-cmdline-options.c"
@@ -110,7 +106,19 @@ SOURCE=..\..\vic20\vic.c
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vic20\vic20-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\vic20\vic20-resources.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\vic20\vic20cartridge.c
 # End Source File
 # Begin Source File
 

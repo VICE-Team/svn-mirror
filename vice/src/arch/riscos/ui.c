@@ -458,6 +458,7 @@ static const conf_icon_id conf_grey_xcbm2[] = {
 
 /* Configuration options */
 static int AutoPauseEmu;
+static int Use16BitSound;
 static int DriveType8;
 static int DriveType9;
 static int DriveType10;
@@ -830,6 +831,7 @@ static RO_IconDesc IBarIcon = {
 static const char Rsrc_Sound[] = "Sound";
 static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
+static const char Rsrc_Snd16Bit[] = "Use16BitSound";
 static const char Rsrc_ReSid[] = "SidUseResid";
 static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_True[] = "DriveTrueEmulation";
@@ -1087,6 +1089,7 @@ static help_icon_t Help_ConfigSound[] = {
   {Icon_Conf_ResidSamp, "\\HelpConfSndReSamp"},
   {Icon_Conf_ResidSampT, "\\HelpConfSndReSampT"},
   {Icon_Conf_ResidPass, "\\HelpConfSndRePass"},
+  {Icon_Conf_Sound16Bit, "\\HelpConfSnd16Bit"},
   {Help_Icon_End, NULL}
 };
 
@@ -1333,6 +1336,12 @@ static int set_auto_pause(resource_value_t v, void *param)
   return 0;
 }
 
+static int set_16bit_sound(resource_value_t v, void *param)
+{
+  Use16BitSound = (int)v;
+  return 0;
+}
+
 
 
 static resource_t resources[] = {
@@ -1358,6 +1367,8 @@ static resource_t resources[] = {
     (resource_value_t*)&DriveFile11, set_drive_file11, NULL },
   {Rsrc_TapeFile, RES_STRING, (resource_value_t)"",
     (resource_value_t*)&TapeFile, set_tape_file, NULL },
+  {Rsrc_Snd16Bit, RES_INTEGER, (resource_value_t)0,
+    (resource_value_t*)&Use16BitSound, set_16bit_sound, NULL },
   {NULL}
 };
 
@@ -3729,9 +3740,25 @@ static void ui_mouse_click(int *b)
                   {
                     ui_set_truedrv_emulation(s);
                   }
-                  if ((Configurations[i].id.win == CONF_WIN_SOUND) && (Configurations[i].id.icon == Icon_Conf_SoundOn))
+                  if (Configurations[i].id.win == CONF_WIN_SOUND)
                   {
-                    ui_set_sound_enable(s);
+                    if (Configurations[i].id.icon == Icon_Conf_SoundOn)
+                    {
+                      ui_set_sound_enable(s);
+                    }
+                    else if (Configurations[i].id.icon == Icon_Conf_Sound16Bit)
+                    {
+                      int sndstate;
+                      resources_get_value(Rsrc_Sound, (resource_value_t*)&sndstate);
+                      if (sndstate != 0)
+                      {
+                        /* if sound enabled and 16bit state changed, close sound device
+                           and immediately reopen it to use the new system */
+                        /*resources_set_value(Rsrc_Sound, (resource_value_t)0);*/
+                        sound_close();
+                        resources_set_value(Rsrc_Sound, (resource_value_t)1);
+                      }
+                    }
                   }
                 }
                 break;

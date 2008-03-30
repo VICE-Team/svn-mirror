@@ -7,19 +7,19 @@
 CFG=pet - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "pet.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "pet.mak" CFG="pet - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "pet - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "pet - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,12 +74,20 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
 # Name "pet - Win32 Release"
 # Name "pet - Win32 Debug"
+# Begin Source File
+
+SOURCE="..\..\pet\pet-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\pet\pet-resources.c"
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\pet\pet.c

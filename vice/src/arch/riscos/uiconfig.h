@@ -253,6 +253,7 @@ typedef struct {
 #define Icon_Conf_ResidSamp	25
 #define Icon_Conf_ResidSampT	26
 #define Icon_Conf_ResidPass	27
+#define Icon_Conf_Sound16Bit	29
 
 /* System config */
 #define Icon_Conf_CharGen	3

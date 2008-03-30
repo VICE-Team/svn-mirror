@@ -7,19 +7,19 @@
 CFG=c64 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "c64.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "c64.mak" CFG="c64 - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "c64 - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "c64 - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,7 +74,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -82,11 +82,23 @@ LIB32=link.exe -lib
 # Name "c64 - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\c64\c64-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\c64-resources.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\c64\c64cartmem.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64cartridge.c
 # End Source File
 # Begin Source File
 
@@ -110,11 +122,11 @@ SOURCE=..\..\c64\c64mem.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\c64tpi.c
+SOURCE=..\..\c64\c64memlimit.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\c64cartridge.c
+SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File
 

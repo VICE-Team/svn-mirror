@@ -246,11 +246,16 @@ char    *extension;
                 SendMessage(preview,LB_RESETCONTENT,0,0);
                 if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
                     CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
-                    if (read_content_func!=NULL) {
-                        contents=read_content_func(filename);
-                        create_content_list(contents,preview);
+                    if (!(GetFileAttributes(filename)&FILE_ATTRIBUTE_DIRECTORY)) {
+                        if (read_content_func!=NULL) {
+                            contents=read_content_func(filename);
+                            create_content_list(contents,preview);
+                        }
                     }
                 }
+            } else if (((OFNOTIFY*)lparam)->hdr.code==CDN_FOLDERCHANGE) {
+                SendMessage(preview,LB_RESETCONTENT,0,0);
+                SetWindowText(GetDlgItem(GetParent(hwnd),0x0480),"");
             }
             break;
         case WM_COMMAND:
@@ -371,10 +376,15 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
             SendMessage(preview,LB_RESETCONTENT,0,0);
             if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
                 CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
-                if (read_content_func!=NULL) {
-                    contents=read_content_func(filename);
-                    create_content_list(contents,preview);
-                }
+                     if (!(GetFileAttributes(filename)&FILE_ATTRIBUTE_DIRECTORY)) {
+                         if (read_content_func!=NULL) {
+                             contents=read_content_func(filename);
+                             create_content_list(contents,preview);
+                         }
+                     }
+            } else if (((OFNOTIFY*)lparam)->hdr.code==CDN_FOLDERCHANGE) {
+                SendMessage(preview,LB_RESETCONTENT,0,0);
+                SetWindowText(GetDlgItem(GetParent(hwnd),0x0480),"");
             }
         }
         break;

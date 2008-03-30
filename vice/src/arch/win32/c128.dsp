@@ -7,19 +7,19 @@
 CFG=c128 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "c128.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "c128.mak" CFG="c128 - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "c128 - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "c128 - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,12 +74,20 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
 # Name "c128 - Win32 Release"
 # Name "c128 - Win32 Debug"
+# Begin Source File
+
+SOURCE="..\..\c128\c128-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c128\c128-resources.c"
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\c128\c128.c
@@ -99,6 +107,10 @@ SOURCE=..\..\c128\c128iec.c
 # Begin Source File
 
 SOURCE=..\..\c128\c128mem.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c128\c128memlimit.c
 # End Source File
 # Begin Source File
 

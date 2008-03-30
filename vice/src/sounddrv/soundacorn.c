@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "resources.h"
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
@@ -83,6 +84,7 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
 {
   _kernel_oserror *err;
   int period;
+  int newsound;
 
   if (*fragsize > MaxBufferSize)
   {
@@ -109,14 +111,29 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
 
   *fragsize = (*fragsize + 15) & ~15;
 
-  /* adapt sample speed */
-  sound_get_vidc_frequency(speed, &period);
   DigitalRenderer_NumBuffers((sync == 0) ? 0 : *fragnr);
-  if ((err = DigitalRenderer_Activate(1, *fragsize, period)) != NULL)
+
+  resources_get_value("Use16BitSound", (resource_value_t*)&newsound);
+
+  if (newsound != 0)
   {
-    log_error(vidc_log, err->errmess);
-    return -1;
+    if (DigitalRenderer_Activate16(1, *fragsize, *speed, 1) != NULL)
+      newsound = 0;
+    else
+      *speed = DigitalRenderer_GetFrequency();
   }
+
+  if (newsound == 0)
+  {
+    /* adapt sample speed */
+    sound_get_vidc_frequency(speed, &period);
+    if ((err = DigitalRenderer_Activate(1, *fragsize, period)) != NULL)
+    {
+      log_error(vidc_log, err->errmess);
+      return -1;
+    }
+  }
+
   buffersize = *fragsize;
   numbuffers = *fragnr;
 

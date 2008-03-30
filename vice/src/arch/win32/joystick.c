@@ -336,6 +336,11 @@ DWORD       apos;
                                 amax = joy_caps.wRmax;
                                 apos = joy_info.dwRpos;
                                 break;
+                            default:
+                                amin = 0;
+                                amax = 32;
+                                apos = 16;
+                                break;
                         }
                         value |= clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
                     } else {
@@ -397,6 +402,11 @@ DWORD       apos;
                                 amin = joy_caps.wRmin;
                                 amax = joy_caps.wRmax;
                                 apos = joy_info.dwRpos;
+                                break;
+                            default:
+                                amin = 0;
+                                amax = 32;
+                                apos = 16;
                                 break;
                         }
                         value |= clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;

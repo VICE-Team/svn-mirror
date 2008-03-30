@@ -49,6 +49,7 @@ static const char Rsrc_SndDev[] = "SoundDeviceName";
 static const char Rsrc_SndOver[] = "SoundOversample";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
 static const char Rsrc_SpdAdjust[] = "SoundSpeedAdjustment";
+static const char Rsrc_Snd16Bit[] = "Use16BitSound";
 static const char Rsrc_JoyDev1[] = "JoyDevice1";
 static const char Rsrc_JoyDev2[] = "JoyDevice2";
 static const char Rsrc_True[] = "DriveTrueEmulation";
@@ -1375,6 +1376,7 @@ config_item Configurations[] = {
   {Rsrc_Prnt4, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_PrntOn}},	/* prdevice.c */
   {Rsrc_PrUsr, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_PrntUsrOn}},	/* pruser */
   {Rsrc_Sound, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SoundOn}},	/* sound.c */
+  {Rsrc_Snd16Bit, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_Sound16Bit}},
   {Rsrc_NoTraps, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_NoTraps}},	/* traps.c */
   {Rsrc_True, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_TrueDrv}},	/* drive.c */
   {Rsrc_TruePar8, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8}},

@@ -244,7 +244,7 @@ char    text[256];
             SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
             SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
             DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,emu_status_text,-1,&led,0);
-       }
+        }
         if ((((DRAWITEMSTRUCT*)lparam)->itemID==1) && tape_enabled) {
             /* it's the tape status */
             POINT tape_control_sign[3];
@@ -314,7 +314,7 @@ char    text[256];
             DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
 
         }
-        if (((DRAWITEMSTRUCT*)lparam)->itemID>tape_enabled?1:0) {
+        if ((int)((DRAWITEMSTRUCT*)lparam)->itemID>(tape_enabled?1:0)) {
             int index=((DRAWITEMSTRUCT*)lparam)->itemID-(tape_enabled?2:1);
             /* it's a disk */
             led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
