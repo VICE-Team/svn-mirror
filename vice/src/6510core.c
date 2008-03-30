@@ -249,6 +249,7 @@
                 DMA_FUNC;						 \
                 ack_dma(&CPU_INT_STATUS);				 \
                 IMPORT_REGISTERS();					 \
+                JUMP(reg_pc);                                            \
             }								 \
         }								 \
     } while (0)
