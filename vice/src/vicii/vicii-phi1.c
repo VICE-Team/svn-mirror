@@ -35,20 +35,34 @@
 
 inline static BYTE gfx_data_illegal_bitmap(unsigned int num)
 {
-    if (vicii.idle_state)
+    if (vicii.idle_state) {
         return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x39ff];
-    else
-        return vicii.bitmap_ptr[((vicii.memptr << 3) + vicii.raster.ycounter
-                                + num * 8) & 0x19ff];
+    } else {
+        unsigned int j;
+
+        j = ((vicii.memptr << 3) + vicii.raster.ycounter + num * 8);
+
+        if (j & 0x1000)
+            return vicii.bitmap_high_ptr[j & 0x9ff];
+        else
+            return vicii.bitmap_low_ptr[j & 0x9ff];
+    }
 }
 
 inline static BYTE gfx_data_hires_bitmap(unsigned int num)
 {
-    if (vicii.idle_state)
+    if (vicii.idle_state) {
         return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
-    else
-        return vicii.bitmap_ptr[((vicii.memptr << 3) + vicii.raster.ycounter
-                                + num * 8) & 0x1fff];
+    } else {
+        unsigned int j;
+
+        j = ((vicii.memptr << 3) + vicii.raster.ycounter + num * 8);
+
+        if (j & 0x1000)
+            return vicii.bitmap_high_ptr[j & 0xfff];
+        else
+            return vicii.bitmap_low_ptr[j & 0xfff];
+    }
 }
 
 inline static BYTE gfx_data_extended_text(unsigned int num)

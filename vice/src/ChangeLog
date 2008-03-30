@@ -1,3 +1,27 @@
+2003-08-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.22.
+
+	* tpi.h, drive/tcbm/tpid.c, c64/c64tpi.c, cbm2/cbm2tpi1.c,
+	cbm2/cbm2tpi2.c, drive/tcbm/tpid.h, c64/c64tpi.h,
+	c128/c128memsnapshot.c, cbm2/cbm2-snapshot.c,
+	drive/tcbm/tcbm.c, c64/c64.c, c128/c128.c, cbm2/cbm2.c,
+	cbm2/cbm2acia1.c, cbm2/cbm2cia1.c: Use single TPI core.
+
+	* core/tpicore.c: Moved here.
+
+	* Makefile.am, core/Makefile.am, arch/win32/core.dsp: Updated.
+
+	* cartridge.h, c64/c64.c, c128/c128.c, c64/cart/c64cartmem.c,
+	c64/cart/c64cart.c, c64/cart/actionreplay.c,
+	c64/cart/actionreplay.h, c64/cart/retroreplay.c,
+	c64/cart/retroreplay.h: Deactivate IO access on demand.
+
+	* vicii/viciitypes.h, vicii/vicii.c, vicii/vicii-draw.c,
+	vicii/vicii-phi1.c, raster/raster-cache-fill-1fff.h,
+	raster/raster-cache-fill-39ff.h: Added support for lower and
+	higher part bitmaps.
+
 2003-08-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.21.
