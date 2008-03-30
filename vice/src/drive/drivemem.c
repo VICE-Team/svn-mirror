@@ -34,6 +34,7 @@
 #include "drivetypes.h"
 #include "fdc.h"
 #include "log.h"
+#include "mon.h"
 #include "riotd.h"
 #include "types.h"
 #include "utils.h"
@@ -186,7 +187,8 @@ static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, ADDRESS address)
     return drv->cpud.read_func_nowatch[address>>8](drv,address);
 }
 
-static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address, BYTE value)
+static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address,
+                                       BYTE value)
 {
     mon_watch_push_store_addr(address, drv->cpu.monspace);
     drv->cpud.store_func_nowatch[address>>8](drv,address, value);
@@ -248,8 +250,8 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
             }
     }
     if (DRIVE_IS_OLDTYPE(type)) {
-        /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx, 
-	   mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
+        /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx,
+           mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
            (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
            the gaps, x00-7f the first and x80-ff the second, at
            $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).

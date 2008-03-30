@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *   Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,7 +35,6 @@
 #include "drive.h"
 #include "interrupt.h"
 #include "log.h"
-#include "mon.h"
 #include "mos6510.h"
 #include "types.h"
 
@@ -47,7 +47,8 @@
  *  declaration of struct drive_context_s (see below).
  */
 
-struct drive_context_s;		/* forward declaration */
+struct drive_context_s;         /* forward declaration */
+struct monitor_interface_s;
 
 /* This defines the memory access for the drive CPU.  */
 typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, ADDRESS);
@@ -68,7 +69,7 @@ typedef struct drivecpu_context_s {
   int traceflg;
   /* This is non-zero each time a Read-Modify-Write instructions that accesses
      memory is executed.  We can emulate the RMW bug of the 6502 this way.  */
-  int rmw_flag;	/* init to 0 */
+  int rmw_flag; /* init to 0 */
 
   /* Interrupt/alarm status.  */
   struct cpu_int_status_s int_status;
@@ -76,7 +77,7 @@ typedef struct drivecpu_context_s {
   /* Clk guard.  */
   clk_guard_t clk_guard;
 
-  monitor_interface_t monitor_interface;
+  struct monitor_interface_s *monitor_interface;
 
   /* Value of clk for the last time mydrive_cpu_execute() was called.  */
   CLOCK last_clk;
@@ -86,20 +87,20 @@ typedef struct drivecpu_context_s {
 
   CLOCK cycle_accum;
   BYTE *d_bank_base;
-  int d_bank_limit;	/* init to -1 */
+  int d_bank_limit;     /* init to -1 */
 
   /* Information about the last executed opcode.  */
   opcode_info_t last_opcode_info;
   /* Public copy of the registers.  */
   mos6510_regs_t cpu_regs;
 
-  BYTE *pageone;	/* init to NULL */
+  BYTE *pageone;        /* init to NULL */
 
-  MEMSPACE monspace;	/* init to e_disk[89]_space */
+  int monspace;         /* init to e_disk[89]_space */
 
-  char snap_module_name[12];	/* init to "DRIVECPU[01]" */
+  char snap_module_name[12];    /* init to "DRIVECPU[01]" */
 
-  char identification_string[8];	/* init to "DRIVE#[89]" */
+  char identification_string[8];        /* init to "DRIVE#[89]" */
 
 } drivecpu_context_t;
 
@@ -158,17 +159,17 @@ typedef struct drivevia_context_s {
   int cb2_state;
   alarm_t t1_alarm;
   alarm_t t2_alarm;
-  log_t log;			/* init to LOG_ERR */
+  log_t log;                    /* init to LOG_ERR */
 
-  CLOCK read_clk;		/* init to 0 */
-  int read_offset;		/* init to 0 */
-  BYTE last_read;		/* init to 0 */
+  CLOCK read_clk;               /* init to 0 */
+  int read_offset;              /* init to 0 */
+  BYTE last_read;               /* init to 0 */
 
-  int irq_type;			/* I_... */
-  int irq_line;			/* IK_... */
+  int irq_type;                 /* I_... */
+  int irq_line;                 /* IK_... */
 
-  char myname[12];		/* init to "DriveXViaY" */
-  char my_module_name[8];	/* init to "VIAXDY" */
+  char myname[12];              /* init to "DriveXViaY" */
+  char my_module_name[8];       /* init to "VIAXDY" */
 
 } drivevia_context_t;
 
@@ -182,7 +183,8 @@ typedef struct drivefunc_context_s {
   void (*iec_write)(BYTE);
   BYTE (*iec_read)(void);
   void (*parallel_set_bus)(BYTE);
-  void (*parallel_set_eoi)(char);	/* we may be able to eleminate these... */
+  void (*parallel_set_eoi)(char);       /* we may be able to eleminate these...
+*/
   void (*parallel_set_dav)(char);
   void (*parallel_set_ndac)(char);
   void (*parallel_set_nrfd)(char);
@@ -199,7 +201,7 @@ typedef struct drivevia1_context_s {
 
   int parallel_id;
 
-  int v_parieee_is_out;		/* init to 1 */
+  int v_parieee_is_out;         /* init to 1 */
   struct iec_info_s *v_iec_info;
 
 } drivevia1_context_t;
@@ -229,17 +231,17 @@ typedef struct drivecia_context_s {
   char todlatched;
   BYTE todalarm[4];
   BYTE todlatch[4];
-  int todticks;			/* init to 100000 */
-  log_t log;			/* init to LOG_ERR */
+  int todticks;                 /* init to 100000 */
+  log_t log;                    /* init to LOG_ERR */
 
   ciat_t ta;
   ciat_t tb;
-  CLOCK read_clk;		/* init to 0 */
-  int read_offset;		/* init to 0 */
-  BYTE last_read;		/* init to 0 */
-  int debugFlag;		/* init to 0 */
+  CLOCK read_clk;               /* init to 0 */
+  int read_offset;              /* init to 0 */
+  BYTE last_read;               /* init to 0 */
+  int debugFlag;                /* init to 0 */
 
-  int irq_line;			/* IK_IRQ */
+  int irq_line;                 /* IK_IRQ */
 
   char myname[12];
 
@@ -263,16 +265,16 @@ typedef struct driveriot_context_s {
   BYTE old_pa;
   BYTE old_pb;
 
-  log_t log;		/* init to LOG_ERR */
+  log_t log;            /* init to LOG_ERR */
 
   alarm_t alarm;
 
-  CLOCK read_clk;	/* init to 0 */
-  int read_offset;	/* init to 0 */
-  BYTE last_read;	/* init to 0 */
-  BYTE r_edgectrl;	/* init to 0 */
-  BYTE r_irqfl;		/* init to 0 */
-  BYTE r_irqline;	/* init to 0 */
+  CLOCK read_clk;       /* init to 0 */
+  int read_offset;      /* init to 0 */
+  BYTE last_read;       /* init to 0 */
+  BYTE r_edgectrl;      /* init to 0 */
+  BYTE r_irqfl;         /* init to 0 */
+  BYTE r_irqline;       /* init to 0 */
 
   CLOCK r_write_clk;
   int r_N;
@@ -290,8 +292,8 @@ typedef struct driveriot_context_s {
 
 typedef struct driveriot2_context_s {
 
-  int r_atn_active;	/* init to 0 */
-  int irq_type;		/* I_RIOTD#FL */
+  int r_atn_active;     /* init to 0 */
+  int irq_type;         /* I_RIOTD#FL */
 
 } driveriot2_context_t;
 
@@ -303,9 +305,9 @@ typedef struct driveriot2_context_s {
 
 typedef struct drive_context_s {
 
-  int mynumber;		/* init to [01] */
-  CLOCK *clk_ptr;	/* shortcut to drive_clk[mynumber] */
-  struct drive_s *drive_ptr;	/* shortcut to drive[mynumber] */
+  int mynumber;         /* init to [01] */
+  CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
+  struct drive_s *drive_ptr;    /* shortcut to drive[mynumber] */
 
   drivecpu_context_t cpu;
   drivefunc_context_t func;
@@ -314,7 +316,7 @@ typedef struct drive_context_s {
   drivevia_context_t via2;
   drivecia_context_t cia1571;
   drivecia_context_t cia1581;
-  struct iec_info_s *c_iec_info;	/* for CIA1581 */
+  struct iec_info_s *c_iec_info;        /* for CIA1581 */
   driveriot_context_t riot1;
   driveriot_context_t riot2;
   driveriot2_context_t riot2p;
@@ -324,3 +326,4 @@ typedef struct drive_context_s {
 
 
 #endif
+
