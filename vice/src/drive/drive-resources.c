@@ -38,12 +38,13 @@
 #include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine.h"
 #include "resources.h"
 #include "vdrive-bam.h"
 
 
 /* Is true drive emulation switched on?  */
-static int drive_true_emulation;
+static unsigned int drive_true_emulation;
 
 static int drive1_resources_type(resource_value_t v, void *param);
 
@@ -53,7 +54,7 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
     unsigned int dnr;
     drive_t *drive;
 
-    drive_true_emulation = (int)v;
+    drive_true_emulation = (unsigned int)v;
 
     if ((int)v) {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
@@ -66,7 +67,7 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive_enable(drive_context[dnr]);
         }
-        iecbus_calculate_callback_index();
+        machine_bus_status_truedrive_set(drive_true_emulation);
     } else {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive = drive_context[dnr]->drive;
@@ -148,7 +149,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
         if (drive_true_emulation) {
             drive->enable = 1;
             drive_enable(drive_context[0]);
-            iecbus_calculate_callback_index();
+            machine_bus_status_drivetype_set(8, 1);
         }
         drive_set_disk_drive_type(type, drive_context[0]);
         drive_rom_initialize_traps(drive);
@@ -157,6 +158,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
       case DRIVE_TYPE_NONE:
         drive->type = type;
         drive_disable(drive_context[0]);
+        machine_bus_status_drivetype_set(8, 0);
         return 0;
       default:
         return -1;
@@ -222,7 +224,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
         if (drive_true_emulation) {
             drive->enable = 1;
             drive_enable(drive_context[dnr]);
-            iecbus_calculate_callback_index();
+            machine_bus_status_drivetype_set(9, 1);
         }
         drive_set_disk_drive_type(type, drive_context[dnr]);
         drive_rom_initialize_traps(drive);
@@ -231,6 +233,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
       case DRIVE_TYPE_NONE:
         drive->type = type;
         drive_disable(drive_context[dnr]);
+        machine_bus_status_drivetype_set(9, 0);
         return 0;
       default:
         return -1;

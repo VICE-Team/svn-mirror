@@ -68,8 +68,3 @@ int iec_available_busses(void)
     return IEC_BUS_IEEE;
 }
 
-void iecbus_calculate_callback_index(void)
-{
-    /* This callback can be used for optimization.  */
-}
-

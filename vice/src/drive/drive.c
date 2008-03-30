@@ -378,7 +378,6 @@ void drive_disable(drive_context_t *drv)
     /* This must come first, because this might be called before the true
        drive initialization.  */
     drive->enable = 0;
-    iecbus_calculate_callback_index();
 
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 

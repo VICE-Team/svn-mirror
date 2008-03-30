@@ -45,6 +45,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine.h"
 #include "resources.h"
 #include "rotation.h"
 #include "snapshot.h"
@@ -107,7 +108,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     snapshot_module_t *m;
     DWORD rotation_table_ptr[DRIVE_NUM];
     BYTE GCR_image[2];
-    int drive_true_emulation;
+    unsigned int drive_true_emulation;
     DWORD sync_factor;
     drive_t *drive;
 
@@ -223,7 +224,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     char snap_module_name[] = "DRIVE";
     DWORD rotation_table_ptr[DRIVE_NUM];
-    int drive_true_emulation;
+    unsigned int drive_true_emulation;
     int sync_factor;
     drive_t *drive;
 
@@ -331,9 +332,11 @@ int drive_snapshot_read_module(snapshot_t *s)
                             (resource_value_t)(drive->idling_method));
         drive_rom_initialize_traps(drive);
         drive_set_active_led_color(drive->type, 0);
+        machine_bus_status_drivetype_set(8, 1);
         break;
       case DRIVE_TYPE_NONE:
         drive_disable(drive_context[0]);
+        machine_bus_status_drivetype_set(8, 0);
         break;
       default:
         return -1;
@@ -357,11 +360,13 @@ int drive_snapshot_read_module(snapshot_t *s)
                             (resource_value_t)(drive->idling_method));
         drive_rom_initialize_traps(drive);
         drive_set_active_led_color(drive->type, 1);
+        machine_bus_status_drivetype_set(9, 1);
         break;
       case DRIVE_TYPE_NONE:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         drive_disable(drive_context[1]);
+        machine_bus_status_drivetype_set(9, 0);
         break;
       default:
         return -1;
@@ -398,7 +403,6 @@ int drive_snapshot_read_module(snapshot_t *s)
              drive_enable(drive_context[i]);
     }
 
-    iecbus_calculate_callback_index();
     iec_update_ports_embedded();
     drive_update_ui_status();
 
