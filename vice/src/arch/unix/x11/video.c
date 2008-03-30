@@ -547,7 +547,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int w, unsigned int h)
 {
     Display *display;
-
+    /*printf("XS%i YS%i XI%i YI%i W%i H%i\n",xs, ys, xi, yi, w, h);*/
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
     {
