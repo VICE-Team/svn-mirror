@@ -1,3 +1,18 @@
+Thu Apr  2 16:01:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.7.
+
+	* resources.c [CBM64]: Removed `TapeName' resource.
+
+	* true1541.c (true1541_enable): Do not initialize the true1541.
+
+	* resources.c [CBM64 && HAVE_TRUE1541]: New options `-parallel',
+ 	`+parallel'.
+
+	* via-tmpl.c (update_myviata, update_myviatb): Delay `A_MYVIAT1'
+	and `A_MYVIAT2' alarms by one cycle.  At least, this makes sure
+	the emulator does not hang when the latch is set to zero.
+
 Wed Apr  1 12:22:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.6.
