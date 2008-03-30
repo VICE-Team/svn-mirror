@@ -1,12 +1,12 @@
 
-Installation notes for VICE 1.2
+Installation notes for VICE 1.3
 *******************************
 
 
 This version of VICE can be compiled and installed both under
 Unix/X-Window, MS-DOS and MS-Windows, and this file explains how this
 can be done. There is currently no documentation how to compile under
-OS/2 and RiscOS.
+RiscOS.
 
 1. What you will need
 =====================
@@ -63,11 +63,14 @@ OS/2 and RiscOS.
     If you encounter any problems, you probably want to read the Hints
     section below.
 
-    If you are compiling on a Pentium machine under Linux or FreeBSD,
-    you might consider using the Pentium-specific GCC compiler, which
-    is available at `http://www.goof.com/pcg'.  Each time we have
-    tried it, and the performance was always at least 20% better (even
-    with just `-O2' or `-O3').
+    If you are compiling on a Pentium machine, you might consider
+    using the Pentium-specific GCC compiler, which is available at
+    `http://www.goof.com/pcg'.  Each time we have tried it, and the
+    performance was always at least 20% better (even with just `-O2'
+    or `-O3').  However some versions of PGCC are known to produce
+    broken executables.  If you observe graphics errors try to compile
+    without optimizations.  If the graphics errors disappear, throw
+    away your compiler and install another one.
 
     Warning: you might need quite a lot of memory to compile VICE with
     full optimizations on some platforms (in particular, this happens
@@ -300,7 +303,7 @@ OS/2 and RiscOS.
 
     Sorry, no Makefile is currently provided for native MS-DOS
     compilation, mostly because none of us really uses MS-DOS for
-    developing.  Volunteers, anyone?  :-)
+    developing.
 
   2.3. Configuring for multiple architectures
   -------------------------------------------
