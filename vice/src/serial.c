@@ -134,7 +134,7 @@ static BYTE serialcommand(void)
 
     /* if command on a channel, reset output buffer... */
     if ((TrapSecondary & 0xf0) != 0x60) {
-	p->nextok[channel] = 0;
+        p->nextok[channel] = 0;
     }
     switch (TrapSecondary & 0xf0) {
         /*
@@ -165,10 +165,10 @@ static BYTE serialcommand(void)
          */
       case 0xF0:
         if (p->isopen[channel]) {
-	    if(p->isopen[channel] == 2) {
+            if(p->isopen[channel] == 2) {
                 log_warning(serial_log, "Bogus close?");
-		(*(p->closef)) (vdrive, channel);
-	    }
+                (*(p->closef)) (vdrive, channel);
+            }
             p->isopen[channel] = 2;
             SerialBuffer[SerialPtr] = 0;
             st = (BYTE)((*(p->openf)) (vdrive, (char *) SerialBuffer,
@@ -248,7 +248,7 @@ void serialattention(void)
     }
 
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
-	SET_ST(0x80);
+        SET_ST(0x80);
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
@@ -267,7 +267,7 @@ void serialsendbyte(void)
     /*
      * Get data to send from address 0x95
      */
-    data = mem_read(BSOUR);	/* BSOUR - character for serial bus */
+    data = mem_read(BSOUR);     /* BSOUR - character for serial bus */
 
     p = &serialdevices[TrapDevice & 0x0f];
     if ((TrapDevice & 0x0f) >= 8)
@@ -276,17 +276,17 @@ void serialsendbyte(void)
         vdrive = NULL;
 
     if (p->inuse) {
-	if (p->isopen[TrapSecondary & 0x0f] == 1) {
-	    /* Store name here */
-	    if (SerialPtr < SERIAL_NAMELENGTH)
-		SerialBuffer[SerialPtr++] = data;
-	} else {
-	    /* Send to device */
-	    st = (*(p->putf)) (vdrive, data, (int)(TrapSecondary & 0x0f));
-	    SET_ST(st);
-	}
-    } else {			/* Not present */
-	SET_ST(0x83);
+        if (p->isopen[TrapSecondary & 0x0f] == 1) {
+            /* Store name here */
+            if (SerialPtr < SERIAL_NAMELENGTH)
+                SerialBuffer[SerialPtr++] = data;
+        } else {
+            /* Send to device */
+            st = (*(p->putf)) (vdrive, data, (int)(TrapSecondary & 0x0f));
+            SET_ST(st);
+        }
+    } else {                    /* Not present */
+        SET_ST(0x83);
     }
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
@@ -309,21 +309,21 @@ void serialreceivebyte(void)
 
     /* Get next byte if necessary.  */
     if (!(p->nextok[secadr]))
-	st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
+        st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
 
     /* Move byte from buffer to output.  */
     data = p->nextbyte[secadr];
     p->nextok[secadr] = 0;
     /* Fill buffer again.  */
     if (!st) {
-	st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
-	if (!st)
-	    p->nextok[secadr] = 1;
+        st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
+        if (!st)
+            p->nextok[secadr] = 1;
     }
 
     /* Set up serial success / data.  */
     if (st)
-	SET_ST(st);
+        SET_ST(st);
     mem_store(TMP_IN, data);
 
     /* If at EOF, call specified callback function.  */
@@ -362,8 +362,8 @@ static int parallelcommand(void)
     void *vdrive;
 
     if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
-	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
-	return 0x83;	/* device not present */
+        || ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+        return 0x83;    /* device not present */
     }
 
     /* which device ? */
@@ -373,59 +373,57 @@ static int parallelcommand(void)
 
     /* if command on a channel, reset output buffer... */
     if ((TrapSecondary & 0xf0) != 0x60) {
-	p->nextok[channel] = 0;
-	p->lastok[channel] = 0;
+        p->nextok[channel] = 0;
+        p->lastok[channel] = 0;
     }
     switch (TrapSecondary & 0xf0) {
       case 0x60:
-	  /* Open Channel */
-	  if (!p->isopen[channel] == 1) {
-	      p->isopen[channel] = 2;
-	      st = (*(p->openf)) (vdrive, NULL, 0, channel);
-	      for (i = 0; i < SerialPtr; i++)
-		  (*(p->putf)) (vdrive, SerialBuffer[i], channel);
-	      SerialPtr = 0;
-	  }
-	  if (p->flushf)
-	      (*(p->flushf)) (vdrive, channel);
+          /* Open Channel */
+          if (!p->isopen[channel] == 1) {
+              p->isopen[channel] = 2;
+              st = (*(p->openf)) (vdrive, NULL, 0, channel);
+              for (i = 0; i < SerialPtr; i++)
+                  (*(p->putf)) (vdrive, SerialBuffer[i], channel);
+              SerialPtr = 0;
+          }
+          if (p->flushf)
+              (*(p->flushf)) (vdrive, channel);
 
-	  if ((!st) && ((TrapDevice & 0xf0) == 0x40)) {
-	      st = parallelreceivebyte(&b, 1) & 0xbf;	/* any error, except eof */
-	  }
-	  break;
-
+          if ((!st) && ((TrapDevice & 0xf0) == 0x40)) {
+              /* any error, except eof */
+              st = parallelreceivebyte(&b, 1) & 0xbf;
+          }
+          break;
       case 0xE0:
-	  /* Close File */
-	  p->isopen[channel] = 0;
-	  st = (*(p->closef)) (vdrive, channel);
-	  break;
-
+          /* Close File */
+          p->isopen[channel] = 0;
+          st = (*(p->closef)) (vdrive, channel);
+          break;
       case 0xF0:
-	  /* Open File */
-	  if (p->isopen[channel]) {
-	      if (p->isopen[channel] == 2) {
+          /* Open File */
+          if (p->isopen[channel]) {
+              if (p->isopen[channel] == 2) {
                   log_warning(serial_log, "Bogus close?");
                   (*(p->closef)) (vdrive, channel);
               }
-	      p->isopen[channel] = 2;
-	      SerialBuffer[SerialPtr] = 0;
-	      st = (*(p->openf)) (vdrive, (char *) SerialBuffer, SerialPtr,
-				  channel);
-	      SerialPtr = 0;
+              p->isopen[channel] = 2;
+              SerialBuffer[SerialPtr] = 0;
+              st = (*(p->openf)) (vdrive, (char *) SerialBuffer, SerialPtr,
+                                  channel);
+              SerialPtr = 0;
 
-	      if (st) {
-		  p->isopen[channel] = 0;
-		  (*(p->closef)) (vdrive, channel);
-		  log_error(serial_log, "Cannot open file. Status $%02x.",
+              if (st) {
+                  p->isopen[channel] = 0;
+                  (*(p->closef)) (vdrive, channel);
+                  log_error(serial_log, "Cannot open file. Status $%02x.",
                             st);
-	      }
-	  }
-	  if (p->flushf)
-	      (*(p->flushf)) (vdrive, channel);
-	  break;
-
+              }
+          }
+          if (p->flushf)
+              (*(p->flushf)) (vdrive, channel);
+          break;
       default:
-	  log_error(serial_log, "Unknown command %02X.", TrapSecondary & 0xff);
+          log_error(serial_log, "Unknown command %02X.", TrapSecondary & 0xff);
     }
     return (st);
 }
@@ -437,43 +435,43 @@ int parallelattention(int b)
     void *vdrive;
 
     if (parallel_debug)
-	log_message(serial_log, "ParallelAttention(%02x).", b);
+        log_message(serial_log, "ParallelAttention(%02x).", b);
 
     if (b == 0x3f
-	&& (((TrapSecondary & 0xf0) == 0xf0)
-	    || ((TrapSecondary & 0x0f) == 0x0f))) {
-	st = parallelcommand();
+        && (((TrapSecondary & 0xf0) == 0xf0)
+            || ((TrapSecondary & 0x0f) == 0x0f))) {
+        st = parallelcommand();
     } else {
-	switch (b & 0xf0) {
-	  case 0x20:
-	  case 0x40:
-	      TrapDevice = b;
-	      break;
+        switch (b & 0xf0) {
+          case 0x20:
+          case 0x40:
+              TrapDevice = b;
+              break;
 
-	  case 0x60:		/* secondary address */
-	  case 0xe0:		/* close a file */
-	      TrapSecondary = b;
-	      st |= parallelcommand();
-	      break;
+          case 0x60:            /* secondary address */
+          case 0xe0:            /* close a file */
+              TrapSecondary = b;
+              st |= parallelcommand();
+              break;
 
-	  case 0xf0:		/* Open File needs the filename first */
-	      TrapSecondary = b;
+          case 0xf0:            /* Open File needs the filename first */
+              TrapSecondary = b;
               p = &(serialdevices[TrapDevice & 0x0f]);
               vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
               if (p->isopen[b & 0x0f] == 2) {
                  (*(p->closef)) (vdrive, b & 0x0f);
               }
               p->isopen[b & 0x0f] = 1;
-	      break;
-	}
+              break;
+        }
     }
 
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
-	st |= 0x80;
+        st |= 0x80;
 
     if ((b == 0x3f) || (b == 0x5f)) {
-	TrapDevice = 0;
-	TrapSecondary = 0;
+        TrapDevice = 0;
+        TrapSecondary = 0;
     }
 
     st |= TrapDevice << 8;
@@ -491,28 +489,28 @@ int parallelsendbyte(BYTE data)
     void *vdrive;
 
     if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
-	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
-	return 0x83;	/* device not present */
+        || ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+        return 0x83;    /* device not present */
     }
 
     p = &serialdevices[TrapDevice & 0x0f];
     vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
 
     if (p->inuse) {
-	if (p->isopen[TrapSecondary & 0x0f] == 1) {
+        if (p->isopen[TrapSecondary & 0x0f] == 1) {
 
-	    if (parallel_debug)
-		log_message(serial_log,
+            if (parallel_debug)
+                log_message(serial_log,
                             "SerialSendByte[%2d] = %02x.", SerialPtr, data);
-	    /* Store name here */
-	    if (SerialPtr < SERIAL_NAMELENGTH)
-		SerialBuffer[SerialPtr++] = data;
-	} else {
-	    /* Send to device */
-	    st = (*(p->putf)) (vdrive, data, TrapSecondary & 0x0f);
-	}
-    } else {			/* Not present */
-	st = 0x83;
+            /* Store name here */
+            if (SerialPtr < SERIAL_NAMELENGTH)
+                SerialBuffer[SerialPtr++] = data;
+        } else {
+            /* Send to device */
+            st = (*(p->putf)) (vdrive, data, TrapSecondary & 0x0f);
+        }
+    } else {                    /* Not present */
+        st = 0x83;
     }
 
     return st + (TrapDevice << 8);
@@ -525,8 +523,8 @@ int parallelreceivebyte(BYTE * data, int fake)
     void *vdrive;
 
     if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
-	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
-	return 0x83;	/* device not present */
+        || ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+        return 0x83;    /* device not present */
     }
 
     p = &serialdevices[TrapDevice & 0x0f];
@@ -534,39 +532,41 @@ int parallelreceivebyte(BYTE * data, int fake)
 
     /* first fill up buffers */
     if (!p->lastok[secadr]) {
-	p->lastok[secadr] = p->nextok[secadr];
-	p->lastbyte[secadr] = p->nextbyte[secadr];
-	p->lastst[secadr] = p->nextst[secadr];
-	p->nextok[secadr] = 0;
-	if (!p->lastok[secadr]) {
-	    p->lastst[secadr] =
-		(*(p->getf)) (vdrive, &(p->lastbyte[secadr]), secadr);
-	    p->lastok[secadr] = 1;
-	}
+        p->lastok[secadr] = p->nextok[secadr];
+        p->lastbyte[secadr] = p->nextbyte[secadr];
+        p->lastst[secadr] = p->nextst[secadr];
+        p->nextok[secadr] = 0;
+        if (!p->lastok[secadr]) {
+            p->lastst[secadr] =
+                (*(p->getf)) (vdrive, &(p->lastbyte[secadr]), secadr);
+            p->lastok[secadr] = 1;
+        }
     }
     if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
-	p->nextst[secadr] =
-	    (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
-	p->nextok[secadr] = 1;
+        p->nextst[secadr] =
+            (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
+        p->nextok[secadr] = 1;
     }
     *data = p->lastbyte[secadr];
     if (!fake)
-	p->lastok[secadr] = 0;
+        p->lastok[secadr] = 0;
     st = p->nextok[secadr] ? p->nextst[secadr] :
-	(p->lastok[secadr] ? p->lastst[secadr] : 2);
+        (p->lastok[secadr] ? p->lastst[secadr] : 2);
     st += TrapDevice << 8;
 
     if (parallel_debug)
-	log_message(serial_log,
-                    "receive: sa=%02x lastb = %02x (data=%02x),  ok=%s, st=%04x, nextb = %02x, "
+        log_message(serial_log,
+                    "receive: sa=%02x lastb = %02x (data=%02x), "
+                    "ok=%s, st=%04x, nextb = %02x, "
                     "ok=%s, st=%04x.", secadr,
-                    p->lastbyte[secadr], (int)*data, p->lastok[secadr] ? "ok" : "no",
+                    p->lastbyte[secadr], (int)*data,
+                    p->lastok[secadr] ? "ok" : "no",
                     p->lastst[secadr],
                     p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
                     p->nextst[secadr]);
 
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr])
-	p->nextok[secadr] = 0;
+        p->nextok[secadr] = 0;
 
     if ((st & 0x40) && eof_callback_func != NULL)
         eof_callback_func();
@@ -593,16 +593,16 @@ int serial_init(const trap_t * trap_list)
      * Clear serial device functions
      */
     for (i = 0; i < MAXDEVICES; i++) {
-	serial_t *p;
+        serial_t *p;
 
-	p = &serialdevices[i];
+        p = &serialdevices[i];
 
-	p->inuse = 0;
-	p->getf = (int (*)(vdrive_t *, BYTE *, unsigned int)) fn;
-	p->putf = (int (*)(vdrive_t *, BYTE, unsigned int)) fn;
-	p->openf = (int (*)(vdrive_t *, const char *, int, unsigned int)) fn;
-	p->closef = (int (*)(vdrive_t *, unsigned int)) fn;
-	p->flushf = (void (*)(vdrive_t *, unsigned int)) NULL;
+        p->inuse = 0;
+        p->getf = (int (*)(vdrive_t *, BYTE *, unsigned int)) fn;
+        p->putf = (int (*)(vdrive_t *, BYTE, unsigned int)) fn;
+        p->openf = (int (*)(vdrive_t *, const char *, int, unsigned int)) fn;
+        p->closef = (int (*)(vdrive_t *, unsigned int)) fn;
+        p->flushf = (void (*)(vdrive_t *, unsigned int)) NULL;
     }
 
     prdevice_late_init();
@@ -613,11 +613,11 @@ int serial_init(const trap_t * trap_list)
 int serial_install_traps(void)
 {
     if (!traps_installed && serial_traps != NULL) {
-	const trap_t *p;
+        const trap_t *p;
 
-	for (p = serial_traps; p->func != NULL; p++)
-	    traps_add(p);
-	traps_installed = 1;
+        for (p = serial_traps; p->func != NULL; p++)
+            traps_add(p);
+        traps_installed = 1;
     }
     return 0;
 }
@@ -625,16 +625,16 @@ int serial_install_traps(void)
 int serial_remove_traps(void)
 {
     if (traps_installed && serial_traps != NULL) {
-	const trap_t *p;
+        const trap_t *p;
 
-	for (p = serial_traps; p->func != NULL; p++)
-	    traps_remove(p);
-	traps_installed = 0;
+        for (p = serial_traps; p->func != NULL; p++)
+            traps_remove(p);
+        traps_installed = 0;
     }
     return 0;
 }
 
-int serial_attach_device(unsigned int device, const char *name,
+int serial_attach_device(unsigned int unit, const char *name,
                          int (*getf) (vdrive_t *, BYTE *, unsigned int),
                          int (*putf) (vdrive_t *, BYTE, unsigned int),
                          int (*openf) (vdrive_t *, const char *,
@@ -645,10 +645,10 @@ int serial_attach_device(unsigned int device, const char *name,
     serial_t *p;
     int i;
 
-    if (device >= MAXDEVICES)
+    if (unit >= MAXDEVICES)
         return 1;
 
-    p = &serialdevices[device];
+    p = &serialdevices[unit];
 
     p->getf = getf;
     p->putf = putf;
@@ -670,29 +670,29 @@ int serial_attach_device(unsigned int device, const char *name,
     return 0;
 }
 
-/* Detach and kill serial devices.  Detach all (shutdown) if device# == -1.  */
-int serial_detach_device(int number)
+/* Detach and kill serial devices.  */
+int serial_detach_device(unsigned int unit)
 {
     serial_t *p;
 
-    if (number < 0 || number >= MAXDEVICES) {
-        log_error(serial_log, "Illegal device number %d.", number);
+    if (unit < 0 || unit >= MAXDEVICES) {
+        log_error(serial_log, "Illegal device number %d.", unit);
         return -1;
     }
-    p = &serialdevices[number];
+    p = &serialdevices[unit];
 
     if (!p || !(p->inuse)) {
-        log_error(serial_log, "Attempting to remove empty device #%d.", number);
+        log_error(serial_log, "Attempting to remove empty device #%d.", unit);
     } else {
         p->inuse = 0;
     }
 
-    return (0);
+    return 0;
 }
 
-serial_t *serial_get_device(int device)
+serial_t *serial_get_device(unsigned int unit)
 {
-    return &serialdevices[device];
+    return &serialdevices[unit];
 }
 
 /* Close all files.  */
