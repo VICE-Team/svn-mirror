@@ -43,6 +43,7 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
+#include "uiromset.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -74,6 +75,43 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static ui_menu_entry_t plus4ui_main_romset_submenu[] = {
+    { N_("Load new kernal ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
+    { N_("Load new BASIC ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
+    { N_("Load new 3 plus 1 LO ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"3plus1loName", NULL },
+    { N_("Load new 3 plus 1 HI ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"3plus1hiName", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t plus4_romset_submenu[] = {
+    { N_("Load default ROMs"),
+      (ui_callback_t)ui_set_romset,
+      (ui_callback_data_t)"default.vrs", NULL },
+    { "--" },
+    { N_("Load new computer ROM"),
+      NULL, NULL, plus4ui_main_romset_submenu },
+    { N_("Load new drive ROM"),
+      NULL, NULL, ui_driveplus4_romset_submenu },
+    { "--" },
+    { N_("Load custom ROM set from file"),
+      (ui_callback_t)ui_load_romset, NULL, NULL },
+    { N_("Dump ROM set definition to file"),
+      (ui_callback_t)ui_dump_romset, NULL, NULL },
+    { N_("List current ROM set"),
+      (ui_callback_t)ui_list_romset, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_RADIO(RamSize)
 
 ui_menu_entry_t set_ram_submenu[] = {
@@ -89,6 +127,8 @@ ui_menu_entry_t set_ram_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t plus4_menu[] = {
+    { N_("ROM settings"),
+      NULL, NULL, plus4_romset_submenu },
     { N_("RAM settings"),
       NULL, NULL, set_ram_submenu },
     { N_("TED settings"),

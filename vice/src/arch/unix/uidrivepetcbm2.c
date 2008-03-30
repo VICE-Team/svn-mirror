@@ -33,6 +33,7 @@
 #include "uidrive.h"
 #include "uidrivepetcbm2.h"
 #include "uimenu.h"
+#include "uiromset.h"
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
@@ -133,6 +134,27 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
 ui_menu_entry_t ui_drivepetcbm2_settings_menu[] = {
     { N_("Drive settings"),
       NULL, NULL, drivepetcbm2_settings_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+ui_menu_entry_t ui_drivepetcbm2_romset_submenu[] = {
+    { N_("Load new 2031 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName2031", NULL },
+    { N_("Load new 2040 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName2040", NULL },
+    { N_("Load new 3040 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName3040", NULL },
+    { N_("Load new 4040 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName4040", NULL },
+    { N_("Load new 1001 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1001", NULL },
     { NULL }
 };
 

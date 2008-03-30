@@ -46,6 +46,7 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheralieee.h"
+#include "uiromset.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -164,6 +165,19 @@ static ui_menu_entry_t model_defaults_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(ChargenName)
 
+static ui_menu_entry_t petui_main_romset_submenu[] = {
+    { N_("Load new kernal ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
+    { N_("Load new editor ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"EditorName", NULL },
+    { N_("Load new BASIC ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t pet_romset_submenu[] = {
     { "Basic 1",
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom1g.vrs", NULL },
@@ -183,15 +197,10 @@ static ui_menu_entry_t pet_romset_submenu[] = {
     { "*Basic 1 character set",
       (ui_callback_t)toggle_Basic1Chars, NULL, NULL },
     { "--" },
-    { N_("Load new kernal ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new editor ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"EditorName", NULL },
-    { N_("Load new BASIC ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
+    { N_("Load new computer ROM"),
+      NULL, NULL, petui_main_romset_submenu },
+    { N_("Load new drive ROM"),
+      NULL, NULL, ui_drivepetcbm2_romset_submenu },
     { "--" },
     { N_("Load new character ROM"),
       (ui_callback_t)ui_load_rom_file,

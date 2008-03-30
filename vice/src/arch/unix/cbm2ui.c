@@ -47,6 +47,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uiperipheralieee.h"
+#include "uiromset.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -69,6 +70,19 @@ ui_menu_entry_t set_video_standard_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static ui_menu_entry_t cbm2ui_main_romset_submenu[] = {
+    { N_("Load new Kernal"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
+    { N_("Load new Chargen"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"ChargenName", NULL },
+    { N_("Load new Basic"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t cbm2_romset_submenu[] = {
     { N_("Basic 128k, low chars"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom128l.vrs", NULL },
@@ -79,19 +93,10 @@ static ui_menu_entry_t cbm2_romset_submenu[] = {
     { N_("Basic 256k, high chars"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom256h.vrs", NULL },
     { "--" },
-    { N_("Load new Kernal"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new Chargen"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"ChargenName", NULL },
-    { "--" },
-    { N_("Load new Basic"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
-    { N_("Unload Basic ROM"),
-      (ui_callback_t)ui_unload_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
+    { N_("Load new computer ROM"),
+      NULL, NULL, cbm2ui_main_romset_submenu },
+    { N_("Load new drive ROM"),
+      NULL, NULL, ui_drivepetcbm2_romset_submenu },
     { "--" },
     { N_("Load new Cart $1***"),
       (ui_callback_t)ui_load_rom_file,

@@ -33,6 +33,7 @@
 #include "uidriveiec.h"
 #include "uidriveplus4.h"
 #include "uimenu.h"
+#include "uiromset.h"
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
@@ -169,6 +170,30 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
 ui_menu_entry_t ui_driveplus4_settings_menu[] = {
     { N_("Drive settings"),
       NULL, NULL, driveplus4_settings_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+ui_menu_entry_t ui_driveplus4_romset_submenu[] = {
+    { N_("Load new 1541 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1541", NULL },
+    { N_("Load new 1541-II ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1541ii", NULL },
+    { N_("Load new 1551 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1551", NULL },
+    { N_("Load new 1570 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1570", NULL },
+    { N_("Load new 1571 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1571", NULL },
+    { N_("Load new 1581 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1581", NULL },
     { NULL }
 };
 
