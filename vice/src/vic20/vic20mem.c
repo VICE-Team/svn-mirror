@@ -360,6 +360,7 @@ BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 read_func_ptr_t _mem_read_tab[0x101];
 store_func_ptr_t _mem_write_tab[0x101];
 BYTE *_mem_read_base_tab[0x101];
+int mem_read_limit_tab[0x101];
 
 /* These ones are used when watchpoints are turned on.  */
 read_func_ptr_t _mem_read_tab_watch[0x101];
@@ -370,6 +371,7 @@ store_func_ptr_t _mem_write_tab_nowatch[0x101];
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
+int *mem_read_limit_tab_ptr;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
@@ -703,12 +705,16 @@ void initialize_memory(void)
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
+    mem_read_limit_tab[0x100] = -1;
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
+    mem_read_limit_tab_ptr = mem_read_limit_tab;
 
     for (i = 0; i <= 0x100; i++) {
 	_mem_read_tab_watch[i] = read_watch;
 	_mem_write_tab_watch[i] = store_watch;
+    /* FIXME: Fill in correct limits.  */
+    mem_read_limit_tab[i] = -1;
     }
 
     mem_toggle_watchpoints(0);
