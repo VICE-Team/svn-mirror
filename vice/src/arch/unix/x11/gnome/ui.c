@@ -869,6 +869,11 @@ void archdep_ui_init(int argc, char *argv[])
        case we have `libgnomeui' around.
        For now I discard gnome-specific options. FIXME MP */
     char *fake_argv[2];
+
+    if (console_mode) {
+        return;
+    }
+
     fake_argv[0] = argv[0];
     fake_argv[1] = NULL;
     gnome_init(PACKAGE, VERSION, 1, fake_argv);

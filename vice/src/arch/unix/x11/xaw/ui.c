@@ -883,6 +883,9 @@ void ui_proc_start(void)
 
 void archdep_ui_init(int argc, char *argv[])
 {
+    if (console_mode) {
+        return;
+    }
 }
 
 /* Initialize the GUI and parse the command line. */

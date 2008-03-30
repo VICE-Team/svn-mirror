@@ -58,6 +58,7 @@
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "machine.h"
 #include "parallel.h"
 #include "resources.h"
 #include "riotd.h"
@@ -1536,6 +1537,10 @@ void drive_set_1571_sync_factor(int new_sync, int dnr)
 void drive_update_ui_status(void)
 {
     int i;
+
+    if (console_mode || psid_mode) {
+        return;
+    }
 
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < 2; i++) {

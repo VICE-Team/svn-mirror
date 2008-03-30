@@ -66,6 +66,7 @@
 #include "cmdline.h"
 #include "kbd.h"
 #include "log.h"
+#include "machine.h"
 #include "palette.h"
 #include "resources.h"
 #include "types.h"
@@ -407,6 +408,10 @@ int canvas_set_palette(canvas_t c, const palette_t * palette,
 /* Change the size of the canvas. */
 void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
 {
+    if (console_mode || psid_mode) {
+        return;
+    }
+
     ui_resize_canvas_window(s->emuwindow, width, height);
 }
 

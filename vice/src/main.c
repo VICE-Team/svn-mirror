@@ -383,15 +383,6 @@ int MAIN_PROGRAM(int argc, char **argv)
 {
     int i;
 
-    archdep_startup(&argc, argv);
-
-#ifndef __riscos
-    if (atexit (main_exit) < 0) {
-	perror ("atexit");
-	return -1;
-    }
-#endif
-
     /* Check for -console and -vsid before initializing the user interface.
        -console => no user interface
        -vsid    => user interface in separate process */
@@ -403,6 +394,15 @@ int MAIN_PROGRAM(int argc, char **argv)
 	    psid_mode = 1;
 	}
     }
+
+    archdep_startup(&argc, argv);
+
+#ifndef __riscos
+    if (atexit (main_exit) < 0) {
+	perror ("atexit");
+	return -1;
+    }
+#endif
 
     drive_setup_context();
 
@@ -425,6 +425,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Load the user's default configuration file.  */
     if (psid_mode) {
+	resources_set_value("Drive8Type", (resource_value_t)0);
 	resources_set_value("Sound", (resource_value_t)1);
 #ifdef HAVE_RESID
 	resources_set_value("SidUseResid", (resource_value_t)1);
