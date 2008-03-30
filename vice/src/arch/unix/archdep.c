@@ -164,8 +164,8 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #else 
 #if defined(MACOSX_SUPPORT)
-				/* Mac OS X Bundles keep their ROMS in ../Resources/ROM */
-				#define MACOSX_ROMDIR "/../Resources/ROM/"
+        /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
+        #define MACOSX_ROMDIR "/../ROM/"
         default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id,
                                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/", emu_id,
@@ -305,8 +305,11 @@ int archdep_spawn(const char *name, char **argv,
     int child_status;
     char *stdout_redir = NULL;
 
-    if (pstdout_redir != NULL)
-       stdout_redir = *pstdout_redir; 
+    if (pstdout_redir != NULL) {
+        if (*pstdout_redir == NULL)
+            *pstdout_redir = archdep_tmpnam();
+        stdout_redir = *pstdout_redir;
+    }
 
     child_pid = vfork();
     if (child_pid < 0) {
