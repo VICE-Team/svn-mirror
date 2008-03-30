@@ -1,5 +1,5 @@
 
-                              VICE 1.0
+                              VICE 1.1
                               ~~~~~~~~
 
                      MS-DOS specific information
@@ -163,6 +163,7 @@ The additional C128 keys are mapped as follows:
     F3            ALT
     F5            HELP
     F6            LINE FEED
+    F7            40/80 COLUMN
     F8            NO SCROLL
     F9            F1
     F10           F3

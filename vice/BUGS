@@ -1,4 +1,4 @@
-These are the most important known problems with VICE 1.0:
+These are the most important known problems with VICE 1.1:
 
 - The image content lister does not show the contents of a G64 disk.
 

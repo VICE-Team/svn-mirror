@@ -1,4 +1,4 @@
-%define version 1.0
+%define version 1.1
 %define rel     1
 %define prefix  /usr/local
 
