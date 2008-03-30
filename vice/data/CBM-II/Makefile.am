@@ -5,25 +5,26 @@ cbm2_DATA = \
 	basic.128 \
 	basic.256 \
 	basic.500 \
+	ccs64.vpl \
+	c64s.vpl \
 	chargen.500 \
 	chargen.600 \
 	chargen.700 \
-        os2.vkm \
-	busi_uk.vkm \
 	default.vpl \
+	frodo.vpl \
+	godot.vpl \
 	green.vpl \
 	kernal \
 	kernal.500 \
-	white.vpl \
+	os2.vkm \
+	pc64.vpl \
 	rom500.vrs \
 	rom128l.vrs \
 	rom128h.vrs \
 	rom256l.vrs \
 	rom256h.vrs \
-	c64s.vpl \
-	ccs64.vpl \
-	frodo.vpl \
-	godot.vpl \
-	pc64.vpl
+	white.vpl \
+	x11_buks.vkm
 
 EXTRA_DIST = $(cbm2_DATA)
+

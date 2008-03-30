@@ -23,10 +23,10 @@ roms = \
 keymaps = \
         os2.vkm \
         os2_40.vkm \
-	busi_uk.vkm \
-	graphics.vkm \
-	posg_de.vkm \
-	busi_de.vkm
+	x11_bdep.vkm \
+	x11_bdes.vkm \
+	x11_bgrs.vkm \
+        x11_buks.vkm
 
 romsets = \
 	rom1g.vrs \
@@ -41,3 +41,4 @@ petdir = $(prefix)/lib/vice/PET
 pet_DATA = $(keymaps) $(roms) $(palettes) $(romsets)
 
 EXTRA_DIST = $(pet_DATA)
+
