@@ -1,3 +1,71 @@
+2006-10-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.15.
+
+	* drive/iec/c64exp/iec-c64exp.c, drive/iec-c64exp.h,
+	drive/iec/c64exp/Makefile.am, drive/iec-plus4exp.h,
+	drive/iec/plus4exp/iecplus4exp.c,
+	drive/iec/plus4exp/Makefile.am: New files.
+
+	* drive/iec/c64exp/Makefile.am, drive/iec-c64exp.h,
+	drive/iec/c64exp/iec-c64exp.c,
+	drive/iec/c64exp/c64exp-resources.c,
+	drive/iec/c64exp/c64exp-resources.h,
+	drive/iec/c64exp/c64exp-cmdline-options.c,
+	drive/iec/c64exp/c64exp-cmdline-options.h,
+	drive/iec/plus4exp/Makefile.am, drive/iec-plus4exp.h,
+        drive/iec/plus4exp/iec-plus4exp.c,
+	drive/iec/plus4exp/plus4exp-resources.c,
+	drive/iec/plus4exp/plus4exp-resources.h
+	drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	drive/iec/plus4exp/plus4exp-cmdline-options.h,
+	arch/win32/c64exp.dsp, arch/win32/plus4exp.dsp: New files.
+
+	* drive/iec/Makefile.am, drive/Makefile.am, Makefile.am,
+	arch/win32/Makefile.am, arch/win32/iec.dsp,
+	arch/win32/vice.dsw: Updated.
+
+	* drive/iec/iec.c, drive/iec/memiec.c, c128/c128drive.c
+	c64/c64drive.c, plus4/plus4drive.c, drive/iec/iec-resources.c,
+	drive/iec/iec-cmdline-options.c: Moved c64 and plus4 specific
+	routines to separate files.
+
+	* drive/iec/profdos.c, drive/iec/profdos.h: Moved to c64exp
+	subdirectory.
+
+	* translate.txt, translate.c: Added ProfDOS strings, separated
+	parallel cable strings.
+
+	* arch/unix/kbd.h, arch/win32/kbd.h, arch/msdos/kbd.h,
+	joystick.c: Added missing prototype.
+
+2006-10-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resmmc64.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resvic20.rc, translate.c: Updated german text
+	elements.
+
+2006-10-22  Andreas Dehmel  <zarquon@t-online.de>
+
+	* joystick.c: didn't compile/link if COMMON_KBD undefined.
+
+2006-10-22  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/joy.c: adapted code to changed joystick
+	interface.
+
+2006-10-22  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uiscreenshot.c (ui_screenshot_dialog):
+	removed debug code form ffmpeg.
+
+	* arch/unix/x11/gnome/uimenu.c (make_menu_label): reintroduced
+	to activate gettext again.
+	(ui_menu_create): use `make_menu_label'.
+
 2006-10-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.14.
@@ -20,6 +88,28 @@
 
 	* c64/c64io.c, c64/mmc64.c, c64/mmc64.h: Added (RR-NET)
 	clockport support to MMC64.
+
+2006-10-20  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/msdos/joy.c, arch/msdos/joy.h, arch/msdos/kbd.c,
+	arch/msdos/uijoystick.c, arch/unix/gui/uijoystick2.c,
+	arch/unix/gui/vic20ui.c, arch/unix/joy.c, arch/unix/joy.h,
+	arch/unix/x11/gnome/gnomekbd.c, arch/unix/x11/xaw/x11kbd.c,
+	arch/win32/joy.c, arch/win32/joy.h, arch/win32/kbd.c,
+	arch/win32/uijoystick.c, joystick.c, joystick.h, keyboard.c,
+	keyboard.h: Add ability to redefine key-to-joystick mapping on
+	Unix, unified joystick resources.
+
+	* arch/unix/x11/gnome/uijoystickkeys.c,
+	arch/unix/x11/gnome/uijoystickkeys.h,
+	arch/unix/gui/uijoystickkeys.h: new files.
+
+	* arch/unix/x11/gnome/Makefile.am: Added new file.
+
+	* arch/msdos/uijoystick.c: removed an MS-DOS newline
+
+	* joystick.c: make functions joyreleaseval, joystick_check_set
+	and joystick_check_clr more readable
 
 2006-10-19  Andreas Boose  <viceteam@t-online.de>
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-21 20:52+0200\n"
+"POT-Creation-Date: 2006-10-22 23:11+0200\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 
 #. sid/sid-cmdline-options.c, vsync.c
 #: src/vsync.c:145 src/sid/sid-cmdline-options.c:155
-#: src/sid/sid-cmdline-options.c:158 src/translate.c.po.c:3310
+#: src/sid/sid-cmdline-options.c:158 src/translate.c.po.c:3350
 msgid "<percent>"
 msgstr "<procent>"
 
 #. vsync.c
-#: src/vsync.c:145 src/translate.c.po.c:4429
+#: src/vsync.c:145 src/translate.c.po.c:4469
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
@@ -36,17 +36,17 @@ msgid "<value>"
 msgstr "<värde>"
 
 #. vsync.c
-#: src/vsync.c:147 src/translate.c.po.c:4439
+#: src/vsync.c:147 src/translate.c.po.c:4479
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
 #. vsync.c
-#: src/vsync.c:149 src/translate.c.po.c:4449
+#: src/vsync.c:149 src/translate.c.po.c:4489
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
 #. vsync.c
-#: src/vsync.c:151 src/translate.c.po.c:4459
+#: src/vsync.c:151 src/translate.c.po.c:4499
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
@@ -65,22 +65,22 @@ msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
 #. sound.c
-#: src/sound.c:252 src/translate.c.po.c:4279
+#: src/sound.c:252 src/translate.c.po.c:4319
 msgid "Enable sound playback"
 msgstr "Aktivera ljudåtergivning"
 
 #. sound.c
-#: src/sound.c:254 src/translate.c.po.c:4289
+#: src/sound.c:254 src/translate.c.po.c:4329
 msgid "Disable sound playback"
 msgstr "Inaktivera ljudåtergivning"
 
 #. sound.c
-#: src/sound.c:256 src/translate.c.po.c:4299
+#: src/sound.c:256 src/translate.c.po.c:4339
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Sätt ljudsamplingshastighet till <värde> Hz"
 
 #. sound.c
-#: src/sound.c:258 src/translate.c.po.c:4309
+#: src/sound.c:258 src/translate.c.po.c:4349
 msgid "Set sound buffer size to <value> msec"
 msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 
@@ -126,11 +126,12 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/cbm2/cbm2-cmdline-options.c:145 src/cbm2/cbm2-cmdline-options.c:178
 #: src/cbm2/cbm2-cmdline-options.c:181 src/cbm2/cbm2-cmdline-options.c:184
 #: src/cbm2/cbm2-cmdline-options.c:187 src/cbm2/cbm2-cmdline-options.c:190
-#: src/cbm2/cbm2-cmdline-options.c:193 src/drive/iec/iec-cmdline-options.c:85
-#: src/drive/iec/iec-cmdline-options.c:87
-#: src/drive/iec/iec-cmdline-options.c:89
-#: src/drive/iec/iec-cmdline-options.c:91
-#: src/drive/iec/iec-cmdline-options.c:93
+#: src/cbm2/cbm2-cmdline-options.c:193 src/drive/iec/iec-cmdline-options.c:82
+#: src/drive/iec/iec-cmdline-options.c:84
+#: src/drive/iec/iec-cmdline-options.c:86
+#: src/drive/iec/iec-cmdline-options.c:88
+#: src/drive/iec/iec-cmdline-options.c:90
+#: src/drive/iec/c64exp/c64exp-cmdline-options.c:59
 #: src/drive/iec128dcr/iec128dcr-cmdline-options.c:45
 #: src/drive/ieee/ieee-cmdline-options.c:53
 #: src/drive/ieee/ieee-cmdline-options.c:55
@@ -173,37 +174,37 @@ msgid "<name>"
 msgstr "<namn>"
 
 #. sound.c
-#: src/sound.c:260 src/translate.c.po.c:4319
+#: src/sound.c:260 src/translate.c.po.c:4359
 msgid "Specify sound driver"
 msgstr "Ange ljuddrivrutin"
 
 #. sound.c
-#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4329
+#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4369
 msgid "<args>"
 msgstr "<flaggor>"
 
 #. sound.c
-#: src/sound.c:262 src/translate.c.po.c:4339
+#: src/sound.c:262 src/translate.c.po.c:4379
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin"
 
 #. sound.c
-#: src/sound.c:264 src/translate.c.po.c:4349
+#: src/sound.c:264 src/translate.c.po.c:4389
 msgid "Specify recording sound driver"
 msgstr "Ange ljuddrivrutin för inspelning"
 
 #. sound.c
-#: src/sound.c:266 src/translate.c.po.c:4359
+#: src/sound.c:266 src/translate.c.po.c:4399
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin för inspelning"
 
 #. sound.c
-#: src/sound.c:268 src/translate.c.po.c:4369
+#: src/sound.c:268 src/translate.c.po.c:4409
 msgid "<sync>"
 msgstr "<synk>"
 
 #. sound.c
-#: src/sound.c:268 src/translate.c.po.c:4379
+#: src/sound.c:268 src/translate.c.po.c:4419
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
@@ -363,7 +364,7 @@ msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
 #. event.c
-#: src/event.c:1225 src/translate.c.po.c:4017
+#: src/event.c:1225 src/translate.c.po.c:4057
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
@@ -401,57 +402,57 @@ msgstr ""
 "Alla namngivna enheter kommer kopplas från."
 
 #. debug.c
-#: src/debug.c:171 src/translate.c.po.c:3902
+#: src/debug.c:171 src/translate.c.po.c:3942
 msgid "Trace the main CPU"
 msgstr "Spåra huvudprocessorn"
 
 #. debug.c
-#: src/debug.c:174 src/translate.c.po.c:3912
+#: src/debug.c:174 src/translate.c.po.c:3952
 msgid "Do not trace the main CPU"
 msgstr "Spåra inte huvudprocessorn"
 
 #. debug.c
-#: src/debug.c:177 src/translate.c.po.c:3922
+#: src/debug.c:177 src/translate.c.po.c:3962
 msgid "Trace the drive0 CPU"
 msgstr "Spåra processor i diskettstation 0"
 
 #. debug.c
-#: src/debug.c:180 src/translate.c.po.c:3932
+#: src/debug.c:180 src/translate.c.po.c:3972
 msgid "Do not trace the drive0 CPU"
 msgstr "Spåra inte processor i diskettstation 0"
 
 #. debug.c
-#: src/debug.c:183 src/translate.c.po.c:3942
+#: src/debug.c:183 src/translate.c.po.c:3982
 msgid "Trace the drive1 CPU"
 msgstr "Spåra processor i diskettstation 1"
 
 #. debug.c
-#: src/debug.c:186 src/translate.c.po.c:3952
+#: src/debug.c:186 src/translate.c.po.c:3992
 msgid "Do not trace the drive1 CPU"
 msgstr "Spåra inte processor i diskettstation 1"
 
 #. debug.c
-#: src/debug.c:190 src/translate.c.po.c:3963
+#: src/debug.c:190 src/translate.c.po.c:4003
 msgid "Trace the drive2 CPU"
 msgstr "Spåra processor i diskettstation 2"
 
 #. debug.c
-#: src/debug.c:193 src/translate.c.po.c:3973
+#: src/debug.c:193 src/translate.c.po.c:4013
 msgid "Do not trace the drive2 CPU"
 msgstr "Spåra inte processor i diskettstation 2"
 
 #. debug.c
-#: src/debug.c:198 src/translate.c.po.c:3985
+#: src/debug.c:198 src/translate.c.po.c:4025
 msgid "Trace the drive3 CPU"
 msgstr "Spåra processor i diskettstation 3"
 
 #. debug.c
-#: src/debug.c:201 src/translate.c.po.c:3995
+#: src/debug.c:201 src/translate.c.po.c:4035
 msgid "Do not trace the drive3 CPU"
 msgstr "Spåra inte processor i diskettstation 3"
 
 #. debug.c
-#: src/debug.c:205 src/translate.c.po.c:4006
+#: src/debug.c:205 src/translate.c.po.c:4046
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 
@@ -576,76 +577,78 @@ msgid "Network out of sync - disconnecting."
 msgstr "Nätverket ur synk - kopplar från."
 
 #. aciacore.c
-#: src/aciacore.c:210 src/translate.c.po.c:3731
+#: src/aciacore.c:210 src/translate.c.po.c:3771
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Ange RS232-enhet denna ACIA skall arbeta på"
 
 #. drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
 #. attach.c, drive/iec/iec-cmdline-options.c
 #: src/attach.c:163 src/attach.c:166 src/attach.c:169 src/attach.c:172
-#: src/drive/drive-cmdline-options.c:68 src/drive/iec/iec-cmdline-options.c:99
+#: src/drive/drive-cmdline-options.c:68
+#: src/drive/iec/c64exp/c64exp-cmdline-options.c:65
+#: src/drive/iec/plus4exp/plus4exp-cmdline-options.c:49
 #: src/printerdrv/interface-serial.c:121 src/printerdrv/interface-serial.c:124
 #: src/translate.c.po.c:1982
 msgid "<type>"
 msgstr "<typ>"
 
 #. attach.c
-#: src/attach.c:164 src/translate.c.po.c:3741
+#: src/attach.c:164 src/translate.c.po.c:3781
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
 #. attach.c
-#: src/attach.c:167 src/translate.c.po.c:3751
+#: src/attach.c:167 src/translate.c.po.c:3791
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
 #. attach.c
-#: src/attach.c:170 src/translate.c.po.c:3761
+#: src/attach.c:170 src/translate.c.po.c:3801
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
 #. attach.c
-#: src/attach.c:173 src/translate.c.po.c:3771
+#: src/attach.c:173 src/translate.c.po.c:3811
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
 #. attach.c
-#: src/attach.c:176 src/translate.c.po.c:3781
+#: src/attach.c:176 src/translate.c.po.c:3821
 msgid "Attach disk image for drive #8 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 8 med skrivskydd"
 
 #. attach.c
-#: src/attach.c:179 src/translate.c.po.c:3791
+#: src/attach.c:179 src/translate.c.po.c:3831
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 8 skrivbar (om möjligt)"
 
 #. attach.c
-#: src/attach.c:182 src/translate.c.po.c:3801
+#: src/attach.c:182 src/translate.c.po.c:3841
 msgid "Attach disk image for drive #9 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 9 med skrivskydd"
 
 #. attach.c
-#: src/attach.c:185 src/translate.c.po.c:3811
+#: src/attach.c:185 src/translate.c.po.c:3851
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 9 skrivbar (om möjligt)"
 
 #. attach.c
-#: src/attach.c:188 src/translate.c.po.c:3821
+#: src/attach.c:188 src/translate.c.po.c:3861
 msgid "Attach disk image for drive #10 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 10 med skrivskydd"
 
 #. attach.c
-#: src/attach.c:191 src/translate.c.po.c:3831
+#: src/attach.c:191 src/translate.c.po.c:3871
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 10 skrivbar (om möjligt)"
 
 #. attach.c
-#: src/attach.c:194 src/translate.c.po.c:3841
+#: src/attach.c:194 src/translate.c.po.c:3881
 msgid "Attach disk image for drive #11 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 11 med skrivskydd"
 
 #. attach.c
-#: src/attach.c:197 src/translate.c.po.c:3851
+#: src/attach.c:197 src/translate.c.po.c:3891
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 11 skrivbar (om möjligt)"
 
@@ -999,7 +1002,7 @@ msgstr "Anslut rå 16KB-Westermann learning-insticksmodulfil"
 #. fuzzy
 #. fuzzy
 #. c64/cart/c64cart.c
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4599
+#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4639
 #, fuzzy
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut Strucured Basic-insticksmodulfil"
@@ -1042,28 +1045,28 @@ msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 #. fuzzy
 #. fuzzy
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:201 src/translate.c.po.c:4559
+#: src/c64/c64_256k.c:201 src/translate.c.po.c:4599
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera 256K RAM-expansion"
 
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:203 src/translate.c.po.c:4569
+#: src/c64/c64_256k.c:203 src/translate.c.po.c:4609
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera 256K RAM-expansion"
 
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:205 src/translate.c.po.c:4579
+#: src/c64/c64_256k.c:205 src/translate.c.po.c:4619
 msgid "Specify name of 256K image"
 msgstr "Ange namn på 256K-avbildning"
 
 #. sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c
 #: src/c64/c64_256k.c:207 src/c64/plus60k.c:246
-#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3239
+#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3279
 msgid "<base address>"
 msgstr "<basadress>"
 
 #. c64/c64_256k.c
-#: src/c64/c64_256k.c:207 src/translate.c.po.c:4589
+#: src/c64/c64_256k.c:207 src/translate.c.po.c:4629
 msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
@@ -1147,37 +1150,37 @@ msgstr ""
 #. fuzzy
 #. fuzzy
 #. c64/plus256k.c
-#: src/c64/plus256k.c:166 src/translate.c.po.c:4489
+#: src/c64/plus256k.c:166 src/translate.c.po.c:4529
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera PLUS256K RAM-expansion"
 
 #. c64/plus256k.c
-#: src/c64/plus256k.c:168 src/translate.c.po.c:4499
+#: src/c64/plus256k.c:168 src/translate.c.po.c:4539
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
 
 #. c64/plus256k.c
-#: src/c64/plus256k.c:170 src/translate.c.po.c:4509
+#: src/c64/plus256k.c:170 src/translate.c.po.c:4549
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:240 src/translate.c.po.c:4519
+#: src/c64/plus60k.c:240 src/translate.c.po.c:4559
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera PLUS60K RAM-expansionen"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:242 src/translate.c.po.c:4529
+#: src/c64/plus60k.c:242 src/translate.c.po.c:4569
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera PLUS60K RAM-expansion"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:244 src/translate.c.po.c:4539
+#: src/c64/plus60k.c:244 src/translate.c.po.c:4579
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på plUS60K-avbildning"
 
 #. c64/plus60k.c
-#: src/c64/plus60k.c:246 src/translate.c.po.c:4549
+#: src/c64/plus60k.c:246 src/translate.c.po.c:4589
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
 
@@ -1428,22 +1431,22 @@ msgstr ""
 "tangentbord"
 
 #. datasette.c
-#: src/datasette.c:175 src/translate.c.po.c:3861
+#: src/datasette.c:175 src/translate.c.po.c:3901
 msgid "Enable automatic Datasette-Reset"
 msgstr "Aktivera automatisk Datasetteåterställning"
 
 #. datasette.c
-#: src/datasette.c:178 src/translate.c.po.c:3871
+#: src/datasette.c:178 src/translate.c.po.c:3911
 msgid "Disable automatic Datasette-Reset"
 msgstr "Inaktivera automatisk Datasetteåterställning"
 
 #. datasette.c
-#: src/datasette.c:181 src/translate.c.po.c:3881
+#: src/datasette.c:181 src/translate.c.po.c:3921
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Ange väntecykler för nolla i tap-filen"
 
 #. datasette.c
-#: src/datasette.c:184 src/translate.c.po.c:3891
+#: src/datasette.c:184 src/translate.c.po.c:3931
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Ange cykler som läggs till varje gap i tap-filen"
 
@@ -1464,9 +1467,8 @@ msgstr "Ange enhetstyp (0: ingen enhet)"
 
 #. drive/drive-cmdline-options.c,
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/drive-cmdline-options.c:70
-#: src/drive/iec/iec-cmdline-options.c:102 src/sid/sid-cmdline-options.c:152
-#: src/translate.c.po.c:2003
+#: src/drive/drive-cmdline-options.c:70 src/drive/iec/iec-cmdline-options.c:96
+#: src/sid/sid-cmdline-options.c:152 src/translate.c.po.c:2003
 msgid "<method>"
 msgstr "<metod>"
 
@@ -1476,162 +1478,205 @@ msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr "Ange regel för 40-spårsutökning (0: aldrig, 1: fråga, 2: vid åtkomst)"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:85 src/translate.c.po.c:2023
+#: src/drive/iec/iec-cmdline-options.c:82 src/translate.c.po.c:2023
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "Ange namn på 1541-DOS-ROM-avbildning"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:87 src/translate.c.po.c:2033
+#: src/drive/iec/iec-cmdline-options.c:84 src/translate.c.po.c:2033
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "Ange namn på 1541-II-DOS-ROM-avbildning"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:89 src/translate.c.po.c:2043
+#: src/drive/iec/iec-cmdline-options.c:86 src/translate.c.po.c:2043
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "Ange namn på 1570-DOS-ROM-avbildning"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:91 src/translate.c.po.c:2053
+#: src/drive/iec/iec-cmdline-options.c:88 src/translate.c.po.c:2053
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "Ange namn på 1571-DOS-ROM-avbildning"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:93 src/translate.c.po.c:2063
+#: src/drive/iec/iec-cmdline-options.c:90 src/translate.c.po.c:2063
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "Ange namn på 1581-DOS-ROM-avbildning"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:100 src/translate.c.po.c:2073
-msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
-msgstr ""
-
-#. fuzzy
-#. fuzzy
-#. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:103 src/translate.c.po.c:2083
+#: src/drive/iec/iec-cmdline-options.c:97 src/translate.c.po.c:2073
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Ställ in väntemetod för diskettstation (0: fånta inge, 1: hoppa cykler, 2: "
 "fånga väntan)"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:105 src/translate.c.po.c:2093
+#: src/drive/iec/iec-cmdline-options.c:99 src/translate.c.po.c:2083
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Aktivera 8KB RAM-expansion på $2000-$3FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:107 src/translate.c.po.c:2103
+#: src/drive/iec/iec-cmdline-options.c:101 src/translate.c.po.c:2093
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $2000-$3FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:109 src/translate.c.po.c:2113
+#: src/drive/iec/iec-cmdline-options.c:103 src/translate.c.po.c:2103
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Aktivera 8KB RAM-expansion på $4000-$5FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:111 src/translate.c.po.c:2123
+#: src/drive/iec/iec-cmdline-options.c:105 src/translate.c.po.c:2113
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $4000-$5FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:113 src/translate.c.po.c:2133
+#: src/drive/iec/iec-cmdline-options.c:107 src/translate.c.po.c:2123
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Aktivera 8KB RAM-expansion på $6000-$7FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:115 src/translate.c.po.c:2143
+#: src/drive/iec/iec-cmdline-options.c:109 src/translate.c.po.c:2133
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $6000-$7FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:117 src/translate.c.po.c:2153
+#: src/drive/iec/iec-cmdline-options.c:111 src/translate.c.po.c:2143
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Aktivera 8KB RAM-expansion på $8000-$9FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:119 src/translate.c.po.c:2163
+#: src/drive/iec/iec-cmdline-options.c:113 src/translate.c.po.c:2153
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $8000-$9FFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:121 src/translate.c.po.c:2173
+#: src/drive/iec/iec-cmdline-options.c:115 src/translate.c.po.c:2163
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Aktivera 8KB RAM-expansion på $A000-$BFFF"
 
 #. drive/iec/iec-cmdline-options.c
-#: src/drive/iec/iec-cmdline-options.c:123 src/translate.c.po.c:2183
+#: src/drive/iec/iec-cmdline-options.c:117 src/translate.c.po.c:2173
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Inaktivera 8KB RAM-expansion på $A000-$BFFF"
 
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. drive/iec/c64exp/c64exp-cmdline-options.c
+#: src/drive/iec/c64exp/c64exp-cmdline-options.c:59 src/translate.c.po.c:2213
+#, fuzzy
+msgid "Specify name of Professional DOS 1571 ROM image"
+msgstr "Ange namn på kernal-ROM-avbildning"
+
+#. drive/iec/c64exp/c64exp-cmdline-options.c
+#: src/drive/iec/c64exp/c64exp-cmdline-options.c:66 src/translate.c.po.c:2183
+msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
+#. drive/iec/c64exp/c64exp-cmdline-options.c
+#: src/drive/iec/c64exp/c64exp-cmdline-options.c:68 src/translate.c.po.c:2193
+#, fuzzy
+msgid "Enable Professional DOS"
+msgstr "Aktivera andra SID"
+
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. drive/iec/c64exp/c64exp-cmdline-options.c
+#: src/drive/iec/c64exp/c64exp-cmdline-options.c:70 src/translate.c.po.c:2203
+msgid "Disable Professional DOS"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. fuzzy
+#. drive/iec/plus4exp/plus4exp-cmdline-options.c
+#: src/drive/iec/plus4exp/plus4exp-cmdline-options.c:50
+#: src/translate.c.po.c:2223
+msgid "Set parallel cable type (0: none, 1: standard)"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
 #. drive/iec128dcr/iec128dcr-cmdline-options.c
 #: src/drive/iec128dcr/iec128dcr-cmdline-options.c:45
-#: src/translate.c.po.c:2193
+#: src/translate.c.po.c:2233
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "Ange namn på 1571CR-DOS-ROM-avbildning"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:53 src/translate.c.po.c:2203
+#: src/drive/ieee/ieee-cmdline-options.c:53 src/translate.c.po.c:2243
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "Ange namn på 2031-DOS-ROM-avbildning"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:55 src/translate.c.po.c:2213
+#: src/drive/ieee/ieee-cmdline-options.c:55 src/translate.c.po.c:2253
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "Ange namn på 2040-DOS-ROM-avbildning"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:57 src/translate.c.po.c:2223
+#: src/drive/ieee/ieee-cmdline-options.c:57 src/translate.c.po.c:2263
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "Ange namn på 3040-DOS-ROM-avbildning"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:59 src/translate.c.po.c:2233
+#: src/drive/ieee/ieee-cmdline-options.c:59 src/translate.c.po.c:2273
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "Ange namn på 4040-DOS-ROM-avbildning"
 
 #. drive/ieee/ieee-cmdline-options.c
-#: src/drive/ieee/ieee-cmdline-options.c:61 src/translate.c.po.c:2243
+#: src/drive/ieee/ieee-cmdline-options.c:61 src/translate.c.po.c:2283
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "Ange namn på 1001/8050/8250-DOS-ROM-avbildning"
 
 #. drive/tcbm/tcbm-cmdline-options.c
-#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/translate.c.po.c:2253
+#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/translate.c.po.c:2293
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 
 #. fliplist.c
-#: src/fliplist.c:121 src/translate.c.po.c:4027
+#: src/fliplist.c:121 src/translate.c.po.c:4067
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:76 src/translate.c.po.c:2263
+#: src/fsdevice/fsdevice-cmdline-options.c:76 src/translate.c.po.c:2303
 msgid "Use <name> as directory for file system device #8"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 8"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:78 src/translate.c.po.c:2273
+#: src/fsdevice/fsdevice-cmdline-options.c:78 src/translate.c.po.c:2313
 msgid "Use <name> as directory for file system device #9"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 9"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:80 src/translate.c.po.c:2283
+#: src/fsdevice/fsdevice-cmdline-options.c:80 src/translate.c.po.c:2323
 msgid "Use <name> as directory for file system device #10"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 10"
 
 #. fsdevice/fsdevice-cmdline-options.c
-#: src/fsdevice/fsdevice-cmdline-options.c:82 src/translate.c.po.c:2293
+#: src/fsdevice/fsdevice-cmdline-options.c:82 src/translate.c.po.c:2333
 msgid "Use <name> as directory for file system device #11"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 11"
 
 #. gfxoutputdrv/ffmpegdrv.c
-#: src/gfxoutputdrv/ffmpegdrv.c:200 src/translate.c.po.c:2304
+#: src/gfxoutputdrv/ffmpegdrv.c:200 src/translate.c.po.c:2344
 msgid "Set bitrate for audio stream in media file"
 msgstr "Ange bithastighet för ljudström i mediafil"
 
 #. gfxoutputdrv/ffmpegdrv.c
-#: src/gfxoutputdrv/ffmpegdrv.c:203 src/translate.c.po.c:2314
+#: src/gfxoutputdrv/ffmpegdrv.c:203 src/translate.c.po.c:2354
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
@@ -1657,197 +1702,197 @@ msgstr "ffmpegdrv: Kan inte öppna %s"
 
 #. initcmdline.c
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4037
+#: src/translate.c.po.c:4077
 msgid "Show a list of the available options and exit normally"
 msgstr "Visa lista över tillgängliga flaggor och avsluta normalt"
 
 #. initcmdline.c
-#: src/initcmdline.c:162 src/translate.c.po.c:4048
+#: src/initcmdline.c:162 src/translate.c.po.c:4088
 msgid "Console mode (for music playback)"
 msgstr "Konsolläge (för musikspelning)"
 
 #. initcmdline.c
-#: src/initcmdline.c:164 src/translate.c.po.c:4058
+#: src/initcmdline.c:164 src/translate.c.po.c:4098
 msgid "Allow production of core dumps"
 msgstr "Tillåt skapa minnesutskrift"
 
 #. initcmdline.c
-#: src/initcmdline.c:166 src/translate.c.po.c:4068
+#: src/initcmdline.c:166 src/translate.c.po.c:4108
 msgid "Do not produce core dumps"
 msgstr "Skapa inte minnesutskrift"
 
 #. initcmdline.c
-#: src/initcmdline.c:169 src/translate.c.po.c:4078
+#: src/initcmdline.c:169 src/translate.c.po.c:4118
 msgid "Don't call exception handler"
 msgstr "Anropa inte undantagshanterare"
 
 #. initcmdline.c
-#: src/initcmdline.c:171 src/translate.c.po.c:4088
+#: src/initcmdline.c:171 src/translate.c.po.c:4128
 msgid "Call exception handler (default)"
 msgstr "Anropa undantagshanterare (standard)"
 
 #. initcmdline.c
-#: src/initcmdline.c:206 src/translate.c.po.c:4099
+#: src/initcmdline.c:206 src/translate.c.po.c:4139
 msgid "Restore default (factory) settings"
 msgstr "Återställ förvalda inställningar"
 
 #. initcmdline.c
-#: src/initcmdline.c:208 src/translate.c.po.c:4109
+#: src/initcmdline.c:208 src/translate.c.po.c:4149
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Anslut och starta band-/diskettavbildning <namn>"
 
 #. initcmdline.c
-#: src/initcmdline.c:210 src/translate.c.po.c:4119
+#: src/initcmdline.c:210 src/translate.c.po.c:4159
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Anslut och läs in band-/diskettavbildning <namn>"
 
 #. initcmdline.c
-#: src/initcmdline.c:212 src/translate.c.po.c:4129
+#: src/initcmdline.c:212 src/translate.c.po.c:4169
 msgid "Attach <name> as a tape image"
 msgstr "Anslut <namn> som bandavbildning"
 
 #. initcmdline.c
-#: src/initcmdline.c:214 src/translate.c.po.c:4139
+#: src/initcmdline.c:214 src/translate.c.po.c:4179
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Anslut <namn> som diskettavbildning i enhet 8"
 
 #. initcmdline.c
-#: src/initcmdline.c:216 src/translate.c.po.c:4149
+#: src/initcmdline.c:216 src/translate.c.po.c:4189
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Anslut <namn> som diskettavbildning i enhet 9"
 
 #. initcmdline.c
-#: src/initcmdline.c:218 src/translate.c.po.c:4159
+#: src/initcmdline.c:218 src/translate.c.po.c:4199
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Anslut <namn> som diskettavbildning i enhet 10"
 
 #. initcmdline.c
-#: src/initcmdline.c:220 src/translate.c.po.c:4169
+#: src/initcmdline.c:220 src/translate.c.po.c:4209
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Anslut <namn> som diskettavbildning i enhet 11"
 
 #. kbdbuf.c
-#: src/kbdbuf.c:136 src/translate.c.po.c:4179
+#: src/kbdbuf.c:136 src/translate.c.po.c:4219
 msgid "<string>"
 msgstr "<sträng>"
 
 #. kbdbuf.c
-#: src/kbdbuf.c:136 src/translate.c.po.c:4189
+#: src/kbdbuf.c:136 src/translate.c.po.c:4229
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Lägg den angivna strängen i tangentbordsbufferten"
 
 #. log.c
-#: src/log.c:110 src/translate.c.po.c:4199
+#: src/log.c:110 src/translate.c.po.c:4239
 msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
 #. mouse.c
-#: src/mouse.c:91 src/translate.c.po.c:4209
+#: src/mouse.c:91 src/translate.c.po.c:4249
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "Aktivera emulering av proportionell mus 1351"
 
 #. mouse.c
-#: src/mouse.c:93 src/translate.c.po.c:4219
+#: src/mouse.c:93 src/translate.c.po.c:4259
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Inaktivera emulering av proportionell mus 1351"
 
 #. mouse.c
-#: src/mouse.c:95 src/translate.c.po.c:4229
+#: src/mouse.c:95 src/translate.c.po.c:4269
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:114 src/translate.c.po.c:2325
+#: src/pet/pet-cmdline-options.c:114 src/translate.c.po.c:2365
 msgid "Specify PET model to emulate"
 msgstr "Ange PET-modell att emulera"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:120 src/translate.c.po.c:2335
+#: src/pet/pet-cmdline-options.c:120 src/translate.c.po.c:2375
 msgid "Specify name of Editor ROM image"
 msgstr "Ange namn på Editor-ROM-avbildning"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:124 src/translate.c.po.c:2345
+#: src/pet/pet-cmdline-options.c:124 src/translate.c.po.c:2385
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "Ange namn på 4K-utöknings-ROM på $9***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:126 src/translate.c.po.c:2355
+#: src/pet/pet-cmdline-options.c:126 src/translate.c.po.c:2395
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "Ange namn på 4K-utöknings-ROM på $A***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:128 src/translate.c.po.c:2365
+#: src/pet/pet-cmdline-options.c:128 src/translate.c.po.c:2405
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "Ange namn på 4K-utöknings-ROM på $B***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:130 src/translate.c.po.c:2375
+#: src/pet/pet-cmdline-options.c:130 src/translate.c.po.c:2415
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "Aktivera PET8296 4K-RAM-mappning på $9***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:132 src/translate.c.po.c:2385
+#: src/pet/pet-cmdline-options.c:132 src/translate.c.po.c:2425
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "Inaktivera PET8296 4K-RAM-mappning på $9***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:134 src/translate.c.po.c:2395
+#: src/pet/pet-cmdline-options.c:134 src/translate.c.po.c:2435
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "Aktivera PET8296 4K-RAM-mappning på $A***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:136 src/translate.c.po.c:2405
+#: src/pet/pet-cmdline-options.c:136 src/translate.c.po.c:2445
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "Inaktivera PET8296 4K-RAM-mappning på $A***"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:138 src/translate.c.po.c:2415
+#: src/pet/pet-cmdline-options.c:138 src/translate.c.po.c:2455
 msgid "Enable SuperPET I/O"
 msgstr "Aktivera SuperPET-I/O"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:140 src/translate.c.po.c:2425
+#: src/pet/pet-cmdline-options.c:140 src/translate.c.po.c:2465
 msgid "Disable SuperPET I/O"
 msgstr "Inaktivera SuperPET-I/O"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:142 src/translate.c.po.c:2435
+#: src/pet/pet-cmdline-options.c:142 src/translate.c.po.c:2475
 msgid "Enable ROM 1 Kernal patches"
 msgstr "Aktivera ROM 1-Kernalpatchar"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:144 src/translate.c.po.c:2445
+#: src/pet/pet-cmdline-options.c:144 src/translate.c.po.c:2485
 msgid "Disable ROM 1 Kernal patches"
 msgstr "Inaktivera ROM 1-Kernalpatchar"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:147 src/translate.c.po.c:2455
+#: src/pet/pet-cmdline-options.c:147 src/translate.c.po.c:2495
 msgid "Switch upper/lower case charset"
 msgstr "Växla små/stora bokstäver i teckengeneratorn"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:150 src/translate.c.po.c:2465
+#: src/pet/pet-cmdline-options.c:150 src/translate.c.po.c:2505
 msgid "Do not switch upper/lower case charset"
 msgstr "Växla inte små/stora bokstäver i teckengeneratorn"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:152 src/translate.c.po.c:2475
+#: src/pet/pet-cmdline-options.c:152 src/translate.c.po.c:2515
 msgid "EOI blanks screen"
 msgstr "EOI tömmer skärmen"
 
 #. pet/pet-cmdline-options.c
-#: src/pet/pet-cmdline-options.c:154 src/translate.c.po.c:2485
+#: src/pet/pet-cmdline-options.c:154 src/translate.c.po.c:2525
 msgid "EOI does not blank screen"
 msgstr "EOI tömmer inte skärmen"
 
 #. pet/petpia1.c
-#: src/pet/petpia1.c:120 src/translate.c.po.c:2495
+#: src/pet/petpia1.c:120 src/translate.c.po.c:2535
 msgid "Enable userport diagnostic pin"
 msgstr "Aktivera diagnostik på användarporten"
 
 #. pet/petpia1.c
-#: src/pet/petpia1.c:122 src/translate.c.po.c:2505
+#: src/pet/petpia1.c:122 src/translate.c.po.c:2545
 msgid "Disable userport diagnostic pin"
 msgstr "Inaktivera diagnostik på användarporten"
 
@@ -1878,303 +1923,303 @@ msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Storlek på PET Ram- och -expansionsenhet"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:87 src/translate.c.po.c:2515
+#: src/plus4/plus4-cmdline-options.c:87 src/translate.c.po.c:2555
 msgid "Specify name of Function low ROM image"
 msgstr "Ange namn på ROM-avbildning för lågt funktions-ROM"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:89 src/translate.c.po.c:2525
+#: src/plus4/plus4-cmdline-options.c:89 src/translate.c.po.c:2565
 msgid "Specify name of Function high ROM image"
 msgstr "Ange namn på ROM-avbildning för högt funktions-ROM"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:91 src/translate.c.po.c:2535
+#: src/plus4/plus4-cmdline-options.c:91 src/translate.c.po.c:2575
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Ange namn på ROM-avbildning för lågt insticksmodul 1-ROM"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:93 src/translate.c.po.c:2545
+#: src/plus4/plus4-cmdline-options.c:93 src/translate.c.po.c:2585
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Ange namn på ROM-avbildning för högt insticksmodul 1-ROM"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:95 src/translate.c.po.c:2555
+#: src/plus4/plus4-cmdline-options.c:95 src/translate.c.po.c:2595
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Ange namn på ROM-avbildning för lågt insticksmodul 2-ROM"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:97 src/translate.c.po.c:2565
+#: src/plus4/plus4-cmdline-options.c:97 src/translate.c.po.c:2605
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Ange namn på ROM-avbildning för högt insticksmodul 2-ROM"
 
 #. plus4/plus4-cmdline-options.c
-#: src/plus4/plus4-cmdline-options.c:99 src/translate.c.po.c:2575
+#: src/plus4/plus4-cmdline-options.c:99 src/translate.c.po.c:2615
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Ange storlek på installerat RAM i kb (16/32/64)"
 
 #. plus4/plus4memcsory256k.c
-#: src/plus4/plus4memcsory256k.c:114 src/translate.c.po.c:4609
+#: src/plus4/plus4memcsory256k.c:114 src/translate.c.po.c:4649
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera CSORY 256K RAM-expansion"
 
 #. fuzzy
 #. fuzzy
 #. plus4/plus4memhannes256k.c
-#: src/plus4/plus4memhannes256k.c:129 src/translate.c.po.c:4619
+#: src/plus4/plus4memhannes256k.c:129 src/translate.c.po.c:4659
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera HANNES 256K RAM-expansion"
 
 #. fuzzy
 #. fuzzy
 #. plus4/plus4memhannes256k.c
-#: src/plus4/plus4memhannes256k.c:131 src/translate.c.po.c:4629
+#: src/plus4/plus4memhannes256k.c:131 src/translate.c.po.c:4669
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera HANNS 1024K RAM-expansion"
 
 #. fuzzy
 #. fuzzy
 #. plus4/plus4memhannes256k.c
-#: src/plus4/plus4memhannes256k.c:133 src/translate.c.po.c:4639
+#: src/plus4/plus4memhannes256k.c:133 src/translate.c.po.c:4679
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera HANNES 4096K RAM-expansion"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
-#: src/translate.c.po.c:2595
+#: src/translate.c.po.c:2635
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Ställ in mättnad på internt beräknad palett [1000]"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:58 src/vicii/vicii-cmdline-options.c:85
-#: src/translate.c.po.c:2605
+#: src/translate.c.po.c:2645
 msgid "Set contrast of internal calculated palette [1100]"
 msgstr "Ställ in kontrast på internt beräknad palett [1100]"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:60 src/vicii/vicii-cmdline-options.c:87
-#: src/translate.c.po.c:2615
+#: src/translate.c.po.c:2655
 msgid "Set brightness of internal calculated palette [1100]"
 msgstr "Ställ in ljusstyrka på internt beräknad palett [1100]"
 
 #. plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c
 #: src/plus4/ted-cmdline-options.c:62 src/vicii/vicii-cmdline-options.c:89
-#: src/translate.c.po.c:2625
+#: src/translate.c.po.c:2665
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "Ställ in gamma på internt beräknad palett [900]"
 
 #. printerdrv/driver-select.c
-#: src/printerdrv/driver-select.c:125 src/translate.c.po.c:2635
+#: src/printerdrv/driver-select.c:125 src/translate.c.po.c:2675
 msgid "Specify name of printer driver for device #4"
 msgstr "Ange namn på skrivardrivrutin för enhet 4"
 
 #. printerdrv/driver-select.c
-#: src/printerdrv/driver-select.c:127 src/translate.c.po.c:2645
+#: src/printerdrv/driver-select.c:127 src/translate.c.po.c:2685
 msgid "Specify name of printer driver for device #5"
 msgstr "Ange namn på skrivardrivrutin för enhet 5"
 
 #. printerdrv/driver-select.c
-#: src/printerdrv/driver-select.c:129 src/translate.c.po.c:2655
+#: src/printerdrv/driver-select.c:129 src/translate.c.po.c:2695
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Ange namn på skrivardrivrutin för användarporten"
 
 #. printerdrv/interface-serial.c
-#: src/printerdrv/interface-serial.c:122 src/translate.c.po.c:2665
+#: src/printerdrv/interface-serial.c:122 src/translate.c.po.c:2705
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Ange enhetstyp för enhet 4 (0: INGEN, 1: FS, 2: ÄKTA)"
 
 #. printerdrv/interface-serial.c
-#: src/printerdrv/interface-serial.c:125 src/translate.c.po.c:2675
+#: src/printerdrv/interface-serial.c:125 src/translate.c.po.c:2715
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Ange enhetstyp för enhet 5 (0: INGEN, 1: FS, 2: ÄKTA)"
 
 #. printerdrv/interface-userport.c
-#: src/printerdrv/interface-userport.c:93 src/translate.c.po.c:2685
+#: src/printerdrv/interface-userport.c:93 src/translate.c.po.c:2725
 msgid "Enable the userport printer emulation"
 msgstr "Aktivera emulering av skrivare på användarporten"
 
 #. printerdrv/interface-userport.c
-#: src/printerdrv/interface-userport.c:96 src/translate.c.po.c:2695
+#: src/printerdrv/interface-userport.c:96 src/translate.c.po.c:2735
 msgid "Disable the userport printer emulation"
 msgstr "Inaktivera emulering av skrivare på användarporten"
 
 #. printerdrv/output-select.c
-#: src/printerdrv/output-select.c:120 src/translate.c.po.c:2705
+#: src/printerdrv/output-select.c:120 src/translate.c.po.c:2745
 msgid "Specify name of output device for device #4"
 msgstr "Ange namn på utskriftsenhet för enhet 4"
 
 #. printerdrv/output-select.c
-#: src/printerdrv/output-select.c:122 src/translate.c.po.c:2715
+#: src/printerdrv/output-select.c:122 src/translate.c.po.c:2755
 msgid "Specify name of output device for device #5"
 msgstr "Ange namn på utskriftsenhet för enhet 5"
 
 #. printerdrv/output-select.c
-#: src/printerdrv/output-select.c:125 src/translate.c.po.c:2725
+#: src/printerdrv/output-select.c:125 src/translate.c.po.c:2765
 msgid "Specify name of output device for the userport printer"
 msgstr "Ange namn på utskriftsenhet för användarporten"
 
 #. printerdrv/output-text.c
 #: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
-#: src/printerdrv/output-text.c:117 src/translate.c.po.c:2735
+#: src/printerdrv/output-text.c:117 src/translate.c.po.c:2775
 msgid "Specify name of printer text device or dump file"
 msgstr "Ange namn på textenhet för utskrift eller dumpfil"
 
 #. printerdrv/output-text.c
-#: src/printerdrv/output-text.c:120 src/translate.c.po.c:2755
+#: src/printerdrv/output-text.c:120 src/translate.c.po.c:2795
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Ange skrivartextutenhet för IEC-skrivare 4"
 
 #. printerdrv/output-text.c
-#: src/printerdrv/output-text.c:123 src/translate.c.po.c:2765
+#: src/printerdrv/output-text.c:123 src/translate.c.po.c:2805
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Ange skrivartextutenhet för IEC-skrivare 5"
 
 #. printerdrv/output-text.c
-#: src/printerdrv/output-text.c:126 src/translate.c.po.c:2775
+#: src/printerdrv/output-text.c:126 src/translate.c.po.c:2815
 msgid "Specify printer text output device for userport printer"
 msgstr "Ange skrivartextutenhet för användarportsskrivare"
 
 #. ram.c
-#: src/ram.c:101 src/translate.c.po.c:4239
+#: src/ram.c:101 src/translate.c.po.c:4279
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Ange värdet på den allra första RAM-adressen efter strömpåslag"
 
 #. ram.c
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4249
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4289
 msgid "<num of bytes>"
 msgstr "<antal byte>"
 
 #. ram.c
-#: src/ram.c:104 src/translate.c.po.c:4259
+#: src/ram.c:104 src/translate.c.po.c:4299
 msgid "Length of memory block initialized with the same value"
 msgstr "Längd på minnesblock som initierats med samma värde"
 
 #. ram.c
-#: src/ram.c:107 src/translate.c.po.c:4269
+#: src/ram.c:107 src/translate.c.po.c:4309
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Längd på minnesblock som initierats med samma mönster"
 
 #. raster/raster-cmdline-options.c
-#: src/raster/raster-cmdline-options.c:59 src/translate.c.po.c:2785
+#: src/raster/raster-cmdline-options.c:59 src/translate.c.po.c:2825
 msgid "Enable the video cache"
 msgstr "Aktivera videocache"
 
 #. raster/raster-cmdline-options.c
-#: src/raster/raster-cmdline-options.c:61 src/translate.c.po.c:2795
+#: src/raster/raster-cmdline-options.c:61 src/translate.c.po.c:2835
 msgid "Disable the video cache"
 msgstr "Inaktivera videocache"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:101 src/translate.c.po.c:2806
+#: src/rs232drv/rs232drv.c:101 src/translate.c.po.c:2846
 msgid "Specify name of first RS232 device"
 msgstr "Ange namn på första RS232-enheten"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:103 src/translate.c.po.c:2816
+#: src/rs232drv/rs232drv.c:103 src/translate.c.po.c:2856
 msgid "Specify name of second RS232 device"
 msgstr "Ange namn på andra RS232-enheten"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:105 src/translate.c.po.c:2826
+#: src/rs232drv/rs232drv.c:105 src/translate.c.po.c:2866
 msgid "Specify name of third RS232 device"
 msgstr "Ange namn på tredje RS232-enheten"
 
 #. rs232drv/rs232drv.c
-#: src/rs232drv/rs232drv.c:107 src/translate.c.po.c:2836
+#: src/rs232drv/rs232drv.c:107 src/translate.c.po.c:2876
 msgid "Specify name of fourth RS232 device"
 msgstr "Ange namn på fjärde RS232-enheten"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:183 src/translate.c.po.c:2847
+#: src/rs232drv/rsuser.c:183 src/translate.c.po.c:2887
 msgid "Enable RS232 userport emulation"
 msgstr "Aktivera RS232-emulering på användarporten"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:185 src/translate.c.po.c:2857
+#: src/rs232drv/rsuser.c:185 src/translate.c.po.c:2897
 msgid "Disable RS232 userport emulation"
 msgstr "Inaktivera RS232-emulering på användarporten"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:187 src/translate.c.po.c:2867
+#: src/rs232drv/rsuser.c:187 src/translate.c.po.c:2907
 msgid "<baud>"
 msgstr "<baud>"
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:188 src/translate.c.po.c:2877
+#: src/rs232drv/rsuser.c:188 src/translate.c.po.c:2917
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Ange baudhastighet för RS232-emuleringen på användarporten."
 
 #. rs232drv/rsuser.c
-#: src/rs232drv/rsuser.c:191 src/translate.c.po.c:2897
+#: src/rs232drv/rsuser.c:191 src/translate.c.po.c:2937
 msgid "Specify VICE RS232 device for userport"
 msgstr "Ange VICE RS232-enhet för användarporten"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:140 src/translate.c.po.c:2907
+#: src/serial/serial-iec-device.c:140 src/translate.c.po.c:2947
 msgid "Enable IEC device emulation for device #4"
 msgstr "Aktivera IEC-enhetsemulering för enhet 4"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:143 src/translate.c.po.c:2917
+#: src/serial/serial-iec-device.c:143 src/translate.c.po.c:2957
 msgid "Disable IEC device emulation for device #4"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 4"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:146 src/translate.c.po.c:2927
+#: src/serial/serial-iec-device.c:146 src/translate.c.po.c:2967
 msgid "Enable IEC device emulation for device #5"
 msgstr "Aktivera IEC-enhetsemulering för enhet 5"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:149 src/translate.c.po.c:2937
+#: src/serial/serial-iec-device.c:149 src/translate.c.po.c:2977
 msgid "Disable IEC device emulation for device #5"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 5"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:152 src/translate.c.po.c:2947
+#: src/serial/serial-iec-device.c:152 src/translate.c.po.c:2987
 msgid "Enable IEC device emulation for device #8"
 msgstr "Aktivera IEC-enhetsemulering för enhet 8"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:155 src/translate.c.po.c:2957
+#: src/serial/serial-iec-device.c:155 src/translate.c.po.c:2997
 msgid "Disable IEC device emulation for device #8"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 8"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:158 src/translate.c.po.c:2967
+#: src/serial/serial-iec-device.c:158 src/translate.c.po.c:3007
 msgid "Enable IEC device emulation for device #9"
 msgstr "Aktivera IEC-enhetsemulering för enhet 9"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:161 src/translate.c.po.c:2977
+#: src/serial/serial-iec-device.c:161 src/translate.c.po.c:3017
 msgid "Disable IEC device emulation for device #9"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 9"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:164 src/translate.c.po.c:2987
+#: src/serial/serial-iec-device.c:164 src/translate.c.po.c:3027
 msgid "Enable IEC device emulation for device #10"
 msgstr "Aktivera IEC-enhetsemulering för enhet 10"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:167 src/translate.c.po.c:2997
+#: src/serial/serial-iec-device.c:167 src/translate.c.po.c:3037
 msgid "Disable IEC device emulation for device #10"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 10"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:170 src/translate.c.po.c:3007
+#: src/serial/serial-iec-device.c:170 src/translate.c.po.c:3047
 msgid "Enable IEC device emulation for device #11"
 msgstr "Aktivera IEC-enhetsemulering för enhet 11"
 
 #. serial/serial-iec-device.c
-#: src/serial/serial-iec-device.c:173 src/translate.c.po.c:3017
+#: src/serial/serial-iec-device.c:173 src/translate.c.po.c:3057
 msgid "Disable IEC device emulation for device #11"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 11"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:72 src/translate.c.po.c:3027
+#: src/sid/sid-cmdline-options.c:72 src/translate.c.po.c:3067
 msgid "<engine>"
 msgstr "<motor>"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:77 src/translate.c.po.c:3218
+#: src/sid/sid-cmdline-options.c:77 src/translate.c.po.c:3258
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
@@ -2182,112 +2227,112 @@ msgstr ""
 "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:79 src/translate.c.po.c:3170
+#: src/sid/sid-cmdline-options.c:79 src/translate.c.po.c:3210
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:83 src/translate.c.po.c:3182
+#: src/sid/sid-cmdline-options.c:83 src/translate.c.po.c:3222
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:85 src/translate.c.po.c:3098
+#: src/sid/sid-cmdline-options.c:85 src/translate.c.po.c:3138
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:91 src/translate.c.po.c:3194
+#: src/sid/sid-cmdline-options.c:91 src/translate.c.po.c:3234
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:93 src/translate.c.po.c:3110
+#: src/sid/sid-cmdline-options.c:93 src/translate.c.po.c:3150
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:97 src/translate.c.po.c:3122
+#: src/sid/sid-cmdline-options.c:97 src/translate.c.po.c:3162
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:99 src/translate.c.po.c:3050
+#: src/sid/sid-cmdline-options.c:99 src/translate.c.po.c:3090
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr "Ange SID-motor (0: FastSID, 1: ReSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:107 src/translate.c.po.c:3206
+#: src/sid/sid-cmdline-options.c:107 src/translate.c.po.c:3246
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:109 src/translate.c.po.c:3134
+#: src/sid/sid-cmdline-options.c:109 src/translate.c.po.c:3174
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:113 src/translate.c.po.c:3146
+#: src/sid/sid-cmdline-options.c:113 src/translate.c.po.c:3186
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:115 src/translate.c.po.c:3062
+#: src/sid/sid-cmdline-options.c:115 src/translate.c.po.c:3102
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:121 src/translate.c.po.c:3158
+#: src/sid/sid-cmdline-options.c:121 src/translate.c.po.c:3198
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:123 src/translate.c.po.c:3074
+#: src/sid/sid-cmdline-options.c:123 src/translate.c.po.c:3114
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
 msgstr "Ange SID-motor (0: FastSID, 3: HardSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:127 src/translate.c.po.c:3086
+#: src/sid/sid-cmdline-options.c:127 src/translate.c.po.c:3126
 msgid "Specify SID engine (0: FastSID, 4: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 4: ParSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:129 src/translate.c.po.c:3038
+#: src/sid/sid-cmdline-options.c:129 src/translate.c.po.c:3078
 msgid "Specify SID engine (0: FastSID)"
 msgstr "Ange SID-motor (0: FastSID)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:138 src/translate.c.po.c:3229
+#: src/sid/sid-cmdline-options.c:138 src/translate.c.po.c:3269
 msgid "Enable second SID"
 msgstr "Aktivera andra SID"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3249
+#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3289
 msgid "Specify base address for 2nd SID"
 msgstr "Ange basadress för andra SID"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3259
+#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3299
 msgid "<model>"
 msgstr "<modell>"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3269
+#: src/sid/sid-cmdline-options.c:143 src/translate.c.po.c:3309
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
 msgstr "Ange SID-modell (0: 6581, 1: 8580, 2: 8580 + digiförstärkning)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:146 src/translate.c.po.c:3279
+#: src/sid/sid-cmdline-options.c:146 src/translate.c.po.c:3319
 msgid "Emulate SID filters"
 msgstr "Emulera SID-filter"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:149 src/translate.c.po.c:3289
+#: src/sid/sid-cmdline-options.c:149 src/translate.c.po.c:3329
 msgid "Do not emulate SID filters"
 msgstr "Emulera inte SID-filter"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:153 src/translate.c.po.c:3300
+#: src/sid/sid-cmdline-options.c:153 src/translate.c.po.c:3340
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -2296,227 +2341,227 @@ msgstr ""
 "omsampling)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:156 src/translate.c.po.c:3320
+#: src/sid/sid-cmdline-options.c:156 src/translate.c.po.c:3360
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr "Passband för reSID-resampling i procent av total bandbredd (0 - 90)"
 
 #. sid/sid-cmdline-options.c
-#: src/sid/sid-cmdline-options.c:159 src/translate.c.po.c:3330
+#: src/sid/sid-cmdline-options.c:159 src/translate.c.po.c:3370
 msgid "reSID gain in percent (90 - 100)"
 msgstr "Gain för reSID i procent (90 - 100)"
 
 #. sysfile.c
-#: src/sysfile.c:127 src/translate.c.po.c:4389
+#: src/sysfile.c:127 src/translate.c.po.c:4429
 msgid "<path>"
 msgstr "<sökväg>"
 
 #. sysfile.c
-#: src/sysfile.c:127 src/translate.c.po.c:4399
+#: src/sysfile.c:127 src/translate.c.po.c:4439
 msgid "Define search path to locate system files"
 msgstr "Ange sökväg för att hitta systemfiler"
 
 #. traps.c
-#: src/traps.c:123 src/translate.c.po.c:4409
+#: src/traps.c:123 src/translate.c.po.c:4449
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktivera generella mekanismer för snabb disk-/bandemulering"
 
 #. traps.c
-#: src/traps.c:126 src/translate.c.po.c:4419
+#: src/traps.c:126 src/translate.c.po.c:4459
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Inaktivera generella mekanismer för snabb disk-/bandemulering"
 
 #. vdc/vdc-cmdline-options.c
-#: src/vdc/vdc-cmdline-options.c:62 src/translate.c.po.c:3341
+#: src/vdc/vdc-cmdline-options.c:62 src/translate.c.po.c:3381
 msgid "Set the VDC memory size to 16KB"
 msgstr "Sätt VDC-minnesstorlek till 16KB"
 
 #. vdc/vdc-cmdline-options.c
-#: src/vdc/vdc-cmdline-options.c:65 src/translate.c.po.c:3351
+#: src/vdc/vdc-cmdline-options.c:65 src/translate.c.po.c:3391
 msgid "Set the VDC memory size to 64KB"
 msgstr "Sätt VDC-minnesstorlek till 64KB"
 
 #. vdc/vdc-cmdline-options.c
-#: src/vdc/vdc-cmdline-options.c:68 src/translate.c.po.c:3361
+#: src/vdc/vdc-cmdline-options.c:68 src/translate.c.po.c:3401
 msgid "Set VDC revision (0..2)"
 msgstr "Ange VDC-revision (0..2)"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3371
+#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3411
 msgid "<spec>"
 msgstr "<spec>"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3381
+#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3421
 msgid "Specify memory configuration"
 msgstr "Ange minneskonfiguration"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:221 src/translate.c.po.c:3391
+#: src/vic20/vic20-cmdline-options.c:221 src/translate.c.po.c:3431
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
 
 #. vic20/vic20-cmdline-options.c
-#: src/vic20/vic20-cmdline-options.c:223 src/translate.c.po.c:3401
+#: src/vic20/vic20-cmdline-options.c:223 src/translate.c.po.c:3441
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3411
+#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3451
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $2000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3421
+#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3461
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $4000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3431
+#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3471
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $6000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3441
+#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3481
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Ange namn för 4/8K-utöknings-ROM på $A000"
 
 #. vic20/vic20cartridge.c
-#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3451
+#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3491
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:71 src/translate.c.po.c:3461
+#: src/vicii/vicii-cmdline-options.c:71 src/translate.c.po.c:3501
 msgid "Enable sprite-background collision registers"
 msgstr "Aktivera sprite-till-bakgrund-kollisionsregister"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:73 src/translate.c.po.c:3471
+#: src/vicii/vicii-cmdline-options.c:73 src/translate.c.po.c:3511
 msgid "Disable sprite-background collision registers"
 msgstr "Inaktivera sprite-till-bakgrund-kollisionsregister"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:75 src/translate.c.po.c:3481
+#: src/vicii/vicii-cmdline-options.c:75 src/translate.c.po.c:3521
 msgid "Enable sprite-sprite collision registers"
 msgstr "Aktivera sprite-till-sprite-kollisionsregister"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:77 src/translate.c.po.c:3491
+#: src/vicii/vicii-cmdline-options.c:77 src/translate.c.po.c:3531
 msgid "Disable sprite-sprite collision registers"
 msgstr "Inaktivera sprite-till-sprite-kollisionsregister"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:79 src/translate.c.po.c:3501
+#: src/vicii/vicii-cmdline-options.c:79 src/translate.c.po.c:3541
 msgid "Use new luminances"
 msgstr "Använd nya ljusstyrkor"
 
 #. vicii/vicii-cmdline-options.c
-#: src/vicii/vicii-cmdline-options.c:81 src/translate.c.po.c:3511
+#: src/vicii/vicii-cmdline-options.c:81 src/translate.c.po.c:3551
 msgid "Use old luminances"
 msgstr "Använd gamla ljusstyrkor"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3521
+#: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3561
 msgid "Enable double size"
 msgstr "Aktivera dubbel storlek"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:62 src/translate.c.po.c:3531
+#: src/video/video-cmdline-options.c:62 src/translate.c.po.c:3571
 msgid "Disable double size"
 msgstr "Inaktivera dubbel storlek"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:87 src/translate.c.po.c:3541
+#: src/video/video-cmdline-options.c:87 src/translate.c.po.c:3581
 msgid "Enable double scan"
 msgstr "Aktivera dubbelskanning"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:89 src/translate.c.po.c:3551
+#: src/video/video-cmdline-options.c:89 src/translate.c.po.c:3591
 msgid "Disable double scan"
 msgstr "Inaktivera dubbelskanning"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:114 src/translate.c.po.c:3561
+#: src/video/video-cmdline-options.c:114 src/translate.c.po.c:3601
 msgid "Enable hardware scaling"
 msgstr "Aktivera maskinvaruskalning"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:116 src/translate.c.po.c:3571
+#: src/video/video-cmdline-options.c:116 src/translate.c.po.c:3611
 msgid "Disable hardware scaling"
 msgstr "Inaktivera maskinvaruskalning"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:141 src/translate.c.po.c:3581
+#: src/video/video-cmdline-options.c:141 src/translate.c.po.c:3621
 msgid "Enable Scale2x"
 msgstr "Aktivera Scale2x"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:143 src/translate.c.po.c:3591
+#: src/video/video-cmdline-options.c:143 src/translate.c.po.c:3631
 msgid "Disable Scale2x"
 msgstr "Inaktivera Scale2x"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:168 src/translate.c.po.c:3601
+#: src/video/video-cmdline-options.c:168 src/translate.c.po.c:3641
 msgid "Use an internal calculated palette"
 msgstr "Använd en internt beräknad palett"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:170 src/translate.c.po.c:3611
+#: src/video/video-cmdline-options.c:170 src/translate.c.po.c:3651
 msgid "Use an external palette (file)"
 msgstr "Använd en extern palett (fil)"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:192 src/translate.c.po.c:3621
+#: src/video/video-cmdline-options.c:192 src/translate.c.po.c:3661
 msgid "Specify name of file of external palette"
 msgstr "Ange namn på fil för extern palett"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:232 src/translate.c.po.c:3631
+#: src/video/video-cmdline-options.c:232 src/translate.c.po.c:3671
 msgid "Enable fullscreen mode"
 msgstr "Aktivera fullskärmsläge"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:234 src/translate.c.po.c:3641
+#: src/video/video-cmdline-options.c:234 src/translate.c.po.c:3681
 msgid "Disable fullscreen mode"
 msgstr "Inaktivera fullskärmsläge"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3651
+#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3691
 msgid "<device>"
 msgstr "<enhet>"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3661
+#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3701
 msgid "Select fullscreen device"
 msgstr "Ange fullskärmsenhet"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:238 src/translate.c.po.c:3671
+#: src/video/video-cmdline-options.c:238 src/translate.c.po.c:3711
 msgid "Enable double size in fullscreen mode"
 msgstr "Aktivera dubbel storlek i fullskärmsläge"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:240 src/translate.c.po.c:3681
+#: src/video/video-cmdline-options.c:240 src/translate.c.po.c:3721
 msgid "Disable double size in fullscreen mode"
 msgstr "Inaktivera dubbel storlek i fullskärmsläge"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:242 src/translate.c.po.c:3691
+#: src/video/video-cmdline-options.c:242 src/translate.c.po.c:3731
 msgid "Enable double scan in fullscreen mode"
 msgstr "Aktivera dubbelskanning i fullskärmsläge"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:244 src/translate.c.po.c:3701
+#: src/video/video-cmdline-options.c:244 src/translate.c.po.c:3741
 msgid "Disable double scan in fullscreen mode"
 msgstr "Inaktivera dubbelskanning i fullskärmsläge"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3711
+#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3751
 msgid "<mode>"
 msgstr "<läge>"
 
 #. video/video-cmdline-options.c
-#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3721
+#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3761
 msgid "Select fullscreen mode"
 msgstr "Aktivera fullskärmsläge"
 
@@ -5741,7 +5786,7 @@ msgid "Save Cartridge"
 msgstr "Spara insticksmodul"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:95
-#: src/arch/unix/x11/gnome/uiscreenshot.c:465
+#: src/arch/unix/x11/gnome/uiscreenshot.c:459
 #: src/arch/unix/x11/gnome/uisnapshot.c:114
 msgid "Invalid filename"
 msgstr "Ogiltigt filnamn"
@@ -5926,7 +5971,7 @@ msgid "No gfxoutputdrivers available"
 msgstr "Inga grafikutdrivrutiner tillgängliga"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:238
-#: src/arch/unix/x11/gnome/uiscreenshot.c:456
+#: src/arch/unix/x11/gnome/uiscreenshot.c:450
 #: src/arch/amigaos/intl.c.po.c:2024
 msgid "Save Screenshot"
 msgstr "Spara skärmdump"
@@ -5974,12 +6019,12 @@ msgstr "Ljudbithastighet"
 msgid "Video Bitrate"
 msgstr "Videobithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:500
+#: src/arch/unix/x11/gnome/uiscreenshot.c:494
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kunde inte skriva skärmdump till \"%s\" med drivrutin \"%s\"."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:507
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Skrev \"%s\""
@@ -10371,29 +10416,29 @@ msgid "New Luminances"
 msgstr "Nya ljusstyrkor"
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
-#: src/translate.c.po.c:2585
+#: src/translate.c.po.c:2625
 msgid "<0-2000>"
 msgstr ""
 
 #. printerdrv/output-text.c
-#: src/translate.c.po.c:2745
+#: src/translate.c.po.c:2785
 msgid "<0-2>"
 msgstr ""
 
 #. rs232drv/rsuser.c, aciacore.c
-#: src/translate.c.po.c:2887
+#: src/translate.c.po.c:2927
 msgid "<0-3>"
 msgstr ""
 
 #. translate.c
-#: src/translate.c.po.c:4469
+#: src/translate.c.po.c:4509
 msgid "<iso language code>"
 msgstr ""
 
 #. fuzzy
 #. fuzzy
 #. translate.c
-#: src/translate.c.po.c:4479
+#: src/translate.c.po.c:4519
 msgid "Specify the iso code of the language"
 msgstr ""
 

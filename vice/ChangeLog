@@ -1,3 +1,14 @@
+2006-10-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.15.
+
+	* configure.in: Added new subdirectories.
+
+2006-10-22  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: fetch includes for --with-gnomeui from gtk+2.0
+	package (same as for the libs)
+
 2006-10-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.14.
