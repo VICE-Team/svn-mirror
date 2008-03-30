@@ -52,9 +52,10 @@
 static char *palette_file=NULL;
 static int  res_extpalette;
 
-static char *palettes[8]=
+static char *palettes[9]=
 {
     "default",
+    "c64hq",
     "c64s",
     "ccs64",
     "frodo",

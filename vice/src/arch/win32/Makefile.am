@@ -69,6 +69,8 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.c \
 	uiattach.h \
+	uic128.c \
+	uic128.h \
 	uicbm2set.c \
 	uicbm2set.h \
 	uicmdline.c \
