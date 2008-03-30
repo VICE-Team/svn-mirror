@@ -1285,6 +1285,10 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
         *xe = VIC_II_SCREEN_TEXTCOLS - 1;
         return 1;
     } else
+        vic_ii.sprite_sprite_collisions
+            |= cache->sprite_sprite_collisions;
+        vic_ii.sprite_background_collisions
+            |= cache->sprite_background_collisions;
         return 0;
 }
 

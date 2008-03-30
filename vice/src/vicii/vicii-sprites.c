@@ -506,7 +506,7 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
     collmsk = (collmsk >> (32 - size1));
 
     cmsk = 0;
-    if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
+    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
         sprite_status->sprite_background_collisions |= sbit;
     if (sprite_status->sprites[n].in_background) {
         SPRITE_MASK(sprmsk, collmsk, size1, sbit, ptr, sptr,
@@ -538,7 +538,7 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
 
     collmsk = (collmsk >> (24 - size1));
 
-    if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
+    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
         sprite_status->sprite_background_collisions |= sbit;
     if (sprite_status->sprites[n].in_background) {
         SPRITE_MASK(sprmsk, collmsk, size1, sbit, ptr + 32, sptr + 32,
@@ -589,7 +589,7 @@ inline static void draw_hires_sprite_normal(BYTE *data_ptr, int n,
 
     collmsk = (collmsk >> (32 - size));
 
-    if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
+    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
         sprite_status->sprite_background_collisions |= sbit;
     if (sprite_status->sprites[n].in_background) {
         SPRITE_MASK(sprmsk, collmsk, size, sbit, ptr, sptr,
@@ -657,7 +657,7 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
         mcsprmsk = (mcsprmsk << shift_sprmsk);
     }
 
-    if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
+    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
         sprite_status->sprite_background_collisions |= sbit;
 
     if (sprite_status->sprites[n].in_background) {
@@ -670,7 +670,7 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     collmsk = ((((msk_ptr[5] << 8) | msk_ptr[6]) << lshift)
               | (msk_ptr[7] >> (8 - lshift)));
 
-    if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
+    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
         sprite_status->sprite_background_collisions |= sbit;
 
     if (sprite_status->sprites[n].in_background) {
@@ -746,7 +746,7 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
         mcsprmsk = (mcsprmsk << (24 - size));
     }
 
-    if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
+    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
         sprite_status->sprite_background_collisions |= sbit;
 
     if (sprite_status->sprites[n].in_background) {
