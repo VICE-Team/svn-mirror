@@ -30,10 +30,11 @@
 
 #include "c64cia.h"
 #include "types.h"
-#include "vicii.h"
 #include "vicii-resources.h"
 #include "vicii-sprites.h"
 #include "vicii-mem.h"
+#include "vicii.h"
+#include "viciitypes.h"
 
 
 
@@ -146,14 +147,15 @@ store_sprite_x_position_lsb (ADDRESS addr, BYTE value)
   int n;
   int new_x;
 
-  VIC_II_DEBUG_REGISTER (("\tSprite #%d X position LSB: $%02X\n", n, value));
-
   if (value == vic_ii.regs[addr])
     return;
 
   vic_ii.regs[addr] = value;
 
   n = addr >> 1;		/* Number of changed sprite.  */
+
+  VIC_II_DEBUG_REGISTER (("\tSprite #%d X position LSB: $%02X\n", n, value));
+
   new_x = (value | (vic_ii.regs[0x10] & (1 << n) ? 0x100 : 0));
   vic_ii_sprites_set_x_position (n, new_x,
                                  VIC_II_RASTER_X (VIC_II_RASTER_CYCLE (clk)));
@@ -1422,7 +1424,7 @@ vic_read (ADDRESS addr)
       if (vic_ii.extended_keyboard_rows_enabled)
 	{
 	  VIC_II_DEBUG_REGISTER (("\tExtended keyboard row enable: $%02X\n",
-				  value));
+				  vic_ii.regs[addr]));
 	  return vic_ii.regs[addr];
 	}
       else
