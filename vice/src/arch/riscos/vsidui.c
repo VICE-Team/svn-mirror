@@ -170,7 +170,7 @@ static void vsid_ui_set_ready(int state)
 
 void vsid_set_tune(int tune)
 {
-  resources_set_value(Rsrc_Tune, (resource_value_t)tune);
+  resources_set_int(Rsrc_Tune, tune);
   vsid_ui_display_time(0);
 }
 

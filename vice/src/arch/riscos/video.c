@@ -255,7 +255,7 @@ static void video_init_pal_depth(void)
   }
   video_init_raw_rgb();
 
-  resources_set_value("PALEmulation", (resource_value_t)(ActualPALDepth != 0));
+  resources_set_int("PALEmulation", ActualPALDepth != 0);
 }
 
 
@@ -1673,11 +1673,11 @@ static void video_full_screen_colours(void)
 
 static int video_check_enable_mouse(void)
 {
-  resource_value_t val;
+  int val;
 
-  if (resources_get_value("Mouse", &val) == 0)
+  if (resources_get_int("Mouse", &val) == 0)
   {
-    if ((int)val != 0)
+    if (val != 0)
     {
       SetMouseBoundingBox(-32767, -32767, 32767, 32767);
       PutMouseAt(FullScrDesc.resx / 2, FullScrDesc.resy / 2);

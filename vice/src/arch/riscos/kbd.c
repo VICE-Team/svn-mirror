@@ -271,7 +271,7 @@ int kbd_update_joykeys(int port)
 
   sprintf(b, "%02x%02x%02x%02x%02x", JoystickKeys[port].up, JoystickKeys[port].down, JoystickKeys[port].left, JoystickKeys[port].right, JoystickKeys[port].fire);
   rsrc = (port == 0) ? Rsrc_JoyKeys1 : Rsrc_JoyKeys2;
-  return resources_set_value(rsrc, b);
+  return resources_set_string(rsrc, b);
 }
 
 static int set_keymap_index(resource_value_t v, void *param)

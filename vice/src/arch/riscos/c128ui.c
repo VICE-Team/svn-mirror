@@ -99,7 +99,7 @@ static int c128ui_key_pressed_config(int *block, int wnum, const char *data)
   {
     if (block[KeyPB_Icon] == Icon_Conf128_C128Palette)
     {
-      resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
+      resources_set_string(Rsrc_VDCpalette, data);
       return 0;
     }
   }
@@ -120,7 +120,7 @@ static int c128ui_usr_msg_data_load(int *block)
         rsrc = Rsrc_Z80Bios;
 
       filename = ui_check_for_syspath(((const char*)block)+44);
-      if (resources_set_value(rsrc, (resource_value_t)filename) == 0)
+      if (resources_set_string(rsrc, filename) == 0)
       {
         wimp_window_write_icon_text(ConfWindows[CONF_WIN_C128], block[6], filename);
       }

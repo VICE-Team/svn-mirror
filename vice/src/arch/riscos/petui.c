@@ -214,11 +214,9 @@ static const char *petui_get_machine_ibar_icon(void)
 
 static const char *pet_get_keyboard_name(void)
 {
-  resource_value_t val;
   int idx;
 
-  if (resources_get_value("KeymapIndex", (void *)&val) != 0) val = 0;
-  idx = (int)val;
+  if (resources_get_int("KeymapIndex", &idx) != 0) idx = 0;
   if ((idx & 2) == 0) return PETkeyBusinessName;
   return PETkeyGraphicName;
 }

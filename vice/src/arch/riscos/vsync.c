@@ -288,13 +288,13 @@ int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
   {
     if ((now - LastSpeed) >= SpeedEvery)
     {
-      resource_value_t val;
+      int val;
 
       RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
       ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
       LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
-      resources_get_value("MachineVideoStandard", (void *)&val);
-      FramesPerSecond = ((int)val == MACHINE_SYNC_PAL) ? 50 : 60;
+      resources_get_int("MachineVideoStandard", &val);
+      FramesPerSecond = (val == MACHINE_SYNC_PAL) ? 50 : 60;
     }
   }
 

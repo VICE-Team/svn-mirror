@@ -1048,7 +1048,7 @@ static void ui_set_truedrv_emulation(int state)
    */
   if (state != 0) ui_temp_suspend_sound();
 
-  if (resources_set_value(Rsrc_True, (resource_value_t)state) == 0)
+  if (resources_set_int(Rsrc_True, state) == 0)
   {
     ui_display_truedrv_emulation(state);
   }
@@ -1076,7 +1076,7 @@ static void ui_display_sound_enable(int state)
 
 static void ui_set_sound_enable(int state)
 {
-  if (resources_set_value(Rsrc_Sound, (resource_value_t)state) != 0) return;
+  if (resources_set_int(Rsrc_Sound, state) != 0) return;
 
   ui_display_sound_enable(state);
 }
@@ -1315,14 +1315,14 @@ static void ui_set_menu_display_value(const disp_desc_t *dd, int number)
 {
   if ((dd->flags & DISP_DESC_BITFIELD) != 0)
   {
-    resource_value_t val;
+    int val;
     int state;
     char **values;
 
     values = (char**)(dd + 1);
-    resources_get_value(values[number], (void *)&val);
-    state = ((int)val == 0) ? 1 : 0;
-    if (resources_set_value(values[number], (resource_value_t)state) == 0)
+    resources_get_int(values[number], &val);
+    state = (val == 0) ? 1 : 0;
+    if (resources_set_int(values[number], state) == 0)
     {
       wimp_menu_tick_item(dd->menu, number, -1);
     }
@@ -1564,7 +1564,7 @@ static void ui_set_create_image_type(int number)
 
 static int ui_set_sound_file(const char *name)
 {
-  if (resources_set_value(Rsrc_SoundFile, (resource_value_t)name) == 0)
+  if (resources_set_string(Rsrc_SoundFile, name) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_FileSndPath, name);
     return 0;
@@ -1575,7 +1575,7 @@ static int ui_set_sound_file(const char *name)
 
 static int ui_set_serial_file(const char *name)
 {
-  if (resources_set_value(Rsrc_SerialFile, (resource_value_t)name) == 0)
+  if (resources_set_string(Rsrc_SerialFile, name) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_ConfDev_FileRsPath, name);
     return 0;
@@ -1586,7 +1586,7 @@ static int ui_set_serial_file(const char *name)
 
 static int ui_set_printer_file(const char *name)
 {
-  if (resources_set_value(Rsrc_PrinterFile, (resource_value_t)name) == 0)
+  if (resources_set_string(Rsrc_PrinterFile, name) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_ConfDev_FilePrPath, name);
     return 0;
@@ -1599,7 +1599,7 @@ static int ui_set_cartridge_file(const char *name)
 {
   vsync_suspend_speed_eval();
 
-  if (resources_set_value(Rsrc_CartF, (resource_value_t)name) == 0)
+  if (resources_set_string(Rsrc_CartF, name) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], Icon_ConfSys_CartFile, name);
     return 0;
@@ -1823,10 +1823,9 @@ void ui_set_sound_volume(void)
 
 static void ui_sound_set_best_sample_rate(void)
 {
-  resource_value_t val;
-  if (resources_get_value(Rsrc_SndRate, (void *)&val) == 0)
+  int rate;
+  if (resources_get_int(Rsrc_SndRate, &rate) == 0)
   {
-    int rate = (int)val;
     int i, bestIdx, bestError;
     const disp_desc_t *dd = ConfigMenus[CONF_MENU_SAMPRATE].desc;
     const int *values = (const int*)(dd + 1);
@@ -2067,7 +2066,7 @@ static void ui_init_windows(void)
 
   if ((initialized == 0) && (ConfWindows[CONF_WIN_DRIVES] != NULL))
   {
-    resource_value_t val;
+    int val;
     int i;
 
     /* Setup the drives */
@@ -2077,8 +2076,8 @@ static void ui_init_windows(void)
 	ui_send_fake_data_load(ConfWindows[CONF_WIN_DRIVES], DriveToFile[i], *(DriveFiles[i]));
     }
 
-    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
-      TrueDriveEmulation = (int)val;
+    if (resources_get_int(Rsrc_True, &val) == 0)
+      TrueDriveEmulation = val;
 
     ui_set_truedrv_emulation((int)TrueDriveEmulation);
 
@@ -2087,8 +2086,8 @@ static void ui_init_windows(void)
     else
       ui_set_icons_grey(NULL, TapeFileDependentIcons, 0);
 
-    if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
-      ui_set_sound_enable((int)val);
+    if (resources_get_int(Rsrc_Sound, &val) == 0)
+      ui_set_sound_enable(val);
 
     ui_set_pane_state(ShowEmuPane);
 
@@ -2327,7 +2326,7 @@ int ui_emulator_init_epilogue(wimp_msg_desc *msg)
   ui_init_windows();
 
   CoreDumpOnExit = 0;
-  if (resources_get_value(Rsrc_CoreDump, (void *)&CoreDumpOnExit) != 0)
+  if (resources_get_int(Rsrc_CoreDump, &CoreDumpOnExit) != 0)
     CoreDumpOnExit = 0;
 
   return 0;
@@ -2340,7 +2339,7 @@ void ui_shutdown(void)
 
 int ui_init_finish(void)
 {
-  resource_value_t val;
+  int val;
 
   CMOS_DragType = ReadDragType();
 
@@ -2382,15 +2381,15 @@ int ui_init_finish(void)
   memset(SnapshotMessage, 0, 256);
 
   /* Sound buffer size sanity check */
-  if (resources_get_value(Rsrc_SndBuff, (void *)&val) == 0)
+  if (resources_get_int(Rsrc_SndBuff, &val) == 0)
   {
-    if ((int)val > Maximum_Latency)
+    if (val > Maximum_Latency)
     {
-      resources_set_value(Rsrc_SndBuff, (resource_value_t)Maximum_Latency);
+      resources_set_int(Rsrc_SndBuff, Maximum_Latency);
     }
   }
   /* resid active? */
-  if (resources_get_value(Rsrc_SidEngine, (void *)&CycleBasedSound) == 0)
+  if (resources_get_int(Rsrc_SidEngine, &CycleBasedSound) == 0)
     CycleBasedSound = (CycleBasedSound == SID_ENGINE_RESID);
   else
     CycleBasedSound = 0;
@@ -2732,7 +2731,7 @@ static int ui_set_resource_select(const char *name, conf_iconid_t *id)
     wimp_window_get_icon_state(ConfWindows[id->win], id->icon, block);
     selected = ((block[6] & IFlg_Slct) == 0) ? 0 : 1;
 
-    if (resources_set_value(name, (resource_value_t)selected) != 0)
+    if (resources_set_int(name, selected) != 0)
     {
       /* Revert to previous state */
       wimp_window_set_icon_state(ConfWindows[id->win], id->icon, (selected == 0) ? IFlg_Slct : 0, IFlg_Slct);
@@ -3023,15 +3022,15 @@ static int ui_mouse_click_config(int *b, int wnum)
             }
             /* Configure submenu */
             flags = 0;
-            if (resources_get_value(Rsrc_ConvP00[number], (void *)&state) == 0)
+            if (resources_get_int(Rsrc_ConvP00[number], &state) == 0)
             {
               if (state != 0) flags |= (1<<Menu_DriveFS_ConvP00);
             }
-            if (resources_get_value(Rsrc_SaveP00[number], (void *)&state) == 0)
+            if (resources_get_int(Rsrc_SaveP00[number], &state) == 0)
             {
               if (state != 0) flags |= (1<<Menu_DriveFS_SaveP00);
             }
-            if (resources_get_value(Rsrc_HideCBM[number], (void *)&state) == 0)
+            if (resources_get_int(Rsrc_HideCBM[number], &state) == 0)
             {
               if (state != 0) flags |= (1<<Menu_DriveFS_HideCBM);
             }
@@ -3311,14 +3310,14 @@ static void ui_mouse_click(int *b)
                     else if (Configurations[i].id.icon == Icon_ConfSnd_Sound16Bit)
                     {
                       int sndstate;
-                      resources_get_value(Rsrc_Sound, (void *)&sndstate);
+                      resources_get_int(Rsrc_Sound, &sndstate);
                       if (sndstate != 0)
                       {
                         /* if sound enabled and 16bit state changed, close sound device
                            and immediately reopen it to use the new system */
-                        /*resources_set_value(Rsrc_Sound, (resource_value_t)0);*/
+                        /*resources_set_int(Rsrc_Sound, 0);*/
                         sound_close();
-                        resources_set_value(Rsrc_Sound, (resource_value_t)1);
+                        resources_set_int(Rsrc_Sound, 1);
                       }
                     }
                   }
@@ -3565,17 +3564,17 @@ static void ui_key_press_config(int *b)
         switch (b[KeyPB_Icon])
         {
           case Icon_ConfSys_PollEvery:
-            resources_set_value(Rsrc_Poll, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_Poll, atoi(data)); break;
           case Icon_ConfSys_SpeedEvery:
-            resources_set_value(Rsrc_Speed, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_Speed, atoi(data)); break;
           case Icon_ConfSys_SoundEvery:
-            resources_set_value(Rsrc_SndEvery, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_SndEvery, atoi(data)); break;
           case Icon_ConfSys_CharGen:
-            resources_set_value(Rsrc_CharGen, (resource_value_t)data); break;
+            resources_set_string(Rsrc_CharGen, data); break;
           case Icon_ConfSys_Kernal:
-            resources_set_value(Rsrc_Kernal, (resource_value_t)data); break;
+            resources_set_string(Rsrc_Kernal, data); break;
           case Icon_ConfSys_Basic:
-            resources_set_value(Rsrc_Basic, (resource_value_t)data); break;
+            resources_set_string(Rsrc_Basic, data); break;
           case Icon_ConfSys_CartFile:
             ui_set_cartridge_file(data); break;
           case Icon_ConfSys_DosName:
@@ -3588,25 +3587,25 @@ static void ui_key_press_config(int *b)
         switch (b[KeyPB_Icon])
         {
           case Icon_ConfVid_MaxSkipFrms:
-            resources_set_value(Rsrc_MaxSkipped, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_MaxSkipped, atoi(data)); break;
           case Icon_ConfVid_FullScrNorm:
-            resources_set_value(Rsrc_FullScrNorm, (resource_value_t)data); break;
+            resources_set_string(Rsrc_FullScrNorm, data); break;
           case Icon_ConfVid_FullScrPAL:
-            resources_set_value(Rsrc_FullScrPal, (resource_value_t)data); break;
+            resources_set_string(Rsrc_FullScrPal, data); break;
           case Icon_ConfVid_FullScrDbl:
-            resources_set_value(Rsrc_FullScrPal2, (resource_value_t)data); break;
+            resources_set_string(Rsrc_FullScrPal2, data); break;
           case Icon_ConfVid_ColourSat:
-            resources_set_value(Rsrc_ColourSat, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_ColourSat, atoi(data)); break;
           case Icon_ConfVid_Contrast:
-            resources_set_value(Rsrc_Contrast, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_Contrast, atoi(data)); break;
           case Icon_ConfVid_Brightness:
-            resources_set_value(Rsrc_Brightness, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_Brightness, atoi(data)); break;
           case Icon_ConfVid_Gamma:
-            resources_set_value(Rsrc_Gamma, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_Gamma, atoi(data)); break;
           case Icon_ConfVid_LineShade:
-            resources_set_value(Rsrc_LineShade, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_LineShade, atoi(data)); break;
           case Icon_ConfVid_Palette:
-            resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
+            resources_set_string(Rsrc_Palette, data); break;
           default:
             Wimp_ProcessKey(key); return;
         }
@@ -3628,7 +3627,7 @@ static void ui_key_press_config(int *b)
           case Icon_ConfSnd_FileSndPath:
             ui_set_sound_file(data); break;
           case Icon_ConfSnd_ResidPass:
-            resources_set_value(Rsrc_ReSidPass, (resource_value_t)atoi(data)); break;
+            resources_set_int(Rsrc_ReSidPass, atoi(data)); break;
           default:
             Wimp_ProcessKey(key); return;
         }
@@ -3739,7 +3738,7 @@ static void ui_toggle_resource_menu(const char *name, RO_MenuHead *menu, int num
   int state;
 
   state = wimp_menu_tick_item(menu, number, -1);
-  if (resources_set_value(name, (resource_value_t)state) != 0)
+  if (resources_set_int(name, state) != 0)
   {
     wimp_menu_tick_item(menu, number, -1);
   }
@@ -4212,14 +4211,14 @@ static void ui_load_snapshot_trap(WORD unused_address, void *unused_data)
 
   if (status == 0)
   {
-    resource_value_t val;
-    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
+    int val;
+    if (resources_get_int(Rsrc_True, &val) == 0)
     {
-      ui_display_truedrv_emulation((int)val);
+      ui_display_truedrv_emulation(val);
     }
-    if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
+    if (resources_get_int(Rsrc_Sound, &val) == 0)
     {
-      ui_display_sound_enable((int)val);
+      ui_display_sound_enable(val);
     }
     wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, ((char*)SnapshotMessage)+44);
   }
@@ -4491,7 +4490,7 @@ static void ui_user_msg_data_load(int *b)
         const char *filename;
 
         filename = ui_check_for_syspath(name);
-        if (resources_set_value(res, (resource_value_t)filename) == 0)
+        if (resources_set_string(res, filename) == 0)
         {
           wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], filename);
           if (rom_changed != 0)
@@ -4512,7 +4511,7 @@ static void ui_user_msg_data_load(int *b)
         const char *filename;
 
         filename = ui_check_for_syspath(name);
-        if (resources_set_value(Rsrc_Palette, (resource_value_t)filename) == 0)
+        if (resources_set_string(Rsrc_Palette, filename) == 0)
         {
           wimp_window_write_icon_text(ConfWindows[CONF_WIN_VIDEO], b[6], filename);
           action = 1;
@@ -5212,13 +5211,13 @@ void ui_update_menus(void)
 {
   if (EmuWindow != NULL)
   {
-    resource_value_t val;
+    int val;
 
-    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
+    if (resources_get_int(Rsrc_True, &val) == 0)
     {
       ui_display_truedrv_emulation((int)val);
     }
-    if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
+    if (resources_get_int(Rsrc_Sound, &val) == 0)
     {
       ui_display_sound_enable((int)val);
     }
