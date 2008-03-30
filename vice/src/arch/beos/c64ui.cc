@@ -38,7 +38,6 @@ extern "C" {
 #include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
-#include "psid.h"
 #include "resources.h"
 #include "ui.h"
 #include "ui_file.h"
@@ -152,30 +151,6 @@ static void c64_ui_attach_cartridge(void *msg, void *window)
 }	
 
 
-static void c64_play_vsid(const char *filename) {
-	
-	int tunes, default_tune, i;
-    		
-	if (machine_autodetect_psid(filename) < 0) {
-    	ui_error("`%s' is not a valid PSID file.", filename);
-      	return;
-    }
-    psid_init_driver();
-    machine_play_psid(0);
-    maincpu_trigger_reset();
-
-	vicemenu_free_tune_menu();
-	/* Get number of tunes in current PSID. */
-	tunes = psid_tunes(&default_tune);
-
-	/* Build tune menu. */
-	vicemenu_tune_menu_add(-default_tune);
-	for (i = 0; i < tunes; i++) {
-		vicemenu_tune_menu_add(i+1);
-	}
-}
-
-
 void c64_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
@@ -215,27 +190,6 @@ void c64_ui_specific(void *msg, void *window)
 		case MENU_VICII_SETTINGS:
         	ui_vicii();
         	break;
-        case MENU_VSID_LOAD:
-        	ui_select_file(((ViceWindow*)window)->filepanel, VSID_FILE, 0);
-			break;
-        case MENU_VSID_TUNE:
-		{
-			int32 tune;
-			
-			((BMessage*)msg)->FindInt32("nr", &tune);
-			machine_play_psid(tune);
-			vsync_suspend_speed_eval();
-			maincpu_trigger_reset();
-			break;
-        }
-		case PLAY_VSID:
-		{
-			const char *filename;
-			
-			((BMessage*)msg)->FindString("filename", &filename);
-			c64_play_vsid(filename);
-			break;
-		}
 
     	default: ;
     }

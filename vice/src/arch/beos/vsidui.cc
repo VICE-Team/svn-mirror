@@ -31,9 +31,13 @@
 #include "vicewindow.h"
 
 extern "C" {
-#include "c64ui.h"
+#include "constants.h"
+#include "interrupt.h"
 #include "log.h"
 #include "machine.h"
+#include "psid.h"
+#include "vicemenu.h"
+#include "vsync.h"
 
 extern ViceWindow *windowlist[];  /* arghh */
 static BWindow *window;
@@ -47,6 +51,60 @@ static BTextControl *tc_last_tune;
 static BTextControl *tc_time;
 static BTextControl *tc_irqtype;
 static ViceWindow	*vsidwindow;
+
+static void vsid_play_vsid(const char *filename) {
+	
+	int tunes, default_tune, i;
+    		
+	if (machine_autodetect_psid(filename) < 0) {
+    	ui_error("`%s' is not a valid PSID file.", filename);
+      	return;
+    }
+    psid_init_driver();
+    machine_play_psid(0);
+    maincpu_trigger_reset();
+
+	vicemenu_free_tune_menu();
+	/* Get number of tunes in current PSID. */
+	tunes = psid_tunes(&default_tune);
+
+	/* Build tune menu. */
+	vicemenu_tune_menu_add(-default_tune);
+	for (i = 0; i < tunes; i++) {
+		vicemenu_tune_menu_add(i+1);
+	}
+}
+
+
+void vsid_ui_specific(void *msg, void *window)
+{
+    switch (((BMessage*)msg)->what) {
+        case MENU_VSID_LOAD:
+        	ui_select_file(((ViceWindow*)window)->filepanel, VSID_FILE, 0);
+			break;
+        case MENU_VSID_TUNE:
+		{
+			int32 tune;
+			
+			((BMessage*)msg)->FindInt32("nr", &tune);
+			machine_play_psid(tune);
+			vsync_suspend_speed_eval();
+			maincpu_trigger_reset();
+			break;
+        }
+		case PLAY_VSID:
+		{
+			const char *filename;
+			
+			((BMessage*)msg)->FindString("filename", &filename);
+			vsid_play_vsid(filename);
+			break;
+		}
+
+    	default: ;
+    }
+}
+
 
 int vsid_ui_init(void)
 {
@@ -62,7 +120,7 @@ int vsid_ui_init(void)
 	frame = window->Bounds();
 	view = new BView(frame, "vsid", B_FOLLOW_NONE, B_WILL_DRAW);
 	view->SetViewColor(160,160,160,0);
-	frame.InsetBy(10, 40);
+	frame.InsetBy(10, 66);
 	frame.OffsetBy(0, -10);
 	box = new BBox(frame);
 	box->SetLabel("Current SID file information");
@@ -121,9 +179,9 @@ int vsid_ui_init(void)
 	
 	window->AddChild(view);
 	
-/*
-	c64_ui_init();
-*/
+    ui_register_machine_specific(vsid_ui_specific);
+    ui_update_menus();
+
     return 0;
 }
 

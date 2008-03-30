@@ -420,7 +420,7 @@ int ui_cmdline_options_init(void)
 #define UI_DEBUG_HOTKEYS
 #endif /* DEBUG*/
 
-#define NUM_OF_COMMON_HOTKEYS 24
+#define NUM_OF_COMMON_HOTKEYS 26
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \

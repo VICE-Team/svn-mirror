@@ -520,6 +520,27 @@ static UI_CALLBACK(save_quicksnap)
     interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)fname);
 }
 
+static UI_CALLBACK(events_select_dir)
+{
+    char *wd;
+    int i, is_dir;
+    wd = lib_malloc(MAXPATHLEN);
+
+    ioutil_getcwd(wd, MAXPATHLEN);
+    vsync_suspend_speed_eval();
+    if (ui_input_string(_("VICE setting"),
+                        _("Select history directory"),
+                        wd, MAXPATHLEN) == UI_BUTTON_OK) {
+        ioutil_stat(wd, &i, &is_dir);
+	if (!is_dir)
+            ui_error(_("Directory not found"));
+	else
+	    resources_set_value("EventSnapshotDir", (resource_value_t) wd);
+    }
+    lib_free(wd);
+    
+}
+
 static UI_CALLBACK(record_events_start)
 {
     event_record_start();
@@ -538,6 +559,16 @@ static UI_CALLBACK(playback_events_start)
 static UI_CALLBACK(playback_events_stop)
 {
     event_playback_stop();
+}
+
+static UI_CALLBACK(events_set_ms)
+{
+    event_record_set_milestone();
+}
+
+static UI_CALLBACK(events_return_ms)
+{
+    event_record_reset_milestone();
 }
 
 static UI_CALLBACK(sound_record)
@@ -1024,6 +1055,8 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
       (ui_callback_t)save_quicksnap, NULL, NULL,
       XK_F11, UI_HOTMOD_META },
     { "--" },
+    { N_("Select history directory"),
+      (ui_callback_t)events_select_dir, NULL, NULL },
     { N_("Start recording events"),
       (ui_callback_t)record_events_start, NULL, NULL },
     { N_("Stop recording events"),
@@ -1032,6 +1065,10 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
       (ui_callback_t)playback_events_start, NULL, NULL },
     { N_("Stop playing back events"),
       (ui_callback_t)playback_events_stop, NULL, NULL },
+    { N_("Set recording milestone"),
+      (ui_callback_t)events_set_ms, NULL, NULL, XK_e, UI_HOTMOD_META },
+    { N_("Return to milestone"),
+      (ui_callback_t)events_return_ms, NULL, NULL, XK_u, UI_HOTMOD_META },
     { "--" },
     { N_("Recording start mode"),
       NULL, NULL, set_event_start_mode_submenu },

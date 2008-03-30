@@ -487,6 +487,7 @@ void get_resolutionlist(int device, int bitdepth)
 }
 
 static int vblank_sync;
+static int dx_primary;
 
 static void init_fullscreen_dialog(HWND hwnd)
 {
@@ -542,6 +543,8 @@ static void init_fullscreen_dialog(HWND hwnd)
                 0);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync
                    ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary
+                   ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static float fullscreen_refreshrate_buffer = -1.0f;
@@ -570,6 +573,8 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                 (resource_value_t)fullscreen_refreshrate);
             resources_set_value("VBLANKSync",
                                 (resource_value_t)vblank_sync);
+            resources_set_value("DXPrimarySurfaceRendering",
+                                (resource_value_t)dx_primary);
             fullscreen_refreshrate_buffer = -1.0f;
 
             SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
@@ -607,6 +612,9 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
               case IDC_TOGGLE_VIDEO_VBLANK_SYNC:
                   vblank_sync ^= 1;
                   return FALSE;
+              case IDC_TOGGLE_VIDEO_DX_PRIMARY:
+                  dx_primary ^= 1;
+                  return FALSE;
               case IDOK:
                 resources_set_value("FullScreenDevice",
                                     (resource_value_t)fullscreen_device);
@@ -620,6 +628,8 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     (resource_value_t)fullscreen_refreshrate);
                 resources_set_value("VBLANKSync",
                                     (resource_value_t)vblank_sync);
+                resources_set_value("DXPrimarySurfaceRendering",
+                                    (resource_value_t)dx_primary);
                 fullscreen_refreshrate_buffer = -1.0f;
               case IDCANCEL:
                 EndDialog(hwnd,0);
@@ -639,6 +649,7 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
         resources_get_value("FullscreenRefreshRate",
                             (void *)&fullscreen_refreshrate);
         resources_get_value("VBLANKSync", (void *)&vblank_sync);
+        resources_get_value("DXPrimarySurfaceRendering", (void *)&dx_primary);
         init_fullscreen_dialog(hwnd);
         return TRUE;
     }

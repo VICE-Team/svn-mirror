@@ -1,96 +1,94 @@
-How to create a Walkthrough with VICE's event history
-======================================================
+How to Create a Walkthrough with VICE's Event History
+=====================================================
 
 1. Basics:
 ----------
 VICE supports recording an arbitrary session on the emulated machine and
-playback this session later. This is done by saving a snapshot at the beginning
-of the recording session and then remembering all the user interaction like
-keyboard and joystick. We call this 'event history'.
-The main purpose for an event history are game sessions e.g. recording how to
-solve a game. An example Walkthrough for the well known Fort Apocalypse is
-distributed.
-This little document will advise you how to record and playback such a session.
-It is based on the WinVICE x64 release and its user interface but you may
-tranfer to other machines and other ports that support event history like the
-Unix one.
+playing back this session later. This is done by saving a snapshot at the beginning
+of the recording session and then remembering all the user interaction such as
+keyboard and joystick input. We call this an 'event history'.
+The main purpose for having an event history is to create game sessions, e.g. recording 
+how to solve a game. An example walkthrough for the well known game "Fort Apocalypse" is
+available.
+This brief document will advise you how to record and playback such a session.
+Although it is based on the WinVICE x64 release and its user interface, histories may be
+transferred to other machines and other ports that support event history, e.g. the
+Unix port.
 
-2. Recommended settings
+2. Recommended Settings
 -----------------------
-Using the event history feature you may notice that sometimes the result
-doesn't work as expected and the playback session differs from the original at
-recording time. The reason for this can be a problem in the initial snapshot or
-some settings that lead to incorrect reproduction at playback time.
+When using the event history feature it is possible that the playback session
+differs from what was done at recording time. This might arise due to a problem 
+in the initial snapshot or settings.
 Here are some suggestions to minimize the chance of failures in the session:
 a. Reset to default settings.
 b. Choose refresh rate 1/1.
-c. Choose joystick and Video/Doublesize settings as you like or need it.
-d. SID engine needs to stay reSID (which is the deafult one).
-Don't change any settings while recording or within playback!
+c. Choose joystick and Video/Doublesize settings as desired or needed.
+d. SID engine must be reSID (which is the default).
+Do not change any settings during recording or playback!
 
-3. Recorded events
+3. Recorded Events
 ------------------
-Here's a list of the user interaction that will be recorded:
+The following is a list of the user interaction that will be recorded:
 - Joystick movement and button
 - Keyboard
 - Resetting the machine (hard and soft)
 - Attaching or detaching disk/tape images (see 8. Limitations)
 - Datasette controls
 
-4. Recording an event history
+4. Recording an Event History
 -----------------------------
-Recording an event history will create one or two files with the snapshot and
-the list of the user events. To select the directory where these files are
-written you should create a new empty directory first and then choose this
-directory via 'Snapshot//Select History directory'.
-Now you should attach the disk or tape image with the game you want to record
-and load and run the game.
-Start the recording via 'Snapshot//Start/Stop Recording History'.
-Play the game. All your actions will be recorded.
-When you finished the game, stop the recording via 'Snapshot//Start/Stop
-Recording History'. You should have two files start.vsf and end.vsf in your
-selected directory now.
+Recording an event history will create one or two files for a snapshot and
+the list of the user events. First, create an empty directory in which these
+files are to be saved and then select this directory via 'Snapshot//Select 
+History directory'. Next, attach the disk or tape image with the game you 
+want to record and load and run the game.
+Start recording via 'Snapshot//Start/Stop Recording History'.
+Play the game. All actions will be recorded.
+After the game is finished, stop recording via 'Snapshot//Start/Stop
+Recording History'. The selected directory should now contain the two
+files start.vsf and end.vsf
 
-5. Setting milestones and returning to them
--------------------------------------------
-It is a hard to job to finish a game in one go and you probably don't want to
-record all your mistakes and lost lifes. Use the milestone feature in a
-recording session the following way:
-Set a milestone when you have finished a level or managed some task
-('Snapshot//Set recording milestone' or ALT-E). This will write the event
-history and a snapshot of the machine to the end file but recording will
+5. Setting and Returning to Milestones
+--------------------------------------
+It is difficult to finish a game in one sitting and noone wants to
+record all their mistakes and lost lives. Use the milestone feature in a
+recording session in the following way:
+Set a milestone when you have finished a level or completed a task
+('Snapshot//Set recording milestone' or ALT-E). This will save the event
+history and a snapshot of the machine to the file end.vsf but recording will
 continue.
 Return to the last milestone when you have made a mistake or lost a life
 ('Snapshot//Return to milestone' or ALT-U). This will reset the game and the
-event history to the last milestone snapshot and you can try again.
+event history to the last milestone snapshot so that you can try again.
 
-6. Continuing an event history
+6. Continuing an Event History
 ------------------------------
-When you have stopped a recording session and want to continue it later, you
-should do a backup of your start.vsf and end.vsf files first to avoid
+If you have stopped a recording session and want to continue it later, you
+should create a backup of your start.vsf and end.vsf files first to avoid
 overwriting them by accident.
 Then change the event history start mode: 'Snapshot//Recording start mode//Load
-existing snapshot'. When you start recording now, you will continue where you
-have stopped the session last time.
+existing snapshot'. When you start recording now, you will continue where the
+session was stopped last time.
 
-7. Playback an event history
-----------------------------
-To playback an event history just choose the directory with the history files
+7. Playing Back an Event History
+--------------------------------
+To play back an event history, select the directory with the history files
 start.vsf and end.vsf via 'Snapshot//Select History directory' and start the
 playback with 'Snapshot//Start/Stop Playback History'. Enjoy!
-Any user interaction is disabled while the playback runs.
-The playback stops when the end of the session is reached or when you select
-'Snapshot//Select History directory' again.
+During playback any user interaction is disabled.
+The playback stops when the end of the session is reached or if 
+'Snapshot//Select History directory' is selected again.
 
-8. Limitations and suggestions
+8. Limitations and Suggestions
 ------------------------------
-a. Attaching and detaching images will be recorded but a playback of such a
-session needs these image files being in the same directory. This makes it
-difficult to distribute a Walkthrough for games that need disk or tape changes.
-This will be fixed later.
-b. The names of the snapshot files start.vsf and end.vsf could be changed with
-the resources EventStartSnapshot and EventEndSnapshot but we suggest to stay at
-the defaults as there is no GUI support for it.
-c. Snapshot files are quite big (>1MB) if you have attached a disk image. To
-get smaller snapshot files you should use prg or t64 images if possible.
-d. Snapshot may not be 100% accurate even with all the recommended settings.
+a. When playing back a session in which images were attached, those images
+need to be in the same directory that they were located during recording.
+This makes it difficult to distribute a walkthrough for games that need 
+disk or tape changes. We will fix this later.
+b. The names of the snapshot files start.vsf and end.vsf can be changed with
+the resources EventStartSnapshot and EventEndSnapshot. However, we suggest 
+keeping the defaults as there is no GUI support for changing them.
+c. Snapshot files will be quite big (>1MB) if a disk image has been attached. 
+If possible, use PRG or T64 images to reduce the size of snapshot files.
+d. Snapshots may not be 100% accurate even with all the recommended settings.

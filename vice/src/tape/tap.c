@@ -3,7 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  David Hansel <hansel@reactive-systems.com>
+ *  David Hansel <david@hansels.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

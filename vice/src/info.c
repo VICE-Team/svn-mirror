@@ -387,7 +387,7 @@ const char info_contrib_text[] =
 "  REU related bugs, added support for the TFE and RR-Net (cs8900a),\n"
 "  and wrote some further patches.\n"
 "\n"
-"  David Hansel <hansel@reactive-systems.com> wrote the Star NL10\n"
+"  David Hansel <david@hansels.net> wrote the Star NL10\n"
 "  printer driver, implemented IEC devices and improved the tape\n"
 "  emulation.\n"
 "\n"

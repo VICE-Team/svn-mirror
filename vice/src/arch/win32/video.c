@@ -85,8 +85,17 @@ static void video_debug(const char *format, ...)
 
 /* Flag: are we in fullscreen mode?  */
 int fullscreen_enabled;
+int dx_primary_surface_rendering;
+
+static int set_dx_primary_surface_rendering(resource_value_t v, void *param)
+{
+    dx_primary_surface_rendering = (int) v;
+    return 0;
+}
 
 static const resource_t resources[] = {
+    { "DXPrimarySurfaceRendering", RES_INTEGER, (resource_value_t)0,
+      (void *)&dx_primary_surface_rendering, set_dx_primary_surface_rendering, NULL },
     { NULL }
 };
 
@@ -1204,7 +1213,7 @@ static void real_refresh(video_canvas_t *c,
             surface = c->back_surface;
     }
 
-    if (surface == NULL) {
+    if ((surface == NULL) && (dx_primary_surface_rendering)) {
         desc.dwSize = sizeof(desc);
         do {
             result = IDirectDrawSurface_Lock(c->primary_surface, NULL, &desc,
@@ -1220,9 +1229,10 @@ static void real_refresh(video_canvas_t *c,
 
             if (!no_primary_lock_reported
                 && result == DDERR_CANTLOCKSURFACE) {
-                ui_error("Your DirectDraw driver does not let me lock\n"
+/*                ui_error("Your DirectDraw driver does not let me lock\n"
                          "the primary DirectDraw surface.\n\n"
-                         "Performance will be poor!");
+                         "Performance will be poor!");*/
+                log_debug("WARNING: Lock on primary DirectX surface is not possible, slight performance degradation to be expected!");
                 no_primary_lock_reported = 1;
             }
         }

@@ -2,7 +2,7 @@
  * drv-nl10.h - NL10 printer driver.
  *
  * Written by
- *  David Hansel <hansel@reactive-systems.com>
+ *  David Hansel <david@hansels.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
