@@ -386,7 +386,7 @@ void maincpu_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void reset(void)
+static void cpu_reset(void)
 {
     int preserve_monitor;
     int ds_reset;
@@ -415,7 +415,7 @@ static void reset(void)
 
 void maincpu_reset(void)
 {
-    reset();
+    cpu_reset();
 }
 
 /* ------------------------------------------------------------------------- */
