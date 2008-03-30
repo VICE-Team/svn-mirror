@@ -115,6 +115,7 @@ extern int sound_cmdline_options_init(void);
 /* device initialization prototypes */
 extern int sound_init_aix_device(void);
 extern int sound_init_allegro_device(void);
+extern int sound_init_alsa_device(void);
 extern int sound_init_sb_device(void);
 extern int sound_init_dummy_device(void);
 extern int sound_init_dump_device(void);
