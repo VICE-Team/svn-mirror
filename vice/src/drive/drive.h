@@ -277,6 +277,7 @@ typedef struct drive_s {
 
     unsigned long bits_moved;
     unsigned long accum;
+    unsigned long shifter;
     int finish_byte;
     int last_mode;
     CLOCK rotation_last_clk;
