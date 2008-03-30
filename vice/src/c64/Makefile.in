@@ -358,10 +358,12 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 c64-cmdline-options.o: c64-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/machine.h
 c64-resources.o: c64-resources.c ../../src/vice.h ../../src/config.h \
 	c64cart.h ../../src/arch/unix/types.h c64mem.h \
-	../../src/cartridge.h ../../src/resources.h reu.h \
+	../../src/cartridge.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/machine.h ../../src/resources.h reu.h \
 	../../src/utils.h
 c64-snapshot.o: c64-snapshot.c ../../src/vice.h ../../src/config.h \
 	c64-resources.h c64-snapshot.h c64cart.h \
@@ -455,9 +457,9 @@ patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 psid.o: psid.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64mem.h \
 	../../src/arch/unix/types.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/machine.h \
-	psid.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/log.h ../../src/machine.h psid.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vsidui.h ../../src/vsync.h ../../src/zfile.h \
 	psiddrv.h

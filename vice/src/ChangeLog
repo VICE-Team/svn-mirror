@@ -1,3 +1,69 @@
+2002-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.16.
+
+	* vicii/vicii.c (vic_ii_update_memory_ptrs): Use
+	`chargen_rom_ptr'.
+
+	* c64/c64mem.c, c64/c64mem.h, c128/c128mem.c, cbm2/c610mem.c:
+	Added `chargen_rom_ptr'.
+
+	* c128/c128mem.h: Increased `C128_CHARGEN_ROM_SIZE'.
+
+	* c128/c128mem.c (store_zero): Handle pending alrams.
+	(pla_config_changed): Update video memory pointers.
+
+	* c128/c128memlimit.c [limit_tab]: Turned off acceleraton for
+	chargen ROM access.
+
+	* c64/c64pla.c, c64/c64pla.h: Take pullup value.
+
+	* drive/drive.h, machine.h, vicii/vicii.c, c64/c64.c,
+	c64/psid.c, c128/c128.c, vic20/vic.c, vic20/vic20.c,
+	vic20/vic20mem.c, plus4/plus4.c, plus4/ted.c, drive/drive.c,
+	arch/unix/c128ui.c, arch/unix/c610ui.c, arch/unix/c64ui.c,
+	arch/unix/plus4ui.c, arch/unix/uipalemu.c,
+	arch/unix/vic20ui.c, arch/unix/vsidui.c, arch/win32/ui.c,
+	arch/win32/vsidui.c, arch/msdos/c128ui.c, arch/msdos/c64ui.c,
+	arch/msdos/vic20ui.c, arch/msdos/vsidui.c, arch/os2/vsidui.c,
+	arch/riscos/uiconfig.c, arch/riscos/vsync.c,
+	arch/os2/dialogs/menubar.c, drive/drive-cmdline-options.c,
+	drive/drive-resources.c, arch/beos/ui.cc, arch/beos/vsidui.cc,
+	c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, plus4/plus4-resources.c,
+	c64/c64-cmdline-options.c, c128/c128-cmdline-options.c,
+	vic20/vic20-cmdline-options.c, plus4/plus4-cmdline-options.c:
+	Moved video standard settings from drive to machine.
+
+	* interrupt.c, interrupt.h: Removed cruft.
+
+	* maincpu.c, maincpu.h, vicii/vicii-mem.c, vicii/vicii.c,
+	sid/sid.c, c64/c64cia1.c, c64/c64cia2.c, c64/c64tpi.c,
+	c64/c64acia1.c, c64/cart/c64cartmem.c, c128/c128cia1.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petacia1.c, pet/petpia1.c,
+	pet/petpia2.c, pet/petvia.c, plus4/ted-mem.c,
+	plus4/plus4acia.c, cbm2/c610acia1.c, cbm2/c610cia1.c,
+	cbm2/c610tpi1.c, cbm2/c610tpi2.c: Renamed `rmw_flag'.
+
+	* maincpu.c, maincpu.h, vdc/vdc.c, crtc/crtc-mem.c,
+	crtc/crtc-snapshot.c, crtc/crtc.c, sid/fastsid.c, sid/sid.c,
+	c64/c64iec.c, c64/c64tpi.c, c128/c128iec.c, vic20/vic-mem.c,
+	vic20/vic-snapshot.c, vic20/vic.c, vic20/vic20sound.c,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c, pet/petvia.c,
+	plus4/plus4iec.c, plus4/tcbm.c, plus4/ted-sound.c,
+	plus4/ted-timer.c, cbm2/c610tpi1.c, cbm2/c610tpi2.c,
+	datasette.c, kbdbuf.c, keyboard.c, parallel.c, sound.c,
+	vsync.c, interrupt.h, drive/drive.c, drive/drivecpu.c,
+	vicii/vicii-mem.c, vicii-snapshot.c, vicii/vicii.c,
+	c64/cart/c64cart.c, c64/c64.c, c64/c64cia1.c, c64/c64cia2.c,
+	c64/reu.c, c64/c64acia1.c, 6510core.c, c128/z80.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, pet/petacia1.c,
+	pet/petpia1.c, pet/petpia2.c, pet/petpia2.c, plus4/plus4.c,
+	plus4/ted-mem.c, plus4/ted-snapshot.c, plus4/ted.c,
+	plus4/plus4acia.c, cbm2/c610.c, cbm2/c610acia1.c, autostart.c,
+	interrupt.c, rsuser.c: Renamed `clk'.
+
 2002-05-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.15.

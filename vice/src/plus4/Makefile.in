@@ -266,11 +266,13 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 plus4-cmdline-options.o: plus4-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/machine.h
 plus4-resources.o: plus4-resources.c ../../src/vice.h ../../src/config.h \
-	plus4mem.h ../../src/mem.h ../../src/arch/unix/types.h \
-	../../src/resources.h ../../src/utils.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/vsync.h
+	../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/machine.h plus4mem.h \
+	../../src/mem.h ../../src/resources.h ../../src/utils.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/vsync.h
 plus4-snapshot.o: plus4-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h
 plus4.o: plus4.c ../../src/vice.h ../../src/config.h \

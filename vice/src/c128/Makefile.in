@@ -256,9 +256,11 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
-	c128mem.h ../../src/arch/unix/types.h ../../src/resources.h \
+	c128mem.h ../../src/arch/unix/types.h ../../src/drive/drive.h \
+	../../src/log.h ../../src/machine.h ../../src/resources.h \
 	../../src/c64/reu.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
@@ -325,12 +327,12 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/c64/c64pla.h \
 	../../src/c64/c64tpi.h ../../src/cmdline.h \
 	../../src/resources.h functionrom.h ../../src/keyboard.h \
-	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/monitor/mon.h ../../src/parallel.h \
-	../../src/c64/reu.h ../../src/rs232.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/sid/sid-resources.h \
-	../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/monitor/mon.h \
+	../../src/parallel.h ../../src/c64/reu.h ../../src/rs232.h \
+	../../src/sid/sid.h ../../src/sound.h \
+	../../src/sid/sid-resources.h ../../src/snapshot.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h \

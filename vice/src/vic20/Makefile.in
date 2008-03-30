@@ -311,13 +311,14 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	vic20.h ../../src/video.h vic20mem.h ../../src/vsync.h
 vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/utils.h \
+	../../src/resources.h ../../src/machine.h ../../src/utils.h \
 	../../src/arch/unix/types.h vic20mem.h ../../src/mem.h
 vic20-resources.o: vic20-resources.c ../../src/vice.h ../../src/config.h \
-	vic20mem.h ../../src/arch/unix/types.h ../../src/mem.h \
+	../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/machine.h \
 	../../src/resources.h ../../src/arch/unix/ui.h \
 	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/utils.h
+	../../src/utils.h vic20mem.h ../../src/mem.h
 vic20-snapshot.o: vic20-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h vic20-resources.h vic20mem.h \
@@ -374,11 +375,10 @@ vic20ieeevia2.o: vic20ieeevia2.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/utils.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \
-	../../src/cmdline.h ../../src/resources.h \
-	../../src/drive/drive.h ../../src/log.h ../../src/emuid.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/emuid.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/monitor/mon.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h vic.h \
 	../../src/alarm.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vic-mem.h vic20.h \
