@@ -1,3 +1,83 @@
+Fri May  8 20:00:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.17.
+
+	* sysfile.c (sysfile_init): Use `FINDPATH_SEPARATOR_STRING'.
+
+	* findpath.c: #include "findpath.h".
+ 	(findpath): Use `FINDPATH_SEPARATOR_CHAR'.
+
+	* include/findpath.h: #define `FINDPATH_SEPARATOR_CHAR' and
+	`FINDPATH_SEPARATOR_STRING'.  They are #defined differently on
+	MS-DOS (which uses ';' to separate path elements) and Unix (which
+	uses ':' instead).
+
+	* main.c: Added command-line option handling.
+	(main): Handle `-autostart'.
+
+	* arch/msdos/kbd.c (handle_joy_emu): Handle missing `K_KP5' case
+ 	when key is released.
+
+Wed May  6 18:05:16 1998  Giuliano Procida  <gpp10@cam.ac.uk>
+
+	* Makefile.in (install.bin, install.roms): Do a `set -e' before
+	anything else.
+
+Sun May	3 16:50:50 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* drive.c (detach_floppy_image): Detach before closing the image.
+
+	* true1541.c: (read_image_gcr): Updated error messages.
+	(write_track_gcr): Updated error messages and fixed a typo in the
+	speed zone calculation.
+
+Sat May  3 00:54:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* cmdline.c, include/cmdline.h: New files.
+
+	* resources.c (resources_register): Fixed reallocation of
+ 	`resources' when going out of space.  Do not allocate `name'
+	dynamically, just use the passed pointer instead.
+
+	* autostart.c: #include "mem.h", not "c64mem.h".
+
+	* drive.c (attach_floppy_image, detach_floppy_image): Do not call
+	`attach_func' or `detach_func' if they are NULL.
+
+Sat May  2 18:31:50 1998  Andreas Boose	 <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/menu.h: New sub menu `ChangeFileSystemDeviceSubmenu'.
+	Added device #11 entry to `AttachDiskImageSubmenu' and
+	`DetachDiskImageSubmenu'.
+
+	* arch/unix/ui_xaw.c: New UI callbacks
+ 	`UiToggleFileSystemDevice[8..11]'.
+	(UiAttachDisk): Call to `file_system_attach_disk' on attach.
+	(UiDetachDisk): Likewise.
+
+	* Makefile.in: Added `attach.c' and `attach.h'.
+
+	* attach.c, include/attach.h: New file for file system attach
+	management.
+
+	* c1541.c: (main): Added `NULL' parameter to `initialize_1541'.
+
+	* c64/c64.c, pet/pet.c, vic20/vic20.c (machine_init): Changed to
+	call `initialize_drives' instead of initialising the drives
+	separately.
+
+	* drive.c: (initialize_1541): Do not allocate a new drive
+ 	structure if an old drive structure is present.  Always clear this
+ 	structure.
+
+	* drive.c, include/drive.h (initialize_1541): New parameter
+ 	`oldinfo'.
+
+	* main.c (main): Call `file_system_init_resources'.
+
+	* serial.c, include/serial.h (get_serial_device): New function to
+	get a pointer to the drive info structure.
+
 Fri May  1 22:17:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.16.
