@@ -82,16 +82,15 @@ static int set_log_file_name(resource_value_t v, void *param)
 }
 
 #ifndef __X1541__
-static const resource_t resources[] = {
-    { "LogFileName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&log_file_name, set_log_file_name, NULL },
+static const resource_string_t resources_string[] = {
+    { "LogFileName", "", RES_EVENT_NO, NULL,
+      &log_file_name, set_log_file_name, NULL },
     { NULL }
 };
 
 int log_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 void log_resources_shutdown(void)

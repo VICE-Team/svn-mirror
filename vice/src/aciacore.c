@@ -141,20 +141,23 @@ static int acia_set_irq(resource_value_t v, void *param)
 static int get_acia_ticks(void)
 {
     switch(acia_mode) {
-
       case ACIA_MODE_NORMAL:
-        return (int)(machine_get_cycles_per_second() / acia_baud_table[ctrl & 0xf]);
+        return (int)(machine_get_cycles_per_second()
+            / acia_baud_table[ctrl & 0xf]);
         break;
 
       case ACIA_MODE_SWIFTLINK:
-        return (int)(machine_get_cycles_per_second() / (acia_baud_table[ctrl & 0xf]*2));
+        return (int)(machine_get_cycles_per_second()
+            / (acia_baud_table[ctrl & 0xf]*2));
         break;
 
       case ACIA_MODE_TURBO232:
-        if ((ctrl & 0xf)==0)
-            return (int)(machine_get_cycles_per_second() / t232_baud_table[ectrl & 0x3]);
+        if ((ctrl & 0xf) == 0)
+            return (int)(machine_get_cycles_per_second()
+                / t232_baud_table[ectrl & 0x3]);
         else
-            return (int)(machine_get_cycles_per_second() / (acia_baud_table[ctrl & 0xf]*2));
+            return (int)(machine_get_cycles_per_second()
+                / (acia_baud_table[ctrl & 0xf]*2));
         break;
     }
 
@@ -174,29 +177,28 @@ static int acia_set_mode(resource_value_t v, void *param)
 
 }
 
-static const resource_t resources[] = {
-    { MYACIA "Dev", RES_INTEGER, (resource_value_t)MyDevice,
-      RES_EVENT_NO, NULL,
-      (void *)&acia_device, acia_set_device, NULL },
-    { MYACIA "Irq", RES_INTEGER, (resource_value_t)MyIrq,
-      RES_EVENT_NO, NULL,
-      (void *)&acia_irq_res, acia_set_irq, NULL },
+static const resource_int_t resources_int[] = {
+    { MYACIA "Dev", MyDevice, RES_EVENT_NO, NULL,
+      &acia_device, acia_set_device, NULL },
+    { MYACIA "Irq", MyIrq, RES_EVENT_NO, NULL,
+      &acia_irq_res, acia_set_irq, NULL },
     { NULL }
 };
 
-int myacia_init_resources(void) {
-    return resources_register(resources);
+int myacia_init_resources(void)
+{
+    return resources_register_int(resources_int);
 }
 
-static const resource_t mode_resources[] = {
-    { MYACIA "Mode", RES_INTEGER, (resource_value_t)ACIA_MODE_NORMAL,
-      RES_EVENT_NO, NULL,
-      (void *)&acia_mode, acia_set_mode, NULL },
+static const resource_int_t mode_resources_int[] = {
+    { MYACIA "Mode", ACIA_MODE_NORMAL, RES_EVENT_NO, NULL,
+      &acia_mode, acia_set_mode, NULL },
     { NULL }
 };
 
-int myacia_init_mode_resources(void) {
-    return resources_register(mode_resources);
+int myacia_init_mode_resources(void)
+{
+    return resources_register_int(mode_resources_int);
 }
 
 #ifdef HAS_TRANSLATION

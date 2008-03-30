@@ -91,19 +91,17 @@ static int set_keepenv(resource_value_t val, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "PSIDKeepEnv", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&keepenv, set_keepenv, NULL },
-    { "PSIDTune", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&psid_tune, psid_ui_set_tune, NULL },
+static const resource_int_t resources_int[] = {
+    { "PSIDKeepEnv", 0, RES_EVENT_NO, NULL,
+      &keepenv, set_keepenv, NULL },
+    { "PSIDTune", 0, RES_EVENT_NO, NULL,
+      &psid_tune, psid_ui_set_tune, NULL },
     { NULL }
 };
 
 int psid_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 static int cmdline_vsid_mode(const char *param, void *extra_param)

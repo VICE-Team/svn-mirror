@@ -96,25 +96,29 @@ static int set_romset_filename(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "RomsetSourceFile", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&romset_source_file, set_romset_source_file, NULL },
-    { "RomsetArchiveName", RES_STRING, (resource_value_t)"default",
-      RES_EVENT_NO, NULL, /* FIXME: filenames may differ */
-      (void *)&romset_archive_name, set_romset_archive_name, NULL },
-    { "RomsetArchiveActive", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&romset_archive_active, set_romset_archive_active, NULL },
-    { "RomsetFileName", RES_STRING, (resource_value_t)"default",
-      RES_EVENT_NO, NULL,
-      (void *)&romset_filename, set_romset_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "RomsetArchiveName", "default", RES_EVENT_NO, NULL,
+      /* FIXME: filenames may differ */
+      &romset_archive_name, set_romset_archive_name, NULL },
+    { "RomsetArchiveActive", "", RES_EVENT_NO, NULL,
+      &romset_archive_active, set_romset_archive_active, NULL },
+    { "RomsetFileName", "default", RES_EVENT_NO, NULL,
+      &romset_filename, set_romset_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "RomsetSourceFile", 1, RES_EVENT_NO, NULL,
+      &romset_source_file, set_romset_source_file, NULL },
     { NULL }
 };
 
 int romset_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void romset_resources_shutdown(void)

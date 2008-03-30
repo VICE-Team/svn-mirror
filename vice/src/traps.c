@@ -93,16 +93,15 @@ static int set_traps_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "VirtualDevices", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&traps_enabled, set_traps_enabled, NULL },
+static const resource_int_t resources_int[] = {
+    { "VirtualDevices", 1, RES_EVENT_SAME, NULL,
+      &traps_enabled, set_traps_enabled, NULL },
     { NULL }
 };
 
 int traps_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */

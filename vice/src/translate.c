@@ -8076,17 +8076,17 @@ static int set_current_language(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-  { "Language", RES_STRING, (resource_value_t)"en",
-    RES_EVENT_NO, NULL,
-    (void *)&current_language, set_current_language, NULL },
-  { NULL }
+    { "Language", "en", RES_EVENT_NO, NULL,
+      &current_language, set_current_language, NULL },
+    { NULL }
 };
 
 int translate_resources_init(void)
 {
   intl_init();
   translate_text_init();
-  return resources_register(resources);
+
+  return resources_register_string(resources_string);
 }
 
 void translate_resources_shutdown(void)
@@ -8125,3 +8125,4 @@ void translate_arch_language_init(void)
   set_current_language(lang, "");
 }
 #endif
+

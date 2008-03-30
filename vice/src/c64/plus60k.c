@@ -202,22 +202,26 @@ static int set_plus60k_base(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "PLUS60K", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&plus60k_enabled, set_plus60k_enabled, NULL },
-    { "PLUS60Kbase", RES_INTEGER, (resource_value_t)0xd100,
-      RES_EVENT_NO, NULL,
-      (void *)&plus60k_base, set_plus60k_base, NULL },
-    { "PLUS60Kfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&plus60k_filename, set_plus60k_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "PLUS60Kfilename", "", RES_EVENT_NO, NULL,
+      &plus60k_filename, set_plus60k_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "PLUS60K", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &plus60k_enabled, set_plus60k_enabled, NULL },
+    { "PLUS60Kbase", 0xd100, RES_EVENT_NO, NULL,
+      (int *)&plus60k_base, set_plus60k_base, NULL },
     { NULL }
 };
 
 int plus60k_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void plus60k_resources_shutdown(void)

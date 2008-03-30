@@ -107,10 +107,9 @@ static int set_system_path(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "Directory", RES_STRING, (resource_value_t)"$$",
-      RES_EVENT_NO, NULL,
-      (void *)&system_path, set_system_path, NULL },
+static const resource_string_t resources_string[] = {
+    { "Directory", "$$", RES_EVENT_NO, NULL,
+      &system_path, set_system_path, NULL },
     { NULL },
 };
 
@@ -147,7 +146,7 @@ void sysfile_shutdown(void)
 
 int sysfile_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 void sysfile_resources_shutdown(void)

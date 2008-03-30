@@ -173,46 +173,40 @@ static int set_oversampling_factor(resource_value_t v, void *param)
     sound_state_changed = TRUE;
     return 0;
 }
+static const resource_string_t resources_string[] = {
+    { "SoundDeviceName", "", RES_EVENT_NO, NULL,
+      &device_name, set_device_name, NULL },
+    { "SoundDeviceArg", "", RES_EVENT_NO, NULL,
+      &device_arg, set_device_arg, NULL },
+    { "SoundRecordDeviceName", "", RES_EVENT_STRICT, (resource_value_t)"",
+      &recorddevice_name, set_recorddevice_name, NULL },
+    { "SoundRecordDeviceArg", "", RES_EVENT_NO, NULL,
+      &recorddevice_arg, set_recorddevice_arg, NULL },
+    { NULL }
+};
 
-static const resource_t resources[] = {
-    { "Sound", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
+static const resource_int_t resources_int[] = {
+    { "Sound", 1, RES_EVENT_SAME, NULL,
       (void *)&playback_enabled, set_playback_enabled, NULL },
-    { "SoundSampleRate", RES_INTEGER, (resource_value_t)SOUND_SAMPLE_RATE,
-      RES_EVENT_NO, NULL,
+    { "SoundSampleRate", SOUND_SAMPLE_RATE, RES_EVENT_NO, NULL,
       (void *)&sample_rate, set_sample_rate, NULL },
-    { "SoundDeviceName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&device_name, set_device_name, NULL },
-    { "SoundDeviceArg", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&device_arg, set_device_arg, NULL },
-    { "SoundRecordDeviceName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_STRICT, (resource_value_t)"",
-      (void *)&recorddevice_name, set_recorddevice_name, NULL },
-    { "SoundRecordDeviceArg", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&recorddevice_arg, set_recorddevice_arg, NULL },
-    { "SoundBufferSize", RES_INTEGER,
-      (resource_value_t)SOUND_SAMPLE_BUFFER_SIZE,
-      RES_EVENT_NO, NULL,
+    { "SoundBufferSize", SOUND_SAMPLE_BUFFER_SIZE, RES_EVENT_NO, NULL,
       (void *)&buffer_size, set_buffer_size, NULL },
-    { "SoundSuspendTime", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
+    { "SoundSuspendTime", 0, RES_EVENT_NO, NULL,
       (void *)&suspend_time, set_suspend_time, NULL },
-    { "SoundSpeedAdjustment", RES_INTEGER,
-      (resource_value_t)SOUND_ADJUST_FLEXIBLE,
-      RES_EVENT_NO, NULL,
+    { "SoundSpeedAdjustment", SOUND_ADJUST_FLEXIBLE, RES_EVENT_NO, NULL,
       (void *)&speed_adjustment_setting, set_speed_adjustment_setting, NULL },
-    { "SoundOversample", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
+    { "SoundOversample", 0, RES_EVENT_NO, NULL,
       (void *)&oversampling_factor, set_oversampling_factor, NULL },
     { NULL }
 };
 
 int sound_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void sound_resources_shutdown(void)

@@ -132,19 +132,24 @@ static int set_plus256k_filename(resource_value_t v, void *param)
   return 0;
 }
 
-static const resource_t resources[] = {
-    { "PLUS256K", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&plus256k_enabled, set_plus256k_enabled, NULL },
-    { "PLUS256Kfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&plus256k_filename, set_plus256k_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "PLUS256Kfilename", "", RES_EVENT_NO, NULL,
+      &plus256k_filename, set_plus256k_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "PLUS256K", 0, RES_EVENT_SAME, NULL,
+      &plus256k_enabled, set_plus256k_enabled, NULL },
     { NULL }
 };
 
 int plus256k_resources_init(void)
 {
-  return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void plus256k_resources_shutdown(void)

@@ -1465,27 +1465,29 @@ int set_tfe_interface(resource_value_t v, void *param)
 }
 
 
-static 
-const resource_t resources[] = {
-    { "ETHERNET_DISABLED", RES_INTEGER, (resource_value_t)0,
-       RES_EVENT_NO, NULL,
-      (void *)&tfe_cannot_use, set_tfe_disabled, NULL },
-    { "ETHERNET_ACTIVE", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&tfe_enabled, set_tfe_enabled, NULL },
-    { "ETHERNET_AS_RR", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&tfe_as_rr_net, set_tfe_rr_net, NULL },
-    { "ETHERNET_INTERFACE", RES_STRING,
-      (resource_value_t)ARCHDEP_ETHERNET_DEFAULT_DEVICE,
-      RES_EVENT_NO, NULL,
-      (void *)&tfe_interface, set_tfe_interface, NULL },
+static const resource_string_t resources_string[] = {
+    { "ETHERNET_INTERFACE", 
+      ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
+      &tfe_interface, set_tfe_interface, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "ETHERNET_DISABLED", 0, RES_EVENT_NO, NULL,
+      &tfe_cannot_use, set_tfe_disabled, NULL },
+    { "ETHERNET_ACTIVE", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &tfe_enabled, set_tfe_enabled, NULL },
+    { "ETHERNET_AS_RR", 0, RES_EVENT_NO, NULL,
+      &tfe_as_rr_net, set_tfe_rr_net, NULL },
     { NULL }
 };
 
 int tfe_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */

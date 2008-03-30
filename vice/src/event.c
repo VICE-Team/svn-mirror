@@ -92,7 +92,7 @@ static char *event_snapshot_dir = NULL;
 static char *event_start_snapshot = NULL;
 static char *event_end_snapshot = NULL;
 static char *event_snapshot_path_str = NULL;
-static unsigned int event_start_mode;
+static int event_start_mode;
 
 
 static char *event_snapshot_path(const char *snapshot_file)
@@ -1167,9 +1167,9 @@ static int set_event_end_snapshot(resource_value_t v, void *param)
 
 static int set_event_start_mode(resource_value_t v, void *param)
 {
-    unsigned int mode;
+    int mode;
 
-    mode = (unsigned int)v;
+    mode = (int)v;
 
     if (mode != EVENT_START_MODE_FILE_SAVE
         && mode != EVENT_START_MODE_FILE_LOAD
@@ -1182,27 +1182,29 @@ static int set_event_start_mode(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "EventSnapshotDir", RES_STRING, 
-      (resource_value_t)FSDEVICE_DEFAULT_DIR FSDEV_DIR_SEP_STR,
-      RES_EVENT_NO, NULL,
-      (void *)&event_snapshot_dir, set_event_snapshot_dir, NULL },
-    { "EventStartSnapshot", RES_STRING, (resource_value_t)EVENT_START_SNAPSHOT,
-      RES_EVENT_NO, NULL,
-      (void *)&event_start_snapshot, set_event_start_snapshot, NULL },
-    { "EventEndSnapshot", RES_STRING, (resource_value_t)EVENT_END_SNAPSHOT,
-      RES_EVENT_NO, NULL,
-      (void *)&event_end_snapshot, set_event_end_snapshot, NULL },
-    { "EventStartMode", RES_INTEGER,
-      (resource_value_t)EVENT_START_MODE_FILE_SAVE,
-      RES_EVENT_NO, NULL,
-      (void *)&event_start_mode, set_event_start_mode, NULL },
+static const resource_string_t resources_string[] = {
+    { "EventSnapshotDir", 
+      FSDEVICE_DEFAULT_DIR FSDEV_DIR_SEP_STR, RES_EVENT_NO, NULL,
+      &event_snapshot_dir, set_event_snapshot_dir, NULL },
+    { "EventStartSnapshot", EVENT_START_SNAPSHOT, RES_EVENT_NO, NULL,
+      &event_start_snapshot, set_event_start_snapshot, NULL },
+    { "EventEndSnapshot", EVENT_END_SNAPSHOT, RES_EVENT_NO, NULL,
+      &event_end_snapshot, set_event_end_snapshot, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "EventStartMode", EVENT_START_MODE_FILE_SAVE, RES_EVENT_NO, NULL,
+      &event_start_mode, set_event_start_mode, NULL },
     { NULL }
 };
 
 int event_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void event_shutdown(void)

@@ -80,6 +80,55 @@ typedef struct resource_s {
     void *param;
 } resource_t;
 
+struct resource_int_s {
+    /* Resource name.  */
+    const char *name;
+
+    /* Factory default value.  */
+    int factory_value;
+
+    /* Is the resource important for history recording or netplay? */
+    resource_event_relevant_t event_relevant;
+
+    /* Value that is needed for correct history recording and netplay.  */
+    resource_value_t *event_strict_value;
+
+    /* Pointer to the value.  This is only used for *reading* it.  To change
+       it, use `set_func'.  */
+    int *value_ptr;
+
+    /* Function to call to set the value.  */
+    resource_set_func_t *set_func;
+
+    /* Extra parameter to pass to `set_func'.  */
+    void *param;
+};
+typedef struct resource_int_s resource_int_t;
+
+struct resource_string_s {
+    /* Resource name.  */
+    const char *name;
+
+    /* Factory default value.  */
+    const char *factory_value;
+
+    /* Is the resource important for history recording or netplay? */
+    resource_event_relevant_t event_relevant;
+
+    /* Value that is needed for correct history recording and netplay.  */
+    resource_value_t *event_strict_value;
+
+    /* Pointer to the value.  This is only used for *reading* it.  To change
+       it, use `set_func'.  */
+    char **value_ptr;
+
+    /* Function to call to set the value.  */
+    resource_set_func_t *set_func;
+
+    /* Extra parameter to pass to `set_func'.  */
+    void *param;
+};
+typedef struct resource_string_s resource_string_t;
 
 #define RESERR_FILE_NOT_FOUND       -1
 #define RESERR_FILE_INVALID         -2
@@ -93,6 +142,8 @@ typedef struct resource_s {
 
 extern int resources_init(const char *machine);
 extern int resources_register(const resource_t *r);
+extern int resources_register_int(const resource_int_t *r);
+extern int resources_register_string(const resource_string_t *r);
 extern void resources_shutdown(void);
 extern int resources_set_value(const char *name, resource_value_t value);
 extern void resources_set_value_event(void *data, int size);

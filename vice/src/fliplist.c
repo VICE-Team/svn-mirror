@@ -80,19 +80,17 @@ static int set_fliplist_file_name(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
-    { "FliplistName", RES_STRING, NULL,
-      RES_EVENT_NO, NULL,
-      (void *)&fliplist_file_name, set_fliplist_file_name, NULL },
+static resource_string_t resources_string[] = {
+    { "FliplistName", NULL, RES_EVENT_NO, NULL,
+      &fliplist_file_name, set_fliplist_file_name, NULL },
     { NULL }
 };
 
 int fliplist_resources_init(void)
 {
-    resources[0].factory_value
-        = (resource_value_t)archdep_default_fliplist_file_name();
+    resources_string[0].factory_value = archdep_default_fliplist_file_name();
 
-    if (resources_register(resources) < 0)
+    if (resources_register_string(resources_string) < 0)
         return -1;
 
     return 0;
@@ -104,8 +102,9 @@ void fliplist_resources_shutdown(void)
 
     for (i = 0; i < NUM_DRIVES; i++)
         fliplist_clear_list(8 + i);
+
     lib_free(fliplist_file_name);
-    lib_free(resources[0].factory_value);
+    lib_free((char *)(resources_string[0].factory_value));
 }
 
 #ifdef HAS_TRANSLATION

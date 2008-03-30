@@ -123,19 +123,20 @@ static int set_cartridge_reset(resource_value_t v, void *param)
     return try_cartridge_init(8);
 }
 
-static const resource_t resources[] = {
-    { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
+static const resource_string_t resources_string[] = {
+    { "CartridgeFile", "", RES_EVENT_NO, NULL,
+      &cartridge_file, set_cartridge_file, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "CartridgeType", CARTRIDGE_NONE,
       RES_EVENT_STRICT, (resource_value_t)CARTRIDGE_NONE,
-      (void *)&cartridge_type, set_cartridge_type, NULL },
-    { "CartridgeFile", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&cartridge_file, set_cartridge_file, NULL },
-    { "CartridgeMode", RES_INTEGER, (resource_value_t)CARTRIDGE_MODE_OFF,
-      RES_EVENT_NO, NULL,
-      (void *)&cartridge_mode, set_cartridge_mode, NULL },
-    { "CartridgeReset", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&c64cartridge_reset, set_cartridge_reset, NULL },
+      &cartridge_type, set_cartridge_type, NULL },
+    { "CartridgeMode", CARTRIDGE_MODE_OFF, RES_EVENT_NO, NULL,
+      &cartridge_mode, set_cartridge_mode, NULL },
+    { "CartridgeReset", 1, RES_EVENT_NO, NULL,
+      &c64cartridge_reset, set_cartridge_reset, NULL },
     { NULL }
 };
 
@@ -144,7 +145,10 @@ int cartridge_resources_init(void)
     if (ide64_resources_init() < 0)
         return -1;
 
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void cartridge_resources_shutdown(void)

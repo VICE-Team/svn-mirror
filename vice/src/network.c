@@ -138,6 +138,7 @@ static int suspended;
 
 static char *server_name = NULL;
 static unsigned short server_port;
+static int res_server_port;
 static int frame_delta;
 static unsigned int network_control;
 
@@ -147,7 +148,7 @@ static event_list_state_t *frame_event_list = NULL;
 static char *snapshotfilename;
 
 #ifdef HAVE_IPV6
-static int netplay_ipv6=0;
+static int netplay_ipv6 = 0;
 #endif
 
 #ifndef HAVE_HTONL
@@ -186,12 +187,9 @@ static int set_server_name(resource_value_t v, void *param)
 
 static int set_server_port(resource_value_t v, void *param)
 {
-    CLOCK tmp = (CLOCK)v;
+    res_server_port = (int)v;
 
-    server_port = (unsigned short) tmp;
-
-    /* make sure no significant bits were lost */
-    assert(server_port == tmp);
+    server_port = (unsigned short)res_server_port;
 
     return 0;
 }
@@ -245,33 +243,33 @@ static int set_netplay_ipv6(resource_value_t v, void *param)
 
 /*---------- Resources ------------------------------------------------*/
 
-static const resource_t resources[] = {
-    { "NetworkServerName", RES_STRING, (resource_value_t)"127.0.0.1",
-      RES_EVENT_NO, NULL,
-      (void *)&server_name,
-      set_server_name, NULL },
-    { "NetworkServerPort", RES_INTEGER, (resource_value_t)6502,
-      RES_EVENT_NO, NULL,
-      (void *)&server_port,
-      set_server_port, NULL },
-    { "NetworkControl", RES_INTEGER, (resource_value_t)NETWORK_CONTROL_DEFAULT,
-      RES_EVENT_SAME, NULL,
-      (void *)&network_control,
-      set_network_control, NULL },
+static const resource_string_t resources_string[] = {
+    { "NetworkServerName", "127.0.0.1", RES_EVENT_NO, NULL,
+      &server_name, set_server_name, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "NetworkServerPort", 6502, RES_EVENT_NO, NULL,
+      &res_server_port, set_server_port, NULL },
+    { "NetworkControl", NETWORK_CONTROL_DEFAULT, RES_EVENT_SAME, NULL,
+      (int *)&network_control, set_network_control, NULL },
 #ifdef HAVE_IPV6
-    { "NetworkIPV6", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&netplay_ipv6,
-      set_netplay_ipv6, NULL },
+    { "NetworkIPV6", 0, RES_EVENT_NO, NULL,
+      &netplay_ipv6, set_netplay_ipv6, NULL },
 #endif
     { NULL }
 };
+
 #endif
 
 int network_resources_init(void)
 {
 #ifdef HAVE_NETWORK
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 #else
     return 0;
 #endif

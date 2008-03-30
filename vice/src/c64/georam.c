@@ -153,22 +153,26 @@ static int set_georam_filename(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "GEORAM", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&georam_enabled, set_georam_enabled, NULL },
-    { "GEORAMsize", RES_INTEGER, (resource_value_t)512,
-      RES_EVENT_NO, NULL,
-      (void *)&georam_size_kb, set_georam_size, NULL },
-    { "GEORAMfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&georam_filename, set_georam_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "GEORAMfilename", "", RES_EVENT_NO, NULL,
+      &georam_filename, set_georam_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "GEORAM", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &georam_enabled, set_georam_enabled, NULL },
+    { "GEORAMsize", 512, RES_EVENT_NO, NULL,
+      (int *)&georam_size_kb, set_georam_size, NULL },
     { NULL }
 };
 
 int georam_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void georam_resources_shutdown(void)

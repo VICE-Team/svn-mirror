@@ -191,22 +191,26 @@ static int set_reu_filename(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "REU", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
+static const resource_string_t resources_string[] = {
+    { "REUfilename", "", RES_EVENT_NO, NULL,
+      &reu_filename, set_reu_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&reu_enabled, set_reu_enabled, NULL },
-    { "REUsize", RES_INTEGER, (resource_value_t)512,
-      RES_EVENT_NO, NULL,
-      (void *)&reu_size_kb, set_reu_size, NULL },
-    { "REUfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&reu_filename, set_reu_filename, NULL },
+    { "REUsize", 512, RES_EVENT_NO, NULL,
+      (int *)&reu_size_kb, set_reu_size, NULL },
     { NULL }
 };
 
 int reu_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void reu_resources_shutdown(void)

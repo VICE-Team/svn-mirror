@@ -181,25 +181,28 @@ static int set_ramcart_filename(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "RAMCART", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&ramcart_enabled, set_ramcart_enabled, NULL },
-    { "RAMCART_RO", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&ramcart_readonly, set_ramcart_readonly, NULL },
-    { "RAMCARTsize", RES_INTEGER, (resource_value_t)128,
-      RES_EVENT_NO, NULL,
-      (void *)&ramcart_size_kb, set_ramcart_size, NULL },
-    { "RAMCARTfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&ramcart_filename, set_ramcart_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "RAMCARTfilename", "", RES_EVENT_NO, NULL,
+      &ramcart_filename, set_ramcart_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "RAMCART", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &ramcart_enabled, set_ramcart_enabled, NULL },
+    { "RAMCART_RO", 0, RES_EVENT_NO, NULL,
+      &ramcart_readonly, set_ramcart_readonly, NULL },
+    { "RAMCARTsize", 128, RES_EVENT_NO, NULL,
+      (int *)&ramcart_size_kb, set_ramcart_size, NULL },
     { NULL }
 };
 
 int ramcart_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void ramcart_resources_shutdown(void)

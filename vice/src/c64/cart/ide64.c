@@ -224,31 +224,36 @@ static int set_autodetect_size(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
+static const resource_string_t resources_string[] = {
+    { "IDE64Image", "ide.hdd", RES_EVENT_NO, NULL,
+      &ide64_image_file, set_ide64_image_file, NULL },
+    { "IDE64Config", "", RES_EVENT_NO, NULL,
+      &ide64_configuration_string, set_ide64_config, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "IDE64Cylinders", 256,
       RES_EVENT_NO, NULL,
-      (void *)&ide64_image_file, set_ide64_image_file, NULL },
-    { "IDE64Config", RES_STRING, (resource_value_t)"",
+      (int *)&settings_cylinders, set_cylinders, NULL },
+    { "IDE64Heads", 4,
       RES_EVENT_NO, NULL,
-      (void *)&ide64_configuration_string, set_ide64_config, NULL },
-    { "IDE64Cylinders", RES_INTEGER, (resource_value_t)256,
+      (int *)&settings_heads, set_heads, NULL },
+    { "IDE64Sectors", 16,
       RES_EVENT_NO, NULL,
-      (void *)&settings_cylinders, set_cylinders, NULL },
-    { "IDE64Heads", RES_INTEGER, (resource_value_t)4,
+      (int *)&settings_sectors, set_sectors, NULL },
+    { "IDE64AutodetectSize", 1,
       RES_EVENT_NO, NULL,
-      (void *)&settings_heads, set_heads, NULL },
-    { "IDE64Sectors", RES_INTEGER, (resource_value_t)16,
-      RES_EVENT_NO, NULL,
-      (void *)&settings_sectors, set_sectors, NULL },
-    { "IDE64AutodetectSize", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&settings_autodetect_size, set_autodetect_size, NULL },
+      (int *)&settings_autodetect_size, set_autodetect_size, NULL },
     { NULL }
 };
 
 int ide64_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION
