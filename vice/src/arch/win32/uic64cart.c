@@ -37,6 +37,7 @@
 #include "res.h"
 #include "ui.h"
 #include "uic64cart.h"
+#include "uicart.h"
 #include "uilib.h"
 
 
@@ -52,72 +53,72 @@ static const ui_res_value_list_t c64_ui_res_values[] = {
     { NULL, NULL, 0 }
 };
 
-static const ui_cartridge_params c64_ui_cartridges[] = {
+static const uicart_params_t c64_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_CRT,
         CARTRIDGE_CRT,
-        "Attach CRT cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
+        TEXT("Attach CRT cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_CRT
     },
     {
         IDM_CART_ATTACH_8KB,
         CARTRIDGE_GENERIC_8KB,
-        "Attach raw 8KB cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach raw 8KB cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_16KB,
         CARTRIDGE_GENERIC_16KB,
-        "Attach raw 16KB cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach raw 16KB cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_AR,
         CARTRIDGE_ACTION_REPLAY,
-        "Attach Action Replay cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach Action Replay cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_AT,
         CARTRIDGE_ATOMIC_POWER,
-        "Attach Atomic Power cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach Atomic Power cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_EPYX,
         CARTRIDGE_EPYX_FASTLOAD,
-        "Attach Epyx fastload cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach Epyx fastload cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_IEEE488,
         CARTRIDGE_IEEE488,
-        "Attach IEEE interface cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach IEEE interface cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_RR,
         CARTRIDGE_RETRO_REPLAY,
-        "Attach Retro Replay cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach Retro Replay cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_IDE64,
         CARTRIDGE_IDE64,
-        "Attach IDE64 interface cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach IDE64 interface cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_SS4,
         CARTRIDGE_SUPER_SNAPSHOT,
-        "Attach Super Snapshot 4 cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach Super Snapshot 4 cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_SS5,
         CARTRIDGE_SUPER_SNAPSHOT_V5,
-        "Attach Super Snapshot 5 cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach Super Snapshot 5 cartridge image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         0, 0, NULL, 0
@@ -125,33 +126,15 @@ static const ui_cartridge_params c64_ui_cartridges[] = {
 };
 
 static void uic64cart_attach(WPARAM wparam, HWND hwnd,
-                             const ui_cartridge_params *cartridges)
+                             const uicart_params_t *cartridges)
 {
-    int i;
-    char *s;
-
     if (wparam == IDM_CART_ENABLE_EXPERT) {
         if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0)
             ui_error("Invalid cartridge");
         return;
     }
 
-    i = 0;
-
-    while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
-        i++;
-
-    if (cartridges[i].wparam == 0) {
-        ui_error("Bad cartridge config in UI!");
-        return;
-    }
-
-    if ((s = ui_select_file(hwnd, cartridges[i].title,
-        cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
-        if (cartridge_attach_image(cartridges[i].type, s) < 0)
-            ui_error("Invalid cartridge image");
-        lib_free(s);
-    }
+    uicart_attach(wparam, hwnd, cartridges);
 }
 
 void uic64cart_proc(WPARAM wparam, HWND hwnd)

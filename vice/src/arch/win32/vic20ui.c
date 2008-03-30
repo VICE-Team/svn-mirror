@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "res.h"
 #include "ui.h"
+#include "uicart.h"
 #include "uidrivec64vic20.h"
 #include "uilib.h"
 #include "uirom.h"
@@ -55,71 +56,50 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { "Kernal", "KernalName",
+    { TEXT("Kernal"), "KernalName",
       IDC_VIC20ROM_KERNAL_FILE, IDC_VIC20ROM_KERNAL_BROWSE },
-    { "Basic", "BasicName",
+    { TEXT("Basic"), "BasicName",
       IDC_VIC20ROM_BASIC_FILE, IDC_VIC20ROM_BASIC_BROWSE },
-    { "Character", "ChargenName",
+    { TEXT("Character"), "ChargenName",
       IDC_VIC20ROM_CHARGEN_FILE, IDC_VIC20ROM_CHARGEN_BROWSE },
     { NULL, NULL, 0, 0 }
 };
 
-static const ui_cartridge_params vic20_ui_cartridges[] = {
+static const uicart_params_t vic20_ui_cartridges[] = {
     {
         IDM_CART_VIC20_8KB_2000,
         CARTRIDGE_VIC20_16KB_2000,
-        "Attach 4/8/16KB cartridge image at $2000",
-        UI_LIB_FILTER_ALL
+        TEXT("Attach 4/8/16KB cartridge image at $2000"),
+        UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_16KB_4000,
         CARTRIDGE_VIC20_16KB_4000,
-        "Attach 4/8/16KB cartridge image at $4000",
-        UI_LIB_FILTER_ALL
+        TEXT("Attach 4/8/16KB cartridge image at $4000"),
+        UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_8KB_6000,
         CARTRIDGE_VIC20_16KB_6000,
-        "Attach 4/8/16KB cartridge image at $6000",
-        UI_LIB_FILTER_ALL
+        TEXT("Attach 4/8/16KB cartridge image at $6000"),
+        UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_8KB_A000,
         CARTRIDGE_VIC20_8KB_A000,
-        "Attach 8KB cartridge image at $A000",
-        UI_LIB_FILTER_ALL
+        TEXT("Attach 8KB cartridge image at $A000"),
+        UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_4KB_B000,
         CARTRIDGE_VIC20_4KB_B000,
-        "Attach 4KB cartridge image at $B000",
-        UI_LIB_FILTER_ALL
+        TEXT("Attach 4KB cartridge image at $B000"),
+        UILIB_FILTER_ALL
     },
     {
         0, 0, NULL, 0
     }
 };
-
-static void vic20_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
-                                      const ui_cartridge_params *cartridges)
-{
-    int i;
-    char *s;
-
-    i = 0;
-    while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
-        i++;
-    if (cartridges[i].wparam == 0) {
-        ui_error("Bad cartridge config in UI!");
-        return;
-    }
-    if ((s = ui_select_file(hwnd,cartridges[i].title,
-        cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
-        if (cartridge_attach_image(cartridges[i].type, s) < 0)
-            ui_error("Invalid cartridge image");
-        lib_free(s);
-    }
-}
 
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
@@ -130,7 +110,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_VIC20_8KB_6000:
       case IDM_CART_VIC20_8KB_A000:
       case IDM_CART_VIC20_4KB_B000:
-        vic20_ui_attach_cartridge(wparam, hwnd, vic20_ui_cartridges);
+        uicart_attach(wparam, hwnd, vic20_ui_cartridges);
         break;
       case IDM_CART_SET_DEFAULT:
         cartridge_set_default();
