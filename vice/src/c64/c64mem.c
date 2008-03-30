@@ -368,6 +368,9 @@ static int tape_sense = 0;
 /* Tape motor status.  */
 static BYTE old_port_data_out = 0xff;
 
+/* Tape write line status.  */
+static BYTE old_port_write_bit = 0xff;
+
 /* Logging goes here.  */
 static log_t c64_mem_log = LOG_ERR;
 
@@ -407,6 +410,11 @@ inline void pla_config_changed(void)
     if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
         old_port_data_out = (pport.dir & pport.data) & 0x20;
         datasette_set_motor(!old_port_data_out);
+    }
+
+    if (((~pport.dir | pport.data) & 0x8) != old_port_write_bit) {
+        old_port_write_bit = (~pport.dir | pport.data) & 0x8;
+        datasette_toggle_write_bit((~pport.dir | pport.data) & 0x8);
     }
 
     ram[0] = pport.dir;
@@ -455,14 +463,12 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
       case 0:
         if (pport.dir != value) {
             pport.dir = value;
-/* printf("0: %i\n",pport.dir & 0x20);*/
             pla_config_changed();
         }
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
-/*printf("1: %i\n",pport.data & 0x20);*/
             pla_config_changed();
         }
         break;
