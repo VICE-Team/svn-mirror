@@ -113,6 +113,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/crtc \
+	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libpet.a
@@ -294,6 +296,122 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+crtc.o: crtc.c ../../src/config.h ../../src/arch/unix/types.h \
+	../../src/snapshot.h petpia.h
+pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h ../../src/snapshot.h \
+	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/crtc/crtc.h ../../src/alarm.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
+	../../src/datasette.h ../../src/tap.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/arch/unix/kbd.h \
+	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mon.h ../../src/mos6510.h petmem.h pets.h petsound.h \
+	../../src/arch/unix/xaw/petui.h petvia.h petacia.h petpia.h \
+	../../src/sound.h ../../src/warn.h ../../src/utils.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/via.h ../../src/arch/unix/vsync.h ../../src/rs232.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
+petacia1.o: petacia1.c ../../src/maincpu.h ../../src/config.h \
+	../../src/6510core.h ../../src/mem.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/aciacore.c ../../src/vice.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/machine.h ../../src/rs232.h \
+	../../src/acia.h
+petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
+	petpia.h ../../src/arch/unix/types.h ../../src/snapshot.h
+petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h
+petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
+	../../src/autostart.h ../../src/arch/unix/types.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
+	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/snapshot.h \
+	../../src/crtc/crtc-mem.h ../../src/emuid.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/memutils.h pet.h petacia.h \
+	petmem.h petpia.h pets.h petvia.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/arch/unix/vsync.h
+petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h ../../src/piacore.h ../../src/log.h \
+	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/crtc/crtc.h ../../src/alarm.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
+	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/maincpu.h ../../src/parallel.h pets.h petmem.h \
+	petpia.h ../../src/piacore.c
+petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h ../../src/piacore.h ../../src/log.h \
+	../../src/snapshot.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
+	../../src/6510core.h petpia.h ../../src/maincpu.h \
+	../../src/piacore.c
+petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
+	../../src/arch/unix/types.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/sound.h ../../src/warn.h ../../src/utils.h
+petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
+	../../src/via.h ../../src/maincpu.h ../../src/mon.h \
+	../../src/mos6510.h petvia.h ../../src/crtc/crtc.h \
+	../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
+	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/arch/unix/kbd.h ../../src/parallel.h petsound.h \
+	../../src/pruser.h ../../src/viacore.c
 
 info: info-recursive
 dvi: dvi-recursive

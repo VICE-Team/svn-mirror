@@ -1491,7 +1491,7 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
         }
     } else {
         off_t offset;
-
+printf("S: %i T: %i I: %i\n",sector,track,format);
         offset = offset_from_track_and_sector(format, track, sector, d64);
 
         if (offset < 0)
@@ -2135,11 +2135,11 @@ int vdrive_bam_read_bam(DRIVE *floppy)
                                 floppy->GCR_Header, floppy->unit);
         err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
                                  floppy->bam+256, BAM_TRACK_1581,
-                                 BAM_SECTOR_1581+1, floppy->D64_Header,
+                                 BAM_SECTOR_1581 + 1, floppy->D64_Header,
                                  floppy->GCR_Header, floppy->unit);
         err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
                                  floppy->bam+512, BAM_TRACK_1581,
-                                 BAM_SECTOR_1581+2, floppy->D64_Header,
+                                 BAM_SECTOR_1581 + 2, floppy->D64_Header,
                                  floppy->GCR_Header, floppy->unit);
         break;
       case 8050:
@@ -2973,6 +2973,7 @@ void set_disk_geometry(DRIVE *floppy, int type)
         floppy->bam_id     = BAM_ID_1581;
         floppy->Dir_Track  = DIR_TRACK_1581;
         floppy->Dir_Sector = DIR_SECTOR_1581;
+        break;
       case 8050:
         floppy->Bam_Track  = BAM_TRACK_8050;
         floppy->Bam_Sector = BAM_SECTOR_8050;

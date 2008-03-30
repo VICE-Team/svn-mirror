@@ -1,3 +1,60 @@
+1999-05-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.19.
+
+	* vdrive.c (set_disk_geometry): Added missing break.
+
+1998-05-21  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: remove $(rs232_printer_ldadd) from xpet and xcbm2
+	library list - they are already in $(common_libs)
+
+	* cbm2/Makefile.am: add raster and crtc dirs to include list
+	* pet/Makefile.am: add raster and crtc dirs to include list
+
+	* cbm2/crtc.c: outcomment all functionality
+	* pet/crtc.c: outcomment all functionality
+
+	* cbm2/c610.c (machine_reset): rename reset_crtc() to crtc_reset()
+	* pet/pet.c (machine_reset): rename reset_crtc() to crtc_reset()
+
+	* crtc/crtc-cmdline-options.c (crtc_init_cmdline_options): renamed
+	from crtc_cmdline_options_init()
+
+	* crtc/crtc-resources.c (crtc_init_resources): renamed from 
+	crtc_resources_init()
+
+	* crtc/crtc-snapshot.c (crtc_write_snapshot_module): renamed from
+	crtc_snapshot_write_module
+	(crtc_read_snapshot_module): likewise
+
+	* crtc/crtc.c: remove some strange "^L" in file
+	(crtc_init_resources, crtc_init_cmdline_options): removed
+	(void video_setfullscreen, crtc_offscreen, crtc_screen_enable,
+	crtc_set_char). new dummy functions
+
+	* crtc/crtc.h: remove some strange "^L" in file
+	(crtc_write_snapshot_module, crtc_read_snapshot_module,
+	crtc_set_char, crtc_offscreen, crtc_screen_enable): new prototypes
+	include crtc-mem.h for the store_crtc and read_crtc prototypes
+
+1999-05-20  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* crtc/crtc.c: Rewritten: provides a working skeleton for a new
+	CRTC emulation taking advantage of the new raster module.
+	* crtc/crtc.h: Likewise.
+	* crtc/crtc-cmdline-options.c: Likewise.
+	* crtc/crtc-cmdline-options.h: Likewise.
+	* crtc/crtc-draw.c: Likewise.
+	* crtc/crtc-draw.h: Likewise.
+	* crtc/crtc-mem.c: Likewise.
+	* crtc/crtc-mem.h: Likewise.
+	* crtc/crtc-resources.c: Likewise.
+	* crtc/crtc-resources.h: Likewise.
+
+	* raster/raster.c (raster_reset): Do not initialize colors.
+	(raster_init): Initialize them here instead.
+
 1999-05-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.18.
