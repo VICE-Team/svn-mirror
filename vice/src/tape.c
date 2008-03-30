@@ -133,6 +133,7 @@ int tape_init(int _buffer_pointer_addr,
     irqval = _irqval;
     stal_addr = _stal_addr;
     eal_addr = _eal_addr;
+
     kbd_buf_addr = _kbd_buf_addr;
     kbd_buf_pending_addr = _kbd_buf_pending_addr;
 
@@ -232,6 +233,8 @@ void tape_find_header_trap(void)
             cassette_buffer[CAS_TYPE_OFFSET] = CAS_TYPE_PRG;
             cassette_buffer[CAS_STAD_OFFSET] = rec->start_addr & 0xff;
             cassette_buffer[CAS_STAD_OFFSET + 1] = rec->start_addr >> 8;
+            cassette_buffer[CAS_ENAD_OFFSET] = rec->end_addr & 0xff;
+            cassette_buffer[CAS_ENAD_OFFSET + 1] = rec->end_addr >> 8;
             memcpy(cassette_buffer + CAS_NAME_OFFSET,
                    rec->cbm_name, T64_REC_CBMNAME_LEN);
         }
@@ -318,3 +321,11 @@ void tape_receive_trap(void)
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
+
+char *tape_get_file_name(void)
+{
+    if (attached_tape)
+        return attached_tape->file_name;
+    return NULL;
+}
+

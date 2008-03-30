@@ -40,5 +40,6 @@ extern int tape_init(int buffer_pointer_addr, int st_addr,
                      int kbd_buf_pending_addr, const trap_t *trap_list);
 extern void tape_find_header_trap(void);
 extern void tape_receive_trap(void);
+extern char *tape_get_file_name(void);
 
 #endif /* ndef _TAPE_H */
