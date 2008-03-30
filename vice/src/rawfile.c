@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "archdep.h"
+#include "fileio.h"
 #include "lib.h"
 #include "rawfile.h"
 #include "util.h"
@@ -40,13 +41,31 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
     rawfile_info_t *info;
     char *complete;
     FILE *fd;
+    const char *mode = NULL;
 
     if (path == NULL)
         complete = lib_stralloc(file_name);
     else
         complete = util_concat(path, FSDEV_DIR_SEP_STR, file_name, NULL);
 
-    fd = fopen(complete, MODE_READ);
+    switch (command) {
+      case FILEIO_COMMAND_READ:
+        mode = MODE_READ;
+        break;
+      case FILEIO_COMMAND_WRITE:
+        mode = MODE_WRITE;
+        break;
+      case FILEIO_COMMAND_APPEND:
+        mode = MODE_APPEND;
+        break;
+      case FILEIO_COMMAND_APPEND_READ:
+        mode = MODE_APPEND_READ_WRITE;
+        break;
+      default:
+        return NULL;
+    }
+
+    fd = fopen(complete, mode);
 
     if (fd == NULL) {
         lib_free(complete);
