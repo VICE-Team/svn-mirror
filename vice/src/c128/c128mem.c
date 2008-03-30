@@ -31,6 +31,8 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "c128mem.h"
 #include "c128mmu.h"
@@ -40,7 +42,6 @@
 #include "cmdline.h"
 #include "emuid.h"
 #include "maincpu.h"
-#include "mon.h"
 #include "parallel.h"
 #include "resources.h"
 #include "reu.h"

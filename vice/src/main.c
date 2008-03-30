@@ -203,7 +203,6 @@ static int init_resources(void)
         fprintf(stderr, "Cannot initialize resource handling.\n");
         return -1;
     }
-
     if (log_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize log resource handling.\n");
         return -1;
@@ -213,7 +212,8 @@ static int init_resources(void)
         return -1;
     }
     if (sysfile_init_resources() < 0) {
-        fprintf(stderr, "Cannot initialize resources for the system file locator.\n");
+        fprintf(stderr,
+                "Cannot initialize resources for the system file locator.\n");
         return -1;
     }
     if (ui_init_resources() < 0) {
@@ -224,7 +224,6 @@ static int init_resources(void)
         fprintf(stderr, "Cannot initialize file system-specific resources.\n");
         return -1;
     }
-
     /* Initialize file system device-specific resources.  */
     if (fsdevice_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize file system device-specific resources.\n");
@@ -234,19 +233,16 @@ static int init_resources(void)
         fprintf(stderr, "Cannot initialize machine-specific resources.\n");
         return -1;
     }
-
     if (joystick_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
         return -1;
     }
-
 #ifdef HAVE_MOUSE
     if (mouse_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize mouse-specific resources.\n");
         return -1;
     }
 #endif
-
     return 0;
 }
 
@@ -259,9 +255,9 @@ static int init_cmdline_options(void)
         fprintf(stderr, "Cannot initialize resource handling.\n");
         return -1;
     }
-
     if (log_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize log command-line option handling.\n");
+        fprintf(stderr,
+                "Cannot initialize log command-line option handling.\n");
         return -1;
     }
     if (cmdline_register_options(main_cmdline_options) < 0) {
@@ -272,42 +268,44 @@ static int init_cmdline_options(void)
         fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
         return -1;
     }
-
     if (psid_mode) {
         if (machine_init_cmdline_options() < 0) {
-	    fprintf(stderr, "Cannot initialize machine-specific command-line options.\n");
+	    fprintf(stderr,
+                    "Cannot initialize machine-specific command-line options.\n");
 	    return -1;
 	}
-
 	return 0;
     }
-
     if (ui_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize UI-specific command-line options.\n");
+        fprintf(stderr,
+                "Cannot initialize UI-specific command-line options.\n");
         return -1;
     }
     if (machine_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize machine-specific command-line options.\n");
+        fprintf(stderr,
+                "Cannot initialize machine-specific command-line options.\n");
         return -1;
     }
     if (fsdevice_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize file system-specific command-line options.\n");
+        fprintf(stderr,
+                "Cannot initialize file system-specific command-line options.\n");
         return -1;
     }
-
     if (joystick_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
+        fprintf(stderr,
+                "Cannot initialize joystick-specific command-line options.\n");
         return -1;
     }
-
 #ifdef HAVE_MOUSE
     if (mouse_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize mouse-specific command-line options.\n");
+        fprintf(stderr,
+                "Cannot initialize mouse-specific command-line options.\n");
         return -1;
     }
 #endif
     if (kbd_buf_init_cmdline_options() < 0) {
-        fprintf(stderr, "Cannot initialize keyboard buffer-specific command-line options.\n");
+        fprintf(stderr,
+                "Cannot initialize keyboard buffer-specific command-line options.\n");
         return -1;
     }
 
@@ -436,8 +434,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
 	resources_set_value("SoundBufferSize", (resource_value_t)1000);
 	resources_set_value("SoundSuspendTime", (resource_value_t)0);
-    }
-    else {
+    } else {
         int retval = resources_load(NULL);
 
         if (retval < 0) {

@@ -24,13 +24,10 @@
  *
  */
 
-#ifndef C610
-#define C610                     /* for mkdep */
-#endif
-
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "autostart.h"
 #include "c610acia.h"

@@ -46,6 +46,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mon.h"
 #include "resources.h"
 #include "serial.h"
 #include "snapshot.h"
