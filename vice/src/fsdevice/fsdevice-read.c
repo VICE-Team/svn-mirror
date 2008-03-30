@@ -38,19 +38,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "archdep.h"
 #include "cbmdos.h"
 #include "fileio.h"
@@ -99,15 +86,10 @@ static int command_read(fs_buffer_info_t *info, BYTE *data)
 static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
                                   BYTE *data, unsigned int secondary)
 {
-    int i, l, f;
+    int i, l, f, statrc;
     unsigned int blocks;
     char *direntry;
-#ifdef __riscos
-    int objType;
-    int catInfo[4];
-#else
-    struct stat statbuf;
-#endif
+    unsigned int filelen, isdir;
     fileio_info_t *finfo = NULL;
     unsigned int format = 0;
     char buf[MAXPATHLEN];
@@ -173,29 +155,24 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
     } while (f);
     if (direntry != NULL) {
         BYTE *p = info->name;
-        char *tp;
 
         strcpy(buf, info->dir);
         strcat(buf, FSDEV_DIR_SEP_STR);
-        tp = buf + strlen(buf);
         strcat(buf, direntry);
 
         /* Line link, Length and spaces */
 
         *p++ = 1;
         *p++ = 1;
-#ifdef __riscos
-        if ((objType = ReadCatalogueInfo(buf, catInfo)) != 0)
-            blocks = (unsigned short)((catInfo[2] + 253) / 254);
-#else
-        if (stat(buf, &statbuf) >= 0)
-            blocks = (unsigned short)((statbuf.st_size + 253) / 254);
-#endif
+
+        statrc = ioutil_stat(buf, &filelen, &isdir);
+        if (statrc == 0)
+            blocks = (filelen + 253) / 254;
         else
             blocks = 0;   /* this file can't be opened */
 
         if (blocks > 0xffff)
-            blocks = 0xffff; /* limit file size to 16 bits */
+            blocks = 0xffff; /* Limit file size to 16 bits.  */
 
         SET_LO_HI(p, blocks);
 
@@ -218,12 +195,7 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
         for (; i < 16; i++)
             *p++ = ' ';
 
-#ifdef __riscos
-        if ((objType & 2) != 0)
-#else
-        if (S_ISDIR(statbuf.st_mode))
-#endif
-        {
+        if (isdir != 0) {
             *p++ = ' '; /* normal file */
             *p++ = 'D';
             *p++ = 'I';
@@ -261,7 +233,8 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
                 break;
             }
         }
-        if (access(buf, W_OK))
+
+        if (ioutil_access(buf, IOUTIL_ACCESS_W_OK))
             *p++ = '<'; /* read-only file */
 
         *p = '\0';        /* to allow strlen */
