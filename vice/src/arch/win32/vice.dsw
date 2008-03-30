@@ -249,6 +249,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "parallel"=".\parallel.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "pet"=".\pet.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -525,6 +537,9 @@ Package=<4>
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name parallel
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
@@ -621,6 +636,9 @@ Package=<4>
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name parallel
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
@@ -705,6 +723,9 @@ Package=<4>
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name parallel
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
@@ -784,6 +805,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name parallel
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name pet
@@ -937,6 +961,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name parallel
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
