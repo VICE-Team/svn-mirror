@@ -27,6 +27,19 @@
 #ifndef _MON_REGISTER_H
 #define _MON_REGISTER_H
 
+typedef struct mon_reg_list_s {
+    /* Name of the register.  */
+    const char *name;
+    /* Value of the register.  */
+    unsigned int val;
+    /* Size of the register in bits.  */
+    unsigned int size;
+    /* Is this a flag register?  */
+    unsigned int flags;
+    /* Pointer to the next register list entry.  */
+    struct mon_reg_list_s *next;
+} mon_reg_list_t;
+
 struct monitor_cpu_type_s;
 
 void mon_register6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
