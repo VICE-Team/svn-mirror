@@ -46,8 +46,8 @@ extern void *xrealloc(void *p, size_t s);
 extern char *xmsprintf(const char *fmt, ...);
 extern char *xmvsprintf(const char *fmt, va_list args);
 extern char *concat(const char *s1, ...);
-extern char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
-                         const char *src, int src_size);
+extern BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
+                         const BYTE *src, int src_size);
 extern void util_remove_spaces(char *s);
 extern void util_add_extension(char **name, const char *extension);
 extern char *util_add_extension_const(const char *filename,
