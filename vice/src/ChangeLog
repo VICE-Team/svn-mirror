@@ -1,3 +1,76 @@
+2005-10-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.21.
+
+	* debug.h: Undefine `DEBUG'.
+
+2005-09-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdialogs.txt, arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resplus60k.rc,
+	arch/win32/resramcart.rc, arch/win32/resreu.rc,
+	arch/win32/resrs232user.rc, arch/win32/ressid.rc,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc:  Updated with
+	the latest Swedish translation.
+
+2005-09-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Updated with the latest Swedish translations.
+
+2005-09-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* info.c: Added Solaris binary packages.
+
+2005-09-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.rc: Added english IDS_NONE
+
+2005-09-24  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicmdline.c (ui_cmdline_show_help): Call gettext for
+	translation of description.
+
+2005-09-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resplus60k.rc,
+	arch/win32/resramcart.rc, arch/win32/resreu.rc,
+	arch/win32/resrs232user.rc, arch/win32/ressid.rc,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc:  Updated with
+	the latest German translation.
+
+2005-09-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Updated with the latest German translations.
+
+2005-09-21  Tibor Biczo  <crown@t-online.hu>
+
+	* arch/win32/intl.c (intl_arch_language_init): Set default
+	language to English, disable autodetect code temporarily.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resvic20.rc:
+	Disable Language selection menu entries.
+
+2005-09-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Fixed some dutch translations.
+
+2005-09-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sid/sid-cmdline-options.c: Fixed to be used by gettext.
+
 2005-09-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.20.
@@ -86,15 +159,17 @@
 
 2005-08-07  pottendo  <pottendo@utanet.at>
 
-	* arch/win32/Makefile.am (res.h): source `genwinres.sh' by prefix `.'
+	* arch/win32/Makefile.am (res.h): source `genwinres.sh' by
+	prefix `.'
 
 2005-08-07  pottendo  <pottendo@utanet.at>
 
-	* petcat.c (p_expand): Removed `(int)' cast to make gcc4 happy.
+	* petcat.c (p_expand): Removed `(int)' cast to make gcc4
+	happy.
 
 	* arch/unix/x11/gnome/uiarch.h: Removed *display declaration.
 
-2005-08-04  Biczo Tibor <crown@t-online.hu>
+2005-08-04  Tibor Biczo  <crown@t-online.hu>
 
 	* arch/win32/intl.c (intl_table): Removed dialog ids which are
 	not translated this way anymore.
@@ -118,7 +193,7 @@
 
 	* arch/win32/x64.dsp: Added plus60k resources.
 
-2005-08-02  Tibor Biczo <crown@t-online.hu>
+2005-08-02  Tibor Biczo  <crown@t-online.hu>
 
 	* arch/win32/intl.c (intl_table): Removed dialog ids which are
 	not translated this way anymore.

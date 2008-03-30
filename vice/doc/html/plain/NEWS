@@ -5,6 +5,89 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.17
+======================
+
+** General
+----------
+
+- Compiling for QNX 6.x works now (binary package is available).
+
+- Binary packages for Solaris machines are available.
+
+** C64 changes
+--------------
+
+- Added full GeoRAM memory expansion support with sizes from 64KB to
+  4MB.
+
+- Added full RamCart memory expansion support.
+
+- Added full +60K memory expansion support.
+
+- Correct REU values after reset.
+
+** C128 changes
+---------------
+
+- Added full GeoRAM memory expansion support with sizes from 64KB to
+  4MB.
+
+- Added RamCart memory expansion support without the read-only option.
+
+- Fixed some C64 mode bugs.
+
+- Correct REU values after reset.
+
+** Unix changes
+---------------
+
+- New dutch translation.
+
+- Language support has been extended to include commandline-options.
+
+- BSD platform problems with using the sounduss and soundsun driver
+  have been fixed.
+
+- Problems compiling with older versions of libpng have been fixed.
+
+- Problems with MAXPATHLEN and PATH_MAX when compiling have been
+  fixed.
+
+- New ALSA sound driver.
+
+- Fixed some compile errors if GCC4 is used.
+
+- Added support for more analog joysticks.
+
+** MS-Windows changes
+---------------------
+
+- Added international language support (experimental, disabled for
+  now).
+
+- The Wine Resource Compiler is now required to compile using gcc for
+  proper international language support.
+
+- Added support for recent ffmpeg libraries.
+
+- Fixed some directory lister bug.
+
+** MS-DOS changes
+-----------------
+
+- Added ethernet support using the wattcp stack and libpcap library.
+
+** Miscellaneous changes
+------------------------
+
+- Compiling without C++ or ReSID works now.
+
+- Added support for more 3rd party basic extenders to petcat.
+
+- Userport RS232 emulation should work as expected now.
+
+
 * Changes in VICE 1.16
 ======================
 

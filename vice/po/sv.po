@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-09-14 22:40+0200\n"
-"PO-Revision-Date: 2005-01-15 15:45+0100\n"
+"Project-Id-Version: VICE 1.17\n"
+"POT-Creation-Date: 2005-10-01 17:51+0200\n"
+"PO-Revision-Date: 2005-09-18 10:58+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,8 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:139 src/sid/sid-cmdline-options.c:102
-#: src/sid/sid-cmdline-options.c:105
+#: src/vsync.c:139 src/sid/sid-cmdline-options.c:123
+#: src/sid/sid-cmdline-options.c:126
 msgid "<percent>"
 msgstr ""
 
@@ -1044,7 +1044,7 @@ msgid "Set drive type (0: no drive)"
 msgstr ""
 
 #: src/drive/drive-cmdline-options.c:70
-#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:99
+#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:120
 msgid "<method>"
 msgstr ""
 
@@ -1617,52 +1617,84 @@ msgstr ""
 msgid "<engine>"
 msgstr "SID-motor"
 
-#: src/sid/sid-cmdline-options.c:85
+#: src/sid/sid-cmdline-options.c:76
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:78
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:82
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:84
+msgid "Specify SID engine (0: FastSID, 1: ReSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:90
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:92
+msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:96
+msgid "Specify SID engine (0: FastSID, 3: HardSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:98
+msgid "Specify SID engine (0: FastSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:106
 #, fuzzy
 msgid "Enable second SID"
 msgstr "*Andra SID"
 
-#: src/sid/sid-cmdline-options.c:88
+#: src/sid/sid-cmdline-options.c:109
 #, fuzzy
 msgid "<base address>"
 msgstr "*Basadress för andra SID"
 
-#: src/sid/sid-cmdline-options.c:88
+#: src/sid/sid-cmdline-options.c:109
 msgid "Specify base address for 2nd SID"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:90
+#: src/sid/sid-cmdline-options.c:111
 msgid "<model>"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:90
+#: src/sid/sid-cmdline-options.c:111
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:93
+#: src/sid/sid-cmdline-options.c:114
 #, fuzzy
 msgid "Emulate SID filters"
 msgstr "*Emulera filter"
 
-#: src/sid/sid-cmdline-options.c:96
+#: src/sid/sid-cmdline-options.c:117
 #, fuzzy
 msgid "Do not emulate SID filters"
 msgstr "*Emulera filter"
 
-#: src/sid/sid-cmdline-options.c:100
+#: src/sid/sid-cmdline-options.c:121
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:103
+#: src/sid/sid-cmdline-options.c:124
 #, fuzzy
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "Ange passband i procent av total bandbredd\n"
 "(0-90, lägre är snabbare, högre är bättre)"
 
-#: src/sid/sid-cmdline-options.c:106
+#: src/sid/sid-cmdline-options.c:127
 msgid "reSID gain in percent (90 - 100)"
 msgstr ""
 
@@ -5336,6 +5368,1774 @@ msgstr "Prestanda kommer att bli dålig."
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
+#, fuzzy
+#~ msgid "&File"
+#~ msgstr "Arkiv"
+
+#, fuzzy
+#~ msgid "&Save"
+#~ msgstr "Spara"
+
+#, fuzzy
+#~ msgid "&Current instruction"
+#~ msgstr "Nuvarande ROM-uppsättningsarkiv:"
+
+#, fuzzy
+#~ msgid "&Memory window"
+#~ msgstr "Minnesstorlek"
+
+#, fuzzy
+#~ msgid "Drive &8"
+#~ msgstr "Enhet %d: "
+
+#, fuzzy
+#~ msgid "Drive &9"
+#~ msgstr "Enhet %d: "
+
+#, fuzzy
+#~ msgid "&Use IEC Device"
+#~ msgstr "*Aktivera IEC-enhet"
+
+#, fuzzy
+#~ msgid "Disk &image"
+#~ msgstr "Koppla från diskettavbildningsfil"
+
+#, fuzzy
+#~ msgid "&Directory"
+#~ msgstr "Katalogen ej funnen"
+
+#, fuzzy
+#~ msgid "Rea&l IEC device"
+#~ msgstr "*Aktivera IEC-enhet"
+
+#, fuzzy
+#~ msgid "&None"
+#~ msgstr "*Ingen"
+
+#, fuzzy
+#~ msgid "&Browse..."
+#~ msgstr "Bläddra..."
+
+#, fuzzy
+#~ msgid "&Autostart"
+#~ msgstr "Starta automatiskt"
+
+#, fuzzy
+#~ msgid "Attach read only"
+#~ msgstr "Anslut %d"
+
+#, fuzzy
+#~ msgid "Bro&wse..."
+#~ msgstr "Bläddra..."
+
+#, fuzzy
+#~ msgid "&Options"
+#~ msgstr "Alternativ"
+
+#, fuzzy
+#~ msgid "&Read P00 files"
+#~ msgstr "Ladda PSID-fil"
+
+#, fuzzy
+#~ msgid "&Write P00 files"
+#~ msgstr "*Skapa P00 då filer sparas"
+
+#, fuzzy
+#~ msgid "Datasette Settings"
+#~ msgstr "Finjustering av Datasettehastighet"
+
+#, fuzzy
+#~ msgid "&Reset Datasette with CPU"
+#~ msgstr "*Nollställ Datasette vid CPU-återställning"
+
+#, fuzzy
+#~ msgid "Joystick in port #&1"
+#~ msgstr "Styrspak i spelport 1"
+
+#, fuzzy
+#~ msgid "Select fire button"
+#~ msgstr "Aktivera fullskärm"
+
+#, fuzzy
+#~ msgid "Auto fire button settings"
+#~ msgstr "Återställ förvalda inställningar"
+
+#, fuzzy
+#~ msgid "Joystick in port #&2"
+#~ msgstr "Styrspak i spelport 2"
+
+#, fuzzy
+#~ msgid "&South"
+#~ msgstr "Mjuk"
+
+#, fuzzy
+#~ msgid "&West"
+#~ msgstr "Återställ"
+
+#, fuzzy
+#~ msgid "&East"
+#~ msgstr "*Snabbt"
+
+#, fuzzy
+#~ msgid "Sample &Frequency :"
+#~ msgstr "Samplingshastighet"
+
+#, fuzzy
+#~ msgid "Sound Buffer &Size :"
+#~ msgstr "Buffertstorlek"
+
+#, fuzzy
+#~ msgid "Synchronization &Method :"
+#~ msgstr "Ljudsynkronisering"
+
+#, fuzzy
+#~ msgid "Image Contents "
+#~ msgstr "Innehåll"
+
+#, fuzzy
+#~ msgid "Name"
+#~ msgstr "Namn:"
+
+#, fuzzy
+#~ msgid "Type"
+#~ msgstr "<tom>"
+
+#, fuzzy
+#~ msgid "Create Image"
+#~ msgstr "XCreateImage misslyckades."
+
+#, fuzzy
+#~ msgid "Save currently attached &disks images"
+#~ msgstr "Spara anslutna disketter"
+
+#, fuzzy
+#~ msgid "Save currently loaded &ROM images"
+#~ msgstr "Spara laddade ROMar:"
+
+#, fuzzy
+#~ msgid "Save as"
+#~ msgstr "Spara"
+
+#, fuzzy
+#~ msgid "Driver:"
+#~ msgstr "Enhet %d: "
+
+#, fuzzy
+#~ msgid "Resolution:"
+#~ msgstr "DGA2-upplösningar"
+
+#, fuzzy
+#~ msgid "Refreshrate:"
+#~ msgstr "Uppdateringshastighet"
+
+#, fuzzy
+#~ msgid "VBLANK synchronization"
+#~ msgstr "Ljudsynkronisering"
+
+#, fuzzy
+#~ msgid "Phase"
+#~ msgstr "*Paus"
+
+#, fuzzy
+#~ msgid "PAL Shade"
+#~ msgstr "Skuggning av PAL-skannlinjer"
+
+#, fuzzy
+#~ msgid "PAL Blur"
+#~ msgstr "PAL-suddighet"
+
+#, fuzzy
+#~ msgid "External Palette:"
+#~ msgstr "*Extern färguppsättning"
+
+#, fuzzy
+#~ msgid "RAM Settings"
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "Initialization at powerup"
+#~ msgstr "Initiering misslyckades för enhet \"%s\"."
+
+#, fuzzy
+#~ msgid "Custom speed"
+#~ msgstr "*Användardefinierade tangenter"
+
+#, fuzzy
+#~ msgid "Enter custom speed [%]"
+#~ msgstr "Ange hastighet"
+
+#, fuzzy
+#~ msgid "Printer Settings"
+#~ msgstr "Skrivarinställningar"
+
+#, fuzzy
+#~ msgid "Printer emulation"
+#~ msgstr "*Skrivaremularing för IEC-enhet 5"
+
+#, fuzzy
+#~ msgid "File system printer"
+#~ msgstr "Filsystemskatalog..."
+
+#, fuzzy
+#~ msgid "Printer driver"
+#~ msgstr "Skrivardrivrutin för IEC-enhet 4"
+
+#, fuzzy
+#~ msgid "Output to file #"
+#~ msgstr "*Dumpa till fil"
+
+#, fuzzy
+#~ msgid "Output file #1 name"
+#~ msgstr "Filnamn för datadump..."
+
+#, fuzzy
+#~ msgid "Output file #2 name"
+#~ msgstr "Filnamn för datadump..."
+
+#, fuzzy
+#~ msgid "Output file #3 name"
+#~ msgstr "Filnamn för datadump..."
+
+#, fuzzy
+#~ msgid "ROM Settings"
+#~ msgstr "ROM-inställningar"
+
+#, fuzzy
+#~ msgid "Romset archive"
+#~ msgstr "ROM-uppsättningsarkiv"
+
+#, fuzzy
+#~ msgid "Browse"
+#~ msgstr "Bläddra..."
+
+#, fuzzy
+#~ msgid "Load archive"
+#~ msgstr "Ladda ROM-uppsättningsarkiv"
+
+#, fuzzy
+#~ msgid "Save archive"
+#~ msgstr "Spara ROM-uppsättningsarkiv"
+
+#, fuzzy
+#~ msgid "&Configuration"
+#~ msgstr "Vanliga inställningar"
+
+#, fuzzy
+#~ msgid "Romset file"
+#~ msgstr "ROM-uppsättningsfil"
+
+#, fuzzy
+#~ msgid "Load romset"
+#~ msgstr "Ladda inställningar"
+
+#, fuzzy
+#~ msgid "Save romset"
+#~ msgstr "Spara inställningar"
+
+#, fuzzy
+#~ msgid "Drive"
+#~ msgstr "Enhet %d: "
+
+#, fuzzy
+#~ msgid "New configuration"
+#~ msgstr "Ta bort inställningar"
+
+#, fuzzy
+#~ msgid "Enter configuration name"
+#~ msgstr "Ta bort inställningar"
+
+#, fuzzy
+#~ msgid "RS232 Settings"
+#~ msgstr "RS232-inställningar"
+
+#, fuzzy
+#~ msgid "RS232 device 1"
+#~ msgstr "Användarportens RS232-enhet"
+
+#, fuzzy
+#~ msgid "RS232 device 2"
+#~ msgstr "Användarportens RS232-enhet"
+
+#, fuzzy
+#~ msgid "RS232 device 3"
+#~ msgstr "Användarportens RS232-enhet"
+
+#, fuzzy
+#~ msgid "RS232 device 4"
+#~ msgstr "Användarportens RS232-enhet"
+
+#, fuzzy
+#~ msgid "None"
+#~ msgstr "*Ingen"
+
+#, fuzzy
+#~ msgid "VICE question"
+#~ msgstr "VICE-inställning"
+
+#, fuzzy
+#~ msgid "Cannot load settings."
+#~ msgstr "Kan inte spara inställningar."
+
+#, fuzzy
+#~ msgid "Default settings restored."
+#~ msgstr "Återställ förvalda inställningar"
+
+#, fuzzy
+#~ msgid "Cannot attach specified file"
+#~ msgstr "Kan inte ansluta insticksmodul"
+
+#, fuzzy
+#~ msgid ""
+#~ "%s\n"
+#~ "\n"
+#~ "Start monitor?"
+#~ msgstr "Aktivera monitor"
+
+#, fuzzy
+#~ msgid "Detached tape"
+#~ msgstr "Koppla från bandavbildningsfil"
+
+#, fuzzy
+#~ msgid "paused"
+#~ msgstr "%s (pausad)"
+
+#, fuzzy
+#~ msgid "Cannot autostart specified file."
+#~ msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
+
+#, fuzzy
+#~ msgid "Attached tape %s"
+#~ msgstr "Anslut bandavbildningsfil"
+
+#, fuzzy
+#~ msgid "Settings loaded successfully."
+#~ msgstr "Inställningarna har sparats."
+
+#, fuzzy
+#~ msgid "Attach disk image"
+#~ msgstr "Anslut en diskettavbildningsfil"
+
+#, fuzzy
+#~ msgid "Attach tape image"
+#~ msgstr "Anslut bandavbildningsfil"
+
+#, fuzzy
+#~ msgid "Autostart disk/tape image"
+#~ msgstr "Anslut bandavbildningsfil"
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Ogiltig insticksmodul"
+
+#, fuzzy
+#~ msgid "Bad cartridge config in UI!"
+#~ msgstr "Spara insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Cannot write log file `%s'."
+#~ msgstr ""
+#~ "Kan inte skriva insticksmodulfil\n"
+#~ "\"%s\"\n"
+
+#, fuzzy
+#~ msgid "Load flip list file"
+#~ msgstr "Ladda vallistefil"
+
+#, fuzzy
+#~ msgid "Cannot read flip list file"
+#~ msgstr "Ladda vallistefil"
+
+#, fuzzy
+#~ msgid "Save flip list file"
+#~ msgstr "Spara vallistefil"
+
+#, fuzzy
+#~ msgid "Cannot write flip list file"
+#~ msgstr ""
+#~ "Kan inte skriva insticksmodulfil\n"
+#~ "\"%s\"\n"
+
+#, fuzzy
+#~ msgid "Select keymap file"
+#~ msgstr "Välj fil för symbolisk tangentbordsemulering"
+
+#, fuzzy
+#~ msgid "Save keymap file"
+#~ msgstr "Spara tom diskettfil"
+
+#, fuzzy
+#~ msgid "Cannot write keymap file"
+#~ msgstr ""
+#~ "Kan inte skriva insticksmodulfil\n"
+#~ "\"%s\"\n"
+
+#, fuzzy
+#~ msgid "&Attach"
+#~ msgstr "Anslut %d"
+
+#, fuzzy
+#~ msgid "Cannot create image"
+#~ msgstr "Kan inte skapa avbildningsfil \"%s\"."
+
+#, fuzzy
+#~ msgid "Command line options"
+#~ msgstr ""
+#~ "\n"
+#~ "Tillgängliga kommandoradsflaggor:\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Cannot write screenshot file `%s'."
+#~ msgstr ""
+#~ "Kan inte skriva ögonblicksbildfil\n"
+#~ "\"%s\"\n"
+
+#, fuzzy
+#~ msgid "Autostart disk image"
+#~ msgstr "Anslut en diskettavbildningsfil"
+
+#, fuzzy
+#~ msgid "Select file system directory"
+#~ msgstr "Ange historikkatalog"
+
+#, fuzzy
+#~ msgid "Printer Userport"
+#~ msgstr "Skrivarinställningar"
+
+#, fuzzy
+#~ msgid "Printer 4"
+#~ msgstr "Skrivarinställningar"
+
+#, fuzzy
+#~ msgid "Printer 5"
+#~ msgstr "Skrivarinställningar"
+
+#, fuzzy
+#~ msgid "Drive 8"
+#~ msgstr "Enhet %d: "
+
+#, fuzzy
+#~ msgid "Drive 9"
+#~ msgstr "Enhet %d: "
+
+#, fuzzy
+#~ msgid "Drive 10"
+#~ msgstr "Modell för enhet 10"
+
+#, fuzzy
+#~ msgid "Drive 11"
+#~ msgstr "Modell för enhet 11"
+
+#, fuzzy
+#~ msgid "Peripheral Settings"
+#~ msgstr "Inställningar för kringutrustning"
+
+#, fuzzy
+#~ msgid "Can't write snapshot file."
+#~ msgstr ""
+#~ "Kan inte skriva ögonblicksbildfil\n"
+#~ "\"%s\"\n"
+
+#, fuzzy
+#~ msgid "Cannot read snapshot image"
+#~ msgstr "Kan inte ladda ögonblicksbildfil."
+
+#, fuzzy
+#~ msgid "Load %s ROM image"
+#~ msgstr "Ladda ROM-fil"
+
+#, fuzzy
+#~ msgid "Select romset archive"
+#~ msgstr "Spara ROM-uppsättningsarkiv"
+
+#, fuzzy
+#~ msgid "Cannot load romset archive!"
+#~ msgstr ""
+#~ "Kunde inte ladda ROM-uppsättningsarkiv\n"
+#~ "\"%s\""
+
+#, fuzzy
+#~ msgid "Cannot save romset archive!"
+#~ msgstr "Kan inte spara inställningar."
+
+#, fuzzy
+#~ msgid "Cannot load romset file!"
+#~ msgstr "Kan inte ladda ögonblicksbildfil."
+
+#, fuzzy
+#~ msgid "Cannot save romset file!"
+#~ msgstr "Kan inte spara inställningar."
+
+#, fuzzy
+#~ msgid "Select romset file"
+#~ msgstr "Välj en ROM-uppsättningspost"
+
+#, fuzzy
+#~ msgid "Romset"
+#~ msgstr "Återställ"
+
+#, fuzzy
+#~ msgid "Save snapshot image"
+#~ msgstr "Spara ögonblicksbildfil"
+
+#, fuzzy
+#~ msgid "Cannot write snapshot file `%s'."
+#~ msgstr ""
+#~ "Kan inte skriva ögonblicksbildfil\n"
+#~ "\"%s\"\n"
+
+#, fuzzy
+#~ msgid "Load snapshot image"
+#~ msgstr "Laddar ögonblicksbild"
+
+#, fuzzy
+#~ msgid "Could not load palette file."
+#~ msgstr ""
+#~ "Kunde inte ladda palettfil\n"
+#~ "\"%s\""
+
+#, fuzzy
+#~ msgid "Load VICE palette file"
+#~ msgstr "Ladda vallistefil"
+
+#, fuzzy
+#~ msgid "Fullscreen"
+#~ msgstr "Fullskärmsenhet"
+
+#, fuzzy
+#~ msgid "Colors"
+#~ msgstr "Färguppsättning"
+
+#, fuzzy
+#~ msgid "Video settings"
+#~ msgstr "VIC-grafikinställningar"
+
+#, fuzzy
+#~ msgid "File system"
+#~ msgstr "*Filsystemsåtkomst"
+
+#, fuzzy
+#~ msgid "Real IEC device"
+#~ msgstr "*Aktivera IEC-enhet"
+
+#, fuzzy
+#~ msgid "RS232 device %i"
+#~ msgstr "Välj RS232-enhetsfil"
+
+#, fuzzy
+#~ msgid "Attach raw 8KB cartridge image"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach raw 16KB cartridge image"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach Action Replay cartridge image"
+#~ msgstr "Anslut Action Replay-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Attach Atomic Power cartridge image"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach Epyx fastload cartridge image"
+#~ msgstr "Anslut Epyx fastload-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Attach IEEE interface cartridge image"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach Retro Replay cartridge image"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach IDE64 interface cartridge image"
+#~ msgstr "Anslut IDE64-gränssnittsavbildningsfil..."
+
+#, fuzzy
+#~ msgid "Attach Super Snapshot 4 cartridge image"
+#~ msgstr "Anslut Super Snapshot 4-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Attach Super Snapshot 5 cartridge image"
+#~ msgstr "Anslut Super Snapshot 4-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Drive Settings"
+#~ msgstr "Diskettenhetsinställningar"
+
+#, fuzzy
+#~ msgid "VICE contributors"
+#~ msgstr "Bidragslämnare"
+
+#, fuzzy
+#~ msgid "Keyset A"
+#~ msgstr "Återställ"
+
+#, fuzzy
+#~ msgid "Keyset B"
+#~ msgstr "Återställ"
+
+#, fuzzy
+#~ msgid "VICE snapshot files (*.vsf)"
+#~ msgstr "Spara ögonblicksbildfil"
+
+#, fuzzy
+#~ msgid "CRT cartridge image files (*.crt)"
+#~ msgstr "Spara insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Raw cartridge image files (*.bin)"
+#~ msgstr "Spara insticksmodulfil"
+
+#, fuzzy
+#~ msgid "VICE flip list files (*.vfl)"
+#~ msgstr "Ladda vallistefil"
+
+#, fuzzy
+#~ msgid "Flexible"
+#~ msgstr "*Flexibel"
+
+#, fuzzy
+#~ msgid "Adjusting"
+#~ msgstr "*Anpassande"
+
+#, fuzzy
+#~ msgid "Exact"
+#~ msgstr "*Exakt"
+
+#, fuzzy
+#~ msgid "Save media image"
+#~ msgstr "Spara insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Tape:"
+#~ msgstr "Band 000"
+
+#, fuzzy
+#~ msgid "Joystick:"
+#~ msgstr "*USB-styrspak 1"
+
+#, fuzzy
+#~ msgid "Set input device for joystick #1"
+#~ msgstr "Välj enhet för spelport 1"
+
+#, fuzzy
+#~ msgid "Set input device for joystick #2"
+#~ msgstr "Välj enhet för spelport 2"
+
+#, fuzzy
+#~ msgid "Start VICE in fullscreen mode"
+#~ msgstr "Aktivera fullskärm"
+
+#, fuzzy
+#~ msgid "IRQ"
+#~ msgstr "*IRQ"
+
+#, fuzzy
+#~ msgid "NMI"
+#~ msgstr "*NMI"
+
+#, fuzzy
+#~ msgid "ACIA Settings"
+#~ msgstr "PAL-inställningar"
+
+#, fuzzy
+#~ msgid "&Enable ACIA"
+#~ msgstr "*Aktivera minnesexpansion"
+
+#, fuzzy
+#~ msgid "ACIA location"
+#~ msgstr "PAL-emulering"
+
+#, fuzzy
+#~ msgid "ACIA interrupt"
+#~ msgstr "ACIA $DExx-avbrott"
+
+#, fuzzy
+#~ msgid "&Autostart disk/tape image..."
+#~ msgstr "Anslut en bandavbildningsfil..."
+
+#, fuzzy
+#~ msgid "Attach &disk image"
+#~ msgstr "Anslut en diskettavbildningsfil"
+
+#, fuzzy
+#~ msgid "Drive 1&0\tAlt+0"
+#~ msgstr "Modell för enhet 10"
+
+#, fuzzy
+#~ msgid "Drive &11\tAlt+1"
+#~ msgstr "Modell för enhet 11"
+
+#, fuzzy
+#~ msgid "D&etach disk image"
+#~ msgstr "Koppla från diskettavbildningsfil"
+
+#, fuzzy
+#~ msgid "Drive 1&0"
+#~ msgstr "Modell för enhet 10"
+
+#, fuzzy
+#~ msgid "Drive &11"
+#~ msgstr "Modell för enhet 11"
+
+#, fuzzy
+#~ msgid "&Flip list"
+#~ msgstr "Vallista"
+
+#, fuzzy
+#~ msgid "&Add current image\tAlt+I"
+#~ msgstr "Lägg till aktuell avbildning (enhet 8)"
+
+#, fuzzy
+#~ msgid "&Remove current image\tAlt+K"
+#~ msgstr "Ta bort aktuell avbildning (enhet 8)"
+
+#, fuzzy
+#~ msgid "Attach &next image\tAlt+N"
+#~ msgstr "Anslut nästa avbildning (enhet 8)"
+
+#, fuzzy
+#~ msgid "Attach &previous image\tAlt+B"
+#~ msgstr "Anslut föregående avbildning (enhet 8)"
+
+#, fuzzy
+#~ msgid "&Load flip list"
+#~ msgstr "Ladda vallistefil"
+
+#, fuzzy
+#~ msgid "&Save flip list"
+#~ msgstr "Spara vallistefil"
+
+#, fuzzy
+#~ msgid "Attach &tape image...\tAlt+T"
+#~ msgstr "Anslut en bandavbildningsfil..."
+
+#, fuzzy
+#~ msgid "Detac&h tape image"
+#~ msgstr "Koppla från bandavbildningsfil"
+
+#, fuzzy
+#~ msgid "Datassette contro&l"
+#~ msgstr "Datasettestyrning"
+
+#, fuzzy
+#~ msgid "S&top"
+#~ msgstr "Stoppa"
+
+#, fuzzy
+#~ msgid "&Forward"
+#~ msgstr "Spola framåt"
+
+#, fuzzy
+#~ msgid "&Rewind"
+#~ msgstr "Spola bakåt"
+
+#, fuzzy
+#~ msgid "Re&cord"
+#~ msgstr "Spela in"
+
+#, fuzzy
+#~ msgid "R&eset"
+#~ msgstr "Återställ"
+
+#, fuzzy
+#~ msgid "Attach &cartridge image..."
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "&CRT image..."
+#~ msgstr "Filnamn för minnesexpansionsavbildning..."
+
+#, fuzzy
+#~ msgid "Generic &8KB image..."
+#~ msgstr "Anslut vanlig 8KB-fil..."
+
+#, fuzzy
+#~ msgid "Generic &16KB image..."
+#~ msgstr "Anslut vanlig 16KB-fil..."
+
+#, fuzzy
+#~ msgid "&Action Replay image..."
+#~ msgstr "Anslut Action Replay-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Atomic &Power image..."
+#~ msgstr "Anslut Atomic Power-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "&Epyx fastload image..."
+#~ msgstr "Anslut Epyx fastload-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "&IEEE488 interface image..."
+#~ msgstr "Anslut IEEE488-gränssnittsavbildningsfil..."
+
+#, fuzzy
+#~ msgid "&Retro Replay image..."
+#~ msgstr "Anslut Retro Replay-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "IDE&64 interface image..."
+#~ msgstr "Anslut IDE64-gränssnittsavbildningsfil..."
+
+#, fuzzy
+#~ msgid "Super Snapshot &4 image..."
+#~ msgstr "Anslut Super Snapshot 4-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Super Snapshot &5 image..."
+#~ msgstr "Anslut Super Snapshot 5-avbildningsfil..."
+
+#, fuzzy
+#~ msgid "Expert Cartridge"
+#~ msgstr "Aktivera Expert Cartridge..."
+
+#, fuzzy
+#~ msgid "Enable"
+#~ msgstr "*Aktivera"
+
+#, fuzzy
+#~ msgid "Set cartridge as &default"
+#~ msgstr "Välj insticksmodul som förval"
+
+#, fuzzy
+#~ msgid "Detach cartridge &image"
+#~ msgstr "Koppla från insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Cartridge free&ze\tAlt+Z"
+#~ msgstr "Insticksmodulens frysfunktion"
+
+#, fuzzy
+#~ msgid "&Monitor\tAlt+M"
+#~ msgstr "Monitor"
+
+#, fuzzy
+#~ msgid "&Reset"
+#~ msgstr "Återställ"
+
+#, fuzzy
+#~ msgid "Drive #&8"
+#~ msgstr "Modell för enhet 8"
+
+#, fuzzy
+#~ msgid "Drive #&9"
+#~ msgstr "Modell för enhet 9"
+
+#, fuzzy
+#~ msgid "Drive #1&0"
+#~ msgstr "Modell för enhet 10"
+
+#, fuzzy
+#~ msgid "Drive #&11"
+#~ msgstr "Modell för enhet 11"
+
+#, fuzzy
+#~ msgid "Sna&pshot"
+#~ msgstr "Ögonblicksbild"
+
+#, fuzzy
+#~ msgid "Load snapshot &image..."
+#~ msgstr "Ladda ögonblicksbild..."
+
+#, fuzzy
+#~ msgid "Save sna&pshot image..."
+#~ msgstr "Spara ögonblicksbild..."
+
+#, fuzzy
+#~ msgid "&Save quicksnapshot image\tAlt+S"
+#~ msgstr "Spara ögonblicksbildfil"
+
+#, fuzzy
+#~ msgid "Start/Stop &Recording History"
+#~ msgstr "Börja spela in händelser"
+
+#, fuzzy
+#~ msgid "Set Recording Milestone\tAlt+G"
+#~ msgstr "Ange inspelningsbokmärke"
+
+#, fuzzy
+#~ msgid "Return to Milestone\tAlt+H"
+#~ msgstr "Åtegå till bokmärke"
+
+#, fuzzy
+#~ msgid "&Save new snapshot"
+#~ msgstr "*Spara ny ögonblicksbild"
+
+#, fuzzy
+#~ msgid "&Load existing snapshot"
+#~ msgstr "*Ladda existerande ögonblicksbild"
+
+#, fuzzy
+#~ msgid "Start with &reset"
+#~ msgstr "*Starta med nollställning"
+
+#, fuzzy
+#~ msgid "Overwrite &Playback"
+#~ msgstr "*Skriv över aktiv uppspelning"
+
+#, fuzzy
+#~ msgid "Select History files/directory"
+#~ msgstr "Ange historikkatalog"
+
+#, fuzzy
+#~ msgid "&Refresh rate"
+#~ msgstr "Uppdateringshastighet"
+
+#, fuzzy
+#~ msgid "&Auto"
+#~ msgstr "*Auto"
+
+#, fuzzy
+#~ msgid "&Maximum Speed"
+#~ msgstr "Maximal hastighet"
+
+#, fuzzy
+#~ msgid "No &limit"
+#~ msgstr "*Ingen gräns"
+
+#, fuzzy
+#~ msgid "&Custom"
+#~ msgstr "*Egen..."
+
+#, fuzzy
+#~ msgid "Video &cache"
+#~ msgstr "*Grafikcache"
+
+#, fuzzy
+#~ msgid "&Double size"
+#~ msgstr "*Dubbel storlek"
+
+#, fuzzy
+#~ msgid "Dou&ble scan"
+#~ msgstr "*Dubbelskanning"
+
+#, fuzzy
+#~ msgid "Scale2x"
+#~ msgstr "Aktivera warpläge"
+
+#, fuzzy
+#~ msgid "VDC settin&gs"
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "64KB video &memory"
+#~ msgstr "*64KB grafikminne"
+
+#, fuzzy
+#~ msgid "Swap &Joystick\tAlt+J"
+#~ msgstr "Växla spelportarna"
+
+#, fuzzy
+#~ msgid "&Sound playback"
+#~ msgstr "*Aktivera ljudåtergivning"
+
+#, fuzzy
+#~ msgid "&True drive emulation"
+#~ msgstr "*Aktivera äkta diskettenhetsemulering"
+
+#, fuzzy
+#~ msgid "&Virtual device traps"
+#~ msgstr "*Aktivera virtuella enheter"
+
+#, fuzzy
+#~ msgid "Vide&o standard"
+#~ msgstr "Grafikstandard"
+
+#, fuzzy
+#~ msgid "&PAL-G"
+#~ msgstr "*PAL-G"
+
+#, fuzzy
+#~ msgid "&NTSC-M"
+#~ msgstr "*NTSC-M"
+
+#, fuzzy
+#~ msgid "Emulator &Identification"
+#~ msgstr "*Emulatoridentifiering"
+
+#, fuzzy
+#~ msgid "IEEE&488 Interface emulation"
+#~ msgstr "*Emulering av IEEE488-gränssnitt"
+
+#, fuzzy
+#~ msgid "&1351 mouse emulation\tAlt+Q"
+#~ msgstr "*1351-musemulering"
+
+#, fuzzy
+#~ msgid "S&ettings"
+#~ msgstr "Inställningar"
+
+#, fuzzy
+#~ msgid "&Video settings..."
+#~ msgstr "VIC-grafikinställningar"
+
+#, fuzzy
+#~ msgid "&Peripheral settings..."
+#~ msgstr "Inställningar för kringutrustning"
+
+#, fuzzy
+#~ msgid "&Drive settings..."
+#~ msgstr "Diskettenhetsinställningar"
+
+#, fuzzy
+#~ msgid "D&atasette settings..."
+#~ msgstr "Finjustering av Datasettehastighet"
+
+#, fuzzy
+#~ msgid "VIC-II settings..."
+#~ msgstr "VIC-II-inställningar"
+
+#, fuzzy
+#~ msgid "&Joystick settings..."
+#~ msgstr "Inställningar för styrspak"
+
+#, fuzzy
+#~ msgid "&Keyboard settings..."
+#~ msgstr "Tangentbordsinställningar"
+
+#, fuzzy
+#~ msgid "S&ound settings..."
+#~ msgstr "Ljudinställningar"
+
+#, fuzzy
+#~ msgid "S&ID settings..."
+#~ msgstr "SID-inställningar"
+
+#, fuzzy
+#~ msgid "&ROM settings..."
+#~ msgstr "ROM-inställningar"
+
+#, fuzzy
+#~ msgid "RA&M settings..."
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "C&128 settings..."
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "RS&232 settings..."
+#~ msgstr "RS232-inställningar"
+
+#, fuzzy
+#~ msgid "&Cartridge Settings"
+#~ msgstr "Crtc-inställningar"
+
+#, fuzzy
+#~ msgid "&REU settings..."
+#~ msgstr "ROM-inställningar"
+
+#, fuzzy
+#~ msgid "&GEORAM settings..."
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "&RAMCART settings..."
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "&IDE64 settings..."
+#~ msgstr "SID-inställningar"
+
+#, fuzzy
+#~ msgid "&Ethernet settings..."
+#~ msgstr "Ethernetemulering"
+
+#, fuzzy
+#~ msgid "&ACIA settings..."
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "RS&232 userport settings..."
+#~ msgstr "RS232-inställningar"
+
+#, fuzzy
+#~ msgid "&Save current settings"
+#~ msgstr "Spara nuvarande inställningar?"
+
+#, fuzzy
+#~ msgid "&Load saved settings"
+#~ msgstr "Ladda inställningar"
+
+#, fuzzy
+#~ msgid "Set de&fault settings"
+#~ msgstr "Återställ förvalda inställningar"
+
+#, fuzzy
+#~ msgid "Save settings on e&xit"
+#~ msgstr "*Spara inställningar vid avslut"
+
+#, fuzzy
+#~ msgid "&Confirm on exit"
+#~ msgstr "*Bekräfta avslutning"
+
+#, fuzzy
+#~ msgid "&Help"
+#~ msgstr "Hjälp"
+
+#, fuzzy
+#~ msgid "&About..."
+#~ msgstr "Om VICE..."
+
+#, fuzzy
+#~ msgid "Command line &options"
+#~ msgstr ""
+#~ "\n"
+#~ "Tillgängliga kommandoradsflaggor:\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "&Contributors"
+#~ msgstr "Bidragslämnare"
+
+#, fuzzy
+#~ msgid "&License"
+#~ msgstr "Licens"
+
+#, fuzzy
+#~ msgid "No &warranty"
+#~ msgstr "Ingen garanti!"
+
+#, fuzzy
+#~ msgid "German Kernal"
+#~ msgstr "Ladda ny tysk Kernal-ROM"
+
+#, fuzzy
+#~ msgid "Italian Kernal"
+#~ msgstr "Ladda ny Kernal"
+
+#, fuzzy
+#~ msgid "Norwegain Kernal"
+#~ msgstr "Ladda ny Kernal"
+
+#, fuzzy
+#~ msgid "International Character"
+#~ msgstr "*Ursprunglig teckenuppsättning"
+
+#, fuzzy
+#~ msgid "German Character"
+#~ msgstr "*Tysk teckenuppsättning"
+
+#, fuzzy
+#~ msgid "C64 mode Kernal"
+#~ msgstr "Ladda ny Kernal"
+
+#, fuzzy
+#~ msgid "C64 mode Basic"
+#~ msgstr "Ladda ny Basic"
+
+#, fuzzy
+#~ msgid "Drive resources"
+#~ msgstr "Diskettenhetsinställningar"
+
+#, fuzzy
+#~ msgid "Internal Function ROM"
+#~ msgstr "Namn på internt funktions-ROM..."
+
+#, fuzzy
+#~ msgid "Enable internal Function ROM"
+#~ msgstr "*Aktivera internt funktions-ROM"
+
+#, fuzzy
+#~ msgid "File name"
+#~ msgstr "Filnamn:"
+
+#, fuzzy
+#~ msgid "External Function ROM"
+#~ msgstr "Namn på externt funktions-ROM..."
+
+#, fuzzy
+#~ msgid "Enable external Function ROM"
+#~ msgstr "*Aktivera externt funktions-ROM"
+
+#, fuzzy
+#~ msgid "&Drive type"
+#~ msgstr "Enhetstyp"
+
+#, fuzzy
+#~ msgid "Never extend"
+#~ msgstr "*Utöka aldrig"
+
+#, fuzzy
+#~ msgid "Ask on extend"
+#~ msgstr "*Fråga vid utökning"
+
+#, fuzzy
+#~ msgid "Extend on access"
+#~ msgstr "*Utöka vid åtkomst"
+
+#, fuzzy
+#~ msgid "Id&le method"
+#~ msgstr "Pausmetod för enhet 8"
+
+#, fuzzy
+#~ msgid "Trap idle"
+#~ msgstr "*Fånga inaktiva cykler"
+
+#, fuzzy
+#~ msgid "Skip cycles"
+#~ msgstr "*Hoppa över cykler"
+
+#, fuzzy
+#~ msgid "Drive &expansion"
+#~ msgstr "RAM-utökning för enhet 8"
+
+#, fuzzy
+#~ msgid "&Symbolic"
+#~ msgstr "*Symbolisk tangentbordsemulering"
+
+#, fuzzy
+#~ msgid "Dump keyset"
+#~ msgstr "Spara tangentbordsemulering till fil"
+
+#, fuzzy
+#~ msgid "Select internal function ROM image"
+#~ msgstr "*Aktivera internt funktions-ROM"
+
+#, fuzzy
+#~ msgid "Select external function ROM image"
+#~ msgstr "*Aktivera externt funktions-ROM"
+
+#, fuzzy
+#~ msgid "C128 settings"
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "Fullscreen\tAlt+D"
+#~ msgstr "*Fullskärmsinställningar"
+
+#, fuzzy
+#~ msgid "&Old NTSC-M"
+#~ msgstr "*Gammal NTSC-M"
+
+#, fuzzy
+#~ msgid "&Cartridge/IO settings"
+#~ msgstr "Crtc-inställningar"
+
+#, fuzzy
+#~ msgid "+&60K settings..."
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "&Symbolic US"
+#~ msgstr "*Symbolisk tangentbordsemulering"
+
+#, fuzzy
+#~ msgid "&Symbolic DE"
+#~ msgstr "*Symbolisk tangentbordsemulering"
+
+#, fuzzy
+#~ msgid "&CBM2 settings..."
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "&VIC-II settings..."
+#~ msgstr "VIC-II-inställningar"
+
+#, fuzzy
+#~ msgid "&Cartridge/IO Settings"
+#~ msgstr "Crtc-inställningar"
+
+#, fuzzy
+#~ msgid "Machine &defaults"
+#~ msgstr "Modellens förval"
+
+#, fuzzy
+#~ msgid "&Model line"
+#~ msgstr "Modellinställningar"
+
+#, fuzzy
+#~ msgid "&Memory"
+#~ msgstr "Minnesstorlek"
+
+#, fuzzy
+#~ msgid "12&8 kByte"
+#~ msgstr "*128 kbyte"
+
+#, fuzzy
+#~ msgid "2&56 kByte"
+#~ msgstr "*256 byte"
+
+#, fuzzy
+#~ msgid "512 &kByte"
+#~ msgstr "*128 kbyte"
+
+#, fuzzy
+#~ msgid "1024 kByt&e"
+#~ msgstr "*128 kbyte"
+
+#, fuzzy
+#~ msgid "Bank 15 $&0800-$0FFF RAM"
+#~ msgstr "*Bank 15 $0800-$0FFF RAM"
+
+#, fuzzy
+#~ msgid "Bank 15 $&1000-$1FFF RAM"
+#~ msgstr "*Bank 15 $1000-$1FFF RAM"
+
+#, fuzzy
+#~ msgid "Bank 15 $&2000-$3FFF RAM"
+#~ msgstr "*Bank 15 $2000-$3FFF RAM"
+
+#, fuzzy
+#~ msgid "Bank 15 $&4000-$5FFF RAM"
+#~ msgstr "*Bank 15 $4000-$5FFF RAM"
+
+#, fuzzy
+#~ msgid "Bank 15 $&6000-$7FFF RAM"
+#~ msgstr "*Bank 15 $6000-$7FFF RAM"
+
+#, fuzzy
+#~ msgid "Bank 15 $&C000-$CFFF RAM"
+#~ msgstr "*Bank 15 $C000-$CFFF RAM"
+
+#, fuzzy
+#~ msgid "Memory"
+#~ msgstr "Minnesstorlek"
+
+#, fuzzy
+#~ msgid "CBM2 settings"
+#~ msgstr "VDC-inställningar"
+
+#, fuzzy
+#~ msgid "GEORAM Settings"
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "&Enable GEORAM"
+#~ msgstr "*Aktivera minnesexpansion"
+
+#, fuzzy
+#~ msgid "GEORAM file"
+#~ msgstr "Storlek på minnesexpansion"
+
+#, fuzzy
+#~ msgid "IDE64 Settings"
+#~ msgstr "SID-inställningar"
+
+#, fuzzy
+#~ msgid "&HD image file"
+#~ msgstr "Avbildningsfil för IDE64"
+
+#, fuzzy
+#~ msgid "&Autodetect"
+#~ msgstr "*Autodetektera storlek på avbildning"
+
+#, fuzzy
+#~ msgid "Cylinders"
+#~ msgstr "*Cylindrar..."
+
+#, fuzzy
+#~ msgid "Heads"
+#~ msgstr "*Huvuden..."
+
+#, fuzzy
+#~ msgid "Sectors"
+#~ msgstr "*Sektorer..."
+
+#, fuzzy
+#~ msgid "Select HD image file"
+#~ msgstr "Välj RS232-enhetsfil"
+
+#, fuzzy
+#~ msgid "P&ET settings..."
+#~ msgstr "TED-inställningar"
+
+#, fuzzy
+#~ msgid "Editor"
+#~ msgstr "Monitor"
+
+#, fuzzy
+#~ msgid "Machine defaults"
+#~ msgstr "Modellens förval"
+
+#, fuzzy
+#~ msgid "M&emory"
+#~ msgstr "Minnesstorlek"
+
+#, fuzzy
+#~ msgid "4KB"
+#~ msgstr "*64KB"
+
+#, fuzzy
+#~ msgid "16KB"
+#~ msgstr "*16KB"
+
+#, fuzzy
+#~ msgid "32KB"
+#~ msgstr "*32KB"
+
+#, fuzzy
+#~ msgid "96KB"
+#~ msgstr "*64KB"
+
+#, fuzzy
+#~ msgid "128KB"
+#~ msgstr "*32KB"
+
+#, fuzzy
+#~ msgid "&Video"
+#~ msgstr "Skärmbredd"
+
+#, fuzzy
+#~ msgid "&Auto (from ROM)"
+#~ msgstr "*Automatisk (från ROM)"
+
+#, fuzzy
+#~ msgid "&40 Columns"
+#~ msgstr "*40 kolumner"
+
+#, fuzzy
+#~ msgid "&80 Columns"
+#~ msgstr "*80 kolumner"
+
+#, fuzzy
+#~ msgid "&IO Size"
+#~ msgstr "I/O-utrymme"
+
+#, fuzzy
+#~ msgid "2&56 Byte"
+#~ msgstr "*256 byte"
+
+#, fuzzy
+#~ msgid "&2 kByte"
+#~ msgstr "*2 kbyte"
+
+#, fuzzy
+#~ msgid "CRTC chip &enable"
+#~ msgstr "*Aktivera CRTC-krets"
+
+#, fuzzy
+#~ msgid "&Keyboard"
+#~ msgstr "Tangentbordstyp"
+
+#, fuzzy
+#~ msgid "&Graphics"
+#~ msgstr "*Grafik"
+
+#, fuzzy
+#~ msgid "&Business (UK)"
+#~ msgstr "*Business (Storbritannien)"
+
+#, fuzzy
+#~ msgid "&IO Settings"
+#~ msgstr "Inställningar"
+
+#, fuzzy
+#~ msgid "SuperPET I/O &enable (disables 8x96)"
+#~ msgstr "*Aktivera SuperPET-I/O (deaktiverar 8x96)"
+
+#, fuzzy
+#~ msgid "&RAM Settings"
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "$&9*** as RAM"
+#~ msgstr "*$9*** som RAM (endast 8296)"
+
+#, fuzzy
+#~ msgid "$&A*** as RAM"
+#~ msgstr "*$A*** som RAM (endast 8296)"
+
+#, fuzzy
+#~ msgid "PET settings"
+#~ msgstr "TED-inställningar"
+
+#, fuzzy
+#~ msgid "C1 high image..."
+#~ msgstr "Spara insticksmodulfil..."
+
+#, fuzzy
+#~ msgid "C2 high image..."
+#~ msgstr "Spara insticksmodulfil..."
+
+#, fuzzy
+#~ msgid "Function low  image (3plus1)..."
+#~ msgstr "Avbildning av funktions-ROM"
+
+#, fuzzy
+#~ msgid "Function high image (3plus1)..."
+#~ msgstr "Avbildning av funktions-ROM"
+
+#, fuzzy
+#~ msgid "P&lus4 settings..."
+#~ msgstr "Modellinställningar"
+
+#, fuzzy
+#~ msgid "3 plus 1 LO"
+#~ msgstr "Ladda ny 3 plus 1 låg-ROM"
+
+#, fuzzy
+#~ msgid "3 plus 1 HI"
+#~ msgstr "Ladda ny 3 plus 1 hög-ROM"
+
+#, fuzzy
+#~ msgid "Plus4 settings"
+#~ msgstr "Modellinställningar"
+
+#, fuzzy
+#~ msgid "&16 kByte"
+#~ msgstr "*16 kbyte"
+
+#, fuzzy
+#~ msgid "&32 kByte"
+#~ msgstr "*32 kbyte"
+
+#, fuzzy
+#~ msgid "&64 kByte"
+#~ msgstr "*4 kbyte"
+
+#, fuzzy
+#~ msgid "Attach cartridge image for Function Low"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach cartridge image for Function High"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach cartridge image for Cartridge1 Low"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach cartridge image for Cartridge1 High"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach cartridge image for Cartridge2 Low"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "Attach cartridge image for Cartridge2 High"
+#~ msgstr "Anslut insticksmodulfil"
+
+#, fuzzy
+#~ msgid "+60K Settings"
+#~ msgstr "Inställningar"
+
+#, fuzzy
+#~ msgid "&Enable +60K"
+#~ msgstr "*Aktivera"
+
+#, fuzzy
+#~ msgid "RAMCART Settings"
+#~ msgstr "RAM-inställningar"
+
+#, fuzzy
+#~ msgid "&Enable RAMCART"
+#~ msgstr "*Aktivera minnesexpansion"
+
+#, fuzzy
+#~ msgid "&Read Only"
+#~ msgstr "*Endast läsåtkomst"
+
+#, fuzzy
+#~ msgid "RAMCART file"
+#~ msgstr "Storlek på minnesexpansion"
+
+#, fuzzy
+#~ msgid "REU Settings"
+#~ msgstr "Inställningar"
+
+#, fuzzy
+#~ msgid "&Enable REU"
+#~ msgstr "*Aktivera minnesexpansion"
+
+#, fuzzy
+#~ msgid "REU file"
+#~ msgstr "Storlek på minnesexpansion"
+
+#, fuzzy
+#~ msgid "RS232 Userport Settings"
+#~ msgstr "RS232-inställningar"
+
+#, fuzzy
+#~ msgid "&Enable RS232 userport"
+#~ msgstr "*Aktivera äkta diskettenhetsemulering"
+
+#, fuzzy
+#~ msgid "Userport device"
+#~ msgstr "Användarportens RS232-enhet"
+
+#, fuzzy
+#~ msgid "Userport baud rate"
+#~ msgstr "Användarportens RS232-baudhastighet"
+
+#, fuzzy
+#~ msgid "fast"
+#~ msgstr "*Snabbt"
+
+#, fuzzy
+#~ msgid "interpolating"
+#~ msgstr "*Interpolerande"
+
+#, fuzzy
+#~ msgid "resampling"
+#~ msgstr "*Omsamplande"
+
+#, fuzzy
+#~ msgid "fast resampling"
+#~ msgstr "*Snabb omsampling"
+
+#, fuzzy
+#~ msgid "SID Engine"
+#~ msgstr "SID-motor"
+
+#, fuzzy
+#~ msgid "6581 (old)"
+#~ msgstr "*6581 (gammal)"
+
+#, fuzzy
+#~ msgid "8580 (new)"
+#~ msgstr "*8580 (ny)"
+
+#, fuzzy
+#~ msgid "SID Stereo"
+#~ msgstr "SID-motor"
+
+#, fuzzy
+#~ msgid "SID Filters"
+#~ msgstr "*Emulera filter"
+
+#, fuzzy
+#~ msgid "reSID options"
+#~ msgstr "Alternativ för diskett"
+
+#, fuzzy
+#~ msgid "Sample method"
+#~ msgstr "reSID-samplingsmetod"
+
+#, fuzzy
+#~ msgid "Device selection"
+#~ msgstr "Diskettenhetsinställningar"
+
+#, fuzzy
+#~ msgid "Right device"
+#~ msgstr "ACIA-enhet"
+
+#, fuzzy
+#~ msgid "Ethernet Settings"
+#~ msgstr "Ethernetemulering"
+
+#, fuzzy
+#~ msgid "&Ethernet"
+#~ msgstr "*Aktivera Ethernet"
+
+#, fuzzy
+#~ msgid "&Interface"
+#~ msgstr "Gränssnitt..."
+
+#, fuzzy
+#~ msgid "4/8/16KB image at $&2000..."
+#~ msgstr "Anslut 4/8/16KB-fil vid $2000..."
+
+#, fuzzy
+#~ msgid "4/8/16KB image at $&4000..."
+#~ msgstr "Anslut 4/8/16KB-fil vid $4000..."
+
+#, fuzzy
+#~ msgid "4/8/16KB image at $&6000..."
+#~ msgstr "Anslut 4/8/16KB-fil vid $6000..."
+
+#, fuzzy
+#~ msgid "4/8KB image at $&A000..."
+#~ msgstr "Anslut 4/8KB-fil vid $A000..."
+
+#, fuzzy
+#~ msgid "4KB image at $&B000..."
+#~ msgstr "Anslut 4KB-fil vid $B000..."
+
+#, fuzzy
+#~ msgid "Detach c&artridge image"
+#~ msgstr "Koppla från insticksmodulfil"
+
+#, fuzzy
+#~ msgid "V&IC settings..."
+#~ msgstr "VIC-inställningar"
+
+#, fuzzy
+#~ msgid "VIC Settings"
+#~ msgstr "VIC-inställningar"
+
+#, fuzzy
+#~ msgid "&no expansion memory"
+#~ msgstr "Ingen minnesutökning"
+
+#, fuzzy
+#~ msgid "3&K (block 0)"
+#~ msgstr "3K (block 0)"
+
+#, fuzzy
+#~ msgid "&8K (block 1)"
+#~ msgstr "8K (block 1)"
+
+#, fuzzy
+#~ msgid "1&6K (blocks 1/2)"
+#~ msgstr "16K (block 1/2)"
+
+#, fuzzy
+#~ msgid "2&4K (blocks 1/2/3)"
+#~ msgstr "24K (block 1/2/3)"
+
+#, fuzzy
+#~ msgid "&Full (blocks 0/1/2/3/5)"
+#~ msgstr "Alla (block 0/1/2/3/5)"
+
+#, fuzzy
+#~ msgid "&custom"
+#~ msgstr "Ladda egen"
+
+#, fuzzy
+#~ msgid "Block &0"
+#~ msgstr "3K (block 0)"
+
+#, fuzzy
+#~ msgid "Block &1"
+#~ msgstr "8K (block 1)"
+
+#, fuzzy
+#~ msgid "Attach 4/8/16KB cartridge image at $2000"
+#~ msgstr "Anslut 4/8/16KB-fil vid $2000..."
+
+#, fuzzy
+#~ msgid "Attach 4/8/16KB cartridge image at $4000"
+#~ msgstr "Anslut 4/8/16KB-fil vid $4000..."
+
+#, fuzzy
+#~ msgid "Attach 4/8/16KB cartridge image at $6000"
+#~ msgstr "Anslut 4/8/16KB-fil vid $6000..."
+
+#, fuzzy
+#~ msgid "Attach 4/8KB cartridge image at $A000"
+#~ msgstr "Anslut 4/8KB-fil vid $A000..."
+
+#, fuzzy
+#~ msgid "Attach 4KB cartridge image at $B000"
+#~ msgstr "Anslut 4KB-fil vid $B000..."
+
+#, fuzzy
+#~ msgid "VIC-II Settings"
+#~ msgstr "VIC-II-inställningar"
+
+#, fuzzy
+#~ msgid "Sprite Collisions"
+#~ msgstr "*Sprite-till-sprite-kollision"
+
+#, fuzzy
+#~ msgid "Sprite-&sprite collisions"
+#~ msgstr "*Sprite-till-sprite-kollision"
+
+#, fuzzy
+#~ msgid "Sprite-background &collisions"
+#~ msgstr "*Sprite-till-bakgrund-kollision"
+
+#, fuzzy
+#~ msgid "New Luminances"
+#~ msgstr "*Nya ljusstyrkor"
+
 #~ msgid "Specify name of first RS232 device (/dev/ttyS0)"
 #~ msgstr "Ange namn på första RS232-enheten (/dev/ttyS0)"
 
@@ -5372,9 +7172,6 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Unload Basic ROM"
 #~ msgstr "Ladda ur Basic-ROM"
 
-#~ msgid "Invalid cartridge"
-#~ msgstr "Ogiltig insticksmodul"
-
 #~ msgid "Flush IEC printer #4 device"
 #~ msgstr "Töm IEC-skrivarenhet 4"
 
@@ -5396,14 +7193,8 @@ msgstr "Initierade utan delat minne."
 #~ msgid "VIC-II Video settings"
 #~ msgstr "VIC-II-grafikinställningar"
 
-#~ msgid "VIC Video settings"
-#~ msgstr "VIC-grafikinställningar"
-
 #~ msgid "TED Video settings"
 #~ msgstr "TED-grafikinställningar"
-
-#~ msgid "*Fullscreen settings"
-#~ msgstr "*Fullskärmsinställningar"
 
 #~ msgid "Successfully forked DGA\n"
 #~ msgstr "Lyckades grena DGA\n"
@@ -5432,9 +7223,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "(null)"
 #~ msgstr "(null)"
-
-#~ msgid "*Enable"
-#~ msgstr "*Aktivera"
 
 #~ msgid "Please recompile the program for a supported bit depth."
 #~ msgstr "Kompilera om programmet för ett understött färgdjup."
