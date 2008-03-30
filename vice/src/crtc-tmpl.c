@@ -213,6 +213,7 @@ static int set_double_size_enabled(resource_value_t v)
         video_resize();
     return 0;
 }
+#endif
 
 static int set_double_scan_enabled(resource_value_t v)
 {
@@ -223,7 +224,6 @@ static int set_double_scan_enabled(resource_value_t v)
         video_resize();
     return 0;
 }
-#endif
 
 #ifdef USE_VIDMODE_EXTENSION
 
@@ -499,7 +499,9 @@ void video_free(void)
 
 static void crtc_arrange_window(int width, int height)
 {
+#ifdef USE_VIDMODE_EXTENSION
     if(fullscreen) return;
+#endif
     resize(width, height);
     refresh_changed();
     refresh_all();

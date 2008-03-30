@@ -145,10 +145,12 @@ static int set_fullscreen_double_scan_enabled(resource_value_t v)
 #endif
 
 static resource_t resources[] = {
+#ifdef NEED_2x
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+#endif
 #ifdef USE_VIDMODE_EXTENSION
 #ifdef NEED_2x
     { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
@@ -728,7 +730,9 @@ static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe)
 
 void vic_exposure_handler(unsigned int width, unsigned int height)
 {
+#ifdef USE_VIDMODE_EXTENSION
     if(fullscreen) return;
+#endif
     resize(width, height);
     force_repaint();
 }
