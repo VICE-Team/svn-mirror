@@ -54,20 +54,21 @@
 #include "cmdline.h"
 #include "rs232.h"
 #include "utils.h"
+#include "coproc.h"
 
 #define        MAXRS232        4
 
 /*********************************************************************/
 /* resource handling */
 
-#define	NUM_DEVICES	3
+#define	NUM_DEVICES	4
 
 static char *devfile[NUM_DEVICES];
 static int devbaud[NUM_DEVICES];
 
 static int set_devfile(char *v, int dev) {
     const char *name = (const char *) v;
-
+/*printf("set_devfile(v=%s, dev=%d)\n",v,dev);*/
     if (devfile[dev] != NULL && name != NULL
         && strcmp(name, devfile[dev]) == 0)
         return 0;
@@ -95,6 +96,10 @@ static int set_dev3_file(resource_value_t v) {
     return set_devfile((char*)v, 2);
 }
 
+static int set_dev4_file(resource_value_t v) {
+    return set_devfile((char*)v, 3);
+}
+
 static int set_dev1_baud(resource_value_t v) {
     return set_devbaud((int)v, 0);
 }
@@ -105,6 +110,10 @@ static int set_dev2_baud(resource_value_t v) {
 
 static int set_dev3_baud(resource_value_t v) {
     return set_devbaud((int)v, 2);
+}
+
+static int set_dev4_baud(resource_value_t v) {
+    return set_devbaud((int)v, 3);
 }
 
 
@@ -121,6 +130,10 @@ static resource_t resources[] = {
       (resource_value_t *) &devfile[2], set_dev3_file },
     { "RsDevice3Baud", RES_INTEGER, (resource_value_t) 9600,
       (resource_value_t *) &devbaud[2], set_dev3_baud },
+    { "RsDevice4", RES_STRING, (resource_value_t) "|lpr",
+      (resource_value_t *) &devfile[3], set_dev4_file },
+    { "RsDevice4Baud", RES_INTEGER, (resource_value_t) 9600,
+      (resource_value_t *) &devbaud[3], set_dev4_baud },
     { NULL }
 };
 
@@ -145,6 +158,11 @@ static cmdline_option_t cmdline_options[] = {
     { "-rsdev3baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice3Baud", NULL,
       "<baudrate>", "Specify baudrate of third RS232 device" },
 
+    { "-rsdev4", SET_RESOURCE, 1, NULL, NULL, "RsDevice4", NULL,
+      "<name>", "Specify command to pipe data in/out, preceed with '|' (|lpr)" },
+    { "-rsdev4baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice4Baud", NULL,
+      "<baudrate>", "Specify baudrate of 4th RS232 device" },
+
     { NULL }
 };
 
@@ -158,13 +176,15 @@ int rs232_init_cmdline_options(void)
 typedef struct RS232 {
        int     inuse;
        int     type;
-       int     fd;
+       int     fd_r;
+       int     fd_w;
        char    *file;
        struct termios saved;
 } RS232;
 
 #define	T_FILE		0
 #define	T_TTY		1
+#define	T_PROC		2
 
 static RS232 fds[MAXRS232];
 
@@ -179,7 +199,7 @@ void rs232_init(void) {
 
 /* resets terminal to old mode */
 static void unset_tty(int i) {
-	tcsetattr(fds[i].fd, TCSAFLUSH, &fds[i].saved);
+	tcsetattr(fds[i].fd_r, TCSAFLUSH, &fds[i].saved);
 }
 
 static struct { int baud; speed_t speed; } speed_tab[]= {
@@ -197,7 +217,7 @@ static void set_tty(int i, int baud) {
 	* by W.R. Stevens, Addison-Wesley.
 	*/
 	speed_t speed;
-	int fd = fds[i].fd;
+	int fd = fds[i].fd_r;
 	struct termios buf;
 
 	if(tcgetattr(fd, &fds[i].saved) < 0) {
@@ -237,15 +257,8 @@ void rs232_reset(void) {
 
        for(i=0;i<MAXRS232;i++) {
          if(fds[i].inuse) {
-	   if(fds[i].type == T_TTY) {
-	     unset_tty(i);
-	   }
-#ifdef DEBUG
-	   fprintf(stderr,"RS232 close(fd=%d)\n",i);
-#endif
-	   close(fds[i].fd);
+	    rs232_close(i);
 	 }
-         fds[i].inuse = 0;
        }
 }
 
@@ -263,29 +276,41 @@ int rs232_open(int device) {
 #ifdef DEBUG
        fprintf(stderr,"rs232_open(device=%d)\n",device);
 #endif
-       fd = open(devfile[device], O_RDWR | O_NOCTTY | O_CREAT,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH );
-       if(fd<0) {
-         fprintf(stderr,"open(%s): %s\n",devfile[device],strerror(errno));
-         return -1;
-       }
-       fds[i].fd = fd;
-       fds[i].file = devfile[device];
-
-       if(isatty(fd)) {
-	 fds[i].type = T_TTY;
-	 set_tty(i, devbaud[device]);
+       if(devfile[device][0] == '|') {
+	 if(fork_coproc(&fds[i].fd_w, &fds[i].fd_r, devfile[device]+1) < 0) {
+           fprintf(stderr,"coproc(%s): %s\n",devfile[device],strerror(errno));
+	   return -1;
+	 }
+         fds[i].type = T_PROC;
+         fds[i].inuse = 1;
+         fds[i].file = devfile[device];
        } else {
-	 fds[i].type = T_FILE;
+         fd = open(devfile[device], O_RDWR | O_NOCTTY | O_CREAT,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH );
+         if(fd<0) {
+           fprintf(stderr,"open(%s): %s\n",devfile[device],strerror(errno));
+           return -1;
+         }
+         fds[i].fd_r = fds[i].fd_w = fd;
+         fds[i].file = devfile[device];
+
+         if(isatty(fd)) {
+	   fds[i].type = T_TTY;
+	   set_tty(i, devbaud[device]);
+         } else {
+	   fds[i].type = T_FILE;
+         }
+         fds[i].inuse = 1;
        }
-       fds[i].inuse = 1;
 
        return i;
 }
 
 /* closes the rs232 window again */
 void rs232_close(int fd) {
-
+#ifdef DEBUG
+       fprintf(stderr,"RS232 close(fd=%d)\n",fd);
+#endif
        if(fd<0 || fd>=MAXRS232) {
          printf("RS232: close with invalid fd %d!\n", fd);
          return;
@@ -295,8 +320,14 @@ void rs232_close(int fd) {
          printf("RS232: close with non-open fd %d!\n", fd);
          return;
        }
-       close(fds[fd].fd);
 
+       if(fds[fd].type == T_TTY) {
+         unset_tty(fd);
+       }
+       close(fds[fd].fd_r);
+       if((fds[fd].type == T_PROC) && (fds[fd].fd_r != fds[fd].fd_w)) {
+         close(fds[fd].fd_w);
+       }
        fds[fd].inuse = 0;
 }
 
@@ -315,7 +346,7 @@ int rs232_putc(int fd, BYTE b) {
        fflush(stdout);
 #endif
        do {
-         n = write(fds[fd].fd, &b, 1);
+         n = write(fds[fd].fd_w, &b, 1);
          if(n<0) {
            fprintf(stderr,"write(1): %s\n",strerror(errno));
          }
@@ -338,12 +369,12 @@ int rs232_getc(int fd, BYTE *b) {
        if(fds[fd].type == T_FILE) return 0;
 
        FD_ZERO(&rdset);
-       FD_SET(fds[fd].fd, &rdset);
+       FD_SET(fds[fd].fd_r, &rdset);
        ti.tv_sec = ti.tv_usec = 0;
-       ret = select(fds[fd].fd+1, &rdset, NULL, NULL, &ti);
+       ret = select(fds[fd].fd_r+1, &rdset, NULL, NULL, &ti);
 
-       if(ret && (FD_ISSET(fds[fd].fd,&rdset)) ) {
-         n = read(fds[fd].fd,b,1);
+       if(ret && (FD_ISSET(fds[fd].fd_r,&rdset)) ) {
+         n = read(fds[fd].fd_r,b,1);
          if(n) return 1;
        }
        return 0;

@@ -260,13 +260,13 @@ static cmdline_option_t cmdline_options[] = {
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
 #ifdef HAVE_RS232
-    { "-acia_de", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 1,
+    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 1,
       NULL, "Enable the $DE** ACIA RS232 interface emulation" },
-    { "+acia_de", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
+    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
       NULL, "Disable the $DE** ACIA RS232 interface emulation" },
-    { "-acia_d6", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 1,
+    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 1,
       NULL, "Enable the $D6** ACIA RS232 interface emulation" },
-    { "+acia_d6", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 0,
+    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 0,
       NULL, "Disable the $D6** ACIA RS232 interface emulation" },
 #endif
     { NULL }

@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 #include "resources.h"
+#include "cmdline.h"
 #include "vice.h"
 #include "types.h"
 #include "vmachine.h"
@@ -22,7 +23,7 @@
 #include "acia.h"
 
 
-#define	DEBUG
+#undef	DEBUG
 
 #define	ACIA_TICKS	21111
 
@@ -60,7 +61,7 @@ static int myacia_set_irq(resource_value_t v) {
 }
 
 static resource_t resources[] = {
-    { "MyAcia", RES_INTEGER, (resource_value_t) MyDevice,
+    { "MyAciaDev", RES_INTEGER, (resource_value_t) MyDevice,
       (resource_value_t *) & myacia_device, myacia_set_device },
     { "MyAciaIrq", RES_INTEGER, (resource_value_t) MyIrq,
       (resource_value_t *) & myacia_irq, myacia_set_irq },
@@ -69,6 +70,16 @@ static resource_t resources[] = {
 
 int myacia_init_resources(void) {
     return resources_register(resources);
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, "MyAciaDev", NULL,
+	"<device>", "Specify RS232 device this ACIA should work on" },
+    { NULL }
+};
+
+int myacia_init_cmdline_options(void) {
+    return cmdline_register_options(cmdline_options);
 }
 
 /******************************************************************/
@@ -87,7 +98,7 @@ void reset_myacia(void) {
 	if(fd>=0) rs232_close(fd);
 	fd = -1;
 
-	mycpu_set_alarm(A_MYACIA, 0);
+	mycpu_unset_alarm(A_MYACIA);
 	mycpu_set_int(I_MYACIA, 0);
 	irq = 0;
 }
@@ -121,7 +132,7 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		intx = 0;
 		mycpu_set_int(I_MYACIA, 0);
 		irq = 0;
-		mycpu_set_alarm(A_MYACIA, 0);
+		mycpu_unset_alarm(A_MYACIA);
 		break;
 	case ACIA_CTRL:
 		ctrl = b;
@@ -135,7 +146,7 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		} else
 		if(fd>=0 && !(cmd&1)) {
 		  rs232_close(fd);
-		  mycpu_set_alarm(A_MYACIA, 0);
+		  mycpu_unset_alarm(A_MYACIA);
 		  fd = -1;
 		}
 		break;

@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.14.2.35+2/src/c64/c64acia1.c
- * This file is generated from ../../../vice-0.14.2.35+2/src/acia-tmpl.c and ../../../vice-0.14.2.35+2/src/c64/c64acia1.def,
+ * ../../../vice-0.14.2.38/src/c64/c64acia1.c
+ * This file is generated from ../../../vice-0.14.2.38/src/acia-tmpl.c and ../../../vice-0.14.2.38/src/c64/c64acia1.def,
  * Do not edit!
  */
 
@@ -20,6 +20,7 @@
 #include <stdio.h>
 
 #include "resources.h"
+#include "cmdline.h"
 #include "vice.h"
 #include "types.h"
 #include "vmachine.h"
@@ -28,7 +29,7 @@
 #include "acia.h"
 
 
-#define	DEBUG
+#undef	DEBUG
 
 #define	ACIA_TICKS	21111
 
@@ -66,7 +67,7 @@ static int acia1_set_irq(resource_value_t v) {
 }
 
 static resource_t resources[] = {
-    { "Acia1", RES_INTEGER, (resource_value_t) 0,
+    { "Acia1Dev", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) & acia1_device, acia1_set_device },
     { "Acia1Irq", RES_INTEGER, (resource_value_t) IK_IRQ,
       (resource_value_t *) & acia1_irq, acia1_set_irq },
@@ -75,6 +76,16 @@ static resource_t resources[] = {
 
 int acia1_init_resources(void) {
     return resources_register(resources);
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-acia1dev", SET_RESOURCE, 1, NULL, NULL, "Acia1Dev", NULL,
+	"<device>", "Specify RS232 device this ACIA should work on" },
+    { NULL }
+};
+
+int acia1_init_cmdline_options(void) {
+    return cmdline_register_options(cmdline_options);
 }
 
 /******************************************************************/
@@ -93,7 +104,7 @@ void reset_acia1(void) {
 	if(fd>=0) rs232_close(fd);
 	fd = -1;
 
-	maincpu_set_alarm(A_ACIA1, 0);
+	maincpu_unset_alarm(A_ACIA1);
 	maincpu_set_int(I_ACIA1, 0);
 	irq = 0;
 }
@@ -127,7 +138,7 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		intx = 0;
 		maincpu_set_int(I_ACIA1, 0);
 		irq = 0;
-		maincpu_set_alarm(A_ACIA1, 0);
+		maincpu_unset_alarm(A_ACIA1);
 		break;
 	case ACIA_CTRL:
 		ctrl = b;
@@ -141,7 +152,7 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		} else
 		if(fd>=0 && !(cmd&1)) {
 		  rs232_close(fd);
-		  maincpu_set_alarm(A_ACIA1, 0);
+		  maincpu_unset_alarm(A_ACIA1);
 		  fd = -1;
 		}
 		break;

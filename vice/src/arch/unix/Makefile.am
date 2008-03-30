@@ -17,6 +17,8 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	coproc.h \
+	coproc.c \
 	joystick.c \
 	joystick.h \
 	kbd.c \

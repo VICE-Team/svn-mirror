@@ -286,16 +286,6 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
-	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
-	uihotkey.h ../../../../src/resources.h uicommands.h \
-	uisettings.h ../../../../src/arch/unix/joystick.h c64icon.xpm
-petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h petui.h \
-	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
-	uihotkey.h ../../../../src/resources.h uicommands.h \
-	uisettings.h ../../../../src/arch/unix/joystick.h \
-	../../../../src/pet/pets.h c64icon.xpm
-
 info: info-recursive
 dvi: dvi-recursive
 check: all-am

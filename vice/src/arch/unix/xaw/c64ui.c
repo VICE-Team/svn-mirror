@@ -94,27 +94,31 @@ static ui_menu_entry_t sid_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_RADIO(Acia1)
+UI_MENU_DEFINE_RADIO(Acia1Dev)
 
 static ui_menu_entry_t acia1_device_submenu[] = {
     { "*Serial 1",
-      (ui_callback_t) radio_Acia1, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 0, NULL },
     { "*Serial 2",
-      (ui_callback_t) radio_Acia1, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 1, NULL },
     { "*Dump to file",
-      (ui_callback_t) radio_Acia1, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 2, NULL },
+    { "*Exec process",
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 3, NULL },
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(Acia2)
+UI_MENU_DEFINE_RADIO(Acia2Dev)
 
 static ui_menu_entry_t acia2_device_submenu[] = {
     { "*Serial 1",
-      (ui_callback_t) radio_Acia2, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 0, NULL },
     { "*Serial 2",
-      (ui_callback_t) radio_Acia2, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 1, NULL },
     { "*Dump to file",
-      (ui_callback_t) radio_Acia2, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 2, NULL },
+    { "*Exec process",
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 3, NULL },
     { NULL }
 };
 
@@ -186,19 +190,45 @@ static UI_CALLBACK(set_rs232_device_file)
     }
 }
 
+static UI_CALLBACK(set_rs232_exec_file)
+{
+    char *resname = (char*) client_data;
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "Command to execute for RS232 (preceed with '|')");
+    {
+        char *value;
+        char *new_value;
+        int len;
+
+        resources_get_value(resname, (resource_value_t *) &value);
+        len = strlen(value) * 2;
+        if (len < 255)
+            len = 255;
+        new_value = alloca(len + 1);
+        strcpy(new_value, value);
+
+        if (ui_input_string(title, "Path:", new_value, len) != UI_BUTTON_OK)
+            return;
+
+        resources_set_value(resname, (resource_value_t) new_value);
+    }
+}
+
 UI_MENU_DEFINE_TOGGLE(AciaDE)
 UI_MENU_DEFINE_TOGGLE(AciaD6)
 
-static ui_menu_entry_t rs232_submenu[] = {
-    { "*ACIA $D6xx RS232 interface emulation",
-      (ui_callback_t) toggle_AciaD6, NULL, NULL },
-    { "ACIA $D6** device",
-      NULL, NULL, acia2_device_submenu },
-    { "--" },
+ui_menu_entry_t rs232_submenu[] = {
     { "*ACIA $DExx RS232 interface emulation",
       (ui_callback_t) toggle_AciaDE, NULL, NULL },
     { "ACIA $DExx device",
       NULL, NULL, acia1_device_submenu },
+    { "--" },
+    { "*ACIA $D6xx RS232 interface emulation",
+      (ui_callback_t) toggle_AciaD6, NULL, NULL },
+    { "ACIA $D6** device",
+      NULL, NULL, acia2_device_submenu },
     { "--" },
     { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice1", NULL },
@@ -212,6 +242,9 @@ static ui_menu_entry_t rs232_submenu[] = {
     { "--" },
     { "Dump filename...", (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice3", NULL },
+    { "--" },
+    { "Programm name to exec...", (ui_callback_t) set_rs232_exec_file,
+      (ui_callback_data_t) "RsDevice4", NULL },
     { NULL }
 };
 

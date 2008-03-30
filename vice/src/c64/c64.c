@@ -182,6 +182,8 @@ int machine_init_cmdline_options(void)
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
 #ifdef HAVE_RS232
+        || acia1_init_cmdline_options() < 0
+        || acia2_init_cmdline_options() < 0
         || rs232_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
@@ -217,7 +219,7 @@ int machine_init(void)
     true1541_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH);
+    autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH, 1);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)

@@ -1,4 +1,20 @@
+Wed Jun 17 00:29:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.40.
+
+	* data/C128/position.vkm: New file.
+
+	* data/C64/position.vkm: New file: positional mapping for US
+ 	keyboards.
+
+	* data/C64/default.vkm: Removed double definition of `asciitilde'
+ 	and `asciicircum'.  `grave' mapped to up arrow.  Sorted up a bit.
+
 Tue Jun 16 18:49:10 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Put X libraries in `X_LIBS' instead of `LIBS'.  Do
+ 	not put the readline library into `ARCH_LIBS': put it into
+	`READLINE' instead.
 
 	* Version 0.14.2.39.
 

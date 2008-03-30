@@ -183,6 +183,8 @@ static int cmdline_attach(const char *param, void *extra_param)
 static cmdline_option_t cmdline_options[] = {
     { "-help", CALL_FUNCTION, 1, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
+    { "-?", CALL_FUNCTION, 1, cmdline_help, NULL, NULL, NULL,
+      NULL, "Show a list of the available options and exit normally" },
     { "-default", CALL_FUNCTION, 1, cmdline_default, NULL, NULL, NULL,
       NULL, "Restore default (factory) settings" },
     { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
