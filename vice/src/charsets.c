@@ -2,7 +2,7 @@
  * charsets.c - Character set conversions.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,17 +26,15 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-#endif
 
 #include "charsets.h"
 
 /* ------------------------------------------------------------------------- */
 
-void    petconvstring(char *c, int dir)
+void petconvstring(char *c, int dir)
 {
     char *p = c;
 

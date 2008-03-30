@@ -5,9 +5,6 @@
 /* Define as the return type of signal handlers (int or void).  */
 #define RETSIGTYPE void
 
-/* Define if you have the ANSI C header files.  */
-#define STDC_HEADERS 1
-
 /* Define if the X Window System is missing or not being used.  */
 /* #undef X_DISPLAY_MISSING */
 #define X_DISPLAY_MISSING

@@ -55,15 +55,11 @@
 #include "vice.h"
 #include "viacore.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
-
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
-#include "viad.h"
 #include "parallel.h"
+#include "viad.h"
 
 #define VIA_SET_CA2(a)
 #define VIA_SET_CB2(a)

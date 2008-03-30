@@ -26,13 +26,12 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if !defined (__riscos) && !defined(_MSC_VER)
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #endif
 
 #include "psid.h"

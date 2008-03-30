@@ -2,11 +2,11 @@
  * patchrom.c - C64 ROM patcher.
  *
  * Written by
- *  Peter Weighill (stuce@csv.warwick.ac.uk)
- *  Jouko Valta    (jopi@stekt.oulu.fi)
+ *  Peter Weighill <stuce@csv.warwick.ac.uk>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * Patches by
- *  Marko Mäkelä   (msmakela@nic.funet.fi)
+ *  Marko Mäkelä <msmakela@nic.funet.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,12 +30,10 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#endif
 
 #ifdef __riscos
 #include "ROlib.h"

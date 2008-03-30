@@ -33,19 +33,18 @@
 /* TODO:
 	- more accurate emulation of disk rotation.
 	- different speeds within one track.
-	- support for .d64 images with attached error code.
 	- check for byte ready *within* `BVC', `BVS' and `PHP'.
 	- serial bus handling might be faster.  */
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
 #ifdef __riscos
 #include "ROlib.h"
-#endif
 #endif
 
 #ifdef HAVE_IO_H
@@ -686,7 +685,6 @@ static void drive_read_image_d64_d71(int dnr)
     if (!drive[dnr].image)
         return;
 
-    buffer[0] = 0x07;
     buffer[258] = buffer[259] = 0;
 
     /* Since the D64/D71 format does not provide the actual track sizes or
@@ -735,15 +733,23 @@ static void drive_read_image_d64_d71(int dnr)
                 log_error(drive[dnr].log,
                           "Cannot read T:%d S:%d from disk image.",
                           track, sector);
-                /* FIXME: Error codes should be handled here.  */
-            } else {
-                chksum = buffer[1];
-                for (i = 2; i < 257; i++)
-                    chksum ^= buffer[i];
-                buffer[257] = chksum;
-                convert_sector_to_GCR(buffer, ptr, track, sector,
-                                      drive[dnr].diskID1, drive[dnr].diskID2);
+                          continue;
             }
+
+            if (rc == 21) {
+                ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
+                memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
+                break;
+            }
+
+            buffer[0] = (rc == 22) ? 0xff : 0x07;
+
+            chksum = buffer[1];
+            for (i = 2; i < 257; i++)
+                chksum ^= buffer[i];
+            buffer[257] = (rc == 23) ? chksum ^ 0xff : chksum;
+            convert_sector_to_GCR(buffer, ptr, track, sector,
+                                  drive[dnr].diskID1, drive[dnr].diskID2, rc);
         }
     }
 }

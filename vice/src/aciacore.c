@@ -2,7 +2,7 @@
  * acia-tmpl.c - Template file for ACIA 6551 emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,10 +26,9 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
+#include "acia.h"
 #include "alarm.h"
 #include "cmdline.h"
 #include "interrupt.h"
@@ -39,8 +38,6 @@
 #include "rs232.h"
 #include "snapshot.h"
 #include "types.h"
-
-#include "acia.h"
 
 #undef	DEBUG
 
@@ -185,8 +182,8 @@ void reset_myacia(void) {
 	cmd = 0;
 	ctrl = 0;
 
-        acia_ticks = machine_get_cycles_per_second() 
-				/ acia_baud_table[ctrl & 0xf];
+        acia_ticks = (int)(machine_get_cycles_per_second() 
+				/ acia_baud_table[ctrl & 0xf]);
 
 	status = 0x10;
 	intx = 0;
@@ -301,8 +298,8 @@ int myacia_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &ctrl);
-    acia_ticks = machine_get_cycles_per_second() 
-                                / acia_baud_table[ctrl & 0xf];
+    acia_ticks = (int)(machine_get_cycles_per_second() 
+                                / acia_baud_table[ctrl & 0xf]);
 
     snapshot_module_read_byte(m, &byte);
     intx = byte;
@@ -366,8 +363,8 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		break;
 	case ACIA_CTRL:
 		ctrl = b;
-                acia_ticks = machine_get_cycles_per_second() 
-                                / acia_baud_table[ctrl & 0xf];
+                acia_ticks = (int)(machine_get_cycles_per_second() 
+                                / acia_baud_table[ctrl & 0xf]);
 		break;
 	case ACIA_CMD:
 		cmd = b;

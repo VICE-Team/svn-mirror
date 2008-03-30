@@ -3,15 +3,15 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Teemu Rantanen   <tvr@cs.hut.fi>
- *  Jouko Valta      <jopi@zombie.oulu.fi>
- *  Gerhard Wesp     <gwesp@cosy.sbg.ac.at>
- *  Daniel Sladic    <sladic@eecg.toronto.edu>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jouko Valta <jopi@zombie.oulu.fi>
+ *  Gerhard Wesp <gwesp@cosy.sbg.ac.at>
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Ricardo Ferreira <storm@esoterica.pt>
- *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Patches by
- *  Olaf Seibert     <rhialto@mbfys.kun.nl>
+ *  Olaf Seibert <rhialto@mbfys.kun.nl>
  *
  * Zipcode implementation based on `zip2disk' by
  *  Paul David Doherty (h0142kdd@rz.hu-berlin.de)
@@ -36,18 +36,17 @@
  *
  */
 
-#include "vice.h"		/* for convenience */
+#include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <ctype.h>
 #include <string.h>
+#include <memory.h>
+
 #ifdef __riscos
 #include "ROlib.h"
-#endif
-#include <memory.h>
 #endif
 
 #ifdef HAVE_ERRNO_H

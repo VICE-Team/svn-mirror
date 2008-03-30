@@ -29,16 +29,13 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
-#endif
-
-#include "reu.h"
 
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "reu.h"
 #include "utils.h"
 
 /* #define REU_DEBUG */
@@ -413,7 +410,7 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (size > REUSIZE) {
-        log_error(reu_log, "Size %ld in snapshot not supported.", size);
+        log_error(reu_log, "Size %ld in snapshot not supported.", (long)size);
         goto fail;
     }
 

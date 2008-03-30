@@ -77,9 +77,6 @@
  */
 /* #undef STACK_DIRECTION */
 
-/* Define if you have the ANSI C header files.  */
-#define STDC_HEADERS
-
 /* Define if `sys_siglist' is declared by <signal.h>.  */
 /* #undef SYS_SIGLIST_DECLARED */
 

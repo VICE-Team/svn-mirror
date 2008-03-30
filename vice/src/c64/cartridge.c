@@ -26,14 +26,13 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+
 #ifndef __riscos
 #include <memory.h>
-#endif
 #endif
 
 #ifdef HAVE_SYS_TYPES_H

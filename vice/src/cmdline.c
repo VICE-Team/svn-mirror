@@ -2,7 +2,7 @@
  * cmdline.c - Command-line parsing.
  *
  * Written by
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,16 +26,14 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#endif
 
-#include "uicmdline.h"
-
-#include "types.h"
-#include "utils.h"
 #include "cmdline.h"
+#include "types.h"
+#include "uicmdline.h"
+#include "utils.h"
 
 static int num_options, num_allocated_options;
 static cmdline_option_t *options;

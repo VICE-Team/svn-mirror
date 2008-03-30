@@ -27,13 +27,12 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #ifdef __riscos
 #include "ROlib.h"
-#endif
 #endif
 
 #ifdef HAVE_SYS_TYPES_H

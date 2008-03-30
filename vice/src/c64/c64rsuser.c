@@ -1,8 +1,8 @@
 /*
- * c64rsuser.h - C64 RS232 userport interface
+ * c64rsuser.h - C64 RS232 userport interface.
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,13 +35,11 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
-#include "machine.h"
 #include "c64.h"
 #include "c64cia.h"
+#include "machine.h"
 #include "rsuser.h"
 
 void c64_rsuser_init(void)

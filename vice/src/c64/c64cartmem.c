@@ -26,10 +26,8 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
-#endif
 
 #include "c64cart.h"
 #include "c64mem.h"

@@ -7,7 +7,6 @@
 
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
-#define STDC_HEADERS            1
 #define X_DISPLAY_DEPTH         0
 #define HAVE_RESID              1
 #define HAS_JOYSTICK            1
