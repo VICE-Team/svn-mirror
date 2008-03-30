@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <windowsx.h>
-#ifdef _MSC_VER
+#ifdef HAVE_COMMCTRL_H
 #include <commctrl.h>
 #endif
 

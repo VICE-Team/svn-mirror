@@ -29,6 +29,10 @@
 
 #include <windows.h>
 
+#ifdef HAVE_SHLOBJ_H
+#include <shlobj.h>
+#endif
+
 #include "drive.h"
 #include "res.h"
 #include "resources.h"

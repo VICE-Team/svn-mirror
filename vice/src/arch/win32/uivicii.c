@@ -30,6 +30,10 @@
 
 #include <windows.h>
 
+#ifdef HAVE_SHLOBJ_H
+#include <shlobj.h>
+#endif
+
 #include "res.h"
 #include "resources.h"
 #include "ui.h"

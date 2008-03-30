@@ -28,6 +28,10 @@
 
 #include <windows.h>
 
+#ifdef HAVE_SHLOBJ_H
+#include <shlobj.h>
+#endif
+
 #include "c610mem.h"
 #include "res.h"
 #include "resources.h"

@@ -29,7 +29,7 @@
 
 #include <windows.h>
 
-#ifdef _MSC_VER
+#ifdef HAVE_SHLOBJ_H
 #include <shlobj.h>
 #endif
 

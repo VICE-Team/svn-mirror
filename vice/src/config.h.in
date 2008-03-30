@@ -171,6 +171,9 @@
 /* Define if you have the <allegro.h> header file.  */
 #undef HAVE_ALLEGRO_H
 
+/* Define if you have the <commctrl.h> header file.  */
+#undef HAVE_COMMCTRL_H
+
 /* Define if you have the <dir.h> header file.  */
 #undef HAVE_DIR_H
 
@@ -206,6 +209,9 @@
 
 /* Define if you have the <sgtty.h> header file.  */
 #undef HAVE_SGTTY_H
+
+/* Define if you have the <shlobj.h> header file.  */
+#undef HAVE_SHLOBJ_H
 
 /* Define if you have the <strings.h> header file.  */
 #undef HAVE_STRINGS_H
