@@ -125,6 +125,9 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Attach Atomic Power image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
+    { "Attach Epyx fastload image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_EPYX_FASTLOAD, NULL },
     { "Attach IEEE488 interface image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IEEE488, NULL },

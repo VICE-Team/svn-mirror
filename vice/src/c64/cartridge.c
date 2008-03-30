@@ -115,6 +115,11 @@ static int attach_atomic(const char *param, void *extra_param)
     return cartridge_attach_image(CARTRIDGE_ATOMIC_POWER, param);
 }
 
+static int attach_epyx(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_EPYX_FASTLOAD, param);
+}
+
 static int attach_ss(const char *param, void *extra_param)
 {
     return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, param);
@@ -137,6 +142,8 @@ static cmdline_option_t cmdline_options[] =
      "<name>", "Attach raw 32KB Action Replay cartridge image"},
     {"-cartap", CALL_FUNCTION, 1, attach_atomic, NULL, NULL, NULL,
      "<name>", "Attach raw 32KB Atomic Power cartridge image"},
+    {"-cartepyx", CALL_FUNCTION, 1, attach_epyx, NULL, NULL, NULL,
+     "<name>", "Attach raw 8KB Epyx fastload cartridge image"},
     {"-cartss4", CALL_FUNCTION, 1, attach_ss, NULL, NULL, NULL,
      "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
     {"-cartieee488", CALL_FUNCTION, 1, attach_ieee488, NULL, NULL, NULL,
@@ -171,9 +178,12 @@ int cartridge_attach_image(int type, const char *filename)
 
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
+      case CARTRIDGE_EPYX_FASTLOAD:
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
+        if (file_length(fd) == 0x2002)
+            fread(rawcart, 2, 1, fd);
         if (fread(rawcart, 0x2000, 1, fd) < 1) {
             fclose(fd);
             goto done;
@@ -184,6 +194,8 @@ int cartridge_attach_image(int type, const char *filename)
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
+        if (file_length(fd) == 0x4002)
+            fread(rawcart, 2, 1, fd);
         if (fread(rawcart, 0x4000, 1, fd) < 1) {
             fclose(fd);
             goto done;
@@ -266,6 +278,7 @@ int cartridge_attach_image(int type, const char *filename)
             fclose(fd);
             goto done;
           case 1:
+          case 9:
             for (i = 0; i <= 3; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
@@ -363,6 +376,16 @@ int cartridge_attach_image(int type, const char *filename)
                 if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
                     goto done;
                 }
+            }
+            break;
+          case 10:
+            if (fread(chipheader, 0x10, 1, fd) < 1) {
+                fclose(fd);
+                goto done;
+            }
+            if (fread(rawcart, 0x2000, 1, fd) < 1) {
+                fclose(fd);
+                goto done;
             }
             break;
           default:

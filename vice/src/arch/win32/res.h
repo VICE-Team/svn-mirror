@@ -191,8 +191,9 @@
 #define IDM_CART_ATTACH_16KB            40042
 #define IDM_CART_ATTACH_AR              40043
 #define IDM_CART_ATTACH_AT              40044
-#define IDM_CART_ATTACH_IEEE488         40045
-#define IDM_CART_ATTACH_SS4             40046
+#define IDM_CART_ATTACH_EPYX            40045
+#define IDM_CART_ATTACH_IEEE488         40046
+#define IDM_CART_ATTACH_SS4             40047
 #define IDM_CART_SET_DEFAULT            40058
 #define IDM_CART_DETACH                 40059
 #define IDM_CART_VIC20_8KB_2000         40060
