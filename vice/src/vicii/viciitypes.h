@@ -94,7 +94,7 @@
 
 /* Available video modes.  The number is given by
    ((vic_ii.regs[0x11] & 0x60) | (vic_ii.regs[0x16] & 0x10)) >> 4.  */
-enum vic_ii_video_mode_s {
+enum vicii_video_mode_s {
     VIC_II_NORMAL_TEXT_MODE,
     VIC_II_MULTICOLOR_TEXT_MODE,
     VIC_II_HIRES_BITMAP_MODE,
@@ -106,7 +106,7 @@ enum vic_ii_video_mode_s {
     VIC_II_IDLE_MODE,           /* Special mode for idle state.  */
     VIC_II_NUM_VMODES
 };
-typedef enum vic_ii_video_mode_s vic_ii_video_mode_t;
+typedef enum vicii_video_mode_s vicii_video_mode_t;
 
 #define VIC_II_IS_ILLEGAL_MODE(x) ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
                                   && (x) != VIC_II_IDLE_MODE)
@@ -120,25 +120,8 @@ typedef enum vic_ii_video_mode_s vic_ii_video_mode_t;
    <bauec002@goofy.zdv.uni-mainz.de>.  Thanks Christian!
    Note: we measure cycles from 0 to 62, not from 1 to 63 as he does.  */
 
-/* Number of cycles per line.  */
-#define VIC_II_PAL_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
-#define VIC_II_NTSC_CYCLES_PER_LINE     C64_NTSC_CYCLES_PER_LINE
-#define VIC_II_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
-
 /* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
 #define VIC_II_FETCH_CYCLE          11
-
-/* Cycle # at which sprite DMA is set.  */
-#define VIC_II_PAL_SPRITE_FETCH_CYCLE       54
-#define VIC_II_NTSC_SPRITE_FETCH_CYCLE      55
-#define VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE   54
-
-/* Cycle # at which the current raster line is re-drawn.  It is set to
-   `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
-   (i.e. cycle 0) of the next line.  */
-#define VIC_II_PAL_DRAW_CYCLE       VIC_II_PAL_CYCLES_PER_LINE
-#define VIC_II_NTSC_DRAW_CYCLE      VIC_II_NTSC_CYCLES_PER_LINE
-#define VIC_II_NTSCOLD_DRAW_CYCLE   VIC_II_NTSCOLD_CYCLES_PER_LINE
 
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510
@@ -184,25 +167,25 @@ typedef enum vic_ii_video_mode_s vic_ii_video_mode_t;
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
 
-struct vic_ii_light_pen_s {
+struct vicii_light_pen_s {
     int triggered;
     int x, y;
 };
-typedef struct vic_ii_light_pen_s vic_ii_light_pen_t;
+typedef struct vicii_light_pen_s vicii_light_pen_t;
 
-enum vic_ii_fetch_idx_s {
+enum vicii_fetch_idx_s {
     VIC_II_FETCH_MATRIX,
     VIC_II_CHECK_SPRITE_DMA,
     VIC_II_FETCH_SPRITE
 };
-typedef enum vic_ii_fetch_idx_s vic_ii_fetch_idx_t;
+typedef enum vicii_fetch_idx_s vicii_fetch_idx_t;
 
-enum vic_ii_idle_data_location_s {
+enum vicii_idle_data_location_s {
     IDLE_NONE,
     IDLE_3FFF,
     IDLE_39FF
 };
-typedef enum vic_ii_idle_data_location_s vic_ii_idle_data_location_t;
+typedef enum vicii_idle_data_location_s vicii_idle_data_location_t;
 
 struct idle_3fff_s {
     CLOCK cycle;
@@ -213,7 +196,7 @@ typedef struct idle_3fff_s idle_3fff_t;
 struct alarm_s;
 struct video_chip_cap_s;
 
-struct vic_ii_s {
+struct vicii_s {
     /* Flag: Are we initialized?  */
     int initialized;            /* = 0; */
 
@@ -313,7 +296,7 @@ struct vic_ii_s {
     int background_color_source;
 
     /* Light pen.  */
-    vic_ii_light_pen_t light_pen;
+    vicii_light_pen_t light_pen;
 
     /* Start of the memory bank seen by the VIC-II.  */
     int vbank_phi1;                     /* = 0; */
@@ -327,7 +310,7 @@ struct vic_ii_s {
 
     /* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are
        not in idle state and thus do not need to update `idle_data'.  */
-    vic_ii_idle_data_location_t idle_data_location;
+    vicii_idle_data_location_t idle_data_location;
 
     /* All the VIC-II logging goes here.  */
     log_t log;                  /* = LOG_ERR; */
@@ -338,7 +321,7 @@ struct vic_ii_s {
     struct alarm_s *raster_irq_alarm;
 
     /* What do we do when the `A_RASTERFETCH' event happens?  */
-    vic_ii_fetch_idx_t fetch_idx;
+    vicii_fetch_idx_t fetch_idx;
 
     /* Number of sprite being DMA fetched.  */
     unsigned int sprite_fetch_idx;
@@ -407,19 +390,19 @@ struct vic_ii_s {
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
 };
-typedef struct vic_ii_s vic_ii_t;
+typedef struct vicii_s vicii_t;
 
-extern vic_ii_t vic_ii;
+extern vicii_t vic_ii;
 
 /* Private function calls, used by the other VIC-II modules.  */
-extern void vic_ii_set_raster_irq(unsigned int line);
-extern void vic_ii_update_memory_ptrs(unsigned int cycle);
-extern void vic_ii_update_video_mode(unsigned int cycle);
-extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
-extern void vic_ii_handle_pending_alarms(int num_write_cycles);
-extern void vic_ii_raster_irq_alarm_handler(CLOCK offset);
-extern void vic_ii_delay_clk(void);
-extern void vic_ii_delay_oldclk(CLOCK num);
+extern void vicii_set_raster_irq(unsigned int line);
+extern void vicii_update_memory_ptrs(unsigned int cycle);
+extern void vicii_update_video_mode(unsigned int cycle);
+extern void vicii_raster_draw_alarm_handler(CLOCK offset);
+extern void vicii_handle_pending_alarms(int num_write_cycles);
+extern void vicii_raster_irq_alarm_handler(CLOCK offset);
+extern void vicii_delay_clk(void);
+extern void vicii_delay_oldclk(CLOCK num);
 
 /* Debugging options.  */
 

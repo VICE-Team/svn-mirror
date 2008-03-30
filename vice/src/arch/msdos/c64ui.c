@@ -259,7 +259,7 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
     }
 }
 
-static tui_menu_item_def_t vic_ii_menu_items[] = {
+static tui_menu_item_def_t vicii_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
       toggle_VICIIVideoCache_callback, NULL, 3,
@@ -483,7 +483,7 @@ int c64_ui_init(void)
 
     add_palette_submenu(ui_video_submenu);
 
-    tui_menu_add(ui_video_submenu, vic_ii_menu_items);
+    tui_menu_add(ui_video_submenu, vicii_menu_items);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
