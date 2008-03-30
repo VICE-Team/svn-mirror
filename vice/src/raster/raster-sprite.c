@@ -26,35 +26,32 @@
 
 #include "vice.h"
 
+#include "raster-sprite.h"
 #include "utils.h"
 
-#include "raster-sprite.h"
 
-
-
-void
-raster_sprite_init (raster_sprite_t * s)
+void raster_sprite_init(raster_sprite_t *s)
 {
-  s->x = 0;
-  s->y = 0;
-  s->x_expanded = 0;
-  s->y_expanded = 0;
-  s->multicolor = 0;
-  s->in_background = 0;
-  s->color = 0;
-  s->memptr = 0;
-  s->memptr_inc = 0;
-  s->exp_flag = 0;
-  s->dma_flag = 0;
+    s->x = 0;
+    s->y = 0;
+    s->x_expanded = 0;
+    s->y_expanded = 0;
+    s->multicolor = 0;
+    s->in_background = 0;
+    s->color = 0;
+    s->memptr = 0;
+    s->memptr_inc = 0;
+    s->exp_flag = 0;
+    s->dma_flag = 0;
 }
 
-raster_sprite_t *
-raster_sprite_new (void)
+raster_sprite_t *raster_sprite_new(void)
 {
-  raster_sprite_t *new;
+    raster_sprite_t *new_sprite;
 
-  new = xmalloc (sizeof (raster_sprite_t));
-  raster_sprite_init (new);
+    new_sprite = (raster_sprite_t *)xmalloc(sizeof(raster_sprite_t));
+    raster_sprite_init(new_sprite);
 
-  return new;
+    return new_sprite;
 }
+

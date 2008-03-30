@@ -77,8 +77,7 @@ typedef struct raster_area_s raster_area_t;
 
 struct canvas_s;
 
-struct raster_viewport_s
-  {
+struct raster_viewport_s {
     /* Output canvas.  */
     struct canvas_s *canvas;
 
@@ -150,23 +149,19 @@ struct raster_s {
 
     struct raster_sprite_status_s *sprite_status;
 
-    struct
-      {
+    struct {
         raster_changes_t background;
         raster_changes_t foreground;
         raster_changes_t border;
         raster_changes_t next_line;
         int have_on_this_line;
-      }
-    changes;
+    } changes;
 
-    struct
-      {
+    struct {
         PIXEL sing[0x100];
         PIXEL2 doub[0x100];
         PIXEL4 quad[0x100];
-      }
-    pixel_table;
+    } pixel_table;
 
     struct video_frame_buffer_s *frame_buffer;
     PIXEL *frame_buffer_ptr;
@@ -307,7 +302,7 @@ extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_handle_end_of_frame(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 extern int raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
-extern void raster_free (raster_t *raster);
+extern void raster_free(raster_t *raster);
 
 
 /* Inlined functions.  These need to be *fast*.  */
@@ -317,9 +312,9 @@ inline static void raster_add_int_change_next_line(raster_t *raster,
                                                    int new_value)
 {
     if (raster->skip_frame)
-      *ptr = new_value;
+        *ptr = new_value;
     else
-      raster_changes_add_int(&raster->changes.next_line, 0, ptr, new_value);
+        raster_changes_add_int(&raster->changes.next_line, 0, ptr, new_value);
 }
 
 inline static void raster_add_ptr_change_next_line(raster_t *raster,
@@ -327,9 +322,9 @@ inline static void raster_add_ptr_change_next_line(raster_t *raster,
                                                    void *new_value)
 {
     if (raster->skip_frame)
-      *ptr = new_value;
+        *ptr = new_value;
     else
-      raster_changes_add_ptr(&raster->changes.next_line, 0, ptr, new_value);
+        raster_changes_add_ptr(&raster->changes.next_line, 0, ptr, new_value);
 }
 
 inline static void raster_add_int_change_foreground(raster_t *raster,
@@ -338,7 +333,7 @@ inline static void raster_add_int_change_foreground(raster_t *raster,
                                                     int new_value)
 {
     if (raster->skip_frame || char_x <= 0)
-      *ptr = new_value;
+        *ptr = new_value;
     else if (char_x < (int) raster->geometry.text_size.width) {
         raster_changes_add_int(&raster->changes.foreground,
                                 char_x, ptr, new_value);
@@ -370,10 +365,10 @@ inline static void raster_add_int_change_background(raster_t *raster,
                                                     int new_value)
 {
     if (raster->skip_frame || raster_x <= 0)
-      *ptr = new_value;
+        *ptr = new_value;
     else if (raster_x < (int)raster->geometry.screen_size.width) {
         raster_changes_add_int(&raster->changes.background,
-                                raster_x, ptr, new_value);
+                               raster_x, ptr, new_value);
         raster->changes.have_on_this_line = 1;
     } else {
         raster_add_int_change_next_line(raster, ptr, new_value);
@@ -414,7 +409,7 @@ inline static void raster_add_int_change_border(raster_t *raster,
 
 inline static void vid_memcpy(PIXEL *dst, PIXEL *src, unsigned int count)
 {
-    memcpy(dst, src, count * sizeof (PIXEL));
+    memcpy(dst, src, count * sizeof(PIXEL));
 }
 
 #if X_DISPLAY_DEPTH > 8
@@ -431,9 +426,10 @@ inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
 
 inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
 {
-    memset (dst, value, count);
+    memset(dst, value, count);
 }
 
 #endif
 
 #endif /* _RASTER_H */
+

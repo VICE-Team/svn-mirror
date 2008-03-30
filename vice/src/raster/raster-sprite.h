@@ -28,7 +28,7 @@
 #define _RASTER_SPRITE_H
 
 struct raster_sprite_s
-  {
+{
     /* Physical X, Y coordinates.  Note: `x' can be negative, when the sprite
        "wraps" to the left!  It can also be different from the value in the
        corresponding register in the video chip.  */
@@ -58,13 +58,12 @@ struct raster_sprite_s
     /* DMA activation flag. If != 0, memory access is enabled for this
        sprite.  */
     int dma_flag;
-  };
+};
 typedef struct raster_sprite_s raster_sprite_t;
 
-
 
-void raster_sprite_init (raster_sprite_t *s);
-raster_sprite_t *raster_sprite_new (void);
+extern void raster_sprite_init(raster_sprite_t *s);
+extern raster_sprite_t *raster_sprite_new(void);
 
 #endif
 

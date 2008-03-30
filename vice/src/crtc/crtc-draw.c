@@ -49,28 +49,28 @@ static void init_drawing_tables(void)
 
     for (byte = 0; byte < 0x0100; byte++) {
         *((PIXEL *) (dwg_table2x_0 + byte))
-            = *((PIXEL *) (dwg_table2x_0 + byte) + 1)
+            = *((PIXEL *)(dwg_table2x_0 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x80 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_0 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_0 + byte) + 3)
+            = *((PIXEL *)(dwg_table2x_0 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x40 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_1 + byte))
-            = *((PIXEL *) (dwg_table2x_1 + byte) + 1)
+            = *((PIXEL *)(dwg_table2x_1 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x20 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_1 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_1 + byte) + 3)
+            = *((PIXEL *)(dwg_table2x_1 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x10 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_2 + byte))
-            = *((PIXEL *) (dwg_table2x_2 + byte) + 1)
+            = *((PIXEL *)(dwg_table2x_2 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x08 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_2 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_2 + byte) + 3)
+            = *((PIXEL *)(dwg_table2x_2 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x04 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_3 + byte))
-            = *((PIXEL *) (dwg_table2x_3 + byte) + 1)
+            = *((PIXEL *)(dwg_table2x_3 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x02 ? 1 : 0);
         *((PIXEL *) (dwg_table2x_3 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_3 + byte) + 3)
+            = *((PIXEL *)(dwg_table2x_3 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x01 ? 1 : 0);
     }
 
@@ -358,29 +358,29 @@ static void draw_reverse_line_2x(void)
 
 #if 0
 
-#define DRAW_CACHED(l, xs, xe, reverse_flag)                            \
-    do {                                                                \
-        PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;    \
-        register int i;                                                 \
-        register int mempos = ((l->n+1)/screen_charheight )*memptr_inc; \
-        register int ypos = (l->n+1) % screen_charheight;               \
-                                                                        \
-        for (i = (xs); i <= (xe); i++, p += 8) {                        \
-            BYTE d = (l)->fgdata[i];                                    \
-            if ((reverse_flag))                                         \
-                d = ~d;                                                 \
-                                                                        \
-            if (crsrmode                                                \
-                && crsrstate                                            \
-                && ypos >= crsrstart                                    \
-                && ypos <=crsrend                                       \
-                && mempos+i==crsrrel                                    \
-                ) {                                                     \
-                d = ~d;                                                 \
-            }                                                           \
-            *((PIXEL4 *)p) = dwg_table_0[d];                            \
-            *((PIXEL4 *)p + 1) = dwg_table_1[d];                        \
-        }                                                               \
+#define DRAW_CACHED(l, xs, xe, reverse_flag)                               \
+    do {                                                                   \
+        PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;       \
+        register int i;                                                    \
+        register int mempos = ((l->n+1) / screen_charheight) * memptr_inc; \
+        register int ypos = (l->n+1) % screen_charheight;                  \
+                                                                           \
+        for (i = (xs); i <= (xe); i++, p += 8) {                           \
+            BYTE d = (l)->fgdata[i];                                       \
+            if ((reverse_flag))                                            \
+                d = ~d;                                                    \
+                                                                           \
+            if (crsrmode                                                   \
+                && crsrstate                                               \
+                && ypos >= crsrstart                                       \
+                && ypos <=crsrend                                          \
+                && mempos+i==crsrrel                                       \
+                ) {                                                        \
+                d = ~d;                                                    \
+            }                                                              \
+            *((PIXEL4 *)p) = dwg_table_0[d];                               \
+            *((PIXEL4 *)p + 1) = dwg_table_1[d];                           \
+        }                                                                  \
     } while (0)
 
 
@@ -395,33 +395,33 @@ static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
 }
 
 
-#define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                 \
-    do {                                                        \
-        PIXEL *p = (frame_buffer_ptr                            \
-                    + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));     \
-        register int i;                                         \
-        register int mempos = ((l->n+1)/screen_charheight )     \
-                                        *memptr_inc;            \
-        register int ypos = (l->n+1) % screen_charheight;       \
-                                                                \
-        for (i = (xs); i <= (xe); i++, p += 16) {               \
-            BYTE d = (l)->fgdata[i];                            \
-            if ((reverse_flag))                                 \
-                d = ~d;                                         \
-                                                                \
-            if (crsrmode                                        \
-                && crsrstate                                    \
-                && ypos >= crsrstart                            \
-                && ypos <=crsrend                               \
-                && mempos+i==crsrrel                            \
-                ) {                                             \
-                d = ~d;                                         \
-            }                                                   \
-            *((PIXEL4 *)p) = dwg_table2x_0[d];                  \
-            *((PIXEL4 *)p + 1) = dwg_table2x_1[d];              \
-            *((PIXEL4 *)p + 2) = dwg_table2x_2[d];              \
-            *((PIXEL4 *)p + 3) = dwg_table2x_3[d];              \
-        }                                                       \
+#define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                \
+    do {                                                       \
+        PIXEL *p = (frame_buffer_ptr                           \
+                    + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));    \
+        register int i;                                        \
+        register int mempos = ((l->n + 1) / screen_charheight) \
+                              * memptr_inc;                    \
+        register int ypos = (l->n+1) % screen_charheight;      \
+                                                               \
+        for (i = (xs); i <= (xe); i++, p += 16) {              \
+            BYTE d = (l)->fgdata[i];                           \
+            if ((reverse_flag))                                \
+                d = ~d;                                        \
+                                                               \
+            if (crsrmode                                       \
+                && crsrstate                                   \
+                && ypos >= crsrstart                           \
+                && ypos <=crsrend                              \
+                && mempos+i==crsrrel                           \
+                ) {                                            \
+                d = ~d;                                        \
+            }                                                  \
+            *((PIXEL4 *)p) = dwg_table2x_0[d];                 \
+            *((PIXEL4 *)p + 1) = dwg_table2x_1[d];             \
+            *((PIXEL4 *)p + 2) = dwg_table2x_2[d];             \
+            *((PIXEL4 *)p + 3) = dwg_table2x_3[d];             \
+        }                                                      \
     } while (0)
 
 static void draw_standard_line_cached_2x(raster_cache_t *l, int xs, int xe)

@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
@@ -299,7 +301,7 @@ const int vic_ii_sprites_crunch_table[64] =
 {
     1,   4,   3, /* 0 */
     4,   1,   0, /* 3 */
-    -1,   0,   1, /* 6 */
+    -1,  0,   1, /* 6 */
     4,   3,   4, /* 9 */
     1,   8,   7, /* 12 */
     8,   1,   4, /* 15 */
@@ -307,7 +309,7 @@ const int vic_ii_sprites_crunch_table[64] =
     0,  -1,   0, /* 21 */
     1,   4,   3, /* 24 */
     4,   1,  -8, /* 27 */
-    -9,  -8,   1, /* 30 */
+    -9, -8,   1, /* 30 */
     4,   3,   4, /* 33 */
     1,   0,  -1, /* 36 */
     0,   1,   4, /* 39 */
@@ -315,7 +317,7 @@ const int vic_ii_sprites_crunch_table[64] =
     8,   7,   8, /* 45 */
     1,   4,   3, /* 48 */
     4,   1,   0, /* 51 */
-    -1,   0,   1, /* 54 */
+    -1,  0,   1, /* 54 */
     4,   3,   4, /* 57 */
     1, -40, -41, /* 60 */
     0
@@ -357,7 +359,7 @@ static void init_drawing_tables(void)
             (imgptr)[(pos)] = RASTER_PIXEL((raster), (color));        \
         (collmsk_return) |= (collmskptr)[(pos)];                      \
         (collmskptr)[(pos)] |= (sprite_bit);                          \
-      } while (0) 
+    } while (0) 
 
 #ifdef ALLOW_UNALIGNED_ACCESS
 

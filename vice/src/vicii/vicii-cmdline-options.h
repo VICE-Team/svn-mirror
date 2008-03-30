@@ -28,7 +28,7 @@
 #ifndef _VIC_II_CMDLINE_OPTIONS_H
 #define _VIC_II_CMDLINE_OPTIONS_H
 
-int vic_ii_cmdline_options_init (void);
+extern int vic_ii_cmdline_options_init(void);
 
 #endif
 

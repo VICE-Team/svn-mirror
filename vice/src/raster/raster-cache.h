@@ -106,9 +106,9 @@ struct raster_cache_s {
 };
 typedef struct raster_cache_s raster_cache_t;
 
-void raster_cache_init(raster_cache_t * cache);
-raster_cache_t *raster_cache_new(void);
-void raster_cache_free(raster_cache_t * cache);
+extern void raster_cache_init(raster_cache_t *cache);
+extern raster_cache_t *raster_cache_new(void);
+extern void raster_cache_free(raster_cache_t *cache);
 
 
 /* Inlined functions.  These need to be *fast*.  */

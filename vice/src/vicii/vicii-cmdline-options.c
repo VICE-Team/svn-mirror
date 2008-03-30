@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cmdline.h"
 #include "vicii-cmdline-options.h"
 #include "vicii.h"
@@ -89,13 +91,12 @@ static cmdline_option_t cmdline_options_2x[] =
 };
 #endif
 
-int 
-vic_ii_cmdline_options_init (void)
+int vic_ii_cmdline_options_init(void)
 {
 #ifdef VIC_II_NEED_2X
-  if (cmdline_register_options (cmdline_options_2x) < 0)
-      return -1;
+    if (cmdline_register_options(cmdline_options_2x) < 0)
+        return -1;
 #endif
 
-  return cmdline_register_options (cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }

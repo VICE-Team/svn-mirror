@@ -70,7 +70,7 @@ static int set_double_size_enabled (resource_value_t v, void *param)
 #if defined CRTC_NEED_2X || defined __MSDOS__
 static int set_double_scan_enabled (resource_value_t v, void *param)
 {
-    crtc_resources.double_scan_enabled = (int) v;
+    crtc_resources.double_scan_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
     if (crtc.initialized && ! fullscreen_is_enabled)
 #else
