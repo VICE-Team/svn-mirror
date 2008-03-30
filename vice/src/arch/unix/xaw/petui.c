@@ -1,5 +1,5 @@
 /*
- * vic20ui.c - Implementation of the C64-specific part of the UI.
+ * petui.c - Implementation of the PET-specific part of the UI.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -28,18 +28,28 @@
 
 #include <stdio.h>
 
+#include "petui.h"
 #include "uimenu.h"
+#include "resources.h"
 #include "uicommands.h"
 #include "uisettings.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
-#include "vic20icon.xpm"
+#include "c64icon.xpm"
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-int vic20_ui_init(void)
+UI_MENU_DEFINE_TOGGLE(DiagPin)
+
+static ui_menu_entry_t pet_menu[] = {
+    { "*PET Userport Diagnostic Pin",
+      (ui_callback_t) toggle_DiagPin, NULL, NULL },
+    { NULL }
+};
+
+int pet_ui_init(void)
 {
 #ifdef XPM
     {
@@ -69,12 +79,11 @@ int vic20_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     /* ui_joystick_settings_menu, */
                                      ui_video_settings_menu,
-                                     /* ui_keyboard_settings_menu, */
                                      ui_sound_settings_menu,
-                                     ui_true1541_settings_menu,
                                      ui_serial_settings_menu,
+                                     ui_menu_separator,
+                                     pet_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
                                      NULL));
