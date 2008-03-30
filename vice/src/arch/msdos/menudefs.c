@@ -100,7 +100,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach a disk image", directory,
-                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z",
+                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip",
                                  default_item, image_contents_read_disk, &file);
 
         if (file != NULL) {
@@ -141,7 +141,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
-				 "*.t64;*.tap;*.t6z;*.taz", default_item,
+				 "*.t64;*.tap;*.t6z;*.taz;*.zip", default_item,
 				 image_contents_read_tape, &file);
 
         if (file != NULL) {
