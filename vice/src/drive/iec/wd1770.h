@@ -31,29 +31,62 @@
 
 struct disk_image_s;
 
+#define WD1770_BUFFER_SIZE (680 * 10)
+
 typedef struct wd1770_s {
     /* WD1770 register.  */
     BYTE reg[4];
+
+    /* Command type */
+    unsigned int type;
+
     /* Busy bit clock counter.  */
     CLOCK busy_clk;
+
+    /* Busy?  */
+    unsigned int busy;
+
     /* Clock counter to control motor spinup.  */
     CLOCK motor_spinup_clk;
+
+    /* Motor on flag */
+    unsigned int motor;
+
+    /* Motor on flag */
+    unsigned int motor_ready;
+
+    /* Record not found flag.  */
+    unsigned int record_not_found;
+
     /* Current track of the r/w head.  */
-    int current_track;
+    unsigned int track;
+
     /* Current disk side.  */
-    int side;
-    /* Data register buffer.  */
-    BYTE data_buffer[512];
+    unsigned int side;
+
     /* Data register buffer index, can be -1.  */
-    int data_buffer_index;
+    int data_buffer_index, data_buffer_offset;
+
     /* WP bit status.  */
     unsigned int wp_status;
+
+    /* Index pulse count */
+    unsigned int index_count;
+
+    /* Write command pending */
+    unsigned int write_pending;
+
     /* LED delay.  */
     CLOCK led_delay_clk;
+
     /* Interrupt line.  */
     CLOCK set_drq;
+
     /* Pointer to the disk image.  */
     struct disk_image_s *image;
+
+    /* Data register buffer.  */
+    BYTE data_buffer[WD1770_BUFFER_SIZE];
 } wd1770_t;
 
 extern wd1770_t wd1770[2];
