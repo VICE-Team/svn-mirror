@@ -32,8 +32,10 @@
 #include <stdlib.h>
 
 #include "c64mem.h"
+#include "debug.h"
 #include "drive.h"
 #include "icon.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "uic64cart.h"
 #include "uicommands.h"
@@ -407,6 +409,10 @@ int c64_ui_init(void)
                                      c64_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
+#ifdef DEBUG
+                                     ui_menu_separator,
+                                     ui_debug_settings_menu,
+#endif
                                      NULL));
 
     ui_set_topmenu("TopLevelMenu",

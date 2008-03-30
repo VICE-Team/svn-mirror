@@ -34,12 +34,13 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "types.h"
+#include "debug.h"
 #include "fullscreen.h"
 #include "kbd.h"
 #include "mem.h"
 #include "resources.h"
 #include "romset.h"
+#include "types.h"
 #include "uidrive.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
@@ -507,9 +508,9 @@ ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
       (ui_callback_t)toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
     { "--"},
     { N_("*Double size"),
-      (ui_callback_t) toggle_FullscreenDoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_FullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t) toggle_FullscreenDoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_FullscreenDoubleScan, NULL, NULL },
     { "--"},
     { N_("Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
@@ -599,4 +600,26 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
       (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL },
     { NULL }
 };
+
+#ifdef DEBUG
+UI_MENU_DEFINE_TOGGLE(MainCPU_TRACE)
+UI_MENU_DEFINE_TOGGLE(Drive0CPU_TRACE)
+UI_MENU_DEFINE_TOGGLE(Drive1CPU_TRACE)
+
+ui_menu_entry_t debug_settings_submenu[] = {
+    { "*Main CPU Trace",
+      (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
+    { "*Drive0 CPU Trace",
+      (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
+    { "*Drive1 CPU Trace",
+      (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_debug_settings_menu[] = {
+    { "Debug settings",
+      NULL, NULL, debug_settings_submenu },
+    { NULL }
+};
+#endif
 

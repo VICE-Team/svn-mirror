@@ -156,7 +156,7 @@
 #define PUSH(val) ((PAGE_ONE)[(reg_sp--)] = (val))
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
 
-#ifdef TRACE
+#ifdef DEBUG
 #define TRACE_NMI() do { if (TRACEFLG) puts("*** NMI"); } while (0)
 #define TRACE_IRQ() do { if (TRACEFLG) puts("*** IRQ"); } while (0)
 #define TRACE_BRK() do { if (TRACEFLG) puts("*** BRK"); } while (0)
@@ -1492,7 +1492,7 @@
         opcode_t opcode;
         FETCH_OPCODE(opcode);
 
-#if defined(TRACE)
+#ifdef DEBUG
 #ifdef DRIVE_CPU
         if (TRACEFLG) {
             BYTE op = p0;
