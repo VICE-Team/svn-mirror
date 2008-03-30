@@ -24,10 +24,10 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <string.h>
-
-#include "vice.h"
 
 #include "ciad.h"
 #include "drive.h"
@@ -38,6 +38,7 @@
 #include "types.h"
 #include "via.h"
 #include "viad.h"
+
 
 /* Status of the IEC bus signals.  */
 static iec_info_t iec_info;
@@ -52,7 +53,14 @@ void iec_init(void)
     iec_info.drive_port = 0x85;
 }
 
-inline void iec_update_ports(void)
+inline static void iec_update_cpu_bus(BYTE data)
+{
+    iec_info.cpu_bus = (((data << 7) & 0x80)
+                       | ((data << 5) & 0x40)
+                       | ((data << 2) & 0x10));
+}
+
+inline static void iec_update_ports(void)
 {
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
                           & iec_info.drive2_bus;
@@ -99,7 +107,7 @@ BYTE iec_drive1_read(void)
 /* No drive is enabled.  */
 void iec_cpu_write_conf0(BYTE data)
 {
-	iec_info.iec_fast_1541 = data;
+    iec_info.iec_fast_1541 = data;
 }
 
 /* Only the first drive is enabled.  */
@@ -107,9 +115,7 @@ void iec_cpu_write_conf1(BYTE data)
 {
     drive0_cpu_execute(clk);
 
-    iec_info.cpu_bus = (((data << 2) & 0x80)
-                        | ((data << 2) & 0x40)
-                        | ((data << 1) & 0x10));
+    iec_update_cpu_bus(data);
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
@@ -142,9 +148,7 @@ void iec_cpu_write_conf2(BYTE data)
 {
     drive1_cpu_execute(clk);
 
-    iec_info.cpu_bus = (((data << 2) & 0x80)
-                        | ((data << 2) & 0x40)
-                        | ((data << 1) & 0x10));
+    iec_update_cpu_bus(data);
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
@@ -177,9 +181,7 @@ void iec_cpu_write_conf3(BYTE data)
     drive0_cpu_execute(clk);
     drive1_cpu_execute(clk);
 
-    iec_info.cpu_bus = (((data << 2) & 0x80)
-                        | ((data << 2) & 0x40)
-                        | ((data << 1) & 0x10));
+    iec_update_cpu_bus(data);
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
@@ -227,9 +229,7 @@ void iec_cpu_write_conf3(BYTE data)
 
 void iec_cpu_undump(BYTE data)
 {
-    iec_info.cpu_bus = (((data << 2) & 0x80)
-                        | ((data << 2) & 0x40)
-                        | ((data << 1) & 0x10));
+    iec_update_cpu_bus(data);
     iec_old_atn = iec_info.cpu_bus & 0x10;
 }
 
