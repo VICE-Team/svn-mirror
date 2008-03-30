@@ -48,10 +48,6 @@
 #include "viciitypes.h"
 
 
-#define vicii_set_irq(irq, state) maincpu_set_irq(irq, state)
-
-/* ---------------------------------------------------------------------*/
-
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
 static int unused_bits_in_registers[64] =
 {
@@ -549,9 +545,6 @@ inline static void store_d019(BYTE value)
         }
     }
 
-    vic_ii.irq_status &= ~((value & 0xf) | 0x80);
-    if (vic_ii.irq_status & vic_ii.regs[0x1a])
-        vic_ii.irq_status |= 0x80;
     if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk
         && vic_ii.raster_irq_line < vic_ii.screen_height) {
         vic_ii.raster_irq_clk += vic_ii.screen_height
@@ -559,7 +552,7 @@ inline static void store_d019(BYTE value)
         alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
 
-    /* Update the IRQ line accordingly...  */
+    vic_ii.irq_status &= ~((value & 0xf) | 0x80);
     vicii_irq_set_line();
 
     VIC_II_DEBUG_REGISTER(("IRQ flag register: $%02X", vic_ii.irq_status));
@@ -568,11 +561,6 @@ inline static void store_d019(BYTE value)
 inline static void store_d01a(BYTE value)
 {
     vic_ii.regs[0x1a] = value & 0xf;
-
-    if (vic_ii.regs[0x1a] & vic_ii.irq_status)
-        vic_ii.irq_status |= 0x80;
-    else
-        vic_ii.irq_status &= 0x7f;
 
     vicii_irq_set_line();
 
@@ -1164,12 +1152,8 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
       case 0x1e:                  /* $D01E: Sprite-sprite collision */
         /* Remove the pending sprite-sprite interrupt, as the collision
            register is reset upon read accesses.  */
-        if (!(vic_ii.irq_status & 0x3)) {
-            vic_ii.irq_status &= ~0x84;
-            vicii_set_irq(I_RASTER, 0);
-        } else {
-            vic_ii.irq_status &= ~0x04;
-        }
+        vicii_irq_sscoll_clear();
+
         if (vicii_resources.sprite_sprite_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_sprite_collisions;
             vic_ii.sprite_sprite_collisions = 0;
@@ -1186,12 +1170,8 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
       case 0x1f:                  /* $D01F: Sprite-background collision */
         /* Remove the pending sprite-background interrupt, as the collision
            register is reset upon read accesses.  */
-        if (!(vic_ii.irq_status & 0x5)) {
-            vic_ii.irq_status &= ~0x82;
-            vicii_set_irq(I_RASTER, 0);
-        } else {
-            vic_ii.irq_status &= ~0x2;
-        }
+        vicii_irq_sbcoll_clear();
+
         if (vicii_resources.sprite_background_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_background_collisions;
             vic_ii.sprite_background_collisions = 0;
