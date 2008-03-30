@@ -27,5 +27,8 @@
 #ifndef _VIDEO_COLOR_H
 #define _VIDEO_COLOR_H
 
+struct raster_s;
+extern void video_color_set_raster(struct raster_s *raster);
+
 #endif
 
