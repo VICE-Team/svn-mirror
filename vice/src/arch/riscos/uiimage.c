@@ -395,9 +395,9 @@ void ui_image_contents_click(int *block)
       file = contents->file_list;
       for (i=1; (i<filenum) && (file != NULL); i++, file = file->next) ;
       if (image_content_type == IMAGE_CONTENT_DISK)
-        autostart_disk(image_content_file, file->name);
+        autostart_disk(image_content_file, file->name, 0);
       else if (image_content_type == IMAGE_CONTENT_TAPE)
-        autostart_tape(image_content_file, file->name);
+        autostart_tape(image_content_file, file->name, 0);
     }
   }
 }

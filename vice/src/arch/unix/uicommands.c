@@ -92,7 +92,7 @@ static UI_CALLBACK(attach_disk)
 	    ui_error("Invalid Disk Image");
 	break;
       case UI_BUTTON_AUTOSTART:
-	if (autostart_disk(filename, NULL) < 0)
+	if (autostart_disk(filename, NULL, 0) < 0)
 	    ui_error("Invalid Disk Image");
 	break;
       default:
@@ -161,7 +161,7 @@ static UI_CALLBACK(attach_tape)
 	    ui_error("Invalid Tape Image");
 	break;
       case UI_BUTTON_AUTOSTART:
-	if (autostart_tape(filename, NULL) < 0)
+	if (autostart_tape(filename, NULL, 0) < 0)
 	    ui_error("Invalid Tape Image");
 	break;
       default:
@@ -206,7 +206,7 @@ static UI_CALLBACK(smart_attach)
 	}
 	break;
       case UI_BUTTON_AUTOSTART:
-	if (autostart_autodetect(filename, NULL) < 0)
+	if (autostart_autodetect(filename, NULL, 0) < 0)
 	    ui_error("Unknown image type");
 	break;
       default:

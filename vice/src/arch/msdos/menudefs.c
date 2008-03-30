@@ -43,6 +43,7 @@
 #include "fsdevice.h"
 #include "imagecontents.h"
 #include "info.h"
+#include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
@@ -50,6 +51,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "menudefs.h"
+#include "mon.h"
 #include "romset.h"
 #include "sound.h"
 #include "tape.h"
@@ -102,7 +104,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 				 image_contents_read_tape, &file);
 
         if (file != NULL) {
-            if (autostart_tape(name, file) < 0)
+            if (autostart_tape(name, file, 0) < 0)
                 tui_error("Cannot autostart tape image.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;

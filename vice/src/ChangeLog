@@ -1,3 +1,121 @@
+2000-01-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.16.
+
+	* autostart.c, autostart.h (autostart_autodetect,
+	autostart_disk, autostart_tape): The program to start can be
+	specified by name or number now.
+
+	* main.c, arch/unix/uicommands.c, arch/win32/ui.c,
+	arch/win32/uiattach.c, arch/os2/dialogs/dlg-contents.c,
+	arch/msdos/uiattach.c, arch/msdos/menudefs.c, arch/riscos/uiimage.c: Changed to new
+	autostart API.
+
+	* vic20/vic.c (init_raster): Fixed screen width.
+
+	* vic20/vic.h: Define `VIC_DUPLICATES_PIXELS' for MSDOS too.
+
+	* sound.c: Define `TRUE' and `FALSE' if not already defined.
+
+	* arch/msdos/menudefs.c: #include "mon.h" and #include
+	"interrupt.h".
+
+	* console.h: Do not define `console_private_t' here.
+
+2000-01-02  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/arch.dsp: Added 'monitor' to include search
+	pathlist.
+	Removed double entry for 'console.c'.
+
+	* arch/win32/c128.dsp, arch/win32/c64.dsp, arch/win32/cbm2.dsp,
+	arch/win32/drive.dsp, arch/win32/pet.dsp, arhc/win32/vic20.dsp:
+	Added 'monitor to
+	include search pathlist.
+
+	* arch/win32/c64ui.c (c64_ui_cartridges): Array of cartridge
+	attach parameters.
+	(c64_ui_attach_cartridge): New function.
+	(c64_ui_specific): Call c64_ui_attach_cartridge.
+
+	* arch/win32/monitor.dsp: New project file for monitor library.
+
+	* arch/win32/res.h: Added IDD_OPENTAPE_TEMPLATE.
+
+	* arch/win32/res.rc: Define LBS_NOTIFY.
+	Added LBS_NOTIFY flag for Preview listbox in IDD_OPEN_TEMPLATE.
+	Added IDD_OPENTAPE_TEMPLATE.
+
+	* arch/win32/ui.c (handle_wm_command): Added support for
+	fileautostart.
+
+	* arch/win32/uiattach.c (dialog_proc): Updated ui_select_file
+	calls.
+
+	* arch/win32/uilib.c: Include 'commctrl.h'.
+	Define OFN_ENABLESIZING if not defined.
+	(autostart_result) (get_filename_from_content): New variables.
+	(ui_file_selector_style_type): New type.
+	(styles): New array, contains file selector style definitions.
+	(get_filename_from_disk) (get_filename_from_tape)
+	(get_filename_from_disk_or_tape): New functions.
+	(tape_hook_procedure): New function.
+	(hook_proc): Changed font of Preview dialog. When creating new
+	disk images, update current filter and select newly created
+	image.
+	Handle doubleclick from Preview box.
+	Destroy font object, when dialog box closes.
+	(ui_select_file): Parameters changed. New params 'style' can
+	be used to customize the dialog box. 'autostart' selected
+	filename will be sent back through this.
+	Fixed title of dialog box.
+	Handle styles.
+	Added OFN_ENABLESIZING flag, dialog box can be resized under
+	Win98, NT5/Win2000.
+
+	* arch/win32/uilib.h (ui_cartridge_params): New struct for
+	dialog box custom parameters when the dialog box is used to
+	select a cartridge image.
+	(ui_select_file): Updated prototype.
+	(read_disk_image_contents) (read_tape_image_contents)
+	(read_disk_or_tape_image_contents): Removed prototypes.
+	Define dialog box styles.
+
+	* arch/win32/uisnapshot.c (ui_snapshot_load_dialog): Updated
+	ui_select_file call.
+
+	* arch/win32/uivicii.c (dialog_palette_proc): Updated
+	ui_select_file call.
+
+	* arch/win32/vic20ui.c (vic20_ui_cartridges): Array of
+	cartridge attach parameters.
+	(vic20_ui_attach_cartridge): New function.
+	(vic20_ui_specific): Call vic20_ui_attach_cartridge.
+
+	* arch/win32/vice.dsw: Added 'monitor' project. Updated
+	project dependencies.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp,
+	arch/win32/xcbm2.dsp, arch/win32/xpet.dsp, arch/win32/xvic.dsp:
+	Added 'monitor' to include search pathlist. Removed asn.c,
+	mon.c, mon_lex.c, mon_parse.c.
+
+2000-01-02  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.h: added pointer to console_private_t in 
+	console_t, renamed console_shutdown() to console_close_all(),
+	removed parameters from it.
+
+	* arch/win32/console.c: removed MAX_CONSOLES, structures are now
+	stored in linked lists. Removed castings between console_t and
+	console_private_t, instead of using pointers; renamed TWindow
+	to console_private_t; fixed memory-leakage on console_close_all().
+
+	* arch/win32/video.c: in set_physical_colors(), the 2nd parameter
+	to the call of IDirectDrawSurface_ReleaseDC() was wrong (pointer
+	to the handle was given instead of the required handle). Fixed.
+	(Any effects? Don't know, except for a compiler warning).
+
 2000-01-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.15.

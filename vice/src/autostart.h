@@ -4,6 +4,7 @@
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,10 +35,13 @@ extern int autostart_init(CLOCK _min_cycles, int _handle_true1541,
                           int _blnsw, int _pnt, int _pntr, int _lnmx);
 extern void autostart_disable(void);
 extern void autostart_advance(void);
-extern int autostart_tape(const char *file_name, const char *program_name);
-extern int autostart_disk(const char *file_name, const char *program_name);
+extern int autostart_tape(const char *file_name, const char *program_name,
+                          unsigned int program_number);
+extern int autostart_disk(const char *file_name, const char *program_name,
+                          unsigned int program_number);
 extern int autostart_autodetect(const char *file_name,
-                                const char *program_name);
+                                const char *program_name,
+                                unsigned int program_number);
 extern int autostart_device(int num);
 extern int autostart_prg(const char *file_name);
 extern void autostart_reset(void);

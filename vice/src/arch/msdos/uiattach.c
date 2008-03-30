@@ -193,7 +193,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
                                  "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip",
                                  default_item, image_contents_read_disk, &file);
         if (file != NULL) {
-            if (autostart_disk(name, file) < 0)
+            if (autostart_disk(name, file, 0) < 0)
                 tui_error("Cannot autostart disk image.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;
