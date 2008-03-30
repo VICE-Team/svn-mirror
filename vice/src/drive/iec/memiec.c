@@ -42,35 +42,35 @@
 
 static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
 {
-    return drv->cpud.drive_ram[address & 0x7ff];
+    return drv->cpud->drive_ram[address & 0x7ff];
 }
 
 static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
                                      BYTE value)
 {
-    drv->cpud.drive_ram[address & 0x7ff] = value;
+    drv->cpud->drive_ram[address & 0x7ff] = value;
 }
 
 static BYTE REGPARM2 drive_read_1581ram(drive_context_t *drv, WORD address)
 {
-    return drv->cpud.drive_ram[address & 0x1fff];
+    return drv->cpud->drive_ram[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_1581ram(drive_context_t *drv, WORD address,
                                          BYTE value)
 {
-    drv->cpud.drive_ram[address & 0x1fff] = value;
+    drv->cpud->drive_ram[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
 {
-    return drv->cpud.drive_ram[address & 0xff];
+    return drv->cpud->drive_ram[address & 0xff];
 }
 
 static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
-    drv->cpud.drive_ram[address & 0xff] = value;
+    drv->cpud->drive_ram[address & 0xff] = value;
 }
 
 static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, WORD address)
@@ -133,6 +133,9 @@ static void REGPARM3 drive_store_rama(drive_context_t *drv, WORD address,
 void memiec_init(struct drive_context_s *drv, unsigned int type)
 {
     unsigned int i, j;
+    drivecpud_context_t *cpud;
+
+    cpud = drv->cpud;
 
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
@@ -144,8 +147,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
           case DRIVE_TYPE_1541II:
             for (j = 0; j < 0x80; j += 0x20) {
                 for (i = 0x00 + j; i < 0x08 + j; i++) {
-                    drv->cpud.read_func_nowatch[i] = drive_read_ram;
-                    drv->cpud.store_func_nowatch[i] = drive_store_ram;
+                    cpud->read_func_nowatch[i] = drive_read_ram;
+                    cpud->store_func_nowatch[i] = drive_store_ram;
                 }
             }
             break;
@@ -153,38 +156,38 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
           case DRIVE_TYPE_1571:
           case DRIVE_TYPE_1571CR:
             for (i = 0x00; i < 0x10; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram;
+                cpud->read_func_nowatch[i] = drive_read_ram;
+                cpud->store_func_nowatch[i] = drive_store_ram;
             }
             break;
           case DRIVE_TYPE_1581:
             for (i = 0x00; i < 0x20; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_1581ram;
-                drv->cpud.store_func_nowatch[i] = drive_store_1581ram;
+                cpud->read_func_nowatch[i] = drive_read_1581ram;
+                cpud->store_func_nowatch[i] = drive_store_1581ram;
             }
             break;
         }
 
-        drv->cpu->pageone = drv->cpud.drive_ram + 0x100;
+        drv->cpu->pageone = cpud->drive_ram + 0x100;
 
-        drv->cpud.read_func_nowatch[0] = drive_read_zero;
-        drv->cpud.store_func_nowatch[0] = drive_store_zero;
+        cpud->read_func_nowatch[0] = drive_read_zero;
+        cpud->store_func_nowatch[0] = drive_store_zero;
 
         /* Setup drive ROM.  */
         for (i = 0x80; i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
+            cpud->read_func_nowatch[i] = drive_read_rom;
     }
 
     /* Setup 1541, 1541-II VIAs.  */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II) {
         for (j = 0; j < 0x80; j += 0x20) {
             for (i = 0x18 + j; i < 0x1c + j; i++) {
-                drv->cpud.read_func_nowatch[i] = via1d1541_read;
-                drv->cpud.store_func_nowatch[i] = via1d1541_store;
+                cpud->read_func_nowatch[i] = via1d1541_read;
+                cpud->store_func_nowatch[i] = via1d1541_store;
             }
             for (i = 0x1c + j; i < 0x20 + j; i++) {
-                drv->cpud.read_func_nowatch[i] = via2d_read;
-                drv->cpud.store_func_nowatch[i] = via2d_store;
+                cpud->read_func_nowatch[i] = via2d_read;
+                cpud->store_func_nowatch[i] = via2d_store;
             }
         }
     }
@@ -193,32 +196,32 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     if (type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
         || type == DRIVE_TYPE_1571CR) {
         for (i = 0x18; i < 0x1c; i++) {
-            drv->cpud.read_func_nowatch[i] = via1d1541_read;
-            drv->cpud.store_func_nowatch[i] = via1d1541_store;
+            cpud->read_func_nowatch[i] = via1d1541_read;
+            cpud->store_func_nowatch[i] = via1d1541_store;
         }
         for (i = 0x1c; i < 0x20; i++) {
-            drv->cpud.read_func_nowatch[i] = via2d_read;
-            drv->cpud.store_func_nowatch[i] = via2d_store;
+            cpud->read_func_nowatch[i] = via2d_read;
+            cpud->store_func_nowatch[i] = via2d_store;
         }
         for (i = 0x20; i < 0x30; i++) {
-            drv->cpud.read_func_nowatch[i] = wd1770d_read;
-            drv->cpud.store_func_nowatch[i] = wd1770d_store;
+            cpud->read_func_nowatch[i] = wd1770d_read;
+            cpud->store_func_nowatch[i] = wd1770d_store;
         }
         for (i = 0x40; i < 0x80; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1571_read;
-            drv->cpud.store_func_nowatch[i] = cia1571_store;
+            cpud->read_func_nowatch[i] = cia1571_read;
+            cpud->store_func_nowatch[i] = cia1571_store;
         }
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
         for (i = 0x40; i < 0x60; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1581_read;
-            drv->cpud.store_func_nowatch[i] = cia1581_store;
+            cpud->read_func_nowatch[i] = cia1581_read;
+            cpud->store_func_nowatch[i] = cia1581_store;
         }
         for (i = 0x60; i < 0x80; i++) {
-            drv->cpud.read_func_nowatch[i] = wd1770d_read;
-            drv->cpud.store_func_nowatch[i] = wd1770d_store;
+            cpud->read_func_nowatch[i] = wd1770d_read;
+            cpud->store_func_nowatch[i] = wd1770d_store;
         }
     }
 
@@ -228,8 +231,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
                 lib_free(drv->drive_ptr->drive_ram_expand2);
             drv->drive_ptr->drive_ram_expand2 = lib_calloc(1, 0x2000);
             for (i = 0x20; i < 0x40; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram2;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram2;
+                cpud->read_func_nowatch[i] = drive_read_ram2;
+                cpud->store_func_nowatch[i] = drive_store_ram2;
             }
         }
         if (drv->drive_ptr->drive_ram4_enabled) {
@@ -237,8 +240,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
                 lib_free(drv->drive_ptr->drive_ram_expand4);
             drv->drive_ptr->drive_ram_expand4 = lib_calloc(1, 0x2000);
             for (i = 0x40; i < 0x60; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram4;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram4;
+                cpud->read_func_nowatch[i] = drive_read_ram4;
+                cpud->store_func_nowatch[i] = drive_store_ram4;
             }
         }
         if (drv->drive_ptr->drive_ram6_enabled) {
@@ -246,8 +249,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
                 lib_free(drv->drive_ptr->drive_ram_expand6);
             drv->drive_ptr->drive_ram_expand6 = lib_calloc(1, 0x2000);
             for (i = 0x60; i < 0x80; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram6;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram6;
+                cpud->read_func_nowatch[i] = drive_read_ram6;
+                cpud->store_func_nowatch[i] = drive_store_ram6;
             }
         }
         if (drv->drive_ptr->drive_ram8_enabled) {
@@ -255,8 +258,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
                 lib_free(drv->drive_ptr->drive_ram_expand8);
             drv->drive_ptr->drive_ram_expand8 = lib_calloc(1, 0x2000);
             for (i = 0x80; i < 0xa0; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram8;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram8;
+                cpud->read_func_nowatch[i] = drive_read_ram8;
+                cpud->store_func_nowatch[i] = drive_store_ram8;
             }
         }
         if (drv->drive_ptr->drive_rama_enabled) {
@@ -264,8 +267,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
                 lib_free(drv->drive_ptr->drive_ram_expanda);
             drv->drive_ptr->drive_ram_expanda = lib_calloc(1, 0x2000);
             for (i = 0xa0; i < 0xc0; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_rama;
-                drv->cpud.store_func_nowatch[i] = drive_store_rama;
+                cpud->read_func_nowatch[i] = drive_read_rama;
+                cpud->store_func_nowatch[i] = drive_store_rama;
             }
         }
     }

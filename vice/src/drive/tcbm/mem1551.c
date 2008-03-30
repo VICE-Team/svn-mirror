@@ -37,14 +37,14 @@
 static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
-    return drv->cpud.drive_ram[address & 0x1fff];
+    return drv->cpud->drive_ram[address & 0x1fff];
 }
 
 static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
                                      BYTE value)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
-    drv->cpud.drive_ram[address & 0x1fff] = value;
+    drv->cpud->drive_ram[address & 0x1fff] = value;
 }
 
 static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
@@ -56,7 +56,7 @@ static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
         return glue1551_port1_read(drv);
     }
 
-    return drv->cpud.drive_ram[address & 0xff];
+    return drv->cpud->drive_ram[address & 0xff];
 }
 
 static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
@@ -71,7 +71,7 @@ static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
         return;
     }
 
-    drv->cpud.drive_ram[address & 0xff] = value;
+    drv->cpud->drive_ram[address & 0xff] = value;
 }
 
 void mem1551_init(struct drive_context_s *drv, unsigned int type)
@@ -79,23 +79,23 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
     unsigned int i;
 
     if (type == DRIVE_TYPE_1551) {
-        drv->cpu->pageone = drv->cpud.drive_ram + 0x100;
+        drv->cpu->pageone = drv->cpud->drive_ram + 0x100;
 
         /* Setup drive RAM.  */
         for (i = 0x01; i < 0x08; i++) {
-            drv->cpud.read_func_nowatch[i] = drive_read_ram;
-            drv->cpud.store_func_nowatch[i] = drive_store_ram;
+            drv->cpud->read_func_nowatch[i] = drive_read_ram;
+            drv->cpud->store_func_nowatch[i] = drive_store_ram;
         }
         for (i = 0xc0; i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
+            drv->cpud->read_func_nowatch[i] = drive_read_rom;
 
-        drv->cpud.read_func_nowatch[0] = drive_read_zero;
-        drv->cpud.store_func_nowatch[0] = drive_store_zero;
+        drv->cpud->read_func_nowatch[0] = drive_read_zero;
+        drv->cpud->store_func_nowatch[0] = drive_store_zero;
 
         /* Setup 1551 TPI.  */
         for (i = 0x40; i < 0x7f; i++) {
-            drv->cpud.read_func_nowatch[i] = tpid_read;
-            drv->cpud.store_func_nowatch[i] = tpid_store;
+            drv->cpud->read_func_nowatch[i] = tpid_read;
+            drv->cpud->store_func_nowatch[i] = tpid_store;
         }
     }
 }

@@ -724,7 +724,7 @@ static void clk_overflow_callback(int fnum, CLOCK sub, void *data)
 void fdc_init(drive_context_t *drv)
 {
     unsigned int fnum = drv->mynumber;
-    BYTE *buffermem = drv->cpud.drive_ram + 0x100;
+    BYTE *buffermem = drv->cpud->drive_ram + 0x100;
     BYTE *ipromp = &(drv->drive_ptr->rom[0x4000]);
 
     fdc[fnum].buffer = buffermem;

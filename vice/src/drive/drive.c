@@ -105,21 +105,21 @@ void drive_set_disk_memory(unsigned int dnr, BYTE *id, unsigned int track,
         || drive[dnr].type == DRIVE_TYPE_1571
         || drive[dnr].type == DRIVE_TYPE_1571CR) {
         if (dnr == 0) {
-            drive0_context.cpud.drive_ram[0x12] = id[0];
-            drive0_context.cpud.drive_ram[0x13] = id[1];
-            drive0_context.cpud.drive_ram[0x16] = id[0];
-            drive0_context.cpud.drive_ram[0x17] = id[1];
-            drive0_context.cpud.drive_ram[0x18] = track;
-            drive0_context.cpud.drive_ram[0x19] = sector;
-            drive0_context.cpud.drive_ram[0x22] = track;
+            drive0_context.cpud->drive_ram[0x12] = id[0];
+            drive0_context.cpud->drive_ram[0x13] = id[1];
+            drive0_context.cpud->drive_ram[0x16] = id[0];
+            drive0_context.cpud->drive_ram[0x17] = id[1];
+            drive0_context.cpud->drive_ram[0x18] = track;
+            drive0_context.cpud->drive_ram[0x19] = sector;
+            drive0_context.cpud->drive_ram[0x22] = track;
         } else {
-            drive1_context.cpud.drive_ram[0x12] = id[0];
-            drive1_context.cpud.drive_ram[0x13] = id[1];
-            drive1_context.cpud.drive_ram[0x16] = id[0];
-            drive1_context.cpud.drive_ram[0x17] = id[1];
-            drive1_context.cpud.drive_ram[0x18] = track;
-            drive1_context.cpud.drive_ram[0x19] = sector;
-            drive1_context.cpud.drive_ram[0x22] = track;
+            drive1_context.cpud->drive_ram[0x12] = id[0];
+            drive1_context.cpud->drive_ram[0x13] = id[1];
+            drive1_context.cpud->drive_ram[0x16] = id[0];
+            drive1_context.cpud->drive_ram[0x17] = id[1];
+            drive1_context.cpud->drive_ram[0x18] = track;
+            drive1_context.cpud->drive_ram[0x19] = sector;
+            drive1_context.cpud->drive_ram[0x22] = track;
         }
     }
 }
@@ -136,9 +136,9 @@ void drive_set_last_read(unsigned int dnr, unsigned int track,
         || drive[dnr].type == DRIVE_TYPE_1571
         || drive[dnr].type == DRIVE_TYPE_1571CR) {
         if (dnr == 0) {
-            memcpy(&(drive0_context.cpud.drive_ram[0x0400]), buffer, 256);
+            memcpy(&(drive0_context.cpud->drive_ram[0x0400]), buffer, 256);
         } else {
-            memcpy(&(drive1_context.cpud.drive_ram[0x0400]), buffer, 256);
+            memcpy(&(drive1_context.cpud->drive_ram[0x0400]), buffer, 256);
         }
     }
 }
