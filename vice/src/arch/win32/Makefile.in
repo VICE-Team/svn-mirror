@@ -331,6 +331,8 @@ libarch_a_SOURCES = \
 	uievent.h \
 	uifliplist.c \
 	uifliplist.h \
+	uigeoram.c \
+	uigeoram.h \
 	uihelp.c \
 	uihelp.h \
 	uiide64.c \
@@ -358,8 +360,6 @@ libarch_a_SOURCES = \
 	uiram.h \
 	uireu.c \
 	uireu.h \
-	uigeoram.c \
-	uigeoram.h \
 	uiramcart.c \
 	uiramcart.h \
 	uirom.c \
@@ -481,17 +481,17 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uidatasette.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
 	uidrivec128.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
 	uidriveplus4.$(OBJEXT) uievent.$(OBJEXT) uifliplist.$(OBJEXT) \
-	uihelp.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
-	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimediafile.$(OBJEXT) \
-	uimon.$(OBJEXT) uiperipheral.$(OBJEXT) uipetset.$(OBJEXT) \
-	uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
+	uigeoram.$(OBJEXT) uihelp.$(OBJEXT) uiide64.$(OBJEXT) \
+	uijoystick.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
+	uimediafile.$(OBJEXT) uimon.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
 	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uireu.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uiramcart.$(OBJEXT) uirom.$(OBJEXT) \
-	uirs232.$(OBJEXT) uirs232user.$(OBJEXT) uisid.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uispeed.$(OBJEXT) \
-	uitfe.$(OBJEXT) uivicii.$(OBJEXT) uivicset.$(OBJEXT) \
-	uivideo.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
+	uiramcart.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
+	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uispeed.$(OBJEXT) uitfe.$(OBJEXT) \
+	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
+	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
+	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src

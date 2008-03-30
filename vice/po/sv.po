@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-04-03 20:10+0200\n"
+"POT-Creation-Date: 2005-04-24 01:20+0200\n"
 "PO-Revision-Date: 2005-01-15 15:45+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -123,6 +123,23 @@ msgstr "misslyckades skriva till ljudenheten."
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
+#: src/event.c:215
+#, fuzzy, c-format
+msgid "Cannot create image file %s"
+msgstr "Kan inte skapa avbildningsfil \"%s\"."
+
+#: src/event.c:220
+#, fuzzy, c-format
+msgid "Cannot write image file %s"
+msgstr ""
+"Kan inte skriva insticksmodulfil\n"
+"\"%s\"\n"
+
+#: src/event.c:228
+#, fuzzy, c-format
+msgid "Cannot find mapped name for %s"
+msgstr "Kan inte ladda texttypsnitt %s."
+
 #: src/event.c:522
 #, c-format
 msgid "Could not create start snapshot file %s."
@@ -155,6 +172,26 @@ msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 #: src/event.c:718
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
+
+#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#, c-format
+msgid "Resource IO1 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:54 src/c64/c64export.c:58
+#, c-format
+msgid "Resource IO2 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:64
+#, c-format
+msgid "Resource ROML blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:70
+#, c-format
+msgid "Resource ROMH blocked by %s."
+msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
@@ -1723,14 +1760,35 @@ msgstr "Lägg till: "
 msgid "Remove: "
 msgstr "Ta bort: "
 
-#: src/arch/unix/uiide64.c:42
-msgid "IDE64 image name"
-msgstr "Avbildningsfil för IDE64"
+#: src/arch/unix/uigeoram.c:41
+#, fuzzy
+msgid "GEORAM image name"
+msgstr "Filnamn för minnesexpansionsavbildning"
 
-#: src/arch/unix/uiide64.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
+#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
 #: src/arch/unix/uitfe.c:44
 msgid "Name:"
 msgstr "Namn:"
+
+#: src/arch/unix/uigeoram.c:64
+#, fuzzy
+msgid "*Enable GEORAM"
+msgstr "*Aktivera minnesexpansion"
+
+#: src/arch/unix/uigeoram.c:66
+#, fuzzy
+msgid "GEORAM size"
+msgstr "Storlek på minnesexpansion"
+
+#: src/arch/unix/uigeoram.c:68
+#, fuzzy
+msgid "GEORAM image name..."
+msgstr "Filnamn för minnesexpansionsavbildning..."
+
+#: src/arch/unix/uiide64.c:42
+msgid "IDE64 image name"
+msgstr "Avbildningsfil för IDE64"
 
 #: src/arch/unix/uiide64.c:73
 msgid "Enter number of cylinders"
@@ -2103,6 +2161,31 @@ msgstr "Skrivartextenhet 2..."
 #: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Skrivartextenhet 3..."
+
+#: src/arch/unix/uiramcart.c:42
+#, fuzzy
+msgid "RAMCART image name"
+msgstr "Filnamn för minnesexpansionsavbildning"
+
+#: src/arch/unix/uiramcart.c:55
+#, fuzzy
+msgid "*Enable RAMCART"
+msgstr "*Aktivera minnesexpansion"
+
+#: src/arch/unix/uiramcart.c:57
+#, fuzzy
+msgid "*Readonly"
+msgstr "*Endast läsåtkomst"
+
+#: src/arch/unix/uiramcart.c:59
+#, fuzzy
+msgid "RAMCART size"
+msgstr "Storlek på minnesexpansion"
+
+#: src/arch/unix/uiramcart.c:61
+#, fuzzy
+msgid "RAMCART image name..."
+msgstr "Filnamn för minnesexpansionsavbildning..."
 
 #: src/arch/unix/uireu.c:41
 msgid "REU image name"

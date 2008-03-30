@@ -107,6 +107,8 @@ libarch_a_SOURCES = \
 	uievent.h \
 	uifliplist.c \
 	uifliplist.h \
+	uigeoram.c \
+	uigeoram.h \
 	uihelp.c \
 	uihelp.h \
 	uiide64.c \
@@ -134,8 +136,6 @@ libarch_a_SOURCES = \
 	uiram.h \
 	uireu.c \
 	uireu.h \
-	uigeoram.c \
-	uigeoram.h \
 	uiramcart.c \
 	uiramcart.h \
 	uirom.c \

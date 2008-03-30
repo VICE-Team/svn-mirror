@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.16\n"
-"POT-Creation-Date: 2005-04-03 20:10+0200\n"
+"POT-Creation-Date: 2005-04-24 01:20+0200\n"
 "PO-Revision-Date: 2005-01-18 21:38+0100\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -135,6 +135,23 @@ msgstr "erreur d'écriture sur le périphérique de son."
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur le périphérique de son."
 
+#: src/event.c:215
+#, fuzzy, c-format
+msgid "Cannot create image file %s"
+msgstr "Impossible de créer l'image `%s'."
+
+#: src/event.c:220
+#, fuzzy, c-format
+msgid "Cannot write image file %s"
+msgstr ""
+"Impossible d'écrire le fichier image de la cartouche\n"
+"`%s'\n"
+
+#: src/event.c:228
+#, fuzzy, c-format
+msgid "Cannot find mapped name for %s"
+msgstr "Impossible de charger la police de caractères %s."
+
 #: src/event.c:522
 #, c-format
 msgid "Could not create start snapshot file %s."
@@ -171,6 +188,26 @@ msgstr ""
 #: src/event.c:718
 msgid "Error reading start snapshot file."
 msgstr "Erreur de lecture du fichier de sauvegarde de départ."
+
+#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#, c-format
+msgid "Resource IO1 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:54 src/c64/c64export.c:58
+#, c-format
+msgid "Resource IO2 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:64
+#, c-format
+msgid "Resource ROML blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:70
+#, c-format
+msgid "Resource ROMH blocked by %s."
+msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
@@ -1739,14 +1776,35 @@ msgstr "Ajouter: "
 msgid "Remove: "
 msgstr "Retirer: "
 
-#: src/arch/unix/uiide64.c:42
-msgid "IDE64 image name"
-msgstr "Nom d'image IDE64"
+#: src/arch/unix/uigeoram.c:41
+#, fuzzy
+msgid "GEORAM image name"
+msgstr "Nom d'image REU"
 
-#: src/arch/unix/uiide64.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
+#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
 #: src/arch/unix/uitfe.c:44
 msgid "Name:"
 msgstr "Nom:"
+
+#: src/arch/unix/uigeoram.c:64
+#, fuzzy
+msgid "*Enable GEORAM"
+msgstr "*Activer REU"
+
+#: src/arch/unix/uigeoram.c:66
+#, fuzzy
+msgid "GEORAM size"
+msgstr "Taille du REU"
+
+#: src/arch/unix/uigeoram.c:68
+#, fuzzy
+msgid "GEORAM image name..."
+msgstr "Nom du fichier image REU..."
+
+#: src/arch/unix/uiide64.c:42
+msgid "IDE64 image name"
+msgstr "Nom d'image IDE64"
 
 #: src/arch/unix/uiide64.c:73
 msgid "Enter number of cylinders"
@@ -2119,6 +2177,31 @@ msgstr "Périphérique d'imprimante texte #2"
 #: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Périphérique d'imprimante texte #3"
+
+#: src/arch/unix/uiramcart.c:42
+#, fuzzy
+msgid "RAMCART image name"
+msgstr "Nom d'image REU"
+
+#: src/arch/unix/uiramcart.c:55
+#, fuzzy
+msgid "*Enable RAMCART"
+msgstr "*Activer REU"
+
+#: src/arch/unix/uiramcart.c:57
+#, fuzzy
+msgid "*Readonly"
+msgstr "*Accès en lecture seuel"
+
+#: src/arch/unix/uiramcart.c:59
+#, fuzzy
+msgid "RAMCART size"
+msgstr "Taille du REU"
+
+#: src/arch/unix/uiramcart.c:61
+#, fuzzy
+msgid "RAMCART image name..."
+msgstr "Nom du fichier image REU..."
 
 #: src/arch/unix/uireu.c:41
 msgid "REU image name"

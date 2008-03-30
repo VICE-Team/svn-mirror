@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
-"POT-Creation-Date: 2005-04-03 20:10+0200\n"
+"POT-Creation-Date: 2005-04-24 01:20+0200\n"
 "PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -123,6 +123,23 @@ msgstr "schrijf actie naar geluidsapparaat lukt niet."
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat lukt niet."
 
+#: src/event.c:215
+#, fuzzy, c-format
+msgid "Cannot create image file %s"
+msgstr "Kan bestand `%s' niet maken."
+
+#: src/event.c:220
+#, fuzzy, c-format
+msgid "Cannot write image file %s"
+msgstr ""
+"Kan cartridge bestand niet schrijven\n"
+"`%s'\n"
+
+#: src/event.c:228
+#, fuzzy, c-format
+msgid "Cannot find mapped name for %s"
+msgstr "Kan de tekst font %s niet laden."
+
 #: src/event.c:522
 #, c-format
 msgid "Could not create start snapshot file %s."
@@ -157,6 +174,26 @@ msgstr ""
 #: src/event.c:718
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
+
+#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#, c-format
+msgid "Resource IO1 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:54 src/c64/c64export.c:58
+#, c-format
+msgid "Resource IO2 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:64
+#, c-format
+msgid "Resource ROML blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:70
+#, c-format
+msgid "Resource ROMH blocked by %s."
+msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
 #: src/arch/unix/cbm2ui.c:64 src/arch/unix/uited.c:53 src/arch/unix/uivic.c:42
@@ -875,7 +912,7 @@ msgstr "*Exec proces"
 #: src/arch/unix/uiattach.c:74
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr "Gebruik Disk Bestand als station #%d"
+msgstr "Koppel Disk Bestand aan station #%d"
 
 #: src/arch/unix/uiattach.c:89 src/arch/unix/uiattach.c:142
 msgid "Invalid Disk Image"
@@ -923,15 +960,15 @@ msgstr "Alles"
 
 #: src/arch/unix/uiattach.c:181
 msgid "Attach a disk image"
-msgstr "Gebruik een disk bestand"
+msgstr "Koppel een disk bestand"
 
 #: src/arch/unix/uiattach.c:183
 msgid "Create and attach an empty disk"
-msgstr "Maak en gebruik een leeg disk bestand"
+msgstr "Maak en koppel een leeg disk bestand"
 
 #: src/arch/unix/uiattach.c:185
 msgid "Detach disk image"
-msgstr "Eject disk bestand"
+msgstr "Ontkoppel disk bestand"
 
 #: src/arch/unix/uiattach.c:187
 msgid "Fliplist"
@@ -939,7 +976,7 @@ msgstr "Fliplist"
 
 #: src/arch/unix/uiattach.c:212
 msgid "Attach a tape image"
-msgstr "Gebruik een tape bestand"
+msgstr "Koppel een tape bestand"
 
 #: src/arch/unix/uiattach.c:220 src/arch/unix/uiattach.c:228
 msgid "Invalid Tape Image"
@@ -947,15 +984,15 @@ msgstr "Ongeldig Tape Bestand"
 
 #: src/arch/unix/uiattach.c:247
 msgid "Attach a tape image..."
-msgstr "Gebruik een tape bestand..."
+msgstr "Koppel een tape bestand..."
 
 #: src/arch/unix/uiattach.c:250
 msgid "Detach tape image"
-msgstr "Eject tape bestand"
+msgstr "Ontkoppel tape bestand"
 
 #: src/arch/unix/uiattach.c:275
 msgid "Smart-attach a file"
-msgstr "Slim-gebruik een bestand"
+msgstr "Slim-koppel een bestand"
 
 #: src/arch/unix/uiattach.c:284 src/arch/unix/uiattach.c:293
 #: src/arch/unix/x11/xaw/x11ui.c:1673
@@ -964,15 +1001,15 @@ msgstr "Onbekent bestand type"
 
 #: src/arch/unix/uiattach.c:307
 msgid "Smart-attach disk/tape..."
-msgstr "Slim-gebruik disk/tape..."
+msgstr "Slim-koppel disk/tape..."
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
 msgid "Cannot attach cartridge"
-msgstr "Kan cartridge niet gebruiken"
+msgstr "Kan cartridge niet koppelen"
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
 msgid "Attach cartridge image"
-msgstr "Gebruik cartridge bestand"
+msgstr "Koppel cartridge bestand"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -980,51 +1017,51 @@ msgstr "Sla cartridge bestand op..."
 
 #: src/arch/unix/uic64cart.c:143
 msgid "Smart attach CRT image..."
-msgstr "Slim gebruik CRT bestand..."
+msgstr "Slim koppel CRT bestand..."
 
 #: src/arch/unix/uic64cart.c:147
 msgid "Attach generic 8KB image..."
-msgstr "Gebruik 8KB bestand..."
+msgstr "Koppel 8KB bestand..."
 
 #: src/arch/unix/uic64cart.c:150
 msgid "Attach generic 16KB image..."
-msgstr "Gebruik 16KB bestand..."
+msgstr "Koppel 16KB bestand..."
 
 #: src/arch/unix/uic64cart.c:153
 msgid "Attach Action Replay image..."
-msgstr "Gebruik Actiun Replay bestand..."
+msgstr "Koppel Actiun Replay bestand..."
 
 #: src/arch/unix/uic64cart.c:156
 msgid "Attach Atomic Power image..."
-msgstr "Gebruik Atomic Power bestand..."
+msgstr "Koppel Atomic Power bestand..."
 
 #: src/arch/unix/uic64cart.c:159
 msgid "Attach Epyx fastload image..."
-msgstr "Gebruik Epyx fastload bestand..."
+msgstr "Koppel Epyx fastload bestand..."
 
 #: src/arch/unix/uic64cart.c:162
 msgid "Attach IEEE488 interface image..."
-msgstr "Gebruik IEEE488 interface bestand..."
+msgstr "Koppel IEEE488 interface bestand..."
 
 #: src/arch/unix/uic64cart.c:165
 msgid "Attach Retro Replay image..."
-msgstr "Gebruik Retro Replay bestand..."
+msgstr "Koppel Retro Replay bestand..."
 
 #: src/arch/unix/uic64cart.c:168
 msgid "Attach IDE64 interface image..."
-msgstr "Gebruik IDE64 interface bestand..."
+msgstr "Koppel IDE64 interface bestand..."
 
 #: src/arch/unix/uic64cart.c:171
 msgid "Attach Super Snapshot 4 image..."
-msgstr "Gebruik Super Snapshot 4 bestand..."
+msgstr "Koppel Super Snapshot 4 bestand..."
 
 #: src/arch/unix/uic64cart.c:174
 msgid "Attach Super Snapshot 5 image..."
-msgstr "Gebruik Super Snapshot 5 bestand..."
+msgstr "Koppel Super Snapshot 5 bestand..."
 
 #: src/arch/unix/uic64cart.c:178
 msgid "Enable Expert Cartridge..."
-msgstr "Gebruik Expert Cartridge..."
+msgstr "Aktiveer Expert Cartridge..."
 
 #: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:270
 msgid "Set cartridge as default"
@@ -1032,11 +1069,11 @@ msgstr "Zet cartridge als standaart"
 
 #: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:276
 msgid "Attach a cartridge image"
-msgstr "Gebruik een cartridge bestand"
+msgstr "Koppel een cartridge bestand"
 
 #: src/arch/unix/uic64cart.c:190
 msgid "Detach cartridge image"
-msgstr "Eject cartridge bestand"
+msgstr "Ontkoppel cartridge bestand"
 
 #: src/arch/unix/uic64cart.c:192
 msgid "Cartridge freeze"
@@ -1673,11 +1710,11 @@ msgstr "Verwijder huidig bestand (Station 8)"
 
 #: src/arch/unix/uifliplist.c:123
 msgid "Attach next image (Unit 8)"
-msgstr "Gebruik volgend bestand (Station 8)"
+msgstr "Koppel volgend bestand (Station 8)"
 
 #: src/arch/unix/uifliplist.c:126
 msgid "Attach previous image (Unit 8)"
-msgstr "Gebruik vorig bestand (Station 8)"
+msgstr "Koppel vorig bestand (Station 8)"
 
 #: src/arch/unix/uifliplist.c:129
 msgid "Load fliplist file"
@@ -1690,12 +1727,12 @@ msgstr "Opslaan fliplist bestand"
 #: src/arch/unix/uifliplist.c:194
 #, c-format
 msgid "Attach #%d"
-msgstr "Gebruik #%d"
+msgstr "Koppel #%d"
 
 #: src/arch/unix/uifliplist.c:201
 #, c-format
 msgid "Detach #%d"
-msgstr "Eject #%d"
+msgstr "Ontkoppel #%d"
 
 #: src/arch/unix/uifliplist.c:217
 msgid "*Write Protect"
@@ -1723,14 +1760,35 @@ msgstr "Toevoegen: "
 msgid "Remove: "
 msgstr "Verwijder: "
 
-#: src/arch/unix/uiide64.c:42
-msgid "IDE64 image name"
-msgstr "IDE64 bestand naam"
+#: src/arch/unix/uigeoram.c:41
+#, fuzzy
+msgid "GEORAM image name"
+msgstr "REU bestand naam"
 
-#: src/arch/unix/uiide64.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
+#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
 #: src/arch/unix/uitfe.c:44
 msgid "Name:"
 msgstr "Naam:"
+
+#: src/arch/unix/uigeoram.c:64
+#, fuzzy
+msgid "*Enable GEORAM"
+msgstr "*Aktiveer REU"
+
+#: src/arch/unix/uigeoram.c:66
+#, fuzzy
+msgid "GEORAM size"
+msgstr "REU grootte"
+
+#: src/arch/unix/uigeoram.c:68
+#, fuzzy
+msgid "GEORAM image name..."
+msgstr "REU bestand naam..."
+
+#: src/arch/unix/uiide64.c:42
+msgid "IDE64 image name"
+msgstr "IDE64 bestand naam"
 
 #: src/arch/unix/uiide64.c:73
 msgid "Enter number of cylinders"
@@ -2103,6 +2161,31 @@ msgstr "Printer tekst apparaat 2..."
 #: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Printer tekst apparaat 3..."
+
+#: src/arch/unix/uiramcart.c:42
+#, fuzzy
+msgid "RAMCART image name"
+msgstr "REU bestand naam"
+
+#: src/arch/unix/uiramcart.c:55
+#, fuzzy
+msgid "*Enable RAMCART"
+msgstr "*Aktiveer REU"
+
+#: src/arch/unix/uiramcart.c:57
+#, fuzzy
+msgid "*Readonly"
+msgstr "*Alleen lezen toegang"
+
+#: src/arch/unix/uiramcart.c:59
+#, fuzzy
+msgid "RAMCART size"
+msgstr "REU grootte"
+
+#: src/arch/unix/uiramcart.c:61
+#, fuzzy
+msgid "RAMCART image name..."
+msgstr "REU bestand naam..."
 
 #: src/arch/unix/uireu.c:41
 msgid "REU image name"
@@ -2765,31 +2848,31 @@ msgstr "Ongeldig cartridge bestand"
 
 #: src/arch/unix/vic20ui.c:249
 msgid "Smart-attach cartridge image..."
-msgstr "Slim-gebruik cartridge bestand..."
+msgstr "Slim-koppel cartridge bestand..."
 
 #: src/arch/unix/vic20ui.c:254
 msgid "Attach 4/8/16KB image at $2000..."
-msgstr "Gebruik 4/8/16KB bestand in $2000..."
+msgstr "Koppel 4/8/16KB bestand in $2000..."
 
 #: src/arch/unix/vic20ui.c:257
 msgid "Attach 4/8/16KB image at $4000..."
-msgstr "Gebruik 4/8/16KB bestand in $4000..."
+msgstr "Koppel 4/8/16KB bestand in $4000..."
 
 #: src/arch/unix/vic20ui.c:260
 msgid "Attach 4/8/16KB image at $6000..."
-msgstr "Gebruik 4/8/16KB bestand in $6000..."
+msgstr "Koppel 4/8/16KB bestand in $6000..."
 
 #: src/arch/unix/vic20ui.c:263
 msgid "Attach 4/8KB image at $A000..."
-msgstr "Gebruik 4/8KB bestand in $A000..."
+msgstr "Koppel 4/8KB bestand in $A000..."
 
 #: src/arch/unix/vic20ui.c:266
 msgid "Attach 4KB image at $B000..."
-msgstr "Gebruik 4KB bestand in $B000..."
+msgstr "Koppel 4KB bestand in $B000..."
 
 #: src/arch/unix/vic20ui.c:278
 msgid "Detach cartridge image(s)"
-msgstr "Verwijder cartridge bestand(en)"
+msgstr "Ontkoppel cartridge bestand(en)"
 
 #: src/arch/unix/vic20ui.c:421
 msgid "VIC settings"
@@ -3015,11 +3098,11 @@ msgstr "Momentopname opties"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:70
 msgid "Save currently attached disks"
-msgstr "Opslaan huidige disks in gebruik"
+msgstr "Opslaan huidig gekoppelde disks"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:75
 msgid "Save currently attached ROMs"
-msgstr "Opslaan huidige ROMs in gebruik"
+msgstr "Opslaan huidig gekoppelde ROMs"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:46
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:45
@@ -3208,7 +3291,7 @@ msgstr "Inhoud"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2666
 msgid "Attach write protected"
-msgstr "Gebruik schrijf beveiligd"
+msgstr "Koppel schrijf beveiligd"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2692
 msgid "Autostart"
@@ -3217,7 +3300,7 @@ msgstr "Autostarten"
 #: src/arch/unix/x11/dga1.c:82
 #, c-format
 msgid "Attach debugger to pid %d...\n"
-msgstr "Gebruik debugger op pid %d...\n"
+msgstr "Koppel debugger aan pid %d...\n"
 
 #: src/arch/unix/x11/dga1.c:127
 msgid "Successfully forked DGA."
@@ -3262,7 +3345,7 @@ msgstr "Geselecteerde modus: %s"
 #: src/arch/unix/x11/dga2.c:316
 #, c-format
 msgid "Attach debugger to pid %d..."
-msgstr "Gebruik debugger op pid %d..."
+msgstr "Koppel debugger aan pid %d..."
 
 #: src/arch/unix/x11/dga2.c:352
 msgid "refresh, not ready, skipping frame"
@@ -3486,7 +3569,7 @@ msgstr "Momentopname opties:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:210
 msgid "Save currently attached disks:"
-msgstr "Opslaan huidige gebruikte disks:"
+msgstr "Opslaan huidig gekoppelde disks:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:222
 #: src/arch/unix/x11/xaw/uisnapshot.c:261
@@ -3538,7 +3621,7 @@ msgstr ""
 #: src/arch/unix/x11/xaw/x11video.c:166 src/arch/unix/x11/xaw/x11video.c:183
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
-"Kan gedeeld geheugen niet gebruiken; terug vallen op niet-MITSHM extensie "
+"Kan gedeeld geheugen niet koppelen; terug vallen op niet-MITSHM extensie "
 "modus."
 
 #: src/arch/unix/x11/xaw/x11video.c:190

@@ -1,3 +1,53 @@
+2005-04-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.8.
+
+	* diskimage/fsimage.c (fsimage_write_sector): Flush buffer to
+	make sure the write is visible to other readers.
+
+	* diskimage/fsimage-gcr.c (fsimage_gcr_write_track): Changed
+	likewise.
+
+	* arch/win32/Makefile.am: Fixed order of source files.
+
+2005-04-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c: Fixed to compile with msvc.
+
+	* arch/win32/uiacia.c, arch/win32/uiperipheral.c,
+	arch/win32/uisid.c: Fixed some warnings.
+
+2005-04-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc, arch/win32/res.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resramcart.rc,
+	arch/win32/resvic20.rc: Fixed some dutch sentences.
+
+	* arch/win32/ffmpeglib.c, arch/win32/fullscrn.c,
+	arch/win32/intl.c, arch/win32/statusbar.c,
+	arch/win32/ui.c, arch/win32/uiacia.c,
+	arch/win32/uiattach.c, arch/win32/uic128.c,
+	arch/win32/uic64cart.c, arch/win32/uicart.c,
+	arch/win32/uicbm2set.c, arch/win32/uiconsole.c,
+	arch/win32/uidrivec128.c, arch/win32/uidrivec64vic20.c,
+	arch/win32/uidrivepetcbm2.c, arch/win32/uidriveplus4.c,
+	arch/win32/uievent.c, arch/win32/uifliplist.c,
+	arch/win32/uigeoram.c, arch/win32/uihelp.c,
+	arch/win32/uiide64.c, arch/win32/uijoystick.c,
+	arch/win32/uikeyboard.c, arch/win32/uilib.c,
+	arch/win32/uimediafile.c, arch/win32/uiperipheral.c,
+	arch/win32/uipetset.c, arch/win32/uiplus4cart.c,
+	arch/win32/uiquicksnapshot.c, arch/win32/uiramcart.c,
+	arch/win32/uireu.c, arch/win32/uirom.c,
+	arch/win32/uirs232user.c, arch/win32/uisid.c,
+	arch/win32/uisnapshot.c, arch/win32/uisound.c,
+	arch/win32/uivideo.c, c64/c64export.c, event.c,
+	vice.h: Finished up the win32 intl.
+
+	* info.c: Added the other things I've made for VICE thusfar.
+
 2005-04-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.7.
