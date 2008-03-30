@@ -41,7 +41,8 @@
 #include "ui.h"
 #include "uiattach.h"
 #include "utils.h"
-#include "vdrive.h"
+#include "vdrive-internal.h"
+
 
 static char *file_name = NULL;
 static char *format_name = NULL;
@@ -181,6 +182,7 @@ tui_menu_item_def_t ui_attach_menu_def[] = {
     { NULL }
 };
 
+
 static TUI_MENU_CALLBACK(attach_disk_callback)
 {
     const char *s;
@@ -196,7 +198,8 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         name = tui_file_selector("Attach a disk image", directory,
                                  "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;"
                                  "*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip;*.gz;*.lzh",
-                                 default_item, image_contents_read_disk, &file,
+                                 default_item, IMAGE_CONTENTS_DISK,
+                                 image_contents_read, 0, &file,
                                  &file_number);
         if (file_number > 0) {
             if (autostart_disk(name, NULL, file_number, AUTOSTART_MODE_RUN) < 0)
@@ -220,6 +223,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
     }
 
     s = file_system_get_disk_name((unsigned int)param);
+
     if (s == NULL || *s == '\0')
         return "(none)";
     else
@@ -252,7 +256,8 @@ static TUI_MENU_CALLBACK(create_set_disk_image_type_callback)
 
 static char *create_image_selector(const char *title)
 {
-    return tui_file_selector(title, NULL, "*.d64", NULL, NULL, NULL, NULL);
+    return tui_file_selector(title, NULL, "*.d64", NULL, 0, NULL, 0, NULL,
+                             NULL);
 }
 
 static TUI_MENU_CALLBACK(create_disk_image_name_callback)

@@ -86,7 +86,8 @@ tui_menu_item_def_t ui_snapshot_menu_def[] = {
 
 static char *snapshot_selector(const char *title)
 {
-    return tui_file_selector(title, NULL, "*.vsf", NULL, NULL, NULL, NULL);
+    return tui_file_selector(title, NULL, "*.vsf", NULL, 0, NULL, 0, NULL,
+                             NULL);
 }
 
 static TUI_MENU_CALLBACK(file_name_callback)

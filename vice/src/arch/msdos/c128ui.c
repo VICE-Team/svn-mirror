@@ -43,7 +43,6 @@
 #include "ui.h"
 #include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 TUI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
@@ -57,20 +56,20 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
     resources_get_value("MachineVideoStandard", (resource_value_t *)&value);
 
     if (been_activated) {
-	if (value == MACHINE_SYNC_PAL)
-	    value = MACHINE_SYNC_NTSC;
-	else
-	    value = MACHINE_SYNC_PAL;
+        if (value == MACHINE_SYNC_PAL)
+            value = MACHINE_SYNC_NTSC;
+        else
+            value = MACHINE_SYNC_PAL;
         resources_set_value("MachineVideoStandard", (resource_value_t)value);
     }
 
     switch (value) {
       case MACHINE_SYNC_PAL:
-	return "PAL-G";
+        return "PAL-G";
       case MACHINE_SYNC_NTSC:
-	return "NTSC-M";
+        return "NTSC-M";
       default:
-	return "(Custom)";
+        return "(Custom)";
     }
 }
 
@@ -87,13 +86,13 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 
     switch (value) {
       case 0:
-	return "Fast PAL";
+        return "Fast PAL";
       case 1:
-	return "Y/C cable (sharp)";
+        return "Y/C cable (sharp)";
       case 2:
-	return "Composite (blurry)";
+        return "Composite (blurry)";
       default:
-	return "unknown";
+        return "unknown";
     }
 }
 
@@ -189,8 +188,7 @@ static struct {
     { "frodo", "Frodo", "_Frodo",
       "Palette from the Frodo emulator by Christian Bauer" },
     { "godot", "GoDot", "_GoDot",
-      "Palette as suggested by the authors of the GoDot C64 graphics package" },
-    { "pc64", "PC64", "_PC64",
+      "Palette as suggested by the authors of the GoDot C64 graphics package" },    { "pc64", "PC64", "_PC64",
       "Palette from the PC64 emulator by Wolfgang Lorenz" },
     { NULL }
 };
@@ -211,7 +209,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
         char *name;
 
         name = tui_file_selector("Load custom palette",
-                                 NULL, "*.vpl", NULL, NULL, NULL, NULL);
+                                 NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_value("PaletteFile", (resource_value_t*)name)
@@ -265,11 +263,11 @@ static void add_palette_submenu(tui_menu_t parent)
                       NULL, 3, TUI_MENU_BEH_RESUME);
 
     tui_menu_add_submenu(parent, "Color _Palette:",
-			 "Choose color palette",
-			 palette_menu,
-			 palette_menu_callback,
-			 NULL,
-			 10);
+                         "Choose color palette",
+                         palette_menu,
+                         palette_menu_callback,
+                         NULL,
+                         10);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -280,7 +278,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
         char *name;
 
         name = tui_file_selector("Load ROM file",
-                                 NULL, "*", NULL, NULL, NULL, NULL);
+                                 NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_value(param, (resource_value_t)name) < 0)

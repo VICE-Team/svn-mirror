@@ -37,6 +37,7 @@
 #include "tuifs.h"
 #include "ui.h"
 
+
 static struct {
     char *name;
     char *brief_description;
@@ -66,7 +67,7 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
         char *name;
 
         name = tui_file_selector("Load custom palette",
-                                 NULL, "*.vpl", NULL, NULL, NULL, NULL);
+                                 NULL, "*.vpl", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_value("PaletteFile", (resource_value_t *)name)
@@ -141,7 +142,7 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
         char *name;
 
         name = tui_file_selector("Load ROM file",
-                                 NULL, "*", NULL, NULL, NULL, NULL);
+                                 NULL, "*", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
             if (resources_set_value(param, (resource_value_t)name) < 0)
