@@ -339,6 +339,7 @@ void riotcore_shutdown(riot_context_t *riot_context)
 {
     lib_free(riot_context->prv);
     lib_free(riot_context->myname);
+    lib_free(riot_context);
 }
 
 /*-------------------------------------------------------------------*/

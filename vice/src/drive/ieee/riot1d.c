@@ -40,12 +40,12 @@
 
 void REGPARM3 riot1_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    riotcore_store(&(ctxptr->riot1), addr, data);
+    riotcore_store(ctxptr->riot1, addr, data);
 }
 
 BYTE REGPARM2 riot1_read(drive_context_t *ctxptr, WORD addr)
 {
-    return riotcore_read(&(ctxptr->riot1), addr);
+    return riotcore_read(ctxptr->riot1, addr);
 }
 
 static void set_irq(riot_context_t *riot_context, int fl, CLOCK clk)
@@ -106,21 +106,24 @@ static BYTE read_prb(riot_context_t *riot_context)
 
 static void int_riot1d0(CLOCK c)
 {
-    riotcore_int_riot(&(drive0_context.riot1), c);
+    riotcore_int_riot(drive0_context.riot1, c);
 }
 
 static void int_riot1d1(CLOCK c)
 {
-    riotcore_int_riot(&(drive1_context.riot1), c);
+    riotcore_int_riot(drive1_context.riot1, c);
 }
 
-static const riot_initdesc_t riot1_initdesc[] = {
-    { &drive0_context.riot1, int_riot1d0 },
-    { &drive1_context.riot1, int_riot1d1 }
+static riot_initdesc_t riot1_initdesc[2] = {
+    { NULL, int_riot1d0 },
+    { NULL, int_riot1d1 }
 };
 
 void riot1_init(drive_context_t *ctxptr)
 {
+    riot1_initdesc[0].riot_ptr = drive0_context.riot1;
+    riot1_initdesc[1].riot_ptr = drive1_context.riot1;
+
     riotcore_init(riot1_initdesc, ctxptr->cpu.alarm_context,
                   ctxptr->cpu.clk_guard, ctxptr->mynumber);
 }
@@ -129,7 +132,8 @@ void riot1_setup_context(drive_context_t *ctxptr)
 {
     riot_context_t *riot;
 
-    riot = &(ctxptr->riot1);
+    ctxptr->riot1 = lib_malloc(sizeof(riot_context_t));
+    riot = ctxptr->riot1;
 
     riot->prv = NULL;
     riot->context = (void *)ctxptr;
