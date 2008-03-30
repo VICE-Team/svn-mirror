@@ -44,7 +44,6 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/monitor \
-	-I$(top_srcdir)/intl \
 	@NLS_LOCALEDIR@
 
 noinst_HEADERS = \
@@ -61,6 +60,7 @@ noinst_HEADERS = \
 	clkguard.h \
 	ciatimer.h \
 	cmdline.h \
+	color.h \
 	config.h.in \
 	console.h \
 	datasette.h \
@@ -126,6 +126,7 @@ base_sources = \
 	ciatimer.c \
 	clkguard.c \
 	cmdline.c \
+	color.c \
 	datasette.c \
 	diskimage.c \
 	emuid.c \
@@ -206,7 +207,7 @@ vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ @INTLLIBS@ 
+common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 
