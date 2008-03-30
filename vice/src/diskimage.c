@@ -601,7 +601,7 @@ static int disk_image_create_gcr(disk_image_t *image)
     BYTE gcr_header[12], gcr_track[7930], *gcrptr;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    int track, sector;
+    unsigned int track, sector;
 
     strcpy((char *) gcr_header, "GCR-1541");
 
@@ -671,9 +671,10 @@ static int disk_image_create_gcr(disk_image_t *image)
 int disk_image_create(const char *name, unsigned int type)
 {
     disk_image_t *image;
-    unsigned long size = 0;
+    unsigned int size, i;
     BYTE block[256];
-    int i;
+
+    size = 0;
 
     switch(type) {
       case DISK_IMAGE_TYPE_D64:
@@ -775,10 +776,10 @@ int disk_image_create(const char *name, unsigned int type)
         block[TAP_HDR_VERSION] = 1;
         util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
         if (fwrite(block, 24, 1, image->fd) <1) {
-                fclose(image->fd);
-                free(image->name);
-                free(image);
-                return -1;
+            fclose(image->fd);
+            free(image->name);
+            free(image);
+            return -1;
         }
 
     }

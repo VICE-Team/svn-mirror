@@ -76,8 +76,10 @@ int cmdline_register_options(const cmdline_option_t *c)
 static cmdline_option_t *lookup(const char *name, int *is_ambiguous)
 {
     cmdline_option_t *match;
-    size_t name_len = strlen(name);
-    int i;
+    size_t name_len;
+    unsigned int i;
+
+    name_len = strlen(name);
 
     match = NULL;
     for (i = 0; i < num_options; i++) {
