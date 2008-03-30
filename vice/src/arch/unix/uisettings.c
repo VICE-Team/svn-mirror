@@ -322,16 +322,17 @@ static UI_CALLBACK(select_user_keymap)
 
 static UI_CALLBACK(dump_keymap)
 {
-    PATH_VAR(wd);
-    int path_max = GET_PATH_MAX;
+    char *wd;
+    wd = xmalloc(MAXPATHLEN);
 
-    getcwd(wd, path_max);
+    getcwd(wd, MAXPATHLEN);
     suspend_speed_eval();
     if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"),
-			wd, path_max) != UI_BUTTON_OK)
-	return;
-    else if (kbd_dump_keymap(wd) < 0)
-	ui_error(strerror(errno));
+			wd, MAXPATHLEN) == UI_BUTTON_OK) {
+        if (kbd_dump_keymap(wd) < 0)
+            ui_error(strerror(errno));
+    }
+    free(wd);
 }
 
 static ui_menu_entry_t keyboard_settings_submenu[] = {
@@ -428,15 +429,16 @@ UI_CALLBACK(ui_dump_romset)
     suspend_speed_eval();
     title = stralloc(_("File to dump ROM set definition to"));
 
-    new_value = alloca(len + 1);
+    new_value = xmalloc(len + 1);
     strcpy(new_value, "");
 
     button = ui_input_string(title, _("ROM set file:"), new_value, len);
     free(title);
 
-    if (button != UI_BUTTON_OK)
-        return;
-    romset_dump(new_value, mem_romset_resources_list);
+    if (button == UI_BUTTON_OK)
+        romset_dump(new_value, mem_romset_resources_list);
+
+    free(new_value);
 }
 
 UI_CALLBACK(ui_load_rom_file)
@@ -589,15 +591,17 @@ UI_CALLBACK(set_rs232_exec_file)
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
-    new_value = alloca(len + 1);
+
+    new_value = xmalloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Command:"), new_value, len);
     free(title);
 
-    if (button != UI_BUTTON_OK)
-        return;
-    resources_set_value(resname, (resource_value_t) new_value);
+    if (button == UI_BUTTON_OK)
+        resources_set_value(resname, (resource_value_t) new_value);
+
+    free(new_value);
 }
 
 UI_CALLBACK(set_rs232_dump_file)
@@ -616,15 +620,17 @@ UI_CALLBACK(set_rs232_dump_file)
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
-    new_value = alloca(len + 1);
+
+    new_value = xmalloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Command:"), new_value, len);
     free(title);
 
-    if (button != UI_BUTTON_OK)
-        return;
-    resources_set_value(resname, (resource_value_t) new_value);
+    if (button == UI_BUTTON_OK)
+        resources_set_value(resname, (resource_value_t) new_value);
+
+    free(new_value);
 }
 
 
@@ -731,17 +737,17 @@ static UI_CALLBACK(set_fsdevice_directory)
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
-    new_value = alloca(len + 1);
+
+    new_value = xmalloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Path:"), new_value, len);
     free(title);
 
-    if (button != UI_BUTTON_OK) {
-        free(resname);
-        return;
-    }
-    resources_set_value(resname, (resource_value_t) new_value);
+    if (button == UI_BUTTON_OK)
+        resources_set_value(resname, (resource_value_t) new_value);
+
+    free(new_value);
     free(resname);
 }
 
@@ -1130,15 +1136,17 @@ static UI_CALLBACK(set_printer_exec_file)
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
-    new_value = alloca(len + 1);
+
+    new_value = xmalloc(len + 1);
     strcpy(new_value, value);
 
     button = ui_input_string(title, _("Command:"), new_value, len);
     free(title);
-    if (button != UI_BUTTON_OK)
-        return;
 
-    resources_set_value(resname, (resource_value_t) new_value);
+    if (button == UI_BUTTON_OK)
+        resources_set_value(resname, (resource_value_t) new_value);
+
+    free(new_value);
 }
 
 /* ------------------------------------------------------------------------- */
