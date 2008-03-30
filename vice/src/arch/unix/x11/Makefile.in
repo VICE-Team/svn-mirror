@@ -143,7 +143,7 @@ noinst_LIBRARIES = libx11ui.a
 EXTRA_libx11ui_a_SOURCES =          fullscreen.c
 
 
-libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	ui-cmdline-options.c 	ui-resources.c 	video.c 	videoarch.h 	c128icon.xpm 	c610icon.xpm 	c64icon.xpm 	peticon.xpm 	vic20icon.xpm
+libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	ui-cmdline-options.c 	ui-resources.c 	uicolor.h 	video.c 	videoarch.h 	c128icon.xpm 	c610icon.xpm 	c64icon.xpm 	peticon.xpm 	vic20icon.xpm
 
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
@@ -357,9 +357,7 @@ ui-cmdline-options.o: ui-cmdline-options.c ../../../../src/vice.h \
 	../../../../src/resources.h
 ui-resources.o: ui-resources.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/resources.h \
-	../../../../src/arch/unix/ui.h \
-	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
-	xaw/uiarch.h ../../../../src/utils.h
+	../../../../src/utils.h ../../../../src/arch/unix/types.h
 video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
 	../../../../src/arch/unix/kbd.h \
