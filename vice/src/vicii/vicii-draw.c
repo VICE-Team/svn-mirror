@@ -194,9 +194,9 @@ inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-static void draw_std_text_cached (raster_cache_t *cache,
-                                  int xs,
-                                  int xe)
+static void draw_std_text_cached(raster_cache_t *cache,
+                                 int xs,
+                                 int xe)
 {
 #ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk, 1);
@@ -1642,10 +1642,10 @@ void vic_ii_draw_set_double_size(int enabled)
 #ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
     if (enabled)
-      setup_double_size_modes();
+        setup_double_size_modes();
     else
 #endif /* VIC_II_NEED_2X */
 #endif /* VIDEO_REMOVE_2X */
-      setup_single_size_modes();
+        setup_single_size_modes();
 }
 

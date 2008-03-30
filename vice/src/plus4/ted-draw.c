@@ -42,13 +42,13 @@
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
 
-/* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
-static PIXEL4 hr_table[16 * 16 * 16];
+/* foreground(7) | background(7) | nibble(7) -> 4 pixels.  */
+static PIXEL4 hr_table[128 * 128 * 128];
 
 #ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
-/* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels.  */
-static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
+/* foreground(7) | background(7) | idx(2) | nibble(7) -> 4 pixels.  */
+static PIXEL4 hr_table_2x[128 * 128 * 2 * 128];
 #endif /* VIC_II_NEED_2X */
 #endif /* VIDEO_REMOVE_2X */
 
@@ -176,11 +176,11 @@ inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
     BYTE *char_ptr;
     unsigned int i;
 
-    table_ptr = hr_table + (ted.raster.background_color << 4);
+    table_ptr = hr_table + (ted.raster.background_color << 7);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
     for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 8);
+        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 14);
         int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
                 = *(char_ptr + ted.vbuf[i] * 8));
 
@@ -189,9 +189,9 @@ inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-static void draw_std_text_cached (raster_cache_t *cache,
-                                  int xs,
-                                  int xe)
+static void draw_std_text_cached(raster_cache_t *cache,
+                                 int xs,
+                                 int xe)
 {
 #ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk, 1);
@@ -220,11 +220,11 @@ inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
     BYTE *char_ptr;
     unsigned int i;
 
-    table_ptr = hr_table_2x + (ted.raster.background_color << 5);
+    table_ptr = hr_table_2x + (ted.raster.background_color << 8);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
     for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 9);
+        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 15);
         int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
                 = *(char_ptr + ted.vbuf[i] * 8));
 
@@ -1537,20 +1537,20 @@ static void setup_single_size_modes(void)
 /* Initialize the drawing tables.  */
 static void init_drawing_tables(void)
 {
-   DWORD i;
-   unsigned int f, b;
-   char tmptable[4] = { 0, 4, 5, 3 };
+    DWORD i;
+    unsigned int f, b;
+    char tmptable[4] = { 0, 4, 5, 3 };
 
-    for (i = 0; i <= 0xf; i++) {
-        for (f = 0; f <= 0xf; f++) {
-            for (b = 0; b <= 0xf; b++) {
+    for (i = 0; i <= 0x7f; i++) {
+        for (f = 0; f <= 0x7f; f++) {
+            for (b = 0; b <= 0x7f; b++) {
                 PIXEL fp, bp;
                 PIXEL *p;
                 int offset;
 
                 fp = RASTER_PIXEL(&ted.raster, f);
                 bp = RASTER_PIXEL(&ted.raster, b);
-                offset = (f << 8) | (b << 4);
+                offset = (f << 14) | (b << 7);
                 p = (PIXEL *)(hr_table + offset + i);
 
                 *p = i & 0x8 ? fp : bp;
@@ -1608,10 +1608,10 @@ void ted_draw_set_double_size(int enabled)
 #ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
     if (enabled)
-      setup_double_size_modes();
+        setup_double_size_modes();
     else
 #endif /* VIC_II_NEED_2X */
 #endif /* VIDEO_REMOVE_2X */
-      setup_single_size_modes();
+        setup_single_size_modes();
 }
 
