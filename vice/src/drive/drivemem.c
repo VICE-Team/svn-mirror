@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ciad.h"
 #include "drive.h"
 #include "driverom.h"
 #include "drivetypes.h"
@@ -39,59 +38,11 @@
 #include "machine-drive.h"
 #include "mem.h"
 #include "mon.h"
-#include "riotd.h"
 #include "types.h"
 #include "utils.h"
 #include "viad.h"
 #include "wd1770.h"
 
-
-/* ------------------------------------------------------------------------- */
-/* SFD1001 specific memory.  */
-
-static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, ADDRESS address)
-{
-    if (address & 0x80) {
-        return riot2_read(drv, address);
-    }
-    return riot1_read(drv, address);
-}
-
-static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
-                                         ADDRESS address, BYTE byte)
-{
-    if (address & 0x80) {
-        riot2_store(drv, address, byte);
-    } else {
-        riot1_store(drv, address, byte);
-    }
-}
-
-static BYTE REGPARM2 drive_read_1001zero_ram(drive_context_t *drv,
-                                             ADDRESS address)
-{
-    return drv->cpud.drive_ram[address & 0xff];
-}
-
-static void REGPARM3 drive_store_1001zero_ram(drive_context_t *drv,
-                                              ADDRESS address, BYTE byte)
-{
-    drv->cpud.drive_ram[address & 0xff] = byte;
-}
-
-static BYTE REGPARM2 drive_read_1001buffer_ram(drive_context_t *drv,
-                                               ADDRESS address)
-{
-    return drv->cpud.drive_ram[(((address >> 2) & 0x1c00)
-                               | (address & 0x03ff)) - 0x300];
-}
-
-static void REGPARM3 drive_store_1001buffer_ram(drive_context_t *drv,
-                     ADDRESS address, BYTE byte)
-{
-    drv->cpud.drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))
-                        - 0x300] = byte;
-}
 
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
@@ -109,7 +60,7 @@ static void REGPARM3 drive_store_ram(drive_context_t *drv, ADDRESS address,
     drv->cpud.drive_ram[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_rom(drive_context_t *drv, ADDRESS address)
+BYTE REGPARM2 drive_read_rom(drive_context_t *drv, ADDRESS address)
 {
     return drv->drive_ptr->rom[address & 0x7fff];
 }
@@ -137,64 +88,6 @@ static void REGPARM3 drive_store_zero(drive_context_t *drv, ADDRESS address,
                                       BYTE value)
 {
     drv->cpud.drive_ram[address & 0xff] = value;
-}
-
-/* ------------------------------------------------------------------------- */
-/* Drive memory expansion.  */
-
-static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand2[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram2(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand2[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_ram4(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand4[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram4(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand4[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_ram6(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand6[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram6(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand6[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_ram8(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand8[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram8(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand8[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_rama(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expanda[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_rama(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expanda[address & 0x1fff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -230,48 +123,19 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         drv->cpud.store_func_nowatch[i] = drive_store_free;
     }
 
-    /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1551 || type == DRIVE_TYPE_2031
-        || type == DRIVE_TYPE_1001 || type == DRIVE_TYPE_8050
-        || type == DRIVE_TYPE_8250)
-        for (i = 0xc0; i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
-
-    if (type == DRIVE_TYPE_2040)
-        for (i = 0x100 - (DRIVE_ROM2040_SIZE >> 8); i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
-
-    if (type == DRIVE_TYPE_3040 || type == DRIVE_TYPE_4040)
-        for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
-
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
-        for (i = 0x80; i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
-
-    machine_drive_mem_init(drv);
+    machine_drive_mem_init(drv, type);
 
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1551 || type == DRIVE_TYPE_1571
         || type == DRIVE_TYPE_1581 || type == DRIVE_TYPE_2031) {
 
         drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
-#if 0
-        /* Setup zero page access.  */
-        if (type == DRIVE_TYPE_1551) {
-            drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
-            drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
-        } else {
-            drv->cpud.read_func_nowatch[0] = drive_read_zero;
-            drv->cpud.store_func_nowatch[0] = drive_store_zero;
-        }
-#else
+
         if (type != DRIVE_TYPE_1551) {
             drv->cpud.read_func_nowatch[0] = drive_read_zero;
             drv->cpud.store_func_nowatch[0] = drive_store_zero;
         }
-#endif
+
         /* Setup drive RAM.  */
         for (i = 0x01; i < 0x08; i++) {
             drv->cpud.read_func_nowatch[i] = drive_read_ram;
@@ -284,35 +148,6 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
                 drv->cpud.store_func_nowatch[i] = drive_store_ram;
             }
     }
-    if (DRIVE_IS_OLDTYPE(type)) {
-        /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx,
-           mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
-           (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
-           the gaps, x00-7f the first and x80-ff the second, at
-           $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).
-           Then we have 4k of buffers, at $1000-13ff, 2000-23ff, 3000-33ff
-           and 4000-43ff, each mirrored at $x400-$x7fff, $x800-$xbff,
-           and $xc00-$xfff.
-
-           Here we set zeropage, stack and buffer RAM as well as I/O */
-
-        drv->cpu.pageone = drv->cpud.drive_ram;
-
-        for (i = 0; i <= 0x10; i += 4) {
-           drv->cpud.read_func_nowatch[i] = drive_read_1001zero_ram;
-           drv->cpud.store_func_nowatch[i] = drive_store_1001zero_ram;
-           drv->cpud.read_func_nowatch[i + 1] = drive_read_1001zero_ram;
-           drv->cpud.store_func_nowatch[i + 1] = drive_store_1001zero_ram;
-           drv->cpud.read_func_nowatch[i + 2] = drive_read_1001_io;
-           drv->cpud.store_func_nowatch[i + 2] = drive_store_1001_io;
-           drv->cpud.read_func_nowatch[i + 3] = drive_read_1001_io;
-           drv->cpud.store_func_nowatch[i + 3] = drive_store_1001_io;
-        }
-        for (i = 0x10; i <= 0x50; i ++) {
-           drv->cpud.read_func_nowatch[i] = drive_read_1001buffer_ram;
-           drv->cpud.store_func_nowatch[i] = drive_store_1001buffer_ram;
-        }
-    }
 
     /* Setup 1541, 1541-II and 1571 VIAs.  */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
@@ -324,78 +159,6 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         for (i = 0x1C; i < 0x20; i++) {
             drv->cpud.read_func_nowatch[i] = via2d_read;
             drv->cpud.store_func_nowatch[i] = via2d_store;
-        }
-    }
-
-    /* Setup 1571 CIA.  */
-    if (type == DRIVE_TYPE_1571) {
-        for (i = 0x40; i < 0x44; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1571_read;
-            drv->cpud.store_func_nowatch[i] = cia1571_store;
-        }
-        for (i = 0x20; i < 0x24; i++) {
-            drv->cpud.read_func_nowatch[i] = wd1770d_read;
-            drv->cpud.store_func_nowatch[i] = wd1770d_store;
-        }
-    }
-
-    /* Setup 1581 CIA.  */
-    if (type == DRIVE_TYPE_1581) {
-        for (i = 0x40; i < 0x44; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1581_read;
-            drv->cpud.store_func_nowatch[i] = cia1581_store;
-        }
-        for (i = 0x60; i < 0x64; i++) {
-            drv->cpud.read_func_nowatch[i] = wd1770d_read;
-            drv->cpud.store_func_nowatch[i] = wd1770d_store;
-        }
-    }
-
-    if (rom_loaded && (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II)) {
-        if (drv->drive_ptr->drive_ram2_enabled) {
-            if (drv->drive_ptr->drive_ram_expand2 != NULL)
-                free(drv->drive_ptr->drive_ram_expand2);
-            drv->drive_ptr->drive_ram_expand2 = xcalloc(1, 0x2000);
-            for (i = 0x20; i < 0x40; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram2;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram2;
-            }
-        }
-        if (drv->drive_ptr->drive_ram4_enabled) {
-            if (drv->drive_ptr->drive_ram_expand4 != NULL)
-                free(drv->drive_ptr->drive_ram_expand4);
-            drv->drive_ptr->drive_ram_expand4 = xcalloc(1, 0x2000);
-            for (i = 0x40; i < 0x60; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram4;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram4;
-            }
-        }
-        if (drv->drive_ptr->drive_ram6_enabled) {
-            if (drv->drive_ptr->drive_ram_expand6 != NULL)
-                free(drv->drive_ptr->drive_ram_expand6);
-            drv->drive_ptr->drive_ram_expand6 = xcalloc(1, 0x2000);
-            for (i = 0x60; i < 0x80; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram6;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram6;
-            }
-        }
-        if (drv->drive_ptr->drive_ram8_enabled) {
-            if (drv->drive_ptr->drive_ram_expand8 != NULL)
-                free(drv->drive_ptr->drive_ram_expand8);
-            drv->drive_ptr->drive_ram_expand8 = xcalloc(1, 0x2000);
-            for (i = 0x80; i < 0xa0; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram8;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram8;
-            }
-        }
-        if (drv->drive_ptr->drive_rama_enabled) {
-            if (drv->drive_ptr->drive_ram_expanda != NULL)
-                free(drv->drive_ptr->drive_ram_expanda);
-            drv->drive_ptr->drive_ram_expanda = xcalloc(1, 0x2000);
-            for (i = 0xa0; i < 0xc0; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_rama;
-                drv->cpud.store_func_nowatch[i] = drive_store_rama;
-            }
         }
     }
 
