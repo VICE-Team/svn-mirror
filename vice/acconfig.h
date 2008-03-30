@@ -74,9 +74,13 @@
 /* Is DWORD defined as long or int in the Windows header files? */
 #undef DWORD_IS_LONG
 
+/* Can we use the PNG library? */
+#undef HAVE_PNG
+
 /* gettext stuff */
 #undef ENABLE_NLS
 #undef HAVE_CATGETS
 #undef HAVE_GETTEXT
 #undef HAVE_LC_MESSAGES
 #undef HAVE_STPCPY
+#undef HAVE_LIBINTL_H
