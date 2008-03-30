@@ -40,6 +40,7 @@
 #include "tui.h"
 #include "tui_backend.h"
 #include "types.h"
+#include "ui.h"
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
@@ -162,7 +163,7 @@ int video_init_cmdline_options(void)
 
 int video_init(void)
 {
-    int depth, mode, i;
+    int i;
 
     if (video_log == LOG_ERR)
         video_log = log_open("Video");
@@ -176,7 +177,7 @@ int video_init(void)
 
     last_canvas = NULL;
 
-    for (i=0; i<MAX_CANVAS_NUM; i++)
+    for (i = 0; i < MAX_CANVAS_NUM; i++)
         canvaslist[i] = NULL;
 
     return 0;
@@ -258,8 +259,6 @@ static void canvas_update_colors(video_canvas_t *c)
 
 static int canvas_set_vga_mode(struct video_canvas_s *c)
 {
-    int i;
-
     statusbar_reset_bitmaps_to_update();
     set_color_depth(c->depth);
 
@@ -553,7 +552,7 @@ inline void video_canvas_refresh(video_canvas_t *c,
                                         unsigned int xi, unsigned int yi,
                                         unsigned int w, unsigned int h)
 {
-    int y_diff, l;
+    int y_diff;
 
     /* Just to be sure...  */
     if (screen == NULL)
@@ -568,7 +567,7 @@ inline void video_canvas_refresh(video_canvas_t *c,
     }
 
     w = MIN(w, vga_modes[vga_mode].width - xi);
-	h = MIN(h, vga_modes[vga_mode].height - yi);
+    h = MIN(h, vga_modes[vga_mode].height - yi);
 
     /* don't overwrite statusbar */
     if (statusbar_enabled() && (yi < STATUSBAR_HEIGHT)) {
@@ -626,9 +625,10 @@ inline void video_canvas_refresh(video_canvas_t *c,
 
 
 
-inline void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
+void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
 {
     inportb(0x3da);
     outportb(0x3c0, 0x31);
     outportb(0x3c0, color);
 }
+

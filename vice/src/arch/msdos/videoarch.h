@@ -129,6 +129,8 @@ extern void disable_text(void);
 extern void video_ack_vga_mode(void);
 extern int video_in_gfx_mode(void);
 
+extern void canvas_set_border_color(struct video_canvas_s *canvas, BYTE color);
+
 
 #endif
 

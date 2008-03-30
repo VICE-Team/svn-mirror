@@ -687,7 +687,7 @@ int sound_flush(int relative_speed)
 double sound_flush(int relative_speed)
 #endif
 {
-    int c, i, nr, space, used;
+    int c, i, nr, space = 0, used;
 
     if (!playback_enabled) {
         if (sdev_open)

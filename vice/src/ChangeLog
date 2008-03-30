@@ -1,3 +1,73 @@
+2001-12-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.52.
+
+	* plus4/plus4mem.c, plus4/plus4mem.h (mem_get_tedmem_base):
+	New function.
+	(mem_ioreg_list_get): Fixed TED memory region.
+	(mem_get_screen_parameter): Fixed TED screen base.
+	(mem_bank_read, mem_bank_write): Added ROM configurations.
+
+	* plus4/ted.c (ted_update_memory_ptrs): Fixed RAM/ROM fetch.
+	(ted_reset): reset cursor variables.
+	(ted_raster_draw_alarm_handler): Increment cursor phase.
+
+	* plus4/ted-mem.c (store_ted08): Added joystick support.
+	(read_ted1a1b, read_ted1f, store_ted3e, store_ted3f): New
+	functions.
+	(store_ted13): Support read RAM/ROM status bit.
+
+	* plus4/ted-draw.c (get_char_data, cache_data_fill_text,
+	_draw_std_text_cached, _draw_std_text_cached_2x): New
+	functions.
+	(get_std_text): Added cursor support.
+
+	* plus4/tedtypes.h: New variables `cursor_visible',
+	`cursor_phase' and `crsrpos'.
+
+	* arch/unix/plus4ui.c: Added joystick submenu.
+
+	* vicii/vicii-draw.c (get_hires_bitmap, get_mc_text,
+	get_mc_bitmap, get_ext_text): Fixed update flag handling.
+
+	* vdc/vdc-draw.c (get_std_text, get_hires_bitmap): Fixed video
+	cache coordinates.
+
+	* arch/msdos/video.c: #include "ui.h".
+	(video_init, canvas_set_vga_mode, video_canvas_refresh):
+	Removed unused variables.
+	(canvas_set_border_color): No need to inline this function.
+
+	* arch/msdos/videoarch.h: Added prototype for
+	`canvas_set_border_color()'.
+
+	* sound.c (sound_flush): Initialize variable `space'.
+
+2001-12-30  Dag Lem  <resid@nimrod.no>
+
+	* arch/msdos/menudefs.c (show_copyright_callback): Corrected
+	copyright period.
+
+	* arch/unix/x11/gnome/about.c (ui_about): Likewise.
+
+	* arch/unix/x11/xaw/about.c (ui_about): Likewise.
+
+	* c64/psid.c (psid_init_tune): Corrected typo.
+
+	* raster/raster.c (raster_realize, raster_free): Realize
+	canvas in vsid mode.
+
+2001-12-30  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.h: Added id for SID address control.
+
+	* arch/win32/res.rc: Added combobox for SID address to the
+	SID settings dialog. New function CreateAndGetSidAddress that
+	creates the address entries and sets the resource.
+
+	* sid/sid-cmdline-options.c: Changed info text for the
+	SID address option.
+
 2001-12-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.51.
