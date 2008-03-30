@@ -58,8 +58,9 @@ static struct {
 static TUI_MENU_CALLBACK(palette_callback)
 {
     if (been_activated) {
-        if (resources_set_value("PaletteFile", (resource_value_t) param) < 0)
-           tui_error("Invalid palette file");
+        if (resources_set_value("CrtcPaletteFile",
+            (resource_value_t) param) < 0)
+            tui_error("Invalid palette file");
         ui_update_menus();
     }
 
@@ -129,13 +130,18 @@ static void add_palette_submenu(tui_menu_t parent)
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_TOGGLE(DoubleScan)
+TUI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
+TUI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 
 static tui_menu_item_def_t video_menu_items[] = {
+    { "Video _Cache:",
+      "Enable screen cache (disabled when using triple buffering)",
+      toggle_CrtcVideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "_Double Scan:",
       "Display double lines when running in 80-column mode",
-      toggle_DoubleScan_callback, NULL, 3,
+      toggle_CrtcDoubleScan_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
