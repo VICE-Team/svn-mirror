@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cbmfile.h"
 #include "charset.h"
@@ -63,6 +64,7 @@ fileio_info_t *cbmfile_open(const char *file_name, const char *path,
 
     info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
     info->name = cbm_name;
+    info->length = strlen(cbm_name);
     info->type = type;
     info->format = FILEIO_FORMAT_RAW;
     info->rawfile = rawfile;
@@ -75,12 +77,12 @@ void cbmfile_close(fileio_info_t *info)
     rawfile_destroy(info->rawfile);
 }
 
-unsigned int cbmfile_read(fileio_info_t *info, char *buf, unsigned int len)
+unsigned int cbmfile_read(fileio_info_t *info, BYTE *buf, unsigned int len)
 {
     return rawfile_read(info->rawfile, buf, len);
 }
 
-unsigned int cbmfile_write(fileio_info_t *info, char *buf, unsigned int len)
+unsigned int cbmfile_write(fileio_info_t *info, BYTE *buf, unsigned int len)
 {
     return rawfile_write(info->rawfile, buf, len);
 }
