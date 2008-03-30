@@ -1,3 +1,91 @@
+2003-03-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.21.
+
+	* c128/c128mem.c (mem_update_config): Set chargen pointer if
+	the machine type is international.  (mem_pla_config_changed):
+	Only change chargen pointer if the machine type is national.
+	(mem_update_chargen): New function.
+
+	* c128/c128mem.c, c128/c128mem.h (mem_set_machine_type): New
+	function.
+
+	* c128/c128-resources.c (set_machine_type): Call
+	`mem_set_machine_type()'.
+
+	* c64/c64mem.c, c64/c64mem.h, c64/c64-snapshot.c,
+	c64/c64rom.c, c128/c128rom.c, c128/c128mem.c, c128/c128mem.h:
+	Moved common memory initialization code to separate file.
+
+	* c64/c64meminit.c, c64/c64meminit.h: New files.
+
+	* c64/Makefile.am, arch/win32/c64.dsp, arch/win32/c64c128.dsp:
+	Added new files.
+
+	* interrupt.c, interrupt.h, dma.c, maincpu.c, monitor/mon.h,
+	drive/drivecpu.c, c128/z80.c, c128/z80.h, drive/drivecpu.h,
+	drive/drivetypes.h: Alloc and free interrupt status struct.
+
+	* monitor/mon.h, monitor/mon.c, drive/drivecpu.c: Alloc and
+	free monitor interface.
+
+	* keyboard.c, keyboard.h, machine.c: Free keymap on shutdown.
+
+	* traps.c, traps.h, machine.c (traps_shutdown): New function. 
+
+	* attach.c, attach.h, vdrive/vdrive.h, vdrive/vdrive.c,
+	machine.c, c1541.c, vdrive/vdrive-internal.c: Free vdrive
+	buffer on shutdown.
+
+	* plus4/plus4acia.h, plus4/plus4drive.c, plus4/plus4mem.c,
+	plus4/plus4mem.h, plus4/plus4pio1.c, plus4/plus4pio1.h,
+	plus4/plus4pio2.c, plus4/plus4pio2.h, plus4/plus4tcbm.c,
+	plus4/plus4tcbm.h, plus4/ted-mem.c, plus4/ted-mem.h,
+	plus4/ted-sound.c, plus4/ted-sound.h, plus4/ted-timer.c,
+	plus4/ted-timer.h, plus4/ted.c: Use `WORD' instead of
+	`ADDRESS'.
+
+2003-02-29  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dialogs.[rc,h],
+	arch/os2/dialogs/dlg-cmdopt.c,
+	arch/os2/dialogs/menubar.[h,c,rc]:
+	- added fsmodes_dialog
+
+	* arch/os2/dialogs/dlg-datasette.c,
+	arch/os2/dialogs/dlg-drive.c, arch/os2/dialogs/dlg-fileio.c,
+	arch/os2/dialogs/dlg-monitor.c, arch/os2/dialogs/menubar.c,
+	arch/os2/kbd/proc.h, arch/os2/mouse.c, arch/os2/types.h,
+	arch/os2/ui_status.h, arch/os2/videoarch.h, sid/resid.cc:
+	- updated to remove ADDRESS workaround
+
+	* arch/os2/fullscr.[h,c]:
+	- added video_show_modes
+	- changed from SRC_COLORFORMAT to a predefined FOURCC mode
+	- removed depth in FindVideoMode (use fcc instead)
+
+	* arch/os2/video.c:
+	- changed from SRC_COLORFORMAT to a predefined FOURCC mode
+
+	* arch/os2/vac++/incl/drive.icc:
+	- added jobcode1581.c
+
+	* arch/os2/vac++/incl/video.icc:
+	- added video-render-pal.c
+	- video-resources-pal.c
+
+	* arch/os2/vsyncarch.c:
+	- moved machine_shutdown behind video_close and PM_close
+	cause of logs_close_all
+
+	* drive/drivecpu.c:
+	- fixed a warning
+
+2003-03-27  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/archdep.c (archdep_boot_path): Fix function to
+	work on NT4 as well.
+
 2003-03-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.20.
