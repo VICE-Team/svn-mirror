@@ -315,6 +315,12 @@ static void size_window( console_private_t *pcp )
 	ClientToScreen( pcp->hwndConsole,  (LPPOINT) &rect);
 	ClientToScreen( pcp->hwndConsole, ((LPPOINT) &rect) + 1);
 
+	if (pcp->bIsMdiChild)
+	{
+		ScreenToClient( pcp->hwndMdiClient,  (LPPOINT) &rect);
+		ScreenToClient( pcp->hwndMdiClient, ((LPPOINT) &rect) + 1);
+	}
+
     rect.right  = rect.left + pcp->pConsole->console_xres * pcp->xCharDimension;
 	rect.bottom = rect.top  + pcp->pConsole->console_yres * pcp->yCharDimension;
 
@@ -1021,6 +1027,20 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		break;
 
 
+	case WM_MDIACTIVATE:
+		if ((HWND)wParam==hwnd)
+		{
+			// we are deactivated
+			UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
+		}
+		if ((HWND)lParam==hwnd)
+		{
+			// we are activated
+
+			RegisterHotKey( hwnd, IDHOT_SNAPWINDOW, MOD_ALT, VK_SNAPSHOT );
+		}
+		break;
+
 	case WM_ACTIVATE:
 		// @@@SRT
 		if (LOWORD(wParam)!=WA_INACTIVE)
@@ -1135,8 +1155,6 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
     pcp->bIsMdiChild   = hwndMdiClient ? TRUE : FALSE;
     pcp->hwndMdiClient = hwndMdiClient;
 
-	SuspendFullscreenMode( pcp->hwndParent );
-
     if (pcp->bIsMdiChild)
     {
         pcp->hwndConsole = CreateMDIWindow(CONSOLE_CLASS,
@@ -1149,9 +1167,14 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
             hwndMdiClient,
             winmain_instance,
             0);
+
+		/* no previous active window */
+		pcp->hwndPreviousActive = NULL;
     }
     else
     {
+		SuspendFullscreenMode( pcp->hwndParent );
+
         pcp->hwndConsole = CreateWindow(CONSOLE_CLASS,
     		id,
 	    	WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
@@ -1163,11 +1186,12 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
             NULL,
             winmain_instance,
             NULL);
+
+		/* get the previous active window, and set myself active */
+		pcp->hwndPreviousActive = SetActiveWindow( pcp->hwndConsole );
     }
 
 
-	/* get the previous active window, and set myself active */
-	pcp->hwndPreviousActive = SetActiveWindow( pcp->hwndConsole );
 
 	/* get a DC and select proper font */
 	pcp->hdc = GetDC( pcp->hwndConsole );
@@ -1225,9 +1249,16 @@ int console_close(console_t *log)
 	pcp->hwndConsole = NULL;
 
 	/* set the previous active window as new active one */
-	SetActiveWindow( pcp->hwndPreviousActive );
+	if (pcp->hwndPreviousActive)
+		SetActiveWindow( pcp->hwndPreviousActive );
 
-	ResumeFullscreenMode( pcp->hwndParent );
+	if (pcp->bIsMdiChild)
+	{
+	}
+	else
+	{
+		ResumeFullscreenMode( pcp->hwndParent );
+	}
 
     return 0;
 }
