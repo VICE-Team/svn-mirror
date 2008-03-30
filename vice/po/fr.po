@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.11\n"
-"POT-Creation-Date: 2003-07-26 17:29+0200\n"
+"POT-Creation-Date: 2003-07-27 20:24+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1234,7 +1234,7 @@ msgid "*White"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:47 src/arch/unix/uivdc.c:44 src/arch/unix/uivic.c:53
-#: src/arch/unix/uivicii.c:58
+#: src/arch/unix/uivicii.c:60
 msgid "Load custom"
 msgstr "Charger les paramètres personalisés"
 
@@ -1242,7 +1242,7 @@ msgstr "Charger les paramètres personalisés"
 #: src/arch/unix/uited.c:90 src/arch/unix/uited.c:117
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
 #: src/arch/unix/uivic.c:99 src/arch/unix/uivic.c:118
-#: src/arch/unix/uivicii.c:108 src/arch/unix/uivicii.c:131
+#: src/arch/unix/uivicii.c:110 src/arch/unix/uivicii.c:133
 msgid "*Double size"
 msgstr "*Double taille"
 
@@ -1250,48 +1250,48 @@ msgstr "*Double taille"
 #: src/arch/unix/uited.c:92 src/arch/unix/uited.c:119
 #: src/arch/unix/uivdc.c:102 src/arch/unix/uivdc.c:115
 #: src/arch/unix/uivic.c:101 src/arch/unix/uivic.c:120
-#: src/arch/unix/uivicii.c:110 src/arch/unix/uivicii.c:133
+#: src/arch/unix/uivicii.c:112 src/arch/unix/uivicii.c:135
 msgid "*Double scan"
 msgstr "*Double balayage"
 
 #: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:94
 #: src/arch/unix/uivdc.c:104 src/arch/unix/uivic.c:103
-#: src/arch/unix/uivicii.c:112
+#: src/arch/unix/uivicii.c:114
 msgid "*Video cache"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:111
-#: src/arch/unix/uivic.c:112 src/arch/unix/uivicii.c:125
+#: src/arch/unix/uivic.c:112 src/arch/unix/uivicii.c:127
 msgid "*Scale 2x render"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:115
 #: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:116
-#: src/arch/unix/uivicii.c:129
+#: src/arch/unix/uivicii.c:131
 msgid "*Enable fullscreen"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:121
 #: src/arch/unix/uivdc.c:117 src/arch/unix/uivic.c:122
-#: src/arch/unix/uivicii.c:135
+#: src/arch/unix/uivicii.c:137
 msgid "Fullscreen device"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:126
 #: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:127
-#: src/arch/unix/uivicii.c:140
+#: src/arch/unix/uivicii.c:142
 msgid "VidMode Resolutions"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:130
 #: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:131
-#: src/arch/unix/uivicii.c:144
+#: src/arch/unix/uivicii.c:146
 msgid "DGA1 Resolutions"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:134
 #: src/arch/unix/uivdc.c:130 src/arch/unix/uivic.c:135
-#: src/arch/unix/uivicii.c:148
+#: src/arch/unix/uivicii.c:150
 msgid "DGA2 Resolutions"
 msgstr ""
 
@@ -1301,7 +1301,7 @@ msgstr "*Couleur d'écran CRTC"
 
 #: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:139
 #: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:143
-#: src/arch/unix/uivicii.c:161
+#: src/arch/unix/uivicii.c:163
 msgid "*Use XSync()"
 msgstr ""
 
@@ -2141,12 +2141,12 @@ msgstr ""
 msgid "Sound settings"
 msgstr ""
 
-#: src/arch/unix/uited.c:97 src/arch/unix/uivicii.c:117
+#: src/arch/unix/uited.c:97 src/arch/unix/uivicii.c:119
 msgid "*External color set"
 msgstr ""
 
 #: src/arch/unix/uited.c:100 src/arch/unix/uivdc.c:140
-#: src/arch/unix/uivic.c:106 src/arch/unix/uivicii.c:119
+#: src/arch/unix/uivic.c:106 src/arch/unix/uivicii.c:121
 msgid "Color set"
 msgstr "Jeu de couleurs"
 
@@ -2155,7 +2155,7 @@ msgstr "Jeu de couleurs"
 msgid "*Fast PAL emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/uited.c:108 src/arch/unix/uivicii.c:122
+#: src/arch/unix/uited.c:108 src/arch/unix/uivicii.c:124
 #, fuzzy
 msgid "PAL Emulation"
 msgstr "*Utiliser l'émulation reSID"
@@ -2190,7 +2190,7 @@ msgstr ""
 msgid "PAL Emulation Settings"
 msgstr "Paramètres"
 
-#: src/arch/unix/uivic.c:140 src/arch/unix/uivicii.c:153
+#: src/arch/unix/uivic.c:140 src/arch/unix/uivicii.c:155
 #: src/arch/unix/vsidui.c:175
 msgid "Video standard"
 msgstr ""
@@ -2207,15 +2207,15 @@ msgstr ""
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:115
+#: src/arch/unix/uivicii.c:117
 msgid "*New Luminances"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:156
+#: src/arch/unix/uivicii.c:158
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:158
+#: src/arch/unix/uivicii.c:160
 msgid "*Sprite-background collisions"
 msgstr ""
 

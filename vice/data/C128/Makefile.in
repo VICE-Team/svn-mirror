@@ -224,6 +224,7 @@ c128_DATA = \
 	basiclo \
 	beos_sym.vkm \
 	beos_pos.vkm \
+	c64hq.vpl \
 	c64s.vpl \
 	ccs64.vpl \
 	chargde \

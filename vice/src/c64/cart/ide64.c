@@ -409,16 +409,63 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
         return -1;
 
-    ide_disk=fopen(ide64_image_file,MODE_READ_WRITE);
-    if (!ide_disk) ide_disk=fopen(ide64_image_file,MODE_APPEND);
-    if (!ide_disk) ide_disk=fopen(ide64_image_file,MODE_READ);
+    ide_disk = fopen(ide64_image_file,MODE_READ_WRITE);
+
+    if (!ide_disk)
+        ide_disk = fopen(ide64_image_file,MODE_APPEND);
+
+    if (!ide_disk)
+        ide_disk = fopen(ide64_image_file,MODE_READ);
 
 #ifdef IDE64_DEBUG
     log_debug("IDE64 attached");
 #endif
 
-    if (ide_disk) log_message(LOG_DEFAULT, _("IDE64: Using imagefile `%s'."), ide64_image_file);
-	else log_message(LOG_DEFAULT, _("IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"), ide64_image_file);
+    if (ide_disk)
+        log_message(LOG_DEFAULT,
+                    _("IDE64: Using imagefile `%s'."), ide64_image_file);
+    else
+        log_message(LOG_DEFAULT,
+                    _("IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"),
+                    ide64_image_file);
+
+    /* try to get drive geometry */
+    unsigned char idebuf[20];
+    int  heads, sectors, cyll, cylh, cyl, res;
+    unsigned long size;
+    if (ide_disk) {
+        /* read header */
+        res = fread(idebuf, 1, 20, ide_disk);
+        if (res<20) {
+            log_message(LOG_DEFAULT, _("IDE64: Couldn't read disk geometry from image, using default 8MB."));
+            return 0;
+        }
+        /* check signature */
+        res = memcmp(idebuf,"C64-IDE V", 9);
+        if (res!=0) {
+            log_message(LOG_DEFAULT, _("IDE64: Disk is not formatted, using default 8MB."));
+            return 0;
+        }
+        /* fetch data */
+        cyl = (idebuf[0x10] << 8) | idebuf[0x11];
+        cyl++;
+        cyll = cyl & 0xff; cylh = cyl >> 8;
+        heads = idebuf[0x12];
+        heads++;
+        sectors = idebuf[0x13];
+        size = cyl * heads * sectors;
+        log_message(LOG_DEFAULT, _("IDE64: using %i/%i/%i CHS geometry, %lu sectors total."), cyl, heads, sectors, size);
+
+        ide_identify[0x02] = cyll;        ide_identify[108] = cyll;
+        ide_identify[0x03] = cylh;        ide_identify[109] = cylh;
+        ide_identify[0x06] = heads;       ide_identify[110] = heads;
+        ide_identify[0x0c] = sectors;     ide_identify[112] = sectors;
+
+        ide_identify[114]=(BYTE)(size & 0xff);size>>=8;
+        ide_identify[115]=(BYTE)(size & 0xff);size>>=8;
+        ide_identify[116]=(BYTE)(size & 0xff);size>>=8;
+        ide_identify[117]=(BYTE)(size & 0xff);
+    }
 
     return 0;
 }

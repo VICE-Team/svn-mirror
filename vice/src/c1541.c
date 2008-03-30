@@ -1872,7 +1872,7 @@ static int internal_write_geos_file(int unit, FILE* f)
                 c = fgetc(f);
                 if (c == EOF) {
                     block[0] = 0;
-                    block[1] = n - 2;
+                    block[1] = n - 1;
                     while (n < 256)
                         block[n++] = 0x00;
                     bContinue = 0;

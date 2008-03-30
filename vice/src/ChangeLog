@@ -1,3 +1,34 @@
+2003-08-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.21.
+
+	* arch/unix/uivicii.c: Added C64HQ palette file selection.
+
+	* vicii/vicii-phi1.c, vicii/vicii-phi1.h (vicii_read_phi1):
+	Splitted into high level and low level function.
+
+	* c64/c64mem.c, c128/c128mem.c (zero_store): Fixed bug found
+	by Wolfgang Moser - call `vicii_read_phi1_lowlevel()' now.
+
+	* mem.h, monitor/monitor.c (mon_ioreg_add_list,
+	mon_display_io_regs): Fixed broken list linkage.
+
+	* tpi.h, drive/drivetypes.h, drive/tcbm/tpid.h, tpicore.h,
+	drive/tcbm/tpid.c, drive/tcbm/tcbm.c, cbm2/cbm2tpi1.c,
+	cbm2/cbm2tpi2.c, c64/c64tpi.c, c64/c64.h, c64/c64tpi.h,
+	c64/c64.c, c128/c128.c, c128/c128.h, c128/c128memsnapshot.c,
+	cbm2/cbm2tpi.h, cbm2/cbm2.h, cbm2/cbm2.c, cbm2/cbm2acia1.c,
+	cbm2/cbm2-snapshot.c, cbm2/cbm2cia1.c: Changed to use TPI
+	context.
+
+	* tpicore.h: Removed.
+
+	* Makefile.am: Updated.
+
+2003-08-03  Maciej Witkowiak  <ytm@elysium.pl>
+
+	* c1541.c, c64/cart/ide64.c: Some fixes.
+
 2003-07-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.20.
