@@ -40,7 +40,7 @@
  * local prototypes
  */
 
-static int int_riot(long offset);
+static int int_riot(CLOCK offset);
 
 /*
  * local variables
@@ -221,7 +221,7 @@ void REGPARM2 myriot_store(ADDRESS addr, BYTE byte)
 	    }
 	}
 
-	update_irq(newirq);
+	update_irq((BYTE)(newirq));
 
 	if (!ti_irqen) {
 	    alarm_unset(&riot_alarm);
@@ -291,7 +291,7 @@ BYTE REGPARM1 myriot_read_(ADDRESS addr)
 	log_warning(riot_log, "read timer @%d not yet implemented\n",
 		addr);
 */
-	update_irq(irqfl & 0x7f);
+	update_irq((BYTE)(irqfl & 0x7f));
 
 	update_timer();
 
@@ -317,18 +317,18 @@ BYTE REGPARM1 myriot_read_(ADDRESS addr)
 	    alarm_set(&riot_alarm, ti_write_clk + ti_N * ti_divider);
         }
 
-	update_irq(irqfl & 0xbf);
+	update_irq((BYTE)(irqfl & 0xbf));
     }
     return 0xff;
 }
 
-static int int_riot(long offset)
+static int int_riot(CLOCK offset)
 {
 /*    CLOCK rclk = myclk - offset; */
 
     alarm_unset(&riot_alarm);
 
-    update_irq(irqfl | 0x80);
+    update_irq((BYTE)(irqfl | 0x80));
 
     return 0;
 }
@@ -381,13 +381,13 @@ int myriot_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, riotio[3]);
 
     snapshot_module_write_byte(m, edgectrl);
-    snapshot_module_write_byte(m, irqfl | (irqline ? 1 : 0));
+    snapshot_module_write_byte(m, (BYTE)(irqfl | (irqline ? 1 : 0)));
 
     snapshot_module_write_byte(m, (BYTE)(ti_N - (myclk - ti_write_clk)
                                / ti_divider));
-    snapshot_module_write_word(m, ti_divider);
+    snapshot_module_write_word(m, (WORD)ti_divider);
     snapshot_module_write_word(m, (BYTE)((myclk - ti_write_clk) % ti_divider));
-    snapshot_module_write_byte(m, ti_irqen ? 1 : 0);
+    snapshot_module_write_byte(m, (BYTE)(ti_irqen ? 1 : 0));
 
     snapshot_module_close(m);
 

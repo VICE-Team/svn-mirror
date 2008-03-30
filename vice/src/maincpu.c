@@ -530,7 +530,8 @@ int maincpu_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
+                               ((BYTE)SNAP_MINOR));
     if (m == NULL)
         return -1;
 
@@ -542,7 +543,7 @@ int maincpu_write_snapshot_module(snapshot_t *s)
         || snapshot_module_write_byte(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
         || snapshot_module_write_word(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
         || snapshot_module_write_byte(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || snapshot_module_write_dword(m, last_opcode_info) < 0
+        || snapshot_module_write_dword(m, (DWORD)(last_opcode_info)) < 0
         )
         goto fail;
 

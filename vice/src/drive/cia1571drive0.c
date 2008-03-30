@@ -51,12 +51,12 @@
  * CPU binding
  */
 
+#include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "ciad.h"
 #include "iecdrive.h"
-
 #include "interrupt.h"
+#include "types.h"
 
 #define MYCIA_INT       IK_IRQ
 
@@ -89,7 +89,7 @@ static inline void pulse_ciapc(CLOCK rclk) { }
 
 static inline void store_sdr(BYTE byte)
 {
-    iec_fast_drive_write(cia_shifter);
+    iec_fast_drive_write((BYTE)cia_shifter);
 }
 
 static inline void undump_ciapa(CLOCK rclk, BYTE b)

@@ -111,7 +111,7 @@ void pruser_write_data(BYTE b)
 void pruser_write_strobe(int s)
 {
     if (userport_printer_enabled && strobe && !s) {	/* hi->lo on strobe */
-	print_putc(fd, value);
+	print_putc(fd, (BYTE)value);
 
         pruser_set_busy(1);	/* signal lo->hi */
         pruser_set_busy(0);	/* signal hi->lo */

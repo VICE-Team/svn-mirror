@@ -37,6 +37,8 @@
 #include "fliplist.h"
 #include "resources.h"
 #include "serial.h"
+#include "snapshot.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
@@ -375,8 +377,8 @@ int vdrive_write_snapshot_module(snapshot_t *s, int start)
         floppy = (vdrive_t *)file_system_get_vdrive(i);
         if (floppy->image != NULL) {
             sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
-            m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR,
-                                       SNAP_MINOR);
+            m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
+                                       ((BYTE)SNAP_MINOR));
             if (m == NULL)
                 return -1;
             snapshot_module_close(m);

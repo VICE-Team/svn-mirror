@@ -42,6 +42,7 @@
  */
 #include "clkguard.h"
 #include "ciatimer.h"
+#include "types.h"
 
 static ciat_t ciata;
 static ciat_t ciatb;
@@ -346,19 +347,19 @@ void REGPARM2 mycia_store(ADDRESS addr, BYTE byte)
 
       case CIA_TAL:
 	cia_update_ta(rclk);
-	ciat_set_latchlo(&ciata, rclk, byte);
+	ciat_set_latchlo(&ciata, rclk, (BYTE)byte);
 	break;
       case CIA_TBL:
 	cia_update_tb(rclk);
-	ciat_set_latchlo(&ciatb, rclk, byte);
+	ciat_set_latchlo(&ciatb, rclk, (BYTE)byte);
 	break;
       case CIA_TAH:
 	cia_update_ta(rclk);
-	ciat_set_latchhi(&ciata, rclk, byte);
+	ciat_set_latchhi(&ciata, rclk, (BYTE)byte);
 	break;
       case CIA_TBH:
 	cia_update_tb(rclk);
-	ciat_set_latchhi(&ciatb, rclk, byte);
+	ciat_set_latchhi(&ciatb, rclk, (BYTE)byte);
 	break;
 
 	/*
@@ -823,7 +824,7 @@ BYTE REGPARM1 mycia_peek(ADDRESS addr)
 /* ------------------------------------------------------------------------- */
 
 
-static int int_ciata(long offset)
+static int int_ciata(CLOCK offset)
 {
     CLOCK rclk = myclk - offset;
 /*    int n; */
@@ -898,7 +899,7 @@ static int int_ciata(long offset)
  */
 
 
-static int int_ciatb(long offset)
+static int int_ciatb(CLOCK offset)
 {
     CLOCK rclk = myclk - offset;
     int n;
@@ -958,7 +959,7 @@ void mycia_set_sdr(BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
-static int int_ciatod(long offset)
+static int int_ciatod(CLOCK offset)
 {
     int t, pm;
     CLOCK rclk = myclk - offset;
@@ -1089,8 +1090,8 @@ int mycia_write_snapshot_module(snapshot_t *p)
     cia_update_ta(myclk);
     cia_update_tb(myclk);
 
-    m = snapshot_module_create(p, MYCIA_NAME,
-                               CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, MYCIA_NAME, (BYTE)CIA_DUMP_VER_MAJOR,
+                               (BYTE)CIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
@@ -1102,27 +1103,27 @@ int mycia_write_snapshot_module(snapshot_t *p)
     log_message(cia_log, "write ciaint=%02x, ciaier=%02x", ciaint, ciaier);
 #endif
 
-    snapshot_module_write_byte(m, cia[CIA_PRA]);
-    snapshot_module_write_byte(m, cia[CIA_PRB]);
-    snapshot_module_write_byte(m, cia[CIA_DDRA]);
-    snapshot_module_write_byte(m, cia[CIA_DDRB]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_PRA]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_PRB]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_DDRA]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_DDRB]);
     snapshot_module_write_word(m, ciat_read_timer(&ciata, myclk));
     snapshot_module_write_word(m, ciat_read_timer(&ciatb, myclk));
-    snapshot_module_write_byte(m, cia[CIA_TOD_TEN]);
-    snapshot_module_write_byte(m, cia[CIA_TOD_SEC]);
-    snapshot_module_write_byte(m, cia[CIA_TOD_MIN]);
-    snapshot_module_write_byte(m, cia[CIA_TOD_HR]);
-    snapshot_module_write_byte(m, cia[CIA_SDR]);
-    snapshot_module_write_byte(m, ciaier);
-    snapshot_module_write_byte(m, cia[CIA_CRA]);
-    snapshot_module_write_byte(m, cia[CIA_CRB]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_TOD_TEN]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_TOD_SEC]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_TOD_MIN]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_TOD_HR]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_SDR]);
+    snapshot_module_write_byte(m, (BYTE)ciaier);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_CRA]);
+    snapshot_module_write_byte(m, (BYTE)cia[CIA_CRB]);
 
     snapshot_module_write_word(m, ciat_read_latch(&ciata, myclk));
     snapshot_module_write_word(m, ciat_read_latch(&ciatb, myclk));
     snapshot_module_write_byte(m, mycia_peek(CIA_ICR));
 
     /* Bits 2 & 3 are compatibility to snapshot format v1.0 */
-    snapshot_module_write_byte(m, ((cia_tat ? 0x40 : 0)
+    snapshot_module_write_byte(m, (BYTE)((cia_tat ? 0x40 : 0)
                            | (cia_tbt ? 0x80 : 0)
 			   | (ciat_is_underflow_clk(&ciata, myclk) ? 0x04 : 0)
 			   | (ciat_is_underflow_clk(&ciatb, myclk) ? 0x08 : 0)
@@ -1142,7 +1143,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
     } else {
 	byte = 0;
     }
-    snapshot_module_write_byte(m, byte);
+    snapshot_module_write_byte(m, (BYTE)(byte));
 
     snapshot_module_write_byte(m, ((ciatodlatched ? 1 : 0)
                                    | (ciatodstopped ? 2 : 0)));
@@ -1159,7 +1160,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
 			(CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
 
     snapshot_module_write_byte(m, cia_shifter);
-    snapshot_module_write_byte(m, cia_sdr_valid);
+    snapshot_module_write_byte(m, (BYTE)(cia_sdr_valid));
 
     snapshot_module_close(m);
 

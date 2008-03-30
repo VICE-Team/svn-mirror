@@ -43,7 +43,7 @@ static int latch_rev_keyarr[KBD_COLS];
 
 static alarm_t keyboard_alarm;
 
-static int keyboard_latch_matrix(long offset)
+static int keyboard_latch_matrix(CLOCK offset)
 {
     alarm_unset(&keyboard_alarm);
     alarm_context_update_next_pending(keyboard_alarm.context);

@@ -141,9 +141,11 @@ fail:
     return 1;
 }
 
-static int uss_write(warn_t *w, SWORD *pbuf, int nr)
+static int uss_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
-    int			total, i, now;
+    int i, now;
+    size_t total;
+
     if (uss_8bit)
     {
 	/* XXX: ugly to change contents of the buffer */

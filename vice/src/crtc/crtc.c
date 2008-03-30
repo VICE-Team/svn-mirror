@@ -541,7 +541,7 @@ void crtc_resize (void)
 
 /* Redraw the current raster line.  This happens at the last
    cycle of each line.  */
-int crtc_raster_draw_alarm_handler (long offset)
+int crtc_raster_draw_alarm_handler (CLOCK offset)
 {
     CLOCK rclk = clk - offset;
     int new_sync_diff;

@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "sound.h"
+#include "types.h"
 #include "utils.h"
 
 static FILE *wav_fd = NULL;
@@ -68,7 +69,7 @@ static int wav_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int wav_write(warn_t *w, SWORD *pbuf, int nr)
+static int wav_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
     int	i;
 

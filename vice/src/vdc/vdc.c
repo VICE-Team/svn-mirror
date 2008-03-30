@@ -188,7 +188,7 @@ void vdc_update_memory_ptrs(unsigned int cycle)
 
 /* Redraw the current raster line. */
 
-int vdc_raster_draw_alarm_handler(long offset)
+int vdc_raster_draw_alarm_handler(CLOCK offset)
 {
     int in_visible_area;
 

@@ -2,10 +2,10 @@
  * viacore.c - Core functions for VIA emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Patch by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -67,8 +67,8 @@
  * local prototypes
  */
 
-static int int_myviat1(long offset);
-static int int_myviat2(long offset);
+static int int_myviat1(CLOCK offset);
+static int int_myviat2(CLOCK offset);
 
 /*
  * local variables
@@ -154,7 +154,7 @@ inline static void update_myviairq(void)
 
 /* the next two are used in myvia_read() */
 
-inline static unsigned int myviata(void)
+inline static CLOCK myviata(void)
 {
     if (myclk < myviatau - TAUOFFSET)
         return myviatau - TAUOFFSET - myclk - 2;
@@ -162,7 +162,7 @@ inline static unsigned int myviata(void)
 	return (myviatal - (myclk - myviatau + TAUOFFSET) % (myviatal + 2));
 }
 
-inline static unsigned int myviatb(void)
+inline static CLOCK myviatb(void)
 {
     return myviatbu - myclk - 2;
 }
@@ -746,7 +746,7 @@ BYTE REGPARM1 myvia_peek(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-static int int_myviat1(long offset)
+static int int_myviat1(CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -775,7 +775,7 @@ static int int_myviat1(long offset)
  * Timer B is always in one-shot mode
  */
 
-static int int_myviat2(long offset)
+static int int_myviat2(CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -862,27 +862,28 @@ int myvia_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, myvia[VIA_PRB]);
     snapshot_module_write_byte(m, myvia[VIA_DDRB]);
 
-    snapshot_module_write_word(m, myviatal);
-    snapshot_module_write_word(m, myviata());
+    snapshot_module_write_word(m, (WORD)myviatal);
+    snapshot_module_write_word(m, (WORD)myviata());
     snapshot_module_write_byte(m, myvia[VIA_T2LL]);
-    snapshot_module_write_word(m, myviatb());
+    snapshot_module_write_word(m, (WORD)myviatb());
 
-    snapshot_module_write_byte(m, (myviatai ? 0x80 : 0)
-					| (myviatbi ? 0x40 : 0) );
+    snapshot_module_write_byte(m, (BYTE)((myviatai ? 0x80 : 0)
+					| (myviatbi ? 0x40 : 0)));
 
     snapshot_module_write_byte(m, myvia[VIA_SR]);
     snapshot_module_write_byte(m, myvia[VIA_ACR]);
     snapshot_module_write_byte(m, myvia[VIA_PCR]);
 
-    snapshot_module_write_byte(m, myviaifr);
-    snapshot_module_write_byte(m, myviaier);
+    snapshot_module_write_byte(m, (BYTE)myviaifr);
+    snapshot_module_write_byte(m, (BYTE)myviaier);
 
 						/* FIXME! */
-    snapshot_module_write_byte(m, (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0));
+    snapshot_module_write_byte(m, (BYTE)((((myviapb7 ^ myviapb7x)
+                               | myviapb7o) ? 0x80 : 0)));
     snapshot_module_write_byte(m, 0);		/* SRHBITS */
 
-    snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
-				| (cb2_state ? 0x40 : 0));
+    snapshot_module_write_byte(m, (BYTE)((ca2_state ? 0x80 : 0) 
+                               | (cb2_state ? 0x40 : 0)));
 
     snapshot_module_write_byte(m, myvia_ila);
     snapshot_module_write_byte(m, myvia_ilb);

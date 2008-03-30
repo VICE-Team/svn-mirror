@@ -44,9 +44,9 @@ static int fs_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int fs_write(warn_t *w, SWORD *pbuf, int nr)
+static int fs_write(warn_t *w, SWORD *pbuf, size_t nr)
 {
-    int			i;
+    int i;
     i = fwrite(pbuf, sizeof(SWORD), nr, fs_fd);
     if (i != nr)
 	return 1;

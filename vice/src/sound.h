@@ -27,6 +27,8 @@
 #ifndef _SOUND_H
 #define _SOUND_H
 
+#include <stdio.h>
+
 #include "types.h"
 #include "warn.h"
 
@@ -54,7 +56,7 @@ typedef struct
 					double bufsize);
     /* send number of bytes to the soundcard. it is assumed to block if kernel
        buffer is full */
-    int				(*write)(warn_t *w, SWORD *pbuf, int nr);
+    int				(*write)(warn_t *w, SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
     int				(*dump)(warn_t *w, ADDRESS addr, BYTE byte,
 					CLOCK clks);

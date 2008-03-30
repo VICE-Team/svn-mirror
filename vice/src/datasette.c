@@ -287,7 +287,7 @@ static CLOCK datasette_read_gap(int direction)
 }
 
 
-static int datasette_read_bit(long offset)
+static int datasette_read_bit(CLOCK offset)
 {
     double speed_of_tape = DS_V_PLAY;
     int direction = 1;
@@ -533,7 +533,7 @@ void datasette_toggle_write_bit(int write_bit)
             if (write_time < (CLOCK)7)
                 return;
             if (write_time < (CLOCK)(255 * 8 + 7)) {
-                write_gap = (write_time / (CLOCK)8);
+                write_gap = (BYTE)(write_time / (CLOCK)8);
                 if (fwrite(&write_gap, 1, 1, current_image->fd) < 1) {
                     datasette_control(DATASETTE_CONTROL_STOP);
                     return;
@@ -546,9 +546,9 @@ void datasette_toggle_write_bit(int write_bit)
                 if (current_image->version >= 1) {
                     BYTE long_gap[3];
                     int bytes_written;
-                    long_gap[0] = write_time & 0xff;
-                    long_gap[1] = (write_time >> 8) & 0xff;
-                    long_gap[2] = (write_time >> 16) & 0xff;
+                    long_gap[0] = (BYTE)(write_time & 0xff);
+                    long_gap[1] = (BYTE)((write_time >> 8) & 0xff);
+                    long_gap[2] = (BYTE)((write_time >> 16) & 0xff);
                     write_time = write_time & 0xffffff;
                     bytes_written = fwrite(long_gap, 1, 3, current_image->fd);
                     current_image->current_file_seek_position += bytes_written;

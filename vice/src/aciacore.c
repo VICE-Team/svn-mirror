@@ -56,7 +56,7 @@ static int alarm_active = 0;	/* if alarm is set or not */
 
 static log_t acia_log = LOG_ERR;
 
-static int int_acia(long offset);
+static int int_acia(CLOCK offset);
 
 static BYTE acia_last_read = 0;  /* the byte read the last time (for RMW) */
     
@@ -442,7 +442,7 @@ BYTE myacia_peek(ADDRESS a) {
 	return 0;
 }
 
-static int int_acia(long offset) 
+static int int_acia(CLOCK offset) 
 {
 	int rxirq;
 
