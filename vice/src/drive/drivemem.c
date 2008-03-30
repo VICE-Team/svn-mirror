@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -34,6 +35,7 @@
 #include "drivetypes.h"
 #include "fdc.h"
 #include "log.h"
+#include "mem.h"
 #include "mon.h"
 #include "riotd.h"
 #include "types.h"
@@ -377,28 +379,28 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
            sizeof(drive_store_func_t *) * 0x101);
 
     switch (type) {
-    case DRIVE_TYPE_NONE:
+      case DRIVE_TYPE_NONE:
         break;
-    case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_2040:
         drv->drive_ptr->rom_start = 0xe000;
         break;
-    case DRIVE_TYPE_3040:
-    case DRIVE_TYPE_4040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
         drv->drive_ptr->rom_start = 0xd000;
         break;
-    case DRIVE_TYPE_1541II:
-    case DRIVE_TYPE_2031:
-    case DRIVE_TYPE_1001:
-    case DRIVE_TYPE_8050:
-    case DRIVE_TYPE_8250:
+      case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_2031:
+      case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         drv->drive_ptr->rom_start = 0xc000;
         break;
-    case DRIVE_TYPE_1541:
-    case DRIVE_TYPE_1571:
-    case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1581:
         drv->drive_ptr->rom_start = 0x8000;
         break;
-    default:
+      default:
         log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
     }
 }
@@ -406,4 +408,94 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
 #ifdef _MSC_VER
 #pragma optimize("",on)
 #endif
+
+static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
+{
+    mem_ioreg_list_t *drive_ioreg_list = NULL;
+
+    switch (type) {
+      case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1541II:
+        drive_ioreg_list 
+            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
+        drive_ioreg_list[0].name = "VIA1";
+        drive_ioreg_list[0].start = 0x1800;
+        drive_ioreg_list[0].end = 0x180f;
+        drive_ioreg_list[0].next = &drive_ioreg_list[1];
+
+        drive_ioreg_list[1].name = "VIA2";
+        drive_ioreg_list[1].start = 0x1c00;
+        drive_ioreg_list[1].end = 0x1c0f;
+        drive_ioreg_list[1].next = NULL;
+        break;
+      case DRIVE_TYPE_1571:
+        drive_ioreg_list
+            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 4);
+        drive_ioreg_list[0].name = "VIA1";
+        drive_ioreg_list[0].start = 0x1800;
+        drive_ioreg_list[0].end = 0x180f;
+        drive_ioreg_list[0].next = &drive_ioreg_list[1];
+
+        drive_ioreg_list[1].name = "VIA2";
+        drive_ioreg_list[1].start = 0x1c00;
+        drive_ioreg_list[1].end = 0x1c0f;
+        drive_ioreg_list[1].next = &drive_ioreg_list[2];
+
+        drive_ioreg_list[2].name = "WD1770";
+        drive_ioreg_list[2].start = 0x2000;
+        drive_ioreg_list[2].end = 0x2003;
+        drive_ioreg_list[2].next = &drive_ioreg_list[3];
+
+        drive_ioreg_list[3].name = "CIA";
+        drive_ioreg_list[3].start = 0x4000;
+        drive_ioreg_list[3].end = 0x400f;
+        drive_ioreg_list[3].next = NULL;
+        break;
+      case DRIVE_TYPE_1581:
+        drive_ioreg_list
+            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
+        drive_ioreg_list[0].name = "CIA";
+        drive_ioreg_list[0].start = 0x4000;
+        drive_ioreg_list[0].end = 0x400f;
+        drive_ioreg_list[0].next = &drive_ioreg_list[1];
+
+        drive_ioreg_list[1].name = "WD1770";
+        drive_ioreg_list[1].start = 0x6000;
+        drive_ioreg_list[1].end = 0x6003;
+        drive_ioreg_list[1].next = NULL;
+        break;
+      case DRIVE_TYPE_2031:
+      case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
+      case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
+        drive_ioreg_list
+            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
+        drive_ioreg_list[0].name = "RIOT1";
+        drive_ioreg_list[0].start = 0x0200;
+        drive_ioreg_list[0].end = 0x021f;
+        drive_ioreg_list[0].next = &drive_ioreg_list[1];
+
+        drive_ioreg_list[1].name = "RIOT2";
+        drive_ioreg_list[1].start = 0x0280;
+        drive_ioreg_list[1].end = 0x029f;
+        drive_ioreg_list[1].next = NULL;
+        break;
+      default:
+        log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
+    }
+    return drive_ioreg_list;
+}
+
+mem_ioreg_list_t *drive0_ioreg_list_get(void)
+{
+    return drive_ioreg_list_get(drive0_context.drive_ptr->type);
+}
+
+mem_ioreg_list_t *drive1_ioreg_list_get(void)
+{
+    return drive_ioreg_list_get(drive1_context.drive_ptr->type);
+}
 
