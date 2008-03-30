@@ -185,9 +185,6 @@ perform_mode_change(raster_t *raster)
   raster_resize_viewport(raster, viewport->width, viewport->height);
 }
 
-
-
-
 
 
 /* Increase `area' so that it also includes [xs; xe] at line y.  WARNING:
@@ -404,9 +401,8 @@ handle_blank_line (raster_t *raster)
 {
   unsigned int pixel_width;
 
-  if (console_mode || psid_mode) {
+  if (console_mode || psid_mode)
     return;
-  }
 
   pixel_width = raster->viewport.pixel_size.width;
 
@@ -447,7 +443,7 @@ handle_blank_line (raster_t *raster)
       raster->cache[raster->current_line].blank = 1;
 
       add_line_and_double_scan (raster,
-                                0, raster->geometry.screen_size.width - 1);
+				0, raster->geometry.screen_size.width - 1);
     }
   else if (CANVAS_USES_TRIPLE_BUFFERING (raster->viewport.canvas)
            || raster->dont_cache
@@ -463,8 +459,7 @@ handle_blank_line (raster_t *raster)
       raster->cache[raster->current_line].blank = 1;
       raster->cache[raster->current_line].is_dirty = 0;
 
-      draw_blank (raster,
-                  0, raster->geometry.screen_size.width - 1);
+      draw_blank (raster, 0, raster->geometry.screen_size.width - 1);
       add_line_to_area (&raster->update_area,
                         raster->current_line,
                         0, raster->geometry.screen_size.width - 1);
@@ -472,11 +467,13 @@ handle_blank_line (raster_t *raster)
       if (raster->viewport.pixel_size.height == 2
           && raster->do_double_scan)
         {
+	  /* We do not use `add_line_and_double_scan()' because drawing the
+             same line twice is faster.  */
           vid_memset ((FRAME_BUFFER_LINE_START (raster->frame_buffer,
                                                 2 * raster->current_line + 1)
                        + raster->geometry.extra_offscreen_border),
                       RASTER_PIXEL (raster, raster->border_color),
-                    (raster->geometry.screen_size.width - 1) * pixel_width);
+		      raster->geometry.screen_size.width * pixel_width);
           add_line_to_area (&raster->update_area,
                             raster->current_line,
                             0, raster->geometry.screen_size.width - 1);
@@ -1048,9 +1045,8 @@ handle_visible_line_with_changes (raster_t *raster)
 inline static void
 handle_visible_line (raster_t *raster)
 {
-  if (console_mode || psid_mode) {
+  if (console_mode || psid_mode)
     return;
-  }
 
   if (raster->changes.have_on_this_line)
     handle_visible_line_with_changes (raster);
@@ -1573,7 +1569,9 @@ raster_enable_double_scan (raster_t *raster,
   raster_force_repaint (raster);
 }
 
-void raster_set_canvas_refresh(raster_t *raster, int enable)
+void
+raster_set_canvas_refresh (raster_t *raster,
+			   int enable)
 {
   raster_viewport_t *viewport;
 
