@@ -64,7 +64,7 @@
 #include "fsdevice.h"
 
 enum fsmode {
-    Write, Read, Directory
+    Write, Read, Append, Directory
 };
 
 struct fs_buffer_info {
@@ -78,6 +78,7 @@ struct fs_buffer_info {
     int eof;
     int dirmpos;
     int reclen;
+    int type;
 } fs_info[16];
 
 /* this should somehow go into the fs_info struct... */
@@ -89,14 +90,15 @@ static unsigned int fs_cptr = 0;
 
 static char fs_dirmask[MAXPATHLEN];
 
-static FILE *fs_find_pc64_name(void *flp, char *name, int length);
-static void fs_test_pc64_name(void *flp, char *rname);
+static FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname);
+static void fs_test_pc64_name(void *flp, char *rname, int secondary);
 static int fsdevice_compare_pc64_name(char *name, char *p00name);
 static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname);
 static int fsdevice_create_file_p00(void *flp, char *name, int length,
-                                     char *fsname);
+                                     char *fsname, int secondary);
 static int fsdevice_reduce_filename_p00(char *filename, int len);
 static int fsdevice_eliminate_char_p00(char *filename, int pos);
+static int fsdevice_evaluate_name_p00(char *name, int length, char *filename);
 
 /* FIXME: ugly.  */
 extern errortext_t floppy_error_messages;
@@ -314,7 +316,7 @@ void fs_error(int code)
     last_code = code;
 
     if (code == IPE_DOS_VERSION) {
-	message = "UNIX FS DRIVER V1.X";
+	message = "VICE FS DRIVER V2.0";
     } else {
 	errortext_t *e;
 	e = &floppy_error_messages;
@@ -337,8 +339,11 @@ void fs_error(int code)
 
 void flush_fs(void *flp, int secondary)
 {
-    char *cmd, *arg, *arg2 = NULL;
+    DRIVE *floppy = (DRIVE *)flp;
+    char *cmd, *realarg, *arg, *realarg2 = NULL, *arg2 = NULL;
+    char cbmcmd[MAXPATHLEN], name1[MAXPATHLEN], name2[MAXPATHLEN];
     int er = IPE_SYNTAX;
+    FILE *fd;
 
     if (secondary != 15 || !fs_cptr)
 	return;
@@ -347,15 +352,20 @@ void flush_fs(void *flp, int secondary)
     while (fs_cptr && (fs_cmdbuf[fs_cptr - 1] == 13))
 	fs_cptr--;
     fs_cmdbuf[fs_cptr] = 0;
-    petconvstring(fs_cmdbuf, 1);	/* CBM name to FSname */
 
-    cmd = fs_cmdbuf;
+    strcpy(cbmcmd, fs_cmdbuf);
+    petconvstring(cbmcmd, 1);	/* CBM name to FSname */
+    cmd = cbmcmd;
     while (*cmd == ' ')
 	cmd++;
 
-    arg = strchr(fs_cmdbuf, ':');
+    arg = strchr(cbmcmd, ':');
     if (arg) {
 	*arg++ = '\0';
+    }
+    realarg = strchr(fs_cmdbuf, ':');
+    if (realarg) {
+	*realarg++ = '\0';
     }
 #ifdef DEBUG_FS
     printf("Flush_FS: command='%s', cmd='%s'\n", cmd, arg);
@@ -387,19 +397,82 @@ void flush_fs(void *flp, int secondary)
 	}
     } else if (*cmd == 's') {
 	er = IPE_DELETED;
-	if (unlink(arg)) {
+	fd = fs_find_pc64_name(flp, realarg, strlen(realarg), name1);
+	    if (fd != NULL) {
+		fclose(fd);
+	    } else {
+		strcpy(name1, fsdevice_get_path(floppy->unit));
+		strcat(name1, arg);
+	    }
+	if (unlink(name1)) {
 	    er = IPE_NOT_FOUND;
 	    if (errno == EPERM)
 		er = IPE_PERMISSION;
 	}
     } else if (*cmd == 'r') {
 	if ((arg2 = strchr(arg, '='))) {
+	    char name2long[MAXPATHLEN];
 	    er = IPE_OK;
 	    *arg2++ = 0;
-	    if (rename(arg2, arg)) {
-		er = IPE_NOT_FOUND;
-		if (errno == EPERM)
-		    er = IPE_PERMISSION;
+	    realarg2 = strchr(realarg, '=');
+	    *realarg2++ = 0;
+	    fd = fs_find_pc64_name(flp, realarg2, strlen(realarg2), name2long);
+	    if (fd != NULL) {
+		/* Rename P00 file.  */
+		int name1len;
+		char *p, p00name[17], p00type, p00count[2];
+		char name1p00[MAXPATHLEN], name2p00[MAXPATHLEN];
+		fclose(fd);
+		strcpy(name2p00, name2long);
+		p = strrchr(name2long, '.');
+		p00type = p[1];
+		*p = '\0';
+		p = strrchr(name2long, '/');
+		strcpy(name2, ++p);
+		name1len = fsdevice_evaluate_name_p00(realarg, strlen(realarg),
+							name1);
+		name1[name1len] = '\0';
+		memset(p00name, 0, 17);
+		strncpy(p00name, realarg, 16);
+		fd = fopen(name2p00, "r+");
+		if (fd) {
+		    if ((fseek(fd, 8, SEEK_SET) != 0)
+					|| (fwrite(p00name, 16, 1, fd) < 1))
+			er = IPE_NOT_FOUND;
+		    fclose(fd);
+		} else {
+		    er = IPE_NOT_FOUND;
+		}
+		if (er == IPE_OK && strcmp(name1, name2) != 0) {
+		    int i;
+		    for (i = 0; i < 100; i++) {
+			memset(name1p00, 0, MAXPATHLEN);
+			strcpy(name1p00, fsdevice_get_path(floppy->unit));
+			strcat(name1p00, name1);
+			strcat(name1p00, ".");
+			strncat(name1p00, &p00type, 1);
+			sprintf(p00count, "%02i", i);
+			strncat(name1p00, p00count, 2);
+			fd = fopen(name1p00, READ);
+			if (fd) {
+			    fclose(fd);
+			    continue;
+			}
+			if (rename(name2p00, name1p00) == 0)
+			    break;
+		    }
+		}
+	    } else {
+		/* Rename CBM file.  */
+		strcpy(name1, fsdevice_get_path(floppy->unit));
+		strcat(name1, arg);
+		strcpy(name2, fsdevice_get_path(floppy->unit));
+		strcat(name2, arg2);
+		if (rename(name2, name1)) {
+		    er = IPE_NOT_FOUND;
+		    if (errno == EPERM)
+			er = IPE_PERMISSION;
+		}
 	    }
 	}
     }
@@ -421,7 +494,7 @@ int write_fs(void *flp, BYTE data, int secondary)
 	    return SERIAL_ERROR;
 	}
     }
-    if (fs_info[secondary].mode != Write)
+    if (fs_info[secondary].mode != Write && fs_info[secondary].mode != Append)
 	return FLOPPY_ERROR;
 
     if (fs_info[secondary].fd) {
@@ -460,6 +533,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
     }
     switch (info->mode) {
       case Write:
+      case Append:
 	  return FLOPPY_ERROR;
 
       case Read:
@@ -510,9 +584,10 @@ int read_fs(void *flp, BYTE * data, int secondary)
 #ifdef DEBUG_FS
 		      printf("FS_ReadDir: testing file '%s'\n", dirp->d_name);
 #endif
+		      fs_info[secondary].type = FT_PRG;
 		      strcpy(rname, dirp->d_name);
 		      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
-			  fs_test_pc64_name(flp, rname);
+			  fs_test_pc64_name(flp, rname, secondary);
 		      if (!*fs_dirmask)
 			  break;
 		      l = strlen(fs_dirmask);
@@ -576,16 +651,9 @@ int read_fs(void *flp, BYTE * data, int secondary)
 
 		      /*
 		       * Filename
-		       * Any extension is not used.
 		       */
 
 		      *p++ = '"';
-
-		      /* hide the extensions ",prg" and ",P" */
-		      if ((strlen(tp) >= 4) && !strcmp(tp + strlen(tp) - 4, ",prg"))
-			  tp[strlen(tp) - 4] = 0;
-		      if ((strlen(tp) >= 2) && !strcmp(tp + strlen(tp) - 2, ",P"))
-			  tp[strlen(tp) - 2] = 0;
 
 		      if (strcmp(rname, dirp->d_name)) {
 			  for (i = 0; rname[i] && (*p = rname[i]); ++i, ++p);
@@ -603,9 +671,33 @@ int read_fs(void *flp, BYTE * data, int secondary)
 			  *p++ = 'I';
 			  *p++ = 'R';
 		      } else {
-			  *p++ = 'P';
-			  *p++ = 'R';
-			  *p++ = 'G';
+			  switch(fs_info[secondary].type) {
+			    case FT_DEL:
+			      *p++ = 'D';
+			      *p++ = 'E';
+			      *p++ = 'L';
+			      break;
+			    case FT_SEQ:
+			      *p++ = 'S';
+			      *p++ = 'E';
+			      *p++ = 'Q';
+			      break;
+			    case FT_PRG:
+			      *p++ = 'P';
+			      *p++ = 'R';
+			      *p++ = 'G';
+			      break;
+			    case FT_USR:
+			      *p++ = 'U';
+			      *p++ = 'S';
+			      *p++ = 'R';
+			      break;
+			    case FT_REL:
+			      *p++ = 'R';
+			      *p++ = 'E';
+			      *p++ = 'L';
+			      break;
+			  }
 		      }
 
 		      *p = '\0';	/* to allow strlen */
@@ -660,8 +752,8 @@ int open_fs(void *flp, char *name, int length, int secondary)
     BYTE *p, *linkp;
     char fsname[MAXPATHLEN];
     char fsname2[MAXPATHLEN];
-    char *mask;
-    int status = 0, i, reallength, readmode, filetype, rl;
+    char *mask, *comma;
+    int status = 0, i, reallength, readmode, rl;
 
     if (fs_info[secondary].fd)
 	return FLOPPY_ERROR;
@@ -678,57 +770,44 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	}
 	return status;
     }
-    /*
-     * Support only load / save - why? (AF, 12jan1997)
-     */
-#if 0
-    if (secondary < 0 || secondary >= 2) {
-	fs_error(IPE_NO_CHANNEL);
-	return FLOPPY_ERROR;
-    }
-#endif
-
-    /* Directory read */
 
     if (secondary == 1)
 	readmode = FAM_WRITE;
     else
 	readmode = FAM_READ;
 
-    filetype = 0;
     rl = 0;
 
-    /* This is a hack to allow "*,prg" files. The lower case letters
-       are give errors in floppy_parse_name when trying to find the
-       file type.
-
-       if((strlen(fsname2)>=4) && !strcmp(",prg",fsname2+strlen(fsname2)-4))
-       fsname2[strlen(fsname2)-4]=0;
-
-     */
-
     if (floppy_parse_name(fsname2, length, fsname, &reallength, &readmode,
-			  &filetype, &rl) != SERIAL_OK)
+			  &fs_info[secondary].type, &rl) != SERIAL_OK)
 	return SERIAL_ERROR;
+
+	if (fs_info[secondary].type == FT_DEL)
+	    fs_info[secondary].type = (secondary < 2) ? FT_PRG : FT_SEQ;
 
     if (fsdevice_save_p00_enabled[(floppy->unit) - 8] == 0)
 	petconvstring(fsname, 1);	/* CBM name to FSname */
 
-    /* avoid append */
-    if (readmode != FAM_READ && readmode != FAM_WRITE) {
-	fs_error(IPE_NO_CHANNEL);
-	return FLOPPY_ERROR;
-    }
     fsname[reallength] = 0;
 
-    fs_info[secondary].mode = (readmode == FAM_WRITE) ? Write : Read;
+    switch (readmode) {
+      case FAM_WRITE:
+	fs_info[secondary].mode = Write;
+	break;
+      case FAM_READ:
+	fs_info[secondary].mode = Read;
+	break;
+      case FAM_APPEND:
+	fs_info[secondary].mode = Append;
+	break;
+    }
 
-    if (*name == '$') {
+    if (*name == '$') {	/* Directory read */
 	if ((secondary != 0) || (fs_info[secondary].mode != Read)) {
 	    fs_error(IPE_NOT_WRITE);
 	    return FLOPPY_ERROR;
 	}
-	/* test on wildcards */
+	/* Test on wildcards.  */
 	if (!(mask = strrchr(fsname, '/')))
 	    mask = fsname;
 	if (strchr(mask, '*') || strchr(mask, '?')) {
@@ -813,14 +892,38 @@ int open_fs(void *flp, char *name, int length, int secondary)
 
     } else {			/* Normal file, not directory ("$") */
 
-	fs_info[secondary].mode = (secondary == 1 ? Write : Read);
+	/* Override access mode if secondary address is 0 or 1.  */
+	if (secondary == 0)
+	    fs_info[secondary].mode = Read;
+	if (secondary == 1)
+	    fs_info[secondary].mode = Write;
+
+	/* Remove comma.  */
+	if (fsname[0] == ',') {
+	    fsname[1] = '\0';
+	} else {
+	    comma = strchr(fsname, ',');
+	    if (comma != NULL)
+		*comma = '\0';
+	}
+	if (name[0] == ',') {
+	    name[1] = '\0';
+	} else {
+	    comma = memchr(name, ',', length);
+	    if (comma != NULL) {
+		*comma = '\0';
+		length = strlen(name);
+	    }
+	}
 
 	strcpy(fsname2, fsname);
 	strcpy(fsname, fsdevice_get_path(floppy->unit));
 	strcat(fsname, fsname2);
 
+	/* Test on wildcards.  */
 	if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
-	    if (fs_info[secondary].mode == Write) {
+	    if (fs_info[secondary].mode == Write 
+				|| fs_info[secondary].mode == Append) {
 		fs_error(IPE_BAD_NAME);
 		return FLOPPY_ERROR;
 	    } else {
@@ -828,6 +931,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	    }
 	}
 
+	/* Open file for write mode access.  */
 	if (fs_info[secondary].mode == Write) {
 	    fd = fopen(fsname, READ);
 	    if (fd > 0) {
@@ -836,50 +940,87 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		return FLOPPY_ERROR;
 	    }
 	    if (fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
-		fd = fs_find_pc64_name(flp, name, length);
+		fd = fs_find_pc64_name(flp, name, length, fsname2);
 		if (fd > 0) {
 		    fclose(fd);
 		    fs_error(IPE_FILE_EXISTS);
 		    return FLOPPY_ERROR;
 		}
 	    }
-	    if (fsdevice_save_p00_enabled[(floppy->unit) - 8])
-		if (fsdevice_create_file_p00(flp, name, length, fsname) > 0) {
+	    if (fsdevice_save_p00_enabled[(floppy->unit) - 8]) {
+		if (fsdevice_create_file_p00(flp, name, length, fsname,
+							secondary) > 0) {
 		    fs_error(IPE_FILE_EXISTS);
 		    return FLOPPY_ERROR;
+		} else {
+		    fd = fopen(fsname, "a+");
+		    fs_info[secondary].fd = fd;
+		    fs_error(IPE_OK);
+		    return FLOPPY_COMMAND_OK;
 		}
-	}
-
-	fd = fopen(fsname, fs_info[secondary].mode ? READ : "a+");
-
-	if (!fd) {		/* lets test some variants... */
-	    int l = strlen(fsname);
-	    strcat(fsname, ",P");
-	    fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
-	    if (!fd) {
-		fsname[l] = '\0';
-		strcat(fsname, ",prg");
-		fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
-		if (!fd) {
-		    fsname[l] = '\0';
-		    for (p = (BYTE *) fsname; *p; p++)
-			if (isupper(*p))
-			    *p = tolower(*p);
-
-		    fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
-
-		    if (!fd) {
-			if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
-			    fd = fs_find_pc64_name(flp, name, length);
-			if (!fd) {
-			    fs_error(IPE_NOT_FOUND);
-			    return FLOPPY_ERROR;
-			}
-		    }
-		}
+	    } else {
+		fd = fopen(fsname, WRITE);
+		fs_info[secondary].fd = fd;
+		fs_error(IPE_OK);
+		return FLOPPY_COMMAND_OK;
 	    }
 	}
-	fs_info[secondary].fd = fd;
+
+	/* Open file for append mode access.  */
+	if (fs_info[secondary].mode == Append) {
+	    fd = fopen(fsname, READ);
+	    if (!fd) {
+		if (!fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
+		    fs_error(IPE_NOT_FOUND);
+		    return FLOPPY_ERROR;
+		}
+		fd = fs_find_pc64_name(flp, name, length, fsname2);
+		if (!fd) {
+		    fs_error(IPE_NOT_FOUND);
+		    return FLOPPY_ERROR;
+		}
+		fclose(fd);
+		fd = fopen(fsname2, "a+");
+		if (!fd) {
+		    fs_error(IPE_NOT_FOUND);
+		    return FLOPPY_ERROR;
+		}
+		fs_info[secondary].fd = fd;
+		fs_error(IPE_OK);
+		return FLOPPY_COMMAND_OK;
+	    } else {
+		fclose(fd);
+		fd = fopen(fsname, "a+");
+		if (!fd) {
+		    fs_error(IPE_NOT_FOUND);
+		    return FLOPPY_ERROR;
+		}
+		fs_info[secondary].fd = fd;
+		fs_error(IPE_OK);
+		return FLOPPY_COMMAND_OK;
+	    }
+	}
+
+	/* Open file for read mode access.  */
+ 	fd = fopen(fsname, READ);
+	if (!fd) {
+	    if (!fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
+		fs_error(IPE_NOT_FOUND);
+		return FLOPPY_ERROR;
+	    }
+	    fd = fs_find_pc64_name(flp, name, length, fsname2);
+	    if (!fd) {
+		fs_error(IPE_NOT_FOUND);
+		return FLOPPY_ERROR;
+	    }
+	    fs_info[secondary].fd = fd;
+	    fs_error(IPE_OK);
+	    return FLOPPY_COMMAND_OK;
+	} else {
+	    fs_info[secondary].fd = fd;
+	    fs_error(IPE_OK);
+	    return FLOPPY_COMMAND_OK;
+	}
     }
     fs_error(IPE_OK);
     return FLOPPY_COMMAND_OK;
@@ -898,6 +1039,7 @@ int close_fs(void *flp, int secondary)
     switch (fs_info[secondary].mode) {
       case Write:
       case Read:
+      case Append:
 	  if (!fs_info[secondary].fd)
 	      return FLOPPY_ERROR;
 
@@ -917,18 +1059,20 @@ int close_fs(void *flp, int secondary)
     return FLOPPY_COMMAND_OK;
 }
 
-void fs_test_pc64_name(void *flp, char *rname)
+void fs_test_pc64_name(void *flp, char *rname, int secondary)
 {
     DRIVE *floppy = (DRIVE *)flp;
     char p00id[8];
     char p00name[17];
     char pathname[MAXPATHLEN];
     FILE *fd;
+    int tmptype;
 
-    if (is_pc64name(rname) >= 0) {
+    tmptype = is_pc64name(rname);
+    if (tmptype >= 0) {
 	strcpy(pathname, fsdevice_get_path(floppy->unit));
 	strcat(pathname, rname);
-	fd = fopen(pathname, "r");
+	fd = fopen(pathname, READ);
 	if (!fd)
 	    return;
 
@@ -944,6 +1088,7 @@ void fs_test_pc64_name(void *flp, char *rname)
 		fclose(fd);
 		return;
 	    }
+	    fs_info[secondary].type = tmptype;
 	    p00name[16] = '\0';
 	    strcpy(rname, p00name);
 	    fclose(fd);
@@ -954,7 +1099,7 @@ void fs_test_pc64_name(void *flp, char *rname)
 }
 
 
-FILE *fs_find_pc64_name(void *flp, char *name, int length)
+FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 {
     DRIVE *floppy = (DRIVE *)flp;
     struct dirent *dirp;
@@ -962,7 +1107,6 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length)
     DIR *dp;
     char p00id[8], p00name[17], p00dummy[2];
     FILE *fd;
-    char pathname[MAXPATHLEN];
 
     name[length] = '\0';
 
@@ -970,9 +1114,9 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length)
     do {
 	dirp = readdir(dp);
 	if (dirp != NULL) {
-	    strcpy(pathname, fsdevice_get_path(floppy->unit));
-	    strcat(pathname, dirp->d_name);
-	    p = pathname;
+	    strcpy(pname, fsdevice_get_path(floppy->unit));
+	    strcat(pname, dirp->d_name);
+	    p = pname;
 	    if (is_pc64name(p) >= 0) {
 		fd = fopen(p, READ);
 		if (!fd)
@@ -1049,52 +1193,46 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname)
 }
 
 static int fsdevice_create_file_p00(void *flp, char *name, int length,
-                                     char *fsname)
+                                     char *fsname, int secondary)
 {
     DRIVE *floppy = (DRIVE *)flp;
     char filename[17], realname[16];
-    int i, j, len;
+    int i, len;
     FILE *fd;
 
-    memset(filename, 0, 17);
     if (length > 16)
 	length = 16;
     memset(realname, 0, 16);
     strncpy(realname, name, length);
 
-    for (i = 0, j = 0; i < length; i++) {
-	switch (name[i]) {
-	  case ' ':
-	  case '-':
-	    filename[j++] = '_';
-	    break;
-	  default:
-	    if (islower(name[i])) {
-		filename[j++] = toupper(name[i]);
-		break;
-	    }
-	    if (isalnum(name[i])) {
-		filename[j++] = name[i];
-		break;
-	    }
-	}
-    }
+    len = fsdevice_evaluate_name_p00(name, length, filename);
 
-    if (j == 0) {
-	strcpy(filename, "_");
-	j++;
-    }
-
-    len = (j > 8) ? fsdevice_reduce_filename_p00(filename, j) : j;
     strcpy(fsname, fsdevice_get_path(floppy->unit));
     strncat(fsname, filename, len);
-    strcat(fsname, ".P00");
+    switch (fs_info[secondary].type) {
+      case FT_DEL:
+	strcat(fsname, ".D");
+	break;
+      case FT_SEQ:
+	strcat(fsname, ".S");
+	break;
+      case FT_PRG:
+	strcat(fsname, ".P");
+	break;
+      case FT_USR:
+	strcat(fsname, ".U");
+	break;
+      case FT_REL:
+	strcat(fsname, ".R");
+	break;
+    }
+    strcat(fsname, "00");
 
     for (i = 1; i < 100; i++) {
 	fd = fopen(fsname, READ);
 	if (!fd)
 	    break;
-    fclose(fd);
+	fclose(fd);
 	sprintf(&fsname[strlen(fsname) - 2], "%02i", i);
     }
 
@@ -1159,4 +1297,34 @@ static int fsdevice_eliminate_char_p00(char *filename, int pos)
 {
     memcpy(&filename[pos], &filename[pos+1], 16 - pos);
     return strlen(filename);
+}
+
+static int fsdevice_evaluate_name_p00(char *name, int length, char *filename)
+{
+    int i, j;
+
+    memset(filename, 0, 17);
+
+    for (i = 0, j = 0; i < length; i++) {
+	switch (name[i]) {
+	  case ' ':
+	  case '-':
+	    filename[j++] = '_';
+	    break;
+	  default:
+	    if (islower(name[i])) {
+		filename[j++] = toupper(name[i]);
+		break;
+	    }
+	    if (isalnum(name[i])) {
+		filename[j++] = name[i];
+		break;
+	    }
+	}
+    }
+    if (j == 0) {
+	strcpy(filename, "_");
+	j++;
+    }
+    return ((j > 8) ? fsdevice_reduce_filename_p00(filename, j) : j);
 }
