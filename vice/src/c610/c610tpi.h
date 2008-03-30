@@ -45,4 +45,6 @@ extern void tpi2_restore_int(int bit, int state);
 extern int tpi2_write_snapshot_module(snapshot_t *p);
 extern int tpi2_read_snapshot_module(snapshot_t *p);
 
+extern void set_cbm2_model_port_mask(BYTE);
+
 #endif /* _C610TPI_H */

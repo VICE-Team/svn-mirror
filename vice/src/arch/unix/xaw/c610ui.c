@@ -58,6 +58,18 @@ static ui_menu_entry_t palette_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(ModelLine)
+
+static ui_menu_entry_t c610_modelline_submenu[] = {
+    { "*7x0 (50 Hz)",
+        (ui_callback_t) radio_ModelLine, (ui_callback_data_t) 0, NULL },
+    { "*6x0 60 Hz",
+        (ui_callback_t) radio_ModelLine, (ui_callback_data_t) 1, NULL },
+    { "*6x0 50 Hz",
+        (ui_callback_t) radio_ModelLine, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(RamSize)
 
 static ui_menu_entry_t c610_memsize_submenu[] = {
@@ -85,6 +97,12 @@ static ui_menu_entry_t model_defaults_submenu[] = {
       (ui_callback_t) ui_set_model, (ui_callback_data_t)"620", NULL },
     { "CBM 620+ (1M)",
       (ui_callback_t) ui_set_model, (ui_callback_data_t)"620+", NULL },
+    { "CBM 710",
+      (ui_callback_t) ui_set_model, (ui_callback_data_t)"710", NULL },
+    { "CBM 720",
+      (ui_callback_t) ui_set_model, (ui_callback_data_t)"720", NULL },
+    { "CBM 720+ (1M)",
+      (ui_callback_t) ui_set_model, (ui_callback_data_t)"720+", NULL },
     { NULL }
 };
 
@@ -131,6 +149,8 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "--" },
     { "Memory size",
       NULL, NULL, c610_memsize_submenu },
+    { "Hardwired switches",
+      NULL, NULL, c610_modelline_submenu },
     { "--" },
     { "*Bank 15 $0800-$0FFF RAM",
       (ui_callback_t) toggle_Ram08, NULL, NULL },

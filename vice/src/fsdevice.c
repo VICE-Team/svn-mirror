@@ -274,7 +274,7 @@ static resource_t resources[] = {
     { "FSDevice10SaveP00", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &fsdevice_save_p00_enabled[2],
       set_fsdevice_10_save_p00 },
-    { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t) 1,
+    { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &fsdevice_save_p00_enabled[3],
       set_fsdevice_11_save_p00 },
     { "FSDevice8HideCBMFiles", RES_INTEGER, (resource_value_t) 0,

@@ -169,7 +169,7 @@ int print_open(int device) {
 	 }
          fds[i].type = T_PROC;
        } else {
-	 fds[i].fp = fopen(devfile[device], "wb");
+	 fds[i].fp = fopen(devfile[device], "ab");
 	 if(!fds[i].fp) {
            fprintf(stderr,"print(%s): %s\n",devfile[device],strerror(errno));
 	   return -1;

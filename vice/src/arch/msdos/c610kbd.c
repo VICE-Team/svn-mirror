@@ -32,7 +32,7 @@
 
 static keyconv c610_keyboard[256] = {
     { -1, -1, 0 },		/*           (no key)           */
-    { -1, -1, 0 },		/*          ESC -> (no key)     */
+    { 8, 1, 0 },		/*          ESC -> ESC          */
     { 9, 1, 0 },		/*            1 -> 1            */
     { 10, 1, 0 },		/*            2 -> 2            */
     { 11, 1, 0 },		/*            3 -> 3            */
@@ -43,9 +43,9 @@ static keyconv c610_keyboard[256] = {
     { 15, 1, 0 },		/*            8 -> 8            */
     { 0, 1, 0 },		/*            9 -> 9            */
     { 1, 1, 0 },		/*            0 -> 0            */
-    { 5, 0, 0 },		/*        Minus -> Plus         */
-    { 5, 3, 0 },		/*        Equal -> Minus        */
-    { 0, 0, 0 },		/*    Backspace -> Del          */
+    { 1, 2, 0 },		/*        Minus -> Minus        */
+    { 2, 1, 0 },		/*        Equal -> Equal        */
+    { 3, 3, 0 },		/*    Backspace -> Del          */
     { 8, 2, 0 },		/*          TAB -> TAB          */
     { 9, 2, 0 },		/*            Q -> Q            */
     { 10, 2, 0 },		/*            W -> W            */
@@ -57,8 +57,8 @@ static keyconv c610_keyboard[256] = {
     { 15, 2, 0 },		/*            I -> I            */
     { 0, 2, 0 },		/*            O -> O            */
     { 1, 3, 0 },		/*            P -> P            */
-    { 5, 6, 0 },		/*            [ -> @            */
-    { 6, 1, 0 },		/*            ] -> *            */
+    { 1, 4, 0 },		/*            [ -> [            */
+    { 2, 3, 0 },		/*            ] -> ]            */
     { 2, 4, 0 },		/*       Return -> Return       */
     { 8, 5, 0 },		/*    Left Ctrl -> CTRL         */
     { 9, 3, 0 },		/*            A -> A            */
@@ -70,11 +70,11 @@ static keyconv c610_keyboard[256] = {
     { 14, 3, 0 },		/*            J -> J            */
     { 15, 3, 0 },		/*            K -> K            */
     { 0, 3, 0 },		/*            L -> L            */
-    { 5, 5, 0 },		/*            ; -> :            */
-    { 6, 2, 0 },		/*            ' -> ;            */
+    { 0, 4, 0 },		/*            ; -> ;            */
+    { 1, 5, 0 },		/*            ' -> '            */
     { 8, 1, 0 },		/*            ` -> ESC          */
     { 8, 4, 1 },		/*   Left Shift -> Left Shift   */
-    { 6, 5, 0 },		/*            \ -> =	        */
+    { -1, -1, 0 },		/*            \ -> (no key)     */
     { 9, 4, 0 },		/*            Z -> Z            */
     { 10, 4, 0 },		/*            X -> X            */
     { 10, 5, 0 },		/*            C -> C            */
@@ -83,13 +83,13 @@ static keyconv c610_keyboard[256] = {
     { 13, 5, 0 },		/*            N -> N            */
     { 14, 4, 0 },		/*            M -> M            */
     { 15, 4, 0 },		/*            , -> ,            */
-    { 5, 5, 0 },		/*            . -> .            */
-    { 1, 2, 0 },		/*            / -> -            */
+    { 15, 5, 0 },		/*            . -> .            */
+    { 0, 5, 0 },		/*            / -> /            */
     { 8, 3, 0 },		/*  Right Shift -> Right Shift  */
     { 6, 1, 0 },		/*       Grey * -> *            */
     { -1, -1, 0 },		/*     Left Alt -> (no key)     */
     { 14, 5, 0 },		/*        Space -> Space        */
-    { -1, -1, 0 },		/*    Caps Lock -> (no key)     */
+    { 7, 0, 0 },		/*    Caps Lock -> Run/Stop     */
     { 8, 0, 0 },		/*           F1 -> F1           */
     { 9, 0, 0 },		/*           F2 -> F2           */
     { 10, 0, 0 },		/*           F3 -> F3           */
@@ -102,39 +102,39 @@ static keyconv c610_keyboard[256] = {
     { 1, 0, 0 },		/*          F10 -> F10      	*/
     { -1, -1, 0 },		/*     Num Lock -> (no key)	*/
     { -1, -1, 0 },		/*  Scroll Lock -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 7 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 8 -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 9 -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad - -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 4 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 5 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 6 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad + -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 1 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 2 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 3 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 0 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad . -> (no key) 	*/
+    { 4, 2, 0 },		/*     Numpad 7 -> Numpad 7     */
+    { 5, 2, 0 },		/*     Numpad 8 -> Numpad 8     */
+    { 6, 2, 0 },		/*     Numpad 9 -> Numpad 9     */
+    { 7, 2, 0 },		/*     Numpad - -> Numpad -     */
+    { 4, 3, 0 },		/*     Numpad 4 -> Numpad 4     */
+    { 5, 3, 0 },		/*     Numpad 5 -> Numpad 5     */
+    { 6, 3, 0 },		/*     Numpad 6 -> Numpad 6     */
+    { 7, 3, 0 },		/*     Numpad + -> Numpad +     */
+    { 4, 4, 0 },		/*     Numpad 1 -> Numpad 1     */
+    { 5, 4, 0 },		/*     Numpad 2 -> Numpad 2     */
+    { 6, 4, 0 },		/*     Numpad 3 -> Numpad 3     */
+    { 4, 5, 0 },		/*     Numpad 0 -> Numpad 0     */
+    { 5, 5, 0 },		/*     Numpad . -> Numpad .     */
     { -1, -1, 0 },		/*       SysReq -> (no key) 	*/
     { -1, -1, 0 },		/*           85 -> (no key) 	*/
     { -1, -1, 0 },		/*           86 -> (no key) 	*/
     { -1, -1, 0 },		/*          F11 -> (no key) 	*/
     { -1, -1, 0 },		/*          F12 -> (no key) 	*/
-    { 6, 3, 0 },		/*         Home -> CLR/HOME 	*/
+    { 4, 0, 0 },		/*         Home -> CLR/HOME 	*/
     { 3, 0, 0 },		/*           Up -> CRSR UP 	*/
-    { -1, -1, 0 },		/*         PgUp -> (no key) 	*/
+    { 5, 0, 0 },		/*         PgUp -> Rev/Off	*/
     { 3, 1, 0 },		/*         Left -> CRSR LEFT 	*/
     { 3, 2, 0 },		/*        Right -> CRSR RIGHT 	*/
-    { -1, -1, 0 },		/*          End -> (no key) 	*/
+    { 5, 1, 0 },		/*          End -> CE       	*/
     { 2, 0, 0 },		/*         Down -> CRSR DOWN 	*/
-    { -1, -1, 0 },		/*       PgDown -> (no key) 	*/
-    { 6, 0, 0 },		/*          Ins -> Pound 	*/
-    { 6, 6, 0 },		/*          Del -> Up Arrow 	*/
-    { -1, -1, 0 },		/* Numpad Enter -> (no key) 	*/
+    { 6, 0, 0 },		/*       PgDown -> Norm/Graph 	*/
+    { 2, 2, 0 },		/*          Ins -> Pound 	*/
+    { 4, 1, 0 },		/*          Del -> ?            */
+    { 7, 4, 0 },		/* Numpad Enter -> Numpad Enter */
     { 3, 4, 0 },		/*   Right Ctrl -> C=    	*/
-    { -1, -1, 0 },		/*        Pause -> (no key) 	*/
+    { 2, 5, 0 },		/*        Pause -> Pi    	*/
     { -1, -1, 0 },		/*       PrtScr -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad / -> (no key) 	*/
+    { 7, 1, 0 },		/*     Numpad / -> Numpad /     */
     { -1, -1, 0 },		/*    Right Alt -> (no key) 	*/
     { -1, -1, 0 },		/*        Break -> (no key) 	*/
     { -1, -1, 0 },		/*   Left Win95 -> (no key) 	*/

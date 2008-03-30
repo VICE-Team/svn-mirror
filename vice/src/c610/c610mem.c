@@ -151,6 +151,23 @@ static int cart4_ram = 0;
 static int cart6_ram = 0;
 static int cartC_ram = 0;
 
+static int cbm2_model_line = 0;
+
+static BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
+
+static int set_cbm2_model_line(resource_value_t v)
+{
+    int tmp = (int) v;
+
+    if (tmp>=0 && tmp<3) {
+        cbm2_model_line = (int) v;
+    }
+
+    set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
+
+    return 0;
+}
+
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
@@ -280,7 +297,7 @@ static int set_cartC_ram(resource_value_t v)
 static resource_t resources[] = {
     {"RamSize", RES_INTEGER, (resource_value_t) 128,
      (resource_value_t *) & ramsize, set_ramsize},
-    { "ChargenName", RES_STRING, (resource_value_t) "chargen",
+    { "ChargenName", RES_STRING, (resource_value_t) "chargen.600",
      (resource_value_t *) &chargen_name, set_chargen_rom_name },
     { "KernalName", RES_STRING, (resource_value_t) "kernal",
      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
@@ -306,6 +323,9 @@ static resource_t resources[] = {
     { "RamC", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &cartC_ram, set_cartC_ram },
 
+    { "ModelLine", RES_INTEGER, (resource_value_t) 2,
+      (resource_value_t *) &cbm2_model_line, set_cbm2_model_line },
+
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
     { NULL }
@@ -319,6 +339,8 @@ int c610_mem_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, cbm2_set_model, NULL, NULL, NULL,
      "<modelnumber>", "Specify CBM-II model to emulate" },
+    { "-modelline", SET_RESOURCE, 1, NULL, NULL, "ModelLine", NULL,
+     "<linenumber>", "Specify CBM-II model hardware (0=6x0, 1=7x0)" },
     { "-ramsize", SET_RESOURCE, 1, NULL, NULL, "RamSize", NULL,
      "<ramsize>", "Specify size of RAM (128/256/512/1024 kByte)" },
 
@@ -379,10 +401,15 @@ static struct {
 	const char *model;
 	int ramsize;
 	const char *basic;
+	const char *charrom;
+	int line;	/* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
     } modtab[] = {
-    { "610",  128,  "basic.128"  },
-    { "620",  256,  "basic.256"  },
-    { "620+", 1024, "basic.256"  },
+    { "610",  128,  "basic.128", "chargen.600", 2  },
+    { "620",  256,  "basic.256", "chargen.600", 2  },
+    { "620+", 1024, "basic.256", "chargen.600", 2  },
+    { "710",  128,  "basic.128", "chargen.700", 0  },
+    { "720",  256,  "basic.256", "chargen.700", 0  },
+    { "720+", 1024, "basic.256", "chargen.700", 0  },
     { NULL }
 };
 
@@ -394,6 +421,8 @@ int cbm2_set_model(const char *model, void *extra)
             suspend_speed_eval();
 	    set_ramsize((resource_value_t)modtab[i].ramsize);
 	    set_basic_rom_name((resource_value_t)modtab[i].basic);
+	    set_chargen_rom_name((resource_value_t)modtab[i].charrom);
+	    set_cbm2_model_line((resource_value_t)modtab[i].line);
             mem_powerup();
 	    mem_load();
             maincpu_trigger_reset();
@@ -960,7 +989,7 @@ int mem_load(void)
     memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
     if ((krsize=mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096)) < 0) {
-        fprintf(stderr, "Couldn't load character ROM.\n");
+        fprintf(stderr, "Couldn't load character ROM '%s'.\n", chargen_name);
         return -1;
     }
 
