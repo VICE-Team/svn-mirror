@@ -32,8 +32,14 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "kcs.h"
 #include "types.h"
+
+
+static const c64export_resource_t export_res = {
+    "KCS Power", 1, 1, 1, 1
+};
 
 
 BYTE REGPARM1 kcs_io1_read(WORD addr)
@@ -94,6 +100,14 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
     }
 
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     return 0;
+}
+
+void kcs_detach(void)
+{
+    c64export_remove(&export_res);
 }
 

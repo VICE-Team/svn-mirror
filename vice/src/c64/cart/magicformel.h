@@ -54,6 +54,7 @@ extern void magicformel_config_init(void);
 extern void magicformel_reset(void);
 extern void magicformel_config_setup(BYTE *rawcart);
 extern int magicformel_crt_attach(FILE *fd, BYTE *rawcart);
+extern void magicformel_detach(void);
 
 #endif
 

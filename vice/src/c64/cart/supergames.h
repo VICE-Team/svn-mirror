@@ -36,6 +36,7 @@ extern void REGPARM2 supergames_io2_store(WORD addr, BYTE value);
 extern void supergames_config_init(void);
 extern void supergames_config_setup(BYTE *rawcart);
 extern int supergames_crt_attach(FILE *fd, BYTE *rawcart);
+extern void supergames_detach(void);
 
 #endif
 

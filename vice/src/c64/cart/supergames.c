@@ -32,9 +32,15 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "c64mem.h"
 #include "supergames.h"
 #include "types.h"
+
+
+static const c64export_resource_t export_res = {
+    "Super Games", 0, 1, 1, 1
+};
 
 
 void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
@@ -86,6 +92,15 @@ int supergames_crt_attach(FILE *fd, BYTE *rawcart)
         if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1)
             return -1;
     }
+
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     return 0;
+}
+
+void supergames_detach(void)
+{
+    c64export_remove(&export_res);
 }
 

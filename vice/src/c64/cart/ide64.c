@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "cmdline.h"
 #include "ide64.h"
 #include "log.h"
@@ -59,6 +60,10 @@
 #define IDE_TK0N 0x02
 #define IDE_AMNF 0x01
 
+
+static const c64export_resource_t export_res = {
+    "IDE64", 1, 0, 1, 1
+};
 
 /* Current IDE64 bank */
 static unsigned int current_bank;
@@ -719,7 +724,10 @@ void ide64_config_setup(BYTE *rawcart)
 
 void ide64_detach(void)
 {
-    if (ide_disk) fclose(ide_disk);
+    c64export_remove(&export_res);
+
+    if (ide_disk)
+        fclose(ide_disk);
 #ifdef IDE64_DEBUG
     log_debug("IDE64 detached");
 #endif
@@ -729,6 +737,9 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x10000,
         UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
+        return -1;
+
+    if (c64export_add(&export_res) < 0)
         return -1;
 
     ide_disk = fopen(ide64_image_file, MODE_READ_WRITE);
