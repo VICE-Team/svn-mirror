@@ -69,6 +69,8 @@ libc64_a_SOURCES = \
 	georam.h \
 	patchrom.c \
 	patchrom.h \
+	plus256k.c \
+	plus256k.h \
 	plus60k.c \
 	plus60k.h \
 	psid.c \

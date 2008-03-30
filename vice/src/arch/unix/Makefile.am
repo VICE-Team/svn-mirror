@@ -108,6 +108,8 @@ libarch_a_SOURCES = \
 	uiperipheralieee.h \
 	uipetreu.c \
 	uipetreu.h \
+ 	uiplus256k.c \
+ 	uiplus256k.h \
 	uiplus60k.c \
 	uiplus60k.h \
 	uiprinter.c \

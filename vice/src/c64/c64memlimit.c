@@ -122,7 +122,7 @@ void mem_limit_plus60k_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
   }
 }
 
-void mem_limit_c64_256k_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
+void mem_limit_256k_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
 {
   int i, j, k;
 

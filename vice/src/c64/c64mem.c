@@ -47,6 +47,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "plus256k.h"
 #include "plus60k.h"
 #include "ram.h"
 #include "ramcart.h"
@@ -177,8 +178,12 @@ BYTE REGPARM1 zero_read(WORD addr)
 
     if (c64_256k_enabled)
         return c64_256k_ram_segment0_read(addr);
-    else
-        return mem_ram[addr & 0xff];
+    else {
+        if (plus256k_enabled)
+            return plus256k_ram_low_read(addr);
+        else
+            return mem_ram[addr & 0xff];
+    }
 }
 
 void REGPARM2 zero_store(WORD addr, BYTE value)
@@ -188,10 +193,14 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     switch ((BYTE)addr) {
       case 0:
         if (vbank == 0) {
-            if (c64_256k_enabled==1)
+            if (c64_256k_enabled)
                c64_256k_ram_segment0_store((WORD)0, vicii_read_phi1_lowlevel());
-            else
-                vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+            else {
+                if (plus256k_enabled)
+                    plus256k_ram_low_store((WORD)0, vicii_read_phi1_lowlevel());
+                else
+                    vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+            }
         } else {
             mem_ram[0] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -203,10 +212,14 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         break;
       case 1:
         if (vbank == 0) {
-            if (c64_256k_enabled==1)
+            if (c64_256k_enabled)
                 c64_256k_ram_segment0_store((WORD)1, vicii_read_phi1_lowlevel());
-            else
-                vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+            else {
+                if (plus256k_enabled)
+                    plus256k_ram_low_store((WORD)1, vicii_read_phi1_lowlevel());
+                else
+                    vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+            }
         } else {
             mem_ram[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -218,10 +231,14 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         break;
       default:
         if (vbank == 0) {
-            if (c64_256k_enabled==1)
+            if (c64_256k_enabled)
                 c64_256k_ram_segment0_store(addr, value);
-            else
-                vicii_mem_vbank_store(addr, value);
+            else {
+                if (plus256k_enabled)
+                    plus256k_ram_low_store(addr, value);
+                else
+                    vicii_mem_vbank_store(addr, value);
+            }
         } else {
             mem_ram[addr] = value;
         }
@@ -316,7 +333,7 @@ static int check_256k_ram_write(int k, int i, int j)
       mem_write_tab[k][i][j]==vicii_mem_vbank_store ||
       mem_write_tab[k][i][j]==ram_hi_store ||
       mem_write_tab[k][i][j]==ram_store)
-   return 1;
+    return 1;
   else
     return 0;
 }
@@ -327,7 +344,7 @@ void c64_256k_init_config(void)
 
   if (c64_256k_enabled)
   {
-    mem_limit_c64_256k_init(mem_read_limit_tab);
+    mem_limit_256k_init(mem_read_limit_tab);
     for (i = 0; i < NUM_CONFIGS; i++)
     {
       for (j = 1; j <= 0xff; j++)
@@ -363,6 +380,49 @@ void c64_256k_init_config(void)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* init plus256k memory table changes */
+
+void plus256k_init_config(void)
+{
+  int i,j,k;
+
+  if (plus256k_enabled)
+  {
+    mem_limit_256k_init(mem_read_limit_tab);
+    for (i = 0; i < NUM_CONFIGS; i++)
+    {
+      for (j = 1; j <= 0xff; j++)
+      {
+        for (k = 0; k < NUM_VBANKS; k++)
+        {
+          if (check_256k_ram_write(k,i,j)==1)
+          {
+            if (j<0x10)
+              mem_write_tab[k][i][j]=plus256k_ram_low_store;
+            else
+              mem_write_tab[k][i][j]=plus256k_ram_high_store;
+          }
+          if (mem_write_tab[k][i][j]==vicii_store && j==0xd1)
+            mem_write_tab[k][i][j]=plus256k_vicii_store;
+          if (mem_write_tab[k][i][j]==vicii_store && j>0xd1)
+            mem_write_tab[k][i][j]=plus256k_vicii_store0;
+        }
+        if (mem_read_tab[i][j]==ram_read)
+        {
+          if (j<0x10)
+            mem_read_tab[i][j]=plus256k_ram_low_read;
+          else
+            mem_read_tab[i][j]=plus256k_ram_high_read;
+        }
+        if (mem_read_tab[i][j]==vicii_read && j==0xd1)
+          mem_read_tab[i][j]=plus256k_vicii_read;
+        if (mem_read_tab[i][j]==vicii_read && j>0xd1)
+          mem_read_tab[i][j]=plus256k_vicii_read0;
+      }
+    }
+  }
+}
 
 /* init plus60k memory table changes */
 
@@ -582,6 +642,7 @@ void mem_initialize_memory(void)
     cartridge_init_config();
     ramcart_init_config();
     plus60k_init_config();
+    plus256k_init_config();
     c64_256k_init_config();
 }
 

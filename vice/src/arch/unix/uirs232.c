@@ -76,7 +76,7 @@ ui_menu_entry_t ser1_baud_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
-ui_menu_entry_t ser2_c64128_baud_submenu[] = {
+ui_menu_entry_t ser2_c64c128_baud_submenu[] = {
   { "*300",
       (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
   { "*1200",

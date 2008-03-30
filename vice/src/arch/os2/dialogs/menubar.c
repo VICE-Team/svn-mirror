@@ -535,6 +535,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PLUS60K:
         toggle("PLUS60K");
         return;
+    case IDM_PLUS256K:
+        toggle("PLUS256K");
+        return;
     case IDM_C64_256K:
         toggle("C64_256K");
         return;
@@ -1252,6 +1255,8 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("PLUS60K", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_PLUS60K,     val);
         WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
+        resources_get_value("PLUS256K", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_PLUS256K,     val);
         resources_get_value("C64_256K", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_C64_256K,     val);
         WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);

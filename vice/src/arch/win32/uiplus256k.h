@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h - Implementation of the +60K EXPANSION settings dialog box.
+ * uiplus256k.h - Implementation of the +256K EXPANSION settings dialog box.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,9 @@
  *
  */
 
-#ifndef _UIPLUS60K_H
-#define _UIPLUS60K_H
+#ifndef _UIPLUS256K_H
+#define _UIPLUS256K_H
 
-extern void ui_plus60k_settings_dialog(HWND hwnd);
+extern void ui_plus256k_settings_dialog(HWND hwnd);
 
 #endif

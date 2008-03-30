@@ -49,6 +49,7 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
+#include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
 #include "uireu.h"
@@ -271,9 +272,11 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, georam_submenu },
     { N_("RAM Expansion Cart"),
       NULL, NULL, ramcart_submenu },
-    { N_("+60K RAM Expansion Hack"),
+    { N_("PLUS60K RAM Expansion"),
       NULL, NULL, plus60k_submenu },
-    { N_("256K RAM Expansion Hack"),
+    { N_("PLUS256K RAM Expansion"),
+      NULL, NULL, plus256k_submenu },
+    { N_("256K RAM Expansion"),
       NULL, NULL, c64_256k_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },

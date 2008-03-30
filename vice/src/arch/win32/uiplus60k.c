@@ -1,5 +1,5 @@
 /*
- * uiplus60k.c - Implementation of the +60K EXPANSION HACK settings dialog box.
+ * uiplus60k.c - Implementation of the +60K EXPANSION settings dialog box.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

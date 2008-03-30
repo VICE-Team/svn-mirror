@@ -69,6 +69,7 @@ libarch_a_SOURCES = \
 	reside64.rc \
 	respet.rc \
 	respetreu.rc \
+ 	resplus256k.rc \
 	resplus4.rc \
 	resplus60k.rc \
 	resramcart.rc \
@@ -142,6 +143,8 @@ libarch_a_SOURCES = \
 	uipetreu.h \
 	uipetset.c \
 	uipetset.h \
+	uiplus256k.c \
+	uiplus256k.h \
 	uiplus4cart.c \
 	uiplus4cart.h \
 	uiplus4mem.c \
@@ -289,14 +292,14 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
-	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
-	$(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
+	$(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
+	$(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
-	$(srcdir)/resramcart.rc $(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
-	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/restfe.rc
+	$(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
+	$(srcdir)/resc64_256k.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc \
+	$(srcdir)/resvicii.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

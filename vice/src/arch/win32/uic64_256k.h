@@ -1,5 +1,5 @@
 /*
- * uic64_256k.h - Implementation of the 256K EXPANSION HACK settings dialog box.
+ * uic64_256k.h - Implementation of the 256K EXPANSION settings dialog box.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

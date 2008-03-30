@@ -29,6 +29,6 @@
 
 extern void mem_limit_init(int mem_read_limit_tab[32][0x101]);
 extern void mem_limit_plus60k_init(int mem_read_limit_tab[32][0x101]);
-extern void mem_limit_c64_256k_init(int mem_read_limit_tab[32][0x101]);
+extern void mem_limit_256k_init(int mem_read_limit_tab[32][0x101]);
 
 #endif

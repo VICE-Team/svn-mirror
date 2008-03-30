@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h - Implementation of the +60K EXPANSION settings dialog box.
+ * uiplus256k.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,28 @@
  *
  */
 
-#ifndef _UIPLUS60K_H
-#define _UIPLUS60K_H
+#include "vice.h"
 
-extern void ui_plus60k_settings_dialog(HWND hwnd);
+#include <stdio.h>
 
-#endif
+#include "uilib.h"
+#include "uimenu.h"
+#include "uiplus256k.h"
+
+
+UI_MENU_DEFINE_TOGGLE(PLUS256K)
+
+UI_CALLBACK(set_plus256k_image_name)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS256K image name"),
+                        _("Name:"));
+}
+
+ui_menu_entry_t plus256k_submenu[] = {
+    { N_("*Enable PLUS256K"),
+      (ui_callback_t)toggle_PLUS256K, NULL, NULL },
+    { N_("PLUS256K image name..."),
+      (ui_callback_t)set_plus256k_image_name,
+      (ui_callback_data_t)"PLUS256Kfilename", NULL },
+    { NULL }
+};

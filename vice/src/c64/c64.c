@@ -73,6 +73,7 @@
 #include "network.h"
 #include "parallel.h"
 #include "patchrom.h"
+#include "plus256k.h"
 #include "plus60k.h"
 #include "printer.h"
 #include "psid.h"
@@ -249,6 +250,7 @@ int machine_resources_init(void)
         || georam_resources_init() < 0
         || ramcart_resources_init() < 0
         || plus60k_resources_init() < 0
+        || plus256k_resources_init() < 0
         || c64_256k_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
@@ -289,6 +291,7 @@ void machine_resources_shutdown(void)
     georam_resources_shutdown();
     ramcart_resources_shutdown();
     plus60k_resources_shutdown();
+    plus256k_resources_shutdown();
     c64_256k_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
@@ -318,6 +321,7 @@ int machine_cmdline_options_init(void)
         || georam_cmdline_options_init() < 0
         || ramcart_cmdline_options_init() < 0
         || plus60k_cmdline_options_init() < 0
+        || plus256k_cmdline_options_init() < 0
         || c64_256k_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
@@ -483,7 +487,10 @@ int machine_specific_init(void)
         /* Initialize the +60K.  */
         plus60k_init();
 
-        /* Initialize the 256K.  */
+        /* Initialize the +256K.  */
+        plus256k_init();
+
+        /* Initialize the C64 256K.  */
         c64_256k_init();
 
 #ifdef HAVE_TFE
@@ -544,6 +551,7 @@ void machine_specific_reset(void)
     georam_reset();
     ramcart_reset();
     plus60k_reset();
+    plus256k_reset();
     c64_256k_reset();
 }
 
@@ -576,6 +584,7 @@ void machine_specific_shutdown(void)
     georam_shutdown();
     ramcart_shutdown();
     plus60k_shutdown();
+    plus256k_shutdown();
     c64_256k_shutdown();
 
 #ifdef HAVE_TFE

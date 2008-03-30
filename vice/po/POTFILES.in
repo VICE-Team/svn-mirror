@@ -21,6 +21,7 @@ src/c64/cart/c64cart.c
 src/c64/cart/ide64.c
 src/c64/c64_256k.c
 src/c64/georam.c
+src/c64/plus256k.c
 src/c64/plus60k.c
 src/c64/psid.c
 src/c64/ramcart.c
@@ -106,6 +107,7 @@ src/arch/unix/uiperipheral.c
 src/arch/unix/uiperipheraliec.c
 src/arch/unix/uiperipheralieee.c
 src/arch/unix/uipetreu.c
+src/arch/unix/uiplus256k.c
 src/arch/unix/uiplus60k.c
 src/arch/unix/uiprinter.c
 src/arch/unix/uiprinteriec.c
@@ -190,6 +192,7 @@ src/arch/unix/x11/xaw/x11video.c
 #src/arch/win32/respet.rc
 #src/arch/win32/respetreu.rc
 #src/arch/win32/resplus4.rc
+#src/arch/win32/resplus256k.rc
 #src/arch/win32/resplus60k.rc
 #src/arch/win32/resramcart.rc
 #src/arch/win32/resreu.rc

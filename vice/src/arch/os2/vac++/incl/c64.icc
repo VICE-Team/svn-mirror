@@ -28,6 +28,7 @@ source type(c)
     "c64video.c",
     "georam.c",
     "patchrom.c",
+    "plus256k.c",
     "plus60k.c",
     "ramcart.c",
     "reu.c",

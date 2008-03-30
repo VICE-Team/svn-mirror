@@ -85,13 +85,11 @@ ui_menu_entry_t uirs232c64c128_submenu[] = {
     { N_("Serial 1 baudrate"),
       NULL, NULL, ser1_c64c128_baud_submenu },
     { "--" },
-/*
     { "Serial 2 device...", (ui_callback_t)set_rs232_device_file,
       (ui_callback_data_t)"RsDevice2", NULL },
     { N_("Serial 2 baudrate"),
       NULL, NULL, ser2_c64c128_baud_submenu },
     { "--" },
-*/
     { N_("Dump filename..."), (ui_callback_t)set_rs232_dump_file,
       (ui_callback_data_t)"RsDevice3", NULL },
     { "--" },

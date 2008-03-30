@@ -54,6 +54,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "RAMCART", MENU_TOGGLE_RAMCART },
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
+    { "PLUS256K", MENU_TOGGLE_PLUS256K },
     { "256K", MENU_TOGGLE_C64_256K },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },

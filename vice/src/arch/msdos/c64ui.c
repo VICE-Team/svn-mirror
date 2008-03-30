@@ -48,6 +48,7 @@
 #include "uitfe.h"
 #endif
 #include "uigeoram.h"
+#include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
 #include "uisid.h"
@@ -349,6 +350,8 @@ int c64ui_init(void)
     uiramcart_init(ui_ioextensions_submenu);
 
     uiplus60k_init(ui_ioextensions_submenu);
+
+    uiplus256k_init(ui_ioextensions_submenu);
 
     uic64_256k_init(ui_ioextensions_submenu);
 

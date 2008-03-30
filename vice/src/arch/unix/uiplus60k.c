@@ -38,7 +38,7 @@ UI_MENU_DEFINE_RADIO(PLUS60Kbase)
 
 UI_CALLBACK(set_plus60k_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("+60K image name"),
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS60K image name"),
                         _("Name:"));
 }
 
@@ -51,11 +51,11 @@ static ui_menu_entry_t plus60k_base_submenu[] = {
 };
 
 ui_menu_entry_t plus60k_submenu[] = {
-    { N_("*Enable +60K"),
+    { N_("*Enable PLUS60K"),
       (ui_callback_t)toggle_PLUS60K, NULL, NULL },
-    { N_("+60K base address"),
+    { N_("PLUS60K base address"),
       NULL, NULL, plus60k_base_submenu },
-    { N_("+60K image name..."),
+    { N_("PLUS60K image name..."),
       (ui_callback_t)set_plus60k_image_name,
       (ui_callback_data_t)"PLUS60Kfilename", NULL },
     { NULL }

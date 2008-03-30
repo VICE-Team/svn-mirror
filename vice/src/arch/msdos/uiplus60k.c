@@ -1,5 +1,5 @@
 /*
- * uiplus60k.c - +60K EXPANSION HACK UI interface for MS-DOS.
+ * uiplus60k.c - +60K EXPANSION UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -62,7 +62,7 @@ static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change +60K image name",
+        if (tui_input_string("Change PLUS60K image name",
                              "New image name:", s, 255) == -1)
             return NULL;
 
@@ -77,14 +77,14 @@ static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 }
 
 static tui_menu_item_def_t plus60k_menu_items[] = {
-    { "_Enable +60K:", "Emulate +60K RAM Expansion",
+    { "_Enable PLUS60K:", "Emulate PLUS60K RAM Expansion",
       toggle_PLUS60K_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "PLUS60K _base:", "Select the base address of the +60K RAM Expansion",
+    { "PLUS60K _base:", "Select the base address of the PLUS60K RAM Expansion",
       plus60k_base_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, plus60k_base_submenu,
       "PLUS60K base" },
-    { "+60K _image file:", "Select the +60K image file",
+    { "PLUS60K _image file:", "Select the PLUS60K image file",
       plus60k_image_file_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
@@ -94,12 +94,12 @@ void uiplus60k_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_plus60k_submenu;
 
-    ui_plus60k_submenu = tui_menu_create("+60K settings", 1);
+    ui_plus60k_submenu = tui_menu_create("PLUS60K settings", 1);
 
     tui_menu_add(ui_plus60k_submenu, plus60k_menu_items);
 
-    tui_menu_add_submenu(parent_submenu, "_60K settings...",
-                         "+60K settings",
+    tui_menu_add_submenu(parent_submenu, "PLUS_60K settings...",
+                         "PLUS60K settings",
                          ui_plus60k_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 }

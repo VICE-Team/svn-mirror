@@ -1,0 +1,100 @@
+// +256K specific resources.
+//
+
+// original and default ENGLISH version of dialog
+
+IDD_PLUS256K_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_PLUS256K_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "",
+                    IDC_PLUS256K_FILE_LABEL, 9, 24, 30, 8
+    PUSHBUTTON      "", IDC_PLUS256K_BROWSE, 45, 22, 50, 14, 0
+    EDITTEXT        IDC_PLUS256K_FILE, 9, 38, 160, 12, WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K Settings"
+    IDS_PLUS256K_ENABLE              "&Enable PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K file"
+    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+END
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K Einstellungen"
+    IDS_PLUS256K_ENABLE              "PLUS256K aktivi&eren"
+    IDS_PLUS256K_FILE                "PLUS256K Datei"
+    IDS_PLUS256K_SELECT_FILE         "Datei für PLUS256K selektieren"
+END
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "Paramètres PLUS256K"
+    IDS_PLUS256K_ENABLE              "&Activer PLUS256K"
+    IDS_PLUS256K_FILE                "Taille du PLUS256K"
+    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+END
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "Impostazioni del PLUS256K"
+    IDS_PLUS256K_ENABLE              "&Attiva PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K file"
+    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+END
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K Instellingen"
+    IDS_PLUS256K_ENABLE              "&Aktiveer PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K bestand"
+    IDS_PLUS256K_SELECT_FILE         "Selecteer bestand voor PLUS256K"
+END
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "Ustawienia PLUS256K"
+    IDS_PLUS256K_ENABLE              "&W³±cz PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K pliku"
+    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+END
+#pragma code_page(28591)
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K-inställningar"
+    IDS_PLUS256K_ENABLE              "&Aktivera PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K-fil"
+    IDS_PLUS256K_SELECT_FILE         "Ange fil för PLUS256K"
+END

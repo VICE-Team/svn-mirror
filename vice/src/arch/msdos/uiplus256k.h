@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h - Implementation of the +60K EXPANSION settings dialog box.
+ * uiplus256k.h - +256K EXPANSION UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,11 @@
  *
  */
 
-#ifndef _UIPLUS60K_H
-#define _UIPLUS60K_H
+#ifndef UIPLUS256K_H
+#define UIPLUS256K_H
 
-extern void ui_plus60k_settings_dialog(HWND hwnd);
+struct tui_menu;
+
+extern void uiplus256k_init(struct tui_menu *parent_submenu);
 
 #endif

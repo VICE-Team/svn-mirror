@@ -340,7 +340,7 @@ extern int translate_res(int en_resource);
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c, pet/petreu.c */
+   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c */
 #define IDCLS_P_NAME                            0x1100e
 #define IDCLS_P_NAME_DE                         0x1100f
 #define IDCLS_P_NAME_FR                         0x11010
@@ -3801,5 +3801,32 @@ extern int translate_res(int en_resource);
 #define IDCLS_PETREU_SIZE_NL                    0x11a43
 #define IDCLS_PETREU_SIZE_PL                    0x11a44
 #define IDCLS_PETREU_SIZE_SV                    0x11a45
+
+/* c64/plus256k.c */
+#define IDCLS_ENABLE_PLUS256K_EXPANSION         0x11a46
+#define IDCLS_ENABLE_PLUS256K_EXPANSION_DE      0x11a47
+#define IDCLS_ENABLE_PLUS256K_EXPANSION_FR      0x11a48
+#define IDCLS_ENABLE_PLUS256K_EXPANSION_IT      0x11a49
+#define IDCLS_ENABLE_PLUS256K_EXPANSION_NL      0x11a4a
+#define IDCLS_ENABLE_PLUS256K_EXPANSION_PL      0x11a4b
+#define IDCLS_ENABLE_PLUS256K_EXPANSION_SV      0x11a4c
+
+/* c64/plus256k.c */
+#define IDCLS_DISABLE_PLUS256K_EXPANSION        0x11a4d
+#define IDCLS_DISABLE_PLUS256K_EXPANSION_DE     0x11a4e
+#define IDCLS_DISABLE_PLUS256K_EXPANSION_FR     0x11a4f
+#define IDCLS_DISABLE_PLUS256K_EXPANSION_IT     0x11a50
+#define IDCLS_DISABLE_PLUS256K_EXPANSION_NL     0x11a51
+#define IDCLS_DISABLE_PLUS256K_EXPANSION_PL     0x11a52
+#define IDCLS_DISABLE_PLUS256K_EXPANSION_SV     0x11a53
+
+/* c64/plus256k.c */
+#define IDCLS_SPECIFY_PLUS256K_NAME             0x11a54
+#define IDCLS_SPECIFY_PLUS256K_NAME_DE          0x11a55
+#define IDCLS_SPECIFY_PLUS256K_NAME_FR          0x11a56
+#define IDCLS_SPECIFY_PLUS256K_NAME_IT          0x11a57
+#define IDCLS_SPECIFY_PLUS256K_NAME_NL          0x11a58
+#define IDCLS_SPECIFY_PLUS256K_NAME_PL          0x11a59
+#define IDCLS_SPECIFY_PLUS256K_NAME_SV          0x11a5a
 
 #endif

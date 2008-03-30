@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h - Implementation of the +60K EXPANSION settings dialog box.
+ * plus256k.h - +256K EXPANSION HACK emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,27 @@
  *
  */
 
-#ifndef _UIPLUS60K_H
-#define _UIPLUS60K_H
+#ifndef _PLUS256K_H
+#define _PLUS256K_H
 
-extern void ui_plus60k_settings_dialog(HWND hwnd);
+#include "types.h"
+
+extern int plus256k_enabled;
+
+extern int plus256k_resources_init(void);
+extern void plus256k_resources_shutdown(void);
+extern int plus256k_cmdline_options_init(void);
+extern void plus256k_init(void);
+extern void plus256k_reset(void);
+extern void plus256k_shutdown(void);
+
+extern BYTE REGPARM1 plus256k_vicii_read(WORD addr);
+extern BYTE REGPARM1 plus256k_vicii_read0(WORD addr);
+extern void REGPARM2 plus256k_vicii_store(WORD addr, BYTE value);
+extern void REGPARM2 plus256k_vicii_store0(WORD addr, BYTE value);
+extern void REGPARM2 plus256k_ram_low_store(WORD addr, BYTE value);
+extern void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 plus256k_ram_low_read(WORD addr);
+extern BYTE REGPARM1 plus256k_ram_high_read(WORD addr);
 
 #endif

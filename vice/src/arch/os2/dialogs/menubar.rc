@@ -419,13 +419,14 @@ BEGIN
       END
 #endif // __X64__ || __X128__
 #ifdef __X64__
-      MENUITEM "+~60K - Memory Expansion Hack", IDM_PLUS60K,       MIS_TEXT
-      SUBMENU  "+60K Base ~Address",        IDM_PLUS60KBASE,   MIS_TEXT
+      MENUITEM "PLUS~60K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT
+      SUBMENU  "PLUS60K Base ~Address",        IDM_PLUS60KBASE,   MIS_TEXT
       BEGIN
         MENUITEM "$~D040",                IDM_PLUS60KD040,    MIS_TEXT
         MENUITEM "$D~100",                IDM_PLUS60KD100,    MIS_TEXT
       END
-      MENUITEM "~256K - 256K Memory Expansion hack", IDM_C64_256K,       MIS_TEXT
+      MENUITEM "PLUS2~56K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT
+      MENUITEM "~256K - Memory Expansion", IDM_C64_256K,       MIS_TEXT
       SUBMENU  "256K ~Base",        IDM_C64_256K_BASE,   MIS_TEXT
       BEGIN
         MENUITEM "$~DE00-$DE7F",                IDM_C64_256K_BASEDE00,    MIS_TEXT

@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h - +60K EXPANSION HACK UI interface for MS-DOS.
+ * uiplus60k.h - +60K EXPANSION UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

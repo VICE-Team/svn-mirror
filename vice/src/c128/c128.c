@@ -121,12 +121,24 @@ BYTE REGPARM1 c64_256k_read(WORD addr)
   return 0xff;
 }
 
+BYTE REGPARM1 c64_256k_ram_segment2_read(WORD addr)
+{
+  return mem_ram[addr];
+}
+
+void REGPARM2 c64_256k_ram_segment2_store(WORD addr, BYTE byte)
+{
+  mem_ram[addr]=byte;
+}
+
 void c64_256k_cia_set_vbank(int ciabank)
 {
 }
 
 /* dummy functions until the C128 version of the 
    +60K expansion can be made */
+
+int plus60k_enabled=0;
 
 BYTE REGPARM1 plus60k_ram_read(WORD addr)
 {
@@ -136,6 +148,21 @@ BYTE REGPARM1 plus60k_ram_read(WORD addr)
 void REGPARM2 plus60k_ram_store(WORD addr, BYTE value)
 {
   mem_ram[addr] = value;
+}
+
+/* dummy functions until the C128 version of the
+   +256K expansion can be made */
+
+int plus256k_enabled=0;
+
+BYTE REGPARM1 plus256k_ram_high_read(WORD addr)
+{
+  return mem_ram[addr];
+}
+
+void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE byte)
+{
+  mem_ram[addr]=byte;
 }
 
 machine_context_t machine_context;

@@ -1,5 +1,5 @@
 /*
- * uic64_256k.c - 256K EXPANSION HACK UI interface for MS-DOS.
+ * uic64_256k.c - 256K EXPANSION UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

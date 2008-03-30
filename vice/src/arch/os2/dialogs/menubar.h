@@ -141,6 +141,8 @@
 #define IDM_PLUS60KD040  0x17e
 #define IDM_PLUS60KD100  0x17f
 
+#define IDM_PLUS256K      0x18b
+
 #define IDM_C64_256K          0x16d
 #define IDM_C64_256K_BASE	0x16e
 #define IDM_C64_256K_BASEDE00	0x18c

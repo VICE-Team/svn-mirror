@@ -43,6 +43,7 @@
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uikeyboard.h"
+#include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
 #include "uireu.h"
@@ -153,6 +154,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_PLUS60K_SETTINGS:
         ui_plus60k_settings_dialog(hwnd);
+        break;
+      case IDM_PLUS256K_SETTINGS:
+        ui_plus256k_settings_dialog(hwnd);
         break;
       case IDM_C64_256K_SETTINGS:
         ui_c64_256k_settings_dialog(hwnd);

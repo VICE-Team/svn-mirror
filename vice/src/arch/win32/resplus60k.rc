@@ -29,11 +29,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "+60K Settings"
-    IDS_PLUS60K_ENABLE              "&Enable +60K"
-    IDS_PLUS60K_BASE                "+60K base address"
-    IDS_PLUS60K_FILE                "+60K file"
-    IDS_PLUS60K_SELECT_FILE         "Select file for +60K"
+    IDS_PLUS60K_CAPTION             "PLUS60K Settings"
+    IDS_PLUS60K_ENABLE              "&Enable PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "PLUS60K file"
+    IDS_PLUS60K_SELECT_FILE         "Select file for PLUS60K"
 END
 
 // GERMAN text
@@ -41,11 +41,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "+60K Einstellungen"
-    IDS_PLUS60K_ENABLE              "+60K aktivi&eren"
-    IDS_PLUS60K_BASE                "+60K base address"
-    IDS_PLUS60K_FILE                "+60K Datei"
-    IDS_PLUS60K_SELECT_FILE         "Datei für +60K selektieren"
+    IDS_PLUS60K_CAPTION             "PLUS60K Einstellungen"
+    IDS_PLUS60K_ENABLE              "PLUS60K aktivi&eren"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "PLUS60K Datei"
+    IDS_PLUS60K_SELECT_FILE         "Datei für PLUS60K selektieren"
 END
 
 // FRENCH text
@@ -53,11 +53,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "Paramètres +60K"
-    IDS_PLUS60K_ENABLE              "&Activer +60K"
-    IDS_PLUS60K_BASE                "+60K base address"
-    IDS_PLUS60K_FILE                "Fichier +60K"
-    IDS_PLUS60K_SELECT_FILE         "Sélectionner fichier pour +60K"
+    IDS_PLUS60K_CAPTION             "Paramètres PLUS60K"
+    IDS_PLUS60K_ENABLE              "&Activer PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "Fichier PLUS60K"
+    IDS_PLUS60K_SELECT_FILE         "Sélectionner fichier pour PLUS60K"
 END
 
 // ITALIAN text
@@ -65,11 +65,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "Impostazioni +60K"
-    IDS_PLUS60K_ENABLE              "&Attiva +60K"
-    IDS_PLUS60K_BASE                "+60K base address"
-    IDS_PLUS60K_FILE                "File +60K"
-    IDS_PLUS60K_SELECT_FILE         "Seleziona file per +60K"
+    IDS_PLUS60K_CAPTION             "Impostazioni PLUS60K"
+    IDS_PLUS60K_ENABLE              "&Attiva PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "File PLUS60K"
+    IDS_PLUS60K_SELECT_FILE         "Seleziona file per PLUS60K"
 END
 
 // DUTCH text
@@ -77,11 +77,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "+60K Instellingen"
-    IDS_PLUS60K_ENABLE              "&Aktiveer +60K"
-    IDS_PLUS60K_BASE                "+60K basis adres"
-    IDS_PLUS60K_FILE                "+60K bestand"
-    IDS_PLUS60K_SELECT_FILE         "Selecteer bestand voor +60K"
+    IDS_PLUS60K_CAPTION             "PLUS60K Instellingen"
+    IDS_PLUS60K_ENABLE              "&Aktiveer PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K basis adres"
+    IDS_PLUS60K_FILE                "PLUS60K bestand"
+    IDS_PLUS60K_SELECT_FILE         "Selecteer bestand voor PLUS60K"
 END
 
 // POLISH text
@@ -90,11 +90,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "Ustawienia +60K"
-    IDS_PLUS60K_ENABLE              "&W³±cz +60K"
-    IDS_PLUS60K_BASE                "+60K base address"
-    IDS_PLUS60K_FILE                "+60K pliku"
-    IDS_PLUS60K_SELECT_FILE         "Select file for +60K"
+    IDS_PLUS60K_CAPTION             "Ustawienia PLUS60K"
+    IDS_PLUS60K_ENABLE              "&W³±cz PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "PLUS60K pliku"
+    IDS_PLUS60K_SELECT_FILE         "Select file for PLUS60K"
 END
 #pragma code_page(28591)
 
@@ -103,9 +103,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "+60K-inställningar"
-    IDS_PLUS60K_ENABLE              "&Aktivera +60K"
-    IDS_PLUS60K_BASE                "+60K base address"
-    IDS_PLUS60K_FILE                "+60K-fil"
-    IDS_PLUS60K_SELECT_FILE         "Ange fil för +60K"
+    IDS_PLUS60K_CAPTION             "PLUS60K-inställningar"
+    IDS_PLUS60K_ENABLE              "&Aktivera PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "PLUS60K-fil"
+    IDS_PLUS60K_SELECT_FILE         "Ange fil för PLUS60K"
 END
