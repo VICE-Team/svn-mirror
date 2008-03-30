@@ -17,10 +17,8 @@ list of all the changes in the code.
 
 - Support for different ROM sets has been added.
 
-- Attaching a non-existant image via command line does not crash the
-  emulator anymore.
-
-- ROM snapshots do not save ROMs with "traps" anymore
+- Attached disk images can be stored into a flip list.  Changing
+  disks requires just one keypress.
 
 ** MS-DOS changes
 -----------------
@@ -100,6 +98,11 @@ list of all the changes in the code.
 - Drive memory can be loaded/saved in the monitor now.
 
 - The monitor can read and write blocks from disk.
+
+- Attaching a non-existant image via command line does not crash the
+  emulator anymore.
+
+- ROM snapshots do not save ROMs with "traps" anymore
 
 
 * Changes in VICE 0.16.1a
