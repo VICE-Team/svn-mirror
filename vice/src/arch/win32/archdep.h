@@ -99,6 +99,9 @@
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
+/* No key symcode.  */
+#define ARCHDEP_KEYBOARD_SYM_NONE 0
+
 extern void archdep_workaround_nop(const char *otto);
  
 #endif

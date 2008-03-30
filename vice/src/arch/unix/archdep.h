@@ -100,6 +100,9 @@
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE "eth0"
 
+/* No key symcode.  */
+#define ARCHDEP_KEYBOARD_SYM_NONE 0
+
 extern const char *archdep_home_path(void);
 
 /* Define the default system directory (where the ROMs are).  */
