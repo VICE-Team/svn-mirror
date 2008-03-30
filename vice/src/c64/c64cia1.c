@@ -30,7 +30,6 @@
 #include "ciacore.h"
 
 #include "c64cia.h"
-#include "kbd.h"
 #include "keyboard.h"
 #include "types.h"
 #include "vicii.h"

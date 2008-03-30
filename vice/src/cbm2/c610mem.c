@@ -42,7 +42,6 @@
 #include "crtc.h"
 #include "emuid.h"
 #include "interrupt.h"
-#include "kbd.h"
 #include "kbdbuf.h"
 #include "log.h"
 #include "maincpu.h"

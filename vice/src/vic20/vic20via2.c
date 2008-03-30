@@ -58,7 +58,6 @@
 
 #include "datasette.h"
 #include "drive.h"
-#include "kbd.h"
 #include "keyboard.h"
 #include "maincpu.h"
 #include "printer.h"

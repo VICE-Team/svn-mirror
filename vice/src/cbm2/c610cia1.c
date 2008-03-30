@@ -31,7 +31,6 @@
 #include "c610cia.h"
 #include "c610tpi.h"
 #include "drive.h"
-#include "kbd.h"
 #include "keyboard.h"
 #include "parallel.h"
 #include "printer.h"

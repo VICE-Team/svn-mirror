@@ -34,7 +34,6 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
-#include "kbd.h"
 #include "keyboard.h"
 #include "types.h"
 #include "vicii.h"
