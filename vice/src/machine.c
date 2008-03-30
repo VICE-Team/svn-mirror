@@ -27,9 +27,15 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include "alarm.h"
 #include "autostart.h"
+#include "clkguard.h"
+#include "interrupt.h"
+#include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mem.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vsync.h"
@@ -64,6 +70,8 @@ unsigned int machine_jam(const char *format, ...)
 
 void machine_reset(void)
 {
+    log_message(LOG_DEFAULT, "Main CPU: RESET.");
+
     /* Do machine-specific initialization.  */
     machine_specific_reset();
 
@@ -72,5 +80,21 @@ void machine_reset(void)
     mem_initialize_memory();
 
     vsync_suspend_speed_eval();
+}
+
+static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
+{
+    alarm_context_time_warp(maincpu_alarm_context, sub, -1);
+    interrupt_cpu_status_time_warp(&maincpu_int_status, sub, -1);
+}
+
+void machine_maincpu_init(void)
+{
+    maincpu_alarm_context = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
+    alarm_context_init(maincpu_alarm_context, "MainCPU");
+
+    clk_guard_init(&maincpu_clk_guard, &maincpu_clk, CLOCK_MAX - 0x100000);
+    clk_guard_add_callback(&maincpu_clk_guard,
+                           machine_maincpu_clk_overflow_callback, NULL);
 }
 

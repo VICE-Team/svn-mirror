@@ -176,7 +176,7 @@ int init_main(void)
         drive1_cpu_early_init();
     }
 
-    maincpu_init();
+    machine_maincpu_init();
 
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {
