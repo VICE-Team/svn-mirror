@@ -40,4 +40,6 @@ extern void set_bank_exec(int);
 extern void set_bank_ind(int);
 extern int cbm2_set_model(const char *model, void *extra);
 
+extern int cbm2_init_ok;
+
 #endif

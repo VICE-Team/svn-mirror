@@ -709,7 +709,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.16.0.5
+VERSION=0.16.1
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -3399,7 +3399,7 @@ fi
 
 fi
 
-for ac_hdr in fcntl.h limits.h sgtty.h regex.h regexp.h
+for ac_hdr in fcntl.h limits.h strings.h sgtty.h regex.h regexp.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6

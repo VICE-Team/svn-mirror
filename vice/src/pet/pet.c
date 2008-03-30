@@ -211,6 +211,8 @@ int machine_init(void)
     if (pet_log == LOG_ERR)
         pet_log = log_open("PET");
 
+    pet_init_ok = 1;	/* used in pet_set_model() */
+
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 

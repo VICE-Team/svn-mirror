@@ -180,6 +180,8 @@ int machine_init(void)
     if (c610_log == LOG_ERR)
         c610_log = log_open("CBM2");
 
+    cbm2_init_ok = 1;
+
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 

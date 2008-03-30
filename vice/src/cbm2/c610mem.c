@@ -90,6 +90,8 @@ store_func_ptr_t *_mem_write_ind_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 BYTE **_mem_read_ind_base_tab_ptr;
 
+int cbm2_init_ok = 0;
+
 /* Flag: nonzero if the ROM has been loaded. */
 static int rom_loaded = 0;
 
@@ -457,9 +459,13 @@ int cbm2_set_model(const char *model, void *extra)
 	    set_basic_rom_name((resource_value_t)modtab[i].basic);
 	    set_chargen_rom_name((resource_value_t)modtab[i].charrom);
 	    set_cbm2_model_line((resource_value_t)modtab[i].line);
-            mem_powerup();
-	    mem_load();
-            maincpu_trigger_reset();
+
+	    /* we have to wait until we did enough initialization */
+	    if(cbm2_init_ok) {
+                mem_powerup();
+	        mem_load();
+                maincpu_trigger_reset();
+	    }
 	    return 0;
 	}
     }

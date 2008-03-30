@@ -49,6 +49,8 @@ extern void video_resize(void);
 
 PetInfo pet;
 
+int pet_init_ok = 0;
+
 /* ------------------------------------------------------------------------- */
 
 #define	PET_CHARGEN_NAME	"chargen"
@@ -163,9 +165,12 @@ int pet_set_model(const char *model_name, void *extra)
 	    /* hm, does this belong to a resource? */
 	    pet.pet2k = pet_table[i].info.pet2k;
 
-	    mem_load();
-	    suspend_speed_eval();
-	    maincpu_trigger_reset();
+	    /* we have to wait until we have done enough initialization */
+	    if(pet_init_ok) {
+	        mem_load();
+	        suspend_speed_eval();
+	        maincpu_trigger_reset();
+	    }
 	    return 0;
 	}
 	i++;
