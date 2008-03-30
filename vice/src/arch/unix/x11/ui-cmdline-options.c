@@ -28,7 +28,10 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cmdline.h"
+#include "resources.h"
 
 static cmdline_option_t cmdline_options[] = {
     { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,

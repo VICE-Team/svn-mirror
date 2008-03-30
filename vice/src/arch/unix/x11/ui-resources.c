@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "resources.h"
 #include "utils.h"
 #ifdef USE_XF86_EXTENSIONS
@@ -51,7 +53,7 @@ static ui_resources_t ui_resources;
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v, void *param)
 {
-    int d = (int) v;
+    int d = (int)v;
 
     /* Minimal sanity check.  */
     if (d < 0 || d > 32)
@@ -69,36 +71,36 @@ static int set_html_browser_command(resource_value_t v, void *param)
 
 static int set_use_private_colormap(resource_value_t v, void *param)
 {
-    ui_resources.use_private_colormap = (int) v;
+    ui_resources.use_private_colormap = (int)v;
     return 0;
 }
 
 static int set_save_resources_on_exit(resource_value_t v, void *param)
 {
-    ui_resources.save_resources_on_exit = (int) v;
+    ui_resources.save_resources_on_exit = (int)v;
     return 0;
 }
 
 static resource_t resources[] = {
-    { "HTMLBrowserCommand", RES_STRING, (resource_value_t) "netscape %s",
-      (resource_value_t *) &ui_resources.html_browser_command,
+    { "HTMLBrowserCommand", RES_STRING, (resource_value_t)"netscape %s",
+      (resource_value_t *)&ui_resources.html_browser_command,
       set_html_browser_command, NULL },
-    { "PrivateColormap", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &ui_resources.use_private_colormap,
+    { "PrivateColormap", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.use_private_colormap,
       set_use_private_colormap, NULL },
-    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &ui_resources.save_resources_on_exit,
+    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.save_resources_on_exit,
       set_save_resources_on_exit, NULL },
-    { "DisplayDepth", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &ui_resources.depth,
+    { "DisplayDepth", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.depth,
       set_depth, NULL },
 #ifdef USE_XF86_EXTENSIONS
-    { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fullscreen_is_enabled,
+    { "UseFullscreen", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&fullscreen_is_enabled,
       fullscreen_request_set_mode, NULL },
 #ifdef USE_XF86_VIDMODE_EXT
-    { "SelectedFullscreenMode", RES_STRING, (resource_value_t) "",
-      (resource_value_t *) &fullscreen_selected_videomode,
+    { "SelectedFullscreenMode", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&fullscreen_selected_videomode,
       fullscreen_set_bestmode, NULL },
 #endif
 #endif

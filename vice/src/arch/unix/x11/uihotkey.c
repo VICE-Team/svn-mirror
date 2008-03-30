@@ -26,10 +26,10 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "uihotkey.h"
-
 #include "utils.h"
 
 typedef struct {
@@ -104,3 +104,4 @@ int ui_dispatch_hotkeys(int key)
     }
     return ret;
 }
+
