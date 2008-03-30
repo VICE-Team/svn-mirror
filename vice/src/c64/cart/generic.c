@@ -30,11 +30,25 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "cartridge.h"
 #include "crt.h"
 #include "generic.h"
 #include "types.h"
 #include "util.h"
+
+
+static const c64export_resource_t export_res_8kb = {
+    "Generic 8KB", 0, 0, 1, 0
+};
+
+static const c64export_resource_t export_res_16kb = {
+    "Generic 16KB", 0, 0, 1, 1
+};
+
+static c64export_resource_t export_res_ultimax = {
+    "Generic Ultimax", 0, 0, 0, 1
+};
 
 
 void generic_8kb_config_init(void)
@@ -78,6 +92,9 @@ int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
 
+    if (c64export_add(&export_res_8kb) < 0)
+        return -1;
+
     return 0;
 }
 
@@ -87,12 +104,17 @@ int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
 
+    if (c64export_add(&export_res_16kb) < 0)
+        return -1;
+
     return 0;
 }
 
 int generic_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
+
+    export_res_ultimax.use_roml = 0;
 
     if (fread(chipheader, 0x10, 1, fd) < 1)
         return -1;
@@ -105,8 +127,18 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
                   : CARTRIDGE_GENERIC_16KB;
         /* try to read next CHIP header in case of 16k Ultimax cart */
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            if (crttype == CARTRIDGE_GENERIC_8KB) {
+                if (c64export_add(&export_res_8kb) < 0)
+                    return -1;
+            } else {
+                if (c64export_add(&export_res_16kb) < 0)
+                    return -1;
+            }
             return 0;
+        } else {
+            export_res_ultimax.use_roml = 1;
+        }
     }
 
     if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0
@@ -116,9 +148,28 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
 
         crttype = CARTRIDGE_ULTIMAX;
+
+        if (c64export_add(&export_res_ultimax) < 0)
+            return -1;
+
         return 0;
     }
 
     return -1;
+}
+
+void generic_8kb_detach(void)
+{
+    c64export_remove(&export_res_8kb);
+}
+
+void generic_16kb_detach(void)
+{
+    c64export_remove(&export_res_16kb);
+}
+
+void generic_ultimax_detach(void)
+{
+    c64export_remove(&export_res_ultimax);
 }
 

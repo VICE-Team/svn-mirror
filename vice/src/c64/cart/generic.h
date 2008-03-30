@@ -40,6 +40,9 @@ extern void generic_ultimax_config_setup(BYTE *rawcart);
 extern int generic_8kb_bin_attach(const char *filename, BYTE *rawcart);
 extern int generic_16kb_bin_attach(const char *filename, BYTE *rawcart);
 extern int generic_crt_attach(FILE *fd, BYTE *rawcart);
+extern void generic_8kb_detach(void);
+extern void generic_16kb_detach(void);
+extern void generic_ultimax_detach(void);
 
 #endif
 
