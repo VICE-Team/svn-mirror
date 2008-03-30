@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.58)
+AM_INIT_AUTOMAKE(vice, 0.14.2.59)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -441,6 +441,7 @@ AC_OUTPUT(Makefile
           src/vic20/Makefile \
           src/pet/Makefile \
           doc/Makefile \
+          doc/html/Makefile \
           man/Makefile \
           data/Makefile \
           data/C64/Makefile \

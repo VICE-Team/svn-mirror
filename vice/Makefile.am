@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-SUBDIRS = src doc man data
+SUBDIRS = src data man doc
 
 EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h
 

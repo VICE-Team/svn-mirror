@@ -705,7 +705,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.14.2.58
+VERSION=0.14.2.59
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -5920,6 +5920,7 @@ trap 'rm -fr `echo "Makefile
           src/vic20/Makefile \
           src/pet/Makefile \
           doc/Makefile \
+          doc/html/Makefile \
           man/Makefile \
           data/Makefile \
           data/C64/Makefile \
@@ -6074,6 +6075,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
           src/vic20/Makefile \
           src/pet/Makefile \
           doc/Makefile \
+          doc/html/Makefile \
           man/Makefile \
           data/Makefile \
           data/C64/Makefile \
