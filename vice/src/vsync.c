@@ -338,7 +338,7 @@ int do_vsync(int been_skipped)
      */
     if ((signed long)(now - next_frame_start) > 3*vsyncarch_frequency()) {
 #ifndef __OS2__
-        if (!warp_mode_enabled) {
+        if (!warp_mode_enabled && relative_speed) {
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
         }
 #endif

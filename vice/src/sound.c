@@ -339,7 +339,8 @@ static void enablesound(void)
 /* open sound device */
 static int initsid(void)
 {
-    int i;
+    int i, j;
+    SWORD *p;
     sound_device_t *pdev;
     char *name;
     char *param;
@@ -447,6 +448,13 @@ static int initsid(void)
 	    /* Set warp mode for non-realtime sound devices in vsid mode. */
 	    if (vsid_mode && !pdev->bufferspace)
 	        resources_set_value("WarpMode", (resource_value_t)1);
+
+	    /* Fill up the sound hardware buffer. */
+	    j = snddata.bufsize - snddata.fragsize;
+	    p = (SWORD *)xmalloc(j*sizeof(SWORD));
+	    memset(p, 0, j*sizeof(SWORD));
+	    snddata.pdev->write(p, j);
+	    free(p);
 
 	    return 0;
 	}
@@ -635,7 +643,7 @@ int sound_flush(int relative_speed)
 	}
 	used = snddata.bufsize - space;
 	/* buffer empty */
-	if (used <= snddata.fragsize*2)
+	if (used <= snddata.fragsize)
 	{
 	    SWORD		*p, v;
 	    int			 j;
@@ -652,13 +660,7 @@ int sound_flush(int relative_speed)
 		prev = now;
 	    }
 	    /* Calculate unused space in buffer. */
-	    j = snddata.fragsize*snddata.fragnr - nr;
-	    if (j > snddata.bufsize / 2
-                && (!cycle_based && speed_adjustment_setting == SOUND_ADJUST_FLEXIBLE)
-                && relative_speed)
-	    {
-		j = snddata.fragsize*(snddata.fragnr/2);
-	    }
+	    j = snddata.fragsize*(snddata.fragnr - 1) - nr;
 	    j *= sizeof(*p);
 	    /* Fill up sound hardware buffer. */
 	    if (j > 0)
