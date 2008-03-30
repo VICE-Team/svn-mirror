@@ -779,7 +779,6 @@ int atexit(void (*function)(void))
 
 #endif /* !defined HAVE_ATEXIT */
 
-
 #if !defined HAVE_STRERROR
 
 char *strerror(int errnum)
@@ -792,3 +791,60 @@ char *strerror(int errnum)
 
 #endif /* !defined HAVE_STRERROR */
 
+/* The following `strcasecmp()' and `strncasecmp()' implementations are
+   taken from:
+   GLIB - Library of useful routines for C programming
+   Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh
+   MacDonald.
+   The source is available from http://www.gtk.org/.  */
+
+#if !defined HAVE_STRCASECMP
+
+int strcasecmp(const char *s1, const char *s2)
+{
+    int c1, c2;
+
+    if (s1 == NULL || s2 == NULL)
+        return 0;
+
+    while (*s1 && *s2) {
+        /* According to A. Cox, some platforms have islower's that don't work
+           right on non-uppercase.  */
+        c1 = isupper ((unsigned int)*s1) ? tolower ((unsigned int)*s1) : *s1;
+        c2 = isupper ((unsigned int)*s2) ? tolower ((unsigned int)*s2) : *s2;
+        if (c1 != c2)
+            return (c1 - c2);
+        s1++; s2++;
+    }
+  
+    return (((int)(unsigned char) *s1) - ((int)(unsigned char) *s2));
+}
+
+#endif
+
+#if !defined HAVE_STRNCASECMP
+
+int strncasecmp(const char *s1, const char *s2, unsigned int n)
+{
+    int c1, c2;
+  
+    if (s1 == NULL || s2 == NULL)
+        return 0;
+
+    while (n-- && *s1 && *s2) {
+        /* According to A. Cox, some platforms have islower's that don't work
+           right on non-uppercase.  */
+        c1 = isupper ((unsigned int)*s1) ? tolower ((unsigned int)*s1) : *s1;
+        c2 = isupper ((unsigned int)*s2) ? tolower ((unsigned int)*s2) : *s2;
+        if (c1 != c2)
+            return (c1 - c2);
+        s1++; s2++;
+    }
+
+    if (n)
+        return (((int)(unsigned char) *s1) - ((int)(unsigned char) *s2));
+    else
+        return 0;
+}
+
+#endif

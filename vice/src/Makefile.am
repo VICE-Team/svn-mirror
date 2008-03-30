@@ -242,6 +242,7 @@ c1541_SOURCES = \
 	cmdline.c \
 	findpath.c \
 	gcr.c \
+	info.c \
 	log.c \
 	p00.c \
 	resources.c \
