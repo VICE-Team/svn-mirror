@@ -78,6 +78,14 @@ static ui_menu_entry_t vic_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VDC_64KB)
+
+static ui_menu_entry_t vdc_submenu[] = {
+    { "*64KB display memory",
+      (ui_callback_t) toggle_VDC_64KB, NULL, NULL },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_RADIO(SidModel)
@@ -267,6 +275,8 @@ static ui_menu_entry_t c128_romset_submenu[] = {
 static ui_menu_entry_t c128_menu[] = {
     { "VIC-II settings",
       NULL, NULL, vic_submenu },
+    { "VDC settings",
+      NULL, NULL, vdc_submenu },
     { "SID settings",
       NULL, NULL, sid_submenu },
     { "I/O extensions at $DFxx",

@@ -69,6 +69,14 @@ set_palette_file_name (resource_value_t v)
   return 0;
 }
 
+static int set_64kb_expansion(resource_value_t v)
+{
+    vdc_resources.vdc_64kb_expansion = (int) v;
+    vdc.vdc_address_mask = vdc_resources.vdc_64kb_expansion
+                           ? 0xffff : 0x3fff;
+    return 0;
+}
+
 static resource_t resources[] =
   {
     { "VDC_PaletteFile", RES_STRING, (resource_value_t) "vdc_deft",
@@ -77,6 +85,9 @@ static resource_t resources[] =
     { "VDC_VideoCache", RES_INTEGER, (resource_value_t) DEFAULT_VideoCache_VALUE,
       (resource_value_t *) &vdc_resources.video_cache_enabled,
       set_video_cache_enabled },
+    { "VDC_64KB", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &vdc_resources.vdc_64kb_expansion,
+      set_64kb_expansion },
     { NULL }
   };
 
@@ -103,7 +114,6 @@ set_double_scan_enabled (resource_value_t v)
 
   return 0;
 }
-
 
 static resource_t resources_2x[] =
   {

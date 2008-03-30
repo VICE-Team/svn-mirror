@@ -62,11 +62,6 @@
 #define VDC_NUM_COLORS		        16
 
 
-/* Address mask for VDC range (64kB VDC-RAM) */
-
-#define VDC_ADDRESS_MASK		0xffff
-
-
 /* VDC Attribute masks */
 
 #define VDC_FLASH_ATTR			0x10
@@ -151,6 +146,9 @@ struct _vdc
     /* VDC alarms.  */
     /* Alarm to update a raster line. */
     alarm_t raster_draw_alarm;
+
+    /* Memory address mask.  */
+    int vdc_address_mask;
   };
 typedef struct _vdc vdc_t;
 
