@@ -42,13 +42,13 @@
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
 
-/* foreground(7) | background(7) | nibble(7) -> 4 pixels.  */
-static PIXEL4 hr_table[128 * 128 * 128];
+/* foreground(7) | background(7) | nibble(4) -> 4 pixels.  */
+static PIXEL4 hr_table[128 * 128 * 16];
 
 #ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
-/* foreground(7) | background(7) | idx(2) | nibble(7) -> 4 pixels.  */
-static PIXEL4 hr_table_2x[128 * 128 * 2 * 128];
+/* foreground(7) | background(7) | idx(2) | nibble(4) -> 4 pixels.  */
+static PIXEL4 hr_table_2x[128 * 128 * 2 * 16];
 #endif /* VIC_II_NEED_2X */
 #endif /* VIDEO_REMOVE_2X */
 
@@ -176,11 +176,11 @@ inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
     BYTE *char_ptr;
     unsigned int i;
 
-    table_ptr = hr_table + (ted.raster.background_color << 7);
+    table_ptr = hr_table + (ted.raster.background_color << 4);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
     for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 14);
+        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 11);
         int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
                 = *(char_ptr + ted.vbuf[i] * 8));
 
@@ -220,11 +220,11 @@ inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
     BYTE *char_ptr;
     unsigned int i;
 
-    table_ptr = hr_table_2x + (ted.raster.background_color << 8);
+    table_ptr = hr_table_2x + (ted.raster.background_color << 5);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
     for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 15);
+        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 12);
         int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
                 = *(char_ptr + ted.vbuf[i] * 8));
 
@@ -455,12 +455,12 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     int r = 0;
 
     if (ted.raster.background_color != cache->background_data[0]
-        || cache->color_data_1[0] != ted.regs[0x22]
-        || cache->color_data_1[1] != ted.regs[0x23]
+        || cache->color_data_1[0] != ted.regs[0x16]
+        || cache->color_data_1[1] != ted.regs[0x17]
         || cache->chargen_ptr != ted.chargen_ptr) {
         cache->background_data[0] = ted.raster.background_color;
-        cache->color_data_1[0] = ted.regs[0x22];
-        cache->color_data_1[1] = ted.regs[0x23];
+        cache->color_data_1[0] = ted.regs[0x16];
+        cache->color_data_1[1] = ted.regs[0x17];
         cache->chargen_ptr = ted.chargen_ptr;
         *xs = 0;
         *xe = TED_SCREEN_TEXTCOLS - 1;
@@ -506,11 +506,11 @@ inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 #ifdef ALLOW_UNALIGNED_ACCESS
         c[3] = *((PIXEL2 *)((PIXEL *)c + 9))
-            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
+            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
 #else
-        c[3] = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
+        c[3] = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
         *((PIXEL2 *) c + 9) = *((PIXEL2 *)c + 10)
-            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
+            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
 #endif
 
         *((PIXEL2 *)p + 4 * i) = c[mc_table[k | d]];
@@ -571,11 +571,11 @@ inline static void _draw_mc_text_2x(PIXEL *p, int xs, int xe,
 
 #ifdef ALLOW_UNALIGNED_ACCESS
         c[3] = *((PIXEL4 *)((PIXEL2 *)c + 9))
-            = RASTER_PIXEL4(&ted.raster, ted.cbuf[i] & 0x7);
+            = RASTER_PIXEL4(&ted.raster, ted.cbuf[i] & 0x77);
 #else
-        c[3] = RASTER_PIXEL4(&ted.raster, ted.cbuf[i] & 0x7);
+        c[3] = RASTER_PIXEL4(&ted.raster, ted.cbuf[i] & 0x77);
         *((PIXEL2 *)c + 9) = *((PIXEL2 *)c + 10)
-            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7);
+            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
 #endif
         *((PIXEL4 *)p + 4 * i) = c[mc_table[k | d]];
         *((PIXEL4 *)p + 4 * i + 1) = c[mc_table[0x200 + (k | d)]];
@@ -658,7 +658,7 @@ static void draw_mc_text_foreground(int start_char, int end_char)
         if (c & 0x8) {
             PIXEL c3;
 
-            c3 = RASTER_PIXEL(&ted.raster, c & 0x7);
+            c3 = RASTER_PIXEL(&ted.raster, c & 0x77);
             DRAW_MC_BYTE (p, b, c1, c2, c3);
             *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
                 = mcmsktable[0x100 + b];
@@ -697,7 +697,7 @@ static void draw_mc_text_foreground_2x(int start_char, int end_char)
         if (c & 0x8) {
             PIXEL2 c3;
 
-            c3 = RASTER_PIXEL2(&ted.raster, c & 0x7);
+            c3 = RASTER_PIXEL2(&ted.raster, c & 0x77);
             DRAW_MC_BYTE(p, b, c1, c2, c3);
             *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
                 = mcmsktable[0x100 + b];
@@ -918,14 +918,14 @@ static void draw_mc_bitmap_foreground_2x(int start_char, int end_char)
 static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int r)
 {
     if (r
-        || ted.regs[0x21] != cache->color_data_2[0]
-        || ted.regs[0x22] != cache->color_data_2[1]
-        || ted.regs[0x23] != cache->color_data_2[2]
-        || ted.regs[0x24] != cache->color_data_2[3]) {
-        cache->color_data_2[0] = ted.regs[0x21];
-        cache->color_data_2[1] = ted.regs[0x22];
-        cache->color_data_2[2] = ted.regs[0x23];
-        cache->color_data_2[3] = ted.regs[0x24];
+        || ted.regs[0x15] != cache->color_data_2[0]
+        || ted.regs[0x16] != cache->color_data_2[1]
+        || ted.regs[0x17] != cache->color_data_2[2]
+        || ted.regs[0x18] != cache->color_data_2[3]) {
+        cache->color_data_2[0] = ted.regs[0x15];
+        cache->color_data_2[1] = ted.regs[0x16];
+        cache->color_data_2[2] = ted.regs[0x17];
+        cache->color_data_2[3] = ted.regs[0x18];
         r = 1;
     }
 
@@ -962,7 +962,7 @@ inline static void _draw_ext_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
         int bg_idx;
         int d;
 
-        ptr = hr_table + (ted.cbuf[i] << 8);
+        ptr = hr_table + (ted.cbuf[i] << 11);
         bg_idx = ted.vbuf[i] >> 6;
         d = *(char_ptr + (ted.vbuf[i] & 0x3f) * 8);
 
@@ -1014,7 +1014,7 @@ inline static void _draw_ext_text_2x(PIXEL *p, int xs, int xe,
         PIXEL4 *ptr;
         int bg_idx, d;
 
-        ptr = hr_table_2x + (ted.cbuf[i] << 9);
+        ptr = hr_table_2x + (ted.cbuf[i] << 12);
         bg_idx = ted.vbuf[i] >> 6;
         d = *(char_ptr + (ted.vbuf[i] & 0x3f) * 8);
 
@@ -1271,7 +1271,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
         unsigned int offs;
         PIXEL4 c1, c2;
 
-        offs = ted.raster.overscan_background_color << 7;
+        offs = ted.raster.overscan_background_color << 4;
         c1 = *(hr_table + offs + (d >> 4));
         c2 = *(hr_table + offs + (d & 0xf));
 
@@ -1288,7 +1288,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
         PIXEL4 c1, c2, c3, c4;
 
         /* The foreground color is always black (0).  */
-        offs = ted.raster.overscan_background_color << /*5*/ 8;
+        offs = ted.raster.overscan_background_color << 5;
         c1 = *(hr_table_2x + offs + (d >> 4));
         c2 = *(hr_table_2x + 0x10 + offs + (d >> 4));
         c3 = *(hr_table_2x + offs + (d & 0xf));
@@ -1541,7 +1541,7 @@ static void init_drawing_tables(void)
     unsigned int f, b;
     char tmptable[4] = { 0, 4, 5, 3 };
 
-    for (i = 0; i <= 0x7f; i++) {
+    for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0x7f; f++) {
             for (b = 0; b <= 0x7f; b++) {
                 PIXEL fp, bp;
@@ -1550,7 +1550,7 @@ static void init_drawing_tables(void)
 
                 fp = RASTER_PIXEL(&ted.raster, f);
                 bp = RASTER_PIXEL(&ted.raster, b);
-                offset = (f << 14) | (b << 7);
+                offset = (f << 11) | (b << 4);
                 p = (PIXEL *)(hr_table + offset + i);
 
                 *p = i & 0x8 ? fp : bp;
