@@ -1,6 +1,45 @@
-1999-02-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-02-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 0.16.1.21.
+	* Version 0.16.1.23.
+
+	* c64/c64mem.c (initialize_memory): Added support for ROML/ROMH
+	bank limits.
+
+	* drive/drivecpu-tmpl.c (JUMP): Added support for bank limits.
+
+1998-02-07  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* pet/petmem.c (pet_set_conf_info): new function to set all 
+	PET resources _except_ the ROM-related ones. Used by 
+	mem_read_ram_snapshot.
+	(petres): made from PetInfo to PetRes.
+	(mem_load_kernal, mem_load_editor, mem_load_chargen): check
+	for IS_NULL(filename)
+	(mem_write_ram_snapshot): changed version from 1.0 to 1.1, added
+	byte that describes whether the emulator uses positional or
+	symbolic mapping - I wonder whether that belongs here, it's not
+	a state of the emulated machine, but can be _very_ convenient.
+	(mem_read_ram_snapshot, mem_read_rom_snapshot): check major
+	version of snapshot file.
+	(mem_read_ram_snapshot): use a local PetInfo struct instead of 
+	changing the resources before calling pet_set_conf_info now.
+	(mem_write_rom_snapshot): deinstall traps before saving the 
+	snapshot, and install them again afterwards by calling petmem_checksum.
+	(mem_read_rom_snapshot): "uninstall" current ROMs by setting
+	the resources to NULL. They can only be saved with a snapshot
+	and thus a "dump ROMset" would yield bogus values.
+	Compute checksum over kernal/editor and install traps if necessary.
+	(pet_set_model_info): split pet_set_conf_info off of it.
+
+	* pet/pets.h (PetInfo): remove run-time struct entries
+	(PetRes): old PetInfo struct, but ROM names can be changed.
+
+	* pet/petvia.c (undump_pcr): call crtc_set_char() to restore
+	upper/lower char selection on snapshot load.
+
+1999-02-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.22.
 
 	* 6510core.c: Reduced code duplication of `NOOP' commands.
 	Removed some old debugging cruft.
@@ -56,6 +95,10 @@
 	Commented out unused function.
 
 	* mon.h (mon_disassemble_to_string): Added prototype.
+
+1999-02-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.21.
 
 1998-02-05  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 

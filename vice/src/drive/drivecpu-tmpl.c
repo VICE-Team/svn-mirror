@@ -186,16 +186,20 @@ static void REGPARM2 mydrive_store_watch(ADDRESS address, BYTE value)
     store_func_nowatch[address>>10](address, value);
 }
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
-#define JUMP(addr)				\
-  do {						\
-      reg_pc = (addr);				\
-      if (reg_pc < 0x2000) {			\
-	  bank_base = mydrive_ram;		\
-      } else if (reg_pc >= 0x8000)		\
-	  bank_base = drive[mynumber].rom - 0x8000;	\
-      else					\
-	  bank_base = NULL;			\
-  } while (0)
+#define JUMP(addr)                                    \
+    do {                                              \
+        reg_pc = (addr);                              \
+        if (reg_pc < 0x2000) {                        \
+            bank_base = mydrive_ram;                  \
+            bank_limit = 0x07fd;                      \
+        } else if (reg_pc >= 0x8000) {                \
+            bank_base = drive[mynumber].rom - 0x8000; \
+            bank_limit = 0xfffd;                      \
+        } else {                                      \
+            bank_base = NULL;                         \
+            bank_limit = -1;                          \
+        }                                             \
+    } while (0)
 
 #define pagezero	(mydrive_ram)
 #define pageone		(mydrive_ram + 0x100)
