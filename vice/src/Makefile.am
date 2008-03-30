@@ -186,6 +186,7 @@ EXTRA_DIST = \
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
+c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
@@ -211,6 +212,7 @@ EXTRA_PROGRAMS =
 x64_libs =  \
 	@X64_WINRES@ \
 	$(c64_lib) \
+	$(c64cart_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -231,6 +233,7 @@ x64_LDFLAGS = @x64_LDFLAGS@
 x64-all: \
 	@RESID_DEP@ \
 	libc64 \
+	libc64cart \
 	libdrive \
 	libvdrive \
 	libraster \
@@ -248,6 +251,7 @@ x128_libs =  \
 	@X128_WINRES@ \
 	$(c128_lib) \
 	$(c64c128_lib) \
+	$(c64cart_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -269,6 +273,7 @@ x128_LDFLAGS = @x128_LDFLAGS@
 x128-all: \
 	libc128 \
 	libc64c128 \
+	libc64cart \
 	libsounddrv \
         libgfxoutputdrv \
 	libprinterdrv \
