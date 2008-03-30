@@ -310,7 +310,7 @@ static void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr)
     }
 }
 
-static void read_image_GCR(void)
+static void read_image_d64(void)
 {
     BYTE buffer[260], *ptr, chksum;
     int rc, i;
@@ -345,6 +345,24 @@ static void read_image_GCR(void)
 	    }
 	}
     }
+}
+
+static int read_image_gcr(void)
+{
+    int track;
+    BYTE *track_data;
+	off_t offset;
+
+    for (track = 1; track <= true1541_floppy->NumTracks; track++) {
+	offset = (track - 1) * 9912 + 12;
+	track_data = GCR_data + (track - 1) * NUM_MAX_BYTES_TRACK;
+	lseek(true1541_floppy->ActiveFd, offset, SEEK_SET);
+	if(read(true1541_floppy->ActiveFd, (char *)track_data, 7692) < 7692) {
+	    fprintf(stderr, "Could not load GCR disk image.\n");
+	    return 0;
+	}
+    }
+    return 1;
 }
 
 static int setID(void)
@@ -572,11 +590,18 @@ int true1541_attach_floppy(DRIVE *floppy)
     attach_clk = true1541_clk;
     ask_extend_disk_image = 1;
 
-    if (setID() >= 0) {
-	read_image_GCR();
-	return 0;
-    } else
-	return -1;
+    if (true1541_floppy->GCR_Header != 0) {
+	    if (!read_image_gcr())
+		return -1;
+    } else {
+	if (setID() >= 0) {
+	    read_image_d64();
+	    return 0;
+	} else {
+	    return -1;
+	}
+    }
+    return 0;
 }
 
 /* Detach a disk image from the true 1541 emulation. */
@@ -898,7 +923,15 @@ static void GCR_data_writeback(void)
 
     track = true1541_current_half_track / 2;
 
-    if (!GCR_dirty_track || (track > EXT_TRACKS_1541))
+    if (!GCR_dirty_track)
+	return;
+
+    if (true1541_floppy->GCR_Header != 0) {
+	printf("Sorry, no GCR writeback yet.\n");
+	return;
+    }
+
+    if (track > EXT_TRACKS_1541)
 	return;
 
     if (track > true1541_floppy->NumTracks) {

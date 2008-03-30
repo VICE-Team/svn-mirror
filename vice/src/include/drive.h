@@ -123,6 +123,7 @@ typedef struct {
     /* Disk Format Constants */
 
     int D64_Header;		/* flag if file has header! */
+    int GCR_Header;		/* flag if file is GCR image.  */
     int Bam_Track;
     int Bam_Sector;
     int Dir_Track;

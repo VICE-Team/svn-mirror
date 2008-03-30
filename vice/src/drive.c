@@ -159,6 +159,8 @@ static int  floppy_write_bam (DRIVE *floppy);
 
 static int  mystrncpy ( BYTE *d, BYTE *s, int n );
 
+static int  import_GCR_image(BYTE *header, hdrinfo *hdr);
+
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -2808,28 +2810,30 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	strcpy(floppy->ActiveName, name);
 	/* floppy->changed  = 0; */
 
-	floppy->NumTracks = hdr.tracks;
-	floppy->NumBlocks = num_blocks (DType, hdr.tracks);
-	floppy->ErrFlg    = hdr.errblk;
-	floppy->D64_Header= hdr.d64;
+	floppy->NumTracks  = hdr.tracks;
+	floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
+	floppy->ErrFlg     = hdr.errblk;
+	floppy->D64_Header = hdr.d64;
+	floppy->GCR_Header = hdr.gcr; 
 
+	if(!hdr.gcr) {
+	    /* Initialise format constants */
+	    set_disk_geometry(floppy, DType);
 
-	/* Initialise format constants */
+	    /* Initialize */
+	    if (hdr.errblk)
+		set_error_data(floppy, 3);	/* clear or read error data */
 
-	set_disk_geometry(floppy, DType);
-
-
-	/* Initialize */
-
-	if (hdr.errblk) {
-	    set_error_data(floppy, 3);	/* clear or read error data */
+	    floppy_read_bam (floppy);
 	}
-
-	floppy_read_bam (floppy);
 
 	if (hdr.d64)
 	    printf ("D64 disk image attached: %s%s\n", name,
 		    floppy->ReadOnly ? " (read only)" : "");
+	if (hdr.gcr)
+	    printf ("GCR disk image attached: %s%s\n", name,
+		    floppy->ReadOnly ? " (read only)" : "");
+
 	else
 	    printf ("VICE disk image version %d.%02d attached (CBM%d format%s): %s\n",
 		    hdr.v_major, hdr.v_minor, DType,
@@ -2941,6 +2945,7 @@ int    check_header(int fd, hdrinfo *hdr)
     memset (hdr, 0, sizeof(hdrinfo));
 
     hdr->d64 = 0;
+    hdr->gcr = 0;
 
     if (header[HEADER_MAGIC_OFFSET + 0] != HEADER_MAGIC_1 ||
 	header[HEADER_MAGIC_OFFSET + 1] != HEADER_MAGIC_2 ||
@@ -2955,15 +2960,16 @@ int    check_header(int fd, hdrinfo *hdr)
 		    return FD_BADIMAGE;
 		hdr->d64 = 1;
 	    } else {
-		return FD_BADIMAGE;
+		if (import_GCR_image(header, hdr))
+		    return FD_OK;
+		else
+		    return FD_BADIMAGE;
 	    }
 	} else {
 	    perror ("stat");
 	    return FD_BADIMAGE;
 	}
     }
-
-
 
     hdr-> v_major = header[HEADER_VERSION_OFFSET + 0];
     hdr-> v_minor = header[HEADER_VERSION_OFFSET + 1];
@@ -2990,6 +2996,38 @@ int    check_header(int fd, hdrinfo *hdr)
     return FD_OK;
 }
 
+int import_GCR_image(BYTE *header, hdrinfo *hdr)
+{
+    int trackfield;
+
+    if (strncmp("GCR-VICE",header,8))
+	return 0;
+
+    if (header[8] != 0) {
+	printf("Import GCR: Wrong GCR image version.\n");
+	return 0;
+    }
+
+    if ((header[9] < 35) || (header[9] > 44)) {
+	printf("Import GCR: invalid number of tracks.\n");
+	return 0;
+    }
+
+    trackfield = header[10] + header[11] * 256;
+    if ((trackfield < 6000) || (trackfield > 9000)) {
+	printf("Import GCR: invalid track field number.\n");
+	return 0;
+    }
+
+    hdr->tracks = header[9];
+    hdr->format = 1541;
+    hdr->gcr = 1;
+    hdr->v_major = HEADER_VERSION_MAJOR;
+    hdr->v_minor = HEADER_VERSION_MINOR;
+    hdr->devtype = DEFAULT_DEVICE_TYPE;
+
+    return 1;
+}
 
 /*
  * This routine is from fvcbm by Dan Fandrich.

@@ -193,6 +193,7 @@ typedef struct {
     int  tracks;
     int  errblk;
     int  d64;
+    int  gcr;
     char description[HEADER_LABEL_LEN+1];
 } hdrinfo;
 
