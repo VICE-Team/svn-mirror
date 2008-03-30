@@ -4,8 +4,6 @@ else
 rs232_libadd =
 endif
 
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -29,7 +27,7 @@ libvic20_a_SOURCES = \
 	vic-resources.h \
 	vic-snapshot.c \
 	vic-snapshot.h \
-        vic20.c \
+	vic20.c \
 	vic20.h \
 	vic20datasette.c \
 	vic20iec.c \
@@ -43,8 +41,6 @@ libvic20_a_SOURCES = \
 	vic20via.h \
 	vic20via1.c \
 	vic20via2.c
-
-EXTRA_DIST =
 
 libvic20_a_LIBADD = $(rs232_libadd)
 

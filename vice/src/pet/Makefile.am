@@ -1,4 +1,3 @@
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -27,6 +26,4 @@ libpet_a_SOURCES = \
 	petsound.h \
 	petvia.c \
 	petvia.h
-
-EXTRA_DIST =
 

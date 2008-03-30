@@ -1,4 +1,3 @@
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -25,7 +24,5 @@ libcbm2_a_SOURCES = \
 	c610mem.h \
 	c610tpi.h \
 	c610tpi1.c \
-	c610tpi2.c 
-
-EXTRA_DIST =
+	c610tpi2.c
 

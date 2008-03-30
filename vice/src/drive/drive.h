@@ -30,10 +30,8 @@
 #define _DRIVE_H
 
 #include "types.h"
-#include "vdrive.h"		/* DRIVE */
 #include "drivecpu.h"
 #include "log.h"
-
 
 /* VIA 1 drive 0 interrupts.  */
 #define	I_VIA1D0FL	0
@@ -123,6 +121,9 @@
 /* Number of bytes in one raw track.  */
 #define NUM_MAX_BYTES_TRACK 7928
 
+/* Number of tracks we emulate.  */
+#define MAX_GCR_TRACKS 70
+
 /* ------------------------------------------------------------------------- */
 
 #define ROTATION_TABLE_SIZE      0x1000
@@ -139,9 +140,6 @@ typedef struct drive_s {
 
     /* Current half track on which the R/W head is positioned.  */
     int current_half_track;
-
-    /* Pointer to the attached disk image.  */
-    DRIVE *drive_floppy;
 
     /* Current ROM image.  */
     BYTE rom[DRIVE_ROM_SIZE];
@@ -177,19 +175,19 @@ typedef struct drive_s {
     BYTE GCR_write_value;
 
     /* Raw GCR image of the disk.  */
-    BYTE GCR_data[MAX_TRACKS_1571 * NUM_MAX_BYTES_TRACK];
+    BYTE GCR_data[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
 
     /* Pointer to the start of the GCR data of this track.  */
     BYTE *GCR_track_start_ptr;
 
     /* Speed zone image of the disk.  */
-    BYTE GCR_speed_zone[MAX_TRACKS_1571 * NUM_MAX_BYTES_TRACK];
+    BYTE GCR_speed_zone[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
 
     /* Size of the GCR data for the current track.  */
     int GCR_current_track_size;
 
     /* Size of the GCR data of each track.  */
-    int GCR_track_size[MAX_TRACKS_1571];
+    int GCR_track_size[MAX_GCR_TRACKS];
 
     /* Offset of the R/W head on the current track.  */
     int GCR_head_offset;
@@ -269,8 +267,8 @@ extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, int dnr);
 extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
-extern int drive_attach_floppy(DRIVE *floppy);
-extern int drive_detach_floppy(DRIVE *floppy);
+extern int drive_attach_floppy(void *flp);
+extern int drive_detach_floppy(void *flp);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr);

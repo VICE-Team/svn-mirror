@@ -1,5 +1,3 @@
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -22,10 +20,4 @@ libc128_a_SOURCES = \
 	c128mem.h \
 	vdc.c \
 	vdc.h
-
-EXTRA_DIST =
-
-BUILT_SOURCES = 
-
-c128dir = $(top_srcdir)/src/c128
 

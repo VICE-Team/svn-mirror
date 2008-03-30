@@ -49,6 +49,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "serial.h"
 #include "sid.h"
 #include "sound.h"
 #include "traps.h"
