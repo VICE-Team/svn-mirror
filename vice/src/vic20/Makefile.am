@@ -15,7 +15,6 @@ INCLUDES = \
 noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES = \
-	cartridge.c \
 	vic-cmdline-options.c \
 	vic-cmdline-options.h \
 	vic-draw.c \
@@ -30,6 +29,7 @@ libvic20_a_SOURCES = \
 	vic.h \
 	vic20.c \
 	vic20.h \
+	vic20cartridge.c \
 	vic20datasette.c \
 	vic20iec.c \
 	vic20iec.h \
