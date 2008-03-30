@@ -41,6 +41,7 @@
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64keyboard.h"
 #include "c64mem.h"
 #include "c64rsuser.h"
 #include "c64tpi.h"
@@ -349,7 +350,7 @@ int machine_init(void)
         datasette_init();
 
         /* Fire up the hardware-level drive emulation.  */
-        drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
+        drive_init();
 
         /* Initialize autostart.  */
         autostart_init((CLOCK)(3 * C64_PAL_RFSH_PER_SEC
@@ -375,6 +376,8 @@ int machine_init(void)
         if (c64_kbd_init() < 0)
             return -1;
 #endif
+
+        c64keyboard_init();
     }
 
     c64_monitor_init();
@@ -579,6 +582,7 @@ void machine_change_timing(int timeval)
                                 machine_timing.cycles_per_rfsh);
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing);
