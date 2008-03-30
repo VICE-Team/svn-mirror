@@ -316,7 +316,7 @@ int gcr_write_sector(BYTE *gcr_track_start_ptr,
 
 gcr_t *gcr_create_image(void)
 {
-    return (gcr_t *)lib_malloc(sizeof(gcr_t));
+    return (gcr_t *)lib_calloc(1, sizeof(gcr_t));
 }
 
 void gcr_destroy_image(gcr_t *gcr)
