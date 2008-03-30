@@ -532,7 +532,7 @@ inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
             int size1 = 32;
             int rest_of_repeat = 0;
             int must_repeat_pixels = 0;
-            DWORD repeat_pixel;
+            DWORD repeat_pixel = 0;
             int i;
 
             collmsk = ((((msk_ptr[1] << 24) | (msk_ptr[2] << 16)
@@ -730,11 +730,11 @@ inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
                             | (msk_ptr[3] << 8) | msk_ptr[4]) << lshift)
                             | (msk_ptr[5] >> (8 - lshift)));
 
-            DWORD repeat_pixel;
-            int size;
+            DWORD repeat_pixel = 0;
+            int size = 0;
             int must_repeat_pixels = 0;
-            int size_is_odd;    /* which means size%4==1 in this case */
-            int repeat_offset;
+            int size_is_odd = 0;    /* which means size%4==1 in this case */
+            int repeat_offset = 0;
             int shift_sprmsk;
 
             sprmsk = sprite_doubling_table[((mcsprtable[data_ptr[0]] << 8)
@@ -802,7 +802,7 @@ inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
             {
                 /* display the repeated pixel via HIRES sprite functions */
                 DWORD repeat_color;
-                DWORD special_sprmsk;    
+                DWORD special_sprmsk = 0;    
                 int i;
 
                 if (size_is_odd)
@@ -831,9 +831,9 @@ inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
             }
         } else {
             DWORD collmsk;
-            DWORD repeat_pixel;
-            int size;
-            int size_is_odd;
+            DWORD repeat_pixel = 0;
+            int size = 0;
+            int size_is_odd = 0;
             int must_repeat_pixels = 0;
 
             collmsk = ((((msk_ptr[0] << 24) | (msk_ptr[1] << 16)
@@ -881,7 +881,7 @@ inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
             {
                 /* display the repeated pixel via HIRES sprite functions */
                 DWORD repeat_color;
-                DWORD special_sprmsk;    
+                DWORD special_sprmsk = 0;    
                 int i;
 
                 if (size_is_odd)

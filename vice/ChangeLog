@@ -1,6 +1,10 @@
+2001-10-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.9.
+
 2001-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.7.8.
+	* Version 1.7.8.
 
 	* doc/Makefile.am: Added `NLS-Howto.txt'.
 
