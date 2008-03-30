@@ -170,6 +170,10 @@ SOURCE=..\..\vic20\vic20rom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vic20\vic20romset.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20rsuser.c
 # End Source File
 # Begin Source File

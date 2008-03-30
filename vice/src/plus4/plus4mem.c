@@ -57,10 +57,6 @@ static BYTE **bank_base;
 static int *bank_limit = NULL;
 unsigned int mem_old_reg_pc;
 
-const char *mem_romset_resources_list[] = {
-    NULL
-};
-
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible memory configurations.  */

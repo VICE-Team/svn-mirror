@@ -138,6 +138,10 @@ SOURCE=..\..\c128\c128rom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c128\c128romset.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\c128video.c
 # End Source File
 # Begin Source File

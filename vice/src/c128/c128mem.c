@@ -77,15 +77,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-const char *mem_romset_resources_list[] = {
-    "KernalName", "ChargenName", "BasicName",
-    "DosName2031", "DosName1001",
-    "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
-    NULL
-};
-
-/* ------------------------------------------------------------------------- */
-
 /* Number of possible video banks (16K each).  */
 #define NUM_VBANKS      4
 

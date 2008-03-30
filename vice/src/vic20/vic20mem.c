@@ -52,17 +52,6 @@
 #include "vic20via.h"
 
 
-const char *mem_romset_resources_list[] = {
-    "KernalName", "ChargenName", "BasicName",
-    "CartridgeFile2000", "CartridgeFile6000",
-    "CartridgeFileA000", "CartridgeFileB000",
-    "DosName1541", "DosName1571", "DosName1581",
-    "DosName1541ii",
-    NULL
-};
-
-/*----------------------------------------------------------------------*/
-
 static log_t vic20_mem_log = LOG_ERR;
 
 /*----------------------------------------------------------------------*/

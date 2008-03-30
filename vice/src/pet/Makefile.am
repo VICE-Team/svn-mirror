@@ -34,6 +34,8 @@ libpet_a_SOURCES = \
 	petprinter.c \
 	petrom.c \
 	petrom.h \
+	petromset.c \
+	petromset.h \
 	pets.h \
 	petsound.c \
 	petsound.h \

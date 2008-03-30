@@ -64,14 +64,6 @@ static BYTE **bank_base;
 static int *bank_limit = NULL;
 unsigned int mem_old_reg_pc;
 
-const char *mem_romset_resources_list[] = {
-    "KernalName", "ChargenName", "BasicName",
-    "CartridgeType", "CartridgeFile",
-    "DosName2031", "DosName1001",
-    "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
-    NULL
-};
-
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible memory configurations.  */

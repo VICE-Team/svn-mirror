@@ -47,6 +47,8 @@ libvic20_a_SOURCES = \
 	vic20printer.c \
 	vic20rom.c \
 	vic20rom.h \
+	vic20romset.c \
+	vic20romset.h \
 	vic20rsuser.c \
 	vic20rsuser.h \
 	vic20sound.c \

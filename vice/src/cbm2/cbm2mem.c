@@ -206,16 +206,6 @@ void cbm2_set_tpi1cb(int a) {
 
 /* ------------------------------------------------------------------------- */
 
-const char *mem_romset_resources_list[] = {
-    "KernalName", "ChargenName", "BasicName",
-    "Cart1Name", "Cart2Name", "Cart4Name", "Cart6Name",
-    "DosName2031", "DosName1001",
-    "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
-    NULL
-};
-
-/* ------------------------------------------------------------------------- */
-
 /* Enable/disable the Emulator ID.  */
 void mem_toggle_emu_id(int flag)
 {

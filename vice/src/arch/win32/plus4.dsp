@@ -158,6 +158,10 @@ SOURCE=..\..\plus4\plus4rom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4romset.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\plus4tcbm.c
 # End Source File
 # Begin Source File

@@ -68,16 +68,6 @@ petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
 
 /* ------------------------------------------------------------------------- */
 
-const char *mem_romset_resources_list[] = {
-    "KernalName", "EditorName", "ChargenName", "BasicName",
-    "RomModule9Name", "RomModuleAName",
-    "DosName2031", "DosName1001",       /* cannot use 15*1 disk drives */
-    NULL
-};
-
-
-/* ------------------------------------------------------------------------- */
-
 /* The PET memory. */
 
 #define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */

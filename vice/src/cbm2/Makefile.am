@@ -36,6 +36,8 @@ libcbm2_a_SOURCES = \
 	cbm2printer.c \
 	cbm2rom.c \
 	cbm2rom.h \
+	cbm2romset.c \
+	cbm2romset.h \
 	cbm2tpi.h \
 	cbm2tpi1.c \
 	cbm2tpi2.c \

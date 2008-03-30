@@ -58,13 +58,6 @@ extern void REGPARM2 chargen_store(WORD addr, BYTE value);
 extern void REGPARM2 colorram_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 colorram_read(WORD addr);
 
-extern char** mem_get_romsets(void);
-extern int mem_get_numromsets(void);
-extern char* mem_get_romset_name(void);
-extern int mem_romset_loader(void);
-extern int mem_set_romset(char *name);
-extern int mem_add_romset(char *name);
-
 extern void mem_pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
 extern void mem_set_exrom(int active);

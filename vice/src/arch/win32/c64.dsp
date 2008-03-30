@@ -178,6 +178,10 @@ SOURCE=..\..\c64\c64rom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64romset.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64rsuser.c
 # End Source File
 # Begin Source File
