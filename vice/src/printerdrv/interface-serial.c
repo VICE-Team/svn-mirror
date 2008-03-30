@@ -331,3 +331,4 @@ void interface_serial_shutdown(void)
     interface_serial_detach(0);
     interface_serial_detach(1);
 }
+
