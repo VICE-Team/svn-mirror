@@ -20,12 +20,18 @@ list of all the changes in the code.
 
 - Added digimax support.
 
+- Fixed some minor VDC graphics bugs.
+
 ** C64 changes
 --------------
 
 - Added MMC64 support.
 
 - Added digimax support.
+
+- Added Action Replay III support.
+
+- Improved compatibility of TFE emulation.
 
 ** PET changes
 --------------
@@ -39,15 +45,25 @@ list of all the changes in the code.
 
 - Added SID cartridge support.
 
+- Fixed some minor TED graphics bug.
+
 ** VIC20 changes
 ----------------
 
 - Added SID cartridge support.
 
+** Drive changes
+----------------
+
+- Added support for Dolphin DOS 2 & 3 and Professional DOS 1571.
+  The GUI is partially missing, command line switches have to be used.
+
 ** Unix changes
 ---------------
 
 - New Hungarian translations.
+
+- Fixed some bug in the XAW file selector.
 
 ** MS-Windows changes
 ---------------------
@@ -56,11 +72,22 @@ list of all the changes in the code.
 
 - Added giflib/libungif dll support.
 
-** MS-DOS changes
------------------
+** OS/2 changes
+---------------
+
+- Fixed a video resource bug that prevented VICE from running.
 
 ** Mac OSX X11 changes
 ----------------------
+
+- Added Gtk+ Port
+
+- Introduced single "smart" Application Bundle VICE.app
+
+- Added command line launcher for Terminal.app and xterm
+
+- Added build scripts for all external libraries and universal builds
+  of VICE
 
 ** AmigaOS changes
 ------------------

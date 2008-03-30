@@ -1,3 +1,46 @@
+2007-03-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.24.
+
+	* doc/vice.texi: Fixed some syntax bugs.
+
+	* doc/html/plain/NEWS, README, vice.spec: Updated.
+
+2007-03-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Added a news item for the release of
+	1.21.
+
+2007-03-02  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* doc/html/index.html, doc/vice.texi: added myself to VICE
+	team
+
+2007-03-02  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* doc/html/index.html, doc/html/macosx.html: created new Mac
+	OS X download page with links for both X11 AW and Gtk+ version
+
+	* doc/html/plain/NEWS: updated with my contributions
+
+	* doc/ReadmeMacOSX.txt: added missing FFMPEG
+
+2007-02-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/index.html, doc/vice.texi: Updated for the 1.21
+	release.
+
+2007-02-25  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/build-allext.sh,
+	build/macosx/build-ffmpeglame.sh,
+	build/macosx/build-inc.sh, build/macosx/build-vice-dist.sh:
+	added and integrated build of FFMpeg + Lame for Macs
+
+2007-02-25  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: move SOUND_LIBS to LIBS for all ports
+
 2007-02-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.23.
