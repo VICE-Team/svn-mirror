@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libtape.a
 
-libtape_a_SOURCES =  	t64.c 	tap.c 	tape.c 	tapeimage.c 	tapeimage.h
+libtape_a_SOURCES =  	t64.c 	tap.c 	tape-internal.c 	tape-internal.h 	tape.c 	tapeimage.c 	tapeimage.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -149,7 +149,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libtape_a_LIBADD = 
-libtape_a_OBJECTS =  t64.o tap.o tape.o tapeimage.o
+libtape_a_OBJECTS =  t64.o tap.o tape-internal.o tape.o tapeimage.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -261,15 +261,18 @@ tap.o: tap.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/tap.h \
 	../../src/arch/unix/types.h ../../src/tape.h ../../src/utils.h \
 	../../src/zfile.h
-tape.o: tape.c ../../src/vice.h ../../src/config.h ../../src/log.h \
-	../../src/maincpu.h ../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/mos6510.h ../../src/serial.h ../../src/t64.h \
-	../../src/tap.h ../../src/tape.h tapeimage.h ../../src/traps.h \
-	../../src/utils.h
-tapeimage.o: tapeimage.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/log.h ../../src/t64.h \
-	../../src/arch/unix/types.h ../../src/tap.h ../../src/tape.h \
+tape-internal.o: tape-internal.c ../../src/vice.h ../../src/config.h \
+	../../src/log.h tape-internal.h ../../src/tape.h \
+	../../src/arch/unix/types.h ../../src/utils.h
+tape.o: tape.c ../../src/vice.h ../../src/config.h ../../src/datasette.h \
+	../../src/log.h ../../src/maincpu.h ../../src/arch/unix/types.h \
+	../../src/mem.h ../../src/mos6510.h ../../src/serial.h \
+	../../src/t64.h ../../src/tap.h tape-internal.h \
+	../../src/tape.h tapeimage.h ../../src/traps.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h
+tapeimage.o: tapeimage.c ../../src/vice.h ../../src/config.h \
+	../../src/log.h ../../src/t64.h ../../src/arch/unix/types.h \
+	../../src/tap.h ../../src/tape.h ../../src/utils.h
 
 info-am:
 info: info-am

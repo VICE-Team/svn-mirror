@@ -263,11 +263,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-createdisk.o: createdisk.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h fsimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/utils.h x64.h ../../src/tap.h
 diskimage.o: diskimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h fsimage-create.h fsimage-gcr.h \
