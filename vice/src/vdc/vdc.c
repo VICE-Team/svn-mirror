@@ -58,7 +58,7 @@
 
 vdc_t vdc;
 
-static void vdc_raster_draw_alarm_handler(CLOCK offset);
+static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data);
 
 static void vdc_set_geometry(void)
 {
@@ -189,7 +189,7 @@ raster_t *vdc_init(void)
     vdc.log = log_open("VDC");
 
     vdc.raster_draw_alarm = alarm_new(maincpu_alarm_context, "VdcRasterDraw",
-                                      vdc_raster_draw_alarm_handler);
+                                      vdc_raster_draw_alarm_handler, NULL);
 
     vdc_powerup();
 
@@ -332,7 +332,7 @@ static void vdc_set_video_mode(void)
 
 
 /* Redraw the current raster line. */
-static void vdc_raster_draw_alarm_handler(CLOCK offset)
+static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     int in_visible_area, in_idle_state;
 

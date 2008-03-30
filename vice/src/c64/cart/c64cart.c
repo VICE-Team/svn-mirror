@@ -347,7 +347,7 @@ void cartridge_set_default(void)
                        "" : cartfile), NULL);
 }
 
-static void cartridge_change_mapping(CLOCK offset)
+static void cartridge_change_mapping(CLOCK offset, void *data)
 {
     alarm_unset(cartridge_alarm);
 
@@ -357,7 +357,7 @@ static void cartridge_change_mapping(CLOCK offset)
 void cartridge_init(void)
 {
     cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge",
-                                cartridge_change_mapping);
+                                cartridge_change_mapping, NULL);
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status,
                                                      "Cartridge");
 }

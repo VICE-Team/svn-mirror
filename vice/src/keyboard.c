@@ -120,7 +120,7 @@ void keyboard_restore_event_playback(CLOCK offset, void *data)
     machine_set_restore_key((int)(*(DWORD *)data));
 }
     
-static void keyboard_latch_handler(CLOCK offset)
+static void keyboard_latch_handler(CLOCK offset, void *data)
 {
     alarm_unset(keyboard_alarm);
     alarm_context_update_next_pending(keyboard_alarm->context);
@@ -882,7 +882,7 @@ void keyboard_init(void)
     keyboard_log = log_open("Keyboard");
 
     keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
-                               keyboard_latch_handler);
+                               keyboard_latch_handler, NULL);
 
 #ifdef COMMON_KBD
     for (i = 0; i < 2; i++)

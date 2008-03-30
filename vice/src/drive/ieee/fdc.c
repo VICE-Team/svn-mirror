@@ -54,12 +54,12 @@
 
 static void int_fdc(unsigned int fnum, CLOCK offset);
 
-static void int_fdc0(CLOCK offset)
+static void int_fdc0(CLOCK offset, void *data)
 {
     int_fdc(0, offset);
 }
 
-static void int_fdc1(CLOCK offset)
+static void int_fdc1(CLOCK offset, void *data)
 {
     int_fdc(1, offset);
 }
@@ -736,11 +736,11 @@ void fdc_init(drive_context_t *drv)
 
     if (fnum == 0) {
         fdc[fnum].fdc_alarm = alarm_new(drive_context[0]->cpu->alarm_context,
-                                        "fdc0", int_fdc0);
+                                        "fdc0", int_fdc0, NULL);
     } else
     if (fnum == 1) {
         fdc[fnum].fdc_alarm = alarm_new(drive_context[1]->cpu->alarm_context,
-                                        "fdc1", int_fdc1);
+                                        "fdc1", int_fdc1, NULL);
     }
 
     clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,

@@ -197,7 +197,7 @@ int machine_cmdline_options_init(void)
 static alarm_t *c500_powerline_clk_alarm = NULL;
 static CLOCK c500_powerline_clk = 0;
 
-void c500_powerline_clk_alarm_handler(CLOCK offset) {
+static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data) {
 
     c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
 
@@ -229,15 +229,19 @@ static void cbm2_crtc_signal(unsigned int signal) {
 
 static void cbm2_monitor_init(void)
 {
+    unsigned int dnr;
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t *asmarray[2] = { &asm6502, NULL };
+    monitor_interface_t *drive_interface_init[DRIVE_NUM];
 
     asm6502_init(&asm6502);
 
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+
     /* Initialize the monitor.  */
-    monitor_init(maincpu_monitor_interface_get(),
-                 drivecpu_monitor_interface_get(0),
-                 drivecpu_monitor_interface_get(1), asmarray);
+    monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
+                 asmarray);
 }
 
 void machine_setup_context(void)
@@ -291,7 +295,8 @@ int machine_init(void)
 
         c500_powerline_clk_alarm = alarm_new(maincpu_alarm_context,
                                              "C500PowerlineClk",
-                                             c500_powerline_clk_alarm_handler);
+                                             c500_powerline_clk_alarm_handler,
+                                             NULL);
         clk_guard_add_callback(maincpu_clk_guard,
                                c500_powerline_clk_overflow_callback, NULL);
         machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;

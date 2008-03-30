@@ -129,7 +129,7 @@ static void next_current_list(void)
     event_list_current = event_list_current->next;
 }
 
-static void event_alarm_handler(CLOCK offset)
+static void event_alarm_handler(CLOCK offset, void *data)
 {
     alarm_unset(event_alarm);
 
@@ -583,6 +583,6 @@ void event_init(void)
     event_log = log_open("Event");
 
     event_alarm = alarm_new(maincpu_alarm_context, "Event",
-                            event_alarm_handler);
+                            event_alarm_handler, NULL);
 }
 

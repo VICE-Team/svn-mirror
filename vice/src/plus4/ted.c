@@ -139,7 +139,7 @@ fastloop:
                 */
                 old_maincpu_clk += 118 - (old_cycle + diff);
                 old_cycle = 4;
-                ted_raster_draw_alarm_handler(0);
+                ted_raster_draw_alarm_handler(0, NULL);
                 goto fastloop;
             }
         } else {
@@ -163,7 +163,7 @@ fastloop:
                 */
                 old_maincpu_clk += 118 - (old_cycle + diff);
                 old_cycle = 4;
-                ted_raster_draw_alarm_handler(0);
+                ted_raster_draw_alarm_handler(0, NULL);
                 goto fastloop;
             }
         }
@@ -197,11 +197,11 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
             f = 0;
             if (maincpu_clk >= ted.draw_clk) {
                 ted_raster_draw_alarm_handler((long)(maincpu_clk
-                                              - ted.draw_clk));
+                                              - ted.draw_clk), NULL);
                 f = 1;
             }
             if (maincpu_clk > ted.fetch_clk + 1) {
-                ted_fetch_alarm_handler(0);
+                ted_fetch_alarm_handler(0, NULL);
                 f = 1;
             }
         }
@@ -236,11 +236,11 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler(0);
+                ted_raster_draw_alarm_handler(0, NULL);
                 f = 1;
             }
             if (maincpu_clk >= ted.fetch_clk) {
-                ted_fetch_alarm_handler(0);
+                ted_fetch_alarm_handler(0, NULL);
                 f = 1;
             }
         }
@@ -318,9 +318,8 @@ raster_t *ted_init(void)
 
     ted_fetch_init();
 
-    ted.raster_draw_alarm = alarm_new(maincpu_alarm_context,
-                                      "TEDRasterDraw",
-                                      ted_raster_draw_alarm_handler);
+    ted.raster_draw_alarm = alarm_new(maincpu_alarm_context, "TEDRasterDraw",
+                                      ted_raster_draw_alarm_handler, NULL);
 
     /* For now.  */
     ted_change_timing(NULL);
@@ -663,7 +662,7 @@ void ted_update_video_mode(unsigned int cycle)
 
 /* Redraw the current raster line.  This happens at cycle TED_DRAW_CYCLE
    of each line.  */
-void ted_raster_draw_alarm_handler(CLOCK offset)
+void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     int in_visible_area;
 

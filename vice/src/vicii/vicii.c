@@ -202,14 +202,14 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk > vicii.fetch_clk) {
-                vicii_fetch_alarm_handler(0);
+                vicii_fetch_alarm_handler(0, NULL);
                 f = 1;
                 if (vicii.viciie != 0)
                     vicii_delay_clk();
             }
             if (maincpu_clk >= vicii.draw_clk) {
                 vicii_raster_draw_alarm_handler((long)(maincpu_clk
-                                                - vicii.draw_clk));
+                                                - vicii.draw_clk), NULL);
                 f = 1;
                 if (vicii.viciie != 0)
                     vicii_delay_clk();
@@ -230,13 +230,13 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk >= vicii.fetch_clk) {
-                vicii_fetch_alarm_handler(0);
+                vicii_fetch_alarm_handler(0, NULL);
                 f = 1;
                 if (vicii.viciie != 0)
                     vicii_delay_clk();
             }
             if (maincpu_clk >= vicii.draw_clk) {
-                vicii_raster_draw_alarm_handler(0);
+                vicii_raster_draw_alarm_handler(0, NULL);
                 f = 1;
                 if (vicii.viciie != 0)
                     vicii_delay_clk();
@@ -331,7 +331,7 @@ raster_t *vicii_init(unsigned int flag)
 
     vicii.raster_draw_alarm = alarm_new(maincpu_alarm_context,
                                         "VicIIRasterDraw",
-                                        vicii_raster_draw_alarm_handler);
+                                        vicii_raster_draw_alarm_handler, NULL);
     if (init_raster() < 0)
         return NULL;
 
@@ -475,7 +475,7 @@ static inline void vicii_set_vbanks(int vbank_p1, int vbank_p2)
        special optimizations for the not-really-changed case.  */
     vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
     if (maincpu_clk >= vicii.draw_clk)
-        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk);
+        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk, NULL);
 
     vicii.vbank_phi1 = vbank_p1;
     vicii.vbank_phi2 = vbank_p2;
@@ -882,7 +882,7 @@ void vicii_update_video_mode(unsigned int cycle)
 
 /* Redraw the current raster line.  This happens at cycle VICII_DRAW_CYCLE
    of each line.  */
-void vicii_raster_draw_alarm_handler(CLOCK offset)
+void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     BYTE prev_sprite_sprite_collisions;
     BYTE prev_sprite_background_collisions;

@@ -69,6 +69,8 @@ static void (*byte_rx_func)(BYTE);
 
 static void clk_overflow_callback(CLOCK sub, void *data);
 
+static void int_rsuser(CLOCK offset, void *data);
+
 #undef DEBUG
 
 #define RSUSER_TICKS    21111
@@ -166,7 +168,7 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(BYTE))
     int i, j;
     unsigned char c,d;
 
-    rsuser_alarm = alarm_new(maincpu_alarm_context, "RSUser", int_rsuser);
+    rsuser_alarm = alarm_new(maincpu_alarm_context, "RSUser", int_rsuser, NULL);
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
@@ -359,7 +361,7 @@ void rsuser_tx_byte(BYTE b)
     check_tx_buffer();
 }
 
-void int_rsuser(CLOCK offset)
+static void int_rsuser(CLOCK offset, void *data)
 {
     CLOCK rclk = maincpu_clk - offset;
 

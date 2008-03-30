@@ -421,7 +421,7 @@ static CLOCK datasette_read_gap(int direction)
 }
 
 
-static void datasette_read_bit(CLOCK offset)
+static void datasette_read_bit(CLOCK offset, void *data)
 {
     double speed_of_tape = DS_V_PLAY;
     int direction = 1;
@@ -525,7 +525,7 @@ void datasette_init(void)
     datasette_log = log_open("Datasette");
 
     datasette_alarm = alarm_new(maincpu_alarm_context, "Datasette",
-                                datasette_read_bit);
+                                datasette_read_bit, NULL);
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 

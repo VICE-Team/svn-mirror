@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,7 +32,7 @@
 
 #define ALARM_CONTEXT_MAX_PENDING_ALARMS 0x100
 
-typedef void (*alarm_callback_t) (CLOCK offset);
+typedef void (*alarm_callback_t)(CLOCK offset, void *data);
 
 /* An alarm.  */
 struct alarm_s {
@@ -48,9 +49,22 @@ struct alarm_s {
        pending.  */
     int pending_idx;
 
+    /* Call data */
+    void *data;
+
     /* Link to the next and previous alarms in the list.  */
     struct alarm_s *next, *prev;
 };
+typedef struct alarm_s alarm_t;
+
+struct pending_alarms_s {
+    /* The alarm.  */
+    struct alarm_s *alarm;
+
+    /* Clock tick at which this alarm should be activated.  */
+    CLOCK clk;
+};
+typedef struct pending_alarms_s pending_alarms_t;
 
 /* An alarm context.  */
 struct alarm_context_s {
@@ -62,13 +76,7 @@ struct alarm_context_s {
 
     /* Pending alarm array.  Statically allocated because it's slightly
        faster this way.  */
-    struct {
-        /* The alarm.  */
-        struct alarm_s *alarm;
-
-        /* Clock tick at which this alarm should be activated.  */
-        CLOCK clk;
-    } pending_alarms[ALARM_CONTEXT_MAX_PENDING_ALARMS];
+    pending_alarms_t pending_alarms[ALARM_CONTEXT_MAX_PENDING_ALARMS];
     unsigned int num_pending_alarms;
 
     /* Clock tick for the next pending alarm.  */
@@ -77,8 +85,6 @@ struct alarm_context_s {
     /* Pending alarm number.  */
     int next_pending_alarm_idx;
 };
-
-typedef struct alarm_s alarm_t;
 typedef struct alarm_context_s alarm_context_t;
 
 /* ------------------------------------------------------------------------ */
@@ -89,9 +95,7 @@ extern void alarm_context_destroy(alarm_context_t *context);
 extern void alarm_context_time_warp(alarm_context_t *context, CLOCK warp_amount,
                                     int warp_direction);
 extern alarm_t *alarm_new(alarm_context_t *context, const char *name,
-                          alarm_callback_t callback);
-extern void alarm_init(alarm_t *alarm, alarm_context_t *context,
-                       const char *name, alarm_callback_t callback);
+                          alarm_callback_t callback, void *data);
 extern void alarm_destroy(alarm_t *alarm);
 extern void alarm_unset(alarm_t *alarm);
 extern void alarm_log_too_many_alarms(void);
@@ -131,14 +135,16 @@ inline static void alarm_context_dispatch(alarm_context_t *context,
 {
     long offset;
     unsigned int idx;
+    alarm_t *alarm;
 
     offset = (long) (cpu_clk - context->next_pending_alarm_clk);
     if (offset < 0)
         return;
 
     idx = context->next_pending_alarm_idx;
+    alarm = context->pending_alarms[idx].alarm;
 
-    (context->pending_alarms[idx].alarm->callback)((CLOCK)(offset));
+    (alarm->callback)((CLOCK)(offset), alarm->data);
 }
 
 inline static void alarm_set(alarm_t *alarm, CLOCK cpu_clk)

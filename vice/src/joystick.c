@@ -81,7 +81,7 @@ void joystick_event_playback(CLOCK offset, void *data)
     joystick_latch_matrix(offset);
 }
 
-static void joystick_latch_handler(CLOCK offset)
+static void joystick_latch_handler(CLOCK offset, void *data)
 {
     alarm_unset(joystick_alarm);
     alarm_context_update_next_pending(joystick_alarm->context);
@@ -231,7 +231,7 @@ void joystick_joypad_clear(void)
 int joystick_init(void)
 {
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
-                               joystick_latch_handler);
+                               joystick_latch_handler, NULL);
 
     return joy_arch_init();
 }

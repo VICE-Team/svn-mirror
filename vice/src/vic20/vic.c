@@ -135,7 +135,7 @@ static void vic_set_geometry(void)
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
    write accesses are always aligned. */
 
-void vic_raster_draw_alarm_handler(CLOCK offset)
+void vic_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     static int pending_mem_offset;
     static int possible_mem_offset;
@@ -311,7 +311,7 @@ raster_t *vic_init(void)
     vic.log = log_open("VIC");
 
     vic.raster_draw_alarm = alarm_new(maincpu_alarm_context, "VicIRasterDraw",
-                                      vic_raster_draw_alarm_handler);
+                                      vic_raster_draw_alarm_handler, NULL);
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 

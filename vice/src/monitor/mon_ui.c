@@ -351,6 +351,9 @@ void mon_disassembly_determine_popup_commands(
           case e_disk9_space:
             *ulMask |= MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8;
             break;
+          case e_disk10_space:
+          case e_disk11_space:
+            break;
           case e_default_space:
           case e_invalid_space:
             break;

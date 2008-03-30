@@ -64,7 +64,7 @@ static unsigned int t3_value;
 
 /*-----------------------------------------------------------------------*/
 
-static void ted_t1(CLOCK offset)
+static void ted_t1(CLOCK offset, void *data)
 {
     alarm_set(ted_t1_alarm, maincpu_clk
               + (t1_start == 0 ? 65536 : t1_start) * 2 - offset);
@@ -76,7 +76,7 @@ static void ted_t1(CLOCK offset)
     t1_last_restart = maincpu_clk - offset;
 }
 
-static void ted_t2(CLOCK offset)
+static void ted_t2(CLOCK offset, void *data)
 {
     alarm_set(ted_t2_alarm, maincpu_clk + 65536 * 2 - offset);
     t2_start = 0;
@@ -88,7 +88,7 @@ static void ted_t2(CLOCK offset)
     t2_last_restart = maincpu_clk - offset;
 }
 
-static void ted_t3(CLOCK offset)
+static void ted_t3(CLOCK offset, void *data)
 {
     alarm_set(ted_t3_alarm, maincpu_clk + 65536 * 2 - offset);
     t3_start = 0;
@@ -279,9 +279,9 @@ BYTE REGPARM1 ted_timer_read(WORD addr)
 
 void ted_timer_init(void)
 {
-    ted_t1_alarm = alarm_new(maincpu_alarm_context, "TED T1", ted_t1);
-    ted_t2_alarm = alarm_new(maincpu_alarm_context, "TED T2", ted_t2);
-    ted_t3_alarm = alarm_new(maincpu_alarm_context, "TED T3", ted_t3);
+    ted_t1_alarm = alarm_new(maincpu_alarm_context, "TED T1", ted_t1, NULL);
+    ted_t2_alarm = alarm_new(maincpu_alarm_context, "TED T2", ted_t2, NULL);
+    ted_t3_alarm = alarm_new(maincpu_alarm_context, "TED T3", ted_t3, NULL);
 }
 
 void ted_timer_reset(void)

@@ -60,7 +60,7 @@ static int alarm_active = 0;    /* if alarm is set or not */
 
 static log_t acia_log = LOG_ERR;
 
-static void int_acia(CLOCK offset);
+static void int_acia(CLOCK offset, void *data);
 
 static BYTE acia_last_read = 0;  /* the byte read the last time (for RMW) */
 
@@ -156,7 +156,7 @@ void myacia_init(void)
 {
     acia_int_num = interrupt_cpu_status_int_new(maincpu_int_status, MYACIA);
 
-    acia_alarm = alarm_new(mycpu_alarm_context, MYACIA, int_acia);
+    acia_alarm = alarm_new(mycpu_alarm_context, MYACIA, int_acia, NULL);
 
     clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
 
@@ -433,7 +433,7 @@ BYTE myacia_peek(WORD a)
     return 0;
 }
 
-static void int_acia(CLOCK offset)
+static void int_acia(CLOCK offset, void *data)
 {
     int rxirq;
 

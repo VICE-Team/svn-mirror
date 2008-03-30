@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -98,24 +99,13 @@ void alarm_context_time_warp(alarm_context_t *context, CLOCK warp_amount,
 
 /* ------------------------------------------------------------------------ */
 
-alarm_t *alarm_new(alarm_context_t *context, const char *name,
-                   alarm_callback_t callback)
-{
-    alarm_t *new_alarm;
-
-    new_alarm = (alarm_t *)lib_malloc(sizeof(alarm_t));
-
-    alarm_init(new_alarm, context, name, callback);
-
-    return new_alarm;
-}
-
-void alarm_init(alarm_t *alarm, alarm_context_t *context, const char *name,
-                alarm_callback_t callback)
+static void alarm_init(alarm_t *alarm, alarm_context_t *context,
+                       const char *name, alarm_callback_t callback, void *data)
 {
     alarm->name = lib_stralloc(name);
     alarm->context = context;
     alarm->callback = callback;
+    alarm->data = data;
 
     alarm->pending_idx = -1;      /* Not pending.  */
 
@@ -129,6 +119,18 @@ void alarm_init(alarm_t *alarm, alarm_context_t *context, const char *name,
         context->alarms = alarm;
     }
     alarm->prev = NULL;
+}
+
+alarm_t *alarm_new(alarm_context_t *context, const char *name,
+                   alarm_callback_t callback, void *data)
+{
+    alarm_t *new_alarm;
+
+    new_alarm = (alarm_t *)lib_malloc(sizeof(alarm_t));
+
+    alarm_init(new_alarm, context, name, callback, data);
+
+    return new_alarm;
 }
 
 void alarm_destroy(alarm_t *alarm)

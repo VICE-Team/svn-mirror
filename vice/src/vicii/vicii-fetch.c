@@ -414,7 +414,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     }
 
     if (maincpu_clk >= vicii.draw_clk)
-        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk);
+        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk, NULL);
 
     if (vicii.fetch_clk > maincpu_clk || offset == 0) {
         alarm_set(vicii.raster_fetch_alarm, vicii.fetch_clk);
@@ -422,7 +422,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     }
 
     if (maincpu_clk >= vicii.raster_irq_clk)
-        vicii_irq_alarm_handler(maincpu_clk - vicii.raster_irq_clk);
+        vicii_irq_alarm_handler(maincpu_clk - vicii.raster_irq_clk, NULL);
 
     return 0;
 }
@@ -431,7 +431,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
 /* Handle sprite/matrix fetch events.  FIXME: could be made slightly
    faster.  */
-void vicii_fetch_alarm_handler(CLOCK offset)
+void vicii_fetch_alarm_handler(CLOCK offset, void *data)
 {
     CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
@@ -513,6 +513,6 @@ void vicii_fetch_init(void)
 {
     vicii.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
                                          "VicIIRasterFetch",
-                                         vicii_fetch_alarm_handler);
+                                         vicii_fetch_alarm_handler, NULL);
 }
 

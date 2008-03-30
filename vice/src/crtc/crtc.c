@@ -58,6 +58,10 @@
 
 #define crtc_min(a,b)   (((a)<(b))?(a):(b))
 
+
+static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data);
+
+
 /*--------------------------------------------------------------------*/
 /* CRTC variables */
 
@@ -336,7 +340,7 @@ raster_t *crtc_init(void)
     crtc.log = log_open("CRTC");
 
     crtc.raster_draw_alarm = alarm_new(maincpu_alarm_context, "CrtcRasterDraw",
-                                       crtc_raster_draw_alarm_handler);
+                                       crtc_raster_draw_alarm_handler, NULL);
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
@@ -447,7 +451,7 @@ void crtc_reset(void)
 
 /* Redraw the current raster line.  This happens at the last
    cycle of each line.  */
-void crtc_raster_draw_alarm_handler(CLOCK offset)
+static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
     int new_sync_diff;
     int new_venable;
