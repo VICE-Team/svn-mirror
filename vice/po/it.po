@@ -1,12 +1,12 @@
 # Italian Translation File for VICE
-# Copyright (C) 2001 Free Software Foundation, Inc.
-# Andrea Musuruane <musuruan@bmm.it>, 2001.
+# Copyright (C) 2001-2002 Free Software Foundation, Inc.
+# Andrea Musuruane <musuruan@bmm.it>, 2001-2002.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-25 23:04+0200\n"
-"PO-Revision-Date: 2001-12-02 12:37+01:00\n"
+"POT-Creation-Date: 2002-08-31 22:30+0200\n"
+"PO-Revision-Date: 2002-08-28 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1156,28 +1156,28 @@ msgstr "Comandi snapshot"
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:989
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:997
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:998
+#: src/arch/unix/uicommands.c:999
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
+#: src/arch/unix/uicommands.c:1005 src/arch/unix/uidatasette.c:101
 #: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1007
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1014
 msgid "Exit emulator"
 msgstr "Esci dall'emulatore"
 
@@ -1227,14 +1227,12 @@ msgstr "*Usa XSync()"
 #: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:94
 #: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
 #: src/arch/unix/uivicii.c:112
-#, fuzzy
 msgid "*Enable fullscreen"
 msgstr "*Attiva schermo intero"
 
 #: src/arch/unix/uicrtc.c:106 src/arch/unix/uited.c:100
 #: src/arch/unix/uivdc.c:113 src/arch/unix/uivic.c:109
 #: src/arch/unix/uivicii.c:118
-#, fuzzy
 msgid "Fullscreen device"
 msgstr "Dispositivo per lo schermo intero"
 
@@ -2446,9 +2444,9 @@ msgid "Found %dbit/%s visual."
 msgstr "Trovata una visuale %dbit/%s."
 
 #: src/arch/unix/x11/gnome/x11ui.c:635
-#, fuzzy, c-format
+#, c-format
 msgid "Found %dbit visual."
-msgstr "Trovata una visuale %dbit/%s."
+msgstr "Trovata una visuale %dbit."
 
 #: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Cannot autodetect a proper visual."
@@ -2579,30 +2577,29 @@ msgid "Attach debugger to pid %d...\n"
 msgstr "Allega il debugger al pid %d...\n"
 
 #: src/arch/unix/x11/dga1.c:129
-#, fuzzy
 msgid "Successfully forked DGA."
-msgstr "Fork della DGA riuscito"
+msgstr "Fork della DGA riuscito."
 
 #: src/arch/unix/x11/dga1.c:132
 msgid "Unable to query DGA1 version."
-msgstr ""
+msgstr "Non è possibile rilevare la versione DGA1."
 
 #: src/arch/unix/x11/dga1.c:137
 msgid "Unable to query DGA1 information."
-msgstr ""
+msgstr "Non è possibile ottenere informazioni sulla DGA1."
 
 #: src/arch/unix/x11/dga1.c:142
 msgid "Root permissions required to use DGA1."
-msgstr ""
+msgstr "I permessi di root sono richiesti per utilizzare la DGA1."
 
 #: src/arch/unix/x11/dga1.c:148
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Problemi con la DGA - schermo intero disabilitato."
 
 #: src/arch/unix/x11/dga1.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Error switching to fullscreen%s"
-msgstr "Errore durante la commutazione a schermo intero %ix%i\n"
+msgstr "Errore durante la commutazione a schermo intero%s"
 
 #: src/arch/unix/x11/dga1.c:212
 #, c-format
@@ -2618,7 +2615,7 @@ msgstr "Commutazione alla modalità a finestre"
 #: src/arch/unix/x11/dga2.c:190
 #, c-format
 msgid "Selected mode: %s"
-msgstr ""
+msgstr "Modalità selezionata: %s"
 
 #: src/arch/unix/x11/dga2.c:309
 #, c-format
@@ -2656,9 +2653,9 @@ msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "La versione minima richiesta è la %d.%d - Schermo intero disabilitato"
 
 #: src/arch/unix/x11/dga2.c:567
-#, fuzzy, c-format
+#, c-format
 msgid "Switch to fullscreen%s"
-msgstr "Commutazione a schermo intero %ix%i"
+msgstr "Commutazione a schermo intero%s"
 
 #: src/arch/unix/x11/dga2.c:573
 msgid "Need root privileges for DGA2 fullscreen"
@@ -2764,11 +2761,10 @@ msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 
 #: src/arch/unix/x11/vidmode.c:75
-#, fuzzy
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
-"Errore durante la lettura delle infomazioni sulla modalità video - schermo "
-"intero disabilitato."
+"Errore durante la lettura delle infomazioni sulla modalità video - "
+"estensione vidmode disabilitata."
 
 #: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"

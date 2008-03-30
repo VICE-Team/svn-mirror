@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-25 23:04+0200\n"
+"POT-Creation-Date: 2002-08-31 22:30+0200\n"
 "PO-Revision-Date: 2001-08-15 18:33+0100\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\\n\n"
@@ -1155,28 +1155,28 @@ msgstr "Kommandon fÅˆr Åˆgonblicksbilder"
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:989
 msgid "Run C1541"
 msgstr "KÅˆr C1541"
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:997
 msgid "Browse manuals"
 msgstr "LÅ‰s manualer"
 
-#: src/arch/unix/uicommands.c:998
+#: src/arch/unix/uicommands.c:999
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
+#: src/arch/unix/uicommands.c:1005 src/arch/unix/uidatasette.c:101
 #: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr "Å≈terstÅ‰ll"
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1007
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1014
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 

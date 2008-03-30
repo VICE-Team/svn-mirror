@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-08-25 23:04+0200\n"
-"PO-Revision-Date: 2002-03-23 19:55+01:00\n"
+"POT-Creation-Date: 2002-08-31 22:30+0200\n"
+"PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -454,16 +454,15 @@ msgstr "Plik zrzutu..."
 #: src/arch/unix/cbm2ui.c:345 src/arch/unix/petui.c:257
 #: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:342
 msgid "Program name to exec..."
-msgstr "Nazwa programu do uruchomienia"
+msgstr "Nazwa programu do uruchomienia..."
 
 #: src/arch/unix/cbm2ui.c:368
 msgid "CBM-II model settings"
 msgstr "Ustawienia modelu CBM-II"
 
 #: src/arch/unix/cbm2ui.c:373 src/arch/unix/petui.c:302
-#, fuzzy
 msgid "Crtc settings"
-msgstr "Ustawienia video crtc"
+msgstr "Ustawienia crtc"
 
 #: src/arch/unix/cbm2ui.c:375
 msgid "*VIC-II settings"
@@ -629,7 +628,7 @@ msgstr "Za³aduj nowy $B*** ROM"
 
 #: src/arch/unix/petui.c:226
 msgid "Unload $B*** ROM"
-msgstr "Prze³aduj "
+msgstr "Prze³aduj $B*** ROM"
 
 #: src/arch/unix/petui.c:269
 msgid "Video size"
@@ -817,9 +816,8 @@ msgid "Attach Retro Replay image..."
 msgstr "W³ó¿ obraz Retro Replay..."
 
 #: src/arch/unix/uic64cart.c:165
-#, fuzzy
 msgid "Attach IDE64 interface image..."
-msgstr "W³ó¿ obraz interfejsu IEEE488..."
+msgstr "W³ó¿ obraz interfejsu IDE64..."
 
 #: src/arch/unix/uic64cart.c:168
 msgid "Attach Super Snapshot 4 image..."
@@ -980,7 +978,6 @@ msgid "Save"
 msgstr "Zapisz"
 
 #: src/arch/unix/uicommands.c:605
-#, fuzzy
 msgid "Fliplist File"
 msgstr "Zmieñ plik listy"
 
@@ -1097,12 +1094,10 @@ msgid "Attach previous image (Unit 8)"
 msgstr "W³ó¿ poprzedni obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:921
-#, fuzzy
 msgid "Load fliplist file"
 msgstr "Za³aduj plik listy"
 
 #: src/arch/unix/uicommands.c:923
-#, fuzzy
 msgid "Save fliplist file"
 msgstr "Zapisz plik listy"
 
@@ -1162,28 +1157,28 @@ msgstr "Komendy zapisywania zrzutu"
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:989
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:997
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/uicommands.c:998
+#: src/arch/unix/uicommands.c:999
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
+#: src/arch/unix/uicommands.c:1005 src/arch/unix/uidatasette.c:101
 #: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1007
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1014
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 
@@ -1233,37 +1228,32 @@ msgstr "*U¿yj XSync()"
 #: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:94
 #: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
 #: src/arch/unix/uivicii.c:112
-#, fuzzy
 msgid "*Enable fullscreen"
-msgstr "W³±cz pe³ny ekran"
+msgstr "*W³±cz pe³ny ekran"
 
 #: src/arch/unix/uicrtc.c:106 src/arch/unix/uited.c:100
 #: src/arch/unix/uivdc.c:113 src/arch/unix/uivic.c:109
 #: src/arch/unix/uivicii.c:118
-#, fuzzy
 msgid "Fullscreen device"
-msgstr "*Ustawienia pe³nego ekranu"
+msgstr "Ustawienia pe³nego ekranu"
 
 #: src/arch/unix/uicrtc.c:111 src/arch/unix/uited.c:105
 #: src/arch/unix/uivdc.c:118 src/arch/unix/uivic.c:114
 #: src/arch/unix/uivicii.c:123
-#, fuzzy
 msgid "VidMode Resolutions"
-msgstr "Rozdzielczo¶æ"
+msgstr "Rozdzielczo¶æ VidMode"
 
 #: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:109
 #: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:118
 #: src/arch/unix/uivicii.c:127
-#, fuzzy
 msgid "DGA1 Resolutions"
-msgstr "Rozdzielczo¶æ"
+msgstr "Rozdzielczo¶æ DGA1"
 
 #: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:113
 #: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:122
 #: src/arch/unix/uivicii.c:131
-#, fuzzy
 msgid "DGA2 Resolutions"
-msgstr "Rozdzielczo¶æ"
+msgstr "Rozdzielczo¶æ DGA2"
 
 #: src/arch/unix/uicrtc.c:124
 msgid "*CRTC Screen color"
@@ -1350,7 +1340,7 @@ msgstr "*Rozszerz, kiedy nast±pi u¿ycie"
 
 #: src/arch/unix/uidrive.c:194 src/arch/unix/uidrive.c:204
 msgid "*No traps"
-msgstr "Brak"
+msgstr "*Brak"
 
 #: src/arch/unix/uidrive.c:196 src/arch/unix/uidrive.c:206
 msgid "*Skip cycles"
@@ -1472,12 +1462,10 @@ msgid "Scanline Shade in percent"
 msgstr "Cieniowane scanline w procentach"
 
 #: src/arch/unix/uipalemu.c:97
-#, fuzzy
 msgid "*Activate PAL emulation"
 msgstr "*Uruchom emulacjê PAL"
 
 #: src/arch/unix/uipalemu.c:100
-#, fuzzy
 msgid "*Fake PAL Emulation"
 msgstr "*Udawana emulacja PAL"
 
@@ -2084,7 +2072,7 @@ msgstr "*Domy¶lny"
 
 #: src/arch/unix/uivdc.c:53
 msgid "*Revison 0"
-msgstr "* Revision 0"
+msgstr "*Revision 0"
 
 #: src/arch/unix/uivdc.c:55
 msgid "*Revison 1"
@@ -2386,7 +2374,6 @@ msgid "Saturation"
 msgstr "Nasycenie"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:52
-#, fuzzy
 msgid "Contrast"
 msgstr "Kontrast"
 
@@ -2484,9 +2471,9 @@ msgid "Found %dbit/%s visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
 
 #: src/arch/unix/x11/gnome/x11ui.c:635
-#, fuzzy, c-format
+#, c-format
 msgid "Found %dbit visual."
-msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
+msgstr "Znaleziono urz±dzenie wizualne %dbit "
 
 #: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Cannot autodetect a proper visual."
@@ -2616,7 +2603,6 @@ msgid "Attach debugger to pid %d...\n"
 msgstr "Zainstaluj debbuger na pid %d...\n"
 
 #: src/arch/unix/x11/dga1.c:129
-#, fuzzy
 msgid "Successfully forked DGA."
 msgstr "Rozga³êzianie DGA zakoñczenie pomy¶lnie"
 
@@ -2634,12 +2620,12 @@ msgstr "Aby u¿ywaæ DGA1 konieczne s± uprawnienia roota."
 
 #: src/arch/unix/x11/dga1.c:148
 msgid "Problems with DGA - disabling fullscreen."
-msgstr "Problemy z DGA - wy³anczam pe³nego ekranu"
+msgstr "Problemy z DGA - wy³±czam pe³ny ekran"
 
 #: src/arch/unix/x11/dga1.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Error switching to fullscreen%s"
-msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu %s"
 
 #: src/arch/unix/x11/dga1.c:212
 #, c-format
@@ -2693,9 +2679,9 @@ msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "Minimaln± wymagan± wersj± jest %d.%d - wy³±czanie pe³nego ekranu"
 
 #: src/arch/unix/x11/dga2.c:567
-#, fuzzy, c-format
+#, c-format
 msgid "Switch to fullscreen%s"
-msgstr "Prze³±cz na pe³ny ekran %ix%i"
+msgstr "Prze³±cz na pe³ny ekran%s"
 
 #: src/arch/unix/x11/dga2.c:573
 msgid "Need root privileges for DGA2 fullscreen"
@@ -2712,10 +2698,11 @@ msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (pixmap) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:631
-#, fuzzy, c-format
+#, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
-"Zbyt ma³o stron pamiêci graficznej w trybie %s, wy³±czanie pe³nego ekranu."
+"Zbyt ma³o stron pamiêci graficznej w trybie %s, wy³±czanie pe³nego "
+"ekranu(%d,%d)."
 
 #: src/arch/unix/x11/dga2.c:645
 #, c-format
@@ -2800,7 +2787,6 @@ msgid "Cannot release shared memory!"
 msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 
 #: src/arch/unix/x11/vidmode.c:75
-#, fuzzy
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "B³±d podczas pobierania informacji o trybie video - wy³±czanie pe³nego "
@@ -2882,17 +2868,17 @@ msgstr "Opcje zapisywania:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:209
 msgid "Save currently attached disks:"
-msgstr "Zapisz obecnie w³ozony dysk:"
+msgstr "Zapisz obecnie w³o¿ony dysk:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:221
 #: src/arch/unix/x11/xaw/uisnapshot.c:260
 msgid "Off"
-msgstr "Wy³acz"
+msgstr "Wy³±cz"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:233
 #: src/arch/unix/x11/xaw/uisnapshot.c:272
 msgid "On"
-msgstr "W³acz"
+msgstr "W³±cz"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:248
 msgid "Save currently loaded ROMs:"
@@ -2972,13 +2958,11 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgid "*PAL emulation"
 #~ msgstr "*Emulacja PAL"
 
-#, fuzzy
 #~ msgid "*Enable DGA2 fullscreen"
-#~ msgstr "W³±cz pe³ny ekran"
+#~ msgstr "*W³±cz pe³ny ekran"
 
-#, fuzzy
 #~ msgid "*Enable VidMode fullscreen"
-#~ msgstr "W³±cz pe³ny ekran"
+#~ msgstr "*W³±cz pe³ny ekran"
 
 #~ msgid "*Fullscreen settings"
 #~ msgstr "*Ustawienia pe³nego ekranu"
