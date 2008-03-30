@@ -57,6 +57,12 @@ static const char *machine_id;
 #define RESOURCE_FILE_NAME	".vicerc"
 #endif
 
+#if 0
+#define RWARNING(s)     printf s
+#else
+#define RWARNING(s)
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: We might want to use a hash table instead of a linear search some
@@ -116,8 +122,8 @@ int resources_set_value(const char *name, resource_value_t value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "Warning: Trying to assign value to unknown resource `%s'\n",
-                name);
+        RWARNING(("Warning: Trying to assign value to unknown resource `%s'\n",
+                  name));
         return -1;
     }
 
@@ -129,8 +135,8 @@ int resources_set_value_string(const char *name, const char *value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "Warning: Trying to assign value to unknown resource `%s'\n",
-                name);
+        RWARNING(("Warning: Trying to assign value to unknown resource `%s'\n",
+                  name));
         return -1;
     }
 
@@ -153,8 +159,8 @@ int resources_get_value(const char *name, resource_value_t *value_return)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        fprintf(stderr, "Warning: Trying to read value from unknown resource `%s'\n",
-                name);
+        RWARNING(("Warning: Trying to read value from unknown resource `%s'\n",
+                  name));
         return -1;
     }
 
@@ -190,8 +196,8 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     int value;
 
     if (r == NULL) {
-        fprintf(stderr, "Warning: Trying to toggle boolean value of unknown resource `%s'\n",
-                name);
+        RWARNING((stderr, "Warning: Trying to toggle boolean value of unknown resource `%s'\n",
+                  name));
         return -1;
     }
 
@@ -340,8 +346,8 @@ static int read_resource_item(FILE *f)
         }
 
         if (result < 0) {
-            fprintf(stderr, "Warning: Cannot assign value to resource `%s'.\n",
-                    r->name);
+            RWARNING((stderr, "Warning: Cannot assign value to resource `%s'.\n",
+                      r->name));
             return -1;
         }
 

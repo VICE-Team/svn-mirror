@@ -27,6 +27,8 @@
 #ifndef _PETSOUND_H
 #define _PETSOUND_H
 
+#include "types.h"
+
 void store_petsnd_onoff(int value);
 void store_petsnd_rate(CLOCK t);
 void store_petsnd_sample(BYTE value);

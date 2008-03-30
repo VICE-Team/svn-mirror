@@ -30,8 +30,10 @@
 
 #include <math.h>
 
-#include "sound.h"
+#include "petsound.h"
+
 #include "maincpu.h"
+#include "sound.h"
 #include "utils.h"
 
 struct sound_s
@@ -117,8 +119,15 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 	psid->t = 32;
     psid->b = 0.0;
     psid->bs = (double)psid->cycles_per_sec/(psid->t*psid->speed);
+
+    snddata[0] = 0;
+    snddata[1] = 0;
+    snddata[2] = 4;
+    snddata[3] = 0;
+
     for (i = 0; i < 4; i++)
 	sound_machine_store(psid, i, snddata[i]);
+
     return psid;
 }
 
