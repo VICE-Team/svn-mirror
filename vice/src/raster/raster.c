@@ -470,7 +470,7 @@ void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
     ref->bufh = raster->canvas->draw_buffer->draw_buffer_height;
 #endif
     ref->x = raster->geometry->extra_offscreen_border_left
-        + raster->canvas->viewport->first_x;
+             + raster->canvas->viewport->first_x;
     ref->y = raster->geometry->first_displayed_line;
 
     if (raster->canvas->videoconfig->doublesizex)
