@@ -237,6 +237,12 @@ void viacore_reset(via_context_t *via_context)
     via_context->ier = 0;
     via_context->ifr = 0;
 
+    via_context->pb7 = 0;
+    via_context->pb7x = 0;
+    via_context->pb7o = 0;
+    via_context->pb7xx = 0;
+    via_context->pb7sx = 0;
+
     /* disable vice interrupts */
     via_context->tai = 0;
     via_context->tbi = 0;
@@ -832,6 +838,7 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->read_offset = 0;
     via_context->last_read = 0;
     via_context->log = LOG_ERR;
+
     via_context->my_module_name_alt1 = NULL;
     via_context->my_module_name_alt2 = NULL;
  }
