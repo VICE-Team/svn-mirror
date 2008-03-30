@@ -47,10 +47,10 @@
 
 #define WRITE_BLOCK 512
 
-#define SET_LO_HI(p, val)                       \
-    do {                                        \
-        *((p)++) = (val) & 0xff;                \
-        *((p)++) = ((val)>>8) & 0xff;           \
+#define SET_LO_HI(p, val)             \
+    do {                              \
+        *((p)++) = (val) & 0xff;      \
+        *((p)++) = ((val)>>8) & 0xff; \
     } while (0)
 
 #define DRIVE_RAMSIZE           0x400
@@ -181,10 +181,6 @@ extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
                                 vdrive_t *vdrive);
 extern int vdrive_calc_num_blocks(unsigned int format, unsigned int tracks);
-extern int vdrive_parse_name(const char *name, unsigned int length,
-                             char *realname, unsigned int *reallength,
-                             unsigned int *readmode, unsigned int *filetype,
-                             unsigned int *rl);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_calculate_disk_half(unsigned int type);
 extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);
