@@ -36,6 +36,8 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "reu.h"
+#include "snapshot.h"
+#include "types.h"
 #include "utils.h"
 
 /* #define REU_DEBUG */
@@ -224,7 +226,7 @@ void reu_dma(int immed)
     unsigned int len;
     int reu_step, host_step;
     ADDRESS host_addr;
-    int reu_addr;
+    unsigned int reu_addr;
     BYTE c;
 
     if (!immed) {
@@ -259,7 +261,8 @@ void reu_dma(int immed)
 #endif
         for (; len--; host_addr = (host_addr + host_step) & 0xffff,
             reu_addr += reu_step) {
-            BYTE value = mem_read(host_addr);
+            BYTE value;
+            value = mem_read(host_addr);
 #ifdef REU_DEBUG
         log_message(reu_log,
                     "Transferring byte: %x from main $%04X to ext $%05X.",
