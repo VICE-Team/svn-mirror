@@ -68,6 +68,7 @@ void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
 
     cs->num_last_stolen_cycles = 0;
     cs->last_stolen_cycles_clk = (CLOCK)0;
+    cs->num_dma_per_opcode = 0;
     cs->global_pending_int = IK_NONE;
     cs->nmi_trap_func = NULL;
     cs->reset_trap_func = NULL;
@@ -241,6 +242,37 @@ enum cpu_int get_int(interrupt_cpu_status_t *cs, int int_num)
     return cs->pending_int[int_num];
 }
 
+void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
+                             CLOCK *int_clk)
+{
+    unsigned int num_cycles_left = 0, num_dma;
+
+#if 1
+    {
+        unsigned int i;
+        log_debug("INTREQ %i", cpu_clk);
+        for (i = 0; i < cs->num_dma_per_opcode; i++)
+            log_debug("%iCYLEFT %i", i, cs->num_cycles_left[i]);
+    }
+#endif
+
+    num_dma = cs->num_dma_per_opcode;
+    while (num_dma != 0) {
+        num_dma--;
+        num_cycles_left = cs->num_cycles_left[num_dma];
+        if (cs->dma_start_clk[num_dma] <= cpu_clk)
+            break;
+    }
+
+#if 1
+    log_debug("TAKENLEFT %i", num_cycles_left);
+#endif
+
+    *int_clk = cs->last_stolen_cycles_clk;
+    if (num_cycles_left >= INTERRUPT_DELAY)
+        *int_clk -= INTERRUPT_DELAY;
+}
+
 /* ------------------------------------------------------------------------- */
 
 void interrupt_trigger_dma(interrupt_cpu_status_t *cs, CLOCK cpu_clk)
@@ -320,13 +352,27 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     return 0;
 }
 
-int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
+int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs,
+                                 snapshot_module_t *m)
 {
+/*
+    unsigned int i;
+*/
     if (SMW_DW(m, cs->nirq) < 0
         || SMW_DW(m, cs->nnmi) < 0
         || SMW_DW(m, cs->global_pending_int) < 0)
         return -1;
+/*
+    if (SMW_DW(m, cs->num_dma_per_opcode) < 0)
+        return -1;
 
+    for (i = 0; i < cs->num_dma_per_opcode; i++) {
+        if (SMW_DW(m, cs->dma_start_clk[i]) < 0)
+            return -1;
+        if (SMW_DW(m, cs->num_cycles_left[i]) < 0)
+            return -1;
+    }
+*/
     return 0;
 }
 
