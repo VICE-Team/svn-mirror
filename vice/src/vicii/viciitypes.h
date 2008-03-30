@@ -99,12 +99,10 @@
 #define VIC_II_NTSC_SPRITE_WRAP_X	520
 #define VIC_II_NTSCOLD_SPRITE_WRAP_X	512
 
-
 
 /* Available video modes.  The number is given by
    ((vic_ii.regs[0x11] & 0x60) | (vic_ii.regs[0x16] & 0x10)) >> 4.  */
-enum _vic_ii_video_mode
-  {
+enum _vic_ii_video_mode {
     VIC_II_NORMAL_TEXT_MODE,
     VIC_II_MULTICOLOR_TEXT_MODE,
     VIC_II_HIRES_BITMAP_MODE,
@@ -115,7 +113,7 @@ enum _vic_ii_video_mode
     VIC_II_ILLEGAL_BITMAP_MODE_2,
     VIC_II_IDLE_MODE,		/* Special mode for idle state.  */
     VIC_II_NUM_VMODES
-  };
+};
 typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 #define VIC_II_IS_ILLEGAL_MODE(x)	((x) >= VIC_II_ILLEGAL_TEXT_MODE \
@@ -196,31 +194,27 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
 
-struct vic_ii_light_pen_s
-  {
+struct vic_ii_light_pen_s {
     int triggered;
     int x, y;
-  };
+};
 typedef struct vic_ii_light_pen_s vic_ii_light_pen_t;
 
-enum _vic_ii_fetch_idx
-  {
+enum _vic_ii_fetch_idx {
     VIC_II_FETCH_MATRIX,
     VIC_II_CHECK_SPRITE_DMA,
     VIC_II_FETCH_SPRITE
-  };
+};
 typedef enum _vic_ii_fetch_idx vic_ii_fetch_idx_t;
 
-enum _vic_ii_idle_data_location
-  {
+enum _vic_ii_idle_data_location {
     IDLE_NONE,
     IDLE_3FFF,
     IDLE_39FF
-  };
+};
 typedef enum _vic_ii_idle_data_location vic_ii_idle_data_location_t;
 
-struct vic_ii_s
-  {
+struct vic_ii_s {
     /* Flag: Are we initialized?  */
     int initialized;		/* = 0; */
 
@@ -381,14 +375,16 @@ struct vic_ii_s
 
     /* Number of lines the whole screen is shifted up.  */
     int offset;
-  };
+};
 typedef struct vic_ii_s vic_ii_t;
 
 extern vic_ii_t vic_ii;
 
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
-extern int vic_ii_load_palette (const char *name);
+extern int vic_ii_activate_palette(void);
+extern int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum);
+extern int vic_ii_load_palette(const char *name);
 extern void vic_ii_fetch_matrix (int offs, int num);
 extern void vic_ii_set_raster_irq (unsigned int line);
 extern void vic_ii_update_memory_ptrs (unsigned int cycle);
