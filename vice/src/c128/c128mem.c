@@ -348,15 +348,6 @@ static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 #endif
 
-/* Fake BIOS initialization.  This is required because the real C128 is
-   normally booted by the Z80, which we currently don't emulate at all.  */
-static BYTE biostab[] = {
-    0x78, 0xa9, 0x3e, 0x8d, 0x00, 0xff, 0xa9, 0xb0, 0x8d, 0x05,
-    0xd5, 0xea, 0x58, 0x60, 0x00, 0x00, 0xf3, 0x3e, 0x3e, 0x32,
-    0x00, 0xff, 0x01, 0x05, 0xd5, 0x3e, 0xb1, 0xed, 0x79, 0x00,
-    0xcf
-};
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -628,7 +619,7 @@ static void REGPARM2 store_editor(ADDRESS addr, BYTE value)
     STORE_TOP_SHARED(addr, value);
 }
 
-static BYTE REGPARM1 read_d7xx(ADDRESS addr)
+BYTE REGPARM1 read_d7xx(ADDRESS addr)
 {
 #if 0                           /*def HAVE_RS232 */
     if (acia_d7_enabled)
@@ -637,7 +628,7 @@ static BYTE REGPARM1 read_d7xx(ADDRESS addr)
     return 0xff;
 }
 
-static void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
+void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
 {
 #if 0                           /*def HAVE_RS232 */
         if (acia_d7_enabled)
@@ -1342,10 +1333,6 @@ int mem_load(void)
 
     if( mem_load_chargen() < 0)
 	return -1;
-
-    /* Fake BIOS initialization.  This is needed because the real C128 is
-       initialized by the Z80, which we currently do not implement.  */
-    memcpy(ram + 0xffd0, biostab, sizeof(biostab));
 
     return 0;
 }
