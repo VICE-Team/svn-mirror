@@ -70,6 +70,7 @@ noinst_HEADERS = \
 	findpath.h \
 	fsdevice.h \
 	fliplist.h \
+	fullscreen.h \
 	gcr.h \
 	iecdrive.h \
 	imagecontents.h \

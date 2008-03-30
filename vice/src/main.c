@@ -51,6 +51,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "fsdevice.h"
+#include "fullscreen.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -618,7 +619,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
 #ifdef USE_VIDMODE_EXTENSION
     if (!(console_mode || vsid_mode))
-        ui_set_fullscreenmode_init();
+        fullscreen_mode_init();
 #endif
 
     mainloop(((ADDRESS)0));
