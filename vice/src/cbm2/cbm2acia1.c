@@ -55,7 +55,8 @@
 #include "cbm2.h"
 #include "tpi.h"
 
-#define mycpu_set_int(b,a)       tpicore_set_int(&(machine_context.tpi1), 4,(a))
+#define mycpu_set_irq(b,a) tpicore_set_int(&(machine_context.tpi1), 4,(a))
+#define mycpu_set_nmi(b,a) tpicore_set_int(&(machine_context.tpi1), 4,(a))
 #define mycpu_set_int_noclk(b,c) tpicore_restore_int(&(machine_context.tpi1), 4,(c))
 
 #include "aciacore.c"
