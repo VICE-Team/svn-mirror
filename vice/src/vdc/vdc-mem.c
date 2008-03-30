@@ -2,8 +2,9 @@
  * vdc-mem.c - Memory interface for the MOS 8563 (VDC) emulation.
  *
  * Written by
- *  Markus Brenner   (markus@brenner.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Markus Brenner   <markus@brenner.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +29,7 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "vdc.h"
 #include "vdc-mem.h"
@@ -42,29 +44,27 @@ static void vdc_perform_fillcopy(void)
 
     /* Word count, # of bytes to copy */
     blklen = vdc.regs[30] ? vdc.regs[30] : 1; 
+    /* Block start address.  */
+    ptr2 = (vdc.regs[32] << 8) + vdc.regs[33];
+    /* Update address.  */
+    ptr = (vdc.regs[18] << 8) + vdc.regs[19];
 
-    ptr2 = (vdc.regs[32] << 8) + vdc.regs[33]; /* block start address */
-    ptr  = (vdc.regs[18] << 8) + vdc.regs[19]; /* update address */
-
-    if (vdc.regs[24] & 0x80) /* COPY flag */
-    {
-/*
-        log_message(vdc.log, "blockcopy: blklen = %x, ptr = %x", blklen, ptr);
-*/
+    if (vdc.regs[24] & 0x80) { /* COPY flag */
+        /*log_message(vdc.log, "Blockcopy: src = %x, dest = %x, len = %x.",
+                    ptr2, ptr, blklen);*/
         for (i = 0; i < blklen; i++)
-            vdc.ram[ptr + i] = vdc.ram[ptr2 + i];
+            vdc.ram[(ptr + i) & vdc.vdc_address_mask]
+                = vdc.ram[(ptr2 + i) & vdc.vdc_address_mask];
         ptr2 += blklen;
         vdc.regs[32] = (ptr2 >> 8) & 0xff;
         vdc.regs[33] = ptr2 & 0xff;
+    } else {
+        /*log_message(vdc.log, "Memset: dest = %x, len = %x.", ptr, blklen);*/
+        for (i = 0; i < blklen; i++)
+            vdc.ram[(ptr + i) & vdc.vdc_address_mask] = vdc.regs[31];
     }
-    else
-    {
-/*
-        log_message(vdc.log, "memset: vdcram = %x, len = %x", ptr, blklen);
-*/
-        memset (vdc.ram + ptr, vdc.regs[31], blklen);
-    }
-    ptr += blklen;
+
+    ptr = (ptr + blklen) & vdc.vdc_address_mask;
     vdc.regs[18] = (ptr >> 8) & 0xff;
     vdc.regs[19] = ptr & 0xff;
     vdc.regs[30] = 0;
@@ -112,34 +112,34 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
         break;
 
       case 2:			/* R02  Horizontal Sync Position */
-	break;
+        break;
 
       case 3:			/* R03  Horizontal/Vertical Sync widths */
-	break;
+        break;
 
       case 4:			/* R04  Vertical total (character) rows */
 /*
         new_vdc_vertical_total = vdc[4] + 1;
 */
-	break;
+        break;
 
       case 5:			/* R05  Vertical total line adjust */
 /*        new_vdc_vertical_adjust = vdc[5] & 0x1f; */
-	break;
+        break;
 
       case 6:			/* R06  Number of display lines on screen */
 /*        new_vdc_screen_textlines = vdc[6] & 0x7f; */
         break;
 
       case 7:			/* R07  Vertical sync position */
-	break;
+        break;
 
       case 8:			/* R08  unused: Interlace and Skew */
-	break;
+        break;
 
       case 9:			/* R09  Rasters between two display lines */
 /*	new_screen_charheight = vdc_min(8, vdc[9] + 1); */
-	break;
+        break;
 
       case 10:			/* R10  Cursor Mode, Start Scan */
 /*
@@ -152,7 +152,7 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
 	  crsr_set_dirty();
         }
 */
-	break;
+        break;
 
       case 11:			/* R11  Cursor (not implemented on the PET) */
 /*
@@ -160,13 +160,14 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
         crsrend = value & 0x1f;
 	crsr_set_dirty();
 */
-	break;
+        break;
 
       case 12:			/* R12  Display Start Address hi */
       case 13:			/* R13  Display Start Address lo */
-        vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13]) & VDC_ADDRESS_MASK;
-        log_message(vdc.log,"update screen_adr: %x", vdc.screen_adr);
-	break;
+        vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
+                         & vdc.vdc_address_mask;
+        log_message(vdc.log,"Update screen_adr: %x.", vdc.screen_adr);
+        break;
 
       case 14:
 /*
@@ -175,7 +176,7 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
         crsrrel = crsrpos - scrpos;
 	crsr_set_dirty();
 */
-	break;
+        break;
 
       case 15:			/* R14-5 Cursor location HI/LO -- unused */
 /*
@@ -184,30 +185,41 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
         crsrrel = crsrpos - scrpos;
 	crsr_set_dirty();
 */
-	break;
+        break;
 
       case 16:			/* R16/17 Light Pen hi/lo */
       case 17:
-	break;
+        break;
 
       case 18:			/* R18/19 Update Address hi/lo */
       case 19:
-        vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19]) & VDC_ADDRESS_MASK;
-	break;
+        vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19])
+                         & vdc.vdc_address_mask;
+        break;
 
       case 20:			/* R20/21 Attribute Start Address hi/lo */
       case 21:
-        vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21]) & VDC_ADDRESS_MASK;
-        log_message(vdc.log,"update attribute_adr: %x", vdc.attribute_adr);
-	break;
+        vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
+                            & vdc.vdc_address_mask;
+        log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);
+        break;
 
       case 25:
-        vdc.raster.video_mode = (vdc.regs[25] & 0x80) ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
+        log_message(vdc.log, "Color source: %s.",
+                    (vdc.regs[25] & 0x40) ? "attribute space" : "register 26");
+        log_message(vdc.log, "Display mode: %s.",
+                    (vdc.regs[25] & 0x80) ? "graphic" : "text");
+        vdc.raster.video_mode = (vdc.regs[25] & 0x80) 
+                                ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
+        break;
+
+      case 26:
+        log_message(vdc.log, "Color register %x.", vdc.regs[26]);
         break;
 
       case 28:
         vdc.chargen_adr = (vdc.regs[28] << 8) & 0xf000; 
-        log_message(vdc.log,"update chargen_adr: %x", vdc.chargen_adr);
+        log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);
         break;
 
       case 30:			/* Word Count */
@@ -227,16 +239,22 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_vdc(ADDRESS addr)
 {
-    if (addr & 1)
-    {
+    if (addr & 1) {
 /*
     	log_message(vdc.log, "read: addr = %x", addr);
 */
-        if (vdc.update_reg == 31)
-/*
-            return vdc.ram[vdc.update_adr];
-*/
-            return vdc.ram[(vdc.regs[18] << 8) + vdc.regs[19]];
+        if (vdc.update_reg == 31) {
+            BYTE retval;
+            int ptr;
+
+            retval = vdc.ram[((vdc.regs[18] << 8) + vdc.regs[19])
+                     & vdc.vdc_address_mask];
+            ptr = (1 + vdc.regs[19] + (vdc.regs[18] << 8))
+                  & vdc.vdc_address_mask;
+            vdc.regs[18] = (ptr >> 8) & 0xff;
+            vdc.regs[19] = ptr & 0xff;
+            return retval;
+        }
         return ((vdc.update_reg < 37) ? vdc.regs[vdc.update_reg] : 0xff);
     }
     else

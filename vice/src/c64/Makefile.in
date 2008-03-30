@@ -384,8 +384,8 @@ c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/acia.h
 c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/cartridge.h \
-	../../src/interrupt.h ../../src/6510core.h
+	../../src/snapshot.h c64tpi.h ../../src/cartridge.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/log.h
 c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
@@ -438,7 +438,7 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
 	../../src/arch/unix/types.h c64cia.h ../../src/cia.h \
-	../../src/snapshot.h c64mem.h ../../src/mem.h c64tpi.h \
+	../../src/snapshot.h c64mem.h ../../src/mem.h \
 	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/datasette.h ../../src/tap.h ../../src/emuid.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
