@@ -1,3 +1,115 @@
+2001-02-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.7.
+
+	* autostart.c (disk_eof_callback): Set disk ID if true drive
+	emulation is turned on.
+
+	* drive/drive.c, drive/drive.h (drive_set_disk_id_memory): New
+	function.
+
+	* vdrive/vdrive.c (vdrive_attach_image, vdrive_detach_image):
+	New functions.
+
+	* diskimage.c (disk_image_check_log,
+	disk_image_check_min_block): New functions.
+
+	* drive/fdc.c (fdc_reset): Changed code causing "initializer
+ 	element for `disk[0]' is not computable at load time".
+
+	* monitor/asm.h: Removed comma at end of enumeration.
+
+	* c64/psid.c, vic20/vic-mem.c: Added missing casts.
+
+	* arch/unix/c610ui.c: #include "c610.h".
+
+	* arch/unix/uicommands.h: Removed prototype for
+	`ui_screenshot_commands_menu'.
+
+2001-02-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uisound.c: includes ui.h
+
+	* cbm2/c610mem.h: includes types.h
+
+	* sounddrv/soundwmm.c: updated with latest changes of Lasse
+
+	* vic20/vic-snapshot.c(vic_snapshot_read_module): fixed timing
+	of next raster alarm
+
+2001-02-18  Andre Fachat  <a.fachat@gmx.net>
+
+	* arch/unix/uisettings.c (set_drive0_type_submenu): add 2040 to
+	drive type selection menu
+
+	* arch/unix/x11/xaw/uiedisk.c (disk_type_d67_button): new
+	button for create empty disk dialog
+	(extensions, save_callback): add support for d67 images
+	(build_emptydisk_dialog): create new dialog
+
+	* c1541.c (command_list): add d67 type for format cmd help
+	(format_cmd): add d67 support
+
+	* diskimage.c (IS_D67_LEN): new macro
+	(disk_image_check_for_d67): new function
+	(disk_image_open, disk_image_create): add d67 support
+	(sector_map_d67): new sector map for D67
+	(disk_image_sector_per_track, disk_image_check_sector,
+	disk_image_read_sector, disk_image_write_sector): add d67
+	support
+
+	* diskimage.h (D67_FILE_SIZE, DISK_IMAGE_TYPE_D67): new defines
+
+	* drive/drive.c (drive_read_image_d64_d71,
+	drive_check_image_format, drive_attach_image,
+	drive_detach_image): add d67 support
+
+	* drive/fdc.c (fdc_do_job): some more verbose debugging
+	remove drive type check, as this is done during attach already
+	Fix FDC seek and bump commands
+	(int_fdc): 2040 support
+	(fdc_attach_image): add d67 support
+
+	* drive/riot2d.c (set_handshake, store_pra): more comments
+	
+	* monitor/mon.c (mon_cmd_array): fix "watch" help text
+
+	* parallel.c: more verbose logging (when debug is enabled)
+	debug code cleanup
+
+	* vdrive/vdrive-bam.c (vdrive_bam_allocate_chain, 
+	vdrive_bam_calculate_track, vdrive_bam_sector_free,
+	vdrive_bam_clear_all, vdrive_bam_create_empty_bam,
+	vdrive_bam_read_bam, vdrive_bam_write_bam, 
+	vdrive_bam_free_block_count): support d67 image
+
+	* vdrive/vdrive-command.c (vdrive_command_memory_read): add
+	d67 support
+
+	* vdrive/vdrive-dir.c (vdrive_dir_free_chain, 
+	vdrive_dir_find_next_slot): add d67 support
+
+	* vdrive/vdrive.c (vdrive_calculate_disk_half,
+	vdrive_get_max_sectors, vdrive_detach_image,
+	vdrive_attach_image, vdrive_set_disk_geometry):
+	add d67 support
+
+	* vdrive/vdrive.h (VDRIVE_IMAGE_FORMAT_2040, NUM_TRACKS_2040,
+	NUM_BLOCKS_2040, MAX_TRACKS_2040, MAX_BLOCKS_2040,
+	DIR_TRACK_2040, DIR_SECTOR_2040, BAM_TRACK_2040,
+	BAM_SECTOR_2040, BAM_NAME_2040, BAM_ID_2040,
+	BAM_EXT_BIT_MAP_2040): new defines
+
+2001-02-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* fliplist.c: changed "static const size_t buffer_size =
+	1024;" to "#define buffer_size 1024", so MSVC++ won't complain
+	about using buffer_size as size of an array.
+
+	* arch/win32/uimon.c: improved how the current window settings
+	are saved (using GetWindowPlacement() instead of
+	GetWindowRect()).
+
 2001-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.6.

@@ -32,6 +32,7 @@
 #define C610UI 1
 #include "videoarch.h"
 
+#include "c610.h"
 #include "c610mem.h"
 #include "datasette.h"
 #include "joystick.h"

@@ -72,7 +72,7 @@ vic_store(ADDRESS addr, BYTE value)
                 raster_add_int_change_next_line (&vic.raster,
                     &vic.raster.display_xstart, xstart);
                 raster_add_int_change_next_line (&vic.raster,
-                    &vic.raster.geometry.gfx_position.x, xstart);
+                    (int *)(&vic.raster.geometry.gfx_position.x), xstart);
             } else {
                 vic.raster.display_xstart = xstart;
                 vic.raster.display_xstop = xstop;
@@ -143,13 +143,15 @@ vic_store(ADDRESS addr, BYTE value)
             } else {
                 /* later changes are visible in the next line */
                 raster_add_int_change_next_line (&vic.raster,
-                    &vic.text_cols, new_text_cols);
+                    (int *)(&vic.text_cols), new_text_cols);
                 raster_add_int_change_next_line (&vic.raster,
                     &vic.raster.display_xstop, new_xstop);
                 raster_add_int_change_next_line (&vic.raster,
-                    &vic.raster.geometry.gfx_size.width, new_text_cols * 8);
+                    (int *)(&vic.raster.geometry.gfx_size.width),
+                    new_text_cols * 8);
                 raster_add_int_change_next_line (&vic.raster,
-                    &vic.raster.geometry.text_size.width, new_text_cols);
+                    (int *)(&vic.raster.geometry.text_size.width),
+                    new_text_cols);
             }
         }
 
@@ -178,7 +180,7 @@ vic_store(ADDRESS addr, BYTE value)
             if (VIC_RASTER_CYCLE(clk) >= 1)
             {
                 raster_add_int_change_next_line (&vic.raster,
-                    &vic.row_increase_line, new_char_height);
+                    (int *)(&vic.row_increase_line), new_char_height);
             } else {
                 vic.row_increase_line = new_char_height;
             }

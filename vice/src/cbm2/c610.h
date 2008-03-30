@@ -64,7 +64,7 @@
 #define C500_PAL_RFSH_PER_SEC    (1.0 / ((double)C500_PAL_CYCLES_PER_RFSH    \
                                         / (double)C500_PAL_CYCLES_PER_SEC))
 
-extern int cbm2_is_c500();
+extern int cbm2_is_c500(void);
 
 #endif
 
