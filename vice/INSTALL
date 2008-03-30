@@ -58,9 +58,10 @@ RiscOS.
 
       - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
 
-    Unluckily, not all of these systems have been tested with 1.0.
-    Success/failure reports are welcome at any time. If you encounter
-    any problems, you probably want to read the Hints section below.
+    Unluckily, not all of these systems have been tested with the
+    current release.  Success/failure reports are welcome at any time.
+    If you encounter any problems, you probably want to read the Hints
+    section below.
 
     If you are compiling on a Pentium machine under Linux or FreeBSD,
     you might consider using the Pentium-specific GCC compiler, which

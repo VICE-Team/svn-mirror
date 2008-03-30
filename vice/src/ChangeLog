@@ -1,3 +1,71 @@
+1999-08-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.65.
+
+	* info.c: Added Dirk Farin.
+
+	* maincpu.c: Do not define `TRACE'.
+
+	* c128/c128iec.c (iec_fast_cpu_write, iec_fast_drive_write):
+	Do not use fast IEC for now.
+
+1999-08-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* ciacore.c (mycia_read_snapshot_module): Reset first.
+
+	* vicii/vicii.c (vic_ii_prepare_for_snapshot): Unset the raster
+	IRQ alarm as well.
+	(vic_ii_set_raster_irq): Always recalculate the raster IRQ alarm
+	if currently not set.
+
+1999-08-26  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/c128ui.c (c128_ui_menu_toggles) (SidType)
+	  (c128_ui_res_values): New structs for c128 specific resource
+	  dependant menu entries.
+	  (c128_ui_init): Register above structs for UI.
+
+	* arch/win32/c610ui.c (cbm2_ui_menu_toggles) (SidType)
+	  (cbm2_ui_res_values): New structs for cbm2 specific resource
+	  dependant menu entries.
+	  (c610_ui_init): Register above structs for UI.
+
+	* arch/win32/c64ui.c (c64_ui_menu_toggles) (SidType)
+	  (c64_ui_res_values): New structs for c64 specific resource
+	  dependant menu entries.
+	  (c64_ui_init): Register above structs for UI.
+
+	* arch/win32/petui.c (pet_ui_menu_toggles): New struct for pet
+	  specific resource dependant menu entries.
+	  (pet_ui_init): Register above struct for UI.
+
+	* arch/win32/ui.c (toggle_list): Changed type of struct. Removed
+	  machine specific entries.
+	  (res_possible_values): Removed typedef.
+	  (RefreshRateValues) (SpeedValues) (SyncFactor): Changed type of
+	  struct.
+	  (SidType): Removed array. Moved into machine specific modules.
+	  (value_list): Changed type of struct. Removed machine specific
+	  entries.
+	  (led_red) (led_green) (led_black): New variables.
+	  (ui_init): Create Brushes for drive leds.
+	  (machine_specific_toggles) (machine_specific_values): New variables.
+	  (ui_register_menu_toggles): New function. Registers machine
+	  specific resource menu toggle entries.
+	  (ui_register_res_values): New function. Registers machine specific
+	  menu entries with multiple state.
+	  (update_menus): Handle machine specific entries.
+	  (handle_wm_command): Handle machine specific toggle menus.
+	  (window_proc): Use led_* variables when drawing drive leds.
+
+	* arch/win32/ui.h (ui_menu_toggle) (ui_res_possible_values)
+	  (ui_res_value_list): New typedefs.
+	  (ui_register_menu_toggles) (ui_register_res_values): New prototypes.
+
+	* arch/win32/vic20ui.c (vic20_ui_menu_toggles): New struct for vic20
+	  specific resource dependant menu entries.
+	  (vic20_ui_init): Register above for UI.
+
 1999-08-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.64.

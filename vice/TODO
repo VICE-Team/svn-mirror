@@ -41,6 +41,8 @@ What are we going to do next
 
 - Support missing keys (Caps Lock).
 
+- Better VDC emulation.
+
 * VIC20 improvements
 --------------------
 
@@ -72,8 +74,6 @@ This is our wishlist for long-term development
 
 * C128 improvements
 -------------------
-
-- VDC emulation, i.e. 2MHz/80 cols modes. 
 
 * VIC20 improvements
 --------------------
