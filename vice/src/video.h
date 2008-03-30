@@ -129,13 +129,6 @@ typedef struct video_draw_buffer_callback_s {
                              unsigned int fb_height, unsigned int fb_pitch);
 } video_draw_buffer_callback_t;
 
-/* These constants tell the video layer what */
-/* resources should be registered */
-
-#define VIDEO_RESOURCES_MONOCHROME 1 /* pet and cbm2 */
-#define VIDEO_RESOURCES_PAL        2 /* c64, c128, vic20 */
-#define VIDEO_RESOURCES_PAL_NOFAKE 3 /* plus4 (fake pal emu not possible here) */
-
 struct cap_render_s {
     unsigned int sizex;
     unsigned int sizey;
@@ -170,7 +163,8 @@ typedef struct video_chip_cap_s video_chip_cap_t;
 
 struct raster_s;
 
-extern int video_resources_init(int mode);
+extern int video_resources_init(void);
+extern int video_resources_pal_init(void);
 extern int video_resources_chip_init(const char *chipname,
                                      struct video_canvas_s **canvas,
                                      video_chip_cap_t *video_chip_cap);
