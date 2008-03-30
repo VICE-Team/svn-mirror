@@ -47,6 +47,7 @@ rm `find BeVICE-$2.$BEOSCPU -name "Makefile*"`
 rm `find BeVICE-$2.$BEOSCPU -name "amiga_*.vkm"`
 rm `find BeVICE-$2.$BEOSCPU -name "dos_*.vkm"`
 rm `find BeVICE-$2.$BEOSCPU -name "os2*.vkm"`
+rm `find BeVICE-$2.$BEOSCPU -name "osx*.vkm"`
 rm `find BeVICE-$2.$BEOSCPU -name "win_*.vkm"`
 rm `find BeVICE-$2.$BEOSCPU -name "x11_*.vkm"`
 rm BeVICE-$2.$BEOSCPU/html/texi2html

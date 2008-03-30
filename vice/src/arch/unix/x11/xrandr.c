@@ -140,16 +140,24 @@ xrandr_menu_create(struct ui_menu_entry_s *menu)
     if (no_xrandr)
 	return;
     
-    resolutions_submenu = 
-	(ui_menu_entry_t *)lib_calloc((size_t)(screen_info.n_all_modes),
-				      sizeof(ui_menu_entry_t));
-    
-    for (i = 0; i < screen_info.n_all_modes; i++)
+    if (!resolutions_submenu) 
     {
-        resolutions_submenu[i].string = screen_info.all_modes[i].mode_string;
-        resolutions_submenu[i].callback = (ui_callback_t)menu_callback;
-        resolutions_submenu[i].callback_data = (ui_callback_data_t)i;
-    }
+	resolutions_submenu = 
+	    (ui_menu_entry_t *)lib_calloc((size_t)(screen_info.n_all_modes+1),
+					  sizeof(ui_menu_entry_t));
+	
+	for (i = 0; i < screen_info.n_all_modes; i++)
+	{
+	    resolutions_submenu[i].string = 
+		screen_info.all_modes[i].mode_string;
+	    resolutions_submenu[i].callback = (ui_callback_t)menu_callback;
+	    resolutions_submenu[i].callback_data = (ui_callback_data_t)i;
+	}
+	
+	/* finalize menu */
+	memset(&(resolutions_submenu[screen_info.n_all_modes]), 0, 
+	       sizeof(ui_menu_entry_t));
+    } /* resuse menu for second resolution menu e.g. VDC in x128 */
 
     for (i = 0; menu[i].string; i++) 
     {
@@ -179,12 +187,17 @@ xrandr_menu_shutdown(struct ui_menu_entry_s *menu)
 {
     int i;
     
+    xrandr_shutdown();		/* early shutdown, otherwhise 
+				   screen_info.all_modes[0] is freed  */
     if (resolutions_submenu)
+    {
 	lib_free(resolutions_submenu);
-    for (i = 0; i < screen_info.n_all_modes; i++)
-	lib_free(screen_info.all_modes[i].mode_string);
-    if (screen_info.n_all_modes)
-	lib_free(screen_info.all_modes);
+	resolutions_submenu = NULL;
+	for (i = 0; i < screen_info.n_all_modes; i++)
+	    lib_free(screen_info.all_modes[i].mode_string);
+	if (screen_info.n_all_modes)
+	    lib_free(screen_info.all_modes);
+    }
 }
 
 /* ---------------------------------------------------------------------*/

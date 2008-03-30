@@ -16,7 +16,7 @@ fix_data_dir()
   datafiles=`find $1 -name "Makefile*" -or -name "amiga_*.vkm,ffd" -or \
              -name "dos_*.vkm,ffd" -or -name "os2*.vkm,ffd" -or \
              -name "beos_*.vkm,ffd" -or -name "x11_*.vkm,ffd" -or \
-             -name "win*.vkm,ffd"`
+             -name "win*.vkm,ffd" -or -name "osx*.vkm,ffd"`
   for i in $datafiles
   do
     if [ -e $i ]

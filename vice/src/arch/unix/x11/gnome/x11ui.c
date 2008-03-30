@@ -255,7 +255,6 @@ static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean exposure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer p);
 static gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
 					 gpointer p);
-static gboolean size_allocate(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, 
 				  gpointer data);
 static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
@@ -716,8 +715,6 @@ int ui_init_finalize(void)
 
 static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 {
-    GtkRequisition req;
-    
     if (!w || !GTK_IS_TOGGLE_BUTTON(w))
 	return;
 
@@ -725,26 +722,11 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 	gtk_widget_show(pal_ctrl_widget);
     else
 	gtk_widget_hide(pal_ctrl_widget);
-
-    
-/*     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req); */
-/*     gdk_window_resize(gdk_window_get_toplevel(w->window),  */
-/* 		      req.width, req.height); */
-/*     gdk_flush(); */
 }
 
 static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
 {
-    GtkRequisition req;
-
     gtk_widget_hide(video_ctrl_checkbox);
-/*
-    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-    gdk_window_resize(gdk_window_get_toplevel(w->window), 
-		      req.width, req.height);
-    gdk_flush();
-XXX
-*/
     screenshot_stop_recording();
 }
 
@@ -1157,21 +1139,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 			  GDK_STRUCTURE_MASK |
 			  GDK_EXPOSURE_MASK);
 
-#ifdef MACOSX_SUPPORT
-    {
-	GtkWidget *new_pane2;
-	
-	/* embed canvas in horizontal box - otherwise width setup fails on Mac GTK+
-	   Mac GTK+ also requires a packing of expand=true but fill=false 
-	   in both of the following packs - otherwise size collapses to one (cv) */
-	new_pane2 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(new_pane),new_pane2,TRUE,FALSE,0);
-	gtk_widget_show(new_pane2);
-	gtk_box_pack_start(GTK_BOX(new_pane2),new_canvas,TRUE,FALSE,0);
-    }
-#else
     gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
-#endif
     gtk_widget_show(new_canvas);
 
     /* XVideo must be refreshed when the application window is moved. */
@@ -1187,17 +1155,15 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
     if (!vsid_mode)
     {
-	g_signal_connect(G_OBJECT(new_canvas),"size-allocate",
-		     G_CALLBACK(size_allocate),
-			 (gpointer) c);
 	x11ui_resize_canvas_window(new_canvas, width, height, c->videoconfig->hwscale);
     }
     
-    if (c->videoconfig->hwscale) {
+    if (c->videoconfig->hwscale && !vsid_mode) {
         gint window_width, window_height;
         resources_get_int("WindowWidth", &window_width);
         resources_get_int("WindowHeight", &window_height);
-        gtk_window_resize(new_window, window_width, window_height);
+        gtk_window_resize(GTK_WINDOW(new_window->window), window_width, 
+			  window_height);
     }
     gtk_widget_show(new_canvas);
 
@@ -1667,7 +1633,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
 void ui_set_tape_status(int tape_status)
 {
     static int ts;
-    int i, w, h;
+    int i;
 
     if (ts == tape_status)
 	return;
@@ -1819,38 +1785,18 @@ void ui_display_tape_current_image(const char *image)
 /* ------------------------------------------------------------------------- */
 void ui_display_recording(int recording_status)
 {
-    GtkRequisition req;
     if (recording_status)
 	gtk_widget_show(event_rec_checkbox);
     else
 	gtk_widget_hide(event_rec_checkbox);
-/*
-    gtk_widget_size_request(gtk_widget_get_toplevel(event_rec_checkbox), &req);
-    gdk_window_resize(gdk_window_get_toplevel(event_rec_checkbox->window), 
-		      req.width, req.height);
-    gdk_flush();
-XXX
-*/
-
-
 }
 
 void ui_display_playback(int playback_status, char *version)
 {
-    GtkRequisition req;
     if (playback_status)
 	gtk_widget_show(event_playback_checkbox);
     else
 	gtk_widget_hide(event_playback_checkbox);
-/*
-    gtk_widget_size_request(gtk_widget_get_toplevel(event_playback_checkbox), 
-			    &req);
-    gdk_window_resize(gdk_window_get_toplevel(event_playback_checkbox->window),
-		      req.width, req.height);
-    gdk_flush();
-XXX
-*/
-
 }
 
 /* Display a message in the title bar indicating that the emulation is
@@ -2909,25 +2855,6 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e,
     
     if (canvas) 
         video_canvas_refresh_all(canvas);
-    
-    return 0;
-}
-
-static gboolean 
-size_allocate(GtkWidget *w, GdkEvent *e, gpointer client_data)
-{
-    video_canvas_t *canvas = (video_canvas_t *)client_data;
-    int x, y;
-
-    if (!canvas || 
-	(canvas->videoconfig->hwscale && 
-	 (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1 || 
-	  canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)))
-	return 0;
-    
-    gdk_flush();
-    gdk_drawable_get_size(w->window, &x, &y);
-    video_canvas_redraw_size(canvas, x, y);
     
     return 0;
 }

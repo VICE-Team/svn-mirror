@@ -1443,14 +1443,20 @@ void ui_dispatch_events(void)
 #endif
 }
 
-/* Fixme: unfortunately the following function doesn't work :(
-   Don't know why! Any help is appreciated - send suggestions to
-   `pottendo@utanet.at' */
 void x11ui_fullscreen(int i)
 {
     static Atom _net_wm_state = -1;
     static Atom _net_wm_state_fullscreen = -1;
     XEvent xev;
+    int mode;
+    
+    if (strcmp(machine_name, "C128") == 0)
+    {
+	/* mode == 1 -> VICII, mode == 0 VDC */
+	resources_get_int("40/80ColumnKey", &mode); 
+    }
+    else
+	mode = 0;
     
     if (_net_wm_state == -1)
     {
@@ -1459,7 +1465,7 @@ void x11ui_fullscreen(int i)
     }
     memset(&xev, 0, sizeof(xev));
     xev.xclient.type = ClientMessage;
-    xev.xclient.window = XtWindow(_ui_top_level);
+    xev.xclient.window = XtWindow(app_shells[mode].shell); /* hardwired use of resource `40/80ColumnKey' */
     xev.xclient.message_type = _net_wm_state;
     xev.xclient.format = 32;
     xev.xclient.data.l[0] = i;

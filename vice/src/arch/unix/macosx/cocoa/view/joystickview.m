@@ -36,6 +36,8 @@
             forKey:NSFontAttributeName];
         joyValue = 0;
     }
+    
+    return self;
 }
  
 - (void)dealloc

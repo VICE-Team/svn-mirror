@@ -51,8 +51,9 @@ static int mult = 1;
 #endif
 
 static log_t openGL_log = LOG_ERR;
-static int no_sync = 0;
-static int openGL_sync;
+static int no_sync = 0;		/* extension available */
+static int openGL_sync;		/* enabled/disable synchronization */
+static int openGL_initialized;
 static GLXContext cx = (GLXContext) NULL;     
 
 static int set_openGL_sync(int val, void *param);
@@ -74,6 +75,12 @@ openGL_available(int v)
     return !no_sync;
 }
 
+void
+openGL_register_resources(void)
+{
+    resources_register_int(resources_openGL_sync_int);
+}
+
 void 
 openGL_sync_init(void)
 {
@@ -81,8 +88,8 @@ openGL_sync_init(void)
     
     if (openGL_log == LOG_ERR)
 	openGL_log = log_open("openGL");
-
-    resources_register_int(resources_openGL_sync_int);
+    else
+	return;			/* we've been initializied already */
 
     dpy = x11ui_get_display_ptr();
 
@@ -110,7 +117,10 @@ openGL_sync_shutdown(void)
     if (openGL_sync)
 	set_openGL_sync(0, NULL);
     if (cx)
+    {
 	glXDestroyContext(x11ui_get_display_ptr(), cx);
+	cx = NULL;
+    }
 }
 
 void 
@@ -144,6 +154,7 @@ init_openGL(void)
 	return;
     }
     glXMakeCurrent(dpy, x11ui_get_X11_window(), cx);
+    openGL_initialized = 1;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -186,7 +197,7 @@ set_openGL_sync(int val, void *param)
 	return 0;
 
     openGL_sync = val;
-    if (openGL_sync)
+    if (openGL_sync && openGL_initialized)
 	init_openGL();
 
     log_message(openGL_log, "%s openGL_sync", 

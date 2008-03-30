@@ -78,7 +78,7 @@ struct cap_render_s {
 };
 typedef struct cap_render_s cap_render_t;
 
-#define FULLSCREEN_MAXDEV 3
+#define FULLSCREEN_MAXDEV 4
 
 struct cap_fullscreen_s {
     unsigned int device_num;

@@ -36,6 +36,8 @@
             forKey:NSFontAttributeName];
         keyCode = 0;
     }
+    
+    return self;
 }
  
 - (void)dealloc

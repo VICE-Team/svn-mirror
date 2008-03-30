@@ -271,7 +271,7 @@ fix_ref () {
   local exe="$1"
   local base="`basename \"$exe\"`"
   local LIBS=`otool -L "$exe" | grep .dylib | grep -v /usr/lib | awk '{ print $1 }'`
-  echo -n "  fixing lib references in '$base'"
+  echo -n "  fixing lib ref in '$1'"
   for lib in $LIBS ; do
     baselib="`basename \"$lib\"`"
     newlib="@executable_path/$baselib"
@@ -305,6 +305,32 @@ else
   copy_dylib ppc
 fi
 
+APPS="c1541 cartconv petcat x128 x64 xcbm2 xpet xplus4 xvic"
+
+# ----- Fixin Lib Refs -----
+if [ "$UI_TYPE" = "cocoa" ]; then
+  echo "----- Fixing Library References -----"
+  # in all apps
+  for app in $APPS ; do
+    if [ "$ARCH" = "ub" ]; then
+      fix_ref "$BUILD_DIR/i386/src/$app"
+      fix_ref "$BUILD_DIR/ppc/src/$app"
+    else
+      fix_ref "$BUILD_DIR/$ARCH/src/$app"
+    fi
+  done
+  # and all libs
+  for lib in $EXTLIB ; do
+    LIBNAME="`basename \"$lib\"`"
+    if [ "$ARCH" = "ub" ]; then
+      fix_ref "$BUILD_DIR/i386/lib/$LIBNAME"
+      fix_ref "$BUILD_DIR/ppc/lib/$LIBNAME"
+    else
+      fix_ref "$BUILD_DIR/$ARCH/lib/$LIBNAME"
+    fi
+  done
+fi
+
 # ----- Create Universal Binary -----
 if [ "$ARCH" = "ub" ]; then
   echo "----- Combining Binaries into Universal Binaries -----"
@@ -312,16 +338,10 @@ if [ "$ARCH" = "ub" ]; then
   if [ -f "$BUILD_DIR/ub/src/x64" ]; then
     echo "  hmm... Already combined?! skipping..."
   else
-    APPS="c1541 cartconv petcat x128 x64 xcbm2 xpet xplus4 xvic"
     for app in $APPS ; do
       echo "  combining '$app'"
       lipo -create -output "$BUILD_DIR/ub/src/$app" \
         "$BUILD_DIR/ppc/src/$app" "$BUILD_DIR/i386/src/$app"
-        
-      # adjust lib references
-      if [ "$UI_TYPE" = "cocoa" ]; then
-        fix_ref "$BUILD_DIR/ub/src/$app"
-      fi
     done
     if [ ! -f "$BUILD_DIR/ub/src/x64" ]; then
       echo "FATAL: no universal x64 found!"
@@ -337,11 +357,6 @@ if [ "$ARCH" = "ub" ]; then
       echo "  combining dylib '$LIBNAME'"
       lipo -create -output "$BUILD_DIR/ub/lib/$LIBNAME" \
         "$BUILD_DIR/ppc/lib/$LIBNAME" "$BUILD_DIR/i386/lib/$LIBNAME"
-        
-      # adjust lib references
-      if [ "$UI_TYPE" = "cocoa" ]; then
-        fix_ref "$BUILD_DIR/ub/lib/$LIBNAME"
-      fi
     else
       echo "  already combined dylib '$LIBNAME'"
     fi

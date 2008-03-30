@@ -37,6 +37,7 @@ cp $5/doc/cartconv.txt dosvice
 rm `find dosvice -name "Makefile*"`
 rm `find dosvice -name "amiga_*.vkm"`
 rm `find dosvice -name "os2*.vkm"`
+rm `find dosvice -name "osx*.vkm"`
 rm `find dosvice -name "beos_*.vkm"`
 rm `find dosvice -name "win_*.vkm"`
 rm `find dosvice -name "x11_*.vkm"`

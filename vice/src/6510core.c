@@ -1769,6 +1769,15 @@ static const BYTE rewind_fetch_tab[] = {
 
     {
         opcode_t opcode;
+#ifdef DEBUG
+        CLOCK debug_clk;
+#ifdef DRIVE_CPU
+        debug_clk = CLK;
+#else
+        debug_clk = maincpu_clk;
+#endif
+#endif
+
         FETCH_OPCODE(opcode);
 
 #ifdef DEBUG
@@ -1778,7 +1787,7 @@ static const BYTE rewind_fetch_tab[] = {
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);
 
-            debug_drive((DWORD)(reg_pc), CLK,
+            debug_drive((DWORD)(reg_pc), debug_clk,
                         mon_disassemble_to_string(e_disk8_space, reg_pc, op,
                         lo, hi, (BYTE)0, 1, "6502"), 
                         reg_a, reg_x, reg_y, reg_sp);
@@ -1789,7 +1798,7 @@ static const BYTE rewind_fetch_tab[] = {
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);
 
-            debug_maincpu((DWORD)(reg_pc), maincpu_clk,
+            debug_maincpu((DWORD)(reg_pc), debug_clk,
                           mon_disassemble_to_string(e_comp_space, reg_pc, op,
                           lo, hi, (BYTE)0, 1, "6502"),
                           reg_a, reg_x, reg_y, reg_sp);

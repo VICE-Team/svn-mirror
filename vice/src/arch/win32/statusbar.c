@@ -208,8 +208,8 @@ void statusbar_create_brushes(void)
     b_yellow = CreateSolidBrush(0xffff);
     b_grey = CreateSolidBrush(0x808080);
 
-    col = 0;
     for (i = 0; i < 2; i++) {
+        col = 0;
         switch (i) {
           case 0:
             coladd = 0x01; /* red */

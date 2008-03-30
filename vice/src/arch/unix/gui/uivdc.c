@@ -76,6 +76,9 @@ UI_MENU_DEFINE_RADIO(VDCDGA1FullscreenMode);
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(VDCDGA2FullscreenMode);
 #endif
+#ifdef HAVE_XRANDR
+UI_MENU_DEFINE_RADIO(VDCXRANDRFullscreenMode)
+#endif
 
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
@@ -89,6 +92,10 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_DGA2_EXTENSIONS
     { "*DGA2", (ui_callback_t)radio_VDCFullscreenDevice,
       (ui_callback_data_t)"DGA2", NULL },
+#endif
+#ifdef HAVE_XRANDR
+    { "*XRandR", (ui_callback_t)radio_VDCFullscreenDevice,
+      (ui_callback_data_t)"XRANDR", NULL },
 #endif
     { NULL }
 };
@@ -128,6 +135,12 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("DGA2 Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
 #endif
+#ifdef HAVE_XRANDR
+    /* Translators: `XRandR' must remain in the beginning of the translation:
+       e.g. German: "XRandR Aufloesungen" */
+    { N_("XRandR Resolutions"),
+      (ui_callback_t)NULL, NULL, NULL },
+#endif
     { "--" },
 #endif
     { N_("*64KB display memory"),
@@ -154,6 +167,10 @@ void uivdc_menu_create(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_callback("DGA2",
                              (void *)radio_VDCDGA2FullscreenMode);
+#endif
+#ifdef HAVE_XRANDR
+    fullscreen_mode_callback("XRANDR",
+                             (void *)radio_VDCXRANDRFullscreenMode);
 #endif
     fullscreen_menu_create(vdc_submenu);
 #endif

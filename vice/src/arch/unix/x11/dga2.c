@@ -496,7 +496,7 @@ static int dga2_init_internal(void)
         }
 
     }
-    if (fs_vidmodecount == 0)
+    if ((fs_vidmodecount == 0) || (fs_bestmode_counter == 0))
         return 0;
     dga2_is_available = 1;
 

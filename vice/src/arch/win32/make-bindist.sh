@@ -37,6 +37,7 @@ rm `find WinVICE-$2 -name "Makefile*"`
 rm `find WinVICE-$2 -name "amiga_*.vkm"`
 rm `find WinVICE-$2 -name "dos_*.vkm"`
 rm `find WinVICE-$2 -name "os2*.vkm"`
+rm `find WinVICE-$2 -name "osx*.vkm"`
 rm `find WinVICE-$2 -name "beos_*.vkm"`
 rm `find WinVICE-$2 -name "x11_*.vkm"`
 rm `find WinVICE-$2 -name "RO*.vkm"`

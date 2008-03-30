@@ -174,6 +174,9 @@ static const resource_int_t resources_int[] = {
 
 int video_arch_resources_init(void)
 {
+#ifdef HAVE_OPENGL_SYNC
+    openGL_register_resources();
+#endif
     if (resources_register_string(resources_string) < 0)
         return -1;
 

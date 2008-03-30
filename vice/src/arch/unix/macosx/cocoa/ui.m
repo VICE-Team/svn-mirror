@@ -85,8 +85,7 @@ void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int pwm2
 void ui_display_drive_current_image(unsigned int drive_number,
                                     const char *image)
 {
-    NSString *string = [NSString stringWithCString:image
-                                          encoding:[NSString defaultCStringEncoding]];
+    NSString *string = [NSString stringWithCString:image];
     [[theVICEMachine machineNotifier] postDisplayDriveImageNotification:drive_number
                                                    image:string];
 }
@@ -100,8 +99,7 @@ void ui_set_tape_status(int status)
 
 void ui_display_tape_current_image(const char *image)
 {
-    NSString *string = [NSString stringWithCString:image
-                                          encoding:[NSString defaultCStringEncoding]];
+    NSString *string = [NSString stringWithCString:image];
     [[theVICEMachine machineNotifier] postDisplayTapeImageNotification:string];
 }
 
@@ -138,8 +136,7 @@ void ui_display_recording(int recording_status)
 
 void ui_display_playback(int playback_status, char *version)
 {
-    NSString *string = [NSString stringWithCString:version
-                                          encoding:[NSString defaultCStringEncoding]];
+    NSString *string = [NSString stringWithCString:version];
     [[theVICEMachine machineNotifier] postDisplayPlaybackNotification:(BOOL)playback_status
                                                version:string];
 }
