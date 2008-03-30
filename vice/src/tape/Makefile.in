@@ -269,9 +269,9 @@ tape-internal.o: tape-internal.c ../../src/vice.h ../../src/config.h \
 tape-snapshot.o: tape-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/datasette.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
-	t64.h ../../src/tap.h ../../src/tape.h ../../src/utils.h \
-	../../src/zfile.h
+	../../src/lib.h ../../src/log.h ../../src/resources.h \
+	../../src/snapshot.h t64.h ../../src/tap.h ../../src/tape.h \
+	../../src/utils.h ../../src/zfile.h
 tape.o: tape.c ../../src/vice.h ../../src/config.h ../../src/datasette.h \
 	../../src/arch/unix/types.h ../../src/lib.h ../../src/log.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
