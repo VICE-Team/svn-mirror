@@ -27,13 +27,21 @@
 #ifndef _CONSOLE_H
 #define _CONSOLE_H
 
-typedef int console_t;
+typedef struct console_s {
+    /* Console geometry.  */
+    unsigned int console_xres;
+    unsigned int console_yres;
 
-extern console_t console_open(const char *id);
-extern int console_close(console_t log);
+    /* It is allowed to leave the console open atfer control is given back
+       to the emulation.  */
+    int console_can_stay_open;
+} console_t;
 
-extern int console_out(console_t log, const char *format, ...);
-extern char *console_in(console_t log);
+extern console_t *console_open(const char *id);
+extern int console_close(console_t *log);
+
+extern int console_out(console_t *log, const char *format, ...);
+extern char *console_in(console_t *log);
 
 #endif
 
