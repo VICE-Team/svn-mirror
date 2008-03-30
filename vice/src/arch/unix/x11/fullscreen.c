@@ -28,9 +28,13 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "video.h"
+#include "videoarch.h"
+
 
 #ifdef USE_XF86_EXTENSIONS
 
@@ -56,6 +60,46 @@ int fullscreen_available(void)
     return 0;
 }
 
+void fullscreen_shutdown(void)
+{
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_shutdown();
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_shutdown();
+#endif
+}
+
+void fullscreen_suspend(int level)
+{
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_suspend(level);
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_suspend(level);
+#endif
+}
+
+void fullscreen_resume(void)
+{
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_resume();
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_resume();
+#endif
+}
+
+void fullscreen_set_mouse_timeout(void)
+{
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_set_mouse_timeout();
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_set_mouse_timeout();
+#endif
+}
+
 void fullscreen_mode_callback(const char *device, void *callback)
 {
 #ifdef USE_XF86_VIDMODE_EXT
@@ -74,7 +118,7 @@ void fullscreen_create_menus(struct ui_menu_entry_s menu[])
     vidmode_create_menus(menu);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    dga2_create_menus();
+    dga2_create_menus(menu);
 #endif
 }
 
@@ -91,16 +135,24 @@ int fullscreen_init(void)
     return 0;
 }
 
+
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
-    /*printf("FS EN%i\n",enable);*/
+#if 0
+    /* Duh, once this will vanish.  */
+    if (canvas == NULL || canvas->fullscreenconfig == NULL
+        || canvas->fullscreenconfig->device == NULL)
+        return 0;
+#endif
 #ifdef USE_XF86_VIDMODE_EXT
-    if (vidmode_enable(canvas, enable) < 0)
-        return -1;
+    if (1 || strcmp("Vidmode", canvas->fullscreenconfig->device) == 0)
+        if (vidmode_enable(canvas, enable) < 0)
+            return -1;
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    if (dga2_enable(canvas, enable) < 0)
-        return -1;
+    if (1 || strcmp("DGA2", canvas->fullscreenconfig->device) == 0)
+        if (dga2_enable(canvas, enable) < 0)
+            return -1;
 #endif
     return 0;
 }
@@ -108,27 +160,42 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 static int fullscreen_double_size(struct video_canvas_s *canvas,
                                   int double_size)
 {
-    /*printf("FS DSZ%i\n",double_size);*/
     return 0;
 }
 
 static int fullscreen_double_scan(struct video_canvas_s *canvas,
                                   int double_scan)
 {
-    /*printf("FS DSC%i\n",double_scan);*/
     return 0;
 }
 
 static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 {
-    /*printf("FS DEV %s\n",device);*/
+#if 0
+    /* Duh, once this will vanish.  */
+    if (canvas == NULL || canvas->fullscreenconfig == NULL)
+        return 0;
+#endif
+    while (1) {
+#ifdef USE_XF86_VIDMODE_EXT
+    if (strcmp("Vidmode", device) == 0)
+        break;
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    if (strcmp("DGA2", device) == 0)
+        break;
+#endif
+        return -1;
+    }
+#if 0
+    canvas->fullscreenconfig->device = device;
+#endif
     return 0;
 }
 
 #ifdef USE_XF86_VIDMODE_EXT
 static int fullscreen_mode_vidmode(struct video_canvas_s *canvas, int mode)
 {
-    /*printf("FS VM%i\n",mode);*/
     vidmode_mode(canvas, mode);
     return 0;
 }
@@ -137,7 +204,6 @@ static int fullscreen_mode_vidmode(struct video_canvas_s *canvas, int mode)
 #ifdef USE_XF86_DGA2_EXTENSIONS
 static int fullscreen_mode_dga2(struct video_canvas_s *canvas, int mode)
 {
-    /*printf("FS DM%i\n",mode);*/
     dga2_mode();
     return 0;
 }
