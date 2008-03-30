@@ -54,12 +54,12 @@ static void clk_overflow_callback1(CLOCK sub, void *data)
     clk_overflow_callback(1, sub, data);
 }
 
-static int int_fdc0(long offset)
+static int int_fdc0(CLOCK offset)
 {
     return int_fdc(0, offset);
 }
 
-static int int_fdc1(long offset)
+static int int_fdc1(CLOCK offset)
 {
     return int_fdc(1, offset);
 }
@@ -124,7 +124,7 @@ static BYTE fdc_do_job_(int fnum, int buf,
 #endif
     int rc, dnr;
     int i;
-    int track, sector;
+    unsigned int track, sector;
     BYTE *base;
     BYTE sector_data[256];
     BYTE disk_id[2];
@@ -416,7 +416,8 @@ static int int_fdc(int fnum, long offset)
 			fdc_do_job(fnum, 			/* FDC# */
 				i,				/* buffer# */
 				fdc[fnum].buffer[i+3] & 1,	/* drive */
-				fdc[fnum].buffer[i+3] & 0xfe,	/* job code */
+				(int)(fdc[fnum].buffer[i+3] & 0xfe),
+                                                                /* job code */
 				&(fdc[fnum].buffer[j]) 		/* header */
 			);
 	    }
@@ -551,7 +552,7 @@ int fdc_write_snapshot_module(snapshot_t *p, int fnum)
 	return 0;
     }
 
-    sprintf(name, "FDC%d", fnum);
+    sprintf(name, "FDC%i", fnum);
 
     m = snapshot_module_create(p, name,
                               FDC_DUMP_VER_MAJOR, FDC_DUMP_VER_MINOR);
@@ -561,14 +562,15 @@ int fdc_write_snapshot_module(snapshot_t *p, int fnum)
     snapshot_module_write_byte(m, fdc[fnum].fdc_state);
 
     /* clk till next invocation */
-    snapshot_module_write_dword(m, fdc[fnum].alarm_clk - drive_clk[fnum]);
+    snapshot_module_write_dword(m,
+                                (DWORD)(fdc[fnum].alarm_clk - drive_clk[fnum]));
 
     /* number of drives - so far 1 only */
     snapshot_module_write_byte(m, 1);
 
     /* last accessed track/sector */
-    snapshot_module_write_byte(m, fdc[fnum].last_track);
-    snapshot_module_write_byte(m, fdc[fnum].last_sector);
+    snapshot_module_write_byte(m, ((BYTE)(fdc[fnum].last_track)));
+    snapshot_module_write_byte(m, ((BYTE)(fdc[fnum].last_sector)));
 
     snapshot_module_close(m);
 

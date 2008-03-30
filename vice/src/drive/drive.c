@@ -88,7 +88,7 @@ static void drive_set_pal_sync_factor(void);
 static int set_drive0_idling_method(resource_value_t v);
 static int set_drive1_idling_method(resource_value_t v);
 static void drive_initialize_rom_traps(int dnr);
-static int drive_check_image_format(int format, int dnr);
+static int drive_check_image_format(unsigned int format, int dnr);
 static int set_drive0_type(resource_value_t v);
 static int set_drive1_type(resource_value_t v);
 
@@ -410,7 +410,7 @@ static int set_sync_factor(resource_value_t v)
       default:
         if ((int) v > 0) {
             sync_factor = (int) v;
-            drive_set_sync_factor((int) v);
+            drive_set_sync_factor((unsigned int) v);
         } else {
             return -1;
         }
@@ -684,7 +684,7 @@ static void drive_read_image_d64_d71(int dnr)
 {
     BYTE buffer[260], chksum;
     int rc, i;
-    int track, sector;
+    unsigned int track, sector;
 
     if (!drive[dnr].image)
         return;
@@ -753,7 +753,8 @@ static void drive_read_image_d64_d71(int dnr)
                 chksum ^= buffer[i];
             buffer[257] = (rc == 23) ? chksum ^ 0xff : chksum;
             convert_sector_to_GCR(buffer, ptr, track, sector,
-                                  drive[dnr].diskID1, drive[dnr].diskID2, rc);
+                                  drive[dnr].diskID1, drive[dnr].diskID2,
+                                  (BYTE)(rc));
         }
     }
 }
@@ -1342,7 +1343,7 @@ void drive_reset(void)
 
 /* ------------------------------------------------------------------------- */
 /* Check if the drive type matches the disk image type.  */
-static int drive_check_image_format(int format, int dnr)
+static int drive_check_image_format(unsigned int format, int dnr)
 {
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
@@ -1500,8 +1501,8 @@ static void initialize_rotation_table(int freq, int dnr)
             double bits = (double)j * (double)speed / 1000000.0;
 
             drive[dnr].rotation_table[i][j].bits = (unsigned long)bits;
-            drive[dnr].rotation_table[i][j].accum = ((bits -
-                                          (unsigned long)bits) * ACCUM_MAX);
+            drive[dnr].rotation_table[i][j].accum = (unsigned long)(((bits -
+                                          (unsigned long)bits) * ACCUM_MAX));
         }
     }
 }
@@ -1788,7 +1789,8 @@ void drive_move_head(int step, int dnr)
 }
 
 /* Hack... otherwise you get internal compiler errors when optimizing on gcc2.7.2 on RISC OS */
-static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, int sector)
+static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr,
+                                unsigned int track, unsigned int sector)
 {
     int rc;
 
@@ -1810,7 +1812,8 @@ static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, 
 
 void drive_GCR_data_writeback(int dnr)
 {
-    int extend, track, sector, max_sector = 0;
+    int extend;
+    unsigned int track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
 
     if (drive[dnr].image == NULL)
@@ -1982,8 +1985,9 @@ static void drive_set_sync_factor(unsigned int factor)
 static void drive_set_pal_sync_factor(void)
 {
     if (pal_cycles_per_sec != 0) {
-        int new_sync_factor = (int) floor(65536.0 * (1000000.0 /
-                                         ((double)pal_cycles_per_sec)));
+        unsigned int new_sync_factor = (unsigned int)
+                                       floor(65536.0 * (1000000.0 /
+                                       ((double)pal_cycles_per_sec)));
         drive_set_sync_factor(new_sync_factor);
     }
 }
@@ -1991,8 +1995,9 @@ static void drive_set_pal_sync_factor(void)
 static void drive_set_ntsc_sync_factor(void)
 {
     if (ntsc_cycles_per_sec != 0) {
-        int new_sync_factor = (int) floor(65536.0 * (1000000.0 /
-                                         ((double)ntsc_cycles_per_sec)));
+        unsigned int new_sync_factor = (unsigned int)
+                                       floor(65536.0 * (1000000.0 /
+                                       ((double)ntsc_cycles_per_sec)));
 
         drive_set_sync_factor(new_sync_factor);
     }
@@ -2917,7 +2922,8 @@ int reload_rom_1541(char *name) {
     char romsetnamebuffer[MAXPATHLEN];
     char *tmppath;
 
-    if(dos_rom_name_1541) free(dos_rom_name_1541);
+    if(dos_rom_name_1541)
+        free(dos_rom_name_1541);
     if(name == NULL) {
         dos_rom_name_1541 = default_dos_rom_name_1541;
         drive_load_rom_images();

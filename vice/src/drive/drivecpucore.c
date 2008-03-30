@@ -26,10 +26,26 @@
  *
  */
 
-#include "drive.h"
-#include "mem.h"
+#include "vice.h"
 
 #include <string.h>
+
+#include "6510core.h"
+#include "alarm.h"
+#include "ciad.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "fdc.h"
+#include "interrupt.h"
+#include "mem.h"
+#include "mon.h"
+#include "resources.h"
+#include "riotd.h"
+#include "snapshot.h"
+#include "types.h"
+#include "ui.h"
+#include "viad.h"
+#include "wd1770.h"
 
 /* Interrupt/alarm status.  */
 struct cpu_int_status mydrive_int_status;
@@ -705,7 +721,7 @@ static void drive_jam(void)
       break;
     }
 
-    tmp = ui_jam_dialog("%s CPU: JAM at $%04X  ", dname, reg_pc);
+    tmp = ui_jam_dialog("%s CPU: JAM at $%04X  ", dname, (int)reg_pc);
     switch (tmp) {
       case UI_JAM_RESET:
         reg_pc = 0xeaa0;
@@ -737,7 +753,8 @@ int mydrive_cpu_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, ((BYTE)(SNAP_MAJOR)),
+                               ((BYTE)(SNAP_MINOR)));
     if (m == NULL)
         return -1;
 
