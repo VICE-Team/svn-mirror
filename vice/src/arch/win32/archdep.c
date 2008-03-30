@@ -103,18 +103,87 @@ const char *archdep_program_name(void)
 
 static char *boot_path = NULL;
 
+static HANDLE   hkernel = NULL;
+static HANDLE   hpsapi = NULL;
+
+typedef HANDLE (WINAPI * _CreateToolhelp32Snapshot)(
+	DWORD dwFlags,       
+	DWORD th32ProcessID  
+);
+
+typedef BOOL (WINAPI * _Module32First)(
+	HANDLE hSnapshot,     
+	LPMODULEENTRY32 lpme
+);
+
+typedef BOOL (WINAPI * _EnumProcessModules)(
+	HANDLE hProcess,      // handle to process
+	HMODULE *lphModule,   // array of module handles
+	DWORD cb,             // size of array
+	LPDWORD lpcbNeeded    // number of bytes required
+);
+
+typedef DWORD (WINAPI * _GetModuleFileNameEx)(
+	HANDLE hProcess,    // handle to process
+	HMODULE hModule,    // handle to module
+	LPTSTR lpFilename,  // path buffer
+	DWORD nSize         // maximum characters to retrieve
+);
+
 const char *archdep_boot_path(void)
 {
 HANDLE          snap;
 MODULEENTRY32   ment;
+HANDLE          hproc;
+HMODULE         hmodule;
+int             cbneed;
+_CreateToolhelp32Snapshot   func_CreateToolhelp32Snapshot = NULL;
+_Module32First              func_Module32First  = NULL;
+_EnumProcessModules         func_EnumProcessModules = NULL;
+_GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
 
     if (boot_path == NULL) {
-        snap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
-        memset(&ment, 0, sizeof(MODULEENTRY32));
-        ment.dwSize = sizeof(MODULEENTRY32);
-        Module32First(snap,&ment);
-        util_fname_split(ment.szExePath, &boot_path, NULL);
-        CloseHandle(snap);
+        hkernel = LoadLibrary("kernel32.dll");
+        if (hkernel) {
+            OutputDebugString("DLL: kernel32.dll loaded");
+            OutputDebugString("DLL: getting address for CreateToolhelp32Snapshot");
+            func_CreateToolhelp32Snapshot = (_CreateToolhelp32Snapshot)GetProcAddress(hkernel, "CreateToolhelp32Snapshot");
+            if (func_CreateToolhelp32Snapshot) OutputDebugString("CreateToolhelp32Snaphshot success");
+            OutputDebugString("DLL: getting address for Module32First");
+            func_Module32First = (_Module32First)GetProcAddress(hkernel, "Module32First");
+            if (func_Module32First) OutputDebugString("Module32First success");
+        }
+        hpsapi = LoadLibrary("psapi.dll");
+        if (hpsapi) {
+            OutputDebugString("DLL: psapi.dll loaded");
+            OutputDebugString("DLL: getting address for EnumProcessModules");
+            func_EnumProcessModules = (_EnumProcessModules)GetProcAddress(hpsapi, "EnumProcessModules");
+            if (func_EnumProcessModules) OutputDebugString("EnumProcessModules success");
+            OutputDebugString("DLL: getting address for GetModuleFileNameEx");
+            func_GetModuleFileNameEx = (_GetModuleFileNameEx)GetProcAddress(hpsapi, "GetModuleFileNameExA");
+            if (func_GetModuleFileNameEx) OutputDebugString("GetModuleFileNameEx success");
+        }
+        if (func_EnumProcessModules) {
+            OutputDebugString("BOOT path NT method");
+            hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+            if (func_EnumProcessModules(hproc, &hmodule, sizeof(hmodule), &cbneed)) {
+                char    temp[MAX_PATH];
+                if (func_GetModuleFileNameEx(hproc, hmodule, temp, MAX_PATH)) {
+                    util_fname_split(temp, &boot_path, NULL);
+                }
+            }
+            CloseHandle(hproc);
+        } else {
+            OutputDebugString("BOOT path Win9x method");
+            snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+            memset(&ment, 0, sizeof(MODULEENTRY32));
+            ment.dwSize = sizeof(MODULEENTRY32);
+            func_Module32First(snap,&ment);
+            util_fname_split(ment.szExePath, &boot_path, NULL);
+            CloseHandle(snap);
+        }
+        OutputDebugString("boot path:");
+        OutputDebugString(boot_path);
 
         /* This should not happen, but you never know...  */
         if (boot_path == NULL)
