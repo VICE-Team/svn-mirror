@@ -2,7 +2,7 @@
  * ui.c - Windows user interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,8 +33,6 @@
 #include <commctrl.h>
 #endif
 
-#include "ui.h"
-
 #include "attach.h"
 #include "autostart.h"
 #include "archdep.h"
@@ -53,6 +51,7 @@
 #include "res.h"
 #include "resources.h"
 #include "tape.h"
+#include "ui.h"
 #include "uiattach.h"
 #include "uidrive.h"
 #include "uijoystick.h"
@@ -540,10 +539,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 }
 
 static ui_drive_enable_t    status_enabled;
-static int                  status_led[3];
-static int                  status_map[3];
-static double               status_track[3];
-static int                  status_unit[3];
+static int                  status_led[2];
+static int                  status_map[2];          //  Translate from window index -> drive index
+static int                  status_partindex[2];    //  Translate from drive index -> window index
+static double               status_track[2];
 static int                 *drive_active_led;
 
 static int                  tape_enabled = 0;
@@ -555,25 +554,25 @@ static int                  tape_control;
 static void SetStatusWindowParts(void)
 {
 int     number_of_parts;
+int     enabled_drives;
 RECT    rect;
 int     posx[4];
 int     width;
 int     i;
 
     number_of_parts=0;
+    enabled_drives=0;
 
     if (tape_enabled)
         number_of_parts++;
 
     if (status_enabled&UI_DRIVE_ENABLE_0) {
-        status_map[0]=number_of_parts;
-        status_unit[number_of_parts]=8;
-        number_of_parts++;
+        status_map[enabled_drives++]=0;
+        status_partindex[0]=number_of_parts++;
     }
     if (status_enabled&UI_DRIVE_ENABLE_1) {
-        status_map[1]=number_of_parts;
-        status_unit[number_of_parts]=9;
-        number_of_parts++;
+        status_map[enabled_drives++]=1;
+        status_partindex[1]=number_of_parts++;
     }
     GetWindowRect(status_hwnd,&rect);
     width=rect.right-rect.left;
@@ -605,15 +604,15 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
 void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
-    status_track[status_map[drivenum]]=track_number;
-    SendMessage(status_hwnd,SB_SETTEXT,(status_map[drivenum]+1)|SBT_OWNERDRAW,0);
+    status_track[drivenum]=track_number;
+    SendMessage(status_hwnd,SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
-    status_led[status_map[drivenum]]=status;
-    SendMessage(status_hwnd,SB_SETTEXT,(status_map[drivenum]+1)|SBT_OWNERDRAW,0);
+    status_led[drivenum]=status;
+    SendMessage(status_hwnd,SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
 }
 
 /* display current image */
@@ -1287,12 +1286,13 @@ int     window_index;
 
                 }
                 if (((DRAWITEMSTRUCT*)lparam)->itemID>tape_enabled?1:0) {
+                    int index=((DRAWITEMSTRUCT*)lparam)->itemID-(tape_enabled?2:1);
                     /* it's a disk */
                     led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
-                    sprintf(text,"%d: Track: %.1f",status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1],status_track[((DRAWITEMSTRUCT*)lparam)->itemID-1]);
+                    sprintf(text,"%d: Track: %.1f",status_map[index]+8,status_track[status_map[index]]);
                     SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
                     SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
                     DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
@@ -1301,7 +1301,7 @@ int     window_index;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? led_green : led_red ) : led_black);
+                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[status_map[index]] ? (drive_active_led[status_map[index]] ? led_green : led_red ) : led_black);
                 }
             }
             return 0;
