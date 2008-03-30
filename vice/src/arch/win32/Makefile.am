@@ -15,7 +15,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/cbm2 \
-	-I$(top_srcdir)/src/raster
+	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libarch.a
 
@@ -29,6 +30,7 @@ libarch_a_SOURCES = \
 	cbm2ui.h \
 	c64ui.c \
 	c64ui.h \
+	catweaselmkiii.c \
 	console.c \
 	dirent.c \
 	dirent.h \

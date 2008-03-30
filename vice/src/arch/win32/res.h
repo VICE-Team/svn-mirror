@@ -414,8 +414,10 @@
 #define IDM_EFUNCTIONROM_NAME           40208
 #define IDM_TOGGLE_FASTPAL              40209
 #define IDM_VIDEO_SETTINGS              40210
-#define IDM_PLUS4_SETTINGS		        40211
-#define IDM_RAM_SETTINGS		        40212
+#define IDM_PLUS4_SETTINGS              40211
+#define IDM_RAM_SETTINGS                40212
+#define IDM_SIDENGINE_FASTSID           40213
+#define IDM_SIDENGINE_CATWEASELMKIII    40214
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001
