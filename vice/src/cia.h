@@ -105,7 +105,7 @@ typedef struct cia_context_s {
     int irq_line;                 /* IK_IRQ */
     unsigned int int_num;
 
-    char myname[12];
+    char *myname;
 
     CLOCK *clk_ptr;
     int *rmw_flag;

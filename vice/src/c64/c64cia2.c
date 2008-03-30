@@ -39,6 +39,7 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "printer.h"
@@ -290,7 +291,7 @@ void cia2_setup_context(machine_context_t *machine_context)
 
     cia->debugFlag = 0;
     cia->irq_line = IK_NMI;
-    sprintf(cia->myname, "CIA2");
+    cia->myname = lib_msprintf("CIA2");
 
     cia->undump_ciapa = undump_ciapa;
     cia->undump_ciapb = undump_ciapb;

@@ -277,7 +277,7 @@ void riot2_setup_context(drive_context_t *ctxptr)
 
     riotcore_setup_context(riot);
 
-    sprintf(riot->myname, "RIOT2D%d", ctxptr->mynumber);
+    riot->myname = lib_msprintf("RIOT2D%d", ctxptr->mynumber);
 
     riot2p->drive_ptr = ctxptr->drive_ptr;
     riot2p->r_atn_active = 0;

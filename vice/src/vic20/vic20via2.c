@@ -34,6 +34,7 @@
 #include "drive.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
@@ -257,8 +258,8 @@ void vic20via2_setup_context(machine_context_t *machine_context)
     via->rmw_flag = &maincpu_rmw_flag;
     via->clk_ptr = &maincpu_clk;
 
-    sprintf(via->myname, "Via2");
-    sprintf(via->my_module_name, "VIA2");
+    via->myname = lib_msprintf("Via2");
+    via->my_module_name = lib_msprintf("VIA2");
 
     viacore_setup_context(via);
 

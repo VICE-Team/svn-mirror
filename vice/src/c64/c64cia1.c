@@ -34,6 +34,7 @@
 #include "c64cia.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "types.h"
@@ -220,7 +221,7 @@ void cia1_setup_context(machine_context_t *machine_context)
 
     cia->debugFlag = 0;
     cia->irq_line = IK_IRQ;
-    sprintf(cia->myname, "CIA1");
+    cia->myname = lib_msprintf("CIA1");
 
     cia->undump_ciapa = undump_ciapa;
     cia->undump_ciapb = undump_ciapb;

@@ -32,6 +32,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "types.h"
@@ -187,8 +188,8 @@ void vic20ieeevia2_setup_context(machine_context_t *machine_context)
     via->rmw_flag = &maincpu_rmw_flag;
     via->clk_ptr = &maincpu_clk;
 
-    sprintf(via->myname, "IeeeVia2");
-    sprintf(via->my_module_name, "IeeeVia2");
+    via->myname = lib_msprintf("IeeeVia2");
+    via->my_module_name = lib_msprintf("IeeeVia2");
 
     viacore_setup_context(via);
 

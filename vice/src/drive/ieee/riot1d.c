@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "drivetypes.h"
+#include "lib.h"
 #include "parallel.h"
 #include "riot.h"
 #include "riotd.h"
@@ -138,7 +139,7 @@ void riot1_setup_context(drive_context_t *ctxptr)
 
     riotcore_setup_context(riot);
 
-    sprintf(riot->myname, "RIOT1D%d", ctxptr->mynumber);
+    riot->myname = lib_msprintf("RIOT1D%d", ctxptr->mynumber);
 
     riot->undump_pra = undump_pra;
     riot->undump_prb = undump_prb;

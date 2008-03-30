@@ -350,13 +350,13 @@ void via1d1541_setup_context(drive_context_t *ctxptr)
     via->rmw_flag = &(ctxptr->cpu.rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
-    sprintf(via->myname, "1541Drive%dVia1", ctxptr->mynumber);
-    sprintf(via->my_module_name, "1541VIA1D%d", ctxptr->mynumber);
+    via->myname = lib_msprintf("1541Drive%dVia1", ctxptr->mynumber);
+    via->my_module_name = lib_msprintf("1541VIA1D%d", ctxptr->mynumber);
 
     viacore_setup_context(via);
 
-    sprintf(via->my_module_name_alt1, "VIA1D%d", ctxptr->mynumber);
-    sprintf(via->my_module_name_alt2, "VIA1D1541");
+    via->my_module_name_alt1 = lib_msprintf("VIA1D%d", ctxptr->mynumber);
+    via->my_module_name_alt2 = lib_msprintf("VIA1D1541");
 
     via->irq_line = IK_IRQ;
 

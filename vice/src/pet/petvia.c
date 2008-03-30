@@ -35,6 +35,7 @@
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
@@ -269,8 +270,8 @@ void petvia_setup_context(machine_context_t *machine_context)
     via->rmw_flag = &maincpu_rmw_flag;
     via->clk_ptr = &maincpu_clk;
 
-    sprintf(via->myname, "Via");
-    sprintf(via->my_module_name, "VIA");
+    via->myname = lib_msprintf("Via");
+    via->my_module_name = lib_msprintf("VIA");
 
     viacore_setup_context(via);
 

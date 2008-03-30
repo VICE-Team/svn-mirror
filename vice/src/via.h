@@ -103,19 +103,19 @@ typedef struct via_context_s {
     int cb2_state;
     struct alarm_s *t1_alarm;
     struct alarm_s *t2_alarm;
-    signed int log;               /* init to LOG_ERR */
+    signed int log;            /* init to LOG_ERR */
 
-    CLOCK read_clk;               /* init to 0 */
-    int read_offset;              /* init to 0 */
-    BYTE last_read;               /* init to 0 */
+    CLOCK read_clk;            /* init to 0 */
+    int read_offset;           /* init to 0 */
+    BYTE last_read;            /* init to 0 */
 
-    int irq_line;                 /* IK_... */
+    int irq_line;              /* IK_... */
     unsigned int int_num;
 
-    char myname[16];              /* init to "DriveXViaY" */
-    char my_module_name[12];      /* init to "VIAXDY" */
-    char my_module_name_alt1[12]; /* Legacy names. */
-    char my_module_name_alt2[12];
+    char *myname;              /* init to "DriveXViaY" */
+    char *my_module_name;      /* init to "VIAXDY" */
+    char *my_module_name_alt1; /* Legacy names. */
+    char *my_module_name_alt2;
 
     CLOCK *clk_ptr;
     int *rmw_flag;

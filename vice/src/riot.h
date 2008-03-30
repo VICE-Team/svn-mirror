@@ -60,7 +60,7 @@ typedef struct riot_context_s {
     int r_divider;
     int r_irqen;
 
-    char myname[12];
+    char *myname;
 
     CLOCK *clk_ptr;
     int *rmw_flag;

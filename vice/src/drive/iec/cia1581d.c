@@ -280,7 +280,7 @@ void cia1581_setup_context(drive_context_t *ctxptr)
 
     cia->debugFlag = 0;
     cia->irq_line = IK_IRQ;
-    sprintf(cia->myname, "CIA1581D%d", ctxptr->mynumber);
+    cia->myname = lib_msprintf("CIA1581D%d", ctxptr->mynumber);
 
     cia1581p->drive_ptr = ctxptr->drive_ptr;
     cia1581p->iec_info = ctxptr->c_iec_info;
