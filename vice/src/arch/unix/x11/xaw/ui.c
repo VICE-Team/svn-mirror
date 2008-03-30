@@ -99,11 +99,6 @@ int have_truecolor;
 /*static*/ int screen;
 static int depth = X_DISPLAY_DEPTH;
 
-#if 0
-static int n_allocated_pixels = 0;
-static unsigned long allocated_pixels[0x100];
-#endif
-
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
 extern log_t vsid_log;
@@ -583,7 +578,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
     int i;
 
     if (uicolor_alloc_colors(c, palette, pixel_return) == -1)
-	return NULL;
+        return NULL;
 
     /* colormap might have changed after ui_alloc_colors, so we set it again */
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
