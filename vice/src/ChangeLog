@@ -1,5 +1,28 @@
 1999-07-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.46.
+
+	* c128/c128mmu.c, c128/c128mmu.h: New files.
+
+	* c128/c128mem.c (mem_update_config, mem_set_ram_bank,
+	mem_set_ram_config): New functions.
+
+1999-07-12  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: added support for keymap definition files, made
+	keyboard handling more generic.
+
+	* arch/riscos/ui.c: display text in info.c
+
+	* arch/riscos/uimsgwin.*: new window for displaying long text.
+
+	* arch/riscos/vsidui.*: dummies for vsid.
+
+	* arch/riscos/Makefile.am: for a change I remembered to register
+	the new files ;-).
+
+1999-07-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.45.
 
 	* arch/unix/kbd.c, arch/unix/kbd.h: (kbd_parse_entry): Added
