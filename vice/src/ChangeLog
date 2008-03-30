@@ -1,4 +1,58 @@
+2000-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.3.6.
+
+2000-04-07  Markus Brenner  <markus@brenner.de>
+
+	* cartridge.h: Introduced new CRT type for C64GS cart, added
+	CARTRIDGE_OCEAN_HUGE type
+
+	* c64/c64cartridge.c: changes for huge Ocean and GS carts
+
+	* c64/c64cartmem.c: changes for huge Ocean and GS carts
+
+2000-04-05  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* ciacore.c (mycia_reset): CIA-TOD is stopped at startup
+
+2000-04-05  Nathan Huizinga  <nathan.huizinga@chess.nl>
+
+	* arch/unix/Makefile.am: uicartridge.h added.
+
+	* arch/unix/c64ui.c: Cartridge control sub-menu moved from
+	cartridge attach sub-menu to ui_cartridge_commands_menu. Save
+	expert cartridge image dialog added to cartridge control
+	sub-menu.
+
+	* arch/unix/uicartridge.h: new file.
+
+	* arch/unix/uicommands.c: META-F9 (Alt-F9) hotkey added for
+	soft-reset button.
+
+	* arch/unix/vsidui.c: META-F9 (Alt-F9) hotkey added for
+	soft-reset button.
+
+	* arch/unix/x11/xaw/Makefile.am: uicartridge.c added.
+
+	* arch/unix/x11/xaw/uicartridge.c: new file for save cartridge
+	image dialog.
+	
+	* c64/c64cartmem.c: Address decoding a little optimized. Also
+	cartridge_save_image function added to dump the expert
+	cartridge contents to a .crt file.
+
+	* c64/c64cartridge.c: Added expert cartridge .crt support. Also
+	replaced all hardcoded values by their equivalent defines from
+	cartridge.h for better maintainability of the code.
+
+	* c64/c64mem.c: Address decoding a little optimized.
+
+	* cartridge.h: extern cartridge_save_image function prototype
+	added.
+
 2000-04-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.3.5.
 
 	* raster/raster.c (update_sprite_collisions): Fixed
 	calculation of fake framebuffer line.
