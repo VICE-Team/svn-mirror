@@ -534,7 +534,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         }
         break;
       case IDM_DETACH_TAPE:
-        serial_remove(1);
+        tape_detach_image();
         break;
       case IDM_AUTOSTART:
         {
