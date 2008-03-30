@@ -73,7 +73,11 @@ extern store_func_ptr_t _mem_write_tab[];
     z80_mainloop(&CPU_INT_STATUS, &ALARM_CONTEXT)
 
 #define DMA_ON_RESET \
-    maincpu_trigger_dma()
+                EXPORT_REGISTERS();                                      \
+                DMA_FUNC;                                                \
+                ack_dma(&CPU_INT_STATUS);                                \
+                IMPORT_REGISTERS();                                      \
+                JUMP(LOAD_ADDR(0xfffc));
 
 #include "../maincpu.c"
 
