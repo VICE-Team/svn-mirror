@@ -1,3 +1,51 @@
+2001-03-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.11.
+
+2001-03-24  Andre Fachat  <a.fachat@gmx.net>
+
+	* drive/fdc.c (fdc_do_job): do not abort $d0 command (execute
+	buffer) when no disk is present. Add handling for the "UJ"
+	command - reset drive - where $d0 fdc cmd is used. Not sure
+	how close 2040 emulation is to the original, though. The
+	others work.
+	
+2001-03-24  Andre Fachat  <a.fachat@gmx.net>
+
+	* arch/unix/x11/xaw/uiedisk.c (save_callback,
+	build_emptydisk_dialog): fixup d67 support
+
+	* drive/fdc.c (fdc_do_format_D20, fdc_do_format_D40,
+	fdc_do_format_D80): new functions to handle formatting
+	2040/[34]040/8x50 disks resp.
+	(fdc_do_job): fix debug info, move formatting code to external 
+	functions. Fix 2040 formatting
+
+	* vdrive/vdrive-bam.c (vdrive_bam_create_empty_bam): fix
+	creation of emtpy 2040 disk image
+
+2001-03-18  Dag Lem  <resid@nimrod.no>
+
+	* vsync.c (set_relative_speed): Call sound_set_relative_speed.
+	Removed "too slow" warning for "no limit" speed.
+
+	* arch/msdos/vsync.c (set_relative_speed): Call
+	sound_set_relative_speed.
+
+	* arch/riscos/ui.c (set_speed_limit): Likewise.
+
+	* sound.c (initsid): Don't read speed from resource.
+	(sound_flush): Accept changing relative_speed. Definition of
+	empty buffer changed from "used <= fragsize" to "used <=
+	fragsize*2" - empty buffer was not always detected on
+	startup. Fill hardware buffer entirely for cycle_based sound
+	and SOUND_ADJUST_EXACT. Tune VICE timer according to current
+	buffer overflow, not according to the _largest_ buffer
+	overflow during a one second period.
+	(sound_set_relative_speed): New function.
+
+	* sound.h (sound_set_relative_speed): New function.
+
 2001-03-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.10.

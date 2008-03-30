@@ -551,11 +551,6 @@ autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
 	snapshot.h tape.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h \
 	vdrive/vdrive-bam.h zfile.h
-c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
-	charsets.h diskimage.h arch/unix/types.h gcr.h info.h log.h \
-	p00.h serial.h snapshot.h t64.h utils.h vdrive/vdrive-bam.h \
-	vdrive/vdrive-command.h vdrive/vdrive-dir.h vdrive/vdrive-iec.h \
-	vdrive/vdrive.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h log.h \
 	arch/unix/types.h
 ciatimer.o: ciatimer.c vice.h config.h alarm.h arch/unix/types.h \
@@ -607,17 +602,12 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	kbdbuf.h keyboard.h machine.h maincpu.h arch/unix/main_exit.h \
 	palette.h sysfile.h screenshot.h tape.h utils.h vdrive/vdrive.h \
 	version.h video.h arch/unix/mouse.h
-maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
-	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
-	monitor/mon.h mos6510.h snapshot.h traps.h arch/unix/ui.h \
-	uiapi.h arch/unix/x11/xaw/uiarch.h vsync.h 6510core.c
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h
 parallel.o: parallel.c vice.h config.h cmdline.h resources.h \
 	drive/drive.h log.h arch/unix/types.h drive/drivecpu.h \
 	maincpu.h 6510core.h parallel.h serial.h
-petcat.o: petcat.c vice.h config.h charsets.h p00.h arch/unix/types.h
 prdevice.o: prdevice.c vice.h config.h charsets.h cmdline.h resources.h \
 	log.h prdevice.h print.h arch/unix/types.h serial.h utils.h \
 	vdrive/vdrive.h
@@ -629,9 +619,6 @@ resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h resources.h utils.h arch/unix/types.h
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	mem.h arch/unix/types.h resources.h romset.h sysfile.h utils.h
-rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
-	cmdline.h resources.h interrupt.h 6510core.h log.h maincpu.h \
-	rs232.h rsuser.h
 screenshot.o: screenshot.c vice.h config.h log.h machine.h palette.h \
 	arch/unix/types.h screenshot.h utils.h video.h \
 	arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
@@ -661,12 +648,6 @@ traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
 	parallel.h traps.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
-vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	resources.h log.h maincpu.h 6510core.h sound.h vsync.h \
-	vsyncarch.h
-zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
-	utils.h arch/unix/types.h zfile.h zipcode.h
-zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h
 
 info-am:
 info: info-recursive
