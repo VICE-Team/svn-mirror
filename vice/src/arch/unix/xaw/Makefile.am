@@ -9,7 +9,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet
+	-I$(top_srcdir)/src/pet \
+	@JOYSTICK@
 
 noinst_LIBRARIES = libxawui.a
 
