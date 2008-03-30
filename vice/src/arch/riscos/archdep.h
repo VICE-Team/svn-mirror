@@ -47,6 +47,9 @@ extern char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int   archdep_num_text_lines(void);
 extern int   archdep_num_text_columns(void);
 
+int archdep_default_logger(const char *level_string, const char *format,
+                                                                va_list ap);
+
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);

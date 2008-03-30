@@ -20,6 +20,8 @@ list of all the changes in the code.
 
 - ROM snapshots do not save ROMs with "traps" anymore
 
+- Drive memory can be loaded/saved in the monitor now.
+
 ** MS-DOS changes
 -----------------
 
@@ -39,6 +41,8 @@ list of all the changes in the code.
 
 - A new joystick driver that is compatible to both old and new Linux
   joystick API has been added.
+
+- Support for the 1351 mouse has been added.
 
 - The source can be compiled on IRIX using the native compiler now.
 
@@ -85,6 +89,7 @@ list of all the changes in the code.
 ----------------
 
 - New function to set the name of the disk.
+
 
 * Changes in VICE 0.16.1a
 =========================

@@ -316,7 +316,8 @@ static int check_emu_id(const char *buf)
 /* ------------------------------------------------------------------------- */
 
 /* Read one resource line from the file descriptor `f'.  Return 1 on success,
-   -1 on failure, 0 on EOF or end of emulator section.  */
+   -1 on parse/type error, -2 on unknown resource error, 0 on EOF or 
+   end of emulator section.  */
 int resources_read_item_from_file(FILE *f)
 {
     char buf[1024];
@@ -360,7 +361,7 @@ int resources_read_item_from_file(FILE *f)
         r = lookup(buf);
         if (r == NULL) {
             log_error(LOG_DEFAULT, "Unknown resource `%s'.", buf);
-            return -1;
+            return -2;
         }
 
         switch (r->type) {
@@ -431,6 +432,11 @@ int resources_load(const char *fname)
                       "%s: Invalid resource specification at line %d.",
                       fname, line_num);
 	    err = 1;
+        } else 
+        if (retval == -2) {
+            log_warning(LOG_DEFAULT,
+                      "%s: Unknown resource specification at line %d.",
+                      fname, line_num);
 	}
 	line_num++;
     } while (retval != 0);

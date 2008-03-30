@@ -156,3 +156,10 @@ int archdep_num_text_columns(void)
     gettextinfo(&text_mode_info);
     return text_mode_info.screenwidth;
 }
+ 
+int archdep_default_logger(const char *level_string, const char *format,
+                                                                va_list ap)
+{
+    return 0;
+}
+

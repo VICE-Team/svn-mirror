@@ -272,7 +272,7 @@ BYTE parallel_cable_drive_read(int handshake)
         & parallel_cable_drive1_value;
 }
 
-void parallel_cable_cpu_write(BYTE data, int handshake)
+void parallel_cable_cpu_write(BYTE data)
 {
     if (!drive[0].enable && !drive[1].enable)
         return;
@@ -281,10 +281,7 @@ void parallel_cable_cpu_write(BYTE data, int handshake)
 	drive0_cpu_execute();
     if (drive[1].enable)
 	drive1_cpu_execute();
-    if (handshake) {
-	via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-	via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    }
+
     parallel_cable_cpu_value = data;
 }
 
@@ -297,10 +294,22 @@ BYTE parallel_cable_cpu_read(void)
     drive0_cpu_execute();
     if (drive[1].enable)
     drive1_cpu_execute();
-    via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
+}
+
+void parallel_cable_cpu_pulse(void)
+{
+    if (!drive[0].enable && !drive[1].enable)
+        return;
+
+    if (drive[0].enable)
+	drive0_cpu_execute();
+    if (drive[1].enable)
+	drive1_cpu_execute();
+
+    via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
 }
 
 void parallel_cable_cpu_undump(BYTE data)

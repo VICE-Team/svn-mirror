@@ -28,6 +28,7 @@
 #define _ARCHDEP_H
 
 #include <stdio.h>
+#include <stdarg.h>
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR   "."
@@ -48,6 +49,8 @@ const char *archdep_home_path(void);
 const char *archdep_default_sysfile_pathlist(const char *emu_id);
 const char *archdep_default_resource_file_name(void);
 const char *archdep_default_save_resource_file_name(void);
+int archdep_default_logger(const char *level_string, const char *format, 
+								va_list ap);
 FILE *archdep_open_default_log_file(void);
 int archdep_num_text_lines(void);
 int archdep_num_text_columns(void);

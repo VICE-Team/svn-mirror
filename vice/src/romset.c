@@ -61,7 +61,13 @@ int romset_load(const char *filename) {
                       "%s: Invalid resource specification at line %d.",
                       filename, line_num);
             err = 1;
-        }
+        } else 
+        if (retval == -2) {
+            log_warning(LOG_DEFAULT,
+                      "%s: Unknown resource specification at line %d.",
+                      filename, line_num);
+        } 
+ 
         line_num++;
     } while (retval != 0);
     fclose(fp);

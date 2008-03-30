@@ -167,7 +167,7 @@ static inline void undump_ciapa(CLOCK rclk, BYTE byte)
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        parallel_cable_cpu_write(byte, 0 /* ((addr == CIA_PRB) ? 1 : 0) */ );
+        parallel_cable_cpu_write(byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
 #endif
@@ -175,7 +175,8 @@ static inline void store_ciapb(CLOCK rclk, BYTE byte)
 
 static inline void pulse_ciapc(CLOCK rclk) 
 { 
-    parallel_cable_cpu_write(oldpb, 1);
+    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+        parallel_cable_cpu_pulse();
 #ifdef HAVE_PRINTER
     pruser_write_data(oldpb);
 #endif

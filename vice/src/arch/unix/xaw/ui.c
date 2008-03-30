@@ -100,13 +100,13 @@ static log_t ui_log = LOG_ERR;
 Widget canvas, pane;
 
 Cursor blankCursor;
-static int timeout;
 static int cursor_is_blank = 0;
 
 #ifdef USE_VIDMODE_EXTENSION
-int vidmodeavail = 0;
-int use_fullscreen = 0;
-int use_fullscreen_at_start = 0;
+static int vidmodeavail = 0;
+static int use_fullscreen = 0;
+static int use_fullscreen_at_start = 0;
+static int timeout;
 
 int vidmodecount;
 XF86VidModeModeInfo **allmodes;
@@ -505,11 +505,15 @@ void ui_check_mouse_cursor()
 
 
   if(_mouse_enabled) {
+#ifdef USE_VIDMODE_EXTENSION
       if(use_fullscreen) { 
 	  if (resources_get_value("FullscreenDoubleSize",
 				  (resource_value_t *) &window_doublesize) < 0)
 	    return;
       } else {      
+#else
+      {
+#endif
           if (resources_get_value("DoubleSize",
 				  (resource_value_t *) &window_doublesize) < 0)
 	    return;
@@ -532,8 +536,10 @@ void ui_check_mouse_cursor()
       XUndefineCursor(display,XtWindow(canvas));
       XUngrabPointer(display, CurrentTime);
       XUngrabKeyboard(display, CurrentTime);
+#ifdef USE_VIDMODE_EXTENSION
       if(use_fullscreen)
 	ui_set_mouse_timeout();
+#endif
   }
 }
 

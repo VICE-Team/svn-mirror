@@ -45,5 +45,7 @@ const char *archdep_default_save_resource_file_name(void);
 FILE *archdep_open_default_log_file(void);
 int archdep_num_text_lines(void);
 int archdep_num_text_columns(void);
+int archdep_default_logger(const char *level_string, const char *format,
+                                                                va_list ap);
 
 #endif
