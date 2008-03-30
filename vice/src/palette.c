@@ -131,7 +131,7 @@ static int palette_load_core(FILE *f, const char *file_name,
 
         int line_len = util_get_line(buf, 1024, f);
 
-        if (line_len<0)
+        if (line_len < 0)
             break;
 
         line_num++;
