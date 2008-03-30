@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "ui.h"
+#include "uic128.h"
 #include "uidrivec64c128vic20.h"
 #include "uireu.h"
 #include "uisid.h"
@@ -83,75 +84,40 @@ static const ui_res_value_list c128_ui_res_values[] = {
 };
 
 static const ui_cartridge_params c128_ui_cartridges[] = {
-    {
-        IDM_CART_ATTACH_CRT,
-        CARTRIDGE_CRT,
+    {   IDM_CART_ATTACH_CRT, CARTRIDGE_CRT,
         "Attach CRT cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
-    },
-    {
-        IDM_CART_ATTACH_8KB,
-        CARTRIDGE_GENERIC_8KB,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT },
+    {   IDM_CART_ATTACH_8KB, CARTRIDGE_GENERIC_8KB,
         "Attach raw 8KB cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_16KB,
-        CARTRIDGE_GENERIC_16KB,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_16KB, CARTRIDGE_GENERIC_16KB,
         "Attach raw 16KB cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_AR,
-        CARTRIDGE_ACTION_REPLAY,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_AR, CARTRIDGE_ACTION_REPLAY,
         "Attach Action Replay cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_AT,
-        CARTRIDGE_ATOMIC_POWER,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_AT, CARTRIDGE_ATOMIC_POWER,
         "Attach Atomic Power cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_EPYX,
-        CARTRIDGE_EPYX_FASTLOAD,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_EPYX, CARTRIDGE_EPYX_FASTLOAD,
         "Attach Epyx fastload cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_IEEE488,
-        CARTRIDGE_IEEE488,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_IEEE488, CARTRIDGE_IEEE488,
         "Attach IEEE interface cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_RR,
-        CARTRIDGE_RETRO_REPLAY,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_RR, CARTRIDGE_RETRO_REPLAY,
         "Attach Retro Replay cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_IDE64,
-        CARTRIDGE_IDE64,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_IDE64, CARTRIDGE_IDE64,
         "Attach IDE64 interface cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_SS4,
-        CARTRIDGE_SUPER_SNAPSHOT,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_SS4, CARTRIDGE_SUPER_SNAPSHOT,
         "Attach Super Snapshot 4 cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        IDM_CART_ATTACH_SS5,
-        CARTRIDGE_SUPER_SNAPSHOT_V5,
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   IDM_CART_ATTACH_SS5, CARTRIDGE_SUPER_SNAPSHOT_V5,
         "Attach Super Snapshot 5 cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
-    },
-    {
-        0, 0, NULL, 0
-    }
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
+    {   0, 0, NULL, 0 }
 };
 
 static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
@@ -185,8 +151,6 @@ static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
 
 static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
-    char *s;
-
     switch (wparam) {
       case IDM_CART_ATTACH_CRT:
       case IDM_CART_ATTACH_8KB:
@@ -234,31 +198,8 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
         break;
-      case IDM_IFUNCTIONROM_NAME:
-        SuspendFullscreenMode(hwnd);
-        s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
-                           FILE_SELECTOR_DEFAULT_STYLE, NULL);
-        if (s != NULL) {
-            if (resources_set_value("InternalFunctionName",
-                (resource_value_t)s) <0) {
-                ui_error("Could not load function ROM image\n'%s'", s);
-            }
-            lib_free(s);
-        }
-        ResumeFullscreenMode(hwnd);
-        break;
-      case IDM_EFUNCTIONROM_NAME:
-        SuspendFullscreenMode(hwnd);
-        s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
-                           FILE_SELECTOR_DEFAULT_STYLE, NULL);
-        if (s != NULL) {
-            if (resources_set_value("ExternalFunctionName",
-                (resource_value_t)s) < 0) {
-                ui_error("Could not load function ROM image\n'%s'", s);
-            }
-            lib_free(s);
-        }
-        ResumeFullscreenMode(hwnd);
+      case IDM_C128_SETTINGS:
+        ui_c128_dialog(hwnd);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
