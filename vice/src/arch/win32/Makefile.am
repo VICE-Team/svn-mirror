@@ -13,6 +13,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/raster
 
@@ -47,12 +48,15 @@ libarch_a_SOURCES = \
 	petkbd.c \
 	petui.c \
 	petui.h \
+	plus4ui.c \
+	plus4ui.h \
 	res.h \
 	res.rc \
 	resc128.rc \
 	resc64.rc \
 	rescbm2.rc \
 	respet.rc \
+	resplus4.rc \
 	resvic.rc \
 	statusbar.c \
 	statusbar.h \
@@ -99,7 +103,7 @@ libarch_a_SOURCES = \
 	winmain.h
 
 libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o rescbm2.o respet.o resvic.o
+	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
 
 EXTRA_DIST = \
 	msvc/config.h \
@@ -145,6 +149,9 @@ rescbm2.o : rescbm2.rc res.rc res.h
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 respet.o : respet.rc res.rc res.h
+	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
+resplus4.o : resplus4.rc res.rc res.h
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 resvic.o : resvic.rc res.rc res.h
