@@ -32,8 +32,10 @@
 
 void raster_cache_init (raster_cache_t * cache)
 {
-  /* FIXME */
-  raster_sprite_cache_init (cache->sprites);
+  unsigned int i;
+
+  for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
+    raster_sprite_cache_init (&(cache->sprites[i]));
 
   cache->is_dirty = 1;
 }
