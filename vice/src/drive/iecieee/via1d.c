@@ -38,6 +38,7 @@
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "parallel.h"
 #include "rotation.h"
@@ -82,8 +83,8 @@
 #define via_read_offset (ctxptr->via1.read_offset)
 #define via_last_read   (ctxptr->via1.last_read)
 #define snap_module_name (ctxptr->via1.my_module_name)
-#define parieee_is_out  (ctxptr->via1p.v_parieee_is_out)
-#define iec_info        (ctxptr->via1p.v_iec_info)
+#define parieee_is_out  (((drivevia1_context_t *)(ctxptr->via1.prv))->v_parieee_is_out)
+#define iec_info        (((drivevia1_context_t *)(ctxptr->via1.prv))->v_iec_info)
 
 #define myvia_init      via1d_init
 #define myvia_int_num   (ctxptr->via1.int_num)
@@ -120,6 +121,13 @@
 
 void via1d_setup_context(drive_context_t *ctxptr)
 {
+    drivevia1_context_t *via1p;
+
+    ctxptr->via1.prv = lib_malloc(sizeof(drivevia1_context_t));
+
+    via1p = (drivevia1_context_t *)(ctxptr->via1.prv);
+    via1p->drive_ptr = ctxptr->drive_ptr;
+
     sprintf(ctxptr->via1.myname, "Drive%dVia1", ctxptr->mynumber);
     sprintf(ctxptr->via1.my_module_name, "VIA1D%d", ctxptr->mynumber);
     ctxptr->via1.read_clk = 0;
@@ -127,15 +135,15 @@ void via1d_setup_context(drive_context_t *ctxptr)
     ctxptr->via1.last_read = 0;
     ctxptr->via1.irq_line = IK_IRQ;
     ctxptr->via1.log = LOG_ERR;
-    ctxptr->via1p.v_parieee_is_out = 1;
+    via1p->v_parieee_is_out = 1;
     ctxptr->via1.int_num
         = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
                                        ctxptr->via1.myname);
 
     if (ctxptr->mynumber == 0) {
-      ctxptr->via1p.parallel_id = PARALLEL_DRV0;
+      via1p->parallel_id = PARALLEL_DRV0;
     } else {
-      ctxptr->via1p.parallel_id = PARALLEL_DRV1;
+      via1p->parallel_id = PARALLEL_DRV1;
     }
 }
 
@@ -355,12 +363,6 @@ inline static BYTE read_pra(drive_context_t *ctxptr, WORD addr)
             | (myvia[VIA_PRA] & myvia[VIA_DDRA]);
     }
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
-/*
-        if (parallel_debug) {
-            printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
-                   parieee_is_out, parallel_bus, myvia[VIA_DDRA]);
-        }
-*/
         byte = parieee_is_out ? 0xff : parallel_bus;
         return (byte & ~myvia[VIA_DDRA]) | (myvia[VIA_PRA] & myvia[VIA_DDRA]);
     }
@@ -402,28 +404,12 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
            }
            if (!parallel_atn)
                byte &= 0x7f;
-/*
-           if (parallel_debug) {
-               printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
-                      parieee_is_out, byte, myvia[VIA_PRB], myvia[VIA_DDRB]);
-           }
-*/
            byte = (byte & ~myvia[VIA_DDRB])
                   | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
            if (!ca2_state) {
                byte &= andval /* 0xff */;  /* byte & 3 + 8 -> device-no */
                byte &= 0xfd /* 0xff */;  /* device-no switche */
-/*
-               if (parallel_debug) {
-                   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
-               }
-*/
            }
-/*
-           if (parallel_debug) {
-               printf("       -> byte=%02x\n", byte);
-           }
-*/
         } else {
            byte = (((myvia[VIA_PRB] & 0x1a) | iec_drivex_read()) ^ 0x85)
                   | orval;

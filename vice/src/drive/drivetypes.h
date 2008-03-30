@@ -170,6 +170,8 @@ typedef struct drivevia_context_s {
     char myname[12];              /* init to "DriveXViaY" */
     char my_module_name[8];       /* init to "VIAXDY" */
 
+    void *prv;
+
 } drivevia_context_t;
 
 
@@ -196,6 +198,8 @@ typedef struct drivefunc_context_s {
  */
 
 typedef struct drivevia1_context_s {
+
+    struct drive_s *drive_ptr;
 
     int parallel_id;
 
@@ -338,7 +342,6 @@ typedef struct drive_context_s {
     drivecpu_context_t cpu;
     drivefunc_context_t func;
     drivevia_context_t via1;
-    drivevia1_context_t via1p;
     drivevia_context_t via2;
     drivecia_context_t cia1571;
     drivecia_context_t cia1581;
