@@ -348,7 +348,7 @@ void ui_select_file_action(BMessage *msg) {
         		ui_error("Cannot attach specified file");
 		} else if (last_filetype[0] == TAPE_FILE) {
 			/* it's a tape-attach */
-    		if (tape_attach_image(path->Path()) < 0)
+    		if (tape_image_attach(1, path->Path()) < 0)
         		ui_error("Cannot attach specified file");
 		} else if (last_filetype[0] == AUTOSTART_FILE) {
 			if (autostart_autodetect(path->Path(), NULL, 0, AUTOSTART_MODE_RUN) < 0)

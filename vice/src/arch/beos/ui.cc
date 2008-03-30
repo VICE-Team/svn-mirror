@@ -480,7 +480,7 @@ void ui_dispatch_events(void)
 				ui_select_file(filepanel,TAPE_FILE,(void*)1);
 				break;
 			case MENU_DETACH_TAPE:
-				tape_detach_image();
+				tape_image_detach(1);
 				break;
 			case MENU_FLIP_ADD:
 				flip_add_image(8);

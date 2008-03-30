@@ -1125,7 +1125,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         {
             char *s;
             int unit = 8;
-            char *autostart_filename = NULL;
+            int autostart_index = -1;
 
             SuspendFullscreenMode(hwnd);
             switch (wparam & 0xffff) {
@@ -1145,13 +1145,11 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             if ((s = ui_select_file(hwnd, "Attach disk image",
                 UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
                 FILE_SELECTOR_DISK_STYLE,
-                &autostart_filename)) != NULL) {
-                if (autostart_filename != NULL) {
-/* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
-                    if (autostart_autodetect(s, autostart_filename, 0,
+                &autostart_index)) != NULL) {
+                if (autostart_index >= 0) {
+                    if (autostart_autodetect(s, NULL, autostart_index,
                         AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
-                        free(autostart_filename);
                 } else {
                     if (file_system_attach_disk(unit, s) < 0)
                         ui_error("Cannot attach specified file");
@@ -1199,19 +1197,17 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_ATTACH_TAPE:
         {
             char *s;
-            char *autostart_filename = NULL;
+            int autostart_index = -1;
 
             SuspendFullscreenMode(hwnd);
             if ((s = ui_select_file(hwnd, "Attach tape image",
                 UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
                 FILE_SELECTOR_TAPE_STYLE,
-                &autostart_filename)) != NULL) {
-                if (autostart_filename != NULL) {
-/* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
-                    if (autostart_autodetect(s, autostart_filename, 0,
+                &autostart_index)) != NULL) {
+                if (autostart_index >= 0) {
+                    if (autostart_autodetect(s, NULL, autostart_index,
                         AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
-                        free(autostart_filename);
                 } else {
                     if (tape_image_attach(1, s) < 0)
                         ui_error("Cannot attach specified file");
@@ -1248,19 +1244,16 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_AUTOSTART:
         {
             char *s;
-            char *autostart_filename = NULL;
+            int autostart_index = 0;
 
             if ((s = ui_select_file(hwnd, "Autostart disk/tape image",
                 UI_LIB_FILTER_DISK | UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP
                 | UI_LIB_FILTER_ALL,
                 FILE_SELECTOR_DISK_AND_TAPE_STYLE,
-                &autostart_filename)) != NULL) {
-/* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
-                if (autostart_autodetect(s, autostart_filename, 0,
+                &autostart_index)) !=NULL) {
+                if (autostart_autodetect(s, NULL, autostart_index,
                     AUTOSTART_MODE_RUN) < 0)
                     ui_error("Cannot autostart specified file.");
-                if (autostart_filename != NULL)
-                    free(autostart_filename);
                 free(s);
             }
         }

@@ -599,10 +599,8 @@ inline static void store_d016(ADDRESS addr, BYTE value)
 
     if (xsmooth != (vic_ii.regs[addr] & 7)) {
         if (xsmooth < (vic_ii.regs[addr] & 7)) {
-            /* shift left: we need to care for std_text_mode */
-            /* the number of pixels to leave out has
-               to be set _before_ the change of xsmooth      */
-            raster_add_int_change_foreground(raster,
+            if (cycle < 56)
+                raster_add_int_change_foreground(raster,
                              VIC_II_RASTER_CHAR(cycle) - 2,
                              &raster->xsmooth_shift_left,
                              (vic_ii.regs[addr] & 7) - xsmooth);

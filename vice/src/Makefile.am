@@ -578,4 +578,6 @@ libvideo:
 	(cd video && $(MAKE))
 libmonitor:
 	(cd monitor && $(MAKE))
+libimagecontents:
+	(cd imagecontents && $(MAKE))
 

@@ -53,7 +53,7 @@
 #endif
 
 static char *(*read_content_func)(const char *);
-static char **autostart_result;
+static int *autostart_result;
 static char *(*get_filename_from_content)(char *, int);
 
 static struct { char *name; char *pattern; } uilib_filefilter[] = {
@@ -73,7 +73,6 @@ static struct { char *name; char *pattern; } uilib_filefilter[] = {
 
 typedef struct {
     char*           (*content_read_function)(const char *);
-    char*           (*get_filename_from_content)(char *, int);
     LPOFNHOOKPROC   hook_proc;
     int             TemplateID;
 } ui_file_selector_style_type;
@@ -85,25 +84,22 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
 char *read_disk_image_contents(const char *name);
 char *read_tape_image_contents(const char *name);
 char *read_disk_or_tape_image_contents(const char *name);
-static char *get_filename_from_disk(char *filename, int index);
-static char *get_filename_from_tape(char *filename, int index);
-static char *get_filename_from_disk_or_tape(char *filename, int index);
 
 static ui_file_selector_style_type styles[] = {
     /* FILE_SELECTOR_DEFAULT_STYLE */
-    { NULL, NULL,
+    { NULL,
       NULL, 0 },
     /* FILE_SELECTOR_TAPE_STYLE */
-    { read_tape_image_contents, get_filename_from_tape,
+    { read_tape_image_contents,
      tape_hook_proc, IDD_OPENTAPE_TEMPLATE },
     /* FILE_SELECTOR_DISK_STYLE */
-    { read_disk_image_contents, get_filename_from_disk,
+    { read_disk_image_contents,
      hook_proc, IDD_OPEN_TEMPLATE },
     /* FILE_SELECTOR_DISK_AND_TAPE_STYLE */
-    { read_disk_or_tape_image_contents, get_filename_from_disk_or_tape,
+    { read_disk_or_tape_image_contents,
      hook_proc, IDD_OPEN_TEMPLATE},
     /* DUMMY entry Insert new styles before this */
-    {NULL, NULL,
+    {NULL,
      NULL, 0 }
 };
 
@@ -168,76 +164,7 @@ int     index;
         }
         start++;
     }
-
 }
-
-/* The following functions can be removed once the selector gives back
-   the program number (index) and feed autostart_xyz() with this number
-   instead of retriving the program name itself.  */
-#if 1
-static char *get_filename_from_disk(char *filename, int index)
-{
-image_contents_t            *contents;
-image_contents_file_list_t  *current;
-char                        *s;
-
-    contents=image_contents_read_disk(filename);
-    if (contents==NULL) {
-        return NULL;
-    }
-    s=NULL;
-    if (index!=0) {
-        current=contents->file_list;
-        index--;
-        while ((index!=0) && (current!=NULL)) {
-            current=current->next;
-            index--;
-        }
-        if (current!=NULL) {
-            s=stralloc(current->name);
-        }
-    }
-    image_contents_destroy(contents);
-    return s;
-}
-
-static char *get_filename_from_tape(char *filename, int index)
-{
-image_contents_t            *contents;
-image_contents_file_list_t  *current;
-char                        *s;
-
-    contents=image_contents_read_tape(filename);
-    if (contents==NULL) {
-        return NULL;
-    }
-    s=NULL;
-    if (index!=0) {
-        current=contents->file_list;
-        index--;
-        while ((index!=0) && (current!=NULL)) {
-            current=current->next;
-            index--;
-        }
-        if (current!=NULL) {
-            s=stralloc(current->name);
-        }
-    }
-    image_contents_destroy(contents);
-    return s;
-}
-
-static char *get_filename_from_disk_or_tape(char *filename, int index)
-{
-char    *s;
-
-    s=get_filename_from_disk(filename,index);
-    if (s==NULL) {
-        s=get_filename_from_tape(filename,index);
-    }
-    return s;
-}
-#endif
 
 static  HFONT   hfont;
 
@@ -328,7 +255,7 @@ char    *extension;
                         index=SendMessage((HWND)lparam,LB_GETCURSEL,0,0);
                         if (SendMessage(GetParent(hwnd),
                             CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
-                            *autostart_result=get_filename_from_content(filename,index);
+                            *autostart_result = index;
                             SendMessage(GetParent(hwnd),WM_COMMAND,MAKELONG(IDOK,BN_CLICKED),(LPARAM)GetDlgItem(GetParent(hwnd),IDOK));
                         }
                     }
@@ -512,8 +439,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                     index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
                     if (SendMessage(GetParent(hwnd),
                         CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                        *autostart_result = get_filename_from_content(filename,
-                                                                      index);
+                        *autostart_result = index;
                         SendMessage(GetParent(hwnd), WM_COMMAND,
                                     MAKELONG(IDOK,BN_CLICKED),
                                     (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
@@ -616,7 +542,7 @@ static void set_filter(char *filter, DWORD filterlist, DWORD *filterindex)
 
 
 char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
-                     int style, char **autostart)
+                     int style, int *autostart)
 {
     char name[1024] = "";
     char filter[UI_LIB_MAX_FILTER_LENGTH];
@@ -664,7 +590,6 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     ofn.lpstrDefExt = NULL;
 
     read_content_func=styles[style].content_read_function;
-    get_filename_from_content=styles[style].get_filename_from_content;
     autostart_result=autostart;
     vsync_suspend_speed_eval();
     result = GetOpenFileName(&ofn);

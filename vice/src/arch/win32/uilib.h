@@ -39,7 +39,7 @@ typedef struct {
     DWORD filter;
 } ui_cartridge_params;
 
-char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist, int style, char **autostart);
+char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist, int style, int *autostart);
 void ui_set_res_num(char *res, int value, int num);
 
 /*

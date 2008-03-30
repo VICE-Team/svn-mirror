@@ -342,9 +342,9 @@ DWORD       apos;
                                 apos = 16;
                                 break;
                         }
-                        value |= clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
+                        value |= maincpu_clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
                     } else {
-                        value |= (clk/(joystick_fire_speed[idx]*0x100)) & 16;
+                        value |= (maincpu_clk/(joystick_fire_speed[idx]*0x100)) & 16;
                     }     
                 }
                 joystick_set_value_absolute(idx+1, value);
@@ -409,9 +409,9 @@ DWORD       apos;
                                 apos = 16;
                                 break;
                         }
-                        value |= clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
+                        value |= maincpu_clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
                     } else {
-                        value |= (clk/(joystick_fire_speed[idx]*0x100)) & 16;
+                        value |= (maincpu_clk/(joystick_fire_speed[idx]*0x100)) & 16;
                     }     
                 }
                 joystick_set_value_absolute(idx+1, value);
