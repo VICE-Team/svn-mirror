@@ -17,7 +17,7 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet c610 sid arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -40,6 +40,7 @@ noinst_HEADERS = \
 	cia.h \
 	cmdline.h \
 	config.h.in \
+	crtc.h \
 	emuid.h \
 	file.h \
 	findpath.h \
@@ -120,7 +121,11 @@ base_sources = \
 	zfile.c \
 	zipcode.c
 
+cpucore_sources = \
+	6510core.c
+
 maincpu_sources = \
+	maincpu.def \
 	maincpu.c
 
 printer_sources = \
@@ -140,6 +145,8 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	acia-tmpl.c \
 	cia-tmpl.c \
+	cpu-tmpl.c \
+	crtc-tmpl.c \
 	convio \
 	raster.c \
 	tpi-tmpl.c \
@@ -147,39 +154,41 @@ EXTRA_DIST = \
 	$(printer_sources) \
 	$(rs232_sources)
 
-BUILT_SOURCES = mon_parse.h mon_parse.c
+BUILT_SOURCES = mon_parse.h mon_parse.c maincpu.c
 
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+sid_lib = $(top_builddir)/src/sid/libsid.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+x610_lib = $(top_builddir)/src/c610/libc610.a
 
-bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
+bin_PROGRAMS = x64 x128 xvic xpet x610 c1541 petcat
 
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
         @X_LIBS@ $(READLINE)
-x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) \
+x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
-x64-all: libc64 libsounddrv libdrive libarch x64
+x64-all: libc64 libsounddrv libdrive libarch libsid x64
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
-	$(rs232_printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
-	@SOUND_LIBS@ @X_LIBS@ $(READLINE)
+	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(drive_lib) @ALLOCA@ @LIBOBJS@ \
+	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libarch x128
+x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -198,6 +207,16 @@ xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xpet-all
 xpet-all: libpet libsounddrv libarch xpet
+
+# x610
+x610_SOURCES = $(base_sources)
+x610_LDADD = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ \
+	$(READLINE) -lm
+x610_DEPENDENCIES = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
+       @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+.PHONY: x610-all
+x610-all: libc610 libsounddrv libarch libsid x610
 
 # c1541
 c1541_SOURCES = \
@@ -224,7 +243,7 @@ petcat_SOURCES = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libdrive libsounddrv libarch
+.PHONY: libc64 libc128 libvic20 libpet libc610 libdrive libsounddrv libarch libsid
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -236,9 +255,22 @@ libvic20:
 	(cd vic20 && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
+libc610:
+	(cd c610 && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
 libarch:
 	(cd arch && $(MAKE))
+libsid:
+	(cd sid && $(MAKE))
+
+maincpu.c: maincpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`maincpu.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cpu-tmpl.c \
+	           $(top_srcdir)/src/maincpu.def $(top_srcdir)/src/maincpu.c; \
+	   fi )
+
