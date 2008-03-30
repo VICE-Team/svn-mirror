@@ -1,3 +1,72 @@
+2001-06-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.38.
+
+	* autostart.c: Added support for just loading files.
+	(autostart_disk): Fixed typo.
+
+	* main.c, arch/unix/uicommands.c, arch/unix/x11/gnome/ui.c,
+	arch/msdos/uiattach.c, arch/msdos/menudefs.c, arch/win32/ui.c,
+	arch/win32/uiattach.c, arch/riscos/ui.c,
+	arch/riscos/uiimage.c, arch/os2/dialogs/dragndrop.c,
+	arch/os2/dialogs/dlg-fileio.c: Changed autostart API.
+
+	* arch/unix/uireu.c, arch/unix/uireu.h, arch/unix/uivicii.c,
+	arch/unix/uivicii.h, arch/unix/uipalette.c,
+	arch/unix/uipalette.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c (vic_options_submenu):
+	Removed as already present in the settings menu.
+	Moved REU specific settings to separate file.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/c610ui.c:
+	Moved VICII specific settings to separate file.
+
+	* arch/unix/uicrtc.c, arch/unix/uicrtc.h, arch/unix/petui.c,
+	arch/unix/c610ui.c: Moved CRTC specific settings to
+	`uicrtc.c'.
+
+	* arch/unix/uisettings.c: Moved palette specific settings to
+	`uipalette.c'.
+
+	* acia.h: Fixed header.
+
+2001-06-09  Dag Lem  <resid@nimrod.no>
+
+	* sound.c (sound_flush): Limit refill on buffer drain to whole
+	fragments. Call vsync_suspend_speed_eval after refill.
+
+	* vsync.c (display_speed): Reset frame_ticks after
+	suspend. Call vsync_suspend_speed_eval after "too slow"
+	detection.
+
+2001-06-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/*.dsp: renamed charsets.c to charset.c
+
+	* arch/beos/c128kbd.c, arch/win32/c128kbd.c: fixed mapping of
+	cursor keys for C64 mode
+
+	* arch/beos/ui_file.cc: added second parameter in call of
+	(image_contents_to_string)
+
+2001-06-06  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/console.c, arch/riscos/kbd.c,
+	arch/riscos/vsync.c: replaced video.h include with videoarch.h
+	include.
+
+	* arch/riscos/ui.c: autostart PRGs via drag&drop.
+
+2001-06-06  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/x11kbd.c (x11kbd_press): Moved hotkey handling, to
+	fix vsid.
+
+	* arch/unix/x11/x11kbd.h: Changed key notion to `ui_keysym_t'. 
+
 2001-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.37.

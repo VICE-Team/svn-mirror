@@ -61,8 +61,8 @@ typedef struct iec_info_s {
 extern iec_info_t *iec_get_drive_port(void);
 
 /* return value for iec_available_busses() (can be ored) */
-#define	IEC_BUS_IEC	0x01	/* serial IEC bus */
-#define	IEC_BUS_IEEE	0x02	/* parallel IEEE bus */
+#define IEC_BUS_IEC     0x01    /* serial IEC bus */
+#define IEC_BUS_IEEE    0x02    /* parallel IEEE bus */
 
 extern int iec_available_busses(void);
 extern void iec_calculate_callback_index(void);

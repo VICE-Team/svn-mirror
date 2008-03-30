@@ -31,10 +31,10 @@
  * signal values (for signaling edges on the control lines)
  */
 
-#define	RIOT_SIG_PA7	0
+#define RIOT_SIG_PA7    0
 
-#define	RIOT_SIG_FALL	0
-#define	RIOT_SIG_RISE	1
+#define RIOT_SIG_FALL   0
+#define RIOT_SIG_RISE   1
 
 #endif  /* _RIOT_H */
 

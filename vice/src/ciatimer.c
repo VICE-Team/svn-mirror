@@ -1,4 +1,3 @@
-
 /*
  * ciatimer.c - MOS6526 (CIA) timer emulation.
  *
@@ -25,7 +24,7 @@
  *
  */
 
-#define	_CIATIMER_C
+#define _CIATIMER_C
 
 #include "vice.h"
 
@@ -43,7 +42,6 @@
 static int ciat_logfl = 0;
 static int logtab=0;
 static const char spaces[]="                                                  ";
-
 /* extern int traceflg; */
 
 void ciat_login(const char *format,...) {
@@ -84,24 +82,24 @@ void ciat_log(const char *format,...) {
 void ciat_print_state(const ciat_t *state)
 {
     printf("%s print: clk=%ld, cnt=%04x (%d), latch=%04x (%d)\n",
-	state->name, (long)(state->clk),
-	state->cnt, state->cnt,
-	state->latch, state->latch);
+        state->name, (long)(state->clk),
+        state->cnt, state->cnt,
+        state->latch, state->latch);
     printf("          state=%04x = %s%s%s%s%s%s%s%s%s%s%s%s%s\n",
-	state->state,
-	(state->state & CIAT_CR_START) 	? "start " : "",
-	(state->state & CIAT_CR_ONESHOT)? "cr_oneshot " : "",
-	(state->state & CIAT_CR_FLOAD) 	? "cr_fload " : "",
-	(state->state & CIAT_PHI2IN) 	? "Phi2 " : "",
-	(state->state & CIAT_STEP) 	? "step " : "",
-	(state->state & CIAT_COUNT2) 	? "cnt2 " : "",
-	(state->state & CIAT_COUNT3) 	? "cnt3 " : "",
-	(state->state & CIAT_COUNT) 	? "cnt " : "",
-	(state->state & CIAT_LOAD1) 	? "load1 " : "",
-	(state->state & CIAT_LOAD) 	? "load " : "",
-	(state->state & CIAT_ONESHOT0) 	? "oneshot0 " : "",
-	(state->state & CIAT_ONESHOT) 	? "oneshot " : "",
-	(state->state & CIAT_OUT) 	? "out " : ""
+        state->state,
+        (state->state & CIAT_CR_START)  ? "start " : "",
+        (state->state & CIAT_CR_ONESHOT)? "cr_oneshot " : "",
+        (state->state & CIAT_CR_FLOAD)  ? "cr_fload " : "",
+        (state->state & CIAT_PHI2IN)    ? "Phi2 " : "",
+        (state->state & CIAT_STEP)      ? "step " : "",
+        (state->state & CIAT_COUNT2)    ? "cnt2 " : "",
+        (state->state & CIAT_COUNT3)    ? "cnt3 " : "",
+        (state->state & CIAT_COUNT)     ? "cnt " : "",
+        (state->state & CIAT_LOAD1)     ? "load1 " : "",
+        (state->state & CIAT_LOAD)      ? "load " : "",
+        (state->state & CIAT_ONESHOT0)  ? "oneshot0 " : "",
+        (state->state & CIAT_ONESHOT)   ? "oneshot " : "",
+        (state->state & CIAT_OUT)       ? "out " : ""
     );
     printf("          alarm at %ld\n", (long)(state->alarmclk));
 }
@@ -119,26 +117,26 @@ void ciat_init_table(void)
 
     for (i = 0; i < CIAT_TABLEN; i ++) {
 
-	tmp = i & (CIAT_CR_START
-		| CIAT_CR_ONESHOT
-		| CIAT_PHI2IN);
+        tmp = i & (CIAT_CR_START
+                | CIAT_CR_ONESHOT
+                | CIAT_PHI2IN);
 
-	if ((i & CIAT_CR_START) && (i & CIAT_PHI2IN))
-	    tmp |= CIAT_COUNT2;
-	if ((i & CIAT_COUNT2) || ((i & CIAT_STEP) && (i & CIAT_CR_START)))
-	    tmp |= CIAT_COUNT3;
-	if (i & CIAT_COUNT3)
-	    tmp |= CIAT_COUNT;
+        if ((i & CIAT_CR_START) && (i & CIAT_PHI2IN))
+            tmp |= CIAT_COUNT2;
+        if ((i & CIAT_COUNT2) || ((i & CIAT_STEP) && (i & CIAT_CR_START)))
+            tmp |= CIAT_COUNT3;
+        if (i & CIAT_COUNT3)
+            tmp |= CIAT_COUNT;
 
-	if (i & CIAT_CR_FLOAD)
-	    tmp |= CIAT_LOAD1;
-	if (i & CIAT_LOAD1)
-	    tmp |= CIAT_LOAD;
+        if (i & CIAT_CR_FLOAD)
+            tmp |= CIAT_LOAD1;
+        if (i & CIAT_LOAD1)
+            tmp |= CIAT_LOAD;
 
-   	if (i & CIAT_CR_ONESHOT)
-	    tmp |= CIAT_ONESHOT0;
-   	if (i & CIAT_ONESHOT0)
-	    tmp |= CIAT_ONESHOT;
+        if (i & CIAT_CR_ONESHOT)
+            tmp |= CIAT_ONESHOT0;
+        if (i & CIAT_ONESHOT0)
+            tmp |= CIAT_ONESHOT;
 
         ciat_table[i] = tmp;
     }

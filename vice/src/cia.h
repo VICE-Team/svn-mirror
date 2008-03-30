@@ -33,35 +33,35 @@
 
 /* MOS 6526 registers */
 
-#define CIA_PRA		0  /* Port A */
-#define CIA_PRB		1  /* Port B */
-#define CIA_DDRA	2  /* Data direction register for port A */
-#define CIA_DDRB	3  /* Data direction register for port B */
+#define CIA_PRA         0  /* Port A */
+#define CIA_PRB         1  /* Port B */
+#define CIA_DDRA        2  /* Data direction register for port A */
+#define CIA_DDRB        3  /* Data direction register for port B */
 
-#define CIA_TAL		4  /* Timer A low */
-#define CIA_TAH		5  /* Timer A high */
-#define CIA_TBL		6  /* Timer B low */
-#define CIA_TBH		7  /* Timer B high */
+#define CIA_TAL         4  /* Timer A low */
+#define CIA_TAH         5  /* Timer A high */
+#define CIA_TBL         6  /* Timer B low */
+#define CIA_TBH         7  /* Timer B high */
 
-#define CIA_TOD_TEN	8  /* Time Of Day clock 1/10 s */
-#define CIA_TOD_SEC	9  /* Time Of Day clock sec */
-#define CIA_TOD_MIN	10 /* Time Of Day clock min */
-#define CIA_TOD_HR	11 /* Time Of Day clock hour */
+#define CIA_TOD_TEN     8  /* Time Of Day clock 1/10 s */
+#define CIA_TOD_SEC     9  /* Time Of Day clock sec */
+#define CIA_TOD_MIN     10 /* Time Of Day clock min */
+#define CIA_TOD_HR      11 /* Time Of Day clock hour */
 
-#define CIA_SDR		12 /* Serial port shift register */
-#define CIA_ICR		13 /* Interrupt control register */
-#define CIA_CRA		14 /* Control register A */
-#define CIA_CRB		15 /* Control register B */
+#define CIA_SDR         12 /* Serial port shift register */
+#define CIA_ICR         13 /* Interrupt control register */
+#define CIA_CRA         14 /* Control register A */
+#define CIA_CRB         15 /* Control register B */
 
 
 /* Interrupt Masks */
 
-#define CIA_IM_SET	0x80	/* Control Bit */
-#define CIA_IM_TA	1	/* Timer A underflow */
-#define CIA_IM_TB	2	/* Timer B underflow */
-#define CIA_IM_TOD	4	/* TOD Clock Alarm */
-#define CIA_IM_SDR	8	/* Shift Register completion */
-#define CIA_IM_FLG	16	/* Handshake */
+#define CIA_IM_SET      0x80    /* Control Bit */
+#define CIA_IM_TA       1       /* Timer A underflow */
+#define CIA_IM_TB       2       /* Timer B underflow */
+#define CIA_IM_TOD      4       /* TOD Clock Alarm */
+#define CIA_IM_SDR      8       /* Shift Register completion */
+#define CIA_IM_FLG      16      /* Handshake */
 
 #endif  /* _CIA_H */
 
