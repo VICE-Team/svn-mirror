@@ -5892,6 +5892,10 @@ driver.
 and sound support for NetBSD.
 
 @item
+@b{Mattias Engdeg@^ard} (@email{f91-men@@nada.kth.se}) got non-default
+depths to work.
+
+@item
 @b{Peter Andrew Felvegi aka Petschy} (@email{petschy@@derceto.sch.bme.hu})
 fixed a couple of bugs in the fast serial emulation.
 
@@ -6186,7 +6190,8 @@ Teemu is Finnish, Daniel is from Canada).
 @end itemize
 
 In any case, we would be @emph{really} glad to receive your comments
-about VICE.
+about VICE.  We cannot always answer all the email, but we surely read
+all of it.
 
 Thanks!
 
