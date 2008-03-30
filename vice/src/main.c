@@ -83,6 +83,7 @@
 #include "mon.h"
 #include "autostart.h"
 #include "findpath.h"
+#include "machspec.h"
 
 #ifdef __MSDOS__
 #include "vmidas.h"
@@ -219,7 +220,7 @@ int main(int argc, char **argv)
 
     printf ("\n*** VICE Version %s ***\n", VERSION);
     printf ("Welcome to %s, the Commodore %s Emulator for the X-Window System."
-	    "\n\n", progname, EMULATOR);
+	    "\n\n", progname, machdesc.machine_name);
     printf ("Copyright (c) 1993-1998\n"
 	    "E. Perazzoli, T. Rantanen, A. Fachat, J. Valta, D. Sladic and "
 	    "J. Sonninen.\n\n");
@@ -234,7 +235,7 @@ int main(int argc, char **argv)
     resources_set_defaults(0);
 
     /* Load the user's configuration file. */
-    if (resources_load(NULL, EMULATOR) == -1) {
+    if (resources_load(NULL, machdesc.machine_name) == -1) {
 	fprintf(stderr,
 		"Couldn't find user's configuration file: "
 		"using default settings.\n");
@@ -269,18 +270,6 @@ int main(int argc, char **argv)
     signal(SIGTERM,  break64);
     signal(SIGPIPE,  break64);
 
-#if defined (C128)
-    video80 = app_resources.video80;
-    video40 = app_resources.video40;
-    if (!video80 && !video40)
-#if defined (_USE_VDC)
-	video80 = 1;
-#else
-    video40 = 1;
-#endif
-#else  /* !defined (c128) */
-#endif
-
     if (mem_load() < 0 && !app_resources.asmFlag)
 	exit (1);
 
@@ -294,8 +283,6 @@ int main(int argc, char **argv)
 	(void)patch_rom (app_resources.kernalRev);
     }
 #endif  /* PATCH_ROM */
-
-#ifndef NO_SERIAL
 
     printf("\nInitializing Serial Bus...\n");
 
@@ -371,8 +358,6 @@ int main(int argc, char **argv)
     }
 #endif
 
-#endif  /* NO_SERIAL */
-
 #ifdef SOUND
 
 #ifdef __MSDOS__
@@ -407,16 +392,9 @@ int main(int argc, char **argv)
     if (video_init() < 0)
 	exit (-1);
 
-#if defined(VIC20)
-    vic_init();
-#elif defined(PET)
-    crtc_init();
-#elif defined(C128)
-    vic_ii_init();
-#else  /* C64 */
-    vic_ii_init();
-#endif
-
+    /* Machine-specific initialization. */
+    machine_init();
+    
     /* Use the specified start address for booting up. */
     if (app_resources.startAddr)
 	start_addr = (ADDRESS) strtol(app_resources.startAddr, NULL,
@@ -463,9 +441,7 @@ static void exit64(void)
     printf("\nExiting...\n");
     video_free ();
 
-#ifndef NO_SERIAL
     remove_serial(-1);
-#endif
 
 #if defined(HAS_JOYSTICK) /* && !defined(PET) */
     joyclose();
