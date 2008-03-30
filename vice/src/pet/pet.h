@@ -48,4 +48,6 @@
                                         / (double)PET_NTSC_CYCLES_PER_SEC))
 */
 
+void pet_crtc_set_screen(void);
+
 #endif

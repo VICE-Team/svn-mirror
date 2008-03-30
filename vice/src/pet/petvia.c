@@ -69,9 +69,11 @@
 
 void myvia_signal(int line, int edge);
 
+		/* switching PET charrom with CA2 */
 #define VIA_SET_CA2(byte)       \
-          crtc_set_char( byte ); /* switching PET charrom with CA2 */
-                     /* switching userport strobe with CB2 */
+          crtc_set_chargen_offset( byte ? 256 : 0); 
+
+                /* switching userport strobe with CB2 */
 #ifdef HAVE_PRINTER
 #define VIA_SET_CB2(byte)       \
           pruser_write_strobe( byte );
@@ -119,15 +121,17 @@ inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 
 static void undump_pcr(BYTE byte)
 {
+#if 0
     register BYTE tmp = byte;
     /* first set bit 1 and 5 to the real output values */
     if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
     if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
     crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
 			     /* switching userport strobe with CB2 */
+#endif
 }
 
-inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
+inline static void store_pcr(BYTE byte, ADDRESS addr)
 {
 #if 0
         if(byte != via[VIA_PCR]) {
@@ -142,7 +146,6 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 #endif
 	}
 #endif
-    return byte;
 }
 
 static void undump_acr(BYTE byte)

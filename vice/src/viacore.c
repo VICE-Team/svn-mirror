@@ -533,7 +533,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 	}
 	VIA_SET_CB2( cb2_state )
 
-        byte = store_pcr(byte, addr);
+        store_pcr(byte, addr);
 
         myvia[addr] = byte;
 

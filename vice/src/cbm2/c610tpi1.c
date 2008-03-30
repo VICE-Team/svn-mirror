@@ -76,7 +76,7 @@ void tpi1_set_tape_sense(int v)
 
 _TPI_FUNC void tpi_set_ca(int a)
 {
-    crtc_set_char((a));
+    crtc_set_chargen_offset((a) ? 256 : 0);
 }
 
 _TPI_FUNC void tpi_set_cb(int a)

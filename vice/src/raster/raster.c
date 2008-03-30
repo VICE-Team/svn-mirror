@@ -1078,6 +1078,12 @@ handle_end_of_frame (raster_t *raster)
     }
 }
 
+/* encapsulate for export */
+void raster_handle_end_of_frame(raster_t *raster)
+{
+    handle_end_of_frame(raster);
+}
+
 
 
 static void

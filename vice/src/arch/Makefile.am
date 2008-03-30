@@ -22,4 +22,9 @@ SUBDIRS = riscos
 
 endif
 
+if OS2_COMPILE
+
+SUBDIRS = os2
+
+endif
 

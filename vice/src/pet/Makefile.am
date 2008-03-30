@@ -9,7 +9,6 @@ INCLUDES = \
 noinst_LIBRARIES = libpet.a
 
 libpet_a_SOURCES = \
-	crtc.c \
 	pet.c \
 	pet.h \
 	petacia.h \

@@ -137,9 +137,6 @@ static log_t pet_mem_log = LOG_ERR;
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
-/* prototype */
-void set_screen(void);
-
 /* ------------------------------------------------------------------------- */
 
 /* Tape traps.  */
@@ -302,7 +299,7 @@ static int set_video(resource_value_t v)
 
             pet_check_info(&petres);
 
-            set_screen();
+            pet_crtc_set_screen();
         }
     }
     return 0;
@@ -558,8 +555,10 @@ BYTE REGPARM1 read_ram(ADDRESS addr)
 
 void REGPARM2 store_ram(ADDRESS addr, BYTE value)
 {
+/*
 if (addr == 0x8000) printf("charline=%d, ycount=%d, char=%d\n",
 	crtc.current_charline, crtc.raster.ycounter, clk - crtc.rl_start);
+*/
     ram[addr] = value;
 }
 
@@ -1678,11 +1677,12 @@ int mem_load(void)
         log_message(pet_mem_log, "ROM screen width is unknown.");
     }
 
-    set_screen();
+    initialize_memory();
 
     return 0;
 }
 
+#if 0		/* replaced by pet_crtc_set_screen() in pet.c */
 void set_screen(void)
 {
     int cols, vmask;
@@ -1690,7 +1690,7 @@ void set_screen(void)
     cols = petres.video;
     vmask = petres.vmask;
 
-    initialize_memory();
+    /* initialize_memory(); */
 
     if (!cols) {
         cols = petres.rom_video;
@@ -1713,21 +1713,25 @@ void set_screen(void)
     crtc_set_screen_options(cols, 25 * 10);
     crtc_set_screen_addr(ram + 0x8000);
     crtc_set_hw_options( (cols==80) ? 2 : 0, vmask, 0x800, 512, 0x1000);
+    crtc_set_retrace_type(petres.crtc ? 1 : 0);
 
     /* No CRTC -> assume 40 columns */
     if(!petres.crtc) {
-/* FIXME: store_crtc(0, reg); store_crtc(1, val); 
-	store_crtc(0,49);
-	store_crtc(1,40);
-	store_crtc(4,49);
-	store_crtc(5,0);
-	store_crtc(6,25);
-	store_crtc(9,7);
-	store_crtc(12,0x10);
-	store_crtc(13,0);
-*/
+	store_crtc(0,13); store_crtc(1,0);
+	store_crtc(0,12); store_crtc(1,0x10);
+	store_crtc(0,9); store_crtc(1,7);
+	store_crtc(0,8); store_crtc(1,0);
+	store_crtc(0,7); store_crtc(1,29);
+	store_crtc(0,6); store_crtc(1,25);
+	store_crtc(0,5); store_crtc(1,16);
+	store_crtc(0,4); store_crtc(1,32);
+	store_crtc(0,3); store_crtc(1,8);
+	store_crtc(0,2); store_crtc(1,50);
+	store_crtc(0,1); store_crtc(1,40);
+	store_crtc(0,0); store_crtc(1,63);
     }
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -2082,9 +2086,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     pet_set_conf_info(&peti);  /* set resources and config accordingly */
     map_reg = conf8x96;
 
-    /* initialize_memory(); set_screen does that! */
+    initialize_memory();
 
-    set_screen();
+    pet_crtc_set_screen();
 
     if(config != 5) {
         snapshot_module_read_byte_array(m, ram, memsize << 10);

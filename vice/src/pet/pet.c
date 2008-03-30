@@ -243,8 +243,10 @@ int machine_init(void)
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
-    crtc_set_retrace_callback(pet_crtc_signal, 0);
-
+    crtc_set_retrace_type(petres.crtc);
+    crtc_set_retrace_callback(pet_crtc_signal);
+    pet_crtc_set_screen();
+    
     via_init();
     pia1_init();
     pia2_init();
@@ -446,7 +448,61 @@ int machine_read_snapshot(const char *name)
 
 
 /* ------------------------------------------------------------------------- */
+
 int machine_autodetect_psid(const char *name)
 {
   return -1;
 }
+
+/* ------------------------------------------------------------------------- */
+
+void pet_crtc_set_screen(void)
+{
+    int cols, vmask;
+
+    cols = petres.video;
+    vmask = petres.vmask;
+
+    /* initialize_memory(); */
+
+    if (!cols) {
+        cols = petres.rom_video;
+        vmask = (cols == 40) ? 0x3ff : 0x7ff;
+    }
+    if (!cols) {
+        cols = PET_COLS;
+        vmask = (cols == 40) ? 0x3ff : 0x7ff;
+    }
+
+    /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
+    if(cols == 40) vmask = 0x3ff; 
+/*
+    log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)", 
+		vmask, cols, petres.crtc);
+*/
+/*
+    crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
+*/
+    crtc_set_screen_options(cols, 25 * 10);
+    crtc_set_screen_addr(ram + 0x8000);
+    crtc_set_hw_options( (cols==80) ? 2 : 0, vmask, 0x800, 512, 0x1000);
+    crtc_set_retrace_type(petres.crtc ? 1 : 0);
+
+    /* No CRTC -> assume 40 columns */
+    if(!petres.crtc) {
+	store_crtc(0,13); store_crtc(1,0);
+	store_crtc(0,12); store_crtc(1,0x10);
+	store_crtc(0,9); store_crtc(1,7);
+	store_crtc(0,8); store_crtc(1,0);
+	store_crtc(0,7); store_crtc(1,29);
+	store_crtc(0,6); store_crtc(1,25);
+	store_crtc(0,5); store_crtc(1,16);
+	store_crtc(0,4); store_crtc(1,32);
+	store_crtc(0,3); store_crtc(1,8);
+	store_crtc(0,2); store_crtc(1,50);
+	store_crtc(0,1); store_crtc(1,40);
+	store_crtc(0,0); store_crtc(1,63);
+    }
+}
+
+

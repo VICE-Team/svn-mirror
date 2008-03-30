@@ -299,6 +299,7 @@ void raster_skip_frame (raster_t *raster, int skip);
 void raster_enable_cache (raster_t *raster, int enable);
 void raster_enable_double_scan (raster_t *raster, int enable);
 void raster_mode_change(void);
+void raster_handle_end_of_frame(raster_t *raster);
 
 
 

@@ -80,7 +80,7 @@ struct _crtc
 
     /* hardware options as given to crtc_set_hw_options() */
     int hw_cursor;
-    int hw_double_cols;
+    int hw_cols;	/* 1 or 2, number of chars per cycle */
     int vaddr_mask;
     int vaddr_charswitch;
     int vaddr_charoffset;
@@ -109,36 +109,46 @@ struct _crtc
     int rl_visible;	/* number of visible chars in this line */
     int rl_sync;	/* character in line when the sync starts */
     int rl_len;		/* length of line in cycles */
+    int sync_diff;	/* cycles between two sync pulses */
 
     /* values of the previous rasterline */
     int prev_rl_visible;
     int prev_rl_sync;
     int prev_rl_len;
+    int prev_screen_rel;
 
+    int hjitter;	/* horizontal jitter when sync phase is changed */
     int xoffset;	/* pixel-offset of current rasterline */
+    int screen_xoffset;	/* pixel-offset of current rasterline */
+    int screen_yoffset;	/* rasterline-offset of CRTC to VICE screen */
 
     int henable;	/* flagged when horizontal enable flipflop has not
 			   been reset in line */
 
+    int current_line;	/* current rasterline as of CRTC counting */
+    int framelines;	/* expected number of rasterlines for current frame,
+			   decreasing till end */
     int venable;	/* flagged when vertical enable flipflop has not
 			   been reset in frame */
-
-    int cursor_lines;	/* flagged when rasterline within hw cursor lines */
-
-    int disp_chars;	/* number of displayed chars in current rasterline 
-			   (may be disp_cycles or double the value 
-			   (hw_double_cols) */
+    int vsync;		/* number of rasterlines till end of vsync */
 
     int current_charline; /* state of the current character line counter */
 
-    int visible_line;	/* flagged when VDispEnable active */
+    /*---------------------------------------------------------------*/
+
+    int crsrmode;	/* 0=no crsr, 1=continous, 2=1/32, 3=1/16 */
+    int crsrcnt;	/* framecounter */
+    int crsrstate;	/* 1=crsr active */
+    int cursor_lines;	/* flagged when rasterline within hw cursor lines */
 
     /*---------------------------------------------------------------*/
 
     /* this is the function to be called when the retrace signal
        changes. type&1=0: old PET, type&1=1: CRTC-PET. retrace_type 
        Also used by crtc_offscreen() */
+
     machine_crtc_retrace_signal_t retrace_callback;
+
     int retrace_type;
 
     /*---------------------------------------------------------------*/
@@ -159,8 +169,14 @@ typedef struct _crtc crtc_t;
 
 extern crtc_t crtc;
 
-#define CRTC_SCREEN_BORDERWIDTH  25
-#define CRTC_SCREEN_BORDERHEIGHT 25
+/* those define the invisible borders, where we never paint anything */
+#define CRTC_SCREEN_BORDERWIDTH  8
+#define CRTC_SCREEN_BORDERHEIGHT 8
+
+/* These define the extra space around the size given from the machine,
+   to allow effects like open borders etc. */
+#define	CRTC_EXTRA_COLS		6
+#define	CRTC_EXTRA_RASTERLINES	16
 
 
 
@@ -179,15 +195,12 @@ void crtc_set_chargen_addr(BYTE *chargen, int cmask);
 void crtc_set_screen_options(int num_cols, int rasterlines);
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
                                                                 int vrevmask);
-void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback, 
-								int type);
+void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
+void crtc_set_retrace_type(int type);
+
 void crtc_screen_enable(int);
 
 int crtc_offscreen(void);
-
-/* FIXME: when interface has settled */
-#define	crtc_set_char(a)	crtc_set_chargen_offset((a)?256:0)
-
 
 
 

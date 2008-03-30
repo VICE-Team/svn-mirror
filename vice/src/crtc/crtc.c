@@ -59,7 +59,7 @@ crtc_t crtc = {
 	270,		/* screen_heigth */
 
 	0,		/* hw_cursor */
-	0,		/* hw_double_cols */
+	1,		/* hw_cols */
 	0x3ff,		/* vaddr_mask */
 	0x800,		/* vaddr_charswitch */
 	512,		/* vaddr_charoffset */
@@ -68,27 +68,22 @@ crtc_t crtc = {
 
 /* crtc-struct access functions */
 #define	CRTC_SCREEN_ADDR() \
-		((crtc.regs[11] | (crtc.regs[12] << 8)) & 0x3fff)
-
-#define	CRTC_SCREEN_WIDTH() \
-		crtc.screen_width
-#define	CRTC_SCREEN_HEIGHT() \
-		crtc.screen_height
+		((crtc.regs[13] | (crtc.regs[12] << 8)) & 0x3fff)
 
 #define	CRTC_SCREEN_TEXTCOLS() \
-		(crtc.regs[1] << (crtc.hw_double_cols ? 1 : 0))
+		(crtc.regs[1] * crtc.hw_cols)
 #define	CRTC_SCREEN_TEXTLINES() \
 		(crtc.regs[6] & 0x7f)
 
-#define	CRTC_SCREEN_XPIX() \
-		(CRTC_SCREEN_TEXTCOLS() << 3)
+
 #define	CRTC_SCREEN_YPIX() \
 		(CRTC_SCREEN_TEXTLINES() * (crtc_min(16, crtc.regs[9] + 1)))
+
 
 #define CRTC_FIRST_DISPLAYED_LINE \
 		CRTC_SCREEN_BORDERHEIGHT
 #define CRTC_LAST_DISPLAYED_LINE \
-		(CRTC_FIRST_DISPLAYED_LINE + CRTC_SCREEN_YPIX())
+		(crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT)
 
 #define	CRTC_CYCLES_PER_LINE() \
 		crtc.regs[0]
@@ -107,7 +102,7 @@ crtc_t crtc = {
 							int vrevmask);
  * 	hwflag & 1 -> hardware cursor available
  * 	hwflag & 2 -> each CRTC character accounts for two chars on the 
- *	              screen (hw_double_cols)
+ *	              screen (hw_cols)
  *	vmask      -> the valid bits for the CRTC screen address (screen
  *	              buffer wraparound)
  *	vmchar     -> bit in CRTC screen address to switch to alternate
@@ -163,7 +158,7 @@ static void inline crtc_reset_screen_ptr(void)
 	return;
 
     crtc.screen_rel = ((CRTC_SCREEN_ADDR() & crtc.vaddr_mask)
-			<< (crtc.hw_double_cols ? 1 : 0));
+			* crtc.hw_cols);
 
     crtc.chargen_rel = (((CRTC_SCREEN_ADDR() & crtc.vaddr_charswitch)
 			    ? crtc.vaddr_charoffset : 0)
@@ -180,12 +175,6 @@ static void inline crtc_reset_screen_ptr(void)
     } else {
 	/* reverse mode */
     }
-
-    /* have they changed? */
-    crtc.raster.geometry.last_displayed_line = 
-    crtc.raster.display_ystop = CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX();
-    crtc.raster.display_xstop = CRTC_SCREEN_BORDERWIDTH + CRTC_SCREEN_XPIX();
-
 }
 
 /* update the chargen pointer when external switch has changed */
@@ -206,16 +195,52 @@ static void inline crtc_update_disp_char(void)
 	return;
 
     crtc.rl_visible = crtc.regs[1]; 
-    crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
+/*
+    crtc.disp_chars = (crtc.rl_visible * (crtc.hw_double_cols ? 1 : 0));
+*/
 }
 
 /* update screen window */
-static void inline crtc_update_screen(void)
+static void inline crtc_update_window(void)
 {
+    int width, height;
+
     if (!crtc.initialized)
 	return;
 
-    /* FIXME */
+    width = crtc.screen_width;
+    height = crtc.screen_height;
+#if 0
+    if (crtc_resources.double_size_enabled)
+    {
+      width *= 2;
+      height *= 2;
+      raster_set_pixel_size (raster, 2, 2);
+    }
+#endif
+
+    raster_set_geometry (&crtc.raster,
+                       crtc.screen_width, crtc.screen_height,
+                       crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH, 
+		       crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
+                       CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
+                       0, 0,
+                       FALSE,
+                       CRTC_SCREEN_BORDERHEIGHT,
+                       crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
+                       0);
+
+printf("crtc_update_window(w=%d,h=%d)\n", crtc.screen_width,crtc.screen_height);
+
+    crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
+    crtc.raster.display_ystop = crtc.screen_height 
+					- 2 * CRTC_SCREEN_BORDERHEIGHT;
+    crtc.raster.display_xstart = CRTC_SCREEN_BORDERWIDTH;
+    crtc.raster.display_xstop = crtc.screen_width 
+					- 2 * CRTC_SCREEN_BORDERWIDTH;
+
+    raster_resize_viewport (&crtc.raster, width, height);
+
 }
  
 /*--------------------------------------------------------------------*/
@@ -227,6 +252,7 @@ void crtc_set_screen_addr(BYTE *screen)
 
 void crtc_set_chargen_offset(int offset)
 {
+printf("crtc_set_chargen_offset(%d)\n",offset);
     crtc.chargen_offset = offset << 4; /* times the number of bytes/char */
 
     crtc_update_chargen_rel();
@@ -235,24 +261,29 @@ void crtc_set_chargen_offset(int offset)
 void crtc_set_chargen_addr(BYTE *chargen, int cmask)
 {
     crtc.chargen_base = chargen;
-    crtc.chargen_mask = cmask;
+    crtc.chargen_mask = (cmask << 4) - 1;
 
     crtc_update_chargen_rel();
 }
 
 void crtc_set_screen_options(int num_cols, int rasterlines)
 {
-    crtc.screen_width = num_cols * 8 + 2 * CRTC_SCREEN_BORDERWIDTH;
-    crtc.screen_height = rasterlines + 2 * CRTC_SCREEN_BORDERHEIGHT;
+    crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8 
+				+ 2 * CRTC_SCREEN_BORDERWIDTH;
+    crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES
+				+ 2 * CRTC_SCREEN_BORDERHEIGHT;
 
-    crtc_update_screen();
+printf("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d\n",
+	num_cols, rasterlines, crtc.screen_width, crtc.screen_height);
+
+    crtc_update_window();
 }
 
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
 								int vrevmask)
 {
     crtc.hw_cursor = hwflag & 1;
-    crtc.hw_double_cols = hwflag & 2;
+    crtc.hw_cols = (hwflag & 2) ? 2 : 1;
     crtc.vaddr_mask = vmask;
     crtc.vaddr_charswitch = vchar;
     crtc.vaddr_charoffset = vcoffset << 4; /* times the number of bytes/char */
@@ -262,10 +293,13 @@ void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
     crtc_update_disp_char();
 }
 
-void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback, 
-                                                                int type) 
+void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback)
 {
     crtc.retrace_callback = callback;
+}
+
+void crtc_set_retrace_type(int type) 
+{
     crtc.retrace_type = type;
 }
 
@@ -291,46 +325,29 @@ canvas_t crtc_init (void)
   raster_enable_cache (raster, crtc_resources.video_cache_enabled);
   raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
 
-  /* FIXME */
-  width = CRTC_SCREEN_WIDTH() + 2 * CRTC_SCREEN_BORDERWIDTH;
-  height = CRTC_SCREEN_HEIGHT() + 2 * CRTC_SCREEN_BORDERHEIGHT;
-#if 0
-  if (crtc_resources.double_size_enabled)
-    {
-      width *= 2;
-      height *= 2;
-      raster_set_pixel_size (raster, 2, 2);
-    }
-#endif
-
   if (! crtc.regs[0]) crtc.regs[0] = 49;
   if (! crtc.regs[1]) crtc.regs[1] = 40;
   if (! crtc.regs[2]) crtc.regs[2] = 45;
+  if (! crtc.regs[4]) crtc.regs[4] = 30;
   if (! crtc.regs[6]) crtc.regs[6] = 25;
   if (! crtc.regs[9]) crtc.regs[9] = 7;
 
+  /* FIXME */
+  crtc.screen_xoffset = 0;
+  crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
   crtc.retrace_callback = NULL;
 
-  log_debug("scr_width=%d, scr_height=%d, xpix=%d, ypix=%d",
-			CRTC_SCREEN_WIDTH(), CRTC_SCREEN_HEIGHT(),
-                       CRTC_SCREEN_XPIX(), CRTC_SCREEN_YPIX());
+  log_debug("scr_width=%d, scr_height=%d",
+			crtc.screen_width, crtc.screen_height);
   log_debug("tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
 			CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
                        CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT);
   log_debug("displayed lines: first=%d, last=%d",
                        CRTC_FIRST_DISPLAYED_LINE, CRTC_LAST_DISPLAYED_LINE);
 
-  raster_set_geometry (raster,
-                       CRTC_SCREEN_WIDTH(), CRTC_SCREEN_HEIGHT(),
-                       CRTC_SCREEN_WIDTH() /*XPIX()*/, 
-		       CRTC_SCREEN_HEIGHT() /*YPIX()*/,
-                       CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
-                       0 /*CRTC_SCREEN_BORDERWIDTH*/, 0 /*CRTC_SCREEN_BORDERHEIGHT */,
-                       FALSE,
-                       CRTC_FIRST_DISPLAYED_LINE,
-                       CRTC_LAST_DISPLAYED_LINE,
-                       0);
-  raster_resize_viewport (raster, width, height);
+  crtc.initialized = 1;
+
+  crtc_update_window();
 
   if (crtc_load_palette (crtc_resources.palette_file_name) < 0)
     log_error (crtc.log, "Cannot load palette.");
@@ -341,7 +358,6 @@ canvas_t crtc_init (void)
 
   raster_realize (raster);
 
-  crtc.initialized = 1;
   crtc_update_chargen_rel();
   crtc_update_disp_char();
   crtc_reset_screen_ptr();
@@ -349,32 +365,38 @@ canvas_t crtc_init (void)
   crtc_draw_init ();
   crtc_draw_set_double_size (crtc_resources.double_size_enabled);
   crtc_reset ();
-
-  raster->display_ystart = 25 /*CRTC_SCREEN_BORDERHEIGHT + 0*/;
-  raster->display_ystop = 275 /*CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX()*/;
-  raster->display_xstart = 25 /* CRTC_SCREEN_BORDERWIDTH + 0*/;
-  raster->display_xstop = 665 /*CRTC_SCREEN_BORDERWIDTH + CRTC_SCREEN_XPIX()*/;
-
+/*
+  raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT;
+  raster->display_ystop = crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT;
+  raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
+  raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
+*/
   return crtc.raster.viewport.canvas;
 }
 
 /* Reset the CRTC chip.  */
 void crtc_reset (void)
 {
-  raster_reset (&crtc.raster);
+    raster_reset (&crtc.raster);
 
-  alarm_set (&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
+    alarm_set (&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
 
-  crtc.rl_visible = crtc.regs[1];
-  crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
+    crtc.rl_visible = crtc.regs[1];
+    crtc.rl_sync = crtc.regs[2];
+    crtc.rl_len = crtc.regs[0];
+    crtc.prev_rl_visible = crtc.rl_visible;
+    crtc.prev_rl_sync = crtc.rl_sync;
+    crtc.prev_rl_len = crtc.rl_len;
 
-  crtc.rl_sync = crtc.regs[2];
-  crtc.rl_len = crtc.regs[0];
-  crtc.prev_rl_visible = crtc.rl_visible;
-  crtc.prev_rl_sync = crtc.rl_sync;
-  crtc.prev_rl_len = crtc.rl_len;
+    crtc_reset_screen_ptr();
 
-  crtc_reset_screen_ptr();
+    crtc.raster.ycounter = 0;
+    crtc.current_charline = 0;
+    crtc.current_line = 0;
+    /* expected number of rasterlines for next frame */
+    crtc.framelines = (crtc.regs[4] + 1) * (crtc.regs[9] + 1)
+		  + crtc.regs[5];
+
 }
 
 
@@ -439,135 +461,240 @@ void crtc_resize (void)
 }
 
 
-
-#if 0
-void crtc_set_screen_mode (BYTE *screen,
-                      int vmask,
-                      int num_cols,
-                      int hwflags)
-{
-  /* FIXME: All of this should go into the `crtc' struct.  */
-  addr_mask = vmask;
-
-  if (screen)
-    screenmem = screen;
-
-  crsr_enable = hwflags & 1;
-  hw_double_cols = hwflags & 2;
-
-  if (!num_cols)
-    new_memptr_inc = 1;
-  else
-    new_memptr_inc = num_cols;
-
-  /* no *2 for hw_double_cols, as the caller should have done it.
-     This num_cols flag should be gone sometime.... */
-  new_memptr_inc = crtc_min (SCREEN_MAX_TEXTCOLS, new_memptr_inc);
-
-#ifdef __MSDOS__
-  /* FIXME: This does not have any effect until there is a gfx -> text ->
-     gfx mode transition.  Moreover, no resources should be changed behind
-     user's back...  So this is definitely a Bad Thing (tm).  For now, it's
-     fine with us, though.  */
-  resources_set_value ("VGAMode",
-                       (resource_value_t)  (num_cols > 40
-                                            ? VGA_640x480 : VGA_320x200));
-#endif
-
-  /* vmask has changed -> */
-  crtc_update_memory_ptrs ();
-
-  /* force window reset with parameter =1 */
-  crtc_update_timing (1);
-}
-#endif /* 0 */
-
-
-
 /* Redraw the current raster line.  This happens at the last
    cycle of each line.  */
 int crtc_raster_draw_alarm_handler (long offset)
 {
     CLOCK rclk = clk - offset;
+    int new_sync_diff;
+    int new_venable;
+    int new_vsync;
 
-    raster_emulate_line (&crtc.raster);
+    new_venable = crtc.venable;
+    new_vsync = crtc.vsync;
 
-    /* center the screen by centering the part between the syncs */
-    crtc.xoffset = (crtc.screen_width 
-		- ((crtc.prev_rl_sync + crtc.rl_sync) << 3))
-		>> 1;
-/* if (crtc.current_charline == 19) printf("xoffset=%d\n",crtc.xoffset); */
+    /******************************************************************
+     * handle one rasterline
+     */
+
+    /* first the time between two sync pulses */
+    new_sync_diff = (crtc.prev_rl_len + 1 - crtc.prev_rl_sync)
+		+ crtc.rl_sync;
+
+    /* compute the horizontal position */
+    /* the original PET displays have quite a variety of sync timings
+       (or I haven't found the scheme yet). Therefore we cannot simply
+       center the part between the syncs. We assume the sync in the 
+       first rasterline of the screen to be the default for the next
+       frame. 
+    /* FIXME: crtc.regs[3] & 15 == 0 -> 16 */ 
+    if (crtc.raster.current_line == 0) {
+	crtc.screen_xoffset = 
+		((crtc.screen_width 
+			- (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
+		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
+                        - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
+    }
+    /* FIXME: The 320 is the pixel width of a window with 40 cols.
+       make that a define - or measure the visible line length? 
+       but how to do that reliably? */ 
+    crtc.xoffset = CRTC_SCREEN_BORDERWIDTH + (CRTC_EXTRA_COLS * 4)
+		/* ((crtc.screen_width - crtc.rl_visible * 8 * crtc.hw_cols) / 2) */
+		- crtc.screen_xoffset 
+		+ ((crtc.screen_width 
+			- (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
+		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
+                        - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
+
+    /* emulate the line */
+    if (crtc.raster.current_line >= 
+		crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT) {
+	crtc.raster.current_line ++;
+    } else {
+        raster_emulate_line (&crtc.raster);
+    }
+
+    /* now add jitter if this is out of phase (sync_diff changes) */
+    crtc.hjitter -= (new_sync_diff - crtc.sync_diff) * 4 * crtc.hw_cols; 
+    if (crtc.hjitter > 16) crtc.hjitter = 16;
+    if (crtc.hjitter < -16) crtc.hjitter = -16;
+    crtc.hjitter *= -0.5;	/* exponential/sine decay */
+    if (crtc.hjitter) {
+	printf ("rl=%d, jitter=%d, sync_diff=%d, old diff=%d, \n",
+		crtc.raster.current_line, crtc.hjitter,
+		new_sync_diff, crtc.sync_diff);
+    }
+    crtc.sync_diff = new_sync_diff;
+
+/*
+    if (crtc.raster.current_line == 10) {
+	printf("centering=%d, sync2start=%d -> xoff=%d, jitter=%d\n",
+		((crtc.screen_width - (sync_diff * crtc.hw_cols * 8)) / 2),
+		(crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
+			- ((crtc.regs[3] & 0x0f) / 2)),
+		((crtc.screen_width - (sync_diff * crtc.hw_cols * 8)) / 2)
+		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
+                        - ((crtc.regs[3] & 0x0f) / 2)) * crtc.hw_cols * 8),
+		crtc.hjitter
+		);
+    }
+*/  
 
     crtc.prev_rl_visible = crtc.rl_visible;
     crtc.prev_rl_sync = crtc.rl_sync;
     crtc.prev_rl_len = crtc.rl_len;
+    crtc.prev_screen_rel = crtc.screen_rel;
+
     crtc.rl_visible = crtc.regs[1];
-    crtc.disp_chars = (crtc.rl_visible << (crtc.hw_double_cols ? 1 : 0));
     crtc.rl_sync = crtc.regs[2];
     crtc.rl_len = crtc.regs[0];
 
-    if (crtc.raster.current_line == 0)
-    {
+    crtc.rl_start = rclk;
+
+    /******************************************************************
+     * handle the rasterline numbering
+     */
+
+    crtc.current_line ++;
+    crtc.framelines --;
+
+    if (crtc.framelines == crtc.screen_yoffset) {
+	raster_handle_end_of_frame(&crtc.raster);
         raster_skip_frame (&crtc.raster, do_vsync (crtc.raster.skip_frame));
+    }
 
-        /* Do vsync stuff.  */
-        crtc_reset_screen_ptr();
+    {
+	/* FIXME: charheight */
+	if (crtc.current_charline >= crtc.regs[4] + 1) {
+	    if (crtc.raster.ycounter >= crtc.regs[5]) {
+	        /* Do vsync stuff.  */
+	        crtc_reset_screen_ptr();
+		crtc.raster.ycounter = 0;
+		crtc.current_charline = 0;
+		new_venable = 1;
 
-	crtc.raster.ycounter = 0;
+		/* expected number of rasterlines for next frame */
+		crtc.framelines = crtc.current_line;
+			/* (crtc.regs[4] + 1) * (crtc.regs[9] + 1)
+				  + crtc.regs[5]; */
+		crtc.current_line = 0;
 
-    } else {
-	if (crtc.raster.current_line == CRTC_SCREEN_BORDERHEIGHT + 1) {
-	    crtc.current_charline = 0;
-	    crtc.venable = 1;
-	}
-	if (crtc.raster.current_line > CRTC_SCREEN_BORDERHEIGHT) {
-	    /* FIXME: charheight */
+		/* hardware cursor handling */
+    		if (crtc.crsrmode & 2) {
+		    crtc.crsrcnt --;
+		    if (!crtc.crsrcnt) {
+		        crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
+	    		crtc.crsrstate ^= 1;
+		    }
+    		}
+
+	    } else {
+	        crtc.raster.ycounter ++;
+	    }
+	} else {
 	    if (crtc.raster.ycounter != crtc.regs[9] ) {
 	        crtc.raster.ycounter ++;
 	        crtc.raster.ycounter &= 0x1f;
 	    } else {
 	        crtc.raster.ycounter = 0;
 	        crtc.current_charline ++;
-		crtc.current_charline &= 0x7f;
+	        crtc.current_charline &= 0x7f;
 
-		if (crtc.henable) {
-	            crtc.screen_rel += crtc.disp_chars;
-		}
+	        if (crtc.henable) {
+	            crtc.screen_rel += crtc.rl_visible * crtc.hw_cols;
+	        }
+	        if (crtc.current_charline == crtc.regs[6]) {
+	            new_venable = 0;
+	        }
 	    }
+	    /* sync seems to start one rasterline late...*/
+	    if ((crtc.current_charline == crtc.regs[7])
+		&& (crtc.raster.ycounter == 1)) {
+	        new_vsync = (crtc.regs[3] >> 4) & 0x0f;
+	        if (!new_vsync) 
+		    new_vsync = 16;
+	        new_vsync ++; /* compensate for the first decrease below */
+	    } 
 	    if (crtc.raster.ycounter == (crtc.regs[10] & 0x1f)) {
-		crtc.cursor_lines = 1;
+	        crtc.cursor_lines = 1;
 	    } else 
 	    if (crtc.raster.ycounter == ((crtc.regs[11] + 1) & 0x1f)) {
-		crtc.cursor_lines = 0;
+	        crtc.cursor_lines = 0;
 	    }
-	    if (crtc.current_charline == crtc.regs[4] + 1) {
-		crtc.venable = 0;
+
+	    crtc.henable = 1;
+        }
+        if (new_vsync) {
+            new_vsync --;
+        }
+    }
+
+    /******************************************************************
+     * signal retrace to CPU
+     */
+
+    if (crtc.retrace_callback) {
+        if (crtc.retrace_type & 1) {
+	    if (crtc.vsync && !new_vsync) {
+	    	crtc.retrace_callback(0);
+	    } else 
+	    if (new_vsync && !crtc.vsync) {
+	    	crtc.retrace_callback(1);
 	    }
-	}
-	crtc_update_disp_char();
-	crtc.henable = 1;
+        } else {
+	    if (crtc.venable && !new_venable) {
+	    	crtc.retrace_callback(1);
+	    } else 
+	    if (new_venable && !crtc.venable) {
+	    	crtc.retrace_callback(0);
+	    }
+        }
+    }
+/*
+    if (crtc.venable && !new_venable) 
+	printf("disable ven, cl=%d, yc=%d, rl=%d\n", 
+		crtc.current_charline, crtc.raster.ycounter, 
+		crtc.raster.current_line);
+    if (new_venable && !crtc.venable) 
+	printf("enable ven, cl=%d, yc=%d, rl=%d\n", 
+		crtc.current_charline, crtc.raster.ycounter, 
+		crtc.raster.current_line);
+*/
+/*
+    if (crtc.vsync && !new_vsync) 
+	printf("disable vsync, cl=%d, yc=%d, rl=%d\n", 
+		crtc.current_charline, crtc.raster.ycounter, 
+		crtc.raster.current_line);
+    if (new_vsync && !crtc.vsync) 
+	printf("enable vsync, cl=%d, yc=%d, rl=%d\n", 
+		crtc.current_charline, crtc.raster.ycounter, 
+		crtc.raster.current_line);
+*/
+    if (crtc.venable && !new_venable) {
+	/* visible area ends here - try to compute vertical centering */
+	/* FIXME: count actual number of rasterlines */
+	int visible_height = crtc.current_line;
+			/* crtc.regs[6] * (crtc.regs[9] + 1); */
+
+	crtc.screen_yoffset = (crtc.screen_height - visible_height) / 2;
+
+/* printf("visible_height=%d -> yoffset=%d\n",
+				visible_height, crtc.screen_height); */
     }
 
-    /* FIXME: old PET have full YPIX size signal, new PET only vert. retrace,
-       i.e. use retrace_type */
-    if (crtc.raster.current_line == (CRTC_SCREEN_BORDERHEIGHT - 1)) {
-	if (crtc.retrace_callback) 
-	    crtc.retrace_callback(0);
-    }
-    if (crtc.raster.current_line == (CRTC_SCREEN_BORDERHEIGHT 
-		+ CRTC_SCREEN_YPIX() - 1) ) {
-	if (crtc.retrace_callback) 
-	    crtc.retrace_callback(1);
-    }
+    crtc.venable = new_venable;
+    crtc.vsync = new_vsync;
 
-    crtc.rl_start = rclk;
+    crtc.raster.blank_this_line = !new_venable; 
 
-    alarm_set (&crtc.raster_draw_alarm, clk + CRTC_CYCLES_PER_LINE() - offset);
+    /******************************************************************
+     * set up new alarm
+     */
+
+    alarm_set (&crtc.raster_draw_alarm, clk + crtc.rl_len + 1 - offset);
 
     return 0;
 }
-
-
 
 void crtc_exposure_handler (unsigned int width,
                        unsigned int height)
@@ -578,8 +705,6 @@ void crtc_exposure_handler (unsigned int width,
      `raster_resize_viewport()' automatically.  */
   raster_force_repaint (&crtc.raster);
 }
-
-
 
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
 void video_free(void)
@@ -594,19 +719,23 @@ void video_setfullscreen (int v, int width, int height)
 
 /* ------------------------------------------------------------------- */
 
-/* FIXME: use retrace_type */
 int crtc_offscreen(void)
 {
-    if ( (crtc.raster.current_line < CRTC_SCREEN_BORDERHEIGHT)
-	|| (crtc.raster.current_line 
-		>= CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX())) {
-	return 1;
-    } 
+    if (crtc.retrace_type & 1) {
+	if (crtc.vsync) {
+	    return 1;
+	}
+    } else {
+	if (!crtc.venable) {
+	    return 1;
+	}
+    }
     return 0;
 }
 
 void crtc_screen_enable(int enable)
 {
+    crtc.raster.blank = !enable;
 }
 
 
