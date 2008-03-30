@@ -117,7 +117,7 @@ Cbm2Window::Cbm2Window()
 	box->SetLabel("Model line");
 	background->AddChild(box);				    
 
-    resources_get_value("ModelLine", (void *)&res);
+    resources_get_int("ModelLine", &res);
 	for (i=0; cbm2_modelline[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_CBM2_MODELLINE);
@@ -137,7 +137,7 @@ Cbm2Window::Cbm2Window()
 	box->SetLabel("Memory");
 	background->AddChild(box);				    
 
-    resources_get_value("RamSize", (void *)&res);
+    resources_get_int("RamSize", &res);
 	for (i=0; cbm2_memory[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_CBM2_MEMORY);
@@ -166,7 +166,7 @@ Cbm2Window::Cbm2Window()
 			rambank_text[i],
 			rambank_text[i],
 			msg);
-	    resources_get_value(rambank_res[i], (void *)&res);
+	    resources_get_int(rambank_res[i], &res);
 		checkbox->SetValue(res);
 		box->AddChild(checkbox);
 	}
@@ -192,13 +192,11 @@ void Cbm2Window::MessageReceived(BMessage *msg) {
 			break;
 		case MESSAGE_CBM2_MODELLINE:
 			msg->FindInt32("modelline", &res_value);
-			resources_set_value("ModelLine", 
-				(resource_value_t) res_value);
+			resources_set_int("ModelLine", res_value);
 			break;
 		case MESSAGE_CBM2_MEMORY:
 			msg->FindInt32("memory", &res_value);
-			resources_set_value("RamSize", 
-				(resource_value_t) cbm2_memory[res_value]);
+			resources_set_int("RamSize", cbm2_memory[res_value]);
 			break;
 		case MESSAGE_CBM2_RAMBANK:
 			msg->FindInt32("rambank", &res_value);

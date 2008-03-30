@@ -179,7 +179,7 @@ JoystickWindow::JoystickWindow()
 	r.InsetBy(10,10);
 	checkbox = new BCheckBox(r, "Joydisplay", "Enable display for joysticks",
 		new BMessage(JOYMESSAGE_DISPLAY));
-   	resources_get_value("JoystickDisplay", (void *)&res_value);
+   	resources_get_int("JoystickDisplay", &res_value);
    	checkbox->SetValue(res_value);
    	background->AddChild(checkbox);
 
@@ -196,14 +196,13 @@ JoystickWindow::~JoystickWindow()
 void JoystickWindow::MessageReceived(BMessage *msg) {
 	int32 port,device;
 	char resource_name[16];
-	int res_value;
 		
 	switch(msg->what) {
 		case JOYMESSAGE_DEVPORT:
 			msg->FindInt32("device_num", &device);
 			msg->FindInt32("joy_port", &port);
 			sprintf(resource_name, "JoyDevice%d", port); 	
-			resources_set_value(resource_name, (resource_value_t) device);
+			resources_set_int(resource_name, device);
 			break;
 		case JOYMESSAGE_KEYSET1:
 			keysetwindow = new KeysetWindow(1);
@@ -214,8 +213,7 @@ void JoystickWindow::MessageReceived(BMessage *msg) {
 			while (keysetwindow);
 			break;
 		case JOYMESSAGE_DISPLAY:
-		   	resources_get_value("JoystickDisplay", (void *)&res_value);
-		   	resources_set_value("JoystickDisplay", (resource_value_t )!res_value);
+		   	resources_toggle("JoystickDisplay", NULL);
 		   	break;
 		default:
 			BWindow::MessageReceived(msg);

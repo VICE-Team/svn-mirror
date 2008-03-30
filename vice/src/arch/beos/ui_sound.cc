@@ -116,7 +116,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Frequency");
 
-    resources_get_value("SoundSampleRate",(void *)&res_value);
+    resources_get_int("SoundSampleRate", &res_value);
 	
 	for (i=0; i<ui_sound_freq_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_FREQ);
@@ -138,7 +138,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Buffer Size");
 
-    resources_get_value("SoundBufferSize",(void *)&res_value);
+    resources_get_int("SoundBufferSize", &res_value);
 	
 	for (i=0; i<ui_sound_buffer_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_BUFF);
@@ -161,7 +161,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Oversample");
 
-    resources_get_value("SoundOversample",(void *)&res_value);
+    resources_get_int("SoundOversample", &res_value);
 	
 	for (i=0; i<ui_sound_oversample_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_SAMPLE);
@@ -183,7 +183,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Sync Method");
 
-    resources_get_value("SoundSpeedAdjustment",(void *)&res_value);
+    resources_get_int("SoundSpeedAdjustment", &res_value);
 	
 	for (i=0; i<ui_sound_adjusting_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_SYNC);
@@ -210,23 +210,19 @@ void SoundWindow::MessageReceived(BMessage *msg) {
 	switch (msg->what) {
 		case MESSAGE_SOUND_FREQ:
 			msg->FindInt32("frequency", &res_value);
-            resources_set_value("SoundSampleRate",
-            	(resource_value_t)res_value);
+            resources_set_int("SoundSampleRate", res_value);
 			break;
 		case MESSAGE_SOUND_BUFF:
 			msg->FindInt32("buffer", &res_value);
-            resources_set_value("SoundBufferSize",
-            	(resource_value_t)res_value);
+            resources_set_int("SoundBufferSize", res_value);
 			break;
 		case MESSAGE_SOUND_SAMPLE:
 			msg->FindInt32("oversample", &res_value);
-            resources_set_value("SoundOversample",
-            	(resource_value_t)res_value);
+            resources_set_int("SoundOversample", res_value);
 			break;
 		case MESSAGE_SOUND_SYNC:
 			msg->FindInt32("sync", &res_value);
-            resources_set_value("SoundSpeedAdjustment",
-            	(resource_value_t)res_value);
+            resources_set_int("SoundSpeedAdjustment", res_value);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

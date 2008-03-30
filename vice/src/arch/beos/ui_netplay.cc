@@ -60,7 +60,7 @@ NetplayWindow::NetplayWindow()
 {
 	int port;
 	char str[256];
-	char *server;
+	const char *server;
 	BView *background;
 	BRect r;
 
@@ -69,8 +69,8 @@ NetplayWindow::NetplayWindow()
 	background->SetViewColor(220,220,220,0);
 	AddChild(background);
 
-    resources_get_value("NetworkServerName", (void *) &server);
-    resources_get_value("NetworkServerPort", (void *) &port);
+    resources_get_string("NetworkServerName", &server);
+    resources_get_int("NetworkServerPort", &port);
     sprintf(str, "%d", port);
     
     r.bottom -= r.Height() * 2 / 3;
@@ -106,10 +106,10 @@ void NetplayWindow::MessageReceived(BMessage *msg) {
 	
 	switch (msg->what) {
 		case MESSAGE_NETPLAY_APPLY:
-		    resources_set_value("NetworkServerName",
-		  		(resource_value_t) servertextcontrol->Text());
-		    resources_set_value("NetworkServerPort",
-		  		(resource_value_t) atoi(porttextcontrol->Text()));
+		    resources_set_string("NetworkServerName",
+		  		servertextcontrol->Text());
+		    resources_set_int("NetworkServerPort",
+		  		atoi(porttextcontrol->Text()));
 		  	BWindow::Quit();
 		  	break;
 		default:

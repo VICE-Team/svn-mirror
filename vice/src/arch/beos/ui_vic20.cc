@@ -116,7 +116,7 @@ Vic20Window::Vic20Window()
 
 	for (i=0; i<5; i++)
 	{
-		resources_get_value(block_resource[i], (void *)&block[i]);
+		resources_get_int(block_resource[i], &block[i]);
 	}
 
 	r = Bounds();
@@ -222,19 +222,19 @@ void Vic20Window::UpdateBlocks(int config_nr)
     
     i = (config_nr & BLOCK_0) ? 1 : 0;
     CBblock[0]->SetValue(i);
-    resources_set_value(block_resource[0], (resource_value_t) i);
+    resources_set_int(block_resource[0], i);
     i = (config_nr & BLOCK_1) ? 1 : 0;
     CBblock[1]->SetValue(i);
-    resources_set_value(block_resource[1], (resource_value_t) i);
+    resources_set_int(block_resource[1], i);
     i = (config_nr & BLOCK_2) ? 1 : 0;
     CBblock[2]->SetValue(i);
-    resources_set_value(block_resource[2], (resource_value_t) i);
+    resources_set_int(block_resource[2], i);
     i = (config_nr & BLOCK_3) ? 1 : 0;
     CBblock[3]->SetValue(i);
-    resources_set_value(block_resource[3], (resource_value_t) i);
+    resources_set_int(block_resource[3], i);
     i = (config_nr & BLOCK_5) ? 1 : 0;
     CBblock[4]->SetValue(i);
-    resources_set_value(block_resource[4], (resource_value_t) i);
+    resources_set_int(block_resource[4], i);
 }
 
 

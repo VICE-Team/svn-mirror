@@ -123,7 +123,7 @@ VideoWindow::VideoWindow()
 	BEntry entry;
 	int res_val, i;
 	char *dirpath;
-	char *palettefile;
+	const char *palettefile;
 	BRadioButton *rb_mode;
 
 	switch (machine_class) {
@@ -160,8 +160,8 @@ VideoWindow::VideoWindow()
 	for (i=0; color_control[i].name; i++)
 	{
 		if (chip_param_table[chip[0]].res_ExternalPalette_name != NULL
-			&& resources_get_value(color_control[i].res_name, 
-				(void *)&res_val) == 0)
+			&& resources_get_int(color_control[i].res_name, 
+				&res_val) == 0)
 		{
 			msg = new BMessage(MESSAGE_VIDEO_COLOR);
 			msg->AddInt32("index", i);
@@ -182,15 +182,15 @@ VideoWindow::VideoWindow()
 		new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE));
 	background->AddChild(checkbox);
 	if (chip_param_table[chip[0]].res_ExternalPalette_name != NULL) {
-		resources_get_value(chip_param_table[chip[0]].res_ExternalPalette_name,
-							(void *)&res_val);
+		resources_get_int(chip_param_table[chip[0]].res_ExternalPalette_name,
+							&res_val);
 	} else {
 		res_val = 1;
 		checkbox->SetEnabled(0);
 	}
 	checkbox->SetValue(res_val);
 	
-	resources_get_value(chip_param_table[chip[0]].res_PaletteFile_name,	(void *)&palettefile);
+	resources_get_string(chip_param_table[chip[0]].res_PaletteFile_name,	&palettefile);
 	util_add_extension(&palettefile, "vpl");
 	palettelistview = new BListView(BRect(110, 35, 220, 125), "Palette File");
 	palettelistview->SetSelectionMessage(
@@ -213,8 +213,8 @@ VideoWindow::VideoWindow()
 	}
 
 	/* PAL settings */
-	if (resources_get_value("PALMode", 
-		(void *)&res_val) == 0)
+	if (resources_get_int("PALMode", 
+		&res_val) == 0)
 	{
 		box = new BBox(BRect(110, 140, 240, 200));
 		box->SetLabel("PAL Mode");
@@ -258,8 +258,8 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			ui_add_event((void*)msr);
 			break;
 		case MESSAGE_VIDEO_EXTERNALPALETTE:
-			resources_get_value(chip_param_table[chip[0]].res_ExternalPalette_name,
-								(void *)&val);
+			resources_get_int(chip_param_table[chip[0]].res_ExternalPalette_name,
+								&val);
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
 			msr->AddString("resname", chip_param_table[chip[0]].res_ExternalPalette_name);
 			msr->AddInt32("resval", 1-val);
@@ -284,7 +284,7 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			ui_add_event((void*)msr);
 			/* reset ExternalPalette to update the canvas */
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
-			resources_get_value("ExternalPalette", (void *)&val);
+			resources_get_int("ExternalPalette", &val);
 			msr->AddString("resname", "ExternalPalette");
 			msr->AddInt32("resval", val);
 			ui_add_event((void*)msr);

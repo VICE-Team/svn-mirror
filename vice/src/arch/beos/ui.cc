@@ -725,11 +725,11 @@ void ui_dispatch_events(void)
 				const char *res_val_str;
 				if (message_queue[i].FindString("resname", &res_name) == B_OK)
 					if (message_queue[i].FindInt32("resval", &res_val) == B_OK)
-						resources_set_value(res_name, 
-							(resource_value_t) res_val);
+						resources_set_int(res_name, 
+							res_val);
 					if (message_queue[i].FindString("resvalstr", &res_val_str) == B_OK)
-						resources_set_value(res_name, 
-							(resource_value_t) res_val_str);
+						resources_set_string(res_name, 
+							res_val_str);
 				break;
 			}
 

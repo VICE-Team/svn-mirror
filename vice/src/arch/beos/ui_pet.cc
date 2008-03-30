@@ -124,7 +124,7 @@ PetWindow::PetWindow()
 	box->SetLabel("Memory");
 	background->AddChild(box);				    
 
-    resources_get_value("RamSize", (void *)&res);
+    resources_get_int("RamSize", &res);
 	for (i=0; pet_memory[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_PET_MEMORY);
@@ -145,7 +145,7 @@ PetWindow::PetWindow()
 	box->SetLabel("Video");
 	background->AddChild(box);				    
 
-    resources_get_value("VideoSize", (void *)&res);
+    resources_get_int("VideoSize", &res);
 	for (i=0; video_text[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_PET_VIDEO);
@@ -165,7 +165,7 @@ PetWindow::PetWindow()
 	box->SetLabel("IO Size");
 	background->AddChild(box);				    
 
-    resources_get_value("IOSize", (void *)&res);
+    resources_get_int("IOSize", &res);
 	for (i=0; iosize_text[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_PET_IOSIZE);
@@ -185,7 +185,7 @@ PetWindow::PetWindow()
 	box->SetLabel("Keyboard");
 	background->AddChild(box);				    
 
-    resources_get_value("KeymapIndex", (void *)&res);
+    resources_get_int("KeymapIndex", &res);
 	for (i=0; keyboard_text[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_PET_KEYBOARD);
@@ -205,7 +205,7 @@ PetWindow::PetWindow()
 	box->SetLabel("CRTC");
 	background->AddChild(box);				    
 
-    resources_get_value("Crtc", (void *)&res);
+    resources_get_int("Crtc", &res);
 	checkbox = new BCheckBox(BRect(10, 15, 140, 25),
 		"CRTC chip enabled",
 		"CRTC chip enabled",
@@ -220,7 +220,7 @@ PetWindow::PetWindow()
 	box->SetLabel("SuperPET");
 	background->AddChild(box);				    
 
-    resources_get_value("SuperPET", (void *)&res);
+    resources_get_int("SuperPET", &res);
 	checkbox = new BCheckBox(BRect(10, 15, 155, 25),
 		"IO enable (disables 8x96)",
 		"IO enable (disables 8x96)",
@@ -235,7 +235,7 @@ PetWindow::PetWindow()
 	box->SetLabel("8296 PET");
 	background->AddChild(box);				    
 
-    resources_get_value("Ram9", (void *)&res);
+    resources_get_int("Ram9", &res);
 	checkbox = new BCheckBox(BRect(10, 15, 155, 25),
 		"$9*** as RAM",
 		"$9*** as RAM",
@@ -243,7 +243,7 @@ PetWindow::PetWindow()
 	checkbox->SetValue(res);
 	box->AddChild(checkbox);
 
-    resources_get_value("RamA", (void *)&res);
+    resources_get_int("RamA", &res);
 	checkbox = new BCheckBox(BRect(10, 40, 155, 50),
 		"$A*** as RAM",
 		"$A*** as RAM",
@@ -270,23 +270,23 @@ void PetWindow::MessageReceived(BMessage *msg) {
 			break;
 		case MESSAGE_PET_MEMORY:
 			msg->FindInt32("memory", &res_value);
-			resources_set_value("RamSize", 
-				(resource_value_t) pet_memory[res_value]);
+			resources_set_int("RamSize", 
+				pet_memory[res_value]);
 			break;
 		case MESSAGE_PET_VIDEO:
 			msg->FindInt32("video", &res_value);
-			resources_set_value("VideoSize",
-				(resource_value_t) video_res[res_value]);
+			resources_set_int("VideoSize",
+				video_res[res_value]);
 			break;
 		case MESSAGE_PET_IOSIZE:
 			msg->FindInt32("iosize", &res_value);
-			resources_set_value("IOSize",
-				(resource_value_t) iosize_res[res_value]);
+			resources_set_int("IOSize",
+				iosize_res[res_value]);
 			break;
 		case MESSAGE_PET_KEYBOARD:
 			msg->FindInt32("keyboard", &res_value);
-			resources_set_value("KeymapIndex",
-				(resource_value_t) keyboard_res[res_value]);
+			resources_set_int("KeymapIndex",
+				keyboard_res[res_value]);
 			break;
 		case MESSAGE_PET_CRTC:
 			resources_toggle("Crtc", (resource_value_t *) &res_value);

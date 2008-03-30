@@ -380,10 +380,10 @@ void ui_select_file_action(BMessage *msg) {
 			if (machine_write_snapshot(fullpath, 1, 1, 0) < 0)
             	ui_error("Cannot write snapshot file.");
     	} else if (last_filetype[1] == SNAPSHOT_HISTORY_START) {
-    		resources_set_value("EventStartSnapshot", (void *)name);
+    		resources_set_string("EventStartSnapshot", name);
     	} else if (last_filetype[1] == SNAPSHOT_HISTORY_END) {
-    		resources_set_value("EventEndSnapshot", (void *)name);
-    		resources_set_value("EventSnapshotDir", (void *)path->Path());
+    		resources_set_string("EventEndSnapshot", name);
+    		resources_set_string("EventSnapshotDir", path->Path());
 		}
 		
 		delete path;

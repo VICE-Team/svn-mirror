@@ -82,7 +82,7 @@ RamWindow::RamWindow()
 
 
 	/* Start value */
-    resources_get_value("RAMInitStartValue", (void *)&start_value);
+    resources_get_int("RAMInitStartValue", &start_value);
 	r = Bounds();
 	r.InsetBy(10,5);
 	r.bottom = r.top + 40;
@@ -103,8 +103,8 @@ RamWindow::RamWindow()
 	}
 
 	/* invert lists*/
-    resources_get_value("RAMInitValueInvert", (void *)&orig_valueinvert);
-    resources_get_value("RAMInitPatternInvert",  (void *)&orig_patterninvert);
+    resources_get_int("RAMInitValueInvert", &orig_valueinvert);
+    resources_get_int("RAMInitPatternInvert",  &orig_patterninvert);
 
 	r = Bounds();
 	r.InsetBy(10,10);
@@ -155,20 +155,20 @@ void RamWindow::MessageReceived(BMessage *msg) {
 	switch (msg->what) {
 		case MESSAGE_RAM_STARTVALUE:
 			msg->FindInt32("value", &res_value);
-            resources_set_value("RAMInitStartValue",
-            	(resource_value_t) ui_ram_startvalue[res_value]);
+            resources_set_int("RAMInitStartValue",
+            	ui_ram_startvalue[res_value]);
 			break;
 		case MESSAGE_RAM_VALUEINVERT:
 			i = valueinvertlistview->CurrentSelection();
 			if (i >= 0)
-	            resources_set_value("RAMInitValueInvert",
-    	        	(resource_value_t)ui_ram_invertvalue[i]);
+	            resources_set_int("RAMInitValueInvert",
+    	        	ui_ram_invertvalue[i]);
 			break;				
 		case MESSAGE_RAM_PATTERNINVERT:
 			i = patterninvertlistview->CurrentSelection();
 			if (i >= 0)
-	            resources_set_value("RAMInitPatternInvert",
-    	        	(resource_value_t)ui_ram_invertvalue[i]);
+	            resources_set_int("RAMInitPatternInvert",
+    	        	ui_ram_invertvalue[i]);
 			break;				
 		default:
 			BWindow::MessageReceived(msg);

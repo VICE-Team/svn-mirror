@@ -171,7 +171,7 @@ DeviceWindow::DeviceWindow()
 	BCheckBox *checkbox;
 	int device_num;
 	int printer4;
-	char *printerfile;
+	const char *printerfile;
 	char str[20];	
 
 	frame = Bounds();
@@ -192,8 +192,8 @@ DeviceWindow::DeviceWindow()
 	tab->SetLabel("Printer 4");
 	printerview->SetViewColor(220,220,220,0);
 	
-    resources_get_value("Printer4",	(void *) &printer4);
-    resources_get_value("PrinterTextDevice1",	(void *) &printerfile);
+    resources_get_int("Printer4",	&printer4);
+    resources_get_string("PrinterTextDevice1",	&printerfile);
 	r.InsetBy(10,10);
 	box = new BBox(r);
 	printerview->AddChild(box);
@@ -244,12 +244,11 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
 	
 	switch (msg->what) {
 		case MESSAGE_DEVICE_PRINTER4:
-		    resources_get_value("Printer4",	(void *) &res_val);
-		    resources_set_value("Printer4",	(resource_value_t) !res_val);
+		    resources_toggle("Printer4",	NULL);
 			break;
 		case MESSAGE_DEVICE_PRINTERFILE:
-		    resources_set_value("PrinterTextDevice1",
-		  		(resource_value_t) printertextcontrol->Text());
+		    resources_set_string("PrinterTextDevice1",
+		  		printertextcontrol->Text());
 		  	break;
 		case MESSAGE_DEVICE_P00:
 			msg->FindInt32("type", &resource_index);
