@@ -44,7 +44,6 @@
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "ioutil.h"
@@ -73,10 +72,8 @@
 #include "rs232drv.h"
 #include "screenshot.h"
 #include "serial.h"
-#include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
-#include "tape-snapshot.h"
 #include "traps.h"
 #include "types.h"
 #include "utils.h"
@@ -438,95 +435,15 @@ void machine_set_cycles_per_frame(long cpf)
 
 /* ------------------------------------------------------------------------- */
 
-/*#define SNAP_MACHINE_NAME   "PET"*/
-#define SNAP_MAJOR          0
-#define SNAP_MINOR          0
-
-/* now machine_name[] is used */
-/* const char machine_snapshot_name[] = SNAP_MACHINE_NAME; */
-
 int machine_write_snapshot(const char *name, int save_roms, int save_disks,
                            int event_mode)
 {
-    snapshot_t *s;
-    int ef = 0;
-
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
-
-    if (s == NULL) {
-        perror(name);
-        return -1;
-    }
-
-    sound_snapshot_prepare();
-
-    if (maincpu_snapshot_write_module(s) < 0
-        || pet_snapshot_write_module(s, save_roms) < 0
-        || crtc_snapshot_write_module(s) < 0
-        || pia1_snapshot_write_module(s) < 0
-        || pia2_snapshot_write_module(s) < 0
-        || via_snapshot_write_module(s) < 0
-        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
-        ef = -1;
-    }
-
-    if ((!ef) && petres.superpet)
-        ef = acia1_snapshot_write_module(s);
-
-    snapshot_close(s);
-
-    if (ef)
-        ioutil_remove(name);
-
-    return ef;
+    return pet_snapshot_write(name, save_roms, save_disks, event_mode);
 }
 
 int machine_read_snapshot(const char *name, int event_mode)
 {
-    snapshot_t *s;
-    BYTE minor, major;
-    int ef = 0;
-
-    s = snapshot_open(name, &major, &minor, machine_name);
-
-    if (s == NULL)
-        return -1;
-
-    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        log_error(pet_log,
-                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
-                  major, minor, SNAP_MAJOR, SNAP_MINOR);
-        ef = -1;
-    }
-
-    if (ef
-        || maincpu_snapshot_read_module(s) < 0
-        || pet_snapshot_read_module(s) < 0
-        || crtc_snapshot_read_module(s) < 0
-        || pia1_snapshot_read_module(s) < 0
-        || pia2_snapshot_read_module(s) < 0
-        || via_snapshot_read_module(s) < 0
-        || drive_snapshot_read_module(s) < 0
-        || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0) {
-        ef = -1;
-    }
-
-    if (!ef) {
-        acia1_snapshot_read_module(s);  /* optional, so no error check */
-    }
-
-    snapshot_close(s);
-
-    if (ef) {
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    }
-
-    sound_snapshot_finish();
-
-    return ef;
+    return pet_snapshot_read(name, event_mode);
 }
 
 

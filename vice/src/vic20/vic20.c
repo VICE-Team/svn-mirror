@@ -38,13 +38,10 @@
 #include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
-#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "iecdrive.h"
 #include "interrupt.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -54,15 +51,12 @@
 #include "mem.h"
 #include "monitor.h"
 #include "printer.h"
-#include "resources.h"
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
-#include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
-#include "tape-snapshot.h"
 #include "traps.h"
 #include "types.h"
 #include "via.h"
@@ -482,101 +476,15 @@ void machine_change_timing(int timeval)
 
 /* ------------------------------------------------------------------------- */
 
-/* #define SNAP_MACHINE_NAME   "VIC20" */
-#define SNAP_MAJOR          0
-#define SNAP_MINOR          0
-
 int machine_write_snapshot(const char *name, int save_roms, int save_disks,
                            int event_mode)
 {
-    snapshot_t *s;
-    int ieee488;
-
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
-                        machine_name);
-    if (s == NULL) {
-        perror(name);
-        return -1;
-    }
-
-    sound_snapshot_prepare();
-
-    /* FIXME: Missing sound.  */
-    if (maincpu_snapshot_write_module(s) < 0
-        || vic20_snapshot_write_module(s, save_roms) < 0
-        || vic_snapshot_write_module(s) < 0
-        || via1_snapshot_write_module(s) < 0
-        || via2_snapshot_write_module(s) < 0
-        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
-        snapshot_close(s);
-        ioutil_remove(name);
-        return -1;
-    }
-
-    resources_get_value("IEEE488", (void *)&ieee488);
-    if (ieee488) {
-        if (ieeevia1_snapshot_write_module(s) < 0
-            || ieeevia2_snapshot_write_module(s) < 0) {
-            snapshot_close(s);
-            ioutil_remove(name);
-            return 1;
-        }
-    }
-
-    snapshot_close(s);
-    return 0;
+    return vic20_snapshot_write(name, save_roms, save_disks, event_mode);
 }
 
 int machine_read_snapshot(const char *name, int event_mode)
 {
-    snapshot_t *s;
-    BYTE minor, major;
-
-    s = snapshot_open(name, &major, &minor, machine_name);
-    if (s == NULL)
-        return -1;
-
-    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        log_error(vic20_log,
-                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
-                  major, minor, SNAP_MAJOR, SNAP_MINOR);
-        goto fail;
-    }
-
-    /* FIXME: Missing sound.  */
-    if (maincpu_snapshot_read_module(s) < 0
-        || vic20_snapshot_read_module(s) < 0
-        || vic_snapshot_read_module(s) < 0
-        || via1_snapshot_read_module(s) < 0
-        || via2_snapshot_read_module(s) < 0
-        || drive_snapshot_read_module(s) < 0
-        || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0)
-        goto fail;
-
-    if (ieeevia1_snapshot_read_module(s) < 0
-        || ieeevia2_snapshot_read_module(s) < 0) {
-        /* IEEE488 module not undumped */
-        resources_set_value("IEEE488", (resource_value_t)0);
-    } else {
-        resources_set_value("IEEE488", (resource_value_t)1);
-    }
-
-    snapshot_close(s);
-
-    sound_snapshot_finish();
-
-    return 0;
-
-fail:
-    if (s != NULL)
-        snapshot_close(s);
-    
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-
-    return -1;
+    return vic20_snapshot_read(name, event_mode);
 }
 
 
