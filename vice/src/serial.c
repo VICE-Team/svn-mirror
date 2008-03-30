@@ -172,7 +172,7 @@ static int  serialcommand()
 	printf("Unknown command %02X\n\n", TrapSecondary & 0xff);
     }
 
-    maincpu_regs.psp.i = 0;
+    maincpu_regs.p.i = 0;
     return st;
 }
 
@@ -227,8 +227,8 @@ void serialattention()
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
 	SET_ST(0x80);
 
-    maincpu_regs.psp.c = 0;
-    maincpu_regs.psp.i = 0;
+    maincpu_regs.p.c = 0;
+    maincpu_regs.p.i = 0;
 }
 
 /* Send one byte on the serial bus.  */
@@ -267,8 +267,8 @@ void serialsendbyte()
 	SET_ST(0x83);
     }
 
-    maincpu_regs.psp.c = 0;
-    maincpu_regs.psp.i = 0;
+    maincpu_regs.p.c = 0;
+    maincpu_regs.p.i = 0;
 }
 
 /* Receive one byte from the serial bus.  */
@@ -305,10 +305,10 @@ void serialreceivebyte()
 
     /* Set registers (PC, AC and CARRY) like the Kernal routine does.  */
     maincpu_regs.a = data;
-    maincpu_regs.psp.n = (data & 0x80) ? 1 : 0;
-    maincpu_regs.psp.z = data ? 0 : 1;
-    maincpu_regs.psp.c = 0;
-    maincpu_regs.psp.i = 0;
+    maincpu_regs.p.n = (data & 0x80) ? 1 : 0;
+    maincpu_regs.p.z = data ? 0 : 1;
+    maincpu_regs.p.c = 0;
+    maincpu_regs.p.i = 0;
 }
 
 
@@ -318,9 +318,9 @@ void serialreceivebyte()
 void trap_serial_ready(void)
 {
     maincpu_regs.a = 1;
-    maincpu_regs.psp.n = 0;
-    maincpu_regs.psp.z = 0;
-    maincpu_regs.psp.i = 0;
+    maincpu_regs.p.n = 0;
+    maincpu_regs.p.z = 0;
+    maincpu_regs.p.i = 0;
 }
 
 /* ------------------------------------------------------------------------- */

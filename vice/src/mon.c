@@ -260,8 +260,9 @@ void print_registers(MEMSPACE mem)
     fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
             get_reg_val(mem,e_PC), get_reg_val(mem,e_A), get_reg_val(mem,e_X),
             get_reg_val(mem,e_Y), get_reg_val(mem,e_SP), get_mem_val(mem,1),
-            TEST(regs->psp.n), TEST(regs->psp.v), 'x', TEST(regs->psp.b), TEST(regs->psp.d),
-            TEST(regs->psp.i), TEST(regs->psp.z), TEST(regs->psp.c));
+            TEST(regs->p.n), TEST(regs->p.v), 'x', TEST(regs->p.b),
+            TEST(regs->p.d), TEST(regs->p.i), TEST(regs->p.z),
+            TEST(regs->p.c));
 }
 
 unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
@@ -1941,6 +1942,8 @@ void mon(ADDRESS a)
    suspend_speed_eval();
 
    dot_addr[caller_space] = new_addr(caller_space, a);
+
+   printf("\n** Monitor\n");
 
    do {
       sprintf(prompt, "[%c,R:%s,W:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],

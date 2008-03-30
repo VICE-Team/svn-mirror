@@ -64,6 +64,7 @@ extern int usleep(unsigned long);
 #include "sid.h"
 #include "vsync.h"
 #include "resources.h"
+#include "cmdline.h"
 #include "utils.h"
 
 /* ------------------------------------------------------------------------- */
@@ -196,6 +197,46 @@ int sid_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* Command-line options -- Added by Ettore 98-05-09.  */
+static cmdline_option_t cmdline_options[] = {
+    { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t) 1,
+      NULL, "Enable sound playback" },
+    { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t) 0,
+      NULL, "Disable sound playback" },
+    { "-soundrate", SET_RESOURCE, 1, NULL, NULL, "SoundSampleRate", NULL,
+      "<value>", "Set sound sample rate to <value> Hz" },
+    { "-soundbufsize", SET_RESOURCE, 1, NULL, NULL, "SoundBufferSize", NULL,
+      "<value>", "Set sound buffer size to <value> msec" },
+    { "-sounddev", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceName", NULL,
+      "<name>", "Specify sound driver" },
+    { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
+      "<args>", "Specify initialization parameters for sound driver" },
+#if defined CBM64 || defined C128
+    { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
+      "<model>", "Specify SID model (1: 8580, 0: 6581)" },
+    { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 1,
+      NULL, "Emulate SID filters" },
+    { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 0,
+      NULL, "Do not emulate SID filters" },
+#endif
+#ifndef __MSDOS__
+    { "-soundspeedadj", SET_RESOURCE, 0, NULL, NULL, "SoundSpeedAdjustment", (resource_value_t) 1,
+      NULL, "Enable automatic sound speed adjustment" },
+    { "+soundspeedadj", SET_RESOURCE, 0, NULL, NULL, "SoundSpeedAdjustment", (resource_value_t) 1,
+      NULL, "Disable automatic sound speed adjustment" },
+    { "-soundsuspend", SET_RESOURCE, 1, NULL, NULL, "SoundSuspendTime", NULL,
+      "<value>", "Suspend playback for <value> seconds on error (0: never)" },
+#endif
+    { NULL }
+};
+
+int sid_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
 #ifdef SOUND
 
 /* needed datatypes */
@@ -259,6 +300,11 @@ static u16_t wavetable70[8192];
 static u8_t noiseMSB[NOISETABLESIZE];
 static u8_t noiseMID[NOISETABLESIZE];
 static u8_t noiseLSB[NOISETABLESIZE];
+
+/* Timing constants */
+unsigned int cycles_per_sec;
+unsigned int cycles_per_rfsh;
+double rfsh_per_sec;
 
 /* needed data for one voice */
 typedef struct voice_s
@@ -1041,7 +1087,7 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     psid->oversampleshift = oversampling_factor;
     psid->oversamplenr = 1 << psid->oversampleshift;
 #endif
-    psid->speed1 = (CYCLES_PER_SEC << 8) / speed;
+    psid->speed1 = (cycles_per_sec << 8) / speed;
 #ifdef OVERSAMPLE
     psid->speed1 >>= psid->oversampleshift;
 #endif
@@ -1176,7 +1222,7 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     if (!psid->t)
 	psid->t = 32;
     psid->b = 0.0;
-    psid->bs = (double)CYCLES_PER_SEC/(psid->t*psid->speed);
+    psid->bs = (double)cycles_per_sec/(psid->t*psid->speed);
 }
 
 inline static void update_sid(sound_t *psid, int nr)
@@ -1235,7 +1281,7 @@ typedef struct
     int				(*resume)(sound_t *s);
 } sid_device_t;
 
-#define FRAGS_PER_SECOND ((int)RFSH_PER_SEC)
+#define FRAGS_PER_SECOND ((int)rfsh_per_sec)
 
 /*
  * fs-device
@@ -1413,7 +1459,7 @@ static int test_write(sound_t *s, s16_t *pbuf, int nr)
     (void)test_bufferstatus(s, 0);
     test_time_written += nr / test_time_fragsize;
     while (test_bufferstatus(s, 0) > test_time_nrfrags*test_time_fragsize)
-	usleep(1000000 / (4 * (int)RFSH_PER_SEC));
+	usleep(1000000 / (4 * (int)rfsh_per_sec));
     return 0;
 }
 
@@ -1862,7 +1908,7 @@ static int sun_write(sound_t *s, s16_t *pbuf, int nr)
     sun_written += nr;
 
     while (sun_bufferstatus(s, 0) > sun_bufsize)
-	usleep(1000000 / (4 * (int)RFSH_PER_SEC));
+	usleep(1000000 / (4 * (int)rfsh_per_sec));
     return 0;
 }
 
@@ -2591,7 +2637,7 @@ static int initsid(void)
 		init_sid(&siddata.sid, NULL, speed);
 	    if (pdev->bufferstatus)
 		siddata.firststatus = pdev->bufferstatus(&siddata.sid, 1);
-	    siddata.clkstep = (double)CYCLES_PER_SEC / speed;
+	    siddata.clkstep = (double)cycles_per_sec / speed;
 #ifdef OVERSAMPLE
 	    if (siddata.sid.oversamplenr > 1)
 	    {
@@ -2741,7 +2787,7 @@ int flush_sound(int relative_speed)
 	siddata.prevfill = fill;
 	siddata.clkfactor *= 0.9 + (used+nr)*0.12/siddata.bufsize;
 	siddata.clkstep = siddata.origclkstep * siddata.clkfactor;
-	if (CYCLES_PER_RFSH / siddata.clkstep >= siddata.bufsize)
+	if (cycles_per_rfsh / siddata.clkstep >= siddata.bufsize)
 	{
 	    if (suspend_time > 0)
 	        suspendsid("running too slow");
@@ -2821,22 +2867,26 @@ void resume_sound(void)
 }
 
 /* initialize sid at program start -time */
-void initialize_sound(void)
+void initialize_sound(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
+    cycles_per_sec = clock_rate;
+    cycles_per_rfsh = ticks_per_frame;
+    rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
+
     /* dummy init to get pwarn */
     init_sid(&siddata.sid, NULL, SOUND_SAMPLE_RATE);
 }
 
 /* adjust clk before overflow */
-void sid_prevent_clk_overflow(void)
+void sid_prevent_clk_overflow(CLOCK sub)
 {
 #ifdef CBM64
-    siddata.sid.laststoreclk -= PREVENT_CLK_OVERFLOW_SUB;
+    siddata.sid.laststoreclk -= sub;
 #endif
     if (!siddata.pdev)
 	return;
-    siddata.wclk -= PREVENT_CLK_OVERFLOW_SUB;
-    siddata.fclk -= PREVENT_CLK_OVERFLOW_SUB;
+    siddata.wclk -= sub;
+    siddata.fclk -= sub;
 }
 
 #ifdef SID
@@ -3047,7 +3097,7 @@ void store_petsnd_rate(CLOCK t)
     i = run_sid();
     siddata.sid.t = t;
     /* siddata.sid.b = 0; */
-    siddata.sid.bs = (double)CYCLES_PER_SEC/(siddata.sid.t*siddata.sid.speed);
+    siddata.sid.bs = (double)cycles_per_sec/(siddata.sid.t*siddata.sid.speed);
 }
 
 void store_petsnd_sample(BYTE sample)

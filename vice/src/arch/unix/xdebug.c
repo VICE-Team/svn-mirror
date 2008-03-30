@@ -618,35 +618,35 @@ int  check_next (void)
 	/* BRANCH instructions. */
 
       case 0x10:	/* BPL */
-	loop_test (!maincpu_regs.psp.n, src, 0);
+	loop_test (!maincpu_regs.p.n, src, 0);
 	break;
 
       case 0x30:	/* BMI */
-	loop_test (maincpu_regs.psp.n, src, 0);
+	loop_test (maincpu_regs.p.n, src, 0);
 	break;
 
       case 0x50:	/* BVC */
-	loop_test (!maincpu_regs.psp.v, src, 0);
+	loop_test (!maincpu_regs.p.v, src, 0);
 	break;
 
       case 0x70:	/* BVS */
-	loop_test (maincpu_regs.psp.v, src, 0);
+	loop_test (maincpu_regs.p.v, src, 0);
 	break;
 
       case 0x90:	/* BCC */
-	loop_test (!maincpu_regs.psp.c, src, 0);
+	loop_test (!maincpu_regs.p.c, src, 0);
 	break;
 
       case 0xB0:	/* BCS */
-	loop_test (maincpu_regs.psp.c, src, 0);
+	loop_test (maincpu_regs.p.c, src, 0);
 	break;
 
       case 0xD0:	/* BNE */
-	loop_test (!maincpu_regs.psp.z, src, 0);
+	loop_test (!maincpu_regs.p.z, src, 0);
 	break;
 
       case 0xF0:	/* BEQ */
-	loop_test (maincpu_regs.psp.z, src, 0);
+	loop_test (maincpu_regs.p.z, src, 0);
 
     }  /* switch */
 

@@ -1,5 +1,5 @@
 /*
- * mos6510.h - Definitions for emulation of the 6510 processor.
+ * vic20.h
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,38 +24,23 @@
  *
  */
 
-#ifndef _MOS6510_H
-#define _MOS6510_H
+#ifndef _VIC20_H
+#define _VIC20_H
 
-#include "types.h"
+#define VIC20_PAL_CYCLES_PER_SEC  1108405
+#define VIC20_PAL_CYCLES_PER_LINE 71
+#define VIC20_PAL_SCREEN_LINES    312
+#define VIC20_PAL_CYCLES_PER_RFSH (VIC20_PAL_SCREEN_LINES \
+                                 * VIC20_PAL_CYCLES_PER_LINE)
+#define VIC20_PAL_RFSH_PER_SEC    (1.0 / ((double)VIC20_PAL_CYCLES_PER_RFSH  \
+                                        / (double)VIC20_PAL_CYCLES_PER_SEC))
 
-/* Struct for the 6510 registers.  */
-typedef struct _mos6510_regs {
-    ADDRESS pc;
-    BYTE a;
-    BYTE x;
-    BYTE y;
-    BYTE sp;
-    struct {
-        int z;
-        int n;
-        int v;
-        int b;
-        int d;
-        int i;
-        int c;
-    } p;
-} mos6510_regs_t;
-
-/* These define the position of the status flags in the P (`status')
-   register.  */
-#define S_SIGN		0x80
-#define S_OVERFLOW	0x40
-#define S_UNUSED	0x20
-#define S_BREAK		0x10
-#define S_DECIMAL	0x08
-#define S_INTERRUPT	0x04
-#define S_ZERO		0x02
-#define S_CARRY		0x01
+#define VIC20_NTSC_CYCLES_PER_SEC  1022727
+#define VIC20_NTSC_CYCLES_PER_LINE 65
+#define VIC20_NTSC_SCREEN_LINES	 261
+#define VIC20_NTSC_CYCLES_PER_RFSH (VIC20_NTSC_SCREEN_LINES \
+                                  * VIC20_NTSC_CYCLES_PER_LINE)
+#define VIC20_NTSC_RFSH_PER_SEC    (1.0 / ((double)VIC20_NTSC_CYCLES_PER_RFSH \
+                                        / (double)VIC20_NTSC_CYCLES_PER_SEC))
 
 #endif

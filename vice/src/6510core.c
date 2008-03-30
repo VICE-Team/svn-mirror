@@ -144,13 +144,13 @@
       GLOBAL_REGS.x = reg_x;                    \
       GLOBAL_REGS.y = reg_y;                    \
       GLOBAL_REGS.sp = reg_sp;                  \
-      GLOBAL_REGS.psp.z = LOCAL_ZERO();         \
-      GLOBAL_REGS.psp.n = LOCAL_SIGN();         \
-      GLOBAL_REGS.psp.v = LOCAL_OVERFLOW();     \
-      GLOBAL_REGS.psp.b = LOCAL_BREAK();        \
-      GLOBAL_REGS.psp.d = LOCAL_DECIMAL();      \
-      GLOBAL_REGS.psp.i = LOCAL_INTERRUPT();    \
-      GLOBAL_REGS.psp.c = LOCAL_CARRY();        \
+      GLOBAL_REGS.p.z = LOCAL_ZERO();           \
+      GLOBAL_REGS.p.n = LOCAL_SIGN();           \
+      GLOBAL_REGS.p.v = LOCAL_OVERFLOW();       \
+      GLOBAL_REGS.p.b = LOCAL_BREAK();          \
+      GLOBAL_REGS.p.d = LOCAL_DECIMAL();        \
+      GLOBAL_REGS.p.i = LOCAL_INTERRUPT();      \
+      GLOBAL_REGS.p.c = LOCAL_CARRY();          \
   } while (0)
 
 /* Import the public version of the registers.  */
@@ -161,13 +161,13 @@
       reg_x = GLOBAL_REGS.x;                    \
       reg_y = GLOBAL_REGS.y;                    \
       reg_sp = GLOBAL_REGS.sp;                  \
-      LOCAL_SET_ZERO(GLOBAL_REGS.psp.z);        \
-      LOCAL_SET_SIGN(GLOBAL_REGS.psp.n);        \
-      LOCAL_SET_OVERFLOW(GLOBAL_REGS.psp.v);    \
-      LOCAL_SET_BREAK(GLOBAL_REGS.psp.b);       \
-      LOCAL_SET_DECIMAL(GLOBAL_REGS.psp.d);     \
-      LOCAL_SET_INTERRUPT(GLOBAL_REGS.psp.i);   \
-      LOCAL_SET_CARRY(GLOBAL_REGS.psp.c);       \
+      LOCAL_SET_ZERO(GLOBAL_REGS.p.z);          \
+      LOCAL_SET_SIGN(GLOBAL_REGS.p.n);          \
+      LOCAL_SET_OVERFLOW(GLOBAL_REGS.p.v);      \
+      LOCAL_SET_BREAK(GLOBAL_REGS.p.b);         \
+      LOCAL_SET_DECIMAL(GLOBAL_REGS.p.d);       \
+      LOCAL_SET_INTERRUPT(GLOBAL_REGS.p.i);     \
+      LOCAL_SET_CARRY(GLOBAL_REGS.p.c);         \
   } while (0)
 
 /* Stack operations. */

@@ -426,15 +426,15 @@ void findheader (void)
     {
 	int i, n = LOAD_ZERO(0xC6);
 
-	maincpu_regs.psp.c = 0;
+	maincpu_regs.p.c = 0;
 	for (i = 0; i < n; i++)
 	    if (LOAD(0x277 + i) == 0x3) {
-		maincpu_regs.psp.c = 1;	/* Carry set flags BREAK error. */
+		maincpu_regs.p.c = 1;	/* Carry set flags BREAK error. */
 		break;
 	    }
     }
 
-    maincpu_regs.psp.z = 1;
+    maincpu_regs.p.z = 1;
 }
 
 
@@ -510,8 +510,8 @@ void writeheader (void)
 
     ram[IRQTMP] = 0;
 
-    maincpu_regs.psp.c = 0;     /* Carry flag sets BREAK error */
-    maincpu_regs.psp.z = 1;
+    maincpu_regs.p.c = 0;     /* Carry flag sets BREAK error */
+    maincpu_regs.p.z = 1;
 }
 
 
@@ -625,7 +625,7 @@ void tapereceive (void)
     ram[IRQTMP] = 0;
 
     SET_ST(st);			/* EOF and possible errors */
-    maincpu_regs.psp.c = 0;
+    maincpu_regs.p.c = 0;
 }
 
 /* ------------------------------------------------------------------------- */
