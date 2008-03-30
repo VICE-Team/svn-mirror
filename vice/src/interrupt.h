@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,17 +34,6 @@
 
 /* This handles the interrupt lines and the CPU alarms (i.e. events that happen
    at specified clock ticks during emulation).  */
-
-/* For maximum performance (these routines are small but used very often), we
-   allow use of inlined functions.  This can be overridden by defining
-   NO_INLINE (useful for debugging and profiling).  */
-#if !defined NO_INLINE
-#  ifndef INLINE_INTERRUPT_FUNCS
-#    define INLINE_INTERRUPT_FUNCS
-#  endif
-#else
-#  undef INLINE_INTERRUPT_FUNCS
-#endif
 
 /* If this is defined, the interrupt routines take account of the 2-cycle
    delay required by the CPU to detect the NMI/IRQ line transition
@@ -156,20 +146,9 @@ extern void interrupt_log_wrong_nnmi(void);
 extern void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_dma(cpu_int_status_t *cs);
 
-/* If we do not want the interrupt functions to be inlined, they are only
-   compiled once when included in `maincpu.c'.  */
-
-#ifdef INLINE_INTERRUPT_FUNCS
-#  define _INT_FUNC inline static
-#else
-#  define _INT_FUNC
-#endif
-
-#if defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C
-
 /* Set the IRQ line state.  */
-_INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
-                                 CLOCK cpu_clk)
+inline static void interrupt_set_irq(cpu_int_status_t *cs, int int_num,
+                                     int value, CLOCK cpu_clk)
 {
     if (value) {                /* Trigger the IRQ.  */
         if (!(cs->pending_int[int_num] & IK_IRQ)) {
@@ -204,8 +183,8 @@ _INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
 }
 
 /* Set the NMI line state.  */
-_INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
-                                 CLOCK cpu_clk)
+inline static void interrupt_set_nmi(cpu_int_status_t *cs, int int_num,
+                                     int value, CLOCK cpu_clk)
 {
     if (value) {                /* Trigger the NMI.  */
         if (!(cs->pending_int[int_num] & IK_NMI)) {
@@ -247,8 +226,8 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
    and IRQ lines.  It is slower than `interrupt_set_nmi()' and
    `interrupt_set_irq()', but is left for backward compatibility (it works
    like the old `setirq()').  */
-_INT_FUNC void interrupt_set_int(cpu_int_status_t *cs, int int_num,
-                                 enum cpu_int value, CLOCK cpu_clk)
+inline static void interrupt_set_int(cpu_int_status_t *cs, int int_num,
+                                     enum cpu_int value, CLOCK cpu_clk)
 {
     interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), cpu_clk);
     interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), cpu_clk);
@@ -257,7 +236,8 @@ _INT_FUNC void interrupt_set_int(cpu_int_status_t *cs, int int_num,
 /* ------------------------------------------------------------------------- */
 
 /* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
-_INT_FUNC enum cpu_int interrupt_check_pending_interrupt(cpu_int_status_t *cs)
+inline static enum cpu_int interrupt_check_pending_interrupt(
+    cpu_int_status_t *cs)
 {
     return cs->global_pending_int;
 }
@@ -265,7 +245,7 @@ _INT_FUNC enum cpu_int interrupt_check_pending_interrupt(cpu_int_status_t *cs)
 /* Return nonzero if a pending NMI should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the NMI line.  */
-_INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
+inline static int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
@@ -283,7 +263,7 @@ _INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 /* Return nonzero if a pending IRQ should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the IRQ line.  */
-_INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
+inline static int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
 
@@ -302,7 +282,7 @@ _INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 
 /* This function must be called by the CPU emulator when a pending NMI
    request is served.  */
-_INT_FUNC void interrupt_ack_nmi(cpu_int_status_t *cs)
+inline static void interrupt_ack_nmi(cpu_int_status_t *cs)
 {
     cs->global_pending_int = (enum cpu_int)
         (cs->global_pending_int & ~IK_NMI);
@@ -310,8 +290,8 @@ _INT_FUNC void interrupt_ack_nmi(cpu_int_status_t *cs)
 
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
-_INT_FUNC void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
-                                      CLOCK *clk_ptr, int num)
+inline static void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
+                                          CLOCK *clk_ptr, int num, CLOCK sub)
 {
     if (num == 0)
         return;
@@ -322,33 +302,11 @@ _INT_FUNC void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
         cs->num_last_stolen_cycles = num;
 
     *clk_ptr += num;
-    cs->last_stolen_cycles_clk = start_clk + num;
+    cs->last_stolen_cycles_clk = start_clk + num + sub;
 
     cs->irq_clk += num;
     cs->nmi_clk += num;
 }
-
-#else  /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
-
-/* We don't want inline definitions: just provide the prototypes.  */
-
-extern void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
-                              CLOCK clk);
-extern void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
-                              CLOCK clk);
-extern void interrupt_set_dma(cpu_int_status_t *cs, int int_num, int value,
-                              CLOCK clk);
-extern void interrupt_set_int(cpu_int_status_t *cs, int int_num,
-                              enum cpu_int value, CLOCK clk);
-extern int interrupt_check_pending_interrupt(cpu_int_status_t *cs);
-extern void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
-                                   CLOCK *clk_ptr, int num);
-extern int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
-extern int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
-extern void interrupt_ack_nmi(cpu_int_status_t *cs);
-extern void interrupt_ack_dma(cpu_int_status_t *cs);
-
-#endif /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
 
 /* ------------------------------------------------------------------------- */
 
@@ -423,8 +381,8 @@ extern CLOCK drive_clk[2];
     interrupt_trigger_dma(&maincpu_int_status, clk)
 #define maincpu_trigger_trap(trap_func, data) \
     interrupt_trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
-#define maincpu_steal_cycles(start_clk, num) \
-    interrupt_steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
+#define maincpu_steal_cycles(start_clk, num, sub) \
+    interrupt_steal_cycles(&maincpu_int_status, (start_clk), &clk, (num), (sub))
 
 #define drive0_set_irq(int_num, value) \
     interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
