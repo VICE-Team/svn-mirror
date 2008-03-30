@@ -1,3 +1,124 @@
+1998-09-20  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.11.
+
+	* crtc-tmpl.c (crtc_write_snapshot_module): New function.
+	(crtc_read_snapshot_module): New function.
+
+	* 6510core.c (DO_INTERRUPT): Reset immediately if a trap has
+	triggered a reset.
+
+	* vic20/vic20.c (machine_read_snapshot): Reset the machine when
+	it fails.
+
+	* c64/c64.c (machine_read_snapshot): Reset the machine when it
+ 	fails.
+
+	* crtc-tmpl.c (RASTER_Y): New macro.
+	(RASTER_CYCLE): New macro.
+
+1998-09-18  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* via-tmpl.c (myvia_read_snapshot_module): Pass the correct module
+	name to `snapshot_module_open()'.
+
+	* vic20/vic20mem.c (mem_read_snapshot_module): Pass the correct
+	module name to `snapshot_module_open()'.
+
+	* arch/unix/xaw/vic20ui.c (vic20_ui_init): Add snapshot commands.
+
+	* vic20/vic20via.h (via1_read_snapshot_module): New prototype.
+	(via1_read_snapshot_module): New prototype.
+	(via2_read_snapshot_module): New prototype.
+	(via2_read_snapshot_module): New prototype.
+
+	* c64/c64.c (machine_read_snapshot): Updated to the new behavior
+	of `snapshot_open()'.
+	(machine_write_snapshot): Do not use `perror()' in case
+	`snapshot_create()' fails.
+	(machine_read_snapshot): Do not use `perror()' in case
+	`snapshot_open()' fails.
+
+	* snapshot.c (snapshot_open): Argument `char *machine_name_return'
+	replaced by `const char *machine_name'.  Compare the machine name
+	in the snapshot header with `machine_name'; if different, return
+	an error.
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Correctly return with
+	an error if the version number is not acceptable.
+
+	* vic20/vic.c (vic_write_snapshot_module): New function.
+	(vic_read_snapshot_module): New function.
+	(RASTER_CYCLE): New #define.
+	(RASTER_Y): New #define.
+
+	* snapshot.c (snapshot_open): Use `zfopen()' instead of `fopen()'.
+	(snapshot_close): If in read mode, use `zfclose()' instead of
+ 	`fclose()'.
+
+	* c64/reu.c (reu_dma): Trigger an IRQ at the end of DMA if "end of
+ 	block" IRQs are enabled.  When doing a compare, generate an IRQ if
+ 	"verify error" IRQs are enabled and compared areas do not match.
+	(read_reu): Reading register 0 removes any pending IRQs.
+
+	* vmachine.h: `I_*' and `NUMOFINT' #defined constants changed into
+ 	an enum.  New interrupt `I_REU'.
+
+	* c64/reu.c (reu_read_snapshot_module): Updated to match the new
+	behavior of `snapshot_module_open()'.  Reset the REU before
+	loading the stuff in.  Update the IRQ line according to bit 7 of
+	register 0.
+
+	* c64/c64mem.c (mem_write_snapshot_module): If REU is enabled,
+ 	write REU module too.
+	(mem_read_snapshot_module): If a REU module is loaded
+ 	successfully, enable REU; otherwise, disable it.  Also update the
+ 	UI menus.
+
+	* c64/reu.c: Snapshot module name changed to `REU1764'.
+
+1998-09-18  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c (myacia_read_snapshot_module):
+	use set_int_noclk() instead of mycpu_set_int()
+
+	* c610/c610cia.def [set_int_noclk]: undefine set_int_noclk() as it
+ 	reports to the TPI, not to the CPU
+
+	* c610/c610tpi1.def [mycpu_restore_int]: define to set_int_noclk()
+
+	* c610/c610tpi2.def [MYTPI]: define to TPI2
+	[mycpu_restore_int]: define to nothing - no IRQs here
+
+	* c64/c64tpi.def [mycpu_restore_int]: define to nothing - no IRQs
+ 	here
+
+	* cia-tmpl.c (check_myciatodalarm): use I_MYCIAFL instead of
+ 	I_MYCIATOD
+	(reset_mycia): unset interrupt line
+	(mycia_read_snapshot_module, mycia_write_snapshot_module): remove
+ 	saving of TOD interrupt status.  unset interrupt line if not set
+ 	in snapshot.
+
+	* tpi-tmpl.c (mytpi_read_snapshot_module,
+ 	mytpi_write_snapshot_module): change order of save. Move
+ 	irq_previous to the end - might be implementation specific.
+
+	* via-tmpl.c (myvia_read_snapshot_module): use set_int_noclk()
+	or via_restore_int (if defined) to restore the interrupt state.
+
+	* vic20/vic20mem.c (mem_read_snapshot_module): set RAM config
+	as saved in the snapshot.
+
+	* vmachine.h [I_CIA1TOD, I_CIA2TOD]: removed.
+
+1998-09-18  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uisettings.c (toggle_Drive8Enable): Removed.
+	(toggle_Drive9Enable): Removed.
+	(toggle_DriveEnable): New function.  Gray out "Enable drive..."
+	entries if true emulation is disabled.
+
 1998-09-17  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.11.
