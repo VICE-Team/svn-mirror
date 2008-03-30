@@ -2,7 +2,7 @@
  * macosx/joy.c - Mac OS X joystick support.
  *
  * Written by
- *   Christian Vogelsang <C.Vogelgsang@web.de>
+ *   Christian Vogelgsang <C.Vogelgsang@web.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,27 +34,10 @@
 #include "resources.h"
 #include "types.h"
 
+#ifdef HAS_JOYSTICK
+
 /* (Used by `kbd.c').  */
 int joystick_port_map[2];
-
-#ifndef HAS_JOYSTICK
-
-int joy_arch_init(void)
-{
-  return 0;
-}
-
-int joystick_init_resources(void)
-{
-  return 0;
-}
-
-int joystick_init_cmdline_options(void)
-{
-  return 0;
-}
-
-#else /* HAS_JOYSTICK */
 
 /* NOTE: We use the HID Utilites Library provided by Apple for free
 
@@ -99,7 +82,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL },
 };
 
-int joystick_init_resources(void)
+int joystick_arch_init_resources(void)
 {
     return resources_register_int(resources_int);
 }
