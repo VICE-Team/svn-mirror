@@ -32,14 +32,14 @@
 
 typedef struct trap_s
 {
-    const char  *name;
-    ADDRESS      address;
-    ADDRESS      resume_address;
-    BYTE         check[3];
+    const char *name;
+    ADDRESS address;
+    ADDRESS resume_address;
+    BYTE check[3];
 #ifdef __STDC__
-    void       (*func)(void);
+    void (*func)(void);
 #else
-    void       (*func)();
+    void (*func)();
 #endif
 } trap_t;
 

@@ -29,7 +29,6 @@
 #define _INTERRUPT_H
 
 #include "6510core.h"
-#include "log.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -148,6 +147,9 @@ typedef struct cpu_int_status cpu_int_status_t;
 
 /* ------------------------------------------------------------------------- */
 
+extern void interrupt_log_wrong_nirq(void);
+extern void interrupt_log_wrong_nnmi(void);
+
 /* If we do not want the interrupt functions to be inlined, they are only
    compiled once when included in `maincpu.c'.  */
 
@@ -186,7 +188,7 @@ _INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
  		if (--cs->nirq == 0)
 		    cs->global_pending_int &= ~IK_IRQ;
 	    } else
-		log_error(LOG_DEFAULT, "set_irq(): wrong nirq!");
+		interrupt_log_wrong_nirq();
 	}
     }
 }
@@ -220,7 +222,7 @@ _INT_FUNC void set_nmi(cpu_int_status_t *cs, int int_num, int value,
 		if (clk == cs->nmi_clk)
 		    cs->global_pending_int &= ~IK_NMI;
 	    } else
-		log_error(LOG_DEFAULT, "set_nmi(): wrong nnmi!");
+		interrupt_log_wrong_nnmi();
 	}
     }
 }

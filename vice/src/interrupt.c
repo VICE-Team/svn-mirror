@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "interrupt.h"
+#include "log.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -78,6 +79,16 @@ void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
             cs->last_stolen_cycles_clk = (CLOCK) 0;
 	}
     }
+}
+
+void interrupt_log_wrong_nirq(void)
+{
+    log_error(LOG_DEFAULT, "set_irq(): wrong nirq!");
+}
+
+void interrupt_log_wrong_nnmi(void)
+{
+    log_error(LOG_DEFAULT, "set_nmi(): wrong nnmi!");
 }
 
 /* ------------------------------------------------------------------------- */

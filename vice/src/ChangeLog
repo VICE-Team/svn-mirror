@@ -1,3 +1,21 @@
+1999-10-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.24.
+
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler): Invert cursor if
+	necessary.  (vdc_reset): Reset cursor.
+
+	* vdc/vdc-mem.c (vdc_store): Implemented cursor registers.
+
+	* vdc/vdc-draw.c (get_std_text): Draw cursor if visible.
+
+	* c128/z80.c: Fixed ADDHLREG, ADDHLSP, SBCHLSP, SET A 0,
+	RES A 0 and BIT A 0 opcodes.
+
+	* alarm.c, alarm.h: Moved logging to `alarm.c'.
+
+	* interrupt.c, interrupt.h: Moved logging to `interrupt.c'.
+
 1999-10-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.23.
