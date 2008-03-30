@@ -121,12 +121,6 @@ unsigned int rom1001_loaded = 0;
 
 unsigned int drive_rom1541_size;
 
-/* Speed zone of each track of the 1541 disk drive.  */
-extern int speed_map_1541[42];
-
-/* Speed zone of each track of the 1571 disk drive.  */
-extern int speed_map_1571[70];
-
 /* Speed (in bps) of the disk in the 4 disk areas.  */
 static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
                                    { 125000, 133333, 142857, 153846 } };
@@ -159,7 +153,7 @@ static void drive_set_clock_frequency(unsigned int type, unsigned int dnr);
 static void drive_read_image_d64_d71(unsigned int dnr)
 {
     BYTE buffer[260], chksum;
-    int rc, i;
+    int i;
     unsigned int track, sector;
 
     if (!drive[dnr].image)
@@ -176,9 +170,9 @@ static void drive_read_image_d64_d71(unsigned int dnr)
         || drive[dnr].type == DRIVE_TYPE_2031)) {
         for (track = 0; track < MAX_TRACKS_1541; track++) {
             drive[dnr].gcr->track_size[track] =
-                raw_track_size[speed_map_1541[track]];
-            memset(drive[dnr].gcr->speed_zone, speed_map_1541[track],
-                NUM_MAX_BYTES_TRACK);
+                raw_track_size[disk_image_speed_map_1541(track)];
+            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1541(track),
+                   NUM_MAX_BYTES_TRACK);
         }
     }
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_D71
@@ -186,9 +180,9 @@ static void drive_read_image_d64_d71(unsigned int dnr)
         || drive[dnr].type == DRIVE_TYPE_2031) {
         for (track = 0; track < MAX_TRACKS_1571; track++) {
             drive[dnr].gcr->track_size[track] =
-                raw_track_size[speed_map_1571[track]];
-            memset(drive[dnr].gcr->speed_zone, speed_map_1571[track],
-                NUM_MAX_BYTES_TRACK);
+                raw_track_size[disk_image_speed_map_1571(track)];
+            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1571(track),
+                   NUM_MAX_BYTES_TRACK);
         }
     }
 
@@ -204,8 +198,9 @@ static void drive_read_image_d64_d71(unsigned int dnr)
         /* Clear track to avoid read errors.  */
         memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
 
-	for (sector = 0; sector < max_sector; sector++) {
-	    ptr = drive[dnr].gcr->data + GCR_OFFSET(track, sector);
+        for (sector = 0; sector < max_sector; sector++) {
+            int rc;
+            ptr = drive[dnr].gcr->data + GCR_OFFSET(track, sector);
 
             rc = disk_image_read_sector(drive[dnr].image, buffer + 1, track,
                                         sector);
@@ -348,7 +343,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 
         for (track = 0; track < MAX_TRACKS_1541; track++)
             drive[i].gcr->track_size[track] =
-                raw_track_size[speed_map_1541[track]];
+                raw_track_size[disk_image_speed_map_1541(track)];
 
         /* Position the R/W head on the directory track.  */
         drive_set_half_track(36, &drive[i]);
@@ -743,21 +738,13 @@ static int drive_load_rom_images(void)
     drive_rom_load_ok = 1;
 
     drive_load_1541();
-
     drive_load_1541ii();
-
     drive_load_1571();
-
     drive_load_1581();
-
     drive_load_2031();
-
     drive_load_2040();
-
     drive_load_3040();
-
     drive_load_4040();
-
     drive_load_1001();
 
     if (!rom1541_loaded
@@ -1037,7 +1024,7 @@ int drive_attach_image(disk_image_t *image, unsigned int unit)
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(drive_log, "Unit %d: GCR disk image attached: %s",
+        log_message(drive_log, "Unit %d: G64 disk image attached: %s",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_X64:
@@ -1090,7 +1077,7 @@ int drive_detach_image(disk_image_t *image, unsigned int unit)
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_G64:
-            log_message(drive_log, "Unit %d: D81 disk image detached: %s",
+            log_message(drive_log, "Unit %d: G64 disk image detached: %s",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_X64:

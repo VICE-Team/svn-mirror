@@ -66,18 +66,6 @@
 
 static log_t vdrive_log = LOG_ERR;
 
-int speed_map_1541[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-                           1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                           0, 0, 0 };
-
-int speed_map_1571[70] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-                           1, 1, 1, 1, 0, 0, 0, 0, 0,
-                           3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                           3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-                           1, 1, 1, 1, 0, 0, 0, 0, 0 };
-
 /* PC64 files need this too */
 char const *slot_type[] = {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
@@ -327,7 +315,7 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(vdrive_log, "Unit %d: GCR disk image detached: %s.",
+        log_message(vdrive_log, "Unit %d: G64 disk image detached: %s.",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_X64:
@@ -378,7 +366,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         vdrive->num_tracks = image->tracks;
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(vdrive_log, "Unit %d: GCR disk image attached: %s.",
+        log_message(vdrive_log, "Unit %d: G64 disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = 35;
