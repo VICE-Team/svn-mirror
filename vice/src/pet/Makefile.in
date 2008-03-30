@@ -315,11 +315,11 @@ pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/interrupt.h ../../src/types.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
 	pets.h ../../src/utils.h ../../src/arch/unix/vsync.h
-petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/types.h ../../src/warn.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
-	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/utils.h
+petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
+	../../src/types.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/sound.h \
+	../../src/warn.h ../../src/utils.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
 	petvia.h ../../src/types.h ../c64/sid.h ../../src/sound.h \
