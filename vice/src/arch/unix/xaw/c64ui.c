@@ -29,12 +29,13 @@
 
 #include <stdio.h>
 
-#include "uimenu.h"
+#include "cartridge.h"
+#include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
+#include "uimenu.h"
 #include "uisettings.h"
-#include "joystick.h"
-#include "cartridge.h"
+#include "vsync.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -281,6 +282,12 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t joystick_settings_menu[] = {
+    { "Joystick settings",
+      NULL, NULL, joystick_settings_submenu },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_menu[] = {
@@ -294,8 +301,6 @@ static ui_menu_entry_t c64_menu[] = {
       NULL, NULL, rs232_submenu },
     { "Printer settings",
       NULL, NULL, ui_print_settings_menu },
-    { "Joystick settings",
-      NULL, NULL, joystick_settings_submenu },
     { NULL }
 };
 
@@ -340,6 +345,7 @@ int c64_ui_init(void)
                                      ui_sound_settings_menu,
                                      ui_true1541_settings_menu,
                                      ui_serial_settings_menu,
+                                     joystick_settings_menu,
                                      ui_menu_separator,
                                      c64_menu,
                                      ui_menu_separator,
