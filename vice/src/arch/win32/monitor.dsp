@@ -94,11 +94,31 @@ SOURCE=..\..\monitor\mon.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\monitor\mon_assemble.c
+SOURCE=..\..\monitor\mon_assemble6502.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_assemblez80.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_breakpoint.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_command.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_drive.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\monitor\mon_disassemble.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_file.c
 # End Source File
 # Begin Source File
 
@@ -107,6 +127,14 @@ SOURCE=..\..\monitor\mon_lex.c
 # Begin Source File
 
 SOURCE=..\..\monitor\mon_parse.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_register6502.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_registerz80.c
 # End Source File
 # Begin Source File
 

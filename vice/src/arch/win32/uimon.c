@@ -48,6 +48,14 @@
 #include "mos6510.h"
 
 
+/**/
+#include "asm.h"
+extern monitor_cpu_type_t monitor_cpu_type;
+
+#define mon_get_reg_val(_a_,_b_) \
+   ((monitor_cpu_type.mon_register_get_val)(_a_, _b_))
+/**/
+
 #define DEBUG_UIMON
 
 /* Debugging stuff.  */
