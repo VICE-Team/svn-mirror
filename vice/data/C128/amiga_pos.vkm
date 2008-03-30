@@ -21,6 +21,9 @@
 # 2      left shift
 # 4      right shift
 # 8      key can be shifted or not with this keysym
+# 16     deshift key for this keysym/scancode
+# 32     another definition for this keysym/scancode follows
+# 256    key is used for an alternative keyboard mapping
 #
 # Negative row values:
 # 'keysym -1 n' joystick #1, direction n
@@ -112,10 +115,14 @@
 #73 -1 -1 0             /*              -> (no key)     */
 #74 -1 -1 0             /*     KEYPAD - -> (no key)     */
 #75 -1 -1 0             /*              -> (no key)     */
-76 0 7 1                /*           Up -> CRSR UP      */
-77 0 7 8                /*         Down -> CRSR DOWN    */
-78 0 2 8                /*        Right -> CRSR RIGHT   */
-79 0 2 1                /*         Left -> CRSR LEFT    */
+76 0 7 257              /*           Up -> CRSR UP      */
+76 10 3 8               /*           Up -> CRSR UP      */
+77 0 7 264              /*         Down -> CRSR DOWN    */
+77 10 4 8               /*         Down -> CRSR DOWN    */
+78 0 2 264              /*        Right -> CRSR RIGHT   */
+78 10 6 8               /*        Right -> CRSR RIGHT   */
+79 0 2 257              /*         Left -> CRSR LEFT    */
+79 10 5 8               /*         Left -> CRSR LEFT    */
 80 0 4 8                /*           F1 -> F1           */
 81 0 4 1                /*           F2 -> F2           */
 82 0 5 8                /*           F3 -> F3           */

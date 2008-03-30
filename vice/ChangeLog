@@ -1,5 +1,17 @@
 2007-04-29  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.21.7.
+
+	* data/C128/x11_sym.vkm, data/C128/x11_pos.vkm,
+	data/C128/win_pos.vkm, data/C128/win_sym.vkm,
+	data/C128/osx_pos.vkm, data/C128/osx_sym.vkm,
+	data/C128/dos_pos.vkm, data/C128/dos_sym.vkm,
+	data/C128/beos_pos.vkm, data/C128/beos_sym.vkm,
+	data/C128/amiga_pos.vkm, data/C128/amiga_sym.vkm: Use C64
+	cursor keys in C64 mode (alternative keyboard mapping).
+
+2007-04-29  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.21.6.
 
 2007-04-25  Christian Vogelgsang  <chris@vogelgsang.org>
