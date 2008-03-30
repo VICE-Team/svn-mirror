@@ -1,3 +1,65 @@
+2002-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.55.
+
+	* vicii/vicii-draw.c, plus4/ted-draw.c (_draw_mc_text): Fixed
+	those ugly castings.
+
+2002-01-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/plus4kb.c: Fixed keyboard mapping to
+	match with windows port.
+
+	* arch/beos/ui_video.cc (video_canvas_resize): Removed
+	call to vsync_suspend_speed_eval as this dialog doesn't
+	stop the emu.
+
+	* arch/win32/uivideo.c (init_advanced dialog): Fill
+	phase textbox with N/A to prevent random entries.
+
+	* c128/c128.c (machine_write_snapshot): Fixed typo.
+
+2002-01-04  Tibor Biczo <crown@axelero.hu>
+
+	* plus4/ted-draw.c: Added blinking color support for normal
+	textmode.
+	Added reverse bit support to the draw functions I missed.
+	Added cursor support to noncached draw functions.
+	Masked out the 7th bit from cbuf, where it is not needed.
+
+	* plus4/ted.c (ted_fetch_color): Fetch all bits. Bit 7 is used
+	for blinking in normal text mode.
+
+2002-01-04  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/plus4kbd.c: Fixed Plus4 keyboard layout.
+
+	* arch/win32/ui.c (handle_wm_command): Preserve pressed state
+	of RUN/STOP key during reset on Plus4.
+
+	* keyboard.c (keyboard_set_keyarr_and_latch): New function,
+	sets key state and moves the latch immediately into the
+	keymatrix.
+
+	* keyboard.h (keyboard_set_keyarr_and_latch): New prototype.
+
+	* plus4/plus4mem.c (store_zero): Stores to CPU ports also goes
+	into RAM as well.
+	(rom_read): $FC00-$FCFF ROM area is always accessed from the
+	KERNAL rom.
+	(ram_ffxx_read, ram_ffxx_store, rom_ffxx_read,
+	rom_ffxx_store): $FF3E and $FF3F reads and writes never get to
+	the RAM.
+
+	* plus4/ted-draw.c (get_char_data, _draw_std_text):
+	Implemented reverse bit support.
+
+	* plus4/ted-mem.c (unused_bits_in_registers): Set $3E and $3F
+	to $FF.
+	(ted_07_store): Set ted.reverse_mode.
+
+	* plus4/tedtypes.h (ted_s): New struct member reverse_mode.
+
 2002-01-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.54.

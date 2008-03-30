@@ -42,6 +42,7 @@
 
 extern void keyboard_init(void);
 extern void keyboard_set_keyarr(int row, int col, int value);
+extern void keyboard_set_keyarr_and_latch(int row, int col, int value);
 extern void keyboard_clear_keymatrix(void);
 
 enum joystick_bits_s {

@@ -79,7 +79,7 @@ static int unused_bits_in_registers[64] =
     0x00 /* $FF30 */ , 0x00 /* $FF31 */ , 0x00 /* $FF32 */ , 0x00 /* $FF33 */ ,
     0x00 /* $FF34 */ , 0x00 /* $FF35 */ , 0x00 /* $FF36 */ , 0x00 /* $FF37 */ ,
     0x00 /* $FF38 */ , 0x00 /* $FF39 */ , 0x00 /* $FF3A */ , 0x00 /* $FF3B */ ,
-    0x00 /* $FF3C */ , 0x00 /* $FF3D */ , 0x00 /* $FF3E */ , 0x00 /* $FF3F */
+    0x00 /* $FF3C */ , 0x00 /* $FF3D */ , 0xFF /* $FF3E */ , 0xFF /* $FF3F */
 };
 
 
@@ -440,6 +440,8 @@ inline static void ted07_store(BYTE value)
                 raster->open_right_border = 1;
         }
     }
+
+    ted.reverse_mode = value & 0x80;
 
     ted.regs[0x07] = value;
 

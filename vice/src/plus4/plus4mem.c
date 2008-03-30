@@ -268,12 +268,14 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
             pport.dir = value;
             mem_proc_port_store();
         }
+        ram[addr] = value;
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
             mem_proc_port_store();
         }
+        ram[addr] = value;
         break;
       default:
         ram[addr] = value;
@@ -351,15 +353,19 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
             return extromlo3_read(addr);
         }
       case 0xc000:
-        switch ((mem_config >> 3) & 3) {
-          case 0:
+        if ((addr & 0xff00) == 0xfc00) {
             return kernal_read(addr);
-          case 1:
-            return extromhi1_read(addr);
-          case 2:
-            return extromhi2_read(addr);
-          case 3:
-            return extromhi3_read(addr);
+        } else {
+            switch ((mem_config >> 3) & 3) {
+              case 0:
+                return kernal_read(addr);
+              case 1:
+                return extromhi1_read(addr);
+              case 2:
+                return extromhi2_read(addr);
+              case 3:
+                return extromhi3_read(addr);
+            }
         }
     }
 
@@ -440,7 +446,7 @@ static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
 
 static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
 {
-    if (addr >= 0xff20)
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
         return ram_read(addr);
 
     return ted_read(addr);
@@ -448,15 +454,16 @@ static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
 
 static void REGPARM2 ram_ffxx_store(ADDRESS addr, BYTE value)
 {
-    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f)
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
-
-    ram_store(addr, value);
+    } else {
+        ram_store(addr, value);
+    }
 }
 
 static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
 {
-    if (addr >= 0xff20)
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
         return rom_read(addr);
 
     return ted_read(addr);
@@ -464,10 +471,11 @@ static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
 
 static void REGPARM2 rom_ffxx_store(ADDRESS addr, BYTE value)
 {
-    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f)
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f) {
         ted_store(addr, value);
-
-    ram_store(addr, value);
+    } else {
+        ram_store(addr, value);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

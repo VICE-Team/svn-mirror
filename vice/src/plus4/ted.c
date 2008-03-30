@@ -307,12 +307,12 @@ inline void ted_fetch_color(int offs, int num)
 
     if (c >= num) {
         for (i = 0; i < num; i++)
-            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
+            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0xff;
     } else {
         for (i = 0; i < c; i++)
-            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
+            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0xff;
         for (i = 0; i < num - c; i++)
-            ted.cbuf[offs + c + i] = (ted.color_ptr)[i] & 0x7f;
+            ted.cbuf[offs + c + i] = (ted.color_ptr)[i] & 0xff;
     }
 }
 

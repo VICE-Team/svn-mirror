@@ -42,8 +42,8 @@ static keyconv plus4_keyboard[256] = {
     { 3, 3, 0 },                /*            8 -> 8            */
     { 4, 0, 0 },                /*            9 -> 9            */
     { 4, 3, 0 },                /*            0 -> 0            */
-    { 5, 0, 0 },                /*        Minus -> Plus         */
-    { 5, 3, 0 },                /*        Equal -> Minus        */
+    { 6, 6, 0 },                /*        Minus -> Plus         */
+    { 5, 6, 0 },                /*        Equal -> Minus        */
     { 0, 0, 0 },                /*    Backspace -> Del          */
     { 7, 2, 0 },                /*          TAB -> Ctrl         */
     { 7, 6, 0 },                /*            Q -> Q            */
@@ -56,7 +56,7 @@ static keyconv plus4_keyboard[256] = {
     { 4, 1, 0 },                /*            I -> I            */
     { 4, 6, 0 },                /*            O -> O            */
     { 5, 1, 0 },                /*            p -> P            */
-    { 5, 6, 0 },                /*            [ -> @            */
+    { 0, 7, 0 },                /*            [ -> @            */
     { 6, 1, 0 },                /*            ] -> *            */
     { 0, 1, 0 },                /*       Return -> Return       */
     { 7, 5, 0 },                /*    Left Ctrl -> CBM          */
@@ -71,8 +71,8 @@ static keyconv plus4_keyboard[256] = {
     { 5, 2, 0 },                /*            L -> L            */
     { 5, 5, 0 },                /*            ; -> :            */
     { 6, 2, 0 },                /*            ' -> ;            */
-    { 7, 1, 0 },                /*            ` -> Left Arrow   */
-    { 1, 7, 1 },                /*   Left Shift -> Left Shift   */
+    { 6, 4, 0 },                /*            ` -> ESC          */
+    { 1, 7, 1 },                /*   Left Shift -> Shift        */
     { 6, 5, 0 },                /*            \ -> =            */
     { 1, 4, 0 },                /*            Z -> Z            */
     { 2, 7, 0 },                /*            X -> X            */
@@ -84,19 +84,19 @@ static keyconv plus4_keyboard[256] = {
     { 5, 7, 0 },                /*            , -> ,            */
     { 5, 4, 0 },                /*            . -> .            */
     { 6, 7, 0 },                /*            / -> /            */
-    { 6, 4, 0 },                /*  Right Shift -> Right Shift  */
+    { 1, 7, 1 },                /*  Right Shift -> Shift        */
     { 6, 1, 0 },                /*       Grey * -> *            */
     { -1, -1, 0 },              /*     Left Alt -> (no key)     */
     { 7, 4, 0 },                /*        Space -> Space        */
     { 7, 7, 0 },                /*    Caps Lock -> Run/Stop     */
     { 0, 4, 0 },                /*           F1 -> F1           */
-    { 0, 4, 1 },                /*           F2 -> F2           */
-    { 0, 5, 0 },                /*           F3 -> F3           */
-    { 0, 5, 1 },                /*           F4 -> F4           */
-    { 0, 6, 0 },                /*           F5 -> F5           */
+    { 0, 5, 0 },                /*           F2 -> F2           */
+    { 0, 6, 0 },                /*           F3 -> F3           */
+    { 0, 4, 1 },                /*           F4 -> F4           */
+    { 0, 5, 1 },                /*           F5 -> F5           */
     { 0, 6, 1 },                /*           F6 -> F6           */
-    { 0, 3, 0 },                /*           F7 -> F7           */
-    { 0, 3, 1 },                /*           F8 -> F8           */
+    { 0, 3, 1 },                /*           F7 -> F7           */
+    { 0, 3, 0 },                /*           F8 -> HELP         */
     { -1, -1, 0 },              /*           F9 -> (no key)     */
     { -1, -1, 0 },              /*          F10 -> (no key)     */
     { -1, -1, 0 },              /*     Num Lock -> (no key)     */
@@ -119,16 +119,16 @@ static keyconv plus4_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { -1, -1, 0 },              /*          F11 -> (no key)     */
     { -1, -1, 0 },              /*          F12 -> (no key)     */
-    { 6, 3, 0 },                /*         Home -> CLR/HOME     */
-    { 0, 7, 1 },                /*           Up -> CRSR UP      */
+    { 7, 1, 0 },                /*         Home -> CLR/HOME     */
+    { 5, 3, 0 },                /*           Up -> CRSR UP      */
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
-    { 0, 2, 1 },                /*         Left -> CRSR LEFT    */
-    { 0, 2, 0 },                /*        Right -> CRSR RIGHT   */
+    { 6, 0, 0 },                /*         Left -> CRSR LEFT    */
+    { 6, 3, 0 },                /*        Right -> CRSR RIGHT   */
     { -1, -1, 0 },              /*          End -> (no key)     */
-    { 0, 7, 0 },                /*         Down -> CRSR DOWN    */
+    { 5, 0, 0 },                /*         Down -> CRSR DOWN    */
     { -1, -1, 0 },              /*       PgDown -> (no key)     */
-    { 6, 0, 0 },                /*          Ins -> Pound        */
-    { 6, 6, 0 },                /*          Del -> Up Arrow     */
+    { 0, 2, 0 },                /*          Ins -> Pound        */
+    { -1, -1, 0 },              /*          Del -> (no key)     */
     { -1, -1, 0 },              /* Numpad Enter -> (no key)     */
     { -1, -1, 0 },              /*   Right Ctrl -> (no key)     */
     { -1, -1, 0 },              /*        Pause -> (no key)     */

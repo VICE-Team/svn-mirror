@@ -134,12 +134,20 @@ static raster_cache_t *rcache;
 
 /*-----------------------------------------------------------------------*/
 
-inline static BYTE get_char_data(BYTE c, int l, BYTE *char_mem,
+inline static BYTE get_char_data(BYTE c, BYTE col, int l, BYTE *char_mem,
                                  int bytes_per_char, int curpos, int index)
 {
     BYTE data;
 
-    data = char_mem[((c) * bytes_per_char) + (l)];
+    if ((col&0x80) && (!ted.cursor_visible)) data=0;
+    else {
+        if (!ted.reverse_mode && (c & 0x80)) {
+            data = char_mem[((c&0x7f) * bytes_per_char) + (l)] ^ 0xff;
+        } else {
+            data = char_mem[((c) * bytes_per_char) + (l)];
+        }
+    }
+
 
     if (curpos == index)
         data ^= 0xff;
@@ -149,6 +157,7 @@ inline static BYTE get_char_data(BYTE c, int l, BYTE *char_mem,
 
 inline static int cache_data_fill_text(BYTE *dest,
                                        const BYTE *src,
+                                       const BYTE *src2,
                                        BYTE *char_mem,
                                        int bytes_per_char,
                                        int length,
@@ -162,8 +171,8 @@ inline static int cache_data_fill_text(BYTE *dest,
 
         *xs = 0;
         *xe = length - 1;
-        for (i = 0; i < length; i++, src++)
-            dest[i] = get_char_data(src[0], l, char_mem, bytes_per_char,
+        for (i = 0; i < length; i++, src++, src2++)
+            dest[i] = get_char_data(src[0], src2[0], l, char_mem, bytes_per_char,
                                     curpos, i);
         return 1;
     } else {
@@ -171,16 +180,16 @@ inline static int cache_data_fill_text(BYTE *dest,
         int i;
 
         for (i = 0;
-            i < length && dest[i] == get_char_data(src[0], l, char_mem,
+            i < length && dest[i] == get_char_data(src[0], src2[0], l, char_mem,
             bytes_per_char, curpos, i);
-            i++, src++)
+            i++, src++, src2++)
             /* do nothing */ ;
 
         if (i < length) {
             *xs = *xe = i;
 
-            for (; i < length; i++, src++)
-                if (dest[i] != (b = get_char_data(src[0], l, char_mem,
+            for (; i < length; i++, src++, src2++)
+                if (dest[i] != (b = get_char_data(src[0], src2[0], l, char_mem,
                     bytes_per_char, curpos, i))) {
                     dest[i] = b;
                     *xe = i;
@@ -219,6 +228,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 
     r = cache_data_fill_text(cache->foreground_data,
                              ted.vbuf,
+                             ted.cbuf,
                              ted.chargen_ptr,
                              8,   /* FIXME */
                              TED_SCREEN_TEXTCOLS,
@@ -226,13 +236,14 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                              xs, xe,
                              rr,
                              cursor_pos);
-
     r |= raster_cache_data_fill(cache->color_data_1,
-                                ted.cbuf,
-                                TED_SCREEN_TEXTCOLS,
-                                1,
-                                xs, xe,
-                                rr);
+                            ted.cbuf,
+                            TED_SCREEN_TEXTCOLS,
+                            1,
+                            xs, xe,
+                            rr);
+
+
 
     return r;
 }
@@ -242,17 +253,50 @@ inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
     PIXEL4 *table_ptr;
     BYTE *char_ptr;
     unsigned int i;
+    int cursor_pos=-1;
 
     table_ptr = hr_table + (ted.raster.background_color << 4);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
-    for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 11);
-        int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
-                = *(char_ptr + ted.vbuf[i] * 8));
+    if (ted.cursor_visible) {
+        int crsrpos = ted.crsrpos - ted.memptr;
+        if (crsrpos >= 0 && crsrpos < TED_SCREEN_TEXTCOLS)
+            cursor_pos = crsrpos;
+    }
 
-        *((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
-        *((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+    if (ted.reverse_mode) {
+        for (i = xs; i <= xe; i++) {
+            int d;
+            PIXEL4 *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 11);
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                d = 0;
+            } else {
+                d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+                    = *(char_ptr + ted.vbuf[i] * 8));
+            }
+            if (i == cursor_pos)
+                d ^= 0xff;
+            
+
+            *((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
+            *((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        }
+    } else {
+        for (i = xs; i <= xe; i++) {
+            int d;
+            PIXEL4 *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 11);
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                d = 0;
+            } else {
+                d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+                   = *(char_ptr + (ted.vbuf[i]&0x7f) * 8)) ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
+            }
+            if (i == cursor_pos)
+                d ^= 0xff;
+
+            *((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
+            *((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        }
     }
 }
 
@@ -278,9 +322,14 @@ inline static void _draw_std_text_cached(PIXEL *p, int xs, int xe,
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
     for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (rcache->color_data_1[i] << 11);
-        int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+        int d;
+        PIXEL4 *ptr = table_ptr + ((rcache->color_data_1[i] & 0x7f) << 11);
+        if ((rcache->color_data_1[i] & 0x80) && (!ted.cursor_visible)) {
+            d = 0;
+        } else {
+            d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
                 = rcache->foreground_data[i]);
+        }
 
         *((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
         *((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
@@ -308,19 +357,55 @@ inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
     PIXEL4 *table_ptr;
     BYTE *char_ptr;
     unsigned int i;
+    int cursor_pos = -1;
 
     table_ptr = hr_table_2x + (ted.raster.background_color << 5);
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
-    for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (ted.cbuf[i] << 12);
-        int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
-                = *(char_ptr + ted.vbuf[i] * 8));
+    if (ted.cursor_visible) {
+        int crsrpos = ted.crsrpos - ted.memptr;
+        if (crsrpos >= 0 && crsrpos < TED_SCREEN_TEXTCOLS)
+            cursor_pos = crsrpos;
+    }
 
-        *((PIXEL4 *) p + i * 4) = *(ptr + (d >> 4));
-        *((PIXEL4 *) p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
-        *((PIXEL4 *) p + i * 4 + 2) = *(ptr + (d & 0xf));
-        *((PIXEL4 *) p + i * 4 + 3) = *(ptr + 0x10 + (d & 0xf));
+    if (ted.reverse_mode) {
+        for (i = xs; i <= xe; i++) {
+            int d;
+            PIXEL4 *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 12);
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                d=0;
+            } else {
+                d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+                    = *(char_ptr + ted.vbuf[i] * 8));
+            }
+
+            if (i == cursor_pos)
+                d ^= 0xff;
+
+            *((PIXEL4 *) p + i * 4) = *(ptr + (d >> 4));
+            *((PIXEL4 *) p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
+            *((PIXEL4 *) p + i * 4 + 2) = *(ptr + (d & 0xf));
+            *((PIXEL4 *) p + i * 4 + 3) = *(ptr + 0x10 + (d & 0xf));
+        }
+    } else {
+        for (i = xs; i <= xe; i++) {
+            int d;
+            PIXEL4 *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 12);
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                d=0;
+            } else {
+                d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+                    = *(char_ptr + (ted.vbuf[i]&0x7f) * 8)) ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
+            }
+
+            if (i == cursor_pos)
+                d ^= 0xff;
+
+            *((PIXEL4 *) p + i * 4) = *(ptr + (d >> 4));
+            *((PIXEL4 *) p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
+            *((PIXEL4 *) p + i * 4 + 2) = *(ptr + (d & 0xf));
+            *((PIXEL4 *) p + i * 4 + 3) = *(ptr + 0x10 + (d & 0xf));
+        }
     }
 }
 
@@ -341,9 +426,14 @@ inline static void _draw_std_text_cached_2x(PIXEL *p, int xs, int xe,
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
     for (i = xs; i <= xe; i++) {
-        PIXEL4 *ptr = table_ptr + (rcache->color_data_1[i] << 12);
-        int d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
+        int d;
+        PIXEL4 *ptr = table_ptr + ((rcache->color_data_1[i] & 0x7f) << 12);
+        if ((rcache->color_data_1[i] & 0x80) && (!ted.cursor_visible)) {
+            d=0;
+        } else {
+            d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
                 = rcache->foreground_data[i]);
+        }
 
         *((PIXEL4 *) p + i * 4) = *(ptr + (d >> 4));
         *((PIXEL4 *) p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
@@ -379,20 +469,52 @@ static void draw_std_text_foreground(int start_char, int end_char)
     unsigned int i;
     BYTE *char_ptr;
     PIXEL *p;
+    int cursor_pos = -1;
 
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
     p = (ted.raster.frame_buffer_ptr + ted.screen_borderwidth
         + ted.raster.xsmooth + 8 * start_char);
 
-    for (i = start_char; i <= end_char; i++, p += 8) {
-        BYTE b;
-        PIXEL f;
+    if (ted.cursor_visible) {
+        int crsrpos = ted.crsrpos - ted.memptr;
+        if (crsrpos >= 0 && crsrpos < TED_SCREEN_TEXTCOLS)
+            cursor_pos = crsrpos;
+    }
 
-        b = char_ptr[ted.vbuf[i] * 8];
-        f = RASTER_PIXEL(&ted.raster, ted.cbuf[i]);
+    if (ted.reverse_mode) {
+        for (i = start_char; i <= end_char; i++, p += 8) {
+            BYTE b;
+            PIXEL f;
 
-        *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
-        DRAW_STD_TEXT_BYTE(p, b, f);
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                b=0;
+            } else {
+                b = char_ptr[ted.vbuf[i] * 8];
+            }
+            if (i == cursor_pos)
+                b ^= 0xff;
+            f = RASTER_PIXEL(&ted.raster, ted.cbuf[i] & 0x7f);
+
+            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
+            DRAW_STD_TEXT_BYTE(p, b, f);
+        }
+    } else {
+        for (i = start_char; i <= end_char; i++, p += 8) {
+            BYTE b;
+            PIXEL f;
+
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                b=0;
+            } else {
+                b = char_ptr[(ted.vbuf[i] & 0x7f) * 8] ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
+            }
+            if (i == cursor_pos)
+                b ^= 0xff;
+            f = RASTER_PIXEL(&ted.raster, ted.cbuf[i] & 0x7f);
+
+            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
+            DRAW_STD_TEXT_BYTE(p, b, f);
+        }
     }
 }
 
@@ -403,6 +525,7 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
     unsigned int i;
     BYTE *char_ptr;
     PIXEL2 *p;
+    int cursor_pos = -1;
 
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
     p = ((PIXEL2 *) (ted.raster.frame_buffer_ptr
@@ -410,17 +533,50 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
         + 2 * ted.raster.xsmooth)
         + 8 * start_char);
 
-    for (i = start_char; i <= end_char; i++, p += 8) {
-        BYTE b;
-        PIXEL2 f;
+    if (ted.cursor_visible) {
+        int crsrpos = ted.crsrpos - ted.memptr;
+        if (crsrpos >= 0 && crsrpos < TED_SCREEN_TEXTCOLS)
+            cursor_pos = crsrpos;
+    }
 
-        b = char_ptr[ted.vbuf[i] * 8];
-        f = RASTER_PIXEL2(&ted.raster, ted.cbuf[i]);
+    if (ted.reverse_mode) {
+        for (i = start_char; i <= end_char; i++, p += 8) {
+            BYTE b;
+            PIXEL2 f;
 
-        *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                b=0;
+            } else {
+                b = char_ptr[ted.vbuf[i] * 8];
+            }
+            if (i == cursor_pos)
+                b ^= 0xff;
+            f = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7f);
 
-        /* Notice that we are always aligned on 2-bytes boundaries here.  */
-        DRAW_STD_TEXT_BYTE(p, b, f);
+            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
+
+            /* Notice that we are always aligned on 2-bytes boundaries here.  */
+            DRAW_STD_TEXT_BYTE(p, b, f);
+        }
+    } else {
+        for (i = start_char; i <= end_char; i++, p += 8) {
+            BYTE b;
+            PIXEL2 f;
+
+            if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
+                b=0;
+            } else {
+                b = char_ptr[(ted.vbuf[i] & 0x7f) * 8] ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
+            }
+            if (i == cursor_pos)
+                b ^= 0xff;
+            f = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7f);
+
+            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
+
+            /* Notice that we are always aligned on 2-bytes boundaries here.  */
+            DRAW_STD_TEXT_BYTE(p, b, f);
+        }
     }
 }
 #endif /* VIC_II_NEED_2X */
@@ -634,8 +790,8 @@ inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
             = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
 #else
         c[3] = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
-        *((PIXEL2 *)c + 9) = *((PIXEL2 *)c + 10)
-            = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77);
+        *(((PIXEL *)c) + 9) = *(((PIXEL *)c) + 10)
+            = (PIXEL)(RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x77));
 #endif
 
         *((PIXEL2 *)p + 4 * i) = c[mc_table[k | d]];
@@ -829,7 +985,7 @@ static void draw_mc_text_foreground_2x(int start_char, int end_char)
         } else {
             PIXEL2 c3;
 
-            c3 = RASTER_PIXEL2(&ted.raster, c);
+            c3 = RASTER_PIXEL2(&ted.raster, c & 0x77);
             DRAW_STD_TEXT_BYTE(p, b, c3);
             *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
         }
@@ -1095,7 +1251,7 @@ inline static void _draw_ext_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
         int bg_idx;
         int d;
 
-        ptr = hr_table + (ted.cbuf[i] << 11);
+        ptr = hr_table + ((ted.cbuf[i] & 0x7f) << 11);
         bg_idx = ted.vbuf[i] >> 6;
         d = *(char_ptr + (ted.vbuf[i] & 0x3f) * 8);
 
@@ -1147,7 +1303,7 @@ inline static void _draw_ext_text_2x(PIXEL *p, int xs, int xe,
         PIXEL4 *ptr;
         int bg_idx, d;
 
-        ptr = hr_table_2x + (ted.cbuf[i] << 12);
+        ptr = hr_table_2x + ((ted.cbuf[i] & 0x7f) << 12);
         bg_idx = ted.vbuf[i] >> 6;
         d = *(char_ptr + (ted.vbuf[i] & 0x3f) * 8);
 
@@ -1196,7 +1352,7 @@ static void draw_ext_text_foreground(int start_char, int end_char)
         int bg_idx;
 
         b = char_ptr[(ted.vbuf[i] & 0x3f) * 8];
-        f = RASTER_PIXEL(&ted.raster, ted.cbuf[i]);
+        f = RASTER_PIXEL(&ted.raster, ted.cbuf[i] & 0x7f);
         bg_idx = ted.vbuf[i] >> 6;
 
         if (bg_idx > 0) {
@@ -1235,7 +1391,7 @@ static void draw_ext_text_foreground_2x(int start_char, int end_char)
         PIXEL2 f;
         int bg_idx;
 
-        f = RASTER_PIXEL2(&ted.raster, ted.cbuf[i]);
+        f = RASTER_PIXEL2(&ted.raster, ted.cbuf[i] & 0x7f);
         b = char_ptr[(ted.vbuf[i] & 0x3f) * 8];
         bg_idx = ted.vbuf[i] >> 6;
 

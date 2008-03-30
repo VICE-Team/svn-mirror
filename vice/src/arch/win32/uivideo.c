@@ -107,6 +107,9 @@ static void init_advanced_dialog(HWND hwnd)
 	sprintf(newval,"%.3f",(float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
 
+    /* As long as 'phase' isn't implemented, set a constant entry  */ 
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, "N/A");
+
     resources_get_value("ExternalPalette", (resource_value_t *) &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n ? BST_CHECKED : BST_UNCHECKED);
     res_extpalette=n;

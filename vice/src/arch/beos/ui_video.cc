@@ -195,7 +195,5 @@ void ui_video() {
 
 	videowindow = new VideoWindow;
 
-	vsync_suspend_speed_eval();
-//	while (videowindow); /* don't wait until window closed */
 }
 

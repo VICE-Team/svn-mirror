@@ -519,8 +519,8 @@ inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
             = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
 #else
         c[3] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
-        *((PIXEL2 *)c + 9) = *((PIXEL2 *)c + 10)
-            = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
+        *(((PIXEL *)c) + 9) = *(((PIXEL *)c) + 10)
+            = (PIXEL)(RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7));
 #endif
 
         *((PIXEL2 *)p + 4 * i) = c[mc_table[k | d]];

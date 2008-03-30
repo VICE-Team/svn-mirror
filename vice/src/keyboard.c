@@ -87,6 +87,21 @@ void keyboard_set_keyarr(int row, int col, int value)
     alarm_set(&keyboard_alarm, clk + 1000);
 }
 
+void keyboard_set_keyarr_and_latch(int row, int col, int value)
+{
+    if (row < 0 || col < 0)
+        return;
+    if (value) {
+        latch_keyarr[row] |= 1 << col;
+        latch_rev_keyarr[col] |= 1 << row;
+    } else {
+        latch_keyarr[row] &= ~(1 << col);
+        latch_rev_keyarr[col] &= ~(1 << row);
+    }
+    memcpy(keyarr, latch_keyarr, sizeof(keyarr));
+    memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
+}
+
 void keyboard_clear_keymatrix(void)
 {
     memset(keyarr, 0, sizeof(keyarr));
