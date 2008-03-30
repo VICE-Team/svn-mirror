@@ -200,7 +200,7 @@ void fullscreen_refresh_func(BYTE *draw_buffer,
       width = fs_width;
 
     /* convert buffer for PAL emulation */
-    video_render_main(&fs_cached_fb->videoconfig, 
+    video_render_main(fs_cached_fb->videoconfig, 
 		      draw_buffer,
 		      fb_render_target,
 		      width, height, src_x, src_y, src_x, src_y, 
@@ -396,7 +396,7 @@ void fullscreen_set_palette(video_canvas_t *c, const palette_t *palette)
     
     memcpy(fs_cached_pixel_values, pixels, 
 	   palette->num_entries * sizeof(BYTE));
-    memcpy(fs_cached_physical_colors, c->videoconfig.physical_colors,
+    memcpy(fs_cached_physical_colors, c->videoconfig->physical_colors,
 	   sizeof(DWORD) * 256);
     new_palette = 1;
 }
@@ -559,7 +559,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			     fs_cached_palette->entries[i].name, 
 			     fs_cached_pixels[i]);
 #endif
-		video_render_setphysicalcolor(&fs_cached_fb->videoconfig, 
+		video_render_setphysicalcolor(fs_cached_fb->videoconfig, 
 					      i, color.pixel, fs_depth);
 		fs_cached_pixels[i] = color.pixel;
 	    }
@@ -576,7 +576,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    }
 	    
 	    memcpy(fs_saved_colors, 
-		   fs_cached_fb->videoconfig.physical_colors, 
+		   fs_cached_fb->videoconfig->physical_colors, 
 		   sizeof(DWORD) * 256);
 
 	    new_palette = 0;
@@ -589,7 +589,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 		log_error(dga_log, "inconsistent view for color management, disabling fullscreen.");
 		goto nodga;
 	    }
-	    memcpy(fs_cached_fb->videoconfig.physical_colors,
+	    memcpy(fs_cached_fb->videoconfig->physical_colors,
 		   fs_saved_colors, sizeof(DWORD) * 256);
 	}
 	
@@ -644,7 +644,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 #ifndef FS_DEBUG_BUFFER
 	fb_addr = (unsigned char *)0;
 	/* Restore pixel values of window mode */
-	memcpy(fs_cached_fb->videoconfig.physical_colors,
+	memcpy(fs_cached_fb->videoconfig->physical_colors,
 	       fs_cached_physical_colors,
 	       sizeof(DWORD) * 256);
 	memcpy(fs_cached_pixels, fs_cached_pixel_values,

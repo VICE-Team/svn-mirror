@@ -64,7 +64,7 @@ struct video_draw_buffer_callback_s;
 struct video_canvas_s {
     unsigned int width, height;
     ui_window_t emuwindow;
-    video_render_config_t videoconfig;
+    struct video_render_config_s *videoconfig;
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
