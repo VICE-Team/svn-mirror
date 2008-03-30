@@ -1,3 +1,43 @@
+2001-06-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.40.
+
+	* printerdrv/drv-ascii.c, printerdrv/output-file.c: Moved CRLF
+	conversion to the ASCII printer driver.
+
+	* printerdrv/driver-select.c, printerdrv/driver-select.h:
+	Added selection of printer drivers.
+
+	* printerdrv/drv-ascii.c, printerdrv/drv-ascii.h,
+	printerdrv/drv-mps803.c, printerdrv/drv-mps803.h: Adapted to
+	new printer driver selection code.
+
+	* printerdrv/drv-mps803.c (init_charset): Fixed memory
+	corruption bug, load correct charset.
+	(print_char): Do not eat the char causing a line wrap.
+
+2001-06-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* sound.c(sound_flush): check for warp mode before instead of
+	after calling sound_resume()
+	(sound_set_warp_mode) calls sound_suspend() or sound_resume()
+	depending on current state of warp mode
+
+	* sounddrv/sounddx.c: disabled (HandleNotifications) and
+	(TimerCallbackFunction)
+	(dx_init): disabled stuff related to stream_buffer, DSNotify
+	and timer events; sound buffer created with global focus
+	(dx_close): disabled killing of streaming thread and buffer
+	(dx_bufferspace): get the free space via GetCurrentPosition()
+	(dx_write): writes directly to the DirectX buffer (copy and
+	paste from (HandleNotifications))
+	(dx_suspend), (dx_resume) new functions, integrated in
+	dx_device
+
+2001-06-11  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* printerdrv/drv-mps803.c: replaced C++ comments
+
 2001-06-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.39.
