@@ -108,7 +108,7 @@ int pia1_init_resources(void)
 
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
       0, IDCLS_ENABLE_USERPORT_DIAG_PIN },
     { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
@@ -127,11 +127,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int pia1_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 static int tape1_sense = 0;

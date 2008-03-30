@@ -35,7 +35,7 @@
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (void *)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
@@ -108,10 +108,6 @@ static const cmdline_option_t cmdline_options[] =
 
 int plus4_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

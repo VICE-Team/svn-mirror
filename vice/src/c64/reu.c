@@ -227,7 +227,7 @@ void reu_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
       0, IDCLS_ENABLE_REU },
@@ -256,11 +256,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int reu_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

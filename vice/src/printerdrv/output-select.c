@@ -103,7 +103,7 @@ void output_select_shutdown_resources(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME },
@@ -130,11 +130,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int output_select_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 

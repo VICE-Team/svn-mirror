@@ -36,7 +36,7 @@
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, cbm2_set_model, NULL, NULL, NULL,
      IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL },
     { "-usevicii", SET_RESOURCE, 0, NULL, NULL, "UseVicII", (void *)1,
@@ -199,10 +199,6 @@ static const cmdline_option_t cmdline_options[] = {
 
 int cbm2_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

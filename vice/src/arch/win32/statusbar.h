@@ -31,6 +31,8 @@
 #define EVENT_RECORDING 1
 #define EVENT_PLAYBACK  2
 
+#include "uiapi.h"
+
 void statusbar_create(HWND hwnd);
 void statusbar_destroy(void);
 void statusbar_create_brushes(void);

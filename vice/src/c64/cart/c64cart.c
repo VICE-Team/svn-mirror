@@ -155,7 +155,7 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-cartreset", SET_RESOURCE, 0, NULL, NULL, "CartridgeReset",
       (void *)1, 0,
@@ -261,11 +261,7 @@ int cartridge_cmdline_options_init(void)
     if (ide64_cmdline_options_init() < 0)
         return -1;
 
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

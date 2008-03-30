@@ -40,6 +40,10 @@
 #  endif
 #endif
 
+#ifndef MAXPATHLEN
+#define MAXPATHLEN PATH_MAX
+#endif
+
 #if defined(SYSV) || defined(SVR4)
 #define getwd(path) getcwd(path, MAXPATHLEN)
 #endif
@@ -52,6 +56,10 @@
 #endif
 
 #define NeedFunctionPrototypes 1
+
+#ifndef HAVE_U_SHORT
+#define u_short unsigned short
+#endif
 
 #ifndef NAME_MAX  /* was _SYS_NAME_MAX, but doesn't compile with `gcc -ansi' */
 

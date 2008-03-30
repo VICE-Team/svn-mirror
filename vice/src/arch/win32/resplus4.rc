@@ -8,6 +8,8 @@
 
 #pragma code_page(28591)
 
+#define FILE_DESCRIPTION  "Vice 264 Series Emulator (C16/Plus4)"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu

@@ -65,7 +65,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)8, NULL, NULL,
       IDCLS_P_NAME, IDCLS_USE_AS_DIRECTORY_FSDEVICE_8 },
     { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)9, NULL, NULL,
@@ -92,10 +92,6 @@ static const cmdline_option_t cmdline_options[] = {
 
 int fsdevice_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

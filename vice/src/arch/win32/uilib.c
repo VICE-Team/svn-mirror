@@ -971,3 +971,4 @@ void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
     *xsize = size.cx;
     *ysize = size.cy;
 }
+

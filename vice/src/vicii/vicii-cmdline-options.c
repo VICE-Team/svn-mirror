@@ -40,7 +40,7 @@
 
 /* VIC-II command-line options.  */
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)1, 0, IDCLS_ENABLE_SPRITE_BACKGROUND },
@@ -96,10 +96,6 @@ int vicii_cmdline_options_init(void)
     if (raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap) < 0)
         return -1;
 
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

@@ -123,7 +123,7 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     /* The Video Standard options are copied from the machine files. */
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
@@ -168,11 +168,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int psid_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 

@@ -235,7 +235,7 @@ static void reset(nl10_t *nl10)
   nl10->marg_t     = 0;
   nl10->marg_b     = 0;
   nl10->pos_x      = nl10->marg_l;
-  //init_mapping(nl10, 0);
+  /* init_mapping(nl10, 0); */
 
   for(i=0; i<40; i++)
     {

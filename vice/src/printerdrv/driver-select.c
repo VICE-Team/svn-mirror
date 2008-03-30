@@ -109,7 +109,7 @@ void driver_select_shutdown_resources(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,
      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_4_NAME },
@@ -134,11 +134,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int driver_select_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 

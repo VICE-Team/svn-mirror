@@ -122,7 +122,7 @@ void functionrom_resources_shutdown(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
       IDCLS_P_NAME, IDCLS_SPECIFY_INT_FUNC_ROM_NAME },
     { "-extfrom", SET_RESOURCE, 1, NULL, NULL, "ExternalFunctionName", NULL,
@@ -157,11 +157,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int functionrom_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 static int functionrom_load_internal(void)

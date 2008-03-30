@@ -30,9 +30,10 @@
 #include <stdio.h>
 
 #include "cmdline.h"
-#include "translate.h"
 #include "lib.h"
+#include "res.h"
 #include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "uilib.h"
@@ -244,25 +245,24 @@ int ui_vblank_sync_enabled()
 static const cmdline_option_t cmdline_options[] = {
     { "-saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t)1,
-      NULL, "Save settings (resources) on exit" },
+      0, IDS_SAVE_SETTINGS_ON_EXIT },
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t)0,
-      NULL, "Never save settings (resources) on exit" },
+      0, IDS_NO_SAVE_SETTINGS_ON_EXIT },
     { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
       "ConfirmOnExit", (resource_value_t)0,
-      NULL, "Confirm quiting VICE" },
+      0, IDS_CONFIRM_QUIT_VICE },
     { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
       "ConfirmOnExit", (resource_value_t)1,
-      NULL, "Never confirm quiting VICE" },
+      0, IDS_NO_CONFIRM_QUIT_VICE },
     { "-singlecpu", SET_RESOURCE, 0, NULL, NULL,
       "SingleCPU", (resource_value_t)0,
-      NULL, "Use all CPU on SMP systems" },
+      0, IDS_USE_ALL_CPU_SMP },
     { "+singlecpu", SET_RESOURCE, 0, NULL, NULL,
       "SingleCPU", (resource_value_t)1,
-      NULL, "Use only first CPU on SMP systems" },
+      0, IDS_USE_FIRST_CPU_SMP },
     { NULL }
 };
-
 
 int ui_cmdline_options_init(void)
 {

@@ -131,7 +131,7 @@ int myacia_init_resources(void) {
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, MYACIA "Dev", NULL,
       IDCLS_P_0_3, IDCLS_SPECIFY_ACIA_RS232_DEVICE },
     { NULL }
@@ -145,11 +145,7 @@ static const cmdline_option_t cmdline_options[] = {
 #endif
 
 int myacia_init_cmdline_options(void) {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /******************************************************************/

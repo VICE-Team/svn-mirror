@@ -44,7 +44,7 @@ static const char *cname_chip[] = { "-", "vcache", "VideoCache",
                                     NULL };
 
 #ifdef HAS_TRANSLATION
-static cmdline_option_trans_t cmdline_options_chip[] =
+static cmdline_option_t cmdline_options_chip[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
       (void *)1, 0, IDCLS_ENABLE_VIDEO_CACHE },
@@ -75,11 +75,7 @@ int raster_cmdline_options_chip_init(const char *chipname,
                                                 cname_chip[i * 3 + 2], NULL);
     }
 
-#ifdef HAS_TRANSLATION
-    if (cmdline_register_options_trans(cmdline_options_chip) < 0)
-#else
     if (cmdline_register_options(cmdline_options_chip) < 0)
-#endif
         return -1;
 
     for (i = 0; cname_chip[i * 3] != NULL; i++) {

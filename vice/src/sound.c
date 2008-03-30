@@ -216,7 +216,7 @@ void sound_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
       0, IDCLS_ENABLE_SOUND_PLAYBACK },
     { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,
@@ -263,11 +263,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int sound_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

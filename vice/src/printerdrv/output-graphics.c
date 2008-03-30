@@ -87,7 +87,7 @@ static const cmdline_option_t cmdline_options[] =
 */
 int output_graphics_init_cmdline_options(void)
 {
-    return 1;//cmdline_register_options(cmdline_options);
+    return 1; /* cmdline_register_options(cmdline_options); */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -297,6 +297,6 @@ int output_graphics_init_resources(void)
 
     output_select_register(&output_select);
 
-    return 1;//resources_register(resources);
+    return 1; /* resources_register(resources); */
 }
 

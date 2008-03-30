@@ -245,7 +245,7 @@ int ide64_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-IDE64image", SET_RESOURCE, 1, NULL, NULL, "IDE64Image", NULL,
       IDCLS_P_NAME, IDCLS_SPECIFY_IDE64_NAME },
     { "-IDE64cyl", SET_RESOURCE, 1, NULL, NULL, "IDE64Cylinders", NULL,
@@ -284,11 +284,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ide64_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 

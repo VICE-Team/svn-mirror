@@ -1121,7 +1121,7 @@ static int cmdline_help(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       0, IDCLS_PLAYBACK_RECORDED_EVENTS },
     { NULL }
@@ -1136,11 +1136,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int event_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /*-----------------------------------------------------------------------*/

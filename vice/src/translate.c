@@ -3635,7 +3635,25 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_WARP_MODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_WARP_MODE_NL, "Warp modus afsluiten"},
 /* pl */ {IDCLS_DISABLE_WARP_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_WARP_MODE_SV, ""}   /* fuzzy */
+/* sv */ {IDCLS_DISABLE_WARP_MODE_SV, ""},  /* fuzzy */
+
+/* translate.c */
+/* en */ {IDCLS_P_ISO_LANGUAGE_CODE,    "<iso language code>"},
+/* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ISO_LANGUAGE_CODE_NL, "<iso taal code>"},
+/* pl */ {IDCLS_P_ISO_LANGUAGE_CODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ISO_LANGUAGE_CODE_SV, ""},  /* fuzzy */
+
+/* translate.c */
+/* en */ {IDCLS_SPECIFY_ISO_LANG_CODE,    "Specify the iso code of the language"},
+/* de */ {IDCLS_SPECIFY_ISO_LANG_CODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_ISO_LANG_CODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_ISO_LANG_CODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_ISO_LANG_CODE_NL, "Geef de iso code van de taal"},
+/* pl */ {IDCLS_SPECIFY_ISO_LANG_CODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, ""}   /* fuzzy */
 
 };
 
@@ -7072,7 +7090,25 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDCLS_DISABLE_WARP_MODE_IT,
 /* nl */  IDCLS_DISABLE_WARP_MODE_NL,
 /* pl */  IDCLS_DISABLE_WARP_MODE_PL,
-/* sv */  IDCLS_DISABLE_WARP_MODE_SV}
+/* sv */  IDCLS_DISABLE_WARP_MODE_SV},
+
+/* translate.c */
+/* en */ {IDCLS_P_ISO_LANGUAGE_CODE,
+/* de */  IDCLS_P_ISO_LANGUAGE_CODE_DE,
+/* fr */  IDCLS_P_ISO_LANGUAGE_CODE_FR,
+/* it */  IDCLS_P_ISO_LANGUAGE_CODE_IT,
+/* nl */  IDCLS_P_ISO_LANGUAGE_CODE_NL,
+/* pl */  IDCLS_P_ISO_LANGUAGE_CODE_PL,
+/* sv */  IDCLS_P_ISO_LANGUAGE_CODE_SV},
+
+/* translate.c */
+/* en */ {IDCLS_SPECIFY_ISO_LANG_CODE,
+/* de */  IDCLS_SPECIFY_ISO_LANG_CODE_DE,
+/* fr */  IDCLS_SPECIFY_ISO_LANG_CODE_FR,
+/* it */  IDCLS_SPECIFY_ISO_LANG_CODE_IT,
+/* nl */  IDCLS_SPECIFY_ISO_LANG_CODE_NL,
+/* pl */  IDCLS_SPECIFY_ISO_LANG_CODE_PL,
+/* sv */  IDCLS_SPECIFY_ISO_LANG_CODE_SV}
 
 };
 
@@ -7200,7 +7236,7 @@ void translate_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-lang", SET_RESOURCE, 1, NULL, NULL, "Language", NULL,
-      "<iso language code>", "Specify the iso code of the language" },
+      IDCLS_P_ISO_LANGUAGE_CODE, IDCLS_SPECIFY_ISO_LANG_CODE },
     { NULL }
 };
 

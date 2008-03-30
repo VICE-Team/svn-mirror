@@ -102,7 +102,7 @@ int serial_iec_device_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-iecdevice4", SET_RESOURCE, 0, NULL, NULL, "IECDevice4",
       (resource_value_t)1,
       0, IDCLS_ENABLE_IEC_4 },
@@ -185,11 +185,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int serial_iec_device_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /*------------------------------------------------------------------------*/

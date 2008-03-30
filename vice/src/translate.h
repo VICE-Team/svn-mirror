@@ -3477,4 +3477,22 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_WARP_MODE_PL              0x1194f
 #define IDCLS_DISABLE_WARP_MODE_SV              0x11950
 
+/* translate.c */
+#define IDCLS_P_ISO_LANGUAGE_CODE               0x11951
+#define IDCLS_P_ISO_LANGUAGE_CODE_DE            0x11952
+#define IDCLS_P_ISO_LANGUAGE_CODE_FR            0x11953
+#define IDCLS_P_ISO_LANGUAGE_CODE_IT            0x11954
+#define IDCLS_P_ISO_LANGUAGE_CODE_NL            0x11955
+#define IDCLS_P_ISO_LANGUAGE_CODE_PL            0x11956
+#define IDCLS_P_ISO_LANGUAGE_CODE_SV            0x11957
+
+/* translate.c */
+#define IDCLS_SPECIFY_ISO_LANG_CODE             0x11958
+#define IDCLS_SPECIFY_ISO_LANG_CODE_DE          0x11959
+#define IDCLS_SPECIFY_ISO_LANG_CODE_FR          0x1195a
+#define IDCLS_SPECIFY_ISO_LANG_CODE_IT          0x1195b
+#define IDCLS_SPECIFY_ISO_LANG_CODE_NL          0x1195c
+#define IDCLS_SPECIFY_ISO_LANG_CODE_PL          0x1195d
+#define IDCLS_SPECIFY_ISO_LANG_CODE_SV          0x1195e
+
 #endif

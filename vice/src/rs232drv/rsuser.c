@@ -166,7 +166,7 @@ int rsuser_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUserEnable", (void *)1,
       0, IDCLS_ENABLE_RS232_USERPORT },
     { "+rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUserEnable", (void *)0,
@@ -197,11 +197,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int rsuser_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /*********************************************************************/

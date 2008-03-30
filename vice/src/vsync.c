@@ -122,7 +122,7 @@ int vsync_resources_init(void)
 
 /* Vsync-related command-line options. */
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
       IDCLS_P_PERCENT, IDCLS_LIMIT_SPEED_TO_VALUE },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
@@ -149,11 +149,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int vsync_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

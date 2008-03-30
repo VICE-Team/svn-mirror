@@ -1,8 +1,9 @@
 /*
- * iec-cmdline-options.c
+ * uimonmsg.h - Private Window messages for the monitor UI implementation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+ *  Tibor Biczo <crown@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,31 +25,13 @@
  *
  */
 
-#include "vice.h"
+#ifndef _UIMONMSG_H
+#define _UIMONMSG_H
 
-#include <stdio.h>
 
-#include "cmdline.h"
-#include "iec128dcr-cmdline-options.h"
+#define WM_CONSOLE_INSERTLINE           (WM_USER)
+#define WM_CONSOLE_CLOSED               (WM_USER+1)
+#define WM_CONSOLE_RESIZED              (WM_USER+2)
+#define WM_CONSOLE_ACTIVATED            (WM_USER+3)
 
-#ifdef HAS_TRANSLATION
-#include "translate.h"
-
-static const cmdline_option_t cmdline_options[] = {
-    { "-dos1571cr", SET_RESOURCE, 1, NULL, NULL, "DosName1571cr", "d1571cr",
-      IDCLS_P_NAME, IDCLS_SPECIFY_1571CR_DOS_ROM_NAME },
-    { NULL }
-};
-#else
-static const cmdline_option_t cmdline_options[] = {
-    { "-dos1571cr", SET_RESOURCE, 1, NULL, NULL, "DosName1571cr", "d1571cr",
-      "<name>", "Specify name of 1571CR DOS ROM image" },
-    { NULL }
-};
 #endif
-
-int iec128dcr_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-

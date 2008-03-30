@@ -78,7 +78,7 @@ int mouse_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-mouse", SET_RESOURCE, 1, NULL, NULL,
       "Mouse", NULL, 0, IDCLS_ENABLE_1351_MOUSE },
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,
@@ -101,11 +101,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int mouse_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    if (cmdline_register_options_trans(cmdline_options) < 0)
-#else
     if (cmdline_register_options(cmdline_options) < 0)
-#endif
         return -1;
 
     return mousedrv_cmdline_options_init();

@@ -161,16 +161,16 @@ static BOOL verify_exe(char *file_name)
 {
 DWORD	version_info_size;
 BOOL	bResult = FALSE;
-char	*product_name = NULL;
-int 	product_name_length = 0;
+char	*company_name = NULL;
+int 	company_name_length = 0;
 
     if (version_info_size = GetFileVersionInfoSize(file_name, NULL)) {
         BYTE *version_info_buffer = lib_malloc(version_info_size);
 
         if (GetFileVersionInfo(file_name, (DWORD)NULL, version_info_size, (VOID*)version_info_buffer)) {
-            if (VerQueryValue(version_info_buffer, "\\StringFileInfo\\04090000\\ProductName", &product_name, &product_name_length)) {
-                if (product_name) {
-                    if (strncmp("Vice Emulator", product_name, product_name_length) == 0) {
+            if (VerQueryValue(version_info_buffer, "\\StringFileInfo\\04090000\\CompanyName", &company_name, &company_name_length)) {
+                if (company_name) {
+                    if (strncmp("Vice Team", company_name, company_name_length) == 0) {
                         bResult = TRUE;
                     }
                 }

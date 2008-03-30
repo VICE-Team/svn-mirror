@@ -38,7 +38,7 @@
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
       (void *)1, 0, IDCLS_ENABLE_TRUE_DRIVE },
     { "+truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
@@ -56,7 +56,7 @@ static const cmdline_option_t cmdline_options[] = {
 #endif
 
 #ifdef HAS_TRANSLATION
-static cmdline_option_trans_t cmd_drive[] = {
+static cmdline_option_t cmd_drive[] = {
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, NULL, IDCLS_P_TYPE,
       IDCLS_SET_DRIVE_TYPE },
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, NULL, IDCLS_P_METHOD,
@@ -85,11 +85,7 @@ int drive_cmdline_options_init(void)
         cmd_drive[1].resource_name
             = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);
 
-#ifdef HAS_TRANSLATION
-        if (cmdline_register_options_trans(cmd_drive) < 0)
-#else
         if (cmdline_register_options(cmd_drive) < 0)
-#endif
             return -1;
 
         for (i = 0; i < 2; i++) {
@@ -99,9 +95,5 @@ int drive_cmdline_options_init(void)
     }
 
     return machine_drive_cmdline_options_init()
-#ifdef HAS_TRANSLATION
-        | cmdline_register_options_trans(cmdline_options);
-#else
         | cmdline_register_options(cmdline_options);
-#endif
 }

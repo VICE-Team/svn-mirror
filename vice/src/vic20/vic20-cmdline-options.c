@@ -166,7 +166,7 @@ static int cmdline_memory(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static cmdline_option_trans_t const cmdline_options[] =
+static cmdline_option_t const cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (resource_value_t)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
@@ -235,10 +235,6 @@ static cmdline_option_t const cmdline_options[] =
 
 int vic20_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

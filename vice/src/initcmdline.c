@@ -127,7 +127,7 @@ static int cmdline_attach(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t common_cmdline_options[] = {
+static const cmdline_option_t common_cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       0, IDCLS_SHOW_COMMAND_LINE_OPTIONS },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
@@ -174,18 +174,14 @@ static const cmdline_option_t common_cmdline_options[] = {
 };
 #endif
 
-#ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t vsid_cmdline_options[] = {
-#else
 static const cmdline_option_t vsid_cmdline_options[] = {
-#endif
     { NULL }
 };
 
 /* These are the command-line options for the initialization sequence.  */
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-default", CALL_FUNCTION, 0, cmdline_default, NULL, NULL, NULL,
       0, IDCLS_RESTORE_DEFAULT_SETTINGS },
     { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
@@ -228,25 +224,13 @@ static const cmdline_option_t cmdline_options[] = {
 
 int initcmdline_init(void)
 {
-#ifdef HAS_TRANSLATION
-    const cmdline_option_trans_t *main_cmdline_options =
-#else
     const cmdline_option_t *main_cmdline_options =
-#endif
         vsid_mode ? vsid_cmdline_options : cmdline_options;
 
-#ifdef HAS_TRANSLATION
-    if (cmdline_register_options_trans(common_cmdline_options) < 0)
-#else
     if (cmdline_register_options(common_cmdline_options) < 0)
-#endif
         return -1;
 
-#ifdef HAS_TRANSLATION
-    if (cmdline_register_options_trans(main_cmdline_options) < 0)
-#else
     if (cmdline_register_options(main_cmdline_options) < 0)
-#endif
         return -1;
 
     return 0;

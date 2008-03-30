@@ -32,6 +32,39 @@
 #include "Directory.h"
 #include "RegExp.h"
 
+#ifndef HAVE_TELLDIR
+long telldir(DIR *dirp)
+{
+  return lseek(dirp->dd_fd,0L,1)-(long)dirp->dd_size+(long)dirp->dd_loc;
+}
+#endif
+
+#ifndef HAVE_SEEKDIR
+
+#ifndef DIRBLKSIZ
+#define DIRBLKSIZ 1024
+#endif
+
+void seekdir(DIR *dirp,long loc)
+{
+  long base;
+  long offset;
+
+  if (telldir(dirp)==loc)
+    return;
+
+  offset=loc%DIRBLKSIZ;
+  base=loc-offset;
+
+  (void)lseek(dirp->dd_fd,base,0);
+  dirp->dd_loc=dirp->dd_size=0
+
+  while(dirp->dd_loc<offset)
+  if (readdir(dirp)==NULL)
+    return;
+}
+#endif
+
 /*--------------------------------------------------------------------------*
 
         L O W    L E V E L    D I R E C T O R Y    I N T E R F A C E

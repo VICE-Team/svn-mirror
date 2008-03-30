@@ -82,7 +82,7 @@ int ram_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
       "RAMInitStartValue", NULL,
       IDCLS_P_VALUE, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE },
@@ -111,11 +111,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ram_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 

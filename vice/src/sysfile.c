@@ -116,7 +116,7 @@ static const resource_t resources[] = {
 /* Command-line options.  */
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
       IDCLS_P_PATH, IDCLS_DEFINE_SYSTEM_FILES_PATH },
     { NULL },
@@ -156,11 +156,7 @@ void sysfile_resources_shutdown(void)
 
 int sysfile_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* Locate a system file called `name' by using the search path in

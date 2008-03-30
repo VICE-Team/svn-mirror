@@ -109,7 +109,7 @@ int interface_serial_init_resources(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-device4", SET_RESOURCE, 1, NULL, NULL, "Printer4",
       (void *)PRINTER_DEVICE_FS, IDCLS_P_TYPE,
       IDCLS_SET_DEVICE_TYPE_4 },
@@ -132,11 +132,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int interface_serial_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

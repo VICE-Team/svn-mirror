@@ -36,19 +36,22 @@
 #include <mmsystem.h>
 
 #include "cmdline.h"
+#include "intl.h"
 #include "lib.h"
 #include "log.h"
 #include "fullscrn.h"
 #include "fullscreen.h"
 #include "palette.h"
+#include "res.h"
 #include "resources.h"
+#include "statusbar.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
 #include "vsyncapi.h"
-#include "statusbar.h"
 
 
 void video_resize(void);
@@ -116,7 +119,7 @@ void video_arch_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
       "FullScreenEnabled", (resource_value_t) 1,
-      NULL, "Start VICE in fullscreen mode" },
+      0, IDS_START_VICE_FULLSCREEN_MODE },
     { NULL }
 };
 

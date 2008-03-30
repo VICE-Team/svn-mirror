@@ -44,6 +44,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uimon.h"
+#include "uimonmsg.h"
 #include "winmain.h"
 
 

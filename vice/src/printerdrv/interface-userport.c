@@ -77,7 +77,7 @@ int interface_userport_init_resources(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
       (resource_value_t) 1, 0,
       IDCLS_ENABLE_USERPORT_PRINTER },
@@ -100,11 +100,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int interface_userport_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

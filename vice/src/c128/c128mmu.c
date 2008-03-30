@@ -90,7 +90,7 @@ int mmu_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-40col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 1,
       0, IDCLS_ACTIVATE_40_COL_MODE },
@@ -113,11 +113,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int mmu_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

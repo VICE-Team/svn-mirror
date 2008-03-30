@@ -41,7 +41,7 @@
 
 /* VDC command-line options.  */
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-VDC16KB", SET_RESOURCE, 0, NULL, NULL,
       "VDC64KB", (void *)0,
@@ -75,10 +75,6 @@ int vdc_cmdline_options_init(void)
     if (raster_cmdline_options_chip_init("VDC", vdc.video_chip_cap) < 0)
         return -1;
 
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

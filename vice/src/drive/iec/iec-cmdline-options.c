@@ -36,7 +36,7 @@
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       IDCLS_P_NAME, IDCLS_SPECIFY_1541_DOS_ROM_NAME },
     { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
@@ -50,7 +50,7 @@ static const cmdline_option_trans_t cmdline_options[] = {
     { NULL }
 };
 
-static cmdline_option_trans_t cmd_drive[] = {
+static cmdline_option_t cmd_drive[] = {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
       0, IDCLS_ENABLE_PAR_CABLE },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
@@ -172,11 +172,7 @@ int iec_cmdline_options_init(void)
         cmd_drive[12].resource_name
             = lib_msprintf("Drive%iRAMA000", dnr + 8);
 
-#ifdef HAS_TRANSLATION
-        if (cmdline_register_options_trans(cmd_drive) < 0)
-#else
         if (cmdline_register_options(cmd_drive) < 0)
-#endif
             return -1;
 
         for (i = 0; i < 13; i++) {
@@ -186,10 +182,6 @@ int iec_cmdline_options_init(void)
     }
 
 
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

@@ -121,7 +121,7 @@ int debug_resources_init(void)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
 #ifdef DEBUG
     { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
       "MainCPU_TRACE", (resource_value_t)1,
@@ -210,11 +210,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int debug_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 static unsigned int cycles_per_line;

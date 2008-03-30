@@ -87,7 +87,7 @@ static const resource_t resources[] = {
 };
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-prtxtdev1", SET_RESOURCE, 1, NULL, NULL, "PrinterTextDevice1", NULL,
      IDCLS_P_NAME, IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME },
@@ -130,11 +130,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int output_text_init_cmdline_options(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

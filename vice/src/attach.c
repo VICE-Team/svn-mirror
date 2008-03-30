@@ -113,7 +113,7 @@ int file_system_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-device8", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice8",
       (void *)ATTACH_DEVICE_FS, IDCLS_P_TYPE,
       IDCLS_SET_DEVICE_TYPE_8 },
@@ -196,11 +196,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int file_system_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

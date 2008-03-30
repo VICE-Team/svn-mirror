@@ -43,24 +43,16 @@
 
 void ui_cmdline_show_help(unsigned int num_options,
                           cmdline_option_ram_t *options,
-                          unsigned int num_options_trans,
-                          cmdline_option_ram_trans_t *options_trans,
                           void *userparam)
 {
     unsigned int i;
 
     printf("\nAvailable command-line options:\n\n");
-    for (i = 0; i < num_options_trans; i++) {
-        fputs(options_trans[i].name, stdout);
-        if (options_trans[i].need_arg && translate_text(options_trans[i].param_name) != NULL)
-            printf(" %s", translate_text(options_trans[i].param_name));
-        printf("\n\t%s\n", translate_text(options_trans[i].description));
-    }
     for (i = 0; i < num_options; i++) {
         fputs(options[i].name, stdout);
-        if (options[i].need_arg && options[i].param_name != NULL)
-            printf(" %s", options[i].param_name);
-        printf("\n\t%s\n", options[i].description);
+        if (options[i].need_arg && options[i].param_name != 0)
+            printf(" %s", translate_text(options[i].param_name));
+        printf("\n\t%s\n", translate_text(options[i].description));
     }
     putchar('\n');
 }

@@ -34,7 +34,7 @@
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
       IDCLS_P_NAME, IDCLS_SPECIFY_2031_DOS_ROM_NAME },
     { "-dos2040", SET_RESOURCE, 1, NULL, NULL, "DosName2040", "dos2040",
@@ -65,10 +65,6 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ieee_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 

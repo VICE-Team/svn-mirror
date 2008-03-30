@@ -36,7 +36,7 @@
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 
-static const cmdline_option_trans_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
     IDCLS_P_ENGINE, IDCLS_SPECIFY_SID_ENGINE },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
@@ -105,9 +105,5 @@ static const cmdline_option_t cmdline_options[] = {
 
 int sid_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }

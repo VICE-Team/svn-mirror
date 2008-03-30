@@ -41,6 +41,8 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "maincpu.h"
+#include "res.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "winmain.h"
@@ -443,10 +445,10 @@ int joystick_init_resources(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1, NULL, NULL,
       "JoyDevice1", NULL,
-      "<number>", "Set input device for joystick #1" },
+      IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1 },
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL,
       "JoyDevice2", NULL,
-      "<number>", "Set input device for joystick #2" },
+      IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_2 },
     { NULL }
 };
 

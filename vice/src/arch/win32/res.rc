@@ -50,9 +50,9 @@ BEGIN
         BLOCK "04090000"
         BEGIN
             VALUE "CompanyName",     "Vice Team"
-            VALUE "FileDescription", "Vice Emulator"
+            VALUE "FileDescription", FILE_DESCRIPTION
             VALUE "FileVersion",     VERSION
-            VALUE "ProductName",     "Vice Emulator"
+            VALUE "ProductName",     FILE_DESCRIPTION
             VALUE "ProductVersion",  VERSION
         END
     END
@@ -4162,6 +4162,16 @@ BEGIN
   IDS_RECORDING                   "Recording\n%02d:%02d"
   IDS_PLAYBACK                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN                     "Unknown"
+  IDS_P_NUMBER                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE  "Start VICE in fullscreen mode"
 END
 
 
@@ -4324,6 +4334,16 @@ BEGIN
   IDS_RECORDING_DE                   "Recording\n%02d:%02d"
   IDS_PLAYBACK_DE                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_DE                     "Unknown"
+  IDS_P_NUMBER_DE                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1_DE        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_DE        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_DE       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_DE    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE_DE           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_DE        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP_DE             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP_DE           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE_DE  "Start VICE in fullscreen mode"
 END
 
 
@@ -4486,6 +4506,16 @@ BEGIN
   IDS_RECORDING_FR                   "Recording\n%02d:%02d"
   IDS_PLAYBACK_FR                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_FR                     "Unknown"
+  IDS_P_NUMBER_FR                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1_FR        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_FR        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_FR       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_FR    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE_FR           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_FR        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP_FR             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP_FR           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE_FR  "Start VICE in fullscreen mode"
 END
 
 
@@ -4648,6 +4678,16 @@ BEGIN
   IDS_RECORDING_IT                   "Recording\n%02d:%02d"
   IDS_PLAYBACK_IT                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_IT                     "Unknown"
+  IDS_P_NUMBER_IT                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1_IT        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_IT        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_IT       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_IT    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE_IT           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_IT        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP_IT             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP_IT           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE_IT  "Start VICE in fullscreen mode"
 END
 
 
@@ -4810,6 +4850,16 @@ BEGIN
   IDS_RECORDING_NL                   "Opnemen\n%02d:%02d"
   IDS_PLAYBACK_NL                    "Afspelen\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_NL                     "Onbekend"
+  IDS_P_NUMBER_NL                    "<nummer>"
+  IDS_SET_INPUT_JOYSTICK_1_NL        "Zet invoer apparaat voor joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_NL        "Zet invoer apparaat voor joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_NL       "Instellingen (resources) opslaan bij afsluiten"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_NL    "Instellingen (resources) niet opslaan bij afsluiten"
+  IDS_CONFIRM_QUIT_VICE_NL           "Bevestigen van het afsluiten van VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_NL        "Niet bevestigen van het afsluiten van VICE"
+  IDS_USE_ALL_CPU_SMP_NL             "Gebruik alle CPU's op SMP systemen"
+  IDS_USE_FIRST_CPU_SMP_NL           "Gebruik alleen de eerste CPU op SMP systemen"
+  IDS_START_VICE_FULLSCREEN_MODE_NL  "Start VICE in volscherm modus"
 END
 
 
@@ -4973,6 +5023,16 @@ BEGIN
   IDS_RECORDING_PL                   "Recording\n%02d:%02d"
   IDS_PLAYBACK_PL                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_PL                     "Unknown"
+  IDS_P_NUMBER_PL                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1_PL        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_PL        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_PL       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_PL    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE_PL           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_PL        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP_PL             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP_PL           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE_PL  "Start VICE in fullscreen mode"
 END
 #pragma code_page(28591)
 
@@ -5136,6 +5196,16 @@ BEGIN
   IDS_RECORDING_SV                   "Recording\n%02d:%02d"
   IDS_PLAYBACK_SV                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_SV                     "Unknown"
+  IDS_P_NUMBER_SV                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1_SV        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_SV        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_SV       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_SV    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE_SV           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_SV        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP_SV             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP_SV           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE_SV  "Start VICE in fullscreen mode"
 END
 
 // -----------------------------------------------------------------------------

@@ -2424,7 +2424,97 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_UNKNOWN_IT,    /* fuzzy */
 /* nl */  IDS_UNKNOWN_NL,
 /* pl */  IDS_UNKNOWN_PL,    /* fuzzy */
-/* sv */  IDS_UNKNOWN_SV}    /* fuzzy */
+/* sv */  IDS_UNKNOWN_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_P_NUMBER,
+/* de */  IDS_P_NUMBER_DE,    /* fuzzy */
+/* fr */  IDS_P_NUMBER_FR,    /* fuzzy */
+/* it */  IDS_P_NUMBER_IT,    /* fuzzy */
+/* nl */  IDS_P_NUMBER_NL,
+/* pl */  IDS_P_NUMBER_PL,    /* fuzzy */
+/* sv */  IDS_P_NUMBER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SET_INPUT_JOYSTICK_1,
+/* de */  IDS_SET_INPUT_JOYSTICK_1_DE,    /* fuzzy */
+/* fr */  IDS_SET_INPUT_JOYSTICK_1_FR,    /* fuzzy */
+/* it */  IDS_SET_INPUT_JOYSTICK_1_IT,    /* fuzzy */
+/* nl */  IDS_SET_INPUT_JOYSTICK_1_NL,
+/* pl */  IDS_SET_INPUT_JOYSTICK_1_PL,    /* fuzzy */
+/* sv */  IDS_SET_INPUT_JOYSTICK_1_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SET_INPUT_JOYSTICK_2,
+/* de */  IDS_SET_INPUT_JOYSTICK_2_DE,    /* fuzzy */
+/* fr */  IDS_SET_INPUT_JOYSTICK_2_FR,    /* fuzzy */
+/* it */  IDS_SET_INPUT_JOYSTICK_2_IT,    /* fuzzy */
+/* nl */  IDS_SET_INPUT_JOYSTICK_2_NL,
+/* pl */  IDS_SET_INPUT_JOYSTICK_2_PL,    /* fuzzy */
+/* sv */  IDS_SET_INPUT_JOYSTICK_2_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SAVE_SETTINGS_ON_EXIT,
+/* de */  IDS_SAVE_SETTINGS_ON_EXIT_DE,    /* fuzzy */
+/* fr */  IDS_SAVE_SETTINGS_ON_EXIT_FR,    /* fuzzy */
+/* it */  IDS_SAVE_SETTINGS_ON_EXIT_IT,    /* fuzzy */
+/* nl */  IDS_SAVE_SETTINGS_ON_EXIT_NL,
+/* pl */  IDS_SAVE_SETTINGS_ON_EXIT_PL,    /* fuzzy */
+/* sv */  IDS_SAVE_SETTINGS_ON_EXIT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NO_SAVE_SETTINGS_ON_EXIT,
+/* de */  IDS_NO_SAVE_SETTINGS_ON_EXIT_DE,    /* fuzzy */
+/* fr */  IDS_NO_SAVE_SETTINGS_ON_EXIT_FR,    /* fuzzy */
+/* it */  IDS_NO_SAVE_SETTINGS_ON_EXIT_IT,    /* fuzzy */
+/* nl */  IDS_NO_SAVE_SETTINGS_ON_EXIT_NL,
+/* pl */  IDS_NO_SAVE_SETTINGS_ON_EXIT_PL,    /* fuzzy */
+/* sv */  IDS_NO_SAVE_SETTINGS_ON_EXIT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CONFIRM_QUIT_VICE,
+/* de */  IDS_CONFIRM_QUIT_VICE_DE,    /* fuzzy */
+/* fr */  IDS_CONFIRM_QUIT_VICE_FR,    /* fuzzy */
+/* it */  IDS_CONFIRM_QUIT_VICE_IT,    /* fuzzy */
+/* nl */  IDS_CONFIRM_QUIT_VICE_NL,
+/* pl */  IDS_CONFIRM_QUIT_VICE_PL,    /* fuzzy */
+/* sv */  IDS_CONFIRM_QUIT_VICE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NO_CONFIRM_QUIT_VICE,
+/* de */  IDS_NO_CONFIRM_QUIT_VICE_DE,    /* fuzzy */
+/* fr */  IDS_NO_CONFIRM_QUIT_VICE_FR,    /* fuzzy */
+/* it */  IDS_NO_CONFIRM_QUIT_VICE_IT,    /* fuzzy */
+/* nl */  IDS_NO_CONFIRM_QUIT_VICE_NL,
+/* pl */  IDS_NO_CONFIRM_QUIT_VICE_PL,    /* fuzzy */
+/* sv */  IDS_NO_CONFIRM_QUIT_VICE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_USE_ALL_CPU_SMP,
+/* de */  IDS_USE_ALL_CPU_SMP_DE,    /* fuzzy */
+/* fr */  IDS_USE_ALL_CPU_SMP_FR,    /* fuzzy */
+/* it */  IDS_USE_ALL_CPU_SMP_IT,    /* fuzzy */
+/* nl */  IDS_USE_ALL_CPU_SMP_NL,
+/* pl */  IDS_USE_ALL_CPU_SMP_PL,    /* fuzzy */
+/* sv */  IDS_USE_ALL_CPU_SMP_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_USE_FIRST_CPU_SMP,
+/* de */  IDS_USE_FIRST_CPU_SMP_DE,    /* fuzzy */
+/* fr */  IDS_USE_FIRST_CPU_SMP_FR,    /* fuzzy */
+/* it */  IDS_USE_FIRST_CPU_SMP_IT,    /* fuzzy */
+/* nl */  IDS_USE_FIRST_CPU_SMP_NL,
+/* pl */  IDS_USE_FIRST_CPU_SMP_PL,    /* fuzzy */
+/* sv */  IDS_USE_FIRST_CPU_SMP_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_START_VICE_FULLSCREEN_MODE,
+/* de */  IDS_START_VICE_FULLSCREEN_MODE_DE,    /* fuzzy */
+/* fr */  IDS_START_VICE_FULLSCREEN_MODE_FR,    /* fuzzy */
+/* it */  IDS_START_VICE_FULLSCREEN_MODE_IT,    /* fuzzy */
+/* nl */  IDS_START_VICE_FULLSCREEN_MODE_NL,
+/* pl */  IDS_START_VICE_FULLSCREEN_MODE_PL,    /* fuzzy */
+/* sv */  IDS_START_VICE_FULLSCREEN_MODE_SV}    /* fuzzy */
 
 };
 
@@ -2544,9 +2634,7 @@ char *intl_convert_cp(char *text, int cp)
 /* --------------------------------------------------------------------- */
 
 static char *intl_text_table[countof(intl_translate_text_table)][countof(language_table)];
-static char *intl_text_table2[16384][countof(language_table)];
-// the 16384 will be removed
-
+static char *intl_text_table2[LAST_IDS + 16][countof(language_table)];
 
 /* this routine fills in the table of resources and pointers to the
    text that belongs to them with the right data, this is because of
@@ -2565,7 +2653,7 @@ WORD *p;
 int length;
 
     for (i = 0; i < countof(language_table); i++) {
-        for (j = (13008 >> 4) + 1; j < (16384 >> 4); j++) {
+        for (j = (FIRST_IDS >> 4) + 1; j < (LAST_IDS >> 4); j++) {
             hRes = FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(j), MAKELANGID(windows_to_iso[i].windows_code, SUBLANG_NEUTRAL));
             if (hRes) {
                 hGlob = LoadResource(NULL, hRes);

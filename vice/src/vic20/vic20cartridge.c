@@ -195,7 +195,7 @@ static int attach_cart2(const char *param, void *extra_param)
 }
 
 #ifdef HAS_TRANSLATION
-static const cmdline_option_trans_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
       IDCLS_P_NAME, IDCLS_SPECIFY_EXT_ROM_2000_NAME },
@@ -228,11 +228,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int cartridge_cmdline_options_init(void)
 {
-#ifdef HAS_TRANSLATION
-    return cmdline_register_options_trans(cmdline_options);
-#else
     return cmdline_register_options(cmdline_options);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

@@ -154,6 +154,39 @@ SOURCE=.\plus4ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\res.txt
+
+!IF  "$(CFG)" == "arch - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RES_T="res.txt"	"resdialogs.txt"	"resmenu.txt"	"resstrings.txt"	
+# Begin Custom Build - Generating res.h
+InputDir=.
+InputPath=.\res.txt
+
+"$(InputDir)\res.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\genwinres res.h res.txt resdialogs.txt resmenu.txt resstrings.txt
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "arch - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RES_T="res.txt"	"resdialogs.txt"	"resmenu.txt"	"resstrings.txt"	
+# Begin Custom Build - Generating res.h
+InputDir=.
+InputPath=.\res.txt
+
+"$(InputDir)\res.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\genwinres res.h res.txt resdialogs.txt resmenu.txt resstrings.txt
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\rs232.c
 # End Source File
 # Begin Source File
@@ -171,6 +204,10 @@ SOURCE=.\system.c
 # Begin Source File
 
 SOURCE=.\tfearch.c
+# End Source File
+# Begin Source File
+
+SOURCE=".\ui-resources.c"
 # End Source File
 # Begin Source File
 
@@ -238,6 +275,10 @@ SOURCE=.\uifliplist.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uigeoram.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uihelp.c
 # End Source File
 # Begin Source File
@@ -246,11 +287,11 @@ SOURCE=.\uiide64.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uikeyboard.c
+SOURCE=.\uijoystick.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uijoystick.c
+SOURCE=.\uikeyboard.c
 # End Source File
 # Begin Source File
 
@@ -290,15 +331,11 @@ SOURCE=.\uiram.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uireu.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\uigeoram.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\uiramcart.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uireu.c
 # End Source File
 # Begin Source File
 
@@ -343,10 +380,6 @@ SOURCE=.\uivicset.c
 # Begin Source File
 
 SOURCE=.\uivideo.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\ui-resources.c
 # End Source File
 # Begin Source File
 
