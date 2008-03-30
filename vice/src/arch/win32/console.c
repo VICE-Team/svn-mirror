@@ -39,6 +39,7 @@
 #include "fullscreen.h"
 #include "res.h"
 #include "ui.h"
+#include "uimon.h"
 #include "utils.h"
 #include "winmain.h"
 
@@ -107,10 +108,12 @@ typedef struct console_private_s
 	HWND		 hwndConsole;	/* the HWND of the window */
 	HWND		 hwndPreviousActive;
 	HWND		 hwndParent;
-	HDC			 hdc;			/* a DC for writing inside the window */
+	HDC	         hdc;			/* a DC for writing inside the window */
 
-	int			 xWindow;		/* the position of the window for re-opening */
-	int			 yWindow;		/* the position of the window for re-opening */
+	BOOLEAN      bIsMdiChild;
+
+	int          xWindow;		/* the position of the window for re-opening */
+	int          yWindow;		/* the position of the window for re-opening */
 	BOOLEAN		 bInputReady;
 	BOOLEAN		 bBlinkOn;
 
@@ -124,18 +127,18 @@ typedef struct console_private_s
 } console_private_t;
 
 
-void FileOpen( console_private_t *pcp )
+static void FileOpen( console_private_t *pcp )
 {
     pcp->fileOutput = ui_console_save_dialog( pcp->hwndConsole );
 }
 
-void FileClose( console_private_t *pcp )
+static void FileClose( console_private_t *pcp )
 {
     fclose( pcp->fileOutput );
     pcp->fileOutput = NULL;
 }
 
-void FileOut( console_private_t *pcp, const char * const pstr )
+static void FileOut( console_private_t *pcp, const char * const pstr )
 {
     if (pcp->fileOutput)
         fprintf( pcp->fileOutput, "%s", pstr );
@@ -695,6 +698,8 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 }
 
 
+static bIsMdiChild = FALSE;
+
 /* window procedure */
 static long CALLBACK console_window_proc(HWND hwnd, 
 	UINT msg, WPARAM wParam, LPARAM lParam)
@@ -702,11 +707,18 @@ static long CALLBACK console_window_proc(HWND hwnd,
 {
 	console_private_t *pcp = (console_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
 
+    if (pcp)
+    {
+        bIsMdiChild = pcp->bIsMdiChild;
+    }
+
 	switch (msg)
 	{
 	case WM_SIZE:
-		external_resize_window( pcp, LOWORD(lParam), HIWORD(lParam) );
-		return 0;
+        if (pcp)
+    		external_resize_window( pcp, LOWORD(lParam), HIWORD(lParam) );
+        break;
+		// return 0;
 
 	case WM_CLOSE:
 		/* if the window is closed, i.e. by pressing the close
@@ -726,7 +738,8 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		   with the standard console
 		*/
 		UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
-		return 0;
+        break;
+//		return 0;
 
 	case WM_TIMER:
 		if (wParam == 1)
@@ -1013,7 +1026,14 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		}
 	}
 
-	return DefWindowProc(hwnd, msg, wParam, lParam);
+    if (bIsMdiChild)
+    {
+        return DefMDIChildProc(hwnd, msg, wParam, lParam );
+    }
+    else
+    {
+	    return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
 }
 
 
@@ -1073,7 +1093,7 @@ static console_private_t *find_console_entry(const char *id)
 	return pcp;
 }
 
-console_t *console_open(const char *id)
+static console_t *console_open_internal(const char *id, BOOLEAN bMdi, HWND hwndParent, HWND hwndMdiClient)
 {
 	console_private_t *pcp;
 	
@@ -1081,20 +1101,39 @@ console_t *console_open(const char *id)
 
 	allocate_window_memory( pcp );
 
-	pcp->hwndParent = GetActiveWindow();
+	pcp->hwndParent  = hwndParent; 
+    bIsMdiChild      =
+    pcp->bIsMdiChild = bMdi;
+
 	SuspendFullscreenMode( pcp->hwndParent );
 
-    pcp->hwndConsole = CreateWindow(CONSOLE_CLASS,
-		id,
-		WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
-        pcp->xWindow,
-        pcp->yWindow,
-        1,
-        1,
-        pcp->hwndParent,
-        NULL,
-        winmain_instance,
-        NULL);
+    if (bMdi)
+    {
+        pcp->hwndConsole = CreateMDIWindow(CONSOLE_CLASS,
+    		id,
+	    	WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
+            pcp->xWindow,
+            pcp->yWindow,
+            CW_USEDEFAULT,
+            0,
+            hwndMdiClient,
+            winmain_instance,
+            5);
+    }
+    else
+    {
+        pcp->hwndConsole = CreateWindow(CONSOLE_CLASS,
+    		id,
+	    	WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
+            pcp->xWindow,
+            pcp->yWindow,
+            1,
+            1,
+            pcp->hwndParent,
+            NULL,
+            winmain_instance,
+            NULL);
+    }
 
 
 	/* get the previous active window, and set myself active */
@@ -1125,6 +1164,27 @@ console_t *console_open(const char *id)
     return pcp->pConsole;
 }
 
+console_t *console_open(const char *id)
+{
+    return console_open_internal(id,FALSE,GetActiveWindow(),0);
+}
+
+console_t *arch_console_open_mdi(const char *id, void *hw, void *hwndParent,
+                                 void *hwMdiClient)
+{
+    console_t *console_log;
+
+    console_log = console_open_internal(id, TRUE, *(HWND *)hwndParent,
+                                        *(HWND *)hwMdiClient);
+
+    if (hw)
+    {
+        *(HWND *)hw = console_log->private->hwndConsole;
+    }
+
+    return console_log;
+}
+
 int console_close(console_t *log)
 {
 	console_private_t *pcp = log->private;
@@ -1153,7 +1213,7 @@ int console_init( void )
 
 	/* Register 2nd window class for the monitor window */
 	wc.cbSize        = sizeof(WNDCLASSEX);
-	wc.style         = CS_OWNDC;
+	wc.style         = CS_CLASSDC;
 	wc.lpfnWndProc   = console_window_proc;
 	wc.cbClsExtra    = 0;
 	wc.cbWndExtra    = 0;
