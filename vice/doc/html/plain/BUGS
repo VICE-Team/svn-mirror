@@ -15,8 +15,6 @@
   support.  Also in NTSC mode some lines are missing at the bottom of
   the screen.
 
-- The 2MHz mode of the C128 is not supported.
-
 - The CBM-II emulation is not fully supported in all ports.
 
 - When loading a snapshot, the monitor break/watchpoints break.
@@ -85,4 +83,7 @@
 
 - Using X11 XAW it is not possible to enter the disk name in the
   create empty disc image dialog.
+
+- In the win32 port keyboard input can be garbled after issuing a
+  reset on CPU JAM.
 
