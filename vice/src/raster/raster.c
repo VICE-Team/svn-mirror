@@ -52,22 +52,39 @@ static int realize_frame_buffer(raster_t *raster);
 static void update_canvas(raster_t *raster);
 static void update_canvas_all(raster_t *raster);
 
-static int raster_draw_buffer_alloc(BYTE **draw_buffer, unsigned int fb_width,
+static int raster_draw_buffer_alloc(video_draw_buffer_callback_t
+                                    *video_draw_buffer_callback,
+                                    BYTE **draw_buffer, unsigned int fb_width,
                                     unsigned int fb_height)
 {
+    if (video_draw_buffer_callback)
+        return video_draw_buffer_callback->draw_buffer_alloc(draw_buffer,
+            fb_width, fb_height);
+
     *draw_buffer = xmalloc(fb_width * fb_height);
     return 0;
 }
 
-static void raster_draw_buffer_free(BYTE *draw_buffer)
+static void raster_draw_buffer_free(video_draw_buffer_callback_t
+                                    *video_draw_buffer_callback,
+                                    BYTE *draw_buffer)
 {
+    if (video_draw_buffer_callback)
+        return video_draw_buffer_callback->draw_buffer_free(draw_buffer);
+
     free(draw_buffer);
 }
 
-static void raster_draw_buffer_clear(BYTE *draw_buffer, BYTE value,
+static void raster_draw_buffer_clear(video_draw_buffer_callback_t
+                                     *video_draw_buffer_callback,
+                                     BYTE *draw_buffer, BYTE value,
                                      unsigned int fb_width,
                                      unsigned int fb_height)
 {
+    if (video_draw_buffer_callback)
+        return video_draw_buffer_callback->draw_buffer_clear(draw_buffer,
+            fb_width, fb_height);
+
     memset(draw_buffer, value, fb_width * fb_height);
 }
 
@@ -223,6 +240,13 @@ static int realize_canvas(raster_t *raster)
         if (viewport->canvas == NULL)
             return -1;
 
+        if (!console_mode && !vsid_mode) {
+            if (raster_draw_buffer_alloc(
+                viewport->canvas->video_draw_buffer_callback,
+                &raster->draw_buffer, 1, 1) < 0)
+                return -1;
+        }
+
         update_pixel_tables(raster);
 
         if (raster->pixel_table.sing[0] != 0)
@@ -242,9 +266,16 @@ static int realize_canvas(raster_t *raster)
 static int realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height;
+    video_canvas_t *canvas;
+
+    canvas = raster->viewport.canvas;
+
+    if (canvas == NULL)
+        return 0;
 
     if (!console_mode && !vsid_mode)
-        raster_draw_buffer_free(raster->draw_buffer);
+        raster_draw_buffer_free(canvas->video_draw_buffer_callback,
+                                raster->draw_buffer);
 
     fb_width = raster->geometry.screen_size.width
                + raster->geometry.extra_offscreen_border_left
@@ -257,21 +288,20 @@ static int realize_frame_buffer(raster_t *raster)
         fb_height = 1;
 
     if (!console_mode && !vsid_mode) {
-        if (raster_draw_buffer_alloc(&raster->draw_buffer, fb_width,
-            fb_height))
+        if (raster_draw_buffer_alloc(canvas->video_draw_buffer_callback,
+            &raster->draw_buffer, fb_width, fb_height))
         return -1;
 
         raster->draw_buffer_width = fb_width;
         raster->draw_buffer_height = fb_height;
 
-        raster_draw_buffer_clear(raster->draw_buffer, RASTER_PIXEL(raster, 0),
+        raster_draw_buffer_clear(canvas->video_draw_buffer_callback,
+                                 raster->draw_buffer, RASTER_PIXEL(raster, 0),
                                  fb_width, fb_height);
     }
 
-    if (raster->fake_draw_buffer_line != NULL)
-        free(raster->fake_draw_buffer_line);
-
-    raster->fake_draw_buffer_line = xmalloc(fb_width);
+    raster->fake_draw_buffer_line = xrealloc(raster->fake_draw_buffer_line,
+                                             fb_width);
 
     return 0;
 }
@@ -418,14 +448,16 @@ static void update_canvas(raster_t *raster)
     x += raster->geometry.extra_offscreen_border_left;
 
     x *= viewport->pixel_size.width;
-    xx *= viewport->pixel_size.width;
     w *= viewport->pixel_size.width;
 
-    w = MIN(w, viewport->width - xx - viewport->x_offset);
-
     y *= viewport->pixel_size.height;
-    yy *= viewport->pixel_size.height;
     h *= viewport->pixel_size.height;
+
+    xx *= viewport->pixel_size.width;
+    xx += viewport->x_offset;
+
+    yy *= viewport->pixel_size.height;
+    yy += viewport->y_offset;
 
     video_canvas_refresh(viewport->canvas,
                          raster->draw_buffer,
@@ -433,9 +465,9 @@ static void update_canvas(raster_t *raster)
 #ifdef __OS2__
                          raster->draw_buffer_height,
 #endif
-                         x, y,
-                         xx + viewport->x_offset, yy + viewport->y_offset,
-                         w, h);
+                         x, y, xx, yy,
+                         MIN(w, viewport->width - xx),
+                         MIN(h, viewport->height - yy));
 
     update_area->is_null = 1;
 }
@@ -468,7 +500,7 @@ static void update_canvas_all(raster_t *raster)
                              * viewport->pixel_size.width)),
                          MIN(viewport->height,
                              (raster->geometry.screen_size.height
-                             * viewport->pixel_size.height)));
+                              * viewport->pixel_size.height)));
 }
 
 inline static void draw_sprites(raster_t *raster)
@@ -1135,12 +1167,13 @@ inline static void handle_end_of_frame(raster_t *raster)
 
     raster->current_line = 0;
 
-    if (!raster->skip_frame) {
-        if (raster->dont_cache)
-            update_canvas_all(raster);
-        else
-            update_canvas(raster);
-    }
+    if (raster->skip_frame)
+        return;
+
+    if (raster->dont_cache)
+        update_canvas_all(raster);
+    else
+        update_canvas(raster);
 }
 
 /* encapsulate for export */
@@ -1197,12 +1230,6 @@ int raster_init(raster_t *raster,
     raster->sprite_status = (raster_sprite_status_t *)
                             xmalloc(sizeof(raster_sprite_status_t));
     raster_sprite_status_init(raster->sprite_status, num_sprites);
-
-    /* Woo!  This sucks real bad!  FIXME!  */
-    if (!console_mode && !vsid_mode) {
-        if (raster_draw_buffer_alloc(&raster->draw_buffer, 1, 1) < 0)
-            return -1;
-    }
 
     raster->draw_buffer_width = 1;
     raster->draw_buffer_height = 1;
@@ -1493,8 +1520,8 @@ void raster_set_pixel_size(raster_t *raster,
 {
     raster->viewport.pixel_size.width = width;
     raster->viewport.pixel_size.height = height;
-	if (raster->viewport.canvas)
-		raster->viewport.canvas->videoconfig.rendermode = videorendermode;
+    if (raster->viewport.canvas)
+        raster->viewport.canvas->videoconfig.rendermode = videorendermode;
 
     realize_frame_buffer(raster);
     raster_force_repaint(raster);
@@ -1611,11 +1638,19 @@ void raster_force_repaint(raster_t *raster)
                + raster->geometry.extra_offscreen_border_right;
     fb_height = (raster->geometry.screen_size.height);
 
+#if 0
 #ifndef __OS2__
     if (!console_mode && !vsid_mode && raster->draw_buffer) {
-        raster_draw_buffer_clear(raster->draw_buffer, RASTER_PIXEL(raster, 0),
-                                 fb_width, fb_height);
+        video_canvas_t *canvas;
+        canvas = raster->viewport.canvas;
+
+        if (canvas != NULL)
+            raster_draw_buffer_clear(canvas->video_draw_buffer_callback,
+                                     raster->draw_buffer,
+                                     RASTER_PIXEL(raster, 0),
+                                     fb_width, fb_height);
     }
+#endif
 #endif
 }
 
@@ -1685,7 +1720,7 @@ void raster_enable_double_scan(raster_t *raster, int enable)
     if (raster->viewport.canvas)
         raster->viewport.canvas->videoconfig.doublescan = enable;
 
-    raster_force_repaint (raster);
+    raster_force_repaint(raster);
 }
 
 void raster_set_canvas_refresh(raster_t *raster, int enable)
@@ -1717,10 +1752,14 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 
 void raster_free(raster_t *raster)
 {
-    if (!console_mode && !vsid_mode)
-    {
+    if (!console_mode && !vsid_mode) {
+        video_canvas_t *canvas;
+
+        canvas = raster->viewport.canvas;
+
+        raster_draw_buffer_free(canvas->video_draw_buffer_callback,
+                                raster->draw_buffer);
         video_canvas_destroy(raster->viewport.canvas);
-        raster_draw_buffer_free(raster->draw_buffer);
     }
     free(raster->viewport.title);
     free(raster->modes);

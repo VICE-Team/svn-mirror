@@ -1,6 +1,118 @@
+2002-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.8.
+
+	* vicii/vicii-mem.c (store_d019): Removed some leftovers.
+
+	* vicii/vicii-draw.c (_draw_mc_text): Replaced remaining
+	`PIXEL' type.
+
+	* arch/unix/x11/videoarch.h, arch/win32/videoarch.h,
+	arch/msdos/videoarch.h, arch/riscos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h: Added draw buffer
+	alloc/free/clear callback to the canvas struct.
+
+	* arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc (video_canvas_creat): Initialize draw
+	buffer callback.
+
+	* raster/raster.c (raster_draw_buffer_alloc,
+	raster_draw_buffer_free, raster_draw_buffer_clear): Added
+	callbacks for arch specific draw buffer allocation.
+	(raster_force_repaint): Do not clear draw buffer.
+	(realize_frame_buffer): Do not realize frame buffer (should be
+	called draw buffer now) if there is no canvas.
+
+	* video.h: Added structure for draw buffer callbacks.
+
+2002-01-30  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* doc/vice.texi:
+	- changed a bug in my email address
+     
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	- implemented the new PAL Emulation modes
+     
+	* arch/os2/vac++/incl/video.icc:
+	- added the new renderers
+     
+	* arch/os2/video.c:
+	- implement usage of the new renderers (only R565 supported
+	yet)
+	- replaced most of the 'in code' #ifdefs by if statements
+   
+	* arch/os2/videoarch.h:
+	- added bDepth to canvas_t
+     
+	* raster/raster.c:
+	- made sure that video_canvas_refresh is never called with 
+	heights which exceeds the viewport area
+	- replaced a free/malloc combination by a realloc
+	- small simplifications to the code
+     
+	* utils.c:
+	- replaced to additions in stralloc by one
+
+2002-01-29  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Call new find_yuv_port
+	interface.
+
+	* arch/unix/x11/renderxv.c: Added support for UYVY, YUY2,
+	YVYU, and IYUV.
+
+	* arch/unix/x11/renderxv.c: New find_yuv_port interface
+	exporting the render function for the selected YUV format.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Pick up
+	another offscreen bug from the raster layer.
+
+	* arch/unix/x11/videoarch.h: Added xv_render to
+	video_canvas_s.
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Call new find_yuv_port
+	interface.
+
+2002-01-29  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/main_exit.c (main_exit): Removed putchar call.
+
+	* sounddrv/sounddx.c, sounddrv/soundwmm.c (sound_suspend):
+	Fixed a bug where the stack was overwritten if stereo sound
+	was enabled.
+
+2002-01-29  John Selck  <graham@cruise.de>
+
+	* arch/win32/videoarch.h: Removed PIXEL *pixel_translate
+	from video_canvas_t definition and changed PIXEL *pixels
+	into BYTE *pixels.
+
+	* arch/win32/video.c: set_physical_colors() no longer updates
+	pixels and pixel_translate in video_canvas_t.
+	video_canvas_create() no longer allocates pixel_translate[].
+
+	* arch/win32/video.dsp: Added render1x1pal.c and
+	render2x2pal.c to project.
+
+2002-01-29  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c: Added X Video handling.
+
+	* arch/unix/x11/gnome/ui.c (ui_create_status_bar): Glue fixed
+	size status bar to bottom.
+	(ui_open_canvas_window): Glue resizeable canvas to top.
+
+	* arch/unix/x11/video.c (video_canvas_resize): Don't attempt
+	to resize canvas for Xv.
+	(video_canvas_refresh): GDK X typecasts for Window and GC
+	passed to Xv.
+
 2002-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.8.6.
+	* Version 1.8.7.
 
 	* vicii/vicii-mem.c (store_d019): Also remove pending raster
 	alarms that would be schedulded before the end of the store.

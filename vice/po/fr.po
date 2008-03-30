@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.7\n"
-"POT-Creation-Date: 2002-01-28 23:23+0100\n"
+"POT-Creation-Date: 2002-01-30 21:58+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2192,7 +2192,13 @@ msgstr "Garantie"
 msgid "Contributors"
 msgstr "Participants"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:100
+#: src/arch/unix/x11/gnome/gnomevideo.c:105
+#: src/arch/unix/x11/xaw/x11video.c:100
+#, fuzzy
+msgid "Successfully initialized using X Video."
+msgstr "Mémoire partagée %s correctement initialisée"
+
+#: src/arch/unix/x11/gnome/gnomevideo.c:125
 msgid "Successfully initialized video."
 msgstr ""
 
@@ -2670,32 +2676,32 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:134
+#: src/arch/unix/x11/video.c:137
 msgid "Call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:137
+#: src/arch/unix/x11/video.c:140
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:140
+#: src/arch/unix/x11/video.c:143
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:143
+#: src/arch/unix/x11/video.c:146
 msgid "Use X Video Extension (hardware scaling)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:343
+#: src/arch/unix/x11/video.c:346
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:347
+#: src/arch/unix/x11/video.c:350
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:408
+#: src/arch/unix/x11/video.c:411
 msgid "Cannot release shared memory!"
 msgstr ""
 
@@ -2814,59 +2820,54 @@ msgstr "Sauvegarder les ROMs actuellement chargées:"
 msgid "Save snapshot"
 msgstr "Sauvegarder capture"
 
-#: src/arch/unix/x11/xaw/x11video.c:99
-#, fuzzy
-msgid "Successfully initialized using X Video."
-msgstr "Mémoire partagée %s correctement initialisée"
-
-#: src/arch/unix/x11/xaw/x11video.c:114
+#: src/arch/unix/x11/xaw/x11video.c:115
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'allouer XImage avec XShm; Retour au mode d'extention sans "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:127
+#: src/arch/unix/x11/xaw/x11video.c:128
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible de récupérer la mémoire partagée; Retour au mode d'extention sans "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:138
+#: src/arch/unix/x11/xaw/x11video.c:139
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible de récupérer adresse mémoire partagée; Retour au mode d'extention "
 "sans MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:153 src/arch/unix/x11/xaw/x11video.c:170
+#: src/arch/unix/x11/xaw/x11video.c:154 src/arch/unix/x11/xaw/x11video.c:171
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'attacher la mémoire partagée; Retour au mode d'extention sans "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:177
+#: src/arch/unix/x11/xaw/x11video.c:178
 msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:198
+#: src/arch/unix/x11/xaw/x11video.c:199
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Mémoire partagée %s correctement initialisée"
 
-#: src/arch/unix/x11/xaw/x11video.c:199
+#: src/arch/unix/x11/xaw/x11video.c:200
 msgid ", using"
 msgstr ", utilisant"
 
-#: src/arch/unix/x11/xaw/x11video.c:199
+#: src/arch/unix/x11/xaw/x11video.c:200
 msgid " without"
 msgstr " sans"
 
-#: src/arch/unix/x11/xaw/x11video.c:202
+#: src/arch/unix/x11/xaw/x11video.c:203
 msgid "Performance will be poor."
 msgstr "Les performances vont être faibles."
 
-#: src/arch/unix/x11/xaw/x11video.c:205
+#: src/arch/unix/x11/xaw/x11video.c:206
 msgid "Successfully initialized without shared memory."
 msgstr "Correctement initialisée sans mémoire partagée"
 
