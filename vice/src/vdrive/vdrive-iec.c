@@ -241,6 +241,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
      */
 
     if (*name == '$') {
+        int retlen;
+
         if (secondary > 0) {
             track = vdrive->Dir_Track;
             sector = 0;
@@ -249,16 +251,18 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
 
         p->mode = BUFFER_DIRECTORY_READ;
         p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
-        p->length = vdrive_dir_create_directory(vdrive, realname, reallength,
-                                                filetype, p->buffer);
-        if (p->length < 0) {
-            /* Directory not valid. */
+        retlen = vdrive_dir_create_directory(vdrive, realname, reallength,
+                                             filetype, p->buffer);
+
+        if (retlen < 0) {
+            /* Directory not valid.  */
             p->mode = BUFFER_NOT_IN_USE;
             free(p->buffer);
             p->length = 0;
             vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
             return SERIAL_ERROR;
         }
+        p->length = (unsigned int)retlen;
         p->bufptr = 0;
         return SERIAL_OK;
     }
@@ -507,18 +511,22 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 	/*
 	 * Read next block if needed
 	 */
-	if (p->buffer[0]) {
-	    if (p->bufptr >= 256) {
-		disk_image_read_sector(vdrive->image, p->buffer,
-                (int)p->buffer[0], (int)p->buffer[1]);
-		p->bufptr = 2;
-	    }
-	} else {
-	    if (p->bufptr > p->buffer[1]) {
-                *data = 0xc7;
-		return SERIAL_EOF;
+        if (p->buffer[0]) {
+            if (p->bufptr >= 256) {
+                if (disk_image_read_sector(vdrive->image, p->buffer,
+                    (int)p->buffer[0], (int)p->buffer[1]) == 0) {
+                    p->bufptr = 2;
+                } else {
+                    *data = 0xc7;
+                    return SERIAL_EOF;
+                }
             }
-	}
+        } else {
+            if (p->bufptr > p->buffer[1]) {
+                *data = 0xc7;
+                return SERIAL_EOF;
+            }
+        }
 
 	*data = p->buffer[p->bufptr];
 	p->bufptr++;

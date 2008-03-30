@@ -1,3 +1,15 @@
+2000-07-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.32.
+
+	* c128/z80.c: Added some missing opcodes.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_open): Check if directory
+	could be created.
+	(vdrive_iec_read): Check if sector could be read.
+	(vdrive_dir_find_next_slot): Give up if sector could not be
+	read.
+
 2000-07-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.31.

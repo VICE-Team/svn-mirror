@@ -243,7 +243,6 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
 BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
 {
     static BYTE return_slot[32];
-    int status;
 
     vdrive->SlotNumber++;
 
@@ -257,6 +256,8 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
          */
 
         if (vdrive->SlotNumber >= 8) {
+            int status;
+
             if (!(*(vdrive->Dir_buffer))) {
                 return NULL;
             }
@@ -268,6 +269,8 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             status = disk_image_read_sector(vdrive->image, vdrive->Dir_buffer,
                                             vdrive->Curr_track,
                                             vdrive->Curr_sector);
+            if (status != 0)
+                break;
         }
         while (vdrive->SlotNumber < 8) {
             if (vdrive_dir_name_match(
