@@ -1080,7 +1080,7 @@ int set_tfe_enabled(resource_value_t v, void *param)
 static 
 const resource_t resources[] = {
     { "TFE", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&tfe_enabled, set_tfe_enabled, NULL },
+      (void *)&tfe_enabled, set_tfe_enabled, NULL },
     { NULL }
 };
 

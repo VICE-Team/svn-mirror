@@ -130,20 +130,15 @@ static int set_ide64_image_file(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
-      (resource_value_t *)&ide64_image_file,
-      set_ide64_image_file, NULL },
+      (void *)&ide64_image_file, set_ide64_image_file, NULL },
     { "IDE64Config", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ide64_configuration_string,
-      set_ide64_config, NULL },
+      (void *)&ide64_configuration_string, set_ide64_config, NULL },
     { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
-      (resource_value_t *)&cartridge_type,
-      set_cartridge_type, NULL },
+      (void *)&cartridge_type, set_cartridge_type, NULL },
     { "CartridgeFile", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&cartridge_file,
-      set_cartridge_file, NULL },
+      (void *)&cartridge_file, set_cartridge_file, NULL },
     { "CartridgeMode", RES_INTEGER, (resource_value_t)CARTRIDGE_MODE_OFF,
-      (resource_value_t *)&cartridge_mode,
-      set_cartridge_mode, NULL },
+      (void *)&cartridge_mode, set_cartridge_mode, NULL },
     { NULL }
 };
 
