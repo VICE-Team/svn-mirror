@@ -39,6 +39,7 @@
 #define SERIAL_DEVICE_REAL 2
 #define SERIAL_DEVICE_RAW  3
 
+struct cbmdos_cmd_parse_s;
 struct disk_image_s;
 struct trap_s;
 struct vdrive_s;
@@ -51,7 +52,8 @@ typedef struct serial_s
     char *name; /* name of the device */
     int (*getf)(struct vdrive_s *, BYTE *, unsigned int);
     int (*putf)(struct vdrive_s *, BYTE, unsigned int);
-    int (*openf)(struct vdrive_s *, const BYTE *, unsigned int, unsigned int);
+    int (*openf)(struct vdrive_s *, const BYTE *, unsigned int, unsigned int,
+                 struct cbmdos_cmd_parse_s *cmd_parse_ext);
     int (*closef)(struct vdrive_s *, unsigned int);
     void (*flushf)(struct vdrive_s *, unsigned int);
     void (*listenf)(struct vdrive_s *, unsigned int);

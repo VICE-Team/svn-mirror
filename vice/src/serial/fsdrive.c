@@ -75,7 +75,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
       case 0x60:
         if (p->isopen[channel] == 1) {
             p->isopen[channel] = 2;
-            st = (BYTE)((*(p->openf))(vdrive, NULL, 0, channel));
+            st = (BYTE)((*(p->openf))(vdrive, NULL, 0, channel, NULL));
             for (i = 0; i < SerialPtr; i++)
                 (*(p->putf))(vdrive, ((BYTE)(SerialBuffer[i])), channel);
             SerialPtr = 0;
@@ -104,7 +104,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
             p->isopen[channel] = 2;
             SerialBuffer[SerialPtr] = 0;
             st = (BYTE)((*(p->openf))(vdrive, SerialBuffer, SerialPtr,
-                 channel));
+                 channel, NULL));
             SerialPtr = 0;
 
             if (st) {
