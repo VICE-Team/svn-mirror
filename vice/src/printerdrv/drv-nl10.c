@@ -91,7 +91,7 @@ typedef struct nl10_s
   int  marg_l, marg_r, marg_t, marg_b;
   int  mapping_intl_id;
   int  pos_x, pos_y, pos_y_pix;
-  int  char_count;
+  int  col_nr, line_nr;
   int  isopen, mode, gfx_mode, gfx_count;
   int  linespace; /* in 1/216 inch */
 } nl10_t;
@@ -221,10 +221,11 @@ static void reset(nl10_t *nl10)
   int i;
   memset(nl10->line, 0, MAX_COL * BUF_ROW);
 
+  nl10->line_nr    = 1;
   nl10->linespace  = 12*3;
   nl10->mode       = 0;
   nl10->gfx_mode   = 0;
-  nl10->char_count = 0;
+  nl10->col_nr     = 0;
   nl10->expand     = 1;
   nl10->marg_l     = BORDERX;
   nl10->marg_r     = MAX_COL-BORDERX;
@@ -236,7 +237,7 @@ static void reset(nl10_t *nl10)
   for(i=0; i<40; i++)
     {
       nl10->htabs[i] = 8 * (i+1);
-      nl10->htabs[i] = 0;
+      nl10->vtabs[i] = 0;
     }
 
   nl10->htabs[40]=0;
@@ -352,10 +353,13 @@ static void linefeed(nl10_t *nl10, unsigned int prnr)
           {
             while( nl10->pos_y_pix++ < MAX_ROW )
               output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
+            nl10->line_nr   = 0;
             nl10->pos_y     = 0;
             nl10->pos_y_pix = 0;
           }
       }
+
+  nl10->line_nr++;
 }
 
 
@@ -385,6 +389,7 @@ static void formfeed(nl10_t *nl10, unsigned int prnr)
   output_buf(nl10, prnr);
   for(r=nl10->pos_y_pix; r<MAX_ROW; r++)
     output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
+  nl10->line_nr   = 1;
   nl10->pos_y     = 0;
   nl10->pos_y_pix = 0;
 }
@@ -605,7 +610,7 @@ static void draw_char_draft(nl10_t *nl10, const BYTE c)
 	  }
       
       if( condensed )
-        nl10->pos_x += (((nl10->char_count%5)&1) ? 0 : expanded) + expanded/2;
+        nl10->pos_x += (((nl10->col_nr%5)&1) ? 0 : expanded) + expanded/2;
       else if( elite )
 	nl10->pos_x += expanded * 3;
       else
@@ -888,18 +893,26 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
 	}
     }
 
+  /* ensure that top margin is honored */
+  while( nl10->line_nr <= nl10->marg_t )
+    linefeed(nl10, prnr);
+  
   /* ensure that left margin is honored */
   if( nl10->pos_x < nl10->marg_l )
     nl10->pos_x = nl10->marg_l;
-
+  
   /* ensure that right margin is honored */
   if( (nl10->pos_x + get_char_width(nl10, c, 0)) > nl10->marg_r )
     {
       linefeed(nl10, prnr);
       nl10->pos_x = nl10->marg_l;
-      nl10->char_count=0;
+      nl10->col_nr=0;
     }
-
+      
+  /* ensure that bottom margin is honored */
+  if( nl10->line_nr > ((MAX_ROW-2*BORDERY)/(nl10->linespace*4/3) - nl10->marg_b) )
+    formfeed(nl10, prnr);
+  
   /* check if character is part of a control sequence and, if so, process it there. 
      Otherwise draw the character. */
   if( !handle_control_sequence(nl10, prnr, c) )
@@ -913,7 +926,7 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
         }
       
       draw_char(nl10, c);
-      nl10->char_count++;
+      nl10->col_nr++;
     }
 
   /*printf("modes: esc=%i mode=%i gfx_mode=%i gfx_ctr=%i ls=%i px=%i\n", nl10->esc_ctr, nl10->mode, nl10->gfx_mode, nl10->gfx_count, nl10->linespace, nl10->pos_x);*/
@@ -937,7 +950,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
 	if( is_mode(nl10, NL10_ASCII) )
           {
             /* ASCII: step back */
-            nl10->pos_x -= get_char_width(nl10, ' ', 1);
+            nl10->pos_x -= (int) get_char_width(nl10, ' ', 1);
           }
 	else
 	  {
@@ -957,7 +970,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
 	    double w = get_char_width(nl10, ' ', 1);
 	    for(i=0; nl10->htabs[i]>0; i++) 
 	      {
-		int p = nl10->marg_l + w * nl10->htabs[i];
+		int p = nl10->marg_l + (int) (w * nl10->htabs[i]);
 		if( (nl10->pos_x < p) && (p<nl10->marg_r) )
 		  {
 		    nl10->pos_x = p;
@@ -981,10 +994,36 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
       break;
 
     case 11:
-      /* advance to next vertical tab position (NOT IMPLEMENTED) */
-      log_warning(drvnl10_log, "Command 'advance to next vertical tab position' (%i) not implemented.", 
-                  nl10->esc[0]);
-      break;
+      {
+        /* advance to next vertical tab position */
+        int i = 0;
+        while( (nl10->line_nr >= nl10->vtabs[i]) && (i==0 || (nl10->vtabs[i]>nl10->vtabs[i-1])) )
+          i++;
+
+        if( (nl10->vtabs[i] <= nl10->vtabs[i-1]) )
+          {
+            /* we're past the last tab. go to top of next page */
+            formfeed(nl10, prnr);
+
+            /* find the first tab greater than the top margin */
+            i=0;
+            while( (nl10->marg_t >= nl10->vtabs[i]) && (i==0 || (nl10->vtabs[i]>nl10->vtabs[i-1])) )
+              i++;
+
+            if( nl10->vtabs[i] <= nl10->vtabs[i-1] )
+              {
+                /* past the last tab again => there is no valid tab */
+                i=-1;
+              }
+          }
+
+        if( i>=0 )
+          {
+            while( nl10->line_nr < nl10->vtabs[i] )
+              linefeed(nl10, prnr);
+          }
+        break;
+      }
 
     case 12:
       /* formfeed */
@@ -996,7 +1035,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
       linefeed(nl10, prnr);
       del_mode(nl10, NL10_QUOTED | NL10_EXPANDED_LINE);
       nl10->pos_x = nl10->marg_l;
-      nl10->char_count=0;
+      nl10->col_nr=0;
       break;
 
     case 14:
@@ -1187,6 +1226,20 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
         if( !is_mode(nl10, NL10_ASCII) )
           nl10->gfx_mode = NL10_GFX_SINGLE | NL10_GFX_REVERSE | NL10_GFX_7PIN; 
         nl10->esc_ctr=0;
+        break;
+      }
+
+    case 25:
+      {
+        /* auto-feed mode control (NOT IMPLEMENTED) */
+        if( nl10->esc_ctr<2 )
+          nl10->esc_ctr++;
+        else
+          {
+            log_warning(drvnl10_log, "Command 'auto-feed mode control' (%i %i %i) not implemented.",
+                        nl10->esc[0], nl10->esc[1], nl10->esc[2]);
+            nl10->esc_ctr=0;
+          }
         break;
       }
 
@@ -1415,8 +1468,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
     case 66:
       {
         /* set vertical tabs */
-        if( nl10->esc[nl10->esc_ctr]!=0 &&
-            (nl10->esc_ctr<4 || nl10->esc[nl10->esc_ctr] < nl10->esc[nl10->esc_ctr-1]) )
+        if( nl10->esc_ctr<3 || (nl10->esc[nl10->esc_ctr] > nl10->esc[nl10->esc_ctr-1]) )
           nl10->esc_ctr++;
         else
           {
@@ -1456,8 +1508,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
     case 68:
       {
         /* set horizontal tabs */
-        if( nl10->esc[nl10->esc_ctr]!=0 &&
-            (nl10->esc_ctr<4 || nl10->esc[nl10->esc_ctr] < nl10->esc[nl10->esc_ctr-1]) )
+        if( nl10->esc_ctr<3 || (nl10->esc[nl10->esc_ctr] > nl10->esc[nl10->esc_ctr-1]) )
           nl10->esc_ctr++;
         else
           {
@@ -1541,13 +1592,12 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
 
     case 78: 
       {
-        /* set bottom margin to n lines (NOT IMPLEMENTED) */
+        /* set bottom margin to n lines */
         if( nl10->esc_ctr<2 )
           nl10->esc_ctr++;
         else
           {
-            log_warning(drvnl10_log, "Command 'set bottom margin to n lines' (%i %i %i) not implemented.",
-                        nl10->esc[0], nl10->esc[1], nl10->esc[2]);
+            nl10->marg_b = nl10->esc[2];
             nl10->esc_ctr=0;
           }
         break;
@@ -1555,8 +1605,9 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
 
     case 79:
       /* clear top/bottom margins */
-      nl10->marg_t = 0;
-      nl10->marg_b = 0;
+      nl10->marg_t  = 0;
+      nl10->marg_b  = 0;
+      nl10->esc_ctr = 0;
       break;
 
     case 80:
@@ -1572,7 +1623,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
           nl10->esc_ctr++;
         else
           {
-            nl10->marg_r  = BORDERX + get_char_width(nl10, ' ', 1) * nl10->esc[2];
+            nl10->marg_r  = BORDERX + (int) (get_char_width(nl10, ' ', 1) * nl10->esc[2]);
             if( nl10->marg_r > MAX_COL-BORDERX ) nl10->marg_r = MAX_COL-BORDERX;
             nl10->esc_ctr = 0;
           }
@@ -1702,7 +1753,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
           nl10->esc_ctr++;
         else
           {
-            nl10->marg_l  = BORDERX + get_char_width(nl10, ' ', 1) * nl10->esc[2];
+            nl10->marg_l  = BORDERX + (int) (get_char_width(nl10, ' ', 1) * nl10->esc[2]);
             nl10->esc_ctr = 0;
           }
         break;
@@ -1727,13 +1778,12 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
 
     case 114: 
       {
-        /* set top margin to n lines (NOT IMPLEMENTED) */
+        /* set top margin to n lines */
         if( nl10->esc_ctr<2 )
           nl10->esc_ctr++;
         else
           {
-            log_warning(drvnl10_log, "Command 'set top margin to n lines' (%i %i %i) not implemented.",
-                        nl10->esc[0], nl10->esc[1], nl10->esc[2]);
+            nl10->marg_t = nl10->esc[2];
             nl10->esc_ctr=0;
           }
         break;
@@ -1998,7 +2048,7 @@ static const BYTE drv_nl10_charset_mapping[3][256] =
     0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf, 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5,
 
     /* uppercase characters */
-    0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
+    0x86, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
     0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a, 0x81, 0x82, 0x83, 0x84, 0x85,
 
     /* cbm graphic symbols */
@@ -2066,7 +2116,7 @@ static const BYTE drv_nl10_charset_mapping[3][256] =
     0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf, 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5,
 
     /* uppercase characters */
-    0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
+    0x86, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
     0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a, 0x81, 0x82, 0x83, 0x84, 0x85,
 
     /* cbm-graphic symbols */
