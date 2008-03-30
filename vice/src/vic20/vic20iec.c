@@ -53,11 +53,6 @@ static BYTE bus_data, bus_clock, bus_atn;
 static BYTE cpu_bus_val;
 static BYTE drive_bus_val, drive2_bus_val;
 
-void vic20iec_init(void)
-{
-    cpu_clock = 1;
-}
-
 static inline void resolve_bus_signals(void)
 {
     drive_t *drive0, *drive1;
@@ -82,6 +77,12 @@ static inline void resolve_bus_signals(void)
 void iec_update_ports(void)
 {
     /* Not used for now.  */
+}
+
+void vic20iec_init(void)
+{
+    iecbus_update_ports = iec_update_ports;
+    cpu_clock = 1;
 }
 
 void iec_update_cpu_bus(BYTE data)

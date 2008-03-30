@@ -48,11 +48,11 @@ void iec_update_cpu_bus(BYTE data)
 
 void iec_update_ports(void)
 {
-    unsigned int dnr;
+    unsigned int unit;
 
     iecbus.cpu_port = iecbus.cpu_bus;
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
-        iecbus.cpu_port &= iecbus.drv_bus[dnr + 8];
+    for (unit = 4; unit < 8+DRIVE_NUM; unit++)
+        iecbus.cpu_port &= iecbus.drv_bus[unit];
 
     iecbus.drv_port = (((iecbus.cpu_port >> 4) & 0x4)
                       | (iecbus.cpu_port >> 7)
@@ -114,5 +114,6 @@ void iec_fast_drive_direction(int direction, unsigned int dnr)
 
 void plus4iec_init(void)
 {
+    iecbus_update_ports = iec_update_ports;
 }
 

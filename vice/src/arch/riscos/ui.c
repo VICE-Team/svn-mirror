@@ -261,6 +261,16 @@ static const conf_iconid_t TrueDependentIcons[] = {
   {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9T},
   {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9},
   {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt10},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt10T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle10},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle10T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar10},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt11},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt11T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle11},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle11T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar11},
   {0xff, 0xff}
 };
 
@@ -362,7 +372,7 @@ int ModeChanging = 0;
 
 /* LED states */
 int DriveLEDStates[4] = {0, 0, 0, 0};
-int DriveTrackNumbers[2] = {36, 36};
+int DriveTrackNumbers[4] = {36, 36, 36, 36};
 
 
 
@@ -1003,24 +1013,17 @@ void ui_set_icons_grey(RO_Window *win, const conf_iconid_t *desc, int state)
 static void ui_display_truedrv_emulation(int state)
 {
   int i;
-  unsigned int eor;
 
   TrueDriveEmulation = state;
 
   wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_ConfDrv_TrueDrv, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
-
-  eor = (state == 0) ? 0 : IFlg_Grey;
-  for (i=2; i<4; i++)
-  {
-    wimp_window_set_icon_state(EmuPane, LEDtoIcon[i], eor, IFlg_Grey);
-  }
 
   ui_set_icons_grey(NULL, TrueDependentIcons, state);
 
   if (state == 0)
   {
     wimp_window_write_icon_text_u(EmuPane, Icon_Pane_TrkSec, "");
-    for (i=0; i<2; i++) DriveTrackNumbers[i] = 0;
+    for (i=0; i<4; i++) DriveTrackNumbers[i] = 0;
   }
 
   wimp_menu_tick_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu, state);
@@ -1028,8 +1031,6 @@ static void ui_display_truedrv_emulation(int state)
 
 static void ui_set_truedrv_emulation(int state)
 {
-  if (machine_class == VICE_MACHINE_PET) return;
-
   /*
    *  In case sound is on and true drives are switched on we have to suspend sound
    *  because the sound thread sitting on the timer screws up the drive init phase
@@ -2338,7 +2339,8 @@ int ui_init_finish(void)
     CycleBasedSound = 0;
 
   /* register callbacks */
-  video_register_callbacks();
+  if (!vsid_mode)
+    video_register_callbacks();
 
   atexit(ui_safe_exit);
 
@@ -2815,7 +2817,7 @@ static void ui_mouse_click_pane(int *b)
       case Icon_Pane_TrkSec:
         if (TrueDriveEmulation != 0)
         {
-          DisplayDriveTrack ^= 1;
+          DisplayDriveTrack = (DisplayDriveTrack + 1) & 3;
           ui_display_drive_track(DisplayDriveTrack, 8, DriveTrackNumbers[DisplayDriveTrack]);
         }
         break;
@@ -5062,7 +5064,7 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
   int b[11];
   int track_number = (int)half_track_number;
 
-  if (drive_number >= 2) return;
+  if (drive_number >= 4) return;
 
   DriveTrackNumbers[drive_number] = track_number;
 

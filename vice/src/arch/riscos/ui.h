@@ -113,7 +113,7 @@ extern int SingleTasking;
 extern int CycleBasedSound;
 
 extern int DriveLEDStates[4];
-extern int DriveTrackNumbers[2];
+extern int DriveTrackNumbers[4];
 
 extern struct ui_machine_callback_s ViceMachineCallbacks;
 

@@ -42,10 +42,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#ifdef __riscos
-#include "ui.h"
-#endif
-
 #include "archdep.h"
 #include "attach.h"
 #include "diskconstants.h"

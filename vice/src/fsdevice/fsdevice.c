@@ -40,9 +40,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __riscos
-#include "ui.h"
-#else
+#ifndef __riscos
 #ifdef __IBMC__
 #include <direct.h>
 #include "snippets/dirport.h"

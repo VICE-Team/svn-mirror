@@ -36,6 +36,12 @@
 #define IECBUS_STATUS_IECDEVICE      2
 #define IECBUS_STATUS_VIRTUALDEVICES 3
 
+#define IECBUS_DEVICE_READ_DATA   0x01
+#define IECBUS_DEVICE_READ_CLK    0x04
+#define IECBUS_DEVICE_READ_ATN    0x80
+#define IECBUS_DEVICE_WRITE_CLK   0x40
+#define IECBUS_DEVICE_WRITE_DATA  0x80
+
 typedef struct iecbus_s {
     BYTE drv_bus[IECBUS_NUM];
     BYTE drv_data[IECBUS_NUM];
@@ -56,6 +62,9 @@ extern void iecbus_status_set(unsigned int type, unsigned int unit,
 extern BYTE (*iecbus_callback_read)(CLOCK);
 extern void (*iecbus_callback_write)(BYTE, CLOCK);
 
+extern BYTE iecbus_device_read(void);
+extern int  iecbus_device_write(BYTE unit, BYTE data);
+extern void (*iecbus_update_ports)(void);
 
 #endif
 

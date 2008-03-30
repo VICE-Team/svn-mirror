@@ -40,9 +40,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __riscos
-#include "ui.h"
-#else
+#ifndef __riscos
 #ifdef __IBMC__
 #include <direct.h>
 #include "snippets/dirport.h"
@@ -357,7 +355,7 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
         }
     }
 #ifdef __riscos
-    ui_set_drive_leds(vdrive->unit - 8, 1);
+    archdep_set_drive_leds(vdrive->unit - 8, 1);
 #endif
     fsdevice_error(vdrive, IPE_OK);
 

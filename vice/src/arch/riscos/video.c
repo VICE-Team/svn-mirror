@@ -47,7 +47,7 @@
 
 
 
-#define STATUS_LINE_SIZE	64
+#define STATUS_LINE_SIZE	128
 
 
 /* Linked list of canvases */
@@ -1809,15 +1809,19 @@ void video_full_screen_plot_status(void)
   {
     char statText[STATUS_LINE_SIZE];
     char *b;
+    int i;
 
     b = statText; statText[STATUS_LINE_SIZE-1] = '\0';
     b += sprintf(b, "%3d%% / %2d fps", SpeedPercentage, FrameRate);
     if (WarpModeEnabled != 0)
       b += sprintf(b, " (warp)");
-    if (DriveTrackNumbers[0] != 0)
-      b += sprintf(b, "; 8: %2d.%d", DriveTrackNumbers[0] >> 1, 5*(DriveTrackNumbers[0] & 1));
-    if (DriveTrackNumbers[1] != 0)
-      b += sprintf(b, "; 9: %2d.%d", DriveTrackNumbers[1] >> 1, 5*(DriveTrackNumbers[1] & 1));
+
+    for (i=0; i<4; i++)
+    {
+      if (DriveTrackNumbers[i] != 0)
+        b += sprintf(b, "; %d: %2d.%d", i+8, DriveTrackNumbers[i] >> 1, 5*(DriveTrackNumbers[i] & 1));
+    }
+
     strncpy(b, CurrentDriveImage, STATUS_LINE_SIZE - 1 - (b-statText));
 
     if (strcmp(statText, LastStatusLine) != 0)

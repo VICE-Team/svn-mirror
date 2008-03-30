@@ -37,9 +37,7 @@
 
 #include <stdio.h>
 
-#ifdef __riscos
-#include "ui.h"
-#else
+#ifndef __riscos
 #ifdef __IBMC__
 #include <direct.h>
 #include "snippets/dirport.h"
@@ -61,7 +59,7 @@
 int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
 {
 #ifdef __riscos
-    ui_set_drive_leds(vdrive->unit - 8, 0);
+    archdep_set_drive_leds(vdrive->unit - 8, 0);
 #endif
 
     if (secondary == 15) {

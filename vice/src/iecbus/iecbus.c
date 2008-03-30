@@ -38,6 +38,7 @@
 #include "printer.h"
 #include "via.h"
 #include "types.h"
+#include "serial.h"
 
 
 #define IECBUS_DEVICE_NONE      0
@@ -47,6 +48,7 @@
 
 BYTE (*iecbus_callback_read)(CLOCK) = NULL;
 void (*iecbus_callback_write)(BYTE, CLOCK) = NULL;
+void (*iecbus_update_ports)(void) = NULL;
 
 iecbus_t iecbus;
 
@@ -163,6 +165,7 @@ static void iecbus_cpu_write_conf2(BYTE data, CLOCK clock)
 static BYTE iecbus_cpu_read_conf3(CLOCK clock)
 {
     drivecpu_execute_all(clock);
+    serial_iec_device_exec(clock);
 
     return iecbus.cpu_port;
 }
@@ -172,6 +175,7 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
     unsigned int dnr;
 
     drivecpu_execute_all(clock);
+    serial_iec_device_exec(clock);
 
     iec_update_cpu_bus(data);
 
@@ -324,3 +328,27 @@ void iecbus_status_set(unsigned int type, unsigned int unit,
    calculate_callback_index();
 }
 
+
+BYTE iecbus_device_read(void)
+{
+  return iecbus.drv_port;
+}
+
+
+int iecbus_device_write(BYTE unit, BYTE data)
+{
+  if( unit<16 )
+    {
+      iecbus.drv_bus[unit] = data;
+      if( iecbus_update_ports ) {
+        (*iecbus_update_ports)();
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    }
+  else {
+    return 0;
+  }
+}
