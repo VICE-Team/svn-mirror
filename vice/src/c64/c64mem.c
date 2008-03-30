@@ -1003,6 +1003,12 @@ void mem_detach_cartridge(int type)
     return;
 }
 
+void mem_freeze_cartridge(int type)
+{
+    if (type == CARTRIDGE_ACTION_REPLAY)
+	cartridge_config_changed(35);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Change the current video bank.  */
@@ -1047,6 +1053,8 @@ static void cartridge_config_changed(BYTE mode)
     roml_bank = (mode >> 3) & 3;
     export_ram = (mode >> 5) & 1;
     pla_config_changed();
+    if (mode & 0x40)
+	cartridge_release_freeze();
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64acia1.c
- * This file is generated from ../../../src/acia-tmpl.c and ../../../src/c64/c64acia1.def,
+ * ../../src/c64/c64acia1.c
+ * This file is generated from ../../src/acia-tmpl.c and ../../src/c64/c64acia1.def,
  * Do not edit!
  */
 

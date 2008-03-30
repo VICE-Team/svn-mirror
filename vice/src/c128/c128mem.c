@@ -1109,6 +1109,11 @@ void mem_detach_cartridge(int type)
     return;
 }
 
+void mem_freeze_cartridge(int type)
+{
+    return;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Change the current video bank.  */

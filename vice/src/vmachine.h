@@ -108,6 +108,8 @@
 #define I_RESTORE	17	/* Restore key NMI */
 #define I_RESET		18	/* Reset in startup */
 
-#define NUMOFINT        19
+#define I_FREEZE	19	/* Cartridge freeze interrupt */
+
+#define NUMOFINT        20
 
 #endif  /* VICE_VMACHINE_H */

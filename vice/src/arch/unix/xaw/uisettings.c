@@ -286,7 +286,8 @@ static UI_CALLBACK(select_user_keymap)
     resname = keymap_res_name_list[kindex];
 
     suspend_speed_eval();
-    filename = ui_select_file("Read Keymap File", NULL, False, &button);
+    filename = ui_select_file("Read Keymap File", NULL, False, NULL, 
+							"*.vkm", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -417,7 +418,7 @@ static UI_CALLBACK(set_rs232_device_file)
     suspend_speed_eval();
 
     filename = ui_select_file("Select RS232 device or dump file",
-                              NULL, False, &button);
+                              NULL, False, "/dev", "ttyS*", &button);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);
@@ -586,7 +587,7 @@ static UI_CALLBACK(set_fsdevice_directory)
         char *filename;
 
         filename = ui_select_file(title, read_disk_image_contents,
-                                  unit == 8 ? True : False, &button);
+                           unit == 8 ? True : False, NULL, NULL, &button);
         switch (button) {
           case UI_BUTTON_OK:
             fsdevice_set_directory(filename, unit);
@@ -790,65 +791,67 @@ static ui_menu_entry_t sound_settings_submenu[] = {
     { NULL },
 };
 
-static ui_menu_entry_t set_file_system_device_submenu[] = {
-    { "*Device #8", (ui_callback_t) toggle_FileSystemDevice8, NULL, NULL },
-    { "*Device #9", (ui_callback_t) toggle_FileSystemDevice9, NULL, NULL },
-    { "*Device #10", (ui_callback_t) toggle_FileSystemDevice10, NULL, NULL },
-    { "*Device #11", (ui_callback_t) toggle_FileSystemDevice11, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_fsdevice_directory_submenu[] = {
-    { "Device #8...", (ui_callback_t) set_fsdevice_directory,
+static ui_menu_entry_t fsdevice_drive8_submenu[] = {
+    { "*File system access", (ui_callback_t) toggle_FileSystemDevice8,
+      NULL, NULL },
+    { "File system directory", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 8, NULL },
-    { "Device #9...", (ui_callback_t) set_fsdevice_directory,
+    { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice8ConvertP00,
+      NULL, NULL },
+    { "*Create P00 files on save", (ui_callback_t) toggle_FSDevice8SaveP00,
+      NULL, NULL },
+    { "*Hide raw CBM files", (ui_callback_t) toggle_FSDevice8HideCBMFiles,
+      NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t fsdevice_drive9_submenu[] = {
+    { "*File system access", (ui_callback_t) toggle_FileSystemDevice9,
+      NULL, NULL },
+    { "File system directory", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 9, NULL },
-    { "Device #10...", (ui_callback_t) set_fsdevice_directory,
+    { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice9ConvertP00,
+      NULL, NULL },
+    { "*Create P00 files on save", (ui_callback_t) toggle_FSDevice9SaveP00,
+      NULL, NULL },
+    { "*Hide raw CBM files", (ui_callback_t) toggle_FSDevice9HideCBMFiles,
+      NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t fsdevice_drive10_submenu[] = {
+    { "*File system access", (ui_callback_t) toggle_FileSystemDevice10,
+      NULL, NULL },
+    { "File system directory", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 10, NULL },
-    { "Device #11...", (ui_callback_t) set_fsdevice_directory,
+    { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice10ConvertP00,
+      NULL, NULL },
+    { "*Create P00 files on save", (ui_callback_t) toggle_FSDevice10SaveP00,
+      NULL, NULL },
+    { "*Hide raw CBM files", (ui_callback_t) toggle_FSDevice10HideCBMFiles,
+      NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t fsdevice_drive11_submenu[] = {
+    { "*File system access", (ui_callback_t) toggle_FileSystemDevice11,
+      NULL, NULL },
+    { "File system directory", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 11, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_fsdevice_p00_convert_submenu[] = {
-    { "*Device #8", (ui_callback_t) toggle_FSDevice8ConvertP00, NULL, NULL },
-    { "*Device #9", (ui_callback_t) toggle_FSDevice9ConvertP00, NULL, NULL },
-    { "*Device #10", (ui_callback_t) toggle_FSDevice10ConvertP00, NULL, NULL },
-    { "*Device #11", (ui_callback_t) toggle_FSDevice11ConvertP00, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_fsdevice_p00_save_submenu[] = {
-    { "*Device #8", (ui_callback_t) toggle_FSDevice8SaveP00, NULL, NULL },
-    { "*Device #9", (ui_callback_t) toggle_FSDevice9SaveP00, NULL, NULL },
-    { "*Device #10", (ui_callback_t) toggle_FSDevice10SaveP00, NULL, NULL },
-    { "*Device #11", (ui_callback_t) toggle_FSDevice11SaveP00, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_fsdevice_hide_cbm_files_submenu[] = {
-    { "*Device #8", (ui_callback_t) toggle_FSDevice8HideCBMFiles,
+    { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice11ConvertP00,
       NULL, NULL },
-    { "*Device #9", (ui_callback_t) toggle_FSDevice9HideCBMFiles,
+    { "*Create P00 files on save", (ui_callback_t) toggle_FSDevice11SaveP00,
       NULL, NULL },
-    { "*Device #10", (ui_callback_t) toggle_FSDevice10HideCBMFiles,
-      NULL, NULL },
-    { "*Device #11", (ui_callback_t) toggle_FSDevice11HideCBMFiles,
+    { "*Hide raw CBM files", (ui_callback_t) toggle_FSDevice11HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t serial_settings_submenu[] = {
-    { "File system access", NULL, NULL,
-      set_file_system_device_submenu },
-    { "File system directories", NULL, NULL,
-      set_fsdevice_directory_submenu },
-    { "Convert P00 file names", NULL, NULL,
-      set_fsdevice_p00_convert_submenu },
-    { "Create P00 files on save", NULL, NULL,
-      set_fsdevice_p00_save_submenu },
-    { "Hide raw CBM files", NULL, NULL,
-      set_fsdevice_hide_cbm_files_submenu },
+    { "Device #8", NULL, NULL, fsdevice_drive8_submenu },
+    { "Device #9", NULL, NULL, fsdevice_drive9_submenu },
+    { "Device #10", NULL, NULL, fsdevice_drive10_submenu },
+    { "Device #11", NULL, NULL, fsdevice_drive11_submenu },
     { "--" },
     { "*Disable serial traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
     { NULL }
@@ -917,7 +920,7 @@ static UI_CALLBACK(set_print_dump_file)
     suspend_speed_eval();
 
     filename = ui_select_file("Select printer dump file",
-                              NULL, False, &button);
+                              NULL, False, NULL, NULL, &button);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);

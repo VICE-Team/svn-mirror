@@ -43,6 +43,8 @@
 #include "resources.h"
 #include "file.h"
 #include "mem.h"
+#include "vmachine.h"
+#include "interrupt.h"
 #include "utils.h"
 #include "cartridge.h"
 
@@ -50,6 +52,7 @@ static int cartridge_type;
 static char *cartridge_file;
 
 static int carttype = CARTRIDGE_NONE;
+static int crttype = 0;
 static char *cartfile;
 
 static int set_cartridge_type(resource_value_t v)
@@ -93,10 +96,10 @@ int cartridge_attach_image(int type, char *filename)
     BYTE rawcart[0x10000];
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
-    int crttype = 0, i;
+    int i;
 
     /* Attaching no cartridge always works.  */
-    if (type == CARTRIDGE_NONE)
+    if (type == CARTRIDGE_NONE || *filename == '\0')
 	return 0;
 
     switch(type) {
@@ -131,6 +134,7 @@ int cartridge_attach_image(int type, char *filename)
 	fclose(fd);
 	break;
       case CARTRIDGE_CRT:
+printf("FILENAME: %s\n", filename);
 	fd = fopen(filename, READ);
 	if (!fd)
 	    return -1;
@@ -222,3 +226,17 @@ void cartridge_set_default(void)
     set_cartridge_file((resource_value_t) (carttype == CARTRIDGE_NONE) ?
                        "" : cartfile);
 }
+
+void cartridge_trigger_freeze(void)
+{
+    if (crttype != CARTRIDGE_ACTION_REPLAY)
+	return;
+    mem_freeze_cartridge(crttype);
+    maincpu_set_nmi(I_FREEZE, IK_NMI);
+}
+
+void cartridge_release_freeze(void)
+{
+    maincpu_set_nmi(I_FREEZE, 0);
+}
+

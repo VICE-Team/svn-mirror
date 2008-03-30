@@ -29,6 +29,8 @@ int cartridge_init_resources(void);
 extern int cartridge_attach_image(int type, char *filename);
 extern void cartridge_detach_image(void);
 extern void cartridge_set_default(void);
+extern void cartridge_trigger_freeze(void);
+extern void cartridge_release_freeze(void);
 
 /* Known cartridge types.  */
 
