@@ -101,7 +101,7 @@ struct fs_buffer_info {
 
 /* this should somehow go into the fs_info struct... */
 
-static BYTE fs_errorl[MAXPATHLEN];
+static char fs_errorl[MAXPATHLEN];
 static unsigned int fs_eptr;
 static size_t fs_elen;
 static BYTE fs_cmdbuf[MAXPATHLEN];
@@ -439,7 +439,7 @@ static void fs_error(vdrive_t *vdrive, int code)
         if (code && code != IPE_DOS_VERSION)
             log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
     } else {
-        memcpy((char *)fs_errorl, vdrive->mem_buf, vdrive->mem_length);
+        memcpy(fs_errorl, vdrive->mem_buf, vdrive->mem_length);
         fs_elen  = vdrive->mem_length;
 
     }
@@ -651,7 +651,7 @@ static int read_fs(vdrive_t *vdrive, BYTE * data, unsigned int secondary)
         if (!fs_elen)
             fs_error(vdrive, IPE_OK);
         if (fs_eptr < fs_elen) {
-            *data = fs_errorl[fs_eptr++];
+            *data = (BYTE)fs_errorl[fs_eptr++];
             return SERIAL_OK;
         } else {
             fs_error(vdrive, IPE_OK);
