@@ -7,6 +7,36 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 0.16.1
+========================
+
+** Drive changes
+----------------
+
+- The content of 1581 disk images is displayed correctly now.
+
+** Unix changes
+---------------
+
+- New joystick driver is included.
+
+- Fixed AIX audio header problem.
+
+** MS-DOS changes
+-----------------
+
+- The filter for the attach dialog has been fixed to display D64, D71
+  D81, G64, G41 and X64 disk image names.
+
+- Cartridge attach and snapshot write dialogs could crashed emulator
+  on certain DOS extenders.  This bug has been fixed.
+
+** MS-Windows changes
+---------------------
+
+- Disk images can be attached to drives 9..11 too now.
+
+
 * Changes in VICE 0.16.0
 ========================
 
