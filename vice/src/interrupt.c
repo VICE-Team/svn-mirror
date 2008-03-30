@@ -33,6 +33,8 @@
 
 #include "interrupt.h"
 
+#include "snapshot.h"
+
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
@@ -78,4 +80,67 @@ CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
 	return prevent_clk_overflow_sub;
     } else
 	return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int interrupt_write_snapshot(cpu_int_status_t *cs, FILE *f)
+{
+    int i;
+
+    for (i = 0; i < cs->num_ints; i++) {
+        if (snapshot_write_byte(f, cs->pending_int[i]) < 0)
+            return -1;
+    }
+
+    /* FIXME: could we avoid some of this info?  */
+    if (snapshot_write_dword(f, cs->irq_clk) < 0
+        || snapshot_write_dword(f, cs->nmi_clk) < 0
+        || snapshot_write_dword(f, cs->num_last_stolen_cycles) < 0
+        || snapshot_write_dword(f, cs->last_stolen_cycles_clk) < 0)
+        return -1;
+
+    return 0;
+}
+
+int interrupt_read_snapshot(cpu_int_status_t *cs, FILE *f)
+{
+    int i;
+    DWORD dw;
+    BYTE b;
+
+    /* Reset the status.  */
+    for (i = 0; i < cs->num_alarms; i++)
+	cs->alarm_clk[i] = CLOCK_MAX;
+    for (i = 0; i < cs->num_ints; i++)
+	cs->pending_int[i] = IK_NONE;
+    cs->next_alarm_clk = CLOCK_MAX;
+    cs->global_pending_int = IK_NONE;
+    cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
+
+    for (i = 0; i < cs->num_ints; i++) {
+        BYTE b;
+
+        if (snapshot_read_byte(f, &b) < 0)
+            return -1;
+
+        /* Setup interrupt.  Clock tick does not matter here, as we set the
+           `irq_clk' and `nmi_clk' variables afterwards, taking the values
+           from the snapshot.  */
+        set_int(cs, i, b, (CLOCK) 0);
+    }
+
+    if (snapshot_read_dword(f, &cs->irq_clk) < 0
+        || snapshot_read_dword(f, &cs->nmi_clk) < 0)
+        return -1;
+
+    if (snapshot_read_dword(f, &dw) < 0)
+        return -1;
+    cs->num_last_stolen_cycles = dw;
+
+    if (snapshot_read_dword(f, &dw) < 0)
+        return -1;
+    cs->last_stolen_cycles_clk = dw;
+
+    return 0;
 }
