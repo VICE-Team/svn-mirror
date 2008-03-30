@@ -220,6 +220,9 @@ unsigned int file_system_get_fsimage_state(unsigned int unit)
 {
     vdrive_t *vdrive;
 
+    if (unit < 8)
+        return 1;
+
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
 
     if (vdrive->image == NULL)

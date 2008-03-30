@@ -1,3 +1,36 @@
+2002-11-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.25.
+
+	* imagecontents.h, imagecontents/imagecontents.c
+	(image_contents_read_string): New function.
+
+	* Makefile.am: Added `libimagecontents' to `c1541'.
+
+	* arch/unix/uicommands.c, arch/unix/x11/gnome/x11ui.c,
+	arch/win32/uilib.c, arch/beos/ui_file.cc: Use new image
+	contents read string function.
+
+	* tape/tape-internal.c, tape/tape-internal.h,
+	tape/tapeimage.h: New files.
+
+	* tape/Makefile.am: Updated.
+
+	* tape/tapeimage.c, tape/tape.c: Reorganized some functions.
+
+	* c1541.c (list_cmd): Use image contents lister.
+	(floppy_read_directory): Removed.
+	(open_disk_image): Added support for raw drive access.
+	(extract_cmd): Added support for units.
+
+	* vdrive/vdrive-command.c (vdrive_command_validate): Fixed
+	BAM size.
+
+	* arch/unix/x11/gnome/x11ui.c: Fixed compiling.
+
+	* attach.c (file_system_get_fsimage_state): If unit is less
+	than 8 it must be a fsimage.
+
 2002-11-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.24.
