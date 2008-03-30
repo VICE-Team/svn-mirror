@@ -138,6 +138,10 @@ typedef enum ted_video_mode_s ted_video_mode_t;
                                  ? (line) - 1 : ted.screen_height - 1)
 #define TED_NEXT_LINE(line)      (((line) + 1) % ted.screen_height)
 
+#define TED_LINE_RTOU(line) ((line + ted.offset) % ted.screen_height)
+#define TED_LINE_UTOR(line) ((line - ted.offset) % ted.screen_height)
+
+
 /* Bad line range.  */
 #define TED_PAL_FIRST_DMA_LINE      0x30
 #define TED_PAL_LAST_DMA_LINE       0xf7
@@ -206,6 +210,9 @@ struct ted_s {
     /* Flag: should we force display (i.e. non-idle) state for the following
        line? */
     int force_display_state;
+
+    /* Which display line is drawn? */
+    unsigned int display_line;
 
     /* This flag is set if a memory fetch has already happened on the current
        line.  FIXME: Value of 2?...  */
