@@ -140,7 +140,6 @@ noinst_HEADERS = \
 	crtc.h \
 	datasette.h \
 	emuid.h \
-	file.h \
 	fixpoint.h \
 	findpath.h \
 	fs_cbm.h \
@@ -641,8 +640,8 @@ autostart.o: autostart.c vice.h config.h autostart.h types.h attach.h \
 	arch/unix/xaw/ui.h palette.h utils.h machine.h tape.h warn.h \
 	zfile.h charsets.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h charsets.h types.h \
-	file.h gcr.h info.h p00.h serial.h traps.h t64.h utils.h \
-	vdrive-iec.h vdrive.h fs_cbm.h log.h zipcode.h
+	gcr.h info.h p00.h serial.h traps.h t64.h utils.h vdrive-iec.h \
+	vdrive.h fs_cbm.h log.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
 cmdline.o: cmdline.c vice.h config.h types.h utils.h cmdline.h \
 	resources.h
@@ -654,8 +653,8 @@ findpath.o: findpath.c vice.h config.h findpath.h utils.h types.h
 fliplist.o: fliplist.c vice.h config.h log.h utils.h types.h fliplist.h \
 	attach.h vdrive.h fs_cbm.h serial.h traps.h snapshot.h
 fsdevice.o: fsdevice.c vice.h config.h fsdevice.h types.h \
-	arch/unix/archdep.h charsets.h cmdline.h resources.h file.h \
-	log.h p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
+	arch/unix/archdep.h charsets.h cmdline.h resources.h log.h \
+	p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
 gcr.o: gcr.c vice.h config.h gcr.h types.h
 imagecontents.o: imagecontents.c vice.h config.h imagecontents.h types.h \
 	charsets.h log.h t64.h utils.h vdrive.h fs_cbm.h serial.h \
@@ -680,11 +679,11 @@ maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	snapshot.h alarm.h log.h mon.h mos6510.h interrupt.h vmachine.h \
 	machine.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \
 	palette.h vdrive.h fs_cbm.h serial.h 6510core.c
-memutils.o: memutils.c vice.h config.h memutils.h types.h file.h log.h \
+memutils.o: memutils.c vice.h config.h memutils.h types.h log.h \
 	resources.h sysfile.h utils.h
-mon.o: mon.c vice.h config.h asm.h types.h mon.h mos6510.h mem.h \
-	snapshot.h interrupt.h vmachine.h 6510core.h charsets.h \
-	drive/drivecpu.h alarm.h log.h file.h resources.h \
+mon.o: mon.c vice.h config.h arch/unix/archdep.h asm.h types.h mon.h \
+	mos6510.h mem.h snapshot.h interrupt.h vmachine.h 6510core.h \
+	charsets.h drive/drivecpu.h alarm.h log.h resources.h \
 	arch/unix/vsync.h vdrive.h fs_cbm.h serial.h traps.h \
 	mon_parse.h utils.h
 mon_lex.o: mon_lex.c vice.h config.h types.h mon.h mos6510.h mem.h \
@@ -703,8 +702,8 @@ parallel.o: parallel.c vice.h config.h types.h parallel.h serial.h \
 	6510core.h
 petcat.o: petcat.c vice.h config.h charsets.h types.h p00.h
 prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
-	types.h fs_cbm.h serial.h traps.h log.h file.h charsets.h \
-	utils.h prdevice.h print.h
+	types.h fs_cbm.h serial.h traps.h log.h charsets.h utils.h \
+	prdevice.h print.h
 pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
 	cmdline.h
 resources.o: resources.c vice.h config.h log.h resources.h \
@@ -737,9 +736,8 @@ traps.o: traps.c vice.h config.h traps.h types.h log.h maincpu.h \
 utils.o: utils.c vice.h config.h utils.h types.h log.h
 vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h types.h fs_cbm.h \
 	serial.h traps.h log.h vdrive-iec.h utils.h
-vdrive.o: vdrive.c vice.h config.h charsets.h types.h file.h fsdevice.h \
-	log.h serial.h traps.h utils.h vdrive.h fs_cbm.h vdrive-iec.h \
-	zfile.h
+vdrive.o: vdrive.c vice.h config.h charsets.h types.h fsdevice.h log.h \
+	serial.h traps.h utils.h vdrive.h fs_cbm.h vdrive-iec.h zfile.h
 warn.o: warn.c vice.h config.h warn.h log.h utils.h types.h
 zfile.o: zfile.c vice.h config.h log.h utils.h types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h zipcode.h types.h
