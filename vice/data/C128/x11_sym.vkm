@@ -70,14 +70,14 @@ F10 0 5 8
 F11 0 6 8
 F12 0 3 8
 
-#Up 10 3 8
-#Left 10 5 8
-#Right 10 6 8
-#Down 10 4 8
-Up 0 7 1
-Left 0 2 1
-Right 0 2 8
-Down 0 7 8
+Up 10 3 8
+Left 10 5 8
+Right 10 6 8
+Down 10 4 8
+#Up 0 7 1
+#Left 0 2 1
+#Right 0 2 8
+#Down 0 7 8
 
 End 0 7 8
 Page_Down 0 2 8
