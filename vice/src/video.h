@@ -44,6 +44,11 @@
 #define VIDEO_RENDER_RGB_1X2    4
 #define VIDEO_RENDER_RGB_2X2    5
 
+struct video_canvas_s;
+struct viewport_s;
+struct geometry_s;
+struct palette_s;
+
 struct canvas_refresh_s
 {
     BYTE *draw_buffer;
@@ -66,11 +71,44 @@ struct draw_buffer_s {
 };
 typedef struct draw_buffer_s draw_buffer_t;
 
+struct cap_render_s {
+    unsigned int sizex;
+    unsigned int sizey;
+    unsigned int rmode;
+};
+typedef struct cap_render_s cap_render_t;
+
+#define FULLSCREEN_MAXDEV 3
+
+struct cap_fullscreen_s {
+    unsigned int device_num;
+    const char *device_name[FULLSCREEN_MAXDEV];
+    int (*enable)(struct video_canvas_s *canvas, int enable);
+    int (*double_size)(struct video_canvas_s *canvas, int double_size);
+    int (*double_scan)(struct video_canvas_s *canvas, int double_scan);
+    int (*device)(struct video_canvas_s *canvas, const char *device);
+    int (*mode[FULLSCREEN_MAXDEV])(struct video_canvas_s *canvas, int mode);
+};
+typedef struct cap_fullscreen_s cap_fullscreen_t;
+
+struct video_chip_cap_s {
+    unsigned int dsize_allowed;
+    unsigned int dsize_default;
+    unsigned int dsize_limit_width;
+    unsigned int dsize_limit_height;
+    unsigned int dscan_allowed;
+    cap_render_t single_mode;
+    cap_render_t double_mode;
+    cap_fullscreen_t fullscreen;
+};
+typedef struct video_chip_cap_s video_chip_cap_t;
+
 struct video_render_config_s {
-    int rendermode;             /* what renderers are allowed? */
-    int doublesizex;            /* doublesizex enabled?        */
-    int doublesizey;            /* doublesizey enabled?        */
-    int doublescan;             /* doublescan enabled?         */
+    video_chip_cap_t *cap;      /* Which renders are allowed?  */
+    int rendermode;             /* What render is active?  */
+    int doublesizex;            /* Doublesizex enabled?  */
+    int doublesizey;            /* Doublesizey enabled?  */
+    int doublescan;             /* Doublescan enabled?  */
     DWORD physical_colors[256];
 };
 typedef struct video_render_config_s video_render_config_t;
@@ -83,11 +121,6 @@ extern void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g,
 extern void video_render_initraw(void);
 
 /**************************************************************/
-
-struct video_canvas_s;
-struct viewport_s;
-struct geometry_s;
-struct palette_s;
 
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
@@ -130,38 +163,6 @@ typedef struct video_draw_buffer_callback_s {
                              BYTE value, unsigned int fb_width,
                              unsigned int fb_height, unsigned int fb_pitch);
 } video_draw_buffer_callback_t;
-
-struct cap_render_s {
-    unsigned int sizex;
-    unsigned int sizey;
-    unsigned int rmode;
-};
-typedef struct cap_render_s cap_render_t;
-
-#define FULLSCREEN_MAXDEV 3
-
-struct cap_fullscreen_s {
-    unsigned int device_num;
-    const char *device_name[FULLSCREEN_MAXDEV];
-    int (*enable)(struct video_canvas_s *canvas, int enable);
-    int (*double_size)(struct video_canvas_s *canvas, int double_size);
-    int (*double_scan)(struct video_canvas_s *canvas, int double_scan);
-    int (*device)(struct video_canvas_s *canvas, const char *device);
-    int (*mode[FULLSCREEN_MAXDEV])(struct video_canvas_s *canvas, int mode);
-};
-typedef struct cap_fullscreen_s cap_fullscreen_t;
-
-struct video_chip_cap_s {
-    unsigned int dsize_allowed;
-    unsigned int dsize_default;
-    unsigned int dsize_limit_width;
-    unsigned int dsize_limit_height;
-    unsigned int dscan_allowed;
-    cap_render_t single_mode;
-    cap_render_t double_mode;
-    cap_fullscreen_t fullscreen;
-};
-typedef struct video_chip_cap_s video_chip_cap_t;
 
 struct raster_s;
 
