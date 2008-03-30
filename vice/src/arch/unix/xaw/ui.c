@@ -1284,22 +1284,12 @@ char *ui_select_file(const char *title,
     static char *ret = NULL;
     static Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
-    char *curdir, *newdir;
 
-#if 1 /* (ndef __alpha)  XXX: The Alpha problem should be gone now.  */
     /* We always rebuild the file selector from scratch (which is slow),
        because there seems to be a bug in the XfwfScrolledList that causes
        the file and directory listing to disappear randomly.  I hope this
        fixes the problem...  */
     file_selector = build_file_selector(_ui_top_level, &button);
-#else
-    /* Unluckily, this does not work on Alpha (segfault when the widget is
-       popped down).  There is probably something wrong in some widget, but
-       we have no time to check this...  FIXME: Then Alpha users could get
-       the "disappearing list" bug.  Grpmf.  */
-    if (file_selector == NULL)
-	file_selector = build_file_selector(_ui_top_level, &button);
-#endif
 
     XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
     XtVaSetValues(file_selector, XtNshowContentsButton,
@@ -1308,13 +1298,16 @@ char *ui_select_file(const char *title,
     XtVaSetValues(file_selector, XtNpattern,
                   default_pattern ? default_pattern : "*", NULL);
 
-    curdir = get_current_dir();
-    newdir = stralloc(default_dir ? default_dir : curdir);
-    XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
-                                    newdir);
-    free(newdir);
-    chdir(curdir);
-    free(curdir);
+    if (default_dir != NULL) {
+        XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
+                                        default_dir);
+    } else {
+        char *newdir = get_current_dir();
+
+        XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
+                                        newdir);
+        free(newdir);
+    }
 
     ui_popup(XtParent(file_selector), title, False);
     do {
