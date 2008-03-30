@@ -1419,7 +1419,7 @@ static int fsdevice_evaluate_name_p00(char *name, int length, char *filename)
 
 int fsdevice_attach(int device, const char *name)
 {
-    if (serial_attach_device(device, (char *) name,
+    if (serial_attach_device(device, name,
                              read_fs, write_fs, open_fs, close_fs, flush_fs))
         return 1;
     fs_error(IPE_DOS_VERSION);

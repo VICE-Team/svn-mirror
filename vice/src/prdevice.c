@@ -213,8 +213,8 @@ static int prdevice_attach(int device)
 
     inuse = 0;
 
-    if ((er = serial_attach_device(device, (char *) NULL, 
-	    (char *) "Printer device",
+    if ((er = serial_attach_device(device,
+	    "Printer device",
 	    (int (*)(void *, BYTE *, int))fn,
 	    write_pr,
 	    open_pr,
