@@ -75,8 +75,8 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
                                  unsigned int length);
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
-static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
-static int vdrive_command_scratch(vdrive_t *vdrive, char *name, int length);
+static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length);
+static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length);
 static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
                                    unsigned int length);
 
@@ -143,11 +143,11 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         break;
 
       case 'R':         /* Rename */
-        status = vdrive_command_rename(vdrive, (char *)name, length);
+        status = vdrive_command_rename(vdrive, (BYTE *)name, length);
         break;
 
       case 'S':         /* Scratch */
-        status = vdrive_command_scratch(vdrive, (char *)name, length);
+        status = vdrive_command_scratch(vdrive, (BYTE *)name, length);
         break;
 
       case 'I':
@@ -468,6 +468,7 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 {
     char *name, *files, *p, c;
+    int status = 0;
 
     /* Split command line */
     if (!dest || !(files = (char *)memchr(dest, '=', length)) )
@@ -476,13 +477,13 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     *files++ = 0;
 
     if (strchr (dest, ':'))
-        dest = strchr (dest, ':') +1;
+        dest = strchr(dest, ':') + 1;
 
 #ifdef DEBUG_DRIVE
     log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
-    if (vdrive_iec_open(vdrive, dest, strlen(dest), 1))
+    if (vdrive_iec_open(vdrive, (BYTE *)dest, strlen(dest), 1))
         return CBMDOS_IPE_FILE_EXISTS;
 
     p = name = files;
@@ -497,18 +498,19 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 #ifdef DEBUG_DRIVE
         log_debug("searching for file '%s'.", name);
 #endif
-        if (vdrive_iec_open(vdrive, name, strlen(name), 0)) {
+        if (vdrive_iec_open(vdrive, (BYTE *)name, strlen(name), 0)) {
             vdrive_iec_close(vdrive, 1);
             return CBMDOS_IPE_NOT_FOUND;
         }
 
-        while (!vdrive_iec_read(vdrive, (BYTE *)&c, 0)) {
+        do {
+            status = vdrive_iec_read(vdrive, (BYTE *)&c, 0);
             if (vdrive_iec_write(vdrive, c, 1)) {
                 vdrive_iec_close(vdrive, 0); /* No space on disk.  */
                 vdrive_iec_close(vdrive, 1);
                 return CBMDOS_IPE_DISK_FULL;
             }
-        }
+        } while (status == SERIAL_OK);
 
         vdrive_iec_close(vdrive, 0);
         name = p; /* Next file.  */
@@ -517,27 +519,27 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     return CBMDOS_IPE_OK;
 }
 
-static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
+static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
 {
-    char *src;
+    BYTE *src;
     BYTE *slot;
     int status = CBMDOS_IPE_OK, rc;
     cbmdos_cmd_parse_t cmd_parse_dst, cmd_parse_src;
 
-    if (!dest || !(src = (char*)memchr(dest, '=', length)) )
+    if (!dest || !(src = memchr((char *)dest, '=', length)) )
         return CBMDOS_IPE_SYNTAX;
 
     *src++ = 0;
 
-    if (strchr (dest, ':'))
-        dest = strchr (dest, ':') + 1;
+    if (strchr((char *)dest, ':'))
+        dest = (BYTE *)strchr((char *)dest, ':') + 1;
 
 #ifdef DEBUG_DRIVE
     log_debug("RENAME: dest= '%s', orig= '%s'.", dest, src);
 #endif
 
     cmd_parse_dst.cmd = dest;
-    cmd_parse_dst.cmdlength = strlen(dest);
+    cmd_parse_dst.cmdlength = strlen((char *)dest);
     cmd_parse_dst.readmode = CBMDOS_FAM_READ;
 
     rc = cbmdos_command_parse(&cmd_parse_dst);
@@ -548,7 +550,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
     }
 
     cmd_parse_src.cmd = src;
-    cmd_parse_src.cmdlength = strlen(src);
+    cmd_parse_src.cmdlength = strlen((char *)src);
     cmd_parse_src.readmode = CBMDOS_FAM_READ;
 
     rc = cbmdos_command_parse(&cmd_parse_src);
@@ -614,7 +616,7 @@ out1:
     return status;
 }
 
-static int vdrive_command_scratch(vdrive_t *vdrive, char *name, int length)
+static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
 {
     int status, rc;
     BYTE *slot;

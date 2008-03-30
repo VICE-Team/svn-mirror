@@ -1,3 +1,44 @@
+2004-06-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.35.
+
+	* monitor/mon_file.c: Declare `mon_file_read_eof' int.
+
+	* vdrive/vdrive-command.c, vdrive/vdrive-iec.c, cbmdos.c,
+	fsdevice/fsdevice-open.c, fsdevice/fsdevice-read.c,
+	arch/win32/rs232.c, c64/c64io.c, 6510core.c: Fixed minor
+	warnings.
+
+	* vdrive/vdrive-rel.c, vdrive/vdrive-rel.h (vdrive_rel_open,
+	vdrive_rel_open_new): `name' is unsigned char.
+
+	* cbmdos.h: Member `cmd' is unsigned char.
+
+2004-06-28  Roberto Muscedere  <cococommie@cogeco.ca>
+
+	* vdrive/vdrive-command.c: vdrive_command_copy() Fixed "copy"
+	error which copied all but the last byte of a file.  This was
+	due to the new CBM EOF introduced in 1.14.25.
+
+	* c1541.c: Fixed copy_cmd(), extract_cmd() and read_cmd()
+	error which read/copied all but the last byte of a file.
+	This was due to the new CBM EOF introduced in 1.14.25.
+
+	* monitor/mon_file.c: Added static mon_file_read_eof[4][16]
+	to support CBM EOFs.  Initialised new variables in
+	mon_file_open() and used in mon_file_read() to support CBM
+	EOFs from "vdrive" to standard EOFS in "mon_file".
+
+	* vdrive/vdrive-iec.c: iec_close_sequential() Initialised
+	conditional variable - just in case.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_grow(), vdrive_rel_read()
+	and vdrive_rel_write() Initialised conditional variable -
+	just in case.
+
+	* c1541.c: split_args() corrected to support "spaces" in
+	quoted arguments.
+
 2004-06-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.34.

@@ -184,7 +184,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         p++;
 #endif
 
-    cmdlen = cmd_parse->cmdlength - ((const char *)p - cmd_parse->cmd);
+    cmdlen = cmd_parse->cmdlength - (p - cmd_parse->cmd);
     cmd_parse->parselength = 0;
 
     /* Temporary hack.  */
