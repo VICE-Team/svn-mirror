@@ -255,10 +255,10 @@ static void flush_pr5(struct vdrive_s *var, unsigned int secondary)
 int interface_serial_close(unsigned int unit)
 {
     if (unit == 4) {
-        close_pr(0, -1);
+        close_pr(0, 0);
     }
     if (unit == 5) {
-        close_pr(1, -1);
+        close_pr(1, 0);
     }
     return 0;
 }
@@ -312,8 +312,8 @@ static int interface_serial_attach(unsigned int prnr)
 static int interface_serial_detach(unsigned int prnr)
 {
     if (inuse[prnr]) {
-        flush_pr(prnr, -1);
-        close_pr(prnr, -1);
+        flush_pr(prnr, 0);
+        close_pr(prnr, 0);
     }
 
     machine_bus_device_detach(prnr + 4);
