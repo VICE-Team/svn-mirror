@@ -42,6 +42,7 @@
 #include "fsdevice-close.h"
 #include "fsdevicetypes.h"
 #include "ioutil.h"
+#include "tape.h"
 #include "vdrive.h"
 
 
@@ -60,8 +61,8 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
       case Write:
       case Read:
       case Append:
-        if (fs_info[secondary].tape.name) {
-            tape_image_close(&(fs_info[secondary].tape));
+        if (fs_info[secondary].tape->name) {
+            tape_image_close(fs_info[secondary].tape);
         } else {
             if (fs_info[secondary].info != NULL) {
                 fileio_close(fs_info[secondary].info);
