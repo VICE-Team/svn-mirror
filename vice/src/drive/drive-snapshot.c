@@ -105,7 +105,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     int i;
     char snap_module_name[] = "DRIVE";
     snapshot_module_t *m;
-    DWORD rotation_table_ptr[2];
+    DWORD rotation_table_ptr[DRIVE_NUM];
     BYTE GCR_image[2];
     int drive_true_emulation;
     DWORD sync_factor;
@@ -222,7 +222,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     int i;
     snapshot_module_t *m;
     char snap_module_name[] = "DRIVE";
-    DWORD rotation_table_ptr[2];
+    DWORD rotation_table_ptr[DRIVE_NUM];
     int drive_true_emulation;
     int sync_factor;
     drive_t *drive;

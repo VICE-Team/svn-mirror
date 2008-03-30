@@ -1,8 +1,8 @@
 /*
- * ui.c - The user interface for Vice/2.
+ * uicmdline.c - The command line for RISC OS
  *
  * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ *  Andreas Dehmel <zarquon@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -68,7 +68,6 @@
 #include "util.h"
 #include "version.h"
 #include "videoarch.h"
-#include "vsidarch.h"
 #include "vsync.h"
 #include "vsyncarch.h"
 
@@ -220,6 +219,7 @@ static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DatasetteCounter = -1;
 static int RegularProgramExit = 0;
+static int CoreDumpOnExit = 0;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -1820,8 +1820,8 @@ static int ui_build_romset_menu(void)
 
   number = romset_get_number();
   if (number <= 0) return -1;
-  MenuROMSet = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
-  MenuDisplayROMSet = (disp_desc_t*)malloc(sizeof(disp_desc_t) + number * sizeof(int));
+  MenuROMSet = (RO_MenuHead*)lib_malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
+  MenuDisplayROMSet = (disp_desc_t*)lib_malloc(sizeof(disp_desc_t) + number * sizeof(int));
 
   if ((MenuROMSet != NULL) && (MenuDisplayROMSet != NULL))
   {
@@ -1883,8 +1883,8 @@ static int ui_build_fliplist_menu(int doread)
     MenuFliplist.item[Menu_Fliplist_Images].submenu = (RO_MenuHead*)&MenuFlipImageTmpl;
     return 0;
   }
-  MenuFlipImages = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + (FlipListNumber+1) * sizeof(RO_MenuHead));
-  MenuFlipImgNames = (char*)malloc(textsize);
+  MenuFlipImages = (RO_MenuHead*)lib_malloc(sizeof(RO_MenuHead) + (FlipListNumber+1) * sizeof(RO_MenuHead));
+  MenuFlipImgNames = (char*)lib_malloc(textsize);
   if ((MenuFlipImages != NULL) && (MenuFlipImgNames != NULL))
   {
     RO_MenuItem *firstitem, *item;
@@ -1971,14 +1971,9 @@ void ui_issue_reset(int doreset)
 /* Make absolutely sure the sound timer is killed when the app terminates */
 static void ui_safe_exit(void)
 {
-  int docoredump;
-
   sound_wimp_safe_exit();
 
-  if (resources_get_value(Rsrc_CoreDump, (void *)&docoredump) != 0)
-    docoredump = 0;
-
-  if (docoredump != NULL)
+  if (CoreDumpOnExit != 0)
   {
     int current, next, free;
     FILE *fp;
@@ -1992,8 +1987,8 @@ static void ui_safe_exit(void)
     }
   }
 
-  if (RegularProgramExit == 0)
-    sound_close();
+  /*if (RegularProgramExit == 0)
+    sound_close();*/
 
   archdep_closedown();
 }
@@ -2272,6 +2267,10 @@ int ui_emulator_init_epilogue(wimp_msg_desc *msg)
   ui_message_init();
 
   ui_init_windows();
+
+  CoreDumpOnExit = 0;
+  if (resources_get_value(Rsrc_CoreDump, (void *)&CoreDumpOnExit) != 0)
+    CoreDumpOnExit = 0;
 
   return 0;
 }
@@ -5001,15 +5000,16 @@ void ui_exit(void)
   RegularProgramExit = 1;
 
   /* for some reason VSID won't shut down properly */
-  if (vsid_mode)
-    sound_close();
+  /*if (vsid_mode)
+    sound_close();*/
 
   machine_shutdown();
   ui_image_contents_exit();
   ui_message_exit();
-  log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");
+  /*log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");*/
   wimp_icon_delete(&IBarIcon);
   Wimp_CloseDown(TaskHandle, TASK_WORD);
+
   exit(0);
 }
 

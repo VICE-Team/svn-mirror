@@ -1,3 +1,61 @@
+2003-11-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.25.
+
+	* raster/raster-canvas.c, raster/raster-canvas.h,
+	raster/raster.h, raster/raster.c, raster/raster-line.c: Moved
+	update area struct.
+
+	* raster/raster-changes.c, raster/raster-changes.h,
+	raster/raster.c, raster/raster.h, raster/raster-line.c,
+	crtc/crtc.c, plus4/ted.c, plus4/ted-mem.c, vicii/vicii.c,
+	vicii/vicii-sprites.c, vicii/vicii-badline.c, vic20/vic.c,
+	vicii/vicii-fetch.c, vicii/vicii-mem.c: Dynamic allocation of
+	raster changes.
+
+	* raster/raster-line.c (handle_blank_line_cached): New
+	function.  (handle_blank_line): Only draw a blank line if
+	there are border changes or the cache is dirty.
+
+	* iecbus/iecbus.c, printer.h, c64/c64.c, c64/c64.h,
+	c128/c128.c, c128/c128.h, vic20/vic20.c, vic20/vic20.h,
+	pet/pet.c, pet/pet.h, plus4/plus4.c, plus4/plus4.h,
+	cbm2/cbm2.c, cbm2/cbm2.h, printerdrv/printer.c: First cut of
+	machine printer API.
+
+	* c64/c64printer.c, vic20/vic20printer.c, pet/petprinter.c,
+	plus4/plus4printer.c, cbm2/cbm2printer.c, machine-printer.h,
+	printerdrv/printer-serial.c, printerdrv/printer-userport.c:
+	New files.
+
+	* c64/Makefile.am, vic20/Makefile.am, pet/Makefile.am,
+	plus4/Makefile.am, cbm2/Makefile.am, arch/win32/c64.dsp,
+	arch/win32/c64c128.dsp, arch/win32/vic20.dsp,
+	arch/win32/pet.dsp, arch/win32/plus4.dsp, arch/win32/cbm2.dsp,
+	arch/win32/printerdrv.dsp: Added new files.
+
+	* drive/drive-snapshot.c (drive_snapshot_write_module,
+	drive_snapshot_read_module): Fixed size of rotation table.
+
+2003-11-16  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/archdep.c, arch/riscos/spritedrv.c,
+	arch/riscos/uicmdline.c, arch/riscos/uihelp.c,
+	arch/riscos/uimsgwin.c: use lib_*() heap management functions.
+
+	* arch/riscos/c64ui.c, arch/riscos/vsidui.c,
+	arch/riscos/vsidarch.h: Moved vsid-specific stuff from c64ui.c
+	to vsidui.c; VSID working again.
+
+	* arch/riscos/ui.c: closedown improvements.
+
+2003-11-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* joystick.c (joystick_set_value_*): Disabled while playback
+	runs.
+
+	* sound.c (sound_open): Reset sound_state_changed.
+
 2003-11-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.24.

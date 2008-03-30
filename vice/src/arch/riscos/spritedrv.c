@@ -87,7 +87,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
     }
 
     bpp = (1 << god->ldbpp); pal_size = (1 << bpp); pal_bytes = 2*pal_size*sizeof(unsigned int);
-    if ((sprpalette = (unsigned int*)malloc(pal_bytes)) == NULL)
+    if ((sprpalette = (unsigned int*)lib_malloc(pal_bytes)) == NULL)
     {
       fclose(god->fp);
       god->fp = NULL;
@@ -106,7 +106,7 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
     }
 
     header_size = sizeof(sprite_area_t) + sizeof(sprite_desc_t) + pal_bytes;
-    if ((sarea = (sprite_area_t*)malloc(header_size)) != NULL)
+    if ((sarea = (sprite_area_t*)lib_malloc(header_size)) != NULL)
     {
       sprite_desc_t *sprite;
 

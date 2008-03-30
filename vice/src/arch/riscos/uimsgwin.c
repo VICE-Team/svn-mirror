@@ -206,7 +206,7 @@ static void ui_msgwin_poll_logfile(void)
       /* safeguard in case the message window hasn't been created yet for some reason */
       if (tw != NULL)
       {
-        char *text = (char*)malloc(curPos + 1);
+        char *text = (char*)lib_malloc(curPos + 1);
 
         if (text != NULL)
         {

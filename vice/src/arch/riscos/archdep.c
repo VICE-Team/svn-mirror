@@ -44,7 +44,7 @@
 static const int FileType_GZIP = 0xf89;
 
 static FILE *defaultLogFile = NULL;
-char *defaultLogName = NULL;
+static char *defaultLogName = NULL;
 const char *archdep_rsrc_machine_name = "DRIVES";
 void (*archdep_set_leds_callback)(unsigned int, int) = NULL;
 
@@ -86,7 +86,7 @@ FILE *archdep_open_default_log_file(void)
 {
   const char *name = tmpnam(NULL);
 
-  if ((defaultLogName = (char*)malloc(strlen(name)+1)) != NULL)
+  if ((defaultLogName = (char*)lib_malloc(strlen(name)+1)) != NULL)
   {
     strcpy(defaultLogName, name);
     if ((defaultLogFile = fopen(defaultLogName, "w+")) != NULL)

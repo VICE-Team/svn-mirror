@@ -31,6 +31,8 @@
 #include "log.h"
 #include "resources.h"
 #include "ui.h"
+#include "uihelp.h"
+#include "uisharedef.h"
 #include "vsidui.h"
 #include "vsidarch.h"
 #include "vsync.h"
@@ -40,7 +42,13 @@
 
 
 
-RO_Window *VSidWindow = NULL;
+extern void c64ui_grey_out_machine_icons(void);
+extern void c64ui_bind_video_cache_menu(void);
+
+
+#define FileType_SIDMusic	0x063
+
+static RO_Window *VSidWindow = NULL;
 
 static int NumTunes = 0;
 static int VSidPaused = 0;
@@ -48,7 +56,9 @@ static int VSidStopped = 0;
 static int VSidReady = 0;
 static unsigned int PlayTimeSec = 0;
 
+static const char IBarIconNameVSID[] = "!vicevsid";
 static const char *Rsrc_Tune = "PSIDTune";
+
 
 
 enum SymbolInstances {
@@ -67,6 +77,20 @@ static char *SymbolStrings[] = {
   NULL
 };
 
+static help_icon_t Help_VSidWindow[] = {
+  {-1, "\\HelpVSidWindow"},
+  {Icon_VSid_TotalTunes, "\\HelpVSidTotal"},
+  {Icon_VSid_Tune, "\\HelpVSidTune"},
+  {Icon_VSid_NextTune, "\\HelpVSidNext"},
+  {Icon_VSid_PrevTune, "\\HelpVSidPrev"},
+  {Icon_VSid_StopTune, "\\HelpVSidStop"},
+  {Icon_VSid_Default, "\\HelpVSidDefault"},
+  {Icon_VSid_PlayTime, "\\HelpVSidTime"},
+  {Icon_VSid_Pause, "\\HelpVSidPause"},
+  {Help_Icon_End, NULL}
+};
+
+
 
 static void vsid_ui_display_paused(int state)
 {
@@ -82,7 +106,8 @@ static void vsid_ui_display_paused(int state)
   EmuPaused = state;
   ui_display_paused(EmuPaused);
 
-  wimp_window_write_icon_text(VSidWindow, Icon_VSid_Pause, text);
+  if (VSidWindow != NULL)
+    wimp_window_write_icon_text(VSidWindow, Icon_VSid_Pause, text);
 }
 
 static void vsid_ui_display_stopped(int state)
@@ -104,9 +129,12 @@ static void vsid_ui_display_stopped(int state)
   EmuPaused = state;
   ui_display_paused(EmuPaused);
 
-  wimp_window_set_icon_state(VSidWindow, Icon_VSid_Pause, iflg, IFlg_Grey);
+  if (VSidWindow != NULL)
+  {
+    wimp_window_set_icon_state(VSidWindow, Icon_VSid_Pause, iflg, IFlg_Grey);
 
-  wimp_window_write_icon_text(VSidWindow, Icon_VSid_StopTune, text);
+    wimp_window_write_icon_text(VSidWindow, Icon_VSid_StopTune, text);
+  }
 }
 
 static void vsid_ui_set_ready(int state)
@@ -126,44 +154,18 @@ static void vsid_ui_set_ready(int state)
     VSidPaused = 0;
   }
 
-  wimp_window_set_icon_state(VSidWindow, Icon_VSid_StopTune, iflg, IFlg_Grey);
-  wimp_window_set_icon_state(VSidWindow, Icon_VSid_Tune, iflg, IFlg_Grey);
-  wimp_window_set_icon_state(VSidWindow, Icon_VSid_NextTune, iflg, IFlg_Grey);
-  wimp_window_set_icon_state(VSidWindow, Icon_VSid_PrevTune, iflg, IFlg_Grey);
+  if (VSidWindow != NULL)
+  {
+    wimp_window_set_icon_state(VSidWindow, Icon_VSid_StopTune, iflg, IFlg_Grey);
+    wimp_window_set_icon_state(VSidWindow, Icon_VSid_Tune, iflg, IFlg_Grey);
+    wimp_window_set_icon_state(VSidWindow, Icon_VSid_NextTune, iflg, IFlg_Grey);
+    wimp_window_set_icon_state(VSidWindow, Icon_VSid_PrevTune, iflg, IFlg_Grey);
+  }
 
   vsid_ui_display_paused(VSidPaused);
   vsid_ui_display_stopped(VSidStopped);
 
   VSidReady = state;
-}
-
-
-int vsid_ui_init(void)
-{
-  int block[WindowB_WFlags+1];
-
-  resources_load(NULL);
-
-  ui_open_centered_or_raise_block(VSidWindow, block);
-  Wimp_OpenWindow(block);
-
-  vsid_ui_set_ready(0);
-
-  return 0;
-}
-
-int vsid_ui_message_hook(struct wimp_msg_desc_s *msg)
-{
-  char *pool;
-  int size;
-
-  size = wimp_message_translate_symbols(msg, SymbolStrings, NULL);
-  if ((pool = (char*)malloc(size)) != NULL)
-  {
-    wimp_message_translate_symbols(msg, SymbolStrings, pool);
-    return 0;
-  }
-  return -1;
 }
 
 void vsid_set_tune(int tune)
@@ -172,8 +174,7 @@ void vsid_set_tune(int tune)
   vsid_ui_display_time(0);
 }
 
-
-int vsid_ui_load_file(const char *file)
+static int vsid_ui_load_file(const char *file)
 {
   vsync_suspend_speed_eval();
 
@@ -188,85 +189,212 @@ int vsid_ui_load_file(const char *file)
   return -1;
 }
 
-int vsid_ui_mouse_click(int *block)
+static const char *vsid_ui_get_machine_ibar_icon(void)
 {
-  int number;
-
-  if (VSidReady == 0)
-    return -1;
-
-  number = wimp_window_read_icon_number(VSidWindow, Icon_VSid_Tune);
-
-  switch (block[MouseB_Icon])
-  {
-    case Icon_VSid_NextTune:
-      if (block[MouseB_Buttons] == 1)
-      {
-        if (--number > 0)
-          vsid_set_tune(number);
-      }
-      else
-      {
-        if (++number <= NumTunes)
-          vsid_set_tune(number);
-      }
-      break;;
-    case Icon_VSid_PrevTune:
-      if (block[MouseB_Buttons] == 1)
-      {
-        if (++number <= NumTunes)
-          vsid_set_tune(number);
-      }
-      else
-      {
-        if (--number > 0)
-          vsid_set_tune(number);
-      }
-      break;;
-    case Icon_VSid_StopTune:
-      VSidStopped ^= 1;
-      vsid_ui_display_stopped(VSidStopped);
-      vsid_set_tune(number);
-      break;
-    case Icon_VSid_Pause:
-      VSidPaused ^= 1;
-      vsid_ui_display_paused(VSidPaused);
-      break;
-    default:
-      return -1;
-  }
-  return 0;
+  return IBarIconNameVSID;
 }
 
-int vsid_ui_key_press(int *block)
+static int vsid_ui_mouse_click_event(int *block)
 {
-  if ((VSidReady != 0) && (block[KeyPB_Icon] == Icon_VSid_Tune))
+  if ((VSidReady != 0) && (block[MouseB_Window] == VSidWindow->Handle))
   {
-    int number;
-
-    number = wimp_window_read_icon_number(VSidWindow, Icon_VSid_Tune);
-
-    if ((number > 0) && (number <= NumTunes))
+    if (block[MouseB_Buttons] == 2)
     {
-      vsid_set_tune(number);
+      ui_create_emulator_menu(block);
+    }
+    else
+    {
+      int number;
+
+      number = wimp_window_read_icon_number(VSidWindow, Icon_VSid_Tune);
+
+      switch (block[MouseB_Icon])
+      {
+        case Icon_VSid_NextTune:
+          if (block[MouseB_Buttons] == 1)
+          {
+            if (--number > 0)
+              vsid_set_tune(number);
+          }
+          else
+          {
+            if (++number <= NumTunes)
+              vsid_set_tune(number);
+          }
+          break;;
+        case Icon_VSid_PrevTune:
+          if (block[MouseB_Buttons] == 1)
+          {
+            if (++number <= NumTunes)
+              vsid_set_tune(number);
+          }
+          else
+          {
+            if (--number > 0)
+              vsid_set_tune(number);
+          }
+          break;;
+        case Icon_VSid_StopTune:
+          VSidStopped ^= 1;
+          vsid_ui_display_stopped(VSidStopped);
+          vsid_set_tune(number);
+          break;
+        case Icon_VSid_Pause:
+          VSidPaused ^= 1;
+          vsid_ui_display_paused(VSidPaused);
+          break;
+        default:
+          break;
+      }
     }
     return 0;
   }
   return -1;
 }
 
+static int vsid_ui_mouse_click_ibar(int *block)
+{
+  ui_open_centered_or_raise_block(VSidWindow, block);
+  Wimp_OpenWindow(block);
+  return 0;
+}
+
+static int vsid_ui_key_pressed_event(int *block)
+{
+  if ((VSidReady != 0) && (block[KeyPB_Window] == VSidWindow->Handle))
+  {
+    if (block[KeyPB_Icon] == Icon_VSid_Tune)
+    {
+      int number;
+
+      number = wimp_window_read_icon_number(VSidWindow, Icon_VSid_Tune);
+
+      if ((number > 0) && (number <= NumTunes))
+      {
+        vsid_set_tune(number);
+      }
+    }
+    return 0;
+  }
+  return -1;
+}
+
+static int vsid_ui_usr_msg_data_load(int *block)
+{
+  if (block[5] == VSidWindow->Handle)
+  {
+    return vsid_ui_load_file(((const char*)block)+44);
+  }
+  return -1;
+}
+
+static int vsid_ui_usr_msg_data_open(int *block)
+{
+  if (block[10] == FileType_SIDMusic)
+  {
+    if (vsid_ui_load_file(((const char*)block)+44) == 0)
+    {
+      block[MsgB_YourRef] = block[MsgB_MyRef]; block[MsgB_Action] = Message_DataLoadAck;
+      Wimp_SendMessage(18, block, block[MsgB_Sender], block[6]);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+static int vsid_ui_display_speed(int percent, int framerate, int warp_flag)
+{
+  if (VSidWindow != NULL)
+  {
+    char buffer[32];
+
+    sprintf(buffer, "%d%%", percent);
+    wimp_window_write_icon_text(VSidWindow, Icon_VSid_Speed, buffer);
+  }
+  return 0;
+}
+
+static help_icon_t *vsid_ui_help_for_window_icon(int handle, int icon)
+{
+  if (handle == VSidWindow->Handle)
+  {
+    return Help_VSidWindow;
+  }
+  return NULL;
+}
+
+static void vsid_ui_init_callbacks(void)
+{
+  ViceMachineCallbacks.mouse_click_event = vsid_ui_mouse_click_event;
+  ViceMachineCallbacks.mouse_click_ibar = vsid_ui_mouse_click_ibar;
+  ViceMachineCallbacks.key_pressed_event = vsid_ui_key_pressed_event;
+  ViceMachineCallbacks.usr_msg_data_load = vsid_ui_usr_msg_data_load;
+  ViceMachineCallbacks.usr_msg_data_open = vsid_ui_usr_msg_data_open;
+  ViceMachineCallbacks.display_speed = vsid_ui_display_speed;
+  ViceMachineCallbacks.help_for_window_icon = vsid_ui_help_for_window_icon;
+}
+
+static int vsid_ui_message_hook(struct wimp_msg_desc_s *msg)
+{
+  char *pool;
+  int size;
+
+  size = wimp_message_translate_symbols(msg, SymbolStrings, NULL);
+  if ((pool = (char*)malloc(size)) != NULL)
+  {
+    wimp_message_translate_symbols(msg, SymbolStrings, pool);
+    return 0;
+  }
+  return -1;
+}
+
+
+int vsid_ui_init(void)
+{
+  wimp_msg_desc *msg;
+
+  WimpTaskName = "Vice VSID";
+  vsid_ui_init_callbacks();
+  c64ui_bind_video_cache_menu();
+  resources_load(NULL);
+
+  msg = ui_emulator_init_prologue(vsid_ui_get_machine_ibar_icon());
+  if (msg != NULL)
+  {
+    int block[WindowB_WFlags+1];
+
+    ui_load_template("VSidWindow", &VSidWindow, msg);
+    vsid_ui_message_hook(msg);
+    ui_translate_icon_help_msgs(msg, Help_VSidWindow);
+    ui_emulator_init_epilogue(msg);
+    c64ui_grey_out_machine_icons();
+
+    ui_open_centered_or_raise_block(VSidWindow, block);
+    Wimp_OpenWindow(block);
+
+    vsid_ui_set_ready(0);
+
+    return 0;
+  }
+
+  return -1;
+}
+
 void vsid_ui_display_name(const char *name)
 {
+  if (VSidWindow != NULL)
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Name, name);
 }
 
 void vsid_ui_display_author(const char *author)
 {
+  if (VSidWindow != NULL)
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Author, author);
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
+  if (VSidWindow != NULL)
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Copyright, copyright);
 }
 
@@ -283,16 +411,19 @@ void vsid_ui_display_sid_model(int model)
 
 void vsid_ui_set_default_tune(int nr)
 {
+  if (VSidWindow != NULL)
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_Default, nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
+  if (VSidWindow != NULL)
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_Tune, nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
+  if (VSidWindow != NULL)
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_TotalTunes, count);
 
     NumTunes = count;
@@ -300,7 +431,7 @@ void vsid_ui_display_nr_of_tunes(int count)
 
 void vsid_ui_display_time(unsigned int sec)
 {
-    if (PlayTimeSec != sec)
+    if ((VSidWindow != NULL) && (PlayTimeSec != sec))
     {
       unsigned int minutes, seconds;
       char buffer[8];
@@ -310,14 +441,6 @@ void vsid_ui_display_time(unsigned int sec)
       sprintf(buffer, "%2d:%02d", minutes, seconds);
       wimp_window_write_icon_text(VSidWindow, Icon_VSid_PlayTime, buffer);
     }
-}
-
-void vsid_ui_display_speed(int percent)
-{
-    char buffer[32];
-
-    sprintf(buffer, "%d%%", percent);
-    wimp_window_write_icon_text(VSidWindow, Icon_VSid_Speed, buffer);
 }
 
 void vsid_ui_display_irqtype(const char *irq)

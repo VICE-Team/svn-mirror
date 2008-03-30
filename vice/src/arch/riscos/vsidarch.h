@@ -43,12 +43,4 @@
 #define Icon_VSid_Pause		19
 
 
-/* Additional VSid interface */
-struct wimp_msg_desc_s;
-extern int  vsid_ui_load_file(const char *file);
-extern int  vsid_ui_mouse_click(int *block);
-extern int  vsid_ui_key_press(int *block);
-extern int  vsid_ui_message_hook(struct wimp_msg_desc_s *msg);
-extern void vsid_ui_display_speed(int percent);
-
 #endif
