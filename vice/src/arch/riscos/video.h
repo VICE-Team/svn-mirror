@@ -95,6 +95,7 @@ extern void disable_text(void);
 
 extern int video_full_screen_on(void);
 extern int video_full_screen_off(void);
+extern int video_full_screen_refresh(void);
 
 
 extern unsigned int ColourTable[256];

@@ -436,9 +436,8 @@ int video_full_screen_on(void)
   }
 
   handle_mode_change();
-  /* Clear screen */
-  ColourTrans_SetGCOL(0, 0x100, 0);
-  OS_Plot(0x04, 0, 0); OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
+
+  video_full_screen_refresh();
 
   return 0;
 }
@@ -451,6 +450,20 @@ int video_full_screen_off(void)
 
   SingleTasking = oldSingleTask;
   FullScreenMode = 0;
+
+  return 0;
+}
+
+
+int video_full_screen_refresh(void)
+{
+  if (FullScreenMode == 0) return -1;
+
+  /* Clear screen and force a repaint of the entire bitmap */
+  ColourTrans_SetGCOL(0, 0x100, 0);
+  OS_Plot(0x04, 0, 0); OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
+
+  canvas_refresh(EmuCanvas, *FrameBuffer, -EmuCanvas->shiftx, EmuCanvas->shifty, 0, 0, EmuCanvas->width, EmuCanvas->height);
 
   return 0;
 }

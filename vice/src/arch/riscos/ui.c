@@ -5506,6 +5506,19 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
   vsprintf(str, format, ap);
 
+  /* Display a simple errorbox in single tasking (especially full screen mode) */
+  if (SingleTasking != 0)
+  {
+    _kernel_oserror err;
+
+    err.errnum = 0; strncpy(err.errmess, str, 256);
+    button = Wimp_ReportError(&err, 3, WimpTaskName);
+
+    video_full_screen_refresh();
+    SetMousePointer(0);
+    return (button == 1) ? UI_JAM_RESET : UI_JAM_HARD_RESET;
+  }
+
   wimp_window_write_icon_text(CpuJamWindow, Icon_Jam_Message, str);
   dx = w->vmaxx - w->vminx; dy = w->vmaxy - w->vminy;
   w->vminx = (ScreenMode.resx - dx) / 2; w->vmaxx = w->vminx + dx;
@@ -5593,6 +5606,8 @@ void ui_error(const char *format, ...)
   log_error(roui_log, "%s\n", str);
 
   Wimp_ReportError(&err, 1, WimpTaskName);
+
+  video_full_screen_refresh();
 }
 
 
@@ -5610,6 +5625,8 @@ void ui_message(const char *format, ...)
   log_message(roui_log, "%s\n", str);
 
   Wimp_ReportError(&err, 17, WimpTaskName);
+
+  video_full_screen_refresh();
 }
 
 
@@ -5618,6 +5635,8 @@ void ui_show_text(const char *title, const char *text, int width, int height)
   Wimp_CommandWindow((int)title);
   printf("%s", text);
   Wimp_CommandWindow(0);	/* Wait for space or click */
+
+  video_full_screen_refresh();
 }
 
 
@@ -5735,6 +5754,8 @@ int ui_extend_image_dialog(void)
   err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_DlgExtend]);
   button = Wimp_ReportError(&err, 3, WimpTaskName);
 
+  video_full_screen_refresh();
+
   return (button == 1);
 }
 
@@ -5760,7 +5781,9 @@ void ui_update_menus(void)
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
   ui_temp_suspend_sound();
+  OS_FlushBuffer(0);
   mon(addr);
+  video_full_screen_refresh();
   ui_temp_resume_sound();
 }
 

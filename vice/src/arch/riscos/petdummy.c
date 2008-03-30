@@ -47,7 +47,7 @@ int int_rasterfetch(long offset)
   return 0;
 }
 
-void iec_fast_drive_write(BYTE data)
+/*void iec_fast_drive_write(BYTE data)
 {
 }
 
@@ -98,4 +98,4 @@ void parallel_cable_drive0_write(BYTE data, int handshake)
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
-}
+}*/

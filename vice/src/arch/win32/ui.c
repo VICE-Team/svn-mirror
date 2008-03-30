@@ -29,7 +29,9 @@
 #include <stdio.h>
 #include <windows.h>
 #include <windowsx.h>
+#ifdef _MSC_VER
 #include <commctrl.h>
+#endif
 
 #include "ui.h"
 

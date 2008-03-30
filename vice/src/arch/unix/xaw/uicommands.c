@@ -457,12 +457,12 @@ static UI_CALLBACK(about)
              "Copyright © 1993-1994, 1997-1999 Teemu Rantanen",
              "Copyright © 1997-1999 Daniel Sladic",
              "Copyright © 1998-1999 Andreas Boose",
-             "Copyright C 1998-1999 Tibor Biczo",
+             "Copyright © 1998-1999 Tibor Biczo",
              "Copyright © 1993-1996 Jouko Valta",
              "Copyright © 1993-1994 Jarkko Sonninen",
-#ifdef USE_RESID
+#ifdef HAVE_RESID
              "reSID engine",
-             "Copyright © 1998 Dag Lem",
+             "Copyright © 1999 Dag Lem",
 #endif
              "",
 	     "Official VICE homepage:",

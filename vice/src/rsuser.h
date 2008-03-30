@@ -34,7 +34,7 @@
 #define	CTS_IN		0x40
 #define	DSR_IN		0x80
 
-int rsuser_enabled;
+extern int rsuser_enabled;
 
 void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
                  void (*byte_rx_func)(BYTE));
