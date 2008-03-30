@@ -338,7 +338,7 @@ cbm2rom.o: cbm2rom.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h cbm2.h \
 	cbm2mem.h cbm2rom.h ../../src/crtc/crtc.h ../../src/kbdbuf.h \
 	../../src/log.h ../../src/resources.h ../../src/sysfile.h \
-	../../src/tape.h
+	../../src/tape.h ../../src/utils.h
 cbm2tpi1.o: cbm2tpi1.c cbm2cia.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h cbm2mem.h \
 	../../src/crtc/crtc.h ../../src/datasette.h \

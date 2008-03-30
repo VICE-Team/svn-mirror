@@ -387,7 +387,8 @@ vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h \
 	vic20via.h
 vic20rom.o: vic20rom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
-	../../src/resources.h ../../src/sysfile.h vic20mem.h vic20rom.h
+	../../src/resources.h ../../src/sysfile.h ../../src/utils.h \
+	vic20mem.h vic20rom.h
 vic20rsuser.o: vic20rsuser.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/rsuser.h \
 	../../src/arch/unix/types.h ../../src/via.h vic20.h vic20via.h
