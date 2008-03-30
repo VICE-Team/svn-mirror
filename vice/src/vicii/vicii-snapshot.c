@@ -4,6 +4,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,8 +38,6 @@
 #include "vicii-sprites.h"
 #include "vicii.h"
 #include "viciitypes.h"
-
-
 
 /*
 
@@ -82,13 +81,9 @@
 
  */
 
-
-
 static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
-
-
 
 int 
 vic_ii_snapshot_write_module (snapshot_t *s)
@@ -183,8 +178,6 @@ read_byte_into_int (snapshot_module_t *m, int *value_return)
   *value_return = (int) b;
   return 0;
 }
-
-
 
 static int 
 read_word_into_int (snapshot_module_t *m, int *value_return)
@@ -422,7 +415,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
   }
 
   if (vic_ii.irq_status & 0x80)
-    interrupt_set_int_noclk (&maincpu_int_status, I_RASTER, 1);
+    interrupt_set_irq_noclk (&maincpu_int_status, I_RASTER, 1);
 
   /* added in version 1.1 of snapshot format */
   if (minor_version > 0) 
@@ -447,3 +440,4 @@ fail:
     snapshot_module_close (m);
   return -1;
 }
+
