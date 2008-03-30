@@ -645,7 +645,7 @@ void datasette_reset(void)
 {
     int ds_reset;
 
-    resources_get_value("DatasetteResetWithCPU", (void *)&ds_reset);
+    resources_get_int("DatasetteResetWithCPU", &ds_reset);
 
     if (ds_reset)
         datasette_internal_reset();

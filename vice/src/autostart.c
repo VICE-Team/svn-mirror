@@ -160,7 +160,7 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
 static void set_true_drive_emulation_mode(int on)
 {
-    resources_set_value("DriveTrueEmulation", (resource_value_t)on);
+    resources_set_int("DriveTrueEmulation", on);
     ui_update_menus();
 }
 
@@ -168,7 +168,7 @@ static int get_true_drive_emulation_state(void)
 {
     int value;
 
-    if (resources_get_value("DriveTrueEmulation", (void *)&value) < 0)
+    if (resources_get_int("DriveTrueEmulation", &value) < 0)
         return 0;
 
     return value;
@@ -350,7 +350,7 @@ static void advance_hasdisk(void)
             log_message(autostart_log, "Loading program '*'");
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
         if (handle_drive_true_emulation) {
-            resources_get_value("VirtualDevices", (void *)&traps);
+            resources_get_int("VirtualDevices", &traps);
             if (traps) {
                 if (orig_drive_true_emulation_state)
                     log_message(autostart_log,
@@ -646,8 +646,8 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
     set_true_drive_emulation_mode(0);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
-    resources_set_value("FSDevice8ConvertP00", (resource_value_t)1);
+    resources_set_int("VirtualDevices", 1);
+    resources_set_int("FSDevice8ConvertP00", 1);
     file_system_detach_disk(8);
     ui_update_menus();
 
