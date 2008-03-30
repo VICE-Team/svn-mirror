@@ -477,7 +477,7 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	{
 	    if ((d >= 0)&& (d < NUM_DRIVES))
 	    {
-		ui_update_flip_menus(d+8, d+8);
+		uifliplist_update_menus(d+8, d+8);
 		ui_menu_update_all_GTK();
 		if (drive_menus[d])
 		    gtk_menu_popup(GTK_MENU(drive_menus[d]),

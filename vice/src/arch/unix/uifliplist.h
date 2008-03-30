@@ -1,7 +1,8 @@
 /*
- * ui.c - Common UI routines.
+ * uifliplist.h
  *
  * Written by
+ *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -24,50 +25,13 @@
  *
  */
 
-#include "vice.h"
+#ifndef _UIGLIPLIST_H
+#define _UIFLIPLIST_H
 
-#include "fullscreenarch.h"
-#include "interrupt.h"
-#include "ui.h"
-#include "uicommands.h"
-#include "uifliplist.h"
-#include "types.h"
-#include "vsync.h"
+extern struct ui_menu_entry_s fliplist_submenu[];
 
+extern void uifliplist_update_menus(int from_unit, int to_unit);
+extern void uifliplist_shutdown(void);
 
-static int is_paused = 0;
-
-static void pause_trap(WORD addr, void *data)
-{
-    ui_display_paused(1);
-    is_paused = 1;
-    vsync_suspend_speed_eval();
-    while (is_paused)
-        ui_dispatch_next_event();
-}
-
-void ui_pause_emulation(int flag)
-{
-    if (flag) {
-        interrupt_maincpu_trigger_trap(pause_trap, 0);
-    } else {
-        ui_display_paused(0);
-        is_paused = 0;
-    }
-}
-
-int ui_emulation_is_paused(void)
-{
-    return is_paused;
-}
-
-void ui_common_shutdown(void)
-{
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_shutdown();
 #endif
-
-    uicommands_shutdown();
-    uifliplist_shutdown();
-}
 

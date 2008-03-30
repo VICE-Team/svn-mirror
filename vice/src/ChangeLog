@@ -1,3 +1,24 @@
+2004-03-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.11.
+
+	* 6510core.c: Fixed indirect indexed addressing mode.
+
+	* arch/unix/uiide64.c, arch/unix/uiide64.h,
+	arch/unix/uifliplist.c, arch/unix/uifliplist.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c: Added IDE64 submenu.
+
+	* arch/unix/uicommands.c: Added menu entries to reset drive
+	#10 and #11.  Moved fliplist code to separate file.
+
+	* arch/unix/ui.c (ui_common_shutdown): Shutdown fliplist UI.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/ui.h (ui_update_flip_menus): Renamed.
+
 2004-03-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.10.

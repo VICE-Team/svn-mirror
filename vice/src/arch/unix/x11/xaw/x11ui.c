@@ -76,6 +76,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uicolor.h"
+#include "uifliplist.h"
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"
@@ -1245,7 +1246,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
 
     /* update drive mapping */
     ui_enable_drive_status(enabled_drives, drive_active_led);
-    ui_update_flip_menus(drive_number + 8, drive_number + 8);
+    uifliplist_update_menus(drive_number + 8, drive_number + 8);
 }
 
 static void ui_display_drive_current_image2 (void)
