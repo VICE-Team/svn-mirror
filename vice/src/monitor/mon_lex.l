@@ -37,10 +37,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "mon_command.h"
 #include "montypes.h"
 #include "mon_parse.h" /* FIXME ! */
-#include "utils.h"
 #include "types.h"
 
 #undef min
@@ -131,7 +131,7 @@ if		{ BEGIN (COND_MODE); return IF; }
                   }
                 }
 
-<STR>[^\"\n]*      { yylval.str = stralloc(yytext); return STRING; }
+<STR>[^\"\n]*      { yylval.str = lib_stralloc(yytext); return STRING; }
 
 
 \.\$		{ yylval.i = e_hexadecimal; return INPUT_SPEC; }
@@ -157,7 +157,7 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <BNAME,INITIAL>8:              { return MEM_DISK8; }
 <BNAME,INITIAL>9:              { return MEM_DISK9; }
 
-<CTYPE>[_a-zA-Z0-9]*      { yylval.str = stralloc(yytext); return CPUTYPE; }
+<CTYPE>[_a-zA-Z0-9]*      { yylval.str = lib_stralloc(yytext); return CPUTYPE; }
 
 <*>[ \t]*
 <*>\n          { dont_match_reg_a = 0;
@@ -169,12 +169,12 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
                }
 
 <FNAME>\".+\" { yytext[yyleng-1] = '\0';
-                yylval.str = stralloc(yytext+1);
+                yylval.str = lib_stralloc(yytext+1);
                 BEGIN (INITIAL); return FILENAME; }
 
-<BNAME>[_a-zA-Z0-9]*      { yylval.str = stralloc(yytext); return BANKNAME; }
+<BNAME>[_a-zA-Z0-9]*      { yylval.str = lib_stralloc(yytext); return BANKNAME; }
 
-<ROL>[^ \t\n][^\n]*          { yylval.str = stralloc(yytext); return R_O_L; }
+<ROL>[^ \t\n][^\n]*          { yylval.str = lib_stralloc(yytext); return R_O_L; }
 
 <REG_ASGN>{
 	A 		{ yylval.i = e_A; return REGISTER; }
@@ -207,21 +207,21 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 }
 
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,[a-zA-Z] {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,\([a-zA-Z][a-zA-Z]\) {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\,[a-zA-Z] {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\, {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\, {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z][a-zA-Z]\ [0-7]\, {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]\ [a-zA-Z]\, {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z][a-zA-Z]\, {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 <ASM_MODE>af|AF         { return REG_AF; }
 <ASM_MODE>bc|BC         { return REG_BC; }
 <ASM_MODE>de|DE         { return REG_DE; }
@@ -232,9 +232,9 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>iy|IY         { return REG_IY; }
 <ASM_MODE>iyh|IYH       { return REG_IYH; }
 <ASM_MODE>iyl|IYL       { return REG_IYL; }
-<ASM_MODE>[a-zA-Z]{2,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
-<ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
+<ASM_MODE>[a-zA-Z]{2,4}                           { yylval.str = lib_stralloc(yytext); return OPCODE; }
+<ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = lib_stralloc(yytext); return LABEL; }
+<ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = lib_stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }
@@ -254,12 +254,12 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
 
 <ASM_MODE,INITIAL,COND_MODE>{
-	1[01]*                  { yylval.str = stralloc(yytext); return B_NUMBER_GUESS; }
+	1[01]*                  { yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
 	%[01]+                  { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
 	&[0-7]+                 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
-	[0-7]*                  { yylval.str = stralloc(yytext); return O_NUMBER_GUESS; }
+	[0-7]*                  { yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
 	\+[0-9]+                { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
-	[0-9]+                  { yylval.str = stralloc(yytext); return D_NUMBER_GUESS; }
+	[0-9]+                  { yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
 	\$[0-9a-fA-F]+          { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
 	[0-9a-fA-F]+            { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 }
