@@ -61,6 +61,7 @@
 #include "fsdevice.h"
 #include "interrupt.h"
 #include "joystick.h"
+#include "mouse.h"
 #include "kbd.h"
 #include "log.h"
 #include "machine.h"
@@ -227,6 +228,13 @@ static int init_resources(void)
         return -1;
     }
 
+#if ! defined __riscos && ! defined __MSDOS__
+    if (mouse_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize mouse-specific resources.\n");
+        return -1;
+    }
+#endif
+
     return 0;
 }
 
@@ -266,6 +274,13 @@ static int init_cmdline_options(void)
         fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
         return -1;
     }
+
+#if ! defined __riscos && ! defined __MSDOS__
+    if (mouse_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize mouse-specific command-line options.\n");
+        return -1;
+    }
+#endif
 
     return 0;
 }

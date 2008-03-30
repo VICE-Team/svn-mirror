@@ -51,8 +51,9 @@
 static inline void do_reset_cia(void);
 static inline void store_sdr(BYTE byte);
 static inline void read_ciaicr(void);
-static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE byte);
-static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte);
+static inline void store_ciapa(CLOCK rclk, BYTE byte);
+static inline void store_ciapb(CLOCK rclk, BYTE byte);
+static inline void pulse_ciapc(CLOCK rclk);
 static inline void undump_ciapa(CLOCK rclk, BYTE byte);
 static inline void undump_ciapb(CLOCK rclk, BYTE byte);
 static inline BYTE read_ciapa(void);
@@ -104,6 +105,8 @@ static unsigned int cia_tbc;	/* counter value */
 static unsigned int cia_tbt;	/* timer B toggle bit */
 static unsigned int cia_tbp;	/* timer B port bit */
 static int cia_tbs;		/* timer state (CIAT_*) */
+
+static CLOCK cia_todclk;	/* when is the next TOD alarm scheduled? */
 
 static int ciasr_bits;	/* number of bits still to send * 2 */
 

@@ -101,6 +101,8 @@ void cia1_set_extended_keyboard_rows_mask(BYTE value)
     extended_keyboard_rows_mask = value;
 }
 
+static inline void pulse_ciapc(CLOCK rclk) { }
+
 #define PRE_STORE_CIA \
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
@@ -111,7 +113,7 @@ void cia1_set_extended_keyboard_rows_mask(BYTE value)
     vic_ii_handle_pending_alarms(0);
 
 static inline void do_reset_cia(void) {}
-static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE b) {}
+static inline void store_ciapa(CLOCK rclk, BYTE b) {}
 static inline void undump_ciapa(CLOCK rclk, BYTE b) {}
 
 static inline void store_sdr(BYTE byte)
@@ -124,7 +126,7 @@ static inline void store_sdr(BYTE byte)
 #endif
 }
 
-static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     {
 	/* Handle software-triggered light pen.  */

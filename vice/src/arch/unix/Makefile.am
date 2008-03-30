@@ -25,6 +25,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	kbdef.h \
 	kmap.c \
+	mouse.c \
+	mouse.h \
 	petkmap.c \
 	print.c \
 	rs232.c \

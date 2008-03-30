@@ -117,6 +117,7 @@ static inline void do_reset_cia(void)
     iec_info = iec_get_drive_port();
 }
 
+
 #define PRE_STORE_CIA \
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
@@ -126,7 +127,7 @@ static inline void do_reset_cia(void)
 #define PRE_PEEK_CIA \
     vic_ii_handle_pending_alarms(0);
 
-static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
     if (oldpa != byte) {
         BYTE tmp;
@@ -163,15 +164,20 @@ static inline void undump_ciapa(CLOCK rclk, BYTE byte)
 }
 
 
-static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-#ifdef HAVE_PRINTER
-    pruser_write_data(byte);
-#endif
+        parallel_cable_cpu_write(byte, 0 /* ((addr == CIA_PRB) ? 1 : 0) */ );
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
+#endif
+}
+
+static inline void pulse_ciapc(CLOCK rclk) 
+{ 
+    parallel_cable_cpu_write(oldpb, 1);
+#ifdef HAVE_PRINTER
+    pruser_write_data(oldpb);
 #endif
 }
 

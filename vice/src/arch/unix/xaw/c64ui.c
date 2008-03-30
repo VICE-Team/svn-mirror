@@ -190,6 +190,7 @@ static ui_menu_entry_t sid_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(REU)
+UI_MENU_DEFINE_TOGGLE(Mouse)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { "*Emulator identification",
@@ -198,10 +199,13 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t) toggle_IEEE488, NULL, NULL },
     { "*512K RAM Expansion Unit",
       (ui_callback_t) toggle_REU, NULL, NULL },
+    { "*1351 Mouse Emulation",
+      (ui_callback_t) toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
     { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
+
 
 static UI_CALLBACK(set_joystick_device_1)
 {

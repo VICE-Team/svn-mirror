@@ -77,6 +77,8 @@ static inline void do_reset_cia(void)
     iec_info = iec_get_drive_port();
 }
 
+static inline void pulse_ciapc(CLOCK rclk) { }
+
 #define PRE_STORE_CIA
 #define PRE_READ_CIA
 #define PRE_PEEK_CIA
@@ -96,12 +98,12 @@ static inline void undump_ciapb(CLOCK rclk, BYTE b)
 
 }
 
-static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
     drive[0].led_status = byte & 0x40;
 }
 
-static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     if (byte != oldpb) {
         if (iec_info != NULL) {

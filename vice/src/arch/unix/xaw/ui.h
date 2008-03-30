@@ -144,6 +144,7 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 void ui_pause_emulation(int flag);
 int ui_emulation_is_paused(void);
 void ui_create_dynamic_menues(void);
+void ui_check_mouse_cursor(void);
 
 #ifdef USE_VIDMODE_EXTENSION
 int ui_set_windowmode(void);

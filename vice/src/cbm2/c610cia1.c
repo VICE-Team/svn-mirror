@@ -108,7 +108,9 @@ static inline void do_reset_cia(void)
 #endif
 }
 
-static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void pulse_ciapc(CLOCK rclk) { }
+
+static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
 	/* FIXME: PA0 and PA1 are used as selector for the 
 	   Paddle 1/2 selection for the A/D converter. */
@@ -124,7 +126,7 @@ static inline void store_sdr(BYTE byte) {}
 
 static inline void undump_ciapb(CLOCK rclk, BYTE b) {}
 
-static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte)
+static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);

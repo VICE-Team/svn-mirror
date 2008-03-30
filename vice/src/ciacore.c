@@ -367,7 +367,9 @@ void reset_mycia(void)
     memset(ciatodalarm, 0, sizeof(ciatodalarm));
     ciatodlatched = 0;
     ciatodstopped = 0;
-    alarm_set(&cia_tod_alarm, myclk + ciatodticks);
+
+    cia_todclk = myclk + ciatodticks;
+    alarm_set(&cia_tod_alarm, cia_todclk);
 
     ciaint = 0;
     my_set_int(0, myclk);
@@ -401,8 +403,10 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_DDRA:
 	cia[addr] = byte;
 	byte = cia[CIA_PRA] | ~cia[CIA_DDRA];
-	store_ciapa(addr, rclk, byte);
-	oldpa = byte;
+	if(byte != oldpa) {
+	    store_ciapa(rclk, byte);
+	    oldpa = byte;
+	}
 	break;
 
       case CIA_PRB:		/* port B */
@@ -422,8 +426,13 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		    byte |= 0x80;
 	    }
 	}
-	store_ciapb(addr, rclk, byte);
-	oldpb = byte;
+	if(byte != oldpb) {
+	    store_ciapb(rclk, byte);
+	    oldpb = byte;
+	}
+	if(addr == CIA_PRB) {
+	    pulse_ciapc(rclk);
+ 	}
 	break;
 
 	/* This handles the timer latches.  The kludgy stuff is an attempt
@@ -742,6 +751,7 @@ BYTE read_cia_(ADDRESS addr)
            the ORA value. Value read might be different from what is 
 	   expected due to excessive load. */
 	byte = read_ciapb();
+	pulse_ciapc(rclk);
         if ((cia[CIA_CRA] | cia[CIA_CRB]) & 0x02) {
 	    update_cia(rclk);
 	    if (cia[CIA_CRA] & 0x02) {
@@ -856,6 +866,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
      * and probably the same cycle again when the CPU runs on...
      */
     CLOCK rclk;
+    BYTE byte;
 
     addr &= 0xf;
 
@@ -864,6 +875,28 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
     rclk = myclk - READ_OFFSET;
 
     switch (addr) {
+
+      case CIA_PRB:		/* port B */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
+	byte = read_ciapb();
+	/* pulse_ciapc(rclk); */
+        if ((cia[CIA_CRA] | cia[CIA_CRB]) & 0x02) {
+	    update_cia(rclk);
+	    if (cia[CIA_CRA] & 0x02) {
+		byte &= 0xbf;
+		if (cia_tap)
+		    byte |= 0x40;
+	    }
+	    if (cia[CIA_CRB] & 0x02) {
+		byte &= 0x7f;
+		if (cia_tbp)
+		    byte |= 0x80;
+	    }
+	}
+	return byte;
+	break;
 
 	/*
 	 * TOD clock is latched by reading Hours, and released
@@ -1126,7 +1159,8 @@ static int int_ciatod(long offset)
 #endif
 
     /* set up new int */
-    alarm_set(&cia_tod_alarm, myclk + ciatodticks);
+    cia_todclk = myclk + ciatodticks;
+    alarm_set(&cia_tod_alarm, cia_todclk);
 
     if (!ciatodstopped) {
 	/* inc timer */
@@ -1189,6 +1223,9 @@ void mycia_prevent_clk_overflow(CLOCK sub)
 	ciardi -= sub;
     else
 	ciardi = 0;
+
+    if(cia_todclk)
+	cia_todclk -= sub;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1308,11 +1345,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, ciatodlatch[2]);
     snapshot_module_write_byte(m, ciatodlatch[3]);
 
-    /* FIXME */
-#if 0
-    snapshot_module_write_dword(m, (mycpu_int_status.alarm_clk[A_ciaTOD]
-                                    - myclk));
-#endif
+    snapshot_module_write_dword(m, (cia_todclk - myclk));
 
     snapshot_module_close(m);
 
@@ -1428,7 +1461,8 @@ log_message(cia_log, "snap setting rdi to %d (rclk=%d)", ciardi, myclk);
     snapshot_module_read_byte(m, &ciatodlatch[3]);
 
     snapshot_module_read_dword(m, &dword);
-    alarm_set(&cia_tod_alarm, myclk + dword);
+    cia_todclk = myclk + dword;
+    alarm_set(&cia_tod_alarm, cia_todclk);
 
     /* timer switch-on code from store_cia[CIA_CRA/CRB] */
 

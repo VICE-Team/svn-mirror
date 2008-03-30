@@ -82,6 +82,7 @@
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
+#include "mouse.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -97,6 +98,10 @@ static unsigned long allocated_pixels[0x100];
 static log_t ui_log = LOG_ERR;
 
 Widget canvas, pane;
+
+Cursor blankCursor;
+static int timeout;
+static int cursor_is_blank = 0;
 
 #ifdef USE_VIDMODE_EXTENSION
 int vidmodeavail = 0;
@@ -116,9 +121,6 @@ static ui_menu_entry_t* resolutions_submenu;
 
 extern void video_setfullscreen(int v,int width, int height);
 
-Cursor blankCursor;
-static int no_cursor_blank = 0;
-static int timeout;
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -130,48 +132,32 @@ _ui_resources_t _ui_resources;
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
 
 void mouse_timeout(int signo) {
-  if(use_fullscreen && !no_cursor_blank) XDefineCursor(display,XtWindow(canvas), blankCursor);
+    if(use_fullscreen && !cursor_is_blank) XDefineCursor(display,XtWindow(canvas), blankCursor);
 }
 
 void ui_set_mouse_timeout() {
     if(!use_fullscreen) return;
-    no_cursor_blank = 0;
+    cursor_is_blank = 0;
     if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-      return;
+        return;
     alarm(5);
 }
 
 void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
                        Boolean *ctd) {
-  if(report->type == LeaveNotify)
-    no_cursor_blank = 1;
-  else
-    no_cursor_blank = 0;
+    if(report->type == LeaveNotify)
+        cursor_is_blank = 1;
+    else
+        cursor_is_blank = 0;
 
-  XUndefineCursor(display,XtWindow(canvas));
-  if(no_cursor_blank == 0) {
-    if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-      return;
-    alarm(5);
-  }
-}
-
-void initBlankCursor() {
-    static unsigned char no_data[] = { 0,0,0,0, 0,0,0,0 };
-    static Pixmap blank;
-    XColor trash, dummy;
-
-    XAllocNamedColor(display,
-		     DefaultColormapOfScreen(DefaultScreenOfDisplay(display)),
-		     "black",&trash,&dummy);
-
-    blank = XCreateBitmapFromData(display, XtWindow(canvas),
-                                  no_data, 8,8);
-
-    blankCursor = XCreatePixmapCursor(display,
-				      blank,
-				      blank,
-				      &trash, &trash, 0, 0);
+    if (! _mouse_enabled) {
+        XUndefineCursor(display,XtWindow(canvas));
+	if(cursor_is_blank == 0) {
+	    if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
+	      return;
+	    alarm(5);
+	}
+    }
 }
 
 int vidmode_available(void)
@@ -194,7 +180,7 @@ int vidmode_available(void)
         || (MajorVersion == VidMode_MINMAJOR && MinorVersion < VidMode_MINMINOR)
 ) {
         /* Fail if the extension version in the server is too old */
-      log_error(ui_log, "Xserver is running an old XFree86-VidMode version (%d.  %d)",
+        log_error(ui_log, "Xserver is running an old XFree86-VidMode version (%d.  %d)",
 	       MajorVersion, MinorVersion);
         log_error(ui_log, "Minimum required version is %d.%d",
 	         VidMode_MINMAJOR, VidMode_MINMINOR);
@@ -480,7 +466,7 @@ static int set_fullscreen(resource_value_t v)
 		     0, 0, 0, 0, root_x, root_y);
 
     }
-
+    ui_check_mouse_cursor();
     return 1;
 }
 
@@ -511,9 +497,87 @@ static UI_CALLBACK(ui_set_bestmode)
     set_bestmode(client_data);
 }
 
-
 #endif
 
+void ui_check_mouse_cursor()
+{
+  int window_doublesize;
+
+
+  if(_mouse_enabled) {
+      if(use_fullscreen) { 
+	  if (resources_get_value("FullscreenDoubleSize",
+				  (resource_value_t *) &window_doublesize) < 0)
+	    return;
+      } else {      
+          if (resources_get_value("DoubleSize",
+				  (resource_value_t *) &window_doublesize) < 0)
+	    return;
+      }
+
+      mouse_accel = 4 - 2 * window_doublesize;   
+      XDefineCursor(display,XtWindow(canvas), blankCursor);
+      cursor_is_blank = 1;
+      XGrabKeyboard(display, XtWindow(canvas),
+		  1, GrabModeAsync,
+		  GrabModeAsync,  CurrentTime);
+      XGrabPointer(display, XtWindow(canvas), 1,
+		 PointerMotionMask | ButtonPressMask |
+		 ButtonReleaseMask,
+		 GrabModeAsync, GrabModeAsync,
+		 XtWindow(canvas),
+		 None, CurrentTime);
+  }
+  else if (cursor_is_blank) {
+      XUndefineCursor(display,XtWindow(canvas));
+      XUngrabPointer(display, CurrentTime);
+      XUngrabKeyboard(display, CurrentTime);
+      if(use_fullscreen)
+	ui_set_mouse_timeout();
+  }
+}
+
+void ui_restore_mouse() {
+  if(_mouse_enabled && cursor_is_blank) {
+      XUndefineCursor(display,XtWindow(canvas));
+      XUngrabPointer(display, CurrentTime);
+      XUngrabKeyboard(display, CurrentTime);
+      cursor_is_blank = 0; 
+  }
+}
+
+
+void initBlankCursor() {
+    static unsigned char no_data[] = { 0,0,0,0, 0,0,0,0 };
+    static Pixmap blank;
+    XColor trash, dummy;
+
+    XAllocNamedColor(display,
+		     DefaultColormapOfScreen(DefaultScreenOfDisplay(display)),
+		     "black",&trash,&dummy);
+
+    blank = XCreateBitmapFromData(display, XtWindow(canvas),
+                                  no_data, 8,8);
+
+    blankCursor = XCreatePixmapCursor(display,
+				      blank,
+				      blank,
+				      &trash, &trash, 0, 0);
+}
+
+void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report,
+                       Boolean *ctd)
+{
+    switch(report->type) {
+      case MotionNotify:
+	  mouse_move(report->xmotion.x,report->xmotion.y);
+	  break;
+      case ButtonPress:
+      case ButtonRelease:
+	  mouse_button(report->xbutton.button-1,(report->type==ButtonPress));
+	  break;
+    } 
+}
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v)
@@ -1002,6 +1066,11 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
 		      (XtEventHandler) exposure_callback,
                       (XtPointer) exposure_proc);
 
+    XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask |
+		      ButtonReleaseMask, False,
+		      (XtEventHandler)mouse_handler1351, NULL);
+
+
     /* Create the status bar on the bottom.  */
     {
         Dimension height;
@@ -1126,9 +1195,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
        actually open the canvas window.  */
     ui_enable_drive_status(enabled_drives, drive_active_led);
 
-#ifdef USE_VIDMODE_EXTENSION
     initBlankCursor();
-#endif
 
     return canvas;
 }
@@ -1169,6 +1236,8 @@ void ui_create_dynamic_menues()
 #endif
 
 }
+
+
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(Widget w)
 {
@@ -1248,6 +1317,7 @@ void ui_exit(void)
             }
 	}
 	ui_autorepeat_on();
+	ui_restore_mouse();
 #ifdef USE_VIDMODE_EXTENSION
 	ui_set_windowmode();
 #endif
@@ -1716,9 +1786,7 @@ void ui_message(const char *format,...)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(error_dialog));
-#ifdef USE_VIDMODE_EXTENSION
-    focus_window_again();
-#endif
+    ui_check_mouse_cursor();
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
@@ -1780,6 +1848,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     switch (button) {
       case UI_BUTTON_MON:
+	ui_restore_mouse();
 #ifdef USE_VIDMODE_EXTENSION
 	ui_set_windowmode();
 #endif
@@ -1880,9 +1949,6 @@ char *ui_select_file(const char *title,
 	ret = stralloc("");
 
     ui_popdown(XtParent(file_selector));
-#ifdef USE_VIDMODE_EXTENSION
-    focus_window_again();
-#endif
 #ifndef __alpha
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
     XtDestroyWidget(XtParent(file_selector));
@@ -1927,9 +1993,6 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     XtVaGetValues(input_dialog_field, XtNstring, &str, NULL);
     strncpy(buf, str, buflen);
     ui_popdown(XtParent(input_dialog));
-#ifdef USE_VIDMODE_EXTENSION
-    focus_window_again();
-#endif
     return button;
 }
 
@@ -1947,9 +2010,6 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(show_text));
-#ifdef USE_VIDMODE_EXTENSION
-    focus_window_again();
-#endif
     XtDestroyWidget(XtParent(show_text));
 }
 
@@ -1969,9 +2029,6 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(confirm_dialog));
-#ifdef USE_VIDMODE_EXTENSION
-    focus_window_again();
-#endif
     return button;
 }
 
@@ -2003,6 +2060,7 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 {
     Widget s = NULL;
 
+    ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
     ui_dispatch_events();
 
@@ -2078,8 +2136,12 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 void ui_popdown(Widget w)
 {
     XtPopdown(w);
+    ui_check_mouse_cursor();
     if (--popped_up_count < 0)
 	popped_up_count = 0;
+#ifdef USE_VIDMODE_EXTENSION
+    focus_window_again();
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
