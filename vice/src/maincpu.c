@@ -302,7 +302,7 @@ inline static void evaluate_speed(unsigned long clk)
         diff_time=current_time-old_time;
         diff_sec=diff_time/1000.0;
 	if (old_clk)
-	    printf ("%ld cycles in %f seconds: %f%% speed\n",
+	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
 		    clk - old_clk, diff_sec,
 		    100.0 * (((double)(clk - old_clk)
 			      / diff_sec) / 1108405.0));
@@ -324,7 +324,7 @@ inline static void evaluate_speed(unsigned long clk)
 	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
 
 	if (old_clk)
-	    printf ("%ld cycles in %f seconds: %f%% speed\n",
+	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
 		    clk - old_clk, current_time - old_time,
 		    100.0 * (((double)(clk - old_clk)
 			      / (current_time - old_time)) / 1108405.0));
@@ -349,7 +349,7 @@ static void reset(void)
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
-    printf("Main CPU: RESET\n");
+    fprintf(logfile, "Main CPU: RESET\n");
 
     serial_reset();
 
@@ -402,7 +402,7 @@ void mainloop(ADDRESS start_address)
     else
 	JUMP(LOAD_ADDR(0xfffc));
 
-    printf("Main CPU: starting at $%04X.\n", reg_pc);
+    fprintf(logfile, "Main CPU: starting at $%04X.\n", reg_pc);
 
     while (1) {
 
@@ -414,7 +414,7 @@ void mainloop(ADDRESS start_address)
 
 #ifdef IO_AREA_WARNING
 	if (!bank_base)
-	    printf ("Executing from I/O area at $%04X: "
+	    fprintf (logfile, "Executing from I/O area at $%04X: "
 		    "$%02X $%02X $%04X at clk %ld\n", reg_pc, p0, p1, p2, clk);
 #endif
 
