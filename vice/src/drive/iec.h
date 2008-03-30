@@ -1,5 +1,5 @@
 /*
- * iec.h
+ * iec.h - IEC drive specific routines.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
