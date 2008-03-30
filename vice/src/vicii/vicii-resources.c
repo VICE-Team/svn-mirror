@@ -28,8 +28,9 @@
 
 #include "resources.h"
 #include "utils.h"
-#include "vicii.h"
 #include "vicii-resources.h"
+#include "vicii.h"
+#include "viciitypes.h"
 
 
 

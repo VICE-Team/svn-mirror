@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#include "viciitypes.h"
+
 /* VIC-II resources.  */
 struct _vic_ii_resources
   {

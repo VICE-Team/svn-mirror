@@ -27,8 +27,9 @@
 #include "vice.h"
 
 #include "types.h"
-#include "vicii.h"
 #include "vicii-sprites.h"
+#include "vicii.h"
+#include "viciitypes.h"
 
 
 

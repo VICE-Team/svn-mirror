@@ -27,8 +27,9 @@
 #include "vice.h"
 
 #include "cmdline.h"
-#include "vicii.h"
 #include "vicii-cmdline-options.h"
+#include "vicii.h"
+#include "viciitypes.h"
 
 
 
