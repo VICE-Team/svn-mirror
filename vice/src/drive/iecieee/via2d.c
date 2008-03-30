@@ -35,7 +35,6 @@
 #include "drivetypes.h"
 #include "interrupt.h"
 #include "lib.h"
-#include "log.h"
 #include "rotation.h"
 #include "types.h"
 #include "via.h"
@@ -282,7 +281,7 @@ static void int_via2d1t2(CLOCK c)
     viacore_intt2(&(drive1_context.via2), c);
 }
 
-static const via_initdesc_t via2_initdesc[2] = {
+static const via_initdesc_t via_desc[2] = {
     { &drive0_context.via2, clk0_overflow_callback,
       int_via2d0t1, int_via2d0t2 },
     { &drive1_context.via2, clk1_overflow_callback,
@@ -291,7 +290,8 @@ static const via_initdesc_t via2_initdesc[2] = {
 
 void via2d_init(drive_context_t *ctxptr)
 {
-    via_drive_init(ctxptr, via2_initdesc);
+    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu.alarm_context,
+                 ctxptr->cpu.int_status, ctxptr->cpu.clk_guard);
 }
 
 void via2d_setup_context(drive_context_t *ctxptr)
@@ -314,9 +314,9 @@ void via2d_setup_context(drive_context_t *ctxptr)
 
     sprintf(via->myname, "Drive%dVia2", via2p->number);
     sprintf(via->my_module_name, "VIA2D%d", via2p->number);
-    via->read_clk = 0;
-    via->read_offset = 0;
-    via->last_read = 0;
+
+    viacore_setup_context(via);
+
     via->irq_line = IK_IRQ;
     via->int_num
         = interrupt_cpu_status_int_new(ctxptr->cpu.int_status, via->myname);

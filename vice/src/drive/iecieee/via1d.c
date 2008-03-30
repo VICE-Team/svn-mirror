@@ -31,7 +31,6 @@
 
 #include <stdio.h>
 
-#include "clkguard.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivesync.h"
@@ -39,7 +38,6 @@
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "lib.h"
-#include "log.h"
 #include "parallel.h"
 #include "rotation.h"
 #include "types.h"
@@ -454,7 +452,7 @@ static void int_via1d1t2(CLOCK c)
     viacore_intt2(&(drive1_context.via1), c);
 }
 
-static const via_initdesc_t via1_initdesc[2] = {
+static const via_initdesc_t via_desc[2] = {
     { &drive0_context.via1, clk0_overflow_callback,
       int_via1d0t1, int_via1d0t2 },
     { &drive1_context.via1, clk1_overflow_callback,
@@ -463,26 +461,8 @@ static const via_initdesc_t via1_initdesc[2] = {
 
 void via1d_init(drive_context_t *ctxptr)
 {
-    via_drive_init(ctxptr, via1_initdesc);
-}
-
-/* this function is shared by via1 and via2! */
-void via_drive_init(drive_context_t *ctxptr, const via_initdesc_t *via_desc)
-{
-    char buffer[16];
-    const via_initdesc_t *vd = &via_desc[ctxptr->mynumber];
-
-    if (vd->via_ptr->log == LOG_ERR)
-        vd->via_ptr->log = log_open(vd->via_ptr->my_module_name);
-
-    sprintf(buffer, "%sT1", vd->via_ptr->myname);
-    vd->via_ptr->t1_alarm = alarm_new(ctxptr->cpu.alarm_context, buffer,
-                            vd->int_t1);
-    sprintf(buffer, "%sT2", vd->via_ptr->myname);
-    vd->via_ptr->t2_alarm = alarm_new(ctxptr->cpu.alarm_context, buffer,
-                            vd->int_t2);
-
-    clk_guard_add_callback(ctxptr->cpu.clk_guard, vd->clk, NULL);
+    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu.alarm_context,
+                 ctxptr->cpu.int_status, ctxptr->cpu.clk_guard);
 }
 
 void via1d_setup_context(drive_context_t *ctxptr)
@@ -503,14 +483,10 @@ void via1d_setup_context(drive_context_t *ctxptr)
 
     sprintf(via->myname, "Drive%dVia1", via1p->number);
     sprintf(via->my_module_name, "VIA1D%d", via1p->number);
-    via->read_clk = 0;
-    via->read_offset = 0;
-    via->last_read = 0;
+
+    viacore_setup_context(via);
+
     via->irq_line = IK_IRQ;
-    via->log = LOG_ERR;
-    via->int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
-                                       via->myname);
 
     via1p->drive_ptr = ctxptr->drive_ptr;
     via1p->v_parieee_is_out = 1;

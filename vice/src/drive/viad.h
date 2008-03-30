@@ -34,13 +34,9 @@
 struct drive_context_s;
 struct drive_s;
 struct via_context_s;
-struct snapshot_s;
 
 extern void via1d_setup_context(struct drive_context_s *ctxptr);
 extern void via2d_setup_context(struct drive_context_s *ctxptr);
-
-extern void drive_via_set_atn(struct via_context_s *via_context, int state);
-extern void via1_set_atn(struct drive_context_s *ctxptr, BYTE state);
 
 extern void via1d_init(struct drive_context_s *ctxptr);
 extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, WORD addr,
@@ -54,23 +50,7 @@ extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, WORD addr);
 extern BYTE REGPARM2 via2d_peek(struct drive_context_s *ctxptr, WORD addr);
 
-typedef struct via_initdesc_s {
-    struct via_context_s *via_ptr;
-    void (*clk)(CLOCK, void*);
-    void (*int_t1)(CLOCK);
-    void (*int_t2)(CLOCK);
-} via_initdesc_t;
-
-/* init callbacks, shared by both vias; defined in via1d. */
-extern void via_drive_init(struct drive_context_s *ctxptr,
-                           const via_initdesc_t *via_desc);
-
-#define drive0_via_set_atn(state) drive_via_set_atn(&(drive0_context.via1), \
-                                  state)
-#define drive1_via_set_atn(state) drive_via_set_atn(&(drive1_context.via1), \
-                                  state)
-#define via1d0_signal(l, e)       viacore_signal(&(drive0_context.via1), l, e)
-#define via1d1_signal(l, e)       viacore_signal(&(drive1_context.via1), l, e)
+extern void drive_via_set_atn(struct via_context_s *via_context, int state);
 
 extern void viad2_update_pcr(int pcrval, struct drive_s *dptr);
 
