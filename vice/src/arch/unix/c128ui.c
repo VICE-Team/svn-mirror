@@ -33,6 +33,7 @@
 #include "c128.h"
 #include "debug.h"
 #include "icon.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "resources.h"
 #include "uic64cart.h"
@@ -286,7 +287,7 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, machine_canvas_get(wid)) < 0)
+    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0)
         return;
 }
 

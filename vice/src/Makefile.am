@@ -94,6 +94,7 @@ noinst_HEADERS = \
 	machine-bus.h \
 	machine-drive.h \
 	machine-printer.h \
+	machine-video.h \
 	machine.h \
 	main.h \
 	maincpu.h \
