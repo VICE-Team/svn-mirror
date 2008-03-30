@@ -482,7 +482,7 @@ int resources_save(const char *fname)
 
     /* Write our current configuration.  */
     fprintf(out_file,"[%s]\n", machine_id);
-    for (i = 0; resources[i].name != NULL; i++)
+    for (i = 0; i < num_resources; i++)
 	write_resource_item(out_file, i);
 
     if (have_old) {
