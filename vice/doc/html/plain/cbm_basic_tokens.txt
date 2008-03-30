@@ -24,7 +24,7 @@ PETCAT version 2.16 PL 1					19 Feb 2006
 	Basic 2.0 with Basic Lightning
 	Basic 2.0 with Magic Basic
 	Basic 2.0 with Easy Basic
-        Basic 2.0 with Blarg
+	Basic 2.0 with Blarg
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 4.0 extension for VIC20
