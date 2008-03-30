@@ -96,7 +96,12 @@ void vic_ii_change_timing(void)
 {
     resource_value_t mode;
 
+#ifndef __MSDOS__
     resources_get_value("VideoStandard", &mode);
+#else
+    mode = (resource_value_t)(-1);
+#endif
+
     switch ((int)mode) {
       case -2:
         vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
@@ -112,6 +117,9 @@ void vic_ii_change_timing(void)
         vic_ii.draw_cycle = VIC_II_NTSC_DRAW_CYCLE;
         vic_ii.sprite_fetch_cycle = VIC_II_NTSC_SPRITE_FETCH_CYCLE;
         vic_ii.sprite_wrap_x = VIC_II_NTSC_SPRITE_WRAP_X;
+        vic_ii.first_dma_line = VIC_II_NTSC_FIRST_DMA_LINE;
+        vic_ii.last_dma_line = VIC_II_NTSC_LAST_DMA_LINE;
+        vic_ii.offset = VIC_II_NTSC_OFFSET;
         break;
       case -3:
         vic_ii.screen_height = VIC_II_NTSCOLD_SCREEN_HEIGHT;
@@ -127,6 +135,9 @@ void vic_ii_change_timing(void)
         vic_ii.draw_cycle = VIC_II_NTSCOLD_DRAW_CYCLE;
         vic_ii.sprite_fetch_cycle = VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE;
         vic_ii.sprite_wrap_x = VIC_II_NTSCOLD_SPRITE_WRAP_X;
+        vic_ii.first_dma_line = VIC_II_NTSCOLD_FIRST_DMA_LINE;
+        vic_ii.last_dma_line = VIC_II_NTSCOLD_LAST_DMA_LINE;
+        vic_ii.offset = VIC_II_NTSCOLD_OFFSET;
         break;
       default:
         vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
@@ -142,6 +153,9 @@ void vic_ii_change_timing(void)
         vic_ii.draw_cycle = VIC_II_PAL_DRAW_CYCLE;
         vic_ii.sprite_fetch_cycle = VIC_II_PAL_SPRITE_FETCH_CYCLE;
         vic_ii.sprite_wrap_x = VIC_II_PAL_SPRITE_WRAP_X;
+        vic_ii.first_dma_line = VIC_II_PAL_FIRST_DMA_LINE;
+        vic_ii.last_dma_line = VIC_II_PAL_LAST_DMA_LINE;
+        vic_ii.offset = VIC_II_PAL_OFFSET;
         break;
     }
 }
@@ -257,8 +271,8 @@ do_matrix_fetch (CLOCK sub)
 
       if ((raster->current_line & 7) == (unsigned int) raster->ysmooth
           && vic_ii.allow_bad_lines
-          && raster->current_line >= VIC_II_FIRST_DMA_LINE
-          && raster->current_line <= VIC_II_LAST_DMA_LINE)
+          && raster->current_line >= vic_ii.first_dma_line
+          && raster->current_line <= vic_ii.last_dma_line)
         {
           vic_ii_fetch_matrix (0, VIC_II_SCREEN_TEXTCOLS);
 
@@ -416,9 +430,11 @@ vic_ii_reset (void)
 {
   vic_ii_change_timing();
 
-  vic_ii_set_geometry();
-
   raster_reset (&vic_ii.raster);
+
+#ifndef __MSDOS__ 
+  vic_ii_set_geometry();
+#endif
 
   vic_ii.last_emulate_line_clk = 0;
 
@@ -447,6 +463,9 @@ vic_ii_reset (void)
 
   /* Remove all the IRQ sources.  */
   vic_ii.regs[0x1a] = 0;
+
+  vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
+  vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
 }
 
 void vic_ii_reset_registers(void)
@@ -957,7 +976,7 @@ vic_ii_raster_draw_alarm_handler (CLOCK offset)
   vic_ii.ycounter_reset_checked = 0;
   vic_ii.memory_fetch_done = 0;
 
-  if (vic_ii.raster.current_line == 0x30)
+  if (vic_ii.raster.current_line == vic_ii.first_dma_line)
     vic_ii.allow_bad_lines = !vic_ii.raster.blank;
 
   /* As explained in Christian's article, only the first collision
@@ -1037,14 +1056,14 @@ handle_fetch_matrix(long offset,
 
       /* This makes sure we only create VIC_II_FETCH_MATRIX events in the bad
          line range.  These checks are (a little) redundant for safety.  */
-      if (raster->current_line < VIC_II_FIRST_DMA_LINE)
-        vic_ii.fetch_clk += ((VIC_II_FIRST_DMA_LINE
+      if (raster->current_line < vic_ii.first_dma_line)
+        vic_ii.fetch_clk += ((vic_ii.first_dma_line
                               - raster->current_line)
                              * vic_ii.cycles_per_line);
-      else if (raster->current_line >= VIC_II_LAST_DMA_LINE)
+      else if (raster->current_line >= vic_ii.last_dma_line)
         vic_ii.fetch_clk += ((vic_ii.screen_height
                               - raster->current_line
-                              + VIC_II_FIRST_DMA_LINE)
+                              + vic_ii.first_dma_line)
                              * vic_ii.cycles_per_line);
       else
         vic_ii.fetch_clk += vic_ii.cycles_per_line;
@@ -1108,8 +1127,8 @@ handle_check_sprite_dma (long offset,
 
   if (vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle == -1)
     {
-      if (vic_ii.raster.current_line >= VIC_II_FIRST_DMA_LINE - 1
-          && vic_ii.raster.current_line <= VIC_II_LAST_DMA_LINE + 1)
+      if (vic_ii.raster.current_line >= vic_ii.first_dma_line - 1
+          && vic_ii.raster.current_line <= vic_ii.last_dma_line + 1)
         {
           vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
@@ -1199,8 +1218,8 @@ handle_fetch_sprite (long offset,
   if (next_cycle == -1)
     {
       /* Next time, handle bad lines.  */
-      if (vic_ii.raster.current_line >= VIC_II_FIRST_DMA_LINE - 1
-          && vic_ii.raster.current_line <= VIC_II_LAST_DMA_LINE + 1)
+      if (vic_ii.raster.current_line >= vic_ii.first_dma_line - 1
+          && vic_ii.raster.current_line <= vic_ii.last_dma_line + 1)
         {
           vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
