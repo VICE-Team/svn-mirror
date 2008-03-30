@@ -146,16 +146,16 @@ static int set_raw_drive_driver(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "RawDriveDriver", RES_STRING, (resource_value_t)ARCHDEP_RAWDRIVE_DEFAULT,
-      RES_EVENT_NO, NULL,
-      (void *)&raw_drive_driver, set_raw_drive_driver, NULL },
+static const resource_string_t resources_string[] = {
+    { "RawDriveDriver", ARCHDEP_RAWDRIVE_DEFAULT, RES_EVENT_NO, NULL,
+      &raw_drive_driver, set_raw_drive_driver, NULL },
     { NULL }
 };
 
 int rawimage_resources_init(void)
 {
-    return resources_register(resources) | blockdev_resources_init();
+    return resources_register_string(resources_string)
+        | blockdev_resources_init();
 }
 
 void rawimage_resources_shutdown(void)

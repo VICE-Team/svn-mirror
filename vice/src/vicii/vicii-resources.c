@@ -62,19 +62,16 @@ static int set_sprite_background_collisions_enabled(resource_value_t v,
     return 0;
 }
 
-static const resource_t resources[] =
+static const resource_int_t resources_int[] =
 {
-    { "VICIICheckSsColl", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&vicii_resources.sprite_sprite_collisions_enabled,
+    { "VICIICheckSsColl", 1, RES_EVENT_SAME, NULL,
+      &vicii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },
-    { "VICIICheckSbColl", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&vicii_resources.sprite_background_collisions_enabled,
+    { "VICIICheckSbColl", 1, RES_EVENT_SAME, NULL,
+      &vicii_resources.sprite_background_collisions_enabled,
       set_sprite_background_collisions_enabled, NULL },
-    { "VICIINewLuminances", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&vicii_resources.new_luminances,
+    { "VICIINewLuminances", 1, RES_EVENT_NO, NULL,
+      &vicii_resources.new_luminances,
       set_new_luminances, NULL },
     { NULL }
 };
@@ -107,6 +104,6 @@ int vicii_resources_init(void)
         &video_chip_cap) < 0)
         return -1;
 
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 

@@ -45,7 +45,7 @@
 
 
 /* Is true drive emulation switched on?  */
-static unsigned int drive_true_emulation;
+static int drive_true_emulation;
 
 static int drive1_resources_type(resource_value_t v, void *param);
 
@@ -55,9 +55,9 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
     unsigned int dnr;
     drive_t *drive;
 
-    drive_true_emulation = (unsigned int)v;
+    drive_true_emulation = (int)v;
 
-    machine_bus_status_truedrive_set(drive_true_emulation);
+    machine_bus_status_truedrive_set((unsigned int)drive_true_emulation);
 
     if ((int)v) {
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
@@ -261,9 +261,8 @@ static int drive_resources_type(resource_value_t v, void *param)
 }
 
 
-static resource_t res_drive_type[] = {
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
+static resource_int_t res_drive_type[] = {
+    { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, drive_resources_type, NULL },
     { NULL }
 };
@@ -282,11 +281,11 @@ int drive_resources_type_init(unsigned int default_type)
             type = DRIVE_TYPE_NONE;
 
         res_drive_type[0].name = lib_msprintf("Drive%iType", dnr + 8);
-        res_drive_type[0].factory_value = (resource_value_t)type;
-        res_drive_type[0].value_ptr = (void *)&(drive->type);
+        res_drive_type[0].factory_value = (int)type;
+        res_drive_type[0].value_ptr = (int *)&(drive->type);
         res_drive_type[0].param = (void *)dnr;
 
-        if (resources_register(res_drive_type) < 0)
+        if (resources_register_int(res_drive_type) < 0)
             return -1;
 
         lib_free((char *)(res_drive_type[0].name));
@@ -296,16 +295,14 @@ int drive_resources_type_init(unsigned int default_type)
 }
 
 
-static const resource_t resources[] = {
-    { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_STRICT, (resource_value_t)1,
-      (void *)&drive_true_emulation, set_drive_true_emulation, NULL },
+static const resource_int_t resources_int[] = {
+    { "DriveTrueEmulation", 1, RES_EVENT_STRICT, (resource_value_t)1,
+      &drive_true_emulation, set_drive_true_emulation, NULL },
     { NULL }
 };
 
-static resource_t res_drive[] = {
-    { NULL, RES_INTEGER, (resource_value_t)DRIVE_EXTEND_NEVER,
-      RES_EVENT_SAME, NULL,
+static resource_int_t res_drive[] = {
+    { NULL, DRIVE_EXTEND_NEVER, RES_EVENT_SAME, NULL,
       NULL, set_drive_extend_image_policy, NULL },
     { NULL }
 };
@@ -319,16 +316,17 @@ int drive_resources_init(void)
         drive = drive_context[dnr]->drive;
 
         res_drive[0].name = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);
-        res_drive[0].value_ptr = (void *)&(drive->extend_image_policy);
+        res_drive[0].value_ptr = (int *)&(drive->extend_image_policy);
         res_drive[0].param = (void *)dnr;
 
-        if (resources_register(res_drive) < 0)
+        if (resources_register_int(res_drive) < 0)
             return -1;
 
         lib_free((char *)(res_drive[0].name));
     }
 
-    return machine_drive_resources_init() | resources_register(resources);
+    return machine_drive_resources_init()
+        | resources_register_int(resources_int);
 }
 
 void drive_resources_shutdown(void)

@@ -225,53 +225,44 @@ static int set_sid_parsid_port(resource_value_t v, void *param)
 }
 #endif
 
-static const resource_t resources[] = {
+static const resource_int_t resources_int[] = {
 #ifdef HAVE_RESID
-    { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_RESID,
+    { "SidEngine", SID_ENGINE_RESID,
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
-      (void *)&sid_engine, set_sid_engine, NULL },
+      &sid_engine, set_sid_engine, NULL },
 #else
-    { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
+    { "SidEngine", SID_ENGINE_FASTSID,
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID, /* FIXME: deadl. */
-      (void *)&sid_engine, set_sid_engine, NULL },
+      &sid_engine, set_sid_engine, NULL },
 #endif
-    { "SidFilters", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&sid_filters_enabled, set_sid_filters_enabled, NULL },
-    { "SidModel", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&sid_model, set_sid_model, NULL },
-    { "SidStereo", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&sid_stereo, set_sid_stereo, NULL },
+    { "SidFilters", 1, RES_EVENT_SAME, NULL,
+      &sid_filters_enabled, set_sid_filters_enabled, NULL },
+    { "SidModel", 0, RES_EVENT_SAME, NULL,
+      &sid_model, set_sid_model, NULL },
+    { "SidStereo", 0, RES_EVENT_SAME, NULL,
+      &sid_stereo, set_sid_stereo, NULL },
 #ifdef HAVE_RESID
-    { "SidResidSampling", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&sid_resid_sampling, set_sid_resid_sampling, NULL },
-    { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
-      RES_EVENT_NO, NULL,
-      (void *)&sid_resid_passband, set_sid_resid_passband, NULL },
-    { "SidResidGain", RES_INTEGER, (resource_value_t)97,
-      RES_EVENT_NO, NULL,
-      (void *)&sid_resid_gain, set_sid_resid_gain, NULL },
+    { "SidResidSampling", 0, RES_EVENT_NO, NULL,
+      &sid_resid_sampling, set_sid_resid_sampling, NULL },
+    { "SidResidPassband", 90, RES_EVENT_NO, NULL,
+      &sid_resid_passband, set_sid_resid_passband, NULL },
+    { "SidResidGain", 97, RES_EVENT_NO, NULL,
+      &sid_resid_gain, set_sid_resid_gain, NULL },
 #endif
 #ifdef HAVE_HARDSID
-    { "SidHardSIDMain", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&sid_hardsid_main, set_sid_hardsid_main, NULL },
-    { "SidHardSIDRight", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&sid_hardsid_right, set_sid_hardsid_right, NULL },
+    { "SidHardSIDMain", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &sid_hardsid_main, set_sid_hardsid_main, NULL },
+    { "SidHardSIDRight", 1, RES_EVENT_NO, NULL,
+      &sid_hardsid_right, set_sid_hardsid_right, NULL },
 #endif
 #ifdef HAVE_PARSID
-    { "SidParSIDport", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_STRICT, (resource_value_t)1,
-      (void *)&parsid_port, set_sid_parsid_port, NULL },
+    { "SidParSIDport", 1, RES_EVENT_STRICT, (resource_value_t)1,
+      &parsid_port, set_sid_parsid_port, NULL },
 #endif
     { NULL }
 };
 
 int sid_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }

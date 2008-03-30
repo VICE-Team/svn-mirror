@@ -63,14 +63,12 @@ static int set_vdc_revision(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] =
+static const resource_int_t resources_int[] =
 {
-    { "VDC64KB", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
-    { "VDCRevision", RES_INTEGER, (resource_value_t)2,
-      RES_EVENT_SAME, NULL,
-      (void *)&vdc.revision, set_vdc_revision, NULL },
+    { "VDC64KB", 1, RES_EVENT_SAME, NULL,
+      &vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
+    { "VDCRevision", 2, RES_EVENT_SAME, NULL,
+      (int *)&vdc.revision, set_vdc_revision, NULL },
     { NULL }
 };
 
@@ -100,6 +98,6 @@ int vdc_resources_init(void)
     if (raster_resources_chip_init("VDC", &vdc.raster, &video_chip_cap) < 0)
         return -1;
 
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
