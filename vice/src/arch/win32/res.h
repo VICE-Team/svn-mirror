@@ -238,6 +238,11 @@
 #define IDM_DATASETTE_CONTROL_REWIND    40163
 #define IDM_DATASETTE_CONTROL_RECORD    40164
 #define IDM_DATASETTE_CONTROL_RESET     40165
+#define IDM_FLIP_ADD                    40170
+#define IDM_FLIP_REMOVE                 40171
+#define IDM_FLIP_NEXT                   40172
+#define IDM_FLIP_PREVIOUS               40173
+
 
 // Next default values for new objects
 //
