@@ -565,17 +565,17 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "(unstable)",
 #endif
             "",
-            "Copyright (c) 1998-2005 Andreas Boose",
-            "Copyright (c) 1998-2005 Tibor Biczo",
-            "Copyright (c) 1998-2005 Dag Lem",
-            "Copyright (c) 1999-2005 Andreas Dehmel",
+            "Copyright (c) 1998-2006 Andreas Boose",
+            "Copyright (c) 1998-2006 Tibor Biczo",
+            "Copyright (c) 1998-2006 Dag Lem",
+            "Copyright (c) 1999-2006 Andreas Dehmel",
+            "Copyright (c) 1999-2006 Andreas Matthies",
+            "Copyright (c) 1999-2006 Martin Pottendorfer",
+            "Copyright (c) 2000-2006 Spiro Trikaliotis",
+            "Copyright (c) 2005-2006 Marco van den Heuvel",
             "Copyright (c) 1999-2005 Thomas Bretz",
-            "Copyright (c) 1999-2005 Andreas Matthies",
-            "Copyright (c) 1999-2005 Martin Pottendorfer",
-            "Copyright (c) 2000-2005 Spiro Trikaliotis",
             "Copyright (c) 2003-2005 David Hansel",
             "Copyright (c) 2000-2004 Markus Brenner",
-            "Copyright (c) 2005      Marco van den Heuvel",
             "",
             "Official VICE homepage:",
             "http://www.viceteam.org/",
@@ -1039,8 +1039,6 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          ui_snapshot_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    tui_menu_add_separator(ui_main_menu);
-
 #ifdef HAVE_NETWORK
     ui_netplay_submenu = tui_menu_create("Netplay Commands", 1);
     tui_menu_add(ui_netplay_submenu, ui_netplay_menu_def);
@@ -1049,9 +1047,9 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          "Commands for netplay between computers",
                          ui_netplay_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+#endif
 
     tui_menu_add_separator(ui_main_menu);
-#endif
 
     ui_settings_submenu = tui_menu_create("Configuration Commands", 1);
 
