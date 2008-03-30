@@ -11,22 +11,19 @@
 /* Where do we want to install the executable?  */
 #undef PREFIX
 
-/* gettext stuff */
-#undef ENABLE_NLS
-#undef HAVE_CATGETS
-#undef HAVE_GETTEXT
-#undef HAVE_LC_MESSAGES
-#undef HAVE_STPCPY
-#undef HAVE_LIBINTL_H
-#undef DATADIRNAME
-#undef NLS_LOCALEDIR
 
 
 /* Enable support for BSD style joysticks. */
 #undef BSD_JOYSTICK
 
+/* NLS datadirname. */
+#undef DATADIRNAME
+
 /* Is DWORD defined as long or int in the Windows header files? */
 #undef DWORD_IS_LONG
+
+/* Define if NLS support is enabled. */
+#undef ENABLE_NLS
 
 /* Enable support for the TextField widget. */
 #undef ENABLE_TEXTFIELD
@@ -90,6 +87,9 @@
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
 
+/* Define if gettext if available. */
+#undef HAVE_GETTEXT
+
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
@@ -113,6 +113,9 @@
 
 /* Define to 1 if you have the `esd' library (-lesd). */
 #undef HAVE_LIBESD
+
+/* use libintl for NLS. */
+#undef HAVE_LIBINTL_H
 
 /* Define to 1 if you have the `resid' library (-lresid). */
 #undef HAVE_LIBRESID
@@ -161,9 +164,6 @@
 
 /* Are we using the readline library replacement? */
 #undef HAVE_READLINE
-
-/* Define to 1 if you have the <regexp.h> header file. */
-#undef HAVE_REGEXP_H
 
 /* Define to 1 if you have the <regex.h> header file. */
 #undef HAVE_REGEX_H
@@ -283,6 +283,9 @@
 
 /* Enable support for Linux style joysticks. */
 #undef LINUX_JOYSTICK
+
+/* NLS local directory. */
+#undef NLS_LOCALEDIR
 
 /* Name of package */
 #undef PACKAGE

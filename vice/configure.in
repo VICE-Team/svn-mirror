@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.13.5)
+AM_INIT_AUTOMAKE(vice, 1.13.6)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -232,7 +232,7 @@ if test x"$enable_nls" != x"no" ; then
   	 gt_cv_func_gettext_libc=yes, gt_cv_func_gettext_libc=no)])
      if test "$gt_cv_func_gettext_libc" = "yes" \
   	|| test "$gt_cv_func_gettext_libintl" = "yes"; then
-  	AC_DEFINE(HAVE_GETTEXT)
+  	AC_DEFINE(HAVE_GETTEXT,,[Define if gettext if available.])
   	AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
   	  [test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
   	if test "$MSGFMT" != "no"; then
@@ -249,11 +249,11 @@ if test x"$enable_nls" != x"no" ; then
   	  INSTOBJEXT=.mo
   	fi
         USE_NLS=yes
-	AC_DEFINE(ENABLE_NLS)
-	AC_DEFINE(HAVE_LIBINTL_H)
-	AC_DEFINE_UNQUOTED(DATADIRNAME, "$DATADIRNAME")
+	AC_DEFINE(ENABLE_NLS,,[Define if NLS support is enabled.])
+	AC_DEFINE(HAVE_LIBINTL_H,,[use libintl for NLS.])
+	AC_DEFINE_UNQUOTED(DATADIRNAME, "$DATADIRNAME",[NLS datadirname.])
 	dnl this is prefixed with PREFIX
-	AC_DEFINE(NLS_LOCALEDIR, PREFIX"/"DATADIRNAME"/locale")
+	AC_DEFINE(NLS_LOCALEDIR, PREFIX"/"DATADIRNAME"/locale",[NLS local directory.])
       else
         AC_MSG_WARN([libintl.h not found, disabling NLS])
         USE_NLS=no
@@ -482,10 +482,17 @@ AC_PROG_GCC_TRADITIONAL
 dnl Check for header files.
 
 AC_HEADER_DIRENT
-AC_CHECK_HEADERS(fcntl.h limits.h strings.h sgtty.h regex.h regexp.h \
+AC_CHECK_HEADERS(fcntl.h limits.h strings.h sgtty.h regex.h \
 unistd.h sys/param.h sys/types.h sys/ioctl.h sys/time.h sys/dirent.h \
 dir.h commctrl.h shlobj.h errno.h io.h sys/stat.h signal.h winioctl.h)
 
+AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
+#define	GETC()		(*sp++)
+#define	PEEKC()		(*sp)
+#define	UNGETC(c)	-- sp
+#define	RETURN(ptr)	return NULL;
+#define	ERROR(val)	_RegExpError(val)
+])
 AC_DECL_SYS_SIGLIST
 
 dnl Check for system-specific header files.
@@ -753,7 +760,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
                  $X_LIBS $X_PRE_LIBS)
   fi
 
-  AC_CHECK_HEADER(X11/extensions/XShm.h,,)
+  AC_CHECK_HEADER(X11/extensions/XShm.h,,,[#include <X11/Xlib.h>])
   if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
     AC_CHECK_LIB(Xext, XShmPutImage,
                  [ AC_DEFINE(USE_MITSHM,,
@@ -778,7 +785,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   dnl Check for XFree86 header and library extensions.
   FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
-    AC_CHECK_HEADER(X11/extensions/xf86vmode.h,,)
+    AC_CHECK_HEADER(X11/extensions/xf86vmode.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
       AC_CHECK_LIB(Xxf86vm, XF86VidModeQueryVersion,
                    [ X_LIBS="-lXxf86vm $X_LIBS";
@@ -789,7 +796,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
 		     AC_DEFINE(USE_XF86_EXTENSIONS,,
                                [Enable XF86 extensions.])],,$X_LIBS)
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        AC_CHECK_HEADER(X11/extensions/xf86dga.h,,)
+        AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
         if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
           AC_CHECK_LIB(Xxf86dga, XF86DGAQueryExtension,
                        [ X_LIBS="-lXxf86dga $X_LIBS";
@@ -802,7 +809,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
         fi
       fi
     fi
-    AC_CHECK_HEADER(X11/extensions/xf86dga.h,,)
+    AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
       AC_CHECK_LIB(Xxf86dga, XDGAQueryExtension,
                    [ X_LIBS="-lXxf86dga $X_LIBS";
@@ -897,7 +904,7 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
   dnl Check for XFree86 header and library extensions.
   FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
-    AC_CHECK_HEADER(X11/extensions/xf86vmode.h,,)
+    AC_CHECK_HEADER(X11/extensions/xf86vmode.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
       AC_CHECK_LIB(Xxf86vm, XF86VidModeQueryVersion,
                    [ X_LIBS="-lXxf86vm $X_LIBS";
@@ -908,7 +915,7 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
                      AC_DEFINE(USE_XF86_EXTENSIONS,,
                                [Enable XF86 extensions.])],,$X_LIBS)
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        AC_CHECK_HEADER(X11/extensions/xf86dga.h,,)
+        AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
         if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
           AC_CHECK_LIB(Xxf86dga, XF86DGAQueryExtension,
                        [ X_LIBS="-lXxf86dga $X_LIBS";
@@ -921,7 +928,7 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
         fi
       fi
     fi
-    AC_CHECK_HEADER(X11/extensions/xf86dga.h,,)
+    AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
       AC_CHECK_LIB(Xxf86dga, XDGAQueryExtension,
                    [ X_LIBS="-lXxf86dga $X_LIBS";
