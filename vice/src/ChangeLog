@@ -1,3 +1,43 @@
+2004-04-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.17.
+
+	* c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, pet/pet-resources.c,
+	plus4/plus4-resources.c, cbm2/cbm2-resources.c,
+	drive/iec/iec-resources.c, drive/ieee/ieee-resources.c,
+	drive/iec128dcr/iec128dcr-resources.c,
+	drive/tcbm/tcbm-resources.c: Added romset resources.
+
+	* c64/c64romset.c, c64/c64romset.h, c128/c128romset.c,
+	c128/c128romset.h, vic20/vic20romset.c, vic20/vic20romset.h,
+	pet/petromset.c, pet/petromset.h, plus4/plus4romset.c,
+	plus4/plus4romset.h, cbm2/cbm2romset.c, cbm2/cbm2romset.h:
+	New files.
+
+	* c64/Makefile.am, c128/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, plus4/Makefile.am, cbm2/Makefile.am,
+	arch/win32/c64.dsp, arch/win32/c128.dsp, arch/win32/vic20.dsp,
+	arch/win32/pet.dsp, arch/win32/plus4.dsp, arch/win32/cbm2.dsp:
+	Added new files.
+
+	* c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
+	pet/petmem.c, plus4/plus4mem.c, cbm2/cbm2mem.c, mem.h: Removed
+	broken romset definitions.
+
+	* init.c (init_main): Initialize romset handling.
+
+	* arch/os2/dialogs/dlg-fileio.c, arch/unix/uisettings.c,
+	arch/msdos/menudefs.c, arch/riscos/ui.c, machine.h: Changed to
+	new romset API.
+
+	* romset.c, romset.h: First changes for better romset support.
+
+	* arch/win32/petui.c, arch/win32/plus4ui.c,
+	arch/win32/statusbar.c, arch/win32/uivideo.c,
+	arch/win32/vic20ui.c, arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/cbm2ui.c: Fixed warnings.
+
 2004-03-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.16.

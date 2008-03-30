@@ -82,7 +82,7 @@ static const uirom_settings_t uirom_settings[] = {
       IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
       IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
-    { NULL, NULL, 0, 0 }
+    { 0, NULL, NULL, 0, 0 }
 };
 
 static const uicart_params_t vic20_ui_cartridges[] = {

@@ -74,7 +74,7 @@ static const uirom_settings_t uirom_settings[] = {
       IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1581"), "DosName1581",
       IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE },
-    { NULL, NULL, 0, 0 }
+    { 0, NULL, NULL, 0, 0 }
 };
 
 static const ui_res_value_list_t plus4_ui_res_values[] = {

@@ -383,7 +383,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
 
                     SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_name);
                     name = system_wcstombs_alloc(st_name);
-                    update_palettename(s);
+                    update_palettename(name);
                     system_wcstombs_free(name);
                     res_extpalette = 1;
                     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE,
