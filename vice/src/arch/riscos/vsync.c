@@ -28,6 +28,7 @@
 
 #include "wimp.h"
 #include "machine.h"
+#include "mousedrv.h"
 #include "types.h"
 #include "vsync.h"
 #include "vsyncarch.h"
@@ -266,6 +267,7 @@ int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
   vsync_hook();
 
   joystick();
+  mousedrv_sync();
 
   NumberOfFrames += 1 - frame_delay;
 

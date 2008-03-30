@@ -6,7 +6,6 @@
 #define RETSIGTYPE void
 
 /* Define if the X Window System is missing or not being used.  */
-/* #undef X_DISPLAY_MISSING */
 #define X_DISPLAY_MISSING
 
 /* Define if lex declares yytext as a char * by default, not a char[].  */
@@ -28,7 +27,6 @@
 #define HAVE_RS232 1
 
 /* Do we want to enable the ReSID code support?  */
-/* #undef HAVE_RESID */
 #define HAVE_RESID 1
 
 /* The number of bytes in a unsigned int.  */
@@ -61,5 +59,6 @@
 #define HAVE_STDLIB_H 1
 #define HAVE_LIMITS_H 1
 #define HAVE_ZLIB 1
+#define HAVE_MOUSE 1
 
 #endif

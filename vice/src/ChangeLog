@@ -1,3 +1,67 @@
+2003-11-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.29.
+
+	* printer.h, c64/c64printer.c, vic20/vic20printer.c,
+	pet/petprinter.c, plus4/plus4printer.c, cbm2/cbm2printer.c,
+	printerdrv/printer-serial.c
+	(printer_serial_interface_shutdown): New function.
+
+	* printerdrv/drv-nl10.c: Fixed prototypes.
+
+2003-11-20  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/mousedrv.{c,h}, arch/riscos/video.c,
+	arch/riscos/videoarch.h, arch/riscos/vsync.c:
+	started mouse driver implementation
+
+	* arch/riscos/ui.c: impromptu fix for VSID (crashes on
+	machine_shutdown())
+
+	* arch/riscos/ui.h, arch/riscos/uisharedef.h: moved callback
+	structure
+
+	* arch/riscos/vsidui.c: mouse click and key press handlers
+	fixed
+
+	* arch/riscos/config.h: added HAVE_MOUSE define
+
+2003-11-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-draw.c: GFX_MSK_LEFTBORDER_SIZE needs to inlude
+	extra_offscreen_border_left area. This was removed in 1.10.5
+	and forgotten when this area was indroduces to sprite
+	coordinates later.
+
+	* vicii/vicii-sprites.c (draw_sprite_partial): Fixed msk_ptr
+	respecting new gfx_msk offset.
+
+2003-11-20  David Hansel  <hansel@reactive-systems.com>
+
+	* drive/iec/via1d1541.c, drive/iec/cia1581d.c:  
+	When calculating cpu_port value, run loop from
+	4-11 instead of 8-11
+
+2003-11-20  David Hansel  <hansel@reactive-systems.com>
+
+	* serial/serial-iec-device.c:  
+	- Calculate correct number of timeout-cycles from microseconds
+	- Use clkguard interface to handle clock-overflows
+	- Delay enabling a device if serial_iec_device_init() has not
+	yet been called
+	
+	* serial/serial-trap.c: In serial_traps_reset(), call
+	serial_iec_device_reset()
+
+	* serial.h: Added serial_iec_device_set_machine_parameter()
+	
+	* c128/c128.c, c64/c64.c, vic20/vic20.c, plus4/plus4.c:
+	In machine_change_timing(), call 
+	serial_iec_device_set_machine_parameter()
+	
+	* iecbus/iecbus.c:  In iecbus_device_write(), use
+	IECBUS_NUM instead of hardcoded '16'
+
 2003-11-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.28.

@@ -204,5 +204,6 @@ void serial_trap_init(WORD tmpin)
 void serial_traps_reset(void)
 {
     serial_iec_bus_reset();
+    serial_iec_device_reset();
 }
 

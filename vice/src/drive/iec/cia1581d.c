@@ -140,7 +140,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     if (byte != cia_context->old_pb) {
         if (cia1581p->iecbus != NULL) {
             BYTE *drive_bus, *drive_data;
-            unsigned int dnr;
+            unsigned int unit;
 
             drive_bus = &(cia1581p->iecbus->drv_bus[cia1581p->number + 8]);
             drive_data = &(cia1581p->iecbus->drv_data[cia1581p->number + 8]);
@@ -151,9 +151,9 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
                 & (((*drive_data) | cia1581p->iecbus->cpu_bus) << 3) & 0x80));
 
             cia1581p->iecbus->cpu_port = cia1581p->iecbus->cpu_bus;
-            for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+            for (unit = 4; unit < 8+DRIVE_NUM; unit++)
                 cia1581p->iecbus->cpu_port
-                    &= cia1581p->iecbus->drv_bus[dnr + 8];
+                    &= cia1581p->iecbus->drv_bus[unit];
 
             cia1581p->iecbus->drv_port
                 = (((cia1581p->iecbus->cpu_port >> 4) & 0x4)

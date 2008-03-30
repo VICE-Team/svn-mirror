@@ -112,7 +112,7 @@ static BYTE  drv_nl10_charset_nlq_italic[CHARSET_SIZE * 47];
 static const int drv_nl10_charset_mapping_intl[3][8][14];
 static const int drv_nl10_charset_mapping[3][256];
 
-static int drv_nl10_init_charset();
+static int drv_nl10_init_charset(void);
 
 static nl10_t drv_nl10[2];
 
@@ -1820,7 +1820,7 @@ static const int  drv_nl10_charset_mapping[3][256] =
 
 /* -------------------------------------------------------------------------- */
 
-static int drv_nl10_init_charset()
+static int drv_nl10_init_charset(void)
 {
   char *name = "nl10-cbm";
   int i,j;

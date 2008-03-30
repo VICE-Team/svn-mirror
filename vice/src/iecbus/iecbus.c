@@ -337,7 +337,7 @@ BYTE iecbus_device_read(void)
 
 int iecbus_device_write(BYTE unit, BYTE data)
 {
-  if( unit<16 )
+  if( unit<IECBUS_NUM )
     {
       iecbus.drv_bus[unit] = data;
       if( iecbus_update_ports ) {

@@ -64,6 +64,6 @@ void machine_printer_init(void)
 
 void machine_printer_shutdown(void)
 {
-    interface_serial_shutdown();
+    printer_serial_interface_shutdown();
 }
 

@@ -5002,10 +5002,14 @@ void ui_exit(void)
   RegularProgramExit = 1;
 
   /* for some reason VSID won't shut down properly */
-  /*if (vsid_mode)
-    sound_close();*/
-
-  machine_shutdown();
+  if (vsid_mode)
+  {
+    sound_close();
+  }
+  else
+  {
+    machine_shutdown();
+  }
   ui_image_contents_exit();
   ui_message_exit();
   /*log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");*/

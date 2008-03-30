@@ -45,3 +45,8 @@ void printer_serial_init(void)
     interface_serial_init();
 }
 
+void printer_serial_interface_shutdown(void)
+{
+    interface_serial_shutdown();
+}
+

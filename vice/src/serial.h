@@ -140,7 +140,8 @@ extern serial_t *serial_device_get(unsigned int unit);
 extern unsigned int serial_device_type_get(unsigned int unit);
 extern void serial_device_type_set(unsigned int type, unsigned int unit);
 
-void serial_iec_device_exec(CLOCK clk_value);
+extern void serial_iec_device_set_machine_parameter(long cycles_per_sec);
+extern void serial_iec_device_exec(CLOCK clk_value);
 
 extern int serial_truedrive;
 

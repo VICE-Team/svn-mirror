@@ -196,13 +196,13 @@ static const char *vsid_ui_get_machine_ibar_icon(void)
 
 static int vsid_ui_mouse_click_event(int *block)
 {
-  if ((VSidReady != 0) && (block[MouseB_Window] == VSidWindow->Handle))
+  if ((VSidWindow != NULL) && (block[MouseB_Window] == VSidWindow->Handle))
   {
     if (block[MouseB_Buttons] == 2)
     {
       ui_create_emulator_menu(block);
     }
-    else
+    else if (VSidReady != 0)
     {
       int number;
 
@@ -261,9 +261,9 @@ static int vsid_ui_mouse_click_ibar(int *block)
 
 static int vsid_ui_key_pressed_event(int *block)
 {
-  if ((VSidReady != 0) && (block[KeyPB_Window] == VSidWindow->Handle))
+  if ((VSidWindow != NULL) && (block[KeyPB_Window] == VSidWindow->Handle))
   {
-    if (block[KeyPB_Icon] == Icon_VSid_Tune)
+    if ((VSidReady != 0) && (block[KeyPB_Icon] == Icon_VSid_Tune))
     {
       int number;
 

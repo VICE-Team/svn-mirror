@@ -165,7 +165,7 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 
     if (iecbus != NULL) {
         BYTE *drive_bus, *drive_data;
-        unsigned int dnr;
+        unsigned int unit;
 
         drive_bus = &(iecbus->drv_bus[via1p->number + 8]);
         drive_data = &(iecbus->drv_data[via1p->number + 8]);
@@ -176,8 +176,8 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
             & ((~(*drive_data) ^ iecbus->cpu_bus) << 3) & 0x80));
 
         iecbus->cpu_port = iecbus->cpu_bus;
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++)
-            iecbus->cpu_port &= iecbus->drv_bus[dnr + 8];
+        for (unit = 4; unit < 8+DRIVE_NUM; unit++)
+            iecbus->cpu_port &= iecbus->drv_bus[unit];
 
         iecbus->drv_port = (((iecbus->cpu_port >> 4) & 0x4)
                            | (iecbus->cpu_port >> 7)
@@ -197,7 +197,7 @@ inline static void store_prb(via_context_t *via_context, BYTE byte,
     if (byte != p_oldpb) {
         if (iecbus != NULL) {
             BYTE *drive_data, *drive_bus;
-            unsigned int dnr;
+            unsigned int unit;
 
             drive_bus = &(iecbus->drv_bus[via1p->number + 8]);
             drive_data = &(iecbus->drv_data[via1p->number + 8]);
@@ -208,8 +208,8 @@ inline static void store_prb(via_context_t *via_context, BYTE byte,
                 & ((~(*drive_data) ^ iecbus->cpu_bus) << 3) & 0x80));
 
             iecbus->cpu_port = iecbus->cpu_bus;
-            for (dnr = 0; dnr < DRIVE_NUM; dnr++)
-                iecbus->cpu_port &= iecbus->drv_bus[dnr + 8];
+            for (unit = 4; unit < 8+DRIVE_NUM; unit++)
+                iecbus->cpu_port &= iecbus->drv_bus[unit];
 
             iecbus->drv_port = (((iecbus->cpu_port >> 4) & 0x4)
                                | (iecbus->cpu_port >> 7)

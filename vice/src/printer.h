@@ -50,6 +50,7 @@ extern int printer_interface_serial_init_resources(void);
 extern int printer_interface_serial_init_cmdline_options(void);
 extern int printer_interface_serial_close(unsigned int unit);
 extern int printer_interface_serial_late_init(void);
+extern void printer_serial_interface_shutdown(void);
 
 /* Userport interface.  */
 extern void printer_userport_init(void);

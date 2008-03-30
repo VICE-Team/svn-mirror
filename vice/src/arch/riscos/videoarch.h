@@ -57,6 +57,7 @@ typedef struct video_frame_buffer_s video_frame_buffer_t;
 
 struct video_canvas_s;
 struct video_redraw_desc_s;
+struct mouse_desc_s;
 
 /* currently active redraw function */
 typedef void video_redraw_core_func(struct video_canvas_s *canvas, struct video_redraw_desc_s *vrd);
@@ -117,6 +118,7 @@ extern void video_full_screen_drive_leds(unsigned int drive);
 extern void video_full_screen_init_status(void);
 extern void video_full_screen_plot_status(void);
 extern void video_full_screen_display_image(unsigned int num, const char *img);
+extern void video_full_screen_mousepos(const struct mouse_desc_s *mdesc, int *x, int *y);
 
 extern void video_register_callbacks(void);
 extern void video_pos_screen_to_canvas(video_canvas_t *canvas, int *block, int x, int y, int *cx, int *cy);

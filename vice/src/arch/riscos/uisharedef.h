@@ -170,5 +170,6 @@ struct ui_machine_callback_s {
   struct help_icon_s *(*help_for_window_icon)(int, int);
 };
 
+extern struct ui_machine_callback_s ViceMachineCallbacks;
 
 #endif

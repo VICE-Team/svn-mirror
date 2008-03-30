@@ -23,12 +23,49 @@
  *
  */
 
-/* This is a first rough implementation of mouse emulation for MS-DOS.
-   A smarter and less buggy emulation is of course possible. */
-
 #include "mouse.h"
 #include "mousedrv.h"
+#include "ui.h"
+#include "videoarch.h"
 
+#include <ROlib.h>
+#include <wimp.h>
+
+
+static int lastMouseX = 0, lastMouseY = 0;
+
+
+void mousedrv_sync(void)
+{
+  if (ActiveCanvas != NULL)
+  {
+    mouse_desc mdesc = {0, 0, 0, 0};
+
+    ReadMouseState(&mdesc);
+    if (FullScreenMode == 0)
+    {
+      video_full_screen_mousepos(&mdesc, &lastMouseX, &lastMouseY);
+    }
+    else
+    {
+      int block[WindowB_WFlags+1];
+      block[WindowB_Handle] = ActiveCanvas->window->Handle;
+      Wimp_GetWindowState(block);
+      /* y direction inverted */
+      lastMouseX = (mdesc.x - (block[WindowB_VMinX] - block[WindowB_ScrollX])) >> ScreenMode.eigx;
+      lastMouseY = ((block[WindowB_VMaxY] - block[WindowB_ScrollY]) - mdesc.y) >> ScreenMode.eigy;
+    }
+
+    if (lastMouseX < 0)
+      lastMouseX = 0;
+    if (lastMouseX >= ActiveCanvas->width)
+      lastMouseX = ActiveCanvas->width - 1;
+    if (lastMouseY < 0)
+      lastMouseY = 0;
+    if (lastMouseY >= ActiveCanvas->height)
+      lastMouseY = ActiveCanvas->height - 1;
+  }
+}
 
 void mousedrv_mouse_changed(void)
 {
@@ -50,10 +87,10 @@ void mousedrv_init(void)
 
 BYTE mousedrv_get_x(void)
 {
-  return 0;
+  return lastMouseX;
 }
 
 BYTE mousedrv_get_y(void)
 {
-  return 0;
+  return lastMouseY;
 }
