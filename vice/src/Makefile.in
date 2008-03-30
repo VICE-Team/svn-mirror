@@ -154,7 +154,7 @@ printer_sources =  	prdevice.c 	prdevice.h 	pruser.c 	pruser.h
 rs232_sources =  	rsuser.c 	rsuser.h
 
 
-EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(printer_sources) 	$(rs232_sources)
+EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	ChangeLog.3 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(printer_sources) 	$(rs232_sources)
 
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -649,7 +649,7 @@ tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
 	tap.h arch/unix/types.h utils.h zfile.h
 tape.o: tape.c vice.h config.h datasette.h log.h maincpu.h 6510core.h \
 	arch/unix/types.h mem.h mos6510.h serial.h t64.h tap.h tape.h \
-	traps.h utils.h zfile.h
+	traps.h uiapi.h utils.h zfile.h
 traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
 	6510core.h arch/unix/types.h log.h maincpu.h mem.h mos6510.h \
 	parallel.h traps.h utils.h

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-08-01 02:08+0200\n"
+"POT-Creation-Date: 2000-08-12 17:14+0200\n"
 "PO-Revision-Date: 2000-07-16 13:41+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -30,70 +30,70 @@ msgstr "Ungültiges Disk Image oder Dateiname falsch."
 msgid "Attach a tape image"
 msgstr "Band Image einlegen"
 
-#: src/arch/unix/uicommands.c:184 src/arch/unix/uicommands.c:193
+#: src/arch/unix/uicommands.c:184 src/arch/unix/uicommands.c:191
 msgid "Invalid Tape Image"
 msgstr "Ungültiges Band Image."
 
-#: src/arch/unix/uicommands.c:233
+#: src/arch/unix/uicommands.c:229
 msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
-#: src/arch/unix/uicommands.c:241 src/arch/unix/uicommands.c:249
+#: src/arch/unix/uicommands.c:237 src/arch/unix/uicommands.c:245
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
-#: src/arch/unix/uicommands.c:271 src/arch/unix/uisettings.c:330
+#: src/arch/unix/uicommands.c:267 src/arch/unix/uisettings.c:330
 msgid "VICE setting"
 msgstr "VICE Einstellungen"
 
-#: src/arch/unix/uicommands.c:272
+#: src/arch/unix/uicommands.c:268
 msgid "Change current working directory"
 msgstr "Arbeitsverzeichnis ändern."
 
-#: src/arch/unix/uicommands.c:275
+#: src/arch/unix/uicommands.c:271
 msgid "Directory not found"
 msgstr "Verzeichnis nicht gefunden."
 
-#: src/arch/unix/uicommands.c:317
+#: src/arch/unix/uicommands.c:313
 msgid "Couldn't run /bin/sh???"
 msgstr "Kann /bin/sh nicht starten."
 
-#: src/arch/unix/uicommands.c:320
+#: src/arch/unix/uicommands.c:316
 msgid "Couldn't run xterm"
 msgstr "Kann xterm nicht starten."
 
-#: src/arch/unix/uicommands.c:325
+#: src/arch/unix/uicommands.c:321
 msgid "Unknown error while running c1541"
 msgstr "Unbekannter Fehler beim starten von c1541."
 
-#: src/arch/unix/uicommands.c:349
+#: src/arch/unix/uicommands.c:345
 msgid "No HTML browser is defined."
 msgstr "Kein HTML Browser definiert."
 
-#: src/arch/unix/uicommands.c:368 src/arch/unix/uicommands.c:382
-#: src/arch/unix/uicommands.c:395
+#: src/arch/unix/uicommands.c:364 src/arch/unix/uicommands.c:378
+#: src/arch/unix/uicommands.c:391
 msgid "Browser command too long."
 msgstr "Browser Kommando zu lang."
 
-#: src/arch/unix/uicommands.c:408
+#: src/arch/unix/uicommands.c:404
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Führe `%s' aus..."
 
-#: src/arch/unix/uicommands.c:410
+#: src/arch/unix/uicommands.c:406
 msgid "Cannot run HTML browser."
 msgstr "Kann HTML Browser nicht starten."
 
-#: src/arch/unix/uicommands.c:448
+#: src/arch/unix/uicommands.c:444
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Schnell Laden von Datei %s."
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:447
 msgid "Load snapshot"
 msgstr "Snapshot Laden..."
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:460
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -101,12 +101,12 @@ msgid ""
 msgstr "Kann Snapshot Datei `%s' nicht laden."
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:490
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Schnell Speicherung von Datei %s."
 
-#: src/arch/unix/uicommands.c:496 src/arch/unix/x11/gnome/uisnapshot.c:125
+#: src/arch/unix/uicommands.c:492 src/arch/unix/x11/gnome/uisnapshot.c:125
 #: src/arch/unix/x11/xaw/uisnapshot.c:109
 #, c-format
 msgid ""
@@ -114,177 +114,177 @@ msgid ""
 "`%s'\n"
 msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
 
-#: src/arch/unix/uicommands.c:603
+#: src/arch/unix/uicommands.c:599
 #, c-format
 msgid "Attach #%d"
 msgstr "Laufwerk #%d"
 
-#: src/arch/unix/uicommands.c:610
+#: src/arch/unix/uicommands.c:606
 #, c-format
 msgid "Detach #%d"
 msgstr "Entfernen #%d"
 
-#: src/arch/unix/uicommands.c:644
+#: src/arch/unix/uicommands.c:640
 msgid "Next: "
 msgstr "Nächstes: "
 
-#: src/arch/unix/uicommands.c:644 src/arch/unix/uicommands.c:659
+#: src/arch/unix/uicommands.c:640 src/arch/unix/uicommands.c:655
 #: src/arch/unix/x11/gnome/ui.c:770 src/arch/unix/x11/gnome/ui.c:780
 #: src/arch/unix/x11/gnome/ui.c:1399
 msgid "<empty>"
 msgstr "<leer>"
 
-#: src/arch/unix/uicommands.c:659
+#: src/arch/unix/uicommands.c:655
 msgid "Previous: "
 msgstr "Vorheriges: "
 
-#: src/arch/unix/uicommands.c:674
+#: src/arch/unix/uicommands.c:670
 msgid "Add: "
 msgstr "Hinzufügen: "
 
-#: src/arch/unix/uicommands.c:689
+#: src/arch/unix/uicommands.c:685
 msgid "Remove: "
 msgstr "Entfernen: "
 
-#: src/arch/unix/uicommands.c:779 src/arch/unix/uicommands.c:791
+#: src/arch/unix/uicommands.c:775 src/arch/unix/uicommands.c:787
 msgid "Unit #8..."
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:781 src/arch/unix/uicommands.c:794
+#: src/arch/unix/uicommands.c:777 src/arch/unix/uicommands.c:790
 msgid "Unit #9..."
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:783 src/arch/unix/uicommands.c:797
+#: src/arch/unix/uicommands.c:779 src/arch/unix/uicommands.c:793
 msgid "Unit #10..."
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:785 src/arch/unix/uicommands.c:800
+#: src/arch/unix/uicommands.c:781 src/arch/unix/uicommands.c:796
 msgid "Unit #11..."
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:807
+#: src/arch/unix/uicommands.c:803
 msgid "Unit #8"
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:809
+#: src/arch/unix/uicommands.c:805
 msgid "Unit #9"
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:811
+#: src/arch/unix/uicommands.c:807
 msgid "Unit #10"
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:813
+#: src/arch/unix/uicommands.c:809
 msgid "Unit #11"
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:816
+#: src/arch/unix/uicommands.c:812
 msgid "All"
 msgstr "Alle"
 
-#: src/arch/unix/uicommands.c:822
+#: src/arch/unix/uicommands.c:818
 msgid "Soft"
 msgstr "Weich"
 
-#: src/arch/unix/uicommands.c:825
+#: src/arch/unix/uicommands.c:821
 msgid "Hard"
 msgstr "Hart"
 
-#: src/arch/unix/uicommands.c:832
+#: src/arch/unix/uicommands.c:828
 msgid "Add current image"
 msgstr "Aktuelles Image hinzufügen"
 
-#: src/arch/unix/uicommands.c:835
+#: src/arch/unix/uicommands.c:831
 msgid "Remove current image"
 msgstr "Aktuelles Image entfernen"
 
-#: src/arch/unix/uicommands.c:838
+#: src/arch/unix/uicommands.c:834
 msgid "Attach next image"
 msgstr "Nächstes Image"
 
-#: src/arch/unix/uicommands.c:841
+#: src/arch/unix/uicommands.c:837
 msgid "Attach previous image"
 msgstr "Voriges Image"
 
-#: src/arch/unix/uicommands.c:848
+#: src/arch/unix/uicommands.c:844
 msgid "Attach a disk image"
 msgstr "Disk Image einlegen"
 
-#: src/arch/unix/uicommands.c:850
+#: src/arch/unix/uicommands.c:846
 msgid "Create and attach an empty disk"
 msgstr "Leeres Disk Image erzeugen"
 
-#: src/arch/unix/uicommands.c:852
+#: src/arch/unix/uicommands.c:848
 msgid "Detach disk image"
 msgstr "Disk Image entfernen"
 
-#: src/arch/unix/uicommands.c:854
+#: src/arch/unix/uicommands.c:850
 msgid "Fliplist for drive #8"
 msgstr "Flipliste für Laufwerk #8"
 
-#: src/arch/unix/uicommands.c:860
+#: src/arch/unix/uicommands.c:856
 msgid "Attach a tape image..."
 msgstr "Band Image einlegen..."
 
-#: src/arch/unix/uicommands.c:863
+#: src/arch/unix/uicommands.c:859
 msgid "Detach tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/unix/uicommands.c:869
+#: src/arch/unix/uicommands.c:865
 msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
-#: src/arch/unix/uicommands.c:876
+#: src/arch/unix/uicommands.c:872
 msgid "Change working directory..."
 msgstr "Arbeitsverzeichnis ändern."
 
-#: src/arch/unix/uicommands.c:882
+#: src/arch/unix/uicommands.c:878
 msgid "Load snapshot..."
 msgstr "Snapshot Laden..."
 
-#: src/arch/unix/uicommands.c:885
+#: src/arch/unix/uicommands.c:881
 msgid "Save snapshot..."
 msgstr "Snapshot Speichern..."
 
-#: src/arch/unix/uicommands.c:889
+#: src/arch/unix/uicommands.c:885
 msgid "Quickload snapshot"
 msgstr "Snapshot schnell Laden..."
 
-#: src/arch/unix/uicommands.c:892
+#: src/arch/unix/uicommands.c:888
 msgid "Quicksave snapshot"
 msgstr "Snapshot schnell Speichern"
 
-#: src/arch/unix/uicommands.c:899
+#: src/arch/unix/uicommands.c:895
 msgid "Snapshot commands"
 msgstr "Snapshot Kommandos"
 
-#: src/arch/unix/uicommands.c:905
+#: src/arch/unix/uicommands.c:901
 msgid "Activate monitor"
 msgstr "Monitor Aktivieren"
 
-#: src/arch/unix/uicommands.c:907
+#: src/arch/unix/uicommands.c:903
 msgid "Run C1541"
 msgstr "C1541 starten"
 
-#: src/arch/unix/uicommands.c:915
+#: src/arch/unix/uicommands.c:911
 msgid "Browse manuals"
 msgstr "Dokumentation durchstöbern"
 
-#: src/arch/unix/uicommands.c:917
+#: src/arch/unix/uicommands.c:913
 msgid "About VICE..."
 msgstr "Über VICE..."
 
 #: src/arch/unix/c610ui.c:401 src/arch/unix/c64ui.c:132
-#: src/arch/unix/petui.c:426 src/arch/unix/uicommands.c:923
+#: src/arch/unix/petui.c:426 src/arch/unix/uicommands.c:919
 #: src/arch/unix/vic20ui.c:275 src/arch/unix/x11/gnome/ui.c:1750
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:925
+#: src/arch/unix/uicommands.c:921
 msgid "*Pause"
 msgstr "*Pause"
 
-#: src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:928
 msgid "Exit emulator"
 msgstr "Emulator beenden"
 
@@ -1619,11 +1619,11 @@ msgstr "Benutze alte API Routinen"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel Treiber Version  : %d.%d.%d"
 
-#: src/arch/unix/kmap.c:116
+#: src/arch/unix/kmap.c:118
 msgid "Specify name of symbolic keymap file"
 msgstr "Bitte Namen für symbolische Keymap Datei definieren"
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:120
 msgid "Specify name of positional keymap file"
 msgstr "Bitte Namen für positions Keymap Datei definieren"
 
@@ -1635,144 +1635,144 @@ msgstr "Emulation der 1351 Proportional Mouse aktivieren"
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Emulation der 1351 Proportional Mouse deaktivieren"
 
-#: src/arch/unix/petkmap.c:143
+#: src/arch/unix/petkmap.c:148
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr "Keymap Datei für graphics keyboard symbolic definieren"
 
-#: src/arch/unix/petkmap.c:146
+#: src/arch/unix/petkmap.c:151
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr "Keymap Datei für graphics keyboard positional definieren"
 
-#: src/arch/unix/petkmap.c:149
+#: src/arch/unix/petkmap.c:154
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr "Keymap Datei für UK business keyboard symbolic definieren"
 
-#: src/arch/unix/petkmap.c:152
+#: src/arch/unix/petkmap.c:157
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr "Keymap Datei für UK business keyboard positional definieren"
 
-#: src/arch/unix/petkmap.c:155
+#: src/arch/unix/petkmap.c:160
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr "Keymap Datei für German business keyboard symbolic definieren"
 
-#: src/arch/unix/petkmap.c:158
+#: src/arch/unix/petkmap.c:163
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr "Keymap Datei für German business keyboard positional definieren"
 
-#: src/arch/unix/print.c:114
+#: src/arch/unix/print.c:99
 msgid "Specify name of printer dump file (print.dump)"
 msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
 
-#: src/arch/unix/print.c:116
+#: src/arch/unix/print.c:101
 msgid "Specify command for printer 1 (|petlp |lpr)"
 msgstr "Command für Drucker 1 definieren (|petlp |lpr)"
 
-#: src/arch/unix/print.c:118
+#: src/arch/unix/print.c:103
 msgid "Specify command for printer 2 (|lpr)"
 msgstr "Kommando für Drucker 2 definieren (|lpr)"
 
-#: src/arch/unix/print.c:176 src/arch/unix/rs232.c:303
+#: src/arch/unix/print.c:161 src/arch/unix/rs232.c:270
 msgid "No more devices available."
 msgstr "Keine Devices mehr verfügbar"
 
-#: src/arch/unix/print.c:181
+#: src/arch/unix/print.c:166
 #, c-format
 msgid "print_open(device=%d)."
 msgstr "print_open(device=%d)."
 
-#: src/arch/unix/print.c:215 src/arch/unix/rs232.c:350
+#: src/arch/unix/print.c:200 src/arch/unix/rs232.c:317
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Attempt to close invalid fd %d."
 
-#: src/arch/unix/print.c:219 src/arch/unix/rs232.c:354
+#: src/arch/unix/print.c:204 src/arch/unix/rs232.c:321
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Attempt to close non-open fd %d."
 
-#: src/arch/unix/print.c:234
+#: src/arch/unix/print.c:219
 #, c-format
 msgid "Trying to write to invalid fd %d."
 msgstr "Trying to write to invalid fd %d."
 
-#: src/arch/unix/print.c:238
+#: src/arch/unix/print.c:223
 #, c-format
 msgid "Trying to write to non-open fd %d."
 msgstr "Trying to write to non-open fd %d."
 
-#: src/arch/unix/print.c:250
+#: src/arch/unix/print.c:235
 #, c-format
 msgid "Trying to flush invalid fd %d."
 msgstr "Trying to flush invalid fd %d."
 
-#: src/arch/unix/print.c:254
+#: src/arch/unix/print.c:239
 #, c-format
 msgid "Trying to flush non-open fd %d."
 msgstr "Trying to flush non-open fd %d."
 
-#: src/arch/unix/rs232.c:159
+#: src/arch/unix/rs232.c:126
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr "Device Name für erstes RS232 Gerät definieren (/dev/ttyS0)"
 
-#: src/arch/unix/rs232.c:161
+#: src/arch/unix/rs232.c:128
 msgid "Specify baudrate of first RS232 device"
 msgstr "Baudrate für erstes RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:163
+#: src/arch/unix/rs232.c:130
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
 msgstr "Name für zweites RS232 Gerät definieren (/dev/ttyS1)"
 
-#: src/arch/unix/rs232.c:165
+#: src/arch/unix/rs232.c:132
 msgid "Specify baudrate of second RS232 device"
 msgstr "Baudrate für zweites RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:167
+#: src/arch/unix/rs232.c:134
 msgid "Specify name of third RS232 device (rs232.dump)"
 msgstr "Name für drittes RS232 Gerät definieren (rs232.dump)"
 
-#: src/arch/unix/rs232.c:169
+#: src/arch/unix/rs232.c:136
 msgid "Specify baudrate of third RS232 device"
 msgstr "Baudrate für drittes RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:171
+#: src/arch/unix/rs232.c:138
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 msgstr "Kommando für Daten in-/output definieren, '|' voranstellen (|lpr)"
 
-#: src/arch/unix/rs232.c:173
+#: src/arch/unix/rs232.c:140
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Baudrate für viertes RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:308
+#: src/arch/unix/rs232.c:275
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:323
+#: src/arch/unix/rs232.c:290
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Cannot open file \"%s\": %s"
 
-#: src/arch/unix/rs232.c:374
+#: src/arch/unix/rs232.c:341
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Attempt to write to invalid fd %d."
 
-#: src/arch/unix/rs232.c:378
+#: src/arch/unix/rs232.c:345
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Attempt to write to non-open fd %d."
 
-#: src/arch/unix/rs232.c:390
+#: src/arch/unix/rs232.c:357
 #, c-format
 msgid "Error writing: %s."
 msgstr "Error writing: %s."
 
-#: src/arch/unix/rs232.c:405
+#: src/arch/unix/rs232.c:372
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Attempt to read from invalid fd %d."
 
-#: src/arch/unix/rs232.c:409
+#: src/arch/unix/rs232.c:376
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Attempt to read from non-open fd %d."
@@ -1807,23 +1807,23 @@ msgstr "*Default Tune"
 msgid "*Tune %d"
 msgstr "*Tune %d"
 
-#: src/arch/unix/vsync.c:118
+#: src/arch/unix/vsync.c:121
 msgid "Limit emulation speed to specified value"
 msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
 
-#: src/arch/unix/vsync.c:120
+#: src/arch/unix/vsync.c:123
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
 
-#: src/arch/unix/vsync.c:122
+#: src/arch/unix/vsync.c:125
 msgid "Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/arch/unix/vsync.c:124
+#: src/arch/unix/vsync.c:127
 msgid "Disable warp mode"
 msgstr "*Warp Mode Deaktivieren"
 
-#: src/arch/unix/vsync.c:191
+#: src/arch/unix/vsync.c:194
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
@@ -2319,44 +2319,44 @@ msgstr "Deaktiviere Vollbild Modus"
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:120
+#: src/arch/unix/x11/video.c:121
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:123
+#: src/arch/unix/x11/video.c:124
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:126
+#: src/arch/unix/x11/video.c:127
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:319
+#: src/arch/unix/x11/video.c:320
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Lediglich %ibpp wird von diesem Emulator unterstützt."
 
-#: src/arch/unix/x11/video.c:321
+#: src/arch/unix/x11/video.c:322
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "Aktuelle X Server Farbtiefe ist %ibpp"
 
-#: src/arch/unix/x11/video.c:324
+#: src/arch/unix/x11/video.c:325
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Switch X server depth or recompile with --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:359
+#: src/arch/unix/x11/video.c:360
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:363
+#: src/arch/unix/x11/video.c:364
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:409
+#: src/arch/unix/x11/video.c:410
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 

@@ -10,6 +10,9 @@ These are the most important known problems with VICE 1.5:
 - The Z80 emulation is not complete.  Some CP/M applications and ZP/M
   may not work.
 
+- The VIC-II implementation lacks proper cycle exact $D016 x smooth
+  scroll support.
+
 - The German translation doesn't work properly under
   Solaris/gettext. The menus are just partially filled, other entries
   are blanked and some are wrong.

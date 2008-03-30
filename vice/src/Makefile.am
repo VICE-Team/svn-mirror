@@ -182,6 +182,7 @@ EXTRA_DIST = \
 	ChangeLog \
 	ChangeLog.1 \
 	ChangeLog.2 \
+	ChangeLog.3 \
 	aciacore.c \
 	ciacore.c \
 	fixpoint.c \
