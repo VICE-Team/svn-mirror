@@ -67,9 +67,9 @@
 #define NUM_PHYS_TRACK  80
 #define NUM_PHYS_SECTOR 10
 
-static unsigned int track_cache_track[2];
-static unsigned int track_cache_sector[2];
-static unsigned int track_cache_valid[2];
+static unsigned int track_cache_track[DRIVE_NUM];
+static unsigned int track_cache_sector[DRIVE_NUM];
+static unsigned int track_cache_valid[DRIVE_NUM];
 
 static log_t jobcode1581_log = LOG_DEFAULT;
 

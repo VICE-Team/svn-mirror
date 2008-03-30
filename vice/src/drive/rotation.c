@@ -56,7 +56,7 @@ struct rotation_s {
 typedef struct rotation_s rotation_t;
 
 
-static rotation_t rotation[2];
+static rotation_t rotation[DRIVE_NUM];
 
 /* Speed (in bps) of the disk in the 4 disk areas.  */
 static const int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
@@ -110,7 +110,7 @@ void rotation_table_get(DWORD *rotation_table_ptr)
     unsigned int dnr;
     drive_t *drive;
 
-    for (dnr = 0; dnr < 2; dnr++) {
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
         rotation_table_ptr[dnr] = (DWORD)(rotation[dnr].rotation_table_ptr
@@ -129,7 +129,7 @@ void rotation_table_set(DWORD *rotation_table_ptr)
     unsigned int dnr;
     drive_t *drive;
 
-    for (dnr = 0; dnr < 2; dnr++) {
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
         rotation[dnr].rotation_table_ptr = rotation[dnr].rotation_table[0]

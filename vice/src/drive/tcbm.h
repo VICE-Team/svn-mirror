@@ -50,7 +50,7 @@ extern int tcbm_drive_snapshot_read(struct drive_context_s *ctxptr,
 extern int tcbm_drive_snapshot_write(struct drive_context_s *ctxptr,
                                      struct snapshot_s *s);
 
-extern BYTE tpid_outputa[2], tpid_outputb[2], tpid_outputc[2];
+extern BYTE tpid_outputa[], tpid_outputb[], tpid_outputc[];
 
 #endif
 
