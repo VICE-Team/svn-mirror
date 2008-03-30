@@ -26,7 +26,6 @@
 
 #include "vice.h"
 
-#include "alarm.h"
 #include "log.h"
 #include "riot.h"
 #include "types.h"
@@ -63,6 +62,5 @@ static BYTE oldpb;              /* the actual output on PB (input = high) */
 
 static log_t riot_log = LOG_ERR;
 
-static alarm_t riot_alarm;
-
 #endif
+
