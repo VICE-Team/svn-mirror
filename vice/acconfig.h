@@ -115,3 +115,6 @@
 /* Support for block device disk image access */
 #undef HAVE_RAWDRIVE
 
+/* Support for Catweasel MKIII */
+#undef HAVE_CATWEASELMKIII
+
