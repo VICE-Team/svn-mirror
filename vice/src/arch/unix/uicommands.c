@@ -68,12 +68,15 @@ void ui_set_selected_file(int num)
 
 /* ------------------------------------------------------------------------- */
 
-static char *read_disk_image_contents(const char *name)
+static char *read_disk_image_contents(const char *name, unsigned int unit)
 {
     image_contents_t *contents;
     char *s;
 
-    contents = image_contents_read_disk(name);
+    if (file_system_get_fsimage_state(unit))
+        unit = 0;
+
+    contents = image_contents_read(IMAGE_CONTENTS_DISK, name, unit);
     if (contents == NULL)
         return NULL;
 
@@ -98,7 +101,7 @@ static UI_CALLBACK(attach_disk)
 
     vsync_suspend_speed_eval();
     title = xmsprintf(_("Attach Disk Image as unit #%d"), unit);
-    filename = ui_select_file(title, read_disk_image_contents,
+    filename = ui_select_file(title, read_disk_image_contents, unit,
                               unit == 8 ? True : False, last_dir,
                               "*.[gdxGDX]*", &button, True, &attach_wp);
 
@@ -162,12 +165,12 @@ static UI_CALLBACK(detach_disk)
 
 /* ------------------------------------------------------------------------- */
 
-static char *read_tape_image_contents(const char *name)
+static char *read_tape_image_contents(const char *name, unsigned int unit)
 {
     image_contents_t *contents;
     char *s;
 
-    contents = image_contents_read_tape(name);
+    contents = image_contents_read(IMAGE_CONTENTS_TAPE, name, 0);
     if (contents == NULL)
         return NULL;
 
@@ -191,7 +194,7 @@ static UI_CALLBACK(attach_tape)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Attach a tape image"),
-                              read_tape_image_contents,
+                              read_tape_image_contents, 0,
                               True, last_dir, "*.[tT]*", &button, True, NULL);
 
     switch (button) {
@@ -225,14 +228,15 @@ static UI_CALLBACK(detach_tape)
 
 /* ------------------------------------------------------------------------- */
 
-static char *read_disk_or_tape_image_contents(const char *fname)
+static char *read_disk_or_tape_image_contents(const char *fname,
+                                              unsigned int unit)
 {
     char *tmp;
 
-    tmp = read_disk_image_contents(fname);
+    tmp = read_disk_image_contents(fname, unit);
     if (tmp)
         return tmp;
-    return read_tape_image_contents(fname);
+    return read_tape_image_contents(fname, unit);
 }
 
 static UI_CALLBACK(smart_attach)
@@ -244,7 +248,7 @@ static UI_CALLBACK(smart_attach)
     vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Smart-attach a file"),
-                              read_disk_or_tape_image_contents,
+                              read_disk_or_tape_image_contents, 0,
                               True, last_dir, NULL, &button, True, NULL);
 
     switch (button) {
@@ -466,7 +470,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
         log_debug(_("Quickloading file %s."), (char *)data);
         filename = (char *)data;
     } else {
-        filename = ui_select_file(_("Load snapshot"), NULL, False, last_dir,
+        filename = ui_select_file(_("Load snapshot"), NULL, 0, False, last_dir,
                               "*.vsf", &button, False, NULL);
         if (button != UI_BUTTON_OK) {
             if (filename)
@@ -602,8 +606,8 @@ static UI_CALLBACK(load_save_fliplist)
 
     vsync_suspend_speed_eval();
     title = concat (what?_("Load "):_("Save"), _("Fliplist File"), NULL);
-    filename = ui_select_file(title, 0, False, last_dir, "*.vfl", &button,
-			      True, NULL);
+    filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vfl",
+			      &button, True, NULL);
     free (title);
     switch (button)
     {
