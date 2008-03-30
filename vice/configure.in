@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.57)
+AM_INIT_AUTOMAKE(vice, 0.14.2.58)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -23,7 +23,7 @@ AC_ARG_ENABLE(24bpp,[  --enable-24bpp          enable 24-bit only display depth 
 AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
 AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
 AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
-AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
+dnl AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
 AC_ARG_WITH(resid, [  --with-resid=PATH       link with the reSID engine located at PATH])
 
 if test x"$enable_autobpp" = "xyes"; then
@@ -295,7 +295,7 @@ if test x"$with_readline" != "xno" ; then
   AC_CHECK_LIB(readline, readline,
                [ READLINE="" LIBS="-lreadline $LIBS"],
                [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],,)
-elif test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+elif test x"$is_dos" != "xyes" ; then
   READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
 else
   READLINE=""
@@ -371,7 +371,7 @@ else
 
   dnl On go32, we already know what we want.
 
-  LIBS="-lalleg -lmidas"
+  LIBS="-lalleg"
   AC_SUBST(LDFLAGS)
 
 fi
