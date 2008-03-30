@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.1
+ VERSION=1.13.2
 
 
 cat >>confdefs.h <<_ACEOF

@@ -241,6 +241,7 @@ libvideo_a_SOURCES = \
 	renderyuv.c \
 	renderyuv.h \
 	video-canvas.c \
+	video-canvas.h \
 	video-cmdline-options.c \
 	video-cmdline-options.h \
 	video-color.c \
