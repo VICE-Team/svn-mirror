@@ -46,7 +46,7 @@ struct _vdc_resources
     /* Flag: VDC memory size.  */
     int vdc_64kb_expansion;
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     /* Flag: Fullscreenmode?  */
     int fullscreen;
 
@@ -58,7 +58,7 @@ struct _vdc_resources
 
     int fullscreen_width;
     int fullscreen_height;
-#endif				/* USE_VIDMODE_EXTENSION */
+#endif
   };
 typedef struct _vdc_resources vdc_resources_t;
 

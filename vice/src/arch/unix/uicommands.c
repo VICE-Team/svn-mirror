@@ -37,7 +37,6 @@
 #include "attach.h"
 #include "autostart.h"
 #include "fliplist.h"
-#include "fullscreen.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
@@ -57,6 +56,9 @@
 #include "uisnapshot.h"
 #include "utils.h"
 #include "vsync.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 static int selection_from_image = 0;
 
@@ -282,23 +284,15 @@ static UI_CALLBACK(change_working_directory)
     free(wd);
 }
 
-#ifdef USE_VIDMODE_EXTENSION
-    int fullscreen;
-#endif
-
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
-#ifdef USE_VIDMODE_EXTENSION
-    if(fullscreen)
-        fullscreen_mode_on();
-#endif
 }
 
 static UI_CALLBACK(activate_monitor)
 {
-#ifdef USE_VIDMODE_EXTENSION
-    fullscreen = fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off();
 #endif
     suspend_speed_eval();
     ui_dispatch_events();		/* popdown the menu */
@@ -312,7 +306,7 @@ static UI_CALLBACK(activate_monitor)
 
 static UI_CALLBACK(run_c1541)
 {
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     fullscreen_mode_off();
 #endif
     suspend_speed_eval();
@@ -360,7 +354,7 @@ static UI_CALLBACK(browse_manual)
 	char *res_ptr;
 	int manual_path_len, cmd_len;
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
         fullscreen_mode_off();
 #endif
 	cmd_len = strlen(bcommand);

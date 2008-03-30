@@ -53,6 +53,9 @@
 #include "vic-resources.h"
 #include "vic-snapshot.h"
 #include "vsync.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 vic_t vic;
 
@@ -119,22 +122,31 @@ static int init_raster(void)
     raster_modes_set_idle_mode (raster->modes, VIC_IDLE_MODE);
     raster_set_exposure_handler (raster, (void*)vic_exposure_handler);
     raster_enable_cache (raster, vic_resources.video_cache_enabled);
+#ifdef USE_XF86_EXTENSIONS
+    raster_enable_double_scan (raster, fullscreen_is_enabled ? vic_resources.fullscreen_double_scan_enabled : vic_resources.double_scan_enabled);
+#else
     raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
+#endif
     raster_set_canvas_refresh(raster, 1);
 
     raster_set_geometry (raster,
                          VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
-                         VIC_SCREEN_WIDTH, 1,
-                         0, 0,
-                         0, 4 * 8, /* Border shift.  */
+                         22*8, 23*8,    /* FIXME: this has to be handled dynamically  */
+                         22, 23,        /* FIXME: this has to be handled dynamically  */
+                         12*4, 38*2-VIC_FIRST_DISPLAYED_LINE, /* FIXME: this has to be handled dynamically  */
                          1,
                          VIC_FIRST_DISPLAYED_LINE,
                          VIC_LAST_DISPLAYED_LINE,
                          0);
 
-    width = VIC_SCREEN_WIDTH * VIC_PIXEL_WIDTH;
+    width = VIC_DISPLAY_WIDTH * VIC_PIXEL_WIDTH;
     height = VIC_LAST_DISPLAYED_LINE - VIC_FIRST_DISPLAYED_LINE + 1;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled) {
+#else
     if (vic_resources.double_size_enabled) {
+#endif
         width *= 2;
         height *= 2;
         raster_set_pixel_size (raster, VIC_PIXEL_WIDTH * 2, 2);
@@ -186,7 +198,11 @@ raster_t *vic_init(void)
   vic_reset ();
 
   vic_draw_init ();
+#ifdef USE_XF86_EXTENSIONS
+  vic_draw_set_double_size (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled);
+#else
   vic_draw_set_double_size (vic_resources.double_size_enabled);
+#endif
 
   vic_update_memory_ptrs ();
 
@@ -248,7 +264,12 @@ void vic_resize (void)
   if (!vic.initialized)
     return;
 
-  if (vic_resources.double_size_enabled)
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled)
+#else
+    if (vic_resources.double_size_enabled)
+#endif
+
     {
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH
           && vic.raster.viewport.canvas != NULL) {
@@ -334,11 +355,6 @@ int vic_read_snapshot_module (snapshot_t *s)
   return vic_snapshot_read_module (s);
 }
 
-/* FIXME: Just a dummy.  */
-void video_setfullscreen (int v, int width, int height)
-{
-}
-
 void vic_free (void)
 {
   raster_free(&vic.raster);
@@ -349,3 +365,13 @@ int vic_screenshot(screenshot_t *screenshot)
     return raster_screenshot(&vic.raster, screenshot);
 }
 
+void video_refresh(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+  vic_resize ();
+  raster_enable_double_scan (&vic.raster,
+			     fullscreen_is_enabled ?
+			     vic_resources.fullscreen_double_scan_enabled :
+			     vic_resources.double_scan_enabled);
+#endif
+}

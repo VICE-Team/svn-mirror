@@ -48,7 +48,9 @@
 #define VIC_SCREEN_MAX_TEXT_LINES       32
 
 #define VIC_FIRST_DISPLAYED_LINE        28
-#define VIC_LAST_DISPLAYED_LINE         303
+#define VIC_LAST_DISPLAYED_LINE         311
+
+#define VIC_DISPLAY_WIDTH               224
 
 #define VIC_NUM_SPRITES 0
 
@@ -156,6 +158,7 @@ extern void vic_update_memory_ptrs(void);
 extern int vic_load_palette(const char *name);
 extern void vic_resize(void);
 
+extern void video_refresh(void);
 /* Debugging options.  */
 
 /* #define VIC_RASTER_DEBUG */

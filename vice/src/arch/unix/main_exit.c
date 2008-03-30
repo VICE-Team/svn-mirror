@@ -32,7 +32,9 @@
 #include "main_exit.h"
 #include "sound.h"
 #include "video.h"
-
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 void main_exit(void)
 {
     /* Disable SIGINT.  This is done to prevent the user from keeping C-c
@@ -49,6 +51,10 @@ void main_exit(void)
 #ifdef HAS_JOYSTICK
     joystick_close();
 #endif
+
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_exit();
+#endif	
 
     putchar ('\n');
 }

@@ -57,18 +57,10 @@
 #include <X11/Sunkeysym.h>
 #endif
 
-#ifdef USE_VIDMODE_EXTENSION
-#define VidMode_MINMAJOR 0
-#define VidMode_MINMINOR 0
-
-#include <X11/extensions/xf86vmode.h>
-#endif
-
 #include "ui.h"
 #include "uiarch.h"
 
 #include "datasette.h"
-#include "fullscreen.h"
 #include "interrupt.h"
 #include "log.h"
 #include "kbd.h"
@@ -91,6 +83,10 @@
 #include "uimenu.h"
 #include "autostart.h"
 #include "video.h"
+
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;
@@ -129,43 +125,28 @@ static int have_cbm_font = 0;
 
 static int cursor_is_blank = 0;
 
-#ifdef USE_VIDMODE_EXTENSION
-/*int vidmodeavail = 0;*/
-int use_fullscreen = 0;
-/*int use_fullscreen_at_start = 0;*/
-
-/*static int vidmodecount;*/
-/*static XF86VidModeModeInfo **allmodes;*/
-
-/*static ui_bestvideomode bestmodes[10];*/
-/*static int bestmode_counter;*/
-/*static char *selected_videomode;*/
-/*static char *selected_videomode_at_start;*/
-/*static int selected_videomode_index;*/
-
+#ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t* resolutions_submenu;
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
-
-static UI_CALLBACK(ui_set_bestmode)
-{
-    set_bestmode(client_data);
-}
-
 #endif
 
 void ui_check_mouse_cursor()
 {
     int window_doublesize;
 
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+        return;
+#endif
 
     if(_mouse_enabled) {
-#ifdef USE_VIDMODE_EXTENSION
-        if(use_fullscreen) { 
+#ifdef USE_XF86_EXTENSIONS
+        if(fullscreen_is_enabled) { 
 	     if (resources_get_value("FullscreenDoubleSize",
 				     (resource_value_t *) &window_doublesize) < 0)
 	       return;
@@ -195,14 +176,15 @@ void ui_check_mouse_cursor()
       /*        XUndefineCursor(display,XtWindow(canvas));*/
         gdk_keyboard_ungrab(CurrentTime);
         gdk_pointer_ungrab(CurrentTime);
-#ifdef USE_VIDMODE_EXTENSION
-	if(use_fullscreen)
-	  fullscreen_set_mouse_timeout();
-#endif
     }
 }
 
 void ui_restore_mouse() {
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+        return;
+#endif
+
     if(_mouse_enabled && cursor_is_blank) {
 	/*        XUndefineCursor(display,XtWindow(canvas));*/
         gdk_keyboard_ungrab(CurrentTime);
@@ -705,6 +687,11 @@ int ui_init_finish(void)
 	fixedfont = textfont;
 	have_cbm_font = FALSE;
     }
+
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_vidmode_available();
+#endif
+
     return ui_menu_init();
 }
 
@@ -972,10 +959,6 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
 
     gtk_widget_show(new_window);
 
-#ifdef USE_VIDMODE_EXTENSION
-    fullscreen_vidmode_available();
-#endif
-
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
 		       GTK_SIGNAL_FUNC(exposure_callback),
 		       (void*) exposure_proc);
@@ -1041,7 +1024,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
 
 void ui_create_dynamic_menues()
 {
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     int i, amodes;
     char buf[50];
     char *modename;
@@ -1227,6 +1210,10 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off();
+#endif	
+
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) 
@@ -1251,7 +1238,7 @@ void ui_exit(void)
 	}
 	ui_autorepeat_on();
 	ui_restore_mouse();
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 	fullscreen_mode_off();
 #endif
 	ui_dispatch_events();
@@ -1660,12 +1647,6 @@ void ui_dispatch_events(void)
 void ui_resize_canvas_window(ui_window_t w, int width, int height)
 {
     GtkRequisition req;
-#ifdef USE_VIDMODE_EXTENSION
-    if( use_fullscreen) {
-      XClearWindow(display,XtWindow(canvas));
-      return;
-    }
-#endif
 
     gtk_widget_set_usize(w, width, height);
     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
@@ -1735,7 +1716,7 @@ static void ui_message2(const char *type, const char *msg, const char *title)
 {
     static GtkWidget* msgdlg;
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     fullscreen_mode_off();
 #endif
     msgdlg = gnome_message_box_new(msg, type,
@@ -1768,6 +1749,10 @@ void ui_error(const char *format, ...)
 {
     va_list ap;
     char str[1024];
+
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off_restore();
+#endif
 
     va_start(ap, format);
     vsprintf(str, format, ap);
@@ -1822,7 +1807,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (res) {
       case 2:
 	ui_restore_mouse();
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 	fullscreen_mode_off();
 #endif
 	return UI_JAM_MONITOR;
@@ -2338,6 +2323,10 @@ void ui_unblock_shells(void)
 /* Pop up a popup shell and center it to the last visited AppShell */
 void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
 {
+
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off_restore();
+#endif
     
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
@@ -2413,10 +2402,10 @@ void ui_popdown(GtkWidget *w)
     if (--popped_up_count < 0)
 	popped_up_count = 0;
     ui_unblock_shells();
-    
-#ifdef USE_VIDMODE_EXTENSION
-    fullscreen_focus_window_again();
+#ifdef USE_XF86_EXTENSIONS
+      fullscreen_mode_on_restore();
 #endif
+    
 }
 
 /* ------------------------------------------------------------------------- */

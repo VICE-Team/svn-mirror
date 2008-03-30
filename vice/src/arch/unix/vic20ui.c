@@ -439,7 +439,7 @@ int vic20_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_video_settings_menu,
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 				     ui_fullscreen_settings_menu,
 #endif
                                      ui_keyboard_settings_menu,
@@ -492,7 +492,7 @@ int vic20_ui_init(void)
 		   ui_menu_create("Options",
 				  ui_performance_settings_menu,
 				  ui_menu_separator,
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 				  ui_fullscreen_settings_menu,
 				  ui_menu_separator,
 #endif

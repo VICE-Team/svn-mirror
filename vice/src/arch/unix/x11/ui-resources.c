@@ -30,6 +30,9 @@
 
 #include "resources.h"
 #include "utils.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -42,13 +45,6 @@ struct ui_resources_s {
 typedef struct ui_resources_s ui_resources_t;
 
 static ui_resources_t ui_resources;
-
-#ifdef USE_VIDMODE_EXTENSION
-extern int set_bestmode(resource_value_t v, void *param);
-extern int set_fullscreen(resource_value_t v, void *param);
-char *selected_videomode;
-extern int use_fullscreen;
-#endif
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v, void *param)
@@ -94,13 +90,13 @@ static resource_t resources[] = {
     { "DisplayDepth", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &ui_resources.depth,
       set_depth, NULL },
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &use_fullscreen,
-      set_fullscreen, NULL },
+      (resource_value_t *) &fullscreen_is_enabled,
+      fullscreen_set_mode, NULL },
     { "SelectedFullscreenMode", RES_STRING, (resource_value_t) "",
-      (resource_value_t *) &selected_videomode,
-      set_bestmode, NULL },
+      (resource_value_t *) &fullscreen_selected_videomode,
+      fullscreen_set_bestmode, NULL },
 #endif
     { NULL }
 };

@@ -27,19 +27,31 @@
 
 #ifndef _FULLSCREEN_H
 #define _FULLSCREEN_H
+#include "resources.h"
+#include "videoarch.h"
 
+extern int fullscreen_is_enabled;
+extern char *fullscreen_selected_videomode;
+extern char *fullscreen_selected_videomode_at_start;
+extern int fullscreen_width, fullscreen_height;
 extern void fullscreen_mode_init(void);
 
 extern int fullscreen_mode_on(void);
 extern int fullscreen_mode_off(void);
+extern void fullscreen_mode_on_restore(void);
+extern void fullscreen_mode_off_restore(void);
 
 extern int fullscreen_available(void);
 extern int fullscreen_vidmode_available(void);
 extern int fullscreen_available_modes(void);
-extern char *fullscreen_mode_name(int mode);
+extern char *fullscreen_mode_name(int);
+extern int fullscreen_set_bestmode(resource_value_t, void*);
+extern int fullscreen_set_mode(resource_value_t, void*);
+extern void fullscreen_refresh_func( video_frame_buffer_t *f,
+				     int src_x, int src_y,
+				     int dest_x, int dest_y,
+				     unsigned int width, unsigned int height);
 
-extern void fullscreen_focus_window_again(void);
-extern void fullscreen_set_mouse_timeout(void);
-
+extern void fullscreen_mode_exit(void);
 #endif
 

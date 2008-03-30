@@ -43,18 +43,12 @@ struct _vic_resources
     /* Name of palette file.  */
     char *palette_file_name;
 
-#ifdef USE_VIDMODE_EXTENSION
-    /* Flag: Fullscreenmode?  */
-    int fullscreen;
-
+#ifdef USE_XF86_EXTENSIONS
     /* Flag: Do we use double size?  */
     int fullscreen_double_size_enabled;
 
     /* Flag: Do we copy lines in double size mode?  */
     int fullscreen_double_scan_enabled;
-
-    int fullscreen_width;
-    int fullscreen_height;
 #endif
   };
 typedef struct _vic_resources vic_resources_t;

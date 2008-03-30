@@ -83,6 +83,9 @@
 #include "vicii-snapshot.h"
 #include "vsync.h"
 #include "video.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 /* FIXME: PAL/NTSC constants should be moved from drive.h */
 #define DRIVE_SYNC_PAL     -1
@@ -181,9 +184,13 @@ static void vic_ii_set_geometry(void)
   unsigned int width, height;
 
   width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
-  height = vic_ii.last_displayed_line - vic_ii.first_displayed_line;
+  height = vic_ii.last_displayed_line - vic_ii.first_displayed_line + 1;
 #ifdef VIC_II_NEED_2X
+#ifdef USE_XF86_EXTENSIONS
+  if (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled)
+#else
   if (vic_ii_resources.double_size_enabled)
+#endif
     {
       width *= 2;
       height *= 2;
@@ -221,7 +228,11 @@ static int init_raster (void)
     raster_set_exposure_handler (raster, (void*)vic_ii_exposure_handler);
     raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
 #ifdef VIC_II_NEED_2X
+#ifdef USE_XF86_EXTENSIONS
+    raster_enable_double_scan (raster, fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_scan_enabled : vic_ii_resources.double_scan_enabled);
+#else
     raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
+#endif
 #else
     raster_enable_double_scan (raster, 0);
 #endif
@@ -408,14 +419,22 @@ raster_t *vic_ii_init(void)
 
   vic_ii_draw_init ();
 #ifdef VIC_II_NEED_2X
+#ifdef USE_XF86_EXTENSIONS
+  vic_ii_draw_set_double_size (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled);
+#else
   vic_ii_draw_set_double_size (vic_ii_resources.double_size_enabled);
+#endif
 #else
   vic_ii_draw_set_double_size (0);
 #endif
 
   vic_ii_sprites_init ();
 #ifdef VIC_II_NEED_2X
+#ifdef USE_XF86_EXTENSIONS
+  vic_ii_sprites_set_double_size (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled);
+#else
   vic_ii_sprites_set_double_size (vic_ii_resources.double_size_enabled);
+#endif
 #else
   vic_ii_sprites_set_double_size (0);
 #endif
@@ -1378,7 +1397,11 @@ void vic_ii_resize (void)
     return;
 
 #ifdef VIC_II_NEED_2X
+#ifdef USE_XF86_EXTENSIONS
+  if (fullscreen_is_enabled ? vic_ii_resources.fullscreen_double_size_enabled : vic_ii_resources.double_size_enabled)
+#else
   if (vic_ii_resources.double_size_enabled)
+#endif
 #else
   if (0)
 #endif
@@ -1437,11 +1460,6 @@ void vic_ii_handle_pending_alarms_external(int num_write_cycles)
     vic_ii_handle_pending_alarms(num_write_cycles);
 }
 
-/* FIXME: Just a dummy.  */
-void video_setfullscreen (int v, int width, int height)
-{
-}
-
 void vic_ii_free (void)
 {
     raster_free(&vic_ii.raster);
@@ -1452,3 +1470,14 @@ int vic_ii_screenshot(screenshot_t *screenshot)
     return raster_screenshot(&vic_ii.raster, screenshot);
 }
 
+void video_refresh(void)
+{
+#ifdef USE_XF86_EXTENSIONS
+
+  vic_ii_resize ();
+  raster_enable_double_scan (&vic_ii.raster,
+			     fullscreen_is_enabled ?
+			     vic_ii_resources.fullscreen_double_scan_enabled :
+			     vic_ii_resources.double_scan_enabled);
+#endif
+}

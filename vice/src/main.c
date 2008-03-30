@@ -634,7 +634,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     /* Let's go...  */
     maincpu_trigger_reset();
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     if (!(console_mode || vsid_mode))
         fullscreen_mode_init();
 #endif

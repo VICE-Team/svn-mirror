@@ -33,6 +33,9 @@
 #include "vicii-resources.h"
 #include "vicii.h"
 #include "viciitypes.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 
 
@@ -108,6 +111,9 @@ static int
 set_double_size_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.double_size_enabled = (int) v;
+#ifdef USE_XF86_EXTENSIONS
+  if (! fullscreen_is_enabled)
+#endif 
   vic_ii_resize ();
 
   return 0;
@@ -117,18 +123,24 @@ static int
 set_double_scan_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.double_scan_enabled = (int) v;
+#ifdef USE_XF86_EXTENSIONS
+  if (vic_ii.initialized && ! fullscreen_is_enabled)
+#else 
   if (vic_ii.initialized)
+#endif
     raster_enable_double_scan (&vic_ii.raster,
 			       vic_ii_resources.double_scan_enabled);
 
   return 0;
 }
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 static int
 set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
   vic_ii_resources.fullscreen_double_size_enabled = (int) v;
+  if (fullscreen_is_enabled)
+    vic_ii_resize ();
   return 0;
 }
 
@@ -136,6 +148,9 @@ static int
 set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
   vic_ii_resources.fullscreen_double_scan_enabled = (int) v;
+  if (fullscreen_is_enabled && vic_ii.initialized)
+    raster_enable_double_scan (&vic_ii.raster,
+			       vic_ii_resources.fullscreen_double_scan_enabled);
   return 0;
 }
 #endif
@@ -148,7 +163,7 @@ static resource_t resources_2x[] =
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_ii_resources.double_scan_enabled,
       set_double_scan_enabled, NULL },
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_ii_resources.fullscreen_double_size_enabled,
       set_fullscreen_double_size_enabled, NULL },

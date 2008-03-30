@@ -62,15 +62,10 @@
 #include <X11/xpm.h>
 #endif
 
-#ifdef USE_VIDMODE_EXTENSION
-#define VidMode_MINMAJOR 0
-#define VidMode_MINMINOR 0
-
-#include <X11/extensions/xf86vmode.h>
-#endif
-
-#include "drive.h"
+#ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
+#endif
+#include "drive.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -91,6 +86,7 @@
 #include "widgets/TextField.h"
 #include "video.h"
 
+
 /* FIXME: We want these to be static.  */
 Visual *visual;
 static int have_truecolor;
@@ -108,9 +104,7 @@ Widget canvas, pane;
 Cursor blankCursor;
 /*static*/ int cursor_is_blank = 0;
 
-#ifdef USE_VIDMODE_EXTENSION
-/*static*/ int use_fullscreen = 0;
-
+#ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t* resolutions_submenu;
 #endif
 
@@ -118,17 +112,21 @@ static void ui_display_drive_current_image2(void);
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode)
 #endif
 
 void ui_check_mouse_cursor()
 {
     int window_doublesize;
-
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+        return;
+#endif
+    
     if (_mouse_enabled) {
-#ifdef USE_VIDMODE_EXTENSION
-        if (use_fullscreen) { 
+#ifdef USE_XF86_EXTENSIONS
+        if (fullscreen_is_enabled) { 
             if (resources_get_value("FullscreenDoubleSize",
                                     (resource_value_t *) &window_doublesize) < 0)
                 return;
@@ -143,34 +141,36 @@ void ui_check_mouse_cursor()
         mouse_accel = 4 - 2 * window_doublesize;   
         XDefineCursor(display,XtWindow(canvas), blankCursor);
         cursor_is_blank = 1;
-        XGrabKeyboard(display, XtWindow(canvas),
-                      1, GrabModeAsync,
-                      GrabModeAsync,  CurrentTime);
-        XGrabPointer(display, XtWindow(canvas), 1,
-                     PointerMotionMask | ButtonPressMask |
-                     ButtonReleaseMask,
-                     GrabModeAsync, GrabModeAsync,
-                     XtWindow(canvas),
-                     None, CurrentTime);
+
+	XGrabKeyboard(display, XtWindow(canvas),
+		      1, GrabModeAsync,
+		      GrabModeAsync,  CurrentTime);
+	XGrabPointer(display, XtWindow(canvas), 1,
+		     PointerMotionMask | ButtonPressMask |
+		     ButtonReleaseMask,
+		     GrabModeAsync, GrabModeAsync,
+		     XtWindow(canvas),
+		     None, CurrentTime);
     } else if (cursor_is_blank) {
         XUndefineCursor(display,XtWindow(canvas));
-        XUngrabPointer(display, CurrentTime);
-        XUngrabKeyboard(display, CurrentTime);
-#ifdef USE_VIDMODE_EXTENSION
-        if (use_fullscreen)
-            fullscreen_set_mouse_timeout();
-#endif
+	XUngrabPointer(display, CurrentTime);
+	XUngrabKeyboard(display, CurrentTime);
     }
 }
 
 static void ui_restore_mouse(void)
 {
-    if (_mouse_enabled && cursor_is_blank) {
-        XUndefineCursor(display,XtWindow(canvas));
-        XUngrabPointer(display, CurrentTime);
-        XUngrabKeyboard(display, CurrentTime);
-        cursor_is_blank = 0; 
-    }
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+        return;
+#endif
+
+  if ( _mouse_enabled && cursor_is_blank) {
+      XUndefineCursor(display,XtWindow(canvas));
+      XUngrabPointer(display, CurrentTime);
+      XUngrabKeyboard(display, CurrentTime);
+      cursor_is_blank = 0; 
+  }
 }
 
 static void initBlankCursor(void)
@@ -544,7 +544,7 @@ int ui_init_finish(void)
                     wm_command_data,
                     wm_command_size);
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     fullscreen_vidmode_available();
 #endif
 
@@ -581,7 +581,6 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
     XSetWindowAttributes attr;
     int i;
-
     if (uicolor_alloc_colors(c, palette, pixel_return) == -1)
         return NULL;
 
@@ -847,7 +846,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
 
 void ui_create_dynamic_menues()
 {
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     int i, amodes;
     char buf[50];
     char *modename;
@@ -1050,11 +1049,14 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off();
+#endif	
+
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) {
         int save_resources_on_exit;
-
         resources_get_value("SaveResourcesOnExit",
                             (resource_value_t *)&save_resources_on_exit);
 	if (save_resources_on_exit) {
@@ -1069,9 +1071,6 @@ void ui_exit(void)
 	}
 	ui_autorepeat_on();
 	ui_restore_mouse();
-#ifdef USE_VIDMODE_EXTENSION
-	fullscreen_mode_off();
-#endif
 	exit(0);
     }
 
@@ -1365,12 +1364,6 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
     Dimension canvas_width, canvas_height;
     Dimension form_width, form_height;
 
-#ifdef USE_VIDMODE_EXTENSION
-    if ( use_fullscreen) {
-      XClearWindow(display,XtWindow(canvas));
-      return;
-    }
-#endif
     /* Ok, form widgets are stupid animals; in a perfect world, I should be
        allowed to resize the canvas and let the Form do the rest.  Unluckily,
        this does not happen, so let's do things the dirty way then.  This
@@ -1457,8 +1450,8 @@ void ui_error(const char *format,...)
     static Widget error_dialog;
     static ui_button_t button;
 
-#ifdef USE_VIDMODE_EXTENSION
-    fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off_restore();
 #endif
     va_start(ap, format);
     str = xmvsprintf(format, ap);
@@ -1561,9 +1554,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (button) {
       case UI_BUTTON_MON:
 	ui_restore_mouse();
-#ifdef USE_VIDMODE_EXTENSION
-	fullscreen_mode_off();
-#endif
 	return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
@@ -1778,6 +1768,9 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
 void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 {
     Widget s = NULL;
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_mode_off_restore();
+#endif
 
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
@@ -1858,9 +1851,10 @@ void ui_popdown(Widget w)
     ui_check_mouse_cursor();
     if (--popped_up_count < 0)
 	popped_up_count = 0;
-#ifdef USE_VIDMODE_EXTENSION
-    fullscreen_focus_window_again();
+#ifdef USE_XF86_EXTENSIONS
+      fullscreen_mode_on_restore();
 #endif
+
 }
 
 /* ------------------------------------------------------------------------- */

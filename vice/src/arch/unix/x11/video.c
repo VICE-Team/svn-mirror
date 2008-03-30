@@ -76,6 +76,9 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -554,6 +557,11 @@ void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
     /* This could be optimized away.  */
     display = ui_get_display_ptr();
 
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+      fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
+    else
+#endif 
     _refresh_func(display, canvas->drawable, _video_gc,
 		  frame_buffer->x_image, xs, ys, xi, yi, w, h, False, 
 		  frame_buffer, canvas);

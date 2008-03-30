@@ -507,7 +507,7 @@ const char contrib_text[] =
 "  Peter Schepers <schepers@ist.uwaterloo.ca> contributed a\n"
 "  document describing the G64 image format.\n"
 "\n"
-"  Oliver Schaertel <orschaer@forwiss.uni-erlangen.de> wrote the\n"
+"  Oliver Schaertel <schaertel@atrada.net> wrote the\n"
 "  X11 full screen, parts of custom ROM set support and\n"
 "  1351 mouse emulation for unix.\n"
 "\n"

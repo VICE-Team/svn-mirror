@@ -45,7 +45,7 @@ static cmdline_option_t cmdline_options[] = {
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t) 0,
       NULL, N_("Never save settings (resources) on exit") },
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
     { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
       "UseFullscreen", (resource_value_t) 1,
       NULL, N_("Enable fullscreen") },

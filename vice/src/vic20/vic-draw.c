@@ -132,7 +132,7 @@ draw (PIXEL *p,
     {
       b = *(vic.color_ptr + vic.memptr + i);
       c[2] = VIC_PIXEL (b & 0x7);
-      if (reverse)
+      if (reverse & !(b & 0x8))
         d = ~(GET_CHAR_DATA (*(vic.screen_ptr + vic.memptr + i),
                              vic.raster.ycounter));
       else
@@ -218,7 +218,7 @@ draw_2x(PIXEL *p,
       b = *(vic.color_ptr + vic.memptr + i);
       c[2] = VIC_PIXEL2 (b & 0x7);
 
-      if (reverse)
+      if (reverse & !(b & 0x8))
         d = ~(GET_CHAR_DATA ((vic.screen_ptr + vic.memptr)[i],
                              vic.raster.ycounter));
       else

@@ -34,6 +34,9 @@
 #include "crtctypes.h"
 #include "resources.h"
 #include "utils.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 crtc_resources_t crtc_resources;
 
@@ -56,6 +59,9 @@ static int set_video_cache_enabled (resource_value_t v, void *param)
 static int set_double_size_enabled (resource_value_t v, void *param)
 {
   crtc_resources.double_size_enabled = (int) v;
+#ifdef USE_XF86_EXTENSIONS
+  if (! fullscreen_is_enabled)
+#endif
   crtc_resize ();
   return 0;
 }
@@ -65,24 +71,35 @@ static int set_double_size_enabled (resource_value_t v, void *param)
 static int set_double_scan_enabled (resource_value_t v, void *param)
 {
   crtc_resources.double_scan_enabled = (int) v;
+#ifdef USE_XF86_EXTENSIONS
+  if (crtc.initialized && ! fullscreen_is_enabled)
+#else 
   if (crtc.initialized)
-    raster_enable_double_scan (&crtc.raster, 
-					crtc_resources.double_scan_enabled);
-  crtc_resize ();
+#endif
+    {
+      raster_enable_double_scan (&crtc.raster, 
+				 crtc_resources.double_scan_enabled);
+      crtc_resize ();
+    }
   return 0;
 }
 #endif
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
   crtc_resources.fullscreen_double_size_enabled = (int) v;
+  if (fullscreen_is_enabled)
+    crtc_resize ();
   return 0;
 }
 
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
   crtc_resources.fullscreen_double_scan_enabled = (int) v;
+  if (crtc.initialized && fullscreen_is_enabled)
+    raster_enable_double_scan (&crtc.raster, 
+					crtc_resources.double_scan_enabled);
   return 0;
 }
 #endif
@@ -96,7 +113,7 @@ static resource_t resources[] =
   { "CrtcDoubleSize", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.double_size_enabled,
     set_double_size_enabled, NULL },
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
   { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *) &crtc_resources.fullscreen_double_size_enabled,
     set_fullscreen_double_size_enabled, NULL },

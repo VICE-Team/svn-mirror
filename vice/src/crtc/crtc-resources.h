@@ -51,9 +51,7 @@ struct crtc_resources_s
     /* Flag: Do we copy lines in double size mode?  */
     int double_scan_enabled;
 
-#ifdef USE_VIDMODE_EXTENSION
-    /* Flag: Fullscreenmode?  */
-    int fullscreen;
+#ifdef USE_XF86_EXTENSIONS
 
     /* Flag: Do we use double size?  */
     int fullscreen_double_size_enabled;
@@ -61,9 +59,7 @@ struct crtc_resources_s
     /* Flag: Do we copy lines in double size mode?  */
     int fullscreen_double_scan_enabled;
 
-    int fullscreen_width;
-    int fullscreen_height;
-#endif                          /* USE_VIDMODE_EXTENSION */
+#endif                          /* USE_XF86_EXTENSIONS */
   };
 
 typedef struct crtc_resources_s crtc_resources_t;

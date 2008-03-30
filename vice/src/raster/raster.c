@@ -414,6 +414,8 @@ static void update_canvas (raster_t *raster)
   xx *= viewport->pixel_size.width;
   w *= viewport->pixel_size.width;
 
+  w = MIN(w, viewport->width - xx - viewport->x_offset);
+
   y *= viewport->pixel_size.height;
   yy *= viewport->pixel_size.height;
   h *= viewport->pixel_size.height;
@@ -781,7 +783,7 @@ inline static int update_for_minor_changes_without_sprites (raster_t *raster,
                         + raster->xsmooth
                         + 8 * changed_start_char);
 
-      *changed_end = (raster->geometry.gfx_position.y
+      *changed_end = (raster->geometry.gfx_position.x
                       + raster->xsmooth
                       + 8 * (changed_end_char + 1)
                       - 1);
@@ -1535,7 +1537,7 @@ void raster_resize_viewport (raster_t *raster,
                 viewport->first_line = gfx_position->y;
 
         viewport->last_line = (viewport->first_line
-                               + height / pixel_size->height);
+                               + height / pixel_size->height) - 1;
     }
 
     /* Hmmm....  FIXME?  */
@@ -1615,12 +1617,19 @@ void raster_emulate_line (raster_t *raster)
         }
 
       raster->current_line++;
-      if (!console_mode && !vsid_mode) {
-	raster->frame_buffer_ptr
-	  = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
+      
+      if (raster->current_line == raster->geometry.screen_size.height)
+      {
+        handle_end_of_frame (raster);
+      } else {
+          if (!console_mode && !vsid_mode)
+          {
+              raster->frame_buffer_ptr
+                  = (VIDEO_FRAME_BUFFER_LINE_START(raster->frame_buffer,
 					   (raster->current_line
 					    * viewport->pixel_size.height))
-	     + raster->geometry.extra_offscreen_border);
+                        + raster->geometry.extra_offscreen_border);
+          }
       }
     }
   else

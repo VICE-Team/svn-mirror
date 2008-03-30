@@ -1319,7 +1319,7 @@ ui_menu_entry_t ui_drive_options_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 
 UI_MENU_DEFINE_TOGGLE(UseFullscreen)
 
@@ -1406,7 +1406,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
     { NULL }
 };
 
-#ifdef USE_VIDMODE_EXTENSION
+#ifdef USE_XF86_EXTENSIONS
 
 static UI_CALLBACK(FullscreenMenu)
 {

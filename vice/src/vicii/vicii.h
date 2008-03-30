@@ -59,6 +59,7 @@ extern int vic_ii_read_snapshot_module(struct snapshot_s *s);
 
 extern void vic_ii_handle_pending_alarms_external(int num_write_cycles);
 
+extern void video_refresh(void);
 extern void video_free(void);
 
 #endif
