@@ -145,8 +145,6 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
         || cache->chargen_ptr != vic_ii.chargen_ptr) {
         cache->background_data[0] = vic_ii.raster.background_color;
         cache->chargen_ptr = vic_ii.chargen_ptr;
-        *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS;
         rr = 1;
     }
 
@@ -322,15 +320,15 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
 
 static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
-    int r = 0;
+    int r;
 
-    r |= raster_cache_data_fill_nibbles(cache->color_data_1,
-                                        cache->background_data,
-                                        vic_ii.vbuf,
-                                        VIC_II_SCREEN_TEXTCOLS,
-                                        1,
-                                        xs, xe,
-                                        rr);
+    r = raster_cache_data_fill_nibbles(cache->color_data_1,
+                                       cache->background_data,
+                                       vic_ii.vbuf,
+                                       VIC_II_SCREEN_TEXTCOLS,
+                                       1,
+                                       xs, xe,
+                                       rr);
     r |= raster_cache_data_fill(cache->foreground_data,
                                 (vic_ii.bitmap_ptr + vic_ii.memptr * 8
                                 + vic_ii.raster.ycounter),
@@ -458,7 +456,7 @@ draw_hires_bitmap_foreground_2x(int start_char, int end_char)
 
 static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
-    int r = 0;
+    int r;
 
     if (vic_ii.raster.background_color != cache->background_data[0]
         || cache->color_data_1[0] != vic_ii.regs[0x22]
@@ -468,8 +466,6 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
         cache->color_data_1[0] = vic_ii.regs[0x22];
         cache->color_data_1[1] = vic_ii.regs[0x23];
         cache->chargen_ptr = vic_ii.chargen_ptr;
-        *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS - 1;
         rr = 1;
     }
 
@@ -730,13 +726,13 @@ static void draw_mc_text_foreground_2x(int start_char, int end_char)
 
 /* Multicolor Bitmap Mode.  */
 
-static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int r)
+static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
+    int r;
+
     if (vic_ii.raster.background_color != cache->background_data[0]) {
         cache->background_data[0] = vic_ii.raster.background_color;
-        r = 1;
-        *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS;
+        rr = 1;
     }
 
     r = raster_cache_data_fill_nibbles(cache->color_data_1,
@@ -745,20 +741,20 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int r)
                                        VIC_II_SCREEN_TEXTCOLS,
                                        1,
                                        xs, xe,
-                                       r);
-    r = raster_cache_data_fill(cache->color_data_3,
-                               vic_ii.cbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
-                               1,
-                               xs, xe,
-                               r);
-    r = raster_cache_data_fill(cache->foreground_data,
-                               (vic_ii.bitmap_ptr + 8 * vic_ii.memptr
-                               + vic_ii.raster.ycounter),
-                               VIC_II_SCREEN_TEXTCOLS,
-                               8,
-                               xs, xe,
-                               r);
+                                       rr);
+    r |= raster_cache_data_fill(cache->color_data_3,
+                                vic_ii.cbuf,
+                                VIC_II_SCREEN_TEXTCOLS,
+                                1,
+                                xs, xe,
+                                rr);
+    r |= raster_cache_data_fill(cache->foreground_data,
+                                (vic_ii.bitmap_ptr + 8 * vic_ii.memptr
+                                 + vic_ii.raster.ycounter),
+                                VIC_II_SCREEN_TEXTCOLS,
+                                8,
+                                xs, xe,
+                                rr);
 
     if (!r) {
         vic_ii.sprite_sprite_collisions
@@ -936,10 +932,11 @@ static void draw_mc_bitmap_foreground_2x(int start_char, int end_char)
 
 /* Extended Text Mode.  */
 
-static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int r)
+static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
-    if (r
-        || vic_ii.regs[0x21] != cache->color_data_2[0]
+    int r;
+
+    if (vic_ii.regs[0x21] != cache->color_data_2[0]
         || vic_ii.regs[0x22] != cache->color_data_2[1]
         || vic_ii.regs[0x23] != cache->color_data_2[2]
         || vic_ii.regs[0x24] != cache->color_data_2[3]) {
@@ -947,7 +944,7 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int r)
         cache->color_data_2[1] = vic_ii.regs[0x22];
         cache->color_data_2[2] = vic_ii.regs[0x23];
         cache->color_data_2[3] = vic_ii.regs[0x24];
-        r = 1;
+        rr = 1;
     }
 
     r = raster_cache_data_fill(cache->color_data_1,
@@ -955,19 +952,19 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int r)
                                VIC_II_SCREEN_TEXTCOLS,
                                1,
                                xs, xe,
-                               r);
-    r = raster_cache_data_fill(cache->color_data_2,
-                               vic_ii.vbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
-                               1,
-                               xs, xe,
-                               r);
-    r = raster_cache_data_fill(cache->foreground_data,
-                               vic_ii.vbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
-                               1,
-                               xs, xe,
-                               r);
+                               rr);
+    r |= raster_cache_data_fill(cache->color_data_2,
+                                vic_ii.vbuf,
+                                VIC_II_SCREEN_TEXTCOLS,
+                                1,
+                                xs, xe,
+                                rr);
+    r |= raster_cache_data_fill(cache->foreground_data,
+                                vic_ii.vbuf,
+                                VIC_II_SCREEN_TEXTCOLS,
+                                1,
+                                xs, xe,
+                                rr);
 
     if (!r) {
         vic_ii.sprite_sprite_collisions
