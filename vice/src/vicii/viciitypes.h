@@ -253,10 +253,13 @@ struct vic_ii_s {
     ADDRESS vaddr_chargen_value_phi1;   /* compare value for chargen */
     ADDRESS vaddr_chargen_value_phi2;   /* compare value for chargen */
 
-    /* Video memory pointers.  */
+    /* Video memory pointers.  Changed for drawing.  */
     BYTE *screen_ptr;
     BYTE *chargen_ptr;
     BYTE *bitmap_ptr;
+
+    /* Video memory pointers.  Changed immediately.  */
+    BYTE *screen_base;
 
     /* Screen memory buffers (chars and color).  */
     BYTE vbuf[VIC_II_SCREEN_TEXTCOLS];
