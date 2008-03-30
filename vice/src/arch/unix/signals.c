@@ -31,6 +31,7 @@
 #include <unistd.h>
 
 #include "log.h"
+#include "monitor.h"
 #include "signals.h"
 
 
@@ -58,5 +59,25 @@ void signals_init(int do_core_dumps)
         signal(SIGHUP,   break64);
         signal(SIGQUIT,  break64);
     }
+}
+
+typedef void (*signal_handler_t)(int);
+
+static signal_handler_t old_handler;
+
+static void handle_abort(int signo)
+{
+    monitor_abort();
+    signal(SIGINT, (signal_handler_t)handle_abort);
+}
+
+void signals_abort_set(void)
+{
+    old_handler = signal(SIGINT, handle_abort);
+}
+
+void signals_abort_unset(void)
+{
+    signal(SIGINT, old_handler);
 }
 

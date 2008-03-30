@@ -40,7 +40,7 @@ inline static void switch_to_display_state(const int cycle)
 {
     raster_changes_foreground_add_int(&vicii.raster, VICII_RASTER_CHAR(cycle),
                                       &vicii.raster.draw_idle_state, 0);
-    raster_changes_foreground_add_int(&vicii.raster, VICII_RASTER_X(cycle),
+    raster_changes_background_add_int(&vicii.raster, VICII_RASTER_X(cycle),
                                       &vicii.raster.draw_idle_state, 0);
     vicii.idle_state = 0;
     vicii.idle_data_location = IDLE_NONE;

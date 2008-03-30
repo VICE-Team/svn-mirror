@@ -28,6 +28,8 @@
 #define _SIGNALS_H
 
 extern void signals_init(int do_core_dumps);
+extern void signals_abort_set(void);
+extern void signals_abort_unset(void);
 
 #endif
 

@@ -52,7 +52,7 @@ int mon_out(const char *format, ...)
     lib_free(buffer);
 
     if (rc < 0)
-        mon_abort();
+        monitor_abort();
 
     return rc;
 }
