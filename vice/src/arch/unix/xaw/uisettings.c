@@ -286,7 +286,7 @@ static UI_CALLBACK(select_user_keymap)
     resname = keymap_res_name_list[kindex];
 
     suspend_speed_eval();
-    filename = ui_select_file("Read Keymap File", NULL, False, NULL, 
+    filename = ui_select_file("Read Keymap File", NULL, False, NULL,
 							"*.vkm", &button);
 
     switch (button) {
@@ -492,7 +492,7 @@ ui_menu_entry_t rs232_submenu[] = {
     { "Dump filename...", (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice3", NULL },
     { "--" },
-    { "Programm name to exec...", (ui_callback_t) set_rs232_exec_file,
+    { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,
       (ui_callback_data_t) "RsDevice4", NULL },
     { NULL }
 };
@@ -581,23 +581,6 @@ static UI_CALLBACK(set_fsdevice_directory)
     sprintf(title, "Attach file system directory to device #%d", unit);
 
     /* FIXME: We need a real directory browser here.  */
-
-#if 0
-    {
-        char *filename;
-
-        filename = ui_select_file(title, read_disk_image_contents,
-                           unit == 8 ? True : False, NULL, NULL, &button);
-        switch (button) {
-          case UI_BUTTON_OK:
-            fsdevice_set_directory(filename, unit);
-            break;
-          default:
-            /* Do nothing special.  */
-            break;
-        }
-    }
-#else
     {
         char resname[256];
         char *value;
@@ -618,7 +601,6 @@ static UI_CALLBACK(set_fsdevice_directory)
 
         resources_set_value(resname, (resource_value_t) new_value);
     }
-#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -810,7 +792,8 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
 static ui_menu_entry_t fsdevice_drive9_submenu[] = {
     { "*File system access", (ui_callback_t) toggle_FileSystemDevice9,
       NULL, NULL },
-    { "File system directory", (ui_callback_t) set_fsdevice_directory,
+    { "--" },
+    { "File system directory...", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 9, NULL },
     { "*Convert P00 file names", (ui_callback_t) toggle_FSDevice9ConvertP00,
       NULL, NULL },
