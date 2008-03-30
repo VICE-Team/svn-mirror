@@ -41,6 +41,7 @@
 #include "log.h"
 #include "types.h"
 #include "vdrive-bam.h"
+#include "vdrive-command.h"
 #include "vdrive.h"
 
 int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
@@ -199,14 +200,14 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
     while (t) {
         /* Check for illegal track or sector.  */
         if (disk_image_check_sector(disk_type, t, s) < 0) {
-            vdrive_command_set_error(&vdrive->buffers[15],
-                                     IPE_ILLEGAL_TRACK_OR_SECTOR, s, t);
+            vdrive_command_set_error(vdrive, IPE_ILLEGAL_TRACK_OR_SECTOR,
+                                     s, t);
             return IPE_ILLEGAL_TRACK_OR_SECTOR;
         }
         if (!vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
             t, s)) {
             /* The real drive does not seem to catch this error.  */
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_NO_BLOCK, s, t);
+            vdrive_command_set_error(vdrive, IPE_NO_BLOCK, s, t);
             return IPE_NO_BLOCK;
         }
         rc = disk_image_read_sector(vdrive->image, tmp, t, s);
