@@ -257,6 +257,12 @@ int drive_init(void)
     return 0;
 }
 
+void drive_shutdown(void)
+{
+    drive_cpu_shutdown(&drive0_context);
+    drive_cpu_shutdown(&drive1_context);
+}
+
 void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 {
     switch (type) {

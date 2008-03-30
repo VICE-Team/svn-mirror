@@ -317,6 +317,7 @@ extern void drive1_mem_init(int type);
 */
 extern void drive_move_head(int step, unsigned int dnr);
 extern void drive_reset(void);
+extern void drive_shutdown(void);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr);

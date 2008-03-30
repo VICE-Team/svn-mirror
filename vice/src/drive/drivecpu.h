@@ -44,6 +44,7 @@ extern void drive_cpu_wake_up(struct drive_context_s *drv);
 extern CLOCK drive_cpu_prevent_clk_overflow(struct drive_context_s *drv,
                                             CLOCK sub);
 extern void drive_cpu_early_init(struct drive_context_s *drv);
+extern void drive_cpu_shutdown(struct drive_context_s *drv);
 extern void drive_cpu_reset_clk(struct drive_context_s *drv);
 
 extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
@@ -60,8 +61,6 @@ extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
 /* to minimize changes in other modules */
 #define drive0_cpu_execute(c)   drivex_cpu_execute(&drive0_context, c)
 #define drive1_cpu_execute(c)   drivex_cpu_execute(&drive1_context, c)
-#define drive0_cpu_early_init() drive_cpu_early_init(&drive0_context)
-#define drive1_cpu_early_init() drive_cpu_early_init(&drive1_context)
 
 /* don't use these pointers before the context is set up! */
 struct monitor_interface_s;
