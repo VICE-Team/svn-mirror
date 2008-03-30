@@ -37,32 +37,14 @@
 #undef M_ADDR
 #include "mon.h"
 #include "charsets.h"
-#include "maincpu.h"
-#include "1541cpu.h"
 #include "file.h"
-#include "macro.h"
 #include "misc.h"
 #include "mshell.h"
-#include "mem.h"
 #include "interrupt.h"
 #include "resources.h"
 
-#ifdef PET
-#define NO_DRIVE
-void maincpu_turn_watchpoints_on() {}
-void maincpu_turn_watchpoints_off() {}
-#endif
-
-#ifndef NO_DRIVE
-
-#include "true1541.h"
-
-#define LOAD_1541(a)		  (read_func[(a) >> 10](a))
-#define LOAD_ZERO_1541(a)	  (true1541_ram[(a) & 0xff])
-#define STORE_1541(a, b)	  (store_func[(a) >> 10]((a), (b)))
-#define STORE_ZERO_1541(a, b)  (true1541_ram[(a) & 0xff] = (b))
-
-#endif
+static monitor_interface_t *maincpu_interface;
+static monitor_interface_t *true1541_interface;
 
 /* Global variables */
 
@@ -172,99 +154,80 @@ char *datatype_string[] = { "",
 #define M_STORE 2
 #define M_LOAD_STORE 3
 
-int memory_ops[] = { /* 0x00 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x08 */ M_STORE, M_NONE , M_NONE , M_NONE , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x10 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x18 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x20 */ M_STORE, M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x28 */ M_LOAD , M_NONE , M_NONE , M_NONE , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x20 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x38 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x40 */ M_LOAD , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x48 */ M_STORE, M_NONE , M_NONE , M_NONE , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x50 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
-                     /* 0x58 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
-                     M_LOAD, , M_NONE, , M_NONE, , , ,  , , , , M_LOAD, , , ,
-                     M_NONE, , M_NONE, , M_NONE, , , ,  , , M_NONE, , M_LOAD, , , ,
-                     M_NONE, , M_NONE, , , , , ,  , M_NONE, , , , , , ,
-                     M_NONE, , M_NONE, , , , , ,  , , , , , , , ,
-                     , , , , , , , ,  , , , , , , , ,
-                     M_NONE, , M_NONE, , , , , ,  , , , , , , , ,
-                     , , M_NONE, , , , , ,  , , , , , , , ,
-                     M_NONE, , M_NONE, , M_NONE, , , ,  , , M_NONE, , M_LOAD, , , ,
-                     , , M_NONE, , , , , ,  , , , , , , , ,
-                     M_NONE, , M_NONE, , M_NONE, , , ,  , , M_NONE, , M_LOAD, , , ,
-                   };
+int memory_ops[] = {
+/* 0x00 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x08 */ M_STORE, M_NONE, M_NONE, M_NONE, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x10 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x18 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x20 */ M_STORE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x28 */ M_LOAD, M_NONE, M_NONE, M_NONE, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x20 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x38 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x40 */ M_LOAD, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x48 */ M_STORE, M_NONE, M_NONE, M_NONE, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x50 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_NONE, M_LOAD, M_BOTH, M_BOTH ,
+/* 0x58 */ M_NONE, M_LOAD, M_NONE, M_BOTH, M_LOAD, M_LOAD, M_BOTH, M_BOTH ,
+M_LOAD, , M_NONE, , M_NONE, , , , , , , , M_LOAD, , , ,
+M_NONE, , M_NONE, , M_NONE, , , , , , M_NONE, , M_LOAD, , , ,
+M_NONE, , M_NONE, , , , , , , M_NONE, , , , , , ,
+M_NONE, , M_NONE, , , , , , , , , , , , , ,
+, , , , , , , , , , , , , , , ,
+M_NONE, , M_NONE, , , , , , , , , , , , , ,
+, , M_NONE, , , , , , , , , , , , , ,
+M_NONE, , M_NONE, , M_NONE, , , , , , M_NONE, , M_LOAD, , , ,
+, , M_NONE, , , , , , , , , , , , , ,
+M_NONE, , M_NONE, , M_NONE, , , , , , M_NONE, , M_LOAD, , , ,
+};
 #endif
 
 unsigned int get_reg_val(MEMSPACE mem, int reg_id)
 {
-   if (mem == e_comp_space) {
-      switch(reg_id) {
-         case e_A:
-            return accumulator;
-         case e_X:
-            return x_register;
-         case e_Y:
-            return y_register;
-         case e_PC:
-            return program_counter;
-         case e_SP:
-            return stack_pointer;
-         default:
-            assert(FALSE);
-      }
-   } else if (mem == e_disk_space) {
-#ifndef NO_DRIVE
-      if (app_resources.true1541) {
-         switch(reg_id) {
-            case e_A:
-               return true1541_accumulator;
-            case e_X:
-               return true1541_x_register;
-            case e_Y:
-               return true1541_y_register;
-            case e_PC:
-               return true1541_program_counter;
-            case e_SP:
-               return true1541_stack_pointer;
-            default:
-               assert(FALSE);
-         }
-      } else {
-         puts("True1541 emulation is not turned on.");
-      }
-#else
-      puts("True1541 emulation not supported for this machine.");
-#endif
-   }
-   return 0;
+    mos6510_regs_t *reg_ptr;
+
+    if (mem == e_comp_space)
+        reg_ptr = maincpu_interface->cpu_regs;
+    else if (mem == e_disk_space) {
+        if (true1541_interface == NULL) {
+            puts("True1541 emulation not supported for this machine.");
+            return 0;
+        } else if (!app_resources.true1541) {
+            puts("True1541 emulation is not turned on.");
+            return 0;
+        } else {
+            reg_ptr = true1541_interface->cpu_regs;
+        }
+    }
+
+    switch(reg_id) {
+      case e_A:
+        return reg_ptr->a;
+      case e_X:
+        return reg_ptr->x;
+      case e_Y:
+        return reg_ptr->y;
+      case e_PC:
+        return reg_ptr->pc;
+      case e_SP:
+        return reg_ptr->sp;
+      default:
+        assert(FALSE);
+    }
+    return 0;
 }
 
 unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
 {
-   if (mem == e_comp_space) {
-      if (mem_addr < 0x0100)
-         return LOAD_ZERO(mem_addr);
-      else
-         return LOAD(mem_addr);
-   }
+   if (mem == e_comp_space)
+       return maincpu_interface->read_func(mem_addr);
    else if (mem == e_disk_space) {
-#ifndef NO_DRIVE
-      if (app_resources.true1541) {
-         if (mem_addr < 0x0100)
-            return LOAD_ZERO_1541(mem_addr);
-         else
-            return LOAD_1541(mem_addr);
-      } else {
-         puts("True1541 emulation is not turned on.");
-      }
-#else
-      puts("True1541 emulation not supported for this machine.");
-#endif
-   }
-   else {
-      assert(FALSE);
+       if (true1541_interface == NULL) {
+           puts("True1541 emulation is not supported on this machine.");
+           return 0;
+       } else if (!app_resources.true1541) {
+           puts("True1541 emulation is not turned on.");
+           return 0;
+       } else
+           return true1541_interface->read_func(mem_addr);
    }
 
    return 0;
@@ -282,109 +245,83 @@ bool mon_force_import(MEMSPACE mem)
 
 void set_reg_val(int reg_id, WORD val)
 {
-   MEMSPACE mem = default_writespace;
+    MEMSPACE mem = default_writespace;
+    mos6510_regs_t *reg_ptr;
 
-   if (mem == e_comp_space) {
-      switch(reg_id) {
-         case e_A:
-            accumulator = val;
-            break;
-         case e_X:
-            x_register = val;
-            break;
-         case e_Y:
-            y_register = val;
-            break;
-         case e_PC:
-            program_counter = val;
-            break;
-         case e_SP:
-            stack_pointer = val;
-            break;
-         default:
-            assert(FALSE);
-      }
-   } else if (mem == e_disk_space) {
-#ifndef NO_DRIVE
-      if (app_resources.true1541) {
-         switch(reg_id) {
-            case e_A:
-               true1541_accumulator = val;
-               break;
-            case e_X:
-               true1541_x_register = val;
-               break;
-            case e_Y:
-               true1541_y_register = val;
-               break;
-            case e_PC:
-               true1541_program_counter = val;
-               break;
-            case e_SP:
-               true1541_stack_pointer = val;
-               break;
-            default:
-               assert(FALSE);
-         }
-      } else {
-         puts("True1541 emulation is not turned on.");
-      }
-#else
-      puts("True1541 emulation not supported for this machine.");
-#endif
-   }
-   force_array[mem] = TRUE;
+    if (mem == e_comp_space)
+        reg_ptr = maincpu_interface->cpu_regs;
+    else if (mem == e_disk_space) {
+        if (true1541_interface == NULL) {
+            puts("True1541 emulation not supported for this machine.");
+            return;
+        } else if (!app_resources.true1541) {
+            puts("True1541 emulation is not turned on.");
+            return;
+        } else {
+            reg_ptr = true1541_interface->cpu_regs;
+        }
+    }
+
+    switch(reg_id) {
+      case e_A:
+        reg_ptr->a = val;
+        break;
+      case e_X:
+        reg_ptr->x = val;
+        break;
+      case e_Y:
+        reg_ptr->y = val;
+        break;
+      case e_PC:
+        reg_ptr->pc = val;
+        break;
+      case e_SP:
+        reg_ptr->sp = val;
+        break;
+      default:
+        assert(FALSE);
+    }
+    force_array[mem] = TRUE;
 }
 
 void print_registers(MEMSPACE mem)
 {
-   int i;
+    int i;
 
-   if (mem == e_default_space)
-      mem = default_readspace;
+    if (mem == e_default_space)
+        mem = default_readspace;
+    else if (mem == e_disk_space) {
+        if (true1541_interface == NULL) {
+            puts("True1541 emulation not supported for this machine.");
+            return;
+        } else if (!app_resources.true1541) {
+            puts("True1541 emulation is not turned on.");
+            return;
+        }
+    } else
+        assert(FALSE);
 
-   if (mem == e_disk_space) {
-#ifndef NO_DRIVE
-      if (!app_resources.true1541) {
-         puts("True1541 emulation is not turned on.");
-         return;
-      }
-#else
-      puts("True1541 emulation not supported for this machine.");
-#endif
-   }
-
-   for (i=0;i<=e_SP;i++) {
-      if (i) printf(",");
-      printf(" %s = %x ",register_string[i],get_reg_val(mem,i));
-   }
-   puts("");
+    for (i=0;i<=e_SP;i++) {
+        if (i)
+            printf(",");
+        printf(" %s = %x ",register_string[i],get_reg_val(mem,i));
+    }
+    puts("");
 }
 
 void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 {
    if (mem == e_comp_space) {
-      if (mem_addr < 0x0100)
-         STORE_ZERO(mem_addr,val);
-      else
-         STORE(mem_addr,val);
-   }
-   else if (mem == e_disk_space) {
-#ifndef NO_DRIVE
-      if (app_resources.true1541) {
-         if (mem_addr < 0x0100)
-            STORE_ZERO_1541(mem_addr,val);
-         else
-            STORE_1541(mem_addr,val);
-      } else {
-         puts("True1541 emulation is not turned on.");
-      }
-#else
-      puts("True1541 emulation not supported for this machine.");
-#endif
-   }
-   else
-      assert(FALSE);
+       maincpu_interface->store_func(mem_addr, val);
+   } else if (mem == e_disk_space) {
+       if (true1541_interface == NULL) {
+           puts("True1541 emulation not supported for this machine.");
+           return;
+       } else if (!app_resources.true1541) {
+           true1541_interface->store_func(mem_addr, val);
+       }
+   } else
+       assert(FALSE);
 }
 
 
@@ -647,7 +584,8 @@ void memory_to_string(char *buf, MEMSPACE mem, unsigned addr, unsigned len, bool
 
 extern int yydebug;
 
-void init_monitor()
+void monitor_init(monitor_interface_t *maincpu_interface_init,
+                  monitor_interface_t *true1541_interface_init)
 {
    int i;
 
@@ -679,9 +617,15 @@ void init_monitor()
    caller_space = e_comp_space;
 
    asm_mode_addr = bad_addr;
+
+   maincpu_interface = maincpu_interface_init;
+   true1541_interface = true1541_interface_init;
 }
 
-void print_help() { printf("No help yet.\n"); }
+void print_help()
+{
+    printf("No help yet.\n");
+}
 
 
 void start_assemble_mode(M_ADDR addr, char *asm_line)
@@ -999,7 +943,7 @@ void mon_load_file(char *filename, M_ADDR start_addr)
 	if (b1 == 1)	/* Load Basic */
 	    mem_get_basic_text(&adr, NULL);
 	else
-	    adr = LOHI ((BYTE)b1,(BYTE)b2);
+	    adr = (BYTE)b1 | ((BYTE)b2 << 8);
     } else  {
        adr = addr_location(start_addr);
     }
@@ -1535,19 +1479,21 @@ int compare_breakpoints(breakpoint *bp1, breakpoint *bp2)
 void check_maincpu_breakpoints(ADDRESS addr)
 {
    if (check_breakpoints(e_comp_space))
-      mon(program_counter);
+      mon(maincpu_interface->cpu_regs->pc);
 
-   maincpu_trigger_trap(check_maincpu_breakpoints);
+   trigger_trap(maincpu_interface->int_status,
+                check_maincpu_breakpoints,
+                *maincpu_interface->clk);
 }
 
 void check_true1541_breakpoints(ADDRESS addr)
 {
-#ifndef NO_DRIVE
    if (check_breakpoints(e_disk_space))
-      mon(true1541_program_counter);
+      mon(true1541_interface->cpu_regs->pc);
 
-   true1541_trigger_trap(check_true1541_breakpoints);
-#endif
+   trigger_trap(true1541_interface->int_status,
+                check_true1541_breakpoints,
+                *true1541_interface->clk);
 }
 
 void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
@@ -1782,48 +1728,43 @@ int check_breakpt_in_range(breakpoint *bp_point, breakpoint *bp_range)
 void mon_helper(ADDRESS a)
 {
     if (watch_load_occurred) {
-       if (watchpoints_check_loads(e_comp_space)) {
-          caller_space = e_comp_space;
-          mon(a);
-       }
-#ifndef NO_DRIVE
-       if (watchpoints_check_loads(e_disk_space)) {
-          caller_space = e_disk_space;
-          mon(a);
-       }
-#endif
-       watch_load_occurred = FALSE;
+        if (watchpoints_check_loads(e_comp_space)) {
+            caller_space = e_comp_space;
+            mon(a);
+        }
+        if (watchpoints_check_loads(e_disk_space)) {
+            caller_space = e_disk_space;
+            mon(a);
+        }
+        watch_load_occurred = FALSE;
     }
 
     if (watch_store_occurred) {
-       if (watchpoints_check_stores(e_comp_space)) {
-          caller_space = e_comp_space;
-          mon(a);
-       }
-#ifndef NO_DRIVE
-       if (watchpoints_check_stores(e_disk_space)) {
-          caller_space = e_disk_space;
-          mon(a);
-       }
-#endif
-       watch_store_occurred = FALSE;
+        if (watchpoints_check_stores(e_comp_space)) {
+            caller_space = e_comp_space;
+            mon(a);
+        }
+        if (watchpoints_check_stores(e_disk_space)) {
+            caller_space = e_disk_space;
+            mon(a);
+        }
+        watch_store_occurred = FALSE;
     }
 
     if (instruction_count) {
-       instruction_count--;
-       if (!instruction_count) {
-          mon(a);
-       }
+        instruction_count--;
+        if (!instruction_count) {
+            mon(a);
+        }
     }
 
     if (any_watchpoints(e_comp_space))
-       maincpu_trigger_trap(mon_helper);
+        trigger_trap(maincpu_interface->int_status, mon_helper,
+                     *maincpu_interface->clk);
 
-#ifndef NO_DRIVE
     if (any_watchpoints(e_disk_space))
-       true1541_trigger_trap(mon_helper);
-#endif
-
+        trigger_trap(true1541_interface->int_status, mon_helper,
+                     *true1541_interface->clk);
 }
 
 void mon(ADDRESS a)
@@ -1875,30 +1816,31 @@ void mon(ADDRESS a)
    inside_monitor = FALSE;
 
    if (any_breakpoints(e_comp_space))
-      maincpu_breakpoints_on();
+       breakpoints_on(maincpu_interface->int_status);
    else
-      maincpu_breakpoints_off();
+       breakpoints_off(maincpu_interface->int_status);
 
    if (any_watchpoints(e_comp_space)) {
-      maincpu_turn_watchpoints_on();
-      maincpu_trigger_trap(mon_helper);
+       maincpu_interface->toggle_watchpoints_func(1);
+       trigger_trap(maincpu_interface->int_status,
+                    mon_helper, *maincpu_interface->clk);
    }
    else
-      maincpu_turn_watchpoints_off();
+       maincpu_interface->toggle_watchpoints_func(0);
+       breakpoints_off(maincpu_interface->int_status);
 
-#ifndef NO_DRIVE
    if (any_breakpoints(e_disk_space))
-      true1541_breakpoints_on();
+       breakpoints_on(true1541_interface->int_status);
    else
-      true1541_breakpoints_off();
+       breakpoints_off(true1541_interface->int_status);
 
    if (any_watchpoints(e_disk_space)) {
-      true1541_turn_watchpoints_on();
-      true1541_trigger_trap(mon_helper);
+       true1541_interface->toggle_watchpoints_func(1);
+       trigger_trap(true1541_interface->int_status,
+                    mon_helper, *true1541_interface->clk);
    }
    else
-      true1541_turn_watchpoints_off();
-#endif
+       true1541_interface->toggle_watchpoints_func(0);
 
    exit_mon = 0;
 }
