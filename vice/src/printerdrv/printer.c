@@ -26,6 +26,9 @@
 
 #include "vice.h"
 
+#include "driver-select.h"
+#include "drv-ascii.h"
+#include "drv-mps803.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
 #include "output-file.h"
@@ -33,6 +36,9 @@
 int printer_init_resources(void)
 {
     if (output_file_init_resources() < 0
+        || drv_ascii_init_resources() < 0
+        || drv_mps803_init_resources() < 0
+        || driver_select_init_resources() < 0
         || interface_serial_init_resources() < 0
         || interface_userport_init_resources() < 0)
         return -1;
@@ -42,6 +48,7 @@ int printer_init_resources(void)
 int printer_init_cmdline_options(void)
 {
     if (output_file_init_cmdline_options() < 0
+        || driver_select_init_cmdline_options() < 0
         || interface_serial_init_cmdline_options() < 0
         || interface_userport_init_cmdline_options() < 0)
         return -1;
@@ -51,6 +58,9 @@ int printer_init_cmdline_options(void)
 void printer_init(void)
 {
     output_file_init();
+    drv_ascii_init();
+    drv_mps803_init();
+    driver_select_init();
 }
 
 void printer_reset(void)

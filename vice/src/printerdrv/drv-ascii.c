@@ -26,32 +26,61 @@
 
 #include "vice.h"
 
+#include "driver-select.h"
 #include "drv-ascii.h"
 #include "output-file.h"
 #include "types.h"
 
-int drv_ascii_open(int device)
+static int drv_ascii_open(int device)
 {
     return output_file_open(device);
 }
 
-void drv_ascii_close(int fi)
+static void drv_ascii_close(int fi)
 {
     output_file_close(fi);
 }
 
-int drv_ascii_putc(int fi, BYTE b)
+static int drv_ascii_putc(int fi, BYTE b)
 {
-    return output_file_putc(fi, b);
+    if (output_file_putc(fi, b) < 0)
+        return -1;
+
+#if defined(__MSDOS__) || defined(WIN32) || defined(OS2) || defined(__BEOS__)
+    if (b == 13)
+        return output_file_putc(fi, 10);
+#endif
+    return 0;
 }
 
-int drv_ascii_getc(int fi, BYTE *b)
+static int drv_ascii_getc(int fi, BYTE *b)
 {
     return output_file_getc(fi, b);
 }
 
-int drv_ascii_flush(int fi)
+static int drv_ascii_flush(int fi)
 {
     return output_file_flush(fi);
+}
+
+int drv_ascii_init_resources(void)
+{
+    driver_select_t driver_select;
+
+    driver_select.drv_name = "ascii";
+    driver_select.drv_open = drv_ascii_open;
+    driver_select.drv_close = drv_ascii_close;
+    driver_select.drv_putc = drv_ascii_putc;
+    driver_select.drv_getc = drv_ascii_getc;
+    driver_select.drv_flush = drv_ascii_flush;
+
+    driver_select_register(&driver_select);
+
+    return 0;
+}
+
+void drv_ascii_init(void)
+{
+
 }
 

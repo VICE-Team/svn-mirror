@@ -27,13 +27,8 @@
 #ifndef _DRV_MPS803_H
 #define _DRV_MPS803_H
 
-#include "types.h"
-
-extern int drv_mps803_open(int device);
-extern void drv_mps803_close(int fi);
-extern int drv_mps803_putc(int fi, BYTE b);
-extern int drv_mps803_getc(int fi, BYTE *b);
-extern int drv_mps803_flush(int fi);
+extern int drv_mps803_init_resources(void);
+extern void drv_mps803_init(void);
 
 #endif
 

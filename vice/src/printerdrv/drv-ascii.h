@@ -27,13 +27,8 @@
 #ifndef _DRV_ASCII_H
 #define _DRV_ASCII_H
 
-#include "types.h"
-
-extern int drv_ascii_open(int device);
-extern void drv_ascii_close(int fi);
-extern int drv_ascii_putc(int fi, BYTE b);
-extern int drv_ascii_getc(int fi, BYTE *b);
-extern int drv_ascii_flush(int fi);
+extern int drv_ascii_init_resources(void);
+extern void drv_ascii_init(void);
 
 #endif
 
