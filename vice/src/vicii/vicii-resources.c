@@ -37,7 +37,6 @@
 #include "fullscreen.h"
 #endif
 
-
 
 #ifdef __MSDOS__
 #define DEFAULT_VideoCache_VALUE 0
@@ -45,11 +44,9 @@
 #define DEFAULT_VideoCache_VALUE 1
 #endif
 
-
 
 vic_ii_resources_t vic_ii_resources;
 
-
 
 static int 
 set_sprite_sprite_collisions_enabled (resource_value_t v, void *param)
@@ -79,7 +76,7 @@ set_video_cache_enabled (resource_value_t v, void *param)
 static int 
 set_palette_file_name (resource_value_t v, void *param)
 {
-  string_set (&vic_ii_resources.palette_file_name, (char *) v);
+  util_string_set (&vic_ii_resources.palette_file_name, (char *)v);
   if (vic_ii.initialized)
     return vic_ii_load_palette (vic_ii_resources.palette_file_name);
 
@@ -103,7 +100,6 @@ static resource_t resources[] =
     { NULL }
   };
 
-
 
 #ifdef VIC_II_NEED_2X
 
@@ -176,7 +172,6 @@ static resource_t resources_2x[] =
 
 #endif /* VIC_II_NEED_2X */
 
-
 
 int 
 vic_ii_resources_init (void)
@@ -188,3 +183,4 @@ vic_ii_resources_init (void)
 
   return resources_register (resources);
 }
+

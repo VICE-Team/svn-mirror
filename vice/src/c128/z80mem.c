@@ -105,7 +105,7 @@ static int set_z80bios_rom_name(resource_value_t v, void *param)
         && strcmp(name, z80bios_rom_name) == 0)
         return 0;
 
-    string_set(&z80bios_rom_name, name);
+    util_string_set(&z80bios_rom_name, name);
 
     return z80mem_load_bios();
 }

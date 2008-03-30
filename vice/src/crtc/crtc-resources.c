@@ -42,7 +42,7 @@ crtc_resources_t crtc_resources;
 
 static int set_palette_file_name (resource_value_t v, void *param)
 {
-  string_set (&crtc_resources.palette_file_name, (char *) v);
+  util_string_set (&crtc_resources.palette_file_name, (char *)v);
   if (crtc.initialized)
     return crtc_load_palette (crtc_resources.palette_file_name);
 

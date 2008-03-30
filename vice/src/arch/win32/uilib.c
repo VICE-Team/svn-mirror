@@ -279,7 +279,7 @@ char    *extension;
                             strcat(filename,".");
                             strcat(filename,"tap");
                         }
-                        if (file_exists_p(filename)) {
+                        if (util_file_exists_p(filename)) {
                             int ret;
                             ret = ui_messagebox("Overwrite existing image?",
                                 "VICE question", MB_YESNO | MB_ICONQUESTION);
@@ -347,148 +347,160 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
 
     preview=GetDlgItem(hwnd,IDC_PREVIEW);
     switch (uimsg) {
-        case WM_INITDIALOG:
-            SetWindowText(GetDlgItem(GetParent(hwnd),IDOK),"&Attach");
-            image_type_list=GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE);
-            for (counter = 0; image_type_name[counter]; counter++) {
-                SendMessage(image_type_list,CB_ADDSTRING,0,
-                    (LPARAM)image_type_name[counter]);
+      case WM_INITDIALOG:
+        SetWindowText(GetDlgItem(GetParent(hwnd),IDOK),"&Attach");
+        image_type_list=GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE);
+        for (counter = 0; image_type_name[counter]; counter++) {
+            SendMessage(image_type_list,CB_ADDSTRING,0,
+                (LPARAM)image_type_name[counter]);
+        }
+        SendMessage(image_type_list,CB_SETCURSEL,(WPARAM)0,0);
+        /* maybe there's a better font-definition (FIXME) */
+        /*  I think it's OK now (Tibor) */
+        hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
+            DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
+        if (hfont) {
+            SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
+                (WPARAM)hfont,MAKELPARAM(TRUE,0));
+        }
+        SetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,"vice");
+        SetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,"1a");
+        break;
+      case WM_NOTIFY:
+        if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
+            SendMessage(preview,LB_RESETCONTENT,0,0);
+            if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
+                CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
+                if (read_content_func!=NULL) {
+                    contents=read_content_func(filename);
+                    create_content_list(contents,preview);
+                }
             }
-            SendMessage(image_type_list,CB_SETCURSEL,(WPARAM)0,0);
-            /* maybe there's a better font-definition (FIXME) */
-            /*  I think it's OK now (Tibor) */
-            hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
-                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
-            if (hfont) {
-                SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
-                    (WPARAM)hfont,MAKELPARAM(TRUE,0));
+        }
+        break;
+      case WM_COMMAND:
+        msg_type = LOWORD(wparam);
+        switch (msg_type) {
+          case IDC_BLANK_IMAGE:
+            if (SendMessage(GetParent(hwnd),
+                CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
+                ui_error("Please enter a filename.");
+                return -1;
             }
-            SetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,"vice");
-            SetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,"1a");
-            break;
-        case WM_NOTIFY:
-            if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
-                SendMessage(preview,LB_RESETCONTENT,0,0);
-                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
-                    CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
-                    if (read_content_func!=NULL) {
-                        contents=read_content_func(filename);
-                        create_content_list(contents,preview);
+            if (strchr(filename,'.') == NULL) {
+                append_extension = 1;
+                is_it_standard_extension = 1;
+            } else {
+                /*  Find last dot in name */
+                extension=strrchr(filename, '.');
+                /*  Skip dot */
+                extension++;
+                /*  Figure out if it's a standard extension */
+                for (counter=0; image_type_name[counter]; counter++) {
+                    if (strncasecmp(extension,image_type_name[counter],
+                        strlen(image_type_name[counter])) == 0) {
+                        is_it_standard_extension=1;
+                        break;
                     }
                 }
             }
-            break;
-        case WM_COMMAND:
-            msg_type = LOWORD(wparam);
-            switch (msg_type) {
-                case IDC_BLANK_IMAGE:
-                    if (SendMessage(GetParent(hwnd),
-                        CDM_GETSPEC,256,(LPARAM)filename)<=1) {
-                        ui_error("Please enter a filename.");
+            if (SendMessage(GetParent(hwnd),
+                CDM_GETFILEPATH,256,(LPARAM)filename)>=0)
+            {
+                char disk_name[32];
+                char disk_id[3];
+                char format_name[40];
+
+                counter = SendMessage(GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE),
+                                                 CB_GETCURSEL,0,0);
+                if (append_extension) {
+                    strcat(filename,".");
+                    strcat(filename,image_type_name[counter]);
+                }
+                if (util_file_exists_p(filename)) {
+                    int ret;
+                    ret = ui_messagebox("Overwrite existing image?",
+                        "VICE question", MB_YESNO | MB_ICONQUESTION);
+                    if (ret != IDYES)
                         return -1;
+                }
+                GetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME, disk_name, 17);
+                GetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID, disk_id, 3);
+                sprintf(format_name,"%s,%s",disk_name, disk_id);
+                if (vdrive_internal_create_format_disk_image(filename,
+                    format_name, image_type[counter]) < 0) {
+                    ui_error("Cannot create image");
+                    return -1;
+                }
+                /*  Select filter:
+                    If we have a standard extension, select the disk filters,
+                    but leave at 'All files' if it was already there, otherwise
+                    select 'All files'
+                */
+                index = SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
+                                    CB_GETCOUNT, 0, 0);
+                if (is_it_standard_extension) {
+                    if (index-1!=SendMessage(GetDlgItem(GetParent(hwnd),
+                        0x470), CB_GETCURSEL, 0, 0)) {
+                        SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
+                                    CB_SETCURSEL, 0, 0);
                     }
-                    if (strchr(filename,'.') == NULL) {
-                        append_extension = 1;
-                        is_it_standard_extension=1;
-                    } else {
-                        /*  Find last dot in name */
-                        extension=strrchr(filename,'.');
-                        /*  Skip dot */
-                        extension++;
-                        /*  Figure out if it's a standard extension */
-                        for (counter=0; image_type_name[counter]; counter++) {
-                            if (strncasecmp(extension,image_type_name[counter],strlen(image_type_name[counter]))==0) {
-                                is_it_standard_extension=1;
-                                break;
-                            }
-                        }
-                    }
+                } else {
+                    SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
+                                CB_SETCURSEL, index - 1, 0);
+                }
+                /*  Notify main window about filter change */
+                SendMessage(GetParent(hwnd), WM_COMMAND,
+                            MAKELONG(0x470, CBN_SELENDOK),
+                            (LPARAM)GetDlgItem(GetParent(hwnd), 0x470));
+
+                /*  Now find filename in ListView & select it */
+                SendMessage(GetParent(hwnd), CDM_GETSPEC, 256,
+                            (LPARAM)filename);
+                if (append_extension) {
+                    strcat(filename, ".");
+                    strcat(filename, image_type_name[counter]);
+                }
+                find.flags = LVFI_STRING;
+                find.psz = filename;
+                index = SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),
+                        0x461), 1), LVM_FINDITEM, -1, (LPARAM)&find);
+                item.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
+                item.state = LVIS_SELECTED | LVIS_FOCUSED;
+                SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd), 0x461), 1),
+                            LVM_SETITEMSTATE, index, (LPARAM)&item);
+            }
+            break;
+        }
+        switch (HIWORD(wparam)) {
+            case LBN_DBLCLK:
+                if (autostart_result != NULL) {
+                    index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
                     if (SendMessage(GetParent(hwnd),
-                        CDM_GETFILEPATH,256,(LPARAM)filename)>=0)
-                    {
-                        char disk_name[32];
-                        char disk_id[3];
-                        char format_name[40];
-
-                        counter = 
-                            SendMessage(GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE),
-                                CB_GETCURSEL,0,0);
-                        if (append_extension) {
-                            strcat(filename,".");
-                            strcat(filename,image_type_name[counter]);
-                        }
-                        if (file_exists_p(filename)) {
-                            int ret;
-                            ret = ui_messagebox("Overwrite existing image?",
-                                "VICE question", MB_YESNO | MB_ICONQUESTION);
-                            if (ret != IDYES)
-                                return -1;
-                        }
-                        GetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,disk_name,17);
-                        GetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,disk_id,3);
-                        sprintf(format_name,"%s,%s",disk_name,disk_id);
-                        if (vdrive_internal_create_format_disk_image(filename,
-                            format_name, image_type[counter])<0)
-                        {
-                            ui_error("Cannot create image");
-                            return -1;
-                        }
-                        /*  Select filter:
-                            If we have a standard extension, select the disk filters,
-                            but leave at 'All files' if it was already there, otherwise
-                            select 'All files'
-                        */
-                        index=SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_GETCOUNT,0,0);
-                        if (is_it_standard_extension) {
-                            if (index-1!=SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_GETCURSEL,0,0)) {
-                                SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_SETCURSEL,0,0);
-                            }
-                        } else {
-                            SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_SETCURSEL,index-1,0);
-                        }
-                        /*  Notify main window about filter change */
-                        SendMessage(GetParent(hwnd),WM_COMMAND,MAKELONG(0x470,CBN_SELENDOK),(LPARAM)GetDlgItem(GetParent(hwnd),0x470));
-
-                        /*  Now find filename in ListView & select it */
-                        SendMessage(GetParent(hwnd),CDM_GETSPEC,256,(LPARAM)filename);
-                        if (append_extension) {
-                            strcat(filename,".");
-                            strcat(filename,image_type_name[counter]);
-                        }
-                        find.flags=LVFI_STRING;
-                        find.psz=filename;
-                        index=SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),0x461),1),LVM_FINDITEM,-1,(LPARAM)&find);
-                        item.stateMask=LVIS_SELECTED|LVIS_FOCUSED;
-                        item.state=LVIS_SELECTED|LVIS_FOCUSED;
-                        SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),0x461),1),LVM_SETITEMSTATE,index,(LPARAM)&item);
+                        CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                        *autostart_result = get_filename_from_content(filename,
+                                                                      index);
+                        SendMessage(GetParent(hwnd), WM_COMMAND,
+                                    MAKELONG(IDOK,BN_CLICKED),
+                                    (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
                     }
-                    break;
-            }
-            switch (HIWORD(wparam)) {
-                case LBN_DBLCLK:
-                    if (autostart_result!=NULL) {
-                        index=SendMessage((HWND)lparam,LB_GETCURSEL,0,0);
-                        if (SendMessage(GetParent(hwnd),
-                            CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
-                            *autostart_result=get_filename_from_content(filename,index);
-                            SendMessage(GetParent(hwnd),WM_COMMAND,MAKELONG(IDOK,BN_CLICKED),(LPARAM)GetDlgItem(GetParent(hwnd),IDOK));
-                        }
-                    }
-                    break;
-            }
-            break;
-        case WM_DESTROY:
-            if (hfont!=NULL) {
-                DeleteObject(hfont);
-                hfont=NULL;
-            }
-            break;
+                }
+                break;
+        }
+        break;
+      case WM_DESTROY:
+        if (hfont != NULL) {
+            DeleteObject(hfont);
+            hfont = NULL;
+        }
+        break;
     }
     return 0;
 }
 
 
-char *ui_select_file(HWND hwnd, const char *title, const char *filter, int style, char **autostart)
+char *ui_select_file(HWND hwnd, const char *title, const char *filter,
+                     int style, char **autostart)
 {
     char name[1024] = "";
     OPENFILENAME ofn;
@@ -544,36 +556,36 @@ char *ui_select_file(HWND hwnd, const char *title, const char *filter, int style
 
 BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
 {
-	DWORD dwWndThread = GetWindowThreadProcessId(hwnd,NULL);
+    DWORD dwWndThread = GetWindowThreadProcessId(hwnd,NULL);
 
+    if (dwWndThread == GetCurrentThreadId()) {
+        *(HWND*)lParam = hwnd;
+        return FALSE;
+    }
 
-	if(dwWndThread == GetCurrentThreadId()) {
-		*(HWND*)lParam = hwnd;
-		return FALSE;
-	}
-	return TRUE;	
+    return TRUE;	
 }
 
 HWND GetParentHWND()
 {
-	HWND hwndOut = NULL;
+    HWND hwndOut = NULL;
 
-	EnumWindows(GetParentEnumProc,
-				(LPARAM)&hwndOut);
+    EnumWindows(GetParentEnumProc, (LPARAM)&hwndOut);
 
-	if(hwndOut == NULL)
-		return NULL;
-	return GetLastActivePopup(hwndOut);
+    if(hwndOut == NULL)
+        return NULL;
+
+    return GetLastActivePopup(hwndOut);
 }
 
 BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
 			  UINT uMsg,		// message
 			  WPARAM wParam,	// first message parameter
-			  LPARAM lParam  );	// second message parameter
+			  LPARAM lParam);	// second message parameter
 struct TEXTDLGDATA {
-	char *szCaption;
-	char *szHeader;
-	char *szText;
+    char *szCaption;
+    char *szHeader;
+    char *szText;
 };
 
 void ui_show_text(HWND hWnd,
@@ -581,33 +593,36 @@ void ui_show_text(HWND hWnd,
 		const char* szHeader,
 		const char* szText)
 {
-	struct TEXTDLGDATA info;
-	char * szRNText;
-	int i,j;
+    struct TEXTDLGDATA info;
+    char * szRNText;
+    int i, j;
 
-	szRNText = (char*)HeapAlloc(GetProcessHeap(),0,2*lstrlen(szText)+1);
-	i=j=0;
-	while(szText[i] != '\0') {
-		if(szText[i] == '\n')
-			szRNText[j++] = '\r';
-		szRNText[j++] = szText[i++];
-	}
-	szRNText[j] = '\0';
+    szRNText = (char*)HeapAlloc(GetProcessHeap(), 0, 2 * lstrlen(szText) + 1);
+    i = j =0;
+    while(szText[i] != '\0') {
+        if(szText[i] == '\n')
+            szRNText[j++] = '\r';
+        szRNText[j++] = szText[i++];
+    }
+    szRNText[j] = '\0';
 
-	info.szCaption = (char *)szCaption;
-	info.szHeader = (char *)szHeader;
-	info.szText = szRNText;
+    info.szCaption = (char *)szCaption;
+    info.szHeader = (char *)szHeader;
+    info.szText = szRNText;
 
-//	if(hWnd == HWND_AUTO)
-//		hWnd = GetParentHWND();
-	DialogBoxParam(GetModuleHandle(NULL),	// GetModuleHandle(NULL) returns the instance handle
-										// of the executable that created the current process.
-										// Win32: module handle == instance handle == task [Win3.1 legacy]
-			MAKEINTRESOURCE(IDD_TEXTDLG),
-			hWnd,
-			TextDlgProc,
-			(LPARAM)&info);
-	HeapFree(GetProcessHeap(),0,szRNText);
+//  if(hWnd == HWND_AUTO)
+//      hWnd = GetParentHWND();
+    DialogBoxParam(GetModuleHandle(NULL),
+
+// GetModuleHandle(NULL) returns the instance handle
+// of the executable that created the current process.
+// Win32: module handle == instance handle == task [Win3.1 legacy]
+
+                   MAKEINTRESOURCE(IDD_TEXTDLG),
+                   hWnd,
+                   TextDlgProc,
+                   (LPARAM)&info);
+                   HeapFree(GetProcessHeap(), 0, szRNText);
 }
 
 // FIXME: the client area with the scroll bars 
@@ -615,73 +630,71 @@ void ui_show_text(HWND hWnd,
 //		is not perfect.
 void AutoHideScrollBar(HWND hWnd, int fnBar)
 {
-	BOOL bResult;
-	SCROLLINFO scInfo;
-	UINT uiDiff;
+    BOOL bResult;
+    SCROLLINFO scInfo;
+    UINT uiDiff;
 	
-	scInfo.cbSize = sizeof(scInfo);
-	scInfo.fMask = SIF_RANGE|SIF_PAGE;
-	bResult = GetScrollInfo(hWnd, fnBar, &scInfo);
+    scInfo.cbSize = sizeof(scInfo);
+    scInfo.fMask = SIF_RANGE|SIF_PAGE;
+    bResult = GetScrollInfo(hWnd, fnBar, &scInfo);
 
-	if(!bResult)
-		return;
+    if(!bResult)
+        return;
 
-	uiDiff= scInfo.nMax-scInfo.nMin;
-	if(scInfo.nPage > uiDiff)
-		ShowScrollBar(hWnd,fnBar, 0);
+    uiDiff = scInfo.nMax-scInfo.nMin;
+    if(scInfo.nPage > uiDiff)
+        ShowScrollBar(hWnd, fnBar, 0);
 }
 
 
 
-BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
-				UINT uMsg,	// message
-				WPARAM wParam,	// first message parameter
-				LPARAM lParam)	// second message parameter
+BOOL CALLBACK TextDlgProc(HWND hwndDlg,         // handle to dialog box
+                          UINT uMsg,            // message
+                          WPARAM wParam,        // first message parameter
+                          LPARAM lParam)        // second message parameter
 {
     switch (uMsg) {
+      case WM_INITDIALOG:
+        {
+            struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
+            SetWindowText(hwndDlg,pInfo->szCaption);
+            SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
 
-    
-    
-    case WM_INITDIALOG:
-		{
-			struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
-			SetWindowText(hwndDlg,pInfo->szCaption);
-			SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
-
-			SetDlgItemText(hwndDlg,	IDC_TEXT, pInfo->szText);
-			SendDlgItemMessage(hwndDlg,
-								IDC_TEXT,
-								EM_SETREADONLY,
-								1,	// wParam: read-only flag
-								0);	// lParam: unused.
-			AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT),SB_HORZ);
-			AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT),SB_VERT);
-			return TRUE;
-		}
-		case WM_CTLCOLORSTATIC:
-			// The text box should use the normal colors, but the contents must
-			// be read-only.
-			// A read-only text box uses WM_CTLCOLORSTATIC, but a read-write
-			// text box uses WM_CTLCOLOREDIT.
-			if((HWND)lParam == GetDlgItem(hwndDlg,IDC_TEXT)) {
-				// the return value is passed directly,
-				// SetWindowLong(DWL_MSGRESULT) is ignored.
-				return DefDlgProc(hwndDlg, WM_CTLCOLOREDIT, wParam, lParam);
-			} else {
-				return FALSE;
-			}
-			
-        case WM_CLOSE:
-            EndDialog(hwndDlg,0);
+            SetDlgItemText(hwndDlg, IDC_TEXT, pInfo->szText);
+            SendDlgItemMessage(hwndDlg,
+                               IDC_TEXT,
+                               EM_SETREADONLY,
+                               1,	// wParam: read-only flag
+                               0);	// lParam: unused.
+            AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_HORZ);
+            AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_VERT);
             return TRUE;
-        case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-                case IDCANCEL:
-				case IDOK:
-	                EndDialog(hwndDlg, 0);
-		            return TRUE;
-			}
-            break;
+        }
+      case WM_CTLCOLORSTATIC:
+        // The text box should use the normal colors, but the contents must
+        // be read-only.
+        // A read-only text box uses WM_CTLCOLORSTATIC, but a read-write
+        // text box uses WM_CTLCOLOREDIT.
+        if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_TEXT)) {
+            // the return value is passed directly,
+            // SetWindowLong(DWL_MSGRESULT) is ignored.
+            return DefDlgProc(hwndDlg, WM_CTLCOLOREDIT, wParam, lParam);
+        } else {
+            return FALSE;
+        }
+			
+      case WM_CLOSE:
+        EndDialog(hwndDlg,0);
+        return TRUE;
+      case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+          case IDCANCEL:
+          case IDOK:
+            EndDialog(hwndDlg, 0);
+            return TRUE;
+        }
+        break;
     }
     return FALSE;
 }
+

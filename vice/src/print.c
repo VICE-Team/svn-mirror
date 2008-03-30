@@ -52,7 +52,7 @@ static int set_printer_device(resource_value_t v, void *param)
         && (strcmp(name, PrinterDev[devnr]) == 0))
         return 0;
 
-    string_set(&PrinterDev[devnr], name);
+    util_string_set(&PrinterDev[devnr], name);
     return 0;
 }
 

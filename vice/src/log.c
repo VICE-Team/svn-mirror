@@ -49,7 +49,7 @@ static char *log_file_name;
 
 static int set_log_file_name(resource_value_t v, void *param)
 {
-    string_set(&log_file_name, (const char *) v);
+    util_string_set(&log_file_name, (const char *)v);
 
     return 0;
 }

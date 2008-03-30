@@ -176,7 +176,7 @@ static TUI_MENU_CALLBACK(write_snapshot_callback)
             return NULL;
         }
 
-        if (!file_exists_p(file_name)
+        if (!util_file_exists_p(file_name)
             || tui_ask_confirmation("The specified file already exists.  "
                                     "Replace?  (Y/N)")) {
             if (machine_write_snapshot(file_name,

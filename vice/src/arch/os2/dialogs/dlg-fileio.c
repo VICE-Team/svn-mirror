@@ -502,7 +502,7 @@ static void ShowContents(HWND hwnd, char *image_name)
     //
     // don't call the all the vice stuff if file doesn't exist
     //
-    if (!file_exists_p(image_name))
+    if (!util_file_exists_p(image_name))
         return;
 
     //

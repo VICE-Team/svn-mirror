@@ -2343,7 +2343,7 @@ static int unlynx_cmd(int nargs, char **args)
             break;
     }
     buff[cnt] = 0;
-    if (string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
+    if (util_string_to_long(buff, NULL, 10, &dirsize) < 0 || dirsize <= 0) {
         fprintf(stderr, "Invalid Lynx file.\n");
         return FD_RDERR;
     }
@@ -2358,7 +2358,7 @@ static int unlynx_cmd(int nargs, char **args)
             break;
     }
     buff[cnt] = 0;
-    if (string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
+    if (util_string_to_long(buff, NULL, 10, &dentries) < 0 || dentries <= 0) {
         fprintf(stderr, "Invalid Lynx file.\n");
         return FD_RDERR;
     }
@@ -2393,7 +2393,7 @@ static int unlynx_cmd(int nargs, char **args)
         }
         buff[cnt] = 0;
 
-        if (string_to_long(buff, NULL, 10, &bsize) < 0) {
+        if (util_string_to_long(buff, NULL, 10, &bsize) < 0) {
             fprintf(stderr, "Invalid Lynx file.\n");
             return FD_RDERR;
         }
@@ -2429,7 +2429,7 @@ static int unlynx_cmd(int nargs, char **args)
         }
         buff[cnt] = 0;
 
-        if (string_to_long(buff, NULL, 10, &lbsize) < 0) {
+        if (util_string_to_long(buff, NULL, 10, &lbsize) < 0) {
             fprintf(stderr, "Invalid Lynx file.\n");
             return FD_RDERR;
         }

@@ -76,8 +76,8 @@ static int set_cartridge_file(resource_value_t v, void *param)
         && strcmp(name, cartridge_file) == 0)
         return 0;
 
-    string_set(&cartridge_file, name);
-    string_set(&cartfile, name);
+    util_string_set(&cartridge_file, name);
+    util_string_set(&cartfile, name);
     return cartridge_attach_image(carttype, cartfile);
 }
 
@@ -491,7 +491,7 @@ int cartridge_attach_image(int type, const char *filename)
     }
 
     cartridge_type = carttype = type;       /* Resource value updated! */
-    string_set(&cartfile, filename);
+    util_string_set(&cartfile, filename);
     cartridge_attach((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     free(rawcart);
     return 0;

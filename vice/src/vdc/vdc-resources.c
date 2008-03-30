@@ -59,7 +59,7 @@ static int set_video_cache_enabled (resource_value_t v, void *param)
 
 static int set_palette_file_name (resource_value_t v, void *param)
 {
-  string_set (&vdc_resources.palette_file_name, (char *) v);
+  util_string_set (&vdc_resources.palette_file_name, (char *)v);
   if (vdc.initialized)
     return vdc_load_palette (vdc_resources.palette_file_name);
 

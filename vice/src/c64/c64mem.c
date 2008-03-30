@@ -118,7 +118,7 @@ static int set_chargen_rom_name(resource_value_t v, void *param)
         && strcmp(name, chargen_rom_name) == 0)
         return 0;
 
-    string_set(&chargen_rom_name, name);
+    util_string_set(&chargen_rom_name, name);
 
     return mem_load_chargen();
 }
@@ -131,7 +131,7 @@ static int set_kernal_rom_name(resource_value_t v, void *param)
         && strcmp(name, kernal_rom_name) == 0)
         return 0;
 
-    string_set(&kernal_rom_name, name);
+    util_string_set(&kernal_rom_name, name);
 
     return mem_load_kernal();
 }
@@ -145,7 +145,7 @@ static int set_basic_rom_name(resource_value_t v, void *param)
         && strcmp(name, basic_rom_name) == 0)
         return 0;
 
-    string_set(&basic_rom_name, name);
+    util_string_set(&basic_rom_name, name);
 
     return mem_load_basic();
 }
@@ -211,7 +211,7 @@ static int set_kernal_revision(resource_value_t v, void *param)
 {
     const char *rev = (const char *) v;
 
-    string_set(&kernal_revision, rev);
+    util_string_set(&kernal_revision, rev);
     return 0;
 }
 

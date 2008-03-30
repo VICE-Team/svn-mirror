@@ -144,7 +144,7 @@ static int set_fsdevice_dir(resource_value_t v, void *param)
     if (fsdevice_dir[(int)param - 8] != NULL && name != NULL
         && strcmp(name, fsdevice_dir[(int)param - 8]) == 0)
         return 0;
-    string_set(&fsdevice_dir[(int)param - 8], name ? name : "");
+    util_string_set(&fsdevice_dir[(int)param - 8], name ? name : "");
     return 0;
 }
 

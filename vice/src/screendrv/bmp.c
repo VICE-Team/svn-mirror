@@ -50,9 +50,9 @@ int bmp_write_file_header(screenshot_t *screenshot, FILE *fd)
     header[0] = 'B';
     header[1] = 'M';
 
-    dword_to_le_buf(&header[2], BMP_SIZE);
+    util_dword_to_le_buf(&header[2], BMP_SIZE);
 
-    dword_to_le_buf(&header[10], BMP_HDR_OFFSET);
+    util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET);
 
     if (fwrite(header, sizeof(header), 1, fd) < 1)
         return -1;
@@ -68,9 +68,9 @@ int bmp_write_bitmap_info(screenshot_t *screenshot, FILE *fd)
 
     memset(binfo, 0, sizeof(binfo));
 
-    dword_to_le_buf(&binfo[0], sizeof(binfo));
-    dword_to_le_buf(&binfo[4], screenshot->width);
-    dword_to_le_buf(&binfo[8], screenshot->height);
+    util_dword_to_le_buf(&binfo[0], sizeof(binfo));
+    util_dword_to_le_buf(&binfo[4], screenshot->width);
+    util_dword_to_le_buf(&binfo[8], screenshot->height);
 
     binfo[12] = 1;
     binfo[13] = 0;
@@ -78,14 +78,14 @@ int bmp_write_bitmap_info(screenshot_t *screenshot, FILE *fd)
     binfo[14] = 4;
     binfo[15] = 0;
 
-    dword_to_le_buf(&binfo[16], 0); /* BI_RGB */
-    dword_to_le_buf(&binfo[20], 0);
+    util_dword_to_le_buf(&binfo[16], 0); /* BI_RGB */
+    util_dword_to_le_buf(&binfo[20], 0);
 
-    dword_to_le_buf(&binfo[24], 4000);
-    dword_to_le_buf(&binfo[28], 4000);
+    util_dword_to_le_buf(&binfo[24], 4000);
+    util_dword_to_le_buf(&binfo[28], 4000);
 
-    dword_to_le_buf(&binfo[32], 0);
-    dword_to_le_buf(&binfo[36], 0);
+    util_dword_to_le_buf(&binfo[32], 0);
+    util_dword_to_le_buf(&binfo[36], 0);
 
     if (fwrite(binfo, sizeof(binfo), 1, fd) < 1)
         return -1;

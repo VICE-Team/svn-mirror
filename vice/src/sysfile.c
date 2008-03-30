@@ -61,7 +61,7 @@ static int set_system_path(resource_value_t v, void *param)
 {
     char *tmp_path, *tmp_path_save, *p, *s, *current_dir;
 
-    string_set(&system_path, (char *) v);
+    util_string_set(&system_path, (char *)v);
 
     if (expanded_system_path != NULL) {
         free(expanded_system_path);

@@ -53,7 +53,7 @@ static int set_video_cache_enabled (resource_value_t v, void *param)
 
 static int set_palette_file_name (resource_value_t v, void *param)
 {
-  string_set (&vic_resources.palette_file_name, (char *) v);
+  util_string_set(&vic_resources.palette_file_name, (char *)v);
   if (vic.initialized)
     return vic_load_palette (vic_resources.palette_file_name);
 

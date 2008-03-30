@@ -321,7 +321,7 @@ static int set_dos_rom_name_2040(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_2040) == 0)
         return 0;
 
-    string_set(&dos_rom_name_2040, name);
+    util_string_set(&dos_rom_name_2040, name);
 
     return drive_load_2040();
 }
@@ -334,7 +334,7 @@ static int set_dos_rom_name_3040(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_3040) == 0)
         return 0;
 
-    string_set(&dos_rom_name_3040, name);
+    util_string_set(&dos_rom_name_3040, name);
 
     return drive_load_3040();
 }
@@ -347,7 +347,7 @@ static int set_dos_rom_name_4040(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_4040) == 0)
         return 0;
 
-    string_set(&dos_rom_name_4040, name);
+    util_string_set(&dos_rom_name_4040, name);
 
     return drive_load_4040();
 }
@@ -360,7 +360,7 @@ static int set_dos_rom_name_1001(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_1001) == 0)
         return 0;
 
-    string_set(&dos_rom_name_1001, name);
+    util_string_set(&dos_rom_name_1001, name);
 
     return drive_load_1001();
 }
@@ -373,7 +373,7 @@ static int set_dos_rom_name_2031(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_2031) == 0)
         return 0;
 
-    string_set(&dos_rom_name_2031, name);
+    util_string_set(&dos_rom_name_2031, name);
 
     return drive_load_2031();
 }
@@ -386,7 +386,7 @@ static int set_dos_rom_name_1541(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_1541) == 0)
         return 0;
 
-    string_set(&dos_rom_name_1541, name);
+    util_string_set(&dos_rom_name_1541, name);
 
     return drive_load_1541();
 }
@@ -399,7 +399,7 @@ static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_1541ii) == 0)
         return 0;
 
-    string_set(&dos_rom_name_1541ii, name);
+    util_string_set(&dos_rom_name_1541ii, name);
 
     return drive_load_1541ii();
 }
@@ -412,7 +412,7 @@ static int set_dos_rom_name_1571(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_1571) == 0)
         return 0;
 
-    string_set(&dos_rom_name_1571, name);
+    util_string_set(&dos_rom_name_1571, name);
 
     return drive_load_1571();
 }
@@ -425,7 +425,7 @@ static int set_dos_rom_name_1581(resource_value_t v, void *param)
         && strcmp(name, dos_rom_name_1581) == 0)
         return 0;
 
-    string_set(&dos_rom_name_1581, name);
+    util_string_set(&dos_rom_name_1581, name);
 
     return drive_load_1581();
 }
