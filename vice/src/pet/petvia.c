@@ -140,9 +140,10 @@
 
 
 #include "parallel.h"
-#include "petsound.h"
+#include "../c64/sid.h"
 #include "kbd.h"
 #include "crtc.h"
+#include "pruser.h"
 
 #include "interrupt.h"
 
@@ -223,6 +224,9 @@ void    reset_via(void)
     par_set_atn(0);
     par_set_nrfd(0);
 
+    userport_printer_write_data(0xff);
+    userport_printer_write_strobe(1);
+
 }
 
 void via_signal(int line, int edge) {
@@ -279,7 +283,10 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	via[VIA_PRA_NHS] = byte;
 	addr = VIA_PRA;
       case VIA_DDRA:
-	via[addr] = byte;
+
+ 	via[addr] = byte;
+	byte = via[VIA_PRA] | ~via[VIA_DDRA];
+	userport_printer_write_data(byte);
 	break;
 
       case VIA_PRB: /* port B */
@@ -451,7 +458,9 @@ byte, viapb7, viapb7x, viapb7o, viapb7xx, viapb7sx);*/
           /* first set bit 1 and 5 to the real output values */
           if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
           if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          crtc_set_char( byte & 2 ); /* switching PET charrom */
+          crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
+				     /* switching userport strobe with CB2 */
+          userport_printer_write_strobe( byte & 0x20 ); 
 	}
 	via[addr] = byte;
 	break;
@@ -660,4 +669,9 @@ int     show_keyarr(void)
     }
     return (0);
 }
+
+void userport_printer_set_busy(int b) {
+    via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+}
+
 

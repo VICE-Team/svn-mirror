@@ -144,7 +144,7 @@ static UI_CALLBACK(smart_attach)
 
     switch (button) {
       case UI_BUTTON_OK:
- 	if (serial_select_file(DT_DISK | DT_1541, 8, filename) < 0
+ 	if (file_system_attach_disk(8, filename) < 0
 	    && serial_select_file(DT_TAPE, 1, filename) < 0) {
 	    ui_error("Unknown image type");
 	}
@@ -324,7 +324,7 @@ static UI_CALLBACK(toggle_pause)
 	    ui_display_paused(1);
 	    suspend_speed_eval();
 	    while (paused)
-		ui_dispatch_events();
+		ui_dispatch_next_event();
 	}
     }
     ui_menu_set_tick(w, paused);
