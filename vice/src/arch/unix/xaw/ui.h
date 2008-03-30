@@ -123,6 +123,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
 void ui_display_drive_track(int drive_number, double track_number);
 void ui_display_drive_led(int drive_number, int status);
+void ui_display_drive_current_image(int drive_number, char *image);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
 void ui_dispatch_events(void);

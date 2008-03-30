@@ -35,6 +35,7 @@
 #include "fliplist.h"
 #include "resources.h"
 #include "vdrive.h"
+#include "ui.h"
 
 static int file_system_device_enabled[4];
 
@@ -196,12 +197,15 @@ int file_system_attach_disk(int unit, const char *filename)
         return -1;
     } else {
         flip_set_current(unit, filename);
+	ui_display_drive_current_image(unit - 8, filename);
         return 0;
     }
 }
 
 void file_system_detach_disk(int unit)
 {
+    int i;
+    
     if (unit < 0) {
 	serial_remove_file(8);
 	set_file_system_device8((resource_value_t)
@@ -215,16 +219,22 @@ void file_system_detach_disk(int unit)
 	serial_remove_file(11);
 	set_file_system_device11((resource_value_t)
                                   file_system_device_enabled[3]);
+	/* XXX Fixme: Hardcoded 2 drives here! */
+	for (i = 8; i<=9; i++)
+	    ui_display_drive_current_image(i - 8, "");
+	    
     } else {
 	serial_remove_file(unit);
 	switch(unit) {
 	  case 8:
 	    set_file_system_device8((resource_value_t)
                                      file_system_device_enabled[0]);
+	    ui_display_drive_current_image(0, "");
 	    break;
 	  case 9:
 	    set_file_system_device9((resource_value_t)
                                      file_system_device_enabled[1]);
+	    ui_display_drive_current_image(1, "");
 	    break;
 	  case 10:
 	    set_file_system_device10((resource_value_t)

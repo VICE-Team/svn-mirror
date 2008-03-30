@@ -88,6 +88,8 @@ struct zfile {
     file_desc_t fd;		/* Associated file descriptor.  */
     enum compression_type type;	/* Compression algorithm.  */
     struct zfile *prev, *next;  /* Link to the previous and next nodes.  */
+    zfile_action_t action;	/* action on close */
+    char *request_string;	/* ui string for action=ZFILE_REQUEST */
 };
 struct zfile *zfile_list = NULL;
 
@@ -132,6 +134,8 @@ static void zfile_list_add(const char *tmp_name,
 
     /* Make sure we have the complete path of the file.  */
 
+#if 0 	/* moved to archdep_expand_path() */
+    
 #ifdef __MSDOS__
     /* MS-DOS version.  */
     new_zfile->orig_name = _truename(orig_name, NULL);
@@ -162,13 +166,18 @@ static void zfile_list_add(const char *tmp_name,
     }
 #endif
 #endif
+#endif 	/* 0 */
+
+    archdep_expand_path(&new_zfile->orig_name, orig_name);
 
     /* The new zfile becomes first on the list.  */
-    new_zfile->tmp_name = stralloc(tmp_name);
+    new_zfile->tmp_name = tmp_name ? stralloc(tmp_name) : NULL;
     new_zfile->write_mode = write_mode;
     new_zfile->stream = stream;
     new_zfile->fd = fd;
     new_zfile->type = type;
+    new_zfile->action = ZFILE_KEEP;
+    new_zfile->request_string = NULL;
     new_zfile->next = zfile_list;
     new_zfile->prev = NULL;
     if (zfile_list != NULL)
@@ -848,9 +857,13 @@ file_desc_t zopen(const char *name, mode_t opt, int flags)
 	return ILLEGAL_FILE_DESC;
 
     type = try_uncompress(name, &tmp_name, write_mode);
-    if (type == COMPR_NONE)
-	return open(name, opt, flags);
-    else if (*tmp_name == '\0') {
+    if (type == COMPR_NONE) {
+	fd = open(name, opt, flags);
+        if (fd == ILLEGAL_FILE_DESC)
+	    return fd;
+        zfile_list_add(NULL, name, type, write_mode, NULL, fd);
+	return fd;
+    } else if (*tmp_name == '\0') {
 	errno = EACCES;
 	return ILLEGAL_FILE_DESC;
     }
@@ -904,9 +917,14 @@ FILE *zfopen(const char *name, const char *mode)
 	return NULL;
 
     type = try_uncompress(name, &tmp_name, write_mode);
-    if (type == COMPR_NONE)
-	return fopen(name, mode);
-    else if (*tmp_name == '\0') {
+    if (type == COMPR_NONE) {
+	stream = fopen(name, mode);
+        if (stream == NULL)
+	    return NULL;
+        zfile_list_add(NULL, name, type, write_mode, stream, 
+							ILLEGAL_FILE_DESC);
+	return stream;
+    } else if (*tmp_name == '\0') {
 	errno = EACCES;
 	return NULL;
     }
@@ -920,29 +938,66 @@ FILE *zfopen(const char *name, const char *mode)
     return stream;
 }
 
-/* Handle close of a compressed file.  `ptr' points to the zfile to close.  */
+/* Handle close-action of a file.  `ptr' points to the zfile to close.  */
+static int handle_close_action(struct zfile *ptr)
+{
+    if (ptr == NULL || ptr->orig_name == NULL)
+	return -1;
+
+    switch(ptr->action) {
+    case ZFILE_KEEP:
+	break;
+    case ZFILE_REQUEST:
+/*
+	ui_zfile_close_request(ptr->orig_name, ptr->request_string);
+	break;
+*/
+    case ZFILE_DEL:
+printf("zfile_close_action(%d): file='%s', request_str='%s'\n", 
+		ptr->action, ptr->orig_name, ptr->request_string);
+        if (unlink(ptr->orig_name) < 0)
+	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
+                  ptr->orig_name, strerror(errno));
+	break;
+    }
+    return 0;
+}
+
+/* Handle close of a (compressed file). `ptr' points to the zfile to close.  */
 static int handle_close(struct zfile *ptr)
 {
     ZDEBUG(("handle_close: closing `%s' (`%s'), write_mode = %d",
-            ptr->tmp_name, ptr->orig_name, ptr->write_mode));
+            ptr->tmp_name ? ptr->tmp_name : "(null)", 
+	    ptr->orig_name, ptr->write_mode));
 
-    /* Recompress into the original file.  */
-    if (ptr->write_mode
-	&& compress(ptr->tmp_name, ptr->orig_name, ptr->type))
-	return -1;
+    if (ptr->tmp_name) {
+        /* Recompress into the original file.  */
+        if (ptr->orig_name 
+	    && ptr->write_mode
+	    && compress(ptr->tmp_name, ptr->orig_name, ptr->type))
+	    return -1;
 
-    /* Remove temporary file.  */
-    if (unlink(ptr->tmp_name) < 0)
-	log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
+        /* Remove temporary file.  */
+        if (unlink(ptr->tmp_name) < 0)
+	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
                   ptr->tmp_name, strerror(errno));
+    }
+
+    handle_close_action(ptr);
 
     /* Remove item from list.  */
     if (ptr->prev != NULL)
 	ptr->prev->next = ptr->next;
     else
 	zfile_list = ptr->next;
-    free(ptr->orig_name);
-    free(ptr->tmp_name);
+
+    if (ptr->orig_name)
+        free(ptr->orig_name);
+    if (ptr->tmp_name)
+        free(ptr->tmp_name);
+    if (ptr->request_string)
+        free(ptr->request_string);
+
     free(ptr);
 
     return 0;
@@ -1046,16 +1101,52 @@ int zclose_all(void)
 	}
 
 	/* Recompress into the original file.  */
-	if (p->write_mode && compress(p->tmp_name, p->orig_name, p->type))
-	    return -1;
-	if (unlink(p->tmp_name) < 0)
-            log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
+	if (p->tmp_name) {
+	    if (p->orig_name
+	        && p->write_mode 
+		&& compress(p->tmp_name, p->orig_name, p->type)) {
+	        return -1;
+	    }
+	    if (unlink(p->tmp_name) < 0)
+                log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
                       p->tmp_name, strerror(errno));
-	free(p->orig_name);
-	free(p->tmp_name);
+	}
+
+	handle_close_action(p);
+
+	if (p->orig_name) 
+	    free(p->orig_name);
+	if (p->tmp_name) 
+	    free(p->tmp_name);
+	if (p->request_string) 
+	    free(p->request_string);
 	pnext = p->next;
 	free(p);
 	p = pnext;
     }
     return ret;
 }
+
+int zfile_close_action(const char *filename, zfile_action_t action, 
+						const char *request_str)
+{
+    char *fullname = NULL;
+    struct zfile *p = zfile_list;
+
+    archdep_expand_path(&fullname, filename);
+
+    while (p != NULL) {
+	if (p->orig_name && !strcmp(p->orig_name, fullname)) {
+	    p->action = action;
+	    p->request_string = request_str ? stralloc(request_str): NULL;
+	    free(fullname);
+	    return 0;
+	}
+	p = p->next;
+    }
+
+    free(fullname);
+    return -1;
+}
+
+

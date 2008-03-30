@@ -1,8 +1,13 @@
 /*
- * zfile.h - Transparent handling of compressed files.
+ * crtc-draw.h - A line-based CRTC emulation (under construction).
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *
+ * 16/24bpp support added by
+ *  Steven Tieu (stieu@physics.ubc.ca)
+ *  Teemu Rantanen (tvr@cs.hut.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,42 +29,10 @@
  *
  */
 
-#ifndef _ZFILE_H
-#define _ZFILE_H
+#ifndef _CRTC_DRAW_H
+#define _CRTC_DRAW_H
 
-#ifdef STDC_HEADERS
-#ifndef __riscos
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+void crtc_draw_init(void);
+void crtc_draw_set_double_size(int enabled);
+
 #endif
-#include <stdio.h>
-#endif
-
-#if defined(WIN32) || defined(WINCE) || defined(__riscos)
-#ifndef _MODE_T_
-typedef int mode_t;
-#endif
-#endif
-
-#ifdef OS2
-#include <string.h>
-#endif
-
-/* actions to be done when a zfile is closed */
-typedef enum {
-	ZFILE_KEEP,		/* nothing, keep original file (default) */
-	ZFILE_REQUEST,		/* request the user what to do */
-	ZFILE_DEL		/* remove original file */
-} zfile_action_t;
-
-file_desc_t zopen(const char *name, mode_t mode, int flags);
-int zclose(file_desc_t fd);
-FILE *zfopen(const char *name, const char *mode);
-int zfclose(FILE *stream);
-int zclose_all(void);
-
-int zfile_close_action(const char *filename, zfile_action_t action,
-				const char *request_string);
-
-#endif /* _ZFILE_H */

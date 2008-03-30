@@ -270,3 +270,17 @@ cleanup:
     return retval;
 }
 
+/* return malloc´d version of full pathname of orig_name */
+int archdep_expand_path(char **return_path, const char *orig_name)
+{
+    /* MS-DOS version.  */
+    *return_path = _truename(orig_name, NULL);
+    if (*return_path == NULL) {
+        log_error(zlog,
+                  "zfile_list_add: warning, illegal file name `%s'.",
+                  orig_name);
+        *return_path = stralloc(orig_name);
+    }
+    return 0;
+}
+

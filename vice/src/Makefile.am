@@ -24,6 +24,7 @@ SUBDIRS = \
 	drive \
 	raster \
 	vicii \
+	crtc \
 	sid \
 	c64 \
 	c128 \
@@ -57,7 +58,6 @@ noinst_HEADERS = \
 	ciatimer.h \
 	cmdline.h \
 	config.h.in \
-	crtc.h \
 	datasette.h \
 	emuid.h \
 	fixpoint.h \
@@ -180,7 +180,6 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	aciacore.c \
 	ciacore.c \
-	crtccore.c \
 	convio \
 	fixpoint.c \
 	piacore.c \
@@ -202,6 +201,7 @@ sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
+crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LEXLIB@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ 
@@ -280,30 +280,62 @@ xvic-all: \
 	libsounddrv \
 	libvic20 \
 	libarch \
-    xvic
+    	xvic
 
 # xpet
+xpet_libs =  \
+	@XPET_WINRES@ \
+	$(drive_lib) \
+	$(pet_lib) \
+	$(sounddrv_lib) \
+	$(rs232_printer_ldadd) \
+	$(crtc_lib) \
+	$(raster_lib) \
+	$(common_libs)
+	
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
-	@READLINE@ @XPET_WINRES@
-xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xpet_LDADD = $(xpet_libs) @X_LIBS@
+xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
+
 .PHONY: xpet-all
-xpet-all: libpet libsounddrv libarch libdrive xpet 
+xpet-all: \
+	libdrive \
+	libraster \
+	libcrtc \
+	libsounddrv \
+	libpet \
+	libarch \
+	xpet 
 
 # xcbm2
+xcbm2_libs = \
+	@XCBM2_WINRES@ \
+	$(drive_lib) \
+	$(xcbm2_lib) \
+	$(sounddrv_lib) \
+	$(rs232_printer_ldadd) \
+	$(sid_lib) \
+	$(crtc_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ @XCBM2_WINRES@
-xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@
+xcbm2_LDADD = $(xcbm2_libs) @X_LIBS@
+xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
+
 .PHONY: xcbm2-all
-xcbm2-all: libcbm2 libsounddrv libarch libsid @RESID_DEP@ libdrive xcbm2
+xcbm2-all: \
+	libcbm2 \
+	libsounddrv \
+	libarch \
+	libsid \
+	@RESID_DEP@ \
+	libdrive \
+	libraster \
+	libcrtc \
+	xcbm2
 
 # c1541
 c1541_SOURCES = \
@@ -346,7 +378,7 @@ petcat_LDADD = @ARCH_DIR@/archdep.o
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
-	libvicii libsid @RESID_DEP@
+	libvicii libsid libcrtc @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -374,3 +406,5 @@ libvic20:
 	(cd vic20 && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
+libcrtc:
+	(cd crtc && $(MAKE))

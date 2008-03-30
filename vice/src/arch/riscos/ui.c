@@ -5706,6 +5706,11 @@ void ui_display_drive_led(int drive_number, int status)
   ui_set_drive_leds((unsigned int)drive_number, status);
 }
 
+/* display current image */
+void ui_display_drive_current_image(int drivenum, char *image)
+{
+    /* just a dummy so far */
+}
 
 void ui_set_drive_leds(unsigned int led, int status)
 {

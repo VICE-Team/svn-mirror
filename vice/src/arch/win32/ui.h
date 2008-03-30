@@ -62,6 +62,7 @@ extern void ui_enable_drive_status(ui_drive_enable_t enable,
                                    int *drive_led_color);
 extern void ui_display_drive_track(int drivenum, double track_number);
 extern void ui_display_drive_led(int drivenum, int status);
+extern void ui_display_drive_current_image(int drive_number, char *image);
 extern void ui_display_paused(int flag);
 extern void ui_dispatch_next_event(void);
 extern void ui_dispatch_events(void);

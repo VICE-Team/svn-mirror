@@ -193,3 +193,12 @@ int archdep_spawn(const char *name, char **argv,
     return 0;
 }
 
+/* return malloc´d version of full pathname of orig_name */
+int archdep_expand_path(char **return_path, const char *orig_name)
+{
+    /* Always treat it as the full pathname... */
+    *return_path = (char*)malloc(strlen(orig_name) + 1);
+    strcpy(*return_path, orig_name);
+    return 0;
+}
+

@@ -80,6 +80,7 @@
 #include "wd1770.h"
 #include "sysfile.h"
 #include "fdc.h"
+#include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -1702,6 +1703,40 @@ CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr)
 
 /* The following functions are time critical.  */
 
+/* Return non-zero if the Sync mark is found.  It is required to
+   call drive_rotate_disk() to update drive[].GCR_head_offset first.
+   The return value corresponds to bit#7 of VIA2 PRB. This means 0x0
+   is returned when sync is found and 0x80 is returned when no sync
+   is found.  */
+inline static BYTE drive_sync_found(drive_t *dptr)
+{
+    BYTE val = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
+
+    if (val != 0xff || dptr->last_mode == 0) {
+        return 0x80;
+    } else {
+        int previous_head_offset = (dptr->GCR_head_offset > 0
+            ? dptr->GCR_head_offset - 1
+            : dptr->GCR_current_track_size - 1);
+
+        if (dptr->GCR_track_start_ptr[previous_head_offset] != 0xff) {
+            if (dptr->shifter >= 2) {
+                int next_head_offset = ((dptr->GCR_head_offset
+                    < (dptr->GCR_current_track_size - 1))
+                    ? dptr->GCR_head_offset + 1 : 0);
+                if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
+                    == 0xc0)
+                    return 0;
+            }
+            return 0x80;
+        }
+        /* As the current rotation code cannot cope with non byte aligned
+           writes, do not change `drive[].bits_moved'!  */
+        /* dptr->bits_moved = 0; */
+        return 0;
+    }
+}
+
 /* Rotate the disk according to the current value of `drive_clk[]'.  If
    `mode_change' is non-zero, there has been a Read -> Write mode switch.  */
 void drive_rotate_disk(drive_t *dptr)
@@ -1788,39 +1823,6 @@ void drive_rotate_disk(drive_t *dptr)
     } /* if (dptr->shifter >= 8) */
 }
 
-/* Return non-zero if the Sync mark is found.  It is required to
-   call drive_rotate_disk() to update drive[].GCR_head_offset first.
-   The return value corresponds to bit#7 of VIA2 PRB. This means 0x0
-   is returned when sync is found and 0x80 is returned when no sync
-   is found.  */
-inline static BYTE drive_sync_found(drive_t *dptr)
-{
-    BYTE val = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
-
-    if (val != 0xff || dptr->last_mode == 0) {
-        return 0x80;
-    } else {
-        int previous_head_offset = (dptr->GCR_head_offset > 0
-            ? dptr->GCR_head_offset - 1
-            : dptr->GCR_current_track_size - 1);
-
-        if (dptr->GCR_track_start_ptr[previous_head_offset] != 0xff) {
-            if (dptr->shifter >= 2) {
-                int next_head_offset = ((dptr->GCR_head_offset
-                    < (dptr->GCR_current_track_size - 1))
-                    ? dptr->GCR_head_offset + 1 : 0);
-                if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
-                    == 0xc0)
-                    return 0;
-            }
-            return 0x80;
-        }
-        /* As the current rotation code cannot cope with non byte aligned
-           writes, do not change `drive[].bits_moved'!  */
-        /* dptr->bits_moved = 0; */
-        return 0;
-    }
-}
 
 /* Move the head to half track `num'.  */
 static void drive_set_half_track(int num, drive_t *dptr)
@@ -2760,6 +2762,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     char snap_module_name[10];
     WORD word;
     char *p, filename[L_tmpnam];
+    char request_str[100];
     int len = 0;
     FILE *fp;
     BYTE sector_data[0x100];
@@ -2831,6 +2834,9 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
         snapshot_module_close(m);
 	return -1;
     }
+
+    sprintf(request_str, "Disk image unit #%d imported from snapshot", dnr + 8);
+    zfile_close_action(filename, ZFILE_REQUEST, request_str);
 
     /* we use the return code to step through the tracks. So we do not
        need any geometry info. */

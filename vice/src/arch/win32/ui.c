@@ -522,6 +522,12 @@ void ui_display_drive_led(int drivenum, int status)
     SendMessage(status_hwnd,SB_SETTEXT,(status_map[drivenum]+1)|SBT_OWNERDRAW,0);
 }
 
+/* display current image */
+void ui_display_drive_current_image(int drivenum, char *image)
+{
+    /* just a dummy so far */
+}
+
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {

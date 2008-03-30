@@ -85,7 +85,7 @@ const char *archdep_boot_path(void)
     return boot_path;
 }
 
-static const char *archdep_home_path(void)
+const char *archdep_home_path(void)
 {
     char *home;
 
@@ -94,7 +94,11 @@ static const char *archdep_home_path(void)
         struct passwd *pwd;
 
         pwd = getpwuid(getuid());
-        home = pwd->pw_dir;
+        if ((pwd == NULL) 
+	    || ((home = pwd->pw_dir) == NULL)) {
+	    /* give up */
+	    home = "."; 
+	}
     }
 
     return home;
@@ -273,4 +277,21 @@ int archdep_spawn(const char *name, char **argv,
     else
     return -1;
 }
+
+/* return malloc´d version of full pathname of orig_name */
+int archdep_expand_path(char **return_path, const char *orig_name)
+{
+    /* Unix version.  */
+    if (*orig_name == '/') {
+        *return_path = stralloc(orig_name);
+    } else {
+        static char *cwd;
+
+        cwd = get_current_dir();
+        *return_path = concat(cwd, "/", orig_name, NULL);
+        free(cwd);
+    }
+    return 0;
+}
+
 
