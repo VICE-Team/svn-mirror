@@ -16,4 +16,10 @@ SUBDIRS = msdos
 
 endif
 
+if RISCOS_COMPILE
+
+SUBDIRS = riscos
+
+endif
+
 
