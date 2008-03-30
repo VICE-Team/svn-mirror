@@ -30,6 +30,7 @@
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
+#include <X11/keysym.h>
 
 #include "vice.h"
 
@@ -42,6 +43,7 @@
 typedef Widget ui_window_t;
 typedef XtCallbackProc ui_callback_t;
 typedef XtPointer ui_callback_data_t;
+typedef KeySym ui_keysym_t;
 
 #define UI_CALLBACK(name)                               \
     void name(Widget w, ui_callback_data_t client_data, \
