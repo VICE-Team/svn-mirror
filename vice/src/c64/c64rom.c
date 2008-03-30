@@ -110,9 +110,9 @@ int c64rom_load_kernal(const char *rom_name)
         resources_set_value("VirtualDevices", (resource_value_t)trapfl);
         return -1;
     }
+    c64rom_get_kernal_checksum();
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
            C64_KERNAL_ROM_SIZE);
-    c64rom_get_kernal_checksum();
 
     resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
