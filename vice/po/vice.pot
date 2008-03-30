@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-11-23 16:10+0100\n"
+"POT-Creation-Date: 2003-11-23 22:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -836,87 +836,87 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:97
+#: src/arch/unix/uicommands.c:93
 #, c-format
 msgid "Attach Disk Image as unit #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:112 src/arch/unix/uicommands.c:149
+#: src/arch/unix/uicommands.c:108 src/arch/unix/uicommands.c:145
 msgid "Invalid Disk Image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:120
+#: src/arch/unix/uicommands.c:116
 msgid "Invalid Disk Image or Filename"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:182
+#: src/arch/unix/uicommands.c:178
 msgid "Attach a tape image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:190 src/arch/unix/uicommands.c:198
+#: src/arch/unix/uicommands.c:186 src/arch/unix/uicommands.c:194
 msgid "Invalid Tape Image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:238
+#: src/arch/unix/uicommands.c:234
 msgid "Smart-attach a file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:247 src/arch/unix/uicommands.c:256
+#: src/arch/unix/uicommands.c:243 src/arch/unix/uicommands.c:252
 msgid "Unknown image type"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:278 src/arch/unix/uisettings.c:334
+#: src/arch/unix/uicommands.c:274 src/arch/unix/uisettings.c:334
 msgid "VICE setting"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:279
+#: src/arch/unix/uicommands.c:275
 msgid "Change current working directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:282
+#: src/arch/unix/uicommands.c:278
 msgid "Directory not found"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:311
+#: src/arch/unix/uicommands.c:307
 msgid "Couldn't run /bin/sh???"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:314
+#: src/arch/unix/uicommands.c:310
 msgid "Couldn't run xterm"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:319
+#: src/arch/unix/uicommands.c:315
 msgid "Unknown error while running c1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:355
+#: src/arch/unix/uicommands.c:351
 msgid "No HTML browser is defined."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:374 src/arch/unix/uicommands.c:388
-#: src/arch/unix/uicommands.c:401
+#: src/arch/unix/uicommands.c:370 src/arch/unix/uicommands.c:384
+#: src/arch/unix/uicommands.c:397
 msgid "Browser command too long."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:414
+#: src/arch/unix/uicommands.c:410
 #, c-format
 msgid "Executing `%s'..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:416
+#: src/arch/unix/uicommands.c:412
 msgid "Cannot run HTML browser."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:451
 #, c-format
 msgid "Quickloading file %s."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:458
+#: src/arch/unix/uicommands.c:454
 msgid "Load snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:472
+#: src/arch/unix/uicommands.c:468
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -924,12 +924,12 @@ msgid ""
 msgstr ""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:498
 #, c-format
 msgid "Quicksaving file %s."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:504 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:500 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -937,264 +937,264 @@ msgid ""
 "`%s'\n"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:561
+#: src/arch/unix/uicommands.c:557
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:643
+#: src/arch/unix/uicommands.c:639
 msgid "Load "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:643 src/arch/unix/x11/xaw/uicartridge.c:167
+#: src/arch/unix/uicommands.c:639 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:401
 #: src/arch/unix/x11/xaw/uiscreenshot.c:253
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:643
+#: src/arch/unix/uicommands.c:639
 msgid "Fliplist File"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:653
+#: src/arch/unix/uicommands.c:649
 #, c-format
 msgid "Successfully read `%s'."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:655
+#: src/arch/unix/uicommands.c:651
 #, c-format
 msgid "Error reading `%s'."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:658
+#: src/arch/unix/uicommands.c:654
 #, c-format
 msgid "Successfully wrote `%s'."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:660
+#: src/arch/unix/uicommands.c:656
 #, c-format
 msgid "Error writing `%s'."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:701
+#: src/arch/unix/uicommands.c:697
 #, c-format
 msgid "Attach #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:708
+#: src/arch/unix/uicommands.c:704
 #, c-format
 msgid "Detach #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:724
+#: src/arch/unix/uicommands.c:720
 msgid "*Write Protect"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:750
+#: src/arch/unix/uicommands.c:746
 msgid "Next: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:750 src/arch/unix/uicommands.c:765
+#: src/arch/unix/uicommands.c:746 src/arch/unix/uicommands.c:761
 #: src/arch/unix/x11/gnome/x11ui.c:828 src/arch/unix/x11/gnome/x11ui.c:838
 #: src/arch/unix/x11/gnome/x11ui.c:1504
 msgid "<empty>"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:765
+#: src/arch/unix/uicommands.c:761
 msgid "Previous: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:780
+#: src/arch/unix/uicommands.c:776
 msgid "Add: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:795
+#: src/arch/unix/uicommands.c:791
 msgid "Remove: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:886 src/arch/unix/uicommands.c:898
+#: src/arch/unix/uicommands.c:882 src/arch/unix/uicommands.c:894
 msgid "Unit #8..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:888 src/arch/unix/uicommands.c:901
+#: src/arch/unix/uicommands.c:884 src/arch/unix/uicommands.c:897
 msgid "Unit #9..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:890 src/arch/unix/uicommands.c:904
+#: src/arch/unix/uicommands.c:886 src/arch/unix/uicommands.c:900
 msgid "Unit #10..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:892 src/arch/unix/uicommands.c:907
+#: src/arch/unix/uicommands.c:888 src/arch/unix/uicommands.c:903
 msgid "Unit #11..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:914 src/arch/unix/uicommands.c:936
+#: src/arch/unix/uicommands.c:910 src/arch/unix/uicommands.c:932
 msgid "Unit #8"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:916 src/arch/unix/uicommands.c:938
+#: src/arch/unix/uicommands.c:912 src/arch/unix/uicommands.c:934
 msgid "Unit #9"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:918
+#: src/arch/unix/uicommands.c:914
 msgid "Unit #10"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:920
+#: src/arch/unix/uicommands.c:916
 msgid "Unit #11"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:923
+#: src/arch/unix/uicommands.c:919
 msgid "All"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:929
+#: src/arch/unix/uicommands.c:925
 msgid "Soft"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:928
 msgid "Hard"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:944
+#: src/arch/unix/uicommands.c:940
 msgid "Add current image (Unit 8)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:947
+#: src/arch/unix/uicommands.c:943
 msgid "Remove current image (Unit 8)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:950
+#: src/arch/unix/uicommands.c:946
 msgid "Attach next image (Unit 8)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:953
+#: src/arch/unix/uicommands.c:949
 msgid "Attach previous image (Unit 8)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:956
+#: src/arch/unix/uicommands.c:952
 msgid "Load fliplist file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:958
+#: src/arch/unix/uicommands.c:954
 msgid "Save fliplist file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:964
+#: src/arch/unix/uicommands.c:960
 msgid "Attach a disk image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:966
+#: src/arch/unix/uicommands.c:962
 msgid "Create and attach an empty disk"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:968
+#: src/arch/unix/uicommands.c:964
 msgid "Detach disk image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:970
+#: src/arch/unix/uicommands.c:966
 msgid "Fliplist"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:976
+#: src/arch/unix/uicommands.c:972
 msgid "Attach a tape image..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:979
+#: src/arch/unix/uicommands.c:975
 msgid "Detach tape image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:985
+#: src/arch/unix/uicommands.c:981
 msgid "Smart-attach disk/tape..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:992
+#: src/arch/unix/uicommands.c:988
 msgid "Change working directory..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1000
+#: src/arch/unix/uicommands.c:996
 msgid "*Save new snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1002
+#: src/arch/unix/uicommands.c:998
 msgid "*Load existing snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1004
+#: src/arch/unix/uicommands.c:1000
 msgid "*Start with reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1010
+#: src/arch/unix/uicommands.c:1006
 msgid "Load snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1009
 msgid "Save snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1017
+#: src/arch/unix/uicommands.c:1013
 msgid "Quickload snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1020
+#: src/arch/unix/uicommands.c:1016
 msgid "Quicksave snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1024
+#: src/arch/unix/uicommands.c:1020
 msgid "Start recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1026
+#: src/arch/unix/uicommands.c:1022
 msgid "Stop recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1028
+#: src/arch/unix/uicommands.c:1024
 msgid "Start playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1030
+#: src/arch/unix/uicommands.c:1026
 msgid "Stop playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1033
+#: src/arch/unix/uicommands.c:1029
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1039
+#: src/arch/unix/uicommands.c:1035
 msgid "Snapshot commands"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1045
+#: src/arch/unix/uicommands.c:1041
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1052
+#: src/arch/unix/uicommands.c:1048
 msgid "Activate monitor"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1055
+#: src/arch/unix/uicommands.c:1051
 msgid "Run C1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1063
+#: src/arch/unix/uicommands.c:1059
 msgid "Browse manuals"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1065
+#: src/arch/unix/uicommands.c:1061
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1071 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1067 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1891
 msgid "Reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1073
+#: src/arch/unix/uicommands.c:1069
 msgid "*Pause"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1080
+#: src/arch/unix/uicommands.c:1076
 msgid "Exit emulator"
 msgstr ""
 

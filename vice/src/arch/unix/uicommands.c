@@ -47,7 +47,6 @@
 #include "machine.h"
 #include "monitor.h"
 #include "resources.h"
-#include "serial.h"
 #include "sound.h"
 #include "tape.h"
 #include "types.h"
@@ -72,9 +71,6 @@ void ui_set_selected_file(int num)
 
 static char *read_disk_image_contents(const char *name, unsigned int unit)
 {
-    if (serial_device_get_fsimage_state(unit))
-        unit = 0;
-
 #ifdef USE_GNOMEUI
     return image_contents_read_string(IMAGE_CONTENTS_DISK, name, unit,
                                       IMAGE_CONTENTS_STRING_PETSCII);
