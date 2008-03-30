@@ -80,6 +80,11 @@
    detached.  */
 #define DRIVE_ATTACH_DETACH_DELAY    (3*400000)
 
+/* Parallel cables available.  */
+#define DRIVE_PC_NONE     0
+#define DRIVE_PC_STANDARD 1
+#define DRIVE_PC_DD3      2
+
 /* ------------------------------------------------------------------------- */
 
 struct gcr_s;
@@ -186,8 +191,8 @@ typedef struct drive_s {
     /* What extension policy?  */
     int extend_image_policy;
 
-    /* Flag: Do we emulate a SpeedDOS-compatible parallel cable?  */
-    int parallel_cable_enabled;
+    /* Flag: What parallel cable do we emulate?  */
+    int parallel_cable;
 
     /* If the user does not want to extend the disk image and `ask mode' is
     selected this flag gets cleared.  */
@@ -209,9 +214,6 @@ typedef struct drive_s {
     /* Which RAM expansion is enabled?  */
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
-
-    /* mc6821_enabled?  */
-    int drive_mc6821_enabled;
 
     /* Drive ROM starts here.  */
     WORD rom_start;

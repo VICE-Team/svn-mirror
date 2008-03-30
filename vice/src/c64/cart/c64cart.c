@@ -186,9 +186,8 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY_CART },
-    /* Dummy! */
     { "-cartar3", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-      (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
+      (void *)CARTRIDGE_ACTION_REPLAY3, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART },
     { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,

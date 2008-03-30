@@ -47,9 +47,26 @@ static char *dos_rom_name_1571 = NULL;
 static char *dos_rom_name_1581 = NULL;
 
 
-static int set_drive_parallel_cable_enabled(int val, void *param)
+static void set_drive_ram(unsigned int dnr)
 {
-    drive_context[(unsigned int)param]->drive->parallel_cable_enabled = val;
+    drive_t *drive = drive_context[dnr]->drive;
+
+    if (drive->type == DRIVE_TYPE_NONE)
+        return;
+
+    drivemem_init(drive_context[dnr], drive->type);
+
+    return;
+}
+
+static int set_drive_parallel_cable(int val, void *param)
+{
+    if (val != DRIVE_PC_NONE && val != DRIVE_PC_STANDARD
+        && val != DRIVE_PC_DD3)
+        return -1;
+
+    drive_context[(unsigned int)param]->drive->parallel_cable = val;
+    set_drive_ram((unsigned int)param);
 
     return 0;
 }
@@ -147,18 +164,6 @@ static int set_dos_rom_name_1581(const char *val, void *param)
     return iecrom_load_1581();
 }
 
-static void set_drive_ram(unsigned int dnr)
-{
-    drive_t *drive = drive_context[dnr]->drive;
-
-    if (drive->type == DRIVE_TYPE_NONE)
-        return;
-
-    drivemem_init(drive_context[dnr], drive->type);
-
-    return;
-}
-
 static int set_drive_ram2(int val, void *param)
 {
     drive_t *drive = drive_context[(unsigned int)param]->drive;
@@ -204,15 +209,6 @@ static int set_drive_rama(int val, void *param)
     return 0;
 }
 
-static int set_drive_mc6821(int val, void *param)
-{
-    drive_t *drive = drive_context[(unsigned int)param]->drive;;
-
-    drive->drive_mc6821_enabled = val;
-    set_drive_ram((unsigned int)param);
-    return 0;
-}
-
 static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = (unsigned int)param;
@@ -253,7 +249,7 @@ static const resource_int_t resources_int[] = {
 
 static resource_int_t res_drive[] = {
     { NULL, 0,  RES_EVENT_SAME, NULL,
-      NULL, set_drive_parallel_cable_enabled, NULL },
+      NULL, set_drive_parallel_cable, NULL },
     { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
@@ -266,8 +262,6 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_ram8, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_rama, NULL },
-    { NULL, 0, RES_EVENT_SAME, NULL,
-      NULL, set_drive_mc6821, NULL },
     { NULL }
 };
 
@@ -280,7 +274,7 @@ int iec_resources_init(void)
         drive = drive_context[dnr]->drive;
 
         res_drive[0].name = lib_msprintf("Drive%iParallelCable", dnr + 8);
-        res_drive[0].value_ptr = &(drive->parallel_cable_enabled);
+        res_drive[0].value_ptr = &(drive->parallel_cable);
         res_drive[0].param = (void *)dnr;
         res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
         res_drive[1].value_ptr = &(drive->idling_method);
@@ -300,9 +294,6 @@ int iec_resources_init(void)
         res_drive[6].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
         res_drive[6].value_ptr = &(drive->drive_rama_enabled);
         res_drive[6].param = (void *)dnr;
-        res_drive[7].name = lib_msprintf("Drive%iMC6821", dnr + 8);
-        res_drive[7].value_ptr = &(drive->drive_mc6821_enabled);
-        res_drive[7].param = (void *)dnr;
 
         if (resources_register_int(res_drive) < 0)
             return -1;

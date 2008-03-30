@@ -38,15 +38,68 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-UI_MENU_DEFINE_TOGGLE_COND(Drive8ParallelCable, Drive8Type,
-                           drive_check_parallel_cable)
-UI_MENU_DEFINE_TOGGLE_COND(Drive9ParallelCable, Drive9Type,
-                           drive_check_parallel_cable)
-UI_MENU_DEFINE_TOGGLE_COND(Drive10ParallelCable, Drive10Type,
-                           drive_check_parallel_cable)
-UI_MENU_DEFINE_TOGGLE_COND(Drive11ParallelCable, Drive11Type,
-                           drive_check_parallel_cable)
+UI_MENU_DEFINE_RADIO(Drive8ParallelCable)
+UI_MENU_DEFINE_RADIO(Drive9ParallelCable)
+UI_MENU_DEFINE_RADIO(Drive10ParallelCable)
+UI_MENU_DEFINE_RADIO(Drive11ParallelCable)
 
+
+UI_CALLBACK(uidrivec128_parallel_cable_control)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int type;
+
+        resources_get_int_sprintf("Drive%iType", &type,
+                                  (int)UI_MENU_CB_PARAM + 8);
+
+        if (drive_check_parallel_cable(type))
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
+
+ui_menu_entry_t set_drive0_parallel_cable_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive8ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
+    { N_("*Standard Userport"), (ui_callback_t)radio_Drive8ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
+    { N_("*Dolphin DOS 3"), (ui_callback_t)radio_Drive8ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t set_drive1_parallel_cable_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive9ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
+    { N_("*Standard Userport"), (ui_callback_t)radio_Drive9ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
+    { N_("*Dolphin DOS 3"), (ui_callback_t)radio_Drive9ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t set_drive2_parallel_cable_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive10ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
+    { N_("*Standard Userport"), (ui_callback_t)radio_Drive10ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
+    { N_("*Dolphin DOS 3"), (ui_callback_t)radio_Drive10ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t set_drive3_parallel_cable_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive11ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
+    { N_("*Standard Userport"), (ui_callback_t)radio_Drive11ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
+    { N_("*Dolphin DOS 3"), (ui_callback_t)radio_Drive11ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { NULL }
+};
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive8Type,
@@ -157,8 +210,9 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { N_("*Drive #8 RAM expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)0,
       set_drive0_expansion_submenu },
-    { N_("*Drive #8 enable parallel cable"),
-      (ui_callback_t)toggle_Drive8ParallelCable, NULL, NULL },
+    { N_("*Drive #8 parallel cable"),
+      (ui_callback_t)uidrivec128_parallel_cable_control, (ui_callback_data_t)0,
+      set_drive0_parallel_cable_submenu },
     { N_("*Drive #8 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
@@ -171,8 +225,9 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { N_("*Drive #9 RAM expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)1,
       set_drive1_expansion_submenu },
-    { N_("*Drive #9 enable parallel cable"),
-      (ui_callback_t)toggle_Drive9ParallelCable, NULL, NULL },
+    { N_("*Drive #9 parallel cable"),
+      (ui_callback_t)uidrivec128_parallel_cable_control, (ui_callback_data_t)1,
+      set_drive1_parallel_cable_submenu },
     { N_("*Drive #9 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
@@ -185,8 +240,9 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { N_("*Drive #10 RAM expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)2,
       set_drive2_expansion_submenu },
-    { N_("*Drive #10 enable parallel cable"),
-      (ui_callback_t)toggle_Drive10ParallelCable, NULL, NULL },
+    { N_("*Drive #10 parallel cable"),
+      (ui_callback_t)uidrivec128_parallel_cable_control, (ui_callback_data_t)2,
+      set_drive2_parallel_cable_submenu },
     { N_("*Drive #10 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
@@ -199,8 +255,9 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { N_("*Drive #11 RAM expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)3,
       set_drive3_expansion_submenu },
-    { N_("*Drive #11 enable parallel cable"),
-      (ui_callback_t)toggle_Drive11ParallelCable, NULL, NULL },
+    { N_("*Drive #11 parallel cable"),
+      (ui_callback_t)uidrivec128_parallel_cable_control, (ui_callback_data_t)3,
+      set_drive3_parallel_cable_submenu },
     { N_("*Drive #11 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },
