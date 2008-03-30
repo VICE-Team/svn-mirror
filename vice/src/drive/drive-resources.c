@@ -37,6 +37,7 @@
 #include "driverom.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "machine.h"
 #include "resources.h"
 #include "utils.h"
@@ -45,18 +46,6 @@
 
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
-
-/* Name of the DOS ROMs.  */
-static char *dos_rom_name_1541 = NULL;
-static char *dos_rom_name_1541ii = NULL;
-static char *dos_rom_name_1551 = NULL;
-static char *dos_rom_name_1571 = NULL;
-static char *dos_rom_name_1581 = NULL;
-static char *dos_rom_name_2031 = NULL;
-static char *dos_rom_name_1001 = NULL;
-static char *dos_rom_name_2040 = NULL;
-static char *dos_rom_name_3040 = NULL;
-static char *dos_rom_name_4040 = NULL;
 
 static int set_drive_idling_method(resource_value_t v, void *param);
 static int set_drive0_type(resource_value_t v, void *param);
@@ -281,132 +270,6 @@ static int set_drive_idling_method(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_dos_rom_name_2040(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_2040, (const char *)v))
-        return 0;
-
-    return drive_rom_load_2040();
-}
-
-static int set_dos_rom_name_3040(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_3040, (const char *)v))
-        return 0;
-
-    return drive_rom_load_3040();
-}
-
-static int set_dos_rom_name_4040(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_4040, (const char *)v))
-        return 0;
-
-    return drive_rom_load_4040();
-}
-
-static int set_dos_rom_name_1001(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_1001, (const char *)v))
-        return 0;
-
-    return drive_rom_load_1001();
-}
-
-static int set_dos_rom_name_2031(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_2031, (const char *)v))
-        return 0;
-
-    return drive_rom_load_2031();
-}
-
-static int set_dos_rom_name_1541(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_1541, (const char *)v))
-        return 0;
-
-    return drive_rom_load_1541();
-}
-
-static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_1541ii, (const char *)v))
-        return 0;
-
-    return drive_rom_load_1541ii();
-}
-
-static int set_dos_rom_name_1551(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_1551, (const char *)v))
-        return 0;
-
-    return drive_rom_load_1551();
-}
-
-static int set_dos_rom_name_1571(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_1571, (const char *)v))
-        return 0;
-
-    return drive_rom_load_1571();
-}
-
-static int set_dos_rom_name_1581(resource_value_t v, void *param)
-{
-    if (util_string_set(&dos_rom_name_1581, (const char *)v))
-        return 0;
-
-    return drive_rom_load_1581();
-}
-
-static void set_drive_ram(unsigned int dnr)
-{
-    if (drive[dnr].type == DRIVE_TYPE_NONE)
-        return;
-    if (dnr == 0)
-        drive_mem_init(&drive0_context, drive[0].type);
-    else
-        drive_mem_init(&drive1_context, drive[1].type);
-    return;
-}
-
-static int set_drive_ram2(resource_value_t v, void *param)
-{
-    drive[(int)param].drive_ram2_enabled = (int)v;
-    set_drive_ram((unsigned int)param);
-    return 0;
-}
-
-static int set_drive_ram4(resource_value_t v, void *param)
-{
-    drive[(int)param].drive_ram4_enabled = (int)v;
-    set_drive_ram((unsigned int)param);
-    return 0;
-}
-
-static int set_drive_ram6(resource_value_t v, void *param)
-{
-    drive[(int)param].drive_ram6_enabled = (int)v;
-    set_drive_ram((unsigned int)param);
-    return 0;
-}
-
-static int set_drive_ram8(resource_value_t v, void *param)
-{
-    drive[(int)param].drive_ram8_enabled = (int)v;
-    set_drive_ram((unsigned int)param);
-    return 0;
-}
-
-static int set_drive_rama(resource_value_t v, void *param)
-{
-    drive[(int)param].drive_rama_enabled = (int)v;
-    set_drive_ram((unsigned int)param);
-    return 0;
-}
-
 static resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&drive_true_emulation,
@@ -437,71 +300,11 @@ static resource_t resources[] = {
     { "Drive9IdleMethod", RES_INTEGER, (resource_value_t)DRIVE_IDLE_TRAP_IDLE,
       (resource_value_t *)&(drive[1].idling_method),
       set_drive_idling_method, (void *)1 },
-    { "DosName1541", RES_STRING, (resource_value_t)"dos1541",
-      (resource_value_t *)&dos_rom_name_1541,
-      set_dos_rom_name_1541, NULL },
-    { "DosName1541ii", RES_STRING, (resource_value_t)"d1541II",
-      (resource_value_t *)&dos_rom_name_1541ii,
-      set_dos_rom_name_1541ii, NULL },
-    { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
-      (resource_value_t *)&dos_rom_name_1551,
-      set_dos_rom_name_1551, NULL },
-    { "DosName1571", RES_STRING, (resource_value_t)"dos1571",
-      (resource_value_t *)&dos_rom_name_1571,
-      set_dos_rom_name_1571, NULL },
-    { "DosName1581", RES_STRING, (resource_value_t)"dos1581",
-      (resource_value_t *)&dos_rom_name_1581,
-      set_dos_rom_name_1581, NULL },
-    { "DosName2031", RES_STRING, (resource_value_t)"dos2031",
-      (resource_value_t *)&dos_rom_name_2031,
-      set_dos_rom_name_2031, NULL },
-    { "DosName2040", RES_STRING, (resource_value_t)"dos2040",
-      (resource_value_t *)&dos_rom_name_2040,
-      set_dos_rom_name_2040, NULL },
-    { "DosName3040", RES_STRING, (resource_value_t)"dos3040",
-      (resource_value_t *)&dos_rom_name_3040,
-      set_dos_rom_name_3040, NULL },
-    { "DosName4040", RES_STRING, (resource_value_t)"dos4040",
-      (resource_value_t *)&dos_rom_name_4040,
-      set_dos_rom_name_4040, NULL },
-    { "DosName1001", RES_STRING, (resource_value_t)"dos1001",
-      (resource_value_t *)&dos_rom_name_1001,
-      set_dos_rom_name_1001, NULL },
-    { "Drive8RAM2000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[0].drive_ram2_enabled),
-      set_drive_ram2, (void *)0 },
-    { "Drive9RAM2000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[1].drive_ram2_enabled),
-      set_drive_ram2, (void *)1 },
-    { "Drive8RAM4000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[0].drive_ram4_enabled),
-      set_drive_ram4, (void *)0 },
-    { "Drive9RAM4000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[1].drive_ram4_enabled),
-      set_drive_ram4, (void *)1 },
-    { "Drive8RAM6000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[0].drive_ram6_enabled),
-      set_drive_ram6,  (void *)0},
-    { "Drive9RAM6000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[1].drive_ram6_enabled),
-      set_drive_ram6, (void *)1 },
-    { "Drive8RAM8000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[0].drive_ram8_enabled),
-      set_drive_ram8, (void *)0 },
-    { "Drive9RAM8000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[1].drive_ram8_enabled),
-      set_drive_ram8, (void *)1 },
-    { "Drive8RAMA000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[0].drive_rama_enabled),
-      set_drive_rama, (void *)0 },
-    { "Drive9RAMA000", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(drive[1].drive_rama_enabled),
-      set_drive_rama, (void *)1 },
     { NULL }
 };
 
 int drive_resources_init(void)
 {
-    return resources_register(resources);
+    return machine_drive_resources_init() | resources_register(resources);
 }
 
