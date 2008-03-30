@@ -637,6 +637,14 @@ int vdrive_command_validate(vdrive_t *vdrive)
         return status;
     }
 
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571) {
+        int max_sector;
+        max_sector = vdrive_get_max_sectors(vdrive->image_format, 53);
+        for (s = 0; s < max_sector; s++)
+            vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 53,
+                                       s);
+    }
+
     if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) {
         vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
                                    vdrive->Bam_Track, vdrive->Bam_Sector + 1);

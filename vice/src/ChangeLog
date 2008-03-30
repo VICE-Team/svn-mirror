@@ -1,3 +1,19 @@
+2000-04-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* raster/raster.c (update_sprite_collisions): Fixed
+	calculation of fake framebuffer line.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_calculate_track): Fixed 1571
+	block available map.
+
+	* vdrive-command.c (vdrive_command_validate): Map out track 53
+	for D71 disk images.
+
+2000-03-29  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* raster/raster.c (raster_emulate_line): Fix calculation of
+	`raster->blank_enabled'.
+
 2000-03-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.3.4.
