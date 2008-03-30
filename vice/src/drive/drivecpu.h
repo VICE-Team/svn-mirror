@@ -41,7 +41,8 @@ struct drive_context_s;
 
 /* This defines the memory access for the drive CPU.  */
 typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, ADDRESS);
-typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, ADDRESS, BYTE);
+typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, ADDRESS,
+                                         BYTE);
 
 /* This table is used to approximate the sync between the main and the
    drive CPU, since the two clock rates are different.  */
@@ -86,13 +87,8 @@ typedef struct drivecpu_context_s {
 
   MEMSPACE monspace;	/* init to e_disk[89]_space */
 
-#ifdef AVOID_STATIC_ARRAYS
-  unsigned long *clk_conv_table;
-  unsigned long *clk_mod_table;
-#else
   unsigned long clk_conv_table[MAX_TICKS + 1];
   unsigned long clk_mod_table[MAX_TICKS + 1];
-#endif
 
   /* FIXME. If all *core modules were reduced to shared code and private
      data sections, this wouldn't be necessary (and faster!) */
