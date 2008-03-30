@@ -52,10 +52,16 @@ static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
 
+static int fast_cpu_direction, fast_drive_direction[2];
+
+
 void c128iec_init(void)
 {
     memset(&iec_info, 0xff, sizeof(iec_info_t));
     iec_info.drive_port = 0x85;
+    fast_cpu_direction = 0;
+    fast_drive_direction[0] = 1;
+    fast_drive_direction[1] = 1;
 }
 
 inline static void iec_update_cpu_bus(BYTE data)
@@ -339,32 +345,40 @@ void iec_calculate_callback_index(void)
 
 void iec_fast_cpu_write(BYTE data)
 {
-#if 1
-    return;
-#else
-    if (drive[0].enable) {
-       drive0_cpu_execute(maincpu_clk);
-       if (drive[0].type == DRIVE_TYPE_1571)
-           cia1571d0_set_sdr(data);
-       if (drive[0].type == DRIVE_TYPE_1581)
-           cia1581d0_set_sdr(data);
+    if (fast_cpu_direction) {
+        if (drive[0].enable) {
+            drive0_cpu_execute(maincpu_clk);
+            if (drive[0].type == DRIVE_TYPE_1571)
+                cia1571_set_sdr(&drive0_context, data);
+            if (drive[0].type == DRIVE_TYPE_1581)
+                cia1581_set_sdr(&drive0_context, data);
+        }
+        if (drive[1].enable) {
+            drive1_cpu_execute(maincpu_clk);
+            if (drive[1].type == DRIVE_TYPE_1571)
+                cia1571_set_sdr(&drive1_context, data);
+            if (drive[1].type == DRIVE_TYPE_1581)
+                cia1581_set_sdr(&drive1_context, data);
+        }
     }
-    if (drive[1].enable) {
-       drive1_cpu_execute(maincpu_clk);
-       if (drive[1].type == DRIVE_TYPE_1571)
-           cia1571d1_set_sdr(data);
-       if (drive[1].type == DRIVE_TYPE_1581)
-           cia1581d1_set_sdr(data);
-    }
-#endif
 }
 
-void iec_fast_drive_write(BYTE data)
+void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
-#if 1
-    return;
-#else
-    cia1_set_sdr(data);
-#endif
+    /*log_debug("DW %02x %i", data, maincpu_clk);*/
+    if (fast_drive_direction[dnr])
+        cia1_set_sdr(data);
+}
+
+void iec_fast_cpu_direction(int direction)
+{
+    /* 0: input */
+    fast_cpu_direction = direction;
+}
+
+void iec_fast_drive_direction(int direction, unsigned int dnr)
+{
+    /* 0: input */
+    fast_drive_direction[dnr] = direction;
 }
 
