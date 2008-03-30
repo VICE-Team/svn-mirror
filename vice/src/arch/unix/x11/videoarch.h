@@ -49,7 +49,12 @@
 struct _canvas {
     unsigned int width, height;
     ui_window_t emuwindow;
+#ifdef USE_GNOMEUI
+    GdkPixmap *drawable;
+#else
     Window drawable;
+#endif
+
 };
 typedef struct _canvas *canvas_t;
 
@@ -59,7 +64,8 @@ typedef struct _canvas *canvas_t;
 struct _frame_buffer {
     XImage *x_image;
 #ifdef USE_GNOMEUI
-    GdkImage *gdk_image;	/* FIXME MP #ifdef GNOME! */
+    GdkImage *gdk_image;
+    canvas_t canvas;
 #endif
 
 #ifdef USE_MITSHM
@@ -124,6 +130,22 @@ extern void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w, int h
 extern void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h);
 extern void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h);
 extern void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h);
+extern void video_add_handlers(ui_window_t w);
+extern void ui_finish_canvas(canvas_t c);
 
+#if C64UI == 1
+#include "c64icon.xpm"
+#elif C128UI == 1
+#include "c128icon.xpm"
+#elif VIC20UI == 1
+#include "vic20icon.xpm"
+#elif PETUI == 1
+#include "peticon.xpm"
+#elif C610UI == 1
+#include "c610icon.xpm"
+#elif VSIDUI == 1
+#include "c64icon.xpm"		/* Dag, provide a VSID icon! ;^) */
 #endif
+
+#endif /* !_VIDEOARCH_H */
 

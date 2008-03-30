@@ -44,6 +44,7 @@
 #include <vfork.h>
 #endif
 
+#include "ui.h"
 #include "archdep.h"
 #include "findpath.h"
 #include "log.h"
@@ -55,6 +56,7 @@ int archdep_startup(int *argc, char **argv)
 {
     argv0 = stralloc(argv[0]);
 
+    archdep_ui_init(*argc, argv);
     return 0;
 }
 

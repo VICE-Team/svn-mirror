@@ -78,7 +78,11 @@ realize_canvas (raster_t *raster)
                                         1,
                                         raster->viewport.exposure_handler,
                                         raster->palette,
-                                        raster->pixel_table.sing);
+                                        raster->pixel_table.sing
+#ifdef USE_GNOMEUI
+					,&(raster->frame_buffer)
+#endif
+					);
 
       if (viewport->canvas == NULL)
         return -1;

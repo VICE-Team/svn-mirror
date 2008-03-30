@@ -1,9 +1,9 @@
 /*
- * dummies.c - Dummy User interface.  
- * Resolves all UI specific functions
+ * vsid.c - UI support for vsid 
  *
  * Written by
- *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+ *  Dag Lem
+ *  Martin Pottendorfer
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,6 +25,11 @@
  *
  */
 
-#include <stdio.h>
 
-ui_set_fullscreenmode_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
+#ifndef __vsidproc_h__
+#define __vsidproc_h__
+
+void psid_dispatch_events(void);
+void ui_proc_exit(void);
+void ui_proc_write_msg(char *msg);
+#endif /* __vsidproc_h__ */

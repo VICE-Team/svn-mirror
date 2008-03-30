@@ -43,7 +43,11 @@ extern void video_frame_buffer_clear(frame_buffer_t *i, PIXEL value);
 extern canvas_t canvas_create(const char *win_name, unsigned int *width,
                               unsigned int *height, int mapped,
                               canvas_redraw_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return);
+                              const palette_t *palette, PIXEL *pixel_return
+#ifdef USE_GNOMEUI
+			      ,frame_buffer_t *fb
+#endif
+    );
 extern void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
                            unsigned int xs, unsigned int ys,
                            unsigned int xi, unsigned int yi,

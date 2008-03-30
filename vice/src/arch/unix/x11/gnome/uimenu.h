@@ -63,6 +63,7 @@ extern void ui_menu_update_all(void);
 extern void ui_menu_update_all_GTK(void);
 #ifndef GNOME_MENUS
 extern GtkWidget* ui_menu_create(const char *menu_name, ...);
+extern void ui_menu_discard_cache(const char *menu);
 #else
 extern GnomeUIInfo* ui_menu_create(const char *menu_name, ...);
 #endif
@@ -105,12 +106,4 @@ extern void _ui_menu_radio_helper(GtkWidget *w,
 extern void _ui_menu_string_radio_helper(GtkWidget *w,
                                          ui_callback_data_t event_data,
                                          const char *resource_name);
-
-
-/*#define CHECK_MENUS (event_data != &refresh_dummy)*/
-
-#define CHECK_MENUS (((ui_menu_cb_obj*)event_data)->status != CB_NORMAL)
-#define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
-
-
 #endif /* _UIMENU_H */

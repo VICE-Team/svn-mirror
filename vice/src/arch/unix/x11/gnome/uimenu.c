@@ -48,15 +48,15 @@
 #include <gnome.h>
 #endif
 #include "uimenu.h"
+#ifdef HASH_MENUS
+#include <glib.h>		/* hastable */
+#endif
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
     { "--" },
     { NULL },
 };
-
-/* Bitmaps for the menus: "tick" and right arrow (for submenus).  */
-static Pixmap checkmark_bitmap, right_arrow_bitmap;
 
 static int menu_popup = 0;
 
@@ -67,13 +67,6 @@ static struct {
     int level;
 } submenus[MAX_SUBMENUS];
 
-static int num_submenus = 0;
-
-static GtkWidget* active_submenu, *active_entry;
-
-static int submenu_popped_up = 0;
-
-static Widget top_menu;
 
 /* This keeps a list of the menus with a checkmark on the left.  Each time
    some setting is changed, we have to update them. */
@@ -89,7 +82,11 @@ static struct {
   gint handlerid;
 } checkmark_menu_items[MAX_UPDATE_MENU_LIST_SIZE];
 
-static int num_checkmark_menu_items = 0;
+int num_checkmark_menu_items = 0; /* !static because vsidui needs it. ugly! */
+static int num_submenus = 0;
+#ifdef HASH_MENUS
+static GHashTable *menu_hash_table = NULL;
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -256,6 +253,7 @@ GnomeUIInfo* ui_menu_create(const char *menu_name, ...)
 }
 
 #else  /* !GNOME_MENUS */
+
 GtkWidget* ui_menu_create(const char *menu_name, ...)
 {
     static int level = 0;
@@ -268,6 +266,22 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
     level++;
     va_start(ap, menu_name);
 
+#ifdef HASH_MENUS
+    printf("Creating menu: %s\n", menu_name);
+    if (!menu_hash_table)
+	menu_hash_table = g_hash_table_new(g_str_hash, g_str_equal);
+    else
+    {
+	w = (GtkWidget *)g_hash_table_lookup(menu_hash_table, menu_name);
+	if (w)
+	{
+	    printf("Menu already there: %s\n", menu_name);
+	    gtk_object_ref(GTK_OBJECT(w));
+	    return w;
+	}
+    }
+#endif
+    
     w = gtk_menu_new();
 
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
@@ -338,6 +352,7 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 
             if (list[i].sub_menu) {
                 GtkWidget *sub;
+		char subname[10];
 
                 if (num_submenus > MAX_SUBMENUS) {
                     fprintf(stderr,
@@ -345,7 +360,9 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
                             "Please fix the code.\n");
                     exit(-1);
                 }
-		sub = ui_menu_create("SUB", list[i].sub_menu, NULL);
+		sprintf(subname, "SUB%d", num_submenus);
+		sub = ui_menu_create(list[i].string, 
+				     list[i].sub_menu, NULL);
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(new_item),sub);
                 submenus[num_submenus].widget = sub;
                 submenus[num_submenus].parent = new_item;
@@ -365,10 +382,22 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 
     level--;
 
+#ifdef HASH_MENUS
+    printf("inserting menu: %s\n", menu_name);
+    g_hash_table_insert(menu_hash_table, (gpointer) menu_name, (gpointer) w);
+#endif
     va_end(ap);
     return w;
 }
-#endif
+
+#ifdef HASH_MENUS
+void ui_menu_discard_cache(const char *menu)
+{
+    g_hash_table_remove(menu_hash_table, menu);
+}
+#endif /* HASH_MENUS */
+
+#endif /* !GNOME_MENUS */
 
 int ui_menu_any_open(void)
 {

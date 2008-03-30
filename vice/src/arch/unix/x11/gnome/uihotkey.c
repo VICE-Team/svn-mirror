@@ -1,8 +1,9 @@
 /*
- * uihotkeys.h - Implementation of UI hotkeys.
+ * uihotkeys.c - Implementation of Gnome UI hotkey callback.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Oliver Schaertel
+ *  Martin Pottendorfer
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,13 +29,13 @@
 
 #include <stdlib.h>
 
+#include "ui.h"
 #include "uihotkey.h"
-
 #include "utils.h"
 
 typedef struct {
     ui_hotkey_modifier_t modifier;
-    KeySym keysym;
+    ui_keysym_t keysym;
     ui_callback_t callback;
     ui_callback_data_t client_data;
 } registered_hotkey_t;
@@ -42,7 +43,6 @@ typedef struct {
 static registered_hotkey_t *registered_hotkeys;
 static int num_registered_hotkeys;
 static int num_allocated_hotkeys;
-
 static int meta_count, control_count, shift_count;
 
 /* ------------------------------------------------------------------------- */
@@ -89,12 +89,7 @@ void ui_hotkey_register(ui_hotkey_modifier_t modifier,
 
 /* ------------------------------------------------------------------------- */
 
-/*
-void ui_hotkey_event_handler(Widget w, XtPointer closure,
-                             XEvent *xevent,
-                             Boolean *continue_to_dispatch)
-*/
-void ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp )
+gint ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint keysym;
     int i;
@@ -105,7 +100,7 @@ void ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp )
        back...  */
     if (report->type == GDK_FOCUS_CHANGE) {
         meta_count = control_count = shift_count = 0;
-        return;
+        return FALSE;
     }
 
     switch (keysym) {
@@ -150,9 +145,10 @@ void ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp )
                 if (p->keysym == keysym) {
 		  ((void*(*)(GtkWidget*, ui_callback_data_t))
 		    p->callback) (NULL, p->client_data);
-		  break;
+		  return TRUE;	/* tell GTK we've done it */
                 }
             }
         }
     }
+    return FALSE;
 }

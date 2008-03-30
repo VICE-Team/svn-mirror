@@ -29,6 +29,9 @@
 
 #include <stdio.h>
 
+#define C128UI 1
+#include "videoarch.h"
+
 #include "drive.h"
 #include "joystick.h"
 #include "resources.h"
@@ -36,11 +39,6 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "vsync.h"
-
-#ifdef XPM
-#include <X11/xpm.h>
-#include "x11/xaw/c128icon.xpm"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -262,7 +260,9 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(REU)
+#ifdef HAVE_MOUSE
 UI_MENU_DEFINE_TOGGLE(Mouse)
+#endif
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { "*Emulator identification",
@@ -271,8 +271,10 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t) toggle_IEEE488, NULL, NULL },
     { "*512K RAM Expansion Unit",
       (ui_callback_t) toggle_REU, NULL, NULL },
+#ifdef HAVE_MOUSE
     { "*1351 Mouse Emulation",
       (ui_callback_t) toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
+#endif
     { NULL }
 };
 
@@ -336,21 +338,9 @@ static ui_menu_entry_t c128_menu[] = {
 
 int c128_ui_init(void)
 {
-#ifdef XPM
-    {
-        Pixmap icon_pixmap;
-
-        /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
-                                (char **) icon_data, &icon_pixmap, NULL, NULL);
-        ui_set_application_icon(icon_pixmap);
-    }
-#endif
-
+    ui_set_application_icon(icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
-                                    ui_menu_separator,
-                                    ui_tape_commands_menu,
                                     ui_menu_separator,
                                     ui_smart_attach_commands_menu,
                                     ui_menu_separator,

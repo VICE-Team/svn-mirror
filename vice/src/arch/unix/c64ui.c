@@ -30,6 +30,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define C64UI 1
+#include "videoarch.h"
+
 #include "c64mem.h"
 #include "cartridge.h"
 #include "datasette.h"
@@ -42,12 +45,6 @@
 #include "utils.h"
 #include "vsync.h"
 
-#ifdef XPM
-#include <X11/xpm.h>
-#include "x11/xaw/c64icon.xpm"
-#endif
-
-
 /* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(attach_cartridge)
@@ -55,15 +52,20 @@ static UI_CALLBACK(attach_cartridge)
     int type = (int)UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
     filename = ui_select_file("Attach cartridge image",
-                              NULL, False, NULL, NULL, &button);
+                              NULL, False, last_dir, "*.[cCbB][rRiI][tTnN]", 
+			      &button);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
             ui_error("Invalid cartridge image");
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -248,15 +250,19 @@ static ui_menu_entry_t sid_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(REU)
+#ifdef HAVE_MOUSE
 UI_MENU_DEFINE_TOGGLE(Mouse)
+#endif
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { "*Emulator identification",
       (ui_callback_t) toggle_EmuID, NULL, NULL },
     { "*512K RAM Expansion Unit",
       (ui_callback_t) toggle_REU, NULL, NULL },
+#ifdef HAVE_MOUSE
     { "*1351 Mouse Emulation",
       (ui_callback_t) toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
+#endif
     { NULL }
 };
 
@@ -416,18 +422,7 @@ static ui_menu_entry_t c64_menu[] = {
 
 int c64_ui_init(void)
 {
-
-#ifdef XPM
-    {
-        Pixmap icon_pixmap;
-
-        /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
-                                (char **) icon_data, &icon_pixmap, NULL, NULL);
-        ui_set_application_icon(icon_pixmap);
-    }
-#endif
-
+    ui_set_application_icon(icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -470,6 +465,12 @@ int c64_ui_init(void)
                                      NULL));
 
     ui_set_topmenu();
+    ui_set_tape_menu(ui_menu_create("TapeMenu",
+				    ui_tape_commands_menu,
+				    ui_menu_separator,
+                                    datasette_control_submenu, 
+				    NULL));
+
     ui_update_menus();
 
     return 0;

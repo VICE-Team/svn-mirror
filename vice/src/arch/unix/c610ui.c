@@ -29,6 +29,9 @@
 
 #include <stdio.h>
 
+#define C610UI 1
+#include "videoarch.h"
+
 #include "c610mem.h"
 #include "datasette.h"
 #include "joystick.h"
@@ -38,11 +41,6 @@
 #include "uisettings.h"
 #include "uimenu.h"
 #include "vsync.h"
-
-#ifdef XPM
-#include <X11/xpm.h>
-#include "x11/xaw/c610icon.xpm"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -413,17 +411,7 @@ ui_menu_entry_t ui_datasette_commands_menu[] = {
 
 int c610_ui_init(void)
 {
-#ifdef XPM
-    {
-        Pixmap icon_pixmap;
-
-        /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
-                                (char **) icon_data, &icon_pixmap, NULL, NULL);
-        ui_set_application_icon(icon_pixmap);
-    }
-#endif
-
+    ui_set_application_icon(icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -461,6 +449,11 @@ int c610_ui_init(void)
                                      ui_settings_settings_menu,
                                      NULL));
 
+    ui_set_tape_menu(ui_menu_create("TapeMenu",
+				    ui_tape_commands_menu,
+				    ui_menu_separator,
+                                    datasette_control_submenu, 
+				    NULL));
     ui_set_topmenu();
     ui_update_menus();
 

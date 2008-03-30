@@ -51,6 +51,7 @@
 #include "tape.h"
 #include "types.h"
 #include "uicommands.h"
+#include "uisettings.h"
 #include "uiedisk.h"
 #include "uisnapshot.h"
 #include "utils.h"
@@ -80,21 +81,28 @@ static UI_CALLBACK(attach_disk)
     char *filename;
     char title[1024];
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
     sprintf(title, "Attach Disk Image as unit #%d", unit);
     filename = ui_select_file(title, read_disk_image_contents,
-                              unit == 8 ? True : False, NULL,
+                              unit == 8 ? True : False, last_dir,
                               "*.[gdxGDX]*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(unit, filename) < 0)
 	    ui_error("Invalid Disk Image");
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_disk(filename, NULL, 0) < 0)
 	    ui_error("Invalid Disk Image");
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	break;
       default:
 	/* Do nothing special.  */
@@ -150,20 +158,31 @@ static UI_CALLBACK(attach_tape)
 {
     char *filename;
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
 
     filename = ui_select_file("Attach a tape image", read_tape_image_contents,
-			      True, NULL, NULL, &button);
+			      True, last_dir, "*.t*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
 	if (tape_attach_image(filename) < 0)
 	    ui_error("Invalid Tape Image");
+	else
+	    ui_display_tape_current_image(filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_tape(filename, NULL, 0) < 0)
 	    ui_error("Invalid Tape Image");
+	else
+	    ui_display_tape_current_image(filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	break;
       default:
 	/* Do nothing special.  */
@@ -192,12 +211,13 @@ static UI_CALLBACK(smart_attach)
 {
     char *filename;
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
 
     filename = ui_select_file("Smart-attach a file",
 			      read_disk_or_tape_image_contents,
-			      True, NULL, NULL, &button);
+			      True, last_dir, NULL, &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -205,10 +225,16 @@ static UI_CALLBACK(smart_attach)
 	    && tape_attach_image(filename) < 0) {
 	    ui_error("Unknown image type");
 	}
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_autodetect(filename, NULL, 0) < 0)
 	    ui_error("Unknown image type");
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	break;
       default:
 	/* Do nothing special.  */
@@ -370,12 +396,13 @@ static UI_CALLBACK(do_exit)
 
 static UI_CALLBACK(toggle_pause)
 {
-    if (CHECK_MENUS == NULL) {
+    if (!CHECK_MENUS) {
         if (ui_emulation_is_paused()) {
             ui_pause_emulation(0);
         } else {			/* !paused */
             ui_menu_set_tick(w, 1);
             ui_pause_emulation(1);
+	    return ;
         }
     }
 
@@ -390,16 +417,20 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
 {
     ui_button_t button;
     char *filename;
+    static char *last_dir;
 
     if (data) {
         log_debug("Quickloading file %s.", (char *)data);
 	filename = data;
     } else {
-        filename = ui_select_file("Load snapshot", NULL, False, NULL,
-                              "*", &button);
+        filename = ui_select_file("Load snapshot", NULL, False, last_dir,
+                              "*.vsf", &button);
         if (button != UI_BUTTON_OK)
             return;
     }
+    if (last_dir)
+	free(last_dir);
+    fname_split(filename, &last_dir, NULL);
 
     if (machine_read_snapshot(filename) < 0)
         ui_error("Cannot load snapshot file\n`%s'", filename);
@@ -457,6 +488,7 @@ static UI_CALLBACK(save_quicksnap)
 /*  fliplist commands */
 extern char last_attached_images[NUM_DRIVES][256];
 extern ui_drive_enable_t enabled_drives;
+
 struct cb_data_t {
     int unit;
     long data;			/* should be enough for a pointer */
@@ -546,7 +578,16 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
 	i++;
-
+	
+#ifdef HASH_MENUS
+	/* drivesettings */
+	/* this won't work so far, because the checkmarks aren't updated
+	   when a menu is destroyed, as the flipmenu is constantly */
+	memcpy(&flipmenu[drive][i], (const char *)ui_drive_settings_menu, 
+	       sizeof (ui_menu_entry_t));
+	i++;
+#endif
+	
 	/* don't update menu deeply when drive has not been enabled 
 	   or nothing has been attached */
 	if (true_emu) {
@@ -630,14 +671,25 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
 	/* ugly ... */
 	if (drive == 0)
+	{
+#ifdef HASH_MENUS
+	    ui_menu_discard_cache("LeftDrive8Menu");
+#endif
 	    ui_set_drive8_menu(ui_menu_create("LeftDrive8Menu", 
 					      flipmenu[drive], NULL));
+	}
 	else
+	{
+#ifdef HASH_MENUS
+	    ui_menu_discard_cache("LeftDrive9Menu");
+#endif
 	    ui_set_drive9_menu(ui_menu_create("LeftDrive9Menu", 
 					      flipmenu[drive], NULL));
+	}
+	
 	free(t0);
 	free(t5);
-	if (i > 2) {
+	if (i > 1) {
 	    free(t1);
 	    free(t2);
 	    free(t3);

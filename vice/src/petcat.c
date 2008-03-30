@@ -1372,3 +1372,6 @@ void ui_show_text(HWND hParent, const char *szCaption,
 }
 #endif
 
+void archdep_ui_init(int argc, char *argv[])
+{
+}

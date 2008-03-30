@@ -56,10 +56,14 @@ libarch_a_SOURCES = \
 	uisettings.h \
 	uisettings.c \
 	uisnapshot.h \
+	uihotkey.h \
 	vic20ui.h \
 	vic20ui.c \
 	videoarch.h \
-	vsync.c
+	vsync.c \
+	vsidproc.h \
+	vsidproc.c \
+	vsidui.c
 
 bin_SCRIPTS = vsid
 

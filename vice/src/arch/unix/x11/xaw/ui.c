@@ -58,6 +58,10 @@
 #include <X11/Sunkeysym.h>
 #endif
 
+#ifdef HAVE_LIBXPM
+#include <X11/xpm.h>
+#endif
+
 #ifdef USE_VIDMODE_EXTENSION
 #define VidMode_MINMAJOR 0
 #define VidMode_MINMINOR 0
@@ -72,6 +76,7 @@
 #include "machine.h"
 #include "mouse.h"
 #include "psid.h"
+#include "vsidproc.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -96,6 +101,7 @@ static unsigned long allocated_pixels[0x100];
 
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
+extern log_t vsid_log;
 
 Widget canvas, pane;
 
@@ -866,6 +872,18 @@ static void finish_prepare_wm_command(void)
     wm_command_type_atom = XInternAtom(display, "STRING", False);
 }
 
+void ui_proc_start(void)
+{
+    signal(SIGINT,  SIG_IGN);
+    signal(SIGTERM, SIG_DFL);
+
+    XtAppMainLoop(app_context);
+}
+
+void archdep_ui_init(int argc, char *argv[])
+{
+}
+
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {
@@ -901,130 +919,6 @@ typedef struct {
     char *name;
     int class;
 } namedvisual_t;
-
-
-/* ------------------------------------------------------------------------- */
-/* Process for the user interface */
-static pid_t ui_pid = 0;
-static int ui_pipefd[2];
-
-void ui_proc_write_msg(char *msg)
-{
-  write(ui_pipefd[1], msg, strlen(msg));
-}
-
-int ui_proc_read_msg(char* msg, size_t size, int block)
-{
-  int num, total = 0;
-  char* ptr;
-
-  fd_set readfds;
-  struct timeval timeout;
-  struct timeval* timeout_ptr = block ? NULL : &timeout;
-
-  FD_ZERO(&readfds);
-  FD_SET(ui_pipefd[0], &readfds);
-
-  /* Don't block. */
-  timeout.tv_sec = 0;
-  timeout.tv_usec = 0;
-
-  num = select(ui_pipefd[0] + 1, &readfds, NULL, NULL, timeout_ptr);
-
-  if (num == -1) {
-    log_error(ui_log, "select(): %s", strerror(errno));
-    strcpy(msg, "exit");
-    return strlen(msg);
-  }
-
-  if (!num) {
-    return 0;
-  }
-
-  ptr = msg;
-  do {
-    num = read(ui_pipefd[0], ptr, size);
-    if (num == -1) {
-      log_error(ui_log, "read(): %s", strerror(errno));
-      strcpy(msg, "exit");
-      return strlen(msg);
-    }
-    ptr += num;
-    total += num;
-    size -= num;
-  } while (ptr[-1] != '\n');
-
-  ptr[-1] = '\0';
-
-  return total;
-}
-
-void ui_proc_exit(void)
-{
-  /* The UI process will be killed by the main process;
-     there is no need to call exit() here. */
-  ui_proc_write_msg("exit\n");
-}
-
-void ui_proc_start(void)
-{
-    signal(SIGINT,  SIG_IGN);
-    signal(SIGTERM, SIG_DFL);
-
-    XtAppMainLoop(app_context);
-}
-
-int ui_proc_create(void)
-{
-  XSync(display, False);
-
-  if (pipe(ui_pipefd) < 0) {
-    log_error(ui_log, "Cannot create pipe: %s", strerror(errno));
-    return -1;
-  }
-
-  if ((ui_pid = fork()) < 0) {
-    log_error(ui_log, "Cannot create UI process: %s", strerror(errno));
-    return -1;
-  }
-
-  if (ui_pid == 0) {
-    /* Child process. */
-    close(ui_pipefd[0]);
-    ui_proc_start();
-  }
-  else {
-    /* Parent process. */
-    close(ui_pipefd[1]);
-  }
-  
-  return 0;
-}
-
-int ui_proc_wait(void)
-{
-  int status;
-
-  /* The UI process has no business here. */
-  if (ui_pid == 0) {
-    return 0;
-  }
-
-  if (kill(ui_pid, 0) != ESRCH) {
-    if (kill(ui_pid, SIGTERM) < 0) {
-      log_error(ui_log, "Cannot kill UI process: %s", strerror(errno));
-      return -1;
-    }
-  }
-
-  if (wait(&status) != ui_pid) {
-    log_error(ui_log, "wait for UI process failed: %s", strerror(errno));
-    return -1;
-  }
-  
-  return 0;
-}
-
 
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
@@ -1561,12 +1455,23 @@ void ui_set_topmenu()
 {
 }
 
-void ui_set_application_icon(Pixmap icon_pixmap)
+void ui_set_tape_menu(Widget w)
 {
+}
+
+void ui_set_application_icon(const char *icon_data[])
+{
+#ifdef HAVE_LIBXPM
     int i;
+    Pixmap icon_pixmap;
+    
+    /* Create the icon pixmap. */
+    XpmCreatePixmapFromData(display, DefaultRootWindow(display),
+			    (char **) icon_data, &icon_pixmap, NULL, NULL);
 
     for (i = 0; i < num_app_shells; i++)
         XtVaSetValues(app_shells[i].shell, XtNiconPixmap, icon_pixmap, NULL);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1753,12 +1658,6 @@ static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
 	}
     }
     return failed ? -1 : 0;
-}
-
-/* Return the drawable for the canvas in the specified ui_window_t. */
-Window ui_canvas_get_drawable(ui_window_t w)
-{
-    return XtWindow(w);
 }
 
 /* Change the colormap of window `w' on the fly.  This only works for
@@ -2028,6 +1927,7 @@ static void ui_display_drive_current_image2 (void)
 
 	    fname_split(&(last_attached_images[j][0]), NULL, &name);
 	    XtVaSetValues(w, XtNlabel, name, NULL);
+	    free(name);
 	}
     }
 }
@@ -2050,6 +1950,9 @@ void ui_display_tape_counter(int counter)
 {
 }
 
+void ui_display_tape_current_image(char *image)
+{
+}
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
@@ -2081,9 +1984,6 @@ void ui_dispatch_next_event(void)
 /* Dispatch all the pending Xt events. */
 void ui_dispatch_events(void)
 {
-    char buf[1000];
-    static int pause = 0;
-
     if (console_mode) {
         return;
     }
@@ -2093,64 +1993,7 @@ void ui_dispatch_events(void)
 	ui_dispatch_next_event();
       return;
     }
-
-    /* Only the main process should do any work here. */
-    if (ui_pid == 0) {
-      return;
-    }
-
- read_msg:
-    /* Read any pending message from the UI process. */
-    if (!ui_proc_read_msg(buf, sizeof(buf), pause)) {
-      return;
-    }
-
-    if (strcmp(buf, "exit") == 0) {
-      /* ui_proc_wait() will be called from the exit code to kill
-	 and wait for the UI process */
-      exit(0);
-    }
-    else if (strncmp(buf, "load", 4) == 0) {
-      char* filename = buf + 5;
-      if (machine_autodetect_psid(filename) < 0) {
-	log_error(ui_log, "`%s' is not a valid PSID file.", filename);
-	return;
-      }
-      machine_play_psid(0);
-      suspend_speed_eval();
-      maincpu_trigger_reset();
-    }
-    else if (strncmp(buf, "pause", 5) == 0) {
-      pause = atoi(buf + 6);
-      suspend_speed_eval();
-    }
-    else if (strcmp(buf, "powerup") == 0) {
-      suspend_speed_eval();
-      machine_powerup();
-    }
-    else if (strcmp(buf, "reset") == 0) {
-      suspend_speed_eval();
-      maincpu_trigger_reset();
-    }
-    else if (strncmp(buf, "resource", 8) == 0) {
-      char resource_name[100];
-      int resource_value;
-      sscanf(buf + 9, "%s %d", resource_name, &resource_value);
-      resources_set_value(resource_name, (resource_value_t)resource_value);
-    }
-    else if (strncmp(buf, "tune", 4) == 0) {
-      int tune = atoi(buf + 5);
-      machine_play_psid(tune);
-      suspend_speed_eval();
-      maincpu_trigger_reset();
-    }
-    else {
-      log_error(ui_log, "Unrecognized command from UI process: %s", buf);
-    }
-
-    if (pause) {
-      goto read_msg;
-    }
+    psid_dispatch_events();
 }
 
 /* Resize one window. */
@@ -2198,6 +2041,12 @@ void ui_unmap_canvas_window(ui_window_t w)
 {
     XtPopdown(w);
 }
+
+void ui_destroy_widget(ui_window_t w)
+{
+    XtDestroyWidget(w);
+}
+
 
 /* Enable autorepeat. */
 void ui_autorepeat_on(void)

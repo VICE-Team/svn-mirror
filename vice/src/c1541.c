@@ -2265,6 +2265,10 @@ int snapshot_module_close(snapshot_module_t *m)
     return 0;
 }
 
+void archdep_ui_init(int argc, char *argv[])
+{
+}
+
 void ui_error_string(const char *text)
 {
 }

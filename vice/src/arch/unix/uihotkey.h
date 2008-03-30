@@ -1,9 +1,8 @@
 /*
- * dummies.c - Dummy User interface.  
- * Resolves all UI specific functions
+ * uihotkeys.h - Implementation of UI hotkeys.
  *
  * Written by
- *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,6 +24,22 @@
  *
  */
 
-#include <stdio.h>
+#ifndef _UIHOTKEY_H
+#define _UIHOTKEY_H
 
-ui_set_fullscreenmode_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
+#include "ui.h"
+
+typedef enum {
+    UI_HOTMOD_NONE = 0,
+    UI_HOTMOD_CONTROL = 1 << 0,
+    UI_HOTMOD_ALT = 1 << 1,
+    UI_HOTMOD_META = 1 << 2,
+    UI_HOTMOD_SHIFT = 1 << 3
+} ui_hotkey_modifier_t;
+
+int ui_hotkey_init(void);
+void ui_hotkey_register(ui_hotkey_modifier_t modifier,
+                        ui_keysym_t keysym, ui_callback_t callback,
+                        ui_callback_data_t client_data);
+
+#endif

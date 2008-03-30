@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.2.19)
+AM_INIT_AUTOMAKE(vice, 1.2.20)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -122,8 +122,12 @@ else
 
     if test x"$GCC" = "xyes" ; then
 
-      warnings="-Wall -Wstrict-prototypes -Winline"
-
+      if test x"$enable_gnomeui" != "xyes" ; then
+          warnings="-Wall -Wstrict-prototypes -Winline"
+      else
+	  dnl "-Wstrict-prototypes" gives zillions of warnings in gtk headers
+	  warnings="-Wall -Winline"
+      fi
       dnl Set appropriate optimization options (better than the default -g -O)
       dnl if using GCC.
       dnl `-pipe' is broken on some Alpha systems, and also `-funroll-loops'
@@ -595,7 +599,9 @@ unsigned long test; ],
 elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
 
   LIBS="${LIBS} `gnome-config --libs gnomeui`"
-  AC_DEFINE(USE_MITSHM)
+
+  dnl We always have a mouse on UNIX/Gnome.
+  AC_DEFINE(HAVE_MOUSE)
 fi
 
 AC_SUBST(x64_LDFLAGS)
@@ -615,10 +621,10 @@ dnl Setup the system-specific object files.
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes" -a x"$is_os2" != "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
   if test x"$enable_gnomeui" != "xyes" ; then
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a"
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
   else
-    ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a"
+    ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `gnome-config --cflags gnomeui`"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, true)

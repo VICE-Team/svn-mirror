@@ -16,22 +16,16 @@ INCLUDES = \
 noinst_LIBRARIES = libxawui.a
 
 libxawui_a_SOURCES = \
-	c128icon.xpm \
-	c610icon.xpm \
-	c64icon.xpm \
 	checkmark.xbm \
-	peticon.xpm \
 	right_arrow.xbm \
 	ui.c \
-	ui.h \
+	uiarch.h \
 	uiedisk.c \
 	uihotkey.c \
 	uihotkey.h \
 	uimenu.c \
 	uimenu.h \
 	uisnapshot.c \
-	vic20icon.xpm \
-	vsidui.c \
 	videoarch.h \
 	x11video.c \
 	x11kbd.c \

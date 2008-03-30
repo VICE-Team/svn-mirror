@@ -206,7 +206,7 @@ GC video_get_gc(XGCValues *gc_values)
     return XCreateGC(display, XtWindow(_ui_top_level), 0, gc_values);
 }
 
-void video_add_handlers(Widget w)
+void video_add_handlers(ui_window_t w)
 {
     XtAddEventHandler(w, (EnterWindowMask | LeaveWindowMask | KeyReleaseMask
 			  | KeyPressMask), True,
@@ -231,4 +231,10 @@ void canvas_unmap(canvas_t s)
     XUnmapWindow(display, s->drawable);
     XFlush(display);
 }
+
+void ui_finish_canvas(canvas_t c)
+{
+    c->drawable = XtWindow(c->emuwindow);
+}
+
 

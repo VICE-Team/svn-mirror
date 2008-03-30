@@ -291,18 +291,22 @@ static UI_CALLBACK(select_user_keymap)
     const char *resname;
     ui_button_t button;
     int kindex;
+    static char *last_dir;
 
     resources_get_value("KeymapIndex", (resource_value_t)&kindex);
     kindex = (kindex & ~1) + (int)UI_MENU_CB_PARAM;
     resname = keymap_res_name_list[kindex];
 
     suspend_speed_eval();
-    filename = ui_select_file("Read Keymap File", NULL, False, NULL,
+    filename = ui_select_file("Read Keymap File", NULL, False, last_dir,
 							"*.vkm", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
 	resources_set_value(resname, (resource_value_t)filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -345,16 +349,20 @@ UI_CALLBACK(ui_load_palette)
     char *filename;
     char title[1024];
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
     sprintf(title, "Load custom palette");
-    filename = ui_select_file(title, NULL, False, NULL, "*.vpl", &button);
+    filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value("PaletteFile", 
 		(resource_value_t) filename) < 0)
             ui_error("Could not load palette file\n'%s'",filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -378,15 +386,19 @@ UI_CALLBACK(ui_load_romset)
     char *filename;
     char title[1024];
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
     sprintf(title, "Load custom ROM set definition");
-    filename = ui_select_file(title, NULL, False, NULL, "*.vrs", &button);
+    filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (romset_load(filename) < 0)
             ui_error("Could not load ROM set file\n'%s'",filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -421,15 +433,19 @@ UI_CALLBACK(ui_load_rom_file)
     char *filename;
     char title[1024];
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
     sprintf(title, "Load ROM file");
-    filename = ui_select_file(title, NULL, False, NULL, "*", &button);
+    filename = ui_select_file(title, NULL, False, last_dir, "*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM, (resource_value_t)filename) < 0)
             ui_error("Could not load ROM file\n'%s'",filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -1048,14 +1064,18 @@ static UI_CALLBACK(set_printer_dump_file)
     char *resource = (char*) UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
 
     filename = ui_select_file("Select printer dump file",
-                              NULL, False, NULL, NULL, &button);
+                              NULL, False, last_dir, NULL, &button);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */

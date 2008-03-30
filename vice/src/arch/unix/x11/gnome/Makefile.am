@@ -9,10 +9,9 @@ noinst_LIBRARIES = libgnomeui.a
 libgnomeui_a_SOURCES = \
 	dummies.c \
 	ui.c \
-	ui.h \
+	uiarch.h \
 	videoarch.h \
 	uihotkey.c \
-	uihotkey.h \
 	uimenu.c \
 	uimenu.h \
 	gnomekbd.c \

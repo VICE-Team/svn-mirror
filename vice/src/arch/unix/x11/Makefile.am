@@ -17,7 +17,12 @@ libx11ui_a_SOURCES = \
 	kbd.c \
 	kbdef.h \
 	video.c \
-	videoarch.h 
+	videoarch.h \
+	c128icon.xpm \
+	c610icon.xpm \
+	c64icon.xpm \
+	peticon.xpm \
+	vic20icon.xpm
 
 .PHONY: xaw gnome
 xaw:

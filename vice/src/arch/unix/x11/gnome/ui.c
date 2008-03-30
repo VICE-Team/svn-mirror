@@ -1,10 +1,10 @@
 /*
- * ui.c - Simple Xaw-based graphical user interface.  It uses widgets
- * from the Free Widget Foundation and Robert W. McMullen.
+ * ui.c - Gnome/Gtk+ based UI
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli
+ *  Oliver Schaertel
+ *  Martin Pottendorfer
  *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -62,22 +62,26 @@
 #endif
 
 #include "ui.h"
+#include "uiarch.h"
 
 #include "cmdline.h"
 #include "log.h"
 #include "kbd.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "interrupt.h"
+#include "vsidproc.h"
 #include "mouse.h"
+#include "datasette.h"
 #include "resources.h"
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"
+#include "uicommands.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
 
-void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -93,12 +97,22 @@ static unsigned long allocated_pixels[0x100];
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
 
-GtkWidget *canvas, *pane, *topmenu;
-GtkWidget *drive8menu, *drive9menu;
-GtkWidget *canvasw;
-GdkCursor *blankCursor;
+static GtkTooltips *tape_tooltip;
+static GtkTooltips *drive_tooltips[NUM_DRIVES];
 
-static guint timeout;
+static int tape_motor_status = -1;
+static int tape_control_status = -1;
+
+#define LED_WIDTH 12
+#define LED_HEIGHT 6
+#define CTRL_WIDTH 13
+#define CTRL_HEIGHT 11
+
+static GtkWidget *topmenu;
+static GtkWidget *drive8menu, *drive9menu, *tape_menu;
+static GtkWidget *status_bar;
+static GdkCursor *blankCursor;
+
 static int cursor_is_blank = 0;
 
 #ifdef USE_VIDMODE_EXTENSION
@@ -518,15 +532,15 @@ void ui_check_mouse_cursor()
 	mouse_accel = 4 - 2 * window_doublesize;   
 	/*	XDefineCursor(display,XtWindow(canvas), blankCursor);*/
 	cursor_is_blank = 1;
-	gdk_keyboard_grab(canvas->window,
+	gdk_keyboard_grab(_ui_top_level->window,
 			  1,
 			  CurrentTime);
-	gdk_pointer_grab(canvas->window,
+	gdk_pointer_grab(_ui_top_level->window,
 			 1,
 			 GDK_POINTER_MOTION_MASK |
 			 GDK_BUTTON_PRESS_MASK |			 
 			 GDK_BUTTON_RELEASE_MASK,
-			 canvas->window,
+			 _ui_top_level->window,
 			 blankCursor,
 			 CurrentTime);
     }
@@ -692,12 +706,6 @@ GdkGC *app_gc;
 /* Our colormap. */
 static GdkColormap *colormap;
 
-/* Application icon.  */
-static Pixmap icon_pixmap;
-
-/* Number of drives we support in the UI.  */
-#define NUM_DRIVES      2
-
 /* Enabled drives.  */
 ui_drive_enable_t enabled_drives;
 
@@ -707,14 +715,27 @@ int *drive_active_led;
 /* Drive status widget */
 typedef struct 
 {
-    void *box;			/* contains all the widgets */
+    GtkWidget *box;			/* contains all the widgets */
     char *label;
-    void *pixmap;
-    void *image;
-    void *image_label;
-    void *track_label;
-    void *led;
+    GtkWidget *pixmap;
+#if 0
+    GtkWidget *image;
+#endif
+    GtkWidget *event_box;
+    GtkWidget *track_label;
+    GtkWidget *led;
+    GdkPixmap *led_pixmap;
 } drive_status_widget;
+
+/* Tape status widget */
+typedef struct 
+{
+    GtkWidget *box;
+    GtkWidget *event_box;
+    GtkWidget *label;
+    GtkWidget *control;
+    GdkPixmap *control_pixmap;
+} tape_status_widget;
 
 /* This allows us to pop up the transient shells centered to the last visited
    shell. */
@@ -726,13 +747,15 @@ typedef struct {
     GtkWidget *canvas;
     GtkLabel *speed_label;
     drive_status_widget drive_status[NUM_DRIVES];
+    tape_status_widget tape_status;
 } app_shell_type;
 
 static app_shell_type app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
-GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel, *drive_led_off_pixel;
+GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel, 
+    *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
 
 /* If != 0, we should save the settings. */
 /* static int resources_have_changed = 0; */
@@ -755,7 +778,7 @@ UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback);
 
 /* ------------------------------------------------------------------------- */
-
+#if 0
 static String fallback_resources[] = {
     "*font:					   -*-lucida-bold-r-*-*-12-*",
     "*Command.font:			           -*-lucida-bold-r-*-*-12-*",
@@ -826,12 +849,18 @@ static String fallback_resources[] = {
 
     NULL
 };
-
+#endif
 /* ------------------------------------------------------------------------- */
 
+void ui_proc_start(void)
+{
+    signal(SIGINT,  SIG_IGN);
+    signal(SIGTERM, SIG_DFL);
 
-/* Initialize the GUI and parse the command line. */
-int ui_init(int *argc, char **argv)
+    gtk_main();
+}
+
+void archdep_ui_init(int argc, char *argv[])
 {
     /* Fake Gnome to see empty arguments; 
        Generaly we should use a `popt_table', either by converting the
@@ -842,7 +871,11 @@ int ui_init(int *argc, char **argv)
     fake_argv[0] = argv[0];
     fake_argv[1] = NULL;
     gnome_init(PACKAGE, VERSION, 1, fake_argv);
-    
+}
+
+/* Initialize the GUI and parse the command line. */
+int ui_init(int *argc, char **argv)
+{
     display = GDK_DISPLAY();
 
     screen =  XDefaultScreen(display);
@@ -861,13 +894,10 @@ typedef struct {
 } namedvisual_t;
 
 
-void delete_event(GtkWidget *w, GdkEvent *e, gpointer data) {
+void delete_event(GtkWidget *w, GdkEvent *e, gpointer data) 
+{
     suspend_speed_eval();
     ui_exit();
-}
-
-void some_event(GtkWidget *w, GdkEvent *e, gpointer data) {
-    printf("event\n");
 }
 
 void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
@@ -917,22 +947,16 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
     }
 }
 
-/* 
- * Preliminary dummy menus to be removed and replaced by the dynamically
- * generated menus. FIXME
- */
-static GnomeUIInfo menu1[] = {
-  GNOMEUIINFO_MENU_CLOSE_ITEM(delete_event, NULL),
-  GNOMEUIINFO_MENU_EXIT_ITEM(delete_event, NULL),
-  GNOMEUIINFO_END
-};
-
-static GnomeUIInfo help_menu[] = {
-    GNOMEUIINFO_MENU_ABOUT_ITEM(ui_about, NULL),
-    GNOMEUIINFO_END
-};
-
-static GnomeUIInfo main_menu[3];
+static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
+{
+    if(event->type == GDK_BUTTON_PRESS) {
+        GdkEventButton *bevent = (GdkEventButton*) event;
+	
+	if (tape_menu)
+	    gtk_menu_popup(GTK_MENU(tape_menu),NULL,NULL,NULL,NULL,
+			   bevent->button, bevent->time);
+    }
+}
 
 void update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
 {
@@ -1004,43 +1028,195 @@ int ui_init_finish(void)
 	}
     }
 
-    _ui_top_level = gnome_app_new(PACKAGE, PACKAGE);
+    return ui_menu_init();
+}
+
+void ui_create_status_bar(GtkWidget *pane, int width, int height)
+{
+    /* Create the status bar on the bottom.  */
+    GtkWidget *speed_label, *drive_box;
+    int i;
+    app_shell_type *as;
+
+    status_bar = gtk_hbox_new(FALSE, 0);
+
+    gtk_container_add(GTK_CONTAINER(pane),status_bar);
+    gtk_widget_show(status_bar);
+    speed_label = gtk_label_new("");
+    app_shells[num_app_shells - 1].speed_label = (GtkLabel*) speed_label;
+    gtk_box_pack_start(GTK_BOX(status_bar),speed_label,TRUE,TRUE,0);
+    gtk_misc_set_alignment (GTK_MISC (speed_label), 0, -1);
+    gtk_widget_show(speed_label);      
+
+    as=&app_shells[num_app_shells - 1];
+    /* drive stuff */
+    drive_box = gtk_hbox_new(FALSE, 10);
+    for (i = 0; i < NUM_DRIVES; i++) {
+	char label[10];
+	
+	as->drive_status[i].event_box = gtk_event_box_new();
+
+	sprintf(label, "Drive %d: ", i + 8);
+	as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
+
+	gtk_container_add(GTK_CONTAINER(as->drive_status[i].event_box),
+			  as->drive_status[i].box);
+	gtk_widget_show(as->drive_status[i].box);
+
+	drive_tooltips[i] = gtk_tooltips_new();
+	gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]),
+			     as->drive_status[i].box->parent,
+			     "<empty>", NULL);
+
+	/* Label */
+	as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
+	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), 
+			   (GtkWidget *)as->drive_status[i].label,
+			   TRUE,TRUE,0);
+	gtk_widget_show((GtkWidget *)as->drive_status[i].label);
+
+#if 0
+	as->drive_status[i].image = (void *)gtk_label_new("<empty>");
+	gtk_container_add(GTK_CONTAINER(event_box),
+			  as->drive_status[i].image);
+	gtk_widget_show(as->drive_status[i].image);
+#endif
+	
+	/* Track Label */
+	as->drive_status[i].track_label = gtk_label_new("");
+	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
+			   as->drive_status[i].track_label,
+			   FALSE, FALSE, 0);
+	gtk_widget_show(as->drive_status[i].track_label);      
+	
+
+	/* Led */
+	as->drive_status[i].led_pixmap = 
+	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, 
+			   depth);
+	as->drive_status[i].led = 
+	    gtk_pixmap_new(as->drive_status[i].led_pixmap, NULL);
+	gtk_widget_set_usize(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
+	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
+			   (GtkWidget *)as->drive_status[i].led,
+			   FALSE,FALSE, 4);
+	gtk_widget_show(as->drive_status[i].led);      
+	
+	gtk_box_pack_start(GTK_BOX(drive_box), as->drive_status[i].event_box, 
+			   FALSE, FALSE, 0);
+
+	gtk_widget_set_events(as->drive_status[i].event_box, 
+			      GDK_BUTTON_PRESS_MASK |
+			      GDK_BUTTON_RELEASE_MASK |
+	                      GDK_ENTER_NOTIFY_MASK);
+	gtk_signal_connect(GTK_OBJECT(as->drive_status[i].event_box),
+			   "button-press-event",
+			   GTK_SIGNAL_FUNC(fliplist_popup_cb), (gpointer) i);
+	gtk_widget_show(as->drive_status[i].event_box);
+    }
+    gtk_widget_show(drive_box);
+    gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
+
+    /* tape stuff */
+    as->tape_status.event_box = gtk_event_box_new();
+
+    as->tape_status.box = gtk_hbox_new(FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(as->tape_status.event_box),
+		      as->tape_status.box);
+    gtk_widget_show(as->tape_status.box);
+
+    tape_tooltip = gtk_tooltips_new();
+    gtk_tooltips_set_tip(GTK_TOOLTIPS(tape_tooltip),
+			 as->tape_status.box->parent, 
+			 "", NULL);
+    /* Tape Label */
+    as->tape_status.label = gtk_label_new("Tape 000");
+    gtk_container_add(GTK_CONTAINER(as->tape_status.box),
+		      as->tape_status.label);
+    gtk_misc_set_alignment (GTK_MISC (as->tape_status.label), 0, -1);
+    gtk_widget_show(as->tape_status.label);
+
+    /* Tape control */
+    as->tape_status.control_pixmap = 
+	gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, depth);
+    as->tape_status.control = gtk_pixmap_new(as->tape_status.control_pixmap, 
+					      NULL);
+    gtk_widget_set_usize(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
+    gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control,
+		       FALSE, FALSE, 4);
+    gtk_widget_show(as->tape_status.control);
+
+    gtk_widget_set_events(as->tape_status.event_box, 
+			  GDK_BUTTON_PRESS_MASK |
+			  GDK_BUTTON_RELEASE_MASK | 
+			  GDK_ENTER_NOTIFY_MASK);
+    gtk_signal_connect(GTK_OBJECT(as->tape_status.event_box),
+		       "button-press-event",
+		       GTK_SIGNAL_FUNC(tape_popup_cb), (gpointer) NULL);
+
+    gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, 
+		       FALSE, FALSE, 0);
+    gtk_widget_show(as->tape_status.event_box);
+    gtk_widget_show(status_bar);
+
+    /* I really don't understand GTK+ here... Why the hell is the ->window
+       field of the widget not set after `gtk_widget_show()' ??? */
+    for (i = 0; i < NUM_DRIVES; i++) {
+#if 0
+	int ih, iw;
+	gdk_window_get_size(((GtkWidget *)as->drive_status[i].image)->window, 
+			    &iw, &ih);
+	gtk_widget_set_usize(as->drive_status[i].image, width / 3, ih);
+#endif
+	gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Tape widget */
+	gdk_window_set_cursor (as->drive_status[i].event_box->window, 
+			       gdk_cursor_new (GDK_HAND1)); 
+    }
+    gtk_widget_hide(as->tape_status.event_box);	/* Hide Tape widget */
+    gdk_window_set_cursor (as->tape_status.event_box->window, 
+			   gdk_cursor_new (GDK_HAND1)); 
+}
+
+
+void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
+
+/* Create a shell with a canvas widget in it.  */
+ui_window_t ui_open_canvas_window(const char *title, int width, int height,
+                                  int no_autorepeat,
+                                  ui_exposure_handler_t exposure_proc,
+                                  const palette_t *palette,
+                                  PIXEL pixel_return[])
+{
+    GtkWidget *new_window, *new_pane, *new_canvas;
     
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"key-press-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"key-release-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"enter-notify-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"leave-notify-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"button-press-event",
-		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"button-release-event",
-		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"motion-notify-event",
-		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
+    if (++num_app_shells > MAX_APP_SHELLS) {
+	log_error(ui_log, "Maximum number of toplevel windows reached.");
+	return NULL;
+    }
 
-
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"delete_event",
-		       GTK_SIGNAL_FUNC(delete_event),NULL);
-    gtk_signal_connect(GTK_OBJECT(_ui_top_level),"destroy_event",
-		       GTK_SIGNAL_FUNC(delete_event),NULL);
-
-    pane = gtk_vbox_new(FALSE, 0);
-    gnome_app_set_contents(GNOME_APP(_ui_top_level), pane);
-    gtk_widget_show(pane);
-
-    topmenu = gtk_menu_bar_new();
-    gtk_box_pack_start(GTK_BOX(pane),topmenu, FALSE, FALSE,0);
-    gtk_widget_show(topmenu);
-    gtk_signal_connect(GTK_OBJECT(topmenu),"button-press-event",
-		       GTK_SIGNAL_FUNC(update_menu_cb),NULL);
+    new_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    if (!_ui_top_level)
+	_ui_top_level = new_window;
     
-    canvas = gtk_drawing_area_new();
-    gtk_box_pack_start(GTK_BOX(pane),canvas,FALSE,FALSE,0);
-    gtk_widget_show(canvas);
-    gtk_widget_set_events(canvas,
+    new_pane = gtk_vbox_new(FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(new_window), new_pane);
+    gtk_widget_show(new_pane);
+
+    if (!topmenu) 
+    {
+	topmenu = gtk_menu_bar_new();
+	gtk_widget_show(topmenu);
+	gtk_signal_connect(GTK_OBJECT(topmenu),"button-press-event",
+			   GTK_SIGNAL_FUNC(update_menu_cb),NULL);
+    }
+
+    gtk_box_pack_start(GTK_BOX(new_pane), topmenu, FALSE, FALSE,0);
+    
+    new_canvas = gtk_drawing_area_new();
+    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,FALSE,FALSE,0);
+    
+    gtk_widget_show(new_canvas);
+    gtk_widget_set_events(new_canvas,
 			  GDK_LEAVE_NOTIFY_MASK |
 			  GDK_ENTER_NOTIFY_MASK |			  
 			  GDK_BUTTON_PRESS_MASK |
@@ -1051,170 +1227,73 @@ int ui_init_finish(void)
 			  GDK_POINTER_MOTION_MASK |
 			  GDK_EXPOSURE_MASK);
 
-    gtk_widget_show(_ui_top_level);
-    app_gc = gdk_gc_new(_ui_top_level->window);
-
-    alloc_colormap();
+    gtk_widget_show(new_window);
 
 #ifdef USE_VIDMODE_EXTENSION
     vidmodeavail = vidmode_available();
 #endif
-    canvasw = canvas;
-    return ui_menu_init();
-}
 
-void ui_create_status_bar(int width, int height)
-{
-    /* Create the status bar on the bottom.  */
-    int led_width = 12, led_height = 3;
-    int ih, iw;
-    GtkWidget *status_bar, *speed_label, *drive_box, *event_box;
-    int i;
+    gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
+		       GTK_SIGNAL_FUNC(exposure_callback),
+		       (void*) exposure_proc);
+    gtk_widget_set_usize(new_canvas, width, height);
+    gtk_widget_show(new_canvas);
+    gtk_widget_queue_resize(new_canvas);
 
-    status_bar = gtk_hbox_new(FALSE,0);
+    ui_create_status_bar(new_pane, width, height);
 
-    gtk_container_add(GTK_CONTAINER(pane),status_bar);
-    gtk_widget_show(status_bar);
-    speed_label = gtk_label_new("");
-    app_shells[num_app_shells - 1].speed_label = (GtkLabel*) speed_label;
-    gtk_box_pack_start(GTK_BOX(status_bar),speed_label,TRUE,TRUE,0);
-    gtk_misc_set_alignment (GTK_MISC (speed_label), 0, -1);
-    gtk_widget_show(speed_label);      
-
-    drive_box = gtk_vbox_new(FALSE, 0);
-    
-    for (i = 0; i < NUM_DRIVES; i++) {
-	char label[5];
-	app_shell_type *as;
-	
-	as=&app_shells[num_app_shells - 1];
-	
-	sprintf(label, "Drive %d", i + 8);
-	
-	as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
-	/* Label */
-	as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
-	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), 
-			   (GtkWidget *)as->drive_status[i].label,
-			   TRUE,TRUE,0);
-	gtk_widget_show((GtkWidget *)as->drive_status[i].label);
-
-	/* Image Name */
-	event_box = gtk_event_box_new();
-	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), 
-			   event_box,
-			   TRUE,TRUE,2);
-	gtk_widget_show(event_box);
-
-	as->drive_status[i].image = (void *)gtk_label_new("<empty>");
-	gtk_container_add(GTK_CONTAINER(event_box),
-			  as->drive_status[i].image);
-	gtk_widget_show(as->drive_status[i].image);
-	
-	gtk_widget_set_events(event_box, 
-			      GDK_BUTTON_PRESS_MASK |
-			      GDK_BUTTON_RELEASE_MASK);
-	gtk_signal_connect(GTK_OBJECT(event_box),
-			   "button-press-event",
-			   GTK_SIGNAL_FUNC(fliplist_popup_cb), (gpointer) i);
-
-	/* Track Label */
-	as->drive_status[i].track_label = gtk_label_new("");
-	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
-			   (GtkWidget *)as->drive_status[i].track_label,
-			   FALSE,FALSE,0);
-	gtk_widget_show(as->drive_status[i].track_label);      
-	/* Led */
-	as->drive_status[i].led = gtk_drawing_area_new();
-	gtk_drawing_area_size(GTK_DRAWING_AREA(as->drive_status[i].led),
-			      led_width, led_height);
-	gtk_widget_set_usize(as->drive_status[i].led, led_width, led_height);
-	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
-			   (GtkWidget *)as->drive_status[i].led,
-			   FALSE,FALSE,2);
-	gtk_widget_show(as->drive_status[i].led);      
-	
-	gtk_box_pack_start(GTK_BOX(drive_box), as->drive_status[i].box, FALSE,
-			   FALSE, 0);
-	gtk_widget_show(as->drive_status[i].box);
+    if (no_autorepeat) {
+      gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
+	 		 GTK_SIGNAL_FUNC(ui_autorepeat_off),NULL);
+      gtk_signal_connect(GTK_OBJECT(new_window),"leave-notify-event",
+	 		 GTK_SIGNAL_FUNC(ui_autorepeat_on),NULL);
+      gtk_signal_connect(GTK_OBJECT(new_window),"key-press-event",
+			 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
+      gtk_signal_connect(GTK_OBJECT(new_window),"key-release-event",
+	 		 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
+      gtk_signal_connect(GTK_OBJECT(new_window),"focus-in-event",
+	 		 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
+      gtk_signal_connect(GTK_OBJECT(new_window),"focus-out-event",
+			 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
     }
-    gtk_widget_show(drive_box);
-    gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
-    gtk_widget_show(status_bar);
+    gtk_signal_connect(GTK_OBJECT(new_window),"key-press-event",
+		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"key-release-event",
+		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
+		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"leave-notify-event",
+		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"button-press-event",
+		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"button-release-event",
+		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"motion-notify-event",
+		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"delete_event",
+		       GTK_SIGNAL_FUNC(delete_event),NULL);
+    gtk_signal_connect(GTK_OBJECT(new_window),"destroy_event",
+		       GTK_SIGNAL_FUNC(delete_event),NULL);
 
-    /* I really don't understand GTK+ here... Why the hell is the ->window
-       field of the widget not set after `gtk_widget_show()' ??? */
-    for (i = 0; i < NUM_DRIVES; i++) {
-	app_shell_type *as;
-	as=&app_shells[num_app_shells - 1];
-	gdk_window_get_size(((GtkWidget *)as->drive_status[i].image)->window, 
-			    &iw, &ih);
-	gtk_widget_set_usize(as->drive_status[i].image, width / 3, ih);
-	gdk_window_set_cursor (((GtkWidget *)as->drive_status[i].image)->window, gdk_cursor_new (GDK_HAND1)); 
-    }
-}
+    app_shells[num_app_shells - 1].shell = new_window;
+    app_shells[num_app_shells - 1].canvas = new_canvas;
+    app_shells[num_app_shells - 1].title = stralloc(title);
 
-/* Create a shell with a canvas widget in it.  */
-ui_window_t ui_open_canvas_window(const char *title, int width, int height,
-                                  int no_autorepeat,
-                                  ui_exposure_handler_t exposure_proc,
-                                  const palette_t *palette,
-                                  PIXEL pixel_return[])
-{
-    int i;
+    gtk_window_set_title(GTK_WINDOW(new_window),title);
 
+    alloc_colormap();
+    if (!app_gc)
+	app_gc = gdk_gc_new(new_window->window);
     if (alloc_colors(palette, pixel_return) == -1)
         return NULL;
 
-    if (++num_app_shells > MAX_APP_SHELLS) {
-	log_error(ui_log, "Maximum number of toplevel windows reached.");
-	return NULL;
-    }
-
-    gdk_window_set_colormap(_ui_top_level->window,colormap);
-    gtk_signal_connect(GTK_OBJECT(canvas),"expose-event",
-		       GTK_SIGNAL_FUNC(exposure_callback),
-		       (void*) exposure_proc);
-    gtk_widget_set_usize(canvas, width, height);
-    gtk_widget_show(canvas);
-    gtk_widget_queue_resize(canvas);
-
-    ui_create_status_bar(width, height);
-
-    /* Attach the icon pixmap, if already defined.  */
-    /*
-      if (icon_pixmap)
-      XtVaSetValues(shell, XtNiconPixmap, icon_pixmap, NULL);
-    */
-
-    if (no_autorepeat) {
-      gtk_signal_connect(GTK_OBJECT(_ui_top_level),"enter-notify-event",
-	 		 GTK_SIGNAL_FUNC(ui_autorepeat_off),NULL);
-      gtk_signal_connect(GTK_OBJECT(_ui_top_level),"leave-notify-event",
-	 		 GTK_SIGNAL_FUNC(ui_autorepeat_on),NULL);
-      gtk_signal_connect(GTK_OBJECT(_ui_top_level),"key-press-event",
-			 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
-      gtk_signal_connect(GTK_OBJECT(_ui_top_level),"key-release-event",
-	 		 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
-      gtk_signal_connect(GTK_OBJECT(_ui_top_level),"focus-in-event",
-	 		 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
-      gtk_signal_connect(GTK_OBJECT(_ui_top_level),"focus-out-event",
-			 GTK_SIGNAL_FUNC(ui_hotkey_event_handler),NULL);
-    }
-
-    app_shells[num_app_shells - 1].shell = _ui_top_level;
-    app_shells[num_app_shells - 1].canvas = canvas;
-    app_shells[num_app_shells - 1].title = stralloc(title);
-
-    gtk_window_set_title(GTK_WINDOW(_ui_top_level),title);
-
     /* This is necessary because the status might have been set before we
-       actually open the canvas window.  */
+       actually open the canvas window. e.g. by commandline */
     ui_enable_drive_status(enabled_drives, drive_active_led);
 
     initBlankCursor();
 
-    return canvas;
+    return new_canvas;
 }
 
 void ui_create_dynamic_menues()
@@ -1269,22 +1348,29 @@ void ui_set_right_menu(GtkWidget *w)
 
 void ui_set_topmenu(void)
 {
-    GtkWidget *commands, *settings;
+    GtkWidget *commands, *settings, *help, *help_menu;
     
     commands = gtk_menu_item_new_with_label("Commands");
     gtk_widget_show(commands);
     settings = gtk_menu_item_new_with_label("Settings");
     gtk_widget_show(settings);
+    
+    help_menu = ui_menu_create("Help", ui_help_commands_menu, NULL);
+    help = gtk_menu_item_new_with_label("Help");
+    gtk_widget_show(help);
+
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(commands), left_menu);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings), right_menu);
-
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(help), help_menu);
     gtk_menu_bar_append(GTK_MENU_BAR(topmenu), commands);
     gtk_menu_bar_append(GTK_MENU_BAR(topmenu), settings);
+    gtk_menu_bar_append(GTK_MENU_BAR(topmenu), help);
+    gtk_menu_item_right_justify(GTK_MENU_ITEM(help));
+
     gtk_widget_show(topmenu);
-    gtk_widget_show(pane);
 }
 
-#else
+#else  /* GNOME_MENUS */
 
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(GnomeUIInfo *w)
@@ -1311,17 +1397,21 @@ void ui_set_right_menu(GnomeUIInfo *w)
 void ui_set_topmenu(void)
 {
     main_menu[2].type = GNOME_APP_UI_ENDOFINFO;
-    gnome_app_create_menus(GNOME_APP(_ui_top_level), main_menu);
+    gnome_app_create_menus(GNOME_APP(XXXX), main_menu);
 }
-#endif
-void ui_set_application_icon(Pixmap icon_pixmap)
-{
-    /*
-    int i;
+#endif /* !GNOME_MENUS */
 
+void ui_set_application_icon(const char *icon_data[])
+{
+    int i;
+    GdkPixmap *icon;
+    
+    icon = gdk_pixmap_create_from_xpm_d(_ui_top_level->window,
+					NULL, NULL, (char **) icon_data);
+    
     for (i = 0; i < num_app_shells; i++)
-        XtVaSetValues(app_shells[i].shell, XtNiconPixmap, icon_pixmap, NULL);
-    */
+        gdk_window_set_icon(app_shells[i].shell->window, NULL,
+			    icon, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1350,8 +1440,10 @@ void ui_exit(void)
 	ui_set_windowmode();
 #endif
 	ui_dispatch_events();
-	/*	gtk_widget_destroy(_ui_top_level);*/
-	exit(0);
+	if (psid_mode) 
+	    ui_proc_exit();
+	else 
+	    exit(0);
     }
     free(s);
 }
@@ -1473,11 +1565,32 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
 	exact->red = 0;
 	exact->green = 0xffff;
 	exact->blue = 0;
-
         if (!gdk_color_alloc(colormap,exact))
             return 1;
         else {
 	    drive_led_on_green_pixel = exact;
+	    allocated_pixels[n_allocated_pixels++] = exact->pixel;
+	}
+
+	exact = (GdkColor*) xmalloc(sizeof(GdkColor));
+	exact->red = 0xffff;
+	exact->green = 0xffff;
+	exact->blue = 0x7fff;
+        if (!gdk_color_alloc(colormap,exact))
+            return 1;
+        else {
+	    motor_running_pixel = exact;
+	    allocated_pixels[n_allocated_pixels++] = exact->pixel;
+	}
+
+	exact = (GdkColor*) xmalloc(sizeof(GdkColor));
+	exact->red = 0xafff;
+	exact->green = 0xafff;
+	exact->blue = 0xafff;
+        if (!gdk_color_alloc(colormap,exact))
+            return 1;
+        else {
+	    tape_control_pixel = exact;
 	    allocated_pixels[n_allocated_pixels++] = exact->pixel;
 	}
     }
@@ -1507,12 +1620,6 @@ static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
 	}
     }
     return failed ? -1 : 0;
-}
-
-/* Return the drawable for the canvas in the specified ui_window_t. */
-GtkWidget* ui_canvas_get_drawable(ui_window_t w)
-{
-    return w;
 }
 
 /* Change the colormap of window `w' on the fly.  This only works for
@@ -1600,11 +1707,11 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+/* drive stuff */
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-    int i, j, num;
-    int drive_mapping[NUM_DRIVES];
-    num = 0;
+    int i, j;
 
     enabled_drives = enable;
     drive_active_led = drive_led_color;
@@ -1615,22 +1722,34 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 		(enabled_drives & (1 << j))) 
 	    {
 		/* enabled + active drive */
-		gtk_widget_show(app_shells[i].drive_status[j].box);
+		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_show(app_shells[i].drive_status[j].track_label);
 		gtk_widget_show(app_shells[i].drive_status[j].led);
 	    } 
 	    else if (!enabled_drives &&
 		       (strcmp(last_attached_images[j], "") != 0)) 
 	    {
-		gtk_widget_show(app_shells[i].drive_status[j].box);
+		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_hide(app_shells[i].drive_status[j].track_label);
 		gtk_widget_hide(app_shells[i].drive_status[j].led);
 	    }
 	    else 
 	    {
-		gtk_widget_hide(app_shells[i].drive_status[j].box);
+		gtk_widget_hide(app_shells[i].drive_status[j].event_box);
 	    }
 	}
+#if 0
+	/* enable this when a dynamic multiline status bar is needed.
+	   be aware that x128 has weird sized windows on startup, because of 
+	   the uninitialized canvas window(-size) during startup */
+	/* resize according to new needs */
+	{
+	int width, height;
+
+	gdk_window_get_size(app_shells[i].canvas->window, &width, &height);
+	ui_resize_canvas_window(app_shells[i].canvas, width, height);
+	}
+#endif
     }
 }
 
@@ -1640,11 +1759,12 @@ void ui_display_drive_track(int drive_number, int drive_base,
     int i;
     static char str[256];
 
-    sprintf(str, "Track %.1f", (double)track_number);
+    sprintf(str, "%.1f", (double)track_number);
     
     for (i = 0; i < num_app_shells; i++) {
-	gtk_label_set_text(app_shells[i].
-			   drive_status[drive_number].track_label, str);
+	gtk_label_set_text(GTK_LABEL(app_shells[i].
+				     drive_status[drive_number].track_label), 
+			   str);
     }
 }
 
@@ -1652,17 +1772,23 @@ void ui_display_drive_led(int drive_number, int status)
 {
     int i;
     
-    GdkColor *color = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+    GdkColor *color = status ? (drive_active_led[drive_number] 
+				? drive_led_on_green_pixel 
+				: drive_led_on_red_pixel) 
+	                     : drive_led_off_pixel;
 
+    gdk_gc_set_foreground(app_gc, color);
     for (i = 0; i < num_app_shells; i++)
     {
-	GtkWidget *w = app_shells[i].drive_status[drive_number].led;
-	gdk_window_set_background(w->window, color);
-	gdk_window_clear(w->window);
+	drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
+	gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 
+			   0, LED_WIDTH, LED_HEIGHT);
+	gtk_widget_queue_draw(ds->led);
     }
 }
 
-void ui_display_drive_current_image(int drive_number, const char *image)
+void ui_display_drive_current_image(unsigned int drive_number, 
+				    const char *image)
 {
     int i;
     char *name;
@@ -1679,11 +1805,165 @@ void ui_display_drive_current_image(int drive_number, const char *image)
     fname_split(&(last_attached_images[drive_number][0]), NULL, &name);
     
     for (i = 0; i < num_app_shells; i++) {
-	gtk_label_set_text(app_shells[i].drive_status[drive_number].
-			   image, name);
+#if 0
+	gtk_label_set_text(GTK_LABEL(app_shells[i].
+				     drive_status[drive_number].image), 
+			   name);
+#endif
+	gtk_tooltips_set_tip(
+	    GTK_TOOLTIPS(drive_tooltips[drive_number]),
+	    app_shells[i].drive_status[drive_number].box->parent, 
+	    name, NULL);
+	
     }
+    if (name)
+	free(name);
+    
     ui_enable_drive_status(enabled_drives, drive_active_led);
 }
+
+/* ------------------------------------------------------------------------- */
+/* tape stuff */
+void ui_set_tape_status(int tape_status)
+{
+    static int ts;
+    int i, w, h;
+    
+    if (ts == tape_status)
+	return;
+    ts = tape_status;
+    for (i = 0; i < num_app_shells; i++) 
+    {
+	if (ts)
+	    gtk_widget_show(app_shells[i].tape_status.event_box);
+	else
+	    gtk_widget_hide(app_shells[i].tape_status.event_box);
+	gdk_window_get_size(app_shells[i].canvas->window, &w, &h);
+	ui_resize_canvas_window(app_shells[i].canvas, w, h);
+    }
+}
+
+void ui_display_tape_motor_status(int motor)
+{   
+    
+    if (tape_motor_status == motor)
+	return;
+    tape_motor_status = motor;
+    ui_display_tape_control_status(-1);
+}
+
+void ui_display_tape_control_status(int control)
+{
+    GdkColor *color;
+    static GdkPoint ffw[] = {{0, 0}, {CTRL_WIDTH/2, CTRL_HEIGHT/2}, 
+			     {CTRL_WIDTH/2, 0}, {CTRL_WIDTH-1, CTRL_HEIGHT/2},
+                             {CTRL_WIDTH/2, CTRL_HEIGHT-1}, 
+			     {CTRL_WIDTH/2, CTRL_HEIGHT/2},
+			     {0, CTRL_HEIGHT-1}}; 
+    static GdkPoint rew[] = {{0, CTRL_HEIGHT/2}, {CTRL_WIDTH/2, 0}, 
+			     {CTRL_WIDTH/2, CTRL_HEIGHT/2}, {CTRL_WIDTH-1, 0},
+                             {CTRL_WIDTH-1, CTRL_HEIGHT-1}, 
+			     {CTRL_WIDTH/2, CTRL_HEIGHT/2}, 
+			     {CTRL_WIDTH/2, CTRL_HEIGHT-1}}; 
+    static GdkPoint play[] = {{3, 0}, {CTRL_WIDTH-3, CTRL_HEIGHT/2}, 
+			      {3, CTRL_HEIGHT-1}};
+    static GdkPoint stop[] = {{3, 2}, {CTRL_WIDTH-3, 2}, 
+			      {CTRL_WIDTH-3, CTRL_HEIGHT-2}, 
+			      {3, CTRL_HEIGHT-2}};
+    GdkPoint *p;
+    int i, num;
+
+    if (control < 0)
+	control = tape_control_status;
+    else
+	tape_control_status = control;
+
+    color = tape_motor_status ? motor_running_pixel : drive_led_off_pixel;
+    
+    /* Set background color depending on motor status */
+    gdk_gc_set_foreground(app_gc, color);
+    for (i = 0; i < num_app_shells; i++)
+    {
+	tape_status_widget *ts = &app_shells[i].tape_status;
+	
+	gdk_draw_rectangle(ts->control_pixmap, app_gc, TRUE,
+			   0, 0, CTRL_WIDTH, CTRL_HEIGHT);
+    }
+    
+    switch (control)
+    {
+    case DATASETTE_CONTROL_START:
+	num = 3;
+	p = play;
+	break;
+    case DATASETTE_CONTROL_FORWARD:
+	num = 7;
+	p = ffw;
+	break;
+    case DATASETTE_CONTROL_REWIND:
+	num = 7;
+	p = rew;
+	break;
+    case DATASETTE_CONTROL_RECORD:
+	gdk_gc_set_foreground(app_gc, drive_led_on_red_pixel);
+	for (i = 0; i < num_app_shells; i++)
+	{
+	    tape_status_widget *ts = &app_shells[i].tape_status;
+
+	    gdk_draw_arc(ts->control_pixmap, app_gc, TRUE, 3, 1, 
+			 CTRL_WIDTH-6, CTRL_HEIGHT-2, 0, 
+			 360 * 64);
+	    gtk_widget_queue_draw(ts->control);
+	}
+	gdk_flush();
+	return;
+    default:
+	num = 4;
+	p = stop;
+	break;
+    }
+    
+    color = tape_control_pixel;
+    gdk_gc_set_foreground(app_gc, color);
+    for (i = 0; i < num_app_shells; i++)
+    {
+	tape_status_widget *ts = &app_shells[i].tape_status;
+	gdk_draw_polygon(ts->control_pixmap, app_gc, TRUE, p, num);
+    
+	gtk_widget_queue_draw(ts->control);
+    }
+    gdk_flush();
+}
+
+void ui_display_tape_counter(int counter)
+{
+    static char label[10];
+    int i;
+    
+    sprintf(label, "Tape %03d", counter % 1000);
+    for (i = 0; i < num_app_shells; i++)
+	gtk_label_set_text(GTK_LABEL(app_shells[i].tape_status.label), label);
+    
+}
+
+void ui_display_tape_current_image(char *image)
+{
+    char *name;
+    int i;
+    
+    fname_split(image, NULL, &name);
+
+    for (i = 0; i < num_app_shells; i++)
+    {
+	gtk_tooltips_set_tip(GTK_TOOLTIPS(tape_tooltip),
+			     app_shells[i].tape_status.box->parent, 
+			     name, NULL);
+    }
+    if (name)
+	free(name);
+}
+
+/* ------------------------------------------------------------------------- */
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
@@ -1711,38 +1991,31 @@ void ui_dispatch_next_event(void)
 /* Dispatch all the pending UI events. */
 void ui_dispatch_events(void)
 {
-    while (gtk_events_pending())
-       ui_dispatch_next_event();
+    if (!psid_mode) 
+    {
+	while (gtk_events_pending())
+	    ui_dispatch_next_event();
+	return;
+    }
+    psid_dispatch_events();
 }
 
 /* Resize one window. */
 void ui_resize_canvas_window(ui_window_t w, int width, int height)
 {
-    static guint oldwidth=0, oldheight=0;
-
+    GtkRequisition req;
 #ifdef USE_VIDMODE_EXTENSION
     if( use_fullscreen) {
       XClearWindow(display,XtWindow(canvas));
       return;
     }
 #endif
-#if 0
-    if(oldwidth != width && oldheight != height) {
-        int tw, th;
-/* 
-	gtk_widget_set_usize(canvas,width,height);
-*/
-	gdk_window_resize(_ui_top_level->window,width,height);    
-	gdk_window_get_size(_ui_top_level->window,&tw,&th);
-	while(tw != width || th != height) {
-	    ui_dispatch_events();
-	    gdk_window_get_size(_ui_top_level->window,&tw,&th);
-	}
-	oldwidth = width, oldheight = height;
-    }
-#endif
-    gtk_widget_set_usize(canvas, width, height);
-    gdk_window_resize(_ui_top_level->window,width,height);    
+
+    gtk_widget_set_usize(w, width, height);
+    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
+    gdk_window_resize(gdk_window_get_toplevel(w->window), 
+		      req.width, req.height);
+    gdk_flush();
     return;
 }
 
@@ -1758,6 +2031,11 @@ void ui_unmap_canvas_window(ui_window_t w)
 {
     gtk_widget_hide(w);
     /*ungrap*/
+}
+
+void ui_destroy_widget(ui_window_t w)
+{
+    gtk_widget_destroy(w);
 }
 
 /* Enable autorepeat. */
@@ -1954,20 +2232,8 @@ char *ui_select_file(const char *title,
     if (filesel_dir != NULL) {
       chdir(filesel_dir);
     }
-    /* We always rebuild the file selector from scratch (which is slow),
-       because there seems to be a bug in the XfwfScrolledList that causes
-       the file and directory listing to disappear randomly.  I hope this
-       fixes the problem...  */
+
     file_selector = build_file_selector(&button);
-
-    /*
-    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
-    XtVaSetValues(file_selector, XtNshowContentsButton,
-					read_contents_func ? 1 : 0,  NULL);
-
-    XtVaSetValues(file_selector, XtNpattern,
-                  default_pattern ? default_pattern : "*", NULL);
-    */
 
     if (default_dir != NULL) {
         if(default_pattern) {
@@ -2122,7 +2388,6 @@ void ui_update_menus(void)
 /* Pop up a popup shell and center it to the last visited AppShell */
 void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
 {
-
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
     ui_dispatch_events();
@@ -2394,16 +2659,7 @@ UI_CALLBACK(enter_window_callback)
 
 UI_CALLBACK(exposure_callback)
 {
-    gint width, height;
-
     suspend_speed_eval();
-
-#if 0
-    gdk_window_get_size(_ui_top_level->window,&width,&height);
-    ((ui_exposure_handler_t) client_data)((unsigned int)width,
-                                          (unsigned int)height);
-#endif
-
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2444,9 +2700,17 @@ void ui_set_drive8_menu (GtkWidget *w)
 void ui_set_drive9_menu (GtkWidget *w)
 {
     if (drive9menu)
-	gtk_widget_destroy(drive8menu);
+	gtk_widget_destroy(drive9menu);
     drive9menu = w;
 }
+
+void ui_set_tape_menu (GtkWidget *w)
+{
+    if (tape_menu)
+	gtk_widget_destroy(tape_menu);
+    tape_menu = w;
+}
+
 
 #ifdef USE_VIDMODE_EXTENSION
 int ui_set_windowmode(void)

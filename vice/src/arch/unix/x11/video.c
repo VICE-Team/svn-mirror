@@ -63,6 +63,7 @@
 #include <stdlib.h>
 #include <sys/utsname.h>
 
+#include "ui.h"
 #include "kbd.h"
 #include "log.h"
 #include "cmdline.h"
@@ -71,7 +72,6 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -319,8 +319,10 @@ void video_frame_buffer_free(frame_buffer_t *i)
     } else if (i->x_image)
 	XDestroyImage(i->x_image);
 #else
+#ifndef USE_GNOMEUI
     if (i->x_image)
 	XDestroyImage(i->x_image);
+#endif
 #endif
 
 #if X_DISPLAY_DEPTH == 0
@@ -328,8 +330,17 @@ void video_frame_buffer_free(frame_buffer_t *i)
     if (depth != 8 && i->tmpframebuffer)
 	free(i->tmpframebuffer);
 #endif
+    {
+#ifdef USE_GNOMEUI
+	void *save = (void *) i->canvas;
+	memset(i, 0, sizeof(*i));
+	i->canvas = save;
+#else
+	memset(i, 0, sizeof(*i));
+#endif
 
-    memset(i, 0, sizeof(*i));
+    }
+	
 }
 
 void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
@@ -349,31 +360,40 @@ void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 }
 
 /* ------------------------------------------------------------------------- */
-
-extern void video_add_handlers(Widget w);
-
 /* Create a canvas.  In the X11 implementation, this is just (guess what?) a
    window. */
 canvas_t canvas_create(const char *win_name, unsigned int *width,
 		       unsigned int *height, int mapped,
 		       canvas_redraw_t exposure_handler,
-		       const palette_t * palette, PIXEL * pixel_return)
+		       const palette_t * palette, PIXEL * pixel_return
+#ifdef USE_GNOMEUI		       
+		       ,frame_buffer_t *fb
+#endif
+                       )
 {
     canvas_t c;
-    Widget w;
+    ui_window_t w;
+    XGCValues gc_values;
 
     w = ui_open_canvas_window(win_name, *width, *height, 1, exposure_handler,
 			      palette, pixel_return);
+
+    if (!_video_gc)
+	_video_gc = video_get_gc(&gc_values);
+    
     if (!w)
 	return (canvas_t) NULL;
 
     c = (canvas_t) malloc(sizeof(struct _canvas));
     c->emuwindow = w;
-    c->drawable = ui_canvas_get_drawable(w);
     c->width = *width;
     c->height = *height;
-    video_add_handlers(w);
+    ui_finish_canvas(c);
     
+    video_add_handlers(w);
+#ifdef USE_GNOMEUI
+    fb->canvas = c;
+#endif
     return c;
 }
 
@@ -411,7 +431,8 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 #endif
 
     _refresh_func(display, canvas->drawable, _video_gc,
-                   frame_buffer.x_image, xs, ys, xi, yi, w, h, False);
+		  frame_buffer.x_image, xs, ys, xi, yi, w, h, False, 
+		  &frame_buffer, canvas);
     if (_video_use_xsync)
         XSync(display, False);
 }

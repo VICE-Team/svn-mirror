@@ -34,6 +34,8 @@
 
 #include <gtk/gtk.h>
 
+#include "keyboard.h"
+#include "machine.h"
 #include "kbd.h"
 #include "kbdef.h"
 
@@ -42,7 +44,7 @@ static int meta_count = 0;
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
-void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp )
+void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
 {
     gint key;
     int i;

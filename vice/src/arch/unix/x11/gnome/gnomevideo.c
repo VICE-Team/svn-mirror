@@ -29,13 +29,15 @@
 #include "vice.h"
 
 #include <gdk/gdkx.h>
-#include "log.h"
 
+#include "log.h"
 #include "videoarch.h"
 #include "video.h"
 
-extern void (*_refresh_func) ();
+#include "ui.h"
+#include "uiarch.h"
 
+extern void (*_refresh_func) ();
 static log_t gnomevideo_log = LOG_ERR;
 
 void video_init_arch(void)
@@ -43,20 +45,18 @@ void video_init_arch(void)
     if (gnomevideo_log == LOG_ERR)
         gnomevideo_log = log_open("GnomeVideo");
 }
-
-static GdkPixmap *pixmap;
-static GdkImage *im;
 extern GtkWidget *canvas;
 extern GdkGC *app_gc;
 
-inline void GDK_PUTIMAGE(Display *d, void *c, GdkGC *gc,
+inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 			 GdkImage *image, int src_x, int src_y,
 			 int dest_x, int dest_y,
-			 unsigned int width, unsigned int height, int b)
+			 unsigned int width, unsigned int height, int b,
+			 frame_buffer_t *fb, canvas_t c)
 {
-  gdk_draw_image(pixmap,gc,im,src_x,src_y,
-		 dest_x,dest_y,width,height);
-  gdk_window_clear_area(canvas->window,dest_x,dest_y,width,height);
+  gdk_draw_image(drawable, gc, fb->gdk_image, src_x, src_y,
+		 dest_x, dest_y, width, height);
+  gdk_window_clear_area(c->emuwindow->window, dest_x, dest_y, width, height);
 
   gdk_flush();
 }
@@ -85,54 +85,24 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	sizeofpixel *= 2;
 #endif
 
-
-#ifdef USE_MITSHM
-    if(use_mitshm)
-        typ = GDK_IMAGE_SHARED;
-    else
-#endif
-        typ = GDK_IMAGE_NORMAL;
-    {				/* !use_mitshm */
-        static GdkColor col;
-
-	/*        PIXEL *data = (PIXEL *) malloc(width * height * sizeofpixel);
-
-	if (!data)
-	  return -1;
+    typ = GDK_IMAGE_FASTEST;
+    i->gdk_image = gdk_image_new(typ, visual, width, height);
+    i->x_image = GDK_IMAGE_XIMAGE(i->gdk_image);
+    if (!i->x_image)
+	return -1;
+    if (i->canvas)
+    {
+	/* reusage of existing canvas, so reallocate drawable */
+	i->canvas->width = width;
+	i->canvas->height = height;
+	/* destroy the old pixmap here ?
+	  e.g. 	gdk_window_destroy(GDK_WINDOW(i->canvas->drawable));
+	  FIXME!
 	*/
-        pixmap = gdk_pixmap_new(canvasw->window,
-				width,height,depth);
-
-	if (!pixmap)
-	  return -1;
-	i->gdk_image = gdk_image_new(typ,visual,width,height);
-
-        i->x_image = GDK_IMAGE_XIMAGE(i->gdk_image);
-	im = i->gdk_image;
-
-	gdk_window_set_back_pixmap(canvasw->window,pixmap,0);
-
-	if (!i->x_image)
-	    return -1;
-
-	_refresh_func = (void (*)()) GDK_PUTIMAGE;
-
-#if 0				/* Hmm, GDK doesnt' like this anymore */
-	_refresh_func(NULL, NULL, _video_gc,
-		      i->gdk_image, 0, 0, 0, 0, 200, 200, False);
-#endif
-
+	ui_finish_canvas(i->canvas);
     }
-
-#ifdef USE_MITSHM
-    log_message(gnomevideo_log, "Successfully initialized%s shared memory.",
-                use_mitshm ? ", using" : " without");
-    if (!use_mitshm)
-	log_warning(gnomevideo_log, "Performance will be poor.");
-#else
-    log_message(gnomevideo_log,
-                "Successfully initialized without shared memory.");
-#endif
+    
+    _refresh_func = (void (*)()) GDK_PUTIMAGE;
 
 #if X_DISPLAY_DEPTH == 0
     /* if display depth != 8 we need a temporary buffer */
@@ -155,6 +125,9 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	    _convert_func = convert_8toall;
     }
 #endif
+    log_message(gnomevideo_log,
+                "Successfully initialized video.");
+
     return 0;
 }
 
@@ -163,7 +136,7 @@ GC video_get_gc(void *not_used)
     return (GC) app_gc;
 }
 
-void video_add_handlers(Widget w) 
+void video_add_handlers(ui_window_t w) 
 {
 }
 
@@ -177,5 +150,13 @@ void canvas_map(canvas_t s)
 void canvas_unmap(canvas_t s)
 {
     fprintf(stderr, "**Function `%s' not implemented.\n", __FUNCTION__);
+}
+
+void ui_finish_canvas(canvas_t c)
+{
+    c->drawable = gdk_pixmap_new(c->emuwindow->window, 
+				 c->width, c->height, depth);
+    gdk_window_set_back_pixmap(c->emuwindow->window, 
+			       c->drawable, 0);
 }
 

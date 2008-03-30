@@ -1,9 +1,23 @@
-# This is a lsit for me to gather already identified problems. It's not 
-# systematic and not complete!
+# This is a list for me to gather already identified problems. It's not 
+# systematic and probably not complete!
 
-- Implement all dummies
-- VIC20 Memory expansion doesn't work properly
-- What about fullscreen?
-- x128 segfaults immediately
-- Segfault on exit
-- Resizing doens't work properly
+Missing features
+- Implement missing dialogs: create image, save snapshot
+- Implement remaining dummy (fullscreen support is missing,).
+- Implement 2 color LEDs
+- Internationalization
+- Session Management
+
+Known Bugs (help is appreciated !):
+- Hotkey event doesn't eat key 
+  e.g. ALT-w enables warp but `w' is also passed on
+- Currently events aren't blocked for the main window, when a popup window
+  is open (-> one can open multiple file dialogs, which leads to confusion
+  of the uicode).
+- x128 shows topmenu only on VDC window and gives a GTK warning.
+- vsid mode doesn't work properly. GTK Events aren't dispatched once a
+  popup is there. This is probably simple, but I found no time to
+  investigate this so far.
+
+Things, which will change:
+- Contents preview will go inside the file selector (as in win32 version).
