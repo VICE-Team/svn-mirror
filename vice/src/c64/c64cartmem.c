@@ -177,6 +177,12 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         return export_ram0[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_IEEE488:
         return read_tpi(addr & 0x07);
+      case CARTRIDGE_EPYX_FASTLOAD:
+        if (addr == 0xdf18)
+            cartridge_config_changed(0);
+        if (addr == 0xdf38)
+            cartridge_config_changed(2);
+        return roml_banks[0x1f00 + (addr & 0xff)];
     }
     return rand();
 }
@@ -297,6 +303,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_SUPER_GAMES:
+      case CARTRIDGE_EPYX_FASTLOAD:
         cartridge_config_changed(0);
         break;
       case CARTRIDGE_FINAL_III:
@@ -329,6 +336,7 @@ void cartridge_attach(int type, BYTE *rawcart)
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_IEEE488:
+      case CARTRIDGE_EPYX_FASTLOAD:
         memcpy(roml_banks, rawcart, 0x2000);
         cartridge_config_changed(0);
         break;
