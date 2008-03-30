@@ -110,8 +110,16 @@ inline static int z80mem_read_limit(int addr)
 #define IN(addr) \
     (io_read_tab[(addr) >> 8])((ADDRESS)(addr))
 
+/*
 #define OUT(addr, value) \
     (io_write_tab[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+*/
+
+void OUT(ADDRESS addr, BYTE value)
+{
+    log_message(LOG_DEFAULT, "OUT %04x %02x", addr, value);
+    return (io_write_tab[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value));
+}
 
 #define opcode_t DWORD
 #define FETCH_OPCODE(o) ((o) = (LOAD(reg_pc)			\
@@ -316,58 +324,15 @@ static BYTE SZP[256] = {
 
 /* Opcodes.  */
 
-#define ADCREG(reg_val, clk_inc, pc_inc)                           \
-  do {                                                             \
-      BYTE tmp, carry;                                             \
-                                                                   \
-      carry = reg_f & C_FLAG;                                      \
-      tmp = reg_a + reg_val + carry;                               \
-      reg_f = SZP[tmp];                                            \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val           \
-                      + (WORD)(carry)) & 0x100);                   \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
-      LOCAL_SET_PARITY(~(reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
-      reg_a = tmp;                                                 \
-      CLK += clk_inc;                                              \
-      INC_PC(pc_inc);                                              \
-  } while (0)
-
-#define ADDHLREG(reg_valh, reg_vall)                             \
-  do {                                                           \
-      DWORD tmp;                                                 \
-                                                                 \
-      tmp = (DWORD)((reg_h << 8) + reg_l)                        \
-            + (DWORD)(((reg_valh << 8) + reg_vall));             \
-      reg_h = tmp >> 8;                                          \
-      reg_l = tmp & 0xff;                                        \
-      LOCAL_SET_NADDSUB(0);                                      \
-      LOCAL_SET_CARRY(tmp & 0x10000);                            \
-      LOCAL_SET_HALFCARRY((reg_h << 8) ^ (reg_valh << 8) ^ tmp); \
-      CLK += 11;                                                 \
-      INC_PC(1);                                                 \
-  } while (0)
-
-#define ADDHLSP()                                                \
-  do {                                                           \
-      DWORD tmp;                                                 \
-                                                                 \
-      tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp);     \
-      reg_h = tmp >> 8;                                          \
-      reg_l = tmp & 0xff;                                        \
-      LOCAL_SET_NADDSUB(0);                                      \
-      LOCAL_SET_CARRY(tmp & 0x10000);                            \
-      LOCAL_SET_HALFCARRY((reg_h << 8) ^ reg_sp ^ tmp);          \
-      CLK += 11;                                                 \
-      INC_PC(1);                                                 \
-  } while (0)
-
-#define ADDREG(reg_val, clk_inc, pc_inc)                            \
+#define ADCREG(reg_val, clk_inc, pc_inc)                            \
   do {                                                              \
-      BYTE tmp;                                                     \
+      BYTE tmp, carry;                                              \
                                                                     \
-      tmp = reg_a + reg_val;                                        \
+      carry = reg_f & C_FLAG;                                       \
+      tmp = reg_a + reg_val + carry;                                \
       reg_f = SZP[tmp];                                             \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val) & 0x100); \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val            \
+                      + (WORD)(carry)) & 0x100);                    \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);        \
       LOCAL_SET_PARITY(~(reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
       reg_a = tmp;                                                  \
@@ -375,65 +340,108 @@ static BYTE SZP[256] = {
       INC_PC(pc_inc);                                               \
   } while (0)
 
-#define AND(value, clk_inc1, clk_inc2, pc_inc)      \
-  do {                                              \
-      CLK += (clk_inc1);                            \
-      reg_a &= (value);                             \
-      reg_f = H_FLAG | (reg_a & 0x28) | SZP[reg_a]; \
-      CLK += (clk_inc2);                            \
-      INC_PC(pc_inc);                               \
-  } while (0)
-
-#define ANDREG(reg_val)                             \
-  do {                                              \
-      reg_a &= (reg_val);                           \
-      reg_f = H_FLAG | SZP[reg_a];                  \
-      CLK += 4;                                     \
-      INC_PC(1);                                    \
-  } while (0)
-
-#define BIT(reg_val, value, clk_inc)                \
-  do {                                              \
-      LOCAL_SET_NADDSUB(0);                         \
-      LOCAL_SET_HALFCARRY(1);                       \
-      LOCAL_SET_ZERO(!(reg_val & (1 << value)));    \
-      CLK += (clk_inc);                             \
-      INC_PC(2);                                    \
-  } while (0)
-
-#define BRANCH(cond, value)                                  \
-  do {                                                       \
-      if (cond) {                                            \
-          unsigned int dest_addr;                            \
-                                                             \
-          dest_addr = reg_pc + 2 + (signed char)(value);     \
-          reg_pc = dest_addr & 0xffff;                       \
-          CLK += 7;                                          \
-      } else {                                               \
-          CLK += 7;                                          \
-          INC_PC(2);                                         \
-      }                                                      \
-  } while (0)
-
-#define CALL(reg_val, clk_inc, pc_inc)                  \
-  do {                                                  \
-      INC_PC(pc_inc);                                   \
-      --reg_sp;                                         \
-      STORE((reg_sp), ((BYTE)(reg_pc >> 8)));           \
-      --reg_sp;                                         \
-      STORE((reg_sp), ((BYTE)(reg_pc & 0xff)));         \
-      JUMP(reg_val);                                    \
-      CLK += clk_inc;                                   \
-  } while (0)
-
-#define CALL_COND(reg_value, cond, clk_inc1, clk_inc2, pc_inc)    \
+#define ADDHLREG(reg_valh, reg_vall)                              \
   do {                                                            \
-      if (cond) {                                                 \
-          CALL(reg_value, clk_inc1, pc_inc);                      \
-      } else {                                                    \
-          CLK += clk_inc2;                                        \
-          INC_PC(3);                                              \
-      }                                                           \
+      DWORD tmp;                                                  \
+                                                                  \
+      tmp = (DWORD)((reg_h << 8) + reg_l)                         \
+            + (DWORD)(((reg_valh << 8) + reg_vall));              \
+      reg_h = tmp >> 8;                                           \
+      reg_l = tmp & 0xff;                                         \
+      LOCAL_SET_NADDSUB(0);                                       \
+      LOCAL_SET_CARRY(tmp & 0x10000);                             \
+      LOCAL_SET_HALFCARRY((reg_h << 8) ^ (reg_valh << 8) ^ tmp);  \
+      CLK += 11;                                                  \
+      INC_PC(1);                                                  \
+  } while (0)
+
+#define ADDHLSP()                                             \
+  do {                                                        \
+      DWORD tmp;                                              \
+                                                              \
+      tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp);  \
+      reg_h = tmp >> 8;                                       \
+      reg_l = tmp & 0xff;                                     \
+      LOCAL_SET_NADDSUB(0);                                   \
+      LOCAL_SET_CARRY(tmp & 0x10000);                         \
+      LOCAL_SET_HALFCARRY((reg_h << 8) ^ reg_sp ^ tmp);       \
+      CLK += 11;                                              \
+      INC_PC(1);                                              \
+  } while (0)
+
+#define ADDREG(reg_val, clk_inc, pc_inc)                             \
+  do {                                                               \
+      BYTE tmp;                                                      \
+                                                                     \
+      tmp = reg_a + reg_val;                                         \
+      reg_f = SZP[tmp];                                              \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val) & 0x100);  \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);         \
+      LOCAL_SET_PARITY(~(reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);   \
+      reg_a = tmp;                                                   \
+      CLK += clk_inc;                                                \
+      INC_PC(pc_inc);                                                \
+  } while (0)
+
+#define AND(value, clk_inc1, clk_inc2, pc_inc)       \
+  do {                                               \
+      CLK += (clk_inc1);                             \
+      reg_a &= (value);                              \
+      reg_f = H_FLAG | (reg_a & 0x28) | SZP[reg_a];  \
+      CLK += (clk_inc2);                             \
+      INC_PC(pc_inc);                                \
+  } while (0)
+
+#define ANDREG(reg_val)             \
+  do {                              \
+      reg_a &= (reg_val);           \
+      reg_f = H_FLAG | SZP[reg_a];  \
+      CLK += 4;                     \
+      INC_PC(1);                    \
+  } while (0)
+
+#define BIT(reg_val, value, clk_inc)              \
+  do {                                            \
+      LOCAL_SET_NADDSUB(0);                       \
+      LOCAL_SET_HALFCARRY(1);                     \
+      LOCAL_SET_ZERO(!(reg_val & (1 << value)));  \
+      CLK += (clk_inc);                           \
+      INC_PC(2);                                  \
+  } while (0)
+
+#define BRANCH(cond, value)                               \
+  do {                                                    \
+      if (cond) {                                         \
+          unsigned int dest_addr;                         \
+                                                          \
+          dest_addr = reg_pc + 2 + (signed char)(value);  \
+          reg_pc = dest_addr & 0xffff;                    \
+          CLK += 7;                                       \
+      } else {                                            \
+          CLK += 7;                                       \
+          INC_PC(2);                                      \
+      }                                                   \
+  } while (0)
+
+#define CALL(reg_val, clk_inc, pc_inc)           \
+  do {                                           \
+      INC_PC(pc_inc);                            \
+      --reg_sp;                                  \
+      STORE((reg_sp), ((BYTE)(reg_pc >> 8)));    \
+      --reg_sp;                                  \
+      STORE((reg_sp), ((BYTE)(reg_pc & 0xff)));  \
+      JUMP(reg_val);                             \
+      CLK += clk_inc;                            \
+  } while (0)
+
+#define CALL_COND(reg_value, cond, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                                          \
+      if (cond) {                                               \
+          CALL(reg_value, clk_inc1, pc_inc);                    \
+      } else {                                                  \
+          CLK += clk_inc2;                                      \
+          INC_PC(3);                                            \
+      }                                                         \
   } while (0)
 
 #define CCF()                                 \
@@ -445,336 +453,336 @@ static BYTE SZP[256] = {
       INC_PC(1);                              \
   } while (0)
 
-#define CPBYTE(reg_val)                                           \
-  do {                                                            \
-      BYTE tmp;                                                   \
-                                                                  \
-      tmp = reg_a - reg_val;                                      \
-      reg_f = N_FLAG | SZP[tmp];                                  \
-      LOCAL_SET_CARRY(reg_val > reg_a);                           \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);      \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
-      CLK += 7;                                                   \
-      INC_PC(2);                                                  \
+#define CPBYTE(reg_val)                                            \
+  do {                                                             \
+      BYTE tmp;                                                    \
+                                                                   \
+      tmp = reg_a - reg_val;                                       \
+      reg_f = N_FLAG | SZP[tmp];                                   \
+      LOCAL_SET_CARRY(reg_val > reg_a);                            \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
+      CLK += 7;                                                    \
+      INC_PC(2);                                                   \
   } while (0)
 
-#define CPI()                                                     \
-  do {                                                            \
-      BYTE val, tmp;                                              \
-                                                                  \
-      val = LOAD(HL_WORD());                                      \
-      tmp = reg_a - val;                                          \
-      INC_HL_WORD();                                              \
-      DEC_BC_WORD();                                              \
-      reg_f = N_FLAG | SZP[tmp] | (reg_f & C_FLAG);               \
-      LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);          \
-      LOCAL_SET_PARITY(reg_b | reg_c);                            \
-      CLK += 4; /* TEMPORARY */                                   \
-      INC_PC(2);                                                  \
+#define CPI()                                             \
+  do {                                                    \
+      BYTE val, tmp;                                      \
+                                                          \
+      val = LOAD(HL_WORD());                              \
+      tmp = reg_a - val;                                  \
+      INC_HL_WORD();                                      \
+      DEC_BC_WORD();                                      \
+      reg_f = N_FLAG | SZP[tmp] | (reg_f & C_FLAG);       \
+      LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);  \
+      LOCAL_SET_PARITY(reg_b | reg_c);                    \
+      CLK += 4; /* TEMPORARY */                           \
+      INC_PC(2);                                          \
   } while (0)
 
-#define CPIR()                                                    \
-  do {                                                            \
-      BYTE val, tmp;                                              \
-                                                                  \
-      do {                                                        \
-          val = LOAD(HL_WORD());                                  \
-          tmp = reg_a - val;                                      \
-          INC_HL_WORD();                                          \
-          DEC_BC_WORD();                                          \
-      } while (BC_WORD() != 0 && tmp);                            \
-      reg_f = N_FLAG | SZP[tmp] | (reg_f & C_FLAG);               \
-      LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);          \
-      LOCAL_SET_PARITY(reg_b | reg_c);                            \
-      CLK += 4; /* TEMPORARY */                                   \
-      INC_PC(2);                                                  \
+#define CPIR()                                            \
+  do {                                                    \
+      BYTE val, tmp;                                      \
+                                                          \
+      do {                                                \
+          val = LOAD(HL_WORD());                          \
+          tmp = reg_a - val;                              \
+          INC_HL_WORD();                                  \
+          DEC_BC_WORD();                                  \
+      } while (BC_WORD() && tmp);                         \
+      reg_f = N_FLAG | SZP[tmp] | (reg_f & C_FLAG);       \
+      LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);  \
+      LOCAL_SET_PARITY(reg_b | reg_c);                    \
+      CLK += 4; /* TEMPORARY */                           \
+      INC_PC(2);                                          \
   } while (0)
 
-#define CPREG(reg_val, clk_inc)                                   \
-  do {                                                            \
-      BYTE tmp;                                                   \
-                                                                  \
-      tmp = reg_a - reg_val;                                      \
-      reg_f = N_FLAG | SZP[tmp];                                  \
-      LOCAL_SET_CARRY(reg_val > reg_a);                           \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);      \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
-      CLK += (clk_inc);                                           \
-      INC_PC(1);                                                  \
+#define CPREG(reg_val, clk_inc)                                    \
+  do {                                                             \
+      BYTE tmp;                                                    \
+                                                                   \
+      tmp = reg_a - reg_val;                                       \
+      reg_f = N_FLAG | SZP[tmp];                                   \
+      LOCAL_SET_CARRY(reg_val > reg_a);                            \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
+      CLK += (clk_inc);                                            \
+      INC_PC(1);                                                   \
   } while (0)
 
-#define CPL()                                   \
+#define CPL()                  \
+  do {                         \
+      CLK += 4;                \
+      reg_a = ~reg_a;          \
+      LOCAL_SET_NADDSUB(1);    \
+      LOCAL_SET_HALFCARRY(1);  \
+      INC_PC(1);               \
+  } while (0)
+
+#define DECBC()       \
+  do {                \
+      CLK += 6;       \
+      DEC_BC_WORD();  \
+      INC_PC(1);      \
+  } while (0)
+
+#define DECDE()       \
+  do {                \
+      CLK += 6;       \
+      DEC_DE_WORD();  \
+      INC_PC(1);      \
+  } while (0)
+
+#define DECHL()       \
+  do {                \
+      CLK += 6;       \
+      DEC_HL_WORD();  \
+      INC_PC(1);      \
+  } while (0)
+
+#define DECHLIND()                                   \
+  do {                                               \
+      BYTE tmp;                                      \
+                                                     \
+      tmp = LOAD(HL_WORD());                         \
+      tmp--;                                         \
+      STORE(HL_WORD(), tmp);                         \
+      reg_f = N_FLAG | SZP[tmp] | (reg_f & C_FLAG);  \
+      LOCAL_SET_PARITY((tmp == 0x7f));               \
+      LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));   \
+      CLK += 11;                                     \
+      INC_PC(1);                                     \
+  } while (0)
+
+#define DECREG(reg_val)                                  \
+  do {                                                   \
+      CLK += 4;                                          \
+      reg_val--;                                         \
+      reg_f = N_FLAG | SZP[reg_val] | (reg_f & C_FLAG);  \
+      LOCAL_SET_PARITY((reg_val == 0x7f));               \
+      LOCAL_SET_HALFCARRY(((reg_val & 0x0f) == 0x0f));   \
+      INC_PC(1);                                         \
+  } while (0)
+
+#define DECSP()   \
+  do {            \
+      CLK += 6;   \
+      reg_sp--;   \
+      INC_PC(1);  \
+  } while (0)
+
+#define DJNZ(value)          \
+  do {                       \
+      reg_b--;               \
+      BRANCH(reg_b, value);  \
+  } while (0)
+
+#define DI()            \
+  do {                  \
+      CLK += 4;         \
+      reg_iff &= 0xfe;  \
+      INC_PC(1);        \
+  } while (0)
+
+#define EI()            \
+  do {                  \
+      CLK += 4;         \
+      reg_iff |= 0x01;  \
+      INC_PC(1);        \
+  } while (0)
+
+#define EXDEHL()        \
+  do {                  \
+      BYTE tmpl, tmph;  \
+                        \
+      tmph = reg_d;     \
+      tmpl = reg_e;     \
+      reg_d = reg_h;    \
+      reg_e = reg_l;    \
+      reg_h = tmph;     \
+      reg_l = tmpl;     \
+      CLK += 4;         \
+      INC_PC(1);        \
+  } while (0)
+
+#define EXHLSP()                  \
+  do {                            \
+      BYTE tmpl, tmph;            \
+                                  \
+      tmph = reg_h;               \
+      tmpl = reg_l;               \
+      reg_h = LOAD(reg_sp + 1);   \
+      reg_l = LOAD(reg_sp);       \
+      STORE((reg_sp + 1), tmph);  \
+      STORE(reg_sp, tmpl);        \
+      CLK += 19;                  \
+      INC_PC(1);                  \
+  } while (0)
+
+#define IM(value)                    \
+  do {                               \
+    reg_f = value | (reg_f & 0xf9);  \
+    CLK += 8;                        \
+    INC_PC(2);                       \
+  } while (0)
+
+#define INBC(value, clk_inc, pc_inc)                 \
+  do {                                               \
+      CLK += (clk_inc);                              \
+      value = IN(BC_WORD());                         \
+      reg_f = SZP[value & 0xff] | (reg_f & C_FLAG);  \
+      INC_PC(pc_inc);                                \
+  } while (0)
+
+#define INCBC(clk_inc, pc_inc)  \
+  do {                          \
+      CLK += (clk_inc);         \
+      INC_BC_WORD();            \
+      INC_PC(pc_inc);           \
+  } while (0)
+
+#define INCDE(clk_inc, pc_inc)  \
+  do {                          \
+      CLK += (clk_inc);         \
+      INC_DE_WORD();            \
+      INC_PC(pc_inc);           \
+  } while (0)
+
+#define INCHL(clk_inc, pc_inc)  \
+  do {                          \
+      CLK += (clk_inc);         \
+      INC_HL_WORD();            \
+      INC_PC(pc_inc);           \
+  } while (0)
+
+#define INCHLIND()                          \
+  do {                                      \
+      BYTE tmp;                             \
+                                            \
+      tmp = LOAD(HL_WORD());                \
+      tmp++;                                \
+      STORE(HL_WORD(), tmp);                \
+      reg_f = SZP[tmp] | (reg_f & C_FLAG);  \
+      LOCAL_SET_PARITY((tmp == 0x80));      \
+      LOCAL_SET_HALFCARRY(!(tmp & 0x0f));   \
+      CLK += 11;                            \
+      INC_PC(1);                            \
+  } while (0)
+
+#define INCSP(clk_inc, pc_inc)  \
+  do {                          \
+      CLK += (clk_inc);         \
+      reg_sp++;                 \
+      INC_PC(pc_inc);           \
+  } while (0)
+
+#define INCREG(reg_val)                         \
   do {                                          \
       CLK += 4;                                 \
-      reg_a = ~reg_a;                           \
-      LOCAL_SET_NADDSUB(1);                     \
-      LOCAL_SET_HALFCARRY(1);                   \
+      reg_val++;                                \
+      reg_f = SZP[reg_val] | (reg_f & C_FLAG);  \
+      LOCAL_SET_PARITY((reg_val == 0x80));      \
+      LOCAL_SET_HALFCARRY(!(reg_val & 0x0f));   \
       INC_PC(1);                                \
   } while (0)
 
-#define DECBC()                                 \
-  do {                                          \
-      CLK += 6;                                 \
-      DEC_BC_WORD();                            \
-      INC_PC(1);                                \
+#define JMP(addr, clk_inc)  \
+  do {                      \
+      CLK += (clk_inc);     \
+      JUMP(addr);           \
   } while (0)
 
-#define DECDE()                                 \
-  do {                                          \
-      CLK += 6;                                 \
-      DEC_DE_WORD();                            \
-      INC_PC(1);                                \
+#define JMP_COND(addr, cond, clk_inc1, clk_inc2)  \
+  do {                                            \
+      if (cond) {                                 \
+          JMP(addr, clk_inc1);                    \
+      } else {                                    \
+          CLK += (clk_inc2);                      \
+          INC_PC(3);                              \
+      }                                           \
   } while (0)
 
-#define DECHL()                                 \
-  do {                                          \
-      CLK += 6;                                 \
-      DEC_HL_WORD();                            \
-      INC_PC(1);                                \
-  } while (0)
-
-#define DECHLIND()                                          \
-  do {                                                      \
-      BYTE tmp;                                             \
-                                                            \
-      tmp = LOAD(HL_WORD());                                \
-      tmp--;                                                \
-      STORE(HL_WORD(), tmp);                                \
-      reg_f = N_FLAG | SZP[tmp] | (reg_f & C_FLAG);         \
-      LOCAL_SET_PARITY((tmp == 0x7f));                      \
-      LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));          \
-      CLK += 11;                                            \
-      INC_PC(1);                                            \
-  } while (0)
-
-#define DECREG(reg_val)                                     \
-  do {                                                      \
-      CLK += 4;                                             \
-      reg_val--;                                            \
-      reg_f = N_FLAG | SZP[reg_val] | (reg_f & C_FLAG);     \
-      LOCAL_SET_PARITY((reg_val == 0x7f));                  \
-      LOCAL_SET_HALFCARRY(((reg_val & 0x0f) == 0x0f));      \
-      INC_PC(1);                                            \
-  } while (0)
-
-#define DECSP()                                 \
-  do {                                          \
-      CLK += 6;                                 \
-      reg_sp--;                                 \
-      INC_PC(1);                                \
-  } while (0)
-
-#define DJNZ(value)                             \
-  do {                                          \
-      reg_b--;                                  \
-      BRANCH(reg_b, value);                     \
-  } while (0)
-
-#define DI()                                    \
-  do {                                          \
-      CLK += 4;                                 \
-      reg_iff &= 0xfe;                          \
-      INC_PC(1);                                \
-  } while (0)
-
-#define EI()                                    \
-  do {                                          \
-      CLK += 4;                                 \
-      reg_iff |= 0x01;                          \
-      INC_PC(1);                                \
-  } while (0)
-
-#define EXDEHL()                                \
-  do {                                          \
-      BYTE tmpl, tmph;                          \
-                                                \
-      tmph = reg_d;                             \
-      tmpl = reg_e;                             \
-      reg_d = reg_h;                            \
-      reg_e = reg_l;                            \
-      reg_h = tmph;                             \
-      reg_l = tmpl;                             \
-      CLK += 4;                                 \
-      INC_PC(1);                                \
-  } while (0)
-
-#define EXHLSP()                                \
-  do {                                          \
-      BYTE tmpl, tmph;                          \
-                                                \
-      tmph = reg_h;                             \
-      tmpl = reg_l;                             \
-      reg_h = LOAD(reg_sp + 1);                 \
-      reg_l = LOAD(reg_sp);                     \
-      STORE((reg_sp + 1), tmph);                \
-      STORE(reg_sp, tmpl);                      \
-      CLK += 19;                                \
-      INC_PC(1);                                \
-  } while (0)
-
-#define IM(value)                               \
-  do {                                          \
-    reg_f = value | (reg_f & 0xf9);             \
-    CLK += 8;                                   \
-    INC_PC(2);                                  \
-  } while (0)
-
-#define INBC(value, clk_inc, pc_inc)                \
-  do {                                              \
-      CLK += (clk_inc);                             \
-      value = IN(BC_WORD());                        \
-      reg_f = SZP[value & 0xff] | (reg_f & C_FLAG); \
-      INC_PC(pc_inc);                               \
-  } while (0)
-
-#define INCBC(clk_inc, pc_inc)                  \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      INC_BC_WORD();                            \
-      INC_PC(pc_inc);                           \
-  } while (0)
-
-#define INCDE(clk_inc, pc_inc)          \
-  do {                                  \
-      CLK += (clk_inc);                 \
-      INC_DE_WORD();                    \
-      INC_PC(pc_inc);                   \
-  } while (0)
-
-#define INCHL(clk_inc, pc_inc)          \
-  do {                                  \
-      CLK += (clk_inc);                 \
-      INC_HL_WORD();                    \
-      INC_PC(pc_inc);                   \
-  } while (0)
-
-#define INCHLIND()                                     \
-  do {                                                 \
-      BYTE tmp;                                        \
-                                                       \
-      tmp = LOAD(HL_WORD());                           \
-      tmp++;                                           \
-      STORE(HL_WORD(), tmp);                           \
-      reg_f = SZP[tmp] | (reg_f & C_FLAG);             \
-      LOCAL_SET_PARITY((tmp == 0x80));                 \
-      LOCAL_SET_HALFCARRY(!(tmp & 0x0f));              \
-      CLK += 11;                                       \
-      INC_PC(1);                                       \
-  } while (0)
-
-#define INCSP(clk_inc, pc_inc)          \
-  do {                                  \
-      CLK += (clk_inc);                 \
-      reg_sp++;                         \
-      INC_PC(pc_inc);                   \
-  } while (0)
-
-#define INCREG(reg_val)                                 \
-  do {                                                  \
-      CLK += 4;                                         \
-      reg_val++;                                        \
-      reg_f = SZP[reg_val] | (reg_f & C_FLAG);          \
-      LOCAL_SET_PARITY((reg_val == 0x80));              \
-      LOCAL_SET_HALFCARRY(!(reg_val & 0x0f));           \
-      INC_PC(1);                                        \
-  } while (0)
-
-#define JMP(addr, clk_inc)                      \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      JUMP(addr);                               \
-  } while (0)
-
-#define JMP_COND(addr, cond, clk_inc1, clk_inc2) \
+#define LDBC(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                           \
-      if (cond) {                                \
-          JMP(addr, clk_inc1);                   \
-      } else {                                   \
-          CLK += (clk_inc2);                     \
-          INC_PC(3);                             \
-      }                                          \
+      CLK += (clk_inc1);                         \
+      reg_c = ((value) & 0xff);                  \
+      reg_b = ((value) >> 8);                    \
+      CLK += (clk_inc2);                         \
+      INC_PC(pc_inc);                            \
   } while (0)
 
-#define LDBC(value, clk_inc1, clk_inc2, pc_inc) \
-  do {                                          \
-      CLK += (clk_inc1);                        \
-      reg_c = ((value) & 0xff);                 \
-      reg_b = ((value) >> 8);                   \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
+#define LDDE(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                           \
+      CLK += (clk_inc1);                         \
+      reg_e = ((value) & 0xff);                  \
+      reg_d = ((value) >> 8);                    \
+      CLK += (clk_inc2);                         \
+      INC_PC(pc_inc);                            \
   } while (0)
 
-#define LDDE(value, clk_inc1, clk_inc2, pc_inc) \
-  do {                                          \
-      CLK += (clk_inc1);                        \
-      reg_e = ((value) & 0xff);                 \
-      reg_d = ((value) >> 8);                   \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
+#define LDDR()                                \
+  do {                                        \
+      do {                                    \
+          STORE(DE_WORD(), LOAD(HL_WORD()));  \
+          DEC_BC_WORD();                      \
+          DEC_DE_WORD();                      \
+          DEC_HL_WORD();                      \
+      } while (BC_WORD());                    \
+      LOCAL_SET_NADDSUB(0);                   \
+      LOCAL_SET_PARITY(0);                    \
+      LOCAL_SET_HALFCARRY(0);                 \
+      CLK += 4; /* TEMPORARY */               \
+      INC_PC(2);                              \
   } while (0)
 
-#define LDDR()                                  \
-  do {                                          \
-      do {                                      \
-          STORE(DE_WORD(), LOAD(HL_WORD()));    \
-          DEC_BC_WORD();                        \
-          DEC_DE_WORD();                        \
-          DEC_HL_WORD();                        \
-      } while (BC_WORD() != 0);                 \
-      LOCAL_SET_NADDSUB(0);                     \
-      LOCAL_SET_PARITY(0);                      \
-      LOCAL_SET_HALFCARRY(0);                   \
-      CLK += 4; /* TEMPORARY */                 \
-      INC_PC(2);                                \
+#define LDHL(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                           \
+      CLK += (clk_inc1);                         \
+      reg_l = ((value) & 0xff);                  \
+      reg_h = ((value) >> 8);                    \
+      CLK += (clk_inc2);                         \
+      INC_PC(pc_inc);                            \
   } while (0)
 
-#define LDHL(value, clk_inc1, clk_inc2, pc_inc) \
-  do {                                          \
-      CLK += (clk_inc1);                        \
-      reg_l = ((value) & 0xff);                 \
-      reg_h = ((value) >> 8);                   \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
+#define LDIR()                                \
+  do {                                        \
+      do {                                    \
+          STORE(DE_WORD(), LOAD(HL_WORD()));  \
+          DEC_BC_WORD();                      \
+          INC_DE_WORD();                      \
+          INC_HL_WORD();                      \
+      } while (BC_WORD());                    \
+      LOCAL_SET_NADDSUB(0);                   \
+      LOCAL_SET_PARITY(0);                    \
+      LOCAL_SET_HALFCARRY(0);                 \
+      CLK += 4; /* TEMPORARY */               \
+      INC_PC(2);                              \
   } while (0)
 
-#define LDIR()                                  \
-  do {                                          \
-      do {                                      \
-          STORE(DE_WORD(), LOAD(HL_WORD()));    \
-          DEC_BC_WORD();                        \
-          INC_DE_WORD();                        \
-          INC_HL_WORD();                        \
-      } while (BC_WORD() != 0);                 \
-      LOCAL_SET_NADDSUB(0);                     \
-      LOCAL_SET_PARITY(0);                      \
-      LOCAL_SET_HALFCARRY(0);                   \
-      CLK += 4; /* TEMPORARY */                 \
-      INC_PC(2);                                \
+#define LDIND(value, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                                                \
+      CLK += clk_inc1;                                                \
+      reg_vall = LOAD(value);                                         \
+      reg_valh = LOAD(value + 1);                                     \
+      CLK += clk_inc2;                                                \
+      INC_PC(pc_inc);                                                 \
   } while (0)
 
-#define LDIND(value, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc) \
-  do {                                                               \
-      CLK += clk_inc1;                                               \
-      reg_vall = LOAD(value);                                        \
-      reg_valh = LOAD(value + 1);                                    \
-      CLK += clk_inc2;                                               \
-      INC_PC(pc_inc);                                                \
+#define LDSP(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                           \
+      CLK += (clk_inc1);                         \
+      reg_sp = (value);                          \
+      CLK += (clk_inc2);                         \
+      INC_PC(pc_inc);                            \
   } while (0)
 
-#define LDSP(value, clk_inc1, clk_inc2, pc_inc) \
-  do {                                          \
-      CLK += (clk_inc1);                        \
-      reg_sp = (value);                         \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
-  } while (0)
-
-#define LDSPIND(value, clk_inc1, clk_inc2, pc_inc)                   \
-  do {                                                               \
-      CLK += clk_inc1;                                               \
-      reg_sp = LOAD(value) | (LOAD(value + 1) >> 8);                 \
-      CLK += clk_inc2;                                               \
-      INC_PC(pc_inc);                                                \
+#define LDSPIND(value, clk_inc1, clk_inc2, pc_inc)    \
+  do {                                                \
+      CLK += clk_inc1;                                \
+      reg_sp = LOAD(value) | (LOAD(value + 1) >> 8);  \
+      CLK += clk_inc2;                                \
+      INC_PC(pc_inc);                                 \
   } while (0)
 
 #define LDREG(reg_value, value, clk_inc1, clk_inc2, pc_inc)  \
@@ -785,302 +793,305 @@ static BYTE SZP[256] = {
       INC_PC(pc_inc);                                        \
   } while (0)
 
-#define MOVEREG(reg_dest, reg_src)              \
+#define MOVEREG(reg_dest, reg_src)  \
+  do {                              \
+      reg_dest = reg_src;           \
+      CLK += 4;                     \
+      INC_PC(1);                    \
+  } while (0)
+
+#define NOP()     \
+  do {            \
+      CLK += 4;   \
+      INC_PC(1);  \
+  } while (0)
+
+#define ORREG(reg_val, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                              \
+      CLK += (clk_inc1);                            \
+      reg_a |= reg_val;                             \
+      reg_f = SZP[reg_a];                           \
+      CLK += (clk_inc2);                            \
+      INC_PC(pc_inc);                               \
+  } while (0)
+
+#define OUTBC(value, clk_inc, pc_inc)  \
+  do {                                 \
+      CLK += (clk_inc);                \
+      OUT(BC_WORD(), value);           \
+      INC_PC(pc_inc);                  \
+  } while (0)
+
+#define POP(reg_valh, reg_vall)  \
+  do {                           \
+      CLK += 7;                  \
+      reg_vall = LOAD(reg_sp);   \
+      ++reg_sp;                  \
+      reg_valh = LOAD(reg_sp);   \
+      ++reg_sp;                  \
+      CLK += 3;                  \
+      INC_PC(1);                 \
+  } while (0)
+
+#define PUSH(reg_valh, reg_vall)    \
+  do {                              \
+      CLK += 8;                     \
+      --reg_sp;                     \
+      STORE((reg_sp), (reg_valh));  \
+      --reg_sp;                     \
+      STORE((reg_sp), (reg_vall));  \
+      CLK += 3;                     \
+      INC_PC(1);                    \
+  } while (0)
+
+#define RES(reg_val, value)         \
+  do {                              \
+      reg_val &= (~(1 << value));   \
+      CLK += 8;                     \
+      INC_PC(2);                    \
+  } while (0)
+
+#define RESHL(value)           \
+  do {                         \
+      BYTE tmp;                \
+                               \
+      tmp = LOAD(HL_WORD());   \
+      tmp &= (~(1 << value));  \
+      STORE(HL_WORD(), tmp);   \
+      CLK += 15;               \
+      INC_PC(2);               \
+  } while (0)
+
+#define RET()                                          \
+  do {                                                 \
+      unsigned int tmp;                                \
+                                                       \
+      CLK += 7;                                        \
+      tmp = LOAD(reg_sp) | (LOAD((reg_sp + 1)) << 8);  \
+      reg_sp += 2;                                     \
+      JUMP(tmp);                                       \
+      CLK += 3;                                        \
+  } while (0)
+
+#define RET_COND(cond)                                     \
+  do {                                                     \
+      if (cond) {                                          \
+          unsigned int tmp;                                \
+                                                           \
+          CLK += 7;                                        \
+          tmp = LOAD(reg_sp) | (LOAD((reg_sp + 1)) << 8);  \
+          reg_sp += 2;                                     \
+          JUMP(tmp);                                       \
+          CLK += 3;                                        \
+      } else {                                             \
+          CLK += 5;                                        \
+          INC_PC(1);                                       \
+      }                                                    \
+  } while (0)
+
+#define RLA()                                   \
   do {                                          \
-      reg_dest = reg_src;                       \
+      BYTE rot;                                 \
+                                                \
+      rot = (reg_a & 0x80) ? C_FLAG : 0;        \
+      reg_a = (reg_a << 1) | (reg_f & C_FLAG);  \
+      LOCAL_SET_CARRY(rot);                     \
+      LOCAL_SET_NADDSUB(0);                     \
+      LOCAL_SET_HALFCARRY(0);                   \
       CLK += 4;                                 \
       INC_PC(1);                                \
   } while (0)
 
-#define NOP(clk_inc, pc_inc)                    \
-  (CLK += (clk_inc), INC_PC(pc_inc))
-
-#define ORREG(reg_val, clk_inc1, clk_inc2, pc_inc)      \
-  do {                                                  \
-      CLK += (clk_inc1);                                \
-      reg_a |= reg_val;                                 \
-      reg_f = SZP[reg_a];                               \
-      CLK += (clk_inc2);                                \
-      INC_PC(pc_inc);                                   \
-  } while (0)
-
-#define OUTBC(value, clk_inc, pc_inc)           \
-  do {                                          \
-      CLK += (clk_inc);                         \
-      OUT(BC_WORD(), value);                    \
-      INC_PC(pc_inc);                           \
-  } while (0)
-
-#define POP(reg_valh, reg_vall)                         \
-  do {                                                  \
-      CLK += 7;                                         \
-      reg_vall = LOAD(reg_sp);                          \
-      ++reg_sp;                                         \
-      reg_valh = LOAD(reg_sp);                          \
-      ++reg_sp;                                         \
-      CLK += 3;                                         \
-      INC_PC(1);                                        \
-  } while (0)
-
-#define PUSH(reg_valh, reg_vall)                        \
-  do {                                                  \
-      CLK += 8;                                         \
-      --reg_sp;                                         \
-      STORE((reg_sp), (reg_valh));                      \
-      --reg_sp;                                         \
-      STORE((reg_sp), (reg_vall));                      \
-      CLK += 3;                                         \
-      INC_PC(1);                                        \
-  } while (0)
-
-#define RES(reg_val, value)                             \
-  do {                                                  \
-      reg_val &= (~(1 << value));                       \
-      CLK += 8;                                         \
-      INC_PC(2);                                        \
-  } while (0)
-
-#define RESHL(value)                                    \
-  do {                                                  \
-      BYTE tmp;                                         \
-                                                        \
-      tmp = LOAD(HL_WORD());                            \
-      tmp &= (~(1 << value));                           \
-      STORE(HL_WORD(), tmp);                            \
-      CLK += 15;                                        \
-      INC_PC(2);                                        \
-  } while (0)
-
-#define RET()                                           \
-  do {                                                  \
-      unsigned int tmp;                                 \
-                                                        \
-      CLK += 7;                                         \
-      tmp = LOAD(reg_sp) | (LOAD((reg_sp + 1)) << 8);   \
-      reg_sp += 2;                                      \
-      JUMP(tmp);                                        \
-      CLK += 3;                                         \
-  } while (0)
-
-#define RET_COND(cond)                                      \
-  do {                                                      \
-      if (cond) {                                           \
-          unsigned int tmp;                                 \
-                                                            \
-          CLK += 7;                                         \
-          tmp = LOAD(reg_sp) | (LOAD((reg_sp + 1)) << 8);   \
-          reg_sp += 2;                                      \
-          JUMP(tmp);                                        \
-          CLK += 3;                                         \
-      } else {                                              \
-          CLK += 5;                                         \
-          INC_PC(1);                                        \
-      }                                                     \
-  } while (0)
-
-#define RLA()                                                   \
-  do {                                                          \
-      BYTE rot;                                                 \
-                                                                \
-      rot = (reg_a & 0x80) ? C_FLAG : 0;                        \
-      reg_a = (reg_a << 1) | (reg_f & C_FLAG);                  \
-      LOCAL_SET_CARRY(rot);                                     \
-      LOCAL_SET_NADDSUB(0);                                     \
-      LOCAL_SET_HALFCARRY(0);                                   \
-      CLK += 4;                                                 \
-      INC_PC(1);                                                \
-  } while (0)
-
-#define RLCA()                                                  \
-  do {                                                          \
-      BYTE rot;                                                 \
-                                                                \
-      rot = (reg_a & 0x80) ? C_FLAG : 0;                        \
-      reg_a = (reg_a << 1) | rot;                               \
-      LOCAL_SET_CARRY(rot);                                     \
-      LOCAL_SET_NADDSUB(0);                                     \
-      LOCAL_SET_HALFCARRY(0);                                   \
-      CLK += 4;                                                 \
-      INC_PC(1);                                                \
-  } while (0)
-
-#define RRA()                                                   \
-  do {                                                          \
-      BYTE rot;                                                 \
-                                                                \
-      rot = reg_a & C_FLAG;                                     \
-      reg_a = (reg_a >> 1) | ((reg_f & C_FLAG) ? 0x80 : 0);     \
-      LOCAL_SET_CARRY(rot);                                     \
-      LOCAL_SET_NADDSUB(0);                                     \
-      LOCAL_SET_HALFCARRY(0);                                   \
-      CLK += 4;                                                 \
-      INC_PC(1);                                                \
-  } while (0)
-
-#define RRCA()                                                  \
-  do {                                                          \
-      BYTE rot;                                                 \
-                                                                \
-      rot = reg_a & C_FLAG;                                     \
-      reg_a = (reg_a >> 1) | ((rot) ? 0x80 : 0);                \
-      LOCAL_SET_CARRY(rot);                                     \
-      LOCAL_SET_NADDSUB(0);                                     \
-      LOCAL_SET_HALFCARRY(0);                                   \
-      CLK += 4;                                                 \
-      INC_PC(1);                                                \
-  } while (0)
-
-#define SBCHLREG(reg_valh, reg_vall)                                        \
-  do {                                                                      \
-      DWORD tmp;                                                            \
-      BYTE carry;                                                           \
-                                                                            \
-      carry = reg_f & C_FLAG;                                               \
-      tmp = (DWORD)(HL_WORD()) - (DWORD)((reg_valh << 8) + reg_vall)        \
-            - (DWORD)(carry);                                               \
-      reg_f = N_FLAG;                                                       \
-      LOCAL_SET_CARRY((DWORD)((DWORD)(reg_valh << 8) + (DWORD)(reg_vall)    \
-                      + (DWORD)(carry)) > (DWORD)(HL_WORD()));              \
-      LOCAL_SET_HALFCARRY((reg_h ^ reg_valh ^ (tmp >> 8)) & 0x10);          \
-      LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8)) & (reg_h ^ reg_valh)) & 0x80); \
-      LOCAL_SET_ZERO(!(tmp & 0xffff));                                      \
-      LOCAL_SET_SIGN(tmp & 0x8000);                                         \
-      reg_h = tmp >> 8;                                                     \
-      reg_l = tmp & 0xff;                                                   \
-      CLK += 15;                                                            \
-      INC_PC(2);                                                            \
-  } while (0)
-
-#define SBCHLSP()                                                         \
-  do {                                                                    \
-      DWORD tmp;                                                          \
-      BYTE carry;                                                         \
-                                                                          \
-      carry = reg_f & C_FLAG;                                             \
-      tmp = (DWORD)(HL_WORD()) - (DWORD)reg_sp - (DWORD)(carry);          \
-      reg_f = N_FLAG;                                                     \
-      LOCAL_SET_CARRY((DWORD)((DWORD)reg_sp + (DWORD)(carry))             \
-                      > ((DWORD)HL_WORD()));                              \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_sp ^ (tmp >> 8)) & 0x10);          \
-      LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8))                              \
-                       & (reg_h ^ (reg_sp >> 8))) & 0x80);                \
-      LOCAL_SET_ZERO(!(tmp & 0xffff));                                    \
-      LOCAL_SET_SIGN(tmp & 0x8000);                                       \
-      reg_h = tmp >> 8;                                                   \
-      reg_l = tmp & 0xff;                                                 \
-      CLK += 15;                                                          \
-      INC_PC(2);                                                          \
-  } while (0)
-
-#define SBCREG(reg_val, clk_inc, pc_inc)                          \
-  do {                                                            \
-      BYTE tmp, carry;                                            \
-                                                                  \
-      carry = reg_f & C_FLAG;                                     \
-      tmp = reg_a - reg_val - carry;                              \
-      reg_f = N_FLAG | SZP[tmp];                                  \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);      \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_val                        \
-                      + (WORD)(carry)) > reg_a);                  \
-      reg_a = tmp;                                                \
-      CLK += clk_inc;                                             \
-      INC_PC(pc_inc);                                             \
-  } while (0)
-
-#define SCF()                             \
+#define RLCA()                            \
   do {                                    \
-      LOCAL_SET_CARRY(1);                 \
-      LOCAL_SET_HALFCARRY(0);             \
+      BYTE rot;                           \
+                                          \
+      rot = (reg_a & 0x80) ? C_FLAG : 0;  \
+      reg_a = (reg_a << 1) | rot;         \
+      LOCAL_SET_CARRY(rot);               \
       LOCAL_SET_NADDSUB(0);               \
+      LOCAL_SET_HALFCARRY(0);             \
       CLK += 4;                           \
       INC_PC(1);                          \
   } while (0)
 
-#define SET(reg_val, value)                             \
-  do {                                                  \
-      reg_val |= (1 << value);                          \
-      CLK += 8;                                         \
-      INC_PC(2);                                        \
+#define RRA()                                                \
+  do {                                                       \
+      BYTE rot;                                              \
+                                                             \
+      rot = reg_a & C_FLAG;                                  \
+      reg_a = (reg_a >> 1) | ((reg_f & C_FLAG) ? 0x80 : 0);  \
+      LOCAL_SET_CARRY(rot);                                  \
+      LOCAL_SET_NADDSUB(0);                                  \
+      LOCAL_SET_HALFCARRY(0);                                \
+      CLK += 4;                                              \
+      INC_PC(1);                                             \
   } while (0)
 
-#define SETHL(value)                                    \
-  do {                                                  \
-      BYTE tmp;                                         \
-                                                        \
-      tmp = LOAD(HL_WORD());                            \
-      tmp |= (1 << value);                              \
-      STORE(HL_WORD(), tmp);                            \
-      CLK += 15;                                        \
-      INC_PC(2);                                        \
+#define RRCA()                                    \
+  do {                                            \
+      BYTE rot;                                   \
+                                                  \
+      rot = reg_a & C_FLAG;                       \
+      reg_a = (reg_a >> 1) | ((rot) ? 0x80 : 0);  \
+      LOCAL_SET_CARRY(rot);                       \
+      LOCAL_SET_NADDSUB(0);                       \
+      LOCAL_SET_HALFCARRY(0);                     \
+      CLK += 4;                                   \
+      INC_PC(1);                                  \
   } while (0)
 
-#define STA(addr, clk_inc1, clk_inc2, pc_inc, store_func)       \
-  do {                                                          \
-      unsigned int tmp;                                         \
-                                                                \
-      CLK += (clk_inc1);                                        \
-      tmp = (addr);                                             \
-      INC_PC(pc_inc);                                           \
-      store_func(tmp, reg_a, clk_inc2);                         \
+#define SBCHLREG(reg_valh, reg_vall)                                         \
+  do {                                                                       \
+      DWORD tmp;                                                             \
+      BYTE carry;                                                            \
+                                                                             \
+      carry = reg_f & C_FLAG;                                                \
+      tmp = (DWORD)(HL_WORD()) - (DWORD)((reg_valh << 8) + reg_vall)         \
+            - (DWORD)(carry);                                                \
+      reg_f = N_FLAG;                                                        \
+      LOCAL_SET_CARRY((DWORD)((DWORD)(reg_valh << 8) + (DWORD)(reg_vall)     \
+                      + (DWORD)(carry)) > (DWORD)(HL_WORD()));               \
+      LOCAL_SET_HALFCARRY((reg_h ^ reg_valh ^ (tmp >> 8)) & 0x10);           \
+      LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8)) & (reg_h ^ reg_valh)) & 0x80);  \
+      LOCAL_SET_ZERO(!(tmp & 0xffff));                                       \
+      LOCAL_SET_SIGN(tmp & 0x8000);                                          \
+      reg_h = tmp >> 8;                                                      \
+      reg_l = tmp & 0xff;                                                    \
+      CLK += 15;                                                             \
+      INC_PC(2);                                                             \
   } while (0)
 
-#define STW(addr, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc) \
+#define SBCHLSP()                                                 \
   do {                                                            \
-      unsigned int tmp;                                           \
+      DWORD tmp;                                                  \
+      BYTE carry;                                                 \
                                                                   \
-      CLK += (clk_inc1);                                          \
-      tmp = (addr);                                               \
-      STORE(tmp, reg_vall);                                       \
-      STORE(tmp + 1, reg_valh);                                   \
-      CLK += (clk_inc2);                                          \
-      INC_PC(pc_inc);                                             \
+      carry = reg_f & C_FLAG;                                     \
+      tmp = (DWORD)(HL_WORD()) - (DWORD)reg_sp - (DWORD)(carry);  \
+      reg_f = N_FLAG;                                             \
+      LOCAL_SET_CARRY((DWORD)((DWORD)reg_sp + (DWORD)(carry))     \
+                      > ((DWORD)HL_WORD()));                      \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_sp ^ (tmp >> 8)) & 0x10);  \
+      LOCAL_SET_PARITY(((reg_h ^ (tmp >> 8))                      \
+                       & (reg_h ^ (reg_sp >> 8))) & 0x80);        \
+      LOCAL_SET_ZERO(!(tmp & 0xffff));                            \
+      LOCAL_SET_SIGN(tmp & 0x8000);                               \
+      reg_h = tmp >> 8;                                           \
+      reg_l = tmp & 0xff;                                         \
+      CLK += 15;                                                  \
+      INC_PC(2);                                                  \
   } while (0)
 
-#define STSPW(addr, clk_inc1, clk_inc2, pc_inc) \
-  do {                                          \
-      unsigned int tmp;                         \
-                                                \
-      CLK += (clk_inc1);                        \
-      tmp = (addr);                             \
-      STORE(tmp, (reg_sp & 0xff));              \
-      STORE(tmp + 1, (reg_sp >> 8));            \
-      CLK += (clk_inc2);                        \
-      INC_PC(pc_inc);                           \
+#define SBCREG(reg_val, clk_inc, pc_inc)                           \
+  do {                                                             \
+      BYTE tmp, carry;                                             \
+                                                                   \
+      carry = reg_f & C_FLAG;                                      \
+      tmp = reg_a - reg_val - carry;                               \
+      reg_f = N_FLAG | SZP[tmp];                                   \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_val                         \
+                      + (WORD)(carry)) > reg_a);                   \
+      reg_a = tmp;                                                 \
+      CLK += clk_inc;                                              \
+      INC_PC(pc_inc);                                              \
   } while (0)
 
-#define STORE_ABS(addr, value, inc)             \
-  do {                                          \
-      CLK += (inc);                             \
-      STORE((addr), (value));                   \
+#define SCF()                  \
+  do {                         \
+      LOCAL_SET_CARRY(1);      \
+      LOCAL_SET_HALFCARRY(0);  \
+      LOCAL_SET_NADDSUB(0);    \
+      CLK += 4;                \
+      INC_PC(1);               \
   } while (0)
 
-#define STREG(addr, reg_val)                    \
-  do {                                          \
-      STORE_ABS(addr, reg_val, 7);              \
-      INC_PC(1);                                \
+#define SET(reg_val, value)     \
+  do {                          \
+      reg_val |= (1 << value);  \
+      CLK += 8;                 \
+      INC_PC(2);                \
   } while (0)
 
-#define SUBREG(reg_val, clk_inc, pc_inc)                          \
-  do {                                                            \
-      BYTE tmp;                                                   \
-                                                                  \
-      tmp = reg_a - reg_val;                                      \
-      reg_f = N_FLAG | SZP[tmp];                                  \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);      \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
-      LOCAL_SET_CARRY(reg_val > reg_a);                           \
-      reg_a = tmp;                                                \
-      CLK += clk_inc;                                             \
-      INC_PC(pc_inc);                                             \
+#define SETHL(value)          \
+  do {                        \
+      BYTE tmp;               \
+                              \
+      tmp = LOAD(HL_WORD());  \
+      tmp |= (1 << value);    \
+      STORE(HL_WORD(), tmp);  \
+      CLK += 15;              \
+      INC_PC(2);              \
   } while (0)
 
-#define XORREG(reg_val)                         \
-  do {                                          \
-      CLK += 4;                                 \
-      reg_a ^= reg_val;                         \
-      reg_f = SZP[reg_a];                       \
-      INC_PC(1);                                \
+#define STA(addr, clk_inc1, clk_inc2, pc_inc, store_func)  \
+  do {                                                     \
+      unsigned int tmp;                                    \
+                                                           \
+      CLK += (clk_inc1);                                   \
+      tmp = (addr);                                        \
+      INC_PC(pc_inc);                                      \
+      store_func(tmp, reg_a, clk_inc2);                    \
+  } while (0)
+
+#define STW(addr, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                                             \
+      unsigned int tmp;                                            \
+                                                                   \
+      CLK += (clk_inc1);                                           \
+      tmp = (addr);                                                \
+      STORE(tmp, reg_vall);                                        \
+      STORE(tmp + 1, reg_valh);                                    \
+      CLK += (clk_inc2);                                           \
+      INC_PC(pc_inc);                                              \
+  } while (0)
+
+#define STSPW(addr, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                           \
+      unsigned int tmp;                          \
+                                                 \
+      CLK += (clk_inc1);                         \
+      tmp = (addr);                              \
+      STORE(tmp, (reg_sp & 0xff));               \
+      STORE(tmp + 1, (reg_sp >> 8));             \
+      CLK += (clk_inc2);                         \
+      INC_PC(pc_inc);                            \
+  } while (0)
+
+#define STORE_ABS(addr, value, inc)  \
+  do {                               \
+      CLK += (inc);                  \
+      STORE((addr), (value));        \
+  } while (0)
+
+#define STREG(addr, reg_val)         \
+  do {                               \
+      STORE_ABS(addr, reg_val, 7);   \
+      INC_PC(1);                     \
+  } while (0)
+
+#define SUBREG(reg_val, clk_inc, pc_inc)                           \
+  do {                                                             \
+      BYTE tmp;                                                    \
+                                                                   \
+      tmp = reg_a - reg_val;                                       \
+      reg_f = N_FLAG | SZP[tmp];                                   \
+      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
+      LOCAL_SET_CARRY(reg_val > reg_a);                            \
+      reg_a = tmp;                                                 \
+      CLK += clk_inc;                                              \
+      INC_PC(pc_inc);                                              \
+  } while (0)
+
+#define XORREG(reg_val)    \
+  do {                     \
+      CLK += 4;            \
+      reg_a ^= reg_val;    \
+      reg_f = SZP[reg_a];  \
+      INC_PC(1);           \
   } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -1860,7 +1871,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
     switch (p0) {
 
     case 0x00: /* NOP */
-    NOP(4, 1);
+    NOP();
     break;
     case 0x01: /* LD BC # */
     LDBC(p12, 10, 0, 3);
