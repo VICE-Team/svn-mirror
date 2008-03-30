@@ -27,7 +27,7 @@
 #ifndef _SID_RESOURCES_H
 #define _SID_RESOURCES_H
 
-extern int sid_init_resources(void);
+extern int sid_resources_init(void);
 
 extern int sid_stereo;
 

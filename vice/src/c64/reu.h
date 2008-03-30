@@ -37,8 +37,8 @@
 struct snapshot_s;
 
 extern void reu_init(void);
-extern int reu_init_resources(void);
-extern int reu_init_cmdline_options(void);
+extern int reu_resources_init(void);
+extern int reu_cmdline_options_init(void);
 
 extern void reu_reset(void);
 extern void reu_dma(int immed);

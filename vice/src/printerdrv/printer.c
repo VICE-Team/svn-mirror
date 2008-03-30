@@ -35,7 +35,7 @@
 #include "output-select.h"
 #include "output-text.h"
 
-int printer_init_resources(void)
+int printer_resources_init(void)
 {
     if (output_graphics_init_resources() < 0
         || output_text_init_resources() < 0
@@ -49,7 +49,7 @@ int printer_init_resources(void)
     return 0;
 }
 
-int printer_init_cmdline_options(void)
+int printer_cmdline_options_init(void)
 {
     if (output_graphics_init_cmdline_options() < 0
         || output_text_init_cmdline_options() < 0

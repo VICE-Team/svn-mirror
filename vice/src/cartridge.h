@@ -30,8 +30,8 @@
 #include "types.h"
 
 extern void cartridge_init(void);
-extern int cartridge_init_resources(void);
-extern int cartridge_init_cmdline_options(void);
+extern int cartridge_resources_init(void);
+extern int cartridge_cmdline_options_init(void);
 
 extern int cartridge_attach_image(int type, const char *filename);
 extern void cartridge_detach_image(void);

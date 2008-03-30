@@ -151,7 +151,7 @@ static resource_t resources[] =
     {NULL}
 };
 
-int cartridge_init_resources(void)
+int cartridge_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -196,7 +196,7 @@ static cmdline_option_t cmdline_options[] =
     {NULL}
 };
 
-int cartridge_init_cmdline_options(void)
+int cartridge_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

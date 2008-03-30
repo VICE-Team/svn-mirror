@@ -30,8 +30,8 @@
 #include "types.h"
 
 /* Generic interface.  */
-extern int printer_init_resources(void);
-extern int printer_init_cmdline_options(void);
+extern int printer_resources_init(void);
+extern int printer_cmdline_options_init(void);
 extern void printer_init(void);
 extern void printer_reset(void);
 

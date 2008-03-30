@@ -74,10 +74,6 @@
 #include "version.h"
 #include "video.h"
 
-#ifdef HAVE_MOUSE
-#include "mouse.h"
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 int vsid_mode = 0;
@@ -269,12 +265,6 @@ static int init_resources(void)
         archdep_startup_log_error("Cannot initialize joystick-specific resources.\n");
         return -1;
     }
-#ifdef HAVE_MOUSE
-    if (mouse_init_resources() < 0) {
-        archdep_startup_log_error("Cannot initialize mouse-specific resources.\n");
-        return -1;
-    }
-#endif
     return 0;
 }
 
@@ -324,12 +314,6 @@ static int init_cmdline_options(void)
         archdep_startup_log_error("Cannot initialize joystick-specific command-line options.\n");
         return -1;
     }
-#ifdef HAVE_MOUSE
-    if (mouse_init_cmdline_options() < 0) {
-        archdep_startup_log_error("Cannot initialize mouse-specific command-line options.\n");
-        return -1;
-    }
-#endif
     if (kbd_buf_init_cmdline_options() < 0) {
         archdep_startup_log_error("Cannot initialize keyboard buffer-specific command-line options.\n");
         return -1;

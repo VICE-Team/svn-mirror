@@ -28,8 +28,8 @@
 
 #include "types.h"
 
-extern int mouse_init_resources(void);
-extern int mouse_init_cmdline_options(void);
+extern int mouse_resources_init(void);
+extern int mouse_cmdline_options_init(void);
 extern void mouse_set_format(void);
 extern void mouse_update_mouse(void);
 extern void mouse_init(void);

@@ -119,7 +119,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int sid_init_resources(void)
+int sid_resources_init(void)
 {
     return resources_register(resources);
 }

@@ -27,7 +27,7 @@
 #ifndef _SID_CMDLINE_OPTIONS_H
 #define _SID_CMDLINE_OPTIONS_H
 
-extern int sid_init_cmdline_options(void);
+extern int sid_cmdline_options_init(void);
 
 #endif
 
