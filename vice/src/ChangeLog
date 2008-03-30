@@ -1,3 +1,109 @@
+2005-12-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.2.
+
+2005-12-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (ui_pause_emulation): Disable pause if
+	network is connected as the trap function is already used
+	by the network code.
+	(window_proc): Added suspension for two more windows
+	messages WM_SYSCOMMAND and WM_NCLBUTTONDOWN.
+
+	* network.c, network.h (network_suspend): New function that
+	sends a '0' to the remote host as a suspend notifier.
+	(network_hook): Calls vsync_suspend_speed_eval if it receives
+	the notifier and displays a message.
+
+	* vsync.c (vsync_suspend_speed_eval): Call network_suspend.
+
+2005-12-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res<machine>.rc, : Added "Always on Top" menu
+	item.
+
+	* arch/win32/ui-resources.c: Added resource "AlwaysOnTop".
+
+	* arch/win32/ui.c, ui.h: New function ui_set_alwaysontop.
+
+2005-12-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/uiscreenshot.c, arch/win32/gfxoutputdrv.dsp,
+	gfxoutputdrv/Makefile.am, gfxoutputdrv/gfxoutput.c: Added
+	support for the new screenshot formats.
+
+	* gfxoutputdrv/iffdrv.c, gfxoutputdrv/iffdrv.h: Added IFF
+	screenshot support.
+
+	* gfxoutputdrv/jpegdrv.c, gfxoutputdrv/jpegdrv.h: Added JPEG
+	screenshot support.
+
+	* gfxoutputdrv/pcxdrv.c, gfxoutputdrv/pcxdrv.h: Added PCX
+	screenshot support.
+
+	* gfxoutputdrv/ppmdrv.c, gfxoutputdrv/ppmdrv.h: Added PPM
+	screenshot support.
+
+	* screenshot.c, screenshot.h: Added a new screenshot mode
+	'SCREENSHOT_MODE_RGB24'.
+
+	* util.c, util.h: Added some new endian conversion routines.
+
+2005-12-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* attach.c (file_system_attach_disk, file_system_detach_disk):
+	Implemented event recording for netplay.
+
+	* tape.c (tape_image_attach, tape_image_detach): Likewise.
+
+	* event.c: Made event_image_append ready for network events.
+	(event_record_attach_image): Generalized for network events.
+	(event_record): Moved test for network connection here.
+	(event_playback_event_list): Added attach events.
+	Made event_init_image_list and event_destroy_image_list
+	public.
+
+	* joystick.c, keyboard.c: Removed test for network connection.
+
+	* machine.c (machine_trigger_reset): Don't trigger the reset
+	when network is connected.
+
+	* network.c (network_init_frame_event_list): Call
+	event_init_image_list().
+	(network_test_delay): Added debug logging. Changed calculation
+	of frame delta. Now responsible for the destroying and
+	creation of the event lists.
+	(network_attach_image): New function.
+	(network_hook): Added debug logging.
+
+2005-12-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64mem.c, c64/c64memlimit.c, c64/c64memlimit.h: Fixed
+	an opcode execute problem with the +60k expansion.
+
+2005-12-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.rc, resdialogs.txt: Added FFPEG settings to
+	the mediafile dialog.
+
+	* arch/win32/uimediafile.c: New functions update_ffmpeg_codecs
+	and enable_ffmpeg_settings and varoius additions to connect
+	FFPFEG dialog boxes with corresponding resources.
+	Fixed 0-byte in filter string.
+
+	* gfxoutputdrv/ffmpegdrv.c: New resources FFMPEGFormat,
+	FFMPEGAudioCodec, FFMPEGVideoCodec. Added formatlist and lists
+	of codecs that are tested to work in VICE.
+	(ffmpegdrv_save) uses resources instead of geussing the format
+	from the filename.
+	Only one driver is registered without default file extension.
+	(ffmpegdrv_shutdown): Fixed memory leak.
+
+	* screenshot.c (screenshot_stop_recording): Fixed memory leak.
+
+	* util.c (util_add_extension): Extension is allowed to be NULL
+	now.
+
 2005-11-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.1.
