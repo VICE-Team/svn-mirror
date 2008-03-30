@@ -85,6 +85,7 @@
 #include "videoarch.h"
 #include "vsiduiunix.h"
 #include "x11ui.h"
+#include "screenshot.h"
 
 
 /* FIXME: We want these to be static.  */
@@ -113,6 +114,9 @@ static int tape_control_status = -1;
 
 static GtkWidget *drive8menu, *drive9menu, *tape_menu, *speed_menu;
 GtkWidget *status_bar;
+GtkWidget *video_ctrl_checkbox;
+static GtkWidget *video_ctrl_checkbox_label;
+static GtkStyle *ui_style_red;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox, *pal_tb;
@@ -718,12 +722,19 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
     gdk_flush();
 }
 
+static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
+{
+    gtk_widget_hide(video_ctrl_checkbox);
+    screenshot_stop_recording();
+}
+
 void ui_create_status_bar(GtkWidget *pane, int width, int height)
 {
     /* Create the status bar on the bottom.  */
-    GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb;
+    GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb;
     int i;
     app_shell_type *as;
+    GtkTooltips *video_tooltip;
 
     status_bar = gtk_hbox_new(FALSE, 0);
 
@@ -769,6 +780,26 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	gtk_widget_hide(pal_ctrl_checkbox);
     else
 	gtk_widget_show(pal_ctrl_checkbox);
+
+    /* Video Control checkbox */
+    video_ctrl_checkbox = gtk_frame_new(NULL);
+    gtk_frame_set_shadow_type (GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
+    
+    video_ctrl_checkbox_label = gtk_label_new(_("recording"));
+    vcb = gtk_button_new();
+    gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
+    gtk_widget_show(video_ctrl_checkbox_label);
+    GTK_WIDGET_UNSET_FLAGS (pcb, GTK_CAN_FOCUS);
+    gtk_signal_connect(GTK_OBJECT(vcb), "clicked", 
+		       GTK_SIGNAL_FUNC(ui_update_video_checkbox),
+		       vcb);
+    gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
+    gtk_widget_show(vcb);
+    gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, 
+		       FALSE, FALSE, 0);
+    video_tooltip = gtk_tooltips_new();
+    gtk_tooltips_set_tip(GTK_TOOLTIPS(video_tooltip), vcb,
+			 _("click to stop recording"), NULL);
     
     /* drive stuff */
     drive_box = gtk_hbox_new(FALSE, 0);
@@ -1013,7 +1044,6 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                   unreferenced.  */
 	/* gtk_rc_style_unref(rc_style); */
     }
-
     
     gtk_widget_set_events(new_canvas,
 			  GDK_LEAVE_NOTIFY_MASK |
@@ -1047,6 +1077,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     pal_ctrl_widget = build_pal_ctrl_widget(c);
     gtk_box_pack_end(GTK_BOX(new_pane), pal_ctrl_widget, FALSE, FALSE, 0);
     gtk_widget_hide(pal_ctrl_widget);
+    
     if (no_autorepeat) {
         gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
                            GTK_SIGNAL_FUNC(ui_autorepeat_off),NULL);
@@ -1095,6 +1126,13 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
        This is needed for proper dual disk/dual led drives (8050, 8250). */
     for (i = 0; i < NUM_DRIVES; i++)
 	ui_display_drive_led(i, 3);
+
+    ui_style_red = gtk_style_new();
+    ui_style_red->fg[GTK_STATE_NORMAL] = *drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_ACTIVE] = *drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_SELECTED] = *drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_PRELIGHT] = *drive_led_on_red_pixel;
+    gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
 
     initBlankCursor();
 

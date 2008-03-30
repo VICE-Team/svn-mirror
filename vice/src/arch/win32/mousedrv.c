@@ -85,10 +85,12 @@ void mousedrv_mouse_changed(void)
 
 int mousedrv_resources_init(void)
 {
+    return 0;
 }
 
 int mousedrv_cmdline_options_init(void)
 {
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

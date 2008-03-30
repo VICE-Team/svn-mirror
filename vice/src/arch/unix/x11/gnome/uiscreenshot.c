@@ -31,11 +31,13 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "screenshot.h"
+#include "resources.h"
 #include "ui.h"
 #include "uiarch.h"
 
-
+extern GtkWidget *video_ctrl_checkbox;
 static GtkWidget *screenshot_dialog, *fileentry;
+static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
 
 typedef struct 
 {
@@ -45,10 +47,28 @@ typedef struct
 
 static img_type_buttons *buttons = NULL;
 
+static void ffmpg_widget (GtkWidget *w, gpointer data)
+{
+    int num_buttons, i;
+    
+    num_buttons = gfxoutput_num_drivers();
+    for (i = 0; i < num_buttons; i++)
+	if (GTK_TOGGLE_BUTTON(buttons[i].w)->active)
+	    if (strcmp(buttons[i].driver, "FFMPEG") == 0)
+	    {
+		gtk_widget_set_sensitive(ffmpg_opts, TRUE);
+		return;
+	    }
+    gtk_widget_set_sensitive(ffmpg_opts, FALSE);
+}
+
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *box, *tmp, *frame, *hbox;
+    GtkWidget *d, *box, *tmp, *frame, *hbox, *vbox, *l;
+    GtkObject *adj;
+    
     int i, num_buttons;
+    unsigned long v;
     gfxoutputdrv_t *driver;
     
     d = gnome_dialog_new(_("Save Screenshot"), 
@@ -76,7 +96,8 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(box);
 
     frame = gtk_frame_new(_("Image Format"));
-    hbox = gtk_hbox_new(0, FALSE);
+    vbox = gtk_vbox_new(FALSE, 5);
+    hbox = gtk_hbox_new(FALSE, 5);
     
     num_buttons = gfxoutput_num_drivers();
     if (! buttons)
@@ -100,11 +121,54 @@ static GtkWidget *build_screenshot_dialog(void)
 	gtk_box_pack_start(GTK_BOX(hbox), buttons[i].w, FALSE, FALSE, 0);
 	gtk_widget_show(buttons[i].w);
 	buttons[i].driver = driver->name;
+	gtk_signal_connect(GTK_OBJECT(buttons[i].w), "clicked",
+			   GTK_SIGNAL_FUNC(ffmpg_widget),
+			   0);
 	driver = gfxoutput_drivers_iter_next();
+	
     }
 
-    gtk_container_add(GTK_CONTAINER(frame), hbox);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
+    
+    /* ffmpg options */
+    resources_get_value("FFMPEGAudioBitrate", (resource_value_t *) &v);
+    adj = gtk_adjustment_new ((gfloat) v, 
+			      (gfloat) 16000, 
+			      (gfloat) 128000,
+			      (gfloat) 1000,
+			      (gfloat) 10000,
+			      (gfloat) 10000);
+    ffmpg_opts = gtk_vbox_new(FALSE, 5);
+    ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat) 1000, 0);
+    gtk_widget_set_usize(ffmpg_audio, 100, 16);
+    l = gtk_label_new(_("Audio Bitrate"));
+    tmp = gtk_hbox_new(FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(tmp), ffmpg_audio, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
+    
+    resources_get_value("FFMPEGVideoBitrate", (resource_value_t *) &v);
+    adj = gtk_adjustment_new ((gfloat) v, 
+			      (gfloat) 100000, 
+			      (gfloat) 10000000,
+			      (gfloat) 10000,
+			      (gfloat) 100000,
+			      (gfloat) 100000);
+    ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat) 10000, 0);
+    gtk_widget_set_usize(ffmpg_video, 100, 16);
+    l = gtk_label_new(_("Video Bitrate"));
+    tmp = gtk_hbox_new(FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(tmp), ffmpg_video, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
+
+    gtk_box_pack_start(GTK_BOX(vbox), ffmpg_opts, FALSE, FALSE, 0);
+    gtk_widget_show_all(ffmpg_opts);
+    gtk_widget_set_sensitive(ffmpg_opts, FALSE);
+    
+    gtk_container_add(GTK_CONTAINER(frame), vbox);
+    gtk_widget_show(vbox);
 
     gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), frame, TRUE, TRUE, 0);
     gtk_widget_show(frame);
@@ -113,7 +177,7 @@ static GtkWidget *build_screenshot_dialog(void)
     return d;
 }
 
-int ui_screenshot_dialog(char *name, int wid)
+int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 {
     int res, num_buttons, i;
     char *fn;
@@ -159,6 +223,16 @@ int ui_screenshot_dialog(char *name, int wid)
     
     if (!driver)
 	return -1;
+    if (strcmp(driver, "FFMPEG") == 0)
+    {
+	unsigned int v;
+	v = (unsigned int) 
+	    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ffmpg_audio));
+	resources_set_value("FFMPEGAudioBitrate", (resource_value_t) v);
+	v = (unsigned int) 
+	    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ffmpg_video));
+	resources_set_value("FFMPEGVideoBitrate", (resource_value_t) v);
+    }
     
     strcpy (name, fn);		/* What for? */
     if (screenshot_save(driver, fn, wid) < 0)
@@ -168,7 +242,13 @@ int ui_screenshot_dialog(char *name, int wid)
 	return -1;
     }
     else
+    {
+	if (screenshot_is_recording())
+	    gtk_widget_show(video_ctrl_checkbox);
 	ui_message(_("Successfully wrote `%s'"), fn);
+    }
+    
+	
         
     return 0;
 }
