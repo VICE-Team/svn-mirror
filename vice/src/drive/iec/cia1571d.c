@@ -40,6 +40,7 @@ struct drive_context_s;
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "types.h"
 
 
@@ -102,17 +103,30 @@ struct drive_context_s;
 #define cia             (ctxptr->cia1571.c_cia)
 
 
-#define cia_set_int_clk(value, clk)                                    \
-    interrupt_set_irq(ctxptr->cpu.int_status, ctxptr->cia1571.int_num, \
-                      (value), (clk))
+static void cia_set_int_clk(drive_context_t *ctxptr, int value, CLOCK clk)
+{
+    interrupt_set_irq(ctxptr->cpu.int_status, ctxptr->cia1571.int_num,
+                      value, clk);
+}
 
-#define cia_restore_int(value)                                               \
-    interrupt_set_irq_noclk(ctxptr->cpu.int_status, ctxptr->cia1571.int_num, \
-                            (value))
+static void cia_restore_int(drive_context_t *ctxptr, int value)
+{
+    interrupt_set_irq_noclk(ctxptr->cpu.int_status, ctxptr->cia1571.int_num,
+                            value);
+}
 
 
 void cia1571_setup_context(drive_context_t *ctxptr)
 {
+    drivecia1571_context_t *cia1571p;
+
+    ctxptr->cia1571.prv = lib_malloc(sizeof(drivecia1571_context_t));
+    cia1571p = (drivecia1571_context_t *)(ctxptr->cia1571.prv);
+    cia1571p->number = ctxptr->mynumber;
+
+    ctxptr->cia1571.rmw_flag = &(ctxptr->cpu.rmw_flag);
+    ctxptr->cia1571.clk_ptr = ctxptr->clk_ptr;
+
     ctxptr->cia1571.todticks = 100000;
     ctxptr->cia1571.log = LOG_ERR;
     ctxptr->cia1571.read_clk = 0;
@@ -124,6 +138,8 @@ void cia1571_setup_context(drive_context_t *ctxptr)
     ctxptr->cia1571.int_num
         = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
                                        ctxptr->cia1571.myname);
+
+    cia1571p->drive_ptr = ctxptr->drive_ptr;
 }
 
 
