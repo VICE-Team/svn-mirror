@@ -244,6 +244,8 @@ libdrive_a_SOURCES = \
 	drive-resources.h \
 	drive-snapshot.c \
 	drive-snapshot.h \
+	drive-writeprotect.c \
+	drive-writeprotect.h \
 	drive.c \
 	drive.h \
 	drivecpu.c \
@@ -277,9 +279,9 @@ libdrive_a_LIBADD =
 am_libdrive_a_OBJECTS = drive-check.$(OBJEXT) \
 	drive-cmdline-options.$(OBJEXT) drive-overflow.$(OBJEXT) \
 	drive-resources.$(OBJEXT) drive-snapshot.$(OBJEXT) \
-	drive.$(OBJEXT) drivecpu.$(OBJEXT) drivemem.$(OBJEXT) \
-	driveimage.$(OBJEXT) driverom.$(OBJEXT) drivesync.$(OBJEXT) \
-	rotation.$(OBJEXT)
+	drive-writeprotect.$(OBJEXT) drive.$(OBJEXT) drivecpu.$(OBJEXT) \
+	drivemem.$(OBJEXT) driveimage.$(OBJEXT) driverom.$(OBJEXT) \
+	drivesync.$(OBJEXT) rotation.$(OBJEXT)
 libdrive_a_OBJECTS = $(am_libdrive_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -289,10 +291,12 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/drive-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drive-overflow.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drive-resources.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/drive-snapshot.Po ./$(DEPDIR)/drive.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/drivecpu.Po ./$(DEPDIR)/driveimage.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/drivemem.Po ./$(DEPDIR)/driverom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/drivesync.Po ./$(DEPDIR)/rotation.Po
+@AMDEP_TRUE@	./$(DEPDIR)/drive-snapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/drive-writeprotect.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/drive.Po ./$(DEPDIR)/drivecpu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/driveimage.Po ./$(DEPDIR)/drivemem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/driverom.Po ./$(DEPDIR)/drivesync.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/rotation.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -336,6 +340,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-overflow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-snapshot.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-writeprotect.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drivecpu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/driveimage.Po@am__quote@
