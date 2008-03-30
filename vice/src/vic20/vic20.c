@@ -40,7 +40,7 @@
 #include "traps.h"
 #include "kbd.h"
 #include "vsync.h"
-#include "sid.h"
+#include "soundvic20.h"
 #include "vic20mem.h"
 #include "attach.h"
 #include "resources.h"
@@ -137,7 +137,7 @@ int machine_init_resources(void)
         || video_init_resources() < 0
         || vic20_mem_init_resources() < 0
         || vic_init_resources() < 0
-        || sid_init_resources() < 0
+        || sound_init_resources() < 0
         || true1541_init_resources() < 0)
         return -1;
 
@@ -152,7 +152,7 @@ int machine_init_cmdline_options(void)
         || video_init_cmdline_options() < 0
         || vic20_mem_init_cmdline_options() < 0
         || vic_init_cmdline_options() < 0
-        || sid_init_cmdline_options() < 0
+        || sound_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
         return -1;
 
@@ -225,6 +225,8 @@ void machine_reset(void)
     reset_via2();
 
     true1541_reset();
+
+    sound_reset();
 }
 
 void machine_shutdown(void)
@@ -258,7 +260,7 @@ static void vsync_hook(void)
 	vic_prevent_clk_overflow(sub);
 	via1_prevent_clk_overflow(sub);
 	via2_prevent_clk_overflow(sub);
-	sid_prevent_clk_overflow(sub);
+	sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
 

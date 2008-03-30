@@ -62,7 +62,7 @@
 #include "maincpu.h"
 #include "serial.h"
 #include "interrupt.h"
-#include "sid.h"
+#include "sound.h"
 #include "ui.h"
 #include "vsync.h"
 #include "video.h"
@@ -474,7 +474,7 @@ static void exit64(void)
 
     machine_shutdown();
     video_free();
-    close_sound();
+    sound_close();
 
 #ifdef HAS_JOYSTICK
     joyclose();

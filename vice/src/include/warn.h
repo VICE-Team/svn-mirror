@@ -48,4 +48,9 @@ void warn(warn_t *pwarn, int warnid, char *msg, ...);
  */
 void warn_reset(warn_t *pwarn);
 
+/*
+ * Free warnings structure.
+ */
+void warn_free(warn_t *pwarn);
+
 #endif /* _WARN_H */

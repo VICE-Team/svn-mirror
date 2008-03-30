@@ -75,7 +75,7 @@
 #include "info.h"
 #include "vsync.h"
 #include "mem.h"
-#include "sid.h"
+#include "sound.h"
 #include "drive.h"
 #include "tape.h"
 #include "resources.h"

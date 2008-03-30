@@ -213,9 +213,28 @@ if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
   AC_SUBST(JOYSTICK)
   AC_SUBST(JOY_OBJS)
   AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h dmedia/audio.h)
+  if test x"$ac_cv_header_linux_soundcard_h" = "xyes" ; then
+    SOUND_USS_OBJ='$(ARCHDIR)/sounduss.o'
+  fi
+  if test x"$ac_cv_header_machine_soundcard_h" = "xyes" ; then
+    SOUND_USS_OBJ='$(ARCHDIR)/sounduss.o'
+  fi
+  if test x"$ac_cv_header_dmedia_audio_h" = "xyes" ; then
+    SOUND_SGI_OBJ='$(ARCHDIR)/soundsgi.o'
+  fi
   AC_CHECK_HEADERS(SDL_audio.h SDL_sleep.h)
+  
   AC_CHECK_HEADERS(bstring.h sys/audioio.h sys/audio.h)
+  if test x"$ac_cv_header_audioio_h" = "xyes" ; then
+    SOUND_SUN_OBJ='$(ARCHDIR)/soundsun.o'
+  fi
+  if test x"$ac_cv_header_sys_audio_h" = "xyes" ; then
+    SOUND_HPUX_OBJ='$(ARCHDIR)/soundhpux.o'
+  fi
   AC_CHECK_HEADERS(UMS/UMSAudioDevice.h UMS/UMSBAUDDevice.h)
+  if test x"$ac_cv_header_ums_umsaudiodevice_h" = "xyes" ; then
+    SOUND_AIX_OBJ='$(ARCHDIR)/soundaix.o'
+  fi
   AC_CHECK_LIB(audio, ALseterrorhandler,,,$X_LIBS)
   AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,,,$X_LIBS)
   AC_CHECK_LIB(SDL, SDL_OpenAudio,,,$X_LIBS)
@@ -344,6 +363,12 @@ AC_SUBST(SYSPEC_OBJS)
 AC_SUBST(LIBOBJS)
 AC_SUBST(COMMON_LIBS)
 AC_SUBST(SUBDIRS)
+AC_SUBST(SOUND_USS_OBJ)
+AC_SUBST(SOUND_SGI_OBJ)
+AC_SUBST(SOUND_HPUX_OBJ)
+AC_SUBST(SOUND_AIX_OBJ)
+AC_SUBST(SOUND_MIDAS_OBJ)
+AC_SUBST(SOUND_SDL_OBJ)
 
 dnl Now produce the directories & Makefiles.
 

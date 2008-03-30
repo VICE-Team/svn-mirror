@@ -140,7 +140,7 @@
 
 
 #include "parallel.h"
-#include "sid.h"
+#include "soundpet.h"
 #include "kbd.h"
 #include "crtc.h"
 

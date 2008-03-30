@@ -49,7 +49,7 @@
 #include "patchlevel.h"
 #include "mem.h"
 #include "tuimenu.h"
-#include "sid.h"
+#include "sound.h"
 #include "vmidas.h"
 #include "utils.h"
 #include "info.h"
@@ -395,7 +395,7 @@ static char *toggle_sound_callback(int been_activated, void *param_unused)
 	app_resources.sound = !app_resources.sound;
 
 	if (!app_resources.sound) {
-	    close_sound();
+	    sound_close();
 	}
 
 	tui_menu_update(main_menu);
@@ -410,7 +410,7 @@ static char *toggle_sid_filters_callback(int been_activated, void *param_unused)
 {
     if (been_activated) {
 	app_resources.sidFilters = !app_resources.sidFilters;
-	close_sound();
+	sound_close();
 	tui_menu_update(main_menu);
     }
 
@@ -421,7 +421,7 @@ static char *toggle_sid_model_callback(int been_activated, void *param_unused)
 {
     if (been_activated) {
 	app_resources.sidModel = !app_resources.sidModel;
-	close_sound();
+	sound_close();
 	tui_menu_update(main_menu);
     }
 
@@ -442,7 +442,7 @@ static char *change_sound_sample_rate_callback(int been_activated, void *param)
 {
     if (been_activated) {
 	app_resources.soundSampleRate = (int)param;
-	close_sound();
+	sound_close();
     }
 
     return NULL;
@@ -460,7 +460,7 @@ static char *change_sound_buffer_size_callback(int been_activated, void *param)
 {
     if (been_activated) {
 	app_resources.soundBufferSize = (int)param;
-	close_sound();
+	sound_close();
     }
 
     return NULL;
@@ -491,7 +491,7 @@ static char *sound_card_setup_callback(int been_activated,
 	tui_area_get(&backing_store, 0, 0, tui_num_cols(), tui_num_lines());
         vmidas_config();
         vmidas_init();
-        close_sound();
+        sound_close();
 	/* This is annoying... */
 	_setcursortype(_NOCURSOR);
 	tui_area_put(backing_store, 0, 0);

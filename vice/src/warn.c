@@ -94,3 +94,11 @@ void warn_reset(warn_t *pwarn)
     for (p = warnlist; p; p = p->pnext)
 	warn_reset(p);
 }
+
+void warn_free(warn_t *pwarn)
+{
+    free(pwarn->name);
+    if (pwarn->pwarn)
+	free(pwarn->pwarn);
+    free(pwarn);
+}

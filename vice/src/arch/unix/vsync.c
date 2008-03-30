@@ -56,7 +56,7 @@
 #include "interrupt.h"
 #include "video.h"
 #include "kbdbuf.h"
-#include "sid.h"
+#include "sound.h"
 #include "resources.h"
 #include "cmdline.h"
 
@@ -235,7 +235,7 @@ static int speed_eval_suspended = 1;
    emulation happens, so that we don't display bogus speed values. */
 void suspend_speed_eval(void)
 {
-    suspend_sound();
+    sound_suspend();
     speed_eval_suspended = 1;
 }
 
@@ -320,7 +320,7 @@ int do_vsync(int been_skipped)
         } else {
             skip_counter = elapsed_frames = 0;
         }
-        flush_sound(0);
+        sound_flush(0);
     } else if (refresh_rate != 0) {
 	/* Fixed refresh rate.*/
 	update_elapsed_frames(0);
@@ -332,7 +332,7 @@ int do_vsync(int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-        flush_sound(relative_speed);
+        sound_flush(relative_speed);
     } else {
 	/* Dynamically adjusted refresh rate. */
 	update_elapsed_frames(0);
@@ -348,7 +348,7 @@ int do_vsync(int been_skipped)
 		skip_counter = elapsed_frames = 0;
 	    }
 	}
-        flush_sound(relative_speed);
+        sound_flush(relative_speed);
     }
 
     if (frame_counter >= refresh_frequency * 2) {

@@ -37,7 +37,7 @@
 #include "pia.h"
 #include "crtc.h"
 #include "vsync.h"
-#include "sid.h"
+#include "soundpet.h"
 #include "attach.h"
 #include "autostart.h"
 

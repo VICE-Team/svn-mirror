@@ -127,7 +127,6 @@ typedef char * XPointer;
 #include "interrupt.h"
 #include "serial.h"
 #include "mshell.h"
-#include "sid.h"
 #include "maincpu.h"
 #include "ui.h"
 #include "vsync.h"

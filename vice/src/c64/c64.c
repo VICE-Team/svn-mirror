@@ -181,6 +181,7 @@ int machine_init_resources(void)
         || video_init_resources() < 0
         || c64_mem_init_resources() < 0
         || vic_ii_init_resources() < 0
+        || sound_init_resources() < 0
         || sid_init_resources() < 0
         || true1541_init_resources() < 0)
         return -1;
@@ -196,6 +197,7 @@ int machine_init_cmdline_options(void)
         || video_init_cmdline_options() < 0
         || c64_mem_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
+        || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
         return -1;
@@ -319,6 +321,7 @@ static void vsync_hook(void)
 	vic_ii_prevent_clk_overflow(sub);
 	cia1_prevent_clk_overflow(sub);
 	cia2_prevent_clk_overflow(sub);
+        sound_prevent_clk_overflow(sub);
         sid_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }

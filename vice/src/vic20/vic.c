@@ -54,7 +54,7 @@
 #include "vmachine.h"
 #include "interrupt.h"
 #include "raster.h"
-#include "sid.h"
+#include "soundvic20.h"
 #include "mem.h"
 #include "resources.h"
 #include "cmdline.h"
@@ -400,7 +400,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	printf("\t(sound register, not implemented)\n");
 #endif
 #ifdef SOUND
-	store_vic20sid(addr, value);
+	store_sound(addr, value);
 #endif
 	return;
 
@@ -411,7 +411,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	printf("\t(master volume not implemented)\n");
 #endif
 #ifdef SOUND
-	store_vic20sid(addr, value);
+	store_sound(addr, value);
 #endif
 	return;
 

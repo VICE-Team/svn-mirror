@@ -42,7 +42,7 @@
 #include "kbd.h"
 #include "ui.h"
 #include "true1541.h"
-#include "sid.h"
+#include "sound.h"
 #include "vmidas.h"
 #include "joystick.h"
 #include "autostart.h"
@@ -263,7 +263,7 @@ int do_vsync(int been_skipped)
 
 #ifdef SOUND
 	if (app_resources.sound)
-	    flush_sound();
+	    sound_flush();
 #endif
 
     } else {
@@ -289,7 +289,7 @@ int do_vsync(int been_skipped)
 
 #ifdef SOUND
 	if (app_resources.sound)
-	    flush_sound();
+	    sound_flush();
 #endif
 
     }
