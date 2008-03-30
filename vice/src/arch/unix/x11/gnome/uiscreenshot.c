@@ -179,12 +179,12 @@ ffmpeg_codecs (GtkWidget *w, gpointer data)
 
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *box, *tmp, *frame, *vbox, *hbox, *omenu, *menu, *menu_item;
+    GtkWidget *d, *box, *tmp, *frame, *vbox, *omenu, *menu, *menu_item;
     int i, num_buttons;
     gfxoutputdrv_t *driver;
     GSList *group;
 #ifdef HAVE_FFMPEG
-    GtkWidget *l;
+    GtkWidget *l, *hbox;
     GtkObject *adj;
     unsigned long v;
     ffmpegdrv_format_t *f;
@@ -506,7 +506,8 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 void uiscreenshot_shutdown(void)
 {
     lib_free(buttons);
-    gtk_widget_destroy(screenshot_dialog);
+    if (screenshot_dialog && GTK_IS_WIDGET(screenshot_dialog))
+	gtk_widget_destroy(screenshot_dialog);
     screenshot_dialog = NULL;
 }
 
