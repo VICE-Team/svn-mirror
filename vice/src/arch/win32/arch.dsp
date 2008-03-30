@@ -86,6 +86,10 @@ SOURCE=.\archdep.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\blockdev.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\c128ui.c
 # End Source File
 # Begin Source File

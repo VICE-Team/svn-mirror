@@ -68,7 +68,11 @@ BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
         val = mouse_get_y();
     else
 #endif
+    /* Account for that read functions in VICE are called _before_
+       incrementing the clock. */
+    maincpu_clk++;
     val = sound_read(addr, chipno);
+    maincpu_clk--;
 
     /* Fallback when sound is switched off. */
     if (val < 0) {

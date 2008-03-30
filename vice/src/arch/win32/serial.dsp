@@ -90,6 +90,26 @@ SOURCE=..\..\serial\iec.c
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\serial\serial-device.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\serial\serial-iec-lib.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\serial\serial-iec.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\serial\serial-realdevice.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\serial\serial-trap.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\serial\serial.c"
 # End Source File
 # End Target

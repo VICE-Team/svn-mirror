@@ -326,6 +326,10 @@
 #define IDM_CART_VIC20_4KB_B000         40063
 #define IDM_CART_VIC20_16KB             40064
 #define IDM_CART_VIC20_16KB_4000        40065
+#define IDM_CART_ENABLE_EXPERT          40066
+#define IDM_CART_MODE_OFF               40067
+#define IDM_CART_MODE_PRG               40068
+#define IDM_CART_MODE_ON                40069
 #define IDM_SNAPSHOT_LOAD               40080
 #define IDM_SNAPSHOT_SAVE               40081
 #define IDM_SCREENSHOT                  40082

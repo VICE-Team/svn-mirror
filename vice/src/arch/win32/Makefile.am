@@ -22,6 +22,7 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
+	blockdev.c \
 	c128ui.c \
 	c128ui.h \
 	cbm2ui.c \

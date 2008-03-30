@@ -434,8 +434,6 @@ long machine_get_cycles_per_second(void)
 
 void machine_change_timing(int timeval)
 {
-    maincpu_trigger_reset();
-
     switch (timeval) {
       case MACHINE_SYNC_PAL:
         machine_timing.cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
@@ -467,6 +465,8 @@ void machine_change_timing(int timeval)
     vic_change_timing();
 
     mem_patch_kernal();
+
+    machine_powerup();
 }
 
 /* ------------------------------------------------------------------------- */

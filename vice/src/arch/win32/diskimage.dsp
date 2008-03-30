@@ -86,6 +86,10 @@ SOURCE="..\..\diskimage\diskimage.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\diskimage\fsimage-check.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\diskimage\fsimage-create.c"
 # End Source File
 # Begin Source File

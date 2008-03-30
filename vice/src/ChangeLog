@@ -1,3 +1,55 @@
+2002-12-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.31.
+
+2002-12-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster-sprite-status.c (raster_sprite_status_init):
+	Initialize draw_partial_function.
+
+	* vicii/vicii.c (vicii_update_video_mode): Clear
+	force_black_overscan_background_color when entering extended
+	text mode.
+
+2002-12-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/{win32|beos}/blockdev.c: New files with dummy
+	functions.
+
+	* arch/{win32|beos}/Makefile.am: Added new files.
+
+	* arch/win32/arch.dsp, diskimage.dsp, imagecontents.dsp,
+	serial.dsp, vice.dsw: Updated MSVC project files.
+
+	* arch/win32/c64ui.c, c128ui.c: Added handlers for expert
+	cartridge.
+
+	* arch/win32/res.h: Added ids for expert cart menu.
+
+	* arch/win32/res64.rc, res128.rc: Added submenu for expert
+	cartridge.
+
+	* c128/c128.c, c64/c64.c, plus4/plus4.c, vic20/vic20.c
+	(machine_change_timing): Call machine_powerup instead of
+	maincpu_trigger_reset.
+
+	* diskimage/diskimage.c (diskimage_attach_log),
+	(diskimage_detach_log): Disable RAW case for archs without
+	raw device access.
+
+	* vicii/vicii.c (vicii_reset): vicii_reset_registers isn't
+	called.
+
+2002-12-05  Dag Lem  <resid@nimrod.no>
+
+	* sid/sid.c (sid_read_chip): Account for that read functions
+	in VICE are called _before_ incrementing the clock.
+
+2002-12-04  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/video.c (video_canvas_create): Avoid gdk
+	colormap assertion in -xvideo mode.
+
 2002-12-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.30.

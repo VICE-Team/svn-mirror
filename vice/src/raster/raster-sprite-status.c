@@ -42,6 +42,7 @@ void raster_sprite_status_init(raster_sprite_status_t *s,
     s->num_sprites = num_sprites;
 
     s->draw_function = NULL;
+    s->draw_partial_function = NULL;
     s->cache_function = NULL;
 
     s->visible_msk = 0;

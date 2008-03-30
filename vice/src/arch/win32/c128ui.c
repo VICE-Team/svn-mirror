@@ -59,8 +59,15 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values CartMode[] = {
+    { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
+    { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
+    { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
+    { -1, 0 }
+};
 
 ui_res_value_list c128_ui_res_values[] = {
+    { "CartridgeMode", CartMode },
     { NULL, NULL }
 };
 
@@ -142,6 +149,12 @@ static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
     int i;
     char *s;
 
+    if (wparam == IDM_CART_ENABLE_EXPERT) {
+        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0)
+            ui_error("Invalid cartridge");
+        return;
+    }
+
     i = 0;
     while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
         i++;
@@ -175,7 +188,20 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_IDE64:
       case IDM_CART_ATTACH_SS4:
       case IDM_CART_ATTACH_SS5:
+      case IDM_CART_ENABLE_EXPERT:
         c128_ui_attach_cartridge(wparam, hwnd, c128_ui_cartridges);
+        break;
+      case IDM_CART_MODE_OFF:
+        resources_set_value("CartridgeMode",
+            (resource_value_t)CARTRIDGE_MODE_OFF);
+        break;
+      case IDM_CART_MODE_PRG:
+        resources_set_value("CartridgeMode",
+            (resource_value_t)CARTRIDGE_MODE_PRG);
+        break;
+      case IDM_CART_MODE_ON:
+        resources_set_value("CartridgeMode",
+            (resource_value_t)CARTRIDGE_MODE_ON);
         break;
       case IDM_CART_SET_DEFAULT:
         cartridge_set_default();

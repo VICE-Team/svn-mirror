@@ -378,8 +378,6 @@ struct video_canvas_s *vicii_get_canvas(void)
 /* Reset the VIC-II chip.  */
 void vicii_reset(void)
 {
-    vicii_reset_registers();
-
     raster_reset(&vic_ii.raster);
 
     vic_ii.last_emulate_line_clk = 0;
@@ -801,7 +799,7 @@ void vicii_update_video_mode(unsigned int cycle)
                 &vic_ii.raster.xsmooth_color,
                 vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
             vic_ii.get_background_from_vbuf = VIC_II_EXTENDED_TEXT_MODE;
-            /*vic_ii.force_black_overscan_background_color = 1;*/
+            vic_ii.force_black_overscan_background_color = 0;
             break;
           default:
             /* The overscan background color is given by the background

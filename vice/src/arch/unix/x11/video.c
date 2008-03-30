@@ -481,6 +481,25 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         return NULL;
     }
 
+    res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
+                                   new_width, new_height, 1);
+    if (res < 0) {
+        return NULL;
+    }
+
+    if (!_video_gc)
+        _video_gc = video_get_gc(&gc_values);
+
+    canvas->width = new_width;
+    canvas->height = new_height;
+
+    ui_finish_canvas(canvas);
+
+    if (canvas->depth > 8)
+	uicolor_init_video_colors();
+
+    video_add_handlers(canvas);
+
 #ifdef HAVE_XVIDEO
     /* Find XVideo color setting limits. */
     if (use_xvideo && canvas->xv_image) {
@@ -509,25 +528,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 	video_canvas_set_palette(canvas, palette);
     }
 #endif
-
-    res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
-                                   new_width, new_height, 1);
-    if (res < 0) {
-        return NULL;
-    }
-
-    if (!_video_gc)
-        _video_gc = video_get_gc(&gc_values);
-
-    canvas->width = new_width;
-    canvas->height = new_height;
-
-    ui_finish_canvas(canvas);
-
-    if (canvas->depth > 8)
-	uicolor_init_video_colors();
-
-    video_add_handlers(canvas);
 
     return canvas;
 }

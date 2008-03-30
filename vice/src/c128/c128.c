@@ -577,8 +577,6 @@ long machine_get_cycles_per_second(void)
 
 void machine_change_timing(int timeval)
 {
-    maincpu_trigger_reset();
-
     switch (timeval) {
       case MACHINE_SYNC_PAL:
         machine_timing.cycles_per_sec = C128_PAL_CYCLES_PER_SEC;
@@ -608,6 +606,8 @@ void machine_change_timing(int timeval)
     clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing);
+
+    machine_powerup();
 }
 
 /* ------------------------------------------------------------------------- */
