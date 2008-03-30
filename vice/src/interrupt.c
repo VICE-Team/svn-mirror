@@ -130,8 +130,8 @@ void set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
 
 void set_int_noclk(cpu_int_status_t *cs, int int_num, enum cpu_int value)
 {
-    set_nmi(cs, int_num, value & IK_NMI, clk);
-    set_irq(cs, int_num, value & IK_IRQ, clk);
+    set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
+    set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
 }
 
 int get_irq(cpu_int_status_t *cs, int int_num)
@@ -178,7 +178,7 @@ void trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS, void *data),
 void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
 {
     cs->global_pending_int &= ~IK_TRAP;
-    cs->trap_func(reg_pc, cs->trap_data);
+    cs->trap_func(((ADDRESS)reg_pc), cs->trap_data);
 }
 
 void monitor_trap_on(cpu_int_status_t *cs)
@@ -198,7 +198,7 @@ int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
     /* FIXME: could we avoid some of this info?  */
     if (snapshot_module_write_dword(m, cs->irq_clk) < 0
         || snapshot_module_write_dword(m, cs->nmi_clk) < 0
-        || snapshot_module_write_dword(m, cs->num_last_stolen_cycles) < 0
+        || snapshot_module_write_dword(m, (DWORD)cs->num_last_stolen_cycles) < 0
         || snapshot_module_write_dword(m, cs->last_stolen_cycles_clk) < 0)
         return -1;
 

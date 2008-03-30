@@ -364,7 +364,7 @@ int fsdevice_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-void fsdevice_set_directory(char *filename, int unit)
+void fsdevice_set_directory(char *filename, unsigned int unit)
 {
     switch (unit) {
       case 8:
@@ -383,7 +383,7 @@ void fsdevice_set_directory(char *filename, int unit)
     return;
 }
 
-static char *fsdevice_get_path(int unit)
+static char *fsdevice_get_path(unsigned int unit)
 {
     switch (unit) {
       case 8:
@@ -1251,7 +1251,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 
 static int fsdevice_compare_wildcards(char *name, char *p00name)
 {
-    int i, len;
+    unsigned int i, len;
 
     len = strlen(name);
     if (len == 0)
@@ -1303,7 +1303,8 @@ static int fsdevice_create_file_p00(void *flp, char *name, int length,
 {
     vdrive_t *floppy = (vdrive_t *)flp;
     char filename[17], realname[16];
-    int i, len;
+    int i;
+    size_t len;
     FILE *fd;
 
     if (length > 16)

@@ -41,6 +41,7 @@
 #include "log.h"
 #include "serial.h"
 #include "t64.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
@@ -78,7 +79,8 @@ char *image_contents_to_string(image_contents_t *contents)
     image_contents_file_list_t *p;
     char line_buf[256];
     char *buf;
-    int buf_size, max_buf_size;
+    int buf_size;
+    size_t max_buf_size;
     int len;
 
 #define BUFCAT(s, n) bufcat(buf, &buf_size, &max_buf_size, (s), (n))
@@ -153,7 +155,7 @@ static void circular_check_init(void)
 
 static int circular_check(unsigned int track, unsigned int sector)
 {
-    int i;
+    unsigned int i;
 
     for (i = 0; i < block_list_nelems; i++)
         if (block_list[i].track == track && block_list[i].sector == sector)
