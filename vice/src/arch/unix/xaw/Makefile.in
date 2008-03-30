@@ -296,6 +296,14 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
+	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
+	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
+	widgets/TextField.h ui.h ../../../../src/types.h \
+	../../../../src/palette.h uimenu.h uihotkey.h \
+	../../../../src/machine.h ../../../../src/resources.h \
+	../../../../src/cmdline.h ../../../../src/utils.h \
+	../../../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

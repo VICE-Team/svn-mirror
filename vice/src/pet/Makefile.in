@@ -284,6 +284,27 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/crtc.h \
+	../../src/types.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/raster.h ../../src/vmachine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/cmdline.h ../../src/utils.h pia.h ../../src/raster.c \
+	../../src/arch/unix/vsync.h
+petacia1.o: petacia1.c ../../src/resources.h ../../src/cmdline.h \
+	../../src/vice.h ../../src/config.h ../../src/types.h \
+	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/rs232.h \
+	../../src/acia.h
+petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
+	../../src/snapshot.h ../../src/types.h petvia.h \
+	../../src/crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/arch/unix/kbd.h \
+	../../src/parallel.h petsound.h ../../src/pruser.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h
 
 info: info-recursive
 dvi: dvi-recursive

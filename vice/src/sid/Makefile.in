@@ -109,7 +109,8 @@ INCLUDES = \
 noinst_LIBRARIES = libsid.a
 
 libsid_a_SOURCES = \
-        sid.c \
+	sid.c \
+	sid.h \
 	wave6581.h \
 	wave8580.h
 

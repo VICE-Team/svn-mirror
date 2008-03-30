@@ -102,7 +102,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64
+	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libc128.a
 
@@ -279,6 +280,17 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/cia.h ../../src/types.h ../../src/resources.h \
+	../../src/snapshot.h ../../src/vmachine.h ../../src/c64/vicii.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/6510core.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/kbd.h ../../src/c64/c64cia.h \
+	../../src/iecdrive.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/rsuser.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
@@ -288,6 +300,21 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/6510core.c
+c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
+	../../src/vmachine.h ../../src/drive/drive.h ../../src/types.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
+	c128mem.h ../../src/resources.h ../../src/cmdline.h \
+	../../src/c64/c64cia.h ../../src/cia.h ../../src/sid.h \
+	../../src/sound.h ../../src/warn.h ../../src/memutils.h \
+	../../src/maincpu.h ../../src/parallel.h ../../src/c64/c64tpi.h \
+	../../src/tapeunit.h ../../src/tape.h ../../src/utils.h vdc.h \
+	../../src/emuid.h ../../src/rs232.h ../c64/vicii.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/c64/c64acia.h
 
 info: info-recursive
 dvi: dvi-recursive
