@@ -42,6 +42,7 @@
 #include "ROlib.h"
 #else
 #include <fcntl.h>
+#include <sys/types.h>
 #endif
 #include <stdio.h>
 #include <ctype.h>
@@ -52,10 +53,6 @@
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-#if defined OS2 || defined _MSC_VER
-#include <sys/types.h>
 #endif
 
 #include "attach.h"
