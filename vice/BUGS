@@ -1,6 +1,11 @@
-These are the most important known problems with VICE 1.1:
+These are the most important known problems with VICE 1.2:
 
-- Some basic features of the VDC are missing.
+- Some basic features of the VDC are missing. In the MS-DOS port you
+  have to save the configuration and restart the emulator when
+  changing VDC double size mode.
+
+- In the C128 emulation VIC-II and VDC palette can not coexist
+  currently.
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get

@@ -86,6 +86,9 @@
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 
+/* Are we using the gnomeui  */
+#undef USE_GNOMEUI
+
 /* Do we want to enable RS232 support via ACIA emulation?  */
 #undef HAVE_RS232
 
@@ -113,9 +116,6 @@
 
 /* Is a BSD compatible joystick support avaiable?  */
 #undef BSD_JOYSTICK
-
-/* Define if this version is unstable.  */
-#define UNSTABLE
 
 /* Where do we want to install the executable?  */
 #undef PREFIX

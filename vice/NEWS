@@ -9,14 +9,12 @@ list of all the changes in the code.
 
 
 * Changes in VICE 1.2
-====================
+=====================
 
 ** C64 changes
 ---------------
 
 - Epyx Fastload and Westermann Learning Cartridges are supported now.
-
-- NTSC support (exerimental).
 
 ** C128 changes
 ---------------
@@ -41,6 +39,11 @@ list of all the changes in the code.
 
 - Invalid scratch commands do not crash the fsdevice emulation.
 
+** Unix changes
+---------------
+
+- C64/C128 NTSC support (exerimental).
+
 ** MS-DOS changes
 -----------------
 
@@ -51,11 +54,20 @@ list of all the changes in the code.
 
 - New mouse emulation.
 
+- C64/C128 NTSC support (exerimental).
+
 - The datasette status is displayed now.
+
+- Changing the palette works on-the-fly now.
+
+** OS/2 changes
+---------------
+
+- Thomas?
 
 
 * Changes in VICE 1.1
-====================
+=====================
 
 ** General changes
 ------------------

@@ -61,6 +61,29 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
+TUI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
+TUI_MENU_DEFINE_TOGGLE(VDC_64KB)
+
+static tui_menu_item_def_t vcd_menu_items[] = {
+    { "--" },
+    { "VDC _Double size",
+      "Double the screen in vertical direction (BUG: Save settings and restart!)",
+      toggle_VDC_DoubleSize_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "VDC Double _scan",
+      "Display any scanline twice",
+      toggle_VDC_DoubleScan_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "VDC _64KB video memory",
+      "Emulate a VDC with 64KB video RAM",
+      toggle_VDC_64KB_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
@@ -246,6 +269,7 @@ int c128_ui_init(void)
     add_palette_submenu(ui_video_submenu);
 
     tui_menu_add(ui_video_submenu, vic_ii_menu_items);
+    tui_menu_add(ui_video_submenu, vcd_menu_items);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
