@@ -1,3 +1,54 @@
+2003-05-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.44.
+
+	* drive/tcbm/glue1551.c (glue_pport_update): Activate byte
+	ready line, set speed zone and byte ready bit.
+	(glue1551_reset): Set LED status.
+	Fixed IRQ interval.
+
+	* drive/iecieee/via2d.c (read_pra): Separated GCR read code.
+
+	* drive/rotation.c, drive/rotation.h (rotation_byte_read): New
+	function.
+
+	* drive/tcbm/tpid.c (read_pb): Read GCR byte.
+	(read_pc): Added sync bit.
+
+	* drive/drive.c, drive/drive.h (drive_read_viad2_prb):
+	Removed.  (drive_set_half_track): Added 1551 support.
+	(drive_set_active_led_color): Fixed active LED color.
+	(drive_init): Properly init rotation table.
+	(store_pc, store_pb, read_pa): Added write support.
+
+	* drive/drivecpu.c [LOAD_ZERO]: Always use read function.
+
+	* drive/iecieee/via2d.c, drive/iecieee/via1d.c, drive/drive.c,
+	drive/drive.h, drive/viad.h (drive_update_viad2_pcr): Moved to
+	VIA code.
+
+	* c64/c64drive.c, vic20/vic20drive.c, pet/petdrive.c,
+	plus4/plus4drive.c, cbm2/cbm2drive.c, drive/drive-resources.c,
+	drive/drive.h: Moved drive type resources to each machine.
+
+	* debug.c: Fixed some warnings.
+
+	* arch/win32/uidrive.c, arch/win32/uidrive.h: Renamed.
+
+	* arch/win32/ui.c, arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/vic20ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/cbm2ui.c: Moved drive dialog
+	call to separate files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Updated.
+
+	* arch/win32/uiconsole.c, arch/win32/uisnapshot.c: Removed
+	`uidrive.h' include.
+
+	* arch/win32/ui.c (disk_attach_dialog_proc,
+	tape_attach_dialog_proc, autostart_attach_dialog_proc,
+	reset_dialog_proc): Separated functions.
+
 2003-05-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.43.
