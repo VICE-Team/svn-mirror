@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "log.h"
 #include "sid-snapshot.h"
 #include "sid.h"
@@ -35,7 +37,6 @@
 #include "snapshot.h"
 #include "types.h"
 
-#include <stdio.h>
 
 static char snap_module_name[] = "SID";
 #define SNAP_MAJOR 1
@@ -50,7 +51,7 @@ int sid_snapshot_write_module(snapshot_t *s)
         return -1;
 
     /* FIXME: Only data for first SID stored. */
-    if (SMW_BA(m, siddata[0], 32) < 0) {
+    if (SMW_BA(m, sid_get_siddata(0), 32) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -80,7 +81,7 @@ int sid_snapshot_read_module(snapshot_t *s)
     }
 
     /* FIXME: Only data for first SID read. */
-    if (SMR_BA(m, siddata[0], 32) < 0)
+    if (SMR_BA(m, sid_get_siddata(0), 32) < 0)
         return -1;
 
     return snapshot_module_close(m);

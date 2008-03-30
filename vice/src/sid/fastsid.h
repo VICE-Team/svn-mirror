@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _SID_H
-#define _SID_H
+#ifndef _FASTSID_H
+#define _FASTSID_H
 
 #include "types.h"
 #include "sid.h"

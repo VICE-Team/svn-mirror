@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
+#include "sound.h"
 #include "types.h"
 
 #ifdef HAVE_MOUSE
@@ -53,8 +54,14 @@ static sid_engine_t sid_engine;
 
 /* read register value from sid */
 static BYTE lastsidread;
+
 /* register data */
-BYTE siddata[SOUND_CHANNELS_MAX][32];
+static BYTE siddata[SOUND_CHANNELS_MAX][32];
+
+BYTE *sid_get_siddata(unsigned int channel)
+{
+    return siddata[channel];
+}
 
 BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 {
