@@ -77,8 +77,14 @@ static void vdc_perform_fillcopy(void)
 /* Store a value in a VDC register. */
 void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
 {
+
 /*
     log_message(vdc.log, "store: addr = %x, byte = %x", addr, value);
+*/
+/*
+    if (addr & 0x1) {
+       log_message(vdc.log, "ST: %x %c\tJF: %i.", value, value, jiffy++);
+    }
 */
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0)
@@ -218,7 +224,7 @@ void REGPARM2 store_vdc(ADDRESS addr, BYTE value)
         break;
 
       case 28:
-        vdc.chargen_adr = (vdc.regs[28] << 8) & 0xf000; 
+        vdc.chargen_adr = (vdc.regs[28] << 8) & 0xe000; 
         log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);
         break;
 
