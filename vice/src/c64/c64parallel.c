@@ -106,10 +106,19 @@ void parallel_cable_cpu_pulse(void)
     parallel_cable_cpu_execute();
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable
-            && drive_context[dnr]->drive->parallel_cable_enabled)
-            viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1,
-                           VIA_SIG_FALL);
+        drive_t *drive;
+
+        drive = drive_context[dnr]->drive;
+
+        if (drive->enable && drive->parallel_cable_enabled) {
+            if (drive->type == DRIVE_TYPE_1570
+                || drive->type == DRIVE_TYPE_1571
+                || drive->type == DRIVE_TYPE_1571CR)
+                ciacore_set_flag(drive_context[dnr]->cia1571);
+            else
+                viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1,
+                               VIA_SIG_FALL);
+        }
     }
 }
 
