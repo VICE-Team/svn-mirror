@@ -40,43 +40,13 @@
 #include "mem.h"
 #include "misc.h"
 #include "drive.h"
+#include "machspec.h"
 #include "patchlevel.h"		/* UNSTABLE */
+#include "true1541.h"
+#include "6510core.h"
 
 #define _MAINCPU_C
-
 #include "interrupt.h"
-
-#ifdef HAVE_TRUE1541
-#include "true1541.h"
-#endif
-
-#ifdef REU
-#include "reu.h"
-#endif
-
-#ifdef CBM64
-#include "cia.h"
-#include "vicii.h"
-#include "tpi.h"
-#include "sid.h"
-#endif
-
-#ifdef VIC20
-#include "via.h"
-#include "vic.h"
-#endif
-
-#ifdef PET
-#include "crtc.h"
-#include "pia.h"
-#include "via.h"
-#endif
-
-#ifdef AUTOSTART
-#include "autostart.h"
-#endif
-
-#include "6510core.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -85,9 +55,7 @@
    ROM to RAM or vice versa.  It still works if one program lies in the I/O
    space, though.  Keeping this defined should be OK for everything, and
    makes things much faster.  */
-#ifndef C128			/* not available on C128 */
 #define INSTRUCTION_FETCH_HACK
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -272,64 +240,19 @@ static void reset(void)
     cpu_int_status_init(&maincpu_int_status,
 			NUMOFALRM, NUMOFINT, &last_opcode_info);
 
-    maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
+    /* Do machine-specific initialization.  */
+    machine_reset();
 
-    /* Machine-specific initialization.  FIXME: Should be moved to
-       machine-specific modules.  */
-
+#if 0
 #if defined CBM64
-    /* C64-specific initialization.  */
-    maincpu_int_status.alarm_handler[A_RASTERFETCH] = int_rasterfetch;
-    maincpu_int_status.alarm_handler[A_RASTER] = int_raster;
-    maincpu_int_status.alarm_handler[A_CIA1TOD] = int_cia1tod;
-    maincpu_int_status.alarm_handler[A_CIA1TA] = int_cia1ta;
-    maincpu_int_status.alarm_handler[A_CIA1TB] = int_cia1tb;
-    maincpu_int_status.alarm_handler[A_CIA2TOD] = int_cia2tod;
-    maincpu_int_status.alarm_handler[A_CIA2TA] = int_cia2ta;
-    maincpu_int_status.alarm_handler[A_CIA2TB] = int_cia2tb;
-    reset_cia1();
-    reset_cia2();
-    reset_vic_ii();
-    reset_sid();
-#if defined IEEE488
-    reset_tpi();
-#endif
-#if defined REU
-    if (app_resources.reu)
-	reset_reu(NULL, 0);
-#endif
-
-#elif defined VIC20
-    /* VIC20-specific initialization.  */
-    maincpu_int_status.alarm_handler[A_VIA1T1] = int_via1t1;
-    maincpu_int_status.alarm_handler[A_VIA1T2] = int_via1t2;
-    maincpu_int_status.alarm_handler[A_VIA2T1] = int_via2t1;
-    maincpu_int_status.alarm_handler[A_VIA2T2] = int_via2t2;
-    maincpu_set_alarm_clk(A_RASTERDRAW, CYCLES_PER_LINE);
-    reset_via1();
-    reset_via2();
-
 #elif defined PET
-    /* PET-specific initialization.  */
-    maincpu_int_status.alarm_handler[A_VIAT1] = int_viat1;
-    maincpu_int_status.alarm_handler[A_VIAT2] = int_viat2;
-    reset_pia1();
-    reset_pia2();
-    reset_via();
-    reset_crtc();
 
 #endif /* End of machine-specific initialization.  */
+#endif
 
     initialize_memory();
 
     clk = 6;			/* # of clock cycles needed for RESET.  */
-
-#ifdef HAVE_TRUE1541
-    true1541_reset();
-#endif
-#ifdef AUTOSTART
-    autostart_reset();
-#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -422,14 +345,10 @@ void mainloop(ADDRESS start_address)
         }								\
      } while (0)
 
-#  ifdef CBM64
-#    define ROM_TRAP_ALLOWED()					\
-          ((bank_base + (reg_pc & 0xe000) == kernal_rom)	\
-	   || (bank_base + (reg_pc & 0xe000) == basic_rom))
-#  else
-#    define ROM_TRAP_ALLOWED() 1
-#  endif
+#  define FORCE_INPUT           mon_force_import(e_comp_space)
 
+#  define ROM_TRAP_ALLOWED()    rom_trap_allowed(reg_pc)
+    
 #  include "6510core.c"
 
 #endif /* !NO_OPCODES */

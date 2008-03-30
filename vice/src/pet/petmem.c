@@ -34,7 +34,6 @@
 #include <stdio.h>
 
 #include "types.h"
-#include "mem.h"
 #include "memutils.h"
 #include "pia.h"
 #include "via.h"
@@ -45,6 +44,7 @@
 #include "interrupt.h"
 #include "vmachine.h"
 #include "maincpu.h"
+#include "petmem.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -52,13 +52,19 @@
 #define	RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
 
 BYTE ram[RAM_ARRAY]; /* 64K just to make things easier.  Real size is 32K. */
-BYTE rom[ROM_SIZE];
-BYTE chargen_rom[CHARGEN_ROM_SIZE];
+BYTE rom[PET_ROM_SIZE];
+BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
+
+int ram_size = RAM_ARRAY;	/* FIXME? /
 
 /* Memory read and write tables. */
 read_func_ptr_t _mem_read_tab[0x101];
 store_func_ptr_t _mem_write_tab[0x101];
 BYTE *_mem_read_base_tab[0x101];
+
+read_func_ptr_t *_mem_read_tab_ptr;
+store_func_ptr_t *_mem_write_tab_ptr;
+BYTE **_mem_read_base_tab_ptr;
 
 /* Flag: nonzero if the ROM has been loaded. */
 int rom_loaded = 0;
@@ -277,6 +283,8 @@ static void set_std_9tof(void) {
 	_mem_write_tab[i] = store;
 	_mem_read_base_tab[i] = rom + ((i & 0x7f) << 8);
     }
+
+    _mem_read_base_tab_ptr = _mem_read_base_tab;
 }
 
 /*
@@ -455,6 +463,10 @@ void initialize_memory(void)
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
 
     map_reg = 0;
+
+    ram_size = pet.ramSize;
+    _mem_read_tab_ptr = _mem_read_tab;
+    _mem_write_tab_ptr = _mem_write_tab;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -554,7 +566,7 @@ int mem_load(void)
     /* Try to load a RAM image if available. */
 
     if (mem_load_sys_file(app_resources.directory, app_resources.ramName,
-			  ram, RAM_SIZE, RAM_SIZE) < 0) {
+			  ram, PET_RAM_SIZE, PET_RAM_SIZE) < 0) {
 	mem_powerup();
     }
 
@@ -589,14 +601,14 @@ int mem_load(void)
     }
 
     /* Init ROM with 'unused address' values */
-    for (i = 0; i < ROM_SIZE; i++) {
+    for (i = 0; i < PET_ROM_SIZE; i++) {
 	rom[i] = 0x80 + ((i >> 8) & 0xff);
     }
 
     /* Load Kernal ROM. */
     if ((rsize = mem_load_sys_file(app_resources.directory,
 				   app_resources.kernalName,
-				   rom, pet.romSize, ROM_SIZE)) < 0) {
+				   rom, pet.romSize, PET_ROM_SIZE)) < 0) {
 	fprintf(stderr, "Couldn't load ROM %s.\n\n", app_resources.kernalName);
 	return -1;
     }
