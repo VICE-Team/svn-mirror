@@ -5,6 +5,7 @@ src/vsync.c
 
 # Architecture Unix
 src/arch/unix/archdep.c
+src/arch/unix/blockdev.c
 src/arch/unix/c128ui.c
 src/arch/unix/c64ui.c
 src/arch/unix/cbm2ui.c
@@ -15,6 +16,7 @@ src/arch/unix/mouse.c
 src/arch/unix/petui.c
 src/arch/unix/plus4ui.c
 src/arch/unix/rs232.c
+src/arch/unix/ui.c
 src/arch/unix/uic64cart.c
 src/arch/unix/uicmdline.c
 src/arch/unix/uicommands.c
@@ -42,8 +44,8 @@ src/arch/unix/uivic.c
 src/arch/unix/uivicii.c
 src/arch/unix/unixmain.c
 src/arch/unix/vic20ui.c
-src/arch/unix/vsidui.c
 src/arch/unix/vsyncarch.c
+src/arch/unix/vsidui.c
 
 # Gnome port
 src/arch/unix/x11/gnome/about.c

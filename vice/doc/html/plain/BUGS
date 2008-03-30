@@ -1,11 +1,6 @@
 - Screenshots with activated PAL emulation do not deliver the expected
   (blurry) result. 
 
-- The Unix/Gnome port shows a GdkERROR on some displays (seen on
-  Solaris8 mixed color depth visual) and crashes.
-  We have an incomplete workaround; Contact
-  `vice-devel@firenze.linux.it' for details.
-
 - The Linux/DGA2 code is known to be unstable, especially when
   switching back to window mode under some circumstances.
 

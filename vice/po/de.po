@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2003-01-11 18:49+0100\n"
+"Project-Id-Version: VICE 1.11\n"
+"POT-Creation-Date: 2003-01-18 18:27+0100\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1137,19 +1137,19 @@ msgstr "Snapshot schnell Speichern"
 
 #: src/arch/unix/uicommands.c:985
 msgid "Start recording events"
-msgstr ""
+msgstr "Aufnahme Start"
 
 #: src/arch/unix/uicommands.c:987
 msgid "Stop recording events"
-msgstr ""
+msgstr "Aufnahme Stop"
 
 #: src/arch/unix/uicommands.c:989
 msgid "Start playing back events"
-msgstr ""
+msgstr "Aufnahme Wiedergabe Start"
 
 #: src/arch/unix/uicommands.c:991
 msgid "Stop playing back events"
-msgstr ""
+msgstr "Aufnahme Wiedergabe Stop"
 
 #: src/arch/unix/uicommands.c:997
 msgid "Snapshot commands"
@@ -1519,21 +1519,18 @@ msgstr "*Dateisystem Zugriff"
 #: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
 #: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
 #: src/arch/unix/uiprinter.c:177 src/arch/unix/uiprinter.c:189
-#, fuzzy
 msgid "*Real device access"
-msgstr "*Schreibgeschützter Zugriff"
+msgstr "*Echter Geräte Zugriff"
 
 #: src/arch/unix/uiperipheral.c:107 src/arch/unix/uiperipheral.c:138
 #: src/arch/unix/uiperipheral.c:169 src/arch/unix/uiperipheral.c:200
-#, fuzzy
 msgid "*Raw device access"
-msgstr "*Schreibgeschützter Zugriff"
+msgstr "*Echter Geräte Zugriff"
 
 #: src/arch/unix/uiperipheral.c:113 src/arch/unix/uiperipheral.c:144
 #: src/arch/unix/uiperipheral.c:175 src/arch/unix/uiperipheral.c:206
-#, fuzzy
 msgid "Device type"
-msgstr "Laufwerk #8"
+msgstr "Geräte Typ"
 
 #: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:146
 #: src/arch/unix/uiperipheral.c:177 src/arch/unix/uiperipheral.c:208
@@ -1925,7 +1922,7 @@ msgstr "*8580 (neu)"
 
 #: src/arch/unix/uisid.c:46
 msgid "*8580 + digi boost"
-msgstr ""
+msgstr "*8580 + Digi Boost"
 
 #: src/arch/unix/uisid.c:55
 msgid "*Fast"
@@ -2776,7 +2773,7 @@ msgstr "YUV FOURCC Format"
 
 #: src/arch/unix/x11/video.c:198
 msgid "Set aspect ratio (0.8 - 1.2)"
-msgstr ""
+msgstr "Seitenverhältnis (0.8 - 1.2)"
 
 #: src/arch/unix/x11/video.c:372
 msgid "The MITSHM extension is not supported on this display."

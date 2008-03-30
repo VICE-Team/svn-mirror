@@ -1,3 +1,10 @@
+2003-01-16  pottendo  <pottendo@utanet.at>
+
+	* POTFILES.in: Updated file list.
+
+	* sv.po,it.po,pl.po.fr.po: Prepared for 1.11.
+	* de.po: Updated.
+
 2003-01-01  Andreas Boose  <viceteam@t-online.de>
 
 	* POTFILES.in: Added new drive UI files.
