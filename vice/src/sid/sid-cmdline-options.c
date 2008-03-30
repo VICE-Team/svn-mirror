@@ -69,7 +69,7 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
-    "<engine>", "Specify SID engine (0: FastSID"
+    N_("<engine>"), "Specify SID engine (0: FastSID"
 #ifdef HAVE_RESID
     ", 1: ReSID"
 #endif
@@ -82,28 +82,28 @@ static const cmdline_option_t cmdline_options[] = {
     ")" },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
       (void *)1,
-      NULL, "Enable second SID" },
+      NULL, N_("Enable second SID") },
     { "-sidstereoaddress", SET_RESOURCE, 1, NULL, NULL,
       "SidStereoAddressStart", NULL,
-      "<base address>", "Specify base address for 2nd SID" },
+      N_("<base address>"), N_("Specify base address for 2nd SID") },
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
-      "<model>", "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)" },
+      N_("<model>"), N_("Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)") },
     { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
       (void *)1,
-      NULL, "Emulate SID filters" },
+      NULL, N_("Emulate SID filters") },
     { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
       (void *)0,
-      NULL, "Do not emulate SID filters" },
+      NULL, N_("Do not emulate SID filters") },
 #ifdef HAVE_RESID
     { "-residsamp", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
-      (void *)0, "<method>",
-      "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)" },
+      (void *)0, N_("<method>"),
+      N_("reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)") },
     { "-residpass", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
-      (void *)90, "<percent>",
-      "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
+      (void *)90, N_("<percent>"),
+      N_("reSID resampling passband in percentage of total bandwidth (0 - 90)") },
     { "-residgain", SET_RESOURCE, 1, NULL, NULL, "SidResidGain",
-      (void *)97, "<percent>",
-      "reSID gain in percent (90 - 100)" },
+      (void *)97, N_("<percent>"),
+      N_("reSID gain in percent (90 - 100)") },
 #endif
     { NULL }
 };
