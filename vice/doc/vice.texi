@@ -1166,6 +1166,9 @@ the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 @file{dos1541}, the 1541 drive ROM (16 Kbytes)
 
 @item
+@file{dos1541II}, the 1541-II drive ROM (16 Kbytes)
+
+@item
 @file{dos1571}, the 1571 drive ROM (32 Kbytes)
 
 @item

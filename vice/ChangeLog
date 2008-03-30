@@ -1,3 +1,10 @@
+1999-03-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.43.
+
+	* INSTALL, README, TODO, vice.spec, doc/Readme.dos, vice.texi:
+	Minor changes.
+
 1999-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.42.

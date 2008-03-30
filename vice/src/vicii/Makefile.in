@@ -280,6 +280,17 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/types.h ../../src/snapshot.h ../../src/alarm.h \
+	../../src/log.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/interrupt.h ../../src/vmachine.h \
+	../../src/arch/msdos/video.h ../../src/palette.h \
+	../../src/c64/c64.h ../../src/c64/c64cart.h \
+	../../src/c64/c64cia.h ../../src/cia.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/machine.h ../../src/utils.h \
+	../../src/raster.h sprites.h sprcycles.h sprcrunch.h \
+	../../src/raster.c ../../src/arch/msdos/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

@@ -1011,6 +1011,8 @@ for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 
    * `dos1541', the 1541 drive ROM (16 Kbytes)
 
+   * `dos1541II', the 1541-II drive ROM (16 Kbytes)
+
    * `dos1571', the 1571 drive ROM (32 Kbytes)
 
    * `dos1581', the 1581 drive ROM (32 Kbytes)

@@ -397,6 +397,8 @@ char *tape_get_file_name(void)
 {
     if (attached_t64_tape)
         return attached_t64_tape->file_name;
+    if (attached_tap_tape)
+        return attached_tap_tape->file_name;
     return NULL;
 }
 

@@ -25,8 +25,8 @@ What are we going to do next
 - Filtering video output to make it look more like an old monitor or
   a TV set. (-> done (on Unix) with palettes?)
 
-- More ports.  Any volunteers?  Win32 and Acorn RISC-OS ports are in
-  the works; if you want to help, please let us know.
+- More ports.  Any volunteers?  An Acorn RISC-OS port is in the works;
+  if you want to help, please let us know.
 
 * C64 improvements
 ------------------
@@ -69,8 +69,6 @@ This is our wishlist for long-term development
 * General improvements
 ----------------------
 
-- .TAP file support
-
 * C64 improvements
 ------------------
 
@@ -78,8 +76,6 @@ This is our wishlist for long-term development
 -------------------
 
 - VDC emulation, i.e. 2MHz/80 cols modes. 
-
-- improve speed (make OPCODE_FETCH_HACK work). 
 
 * VIC20 improvements
 --------------------
@@ -109,5 +105,4 @@ This is our wishlist for long-term development
 
 - Implement a KIM-1 emulator.
   (needs 6530/6532 emulation and a 6-digit 7-segment display.
-  Probably needs .TAP file support)
 

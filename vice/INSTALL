@@ -1,6 +1,6 @@
 
-Installation notes for VICE 0.16.1a
-***********************************
+Installation notes for VICE 0.99
+********************************
 
 
 This version of VICE can be compiled and installed both under
@@ -57,7 +57,7 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
       - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
 
-    Unluckily, not all of these systems have been tested with 0.16.
+    Unluckily, not all of these systems have been tested with 0.99.
     Success/failure reports are welcome at any time.
 
     If you are compiling on a Pentium machine under Linux or FreeBSD,

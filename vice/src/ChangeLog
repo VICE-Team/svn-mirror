@@ -1,3 +1,39 @@
+1999-03-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.43.
+
+	* datasette.c (datasette_read_bit): Removed call to
+	`alarm_context_update_next_pending'.  Increased pause to 20ms.
+	
+	* vdrive.c (floppy_write_block): If a G64 image is attached use
+	GCR routines to write blocks.
+
+	* mon.c (mon_block_cmd): Removed special GCR handling.
+
+	* vdrive-iec, drive/drive.c, drive/wd1770.c, vdrive.c: Changed to
+	new block write API.
+
+	* autostart.c (autostart_prg): Use `1' and `0' for `FALSE' and
+	`TRUE' as this define is missing on some architectures.
+
+	* arch/msdos/menudefs.c (ui_create_main_menu): Added datasette
+	submenu.
+
+	* tape.c (tape_get_file_name): Return TAP file name too.
+
+1999-03-15  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* alarm.c (alarm_unset): Argh.  Update the "next pending alarm"
+ 	index if we are moving a pending alarm when removing the specified 
+	alarm.
+
+1999-03-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* alarm.c (alarm_unset): Don't copy the alarm on itself if it's
+ 	the last in the array.  Case when no pending alarms are left after
+ 	unsetting made slightly faster by avoiding the call to
+ 	`alarm_context_update_next_pending()'.
+
 1999-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.42.
@@ -12,6 +48,7 @@
 	(drive_read_block, drive_write_block): New functions.
 
 	* drive/wd1770.c, imagecontents.c, mon.c, vdrive-iec.c, vdrive.c:
+	Changed to new read block API.
 
 	* mon.c (mon_block_cmd): Added support for G64 image block
 	commands.  Can be removed soon in favour of a generic solution.
