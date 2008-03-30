@@ -103,7 +103,8 @@ enum cpu_int {
     IK_IRQ = 1 << 1,
     IK_RESET = 1 << 2,
     IK_TRAP = 1 << 3,
-    IK_MONITOR = 1 << 4
+    IK_MONITOR = 1 << 4,
+    IK_DMA = 1 << 5
 };
 
 /* We not care about wasted space here, and make fixed-length large enough
@@ -234,6 +235,16 @@ _INT_FUNC void set_nmi(cpu_int_status_t *cs, int int_num, int value,
     }
 }
 
+_INT_FUNC void trigger_dma(cpu_int_status_t *cs, CLOCK clk)
+{
+    cs->global_pending_int |= IK_DMA;
+}
+
+_INT_FUNC void ack_dma(cpu_int_status_t *cs)
+{
+    cs->global_pending_int &= ~IK_DMA;
+}
+
 /* Change the interrupt line state: this can be used to change both NMI and IRQ
    lines.  It is slower than `set_nmi()' and `set_irq()', but is left for
    backward compatibility (it works like the old `setirq()').  */
@@ -297,7 +308,6 @@ _INT_FUNC void ack_nmi(cpu_int_status_t *cs)
     cs->global_pending_int &= ~IK_NMI;
 }
 
-
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
 _INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
@@ -326,6 +336,8 @@ extern void set_irq(cpu_int_status_t *cs, int int_num, int value,
 		    CLOCK clk);
 extern void set_nmi(cpu_int_status_t *cs, int int_num, int value,
 		    CLOCK clk);
+extern void set_dma(cpu_int_status_t *cs, int int_num, int value,
+                    CLOCK clk);
 extern void set_int(cpu_int_status_t *cs, int int_num,
 		    enum cpu_int value, CLOCK clk);
 extern int check_pending_interrupt(cpu_int_status_t *cs);
@@ -334,6 +346,7 @@ extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
 extern int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
 extern void ack_nmi(cpu_int_status_t *cs);
+extern void ack_dma(cpu_int_status_t *cs);
 
 #endif /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
 
@@ -395,6 +408,8 @@ extern CLOCK drive_clk[2];
     set_int_noclk(&maincpu_int_status, (int_num), (value))
 #define maincpu_trigger_reset() \
     trigger_reset(&maincpu_int_status, clk)
+#define maincpu_trigger_dma() \
+    trigger_dma(&maincpu_int_status, clk)
 #define maincpu_trigger_trap(trap_func, data) \
     trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
 #define maincpu_steal_cycles(start_clk, num) \
