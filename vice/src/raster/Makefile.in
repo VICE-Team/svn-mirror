@@ -258,7 +258,8 @@ raster-cache.o: raster-cache.c ../../src/vice.h ../../src/config.h \
 raster-changes.o: raster-changes.c ../../src/vice.h ../../src/config.h \
 	raster-changes.h ../../src/arch/unix/types.h ../../src/utils.h
 raster-modes.o: raster-modes.c ../../src/vice.h ../../src/config.h \
-	raster-modes.h ../../src/utils.h ../../src/arch/unix/types.h
+	raster-modes.h raster-cache.h raster-sprite-cache.h \
+	../../src/arch/unix/types.h ../../src/utils.h
 raster-sprite-cache.o: raster-sprite-cache.c ../../src/vice.h \
 	../../src/config.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/utils.h

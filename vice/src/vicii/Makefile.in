@@ -300,6 +300,8 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/palette.h ../../src/raster/raster-modes.h \
+	../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
