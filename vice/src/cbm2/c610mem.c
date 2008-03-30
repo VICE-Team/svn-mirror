@@ -76,6 +76,7 @@ static int bank_ind = -1;
 static read_func_ptr_t _mem_read_tab[16][0x101];
 static store_func_ptr_t _mem_write_tab[16][0x101];
 static BYTE *_mem_read_base_tab[16][0x101];
+static int mem_read_limit_tab[2][0x101];
 
 /* watch tables are fixed */
 read_func_ptr_t _mem_read_tab_watch[0x101];
@@ -89,6 +90,7 @@ store_func_ptr_t *_mem_write_tab_ptr;
 store_func_ptr_t *_mem_write_ind_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 BYTE **_mem_read_ind_base_tab_ptr;
+int *mem_read_limit_tab_ptr;
 
 int cbm2_init_ok = 0;
 
@@ -485,11 +487,13 @@ void set_bank_exec(int val) {
     	_mem_read_tab_ptr      = _mem_read_tab[bank_exec];
     	_mem_write_tab_ptr     = _mem_write_tab[bank_exec];
     	_mem_read_base_tab_ptr = _mem_read_base_tab[bank_exec];
+    	mem_read_limit_tab_ptr = mem_read_limit_tab[(bank_exec < 15) ? 0 : 1];
 
     	/* set all register mirror locations */
 	for(i=0;i<16;i++) {
 	    ram[i<<16] = val;
 	}
+
     	page_zero = _mem_read_base_tab_ptr[0];
     	page_one = _mem_read_base_tab_ptr[1];
 
@@ -967,6 +971,47 @@ void initialize_memory(void)
 	_mem_write_tab[i][0x100] = _mem_write_tab[i][0];
 	_mem_read_base_tab[i][0x100] = _mem_read_base_tab[i][0];
     }
+
+    /* set bank limit tables */
+    for (i=256;i>=0;i--) {
+	mem_read_limit_tab[0][i] = 0xfffd;	/* all RAM banks go here */
+
+	if (!_mem_read_base_tab[15][i]) {
+	    mem_read_limit_tab[1][i] = -1;
+	} else
+	if(i<0x08) {
+	    mem_read_limit_tab[1][i] = 0x07fd;
+	} else 
+	if(i<0x10) {
+	    mem_read_limit_tab[1][i] = 0x0ffd;	
+	} else 
+	if(i<0x20) {
+	    mem_read_limit_tab[1][i] = 0x1ffd;	
+	} else 
+	if(i<0x20) {
+	    mem_read_limit_tab[1][i] = 0x1ffd;	
+	} else 
+	if(i<0x40) {
+	    mem_read_limit_tab[1][i] = 0x3ffd;	
+	} else 
+	if(i<0x60) {
+	    mem_read_limit_tab[1][i] = 0x5ffd;	
+	} else 
+	if(i<0x80) {
+	    mem_read_limit_tab[1][i] = 0x7ffd;	
+	} else 
+	if(i<0xc0) {
+	    mem_read_limit_tab[1][i] = 0xbffd;	
+	} else 
+	if(i<0xd0) {
+	    mem_read_limit_tab[1][i] = 0xcffd;	
+	} else 
+	if(i<0xe0) {
+	    mem_read_limit_tab[1][i] = 0xdffd;	
+	} else {
+	    mem_read_limit_tab[1][i] = 0xfffd;	
+	}
+     }
 
     /* set watchpoint tables */
     for (i=256;i>=0;i--) {

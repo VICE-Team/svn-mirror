@@ -57,6 +57,10 @@
 #include "video.h"
 #endif
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include "asm.h"
 #include "mon.h"
 #include "charsets.h"
@@ -106,6 +110,7 @@ char *readline(const char *prompt)
 
     /* Yeah, this sucks, but you have readline anyway, don't you?  ;-) */
     fputs(prompt, mon_output);
+    fflush(mon_output);
     fgets(p, 1024, mon_input);
 
     /* Remove trailing newlines.  */
@@ -1773,7 +1778,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
        strcpy(name_ptr, name);
        fprintf(mon_output, "Read ($%x:%s)\n",adr, name_ptr);
        mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
- 
+
        line_num++;
     }
 
@@ -2799,6 +2804,10 @@ void mon(ADDRESS a)
     mon_output = fopen("CON", "wt");
     mon_input = fopen("CON", "rt");
     setbuf(mon_output, NULL);    /* No buffering */
+#elif defined WIN32
+    AllocConsole();
+    mon_output = fopen("CON", "wt");
+    mon_input = fopen("CON", "rt");
 #else
     mon_output = stdout;
     mon_input = stdin;
@@ -2889,5 +2898,8 @@ void mon(ADDRESS a)
 
     fclose(mon_input);
     fclose(mon_output);
+#endif
+#ifdef WIN32
+    FreeConsole();
 #endif
 }

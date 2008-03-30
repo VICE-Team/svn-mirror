@@ -49,6 +49,7 @@ BEGIN
         MENUITEM "Load snapshot image...",          IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image",             IDM_SNAPSHOT_SAVE
         MENUITEM SEPARATOR
+        MENUITEM "Monitor",                         IDM_MONITOR
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hard",                       IDM_HARD_RESET

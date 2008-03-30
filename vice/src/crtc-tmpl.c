@@ -380,8 +380,10 @@ canvas_t crtc_init(void)
     crtc_init_dwg_tables();
 
     if (canvas) {
+/*
 	store_crtc(0, 49);
 	store_crtc(1, 40);
+*/
 	store_crtc(4, 49);
 	store_crtc(5, 0);
 	store_crtc(6, 25);

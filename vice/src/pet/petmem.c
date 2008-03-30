@@ -526,7 +526,7 @@ static void set_std_9tof(void)
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
             _mem_read_base_tab[i] = NULL;
-            mem_read_limit_tab[i] = 0;
+            mem_read_limit_tab[i] = -1;
         }
     } else {
         for (i = 0x90; i < 0xa0; i++) {
@@ -560,21 +560,21 @@ static void set_std_9tof(void)
     _mem_read_tab[0xe8] = read_io;
     _mem_write_tab[0xe8] = store_io;
     _mem_read_base_tab[0xe8] = NULL;
-    mem_read_limit_tab[0xe8] = 0;
+    mem_read_limit_tab[0xe8] = -1;
 
     /* ... and unused address space behind it */
     for (i = 0xe9; i < l; i++) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = 0;
+        mem_read_limit_tab[i] = -1;
     }
 
     if(pet.superpet) {
         _mem_read_tab[0xef] = read_super_io;
         _mem_write_tab[0xef] = store_super_io;
         _mem_read_base_tab[0xef] = NULL;
-        mem_read_limit_tab[0xef] = 0;
+        mem_read_limit_tab[0xef] = -1;
     }
 
     /* Setup ROM at $e800 + pet.IOSize - $ffff */
@@ -685,7 +685,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                         _mem_read_tab[l] = read_io;
                         _mem_write_tab[l] = store_io;
                         _mem_read_base_tab[l] = NULL;
-                        mem_read_limit_tab[l] = 0;
+                        mem_read_limit_tab[l] = -1;
                     } else {
                         _mem_read_tab[l] = read_extC;
                         if (protected)
@@ -752,7 +752,7 @@ static void set_vidmem(void) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_dummy;
         _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = 0;
+        mem_read_limit_tab[i] = -1;
     }
 }
 
@@ -781,7 +781,7 @@ void initialize_memory(void)
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_dummy;
         _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = 0;
+        mem_read_limit_tab[i] = -1;
     }
 
     set_vidmem();
@@ -800,7 +800,7 @@ void initialize_memory(void)
     _mem_read_tab[0x100] = _mem_read_tab[0];
     _mem_write_tab[0x100] = _mem_write_tab[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
-    mem_read_limit_tab[0x100] = mem_read_limit_tab[0];
+    mem_read_limit_tab[0x100] = -1;
 
     map_reg = 0;
 

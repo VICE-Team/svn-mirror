@@ -1430,7 +1430,7 @@
 #  if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #    define opcode_t DWORD
-#    define FETCH_OPCODE(o) ((o) = ((reg_pc < bank_limit)                   \
+#    define FETCH_OPCODE(o) ((o) = ((((int)reg_pc) < bank_limit)           \
                                     ? (*((DWORD *)(bank_base + reg_pc))    \
                                        & 0xffffff)                         \
                                     : (LOAD(reg_pc)                        \

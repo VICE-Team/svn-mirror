@@ -223,6 +223,7 @@
 #define IDM_JOY_SETTINGS                40142
 #define IDM_SOUND_SETTINGS              40143
 #define IDM_STATUS_WINDOW               40144
+#define IDM_MONITOR                     40145
 
 // Next default values for new objects
 //

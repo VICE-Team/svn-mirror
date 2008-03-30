@@ -553,12 +553,14 @@ static void set_mem(int start_page, int end_page,
 	    _mem_read_tab_nowatch[i] = read_func;
 	    _mem_write_tab_nowatch[i] = store_func;
 	    _mem_read_base_tab[i] = read_base + ((i << 8) & base_mask);
+	    mem_read_limit_tab[i] = (end_page << 8) + 0xfd;
 	}
     } else {
 	for (i = start_page; i <= end_page; i++) {
 	    _mem_read_tab_nowatch[i] = read_func;
 	    _mem_write_tab_nowatch[i] = store_func;
 	    _mem_read_base_tab[i] = NULL;
+	    mem_read_limit_tab[i] = -1;
 	}
     }
 }
@@ -713,8 +715,6 @@ void initialize_memory(void)
     for (i = 0; i <= 0x100; i++) {
 	_mem_read_tab_watch[i] = read_watch;
 	_mem_write_tab_watch[i] = store_watch;
-    /* FIXME: Fill in correct limits.  */
-    mem_read_limit_tab[i] = -1;
     }
 
     mem_toggle_watchpoints(0);
