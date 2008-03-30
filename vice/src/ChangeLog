@@ -1,3 +1,22 @@
+Sun Aug 23 18:35:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* mon_parse.y (parse_and_execute_line): Errors interrupt assembler
+	mode.
+
+	* mon.c: Type of `default_radix' changed to `RADIXTYPE'.  Type
+	of `default_memspace' changed to `MEMSPACE'.
+
+	* mon_parse.y: When `CMD_RADIX' is invoked without any parameters,
+ 	print the radix as a string instead of showing a number.
+
+	* mon.c (mon_hunt_memory): Do not accept range if it's smaller
+	than the size of the data to hunt.
+
+	* mon_lex.l: Newline ends string.
+
+	* c128/c128cpu.c (JAM): Use `reg_pc' instead of
+	`maincpu_cpu_regs.pc', which does not exist anymore.
+
 Sun Aug 23 17:45:42 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* c64/cartridge.c (cartridge_attach_image): Do not detach
