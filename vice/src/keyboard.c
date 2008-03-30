@@ -197,15 +197,15 @@ void keyboard_key_pressed(signed long key)
                         keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
                     } else {
                         if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                            virtual_shift_down++;
+                            virtual_shift_down = 1;
                         if (keyconvmap[i].shift & LEFT_SHIFT)
-                            left_shift_down++;
+                            left_shift_down = 1;
                         if (left_shift_down > 0
                             || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
                             keyboard_set_keyarr(kbd_lshiftrow,
                                                 kbd_lshiftcol, 1);
                         if (keyconvmap[i].shift & RIGHT_SHIFT)
-                            right_shift_down++;
+                            right_shift_down = 1;
                         if (right_shift_down > 0
                             || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
                             keyboard_set_keyarr(kbd_rshiftrow,
@@ -241,11 +241,11 @@ void keyboard_key_released(signed long key)
                 if (row >= 0) {
                     keyboard_set_keyarr(row, column, 0);
                     if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                        virtual_shift_down--;
+                        virtual_shift_down = 0;
                     if (keyconvmap[i].shift & LEFT_SHIFT)
-                        left_shift_down--;
+                        left_shift_down = 0;
                     if (keyconvmap[i].shift & RIGHT_SHIFT)
-                        right_shift_down--;
+                        right_shift_down = 0;
                 }
             }
         }

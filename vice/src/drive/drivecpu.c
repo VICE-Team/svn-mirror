@@ -50,6 +50,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
+#include "mos6510.h"
 #include "riotd.h"
 #include "snapshot.h"
 #include "tia1551.h"
@@ -610,13 +611,20 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 
     if (0
         || snapshot_module_write_dword(m, (DWORD) *(drv->clk_ptr)) < 0
-        || snapshot_module_write_byte(m, (BYTE)reg_a) < 0
-        || snapshot_module_write_byte(m, (BYTE)reg_x) < 0
-        || snapshot_module_write_byte(m, (BYTE)reg_y) < 0
-        || snapshot_module_write_byte(m, (BYTE)reg_sp) < 0
-        || snapshot_module_write_word(m, (WORD)reg_pc) < 0
-        || snapshot_module_write_byte(m, (BYTE)reg_p) < 0
-        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_opcode_info)) < 0
+        || snapshot_module_write_byte(m,
+            (BYTE)MOS6510_REGS_GET_A(&(drv->cpu.cpu_regs))) < 0
+        || snapshot_module_write_byte(m,
+            (BYTE)MOS6510_REGS_GET_X(&(drv->cpu.cpu_regs))) < 0
+        || snapshot_module_write_byte(m,
+            (BYTE)MOS6510_REGS_GET_Y(&(drv->cpu.cpu_regs))) < 0
+        || snapshot_module_write_byte(m,
+            (BYTE)MOS6510_REGS_GET_SP(&(drv->cpu.cpu_regs))) < 0
+        || snapshot_module_write_word(m,
+            (WORD)MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs))) < 0
+        || snapshot_module_write_byte(m,
+            (BYTE)MOS6510_REGS_GET_STATUS(&(drv->cpu.cpu_regs))) < 0
+        || snapshot_module_write_dword(m,
+            (DWORD)(drv->cpu.last_opcode_info)) < 0
         || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_clk)) < 0
         || snapshot_module_write_dword(m, (DWORD)(drv->cpu.cycle_accum)) < 0
         || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_exc_cycles)) < 0
@@ -636,11 +644,13 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
     }
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (snapshot_module_write_byte_array(m, drv->cpud.drive_ram, 0x2000) < 0)
+        if (snapshot_module_write_byte_array(m,
+            drv->cpud.drive_ram, 0x2000) < 0)
             goto fail;
     }
     if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
-        if (snapshot_module_write_byte_array(m, drv->cpud.drive_ram, 0x1100) < 0)
+        if (snapshot_module_write_byte_array(m,
+            drv->cpud.drive_ram, 0x1100) < 0)
             goto fail;
     }
 
@@ -652,21 +662,12 @@ fail:
     return -1;
 }
 
-static int read_word_into_unsigned_int(snapshot_module_t *m,
-                                       unsigned int *value_return)
-{
-    WORD b;
-
-    if (snapshot_module_read_word(m, &b) < 0)
-        return -1;
-    *value_return = (unsigned int) b;
-    return 0;
-}
-
 int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 {
     BYTE major, minor;
     snapshot_module_t *m;
+    BYTE a, x, y, sp, status;
+    WORD pc;
 
     m = snapshot_module_open(s, drv->cpu.snap_module_name, &major, &minor);
     if (m == NULL)
@@ -678,18 +679,25 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
         || snapshot_module_read_dword(m, drv->clk_ptr) < 0
-        || snapshot_module_read_byte(m, &reg_a) < 0
-        || snapshot_module_read_byte(m, &reg_x) < 0
-        || snapshot_module_read_byte(m, &reg_y) < 0
-        || snapshot_module_read_byte(m, &reg_sp) < 0
-        || read_word_into_unsigned_int(m, &reg_pc) < 0
-        || snapshot_module_read_byte(m, &reg_p) < 0
+        || snapshot_module_read_byte(m, &a) < 0
+        || snapshot_module_read_byte(m, &x) < 0
+        || snapshot_module_read_byte(m, &y) < 0
+        || snapshot_module_read_byte(m, &sp) < 0
+        || snapshot_module_read_word(m, &pc) < 0
+        || snapshot_module_read_byte(m, &status) < 0
         || snapshot_module_read_dword(m, &(drv->cpu.last_opcode_info)) < 0
         || snapshot_module_read_dword(m, &(drv->cpu.last_clk)) < 0
         || snapshot_module_read_dword(m, &(drv->cpu.cycle_accum)) < 0
         || snapshot_module_read_dword(m, &(drv->cpu.last_exc_cycles)) < 0
         )
         goto fail;
+
+    MOS6510_REGS_SET_A(&(drv->cpu.cpu_regs), a);
+    MOS6510_REGS_SET_X(&(drv->cpu.cpu_regs), x);
+    MOS6510_REGS_SET_Y(&(drv->cpu.cpu_regs), y);
+    MOS6510_REGS_SET_SP(&(drv->cpu.cpu_regs), sp);
+    MOS6510_REGS_SET_PC(&(drv->cpu.cpu_regs), pc);
+    MOS6510_REGS_SET_STATUS(&(drv->cpu.cpu_regs), status);
 
     log_message(drv->drive_ptr->log, "RESET (For undump).");
 
