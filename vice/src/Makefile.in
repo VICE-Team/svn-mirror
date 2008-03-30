@@ -98,8 +98,7 @@ INSTALL_MANDIR = $(INSTALL_MANPREFIX)/man/man$(INSTALL_MANEXT)
 
 C64SRC = $(C64DIR)/c64.c $(C64DIR)/cia1.c $(C64DIR)/cia2.c $(C64DIR)/c64mem.c \
 	$(C64DIR)/vicii.c $(C64DIR)/cia1.def $(C64DIR)/cia2.def \
-	$(C64DIR)/autostart.c $(C64DIR)/c64mem.h $(C64DIR)/c64iec.c \
-	$(C64DIR)/c64iec.h
+	$(C64DIR)/c64mem.h $(C64DIR)/c64iec.c $(C64DIR)/c64iec.h
 
 VICSRC = $(VICDIR)/via1.c $(VICDIR)/via2.c $(VICDIR)/vic20mem.c \
 	$(VICDIR)/vic.c $(VICDIR)/via1.def $(VICDIR)/via2.def \
@@ -111,9 +110,9 @@ PETSRC = $(PETDIR)/viap.c $(PETDIR)/petmem.c $(PETDIR)/crtc.c \
 	$(PETDIR)/petmem.h $(PETDIR)/pets.h $(PETDIR)/pet.c
 
 VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
-	$(SRCDIR)/c1541.c $(SRCDIR)/charsets.c $(SRCDIR)/cia-tmpl.c \
-	$(SRCDIR)/drive.c $(SRCDIR)/findpath.c $(SRCDIR)/gcr.c \
-	$(SRCDIR)/info.c $(SRCDIR)/kbdbuf.c $(SRCDIR)/main.c \
+	$(SRCDIR)/autostart.c $(SRCDIR)/c1541.c $(SRCDIR)/charsets.c \
+	$(SRCDIR)/cia-tmpl.c $(SRCDIR)/drive.c $(SRCDIR)/findpath.c \
+	$(SRCDIR)/gcr.c $(SRCDIR)/info.c $(SRCDIR)/kbdbuf.c $(SRCDIR)/main.c \
 	$(SRCDIR)/maincpu.c $(SRCDIR)/memcmp.c $(SRCDIR)/memutils.c \
 	$(SRCDIR)/misc.c $(SRCDIR)/mon.c $(SRCDIR)/mon_cli.l \
 	$(SRCDIR)/mon_cli.y $(SRCDIR)/mon_lex.c $(SRCDIR)/mon_parse.c \
@@ -288,24 +287,23 @@ JOY_OBJS = @JOY_OBJS@
 COMMON_OBJS = charsets.o info.o mshell.o main.o tape.o tapeunit.o warn.o \
 	utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o drive.o \
 	asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o parallel.o \
-	traps.o mon.o sysfile.o @SYSPEC_OBJS@ @LIBOBJS@
+	traps.o mon.o sysfile.o resources.o autostart.o @SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
 TRUE1541_OBJS =  true1541.o viad1.o viad2.o 1541cpu.o
 
-C64_OBJS = patchrom.o reu.o resources.o tpi.o sid.o $(X64_SYSPEC_OBJS)
+C64_OBJS = patchrom.o reu.o tpi.o sid.o $(X64_SYSPEC_OBJS)
 
-C64_LOBJS = $(C64ODIR)/autostart.o $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o \
-	$(C64ODIR)/c64.o $(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o \
-	$(C64ODIR)/c64iec.o
+C64_LOBJS = $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o $(C64ODIR)/c64.o \
+	$(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o $(C64ODIR)/c64iec.o
 
-VIC20_OBJS = resources_VIC20.o sid_VIC20.o $(XVIC_SYSPEC_OBJS)
+VIC20_OBJS = sid_VIC20.o $(XVIC_SYSPEC_OBJS)
 
 VIC20_LOBJS =  $(VICODIR)/via1.o $(VICODIR)/via2.o $ $(VICODIR)/vic20.o \
 	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o
 
-PET_OBJS = resources_PET.o sid_PET.o $(XPET_SYSPEC_OBJS)
+PET_OBJS = sid_PET.o $(XPET_SYSPEC_OBJS)
 
 PET_LOBJS = $(PETODIR)/viap.o $(PETODIR)/petmem.o $(PETODIR)/crtc.o \
 	$(PETODIR)/pets.o $(PETODIR)/pia.o $(PETODIR)/pet.o
