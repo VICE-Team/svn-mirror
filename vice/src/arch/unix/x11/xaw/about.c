@@ -47,6 +47,7 @@
 #include "info.h"
 #include "version.h"
 #include "videoarch.h"
+#include "vsync.h"
 
 static UI_CALLBACK(info_dialog_close_callback)
 {
