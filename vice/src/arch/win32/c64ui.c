@@ -36,6 +36,7 @@
 #include "c64ui.h"
 #include "cartridge.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "res.h"
 #include "uilib.h"
 #include "uivicii.h"
@@ -105,7 +106,7 @@ int     type;
             break;
         case IDM_CART_FREEZE|0x00010000:
         case IDM_CART_FREEZE:
-            kbd_clear_keymatrix();
+            keyboard_clear_keymatrix();
             cartridge_trigger_freeze();
             break;
         case IDM_VICII_SETTINGS:
@@ -118,3 +119,4 @@ int c64_ui_init(void)
     ui_register_machine_specific(c64_ui_specific);
     return 0;
 }
+

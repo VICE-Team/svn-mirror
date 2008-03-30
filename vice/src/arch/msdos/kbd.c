@@ -42,6 +42,7 @@
 #include "fliplist.h"
 #include "interrupt.h"
 #include "joystick.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
@@ -52,10 +53,6 @@
 /* #define DEBUG_KBD */
 
 /* ------------------------------------------------------------------------- */
-
-/* Keyboard status.  */
-int keyarr[KBD_ROWS];
-int rev_keyarr[KBD_COLS];
 
 /* Joystick status. We use 3 elements to avoid `-1'.  */
 BYTE joystick_value[3] = { 0, 0, 0 };
@@ -262,19 +259,6 @@ void kbd_flush_commands(void)
 
 /* ------------------------------------------------------------------------- */
 
-inline static void set_keyarr(int row, int col, int value)
-{
-    if (row < 0 || col < 0)
-        return;
-    if (value) {
-	keyarr[row] |= 1 << col;
-	rev_keyarr[col] |= 1 << row;
-    } else {
-	keyarr[row] &= ~(1 << col);
-	rev_keyarr[col] &= ~(1 << row);
-    }
-}
-
 /* Convert a kcode to a printable ASCII character.  If not possible, return
    0.  Warning: this only works for the US layout, and does not handle the
    keypad correctly.  But for our current needs, this is more than enough.  */
@@ -401,10 +385,10 @@ static void my_kbd_interrupt_handler(void)
             } else {
                 /* "Normal" key.  */
                 if (!joystick_handle_key(kcode, 1)) {
-                    set_keyarr(keyconv_base->map[kcode].row,
+                    keyboard_set_keyarr(keyconv_base->map[kcode].row,
                                keyconv_base->map[kcode].column, 1);
                     if (keyconv_base->map[kcode].vshift)
-                        set_keyarr(keyconv_base->virtual_shift_row,
+                        keyboard_set_keyarr(keyconv_base->virtual_shift_row,
                                    keyconv_base->virtual_shift_column, 1);
                 }
             }
@@ -448,10 +432,10 @@ static void my_kbd_interrupt_handler(void)
 
         if (!modifiers.left_alt && !modifiers.right_alt) {
             if (!joystick_handle_key(kcode, 0)) {
-                set_keyarr(keyconv_base->map[kcode].row,
+                keyboard_set_keyarr(keyconv_base->map[kcode].row,
                            keyconv_base->map[kcode].column, 0);
                 if (keyconv_base->map[kcode].vshift)
-                    set_keyarr(keyconv_base->virtual_shift_row,
+                    keyboard_set_keyarr(keyconv_base->virtual_shift_row,
                                keyconv_base->virtual_shift_column, 0);
             }
         }

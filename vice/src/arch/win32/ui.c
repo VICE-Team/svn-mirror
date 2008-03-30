@@ -44,6 +44,7 @@
 #include "fliplist.h"
 #include "interrupt.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -901,7 +902,7 @@ char *dname;
         case IDM_SOFT_RESET+0x00010000:
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
-        kbd_clear_keymatrix();
+        keyboard_clear_keymatrix();
         if (MessageBox(main_hwnd, "Do you really want to reset the emulated machine?",
                        ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),

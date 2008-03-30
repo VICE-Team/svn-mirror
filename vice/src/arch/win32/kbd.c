@@ -33,6 +33,7 @@
 
 #include "kbd.h"
 #include "cmdline.h"
+#include "keyboard.h"
 #include "resources.h"
 #include "joystick.h"
 
@@ -71,8 +72,6 @@ BYTE _kbd_extended_key_tab[256] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-int keyarr[KBD_ROWS];
-int rev_keyarr[KBD_COLS];
 BYTE joystick_value[3];
 
 struct _convmap {
@@ -164,27 +163,6 @@ int kbd_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------ */
 
-void kbd_clear_keymatrix(void)
-{
-int i;
-
-    for (i=0; i<KBD_ROWS; i++) keyarr[i]=0;
-    for (i=0; i<KBD_COLS; i++) rev_keyarr[i]=0;
-}
-
-inline static void set_keyarr(int row, int col, int value)
-{
-    if (row < 0 || col < 0)
-        return;
-    if (value) {
-        keyarr[row] |= 1 << col;
-        rev_keyarr[col] |= 1 << row;
-    } else {
-        keyarr[row] &= ~(1 << col);
-        rev_keyarr[col] &= ~(1 << row);
-    }
-}
-
 /* Windows would not want us to handle raw scancodes like this...  But we
    need it nevertheless.  */
 
@@ -199,10 +177,11 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
 
     DEBUG(("Keydown, code %d (0x%02x)\n", kcode, kcode));
     if (!joystick_handle_key(kcode, 1)) {
-        set_keyarr(keyconv_base->map[kcode].row,
+        keyboard_set_keyarr(keyconv_base->map[kcode].row,
                    keyconv_base->map[kcode].column, 1);
         if (keyconv_base->map[kcode].vshift)
-            set_keyarr(keyconv_base->virtual_shift_row, keyconv_base->virtual_shift_column, 1);
+            keyboard_set_keyarr(keyconv_base->virtual_shift_row,
+                                keyconv_base->virtual_shift_column, 1);
     }
 
     return 0;
@@ -218,9 +197,11 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
     }
 
     if (!joystick_handle_key(kcode, 0)) {
-        set_keyarr(keyconv_base->map[kcode].row, keyconv_base->map[kcode].column, 0);
+        keyboard_set_keyarr(keyconv_base->map[kcode].row,
+                            keyconv_base->map[kcode].column, 0);
         if (keyconv_base->map[kcode].vshift)
-            set_keyarr(keyconv_base->virtual_shift_row, keyconv_base->virtual_shift_column, 0);
+            keyboard_set_keyarr(keyconv_base->virtual_shift_row,
+                                keyconv_base->virtual_shift_column, 0);
     }
 
     return 0;
