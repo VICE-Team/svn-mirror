@@ -66,6 +66,7 @@
 #include "uiperipheral.h"
 #include "uicmdline.h"
 #include "uidatasette.h"
+#include "uifliplist.h"
 #include "uijoystick.h"
 #include "uilib.h"
 #include "uimediafile.h"
@@ -105,7 +106,7 @@ static int ui_emulation_is_paused(void);
 
 
 /* List of resources that can be grayed out from the menus.  */
-static const ui_menu_toggle grayed_list[] = {
+static const ui_menu_toggle_t grayed_list[] = {
 #ifdef HAVE_TFE
 /*    { "ETHERNET_DISABLED", IDM_TFE_SETTINGS }, */
 #endif /* #ifdef HAVE_TFE */
@@ -113,7 +114,7 @@ static const ui_menu_toggle grayed_list[] = {
 };
 
 /* List of resources that can be switched on and off from the menus.  */
-static const ui_menu_toggle toggle_list[] = {
+static const ui_menu_toggle_t toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -136,7 +137,7 @@ static const ui_menu_toggle toggle_list[] = {
 
 /*  List of resources which can have multiple mutual exclusive menu entries. */
 
-static const ui_res_possible_values RefreshRateValues[] = {
+static const ui_res_possible_values_t RefreshRateValues[] = {
     { 0, IDM_REFRESH_RATE_AUTO },
     { 1, IDM_REFRESH_RATE_1 },
     { 2, IDM_REFRESH_RATE_2 },
@@ -151,7 +152,7 @@ static const ui_res_possible_values RefreshRateValues[] = {
     { -1, 0 }
 };
 
-static ui_res_possible_values SpeedValues[] = {
+static ui_res_possible_values_t SpeedValues[] = {
     { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
     { 10, IDM_MAXIMUM_SPEED_10 },
     { 20, IDM_MAXIMUM_SPEED_20 },
@@ -161,21 +162,21 @@ static ui_res_possible_values SpeedValues[] = {
     { -1, 0 }
 };
 
-static ui_res_possible_values RecordingOptions[] = {
+static ui_res_possible_values_t RecordingOptions[] = {
     { EVENT_START_MODE_FILE_SAVE, IDM_EVENT_RECORDMODE_SAVE },
     { EVENT_START_MODE_FILE_LOAD, IDM_EVENT_RECORDMODE_LOAD },
     { EVENT_START_MODE_RESET, IDM_EVENT_RECORDMODE_RESET },
     { -1, 0 }
 };
 
-static const ui_res_possible_values SyncFactor[] = {
+static const ui_res_possible_values_t SyncFactor[] = {
     { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
     { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
     { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
     { -1, 0 }
 };
 
-static const ui_res_value_list value_list[] = {
+static const ui_res_value_list_t value_list[] = {
     { "RefreshRate", RefreshRateValues, 0 },
     { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { "MachineVideoStandard", SyncFactor, 0 },
@@ -731,15 +732,15 @@ void ui_update_menus(void)
 {
 }
 
-static const ui_menu_toggle *machine_specific_toggles = NULL;
-static const ui_res_value_list *machine_specific_values = NULL;
+static const ui_menu_toggle_t *machine_specific_toggles = NULL;
+static const ui_res_value_list_t *machine_specific_values = NULL;
 
-void ui_register_menu_toggles(const ui_menu_toggle *toggles)
+void ui_register_menu_toggles(const ui_menu_toggle_t *toggles)
 {
     machine_specific_toggles = toggles;
 }
 
-void ui_register_res_values(const ui_res_value_list *valuelist)
+void ui_register_res_values(const ui_res_value_list_t *valuelist)
 {
     machine_specific_values = valuelist;
 }
@@ -1469,6 +1470,12 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_FLIP_PREVIOUS:
         flip_attach_head(8, 0);
         break;
+      case IDM_FLIP_LOAD:
+        uifliplist_load_dialog(hwnd);
+        break;
+      case IDM_FLIP_SAVE:
+        uifliplist_save_dialog(hwnd);
+        break;
       case IDM_ATTACH_TAPE | 0x00010000:
       case IDM_ATTACH_TAPE:
         tape_attach_dialog_proc(hwnd);
@@ -1556,6 +1563,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_RESET_DRIVE9:
         vsync_suspend_speed_eval();
         drivecpu_trigger_reset(1);
+        break;
+      case IDM_RESET_DRIVE10:
+        vsync_suspend_speed_eval();
+        drivecpu_trigger_reset(2);
+        break;
+      case IDM_RESET_DRIVE11:
+        vsync_suspend_speed_eval();
+        drivecpu_trigger_reset(3);
         break;
       case IDM_MAXIMUM_SPEED_CUSTOM:
         ui_speed_settings_dialog(hwnd);

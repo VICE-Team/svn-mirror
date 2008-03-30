@@ -57,16 +57,17 @@ extern void ui_show_text(HWND hParent, const char *szCaption,
 #define NUM_OF_FILE_SELECTOR_STYLES         6
 
 
-#define UI_LIB_FILTER_ALL                   1
-#define UI_LIB_FILTER_PALETTE               2
-#define UI_LIB_FILTER_SNAPSHOT              4
-#define UI_LIB_FILTER_DISK                  8
-#define UI_LIB_FILTER_TAPE                  16
-#define UI_LIB_FILTER_ZIP                   32
-#define UI_LIB_FILTER_CRT                   64
-#define UI_LIB_FILTER_BIN                   128
+#define UI_LIB_FILTER_ALL           1
+#define UI_LIB_FILTER_PALETTE       2
+#define UI_LIB_FILTER_SNAPSHOT      4
+#define UI_LIB_FILTER_DISK          8
+#define UI_LIB_FILTER_TAPE          16
+#define UI_LIB_FILTER_ZIP           32
+#define UI_LIB_FILTER_CRT           64
+#define UI_LIB_FILTER_BIN           128
+#define UI_LIB_FILTER_FLIPLIST      256
 
-#define UI_LIB_MAX_FILTER_LENGTH        1024
+#define UI_LIB_MAX_FILTER_LENGTH    1024
 
 extern int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 

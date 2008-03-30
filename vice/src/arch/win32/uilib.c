@@ -73,6 +73,7 @@ static struct { char *name; char *pattern; } uilib_filefilter[] = {
         "*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z" },
     { "CRT cartridge image files (*.crt)", "*.crt" },
     { "Raw cartridge image files (*.bin)", "*.bin" },
+    { "Flip list files (*.vfl)", "*.vfl" },
     { NULL, NULL }
 };
 
@@ -92,19 +93,19 @@ static char *read_disk_image_contents(const char *name);
 static char *read_tape_image_contents(const char *name);
 static char *read_disk_or_tape_image_contents(const char *name);
 
-static ui_file_selector_style_type styles[] = {
+static ui_file_selector_style_type styles[NUM_OF_FILE_SELECTOR_STYLES + 1] = {
     /* FILE_SELECTOR_DEFAULT_STYLE */
     { NULL,
       NULL, 0, "InitialDefaultDir" },
     /* FILE_SELECTOR_TAPE_STYLE */
     { read_tape_image_contents,
-     tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir" },
+      tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir" },
     /* FILE_SELECTOR_DISK_STYLE */
     { read_disk_image_contents,
-     hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir" },
+      hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir" },
     /* FILE_SELECTOR_DISK_AND_TAPE_STYLE */
     { read_disk_or_tape_image_contents,
-     hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir"},
+      hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir"},
     /* FILE_SELECTOR_CART_STYLE */
     { NULL,
       NULL, 0, "InitialCartDir" },
@@ -112,11 +113,11 @@ static ui_file_selector_style_type styles[] = {
     { NULL,
       NULL, 0, "InitialSnapshotDir" },
     /* DUMMY entry Insert new styles before this */
-    {NULL,
-     NULL, 0, NULL }
+    { NULL,
+      NULL, 0, NULL }
 };
 
-static char* ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
+static char *ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
 
 
 static char *read_disk_image_contents(const char *name)
