@@ -180,6 +180,12 @@ struct vdc_s {
     /* Text blink counter.  */
     int text_blink_counter;
 
+    /* 0..7 pixel x shift.  */
+    int xsmooth;
+
+    /* 0..7 pixel y shift.  */
+    int ysmooth;
+
     /* VDC raster.  */
     raster_t raster;
 
