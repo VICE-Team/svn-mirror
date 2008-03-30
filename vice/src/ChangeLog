@@ -1,3 +1,144 @@
+2001-12-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.38.
+
+2001-12-14 Andreas Matthies <andreas.matthies@gmx.net>
+
+	* raster/raster.c (realize_frame_buffer): frame_buffer
+	needs extra_offscreen_border on both sides, so its width
+	uses it two times.
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011):
+	Removed obsolete delay of vicii.idle_state.
+
+	* vicii/vicii.c (vic_ii_set_geometry): extra_offscreen_border
+	corrected.
+	(vic_ii_fetch_matrix): Checks for get_background_from_vbuf
+	and sets overscan_background_color accordingly.
+	(vic_ii_update_video_mode): Sets get_background_from_vbuf
+	flag, if new mode is HIRES.
+	(vic_ii_raster_draw_alarm_handler): Removed the old hack for
+	overscan_background_color. The new one introduced with
+	get_background_from_vbuf seems more promising :)
+
+	* vicii/viciitypes.h: New member get_background_from_vbuf in
+	vic_ii_t.
+
+2001-12-14  John Selck  <graham@cruise.de>
+
+	* plus4/ted-resources.c: Removed resource variables which
+	are part of the Video layer now. Also removed their setter
+	functions and vic_ii_activate_palette().
+
+	* plus4/ted-resources.h: Removed resource variables from
+	ted_resources_t. Removed prototype for
+	vic_ii_activate_palette().
+
+	* plus4/ted-color.c: Removed everything and replaced it by the
+	contents of vicii-color.c. All functions have been renamed
+	from vic_ii_* to ted_*.
+
+	* plus4/ted-color.h: Removed everything and added
+	ted_update_palette() prototype.
+
+	* plus4/ted.c: Removed vic_ii_load_palette() and
+	vic_ii_calc_palette(). Replace vic_ii_activate_palette() call
+	with a ted_update_palette() call.
+	ted_resize() now calls raster_enable_double_scan() to avoid
+	DoubleScan initialisation problems.
+	init_raster() now calls video_color_set_raster().
+
+	* plus4/tedtypes.h: Removed prototypes of
+	vic_ii_load_palette(), vic_ii_calc_palette() and
+	vic_ii_activate_palette().
+	Renamed VIC_II_NUM_COLORS to TED_NUM_COLORS.
+
+2001-12-12  John Selck  <graham@cruise.de>
+
+	* arch/win32/res.rc: Removed OK/CANCEL buttons from Fullscreen
+	dialog. Fixed filename ComboBox in Video_Advanced dialog.
+
+	* arch/win32/resc128.rc: Removed Fullscreen settings from
+	"Settings" menu.
+
+	* arch/win32/resc64.rc: Removed Fullscreen settings from
+	"Settings" menu.
+
+	* arch/win32/resvic.rc: Removed Fullscreen settings from
+	"Settings" menu.
+
+	* arch/win32/respet.rc: Removed Fullscreen settings from
+	"Settings" menu. Added Video settings to it.
+
+	* arch/win32/rescbm2.rc: Removed Fullscreen settings from
+	"Settings" menu. Added Video settings to it.
+
+	* arch/win32/resplus4.rc: Removed Fullscreen settings from
+	"Settings" menu. Added Video settings to it.
+
+	* arch/win32/uivideo.c: init_advanced_dialog() now adds the
+	names of the default palettes to the palette name ComboBox.
+	Added *palettes[] which contain the names.
+	ui_video_settings_dialog() now also adds the "Fullscreen" page
+	to the video settings. Added parameter to let the caller
+	choose a gui layout.
+
+	* arch/win32/uivideo.h: Added UI_VIDEO_PAL and UI_VIDEO_RGB
+	defines for two possible video setting layouts. Changed
+	prototype of ui_video_settings_dialog().
+
+	* arch/win32/fullscreen.c: Renamed dialog_proc() to
+	dialog_fullscreen_prototype and made the function non-static. 
+	Removed ui_fullscreen_settings_dialog() function.
+
+	* arch/win32/fullscreen.h: Removed
+	ui_fullscreen_settings_dialog() prototypes.
+	Added init_fullscreen_dialog() and dialog_fullscreen_proc()
+	prototypes.
+
+	* arch/win32/ui.c: Removed ui_fullscreen_settings_dialog()
+	call.
+
+	* arch/win32/c128ui.c: c128_ui_specific() now calls
+	ui_video_settings_dialog() with UI_VIDEO_PAL parameter.
+
+	* arch/win32/c64ui.c: c64_ui_specific() now calls
+	ui_video_settings_dialog() with UI_VIDEO_PAL parameter.
+
+	* arch/win32/vic20ui.c: vic20_ui_specific() now calls
+	ui_video_settings_dialog() with UI_VIDEO_PAL parameter.
+
+	* arch/win32/petui.c: pet_ui_specific() now calls
+	ui_video_settings_dialog() with UI_VIDEO_RGB parameter.
+
+	* arch/win32/c610ui.c: cbm2_ui_specific() now calls
+	ui_video_settings_dialog() with UI_VIDEO_RGB parameter.
+
+	* arch/win32/plus4ui.c: plus4_ui_specific() now calls
+	ui_video_settings_dialog() with UI_VIDEO_PAL parameter.
+
+	* video/video-resources.c: Changed default values for
+	ColorBrightness and ColorContrast to 1.0.
+
+	* vicii/vicii-color.c: Changed base saturation of VIC-II
+	palette from 40 to 48.
+
+	* vic20/vic-color.c: Changed base saturation of VIC palette
+	from 40 to 48.
+
+2001-12-13  John Selck  <graham@cruise.de>
+
+	* video/video-render.c: video_render_main() now disables
+	fastpal renderers when an external palette is set.
+
+	* arch/win32/video.c: canvas_update() now correctly clips
+	against framebuffer borders again when VIDEO_REMOVE_2X
+	is set.
+
+	* arch/win32/fullscreen.c: dialog_fullscreen_proc() now also
+	reacts on WM_NOTIFY, so the dialog doesn't ignore the new
+	settings anymore even if it is part of the video settings.
+
 2001-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.37.

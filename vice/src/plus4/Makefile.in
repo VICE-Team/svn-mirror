@@ -310,8 +310,11 @@ ted-cmdline-options.o: ted-cmdline-options.c ../../src/vice.h \
 	ted-cmdline-options.h ted.h ../../src/arch/unix/types.h \
 	tedtypes.h ../../src/alarm.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h
-ted-color.o: ted-color.c ted-color.h ../../src/palette.h \
-	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h
+ted-color.o: ted-color.c ../../src/vice.h ../../src/config.h \
+	../../src/machine.h tedtypes.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	ted-color.h ted-resources.h ../../src/video.h
 ted-draw.o: ted-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
