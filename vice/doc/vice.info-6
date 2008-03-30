@@ -245,23 +245,25 @@ File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up:
 Copyright
 *********
 
-   * Copyright (C) 1998-2003 Andreas Boose
+   * Copyright (C) 1998-2004 Andreas Boose
 
-   * Copyright (C) 1998-2003 Dag Lem
+   * Copyright (C) 1998-2004 Dag Lem
 
-   * Copyright (C) 1998-2003 Tibor Biczo
+   * Copyright (C) 1998-2004 Tibor Biczo
 
-   * Copyright (C) 1999-2003 Andreas Dehmel
+   * Copyright (C) 1999-2004 Andreas Dehmel
 
-   * Copyright (C) 1999-2003 Thomas Bretz
+   * Copyright (C) 1999-2004 Thomas Bretz
 
-   * Copyright (C) 1999-2003 Andreas Matthies
+   * Copyright (C) 1999-2004 Andreas Matthies
 
-   * Copyright (C) 1999-2003 Martin Pottendorfer
+   * Copyright (C) 1999-2004 Martin Pottendorfer
 
-   * Copyright (C) 2000-2003 Markus Brenner
+   * Copyright (C) 2000-2004 Markus Brenner
 
-   * Copyright (C) 2000-2003 Spiro Trikaliotis
+   * Copyright (C) 2000-2004 Spiro Trikaliotis
+
+   * Copyright (C) 2003-2004 David Hansel
 
    * Copyright (C) 1997-2001 Daniel Sladic
 
@@ -313,7 +315,7 @@ VICE home page
    You can find the latest news about VICE at the official VICE home
 page:
 
-     http://viceteam.bei.t-online.de/
+     http://www.viceteam.org/
 
    If you are going to report a bug, please check those pages _first_;
 it is possible that the problem you encountered has already been fixed
@@ -353,7 +355,7 @@ team.
         * the VICE documentation (you are reading it!);
 
         * the VICE FAQ (it is available on the Internet, and reachable
-          from the VICE home page: http://viceteam.bei.t-online.de/);
+          from the VICE home page: http://www.viceteam.org/);
 
         * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
           you should read::).

@@ -154,7 +154,7 @@ do
     exit
 end
 
-if SysCreateObject("WPUrl","Vice Homepage","<VICE2_ONLINE>","URL=http://viceteam.bei.t-online.de/","update")<>1 then
+if SysCreateObject("WPUrl","Vice Homepage","<VICE2_ONLINE>","URL=http://www.viceteam.org/","update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
 end

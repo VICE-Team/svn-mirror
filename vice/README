@@ -1,5 +1,5 @@
 
-  VICE  1.13 							Sep 2003
+  VICE  1.14							Jan 2004
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.13 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 1.14 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  MSDOS, Win32, RiscOS, OS/2, BeOS and for most Unix system provided
  with the X Window System version 11, R5 or later.
@@ -52,8 +52,8 @@
 
    - INSTALL, installation instructions;
 
-   - NEWS, list of user-visible changes between this and older
-     versions of VICE;
+   - doc/html/plain/NEWS, list of user-visible changes between this
+     and older versions of VICE;
 
    - doc/html/plain/BUGS, a list of the most important known bugs of
      this release (please read it before reporting bugs);
@@ -83,11 +83,17 @@
 
    - doc/Readme.dos, MS-DOS specific documentation;
 
+   - doc/Readme.beos, BeOS specific documentation;
+
    - doc/Win32-Howto.txt, how to compile the Win32 port.
+
+   - doc/NLS-Howto.txt, some documentation about Unix NLS support;
+
+   - doc/iec-bus.txt, overview of the VICE IEC bus emulation;
 
  For the latest news, have a look at the VICE home page:
 
-     http://viceteam.bei.t-online.de/
+     http://www.viceteam.org/
 
  New versions are made available quite often, so please stay tuned.
 
@@ -100,22 +106,23 @@
 
  VICE, the Versatile Commodore Emulator
 
-    Copyright © 1998-2003 Andreas Boose
-    Copyright C 1998-2003 Dag Lem
-    Copyright C 1998-2003 Tibor Biczo
-    Copyright C 1999-2003 Andreas Dehmel
-    Copyright C 1999-2003 Thomas Bretz
-    Copyright C 1999-2003 Andreas Matthies
-    Copyright C 1999-2003 Martin Pottendorfer
-    Copyright C 2000-2003 Markus Brenner
-    Copyright C 2000-2003 Spiro Trikaliotis
+    Copyright C 1998-2004 Andreas Boose
+    Copyright C 1998-2004 Dag Lem
+    Copyright C 1998-2004 Tibor Biczo
+    Copyright C 1999-2004 Andreas Dehmel
+    Copyright C 1999-2004 Thomas Bretz
+    Copyright C 1999-2004 Andreas Matthies
+    Copyright C 1999-2004 Martin Pottendorfer
+    Copyright C 2000-2004 Markus Brenner
+    Copyright C 2000-2004 Spiro Trikaliotis
+    Copyright C 2003-2004 David Hansel
 
     Copyright C 1997-2001 Daniel Sladic
     Copyright C 1996-1999 Ettore Perazzoli
     Copyright C 1996-1999 André Fachat
     Copyright C 1993-1994, 1997-1999 Teemu Rantanen
-    Copyright © 1993-1996 Jouko Valta
-    Copyright © 1993-1994 Jarkko Sonninen
+    Copyright C 1993-1996 Jouko Valta
+    Copyright C 1993-1994 Jarkko Sonninen
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as

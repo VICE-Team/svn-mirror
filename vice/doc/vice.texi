@@ -58,15 +58,16 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2003 Andreas Boose
-Copyright @copyright{} 1998-2003 Dag Lem
-Copyright @copyright{} 1998-2003 Tibor Biczo
-Copyright @copyright{} 1999-2003 Andreas Dehmel
-Copyright @copyright{} 1999-2003 Thomas Bretz
-Copyright @copyright{} 1999-2003 Andreas Matthies
-Copyright @copyright{} 1999-2003 Martin Pottendorfer
-Copyright @copyright{} 2000-2003 Markus Brenner
-Copyright @copyright{} 2000-2003 Spiro Trikaliotis
+Copyright @copyright{} 1998-2004 Andreas Boose
+Copyright @copyright{} 1998-2004 Dag Lem
+Copyright @copyright{} 1998-2004 Tibor Biczo
+Copyright @copyright{} 1999-2004 Andreas Dehmel
+Copyright @copyright{} 1999-2004 Thomas Bretz
+Copyright @copyright{} 1999-2004 Andreas Matthies
+Copyright @copyright{} 1999-2004 Martin Pottendorfer
+Copyright @copyright{} 2000-2004 Markus Brenner
+Copyright @copyright{} 2000-2004 Spiro Trikaliotis
+Copyright @copyright{} 2003-2004 David Hansel
 
 Copyright @copyright{} 1997-2001 Daniel Sladic
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
@@ -95,7 +96,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.13 of VICE, the Versatile
+This is the documentation for version 1.14 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -7631,23 +7632,25 @@ Håkan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2003 Andreas Boose
+Copyright @copyright{} 1998-2004 Andreas Boose
 @item
-Copyright @copyright{} 1998-2003 Dag Lem
+Copyright @copyright{} 1998-2004 Dag Lem
 @item
-Copyright @copyright{} 1998-2003 Tibor Biczo
+Copyright @copyright{} 1998-2004 Tibor Biczo
 @item
-Copyright @copyright{} 1999-2003 Andreas Dehmel
+Copyright @copyright{} 1999-2004 Andreas Dehmel
 @item
-Copyright @copyright{} 1999-2003 Thomas Bretz
+Copyright @copyright{} 1999-2004 Thomas Bretz
 @item
-Copyright @copyright{} 1999-2003 Andreas Matthies
+Copyright @copyright{} 1999-2004 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2003 Martin Pottendorfer
+Copyright @copyright{} 1999-2004 Martin Pottendorfer
 @item
-Copyright @copyright{} 2000-2003 Markus Brenner
+Copyright @copyright{} 2000-2004 Markus Brenner
 @item
-Copyright @copyright{} 2000-2003 Spiro Trikaliotis
+Copyright @copyright{} 2000-2004 Spiro Trikaliotis
+@item
+Copyright @copyright{} 2003-2004 David Hansel
 
 @item
 Copyright @copyright{} 1997-2001 Daniel Sladic
@@ -7699,7 +7702,7 @@ You can find the latest news about VICE at the official VICE
 home page:
 
 @example
-@uref{http://viceteam.bei.t-online.de/}
+@uref{http://www.viceteam.org/}
 @end example
 
 If you are going to report a bug, please check those pages @emph{first};
@@ -7750,7 +7753,7 @@ the VICE documentation (you are reading it!);
 @item
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
-@uref{http://viceteam.bei.t-online.de/});
+@uref{http://www.viceteam.org/});
 @item
 the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
 you should read}).

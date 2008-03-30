@@ -161,7 +161,7 @@ static void ui_exit(void)
     cprintf("VICE version %s.\n\r", VERSION);
 #endif
 
-    cprintf("\nOfficial VICE homepage: http://viceteam.bei.t-online.de/\n\n\r");
+    cprintf("\nOfficial VICE homepage: http://www.viceteam.org/\n\n\r");
 }
 
 int ui_init(int *argc, char **argv)

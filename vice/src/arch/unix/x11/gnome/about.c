@@ -60,15 +60,16 @@ void ui_about(gpointer data)
 #else
 	"The VICE Team",
 #endif
-        "Copyright @ 1998-2003 Andreas Boose",
-        "Copyright @ 1998-2003 Tibor Biczo",
-        "Copyright @ 1999-2003 Andreas Dehmel",
-        "Copyright @ 1999-2003 Thomas Bretz",
-        "Copyright @ 1999-2003 Andreas Matthies",
-        "Copyright @ 1999-2003 Martin Pottendorfer",
-        "Copyright @ 1998-2003 Dag Lem",
-        "Copyright @ 2000-2003 Markus Brenner",
-        "Copyright @ 2000-2003 Spiro Trikaliotis",
+        "Copyright @ 1998-2004 Andreas Boose",
+        "Copyright @ 1998-2004 Tibor Biczo",
+        "Copyright @ 1999-2004 Andreas Dehmel",
+        "Copyright @ 1999-2004 Thomas Bretz",
+        "Copyright @ 1999-2004 Andreas Matthies",
+        "Copyright @ 1999-2004 Martin Pottendorfer",
+        "Copyright @ 1998-2004 Dag Lem",
+        "Copyright @ 2000-2004 Markus Brenner",
+        "Copyright @ 2000-2004 Spiro Trikaliotis",
+        "Copyright @ 2003-2004 David Hansel",
         "Copyright @ 1997-2001 Daniel Sladic",
         "",
 #ifdef __GNUC__
@@ -76,7 +77,7 @@ void ui_about(gpointer data)
 #else
 	"Official VICE homepage:",
 #endif
-	"http://viceteam.bei.t-online.de/",
+	"http://www.viceteam.org/",
 	NULL};
     if (!about)
     {

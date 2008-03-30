@@ -4,7 +4,7 @@
                      MS-DOS specific information
 
                        official VICE home page:
-                   http://viceteam.bei.t-online.de/
+                       http://www.viceteam.org/
 
 
 
@@ -566,7 +566,7 @@ CONTACTS
 You can always find the latest news about VICE at the official VICE
 home page:
 
-  http://viceteam.bei.t-online.de/
+  http://www.viceteam.org/
 
 Also the public patches and beta releases will be available there, so
 you might want to have a look at it periodically.  If you are going to
@@ -577,26 +577,24 @@ General Public License, the sources are available from the home page
 too.
 
 If you want to report bugs, make suggestions or contribute to the
-project, e-mail one of the following people:
+project, write to the VICE developer's mailing list:
 
-  Andreas Boose <boose@linux.rz.fh-hannover.de> drive, tape and
-  cartridge emulation.
-
-  Ettore Perazzoli <ettore@comm2000.it> for everything else.
+    vice-devel@firenze.linux.it
 
 
 COPYRIGHT
 =========
 
-  Copyright C 1998-2003 Andreas Boose
-  Copyright C 1998-2003 Dag Lem
-  Copyright C 1998-2003 Tibor Biczo
-  Copyright C 1999-2003 Andreas Dehmel
-  Copyright C 1999-2003 Thomas Bretz
-  Copyright C 1999-2003 Andreas Matthies
-  Copyright C 1999-2003 Martin Pottendorfer
-  Copyright C 2000-2003 Markus Brenner
-  Copyright C 2000-2003 Spiro Trikaliotis
+  Copyright C 1998-2004 Andreas Boose
+  Copyright C 1998-2004 Dag Lem
+  Copyright C 1998-2004 Tibor Biczo
+  Copyright C 1999-2004 Andreas Dehmel
+  Copyright C 1999-2004 Thomas Bretz
+  Copyright C 1999-2004 Andreas Matthies
+  Copyright C 1999-2004 Martin Pottendorfer
+  Copyright C 2000-2004 Markus Brenner
+  Copyright C 2000-2004 Spiro Trikaliotis
+  Copyright C 2003-2004 David Hansel
 
   Copyright C 1997-2001 Daniel Sladic
   Copyright C 1996-1999 Ettore Perazzoli
