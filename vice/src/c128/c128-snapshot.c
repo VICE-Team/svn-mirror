@@ -166,7 +166,7 @@ static char snap_module_name[] = "C128MEM";
 int c128_snapshot_write_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
-    ADDRESS i;
+    WORD i;
 
     /* Main memory module.  */
 
@@ -215,7 +215,7 @@ int c128_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
-    ADDRESS i;
+    WORD i;
     BYTE byte;
 
     /* Main memory module.  */
