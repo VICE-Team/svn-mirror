@@ -94,6 +94,7 @@ console_t *console_open(const char *id)
     console->console_xres = 80;
     console->console_yres = 25;
     console->console_can_stay_open = 0;
+    console->console_cannot_output = 0;
 
     return console;
 }
