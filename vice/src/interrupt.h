@@ -94,7 +94,7 @@ struct interrupt_cpu_status_s {
     /* Clock tick at which these cycles have been stolen.  */
     CLOCK last_stolen_cycles_clk;
 
-    enum cpu_int global_pending_int;
+    unsigned int global_pending_int;
 
     void (*nmi_trap_func)(void);
 
@@ -124,10 +124,10 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
     if (value) {                /* Trigger the IRQ.  */
         if (!(cs->pending_int[int_num] & IK_IRQ)) {
             cs->nirq++;
-            cs->global_pending_int = (enum cpu_int)
-                (cs->global_pending_int | IK_IRQ);
-            cs->pending_int[int_num] = (enum cpu_int)
-                (cs->pending_int[int_num] | IK_IRQ);
+            cs->global_pending_int = (cs->global_pending_int
+                                     | (unsigned int)IK_IRQ);
+            cs->pending_int[int_num] = (cs->pending_int[int_num]
+                                     | (unsigned int)IK_IRQ);
 
             /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
@@ -140,11 +140,11 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
     } else {                    /* Remove the IRQ condition.  */
         if (cs->pending_int[int_num] & IK_IRQ) {
             if (cs->nirq > 0) {
-                cs->pending_int[int_num] = (enum cpu_int)
-                        (cs->pending_int[int_num] & ~IK_IRQ);
+                cs->pending_int[int_num] =
+                    (cs->pending_int[int_num] & (unsigned int)~IK_IRQ);
                 if (--cs->nirq == 0)
-                    cs->global_pending_int = (enum cpu_int)
-                        (cs->global_pending_int & ~IK_IRQ);
+                    cs->global_pending_int =
+                        (cs->global_pending_int & (unsigned int)~IK_IRQ);
             } else {
                 interrupt_log_wrong_nirq();
             }
@@ -163,8 +163,7 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
     if (value) {                /* Trigger the NMI.  */
         if (!(cs->pending_int[int_num] & IK_NMI)) {
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
-                cs->global_pending_int = (enum cpu_int)
-                        (cs->global_pending_int | IK_NMI);
+                cs->global_pending_int = (cs->global_pending_int | IK_NMI);
 
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
@@ -175,15 +174,14 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
                 }
             }
             cs->nnmi++;
-            cs->pending_int[int_num] = (enum cpu_int)
-                (cs->pending_int[int_num] | IK_NMI);
+            cs->pending_int[int_num] = (cs->pending_int[int_num] | IK_NMI);
         }
     } else {                    /* Remove the NMI condition.  */
         if (cs->pending_int[int_num] & IK_NMI) {
             if (cs->nnmi > 0) {
                 cs->nnmi--;
-                cs->pending_int[int_num] = (enum cpu_int)
-                        (cs->pending_int[int_num] & ~IK_NMI);
+                cs->pending_int[int_num] =
+                    (cs->pending_int[int_num] & ~IK_NMI);
 #if 0
                 /* It should not be possible to remove the NMI condition,
                    only interrupt_ack_nmi() should clear it.  */
@@ -215,7 +213,7 @@ inline static void interrupt_set_int(interrupt_cpu_status_t *cs, int int_num,
    request is served.  */
 inline static void interrupt_ack_nmi(interrupt_cpu_status_t *cs)
 {
-    cs->global_pending_int = (enum cpu_int)
+    cs->global_pending_int =
         (cs->global_pending_int & ~IK_NMI);
 
     if (cs->nmi_trap_func)
