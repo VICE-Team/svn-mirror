@@ -62,14 +62,9 @@
 #include <X11/xpm.h>
 #endif
 
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-#include "vidmode.h"
-#endif
 #include "drive.h"
 #include "interrupt.h"
+#include "fullscreen.h"
 #include "log.h"
 #include "machine.h"
 #include "mouse.h"
@@ -118,7 +113,6 @@ void ui_check_mouse_cursor()
     if (fullscreen_is_enabled)
         return;
 #endif
-
     if (_mouse_enabled) {
 #ifdef USE_XF86_EXTENSIONS
         if (fullscreen_is_enabled) {
@@ -157,7 +151,6 @@ static void ui_restore_mouse(void)
     if (fullscreen_is_enabled)
         return;
 #endif
-
     if ( _mouse_enabled && cursor_is_blank) {
         XUndefineCursor(display,XtWindow(canvas));
         XUngrabPointer(display, CurrentTime);
@@ -527,11 +520,9 @@ int ui_init_finish(void)
                     wm_command_data,
                     wm_command_size);
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_vidmode_available();
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-    vidmode_init(display, screen);
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_init() < 0)
+        return -1;
 #endif 
 
     return ui_menu_init(app_context, display, screen);
@@ -841,14 +832,10 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
 void ui_create_dynamic_menues()
 {
-#ifdef USE_XF86_VIDMODE_EXT
-    vidmode_create_menus();
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#ifdef USE_XF86_EXTENSIONS
     fullscreen_create_menus();
 #endif
 }
-
 
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(Widget w)

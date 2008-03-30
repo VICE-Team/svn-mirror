@@ -2,7 +2,6 @@
  * fullscreen.h
  *
  * Written by
- *  Oliver Schaertel <orschaer@forwiss.uni-erlangen.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -28,38 +27,14 @@
 #ifndef _FULLSCREEN_H
 #define _FULLSCREEN_H
 
-#include "types.h"
+struct cap_fullscreen_s;
 
-#ifdef USE_XF86_EXTENSIONS
-#include "x11/fullscreen-common.h"
-#endif
+extern void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen);
+extern int fullscreen_init(void);
+extern void fullscreen_create_menus(void);
 
-struct video_frame_buffer_s;
-
-extern int fs_selected_videomode;
-extern char *fullscreen_selected_videomode_at_start;
-extern int fullscreen_width, fullscreen_height;
-extern void fullscreen_mode_init(void);
-extern void fullscreen_mode_update(void);
-
-extern int fullscreen_mode_on(void);
-extern int fullscreen_mode_off(void);
-extern void fullscreen_mode_on_restore(void);
-extern void fullscreen_mode_off_restore(void);
-
+extern int fullscreen_is_enabled;
 extern int fullscreen_available(void);
-extern int fullscreen_vidmode_available(void);
-extern int fullscreen_available_modes(void);
-extern char *fullscreen_mode_name(int);
-extern int fullscreen_set_bestmode(void *v, void *p);
-extern int fullscreen_set_mode(void *v, void *p);
-extern void fullscreen_refresh_func(BYTE *draw_buffer, 
-				    unsigned int draw_buffer_line_size,
-                                    int src_x, int src_y,
-                                    int dest_x, int dest_y,
-                                    unsigned int width, unsigned int height);
-
-extern void fullscreen_mode_exit(void);
 
 #endif
 

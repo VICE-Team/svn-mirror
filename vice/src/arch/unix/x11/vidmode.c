@@ -3,6 +3,7 @@
  *
  * Written by
  *  Martin Pottendorfer <pottendo@utanet.at>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,13 +31,12 @@
 
 #include "vice.h"
 
-#ifdef USE_XF86_VIDMODE_EXT
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
 #include <string.h>
 
 #include "log.h"
-#include "fullscreen-common.h"
+#include "fullscreen.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
@@ -47,6 +47,8 @@
 #include "x11ui.h"
 #include "raster/raster.h"
 
+
+raster_t *fs_cached_raster;
 
 UI_MENU_DEFINE_RADIO(SelectedFullscreenMode);
 
@@ -87,17 +89,23 @@ static char *vidmode_mode_name(unsigned int i)
 }
 
 /* ---------------------------------------------------------------*/
-int vidmode_init(Display *display, int screen)
+
+extern int screen;
+
+int vidmode_init(void)
 {
     unsigned int hz, i;
+    Display *display;
 
     vidmode_log = log_open("VidMode");
+
+    display = x11ui_get_display_ptr();
 
     if (!XF86VidModeGetAllModeLines(display, screen, &vm_mode_count,
         &vm_modes)) {
         log_error(vidmode_log, _("Error getting video mode information - disabling vidmode extension."));
         vm_available = 0;
-        return 1;
+        return -1;
     }
 
     for (i = 0; i < vm_mode_count; i++) {
@@ -228,6 +236,4 @@ void vidmode_create_menus(void)
         }
     }
 }
-
-#endif
 

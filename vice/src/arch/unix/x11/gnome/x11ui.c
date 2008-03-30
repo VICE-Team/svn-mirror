@@ -64,6 +64,7 @@
 #include "datasette.h"
 #include "charset.h"
 #include "drive/drive.h"
+#include "fullscreen.h"
 #include "imagecontents.h"
 #include "interrupt.h"
 #include "log.h"
@@ -82,12 +83,7 @@
 #include "videoarch.h"
 #include "vsiduiunix.h"
 #include "x11ui.h"
-#ifdef USE_XF86_DGA2_EXTENSIONS
-#include "fullscreen.h"
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-#include "vidmode.h"
-#endif
+
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;
@@ -671,13 +667,11 @@ int ui_init_finish(void)
 	have_cbm_font = FALSE;
     }
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_vidmode_available();
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_init() < 0)
+        return -1;
 #endif
 
-#ifdef USE_XF86_VIDMODE_EXT
-    vidmode_init(display, screen);
-#endif 
     return ui_menu_init();
 }
 
@@ -1070,10 +1064,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 
 void ui_create_dynamic_menues()
 {
-#ifdef USE_XF86_VIDMODE_EXT
-    vidmode_create_menus();
-#endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#ifdef USE_XF86_EXTENSIONS
     fullscreen_create_menus();
 #endif
 }
@@ -1229,22 +1220,18 @@ void ui_exit(void)
 
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
-    if (b == UI_BUTTON_YES) 
-    {
+    if (b == UI_BUTTON_YES) {
         int save_resources_on_exit;
 
         resources_get_value("SaveResourcesOnExit",
                             (resource_value_t *)&save_resources_on_exit);
-	if (save_resources_on_exit) 
-	{
+	if (save_resources_on_exit) {
 	    b = ui_ask_confirmation(s, _("Save the current settings?"));
-	    if (b == UI_BUTTON_YES) 
-	    {
+	    if (b == UI_BUTTON_YES) {
 		if (resources_save(NULL) < 0)
 		    ui_error(_("Cannot save settings."));
 	    } 
-	    else if (b == UI_BUTTON_CANCEL) 
-	    {
+	    else if (b == UI_BUTTON_CANCEL) {
                 free(s);
 		return;
             }
