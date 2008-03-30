@@ -1,3 +1,25 @@
+2003-08-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.24.
+
+	* sound.c, sid/sid.h, sid/sid.c, sid/sid-cmdline-options.c,
+	sid/sid-resources.c, arch/win32/uisid.c,
+	arch/win32/msvc/config.h: Added HardSID support.
+
+	* hardsid.h, arch/win32/hardsid.c: New files.
+
+	* Makefile.am, arch/win32/Makefile.am: Updated.
+
+	* sid/sid-resources.c (set_sid_engine): Return error if
+	`sid_engine_set()' returns error.
+
+	* sid/sid.c, sid/sid.h (sid_engine_set): Return error code.
+
+	* c128/z80.c: Fixed warning.
+
+	* pet/petpia1.c, pet/petpia2.c, piacore.c, piacore.h: Removed
+	some macros and defines.
+
 2003-08-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.23.

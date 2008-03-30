@@ -31,12 +31,6 @@
 #include "log.h"
 #include "types.h"
 
-#if defined(NO_INLINE)
-#define _PIA_FUNC       static
-#else
-#define _PIA_FUNC       static inline
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 #define IS_CA2_HANDSHAKE()      ((mypia.ctrl_a & 0x30) == 0x20)

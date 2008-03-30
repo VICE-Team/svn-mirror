@@ -65,12 +65,16 @@ static piareg mypia;
 /* ------------------------------------------------------------------------- */
 /* CPU binding */
 
-#define my_set_int(a) \
-    maincpu_set_irq(pia_int_num, (a)? IK_IRQ : IK_NONE)
+static void my_set_int(unsigned int pia_int_num, int a)
+{
+    maincpu_set_irq(pia_int_num, a ? IK_IRQ : IK_NONE);
+}
 
-#define my_restore_int(a)                       \
-    interrupt_restore_irq(maincpu_int_status,   \
-    pia_int_num, (a) ? IK_IRQ : IK_NONE)
+static void my_restore_int(unsigned int pia_int_num, int a)
+{
+    interrupt_restore_irq(maincpu_int_status, pia_int_num,
+                          a ? IK_IRQ : IK_NONE);
+}
 
 #define mycpu_rmw_flag   maincpu_rmw_flag
 #define myclk            maincpu_clk
@@ -125,14 +129,14 @@ void pia1_set_tape_sense(int v)
 /* ------------------------------------------------------------------------- */
 /* I/O */
 
-_PIA_FUNC void pia_set_ca2(int a)
+static void pia_set_ca2(int a)
 {
     parallel_cpu_set_eoi((BYTE)((a) ? 0 : 1));
     if (petres.pet2k)
         crtc_screen_enable((a)?1:0);
 }
 
-_PIA_FUNC void pia_set_cb2(int a)
+static void pia_set_cb2(int a)
 {
     if (old_cb2_status != a) {
         datasette_set_motor(!a);
@@ -140,7 +144,7 @@ _PIA_FUNC void pia_set_cb2(int a)
     }
 }
 
-_PIA_FUNC void pia_reset(void)
+static void pia_reset(void)
 {
 }
 
@@ -175,24 +179,24 @@ E813    CB2         output to cassette #1 motor: 0=on, 1=off
  0    CA1 control: IRQ on=1, off = 0
 */
 
-_PIA_FUNC void store_pa(BYTE byte)
+static void store_pa(BYTE byte)
 {
 }
 
-_PIA_FUNC void store_pb(BYTE byte)
+static void store_pb(BYTE byte)
 {
 }
 
-_PIA_FUNC void undump_pa(BYTE byte)
+static void undump_pa(BYTE byte)
 {
 }
 
-_PIA_FUNC void undump_pb(BYTE byte)
+static void undump_pb(BYTE byte)
 {
 }
 
 
-_PIA_FUNC BYTE read_pa(void)
+static BYTE read_pa(void)
 {
     BYTE byte;
 
@@ -211,7 +215,7 @@ _PIA_FUNC BYTE read_pa(void)
 }
 
 
-_PIA_FUNC BYTE read_pb(void)
+static BYTE read_pb(void)
 {
     int row;
     BYTE j = 0xFF;

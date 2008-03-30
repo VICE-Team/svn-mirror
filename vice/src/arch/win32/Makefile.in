@@ -254,6 +254,7 @@ libarch_a_SOURCES = \
 	dirent.h \
 	fullscrn.c \
 	fullscrn.h \
+	hardsid.c \
 	joy.c \
 	joy.h \
 	kbd.c \
@@ -397,11 +398,11 @@ libarch_a_LIBADD =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	c128ui.$(OBJEXT) cbm2ui.$(OBJEXT) c64ui.$(OBJEXT) \
 	catweaselmkiii.$(OBJEXT) console.$(OBJEXT) dirent.$(OBJEXT) \
-	fullscrn.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) mouse.$(OBJEXT) \
-	petui.$(OBJEXT) plus4ui.$(OBJEXT) statusbar.$(OBJEXT) \
-	system.$(OBJEXT) tfearch.$(OBJEXT) ui.$(OBJEXT) \
-	uiattach.$(OBJEXT) uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) \
-	uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
+	fullscrn.$(OBJEXT) hardsid.$(OBJEXT) joy.$(OBJEXT) \
+	kbd.$(OBJEXT) mouse.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
+	statusbar.$(OBJEXT) system.$(OBJEXT) tfearch.$(OBJEXT) \
+	ui.$(OBJEXT) uiattach.$(OBJEXT) uicbm2set.$(OBJEXT) \
+	uicmdline.$(OBJEXT) uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
 	uidrivec64c128vic20.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
 	uidriveplus4.$(OBJEXT) uijoystick.$(OBJEXT) uilib.$(OBJEXT) \
 	uimon.$(OBJEXT) uipetset.$(OBJEXT) uiplus4mem.$(OBJEXT) \
@@ -419,14 +420,14 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/c128ui.Po ./$(DEPDIR)/c64ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/catweaselmkiii.Po ./$(DEPDIR)/cbm2ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/dirent.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/fullscrn.Po ./$(DEPDIR)/joy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mouse.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/system.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiattach.Po ./$(DEPDIR)/uicbm2set.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uiconsole.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fullscrn.Po ./$(DEPDIR)/hardsid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/kbd.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/mouse.Po ./$(DEPDIR)/petui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/statusbar.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/system.Po ./$(DEPDIR)/tfearch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicbm2set.Po ./$(DEPDIR)/uicmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiconsole.Po ./$(DEPDIR)/uidatasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64c128vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
@@ -479,6 +480,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/console.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dirent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fullscrn.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hardsid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mouse.Po@am__quote@

@@ -60,7 +60,7 @@ void mypia_reset(void)
 
     is_peek_access = 0;
 
-    my_set_int(0);
+    my_set_int(pia_int_num, 0);
 }
 
 static void mypia_update_irq(void)
@@ -71,9 +71,9 @@ static void mypia_update_irq(void)
         || ((mypia.ctrl_b & 0x81) == 0x81)
         || ((mypia.ctrl_b & 0x68) == 0x48)
        ) {
-        my_set_int(1);
+        my_set_int(pia_int_num, 1);
     } else {
-        my_set_int(0);
+        my_set_int(pia_int_num, 0);
     }
 }
 
@@ -338,7 +338,7 @@ int mypia_snapshot_read_module(snapshot_t * p)
     BYTE byte;
     snapshot_module_t *m;
 
-    my_restore_int(0);          /* just in case */
+    my_restore_int(pia_int_num, 0);          /* just in case */
 
     m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
     if (m == NULL)
@@ -376,7 +376,7 @@ int mypia_snapshot_read_module(snapshot_t * p)
          || ((mypia.ctrl_b & 0x81) == 0x81)
         || ((mypia.ctrl_b & 0x68) == 0x48)
        ) {
-        my_restore_int(1);
+        my_restore_int(pia_int_num, 1);
     }
 
     return snapshot_module_close(m);

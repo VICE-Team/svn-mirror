@@ -55,12 +55,16 @@ static piareg mypia;
 /* ------------------------------------------------------------------------- */
 /* CPU binding */
 
-#define my_set_int(a) \
-    maincpu_set_irq(pia_int_num, (a)? IK_IRQ : IK_NONE)
+static void my_set_int(unsigned int pia_int_num, int a)
+{
+    maincpu_set_irq(pia_int_num, a ? IK_IRQ : IK_NONE);
+}
 
-#define my_restore_int(a)                                    \
-    interrupt_restore_irq(maincpu_int_status, pia_int_num,   \
-    (a) ? IK_IRQ : IK_NONE)
+static void my_restore_int(unsigned int pia_int_num, int a)
+{
+    interrupt_restore_irq(maincpu_int_status, pia_int_num,
+                          a ? IK_IRQ : IK_NONE);
+}
 
 #define mycpu_rmw_flag   maincpu_rmw_flag
 #define myclk            maincpu_clk
@@ -69,17 +73,17 @@ static piareg mypia;
 /* ------------------------------------------------------------------------- */
 /* I/O */
 
-_PIA_FUNC void pia_set_ca2(int a)
+static void pia_set_ca2(int a)
 {
     parallel_cpu_set_ndac((BYTE)((a) ? 0 : 1));
 }
 
-_PIA_FUNC void pia_set_cb2(int a)
+static void pia_set_cb2(int a)
 {
     parallel_cpu_set_dav((BYTE)((a) ? 0 : 1));
 }
 
-_PIA_FUNC void pia_reset(void)
+static void pia_reset(void)
 {
     parallel_cpu_set_bus(0xff); /* all data lines high, because of input mode */}
 
@@ -93,26 +97,26 @@ E823    CB2         IEEE DAV out
         CB1         IEEE SRQ in
 */
 
-_PIA_FUNC void store_pa(BYTE byte)
+static void store_pa(BYTE byte)
 {
 }
 
-_PIA_FUNC void undump_pa(BYTE byte)
+static void undump_pa(BYTE byte)
 {
 }
 
 
-_PIA_FUNC void store_pb(BYTE byte)
-{
-    parallel_cpu_set_bus(byte);
-}
-
-_PIA_FUNC void undump_pb(BYTE byte)
+static void store_pb(BYTE byte)
 {
     parallel_cpu_set_bus(byte);
 }
 
-_PIA_FUNC BYTE read_pa(void)
+static void undump_pb(BYTE byte)
+{
+    parallel_cpu_set_bus(byte);
+}
+
+static BYTE read_pa(void)
 {
     BYTE byte;
 
@@ -132,7 +136,7 @@ _PIA_FUNC BYTE read_pa(void)
     return byte;
 }
 
-_PIA_FUNC BYTE read_pb(void)
+static BYTE read_pb(void)
 {
     return 0xff;
 }
