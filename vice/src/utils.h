@@ -61,7 +61,7 @@ extern int util_string_to_long(const char *str, const char **endptr, int base,
                                long *result);
 extern char *util_subst(const char *s, const char *string,
                         const char *replacement);
-extern void util_string_set(char **str, const char *new_value);
+extern int util_string_set(char **str, const char *new_value);
 
 extern int read_dword(FILE *fd, DWORD *buf, size_t num);
 extern int write_dword(FILE *fd, DWORD *buf, size_t num);
