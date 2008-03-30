@@ -37,8 +37,18 @@ typedef struct screenshot_s {
     struct palette_s *palette;
     PIXEL *pixel_table_sing;
     PIXEL *color_map;
+
+    /* Screen size we actually want to save.  */
     unsigned int width;
     unsigned int height;
+
+    /* Overall screen size.  */
+    unsigned int max_width;
+    unsigned int max_height;
+
+    /* Offset to the overall screen.  */
+    unsigned int x_offset;
+    unsigned int y_offset;
 } screenshot_t;
 
 typedef struct screendrv_s {
