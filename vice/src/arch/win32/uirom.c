@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 #include <windows.h>
 #include <tchar.h>
@@ -34,6 +35,7 @@
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
+#include "romset.h"
 #include "system.h"
 #include "ui.h"
 #include "uilib.h"
@@ -145,45 +147,80 @@ static BOOL CALLBACK dialog_proc_drive(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void enable_controls_for_romset(HWND hwnd, int idc_active)
 {
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_NAME),
-                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_BROWSE),
-                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE),
-                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_SAVEACTIVE),
-                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_SAVENEW),
-                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_DELETE),
-                 idc_active == IDC_ROMSET_SELECT_ARCHIVE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_NAME),
-                 idc_active == IDC_ROMSET_SELECT_FILE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_BROWSE),
-                 idc_active == IDC_ROMSET_SELECT_FILE);
-    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_SAVE),
-                 idc_active == IDC_ROMSET_SELECT_FILE);
+    int res;
+
+    res = idc_active == IDC_ROMSET_SELECT_ARCHIVE;
+
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_NAME), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_BROWSE), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_LOAD), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_SAVE), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_APPLY),  res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_NEW), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_DELETE), res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_NAME), !res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_BROWSE), !res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_LOAD), !res);
+    EnableWindow(GetDlgItem(hwnd, IDC_ROMSET_FILE_SAVE), !res);
 }
 
-static void update_romset_dialog(HWND hwnd, int idc_active)
+static void update_romset_list(HWND hwnd)
 {
     char *list;
     TCHAR *st_list;
 
-    if (idc_active == IDC_ROMSET_SELECT_ARCHIVE
-        || idc_active == IDC_ROMSET_SELECT_FILE) {
-        CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE,
-                         IDC_ROMSET_SELECT_FILE, idc_active);
-        enable_controls_for_romset(hwnd, idc_active);
-    }
-
-    list = machine_romset_file_list("\r\n");
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
+        list = romset_archive_list();
+    else
+        list = machine_romset_file_list();
 
     st_list = system_mbstowcs_alloc(list);
     SetDlgItemText(hwnd, IDC_ROMSET_PREVIEW, st_list);
     system_mbstowcs_free(st_list);
 
     lib_free(list);
+}
+
+static void update_romset_archive(HWND hwnd)
+{
+    HWND temp_hwnd;
+    int num, index, active;
+    const char *conf;
+
+    active = 0;
+    num = romset_archive_get_number();
+
+    resources_get_value("RomsetArchiveActive", (void *)&conf);
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE);
+    for (index = 0; index < num; index++) {
+        TCHAR *st_name;
+        char *name;
+
+        name = romset_archive_get_item(index);
+        if (!strcmp(conf, name))
+            active = index;
+        st_name = system_mbstowcs_alloc(name);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st_name);
+        system_mbstowcs_free(st_name);
+    }
+
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active, 0);
+
+    update_romset_list(hwnd);
+}
+
+static void update_romset_dialog(HWND hwnd, int idc_active)
+{
+    if (idc_active == IDC_ROMSET_SELECT_ARCHIVE
+        || idc_active == IDC_ROMSET_SELECT_FILE) {
+        CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE,
+                         IDC_ROMSET_SELECT_FILE, idc_active);
+        enable_controls_for_romset(hwnd, idc_active);
+
+        update_romset_archive(hwnd);
+    }
 }
 
 static void init_romset_dialog(HWND hwnd)
@@ -225,15 +262,52 @@ static void end_romset_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RomsetfileName", (resource_value_t)s);
+    resources_set_value("RomsetFileName", (resource_value_t)s);
 }
 
-static void saveactive_archive_romset_dialog(HWND hwnd)
+static void browse_archive_romset_dialog(HWND hwnd)
 {
-
+    uilib_select_browse(hwnd, TEXT("Select romset archive"),
+                        UILIB_SELECTOR_TYPE_FILE_SAVE,
+                        IDC_ROMSET_ARCHIVE_NAME);
 }
 
-static void savenew_archive_romset_dialog(HWND hwnd)
+static void load_archive_romset_dialog(HWND hwnd)
+{
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+
+    GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    if (romset_archive_load(s, 0) < 0)
+        ui_error("Cannot load romset archive!");
+
+    update_romset_archive(hwnd);
+}
+
+static void save_archive_romset_dialog(HWND hwnd)
+{
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+
+    GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    if (romset_archive_save(s) < 0)
+        ui_error("Cannot save romset archive!");
+}
+
+static void apply_archive_romset_dialog(HWND hwnd)
+{
+/*
+    HWND temp_hwnd;
+    int active;
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE);
+    active = SendMessage(temp_hwnd, CB_GETCURSEL, 0, 0);
+*/
+}
+
+static void new_archive_romset_dialog(HWND hwnd)
 {
 
 }
@@ -243,6 +317,20 @@ static void delete_archive_romset_dialog(HWND hwnd)
 
 }
 
+static void load_file_romset_dialog(HWND hwnd)
+{
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+
+    GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+
+    if (machine_romset_file_load(s) < 0)
+        ui_error("Cannot load romset file!");
+
+    update_romset_list(hwnd);
+}
+
 static void save_file_romset_dialog(HWND hwnd)
 {
     TCHAR st[MAX_PATH];
@@ -250,7 +338,8 @@ static void save_file_romset_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    machine_romset_file_save(s);
+    if (machine_romset_file_save(s) < 0)
+        ui_error("Cannot save romset file!");
 }
 
 static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
@@ -279,11 +368,17 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_ROMSET_ARCHIVE_NAME);
             break;
-          case IDC_ROMSET_ARCHIVE_SAVEACTIVE:
-            saveactive_archive_romset_dialog(hwnd);
+          case IDC_ROMSET_ARCHIVE_LOAD:
+            load_archive_romset_dialog(hwnd);
             break;
-          case IDC_ROMSET_ARCHIVE_SAVENEW:
-            savenew_archive_romset_dialog(hwnd);
+          case IDC_ROMSET_ARCHIVE_SAVE:
+            save_archive_romset_dialog(hwnd);
+            break;
+          case IDC_ROMSET_ARCHIVE_APPLY:
+            apply_archive_romset_dialog(hwnd);
+            break;
+          case IDC_ROMSET_ARCHIVE_NEW:
+            new_archive_romset_dialog(hwnd);
             break;
           case IDC_ROMSET_ARCHIVE_DELETE:
             delete_archive_romset_dialog(hwnd);
@@ -292,6 +387,9 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
             uilib_select_browse(hwnd, TEXT("Select romset file"),
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_ROMSET_FILE_NAME);
+            break;
+          case IDC_ROMSET_FILE_LOAD:
+            load_file_romset_dialog(hwnd);
             break;
           case IDC_ROMSET_FILE_SAVE:
             save_file_romset_dialog(hwnd);
