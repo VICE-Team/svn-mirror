@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <conio.h>
 #include <dir.h>
 #include <string.h>
 #include <unistd.h>
