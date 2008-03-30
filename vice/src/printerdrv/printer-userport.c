@@ -28,20 +28,31 @@
 
 #include "interface-userport.h"
 #include "printer.h"
+#include "types.h"
 
 
-int printer_interface_userport_init_resources(void)
+int printer_userport_init_resources(void)
 {
     return interface_userport_init_resources();
 }
 
-int printer_interface_userport_init_cmdline_options(void)
+int printer_userport_init_cmdline_options(void)
 {
     return interface_userport_init_cmdline_options();
 }
 
-void printer_userport_init(void)
+void printer_userport_init(void (*set_busy)(unsigned int))
 {
+    interface_userport_init(set_busy);
+}
 
+void printer_userport_write_data(BYTE b)
+{
+    interface_userport_write_data(b);
+}
+
+void printer_userport_write_strobe(int s)
+{
+    interface_userport_write_strobe(s);
 }
 
