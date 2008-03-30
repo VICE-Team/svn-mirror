@@ -29,8 +29,10 @@
 #define _ATTACH_H
 
 #include "types.h"
-#include "vdrive.h"
 #include "snapshot.h"
+
+typedef int (*drive_attach_func_t)(void *);
+typedef int (*drive_detach_func_t)(void *);
 
 extern int file_system_init_resources(void);
 extern void file_system_init(void);
