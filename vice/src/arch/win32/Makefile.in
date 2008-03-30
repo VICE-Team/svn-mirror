@@ -275,6 +275,7 @@ libarch_a_SOURCES = \
 	resplus4.rc \
 	resreu.rc \
 	ressid.rc \
+	restfe.rc \
 	resvic.rc \
 	resvicii.rc \
 	statusbar.c \
@@ -325,6 +326,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uispeed.c \
 	uispeed.h \
+	uitfe.c \
+	uitfe.h \
 	uivicii.h \
 	uivicii.c \
 	uivicset.h \
@@ -348,6 +351,11 @@ libarch_a_DEPENDENCIES = \
 
 EXTRA_DIST = \
 	msvc/config.h \
+	msvc/wpcap/bittypes.h \
+	msvc/wpcap/ip6_misc.h \
+	msvc/wpcap/pcap-stdinc.h \
+	msvc/wpcap/PCAP.H \
+	msvc/wpcap/NET/bpf.h \
 	arch.dsp \
 	base.dsp \
 	c128.dsp \
@@ -418,9 +426,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uipetset.$(OBJEXT) uiplus4mem.$(OBJEXT) uiprinter.$(OBJEXT) \
 	uiram.$(OBJEXT) uireu.$(OBJEXT) uisid.$(OBJEXT) \
 	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uispeed.$(OBJEXT) \
-	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
-	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
+	uitfe.$(OBJEXT) uivicii.$(OBJEXT) uivicset.$(OBJEXT) \
+	uivideo.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
+	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -448,10 +456,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uiram.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uispeed.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivicii.Po ./$(DEPDIR)/uivicset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivideo.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsyncarch.Po ./$(DEPDIR)/winmain.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uitfe.Po ./$(DEPDIR)/uivicii.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uivicset.Po ./$(DEPDIR)/uivideo.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/winmain.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -523,6 +532,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uispeed.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uitfe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicii.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivideo.Po@am__quote@
@@ -617,7 +627,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/msvc
+	$(mkinstalldirs) $(distdir)/msvc $(distdir)/msvc/wpcap $(distdir)/msvc/wpcap/NET
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
