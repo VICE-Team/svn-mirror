@@ -506,6 +506,7 @@ int drive_rom_check_loaded(unsigned int type)
 
     return 0;
 }
+
 void drive_rom_init(void)
 {
     driverom_log = log_open("DriveROM"); 
