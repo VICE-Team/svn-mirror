@@ -659,7 +659,7 @@ void vic_ii_powerup(void)
   vic_ii.extended_keyboard_rows_enabled = 0;
   vic_ii.last_emulate_line_clk = 0;
 
-  vic_ii_reset ();
+  vic_ii_reset();
 
   vic_ii.regs[0x11] = 0;
 
@@ -1375,8 +1375,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                   + sf->first);
 
       /* Fetch sprite data.  */
-      for (i = sf->first; i <= sf->last; i++, spr_base++)
-        {
+      for (i = sf->first; i <= sf->last; i++, spr_base++) {
           BYTE *src;
           BYTE *dest;
           int my_memptr;
@@ -1385,9 +1384,14 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
           my_memptr = sprite_status->sprites[i].memptr;
           dest = (BYTE *) (sprite_status->new_sprite_data + i);
 
-          if (ultimax && *spr_base >= 0xc0)
-            src = (romh_banks + 0x1000 + (romh_bank << 13)
-                   + ((*spr_base - 0xc0) << 6));
+          if (ultimax) {
+              if (*spr_base >= 0xc0)
+                  src = (romh_banks + 0x1000 + (romh_bank << 13)
+                        + ((*spr_base - 0xc0) << 6));
+          } else {
+              if (!(vic_ii.vbank_phi1 & 0x4000) && (*spr_base & 0xc0) == 0x40)
+                  src = chargen_rom + ((*spr_base - 0x40) << 6);
+          }
 
           dest[0] = src[my_memptr];
           dest[1] = src[++my_memptr & 0x3f];

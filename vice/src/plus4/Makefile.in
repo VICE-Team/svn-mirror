@@ -333,12 +333,6 @@ ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ted-sound.h \
 	../../src/utils.h
-ted-sprites.o: ted-sprites.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/arch/unix/types.h ../../src/raster/raster-sprite.h \
-	ted-sprites.h ted.h tedtypes.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video-render.h
 ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
