@@ -62,6 +62,8 @@ extern void string_set(char **str, const char *new_value);
 extern int read_dword(FILE *fd, DWORD *buf, size_t num);
 extern int write_dword(FILE *fd, DWORD *buf, size_t num);
 
+extern void dword_to_le_buf(BYTE *buf, DWORD data);
+
 extern int file_exists_p(const char *name);
 
 extern char *find_prev_line(const char *text, const char *pos);

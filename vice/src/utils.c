@@ -552,6 +552,16 @@ int write_dword(FILE *fd, DWORD *buf, size_t num)
 
 /* ------------------------------------------------------------------------- */
 
+void dword_to_le_buf(BYTE *buf, DWORD data)
+{
+    buf[0] = data & 0xff;
+    buf[1] = (data >> 8) & 0xff;
+    buf[2] = (data >> 16) & 0xff;
+    buf[3] = (data >> 24) & 0xff;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Check for existance of file named `name'.  */
 int file_exists_p(const char *name)
 {
