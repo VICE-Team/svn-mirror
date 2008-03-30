@@ -118,6 +118,11 @@ STORE_PCR()
 
 #define UNDUMP_PCR
 
+UNDUMP_ACR()
+{
+	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+}
+
 STORE_ACR()
 {
 	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);

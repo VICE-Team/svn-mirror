@@ -774,7 +774,7 @@ void mon_print_registers(MEMSPACE mem)
         assert(FALSE);
 
     regs = mon_interfaces[mem]->cpu_regs;
-    fprintf(mon_output, "  ADDR AR XR YP SP 01 NV-BDIZC\n");
+    fprintf(mon_output, "  ADDR AR XR YR SP 01 NV-BDIZC\n");
     fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
             mon_get_reg_val(mem, e_PC),
             mon_get_reg_val(mem, e_A),
@@ -2659,6 +2659,8 @@ void mon(ADDRESS a)
                 if (playback)
                     playback_commands(playback_name);
             }
+        } else {
+            exit_mon = 1;
         }
         if (last_cmd)
             free(last_cmd);

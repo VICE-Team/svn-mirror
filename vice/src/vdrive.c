@@ -258,8 +258,7 @@ int     initialize_1541(int dev, int type,
 	    printf("could not initialize 1541 ????\n");
 	    return(-1);
 	}
-    }
-    else {
+    } else {
 	if (attach_fsdevice(dev, (char *)floppy, "1541 FS Drive")) {
 	    printf("could not initialize FS 1541 ????\n");
 	    return(-1);

@@ -168,14 +168,19 @@ int cartridge_attach_image(int type, const char *filename)
 		fclose(fd);
 		goto done;
 	    }
-	    if (chipheader[0xc] == 0x80) {
-		if (fread(rawcart, 0x2000, 1, fd) < 1) {
+	    if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0
+	            && chipheader[0xe] <= 0x40) {
+		if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
 		    fclose(fd);
 		    goto done;
 		}
+	    } else {
+		fclose(fd);
+		goto done;
 	    }
 	    fclose(fd);
-	    crttype = CARTRIDGE_GENERIC_8KB;
+	    crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
+	            : CARTRIDGE_GENERIC_16KB;
 	    break;
 	  case 1:
 	    for (i = 0; i <= 3; i++) {

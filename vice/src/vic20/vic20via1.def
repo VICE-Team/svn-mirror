@@ -66,6 +66,7 @@ INCLUDES()
 #define UNDUMP_PCR
 
 #define STORE_ACR
+#define UNDUMP_ACR
 #define STORE_SR
 #define STORE_T2L
 

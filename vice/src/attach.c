@@ -25,6 +25,12 @@
  */
 
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdlib.h>
+#include <stdio.h>
+#endif
+
 #include "resources.h"
 #include "vdrive.h"
 #include "attach.h"
@@ -177,7 +183,7 @@ int file_system_attach_disk(int unit, const char *filename)
     p = serial_get_device(unit);
     floppy = (DRIVE *)p->info;
     if ((floppy == NULL) || ((floppy->type & DT_FS) == DT_FS)) {
-	p->inuse = 0;
+        p->inuse = 0;
         initialize_1541(unit, DT_DISK | DT_1541,
                         attach_hooks[unit - 8],
                         detach_hooks[unit - 8],
@@ -228,5 +234,73 @@ void file_system_detach_disk(int unit)
 	    break;
 	}
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int vdrive_write_snapshot_module(snapshot_t *s, int start)
+{
+    int i;
+    char snap_module_name[14];
+    snapshot_module_t *m;
+    serial_t *p;
+    DRIVE *floppy;
+
+    for (i = start; i <= 11; i++) {
+
+        p = serial_get_device(i);
+        floppy = (DRIVE *)p->info;
+        if (floppy->ActiveFd > 0) {
+            sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
+            m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR,
+                                   SNAP_MINOR);
+            if (m == NULL)
+                return -1;
+
+            if (snapshot_module_write_byte_array(m, floppy->ActiveName,
+                    sizeof(floppy->ActiveName)) < 0) {
+                if (m != NULL)
+                    snapshot_module_close(m);
+                return -1;
+            }
+            snapshot_module_close(m);
+        }
+    }
+    return 0;
+}
+
+int vdrive_read_snapshot_module(snapshot_t *s, int start)
+{
+    BYTE major_version, minor_version;
+    int i;
+    snapshot_module_t *m;
+    char snap_module_name[14];
+
+    for (i = start; i <= 11; i++) {
+
+        sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
+        m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+        if (m == NULL)
+            return 0;
+
+        if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+            fprintf(stderr,
+                "VDRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
+        }
+/*
+        if (snapshot_module_read_byte_array(m, floppy->ActiveName,
+                sizeof(floppy->ActiveName)) < 0) {
+            if (m != NULL)
+                snapshot_module_close(m);
+            return -1;
+        }*/
+        snapshot_module_close(m);
+    }
+    return 0;
 }
 
