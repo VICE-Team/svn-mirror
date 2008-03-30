@@ -638,7 +638,6 @@ c1541_SOURCES = \
 	c1541.c \
 	cbmdos.c \
 	charset.c \
-	cmdline.c \
 	findpath.c \
 	gcr.c \
 	cbmimage.c \
@@ -658,7 +657,6 @@ c1541_SOURCES = \
 # libs too then.
 c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	@ARCH_DIR@/uicmdline.o \
 	$(blockdev_lib) \
 	$(realdevice_lib) \
 	$(vdrive_lib) \
@@ -673,7 +671,6 @@ c1541_LDADD = \
 # petcat
 petcat_SOURCES = \
 	charset.c \
-	cmdline.c \
 	findpath.c \
 	ioutil.c \
 	lib.c \
@@ -688,7 +685,6 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	@ARCH_DIR@/uicmdline.o \
 	$(fileio_lib) 
 
 subdir = src
@@ -701,15 +697,13 @@ bin_PROGRAMS = x64$(EXEEXT) x128$(EXEEXT) xvic$(EXEEXT) xpet$(EXEEXT) \
 PROGRAMS = $(bin_PROGRAMS)
 
 am_c1541_OBJECTS = c1541.$(OBJEXT) cbmdos.$(OBJEXT) charset.$(OBJEXT) \
-	cmdline.$(OBJEXT) findpath.$(OBJEXT) gcr.$(OBJEXT) \
-	cbmimage.$(OBJEXT) info.$(OBJEXT) ioutil.$(OBJEXT) \
-	lib.$(OBJEXT) log.$(OBJEXT) rawfile.$(OBJEXT) \
-	resources.$(OBJEXT) util.$(OBJEXT) zfile.$(OBJEXT) \
-	zipcode.$(OBJEXT)
+	findpath.$(OBJEXT) gcr.$(OBJEXT) cbmimage.$(OBJEXT) \
+	info.$(OBJEXT) ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
+	rawfile.$(OBJEXT) resources.$(OBJEXT) util.$(OBJEXT) \
+	zfile.$(OBJEXT) zipcode.$(OBJEXT)
 c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@c1541_DEPENDENCIES = \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/archdep.o \
-@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/uicmdline.o \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/opencbmlib.o \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/vdrive/libvdrive.a \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
@@ -719,7 +713,6 @@ c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/serial/libserial.a
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@c1541_DEPENDENCIES = \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/archdep.o \
-@HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/uicmdline.o \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/vdrive/libvdrive.a \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/fileio/libfileio.a \
@@ -728,7 +721,6 @@ c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_FALSE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/serial/libserial.a
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@c1541_DEPENDENCIES = \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/archdep.o \
-@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/uicmdline.o \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/blockdev.o \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	@ARCH_DIR@/opencbmlib.o \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/vdrive/libvdrive.a \
@@ -739,7 +731,6 @@ c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@	$(top_builddir)/src/serial/libserial.a
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@c1541_DEPENDENCIES = \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/archdep.o \
-@HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/uicmdline.o \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	@ARCH_DIR@/blockdev.o \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/vdrive/libvdrive.a \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/imagecontents/libimagecontents.a \
@@ -748,12 +739,12 @@ c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/tape/libtape.a \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/serial/libserial.a
 c1541_LDFLAGS =
-am_petcat_OBJECTS = charset.$(OBJEXT) cmdline.$(OBJEXT) \
-	findpath.$(OBJEXT) ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
-	petcat.$(OBJEXT) rawfile.$(OBJEXT) resources.$(OBJEXT) \
-	util.$(OBJEXT) zfile.$(OBJEXT) zipcode.$(OBJEXT)
+am_petcat_OBJECTS = charset.$(OBJEXT) findpath.$(OBJEXT) \
+	ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) petcat.$(OBJEXT) \
+	rawfile.$(OBJEXT) resources.$(OBJEXT) util.$(OBJEXT) \
+	zfile.$(OBJEXT) zipcode.$(OBJEXT)
 petcat_OBJECTS = $(am_petcat_OBJECTS)
-petcat_DEPENDENCIES = @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o \
+petcat_DEPENDENCIES = @ARCH_DIR@/archdep.o \
 	$(top_builddir)/src/fileio/libfileio.a
 petcat_LDFLAGS =
 am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
