@@ -754,9 +754,6 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      if (blocks < 1000)
 			  *p++ = ' ';
 
-		      *p++ = ' ';
-
-
 		      /*
 		       * Filename
 		       */
