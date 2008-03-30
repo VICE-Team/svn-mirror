@@ -2130,8 +2130,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
     petmem_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
@@ -2171,7 +2171,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
     petmem_patch_2001();
 
     snapshot_module_close(m);
@@ -2199,8 +2199,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
     petmem_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
@@ -2276,7 +2276,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     petmem_patch_2001();
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 

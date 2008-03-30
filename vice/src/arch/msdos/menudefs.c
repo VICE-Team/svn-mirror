@@ -1421,7 +1421,7 @@ tui_menu_item_def_t fsdevice_submenu[] = {
     { NULL }
 };
 
-TUI_MENU_DEFINE_TOGGLE(NoTraps)
+TUI_MENU_DEFINE_TOGGLE(VirtualDevices)
 
 /* ------------------------------------------------------------------------- */
 
@@ -1528,7 +1528,7 @@ static void create_special_submenu(int has_serial_traps)
     if (has_serial_traps)
         tui_menu_add_item(ui_special_submenu, "Disable Kernal _Traps:",
                           "Disable the Kernal ROM patches used by tape and fast drive emulation",
-                          toggle_NoTraps_callback, NULL, 4,
+                          toggle_VirtualDevices_callback, NULL, 4,
                           TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add_item(ui_special_submenu, "_Change Working Directory...",

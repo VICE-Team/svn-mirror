@@ -806,8 +806,8 @@ static int mem_load_kernal(void)
     if(!rom_loaded) return 0;
 
     /* disable traps before saving the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     if(!IS_NULL(kernal_rom_name)) {
         /* Load Kernal ROM. */
@@ -815,14 +815,14 @@ static int mem_load_kernal(void)
             kernal_rom, VIC20_KERNAL_ROM_SIZE,
             VIC20_KERNAL_ROM_SIZE) < 0) {
 	    log_error(vic20_mem_log, "Couldn't load kernal ROM.");
-    	    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    	    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 	    return -1;
 	}
     }
 
     mem_kernal_checksum();
 
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     return 0;
 }
@@ -1291,8 +1291,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     config = mem_rom_blocks;
 
@@ -1331,7 +1331,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 
@@ -1355,8 +1355,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     snapshot_module_read_byte(m, &config);
 
@@ -1409,7 +1409,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
                 "represent\nthe state before loading the snapshot!");
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 

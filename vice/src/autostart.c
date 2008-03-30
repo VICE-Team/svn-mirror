@@ -282,14 +282,14 @@ void autostart_advance(void)
         switch (check("READY.")) {
           case YES:
             {
-                int no_traps;
+                int traps;
 
                 log_message(autostart_log, "Loading program.");
                 orig_true1541_state = get_true1541_state();
                 if (handle_true1541) {
-                    resources_get_value("NoTraps",
-					(resource_value_t *) &no_traps);
-                    if (!no_traps) {
+                    resources_get_value("VirtualDevices",
+                                        (resource_value_t *) &traps);
+                    if (traps) {
                         if (orig_true1541_state)
                             log_message(autostart_log,
                                         "Switching true drive emulation off.");
@@ -301,7 +301,7 @@ void autostart_advance(void)
                         set_true1541_mode(1);
                     }
                 } else
-                    no_traps = 0;
+                    traps = 1;
 
                 if (autostart_program_name) {
                     tmp = xmalloc(strlen((char *)(autostart_program_name))
@@ -313,7 +313,7 @@ void autostart_advance(void)
                 } else
                     kbd_buf_feed("LOAD\"*\",8,1\r");
 
-                if (no_traps) {
+                if (!traps) {
                     kbd_buf_feed("RUN\r");
                     autostartmode = AUTOSTART_DONE;
                 } else {
@@ -499,7 +499,7 @@ int autostart_prg(const char *file_name)
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
     set_true1541_mode(0);
-    resources_set_value("NoTraps", (resource_value_t) 0);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
     resources_set_value("FSDevice8ConvertP00", (resource_value_t) 1);
     ui_update_menus();
 

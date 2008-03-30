@@ -1624,8 +1624,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     config = (  (cart_1_name ? 2 : 0)
 		| (cart_2_name ? 4 : 0)
@@ -1660,7 +1660,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     }
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 
@@ -1684,8 +1684,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
-    resources_set_value("NoTraps", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     snapshot_module_read_byte(m, &config);
 
@@ -1722,7 +1722,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     mem_checksum();
 
     /* enable traps again when necessary */
-    resources_set_value("NoTraps", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 
