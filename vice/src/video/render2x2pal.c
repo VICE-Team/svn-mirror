@@ -29,20 +29,21 @@
 #include "render2x2.h"
 #include "types.h"
 
+
 extern SDWORD ytable[128];
 extern SDWORD cbtable[128];
 extern SDWORD crtable[128];
 
-extern DWORD gamma_red[256*3];
-extern DWORD gamma_grn[256*3];
-extern DWORD gamma_blu[256*3];
+extern DWORD gamma_red[256 * 3];
+extern DWORD gamma_grn[256 * 3];
+extern DWORD gamma_blu[256 * 3];
 
-extern DWORD gamma_red_fac[256*3];
-extern DWORD gamma_grn_fac[256*3];
-extern DWORD gamma_blu_fac[256*3];
+extern DWORD gamma_red_fac[256 * 3];
+extern DWORD gamma_grn_fac[256 * 3];
+extern DWORD gamma_blu_fac[256 * 3];
 
-extern SDWORD line_yuv_0[1024*3];
-extern SDWORD line_yuv_1[1024*3];
+extern SDWORD line_yuv_0[1024 * 3];
+extern SDWORD line_yuv_1[1024 * 3];
 
 /* PAL 2x2 renderers */
 

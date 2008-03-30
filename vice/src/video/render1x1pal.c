@@ -29,16 +29,17 @@
 #include "render1x1.h"
 #include "types.h"
 
+
 extern SDWORD ytable[128];
 extern SDWORD cbtable[128];
 extern SDWORD crtable[128];
 
-extern DWORD gamma_red[256*3];
-extern DWORD gamma_grn[256*3];
-extern DWORD gamma_blu[256*3];
+extern DWORD gamma_red[256 * 3];
+extern DWORD gamma_grn[256 * 3];
+extern DWORD gamma_blu[256 * 3];
 
-SDWORD line_yuv_0[1024*3];
-SDWORD line_yuv_1[1024*3];
+SDWORD line_yuv_0[1024 * 3];
+SDWORD line_yuv_1[1024 * 3];
 
 /* PAL 1x1 renderers */
 
