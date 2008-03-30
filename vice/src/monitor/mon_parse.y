@@ -55,6 +55,8 @@ extern char *alloca ();
 #include "uimon.h"
 #include "machine.h"
 #include "mon.h"
+#include "mon_assemble.h"
+#include "mon_disassemble.h"
 #include "types.h"
 #include "utils.h"
 
@@ -122,7 +124,8 @@ extern int cur_len, last_len;
 %token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
 %token<i> CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
-%token<i> REG_B REG_C REG_D REG_E REG_H REG_L REG_AF REG_BC REG_DE REG_HL REG_SP
+%token<i> REG_B REG_C REG_D REG_E REG_H REG_L
+%token<i> REG_AF REG_BC REG_DE REG_HL REG_IX REG_IY REG_SP
 %token<i> CPUTYPE_6502 CPUTYPE_Z80
 %token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME CPUTYPE
 %token<reg> REGISTER
@@ -470,6 +473,8 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff)
   | L_PAREN REG_SP R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_SP,0); }
   | L_PAREN number R_PAREN COMMA REG_A { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,$2); }
   | L_PAREN number R_PAREN COMMA REG_HL { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_HL,$2); }
+  | L_PAREN number R_PAREN COMMA REG_IX { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_IX,$2); }
+  | L_PAREN number R_PAREN COMMA REG_IY { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_IY,$2); }
   | { $$ = join_ints(ASM_ADDR_MODE_IMPLIED,0); }
   | REG_A { $$ = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); }
   | REG_B { $$ = join_ints(ASM_ADDR_MODE_REG_B,0); }
