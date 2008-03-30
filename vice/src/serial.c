@@ -738,9 +738,10 @@ int serial_remove_file(int number)
 	      case 9:
 	      case 10:
 	      case 11:
+#if 0
 		  detach_floppy_image((DRIVE *) p->info);
+#endif
 		  break;
-
 	      default:
 		  log_error(serial_log, "Orphan device #%d.", number);
 		  return -1;
