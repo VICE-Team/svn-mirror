@@ -122,7 +122,7 @@ void rotation_table_set(DWORD *rotation_table_ptr)
 
     for (i = 0; i < 2; i++) {
         rotation[i].rotation_table_ptr = rotation[i].rotation_table[0]
-            + rotation_table_ptr[i];
+                                         + rotation_table_ptr[i];
 
         rotation[i].accum = drive[i].snap_accum;
         rotation[i].bits_moved = drive[i].snap_bits_moved;
