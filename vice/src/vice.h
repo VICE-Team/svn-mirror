@@ -86,7 +86,7 @@
 #endif
 
 /* Which OS is using those ugly scale source coordinates.  */
-#if defined(__MSDOS__) || defined(__riscos) || defined(__OS2__)
+#if defined(__MSDOS__) || defined(__OS2__)
 #define VIDEO_SCALE_SOURCE
 #endif
 
@@ -152,5 +152,5 @@ extern unsigned int get_path_max();
 #    define N_(String) (String)
 #endif /* ENABLE_NLS */
 
-#endif 
+#endif
 

@@ -766,7 +766,7 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   pw = (canvas->width) * scalex;
   ph = (canvas->height) * scaley;
 
-  /* in 2x mode, ALL coordinates are 2x (even xs, ys!!!) */
+  /* new interface, only xt may be 2x */
   xt = (vrd->xs + canvas->shiftx) * scalex;
   yt = (vrd->ys - canvas->shifty) * scaley;
   if ((xt >= pw) || (yt >= ph))
@@ -786,7 +786,7 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   if (yt + h > ph) h = ph - yt;
   /*log_message(LOG_DEFAULT, "s(%d,%d), t(%d,%d), d(%d,%d)", vrd->xs, vrd->ys, xt, yt, w, h);*/
   video_canvas_render(canvas, fb->paldata, w, h,
-                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitcht, ActualPALDepth);
+                    vrd->xs, vrd->ys, xt, yt, pitcht, ActualPALDepth);
 
   video_canvas_get_soft_scale(canvas, &softx, &softy);
 
@@ -872,7 +872,7 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   if (yt + h > ph) h = ph - yt;
 
   video_canvas_render(canvas, fb->paldata, w, h,
-                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitcht, ActualPALDepth);
+                    vrd->xs, vrd->ys, xt, yt, pitcht, ActualPALDepth);
 
   px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx) * scalex;
   py = vrd->ge.y - ((canvas->shifty * scaley + ph) << FullScrDesc.eigy);
