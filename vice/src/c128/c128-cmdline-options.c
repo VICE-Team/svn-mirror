@@ -32,7 +32,7 @@
 #include "machine.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (void *)MACHINE_SYNC_PAL, NULL, "Use PAL sync factor" },
     { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",

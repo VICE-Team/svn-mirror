@@ -33,7 +33,7 @@
 #include "iec-cmdline-options.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
       (void *)1,
       NULL, "Enable SpeedDOS-compatible parallel cable" },

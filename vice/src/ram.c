@@ -81,7 +81,7 @@ int ram_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
       "RAMInitStartValue", NULL,
       "<value>", "Set the value for the very first RAM address after powerup" },

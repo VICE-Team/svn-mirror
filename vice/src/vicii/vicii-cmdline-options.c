@@ -36,7 +36,7 @@
 
 
 /* VIC-II command-line options.  */
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)1, NULL, "Enable sprite-background collision registers" },

@@ -32,7 +32,7 @@
 #include "ieee-cmdline-options.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
       "<name>", "Specify name of 2031 DOS ROM image" },
     { "-dos2040", SET_RESOURCE, 1, NULL, NULL, "DosName2040", "dos2040",

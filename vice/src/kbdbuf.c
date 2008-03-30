@@ -104,11 +104,11 @@ static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
     return 0;
 }
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
-    {"-keybuf", CALL_FUNCTION, 1, kdb_buf_feed_cmdline, NULL, NULL, NULL,
-     "<string>", "Put the specified string into the keyboard buffer"},
-    {NULL}
+    { "-keybuf", CALL_FUNCTION, 1, kdb_buf_feed_cmdline, NULL, NULL, NULL,
+      "<string>", "Put the specified string into the keyboard buffer" },
+    { NULL }
 };
 
 int kbd_buf_cmdline_options_init(void)

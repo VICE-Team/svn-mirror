@@ -192,7 +192,7 @@ int sound_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
       NULL, "Enable sound playback" },
     { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,

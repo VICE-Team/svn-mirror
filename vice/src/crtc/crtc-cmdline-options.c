@@ -37,7 +37,7 @@
 
 
 /* CRTC command-line options.  */
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-crtcpalette", SET_RESOURCE, 1, NULL, NULL,
       "CrtcPaletteFile", NULL,

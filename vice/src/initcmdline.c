@@ -117,7 +117,7 @@ static int cmdline_attach(const char *param, void *extra_param)
     return 0;
 }
 
-static cmdline_option_t common_cmdline_options[] = {
+static const cmdline_option_t common_cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
@@ -140,13 +140,13 @@ static cmdline_option_t common_cmdline_options[] = {
     { NULL }
 };
 
-static cmdline_option_t vsid_cmdline_options[] = {
+static const cmdline_option_t vsid_cmdline_options[] = {
     { NULL }
 };
 
 /* These are the command-line options for the initialization sequence.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-default", CALL_FUNCTION, 0, cmdline_default, NULL, NULL, NULL,
       NULL, "Restore default (factory) settings" },
     { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
@@ -168,7 +168,7 @@ static cmdline_option_t cmdline_options[] = {
 
 int initcmdline_init(void)
 {
-    cmdline_option_t *main_cmdline_options =
+    const cmdline_option_t *main_cmdline_options =
         vsid_mode ? vsid_cmdline_options : cmdline_options;
 
     if (cmdline_register_options(common_cmdline_options) < 0)

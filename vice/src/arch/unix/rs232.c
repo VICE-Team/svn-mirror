@@ -114,23 +114,23 @@ int rs232_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-rsdev1", SET_RESOURCE, 1, NULL, NULL, "RsDevice1", NULL,
-     "<name>", N_("Specify name of first RS232 device (/dev/ttyS0)") },
+      "<name>", N_("Specify name of first RS232 device (/dev/ttyS0)") },
     { "-rsdev1baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice1Baud", NULL,
-     "<baudrate>", N_("Specify baudrate of first RS232 device") },
+      "<baudrate>", N_("Specify baudrate of first RS232 device") },
     { "-rsdev2", SET_RESOURCE, 1, NULL, NULL, "RsDevice2", NULL,
-     "<name>", N_("Specify name of second RS232 device (/dev/ttyS1)") },
+      "<name>", N_("Specify name of second RS232 device (/dev/ttyS1)") },
     { "-rsdev2baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice2Baud", NULL,
-     "<baudrate>", N_("Specify baudrate of second RS232 device") },
+      "<baudrate>", N_("Specify baudrate of second RS232 device") },
     { "-rsdev3", SET_RESOURCE, 1, NULL, NULL, "RsDevice3", NULL,
-     "<name>", N_("Specify name of third RS232 device (rs232.dump)") },
+      "<name>", N_("Specify name of third RS232 device (rs232.dump)") },
     { "-rsdev3baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice3Baud", NULL,
-     "<baudrate>", N_("Specify baudrate of third RS232 device") },
+      "<baudrate>", N_("Specify baudrate of third RS232 device") },
     { "-rsdev4", SET_RESOURCE, 1, NULL, NULL, "RsDevice4", NULL,
-     "<name>", N_("Specify command to pipe data in/out, preceed with '|' (|lpr)") },
+      "<name>", N_("Specify command to pipe data in/out, preceed with '|' (|lpr)") },
     { "-rsdev4baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice4Baud", NULL,
-     "<baudrate>", N_("Specify baudrate of 4th RS232 device") },
+      "<baudrate>", N_("Specify baudrate of 4th RS232 device") },
     { NULL }
 };
 

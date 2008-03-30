@@ -105,7 +105,7 @@ int traps_resources_init(void)
 
 /* Trap-related command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
         (resource_value_t)0,
       NULL, "Enable general mechanisms for fast disk/tape emulation" },

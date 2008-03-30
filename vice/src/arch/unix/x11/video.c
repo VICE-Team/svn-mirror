@@ -172,7 +172,7 @@ int video_arch_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 /* Video-related command-line options.  */
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-xsync", SET_RESOURCE, 0, NULL, NULL,
       "UseXSync", (resource_value_t)1,
       NULL, N_("Call `XSync()' after updating the emulation window") },

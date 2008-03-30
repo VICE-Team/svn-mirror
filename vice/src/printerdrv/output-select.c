@@ -91,7 +91,7 @@ int output_select_init_resources(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
       "<name>", "Specify name of output device for device #4" },

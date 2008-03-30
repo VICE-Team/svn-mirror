@@ -213,7 +213,7 @@ int ui_resources_init(void)
 /* ------------------------------------------------------------------------ */
 
 /* UI-related command-line options.  */
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 

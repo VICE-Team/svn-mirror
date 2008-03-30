@@ -138,7 +138,7 @@ int rsuser_resources_init(void) {
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-rsuser", SET_RESOURCE, 1, NULL, NULL, "RsUser",
         (resource_value_t) 0, "<baud>",
         "Enable the userport RS232 emulation baud=0: off; baud=9600: CIA interface." },

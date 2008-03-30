@@ -79,7 +79,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-prtxtdev1", SET_RESOURCE, 1, NULL, NULL, "PrinterTextDevice1", NULL,
      "<name>", N_("Specify name of printer text device or dump file") },

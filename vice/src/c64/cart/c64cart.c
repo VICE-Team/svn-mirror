@@ -156,7 +156,7 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
     return cartridge_attach_image((int)extra_param, param);
 }
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     {"-cartcrt", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_CRT, NULL, NULL,

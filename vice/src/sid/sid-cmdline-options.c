@@ -34,7 +34,7 @@
 #include "sid-cmdline-options.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
       "<engine>", "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)" },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",

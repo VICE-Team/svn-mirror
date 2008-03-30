@@ -137,7 +137,7 @@ int datasette_resources_init(void)
 
 /*---------- Commandline options --------------------------------------*/
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL,
       "DatasetteResetWithCPU", (resource_value_t)1,
       NULL, "Enable automatic Datasette-Reset" },

@@ -37,7 +37,7 @@
 
 
 /* VDC command-line options.  */
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-VDC_palette", SET_RESOURCE, 1, NULL, NULL,
       "VDC_PaletteFile", NULL,

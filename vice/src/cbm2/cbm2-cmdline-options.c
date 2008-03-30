@@ -33,7 +33,7 @@
 #include "cmdline.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, cbm2_set_model, NULL, NULL, NULL,
      "<modelnumber>", "Specify CBM-II model to emulate" },
     { "-usevicii", SET_RESOURCE, 0, NULL, NULL, "UseVicII", (void *)1,

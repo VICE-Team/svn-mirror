@@ -97,7 +97,7 @@ int driver_select_init_resources(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,
      "<name>", "Specify name of printer driver for device #4" },

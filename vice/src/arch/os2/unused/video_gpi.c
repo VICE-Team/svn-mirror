@@ -108,7 +108,7 @@ int video_init_resources(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
     { NULL },

@@ -78,7 +78,7 @@ static resource_t resources[] = {
 
 /* Command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
       "<0-6>", N_("Set device for joystick port 1") },
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,

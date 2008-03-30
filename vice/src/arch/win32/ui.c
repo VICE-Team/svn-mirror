@@ -78,6 +78,7 @@
 #include "winmain.h"
 #include "statusbar.h"
 
+
 //static HWND status_hwnd[2];
 
 //int status_height;
@@ -86,7 +87,7 @@ static char *hwnd_titles[2];
 
 /* Exposure handler.  */
 HWND window_handles[2];
-canvas_redraw_t exposure_handler[2];
+static canvas_redraw_t exposure_handler[2];
 int number_of_windows;
 int window_canvas_xsize[2];
 int window_canvas_ysize[2];
@@ -98,11 +99,11 @@ static long CALLBACK dummywindowproc(HWND window, UINT msg,
                                      WPARAM wparam, LPARAM lparam);
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
-int ui_emulation_is_paused(void);
+static int ui_emulation_is_paused(void);
 
 
 /* List of resources that can be switched on and off from the menus.  */
-static ui_menu_toggle toggle_list[] = {
+static const ui_menu_toggle toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -117,7 +118,7 @@ static ui_menu_toggle toggle_list[] = {
 
 /*  List of resources which can have multiple mutual exclusive menu entries. */
 
-static ui_res_possible_values RefreshRateValues[] = {
+static const ui_res_possible_values RefreshRateValues[] = {
     { 0, IDM_REFRESH_RATE_AUTO },
     { 1, IDM_REFRESH_RATE_1 },
     { 2, IDM_REFRESH_RATE_2 },
@@ -132,7 +133,7 @@ static ui_res_possible_values RefreshRateValues[] = {
     { -1, 0 }
 };
 
-static ui_res_possible_values SpeedValues[] = {
+static const ui_res_possible_values SpeedValues[] = {
     { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
     { 10, IDM_MAXIMUM_SPEED_10 },
     { 20, IDM_MAXIMUM_SPEED_20 },
@@ -142,14 +143,14 @@ static ui_res_possible_values SpeedValues[] = {
     { -1, 0 }
 };
 
-static ui_res_possible_values SyncFactor[] = {
+static const ui_res_possible_values SyncFactor[] = {
     { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
     { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
     { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
     { -1, 0 }
 };
 
-static ui_res_value_list value_list[] = {
+static const ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
     { "MachineVideoStandard", SyncFactor },
@@ -243,49 +244,49 @@ static int set_initial_dir(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    {"FullscreenDevice",RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&ui_resources.fullscreendevice,
-     set_fullscreen_device, NULL },
-    {"FullscreenBitdepth",RES_INTEGER, (resource_value_t)8,
-     (resource_value_t *)&ui_resources.fullscreenbitdepth,
-     set_fullscreen_bitdepth, NULL },
-    {"FullscreenWidth",RES_INTEGER, (resource_value_t)640,
-     (resource_value_t *)&ui_resources.fullscreenwidth,
-     set_fullscreen_width, NULL },
-    {"FullscreenHeight",RES_INTEGER, (resource_value_t)480,
-     (resource_value_t *)&ui_resources.fullscreenheight,
-     set_fullscreen_height, NULL },
-    {"FullscreenRefreshRate",RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&ui_resources.fullscreenrefreshrate,
-     set_fullscreen_refreshrate, NULL },
-    {"FullscreenEnabled",RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&ui_resources.fullscreenenabled,
-     set_fullscreen_enabled, NULL },
-    {"SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&ui_resources.save_resources_on_exit,
-     set_save_resources_on_exit, NULL },
-    {"ConfirmOnExit",RES_INTEGER, (resource_value_t)1,
-     (resource_value_t *)&ui_resources.confirm_on_exit,
-     set_confirm_on_exit, NULL },
-    {"MonitorDimensions",RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&ui_resources.monitor_dimensions,
-     set_monitor_dimensions, NULL },
-    {"InitialDefaultDir", RES_STRING, (resource_value_t)"",
+    { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.fullscreendevice,
+      set_fullscreen_device, NULL },
+    { "FullscreenBitdepth", RES_INTEGER, (resource_value_t)8,
+      (resource_value_t *)&ui_resources.fullscreenbitdepth,
+      set_fullscreen_bitdepth, NULL },
+    { "FullscreenWidth", RES_INTEGER, (resource_value_t)640,
+      (resource_value_t *)&ui_resources.fullscreenwidth,
+      set_fullscreen_width, NULL },
+    { "FullscreenHeight", RES_INTEGER, (resource_value_t)480,
+      (resource_value_t *)&ui_resources.fullscreenheight,
+      set_fullscreen_height, NULL },
+    { "FullscreenRefreshRate", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.fullscreenrefreshrate,
+      set_fullscreen_refreshrate, NULL },
+    { "FullscreenEnabled", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.fullscreenenabled,
+      set_fullscreen_enabled, NULL },
+    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&ui_resources.save_resources_on_exit,
+      set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&ui_resources.confirm_on_exit,
+      set_confirm_on_exit, NULL },
+    { "MonitorDimensions", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.monitor_dimensions,
+      set_monitor_dimensions, NULL },
+    { "InitialDefaultDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[0],
       set_initial_dir, (void *)0 },
-    {"InitialTapeDir", RES_STRING, (resource_value_t)"",
+    { "InitialTapeDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[1],
       set_initial_dir, (void *)1 },
-    {"InitialDiskDir", RES_STRING, (resource_value_t)"",
+    { "InitialDiskDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[2],
       set_initial_dir, (void *)2 },
-    {"InitialAutostartDir", RES_STRING, (resource_value_t)"",
+    { "InitialAutostartDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[3],
       set_initial_dir, (void *)3 },
-    {"InitialCartDir", RES_STRING, (resource_value_t)"",
+    { "InitialCartDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[4],
       set_initial_dir, (void *)4 },
-    {"InitialSnapshotDir", RES_STRING, (resource_value_t)"",
+    { "InitialSnapshotDir", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&ui_resources.initialdir[5],
       set_initial_dir, (void *)5 },
     { NULL }
@@ -300,7 +301,7 @@ int ui_resources_init(void)
 
 /* UI-related command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t)1,
       NULL, "Save settings (resources) on exit" },
@@ -619,23 +620,23 @@ void ui_update_menus(void)
 {
 }
 
-static ui_menu_toggle *machine_specific_toggles=NULL;
-static ui_res_value_list *machine_specific_values=NULL;
+static const ui_menu_toggle *machine_specific_toggles = NULL;
+static const ui_res_value_list *machine_specific_values = NULL;
 
-void ui_register_menu_toggles(ui_menu_toggle *toggles)
+void ui_register_menu_toggles(const ui_menu_toggle *toggles)
 {
-    machine_specific_toggles=toggles;
+    machine_specific_toggles = toggles;
 }
 
-void ui_register_res_values(ui_res_value_list *valuelist)
+void ui_register_res_values(const ui_res_value_list *valuelist)
 {
-    machine_specific_values=valuelist;
+    machine_specific_values = valuelist;
 }
 
 static void update_menus(HWND hwnd)
 {
     HMENU menu = GetMenu(hwnd);
-    int i,j;
+    int i, j;
     int value;
     int result;
 
@@ -796,7 +797,7 @@ void ui_pause_emulation(void)
     }
 }
 
-int ui_emulation_is_paused(void)
+static int ui_emulation_is_paused(void)
 {
     return is_paused;
 }
@@ -1827,8 +1828,8 @@ int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
 
         HWND hWndActive = GetActiveWindow();
 
-        for (window_index = 0; window_index < number_of_windows; window_index++)
-        {
+        for (window_index = 0; window_index < number_of_windows;
+            window_index++) {
             if (window_handles[window_index] == hWndActive) {
                 hWnd = hWndActive;
                 break;

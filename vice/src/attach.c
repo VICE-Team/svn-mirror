@@ -108,7 +108,7 @@ int file_system_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-device8", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice8",
       (void *)ATTACH_DEVICE_FS, "<type>",
       "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)" },

@@ -112,7 +112,7 @@ int vsync_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Vsync-related command-line options. */
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
       "<percent>", N_("Limit emulation speed to specified value") },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,

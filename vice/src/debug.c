@@ -82,7 +82,7 @@ int debug_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
 #ifdef DEBUG
     { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
       "MainCPU_TRACE", (resource_value_t)1,

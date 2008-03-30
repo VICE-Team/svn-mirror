@@ -32,7 +32,7 @@
 #include "tcbm-cmdline-options.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-dos1551", SET_RESOURCE, 1, NULL, NULL, "DosName1551", "dos1551",
       "<name>", "Specify name of 1551 DOS ROM image" },
     { NULL }

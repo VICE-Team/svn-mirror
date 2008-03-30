@@ -100,7 +100,7 @@ int kbd_resources_init(void)
 
 /* keymap command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
       "<name>", "Specify name of symbolic keymap file" },
      { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,

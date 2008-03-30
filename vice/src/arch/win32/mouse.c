@@ -101,7 +101,7 @@ int mouse_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-mouse", SET_RESOURCE, 1, NULL, NULL,
       "Mouse", NULL, NULL, "Enable emulation of the 1351 proportional mouse" },
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,

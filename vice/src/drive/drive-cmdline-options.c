@@ -34,7 +34,7 @@
 #include "machine-drive.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
       (void *)1,
       NULL, "Enable hardware-level emulation of disk drives" },

@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "types.h"
 
+
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
 
@@ -99,7 +100,7 @@ int pia1_init_resources(void)
 }
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
       NULL, "Enable userport diagnostic pin" },
     { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,

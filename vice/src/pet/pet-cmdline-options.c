@@ -34,7 +34,7 @@
 #include "pets.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, pet_set_model, NULL, NULL, NULL,
       "<modelnumber>", "Specify PET model to emulate" },
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,

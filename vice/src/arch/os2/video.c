@@ -500,7 +500,7 @@ int video_arch_init_resources(void)
         resources_register(resources2);
 }
 
-static cmdline_option_t cmdline_options1[] = {
+static const cmdline_option_t cmdline_options1[] = {
 #ifndef DIRECT_ACCESS
     { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
@@ -520,7 +520,7 @@ static cmdline_option_t cmdline_options1[] = {
     NULL
 };
 
-static cmdline_option_t cmdline_options2[] = {
+static const cmdline_option_t cmdline_options2[] = {
     { "-logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 1,
       NULL, "Enable Logging Window" },
     { "+logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 0,

@@ -32,6 +32,7 @@
 #include "cmdline.h"    // cmdline_register_options
 #include "resources.h"  // resources_register
 
+
 BYTE joystick_value[3];
 
 static char *keymapfile;
@@ -74,8 +75,8 @@ int kbd_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
-     { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapFile", NULL,
+static const cmdline_option_t cmdline_options[] = {
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapFile", NULL,
       "<name>", "Specify name of keymap file" },
      NULL,
 };

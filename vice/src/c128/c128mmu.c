@@ -46,6 +46,7 @@
 #include "z80.h"
 #include "z80mem.h"
 
+
 /* #define MMU_DEBUG */
 
 /* MMU register.  */
@@ -84,7 +85,7 @@ int mmu_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-40col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 1,
       NULL, "Activate 40 column mode" },

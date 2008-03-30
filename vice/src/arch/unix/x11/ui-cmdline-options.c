@@ -33,7 +33,7 @@
 #include "cmdline.h"
 
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,
       "<command>", N_("Specify an HTML browser for the on-line help") },
     { "-install", SET_RESOURCE, 0, NULL, NULL,

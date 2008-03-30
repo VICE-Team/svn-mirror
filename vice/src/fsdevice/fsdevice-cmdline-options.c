@@ -48,7 +48,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
     return 0;
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)8, NULL, NULL,
       "<name>", "Use <name> as directory for file system device #8" },
     { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)9, NULL, NULL,

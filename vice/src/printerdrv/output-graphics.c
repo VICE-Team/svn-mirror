@@ -42,6 +42,7 @@
 #include "utils.h"
 #include "types.h"
 
+
 struct output_gfx_s
 {
     gfxoutputdrv_t *gfxoutputdrv;
@@ -73,7 +74,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-ppb", SET_RESOURCE, 1, NULL, NULL, "PixelsPerBit", NULL,
       "<0-3>", "Number of pixel size in graphic [3]" },

@@ -112,7 +112,7 @@ static resource_t resources[] = {
 
 /* Command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
       "<path>", "Define search path to locate system files" },
     { NULL },

@@ -220,7 +220,7 @@ int joystick_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1, NULL, NULL,
       "JoyDevice1", NULL,
       "<number>", "Set input device for joystick #1" },

@@ -141,7 +141,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-model", SET_RESOURCE, 1, NULL, NULL, "Model", NULL,
       "<name>", "Specify PET model name" },
     { NULL }

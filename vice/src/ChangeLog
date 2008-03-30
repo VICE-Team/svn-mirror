@@ -1,3 +1,55 @@
+2003-03-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.11.
+
+	* arch/win32/catweaselmkiii.c, arch/win32/c64ui.c,
+	arch/win32/resc64.rc: Conditional compile.
+
+	* arch/win32/c128ui.c, arch/win32/resc128.rc,
+	arch/win32/cbm2ui.c, arch/win32/rescbm2.rc: Added SID engine
+	resource.
+
+	* arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/vic20ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/cbm2ui.c
+	arch/win32/ui.c, arch/win32/ui.h: Made some structs const.
+
+	* attach.c, datasette.c, debug.c, event.c, initcmdline.c,
+	kbdbuf.c, log.c, ram.c, sound.c, sysfile.c, traps.c, vsync.c,
+	aciacore.c, drive/drive-cmdline-options.c,
+	drive/iec/iec-cmdline-options.c,
+	drive/ieee/ieee-cmdline-options.c,
+	drive/tcbm/tcbm-cmdline-options.c,
+	fsdevice/fsdevice-cmdline-options.c,
+	vicii/vicii-cmdline-options.c, vdc/vdc-cmdline-options.c,
+	crtc/crtc-cmdline-options.c, sid/sid-cmdline-options.c,
+	printerdrv/driver-select.c, printerdrv/interface-serial.c,
+	printerdrv/interface-userport.c, printerdrv/output-graphics.c,
+	printerdrv/output-select.c, printerdrv/output-text.c,
+	rs232drv/rsuser.c, c64/c64-cmdline-options.c, c64/psid.c,
+	c64/reu.c, c64/cart/c64cart.c, c128/c128-cmdline-options.c,
+	c128/c128mmu.c, c128/functionrom.c, c128/z80mem.c,
+	vic20/vic-cmdline-options.c, vic20/vic20-cmdline-options.c,
+	vic20/vic20cartridge.c, pet/pet-cmdline-options.c, pet/pet.c,
+	pet/petpia1.c, plus4/plus4-cmdline-options.c,
+	plus4/ted-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
+	arch/unix/joy.c, arch/unix/mouse.c, arch/unix/rs232.c,
+	arch/unix/x11/ui-cmdline-options.c, arch/unix/x11/video.c,
+	arch/win32/joy.c, arch/win32/mouse.c, arch/win32/ui.c,
+	arch/win32/video.c, arch/msdos/joy.c, arch/msdos/mouse.c,
+	arch/msdos/ui.c, arch/msdos/video.c, arch/msdos/vsync.c,
+	arch/os2/unused/video_gpi.c, arch/os2/unused/vsync.c,
+	arch/os2/joy.c, arch/os2/kbd.c, arch/os2/mouse.c,
+	arch/os2/ui.c, arch/os2/video.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c, arch/beos/kbd.c, arch/beos/joy.cc,
+	arch/beos/mouse.cc, arch/beos/ui.cc, arch/beos/video.cc:
+	Command line struct is const.
+
+2003-03-02  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uiedisk.c (ui_empty_disk_dialog):
+	Removed erroneous `{'.
+
 2003-02-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.10.

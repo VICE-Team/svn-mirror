@@ -162,7 +162,7 @@ static int cmdline_memory(const char *param, void *extra_param)
 }
 
 
-static cmdline_option_t cmdline_options[] =
+static cmdline_option_t const cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (resource_value_t)MACHINE_SYNC_PAL, NULL, "Use PAL sync factor" },

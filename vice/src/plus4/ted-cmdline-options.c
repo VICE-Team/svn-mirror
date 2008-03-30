@@ -35,7 +35,7 @@
 
 
 /* TED command-line options.  */
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
       "<0-2000>", "Set saturation of internal calculated palette [1000]" },

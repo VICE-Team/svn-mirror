@@ -140,7 +140,7 @@ int pet_kbd_resources_init(void)
 
 /* keymap command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-grsymkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapGraphicsSymFile",
 	NULL, "<name>",
 	"Specify name of graphics keyboard symbolic keymap file" },

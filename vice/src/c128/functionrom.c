@@ -109,7 +109,7 @@ int functionrom_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
       "<name>", "Specify name of internal Function ROM image" },
     { "-extfrom", SET_RESOURCE, 1, NULL, NULL, "ExternalFunctionName", NULL,

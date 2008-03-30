@@ -86,7 +86,7 @@ int video_arch_init_resources(void)
 }
 
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { "-directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
       (resource_value_t) 1, NULL, "Enable BeOS DirectWindow API"},

@@ -106,7 +106,7 @@ int interface_serial_init_resources(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] = {
     { "-device4", SET_RESOURCE, 1, NULL, NULL, "Printer4",
       (void *)PRINTER_DEVICE_FS, "<type>",
       "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)" },

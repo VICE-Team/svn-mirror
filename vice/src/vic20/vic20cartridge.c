@@ -53,6 +53,7 @@
 #include "vic20mem.h"
 #include "zfile.h"
 
+
 /* Hm, if this gets more, I should introduce an array :-) */
 static char *cartridge_file_2 = NULL;
 static char *cartridge_file_4 = NULL;
@@ -133,22 +134,22 @@ static int set_cartridge_file_B(resource_value_t v, void *param)
 
 static resource_t resources[] =
 {
-    {"CartridgeFile2000", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&cartridge_file_2,
-     set_cartridge_file_2, NULL },
-    {"CartridgeFile4000", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&cartridge_file_4,
-     set_cartridge_file_4, NULL },
-    {"CartridgeFile6000", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&cartridge_file_6,
-     set_cartridge_file_6, NULL },
-    {"CartridgeFileA000", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&cartridge_file_A,
-     set_cartridge_file_A, NULL },
-    {"CartridgeFileB000", RES_STRING, (resource_value_t)"",
-     (resource_value_t *)&cartridge_file_B,
-     set_cartridge_file_B, NULL },
-    {NULL}
+    { "CartridgeFile2000", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&cartridge_file_2,
+      set_cartridge_file_2, NULL },
+    { "CartridgeFile4000", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&cartridge_file_4,
+      set_cartridge_file_4, NULL },
+    { "CartridgeFile6000", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&cartridge_file_6,
+      set_cartridge_file_6, NULL },
+    { "CartridgeFileA000", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&cartridge_file_A,
+      set_cartridge_file_A, NULL },
+    { "CartridgeFileB000", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&cartridge_file_B,
+      set_cartridge_file_B, NULL },
+    { NULL }
 };
 
 int cartridge_resources_init(void)
@@ -181,19 +182,19 @@ static int attach_cart2(const char *param, void *extra_param)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, param);
 }
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
-    {"-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
-     "<name>", "Specify 4/8/16K extension ROM name at $2000"},
-    {"-cart4", CALL_FUNCTION, 1, attach_cart4, NULL, NULL, NULL,
-     "<name>", "Specify 4/8/16K extension ROM name at $4000"},
-    {"-cart6", CALL_FUNCTION, 1, attach_cart6, NULL, NULL, NULL,
-     "<name>", "Specify 4/8/16K extension ROM name at $6000"},
-    {"-cartA", CALL_FUNCTION, 1, attach_cartA, NULL, NULL, NULL,
-     "<name>", "Specify 4/8K extension ROM name at $A000"},
-    {"-cartB", CALL_FUNCTION, 1, attach_cartB, NULL, NULL, NULL,
-     "<name>", "Specify 4K extension ROM name at $B000"},
-    {NULL}
+    { "-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
+      "<name>", "Specify 4/8/16K extension ROM name at $2000" },
+    { "-cart4", CALL_FUNCTION, 1, attach_cart4, NULL, NULL, NULL,
+      "<name>", "Specify 4/8/16K extension ROM name at $4000" },
+    { "-cart6", CALL_FUNCTION, 1, attach_cart6, NULL, NULL, NULL,
+      "<name>", "Specify 4/8/16K extension ROM name at $6000" },
+    { "-cartA", CALL_FUNCTION, 1, attach_cartA, NULL, NULL, NULL,
+      "<name>", "Specify 4/8K extension ROM name at $A000" },
+    { "-cartB", CALL_FUNCTION, 1, attach_cartB, NULL, NULL, NULL,
+      "<name>", "Specify 4K extension ROM name at $B000" },
+    { NULL }
 };
 
 int cartridge_cmdline_options_init(void)

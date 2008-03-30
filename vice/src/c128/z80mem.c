@@ -88,7 +88,7 @@ int z80mem_resources_init(void)
     return resources_register(resources);
 }
 
-static cmdline_option_t cmdline_options[] =
+static const cmdline_option_t cmdline_options[] =
 {
     { NULL }
 };
