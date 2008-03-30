@@ -87,6 +87,7 @@
 #include "utils.h"
 #include "kbd.h"
 #include "true1541.h"
+#include "attach.h"
 
 #ifdef AUTOSTART
 #include "autostart.h"
@@ -328,6 +329,11 @@ CallbackFunc(UiSet1541ExtendImage);
 CallbackFunc(UiSet1541SyncFactor);
 CallbackFunc(UiSet1541IdleMethod);
 CallbackFunc(UiSetCustom1541SyncFactor);
+
+CallbackFunc(UiToggleFileSystemDevice8);
+CallbackFunc(UiToggleFileSystemDevice9);
+CallbackFunc(UiToggleFileSystemDevice10);
+CallbackFunc(UiToggleFileSystemDevice11);
 
 #ifdef SOUND
 CallbackFunc(UiToggleSound);
@@ -1079,7 +1085,7 @@ static void UiHandleSpecialKeys(Widget w, XtPointer closure,
     XLookupString(&x_event->xkey, buffer, 20, &key, &compose);
 
     switch (key) {
-    case XK_F9:
+      case XK_F9:
 	UiToggleTurbo(NULL, NULL, NULL);
 	break;
       case XK_F10:
@@ -1985,7 +1991,7 @@ CallbackFunc(UiAttachDisk)
 
     switch (button) {
       case Button_Ok:
- 	if (serial_select_file(DT_DISK | DT_1541, unit, filename) < 0)
+ 	if (file_system_attach_disk(unit, filename) < 0)
 	    UiError("Invalid Disk Image");
 	break;
 #ifdef AUTOSTART
@@ -2005,13 +2011,7 @@ CallbackFunc(UiDetachDisk)
     int unit = (int)client_data;
 
     suspend_speed_eval();
-    if (unit < 0) {
-	remove_serial(8);
-	remove_serial(9);
-	remove_serial(10);
-    } else {
-	remove_serial(unit);
-    }
+    file_system_detach_disk(unit);
 }
 
 CallbackFunc(UiAttachTape)
@@ -2244,7 +2244,7 @@ CallbackFunc(UiInfo)
 #endif
 	     "", "Copyright (c) 1993-1998",
 	     "E. Perazzoli, T. Rantanen, A. Fachat,",
-	     "J. Valta, D. Sladic and J. Sonninen", "",
+	     "D. Sladic, A. Boose, J. Valta and J. Sonninen", "",
 	     "Official VICE homepage:",
 	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html", "", NULL);
     }
@@ -2718,6 +2718,11 @@ DEFINE_RADIO(UiSet1541ExtendImage, True1541ExtendImagePolicy)
 DEFINE_RADIO(UiSet1541SyncFactor, True1541SyncFactor)
 
 DEFINE_RADIO(UiSet1541IdleMethod, True1541IdleMethod)
+
+DEFINE_TOGGLE(UiToggleFileSystemDevice8, FileSystemDevice8)
+DEFINE_TOGGLE(UiToggleFileSystemDevice9, FileSystemDevice9)
+DEFINE_TOGGLE(UiToggleFileSystemDevice10, FileSystemDevice10)
+DEFINE_TOGGLE(UiToggleFileSystemDevice11, FileSystemDevice11)
 
 /* ------------------------------------------------------------------------- */
 
