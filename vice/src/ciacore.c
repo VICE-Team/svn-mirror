@@ -972,14 +972,6 @@ static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
     int t, pm;
     CLOCK rclk = myclk - offset;
 
-#ifdef DEBUG
-    if (mycia_debugFlag)
-	log_message(cia_log,
-                    "TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x.",
-                    cia[CIA_TOD_HR], cia[CIA_TOD_MIN], cia[CIA_TOD_SEC],
-                    cia[CIA_TOD_TEN]);
-#endif
-
     /* set up new int */
     cia_todclk = myclk + ciatodticks;
     alarm_set(&cia_tod_alarm, cia_todclk);
@@ -1013,13 +1005,6 @@ static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
 		}
 	    }
 	}
-#ifdef DEBUG
-	if (mycia_debugFlag)
-	    log_message(cia_log,
-                        "TOD after event :tod=%02x:%02x,%02x.%x.",
-                        cia[CIA_TOD_HR], cia[CIA_TOD_MIN], cia[CIA_TOD_SEC],
-                        cia[CIA_TOD_TEN]);
-#endif
 	/* check alarm */
 	check_ciatodalarm(CIA_CONTEXT_CALL rclk);
     }
