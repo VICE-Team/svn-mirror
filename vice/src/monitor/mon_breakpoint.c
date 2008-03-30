@@ -36,6 +36,7 @@
 #include "log.h"
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
+#include "mon_util.h"
 #include "montypes.h"
 #include "uimon.h"
 #include "utils.h"
@@ -139,10 +140,10 @@ void mon_breakpoint_switch_checkpoint(int op, int breakpt_num)
     bp = find_checkpoint(breakpt_num);
 
     if (!bp) {
-        uimon_out("#%d not a valid breakpoint\n", breakpt_num);
+        mon_out("#%d not a valid breakpoint\n", breakpt_num);
     } else {
         bp->enabled = op;
-        uimon_out("Set breakpoint #%d to state: %s\n",
+        mon_out("Set breakpoint #%d to state: %s\n",
                   breakpt_num, (op == e_ON) ? "enabled" : "disabled");
     }
 }
@@ -154,10 +155,10 @@ void mon_breakpoint_set_ignore_count(int breakpt_num, int count)
 
     if (!bp)
     {
-        uimon_out("#%d not a valid breakpoint\n", breakpt_num);
+        mon_out("#%d not a valid breakpoint\n", breakpt_num);
     } else {
         bp->ignore_count = count;
-        uimon_out("Ignoring the next %d crossings of breakpoint #%d\n",
+        mon_out("Ignoring the next %d crossings of breakpoint #%d\n",
                   count, breakpt_num);
     }
 }
@@ -165,33 +166,33 @@ void mon_breakpoint_set_ignore_count(int breakpt_num, int count)
 static void print_checkpoint_info(breakpoint_t *bp)
 {
     if (bp->trace) {
-        uimon_out("TRACE: ");
+        mon_out("TRACE: ");
     } else if (bp->watch_load || bp->watch_store) {
-        uimon_out("WATCH: ");
+        mon_out("WATCH: ");
     } else {
         if (bp->temporary)
-            uimon_out("UNTIL: ");
+            mon_out("UNTIL: ");
         else
-            uimon_out("BREAK: ");
+            mon_out("BREAK: ");
     }
-    uimon_out("%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
+    mon_out("%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
     if (mon_is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
-        uimon_out("-$%04x",addr_location(bp->end_addr));
+        mon_out("-$%04x",addr_location(bp->end_addr));
 
     if (bp->watch_load)
-        uimon_out(" load");
+        mon_out(" load");
     if (bp->watch_store)
-        uimon_out(" store");
+        mon_out(" store");
 
-    uimon_out("   %s\n", (bp->enabled==e_ON) ? "enabled" : "disabled");
+    mon_out("   %s\n", (bp->enabled==e_ON) ? "enabled" : "disabled");
 
     if (bp->condition) {
-        uimon_out("\tCondition: ");
+        mon_out("\tCondition: ");
         mon_print_conditional(bp->condition);
-        uimon_out("\n");
+        mon_out("\n");
     }
     if (bp->command)
-        uimon_out("\tCommand: %s\n", bp->command);
+        mon_out("\tCommand: %s\n", bp->command);
 }
 
 void mon_breakpoint_print_checkpoints(void)
@@ -207,7 +208,7 @@ void mon_breakpoint_print_checkpoints(void)
     }
 
     if (!any_set)
-        uimon_out("No breakpoints are set\n");
+        mon_out("No breakpoints are set\n");
 }
 
 void mon_breakpoint_delete_checkpoint(int brknum)
@@ -218,7 +219,7 @@ void mon_breakpoint_delete_checkpoint(int brknum)
 
     if (brknum == -1) {
         /* Add user confirmation here. */
-        uimon_out("Deleting all breakpoints\n");
+        mon_out("Deleting all breakpoints\n");
         for (i = 1; i < breakpoint_count; i++) {
             bp = find_checkpoint(i);
             if (bp)
@@ -227,7 +228,7 @@ void mon_breakpoint_delete_checkpoint(int brknum)
     }
     else if ( !(bp = find_checkpoint(brknum)) )
     {
-        uimon_out("#%d not a valid breakpoint\n", brknum);
+        mon_out("#%d not a valid breakpoint\n", brknum);
         return;
     } else {
         mem = addr_memspace(bp->start_addr);
@@ -267,13 +268,13 @@ void mon_breakpoint_set_checkpoint_condition(int brk_num,
     bp = find_checkpoint(brk_num);
 
     if (!bp) {
-        uimon_out("#%d not a valid breakpoint\n", brk_num);
+        mon_out("#%d not a valid breakpoint\n", brk_num);
     } else {
         bp->condition = cnode;
 
-        uimon_out("Setting breakpoint %d condition to: ", brk_num);
+        mon_out("Setting breakpoint %d condition to: ", brk_num);
         mon_print_conditional(cnode);
-        uimon_out("\n");
+        mon_out("\n");
     }
 }
 
@@ -284,10 +285,10 @@ void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd)
     bp = find_checkpoint(brk_num);
 
     if (!bp) {
-        uimon_out("#%d not a valid breakpoint\n", brk_num);
+        mon_out("#%d not a valid breakpoint\n", brk_num);
     } else {
         bp->command = cmd;
-        uimon_out("Setting breakpoint %d command to: %s\n",
+        mon_out("Setting breakpoint %d command to: %s\n",
                   brk_num, cmd);
     }
 }
@@ -378,11 +379,11 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
                 type = "Break";
 
             /*archdep_open_monitor_console(&mon_input, &mon_output);*/
-            uimon_out("#%d (%s) ", bp->brknum, type);
+            mon_out("#%d (%s) ", bp->brknum, type);
             mon_disassemble_instr(temp);
 
             if (bp->command) {
-                uimon_out("Executing: %s\n", bp->command);
+                mon_out("Executing: %s\n", bp->command);
                 parse_and_execute_line(bp->command);
             }
 

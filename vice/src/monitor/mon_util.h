@@ -38,5 +38,7 @@ extern char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc,
 extern void mon_set_command(struct console_s *console_log, char *command,
                             void (*)(void));
 
+extern int mon_out(const char *format, ...);
+
 #endif /* #ifndef _MON_UTIL_H */
 

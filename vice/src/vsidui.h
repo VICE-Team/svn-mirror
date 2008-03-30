@@ -28,6 +28,7 @@
 #define _VSIDUI_H
 
 extern int vsid_ui_init(void);
+extern void vsid_ui_close(void);
 
 extern void vsid_ui_display_name(const char *name);
 extern void vsid_ui_display_author(const char *author);

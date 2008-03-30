@@ -46,6 +46,7 @@ static BTextControl *tc_current_tune;
 static BTextControl *tc_last_tune;
 static BTextControl *tc_time;
 static BTextControl *tc_irqtype;
+static ViceWindow	*vsidwindow;
 
 int vsid_ui_init(void)
 {
@@ -53,13 +54,18 @@ int vsid_ui_init(void)
 	BView *view;
 	BBox *box;
 	
+	vsidwindow = new ViceWindow(BRect(0, 0, 384, 272),
+						"C64 in SID player mode");
+	vsidwindow->MoveTo(30, 30);
+
 	window = windowlist[0];
 	frame = window->Bounds();
 	view = new BView(frame, "vsid", B_FOLLOW_NONE, B_WILL_DRAW);
+	view->SetViewColor(160,160,160,0);
 	frame.InsetBy(10, 40);
 	frame.OffsetBy(0, -10);
 	box = new BBox(frame);
-	box->SetLabel("Emulator is in VSID mode");
+	box->SetLabel("Current SID file information");
 	view->AddChild(box);
 	
 	tc_name = new BTextControl(
@@ -209,5 +215,11 @@ void vsid_ui_display_time(unsigned int sec)
 		window->Unlock();
 	}
 }
+
+void vsid_ui_close(void)
+{
+	delete vsidwindow;
+}
+
 
 } /* extern "C" */

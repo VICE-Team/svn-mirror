@@ -132,6 +132,8 @@ typedef struct console_private_s
 
     FILE        *fileOutput;    /* file handle for outputting */
 
+    BOOLEAN      bBreak;
+
 } console_private_t;
 
 
@@ -668,6 +670,8 @@ int console_out(console_t *log, const char *format, ...)
 	char buffer[MAX_OUTPUT_LENGTH];
 	char *pBuffer      = buffer;
 
+    pcp->bBreak = FALSE;
+
     va_start(ap, format);
     vsprintf(buffer, format, ap);
 
@@ -686,7 +690,7 @@ int console_out(console_t *log, const char *format, ...)
        will be better when using many console_out() w/o doing a CR? */
     ui_dispatch_events();
 
-	return 0;
+    return pcp->bBreak ? -1 :  0;
 }
 
 
@@ -1285,8 +1289,9 @@ static long CALLBACK console_window_proc(HWND hwnd,
 			}
 
 
-			if (chCharCode == 8)
-			{
+			switch (chCharCode)
+            {
+            case 8:
 				/* it's a backspace, process it if possible */
 
 				/* check not to clear more characters than there were */
@@ -1318,30 +1323,29 @@ static long CALLBACK console_window_proc(HWND hwnd,
 				}
 
 				return 0;
-			}
 
-			if (chCharCode == 13)
-			{
+            case 13:
 				/* it's a CR, so the input is ready */
 				pcp->achInputBuffer[pcp->cntInputBuffer] = 0;
 				pcp->bInputReady                        = TRUE;
 
 				console_out_character( pcp, chCharCode );
 				return 0;
-			}
 
-            if (chCharCode == 12) /* 12 is ASCII for CTRL+L */
-            {
+            case 12: /* 12 is ASCII for CTRL+L */
     			if (pcp->fileOutput)
 	    			FileClose( pcp );
 		    	else
 			    	FileOpen ( pcp );
-            }
+                break;
 
-            if (chCharCode ==  3) /* 3 is ASCII for CTRL+C */
-            {
+            case 3: /* 3 is ASCII for CTRL+C */
                 /* it's a CTRL+C: Copy to clipboard */
                 MarkModeInClipboard(pcp); 
+                return 0;
+
+            case 27: /* 27 is an ESCape */
+                pcp->bBreak = TRUE;
                 return 0;
             }
 

@@ -34,6 +34,7 @@
 #include "mon_command.h"
 #include "montypes.h"
 #include "mon_parse.h" /* FIXME ! */
+#include "mon_util.h"
 #include "uimon.h"
 #include "utils.h"
 
@@ -394,51 +395,51 @@ void mon_command_print_help(const char *cmd)
         int column = 0;
 
         /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
-        uimon_out("\nAvailable commands are:\n\n");
+        mon_out("\nAvailable commands are:\n\n");
         for (c = mon_cmd_array; c->token != -1; c++) {
             int tot = 0;
 
             tot += strlen(c->str);
             if (tot == 0)        /* "Empty" command?  */
                 continue;
-            uimon_out("%s", c->str);
+            mon_out("%s", c->str);
 
             if (!util_check_null_string(c->abbrev)) {
-                uimon_out(" (%s)", c->abbrev);
+                mon_out(" (%s)", c->abbrev);
                 tot += 3 + strlen(c->abbrev);
             }
 
             if (tot > 40 || column == 1) {
-                uimon_out("\n");
+                mon_out("\n");
                 column = 0;
             } else {
                 for (; tot < 40; tot++)
-                    uimon_out(" ");
+                    mon_out(" ");
                 column = 1;
             }
             if (mon_stop_output != 0) break;
         }
-        uimon_out("\n\n");
+        mon_out("\n\n");
     } else {
         int push_back, cmd_num;
 
         cmd_num = mon_command_lookup_index(cmd, &push_back);
 
         if (cmd_num == -1 || push_back)
-            uimon_out("Command `%s' unknown.\n", cmd);
+            mon_out("Command `%s' unknown.\n", cmd);
         else if (mon_cmd_array[cmd_num].description == NULL)
-            uimon_out("No help available for `%s'\n", cmd);
+            mon_out("No help available for `%s'\n", cmd);
         else {
             mon_cmds_t *c;
 
             c = &mon_cmd_array[cmd_num];
 
-            uimon_out("\nSyntax: %s %s\n",
+            mon_out("\nSyntax: %s %s\n",
                       c->str,
                       c->param_names != NULL ? c->param_names : "");
             if (!util_check_null_string(c->abbrev))
-                uimon_out("Abbreviation: %s\n", c->abbrev);
-            uimon_out("\n%s\n\n", c->description);
+                mon_out("Abbreviation: %s\n", c->abbrev);
+            mon_out("\n%s\n\n", c->description);
         }
     }
 }

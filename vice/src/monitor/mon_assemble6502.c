@@ -32,6 +32,7 @@
 
 #include "asm.h"
 #include "montypes.h"
+#include "mon_util.h"
 #include "types.h"
 #include "uimon.h"
 
@@ -78,7 +79,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
                 && opinfo->addr_mode == ASM_ADDR_MODE_RELATIVE) {
                 branch_offset = operand_value - loc - 2;
                 if (branch_offset > 127 || branch_offset < -128) {
-                    uimon_out("Branch offset too large.\n");
+                    mon_out("Branch offset too large.\n");
                     return -1;
                 }
                 operand_value = (branch_offset & 0xff);
@@ -115,7 +116,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     } while (i != 0);
 
     if (!found) {
-        uimon_out("Instruction not valid.\n");
+        mon_out("Instruction not valid.\n");
         return -1;
     }
 
@@ -134,7 +135,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
         mon_inc_addr_location(&asm_mode_addr, len);
         dot_addr[mem] = asm_mode_addr;
     } else {
-        uimon_out("Assemble error: %d\n", len);
+        mon_out("Assemble error: %d\n", len);
     }
     return len;
 }

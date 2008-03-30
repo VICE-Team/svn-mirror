@@ -34,6 +34,7 @@
 #include "log.h"
 #include "mon.h"
 #include "mon_disassemble.h"
+#include "mon_util.h"
 #include "types.h"
 #include "uimon.h"
 
@@ -85,7 +86,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
                 p3 & 0xff, string);
         break;
       default:
-        uimon_out("Invalid opcode length: %d\n", opc_size);
+        mon_out("Invalid opcode length: %d\n", opc_size);
         sprintf(buff, "            %s", string);
     }
 
@@ -358,13 +359,13 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     /* Print the label for this location - if we have one */
     label = mon_symbol_table_lookup_name(mem, loc);
     if (label)
-        uimon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
+        mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
 
     dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
                                             &opc_size);
 
     /* Print the disassembled instruction */
-    uimon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);
+    mon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);
 
     return opc_size;
     /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */

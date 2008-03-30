@@ -59,20 +59,20 @@ console_t *uimon_window_resume( void )
     return uimon_window_open();
 }
 
-#define MAX_OUTPUT_LENGTH 2000
-
 int uimon_out(const char *format, ...)
 {
     va_list ap;
-    char buffer[MAX_OUTPUT_LENGTH];
+    char *buffer;
+    int   rc = 0;
 
     if (console_log)
     {
         va_start(ap, format);
-        vsprintf(buffer, format, ap);
-        return console_out(console_log, buffer);
+        buffer = xmvsprintf(format, ap);
+        rc = console_out(console_log, buffer);
+        free(buffer);
     }
-    return 0;
+    return rc;
 }
 
 char *uimon_get_in( char **ppchCommandLine )

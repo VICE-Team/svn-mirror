@@ -2111,8 +2111,6 @@ console_t *uimon_window_resume( void )
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
 
-#define MAX_OUTPUT_LENGTH 2000
-
 int uimon_out(const char *format, ...)
 {
     va_list ap;

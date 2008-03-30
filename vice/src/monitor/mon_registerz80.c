@@ -31,6 +31,7 @@
 
 #include "log.h"
 #include "mon_register.h"
+#include "mon_util.h"
 #include "montypes.h"
 #include "uimon.h"
 #include "utils.h"
@@ -167,8 +168,8 @@ static void mon_register_print(int mem)
     }
     regs = mon_interfaces[mem]->z80_cpu_regs;
 
-    uimon_out("  ADDR AF   BC   DE   HL   IX   IY   SP   I  R  AF'  BC'  DE'  HL'\n");
-    uimon_out(".;%04x %04x %04x %04x %04x %04x %04x %04x %02x %02x %04x %04x %04x %04x\n",
+    mon_out("  ADDR AF   BC   DE   HL   IX   IY   SP   I  R  AF'  BC'  DE'  HL'\n");
+    mon_out(".;%04x %04x %04x %04x %04x %04x %04x %04x %02x %02x %04x %04x %04x %04x\n",
               mon_register_get_val(mem, e_PC),
               mon_register_get_val(mem, e_AF),
               mon_register_get_val(mem, e_BC),

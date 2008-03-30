@@ -320,3 +320,7 @@ void vsid_ui_display_speed(int percent)
 void vsid_ui_display_irqtype(const char *irq)
 {
 }
+
+void vsid_ui_close(void)
+{
+}

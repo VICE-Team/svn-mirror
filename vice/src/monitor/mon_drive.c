@@ -34,6 +34,7 @@
 #include "attach.h"
 #include "diskimage.h"
 #include "montypes.h"
+#include "mon_util.h"
 #include "types.h"
 #include "uimon.h"
 #include "vdrive.h"
@@ -50,7 +51,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
     floppy = (vdrive_t *)file_system_get_vdrive(8);
 
     if (!floppy || floppy->image == NULL) {
-        uimon_out("No disk attached\n");
+        mon_out("No disk attached\n");
         return;
     }
 
@@ -62,7 +63,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         /* We ignore disk error codes here.  */
         if (disk_image_read_sector(floppy->image, readdata, track, sector)
             < 0) {
-            uimon_out("Error reading track %d sector %d\n",
+            mon_out("Error reading track %d sector %d\n",
                       track, sector);
             return;
         }
@@ -74,17 +75,17 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
             for (i = 0; i < 256; i++)
                 mon_set_mem_val(dest_mem, ADDR_LIMIT(dst +  i), readdata[i]);
 
-            uimon_out("Read track %d sector %d into address $%04x\n",
+            mon_out("Read track %d sector %d into address $%04x\n",
                       track, sector, dst);
         } else {
             for (i = 0; i < 16; i++) {
-                uimon_out(">%04x", i * 16);
+                mon_out(">%04x", i * 16);
                 for (j = 0; j < 16; j++) {
                     if ((j & 3) == 0)
-                        uimon_out(" ");
-                    uimon_out(" %02x", readdata[i * 16 + j]);
+                        mon_out(" ");
+                    mon_out(" %02x", readdata[i * 16 + j]);
                 }
-                uimon_out("\n");
+                mon_out("\n");
             }
         }
     } else {
@@ -99,12 +100,12 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
             writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src + i));
 
         if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
-            uimon_out("Error writing track %d sector %d\n",
+            mon_out("Error writing track %d sector %d\n",
                       track, sector);
             return;
         }
 
-        uimon_out("Write data from address $%04x to track %d sector %d\n",
+        mon_out("Write data from address $%04x to track %d sector %d\n",
                   src, track, sector);
     }
 }

@@ -33,6 +33,7 @@
 
 #include "log.h"
 #include "mon_register.h"
+#include "mon_util.h"
 #include "montypes.h"
 #include "mos6510.h"
 #include "uimon.h"
@@ -133,8 +134,8 @@ static void mon_register_print(int mem)
         return;
     }
     regs = mon_interfaces[mem]->cpu_regs;
-    uimon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC\n");
-    uimon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
+    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC\n");
+    mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
               mon_register_get_val(mem, e_PC),
               mon_register_get_val(mem, e_A),
               mon_register_get_val(mem, e_X),

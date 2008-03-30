@@ -343,3 +343,7 @@ void vsid_ui_display_irqtype(const char *irq)
     log_message(LOG_DEFAULT, "Using %s interrupt", irq);
     ui_vsid_setirq(irq);
 }
+
+void vsid_ui_close(void)
+{
+}

@@ -196,3 +196,7 @@ void vsid_ui_display_time(unsigned int sec)
         sprintf(txt, "%02d:%02d", (sec/60)%100, sec%60);
     WinSetDlgItemText(hwndVsid, ID_TIME, txt);
 }
+
+void vsid_ui_close(void)
+{
+}

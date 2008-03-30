@@ -59,6 +59,7 @@ extern char *alloca ();
 #include "mon_disassemble.h"
 #include "mon_drive.h"
 #include "mon_file.h"
+#include "mon_util.h"
 #include "montypes.h"
 #include "types.h"
 #include "utils.h"
@@ -331,7 +332,7 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                      { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
                    | CMD_SIDEFX end_cmd
                      {
-                         uimon_out("I/O side effects are %s\n",
+                         mon_out("I/O side effects are %s\n",
                                    sidefx ? "enabled" : "disabled");
                      }
                    | CMD_RADIX RADIX_TYPE end_cmd
@@ -351,12 +352,12 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                          else
                              p = "Unknown";
 
-                         uimon_out("Default radix is %s\n", p);
+                         mon_out("Default radix is %s\n", p);
                      }
 
                    | CMD_DEVICE memspace end_cmd
                      {
-                         uimon_out("Setting default device to `%s'\n",
+                         mon_out("Setting default device to `%s'\n",
                          _mon_space_strings[(int) $2]); default_memspace = $2;
                      }
                    | CMD_QUIT end_cmd
@@ -368,7 +369,7 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
 monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_drive_execute_disk_cmd($2); }
                   | CMD_PRINT expression end_cmd
-                    { uimon_out("\t%d\n",$2); }
+                    { mon_out("\t%d\n",$2); }
                   | CMD_HELP end_cmd
                     { mon_command_print_help(NULL); }
                   | CMD_HELP rest_of_line end_cmd
@@ -641,52 +642,52 @@ void parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    if ( (rc =yyparse()) != 0) {
-       uimon_out("ERROR -- ");
+       mon_out("ERROR -- ");
        switch(rc) {
          case ERR_BAD_CMD:
-           uimon_out("Bad command:\n");
+           mon_out("Bad command:\n");
            break;
          case ERR_RANGE_BAD_START:
-           uimon_out("Bad first address in range:\n");
+           mon_out("Bad first address in range:\n");
            break;
          case ERR_RANGE_BAD_END:
-           uimon_out("Bad second address in range:\n");
+           mon_out("Bad second address in range:\n");
            break;
          case ERR_EXPECT_BRKNUM:
-           uimon_out("Checkpoint number expected:\n");
+           mon_out("Checkpoint number expected:\n");
            break;
          case ERR_EXPECT_END_CMD:
-           uimon_out("Unexpected token:\n");
+           mon_out("Unexpected token:\n");
            break;
          case ERR_MISSING_CLOSE_PAREN:
-           uimon_out("')' expected:\n");
+           mon_out("')' expected:\n");
            break;
          case ERR_INCOMPLETE_COMPARE_OP:
-           uimon_out("Compare operation missing an operand:\n");
+           mon_out("Compare operation missing an operand:\n");
            break;
          case ERR_EXPECT_FILENAME:
-           uimon_out("Expecting a filename:\n");
+           mon_out("Expecting a filename:\n");
            break;
          case ERR_ADDR_TOO_BIG:
-           uimon_out("Address too large:\n");
+           mon_out("Address too large:\n");
            break;
          case ERR_IMM_TOO_BIG:
-           uimon_out("Immediate argument too large:\n");
+           mon_out("Immediate argument too large:\n");
            break;
          case ERR_EXPECT_STRING:
-           uimon_out("Expecting a string.\n");
+           mon_out("Expecting a string.\n");
            break;
          case ERR_UNDEFINED_LABEL:
-           uimon_out("Found an undefined label.\n");
+           mon_out("Found an undefined label.\n");
            break;
          case ERR_ILLEGAL_INPUT:
          default:
-           uimon_out("Wrong syntax:\n");
+           mon_out("Wrong syntax:\n");
        }
-       uimon_out("  %s\n", input);
+       mon_out("  %s\n", input);
        for (i = 0; i < last_len; i++)
-           uimon_out(" ");
-       uimon_out("  ^\n");
+           mon_out(" ");
+       mon_out("  ^\n");
        asm_mode = 0;
        new_cmd = 1;
    }

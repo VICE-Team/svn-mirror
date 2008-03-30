@@ -61,6 +61,7 @@
 #include "mon_parse.h"
 #include "mon_register.h"
 #include "mon_ui.h"
+#include "mon_util.h"
 #include "montypes.h"
 #include "resources.h"
 #include "sysfile.h"
@@ -363,11 +364,11 @@ mon_reg_list_t *mon_register_list_get(int mem)
 bool check_drive_emu_level_ok(int drive_num)
 {
     if (drive_num == 8 && mon_interfaces[e_disk8_space] == NULL) {
-        uimon_out("True drive emulation not supported for this machine.\n");
+        mon_out("True drive emulation not supported for this machine.\n");
         return FALSE;
     }
     if (drive_num == 9 && mon_interfaces[e_disk8_space] == NULL) {
-        uimon_out("True drive emulation not supported for this machine.\n");
+        mon_out("True drive emulation not supported for this machine.\n");
         return FALSE;
     }
 
@@ -378,7 +379,7 @@ bool check_drive_emu_level_ok(int drive_num)
 */
 #if 0
     else if (!app_resources.true1541) {
-        uimon_out("True drive emulation is not turned on.\n");
+        mon_out("True drive emulation is not turned on.\n");
         return FALSE;
     }
 #endif
@@ -397,7 +398,7 @@ void mon_cpu_type(const char *cpu_type)
         if (!strcasecmp(cpu_type, "z80")) {
             serchcpu = CPU_Z80;
         } else {
-            uimon_out("Unknown CPU type `%s'\n", cpu_type);
+            mon_out("Unknown CPU type `%s'\n", cpu_type);
             return;
         }
     }
@@ -407,7 +408,7 @@ void mon_cpu_type(const char *cpu_type)
         monitor_cpu_type_list_ptr
             = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
         if (monitor_cpu_type_list_ptr == NULL) {
-            uimon_out("Unknown CPU type `%s'\n", cpu_type);
+            mon_out("Unknown CPU type `%s'\n", cpu_type);
             return;
         }
     }
@@ -424,7 +425,7 @@ void mon_bank(MEMSPACE mem, const char *bankname)
         mem = default_memspace;
 
     if (!mon_interfaces[mem]->mem_bank_list) {
-        uimon_out("Banks not available in this memspace\n");
+        mon_out("Banks not available in this memspace\n");
         return;
     }
 
@@ -432,18 +433,18 @@ void mon_bank(MEMSPACE mem, const char *bankname)
         const char **bnp;
 
         bnp = mon_interfaces[mem]->mem_bank_list();
-        uimon_out("Available banks (some may be equivalent to others):\n");
+        mon_out("Available banks (some may be equivalent to others):\n");
         while (*bnp) {
-            uimon_out("%s\t", *bnp);
+            mon_out("%s\t", *bnp);
             bnp++;
         }
-        uimon_out("\n");
+        mon_out("\n");
     } else {
         int newbank;
 
         newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
         if (newbank < 0) {
-            uimon_out("Unknown bank name `%s'\n", bankname);
+            mon_out("Unknown bank name `%s'\n", bankname);
             return;
         }
         mon_interfaces[mem]->current_bank = newbank;
@@ -519,31 +520,31 @@ static void print_bin(int val, char on, char off)
 
     while (divisor) {
         digit = (val & divisor) ? on : off;
-        uimon_out("%c",digit);
+        mon_out("%c",digit);
         if (divisor == 0x100)
-            uimon_out(" ");
+            mon_out(" ");
         divisor /= 2;
     }
 }
 
 static void print_hex(int val)
 {
-    uimon_out(val > 0xff ? "$%04x\n" : "$%02x\n", val);
+    mon_out(val > 0xff ? "$%04x\n" : "$%02x\n", val);
 }
 
 static void print_octal(int val)
 {
-    uimon_out(val > 0777 ? "0%06o\n" : "0%03o\n", val);
+    mon_out(val > 0777 ? "0%06o\n" : "0%03o\n", val);
 }
 
 
 void mon_print_convert(int val)
 {
-    uimon_out("+%d\n", val);
+    mon_out("+%d\n", val);
     print_hex(val);
     print_octal(val);
     print_bin(val,'1','0');
-    uimon_out("\n");
+    mon_out("\n");
 }
 
 void mon_add_number_to_buffer(int number)
@@ -681,19 +682,19 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, unsigned int x,
 
     while (cnt < len) {
         for (i = 0; i < y; i++) {
-            uimon_out(">%s:%04x ", mon_memspace_string[mem], addr);
+            mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
             for(j = 0; j < (x / 8); j++) {
                 print_bin(mon_get_mem_val(mem, (ADDRESS)(ADDR_LIMIT(addr + j))),
                                           '.', '*');
                 cnt++;
             }
-           uimon_out("\n");
+           mon_out("\n");
            addr = ADDR_LIMIT(addr + (x / 8));
            if (mon_stop_output != 0)
                break;
         }
 
-        uimon_out("\n");
+        mon_out("\n");
         if (mon_stop_output != 0)
             break;
     }
@@ -733,11 +734,11 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
     addr = addr_location(start_addr);
 
     while (cnt < len) {
-        uimon_out(">%s:%04x ", mon_memspace_string[mem], addr);
+        mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
         for (i = 0, real_width = 0; i < max_width; i++) {
             switch(radix_type) {
               case 0: /* special case == petscii text */
-                uimon_out("%c",
+                mon_out("%c",
                           charset_p_toascii(mon_get_mem_val(mem,
                                             (ADDRESS)(ADDR_LIMIT(addr + i))),
                                             1));
@@ -747,37 +748,37 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
               case e_decimal:
                 memset(printables, 0, 50);
                 if (cnt < len) {
-                    uimon_out("%3d ",
+                    mon_out("%3d ",
                               mon_get_mem_val(mem,
                                               (ADDRESS)ADDR_LIMIT(addr + i)));
                     real_width++;
                     cnt++;
                 } else
-                    uimon_out("    ");
+                    mon_out("    ");
                 break;
               case e_hexadecimal:
                 memset(printables, 0, 50);
                 if (cnt < len) {
                     if(!(cnt % 4))
-                        uimon_out(" ");
-                    uimon_out("%02x ",
+                        mon_out(" ");
+                    mon_out("%02x ",
                               mon_get_mem_val(mem,
                                               (ADDRESS)ADDR_LIMIT(addr + i)));
                     real_width++;
                     cnt++;
                 } else
-                    uimon_out("   ");
+                    mon_out("   ");
                 break;
               case e_octal:
                 memset(printables, 0, 50);
                 if (cnt < len) {
-                    uimon_out("%03o ",
+                    mon_out("%03o ",
                               mon_get_mem_val(mem, 
                                               (ADDRESS)ADDR_LIMIT(addr + i)));
                     real_width++;
                     cnt++;
                 } else
-                    uimon_out("    ");
+                    mon_out("    ");
                 break;
               case e_binary:
                 memset(printables, 0, 50);
@@ -785,12 +786,12 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                     print_bin(mon_get_mem_val(mem,
                                               (ADDRESS)ADDR_LIMIT(addr + i)),
                                               '1', '0');
-                    uimon_out(" ");
+                    mon_out(" ");
                     real_width++;
                     cnt++;
                 }
                 else
-                    uimon_out("         ");
+                    mon_out("         ");
                 break;
               default:
                 log_error(LOG_ERR, "Unknow radix!");
@@ -801,9 +802,9 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 
         if (radix_type != 0) {
             memory_to_string(printables, mem, addr, real_width, FALSE);
-            uimon_out("  %s", printables);
+            mon_out("  %s", printables);
         }
-        uimon_out("\n");
+        mon_out("\n");
         addr = ADDR_LIMIT(addr + real_width);
         if (mon_stop_output != 0)
             break;
@@ -821,10 +822,10 @@ void mon_display_screen(void) {
     mem_get_screen_parameter(&base, &rows, &cols);
     for (r = 0; r < rows; r++) {
         for (c = 0; c < cols; c++) {
-            uimon_out("%c", charset_p_toascii(mon_get_mem_val(e_comp_space,
+            mon_out("%c", charset_p_toascii(mon_get_mem_val(e_comp_space,
                       (ADDRESS)ADDR_LIMIT(base++)), 1));
         }
-        uimon_out("\n");
+        mon_out("\n");
     }
 }
 
@@ -840,7 +841,7 @@ void mon_display_io_regs(void)
     mem_ioreg_list = mem_ioreg_list_base;
 
     do {
-        uimon_out("%s:\n", mem_ioreg_list->name);
+        mon_out("%s:\n", mem_ioreg_list->name);
         start = new_addr(default_memspace, mem_ioreg_list->start);
         end = new_addr(default_memspace, mem_ioreg_list->end);
         mon_display_memory(e_hexadecimal, start, end);
@@ -862,7 +863,7 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
     if (len < 0) {
-        uimon_out("Invalid range.\n");
+        mon_out("Invalid range.\n");
         return;
     }
     src_mem = addr_memspace(start_addr);
@@ -892,7 +893,7 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
     if (len < 0) {
-        uimon_out("Invalid range.\n");
+        mon_out("Invalid range.\n");
         return;
     }
     src_mem = addr_memspace(start_addr);
@@ -907,7 +908,7 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
         byte2 = mon_get_mem_val(dest_mem, (ADDRESS)ADDR_LIMIT(dst + i));
 
         if (byte1 != byte2)
-            uimon_out("$%04x $%04x: %02x %02x\n",
+            mon_out("$%04x $%04x: %02x %02x\n",
                       ADDR_LIMIT(start + i), ADDR_LIMIT(dst+i), byte1, byte2);
     }
 }
@@ -924,13 +925,13 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
                                      (WORD)data_buf_len);
     if (len < 0) {
-        uimon_out("Invalid range.\n");
+        mon_out("Invalid range.\n");
         return;
     }
     start = addr_location(start_addr);
 
     if (!mon_is_valid_addr(start_addr)) {
-        uimon_out("Invalid start address\n");
+        mon_out("Invalid start address\n");
         return;
     }
 
@@ -961,7 +962,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
     if (len < 0 || len < (int)(data_buf_len)) {
-        uimon_out("Invalid range.\n");
+        mon_out("Invalid range.\n");
         return;
     }
     mem   = addr_memspace(start_addr);
@@ -978,7 +979,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 
     for (i = 0; i < (len-data_buf_len); i++, next_read++) {
         if (memcmp(buf,data_buf,data_buf_len) == 0)
-           uimon_out("%04x\n",ADDR_LIMIT(start + i));
+           mon_out("%04x\n",ADDR_LIMIT(start + i));
 
         if (data_buf_len > 1)
            memmove(&(buf[0]), &(buf[1]), data_buf_len - 1);
@@ -995,9 +996,9 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 void mon_change_dir(const char *path)
 {
     if (chdir((char*)path) < 0)
-        uimon_out("Cannot change to directory `%s':\n", path);
+        mon_out("Cannot change to directory `%s':\n", path);
 
-    uimon_out("Changing to directory: `%s'\n", path);
+    mon_out("Changing to directory: `%s'\n", path);
 }
 
 void mon_load_symbols(MEMSPACE mem, const char *filename)
@@ -1017,11 +1018,11 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
     int rc, line_num = 2;
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
-        uimon_out("Loading for `%s' failed.\n", filename);
+        mon_out("Loading for `%s' failed.\n", filename);
         return;
     }
 
-    uimon_out("Loading symbol table from `%s'...\n", filename);
+    mon_out("Loading symbol table from `%s'...\n", filename);
 
     if (mem == e_default_space) {
         if (fscanf(fp, "%10s\n", name) == 1) {
@@ -1033,7 +1034,7 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
             }
         }
         if (!found) {
-            uimon_out(
+            mon_out(
                       "Bad label file : expecting a memory space in the first line but found %s\n",
                       name);
             return;
@@ -1043,7 +1044,7 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
     while (!feof(fp)) {
         rc = fscanf(fp, "%6x %255s\n", (int *) &adr, name);
         if (rc != 2) {
-            uimon_out(
+            mon_out(
                       "Bad label file: (line %d) cannot parse argument %d.\n",
                       line_num, rc + 1);
             break;
@@ -1051,7 +1052,7 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
         /* FIXME: Check name is a valid label name */
         name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
         strcpy(name_ptr, name);
-        uimon_out("Read ($%x:%s)\n", adr, name_ptr);
+        mon_out("Read ($%x:%s)\n", adr, name_ptr);
         mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
 
         line_num++;
@@ -1067,11 +1068,11 @@ void mon_save_symbols(MEMSPACE mem, const char *filename)
     symbol_entry_t *sym_ptr;
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-        uimon_out("Saving for `%s' failed.\n", filename);
+        mon_out("Saving for `%s' failed.\n", filename);
         return;
     }
 
-    uimon_out("Saving symbol table to `%s'...\n", filename);
+    mon_out("Saving symbol table to `%s'...\n", filename);
 
     /* FIXME: Write out all memspaces? */
     if (mem == e_default_space)
@@ -1095,14 +1096,14 @@ void mon_save_symbols(MEMSPACE mem, const char *filename)
 void mon_record_commands(char *filename)
 {
     if (recording) {
-        uimon_out("Recording already in progress. Use 'stop' to end recording.\n");
+        mon_out("Recording already in progress. Use 'stop' to end recording.\n");
         return;
     }
 
     recording_name = filename;
 
     if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
-        uimon_out("Cannot create `%s': %s.\n", recording_name);
+        mon_out("Cannot create `%s': %s.\n", recording_name);
         return;
     }
 
@@ -1114,12 +1115,12 @@ void mon_record_commands(char *filename)
 void mon_end_recording(void)
 {
     if (!recording) {
-        uimon_out("No file is currently being recorded.\n");
+        mon_out("No file is currently being recorded.\n");
         return;
     }
 
     fclose(recording_fp);
-    uimon_out("Closed file %s.\n", recording_name);
+    mon_out("Closed file %s.\n", recording_name);
     recording = FALSE;
 }
 
@@ -1130,7 +1131,7 @@ static void playback_commands(const char *filename)
 
     if (NULL == (fp = fopen(filename, MODE_READ_TEXT))
         && NULL == (fp = sysfile_open(filename, NULL, MODE_READ_TEXT))) {
-        uimon_out("Playback for `%s' failed.\n", filename);
+        mon_out("Playback for `%s' failed.\n", filename);
         return;
     }
 
@@ -1227,7 +1228,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     ADDRESS loc = addr_location(addr);
 
     if (strcmp(name, ".PC") == 0) {
-        uimon_out("Error: .PC is a reserved label.\n");
+        mon_out("Error: .PC is a reserved label.\n");
         return;
     }
 
@@ -1237,11 +1238,11 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
     if (old_name && (ADDRESS)(old_addr) != addr ) {
-        uimon_out("Warning: label(s) for address $%04x already exist.\n",
+        mon_out("Warning: label(s) for address $%04x already exist.\n",
                   loc);
     }
     if (old_addr >= 0 && old_addr != loc) {
-        uimon_out("Changing address of label %s from $%04x to $%04x\n",
+        mon_out("Changing address of label %s from $%04x to $%04x\n",
                   name, old_addr, loc);
     }
 
@@ -1275,7 +1276,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
         free_symbol_table(mem);
         return;
     } else if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
-        uimon_out("Symbol %s not found.\n", name);
+        mon_out("Symbol %s not found.\n", name);
         return;
     }
 
@@ -1324,7 +1325,7 @@ void mon_print_symbol_table(MEMSPACE mem)
 
     sym_ptr = monitor_labels[mem].name_list;
     while (sym_ptr) {
-        uimon_out("$%04x %s\n",sym_ptr->addr, sym_ptr->name);
+        mon_out("$%04x %s\n",sym_ptr->addr, sym_ptr->name);
         sym_ptr = sym_ptr->next;
     }
 }
@@ -1336,7 +1337,7 @@ void mon_print_symbol_table(MEMSPACE mem)
 void mon_instructions_step(int count)
 {
     if (count >= 0)
-        uimon_out("Stepping through the next %d instruction(s).\n",
+        mon_out("Stepping through the next %d instruction(s).\n",
                   count);
     instruction_count = (count >= 0) ? count : 1;
     wait_for_return_level = 0;
@@ -1353,7 +1354,7 @@ void mon_instructions_step(int count)
 void mon_instructions_next(int count)
 {
     if (count >= 0)
-        uimon_out("Nexting through the next %d instruction(s).\n",
+        mon_out("Nexting through the next %d instruction(s).\n",
                    count);
     instruction_count = (count >= 0) ? count : 1;
     wait_for_return_level = (int)((GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0);
@@ -1382,13 +1383,13 @@ void mon_instruction_return(void)
 
 void mon_stack_up(int count)
 {
-    uimon_out("Going up %d stack frame(s).\n",
+    mon_out("Going up %d stack frame(s).\n",
               (count>=0)?count:1);
 }
 
 void mon_stack_down(int count)
 {
-    uimon_out("Going down %d stack frame(s).\n",
+    mon_out("Going down %d stack frame(s).\n",
               (count>=0)?count:1);
 }
 
@@ -1400,7 +1401,7 @@ void mon_print_conditional(cond_node_t *cnode)
 {
     /* Do an in-order traversal of the tree */
     if (cnode->is_parenthized)
-        uimon_out("( ");
+        mon_out("( ");
 
     if (cnode->operation != e_INV) {
         if(!(cnode->child1 && cnode->child2)) {
@@ -1408,17 +1409,17 @@ void mon_print_conditional(cond_node_t *cnode)
             return;
         }
         mon_print_conditional(cnode->child1);
-        uimon_out(" %s ",cond_op_string[cnode->operation]);
+        mon_out(" %s ",cond_op_string[cnode->operation]);
         mon_print_conditional(cnode->child2);
     } else {
         if (cnode->is_reg)
-            uimon_out(".%s", register_string[reg_regid(cnode->reg_num)]);
+            mon_out(".%s", register_string[reg_regid(cnode->reg_num)]);
         else
-            uimon_out("%d", cnode->value);
+            mon_out("%d", cnode->value);
     }
 
     if (cnode->is_parenthized)
-        uimon_out(" )");
+        mon_out(" )");
 }
 
 
@@ -1666,9 +1667,14 @@ static void make_prompt(char *str)
 
 static signal_handler_t old_handler;
 
-static void handle_abort(int signo)
+void mon_abort(void)
 {
     mon_stop_output = 1;
+}
+
+static void handle_abort(int signo)
+{
+    mon_abort();
     signal(SIGINT, (signal_handler_t) handle_abort);
 }
 
@@ -1694,7 +1700,7 @@ void mon_open(ADDRESS a)
 
     dot_addr[caller_space] = new_addr(caller_space, a);
 
-    uimon_out("\n** Monitor\n");
+    mon_out("\n** Monitor\n");
 
     if (disassemble_on_entry) {
         mon_disassemble_instr(new_addr(caller_space, a));
@@ -1707,7 +1713,7 @@ void mon_open(ADDRESS a)
         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
 
-    uimon_out(prompt);
+    mon_out(prompt);
 }
 
 int mon_process(char *cmd)
@@ -1716,7 +1722,7 @@ int mon_process(char *cmd)
 
     mon_stop_output = 0;
     if (cmd == NULL) {
-        uimon_out("\n");
+        mon_out("\n");
     } else {
         if (!cmd[0]) {
             if (!asm_mode) {
@@ -1741,7 +1747,7 @@ int mon_process(char *cmd)
         if (cmd) {
             if (recording) {
                 if (fprintf(recording_fp, "%s\n", cmd) < 0) {
-                   uimon_out("Error while recording commands. "
+                   mon_out("Error while recording commands. "
                              "Output file closed.\n");
                    fclose(recording_fp);
                    recording_fp = NULL;
@@ -1766,7 +1772,7 @@ int mon_process(char *cmd)
         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
 
-    uimon_out(prompt);
+    mon_out(prompt);
     uimon_notify_change(); /* @SRT */
 
     return exit_mon;

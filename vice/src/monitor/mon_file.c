@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "mem.h"
 #include "montypes.h"
+#include "mon_util.h"
 #include "uimon.h"
 
 #define ADDR_LIMIT(x) ((ADDRESS)(LO16(x)))
@@ -48,7 +49,7 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
     fp = fopen(filename, MODE_READ);
 
     if (fp == NULL) {
-        uimon_out("Loading %s failed.\n", filename);
+        mon_out("Loading %s failed.\n", filename);
         return;
     }
 
@@ -60,7 +61,7 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
     mon_evaluate_default_addr(&start_addr);
     if (!mon_is_valid_addr(start_addr)) {   /* No Load address given */
         if (is_bload == TRUE) {
-            uimon_out("No LOAD address given.\n");
+            mon_out("No LOAD address given.\n");
             return;
         }
 
@@ -74,8 +75,8 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
         mem = addr_memspace(start_addr);
     }
 
-    uimon_out("Loading %s", filename);
-    uimon_out(" from %04X\n", adr);
+    mon_out("Loading %s", filename);
+    mon_out(" from %04X\n", adr);
 
     do {
         BYTE load_byte;
@@ -85,7 +86,7 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
         mon_set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
         ch ++;
     } while(1);
-    uimon_out("%x bytes\n", ch);
+    mon_out("%x bytes\n", ch);
 
     if (is_bload == FALSE) {
         /* set end of load addresses like kernal load */
@@ -106,7 +107,7 @@ void mon_file_save(const char *filename, MON_ADDR start_addr,
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
     if (len < 0) {
-        uimon_out("Invalid range.\n");
+        mon_out("Invalid range.\n");
         return;
     }
 
@@ -116,14 +117,14 @@ void mon_file_save(const char *filename, MON_ADDR start_addr,
     end = addr_location(end_addr);
 
     if (end < adr) {
-        uimon_out("Start address must be below end address.\n");
+        mon_out("Start address must be below end address.\n");
         return;
     }
 
     fp = fopen(filename, MODE_WRITE);
 
     if (fp == NULL) {
-        uimon_out("Saving for `%s' failed.\n", filename);
+        mon_out("Saving for `%s' failed.\n", filename);
     } else {
         printf("Saving file `%s'...\n", filename);
 
@@ -136,7 +137,7 @@ void mon_file_save(const char *filename, MON_ADDR start_addr,
 
             save_byte = mon_get_mem_val(mem, (ADDRESS)(adr + ch));
             if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
-                uimon_out("Saving for `%s' failed.\n", filename);
+                mon_out("Saving for `%s' failed.\n", filename);
                 fclose(fp);
             }
             ch++;
@@ -150,7 +151,7 @@ void mon_file_verify(const char *filename, MON_ADDR start_addr)
 {
     mon_evaluate_default_addr(&start_addr);
 
-    uimon_out("Verify file %s at address $%04x\n",
+    mon_out("Verify file %s at address $%04x\n",
               filename, addr_location(start_addr));
 }
 

@@ -473,6 +473,10 @@ void machine_shutdown(void)
     vic_ii_free();
 
     reu_shutdown();
+
+    if (vsid_mode) {
+        vsid_ui_close();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

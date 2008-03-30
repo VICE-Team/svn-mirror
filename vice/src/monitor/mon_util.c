@@ -38,6 +38,23 @@
 #include "uimon.h"
 #include "utils.h"
 
+int mon_out(const char *format, ...)
+{
+    va_list ap;
+    char *buffer;
+    int   rc = 0;
+
+    va_start(ap, format);
+    buffer = xmvsprintf(format, ap);
+    rc = uimon_out(buffer);
+    free(buffer);
+
+    if (rc < 0)
+        mon_abort();
+
+    return rc;
+}
+
 char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
                                  unsigned *opc_size_p, unsigned *label_p)
 {

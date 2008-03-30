@@ -161,13 +161,14 @@ ADDRESS determine_address_of_line(struct mon_disassembly_private *pmdp,
 {
     unsigned int size;
     int  i;
+    unsigned int have_label = pmdp->have_label;
 
     /* it's one less than visible, so there will be one line visible left! */
     for (i = 0; i < line; i++) {
         char *content;
 
         content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
-                                             (unsigned int*)&pmdp->have_label );
+                                             &have_label );
 
         free(content);
 
@@ -195,8 +196,8 @@ ADDRESS scroll_up_count(struct mon_disassembly_private *pmdp, ADDRESS loc,
 {
     unsigned int size;
     /* this has to be initialized with zero for correct processing */
-    int  have_label = 0;
-    /* @SRT: TODO: adjust: is this enough? */
+    unsigned int have_label = 0;
+
     ADDRESS testloc = loc - 3 * count - 3;
 
     unsigned int *disp = xmalloc( sizeof(unsigned int)*count );
@@ -211,7 +212,7 @@ ADDRESS scroll_up_count(struct mon_disassembly_private *pmdp, ADDRESS loc,
             storepos = 0;
 
 	    content = mon_disassemble_with_label(pmdp->memspace, testloc, 1,
-                                                 &size, (unsigned int*)&have_label );
+                                                 &size, &have_label );
 
         free(content);
 
