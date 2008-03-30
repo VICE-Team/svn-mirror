@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "drive.h"
+#include "iec-c64exp.h"
 #include "iec.h"
 #include "iec128dcr.h"
 #include "iecieee.h"
@@ -40,14 +41,15 @@
 int machine_drive_resources_init(void)
 {
     return drive_resources_type_init(DRIVE_TYPE_1541)
-        | iec_drive_resources_init() | iec128dcr_drive_resources_init()
-        | ieee_drive_resources_init();
+        | iec_drive_resources_init() | iec_c64exp_resources_init()
+        | iec128dcr_drive_resources_init() | ieee_drive_resources_init();
 }
 
 void machine_drive_resources_shutdown(void)
 {
     iec_drive_resources_shutdown();
     iec128dcr_drive_resources_shutdown();
+    iec_c64exp_resources_shutdown();
     ieee_drive_resources_shutdown();
 }
 
@@ -55,6 +57,7 @@ int machine_drive_cmdline_options_init(void)
 {
     return iec_drive_cmdline_options_init()
         | iec128dcr_drive_cmdline_options_init()
+        | iec_c64exp_cmdline_options_init()
         | ieee_drive_cmdline_options_init();
 }
 
@@ -63,6 +66,7 @@ void machine_drive_init(struct drive_context_s *drv)
     iec_drive_init(drv);
     iec128dcr_drive_init(drv);
     iecieee_drive_init(drv);
+    iec_c64exp_init(drv);
     ieee_drive_init(drv);
 }
 
@@ -79,6 +83,7 @@ void machine_drive_reset(struct drive_context_s *drv)
     iec_drive_reset(drv);
     iec128dcr_drive_reset(drv);
     iecieee_drive_reset(drv);
+    iec_c64exp_reset(drv);
     ieee_drive_reset(drv);
 }
 
@@ -86,6 +91,7 @@ void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 {
     iec_drive_mem_init(drv, type);
     iec128dcr_drive_mem_init(drv, type);
+    iec_c64exp_mem_init(drv, type);
     ieee_drive_mem_init(drv, type);
 }
 
