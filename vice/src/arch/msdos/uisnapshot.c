@@ -27,12 +27,15 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "uisnapshot.h"
 
 #include "machine.h"
 #include "ui.h"
 #include "utils.h"
+
+#define SNAPSHOT_EXTENSION      ".vsf"
 
 static char *snapshot_selector(const char *title);
 static TUI_MENU_CALLBACK(file_name_callback);
@@ -81,7 +84,7 @@ tui_menu_item_def_t ui_snapshot_menu_def[] = {
 
 static char *snapshot_selector(const char *title)
 {
-    return tui_file_selector(title, NULL, "*.*", NULL, NULL);
+    return tui_file_selector(title, NULL, "*.vsf", NULL, NULL, NULL);
 }
 
 static TUI_MENU_CALLBACK(file_name_callback)
@@ -102,11 +105,44 @@ static TUI_MENU_CALLBACK(file_name_callback)
                     free(tmp);
                 }
             } else {
-                if (file_name == NULL) {
-                    file_name = stralloc(new_file_name);
+                char *extension;
+                char *last_dot;
+
+                last_dot = strrchr(new_file_name, '.');
+
+                if (last_dot == NULL) {
+                    extension = SNAPSHOT_EXTENSION;
                 } else {
-                    file_name = xrealloc(file_name, strlen(new_file_name));
-                    strcpy(file_name, new_file_name);
+                    char *last_slash, *last_backslash, *last_path_separator;
+
+                    last_slash = strrchr(new_file_name, '/');
+                    last_backslash = strrchr(new_file_name, '\\');
+
+                    if (last_slash == NULL)
+                        last_path_separator = last_backslash;
+                    else if (last_backslash == NULL)
+                        last_path_separator = last_slash;
+                    else if (last_backslash < last_slash)
+                        last_path_separator = last_slash;
+                    else
+                        last_path_separator = last_backslash;
+
+                    if (last_path_separator == NULL
+                        || last_path_separator < last_dot)
+                        extension = "";
+                    else
+                        extension = SNAPSHOT_EXTENSION;
+                }
+                
+                if (file_name == NULL) {
+                    file_name = concat(new_file_name, extension, NULL);
+                } else {
+                    int len = strlen(new_file_name);
+
+                    file_name = xrealloc(file_name,
+                                         len + strlen(extension) + 1);
+                    memcpy(file_name, new_file_name, len);
+                    strcpy(file_name + len, extension);
                 }
                 break;
             }
@@ -129,12 +165,19 @@ static TUI_MENU_CALLBACK(toggle_callback)
 static TUI_MENU_CALLBACK(write_snapshot_callback)
 {
     if (been_activated) {
+        if (*file_name == 0) {
+            tui_error("Specify a file name first.");
+            return NULL;
+        }
+
         if (!file_exists_p(file_name)
             || tui_ask_confirmation("The specified file already exists.  "
                                     "Replace?  (Y/N)")) {
             if (machine_write_snapshot(file_name,
                                        save_roms_flag, save_disks_flag) < 0)
                 tui_error("Cannot save snapshot.");
+            else
+                tui_message("Snapshot saved successfully.");
         }
     }
 
