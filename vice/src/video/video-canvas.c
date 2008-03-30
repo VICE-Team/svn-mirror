@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "raster.h" /* Temorary */
 #include "types.h"
 #include "utils.h"
 #include "video-render.h"
@@ -42,6 +43,7 @@ video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
     canvas->videoconfig = videoconfig;
     canvas->draw_buffer = (draw_buffer_t *)xcalloc(1, sizeof(draw_buffer_t));
     canvas->viewport = (viewport_t *)xcalloc(1, sizeof(viewport_t));
+    canvas->geometry = (geometry_t *)xcalloc(1, sizeof(geometry_t));
 
     video_arch_canvas_init(canvas);
 
@@ -63,5 +65,45 @@ void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
                       trg, width, height, xs, ys, xt, yt,
                       canvas->draw_buffer->draw_buffer_width, pitcht, depth);
 
+}
+
+void video_canvas_refresh_all(video_canvas_t *canvas)
+{
+    viewport_t *viewport;
+    geometry_t *geometry;
+
+    if (canvas->draw_buffer == NULL)
+        return;
+
+    viewport = canvas->viewport;
+    geometry = canvas->geometry;
+
+    video_canvas_refresh(canvas,
+                         viewport->first_x
+                         + geometry->extra_offscreen_border_left,
+                         viewport->first_line,
+                         viewport->x_offset,
+                         viewport->y_offset,
+                         MIN(canvas->draw_buffer->canvas_width,
+                             geometry->screen_size.width),
+                         MIN(canvas->draw_buffer->canvas_height,
+                             geometry->screen_size.height));
+}
+
+void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,
+                              unsigned int height)
+{
+    if (canvas->videoconfig->doublesizex)
+        width /= 2;
+    if (canvas->videoconfig->doublesizey)
+        height /= 2;
+
+    if (width != canvas->draw_buffer->canvas_width
+        || height != canvas->draw_buffer->canvas_height) {
+        canvas->draw_buffer->canvas_width = width;
+        canvas->draw_buffer->canvas_height = height;
+        video_viewport_resize(canvas);
+    }
+    video_canvas_refresh_all(canvas);
 }
 

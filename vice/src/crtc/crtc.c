@@ -725,7 +725,7 @@ static void crtc_exposure_handler(unsigned int width, unsigned int height)
 {
     crtc.raster.canvas->draw_buffer->canvas_width = width;
     crtc.raster.canvas->draw_buffer->canvas_height = height;
-    raster_resize_viewport(&crtc.raster);
+    video_viewport_resize(crtc.raster.canvas);
 }
 
 void crtc_free(void)

@@ -297,7 +297,7 @@ static void vdc_exposure_handler(unsigned int width, unsigned int height)
 {
     vdc.raster.canvas->draw_buffer->canvas_width = width;
     vdc.raster.canvas->draw_buffer->canvas_height = height;
-    raster_resize_viewport(&vdc.raster);
+    video_viewport_resize(vdc.raster.canvas);
 }
 
 /* Set the memory pointers according to the values in the registers. */

@@ -404,7 +404,7 @@ static void ted_exposure_handler(unsigned int width, unsigned int height)
 {
     ted.raster.canvas->draw_buffer->canvas_width = width;
     ted.raster.canvas->draw_buffer->canvas_height = height;
-    raster_resize_viewport(&ted.raster);
+    video_viewport_resize(ted.raster.canvas);
 }
 
 /* Make sure all the TED alarms are removed.  This just makes it easier to

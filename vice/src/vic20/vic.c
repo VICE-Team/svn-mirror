@@ -72,7 +72,7 @@ static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
     vic.raster.canvas->draw_buffer->canvas_width = width;
     vic.raster.canvas->draw_buffer->canvas_height = height;
-    raster_resize_viewport(&vic.raster);
+    video_viewport_resize(vic.raster.canvas);
 }
 
 void vic_change_timing(void)
@@ -217,7 +217,7 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
 
         if (vic.pending_ystart >= 0) {
             vic.raster.display_ystart = vic.pending_ystart;
-            vic.raster.geometry.gfx_position.y = 
+            vic.raster.geometry->gfx_position.y = 
                 vic.pending_ystart - vic.first_displayed_line;
             vic.raster.display_ystop = 
                 vic.raster.display_ystart + vic.text_lines * vic.char_height;
@@ -229,8 +229,8 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
             vic.text_lines = vic.pending_text_lines;
             vic.raster.display_ystop = 
                 (vic.raster.display_ystart + vic.text_lines * vic.char_height);
-            vic.raster.geometry.gfx_size.height = vic.pending_text_lines * 8;
-            vic.raster.geometry.text_size.height = vic.pending_text_lines;
+            vic.raster.geometry->gfx_size.height = vic.pending_text_lines * 8;
+            vic.raster.geometry->text_size.height = vic.pending_text_lines;
 
             vic.pending_text_lines = -1;
         }
