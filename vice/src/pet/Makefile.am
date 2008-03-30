@@ -13,6 +13,8 @@ libpet_a_SOURCES = \
 	pet-cmdline-options.h \
 	pet-resources.c \
 	pet-resources.h \
+	pet-snapshot.c \
+	pet-snapshot.h \
 	pet.c \
 	pet.h \
 	petacia.h \
