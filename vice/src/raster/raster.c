@@ -834,8 +834,9 @@ handle_visible_line_with_cache (raster_t *raster)
                                                &changed_end);
     }
 
-  if (needs_update)
+  if (needs_update) {
     add_line_and_double_scan (raster, changed_start, changed_end);
+  }
 
   cache->is_dirty = 0;
 }
@@ -1249,7 +1250,7 @@ raster_set_geometry (raster_t *raster,
                      unsigned int screen_width, unsigned int screen_height,
                      unsigned int gfx_width, unsigned int gfx_height,
                      unsigned int text_width, unsigned int text_height,
-                   unsigned int gfx_position_x, unsigned int gfx_position_y,
+                     unsigned int gfx_position_x, unsigned int gfx_position_y,
                      int gfx_area_moves,
                      unsigned int first_displayed_line,
                      unsigned int last_displayed_line,

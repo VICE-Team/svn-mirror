@@ -32,6 +32,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "log.h"
@@ -129,7 +130,7 @@ init_raster (void)
                        VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
                        1, 1,
                        0, 0,
-                       0, 0,
+                       0, 4 * 8, /* Border shift.  */
                        1,
                        VIC_FIRST_DISPLAYED_LINE,
                        VIC_LAST_DISPLAYED_LINE,
@@ -162,7 +163,7 @@ init_raster (void)
   raster->display_ystart = VIC_FIRST_DISPLAYED_LINE;
   raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
   raster->display_xstart = 0;
-  raster->display_xstop = 1;
+  raster->display_xstop = 1; 
 
   return 0;
 }
@@ -303,8 +304,7 @@ vic_update_memory_ptrs (void)
   if (char_addr >= 0x8000 && char_addr < 0x9000)
     {
       vic.chargen_ptr = chargen_rom + 0x400 + (char_addr & 0xfff);
-      VIC_DEBUG_REGISTER ((vic_log,
-                           "Character memory at $%04X "
+      VIC_DEBUG_REGISTER (("Character memory at $%04X "
                            "(character ROM + $%04X).",
                            char_addr,
                            char_addr & 0xfff));
@@ -315,17 +315,15 @@ vic_update_memory_ptrs (void)
         vic.chargen_ptr = chargen_rom;    /* handle wraparound */
       else
         vic.chargen_ptr = ram + char_addr;
-      VIC_DEBUG_REGISTER ((vic_log, "Character memory at $%04X.", char_addr));
+      VIC_DEBUG_REGISTER (("Character memory at $%04X.", char_addr));
     }
 
   vic.color_ptr = ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
   vic.screen_ptr = ram + (((vic.regs[0x2] & 0x80) << 2)
                           | ((vic.regs[0x5] & 0x70) << 6));
 
-  VIC_DEBUG_REGISTER ((vic_log, "Color memory at $%04X.",
-                       vic.color_ptr - ram));
-  VIC_DEBUG_REGISTER ((vic_log, "Screen memory at $%04X.",
-                       vic.screen_ptr - ram));
+  VIC_DEBUG_REGISTER (("Color memory at $%04X.", vic.color_ptr - ram));
+  VIC_DEBUG_REGISTER (("Screen memory at $%04X.", vic.screen_ptr - ram));
 }
 
 
