@@ -242,6 +242,10 @@ UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
+/* ------------------------------------------------------------------------- */
+
+/* FIXME: This should come back some day.  */
+
 #if 0
 static UI_CALLBACK(set_keymap)
 {
@@ -258,7 +262,7 @@ static UI_CALLBACK(load_user_keymap)
     char *filename;
     ui_button_t button;
     suspend_speed_eval();
-    filename = UiFileSelect("Read Keymap File", NULL, False, &button);
+    filename = ui_select_file("Read Keymap File", NULL, False, &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -270,7 +274,7 @@ static UI_CALLBACK(load_user_keymap)
     }
 }
 
-static UI_CALLBACK(UiDumpKeymap)
+static UI_CALLBACK(dump_keyap)
 {
     PATH_VAR(wd);
     int path_max = GET_PATH_MAX;
@@ -285,16 +289,15 @@ static UI_CALLBACK(UiDumpKeymap)
 }
 #endif
 
-
 /* ------------------------------------------------------------------------- */
 
-/* True 1541 support items. */
+/* True 1541 support items.  */
 
 UI_MENU_DEFINE_TOGGLE(True1541)
 
 UI_MENU_DEFINE_TOGGLE(True1541ParallelCable)
 
-static UI_CALLBACK(UiSetCustom1541SyncFactor)
+static UI_CALLBACK(set_custom_true1541_sync_factor)
 {
     static char input_string[256];
     char msg_string[256];
@@ -355,28 +358,54 @@ UI_MENU_DEFINE_TOGGLE(FSDevice9SaveP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice10SaveP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice11SaveP00)
 
-static UI_CALLBACK(UiSetFSDeviceDirectory)
+static UI_CALLBACK(set_fsdevice_directory)
 {
     int unit = (int)client_data;
-    char *filename;
     char title[1024];
     ui_button_t button;
 
     suspend_speed_eval();
     sprintf(title, "Attach file system directory to device #%d", unit);
 
-    /* FIXME: We use the select file dialog for now and delete the filename
-       afterwards. Change this when a select directory dialog is available.  */
-    filename = ui_select_file(title, read_disk_image_contents,
-                              unit == 8 ? True : False, &button);
-    switch (button) {
-      case UI_BUTTON_OK:
-        fsdevice_set_directory(filename, unit);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+    /* FIXME: We need a real directory browser here.  */
+
+#if 0
+    {
+        char *filename;
+
+        filename = ui_select_file(title, read_disk_image_contents,
+                                  unit == 8 ? True : False, &button);
+        switch (button) {
+          case UI_BUTTON_OK:
+            fsdevice_set_directory(filename, unit);
+            break;
+          default:
+            /* Do nothing special.  */
+            break;
+        }
     }
+#else
+    {
+        char resname[256];
+        char *value;
+        char *new_value;
+        int len;
+
+        sprintf(resname, "FSDevice%dDir", unit);
+
+        resources_get_value(resname, (resource_value_t *) &value);
+        len = strlen(value) * 2;
+        if (len < 255)
+            len = 255;
+        new_value = alloca(len + 1);
+        strcpy(new_value, value);
+
+        if (ui_input_string(title, "Path:", new_value, len) != UI_BUTTON_OK)
+            return;
+
+        resources_set_value(resname, (resource_value_t) new_value);
+    }
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -455,7 +484,7 @@ static ui_menu_entry_t set_true1541_sync_factor_submenu[] = {
       (ui_callback_data_t) TRUE1541_SYNC_PAL, NULL },
     { "*NTSC", (ui_callback_t) radio_True1541SyncFactor,
       (ui_callback_data_t) TRUE1541_SYNC_NTSC, NULL },
-    { "*Custom...", (ui_callback_t) UiSetCustom1541SyncFactor,
+    { "*Custom...", (ui_callback_t) set_custom_true1541_sync_factor,
       NULL, NULL },
     { NULL }
 };
@@ -556,13 +585,13 @@ static ui_menu_entry_t set_file_system_device_submenu[] = {
 };
 
 static ui_menu_entry_t set_fsdevice_directory_submenu[] = {
-    { "Device #8", (ui_callback_t) UiSetFSDeviceDirectory,
+    { "Device #8", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 8, NULL },
-    { "Device #9", (ui_callback_t) UiSetFSDeviceDirectory,
+    { "Device #9", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 9, NULL },
-    { "Device #10", (ui_callback_t) UiSetFSDeviceDirectory,
+    { "Device #10", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 10, NULL },
-    { "Device #11", (ui_callback_t) UiSetFSDeviceDirectory,
+    { "Device #11", (ui_callback_t) set_fsdevice_directory,
       (ui_callback_data_t) 11, NULL },
     { NULL }
 };
