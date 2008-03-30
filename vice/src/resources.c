@@ -837,11 +837,12 @@ int parse_cmd_line(int *argc, char **argv)
 	    describe_cmd_line_options();
 	    err = 1;
 	} else {
-	    /* Check for a "standalone" argument (no leading `-').  If we have
-               it, it goes into `autostartName'.  We can have only one of them
-               on the command line.  */
-	    if (!have_standalone && *argv[i] != '-' && i < *argc) {
-		set_value(&app_resources.autostartName, RES_STRING, argv[1]);
+	    /* Check for a "standalone" argument (no leading `-' or `+').  If
+               we have it, it goes into `autostartName'.  We can have only one
+               of them on the command line.  */
+	    if (!have_standalone && i < *argc
+		&& *argv[i] != '-' && *argv[i] != '+') {
+		set_value(&app_resources.autostartName, RES_STRING, argv[i]);
 		have_standalone = 1;
 	    } else {
 		int match = find_match(argv[i]);

@@ -7,7 +7,7 @@
  * BZIP v2 support added by
  *  Andreas Boose (boose@rzgw.rz.fh-hannover.de)
  *
- * ARCHIVE support added by
+ * ARCHIVE, ZIPCODE and LYNX supports added by
  *  Teemu Rantanen (tvr@cs.hut.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -60,7 +60,9 @@ enum compression_type {
     COMPR_NONE,
     COMPR_GZIP,
     COMPR_BZIP,
-    COMPR_ARCHIVE
+    COMPR_ARCHIVE,
+    COMPR_ZIPCODE,
+    COMPR_LYNX
 };
 
 /* This defines a linked list of all the compressed files that have been
@@ -234,14 +236,26 @@ static char *try_uncompress_with_bzip(const char *name)
     }
 }
 
+/* is the name zipcode -name? */
+static int is_zipcode_name(char *name)
+{
+    if (name[0] >= '1' && name[0] <= '4' && name[1] == '!')
+	return 1;
+    return 0;
+}
+
 /* Extensions we know about */
 static char *extensions[] = {
-    ".d64", ".x64", ".dsk", ".t64", ".p00", ".prg", NULL
+    ".d64", ".x64", ".dsk", ".t64", ".p00", ".prg", ".lnx", NULL
 };
 
 static int is_valid_extension(char *end, int l, int nameoffset)
 {
     int				i, len;
+    /* zipcode testing is a special case */
+    if (l > nameoffset + 2 && is_zipcode_name(end + nameoffset))
+	return 1;
+    /* others */
     for (i = 0; extensions[i]; i++)
     {
 	len = strlen(extensions[i]);
@@ -267,7 +281,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     static char tmp_name[L_tmpnam];
     int l = strlen(name), nameoffset, found = 0, len;
     int exit_status;
-    char *argv[5];
+    char *argv[8];
     FILE *fd;
     char tmp[1024];
 
@@ -347,12 +361,25 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 	return "";
     }
 
-    /* And then file inside zip.  */
+    /* And then file inside zip.  If we have a zipcode extract all of them
+       to the same file. */
     argv[0] = stralloc(program);
     argv[1] = stralloc(extractopts);
     argv[2] = stralloc(name);
-    argv[3] = stralloc(tmp + nameoffset);
-    argv[4] = NULL;
+    if (is_zipcode_name(tmp + nameoffset)) {
+	argv[3] = stralloc(tmp + nameoffset);
+	argv[4] = stralloc(tmp + nameoffset);
+	argv[5] = stralloc(tmp + nameoffset);
+	argv[6] = stralloc(tmp + nameoffset);
+	argv[7] = NULL;
+	argv[3][0] = '1';
+	argv[4][0] = '2';
+	argv[5][0] = '3';
+	argv[6][0] = '4';
+    } else {
+	argv[3] = stralloc(tmp + nameoffset);
+	argv[4] = NULL;
+    }
 
     ZDEBUG(("try_uncompress_archive: spawning `%s %s %s %s'.\n",
 	    program, extractopts, name, tmp + nameoffset));
@@ -363,6 +390,11 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     free(argv[2]);
     free(argv[3]);
     free(argv[4]);
+    if (is_zipcode_name(tmp + nameoffset)) {
+	free(argv[5]);
+	free(argv[6]);
+	free(argv[7]);
+    }
 
     if (exit_status != 0) {
 	ZDEBUG(("try_uncompress_archive: `%s %s' failed.",
@@ -373,6 +405,244 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     ZDEBUG(("try_uncompress_archive: `%s %s' successful.", program,
 	    archive));
+    return tmp_name;
+}
+
+/*
+ * XXX: this is copied from c1541.c. move this to some common place
+ */
+static int read_zipped_sector (int zip_fd, int track, int *sector, char *buf)
+{
+  unsigned char trk, sec, len, rep, repnum, chra;
+  int i, j, count, t1, t2;
+
+  t1 = read(zip_fd, &trk, 1);
+  t2 = read(zip_fd, &sec, 1);
+
+  *sector = sec;
+
+  if ((trk & 0x3f) != track || !t1 || !t2) {
+    return 1;
+  }
+
+  if (trk & 0x80) {
+    t1 = read(zip_fd, &len, 1);
+    t2 = read(zip_fd, &rep, 1);
+    if (!t1 || !t2) {
+       return 1;
+    }
+
+    count = 0;
+
+    for (i = 0; i < len; i++) {
+      if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
+         return 1;
+      }
+
+      if (chra != rep)
+	buf[count++] = chra;
+      else {
+        t1 = read(zip_fd, &repnum, 1);
+        t2 = read(zip_fd, &chra, 1);
+        if (!t1 || !t2) {
+           return 1;
+        }
+	i += 2;
+	for (j = 0; j < repnum; j++)
+	  buf[count++] = chra;
+      }
+    }
+  }
+
+  else if (trk & 0x40) {
+    if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
+       return 1;
+    }
+
+    for (i = 0; i < 256; i++)
+      buf[i] = chra;
+  }
+
+  else if (256 != read (zip_fd, buf, 256)) {
+    return 1;
+  }
+
+  return 0;
+}
+
+/* If this file looks like a zipcode, try to extract is using c1541. We have
+   to figure this out by reading the contents of the file */
+static char *try_uncompress_zipcode(const char *name, int write_mode)
+{
+    static char			 tmp_name[L_tmpnam];
+    int				 fd, i, count, sector, sectors = 0;
+    unsigned char		 tmp[256];
+    char			*argv[5];
+    int				 exit_status;
+
+    /* can we read this file? */
+    fd = open(name, O_RDONLY);
+    if (fd < 0)
+	return NULL;
+    /* Read first track to see if this is zipcode */
+    lseek(fd, 4, SEEK_SET);
+    for (count = 1; count < 21; count++) {
+	i = read_zipped_sector(fd, 1, &sector, tmp);
+	if (i || sector < 0 || sector > 20 || (sectors & (1 << sector))) {
+	    close(fd);
+	    return NULL;
+	}
+	sectors |= 1 << sector;
+    }
+    close(fd);
+
+    /* it is a zipcode. We cannot support write_mode */
+    if (write_mode)
+	return "";
+
+    /* format image first */
+    tmpnam(tmp_name);
+    argv[0] = stralloc("c1541");
+    argv[1] = stralloc("-format");
+    argv[2] = stralloc(tmp_name);
+    argv[3] = stralloc("a,bc");
+    argv[4] = NULL;
+
+    exit_status = spawn("c1541", argv, NULL, NULL);
+
+    free(argv[0]);
+    free(argv[1]);
+    free(argv[2]);
+    free(argv[3]);
+    
+    if (exit_status) {
+	unlink(tmp_name);
+	return NULL;
+    }
+
+    /* ok, now extract the zipcode */
+    argv[0] = stralloc("c1541");
+    argv[1] = stralloc("-zcreate");
+    argv[2] = stralloc(tmp_name);
+    argv[3] = stralloc(name);
+    argv[4] = NULL;
+
+    exit_status = spawn("c1541", argv, NULL, NULL);
+
+    free(argv[0]);
+    free(argv[1]);
+    free(argv[2]);
+    free(argv[3]);
+
+    if (exit_status) {
+	unlink(tmp_name);
+	return NULL;
+    }
+    /* everything ok */
+    return tmp_name;
+}
+
+/* If the file looks like a lynx image, try to extract it using c1541. We have
+   to figure this out by reading the contsnts of the file */
+static char *try_uncompress_lynx(const char *name, int write_mode)
+{
+    static char			 tmp_name[L_tmpnam];
+    int				 fd, i, count;
+    unsigned char		 tmp[256];
+    char			*argv[5];
+    int				 exit_status;
+
+    /* can we read this file? */
+    fd = open(name, O_RDONLY);
+    if (fd < 0)
+	return NULL;
+    /* is this lynx -image? */
+    i = read(fd, tmp, 2);
+    if (i != 2 || tmp[0] != 1 || tmp[1] != 8) {
+	close(fd);
+	return NULL;
+    }
+    count = 0;
+    while (1) {
+	i = read(fd, tmp, 1);
+	if (i != 1) {
+	    close(fd);
+	    return NULL;
+	}
+	if (tmp[0])
+	    count = 0;
+	else
+	    count++;
+	if (count == 3)
+	    break;
+    }
+    i = read(fd, tmp, 1);
+    if (i != 1 || tmp[0] != 13) {
+	close(fd);
+	return NULL;
+    }
+    count = 0;
+    while (1) {
+	i = read(fd, &tmp[count], 1);
+	if (i != 1 || count == 254) {
+	    close(fd);
+	    return NULL;
+	}
+	if (tmp[count++] == 13)
+	    break;
+    }
+    tmp[count] = 0;
+    if (!atoi(tmp)) {
+	close(fd);
+	return NULL;
+    }
+    /* XXX: this is not a full check, but perhaps enough? */
+
+    close(fd);
+
+    /* it is a lynx image. We cannot support write_mode */
+    if (write_mode)
+	return "";
+
+    /* format image first */
+    tmpnam(tmp_name);
+    argv[0] = stralloc("c1541");
+    argv[1] = stralloc("-format");
+    argv[2] = stralloc(tmp_name);
+    argv[3] = stralloc("a,bc");
+    argv[4] = NULL;
+
+    exit_status = spawn("c1541", argv, NULL, NULL);
+
+    free(argv[0]);
+    free(argv[1]);
+    free(argv[2]);
+    free(argv[3]);
+    
+    if (exit_status) {
+	unlink(tmp_name);
+	return NULL;
+    }
+
+    /* ok, now create the image */
+    argv[0] = stralloc("c1541");
+    argv[1] = stralloc("-unlynx");
+    argv[2] = stralloc(tmp_name);
+    argv[3] = stralloc(name);
+    argv[4] = NULL;
+
+    exit_status = spawn("c1541", argv, NULL, NULL);
+
+    free(argv[0]);
+    free(argv[1]);
+    free(argv[2]);
+    free(argv[3]);
+
+    if (exit_status) {
+	unlink(tmp_name);
+	return NULL;
+    }
+    /* everything ok */
     return tmp_name;
 }
 
@@ -387,6 +657,7 @@ static struct {
 #ifndef __MSDOS__
     { "unzip",	"-l",	"-p",		".zip",		"Name" },
     { "lha",	"lv",	"pq",		".lzh",		NULL },
+    { "lha",	"lv",	"pq",		".lha",		NULL },
     /* Hmmm.  Did non-gnu tar have a -O -option?  */
     { "gtar",	"-tf",	"-xOf",		".tar",		NULL },
     { "tar",	"-tf",	"-xOf",		".tar",		NULL },
@@ -430,6 +701,12 @@ static enum compression_type try_uncompress(const char *name, char **tmp_name,
 
     if ((*tmp_name = try_uncompress_with_bzip(name)) != NULL)
 	return COMPR_BZIP;
+
+    if ((*tmp_name = try_uncompress_zipcode(name, write_mode)) != NULL)
+	return COMPR_ZIPCODE;
+
+    if ((*tmp_name = try_uncompress_lynx(name, write_mode)) != NULL)
+	return COMPR_LYNX;
 
     return COMPR_NONE;
 }
@@ -505,6 +782,20 @@ static int compress(const char *src, const char *dest,
     if (type == COMPR_ARCHIVE)
     {
 	fprintf(stderr, "compress: trying to compress archive -file\n");
+	return -1;
+    }
+
+    /* This shouldn't happen */
+    if (type == COMPR_ZIPCODE)
+    {
+	fprintf(stderr, "compress: trying to compress zipcode -file\n");
+	return -1;
+    }
+
+    /* This shouldn't happen */
+    if (type == COMPR_LYNX)
+    {
+	fprintf(stderr, "compress: trying to compress lynx -file\n");
 	return -1;
     }
 
@@ -586,7 +877,7 @@ static int compress(const char *src, const char *dest,
 /* `open()' wrapper.  */
 int zopen(const char *name, mode_t opt, int flags)
 {
-    char *tmp_name;
+    char *tmp_name, *tmp_name2;
     int fd;
     enum compression_type type;
     int write_mode;
@@ -607,6 +898,21 @@ int zopen(const char *name, mode_t opt, int flags)
     else if (*tmp_name == '\0') {
 	errno = EACCES;
 	return -1;
+    }
+
+    /* OK, we managed to decompress that. Let's see if we can do that again.
+       If we can, we can delete the previous tmpfile */
+    while (1) {
+	type = try_uncompress(tmp_name, &tmp_name2, write_mode);
+	if (type == COMPR_NONE)
+	    break;
+	if (*tmp_name == '\0') {
+	    unlink(tmp_name);
+	    errno = EACCES;
+	    return -1;
+	}
+	unlink(tmp_name);
+	tmp_name = tmp_name2;
     }
 
     /* Open the uncompressed version of the file.  */

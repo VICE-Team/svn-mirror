@@ -863,6 +863,7 @@ static int  disk_import_zipfile (void)
     int    channel = 2;
     BYTE  str[20];
     static int  drive = 8;
+    int		singlefilemode = 0;
 
     /*
      * Open image or create a new one.
@@ -873,7 +874,11 @@ static int  disk_import_zipfile (void)
     }
 
     fname = (char *) malloc (sizeof(char) * strlen(args[2]) + 3);
-    strcpy(fname+2, args[2]);
+    /* ignore '[0-4]!' if found */
+    if (args[2][0] >= '1' && args[2][0] <= '4' && args[2][1] == '!')
+	strcpy(fname+2, args[2]+2);
+    else
+	strcpy(fname+2, args[2]);
     fname[0] = '0';
     fname[1] = '!';
 
@@ -896,33 +901,51 @@ static int  disk_import_zipfile (void)
     }
 
     for (track = 1; track <= 35; track++) {
-       switch (track) {
-          case 1:
-          case 9:
-          case 17:
-          case 26:
-             fname[0]++;
-             if ((fsfd = open(fname, O_RDONLY)) < 0) {
-	        printf("cannot open %s\n", fname);
-	        perror (fname);
-	        return (FD_NOTRD);
-             }
-             lseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
-             break;
-       }
+	if (singlefilemode || track == 1) {
+	    if (track == 1) {
+		fsfd = open(fname + 2, O_RDONLY);
+		if (fsfd >= 0) {
+		    printf("reading zipfile on onefile -mode\n");
+		    singlefilemode = 1;
+		    lseek(fsfd, 4, SEEK_SET);
+		}
+	    } else if (track == 9 || track == 17 || track == 26) {
+		lseek(fsfd, 2, SEEK_CUR);
+	    }
+	}
+	if (!singlefilemode) {
+	    switch (track) {
+	    case 1:
+	    case 9:
+	    case 17:
+	    case 26:
+		fname[0]++;
+		if (fsfd >= 0)
+		    close(fsfd);
+		if ((fsfd = open(fname, O_RDONLY)) < 0) {
+		    printf("cannot open %s\n", fname);
+		    perror (fname);
+		    return (FD_NOTRD);
+		}
+		lseek(fsfd, (track == 1) ? 4 : 2, SEEK_SET);
+		break;
+	    }
+	}
 
        for (count = 0; count < sector_map[track]; count++) {
           if ( (read_zipped_sector(fsfd, track, &sector, floppy->buffers[channel].buffer)) != 0) {
-             return (FD_BADIMAGE);
+	      close(fsfd);
+	      return (FD_BADIMAGE);
           }
 
           /* Write one block */
 
           sprintf((char *)str, "B-W:%d 0 %d %d", channel, track, sector);
           if (ip_execute(floppy, (BYTE *)str, strlen((char *)str)) != 0) {
-	     track = DSK_DIR_TRACK;
-	     sector= 0;
-	     return (FD_RDERR);
+	      track = DSK_DIR_TRACK;
+	      sector= 0;
+	      close(fsfd);
+	      return (FD_RDERR);
           }
        }
     }
@@ -1699,7 +1722,8 @@ int     main(argc, argv)
 	args[0]  = argv[1] + 1;				/* Command */
 	ImageName = argv[2];
 
-	if (!strncmp(args[0], "f", 1) || !strncmp(args[0], "cr", 2)) {
+	if (!strncmp(args[0], "f", 1) || !strncmp(args[0], "cr", 2) ||
+	    !strncmp(args[0], "zcr", 3)) {
 	    --argc;
 	    ++argv;
 	} else {

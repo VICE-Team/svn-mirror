@@ -32,6 +32,7 @@
 #include "kbdbuf.h"
 #include "types.h"
 #include "vmachine.h"
+#include "charsets.h"
 
 #define QUEUE_SIZE	1024
 

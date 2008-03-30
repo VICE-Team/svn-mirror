@@ -43,6 +43,7 @@
 
 #include "autostart.h"
 #include "utils.h"
+#include "kbdbuf.h"
 
 /* Current state of the routine autostart.  */
 static int autostartmode = AUTOSTART_NONE;

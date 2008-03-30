@@ -105,7 +105,6 @@
 
 #ifdef AUTOSTART
 #include "utils.h"
-#include "charsets.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -325,7 +324,7 @@ int main(int argc, char **argv)
 
 #ifdef AUTOSTART
     autostart_init();
-    
+
     /* Check for image:prg -format.  */
     if (app_resources.autostartName != NULL) {
 	tmp = strrchr(app_resources.autostartName, ':');
@@ -337,7 +336,6 @@ int main(int argc, char **argv)
 	    /* image exists? */
 	    if (autostartfd) {
 		fclose(autostartfd);
-		petconvstring(autostartprg, 0);
 		autostart_autodetect(autostartfile, autostartprg);
 	    }
 	    else
