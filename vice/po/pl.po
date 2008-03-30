@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-07-04 21:39+0200\n"
+"POT-Creation-Date: 2002-07-06 20:09+0200\n"
 "PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1204,42 +1204,50 @@ msgstr "*Bia³e"
 msgid "Load custom"
 msgstr "Za³aduj w³asny"
 
-#: src/arch/unix/uicrtc.c:83 src/arch/unix/uicrtc.c:95
-#: src/arch/unix/uivicii.c:97 src/arch/unix/uivicii.c:107
+#: src/arch/unix/uicrtc.c:90 src/arch/unix/uicrtc.c:102
+#: src/arch/unix/uivicii.c:104 src/arch/unix/uivicii.c:114
 msgid "*Double size"
 msgstr "*Podwójny rozmiar"
 
-#: src/arch/unix/uicrtc.c:85 src/arch/unix/uicrtc.c:97
-#: src/arch/unix/uivicii.c:99 src/arch/unix/uivicii.c:109
+#: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:104
+#: src/arch/unix/uivicii.c:106 src/arch/unix/uivicii.c:116
 msgid "*Double scan"
 msgstr "*Podwójne scanlines "
 
-#: src/arch/unix/uicrtc.c:87 src/arch/unix/uivicii.c:101
+#: src/arch/unix/uicrtc.c:94 src/arch/unix/uivicii.c:108
 msgid "*Video cache"
 msgstr "*Cache video"
 
-#: src/arch/unix/uicrtc.c:89 src/arch/unix/uisettings.c:501
+#: src/arch/unix/uicrtc.c:96 src/arch/unix/uisettings.c:501
 msgid "*Use XSync()"
 msgstr "*U¿yj XSync()"
 
-#: src/arch/unix/uicrtc.c:93 src/arch/unix/uivicii.c:105
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uivicii.c:112
 #, fuzzy
 msgid "*Enable fullscreen"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/unix/uicrtc.c:99 src/arch/unix/uivicii.c:111
+#: src/arch/unix/uicrtc.c:106 src/arch/unix/uivicii.c:118
 #, fuzzy
 msgid "Fullscreen device"
 msgstr "*Ustawienia pe³nego ekranu"
 
-#. Translators: 'VidMode' must remain in the beginning of the translation
-#. e.g. German: "VidMode Auflösungen"
-#: src/arch/unix/uicrtc.c:104 src/arch/unix/uivicii.c:116
+#: src/arch/unix/uicrtc.c:111 src/arch/unix/uivicii.c:123
 #, fuzzy
 msgid "VidMode Resolutions"
 msgstr "Rozdzielczo¶æ"
 
-#: src/arch/unix/uicrtc.c:111
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uivicii.c:127
+#, fuzzy
+msgid "DGA1 Resolutions"
+msgstr "Rozdzielczo¶æ"
+
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uivicii.c:131
+#, fuzzy
+msgid "DGA2 Resolutions"
+msgstr "Rozdzielczo¶æ"
+
+#: src/arch/unix/uicrtc.c:124
 msgid "*CRTC Screen color"
 msgstr "*Kolor obrazu CRTC"
 
@@ -2020,31 +2028,31 @@ msgstr "*Frodo "
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:123 src/arch/unix/vsidui.c:173
+#: src/arch/unix/uivicii.c:136 src/arch/unix/vsidui.c:173
 msgid "Video standard"
 msgstr "Standard video"
 
-#: src/arch/unix/uivicii.c:126
+#: src/arch/unix/uivicii.c:139
 msgid "*Sprite-sprite collisions"
 msgstr "*Kolizje duszków"
 
-#: src/arch/unix/uivicii.c:128
+#: src/arch/unix/uivicii.c:141
 msgid "*Sprite-background collisions"
 msgstr "*Kolizje duszków z t³em"
 
-#: src/arch/unix/uivicii.c:131
+#: src/arch/unix/uivicii.c:144
 msgid "*New Luminances"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:133
+#: src/arch/unix/uivicii.c:146
 msgid "*External color set"
 msgstr "*Zewnêtrzne ustawienia kolorów"
 
-#: src/arch/unix/uivicii.c:135
+#: src/arch/unix/uivicii.c:148
 msgid "Color set"
 msgstr "Ustaw kolory"
 
-#: src/arch/unix/uivicii.c:138
+#: src/arch/unix/uivicii.c:151
 msgid "PAL Emulation"
 msgstr "Emulacja PAL"
 
@@ -2689,16 +2697,16 @@ msgstr "U¿yj renderowania programowego"
 msgid "Request YUV FOURCC format"
 msgstr "¯±daj formatu YUV FOURCC"
 
-#: src/arch/unix/x11/video.c:338
+#: src/arch/unix/x11/video.c:344
 msgid "The MITSHM extension is not supported on this display."
 msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wy¶wietlacz."
 
-#: src/arch/unix/x11/video.c:342
+#: src/arch/unix/x11/video.c:348
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rozszerzenie wersji MITSHM %d.%d zosta³o wykryte."
 
-#: src/arch/unix/x11/video.c:403
+#: src/arch/unix/x11/video.c:409
 msgid "Cannot release shared memory!"
 msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 
@@ -2883,10 +2891,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "*Enable DGA2 fullscreen"
 #~ msgstr "W³±cz pe³ny ekran"
-
-#, fuzzy
-#~ msgid "DGA2 Resolutions"
-#~ msgstr "Rozdzielczo¶æ"
 
 #, fuzzy
 #~ msgid "*Enable VidMode fullscreen"

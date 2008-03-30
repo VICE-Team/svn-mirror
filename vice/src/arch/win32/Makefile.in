@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	cbm2ui.c 	cbm2ui.h 	c64ui.c 	c64ui.h 	console.c 	dirent.c 	dirent.h 	fullscreen.c 	fullscreen.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	lose32.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resplus4.rc 	resvic.rc 	statusbar.c 	statusbar.h 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uiconsole.c 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uimon.c 	uipetset.c 	uipetset.h 	uiplus4mem.c 	uiplus4mem.h 	uireu.c 	uireu.h 	uisid.c 	uisid.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	uivicset.h 	uivicset.c 	uivideo.c 	uivideo.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsyncarch.c 	winhack.h 	winmain.c 	winmain.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	cbm2ui.c 	cbm2ui.h 	c64ui.c 	c64ui.h 	console.c 	dirent.c 	dirent.h 	fullscrn.c 	fullscrn.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	lose32.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resplus4.rc 	resvic.rc 	statusbar.c 	statusbar.h 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uiconsole.c 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uimon.c 	uipetset.c 	uipetset.h 	uiplus4mem.c 	uiplus4mem.h 	uireu.c 	uireu.h 	uisid.c 	uisid.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	uivicset.h 	uivicset.c 	uivideo.c 	uivideo.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsyncarch.c 	winhack.h 	winmain.c 	winmain.h
 
 
 libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
@@ -159,7 +159,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128ui.o cbm2ui.o c64ui.o console.o \
-dirent.o fullscreen.o joy.o kbd.o main_exit.o mouse.o petui.o plus4ui.o \
+dirent.o fullscrn.o joy.o kbd.o main_exit.o mouse.o petui.o plus4ui.o \
 statusbar.o ui.o uiattach.o uicbm2set.o uicmdline.o uiconsole.o \
 uidatasette.o uidrive.o uijoystick.o uilib.o uimon.o uipetset.o \
 uiplus4mem.o uireu.o uisid.o uisnapshot.o uisound.o uivicii.o \
