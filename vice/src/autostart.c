@@ -110,9 +110,9 @@ static void deallocate_program_name(void)
 
 static enum { YES, NO, NOT_YET } check(const char *s)
 {
-    int screen_addr = mem_read(pnt) | (mem_read(pnt + 1) << 8);
-    int line_length = lnmx < 0 ? -lnmx : mem_read(lnmx) + 1;
-    int cursor_column = mem_read(pntr);
+    int screen_addr = (int)(mem_read(pnt) | (mem_read(pnt + 1) << 8));
+    int line_length = (int)(lnmx < 0 ? -lnmx : mem_read(lnmx) + 1);
+    int cursor_column = (int)mem_read(pntr);
     int addr, i;
 
     if (!kbd_buf_is_empty() || cursor_column != 0 || mem_read(blnsw) != 0)
