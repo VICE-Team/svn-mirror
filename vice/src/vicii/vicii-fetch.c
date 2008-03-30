@@ -376,10 +376,10 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                     src = (romh_banks + 0x1000 + (romh_bank << 13)
                           + ((*spr_base - 0xc0) << 6));
             } else {
-                if ((vicii.vbank_phi1 & vicii.vaddr_chargen_mask_phi1)
-                    == vicii.vaddr_chargen_value_phi1
-                    && (*spr_base & 0xc0) == 0x40)
-                    src = mem_chargen_rom_ptr + ((*spr_base - 0x40) << 6);
+                if (((vicii.vbank_phi1 + (*spr_base << 6))
+                    & vicii.vaddr_chargen_mask_phi1)
+                    == vicii.vaddr_chargen_value_phi1)
+                    src = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
             }
 
             dest[0] = src[my_memptr];
