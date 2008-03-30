@@ -12,6 +12,7 @@ SUBDIRS = \
 	fsdevice \
 	diskimage \
 	serial \
+	parallel \
 	tape \
 	imagecontents \
 	video \
@@ -163,7 +164,6 @@ base_sources = \
 	main.c \
 	p00.c \
 	palette.c \
-	parallel.c \
 	ram.c \
 	resources.c \
 	romset.c \
@@ -211,6 +211,7 @@ fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
+parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
@@ -250,6 +251,7 @@ x64_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
@@ -272,6 +274,7 @@ x64-all: \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libsid \
@@ -301,6 +304,7 @@ x128_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
@@ -328,6 +332,7 @@ x128-all: \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libarch \
 	libsid \
@@ -353,6 +358,7 @@ xvic_libs =  \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
@@ -370,6 +376,7 @@ xvic-all: \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libsounddrv \
@@ -395,6 +402,7 @@ xpet_libs =  \
 	$(drive_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
@@ -412,6 +420,7 @@ xpet-all: \
 	libdrive \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libcrtc \
@@ -481,6 +490,7 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(sid_lib) \
@@ -508,6 +518,7 @@ xcbm2-all: \
 	libdrive \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libcrtc \
@@ -578,7 +589,7 @@ petcat_LDADD = \
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
-	libvideo libserial libcore @RESID_DEP@
+	libvideo libserial libparallel libcore @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -616,6 +627,8 @@ libimagecontents:
 	(cd imagecontents && $(MAKE))
 libmonitor:
 	(cd monitor && $(MAKE))
+libparallel:
+	(cd parallel && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
 libplus4:

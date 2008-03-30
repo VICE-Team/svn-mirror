@@ -1,5 +1,5 @@
 /*
- * serial-trap.h
+ * parallel-trap.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,12 +24,14 @@
  *
  */
 
-#ifndef _SERIAL_TRAP_H
-#define _SERIAL_TRAP_H
+#ifndef _PARALLEL_TRAP_H
+#define _PARALLEL_TRAP_H
 
 #include "types.h"
 
-extern void serial_trap_init(WORD tmpin);
+extern int parallelattention(int b);
+extern int parallelsendbyte(BYTE data);
+extern int parallelreceivebyte(BYTE *data, int fake);
 
 #endif
 

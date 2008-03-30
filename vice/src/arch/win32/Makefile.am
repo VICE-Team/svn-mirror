@@ -137,6 +137,7 @@ EXTRA_DIST = \
 	gfxoutputdrv.dsp \
 	imagecontents.dsp \
 	monitor.dsp \
+	parallel.dsp \
 	pet.dsp \
 	petcat.dsp \
 	plus4.dsp \

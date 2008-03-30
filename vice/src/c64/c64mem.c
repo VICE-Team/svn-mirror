@@ -45,7 +45,6 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
-#include "parallel.h"
 #include "ram.h"
 #include "reu.h"
 #include "sid.h"

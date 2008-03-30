@@ -28,8 +28,6 @@
 
 #include "mem1551.h"
 #include "glue1551.h"
-/* FIXME */
-#include "ieee.h"
 #include "tcbm-cmdline-options.h"
 #include "tcbm-resources.h"
 #include "tcbm.h"
@@ -110,14 +108,5 @@ int tcbm_drive_snapshot_write(struct drive_context_s *ctxptr,
                               struct snapshot_s *s)
 {
     return 0;
-}
-
-/* FIXME */
-void ieee_drive0_parallel_set_atn(int state)
-{
-}
-
-void ieee_drive1_parallel_set_atn(int state)
-{
 }
 

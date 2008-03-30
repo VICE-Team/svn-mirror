@@ -111,10 +111,6 @@ extern void serial_set_st(BYTE st);
 extern void (*attention_callback_func)(void);
 extern void (*eof_callback_func)(void);
 
-extern int parallelattention(int b);
-extern int parallelsendbyte(BYTE data);
-extern int parallelreceivebyte(BYTE *data, int fake);
-
 extern int serial_trap_attention(void);
 extern int serial_trap_send(void);
 extern int serial_trap_receive(void);
@@ -138,6 +134,9 @@ extern unsigned int serial_device_get_realdevice_state(unsigned int unit);
 extern serial_t *serial_device_get(unsigned int unit);
 extern unsigned int serial_device_type_get(unsigned int unit);
 extern void serial_device_type_set(unsigned int type, unsigned int unit);
+
+extern BYTE TrapDevice;
+extern BYTE TrapSecondary;
 
 #endif
 

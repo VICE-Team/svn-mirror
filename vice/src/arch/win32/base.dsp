@@ -198,10 +198,6 @@ SOURCE="..\..\palette.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\parallel.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\ram.c"
 # End Source File
 # Begin Source File
