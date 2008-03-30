@@ -183,7 +183,7 @@ command_t command_list[] = {
       "type, and must be either `x64', `d64' (both VC1541/2031), `d71' (VC1571),\n" 
       "`d81' (VC1581), `d80' (CBM8050) or `d82' (CBM8250).\n"
       "Otherwise, format the disk in the current unit, if any.",
-      1, 3,
+      1, 4,
       format_cmd },
     { "help",
       "help [<command>]",
@@ -1089,6 +1089,7 @@ static int format_cmd(int nargs, char **args)
             return FD_BADDEV;
         break;
       case 4:
+      case 5:
         /* format <diskname,id> <type> <imagename> */
         /* Create a new image.  */
         /* FIXME: I want a unit number here too.  */
@@ -1109,15 +1110,20 @@ static int format_cmd(int nargs, char **args)
             disk_type = DISK_IMAGE_TYPE_X64;
         else
             return FD_BADVAL;
-        if (open_image(drive_number, args[3], 1, disk_type) < 0)
+        if (nargs > 4) {
+            arg_to_int(args[4], &unit);
+            unit -= 8;
+        } else {
+            unit = 0;
+        }
+        if (open_image(unit, args[3], 1, disk_type) < 0)
             return FD_BADIMAGE;
-        unit = 0;
         break;
       default:
         /* Shouldn't happen.  */
         return FD_BADVAL;
     }
-
+printf("Unit: %i\n",unit);
     if (!strchr(args[1], ',')) {
         fprintf(stderr, "There must be ID on the name.\n");
         return FD_OK;
