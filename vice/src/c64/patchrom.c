@@ -62,7 +62,7 @@
 
 #define PATCH_VERSIONS 3   /* counting from 0 */
 
-static unsigned short patch_bytes[] = {
+static const unsigned short patch_bytes[] = {
 
   3, 0xE42D,
         0x20, 0x1E, 0xAB,

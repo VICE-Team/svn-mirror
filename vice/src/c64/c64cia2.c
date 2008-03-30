@@ -102,7 +102,7 @@ static iec_info_t *cia2_iec_info;
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
-static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
+static const iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
     iec_cpu_write_conf0, iec_cpu_write_conf1,
     iec_cpu_write_conf2, iec_cpu_write_conf3
 };
