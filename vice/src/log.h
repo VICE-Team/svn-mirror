@@ -40,16 +40,16 @@ int log_init_with_fd(FILE *f);
 log_t log_open(const char *id);
 int log_close(log_t log);
 
-#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR > 4)
+#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
 
-int __attribute__((format(printf, 2, 3))) \
-    log_message(log_t log, const char *format, ...);
-int __attribute__((format(printf, 2, 3))) \
-    log_warning(log_t log, const char *format, ...);
-int __attribute__((format(printf, 2, 3))) \
-    int log_error(log_t log, const char *format, ...);
-int __attribute__((format(printf, 1, 2))) \
-    int log_debug(const char *format, ...);
+int log_message(log_t log, const char *format, ...)
+    __attribute__((format(printf, 2, 3)));
+int log_warning(log_t log, const char *format, ...)
+    __attribute__((format(printf, 2, 3)));
+int log_error(log_t log, const char *format, ...)
+    __attribute__((format(printf, 2, 3)));
+int log_debug(const char *format, ...)
+    __attribute__((format(printf, 1, 2)));
 
 #else
 
