@@ -1,5 +1,28 @@
 Sat Aug 22 19:52:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* arch/msdos/menudefs.c (quit_callback): Removed Greeting message.
+
+	* arch/msdos/ui.c (ui_exit): Set 25-line mode and print greeting
+ 	message (using `cprintf()' to avoid being logged).
+
+	* mon.c (mon): If `exit_mon' is 2, leave program.
+
+	* mon_parse.y: `CMD_QUIT' sets `exit_mon' to 2 instead of calling
+ 	`exit()'.
+
+	* mon.c: New variable `mon_input'.
+	(mon) [!__MSDOS__]: Initialize it to `stdin'.
+	(mon) [__MSDOS__]: Open "CON" as `mon_input' and `mon_output';
+	close it on exit.
+
+	* arch/msdos/log.c (log_disable): Do nothing.
+
+	* mon.c: Removed static initialization of `mon_output'.
+	(mon): Initialize `mon_output'.
+
+	* arch/msdos/menudefs.c (quit_callback): Call `serial_remove(-1)'
+	before `log_disable()'.
+
 	* 6510core.c (DO_INTERRUPT): Reset keeps `IK_MONITOR'.
 
 	* mon.c (mon_watch_push_store_addr): Check

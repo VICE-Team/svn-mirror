@@ -70,10 +70,4 @@ void log_enable(int new)
 
 void log_disable(void)
 {
-    if (log_fd != -1) {
-	close(log_fd);
-	freopen("CON", "wt", stdout);
-	freopen("CON", "wt", stderr);
-    }
 }
-

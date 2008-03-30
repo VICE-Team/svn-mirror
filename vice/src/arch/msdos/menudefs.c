@@ -840,16 +840,7 @@ static TUI_MENU_CALLBACK(quit_callback)
 	_setcursortype(_NORMALCURSOR);
 	normvideo();
 	clrscr();
-        log_disable();
-#ifdef HAVE_TRUE1541
-        true1541_detach_floppy();
-#endif
-#ifdef UNSTABLE
-	printf("VICE version %s (unstable).\n", VERSION);
-#else
-	printf("VICE version %s.\n", VERSION);
-#endif
-	printf("\nOfficial VICE homepage: http://www.tu-chemnitz.de/~fachat/vice/vice.html\n\n");
+        serial_remove(-1);
 	exit(0);
     }
 
@@ -872,18 +863,22 @@ static tui_menu_item_def_t quit_submenu[] = {
 
 static void mon_trap(ADDRESS addr, void *data)
 {
-    int old_mode;
+    int old_input_mode, old_output_mode;
 
     log_disable();
     enable_text();
     clrscr();
     _set_screen_lines(43);
     _setcursortype(_SOLIDCURSOR);
-    old_mode = setmode(STDIN_FILENO, O_TEXT);
+
+    old_input_mode = setmode(STDIN_FILENO, O_TEXT);
+    old_output_mode = setmode(STDOUT_FILENO, O_TEXT);
 
     mon(addr);
 
-    setmode(STDIN_FILENO, old_mode);
+    setmode(STDIN_FILENO, old_input_mode);
+    setmode(STDIN_FILENO, old_output_mode);
+
     log_enable(0);
     disable_text();
 }

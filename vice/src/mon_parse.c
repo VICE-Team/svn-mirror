@@ -1362,7 +1362,7 @@ case 75:
     break;}
 case 76:
 #line 220 "../../src/mon_parse.y"
-{ fprintf(mon_output, "Quit.\n"); exit(-1); exit(0); ;
+{ exit_mon = 2; YYACCEPT; ;
     break;}
 case 77:
 #line 221 "../../src/mon_parse.y"

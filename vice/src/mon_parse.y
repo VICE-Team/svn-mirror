@@ -217,7 +217,7 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE
                                                          default_radix); }
                    | CMD_DEVICE memspace end_cmd       { fprintf(mon_output,"Setting default device to %s\n",
                                                          SPACESTRING($2)); default_memspace = $2; }
-                   | CMD_QUIT end_cmd 		       { fprintf(mon_output, "Quit.\n"); exit(-1); exit(0); }
+                   | CMD_QUIT end_cmd 		       { exit_mon = 2; YYACCEPT; }
                    | CMD_EXIT end_cmd 		       { exit_mon = 1; YYACCEPT; }
                    ;
 
