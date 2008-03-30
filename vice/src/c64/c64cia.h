@@ -32,8 +32,8 @@
 struct cia_context_s;
 struct machine_context_s;
 
-void cia1_setup_context(struct machine_context_s *machine_context);
-void cia2_setup_context(struct machine_context_s *machine_context);
+extern void cia1_setup_context(struct machine_context_s *machine_context);
+extern void cia2_setup_context(struct machine_context_s *machine_context);
 
 extern void cia1_init(struct cia_context_s *cia_context);
 extern void REGPARM2 cia1_store(WORD addr, BYTE value);

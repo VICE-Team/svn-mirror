@@ -1,5 +1,5 @@
 /*
- * c64rom.c
+ * c64rom.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

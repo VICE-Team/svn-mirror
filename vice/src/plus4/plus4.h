@@ -43,5 +43,13 @@
 #define PLUS4_NTSC_RFSH_PER_SEC    (1.0 / ((double)PLUS4_NTSC_CYCLES_PER_RFSH \
                                    / (double)PLUS4_NTSC_CYCLES_PER_SEC))
 
+struct printer_context_s;
+
+typedef struct machine_context_s {
+    struct printer_context_s *printer[3];
+} machine_context_t;
+
+extern machine_context_t machine_context;
+
 #endif
 

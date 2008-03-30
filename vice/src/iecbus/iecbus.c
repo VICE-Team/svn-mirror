@@ -35,6 +35,7 @@
 #include "drivetypes.h"
 #include "iecbus.h"
 #include "iecdrive.h"
+#include "printer.h"
 #include "via.h"
 #include "types.h"
 
@@ -183,15 +184,8 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
 #endif
 static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
 {
-/*    drive_t *drive0, *drive1;*/
-    unsigned int dnr;
+    unsigned int dnr, pnr;
 
-/*
-    drive0 = drive_context[0]->drive;
-    drive1 = drive_context[1]->drive;
-    drivecpu_execute(drive_context[0], clock);
-    drivecpu_execute(drive_context[1], clock);
-*/
     drivecpu_execute_all(clock);
 
     iec_update_cpu_bus(data);
@@ -209,6 +203,9 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
             else
                 if (!iec_old_atn)
                     ciacore_set_flag(drive_context[dnr]->cia1581);
+        }
+        for (pnr = 0; pnr < PRINTER_IEC_NUM; pnr++) {
+
         }
     }
 
@@ -230,6 +227,9 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
                                    | ((iecbus.drv_data[unit] << 6)
                                    & ((iecbus.drv_data[unit]
                                    | iecbus.cpu_bus) << 3) & 0x80));
+    }
+    for (pnr = 0; pnr < PRINTER_IEC_NUM; pnr++) {
+
     }
 
     iec_update_ports();

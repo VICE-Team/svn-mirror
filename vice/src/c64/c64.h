@@ -54,12 +54,14 @@
                                         / (double)C64_NTSCOLD_CYCLES_PER_SEC))
 
 struct cia_context_s;
+struct printer_context_s;
 struct tpi_context_s;
 
 typedef struct machine_context_s {
     struct cia_context_s *cia1;
     struct cia_context_s *cia2;
     struct tpi_context_s *tpi1;
+    struct printer_context_s *printer[3];
 } machine_context_t;
 
 extern machine_context_t machine_context;

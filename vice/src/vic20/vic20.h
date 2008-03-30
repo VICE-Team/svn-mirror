@@ -52,6 +52,7 @@
 #define VIC20_NTSC_RFSH_PER_SEC    (1.0 / ((double)VIC20_NTSC_CYCLES_PER_RFSH \
                                    / (double)VIC20_NTSC_CYCLES_PER_SEC))
 
+struct printer_context_s;
 struct via_context_s;
 
 typedef struct machine_context_s {
@@ -59,6 +60,7 @@ typedef struct machine_context_s {
     struct via_context_s *via2;
     struct via_context_s *ieeevia1;
     struct via_context_s *ieeevia2;
+    struct printer_context_s *printer[3];
 } machine_context_t;
 
 extern machine_context_t machine_context;
