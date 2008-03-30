@@ -85,8 +85,9 @@ static LPDIRECTDRAW2 DirectDrawObject2;
     }                            \
 }
 
-BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescription,
-                                   LPSTR lpDriverName, LPVOID lpContext)
+static BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID,
+                                          LPSTR lpDriverDescription,
+                                          LPSTR lpDriverName, LPVOID lpContext)
 {
     DirectDrawDeviceList *new_device;
     DirectDrawDeviceList *search_device;
@@ -122,7 +123,7 @@ BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescription,
     return DDENUMRET_OK;
 }
  
-HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
+static HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
 {
     DirectDrawModeList *new_mode;
     DirectDrawModeList *search_mode;
@@ -248,8 +249,8 @@ GUID *GetGUIDForActualDevice()
     return NULL;
 }
 
-void validate_mode(int *device, int *width, int *height, int *bitdepth,
-                   int *rate)
+static void validate_mode(int *device, int *width, int *height, int *bitdepth,
+                          int *rate)
 {
     DirectDrawModeList  *mode;
 
@@ -334,7 +335,7 @@ int fullscreen_width = 0;
 int fullscreen_height = 0;
 int fullscreen_refreshrate = 0;
 
-int GetIndexFromList(ValueList *list, int value)
+static int GetIndexFromList(ValueList *list, int value)
 {
     ValueList *search;
     int pos;
@@ -350,7 +351,7 @@ int GetIndexFromList(ValueList *list, int value)
     return -1;
 }
 
-int GetValueFromList(ValueList * list, int index)
+static int GetValueFromList(ValueList * list, int index)
 {
     ValueList *search;
     int pos;
@@ -366,7 +367,7 @@ int GetValueFromList(ValueList * list, int index)
     return 0;
 }
 
-void InsertInto(ValueList **list, ValueList *value)
+static void InsertInto(ValueList **list, ValueList *value)
 {
     ValueList *after;
     ValueList *before;
@@ -395,7 +396,7 @@ void InsertInto(ValueList **list, ValueList *value)
     }
 }
 
-void DestroyList(ValueList **list)
+static void DestroyList(ValueList **list)
 {
     ValueList *value;
     ValueList *value2;
@@ -410,7 +411,7 @@ void DestroyList(ValueList **list)
     *list = NULL;
 }
 
-void get_refreshratelist(int device, int bitdepth, int width, int height)
+static void get_refreshratelist(int device, int bitdepth, int width, int height)
 {
     DirectDrawModeList *mode;
     ValueList *value;
@@ -429,7 +430,7 @@ void get_refreshratelist(int device, int bitdepth, int width, int height)
     while (mode!=NULL) {
         if ((mode->devicenumber == device) && (mode->bitdepth == bitdepth)
             && (mode->width == width) && (mode->height == height)) {
-            if (GetIndexFromList(refresh_rates,mode->refreshrate) == -1) {
+            if (GetIndexFromList(refresh_rates, mode->refreshrate) == -1) {
                 value = lib_malloc(sizeof(ValueList));
                 value->value = mode->refreshrate;
                 itoa(mode->refreshrate, buff, 10);
@@ -441,7 +442,7 @@ void get_refreshratelist(int device, int bitdepth, int width, int height)
     }
 }
 
-void get_bitdepthlist(int device)
+static void get_bitdepthlist(int device)
 {
     DirectDrawModeList *mode;
     ValueList *value;
@@ -463,7 +464,7 @@ void get_bitdepthlist(int device)
     }
 }
 
-void get_resolutionlist(int device, int bitdepth)
+static void get_resolutionlist(int device, int bitdepth)
 {
     DirectDrawModeList *mode;
     ValueList *value;
@@ -549,6 +550,38 @@ static void init_fullscreen_dialog(HWND hwnd)
 
 static float fullscreen_refreshrate_buffer = -1.0f;
 
+static void fullscreen_dialog_end(void)
+{
+    resources_set_value("FullScreenDevice",
+                        (resource_value_t)fullscreen_device);
+    resources_set_value("FullScreenBitdepth",
+                        (resource_value_t)fullscreen_bitdepth);
+    resources_set_value("FullScreenWidth",
+                        (resource_value_t)fullscreen_width);
+    resources_set_value("FullScreenHeight",
+                        (resource_value_t)fullscreen_height);
+    resources_set_value("FullScreenRefreshRate",
+                        (resource_value_t)fullscreen_refreshrate);
+    resources_set_value("VBLANKSync",
+                        (resource_value_t)vblank_sync);
+    resources_set_value("DXPrimarySurfaceRendering",
+                        (resource_value_t)dx_primary);
+    fullscreen_refreshrate_buffer = -1.0f;
+}
+
+static void fullscreen_dialog_init(HWND hwnd)
+{
+    resources_get_value("FullscreenDevice", (void *)&fullscreen_device);
+    resources_get_value("FullscreenBitdepth", (void *)&fullscreen_bitdepth);
+    resources_get_value("FullscreenWidth", (void *)&fullscreen_width);
+    resources_get_value("FullscreenHeight", (void *)&fullscreen_height);
+    resources_get_value("FullscreenRefreshRate",
+                        (void *)&fullscreen_refreshrate);
+    resources_get_value("VBLANKSync", (void *)&vblank_sync);
+    resources_get_value("DXPrimarySurfaceRendering", (void *)&dx_primary);
+    init_fullscreen_dialog(hwnd);
+}
+
 BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                      LPARAM lparam)
 {
@@ -561,22 +594,7 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
     switch (msg) {
       case WM_NOTIFY:
         if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
-            resources_set_value("FullScreenDevice",
-                                (resource_value_t)fullscreen_device);
-            resources_set_value("FullScreenBitdepth",
-                                (resource_value_t)fullscreen_bitdepth);
-            resources_set_value("FullScreenWidth",
-                                (resource_value_t)fullscreen_width);
-            resources_set_value("FullScreenHeight",
-                                (resource_value_t)fullscreen_height);
-            resources_set_value("FullScreenRefreshRate",
-                                (resource_value_t)fullscreen_refreshrate);
-            resources_set_value("VBLANKSync",
-                                (resource_value_t)vblank_sync);
-            resources_set_value("DXPrimarySurfaceRendering",
-                                (resource_value_t)dx_primary);
-            fullscreen_refreshrate_buffer = -1.0f;
-
+            fullscreen_dialog_end();
             SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
         }
@@ -610,27 +628,13 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
             command = LOWORD(wparam);
             switch (command) {
               case IDC_TOGGLE_VIDEO_VBLANK_SYNC:
-                  vblank_sync ^= 1;
-                  return FALSE;
+                vblank_sync ^= 1;
+                return FALSE;
               case IDC_TOGGLE_VIDEO_DX_PRIMARY:
-                  dx_primary ^= 1;
-                  return FALSE;
+                dx_primary ^= 1;
+                return FALSE;
               case IDOK:
-                resources_set_value("FullScreenDevice",
-                                    (resource_value_t)fullscreen_device);
-                resources_set_value("FullScreenBitdepth",
-                                    (resource_value_t)fullscreen_bitdepth);
-                resources_set_value("FullScreenWidth",
-                                    (resource_value_t)fullscreen_width);
-                resources_set_value("FullScreenHeight",
-                                    (resource_value_t)fullscreen_height);
-                resources_set_value("FullScreenRefreshRate",
-                                    (resource_value_t)fullscreen_refreshrate);
-                resources_set_value("VBLANKSync",
-                                    (resource_value_t)vblank_sync);
-                resources_set_value("DXPrimarySurfaceRendering",
-                                    (resource_value_t)dx_primary);
-                fullscreen_refreshrate_buffer = -1.0f;
+                fullscreen_dialog_end();
               case IDCANCEL:
                 EndDialog(hwnd,0);
                 return TRUE;
@@ -641,16 +645,7 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
         EndDialog(hwnd,0);
         return TRUE;
       case WM_INITDIALOG:
-        resources_get_value("FullscreenDevice", (void *)&fullscreen_device);
-        resources_get_value("FullscreenBitdepth",
-                            (void *)&fullscreen_bitdepth);
-        resources_get_value("FullscreenWidth", (void *)&fullscreen_width);
-        resources_get_value("FullscreenHeight", (void *)&fullscreen_height);
-        resources_get_value("FullscreenRefreshRate",
-                            (void *)&fullscreen_refreshrate);
-        resources_get_value("VBLANKSync", (void *)&vblank_sync);
-        resources_get_value("DXPrimarySurfaceRendering", (void *)&dx_primary);
-        init_fullscreen_dialog(hwnd);
+        fullscreen_dialog_init(hwnd);
         return TRUE;
     }
     return FALSE;
@@ -803,9 +798,9 @@ void SwitchToFullscreenMode(HWND hwnd)
         c->refreshrate = fullscreen_refreshrate_buffer;
     }
 
-	create_single_surface(c, fullscreen_width, fullscreen_height);
+    video_create_single_surface(c, fullscreen_width, fullscreen_height);
 
-    c->depth=bitdepth;
+    c->depth = bitdepth;
 
     /* Create palette.  */
     if (c->depth == 8) {
@@ -820,11 +815,12 @@ void SwitchToFullscreenMode(HWND hwnd)
         }
     }
 
-    set_palette(c);
-    set_physical_colors(c);
+    video_set_palette(c);
+    video_set_physical_colors(c);
 
     IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
-    canvas_update(c->hwnd,hdc, 0, 0, fullscreen_width, fullscreen_height);
+    video_canvas_update(c->hwnd, hdc, 0, 0, fullscreen_width,
+                        fullscreen_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
     fullscreen_active = 1;
 
@@ -866,16 +862,18 @@ void SwitchToWindowedMode(HWND hwnd)
 
     statusbar_create(hwnd);
 
-    ddresult=DirectDrawCreate(NULL, &c->dd_object, NULL);
-    ddresult=IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
-    ddresult=IDirectDraw_QueryInterface(c->dd_object, (GUID *)&IID_IDirectDraw2,
-                                        (LPVOID *)&c->dd_object2);
+    ddresult = DirectDrawCreate(NULL, &c->dd_object, NULL);
+    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL,
+                                               DDSCL_NORMAL);
+    ddresult = IDirectDraw_QueryInterface(c->dd_object,
+                                          (GUID *)&IID_IDirectDraw2,
+                                          (LPVOID *)&c->dd_object2);
 
     memset(&desc2,0,sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
     ddresult = IDirectDraw2_GetDisplayMode(c->dd_object2, &desc2);
 
-	create_single_surface(c, desc2.dwWidth, desc2.dwHeight);
+    video_create_single_surface(c, desc2.dwWidth, desc2.dwHeight);
 
     c->depth = old_bitdepth;
 
@@ -893,12 +891,12 @@ void SwitchToWindowedMode(HWND hwnd)
         }
     }
 
-    set_palette(c);
-    set_physical_colors(c);
+    video_set_palette(c);
+    video_set_physical_colors(c);
 
 
     IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
-    canvas_update(c->hwnd,hdc, 0, 0, c->client_width, c->client_height);
+    video_canvas_update(c->hwnd, hdc, 0, 0, c->client_width, c->client_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
     fullscreen_active = 0;
 
