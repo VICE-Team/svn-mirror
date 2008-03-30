@@ -41,12 +41,12 @@ extern store_func_ptr_t *_mem_write_tab_ptr;
 extern BYTE **_mem_read_base_tab_ptr;
 extern int *mem_read_limit_tab_ptr;
 
-extern BYTE ram[];
-extern int ram_size;
-extern BYTE *page_zero;
-extern BYTE *page_one;
+extern BYTE mem_ram[];
+extern BYTE *mem_page_zero;
+extern BYTE *mem_page_one;
+extern BYTE *mem_color_ram_ptr;
 
-extern unsigned int old_reg_pc;
+extern unsigned int mem_old_reg_pc;
 
 extern const char *mem_romset_resources_list[];
 
@@ -58,6 +58,8 @@ extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
 extern void mem_toggle_watchpoints(int flag);
 extern int mem_rom_trap_allowed(ADDRESS addr);
 extern void mem_set_bank_pointer(BYTE **base, int *limit);
+extern void mem_color_ram_to_snapshot(BYTE *color_ram);
+extern void mem_color_ram_from_snapshot(BYTE *color_ram);
 
 extern read_func_t rom_read, read_zero;
 extern store_func_t rom_store, store_zero;

@@ -73,12 +73,12 @@ static log_t vic20_mem_log = LOG_ERR;
 /*----------------------------------------------------------------------*/
 
 /* Old program counter.  Not used without MMU support.  */
-unsigned int old_reg_pc;
+unsigned int mem_old_reg_pc;
 
 /* ------------------------------------------------------------------------- */
 
 /* The VIC20 memory. */
-BYTE ram[VIC20_RAM_SIZE];
+BYTE mem_ram[VIC20_RAM_SIZE];
 int ram_size = VIC20_RAM_SIZE;
 BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 #define kernal_rom (rom + VIC20_BASIC_ROM_SIZE)
@@ -115,7 +115,7 @@ static int vicrom_loaded = 0;
 
 static void REGPARM2 store_wrap(ADDRESS addr, BYTE value)
 {
-    ram[addr & (VIC20_RAM_SIZE - 1)] = value;
+    mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value;
     chargen_rom[addr & 0x3ff] = value;
 }
 
@@ -138,22 +138,22 @@ BYTE REGPARM1 chargen_read(ADDRESS addr)
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
 {
-    return ram[addr & 0xff];
+    return mem_ram[addr & 0xff];
 }
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
-    ram[addr & 0xff] = value;
+    mem_ram[addr & 0xff] = value;
 }
 
 static BYTE REGPARM1 ram_read(ADDRESS addr)
 {
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
-    ram[addr & (VIC20_RAM_SIZE - 1)] = value;
+    mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value;
 }
 
 static BYTE REGPARM1 read_cartrom(ADDRESS addr)
@@ -361,12 +361,12 @@ int vic20_mem_enable_ram_block(int num)
     if (num == 0) {
         set_mem(0x04, 0x0f,
                 ram_read, ram_store,
-                ram, 0xffff);
+                mem_ram, 0xffff);
         return 0;
     } else if (num > 0 && num != 4 && num <= 5) {
         set_mem(num * 0x20, num * 0x20 + 0x1f,
                 ram_read, ram_store,
-                ram, 0xffff);
+                mem_ram, 0xffff);
         return 0;
     } else
         return -1;
@@ -377,12 +377,12 @@ int vic20_mem_disable_ram_block(int num)
     if (num == 0) {
         set_mem(0x04, 0x0f,
                 read_dummy, store_dummy,
-                ram, 0xffff);
+                mem_ram, 0xffff);
         return 0;
     } else if (num > 0 && num != 4 && num <= 5) {
         set_mem(num * 0x20, num * 0x20 + 0x1f,
                 read_dummy, store_dummy,
-                ram, 0xffff);
+                mem_ram, 0xffff);
         return 0;
     } else
         return -1;
@@ -395,15 +395,15 @@ void mem_initialize_memory(void)
     /* Setup low standard RAM at $0000-$0300. */
     set_mem(0x00, 0x03,
             ram_read, ram_store,
-            ram, 0xffff);
+            mem_ram, 0xffff);
 
     /* Setup more low RAM at $1000-$1FFF.  */
     set_mem(0x10, 0x1b,
             ram_read, ram_store,
-            ram, 0xffff);
+            mem_ram, 0xffff);
     set_mem(0x1c, 0x1f,
             ram_read, store_wrap,
-            ram, 0xffff);
+            mem_ram, 0xffff);
 
     /* Setup RAM at $0400-$0FFF.  */
     if (ram_block_0_enabled)
@@ -472,7 +472,7 @@ void mem_initialize_memory(void)
        space. */
     set_mem(0x94, 0x97,
             ram_read, ram_store,
-            ram, 0xffff);
+            mem_ram, 0xffff);
 
     /* Setup I/O2 at the expansion port */
     set_mem(0x98, 0x9b,
@@ -529,8 +529,8 @@ void mem_powerup(void)
     int i;
 
     for (i = 0; i < VIC20_RAM_SIZE; i += 0x80) {
-        memset(ram + i, 0, 0x40);
-        memset(ram + i + 0x40, 0xff, 0x40);
+        memset(mem_ram + i, 0, 0x40);
+        memset(mem_ram + i + 0x40, 0xff, 0x40);
     }
 }
 
@@ -804,17 +804,17 @@ void mem_detach_cartridge(int type)
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
-        *start = ram[0x2b] | (ram[0x2c] << 8);
+        *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
     if (end != NULL)
-        *end = ram[0x2d] | (ram[0x2e] << 8);
+        *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
 }
 
 void mem_set_basic_text(ADDRESS start, ADDRESS end)
 {
-    ram[0x2b] = ram[0xac] = start & 0xff;
-    ram[0x2c] = ram[0xad] = start >> 8;
-    ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
-    ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+    mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
+    mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
+    mem_ram[0x2d] = mem_ram[0x2f] = mem_ram[0x31] = mem_ram[0xae] = end & 0xff;
+    mem_ram[0x2e] = mem_ram[0x30] = mem_ram[0x32] = mem_ram[0xaf] = end >> 8;
 }
 
 /* ------------------------------------------------------------------------- */

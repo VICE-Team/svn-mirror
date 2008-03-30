@@ -66,7 +66,7 @@ static BYTE REGPARM1 mem_read_patchbuf(ADDRESS addr);
 static BYTE petmem_2001_buf_ef[ 256 ];
 
 /* Old program counter.  Not used without MMU support.  */
-unsigned int old_reg_pc;
+unsigned int mem_old_reg_pc;
 
 /* ------------------------------------------------------------------------- */
 
@@ -94,7 +94,7 @@ const char *mem_romset_resources_list[] = {
 
 #define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
 
-BYTE ram[RAM_ARRAY];      /* 128K to make things easier. Real size is 4-128K. */
+BYTE mem_ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE rom[PET_ROM_SIZE];
 BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
 
@@ -299,17 +299,17 @@ void mem_toggle_emu_id(int flag)
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
 {
-    return ram[addr & 0xff];
+    return mem_ram[addr & 0xff];
 }
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
-    ram[addr & 0xff] = value;
+    mem_ram[addr & 0xff] = value;
 }
 
 BYTE REGPARM1 ram_read(ADDRESS addr)
 {
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 void REGPARM2 ram_store(ADDRESS addr, BYTE value)
@@ -318,37 +318,37 @@ void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 if (addr == 0x8000) printf("charline=%d, ycount=%d, char=%d\n",
         crtc.current_charline, crtc.raster.ycounter, clk - crtc.rl_start);
 */
-    ram[addr] = value;
+    mem_ram[addr] = value;
 }
 
 static BYTE REGPARM1 read_ext8(ADDRESS addr)
 {
-    return ram[addr + bank8offset];
+    return mem_ram[addr + bank8offset];
 }
 
 static void REGPARM2 store_ext8(ADDRESS addr, BYTE value)
 {
-    ram[addr + bank8offset] = value;
+    mem_ram[addr + bank8offset] = value;
 }
 
 static BYTE REGPARM1 read_extC(ADDRESS addr)
 {
-    return ram[addr + bankCoffset];
+    return mem_ram[addr + bankCoffset];
 }
 
 static void REGPARM2 store_extC(ADDRESS addr, BYTE value)
 {
-    ram[addr + bankCoffset] = value;
+    mem_ram[addr + bankCoffset] = value;
 }
 
 static BYTE REGPARM1 read_vmirror(ADDRESS addr)
 {
-    return ram[0x8000 + (addr & (petres.videoSize - 1))];
+    return mem_ram[0x8000 + (addr & (petres.videoSize - 1))];
 }
 
 static void REGPARM2 store_vmirror(ADDRESS addr, BYTE value)
 {
-    ram[0x8000 + (addr & (petres.videoSize - 1))] = value;
+    mem_ram[0x8000 + (addr & (petres.videoSize - 1))] = value;
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
@@ -469,7 +469,7 @@ void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
 BYTE REGPARM1 read_super_9(ADDRESS addr)
 {
     if (spet_ramen) {
-        return (ram+0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
+        return (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
     }
     return rom_read(addr);
 }
@@ -477,7 +477,7 @@ BYTE REGPARM1 read_super_9(ADDRESS addr)
 void REGPARM2 store_super_9(ADDRESS addr, BYTE value)
 {
     if (spet_ramen && !spet_ramwp) {
-        (ram+0x10000)[(spet_bank << 12) | (addr & 0x0fff)] = value;
+        (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)] = value;
     }
 }
 
@@ -604,7 +604,7 @@ static void set_std_9tof(void)
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = ram9 ? ram_read : rom_read;
             _mem_write_tab[i] = store;
-            _mem_read_base_tab[i] = ram9 ? ram + (i << 8)
+            _mem_read_base_tab[i] = ram9 ? mem_ram + (i << 8)
                                     : rom + ((i & 0x7f) << 8);
             mem_read_limit_tab[i] = 0x9ffd;
         }
@@ -614,7 +614,9 @@ static void set_std_9tof(void)
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = rama ? ram_read : rom_read;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = rama ? ram + (i << 8) : rom + ((i & 0x7f) << 8);        mem_read_limit_tab[i] = 0x9ffd;
+        _mem_read_base_tab[i] = rama ? mem_ram + (i << 8)
+                                     : rom + ((i & 0x7f) << 8);
+        mem_read_limit_tab[i] = 0x9ffd;
     }
 
     /* Setup ROM at $B000 - $E7FF. */
@@ -745,7 +747,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                     for (; l < 0x90; l++) {
                         _mem_read_tab[l] = ram_read;
                         _mem_write_tab[l] = ram_store;
-                        _mem_read_base_tab[l] = ram + (l << 8);
+                        _mem_read_base_tab[l] = mem_ram + (l << 8);
                         mem_read_limit_tab[l] = 0x8ffd;
                     }
                 }
@@ -756,7 +758,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                         _mem_write_tab[l] = store_dummy;
                     else
                         _mem_write_tab[l] = store_ext8;
-                    _mem_read_base_tab[l] = ram + bank8offset + (l << 8);
+                    _mem_read_base_tab[l] = mem_ram + bank8offset + (l << 8);
                     mem_read_limit_tab[l] = 0xbffd;
                 }
             }
@@ -775,7 +777,8 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                             _mem_write_tab[l] = store_dummy;
                         else
                             _mem_write_tab[l] = store_extC;
-                        _mem_read_base_tab[l] = ram + bankCoffset + (l << 8);
+                        _mem_read_base_tab[l] = mem_ram
+                                                + bankCoffset + (l << 8);
                         if (l < 0xe8) {
                             mem_read_limit_tab[l] = 0xe7fd;
                         } else {
@@ -790,7 +793,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
             for (l = 0x80; l < 0x90; l++) {
                 _mem_read_tab[l] = ram_read;
                 _mem_write_tab[l] = ram_store;
-                _mem_read_base_tab[l] = ram + (l << 8);
+                _mem_read_base_tab[l] = mem_ram + (l << 8);
                 mem_read_limit_tab[l] = 0x8ffd;
             }
             set_std_9tof();
@@ -817,7 +820,7 @@ static void set_vidmem(void) {
     for (i = 0x80; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
-        _mem_read_base_tab[i] = ram + (i << 8);
+        _mem_read_base_tab[i] = mem_ram + (i << 8);
         mem_read_limit_tab[i] = (l<<8)-3;
     }
 
@@ -826,7 +829,7 @@ static void set_vidmem(void) {
     for (; i < 0x88; i++) {
         _mem_read_tab[i] = read_vmirror;
         _mem_write_tab[i] = store_vmirror;
-        _mem_read_base_tab[i] = ram + 0x8000 + ((i << 8)
+        _mem_read_base_tab[i] = mem_ram + 0x8000 + ((i << 8)
                                 & (petres.videoSize - 1));
         mem_read_limit_tab[i] = 0x87fd;
     }
@@ -857,7 +860,7 @@ void mem_initialize_memory(void)
     for (i = 0x00; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
-        _mem_read_base_tab[i] = ram + (i << 8);
+        _mem_read_base_tab[i] = mem_ram + (i << 8);
         mem_read_limit_tab[i] = (l << 8) - 3;
     }
 
@@ -907,8 +910,8 @@ void mem_powerup(void)
     int i;
 
     for (i = 0; i < RAM_ARRAY; i += 0x80) {
-        memset(ram + i, 0, 0x40);
-        memset(ram + i + 0x40, 0xff, 0x40);
+        memset(mem_ram + i, 0, 0x40);
+        memset(mem_ram + i + 0x40, 0xff, 0x40);
     }
 
     superpet_powerup();
@@ -1454,17 +1457,17 @@ int mem_load(void)
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
-        *start = ram[0x28] | (ram[0x29] << 8);
+        *start = mem_ram[0x28] | (mem_ram[0x29] << 8);
     if (end != NULL)
-        *end = ram[0x2a] | (ram[0x2b] << 8);
+        *end = mem_ram[0x2a] | (mem_ram[0x2b] << 8);
 }
 
 void mem_set_basic_text(ADDRESS start, ADDRESS end)
 {
-    ram[0x28] = ram[0xc7] = start & 0xff;
-    ram[0x29] = ram[0xc8] = start >> 8;
-    ram[0x2a] = ram[0x2c] = ram[0x2e] = ram[0xc9] = end & 0xff;
-    ram[0x2b] = ram[0x2d] = ram[0x2f] = ram[0xca] = end >> 8;
+    mem_ram[0x28] = mem_ram[0xc7] = start & 0xff;
+    mem_ram[0x29] = mem_ram[0xc8] = start >> 8;
+    mem_ram[0x2a] = mem_ram[0x2c] = mem_ram[0x2e] = mem_ram[0xc9] = end & 0xff;
+    mem_ram[0x2b] = mem_ram[0x2d] = mem_ram[0x2f] = mem_ram[0xca] = end >> 8;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1559,7 +1562,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         return mem_read(addr);
          break;
       case 4:                   /* extended RAM area (8x96) */
-        return ram[addr + 0x10000];
+        return mem_ram[addr + 0x10000];
         break;
       case 3:                   /* io */
         if (addr >= 0xe000 && addr <= 0xe0ff) {
@@ -1572,7 +1575,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
       case 1:                   /* ram */
         break;
     }
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 BYTE mem_bank_peek(int bank, ADDRESS addr)
@@ -1596,7 +1599,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         mem_store(addr, byte);
         return;
       case 4:                   /* extended RAM area (8x96) */
-        ram[addr + 0x10000] = byte;
+        mem_ram[addr + 0x10000] = byte;
         return;
       case 3:                   /* io */
         if (addr >= 0xe000 && addr <= 0xe0ff) {
@@ -1610,7 +1613,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
       case 1:                   /* ram */
         break;
     }
-    ram[addr] = byte;
+    mem_ram[addr] = byte;
 }
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)

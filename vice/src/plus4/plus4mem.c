@@ -54,7 +54,7 @@ static int hard_reset_flag=0;
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
-unsigned int old_reg_pc;
+unsigned int mem_old_reg_pc;
 
 const char *mem_romset_resources_list[] = {
     NULL
@@ -66,7 +66,7 @@ const char *mem_romset_resources_list[] = {
 #define NUM_CONFIGS     32
 
 /* The Plus4 memory.  */
-BYTE ram[PLUS4_RAM_SIZE];
+BYTE mem_ram[PLUS4_RAM_SIZE];
 BYTE basic_rom[PLUS4_BASIC_ROM_SIZE];
 BYTE kernal_rom[PLUS4_KERNAL_ROM_SIZE];
 BYTE extromlo1[PLUS4_BASIC_ROM_SIZE];
@@ -116,10 +116,10 @@ static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
 
 /* ------------------------------------------------------------------------- */
 
-#define RAM0 ram + 0x0000
-#define RAM4 ram + 0x4000
-#define RAM8 ram + 0x8000
-#define RAMC ram + 0xc000
+#define RAM0 mem_ram + 0x0000
+#define RAM4 mem_ram + 0x4000
+#define RAM8 mem_ram + 0x8000
+#define RAMC mem_ram + 0xc000
 
 static BYTE *chargen_tab[8][16] = {
     /* 0000-3fff, RAM selected  */
@@ -229,7 +229,7 @@ BYTE REGPARM1 read_zero(ADDRESS addr)
       case 1:
         return mem_proc_port_read(addr);
     }
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
@@ -242,17 +242,17 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
             pport.dir = value;
             mem_proc_port_store();
         }
-        ram[addr] = value;
+        mem_ram[addr] = value;
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
             mem_proc_port_store();
         }
-        ram[addr] = value;
+        mem_ram[addr] = value;
         break;
       default:
-        ram[addr] = value;
+        mem_ram[addr] = value;
     }
 }
 
@@ -274,11 +274,11 @@ static void mem_config_set(unsigned int config)
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 
     if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+        *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
         if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
-                         - (old_reg_pc & 0xff00);
-        *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
+            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8]
+                         - (mem_old_reg_pc & 0xff00);
+        *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
     }
 }
 
@@ -368,32 +368,32 @@ static BYTE REGPARM1 extromhi3_read(ADDRESS addr)
 
 BYTE REGPARM1 ram_read(ADDRESS addr)
 {
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 BYTE REGPARM1 ram_read_32k(ADDRESS addr)
 {
-    return ram[addr&0x7fff];
+    return mem_ram[addr & 0x7fff];
 }
 
 BYTE REGPARM1 ram_read_16k(ADDRESS addr)
 {
-    return ram[addr&0x3fff];
+    return mem_ram[addr & 0x3fff];
 }
 
 void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
-    ram[addr] = value;
+    mem_ram[addr] = value;
 }
 
 void REGPARM2 ram_store_32k(ADDRESS addr, BYTE value)
 {
-    ram[addr&0x7fff] = value;
+    mem_ram[addr & 0x7fff] = value;
 }
 
 void REGPARM2 ram_store_16k(ADDRESS addr, BYTE value)
 {
-    ram[addr&0x3fff] = value;
+    mem_ram[addr & 0x3fff] = value;
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
@@ -666,23 +666,23 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         set_write_hook(i, 0, store_zero);
         mem_read_tab[i][0] = read_zero;
-        mem_read_base_tab[i][0] = ram;
+        mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xff; j++) {
             switch (ram_size) {
                 default:
                 case 64:
                     mem_read_tab[i][j] = ram_read;
-                    mem_read_base_tab[i][j] = ram + (j << 8);
+                    mem_read_base_tab[i][j] = mem_ram + (j << 8);
                     mem_write_tab[i][j] = ted_mem_vbank_store;
                     break;
                 case 32:
                     mem_read_tab[i][j] = ram_read_32k;
-                    mem_read_base_tab[i][j] = ram + ((j & 0x7f) << 8);
+                    mem_read_base_tab[i][j] = mem_ram + ((j & 0x7f) << 8);
                     mem_write_tab[i][j] = ted_mem_vbank_store_32k;
                     break;
                 case 16:
                     mem_read_tab[i][j] = ram_read_16k;
-                    mem_read_base_tab[i][j] = ram + ((j & 0x3f) << 8);
+                    mem_read_base_tab[i][j] = mem_ram + ((j & 0x3f) << 8);
                     mem_write_tab[i][j] = ted_mem_vbank_store_16k;
                     break;
             }
@@ -854,8 +854,8 @@ void mem_powerup(void)
     int i;
 
     for (i = 0; i < 0x10000; i += 0x80) {
-        memset(ram + i, 0, 0x40);
-        memset(ram + i + 0x40, 0xff, 0x40);
+        memset(mem_ram + i, 0, 0x40);
+        memset(mem_ram + i + 0x40, 0xff, 0x40);
     }
 
     hard_reset_flag = 1;
@@ -987,17 +987,17 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
-        *start = ram[0x2b] | (ram[0x2c] << 8);
+        *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
     if (end != NULL)
-        *end = ram[0x2d] | (ram[0x2e] << 8);
+        *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
 }
 
 void mem_set_basic_text(ADDRESS start, ADDRESS end)
 {
-    ram[0x2b] = ram[0xac] = start & 0xff;
-    ram[0x2c] = ram[0xad] = start >> 8;
-    ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
-    ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+    mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
+    mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
+    mem_ram[0x2d] = mem_ram[0x2f] = mem_ram[0x31] = mem_ram[0xae] = end & 0xff;
+    mem_ram[0x2e] = mem_ram[0x30] = mem_ram[0x32] = mem_ram[0xaf] = end >> 8;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1080,7 +1080,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
       case 1:                   /* ram */
         break;
     }
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 BYTE mem_bank_peek(int bank, ADDRESS addr)
@@ -1129,7 +1129,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
       case 1:                   /* ram */
         break;
     }
-    ram[addr] = byte;
+    mem_ram[addr] = byte;
 }
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)

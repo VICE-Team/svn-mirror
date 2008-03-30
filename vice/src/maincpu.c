@@ -112,7 +112,7 @@
        reg_pc = (addr);                      \
        bank_base = mem_read_base(reg_pc);    \
        bank_limit = mem_read_limit(reg_pc);  \
-       old_reg_pc = reg_pc;                  \
+       mem_old_reg_pc = reg_pc;              \
      } while (0)
 
 #else  /* !INSTRUCTION_FETCH_HACK */
@@ -174,11 +174,11 @@ void maincpu_generic_dma(void)
    the .def files, but if most of the machines do not use, we might keep it
    here and only override it where needed.  */
 #ifndef PAGE_ZERO
-#define PAGE_ZERO ram
+#define PAGE_ZERO mem_ram
 #endif
 
 #ifndef PAGE_ONE
-#define PAGE_ONE (ram + 0x100)
+#define PAGE_ONE (mem_ram + 0x100)
 #endif
 
 #ifndef STORE_IND
