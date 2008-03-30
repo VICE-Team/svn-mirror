@@ -42,6 +42,18 @@
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
+
+static ui_menu_entry_t palette_submenu[] = {
+    { "*Default (Green)",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
+    { "*Amber",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "amber", NULL },
+    { "*White",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "white", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(DiagPin)
 
 static UI_CALLBACK(set_joystick_device_1)
@@ -141,12 +153,16 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
 };
 
 static ui_menu_entry_t pet_menu[] = {
+    { "Screen color",
+      NULL, NULL, palette_submenu },
     { "*PET Userport Diagnostic Pin",
       (ui_callback_t) toggle_DiagPin, NULL, NULL },
     { "Joystick settings",
       NULL, NULL, joystick_settings_submenu },
     { NULL }
 };
+
+/* ------------------------------------------------------------------------- */
 
 int pet_ui_init(void)
 {
