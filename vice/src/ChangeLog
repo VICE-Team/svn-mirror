@@ -1,3 +1,27 @@
+2002-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.25.
+
+	* raster/raster-line.c (check_for_major_changes_and_update,
+	handle_visible_line_without_cache): Use xsmooth color for
+	overscan color if borders are open in non-idle modes.
+
+2002-03-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic20.c (vic_store): Cast to signed int in
+	calculation of vic.row_offset
+
+2002-03-03  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: updated help text, determine framebuffer
+	coords for redraw.
+
+	* arch/riscos/uiconfig.{c,h}: added resources for stereo SID
+	address emu.
+
+	* arch/riscos/video.c, arch/riscos/videoarch.h: added 1x PAL
+	emulation rendering.
+
 2002-03-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.24.
