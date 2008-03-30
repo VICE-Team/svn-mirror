@@ -86,6 +86,7 @@ init_drawing_tables (void)
 
 
 
+/***************************************************************************/
 
 static void draw_standard_background (unsigned int start_pixel,
            				          unsigned int end_pixel)
@@ -105,19 +106,21 @@ static void draw_standard_background_2x (unsigned int start_pixel,
 }
 #endif
 
-/* for debugging make it a function... */
-void DRAW(int reverse_flag, int offset, int scr_rel, int xs, int xc, int xe) 
+/***************************************************************************/
+
+/* inline function... */
+static inline void DRAW(int reverse_flag, int offset, int scr_rel, 
+							int xs, int xc, int xe) 
 {
-    do {                                                                \
         PIXEL *p = crtc.raster.frame_buffer_ptr + (offset);
 	BYTE *chargen_ptr, *screen_ptr;
 	int screen_rel;
-        register int i, d;                                              \
-									\
+        register int i, d; 
+
 	/* pointer to current chargen line */
-	chargen_ptr = crtc.chargen_base 				\
-		+ crtc.chargen_rel 					\
-		+ (crtc.raster.ycounter & 0x0f);			\
+	chargen_ptr = crtc.chargen_base
+		+ crtc.chargen_rel 
+		+ (crtc.raster.ycounter & 0x0f);
 	/* pointer to current screen line */
 	screen_ptr = crtc.screen_base;
 	screen_rel = ((scr_rel) + (xs));
@@ -126,52 +129,52 @@ void DRAW(int reverse_flag, int offset, int scr_rel, int xs, int xc, int xe)
 	printf("xs=%d, xc=%d, xe=%d\n",(xs),(xc),(xe));
 */
 #if 1 /* CRTC_NEED_HW_CURSOR */
-        if (crtc.crsrmode                                               \
-		&& crtc.cursor_lines                                    \
-                && crtc.crsrstate)                                      \
+        if (crtc.crsrmode 
+		&& crtc.cursor_lines 
+                && crtc.crsrstate)
 	{ 
           int crsrrel = ((crtc.regs[14] << 8) | crtc.regs[15]) 
 		& crtc.vaddr_mask;
 
-          for (i = (xs); i < (xc); i++) {                               \
+          for (i = (xs); i < (xc); i++) {
             d = *(chargen_ptr 
-		+ (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));     \
+		+ (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
 
 	    /* FIXME: mask with 0x3fff (screen_rel must be expanded) */
-            if (screen_rel == crsrrel)                                  \
-                d ^= 0xff;                                              \
+            if (screen_rel == crsrrel)
+                d ^= 0xff;
 
-	    screen_rel++;						\
+	    screen_rel++;
 
-            if ((reverse_flag))                                         \
-                d ^= 0xff;                                              \
-            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];                   \
-            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];               \
-          }                                                             \
+            if ((reverse_flag))
+                d ^= 0xff;
+            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];
+            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];
+          }
         } else {
 #else
 	{
 #endif
-          for (i = (xs); i < (xc); i++) {                               \
+          for (i = (xs); i < (xc); i++) {
 	    /* we use 16 bytes/char character generator */
-            d = *(chargen_ptr 						\
-		+ (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));     \
-	    screen_rel++;						\
-	    								\
-            if ((reverse_flag))                                         \
-                d ^= 0xff;                                              \
-            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];                   \
-            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];               \
+            d = *(chargen_ptr
+		+ (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
+	    screen_rel++;
+
+            if ((reverse_flag))
+                d ^= 0xff;
+            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];
+            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];
 	  }
-        }                                                               \
+        }
 
         for (; i < (xe); i++) {
 	    d = 0;	/* blank */
-            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];                   \
-            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];               \
+            *((PIXEL4 *) p + i * 2) = dwg_table_0[d];
+            *((PIXEL4 *) p + i * 2 + 1) = dwg_table_1[d];
         }
-    } while (0);
 }
+
 
 static void draw_standard_line(void)
 {
@@ -228,55 +231,140 @@ static void draw_reverse_line(void)
 	);
 }
 
+/***************************************************************************/
+
+/* inline function... */
+static inline void DRAW_2x(int reverse_flag, int offset, int scr_rel, 
+							int xs, int xc, int xe) 
+{
+        PIXEL *p = crtc.raster.frame_buffer_ptr + (offset);
+	BYTE *chargen_ptr, *screen_ptr;
+	int screen_rel;
+        register int i, d; 
+
+	/* pointer to current chargen line */
+	chargen_ptr = crtc.chargen_base
+		+ crtc.chargen_rel 
+		+ (crtc.raster.ycounter & 0x0f);
+	/* pointer to current screen line */
+	screen_ptr = crtc.screen_base;
+	screen_rel = ((scr_rel) + (xs));
+/*
+    if (crtc.current_line == 1) 
+	printf("xs=%d, xc=%d, xe=%d\n",(xs),(xc),(xe));
+*/
+#if 1 /* CRTC_NEED_HW_CURSOR */
+        if (crtc.crsrmode 
+		&& crtc.cursor_lines 
+                && crtc.crsrstate)
+	{ 
+          int crsrrel = ((crtc.regs[14] << 8) | crtc.regs[15]) 
+		& crtc.vaddr_mask;
+
+          for (i = (xs); i < (xc); i++) {
+            d = *(chargen_ptr 
+		+ (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
+
+	    /* FIXME: mask with 0x3fff (screen_rel must be expanded) */
+            if (screen_rel == crsrrel)
+                d ^= 0xff;
+
+	    screen_rel++;
+
+            if ((reverse_flag))
+                d ^= 0xff;
+            *((PIXEL4 *) p + i * 4) = dwg_table2x_0[d];
+            *((PIXEL4 *) p + i * 4 + 1) = dwg_table2x_1[d];
+            *((PIXEL4 *) p + i * 4 + 2) = dwg_table2x_2[d];
+            *((PIXEL4 *) p + i * 4 + 3) = dwg_table2x_3[d];
+          }
+        } else {
+#else
+	{
+#endif
+          for (i = (xs); i < (xc); i++) {
+	    /* we use 16 bytes/char character generator */
+            d = *(chargen_ptr
+		+ (screen_ptr[screen_rel & crtc.vaddr_mask] << 4));
+	    screen_rel++;
+
+            if ((reverse_flag))
+                d ^= 0xff;
+            *((PIXEL4 *) p + i * 4) = dwg_table2x_0[d];
+            *((PIXEL4 *) p + i * 4 + 1) = dwg_table2x_1[d];
+            *((PIXEL4 *) p + i * 4 + 2) = dwg_table2x_2[d];
+            *((PIXEL4 *) p + i * 4 + 3) = dwg_table2x_3[d];
+	  }
+        }
+
+        for (; i < (xe); i++) {
+	    d = 0;	/* blank */
+            *((PIXEL4 *) p + i * 4) = dwg_table2x_0[d];
+            *((PIXEL4 *) p + i * 4 + 1) = dwg_table2x_1[d];
+            *((PIXEL4 *) p + i * 4 + 2) = dwg_table2x_2[d];
+            *((PIXEL4 *) p + i * 4 + 3) = dwg_table2x_3[d];
+        }
+}
+
+
+static void draw_standard_line_2x(void)
+{
+    int rl_pos = 2 * (crtc.xoffset + crtc.hjitter);
+/*
+    if (crtc.current_line == 1) 
+	printf("rl_pos=%d, scr_rel=%d, hw_cols=%d, rl_vis=%d, rl_len=%d\n",
+	  rl_pos, crtc.screen_rel, crtc.hw_cols, crtc.rl_visible, crtc.rl_len);
+*/
+    /* FIXME: check the ends against the maximum line length */
+    /* the first part is left of rl_pos. Data is taken from prev. rl */
+    if (rl_pos > 8) {
+        DRAW_2x(0, 
+	    rl_pos % 8, 
+	    crtc.prev_screen_rel, 
+	    (crtc.prev_rl_len + 1) * crtc.hw_cols - (rl_pos / 8), 
+	    crtc.prev_rl_visible * crtc.hw_cols, 
+	    (crtc.prev_rl_len + 1) * crtc.hw_cols 
+	);
+    }
+
+    /* this is the "normal" part of the rasterline */
+    DRAW_2x(0, 
+	rl_pos, 
+	crtc.screen_rel, 
+	0, 
+	crtc.rl_visible * crtc.hw_cols, 
+	(crtc.rl_len + 1) * crtc.hw_cols 
+	);
+}
+
+static void draw_reverse_line_2x(void)
+{
+    int rl_pos = 2 * (crtc.xoffset + crtc.hjitter);
+
+    /* the first part is left of rl_pos. Data is taken from prev. rl */
+    if (rl_pos > 8) {
+        DRAW_2x(1, 
+	    rl_pos % 8, 
+	    crtc.prev_screen_rel, 
+	    (crtc.prev_rl_len + 1) * crtc.hw_cols - (rl_pos / 8), 
+	    crtc.prev_rl_visible * crtc.hw_cols, 
+	    (crtc.prev_rl_len + 1) * crtc.hw_cols 
+	);
+    }
+
+    /* this is the "normal" part of the rasterline */
+    DRAW_2x(1, 
+	rl_pos, 
+	crtc.screen_rel, 
+	0, 
+	crtc.rl_visible * crtc.hw_cols, 
+	(crtc.rl_len + 1) * crtc.hw_cols 
+	);
+}
+
+/***************************************************************************/
+
 #if 0
-
-#define DRAW_2x(reverse_flag)                                           \
-    do {                                                                \
-        PIXEL *p = (frame_buffer_ptr                                    \
-                    + SCREEN_BORDERWIDTH * pixel_width);                \
-        register int i, d;                                              \
-                                                                        \
-        if (crsrmode                                                    \
-                && crsrstate                                            \
-                && ycounter >= crsrstart                                \
-                && ycounter <= crsrend )                                \
-        for (i = 0; i < memptr_inc; i++, p += 16) {                     \
-            d = GET_CHAR_DATA(chargen_ptr, (screenmem + memptr)[i],     \
-                        ycounter);                                      \
-            if ( (memptr+i)==crsrrel )                                  \
-                d ^= 0xff;                                              \
-            if ((reverse_flag))                                         \
-                d ^= 0xff;                                              \
-            *((PIXEL4 *) p) = dwg_table2x_0[d];                         \
-            *((PIXEL4 *) p + 1) = dwg_table2x_1[d];                     \
-            *((PIXEL4 *) p + 2) = dwg_table2x_2[d];                     \
-            *((PIXEL4 *) p + 3) = dwg_table2x_3[d];                     \
-        }                                                               \
-        else                                                            \
-                                                                        \
-        for (i = 0; i < memptr_inc; i++, p += 16) {                     \
-            d = GET_CHAR_DATA(chargen_ptr, (screenmem + memptr)[i],     \
-                              ycounter);                                \
-            if ((reverse_flag))                                         \
-                d ^= 0xff;                                              \
-            *((PIXEL4 *) p) = dwg_table2x_0[d];                         \
-            *((PIXEL4 *) p + 1) = dwg_table2x_1[d];                     \
-            *((PIXEL4 *) p + 2) = dwg_table2x_2[d];                     \
-            *((PIXEL4 *) p + 3) = dwg_table2x_3[d];                     \
-        }                                                               \
-    } while (0)
-
-static void draw_standard_line_2x(unsigned int start_pixel,
-                                                 unsigned int end_pixel)
-{
-    DRAW_2x(0);
-}
-
-static void draw_reverse_line_2x(unsigned int start_pixel,
-                                                 unsigned int end_pixel)
-{
-    DRAW_2x(1);
-}
 
 #define DRAW_CACHED(l, xs, xe, reverse_flag)                            \
     do {                                                                \
@@ -357,25 +445,26 @@ static void draw_reverse_line_cached_2x(raster_cache_t *l, int xs, int xe)
 #endif
 
 
+/***************************************************************************/
 
+#ifdef CRTC_NEED_2X
 static void setup_double_size_modes (void)
 {
-#if 0
     raster_modes_set (&crtc.raster.modes, CRTC_STANDARD_MODE,
                     NULL /* get_std_text */,
-                    NULL /* draw_std_text_cached_2x */,
-                    draw_std_text_2x,
-                    draw_std_background_2x,
-                    draw_std_text_foreground_2x);
+                    NULL /* draw_std_text_cached */,
+                    draw_standard_line_2x,
+                    draw_standard_background_2x,
+                    NULL /* draw_std_text_foreground */ );
 
     raster_modes_set (&crtc.raster.modes, CRTC_REVERSE_MODE,
-                    get_rev_text,
-                    draw_rev_text_cached_2x,
-                    draw_rev_text_2x,
-                    draw_rev_background_2x,
-                    draw_rev_text_foreground_2x);
-#endif
+                    NULL /* get_rev_text */,
+                    NULL /* draw_rev_text_cached*/,
+                    draw_reverse_line_2x,
+                    draw_standard_background_2x,
+                    NULL /* draw_rev_text_foreground*/);
 }
+#endif
 
 static void setup_single_size_modes (void)
 {
@@ -385,14 +474,13 @@ static void setup_single_size_modes (void)
                     draw_standard_line,
                     draw_standard_background,
                     NULL /* draw_std_text_foreground */ );
-#if 0
+
     raster_modes_set (&crtc.raster.modes, CRTC_REVERSE_MODE,
-                    get_rev_text,
-                    draw_rev_text_cached,
-                    draw_rev_text,
-                    draw_rev_background,
-                    draw_rev_text_foreground);
-#endif
+                    NULL /* get_rev_text */,
+                    NULL /* draw_rev_text_cached*/,
+                    draw_reverse_line,
+                    draw_standard_background,
+                    NULL /* draw_rev_text_foreground*/);
 }
 
 
@@ -412,8 +500,9 @@ crtc_draw_init (void)
 void
 crtc_draw_set_double_size (int enabled)
 {
+    /* bit 0: double height, bit 1: double width */
 #ifdef CRTC_NEED_2X
-  if (enabled)
+  if (enabled & 2)
     setup_double_size_modes ();
   else
 #endif

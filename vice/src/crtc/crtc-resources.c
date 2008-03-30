@@ -74,6 +74,9 @@ static int
 set_double_scan_enabled (resource_value_t v)
 {
   crtc_resources.double_scan_enabled = (int) v;
+  if (crtc.initialized)
+    raster_enable_double_scan (&crtc.raster, 
+					crtc_resources.double_scan_enabled);
   crtc_resize ();
   return 0;
 }

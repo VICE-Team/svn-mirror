@@ -205,6 +205,8 @@ static int set_cbm2_model_line(resource_value_t v)
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
+    crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
+
     return 0;
 }
 
@@ -1260,10 +1262,11 @@ int mem_load(void)
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
 */
     /* FIXME: 6x0 have 25*8, 7x0 have 25*14 */
-    crtc_set_screen_options(80, 25 * 10);
     crtc_set_screen_addr(rom + 0xd000);
+/*
+    crtc_set_screen_options(80, 25 * 10);
     crtc_set_hw_options( 1, 0x7ff, 0x800, 512, 0x1000);
-
+*/
     return 0;
 }
 

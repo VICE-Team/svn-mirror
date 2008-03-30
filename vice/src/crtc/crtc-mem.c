@@ -56,9 +56,13 @@ store_crtc (ADDRESS addr, BYTE value)
 	return;
     }
 
-printf("store_crtc(reg=%d, %d) - cline=%d, ycount=%d, char=%d\n",
+#if 1
+    /* debug display, just not the cursor (for CBM-II) */
+    if (crtc.regno < 14 && crtc.regno != 10)
+	printf("store_crtc(reg=%d, %d) - cline=%d, ycount=%d, char=%d\n",
 	crtc.regno, value, crtc.current_charline, crtc.raster.ycounter,
 	current_cycle);
+#endif
 
     crtc.regs[crtc.regno] = value;
 

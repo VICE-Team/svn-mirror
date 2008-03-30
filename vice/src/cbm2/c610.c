@@ -212,6 +212,13 @@ int machine_init(void)
     crtc_set_retrace_callback(cbm2_crtc_signal);
     crtc_set_retrace_type(0);
 
+/*
+    resources_get_value("ModelLine", (resource_value_t*)&model);
+    crtc_set_screen_options(80, 25 * (model ? 10 : 14));
+*/
+/*    crtc_set_screen_addr(rom + 0xd000); */
+    crtc_set_hw_options( 1, 0x7ff, 0x800, 512, 0x1000);
+
     ciat_init_table();
     cia1_init();
     acia1_init();
