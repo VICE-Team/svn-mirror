@@ -32,7 +32,30 @@
 #include "memieee.h"
 #include "riotd.h"
 #include "types.h"
+#include "viad.h"
 
+
+static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud.drive_ram[address & 0x7ff];
+}
+
+static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
+                                     BYTE value)
+{
+    drv->cpud.drive_ram[address & 0x7ff] = value;
+}
+
+static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
+{
+    return drv->cpud.drive_ram[address & 0xff];
+}
+
+static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
+                                      BYTE value)
+{
+    drv->cpud.drive_ram[address & 0xff] = value;
+}
 
 /* SFD1001 specific memory.  */
 
@@ -82,7 +105,32 @@ static void REGPARM3 drive_store_1001buffer_ram(drive_context_t *drv,
 
 void memieee_init(struct drive_context_s *drv, unsigned int type)
 {
-    unsigned int i;
+    unsigned int i, j;
+
+    if (type == DRIVE_TYPE_2031) {
+        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
+
+        drv->cpud.read_func_nowatch[0] = drive_read_zero;
+        drv->cpud.store_func_nowatch[0] = drive_store_zero;
+
+        /* Setup drive RAM.  */
+        for (j = 0; j < 0x80; j += 0x20) {
+            for (i = 0x00 + j; i < 0x08 + j; i++) {
+                drv->cpud.read_func_nowatch[i] = drive_read_ram;
+                drv->cpud.store_func_nowatch[i] = drive_store_ram;
+            }
+        }
+
+        /* Setup 2031 VIAs.  */
+        for (i = 0x18; i < 0x1c; i++) {
+            drv->cpud.read_func_nowatch[i] = via1d_read;
+            drv->cpud.store_func_nowatch[i] = via1d_store;
+        }
+        for (i = 0x1c; i < 0x20; i++) {
+            drv->cpud.read_func_nowatch[i] = via2d_read;
+            drv->cpud.store_func_nowatch[i] = via2d_store;
+        }
+    }
 
     if (type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001
         || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250)

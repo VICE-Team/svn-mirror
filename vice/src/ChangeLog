@@ -1,3 +1,39 @@
+2003-04-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.29.
+
+	* debug.c, debug.h (debug_irq, debug_nmi): New functions.
+
+	* 6510core.c [TRACE_NMI, TRACE_IRQ]: Use new debug functions.
+
+	* vicii/vicii.c (vicii_raster_draw_alarm_handler,
+	vicii_raster_irq_alarm_handler): Use IRQ set functions instead
+	of setting the raster IRQ manually.
+
+	* vicii/vicii-irq.c, vicii/vicii-irq.h (vicii_irq_raster_set,
+	vicii_irq_raster_clear): Changed to use `mclk'.
+
+	* vicii/vicii-mem.c (read_d019): Do not set raster IRQ
+	manually if no IRQ alarm is pending.
+
+	* drive/drivemem.c, drive/iec/memiec.c, drive/ieee/memieee.c,
+	drive/tcbm/mem1551.c: Move memory mapping to separate files.
+
+2003-04-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.h: Added IDs for debug menu.
+
+	* arch/win32/resc128.rc, resc64.rc, rescbm2.rc, respet.rc,
+	resplus4.rc, resvic.rc: Includes debug.h. Added debug menu.
+
+	* arch/win32/ui.c: Includes debuh.h. Added menu toggles and
+	shortcuts for debugging.
+
+	* debug.h: Defines DEBUG.
+
+	* raster/raster-line.c (raster_line_emulate): Disabled the PAL
+	hack.
+
 2003-04-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.28.

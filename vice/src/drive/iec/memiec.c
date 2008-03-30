@@ -35,8 +35,42 @@
 #include "lib.h"
 #include "memiec.h"
 #include "types.h"
+#include "viad.h"
 #include "wd1770.h"
 
+
+static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud.drive_ram[address & 0x7ff];
+}
+
+static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
+                                     BYTE value)
+{
+    drv->cpud.drive_ram[address & 0x7ff] = value;
+}
+
+static BYTE REGPARM2 drive_read_1581ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud.drive_ram[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_1581ram(drive_context_t *drv, WORD address,
+                                         BYTE value)
+{
+    drv->cpud.drive_ram[address & 0x1fff] = value;
+}
+
+static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
+{
+    return drv->cpud.drive_ram[address & 0xff];
+}
+
+static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
+                                      BYTE value)
+{
+    drv->cpud.drive_ram[address & 0xff] = value;
+}
 
 static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, WORD address)
 {
@@ -97,32 +131,87 @@ static void REGPARM3 drive_store_rama(drive_context_t *drv, WORD address,
 
 void memiec_init(struct drive_context_s *drv, unsigned int type)
 {
-    unsigned int i;
+    unsigned int i, j;
 
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
+        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581) {
+
+        /* Setup drive RAM.  */
+        switch (type) {
+          case DRIVE_TYPE_1541:
+          case DRIVE_TYPE_1541II:
+            for (j = 0; j < 0x80; j += 0x20) {
+                for (i = 0x00 + j; i < 0x08 + j; i++) {
+                    drv->cpud.read_func_nowatch[i] = drive_read_ram;
+                    drv->cpud.store_func_nowatch[i] = drive_store_ram;
+                }
+            }
+            break;
+          case DRIVE_TYPE_1571:
+            for (i = 0x00; i < 0x10; i++) {
+                drv->cpud.read_func_nowatch[i] = drive_read_ram;
+                drv->cpud.store_func_nowatch[i] = drive_store_ram;
+            }
+            break;
+          case DRIVE_TYPE_1581:
+            for (i = 0x00; i < 0x20; i++) {
+                drv->cpud.read_func_nowatch[i] = drive_read_1581ram;
+                drv->cpud.store_func_nowatch[i] = drive_store_1581ram;
+            }
+            break;
+        }
+
+        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
+
+        drv->cpud.read_func_nowatch[0] = drive_read_zero;
+        drv->cpud.store_func_nowatch[0] = drive_store_zero;
+
+        /* Setup drive ROM.  */
         for (i = 0x80; i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
+    }
 
-    /* Setup 1571 CIA.  */
-    if (type == DRIVE_TYPE_1571) {
-        for (i = 0x40; i < 0x44; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1571_read;
-            drv->cpud.store_func_nowatch[i] = cia1571_store;
+    /* Setup 1541, 1541-II VIAs.  */
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II) {
+        for (j = 0; j < 0x80; j += 0x20) {
+            for (i = 0x18 + j; i < 0x1c + j; i++) {
+                drv->cpud.read_func_nowatch[i] = via1d_read;
+                drv->cpud.store_func_nowatch[i] = via1d_store;
+            }
+            for (i = 0x1c + j; i < 0x20 + j; i++) {
+                drv->cpud.read_func_nowatch[i] = via2d_read;
+                drv->cpud.store_func_nowatch[i] = via2d_store;
+            }
         }
-        for (i = 0x20; i < 0x24; i++) {
+    }
+
+    /* Setup 1571 VIA1, VIA2, WD1770 and CIA.  */
+    if (type == DRIVE_TYPE_1571) {
+        for (i = 0x18; i < 0x1c; i++) {
+            drv->cpud.read_func_nowatch[i] = via1d_read;
+            drv->cpud.store_func_nowatch[i] = via1d_store;
+        }
+        for (i = 0x1c; i < 0x20; i++) {
+            drv->cpud.read_func_nowatch[i] = via2d_read;
+            drv->cpud.store_func_nowatch[i] = via2d_store;
+        }
+        for (i = 0x20; i < 0x30; i++) {
             drv->cpud.read_func_nowatch[i] = wd1770d_read;
             drv->cpud.store_func_nowatch[i] = wd1770d_store;
+        }
+        for (i = 0x40; i < 0x80; i++) {
+            drv->cpud.read_func_nowatch[i] = cia1571_read;
+            drv->cpud.store_func_nowatch[i] = cia1571_store;
         }
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
-        for (i = 0x40; i < 0x44; i++) {
+        for (i = 0x40; i < 0x60; i++) {
             drv->cpud.read_func_nowatch[i] = cia1581_read;
             drv->cpud.store_func_nowatch[i] = cia1581_store;
         }
-        for (i = 0x60; i < 0x64; i++) {
+        for (i = 0x60; i < 0x80; i++) {
             drv->cpud.read_func_nowatch[i] = wd1770d_read;
             drv->cpud.store_func_nowatch[i] = wd1770d_store;
         }

@@ -38,24 +38,10 @@
 #include "mem.h"
 #include "monitor.h"
 #include "types.h"
-#include "viad.h"
 
 
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
-
-static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
-{
-    /* FIXME: This breaks the 1541 RAM mirror!  */
-    return drv->cpud.drive_ram[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
-                                     BYTE value)
-{
-    /* FIXME: This breaks the 1541 RAM mirror!  */
-    drv->cpud.drive_ram[address & 0x1fff] = value;
-}
 
 BYTE REGPARM2 drive_read_rom(drive_context_t *drv, WORD address)
 {
@@ -71,20 +57,6 @@ static void REGPARM3 drive_store_free(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     return;
-}
-
-/* ------------------------------------------------------------------------- */
-/* Zero page access.  */
-
-static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
-{
-    return drv->cpud.drive_ram[address & 0xff];
-}
-
-static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
-                                      BYTE value)
-{
-    drv->cpud.drive_ram[address & 0xff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -121,43 +93,6 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
     }
 
     machine_drive_mem_init(drv, type);
-
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1551 || type == DRIVE_TYPE_1571
-        || type == DRIVE_TYPE_1581 || type == DRIVE_TYPE_2031) {
-
-        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
-
-        if (type != DRIVE_TYPE_1551) {
-            drv->cpud.read_func_nowatch[0] = drive_read_zero;
-            drv->cpud.store_func_nowatch[0] = drive_store_zero;
-        }
-
-        /* Setup drive RAM.  */
-        for (i = 0x01; i < 0x08; i++) {
-            drv->cpud.read_func_nowatch[i] = drive_read_ram;
-            drv->cpud.store_func_nowatch[i] = drive_store_ram;
-        }
-
-        if (type == DRIVE_TYPE_1581)
-            for (i = 0x08; i < 0x20; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram;
-            }
-    }
-
-    /* Setup 1541, 1541-II and 1571 VIAs.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_2031) {
-        for (i = 0x18; i < 0x1C; i++) {
-            drv->cpud.read_func_nowatch[i] = via1d_read;
-            drv->cpud.store_func_nowatch[i] = via1d_store;
-        }
-        for (i = 0x1C; i < 0x20; i++) {
-            drv->cpud.read_func_nowatch[i] = via2d_read;
-            drv->cpud.store_func_nowatch[i] = via2d_store;
-        }
-    }
 
     drv->cpud.read_func_nowatch[0x100] = drv->cpud.read_func_nowatch[0];
     drv->cpud.store_func_nowatch[0x100] = drv->cpud.store_func_nowatch[0];
