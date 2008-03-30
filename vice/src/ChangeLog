@@ -1,3 +1,38 @@
+Mon Aug 31 17:31:41  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0 released.
+
+Sun Aug 30 21:31:40  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c: Corrected oversampling menu behavior.
+
+Sun Aug 30 14:33:21 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.75.
+
+	* arch/msdos/petui.c: Added some menu shortcuts.
+
+	* resources.c (resources_save): Copy the other emulators' sections
+	correctly.
+
+Sat Aug 29 21:06:44 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.74.
+
+Sat Aug 29 17:06:23 1998  Dag Lem  <resid@nimrod.no>
+
+	* Makefile.am: reSID library dependencies removed.
+
+	* c64/Makefile.am: Workaround for automake AM_CONDITIONAL bug.
+
+Sat Aug 28 14:27:51 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/c128ui.c: Updated SID menu to support reSID as the
+	x64 does.
+
+	* arch/msdos/c64ui.c, arch/msdos/c128ui.c: Separate toggle for
+	reSID emulation.
+
 Fri Aug 28 11:40:06 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.73.
@@ -838,8 +873,8 @@ Wed Aug 12 10:20:26 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 Tue Aug 11 20:16:13 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
-	* c64/sid.c (setup_voice,doosc): Keep pulse level up when test-bit
- 	is set.  Fixes ACE (thanks to Dag).
+	* c64/sid.c (setup_voice, doosc): Keep pulse level up when
+ 	test-bit is set.  Fixes ACE (thanks to Dag).
 
 Tue Aug 11 20:01:53 1998  Dag Lem  <resid@nimrod.no>
 

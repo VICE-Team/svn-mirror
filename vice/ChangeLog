@@ -1,3 +1,31 @@
+Mon Aug 31 17:31:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0 released.
+
+	* configure.in: Do not AC_DEFINE `UNSTABLE'.
+
+Sun Aug 30 14:34:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.75.
+
+	* configure.in: Fixed `=' -> `!=' typo in check for `--with-resid'
+	option.
+
+Fri Aug 28 21:06:44 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.74.
+
+	* configure.in: Don't support reSID as default.  Check for the C++
+	compiler only if reSID support is requested.
+
+Sat Aug 29 17:06:23 1998  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Support reSID by default, warn if not found.
+
+Fri Aug 28 20:56:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.73.
+
 Thu Aug 27 18:55:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.72.
