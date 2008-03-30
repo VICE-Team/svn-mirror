@@ -1,3 +1,9 @@
+2002-07-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.55.
+
+	* configure.in: Only check for DGA1 if vidmode is present.
+
 2002-07-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.54.

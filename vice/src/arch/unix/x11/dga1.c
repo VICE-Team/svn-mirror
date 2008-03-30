@@ -41,20 +41,19 @@
 
 #include "dga1.h"
 #include "fullscreenarch.h"
+#include "kbd.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
 #include "utils.h"
+#include "video.h"
 #include "videoarch.h"
 #include "vidmode.h"
 #include "x11ui.h"
 
-#include "kbd.h"
-#include "machine.h"
 #include "mouse.h"
 #include "ui.h"
-#include "videoarch.h"
 
 
 int dga1_is_enabled = 0;
@@ -71,9 +70,10 @@ static int EventBase, ErrorBase;
 int fullscreen_width, fullscreen_height;
 
 static int fb_bank, fb_mem;
-static char *fb_addr;
+static BYTE *fb_addr;
 static int fb_width;
 static int fb_depth;
+static int saved_h, saved_w;
 
 static Display *display;
 extern int screen;
@@ -100,53 +100,13 @@ static void set_alarm_timeout(void)
 #endif
 
 static void dga2_refresh_func(video_canvas_t *canvas,
-                              int src_x, int src_y,
-                              int dest_x, int dest_y,
+                              int src_x, int src_y, int dest_x, int dest_y,
                               unsigned int width, unsigned int height)
 {
-/*
-    int y;
-
-    if ((dest_y + height) > fullscreen_height)
-        height = fullscreen_height;
-
-    if ((dest_x + width) > fullscreen_width)
-        width = fullscreen_width;
-
-    for (y = 0; y < height ; y++) {
-        memcpy(fb_addr + (fb_width * (dest_y + y) + dest_x) * fb_depth,
-               f->x_image->data
-               + (f->x_image->width * (src_y + y) + src_x) * fb_depth,
-               width * fb_depth);
-    }
-*/
+    video_canvas_render(canvas, fb_addr,
+                        width, height, src_x, src_y, dest_x, dest_y,
+                        fb_width * fb_depth, fb_depth * 8);
 }
-
-
-#if 0
-int fullscreen_mode_on(void)
-{
-    if (!fullscreen_is_enabled) {
-        x11kbd_focus_change();
-        fullscreen_set_mode((resource_value_t)1, NULL);
-        ui_update_menus();
-        return 0;
-    }
-    return 1;
-}
-
-int fullscreen_mode_off(void)
-{
-    fullscreen_is_enabled_restore = 0;
-    if (fullscreen_is_enabled) {
-        x11kbd_focus_change();
-        fullscreen_set_mode(0, NULL);
-        ui_update_menus();
-        return 1;
-    }
-    return 0;
-}
-#endif
 
 int dga1_init(void)
 {
@@ -180,8 +140,8 @@ int dga1_init(void)
         return 0;
     }
 
-    if (!XF86DGAGetVideo(display, screen, &fb_addr, &fb_width, &fb_bank,
-        &fb_mem) || fb_bank < fb_mem) {
+    if (!XF86DGAGetVideo(display, screen, (char **)&fb_addr, &fb_width,
+        &fb_bank, &fb_mem) || fb_bank < fb_mem) {
         log_error(dga1_log, _("Problems with DGA - disabling fullscreen."));
         return 0;
     }
@@ -219,6 +179,9 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
                     vm_bestmodes[canvas->fullscreenconfig->mode].name);
         vm = vm_modes[vm_bestmodes[canvas->fullscreenconfig->mode].modeindex];
 
+        saved_w = canvas->draw_buffer->canvas_width;
+        saved_h = canvas->draw_buffer->canvas_height;
+
         XF86VidModeGetModeLine(display, screen, &dotclock, &restoremodeline);
 
         XF86VidModeLockModeSwitch(display, screen, 1);
@@ -233,16 +196,30 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
 
         video_set_refresh_func(dga2_refresh_func);
 
-        XF86DGAGetVideo(display, screen, &fb_addr, &fb_width, &fb_bank,
-                        &fb_mem);
+        XF86DGAGetVideo(display, screen, (char **)&fb_addr, &fb_width,
+                        &fb_bank, &fb_mem);
+#ifdef FS_DEBUG
         log_message(dga1_log,
                     _("DGA extension: addr:%p, width %d, bank size %d mem size %d\n"),
                     fb_addr, fb_width, fb_bank, fb_mem);
+#endif
 
 
         XF86DGADirectVideo(display, screen, XF86DGADirectGraphics
                            /*| XF86DGADirectMouse | XF86DGADirectKeyb*/);
         XF86DGASetViewPort(display, screen, 0, 0);
+
+        memset(fb_addr, 0, fb_width * vm->vdisplay * fb_depth);
+
+        canvas->draw_buffer->canvas_width = vm->hdisplay;
+        canvas->draw_buffer->canvas_height = vm->vdisplay;
+
+        if (canvas->videoconfig->doublesizex)
+            canvas->draw_buffer->canvas_width /= 2;
+        if (canvas->videoconfig->doublesizey)
+            canvas->draw_buffer->canvas_height /= 2;
+
+        video_viewport_resize(canvas);
 
         active_canvas = canvas;
         dga1_is_enabled = 1;
@@ -279,9 +256,14 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
 
         XUngrabPointer(display, CurrentTime);
         XUngrabKeyboard(display, CurrentTime);
+
+        canvas->draw_buffer->canvas_width = saved_w;
+        canvas->draw_buffer->canvas_height = saved_h;
+        video_viewport_resize(canvas);
     }
 
-    machine_video_refresh();
+    x11kbd_focus_change();
+
     ui_check_mouse_cursor();
 
     return 0;
@@ -313,10 +295,10 @@ void dga1_suspend(int level)
 void dga1_resume(void)
 {
    if (dga1_is_enabled == 0)
-        return;
+       return;
 
    if (dga1_is_suspended == 0)
-      return;
+       return;
 
    dga1_is_suspended = 0;
    dga1_enable(active_canvas, 1);

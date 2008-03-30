@@ -1,3 +1,31 @@
+2002-07-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.55.
+
+	* arch/unix/x11/dga1.c (dga2_refresh_func): Use video render.
+	(dga1_enable): Resize canvas after mode has been switched.
+
+	* arch/unix/x11/xaw/x11ui.c (ui_error, ui_popup, ui_popdown):
+	Suspend or resume fullscreen mode.
+	* arch/unix/x11/gnome/x11ui.c: Changed likewise.
+
+	* arch/unix/x11/vidmode.c (vidmode_enable): Scale for double
+	size mode.
+
+	* raster/raster-resources.c (raster_resources_chip_init):
+	Pass pointer to pointer to canvas in raster struct.
+
+	* video/video-resources.c, video.h: Use pointer to canvas
+	pointer.
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c, arch/unix/x11/dga1.c,
+	arch/unix/x11/dga2.c, vicii/vicii.c, vicii/vicii.h,
+	vic20/vic.c, vic20/vic.h, crtc/crtc.c, crtc/crtc.h,
+	plus4/ted.c, plus4/ted.h: Removed fullscreen refresh cruft.
+
+	* tape/tape.c (t64_read): Cosmetic changes.
+
 2002-07-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.54.

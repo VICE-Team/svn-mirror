@@ -341,16 +341,15 @@ c64icon.o: c64icon.c
 cbm2icon.o: cbm2icon.c
 dga1.o: dga1.c ../../../../src/vice.h ../../../../src/config.h dga1.h \
 	../../../../src/arch/unix/fullscreenarch.h \
-	../../../../src/log.h ../../../../src/resources.h \
-	../../../../src/arch/unix/types.h \
+	../../../../src/arch/unix/kbd.h ../../../../src/log.h \
+	../../../../src/resources.h ../../../../src/arch/unix/types.h \
 	../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	xaw/uiarch.h xaw/../x11menu.h \
 	../../../../src/arch/unix/uihotkey.h xaw/../xaw/uiarch.h \
-	../../../../src/utils.h videoarch.h ../../../../src/video.h \
-	../../../../src/viewport.h xaw/uiarch.h vidmode.h x11ui.h \
-	../../../../src/arch/unix/kbd.h ../../../../src/machine.h \
-	../../../../src/arch/unix/mouse.h
+	../../../../src/utils.h ../../../../src/video.h \
+	../../../../src/viewport.h videoarch.h xaw/uiarch.h vidmode.h \
+	x11ui.h ../../../../src/arch/unix/mouse.h
 fullscreen.o: fullscreen.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/fullscreen.h \
 	../../../../src/arch/unix/fullscreenarch.h \
