@@ -267,13 +267,16 @@ BMenuBar *menu_create(int machine_class) {
 		menu->AddSeparatorItem();
 		menu->AddItem(new BMenuItem("Video Cache", 
 			new BMessage(MENU_TOGGLE_VIDEOCACHE)));
-		if (machine_class != VICE_MACHINE_VIC20) {
-			menu->AddItem(new BMenuItem("Double Size", 
-				new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
-			menu->AddItem(new BMenuItem("Double Scan", 
-				new BMessage(MENU_TOGGLE_DOUBLESCAN)));
+		menu->AddItem(new BMenuItem("Double Size", 
+			new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
+		menu->AddItem(new BMenuItem("Double Scan", 
+			new BMessage(MENU_TOGGLE_DOUBLESCAN)));
+		if (machine_class == VICE_MACHINE_C64
+			|| machine_class == VICE_MACHINE_C128
+			|| machine_class == VICE_MACHINE_VIC20) {
+			menu->AddItem(new BMenuItem("Fast PAL", 
+				new BMessage(MENU_TOGGLE_FASTPAL)));
 		}
-
 		if (machine_class == VICE_MACHINE_C128) {
 			menu->AddItem(submenu = new BMenu("VDC"));
 			submenu->AddItem(new BMenuItem("Double Size",
@@ -374,8 +377,6 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("1351 mouse",
 				new BMessage(MENU_TOGGLE_MOUSE)));
-			menu->AddItem(new BMenuItem("Fast PAL", 
-				new BMessage(MENU_TOGGLE_FASTPAL)));
 		}
 		if (machine_class == VICE_MACHINE_VIC20
 			|| machine_class == VICE_MACHINE_C128) {
@@ -402,6 +403,8 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_VIC20_SETTINGS)));
 		}
 	
+		menu->AddItem(new BMenuItem("Video ...", 
+			new BMessage(MENU_VIDEO_SETTINGS)));
 		menu->AddItem(new BMenuItem("Device ...", 
 			new BMessage(MENU_DEVICE_SETTINGS)));
 		menu->AddItem(new BMenuItem("Drive ...", 

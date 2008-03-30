@@ -38,6 +38,7 @@ typedef void (*canvas_redraw_t)();
 struct video_canvas_s {
     char *title;
     unsigned int width, height, depth;
+    video_render_config_t videoconfig;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
     DWORD physical_colors[256];

@@ -74,6 +74,8 @@ libarch_a_SOURCES = \
 	ui_vic20.h \
 	ui_vicii.cc \
 	ui_vicii.h \
+	ui_video.cc \
+	ui_video.h \
 	uicmdline.c \
 	uicmdline.h \
 	uimon.c \

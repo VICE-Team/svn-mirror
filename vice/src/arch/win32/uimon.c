@@ -700,7 +700,7 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
         switch (wt)
         {
         case WT_CONSOLE:
-            hwndOpened = OpenConsole(hwnd,TRUE);
+            hwndOpened = iOpenConsole(hwnd,TRUE,0,0,0,0,0);
             break;
 
         case WT_DISASSEMBLY:

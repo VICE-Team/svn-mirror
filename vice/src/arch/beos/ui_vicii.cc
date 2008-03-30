@@ -60,53 +60,30 @@ static ViciiWindow *viciiwindow = NULL;
 
 
 ViciiWindow::ViciiWindow() 
-	: BWindow(BRect(50,50,210,300),"VIC-II settings",
+	: BWindow(BRect(50,50,210,155),"VIC-II settings",
 		B_TITLED_WINDOW, 
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BMessage *msg;
-	BRadioButton *radiobutton;
 	BCheckBox *checkbox;
 	BRect r;
 	BBox *box;
 	BView *background;
-	int palette_num;
 	int res_val;
-	char *res_palette;
 	
 	r = Bounds();
 	background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
 	background->SetViewColor(220,220,220,0);
 	AddChild(background);
 	
-	r.InsetBy(10,10);
-	r.bottom = r.top + 150;
-	box = new BBox(r);
-	box->SetLabel("Palette");
-	background->AddChild(box);
-		
-	/* palette */
-    resources_get_value("PaletteFile", (resource_value_t *) &res_palette);
-	for (palette_num=0; palette_name[palette_num]; palette_num++) {
-		msg = new BMessage(MESSAGE_VICII_PALETTE);
-		msg->AddInt32("palettenum", palette_num);
-		radiobutton = new BRadioButton(
-			BRect(10,20+palette_num*20, 120, 35+palette_num*20),
-			NULL,
-			palette_name[palette_num],
-			msg);
-		radiobutton->SetValue(!strcmp(palette_name[palette_num], res_palette));
-		box->AddChild(radiobutton);
-	}
-			
 	/* sprite collisions */
 	r = Bounds();
 	r.InsetBy(10,10);
-	r.top += 160;
+	r.bottom -= 20;
 	box = new BBox(r);
 	box->SetLabel("Sprite Collision");
 	background->AddChild(box);
-		
+	
 	checkbox = new BCheckBox(
 		BRect(10, 20, 120, 35),
 		NULL,
@@ -125,6 +102,16 @@ ViciiWindow::ViciiWindow()
 	checkbox->SetValue(res_val);
 	box->AddChild(checkbox);	
 	
+	/* new colors */
+	checkbox = new BCheckBox(
+		BRect(20, 80, 120, 95),
+		NULL,
+		"New Colors",
+		new BMessage(MESSAGE_VICII_NEWLUMINANCE));
+	resources_get_value("NewLuminances", (resource_value_t *) &res_val);
+	checkbox->SetValue(res_val);
+	background->AddChild(checkbox);	
+	
 	Show();
 }
 
@@ -134,21 +121,17 @@ ViciiWindow::~ViciiWindow()
 }
 
 void ViciiWindow::MessageReceived(BMessage *msg) {
-	int32 palette_num;	
 	resource_value_t dummy;
 	
 	switch (msg->what) {
-		case MESSAGE_VICII_PALETTE:
-			msg->FindInt32("palettenum", &palette_num);	
-            if (resources_set_value("PaletteFile",
-            	(resource_value_t) palette_name[palette_num]) < 0)
-            	ui_error("Cannot load palette file"); 
-			break;
 		case MESSAGE_VICII_SSCOLL:
 			resources_toggle("CheckSsColl", &dummy);
 			break;
 		case MESSAGE_VICII_SBCOLL:
 			resources_toggle("CheckSbColl", &dummy);
+			break;
+		case MESSAGE_VICII_NEWLUMINANCE:
+			resources_toggle("NewLuminances", &dummy);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

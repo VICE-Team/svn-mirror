@@ -35,6 +35,7 @@
 
 const uint32 WINDOW_CLOSED						= 'WRcl';
 const uint32 MESSAGE_ATTACH_READONLY            = 'MARO';
+const uint32 MESSAGE_SET_RESOURCE	            = 'MASR';
 
 // Messages for menu commands
 
@@ -149,6 +150,7 @@ const uint32 MENU_CBM2_SETTINGS					= 'M205';
 const uint32 MENU_PET_SETTINGS					= 'M206';
 const uint32 MENU_VICII_SETTINGS				= 'M207';
 const uint32 MENU_VIC20_SETTINGS				= 'M208';
+const uint32 MENU_VIDEO_SETTINGS				= 'M209';
 
 const uint32 MENU_SETTINGS_LOAD					= 'M210';
 const uint32 MENU_SETTINGS_SAVE					= 'M211';

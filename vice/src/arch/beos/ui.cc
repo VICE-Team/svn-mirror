@@ -74,6 +74,7 @@ extern "C" {
 #include "ui_joystick.h"
 #include "ui_sound.h"
 #include "ui_vicii.h"
+#include "ui_video.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -532,71 +533,6 @@ void ui_dispatch_events(void)
 			case MENU_PAUSE:
         		ui_pause_emulation();
         		break;
-#if 0
-	      	case MENU_REFRESH_RATE_AUTO:
-    	    	resources_set_value("RefreshRate", (resource_value_t) 0);
-        		break;
-	      	case MENU_REFRESH_RATE_1:
-		        resources_set_value("RefreshRate", (resource_value_t) 1);
-    		    break;
-      		case MENU_REFRESH_RATE_2:
-        		resources_set_value("RefreshRate", (resource_value_t) 2);
-	        	break;
-		    case MENU_REFRESH_RATE_3:
-    	    	resources_set_value("RefreshRate", (resource_value_t) 3);
-        		break;
-	      	case MENU_REFRESH_RATE_4:
-    	    	resources_set_value("RefreshRate", (resource_value_t) 4);
-        		break;
-			case MENU_REFRESH_RATE_5:
-    	    	resources_set_value("RefreshRate", (resource_value_t) 5);
-        		break;
-		    case MENU_REFRESH_RATE_6:
-    		    resources_set_value("RefreshRate", (resource_value_t) 6);
-        		break;
-		    case MENU_REFRESH_RATE_7:
-    		    resources_set_value("RefreshRate", (resource_value_t) 7);
-        		break;
-        	case MENU_REFRESH_RATE_8:
-    		    resources_set_value("RefreshRate", (resource_value_t) 8);
-        		break;
-			case MENU_REFRESH_RATE_9:
-        		resources_set_value("RefreshRate", (resource_value_t) 9);
-        		break;
-    		case MENU_REFRESH_RATE_10:
-        		resources_set_value("RefreshRate", (resource_value_t) 10);
-        		break;
-	     	case MENU_MAXIMUM_SPEED_200:
-    	    	resources_set_value("Speed", (resource_value_t) 200);
-        		break;
-			case MENU_MAXIMUM_SPEED_100:
-        		resources_set_value("Speed", (resource_value_t) 100);
-	        	break;
-    		case MENU_MAXIMUM_SPEED_50:
-        		resources_set_value("Speed", (resource_value_t) 50);
-        		break;
-		    case MENU_MAXIMUM_SPEED_20:
-    		    resources_set_value("Speed", (resource_value_t) 20);
-        		break;
-	      	case MENU_MAXIMUM_SPEED_10:
-    	    	resources_set_value("Speed", (resource_value_t) 10);
-        		break;
-      		case MENU_MAXIMUM_SPEED_NO_LIMIT:
-        		resources_set_value("Speed", (resource_value_t) 0);
-        		break;
-			case MENU_SYNC_FACTOR_PAL:
-        		resources_set_value("VideoStandard",
-                	(resource_value_t) DRIVE_SYNC_PAL);
-        		break;
-      		case MENU_SYNC_FACTOR_NTSC:
-        		resources_set_value("VideoStandard",
-                	(resource_value_t) DRIVE_SYNC_NTSC);
-        		break;
-      		case MENU_SYNC_FACTOR_NTSCOLD:
-        		resources_set_value("VideoStandard",
-                	(resource_value_t) DRIVE_SYNC_NTSCOLD);
-        		break;
-#endif
         	case MENU_DRIVE_SETTINGS:
         		ui_drive();
         		break;	
@@ -611,6 +547,9 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_SOUND_SETTINGS:
 				ui_sound();
+				break;
+			case MENU_VIDEO_SETTINGS:
+				ui_video();
 				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {
@@ -686,8 +625,22 @@ void ui_dispatch_events(void)
 				(resource_value_t*)&res_val, attachdrive);
 				resources_set_sprintf("AttachDevice%dReadonly",
 				(resource_value_t)!res_val, attachdrive);
+				break;
 			}
-			break;
+			case MESSAGE_SET_RESOURCE:
+			{
+				const char *res_name;
+				int32 res_val;
+				const char *res_val_str;
+				if (message_queue[i].FindString("resname", &res_name) == B_OK)
+					if (message_queue[i].FindInt32("resval", &res_val) == B_OK)
+						resources_set_value(res_name, 
+							(resource_value_t) res_val);
+					if (message_queue[i].FindString("resvalstr", &res_val_str) == B_OK)
+						resources_set_value(res_name, 
+							(resource_value_t) res_val_str);
+				break;
+			}				
 
 			default:
 				if (message_queue[i].what >= 'M000' &&

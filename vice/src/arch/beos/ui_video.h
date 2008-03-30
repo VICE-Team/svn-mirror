@@ -1,5 +1,5 @@
 /*
- * ui_vicii.h - VIC-II settings
+ * ui_video.h - Video settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,13 +24,13 @@
  *
  */
 
-#ifndef __UI_VICII_H__
-#define __UI_VICII_H__
+#ifndef __UI_VIDEO_H__
+#define __UI_VIDEO_H__
 
-const uint32 MESSAGE_VICII_NEWLUMINANCE		= 'MVI1';
-const uint32 MESSAGE_VICII_SSCOLL			= 'MVI2';
-const uint32 MESSAGE_VICII_SBCOLL			= 'MVI3';
+const uint32 MESSAGE_VIDEO_COLOR				= 'MVD1';
+const uint32 MESSAGE_VIDEO_PALETTEFILE			= 'MVD2';
+const uint32 MESSAGE_VIDEO_EXTERNALPALETTE		= 'MVD3';
 
-extern void ui_vicii(void);
+extern void ui_video(void);
 
 #endif

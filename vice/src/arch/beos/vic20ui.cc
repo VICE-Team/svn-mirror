@@ -44,6 +44,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "DoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "DelayLoopEmulation", MENU_TOGGLE_FASTPAL },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { NULL, 0 }
 };

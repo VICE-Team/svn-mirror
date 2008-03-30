@@ -157,7 +157,8 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
     if (!new_canvas)
 	return (video_canvas_t *) NULL;
 
-    new_canvas->title = stralloc(title);
+    video_render_initconfig(&new_canvas->videoconfig);
+	new_canvas->title = stralloc(title);
     switch (BScreen().ColorSpace()) {
     	case B_CMAP8:
     		new_canvas->depth = 8;
@@ -225,27 +226,28 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel
 	DEBUG(("Allocating colors"));
 	for (i = 0; i < p->num_entries; i++)
 	{
+		DWORD col;
 		pixel_return[i] = i;
+
 		switch (c->depth) {
 			case 8:		/* CMAP8 */
-				c->physical_colors[i] = BScreen().IndexForColor(
+				col = BScreen().IndexForColor(
 							p->entries[i].red,
 							p->entries[i].green,
 							p->entries[i].blue);
-				c->physical_colors[i] |= (c->physical_colors[i] << 8);	
 				break;
 			case 16:	/* RGB 5:6:5 */
-				c->physical_colors[i] = (p->entries[i].red >> 3) << 11
+				col = (p->entries[i].red >> 3) << 11
 							|	(p->entries[i].green >> 2) << 5
 							|	(p->entries[i].blue >> 3);
-				c->physical_colors[i] |= (c->physical_colors[i] << 16);	
 				break;
 			case 32:	/* RGB 8:8:8 */
 			default:
-				c->physical_colors[i] = p->entries[i].red << 16
+				col = p->entries[i].red << 16
 							|	p->entries[i].green << 8
 							|	p->entries[i].blue;
 		}
+		video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
 	}
     return 0;
 }
@@ -259,7 +261,7 @@ void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
 	w = MIN(w, c->width - xi);
 	h = MIN(h, c->height - yi);
 
-	video_render_main(c->physical_colors,
+	video_render_main(&c->videoconfig,
                           (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
                           (BYTE *)(c->vicewindow->bitmap->Bits()),
                           w, h,
