@@ -689,7 +689,10 @@ utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	resources.h log.h maincpu.h 6510core.h machine.h sound.h \
-	vsync.h vsyncapi.h
+	vsync.h vsyncapi.h arch/unix/videoarch.h \
+	arch/unix/x11/xaw/videoarch.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/xaw/uiarch.h arch/unix/x11/xaw/../videoarch.h \
+	fullscreen.h video.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h
