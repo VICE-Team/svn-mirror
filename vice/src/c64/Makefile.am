@@ -58,6 +58,7 @@ libc64_a_SOURCES = \
 	c64rsuser.h \
 	c64tpi.c \
 	c64tpi.h \
+	c64video.c \
 	patchrom.c \
 	patchrom.h \
 	psid.c \

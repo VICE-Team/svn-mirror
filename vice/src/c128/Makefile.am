@@ -36,6 +36,7 @@ libc128_a_SOURCES = \
 	c128mmu.h \
 	c128rom.c \
 	c128rom.h \
+	c128video.c \
 	daa.c \
 	daa.h \
 	functionrom.c \
