@@ -209,7 +209,7 @@ void remove_spaces(char *s)
 }
 
 /* Set a new value to the dynamically allocated string *str.  */
-void string_set(char **str, const char *new_value)
+void util_string_set(char **str, const char *new_value)
 {
     if (*str == NULL) {
         if (new_value != NULL)
@@ -225,8 +225,8 @@ void string_set(char **str, const char *new_value)
 
 /* ------------------------------------------------------------------------- */
 
-int string_to_long(const char *str, const char **endptr, int base,
-		   long *result)
+int util_string_to_long(const char *str, const char **endptr, int base,
+                        long *result)
 {
     const char *sp, *ep;
     long weight, value;
@@ -434,7 +434,7 @@ int remove_file(const char *name)
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something
    better, like GNU `getline()'.  */
-int get_line(char *buf, int bufsize, FILE *f)
+int util_get_line(char *buf, int bufsize, FILE *f)
 {
     char *r;
     size_t len;
@@ -556,10 +556,10 @@ int write_dword(FILE *fd, DWORD *buf, size_t num)
 
 /* ------------------------------------------------------------------------- */
 
-void dword_to_le_buf(BYTE *buf, DWORD data)
+void util_dword_to_le_buf(BYTE *buf, DWORD data)
 {
-    buf[0] = (BYTE) ( data        & 0xff);
-    buf[1] = (BYTE) ((data >>  8) & 0xff);
+    buf[0] = (BYTE) (data & 0xff);
+    buf[1] = (BYTE) ((data >> 8) & 0xff);
     buf[2] = (BYTE) ((data >> 16) & 0xff);
     buf[3] = (BYTE) ((data >> 24) & 0xff);
 }
@@ -567,7 +567,7 @@ void dword_to_le_buf(BYTE *buf, DWORD data)
 /* ------------------------------------------------------------------------- */
 
 /* Check for existance of file named `name'.  */
-int file_exists_p(const char *name)
+int util_file_exists_p(const char *name)
 {
     FILE *f;
 
@@ -582,14 +582,14 @@ int file_exists_p(const char *name)
 
 /* ------------------------------------------------------------------------- */
 
-char *find_next_line(const char *text, const char *pos)
+char *util_find_next_line(const char *pos)
 {
     char *p = strchr(pos, '\n');
 
     return (char *) (p == NULL ? pos : p + 1);
 }
 
-char *find_prev_line(const char *text, const char *pos)
+char *util_find_prev_line(const char *text, const char *pos)
 {
     const char *p;
 

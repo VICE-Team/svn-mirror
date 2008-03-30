@@ -54,24 +54,24 @@ extern int load_file(const char *name, void *dest, size_t size);
 extern int save_file(const char *name, const void *src, int size);
 extern int remove_file(const char *name);
 
-extern int get_line(char *buf, int bufsize, FILE *f);
+extern int util_get_line(char *buf, int bufsize, FILE *f);
 extern void fname_split(const char *path, char **directory_return,
                         char **name_return);
 
-extern int string_to_long(const char *str, const char **endptr, int base,
-                          long *result);
+extern int util_string_to_long(const char *str, const char **endptr, int base,
+                               long *result);
 extern char *subst(const char *s, const char *string, const char *replacement);
-extern void string_set(char **str, const char *new_value);
+extern void util_string_set(char **str, const char *new_value);
 
 extern int read_dword(FILE *fd, DWORD *buf, size_t num);
 extern int write_dword(FILE *fd, DWORD *buf, size_t num);
 
-extern void dword_to_le_buf(BYTE *buf, DWORD data);
+extern void util_dword_to_le_buf(BYTE *buf, DWORD data);
 
-extern int file_exists_p(const char *name);
+extern int util_file_exists_p(const char *name);
 
-extern char *find_prev_line(const char *text, const char *pos);
-extern char *find_next_line(const char *text, const char *pos);
+extern char *util_find_prev_line(const char *text, const char *pos);
+extern char *util_find_next_line(const char *pos);
 
 #if !defined HAVE_MEMMOVE
 void *memmove(void *target, const void *source, unsigned int length);

@@ -31,7 +31,7 @@
 #include <stdlib.h>
 
 #include "log.h"
-#include "utils.h"   // get_line
+#include "utils.h"   // util_get_line
 #include "sysfile.h" // sysfile_open
 
 #include "parse.h"
@@ -70,7 +70,7 @@ int load_keymap_file(const char *fname)
     while (!feof(fp))
     {
         char buffer[81];
-        if (get_line(buffer, 80, fp))
+        if (util_get_line(buffer, 80, fp))
             switch (buffer[0])
             {
             case 0:

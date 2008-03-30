@@ -45,7 +45,7 @@ static int set_serial_file(resource_value_t v, void *param)
   if ((SerialFile == NULL) && (name != NULL) && (strcmp(name, SerialFile) == 0))
     return 0;
 
-  string_set(&SerialFile, name);
+  util_string_set(&SerialFile, name);
   return 0;
 }
 

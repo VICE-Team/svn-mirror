@@ -197,7 +197,6 @@ static const char PRGFileExtension[] = "prg";
 #define Icon_Jam_Reset		1
 #define Icon_Jam_ResetH		2
 #define Icon_Jam_Monitor	3
-#define Icon_Jam_Debug		4
 
 #define Icon_Create_Type	0
 #define Icon_Create_TypeT	1
@@ -1303,7 +1302,7 @@ static int set_drive_file8(resource_value_t v, void *param)
   if ((DriveFile8 != NULL) && (name != NULL) && (strcmp(name, DriveFile8) == 0))
     return 0;
 
-  string_set(&DriveFile8, name);
+  util_string_set(&DriveFile8, name);
   return 0;
 }
 
@@ -1314,7 +1313,7 @@ static int set_drive_file9(resource_value_t v, void *param)
   if ((DriveFile9 != NULL) && (name != NULL) && (strcmp(name, DriveFile9) == 0))
     return 0;
 
-  string_set(&DriveFile9, name);
+  util_string_set(&DriveFile9, name);
   return 0;
 }
 
@@ -1325,7 +1324,7 @@ static int set_drive_file10(resource_value_t v, void *param)
   if ((DriveFile10 != NULL) && (name != NULL) && (strcmp(name, DriveFile10) == 0))
     return 0;
 
-  string_set(&DriveFile10, name);
+  util_string_set(&DriveFile10, name);
   return 0;
 }
 
@@ -1336,7 +1335,7 @@ static int set_drive_file11(resource_value_t v, void *param)
   if ((DriveFile11 != NULL) && (name != NULL) && (strcmp(name, DriveFile11) == 0))
     return 0;
 
-  string_set(&DriveFile11, name);
+  util_string_set(&DriveFile11, name);
   return 0;
 }
 
@@ -1347,7 +1346,7 @@ static int set_tape_file(resource_value_t v, void *param)
   if ((TapeFile != NULL) && (name != NULL) && (strcmp(name, TapeFile) == 0))
     return 0;
 
-  string_set(&TapeFile, name);
+  util_string_set(&TapeFile, name);
   return 0;
 }
 
@@ -1816,7 +1815,7 @@ static int ui_set_drive_image(int number, const char *file)
     file_system_detach_disk(8 + number);
     if (file_system_attach_disk(8 + number, file) == 0)
     {
-      string_set(DriveFiles[number], file);
+      util_string_set(DriveFiles[number], file);
       *(DriveTypes[number]) = DRIVE_TYPE_DISK;
       wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], file);
       return 0;
@@ -1836,7 +1835,7 @@ static int ui_set_drive_dir(int number, const char *dir)
     if ((ReadCatalogueInfo(dir, info) & 2) == 0) return -1;
     file_system_detach_disk(8 + number);
     fsdevice_set_directory((char*)dir, 8 + number);
-    string_set(DriveFiles[number], dir);
+    util_string_set(DriveFiles[number], dir);
     *(DriveTypes[number]) = DRIVE_TYPE_FS;
     wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], dir);
   }
@@ -1875,7 +1874,7 @@ static int ui_set_tape_image(const char *name)
       if (tape_detach_image() != 0)
         return -1;
 
-      string_set(&TapeFile, "");
+      util_string_set(&TapeFile, "");
       wimp_window_write_icon_text(win, Icon_Conf_TapeFile, TapeFile);
       state = 0;
     }
@@ -1884,7 +1883,7 @@ static int ui_set_tape_image(const char *name)
       if (tape_attach_image(name) != 0)
         return -1;
 
-      string_set(&TapeFile, name);
+      util_string_set(&TapeFile, name);
       wimp_window_write_icon_text(win, Icon_Conf_TapeFile, name);
       state = 1;
     }
@@ -5399,7 +5398,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
             case Icon_Jam_Reset:
             case Icon_Jam_ResetH:
             case Icon_Jam_Monitor:
-            case Icon_Jam_Debug: button = block[MouseB_Icon]; break;
+              button = block[MouseB_Icon]; break;
             default: break;
           }
         }
@@ -5428,7 +5427,6 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
   {
     case Icon_Jam_ResetH: ui_issue_reset(0); return UI_JAM_HARD_RESET;
     case Icon_Jam_Monitor: return UI_JAM_MONITOR;
-    case Icon_Jam_Debug: return UI_JAM_DEBUG;
     default: break;
   }
   ui_issue_reset(0);

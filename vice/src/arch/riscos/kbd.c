@@ -280,7 +280,7 @@ static int set_joystick_keys1(resource_value_t v, void *param)
 
   if (kbd_parse_joykeys(name, JoystickKeys) != 0) return 1;
 
-  string_set(&JoyKeyString1, name);
+  util_string_set(&JoyKeyString1, name);
 
   return 0;
 }
@@ -294,7 +294,7 @@ static int set_joystick_keys2(resource_value_t v, void *param)
 
   if (kbd_parse_joykeys((char*)v, JoystickKeys+1) != 0) return 1;
 
-  string_set(&JoyKeyString2, name);
+  util_string_set(&JoyKeyString2, name);
 
   return 0;
 }

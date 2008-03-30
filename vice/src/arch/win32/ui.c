@@ -219,7 +219,7 @@ static int set_monitor_dimensions(resource_value_t v, void *param)
     if (ui_resources.monitor_dimensions != NULL && name != NULL)
         if (strcmp(name, ui_resources.monitor_dimensions) == 0)
             return 0;
-    string_set(&ui_resources.monitor_dimensions, name ? name : "");
+    util_string_set(&ui_resources.monitor_dimensions, name ? name : "");
     return 0;
 }
 

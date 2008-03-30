@@ -63,7 +63,7 @@ static int set_depth(resource_value_t v, void *param)
 
 static int set_html_browser_command(resource_value_t v, void *param)
 {
-    string_set(&ui_resources.html_browser_command, (char *)v);
+    util_string_set(&ui_resources.html_browser_command, (char *)v);
     return 0;
 }
 

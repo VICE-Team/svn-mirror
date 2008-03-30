@@ -68,7 +68,7 @@ static int set_keymap_file(resource_value_t v, void *param)
     if (load_keymap_file((const char *)v)==-1)
         log_message(LOG_DEFAULT, "kbd.c: Error loading keymapfile `%s'.", keymapfile);
     else
-        string_set(&keymapfile, (const char*) v);
+        util_string_set(&keymapfile, (const char*) v);
 
     return 0;
 }

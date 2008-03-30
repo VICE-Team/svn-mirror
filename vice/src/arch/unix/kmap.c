@@ -74,7 +74,7 @@ static int set_keymap_file(int myindex, const char *name)
     if(resources_get_value("KeymapIndex", (resource_value_t*) &kindex) < 0)
 	return -1;
 
-    string_set(&keymap_file_list[myindex], name);
+    util_string_set(&keymap_file_list[myindex], name);
 
     /* reset kindex -> reload keymap file if this keymap is active */
     if(kindex == myindex) {

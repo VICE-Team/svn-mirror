@@ -342,7 +342,7 @@ static int set_chargen_rom_name(resource_value_t v, void *param)
         && strcmp(name, chargen_name) == 0)
         return 0;
 
-    string_set(&chargen_name, name);
+    util_string_set(&chargen_name, name);
 
     return mem_load_chargen();	/* only does something after mem_load() */
 }
@@ -355,7 +355,7 @@ static int set_kernal_rom_name(resource_value_t v, void *param)
         && strcmp(name, kernal_rom_name) == 0)
         return 0;
 
-    string_set(&kernal_rom_name, name);
+    util_string_set(&kernal_rom_name, name);
 
     return mem_load_kernal();	/* only does something after mem_load() */
 }
@@ -369,7 +369,7 @@ static int set_basic_rom_name(resource_value_t v, void *param)
         && strcmp(name, basic_rom_name) == 0)
         return 0;
 
-    string_set(&basic_rom_name, name);
+    util_string_set(&basic_rom_name, name);
 
     return mem_load_basic();	/* only does something after mem_load() */
 }
@@ -383,7 +383,7 @@ static int set_cart1_rom_name(resource_value_t v, void *param)
         && strcmp(name, cart_1_name) == 0)
         return 0;
 
-    string_set(&cart_1_name, name);
+    util_string_set(&cart_1_name, name);
 
     return mem_load_cart_1();	/* only does something after mem_load() */
 }
@@ -397,7 +397,7 @@ static int set_cart2_rom_name(resource_value_t v, void *param)
         && strcmp(name, cart_2_name) == 0)
         return 0;
 
-    string_set(&cart_2_name, name);
+    util_string_set(&cart_2_name, name);
 
     return mem_load_cart_2();	/* only does something after mem_load() */
 }
@@ -411,7 +411,7 @@ static int set_cart4_rom_name(resource_value_t v, void *param)
         && strcmp(name, cart_4_name) == 0)
         return 0;
 
-    string_set(&cart_4_name, name);
+    util_string_set(&cart_4_name, name);
 
     return mem_load_cart_4();	/* only does something after mem_load() */
 }
@@ -425,7 +425,7 @@ static int set_cart6_rom_name(resource_value_t v, void *param)
         && strcmp(name, cart_6_name) == 0)
         return 0;
 
-    string_set(&cart_6_name, name);
+    util_string_set(&cart_6_name, name);
 
     return mem_load_cart_6();	/* only does something after mem_load() */
 }
@@ -625,26 +625,30 @@ static int cbm2_model = 1;
 int cbm2_set_model(const char *model, void *extra)
 {
     int i;
-    for(i=0; modtab[i].model; i++) {
-	if(!strcmp(modtab[i].model, model)) {
-            suspend_speed_eval();
+    for(i=0; modtab[i].model; i++)
+    {
+        if (strcmp(modtab[i].model, model))
+            continue;
 
-	    set_use_vicii((resource_value_t)modtab[i].usevicii, NULL);
-	    set_ramsize((resource_value_t)modtab[i].ramsize, NULL);
-            set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
-	    set_chargen_rom_name((resource_value_t)modtab[i].charrom, NULL);
-	    set_kernal_rom_name((resource_value_t)modtab[i].kernal, NULL);
-            set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
+        suspend_speed_eval();
 
-	    /* we have to wait until we did enough initialization */
-	    if(cbm2_init_ok) {
-                mem_powerup();
-	        mem_load();
-                maincpu_trigger_reset();
-                cbm2_model = i;
-            }
-	    return 0;
-	}
+        set_use_vicii((resource_value_t)modtab[i].usevicii, NULL);
+        set_ramsize((resource_value_t)modtab[i].ramsize, NULL);
+        set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
+        set_chargen_rom_name((resource_value_t)modtab[i].charrom, NULL);
+        set_kernal_rom_name((resource_value_t)modtab[i].kernal, NULL);
+        set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
+
+        cbm2_model = i;
+
+        /* we have to wait until we did enough initialization */
+        if(!cbm2_init_ok)
+            continue;
+
+        mem_powerup();
+        mem_load();
+        maincpu_trigger_reset();
+        return 0;
     }
     return -1;
 }
@@ -934,41 +938,41 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 void REGPARM2 store_io(ADDRESS addr, BYTE value)
 {
     switch(addr & 0xf800) {
-    case 0xd000:
-	rom_store(addr, value);		/* video RAM mapped here... */
-	if (isC500 && (addr >= 0xd400)) {
-	    colorram_store(addr, value);
-	}
-	return;
-    case 0xd800:
- 	switch(addr & 0xff00) {
-	case 0xd800:
-	    if (isC500) {
-		vic_store(addr, value);
-	    } else {
+      case 0xd000:
+        rom_store(addr, value);		/* video RAM mapped here... */
+        if (isC500 && (addr >= 0xd400)) {
+            colorram_store(addr, value);
+        }
+        return;
+      case 0xd800:
+        switch(addr & 0xff00) {
+          case 0xd800:
+            if (isC500) {
+                vic_store(addr, value);
+            } else {
                 crtc_store(addr, value);
-	    }
-	    return;
-	case 0xd900:
-	    return;			/* disk units */
-	case 0xda00:
-	    sid_store(addr & 0xff, value);
-	    return;
-	case 0xdb00:
-	    return; 			/* coprocessor */
-	case 0xdc00:
-	    cia1_store(addr & 0x0f, value);
-	    return;
-	case 0xdd00:
-	    acia1_store(addr & 0x03, value);
-	    return;
-	case 0xde00:
-	    tpi1_store(addr & 0x07, value);
-	    return;
-	case 0xdf00:
-	    tpi2_store(addr & 0x07, value);
-	    return;
-	}
+            }
+            return;
+          case 0xd900:
+            return;			/* disk units */
+          case 0xda00:
+            sid_store(addr & 0xff, value);
+            return;
+          case 0xdb00:
+            return; 			/* coprocessor */
+          case 0xdc00:
+            cia1_store(addr & 0x0f, value);
+            return;
+          case 0xdd00:
+            acia1_store(addr & 0x03, value);
+            return;
+          case 0xde00:
+            tpi1_store(addr & 0x07, value);
+            return;
+          case 0xdf00:
+            tpi2_store(addr & 0x07, value);
+            return;
+        }
     }
 }
 
@@ -985,37 +989,38 @@ BYTE REGPARM1 read_io(ADDRESS addr)
 */
 
     switch (addr & 0xf800) {
-    case 0xd000:
-	return rom_read(addr);
-    case 0xd800:
-	switch (addr & 0xff00) {
-	case 0xd800:
-	    if (isC500) {
+      case 0xd000:
+        return rom_read(addr);
+      case 0xd800:
+        switch (addr & 0xff00) {
+          case 0xd800:
+            if (isC500) {
                 return vic_read(addr);
-	    } else {
+            } else {
                 return crtc_read(addr);
-	    }
-	case 0xd900:
-	    return read_unused(addr);
-	case 0xda00:
-	    if (isC500) {
-	        return sid_read(addr);
-	    } else {
-		return 0xff;		/* 2 MHz too fast for SID */
-	    }
-	case 0xdb00:
-	    return read_unused(addr);
-	case 0xdc00:
-	    return cia1_read(addr);
-	case 0xdd00:
-	    return acia1_read(addr);
-	case 0xde00:
-	    /* FIXME: VIC-II irq? */
-	    /* if (isC500 && ((addr & 7) == 2)) { return tpi1_read(addr&7)|1; }   */
-	    return tpi1_read(addr & 0x07);
-	case 0xdf00:
-	    return tpi2_read(addr & 0x07);
-	}
+            }
+          case 0xd900:
+            return read_unused(addr);
+          case 0xda00:
+            if (isC500) {
+                return sid_read(addr);
+            } else {
+                return 0xff;		/* 2 MHz too fast for SID */
+            }
+          case 0xdb00:
+            return read_unused(addr);
+          case 0xdc00:
+            return cia1_read(addr);
+          case 0xdd00:
+            return acia1_read(addr);
+          case 0xde00:
+            /* FIXME: VIC-II irq? */
+            /* if (isC500 && ((addr & 7) == 2)) {
+                   return tpi1_read(addr&7)|1; }   */
+            return tpi1_read(addr & 0x07);
+          case 0xdf00:
+            return tpi2_read(addr & 0x07);
+        }
     }
     return read_unused(addr);
 }

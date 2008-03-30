@@ -144,7 +144,7 @@ static int set_screen_mode(resource_value_t v, void *param)
     newScreenMode.new_mode[i++] = -1;
   }
 
-  string_set(&ScreenModeString, (char*)v);
+  util_string_set(&ScreenModeString, (char*)v);
 
   newScreenValid = 1;
 

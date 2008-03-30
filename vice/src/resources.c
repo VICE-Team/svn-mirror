@@ -325,7 +325,7 @@ int resources_read_item_from_file(FILE *f)
     int line_len, resname_len, arg_len;
     resource_t *r;
 
-    line_len = get_line(buf, 1024, f);
+    line_len = util_get_line(buf, 1024, f);
 
     if (line_len < 0)
 	return 0;
@@ -410,7 +410,7 @@ int resources_load(const char *fname)
     for (line_num = 1; ; line_num++) {
 	char buf[1024];
 
-	if (get_line(buf, 1024, f) < 0) {
+	if (util_get_line(buf, 1024, f) < 0) {
 	    fclose(f);
 	    return RESERR_READ_ERROR;
 	}
@@ -509,7 +509,7 @@ int resources_save(const char *fname)
 	while (1) {
 	    char buf[1024];
 
-            if (get_line(buf, 1024, in_file) < 0)
+            if (util_get_line(buf, 1024, in_file) < 0)
                 break;
 
 	    if (check_emu_id(buf))
@@ -531,7 +531,7 @@ int resources_save(const char *fname)
 
 	/* Skip the old configuration for this emulator.  */
 	while (1) {
-	    if (get_line(buf, 1024, in_file) < 0)
+	    if (util_get_line(buf, 1024, in_file) < 0)
 		break;
 
             /* Check if another emulation section starts.  */
@@ -543,7 +543,7 @@ int resources_save(const char *fname)
 
 	if (!feof(in_file)) {
 	    /* Copy the configuration for the other emulators.  */
-	    while (get_line(buf, 1024, in_file) >= 0)
+	    while (util_get_line(buf, 1024, in_file) >= 0)
 		fprintf(out_file, "%s\n", buf);
 	}
     }

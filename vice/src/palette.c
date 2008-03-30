@@ -138,7 +138,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
     tmp_palette = palette_create(palette_return->num_entries, NULL);
 
     line_num = entry_num = 0;
-    line_len = get_line(buf, 1024, f);
+    line_len = util_get_line(buf, 1024, f);
 
     if (line_len < 0) {
         log_error(palette_log, "Could not read from palette file.");
@@ -160,7 +160,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
                 if (i == 0 && *p1 == '\0') /* empty line */
                     break;
-                if (string_to_long(p1, &p2, 16, &result) < 0) {
+                if (util_string_to_long(p1, &p2, 16, &result) < 0) {
                     log_error(palette_log, "%s, %d: number expected.",
                               file_name, line_num);
                     fclose(f);
@@ -207,7 +207,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                 entry_num++;
             }
         }
-        line_len = get_line(buf, 1024, f);
+        line_len = util_get_line(buf, 1024, f);
     }
 
     fclose(f);

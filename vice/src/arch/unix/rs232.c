@@ -76,7 +76,7 @@ static int set_devfile(resource_value_t v, void *param)
 	&& strcmp(name, devfile[(int)param]) == 0)
 	return 0;
 
-    string_set(&devfile[(int)param], name);
+    util_string_set(&devfile[(int)param], name);
     return 0;
 }
 
