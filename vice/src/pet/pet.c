@@ -32,8 +32,6 @@
 #include <stdlib.h>
 #endif
 
-#include "pet.h"
-
 #include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
@@ -41,12 +39,14 @@
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "pet.h"
 #include "petmem.h"
 #include "pets.h"
 #include "petsound.h"

@@ -2,7 +2,7 @@
  * kbdbuf.h - Kernal keyboard buffer handling for VICE.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,10 +27,14 @@
 #ifndef _KBDBUF_H
 #define _KBDBUF_H
 
+#include "types.h"
+
 extern int kbd_buf_is_empty(void);
 extern int kbd_buf_init(int location, int plocation, int buffer_size,
                         CLOCK mincycles);
 extern int kbd_buf_feed(const char *s);
 extern void kbd_buf_flush(void);
 extern int kbd_buf_init_cmdline_options(void);
+
 #endif
+

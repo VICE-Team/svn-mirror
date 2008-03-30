@@ -80,12 +80,13 @@
  * I/O
  */
 
-#include "vicii.h"
-#include "maincpu.h"
-#include "drive.h"
 #include "c64mem.h"
 #include "c64iec.h"
 #include "c64cia.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "maincpu.h"
+#include "vicii.h"
 #ifdef HAVE_PRINTER
 #include "pruser.h"
 #endif

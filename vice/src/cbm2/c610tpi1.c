@@ -30,6 +30,7 @@
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "maincpu.h"
 #include "parallel.h"
 

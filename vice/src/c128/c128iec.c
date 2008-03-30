@@ -32,8 +32,9 @@
 #include "c64iec.h"
 #include "ciad.h"
 #include "drive.h"
-#include "maincpu.h"
+#include "drivecpu.h"
 #include "iecdrive.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "viad.h"
 

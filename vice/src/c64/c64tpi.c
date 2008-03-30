@@ -24,13 +24,13 @@
  *
  */
 
-#include "tpicore.h"
-
-#include "parallel.h"
-#include "drive.h"
-#include "tpi.h"
-#include "maincpu.h"
 #include "c64mem.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "parallel.h"
+#include "maincpu.h"
+#include "tpi.h"
+#include "tpicore.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */

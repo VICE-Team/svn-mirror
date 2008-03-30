@@ -26,14 +26,14 @@
  */
 
 #include "vice.h"
-#include "types.h"
 
-#include "piacore.h"
-
-#include "parallel.h"
 #include "drive.h"
-#include "petpia.h"
+#include "drivecpu.h"
 #include "maincpu.h"
+#include "parallel.h"
+#include "petpia.h"
+#include "piacore.h"
+#include "types.h"
 
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */

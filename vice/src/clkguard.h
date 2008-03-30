@@ -2,7 +2,7 @@
  * clkguard.h - Handle clock counter overflows.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,10 +24,10 @@
  *
  */
 
-#include "types.h"
-
 #ifndef CLKGUARD_H
 #define CLKGUARD_H
+
+#include "types.h"
 
 /* A callback function to call to prevent the overflow.  */
 typedef void (*clk_guard_callback_t) (CLOCK amount, void *data);
@@ -71,3 +71,4 @@ void clk_guard_destroy (clk_guard_t *guard);
 CLOCK clk_guard_prevent_overflow (clk_guard_t *guard);
 
 #endif
+

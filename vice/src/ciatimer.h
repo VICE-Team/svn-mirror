@@ -3,7 +3,7 @@
  * ciatimer.c - MOS6526 (CIA) timer emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Patches and improvements by
  *
@@ -42,6 +42,7 @@
 
 #include "alarm.h"
 #include "interrupt.h"
+#include "types.h"
 
 /* #define	CIAT_DEBUG */
 /* #undef	NO_INLINE */

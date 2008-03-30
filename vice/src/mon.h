@@ -32,9 +32,10 @@
 #include <stdio.h>
 #endif
 
-#include "mos6510.h"
-#include "mem.h"
 #include "interrupt.h"
+#include "mem.h"
+#include "mos6510.h"
+#include "types.h"
 
 /* Types */
 

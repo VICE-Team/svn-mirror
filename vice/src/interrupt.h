@@ -2,8 +2,8 @@
  * interrupt.h - Implementation of 6510 interrupts and alarms.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,18 +28,14 @@
 #ifndef _INTERRUPT_H
 #define _INTERRUPT_H
 
-#include "types.h"
-
 #ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
-
-#ifdef OS2
 #include <string.h>
 #endif
 
 #include "6510core.h"
 #include "snapshot.h"
+#include "types.h"
 
 /* This handles the interrupt lines and the CPU alarms (i.e. events that happen
    at specified clock ticks during emulation).  */

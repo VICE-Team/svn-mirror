@@ -37,6 +37,7 @@
 #include "cartridge.h"
 #include "ciad.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "maincpu.h"
 #include "iecdrive.h"
 #include "resources.h"

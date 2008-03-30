@@ -28,10 +28,9 @@
 #ifndef _CIAD_H
 #define _CIAD_H
 
-#include "types.h"
-
 #include "cia.h"
 #include "snapshot.h"
+#include "types.h"
 
 extern void cia1571d0_init(void);
 extern void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE value);
@@ -77,4 +76,5 @@ extern void cia1581d1_reset(void);
 extern int cia1581d1_write_snapshot_module(snapshot_t *p);
 extern int cia1581d1_read_snapshot_module(snapshot_t *p);
 
-#endif				/* _CIAD_H */
+#endif /* _CIAD_H */
+

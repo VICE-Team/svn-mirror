@@ -2,7 +2,7 @@
  * alarm.h - Alarm handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,8 +28,9 @@
 #define _ALARM_H
 
 #include "vice.h"
-#include "types.h"
+
 #include "log.h"
+#include "types.h"
 
 #define ALARM_CONTEXT_MAX_PENDING_ALARMS 0x100
 

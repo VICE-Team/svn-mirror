@@ -1,9 +1,9 @@
 /*
- * autostart.c - automatic image loading and starting
+ * autostart.c - Automatic image loading and starting
  *
  * Written by
- *  Teemu Rantanen      (tvr@cs.hut.fi)
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Teemu Rantanen      <tvr@cs.hut.fi>
+ *  Ettore Perazzoli	<ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,3 +43,4 @@ int autostart_prg(const char *file_name);
 void autostart_reset(void);
 
 #endif /* !_AUTOSTART_H */
+

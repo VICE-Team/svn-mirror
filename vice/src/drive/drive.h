@@ -2,9 +2,9 @@
  * drive.h - Hardware-level Commodore disk drive emulation.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,11 +29,11 @@
 #ifndef _DRIVE_H
 #define _DRIVE_H
 
-#include "types.h"
 #include "diskimage.h"
-#include "drivecpu.h"
 #include "gcr.h"
 #include "log.h"
+#include "snapshot.h"
+#include "types.h"
 
 /* VIA 1 drive 0 interrupts.  */
 #define	I_VIA1D0FL	0

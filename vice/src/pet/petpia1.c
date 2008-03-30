@@ -26,16 +26,12 @@
  */
 
 #include "vice.h"
-#include "types.h"
-
-#include "piacore.h"
 
 #include "cmdline.h"
-#include "resources.h"
-
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "maincpu.h"
@@ -43,6 +39,9 @@
 #include "pets.h"
 #include "petmem.h"
 #include "petpia.h"
+#include "piacore.h"
+#include "resources.h"
+#include "types.h"
 
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */

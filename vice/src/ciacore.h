@@ -2,11 +2,9 @@
  * ciacore.h - Template file for MOS6526 (CIA) emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *
- * Patches and improvements by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@rzgw.rz.fh-hannover.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@rzgw.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,13 +33,13 @@
 #include <string.h>
 #endif
 
+#include "alarm.h"
 #include "cia.h"
+#include "interrupt.h"
 #include "log.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "alarm.h"
-
-#include "interrupt.h"
+#include "types.h"
 
 /*
  * Prototypes for the used inline functions 
