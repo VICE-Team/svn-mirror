@@ -50,20 +50,30 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { TEXT("Kernal"), "KernalName",
+    { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
       IDC_CBM2ROM_KERNAL_FILE, IDC_CBM2ROM_KERNAL_BROWSE },
-    { TEXT("Basic"), "BasicName",
+    { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
       IDC_CBM2ROM_BASIC_FILE, IDC_CBM2ROM_BASIC_BROWSE },
-    { TEXT("Character"), "ChargenName",
+    { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
       IDC_CBM2ROM_CHARGEN_FILE, IDC_CBM2ROM_CHARGEN_BROWSE },
-    { TEXT("Cart 1"), "Cart1Name",
+    { UIROM_TYPE_MAIN, TEXT("Cart 1"), "Cart1Name",
       IDC_CBM2ROM_CART1_FILE, IDC_CBM2ROM_CART1_BROWSE },
-    { TEXT("Cart 2"), "Cart2Name",
+    { UIROM_TYPE_MAIN, TEXT("Cart 2"), "Cart2Name",
       IDC_CBM2ROM_CART2_FILE, IDC_CBM2ROM_CART2_BROWSE },
-    { TEXT("Cart 4"), "Cart4Name",
+    { UIROM_TYPE_MAIN, TEXT("Cart 4"), "Cart4Name",
       IDC_CBM2ROM_CART4_FILE, IDC_CBM2ROM_CART4_BROWSE },
-    { TEXT("Cart 6"), "Cart6Name",
+    { UIROM_TYPE_MAIN, TEXT("Cart 6"), "Cart6Name",
       IDC_CBM2ROM_CART6_FILE, IDC_CBM2ROM_CART6_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("2031"), "DosName2031",
+      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("2040"), "DosName2040",
+      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("3040"), "DosName3040",
+      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("4040"), "DosName4040",
+      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
+      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
     { NULL, NULL, 0, 0 }
 };
 
@@ -81,8 +91,8 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
         ui_sid_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG,
-                              uirom_settings);
+        uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG,
+                              IDD_CBM2DRIVEROM_SETTINGS_DIALOG, uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);

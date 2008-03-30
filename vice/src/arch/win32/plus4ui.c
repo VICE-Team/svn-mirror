@@ -54,14 +54,26 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { TEXT("Kernal"), "KernalName",
+    { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
       IDC_PLUS4ROM_KERNAL_FILE, IDC_PLUS4ROM_KERNAL_BROWSE },
-    { TEXT("Basic"), "BasicName",
+    { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
       IDC_PLUS4ROM_BASIC_FILE, IDC_PLUS4ROM_BASIC_BROWSE },
-    { TEXT("3 plus 1 LO"), "3plus1loName",
+    { UIROM_TYPE_MAIN, TEXT("3 plus 1 LO"), "3plus1loName",
       IDC_PLUS4ROM_3P1LO_FILE, IDC_PLUS4ROM_3P1LO_BROWSE },
-    { TEXT("3 plus 1 HI"), "3plus1hiName",
+    { UIROM_TYPE_MAIN, TEXT("3 plus 1 HI"), "3plus1hiName",
       IDC_PLUS4ROM_3P1HI_FILE, IDC_PLUS4ROM_3P1HI_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1541"), "DosName1541",
+      IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1541-II"), "DosName1541ii",
+      IDC_DRIVEROM_1541II_FILE, IDC_DRIVEROM_1541II_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1551"), "DosName1551",
+      IDC_DRIVEROM_1551_FILE, IDC_DRIVEROM_1551_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1570"), "DosName1570",
+      IDC_DRIVEROM_1570_FILE, IDC_DRIVEROM_1570_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1571"), "DosName1571",
+      IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1581"), "DosName1581",
+      IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE },
     { NULL, NULL, 0, 0 }
 };
 
@@ -79,6 +91,7 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, IDD_PLUS4ROM_SETTINGS_DIALOG,
+                              IDD_PLUS4DRIVEROM_SETTINGS_DIALOG,
                               uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:
