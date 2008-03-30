@@ -340,9 +340,7 @@ int make_backup_file(const char *fname)
     if (backup_name == NULL)
 	return -1;
 
-#ifdef WIN32
     remove_file(backup_name);
-#endif
     retval = rename(fname, backup_name);
 
     free(backup_name);
@@ -739,6 +737,27 @@ int strncasecmp(const char *s1, const char *s2, unsigned int n)
 }
 
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+/* xadd_extension() add the extension if not already there.
+   If the extension is added `name' is realloced. */
+
+void xadd_extension(char **name, const char *extension)
+{
+    unsigned int name_len, ext_len;
+
+    name_len = strlen(*name);
+    ext_len = strlen(extension);
+
+    if ((name_len > ext_len + 1)
+        && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0))
+        return;
+
+    *name = xrealloc(*name, name_len + ext_len + 2);
+    (*name)[name_len] = FSDEV_EXT_SEP_CHR;
+    memcpy(&((*name)[name_len + 1]), extension, ext_len + 1);
+}
 
 /* ------------------------------------------------------------------------- */
 

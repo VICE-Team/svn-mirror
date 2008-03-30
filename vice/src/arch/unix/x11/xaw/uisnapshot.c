@@ -46,10 +46,10 @@
 #include "widgets/TextField.h"
 #endif
 
-#include "uisnapshot.h"
-
 #include "machine.h"
 #include "ui.h"
+#include "uisnapshot.h"
+#include "utils.h"
 
 static Widget snapshot_dialog;
 static Widget snapshot_dialog_pane;
@@ -98,15 +98,21 @@ static UI_CALLBACK(save_callback)
     String name;
     Boolean save_roms;
     Boolean save_disks;
+    char *filename;
     
     ui_popdown(snapshot_dialog);
 
     XtVaGetValues(save_roms_on_button, XtNstate, &save_roms, NULL);
     XtVaGetValues(save_disk_button, XtNstate, &save_disks, NULL);
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
+
+    filename = stralloc(name);
+    xadd_extension(&filename, "vsf");
     
-    if (machine_write_snapshot (name, save_roms, save_disks) < 0)
-        ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
+    if (machine_write_snapshot(filename, save_roms, save_disks) < 0)
+        ui_error(_("Cannot write snapshot file\n`%s'\n"), filename);
+
+    free(filename);
 }
 
 static void build_snapshot_dialog(void)
