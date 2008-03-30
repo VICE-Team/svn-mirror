@@ -182,12 +182,6 @@ struct raster_s {
        filled with zeroes.  */
     BYTE zero_gfx_msk[RASTER_GFX_MSK_SIZE];
 
-    struct {
-        BYTE sing[0x100];
-        WORD doub[0x100];
-        DWORD quad[0x100];
-    } pixel_table;
-
     int intialized;
 };
 typedef struct raster_s raster_t;

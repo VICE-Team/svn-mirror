@@ -248,6 +248,21 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
     alarm_set(vic.raster_draw_alarm, vic.draw_clk);
 }
 
+static void update_pixel_tables(raster_t *raster)
+{
+    unsigned int i;
+
+    for (i = 0; i < 256; i++) {
+        vic.pixel_table.sing[i] = i;
+        *((BYTE *)(vic.pixel_table.doub + i))
+        = *((BYTE *)(vic.pixel_table.doub + i) + 1)
+        = vic.pixel_table.sing[i];
+        *((WORD *)(vic.pixel_table.quad + i))
+        = *((WORD *)(vic.pixel_table.quad + i) + 1)
+        = vic.pixel_table.doub[i];
+    }
+}
+
 static int init_raster(void)
 {
     raster_t *raster;
@@ -258,6 +273,8 @@ static int init_raster(void)
 
     if (raster_init(raster, VIC_NUM_VMODES, VIC_NUM_SPRITES) < 0)
         return -1;
+
+    update_pixel_tables(raster);
 
     raster_modes_set_idle_mode(raster->modes, VIC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_exposure_handler);

@@ -102,21 +102,6 @@ void raster_draw_buffer_ptr_update(raster_t *raster)
         + raster->geometry->extra_offscreen_border_left;
 }
 
-static void update_pixel_tables(raster_t *raster)
-{
-    unsigned int i;
-
-    for (i = 0; i < 256; i++) {
-        raster->pixel_table.sing[i] = i;
-        *((BYTE *)(raster->pixel_table.doub + i))
-        = *((BYTE *)(raster->pixel_table.doub + i) + 1)
-        = raster->pixel_table.sing[i];
-        *((WORD *)(raster->pixel_table.quad + i))
-        = *((WORD *)(raster->pixel_table.quad + i) + 1)
-        = raster->pixel_table.doub[i];
-    }
-}
-
 static int raster_realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height, fb_pitch;
@@ -254,8 +239,6 @@ int raster_init(raster_t *raster,
     raster->canvas->initialized = 1;
     raster_set_canvas_refresh(raster, 1);
 
-    update_pixel_tables(raster);
-
     return 0;
 }
 
@@ -320,7 +303,8 @@ void raster_invalidate_cache(raster_t *raster, unsigned int screen_height)
     unsigned int i;
 
     for (i = 0; i < screen_height; i++)
-        raster_cache_init(&(raster->cache)[i]);
+        raster_cache_init(&(raster->cache)[i],
+                          raster->sprite_status->num_sprites);
 }
 
 void raster_set_geometry(raster_t *raster,
@@ -461,7 +445,6 @@ void raster_set_canvas_refresh(raster_t *raster, int enable)
 void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 {
     screenshot->palette = raster->palette;
-    screenshot->pixel_table_sing = raster->pixel_table.sing;
     screenshot->max_width = raster->geometry->screen_size.width;
     screenshot->max_height = raster->geometry->screen_size.height;
     screenshot->x_offset = raster->geometry->extra_offscreen_border_left;
