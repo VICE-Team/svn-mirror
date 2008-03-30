@@ -420,8 +420,8 @@ int resources_save(const char *fname)
     int have_old;
     int i;
 
-    if (fname == NULL)
-	fname = archdep_default_resource_file_name();
+    if (fname == NULL) 
+	fname = archdep_default_save_resource_file_name();
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = make_backup_file_name(fname);

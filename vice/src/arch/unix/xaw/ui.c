@@ -249,6 +249,7 @@ void focus_window_again() {
 		 XtWindow(canvas),
 		 0, 0, 0, 0, 0, 0);
     XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
+    ui_set_mouse_timeout();
 }
 
 static int set_fullscreen(resource_value_t v)
@@ -1660,6 +1661,7 @@ void ui_error(const char *format,...)
     static Widget error_dialog;
     static ui_button_t button;
 
+    ui_set_windowmode();
     va_start(ap, format);
     vsprintf(str, format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
@@ -1691,6 +1693,7 @@ void ui_message(const char *format,...)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(error_dialog));
+    focus_window_again();
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
@@ -1752,6 +1755,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     switch (button) {
       case UI_BUTTON_MON:
+	ui_set_windowmode();
 	return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
@@ -1841,6 +1845,7 @@ char *ui_select_file(const char *title,
 	ret = stralloc("");
 
     ui_popdown(XtParent(file_selector));
+    focus_window_again();
 
 #ifndef __alpha
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
@@ -1877,6 +1882,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     XtVaGetValues(input_dialog_field, XtNstring, &str, NULL);
     strncpy(buf, str, buflen);
     ui_popdown(XtParent(input_dialog));
+    focus_window_again();
     return button;
 }
 
@@ -1894,6 +1900,7 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(show_text));
+    focus_window_again();
     XtDestroyWidget(XtParent(show_text));
 }
 
@@ -1913,6 +1920,7 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(confirm_dialog));
+    focus_window_again();
     return button;
 }
 
@@ -2021,7 +2029,6 @@ void ui_popdown(Widget w)
     XtPopdown(w);
     if (--popped_up_count < 0)
 	popped_up_count = 0;
-    focus_window_again();
 }
 
 /* ------------------------------------------------------------------------- */

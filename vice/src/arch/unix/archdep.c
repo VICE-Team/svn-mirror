@@ -76,21 +76,43 @@ const char *archdep_boot_path(void)
     return boot_path;
 }
 
+const char *archdep_home_path(void)
+{
+    char *home;
+
+    home = getenv("HOME");
+    if (home == NULL) {
+        struct passwd *pwd;
+
+        pwd = getpwuid(getuid());
+        home = pwd->pw_dir;
+    }
+
+    return home;
+}
+
 const char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     static char *default_path;
 
     if (default_path == NULL) {
         const char *boot_path;
+        const char *home_path;
 
         boot_path = archdep_boot_path();
+        home_path = archdep_home_path();
 
-        /* First search in the `LIBDIR' and then in the `boot_path'.  */
+        /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
+	   and then in the `boot_path'.  */
         default_path = concat(LIBDIR, "/", emu_id,
+                              FINDPATH_SEPARATOR_STRING,
+			      home_path, "/", VICEUSERDIR, "/", emu_id, 
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               LIBDIR, "/DRIVES",
+                              FINDPATH_SEPARATOR_STRING,
+			      home_path, "/", VICEUSERDIR, "/DRIVES", 
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "/DRIVES", NULL);
     }
@@ -106,15 +128,33 @@ const char *archdep_default_resource_file_name(void)
     if (fname != NULL)
         free(fname);
 
-    home = getenv("HOME");
-    if (home == NULL) {
-        struct passwd *pwd;
+    home = archdep_home_path();
 
-        pwd = getpwuid(getuid());
-        home = pwd->pw_dir;
+    fname = concat(home, "/.vice/vicerc", NULL);
+
+    return fname;
+}
+
+const char *archdep_default_save_resource_file_name(void)
+{
+    static char *fname;
+    char *home;
+    char *viceuserdir;
+
+    if (fname != NULL)
+        free(fname);
+
+    home = archdep_home_path();
+
+    viceuserdir = concat(home, "/.vice", NULL);
+
+    if(access(viceuserdir,F_OK)) {
+	mkdir(viceuserdir,0700);
     }
 
-    fname = concat(home, "/.vicerc", NULL);
+    fname = concat(viceuserdir, "/vicerc");
+
+    free(viceuserdir);
 
     return fname;
 }

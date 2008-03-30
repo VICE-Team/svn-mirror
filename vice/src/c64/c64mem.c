@@ -93,6 +93,11 @@
 
 /* C64 memory-related resources.  */
 
+static char *default_chargen_rom_name;
+static char *default_basic_rom_name;
+static char *default_kernal_rom_name;
+
+
 /* Name of the character ROM.  */
 static char *chargen_rom_name;
 
@@ -140,6 +145,7 @@ static int set_chargen_rom_name(resource_value_t v)
         return 0;
 
     string_set(&chargen_rom_name, name);
+    default_chargen_rom_name = chargen_rom_name;
     return 0;
 }
 
@@ -153,6 +159,7 @@ static int set_kernal_rom_name(resource_value_t v)
         return 0;
 
     string_set(&kernal_rom_name, name);
+    default_kernal_rom_name = kernal_rom_name;
     return 0;
 }
 
@@ -167,6 +174,7 @@ static int set_basic_rom_name(resource_value_t v)
         return 0;
 
     string_set(&basic_rom_name, name);
+    default_basic_rom_name = basic_rom_name;
     return 0;
 }
 
@@ -787,10 +795,10 @@ void initialize_memory(void)
                              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
-
-    if (c64_mem_log != LOG_ERR)
+/*
+    if (c64_mem_log == LOG_ERR)
         c64_mem_log = log_open("C64MEM");
-        
+*/        
     /* Default is RAM.  */
     for (i = 0; i <= 0x100; i++) {
         mem_read_tab_watch[i] = read_watch;
@@ -1066,11 +1074,6 @@ int mem_add_romset(char *name)
 
 int mem_load_romset_file(const char *name)
 {
-    FILE *fp = NULL;
-    char *complete_path;
-    char romsetname[101];
-    char *c;
-    
     /* Fixme: Only 20 different RomSets at the moment */
     romsets = xcalloc(sizeof(char*), 20);
 
@@ -1180,44 +1183,38 @@ int mem_set_romset(char *name) {
 	strcpy(romsetnamebuffer,"chargen-");
 	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
 	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  set_chargen_rom_name((resource_value_t) "chargen");
+	  chargen_rom_name = default_chargen_rom_name;
 	} else {
-	  set_chargen_rom_name((resource_value_t) romsetnamebuffer);
+	  chargen_rom_name = romsetnamebuffer;
 	}
 
 	strcpy(romsetnamebuffer,"kernal-");
 	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
 	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  set_kernal_rom_name((resource_value_t) "kernal");
+	  kernal_rom_name = default_kernal_rom_name;
 	} else {
-	  set_kernal_rom_name((resource_value_t) romsetnamebuffer);
+	  kernal_rom_name =  romsetnamebuffer;
 	}
 
 	strcpy(romsetnamebuffer,"basic-");
 	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
 	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  set_basic_rom_name((resource_value_t) "basic");
+	  basic_rom_name = default_basic_rom_name;
 	} else {
-	  set_basic_rom_name((resource_value_t) romsetnamebuffer);
+	  basic_rom_name = romsetnamebuffer;
 	}
 
-	strcpy(romsetnamebuffer,"dos1541-");
-	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
-	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  reload_rom_1541("dos1541");
-	} else {
-	  reload_rom_1541(romsetnamebuffer);
-	}
+	reload_rom_1541(romsetnamebuffer);
 
 	log_message(LOG_DEFAULT, "Changing to RomSet %s",name);
       }      
     }
   } else {
     romset_name = romsets[0];
-    set_chargen_rom_name((resource_value_t) "chargen");
-    set_kernal_rom_name((resource_value_t) "kernal");
-    set_basic_rom_name((resource_value_t) "basic");    
-    reload_rom_1541("dos1541");
+    chargen_rom_name = default_chargen_rom_name;
+    kernal_rom_name = default_kernal_rom_name;
+    basic_rom_name = default_basic_rom_name;
+    reload_rom_1541(NULL);
     log_message(LOG_DEFAULT, "Changing to Default RomSet");
   }
   return(0);
@@ -1234,6 +1231,9 @@ int mem_load(void)
     int back,num_romsets;
     char *temp;
     mem_powerup();
+
+    if (c64_mem_log == LOG_ERR)
+        c64_mem_log = log_open("C64MEM");
 
     mem_load_romset_file("rom.cfg");
     back = mem_romset_loader();

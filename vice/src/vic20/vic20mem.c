@@ -320,6 +320,12 @@ static int cmdline_memory(const char *param, void *extra_param)
 /* VIC20 memory-related command-line options.  */
 static cmdline_option_t cmdline_options[] =
 {
+    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
+      "<name>", "Specify name of Kernal ROM image" },
+    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
+      "<name>", "Specify name of BASIC ROM image" },
+    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
+      "<name>", "Specify name of character generator ROM image" },
     {"-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
      "<spec>", "Specify memory configuration"},
     {"-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
@@ -602,8 +608,6 @@ void initialize_memory(void)
 {
     int i;
 
-    if (vic20_mem_log == LOG_ERR)
-        vic20_mem_log = log_open("VIC20MEM");
 
     /* Setup low standard RAM at $0000-$0300. */
     set_mem(0x00, 0x03,
@@ -740,6 +744,9 @@ int mem_load(void)
 {
     WORD sum;			/* ROM checksum */
     int i;
+
+    if (vic20_mem_log == LOG_ERR)
+        vic20_mem_log = log_open("VIC20MEM");
 
     mem_powerup();
 

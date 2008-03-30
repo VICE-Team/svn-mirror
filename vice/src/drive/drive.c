@@ -73,6 +73,7 @@
 #include "viad.h"
 #include "warn.h"
 #include "wd1770.h"
+#include "sysfile.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -114,6 +115,7 @@ static int sync_factor;
 
 /* Name of the DOS ROMs.  */
 static char *dos_rom_name_1541;
+static char *default_dos_rom_name_1541;
 static char *dos_rom_name_1571;
 static char *dos_rom_name_1581;
 static char *dos_rom_name_2031;
@@ -361,6 +363,7 @@ static int set_dos_rom_name_1541(resource_value_t v)
         dos_rom_name_1541 = xrealloc(dos_rom_name_1541, strlen(name) + 1);
         strcpy(dos_rom_name_1541, name);
     }
+    default_dos_rom_name_1541 = dos_rom_name_1541;
     return 0;
 }
 
@@ -2430,7 +2433,22 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
 }
 
 int reload_rom_1541(char *name) {
-   set_dos_rom_name_1541((resource_value_t) name);
-   drive_load_rom_images();
-   return(1);
+    char romsetnamebuffer[MAXPATHLEN];
+    char *tmppath;
+
+    if(name == NULL) {
+        dos_rom_name_1541 = default_dos_rom_name_1541;
+        drive_load_rom_images();
+        return(1);
+    }
+    strcpy(romsetnamebuffer,"dos1541-");
+    strncat(romsetnamebuffer,name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
+    if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
+      dos_rom_name_1541 = default_dos_rom_name_1541;
+    } else {
+      dos_rom_name_1541 = romsetnamebuffer;
+    }
+
+    drive_load_rom_images();
+    return(1);
 }

@@ -918,9 +918,6 @@ void initialize_memory(void)
 {
     int i;
 
-    if (c128_mem_log != LOG_ERR)
-        c128_mem_log = log_open("C128MEM");
-        
     _mem_read_tab[0] = read_zero;
     _mem_write_tab[0] = store_zero;
     _mem_read_tab[1] = read_one;
@@ -1019,6 +1016,9 @@ int mem_load(void)
     WORD sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
     int i;
+
+    if (c128_mem_log == LOG_ERR)
+        c128_mem_log = log_open("C128MEM");
 
     mem_powerup();
 

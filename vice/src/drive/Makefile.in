@@ -350,7 +350,7 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/iecdrive.h ../../src/memutils.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/palette.h ../../src/utils.h ../../src/via.h viad.h \
-	../../src/warn.h wd1770.h
+	../../src/warn.h wd1770.h ../../src/sysfile.h
 drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/types.h \
 	../../src/snapshot.h ciad.h ../../src/cia.h drive.h \

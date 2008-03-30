@@ -1,3 +1,51 @@
+1999-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.14.
+
+1998-01-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/archdep.c (archdep_home_path): new function, returns
+	the homedirectory.
+	(archdep_default_sysfile_pathlist): add $HOME/.vice to system 
+	search path; use archdep_home_path.
+	(archdep_default_resources_file_name): use archdep_home_path
+	(archdep_default_save_resources_file_name): new function. returns
+	same value as archdep_default_resources_file_name, but checks if
+	the $HOME/.vice directory exists and if not, creates it.
+	uses archdep_home_path
+
+	* arch/unix/archdep.h (archdep_home_path,
+	archdep_default_save_resource_file_name): new prototypes
+
+	* resources.c (save_resources): use 
+	archdep_default_save_resource_file_name instead of
+	archdep_default_resource_file_name
+
+	* c128/c128mem.c, c64/c64mem.c (mem_load, initialize_memory):
+	move initialization of *_mem_log from initialize_memory to 
+	mem_load, because the latter is called earlier. Also change check
+	from "!=LOG_ERR" to "==LOG_ERR" to make it open when it is not
+	yet defined.
+
+	* vic20/vic20mem.c (mem_load, initialize_memory):
+	move initialization of *_mem_log from initialize_memory to
+	mem_load, because the latter is called earlier.
+	(cmdline_options): add -kernal, -basic and -chargen cmdline
+	options.
+
+	* maincpu.def (INSTRUCTION_FETCH_HACK, FETCH_OPCODE, p0, p1, p2,
+	opcode_t): change/add definitions to remove opcode fetch hack 
+	from maincpu. This makes it slower, but more accurate (emulator
+	test suite)
+	
+1999-01-26  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* c64/c64mem.c, drive/drive.c: Fixed problems with loading
+	default roms.
+
+	* arch/unix/xaw/ui.c: Forbid switching back to fullscreen in 
+	same cases, which can lock up the X-server.
+	
 1999-01-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.13.
