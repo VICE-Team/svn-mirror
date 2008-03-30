@@ -13,9 +13,9 @@ libc64_a_SOURCES = \
 	c64.h \
 	c64acia.h \
 	c64acia1.c \
-	c64acia1.def\
+	c64acia1.def \
 	c64acia2.c \
-	c64acia2.def\
+	c64acia2.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
