@@ -58,13 +58,13 @@ extern void mem_set_ram_bank(BYTE value);
 extern BYTE REGPARM1 read_top_shared(ADDRESS addr);
 extern void REGPARM2 store_top_shared(ADDRESS addr, BYTE value);
 
-extern BYTE REGPARM1 read_d7xx(ADDRESS addr);
-extern void REGPARM2 store_d7xx(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 d7xx_read(ADDRESS addr);
+extern void REGPARM2 d7xx_store(ADDRESS addr, BYTE value);
 
-extern void REGPARM2 store_io1(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_io1(ADDRESS addr);
-extern void REGPARM2 store_io2(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_io2(ADDRESS addr);
+extern void REGPARM2 io1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 io1_read(ADDRESS addr);
+extern void REGPARM2 io2_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 io2_read(ADDRESS addr);
 
 extern BYTE *page_zero, *page_one, *ram_bank;
 

@@ -185,6 +185,17 @@ static void REGPARM2 store_one(ADDRESS addr, BYTE value)
     page_one[addr - 0x100] = value;
 }
 
+static BYTE REGPARM1 read_unconnected_io(ADDRESS addr)
+{
+    log_message(z80mem_log, "Read from unconnected IO %04x", addr);
+    return 0;
+}
+
+static void REGPARM2 store_unconnected_io(ADDRESS addr, BYTE value)
+{
+    log_message(z80mem_log, "Store to unconnected IO %04x %02x", addr, value);
+}
+
 #ifdef _MSC_VER
 #pragma optimize("",off);
 #endif
@@ -306,12 +317,9 @@ void z80mem_initialize(void)
 
     /* At least we know what happens.  */
     for (i = 0; i <= 0x100; i++) {
-        io_read_tab[i] = read_ram;
-        io_write_tab[i] = store_ram;
+        io_read_tab[i] = read_unconnected_io;
+        io_write_tab[i] = store_unconnected_io;
     }
-
-    io_read_tab[0x0] = mmu_read;
-    io_write_tab[0x0] = mmu_store;
 
     io_read_tab[0x10] = colorram_read;
     io_write_tab[0x10] = colorram_store;
@@ -339,8 +347,8 @@ void z80mem_initialize(void)
 
     io_read_tab[0xd6] = vdc_read;
     io_write_tab[0xd6] = vdc_store;
-    io_read_tab[0xd7] = read_d7xx;
-    io_write_tab[0xd7] = store_d7xx;
+    io_read_tab[0xd7] = d7xx_read;
+    io_write_tab[0xd7] = d7xx_store;
 
     io_read_tab[0xd8] = colorram_read;
     io_write_tab[0xd8] = colorram_store;
@@ -355,6 +363,11 @@ void z80mem_initialize(void)
     io_write_tab[0xdc] = cia1_store;
     io_read_tab[0xdd] = cia2_read;
     io_write_tab[0xdd] = cia2_store;
+
+    io_read_tab[0xde] = io1_read;
+    io_write_tab[0xde] = io1_store;
+    io_read_tab[0xdf] = io2_read;
+    io_write_tab[0xdf] = io2_store;
 }
 
 #ifdef _MSC_VER
