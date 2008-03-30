@@ -165,7 +165,8 @@ static sound_device_t aix_device =
     aix_bufferspace,
     aix_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_aix_device(void)

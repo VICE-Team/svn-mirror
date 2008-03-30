@@ -45,7 +45,8 @@ static sound_device_t speed_device =
     NULL,
     NULL,
     NULL,
-    NULL
+    NULL,
+    0
 };
 
 int sound_init_speed_device(void)

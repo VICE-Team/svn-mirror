@@ -151,7 +151,8 @@ static sound_device_t midas_device =
     midas_bufferspace,
     midas_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_midas_device(void)

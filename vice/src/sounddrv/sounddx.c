@@ -455,7 +455,8 @@ static sound_device_t dx_device =
     dx_bufferspace,
     dx_close,
     dx_suspend,
-    dx_resume
+    dx_resume,
+    0
 };
 
 int sound_init_dx_device(void)

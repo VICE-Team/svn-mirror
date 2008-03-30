@@ -419,7 +419,8 @@ static sound_device_t vidc_sync_device =
   vidc_sync_bufferspace,
   vidc_sync_close,
   vidc_sync_suspend,
-  vidc_sync_resume
+  vidc_sync_resume,
+  1
 };
 
 

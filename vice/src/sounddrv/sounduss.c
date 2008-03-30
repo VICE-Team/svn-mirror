@@ -251,7 +251,8 @@ static sound_device_t uss_device =
     uss_bufferspace,
     uss_close,
     uss_suspend,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_uss_device(void)

@@ -199,7 +199,8 @@ static sound_device_t mmos2_device =
     NULL,               // bufferspace
     mmos2_close,        // close
     NULL, //mmos2_suspend, // suspend
-    NULL  //mmos2_resume   // resume
+    NULL, //mmos2_resume   // resume
+    1
 };
 
 int sound_init_mmos2_device(void)

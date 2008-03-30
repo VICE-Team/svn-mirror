@@ -203,7 +203,8 @@ static sound_device_t sun_device =
     sun_bufferspace,
     sun_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_sun_device(void)

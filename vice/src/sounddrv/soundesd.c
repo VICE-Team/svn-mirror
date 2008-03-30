@@ -70,7 +70,8 @@ static sound_device_t esd_device =
     NULL,
     esd_shutdown,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_esd_device(void)

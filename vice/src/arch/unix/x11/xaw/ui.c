@@ -2022,9 +2022,6 @@ UI_CALLBACK(exposure_callback)
 {
     Dimension width, height;
 
-#if 0
-    vsync_suspend_speed_eval();
-#endif
     XtVaGetValues(w, XtNwidth, (XtPointer) & width,
                   XtNheight, (XtPointer) & height, NULL);
 

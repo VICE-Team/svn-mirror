@@ -157,6 +157,24 @@ static trap_t plus4_serial_traps[] = {
 /* Tape traps.  */
 static trap_t plus4_tape_traps[] = {
     {
+        "TapeFindHeader",
+        0xE9CC,
+        0xE9CF,
+        {0x20, 0xD3, 0xE8},
+        tape_find_header_trap_plus4,
+        rom_read,
+        rom_store
+    },
+    {
+        "TapeReceive",
+        0xE74B,
+        0xE8C7,
+        {0xBA, 0x8E, 0xBE},
+        tape_receive_trap_plus4,
+        rom_read,
+        rom_store
+    },
+    {
         NULL,
         0,
         0,
@@ -251,7 +269,7 @@ int machine_init(void)
     printer_init();
 
     /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
+    tape_init(0x0333, 0x90, 0x93, 0x0000, 0, 0xb4, 0x9d, 0x527, 0xef,
               plus4_tape_traps);
 
     /* Initialize the datasette emulation.  */

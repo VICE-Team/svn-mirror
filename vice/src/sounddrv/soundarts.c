@@ -166,7 +166,8 @@ static sound_device_t artsdrv_device =
     artsdrv_bufferspace,
     artsdrv_close,
     NULL,//artsdrv_suspend,
-    NULL //artsdrv_resume
+    NULL,//artsdrv_resume
+    1
 };
 
 int sound_init_arts_device(void)

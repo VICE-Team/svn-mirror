@@ -157,7 +157,8 @@ static sound_device_t sdl_device =
     sdl_bufferspace,
     sdl_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_sdl_device(void)

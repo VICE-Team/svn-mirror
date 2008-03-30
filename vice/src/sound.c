@@ -324,8 +324,12 @@ static int sound_error(const char *msg)
     return 1;
 }
 
-/* Fill buffer, attenuating last sample. */
-static void fill_buffer(int size)
+/* Fill buffer with last sample.
+ rise  < 0 : attenuation
+ rise == 0 : constant value
+ rise  > 0 : gain
+*/
+static void fill_buffer(int size, int rise)
 {
     int c, i;
     SWORD *p = (SWORD *)xmalloc(size * sizeof(SWORD) * snddata.channels);
@@ -335,9 +339,13 @@ static void fill_buffer(int size)
 
     for (c = 0; c < snddata.channels; c++) {
         for (i = 0; i < size; i++) {
+	    double factor;
+	    if (rise < 0) factor = (double)(size - i)/size;
+	    else if (rise > 0) factor = (double)i/size;
+	    else factor = 1.0;
             p[i * snddata.channels + c] =
-                snddata.lastsample[c] - (float)snddata.lastsample[c] * i / size; }
-        snddata.lastsample[c] = 0;
+                snddata.lastsample[c]*factor;
+	}
     }
 
     i = snddata.pdev->write(p, size * snddata.channels);
@@ -526,7 +534,7 @@ static int sound_open(void)
             /* Whole fragments. */
             j -= j % snddata.fragsize;
 
-            fill_buffer(j);
+            fill_buffer(j, 0);
         }
 
         return 0;
@@ -793,7 +801,7 @@ double sound_flush(int relative_speed)
 
             /* Fill up sound hardware buffer. */
             if (j > 0) {
-                fill_buffer(j);
+                fill_buffer(j, 0);
             }
             snddata.prevfill = j;
 
@@ -900,9 +908,9 @@ void sound_suspend(void)
     if (!snddata.pdev)
         return;
 
-/*    if (snddata.pdev->write && !snddata.issuspended) {
-        fill_buffer(snddata.fragsize*snddata.fragnr);
-    }*/
+    if (snddata.pdev->write && !snddata.issuspended && snddata.pdev->need_attenuation) {
+        fill_buffer(snddata.fragsize, -1);
+    }
     if (snddata.pdev->suspend && !snddata.issuspended) {
         if (snddata.pdev->suspend())
             return;
@@ -913,8 +921,20 @@ void sound_suspend(void)
 /* resume sid */
 void sound_resume(void)
 {
-    if (snddata.pdev) {
-        snddata.issuspended = (snddata.pdev->resume && snddata.issuspended == 1)                              ? (snddata.pdev->resume() ? 1 : 0) : 0;
+    if (!snddata.pdev)
+        return;
+
+    if (snddata.issuspended) {
+        if (snddata.pdev->resume) {
+	    snddata.issuspended = snddata.pdev->resume();
+	}
+	else {
+	    snddata.issuspended = 0;
+	}
+
+	if (snddata.pdev->write && !snddata.issuspended && snddata.pdev->need_attenuation) {
+	    fill_buffer(snddata.fragsize, 1);
+	}
     }
 }
 

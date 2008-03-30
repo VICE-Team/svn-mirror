@@ -299,7 +299,8 @@ static sound_device_t sb_device =
     sb_bufferspace,
     sb_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_sb_device(void)

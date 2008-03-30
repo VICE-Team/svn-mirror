@@ -628,7 +628,8 @@ static sound_device_t dart_device =
     dart_bufferspace,  // dart_bufferspace
     dart_close,        // dart_close
     dart_suspend,      // dart_suspend
-    dart_resume        // dart_resume
+    dart_resume,       // dart_resume
+    1
 };
 
 /*

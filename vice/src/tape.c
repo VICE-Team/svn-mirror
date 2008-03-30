@@ -326,6 +326,64 @@ void tape_find_header_trap(void)
     MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
 }
 
+void tape_find_header_trap_plus4(void)
+{
+    int err;
+    BYTE *cassette_buffer;
+
+    cassette_buffer = ram + buffer_pointer_addr;
+
+    if (attached_t64_tape == NULL) {
+        err = 1;
+    } else {
+        t64_file_record_t *rec = NULL;
+
+        err = 0;
+        do {
+            if (t64_seek_to_next_file(attached_t64_tape, 1) < 0) {
+                err = 1;
+                break;
+            }
+
+            rec = t64_get_current_file_record(attached_t64_tape);
+        } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
+
+        if (!err) {
+            mem_store(0xF8, CAS_TYPE_PRG);
+            cassette_buffer[CAS_STAD_OFFSET - 1] = rec->start_addr & 0xff;
+            cassette_buffer[CAS_STAD_OFFSET] = rec->start_addr >> 8;
+            cassette_buffer[CAS_ENAD_OFFSET - 1] = rec->end_addr & 0xff;
+            cassette_buffer[CAS_ENAD_OFFSET] = rec->end_addr >> 8;
+            memcpy(cassette_buffer + CAS_NAME_OFFSET - 1,
+                   rec->cbm_name, T64_REC_CBMNAME_LEN);
+        }
+    }
+
+    if (err)
+        mem_store(0xF8, CAS_TYPE_EOF);
+
+    mem_store(0xb6,0x33);
+    mem_store(0xb7,0x03);
+
+    mem_store(st_addr, 0);      /* Clear the STATUS word.  */
+    mem_store(verify_flag_addr, 0);
+
+    /* Check if STOP has been pressed.  */
+    {
+        int i, n = mem_read(kbd_buf_pending_addr);
+
+        MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+        for (i = 0; i < n; i++) {
+            if (mem_read((ADDRESS)(kbd_buf_addr + i)) == 0x3) {
+                MOS6510_REGS_SET_CARRY(&maincpu_regs, 1);
+                break;
+            }
+        }
+    }
+
+    MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
+}
+
 /* Cassette Data transfer trap.
 
    XR flags the function to be performed on IRQ:
@@ -379,6 +437,33 @@ void tape_receive_trap(void)
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+}
+
+void tape_receive_trap_plus4(void)
+{
+    WORD start, end, len;
+    BYTE st;
+
+    start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1)) << 8));
+    end = (mem_read(eal_addr) | (mem_read((ADDRESS)(eal_addr + 1)) << 8));
+
+    /* Read block.  */
+    len = end - start;
+
+    if (t64_read(attached_t64_tape,
+                 ram + (int) start, (int) len) == (int) len) {
+        st = 0x40;      /* EOF */
+    } else {
+        st = 0x10;
+
+        log_warning(tape_log,
+                    "Unexpected end of tape: file may be truncated.");
+    }
+
+    /* Set registers and flags like the Kernal routine does.  */
+
+
+    set_st(st);                 /* EOF and possible errors */
 }
 
 const char *tape_get_file_name(void)

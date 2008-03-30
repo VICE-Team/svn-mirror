@@ -259,7 +259,8 @@ static sound_device_t allegro_device =
     allegro_bufferspace,
     allegro_close,
     allegro_suspend,
-    allegro_resume
+    allegro_resume,
+    1
 };
 
 int sound_init_allegro_device(void)

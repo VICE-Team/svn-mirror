@@ -79,6 +79,8 @@ typedef struct sound_device_s
     int (*suspend)(void);
     /* resume device */
     int (*resume)(void);
+    /* is attenuation needed on suspend or not */
+    int need_attenuation;
 } sound_device_t;
 
 /* Sound adjustment types.  */

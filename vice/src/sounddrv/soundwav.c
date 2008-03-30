@@ -129,7 +129,8 @@ static sound_device_t wav_device =
     NULL,
     wav_close,
     NULL,
-    NULL
+    NULL,
+    0
 };
 
 int sound_init_wav_device(void)

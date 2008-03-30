@@ -83,11 +83,31 @@ typedef struct psid_s {
 int psid_ui_set_tune(resource_value_t tune, void *param);
 
 static psid_t* psid = NULL;
-static int psid_tune = 0;    /* app_resources.PSIDTune */
+static int psid_tune = 0;
+static int default_videostandard;
+static int default_sidmodel;
+
+int psid_ui_set_default_videostandard(resource_value_t standard, void *param)
+{
+  default_videostandard = (int)standard;
+
+  return 0;
+}
+
+int psid_ui_set_default_sidmodel(resource_value_t model, void *param)
+{
+  default_sidmodel = (int)model;
+
+  return 0;
+}
 
 static resource_t resources[] = {
     { "PSIDTune", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &psid_tune, psid_ui_set_tune, NULL },
+    { "PSIDDefaultVideoStandard", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
+      (resource_value_t *) &default_videostandard, psid_ui_set_default_videostandard, NULL },
+    { "PSIDDefaultSidModel", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &default_sidmodel, psid_ui_set_default_sidmodel, NULL },
     { NULL }
 };
 
@@ -344,7 +364,7 @@ void psid_init_tune(void)
 
   reloc_addr = psid->start_page << 8;
 
-  log_message(vlog, "driver=$%04x, image=$%04x-$%04x, init=$%04x, play=$%04x",
+  log_message(vlog, "driver=$%04X, image=$%04X-$%04X, init=$%04X, play=$%04X",
 	      reloc_addr,
 	      psid->load_addr, psid->load_addr + psid->data_size - 1,
 	      psid->init_addr, psid->play_addr);
@@ -364,9 +384,9 @@ void psid_init_tune(void)
     start_song = psid->start_song;
   }
 
-  /* Check for PSID specific file. */
-  if (psid->flags & 0x08) {
-    log_warning(vlog, "Image contains PlaySID samples - trying anyway.");
+  /* Check for PlaySID specific file. */
+  if (psid->flags & 0x02) {
+    log_warning(vlog, "Image is PlaySID specific - trying anyway.");
   }
 
   /* Check tune speed. */
@@ -469,11 +489,31 @@ void psid_init_driver(void)
   }
 
   /* C64 PAL/NTSC flag. */
-  sync = psid->flags & 0x02 ? DRIVE_SYNC_NTSC : DRIVE_SYNC_PAL;
+  switch ((psid->flags >> 2) & 0x03) {
+  case 0x01:
+    sync = DRIVE_SYNC_PAL;
+    break;
+  case 0x02:
+    sync = DRIVE_SYNC_NTSC;
+    break;
+  default:
+    sync = default_videostandard;
+    break;
+  }
   resources_set_value("VideoStandard", (resource_value_t)sync);
 
   /* MOS6581/MOS8580 flag. */
-  resources_set_value("SidModel", (resource_value_t)(psid->flags & 0x04 ? 1 : 0));
+  switch ((psid->flags >> 4) & 0x03) {
+  case 0x01:
+    resources_set_value("SidModel", (resource_value_t)0);
+    break;
+  case 0x02:
+    resources_set_value("SidModel", (resource_value_t)1);
+    break;
+  default:
+    resources_set_value("SidModel", (resource_value_t)default_sidmodel);
+    break;
+  }
 
   /* Clear low memory to minimize the damage of PSIDs doing bad reads. */
   for (addr = 0; addr < 0x0800; addr++) {

@@ -121,7 +121,8 @@ static sound_device_t sgi_device =
     sgi_bufferspace,
     sgi_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_sgi_device(void)

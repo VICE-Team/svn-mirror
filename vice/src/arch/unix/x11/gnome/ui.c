@@ -2654,9 +2654,6 @@ UI_CALLBACK(exposure_callback)
     GtkRequisition req;
     static int oldw, oldh;
     
-#if 0
-    vsync_suspend_speed_eval();
-#endif
     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
     if (oldw != req.width ||
 	oldh != req.height)

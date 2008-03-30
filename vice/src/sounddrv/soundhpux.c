@@ -131,7 +131,8 @@ static sound_device_t hpux_device =
     hpux_bufferspace,
     hpux_close,
     NULL,
-    NULL
+    NULL,
+    1
 };
 
 int sound_init_hpux_device(void)

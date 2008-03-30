@@ -39,9 +39,6 @@ static UI_CALLBACK(set_joystick_device_1)
 {
     int tmp;
 
-#if 0
-    vsync_suspend_speed_eval();
-#endif
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
         ui_update_menus();
@@ -55,9 +52,6 @@ static UI_CALLBACK(set_joystick_device_2)
 {
     int tmp;
 
-#if 0
-    vsync_suspend_speed_eval();
-#endif
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice2", (resource_value_t)UI_MENU_CB_PARAM);
         ui_update_menus();

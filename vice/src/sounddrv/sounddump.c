@@ -78,7 +78,8 @@ static sound_device_t dump_device =
     NULL,
     dump_close,
     NULL,
-    NULL
+    NULL,
+    0
 };
 
 int sound_init_dump_device(void)
