@@ -1,3 +1,101 @@
+Sun May 17 09:33:04 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.26.
+
+	* machspec.h: Renamed to `machine.h'.
+
+	* c128/c128.c, c128/c128.h, c128/c128mem.c, c128/c128mem.h: New 
+	files.
+
+	* c64/sid.c (doosc) [WAVETABLE]: Temporary fix for SID segfaults:
+	return 0 if `wt' is NULL.
+
+	* arch/unix/xaw/petui.c (pet_ui_init): Set icon.
+
+	* arch/unix/xaw/vic20ui.c (vic20_ui_init): Set icon.
+
+	* arch/unix/xaw/c64ui.c (c64_ui_init): Set icon.
+
+	* arch/unix/xaw/ui.c: Removed all the `XPM'-dependent parts.
+	(ui_set_application_icon): New function.
+	(ui_open_canvas_window): Attach existing icon pixmap if defined.
+
+	* arch/unix/xaw/ui.c (ui_set_left_menu, ui_set_right_menu):
+ 	Physically override the translations of the already open windows
+ 	so that the menus are properly attached, no matter what their name
+ 	is.
+	(ui_open_canvas_window): If any translations for the left or right
+ 	menus have already been defined, use apply them to the new window.
+
+	* c64/c64.c, vic20/vic20.c (machine_init): Set
+ 	`true1541_attach_floppy' and `true1541_detach_floppy' as hooks to
+ 	drive 8.
+
+	* attach.c (initialize_drives): Renamed to `file_system_init'.
+	(file_system_set_hooks): New function.
+
+	* vic20/via1.def, vic20/via2.def: Renamed to `vic20/vic20via1.def'
+	and `vic20/vic20via2.def'.  Now produce `vic20/vic20via1.c' and
+	`vic20/vic20via2.c' instead of `vic20/via1.c' and `vic20/via2.c'.
+
+	* machspec.h: Renamed to `machine.h'.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c: Removed `machdesc' struct.
+	Kept only a `machine_name' extern variable.
+
+	* c64/sid.c (reset_sid): Renamed to `sid_reset'.
+
+	* arch/unix/xaw/petui.c (pet_ui_init): New file, new function.
+
+	* pet/pia.c: Implemented resource handling.
+
+	* vic20/soundvic20.c, vic20/soundvic20.h: Renamed to
+	`vic20/vic20sound.c' and `vic20/vic20sound.h' respectively.
+
+	* pet/soundpet.c, pet/soundpet.h: Renamed to `pet/petsound.c' and
+	`pet/petsound.h' respectively.
+
+	* maincpu.h (maincpu_num_write_cycles): Compile on all the
+ 	machines.
+
+	* pet/pet.c (set_model_name): Added resource/command-line option
+ 	handling.
+
+	* pet/petmem.c: Added resource/command-line option handling.
+
+	* pet/pets.c (pet_set_model): Changed return type to int, added
+	parameter `model_name'.  Do not change resource values; just find
+	the appropriate model and set the `pet' struct accordingly.
+	Return -1 on error, 0 on success.
+	(pet_set_video_width): Removed.
+	(pet_set_keyboard_type): Removed.
+
+	* vice.h: Removed lots of machine-specific CPP hacks.
+
+	* c64/cia1.c, c64/cia1.def, c64/cia2.c, c64/cia2.def: Renamed to
+	`c64/c64cia1.c, `c64/c64cia1.def', `c64/c64cia2.c',
+	`c64/c64cia2.def', respectively.
+
+	* c64/c64cia.h: New file.
+
+	* cia.h: Removed C64 CIA prototypes.
+
+	* pet/petvia.h: New file with PET-specific prototypes.
+
+	* pet/viap.c: Renamed to `pet/petvia.c'.
+
+	* pet/pet.h: New file.
+
+Sat May 16 18:55:05 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Whole source reorganized to use automake.
+
+	* mon_parse.y: `yydebug' made non-extern.
+
+	* vic20.h: Include VIC20 specific parts of old `via.h' here.
+
+	* via.h: Removed PET- and VIC20-specific parts.
+
 Thu May 14 21:02:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.25.

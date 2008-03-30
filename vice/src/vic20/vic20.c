@@ -26,59 +26,32 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "machine.h"
 #include "vic20.h"
-#include "vic20ui.h"
-#include "interrupt.h"
-#include "vic.h"
-#include "via.h"
-#include "vmachine.h"
-#include "machspec.h"
-#include "maincpu.h"
-#include "kbdbuf.h"
-#include "true1541.h"
 #include "1541cpu.h"
-#include "traps.h"
-#include "kbd.h"
-#include "vsync.h"
-#include "soundvic20.h"
-#include "vic20mem.h"
 #include "attach.h"
-#include "resources.h"
-#include "cmdline.h"
 #include "autostart.h"
+#include "cmdline.h"
+#include "interrupt.h"
+#include "kbd.h"
+#include "kbdbuf.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "vic20sound.h"
+#include "traps.h"
+#include "true1541.h"
+#include "vic.h"
+#include "vic20mem.h"
+#include "vic20ui.h"
+#include "vic20via.h"
+#include "vmachine.h"
+#include "vsync.h"
 
 static void vsync_hook(void);
 
-/* Machine description.  */
-machdesc_t machdesc = {
-    /* Machine name.  */
-    "VIC20",
-
-    /* Flag: does this machine have joysticks?  */
-    1,
-
-    /* Flag: how many colors does this machine have?  */
-    8,
-
-    /* Flag: does this machine allow 1541 emulation?  */
-    1,
-
-    /* Flag: does this machine have a tape recorder?  */
-    0,
-
-    /* Flag: does this machine have a IEEE488 emulation?  */
-    0,
-
-    /* Flag: does this machine have sound capabilities?  */
-    1,
-
-    /* Flag: does this machine have a RAM Expansion unit?  */
-    0,
-
-    /* Flag: does this machine have hardware sprites?  */
-    0
-
-};
+const char machine_name[] = "VIC20";
 
 /* VIC20 Traps */
 static trap_t vic20_serial_traps[] = {
@@ -174,8 +147,10 @@ int machine_init(void)
        ``true1541'' emulation is used, do not install them.  */
     serial_init(vic20_serial_traps);
 
-    /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
-    initialize_drives();
+    /* Initialize drives, and attach true 1541 emulation hooks to
+       drive 8 (which is the only true 1541-capable device).  */
+    file_system_set_hooks(8, true1541_attach_floppy, true1541_detach_floppy);
+    file_system_init();
 
     /* Fire up the hardware-level 1541 emulation. */
     true1541_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);

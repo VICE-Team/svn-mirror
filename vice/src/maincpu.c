@@ -29,9 +29,9 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#include "autoconf.h"
 #include "maincpu.h"
 #include "types.h"
+#include "machine.h"
 #include "vmachine.h"
 #include "ui.h"
 #include "resources.h"
@@ -40,9 +40,6 @@
 #include "mem.h"
 #include "misc.h"
 #include "drive.h"
-#include "machspec.h"
-#include "patchlevel.h"		/* UNSTABLE */
-#include "true1541.h"
 #include "6510core.h"
 
 #define _MAINCPU_C
@@ -64,7 +61,7 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-#undef TRACE
+#define TRACE
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */

@@ -58,7 +58,7 @@
 #include <fcntl.h>
 #endif
 
-#include "patchlevel.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "serial.h"
 #include "interrupt.h"
@@ -72,7 +72,6 @@
 #include "mon.h"
 #include "autostart.h"
 #include "findpath.h"
-#include "machspec.h"
 #include "utils.h"
 #include "joystick.h"
 #include "attach.h"
@@ -249,12 +248,12 @@ int main(int argc, char **argv)
     printf("boot_path = `%s'\n", boot_path);
 
     /* Initialize system file locator.  */
-    sysfile_init(boot_path, machdesc.machine_name);
+    sysfile_init(boot_path, machine_name);
 
     /* VICE boot sequence.  */
     printf ("\n*** VICE Version %s ***\n", VERSION);
     printf ("Welcome to %s, the free portable Commodore %s Emulator.\n\n",
-	    progname, machdesc.machine_name);
+	    progname, machine_name);
     printf ("Written by\n"
 	    "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
             "A. Boose, J. Valta and J. Sonninen.\n\n");
@@ -270,7 +269,7 @@ int main(int argc, char **argv)
     }
 
     /* Initialize resource handling.  */
-    if (resources_init(machdesc.machine_name)) {
+    if (resources_init(machine_name)) {
         fprintf(stderr, "Cannot initialize resource handling.\n");
         exit(-1);
     }
@@ -433,9 +432,8 @@ int main(int argc, char **argv)
         fprintf(stderr, "Cannot attach tape image `%s'.\n",
                 startup_tape_image);
 
-    /* Notice that sound is not actually playing yet.  The sound device is
-       open the first time playback is started.  */
 #if defined SOUND && defined __MSDOS__
+    /* FIXME: Need new-style resource! */
     if (app_resources.doSoundSetup) {
 	vmidas_startup();
 	vmidas_config();

@@ -26,54 +26,110 @@
  */
 
 #include "vice.h"
-#include "interrupt.h"
-#include "via.h"
-#include "vmachine.h"
-#include "machspec.h"
-#include "maincpu.h"
-#include "kbd.h"
-#include "kbdbuf.h"
-#include "drive.h"
-#include "pia.h"
-#include "crtc.h"
-#include "vsync.h"
-#include "soundpet.h"
+
+#include <stdio.h>
+
+#include "pet.h"
+
+#include "machine.h"
 #include "attach.h"
 #include "autostart.h"
+#include "cmdline.h"
+#include "crtc.h"
+#include "drive.h"
+#include "interrupt.h"
+#include "kbd.h"
+#include "kbdbuf.h"
+#include "maincpu.h"
+#include "petmem.h"
+#include "pets.h"
+#include "petsound.h"
+#include "petui.h"
+#include "petvia.h"
+#include "pia.h"
+#include "resources.h"
+#include "sound.h"
+#include "utils.h"
+#include "via.h"
+#include "vmachine.h"
+#include "vsync.h"
 
 static void vsync_hook(void);
 
-/* Machine description.  */
-machdesc_t machdesc = {
-    /* Machine name.  */
-    "PET",
+const char machine_name[] = "PET";
 
-    /* Flag: does this machine have joysticks?  */
-    1,
+/* ------------------------------------------------------------------------- */
 
-    /* Flag: how many colors does this machine have?  */
-    2,
+/* PET resources.  */
 
-    /* Flag: does this machine allow 1541 emulation?  */
-    0,
+/* PET model name.  */
+static char *model_name;
 
-    /* Flag: does this machine have a tape recorder?  */
-    0,
+static int set_model_name(resource_value_t v)
+{
+    char *name = (char *)v;
 
-    /* Flag: does this machine have a IEEE488 emulation?  */
-    0,
+    if (pet_set_model(name) < 0) {
+        fprintf(stderr, "Invalid PET model `%s'.\n", name);
+        return -1;
+    }
 
-    /* Flag: does this machine have sound capabilities?  */
-    1,
+    string_set(&model_name, name);
+    return 0;
+}
 
-    /* Flag: does this machine have a RAM Expansion unit?  */
-    0,
+static resource_t resources[] = {
+    { "Model", RES_STRING, (resource_value_t) "8032",
+      (resource_value_t *) &model_name, set_model_name },
+    { NULL }
+};
 
-    /* Flag: does this machine have hardware sprites?  */
-    0,
+static cmdline_option_t cmdline_options[] = {
+    { "-model", SET_RESOURCE, 1, NULL, NULL, "Model", NULL,
+      "<name>", "Specify PET model name" },
+    { NULL }
 };
 
 /* ------------------------------------------------------------------------ */
+
+/* PET-specific resource initialization.  This is called before initializing
+   the machine itself with `machine_init()'.  */
+int machine_init_resources(void)
+{
+    if (resources_register(resources) < 0)
+        return -1;
+
+    if (traps_init_resources() < 0
+        || vsync_init_resources() < 0
+        || video_init_resources() < 0
+        || pet_mem_init_resources() < 0
+        || crtc_init_resources() < 0
+        || pia_init_resources() < 0
+        || sound_init_resources() < 0)
+        return -1;
+
+    return 0;
+}
+
+/* C64-specific command-line option initialization.  */
+int machine_init_cmdline_options(void)
+{
+    if (cmdline_register_options(cmdline_options) < 0)
+        return -1;
+
+    if (traps_init_cmdline_options() < 0
+        || vsync_init_cmdline_options() < 0
+        || video_init_cmdline_options() < 0
+        || pet_mem_init_cmdline_options() < 0
+        || crtc_init_cmdline_options() < 0
+        || pia_init_cmdline_options() < 0
+        || sound_init_cmdline_options() < 0)
+        return -1;
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
 
 /* PET-specific initialization.  */
 int machine_init(void)
@@ -87,7 +143,7 @@ int machine_init(void)
     serial_init(NULL);
 
     /* Initialize drives.  */
-    initialize_drives();
+    file_system_init();
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
@@ -102,14 +158,17 @@ int machine_init(void)
     monitor_init(&maincpu_monitor_interface, NULL);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
+    vsync_init(PET_PAL_RFSH_PER_SEC, PET_PAL_CYCLES_PER_SEC, vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(PET_CYCLES_PER_SEC, PET_CYCLES_PER_RFSH);
+    sound_init(PET_PAL_CYCLES_PER_SEC, PET_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  FIXME: Is this correct?  */
-    kbd_buf_init(631, 198, 10, PET_CYCLES_PER_RFSH * PET_RFSH_PER_SEC);
+    kbd_buf_init(631, 198, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+
+    /* Initialize the PET-specific part of the UI.  */
+    pet_ui_init();
 
     return 0;
 }
@@ -147,12 +206,12 @@ static void vsync_hook(void)
 
     autostart_advance();
 
-    sub = maincpu_prevent_clk_overflow();
+    sub = maincpu_prevent_clk_overflow(PET_PAL_CYCLES_PER_RFSH);
 
     if (sub > 0) {
 	crtc_prevent_clk_overflow(sub);
 	via_prevent_clk_overflow(sub);
-        sid_prevent_clk_overflow(sub);
+        sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
 }
