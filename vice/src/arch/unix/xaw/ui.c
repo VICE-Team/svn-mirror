@@ -309,9 +309,9 @@ static String fallback_resources[] = {
     "*Form.background:				     gray80",
     "*Label.background:				     gray80",
     "*Canvas.background:                             black",
-    "*driveTrack1.font:                          -*-helvetica-medium-r-*-*-10-*",
-    "*driveTrack2.font:                          -*-helvetica-medium-r-*-*-10-*",
-    "*speedStatus.font:                         -*-helvetica-medium-r-*-*-10-*",
+    "*driveTrack1.font:                          -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack2.font:                          -*-helvetica-medium-r-*-*-12-*",
+    "*speedStatus.font:                         -*-helvetica-medium-r-*-*-12-*",
 
     NULL
 };

@@ -49,8 +49,6 @@
 #include "drive.h"
 #include "iecdrive.h"
 #include "gcr.h"
-#include "interrupt.h"
-#include "vmachine.h"
 #include "serial.h"
 #include "vdrive.h"
 #include "warn.h"
@@ -112,28 +110,20 @@ static char *dos_rom_name_1581;
 
 static int set_drive_true_emulation(resource_value_t v)
 {
-    /* FIXME: We do nothing with this as long "Enable emulation of drive #8"
-       and "Enable emulation of drive #9" widgets are not grayed out when
-       this switch is zero.  */
     drive_true_emulation = (int) v;
-    return 0;
-}
-
-static int set_drive0_enabled(resource_value_t v)
-{
-    if ((int) v)
-	drive_enable(0);
-    else
-	drive_disable(0);
-    return 0;
-}
-
-static int set_drive1_enabled(resource_value_t v)
-{
-    if ((int) v)
-	drive_enable(1);
-    else
-	drive_disable(1);
+    if ((int) v) {
+        if (drive[0].type != DRIVE_TYPE_NONE) {
+            drive[0].enable = 1;
+            drive_enable(0);
+        }
+        if (drive[1].type != DRIVE_TYPE_NONE) {
+            drive[1].enable = 1;
+            drive_enable(1);
+        }
+    } else {
+            drive_disable(0);
+            drive_disable(1);
+    }
     return 0;
 }
 
@@ -143,7 +133,15 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
-        return drive_set_disk_drive_type((int) v, 0);
+        drive[0].type = (int) v;
+        drive[0].enable = 1;
+        drive_enable(0);
+        drive_set_disk_drive_type((int) v, 0);
+        return 0;
+      case DRIVE_TYPE_NONE:
+        drive[0].type = (int) v;
+        drive_disable(0);
+        return 0;
       default:
         return -1;
     }
@@ -155,7 +153,15 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
-        return drive_set_disk_drive_type((int) v, 1);
+        drive[1].type = (int) v;
+        drive[1].enable = 1;
+        drive_enable(1);
+        drive_set_disk_drive_type((int) v, 1);
+        return 0;
+      case DRIVE_TYPE_NONE:
+        drive[1].type = (int) v;
+        drive_disable(1);
+        return 0;
       default:
         return -1;
     }
@@ -276,13 +282,9 @@ static int set_dos_rom_name_1581(resource_value_t v)
 static resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &drive_true_emulation, set_drive_true_emulation },
-    { "Drive8Enable", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[0].enable), set_drive0_enabled },
-    { "Drive9Enable", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[1].enable), set_drive1_enabled },
     { "Drive8Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_1541,
       (resource_value_t *) &(drive[0].type), set_drive0_type },
-    { "Drive9Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_1541,
+    { "Drive9Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_NONE,
       (resource_value_t *) &(drive[1].type), set_drive1_type },
     { "DriveParallelCable", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &drive_parallel_cable_enabled, set_drive_parallel_cable_enabled },
@@ -404,8 +406,8 @@ static void GCR_data_writeback(int dnr);
 static void initialize_rotation(int freq, int dnr);
 static void drive_extend_disk_image(int dnr);
 static void drive_set_half_track(int num, int dnr);
-static int drive_sync_found(int dnr);
-static int drive_write_protect_sense(int dnr);
+inline static BYTE drive_sync_found(int dnr);
+inline static BYTE drive_write_protect_sense(int dnr);
 static int drive_load_rom_images(void);
 static void drive_setup_rom_image(int dnr);
 static void drive_initialize_rom_traps(int dnr);
@@ -858,19 +860,22 @@ static int drive_set_disk_drive_type(int type, int dnr)
       case DRIVE_TYPE_1541:
         if (rom1541_loaded < 1 && rom_loaded)
             return -1;
-        drive_rotate_disk(0, dnr);
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(dnr);
         drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1571:
         if (rom1571_loaded < 1 && rom_loaded)
             return -1;
-        drive_rotate_disk(0, dnr);
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(dnr);
         drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1581:
         if (rom1581_loaded < 1 && rom_loaded)
             return -1;
-        drive_rotate_disk(0, dnr);
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(dnr);
         drive[dnr].clock_frequency = 2;
         break;
       default:
@@ -981,18 +986,20 @@ static int drive_enable(int dnr)
 
     /* This must come first, because this might be called before the drive
        initialization.  */
-    drive[dnr].enable = 1;
-
     if (!rom_loaded)
         return -1;
 
     /* Always disable kernal traps. */
-    serial_remove_traps();
+    if (drive_true_emulation)
+        serial_remove_traps();
+    else
+        return 0;
 
-    if (drive[0].drive_floppy != NULL)
-	drive_attach_floppy(drive[0].drive_floppy);
-    if (drive[1].drive_floppy != NULL)
-	drive_attach_floppy(drive[1].drive_floppy);
+    if (drive[dnr].type == DRIVE_TYPE_NONE)
+        return 0;
+
+    if (drive[dnr].drive_floppy != NULL)
+	drive_attach_floppy(drive[dnr].drive_floppy);
 
     if (dnr == 0)
 	drive0_cpu_wake_up();
@@ -1022,7 +1029,7 @@ static void drive_disable(int dnr)
        drive initialization.  */
     drive[dnr].enable = 0;
 
-    if (rom_loaded && drive[0].enable == 0 && drive[1].enable == 0)
+    if (rom_loaded && !drive_true_emulation)
 	serial_install_traps();
 
     if (rom_loaded){
@@ -1143,26 +1150,11 @@ static void initialize_rotation(int freq, int dnr)
     drive[dnr].bits_moved = drive[dnr].accum = 0;
 }
 
-/* Set the `byte ready' bit.  */
-inline void drive_set_byte_ready(int val, int dnr)
-{
-    drive[dnr].byte_ready = val;
-}
-
 /* Rotate the disk according to the current value of `drive_clk[]'.  If
    `mode_change' is non-zero, there has been a Read -> Write mode switch.  */
-void drive_rotate_disk(int mode_change, int dnr)
+void drive_rotate_disk(int dnr)
 {
     unsigned long new_bits;
-
-    if (mode_change) {
-	drive[dnr].finish_byte = 1;
-	return;
-    }
-
-    /* If the drive's motor is off or byte ready is disabled do nothing.  */
-    if (drive[dnr].byte_ready_active != 0x06)
-	return;
 
     /* Calculate the number of bits that have passed under the R/W head since
        the last time.  */
@@ -1234,11 +1226,11 @@ void drive_rotate_disk(int mode_change, int dnr)
 			       % drive[dnr].GCR_current_track_size);
 	    drive[dnr].bits_moved %= 8;
 	    drive[dnr].GCR_read = drive[dnr].GCR_track_start_ptr[drive[dnr].GCR_head_offset];
-
 	}
 
-	if (!drive_sync_found(dnr))
-	    drive_set_byte_ready(1, dnr);
+    /* The byte ready line is only set when no sync is found.  */
+	if (drive_sync_found(dnr))
+	    drive[dnr].byte_ready = 1;
     } /* if (drive[dnr].bits_moved + new_bits >= 8) */
 }
 
@@ -1254,7 +1246,8 @@ void drive_prevent_clk_overflow(CLOCK sub, int dnr)
 	sub = drive1_cpu_prevent_clk_overflow(sub);
 
     if (sub > 0) {
-	drive_rotate_disk(0, dnr);
+	if (drive[dnr].byte_ready_active == 0x06)
+	    drive_rotate_disk(dnr);
 	drive[dnr].rotation_last_clk -= sub;
 	if (drive[dnr].attach_clk > (CLOCK) 0)
 	    drive[dnr].attach_clk -= sub;
@@ -1266,51 +1259,40 @@ void drive_prevent_clk_overflow(CLOCK sub, int dnr)
 /* Read a GCR byte from the disk. */
 BYTE drive_read_disk_byte(int dnr)
 {
-    BYTE val;
-
     if (drive[dnr].attach_clk != (CLOCK)0) {
         if (drive_clk[dnr] - drive[dnr].attach_clk < DRIVE_ATTACH_DELAY)
             return 0;
         drive[dnr].attach_clk = (CLOCK)0;
     }
 
-    drive_rotate_disk(0, dnr);
-    val = drive[dnr].GCR_read;
-
-    return val;
+    if (drive[dnr].byte_ready_active == 0x06)
+        drive_rotate_disk(dnr);
+    return drive[dnr].GCR_read;
 }
-
-int drive_byte_ready(int dnr)
-{
-   if(drive[dnr].byte_ready_active) {
-       drive_rotate_disk(0, dnr);
-       return drive[dnr].byte_ready;
-   } else {
-       return 0;
-   }
-}
-
 
 /* Return non-zero if the Sync mark is found.  It is required to
-   call drive_rotate_disk() to update drive[].GCR_head_offset first.  */
-static int drive_sync_found(int dnr)
+   call drive_rotate_disk() to update drive[].GCR_head_offset first.
+   The return value corresponds to bit#7 of VIA2 PRB. This means 0x0
+   is returned when sync is found and 0x80 is returned when no sync
+   is found.  */
+inline static BYTE drive_sync_found(int dnr)
 {
     BYTE val = drive[dnr].GCR_track_start_ptr[drive[dnr].GCR_head_offset];
 
     if (val != 0xff || drive[dnr].last_mode == 0) {
-        return 0;
+        return 0x80;
     } else {
 	int next_head_offset = (drive[dnr].GCR_head_offset > 0
 				? drive[dnr].GCR_head_offset - 1
 				: drive[dnr].GCR_current_track_size - 1);
 
 	if (drive[dnr].GCR_track_start_ptr[next_head_offset] != 0xff)
-	    return 0;
+	    return 0x80;
 
 	/* As the current rotation code cannot cope with non byte aligned
 	   writes, do not change `drive[].bits_moved'!  */
-	/* drive[].bits_moved = 0; */
-	return 1;
+	/* drive[dnr].bits_moved = 0; */
+	return 0x0;
     }
 }
 
@@ -1352,32 +1334,33 @@ void drive_write_gcr(BYTE val, int dnr)
     if (drive[dnr].drive_floppy == NULL)
 	return;
 
-    drive_rotate_disk(0, dnr);
+    if (drive[dnr].byte_ready_active == 0x06)
+        drive_rotate_disk(dnr);
     drive[dnr].GCR_write_value = val;
 }
 
 /* Return the write protect sense status. */
-static int drive_write_protect_sense(int dnr)
+inline static BYTE drive_write_protect_sense(int dnr)
 {
     /* Toggle the write protection bit if the disk was detached.  */
     if (drive[dnr].detach_clk != (CLOCK)0) {
 	if (drive_clk[dnr] - drive[dnr].detach_clk < DRIVE_DETACH_DELAY)
-	    return 0;
+	    return 0x10;
 	drive[dnr].detach_clk = (CLOCK)0;
     }
     if ((drive[dnr].attach_clk != (CLOCK)0) &&
 	(drive_clk[dnr] - drive[dnr].attach_clk < DRIVE_ATTACH_DELAY))
-	return 0;
+	return 0x10;
     if (drive[dnr].drive_floppy == NULL) {
 	/* No disk in drive, write protection is on. */
-	return 1;
+	return 0x0;
     } else if (drive[dnr].have_new_disk) {
 	/* Disk has changed, make sure the drive sees at least one change in
 	   the write protect status. */
 	drive[dnr].have_new_disk = 0;
-	return !drive[dnr].drive_floppy->ReadOnly;
+	return drive[dnr].drive_floppy->ReadOnly ? 0x10 : 0x0;
     } else {
-	return drive[dnr].drive_floppy->ReadOnly;
+	return drive[dnr].drive_floppy->ReadOnly ? 0x0 : 0x10;
     }
 }
 
@@ -1514,15 +1497,16 @@ void drive_motor_control(int flag, int dnr)
 
 BYTE drive_read_viad2_prb(int dnr)
 {
-    drive_rotate_disk(0, dnr);
-    return (drive_sync_found(dnr) ? 0 : 0x80)
-        | (drive_write_protect_sense(dnr) ? 0 : 0x10);
+    if (drive[dnr].byte_ready_active == 0x06)
+        drive_rotate_disk(dnr);
+    return drive_sync_found(dnr) | drive_write_protect_sense(dnr);
 }
 
 void drive_set_1571_side(int side, int dnr)
 {
     int num = drive[dnr].current_half_track;
-    drive_rotate_disk(0, dnr);
+    if (drive[dnr].byte_ready_active == 0x06)
+        drive_rotate_disk(dnr);
     GCR_data_writeback(dnr);
     drive[dnr].side = side;
     if (num > 70)
@@ -1592,7 +1576,8 @@ static void drive_set_ntsc_sync_factor(void)
 void drive_set_1571_sync_factor(int sync, int dnr)
 {
     if (rom_loaded) {
-        drive_rotate_disk(0, dnr);
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(dnr);
         initialize_rotation(sync ? 1 : 0, dnr);
         drive[dnr].clock_frequency = (sync) ? 2 : 1;
         set_sync_factor((resource_value_t) sync_factor);
@@ -1664,18 +1649,16 @@ DiskID1            BYTE   2      disk ID1
 DiskID2            BYTE   2      disk ID2
 Enable             BYTE   2      flag: Is the drive enabled?
 FinishByte         BYTE   2      flag: Mode changed, finish byte
-GCRDirtyTrack      BYTE   2      flag: Is there something to write back
-GCR_head_offset    DWORD  2      offset from the begin of the track
-GCR_read           BYTE   2      next value to read from disk
+GCRHeadOffset      DWORD  2      offset from the begin of the track
+GCRRead            BYTE   2      next value to read from disk
 GCRWriteValue      BYTE   2      next value to write to disk
 HaveNewDisk        BYTE   2      flag: A new disk is inserted
 LastMode           BYTE   2      flag: Was the last mode read or write
-OldHalfTrack       WORD   2      old UI track status
-OldLedStatus       BYTE   2      old UI LED status
 ReadWriteMode      BYTE   2      current read/write mode
 RomIdleTrap        BYTE   2      original ROM code is saved here
 RotationLastClk    CLOCK  2
-Side               BYTE   2      current activated side
+RotationTablePtr   DWORD  2      pointer to the rotation table 
+                                 (offset to the rotation table is saved)
 Type               DWORD  2      drive type
 
 */
@@ -1688,6 +1671,10 @@ int drive_write_snapshot_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
+
+    /* Save changes to disk before taking a snapshot.  */
+    GCR_data_writeback(0);
+    GCR_data_writeback(1);
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
@@ -1705,18 +1692,17 @@ int drive_write_snapshot_module(snapshot_t *s)
             || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].diskID1) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].diskID2) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].enable) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].finish_byte) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].GCR_head_offset) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_read) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_write_value) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].have_new_disk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].last_mode) < 0
-            || snapshot_module_write_word(m, (WORD) drive[i].old_half_track) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].old_led_status) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].read_write_mode) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].rom_idle_trap) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].rotation_last_clk) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].side) < 0
+            || snapshot_module_write_dword(m, (DWORD) (drive[i].rotation_table_ptr - drive[i].rotation_table[0])) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].type) < 0
         ) {
             if (m != NULL)
@@ -1804,6 +1790,7 @@ int drive_read_snapshot_module(snapshot_t *s)
     BYTE major_version, minor_version;
     int i;
     snapshot_module_t *m;
+    DWORD rotation_table_ptr[2];
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -1829,18 +1816,17 @@ int drive_read_snapshot_module(snapshot_t *s)
             || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
             || snapshot_module_read_byte(m, &drive[i].diskID1) < 0
             || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
-            || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
             || read_byte_into_int(m, &drive[i].enable) < 0
             || read_byte_into_int(m, &drive[i].finish_byte) < 0
+            || snapshot_module_read_dword(m, &drive[i].GCR_head_offset) < 0
+            || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
             || read_byte_into_int(m, &drive[i].have_new_disk) < 0
             || read_byte_into_int(m, &drive[i].last_mode) < 0
-            || read_word_into_int(m, &drive[i].old_half_track) < 0
-            || read_byte_into_int(m, &drive[i].old_led_status) < 0
             || read_byte_into_int(m, &drive[i].read_write_mode) < 0
             || snapshot_module_read_byte(m, &drive[i].rom_idle_trap) < 0
             || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
-            || read_byte_into_int(m, &drive[i].side) < 0
+            || snapshot_module_read_dword(m, &rotation_table_ptr[i]) < 0
             || snapshot_module_read_dword(m, &drive[i].type) < 0
         ) {
             if (m != NULL)
@@ -1849,6 +1835,19 @@ int drive_read_snapshot_module(snapshot_t *s)
         }
     }
     snapshot_module_close(m);
+
+    for (i = 0; i < 2; i++) {
+        drive[i].rotation_table_ptr = drive[i].rotation_table[0]
+            + rotation_table_ptr[i];
+        if (drive[i].type != DRIVE_TYPE_1571) {
+            if (drive[i].type == DRIVE_TYPE_1581)
+                drive_set_1571_sync_factor(1, i);
+            else {
+                drive_set_1571_sync_factor(0, i);
+                drive[i].side = 0;
+            }
+        }
+    }
 
     if (drive[0].enable) {
         if (drive[0].type == DRIVE_TYPE_1541) {
@@ -1888,6 +1887,13 @@ int drive_read_snapshot_module(snapshot_t *s)
         if (drive1_cpu_read_snapshot_module(s) < 0)
             return -1;
     }
+
+    drive[0].old_half_track = 36;
+    drive[0].old_led_status = 0;
+    drive[1].old_half_track = 36;
+    drive[1].old_led_status = 0;
+    drive_update_ui_status();
+
     return 0;
 }
 

@@ -133,6 +133,14 @@ void iec_cpu_write(BYTE data)
     update_ports();
 }
 
+void iec_cpu_undump(BYTE data)
+{
+    iec_info.cpu_bus = (((data << 2) & 0x80)
+                        | ((data << 2) & 0x40)
+                        | ((data << 1) & 0x10));
+    iec_old_atn = iec_info.cpu_bus & 0x10;
+}
+
 BYTE iec_cpu_read(void)
 {
     if (!drive[0].enable && !drive[1].enable)
