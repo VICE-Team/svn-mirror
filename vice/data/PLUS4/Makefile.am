@@ -4,12 +4,15 @@ plus4_DATA = \
 	3plus1hi \
 	3plus1lo \
 	basic \
-	kernal \
-	vice.vpl \
-        os2.vkm \
-	default.vkm \
 	default.vpl \
 	default.vrs \
-	position.vkm
+	dos_pos.vkm \
+	dos_sym.vkm \
+	kernal \
+	os2.vkm \
+	vice.vpl \
+	x11_pos.vkm \
+	x11_sym.vkm
 
 EXTRA_DIST = $(plus4_DATA)
+
