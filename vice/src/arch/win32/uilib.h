@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Manfred Spraul <manfreds@colorfullife.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,6 +39,9 @@ extern void ui_set_res_num(char *res, int value, int num);
 extern char *read_disk_image_contents(const char *name);
 extern char *read_tape_image_contents(const char *name);
 extern char *read_disk_or_tape_image_contents(const char *name);
+
+extern void ui_show_text(HWND hParent, const char *szCaption,
+                         const char *szHeader, const char *szText);
 
 #endif
 
