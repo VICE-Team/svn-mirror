@@ -72,8 +72,8 @@ static piareg mypia;
         interrupt_set_irq_noclk(&maincpu_int_status,  \
         I_PIA1, (a) ? IK_IRQ : IK_NONE)
 
-#define mycpu_rmw_flag  rmw_flag
-#define myclk           clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
+#define myclk           maincpu_clk
 
 /* ------------------------------------------------------------------------- */
 /* PIA resources.  */
@@ -197,14 +197,14 @@ _PIA_FUNC BYTE read_pa(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     byte = 0xff
-        - (tape1_sense ? 16 : 0)
-        - (parallel_eoi ? 64 : 0)
-        - ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
+           - (tape1_sense ? 16 : 0)
+           - (parallel_eoi ? 64 : 0)
+           - ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
     byte = ((byte & ~mypia.ddr_a) | (mypia.port_a & mypia.ddr_a));
 
     return byte;
@@ -213,8 +213,8 @@ _PIA_FUNC BYTE read_pa(void)
 
 _PIA_FUNC BYTE read_pb(void)
 {
-    int     row;
-    BYTE    j = 0xFF;
+    int row;
+    BYTE j = 0xFF;
 
     row = mypia.port_a & 15;
 

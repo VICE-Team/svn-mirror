@@ -62,8 +62,8 @@ static piareg mypia;
         interrupt_set_irq_noclk(&maincpu_int_status, I_PIA1,  \
         (a) ? IK_IRQ : IK_NONE)
 
-#define mycpu_rmw_flag  rmw_flag
-#define myclk           clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
+#define myclk           maincpu_clk
 
 /* ------------------------------------------------------------------------- */
 /* I/O */
@@ -116,9 +116,9 @@ _PIA_FUNC BYTE read_pa(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     if (parallel_debug)
         log_message(mypia_log,

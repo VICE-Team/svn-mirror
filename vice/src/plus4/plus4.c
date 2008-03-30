@@ -414,12 +414,12 @@ void machine_change_timing(int timeval)
     maincpu_trigger_reset();
 
     switch (timeval) {
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
         cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
         cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
         rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
         break;
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
         cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
         cycles_per_rfsh = PLUS4_NTSC_CYCLES_PER_RFSH;
         rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
@@ -450,9 +450,9 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 
     /* Execute drive CPUs to get in sync with the main CPU.  */
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     if (maincpu_snapshot_write_module(s) < 0
         || plus4_snapshot_write_module(s, save_roms) < 0
