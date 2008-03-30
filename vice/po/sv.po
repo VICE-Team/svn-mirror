@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-09-12 19:59+0200\n"
+"POT-Creation-Date: 2004-09-12 22:43+0200\n"
 "PO-Revision-Date: 2004-08-16 23:30+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -365,7 +365,7 @@ msgstr "Minnes- och I/O-utökningar"
 
 #: src/arch/unix/c128ui.c:369 src/arch/unix/c64ui.c:350
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
-#: src/arch/unix/vic20ui.c:376
+#: src/arch/unix/vic20ui.c:374
 msgid "RS232 settings"
 msgstr "RS232-inställningar"
 
@@ -375,26 +375,26 @@ msgstr "Modellinställningar"
 
 #: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:497
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:516
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
 #: src/arch/unix/c128ui.c:462 src/arch/unix/c64ui.c:439
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:523
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
 msgid "Options"
 msgstr "Alternativ"
 
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:529
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
 #: src/arch/unix/x11/gnome/x11ui.c:1301
 msgid "Settings"
@@ -404,7 +404,7 @@ msgstr "Inställningar"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c64ui.c:465
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:544
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
 msgid "RJHelp"
 msgstr "RJHjälp"
 
@@ -428,7 +428,7 @@ msgstr "Ladda ny teckengenerator-ROM"
 
 #: src/arch/unix/c64ui.c:334 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:417
+#: src/arch/unix/vic20ui.c:415
 msgid "Screenshot..."
 msgstr "Skärmdump..."
 
@@ -2284,47 +2284,41 @@ msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx-avbrott"
 
 #: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
-msgid "*No Userport RS232 emulation"
+#, fuzzy
+msgid "*Userport RS232 emulation"
 msgstr "*Ingen emulering av RS232 på användarporten"
 
 #: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
-msgid "*Userport 300 baud RS232 emulation"
-msgstr "*Emulering av 300 baud-RS232 på användarporten"
+#, fuzzy
+msgid "Userport RS232 baud rate"
+msgstr "Användarportens RS232-enhet"
 
 #: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
-msgid "*Userport 1200 baud RS232 emulation"
-msgstr "*Emulering av 1200 baud-RS232 på användarporten"
-
-#: src/arch/unix/uirs232c64c128.c:68
-msgid "*CIA 9600 baud RS232 emulation"
-msgstr "*Emulering av 9600 baud-CIA"
-
-#: src/arch/unix/uirs232c64c128.c:70 src/arch/unix/vic20ui.c:354
 msgid "Userport RS232 device"
 msgstr "Användarportens RS232-enhet"
 
-#: src/arch/unix/uirs232c64c128.c:73 src/arch/unix/uirs232petplus4cbm2.c:42
-#: src/arch/unix/vic20ui.c:357
+#: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
+#: src/arch/unix/vic20ui.c:355
 msgid "Serial 1 device..."
 msgstr "Seriell enhet 1..."
 
-#: src/arch/unix/uirs232c64c128.c:75 src/arch/unix/uirs232petplus4cbm2.c:44
-#: src/arch/unix/vic20ui.c:359
+#: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
+#: src/arch/unix/vic20ui.c:357
 msgid "Serial 1 baudrate"
 msgstr "Baudhastighet för seriell enhet 1"
 
-#: src/arch/unix/uirs232c64c128.c:80 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:364
+#: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
+#: src/arch/unix/vic20ui.c:362
 msgid "Serial 2 baudrate"
 msgstr "Baudhastighet för seriell enhet 2"
 
-#: src/arch/unix/uirs232c64c128.c:83 src/arch/unix/uirs232petplus4cbm2.c:52
-#: src/arch/unix/vic20ui.c:367
+#: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
+#: src/arch/unix/vic20ui.c:365
 msgid "Dump filename..."
 msgstr "Filnamn för datadump..."
 
-#: src/arch/unix/uirs232c64c128.c:86 src/arch/unix/uirs232petplus4cbm2.c:55
-#: src/arch/unix/vic20ui.c:370
+#: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
+#: src/arch/unix/vic20ui.c:368
 msgid "Program name to exec..."
 msgstr "Program att starta..."
 
@@ -2332,9 +2326,33 @@ msgstr "Program att starta..."
 msgid "ACIA device"
 msgstr "ACIA-enhet"
 
-#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:362
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:360
 msgid "Serial 2 device..."
 msgstr "Seriell enhet 2..."
+
+#: src/arch/unix/uirs232user.c:53
+msgid "*300 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:55
+msgid "*600 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:57
+msgid "*1200 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:59
+msgid "*2400 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:61
+msgid "*4800 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:63
+msgid "*9600 baud"
+msgstr ""
 
 #: src/arch/unix/uisettings.c:112
 msgid "Enter refresh rate"
@@ -2733,7 +2751,7 @@ msgstr "*Block 3 (8K på $6000-$7FFF)"
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Block 5 (8K på $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:425
+#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:423
 msgid "Memory expansions"
 msgstr "Minnesutökningar"
 
@@ -2769,7 +2787,7 @@ msgstr "Anslut 4KB-fil vid $B000..."
 msgid "Detach cartridge image(s)"
 msgstr "Koppla från insticksmodulfil(er)"
 
-#: src/arch/unix/vic20ui.c:423
+#: src/arch/unix/vic20ui.c:421
 msgid "VIC settings"
 msgstr "VIC-inställningar"
 
@@ -3546,6 +3564,15 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#~ msgid "*Userport 300 baud RS232 emulation"
+#~ msgstr "*Emulering av 300 baud-RS232 på användarporten"
+
+#~ msgid "*Userport 1200 baud RS232 emulation"
+#~ msgstr "*Emulering av 1200 baud-RS232 på användarporten"
+
+#~ msgid "*CIA 9600 baud RS232 emulation"
+#~ msgstr "*Emulering av 9600 baud-CIA"
 
 #~ msgid "Load custom ROM set definition"
 #~ msgstr "Ladda egen ROM-uppsättningsdefinition"

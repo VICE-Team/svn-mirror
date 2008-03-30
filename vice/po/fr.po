@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-09-12 19:59+0200\n"
+"POT-Creation-Date: 2004-09-12 22:43+0200\n"
 "PO-Revision-Date: 2004-08-22 11:01+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -374,7 +374,7 @@ msgstr "Extentions mémoire et E/S"
 
 #: src/arch/unix/c128ui.c:369 src/arch/unix/c64ui.c:350
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
-#: src/arch/unix/vic20ui.c:376
+#: src/arch/unix/vic20ui.c:374
 msgid "RS232 settings"
 msgstr "Paramètres RS232"
 
@@ -384,26 +384,26 @@ msgstr "Paramètres du modèle"
 
 #: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:497
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Fichier"
 
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:516
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
 msgid "Snapshot"
 msgstr "Sauvegardes"
 
 #: src/arch/unix/c128ui.c:462 src/arch/unix/c64ui.c:439
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:523
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
 msgid "Options"
 msgstr "Options"
 
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:529
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
 #: src/arch/unix/x11/gnome/x11ui.c:1301
 msgid "Settings"
@@ -413,7 +413,7 @@ msgstr "Paramètres"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c64ui.c:465
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:544
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
 msgid "RJHelp"
 msgstr "RJ?"
 
@@ -437,7 +437,7 @@ msgstr "Charger la nouvelle ROM de caractères"
 
 #: src/arch/unix/c64ui.c:334 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:417
+#: src/arch/unix/vic20ui.c:415
 msgid "Screenshot..."
 msgstr "Capture d'écran..."
 
@@ -2294,47 +2294,41 @@ msgid "ACIA $DExx Interrupt"
 msgstr "Interruption ACIA $DExx"
 
 #: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
-msgid "*No Userport RS232 emulation"
+#, fuzzy
+msgid "*Userport RS232 emulation"
 msgstr "*Pas d'émulation de port utilisateur RS232"
 
 #: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
-msgid "*Userport 300 baud RS232 emulation"
-msgstr "*Émulation d'un port utilisateur RS232 de 300 bauds"
+#, fuzzy
+msgid "Userport RS232 baud rate"
+msgstr "Périphérique de port utilisateur RS232"
 
 #: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
-msgid "*Userport 1200 baud RS232 emulation"
-msgstr "*Émulation d'un port utilisateur RS232 de 1200 bauds"
-
-#: src/arch/unix/uirs232c64c128.c:68
-msgid "*CIA 9600 baud RS232 emulation"
-msgstr "*Émulation d'un port utilisateur RS232 CIA de 9600 bauds"
-
-#: src/arch/unix/uirs232c64c128.c:70 src/arch/unix/vic20ui.c:354
 msgid "Userport RS232 device"
 msgstr "Périphérique de port utilisateur RS232"
 
-#: src/arch/unix/uirs232c64c128.c:73 src/arch/unix/uirs232petplus4cbm2.c:42
-#: src/arch/unix/vic20ui.c:357
+#: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
+#: src/arch/unix/vic20ui.c:355
 msgid "Serial 1 device..."
 msgstr "Port série #1..."
 
-#: src/arch/unix/uirs232c64c128.c:75 src/arch/unix/uirs232petplus4cbm2.c:44
-#: src/arch/unix/vic20ui.c:359
+#: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
+#: src/arch/unix/vic20ui.c:357
 msgid "Serial 1 baudrate"
 msgstr "Vitesse du port série #1 (bps)"
 
-#: src/arch/unix/uirs232c64c128.c:80 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:364
+#: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
+#: src/arch/unix/vic20ui.c:362
 msgid "Serial 2 baudrate"
 msgstr "Vitesse du port série #2"
 
-#: src/arch/unix/uirs232c64c128.c:83 src/arch/unix/uirs232petplus4cbm2.c:52
-#: src/arch/unix/vic20ui.c:367
+#: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
+#: src/arch/unix/vic20ui.c:365
 msgid "Dump filename..."
 msgstr "Nom du fichier..."
 
-#: src/arch/unix/uirs232c64c128.c:86 src/arch/unix/uirs232petplus4cbm2.c:55
-#: src/arch/unix/vic20ui.c:370
+#: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
+#: src/arch/unix/vic20ui.c:368
 msgid "Program name to exec..."
 msgstr "Nom du programme à exécuter..."
 
@@ -2342,9 +2336,33 @@ msgstr "Nom du programme à exécuter..."
 msgid "ACIA device"
 msgstr "Périphérique ACIA"
 
-#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:362
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:360
 msgid "Serial 2 device..."
 msgstr "Port série #2..."
+
+#: src/arch/unix/uirs232user.c:53
+msgid "*300 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:55
+msgid "*600 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:57
+msgid "*1200 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:59
+msgid "*2400 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:61
+msgid "*4800 baud"
+msgstr ""
+
+#: src/arch/unix/uirs232user.c:63
+msgid "*9600 baud"
+msgstr ""
 
 #: src/arch/unix/uisettings.c:112
 msgid "Enter refresh rate"
@@ -2743,7 +2761,7 @@ msgstr "*Block 3 (8Ko à $6000-$7FFF)"
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Block 5 (8Ko à $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:425
+#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:423
 msgid "Memory expansions"
 msgstr "Expansions de mémoire"
 
@@ -2779,7 +2797,7 @@ msgstr "Insertion d'une image 4Ko à $B000..."
 msgid "Detach cartridge image(s)"
 msgstr "Retirer une image de cartouche"
 
-#: src/arch/unix/vic20ui.c:423
+#: src/arch/unix/vic20ui.c:421
 msgid "VIC settings"
 msgstr "Paramètres VIC"
 
@@ -3565,6 +3583,15 @@ msgstr "Les performances vont être médiocres."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Initialisation réussie sans mémoire partagée."
+
+#~ msgid "*Userport 300 baud RS232 emulation"
+#~ msgstr "*Émulation d'un port utilisateur RS232 de 300 bauds"
+
+#~ msgid "*Userport 1200 baud RS232 emulation"
+#~ msgstr "*Émulation d'un port utilisateur RS232 de 1200 bauds"
+
+#~ msgid "*CIA 9600 baud RS232 emulation"
+#~ msgstr "*Émulation d'un port utilisateur RS232 CIA de 9600 bauds"
 
 #~ msgid "Unload Basic ROM"
 #~ msgstr "Décharger la ROM Basic"
