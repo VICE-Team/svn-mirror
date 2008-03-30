@@ -171,7 +171,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
      * If ActiveName exists, the file may have been temporarily closed.
      */
 
-   if (floppy->image->fd == NULL
+   if ((floppy->image == NULL || floppy->image->fd == NULL)
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
        && *name != '#') {
@@ -660,5 +660,13 @@ printf("VDRIVE#%i: FLUSH:, secondary = %d, buffer=%s\n   bufptr=%d, length=%d, "
         if (status == IPE_OK)
             vdrive_command_set_error(&floppy->buffers[15], IPE_OK, 0, 0);
     }
+}
+
+int vdrive_iec_attach(int unit, const char *name)
+{
+    return serial_attach_device(unit, "1541 Disk Drive",
+                                vdrive_read, vdrive_write,
+                                vdrive_open, vdrive_close,
+                                vdrive_flush);
 }
 
