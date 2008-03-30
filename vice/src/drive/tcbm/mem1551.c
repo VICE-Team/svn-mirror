@@ -47,7 +47,7 @@ static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
     drv->cpud.drive_ram[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, WORD address)
+static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
 {
     switch (address & 0xff) {
       case 0:
@@ -59,8 +59,8 @@ static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, WORD address)
     return drv->cpud.drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_1551zero(drive_context_t *drv, WORD address,
-                                          BYTE value)
+static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
+                                      BYTE value)
 {
     switch (address & 0xff) {
       case 0:
@@ -89,8 +89,8 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
         for (i = 0xc0; i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
-        drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
-        drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
+        drv->cpud.read_func_nowatch[0] = drive_read_zero;
+        drv->cpud.store_func_nowatch[0] = drive_store_zero;
 
         /* Setup 1551 TPI.  */
         for (i = 0x40; i < 0x7f; i++) {
