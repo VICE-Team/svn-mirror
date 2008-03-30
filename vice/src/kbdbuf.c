@@ -94,9 +94,15 @@ int kbd_buf_feed(const char *s)
     if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled)
 	return -1;
 
-    num_pending += num;
-    for (p = head_idx, i = 0; i < num; p = (p + 1) % QUEUE_SIZE, i++)
+    for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
+         i < num;
+         p = (p + 1) % QUEUE_SIZE, i++)
 	queue[p] = s[i];
+    num_pending += num;
+
+    /* XXX: We waste time this way, as we copy into the queue and then into
+       memory.  */
+    kbd_buf_flush();
 
     return 0;
 }
