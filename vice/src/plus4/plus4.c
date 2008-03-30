@@ -318,7 +318,7 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level drive emulation.  */
-    drive_init(PLUS4_PAL_CYCLES_PER_SEC, PLUS4_PAL_CYCLES_PER_SEC);
+    drive_init();
 
     /* Initialize autostart.  */
     autostart_init((CLOCK)(2 * PLUS4_PAL_RFSH_PER_SEC
@@ -457,6 +457,7 @@ void machine_change_timing(int timeval)
                                 machine_timing.cycles_per_rfsh);
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     ted_change_timing();

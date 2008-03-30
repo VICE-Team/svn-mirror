@@ -301,7 +301,7 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level 1541 emulation.  */
-    drive_init(machine_timing.cycles_per_sec, C610_NTSC_CYCLES_PER_SEC);
+    drive_init();
 
     cbm2_monitor_init();
 
@@ -430,7 +430,7 @@ void machine_change_timing(int timeval)
 
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
-
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing);

@@ -292,7 +292,7 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level 1541 emulation.  */
-    drive_init(PET_PAL_CYCLES_PER_SEC, PET_NTSC_CYCLES_PER_SEC);
+    drive_init();
 
     pet_monitor_init();
 
@@ -398,6 +398,7 @@ void machine_change_timing(int timeval)
     machine_timing.screen_lines = PET_PAL_SCREEN_LINES;
 
     debug_set_machine_parameter(PET_PAL_CYCLES_PER_LINE, PET_PAL_SCREEN_LINES);
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */

@@ -302,7 +302,7 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level drive emulation. */
-    drive_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
+    drive_init();
 
     /* Initialize autostart.  */
     autostart_init((CLOCK)
@@ -460,6 +460,7 @@ void machine_change_timing(int timeval)
                                 machine_timing.cycles_per_rfsh);
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vic_change_timing();
