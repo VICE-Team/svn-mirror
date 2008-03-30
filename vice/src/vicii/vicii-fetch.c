@@ -189,8 +189,8 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
         vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
 
         /* Calculate time for next event.  */
-        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
-                           + vic_ii.sprite_fetch_cycle);
+        vic_ii.fetch_clk = VIC_II_LINE_START_CLK(maincpu_clk)
+                           + vic_ii.sprite_fetch_cycle;
 
         if (vic_ii.fetch_clk > maincpu_clk || offset == 0) {
             /* Prepare the next fetch event.  */
@@ -343,15 +343,13 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     raster_sprite_status_t *sprite_status;
     BYTE *bank, *spr_base;
 
-    /* FIXME: optimize.  */
-
     sf = &vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][vic_ii.sprite_fetch_idx];
 
     sprite_status = vic_ii.raster.sprite_status;
     /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
        sequence. This is of minor interest, though, only for CBM-II... */
     bank = vic_ii.ram_base_phi1 + vic_ii.vbank_phi1;
-    spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6) + sf->first);
+    spr_base = vic_ii.screen_base + 0x3f8 + sf->first;
 
     /* Fetch sprite data.  */
     for (i = sf->first; i <= sf->last; i++, spr_base++) {
@@ -371,7 +369,9 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                     src = (romh_banks + 0x1000 + (romh_bank << 13)
                           + ((*spr_base - 0xc0) << 6));
             } else {
-                if (!(vic_ii.vbank_phi1 & 0x4000) && (*spr_base & 0xc0) == 0x40)
+                if ((vic_ii.vbank_phi1 & vic_ii.vaddr_chargen_mask_phi1)
+                    == vic_ii.vaddr_chargen_value_phi1
+                    && (*spr_base & 0xc0) == 0x40)
                     src = mem_chargen_rom_ptr + ((*spr_base - 0x40) << 6);
             }
 
