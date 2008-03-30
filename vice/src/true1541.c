@@ -46,6 +46,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include <string.h>
+#include <math.h>
 
 #include "true1541.h"
 #include "gcr.h"
@@ -56,6 +57,7 @@
 #include "warn.h"
 #include "mem.h"
 #include "resources.h"
+#include "cmdline.h"
 #include "memutils.h"
 #include "viad.h"
 #include "via.h"
@@ -144,10 +146,12 @@ static int set_sync_factor(resource_value_t v)
         true1541_set_ntsc_sync_factor();
         break;
       default:
-        if ((int) v > 0)
+        if ((int) v > 0) {
+            sync_factor = (int) v;
             true1541_set_sync_factor((int) v);
-        else
+        } else {
             return -1;
+        }
     }
 
     return 0;
@@ -185,6 +189,33 @@ static resource_t resources[] = {
 int true1541_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* FIXME: Maybe DosName should not be changed by `-dosname'?  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-1541", SET_RESOURCE, 0, NULL, NULL, "True1541", (resource_value_t) 1,
+      NULL, "Enable hardware-level 1541 emulation" },
+    { "+1541", SET_RESOURCE, 0, NULL, NULL, "True1541", (resource_value_t) 0,
+      NULL, "Disable hardware-level 1541 emulation" },
+    { "-driveidle", SET_RESOURCE, 1, NULL, NULL, "True1541IdleMethod", NULL,
+      "<method>", "Set 1541 idling method (0: skip cycles, 1: trap idle)" },
+    { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "True1541SyncFactor", NULL,
+      "<value>", "Set 1541 sync factor to <value>" },
+    { "-paldrive", SET_RESOURCE, 0, NULL, NULL, "True1541SyncFactor", (resource_value_t) TRUE1541_SYNC_PAL,
+      NULL, "Use PAL 1541 sync factor" },
+    { "-ntscdrive", SET_RESOURCE, 0, NULL, NULL, "True1541SyncFactor", (resource_value_t) TRUE1541_SYNC_NTSC,
+      NULL, "Use NTSC 1541 sync factor" },
+    { "-dosname", SET_RESOURCE, 1, NULL, NULL, "DosName", NULL,
+      "<name>", "Specify name of 1541 DOS ROM image name" },
+    { NULL }
+};
+
+int true1541_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -262,6 +293,10 @@ static CLOCK attach_clk = (CLOCK)0;
 
 /* Tick when the disk image was detached.  */
 static CLOCK detach_clk = (CLOCK)0;
+
+/* Clock speed of the PAL and NTSC versions of the connected computer.  */
+static CLOCK pal_cycles_per_sec;
+static CLOCK ntsc_cycles_per_sec;
 
 /* Warnings.  */
 enum true1541_warnings { WARN_GCRWRITE };
@@ -607,12 +642,15 @@ static BYTE *GCR_find_sector_data(BYTE *offset)
 
 /* Initialize the hardware-level 1541 emulation (should be called at least once
    before anything else).  Return 0 on success, -1 on error.  */
-int initialize_true1541(void)
+int initialize_true1541(CLOCK pal_hz, CLOCK ntsc_hz)
 {
     int track;
 
+    pal_cycles_per_sec = pal_hz;
+    ntsc_cycles_per_sec = ntsc_hz;
+
     if (rom_loaded)
-	return 1;
+	return 0;
 
     true1541_warn = warn_init("1541", TRUE1541_NUM_WARNINGS);
 
@@ -660,6 +698,10 @@ int initialize_true1541(void)
     initialize_rotation();
 
     true1541_cpu_init();
+
+    /* Make sure the sync factor is acknowledged correctly.  */
+    set_sync_factor((resource_value_t) sync_factor);
+
     return 0;
 }
 
@@ -668,9 +710,11 @@ int true1541_enable(void)
 {
     puts(__FUNCTION__);
 
+    if (!rom_loaded)
+        return -1;
+
     /* Always disable kernal traps. */
-    if (rom_loaded)
-	remove_serial_traps();
+    remove_serial_traps();
 
     if (true1541_floppy != NULL)
         true1541_attach_floppy(true1541_floppy);
@@ -885,15 +929,17 @@ void true1541_rotate_disk(int mode_change)
 
 /* This prevents the CLOCK counters `rotation_last_clk', `attach_clk'
    and `detach_clk' from overflowing.  */
-void true1541_prevent_clk_overflow(void)
+void true1541_prevent_clk_overflow(CLOCK sub)
 {
-    if (true1541_cpu_prevent_clk_overflow()) {
+    sub = true1541_cpu_prevent_clk_overflow(sub);
+
+    if (sub > 0) {
 	true1541_rotate_disk(0);
-	rotation_last_clk -= PREVENT_CLK_OVERFLOW_SUB;
+	rotation_last_clk -= sub;
 	if (attach_clk > (CLOCK) 0)
-	    attach_clk -= PREVENT_CLK_OVERFLOW_SUB;
+	    attach_clk -= sub;
 	if (detach_clk > (CLOCK) 0)
-	    detach_clk -= PREVENT_CLK_OVERFLOW_SUB;
+	    detach_clk -= sub;
     }
 }
 
@@ -1155,16 +1201,20 @@ void true1541_set_sync_factor(unsigned int factor)
     true1541_cpu_set_sync_factor(factor);
 }
 
-/* FIXME: This is hardcoded!  */
 void true1541_set_pal_sync_factor(void)
 {
-    true1541_cpu_set_sync_factor(66516);
+    int sync_factor = (int) floor(65536.0 * (1000000.0 /
+                                             ((double)pal_cycles_per_sec)));
+
+    true1541_set_sync_factor(sync_factor);
 }
 
-/* FIXME: This is hardcoded!  */
 void true1541_set_ntsc_sync_factor(void)
 {
-    true1541_cpu_set_sync_factor(64094);
+    int sync_factor = (int) floor(65536.0 * (1000000.0 /
+                                             ((double)ntsc_cycles_per_sec)));
+
+    true1541_cpu_set_sync_factor(sync_factor);
 }
 
 /* ------------------------------------------------------------------------- */
