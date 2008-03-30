@@ -31,6 +31,8 @@
 
 #if defined(HAVE_DMEDIA_AUDIO_H)
 #include <dmedia/audio.h>
+#endif
+
 #if defined(HAVE_BSTRING_H)
 #include <bstring.h>
 #endif

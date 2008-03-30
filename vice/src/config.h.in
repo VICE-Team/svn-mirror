@@ -150,6 +150,9 @@
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
 
+/* Define if you have the <dmedia/audio.h> header file.  */
+#undef HAVE_DMEDIA_AUDIO_H
+
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
