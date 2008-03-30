@@ -92,7 +92,7 @@ typedef struct resource_callback_desc_s {
 } resource_callback_desc_t;
 
 
-static int num_resources, num_allocated_resources;
+static unsigned int num_resources, num_allocated_resources;
 static resource_ram_t *resources;
 static char *machine_id = NULL;
 
@@ -452,7 +452,7 @@ int resources_get_default_value(const char *name,
 
 int resources_set_defaults(void)
 {
-    int i;
+    unsigned int i;
 
     for (i = 0; i < num_resources; i++) {
         if ((*resources[i].set_func)(resources[i].factory_value,
@@ -701,7 +701,7 @@ int resources_save(const char *fname)
     char *backup_name;
     FILE *in_file, *out_file;
     int have_old;
-    int i;
+    unsigned int i;
     char *default_name = NULL;
 
     if (fname == NULL) {

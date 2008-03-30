@@ -233,7 +233,6 @@ INCLUDES = \
 noinst_LIBRARIES = libdrive.a
 
 libdrive_a_SOURCES = \
-	ciad.h \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
 	drive-resources.c \

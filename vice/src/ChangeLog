@@ -1,3 +1,108 @@
+2003-10-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.10.
+
+	* drive/drivetypes.h, drive/iec/iec.c, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, c64/c64iec.c, c128/c128iec.c,
+	vic20/vic20iec.c, plus4/plus4iec.c, c64/c64.h, c64/c64cia1.c,
+	c64/c64cia2.c, c64/c64-snapshot.c, c64/c64datasette.c, tpi.h,
+	c128/c128.h, c128/c128cia1.c, c128/c128-snapshot.c,
+	cbm2/cbm2.h, cbm2/cbm2-snapshot.c cbm2/cbm2.c, core/ciacore.c,
+	cbm2/cbm2datasette.c: Dynamically allocate CIA struct.
+
+	* drive/drivetypes.h, drive/iec/iec.c, drive/iec/via1d1541.c,
+	drive/iecieee/iecieee.c, drive/iecieee/via2d.c,
+	drive/ieee/ieee.c, drive/ieee/via1d2031.c, c64/c64iec.c,
+	c128/c128iec.c, vic20/vic20iec.c, plus4/plus4iec.c,
+	vic20/vic20.h, vic20/vic20.c, vic20/vic20via1.c,
+	vic20/vic20via2.c, vic20/vic20ieeevia1.c, pet/petvia.c,
+	vic20/vic20ieeevia2.c, vic20/vic20-snapshot.c, pet/pet.c,
+	vic20/vic20datasette.c, vic20/vic20rsuser.c, pet/pet.h,
+	pet/pet-snapshot.c, core/viacore.c: Dynamically allocate VIA
+	struct.
+
+	* drive/drivetypes.h, drive/ieee/ieee.c, drive/ieee/riot1d.c,
+	drive/ieee/riot2d.c, core/riotcore.c: Dynamically allocate
+	RIOT struct.
+
+	* drive/drivetypes.h, drive/tcbm/tpid.c, drive/tcbm/tcbm.c,
+	c64/c64.h, c64/c64tpi.c, c64/c64.c, c128/c128.h,
+	c128/c128memsnapshot.c, cbm2/cbm2.h, cbm2/cbm2tpi1.c,
+	cbm2/cbm2tpi2.c, cbm2/cbm2-snapshot.c, cbm2/cbm2.c,
+	cbm2/cbm2acia1.c, cbm2/cbm2cia1.c, core/tpicore.c: Dynamically
+	allocate TPI struct.
+
+	* drive/iec/ciad.h: Moved here.
+
+	* drive/iec/via1d1541.h, drive/ieee/via1d2031.h: New files.
+
+	* drive/viad.h: Removed VIA1 specific code.
+
+	* drive/iec/Makefile.am, drive/ieee/Makefile.am,
+	drive/Makefile.am: Updated.
+
+	* drive/iec/iec.c, drive/iec/memiec.c, drive/ieee/ieee.c,
+	drive/ieee/memieee.c: Fixed includes.
+
+	* drive/drivetypes.h, drive/tcbm/tpid.c, drive/ieee/riot2d.c,
+	drive/iec/cia1571d.c, drive/iec/cia1581d.c,
+	drive/iec/via1d1541.c, drive/ieee/via1d2031.c,
+	drive/iecieee/via2d.c
+
+	* raster/raster-cmdline-options.c, resources.c: Fixed
+	warnings.
+
+	* gfxoutputdrv/mpegdrv.c: #include "vice.h".
+
+2003-10-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uisnapshot.c: Use screenshot API to record movie
+	file.
+
+	* c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c (machine_vsync_hook): Call
+	screenshot_record().
+
+	* gfxoutput.h: Added record to gfxoutputdrv_t.
+
+	* gfxoutputdrv/bmpdrv.c, gfxoutputdrv/pngdrv.c: These drivers
+	don't have a record function.
+
+	* gfxoutputdrv/Makefile.am, gfxoutputdrv/mpegdrv.{c|h}: New
+	files (added). They implement the screenshot driver to record
+	movie files using the FFMPEG library 0.4.8.
+
+	* gfxoutputdrv/gfxoutput.c (gfxoutput_init): Initializes the
+	mpeg driver if HAVE_AVCODEC_H is defined.
+
+	* screenshot.c: New variables recording_driver and
+	recording_canvas.
+	(screenshot_save_core): Depending on the drv parameter it
+	saves a screenshot image or records a movie frame.
+	(screenshot_save): Sets recording_driver and recording_canvas
+	if the driver has a recording function.
+	(screenshot_record, screenshot_stop_recording,
+	screenshot_is_recording): New functions.
+
+	* screenshot.h: Added prototypes.
+
+	* sound.c (sound_open): Warnings if recording sound device
+	doesn't exist or is a realtime device.
+
+	* sound.h: Added prototype.
+
+	* sounddrv/soundmovie.c: Moved every FFMPEG related code to
+	the mpeg driver. Now this sound device only registers a
+	sample buffer from the mpeg driver and writes to this buffer.
+
+2003-10-23  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/video.c: also NULL draw buffer pointer when
+	freeing the frame buffer to fix crashes.
+
+	* raster/raster.c: check draw buffer pointer against NULL
+	before freeing it.
+
 2003-10-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.9.

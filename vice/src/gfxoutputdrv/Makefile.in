@@ -229,6 +229,8 @@ noinst_LIBRARIES = libgfxoutputdrv.a
 
 # These sources are linked only under certain circumstances.
 EXTRA_libgfxoutputdrv_a_SOURCES = \
+	mpegdrv.c \
+	mpegdrv.h \
 	pngdrv.c \
 	pngdrv.h
 
@@ -258,7 +260,7 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/bmpdrv.Po ./$(DEPDIR)/gfxoutput.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/pngdrv.Po
+@AMDEP_TRUE@	./$(DEPDIR)/mpegdrv.Po ./$(DEPDIR)/pngdrv.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -293,6 +295,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bmpdrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gfxoutput.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpegdrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pngdrv.Po@am__quote@
 
 distclean-depend:

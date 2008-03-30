@@ -1,3 +1,11 @@
+2003-10-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.10.
+
+2003-10-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* Include mpegdrv.o if avcodec.h is found.
+
 2003-10-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.9.
