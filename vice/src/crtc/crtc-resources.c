@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "crtc-resources.h"
 #include "crtctypes.h"
+#include "fullscreen.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
@@ -74,7 +75,7 @@ int crtc_resources_init(void)
     video_chip_cap->double_mode.sizey = 2;
     video_chip_cap->double_mode.rmode = VIDEO_RENDER_RGB_2X2;
 
-    video_fullscreen_cap(&video_chip_cap->fullscreen);
+    fullscreen_capability(&video_chip_cap->fullscreen);
 
     if (raster_resources_chip_init("Crtc", &crtc.raster, video_chip_cap) < 0)
         return -1;

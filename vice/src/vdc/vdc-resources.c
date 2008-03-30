@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "archdep.h"
+#include "fullscreen.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
@@ -98,7 +99,7 @@ int vdc_resources_init(void)
     video_chip_cap->double_mode.sizey = 2;
     video_chip_cap->double_mode.rmode = VIDEO_RENDER_RGB_1X2;
 
-    video_fullscreen_cap(&video_chip_cap->fullscreen);
+    fullscreen_capability(&video_chip_cap->fullscreen);
 
     vdc_resources.palette_file_name = NULL;
 
