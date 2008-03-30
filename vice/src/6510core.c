@@ -1237,7 +1237,7 @@
                                                                           \
       tmp = (addr);                                                       \
       INC_PC(3);                                                          \
-      STORE_ABS_SH_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 3); \
+      STORE_ABS_SH_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 2); \
   } while (0)
 
 #define SHA_IND_Y(addr)                               \
@@ -1264,7 +1264,7 @@
                                                                    \
       tmp = (addr);                                                \
       INC_PC(3);                                                   \
-      STORE_ABS_SH_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 3);  \
+      STORE_ABS_SH_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 2);  \
   } while (0)
 
 #define SHY_ABS_X(addr)                                            \
@@ -1273,7 +1273,7 @@
                                                                    \
       tmp = (addr);                                                \
       INC_PC(3);                                                   \
-      STORE_ABS_SH_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 3);  \
+      STORE_ABS_SH_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 2);  \
   } while (0)
 
 #define SHS_ABS_Y(addr)                                                    \
@@ -1281,7 +1281,7 @@
       int tmp = (addr);                                                    \
                                                                            \
       INC_PC(3);                                                           \
-      STORE_ABS_SH_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 3);  \
+      STORE_ABS_SH_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 2);  \
       reg_sp = reg_a & reg_x;                                              \
   } while (0)
 

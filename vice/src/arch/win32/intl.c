@@ -2408,6 +2408,9 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* pl */  IDS_KEYMAP_FILES_FILTER_PL,    /* fuzzy */
 /* sv */  IDS_KEYMAP_FILES_FILTER_SV},
 
+/* res.rc */
+/* en */ {IDS_PRGP00_FILES_FILTER},
+
 /* respet.rc */
 /* en */ {IDS_INPUT_OUTPUT,
 /* de */  IDS_INPUT_OUTPUT_DE,

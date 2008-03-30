@@ -9,13 +9,13 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=0
+VICE_VERSION_BUILD=1
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
 AC_SUBST(VICE_VERSION_BUILD)
 
-dnl AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
+AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
 
 if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
@@ -363,6 +363,13 @@ darwin*)
 
 dnl All other UN*X systems
 *)
+
+  dnl special handling of sco unixware 7.x
+  case "$host_os" in
+    sco3.2v7*)
+      LIBS="-lxti -lsocket -lnsl $LIBS"
+      ;;
+  esac
 
   is_unix=yes
   is_unix_x11=yes
@@ -1845,6 +1852,9 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  openserver5compile=no
+  openserver6compile=no
+  unixwarecompile=no
   qnxcompile=no
   solariscompile=no
   case "$host_os" in
@@ -1856,6 +1866,21 @@ if test x"$is_unix" = "xyes"; then
       solariscompile=yes
       AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
       ;;
+    sco3.2v5*)
+      openserver5compile=yes
+      AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, true)
+      AC_DEFINE(OPENSERVER5_COMPILE,,[Enable SCO Openserver 5.x support])
+      ;;
+    sco3.2v6*)
+      openserver6compile=yes
+      AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, true)
+      AC_DEFINE(OPENSERVER6_COMPILE,,[Enable SCO Openserver 6.x support])
+      ;;
+    sco3.2v7*)
+      unixwarecompile=yes
+      AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, true)
+      AC_DEFINE(UNIXWARE_COMPILE,,[Enable SCO Unixware 7.x support])
+      ;;
     *)
       ;;  
   esac
@@ -1866,6 +1891,18 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$solariscompile" = "xno"; then
     AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  fi
+
+  if test x"$openserver5compile" = "xno"; then
+    AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  fi
+
+  if test x"$openserver6compile" = "xno"; then
+    AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  fi
+
+  if test x"$unixwarecompile" = "xno"; then
+    AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   fi
 
   if test x"$is_unix_gp2x" = "xyes" ; then
@@ -1899,6 +1936,9 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1917,6 +1957,9 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1939,6 +1982,9 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1957,6 +2003,9 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1975,6 +2024,9 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)  
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)  
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1993,6 +2045,9 @@ elif test x"$is_riscos" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, true)

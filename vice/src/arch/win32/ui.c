@@ -1427,6 +1427,15 @@ static void ui_wm_dropfiles(HWND window, WPARAM wparam)
     DragFinish(hDrop);
 }
 
+static void ui_redraw_all_windows(void)
+{
+    int i;
+
+    for (i = 0; i < number_of_windows; i++) {
+        InvalidateRect(window_handles[i], NULL, FALSE);
+    }
+}
+
 /* Window procedure.  All messages are handled here.  */
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
@@ -1442,6 +1451,11 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_CREATE:
         DragAcceptFiles(window, TRUE);
         return 0;
+      case WM_WINDOWPOSCHANGED:
+        /* SRT: if focus is changed in full-screen mode, this message is sent 
+          Make sure that all windows are repainted.*/
+        ui_redraw_all_windows();
+        break;
       case WM_SETREDRAW:
 //      log_debug("WM_SETREDRAW %s", wparam == TRUE? "TRUE" : "FALSE");
         break;
@@ -1485,6 +1499,9 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         return 0;
       case WM_DRAWITEM:
         statusbar_handle_WMDRAWITEM(wparam,lparam);
+        /* SRT: Make sure that all windows are repainted.
+          This message seems to be a good candidate for the remote desktop. */
+        ui_redraw_all_windows();
         return 0;
       case WM_COMMAND:
         handle_wm_command(wparam, lparam, window);

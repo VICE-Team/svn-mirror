@@ -49,7 +49,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-#ifdef MINIX_SUPPORT
+#if defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE)
 #include <sys/select.h>
 #endif
 
@@ -60,6 +60,13 @@
 #include "types.h"
 
 #define MAXRS232 4
+
+#ifdef OPENSERVER6_COMPILE
+struct timeval {
+  long tv_sec;
+  long tv_usec;
+};
+#endif
 
 /* ------------------------------------------------------------------------- */
 

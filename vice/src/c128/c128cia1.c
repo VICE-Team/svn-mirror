@@ -113,7 +113,12 @@ static void do_reset_cia(cia_context_t *cia_context)
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
+    unsigned int i, m;
 
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if ((keyarr[i] & 0x10) && (!(b & m)))
+            vicii_trigger_light_pen(maincpu_clk);
+    }
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)

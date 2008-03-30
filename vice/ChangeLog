@@ -1,3 +1,14 @@
+2007-08-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.1.
+
+	* configure.in: Define `UNSTABLE'.
+
+2007-08-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, config.guess, configure.in: Added SCO
+	Openserver and Unixware support.
+
 2007-08-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.

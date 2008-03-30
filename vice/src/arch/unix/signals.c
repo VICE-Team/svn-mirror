@@ -34,6 +34,11 @@
 #include "monitor.h"
 #include "signals.h"
 
+#ifdef OPENSERVER5_COMPILE
+static RETSIGTYPE ignore64(int sig)
+{
+}
+#endif
 
 static RETSIGTYPE break64(int sig)
 {
@@ -51,6 +56,10 @@ void signals_init(int do_core_dumps)
 {
     signal(SIGINT, break64);
     signal(SIGTERM, break64);
+
+#ifdef OPENSERVER5_COMPILE
+    signal(SIGALRM, ignore64);
+#endif
 
     if (!do_core_dumps) {
         signal(SIGSEGV,  break64);

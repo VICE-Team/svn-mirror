@@ -77,17 +77,18 @@ typedef struct uilib_filefilter_s uilib_filefilter_t;
 
 static uilib_filefilter_t uilib_filefilter[] = {
     { IDS_ALL_FILES_FILTER, TEXT("*.*") },
+    { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
     { IDS_PALETTE_FILES_FILTER, TEXT("*.vpl") },
     { IDS_SNAPSHOT_FILES_FILTER, TEXT("*.vsf") },
     { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64") },
-    { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.p00;*.tap;*.prg") },
-    { IDS_ZIPPED_FILES_FILTER, TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
+    { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
     { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
     { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
     { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },
     { IDS_ROMSET_FILES_FILTER, TEXT("*.vrs") },
     { IDS_ROMSET_ARCHIVES_FILTER, TEXT("*.vra") },
     { IDS_KEYMAP_FILES_FILTER, TEXT("*.vkm") },
+    { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
     { 0, NULL }
 };
 
@@ -559,13 +560,16 @@ static void update_filter_history(DWORD current_filter)
 
 static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
 {
-    DWORD i, j, k, l;
+    DWORD i, k, l;
     DWORD b;
-    TCHAR *filter, *current;
+    TCHAR *filter;
+    DWORD current_len, name_len, pattern_len;
 
-    filter = lib_malloc(UILIB_FILTER_LENGTH_MAX * sizeof(TCHAR));
+    filter = lib_malloc(sizeof(TCHAR));
 
-    current = filter;
+    *filter = TEXT('\0');
+
+    current_len = 1;
 
     last_filterlist = filterlist;
 
@@ -574,17 +578,15 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     /* create the strings for the file filters */
     for (i = 0, b = 1; uilib_filefilter[i].name != 0; i++, b <<= 1) {
         if (filterlist & b) {
-            j = _tcslen(translate_text(uilib_filefilter[i].name)) + 1;
-            memcpy(current, translate_text(uilib_filefilter[i].name), j * sizeof(TCHAR));
-            current += j;
-
-            j = _tcslen(uilib_filefilter[i].pattern) + 1;
-            memcpy(current, uilib_filefilter[i].pattern, j * sizeof(TCHAR));
-            current += j;
+            name_len = (_tcslen(translate_text(uilib_filefilter[i].name)) + 1) * sizeof(TCHAR);
+            pattern_len = (_tcslen(uilib_filefilter[i].pattern) + 1) * sizeof(TCHAR);
+            filter = lib_realloc(filter, current_len + name_len + pattern_len);
+            memcpy(filter + name_len + pattern_len, filter, current_len);
+            memcpy(filter, translate_text(uilib_filefilter[i].name), name_len);
+            memcpy(filter + name_len, uilib_filefilter[i].pattern, pattern_len);
+            current_len += name_len + pattern_len;
         }
     }
-
-    *current = TEXT('\0');
 
     /* search for the most recent file filter */
     for (k = 1; k <= UI_LIB_FILTER_HISTORY_LENGTH && *filterindex == 0; k++) {

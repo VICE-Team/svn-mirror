@@ -100,6 +100,13 @@ typedef struct timeval TIMEVAL;
 #endif
 #endif
 
+#ifdef OPENSERVER6_COMPILE
+struct timeval {
+  long tv_sec;
+  long tv_usec;
+};
+#endif
+
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 
