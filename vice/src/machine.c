@@ -37,7 +37,9 @@
 #include "cmdline.h"
 #include "console.h"
 #include "drive.h"
+#include "event.h"
 #include "fsdevice.h"
+#include "gfxoutput.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -52,6 +54,7 @@
 #include "serial.h"
 #include "sound.h"
 #include "sysfile.h"
+#include "tape.h"
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
@@ -108,11 +111,12 @@ void machine_reset(void)
 static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
 {
     alarm_context_time_warp(maincpu_alarm_context, sub, -1);
-    interrupt_cpu_status_time_warp(&maincpu_int_status, sub, -1);
+    interrupt_cpu_status_time_warp(maincpu_int_status, sub, -1);
 }
 
 void machine_maincpu_init(void)
 {
+    maincpu_init();
     maincpu_monitor_interface = (monitor_interface_t *)lib_malloc(
                                 sizeof(monitor_interface_t));
 }
@@ -136,6 +140,7 @@ static void machine_maincpu_shutdown(void)
         clk_guard_destroy(maincpu_clk_guard);
 
     lib_free(maincpu_monitor_interface);
+    maincpu_shutdown();
 }
 
 void machine_shutdown(void)
@@ -149,8 +154,11 @@ void machine_shutdown(void)
     sound_close();
 
     printer_shutdown();
+    gfxoutput_shutdown();
 
     file_system_shutdown();
+
+    tape_shutdown();
 
     traps_shutdown();
 
@@ -177,10 +185,14 @@ void machine_shutdown(void)
 
     sysfile_shutdown();
 
+    log_close_all();
+
+    event_resources_shutdown();
     fsdevice_resources_shutdown();
     machine_resources_shutdown();
-
-    log_close_all();
+    sysfile_resources_shutdown();
+    ui_resources_shutdown();
+    log_resources_shutdown();
 
     lib_debug_check();
 }
