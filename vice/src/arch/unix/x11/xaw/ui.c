@@ -935,6 +935,18 @@ void ui_set_right_menu(Widget w)
     right_menu = w;
 }
 
+void ui_destroy_drive8_menu(void)
+{
+    if (drive8_menu != NULL)
+        XtDestroyWidget(drive8_menu);
+}
+
+void ui_destroy_drive9_menu(void)
+{
+    if (drive9_menu != NULL)
+        XtDestroyWidget(drive9_menu);
+}
+
 void ui_set_drive8_menu (Widget w)
 {
     char *translation_table;
@@ -961,8 +973,8 @@ void ui_set_drive8_menu (Widget w)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[0]].current_image, 
 			       drive8_menu_translations);
 
-    if (drive8_menu != NULL)
-        XtDestroyWidget(drive8_menu);
+    /*ui_destroy_drive8_menu();*/
+
     drive8_menu = w;
 }
 
@@ -992,8 +1004,8 @@ void ui_set_drive9_menu (Widget w)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[1]].current_image, 
 			       drive9_menu_translations);
 
-    if (drive9_menu != NULL)
-        XtDestroyWidget(drive9_menu);
+    /*ui_destroy_drive9_menu();*/
+
     drive9_menu = w;
 }
 
@@ -1566,11 +1578,11 @@ char *ui_select_file(const char *title,
                      int show_preview)
 {
     static ui_button_t button;
-    static char *ret = NULL;
-    static Widget file_selector = NULL;
+    char *ret;
+    Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
     static char *filesel_dir = NULL;
-    char *current_dir = NULL;
+    char *current_dir;
 
     /* we preserve the current directory over the invocations */
     current_dir = get_current_dir();	/* might be changed elsewhere */
@@ -1586,7 +1598,7 @@ char *ui_select_file(const char *title,
 
     XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
     XtVaSetValues(file_selector, XtNshowContentsButton,
-					read_contents_func ? 1 : 0,  NULL);
+                  read_contents_func ? 1 : 0,  NULL);
 
     XtVaSetValues(file_selector, XtNpattern,
                   default_pattern ? default_pattern : "*", NULL);
@@ -1627,9 +1639,6 @@ char *ui_select_file(const char *title,
     } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL)
 	     || button == UI_BUTTON_CONTENTS);
 
-    if (ret != NULL)
-	free(ret);
-
     if (fs_status.file_selected)
 	ret = concat(fs_status.path, fs_status.file, NULL);
     else
@@ -1640,7 +1649,6 @@ char *ui_select_file(const char *title,
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
     XtDestroyWidget(XtParent(file_selector));
 #endif
-
     if (filesel_dir != NULL) {
 	free(filesel_dir);
     }

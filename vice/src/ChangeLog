@@ -1,3 +1,45 @@
+2000-07-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.29.
+
+	* arch/unix/x11/xaw/widgets/MultiList.c: Free the list data if
+	the widget is destroyed.
+
+	* arch/unix/x11/xaw/ui.c (ui_select_file): Cleanup.
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Destroy old
+	widget before creating a new one.
+	Initialize `fliplist_start', commented out odd `free()' loop.
+
+	* arch/unix/x11/xaw/ui.c, arch/unix/x11/gnome/ui.c
+	(ui_destroy_drive8_menu, ui_destroy_drive9_menu): New
+	functions.
+
+	* drive/drive.c (drive_set_half_track): Calculate head
+	position if track is changed.
+	(drive_init): Initialize `GCR_current_track_size'.
+
+	* attach.c, attach.h (file_system_detach_disk_shutdown): New
+	function.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (machine_shutdown): Do not use the generic disk
+	detach routine on shutdown.
+
+2000-07-19  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/uimenu.c (ui_menu_create): Added and commented
+	out debug code.
+
+	* arch/unix/x11/gnome/ui.c (ui_display_tape_counter): Enlarged
+	string buffer for translator to 1024 (kludge!)
+
+	* arch/unix/uicommands.c 
+	(ui_update_flip_menus): Added hopefully proper free()'s and bound
+	check for fliplist menu.
+	Enlarged size for allocated menu entries to 1024; This is a first
+	kludge to be safe for translations.
+
 2000-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.28.

@@ -561,16 +561,17 @@ static UI_CALLBACK(remove_from_fliplist2)
 			 ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
 }
 
+#define FLIPLIST_MENU_LIMIT 256
 void ui_update_flip_menus(int from_unit, int to_unit)
 {
     /* Yick, allocate dynamically */
-    static ui_menu_entry_t flipmenu[NUM_DRIVES][256]; 
+    static ui_menu_entry_t flipmenu[NUM_DRIVES][FLIPLIST_MENU_LIMIT]; 
     static struct cb_data_t cb_data[NUM_DRIVES][sizeof(cbd_enum_t)];
     
     char *image = NULL, *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
     char *t4 = NULL, *t5 = NULL, *dir;
     void *fl_iterator;
-    int i, drive, true_emu;
+    int i, drive, true_emu, fliplist_start = 0;
 
     resources_get_value("DriveTrueEmulation", 
 			(resource_value_t *) &true_emu);
@@ -580,8 +581,12 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	 drive++) {
 
 	i = 0;
+	t0 = t1 = t2 = t3 = t4 = t5 = NULL;
+	
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-	t0 = xmalloc(16);
+	t0 = xmalloc(1024);
+	/* Translators: the string is fixed with 1024 byte! Don't exceed this
+	   limit !*/
 	sprintf(t0, _("Attach #%d"), drive + 8);
 	flipmenu[drive][i].string = t0;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
@@ -589,7 +594,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	i++;
 
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-	t5 = xmalloc(16);
+	t5 = xmalloc(1024);
+	/* Translators: the string is fixed with 1024 byte! Don't exceed this
+	   limit !*/
 	sprintf(t5, _("Detach #%d"), drive + 8);
 	flipmenu[drive][i].string = t5;
 	flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
@@ -629,6 +636,10 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	cb_data[drive][CBD_NEXT].data = 1;
 	flipmenu[drive][i].callback_data = 
 	    (ui_callback_data_t) &(cb_data[drive][CBD_NEXT]);
+	if (dir)
+	    free(dir);
+	if (image)
+	    free(image);
 	i++;
     
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -640,6 +651,10 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	cb_data[drive][CBD_PREV].data = 0;
 	flipmenu[drive][i].callback_data = 
 	    (ui_callback_data_t) &(cb_data[drive][CBD_PREV]);
+	if (dir)
+	    free(dir);
+	if (image)
+	    free(image);
 	i++;
     
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -651,6 +666,10 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	cb_data[drive][CBD_ADD].data = (long) last_attached_images[drive];
 	flipmenu[drive][i].callback_data = 
 	    (ui_callback_data_t) &(cb_data[drive][CBD_ADD]);
+	if (dir)
+	    free(dir);
+	if (image)
+	    free(image);
 	i++;
 
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -662,6 +681,10 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	cb_data[drive][CBD_REMOVE].data = (long) last_attached_images[drive];
 	flipmenu[drive][i].callback_data = 
 	    (ui_callback_data_t) &(cb_data[drive][CBD_REMOVE]);
+	if (dir)
+	    free(dir);
+	if (image)
+	    free(image);
 	i++;
 
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -670,6 +693,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     
 	/* Now collect current fliplist */
 	fl_iterator=flip_init_iterate(drive + 8);
+	fliplist_start = i;
 	while (fl_iterator) {
 	    memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	    fname_split(flip_get_image(fl_iterator), &dir, &image);
@@ -680,33 +704,59 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 		(ui_callback_data_t) fl_iterator;
 
 	    fl_iterator = flip_next_iterate(drive + 8);
+	    if (dir)
+		free(dir);
+	    /* keep image here, this is freed afterwards */
 	    i++;
+	    if (i >= (FLIPLIST_MENU_LIMIT - 1)) /* the end delimitor must fit */
+	    {
+		log_warning(LOG_DEFAULT, "Number of fliplist menu entries exceeded."
+			    "Cutting after %d entries.", i);
+		break;
+	    }
 	}
 
     update_menu:
 	/* make sure the menu is well terminated */
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-
+	i++;
+	
 	/* ugly ... */
 	if (drive == 0)
 	{
+            ui_destroy_drive8_menu();
+            /* FIXME: Make sure the widget is really destroyed! */
 	    ui_set_drive8_menu(ui_menu_create("LeftDrive8Menu", 
 					      flipmenu[drive], NULL));
 	}
 	else
 	{
+            ui_destroy_drive9_menu();
+            /* FIXME: Make sure the widget is really destroyed! */
 	    ui_set_drive9_menu(ui_menu_create("LeftDrive9Menu", 
 					      flipmenu[drive], NULL));
 	}
-	
-	free(t0);
-	free(t5);
-	if (i > 1) {
+
+	if (t0)
+	    free(t0);
+	if (t1)
 	    free(t1);
+	if (t2)
 	    free(t2);
+	if (t3)
 	    free(t3);
+	if (t4)
 	    free(t4);
+	if (t5)
+	    free(t5);
+/*
+	while (fliplist_start < i)
+	{
+	    if (flipmenu[drive][fliplist_start].string)
+		free(flipmenu[drive][fliplist_start].string);
+	    fliplist_start++;
 	}
+*/
     }
 }
 
