@@ -86,6 +86,12 @@ libarch_a_SOURCES = \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \
+	uited.c \
+	uited.h \
+	uivdc.c \
+	uivdc.h \
+	uivic.c \
+	uivic.h \
 	uivicii.c \
 	uivicii.h \
 	vic20ui.c \
