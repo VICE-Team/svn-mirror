@@ -109,5 +109,8 @@ unsigned int machine_jam(const char *format, ...);
 
 extern void machine_video_refresh(void);
 
+/* Update memory pointers if memory mapping has changed. */
+extern void machine_update_memory_ptrs(void);
+
 #endif /* _MACHINE_H */
 
