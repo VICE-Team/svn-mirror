@@ -118,6 +118,10 @@ SOURCE="..\..\c64\cart\generic.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\ide64.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\kcs.c"
 # End Source File
 # Begin Source File
