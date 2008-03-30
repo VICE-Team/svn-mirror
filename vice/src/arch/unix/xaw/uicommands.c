@@ -44,7 +44,6 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
-#include "datasette.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
@@ -155,12 +154,6 @@ static UI_CALLBACK(attach_tape)
 static UI_CALLBACK(detach_tape)
 {
     tape_detach_image();
-}
-
-static UI_CALLBACK(ui_datasette_control)
-{
-    int command = (int)client_data;
-    datasette_control(command);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -566,22 +559,6 @@ static ui_menu_entry_t detach_disk_image_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t datasette_control_submenu[] = {
-    { "Stop", (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
-    { "Play", (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
-    { "Forward", (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
-    { "Rewind", (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
-    { "Record", (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
-    { "Reset", (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
-    { NULL }
-};
-
 static ui_menu_entry_t reset_submenu[] = {
     { "Soft",
       (ui_callback_t) reset, NULL, NULL },
@@ -623,8 +600,6 @@ ui_menu_entry_t ui_tape_commands_menu[] = {
       XK_t, UI_HOTMOD_META},
     { "Detach tape image",
       (ui_callback_t) detach_tape, NULL, NULL },
-    { "Datasette control",
-      NULL, NULL, datasette_control_submenu },
     { NULL }
 };
 

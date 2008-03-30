@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "cartridge.h"
+#include "datasette.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -84,6 +85,28 @@ static UI_CALLBACK(freeze_cartridge)
     cartridge_trigger_freeze();
 }
 
+static UI_CALLBACK(ui_datasette_control)
+{
+    int command = (int)client_data;
+    datasette_control(command);
+}
+
+static ui_menu_entry_t datasette_control_submenu[] = {
+    { "Stop", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
+    { "Play", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
+    { "Forward", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
+    { "Rewind", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
+    { "Record", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
+    { "Reset", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Smart attach CRT image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
@@ -114,6 +137,12 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
       (ui_callback_t) detach_cartridge, NULL, NULL },
     { "Cartridge freeze",
       (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
+    { NULL }
+};
+
+ui_menu_entry_t ui_datasette_commands_menu[] = {
+    { "Datasette control",
+      NULL, NULL, datasette_control_submenu },
     { NULL }
 };
 
@@ -376,6 +405,7 @@ int c64_ui_init(void)
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
                                     ui_tape_commands_menu,
+                                    ui_datasette_commands_menu,
                                     ui_menu_separator,
                                     ui_smart_attach_commands_menu,
                                     ui_menu_separator,
