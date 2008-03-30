@@ -115,6 +115,7 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
+static int vdrive_command_scratch(vdrive_t *vdrive, char *name, int length);
 static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
                                    unsigned int length);
 
@@ -169,48 +170,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         break;
 
       case 'S':         /* Scratch */
-        {
-            BYTE *slot;
-            char *realname = name;
-            unsigned int reallength = 0, filetype = 0, readmode = 0;
-
-            /* XXX
-             * Wrong name parser - s0:file1,file2 means scratch
-             * those 2 files.
-             */
-
-            if (vdrive_parse_name(name, length, realname, &reallength,
-                                  &readmode, &filetype, NULL) != SERIAL_OK) {
-                status = IPE_NO_NAME;
-            } else if (vdrive->image->read_only) {
-                status = IPE_WRITE_PROTECT_ON;
-            } else {
-#ifdef DEBUG_DRIVE
-                log_debug("remove name= '%s' len=%d (%d) type= %d.",
-                          realname, reallength, length, filetype);
-#endif
-                vdrive->deleted_files = 0;
-
-                /* Since vdrive_dir_remove_slot() uses
-                 * vdrive_dir_find_first_slot() too, we cannot find the
-                 * matching files by simply repeating
-                 * vdrive_dir find_next_slot() calls alone; we have to re-call
-                 * vdrive_dir_find_first_slot() each time... EP 1996/04/07
-                 */
-
-                vdrive_dir_find_first_slot(vdrive, realname, reallength, 0);
-                while ((slot = vdrive_dir_find_next_slot(vdrive))) {
-                    vdrive_dir_remove_slot(vdrive, slot);
-                    vdrive->deleted_files++;
-                    vdrive_dir_find_first_slot(vdrive, realname, reallength, 0);
-                }
-                if (vdrive->deleted_files)
-                    status = IPE_DELETED;
-                else
-                    status = IPE_NOT_FOUND;
-                vdrive_command_set_error(vdrive, status, 1, 0);
-            } /* else */
-        }
+        status = vdrive_command_scratch(vdrive, (char *)name, length);
         break;
 
       case 'I':
@@ -528,75 +488,160 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     return(IPE_OK);
 }
 
-
-/*
- * Rename disk entry
- */
-
 static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
 {
     char *src;
-    char dest_name[256], src_name[256];
-    unsigned int dest_reallength, dest_readmode = FAM_READ;
-    unsigned int dest_filetype, dest_rl;
-    unsigned int src_reallength, src_readmode = FAM_READ;
-    unsigned int src_filetype, src_rl;
     BYTE *slot;
+    int status = IPE_OK, rc;
+    cmd_parse_t cmd_parse_dst, cmd_parse_src;
 
     if (!dest || !(src = (char*)memchr(dest, '=', length)) )
-        return (IPE_SYNTAX);
+        return IPE_SYNTAX;
 
     *src++ = 0;
 
     if (strchr (dest, ':'))
-        dest = strchr (dest, ':') +1;
+        dest = strchr (dest, ':') + 1;
 
 #ifdef DEBUG_DRIVE
     log_debug("RENAME: dest= '%s', orig= '%s'.", dest, src);
 #endif
 
-    if (!vdrive_parse_name(dest, strlen(dest), dest_name, &dest_reallength,
-        &dest_readmode, &dest_filetype, &dest_rl) == FLOPPY_ERROR)
-        return IPE_SYNTAX;
-    if (!vdrive_parse_name(src, strlen(src), src_name, &src_reallength,
-        &src_readmode, &src_filetype, &src_rl) == FLOPPY_ERROR)
-        return IPE_SYNTAX;
+    cmd_parse_dst.cmd = dest;
+    cmd_parse_dst.cmdlength = strlen(dest);
+    cmd_parse_dst.readmode = FAM_READ;
 
-    if (vdrive->image->read_only)
-        return IPE_WRITE_PROTECT_ON;
+    rc = vdrive_command_parse(&cmd_parse_dst);
+
+    if (rc == FLOPPY_ERROR) {
+        status = IPE_SYNTAX;
+        goto out1;
+    }
+
+    cmd_parse_src.cmd = src;
+    cmd_parse_src.cmdlength = strlen(src);
+    cmd_parse_src.readmode = FAM_READ;
+
+    rc = vdrive_command_parse(&cmd_parse_src);
+
+    if (rc == FLOPPY_ERROR) {
+        status = IPE_SYNTAX;
+        goto out2;
+    }
+
+    if (vdrive->image->read_only) {
+        status = IPE_WRITE_PROTECT_ON;
+        goto out2;
+    }
 
     /* Check if the destination name is already in use.  */
 
-    vdrive_dir_find_first_slot(vdrive, dest_name, dest_reallength,
-                               dest_filetype);
+    vdrive_dir_find_first_slot(vdrive, cmd_parse_dst.parsecmd,
+                               cmd_parse_dst.parselength,
+                               cmd_parse_dst.filetype);
+
     slot = vdrive_dir_find_next_slot(vdrive);
 
-    if (slot)
-        return (IPE_FILE_EXISTS);
+    if (slot) {
+        status = IPE_FILE_EXISTS;
+        goto out2;
+    }
 
     /* Find the file to rename. */
 
-    vdrive_dir_find_first_slot(vdrive, src_name, src_reallength, src_filetype);
+    vdrive_dir_find_first_slot(vdrive, cmd_parse_src.parsecmd,
+                               cmd_parse_src.parselength,
+                               cmd_parse_src.filetype);
+
     slot = vdrive_dir_find_next_slot(vdrive);
 
-    if (!slot)
-        return (IPE_NOT_FOUND);
+    if (!slot) {
+        status = IPE_NOT_FOUND;
+        goto out2;
+    }
 
     /* Now we can replace the old file name...  */
     /* We write directly to the Dir_buffer.  */
 
     slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
     memset(slot + SLOT_NAME_OFFSET, 0xa0, 16);
-    memcpy(slot + SLOT_NAME_OFFSET, dest_name, dest_reallength);
-    if (dest_filetype)
-        slot[SLOT_TYPE_OFFSET] = dest_filetype; /* FIXME: is this right? */
+    memcpy(slot + SLOT_NAME_OFFSET, cmd_parse_dst.parsecmd,
+           cmd_parse_dst.parselength);
+
+    /* FIXME: is this right? */
+    if (cmd_parse_dst.filetype)
+        slot[SLOT_TYPE_OFFSET] = cmd_parse_dst.filetype;
 
     /* Update the directory.  */
     if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
         vdrive->Curr_track, vdrive->Curr_sector) < 0)
-        return IPE_WRITE_ERROR;
+        status = IPE_WRITE_ERROR;
 
-    return IPE_OK;
+out2:
+    free(cmd_parse_src.parsecmd);
+out1:
+    free(cmd_parse_dst.parsecmd);
+
+    return status;
+}
+
+static int vdrive_command_scratch(vdrive_t *vdrive, char *name, int length)
+{
+    int status, rc;
+    BYTE *slot;
+    cmd_parse_t cmd_parse;
+
+    /* XXX
+     * Wrong name parser - s0:file1,file2 means scratch
+     * those 2 files.
+     */
+
+    cmd_parse.cmd = name;
+    cmd_parse.cmdlength = length;
+    cmd_parse.readmode = 0;
+
+    rc = vdrive_command_parse(&cmd_parse);
+
+    if (rc != SERIAL_OK) {
+        status = IPE_NO_NAME;
+    } else if (vdrive->image->read_only) {
+        status = IPE_WRITE_PROTECT_ON;
+    } else {
+/*#ifdef DEBUG_DRIVE*/
+        log_debug("remove name= '%s' len=%d (%d) type= %d.",
+                  cmd_parse.parsecmd, cmd_parse.parselength,
+                  length, cmd_parse.filetype);
+/*#endif*/
+        vdrive->deleted_files = 0;
+
+        /* Since vdrive_dir_remove_slot() uses
+         * vdrive_dir_find_first_slot() too, we cannot find the
+         * matching files by simply repeating
+         * vdrive_dir find_next_slot() calls alone; we have to re-call
+         * vdrive_dir_find_first_slot() each time... EP 1996/04/07
+         */
+
+        vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
+                                   cmd_parse.parselength, 0);
+
+        while ((slot = vdrive_dir_find_next_slot(vdrive))) {
+            vdrive_dir_remove_slot(vdrive, slot);
+            vdrive->deleted_files++;
+            vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
+                                       cmd_parse.parselength, 0);
+        }
+
+        if (vdrive->deleted_files)
+            status = IPE_DELETED;
+        else
+            status = IPE_NOT_FOUND;
+
+        vdrive_command_set_error(vdrive, status, 1, 0);
+    }
+
+    free(cmd_parse.parsecmd);
+
+    return status;
 }
 
 static int vdrive_command_initialize(vdrive_t *vdrive)
@@ -887,5 +932,125 @@ int vdrive_command_memory_read(vdrive_t *vdrive, ADDRESS addr,
 
     vdrive->mem_length = length - 1;
     return IPE_MEMORY_READ;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Parse command `parsecmd', type and read/write mode from the given string
+   `cmd' with `cmdlength. '@' on write must be checked elsewhere.  */
+
+int vdrive_command_parse(cmd_parse_t *cmd_parse)
+{
+    const char *p;
+    char *parsecmd, *c;
+    int t;
+
+    cmd_parse->parsecmd = NULL;
+
+    if (cmd_parse->cmd == NULL || cmd_parse->cmdlength == 0)
+        return FLOPPY_ERROR;
+
+    p = (char *)memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
+
+    if (p)
+        p++;
+    else {      /* no colon found */
+        if (*(cmd_parse->cmd) != '$')
+            p = cmd_parse->cmd;
+        else
+            p = cmd_parse->cmd + cmd_parse->cmdlength; /* set to null byte */
+    }
+#ifdef DEBUG_DRIVE
+    log_debug("Command (%d): '%s'.", cmd_parse->cmdlength, p);
+#endif
+
+#if 0
+    if (*(cmd_parse->cmd) == '@' && p == cmd_parse->cmd)
+        p++;
+#endif
+
+    t = cmd_parse->cmdlength - (p - cmd_parse->cmd);
+    cmd_parse->parselength = 0;
+
+    /* Temporary hack.  */
+    cmd_parse->parsecmd = (char *)xcalloc(1, 256);
+
+    parsecmd = cmd_parse->parsecmd;
+
+    while (*p != ',' && t-- > 0) {
+        (cmd_parse->parselength)++;
+        *(parsecmd++) = *(p++);
+#ifdef DEBUG_DRIVE
+        log_debug("parsing... [%d] %02x  t=%d.", cmd_parse->parselength,
+                  *(cmd_parse->parsecmd - 1), t);
+#endif
+    }  /* while */
+
+    cmd_parse->filetype = 0;
+
+    /*
+     * Change modes ?
+     */
+    while (t > 0) {
+        t--;
+        p++;
+
+        if (t == 0) {
+#ifdef DEBUG_DRIVE
+            log_debug("done. [%d] %02x  t=%d.", cmd_parse->parselength, *p, t);
+            log_debug("No type.");
+#endif
+            return FLOPPY_ERROR;
+        }
+
+        switch (*p) {
+          case 'S':
+            cmd_parse->filetype = FT_SEQ;
+            break;
+          case 'P':
+            cmd_parse->filetype = FT_PRG;
+            break;
+          case 'U':
+            cmd_parse->filetype = FT_USR;
+            break;
+          case 'L':                     /* L,(#record length)  max 254 */
+            if (p[1] == ',') {
+                cmd_parse->recordlength = p[2]; /* Changing RL causes error */
+
+                if (cmd_parse->recordlength > 254)
+                    return FLOPPY_ERROR;
+            }
+            cmd_parse->filetype = FT_REL;
+            break;
+          case 'R':
+            cmd_parse->readmode = FAM_READ;
+            break;
+          case 'W':
+            cmd_parse->readmode = FAM_WRITE;
+            break;
+          default:
+#ifdef DEBUG_DRIVE
+            log_debug("Invalid extension. p='%s'.", p);
+#endif
+            if (cmd_parse->readmode != FAM_READ
+                && cmd_parse->readmode != FAM_WRITE)
+                return FLOPPY_ERROR;
+        }
+
+        c = (char *)memchr(p, ',', t);
+
+        if (c) {
+            t -= (c - p);
+            p = c;
+        } else
+            t = 0;
+    }  /* while (t) */
+
+#ifdef DEBUG_DRIVE
+    log_debug("Type = %s  %s.", slot_type[cmd_parse->filetype],
+            (cmd_parse->readmode == FAM_READ ?  "read" : "write"));
+#endif
+
+    return FLOPPY_COMMAND_OK;
 }
 
