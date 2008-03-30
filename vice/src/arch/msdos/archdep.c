@@ -42,6 +42,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <allegro.h>
+
 #include "archdep.h"
 #include "fcntl.h"
 #include "lib.h"
@@ -60,6 +62,8 @@ static void restore_workdir(void)
 
 int archdep_init(int *argc, char **argv)
 {
+    allegro_init();
+    
     _fmode = O_BINARY;
 
     argv0 = lib_stralloc(argv[0]);
@@ -296,13 +300,15 @@ cleanup:
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* MS-DOS version.  */
-    *return_path = _truename(orig_name, NULL);
-    if (*return_path == NULL) {
+    char *full_path = _truename(orig_name, NULL);
+    if (full_path == NULL) {
         log_error(LOG_ERR,
                   "zfile_list_add: warning, illegal file name `%s'.",
                   orig_name);
         *return_path = lib_stralloc(orig_name);
     }
+    *return_path = lib_stralloc(full_path);
+    free(full_path); /* not lib_free() */
     return 0;
 }
 
@@ -355,6 +361,19 @@ int archdep_file_set_gzip(const char *name)
 int archdep_mkdir(const char *pathname, int mode)
 {
     return mkdir(pathname, (mode_t)mode);
+}
+
+int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
+{
+    struct stat statbuf;
+
+    if (stat(file_name, &statbuf) < 0)
+        return -1;
+
+    *len = statbuf.st_size;
+    *isdir = S_ISDIR(statbuf.st_mode);
+
+    return 0;
 }
 
 int archdep_file_is_blockdev(const char *name)
