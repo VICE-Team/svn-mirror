@@ -668,10 +668,7 @@ static const char *banknames[] =
     "default", "cpu", "ram", "rom", "io", "cart", NULL
 };
 
-static int banknums[] =
-{
-    1, 0, 1, 2, 3, 4
-};
+static const int banknums[] = { 1, 0, 1, 2, 3, 4 };
 
 const char **mem_bank_list(void)
 {

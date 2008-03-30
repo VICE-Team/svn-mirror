@@ -225,15 +225,18 @@ void mem_toggle_emu_id(int flag)
 
 /* ------------------------------------------------------------------------- */
 
-static struct {
+struct modtab_s {
     const char *model;
-    const int usevicii;
-    const int ramsize;
+    int usevicii;
+    int ramsize;
     const char *basic;
     const char *charrom;
     const char *kernal;
-    const int line; /* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
-} modtab[] = {
+    int line; /* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
+};
+typedef struct modtab_s modtab_t;
+
+static modtab_t modtab[] = {
     { "510",  1, 64,   CBM2_BASIC500, CBM2_CHARGEN500, CBM2_KERNAL500, 2  },
     { "610",  0, 128,  CBM2_BASIC128, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
     { "620",  0, 256,  CBM2_BASIC256, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
@@ -620,12 +623,8 @@ void REGPARM2 store_io(WORD addr, BYTE value)
 BYTE REGPARM1 read_io(WORD addr)
 {
 /*
-    if (emu_id_enabled && addr >= 0xE8A0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
+    if (emu_id_enabled && addr >= 0xE8A0)
+        return emuid_read(addr - e8a0);
 */
 
     switch (addr & 0xf800) {
@@ -1050,9 +1049,8 @@ static const char *banknames[] = {
     "romio", NULL
 };
 
-static int banknums[] = {
-    17, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-};
+static const int banknums[] = {
+    17, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
 
 const char **mem_bank_list(void)
 {

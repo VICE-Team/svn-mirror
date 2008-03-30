@@ -219,18 +219,21 @@ BYTE REGPARM1 via_read(WORD addr)
 static BYTE REGPARM1 read_emuid(WORD addr)
 {
     addr &= 0xff;
-    if (addr >= 0xa0) {
-        return emulator_id[addr - 0xa0];
-    }
+
+    if (addr >= 0xa0)
+        return emuid_read(addr - 0xa0);
+
     return 0xff;
 }
 
 static void REGPARM2 store_emuid(WORD addr, BYTE value)
 {
+#if 0
     addr &= 0xff;
     if (addr == 0xff) {
         emulator_id[addr - 0xa0] ^= 0xff;
     }
+#endif
     return;
 }
 
@@ -699,13 +702,9 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* FIXME: peek */
 
-static const char *banknames[] = {
-    "default", "cpu", NULL
-};
+static const char *banknames[] = { "default", "cpu", NULL };
 
-const int banknums[] = {
-    0, 0
-};
+static const int banknums[] = { 0, 0 };
 
 const char **mem_bank_list(void)
 {
@@ -784,7 +783,7 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns)
 
 int mem_patch_kernal(void)
 {
-    static unsigned short patch_bytes[] = {
+    static unsigned short const patch_bytes[] = {
         1, 0xE475,
             0xe8,
             0x41,
