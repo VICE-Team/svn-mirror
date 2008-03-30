@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-05-01 12:52+0200\n"
+"POT-Creation-Date: 2006-05-14 19:02+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -137,9 +137,9 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/rs232drv/rs232drv.c:109 src/rs232drv/rs232drv.c:111
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:221
-#: src/vic20/vic20cartridge.c:223 src/vic20/vic20cartridge.c:225
-#: src/vic20/vic20cartridge.c:227 src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:226
+#: src/vic20/vic20cartridge.c:228 src/vic20/vic20cartridge.c:230
+#: src/vic20/vic20cartridge.c:232 src/vic20/vic20cartridge.c:234
 #: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr "<namn>"
@@ -1800,23 +1800,23 @@ msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/vic20/vic20cartridge.c:221
+#: src/vic20/vic20cartridge.c:226
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $2000"
 
-#: src/vic20/vic20cartridge.c:223
+#: src/vic20/vic20cartridge.c:228
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $4000"
 
-#: src/vic20/vic20cartridge.c:225
+#: src/vic20/vic20cartridge.c:230
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $6000"
 
-#: src/vic20/vic20cartridge.c:227
+#: src/vic20/vic20cartridge.c:232
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Ange namn för 4/8K-utöknings-ROM på $A000"
 
-#: src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20cartridge.c:234
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-05-01 12:52+0200\n"
+"POT-Creation-Date: 2006-05-14 19:02+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -142,9 +142,9 @@ msgstr "Régler la taille du tampon à <valeur> ms"
 #: src/rs232drv/rs232drv.c:109 src/rs232drv/rs232drv.c:111
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:221
-#: src/vic20/vic20cartridge.c:223 src/vic20/vic20cartridge.c:225
-#: src/vic20/vic20cartridge.c:227 src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:226
+#: src/vic20/vic20cartridge.c:228 src/vic20/vic20cartridge.c:230
+#: src/vic20/vic20cartridge.c:232 src/vic20/vic20cartridge.c:234
 #: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr "<nom>"
@@ -1822,23 +1822,23 @@ msgstr "Activer l'interface VIC-1112 IEEE488"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Désactiver l'interface VIC-1112 IEEE488"
 
-#: src/vic20/vic20cartridge.c:221
+#: src/vic20/vic20cartridge.c:226
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $2000"
 
-#: src/vic20/vic20cartridge.c:223
+#: src/vic20/vic20cartridge.c:228
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $4000"
 
-#: src/vic20/vic20cartridge.c:225
+#: src/vic20/vic20cartridge.c:230
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Spécifier le nom de l'extension ROM 4/8/16K à $6000"
 
-#: src/vic20/vic20cartridge.c:227
+#: src/vic20/vic20cartridge.c:232
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Spécifier le nom de l'extension ROM 4/8K à $A000"
 
-#: src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20cartridge.c:234
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Spécifier le nom de l'extension ROM 4K à $B000"
 

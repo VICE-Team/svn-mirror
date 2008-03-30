@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-05-01 12:52+0200\n"
+"POT-Creation-Date: 2006-05-14 19:02+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -138,9 +138,9 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 #: src/rs232drv/rs232drv.c:109 src/rs232drv/rs232drv.c:111
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:221
-#: src/vic20/vic20cartridge.c:223 src/vic20/vic20cartridge.c:225
-#: src/vic20/vic20cartridge.c:227 src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:226
+#: src/vic20/vic20cartridge.c:228 src/vic20/vic20cartridge.c:230
+#: src/vic20/vic20cartridge.c:232 src/vic20/vic20cartridge.c:234
 #: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr "<naam>"
@@ -1805,23 +1805,23 @@ msgstr "Aktiveer VIC-1112 IEEE488 interface"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 interface afsluiten"
 
-#: src/vic20/vic20cartridge.c:221
+#: src/vic20/vic20cartridge.c:226
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K ROM op $2000"
 
-#: src/vic20/vic20cartridge.c:223
+#: src/vic20/vic20cartridge.c:228
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K ROM op $4000"
 
-#: src/vic20/vic20cartridge.c:225
+#: src/vic20/vic20cartridge.c:230
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K ROM op $6000"
 
-#: src/vic20/vic20cartridge.c:227
+#: src/vic20/vic20cartridge.c:232
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Geef de naam van het bestand voor de 4/8K ROM op $A000"
 
-#: src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20cartridge.c:234
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
 
