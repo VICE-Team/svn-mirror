@@ -157,6 +157,7 @@ struct cpu_int_status {
 
     enum cpu_int global_pending_int;
 };
+typedef struct cpu_int_status cpu_int_status_t;
 
 /* ------------------------------------------------------------------------- */
 
@@ -174,13 +175,13 @@ struct cpu_int_status {
 #include <string.h>		/* memset() */
 
 /* Initialization.  */
-_INT_FUNC void cpu_int_status_init(struct cpu_int_status *cs, int num_ints,
+_INT_FUNC void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
  				   int num_alarms,
 				   opcode_info_t *last_opcode_info_ptr)
 {
     int i;
 
-    memset(cs, 0, sizeof(struct cpu_int_status));
+    memset(cs, 0, sizeof(cpu_int_status_t));
     cs->num_ints = num_ints;
     cs->num_alarms = num_alarms;
     for (i = 0; i < 0x100; i++)
@@ -193,7 +194,7 @@ _INT_FUNC void cpu_int_status_init(struct cpu_int_status *cs, int num_ints,
 }
 
 /* Set the IRQ line state.  */
-_INT_FUNC void set_irq(struct cpu_int_status *cs, int int_num, int value,
+_INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
 		       CLOCK clk)
 {
     if (value) {		/* Trigger the IRQ.  */
@@ -225,7 +226,7 @@ _INT_FUNC void set_irq(struct cpu_int_status *cs, int int_num, int value,
 }
 
 /* Set the NMI line state.  */
-_INT_FUNC void set_nmi(struct cpu_int_status *cs, int int_num, int value,
+_INT_FUNC void set_nmi(cpu_int_status_t *cs, int int_num, int value,
 		       CLOCK clk)
 {
     if (value) {		/* Trigger the NMI.  */
@@ -261,7 +262,7 @@ _INT_FUNC void set_nmi(struct cpu_int_status *cs, int int_num, int value,
 /* Change the interrupt line state: this can be used to change both NMI and IRQ
    lines.  It is slower than `set_nmi()' and `set_irq()', but is left for
    backward compatibility (it works like the old `setirq()').  */
-_INT_FUNC void set_int(struct cpu_int_status *cs, int int_num,
+_INT_FUNC void set_int(cpu_int_status_t *cs, int int_num,
 		       enum cpu_int value, CLOCK clk)
 {
     set_nmi(cs, int_num, value & IK_NMI, clk);
@@ -269,13 +270,13 @@ _INT_FUNC void set_int(struct cpu_int_status *cs, int int_num,
 }
 
 /* Trigger a RESET.  This resets the machine.  */
-_INT_FUNC void trigger_reset(struct cpu_int_status *cs, CLOCK clk)
+_INT_FUNC void trigger_reset(cpu_int_status_t *cs, CLOCK clk)
 {
     cs->global_pending_int |= IK_RESET;
 }
 
 /* Acknowledge a RESET condition, by removing it.  */
-_INT_FUNC void ack_reset(struct cpu_int_status *cs)
+_INT_FUNC void ack_reset(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_RESET;
 }
@@ -283,7 +284,7 @@ _INT_FUNC void ack_reset(struct cpu_int_status *cs)
 /* Trigger a TRAP.  This is a special condition that can be used for
    debugging.  `trap_func' will be called with PC as the argument when this
    condition is detected.  */
-_INT_FUNC void trigger_trap(struct cpu_int_status *cs,
+_INT_FUNC void trigger_trap(cpu_int_status_t *cs,
 			    void (*trap_func)(ADDRESS), CLOCK clk)
 {
     cs->global_pending_int |= IK_TRAP;
@@ -291,17 +292,17 @@ _INT_FUNC void trigger_trap(struct cpu_int_status *cs,
 }
 
 /* Acknowledge a TRAP condition, by resetting the TRAP line.  */
-_INT_FUNC void ack_trap(struct cpu_int_status *cs)
+_INT_FUNC void ack_trap(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_TRAP;
 }
 
-_INT_FUNC void breakpoints_on(struct cpu_int_status *cs)
+_INT_FUNC void breakpoints_on(cpu_int_status_t *cs)
 {
     cs->global_pending_int |= IK_BREAKPT;
 }
 
-_INT_FUNC void breakpoints_off(struct cpu_int_status *cs)
+_INT_FUNC void breakpoints_off(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_BREAKPT;
 }
@@ -309,7 +310,7 @@ _INT_FUNC void breakpoints_off(struct cpu_int_status *cs)
 /* ------------------------------------------------------------------------- */
 
 /* Find the next pending alarm.  */
-_INT_FUNC void find_next_alarm(struct cpu_int_status *cs)
+_INT_FUNC void find_next_alarm(cpu_int_status_t *cs)
 {
     CLOCK next_alarm_clk = CLOCK_MAX;
     int next_alarm = 0;
@@ -326,13 +327,13 @@ _INT_FUNC void find_next_alarm(struct cpu_int_status *cs)
 }
 
 /* Return the clock tick for the next alarm.  */
-_INT_FUNC CLOCK next_alarm_clk(struct cpu_int_status *cs)
+_INT_FUNC CLOCK next_alarm_clk(cpu_int_status_t *cs)
 {
     return cs->next_alarm_clk;
 }
 
 /* Schedule one cpu alarm.  */
-_INT_FUNC void set_alarm_clk(struct cpu_int_status *cs, int alarm,
+_INT_FUNC void set_alarm_clk(cpu_int_status_t *cs, int alarm,
 			     CLOCK tick)
 {
     if (tick != 0 && tick < cs->next_alarm_clk) {
@@ -348,7 +349,7 @@ _INT_FUNC void set_alarm_clk(struct cpu_int_status *cs, int alarm,
 }
 
 /* Unschedule one cpu alarm.  */
-_INT_FUNC void unset_alarm(struct cpu_int_status *cs, int alarm)
+_INT_FUNC void unset_alarm(cpu_int_status_t *cs, int alarm)
 {
     cs->alarm_clk[alarm] = CLOCK_MAX;
     if (alarm == cs->next_alarm)
@@ -358,7 +359,7 @@ _INT_FUNC void unset_alarm(struct cpu_int_status *cs, int alarm)
 /* ------------------------------------------------------------------------- */
 
 /* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
-_INT_FUNC enum cpu_int check_pending_interrupt(struct cpu_int_status *cs)
+_INT_FUNC enum cpu_int check_pending_interrupt(cpu_int_status_t *cs)
 {
     return cs->global_pending_int;
 }
@@ -366,7 +367,7 @@ _INT_FUNC enum cpu_int check_pending_interrupt(struct cpu_int_status *cs)
 /* Return nonzero if a pending NMI should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the NMI line.  */
-_INT_FUNC int check_nmi_delay(struct cpu_int_status *cs, CLOCK clk)
+_INT_FUNC int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
@@ -384,7 +385,7 @@ _INT_FUNC int check_nmi_delay(struct cpu_int_status *cs, CLOCK clk)
 /* Return nonzero if a pending IRQ should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the IRQ line.  */
-_INT_FUNC int check_irq_delay(struct cpu_int_status *cs, CLOCK clk)
+_INT_FUNC int check_irq_delay(cpu_int_status_t *cs, CLOCK clk)
 {
     CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
 
@@ -403,7 +404,7 @@ _INT_FUNC int check_irq_delay(struct cpu_int_status *cs, CLOCK clk)
 
 /* This function must be called by the CPU emulator when a pending NMI
    request is served.  */
-_INT_FUNC void ack_nmi(struct cpu_int_status *cs)
+_INT_FUNC void ack_nmi(cpu_int_status_t *cs)
 {
     cs->global_pending_int &= ~IK_NMI;
 }
@@ -412,7 +413,7 @@ _INT_FUNC void ack_nmi(struct cpu_int_status *cs)
 /* Serve the next pending alarm and update the struct so that we know what
    comes next.  If there is a pending interrupt, return its kind.  Otherwise,
    return IK_NONE.  */
-_INT_FUNC void serve_next_alarm(struct cpu_int_status *cs, CLOCK clk)
+_INT_FUNC void serve_next_alarm(cpu_int_status_t *cs, CLOCK clk)
 {
     long offset = clk - cs->next_alarm_clk;
 
@@ -422,7 +423,7 @@ _INT_FUNC void serve_next_alarm(struct cpu_int_status *cs, CLOCK clk)
 /* This is used to avoid clock counter overflows.  Return 1 if the clock
    counters have been changed (this happens if the clock counter `clk' has
    reached `PREVENT_CLK_OVERFLOW_TICK').  */
-_INT_FUNC int prevent_clk_overflow(struct cpu_int_status *cs, CLOCK *clk)
+_INT_FUNC int prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk)
 {
     if (*clk > PREVENT_CLK_OVERFLOW_TICK) {
 	int i;
@@ -446,7 +447,7 @@ _INT_FUNC int prevent_clk_overflow(struct cpu_int_status *cs, CLOCK *clk)
 
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
-_INT_FUNC void steal_cycles(struct cpu_int_status *cs, CLOCK start_clk,
+_INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 			    CLOCK *clk_ptr, int num)
 {
     if (num == 0)
@@ -468,41 +469,41 @@ _INT_FUNC void steal_cycles(struct cpu_int_status *cs, CLOCK start_clk,
 
 /* We don't want inline definitions: just provide the prototypes.  */
 
-extern void cpu_int_status_init(struct cpu_int_status *cs, int num_ints,
+extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
 				int num_alarms,
 				opcode_info_t *last_opcode_info_ptr);
-extern void set_irq(struct cpu_int_status *cs, int int_num, int value,
+extern void set_irq(cpu_int_status_t *cs, int int_num, int value,
 		    CLOCK clk);
-extern void set_nmi(struct cpu_int_status *cs, int int_num, int value,
+extern void set_nmi(cpu_int_status_t *cs, int int_num, int value,
 		    CLOCK clk);
-extern void set_int(struct cpu_int_status *cs, int int_num,
+extern void set_int(cpu_int_status_t *cs, int int_num,
 		    enum cpu_int value, CLOCK clk);
-extern void trigger_reset(struct cpu_int_status *cs, CLOCK clk);
-extern void trigger_trap(struct cpu_int_status *cs,
+extern void trigger_reset(cpu_int_status_t *cs, CLOCK clk);
+extern void trigger_trap(cpu_int_status_t *cs,
 			 void (*trap_func)(ADDRESS), CLOCK clk);
-extern void find_next_alarm(struct cpu_int_status *cs);
-extern CLOCK next_alarm_clk(struct cpu_int_status *cs);
-extern void set_alarm_clk(struct cpu_int_status *cs, int alarm, CLOCK tick);
-extern void unset_alarm(struct cpu_int_status *cs, int alarm);
-extern int check_pending_interrupt(struct cpu_int_status *cs);
-extern int serve_next_alarm(struct cpu_int_status *cs, CLOCK clk);
-extern int prevent_clk_overflow(struct cpu_int_status *cs, CLOCK *clk);
-extern void steal_cycles(struct cpu_int_status *cs, CLOCK start_clk,
+extern void find_next_alarm(cpu_int_status_t *cs);
+extern CLOCK next_alarm_clk(cpu_int_status_t *cs);
+extern void set_alarm_clk(cpu_int_status_t *cs, int alarm, CLOCK tick);
+extern void unset_alarm(cpu_int_status_t *cs, int alarm);
+extern int check_pending_interrupt(cpu_int_status_t *cs);
+extern int serve_next_alarm(cpu_int_status_t *cs, CLOCK clk);
+extern int prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk);
+extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 			 CLOCK *clk_ptr, int num);
-extern int check_irq_delay(struct cpu_int_status *cs, CLOCK clk);
-extern int check_nmi_delay(struct cpu_int_status *cs, CLOCK clk);
-extern void ack_nmi(struct cpu_int_status *cs);
-extern void ack_reset(struct cpu_int_status *cs);
-extern void ack_trap(struct cpu_int_status *cs);
+extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
+extern int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
+extern void ack_nmi(cpu_int_status_t *cs);
+extern void ack_reset(cpu_int_status_t *cs);
+extern void ack_trap(cpu_int_status_t *cs);
 
 #endif /* defined INLINE_INTERRUPT_FUNCS || defined _MAINCPU_C */
 
 /* ------------------------------------------------------------------------- */
 
-extern struct cpu_int_status maincpu_int_status;
+extern cpu_int_status_t maincpu_int_status;
 extern CLOCK clk;
 
-extern struct cpu_int_status true1541_int_status;
+extern cpu_int_status_t true1541_int_status;
 extern CLOCK true1541_clk;
 
 /* For convenience...  */
