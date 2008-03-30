@@ -37,7 +37,7 @@
 #define C128_KERNAL_ROM_SIZE            0x2000
 #define C128_BASIC_ROM_SIZE             0x8000
 #define C128_EDITOR_ROM_SIZE            0x1000
-#define C128_CHARGEN_ROM_SIZE           0x1000
+#define C128_CHARGEN_ROM_SIZE           0x2000
 
 #define C128_KERNAL64_ROM_SIZE          0x2000
 #define C128_BASIC64_ROM_SIZE           0x2000
