@@ -5,6 +5,9 @@
  *  Ettore Perazzoli (ettore@comm2000.it)
  *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
+ * Multiple memory configuration support originally by
+ *  Alexander Lehmann (alex@mathematik.th-darmstadt.de)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -595,9 +598,6 @@ void initialize_memory(void)
     set_mem(0x1c, 0x1f,
 	    read_ram, store_wrap,
 	    ram, 0xffff);
-#if 0
-    chargen_wrap = 0;
-#endif
 
     /* Setup RAM at $0400-$0FFF.  */
     if (ram_block_0_enabled)
@@ -605,15 +605,13 @@ void initialize_memory(void)
     else
 	vic20_mem_disable_ram_block(0);
 
-    /* Setup RAM at $2000-$3FFF.  */
-    if (ram_block_1_enabled)
+    /* Setup RAM or cartridge ROM at $2000-$3FFF.  */
+    if (mem_rom_blocks & VIC_BLK1)
+        vic20_mem_enable_rom_block(1);
+    else if (ram_block_1_enabled)
 	vic20_mem_enable_ram_block(1);
-    else {
+    else
 	vic20_mem_disable_ram_block(1);
-	if (mem_rom_blocks & VIC_BLK1) {
-	    vic20_mem_enable_rom_block(1);
-	}
-    }
 
     /* Setup RAM at $4000-$5FFF.  */
     if (ram_block_2_enabled)
@@ -621,25 +619,21 @@ void initialize_memory(void)
     else
 	vic20_mem_disable_ram_block(2);
 
-    /* Setup RAM at $6000-$7FFF.  */
-    if (ram_block_3_enabled) {
+    /* Setup RAM or cartridge ROM at $6000-$7FFF.  */
+    if (mem_rom_blocks & VIC_BLK3)
+        vic20_mem_enable_rom_block(3);
+    else if (ram_block_3_enabled)
 	vic20_mem_enable_ram_block(3);
-    } else {
+    else
 	vic20_mem_disable_ram_block(3);
-	if (mem_rom_blocks & VIC_BLK3) {
-	    vic20_mem_enable_rom_block(3);
-	}
-    }
 
-    /* Setup RAM at $A000-$BFFF.  */
-    if (ram_block_5_enabled) {
+    /* Setup RAM or cartridge ROM at $A000-$BFFF.  */
+    if (mem_rom_blocks & VIC_BLK5)
+        vic20_mem_enable_rom_block(5);
+    else if (ram_block_5_enabled)
 	vic20_mem_enable_ram_block(5);
-    } else {
+    else
 	vic20_mem_disable_ram_block(5);
-	if (mem_rom_blocks & VIC_BLK5) {
-	    vic20_mem_enable_rom_block(5);
-	}
-    }
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
@@ -783,42 +777,36 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
       case CARTRIDGE_VIC20_4KB_2000:
       case CARTRIDGE_VIC20_8KB_2000:
         printf("CART: attaching %dKB cartridge at $2000\n",
-               (type==CARTRIDGE_VIC20_4KB_2000) ? 4 : 8);
-        set_ram_block_1_enabled(0);
-        vic20_mem_enable_rom_block(1);
+               (type == CARTRIDGE_VIC20_4KB_2000) ? 4 : 8);
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_BLK1;
         break;
       case CARTRIDGE_VIC20_4KB_6000:
       case CARTRIDGE_VIC20_8KB_6000:
         printf("CART: attaching %dKB cartridge at $6000\n",
-               (type==CARTRIDGE_VIC20_4KB_6000) ? 4 : 8);
-        set_ram_block_3_enabled(0);
-        vic20_mem_enable_rom_block(3);
+               (type == CARTRIDGE_VIC20_4KB_6000) ? 4 : 8);
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_BLK3;
         break;
       case CARTRIDGE_VIC20_8KB_A000:
       case CARTRIDGE_VIC20_4KB_A000:
         printf("CART: attaching %dKB cartridge at $A000\n",
-               (type==CARTRIDGE_VIC20_4KB_A000) ? 4 : 8);
-        set_ram_block_5_enabled(0);
-        vic20_mem_enable_rom_block(5);
+               (type == CARTRIDGE_VIC20_4KB_A000) ? 4 : 8);
         memcpy(cartrom + 0xA000, rawcart,
-               (type==CARTRIDGE_VIC20_4KB_A000) ? 0x1000 : 0x2000);
+               (type == CARTRIDGE_VIC20_4KB_A000) ? 0x1000 : 0x2000);
         mem_rom_blocks |= VIC_BLK5;
         break;
       case CARTRIDGE_VIC20_4KB_B000:
         printf("CART: attaching 4KB cartridge at $B000\n");
-        set_ram_block_5_enabled(0);
-        vic20_mem_enable_rom_block(5);
         memcpy(cartrom + 0xB000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_BLK5;
         break;
       default:
         fprintf(stderr, "Unknown Cartridge Type!\n");
-        break;
+        return;
     }
+
+    initialize_memory();
     return;
 }
 
@@ -827,23 +815,22 @@ void mem_detach_cartridge(int type)
     switch(type) {
       case CARTRIDGE_VIC20_8KB_2000:
       case CARTRIDGE_VIC20_4KB_2000:
-        set_ram_block_1_enabled(0);
         mem_rom_blocks &= ~VIC_BLK1;
         break;
       case CARTRIDGE_VIC20_8KB_6000:
       case CARTRIDGE_VIC20_4KB_6000:
-        set_ram_block_3_enabled(0);
         mem_rom_blocks &= ~VIC_BLK3;
         break;
       case CARTRIDGE_VIC20_8KB_A000:
       case CARTRIDGE_VIC20_4KB_A000:
       case CARTRIDGE_VIC20_4KB_B000:
-        set_ram_block_5_enabled(0);
         mem_rom_blocks &= ~VIC_BLK5;
         break;
       default:
-        break;
+        return;
     }
+
+    initialize_memory();
     return;
 }
 
