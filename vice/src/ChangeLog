@@ -1,3 +1,83 @@
+2001-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.22.
+
+	* arch/unix/c128ui.c (set_function_rom_name): Use file
+	selector.
+
+	* c128/functionrom.c (functionrom_load_internal,
+	functionrom_load_external): Fixed typo.
+
+	* c128/c128mmu.c (mmu_store): More debugging output.
+
+	* attach.c (set_attach_device_readonly): Reattach disk if
+	necessary.
+
+	* arch/unix/uisettings: Added support for read only switch.
+
+	* serial.c, serial.h (serial_get_device, serial_detach_device):
+	Use unsigned int.
+
+	* prdevice.c, prdevice.h (prdevice_detach,
+	prdevice_close_printer): Use unsigned int.
+
+	* maincpu.c, drive/drivecpu.c : #include "mon_disassemble.h".
+
+	* tape.c, tape.h (tape_get_file_name): Return const pointer.
+
+	* attach.c, attach.h (file_system_get_disk_name): Return const
+	pointer.
+
+	* arch/msdos/menudefs.c (attach_tape_callback,
+	detach_tape_callback, detach_disk_callback): Use const pointer.
+
+	* arch/msdos/uiattach.c (attach_disk_callback): Use const
+	pointer.
+
+	* arch/os2/dialogs/dlg-drive.c (pm_drive): Use const pointer.
+
+	* c128/c128iec.c: Do not include "resources.h".
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (vsync_hook): Renamed to `machine_vsync_hook'.
+
+2001-05-05  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: corrected a bug preventing full update
+	of window (giving black lines at the bottom when resizing)
+
+	* arch/win32/console.c: changed Alt+PrtScr Hotkey to Ctrl+L
+	(thus, Alt+PrtScr can be used again for putting active window
+	to clipboard)
+
+	* arch/win32/uimon.c: removed debugging outputs
+
+2001-05-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c64ui.cc,ui.cc,ui_file.cc,vic20ui.cc: Changed type
+	BFilePanel to ViceFilePanel
+
+	* arch/beos/kbd.c (kbd_handle_keydown): Activated CAPS support
+
+	* arch/beos/constants.h: new message id MESSAGE_ATTACH_READONLY
+
+	* arch/beos/ui.cc (ui_dispatch_events): handles readonly
+	checkbox
+
+	* arch/beos/ui_file.cc: new includes resources.h,CheckBox.h
+	(ViceFilePanel) creates checkbox for read only mode.
+	(ui_select_file) activates checkbox in disk attach mode.
+
+	* arch/win32/res.h: new control id IDC_TOGGLE_ATTACH_ONLY
+
+	* arch/win32/res.rc: new checkbox in the device settings dialog
+
+	* arch/win32/uiattach.c (enable_controls_for_disk_device_type)
+	enables or disables the new checkbox
+	(init_dialog) reads readonly resource and (un)sets the checkbox
+	(dialog_proc) handles the checkbox message by toggling the
+	resource
+
 2001-05-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.21.
