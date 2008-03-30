@@ -36,14 +36,14 @@
 #define VDRIVE_IMAGE_FORMAT_8050 3
 #define VDRIVE_IMAGE_FORMAT_8250 4
 
-#define BUFFER_NOT_IN_USE		0
-#define BUFFER_DIRECTORY_READ		1
-#define BUFFER_SEQUENTIAL		2
-#define BUFFER_MEMORY_BUFFER		3
-#define BUFFER_OTHER			4
-#define BUFFER_COMMAND_CHANNEL		5
+#define BUFFER_NOT_IN_USE      0
+#define BUFFER_DIRECTORY_READ  1
+#define BUFFER_SEQUENTIAL      2
+#define BUFFER_MEMORY_BUFFER   3
+#define BUFFER_RELATIVE        4
+#define BUFFER_COMMAND_CHANNEL 5
 
-#define WRITE_BLOCK     	        512
+#define WRITE_BLOCK 512
 
 /*
  * Disk Drive Specs
@@ -154,6 +154,7 @@ typedef struct bufferinfo_s {
     unsigned int track;    /* which track is allocated for this sector */
     unsigned int sector;   /*   (for write files only) */
     unsigned int length;   /* Directory-read length */
+    unsigned int record;   /* Current record */
 } bufferinfo_t;
 
 struct disk_image_s;
@@ -196,6 +197,8 @@ typedef struct vdrive_s {
     /* Memory read command buffer.  */
     BYTE mem_buf[256];
     unsigned int mem_length;
+
+    BYTE *side_sector;
 
     BYTE ram[0x800];
 } vdrive_t;
