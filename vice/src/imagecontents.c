@@ -36,6 +36,8 @@
 #include "log.h"
 #include "t64.h"
 #include "utils.h"
+#include "vdrive-bam.h"
+#include "vdrive-dir.h"
 #include "vdrive.h"
 #include "zfile.h"
 
@@ -251,7 +253,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     memcpy(new->id, floppy->bam + floppy->bam_id, IMAGE_CONTENTS_ID_LEN);
     new->id[IMAGE_CONTENTS_ID_LEN] = 0;
 
-    new->blocks_free = floppy_free_block_count(floppy);
+    new->blocks_free = vdrive_bam_free_block_count(floppy);
 
     floppy->Curr_track = floppy->Dir_Track;
     floppy->Curr_sector = floppy->Dir_Sector;
