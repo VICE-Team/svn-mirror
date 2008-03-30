@@ -1,3 +1,50 @@
+2002-06-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.36.
+
+	* crtc/crtc-draw.c (get_std_text, draw_std_text_cached,
+	get_rev_text, draw_rev_text_cached): Wrappers.
+
+2002-06-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic-draw.c (draw_std_background): Don't scale with
+	PIXEL_WIDTH, coordinates are already scaled.
+
+	* vic20/vic-mem.c: Use VIC_RASTER_X instead of VIC_BORDER_X.
+
+	* vic20/vic.h: Scale VIC_RASTER_X with PIXEL_WIDTH (which
+	makes it identical to VIC_BORDER_X and this one obsolete).
+
+2002-06-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/{beos|msdos|win32}/c128ui.c, c64ui.c, plus4ui.c,
+	vic20ui.c: Made ViceCache resource chip specific.
+
+	* arch/win32/plus4.dsp, raster.dsp, vicii.dsp: Added files.
+
+	* raster/raster-resources (raster_set_video_cache_enabled):
+	Bugfix.
+
+2002-06-17  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/c128ui.c, arch/riscos/c64ui.c,
+	arch/riscos/cbm2ui.c, arch/riscos/petui.c,
+	arch/riscos/plus4ui.c, arch/riscos/vic20ui.c:
+	changed WimpTaskName to const char*.
+
+	* arch/riscos/spritedrv.c: migrated to new WimpLib sprite
+	interface.
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: migrated to
+	new WimpLib sprite interface und sprite plotting
+	functionality.
+
+	* arch/riscos/uimsgwin.{c,h}: added message initializing and
+	mouse click information functions.
+
+	* arch/riscos/ui.c: corrected cbm2ui include, claim WIMP
+	message for deleted menus, init uimsgwin messages.
+
 2002-06-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.35.

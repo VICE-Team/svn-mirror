@@ -1,13 +1,9 @@
 /*
- * crtc.c - A line-based CRTC emulation (under construction).
+ * crtc-draw.c - A line-based CRTC emulation (under construction).
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
- *
- * 16/24bpp support added by
- *  Steven Tieu <stieu@physics.ubc.ca>
- *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,7 +57,7 @@ static void init_drawing_tables(void)
 
 /***************************************************************************/
 
-static void draw_standard_background (int start_pixel, int end_pixel)
+static void draw_standard_background(int start_pixel, int end_pixel)
 {
     memset(crtc.raster.draw_buffer_ptr + start_pixel,
            0,
@@ -130,7 +126,6 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
     }
 }
 
-
 static void draw_standard_line(void)
 {
     int rl_pos = crtc.xoffset + crtc.hjitter;
@@ -183,20 +178,46 @@ static void draw_reverse_line(void)
          (crtc.rl_len + 1) * crtc.hw_cols);
 }
 
+static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+{
+    *xs = 0;
+    *xe = (crtc.rl_len + 1) * crtc.hw_cols;
+
+    return 1;
+}
+
+static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
+{
+    draw_standard_line();
+}
+
+static int get_rev_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+{
+    *xe = 0;
+    *xs = (crtc.rl_len + 1) * crtc.hw_cols;
+
+    return 1;
+}
+
+static void draw_rev_text_cached(raster_cache_t *cache, int xs, int xe)
+{
+    draw_reverse_line();
+}
+
 /***************************************************************************/
 
 static void setup_modes(void)
 {
     raster_modes_set(crtc.raster.modes, CRTC_STANDARD_MODE,
-                     NULL /* get_std_text */,
-                     NULL /* draw_std_text_cached */,
+                     get_std_text,
+                     draw_std_text_cached,
                      draw_standard_line,
                      draw_standard_background,
                      NULL /* draw_std_text_foreground */ );
 
     raster_modes_set(crtc.raster.modes, CRTC_REVERSE_MODE,
-                     NULL /* get_rev_text */,
-                     NULL /* draw_rev_text_cached*/,
+                     get_rev_text,
+                     draw_rev_text_cached,
                      draw_reverse_line,
                      draw_standard_background,
                      NULL /* draw_rev_text_foreground*/);
