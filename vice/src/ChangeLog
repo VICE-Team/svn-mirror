@@ -1,3 +1,29 @@
+2002-07-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.51.
+
+	* arch/unix/main_exit.c, arch/unix/uicommands.c,
+	arch/unix/uicrtc.c, arch/unix/uited.c, arch/unix/uivdc.c,
+	arch/unix/uivic.c, arch/unix/uivicii.c,
+	arch/unix/x11/fullscreen.c, arch/unix/x11/video.c,
+	arch/unix/x11/videoarch.h, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/xaw/uimenu.c, arch/unix/x11/xaw/x11ui.c:
+	Changed fullscreen includes and functions.
+
+	* arch/unix/fullscreenarch.h: New file.
+
+	* arch/unix/Makefile.am: Updated.
+
+	* arch/unix/x11/videoarch.h: Added fullscreen configuration
+	structure.
+
+	* arch/unix/x11/video.c (video_arch_canvas_init): Initialize
+	fullscreen configuration.
+
+	* fullscreen.h, arch/unix/x11/fullscreen.c,
+	arch/unix/x11/vidmode.c, arch/unix/x11/vidmode.h: Added new
+	functions to shutdown, suspend and resume fullscreen mode.
+
 2002-06-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.50.
@@ -14,6 +40,8 @@
 	* arch/unix/uivdc.c, arch/unix/uivdc.h, arch/unix/uivic.c,
 	arch/unix/uivic.h, arch/unix/uited.c, arch/unix/uited.h: New
 	files.
+
+	* arch/unix/Makefile.am: Updated.
 
 	* arch/unix/x11/vidmode.h, arch/unix/x11/vidmode.c,
 	arch/unix/x11/fullscreen.c: Adopted to new fullscreen API.

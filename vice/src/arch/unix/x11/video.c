@@ -64,6 +64,7 @@
 
 #include "color.h"
 #include "cmdline.h"
+#include "fullscreenarch.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
@@ -74,12 +75,6 @@
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-#include "vidmode.h"
-#endif
 #ifdef USE_GNOMEUI
 #include <gdk/gdkx.h>
 #endif
@@ -89,7 +84,6 @@
 extern DWORD yuv_table[128];
 #endif
 
-/* ------------------------------------------------------------------------- */
 
 /* Flag: Do we call `XSync()' after blitting?  */
 int _video_use_xsync;
@@ -427,6 +421,9 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->depth = x11ui_get_display_depth();
     canvas->video_draw_buffer_callback = NULL;
 
+#ifdef USE_XF86_EXTENSIONS
+    canvas->fullscreenconfig
+        = (fullscreenconfig_t *)xcalloc(1, sizeof(fullscreenconfig_t));
 #ifdef USE_XF86_DGA2_EXTENSIONS
     canvas->video_draw_buffer_callback =
         xmalloc(sizeof(struct video_draw_buffer_callback_s));
@@ -436,6 +433,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
         fs_draw_buffer_free;
     canvas->video_draw_buffer_callback->draw_buffer_clear =
         fs_draw_buffer_clear;
+#endif
 #endif
 
 #ifdef HAVE_XVIDEO
