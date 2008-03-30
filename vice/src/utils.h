@@ -30,6 +30,7 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 
 #include "types.h"
@@ -38,6 +39,8 @@ extern char *stralloc(const char *str);
 extern void *xmalloc(size_t s);
 extern void *xcalloc(size_t nmemb, size_t size);
 extern void *xrealloc(void *p, size_t s);
+extern char *xmsprintf(const char *fmt, ...);
+extern char *xmvsprintf(const char *fmt, va_list args);
 extern char *concat(const char *s1, ...);
 extern char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
                     const char *src, int src_size);
