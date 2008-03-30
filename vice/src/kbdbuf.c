@@ -75,7 +75,8 @@ static char *kdb_buf_startup_string = NULL;
 
 static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
 {
-    int len, i, j;
+    int i, j;
+    size_t len;
 
     len = strlen(param);
 
@@ -93,7 +94,7 @@ static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
             hexvalue[0] = param[i + 1];
             hexvalue[1] = param[i + 2];
             hexvalue[2] = '\0';
-            kdb_buf_startup_string[j] = strtol(hexvalue, NULL, 16);
+            kdb_buf_startup_string[j] = (char)strtol(hexvalue, NULL, 16);
             j++;
             i += 2;
         } else {
@@ -143,7 +144,7 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
 /* Return nonzero if the keyboard buffer is empty.  */
 int kbd_buf_is_empty(void)
 {
-    return mem_read(num_pending_location) == 0;
+    return (int)(mem_read(num_pending_location) == 0);
 }
 
 /* Feed `s' into the queue.  */
@@ -183,8 +184,8 @@ void kbd_buf_flush(void)
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
-	mem_store(buffer_location + i, queue[head_idx]);
+	mem_store((ADDRESS)(buffer_location + i), queue[head_idx]);
 
-    mem_store(num_pending_location, n);
+    mem_store((ADDRESS)(num_pending_location), n);
     num_pending -= n;
 }

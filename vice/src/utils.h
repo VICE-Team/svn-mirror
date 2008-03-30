@@ -45,8 +45,8 @@ extern void remove_spaces(char *s);
 extern int make_backup_file(const char *fname);
 extern char *get_current_dir(void);
 
-extern unsigned long file_length(FILE *fd);
-extern int load_file(const char *name, void *dest, int size);
+extern size_t file_length(FILE *fd);
+extern int load_file(const char *name, void *dest, size_t size);
 extern int save_file(const char *name, const void *src, int size);
 extern int remove_file(const char *name);
 
@@ -59,8 +59,8 @@ extern int string_to_long(const char *str, const char **endptr, int base,
 extern char *subst(const char *s, const char *string, const char *replacement);
 extern void string_set(char **str, const char *new_value);
 
-extern int read_dword(FILE *fd, DWORD *buf, int num);
-extern int write_dword(FILE *fd, DWORD *buf, int num);
+extern int read_dword(FILE *fd, DWORD *buf, size_t num);
+extern int write_dword(FILE *fd, DWORD *buf, size_t num);
 
 extern int file_exists_p(const char *name);
 

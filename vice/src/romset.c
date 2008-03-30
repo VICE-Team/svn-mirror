@@ -149,7 +149,7 @@ int romset_load_archive(const char *filename, int autostart)
     {
         char *b=NULL, *bptr;
         string_link_t *anchor, *item, *last;
-        int length;
+        size_t length;
         int entry;
 
         READ_ROM_LINE;

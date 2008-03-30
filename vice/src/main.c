@@ -62,6 +62,7 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "tape.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
@@ -335,7 +336,7 @@ static char *replace_hexcodes(char *s)
             new_p = hexstring_to_byte(p1 + 1,
                                       (BYTE *)(new_s + dest_len + (p1 - p)));
             if (p1 != p) {
-                memcpy (new_s + dest_len, p, p1 - p);
+                memcpy(new_s + dest_len, p, (size_t)(p1 - p));
                 dest_len += p1 - p;
                 dest_len++;
             }
@@ -346,7 +347,7 @@ static char *replace_hexcodes(char *s)
         }
     }
 
-    strcpy (new_s + dest_len, p);
+    strcpy((char *)(new_s + dest_len), p);
     return new_s;
 }
 
@@ -554,9 +555,10 @@ int MAIN_PROGRAM(int argc, char **argv)
         ui_set_fullscreenmode_init();
 #endif
 
-    mainloop(0);
+    mainloop(((ADDRESS)0));
 
     log_error(LOG_DEFAULT, "perkele!");
 
     return 0;
 }
+

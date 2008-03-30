@@ -44,6 +44,7 @@ typedef int off_t;
 
 #include "log.h"
 #include "snapshot.h"
+#include "types.h"
 #include "utils.h"
 #include "zfile.h"
 
@@ -93,8 +94,8 @@ int snapshot_write_byte(FILE *f, BYTE b)
 
 int snapshot_write_word(FILE *f, WORD w)
 {
-    if (snapshot_write_byte(f, w & 0xff) < 0
-        || snapshot_write_byte(f, w >> 8) < 0)
+    if (snapshot_write_byte(f, (BYTE)(w & 0xff)) < 0
+        || snapshot_write_byte(f, (BYTE)(w >> 8)) < 0)
         return -1;
 
     return 0;
@@ -102,8 +103,8 @@ int snapshot_write_word(FILE *f, WORD w)
 
 int snapshot_write_dword(FILE *f, DWORD w)
 {
-    if (snapshot_write_word(f, w & 0xffff) < 0
-        || snapshot_write_word(f, w >> 16) < 0)
+    if (snapshot_write_word(f, (WORD)(w & 0xffff)) < 0
+        || snapshot_write_word(f, (WORD)(w >> 16)) < 0)
         return -1;
 
     return 0;
@@ -139,11 +140,12 @@ int snapshot_write_byte_array(FILE *f, BYTE *b, int len)
 
 int snapshot_write_string(FILE *f, const char *s)
 {
-    int i, len;
+    int i;
+    size_t len;
 
     len = s ? (strlen(s) + 1) : 0;	/* length includes nullbyte */
 
-    if (snapshot_write_word(f, len) < 0)
+    if (snapshot_write_word(f, (WORD)len) < 0)
 	return -1;
 
     for (i = 0; i < len; i++)
@@ -261,7 +263,7 @@ int snapshot_module_write_dword(snapshot_module_t *m, DWORD dw)
 int snapshot_module_write_padded_string(snapshot_module_t *m, const char *s,
                                         BYTE pad_char, int len)
 {
-    if (snapshot_write_padded_string(m->file, s, pad_char, len) < 0)
+    if (snapshot_write_padded_string(m->file, s, (BYTE)pad_char, len) < 0)
         return -1;
 
     m->size += len;
@@ -315,7 +317,7 @@ int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return)
 int snapshot_module_read_byte_array(snapshot_module_t *m, BYTE *b_return,
                                     int size)
 {
-    if (ftell(m->file) + size > m->offset + m->size)
+    if (ftell(m->file) + size > (long)(m->offset + m->size))
         return -1;
 
     return snapshot_read_byte_array(m->file, b_return, size);
@@ -345,7 +347,7 @@ snapshot_module_t *snapshot_module_create(snapshot_t *s,
     }
     m->write_mode = 1;
 
-    if (snapshot_write_padded_string(s->file, name, 0,
+    if (snapshot_write_padded_string(s->file, name, (BYTE)0,
                                      SNAPSHOT_MODULE_NAME_LEN) < 0
         || snapshot_write_byte(s->file, major_version) < 0
         || snapshot_write_byte(s->file, minor_version) < 0
@@ -436,7 +438,7 @@ snapshot_t *snapshot_create(const char *filename,
 
     /* Magic string.  */
     if (snapshot_write_padded_string(f, snapshot_magic_string,
-                                     0, SNAPSHOT_MAGIC_LEN) < 0)
+                                     (BYTE)0, SNAPSHOT_MAGIC_LEN) < 0)
         goto fail;
 
     /* Version number.  */
@@ -445,7 +447,7 @@ snapshot_t *snapshot_create(const char *filename,
         goto fail;
 
     /* Machine.  */
-    if (snapshot_write_padded_string(f, snapshot_machine_name, 0,
+    if (snapshot_write_padded_string(f, snapshot_machine_name, (BYTE)0,
                                      SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 

@@ -113,7 +113,7 @@ void *xrealloc(void *p, size_t size)
    address.  */
 char *stralloc(const char *str)
 {
-    int l = strlen(str);
+    size_t l = strlen(str);
     char *p = (char *)xmalloc(l + 1);
 
     memcpy(p, str, l + 1);
@@ -127,7 +127,8 @@ char *concat(const char *s, ...)
 #define _CONCAT_MAX_ARGS 128
     const char *arg;
     char *newp, *ptr;
-    int arg_len[_CONCAT_MAX_ARGS], tot_len, num_args;
+    int num_args;
+    size_t arg_len[_CONCAT_MAX_ARGS], tot_len;
     int i;
     va_list ap;
 
@@ -142,7 +143,7 @@ char *concat(const char *s, ...)
     }
     num_args = i;
 
-    newp = (char *) xmalloc(tot_len + 1);
+    newp = (char *)xmalloc(tot_len + 1);
 
     memcpy(newp, s, arg_len[0]);
     ptr = newp + arg_len[0];
@@ -280,9 +281,9 @@ char *subst(const char *s, const char *string, const char *replacement)
 {
     int num_occurrences;
     int total_size;
-    int s_len = strlen(s);
-    int string_len = strlen(string);
-    int replacement_len = strlen(replacement);
+    size_t s_len = strlen(s);
+    size_t string_len = strlen(string);
+    size_t replacement_len = strlen(replacement);
     const char *sp;
     char *dp;
     char *result;
@@ -346,13 +347,13 @@ char *get_current_dir(void)
 #ifdef __riscos
     return GetCurrentDirectory();
 #else
-    static int len = 128;
+    static size_t len = 128;
     char *p = (char *) xmalloc(len);
 
     while (getcwd(p, len) == NULL) {
         if (errno == ERANGE) {
             len *= 2;
-            p = (char *) xrealloc(p, len);
+            p = (char *)xrealloc(p, len);
         } else
             return NULL;
     }
@@ -364,7 +365,7 @@ char *get_current_dir(void)
 /* ------------------------------------------------------------------------- */
 
 /* Return the length of an open file in bytes.  */
-unsigned long file_length(FILE *fd)
+size_t file_length(FILE *fd)
 {
     size_t off, filesize;
 
@@ -377,7 +378,7 @@ unsigned long file_length(FILE *fd)
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
-int load_file(const char *name, void *dest, int size)
+int load_file(const char *name, void *dest, size_t size)
 {
     FILE *fd;
     int r;
@@ -492,7 +493,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
     }
 
     if (directory_return != NULL) {
-        *directory_return = (char*)xmalloc(p - path + 1);
+        *directory_return = (char*)xmalloc((size_t)(p - path + 1));
         memcpy(*directory_return, path, p - path);
 	(*directory_return)[p - path] = '\0';
     }
@@ -505,7 +506,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 
 /* ------------------------------------------------------------------------- */
 
-int read_dword(FILE *fd, DWORD *buf, int num)
+int read_dword(FILE *fd, DWORD *buf, size_t num)
 {
     int i;
     BYTE *tmpbuf;
@@ -525,7 +526,7 @@ int read_dword(FILE *fd, DWORD *buf, int num)
     return 0;
 }
 
-int write_dword(FILE *fd, DWORD *buf, int num)
+int write_dword(FILE *fd, DWORD *buf, size_t num)
 {
     int i;
     BYTE *tmpbuf;
@@ -533,10 +534,10 @@ int write_dword(FILE *fd, DWORD *buf, int num)
     tmpbuf = xmalloc(num);
 
     for (i = 0; i < (num / 4); i++) {
-        tmpbuf[i * 4] = buf[i] & 0xff;
-        tmpbuf[i * 4 + 1] = (buf[i] >> 8) & 0xff;
-        tmpbuf[i * 4 + 2] = (buf[i] >> 16) & 0xff;
-        tmpbuf[i * 4 + 3] = (buf[i] >> 24) & 0xff;
+        tmpbuf[i * 4] = (BYTE)(buf[i] & 0xff);
+        tmpbuf[i * 4 + 1] = (BYTE)((buf[i] >> 8) & 0xff);
+        tmpbuf[i * 4 + 2] = (BYTE)((buf[i] >> 16) & 0xff);
+        tmpbuf[i * 4 + 3] = (BYTE)((buf[i] >> 24) & 0xff);
     }
 
     if (fwrite((char *)tmpbuf, num, 1, fd) < 1) {
