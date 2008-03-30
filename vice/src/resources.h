@@ -67,11 +67,14 @@ typedef struct resource_s {
 extern int resources_init(const char *machine);
 extern int resources_register(const resource_t *r);
 extern int resources_set_value(const char *name, resource_value_t value);
+extern int resources_set_sprintf(const char *name, resource_value_t value, ...);
 extern int resources_set_value_string(const char *name, const char *value);
 extern int resources_toggle(const char *name,
                             resource_value_t *new_value_return);
 extern int resources_get_value(const char *name,
                                resource_value_t *value_return);
+extern int resources_get_sprintf(const char *name,
+                                 resource_value_t *value_return, ...);
 extern int resources_get_default_value(const char *name, 
                                        const resource_value_t *value_return);
 extern resource_type_t resources_query_type(const char *name);

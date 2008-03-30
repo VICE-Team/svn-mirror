@@ -151,6 +151,21 @@ int resources_set_value(const char *name, resource_value_t value)
     return r->set_func(value);
 }
 
+int resources_set_sprintf(const char *name, resource_value_t value, ...)
+{
+    va_list args;
+    char *resname;
+    int result;
+
+    va_start(args, value);
+    resname = xmvsprintf(name, args);
+
+    result = resources_set_value(resname, value);
+    free(resname);
+
+    return result;
+}
+
 int resources_set_value_string(const char *name, const char *value)
 {
     resource_t *r = lookup(name);
@@ -199,6 +214,22 @@ int resources_get_value(const char *name, resource_value_t *value_return)
     }
 
     return 0;
+}
+
+int resources_get_sprintf(const char *name,
+                          resource_value_t *value_return, ...)
+{
+    va_list args;
+    char *resname;
+    int result;
+
+    va_start(args, value_return);
+    resname = xmvsprintf(name, args);
+
+    result = resources_get_value(resname, value_return);
+    free(resname);
+
+    return result;
 }
 
 int resources_get_default_value(const char *name,
