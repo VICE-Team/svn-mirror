@@ -282,7 +282,11 @@ void autostart_advance(void)
             } else {
                 kbd_buf_feed("LOAD\r");
             }
-            autostartmode = AUTOSTART_PRESSPLAYONTAPE;
+            if (tape_tap_attched()) {
+                autostartmode = AUTOSTART_PRESSPLAYONTAPE;
+            } else {
+                autostartmode = AUTOSTART_LOADINGTAPE;
+            }
             deallocate_program_name();
             break;
           case NO:
