@@ -1,3 +1,12 @@
+Sun Jul 26 11:11:43 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.54.
+
+	* configure.in: Check for <regex.h>.  Do not check for
+	`systeminfo.h' anymore.
+
+	* Version 0.14.2.53.
+
 Fri Jul 24 21:14:46 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.52.
