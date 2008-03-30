@@ -49,6 +49,7 @@
 #define VDC_SCREEN_XPIX               640
 #define VDC_SCREEN_YPIX_LARGE         400
 #define VDC_SCREEN_YPIX_SMALL         200
+#define VDC_SCREEN_MAX_TEXTCOLS       80
 #define VDC_SCREEN_TEXTCOLS           80
 #define VDC_SCREEN_TEXTLINES          25
 #define VDC_SCREEN_BORDERWIDTH        16
@@ -77,14 +78,13 @@
 #define VDC_ALTCHARSET_ATTR         0x80
 
 /* Available video modes. */
-enum _vdc_video_mode
-  {
+enum vdc_video_mode_s {
     VDC_TEXT_MODE,
     VDC_BITMAP_MODE,
     VDC_IDLE_MODE,
     VDC_NUM_VMODES
-  };
-typedef enum _vdc_video_mode vdc_video_mode_t;
+};
+typedef enum vdc_video_mode_s vdc_video_mode_t;
 
 #define VDC_IS_ILLEGAL_MODE(x)	((x) >= VDC_ILLEGAL_TEXT_MODE \
 					 && (x) != VDC_IDLE_MODE)
@@ -93,23 +93,19 @@ typedef enum _vdc_video_mode vdc_video_mode_t;
 /* VDC structures.  This is meant to be used by VDC modules
    *exclusively*!  */
 
-struct _vdc_light_pen
-  {
+struct vdc_light_pen_s {
     int triggered;
     int x, y;
-  };
-typedef struct _vdc_light_pen vdc_light_pen_t;
+};
+typedef struct vdc_light_pen_s vdc_light_pen_t;
 
 
-struct _vdc
-  {
+struct vdc_s {
     /* Flag: Are we initialized?  */
     int initialized;		/* = 0; */
 
     /* VDC registers.  */
     int regs[38];
-
-    BYTE ram1[0x10000];
 
     /* VDC geometry constants that differ in doulbe size mode.  */
     unsigned int screen_height;
@@ -119,10 +115,11 @@ struct _vdc
     unsigned int raster_ycounter_max;
     unsigned int raster_ycounter_divide;
 
-    BYTE ram2[0x10000];
-
     /* Internal VDC register pointer */
     int update_reg;
+
+    /* Number of text characters displayed.  */
+    unsigned int screen_text_cols;
 
     /* Video memory offsets.  */
     unsigned int screen_adr;
@@ -171,6 +168,9 @@ struct _vdc
     /* Resize geometry next frame.  */
     int force_resize;
 
+    /* Flush the cache next frame.  */
+    int force_cache_flush;
+
     /* Is the flashing text visible?  */
     int text_blink_visible;
 
@@ -185,18 +185,18 @@ struct _vdc
 
     /* Internal VDC video memory */
     BYTE ram[0x10000];
-  };
-typedef struct _vdc vdc_t;
+};
+typedef struct vdc_s vdc_t;
 
 extern vdc_t vdc;
 
 /* Private function calls, used by the other VDC modules.  FIXME:
    Prepend names with `_'?  */
-extern int vdc_load_palette (const char *name);
-extern void vdc_fetch_matrix (int offs, int num);
-extern void vdc_update_memory_ptrs (unsigned int cycle);
-extern void vdc_update_video_mode (unsigned int cycle);
-extern void vdc_raster_draw_alarm_handler (CLOCK offset);
+extern int vdc_load_palette(const char *name);
+extern void vdc_fetch_matrix(int offs, int num);
+extern void vdc_update_memory_ptrs(unsigned int cycle);
+extern void vdc_update_video_mode(unsigned int cycle);
+extern void vdc_raster_draw_alarm_handler(CLOCK offset);
 extern void vdc_set_set_canvas_refresh(int enable);
 
 #endif
