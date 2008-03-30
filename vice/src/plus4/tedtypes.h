@@ -34,67 +34,66 @@
 #include "types.h"
 
 /* Screen constants.  */
-#define TED_PAL_SCREEN_HEIGHT        312
-#define TED_NTSC_SCREEN_HEIGHT       263
+#define TED_PAL_SCREEN_HEIGHT           312
+#define TED_NTSC_SCREEN_HEIGHT          263
 
 /* We need the full width for correct
    sprite-sprite-collision in unvisible area */
-#define VIC_II_SCREEN_WIDTH                 512
+#define VIC_II_SCREEN_WIDTH             512
 
-#define VIC_II_PAL_OFFSET                   0
-#define VIC_II_NTSC_OFFSET                  0
+#define TED_PAL_OFFSET                  0
+#define TED_NTSC_OFFSET                 0
 
-#define TED_SCREEN_XPIX                     320
-#define TED_SCREEN_YPIX                     200
-#define TED_SCREEN_TEXTCOLS                 40
-#define TED_SCREEN_TEXTLINES                25
-#define VIC_II_SCREEN_PAL_BORDERWIDTH       32
-#define VIC_II_SCREEN_PAL_BORDERHEIGHT      51
-#define VIC_II_SCREEN_NTSC_BORDERWIDTH      32
-#define VIC_II_SCREEN_NTSC_BORDERHEIGHT     27
+#define TED_SCREEN_XPIX                 320
+#define TED_SCREEN_YPIX                 200
+#define TED_SCREEN_TEXTCOLS             40
+#define TED_SCREEN_TEXTLINES            25
+#define VIC_II_SCREEN_PAL_BORDERWIDTH   32
+#define VIC_II_SCREEN_PAL_BORDERHEIGHT  51
+#define VIC_II_SCREEN_NTSC_BORDERWIDTH  32
+#define VIC_II_SCREEN_NTSC_BORDERHEIGHT 27
 
-#define VIC_II_PAL_FIRST_DISPLAYED_LINE         0x10
-#define VIC_II_PAL_LAST_DISPLAYED_LINE          0x11f
-#define VIC_II_PAL_25ROW_START_LINE             0x33
-#define VIC_II_PAL_25ROW_STOP_LINE              0xfb
-#define VIC_II_PAL_24ROW_START_LINE             0x37
-#define VIC_II_PAL_24ROW_STOP_LINE              0xf7
+#define TED_PAL_FIRST_DISPLAYED_LINE    0x10
+#define TED_PAL_LAST_DISPLAYED_LINE     0x11f
+#define TED_PAL_25ROW_START_LINE        0x33
+#define TED_PAL_25ROW_STOP_LINE         0xfb
+#define TED_PAL_24ROW_START_LINE        0x37
+#define TED_PAL_24ROW_STOP_LINE         0xf7
 
-#define VIC_II_NTSC_FIRST_DISPLAYED_LINE        (0x20 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_LAST_DISPLAYED_LINE         0x102
-#define VIC_II_NTSC_25ROW_START_LINE            (0x33 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_25ROW_STOP_LINE             (0xfb - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_24ROW_START_LINE            (0x37 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_24ROW_STOP_LINE             (0xf7 - VIC_II_NTSC_OFFSET)
+#define TED_NTSC_FIRST_DISPLAYED_LINE   (0x20 - TED_NTSC_OFFSET)
+#define TED_NTSC_LAST_DISPLAYED_LINE    0x102
+#define TED_NTSC_25ROW_START_LINE       (0x33 - TED_NTSC_OFFSET)
+#define TED_NTSC_25ROW_STOP_LINE        (0xfb - TED_NTSC_OFFSET)
+#define TED_NTSC_24ROW_START_LINE       (0x37 - TED_NTSC_OFFSET)
+#define TED_NTSC_24ROW_STOP_LINE        (0xf7 - TED_NTSC_OFFSET)
 
-#define VIC_II_40COL_START_PIXEL                0x20
-#define VIC_II_40COL_STOP_PIXEL                 0x160
-#define VIC_II_38COL_START_PIXEL                0x27
-#define VIC_II_38COL_STOP_PIXEL                 0x157
+#define TED_40COL_START_PIXEL           0x20
+#define TED_40COL_STOP_PIXEL            0x160
+#define TED_38COL_START_PIXEL           0x27
+#define TED_38COL_STOP_PIXEL            0x157
 
 #define VIC_II_MAX_SPRITE_WIDTH         48
 #define VIC_II_NUM_COLORS               16
 
 
-/* Available video modes.  The number is given by
-   ((vic_ii.regs[0x11] & 0x60) | (vic_ii.regs[0x16] & 0x10)) >> 4.  */
-enum _vic_ii_video_mode {
-    VIC_II_NORMAL_TEXT_MODE,
-    VIC_II_MULTICOLOR_TEXT_MODE,
-    VIC_II_HIRES_BITMAP_MODE,
-    VIC_II_MULTICOLOR_BITMAP_MODE,
-    VIC_II_EXTENDED_TEXT_MODE,
-    VIC_II_ILLEGAL_TEXT_MODE,
-    VIC_II_ILLEGAL_BITMAP_MODE_1,
-    VIC_II_ILLEGAL_BITMAP_MODE_2,
-    VIC_II_IDLE_MODE,           /* Special mode for idle state.  */
-    VIC_II_NUM_VMODES
+/* Available video modes.  The number is given by TED registers.  */
+enum ted_video_mode_s {
+    TED_NORMAL_TEXT_MODE,
+    TED_MULTICOLOR_TEXT_MODE,
+    TED_HIRES_BITMAP_MODE,
+    TED_MULTICOLOR_BITMAP_MODE,
+    TED_EXTENDED_TEXT_MODE,
+    TED_ILLEGAL_TEXT_MODE,
+    TED_ILLEGAL_BITMAP_MODE_1,
+    TED_ILLEGAL_BITMAP_MODE_2,
+    TED_IDLE_MODE,           /* Special mode for idle state.  */
+    TED_NUM_VMODES
 };
-typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
+typedef enum ted_video_mode_s ted_video_mode_t;
 
-#define VIC_II_IS_ILLEGAL_MODE(x)       ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
-                                         && (x) != VIC_II_IDLE_MODE)
-#define VIC_II_IS_BITMAP_MODE(x)        ((x) & 0x02)
+#define TED_IS_ILLEGAL_MODE(x)       ((x) >= TED_ILLEGAL_TEXT_MODE \
+                                         && (x) != TED_IDLE_MODE)
+#define TED_IS_BITMAP_MODE(x)        ((x) & 0x02)
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
@@ -107,8 +106,8 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
    Note: we measure cycles from 0 to 62, not from 1 to 63 as he does.  */
 
 /* Number of cycles per line.  */
-#define VIC_II_PAL_CYCLES_PER_LINE      PLUS4_PAL_CYCLES_PER_LINE
-#define VIC_II_NTSC_CYCLES_PER_LINE     PLUS4_NTSC_CYCLES_PER_LINE
+#define TED_PAL_CYCLES_PER_LINE     PLUS4_PAL_CYCLES_PER_LINE
+#define TED_NTSC_CYCLES_PER_LINE    PLUS4_NTSC_CYCLES_PER_LINE
 
 /* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
 #define VIC_II_FETCH_CYCLE          11
@@ -116,47 +115,47 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 /* Cycle # at which the current raster line is re-drawn.  It is set to
    `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
    (i.e. cycle 0) of the next line.  */
-#define VIC_II_PAL_DRAW_CYCLE       VIC_II_PAL_CYCLES_PER_LINE
-#define VIC_II_NTSC_DRAW_CYCLE      VIC_II_NTSC_CYCLES_PER_LINE
+#define TED_PAL_DRAW_CYCLE          TED_PAL_CYCLES_PER_LINE
+#define TED_NTSC_DRAW_CYCLE         TED_NTSC_CYCLES_PER_LINE
 
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510
    that needs at least 2 cycles to detect it.  */
-#define VIC_II_RASTER_IRQ_DELAY     2
+#define TED_RASTER_IRQ_DELAY        2
 
 /* Current char being drawn by the raster.  < 0 or >= VIC_II_SCREEN_TEXTCOLS
    if outside the visible range.  */
-#define VIC_II_RASTER_CHAR(cycle)   ((int)(cycle) - 15)
+#define TED_RASTER_CHAR(cycle)      ((int)(cycle) - 15)
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define VIC_II_RASTER_X(cycle)      (((int)(cycle) - 13) * 8)
+#define TED_RASTER_X(cycle)         (((int)(cycle) - 13) * 8)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
-#define VIC_II_RASTER_Y(clk)        ((unsigned int)((clk) \
-                                     / vic_ii.cycles_per_line) \
-                                     % vic_ii.screen_height)
+#define TED_RASTER_Y(clk)           ((unsigned int)((clk) \
+                                    / ted.cycles_per_line) \
+                                    % ted.screen_height)
 
 /* Cycle # within the current line.  */
-#define VIC_II_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
-                                                    % vic_ii.cycles_per_line))
+#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) \
+                                    % ted.cycles_per_line))
 
 /* `clk' value for the beginning of the current line.  */
-#define VIC_II_LINE_START_CLK(clk)  (((clk) / vic_ii.cycles_per_line) \
-                                     * vic_ii.cycles_per_line)
+#define TED_LINE_START_CLK(clk)     (((clk) / ted.cycles_per_line) \
+                                    * ted.cycles_per_line)
 
 /* # of the previous and next raster line.  Handles wrap over.  */
 #define TED_PREVIOUS_LINE(line)  (((line) > 0) \
-                                 ? (line) - 1 : vic_ii.screen_height - 1)
-#define TED_NEXT_LINE(line)      (((line) + 1) % vic_ii.screen_height)
+                                 ? (line) - 1 : ted.screen_height - 1)
+#define TED_NEXT_LINE(line)      (((line) + 1) % ted.screen_height)
 
 /* Bad line range.  */
-#define VIC_II_PAL_FIRST_DMA_LINE      0x30
-#define VIC_II_PAL_LAST_DMA_LINE       0xf7
-#define VIC_II_NTSC_FIRST_DMA_LINE     (0x30 - VIC_II_NTSC_OFFSET)
-#define VIC_II_NTSC_LAST_DMA_LINE      0xf7
+#define TED_PAL_FIRST_DMA_LINE      0x30
+#define TED_PAL_LAST_DMA_LINE       0xf7
+#define TED_NTSC_FIRST_DMA_LINE     (0x30 - TED_NTSC_OFFSET)
+#define TED_NTSC_LAST_DMA_LINE      0xf7
 
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
@@ -168,14 +167,14 @@ enum vic_ii_fetch_idx_s {
 };
 typedef enum vic_ii_fetch_idx_s vic_ii_fetch_idx_t;
 
-enum vic_ii_idle_data_location_s {
+enum ted_idle_data_location_s {
     IDLE_NONE,
     IDLE_3FFF,
     IDLE_39FF
 };
-typedef enum vic_ii_idle_data_location_s vic_ii_idle_data_location_t;
+typedef enum ted_idle_data_location_s ted_idle_data_location_t;
 
-struct vic_ii_s {
+struct ted_s {
     /* Flag: Are we initialized?  */
     int initialized;            /* = 0; */
 
@@ -195,6 +194,7 @@ struct vic_ii_s {
     BYTE *screen_ptr;
     BYTE *chargen_ptr;
     BYTE *bitmap_ptr;
+    BYTE *color_ptr;
 
     /* Screen memory buffers (chars and color).  */
     BYTE vbuf[TED_SCREEN_TEXTCOLS];
@@ -243,7 +243,7 @@ struct vic_ii_s {
 
     /* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are
        not in idle state and thus do not need to update `idle_data'.  */
-    vic_ii_idle_data_location_t idle_data_location;
+    ted_idle_data_location_t idle_data_location;
 
     /* TED keybaord read value.  */
     BYTE kbdval;
@@ -289,45 +289,45 @@ struct vic_ii_s {
     /* Number of lines the whole screen is shifted up.  */
     int offset;
 };
-typedef struct vic_ii_s vic_ii_t;
+typedef struct ted_s ted_t;
 
-extern vic_ii_t vic_ii;
+extern ted_t ted;
 
-/* Private function calls, used by the other VIC-II modules.  FIXME:
-   Prepend names with `_'?  */
+/* Private function calls, used by the other TED modules.  */
 extern int vic_ii_activate_palette(void);
 extern int vic_ii_calc_palette(int sat, int con, int bri, int gam, int newlum,
                                int mixedcols);
 extern int vic_ii_load_palette(const char *name);
-extern void vic_ii_fetch_matrix(int offs, int num);
-extern void vic_ii_set_raster_irq(unsigned int line);
+extern void ted_fetch_matrix(int offs, int num);
+extern void ted_set_raster_irq(unsigned int line);
 extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
 extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
+extern void ted_resize(void);
 
 /* Debugging options.  */
 
-/* #define VIC_II_VMODE_DEBUG */
-/* #define VIC_II_RASTER_DEBUG */
-/* #define VIC_II_REGISTERS_DEBUG */
+/* #define TED_VMODE_DEBUG */
+/* #define TED_RASTER_DEBUG */
+/* #define TED_REGISTERS_DEBUG */
 
-#ifdef VIC_II_VMODE_DEBUG
-#define VIC_II_DEBUG_VMODE(x) log_debug x
+#ifdef TED_VMODE_DEBUG
+#define TED_DEBUG_VMODE(x) log_debug x
 #else
-#define VIC_II_DEBUG_VMODE(x)
+#define TED_DEBUG_VMODE(x)
 #endif
 
-#ifdef VIC_II_RASTER_DEBUG
-#define VIC_II_DEBUG_RASTER(x) log_debug x
+#ifdef TED_RASTER_DEBUG
+#define TED_DEBUG_RASTER(x) log_debug x
 #else
-#define VIC_II_DEBUG_RASTER(x)
+#define TED_DEBUG_RASTER(x)
 #endif
 
-#ifdef VIC_II_REGISTERS_DEBUG
-#define VIC_II_DEBUG_REGISTER(x) log_debug x
+#ifdef TED_REGISTERS_DEBUG
+#define TED_DEBUG_REGISTER(x) log_debug x
 #else
-#define VIC_II_DEBUG_REGISTER(x)
+#define TED_DEBUG_REGISTER(x)
 #endif
 
 #endif /* _TEDTYPES_H */

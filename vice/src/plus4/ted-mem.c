@@ -38,6 +38,7 @@
 #include "plus4tia1.h"
 #include "ted-resources.h"
 #include "ted-mem.h"
+#include "ted-timer.h"
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
@@ -86,7 +87,7 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
 {
     /* This can only cause "aesthetical" errors, so let's save some time if
        the current frame will not be visible.  */
-    if (!vic_ii.raster.skip_frame) {
+    if (!ted.raster.skip_frame) {
         int f;
 
         /* Argh... this is a dirty kludge!  We should probably find a cleaner
@@ -98,19 +99,19 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
             mclk = clk - rmw_flag - 1;
             f = 0;
 
-            if (mclk >= vic_ii.fetch_clk) {
+            if (mclk >= ted.fetch_clk) {
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
-                if (mclk == vic_ii.fetch_clk) {
+                if (mclk == ted.fetch_clk) {
                     ram[addr] = value;
                 }
-                vic_ii_raster_fetch_alarm_handler (clk - vic_ii.fetch_clk);
+                vic_ii_raster_fetch_alarm_handler (clk - ted.fetch_clk);
                 f = 1;
                 /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
                 mclk = clk - rmw_flag - 1;
             }
 
-            if (mclk >= vic_ii.draw_clk) {
+            if (mclk >= ted.draw_clk) {
                 vic_ii_raster_draw_alarm_handler (0);
                 f = 1;
             }
@@ -131,11 +132,11 @@ void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 {
     vic_ii_local_store_vbank(addr, value);
 
-    if (vic_ii.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
+    if (ted.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
         raster_add_int_change_foreground
-            (&vic_ii.raster,
-            VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
-            &vic_ii.idle_data,
+            (&ted.raster,
+            TED_RASTER_CHAR(TED_RASTER_CYCLE(clk)),
+            &ted.idle_data,
             value);
 }
 
@@ -144,11 +145,11 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 {
     vic_ii_local_store_vbank (addr, value);
 
-    if (vic_ii.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
+    if (ted.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
         raster_add_int_change_foreground
-            (&vic_ii.raster,
-            VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
-            &vic_ii.idle_data,
+            (&ted.raster,
+            TED_RASTER_CHAR(TED_RASTER_CYCLE(clk)),
+            &ted.idle_data,
             value);
 }
 
@@ -158,15 +159,15 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
     int was_bad_line, now_bad_line;
 
     /* Check whether bad line state has changed.  */
-    was_bad_line = (vic_ii.allow_bad_lines
-                    && (vic_ii.raster.ysmooth == (line & 7)));
-    now_bad_line = (vic_ii.allow_bad_lines
+    was_bad_line = (ted.allow_bad_lines
+                    && (ted.raster.ysmooth == (line & 7)));
+    now_bad_line = (ted.allow_bad_lines
                     && ((value & 7) == (line & 7)));
 
     if (was_bad_line && !now_bad_line) {
 
         /* Bad line becomes good.  */
-        vic_ii.bad_line = 0;
+        ted.bad_line = 0;
 
         /* By changing the values in the registers, one can make the VIC
            switch from idle to display state, but not from display to
@@ -174,12 +175,12 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
            happens.  This is only true if the value changes in some
            cycle > 0, though; otherwise, the line never becomes bad.  */
         if (cycle > 0) {
-            vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
-            vic_ii.idle_data_location = IDLE_NONE;
+            ted.raster.draw_idle_state = ted.idle_state = 0;
+            ted.idle_data_location = IDLE_NONE;
             if (cycle > VIC_II_FETCH_CYCLE + 2
-                && !vic_ii.ycounter_reset_checked) {
-                vic_ii.raster.ycounter = 0;
-                vic_ii.ycounter_reset_checked = 1;
+                && !ted.ycounter_reset_checked) {
+                ted.raster.ycounter = 0;
+                ted.ycounter_reset_checked = 1;
             }
         }
 
@@ -191,12 +192,12 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             int num_chars;      /* Total number of characters to fetch.  */
             int num_0xff_fetches; /* Number of 0xff fetches to do.  */
 
-            vic_ii.bad_line = 1;
+            ted.bad_line = 1;
 
             if (cycle <= VIC_II_FETCH_CYCLE + 2)
-                vic_ii.raster.ycounter = 0;
+                ted.raster.ycounter = 0;
 
-            vic_ii.ycounter_reset_checked = 1;
+            ted.ycounter_reset_checked = 1;
 
             num_chars = (TED_SCREEN_TEXTCOLS
                          - (cycle - (VIC_II_FETCH_CYCLE + 3)));
@@ -209,7 +210,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
 
                 /* If we were in idle state before creating the bad
                    line, the counters have not been incremented.  */
-                if (vic_ii.idle_state) {
+                if (ted.idle_state) {
                     pos = 0;
                     inc = num_chars;
                     if (inc < 0)
@@ -227,64 +228,64 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             }
 
             /* This is normally done at cycle `VIC_II_FETCH_CYCLE + 2'.  */
-            vic_ii.mem_counter = vic_ii.memptr;
+            ted.mem_counter = ted.memptr;
 
             /* Force the DMA.  */
-            /* Note that `vic_ii.cbuf' is loaded from the value of
+            /* Note that `ted.cbuf' is loaded from the value of
                the next opcode as the VIC-II is not the bus master yet.  */
             if (num_chars <= num_0xff_fetches) {
-                memset(vic_ii.vbuf + pos, 0xff, num_chars);
-                memset(vic_ii.cbuf + pos, ram[reg_pc] & 0xf,
+                memset(ted.vbuf + pos, 0xff, num_chars);
+                memset(ted.cbuf + pos, ram[reg_pc] & 0xf,
                        num_chars);
             } else {
-                memset(vic_ii.vbuf + pos, 0xff, num_0xff_fetches);
-                memset(vic_ii.cbuf + pos, ram[reg_pc] & 0xf,
+                memset(ted.vbuf + pos, 0xff, num_0xff_fetches);
+                memset(ted.cbuf + pos, ram[reg_pc] & 0xf,
                        num_0xff_fetches);
-                vic_ii_fetch_matrix(pos + num_0xff_fetches,
-                                    num_chars - num_0xff_fetches);
+                ted_fetch_matrix(pos + num_0xff_fetches,
+                                 num_chars - num_0xff_fetches);
             }
 
-            /* Set the value by which `vic_ii.mem_counter' is incremented on
+            /* Set the value by which `ted.mem_counter' is incremented on
                this line.  */
-            vic_ii.mem_counter_inc = inc;
+            ted.mem_counter_inc = inc;
 
             /* Take over the bus until the memory fetch is done.  */
-            clk = (VIC_II_LINE_START_CLK(clk) + VIC_II_FETCH_CYCLE
+            clk = (TED_LINE_START_CLK(clk) + VIC_II_FETCH_CYCLE
                    + TED_SCREEN_TEXTCOLS + 3);
 
             /* Remember we have done a DMA.  */
-            vic_ii.memory_fetch_done = 2;
+            ted.memory_fetch_done = 2;
 
             /* As we are on a bad line, switch to display state.  */
-            vic_ii.idle_state = 0;
+            ted.idle_state = 0;
 
             /* Try to display things correctly.  This is not exact,
                but should be OK for most cases (FIXME?).  */
             if (inc == TED_SCREEN_TEXTCOLS) {
-                vic_ii.raster.draw_idle_state = 0;
-                vic_ii.idle_data_location = IDLE_NONE;
+                ted.raster.draw_idle_state = 0;
+                ted.idle_data_location = IDLE_NONE;
             }
         } else if (cycle <= VIC_II_FETCH_CYCLE + TED_SCREEN_TEXTCOLS + 6) {
             /* Bad line has been generated after fetch interval, but
-               before `vic_ii.raster.ycounter' is incremented.  */
+               before `ted.raster.ycounter' is incremented.  */
 
-            vic_ii.bad_line = 1;
+            ted.bad_line = 1;
 
             /* If in idle state, counter is not incremented.  */
-            if (vic_ii.idle_state)
-                vic_ii.mem_counter_inc = 0;
+            if (ted.idle_state)
+                ted.mem_counter_inc = 0;
 
             /* We are not in idle state anymore.  */
             /* This is not 100% correct, but should be OK for most cases.
                (FIXME?)  */
-            vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
-            vic_ii.idle_data_location = IDLE_NONE;
+            ted.raster.draw_idle_state = ted.idle_state = 0;
+            ted.idle_data_location = IDLE_NONE;
 
         } else {
             /* Line is now bad, so we must switch to display state.
                Anyway, we cannot do it here as the `ycounter' handling
                must happen in as in idle state.  */
-            vic_ii.force_display_state = 1;
+            ted.force_display_state = 1;
         }
     }
 }
@@ -294,72 +295,71 @@ inline static void store_ted06(ADDRESS addr, BYTE value)
     int cycle;
     int line;
 
-    cycle = VIC_II_RASTER_CYCLE(clk);
-    line = VIC_II_RASTER_Y(clk);
+    cycle = TED_RASTER_CYCLE(clk);
+    line = TED_RASTER_Y(clk);
 
-    VIC_II_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
-    VIC_II_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
-                          "value $%02X\n",
-                          cycle, line, value));
+    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
+                       "value $%02X\n", cycle, line, value));
 
     /* This is the funniest part... handle bad line tricks.  */
 
-    if (line == vic_ii.first_dma_line && (value & 0x10) != 0)
-        vic_ii.allow_bad_lines = 1;
+    if (line == ted.first_dma_line && (value & 0x10) != 0)
+        ted.allow_bad_lines = 1;
 
-    if (vic_ii.raster.ysmooth != (value & 7)
-        && line >= vic_ii.first_dma_line
-        && line <= vic_ii.last_dma_line)
+    if (ted.raster.ysmooth != (value & 7)
+        && line >= ted.first_dma_line
+        && line <= ted.last_dma_line)
         check_bad_line_state_change_for_d011(value, cycle, line);
 
-    vic_ii.raster.ysmooth = value & 0x7;
+    ted.raster.ysmooth = value & 0x7;
 
     /* Check for 24 <-> 25 line mode switch.  */
-    if ((value ^ vic_ii.regs[addr]) & 8) {
+    if ((value ^ ted.regs[addr]) & 8) {
         if (value & 0x8) {
             /* 24 -> 25 row mode switch.  */
 
-            vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
-            vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
+            ted.raster.display_ystart = ted.row_25_start_line;
+            ted.raster.display_ystop = ted.row_25_stop_line;
 
-            if (line == vic_ii.row_24_stop_line && cycle > 0) {
+            if (line == ted.row_24_stop_line && cycle > 0) {
                 /* If on the first line of the 24-line border, we
                    still see the 25-line (lowmost) border because the
                    border flip flop has already been turned on.  */
-                vic_ii.raster.blank_enabled = 1;
+                ted.raster.blank_enabled = 1;
             } else {
-                if (!vic_ii.raster.blank && line == vic_ii.row_24_start_line
+                if (!ted.raster.blank && line == ted.row_24_start_line
                     && cycle > 0) {
                     /* A 24 -> 25 switch somewhere on the first line of
                        the 24-row mode is enough to disable screen
                        blanking.  */
-                    vic_ii.raster.blank_enabled = 0;
+                    ted.raster.blank_enabled = 0;
                 }
             }
-            VIC_II_DEBUG_REGISTER(("\t25 line mode enabled\n"));
+            TED_DEBUG_REGISTER(("\t25 line mode enabled\n"));
         } else {
             /* 25 -> 24 row mode switch.  */
 
-            vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
-            vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
+            ted.raster.display_ystart = ted.row_24_start_line;
+            ted.raster.display_ystop = ted.row_24_stop_line;
 
             /* If on the last line of the 25-line border, we still see the
                24-line (upmost) border because the border flip flop has
                already been turned off.  */
-            if (!vic_ii.raster.blank
-                && line == vic_ii.row_25_start_line
+            if (!ted.raster.blank
+                && line == ted.row_25_start_line
                 && cycle > 0)
-                vic_ii.raster.blank_enabled = 0;
-            else if (line == vic_ii.row_25_stop_line && cycle > 0)
-                vic_ii.raster.blank_enabled = 1;
+                ted.raster.blank_enabled = 0;
+            else if (line == ted.row_25_stop_line && cycle > 0)
+                ted.raster.blank_enabled = 1;
 
-            VIC_II_DEBUG_REGISTER(("\t24 line mode enabled\n"));
+            TED_DEBUG_REGISTER(("\t24 line mode enabled\n"));
         }
     }
 
-    vic_ii.raster.blank = !(value & 0x10);        /* `DEN' bit.  */
+    ted.raster.blank = !(value & 0x10);        /* `DEN' bit.  */
 
-    vic_ii.regs[addr] = value;
+    ted.regs[addr] = value;
 
     /* FIXME: save time.  */
     ted_update_video_mode(cycle);
@@ -370,15 +370,15 @@ inline static void store_ted07(ADDRESS addr, BYTE value)
     raster_t *raster;
     int cycle;
 
-    VIC_II_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
 
-    raster = &vic_ii.raster;
-    cycle = VIC_II_RASTER_CYCLE(clk);
+    raster = &ted.raster;
+    cycle = TED_RASTER_CYCLE(clk);
 
     /* FIXME: Line-based emulation!  */
-    if ((value & 7) != (vic_ii.regs[addr] & 7)) {
+    if ((value & 7) != (ted.regs[addr] & 7)) {
 #if 1
-        if (raster->skip_frame || VIC_II_RASTER_CHAR(cycle) <= 1)
+        if (raster->skip_frame || TED_RASTER_CHAR(cycle) <= 1)
             raster->xsmooth = value & 0x7;
         else
             raster_add_int_change_next_line(raster,
@@ -386,59 +386,59 @@ inline static void store_ted07(ADDRESS addr, BYTE value)
                                             value & 0x7);
 #else
         raster_add_int_change_foreground(raster,
-                                         VIC_II_RASTER_CHAR (cycle),
+                                         TED_RASTER_CHAR (cycle),
                                          &raster->xsmooth,
                                          value & 7);
 #endif
     }
 
     /* Bit 4 (CSEL) selects 38/40 column mode.  */
-    if ((value & 0x8) != (vic_ii.regs[addr] & 0x8)) {
+    if ((value & 0x8) != (ted.regs[addr] & 0x8)) {
         if (value & 0x8) {
             /* 40 column mode.  */
             if (cycle <= 17)
-                raster->display_xstart = VIC_II_40COL_START_PIXEL;
+                raster->display_xstart = TED_40COL_START_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstart,
-                                                VIC_II_40COL_START_PIXEL);
+                                                TED_40COL_START_PIXEL);
             if (cycle <= 56)
-                raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
+                raster->display_xstop = TED_40COL_STOP_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
-                                                VIC_II_40COL_STOP_PIXEL);
-            VIC_II_DEBUG_REGISTER(("\t40 column mode enabled\n"));
+                                                TED_40COL_STOP_PIXEL);
+            TED_DEBUG_REGISTER(("\t40 column mode enabled\n"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
                not turned off and this line is blank.  */
-            if (cycle == 17 && !(vic_ii.regs[addr] & 0x8))
+            if (cycle == 17 && !(ted.regs[addr] & 0x8))
                 raster->blank_this_line = 1;
         } else {
             /* 38 column mode.  */
             if (cycle <= 17)
-                raster->display_xstart = VIC_II_38COL_START_PIXEL;
+                raster->display_xstart = TED_38COL_START_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstart,
-                                                VIC_II_38COL_START_PIXEL);
+                                                TED_38COL_START_PIXEL);
             if (cycle <= 56)
-                raster->display_xstop = VIC_II_38COL_STOP_PIXEL;
+                raster->display_xstop = TED_38COL_STOP_PIXEL;
             else
                 raster_add_int_change_next_line(raster,
                                                 &raster->display_xstop,
-                                                VIC_II_38COL_STOP_PIXEL);
-            VIC_II_DEBUG_REGISTER(("\t38 column mode enabled\n"));
+                                                TED_38COL_STOP_PIXEL);
+            TED_DEBUG_REGISTER(("\t38 column mode enabled\n"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
-            if (cycle == 56 && (vic_ii.regs[addr] & 0x8)
+            if (cycle == 56 && (ted.regs[addr] & 0x8)
                 && (!raster->blank_enabled || raster->open_left_border))
                 raster->open_right_border = 1;
         }
     }
 
-    vic_ii.regs[addr] = value;
+    ted.regs[addr] = value;
 
     ted_update_video_mode(cycle);
 }
@@ -454,49 +454,49 @@ inline static void store_ted08(ADDRESS addr, BYTE value)
         if (!(msk & m))
            val &= ~keyarr[i];
 
-    vic_ii.kbdval = val /*& ~joystick_value[1]*/;
+    ted.kbdval = val /*& ~joystick_value[1]*/;
 }
 
 inline static void store_ted09(ADDRESS addr, BYTE value)
 {
     if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
-        vic_ii.irq_status = 0;
+        ted.irq_status = 0;
     } else {
-        vic_ii.irq_status &= ~((value & 0x5e) | 0x80);
-        if (vic_ii.irq_status & vic_ii.regs[0x0a])
-            vic_ii.irq_status |= 0x80;
+        ted.irq_status &= ~((value & 0x5e) | 0x80);
+        if (ted.irq_status & ted.regs[0x0a])
+            ted.irq_status |= 0x80;
     }
 
     /* Update the IRQ line accordingly...
        The external VIC IRQ line is an AND of the internal collision and
-       vic_ii.raster IRQ lines.  */
-    if (vic_ii.irq_status & 0x80) {
+       ted.raster IRQ lines.  */
+    if (ted.irq_status & 0x80) {
         vic_ii_set_irq(I_RASTER, 1);
     } else {
         vic_ii_set_irq(I_RASTER, 0);
     }
 
-    VIC_II_DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", vic_ii.irq_status));
+    TED_DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", ted.irq_status));
 }
 
 inline static void store_ted0a(ADDRESS addr, BYTE value)
 {
     int new_irq_line;
 
-    new_irq_line = ((vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1));
-    vic_ii_set_raster_irq(new_irq_line);
+    new_irq_line = ((ted.raster_irq_line & 0xff) | ((value & 0x80) << 1));
+    ted_set_raster_irq(new_irq_line);
 
-    vic_ii.regs[addr] = value & 0x5e;
+    ted.regs[addr] = value & 0x5e;
 
-    if (vic_ii.regs[addr] & vic_ii.irq_status) {
-        vic_ii.irq_status |= 0x80;
+    if (ted.regs[addr] & ted.irq_status) {
+        ted.irq_status |= 0x80;
         vic_ii_set_irq(I_RASTER, 1);
     } else {
-        vic_ii.irq_status &= 0x7f;
+        ted.irq_status &= 0x7f;
         vic_ii_set_irq(I_RASTER, 0);
     }
 
-    VIC_II_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", vic_ii.regs[addr]));
+    TED_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", ted.regs[addr]));
 }
 
 inline static void store_ted0b(ADDRESS addr, BYTE value)
@@ -505,30 +505,30 @@ inline static void store_ted0b(ADDRESS addr, BYTE value)
     unsigned int old_raster_irq_line;
 
     /* FIXME: Not accurate as bit #8 is missing.  */
-    value = (value - vic_ii.offset) & 255;
+    value = (value - ted.offset) & 255;
 
-    VIC_II_DEBUG_REGISTER (("\tRaster compare register: $%02X\n", value));
+    TED_DEBUG_REGISTER (("\tRaster compare register: $%02X\n", value));
 
-    if (value == vic_ii.regs[addr])
+    if (value == ted.regs[addr])
         return;
 
-    line = VIC_II_RASTER_Y(clk);
-    vic_ii.regs[addr] = value;
+    line = TED_RASTER_Y(clk);
+    ted.regs[addr] = value;
 
-    VIC_II_DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
-                          vic_ii.raster_irq_line));
+    TED_DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
+                          ted.raster_irq_line));
 
-    old_raster_irq_line = vic_ii.raster_irq_line;
-    vic_ii_set_raster_irq((vic_ii.raster_irq_line & 0x100) | value);
+    old_raster_irq_line = ted.raster_irq_line;
+    ted_set_raster_irq((ted.raster_irq_line & 0x100) | value);
 
     /* Check whether we should activate the IRQ line now.  */
-    if (vic_ii.regs[0x0a] & 0x2) {
+    if (ted.regs[0x0a] & 0x2) {
         int trigger_irq;
 
         trigger_irq = 0;
 
         if (rmw_flag) {
-            if (VIC_II_RASTER_CYCLE (clk) == 0) {
+            if (TED_RASTER_CYCLE (clk) == 0) {
                 unsigned int previous_line = TED_PREVIOUS_LINE(line);
 
                 if (previous_line != old_raster_irq_line
@@ -542,11 +542,11 @@ inline static void store_ted0b(ADDRESS addr, BYTE value)
             }
         }
 
-        if (vic_ii.raster_irq_line == line && line != old_raster_irq_line)
+        if (ted.raster_irq_line == line && line != old_raster_irq_line)
             trigger_irq = 1;
 
         if (trigger_irq) {
-            vic_ii.irq_status |= 0x82;
+            ted.irq_status |= 0x82;
             vic_ii_set_irq (I_RASTER, 1);
         }
     }
@@ -554,29 +554,29 @@ inline static void store_ted0b(ADDRESS addr, BYTE value)
 
 inline static void store_ted12(ADDRESS addr, BYTE value)
 {
-    if (vic_ii.regs[addr] == value)
+    if (ted.regs[addr] == value)
         return;
 
-    vic_ii.regs[addr] = value;
-    ted_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+    ted.regs[addr] = value;
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
 inline static void store_ted13(ADDRESS addr, BYTE value)
 {
-    if (vic_ii.regs[addr] == value)
+    if (ted.regs[addr] == value)
         return;
 
-    vic_ii.regs[addr] = value;
-    ted_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+    ted.regs[addr] = value;
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
 inline static void store_ted14(ADDRESS addr, BYTE value)
 {
-    if (vic_ii.regs[addr] == value)
+    if (ted.regs[addr] == value)
         return;
 
-    vic_ii.regs[addr] = value;
-    ted_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+    ted.regs[addr] = value;
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
 inline static void store_ted15(ADDRESS addr, BYTE value)
@@ -585,38 +585,38 @@ inline static void store_ted15(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tBackground #0 color register: $%02X\n",
+    TED_DEBUG_REGISTER(("\tBackground #0 color register: $%02X\n",
                           value));
 
-    if (vic_ii.regs[addr] == value)
+    if (ted.regs[addr] == value)
         return;
 
-    if (!vic_ii.force_black_overscan_background_color)
+    if (!ted.force_black_overscan_background_color)
         raster_add_int_change_background
-            (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
-            &vic_ii.raster.overscan_background_color,
+            (&ted.raster,
+            TED_RASTER_X(TED_RASTER_CYCLE(clk)),
+            &ted.raster.overscan_background_color,
             value);
 
-    x_pos = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk));
-    raster_add_int_change_background(&vic_ii.raster,
+    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(clk));
+    raster_add_int_change_background(&ted.raster,
                                      x_pos,
-                                     &vic_ii.raster.background_color,
+                                     &ted.raster.background_color,
                                      value);
-    vic_ii.regs[addr] = value;
+    ted.regs[addr] = value;
 }
 
 inline static void store_ted19(ADDRESS addr, BYTE value)
 {
-    VIC_II_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
+    TED_DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
 
     value &= 0xf;
 
-    if (vic_ii.regs[addr] != value) {
-        vic_ii.regs[addr] = value;
-        raster_add_int_change_border(&vic_ii.raster,
-                                     VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)), 
-                                     &vic_ii.raster.border_color,
+    if (ted.regs[addr] != value) {
+        ted.regs[addr] = value;
+        raster_add_int_change_border(&ted.raster,
+                                     TED_RASTER_X(TED_RASTER_CYCLE(clk)), 
+                                     &ted.raster.border_color,
                                      value);
     }
 }
@@ -627,20 +627,20 @@ inline static void store_ext_background(ADDRESS addr, BYTE value)
 
     value &= 0xf;
 
-    VIC_II_DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
+    TED_DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
                           addr - 0x21, value));
 
-    if (vic_ii.regs[addr] == value)
+    if (ted.regs[addr] == value)
         return;
 
-    char_num = VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE (clk));
+    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(clk));
 
-    raster_add_int_change_foreground(&vic_ii.raster,
+    raster_add_int_change_foreground(&ted.raster,
                                      char_num,
-                                     &vic_ii.ext_background_color[addr - 0x22],
+                                     &ted.ext_background_color[addr - 0x22],
                                      value);
 
-    vic_ii.regs[addr] = value;
+    ted.regs[addr] = value;
 }
 
 /* Store a value in a VIC-II register.  */
@@ -655,11 +655,19 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
        updated and `current_line' is actually set to the current Y position of
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
-    if (clk >= vic_ii.draw_clk)
-        vic_ii_raster_draw_alarm_handler(clk - vic_ii.draw_clk);
+    if (clk >= ted.draw_clk)
+        vic_ii_raster_draw_alarm_handler(clk - ted.draw_clk);
 
 
     switch (addr) {
+      case 0x00:
+      case 0x01:
+      case 0x02:
+      case 0x03:
+      case 0x04:
+      case 0x05:
+        ted_timer_store(addr, value);
+        break;
       case 0x06:
         store_ted06(addr, value);
         break;
@@ -700,50 +708,6 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
         mem_config_set(0);
         break;
     }
-
-#if 0
-    switch (addr) {
-      case 0x11:                  /* $D011: video mode, Y scroll, 24/25 line
-                                     mode and raster MSB */
-        store_d011(addr, value);
-        break;
-
-      case 0x12:                  /* $D012: Raster line compare */
-        store_d012(addr, value);
-        break;
-
-      case 0x16:                  /* $D016 */
-        store_d016(addr, value);
-        break;
-
-      case 0x18:                  /* $D018: Video and char matrix base
-                                     address */
-        store_d018(addr, value);
-        break;
-
-      case 0x19:                  /* $D019: IRQ flag register */
-        store_d019(addr, value);
-        break;
-
-      case 0x1a:                  /* $D01A: IRQ mask register */
-        store_d01a(addr, value);
-        break;
-
-      case 0x20:                  /* $D020: Border color */
-        store_d020(addr, value);
-        break;
-
-      case 0x21:                  /* $D021: Background #0 color */
-        store_d021(addr, value);
-        break;
-
-      case 0x22:                  /* $D022: Background #1 color */
-      case 0x23:                  /* $D023: Background #2 color */
-      case 0x24:                  /* $D024: Background #3 color */
-        store_ext_background(addr, value);
-        break;
-    }
-#endif
 }
 
 
@@ -752,13 +716,13 @@ inline static unsigned int read_raster_y(void)
 {
     int raster_y;
 
-    raster_y = VIC_II_RASTER_Y(clk);
+    raster_y = TED_RASTER_Y(clk);
 
     /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
        cycles long.  As a result, the counter is incremented one
        cycle later on line 0.  */
-    if (raster_y == 0 && VIC_II_RASTER_CYCLE(clk) == 0)
-        raster_y = vic_ii.screen_height - 1;
+    if (raster_y == 0 && TED_RASTER_CYCLE(clk) == 0)
+        raster_y = ted.screen_height - 1;
 
     return raster_y;
 }
@@ -766,19 +730,33 @@ inline static unsigned int read_raster_y(void)
 /* Helper function for reading from $D019.  */
 inline static BYTE read_ted08(void)
 {
-    return vic_ii.kbdval;
+    return ted.kbdval;
 }
 
 inline static BYTE read_ted09(void)
 {
-    if (VIC_II_RASTER_Y(clk) == vic_ii.raster_irq_line
-        && (vic_ii.regs[0x0a] & 0x2))
+    if (TED_RASTER_Y(clk) == ted.raster_irq_line
+        && (ted.regs[0x0a] & 0x2))
         /* As int_raster() is called 2 cycles later than it should be to
-           emulate the 6510 internal IRQ delay, `vic_ii.irq_status' might not
+           emulate the 6510 internal IRQ delay, `ted.irq_status' might not
            have bit 0 set as it should.  */
-        return vic_ii.irq_status | 0x23;
+        return ted.irq_status | 0x23;
     else
-        return vic_ii.irq_status | 0x22;
+        return ted.irq_status | 0x22;
+}
+
+inline static BYTE read_ted0a0b(ADDRESS addr)
+{
+    unsigned int tmp = (ted.screen_height + read_raster_y()
+                       - ted.offset) % ted.screen_height;
+
+    TED_DEBUG_REGISTER(("\tRaster Line register %s value = $%04X\n",
+                          (addr == 0x0a ? "(highest bit) " : ""), tmp));
+    if (addr == 0x0a)
+        return (ted.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
+    else
+        return tmp & 0xff;
+
 }
 
 /* Read a value from a VIC-II register.  */
@@ -790,27 +768,23 @@ BYTE REGPARM1 ted_read(ADDRESS addr)
     ted_handle_pending_alarms(0);
 
     switch (addr) {
+      case 0x00:
+      case 0x01:
+      case 0x02:
+      case 0x03:
+      case 0x04:
+      case 0x05:
+        return ted_timer_read(addr);
       case 0x08: 
         return read_ted08();
       case 0x09:
         return read_ted09();
       case 0x0a:
       case 0x0b:
-        {
-            unsigned int tmp = (vic_ii.screen_height + read_raster_y()
-                               - vic_ii.offset) % vic_ii.screen_height;
-
-            VIC_II_DEBUG_REGISTER(("\tRaster Line register %s value = $%04X\n",
-                                  (addr == 0x0a ? "(highest bit) " : ""), tmp));
-            if (addr == 0x0a)
-                return (vic_ii.regs[addr] & 0x7f) | ((tmp & 0x100) >> 1);
-            else
-                return tmp & 0xff;
-        }
-        break;
+        return read_ted0a0b(addr);
     }
 
-    return vic_ii.regs[addr] | unused_bits_in_registers[addr];
+    return ted.regs[addr] | unused_bits_in_registers[addr];
 }
 
 BYTE REGPARM1 ted_peek(ADDRESS addr)
@@ -821,7 +795,7 @@ BYTE REGPARM1 ted_peek(ADDRESS addr)
       case 0x09:
         return read_ted09();
       default:
-        return vic_ii.regs[addr] | unused_bits_in_registers[addr];
+        return ted.regs[addr] | unused_bits_in_registers[addr];
     }
 }
 

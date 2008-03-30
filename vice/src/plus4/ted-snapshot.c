@@ -56,8 +56,8 @@
    NewSpriteDmaMask   BYTE   1      value for SpriteDmaMask after drawing
                                     sprites
    RamBase            DWORD  1      pointer to the start of RAM seen by the VIC
-   RasterCycle        BYTE   1      current vic_ii.raster cycle
-   RasterLine         WORD   1      current vic_ii.raster line
+   RasterCycle        BYTE   1      current ted.raster cycle
+   RasterLine         WORD   1      current ted.raster line
    Registers          BYTE   64     VIC-II registers
    SbCollMask         BYTE   1      sprite-background collisions so far
    SpriteDmaMask      BYTE   1      sprites having DMA turned on
@@ -65,9 +65,9 @@
    VBank              BYTE   1      location of memory bank
    Vc                 WORD   1      internal VIC-II counter
    VcAdd              BYTE   1      value to add to Vc at the end of this line
-                                    (vic_ii.mem_counter_inc)
+                                    (ted.mem_counter_inc)
    VcBase             WORD   1      internal VIC-II memory pointer
-   VideoInt           BYTE   1      status of VIC-II IRQ (vic_ii.irq_status)
+   VideoInt           BYTE   1      status of VIC-II IRQ (ted.irq_status)
 
    [Sprite section: (repeat 8 times)]
 
@@ -81,7 +81,7 @@
 
  */
 
-static char snap_module_name[] = "VIC-II";
+static char snap_module_name[] = "TED";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
 
@@ -98,44 +98,44 @@ int ted_snapshot_write_module(snapshot_t *s)
 
     if (0
         /* AllowBadLines */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.allow_bad_lines) < 0
+        || snapshot_module_write_byte(m, (BYTE)ted.allow_bad_lines) < 0
         /* BadLine */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.bad_line) < 0
+        || snapshot_module_write_byte(m, (BYTE)ted.bad_line) < 0
         /* Blank */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.raster.blank_enabled) < 0
+        || snapshot_module_write_byte(m, (BYTE)ted.raster.blank_enabled) < 0
         /* ColorBuf */
-        || snapshot_module_write_byte_array(m, vic_ii.cbuf, 40) < 0
+        || snapshot_module_write_byte_array(m, ted.cbuf, 40) < 0
         /* IdleState */
-        || snapshot_module_write_byte(m, vic_ii.idle_state) < 0
+        || snapshot_module_write_byte(m, ted.idle_state) < 0
         /* MatrixBuf */
-        || snapshot_module_write_byte_array(m, vic_ii.vbuf, 40) < 0
+        || snapshot_module_write_byte_array(m, ted.vbuf, 40) < 0
         /* NewSpriteDmaMask */
         || snapshot_module_write_byte(m,
-            vic_ii.raster.sprite_status->new_dma_msk) < 0
+            ted.raster.sprite_status->new_dma_msk) < 0
         /* RasterCycle */
-        || snapshot_module_write_byte(m, (BYTE)VIC_II_RASTER_CYCLE (clk)) < 0
+        || snapshot_module_write_byte(m, (BYTE)TED_RASTER_CYCLE (clk)) < 0
         /* RasterLine */
-        || snapshot_module_write_word(m, (WORD)(VIC_II_RASTER_Y (clk))) < 0
+        || snapshot_module_write_word(m, (WORD)(TED_RASTER_Y (clk))) < 0
         )
         goto fail;
 
     for (i = 0; i < 0x40; i++)
         /* Registers */
-        if (snapshot_module_write_byte(m, (BYTE)vic_ii.regs[i]) < 0)
+        if (snapshot_module_write_byte(m, (BYTE)ted.regs[i]) < 0)
             goto fail;
 
     if (0
         /* SpriteDmaMask */
         || snapshot_module_write_byte(m,
-            (BYTE)vic_ii.raster.sprite_status->dma_msk) < 0
+            (BYTE)ted.raster.sprite_status->dma_msk) < 0
         /* Vc */
-        || snapshot_module_write_word(m, (WORD)vic_ii.mem_counter) < 0
+        || snapshot_module_write_word(m, (WORD)ted.mem_counter) < 0
         /* VcInc */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.mem_counter_inc) < 0
+        || snapshot_module_write_byte(m, (BYTE)ted.mem_counter_inc) < 0
         /* VcBase */
-        || snapshot_module_write_word(m, (WORD)vic_ii.memptr) < 0
+        || snapshot_module_write_word(m, (WORD)ted.memptr) < 0
         /* VideoInt */
-        || snapshot_module_write_byte(m, (BYTE)vic_ii.irq_status) < 0
+        || snapshot_module_write_byte(m, (BYTE)ted.irq_status) < 0
         )
         goto fail;
 
@@ -143,22 +143,22 @@ int ted_snapshot_write_module(snapshot_t *s)
         if (0
             /* SpriteXMemPtr */
             || snapshot_module_write_byte(m,
-                (BYTE)vic_ii.raster.sprite_status->sprites[i].memptr) < 0
+                (BYTE)ted.raster.sprite_status->sprites[i].memptr) < 0
             /* SpriteXMemPtrInc */
             || snapshot_module_write_byte(m,
-                (BYTE)vic_ii.raster.sprite_status->sprites[i].memptr_inc) < 0
+                (BYTE)ted.raster.sprite_status->sprites[i].memptr_inc) < 0
             /* SpriteXExpFlipFlop */
             || snapshot_module_write_byte(m,
-                (BYTE)vic_ii.raster.sprite_status->sprites[i].exp_flag) < 0
+                (BYTE)ted.raster.sprite_status->sprites[i].exp_flag) < 0
             )
             goto fail;
     }
 
     if (0
         /* FetchEventTick */
-        || snapshot_module_write_dword (m, vic_ii.fetch_clk - clk) < 0
+        || snapshot_module_write_dword (m, ted.fetch_clk - clk) < 0
         /* FetchEventType */
-        || snapshot_module_write_byte (m, (BYTE)vic_ii.fetch_idx) < 0
+        || snapshot_module_write_byte (m, (BYTE)ted.fetch_idx) < 0
         )
         goto fail;
 
@@ -204,7 +204,7 @@ int ted_snapshot_read_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        log_error(vic_ii.log,
+        log_error(ted.log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   major_version, minor_version,
                   SNAP_MAJOR, SNAP_MINOR);
@@ -215,20 +215,20 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     if (0
         /* AllowBadLines */
-        || read_byte_into_int(m, &vic_ii.allow_bad_lines) < 0
+        || read_byte_into_int(m, &ted.allow_bad_lines) < 0
         /* BadLine */
-        || read_byte_into_int(m, &vic_ii.bad_line) < 0 
+        || read_byte_into_int(m, &ted.bad_line) < 0 
         /* Blank */
-        || read_byte_into_int(m, &vic_ii.raster.blank_enabled) < 0
+        || read_byte_into_int(m, &ted.raster.blank_enabled) < 0
         /* ColorBuf */
-        || snapshot_module_read_byte_array (m, vic_ii.cbuf, 40) < 0
+        || snapshot_module_read_byte_array (m, ted.cbuf, 40) < 0
         /* IdleState */
-        || read_byte_into_int(m, &vic_ii.idle_state) < 0
+        || read_byte_into_int(m, &ted.idle_state) < 0
         /* MatrixBuf */
-        || snapshot_module_read_byte_array(m, vic_ii.vbuf, 40) < 0
+        || snapshot_module_read_byte_array(m, ted.vbuf, 40) < 0
         /* NewSpriteDmaMask */
         || snapshot_module_read_byte(m,
-            &vic_ii.raster.sprite_status->new_dma_msk) < 0
+            &ted.raster.sprite_status->new_dma_msk) < 0
         )
         goto fail;
 
@@ -242,38 +242,38 @@ int ted_snapshot_read_module(snapshot_t *s)
             || snapshot_module_read_word(m, &RasterLine) < 0)
             goto fail;
 
-        if (RasterCycle != (BYTE)VIC_II_RASTER_CYCLE(clk)) {
-            log_error(vic_ii.log,
+        if (RasterCycle != (BYTE)TED_RASTER_CYCLE(clk)) {
+            log_error(ted.log,
                       "Not matching raster cycle (%d) in snapshot; should be %d.",
-                      RasterCycle, VIC_II_RASTER_CYCLE(clk));
+                      RasterCycle, TED_RASTER_CYCLE(clk));
             goto fail;
         }
 
-        if (RasterLine != (WORD)VIC_II_RASTER_Y(clk)) {
-            log_error(vic_ii.log,
+        if (RasterLine != (WORD)TED_RASTER_Y(clk)) {
+            log_error(ted.log,
                       "VIC-II: Not matching raster line (%d) in snapshot; should be %d.",
-                      RasterLine, VIC_II_RASTER_Y(clk));
+                      RasterLine, TED_RASTER_Y(clk));
             goto fail;
         }
     }
 
     for (i = 0; i < 0x40; i++)
-        if (read_byte_into_int(m, &vic_ii.regs[i]) < 0 /* Registers */ )
+        if (read_byte_into_int(m, &ted.regs[i]) < 0 /* Registers */ )
             goto fail;
 
 
     if (0
         /* SpriteDmaMask */
         || snapshot_module_read_byte(m,
-            &vic_ii.raster.sprite_status->dma_msk) < 0
+            &ted.raster.sprite_status->dma_msk) < 0
         /* Vc */
-        || read_word_into_int(m, &vic_ii.mem_counter) < 0
+        || read_word_into_int(m, &ted.mem_counter) < 0
         /* VcInc */
-        || read_byte_into_int(m, &vic_ii.mem_counter_inc) < 0
+        || read_byte_into_int(m, &ted.mem_counter_inc) < 0
         /* VcBase */
-        || read_word_into_int(m, &vic_ii.memptr) < 0
+        || read_word_into_int(m, &ted.memptr) < 0
         /* VideoInt */
-        || read_byte_into_int(m, &vic_ii.irq_status) < 0
+        || read_byte_into_int(m, &ted.irq_status) < 0
         )
         goto fail;
 
@@ -281,81 +281,81 @@ int ted_snapshot_read_module(snapshot_t *s)
         if (0
             /* SpriteXMemPtr */
             || read_byte_into_int(m,
-                &vic_ii.raster.sprite_status->sprites[i].memptr) < 0
+                &ted.raster.sprite_status->sprites[i].memptr) < 0
             /* SpriteXMemPtrInc */
             || read_byte_into_int(m,
-                &vic_ii.raster.sprite_status->sprites[i].memptr_inc) < 0
+                &ted.raster.sprite_status->sprites[i].memptr_inc) < 0
             /* SpriteXExpFlipFlop */
             || read_byte_into_int(m,
-                &vic_ii.raster.sprite_status->sprites[i].exp_flag) < 0
+                &ted.raster.sprite_status->sprites[i].exp_flag) < 0
             )
             goto fail;
     }
 
     /* FIXME: Recalculate alarms and derived values.  */
 
-    vic_ii_set_raster_irq(vic_ii.regs[0x12]
-                          | ((vic_ii.regs[0x11] & 0x80) << 1));
+    ted_set_raster_irq(ted.regs[0x12]
+                          | ((ted.regs[0x11] & 0x80) << 1));
 
-    ted_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+    ted_update_memory_ptrs(TED_RASTER_CYCLE (clk));
 
-    vic_ii.raster.xsmooth = vic_ii.regs[0x16] & 0x7;
-    vic_ii.raster.ysmooth = vic_ii.regs[0x11] & 0x7;
-    vic_ii.raster.current_line = VIC_II_RASTER_Y(clk);     /* FIXME? */
+    ted.raster.xsmooth = ted.regs[0x16] & 0x7;
+    ted.raster.ysmooth = ted.regs[0x11] & 0x7;
+    ted.raster.current_line = TED_RASTER_Y(clk);     /* FIXME? */
 
-    vic_ii.raster.sprite_status->visible_msk = vic_ii.regs[0x15];
+    ted.raster.sprite_status->visible_msk = ted.regs[0x15];
 
     /* Update colors.  */
-    vic_ii.raster.border_color = vic_ii.regs[0x20] & 0xf;
-    vic_ii.raster.background_color = vic_ii.regs[0x21] & 0xf;
-    vic_ii.ext_background_color[0] = vic_ii.regs[0x22] & 0xf;
-    vic_ii.ext_background_color[1] = vic_ii.regs[0x23] & 0xf;
-    vic_ii.ext_background_color[2] = vic_ii.regs[0x24] & 0xf;
-    vic_ii.raster.sprite_status->mc_sprite_color_1 = vic_ii.regs[0x25] & 0xf;
-    vic_ii.raster.sprite_status->mc_sprite_color_2 = vic_ii.regs[0x26] & 0xf;
+    ted.raster.border_color = ted.regs[0x20] & 0xf;
+    ted.raster.background_color = ted.regs[0x21] & 0xf;
+    ted.ext_background_color[0] = ted.regs[0x22] & 0xf;
+    ted.ext_background_color[1] = ted.regs[0x23] & 0xf;
+    ted.ext_background_color[2] = ted.regs[0x24] & 0xf;
+    ted.raster.sprite_status->mc_sprite_color_1 = ted.regs[0x25] & 0xf;
+    ted.raster.sprite_status->mc_sprite_color_2 = ted.regs[0x26] & 0xf;
 
-    vic_ii.raster.blank = !(vic_ii.regs[0x11] & 0x10);
+    ted.raster.blank = !(ted.regs[0x11] & 0x10);
 
-    if (VIC_II_IS_ILLEGAL_MODE (vic_ii.raster.video_mode)) {
-        vic_ii.raster.overscan_background_color = 0;
-        vic_ii.force_black_overscan_background_color = 1;
+    if (TED_IS_ILLEGAL_MODE (ted.raster.video_mode)) {
+        ted.raster.overscan_background_color = 0;
+        ted.force_black_overscan_background_color = 1;
     } else {
-        vic_ii.raster.overscan_background_color
-            = vic_ii.raster.background_color;
-        vic_ii.force_black_overscan_background_color = 0;
+        ted.raster.overscan_background_color
+            = ted.raster.background_color;
+        ted.force_black_overscan_background_color = 0;
     }
 
-    if (vic_ii.regs[0x11] & 0x8) {
-        vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
-        vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
+    if (ted.regs[0x11] & 0x8) {
+        ted.raster.display_ystart = ted.row_25_start_line;
+        ted.raster.display_ystop = ted.row_25_stop_line;
     } else {
-        vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
-        vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
+        ted.raster.display_ystart = ted.row_24_start_line;
+        ted.raster.display_ystop = ted.row_24_stop_line;
     }
 
-    if (vic_ii.regs[0x16] & 0x8) {
-        vic_ii.raster.display_xstart = VIC_II_40COL_START_PIXEL;
-        vic_ii.raster.display_xstop = VIC_II_40COL_STOP_PIXEL;
+    if (ted.regs[0x16] & 0x8) {
+        ted.raster.display_xstart = TED_40COL_START_PIXEL;
+        ted.raster.display_xstop = TED_40COL_STOP_PIXEL;
     } else {
-        vic_ii.raster.display_xstart = VIC_II_38COL_START_PIXEL;
-        vic_ii.raster.display_xstop = VIC_II_38COL_STOP_PIXEL;
+        ted.raster.display_xstart = TED_38COL_START_PIXEL;
+        ted.raster.display_xstop = TED_38COL_STOP_PIXEL;
     }
 
-    /* `vic_ii.raster.draw_idle_state', `vic_ii.raster.open_right_border' and
-       `vic_ii.raster.open_left_border' should be needed, but they would only
-       affect the current vic_ii.raster line, and would not cause any
+    /* `ted.raster.draw_idle_state', `ted.raster.open_right_border' and
+       `ted.raster.open_left_border' should be needed, but they would only
+       affect the current ted.raster line, and would not cause any
        difference in timing.  So who cares.  */
 
-    /* FIXME: `vic_ii.ycounter_reset_checked'?  */
-    /* FIXME: `vic_ii.force_display_state'?  */
+    /* FIXME: `ted.ycounter_reset_checked'?  */
+    /* FIXME: `ted.force_display_state'?  */
 
-    vic_ii.memory_fetch_done = 0; /* FIXME? */
+    ted.memory_fetch_done = 0; /* FIXME? */
 
-    ted_update_video_mode(VIC_II_RASTER_CYCLE(clk));
+    ted_update_video_mode(TED_RASTER_CYCLE(clk));
 
-    vic_ii.draw_clk = clk + (vic_ii.draw_cycle - VIC_II_RASTER_CYCLE(clk));
-    vic_ii.last_emulate_line_clk = vic_ii.draw_clk - vic_ii.cycles_per_line;
-    alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+    ted.draw_clk = clk + (ted.draw_cycle - TED_RASTER_CYCLE(clk));
+    ted.last_emulate_line_clk = ted.draw_clk - ted.cycles_per_line;
+    alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
 
     {
         DWORD dw;
@@ -367,16 +367,16 @@ int ted_snapshot_read_module(snapshot_t *s)
             )
             goto fail;
 
-        vic_ii.fetch_clk = clk + dw;
-        vic_ii.fetch_idx = b;
+        ted.fetch_clk = clk + dw;
+        ted.fetch_idx = b;
 
-        alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+        alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
     }
 
-    if (vic_ii.irq_status & 0x80)
+    if (ted.irq_status & 0x80)
         interrupt_set_irq_noclk(&maincpu_int_status, I_RASTER, 1);
 
-    raster_force_repaint(&vic_ii.raster);
+    raster_force_repaint(&ted.raster);
     return 0;
 
 fail:

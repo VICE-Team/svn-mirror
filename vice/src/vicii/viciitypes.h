@@ -98,7 +98,7 @@
 
 /* Available video modes.  The number is given by
    ((vic_ii.regs[0x11] & 0x60) | (vic_ii.regs[0x16] & 0x10)) >> 4.  */
-enum _vic_ii_video_mode {
+enum vic_ii_video_mode_s {
     VIC_II_NORMAL_TEXT_MODE,
     VIC_II_MULTICOLOR_TEXT_MODE,
     VIC_II_HIRES_BITMAP_MODE,
@@ -110,7 +110,7 @@ enum _vic_ii_video_mode {
     VIC_II_IDLE_MODE,           /* Special mode for idle state.  */
     VIC_II_NUM_VMODES
 };
-typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
+typedef enum vic_ii_video_mode_s vic_ii_video_mode_t;
 
 #define VIC_II_IS_ILLEGAL_MODE(x)       ((x) >= VIC_II_ILLEGAL_TEXT_MODE \
                                          && (x) != VIC_II_IDLE_MODE)
@@ -168,7 +168,7 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 /* Cycle # within the current line.  */
 #define VIC_II_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
-                                                    % vic_ii.cycles_per_line))
+                                    % vic_ii.cycles_per_line))
 
 /* `clk' value for the beginning of the current line.  */
 #define VIC_II_LINE_START_CLK(clk)  (((clk) / vic_ii.cycles_per_line) \
@@ -376,14 +376,14 @@ typedef struct vic_ii_s vic_ii_t;
 
 extern vic_ii_t vic_ii;
 
-/* Private function calls, used by the other VIC-II modules.  FIXME:
-   Prepend names with `_'?  */
+/* Private function calls, used by the other VIC-II modules.  */
 extern void vic_ii_fetch_matrix(int offs, int num);
 extern void vic_ii_set_raster_irq(unsigned int line);
 extern void vic_ii_update_memory_ptrs(unsigned int cycle);
 extern void vic_ii_update_video_mode(unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
 extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
+extern void vic_ii_resize(void);
 
 /* Debugging options.  */
 
