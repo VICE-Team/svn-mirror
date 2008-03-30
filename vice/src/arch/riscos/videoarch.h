@@ -85,7 +85,7 @@ extern void video_full_screen_speed(int percent, int framerate, int warp);
 extern void video_full_screen_drive_leds(unsigned int drive);
 extern void video_full_screen_init_status(void);
 extern void video_full_screen_plot_status(void);
-
+extern void video_full_screen_display_image(unsigned int num, const char *img);
 
 extern canvas_list_t *CanvasList;
 extern canvas_t ActiveCanvas;

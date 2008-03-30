@@ -30,17 +30,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #include "wimp.h"
 #include "textwin.h"
 
+#include "archdep.h"
 #include "attach.h"
 #include "c610ui.h"
-#include "c64mem.h"
 #include "cartridge.h"
 #include "console.h"
 #include "datasette.h"
-#include "drive.h"
+#include "diskimage.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "info.h"
@@ -49,9 +50,7 @@
 #include "kbd.h"
 #include "log.h"
 #include "machine.h"
-#include "mon.h"
 #include "petui.h"
-#include "raster.h"
 #include "resources.h"
 #include "romset.h"
 #include "serial.h"
@@ -63,9 +62,17 @@
 #include "uiimage.h"
 #include "uimsgwin.h"
 #include "utils.h"
-#include "vicii.h"
+#include "version.h"
 #include "vsync.h"
 #include "vsyncarch.h"
+
+/* module includes */
+#include "c64/c64mem.h"
+#include "drive/drive.h"
+#include "monitor/mon.h"
+#include "raster/raster.h"
+#include "vdrive/vdrive.h"
+#include "vicii/vicii.h"
 
 
 
@@ -100,6 +107,8 @@ static const char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceScrap";
 static const char VicePathVariable[] = "Vice$Path";
 static const char ResourceDriveDir[] = "DRIVES";
 static const char ViceSnapshotFile[] = "ViceSnap";
+static const char ViceNewDiscName[] = "NEWDISC,01";
+static const char ViceNewDiscFile[] = "imagefile";
 static const char PRGFileExtension[] = "prg";
 
 
@@ -179,6 +188,12 @@ static const char PRGFileExtension[] = "prg";
 #define Icon_Jam_Monitor	3
 #define Icon_Jam_Debug		4
 
+#define Icon_Create_Type        0
+#define Icon_Create_TypeT       1
+#define Icon_Create_Name        5
+#define Icon_Create_Sprite      3
+#define Icon_Create_OK          4
+#define Icon_Create_File        2
 
 
 /* Drive config */
@@ -438,6 +453,9 @@ static int SnapshotMessage[64];
 
 static const int default_screen_width = 384;
 static const int default_screen_height = 312;
+
+/* length of indirected menu entries */
+static const int MenuIndirectSize = 32;
 
 /* flip lists */
 static int FlipListIter = 0;
@@ -711,6 +729,9 @@ enum SymbolInstances {
   Symbol_PaneFPS,
   Symbol_Purpose,
   Symbol_MachDown,
+  Symbol_TitLicense,
+  Symbol_TitWarranty,
+  Symbol_TitContrib,
   Symbol_DlgExtend,
   Symbol_ErrTemp,
   Symbol_ErrSMem,
@@ -726,7 +747,6 @@ enum SymbolInstances {
 };
 
 static char *SymbolStrings[] = {
-  "\\ViceVersion",
   "\\ViceDate",
   "\\PaneZoom1",
   "\\PaneZoom2",
@@ -737,6 +757,9 @@ static char *SymbolStrings[] = {
   "\\PaneFmtFps",
   "\\MsgPurpFmt",
   "\\MsgMachDown",
+  "\\TitLicense",
+  "\\TitWarrant",
+  "\\TitContrib",
   "\\DlgExtendImage",
   "\\ErrTemplateFmt",
   "\\ErrSpriteMem",
@@ -831,7 +854,8 @@ static struct MenuDatasette {
 };
 
 #define Menu_FlipImg_Width      200
-RO_MenuHead *MenuFlipImages = NULL;
+static RO_MenuHead *MenuFlipImages = NULL;
+static char *MenuFlipImgNames = NULL;
 
 static struct MenuFlipImageTmpl {
   RO_MenuHead head;
@@ -839,7 +863,7 @@ static struct MenuFlipImageTmpl {
 } MenuFlipImageTmpl = {
   MENU_HEADER("\\MenFlImTit", Menu_FlipImg_Width),
   {
-    MENU_ITEM_LAST("\\MenFlImDef")
+    MENU_ITEM_LAST("\\MenFlImDet")
   }
 };
 
@@ -885,6 +909,7 @@ static struct MenuIconBar {
     MENU_ITEM("\\MenIBLicns"),
     MENU_ITEM("\\MenIBWrnty"),
     MENU_ITEM("\\MenIBCntrb"),
+    MENU_ITEM("\\MenIBCreat"),
     MENU_ITEM_SUB("\\MenIBConf", &MenuConfigure),
     MENU_ITEM("\\MenIBFull"),
     MENU_ITEM_LAST("\\MenIBQuit")
@@ -919,6 +944,32 @@ static struct MenuEmuWindow {
     MENU_ITEM_SUB("\\MenEmuDSt", &MenuDatasette),
     MENU_ITEM("\\MenEmuSnd"),
     MENU_ITEM_LAST("\\MenEmuMon"),
+  }
+};
+
+/* Create disc menu */
+#define Menu_CrtDisc_Items      7
+#define Menu_CrtDisc_Width      200
+#define Menu_CrtDisc_X64        0
+#define Menu_CrtDisc_G64        1
+#define Menu_CrtDisc_D64        2
+#define Menu_CrtDisc_D71        3
+#define Menu_CrtDisc_D81        4
+#define Menu_CrtDisc_D80        5
+#define Menu_CrtDisc_D82        6
+static struct MenuCreateDiscType {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_CrtDisc_Items];
+} MenuCreateDiscType = {
+  MENU_HEADER("\\MenCrtTit", Menu_CrtDisc_Width),
+  {
+    MENU_ITEM("X64"),
+    MENU_ITEM("G64"),
+    MENU_ITEM("D64"),
+    MENU_ITEM("D71"),
+    MENU_ITEM("D81"),
+    MENU_ITEM("D80"),
+    MENU_ITEM_LAST("D82")
   }
 };
 
@@ -2718,6 +2769,34 @@ static void ui_update_menu_disp_strshow(const disp_desc_t *dd, resource_value_t 
 }
 
 
+static void ui_set_menu_display_text(const disp_desc_t *dd, int number, RO_MenuHead *menu)
+{
+  RO_MenuItem *item;
+  RO_Icon *icon;
+  int len;
+
+  item = (RO_MenuItem*)(menu + 1);
+  wimp_menu_tick_exclusive(menu, number);
+  if ((icon = wimp_window_get_icon(ConfWindows[dd->id.win], dd->id.icon)) == NULL) return;
+  if ((icon->iflags & IFlg_Indir) == 0) return;
+  len = icon->dat.ind.len - 1;
+  if ((item[number].iflags & IFlg_Indir) == 0)
+  {
+    if (len > 12)
+      len = 12;
+    strncpy((char*)(icon->dat.ind.tit), item[number].dat.strg, len);
+  }
+  else
+  {
+    if (len > item[number].dat.ind.len-1)
+      len = item[number].dat.ind.len-1;
+    strncpy((char*)(icon->dat.ind.tit), item[number].dat.ind.tit, len);
+  }
+  ((char*)(icon->dat.ind.tit))[len] = 0;
+  wimp_window_redraw_icon(ConfWindows[dd->id.win], dd->id.icon);
+}
+
+
 static void ui_setup_menu_disp_core(const disp_desc_t *dd, resource_value_t val)
 {
   RO_MenuHead *menu;
@@ -2751,16 +2830,10 @@ static void ui_setup_menu_disp_core(const disp_desc_t *dd, resource_value_t val)
 
   if (i >= 0)
   {
-    RO_Icon *icon;
-
-    wimp_menu_tick_exclusive(menu, i);
-    if ((icon = wimp_window_get_icon(ConfWindows[dd->id.win], dd->id.icon)) == NULL) return;
-    if ((icon->iflags & IFlg_Indir) == 0) return;
-    ((char*)(icon->dat.ind.tit))[12] = 0;
-    strncpy((char*)(icon->dat.ind.tit), item[i].dat.strg, 12);
-    wimp_window_redraw_icon(ConfWindows[dd->id.win], dd->id.icon);
+    ui_set_menu_display_text(dd, i, menu);
   }
 }
+
 
 static void ui_setup_menu_display(const disp_desc_t *dd)
 {
@@ -2844,14 +2917,7 @@ static void ui_set_menu_display_core(const disp_desc_t *dd, set_var_function fun
   }
   if (state == 0)
   {
-    RO_Icon *icon;
-
-    wimp_menu_tick_exclusive(menu, number);
-    if ((icon = wimp_window_get_icon(ConfWindows[dd->id.win], dd->id.icon)) == NULL) return;
-    if ((icon->iflags & IFlg_Indir) == 0) return;
-    ((char*)(icon->dat.ind.tit))[12] = 0;
-    strncpy((char*)(icon->dat.ind.tit), item->dat.strg, 12);
-    wimp_window_redraw_icon(ConfWindows[dd->id.win], dd->id.icon);
+    ui_set_menu_display_text(dd, number, menu);
   }
 }
 
@@ -2914,6 +2980,15 @@ static int ui_set_drive_dir(int number, const char *dir)
   *(DriveTypes[number]) = DRIVE_TYPE_FS;
   wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], dir);
   return 0;
+}
+
+
+static void ui_detach_drive_image(int number)
+{
+  ui_set_drive_dir(number, "@");
+  wimp_menu_set_grey_all((RO_MenuHead*)&MenuDriveDisk, 1);
+  wimp_menu_set_grey_all((RO_MenuHead*)&MenuDriveFS, 0);
+  wimp_menu_tick_exclusive((RO_MenuHead*)&MenuDriveType, Menu_DriveType_FS);
 }
 
 
@@ -2993,21 +3068,6 @@ static int ui_new_tape_image(const char *name, int scankeys)
 }
 
 
-static void ui_flip_tick_image(int number)
-{
-  if (MenuFlipImages != NULL)
-  {
-    RO_MenuItem *item = (RO_MenuItem*)(MenuFlipImages + 1);
-    int i;
-
-    /* move the tick to the correct menu entry */
-    for (i=0; i<FlipListNumber; i++)
-      item[i].mflags &= ~MFlg_Tick;
-    if (number < FlipListNumber)
-      item[number].mflags |= MFlg_Tick;
-  }
-}
-
 static int ui_flip_attach_image_no(int number)
 {
   void *iter;
@@ -3023,13 +3083,14 @@ static int ui_flip_attach_image_no(int number)
     if (img != NULL)
       ui_new_drive_image(FlipListDrive, img, 0);
 
-    ui_flip_tick_image(number);
+    if (MenuFlipImages != NULL)
+      wimp_menu_tick_exclusive(MenuFlipImages, number+1);
   }
   return 0;
 }
 
 
-static int ui_flip_iterate_and_attach(int dir)
+int ui_flip_iterate_and_attach(int dir)
 {
   if (FlipListNumber > 0)
   {
@@ -3049,6 +3110,24 @@ static int ui_flip_iterate_and_attach(int dir)
     return ui_flip_attach_image_no(FlipListIter);
   }
   return -1;
+}
+
+
+static int ui_caret_to_last_focus(void)
+{
+  if (LastCaret.WHandle != -1)
+  {
+    Wimp_SetCaretPosition(LastCaret.WHandle, LastCaret.IHandle, LastCaret.offx, LastCaret.offy, LastCaret.height, LastCaret.index);
+    LastCaret.WHandle = -1;
+    return 1;
+  }
+  return 0;
+}
+
+
+static void ui_set_create_image_type(int number)
+{
+  wimp_menu_icon_set_number((RO_MenuHead*)&MenuCreateDiscType, CreateDiscWindow, Icon_Create_TypeT, number);
 }
 
 
@@ -3113,6 +3192,7 @@ static int ui_make_snapshot(const char *name)
   {
     /* if successful, close the menu (true for all varieties this can be called with) */
     Wimp_CreateMenu((int*)-1, 0, 0);
+    SetFileType(name, FileType_Data);
   }
   else
   {
@@ -3288,7 +3368,6 @@ static int ui_build_romset_menu(void)
     memcpy(MenuDisplayROMSet, &MenuDisplayROMSetTmpl, sizeof(disp_desc_t));
     item = (RO_MenuItem*)(MenuROMSet + 1);
     values = (int*)(MenuDisplayROMSet + 1);
-
     for (i=0; i<number; i++)
     {
       char *name;
@@ -3299,6 +3378,8 @@ static int ui_build_romset_menu(void)
       values[i] = (int)(name);
     }
     item[number-1].mflags = MFlg_LastItem;
+    if ((MenuROMSetTmpl.item[0].mflags & MFlg_FirstInd) != 0)
+      item[0].mflags |= MFlg_FirstInd;
     ConfigMenus[CONF_MENU_ROMSET].menu = MenuROMSet;
     MenuDisplayROMSet->menu = MenuROMSet;
     MenuDisplayROMSet->items = number;
@@ -3311,15 +3392,20 @@ static int ui_build_romset_menu(void)
 static int ui_build_fliplist_menu(int doread)
 {
   void *iter;
+  int textsize = 0;
+  const char *img;
 
   FlipListNumber = 0;
   if (doread)
   {
     if (MenuFlipImages != NULL) free(MenuFlipImages);
-    MenuFlipImages = NULL;
+    if (MenuFlipImgNames != NULL) free(MenuFlipImgNames);
+    MenuFlipImages = NULL; MenuFlipImgNames = NULL;
     iter = flip_init_iterate(FlipListDrive + 8);
     while (iter != NULL)
     {
+      img = flip_get_image(iter);
+      textsize += (strlen(archdep_extract_dir_and_leaf(img)) + 4) & ~3;
       FlipListNumber++;
       iter = flip_next_iterate(FlipListDrive + 8);
     }
@@ -3329,33 +3415,40 @@ static int ui_build_fliplist_menu(int doread)
     MenuFliplist.item[Menu_Fliplist_Images].submenu = (RO_MenuHead*)&MenuFlipImageTmpl;
     return 0;
   }
-  MenuFlipImages = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + FlipListNumber * sizeof(RO_MenuHead));
-  if (MenuFlipImages != NULL)
+  MenuFlipImages = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + (FlipListNumber+1) * sizeof(RO_MenuHead));
+  MenuFlipImgNames = (char*)malloc(textsize);
+  if ((MenuFlipImages != NULL) && (MenuFlipImgNames != NULL))
   {
-    RO_MenuItem *item;
+    RO_MenuItem *firstitem, *item;
+    char *b = MenuFlipImgNames;
 
-    memcpy(MenuFlipImages, &MenuFlipImageTmpl, sizeof(RO_MenuHead));
-    item = (RO_MenuItem*)(MenuFlipImages + 1);
+    memcpy(MenuFlipImages, &MenuFlipImageTmpl, sizeof(RO_MenuHead) + sizeof(RO_MenuItem));
+    firstitem = (RO_MenuItem*)(MenuFlipImages + 1); item = firstitem;
+    item->mflags |= MFlg_Dotted; item->mflags &= ~MFlg_LastItem;
+    item++;
     iter = flip_init_iterate(FlipListDrive + 8);
     while (iter != NULL)
     {
-      const char *b, *img;
+      const char *use;
+      int len;
 
-      img = flip_get_image(iter); b = img;
-      while (*b != '\0')
-      {
-        if ((*b == '.') || (*b == ':')) img = b+1;
-        b++;
-      }
-      item->mflags = 0; item->submenu = (RO_MenuHead*)-1; item->iflags = Menu_Flags;
-      strncpy(item->dat.strg, img, 12);
+      img = flip_get_image(iter);
+      use = archdep_extract_dir_and_leaf(img);
+      len = (strlen(use) + 4) & ~3;
+      strcpy(b, use);
+      item->mflags = 0; item->submenu = (RO_MenuHead*)-1;
+      item->iflags = Menu_Flags | IFlg_Indir;
+      item->dat.ind.tit = (int*)b; item->dat.ind.val = NULL; item->dat.ind.len = len;
+      b += len;
       iter = flip_next_iterate(FlipListDrive + 8);
       item++;
     }
     item[-1].mflags = MFlg_LastItem;
+    if ((MenuFlipImageTmpl.item[0].mflags & MFlg_FirstInd) != 0)
+      firstitem->mflags |= MFlg_FirstInd;
     MenuFliplist.item[Menu_Fliplist_Images].submenu = MenuFlipImages;
     FlipListIter = 0;
-    ui_flip_tick_image(FlipListIter);
+    wimp_menu_tick_exclusive(MenuFlipImages, FlipListIter+1);
     return 0;
   }
   return -1;
@@ -3542,6 +3635,7 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("SaveBox", &SaveBox, msg);
     ui_load_template("ImageCont", &ImgContWindow, msg);
     ui_load_template("MsgWindow", &MessageWindow, msg);
+    ui_load_template("CreateDisc", &CreateDiscWindow, msg);
 
     Wimp_CloseTemplate();
   }
@@ -3557,25 +3651,31 @@ int ui_init(int *argc, char *argv[])
   }
 
   /* Menus */
-  wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuIconBar);
-  wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuEmuWindow);
+  wimp_message_translate_menu_indirect(msg, (RO_MenuHead*)&MenuIconBar, MenuIndirectSize);
+  wimp_message_translate_menu_indirect(msg, (RO_MenuHead*)&MenuEmuWindow, MenuIndirectSize);
   wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuFlipImageTmpl);
+  wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuCreateDiscType);
   for (x=0; ConfigMenus[x].menu != NULL; x++)
   {
-    wimp_message_translate_menu(msg, ConfigMenus[x].menu);
+    wimp_message_translate_menu_indirect(msg, ConfigMenus[x].menu, MenuIndirectSize);
   }
 
   /* Misc */
 
-  sprintf(EmuTitle, "%s (%s)", WimpTaskName, SymbolStrings[Symbol_Version]);
+  sprintf(EmuTitle, "%s (%s)", WimpTaskName, VERSION);
 
   wimp_window_write_title(EmuWindow, EmuTitle);
 
   sprintf(buffer, SymbolStrings[Symbol_Purpose], machine_name);
   wimp_window_write_icon_text(InfoWindow, Icon_Info_Purpose, buffer);
+  sprintf(buffer, "%s (%s)", VERSION, SymbolStrings[Symbol_Date]);
+  wimp_window_write_icon_text(InfoWindow, Icon_Info_Version, buffer);
   MenuIconBar.item[Menu_IBar_Info].submenu = (RO_MenuHead*)(InfoWindow->Handle);
   MenuEmuWindow.item[Menu_EmuWin_Snapshot].submenu = (RO_MenuHead*)(SnapshotWindow->Handle);
   wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, ViceSnapshotFile);
+  wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_Name, ViceNewDiscName);
+  wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_File, ViceNewDiscFile);
+  ui_set_create_image_type(0);
   MenuRomAction.item[Menu_RomAct_Save].submenu = (RO_MenuHead*)(SaveBox->Handle);
   MenuRomActName.item[0].iflags |= IFlg_Indir;
   dat = &(MenuRomActName.item[0].dat.ind);
@@ -4001,34 +4101,6 @@ static void ui_redraw_window(int *b)
     unsigned int *ct = canvas->colour_table;
     frame_buffer_t *fb = &(canvas->fb);
 
-    /*if ((FrameBufferUpdate != 0) & (fb->tmpframebuffer != NULL))
-    {
-      int i, j;
-      unsigned char map[256];
-      unsigned char *f;
-      unsigned int *out;
-
-      memset(map, 0, 256);
-
-      for (i=0; i<16; i++) map[oldColours[i]] = i;
-
-      j = (fb->tmpframebufferlinesize) * (fb->height);
-      f = (unsigned char*)(fb->tmpframebuffer);
-      out = (unsigned int*)f;
-
-      for (i=0; i<256; i++)
-      {
-        map[i] = (unsigned char)((canvas->pixel_translation)[map[i]]);
-      }
-
-      for (i=0; i<j; i+=4)
-      {
-        *out++ = map[f[i]] | (map[f[i+1]] << 8) | (map[f[i+2]] << 16) | (map[f[i+3]] << 24);
-      }
-
-      FrameBufferUpdate = 0;
-    }*/
-
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
@@ -4087,11 +4159,8 @@ static void ui_close_window(int *b)
   RO_Caret currentCaret;
 
   Wimp_GetCaretPosition(&currentCaret);
-  if ((currentCaret.WHandle == b[WindowB_Handle]) && (LastCaret.WHandle != -1))
-  {
-    Wimp_SetCaretPosition(LastCaret.WHandle, LastCaret.IHandle, LastCaret.offx, LastCaret.offy, LastCaret.height, LastCaret.index);
-    LastCaret.WHandle = -1;
-  }
+  if (currentCaret.WHandle == b[WindowB_Handle])
+    ui_caret_to_last_focus();
 
   if ((ActiveCanvas != NULL) && (b[WindowB_Handle] == ActiveCanvas->window->Handle))
   {
@@ -4174,6 +4243,90 @@ void ui_show_emu_scale(void)
 }
 
 
+/* returns 0 if window was closed */
+static int ui_open_centered_or_raise_block(RO_Window *win, int *block)
+{
+  int status;
+
+  block[0] = win->Handle;
+  Wimp_GetWindowState(block);
+  /* Window was closed? Then open centered... */
+  if ((block[WindowB_WFlags] & (1<<16)) == 0)
+  {
+    int dx, dy;
+
+    dx = win->wmaxx - win->wminx;
+    dy = win->wmaxy - win->wminy;
+    block[WindowB_VMinX] = (ScreenMode.resx - dx) / 2;
+    block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
+    block[WindowB_VMinY] = (ScreenMode.resy - dy) / 2;
+    block[WindowB_VMaxY] = block[WindowB_VMinY] + dy;
+    status = 0;
+  }
+  else
+    status = 1;
+
+  block[WindowB_Stackpos] = -1;
+
+  return status;
+}
+
+
+static int ui_create_new_disc_image(void)
+{
+  int number;
+  unsigned int type;
+  char *file, *name;
+
+  number = wimp_menu_tick_read_first((RO_MenuHead*)&MenuCreateDiscType);
+
+  switch(number)
+  {
+    case Menu_CrtDisc_X64:
+      type = DISK_IMAGE_TYPE_X64; break;
+    case Menu_CrtDisc_G64:
+      type = DISK_IMAGE_TYPE_G64; break;
+    case Menu_CrtDisc_D64:
+      type = DISK_IMAGE_TYPE_D64; break;
+    case Menu_CrtDisc_D71:
+      type = DISK_IMAGE_TYPE_D71; break;
+    case Menu_CrtDisc_D81:
+      type = DISK_IMAGE_TYPE_D81; break;
+    case Menu_CrtDisc_D80:
+      type = DISK_IMAGE_TYPE_D80; break;
+    case Menu_CrtDisc_D82:
+      type = DISK_IMAGE_TYPE_D82; break;
+    default:
+      return -1;
+  }
+
+  file = wimp_window_read_icon_text(CreateDiscWindow, Icon_Create_File);
+
+  if (wimp_check_for_path(file) == 0)
+  {
+    char *b;
+
+    name = wimp_window_read_icon_text(CreateDiscWindow, Icon_Create_Name);
+    b = name;
+    while (*b != '\0')
+    {
+      *b = toupper((unsigned int)(*b));
+      b++;
+    }
+    wimp_window_redraw_icon(CreateDiscWindow, Icon_Create_Name);
+
+    if (vdrive_internal_create_format_disk_image(file, name, type) == 0)
+    {
+      SetFileType(file, FileType_Data);
+      Wimp_CloseWindow((int*)CreateDiscWindow);
+      ui_caret_to_last_focus();
+      return 0;
+    }
+  }
+  return -1;
+}
+
+
 static void ui_mouse_click(int *b)
 {
   if (b[MouseB_Window] == EmuPane->Handle)
@@ -4227,6 +4380,29 @@ static void ui_mouse_click(int *b)
           break;
       }
     }
+    else
+    {
+      int wblock[WindowB_WFlags+1];
+      int iblock[IconB_Data2+1];
+      int posx, posy;
+
+      wblock[WindowB_Handle] = EmuPane->Handle;
+      Wimp_GetWindowState(wblock);
+      iblock[IconB_Handle] = EmuPane->Handle;
+      iblock[IconB_Number] = Icon_Pane_Drive0;
+      Wimp_GetIconState(iblock);
+      posx = b[MouseB_PosX] - wblock[WindowB_VMinX];
+      posy = b[MouseB_PosY] - wblock[WindowB_VMaxY];
+      if (((posx >= iblock[IconB_MinX]) && (posx <= iblock[IconB_MaxX])) &&
+          ((posy >= iblock[IconB_MinY]) && (posy <= iblock[IconB_MaxY])))
+      {
+        RO_MenuHead *menu;
+
+        menu = MenuFliplist.item[Menu_Fliplist_Images].submenu;
+        Wimp_CreateMenu((int*)menu, b[MouseB_PosX], b[MouseB_PosY]);
+        LastMenu = Menu_Images;
+      }
+    }
   }
   else
   {
@@ -4262,25 +4438,11 @@ static void ui_mouse_click(int *b)
     {
       RO_Window *win;
       int block[WindowB_WFlags+1];
-      int gainCaret;
+      int gainCaret = 0;
 
       win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
-      block[0] = win->Handle; gainCaret = 0;
-      Wimp_GetWindowState(block);
-      /* Window was closed? Then open centered... */
-      if ((block[WindowB_WFlags] & (1<<16)) == 0)
-      {
-        int dx, dy;
-
-        dx = win->wmaxx - win->wminx;
-        dy = win->wmaxy - win->wminy;
-        block[WindowB_VMinX] = (ScreenMode.resx - dx) / 2;
-        block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
-        block[WindowB_VMinY] = (ScreenMode.resy - dy) / 2;
-        block[WindowB_VMaxY] = block[WindowB_VMinY] + dy;
+      if (ui_open_centered_or_raise_block(win, block) == 0)
         gainCaret = 1;
-      }
-      block[WindowB_Stackpos] = -1;
       ui_open_emu_window(win, block);
       if (gainCaret != 0)
       {
@@ -4351,6 +4513,25 @@ static void ui_mouse_click(int *b)
   else if (b[MouseB_Window] == ImgContWindow->Handle)
   {
     ui_image_contents_click(b);
+  }
+  else if (b[MouseB_Window] == CreateDiscWindow->Handle)
+  {
+    switch (b[MouseB_Icon])
+    {
+      case Icon_Create_OK:
+        ui_create_new_disc_image();
+        break;
+      case Icon_Create_Type:
+        Wimp_CreateMenu((int*)(&MenuCreateDiscType), b[MouseB_PosX], b[MouseB_PosY]);
+        LastMenu = Menu_CreateDisc;
+        break;
+      case Icon_Create_Sprite:
+        LastDrag = DRAG_TYPE_CREATEDISC;
+        wimp_drag_icon_sprite(CreateDiscWindow, Icon_Create_Sprite, &ScreenMode, CMOS_DragType);
+        break;
+      default:
+        break;
+    }
   }
   else
   {
@@ -4713,6 +4894,8 @@ static void ui_user_drag_box(int *b)
       iconnum = Icon_Snap_Path; win = SnapshotWindow; break;
     case DRAG_TYPE_SAVEBOX:
       iconnum = Icon_Save_Path; win = SaveBox; break;
+    case DRAG_TYPE_CREATEDISC:
+      iconnum = Icon_Create_File; win = CreateDiscWindow; break;
     default: break;
   }
 
@@ -4862,6 +5045,17 @@ static void ui_key_press(int *b)
       if ((savename = wimp_window_read_icon_text(SaveBox, Icon_Save_Path)) != NULL)
         ui_check_save_sbox(savename);
       return;
+    }
+    else if (b[KeyPB_Window] == SnapshotWindow->Handle)
+    {
+      char *snapname;
+
+      if ((snapname = wimp_window_read_icon_text(SnapshotWindow, Icon_Snap_Path)) != NULL)
+        ui_check_save_snapshot(snapname);
+    }
+    else if (b[KeyPB_Window] == CreateDiscWindow->Handle)
+    {
+      ui_create_new_disc_image();
     }
 
     for (wnum=0; wnum < CONF_WIN_NUMBER; wnum++)
@@ -5039,6 +5233,20 @@ static void ui_update_rom_names(void)
 }
 
 
+static void ui_images_menu_selection(int *b)
+{
+  if (b[0] == 0)
+  {
+    ui_detach_drive_image(FlipListDrive);
+  }
+  else
+  {
+    FlipListIter = b[0] - 1;
+    ui_flip_attach_image_no(FlipListIter);
+  }
+}
+
+
 static void ui_menu_selection(int *b)
 {
   int block[MouseB_Icon+1];
@@ -5046,7 +5254,7 @@ static void ui_menu_selection(int *b)
 
   Wimp_GetPointerInfo(block);
 
-  if ((LastMenu == Menu_IBar) || (LastMenu == Menu_Emulator))
+  if ((LastMenu == Menu_IBar) || (LastMenu == Menu_Emulator) || (LastMenu == Menu_Images) || (LastMenu == Menu_CreateDisc))
   {
     int confWindow = -1;
 
@@ -5059,15 +5267,29 @@ static void ui_menu_selection(int *b)
 
         case Menu_IBar_License:
           ui_message_get_dimensions(license_text, &cols, NULL);
-          ui_message_window_open(msg_win_license, "Vice License", license_text, cols, 0);
+          ui_message_window_open(msg_win_license, SymbolStrings[Symbol_TitLicense], license_text, cols, 0);
           break;
         case Menu_IBar_Warranty:
           ui_message_get_dimensions(warranty_text, &cols, NULL);
-          ui_message_window_open(msg_win_warranty, "Vice Warranty", warranty_text, cols, 0);
+          ui_message_window_open(msg_win_warranty, SymbolStrings[Symbol_TitWarranty], warranty_text, cols, 0);
           break;
         case Menu_IBar_Contrib:
           ui_message_get_dimensions(contrib_text, &cols, NULL);
-          ui_message_window_open(msg_win_contrib, "Vice Contributors", contrib_text, cols, 0);
+          ui_message_window_open(msg_win_contrib, SymbolStrings[Symbol_TitContrib], contrib_text, cols, 0);
+          break;
+        case Menu_IBar_CreateDisc:
+          {
+            int block[WindowB_WFlags+1];
+            int status;
+
+            status = ui_open_centered_or_raise_block(CreateDiscWindow, block);
+            Wimp_OpenWindow(block);
+            if (status == 0)
+            {
+              Wimp_GetCaretPosition(&LastCaret);
+              Wimp_SetCaretPosition(CreateDiscWindow->Handle, -1, -100, 100, -1, -1);
+            }
+          }
           break;
         case Menu_IBar_Configure:
           if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
@@ -5118,8 +5340,7 @@ static void ui_menu_selection(int *b)
             case Menu_Fliplist_Images:
               if (b[2] >= 0)
               {
-                FlipListIter = b[2];
-                ui_flip_attach_image_no(FlipListIter);
+                ui_images_menu_selection(b+2);
               }
               break;
             default:
@@ -5160,6 +5381,17 @@ static void ui_menu_selection(int *b)
         default: break;
       }
     }
+    else if (LastMenu == Menu_Images)
+    {
+      menu = (MenuFlipImages == NULL) ? (int*)&MenuFlipImageTmpl : (int*)MenuFlipImages;
+      ui_images_menu_selection(b);
+    }
+    else if (LastMenu == Menu_CreateDisc)
+    {
+      menu = (int*)&MenuCreateDiscType;
+      ui_set_create_image_type(b[0]);
+    }
+
     if (confWindow >= 0)
     {
       confWindow = -1;
@@ -5250,10 +5482,7 @@ static void ui_menu_selection(int *b)
             {
               if (b[1] == Menu_DriveDisk_Detach)
               {
-                ui_set_drive_dir(number, "@");
-                wimp_menu_set_grey_all((RO_MenuHead*)&MenuDriveDisk, 1);
-                wimp_menu_set_grey_all((RO_MenuHead*)&MenuDriveFS, 0);
-                wimp_menu_tick_exclusive((RO_MenuHead*)menu, Menu_DriveType_FS);
+                ui_detach_drive_image(number);
               }
             }
             else
@@ -5857,6 +6086,14 @@ static void ui_user_message(int *b)
             Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
             Wimp_CreateMenu((int*)-1, 0, 0);
             break;
+          case DRAG_TYPE_CREATEDISC:
+            wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_File, name);
+            if (ui_create_new_disc_image() == 0)
+            {
+              b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+              Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+            }
+            break;
           default: break;
         }
         LastDrag = DRAG_TYPE_NONE;
@@ -6360,6 +6597,7 @@ static void mon_trap_wimp(ADDRESS addr, void *unused_data)
   if (!ui_message_window_is_open(msg_win_monitor))
   {
     text_window_t *tw;
+
     EmuPaused = 1;
     ui_display_paused(EmuPaused);
     mon_open(addr);
@@ -6384,5 +6622,23 @@ void ui_activate_monitor(void)
 void ui_display_drive_current_image(unsigned int drive_number,
                                     const char *image)
 {
+  RO_Window *win;
+  const char *useimg = image;
+  char buffer[256];
+  char *title;
+
+  if ((image == NULL) || (*image == '\0'))
+  {
+    title = EmuTitle;
+  }
+  else
+  {
+    useimg = archdep_extract_dir_and_leaf(image);
+    sprintf(buffer, "%s   [%d: %s]", EmuTitle, drive_number + 8, useimg);
+    title = buffer;
+  }
+  win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
+  wimp_window_write_title(win, title);
+  video_full_screen_display_image(drive_number, useimg);
 }
 

@@ -488,6 +488,12 @@ void kbd_poll(void)
                 ui_display_paused(EmuPaused);
               }
               break;
+            case IntKey_PageUp:
+              ui_flip_iterate_and_attach(1);
+              break;
+            case IntKey_PageDown:
+              ui_flip_iterate_and_attach(-1);
+              break;
             default: break;
           }
         }

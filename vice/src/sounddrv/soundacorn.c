@@ -51,8 +51,7 @@ int SoundPollEvery = 0;
 
 log_t vidc_log = LOG_DEFAULT;
 
-unsigned char *LinToLog = NULL;
-unsigned char *LogScale = NULL;
+int SoundThreadActive = 0;
 SWORD *VIDCSampleBuffer;
 
 static int SndTimerActive = 0;
@@ -84,7 +83,6 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
   {
     return 1;
   }
-  DigitalRenderer_GetTables(&LinToLog, &LogScale);
 
   if ((VIDCSampleBuffer = (SWORD*)xmalloc(buffersize*sizeof(SWORD))) == NULL)
   {
@@ -105,6 +103,8 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
   {
     timerPeriod = SoundPollEvery;
   }
+
+  SoundThreadActive = 1;
   timer_callback_install(&SoundTimer, timerPeriod, sound_poll, 1);
 
   ui_set_sound_volume();
@@ -143,7 +143,7 @@ static void vidc_close(void)
     free(VIDCSampleBuffer); VIDCSampleBuffer = NULL;
   }
   /* Use this to mark device inactive */
-  LinToLog = NULL; LogScale = NULL;
+  SoundThreadActive = 0;
 
   /*{
     FILE *fp;

@@ -232,3 +232,20 @@ char *archdep_tmpnam(void)
 {
     return stralloc(tmpnam(NULL));
 }
+
+
+const char *archdep_extract_dir_and_leaf(const char *path)
+{
+  const char *dir, *leaf, *b;
+
+  b = path; leaf = b; dir = b;
+  while (*b != '\0')
+  {
+    if ((*b == '.') || (*b == ':'))
+    {
+      dir = leaf; leaf = b + 1;
+    }
+    b++;
+  }
+  return dir;
+}

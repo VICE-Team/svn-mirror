@@ -63,6 +63,8 @@ extern void ui_activate_monitor(void);
 
 extern void ui_set_sound_volume(void);
 
+extern int  ui_flip_iterate_and_attach(int dir);
+
 
 
 extern RO_Screen ScreenMode;

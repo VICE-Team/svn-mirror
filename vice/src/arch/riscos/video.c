@@ -30,16 +30,20 @@
 #include <string.h>
 
 #include "wimp.h"
-#include "raster.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
 #include "video.h"
 #include "ui.h"
 
+/* module includes */
+#include "raster/raster.h"
 
 
 
+
+
+#define STATUS_LINE_SIZE        64
 
 
 /* Colour translation table, only used in 16/32bpp modes */
@@ -69,7 +73,8 @@ static int SpriteTranslationTable[256];
 static int SpriteLEDWidth = 0;
 static int SpriteLEDHeight = 0;
 static int SpriteLEDMode = 0;
-static char LastStatusLine[64];
+static char LastStatusLine[STATUS_LINE_SIZE];
+static char CurrentDriveImage[64] = "";
 
 static const int StatusBackColour = 0xcccccc10;
 static const int StatusForeColour = 0x22222210;
@@ -705,10 +710,10 @@ void video_full_screen_plot_status(void)
 {
   if ((FullScreenMode != 0) && (FullScreenStatLine != 0))
   {
-    char statText[64];
+    char statText[STATUS_LINE_SIZE];
     char *b;
 
-    b = statText;
+    b = statText; statText[STATUS_LINE_SIZE-1] = '\0';
     b += sprintf(b, "%3d%% / %2d fps", SpeedPercentage, FrameRate);
     if (WarpModeEnabled != 0)
       b += sprintf(b, " (warp)");
@@ -716,6 +721,7 @@ void video_full_screen_plot_status(void)
       b += sprintf(b, "; 8: %2d.%d", DriveTrackNumbers[0] >> 1, 5*(DriveTrackNumbers[0] & 1));
     if (DriveTrackNumbers[1] != 0)
       b += sprintf(b, "; 9: %2d.%d", DriveTrackNumbers[1] >> 1, 5*(DriveTrackNumbers[1] & 1));
+    strncpy(b, CurrentDriveImage, STATUS_LINE_SIZE - 1 - (b-statText));
 
     if (strcmp(statText, LastStatusLine) != 0)
     {
@@ -735,4 +741,13 @@ void video_full_screen_plot_status(void)
       OS_Write0(statText);
     }
   }
+}
+
+
+void video_full_screen_display_image(unsigned int num, const char *img)
+{
+  if ((img == NULL) || (*img == '\0'))
+    CurrentDriveImage[0] = '\0';
+  else
+    sprintf(CurrentDriveImage, "   [%d: %s]", num + 8, img);
 }

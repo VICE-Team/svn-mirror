@@ -55,5 +55,6 @@
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);
+extern const char *archdep_extract_dir_and_leaf(const char *path);
 #endif
 

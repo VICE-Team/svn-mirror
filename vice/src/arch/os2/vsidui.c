@@ -37,13 +37,7 @@ int vsid_ui_init(void)
 }
 
 
-int vsid_ui_exit(void)
-{
-    log_message(LOG_DEFAULT, "vsid_ui_exit");
-    return 0;
-}
-
-void vsid_set_tune(char *msg)
+void vsid_set_tune(int tune)
 {
     log_message(LOG_DEFAULT, "vsid_set_tune");
 }
