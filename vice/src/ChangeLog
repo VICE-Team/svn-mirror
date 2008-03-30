@@ -1,3 +1,31 @@
+2001-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.46.
+
+2001-07-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/vsidui.cc: implemented vsid_ui_display_irqtype
+
+2001-07-16  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsidui.c (vsid_ui_display_irqtype): Display IRQ
+	type.
+
+	* c64/psid.c (psid_init_tune): Fixed patch reject.
+	(psid_init_driver): Removed unnecessary xmalloc and bad free.
+
+2001-07-16  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* c64/psid.c: fixed non-constant initializer in
+	psid_load_file()
+
+2001-07-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c64.dsp: added file reloc65.c
+
+	* arch/win32/ui.c: added forward prototype for
+	ui_emulation_is_paused
+
 2001-07-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.45.
@@ -22,7 +50,8 @@
 
 2001-07-14  Dag Lem  <resid@nimrod.no>
 
-	* arch/beos/c64ui.cc (c64_play_vsid): Added call to psid_init_driver.
+	* arch/beos/c64ui.cc (c64_play_vsid): Added call to
+	psid_init_driver.
 
 	* arch/beos/vsidui.cc (vsid_ui_display_sid_model): New stub.
 
@@ -53,15 +82,15 @@
 
 	* c64/psiddrv.a65: Rewrite; relocating PSID driver.
 
-	* c64/reloc65.c: Andre Fachats o65 relocation utility modified for
-	use with VICE vsid.
+	* c64/reloc65.c: Andre Fachats o65 relocation utility modified
+	for use with VICE vsid.
 
 	* vsidui.h (vsid_ui_display_sid_model): New function.
 
-	* vsync.c (vsync_do_vsync): Reverted change skipping redraws in
-	vsid mode, it broke fps statistics. This should not have any impact
-	on performance since there is no redraw in vsid mode anyway.
-	Removed debug logging.
+	* vsync.c (vsync_do_vsync): Reverted change skipping redraws
+	in vsid mode, it broke fps statistics. This should not have
+	any impact on performance since there is no redraw in vsid
+	mode anyway. Removed debug logging.
 
 2001-07-13  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
 
@@ -239,8 +268,8 @@
 
 2001-06-24  pottendo  <pottendo@utanet.at>
 
-	* arch/unix/x11/gnome/ui.c (ui_dispatch_events): Update fullscreen
-	state. 
+	* arch/unix/x11/gnome/ui.c (ui_dispatch_events): Update
+	fullscreen state.
 	(ui_popdown): Restore fullscreen in case it's been enabled.
 	(ui_popup): Switch to window mode in case of fullscreen.
 
@@ -259,8 +288,8 @@
 
 2001-06-21  pottendo  <pottendo@utanet.at>
 
-	* screendrv/bmp.c (bmp_write_bitmap_data): Fixed variable line to
-	be `int'. 
+	* screendrv/bmp.c (bmp_write_bitmap_data): Fixed variable line
+	to be `int'. 
 
 2001-06-20  Andreas Matthies  <andreas.matthies@gmx.net>
 
@@ -523,8 +552,8 @@
 
 2001-06-06  pottendo  <pottendo@utanet.at>
 
-	* arch/unix/x11/x11kbd.c (x11kbd_press): Moved hotkey handling, to
-	fix vsid.
+	* arch/unix/x11/x11kbd.c (x11kbd_press): Moved hotkey
+	handling, to fix vsid.
 
 	* arch/unix/x11/x11kbd.h: Changed key notion to `ui_keysym_t'. 
 
@@ -538,7 +567,8 @@
 
 	* raster/raster.c, arch/unix/x11/video.c, arch/msdos/video.c,
 	arch/win32/video.c, arch/win32/ui.c, arch/riscos/video.c,
-	arch/os2/video.c, arch/beos/video.cc: Use `void_t' for exposure handler.
+	arch/os2/video.c, arch/beos/video.cc: Use `void_t' for
+	exposure handler.
 
 	* vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c,
 	c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c,
@@ -2599,13 +2629,13 @@
         code to set VIC-II settings
         (Cbm2modelMenu, model_settings_submenu): make model defaults
         submenu depend on whether the emulation is C500 or not.
-        (CrtcMenu, VicMenu, c610_menu): make submenues for CRTC and VIC-II
-        depend on whether the emulation is C500 or not.
+        (CrtcMenu, VicMenu, c610_menu): make submenues for CRTC and
+	VIC-II depend on whether the emulation is C500 or not.
 
         * cbm2/c610.c (cbm2_is_c500): export isC500 flag
 
-        * cbm2/c610.h (C610_PAL_CYCLES_PER_SEC): slow CBM-II down about 1.3%,
-        to fix handshake with 2031 disk drive
+        * cbm2/c610.h (C610_PAL_CYCLES_PER_SEC): slow CBM-II down
+	about 1.3%, to fix handshake with 2031 disk drive
         (c500_write_snapshot_module, c500_read_snapshot_module): remove
         prototypes
         (cbm2_is_c500): new prototype
