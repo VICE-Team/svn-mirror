@@ -73,10 +73,11 @@ int datasette_read_bit(long offset)
                         current_image->mode = DATASETTE_CONTROL_STOP;
                         return 0;
                     }
+                    current_image->current_file_seek_position++;
                 }
                 gap = long_gap[0] + (long_gap[1] << 8) + (long_gap[2] << 16);
             } else {
-                gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)512) * 8 - offset;
+                gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)2463) * 8 - offset;
             }
 
             if (gap > 0) {
