@@ -46,6 +46,7 @@ extern int spawn(const char *name, char **argv, const char *stdout_redir,
 extern int load_file(const char *name, void *dest, int size);
 extern int save_file(const char *name, const void *src, int size);
 extern int get_line(char *buf, int bufsize, FILE *f);
+extern void fname_split(const char *path, char **directory_return, char **name_return);
 
 int string_to_long(const char *str, const char **endptr, int base,
 		   long *result);

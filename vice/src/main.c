@@ -78,14 +78,10 @@
 #include "cmdline.h"
 #include "fsdevice.h"
 
-#ifdef __MSDOS__
-#include "vmidas.h"
-#endif
-
 /* ------------------------------------------------------------------------- */
 
-const char *progname;
-const char *boot_path;
+char *progname;
+char *boot_path;
 
 static RETSIGTYPE break64(int sig);
 static void exit64(void);
@@ -113,23 +109,7 @@ static void preserve_workdir(void)
 /* Warning!  This must be called *once*.  */
 static void set_boot_path(const char *prg_path)
 {
-    char drive[MAXDRIVE], path[MAXDIR], file[MAXFILE], ext[MAXEXT];
-    PATH_VAR(path);
-
-    fnsplit(prg_path, drive, path, file, ext);
-    if (*drive == '\0' || *path == '\0')
-	strcpy(path, orig_workdir);
-    else
-	fnmerge(path, drive, path, NULL, NULL);
-
-    /* Remove trailing `/'.  */
-    {
-        int len = strlen(path);
-
-        if (len > 0 && path[len - 1] == '/')
-            path[len - 1] = '\0';
-    }
-    boot_path = stralloc(path);
+    fname_split(prg_path, &boot_path, NULL);
 }
 
 #else  /* __MSDOS__ */
@@ -438,14 +418,6 @@ int main(int argc, char **argv)
         fprintf(stderr, "Cannot attach tape image `%s'.\n",
                 startup_tape_image);
 
-#if defined SOUND && defined __MSDOS__
-    /* FIXME: Need new-style resource! */
-    if (app_resources.doSoundSetup) {
-	vmidas_startup();
-	vmidas_config();
-    }
-#endif
-
     putchar ('\n');
 
     /* Let's go...  */
@@ -480,7 +452,9 @@ static void exit64(void)
     video_free();
     sound_close();
 
+#ifndef __MSDOS__
     joystick_close();
+#endif
 
     putchar ('\n');
 }

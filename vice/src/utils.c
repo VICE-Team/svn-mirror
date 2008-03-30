@@ -307,6 +307,7 @@ char *make_backup_filename(const char *fname)
 
 #else  /* !__MSDOS__ */
 
+    /* FIXME: only works with 8+3 names.  */
     char d[MAXDRIVE], p[MAXDIR], f[MAXFILE], e[MAXEXT];
     char new[MAXPATH];
 
@@ -438,6 +439,38 @@ int get_line(char *buf, int bufsize, FILE *f)
     }
 
     return len;
+}
+
+/* Split `path' into a file name and a directory component.  Unlike
+   the MS-DOS `fnsplit', the directory does not have a trailing '/'.  */
+void fname_split(const char *path, char **directory_return, char **name_return)
+{
+    const char *p;
+
+    if (path == NULL) {
+	*directory_return = *name_return = NULL;
+	return;
+    }
+
+    p = strrchr(path, '/');
+    if (p == NULL) {
+	if (directory_return != NULL)
+	    *directory_return = NULL;
+	if (name_return != NULL)
+ 	    *name_return = stralloc(path);
+	return;
+    }
+
+    if (directory_return != NULL) {
+        *directory_return = xmalloc(p - path + 1);
+        memcpy(*directory_return, path, p - path);
+	(*directory_return)[p - path] = '\0';
+    }
+
+    if (name_return != NULL)
+        *name_return = stralloc(p + 1);
+
+    return;
 }
 
 /* ------------------------------------------------------------------------- */

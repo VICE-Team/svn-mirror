@@ -38,6 +38,10 @@
 #include <stdarg.h>
 #include <string.h>
 
+#ifdef __MSDOS__
+#include <dir.h>
+#endif
+
 #include "resources.h"
 #include "utils.h"
 #include "ui.h"
@@ -170,6 +174,23 @@ void resources_set_defaults(void)
     ui_update_menus();
 }
 
+int resources_toggle(const char *name, resource_value_t *new_value_return)
+{
+    resource_t *r = lookup(name);
+    int value;
+
+    if (r == NULL) {
+        fprintf(stderr, "%s: Warning: unknown resource `%s'\n",
+                __FUNCTION__, name);
+        return -1;
+    }
+
+    value = !((int) *r->value_ptr);
+    *new_value_return = (resource_value_t) value;
+
+    return r->set_func((resource_value_t) value);
+}
+
 /* ------------------------------------------------------------------------- */
 
 #ifndef __MSDOS__
@@ -184,7 +205,7 @@ static char *make_backup_file_name(const char *fname)
 #else  /* __MSDOS__ */
 
 /* Return a malloced string with the name of the backup file corresponding to
-   `fname'.  */
+   `fname'.  FIXME: Only works with 8+3 names.  */
 static char *make_backup_file_name(const char *fname)
 {
     static char backup_name[MAXPATH];
@@ -234,7 +255,7 @@ static const char *default_resource_file(void)
 #ifdef __MSDOS__
 	/* On MS-DOS, always boot from the directory in which the binary is
 	   stored. */
-	fname = concat(boot_path, RESOURCE_FILE_NAME, NULL);
+	fname = concat(boot_path, "/", RESOURCE_FILE_NAME, NULL);
 #else
 	fname = concat(getenv("HOME"), "/", RESOURCE_FILE_NAME, NULL);
 #endif

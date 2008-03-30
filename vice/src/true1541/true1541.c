@@ -1216,18 +1216,22 @@ void true1541_set_sync_factor(unsigned int factor)
 
 void true1541_set_pal_sync_factor(void)
 {
-    int sync_factor = (int) floor(65536.0 * (1000000.0 /
-                                             ((double)pal_cycles_per_sec)));
-
-    true1541_set_sync_factor(sync_factor);
+    if (pal_cycles_per_sec != 0.0) {
+        int sync_factor = (int) floor(65536.0
+				      * (1000000.0 /
+                                         ((double)pal_cycles_per_sec)));
+        true1541_set_sync_factor(sync_factor);
+    }
 }
 
 void true1541_set_ntsc_sync_factor(void)
 {
-    int sync_factor = (int) floor(65536.0 * (1000000.0 /
+    if (ntsc_cycles_per_sec != 0.0) {
+        int sync_factor = (int) floor(65536.0 * (1000000.0 /
                                              ((double)ntsc_cycles_per_sec)));
 
-    true1541_cpu_set_sync_factor(sync_factor);
+        true1541_cpu_set_sync_factor(sync_factor);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

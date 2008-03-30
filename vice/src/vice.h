@@ -140,9 +140,9 @@ extern unsigned int get_path_max();
 
 /* Generic globals. */
 
-extern const char *progname;
+extern char *progname;
 
 /* Path to the directory of our executable.  */
-extern const char *boot_path;
+extern char *boot_path;
 
 #endif  /* _VICE_H */
